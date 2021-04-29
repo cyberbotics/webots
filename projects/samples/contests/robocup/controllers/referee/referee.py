@@ -1446,7 +1446,7 @@ while supervisor.step(time_step) != -1:
                 elif game.phase == 'THROWIN':
                     ball_touched_again_after_one_second = game.ball_last_touch_time - game.ball_first_touch_time > 1000
                     if ball_touched_again_after_one_second or ball_touched_by_teammate or ball_touched_by_opponent:
-                        game.can_sccore = True
+                        game.can_score = True
 
         if game.penalty_shootout:
             if game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
