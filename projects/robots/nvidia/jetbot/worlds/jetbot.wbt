@@ -1,23 +1,10 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
-  lineScale 3
   contactProperties [
-    ContactProperties {
-      material2 "chassis"
-      coulombFriction [
-        0
-      ]
-      forceDependentSlip [
-        1
-      ]
-    }
     ContactProperties {
       material2 "jetbot rear wheel"
       coulombFriction [
         0
-      ]
-      forceDependentSlip [
-        1
       ]
     }
     ContactProperties {
