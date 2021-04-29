@@ -138,7 +138,7 @@
                 "name" : "GoalKick for blue",
                 "state" : "PLAYING",
                 "secondary_state" : "GOALKICK",
-                "secondary_team_id" : 0
+                "secondary_team_id" : 8
             },
             {
                 "name" : "No goal for team BLUE",
