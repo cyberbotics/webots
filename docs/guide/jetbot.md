@@ -16,19 +16,19 @@ JetBot {
   SFVec3f      translation        0 0 0
   SFRotation   rotation           0 1 0 0
   SFString     name               "JetBot"
-  SFString     controller         "jetbot"
+  SFString     controller         "jetbot_basic_motion"
   MFString     controllerArgs     []
   SFString     customData         ""
   SFBool       supervisor         FALSE
   SFBool       synchronization    TRUE
+  SFBool       chassis            TRUE
   SFColor      chassis_color      0.571 0.817 0.479
-  SFFloat      camera_fieldOfView 2.79253
-  SFInt32      camera_width       1280
-  SFInt32      camera_height      720
-  SFFloat      camera_near        0.01
-  SFFloat      camera_far         1.0
+  SFNode       cameraSlot         JetBotRasperryPiCamera  {
+                                    translation 0 0.042 0.0488
+                                    rotation -0.1628450388833288 -0.1628450388833288 0.9731202323568112 -1.5980453071795866
+                                  }
   MFNode       extensionSlot      []
-  SFString     window             "generic"
+  SFString     window             ""
 }
 ```
 
@@ -36,12 +36,9 @@ JetBot {
 
 #### JetBot Field Summary
 
+- `chassis`: Defines if the robot has a chassis.
 - `chassis_color`:  Defines the color of the robot's chassis.
-- `camera_fieldOfView`:  Defines the `fieldOfView` field of the [Camera](../reference/camera.md).
-- `camera_width`: Defines the `width` field of the [Camera](../reference/camera.md).
-- `camera_height`: Defines the `height` field of the [Camera](../reference/camera.md).
-- `camera_near`: Defines the `near` field of the [Camera](../reference/camera.md).
-- `camera_far`: Defines the `far` field of the [Camera](../reference/camera.md).
+- `cameraSlot`:  Extends the robot with a camera on the front.
 - `extensionSlot`: Extends the robot with new nodes.
 
 ### Sample
