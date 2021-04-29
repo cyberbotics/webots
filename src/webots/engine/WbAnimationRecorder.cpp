@@ -465,6 +465,7 @@ void WbAnimationRecorder::stopRecording() {
   out << " \"labelsIds\":\"";
   bool firstLabel = true;
   foreach (QString id, mLabelsIds) {
+    // cppcheck-suppress knownConditionTrueFalse
     if (!firstLabel)
       out << ";";
     else
