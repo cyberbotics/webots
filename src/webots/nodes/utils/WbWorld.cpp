@@ -88,7 +88,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mPerspective(NULL),
   mProtos(protos ? protos : new WbProtoList()),
   mLastAwakeningTime(0.0),
-  mIsLoading(false),
+  mIsLoading(true),
   mIsCleaning(false),
   mIsVideoRecording(false) {
   gInstance = this;
