@@ -107,8 +107,7 @@ namespace wren {
     static std::vector<std::unique_ptr<UniformBuffer>> cUniformBuffers;
 
     void init() {
-#ifdef __EMSCRIPTEN__
-#else
+#ifndef__EMSCRIPTEN__
       if (!gladLoadGL())
         std::cerr << "ERROR: Unable to load OpenGL functions!" << std::endl;
 
