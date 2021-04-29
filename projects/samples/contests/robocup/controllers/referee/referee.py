@@ -1312,7 +1312,7 @@ try:
             with open(path, 'w') as file:
                 file.write((red_line + blue_line) if game.red.id < game.blue.id else (blue_line + red_line))
             command_line = [os.path.join(JAVA_HOME, 'bin', 'java'), '-jar', 'GameControllerSimulator.jar']
-            if game.minimum_real_time_factor == 0:
+            if game.minimum_real_time_factor < 1:
                 command_line.append('--fast')
             command_line.append('--config')
             command_line.append(game_config_file)

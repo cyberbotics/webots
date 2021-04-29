@@ -100,7 +100,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "force" : [5, 0, 0.08]
+                "force" : [-20, 0, 0.08]
             }
         ]
     },

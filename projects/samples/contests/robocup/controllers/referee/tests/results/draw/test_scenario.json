@@ -85,7 +85,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "force" : [10, 0, 0.08]
+                "force" : [-40, 0, 0.08]
             }
         ]
     },
@@ -245,7 +245,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "force" : [-10, 0, 0.08]
+                "force" : [50, 0, 1]
             }
         ]
     },
@@ -312,6 +312,62 @@
                 "name" : "After 2nd goal: SET -> PLAYING is automatic",
                 "state" : "PLAYING",
                 "critical" : true
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 220,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 330,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 440,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 550,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
             }
         ]
     },
