@@ -134,7 +134,7 @@ namespace wren {
 #ifdef __EMSCRIPTEN__
       int array[4];
       array[0] = -1;
-      // glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
+
       cGpuMemory = array[0];
       checkError(GL_INVALID_ENUM);
 #else
