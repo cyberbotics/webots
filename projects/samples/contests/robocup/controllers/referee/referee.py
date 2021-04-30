@@ -1431,6 +1431,10 @@ if game.penalty_shootout:
 else:
     kickoff()
     game_controller_send(f'KICKOFF:{game.kickoff}')
+
+if hasattr(game, 'record_simulation'):
+    supervisor.animationStartRecording(game.record_simulation + '.html')
+
 previous_real_time = time.time()
 while supervisor.step(time_step) != -1:
     game_controller_send(f'CLOCK:{time_count}')
@@ -1862,6 +1866,9 @@ if game.controller:
     game.controller.close()
 if game.controller_process:
     game.controller_process.terminate()
+
+if hasattr(game, 'record_simulation'):
+    supervisor.animationStopRecording()
 
 if game.over and game.press_a_key_to_terminate:
     print('Press a key to terminate')
