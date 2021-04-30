@@ -50,9 +50,78 @@
         ]
     },
     {
-        "description" : "Checking the announcement of the end of the first half",
+        "description" : "Moving ball to avoid Drop ball",
         "timing" : {
-            "time" : 605,
+            "time" : 110,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 220,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 330,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 440,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 550,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 610,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -65,9 +134,8 @@
         ]
     },
     {
-        "description" : "Checking if the state stays INITIAL for 15 real-time seconds between first and second half",
         "timing" : {
-            "time" : [0.0, 14.8],
+            "time" : [0,14.5],
             "clock_type" : "System",
             "state" : "INITIAL",
             "state_count" : 2
@@ -80,9 +148,8 @@
         ]
     },
     {
-        "description" : "Checking that state moves to READY after 15 real-time seconds",
         "timing" : {
-            "time" : 17,
+            "time" : 18,
             "clock_type" : "System",
             "state" : "INITIAL",
             "state_count" : 2
@@ -184,7 +251,7 @@
     {
         "description" : "Check if the AutoRef respects side flipping in the second half regarding to position restrictions",
         "timing" : {
-            "time" : 4.0,
+            "time" : 4,
             "clock_type" : "Simulated",
             "state" : "SET",
             "state_count" : 2
@@ -215,7 +282,7 @@
     {
         "description" : "Checking if state changes to PLAYING",
         "timing" : {
-            "time" : 7,
+            "time" : 10,
             "clock_type" : "Simulated",
             "state" : "SET",
             "state_count" : 2

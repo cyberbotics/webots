@@ -85,7 +85,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "force" : [10, 0, 0.08]
+                "force" : [-50, 0, 0]
             }
         ]
     },
@@ -156,6 +156,76 @@
                 "name" : "After 1st goal: READY -> SET is automatic",
                 "state" : "SET",
                 "critical" : true
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 110,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 220,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 330,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 440,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 550,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
             }
         ]
     },
