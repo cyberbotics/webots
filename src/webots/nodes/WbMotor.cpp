@@ -75,8 +75,6 @@ void WbMotor::init() {
   mSound = findSFString("sound");
   mMuscles = findMFNode("muscles");
   mDownloader = NULL;
-
-  printf("init motor\n");
 }
 
 WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevice(modelName, tokenizer) {
@@ -191,9 +189,17 @@ double WbMotor::energyConsumption() const {
 }
 
 void WbMotor::inferMotorCouplings() {
-  for (int i = 0; i < cMotors.size(); ++i)
-    if (robot() == cMotors[i]->robot() && cMotors[i]->tag() != tag() && cMotors[i]->deviceName() == deviceName())
+  // coupled motors name can be: "motor name part::specifier name", coupling is given by the motor name
+  QStringList chunks = deviceName().split(QRegExp("(\\::)"));
+  const QString thisMotorName = chunks.size() == 2 ? chunks[0] : deviceName();
+
+  for (int i = 0; i < cMotors.size(); ++i) {
+    chunks = cMotors[i]->deviceName().split(QRegExp("(\\::)"));
+    const QString otherMotorName = chunks.size() == 2 ? chunks[0] : cMotors[i]->deviceName();
+
+    if (robot() == cMotors[i]->robot() && cMotors[i]->tag() != tag() && thisMotorName == otherMotorName)
       mCoupledMotors.append(const_cast<WbMotor *>(cMotors[i]));
+  }
 }
 
 /////////////

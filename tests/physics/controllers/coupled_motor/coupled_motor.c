@@ -17,6 +17,40 @@ int main(int argc, char **argv) {
 
   const char *test_type = argv[1];
 
+  if (strcmp("coupling_test", test_type) == 0) {
+    // Test: verify that motors are coupled correctly according to naming convention (indirect test by changing the parameters
+    // and see how they propagate) names are: ["motor group a", "motor group a::subgroup b", "motor group a::subgroup c",
+    // "motor group b::subgroup b"]
+    WbDeviceTag motor_group_a = wb_robot_get_device("motor group a");
+    WbDeviceTag motor_group_a_subgroup_b = wb_robot_get_device("motor group a::subgroup b");
+    WbDeviceTag motor_group_a_subgroup_c = wb_robot_get_device("motor group a::subgroup c");
+    WbDeviceTag motor_group_b_subgroup_b = wb_robot_get_device("motor group b::subgroup b");
+
+    wb_motor_set_acceleration(motor_group_a_subgroup_c, 20);  // should affect all except the last
+    wb_robot_step(TIME_STEP);
+
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a), 20,
+                           "Motor 'motor group a' should have acceleration 20 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_b), 20,
+                           "Motor 'motor group a::subgroup b' should have acceleration 20 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_c), 20,
+                           "Motor 'motor group a::subgroup c' should have acceleration 20 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_b_subgroup_b), 10,
+                           "Motor 'motor group b::subgroup b' should have acceleration 10 but does not.");
+
+    wb_motor_set_acceleration(motor_group_b_subgroup_b, 30);  // should affect only itself
+    wb_robot_step(TIME_STEP);
+
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a), 20,
+                           "Motor 'motor group a' should have acceleration 20 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_b), 20,
+                           "Motor 'motor group a::subgroup b' should have acceleration 20 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_c), 20,
+                           "Motor 'motor group a::subgroup c' should have acceleration 20 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_b_subgroup_b), 30,
+                           "Motor 'motor group b::subgroup b' should have acceleration 30 but does not.");
+  }
+
   if (strcmp("load_test", test_type) == 0) {
     // Test: acceleration paramter load. Note: all motors have the same multiplier.
     // acceleration on file [5, 10, 20] -> [5, 5, 5] after loading

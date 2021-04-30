@@ -218,11 +218,14 @@ When giving a command to a coupled motor, for instance using the fuctions [`wb_m
 By default, all motors have a `multiplier` equal to 1, which means the same command is give to all equally.
 If instead different motors have different multipliers, then the command is relayed accordingly to the specific multiplier of the devices.
 
-When calling the function `wb_robot_get_device`, in a coupled motor context the tag of the first appearing motor that matches the name will be returned.
+When calling the function `wb_robot_get_device`, in a coupled motor context, by default the tag of the first appearing motor that matches the name will be returned.
 Therefore, all functions in the motor API that rely on tags, such as [`wb_motor_get_max_force`](#wb_motor_get_max_force) or [`wb_motor_get_force_feedback`](#wb_motor_get_force_feedback), will return the relevant information about the first motor only.
-Accessing the information of the other sibling motors can be done directly by using the `wb_robot_get_device_by_index` function or...
+Accessing the information of the sibling motors can be done directly by retrieving their tag using the `wb_robot_get_device_by_index` function or alternatively it can be done by formatting the motor names following this pattern: `"motor name::specifier name"`.
+In other words, any motor that has the same `"motor name"` component will be considered as belonging to the same coupling, and when retrieving the tag it's sufficient to call the `wb_robot_get_device` by providing the full name, namely: `wb_robot_get_device("motor name::specifier name")`.
 
-Since in principle any of the motors among the coupled ones can be commanded directly (for example by getting its tag using `wb_robot_get_device_by_index`), and the siblings can potentially have different `multiplier` values, then it must be ensured that all of the motors remain within their limits no matter which is called and irrespective of the command given.
+> **Note**: for example, assume three motors are available and they are called: `"rotational motor"`, `"rotational motor::left arm"`, `"rotational motor::right arm"`. As they share the `"rotational motor"` component, they will be coupled.
+
+Since in principle any of the motors among the coupled ones can be commanded directly (using either method described above), and the siblings can potentially have different `multiplier` values, then it must be ensured that all of the motors remain within their own limits no matter which among them is called and irrespective of the command given.
 For this reason, in a coupled motor context strict limits must be imposed, meaning that the motor limits such as `maxVelocity` and `maxTorque` have to be exactly a factor of each other.
 For example, assume four motors share the same name and their `multiplier` values are respectively 2, 0.5, 4 and -4, the table below shows how the limits of motor B, C and D are adjusted
 according to the values of motor A.
