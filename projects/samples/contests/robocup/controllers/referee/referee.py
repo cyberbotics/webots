@@ -288,6 +288,12 @@ def game_controller_receive():
                   f'{previous_secondary_seconds_remaining}.')
 
     if previous_state != game.state.game_state:
+        if game.wait_for_state is not None:
+            if 'STATE_' + game.wait_for_state != game.state.game_state:
+                error(f'Received unexpected state from GameController: {game.state.game_state} ' +
+                      f'while expecting {game.wait_for_state}')
+            else:
+                game.wait_for_state = None
         info(f'New state received from GameController: {game.state.game_state}.')
     if game.state.game_state == 'STATE_PLAYING' and \
        game.state.secondary_seconds_remaining == 0 and previous_secondary_seconds_remaining > 0:
@@ -349,6 +355,19 @@ def game_controller_send(message):
         if game_controller_send.sent_once == message:
             return False
         game_controller_send.sent_once = message
+        if message[6:] in ['READY', 'SET']:
+            game.wait_for_state = message[6:]
+        elif message[6:] == 'PLAY':
+            game.wait_for_state = 'PLAYING'
+        elif (message[:6] == 'SCORE:' or
+              message == 'DROPPEDBALL' or
+              message[:11] == 'CORNERKICK:' or
+              message[:9] == 'GOALKICK:' or
+              message[:8] == 'THROWIN:' or
+              message[:16] == 'DIRECT_FREEKICK:' or
+              message[:18] == 'INDIRECT_FREEKICK:' or
+              message[:12] == 'PENALTYKICK:'):
+            game.wait_for_state = 'READY'
     game_controller_send.id += 1
     if message[:6] != 'CLOCK:':
         info(f'Sending {game_controller_send.id}:{message} to GameController.')
@@ -1393,6 +1412,8 @@ game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time
 game.play_countdown = 0
 game.sent_finish = False
 game.over = False
+game.wait_for_state = 'INITIAL'
+
 previous_seconds_remaining = 0
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
     children.importMFNodeFromString(-1, f'DEF TEST_SUPERVISOR Robot {{ supervisor TRUE controller "{game.supervisor}" }}')
@@ -1419,6 +1440,9 @@ while supervisor.step(time_step) != -1:
         game.ball_last_move = time_count
     update_contacts()  # check for collisions with the ground and ball
     update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
+    if game.wait_for_state is not None:  # we are waiting for a new state from the GameController
+        time_count += time_step
+        continue
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
         if game.in_play is None:
