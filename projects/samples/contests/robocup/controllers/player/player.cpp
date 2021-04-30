@@ -14,6 +14,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <sys/time.h>
 
 #ifdef _WIN32
 #include <winsock.h>
@@ -24,7 +25,6 @@ typedef int socklen_t;
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <sys/time.h>
 #include <unistd.h>
 #endif
 
@@ -310,6 +310,10 @@ int main(int argc, char *argv[]) {
             delete[] data;
             SensorMeasurements sensorMeasurements;
             sensorMeasurements.set_time(controller_time);
+            struct timeval tp;
+            gettimeofday(&tp, NULL);
+            uint64_t real_time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+            sensorMeasurements.set_real_time(real_time);
             for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
               const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
               webots::Motor *motor = robot->getMotor(motorPosition.name());
