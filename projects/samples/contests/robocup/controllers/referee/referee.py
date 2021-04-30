@@ -42,6 +42,7 @@ FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more
 GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up to 6 seconds on the ground
 PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
+END_OF_GAME_TIMEOUT = 10                  # Once the game is finished, let the referee run for 10 seconds before closing the game
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
 OPPONENT_DISTANCE_TO_BALL_KID = 0.75      # during kicks, the opponents must stay at 0.75 m. away from the ball in kid size
 OPPONENT_DISTANCE_TO_BALL_ADULT = 1.5     # or 1.5 m. in adult size
@@ -273,20 +274,6 @@ def game_controller_receive():
 
     game.state = GameState.parse(data)
 
-    # Fixes bug of GameController, possibly fixed in https://github.com/RoboCup-Humanoid-TC/GameController/pull/141
-    # FIXME: if these errors don't how up any more on the long term, we should remove this test
-    if previous_seconds_remaining is not None and previous_secondary_seconds_remaining is not None:
-        if game.state.seconds_remaining == 600 and previous_seconds_remaining != 600 and previous_seconds_remaining != 0:
-            game.state.seconds_remaining = previous_seconds_remaining
-            error(f'GameController sent wrong 600 seconds remaining, using previous value: {previous_seconds_remaining}.')
-        if game.state.secondary_seconds_remaining == 0 and previous_secondary_seconds_remaining > 2:
-            # It sometimes happens in fast mode that the GameController drops secondary seconds from 2 to 0 (hence the > 2 test)
-            # This seems acceptable and is ignored by the test, but on a more powerful computer it may drop from 3 to 0
-            # and display the error.
-            game.state.secondary_seconds_remaining = previous_secondary_seconds_remaining
-            error('GameController sent wrong 0 secondary seconds remaining, using previous value: '
-                  f'{previous_secondary_seconds_remaining}.')
-
     if previous_state != game.state.game_state:
         if game.wait_for_state is not None:
             if 'STATE_' + game.wait_for_state != game.state.game_state:
@@ -300,6 +287,7 @@ def game_controller_receive():
         if game.in_play is None and game.phase == 'KICKOFF':
             info('Ball in play, can be touched by any player (10 seconds elapsed after kickoff).')
             game.in_play = time_count
+            game.ball_last_move = time_count
     if previous_state != game.state.game_state or \
        previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
        game.state.seconds_remaining <= 0:
@@ -310,6 +298,7 @@ def game_controller_receive():
                 if game.in_play is None:
                     info('Ball in play, can be touched by any player (10 seconds elapsed).')
                     game.in_play = time_count
+                    game.ball_last_move = time_count
                     game.interruption = None
                     game.interruption_step = None
                     game.interruption_step_time = 0
@@ -1647,11 +1636,12 @@ while supervisor.step(time_step) != -1:
         # the GameController will automatically change to the SET state once the state READY is over
         # the referee should wait a little time since the state SET started before sending the PLAY state
     elif game.state.game_state == 'STATE_SET':
-        if game.play_countdown == 0 and game.ball_set_kick:
+        if game.play_countdown == 0:
             game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
-            game.ball.resetPhysics()
-            game.ball_translation.setSFVec3f(game.ball_kick_translation)
-            game.ball_set_kick = False
+            if game.ball_set_kick:
+                game.ball.resetPhysics()
+                game.ball_translation.setSFVec3f(game.ball_kick_translation)
+                game.ball_set_kick = False
         else:
             if not game.penalty_shootout:
                 if game.dropped_ball:
@@ -1669,6 +1659,8 @@ while supervisor.step(time_step) != -1:
                 game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                 game.penalty_shootout_goal = False
         elif game.state.first_half:
+            # NOTE: this part is probably dead code that is never used, transition from end of first Half to initial is
+            #       now automatic.
             if game.ready_countdown == 0:
                 if game.overtime:
                     type = 'knockout '
@@ -1704,6 +1696,14 @@ while supervisor.step(time_step) != -1:
                 else:
                     check_start_position()
                     game_controller_send('STATE:READY')
+        elif game.ready_countdown == 0 and not game.state.first_half:
+            game.sent_finish = False
+            game_type = ""
+            if game.overtime:
+                game_type = "overtime "
+            info(f'Beginning of {game_type} second half.')
+            kickoff()
+            game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
 
     if game.interruption_countdown > 0:
         game.interruption_countdown -= 1
@@ -1877,6 +1877,10 @@ if game.over and game.press_a_key_to_terminate:
     while supervisor.step(time_step) != -1:
         if keyboard.getKey() != -1:
             break
+elif game.over:
+    waiting_steps = END_OF_GAME_TIMEOUT * 1000 / time_step
+    while waiting_steps > 0:
+        supervisor.step(time_step)
 
 supervisor.simulationQuit(0)
 while supervisor.step(time_step) != -1:

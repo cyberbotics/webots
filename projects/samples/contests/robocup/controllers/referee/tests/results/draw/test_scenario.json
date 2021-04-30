@@ -372,29 +372,15 @@
         ]
     },
     {
+        "description" : "testing transition to READY directly because time spent in INITIAL is too low",
         "timing" : {
-            "time" : 605,
+            "time" : 610,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "tests" : [
             {
-                "name" : "First half ends 600 seconds after the first PLAYING state",
-                "state" : "INITIAL",
-                "critical" : true
-            }
-        ]
-    },
-    {
-        "timing" : {
-            "time" : 5,
-            "clock_type" : "Simulated",
-            "state" : "INITIAL",
-            "state_count" : 2
-        },
-        "tests" : [
-            {
-                "name" : "Sanity check: 2nd half, automatic transition to READY",
+                "name" : "Automatic transition to 1st Half PLAYING -> 2nd half READY",
                 "state" : "READY",
                 "critical" : true
             }
@@ -427,6 +413,81 @@
                 "name" : "Sanity check: 2nd half, automatic transition to SET",
                 "state" : "PLAYING",
                 "critical" : true
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 110,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 4
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,-1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 220,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 4
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 330,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 4
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 440,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 4
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [1,1,0]
+            }
+        ]
+    },
+    {
+        "description" : "Moving ball to avoid Drop ball",
+        "timing" : {
+            "time" : 550,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 4
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [0,1,0]
             }
         ]
     },
