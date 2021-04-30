@@ -142,7 +142,7 @@
     },
     {
         "timing" : {
-            "time" : 65,
+            "time" : 70,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
