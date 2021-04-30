@@ -446,8 +446,6 @@ namespace {
           return true;
         if (nodeName == "Transform")
           return true;
-        if (nodeName == "Billboard")
-          return true;
         if (nodeName == "Shape")
           return true;
         if (nodeName == "Solid")

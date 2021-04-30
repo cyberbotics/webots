@@ -1,2 +1,2 @@
 function value = WB_NODE_MATERIAL
-value = 16;
+value = 17;

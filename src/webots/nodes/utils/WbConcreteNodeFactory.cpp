@@ -311,7 +311,7 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
   if (modelName == "BallJointParameters")
     return new WbBallJointParameters(original);
   if (modelName == "Billboard")
-    retrun new WbBillboard(original);
+    return new WbBillboard(original);
   if (modelName == "Box")
     return new WbBox(original);
   if (modelName == "Brake")

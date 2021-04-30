@@ -1,2 +1,2 @@
 function value = WB_NODE_CYLINDER
-value = 8;
+value = 9;

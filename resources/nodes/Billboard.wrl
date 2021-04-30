@@ -1,7 +1,7 @@
 # A Billboard node contains children nodes that rotates automatically to face the users.
 # It is otherwise similar to a Group node.
 
-Group {
+Billboard {
   #field that inherits from the Group node:
   vrmlField MFNode  children           []
 }
