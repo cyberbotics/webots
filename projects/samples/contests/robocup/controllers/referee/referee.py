@@ -341,6 +341,8 @@ def game_controller_receive():
             info(f'Prepare for {GAME_INTERRUPTIONS[kick]}.')
         elif step == 2 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0:
             game.interruption_step = step
+            opponent_team = blue_team if secondary_state_info[0] == game.red.id else red_team
+            check_team_away_from_ball(opponent_team, game.opponent_distance_to_ball)
             game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE')
             info(f'Execute {GAME_INTERRUPTIONS[kick]}.')
             game.interruption_seconds = game.state.seconds_remaining
@@ -1449,6 +1451,11 @@ while supervisor.step(time_step) != -1:
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
         if game.in_play is None:
+            if (game.phase == 'CORNERKICK' and
+               game.state.secondary_state_info[1] != 1 and
+               game.state.secondary_seconds_remaining > 0):
+                opponent_team = red_team if game.ball_must_kick_team == 'blue' else blue_team
+                check_team_away_from_ball(opponent_team, game.opponent_distance_to_ball)
             if game.ball_first_touch_time != 0:
                 d = distance2(game.ball_kick_translation, game.ball_position)
                 if d > BALL_IN_PLAY_MOVE:
