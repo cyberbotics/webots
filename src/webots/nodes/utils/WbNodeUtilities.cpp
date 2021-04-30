@@ -233,6 +233,8 @@ namespace {
           return true;
         if (nodeName == "Transform")
           return true;
+        if (nodeName == "Billboard")
+          return true;
         if (nodeName == "Shape")
           return true;
         if (nodeName == "PointLight")
@@ -432,7 +434,8 @@ namespace {
       return nodeName == "Muscle";
 
     } else if (fieldName == "animatedGeometry" && parentModelName == "Track") {
-      return nodeName == "Shape" || nodeName == "Transform" || nodeName == "Group" || nodeName == "Slot";
+      return nodeName == "Shape" || nodeName == "Transform" || nodeName == "Group" || nodeName == "Billboard" ||
+             nodeName == "Slot";
 
     } else if (fieldName == "bones" && parentModelName == "Skin") {
       return nodeName == "SolidReference";
@@ -443,17 +446,19 @@ namespace {
           return true;
         if (nodeName == "Transform")
           return true;
+        if (nodeName == "Billboard")
+          return true;
         if (nodeName == "Shape")
           return true;
         if (nodeName == "Solid")
           return true;
 
         if (WbNodeUtilities::isFieldDescendant(node, "animatedGeometry"))
-          // only Group, Transform, Shape and Slot allowed
+          // only Group, Transform, Billboard, Shape and Slot allowed
           return false;
 
         if ((node->nodeModelName() == "TrackWheel") || WbNodeUtilities::findUpperNodeByType(node, WB_NODE_TRACK_WHEEL))
-          // only Group, Transform, Shape and Slot allowed
+          // only Group, Transform, Billboard, Shape and Slot allowed
           return false;
 
         if (nodeName == "PointLight")
@@ -513,6 +518,8 @@ namespace {
         if (nodeName == "Group")
           return true;
         if (nodeName == "Transform")
+          return true;
+        if (nodeName == "Billboard")
           return true;
         if (WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
           return true;
@@ -1502,8 +1509,8 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (isRobotTypeName(srcModelName)) {
-    if (destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" || destModelName == "Charger" ||
-        destModelName == "Connector") {
+    if (destModelName == "Group" || destModelName == "Billboard" || destModelName == "Transform" || destModelName == "Solid" ||
+        destModelName == "Charger" || destModelName == "Connector") {
       if (!hasSolidChildren(srcNode))
         return LOOSING_INFO;
 
@@ -1564,8 +1571,8 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (srcModelName == "Charger") {
-    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" ||
-        destModelName == "Connector")
+    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Billboard" || destModelName == "Transform" ||
+        destModelName == "Solid" || destModelName == "Connector")
       return LOOSING_INFO;
 
     return UNSUITABLE;
