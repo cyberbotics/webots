@@ -124,27 +124,27 @@ int main(int argc, char **argv) {
       switch (c) {
         case WB_KEYBOARD_UP:
           printf("Go forwards\n");
-          base_forwards();
+          base_forwards_increment();
           break;
         case WB_KEYBOARD_DOWN:
           printf("Go backwards\n");
-          base_backwards();
+          base_backwards_increment();
           break;
         case WB_KEYBOARD_LEFT:
           printf("Strafe left\n");
-          base_strafe_left();
+          base_strafe_left_increment();
           break;
         case WB_KEYBOARD_RIGHT:
           printf("Strafe right\n");
-          base_strafe_right();
+          base_strafe_right_increment();
           break;
         case WB_KEYBOARD_PAGEUP:
           printf("Turn left\n");
-          base_turn_left();
+          base_turn_left_increment();
           break;
         case WB_KEYBOARD_PAGEDOWN:
           printf("Turn right\n");
-          base_turn_right();
+          base_turn_right_increment();
           break;
         case WB_KEYBOARD_END:
         case ' ':
