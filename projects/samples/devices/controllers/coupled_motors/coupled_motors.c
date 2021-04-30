@@ -27,8 +27,8 @@ int main() {
   wb_robot_init();
 
   const WbDeviceTag linear_motor = wb_robot_get_device("linear motor");
-  // in the world file, two motors have this name, one has multiplier 1 and the other -1
-  const WbDeviceTag motor = wb_robot_get_device("coupled motor");
+  // only the left finger of the gripper is controlled directly
+  const WbDeviceTag motor = wb_robot_get_device("motor::left finger");
 
   while (1) {
     // delay

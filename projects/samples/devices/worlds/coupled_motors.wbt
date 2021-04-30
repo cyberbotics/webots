@@ -1,5 +1,10 @@
 #VRML_SIM R2021b utf8
+
 WorldInfo {
+  info [
+    "Example use of a coupled motors."
+  ]
+  title "Coupled Motors"
   basicTimeStep 8
   coordinateSystem "NUE"
 }
@@ -101,7 +106,7 @@ Robot {
             }
             device [
               RotationalMotor {
-                name "coupled motor"
+                name "motor::left finger"
                 maxVelocity 10.000000000000004
               }
             ]
@@ -259,7 +264,7 @@ Robot {
             }
             device [
               RotationalMotor {
-                name "coupled motor"
+                name "motor::right finger"
                 maxVelocity 10.000000000000004
                 multiplier -1
               }

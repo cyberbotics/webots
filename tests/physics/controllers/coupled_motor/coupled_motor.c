@@ -19,36 +19,48 @@ int main(int argc, char **argv) {
 
   if (strcmp("coupling_test", test_type) == 0) {
     // Test: verify that motors are coupled correctly according to naming convention (indirect test by changing the parameters
-    // and see how they propagate) names are: ["motor group a", "motor group a::subgroup b", "motor group a::subgroup c",
-    // "motor group b::subgroup b"]
+    // and see how they propagate) names are: ["motor group a", "motor group a::subgroup b",
+    // "motor group a::subgroup c", "motor group b::subgroup b"]
     WbDeviceTag motor_group_a = wb_robot_get_device("motor group a");
     WbDeviceTag motor_group_a_subgroup_b = wb_robot_get_device("motor group a::subgroup b");
     WbDeviceTag motor_group_a_subgroup_c = wb_robot_get_device("motor group a::subgroup c");
     WbDeviceTag motor_group_b_subgroup_b = wb_robot_get_device("motor group b::subgroup b");
 
-    wb_motor_set_acceleration(motor_group_a_subgroup_c, 20);  // should affect all except the last
+    wb_motor_set_acceleration(motor_group_a, 20);  // should affect only itself, right name but missing delimiter
     wb_robot_step(TIME_STEP);
 
     ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a), 20,
                            "Motor 'motor group a' should have acceleration 20 but does not.");
-    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_b), 20,
-                           "Motor 'motor group a::subgroup b' should have acceleration 20 but does not.");
-    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_c), 20,
-                           "Motor 'motor group a::subgroup c' should have acceleration 20 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_b), 10,
+                           "Motor 'motor group a::subgroup b' should have acceleration 10 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_c), 10,
+                           "Motor 'motor group a::subgroup c' should have acceleration 10 but does not.");
     ts_assert_double_equal(wb_motor_get_acceleration(motor_group_b_subgroup_b), 10,
                            "Motor 'motor group b::subgroup b' should have acceleration 10 but does not.");
 
-    wb_motor_set_acceleration(motor_group_b_subgroup_b, 30);  // should affect only itself
+    wb_motor_set_acceleration(motor_group_a_subgroup_c, 30);  // should affect only the second and third
     wb_robot_step(TIME_STEP);
 
     ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a), 20,
                            "Motor 'motor group a' should have acceleration 20 but does not.");
-    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_b), 20,
-                           "Motor 'motor group a::subgroup b' should have acceleration 20 but does not.");
-    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_c), 20,
-                           "Motor 'motor group a::subgroup c' should have acceleration 20 but does not.");
-    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_b_subgroup_b), 30,
-                           "Motor 'motor group b::subgroup b' should have acceleration 30 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_b), 30,
+                           "Motor 'motor group a::subgroup b' should have acceleration 30 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_c), 30,
+                           "Motor 'motor group a::subgroup c' should have acceleration 30 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_b_subgroup_b), 10,
+                           "Motor 'motor group b::subgroup b' should have acceleration 10 but does not.");
+
+    wb_motor_set_acceleration(motor_group_b_subgroup_b, 40);  // should affect only itself
+    wb_robot_step(TIME_STEP);
+
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a), 20,
+                           "Motor 'motor group a' should have acceleration 20 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_b), 30,
+                           "Motor 'motor group a::subgroup b' should have acceleration 30 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_a_subgroup_c), 30,
+                           "Motor 'motor group a::subgroup c' should have acceleration 30 but does not.");
+    ts_assert_double_equal(wb_motor_get_acceleration(motor_group_b_subgroup_b), 40,
+                           "Motor 'motor group b::subgroup b' should have acceleration 40 but does not.");
   }
 
   if (strcmp("load_test", test_type) == 0) {
@@ -158,11 +170,8 @@ int main(int argc, char **argv) {
     }
 
     WbDeviceTag motors[NB_MOTORS];
-    for (int i = 0; i < NB_MOTORS; ++i) {
+    for (int i = 0; i < NB_MOTORS; ++i)
       motors[i] = wb_robot_get_device_by_index(2 * i + 1);
-      const char *name = wb_device_get_name(motors[i]);
-      ts_assert_boolean_equal(strcmp("motor", name) == 0, "Device should be a motor named 'motor' but isn't.");
-    }
 
     double positions[NB_SENSORS];
     double tolerance = 1e-10;
@@ -268,7 +277,6 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      // printf("%d) %f %f %f %f %f\n", k, positions[0], positions[1], positions[2], positions[3], positions[4]);
       if (k > 0 && !(k % 100)) {
         ts_assert_double_in_delta(positions[0], positions[4] * -0.25, tolerance,
                                   "Position control: wrong position[0] when controlling motor[4].");
@@ -302,7 +310,6 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      // printf("%d) %f %f %f %f %f\n", k, positions[0], positions[1], positions[2], positions[3], positions[4]);
       ts_assert_double_in_delta(positions[1], positions[0] / 0.5, tolerance,
                                 "Torque control: wrong position[1] when controlling motor[0].");
       ts_assert_double_in_delta(positions[2], positions[0] / 4.0, tolerance,
@@ -334,7 +341,6 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      // printf("%d) %f %f %f %f %f\n", k, positions[0], positions[1], positions[2], positions[3], positions[4]);
       ts_assert_double_in_delta(positions[0], positions[4] / -0.25, tolerance,
                                 "Torque control: wrong position[0] when controlling motor[4].");
       ts_assert_double_in_delta(positions[1], positions[4] / -0.125, tolerance,

@@ -1,9 +1,5 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
-  info [
-    "Example use of a coupled motors."
-  ]
-  title "Coupled Motors"
   basicTimeStep 16
   coordinateSystem "NUE"
 }
@@ -63,7 +59,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_A1 HingeJoint {
       device [
         RotationalMotor {
-          name "motor A"
+          name "motor A::0"
           acceleration 5
           multiplier 2
         }
@@ -72,7 +68,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_A2 HingeJoint {
       device [
         RotationalMotor {
-          name "motor A"
+          name "motor A::1"
           acceleration 10
           multiplier 2
         }
@@ -81,7 +77,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_A3 HingeJoint {
       device [
         RotationalMotor {
-          name "motor A"
+          name "motor A::2"
           acceleration 20
           multiplier 2
         }
@@ -90,7 +86,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_B1 HingeJoint {
       device [
         RotationalMotor {
-          name "motor B"
+          name "motor B::0"
           acceleration -1
           multiplier 2
         }
@@ -99,7 +95,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_B2 HingeJoint {
       device [
         RotationalMotor {
-          name "motor B"
+          name "motor B::1"
           acceleration 10
           multiplier 2
         }
@@ -108,7 +104,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_B3 HingeJoint {
       device [
         RotationalMotor {
-          name "motor B"
+          name "motor B::2"
           acceleration 20
           multiplier 2
         }
@@ -118,7 +114,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_C1 HingeJoint {
       device [
         RotationalMotor {
-          name "motor C"
+          name "motor C::0"
           maxVelocity 5
           multiplier 2
         }
@@ -127,7 +123,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_C2 HingeJoint {
       device [
         RotationalMotor {
-          name "motor C"
+          name "motor C::1"
           maxVelocity 10
           multiplier 2
         }
@@ -136,7 +132,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_C3 HingeJoint {
       device [
         RotationalMotor {
-          name "motor C"
+          name "motor C::2"
           maxVelocity 20
           multiplier 2
         }
@@ -146,7 +142,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_D1 HingeJoint {
       device [
         RotationalMotor {
-          name "motor D"
+          name "motor D::0"
           minPosition 0
           maxPosition 0
           multiplier 2
@@ -156,7 +152,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_D2 HingeJoint {
       device [
         RotationalMotor {
-          name "motor D"
+          name "motor D::1"
           minPosition -10
           maxPosition 20
           multiplier 2
@@ -166,7 +162,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_D3 HingeJoint {
       device [
         RotationalMotor {
-          name "motor D"
+          name "motor D::2"
           minPosition -20
           maxPosition 40
           multiplier 2
@@ -176,7 +172,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_E1 HingeJoint {
       device [
         RotationalMotor {
-          name "motor E"
+          name "motor E::0"
           minPosition -5
           maxPosition 10
           multiplier 2
@@ -186,7 +182,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_E2 HingeJoint {
       device [
         RotationalMotor {
-          name "motor E"
+          name "motor E::1"
           minPosition -10
           maxPosition 20
           multiplier 2
@@ -196,7 +192,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_E3 HingeJoint {
       device [
         RotationalMotor {
-          name "motor E"
+          name "motor E::2"
           minPosition 0
           maxPosition 0
           multiplier 2
@@ -207,7 +203,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_F1 HingeJoint {
       device [
         RotationalMotor {
-          name "motor F"
+          name "motor F::0"
           maxTorque 5
           multiplier 2
         }
@@ -216,7 +212,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_F2 HingeJoint {
       device [
         RotationalMotor {
-          name "motor F"
+          name "motor F::1"
           maxTorque 10
           multiplier 2
         }
@@ -225,7 +221,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_F3 HingeJoint {
       device [
         RotationalMotor {
-          name "motor F"
+          name "motor F::2"
           maxTorque 20
           multiplier 2
         }
@@ -235,7 +231,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_G1 HingeJoint {
       device [
         RotationalMotor {
-          name "motor G"
+          name "motor G::0"
           multiplier 2
           maxTorque 10
           maxVelocity 10
@@ -248,7 +244,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_G2 HingeJoint {
       device [
         RotationalMotor {
-          name "motor G"
+          name "motor G::1"
           multiplier 0.5
           maxTorque 10
           maxVelocity 10
@@ -261,7 +257,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_G3 HingeJoint {
       device [
         RotationalMotor {
-          name "motor G"
+          name "motor G::2"
           multiplier 4
           maxTorque 10
           maxVelocity 10
@@ -274,7 +270,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_H1 HingeJoint {
       device [
         RotationalMotor {
-          name "motor H"
+          name "motor H::0"
           multiplier 2
           maxTorque 10
           maxVelocity 10
@@ -287,7 +283,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_H2 HingeJoint {
       device [
         RotationalMotor {
-          name "motor H"
+          name "motor H::1"
           multiplier -0.5
           maxTorque 10
           maxVelocity 10
@@ -300,7 +296,7 @@ DEF CHECK_PARAMETER_LOAD Robot {
     DEF MOTOR_H3 HingeJoint {
       device [
         RotationalMotor {
-          name "motor H"
+          name "motor H::2"
           multiplier -4
           maxTorque 10
           maxVelocity 10
@@ -328,7 +324,7 @@ DEF PHYSICS_TEST Robot {
           name "sensor1"
         }
         RotationalMotor {
-          name "motor"
+          name "motor::1"
         }
       ]
       endPoint Solid {
@@ -360,7 +356,7 @@ DEF PHYSICS_TEST Robot {
           name "sensor2"
         }
         RotationalMotor {
-          name "motor"
+          name "motor::2"
           maxVelocity 5
           maxTorque 20
           multiplier 0.5
@@ -396,7 +392,7 @@ DEF PHYSICS_TEST Robot {
           name "sensor3"
         }
         RotationalMotor {
-          name "motor"
+          name "motor::3"
           maxVelocity 40
           maxTorque 2.5
           multiplier 4
@@ -432,7 +428,7 @@ DEF PHYSICS_TEST Robot {
           name "sensor4"
         }
         RotationalMotor {
-          name "motor"
+          name "motor::4"
           maxVelocity 5
           maxTorque 20
           multiplier -0.5
@@ -468,7 +464,7 @@ DEF PHYSICS_TEST Robot {
           name "sensor5"
         }
         RotationalMotor {
-          name "motor"
+          name "motor::5"
           maxVelocity 40
           maxTorque 2.5
           multiplier -4

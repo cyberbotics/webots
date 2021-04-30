@@ -18,6 +18,7 @@
 
 #include "WbMotor.hpp"
 
+#include <QtCore/QRegularExpression>
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -189,15 +190,17 @@ double WbMotor::energyConsumption() const {
 }
 
 void WbMotor::inferMotorCouplings() {
-  // coupled motors name can be: "motor name part::specifier name", coupling is given by the motor name
-  QStringList chunks = deviceName().split(QRegExp("(\\::)"));
-  const QString thisMotorName = chunks.size() == 2 ? chunks[0] : deviceName();
+  // name structure: "motor name::specifier name". Coupling is determined by the motor name part
+  const QStringList nameChunks = deviceName().split(QRegExp("(\\::)"));
+  if (nameChunks.size() != 2)
+    return;
 
   for (int i = 0; i < cMotors.size(); ++i) {
-    chunks = cMotors[i]->deviceName().split(QRegExp("(\\::)"));
-    const QString otherMotorName = chunks.size() == 2 ? chunks[0] : cMotors[i]->deviceName();
+    QStringList otherNameChunks = cMotors[i]->deviceName().split(QRegExp("(\\::)"));
+    if (otherNameChunks.size() != 2)
+      continue;
 
-    if (robot() == cMotors[i]->robot() && cMotors[i]->tag() != tag() && thisMotorName == otherMotorName)
+    if (robot() == cMotors[i]->robot() && cMotors[i]->tag() != tag() && nameChunks[0] == otherNameChunks[0])
       mCoupledMotors.append(const_cast<WbMotor *>(cMotors[i]));
   }
 }
