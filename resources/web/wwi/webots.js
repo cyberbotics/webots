@@ -188,8 +188,6 @@ webots.View = class View {
       if (typeof this.multimediaClient !== 'undefined')
         // finalize multimedia client and set toolbar buttons status
         this.multimediaClient.finalize();
-      else if (this.toolBar)
-        this.toolBar.enableToolBarButtons(true);
 
       if (this.runOnLoad && this.toolBar)
         this.toolBar.realTime();
