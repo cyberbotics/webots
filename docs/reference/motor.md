@@ -215,38 +215,49 @@ Warnings are displayed if theses rules are not respected.
 
 ### Coupled Motors
 
-If multiple motors, be it [RotationalMotor](rotationalmotor.md), [LinearMotor](linearmotor.md) or a mixture of the two, share the same name and they belong to the same [Robot](robot.md) then they are considered as being coupled.
-When giving a command to a coupled motor, for instance using the fuctions [`wb_motor_set_position`](#wb_motor_set_position) or [`wb_motor_set_velocity`](#wb_motor_set_velocity), then the same instruction is relayed to all others.
-By default, all motors have a `multiplier` equal to 1, which means the same command is give to all equally.
-If instead the different motors have different multipliers, then the command actually applied by each device among the coupled ones depends on their own personal multiplier relative to that of the motor that relayed the command (i.e the one being controlled directly in the controller).
+If multiple motors, be it [RotationalMotor](rotationalmotor.md), [LinearMotor](linearmotor.md) or a mixture of the two, share the same name structure and they belong to the same [Robot](robot.md) then they are considered as being coupled.
+When giving a command to a coupled motor, for instance using the functions [`wb_motor_set_position`](#wb_motor_set_position) or [`wb_motor_set_velocity`](#wb_motor_set_velocity), then the same instruction is relayed to all others.
+By default, all motors have a `multiplier` equal to 1, which means the same command is relayed to all equally.
+If instead the different motors have different multipliers, then the command effectively applied by each device depends on their own personal multiplier relative to that of the motor that relayed the command (i.e the one being controlled directly in the controller).
 
-In a coupled motor context, when calling the function `wb_robot_get_device`, by default the tag of the first appearing motor that matches the name will be returned.
-Therefore, all functions in the motor API that rely on tags, such as [`wb_motor_get_max_force`](#wb_motor_get_max_force) or [`wb_motor_get_force_feedback`](#wb_motor_get_force_feedback), will always return the relevant information about the first motor only.
-Accessing the information of the sibling motors can be done directly by retrieving their tag using the `wb_robot_get_device_by_index` function or alternatively it can be done by formatting the motor names following this pattern: `"motor name::specifier name"`.
+> **Note**: the motors are *logically* coupled together, not *mechanically*.
+If one of the motors is physically blocked, the others are in no way affected by it.
+Additionally, a multiplier of two implies enforcing twice the velocity, twice the force or torque and twice the position.
+In other words, two coupled motors do not behave like a physical transmission.
+
+> **Note**: although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
+For instance, assume two coupled motors are available, then it isn't possible to do Position Control for one and Velocity Control for the other at the same time.
+Whatever command is given last will be relayed to all sibling motors and therefore overwrite any prior changes.
+
+#### Naming Convention
+
+The naming convention for coupled motors is `"motor name::specifier name"`.
 Note the `::` used as delimiter.
-In other words, any motor that has the same `"motor name"` component will be considered as belonging to the same coupling, and when retrieving the tag of a specific sibling it's sufficient to call the `wb_robot_get_device` function by providing the full name, namely: `wb_robot_get_device("motor name::specifier name")`.
+The string before the delimiter, here `"motor name"`, is used to determine to which coupling the specific motor belongs, therefore all the devices that share this same string will be coupled together.
+The string after the delimiter, here `"specifier name"`, allows to uniquely identify each motor among its siblings.
+When requesting the tag, for instance using the `wb_robot_get_device` function, it's necessary to provide the full name for the controller to know which specifically among them is being directly controlled or to know which to request information from.
 
-> **Note**: for example, assume three motors are available and they are named: `"rotational motor"`, `"rotational motor::left finger"`, `"rotational motor::right finger"`. As they share the `"rotational motor"` component, they will all be coupled.
+#### Motor Limits
 
-Since in principle any of the motors among the coupled ones can be commanded directly (using either method described above), and the siblings can potentially have different `multiplier` values, then it must be ensured that all of the motors remain within their own limits no matter which among them is called and irrespective of the command given.
-For this reason, in a coupled motor context strict limits must be imposed, meaning that the motor limits such as `maxVelocity` and `maxTorque` have to be exactly a factor of each other.
-For example, assume four motors share the same name and their `multiplier` values are respectively 2, 0.5, 4 and -4, the table below shows how the limits of motor B, C and D are adjusted
-according to the values of motor A.
+In principle any of the motors among the coupled ones can be commanded directly (either by getting its tag with `wb_robot_get_device` or through `wb_robot_get_device_by_index`) and, moreover, potentially every sibling could have different `multiplier` values.
+For these reasons it must be ensured that all of the motors remain within their own limits no matter which among them is called and irrespective of the command given to it.
+Therefore, in a coupled motor context, strict limits must be imposed, meaning that the motor limits such as `maxVelocity` and `maxTorque` have to be exactly a factor of each other.
+For example, assume four motors share the same name and their `multiplier` values are respectively 2, 0.5, 4 and -4, the table below shows how the limits of motor B, C and D should be set.
 
-|           motor |  A |   B   |  C |  D |
+|           motor (multiplier) |  A (2) |   B (0.5)   |  C (4) |  D (-4) |
 |----------------:|:--:|:-----:|:--:|:--:|
-|      multiplier |  2 |  0.5  |  4 | -4 |
 |     minPosition | -1 | -0.25 | -2 | -4 |
 |     maxPosition |  2 |  0.25 |  4 |  2 |
 |     maxVelocity | 10 |  2.5  | 20 | 20 |
 | maxAcceleration | 10 |  2.5  | 20 | 20 |
-|       maxTorque | 10 |   40  |  5 |  5 |
+|       maxTorque | 10 |  2.5  | 20 | 20 |
 
-> **Note**: the physical behavior of coupled motors is akin to that of a transmission, so a multiplication of the velocity entails a reduction of the available torque.
 
-> **Note**: negative multipliers are possible however when specifying the limits, the absolute value should be set. `minPosition` and `maxPosition` are an exception and they require additional care as in the presence of negative multipliers the two values might need to be swapped, as is the case here for motor D.
+> **Note**: For negative multipliers, the absolute value of the limit should be set.
+`minPosition` and `maxPosition` are an exception and they require additional care as in the presence of negative multipliers the two values might need to be swapped, as is the case here for motor D.
 
-> **Note**: in principle `maxAcceleration` can be unlimited (value -1) and likewise motor positional soft limits might not be present (`minPosition` = `maxPosition` = 0). In these cases, the first motor being read determines which rule is applied to all others. Therefore, if the first motor is unlimited (position or acceleration), its siblings are also forced to be unlimited and, vice-versa, if instead the first motor is limited all others must be too.
+> **Note**: in principle `maxAcceleration` can be unlimited (value -1) and likewise motor soft limits might not be present (`minPosition` = `maxPosition` = 0).
+In these cases, the first motor being read determines which rule is applied to all subsequent ones. Therefore, if the first motor is unlimited (position or acceleration), its siblings are also forced to be unlimited and vice-versa.
 
 ### Energy Consumption
 

@@ -67,9 +67,8 @@ Robot {
             translation 0 -0.004 0
             children [
               Shape {
-                appearance DEF BLACK PBRAppearance {
+                appearance PBRAppearance {
                   baseColor 0.180392 0.203922 0.211765
-                  transparency 0.2
                 }
                 geometry Mesh {
                   url [
