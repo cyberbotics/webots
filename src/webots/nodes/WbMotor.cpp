@@ -368,7 +368,7 @@ void WbMotor::setForceOrTorque(double forceOrTorque, WbMotor *relayer) {
     turnOffMotor();
   mUserControl = true;
 
-  mRawInput = relayer == NULL ? forceOrTorque : forceOrTorque * relayer->multiplier() / multiplier();
+  mRawInput = relayer == NULL ? forceOrTorque : forceOrTorque * multiplier() / relayer->multiplier();
   if (fabs(mRawInput) > mMotorForceOrTorque) {
     if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
       warn(tr("The requested motor torque %1 exceeds 'maxTorque' = %2").arg(mRawInput).arg(mMotorForceOrTorque));
@@ -383,7 +383,7 @@ void WbMotor::setForceOrTorque(double forceOrTorque, WbMotor *relayer) {
 void WbMotor::setAvailableForceOrTorque(double availableForceOrTorque, WbMotor *relayer) {
   // note: an error is thrown on libController side for negative values
   mMotorForceOrTorque =
-    relayer == NULL ? availableForceOrTorque : availableForceOrTorque * fabs(relayer->multiplier()) / fabs(multiplier());
+    relayer == NULL ? availableForceOrTorque : availableForceOrTorque * fabs(multiplier()) / fabs(relayer->multiplier());
 
   const double m = mMaxForceOrTorque->value();
   if (mMotorForceOrTorque > m) {
@@ -520,7 +520,7 @@ void WbMotor::checkMinAndMaxPositionAcrossCoupledMotors() {
   if (!isPositionUnlimited()) {
     for (int i = 0; i < mCoupledMotors.size(); ++i) {
       double potentialMinimalPosition = minPosition() * mCoupledMotors[i]->multiplier() / multiplier();
-      double potentialMaximalPosition = this->maxPosition() * mCoupledMotors[i]->multiplier() / this->multiplier();
+      double potentialMaximalPosition = maxPosition() * mCoupledMotors[i]->multiplier() / multiplier();
 
       if (potentialMaximalPosition < potentialMinimalPosition) {
         const double tmp = potentialMaximalPosition;
@@ -577,7 +577,7 @@ void WbMotor::checkMaxForceOrTorqueAcrossCoupledMotors() {
   // assume this motor is pushed to its limit, ensure the sibling limits aren't broken
   for (int i = 0; i < mCoupledMotors.size(); ++i) {
     const double potentialMaximalForceOrTorque =
-      maxForceOrTorque() * fabs(multiplier()) / fabs(mCoupledMotors[i]->multiplier());
+      maxForceOrTorque() * fabs(mCoupledMotors[i]->multiplier()) / fabs(multiplier());
 
     if (mCoupledMotors[i]->maxForceOrTorque() != potentialMaximalForceOrTorque) {
       const QString limitType = this->nodeType() == WB_NODE_ROTATIONAL_MOTOR ? "maxTorque" : "maxForce";
