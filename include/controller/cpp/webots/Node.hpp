@@ -32,6 +32,7 @@ namespace webots {
       APPEARANCE,
       BACKGROUND,
       BOX,
+      BILLBOARD,
       CAPSULE,
       COLOR,
       CONE,
