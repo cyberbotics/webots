@@ -297,6 +297,18 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return fields;
   }
 
+  applyLabel(label, view) {
+    view.setLabel({
+      id: label.id,
+      text: label.text,
+      font: label.font,
+      color: label.rgba,
+      size: label.size,
+      x: label.x,
+      y: label.y
+    });
+  }
+
   pick(relativePosition, screenPosition) {
     if (this.sceneModified) {
       this.gpuPicker.setScene(this.scene);
@@ -460,6 +472,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
           for (let i = 0; i < frame.poses.length; i++)
             this.applyPose(frame.poses[i]);
         }
+
+        if (frame.hasOwnProperty('labels')) {
+          for (let i = 0; i < frame.labels.length; i++)
+            this.applyLabel(frame.labels[i], view);
+        }
+
         if (this.viewpoint.updateViewpointPosition(null, view.time))
           this.viewpoint.notifyCameraParametersChanged(false);
         this.onSceneUpdate();
@@ -481,25 +499,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (!data) // received an empty model case: just destroy the view
         return true;
       this.loadObject(data);
-    } else if (data.startsWith('label')) {
-      let semiColon = data.indexOf(';');
-      let id = data.substring(data.indexOf(':'), semiColon);
-      let previousSemiColon;
-      let labelProperties = []; // ['font', 'color', 'size', 'x', 'y', 'text']
-      for (let i = 0; i < 5; i++) {
-        previousSemiColon = semiColon + 1;
-        semiColon = data.indexOf(';', previousSemiColon);
-        labelProperties.push(data.substring(previousSemiColon, semiColon));
-      }
-      view.setLabel({
-        id: id,
-        text: data.substring(semiColon + 1, data.length),
-        font: labelProperties[0],
-        color: labelProperties[1],
-        size: labelProperties[2],
-        x: labelProperties[3],
-        y: labelProperties[4]
-      });
     } else
       return false;
     return true;
