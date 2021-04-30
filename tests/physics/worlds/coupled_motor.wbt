@@ -1,5 +1,9 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
+  info [
+    "Example use of a coupled motors."
+  ]
+  title "Coupled Motors"
   basicTimeStep 16
   coordinateSystem "NUE"
 }

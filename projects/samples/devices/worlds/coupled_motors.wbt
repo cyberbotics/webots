@@ -1,29 +1,35 @@
 #VRML_SIM R2021b utf8
-
 WorldInfo {
   basicTimeStep 8
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0982063621384229 -0.9858986203841769 -0.1354969400396686 3.868848497269641
-  position 0.30738996052809336 0.20912043563415283 -0.36293215291252984
+  orientation -0.0937283257196868 0.9466107934054329 0.30845260051768264 2.5814287732054515
+  position -0.27306832419275945 0.3547413114994289 -0.5488204742362868
 }
 TexturedBackground {
   texture "empty_office"
 }
 TexturedBackgroundLight {
 }
-CircleArena {
+Table {
+  translation 0 -0.74 0
 }
 Robot {
+  translation -0.5 0 -0.2
   children [
     DEF BASE Transform {
       translation 0 0.0005 -0.025
       children [
         Shape {
           appearance PBRAppearance {
-            baseColor 0.447059 0.623529 0.811765
-            roughness 1
+            baseColor 0.933333 0.933333 0.92549
+            baseColorMap ImageTexture {
+              url [
+                "textures/roughcast.jpg"
+              ]
+            }
+            roughness 0.5
           }
           geometry Box {
             size 0.12 0.001 0.12
@@ -51,6 +57,7 @@ Robot {
       }
       device [
         LinearMotor {
+          maxForce 15
         }
       ]
       endPoint Solid {
@@ -95,7 +102,7 @@ Robot {
             }
             device [
               RotationalMotor {
-                name "motor"
+                name "coupled motor"
                 maxVelocity 10.000000000000004
               }
             ]
@@ -105,6 +112,10 @@ Robot {
                 Gear {
                   translation 0 0.0025 0
                   rotation 1 0 0 1.5708
+                  appearance PBRAppearance {
+                    baseColor 0.913725 0.72549 0.431373
+                    roughness 0.5
+                  }
                   teeth 12
                   width 0.003
                   innerRadius 0.0025
@@ -119,7 +130,13 @@ Robot {
                   children [
                     DEF LINKAGE Shape {
                       appearance DEF METAL_APPEARANCE PBRAppearance {
-                        roughness 0.4
+                        baseColor 0.729412 0.741176 0.713725
+                        baseColorMap ImageTexture {
+                          url [
+                            "textures/metal.jpg"
+                          ]
+                        }
+                        roughness 0.8
                       }
                       geometry Mesh {
                         url [
@@ -132,7 +149,7 @@ Robot {
                 DEF LEFT_ACTUATED_AXLE Shape {
                   appearance USE METAL_APPEARANCE
                   geometry DEF LEFT_AXLE Cylinder {
-                    height 0.012
+                    height 0.0125
                     radius 0.0025
                   }
                 }
@@ -158,7 +175,9 @@ Robot {
                             rotation 1 0 0 3.1415
                             children [
                               Shape {
-                                appearance USE METAL_APPEARANCE
+                                appearance DEF FINGER_APPEARANCE PBRAppearance {
+                                  baseColor 0.180392 0.203922 0.211765
+                                }
                                 geometry Mesh {
                                   url [
                                     "meshes/right_angle.obj"
@@ -207,7 +226,7 @@ Robot {
                 DEF LEFT_PASSIVE_AXLE Shape {
                   appearance USE METAL_APPEARANCE
                   geometry Cylinder {
-                    height 0.012
+                    height 0.0125
                     radius 0.0025
                   }
                 }
@@ -241,7 +260,7 @@ Robot {
             }
             device [
               RotationalMotor {
-                name "motor"
+                name "coupled motor"
                 maxVelocity 10.000000000000004
                 multiplier -1
               }
@@ -255,6 +274,10 @@ Robot {
                     Gear {
                       translation 0 0.0025 0
                       rotation 1 0 0 1.5708
+                      appearance PBRAppearance {
+                        baseColor 0.913725 0.72549 0.431373
+                        roughness 0.5
+                      }
                       teeth 12
                       width 0.003
                       innerRadius 0.0025
@@ -270,9 +293,7 @@ Robot {
                   rotation 0 1 0 2.3416
                   children [
                     DEF LINKAGE Shape {
-                      appearance DEF METAL_APPEARANCE PBRAppearance {
-                        roughness 0.4
-                      }
+                      appearance USE METAL_APPEARANCE
                       geometry Mesh {
                         url [
                           "meshes/linkage.obj"
@@ -284,7 +305,7 @@ Robot {
                 DEF RIGHT_ACTUATED_AXLE Shape {
                   appearance USE METAL_APPEARANCE
                   geometry DEF RIGHT_AXLE Cylinder {
-                    height 0.012
+                    height 0.0125
                     radius 0.0025
                   }
                 }
@@ -307,7 +328,7 @@ Robot {
                         rotation 0 1 0 1.5708
                         children [
                           Shape {
-                            appearance USE METAL_APPEARANCE
+                            appearance USE FINGER_APPEARANCE
                             geometry Mesh {
                               url [
                                 "meshes/right_angle.obj"
@@ -355,7 +376,7 @@ Robot {
                 DEF RIGHT_PASSIVE_AXLE Shape {
                   appearance USE METAL_APPEARANCE
                   geometry Cylinder {
-                    height 0.012
+                    height 0.0125
                     radius 0.0025
                   }
                 }
@@ -397,15 +418,10 @@ Robot {
       }
     }
   ]
-  boundingObject USE BASE
-  physics Physics {
-    density -1
-    mass 0.1
-  }
   controller "coupled_motors"
 }
 Solid {
-  translation 0 0.011 -0.055
+  translation -0.49 0.01 -0.255
   children [
     Shape {
       appearance PBRAppearance {
@@ -419,6 +435,6 @@ Solid {
   boundingObject USE BOX
   physics Physics {
     density -1
-    mass 0.001
+    mass 1
   }
 }

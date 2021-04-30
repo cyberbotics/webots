@@ -27,26 +27,35 @@ int main() {
   wb_robot_init();
 
   const WbDeviceTag linear_motor = wb_robot_get_device("linear motor");
-  const WbDeviceTag motor = wb_robot_get_device("motor");
+  // in the world file, two motors have this name, one has multiplier 1 and the other -1
+  const WbDeviceTag motor = wb_robot_get_device("coupled motor");
 
   while (1) {
-    wb_motor_set_position(motor, 0.4);
-
-    for (int i = 0; i < 100; i++)
+    // delay
+    for (int i = 0; i < 50; i++)
       wb_robot_step(TIME_STEP);
 
+    // close the gripper, both sides will receive the command as the motors have the same name
+    wb_motor_set_position(motor, 0.42);
+
+    for (int i = 0; i < 50; i++)
+      wb_robot_step(TIME_STEP);
+
+    // climb the rod
     wb_motor_set_position(linear_motor, 0.14);
-    wb_motor_set_velocity(linear_motor, .1);
+    wb_motor_set_velocity(linear_motor, 0.1);
 
     for (int i = 0; i < 100; i++)
       wb_robot_step(TIME_STEP);
 
+    // open the gripper
     wb_motor_set_position(motor, 0);
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 50; i++)
       wb_robot_step(TIME_STEP);
 
-    wb_motor_set_position(linear_motor, .0);
+    // descend the rod
+    wb_motor_set_position(linear_motor, 0);
 
     for (int i = 0; i < 100; i++)
       wb_robot_step(TIME_STEP);
