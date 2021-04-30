@@ -260,7 +260,7 @@ void WbAnimationRecorder::addChangedCommandToList(WbAnimationCommand *command) {
     mChangedCommands.append(command);
 }
 
-void WbAnimationRecorder::addChangedLabelToList(QString label) {
+void WbAnimationRecorder::addChangedLabelToList(const QString &label) {
   if (!mChangedLabels.contains(label))
     mChangedLabels.append(label);
 }
