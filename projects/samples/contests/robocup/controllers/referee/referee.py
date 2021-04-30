@@ -661,7 +661,7 @@ def update_team_contacts(team):
                             game.kicking_player_number = int(number)
                     elif time_count - game.ball_last_touch_time_for_display >= 1000:  # dont produce too many touched messages
                         game.ball_last_touch_time_for_display = time_count
-                        info('Ball touched again by same player.')
+                        info(f'Ball touched again by {color} player {number}.')
                     continue
                 # the robot touched something else than the ball or the ground
                 player['contact_points'].append(point)  # this list will be checked later for robot-robot collisions
@@ -1153,6 +1153,7 @@ def next_penalty_shootout():
 
 def interruption(type, team=None):
     game.in_play = None
+    game.can_score_own = False
     game.ball_set_kick = True
     game.interruption = type
     game.phase = type
@@ -1212,6 +1213,7 @@ def kickoff():
     game.ball_last_touch_player_number = 0
     game.ball_left_circle = None  # one can score only after ball went out of the circle
     game.can_score = False        # or was touched by another player
+    game.can_score_own = False
     game.kicking_player_number = None
     info(f'Ball not in play, will be kicked by a player from the {game.ball_must_kick_team} team.')
 
@@ -1228,6 +1230,7 @@ def dropped_ball():
     game.in_play = None
     game.dropped_ball = True
     game.can_score = True
+    game.can_score_own = False
 
 
 time_count = 0
@@ -1449,6 +1452,7 @@ while supervisor.step(time_step) != -1:
             if game.ball_first_touch_time != 0:
                 d = distance2(game.ball_kick_translation, game.ball_position)
                 if d > BALL_IN_PLAY_MOVE:
+                    info(f'{game.ball_kick_translation} {game.ball_position}')
                     info(f'Ball in play, can be touched by any player (moved by {d * 100:.2f} cm).')
                     game.in_play = time_count
                 else:
@@ -1463,19 +1467,22 @@ while supervisor.step(time_step) != -1:
                     game.ball_left_circle = time_count
                     info('The ball has left the center circle after kick-off.')
 
+            ball_touched_by_opponent = game.ball_last_touch_team != game.ball_must_kick_team
+            ball_touched_by_teammate = (game.kicking_player_number is not None
+                                        and game.ball_last_touch_player_number != game.kicking_player_number)
+            ball_touched_in_play = game.in_play is not None and game.in_play < game.ball_last_touch_time
             if not game.can_score:
-                ball_touched_by_opponent = game.ball_last_touch_team != game.ball_must_kick_team
-                ball_touched_by_teammate = (game.kicking_player_number is not None
-                                            and game.ball_last_touch_player_number != game.kicking_player_number)
                 if game.phase == 'KICKOFF':
                     ball_touched_after_leaving_the_circle = game.ball_left_circle is not None \
                                                             and game.ball_left_circle < game.ball_last_touch_time
                     if ball_touched_by_opponent or ball_touched_by_teammate or ball_touched_after_leaving_the_circle:
                         game.can_score = True
                 elif game.phase == 'THROWIN':
-                    ball_touched_in_play = game.in_play is not None and game.in_play < game.ball_last_touch_time
                     if ball_touched_by_teammate or ball_touched_by_opponent or ball_touched_in_play:
                         game.can_score = True
+            if not game.can_score_own:
+                if ball_touched_by_opponent or ball_touched_by_teammate or ball_touched_in_play:
+                    game.can_score_own = True
 
         if game.penalty_shootout:
             if game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
@@ -1589,6 +1596,14 @@ while supervisor.step(time_step) != -1:
                             corner_kick(left_side=scoring_team != game.side_left)
                         else:
                             goal_kick()
+
+                elif not right_way and not game.can_score_own:
+                    if game.phase == 'KICKOFF':
+                        info(f'Invalidated direct score in {goal} goal from kick-off position.')
+                    elif game.phase in GAME_INTERRUPTIONS:
+                        info(f'Invalidated direct score in {goal} goal from {GAME_INTERRUPTIONS[game.phase]}.')
+                    corner_kick(left_side=scoring_team != game.side_left)
+
                 elif game.state.teams[i].players[game.ball_last_touch_player_number - 1].secs_till_unpenalized == 0:
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number}')
@@ -1600,8 +1615,8 @@ while supervisor.step(time_step) != -1:
                         kickoff()
                 elif not right_way:  # own goal
                     game_controller_send(f'SCORE:{scoring_team}')
-                    info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number} ' +
-                         '(own goal)')
+                    info(f'Score in {goal} goal by {game.ball_last_touch_team} player ' +
+                         f'{game.ball_last_touch_player_number} (own goal)')
                     game.ready_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     if game.penalty_shootout:
                         game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
