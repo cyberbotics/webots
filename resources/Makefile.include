@@ -553,3 +553,4 @@ clean:
 	$(SILENT)rm -fr $(FILES_TO_REMOVE) $(BUILD_DIR) > /dev/null 2>&1 || :
 	$(SILENT)rm -d $(EMPTY_DIRECTORIES_TO_REMOVE) > /dev/null 2>&1 || :
 	$(SILENT)rm $(WRENJS_DIR)/wrenjs.js $(WRENJS_DIR)/wrenjs.data $(WRENJS_DIR)/wrenjs.wasm > /dev/null 2>&1 || :
+	$(SILENT)rm -r $(WRENJS_DIR)/images/post_processing > /dev/null 2>&1 || :

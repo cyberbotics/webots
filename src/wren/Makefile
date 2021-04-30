@@ -58,6 +58,10 @@ ENUM := $(shell python $(WEBOTS_HOME_PATH)/scripts/export_function_js/export_fun
 ifneq ($(ENUM), OK)
 ENUM := $(shell python3 $(WEBOTS_HOME_PATH)/scripts/export_function_js/export_function.py;)
 endif
+COPY:= $(shell mkdir $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/ > /dev/null 2>&1) 
+COPY:= $(shell cp $(WEBOTS_HOME_PATH)/resources/wren/textures/gtao_noise_texture.png $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/)
+COPY:= $(shell cp $(WEBOTS_HOME_PATH)/resources/wren/textures/smaa_area_texture.png $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/)
+COPY:= $(shell cp $(WEBOTS_HOME_PATH)/resources/wren/textures/smaa_search_texture.png $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/)
 endif
 endif
 endif
