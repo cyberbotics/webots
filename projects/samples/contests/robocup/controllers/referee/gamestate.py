@@ -30,6 +30,7 @@ RobotInfo = "robot_info" / Struct(
     # MANUAL                                      15
     "penalty" / Byte,
     "secs_till_unpenalized" / Byte,
+    "number_of_warnings" / Byte,
     "number_of_yellow_cards" / Byte,
     "number_of_red_cards" / Byte,
     "goal_keeper" / Flag
