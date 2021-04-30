@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from gamestate import GameState
-
+from field import Field
 from controller import Supervisor, AnsiCodes, Node
 
 import copy
@@ -43,8 +43,6 @@ GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up t
 PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
-OPPONENT_DISTANCE_TO_BALL_KID = 0.75      # during kicks, the opponents must stay at 0.75 m. away from the ball in kid size
-OPPONENT_DISTANCE_TO_BALL_ADULT = 1.5     # or 1.5 m. in adult size
 FOUL_PUSHING_TIME = 1                     # 1 second
 FOUL_PUSHING_PERIOD = 2                   # 2 seconds
 FOUL_VINCITY_DISTANCE = 2                 # 2 meters
@@ -53,7 +51,6 @@ FOUL_SPEED_THRESHOLD = 0.2                # 0.2 m/s
 FOUL_DIRECTION_THRESHOLD = math.pi / 6    # 30 degrees
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
-BORDER_STRIP_WIDTH = 1                    # 1 meter of turf outside the field
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 
@@ -259,8 +256,8 @@ def game_controller_receive():
     if not data:
         error('No UDP data received')
         return
-    previous_seconds_remaining = game.state.seconds_remaining if game.state else None
-    previous_secondary_seconds_remaining = game.state.secondary_seconds_remaining if game.state else None
+    previous_seconds_remaining = game.state.seconds_remaining if game.state else 0
+    previous_secondary_seconds_remaining = game.state.secondary_seconds_remaining if game.state else 0
     previous_state = game.state.game_state if game.state else None
     if game.state:
         red = 0 if game.state.teams[0].team_color == 'RED' else 1
@@ -275,17 +272,16 @@ def game_controller_receive():
 
     # Fixes bug of GameController, possibly fixed in https://github.com/RoboCup-Humanoid-TC/GameController/pull/141
     # FIXME: if these errors don't how up any more on the long term, we should remove this test
-    if previous_seconds_remaining is not None and previous_secondary_seconds_remaining is not None:
-        if game.state.seconds_remaining == 600 and previous_seconds_remaining != 600 and previous_seconds_remaining != 0:
-            game.state.seconds_remaining = previous_seconds_remaining
-            error(f'GameController sent wrong 600 seconds remaining, using previous value: {previous_seconds_remaining}.')
-        if game.state.secondary_seconds_remaining == 0 and previous_secondary_seconds_remaining > 2:
-            # It sometimes happens in fast mode that the GameController drops secondary seconds from 2 to 0 (hence the > 2 test)
-            # This seems acceptable and is ignored by the test, but on a more powerful computer it may drop from 3 to 0
-            # and display the error.
-            game.state.secondary_seconds_remaining = previous_secondary_seconds_remaining
-            error('GameController sent wrong 0 secondary seconds remaining, using previous value: '
-                  f'{previous_secondary_seconds_remaining}.')
+    if game.state.seconds_remaining == 600 and previous_seconds_remaining != 600 and previous_seconds_remaining != 0:
+        game.state.seconds_remaining = previous_seconds_remaining
+        error(f'GameController sent wrong 600 seconds remaining, using previous value: {previous_seconds_remaining}.')
+    if game.state.secondary_seconds_remaining == 0 and previous_secondary_seconds_remaining > 2:
+        # It sometimes happens in fast mode that the GameController drops secondary seconds from 2 to 0 (hence the > 2 test)
+        # This seems acceptable and is ignored by the test, but on a more powerful computer it may drop from 3 to 0
+        # and display the error.
+        game.state.secondary_seconds_remaining = previous_secondary_seconds_remaining
+        error('GameController sent wrong 0 secondary seconds remaining, using previous value: '
+              f'{previous_secondary_seconds_remaining}.')
 
     if previous_state != game.state.game_state:
         if game.wait_for_state is not None:
@@ -342,7 +338,7 @@ def game_controller_receive():
         elif step == 2 and game.interruption_step != step and game.state.secondary_seconds_remaining <= 0:
             game.interruption_step = step
             opponent_team = blue_team if secondary_state_info[0] == game.red.id else red_team
-            check_team_away_from_ball(opponent_team, game.opponent_distance_to_ball)
+            check_team_away_from_ball(opponent_team, game.field.opponent_distance_to_ball)
             game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE')
             info(f'Execute {GAME_INTERRUPTIONS[kick]}.')
             game.interruption_seconds = game.state.seconds_remaining
@@ -432,25 +428,6 @@ def distance2(v1, v2):
 
 def distance3(v1, v2):
     return math.sqrt((v1[0] - v2[0]) ** 2 + (v1[1] - v2[1]) ** 2 + (v1[2] - v2[2]) ** 2)
-
-
-def point_inside_turf(point):
-    if point[2] > game.turf_depth:  # in the air
-        return False
-    x = game.field_size_x + BORDER_STRIP_WIDTH
-    y = game.field_size_y + BORDER_STRIP_WIDTH
-    if point[0] > x or point[0] < -x or point[1] > y or point[1] < -y:
-        return False
-    return True
-
-
-def point_inside_field(point):
-    if point[2] > game.turf_depth:  # in the air
-        return False
-    if point[0] > game.field_size_x or point[0] < -game.field_size_x or \
-       point[1] > game.field_size_y or point[1] < -game.field_size_y:
-        return False
-    return True
 
 
 def rotate_along_z(axis_and_angle):
@@ -602,19 +579,6 @@ def update_convex_hulls():
     update_team_convex_hulls(blue_team)
 
 
-def ball_inside_goal_area():  # return the color of the goal area in which the ball has fully penetrated or None
-    x = game.ball_position[0]
-    y = game.ball_position[1]
-    if abs(x) - game.ball_radius > game.field_size_x - game.field_goal_area_length and \
-       abs(x) + game.ball_radius < game.field_size_x and \
-       abs(y) - game.ball_radius < game.field_goal_area_width:
-        if x < 0:
-            return 'red' if game.side_left == game.red.id else 'blue'
-        else:
-            return 'blue' if game.side_left == game.red.id else 'red'
-    return None
-
-
 def init_team(team):
     for number in team['players']:
         player = team['players'][number]
@@ -645,7 +609,7 @@ def update_team_contacts(team):
         fallen = False
         for i in range(n):
             point = robot.getContactPoint(i)
-            if point[2] > game.turf_depth:  # not a contact with the ground
+            if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
                     if game.ball_first_touch_time == 0:
                         game.ball_first_touch_time = time_count
@@ -668,14 +632,14 @@ def update_team_contacts(team):
                 # the robot touched something else than the ball or the ground
                 player['contact_points'].append(point)  # this list will be checked later for robot-robot collisions
                 continue
-            if distance2(point, [0, 0]) < game.field_circle_radius:
+            if distance2(point, [0, 0]) < game.field.circle_radius:
                 player['outside_circle'] = False
-            if point_inside_turf(point):
+            if game.field.point_inside(point, include_turf=True):
                 outside_turf = False
-            if point_inside_field(point):
+            if game.field.point_inside(point):
                 player['outside_field'] = False
-                if abs(point[0]) > game.field_size_x - game.field_goal_area_length and \
-                   abs(point[1]) < game.field_goal_area_width / 2:
+                if abs(point[0]) > game.field.size_x - game.field.goal_area_length and \
+                   abs(point[1]) < game.field.goal_area_width / 2:
                     player['outside_goal_area'] = False
             else:
                 player['inside_field'] = False
@@ -985,7 +949,7 @@ def send_team_penalties(team):
             rotation = robot.getField('rotation')
             t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
             r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
-            t[0] = game.field_penalty_mark_x if t[0] > 0 else -game.field_penalty_mark_x
+            t[0] = game.field.penalty_mark_x if t[0] > 0 else -game.field.penalty_mark_x
             if (game.ball_position[1] > 0 and t[1] > 0) or (game.ball_position[1] < 0 and t[1] < 0):
                 t[1] = -t[1]
                 r = rotate_along_z(r)
@@ -995,16 +959,16 @@ def send_team_penalties(team):
                 for n in team['players']:
                     other_robot = team['players'][n]['robot']
                     other_t = other_robot.getField('translation').getSFVec3f()
-                    if distance3(other_t, t) < game.robot_radius:
-                        t[0] += game.penalty_offset if game.ball_position[0] < t[0] else -game.penalty_offset
+                    if distance3(other_t, t) < game.field.robot_radius:
+                        t[0] += game.field.penalty_offset if game.ball_position[0] < t[0] else -game.field.penalty_offset
                         moved = True
                 if not moved:
                     break
             # test if position is behind the goal line (note: it should never end up beyond the center line)
-            if t[0] > game.field_size_x:
-                t[0] -= 4 * game.penalty_offset
-            elif t[0] < -game.field_size_x:
-                t[0] += 4 * game.penalty_offset
+            if t[0] > game.field.size_x:
+                t[0] -= 4 * game.field.penalty_offset
+            elif t[0] < -game.field.size_x:
+                t[0] += 4 * game.field.penalty_offset
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
             player['sent_to_penality_position'] = True
@@ -1094,7 +1058,7 @@ def set_penalty_positions():
             reset_player(defending_color, number, 'goalKeeperStartingPose')
         else:
             reset_player(defending_color, number, 'halfTimeStartingPose')
-    x = game.field_penalty_mark_x if game.side_left == game.kickoff and default else -game.field_penalty_mark_x
+    x = game.field.penalty_mark_x if game.side_left == game.kickoff and default else -game.field.penalty_mark_x
     game.ball.resetPhysics()
     game.ball_kick_translation[0] = x
     game.ball_kick_translation[1] = 0
@@ -1177,7 +1141,7 @@ def throw_in(left_side):
     # set the ball on the touch line for throw in
     sign = -1 if left_side else 1
     game.ball_kick_translation[0] = game.ball_exit_translation[0]
-    game.ball_kick_translation[1] = sign * (game.field_size_y - LINE_HALF_WIDTH)
+    game.ball_kick_translation[1] = sign * (game.field.size_y - LINE_HALF_WIDTH)
     game.can_score = False  # disallow direct goal
     interruption('THROWIN')
 
@@ -1185,9 +1149,9 @@ def throw_in(left_side):
 def corner_kick(left_side):
     # set the ball in the right corner for corner kick
     sign = -1 if left_side else 1
-    game.ball_kick_translation[0] = sign * (game.field_size_x - LINE_HALF_WIDTH)
-    game.ball_kick_translation[1] = game.field_size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
-        else -game.field_size_y + LINE_HALF_WIDTH
+    game.ball_kick_translation[0] = sign * (game.field.size_x - LINE_HALF_WIDTH)
+    game.ball_kick_translation[1] = game.field.size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
+        else -game.field.size_y + LINE_HALF_WIDTH
     game.can_score = True
     interruption('CORNERKICK')
 
@@ -1195,8 +1159,8 @@ def corner_kick(left_side):
 def goal_kick():
     # set the ball at intersection between the centerline and touchline
     game.ball_kick_translation[0] = 0
-    game.ball_kick_translation[1] = game.field_size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
-        else -game.field_size_y + LINE_HALF_WIDTH
+    game.ball_kick_translation[1] = game.field.size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
+        else -game.field.size_y + LINE_HALF_WIDTH
     game.can_score = True
     interruption('GOALKICK')
 
@@ -1269,17 +1233,7 @@ if game.minimum_real_time_factor == 0:
 else:
     info(f'Simulation will guarantee a maximum {1 / game.minimum_real_time_factor:.2f}x speed for each time step.')
 field_size = getattr(game, 'class').lower()
-game.field_size_y = 3 if field_size == 'kid' else 4.5
-game.field_size_x = 4.5 if field_size == 'kid' else 7
-game.field_penalty_mark_x = 3 if field_size == 'kid' else 4.9
-game.field_goal_area_length = 1
-game.field_goal_area_width = 3 if field_size == 'kid' else 4
-game.field_goal_height = 1.2 if field_size == 'kid' else 1.8
-game.field_circle_radius = 0.75 if field_size == 'kid' else 1.5
-game.penalty_offset = 0.6 if field_size == 'kid' else 1
-game.opponent_distance_to_ball = OPPONENT_DISTANCE_TO_BALL_KID if field_size == 'kid' else OPPONENT_DISTANCE_TO_BALL_ADULT
-game.robot_radius = 0.3 if field_size == 'kid' else 0.5
-game.turf_depth = 0.01
+game.field = Field(field_size)
 
 red_team['color'] = 'red'
 blue_team['color'] = 'blue'
@@ -1394,7 +1348,7 @@ game.penalty_shootout_time_to_reach_goal_area = [None, None, None, None, None, N
 game.penalty_shootout_time_to_touch_ball = [None, None, None, None, None, None, None, None, None, None]
 game.ball = supervisor.getFromDef('BALL')
 game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
-game.ball_kick_translation = [0, 0, game.ball_radius + game.turf_depth]  # initial position of a ball (to determine if it moved)
+game.ball_kick_translation = [0, 0, game.ball_radius + game.field.turf_depth]  # initial position of a ball before kick
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exit_translation = None
 game.ball_last_touch_team = 'red'
@@ -1455,11 +1409,9 @@ while supervisor.step(time_step) != -1:
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
         if game.in_play is None:
-            if (game.phase == 'CORNERKICK' and
-               game.state.secondary_state_info[1] != 1 and
-               game.state.secondary_seconds_remaining > 0):
+            if game.phase == 'CORNERKICK' and game.interruption_step != 1 and game.state.secondary_seconds_remaining > 0:
                 opponent_team = red_team if game.ball_must_kick_team == 'blue' else blue_team
-                check_team_away_from_ball(opponent_team, game.opponent_distance_to_ball)
+                check_team_away_from_ball(opponent_team, game.field.opponent_distance_to_ball)
             if game.ball_first_touch_time != 0:
                 d = distance2(game.ball_kick_translation, game.ball_position)
                 if d > BALL_IN_PLAY_MOVE:
@@ -1474,7 +1426,7 @@ while supervisor.step(time_step) != -1:
             if time_count - game.ball_last_move > DROPPED_BALL_TIMEOUT * 1000:
                 dropped_ball()
             if game.ball_left_circle is None and game.phase == 'KICKOFF':
-                if distance2(game.ball_kick_translation, game.ball_position) > game.field_circle_radius + game.ball_radius:
+                if distance2(game.ball_kick_translation, game.ball_position) > game.field.circle_radius + game.ball_radius:
                     game.ball_left_circle = time_count
                     info('The ball has left the center circle after kick-off.')
 
@@ -1504,7 +1456,7 @@ while supervisor.step(time_step) != -1:
                     if game.over:
                         break
             else:  # extended penalty shootouts
-                if ball_inside_goal_area() is not None:
+                if game.field.circle_fully_inside_goal_area(game.ball_position, game.ball_radius):
                     c = game.penalty_shootout_count - 10
                     if game.penalty_shootout_time_to_reach_goal_area[c] is None:
                         game.penalty_shootout_time_to_reach_goal_area[c] = 60 - game.state.seconds_remaining
@@ -1539,33 +1491,33 @@ while supervisor.step(time_step) != -1:
                 else:
                     error(f'Unsupported game type: {game.type}.')
         if game.interruption_countdown == 0 and game.ready_countdown == 0 and \
-            (game.ball_position[1] - game.ball_radius > game.field_size_y or
-             game.ball_position[1] + game.ball_radius < -game.field_size_y or
-             game.ball_position[0] - game.ball_radius > game.field_size_x or
-             game.ball_position[0] + game.ball_radius < -game.field_size_x):
+            (game.ball_position[1] - game.ball_radius > game.field.size_y or
+             game.ball_position[1] + game.ball_radius < -game.field.size_y or
+             game.ball_position[0] - game.ball_radius > game.field.size_x or
+             game.ball_position[0] + game.ball_radius < -game.field.size_x):
             info(f'Ball left the field at ({game.ball_position[0]} {game.ball_position[1]} {game.ball_position[2]}) after '
                  f'being touched by {game.ball_last_touch_team} player {game.ball_last_touch_player_number}.')
             game.ball_exit_translation = game.ball_position
             scoring_team = None
             right_way = None
-            if game.ball_exit_translation[1] - game.ball_radius > game.field_size_y:
+            if game.ball_exit_translation[1] - game.ball_radius > game.field.size_y:
                 if game.penalty_shootout:
                     game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     game.penalty_shootout_goal = False
                 else:
-                    game.ball_exit_translation[1] = game.field_size_y - LINE_HALF_WIDTH
+                    game.ball_exit_translation[1] = game.field.size_y - LINE_HALF_WIDTH
                     throw_in(left_side=False)
-            elif game.ball_exit_translation[1] + game.ball_radius < -game.field_size_y:
+            elif game.ball_exit_translation[1] + game.ball_radius < -game.field.size_y:
                 if game.penalty_shootout:
                     game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     game.penalty_shootout_goal = False
                 else:
                     throw_in(left_side=True)
-            if game.ball_exit_translation[0] - game.ball_radius > game.field_size_x:
+            if game.ball_exit_translation[0] - game.ball_radius > game.field.size_x:
                 right_way = game.ball_last_touch_team == 'red' and game.side_left == game.red.id or \
                     game.ball_last_touch_team == 'blue' and game.side_left == game.blue.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
-                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.field_goal_height:
+                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.field.goal_height:
                     scoring_team = game.side_left  # goal
                 elif game.penalty_shootout:
                     game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
@@ -1575,11 +1527,11 @@ while supervisor.step(time_step) != -1:
                         goal_kick()
                     else:
                         corner_kick(left_side=False)
-            elif game.ball_exit_translation[0] + game.ball_radius < -game.field_size_x:
+            elif game.ball_exit_translation[0] + game.ball_radius < -game.field.size_x:
                 right_way = game.ball_last_touch_team == 'red' and game.side_left == game.blue.id or \
                     game.ball_last_touch_team == 'blue' and game.side_left == game.red.id
                 if game.ball_exit_translation[1] < GOAL_HALF_WIDTH and \
-                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.field_goal_height:
+                   game.ball_exit_translation[1] > -GOAL_HALF_WIDTH and game.ball_exit_translation[2] < game.field.goal_height:
                     # goal
                     scoring_team = game.red.id if game.blue.id == game.side_left else game.blue.id
                 elif game.penalty_shootout:
