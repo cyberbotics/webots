@@ -54,6 +54,8 @@
 
 #include <cassert>
 
+#include <iostream>
+
 struct ProtoParameters {
   const QVector<WbField *> *params;
 };
@@ -550,6 +552,10 @@ int WbNode::numFields() const {
   return fieldsOrParameters().size();
 }
 
+int WbNode::numProtoFields() const {
+  return mFields.size();
+}
+
 WbField *WbNode::field(int index, bool internal) const {
   if (internal)
     return mFields[index];
@@ -558,7 +564,6 @@ WbField *WbNode::field(int index, bool internal) const {
 
 WbField *WbNode::findField(const QString &fieldName, bool internal) const {
   const QVector<WbField *> &l = internal ? mFields : fieldsOrParameters();
-
   foreach (WbField *const field, l)
     if (fieldName == field->name())
       return field;

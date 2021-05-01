@@ -139,6 +139,17 @@ static char *supervisor_strdup(const char *src) {
   return dst;
 }
 
+static WbFieldStruct *find_field_by_id(const int id, int node_id){
+  WbFieldStruct *field = field_list;
+  while (field) {
+    if (field->node_unique_id == node_id && id == field->id)
+      return field;
+    field = field->next;
+  }
+  return NULL;
+}
+
+
 // find field in field_list
 static WbFieldStruct *find_field(const char *fieldName, int node_id) {
   WbFieldStruct *field = field_list;
@@ -380,6 +391,9 @@ static bool allow_search_in_proto = false;
 static const char *node_def_name = NULL;
 static int proto_id = -1;
 static const char *requested_field_name = NULL;
+static bool requested_field_count = false;
+static int node_field_count = -1;
+static int requested_field_id = -1;
 static bool node_get_selected = false;
 static int node_ref = 0;
 static WbNodeRef root_ref = NULL;
@@ -499,6 +513,15 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_NAME);
     request_write_uint32(r, node_ref);
     request_write_string(r, requested_field_name);
+    request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+  } else if (requested_field_id >= 0) {
+    request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_ID);
+    request_write_uint32(r, node_ref);
+    request_write_uint32(r, requested_field_id);
+    request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+  } else if (requested_field_count) {
+    request_write_uchar(r, C_SUPERVISOR_FIELD_GET_COUNT);
+    request_write_uint32(r, node_ref);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (!robot_is_immediate_message() || is_field_immediate_message) {
     is_field_immediate_message = false;
@@ -847,6 +870,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         node_id = uid;
       }
     } break;
+    case C_SUPERVISOR_FIELD_GET_FROM_ID:
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
       const WbFieldType field_type = request_read_int32(r);
@@ -856,13 +880,14 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         requested_field_name = NULL;
         break;
       }
+      const char *name = request_read_string(r);
       WbFieldStruct *f = malloc(sizeof(WbFieldStruct));
       f->next = field_list;
       f->id = field_ref;
       f->type = field_type;
       f->count = field_count;
       f->node_unique_id = node_ref;
-      f->name = supervisor_strdup(requested_field_name);
+      f->name = name;
       f->is_proto_internal = is_proto_internal;
       f->data.sf_string = NULL;
       field_list = f;
@@ -936,6 +961,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       }
       break;
     }
+    case C_SUPERVISOR_FIELD_GET_COUNT:
+      node_field_count = request_read_int32(r);
+      break;
     case C_SUPERVISOR_NODE_REGENERATED:
       remove_internal_proto_nodes_and_fields_from_list();
       break;
@@ -2055,6 +2083,61 @@ const char *wb_supervisor_node_get_base_type_name(WbNodeRef node) {
 
   return wb_node_get_name(node->type);
 }
+WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, const int id) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  robot_mutex_lock_step();
+  // yb: search if field is already present in field_list
+  WbFieldRef result = find_field_by_id(id, node->id);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    requested_field_id = id;
+    node_ref = node->id;
+    wb_robot_flush_unlocked();
+    requested_field_id = -1;
+    result = field_list;  // was just inserted at list head
+    if (result && node->is_proto_internal)
+      result->is_proto_internal = true;
+  }
+  robot_mutex_unlock_step();
+  return result;
+}
+
+WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, const int id) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  robot_mutex_lock_step();
+  // yb: search if field is already present in field_list
+  WbFieldRef result = find_field_by_id(id, node->id);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    requested_field_id = id;
+    node_ref = node->id;
+    allow_search_in_proto = true;
+    wb_robot_flush_unlocked();
+    requested_field_id = -1;
+    result = field_list;  // was just inserted at list head
+    if (result && node->is_proto_internal)
+      result->is_proto_internal = true;
+    allow_search_in_proto = false;
+  }
+  robot_mutex_unlock_step();
+  return result;
+}
 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) {
   if (!robot_check_supervisor(__FUNCTION__))
@@ -2089,6 +2172,32 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
   }
   robot_mutex_unlock_step();
   return result;
+}
+
+const int wb_supervisor_node_get_field_count(WbNodeRef node) {
+  robot_mutex_lock_step();
+  requested_field_count = true;
+  node_ref = node->id;
+  wb_robot_flush_unlocked();
+  requested_field_count = false;
+  robot_mutex_unlock_step();
+  if (node_field_count > 0)
+    return node_field_count;
+  return -1;
+}
+
+const int wb_supervisor_node_get_proto_field_count(WbNodeRef node) {
+  robot_mutex_lock_step();
+  requested_field_count = true;
+  node_ref = node->id;
+  allow_search_in_proto = true;
+  wb_robot_flush_unlocked();
+  requested_field_count = false;
+  allow_search_in_proto = false;
+  robot_mutex_unlock_step();
+  if (node_field_count > 0)
+    return node_field_count;
+  return -1;
 }
 
 WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name) {
@@ -2415,6 +2524,10 @@ const double *wb_supervisor_virtual_reality_headset_get_orientation() {
   virtual_reality_headset_orientation_request = false;
   robot_mutex_unlock_step();
   return virtual_reality_headset_orientation ? virtual_reality_headset_orientation : invalid_vector;
+}
+
+const char *wb_supervisor_field_get_name(WbFieldRef field) {
+  return field->name;
 }
 
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {

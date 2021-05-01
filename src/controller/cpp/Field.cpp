@@ -57,6 +57,10 @@ std::string Field::getTypeName() const {
   return string(wb_supervisor_field_get_type_name(fieldRef));
 }
 
+std::string Field::getName() const {
+  return string(wb_supervisor_field_get_name(fieldRef));
+}
+
 int Field::getCount() const {
   return wb_supervisor_field_get_count(fieldRef);
 }

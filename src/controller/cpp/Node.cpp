@@ -86,14 +86,30 @@ Node *Node::getFromProtoDef(const std::string &name) const {
 bool Node::isProto() const {
   return wb_supervisor_node_is_proto(nodeRef);
 }
+int Node::getFieldCount() const {
+  return wb_supervisor_node_get_field_count(nodeRef);
+}
+int Node::getProtoFieldCount() const {
+  return wb_supervisor_node_get_proto_field_count(nodeRef);
+}
 
 Field *Node::getField(const std::string &fieldName) const {
   WbFieldRef fieldRef = wb_supervisor_node_get_field(nodeRef, fieldName.c_str());
   return Field::findField(fieldRef);
 }
 
+Field *Node::getFieldByIndex(const int id) const {
+  WbFieldRef fieldRef = wb_supervisor_node_get_field_by_index(nodeRef, id);
+  return Field::findField(fieldRef);
+}
+
 Field *Node::getProtoField(const std::string &fieldName) const {
   WbFieldRef fieldRef = wb_supervisor_node_get_proto_field(nodeRef, fieldName.c_str());
+  return Field::findField(fieldRef);
+}
+
+Field *Node::getProtoFieldByIndex(const int id) const {
+  WbFieldRef fieldRef = wb_supervisor_node_get_proto_field_by_index(nodeRef, id);
   return Field::findField(fieldRef);
 }
 
