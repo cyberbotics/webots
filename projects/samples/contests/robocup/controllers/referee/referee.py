@@ -25,6 +25,7 @@ import socket
 import subprocess
 import sys
 import time
+import traceback
 import transforms3d
 
 from types import SimpleNamespace
@@ -1422,7 +1423,20 @@ else:
     game_controller_send(f'KICKOFF:{game.kickoff}')
 
 if hasattr(game, 'record_simulation'):
-    supervisor.animationStartRecording(game.record_simulation + '.html')
+    try:
+        if game.record_simulation.endswith(".html"):
+            supervisor.animationStartRecording(game.record_simulation)
+        elif game.record_simulation.endswith(".mp4"):
+            supervisor.movieStartRecording(game.record_simulation, width=1280, height=720, codec = 0, quality = 100,
+                                           acceleration = 1, caption = False)
+            if supervisor.movieFailed():
+                raise RuntimeError("Failed to Open Movie")
+        else:
+            raise RuntimeError(f"Unknown extension for record_simulation: {game.record_simulation}")
+    except Exception as r:
+        traceback.print_exc()
+        supervisor.simulationQuit(-1)
+
 
 previous_real_time = time.time()
 while supervisor.step(time_step) != -1:
@@ -1860,15 +1874,20 @@ else:
                             else:
                                 info('The winer is the blue team.')
 
-if log_file:
-    log_file.close()
 if game.controller:
     game.controller.close()
 if game.controller_process:
     game.controller_process.terminate()
 
 if hasattr(game, 'record_simulation'):
-    supervisor.animationStopRecording()
+    if game.record_simulation.endswith(".html"):
+        supervisor.animationStopRecording()
+    elif game.record_simulation.endswith(".mp4"):
+        info("Starting encoding")
+        supervisor.movieStopRecording()
+        while not supervisor.movieIsReady():
+            supervisor.step(time_step)
+        info("Encoding finished")
 
 if game.over and game.press_a_key_to_terminate:
     print('Press a key to terminate')
@@ -1881,6 +1900,9 @@ elif game.over:
     waiting_steps = END_OF_GAME_TIMEOUT * 1000 / time_step
     while waiting_steps > 0:
         supervisor.step(time_step)
+
+if log_file:
+    log_file.close()
 
 supervisor.simulationQuit(0)
 while supervisor.step(time_step) != -1:
