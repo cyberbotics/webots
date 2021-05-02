@@ -950,7 +950,7 @@ def send_team_penalties(team):
                 for n in team['players']:
                     other_robot = team['players'][n]['robot']
                     other_t = other_robot.getField('translation').getSFVec3f()
-                    if distance3(other_t, t) < game.robot_radius:
+                    if distance3(other_t, t) < game.field.robot_radius:
                         t[0] += game.penalty_offset if game.ball_position[0] < t[0] else -game.penalty_offset
                         moved = True
                 if not moved:
