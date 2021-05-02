@@ -43,7 +43,7 @@ FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more
 GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up to 6 seconds on the ground
 PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
-END_OF_GAME_TIMEOUT = 10                  # Once the game is finished, let the referee run for 10 seconds before closing the game
+END_OF_GAME_TIMEOUT = 10                  # Once the game is finished, let the referee run for 10 seconds before closing game
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
 OPPONENT_DISTANCE_TO_BALL_KID = 0.75      # during kicks, the opponents must stay at 0.75 m. away from the ball in kid size
 OPPONENT_DISTANCE_TO_BALL_ADULT = 1.5     # or 1.5 m. in adult size
@@ -1427,13 +1427,13 @@ if hasattr(game, 'record_simulation'):
         if game.record_simulation.endswith(".html"):
             supervisor.animationStartRecording(game.record_simulation)
         elif game.record_simulation.endswith(".mp4"):
-            supervisor.movieStartRecording(game.record_simulation, width=1280, height=720, codec = 0, quality = 100,
-                                           acceleration = 1, caption = False)
+            supervisor.movieStartRecording(game.record_simulation, width=1280, height=720, codec=0, quality=100,
+                                           acceleration=1, caption=False)
             if supervisor.movieFailed():
                 raise RuntimeError("Failed to Open Movie")
         else:
             raise RuntimeError(f"Unknown extension for record_simulation: {game.record_simulation}")
-    except Exception as r:
+    except Exception:
         traceback.print_exc()
         supervisor.simulationQuit(-1)
 
