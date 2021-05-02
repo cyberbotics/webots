@@ -963,6 +963,9 @@ def send_team_penalties(team):
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
             player['sent_to_penality_position'] = True
+            # Once removed from the field, the robot will be in the air, therefore its status will not be updated.
+            # Thus, we need to make sure it will not be considered in the air while falling
+            player['outside_field'] = True
             info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to ' +
                  f'translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
 
@@ -1214,7 +1217,7 @@ if not hasattr(game, 'minimum_real_time_factor'):
 if not hasattr(game, 'press_a_key_to_terminate'):
     game.press_a_key_to_terminate = False
 if not hasattr(game, 'game_controller_synchronization'):
-    game.game_controller_synchronization = False
+    game.game_controller_synchronization = True
 if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
     error(f'Unsupported game type: {game.type}.')
 game.penalty_shootout = game.type == 'PENALTY'
@@ -1414,7 +1417,8 @@ while supervisor.step(time_step) != -1:
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
         if game.in_play is None:
-            if game.phase == 'CORNERKICK' and game.interruption_step != 1 and game.state.secondary_seconds_remaining > 0:
+            # During period after the end of a game interruption, check distance of opponents
+            if game.phase in GAME_INTERRUPTIONS and game.state.secondary_state[6:] == "NORMAL":
                 opponent_team = red_team if game.ball_must_kick_team == 'blue' else blue_team
                 check_team_away_from_ball(opponent_team, game.field.opponent_distance_to_ball)
             if game.ball_first_touch_time != 0:
