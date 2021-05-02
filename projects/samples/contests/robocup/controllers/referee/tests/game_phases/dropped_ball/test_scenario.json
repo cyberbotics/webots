@@ -58,6 +58,20 @@
         ]
     },
     {
+        "description" : "moving ball away from all the other robots",
+        "timing" : {
+            "time" : 13.0,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "position" : [-4,-2.5,0]
+            }
+        ]
+    },
+    {
         "timing" : {
             "time" : [13,131],
             "clock_type" : "Simulated",
