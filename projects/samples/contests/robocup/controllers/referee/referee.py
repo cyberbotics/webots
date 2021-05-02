@@ -1360,6 +1360,7 @@ game.dropped_ball = False
 game.overtime = False
 game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time_multiplier)
 game.play_countdown = 0
+game.in_play = None
 game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
