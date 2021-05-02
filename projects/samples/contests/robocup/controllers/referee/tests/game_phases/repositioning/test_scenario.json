@@ -102,13 +102,26 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "position" : [0, 0.5, 0.08],
+                "position" : [0, 0.5, 0.08]
+            }
+        ]
+    },
+    {
+        "description" : "Ball is 'kicked' by RED 2: apply force",
+        "timing" : {
+            "time" : 4.05,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
                 "force" : [-10, 0, 0]
             }
         ]
     },
     {
-        "description" : "Move ball into the goal and move BLUE 2 to prepare what happens after",
+        "description" : "Move ball near the goal and move BLUE 2 to prepare what happens after",
         "timing" : {
             "time" : 5.0,
             "clock_type" : "Simulated",
@@ -117,12 +130,25 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "position" : [4.5, 0.5, 0.08],
-                "force" : [10, 0, 0]
+                "position" : [4.5, 0.5, 0.08]
             },
             {
                 "target" : "BLUE_PLAYER_2",
                 "position" : [0.4, 0, 0.24]
+            }
+        ]
+    },
+    {
+        "description" : "Move ball into the goal",
+        "timing" : {
+            "time" : 5.05,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "force" : [10, 0, 0]
             }
         ]
     },
