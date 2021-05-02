@@ -951,15 +951,15 @@ def send_team_penalties(team):
                     other_robot = team['players'][n]['robot']
                     other_t = other_robot.getField('translation').getSFVec3f()
                     if distance3(other_t, t) < game.field.robot_radius:
-                        t[0] += game.penalty_offset if game.ball_position[0] < t[0] else -game.penalty_offset
+                        t[0] += game.field.penalty_offset if game.ball_position[0] < t[0] else -game.field.penalty_offset
                         moved = True
                 if not moved:
                     break
             # test if position is behind the goal line (note: it should never end up beyond the center line)
             if t[0] > game.field.size_x:
-                t[0] -= 4 * game.penalty_offset
+                t[0] -= 4 * game.field.penalty_offset
             elif t[0] < -game.field.size_x:
-                t[0] += 4 * game.penalty_offset
+                t[0] += 4 * game.field.penalty_offset
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
             player['sent_to_penality_position'] = True
