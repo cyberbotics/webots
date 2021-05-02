@@ -530,7 +530,7 @@ webots.View = class View {
       this.x3dDiv.appendChild(labelElement);
     }
     labelElement.style.fontFamily = properties.font;
-    labelElement.style.color = properties.color;
+    labelElement.style.color = 'rgba(' + properties.color + ')';
     labelElement.style.fontSize = $(this.x3dDiv).height() * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
     labelElement.style.left = $(this.x3dDiv).width() * properties.x + 'px';
     labelElement.style.top = $(this.x3dDiv).height() * properties.y + 'px';
