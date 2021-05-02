@@ -8671,7 +8671,7 @@ For some reason the world will not load, everything else works in the side bars.
 
 Sorry I'm new to webots.
 
-##### luhang 04/03/2020 01:07:49
+##### Mistral 04/03/2020 01:07:49
 
 %figure
 ![IMG_20200403_090724.jpg](https://cdn.discordapp.com/attachments/565154703139405824/695439381003108362/IMG_20200403_090724.jpg)
@@ -8690,13 +8690,13 @@ Python
 Hi `@monkey` , please make sure to install the latest drivers of you GPU and retry launching Webots.
 
 
-`@luhang`, you might copy paste one of them and modify it by opening the file in a text editor. However, I would rather recommend to use directly the Webots motor API to control the motors:  [https://cyberbotics.com/doc/reference/motor](https://cyberbotics.com/doc/reference/motor)
+`@Mistral`, you might copy paste one of them and modify it by opening the file in a text editor. However, I would rather recommend to use directly the Webots motor API to control the motors:  [https://cyberbotics.com/doc/reference/motor](https://cyberbotics.com/doc/reference/motor)
 
 ##### [] 04/03/2020 07:59:20
 Having a strange issue. When I launch my controller for the first time, I check that all the cameras are working and start my controller loop. It finishes, everything went ok. But when I re-execute the controller again, the cameras don't get any data. In the visualisers in webots the cameras are working, but I just don't get the camera data, its None. I'm using python and executing the controller externally. I'm also disabling the cameras before finishing the controller loop. Only when I reload the world that I can launch again the controller without issues.
 
-##### luhang 04/03/2020 08:06:46
-> `@luhang`, you might copy paste one of them and modify it by opening the file in a text editor. However, I would rather recommend to use directly the Webots motor API to control the motors:  [https://cyberbotics.com/doc/reference/motor](https://cyberbotics.com/doc/reference/motor)
+##### Mistral 04/03/2020 08:06:46
+> `@Mistral`, you might copy paste one of them and modify it by opening the file in a text editor. However, I would rather recommend to use directly the Webots motor API to control the motors:  [https://cyberbotics.com/doc/reference/motor](https://cyberbotics.com/doc/reference/motor)
 
 `@David Mansolino` okay
 
@@ -10025,7 +10025,7 @@ Got a couple of questions. Can i open a wbt file through a python script? And if
 ##### David Mansolino [Cyberbotics] 04/14/2020 12:01:51
 Yes, you can but we do not provide any library to parse and export wbt file in Python.
 
-##### luhang 04/14/2020 12:22:42
+##### Mistral 04/14/2020 12:22:42
 Can the Webots directly call the NAOqi library to use?
 
 ##### David Mansolino [Cyberbotics] 04/14/2020 12:23:42
@@ -10081,7 +10081,7 @@ The web page thats says below is not working longer
 
 [http://www.cyberbotics.com/my\_account/register](http://www.cyberbotics.com/my_account/register)
 
-##### luhang 04/15/2020 02:18:30
+##### Mistral 04/15/2020 02:18:30
 I also need a webots account
 
 ##### nap 04/15/2020 05:12:16
@@ -10524,10 +10524,10 @@ Can anyone tell me why I am getting this error
 %end
 
 
-Are there any libraries for accelerometer and gyro in webots?  `@Agriope`
+Are there any libraries for accelerometer and gyro in webots?  `@Deleted User`
 
 
-`@Agriope` yeah thanks that was the issue
+`@Deleted User` yeah thanks that was the issue
 
 ##### David Mansolino [Cyberbotics] 04/17/2020 05:14:22
 > Is it possible to detect RGB colours of LED using a camera ?
@@ -24166,16 +24166,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### O N I 07/07/2020 11:47:56
+##### 슬퍼 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 07/07/2020 11:50:45
-`@O N I` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@슬퍼` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### O N I 07/07/2020 12:09:20
+##### 슬퍼 07/07/2020 12:09:20
 `@Simon Steinmann` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
@@ -28747,7 +28747,7 @@ Thanks
 ##### David Mansolino [Cyberbotics] 08/04/2020 10:57:28
 It is indeed related to Webots, I can reproduce it in several worlds and PROTOs of the latest release on Windows
 
-##### harunkurt00 08/04/2020 11:02:37
+##### baby\_droid\_yoda 08/04/2020 11:02:37
 Hello friends, I have converted the BCND Moveo robot arm to the protofile with urdf2webots library, but I couldn't fix it. I don't know much about proto files.
 %figure
 ![urdf2webots_error.PNG](https://cdn.discordapp.com/attachments/565154703139405824/740162778655883265/urdf2webots_error.PNG)
@@ -28769,12 +28769,12 @@ Can you try adding this file in 'WEBOTS\_HOME\msys64\mingw64\bin' ?
 
 > Hello friends, I have converted the BCND Moveo robot arm to the protofile with urdf2webots library, but I couldn't fix it. I don't know much about proto files.
 
-`@harunkurt00` can you please share the generated PROTO file
+`@baby_droid_yoda` can you please share the generated PROTO file
 
-##### harunkurt00 08/04/2020 11:14:44
+##### baby\_droid\_yoda 08/04/2020 11:14:44
 I shared the moveo robot arm proto file on github [https://github.com/harunlakodla/BCN3D\_Moveo\_Robot\_Arm\_Webots\_Proto/blob/master/MoveoUrdf.proto](https://github.com/harunlakodla/BCN3D_Moveo_Robot_Arm_Webots_Proto/blob/master/MoveoUrdf.proto) 
 
-> `@harunkurt00` can you please share the generated PROTO file
+> `@baby_droid_yoda` can you please share the generated PROTO file
 
 `@David Mansolino`
 
@@ -28786,7 +28786,7 @@ Yes that seemed to work `@David Mansolino`
 
 > `@David Mansolino`
 
-`@harunkurt00` can you please try with the latest version of the importer?
+`@baby_droid_yoda` can you please try with the latest version of the importer?
 
 
 > Yes that seemed to work `@David Mansolino`
@@ -28821,15 +28821,15 @@ The hinge joint is simulated by the HingeJoint node in your model. Then, it shou
 
 `@Olivier Michel` Thanks a lot! 🙂
 
-##### harunkurt00 08/04/2020 13:06:18
-> `@harunkurt00` can you please try with the latest version of the importer? 
+##### baby\_droid\_yoda 08/04/2020 13:06:18
+> `@baby_droid_yoda` can you please try with the latest version of the importer? 
 
 `@David Mansolino` Same mistake,2020b I use
 
 ##### David Mansolino [Cyberbotics] 08/04/2020 13:08:12
 Can you shared the PROTO generated with the latest version of the importer?
 
-##### harunkurt00 08/04/2020 13:22:08
+##### baby\_droid\_yoda 08/04/2020 13:22:08
 > Can you shared the PROTO generated with the latest version of the importer?
 
 `@David Mansolino` urdf2webots 1.0.3 it is necessary
@@ -38474,13 +38474,13 @@ here are the instructions to install and correctly setup Python:
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 14:17:26
 You're welcome
 
-##### antcode 09/22/2020 06:59:10
+##### jakasembung 09/22/2020 06:59:10
 could webots live streamming ?
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 09/22/2020 07:00:12
 > could webots live streamming ?
 
-`@antcode` Yes, you check the following link [https://www.cyberbotics.com/doc/guide/web-streaming](https://www.cyberbotics.com/doc/guide/web-streaming)
+`@jakasembung` Yes, you check the following link [https://www.cyberbotics.com/doc/guide/web-streaming](https://www.cyberbotics.com/doc/guide/web-streaming)
 
 ##### Bkarso 09/22/2020 09:38:00
 hello,I use webots with ros,I use 'get\_velocity' service ,but the value is totally same with my input.If I must use the position\_sensor to  get the Velocity?
@@ -47982,7 +47982,7 @@ Webots 8.0.2 is not supported any more. This is not possible. You should use Web
 ##### IAO 12/15/2020 15:49:43
 Olivier Michel thanks
 
-##### pk1jk1 12/15/2020 20:13:05
+##### mayank.kishore 12/15/2020 20:13:05
 Has anyone experimented with waypoint navigation? Need to develop a system that will allow for a robot to go to a location with a waypoint indicated by a potential overhead map
 
 ##### MartinG 12/15/2020 20:26:54
@@ -47991,11 +47991,11 @@ I've been beating my head over path planning for the past week in order to make 
 ##### IAO 12/15/2020 20:35:42
 So Would i be able to interface webots R2021 version with choregraphe(software to implement Nao)? please
 
-##### pk1jk1 12/15/2020 21:24:06
+##### mayank.kishore 12/15/2020 21:24:06
 Ah shoot, any luck? I have also been struggling to make a system that works. It is ROS based so I believe it should be possible
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 12/15/2020 22:06:52
-`@pk1jk1` `@MartinG` 
+`@mayank.kishore` `@MartinG` 
 
 [https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_epuck/launch/rats\_life\_waypoints\_launch.py](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_epuck/launch/rats_life_waypoints_launch.py)
 
@@ -48280,7 +48280,7 @@ I am not really sure about what this error means
 
 I will appreciate any help. Thank you
 
-##### pk1jk1 12/17/2020 21:23:47
+##### mayank.kishore 12/17/2020 21:23:47
 Let me know if you have something that is working on your end
 
 ##### Joel\_Uchiha 12/17/2020 23:15:30
@@ -48292,7 +48292,7 @@ Hi im trying to load a webot file but it keeps showing this loading dialogue
 ![image0.jpg](https://cdn.discordapp.com/attachments/565154703139405824/789269581201801226/image0.jpg)
 %end
 
-##### pk1jk1 12/17/2020 23:23:45
+##### mayank.kishore 12/17/2020 23:23:45
 Anyone know why I keep getting this error? Just tried to run this command: `ros2 launch webots_ros2_epuck robot_launch.py`
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/789271650637053952/unknown.png)
@@ -48304,7 +48304,7 @@ Could you tell us a bit more about your GPU? What is the model of the GPU, what 
 
 Which world are trying to load? To be on the safe side I recommend you to update Webots to R2021a
 
-##### pk1jk1 12/18/2020 00:06:44
+##### mayank.kishore 12/18/2020 00:06:44
 I am running it on Parallel's desktop (Ubuntu 20.04 VM) on my Macbook pro. GPU is  Radeon Pro 555X 4 GB Intel UHD Graphics 630 1536 MB, and not sure if I can run it independently
 
 ##### MartinG 12/18/2020 01:50:27
@@ -49347,15 +49347,15 @@ Many thanks
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 12/29/2020 13:59:46
 This should be fixed here: [https://github.com/cyberbotics/webots/pull/2609](https://github.com/cyberbotics/webots/pull/2609)
 
-##### harunkurt00 12/29/2020 16:24:01
+##### baby\_droid\_yoda 12/29/2020 16:24:01
 Hi everyone, I have two question about ikpy library but how I don't know to solve this problem. I use to ikpy library inside DHLink class but there is mistake about it.  I did add my code but it is giving a mistake ***link.py", line 208, in \_\_init\_\_
 
     Link.\_\_init\_\_(self, use\_symbolic\_matrix)*** . How do I solve this problem ? Other problem, I use the ikpy library on URDFLink but I don't understand **translation\_vector**. how do we calculate it ?
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 12/29/2020 16:26:30
-`@harunkurt00` ikpy is very slow, cannot fully solve orientation and often has bad solutions. I'd recommend IKFast if you have a 6 DOF robotic arm. `@Darko Lukić` has created a fantastic docker based solver generator and I made a very solid python implementation. What robot are you using?
+`@baby_droid_yoda` ikpy is very slow, cannot fully solve orientation and often has bad solutions. I'd recommend IKFast if you have a 6 DOF robotic arm. `@Darko Lukić` has created a fantastic docker based solver generator and I made a very solid python implementation. What robot are you using?
 
-##### harunkurt00 12/29/2020 16:34:44
+##### baby\_droid\_yoda 12/29/2020 16:34:44
 I don't know the IKFast but I may learn this library. I using BCN3D Moveo robot arm.
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 12/29/2020 16:35:32
@@ -49364,7 +49364,7 @@ how many DOF does it have?
 
 DOF = degrees of freedom = number of joints
 
-##### harunkurt00 12/29/2020 16:37:48
+##### baby\_droid\_yoda 12/29/2020 16:37:48
 it has 5 dof but I don't know how to improve this library.
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 12/29/2020 16:37:49
@@ -49373,7 +49373,7 @@ with normal hingejoints that is
 
 what exactly is it that you want to do?
 
-##### harunkurt00 12/29/2020 16:40:39
+##### baby\_droid\_yoda 12/29/2020 16:40:39
 I am improving mobil robot like kuka youbot but I don't understand the library.
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 12/29/2020 16:41:35
