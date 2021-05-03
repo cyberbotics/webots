@@ -252,7 +252,7 @@ def game_controller_receive():
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
         except BlockingIOError:
-            if data == None:
+            if data is None:
                 return
             break
         except Exception as e:
