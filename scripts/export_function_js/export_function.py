@@ -32,8 +32,8 @@ try:
     functionName = functionSignatures.keys()
     functionName = map(lambda name: "_" + name + ", ", functionName)
 
-    if os.path.exists("../../src/wren/functionsToExport.txt"):
-        os.remove("../../src/wren/functionsToExport.txt")
+    if os.path.exists("../../src/wren/functions_to_export.txt"):
+        os.remove("../../src/wren/functions_to_export.txt")
 
     functionName = list(functionName) + ["_wr_config_enable_point_size, _wr_config_get_line_scale, " +
                                          "_wr_config_get_max_active_directional_light_count, " +
@@ -46,7 +46,7 @@ try:
     # lastName = lastName[:len(lastName)-2]
     # functionName[lastIndex] = lastName;
 
-    f = open("../../src/wren/functionsToExport.txt", 'w')
+    f = open("../../src/wren/functions_to_export.txt", 'w')
 
     f.write(''.join(functionName))
 
@@ -59,10 +59,10 @@ try:
     # Eliminate the include guard
     all_values = [value[0] + " : " + str(value[1]) + ", \n" for value in all_values.items() if not ("_H" in value[0])]
 
-    if os.path.exists("../../resources/web/streaming_viewer/enum.js"):
-        os.remove("../../resources/web/streaming_viewer/enum.js")
+    if os.path.exists("../../resources/web/wwi/enum.js"):
+        os.remove("../../resources/web/wwi/enum.js")
 
-    f = open("../../resources/web/streaming_viewer/enum.js", 'w')
+    f = open("../../resources/web/wwi/enum.js", 'w')
 
     values_string = ''.join(all_values)
     values_string = values_string[:len(values_string) - 3]

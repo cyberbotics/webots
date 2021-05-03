@@ -135,7 +135,7 @@ export default class WbGeometry extends WbBaseNode {
     if (Selector.selectedId === this.id)
       return true;
     else if (typeof this.parent !== 'undefined')
-      return Selector.checkIfParentisSelected(this);
+      return Selector.checkIfParentIsSelected(this);
 
     return false;
   }

@@ -1,6 +1,6 @@
 'use strict';
 
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 
 export default class Stream {
   constructor(wsServer, view, onready) {
@@ -115,6 +115,9 @@ export default class Stream {
         this.onready();
     } else if (data === 'reset finished') {
       this.view.resetSimulation();
+      this.view.x3dScene.resetViewpoint();
+      if (webots.currentView.toolBar)
+        webots.currentView.toolBar.enableToolBarButtons(true);
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('time: ')) {

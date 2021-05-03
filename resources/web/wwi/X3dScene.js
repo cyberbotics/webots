@@ -1,5 +1,5 @@
 import Parser, {convertStringToVec3, convertStringToQuaternion} from './Parser.js';
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
@@ -82,6 +82,7 @@ export default class X3dScene {
 
     this.renderMinimal();
     this.loader = undefined;
+    webots.currentView.runOnLoad = false;
   }
 
   deleteObject(id) {
@@ -97,13 +98,17 @@ export default class X3dScene {
   loadWorldFile(url, onLoad) {
     const prefix = this.prefix;
     const renderer = this.renderer;
-    fetch(url)
-      .then(response => response.text())
-      .then(async function(response) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', url, true);
+    xmlhttp.overrideMimeType('plain/text');
+    xmlhttp.onreadystatechange = async function() {
+      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) { // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
         const loader = new Parser(prefix);
-        await loader.parse(response, renderer);
+        await loader.parse(xmlhttp.responseText, renderer);
         onLoad();
-      });
+      }
+    };
+    xmlhttp.send();
   }
 
   loadObject(x3dObject, parentId, callback) {
@@ -165,11 +170,13 @@ export default class X3dScene {
       if (key === 'translation' && object instanceof WbTransform) {
         const translation = convertStringToVec3(pose[key]);
         object.translation = translation;
-        object.applyTranslationToWren();
+        if (WbWorld.instance.readyForUpdates)
+          object.applyTranslationToWren();
       } else if (key === 'rotation') {
         const quaternion = convertStringToQuaternion(pose[key]);
         object.rotation = quaternion;
-        object.applyRotationToWren();
+        if (WbWorld.instance.readyForUpdates)
+          object.applyRotationToWren();
       } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
@@ -178,10 +185,13 @@ export default class X3dScene {
         else if (key === 'emissiveColor')
           object.emissiveColor = convertStringToVec3(pose[key]);
 
-        if (object instanceof WbMaterial)
-          WbWorld.instance.nodes.get(WbWorld.instance.nodes.get(object.parent).parent).updateAppearance();
-        else
-          WbWorld.instance.nodes.get(object.parent).updateAppearance();
+        if (object instanceof WbMaterial) {
+          if (WbWorld.instance.readyForUpdates)
+            WbWorld.instance.nodes.get(WbWorld.instance.nodes.get(object.parent).parent).updateAppearance();
+        } else {
+          if (WbWorld.instance.readyForUpdates)
+            WbWorld.instance.nodes.get(object.parent).updateAppearance();
+        }
       } else
         valid = false;
 
@@ -191,7 +201,7 @@ export default class X3dScene {
 
     if (typeof object.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(object.parent);
-      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id)
+      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
 
@@ -201,6 +211,18 @@ export default class X3dScene {
     return fields;
   }
 
+  applyLabel(label, view) {
+    view.setLabel({
+      id: label.id,
+      text: label.text,
+      font: label.font,
+      color: label.rgba,
+      size: label.size,
+      x: label.x,
+      y: label.y
+    });
+  }
+
   processServerMessage(data, view) {
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
@@ -208,16 +230,25 @@ export default class X3dScene {
         const frame = JSON.parse(data);
         view.time = frame.time;
         $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
-        // reset viewpoint if we reset the world (time=0)
-        if (view.time === 0 && typeof WbWorld.instance.viewpoint !== 'undefined')
-          WbWorld.instance.viewpoint.resetViewpoint();
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
             this.applyPose(frame.poses[i]);
         }
 
+        if (frame.hasOwnProperty('labels')) {
+          for (let i = 0; i < frame.labels.length; i++)
+            this.applyLabel(frame.labels[i], view);
+        }
+
         this.render();
+      } else { // parse the labels even so the scene loading is not completed
+        data = data.substring(data.indexOf(':') + 1);
+        let frame = JSON.parse(data);
+        if (frame.hasOwnProperty('labels')) {
+          for (let i = 0; i < frame.labels.length; i++)
+            this.applyLabel(frame.labels[i], view);
+        }
       }
     } else if (data.startsWith('node:')) {
       data = data.substring(data.indexOf(':') + 1);
@@ -228,6 +259,8 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this.deleteObject(data);
     } else if (data.startsWith('model:')) {
+      if (view.toolBar)
+        view.toolBar.enableToolBarButtons(false);
       $('#webotsProgressMessage').html('Loading 3D scene...');
       $('#webotsProgressPercent').html('');
       $('#webotsProgress').show();
@@ -238,28 +271,14 @@ export default class X3dScene {
         return true;
       view.stream.socket.send('pause');
       this.loadObject(data, 0, view.onready);
-    } else if (data.startsWith('label')) {
-      let semiColon = data.indexOf(';');
-      const id = data.substring(data.indexOf(':'), semiColon);
-      let previousSemiColon;
-      const labelProperties = []; // ['font', 'color', 'size', 'x', 'y', 'text']
-      for (let i = 0; i < 5; i++) {
-        previousSemiColon = semiColon + 1;
-        semiColon = data.indexOf(';', previousSemiColon);
-        labelProperties.push(data.substring(previousSemiColon, semiColon));
-      }
-      view.setLabel({
-        id: id,
-        text: data.substring(semiColon + 1, data.length),
-        font: labelProperties[0],
-        color: labelProperties[1],
-        size: labelProperties[2],
-        x: labelProperties[3],
-        y: labelProperties[4]
-      });
     } else
       return false;
     return true;
+  }
+
+  resetViewpoint() {
+    WbWorld.instance.viewpoint.resetViewpoint();
+    this.render();
   }
 }
 

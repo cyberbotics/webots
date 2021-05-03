@@ -35,6 +35,7 @@ import WbWorld from './nodes/WbWorld.js';
 
 import DefaultUrl from './DefaultUrl.js';
 import loadHdr from './hdr_loader.js';
+import {webots} from './webots.js';
 
 export default class Parser {
   constructor(prefix = '') {
@@ -78,8 +79,12 @@ export default class Parser {
       node.finalize();
     });
 
+    WbWorld.instance.readyForUpdates = true;
+
     renderer.render();
     $('#webotsProgress').hide();
+    if (webots.currentView.toolBar)
+      webots.currentView.toolBar.enableToolBarButtons(true);
     if (typeof callback === 'function')
       callback();
   }
@@ -263,8 +268,7 @@ export default class Parser {
         cubeImages[0] = await Parser.loadTextureData(this.prefix + rightUrl);
         cubeImages[2] = await Parser.loadTextureData(this.prefix + topUrl);
       }
-    } else
-      console.error('Background : Incomplete cubemap');
+    }
 
     let backIrradianceUrl = getNodeAttribute(node, 'backIrradianceUrl');
     let bottomIrradianceUrl = getNodeAttribute(node, 'bottomIrradianceUrl');
@@ -297,8 +301,7 @@ export default class Parser {
         irradianceCubeURL[1] = await Parser.loadTextureData(this.prefix + leftIrradianceUrl, true);
         irradianceCubeURL[0] = await Parser.loadTextureData(this.prefix + rightIrradianceUrl, true);
       }
-    } else
-      console.error('Background : Incomplete irradiance cubemap');
+    }
 
     const background = new WbBackground(id, skyColor, luminosity, cubeImages, irradianceCubeURL);
     WbBackground.instance = background;

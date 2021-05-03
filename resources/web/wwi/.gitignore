@@ -1,4 +1,4 @@
-/install.token
-/node_modules
-/package-lock.json
-janus.nojquery.js
+enum.js
+wrenjs.data
+wrenjs.js
+wrenjs.wasm

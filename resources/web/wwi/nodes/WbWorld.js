@@ -9,6 +9,8 @@ export default class WbWorld {
     // All the nodes are included here so it is easier to retrieve them for updates
     // map from id to node
     this.nodes = new Map();
+
+    this.readyForUpdates = false;
   }
 
   static init() {

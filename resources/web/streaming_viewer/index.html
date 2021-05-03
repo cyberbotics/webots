@@ -31,8 +31,20 @@
     <script src='https://cdn.jsdelivr.net/ace/1.2.6/min/ace.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=MML_HTMLorMML"></script>
     <script src='https://git.io/glm-js.min.js'></script>
-    <script src="enum.js"></script>
-    <script src="wrenjs.js"></script>
+    <script src="../wwi/enum.js"></script>
+    <script>
+      var Module = [];
+      Module['locateFile'] = function(path, prefix) {
+
+      // if it's a data file, use a custom dir
+      if (path.endsWith(".data"))
+        return "../wwi/" + path;
+
+      // otherwise, use the default, the prefix (JS file's dir) + the path
+      return prefix + path;
+      }
+    </script>
+    <script src="../wwi/wrenjs.js"></script>
     <script type="module" src="./setup_viewer.js"></script>
   </body>
 

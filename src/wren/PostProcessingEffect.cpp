@@ -178,7 +178,7 @@ namespace wren {
 
     for (const InputOutputTexture &inputOutput : mInputOutputTextures) {
       if (mInputTextures[inputOutput.mInputTextureIndex] == inputOutput.mTextureOdd) {
-// write to odd texture, sample from even texture
+        // write to odd texture, sample from even texture
 #ifdef __EMSCRIPTEN__
         mFrameBuffer->swapTexture(inputOutput.mTextureOdd);
 #else
@@ -192,7 +192,7 @@ namespace wren {
             connection.mTo->mInputTextures[connection.mInputIndex] = inputOutput.mTextureOdd;
         }
       } else {
-// write to even texture, sample form odd texture
+        // write to even texture, sample form odd texture
 #ifdef __EMSCRIPTEN__
         mFrameBuffer->swapTexture(inputOutput.mTextureEven);
 #else

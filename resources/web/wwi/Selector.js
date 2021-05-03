@@ -26,13 +26,13 @@ export default class Selector {
     Selector.preciseId = 'n' + id;
   }
 
-  static checkIfParentisSelected(node) {
+  static checkIfParentIsSelected(node) {
     const parent = WbWorld.instance.nodes.get(node.parent);
     if (typeof parent !== 'undefined') {
       if (Selector.selectedId === parent.id)
         return true;
       else if (typeof parent.parent !== 'undefined')
-        return Selector.checkIfParentisSelected(parent);
+        return Selector.checkIfParentIsSelected(parent);
     }
 
     return false;

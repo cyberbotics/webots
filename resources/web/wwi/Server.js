@@ -1,5 +1,5 @@
 import Stream from './Stream.js';
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 
 export default class Server {
   constructor(url, view, onready) {

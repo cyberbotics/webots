@@ -305,7 +305,7 @@ They can join the discussion, like it, suggest new ideas
 ##### Moha 01/19/2021 10:52:14
 ok thank you 👍
 
-##### pk1jk1 01/20/2021 05:59:29
+##### mayank.kishore 01/20/2021 05:59:29
 What is the best way to locally edit a webots package?
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 01/20/2021 07:30:40
@@ -334,7 +334,7 @@ yeah, i'm excited for the new changes there. I'm gonna wait then until I dive ba
 ##### fowzan 01/21/2021 18:08:36
 I would love to simulate spot mini on my terminal , could you share links if available
 
-##### pk1jk1 01/22/2021 16:58:40
+##### mayank.kishore 01/22/2021 16:58:40
 Having trouble editing a package locally, please message me if you can help
 
 
@@ -361,7 +361,7 @@ seems to work
 ##### Krish 01/25/2021 15:33:10
 oh wow, already created.
 
-##### pk1jk1 01/25/2021 15:55:58
+##### mayank.kishore 01/25/2021 15:55:58
 Does anyone have experience creating an overhead map with a camera? And potentially stitching multiple images together to create an encompassing overhead map?
 
 ##### babaev1 01/25/2021 16:04:06
@@ -1564,4 +1564,100 @@ See this example:
 
 ##### DDaniel [Cyberbotics] 04/04/2021 07:27:53
 `@Simon Steinmann` it's in the works, the offline documentation might be removed entirely by default (with the option of downloading it if needed) among other things. [https://github.com/cyberbotics/webots/pull/2787](https://github.com/cyberbotics/webots/pull/2787)
+
+##### Spur 04/08/2021 01:56:50
+Does anyone know how the  'position' field of a Camera Recognition Object works? it says it has 3 values but I'm unsure what they represent
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/08/2021 06:03:46
+XYZ coordinates?
+
+##### DrVoodoo [Moderator] 04/08/2021 16:06:45
+I'm having some grief on a world a ENU world with an inertial unit
+
+
+I have the inertial unit aligned as per the docs (x forward, y up, z right)
+
+
+And I am using getQuaternion() to get the orientation (which I assume is returning in x,y,z,w order)
+
+
+Now the robot is on a flat(ish) surface so that's giving me ( 0.000950936, -0.00466466, 0.980983, -0.194035 ) for example
+
+
+No wait, I think I figured this out. I'm trying to present the data in PCL which is using NUE still
+
+
+As always, you bang your head on the problem for an hour and realise the issue as soon as you start explaining it.
+
+##### Bitbots\_Jasper [Moderator] 04/08/2021 16:45:20
+have you tried the rubber ducky method ([https://en.wikipedia.org/wiki/Rubber\_duck\_debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging)) ? 😋
+
+##### Spur 04/09/2021 00:12:04
+oh ok thanks, do you know what the orientation field values represent, theres 4 so im very unsure
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/09/2021 00:24:23
+axis angles usually
+
+##### Spur 04/09/2021 06:26:06
+wont there only be 3 though? xy xz yz ?
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 06:29:30
+In the axis angle notation used in webots  the first three values specify the rotation axis and the fourth specifies the rotation in radians
+
+##### Spur 04/09/2021 06:32:35
+sorry i'm a bit confused, how do the three values describe the axis, isnt an axis by definition only 1 value, ie x axis y axis or z axis
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 06:36:12
+It is not necessarily the x y or z axis. You can think of the axis being specified as a line though the origin of the coordinate system and a point on the unit sphere specified by the three coordinates. If the point is (1,0,0) it is simply a rotation around the x axis but any axis is possible
+
+##### Spur 04/09/2021 06:38:19
+oh ok, forgive my ignorance but whats the point of the rotation value then? (4th value)
+
+##### Drake P. 04/09/2021 06:53:55
+The 4th value is the roll around the specified axis to my understanding
+
+##### Spur 04/09/2021 06:54:21
+oh gotcha thanks
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 07:16:05
+Yes, thanks `@Drake P.` for explaining
+
+##### Gotcha97 04/09/2021 19:29:53
+Is it possible to add a speaker device to an existing robot template (in my case a TIAGo Titanium)?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/09/2021 20:49:33
+Yes, you should be able to insert it in one of the extension slots of the TIAGo proto.
+
+##### Westin 04/14/2021 16:39:28
+I found a typo.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/831931677990191204/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/14/2021 19:51:46
+<@&568329906048598039> [https://github.com/cyberbotics/webots/blob/develop/src/webots/nodes/WbLidar.cpp#L728](https://github.com/cyberbotics/webots/blob/develop/src/webots/nodes/WbLidar.cpp#L728) found it. it's supposed to be 'using' right?
+
+
+it comes up several times. Doing a search in VC for webots, brings up more instances. Mostly in translation files.
+
+##### Stefania Pedrazzi [Cyberbotics] 04/15/2021 06:09:49
+Thank you! We will fix it immediately.
+
+##### aja\_discord 04/15/2021 08:17:34
+Hi Guys checkout my first own project on webots where I have made a self balancing robot which learns to balance itself using a genetic algorithm.Let me know your ideas. Thanks..LINK - [https://www.youtube.com/watch?v=l9BZQ9E5y6A](https://www.youtube.com/watch?v=l9BZQ9E5y6A)
+
+##### Troy 04/20/2021 00:48:34
+Hi sorry to bother again, we can use camera to recognize object, can we directly  get distance feedback between the camera and the object?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/20/2021 05:34:27
+Yes, by adding a DistanceSensor node.
+
+##### Troy 04/20/2021 21:18:50
+Yeah, but what if the distance sensor is not pointing directly to the object?
+
+
+for example, the camera on the robot recognizes an object on top right of the image, but the distance sensor is pointing in the middle, how can I get the distance feedback of the object?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/21/2021 06:14:42
+Then, you should use a Lidar with the same position, orientation, field of view, resolution, etc. as the camera.
 

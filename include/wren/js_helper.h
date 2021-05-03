@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WR_JSHELPER_H
-#define WR_JSHELPER_H
+#ifndef WR_JS_HELPER_H
+#define WR_JS_HELPER_H
 
 #include <stdarg.h>
 

@@ -1,4 +1,4 @@
-import {webots} from './../wwi/Webots.js';
+import {webots} from './../wwi/webots.js';
 
 let view = null;
 let ipInput = null;
