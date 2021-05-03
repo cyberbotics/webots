@@ -34,6 +34,8 @@ typedef int socklen_t;
 #define ByteSizeLong ByteSize
 #endif
 
+// #define JPEG_COMPRESSION 1  // uncomment this to test JPEG compression
+
 // #define TURBOJPEG 1
 // It turns out that the libjpeg interface to turbojpeg runs faster than the native turbojpeg interface
 // Alternatives to be considered: NVIDIA CUDA nvJPEG Encoder, Intel IPP JPEG encoder
@@ -163,6 +165,8 @@ static int create_socket_server(int port) {
   return server_fd;
 }
 
+#ifdef JPEG_COMPRESSION
+
 static void encode_jpeg(const unsigned char *image, int width, int height, int quality, unsigned long *size,
                         unsigned char **buffer) {
 #ifdef TURBOJPEG
@@ -199,6 +203,8 @@ static void free_jpeg(unsigned char *buffer) {
   free(buffer);
 #endif
 }
+
+#endif  // JPEG_COMPRESSION
 
 static void warn(SensorMeasurements &sensor_measurements, std::string text) {
   Message *message = sensor_measurements.add_messages();
@@ -240,11 +246,11 @@ public:
       auto start = sc::now();
       int retval = select(client_fd + 1, &rfds, NULL, NULL, &tv);
       auto after_select = sc::now();
-      if (retval == -1) {
+      if (retval == -1)
         perror("select()");
-      } else {
+      else
         receiveMessages();
-      }
+
       auto after_receive = sc::now();
       // Independently from if we received a message or not, send a message to the Controller
       prepareSensorMessage();
@@ -263,9 +269,8 @@ public:
         benchmarkPrint("\tPrepare time", after_prepare, after_receive);
         benchmarkPrint("\tSend time", after_send, after_prepare);
       }
-      if (benchmark_level >= 2 || diagnose_time) {
+      if (benchmark_level >= 2 || diagnose_time)
         benchmarkPrint("Step time: ", after_send, start);
-      }
     }
   }
 
@@ -281,9 +286,8 @@ public:
         // If content is expected, read it and treat message if fully received
         bytes_received = receiveData(recv_buffer + recv_index, content_size - recv_index);
         recv_index += bytes_received;
-        if (recv_index == content_size) {
+        if (recv_index == content_size)
           processBuffer();
-        }
       }
       // If we consumed all data, stop trying to read
       if (bytes_received == 0)
@@ -389,12 +393,11 @@ public:
       if (device) {
         const int sensor_time_step = sensorTimeStep.timestep();
         if (sensor_time_step) {
-          if (sensors.count(device) == 0) {
+          if (sensors.count(device) == 0)
             new_sensors.insert(device);
-          }
-        } else {
+        } else
           sensors.erase(device);
-        }
+
         if (sensor_time_step != 0 && sensor_time_step < basic_time_step)
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
                                       std::to_string(basic_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
@@ -481,12 +484,15 @@ public:
         measurement->set_image(rgb_image, rgb_image_size);
         delete[] rgb_image;
 
+#ifdef JPEG_COMPRESSION
         // testing JPEG compression (impacts the performance)
-        // unsigned char *buffer = NULL;
-        // long unsigned int bufferSize = 0;
-        // encode_jpeg(rgba_image, width, height, 95, &bufferSize, &buffer);
-        // free_jpeg(buffer);
-        // buffer = NULL;
+        unsigned char *buffer = NULL;
+        long unsigned int bufferSize = 0;
+        encode_jpeg(rgba_image, width, height, 95, &bufferSize, &buffer);
+        free_jpeg(buffer);
+        buffer = NULL;
+#endif
+
         continue;
       }
       webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(*it);
@@ -545,9 +551,8 @@ public:
   }
 
   void updateDevices() {
-    for (webots::Device *d : new_sensors) {
+    for (webots::Device *d : new_sensors)
       sensors.insert(d);
-    }
     new_sensors.clear();
   }
 
@@ -659,21 +664,20 @@ int main(int argc, char *argv[]) {
   }
   const int port = atoi(argv[1]);
   n_allowed_hosts = argc - 2;
-  for (int i = 0; i < n_allowed_hosts; i++) {
+  for (int i = 0; i < n_allowed_hosts; i++)
     allowed_hosts.push_back(argv[i + 2]);
-  }
+
   webots::Robot *robot = new webots::Robot();
   const int basic_time_step = robot->getBasicTimeStep();
   const std::string name = robot->getName();
-  int player_id = std::stoi(name.substr(name.find_last_of(' ') + 1));
-  int player_team = name[0] == 'r' ? RED : BLUE;
+  const int player_id = std::stoi(name.substr(name.find_last_of(' ') + 1));
+  const int player_team = name[0] == 'r' ? RED : BLUE;
 
   PlayerServer server(allowed_hosts, port, player_id, player_team, robot);
 
-  std::set<webots::Device *> sensors;
-  while (robot->step(basic_time_step) != -1) {
+  while (robot->step(basic_time_step) != -1)
     server.step();
-  }
+
   delete robot;
   return 0;
 }
