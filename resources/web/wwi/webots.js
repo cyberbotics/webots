@@ -151,6 +151,8 @@ webots.View = class View {
       if (this.isWebSocketProtocol) {
         if (typeof this.toolBar === 'undefined')
           this.toolBar = new Toolbar(this.view3D, this);
+        else if (!document.getElementById('toolBar'))
+          this.view3D.appendChild(this.toolBar.domElement);
 
         const url = findGetParameter('url');
         if (url || this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
