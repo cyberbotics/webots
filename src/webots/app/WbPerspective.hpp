@@ -129,7 +129,6 @@ public:
   QStringList renderingDevicePerspective(const QString &deviceUniqueName) const;
 
   QMap<QString, QString> &x3dExportParameters() { return mX3dExportParameters; }
-  void setX3dExportParameter(const QString &key, QString value);
 
   // load/save perspective
   bool load(bool reloading = false);
