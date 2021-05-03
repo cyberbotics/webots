@@ -255,7 +255,7 @@ def game_controller_receive():
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
         except BlockingIOError:
-            if data == None:
+            if data is None:
                 return
             break
         except Exception as e:
@@ -921,7 +921,7 @@ def check_circle_entrance(team):
 def check_ball_must_kick(team):
     if game.ball_last_touch_team == game.ball_must_kick_team:
         return False  # no foul
-    info(f'Ball was touched by wrong team.')
+    info('Ball was touched by wrong team.')
     for number in team['players']:
         if not game.ball_last_touch_player_number == int(number):
             continue
@@ -1687,10 +1687,10 @@ while supervisor.step(time_step) != -1 and not game.over:
     elif game.state.game_state == 'STATE_SET':
         if game.play_countdown == 0:
             if game.penalty_shootout:
-                info(f"Waiting for penalty shootout")
+                info("Waiting for penalty shootout")
                 game.play_countdown = SIMULATED_TIME_SET_PENALTY_SHOOTOUT
             else:
-                info(f"Waiting for classic play")
+                info("Waiting for classic play")
                 game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
             if game.ball_set_kick:
                 game.ball.resetPhysics()
