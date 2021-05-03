@@ -79,7 +79,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "position" : [-4.45, -2, 0.08],
+                "position" : [-4.57, -2, 0.08],
                 "force" : [-5, 0, 0]
             }
         ]

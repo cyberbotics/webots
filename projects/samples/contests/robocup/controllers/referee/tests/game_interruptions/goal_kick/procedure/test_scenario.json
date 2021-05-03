@@ -74,7 +74,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "position" : [4.45, -2, 0.08],
+                "position" : [4.57, -2, 0.08],
                 "force" : [5, 0, 0]
             }
         ]
@@ -161,6 +161,13 @@
                 "secondary_team_id" : 8,
                 "secondary_phase" : 0,
                 "critical" : true
+            },
+            {
+                "name" : "Player who touched the ball once receives a warning",
+                "target" : "RED_PLAYER_1",
+                "warnings" : 1,
+                "yellow_cards" : 0,
+                "red_cards" : 0
             }
         ]
     },
@@ -232,6 +239,7 @@
             {
                 "name" : "Player who touched the ball twice receives a yellow card",
                 "target" : "RED_PLAYER_1",
+                "warnings" : 0,
                 "yellow_cards" : 1,
                 "red_cards" : 0
             }

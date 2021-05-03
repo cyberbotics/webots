@@ -34,6 +34,8 @@ Released on June, Xth, 2021.
     - Added conversion from PROTO to URDF from the Webots command line ([#2885](https://github.com/cyberbotics/webots/pull/2885)).
     - Added flag to [RobotisOp2](../guide/robotis-op2.md) that enables the modeling of backlash in the robot ([#2881](https://github.com/cyberbotics/webots/pull/2881)).
     - Added the `wb_supervisor_node_get_pose` function that retrieves an absolute or relative pose. Relative pose is expressed in the coordinate system of another node specified as an argument ([#2932](https://github.com/cyberbotics/webots/pull/2932)).
+    - Added measurement of the load time and average speed factor when using the `--log-performance` command ([#3002](https://github.com/cyberbotics/webots/pull/3002)).
+    - Support labels in animations ([#3019](https://github.com/cyberbotics/webots/pull/3019)).
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
     - Added HingeJointWithBacklash proto that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
@@ -62,6 +64,7 @@ Released on XX Xth, 2021.
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
     - Added an `allowedChannels` field in the [Emitter](emitter.md) and [Receiver](receiver.md) nodes to restrict the channel usage ([#2849](https://github.com/cyberbotics/webots/pull/2849)).
   - Bug fixes
+    - Fixed [`wb_supervisor_node_reset_physics`](supervisor.md#wb_supervisor_node_reset_physics) not working if during the same step the node is also artificially moved with the [Supervisor](supervisor.md) API ([#2991](https://github.com/cyberbotics/webots/pull/2991)).
     - Fixed crash changing the [`Lidar.type`](lidar.md) field during the simulation run by requiring to save and reload the world ([#2983](https://github.com/cyberbotics/webots/pull/2983)).
     - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
     - Fixed [Lens](lens.md) distortion ([#2961](https://github.com/cyberbotics/webots/pull/2961)).

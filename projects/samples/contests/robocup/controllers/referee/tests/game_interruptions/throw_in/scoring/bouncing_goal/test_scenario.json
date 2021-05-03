@@ -61,7 +61,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "position" : [2, 3, 0.08],
+                "position" : [2, 3.7, 0.08],
                 "force" : [0, 10, 0]
             }
         ]

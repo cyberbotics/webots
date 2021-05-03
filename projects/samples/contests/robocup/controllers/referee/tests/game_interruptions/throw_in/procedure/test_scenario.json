@@ -101,7 +101,19 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "position" : [1, 3.08, 0.08],
+                "position" : [1, 3.08, 0.08]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 13.05,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
                 "force" : [0, 5, 0]
             }
         ]
@@ -157,37 +169,68 @@
     },
     {
         "timing" : {
-            "time" : [1,29],
+            "time" : 4,
             "clock_type" : "Simulated",
             "secondary_state" : "THROWIN",
             "phase" : 1
         },
         "tests" : [
             {
-                "name" : "Throw-in stays in phase 1 for 30 seconds",
-                "secondary_state" : "THROWIN",
-                "secondary_team_id" : 32,
-                "secondary_phase" : 1
-            },
-            {
                 "name" : "Ball placed on the touch line where ball left the field",
                 "target" : "BALL",
                 "position" : [1, 3, 0.08]
+            },
+            {
+                "name" : "Sanity check: Red 1 is not penalized at beginning of phase 1",
+                "target" : "RED_PLAYER_1",
+                "penalty" : 0
+            },
+            {
+                "name" : "Sanity check: Blue 1 is not penalized at beginning of phase 1",
+                "target" : "BLUE_PLAYER_1",
+                "penalty" : 0
+            }
+        ],
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [1,2.7,0.24],
+                "orientation" : [0,0,1,1.57]
+            },
+            {
+                "target" : "BLUE_PLAYER_1",
+                "position" : [1,3.15,0.24],
+                "orientation" : [0,0,1,-1.57]
+            },
+            {
+                "target" : "BALL",
+                "force" : [0,30,0]
             }
         ]
     },
     {
         "timing" : {
-            "time" : 35.0,
+            "time" : [10,20],
             "clock_type" : "Simulated",
             "secondary_state" : "THROWIN",
             "phase" : 1
         },
         "tests" : [
             {
-                "name" : "Throw-in automatically ends",
-                "secondary_state" : "NORMAL",
-                "critical" : true
+                "name" : "Throw-in is properly aborted",
+                "secondary_state" : "NORMAL"
+            },
+            {
+                "name" : "Kicking the ball too soon -> warning but no penalty",
+                "target" : "BLUE_PLAYER_1",
+                "warnings" : 1,
+                "penalty" : 0
+            },
+            {
+                "name" : "Opponent close is not penalized if timing is not respected",
+                "target" : "RED_PLAYER_1",
+                "warnings" : 0,
+                "penalty" : 0
             }
         ]
     }
