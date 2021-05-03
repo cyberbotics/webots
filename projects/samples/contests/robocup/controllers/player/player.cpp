@@ -196,10 +196,11 @@ static void encode_jpeg(const unsigned char *image, int width, int height, int q
 #endif
 }
 
+static void free_jpeg(unsigned char *buffer) {
 #ifdef TURBOJPEG
-tjFree(buffer);
+  tjFree(buffer);
 #else
-free(buffer);
+  free(buffer);
 #endif
 }
 
