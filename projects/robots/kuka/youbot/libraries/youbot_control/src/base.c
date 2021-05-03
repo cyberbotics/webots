@@ -57,9 +57,9 @@ static WbDeviceTag gps;
 static WbDeviceTag compass;
 static goto_struct goto_data;
 
-static double vx = 0.0;
-static double vy = 0.0;
-static double omega = 0.0;
+static double robot_vx = 0.0;
+static double robot_vy = 0.0;
+static double robot_omega = 0.0;
 
 static void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_position(t, INFINITY);
@@ -84,6 +84,9 @@ void base_init() {
 void base_reset() {
   static double speeds[4] = {0.0, 0.0, 0.0, 0.0};
   base_set_wheel_speeds_helper(speeds);
+  robot_vx = 0.0;
+  robot_vy = 0.0;
+  robot_omega = 0.0;
 }
 
 void base_forwards() {
@@ -118,47 +121,48 @@ void base_strafe_right() {
 
 void base_move(double vx, double vy, double omega) {
   double speeds[4];
-	speeds[0] = 1 / WHEEL_RADIUS * (vx + vy + (LX + LY) * omega);
-  speeds[1] = 1 / WHEEL_RADIUS * (vx - vy - (LX + LY) * omega);
-  speeds[2] = 1 / WHEEL_RADIUS * (vx - vy + (LX + LY) * omega);
-	speeds[3] = 1 / WHEEL_RADIUS * (vx + vy - (LX + LY) * omega);
+  speeds[0] = 1 / WHEEL_RADIUS * (vx + vy - (LX + LY) * omega);
+  speeds[1] = 1 / WHEEL_RADIUS * (vx - vy + (LX + LY) * omega);
+  speeds[2] = 1 / WHEEL_RADIUS * (vx - vy - (LX + LY) * omega);
+  speeds[3] = 1 / WHEEL_RADIUS * (vx + vy + (LX + LY) * omega);
   base_set_wheel_speeds_helper(speeds);
 }
 
 void base_forwards_increment() {
-  vx += SPEED_INCREMENT;
-  vx = vx > MAX_SPEED ? MAX_SPEED : vx;
-  base_move(vx, vy, omega);
+  robot_vx += SPEED_INCREMENT;
+  robot_vx = robot_vx > MAX_SPEED ? MAX_SPEED : robot_vx;
+  base_move(robot_vx, robot_vy, robot_omega);
 }
 
 void base_backwards_increment() {
-  vx -= SPEED_INCREMENT;
-  vx = vx < -MAX_SPEED ? -MAX_SPEED : vx;
-  base_move(vx, vy, omega);
+  robot_vx -= SPEED_INCREMENT;
+  robot_vx = robot_vx < -MAX_SPEED ? -MAX_SPEED : robot_vx;
+  base_move(robot_vx, robot_vy, robot_omega);
 }
 
+
 void base_turn_left_increment() {
-  vy += SPEED_INCREMENT;
-  vy = vy > MAX_SPEED ? MAX_SPEED : vy;
-  base_move(vx, vy, omega);
+  robot_omega += SPEED_INCREMENT;
+  robot_omega = robot_omega > MAX_SPEED ? MAX_SPEED : robot_omega;
+  base_move(robot_vx, robot_vy, robot_omega);
 }
 
 void base_turn_right_increment() {
-  vy -= SPEED_INCREMENT;
-  vy = vy < -MAX_SPEED ? -MAX_SPEED : vy;
-  base_move(vx, vy, omega);
+  robot_omega -= SPEED_INCREMENT;
+  robot_omega = robot_omega < -MAX_SPEED ? -MAX_SPEED : robot_omega;
+  base_move(robot_vx, robot_vy, robot_omega);
 }
 
 void base_strafe_left_increment() {
-  omega += SPEED_INCREMENT;
-  omega = omega > MAX_SPEED ? MAX_SPEED : omega;
-  base_move(vx, vy, omega);
+  robot_vy += SPEED_INCREMENT;
+  robot_vy = robot_vy > MAX_SPEED ? MAX_SPEED : robot_vy;
+  base_move(robot_vx, robot_vy, robot_omega);
 }
 
 void base_strafe_right_increment() {
-  omega -= SPEED_INCREMENT;
-  omega = omega < -MAX_SPEED ? -MAX_SPEED : omega;
-  base_move(vx, vy, omega);
+  robot_vy -= SPEED_INCREMENT;
+  robot_vy = robot_vy < -MAX_SPEED ? -MAX_SPEED : robot_vy;
+  base_move(robot_vx, robot_vy, robot_omega);
 }
 
 void base_goto_init(double time_step) {
