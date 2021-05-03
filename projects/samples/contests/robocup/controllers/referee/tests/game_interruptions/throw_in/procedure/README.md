@@ -8,8 +8,10 @@
   awarded against the team that touched ball last.
 - Ball is replaced where it left the field on the touch line.
 - Time spent in phase 0 is 10 seconds
-- Time spent in phase 1 is 30 seconds
-- Time spent in phase 2 is low
+- If the team that is awarded the throw-in touches the ball during phase 1,
+  throw-in is aborted, the ball is in play .
+  - In this case, robots from the opponent team that are still in play are not
+    getting penalized.
 
 ## Setup
 
@@ -24,3 +26,6 @@
 3. Ball entirely crosses the line.
 4. Throw-in for team BLUE is called and the ball is respawned where it left the
    field.
+5. During phase 1, robot BLUE 1 kicks the ball while RED 1 is closer than 75
+   centimeters from the ball.
+6. Ball is in play, BLUE 1 receives a warning and RED 1 is not penalized.
