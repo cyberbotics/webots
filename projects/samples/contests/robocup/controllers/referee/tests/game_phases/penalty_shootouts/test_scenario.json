@@ -93,6 +93,19 @@
     },
     {
         "timing" : {
+            "time" : 7,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [-2.8,0,0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
             "time" : 8,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
@@ -100,7 +113,7 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "force" : [80, 0, 10]
+                "force" : [80, 10, 10]
             }
         ]
     },
@@ -217,7 +230,7 @@
         ]
     },
     {
-        "description" : "Ball leaves the field on the side",
+        "description" : "Moving ball to the side of the field",
         "timing" : {
             "time" : 22.05,
             "clock_type" : "Simulated",
@@ -233,6 +246,21 @@
         ]
     },
     {
+        "description" : "Ball Moves outside",
+        "timing" : {
+            "time" : 22.1,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING",
+            "state_count" : 2
+        },
+        "actions" : [
+            {
+                "target" : "BALL",
+                "force" : [0, 30, 0]
+            }
+        ]
+    },
+    {
         "timing" : {
             "time" : 28,
             "clock_type" : "Simulated",
@@ -241,7 +269,7 @@
         },
         "tests" : [
             {
-                "name" : "T2: trial automatically ends after a goal",
+                "name" : "T2: Trial automatically ends after the balle left the field",
                 "state" : "SET",
                 "critical" : true
             },
