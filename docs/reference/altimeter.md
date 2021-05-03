@@ -12,7 +12,8 @@ Altimeter {
 
 ### Description
 
-The [Altimeter](#altimeter) node is used to model an Altimeter sensor, which can obtain information about its height above the global reference plane from the controller program.
+The [Altimeter](#altimeter) node is used to model an altimeter sensor, which can obtain information about its height above the global reference plane from the controller program.
+
 
 ### Field Summary
 
