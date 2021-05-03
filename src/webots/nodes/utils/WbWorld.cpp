@@ -36,6 +36,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbOdeContact.hpp"
 #include "WbPbrAppearance.hpp"
+#include "WbPerformanceLog.hpp"
 #include "WbPerspective.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
@@ -99,6 +100,10 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   WbNode::setGlobalParentNode(mRoot);
   mRadarTargets.clear();
   mCameraRecognitionObjects.clear();
+
+  WbPerformanceLog *log = WbPerformanceLog::instance();
+  if (log)
+    log->startMeasure(WbPerformanceLog::LOADING);
 
   if (tokenizer) {
     mFileName = tokenizer->fileName();
