@@ -121,7 +121,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Accelerometer.cpp" />
-    <ClCompile Include="$(WEBOTS_HOME)\sr\controller\cpp\Altimeter.cpp"/>
+    <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Altimeter.cpp"/>
+
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Brake.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Camera.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Compass.cpp" />
