@@ -707,8 +707,8 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
     return ac->image->data;
 
   robot_mutex_lock_step();
-  bool success = image_request(ac->image, __FUNCTION__);
-  if (!ac->image->data || !success) {
+  // bool success = image_request(ac->image, __FUNCTION__);
+  if (!ac->image->data) {
     robot_mutex_unlock_step();
     return NULL;
   }

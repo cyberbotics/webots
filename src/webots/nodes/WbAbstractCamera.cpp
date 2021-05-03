@@ -323,7 +323,8 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
     mHasSharedMemoryChanged = false;
   }
 
-  if (mImageReady) {
+  if (mSensor->isEnabled() || mSensor->hasPendingValue()) {
+    copyImageToSharedMemory(mWrenCamera, image());
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_GET_IMAGE;
     mImageReady = false;
