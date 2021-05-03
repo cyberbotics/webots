@@ -31,8 +31,15 @@
 #include <stdio.h>
 
 #define SPEED 4.0
+#define MAX_SPEED 0.55
+#define SPEED_INCREMENT 0.1
 #define DISTANCE_TOLERANCE 0.001
 #define ANGLE_TOLERANCE 0.001
+
+// robot geometry
+#define WHEEL_RADIUS 0.05
+#define LX 0.158  // lateral distance from robot's COM to wheel [m].
+#define LY 0.228  // longitudinal distance from robot's COM to wheel [m].
 
 // stimulus coefficients
 #define K1 3.0
@@ -49,6 +56,10 @@ static WbDeviceTag wheels[4];
 static WbDeviceTag gps;
 static WbDeviceTag compass;
 static goto_struct goto_data;
+
+static double vx = 0.0;
+static double vy = 0.0;
+static double omega = 0.0;
 
 static void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_position(t, INFINITY);
@@ -103,6 +114,51 @@ void base_strafe_left() {
 void base_strafe_right() {
   static double speeds[4] = {-SPEED, SPEED, SPEED, -SPEED};
   base_set_wheel_speeds_helper(speeds);
+}
+
+void base_move(double vx, double vy, double omega) {
+  double speeds[4];
+	speeds[0] = 1 / WHEEL_RADIUS * (vx + vy + (LX + LY) * omega);
+  speeds[1] = 1 / WHEEL_RADIUS * (vx - vy - (LX + LY) * omega);
+  speeds[2] = 1 / WHEEL_RADIUS * (vx - vy + (LX + LY) * omega);
+	speeds[3] = 1 / WHEEL_RADIUS * (vx + vy - (LX + LY) * omega);
+  base_set_wheel_speeds_helper(speeds);
+}
+
+void base_forwards_increment() {
+  vx += SPEED_INCREMENT;
+  vx = vx > MAX_SPEED ? MAX_SPEED : vx;
+  base_move(vx, vy, omega);
+}
+
+void base_backwards_increment() {
+  vx -= SPEED_INCREMENT;
+  vx = vx < -MAX_SPEED ? -MAX_SPEED : vx;
+  base_move(vx, vy, omega);
+}
+
+void base_turn_left_increment() {
+  vy += SPEED_INCREMENT;
+  vy = vy > MAX_SPEED ? MAX_SPEED : vy;
+  base_move(vx, vy, omega);
+}
+
+void base_turn_right_increment() {
+  vy -= SPEED_INCREMENT;
+  vy = vy < -MAX_SPEED ? -MAX_SPEED : vy;
+  base_move(vx, vy, omega);
+}
+
+void base_strafe_left_increment() {
+  omega += SPEED_INCREMENT;
+  omega = omega > MAX_SPEED ? MAX_SPEED : omega;
+  base_move(vx, vy, omega);
+}
+
+void base_strafe_right_increment() {
+  omega -= SPEED_INCREMENT;
+  omega = omega < -MAX_SPEED ? -MAX_SPEED : omega;
+  base_move(vx, vy, omega);
 }
 
 void base_goto_init(double time_step) {
