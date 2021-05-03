@@ -115,7 +115,8 @@ export default class Stream {
         this.onready();
     } else if (data === 'reset finished') {
       this.view.resetSimulation();
-      this.view.x3dScene.resetViewpoint();
+      if (typeof this.view.x3dScene !== 'undefined')
+        this.view.x3dScene.resetViewpoint();
       if (webots.currentView.toolBar)
         webots.currentView.toolBar.enableToolBarButtons(true);
       if (typeof this.onready === 'function')
