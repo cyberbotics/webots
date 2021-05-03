@@ -19,6 +19,7 @@ from controller import Supervisor, AnsiCodes, Node
 import copy
 import json
 import math
+import numpy as np
 import os
 import random
 import socket
@@ -56,6 +57,7 @@ LINE_WIDTH = 0.05                         # width of the white lines on the socc
 GOAL_WIDTH = 2.6                          # width of the goal
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
+STATIC_SPEED_EPS = 1e-2                   # The speed below which an object is considered as static [m/s]
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -594,7 +596,9 @@ def update_team_contacts(team):
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
         if n == 0:  # robot is asleep
+            player['flying'] = True
             continue
+        player['flying'] = False
         player['position'] = robot.getCenterOfMass()
         player['outside_circle'] = True        # true if fully outside the center cicle
         player['outside_field'] = True         # true if fully outside the field
@@ -1054,6 +1058,20 @@ def is_penalty_kicker(team, id):
     return id == '1'  # assuming kicker is player number 1
 
 
+def get_penalty_attacking_team():
+    first_team = game.penalty_shootout_count % 2 == 0
+    if first_team == (game.kickoff == game.red.id):
+        return red_team
+    return blue_team
+
+
+def get_penalty_defending_team():
+    first_team = game.penalty_shootout_count % 2 == 0
+    if first_team == (game.kickoff != game.red.id):
+        return red_team
+    return blue_team
+
+
 def penalty_kicker_player():
     default = game.penalty_shootout_count % 2 == 0
     attacking_team = red_team if game.kickoff == game.red.id and default else blue_team
@@ -1085,11 +1103,13 @@ def set_penalty_positions():
             reset_player(defending_color, number, 'halfTimeStartingPose')
     x = game.field.penalty_mark_x if game.side_left == game.kickoff and default else -game.field.penalty_mark_x
     game.ball.resetPhysics()
+    game.in_play = None
     game.can_score = True
     game.can_score_own = False
     game.ball_set_kick = True
     game.ball_left_circle = True
-    game.ball_must_kick_team = attacking_team
+    game.ball_must_kick_team = attacking_team['color']
+    game.ball_last_touch_team = game.ball_must_kick_team
     game.kicking_player_number = None
     game.ball_kick_translation[0] = x
     game.ball_kick_translation[1] = 0
@@ -1146,6 +1166,23 @@ def next_penalty_shootout():
     game_controller_send('STATE:SET')
     game.play_countdown = SIMULATED_TIME_SET_PENALTY_SHOOTOUT
     return
+
+
+def check_penalty_goal_line():
+    """
+    Checks that the goalkeepers of both teams respect the goal line rule and apply penalties if required
+    """
+    if game.in_play is not None:
+        return
+    defending_team = get_penalty_defending_team()
+    for number in defending_team['players']:
+        player = defending_team['players'][number]
+        if player['flying'] or 'penalized' in player or not is_goal_keeper(defending_team, number):
+            continue
+        # If fully inside or fully outside, the robot is out of field
+        if player['outside_field'] or player['inside_field'] or abs(player['position'][1]) > GOAL_WIDTH:
+            info(f'Goalkeeper of team {defending_team["color"]} is not on goal line')
+            send_penalty(player, 'INCAPABLE', "Not on goal line during penalty")
 
 
 def interruption(type, team=None):
@@ -1337,7 +1374,7 @@ setup_display()
 time_step = int(supervisor.getBasicTimeStep())
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = int(SIMULATED_TIME_INTERRUPTION_PHASE_0 * 1000 / time_step)
 SIMULATED_TIME_BEFORE_PLAY_STATE = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
-SIMULATED_TIME_SET_PENALTY_SHOOTOUT= int(SIMULATED_TIME_SET_PENALTY_SHOOTOUT * 1000 / time_step)
+SIMULATED_TIME_SET_PENALTY_SHOOTOUT = int(SIMULATED_TIME_SET_PENALTY_SHOOTOUT * 1000 / time_step)
 
 if game.controller_process:
     game.controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -1495,6 +1532,14 @@ while supervisor.step(time_step) != -1 and not game.over:
                     game.can_score_own = True
 
         if game.penalty_shootout:
+            check_penalty_goal_line()
+            ball_in_goal_area = game.field.circle_fully_inside_goal_area(game.ball_position, game.ball_radius)
+            # It is unclear that using getVelocity is the good approach, because even when the ball is clearly not moving
+            # anymore, it still provides values above 1e-3.
+            ball_vel = game.ball.getVelocity()[:3]
+            if ball_in_goal_area and np.linalg.norm(ball_vel) < STATIC_SPEED_EPS:
+                info(f"Ball stopped in goal area at {game.ball_position}")
+                next_penalty_shootout()
             if game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
                 kicker = penalty_kicker_player()
                 if not kicker['outside_goal_area'] and not kicker['inside_own_side']:
@@ -1503,7 +1548,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                     if game.over:
                         break
             else:  # extended penalty shootouts
-                if game.field.circle_fully_inside_goal_area(game.ball_position, game.ball_radius):
+                if ball_in_goal_area:
                     c = game.penalty_shootout_count - 10
                     if game.penalty_shootout_time_to_reach_goal_area[c] is None:
                         game.penalty_shootout_time_to_reach_goal_area[c] = 60 - game.state.seconds_remaining
@@ -1652,7 +1697,9 @@ while supervisor.step(time_step) != -1 and not game.over:
                 game.ball_translation.setSFVec3f(game.ball_kick_translation)
                 game.ball_set_kick = False
         else:
-            if not game.penalty_shootout:
+            if game.penalty_shootout:
+                check_penalty_goal_line()
+            else:
                 if game.dropped_ball:
                     check_dropped_ball_position()
                 else:

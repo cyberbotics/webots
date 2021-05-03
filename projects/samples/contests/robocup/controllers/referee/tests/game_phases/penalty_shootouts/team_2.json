@@ -12,7 +12,7 @@
         "rotation": [0, 0, 1, 1.57]
       },
       "shootoutStartingPose": {
-        "translation": [2, 0, 0.24],
+        "translation": [2.8, 0, 0.24],
         "rotation": [0, 0, 1, 0]
       },
       "goalKeeperStartingPose": {

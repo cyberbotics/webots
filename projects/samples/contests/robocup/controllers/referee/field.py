@@ -26,4 +26,4 @@ class Field:
     def circle_fully_inside_goal_area(self, point, radius):
         return (abs(point[0]) - radius > self.size_x - self.goal_area_length and
                 abs(point[0]) + radius < self.size_x and
-                abs(point[1]) - radius < self.goal_area_width)
+                abs(point[1]) + radius < self.goal_area_width / 2)

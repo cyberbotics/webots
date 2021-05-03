@@ -65,6 +65,20 @@
     },
     {
         "timing" : {
+            "time" : 12,
+            "clock_type" : "Simulated",
+            "state" : "SET"
+        },
+        "tests" : [
+            {
+                "name" : "T1: Goalkeeper moves out of line during SET -> penalized",
+                "target" : "BLUE_PLAYER_1",
+                "penalty" : 34
+            }
+        ]
+    },
+    {
+        "timing" : {
             "time" : 18,
             "clock_type" : "Simulated",
             "state" : "SET"
@@ -74,20 +88,6 @@
                 "name" : "T1: automatic transition: SET -> PLAY",
                 "state" : "PLAYING",
                 "critical" : true
-            }
-        ]
-    },
-    {
-        "timing" : {
-            "time" : 3,
-            "clock_type" : "Simulated",
-            "state" : "PLAYING"
-        },
-        "tests" : [
-            {
-                "name" : "T1: Goalkeeper moves out of line during SET -> penalized",
-                "target" : "BLUE_PLAYER_1",
-                "penalty" : 34
             }
         ]
     },
@@ -150,7 +150,7 @@
             {
                 "name" : "T2: BLUE kicker is properly positioned",
                 "target" : "BLUE_PLAYER_1",
-                "position" : [-2,0,0.24]
+                "position" : [-2.8,0,0.24]
             },
             {
                 "name" : "T2:RED goalkeeper is properly positioned",
@@ -225,14 +225,14 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "force" : [80, 0, 0]
+                "force" : [5, 0, 0]
             }
         ]
     },
     {
         "description" : "Moving ball to the side of the field",
         "timing" : {
-            "time" : 22.05,
+            "time" : 22.5,
             "clock_type" : "Simulated",
             "state" : "PLAYING",
             "state_count" : 2
@@ -240,15 +240,14 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "position" : [-4,3,0.08],
-                "force" : [0, 30, 0]
+                "position" : [-4,3,0.08]
             }
         ]
     },
     {
         "description" : "Ball Moves outside",
         "timing" : {
-            "time" : 22.1,
+            "time" : 23,
             "clock_type" : "Simulated",
             "state" : "PLAYING",
             "state_count" : 2
@@ -269,7 +268,7 @@
         },
         "tests" : [
             {
-                "name" : "T2: Trial automatically ends after the balle left the field",
+                "name" : "T2: Trial automatically ends after the ball left the field",
                 "state" : "SET",
                 "critical" : true
             },
@@ -333,15 +332,19 @@
         },
         "actions" : [
             {
+                "target" : "RED_PLAYER_1",
+                "position" : [-2.8,0,0.24]
+            },
+            {
                 "target" : "BALL",
-                "force" : [20,0,0]
+                "force" : [5,0,0]
             }
         ]
     },
     {
         "description" : "T3. Ball stops on the goal area",
         "timing" : {
-            "time" : 8,
+            "time" : 8.5,
             "clock_type" : "Simulated",
             "state" : "PLAYING",
             "state_count" : 3
@@ -358,7 +361,8 @@
         "timing" : {
             "time" : 10,
             "clock_type" : "Simulated",
-            "state" : "SET"
+            "state" : "PLAYING",
+            "state_count" : 3
         },
         "actions" : [
             {
@@ -385,17 +389,17 @@
         "actions" : [
             {
                 "target" : "RED_PLAYER_1",
-                "position" : [-3.25,0,0.24]
+                "position" : [-3.3,0,0.24]
             },
             {
                 "target" : "BALL",
-                "force" : [20,0,0]
+                "force" : [15,0,0]
             }
         ]
     },
     {
         "timing" : {
-            "time" : 25,
+            "time" : 20,
             "clock_type" : "Simulated",
             "state" : "PLAYING",
             "state_count" : 3
@@ -415,7 +419,7 @@
     },
     {
         "timing" : {
-            "time" : 12,
+            "time" : 18,
             "clock_type" : "Simulated",
             "state" : "SET",
             "state_count" : 4
