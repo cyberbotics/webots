@@ -73,7 +73,8 @@ static void altimeter_toggle_remote(WbDevice *d, WbRequest *r) {
     altimeter->enable = true;
 }
 
-void wbr_altimeter_set_values(WbDeviceTag t, const double value) {
+void wbr_altimeter_set_value(WbDeviceTag t, const double value) {
+
   Altimeter *altimeter = altimeter_get_struct(t);
   if (altimeter) {
     altimeter->altitude = value;
