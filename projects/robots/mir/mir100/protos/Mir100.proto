@@ -235,10 +235,6 @@ PROTO Mir100 [
           dampingConstant 0.01
         }
         device [
-          RotationalMotor {
-            name "mir100_front_left_caster_joint"
-            maxTorque 10000
-          }
           PositionSensor {
             name "mir100_front_left_caster_joint_sensor"
           }
@@ -326,10 +322,6 @@ PROTO Mir100 [
           dampingConstant 0.01
         }
         device [
-          RotationalMotor {
-            name "mir100_front_right_caster_joint"
-            maxTorque 10000
-          }
           PositionSensor {
             name "mir100_front_right_caster_joint_sensor"
           }
@@ -403,10 +395,6 @@ PROTO Mir100 [
           dampingConstant 0.01
         }
         device [
-          RotationalMotor {
-            name "mir100_back_left_caster_joint"
-            maxTorque 10000
-          }
           PositionSensor {
             name "mir100_back_left_caster_joint_sensor"
           }
@@ -480,10 +468,6 @@ PROTO Mir100 [
           dampingConstant 0.01
         }
         device [
-          RotationalMotor {
-            name "mir100_back_right_caster_joint"
-            maxTorque 10000
-          }
           PositionSensor {
             name "mir100_back_right_caster_joint_sensor"
           }
