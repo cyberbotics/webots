@@ -36,6 +36,7 @@ class Animation { // eslint-disable-line no-unused-vars
     this.data = data;
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
+    this.labelsIds = this.data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
 
     // Automatically start the animation only when all the textures are loaded.
     if (this.gui === 'real_time' && TextureLoader.hasPendingData())
@@ -141,11 +142,21 @@ class Animation { // eslint-disable-line no-unused-vars
 
     var p;
     var appliedIds = [];
+    const appliedLabelsIds = [];
     if (this.data.frames[this.step].hasOwnProperty('poses')) {
       var poses = this.data.frames[this.step].poses;
       for (p = 0; p < poses.length; p++)
         appliedIds[poses[p].id] = this.scene.applyPose(poses[p]);
     }
+
+    if (this.data.frames[this.step].hasOwnProperty('labels')) {
+      let labels = this.data.frames[this.step].labels;
+      for (let i = 0; i < labels.length; i++) {
+        this.scene.applyLabel(labels[i], this.view);
+        appliedLabelsIds.push(labels[i].id);
+      }
+    }
+
     var x3dScene = this.view.x3dScene;
     // lookback mechanism: search in history
     if (this.step !== this.previousStep + 1) {
@@ -163,6 +174,21 @@ class Animation { // eslint-disable-line no-unused-vars
             for (p = 0; p < this.data.frames[f].poses.length; p++) {
               if (this.data.frames[f].poses[p].id === id)
                 appliedFields = x3dScene.applyPose(this.data.frames[f].poses[p], appliedFields);
+            }
+          }
+        }
+      }
+
+      for (let id of this.labelsIds) {
+        for (let f = this.step - 1; f >= previousPoseStep; f--) {
+          if (this.data.frames[f].labels) {
+            for (let p = 0; p < this.data.frames[f].labels.length; p++) {
+              if (this.data.frames[f].labels[p].id === id) {
+                if (!appliedLabelsIds.includes(id)) {
+                  this.scene.applyLabel(this.data.frames[f].labels[p], this.view);
+                  appliedLabelsIds.push(id);
+                }
+              }
             }
           }
         }
