@@ -170,11 +170,13 @@ export default class X3dScene {
       if (key === 'translation' && object instanceof WbTransform) {
         const translation = convertStringToVec3(pose[key]);
         object.translation = translation;
-        object.applyTranslationToWren();
+        if (WbWorld.instance.readyForUpdates)
+          object.applyTranslationToWren();
       } else if (key === 'rotation') {
         const quaternion = convertStringToQuaternion(pose[key]);
         object.rotation = quaternion;
-        object.applyRotationToWren();
+        if (WbWorld.instance.readyForUpdates)
+          object.applyRotationToWren();
       } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
@@ -183,10 +185,13 @@ export default class X3dScene {
         else if (key === 'emissiveColor')
           object.emissiveColor = convertStringToVec3(pose[key]);
 
-        if (object instanceof WbMaterial)
-          WbWorld.instance.nodes.get(WbWorld.instance.nodes.get(object.parent).parent).updateAppearance();
-        else
-          WbWorld.instance.nodes.get(object.parent).updateAppearance();
+        if (object instanceof WbMaterial) {
+          if (WbWorld.instance.readyForUpdates)
+            WbWorld.instance.nodes.get(WbWorld.instance.nodes.get(object.parent).parent).updateAppearance();
+        } else {
+          if (WbWorld.instance.readyForUpdates)
+            WbWorld.instance.nodes.get(object.parent).updateAppearance();
+        }
       } else
         valid = false;
 
@@ -196,7 +201,7 @@ export default class X3dScene {
 
     if (typeof object.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(object.parent);
-      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id)
+      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
 

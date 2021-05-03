@@ -79,6 +79,8 @@ export default class Parser {
       node.finalize();
     });
 
+    WbWorld.instance.readyForUpdates = true;
+
     renderer.render();
     $('#webotsProgress').hide();
     if (webots.currentView.toolBar)
