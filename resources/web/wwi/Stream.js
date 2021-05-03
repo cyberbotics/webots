@@ -51,33 +51,12 @@ export default class Stream {
   }
 
   onSocketMessage(event) {
-    let lines, i;
     let data = event.data;
     if (data.startsWith('robot:') ||
         data.startsWith('stdout:') ||
-        data.startsWith('stderr:')) {
-      lines = data.split('\n'); // in that case, we support one message per line
-      for (i = 0; i < lines.length; i++) {
-        let line = lines[i];
-        if (line === '') // FIXME: should not happen
-          continue;
-        else if (line.startsWith('robot:')) {
-          let robot, message;
-          try {
-            let str = line.substring(line.indexOf(':') + 1).trim();
-            let dataObject = JSON.parse(str);
-            robot = dataObject.name;
-            message = dataObject.message;
-          } catch (e) {
-            // backward compatibility
-            let secondColonIndex = line.indexOf(':', 6);
-            robot = line.substring(6, secondColonIndex);
-            message = line.substring(secondColonIndex + 1);
-          }
-          this.view.onrobotmessage(robot, message);
-        }
-      }
-    } else if (data.startsWith('world:')) {
+        data.startsWith('stderr:'))
+      return 0; // We need to keep this condition, otherwise the robot window messages will be printed as errors.
+    else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       let currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
