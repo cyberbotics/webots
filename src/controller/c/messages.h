@@ -124,7 +124,7 @@
 // sim -> ctr
 #define C_CAMERA_RECONFIGURE 7
 #define C_CAMERA_SHARED_MEMORY 8
-// ctr <-> sim
+// sim -> ctr
 #define C_CAMERA_GET_IMAGE 9
 
 // for the camera recognition

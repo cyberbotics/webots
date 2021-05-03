@@ -391,6 +391,7 @@ double wb_lidar_get_max_range(WbDeviceTag tag) {
 
 const float *wb_lidar_get_range_image(WbDeviceTag tag) {
   AbstractCamera *ac = lidar_get_abstract_camera_struct(tag);
+  robot_mutex_lock_step();
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -400,15 +401,10 @@ const float *wb_lidar_get_range_image(WbDeviceTag tag) {
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
     return (const float *)(void *)ac->image->data;
 
-  robot_mutex_lock_step();
-  bool success = image_request(ac->image, __FUNCTION__);
-  robot_mutex_unlock_step();
-
-  if (!ac->image->data || !success)
-    return NULL;
-
   if (ac->sampling_period <= 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
+
+  robot_mutex_unlock_step();
 
   return (const float *)(void *)ac->image->data;
 }

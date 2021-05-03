@@ -265,11 +265,10 @@ void WbLidar::handleMessage(QDataStream &stream) {
     mDefaultFrequency->setValue(frequency);
     return;
   } else if (command == C_CAMERA_GET_IMAGE) {
-    if (mImageChanged && !isRotating()) {
+    if (!isRotating()) {
       // in case of rotating lidar the copy is done during the step
       copyAllLayersToSharedMemory();
     }
-    mImageReady = true;
     return;
   } else if (WbAbstractCamera::handleCommand(stream, command))
     return;
@@ -281,7 +280,6 @@ void WbLidar::copyAllLayersToSharedMemory() {
   if (!hasBeenSetup() || !mImageShm)
     return;
 
-  mImageChanged = false;
   float *data = lidarImage();
   double skip = 1.0;
   if (height() != actualNumberOfLayers() && actualNumberOfLayers() != 1)

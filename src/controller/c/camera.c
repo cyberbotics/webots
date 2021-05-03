@@ -692,6 +692,7 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
 
 const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
+  robot_mutex_lock_step();
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -706,12 +707,6 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
     return ac->image->data;
 
-  robot_mutex_lock_step();
-  // bool success = image_request(ac->image, __FUNCTION__);
-  if (!ac->image->data) {
-    robot_mutex_unlock_step();
-    return NULL;
-  }
   robot_mutex_unlock_step();
   return ac->image->data;
 }
@@ -741,7 +736,7 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
   }
 
   // make sure image is up to date before saving it
-  if (!ac->image->data || !image_request(ac->image, __FUNCTION__)) {
+  if (!ac->image->data) {
     robot_mutex_unlock_step();
     return -1;
   }
@@ -871,7 +866,6 @@ const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag ta
     robot_mutex_unlock_step();
     return NULL;
   }
-
   bool success = image_request(c->segmentation_image, __FUNCTION__);
   if (!c->segmentation_image->data || !success) {
     robot_mutex_unlock_step();
