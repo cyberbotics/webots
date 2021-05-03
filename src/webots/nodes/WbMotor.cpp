@@ -358,7 +358,7 @@ void WbMotor::setVelocity(double velocity, const WbMotor *const relayer) {
 }
 
 void WbMotor::setAcceleration(double acceleration, const WbMotor *const relayer) {
-  // note: an error is thrown on libController side for negative values
+  // note: a check is mChangedAssociatedDevices on libController side for negative values
   mAcceleration->setValue(relayer == NULL ? acceleration : acceleration * fabs(multiplier()) / fabs(relayer->multiplier()));
   awake();
 }
@@ -381,7 +381,7 @@ void WbMotor::setForceOrTorque(double forceOrTorque, const WbMotor *const relaye
 }
 
 void WbMotor::setAvailableForceOrTorque(double availableForceOrTorque, const WbMotor *const relayer) {
-  // note: an error is thrown on libController side for negative values
+  // note: a check is mChangedAssociatedDevices on libController side for negative values
   mMotorForceOrTorque =
     relayer == NULL ? availableForceOrTorque : availableForceOrTorque * fabs(relayer->multiplier()) / fabs(multiplier());
 
@@ -440,7 +440,6 @@ double WbMotor::computeCurrentDynamicVelocity(double ms, double position) {
 
 // run control without physics simulation
 bool WbMotor::runKinematicControl(double ms, double &position) {
-  printf("running kinematic\n");
   static const double TARGET_POSITION_THRESHOLD = 1e-6;
   bool doNothing = false;
   if (std::isinf(mTargetPosition)) {  // velocity control

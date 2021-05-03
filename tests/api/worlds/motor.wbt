@@ -24,6 +24,14 @@ Robot {
       device [
         RotationalMotor {
           name "motor"
+          multiplier 0.2
+        }
+      ]
+    }
+    HingeJoint {
+      device [
+        RotationalMotor {
+          name "motor::hinge"
           multiplier 5
         }
       ]
@@ -31,7 +39,7 @@ Robot {
     HingeJoint {
       device [
         RotationalMotor {
-          name "motor"
+          name "motor::hinge2"
           multiplier -5
         }
       ]

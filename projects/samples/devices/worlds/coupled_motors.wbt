@@ -20,7 +20,7 @@ TexturedBackgroundLight {
 Table {
   translation 0 -0.74 0
 }
-Robot {
+DEF GRIPPER Robot {
   translation -0.5 0 -0.2
   children [
     DEF BASE Transform {
@@ -42,7 +42,7 @@ Robot {
         }
       ]
     }
-    Transform {
+    DEF ROD Transform {
       translation 0 0.08 0.025
       children [
         Shape {
@@ -424,7 +424,7 @@ Robot {
   ]
   controller "coupled_motors"
 }
-Solid {
+DEF OBJECT Solid {
   translation -0.49 0.01 -0.255
   children [
     Shape {

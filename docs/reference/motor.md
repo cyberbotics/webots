@@ -67,13 +67,12 @@ It is expressed in *meter per second* [m/s] for linear motors and in *radian per
 The *velocity* can be changed at run-time with the `wb_motor_set_velocity` function.
 The value should always be positive (the default is 10).
 
-- The `multiplier` field specifies the multiplying factor to impose in this specific motor.
-This field only has an effect for coupled motors (i.e. multiple motors in a robot that share the same name structure).
-No distinct reference motor exists among the coupled ones, so the ratio applied in practice is always relative to the multiplier of the motor that is effectively being commanded in the controller.
-The multiplier cannot be zero.
+- The `multiplier` field specifies the ratio factor of this specific motor in a coupled motors context.
+This field therefore has no effect if the motor does not belong to a coupling.
+No absolute reference motor exists among the coupled ones, the command value enforced on the motor depends therefore on the ratio between this multiplier and the multiplier of the sibling motor that is relaying it.
 
 > **Note**: there is no requirement to have a motor with `multiplier` 1 among the coupled ones.
-If a motor has multiplier 2, and a second one has multiplier 4, and a velocity command is given to the first, then the latter will move twice as fast. If the second motor is being controlled instead, the first will receive half of whatever is imposed to the other.
+If a motor has multiplier 2, and a second one has multiplier 4, when a velocity command is given to the first the second will move twice as fast. If the second motor is the one being controlled instead, then the first will do so at half the speed.
 
 - The `sound` field specifies the URL of a WAVE sound file.
 If the `sound` value starts with `http://` or `https://`, Webots will get the file from the web.
@@ -236,7 +235,7 @@ The naming convention for coupled motors is `"motor name::specifier name"`.
 Note the `::` used as delimiter.
 The string before the delimiter, here `"motor name"`, is used to determine to which coupling the specific motor belongs, therefore all the devices that share this same string will be coupled together.
 The string after the delimiter, here `"specifier name"`, allows to uniquely identify each motor among its siblings.
-When requesting the tag using the `wb_robot_get_device` function it's necessary to provide the full name, specifier included, otherwise no match will be found and `NULL` is returned.
+When requesting the tag using the `wb_robot_get_device` function it is necessary to provide the full name, specifier included, otherwise no match will be found and `NULL` is returned.
 
 #### Coupled Motor Limits
 

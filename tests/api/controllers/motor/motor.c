@@ -66,14 +66,18 @@ int main(int argc, char **argv) {
   ts_assert_double_equal(acceleration, MAX_ACCELERATION, "The acceleration value of the motor should be %g and not %g",
                          MAX_ACCELERATION, acceleration);
 
-  const WbDeviceTag hinge_motor = wb_robot_get_device_by_index(0);
-  const WbDeviceTag hinge_motor2 = wb_robot_get_device_by_index(1);
-  double multiplier = wb_motor_get_multiplier(hinge_motor);
-  double multiplier2 = wb_motor_get_multiplier(hinge_motor2);
-  ts_assert_double_equal(multiplier, MULTIPLIER, "The multiplier value of the motor should be %g and not %g", MULTIPLIER,
-                         multiplier);
-  ts_assert_double_equal(multiplier2, -MULTIPLIER, "The multiplier value of the motor should be %g and not %g", -MULTIPLIER,
-                         multiplier2);
+  const WbDeviceTag uncoupled_motor = wb_robot_get_device_by_index(0);
+  const WbDeviceTag coupled_motor = wb_robot_get_device_by_index(1);
+  const WbDeviceTag coupled_motor2 = wb_robot_get_device_by_index(2);
+  double uncoupled_multiplier = wb_motor_get_multiplier(uncoupled_motor);
+  double coupled_multiplier = wb_motor_get_multiplier(coupled_motor);
+  double coupled_multiplier2 = wb_motor_get_multiplier(coupled_motor2);
+  ts_assert_double_equal(uncoupled_multiplier, 1, "The multiplier value of the motor should be %g and not %g", 1,
+                         uncoupled_multiplier);
+  ts_assert_double_equal(coupled_multiplier, MULTIPLIER, "The multiplier value of the motor should be %g and not %g",
+                         MULTIPLIER, coupled_multiplier);
+  ts_assert_double_equal(coupled_multiplier2, -MULTIPLIER, "The multiplier value of the motor should be %g and not %g",
+                         -MULTIPLIER, coupled_multiplier2);
 
   double torque = wb_motor_get_available_torque(motor);
   double max_torque = wb_motor_get_max_torque(motor);
