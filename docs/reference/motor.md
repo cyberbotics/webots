@@ -67,12 +67,13 @@ It is expressed in *meter per second* [m/s] for linear motors and in *radian per
 The *velocity* can be changed at run-time with the `wb_motor_set_velocity` function.
 The value should always be positive (the default is 10).
 
-- The `multiplier` field specifies the multiplying factor of this specific motor relative to that of the other motors that share the same name.
-This field only has an effect if coupled motors are present (i.e. multiple motors in a robot that share the same name).
-If two motors share the same name and they have respectively a multiplier of 2 and 4, when giving a velocity command to the first, the second will also receive it but will impose twice the velocity (and will have half the available torque).
-The value of this field cannot be zero.
+- The `multiplier` field specifies the multiplying factor to impose in this specific motor.
+This field only has an effect for coupled motors (i.e. multiple motors in a robot that share the same name structure).
+No distinct reference motor exists among the coupled ones, so the ratio applied in practice is always relative to the multiplier of the motor that is effectively being commanded in the controller.
+The multiplier cannot be zero.
 
-> **Note**: there is no requirement to have a motor with `multiplier` 1. If a motor has multiplier 2, and a second one has multiplier 4, the latter will move twice as fast if a velocity command is given to the first.
+> **Note**: there is no requirement to have a motor with `multiplier` 1 among the coupled ones.
+If a motor has multiplier 2, and a second one has multiplier 4, and a velocity command is given to the first, then the latter will move twice as fast. If the second motor is being controlled instead, the first will receive half of whatever is imposed to the other.
 
 - The `sound` field specifies the URL of a WAVE sound file.
 If the `sound` value starts with `http://` or `https://`, Webots will get the file from the web.
@@ -220,14 +221,14 @@ When giving a command to a coupled motor, for instance using the functions [`wb_
 By default, all motors have a `multiplier` equal to 1, which means the same command is relayed to all equally.
 If instead the different motors have different multipliers, then the command effectively applied by each device depends on their own personal multiplier relative to that of the motor that relayed the command (i.e the one being controlled directly in the controller).
 
-> **Note**: the motors are *logically* coupled together, not *mechanically*.
+> **Note**: The motors are *logically* coupled together, not *mechanically*.
 If one of the motors is physically blocked, the others are in no way affected by it.
-Additionally, a multiplier of two implies enforcing twice the velocity, twice the force or torque and twice the position.
-In other words, two coupled motors do not behave like a physical transmission.
+The coupling is however inspired by a transmission, meaning that a multiplication of the `maxVelocity` results in a limiting of the `maxTorque`.
 
-> **Note**: although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
-For instance, assume two coupled motors are available, then it isn't possible to do Position Control for one and Velocity Control for the other at the same time.
-Whatever command is given last will be relayed to all sibling motors and therefore overwrite any prior changes.
+> **Note**: Although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
+For instance, assume two coupled motors are present, then it isn't possible to do Position Control for one and Velocity Control for the other at the same time.
+Whatever command is given to a motor, it is relayed to all of its siblings therefore it will overwrite any prior settings made to them.
+In other words, only the last command given is the one effectively being enforced across the motors.
 
 #### Naming Convention
 
@@ -235,29 +236,29 @@ The naming convention for coupled motors is `"motor name::specifier name"`.
 Note the `::` used as delimiter.
 The string before the delimiter, here `"motor name"`, is used to determine to which coupling the specific motor belongs, therefore all the devices that share this same string will be coupled together.
 The string after the delimiter, here `"specifier name"`, allows to uniquely identify each motor among its siblings.
-When requesting the tag, for instance using the `wb_robot_get_device` function, it's necessary to provide the full name for the controller to know which specifically among them is being directly controlled or to know which to request information from.
+When requesting the tag using the `wb_robot_get_device` function it's necessary to provide the full name, specifier included, otherwise no match will be found and `NULL` is returned.
 
-#### Motor Limits
+#### Coupled Motor Limits
 
 In principle any of the motors among the coupled ones can be commanded directly (either by getting its tag with `wb_robot_get_device` or through `wb_robot_get_device_by_index`) and, moreover, potentially every sibling could have different `multiplier` values.
 For these reasons it must be ensured that all of the motors remain within their own limits no matter which among them is called and irrespective of the command given to it.
 Therefore, in a coupled motor context, strict limits must be imposed, meaning that the motor limits such as `maxVelocity` and `maxTorque` have to be exactly a factor of each other.
-For example, assume four motors share the same name and their `multiplier` values are respectively 2, 0.5, 4 and -4, the table below shows how the limits of motor B, C and D should be set.
+For example, assume four motors share the same name structure and their `multiplier` values are respectively 2, 0.5, 4 and -4, the table below shows how the limits of motor B, C and D should be set.
 
-|           motor (multiplier) |  A (2) |   B (0.5)   |  C (4) |  D (-4) |
-|----------------:|:--:|:-----:|:--:|:--:|
-|     minPosition | -1 | -0.25 | -2 | -4 |
-|     maxPosition |  2 |  0.25 |  4 |  2 |
-|     maxVelocity | 10 |  2.5  | 20 | 20 |
-| maxAcceleration | 10 |  2.5  | 20 | 20 |
-|       maxTorque | 10 |  2.5  | 20 | 20 |
+| motor (multiplier) | A (2) | B (0.5) | C (4) | D (-4) |
+|-------------------:|:-----:|:-------:|:-----:|:------:|
+|        minPosition |   -1  |  -0.25  |   -2  |   -4   |
+|        maxPosition |   2   |   0.25  |   4   |    2   |
+|        maxVelocity |   10  |   2.5   |   20  |   20   |
+|    maxAcceleration |   10  |   2.5   |   20  |   20   |
+|          maxTorque |   10  |    40   |   5   |    5   |
 
 
 > **Note**: For negative multipliers, the absolute value of the limit should be set.
 `minPosition` and `maxPosition` are an exception and they require additional care as in the presence of negative multipliers the two values might need to be swapped, as is the case here for motor D.
 
-> **Note**: in principle `maxAcceleration` can be unlimited (value -1) and likewise motor soft limits might not be present (`minPosition` = `maxPosition` = 0).
-In these cases, the first motor being read determines which rule is applied to all subsequent ones. Therefore, if the first motor is unlimited (position or acceleration), its siblings are also forced to be unlimited and vice-versa.
+> **Note**: In principle `maxAcceleration` can be unlimited (value -1) and likewise motor soft limits might not be present (`minPosition` = `maxPosition` = 0).
+In these cases, the first motor read in the world file will determine which rule is applied to all subsequent ones. Therefore, if the first motor is unlimited (position or acceleration), its siblings are also forced to be unlimited and vice-versa.
 
 ### Energy Consumption
 

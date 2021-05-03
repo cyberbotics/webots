@@ -35,7 +35,7 @@ int main() {
     for (int i = 0; i < 50; i++)
       wb_robot_step(TIME_STEP);
 
-    // close the gripper, both sides will receive the command as the motors have the same name
+    // close the gripper, both sides will receive the command as the motors have the same name structure
     wb_motor_set_position(motor, 0.42);
 
     for (int i = 0; i < 50; i++)

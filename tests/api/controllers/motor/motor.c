@@ -67,13 +67,13 @@ int main(int argc, char **argv) {
                          MAX_ACCELERATION, acceleration);
 
   const WbDeviceTag hinge_motor = wb_robot_get_device_by_index(0);
-  const WbDeviceTag hinge_motor1 = wb_robot_get_device_by_index(1);
+  const WbDeviceTag hinge_motor2 = wb_robot_get_device_by_index(1);
   double multiplier = wb_motor_get_multiplier(hinge_motor);
-  double multiplier1 = wb_motor_get_multiplier(hinge_motor1);
+  double multiplier2 = wb_motor_get_multiplier(hinge_motor2);
   ts_assert_double_equal(multiplier, MULTIPLIER, "The multiplier value of the motor should be %g and not %g", MULTIPLIER,
                          multiplier);
-  ts_assert_double_equal(multiplier1, -MULTIPLIER, "The multiplier value of the motor should be %g and not %g", -MULTIPLIER,
-                         multiplier1);
+  ts_assert_double_equal(multiplier2, -MULTIPLIER, "The multiplier value of the motor should be %g and not %g", -MULTIPLIER,
+                         multiplier2);
 
   double torque = wb_motor_get_available_torque(motor);
   double max_torque = wb_motor_get_max_torque(motor);

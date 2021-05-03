@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
   }
 
   if (strcmp("load_test", test_type) == 0) {
-    // Test: acceleration paramter load. Note: all motors have the same multiplier.
+    // Test: acceleration parameter load. Note: all motors have the same multiplier.
     // acceleration on file [5, 10, 20] -> [5, 5, 5] after loading
     // same multiplier, different limits => the value of the first motor is enforced for all
     for (int i = 0; i < 3; ++i) {
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
       WbDeviceTag motor = wb_robot_get_device_by_index(i);
       ts_assert_double_equal(wb_motor_get_acceleration(motor), -1, "Motor B: 'acceleration' should be -1 but isn't.");
     }
-    // Test loading velocity parameters. All motors have the same multiplier.
+    // Test loading velocity parameter. All motors have the same multiplier.
     // maxVelocity on file [5, 10, 20] -> [5, 5, 5] after loading
     // same multiplier, different limits => the value of the first motor is enforced for all
     for (int i = 6; i < 9; ++i) {
@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
     // maxPosition on file [4, 4, 4] -> [4, 1, 8] after loading
     // maxVelocity on file [10, 10, 10] -> [10, 2.5, 20] after loading
     // maxAccel. on file   [10, 10, 10] -> [10, 2.5, 20] after loading
-    // maxTorque on file   [10, 10, 10] -> [10, 2.5, 20] after loading
+    // maxTorque on file   [10, 10, 10] -> [10, 40, 5] after loading
     WbDeviceTag motor = wb_robot_get_device_by_index(18);
     ts_assert_double_equal(wb_motor_get_min_position(motor), -2, "Motor G: 'minPosition' should be -2 but isn't.");
     ts_assert_double_equal(wb_motor_get_max_position(motor), 4, "Motor G: 'maxPosition' should be 4 but isn't.");
@@ -126,19 +126,19 @@ int main(int argc, char **argv) {
     ts_assert_double_equal(wb_motor_get_max_position(motor), 1, "Motor G: 'maxPosition' should be 1 but isn't.");
     ts_assert_double_equal(wb_motor_get_max_velocity(motor), 2.5, "Motor G: 'maxVelocity' should be 2.5 but isn't.");
     ts_assert_double_equal(wb_motor_get_acceleration(motor), 2.5, "Motor G: 'acceleration' should be 2.5 but isn't.");
-    ts_assert_double_equal(wb_motor_get_max_torque(motor), 2.5, "Motor G: 'maxTorque' should be 2.5 but isn't.");
+    ts_assert_double_equal(wb_motor_get_max_torque(motor), 40, "Motor G: 'maxTorque' should be 40 but isn't.");
     motor = wb_robot_get_device_by_index(20);
     ts_assert_double_equal(wb_motor_get_min_position(motor), -4, "Motor G: 'minPosition' should be -4 but isn't.");
     ts_assert_double_equal(wb_motor_get_max_position(motor), 8, "Motor G: 'maxPosition' should be 8 but isn't.");
     ts_assert_double_equal(wb_motor_get_max_velocity(motor), 20, "Motor G: 'maxVelocity' should be 20 but isn't.");
     ts_assert_double_equal(wb_motor_get_acceleration(motor), 20, "Motor G: 'acceleration' should be 20 but isn't.");
-    ts_assert_double_equal(wb_motor_get_max_torque(motor), 20, "Motor G: 'maxTorque' should be 20 but isn't.");
+    ts_assert_double_equal(wb_motor_get_max_torque(motor), 5, "Motor G: 'maxTorque' should be 5 but isn't.");
     // multipliers on file [2, -0.5, -4] (which is [motor H1, motor H2, motor H3])
     // minPosition on file [-2, -2, -2] -> [-2, -1, -8] after loading. Note: [4, -8] and [0.5, -1] have swapped position
     // maxPosition on file [4, 4, 4] -> [4, 0.5, 4] after loading. Note: [4, -8] and [0.5, -1] have swapped position
     // maxVelocity on file [10, 10, 10] -> [10, 2.5, 20] after loading
     // maxAccel. on file   [10, 10, 10] -> [10, 2.5, 20] after loading
-    // maxTorque on file   [10, 10, 10] -> [10, 2.5, 20] after loading
+    // maxTorque on file   [10, 10, 10] -> [10, 40, 5] after loading
     motor = wb_robot_get_device_by_index(21);
     ts_assert_double_equal(wb_motor_get_min_position(motor), -2, "Motor H: 'minPosition' should be -2 but isn't.");
     ts_assert_double_equal(wb_motor_get_max_position(motor), 4, "Motor H: 'maxPosition' should be 4 but isn't.");
@@ -150,13 +150,13 @@ int main(int argc, char **argv) {
     ts_assert_double_equal(wb_motor_get_max_position(motor), 0.5, "Motor H: 'maxPosition' should be 0.5 but isn't.");
     ts_assert_double_equal(wb_motor_get_max_velocity(motor), 2.5, "Motor H: 'maxVelocity' should be 2.5 but isn't.");
     ts_assert_double_equal(wb_motor_get_acceleration(motor), 2.5, "Motor H: 'acceleration' should be 2.5 but isn't.");
-    ts_assert_double_equal(wb_motor_get_max_torque(motor), 2.5, "Motor H: 'maxTorque' should be 2.5 but isn't.");
+    ts_assert_double_equal(wb_motor_get_max_torque(motor), 40, "Motor H: 'maxTorque' should be 40 but isn't.");
     motor = wb_robot_get_device_by_index(23);
     ts_assert_double_equal(wb_motor_get_min_position(motor), -8, "Motor H: 'minPosition' should be -8 but isn't.");
     ts_assert_double_equal(wb_motor_get_max_position(motor), 4, "Motor H: 'maxPosition' should be 4 but isn't.");
     ts_assert_double_equal(wb_motor_get_max_velocity(motor), 20, "Motor H: 'maxVelocity' should be 20 but isn't.");
     ts_assert_double_equal(wb_motor_get_acceleration(motor), 20, "Motor H: 'acceleration' should be 20 but isn't.");
-    ts_assert_double_equal(wb_motor_get_max_torque(motor), 20, "Motor H: 'maxTorque' should be 20 but isn't.");
+    ts_assert_double_equal(wb_motor_get_max_torque(motor), 5, "Motor H: 'maxTorque' should be 5 but isn't.");
   }
 
   if (strcmp("physics_test", test_type) == 0) {
@@ -194,7 +194,6 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      // printf("%f %f %f %f %f\n", positions[0], positions[1], positions[2], positions[3], positions[4]);
       ts_assert_double_in_delta(positions[1], positions[0] * 0.5, tolerance,
                                 "Velocity control: wrong position[1] when controlling motor[0].");
       ts_assert_double_in_delta(positions[2], positions[0] * 4.0, tolerance,
@@ -223,7 +222,6 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      // printf("%f %f %f %f %f\n", positions[0], positions[1], positions[2], positions[3], positions[4]);
       ts_assert_double_in_delta(positions[0], positions[4] * -0.25, tolerance,
                                 "Velocity control: wrong position[0] when controlling motor[4].");
       ts_assert_double_in_delta(positions[1], positions[4] * -0.125, tolerance,
@@ -250,7 +248,6 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      // printf("%d) %f %f %f %f %f\n", k, positions[0], positions[1], positions[2], positions[3], positions[4]);
       if (k > 0 && !(k % 100)) {
         ts_assert_double_in_delta(positions[1], positions[0] * 0.5, tolerance,
                                   "Position control: wrong position[1] when controlling motor[0].");
@@ -293,6 +290,7 @@ int main(int argc, char **argv) {
     // switch to torque control
     WbNodeRef test_robot = wb_supervisor_node_get_from_def("PHYSICS_TEST");
     wb_supervisor_node_reset_physics(test_robot);
+    // actuate motor[0]
     wb_motor_set_torque(motors[0], 0.002);
 
     k = 0;
@@ -310,20 +308,20 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      ts_assert_double_in_delta(positions[1], positions[0] * 0.5, tolerance,
+      ts_assert_double_in_delta(positions[1], positions[0] / 0.5, tolerance,
                                 "Torque control: wrong position[1] when controlling motor[0].");
-      ts_assert_double_in_delta(positions[2], positions[0] * 4.0, tolerance,
+      ts_assert_double_in_delta(positions[2], positions[0] / 4.0, tolerance,
                                 "Torque control: wrong position[2] when controlling motor[0].");
-      ts_assert_double_in_delta(positions[3], positions[0] * -0.5, tolerance,
+      ts_assert_double_in_delta(positions[3], positions[0] / -0.5, tolerance,
                                 "Torque control: wrong position[3] when controlling motor[0].");
-      ts_assert_double_in_delta(positions[4], positions[0] * -4.0, tolerance,
+      ts_assert_double_in_delta(positions[4], positions[0] / -4.0, tolerance,
                                 "Torque control: wrong position[4] when controlling motor[0].");
 
       k++;
     }
 
     wb_supervisor_node_reset_physics(test_robot);
-
+    // actuate motor[4]
     wb_motor_set_torque(motors[4], 0.001);
 
     k = 0;
@@ -341,13 +339,13 @@ int main(int argc, char **argv) {
       for (int i = 0; i < NB_SENSORS; ++i)
         positions[i] = wb_position_sensor_get_value(sensors[i]);
 
-      ts_assert_double_in_delta(positions[0], positions[4] * -0.25, tolerance,
+      ts_assert_double_in_delta(positions[0], positions[4] / -0.25, tolerance,
                                 "Torque control: wrong position[0] when controlling motor[4].");
-      ts_assert_double_in_delta(positions[1], positions[4] * -0.125, tolerance,
+      ts_assert_double_in_delta(positions[1], positions[4] / -0.125, tolerance,
                                 "Torque control: wrong position[1] when controlling motor[4].");
-      ts_assert_double_in_delta(positions[2], positions[4] * -1, tolerance,
+      ts_assert_double_in_delta(positions[2], positions[4] / -1, tolerance,
                                 "Torque control: wrong position[2] when controlling motor[4].");
-      ts_assert_double_in_delta(positions[3], positions[4] * 0.125, tolerance,
+      ts_assert_double_in_delta(positions[3], positions[4] / 0.125, tolerance,
                                 "Torque control: wrong position[3] when controlling motor[4].");
 
       k++;

@@ -52,9 +52,9 @@ public:
   const WbSoundClip *soundClip() const { return mSoundClip; }
   double computeCurrentDynamicVelocity(double ms, double position);
   bool runKinematicControl(double ms, double &position);
-  void setTargetPosition(double position, WbMotor *relayer = NULL);
   double currentVelocity() const { return mCurrentVelocity; }
   int kinematicVelocitySign() const { return mKinematicVelocitySign; }
+  void setTargetPosition(double position, WbMotor *relayer = NULL);
   void resetPhysics();
   double energyConsumption() const override;
   void powerOn(bool) override;
@@ -117,10 +117,10 @@ private:
   void checkMultiplierAcrossCoupledMotors();
 
   // the effect of these functions depends on the current control strategy
-  void setVelocity(double velocity, WbMotor *relayer = NULL);
-  void setAcceleration(double acceleration, WbMotor *relayer = NULL);
-  void setForceOrTorque(double forceOrTorque, WbMotor *relayer = NULL);
-  void setAvailableForceOrTorque(double availableForceOrTorque, WbMotor *relayer = NULL);
+  void setVelocity(double velocity, const WbMotor *const relayer = NULL);
+  void setAcceleration(double acceleration, const WbMotor *const relayer = NULL);
+  void setForceOrTorque(double forceOrTorque, const WbMotor *const relayer = NULL);
+  void setAvailableForceOrTorque(double availableForceOrTorque, const WbMotor *const relayer = NULL);
 
   bool isAccelerationUnlimited() { return acceleration() == -1 ? true : false; }
   bool isPositionUnlimited() { return minPosition() == 0.0 && maxPosition() == 0.0; }
