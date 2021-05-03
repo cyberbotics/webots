@@ -199,7 +199,7 @@
             },
             {
                 "target" : "BLUE_PLAYER_1",
-                "position" : [1,3.25,0.24],
+                "position" : [1,3.15,0.24],
                 "orientation" : [0,0,1,-1.57]
             },
             {
@@ -228,7 +228,7 @@
             },
             {
                 "name" : "Opponent close is not penalized if timing is not respected",
-                "target" : "BLUE_PLAYER_1",
+                "target" : "RED_PLAYER_1",
                 "warnings" : 0,
                 "penalty" : 0
             }

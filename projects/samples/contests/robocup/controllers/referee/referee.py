@@ -247,17 +247,21 @@ def team_index(color):
 
 
 def game_controller_receive():
-    try:
-        data, peer = game.udp.recvfrom(GameState.sizeof())
-    except BlockingIOError:
-        return
-    except Exception as e:
-        error(f'UDP input failure: {e}')
-        data = None
-        pass
-    if not data:
-        error('No UDP data received')
-        return
+    data = None
+    while True:
+        try:
+            data, peer = game.udp.recvfrom(GameState.sizeof())
+        except BlockingIOError:
+            if data == None:
+                return
+            break
+        except Exception as e:
+            error(f'UDP input failure: {e}')
+            data = None
+            pass
+        if not data:
+            error('No UDP data received')
+            return
     previous_seconds_remaining = game.state.seconds_remaining if game.state else 0
     previous_secondary_seconds_remaining = game.state.secondary_seconds_remaining if game.state else 0
     previous_state = game.state.game_state if game.state else None
@@ -619,6 +623,9 @@ def update_team_contacts(team):
                     elif time_count - game.ball_last_touch_time_for_display >= 1000:  # dont produce too many touched messages
                         game.ball_last_touch_time_for_display = time_count
                         info(f'Ball touched again by {color} player {number}.')
+                    step = game.state.secondary_state_info[1]
+                    if step != 0 and game.state.secondary_state[6:] in GAME_INTERRUPTIONS:
+                        game_interruption_touched(team, number)
                     continue
                 # the robot touched something else than the ball or the ground
                 player['contact_points'].append(point)  # this list will be checked later for robot-robot collisions
@@ -921,6 +928,29 @@ def check_ball_must_kick(team):
                      f'Non-kicking {color} player {number} touched ball not in play.')
         break
     return True
+
+
+def game_interruption_touched(team, number):
+    """
+    Applies the associated actions for when a robot touches the ball during step 1 and 2 of game interruptions
+
+    1. If opponent touches the ball, robot receives a warning and RETAKE is sent
+    2. If team with game_interruption touched the ball, player receives warning and ABORT is sent
+    """
+    # Warnings only applies in step 1 and 2 of game interruptions
+    team_id = game.red.id if team['color'] == 'red' else game.blue.id
+    opponent = team_id != game.interruption_team
+    if opponent:
+        game.in_play = None
+        game.ball_set_kick = True
+        game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
+        info(f"Ball touched by opponent, retaking {GAME_INTERRUPTIONS[game.interruption]}")
+        game_controller_send(f'{game.interruption}:{game.interruption_team}:RETAKE')
+    else:
+        game.in_play = time_count
+        info(f"Ball touched before execute, aborting {GAME_INTERRUPTIONS[game.interruption]}")
+        game_controller_send(f'{game.interruption}:{game.interruption_team}:ABORT')
+    game_controller_send(f'CARD:{team_id}:{number}:WARN')
 
 
 def send_team_penalties(team):
