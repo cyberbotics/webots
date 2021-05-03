@@ -321,6 +321,8 @@ PROTO Fabtino [
       ]
     }
     physics Physics {
+      density -1
+      mass 30
     }
   }
 }
