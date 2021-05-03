@@ -121,7 +121,8 @@ altitude = wb_altimeter_get_value(tag)
 
 *enable, disable, and read last altimeter measurement*
 
-The `wb_altimeter_enable` function allows the user to enable touch sensor measurements.
+The `wb_altimeter_enable` function allows the user to enable altimeter measurements.
+
 The `sampling_period` arguement specifies the sampling period of the sensor and is expressed in milliseconds.
 Note that the first measurement will be available only after the first sampling period has elapsed.
 
