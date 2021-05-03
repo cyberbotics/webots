@@ -123,27 +123,21 @@ int main(int argc, char **argv) {
     if ((c >= 0) && c != pc) {
       switch (c) {
         case WB_KEYBOARD_UP:
-          printf("Go forwards\n");
           base_forwards_increment();
           break;
         case WB_KEYBOARD_DOWN:
-          printf("Go backwards\n");
           base_backwards_increment();
           break;
         case WB_KEYBOARD_LEFT:
-          printf("Strafe left\n");
           base_strafe_left_increment();
           break;
         case WB_KEYBOARD_RIGHT:
-          printf("Strafe right\n");
           base_strafe_right_increment();
           break;
         case WB_KEYBOARD_PAGEUP:
-          printf("Turn left\n");
           base_turn_left_increment();
           break;
         case WB_KEYBOARD_PAGEDOWN:
-          printf("Turn right\n");
           base_turn_right_increment();
           break;
         case WB_KEYBOARD_END:
@@ -171,6 +165,7 @@ int main(int argc, char **argv) {
         case 326:
         case WB_KEYBOARD_DOWN | WB_KEYBOARD_SHIFT:
           printf("Decrease arm height\n");
+          printf("Key %d\n", c);
           arm_decrease_height();
           break;
         case 330:

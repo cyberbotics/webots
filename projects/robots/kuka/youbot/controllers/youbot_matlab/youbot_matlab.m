@@ -10,7 +10,7 @@ TIME_STEP = 64; % time in [ms] of a simulation step
 global MAX_SPEED;
 MAX_SPEED = 0.30;
 global SPEED_INCREMENT;
-SPEED_INCREMENT = 0.1;
+SPEED_INCREMENT = 0.05;
 global WHEEL_RADIUS;
 WHEEL_RADIUS = 0.05;
 global LX;

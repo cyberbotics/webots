@@ -31,8 +31,8 @@
 #include <stdio.h>
 
 #define SPEED 4.0
-#define MAX_SPEED 0.55
-#define SPEED_INCREMENT 0.1
+#define MAX_SPEED 0.3
+#define SPEED_INCREMENT 0.05
 #define DISTANCE_TOLERANCE 0.001
 #define ANGLE_TOLERANCE 0.001
 
@@ -126,6 +126,7 @@ void base_move(double vx, double vy, double omega) {
   speeds[2] = 1 / WHEEL_RADIUS * (vx - vy - (LX + LY) * omega);
   speeds[3] = 1 / WHEEL_RADIUS * (vx + vy + (LX + LY) * omega);
   base_set_wheel_speeds_helper(speeds);
+  printf("Speeds [m/s]: vx=%.2f vy=%.2f ω=%.2f\n", vx, vy, omega);
 }
 
 void base_forwards_increment() {
@@ -139,7 +140,6 @@ void base_backwards_increment() {
   robot_vx = robot_vx < -MAX_SPEED ? -MAX_SPEED : robot_vx;
   base_move(robot_vx, robot_vy, robot_omega);
 }
-
 
 void base_turn_left_increment() {
   robot_omega += SPEED_INCREMENT;
