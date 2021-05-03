@@ -6,6 +6,8 @@ export default class Selector {
   static select(id) {
     Selector.previousId = Selector.selectedId;
     Selector.selectedId = 'n-1'; // in case we select nothing
+    if (typeof WbWorld.instance === 'undefined')
+      return;
 
     const node = WbWorld.instance.nodes.get('n' + id);
     if (typeof node === 'undefined') {
