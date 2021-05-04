@@ -121,10 +121,10 @@ void base_strafe_right() {
 
 void base_move(double vx, double vy, double omega) {
   double speeds[4];
-  speeds[0] = 1 / WHEEL_RADIUS * (vx + vy - (LX + LY) * omega);
-  speeds[1] = 1 / WHEEL_RADIUS * (vx - vy + (LX + LY) * omega);
-  speeds[2] = 1 / WHEEL_RADIUS * (vx - vy - (LX + LY) * omega);
-  speeds[3] = 1 / WHEEL_RADIUS * (vx + vy + (LX + LY) * omega);
+  speeds[0] = 1 / WHEEL_RADIUS * (vx + vy + (LX + LY) * omega);
+  speeds[1] = 1 / WHEEL_RADIUS * (vx - vy - (LX + LY) * omega);
+  speeds[2] = 1 / WHEEL_RADIUS * (vx - vy + (LX + LY) * omega);
+  speeds[3] = 1 / WHEEL_RADIUS * (vx + vy - (LX + LY) * omega);
   base_set_wheel_speeds_helper(speeds);
   printf("Speeds: vx=%.2f[m/s] vy=%.2f[m/s] ω=%.2f[rad/s]\n", vx, vy, omega);
 }

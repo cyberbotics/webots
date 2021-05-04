@@ -7,5 +7,4 @@ function base_reset
   robot_vy = 0.0;
   global robot_omega;
   robot_omega = 0.0;
-  wb_console_print('Reset', WB_STDOUT)
 end

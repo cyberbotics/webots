@@ -49,7 +49,7 @@ automatic_behavior
 previous_key = 0;
 wb_keyboard_enable(1);
 
-wb_console_print(sprintf(['\nControl commands:\n', ...
+wb_console_print(sprintf(['\n \nControl commands:\n', ...
   '  Arrows:         Move the robot\n', ...
   '  Page Up/Down:   Rotate the robot\n', ...
   '  +/-:            (Un)grip\n', ...
@@ -73,6 +73,7 @@ while wb_robot_step(TIME_STEP) ~= -1
       case WB_KEYBOARD_PAGEDOWN
         base_turn_right_increment
       case {WB_KEYBOARD_END, ' '}
+        wb_console_print('Reset', WB_STDOUT)
         base_reset
         arm_perform_reset
       case {'+', 388, 65585}

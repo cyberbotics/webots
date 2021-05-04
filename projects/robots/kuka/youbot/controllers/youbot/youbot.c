@@ -92,12 +92,12 @@ static void automatic_behavior() {
 }
 
 static void display_helper_message() {
-  printf("Control commands:\n");
-  printf(" Arrows:       Move the robot\n");
-  printf(" Page Up/Down: Rotate the robot\n");
-  printf(" +/-:          (Un)grip\n");
-  printf(" Shift + arrows:   Handle the arm\n");
-  printf(" Space: Reset\n");
+  printf("\n \nControl commands:\n");
+  printf(" Arrows:         Move the robot\n");
+  printf(" Page Up/Down:   Rotate the robot\n");
+  printf(" +/-:            (Un)grip\n");
+  printf(" Shift + arrows: Handle the arm\n");
+  printf(" Space:          Reset\n");
 }
 
 int main(int argc, char **argv) {

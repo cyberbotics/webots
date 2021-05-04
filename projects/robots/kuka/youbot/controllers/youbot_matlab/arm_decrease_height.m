@@ -5,7 +5,7 @@ function arm_decrease_height()
   
   new_height_id = HEIGHTS_ID(current_height) -1;
   
-  % Prevents from going beyond index
+  % Prevents from going beyond index.
   if (new_height_id < 1)
     new_height_id = 1;
   end
