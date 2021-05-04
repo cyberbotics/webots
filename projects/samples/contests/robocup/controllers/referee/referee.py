@@ -14,6 +14,8 @@
 
 from gamestate import GameState
 from field import Field
+from forceful_contact import ForcefulContact
+
 from controller import Supervisor, AnsiCodes, Node
 
 import copy
@@ -693,6 +695,35 @@ def update_contacts():
     update_ball_contacts()
     update_team_contacts(red_team)
     update_team_contacts(blue_team)
+
+
+def find_robot_contact(team, point):
+    for number in team['players']:
+        if point in team['players'][number]['contact_points']:
+            return number
+    return None
+
+
+def update_team_robot_contacts(team):
+    for number in team['players']:
+        player = team['players'][number]
+        contact_points = player['contact_points']
+        if len(contact_points) == 0:
+            continue
+        opponent_team = red_team if team == blue_team else blue_team
+        opponent_number = None
+        for point in contact_points:
+            opponent_number = find_robot_contact(opponent_team, point)
+            if opponent_number is not None:
+                info(f'{time_count}: contact between {team["color"]} player {number} and '
+                     f'{opponent_team["color"]} player {opponent_number}.')
+                game.forceful_contacts.append(ForcefulContact(team, number, opponent_team, opponent_number))
+
+
+def update_robot_contacts():
+    game.forceful_contacts = []
+    update_team_robot_contacts(red_team)
+    update_team_robot_contacts(blue_team)
 
 
 def update_team_penalized(team):
@@ -1488,6 +1519,7 @@ while supervisor.step(time_step) != -1 and not game.over:
     if game.ball_position != previous_position:
         game.ball_last_move = time_count
     update_contacts()  # check for collisions with the ground and ball
+    update_robot_contacts()  # check for collisions between robots
     update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
     if game.wait_for_state is not None:  # we are waiting for a new state from the GameController
         time_count += time_step
