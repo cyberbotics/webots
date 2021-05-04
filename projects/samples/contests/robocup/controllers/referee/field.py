@@ -10,6 +10,7 @@ class Field:
         self.circle_radius = 0.75 if size == 'kid' else 1.5
         self.penalty_offset = 0.6 if size == 'kid' else 1
         self.opponent_distance_to_ball = 0.75 if size == 'kid' else 1.5
+        self.ball_vincity = 0.75 if size == 'kid' else 1.5
         self.robot_radius = 0.3 if size == 'kid' else 0.5
         self.turf_depth = 0.01
         self.border_strip_width = 1
