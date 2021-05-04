@@ -806,8 +806,8 @@ def update_team_robot_contacts(team):
                     red_number = opponent_number
                     blue_number = number
                 fcm = game.forceful_contact_matrix
-                previous_contact = fcm.contact(red_number, blue_number, time_count - time_step)
-                if not previous_contact:
+                if (not fcm.contact(red_number, blue_number, time_count - time_step) and
+                   not fcm.contact(red_number, blue_number, time_count)):
                     info(f'{time_count}: contact between {team["color"]} player {number} and '
                          f'{opponent_team["color"]} player {opponent_number}.')
                 fcm.set_contact(red_number, blue_number, time_count)
@@ -861,8 +861,10 @@ def send_penalty(player, penalty, reason, log=None):
         info(log)
 
 
-def forceful_contact_foul(team, number, opponent_team, opponent_number):
-    info(f'{team.capitalize()} player {number} committed a forceful contact foul on {opponent_team} player {opponent_number}.')
+def forceful_contact_foul(team, number, opponent_team, opponent_number, goal_keeper=False):
+    extra = ' (goal keeper)' if goal_keeper else ''
+    info(f'{team["color"].capitalize()} player {number} committed a forceful contact foul on '
+         f'{opponent_team["color"]} player {opponent_number}{extra}.')
 
 
 def goal_keeper_inside_own_goal_area(team, number):
@@ -876,14 +878,14 @@ def goal_keeper_inside_own_goal_area(team, number):
 def check_forceful_contacts():
     update_robot_contacts()
     fcm = game.forceful_contact_matrix
-    for red_number in red_team['player']:
+    for red_number in red_team['players']:
         for blue_number in blue_team['players']:
-            if fcm.contact(red_number, blue_number, time_step):  # immediate contact
+            if fcm.contact(red_number, blue_number, time_count):  # immediate contact
                 if goal_keeper_inside_own_goal_area(red_team, red_number):
-                    forceful_contact_foul(blue_team, blue_number, red_team, red_number)
+                    forceful_contact_foul(blue_team, blue_number, red_team, red_number, goal_keeper=True)
                     continue
                 if goal_keeper_inside_own_goal_area(blue_team, blue_number):
-                    forceful_contact_foul(red_team, red_number, blue_team, blue_number)
+                    forceful_contact_foul(red_team, red_number, blue_team, blue_number, goal_keeper=True)
                     continue
             if game.forceful_contact_matrix.foul(red_number, blue_number):
                 info(f'Forceful contact foul between red player {red_number} and blue player {blue_number}.')
@@ -1628,8 +1630,8 @@ game.in_play = None
 game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
-game.forcefull_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
-                                                      FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
+game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
+                                                     FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
 
 previous_seconds_remaining = 0
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
