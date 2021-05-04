@@ -715,9 +715,15 @@ def update_team_robot_contacts(team):
         for point in contact_points:
             opponent_number = find_robot_contact(opponent_team, point)
             if opponent_number is not None:
-                info(f'{time_count}: contact between {team["color"]} player {number} and '
-                     f'{opponent_team["color"]} player {opponent_number}.')
-                game.forceful_contacts.append(ForcefulContact(team, number, opponent_team, opponent_number))
+                already_listed = False
+                for forceful_contact in game.forceful_contacts:
+                    if forceful_contact.contains(team, number, opponent_team, opponent_number):
+                        already_listed = True
+                        break
+                if not already_listed:
+                    info(f'{time_count}: contact between {team["color"]} player {number} and '
+                         f'{opponent_team["color"]} player {opponent_number}.')
+                    game.forceful_contacts.append(ForcefulContact(team, number, opponent_team, opponent_number))
 
 
 def update_robot_contacts():
