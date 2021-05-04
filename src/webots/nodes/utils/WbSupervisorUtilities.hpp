@@ -54,7 +54,7 @@ public:
 signals:
   void worldModified();
   void changeSimulationModeRequested(int newMode);
-  void labelChanged(const QString &labelDescription);  // i.e. "label:<id>;<font>;<color>;<size>;<x>;<y>;<text>"
+  void labelChanged(const QString &labelDescription);  // i.e. json format
 
 private slots:
   void animationStartStatusChanged(int status);
