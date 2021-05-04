@@ -29,11 +29,19 @@ public:
 
   // reimplemented functions
   int nodeType() const override { return WB_NODE_BILLBOARD; }
+  void postFinalize() override;
+  void createWrenObjects() override;
+
+protected:
+  void applyTranslationToWren();
+  void applyRotationToWren();
 
 private:
-  WbGroup &operator=(const WbGroup &);  // non copyable
-  WbNode *clone() const override { return new WbGroup(*this); }
-  void init();
+  WbBillboard &operator=(const WbBillboard &);  // non copyable
+  WbNode *clone() const override { return new WbBillboard(*this); }
+
+private slots:
+  void updatePosition();
 };
 
 #endif

@@ -13,23 +13,70 @@
 // limitations under the License.
 
 #include "WbBillboard.hpp"
+#include "WbTransform.hpp"
+#include "WbViewpoint.hpp"
+#include "WbWorld.hpp"
 
 #include <wren/node.h>
-
-void WbBillboard::init() {
-}
+#include <wren/transform.h>
 
 WbBillboard::WbBillboard(WbTokenizer *tokenizer) : WbGroup("Billboard", tokenizer) {
-  init();
 }
 
 WbBillboard::WbBillboard(const WbBillboard &other) : WbGroup(other) {
-  init();
 }
 
 WbBillboard::WbBillboard(const WbNode &other) : WbGroup(other) {
-  init();
 }
 
 WbBillboard::~WbBillboard() {
+  if (areWrenObjectsInitialized())
+    wr_node_delete(WR_NODE(wrenNode()));
+}
+
+void WbBillboard::postFinalize() {
+  WbGroup::postFinalize();
+  const WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
+
+  connect(viewpoint, &WbViewpoint::cameraParametersChanged, this, &WbBillboard::updatePosition);
+}
+
+void WbBillboard::createWrenObjects() {
+  WbBaseNode::createWrenObjects();
+
+  WrTransform *transform = wr_transform_new();
+  wr_transform_attach_child(wrenNode(), WR_NODE(transform));
+  setWrenNode(transform);
+
+  const int size = children().size();
+  for (int i = 0; i < size; ++i) {
+    WbBaseNode *const n = child(i);
+    n->createWrenObjects();
+  }
+
+  applyRotationToWren();
+  applyTranslationToWren();
+}
+
+void WbBillboard::applyTranslationToWren() {
+  const WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
+
+  float translation[3];
+  WbSFVector3 *position = viewpoint->position();
+  position->value().toFloatArray(translation);
+
+  wr_transform_set_position(wrenNode(), translation);
+}
+
+void WbBillboard::applyRotationToWren() {
+  const WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
+  WbSFRotation *orientation = viewpoint->orientation();
+  float rotation[4];
+  orientation->value().toFloatArray(rotation);
+  wr_transform_set_orientation(wrenNode(), rotation);
+}
+
+void WbBillboard::updatePosition() {
+  applyRotationToWren();
+  applyTranslationToWren();
 }
