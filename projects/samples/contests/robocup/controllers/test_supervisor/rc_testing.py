@@ -73,7 +73,7 @@ class StatusInformation:
     def getGameState(self):
         if self.gc_status is None:
             return None
-        return self.gc_status.game_state.split("_")[1]
+        return self.gc_status.game_state.split("_", 1)[1]
 
     def getSecondaryState(self):
         if self.gc_status is None:
@@ -141,14 +141,14 @@ class StatusInformation:
                                       gc_status.secondary_state != self.gc_status.secondary_state or
                                       gc_status.secondary_state_info[1] != self.gc_status.secondary_state_info[1])
             if update_state_start:
-                state = gc_status.game_state.split("_")[1]
+                state = gc_status.game_state.split("_", 1)[1]
                 self._state_starts[state].append({
                     "System" : system_time,
                     "Simulated" : simulated_time
                 })
                 print(f"Adding new state start for state {state}: count: {len(self._state_starts[state])}")
             if update_sec_state_start:
-                sec_state = gc_status.secondary_state.split("_")[1]
+                sec_state = gc_status.secondary_state.split("_", 1)[1]
                 phase = gc_status.secondary_state_info[1]
                 if phase > len(self._sec_state_starts[sec_state]):
                     raise RuntimeError(f"Unexpected phase: {phase}")
