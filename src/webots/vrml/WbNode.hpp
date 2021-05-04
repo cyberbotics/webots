@@ -193,7 +193,6 @@ public:
   // is a parameter node contained in a PROTO instance
   bool isProtoParameterNode() const;
 
-  bool isNestedProtoNode() const { return mIsNestedProtoNode; }
   void disconnectInternalNode();
 
   // return the node instances redirected to this PROTO parameter node
@@ -330,6 +329,7 @@ protected:
   virtual void exportURDFJoint(WbVrmlWriter &writer) const {};
 
   virtual void useNodesChanged() const {};
+  bool isNestedProtoNode() const { return mIsNestedProtoNode; }
 
   QString getUrdfPrefix() const;
   void setUrdfPrefix(const QString &prefix) { mUrdfPrefix = prefix; };
