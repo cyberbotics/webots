@@ -29,7 +29,6 @@
 #include "WbDocumentation.hpp"
 #include "WbFileUtil.hpp"
 #include "WbGuidedTour.hpp"
-#include "WbHtmlExportDialog.hpp"
 #include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbMessageBox.hpp"
@@ -1617,12 +1616,24 @@ void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
   WbWorld *world = WbWorld::instance();
+  QString worldName = world->fileName();
+  if (worldName.endsWith(".wbt", Qt::CaseInsensitive)) {
+    worldName = worldName.left(worldName.lastIndexOf("."));
+    worldName.append(".html");
+  }
 
-  WbHtmlExportDialog parametersDialog(tr("Export HTML5 Model"), world->fileName(), this);
-  bool accept = parametersDialog.exec();
-  if (accept) {
-    const QString &fileName = parametersDialog.fileName();
-    assert(!fileName.isEmpty());
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Export HTML Model"), WbProject::computeBestPathForSaveAs(worldName),
+                                                  tr("HTML Files (*.html *.HTML)"));
+
+  if (fileName.isEmpty()) {
+    WbSimulationState::instance()->setMode(currentMode);
+    return;
+  }
+
+  if (!fileName.endsWith(".html", Qt::CaseInsensitive))
+    fileName.append(".html");
+
+  if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     world->exportAsHtml(fileName, false);
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
     openUrl(fileName,
@@ -2222,13 +2233,24 @@ void WbMainWindow::setWorldLoadingStatus(const QString &status) {
 void WbMainWindow::startAnimationRecording() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
-  const QString &worldFileName = WbWorld::instance()->fileName();
+  QString worldName = WbWorld::instance()->fileName();
+  if (worldName.endsWith(".wbt", Qt::CaseInsensitive)) {
+    worldName = worldName.left(worldName.lastIndexOf("."));
+    worldName.append(".html");
+  }
 
-  WbHtmlExportDialog parametersDialog(tr("Export as HTML5 animation"), worldFileName, this);
-  bool accept = parametersDialog.exec();
-  if (accept) {
-    const QString &fileName = parametersDialog.fileName();
-    assert(!fileName.isEmpty());
+  QString fileName = QFileDialog::getSaveFileName(
+    this, tr("Save Animation File"), WbProject::computeBestPathForSaveAs(worldName), tr("HTML Files (*.html *.HTML)"));
+
+  if (fileName.isEmpty()) {
+    WbSimulationState::instance()->setMode(currentMode);
+    return;
+  }
+
+  if (!fileName.endsWith(".html", Qt::CaseInsensitive))
+    fileName.append(".html");
+
+  if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
     WbAnimationRecorder::instance()->start(fileName);
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");

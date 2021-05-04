@@ -299,7 +299,6 @@ QT_SOURCES += \
   WbHingeJoint.cpp \
   WbHingeJointParameters.cpp \
   WbHinge2Joint.cpp \
-  WbHtmlExportDialog.cpp \
   WbImageTexture.cpp \
   WbImportWizard.cpp \
   WbImmersionProperties.cpp \
