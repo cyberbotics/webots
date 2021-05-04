@@ -7,34 +7,42 @@
 
 TIME_STEP = 64; % time in [ms] of a simulation step
 
+% Constants
 global MAX_SPEED;
 MAX_SPEED = 0.30;
 global SPEED_INCREMENT;
 SPEED_INCREMENT = 0.05;
 global WHEEL_RADIUS;
 WHEEL_RADIUS = 0.05;
-global LX;
+global LX; % lateral distance from robot's COM to wheel [m].
 LX = 0.158;
-global LY;
+global LY; % longitudinal distance from robot's COM to wheel [m].
 LY= 0.228;
+global HEIGHTS;
+HEIGHTS = ["ARM_FRONT_FLOOR", "ARM_FRONT_PLATE", "ARM_HANOI_PREPARE", "ARM_FRONT_CARDBOARD_BOX", ...
+           "ARM_RESET", "ARM_BACK_PLATE_HIGH", "ARM_BACK_PLATE_LOW"];
+global HEIGHTS_ID;
+HEIGHTS_ID = containers.Map(HEIGHTS, [1:length(HEIGHTS)]);
+global ORIENTATIONS;
+ORIENTATIONS = ["ARM_BACK_LEFT", "ARM_LEFT", "ARM_FRONT_LEFT", "ARM_FRONT", "ARM_FRONT_RIGHT", "ARM_RIGHT", ...
+                "ARM_BACK_RIGHT"];
+global ORIENTATIONS_ID;
+ORIENTATIONS_ID = containers.Map(ORIENTATIONS, [1:length(ORIENTATIONS)]);
 
-global robot_vx;
-robot_vx = 0.0;
-global robot_vy;
-robot_vy = 0.0;
-global robot_omega;
-robot_omega = 0.0;
-
-previous_key = 0;
-wb_keyboard_enable(1);
+% Robot State
+global robot_vx; % forwards speed [m/s]
+global robot_vy; % lateral speed [m/s]
+global robot_omega; % angular speed [rad/s]
+global current_height;
+global current_orientation;
 
 % Initialization
 arm_init
 base_init
 gripper_init
-passive_wait(2.2)
 
 % Short Demo
+passive_wait(2.2)
 automatic_behavior
 
 % Keyboard control
@@ -42,14 +50,14 @@ previous_key = 0;
 wb_keyboard_enable(1);
 
 wb_console_print(sprintf(['\nControl commands:\n', ...
-  '  Arrows:       Move the robot\n', ...
-  '  Page Up/Down: Rotate the robot\n', ...
-  '  +/-:          (Un)grip\n', ...
-  '  Shift + arrows:   Handle the arm\n', ...
-  '  Space: Reset']), WB_STDOUT);
+  '  Arrows:         Move the robot\n', ...
+  '  Page Up/Down:   Rotate the robot\n', ...
+  '  +/-:            (Un)grip\n', ...
+  '  Shift + arrows: Handle the arm\n', ...
+  '  Space:          Reset']), WB_STDOUT);
 
 while wb_robot_step(TIME_STEP) ~= -1
-  key = char(wb_keyboard_get_key());
+  key = double(wb_keyboard_get_key());
   if ((key > 0) && key ~= previous_key)
     switch key
       case WB_KEYBOARD_UP
@@ -73,20 +81,20 @@ while wb_robot_step(TIME_STEP) ~= -1
       case {'-', 390}
         wb_console_print('Ungrip', WB_STDOUT)
         gripper_release
-      case {332, WB_KEYBOARD_UP | WB_KEYBOARD_SHIFT}
+      case {332, 65851, WB_KEYBOARD_UP | WB_KEYBOARD_SHIFT}
         wb_console_print('Increase arm height', WB_STDOUT)
         arm_increase_height
-      case {326, WB_KEYBOARD_DOWN | WB_KEYBOARD_SHIFT}
+      case {326, 65853, WB_KEYBOARD_DOWN | WB_KEYBOARD_SHIFT}
         wb_console_print('Decrease arm height', WB_STDOUT)
         arm_decrease_height
-      case {330,  WB_KEYBOARD_RIGHT | WB_KEYBOARD_SHIFT}
+      case {330, 65852, WB_KEYBOARD_RIGHT | WB_KEYBOARD_SHIFT}
         wb_console_print('Increase arm orientation', WB_STDOUT)
         arm_increase_orientation
-      case {328, WB_KEYBOARD_LEFT | WB_KEYBOARD_SHIFT}
+      case {328, 65850, WB_KEYBOARD_LEFT | WB_KEYBOARD_SHIFT}
         wb_console_print('Decrease arm orientation', WB_STDOUT)
         arm_decrease_orientation
       otherwise
-        wb_console_print(sprintf('Wrong keyboard input (ASCII=%d)', key), WB_STDOUT)
+        wb_console_print('Wrong keyboard input', WB_STDERR)
     end
   end
   previous_key = key;

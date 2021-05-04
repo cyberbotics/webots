@@ -126,7 +126,7 @@ void base_move(double vx, double vy, double omega) {
   speeds[2] = 1 / WHEEL_RADIUS * (vx - vy - (LX + LY) * omega);
   speeds[3] = 1 / WHEEL_RADIUS * (vx + vy + (LX + LY) * omega);
   base_set_wheel_speeds_helper(speeds);
-  printf("Speeds [m/s]: vx=%.2f vy=%.2f ω=%.2f\n", vx, vy, omega);
+  printf("Speeds: vx=%.2f[m/s] vy=%.2f[m/s] ω=%.2f[rad/s]\n", vx, vy, omega);
 }
 
 void base_forwards_increment() {

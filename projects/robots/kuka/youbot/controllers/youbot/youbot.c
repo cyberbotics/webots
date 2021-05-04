@@ -165,7 +165,6 @@ int main(int argc, char **argv) {
         case 326:
         case WB_KEYBOARD_DOWN | WB_KEYBOARD_SHIFT:
           printf("Decrease arm height\n");
-          printf("Key %d\n", c);
           arm_decrease_height();
           break;
         case 330:
