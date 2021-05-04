@@ -58,6 +58,7 @@ GOAL_WIDTH = 2.6                          # width of the goal
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 STATIC_SPEED_EPS = 1e-2                   # The speed below which an object is considered as static [m/s]
+DROPPED_BALL_TEAM_ID = 128                # The team id used for dropped ball
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -836,7 +837,7 @@ def check_team_kickoff_position(team):
             send_penalty(player, 'INCAPABLE', 'outside team side at kick-off')
             penalty = True
         elif game.kickoff != team_id and not player['outside_circle']:
-            send_penalty(player, 'INCAPABLE', 'inside center circle during oppenent\'s kick-off')
+            send_penalty(player, 'INCAPABLE', 'inside center circle during opponent\'s kick-off')
             penalty = True
     return penalty
 
@@ -1496,6 +1497,10 @@ while supervisor.step(time_step) != -1 and not game.over:
             if game.phase in GAME_INTERRUPTIONS and game.state.secondary_state[6:] == "NORMAL":
                 opponent_team = red_team if game.ball_must_kick_team == 'blue' else blue_team
                 check_team_away_from_ball(opponent_team, game.field.opponent_distance_to_ball)
+            # If ball is not in play after a kick_off, check for circle entrance for the defending team
+            if game.phase == 'KICKOFF' and game.kickoff != DROPPED_BALL_TEAM_ID:
+                defending_team = red_team if game.kickoff == game.blue.id else blue_team
+                check_circle_entrance(defending_team)
             if game.ball_first_touch_time != 0:
                 d = distance2(game.ball_kick_translation, game.ball_position)
                 if d > BALL_IN_PLAY_MOVE:
@@ -1504,8 +1509,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                     game.in_play = time_count
                 else:
                     team = red_team if game.ball_must_kick_team == 'blue' else blue_team
-                    if not check_circle_entrance(team):
-                        check_ball_must_kick(team)
+                    check_ball_must_kick(team)
         else:
             if time_count - game.ball_last_move > DROPPED_BALL_TIMEOUT * 1000:
                 dropped_ball()
