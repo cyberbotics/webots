@@ -14,7 +14,7 @@
 
 from gamestate import GameState
 from field import Field
-from forceful_contact import ForcefulContact
+from forceful_contact_matrix import ForcefulContactMatrix
 
 from controller import Supervisor, AnsiCodes, Node
 
@@ -715,19 +715,22 @@ def update_team_robot_contacts(team):
         for point in contact_points:
             opponent_number = find_robot_contact(opponent_team, point)
             if opponent_number is not None:
-                already_listed = False
-                for forceful_contact in game.forceful_contacts:
-                    if forceful_contact.contains(team, number, opponent_team, opponent_number):
-                        already_listed = True
-                        break
-                if not already_listed:
+                if team == red_team:
+                    red_number = number
+                    blue_number = opponent_number
+                else:
+                    red_number = opponent_number
+                    blue_number = number
+                fcm = game.forceful_contact_matrix
+                previous_contact = fcm.contact(red_number, blue_number, time_count - time_step)
+                if not previous_contact:
                     info(f'{time_count}: contact between {team["color"]} player {number} and '
                          f'{opponent_team["color"]} player {opponent_number}.')
-                    game.forceful_contacts.append(ForcefulContact(team, number, opponent_team, opponent_number))
+                fcm.set_contact(red_number, blue_number, time_count)
 
 
 def update_robot_contacts():
-    game.forceful_contacts = []
+    game.forceful_contact_matrix.clear(time_count)
     update_team_robot_contacts(red_team)
     update_team_robot_contacts(blue_team)
 
@@ -756,6 +759,34 @@ def send_penalty(player, penalty, reason, log=None):
     player['penalty_reason'] = reason
     if log is not None:
         info(log)
+
+
+def forceful_contact_foul(team, number, opponent_team, opponent_number):
+    info(f'{team.capitalize()} player {number} committed a forceful contact foul on {opponent_team} player {opponent_number}.')
+
+
+def goal_keeper_inside_own_goal_area(team, number):
+    if is_goal_keeper(team, number):
+        goal_keeper = team['players'][number]
+        if not goal_keeper['outside_goal_area'] and goal_keeper['inside_own_side']:
+            return True
+    return False
+
+
+def check_forceful_contacts():
+    update_robot_contacts()
+    fcm = game.forceful_contact_matrix
+    for red_number in red_team['player']:
+        for blue_number in blue_team['players']:
+            if fcm.contact(red_number, blue_number, time_step):  # immediate contact
+                if goal_keeper_inside_own_goal_area(red_team, red_number):
+                    forceful_contact_foul(blue_team, blue_number, red_team, red_number)
+                    continue
+                if goal_keeper_inside_own_goal_area(blue_team, blue_number):
+                    forceful_contact_foul(red_team, red_number, blue_team, blue_number)
+                    continue
+            if game.forceful_contact_matrix.foul(red_number, blue_number):
+                info(f'Forceful contact foul between red player {red_number} and blue player {blue_number}.')
 
 
 def check_team_ball_holding(team):
@@ -1482,6 +1513,8 @@ game.in_play = None
 game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
+game.forcefull_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
+                                                      FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
 
 previous_seconds_remaining = 0
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
@@ -1524,14 +1557,14 @@ while supervisor.step(time_step) != -1 and not game.over:
     game.ball_position = game.ball_translation.getSFVec3f()
     if game.ball_position != previous_position:
         game.ball_last_move = time_count
-    update_contacts()  # check for collisions with the ground and ball
-    update_robot_contacts()  # check for collisions between robots
+    update_contacts()  # check for collisions with the ground, ball and other robots
     update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
     if game.wait_for_state is not None:  # we are waiting for a new state from the GameController
         time_count += time_step
         continue
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
+        check_forceful_contacts()
         if game.in_play is None:
             # During period after the end of a game interruption, check distance of opponents
             if game.phase in GAME_INTERRUPTIONS and game.state.secondary_state[6:] == "NORMAL":
