@@ -35,6 +35,8 @@ from types import SimpleNamespace
 
 OUTSIDE_TURF_TIMEOUT = 20                 # a player outside the turf for more than 20 seconds gets a removal penalty
 INACTIVE_GOAL_KEEPER_TIMEOUT = 20         # a goal keeper is penalized if inactive for 20 seconds while the ball is in goal area
+INACTIVE_GOAL_KEEPER_DIST = 0.5           # if goal keeper is farther than this distance it can't be inactive
+INACTIVE_GOAL_KEEPER_PROGRESS = 0.05      # the minimal distance to move toward the ball in order to be considered active
 DROPPED_BALL_TIMEOUT = 120                # wait 2 simulated minutes if the ball doesn't move before starting dropped ball
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = 10  # waiting time of 10 simulated seconds in phase 0 of interruption
 SIMULATED_TIME_INTERRUPTION_PHASE_1 = 30  # waiting time of 30 simulated seconds in phase 1 of interruption
@@ -61,6 +63,7 @@ RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 STATIC_SPEED_EPS = 1e-2                   # The speed below which an object is considered as static [m/s]
 DROPPED_BALL_TEAM_ID = 128                # The team id used for dropped ball
+BALL_DIST_PERIOD = 1                      # seconds. The period at which distance to the ball is checked
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -665,6 +668,8 @@ def init_team(team):
         player['inside_own_side'] = False
         player['outside_goal_area'] = True
         player['left_turf_time'] = None
+        # Stores tuples of with (time_count[int], dic) at a 1Hz frequency
+        player['history'] = []
 
 
 def update_team_contacts(team):
@@ -768,9 +773,26 @@ def update_ball_contacts():
 
 
 def update_contacts():
+    """Only updates the contact of objects which are not asleep"""
     update_ball_contacts()
     update_team_contacts(red_team)
     update_team_contacts(blue_team)
+
+
+def update_histories():
+    for team in [red_team, blue_team]:
+        for number in team['players']:
+            player = team['players'][number]
+            # Remove old ball_distances
+            if len(player['history']) > 0 \
+               and (time_count - player['history'][0][0]) > INACTIVE_GOAL_KEEPER_TIMEOUT * 1000:
+                player['history'].pop(0)
+            # If enough time has elapsed, add an entry
+            if len(player['history']) == 0 or (time_count - player['history'][-1][0]) > BALL_DIST_PERIOD * 1000:
+                ball_dist = distance2(player['position'], game.ball_position)
+                own_goal_area = player['inside_own_side'] and not player['outside_goal_area']
+                entry = (time_count, {"ball_distance": ball_dist, "own_goal_area": own_goal_area})
+                player['history'].append(entry)
 
 
 def update_team_penalized(team):
@@ -843,21 +865,34 @@ def check_fallen():
 
 
 def check_team_inactive_goalie(team):
+    # Since there is only one goal keeper, we can safely return once we have a 'proof' that the goal keeper is not inactive
     for number in team['players']:
         if not is_goal_keeper(team, number):
             continue
         player = team['players'][number]
-        if 'penalized' in player:
-            continue  # skip penalized players
-        if 'previous_position' not in player:
-            player['previous_position'] = player['position']
+        if 'penalized' in player or 'sent_to_penality_position' in player or len(player['history']) == 0:
             return
-        move = distance2(player['previous_position'], game.ball_position) - distance2(player['position'], game.ball_position)
-        if move > 0:  # moving toward the ball
-            info('Goal keeper moving towards the ball.')
+        # If player was out of his own goal area recently, it can't be considered as inactive
+        if not all([e[1]["own_goal_area"] for e in player['history']]):
+            return
+        ball_distances = [e[1]["ball_distance"] for e in player['history']]
+        if max(ball_distances) > INACTIVE_GOAL_KEEPER_DIST:
+            return
+        # In order to measure progress toward the ball, we just look if one of distance measured is significantly lower
+        # than what happened previously. active_dist keeps track of the threshold below which we consider the player as
+        # moving toward the ball.
+        active_dist = 0
+        for d in ball_distances:
+            if d < active_dist:
+                return
+            new_active_dist = d - INACTIVE_GOAL_KEEPER_PROGRESS
+            if new_active_dist > active_dist:
+                active_dist = new_active_dist
+        info(f'Goal keeper did not move toward the ball over the last {INACTIVE_GOAL_KEEPER_TIMEOUT} seconds')
+        send_penalty(player, 'INCAPABLE', "Inactive goalie")
 
 
-def check_inactive_goalie():
+def check_inactive_goalies():
     check_team_inactive_goalie(red_team)
     check_team_inactive_goalie(blue_team)
 
@@ -1569,11 +1604,13 @@ while supervisor.step(time_step) != -1 and not game.over:
         game.ball_last_move = time_count
     update_contacts()  # check for collisions with the ground and ball
     update_ball_holding()  # check for ball holding for field players and goal keeper
+    update_histories()
     if game.wait_for_state is not None:  # we are waiting for a new state from the GameController
         time_count += time_step
         continue
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
+        check_inactive_goalies()
         if game.in_play is None:
             # During period after the end of a game interruption, check distance of opponents
             if game.phase in GAME_INTERRUPTIONS and game.state.secondary_state[6:] == "NORMAL":
