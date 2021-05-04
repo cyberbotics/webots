@@ -15,11 +15,11 @@
  */
 
 /*
- * Description:  This controller is used to move the six-wheeled robot MiR100 in an industrial environment
+ * Description:  This controller is used to move the six-wheeled (2 actuated) robot MiR100 in an industrial environment
  *               using the keyboard. The keys are the following:
  *
  *               vx         : ↑/↓
- *               θ (heading): Page Up/Page Down
+ *               ω          : Page Up/Page Down
  *               Reset      : Space bar
  */
 
@@ -33,10 +33,11 @@
 #define WHEEL_RADIUS 0.075
 #define SPEED_MAX 1.5
 #define SPEED_MIN -0.3
+#define ANGULAR_SPEED_MAX 0.3
+#define ANGULAR_SPEED_MIN -0.3
 #define SPEED_INCREMENT 0.15
-#define HEADING_MAX M_PI / 4
-#define HEADING_MIN -M_PI / 4
-#define HEADING_INCREMENT M_PI / 24
+#define DISTANCE_TO_CENTER 0.2226
+
 
 int main() {
   wb_robot_init();
@@ -44,36 +45,25 @@ int main() {
   WbDeviceTag motor_left_wheel = wb_robot_get_device("mir100_middle_left_wheel_joint");
   WbDeviceTag motor_right_wheel = wb_robot_get_device("mir100_middle_right_wheel_joint");
 
-  WbDeviceTag motor_caster_fl = wb_robot_get_device("mir100_front_left_caster_joint");
-  WbDeviceTag motor_caster_fr = wb_robot_get_device("mir100_front_right_caster_joint");
-  WbDeviceTag motor_caster_bl = wb_robot_get_device("mir100_back_left_caster_joint");
-  WbDeviceTag motor_caster_br = wb_robot_get_device("mir100_back_right_caster_joint");
-
-  // Regular wheels in velocity control, so position must be set to infinity.
+  // Wheels in velocity control, so position must be set to infinity.
   wb_motor_set_position(motor_left_wheel, INFINITY);
   wb_motor_set_position(motor_right_wheel, INFINITY);
   wb_motor_set_velocity(motor_left_wheel, 0.0);
   wb_motor_set_velocity(motor_right_wheel, 0.0);
 
-  // Caster wheels in position control.
-  wb_motor_set_position(motor_caster_fl, 0.0);
-  wb_motor_set_position(motor_caster_fr, 0.0);
-  wb_motor_set_position(motor_caster_bl, 0.0);
-  wb_motor_set_position(motor_caster_br, 0.0);
-
-  double target_speed = 0.0;
-  double new_target_speed = 0.0;
-  double target_heading = 0.0;
-  double new_target_heading = 0.0;
+  double target_speed = 0.0; // forwards speed [m].
+  double target_omega = 0.0; // angular speed [rad/s].
+  double new_target_speed;
+  double new_target_omega;
+  
   bool is_key_valid = 0;
-
   wb_keyboard_enable(TIME_STEP);
   int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
 
-  printf("To move the Fabtino-XL Steel with your keyboard, click first inside the simulation window and press:\n \
-    vx         : ↑/↓               \n \
-    θ (heading): Page Up/Page Down \n \
-    Reset      : Space bar         \n");
+  printf("To move the Mir100 with your keyboard, click first inside the simulation window and press:\n \
+    vx   : ↑/↓ \n \
+    ω    : Page Up/Page Down \n \
+    Reset: Space bar \n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     if (waiting_counter == 0) {
@@ -94,20 +84,20 @@ int main() {
 
         case WB_KEYBOARD_PAGEUP:
           is_key_valid = 1;
-          new_target_heading = target_heading + HEADING_INCREMENT;
-          target_heading = new_target_heading > HEADING_MAX ? HEADING_MAX : new_target_heading;
+          new_target_omega = target_omega + SPEED_INCREMENT;
+          target_omega = new_target_omega > ANGULAR_SPEED_MAX ? ANGULAR_SPEED_MAX : new_target_omega;
           break;
 
         case WB_KEYBOARD_PAGEDOWN:
           is_key_valid = 1;
-          new_target_heading = target_heading - HEADING_INCREMENT;
-          target_heading = new_target_heading < HEADING_MIN ? HEADING_MIN : new_target_heading;
+          new_target_omega = target_omega - SPEED_INCREMENT;
+          target_omega = new_target_omega < ANGULAR_SPEED_MIN ? ANGULAR_SPEED_MIN : new_target_omega;
           break;
 
         case ' ':
           is_key_valid = 1;
           target_speed = 0;
-          target_heading = 0;
+          target_omega = 0;
           break;
 
         default:
@@ -115,16 +105,12 @@ int main() {
       }
 
       if (is_key_valid) {
-        printf("vx:%.1f θ:%.2f\n", target_speed, target_heading);
+        printf("vx:%.2f[m/s] ω:%.2f[rad/s]\n", target_speed, target_omega);
         waiting_counter = 10;
 
-        // Computes the wheel motors speeds from vx and θ.
-        wb_motor_set_velocity(motor_left_wheel, target_speed / WHEEL_RADIUS);
-        wb_motor_set_velocity(motor_right_wheel, target_speed / WHEEL_RADIUS);
-        wb_motor_set_position(motor_caster_fl, -target_heading);
-        wb_motor_set_position(motor_caster_fr, -target_heading);
-        wb_motor_set_position(motor_caster_bl, target_heading);
-        wb_motor_set_position(motor_caster_br, target_heading);
+        // Computes the wheel motors speeds from vx and ω.
+        wb_motor_set_velocity(motor_left_wheel, (target_speed + target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
+        wb_motor_set_velocity(motor_right_wheel, (target_speed - target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
       }
     } else {
       waiting_counter -= 1;
