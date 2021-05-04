@@ -392,12 +392,18 @@ public:
       webots::Device *device = robot->getDevice(sensorTimeStep.name());
       if (device) {
         const int sensor_time_step = sensorTimeStep.timestep();
+        int old_time_step = 0;
         if (sensor_time_step) {
           if (sensors.count(device) == 0)
-            new_sensors.insert(device);
+            new_sensors[device] = sensor_time_step;
+          else
+            old_time_step = sensors.at(device);
         } else
           sensors.erase(device);
 
+        if (sensor_time_step == old_time_step)
+          // Avoiding to enable again if the request is not making any change to the sensor
+          continue;
         if (sensor_time_step != 0 && sensor_time_step < basic_time_step)
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
                                       std::to_string(basic_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
@@ -448,8 +454,9 @@ public:
     gettimeofday(&tp, NULL);
     uint64_t real_time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
     sensor_measurements.set_real_time(real_time);
-    for (std::set<webots::Device *>::iterator it = sensors.begin(); it != sensors.end(); ++it) {
-      webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(*it);
+    for (const auto &entry : sensors) {
+      webots::Device *dev = entry.first;
+      webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(dev);
       if (accelerometer) {
         if (controller_time % accelerometer->getSamplingPeriod())
           continue;
@@ -462,7 +469,7 @@ public:
         vector3->set_z(values[2]);
         continue;
       }
-      webots::Camera *camera = dynamic_cast<webots::Camera *>(*it);
+      webots::Camera *camera = dynamic_cast<webots::Camera *>(dev);
       if (camera) {
         if (controller_time % camera->getSamplingPeriod())
           continue;
@@ -495,7 +502,7 @@ public:
 
         continue;
       }
-      webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(*it);
+      webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(dev);
       if (gyro) {
         if (controller_time % gyro->getSamplingPeriod())
           continue;
@@ -508,7 +515,7 @@ public:
         vector3->set_z(values[2]);
         continue;
       }
-      webots::PositionSensor *position_sensor = dynamic_cast<webots::PositionSensor *>(*it);
+      webots::PositionSensor *position_sensor = dynamic_cast<webots::PositionSensor *>(dev);
       if (position_sensor) {
         if (controller_time % position_sensor->getSamplingPeriod())
           continue;
@@ -517,7 +524,7 @@ public:
         measurement->set_value(position_sensor->getValue());
         continue;
       }
-      webots::TouchSensor *touch_sensor = dynamic_cast<webots::TouchSensor *>(*it);
+      webots::TouchSensor *touch_sensor = dynamic_cast<webots::TouchSensor *>(dev);
       if (touch_sensor) {
         if (controller_time % touch_sensor->getSamplingPeriod())
           continue;
@@ -551,8 +558,8 @@ public:
   }
 
   void updateDevices() {
-    for (webots::Device *d : new_sensors)
-      sensors.insert(d);
+    for (const auto &entry : new_sensors)
+      sensors.insert(entry);
     new_sensors.clear();
   }
 
@@ -630,10 +637,11 @@ private:
   int server_fd;
   int client_fd;
 
-  std::set<webots::Device *> sensors;
+  /// Keys are adresses of the devices and values are timestep
+  std::map<webots::Device *, int> sensors;
   // sensors that have just been added but that were previously disabled.
   // It's required to store them to avoid sending values of unitialized sensors
-  std::set<webots::Device *> new_sensors;
+  std::map<webots::Device *, int> new_sensors;
   uint32_t controller_time;
   char *recv_buffer;
   int recv_index;

@@ -1126,7 +1126,9 @@ def reset_teams(pose):
 
 
 def is_goal_keeper(team, id):
-    return id == '1'  # assuming goal keeper is player number 1
+    n = game.state.teams[0].team_number
+    index = 0 if (n == game.red.id and team == red_team) or (n == game.blue.id and team == blue_team) else 1
+    return game.state.teams[index].players[int(id) - 1].goalkeeper
 
 
 def is_penalty_kicker(team, id):
