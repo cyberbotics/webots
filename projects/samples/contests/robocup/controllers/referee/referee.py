@@ -562,8 +562,8 @@ def polygon_circle_collision(polygon, center, radius):
 
 
 def update_aabb(aabb, position):
-    if len(aabb) == 0:
-        aabb = [position[0], position[1], position[0], position[1]]
+    if aabb is None:
+        aabb = np.array([position[0], position[1], position[0], position[1]])
     else:
         if position[0] < aabb[0]:
             aabb[0] = position[0]
@@ -573,6 +573,7 @@ def update_aabb(aabb, position):
             aabb[1] = position[1]
         elif position[1] > aabb[3]:
             aabb[3] = position[1]
+    return aabb
 
 
 def update_team_ball_holding(team):
@@ -592,11 +593,11 @@ def update_team_ball_holding(team):
     if goal_keeper is not None:  # goalie is in vincity of ball
         goalie = team['players'][goal_keeper]
         points = np.empty([4, 2])
-        aabb = []
+        aabb = None
         i = 0
         for solid in goalie['solids']:
             position = solid.getPosition()
-            update_aabb(aabb, position)
+            aabb = update_aabb(aabb, position)
             points[i] = [position[0], position[1]]
             i += 1
         # check for collision between AABB of goalie and ball
@@ -608,13 +609,13 @@ def update_team_ball_holding(team):
     n = len(players_close_to_the_ball)
     hold_ball = False
     if n > 0:
-        aabb = []
+        aabb = None
         points = np.empty([4 * n, 2])
         i = 0
         for player in players_close_to_the_ball:
             for solid in player['solids']:
                 position = solid.getPosition()
-                update_aabb(aabb, position)
+                aabb = update_aabb(aabb, position)
                 points[i] = [position[0], position[1]]
                 i += 1
         # check for collision between AABB of players and ball
@@ -634,7 +635,7 @@ def update_team_ball_holding(team):
     if 'hold_ball' in team:
         if not hold_ball:
             delay = int((time_count - team['hold_ball']) / 100) / 10
-            info(f'{color.capitalize()} team ({numbers}) released the ball after {delay} seconds.')
+            info(f'{color.capitalize()} team released the ball after {delay} seconds.')
             del team['hold_ball']
     elif hold_ball:
         team['hold_ball'] = time_count
