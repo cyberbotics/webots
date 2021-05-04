@@ -157,9 +157,8 @@ void WbBaseNode::printChainCandidate(WbNode *node, int depth, bool end) {
     printf("%s%s %s (%p) -> (%p)\n", indent.toUtf8().constData(), type.toUtf8().constData(),
            node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
 }
-*/
-/*
-void WbBaseNode::printNodeFlags(WbNode *root) {
+
+void WbBaseNode::printNodeFlags() {
   // This function is only for debug purposes, no need to review it
   QList<WbNode *> nodes = subNodes(true, true, true);
 
@@ -263,7 +262,6 @@ void WbBaseNode::removeInvisibleProtoNodes() {
   for (int i = 0; i < nodes.size(); ++i)
     if (nodes[i]->isInternalNode())
       internalProtoNodes.append(nodes[i]);
-
   /*
   // TODO: remove before merge
   printf("PRINT CHAINS FOR UNFILTERED CANDIDATES\n");
@@ -278,9 +276,12 @@ void WbBaseNode::removeInvisibleProtoNodes() {
     if (isInternalNodeVisible(internalProtoNodes[i])) {
       // cannot collapse visible nodes otherwise they no longer refresh on the interface
       tmp.removeAll(internalProtoNodes[i]);
-      // also remove among the candidates any ancestor to this node otherwise it will be deleted indirectly
+      // also remove among the candidates any ancestor to this node otherwise it will be deleted indirectly.
+      // likewise any descendants can't be deleted either as they might be referenced indirectly (e.g if the texture url field
+      // is visible, the corresponding TextureCoordinate/IndexedFaceSet nodes can't be deleted even if themselves aren't)
       for (int j = 0; j < internalProtoNodes.size(); ++j)
-        if (internalProtoNodes[j]->isAnAncestorOf(internalProtoNodes[i]))
+        if (internalProtoNodes[j]->isAnAncestorOf(internalProtoNodes[i]) ||
+            internalProtoNodes[i]->isAnAncestorOf(internalProtoNodes[j]))
           tmp.removeAll(internalProtoNodes[j]);
     }
   }
@@ -306,14 +307,13 @@ void WbBaseNode::removeInvisibleProtoNodes() {
       n = n->protoParameterNode();
     }
   }
-  /*
+
   // TODO: remove before merge
   printf("\nINVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     printf("  [L%d] %s [%p]\n", invisibleProtoParameterNodes[i]->level(),
            invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
   }
-  */
 
   if (invisibleProtoParameterNodes.size() == 0)
     return;

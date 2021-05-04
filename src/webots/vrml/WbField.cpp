@@ -418,6 +418,15 @@ void WbField::fieldChangedByOde() {
 }
 
 void WbField::disconnectField() {
+  const QString &fieldName = name();
+  if (fieldName == "translation") {
+    disconnect(static_cast<WbSFVector3 *>(mValue), &WbSFVector3::changedByOde, mParameter, &WbField::fieldChangedByOde);
+    disconnect(static_cast<WbSFVector2 *>(mValue), &WbSFVector2::changedByWebots, mParameter, &WbField::fieldChangedByOde);
+  } else if (fieldName == "rotation")
+    disconnect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
+  else if (fieldName == "position")
+    disconnect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
+
   if (mParameter) {
     disconnect(mParameter, &WbField::valueChanged, mParameter, &WbField::parameterChanged);
     disconnect(mParameter->value(), &WbValue::changedByUser, this->value(), &WbValue::changedByUser);
