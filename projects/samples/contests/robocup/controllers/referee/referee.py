@@ -29,6 +29,8 @@ import time
 import traceback
 import transforms3d
 
+from scipy.spatial import ConvexHull
+
 from types import SimpleNamespace
 
 OUTSIDE_TURF_TIMEOUT = 20                 # a player outside the turf for more than 20 seconds gets a removal penalty
@@ -45,7 +47,7 @@ REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending t
 IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more than this amount of time, it gets penalized
 GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up to 6 seconds on the ground
-PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
+PLAYERS_BALL_HOLDING_TIMEOUT = 1          # field players may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
 END_OF_GAME_TIMEOUT = 10                  # Once the game is finished, let the referee run for 10 seconds before closing game
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
@@ -526,59 +528,135 @@ def triangle_circle_collision(p1, p2, p3, center, radius):
         or segment_circle_collision(p2, p3, center, radius)
 
 
-def update_team_convex_hulls(team):
+def point_inside_polygon(point, polygon):
+    n = len(polygon)
+    inside = False
+    p2x = 0.0
+    p2y = 0.0
+    xints = 0.0
+    p1x, p1y = polygon[0]
+    x, y, _ = point
+    for i in range(n + 1):
+        p2x, p2y = polygon[i % n]
+        if y > min(p1y, p2y):
+            if y <= max(p1y, p2y):
+                if x <= max(p1x, p2x):
+                    if p1y != p2y:
+                        xints = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                    if p1x == p2x or x <= xints:
+                        inside = not inside
+        p1x, p1y = p2x, p2y
+    return inside
+
+
+def polygon_circle_collision(polygon, center, radius):
+    # 1. there is collision if one point of the polygon is inside the circle
+    for point in polygon:
+        if distance2(point, center) <= radius:
+            return True
+    # 2. there is collision if one segment of the polygon collide with the circle
+    for i in range(len(polygon) - 1):
+        if segment_circle_collision(polygon[i], polygon[i+1], center, radius):
+            return True
+    # 3. there is collision if the circle center is inside the polygon
+    if point_inside_polygon(center, polygon):
+        return True
+    return False
+
+
+def update_aabb(aabb, position):
+    if aabb is None:
+        aabb = np.array([position[0], position[1], position[0], position[1]])
+    else:
+        if position[0] < aabb[0]:
+            aabb[0] = position[0]
+        elif position[0] > aabb[2]:
+            aabb[2] = position[0]
+        if position[1] < aabb[1]:
+            aabb[1] = position[1]
+        elif position[1] > aabb[3]:
+            aabb[3] = position[1]
+    return aabb
+
+
+def update_team_ball_holding(team):
+    players_close_to_the_ball = []
+    numbers = []
+    goal_keeper = None
     for number in team['players']:
         player = team['players'][number]
-        player['shadow'] = []
-        if 'aabb' in player:
-            del player['aabb']
-        shadow = player['shadow']
-        for solid in player['solids']:
+        d = distance2(player['position'], game.ball_position)
+        if d <= game.field.ball_vincity:
+            if is_goal_keeper(team, number):
+                goal_keeper = number
+            players_close_to_the_ball.append(player)
+            numbers.append(number)
+
+    goalie_hold_ball = False
+    if goal_keeper is not None:  # goalie is in vincity of ball
+        goalie = team['players'][goal_keeper]
+        points = np.empty([4, 2])
+        aabb = None
+        i = 0
+        for solid in goalie['solids']:
             position = solid.getPosition()
-            shadow.append([position[0], position[1]])
-            if 'aabb' not in player:
-                player['aabb'] = [position[0], position[1], position[0], position[1]]
-            else:
-                if position[0] < player['aabb'][0]:
-                    player['aabb'][0] = position[0]
-                elif position[0] > player['aabb'][2]:
-                    player['aabb'][2] = position[0]
-                if position[1] < player['aabb'][1]:
-                    player['aabb'][1] = position[1]
-                elif position[1] > player['aabb'][3]:
-                    player['aabb'][3] = position[1]
-        # check AABB for ball collision
-        if not aabb_circle_collision(player['aabb'], game.ball_position[0], game.ball_position[1], game.ball_radius):
-            hold_ball = False
-        else:  # compute convex hull of quad
-            if point_in_triangle(shadow[0], shadow[1], shadow[2], shadow[3]):
-                del shadow[0]
-            elif point_in_triangle(shadow[1], shadow[0], shadow[2], shadow[3]):
-                del shadow[1]
-            elif point_in_triangle(shadow[2], shadow[0], shadow[1], shadow[3]):
-                del shadow[2]
-            elif point_in_triangle(shadow[3], shadow[0], shadow[1], shadow[2]):
-                del shadow[3]
-            if len(shadow) == 3:
-                hold_ball = triangle_circle_collision(shadow[0], shadow[1], shadow[2], game.ball_position, game.ball_radius)
-            else:
-                hold_ball = triangle_circle_collision(shadow[0], shadow[1], shadow[2], game.ball_position, game.ball_radius) \
-                         or triangle_circle_collision(shadow[3], shadow[1], shadow[2], game.ball_position, game.ball_radius)
-        color = team['color']
-        if 'hold_ball' in player:
-            if hold_ball:
-                continue
-            delay = int((time_count - player['hold_ball']) / 100) / 10
-            info(f'{color.capitalize()} player {number} released the ball after {delay} seconds.')
-            del player['hold_ball']
-        elif hold_ball:
-            player['hold_ball'] = time_count
-            info(f'{color.capitalize()} player {number} is holding the ball.')
+            aabb = update_aabb(aabb, position)
+            points[i] = [position[0], position[1]]
+            i += 1
+        # check for collision between AABB of goalie and ball
+        if aabb_circle_collision(aabb, game.ball_position[0], game.ball_position[1], game.ball_radius):
+            hull = ConvexHull(points)
+            hull_vertices = np.take(points, hull.vertices, 0)
+            goalie_hold_ball = polygon_circle_collision(hull_vertices, game.ball_position, game.ball_radius)
+
+    n = len(players_close_to_the_ball)
+    hold_ball = False
+    if n > 0:
+        aabb = None
+        points = np.empty([4 * n, 2])
+        i = 0
+        for player in players_close_to_the_ball:
+            for solid in player['solids']:
+                position = solid.getPosition()
+                aabb = update_aabb(aabb, position)
+                points[i] = [position[0], position[1]]
+                i += 1
+        # check for collision between AABB of players and ball
+        if aabb_circle_collision(aabb, game.ball_position[0], game.ball_position[1], game.ball_radius):
+            hull = ConvexHull(points)
+            hull_vertices = np.take(points, hull.vertices, 0)
+            hold_ball = polygon_circle_collision(hull_vertices, game.ball_position, game.ball_radius)
+    players_holding_time_window = team['players_holding_time_window']
+    index = int(time_count / time_step) % len(players_holding_time_window)
+    players_holding_time_window[index] = hold_ball
+
+    goal_keeper_holding_time_window = team['goal_keeper_holding_time_window']
+    index = int(time_count / time_step) % len(goal_keeper_holding_time_window)
+    goal_keeper_holding_time_window[index] = goalie_hold_ball
+
+    color = team['color']
+    if 'hold_ball' in team:
+        if not hold_ball:
+            delay = int((time_count - team['hold_ball']) / 100) / 10
+            info(f'{color.capitalize()} team released the ball after {delay} seconds.')
+            del team['hold_ball']
+    elif hold_ball:
+        team['hold_ball'] = time_count
+        info(f'{color.capitalize()} team ({numbers}) is holding the ball.')
+
+    if 'goalie_hold_ball' in team:
+        if not goalie_hold_ball:
+            delay = int((time_count - team['goalie_hold_ball']) / 100) / 10
+            info(f'{color.capitalize()} goal keeper released the ball after {delay} seconds.')
+            del team['goalie_hold_ball']
+    elif goalie_hold_ball:
+        team['goalie_hold_ball'] = time_count
+        info(f'{color.capitalize()} goal keeper ({goal_keeper}) is holding the ball.')
 
 
-def update_convex_hulls():
-    update_team_convex_hulls(red_team)
-    update_team_convex_hulls(blue_team)
+def update_ball_holding():
+    update_team_ball_holding(red_team)
+    update_team_ball_holding(blue_team)
 
 
 def init_team(team):
@@ -744,20 +822,16 @@ def send_penalty(player, penalty, reason, log=None):
 
 
 def check_team_ball_holding(team):
-    for number in team['players']:
-        player = team['players'][number]
-        if 'hold_ball' in player:
-            color = team['color']
-            dt = (time_count - player['hold_ball']) / 1000
-            if number == '1':
-                if dt > GOAL_KEEPER_BALL_HOLDING_TIMEOUT:
-                    del player['hold_ball']
-                    info(f'{color.capitalize()} player {number} (goal keeper) has held the ball for too long.')
-                    return True
-            elif dt > PLAYER_BALL_HOLDING_TIMEOUT:
-                del player['hold_ball']
-                info(f'{color.capitalize()} player {number} has held the ball for too long.')
-                return True
+    color = team['color']
+    players_holding_time_window = team['players_holding_time_window']
+    size = len(players_holding_time_window)
+    sum = 0
+    for i in range(size):
+        if players_holding_time_window[i]:
+            sum += 1
+    if sum > size / 2:
+        info(f'{color.capitalize()} team has held the ball for too long.')
+        return True
     return False
 
 
@@ -1413,6 +1487,12 @@ time_step = int(supervisor.getBasicTimeStep())
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = int(SIMULATED_TIME_INTERRUPTION_PHASE_0 * 1000 / time_step)
 SIMULATED_TIME_BEFORE_PLAY_STATE = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
 SIMULATED_TIME_SET_PENALTY_SHOOTOUT = int(SIMULATED_TIME_SET_PENALTY_SHOOTOUT * 1000 / time_step)
+players_ball_holding_time_window_size = int(1000 * PLAYERS_BALL_HOLDING_TIMEOUT / time_step)
+goal_keeper_ball_holding_time_window_size = int(1000 * GOAL_KEEPER_BALL_HOLDING_TIMEOUT / time_step)
+red_team['players_holding_time_window'] = np.zeros(players_ball_holding_time_window_size, dtype=bool)
+red_team['goal_keeper_holding_time_window'] = np.zeros(goal_keeper_ball_holding_time_window_size, dtype=bool)
+blue_team['players_holding_time_window'] = np.zeros(players_ball_holding_time_window_size, dtype=bool)
+blue_team['goal_keeper_holding_time_window'] = np.zeros(goal_keeper_ball_holding_time_window_size, dtype=bool)
 
 if game.controller_process:
     game.controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -1523,7 +1603,7 @@ while supervisor.step(time_step) != -1 and not game.over:
     if game.ball_position != previous_position:
         game.ball_last_move = time_count
     update_contacts()  # check for collisions with the ground and ball
-    update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
+    update_ball_holding()  # check for ball holding for field players and goal keeper
     update_histories()
     if game.wait_for_state is not None:  # we are waiting for a new state from the GameController
         time_count += time_step
