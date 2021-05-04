@@ -31,10 +31,14 @@ import time
 import traceback
 import transforms3d
 
+from scipy.spatial import ConvexHull
+
 from types import SimpleNamespace
 
 OUTSIDE_TURF_TIMEOUT = 20                 # a player outside the turf for more than 20 seconds gets a removal penalty
 INACTIVE_GOAL_KEEPER_TIMEOUT = 20         # a goal keeper is penalized if inactive for 20 seconds while the ball is in goal area
+INACTIVE_GOAL_KEEPER_DIST = 0.5           # if goal keeper is farther than this distance it can't be inactive
+INACTIVE_GOAL_KEEPER_PROGRESS = 0.05      # the minimal distance to move toward the ball in order to be considered active
 DROPPED_BALL_TIMEOUT = 120                # wait 2 simulated minutes if the ball doesn't move before starting dropped ball
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = 10  # waiting time of 10 simulated seconds in phase 0 of interruption
 SIMULATED_TIME_INTERRUPTION_PHASE_1 = 30  # waiting time of 30 simulated seconds in phase 1 of interruption
@@ -45,7 +49,7 @@ REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending t
 IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more than this amount of time, it gets penalized
 GOAL_KEEPER_BALL_HOLDING_TIMEOUT = 6      # a goal keeper may hold the ball up to 6 seconds on the ground
-PLAYER_BALL_HOLDING_TIMEOUT = 1           # a field player may hold the ball up to 1 second
+PLAYERS_BALL_HOLDING_TIMEOUT = 1          # field players may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goal keeper may hold the ball up to 10 seconds in hands
 END_OF_GAME_TIMEOUT = 10                  # Once the game is finished, let the referee run for 10 seconds before closing game
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
@@ -61,6 +65,7 @@ RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 STATIC_SPEED_EPS = 1e-2                   # The speed below which an object is considered as static [m/s]
 DROPPED_BALL_TEAM_ID = 128                # The team id used for dropped ball
+BALL_DIST_PERIOD = 1                      # seconds. The period at which distance to the ball is checked
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -525,59 +530,135 @@ def triangle_circle_collision(p1, p2, p3, center, radius):
         or segment_circle_collision(p2, p3, center, radius)
 
 
-def update_team_convex_hulls(team):
+def point_inside_polygon(point, polygon):
+    n = len(polygon)
+    inside = False
+    p2x = 0.0
+    p2y = 0.0
+    xints = 0.0
+    p1x, p1y = polygon[0]
+    x, y, _ = point
+    for i in range(n + 1):
+        p2x, p2y = polygon[i % n]
+        if y > min(p1y, p2y):
+            if y <= max(p1y, p2y):
+                if x <= max(p1x, p2x):
+                    if p1y != p2y:
+                        xints = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                    if p1x == p2x or x <= xints:
+                        inside = not inside
+        p1x, p1y = p2x, p2y
+    return inside
+
+
+def polygon_circle_collision(polygon, center, radius):
+    # 1. there is collision if one point of the polygon is inside the circle
+    for point in polygon:
+        if distance2(point, center) <= radius:
+            return True
+    # 2. there is collision if one segment of the polygon collide with the circle
+    for i in range(len(polygon) - 1):
+        if segment_circle_collision(polygon[i], polygon[i+1], center, radius):
+            return True
+    # 3. there is collision if the circle center is inside the polygon
+    if point_inside_polygon(center, polygon):
+        return True
+    return False
+
+
+def update_aabb(aabb, position):
+    if aabb is None:
+        aabb = np.array([position[0], position[1], position[0], position[1]])
+    else:
+        if position[0] < aabb[0]:
+            aabb[0] = position[0]
+        elif position[0] > aabb[2]:
+            aabb[2] = position[0]
+        if position[1] < aabb[1]:
+            aabb[1] = position[1]
+        elif position[1] > aabb[3]:
+            aabb[3] = position[1]
+    return aabb
+
+
+def update_team_ball_holding(team):
+    players_close_to_the_ball = []
+    numbers = []
+    goal_keeper = None
     for number in team['players']:
         player = team['players'][number]
-        player['shadow'] = []
-        if 'aabb' in player:
-            del player['aabb']
-        shadow = player['shadow']
-        for solid in player['solids']:
+        d = distance2(player['position'], game.ball_position)
+        if d <= game.field.ball_vincity:
+            if is_goal_keeper(team, number):
+                goal_keeper = number
+            players_close_to_the_ball.append(player)
+            numbers.append(number)
+
+    goalie_hold_ball = False
+    if goal_keeper is not None:  # goalie is in vincity of ball
+        goalie = team['players'][goal_keeper]
+        points = np.empty([4, 2])
+        aabb = None
+        i = 0
+        for solid in goalie['solids']:
             position = solid.getPosition()
-            shadow.append([position[0], position[1]])
-            if 'aabb' not in player:
-                player['aabb'] = [position[0], position[1], position[0], position[1]]
-            else:
-                if position[0] < player['aabb'][0]:
-                    player['aabb'][0] = position[0]
-                elif position[0] > player['aabb'][2]:
-                    player['aabb'][2] = position[0]
-                if position[1] < player['aabb'][1]:
-                    player['aabb'][1] = position[1]
-                elif position[1] > player['aabb'][3]:
-                    player['aabb'][3] = position[1]
-        # check AABB for ball collision
-        if not aabb_circle_collision(player['aabb'], game.ball_position[0], game.ball_position[1], game.ball_radius):
-            hold_ball = False
-        else:  # compute convex hull of quad
-            if point_in_triangle(shadow[0], shadow[1], shadow[2], shadow[3]):
-                del shadow[0]
-            elif point_in_triangle(shadow[1], shadow[0], shadow[2], shadow[3]):
-                del shadow[1]
-            elif point_in_triangle(shadow[2], shadow[0], shadow[1], shadow[3]):
-                del shadow[2]
-            elif point_in_triangle(shadow[3], shadow[0], shadow[1], shadow[2]):
-                del shadow[3]
-            if len(shadow) == 3:
-                hold_ball = triangle_circle_collision(shadow[0], shadow[1], shadow[2], game.ball_position, game.ball_radius)
-            else:
-                hold_ball = triangle_circle_collision(shadow[0], shadow[1], shadow[2], game.ball_position, game.ball_radius) \
-                         or triangle_circle_collision(shadow[3], shadow[1], shadow[2], game.ball_position, game.ball_radius)
-        color = team['color']
-        if 'hold_ball' in player:
-            if hold_ball:
-                continue
-            delay = int((time_count - player['hold_ball']) / 100) / 10
-            info(f'{color.capitalize()} player {number} released the ball after {delay} seconds.')
-            del player['hold_ball']
-        elif hold_ball:
-            player['hold_ball'] = time_count
-            info(f'{color.capitalize()} player {number} is holding the ball.')
+            aabb = update_aabb(aabb, position)
+            points[i] = [position[0], position[1]]
+            i += 1
+        # check for collision between AABB of goalie and ball
+        if aabb_circle_collision(aabb, game.ball_position[0], game.ball_position[1], game.ball_radius):
+            hull = ConvexHull(points)
+            hull_vertices = np.take(points, hull.vertices, 0)
+            goalie_hold_ball = polygon_circle_collision(hull_vertices, game.ball_position, game.ball_radius)
+
+    n = len(players_close_to_the_ball)
+    hold_ball = False
+    if n > 0:
+        aabb = None
+        points = np.empty([4 * n, 2])
+        i = 0
+        for player in players_close_to_the_ball:
+            for solid in player['solids']:
+                position = solid.getPosition()
+                aabb = update_aabb(aabb, position)
+                points[i] = [position[0], position[1]]
+                i += 1
+        # check for collision between AABB of players and ball
+        if aabb_circle_collision(aabb, game.ball_position[0], game.ball_position[1], game.ball_radius):
+            hull = ConvexHull(points)
+            hull_vertices = np.take(points, hull.vertices, 0)
+            hold_ball = polygon_circle_collision(hull_vertices, game.ball_position, game.ball_radius)
+    players_holding_time_window = team['players_holding_time_window']
+    index = int(time_count / time_step) % len(players_holding_time_window)
+    players_holding_time_window[index] = hold_ball
+
+    goal_keeper_holding_time_window = team['goal_keeper_holding_time_window']
+    index = int(time_count / time_step) % len(goal_keeper_holding_time_window)
+    goal_keeper_holding_time_window[index] = goalie_hold_ball
+
+    color = team['color']
+    if 'hold_ball' in team:
+        if not hold_ball:
+            delay = int((time_count - team['hold_ball']) / 100) / 10
+            info(f'{color.capitalize()} team released the ball after {delay} seconds.')
+            del team['hold_ball']
+    elif hold_ball:
+        team['hold_ball'] = time_count
+        info(f'{color.capitalize()} team ({numbers}) is holding the ball.')
+
+    if 'goalie_hold_ball' in team:
+        if not goalie_hold_ball:
+            delay = int((time_count - team['goalie_hold_ball']) / 100) / 10
+            info(f'{color.capitalize()} goal keeper released the ball after {delay} seconds.')
+            del team['goalie_hold_ball']
+    elif goalie_hold_ball:
+        team['goalie_hold_ball'] = time_count
+        info(f'{color.capitalize()} goal keeper ({goal_keeper}) is holding the ball.')
 
 
-def update_convex_hulls():
-    update_team_convex_hulls(red_team)
-    update_team_convex_hulls(blue_team)
+def update_ball_holding():
+    update_team_ball_holding(red_team)
+    update_team_ball_holding(blue_team)
 
 
 def init_team(team):
@@ -589,6 +670,8 @@ def init_team(team):
         player['inside_own_side'] = False
         player['outside_goal_area'] = True
         player['left_turf_time'] = None
+        # Stores tuples of with (time_count[int], dic) at a 1Hz frequency
+        player['history'] = []
 
 
 def update_team_contacts(team):
@@ -692,6 +775,7 @@ def update_ball_contacts():
 
 
 def update_contacts():
+    """Only updates the contact of objects which are not asleep"""
     update_ball_contacts()
     update_team_contacts(red_team)
     update_team_contacts(blue_team)
@@ -733,6 +817,22 @@ def update_robot_contacts():
     game.forceful_contact_matrix.clear(time_count)
     update_team_robot_contacts(red_team)
     update_team_robot_contacts(blue_team)
+
+
+def update_histories():
+    for team in [red_team, blue_team]:
+        for number in team['players']:
+            player = team['players'][number]
+            # Remove old ball_distances
+            if len(player['history']) > 0 \
+               and (time_count - player['history'][0][0]) > INACTIVE_GOAL_KEEPER_TIMEOUT * 1000:
+                player['history'].pop(0)
+            # If enough time has elapsed, add an entry
+            if len(player['history']) == 0 or (time_count - player['history'][-1][0]) > BALL_DIST_PERIOD * 1000:
+                ball_dist = distance2(player['position'], game.ball_position)
+                own_goal_area = player['inside_own_side'] and not player['outside_goal_area']
+                entry = (time_count, {"ball_distance": ball_dist, "own_goal_area": own_goal_area})
+                player['history'].append(entry)
 
 
 def update_team_penalized(team):
@@ -790,20 +890,16 @@ def check_forceful_contacts():
 
 
 def check_team_ball_holding(team):
-    for number in team['players']:
-        player = team['players'][number]
-        if 'hold_ball' in player:
-            color = team['color']
-            dt = (time_count - player['hold_ball']) / 1000
-            if number == '1':
-                if dt > GOAL_KEEPER_BALL_HOLDING_TIMEOUT:
-                    del player['hold_ball']
-                    info(f'{color.capitalize()} player {number} (goal keeper) has held the ball for too long.')
-                    return True
-            elif dt > PLAYER_BALL_HOLDING_TIMEOUT:
-                del player['hold_ball']
-                info(f'{color.capitalize()} player {number} has held the ball for too long.')
-                return True
+    color = team['color']
+    players_holding_time_window = team['players_holding_time_window']
+    size = len(players_holding_time_window)
+    sum = 0
+    for i in range(size):
+        if players_holding_time_window[i]:
+            sum += 1
+    if sum > size / 2:
+        info(f'{color.capitalize()} team has held the ball for too long.')
+        return True
     return False
 
 
@@ -837,21 +933,34 @@ def check_fallen():
 
 
 def check_team_inactive_goalie(team):
+    # Since there is only one goal keeper, we can safely return once we have a 'proof' that the goal keeper is not inactive
     for number in team['players']:
         if not is_goal_keeper(team, number):
             continue
         player = team['players'][number]
-        if 'penalized' in player:
-            continue  # skip penalized players
-        if 'previous_position' not in player:
-            player['previous_position'] = player['position']
+        if 'penalized' in player or 'sent_to_penality_position' in player or len(player['history']) == 0:
             return
-        move = distance2(player['previous_position'], game.ball_position) - distance2(player['position'], game.ball_position)
-        if move > 0:  # moving toward the ball
-            info('Goal keeper moving towards the ball.')
+        # If player was out of his own goal area recently, it can't be considered as inactive
+        if not all([e[1]["own_goal_area"] for e in player['history']]):
+            return
+        ball_distances = [e[1]["ball_distance"] for e in player['history']]
+        if max(ball_distances) > INACTIVE_GOAL_KEEPER_DIST:
+            return
+        # In order to measure progress toward the ball, we just look if one of distance measured is significantly lower
+        # than what happened previously. active_dist keeps track of the threshold below which we consider the player as
+        # moving toward the ball.
+        active_dist = 0
+        for d in ball_distances:
+            if d < active_dist:
+                return
+            new_active_dist = d - INACTIVE_GOAL_KEEPER_PROGRESS
+            if new_active_dist > active_dist:
+                active_dist = new_active_dist
+        info(f'Goal keeper did not move toward the ball over the last {INACTIVE_GOAL_KEEPER_TIMEOUT} seconds')
+        send_penalty(player, 'INCAPABLE', "Inactive goalie")
 
 
-def check_inactive_goalie():
+def check_inactive_goalies():
     check_team_inactive_goalie(red_team)
     check_team_inactive_goalie(blue_team)
 
@@ -1446,6 +1555,12 @@ time_step = int(supervisor.getBasicTimeStep())
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = int(SIMULATED_TIME_INTERRUPTION_PHASE_0 * 1000 / time_step)
 SIMULATED_TIME_BEFORE_PLAY_STATE = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
 SIMULATED_TIME_SET_PENALTY_SHOOTOUT = int(SIMULATED_TIME_SET_PENALTY_SHOOTOUT * 1000 / time_step)
+players_ball_holding_time_window_size = int(1000 * PLAYERS_BALL_HOLDING_TIMEOUT / time_step)
+goal_keeper_ball_holding_time_window_size = int(1000 * GOAL_KEEPER_BALL_HOLDING_TIMEOUT / time_step)
+red_team['players_holding_time_window'] = np.zeros(players_ball_holding_time_window_size, dtype=bool)
+red_team['goal_keeper_holding_time_window'] = np.zeros(goal_keeper_ball_holding_time_window_size, dtype=bool)
+blue_team['players_holding_time_window'] = np.zeros(players_ball_holding_time_window_size, dtype=bool)
+blue_team['goal_keeper_holding_time_window'] = np.zeros(goal_keeper_ball_holding_time_window_size, dtype=bool)
 
 if game.controller_process:
     game.controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -1557,14 +1672,16 @@ while supervisor.step(time_step) != -1 and not game.over:
     game.ball_position = game.ball_translation.getSFVec3f()
     if game.ball_position != previous_position:
         game.ball_last_move = time_count
-    update_contacts()  # check for collisions with the ground, ball and other robots
-    update_convex_hulls()  # badly affects the performance (drop from 5x to 0.5x)
+    update_contacts()  # check for collisions with the ground and ball
+    update_ball_holding()  # check for ball holding for field players and goal keeper
+    update_histories()
     if game.wait_for_state is not None:  # we are waiting for a new state from the GameController
         time_count += time_step
         continue
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
         check_forceful_contacts()
+        check_inactive_goalies()
         if game.in_play is None:
             # During period after the end of a game interruption, check distance of opponents
             if game.phase in GAME_INTERRUPTIONS and game.state.secondary_state[6:] == "NORMAL":

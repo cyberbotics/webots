@@ -263,7 +263,7 @@
             },
             {
                 "target" : "RED_PLAYER_1",
-                "position" : [3.7,0.8,0.24]
+                "position" : [3.7,0.7,0.24]
             }
         ]
     },
@@ -292,28 +292,28 @@
         "actions" : [
             {
                 "target" : "BALL",
-                "force" : [0,-10,0]
+                "force" : [0,-5,0]
             }
         ]
     },
     {
         "description" : "Part D. Setting ball position",
         "timing" : {
-            "time" : 211,
+            "time" : 211.5,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "actions" : [
             {
                 "target" : "BALL",
-                "position" : [3.7,1.25,0.08]
+                "position" : [3.7,1.15,0.08]
             }
         ]
     },
     {
         "description" : "Part D. after kicking",
         "timing" : {
-            "time" : [211,229],
+            "time" : [211.5,229],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -461,15 +461,15 @@
     {
         "description" : "Part F. after moving away",
         "timing" : {
-            "time" : 335,
+            "time" : 330,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "tests" : [
             {
-                "name" : "F. Goalie did not move far enough -> no penalty",
+                "name" : "F. Goalie did not move far enough -> penalty",
                 "target" : "BLUE_PLAYER_1",
-                "penalty" : 0
+                "penalty" : 34
             },
             {
                 "name" : "F. No game interruption",
