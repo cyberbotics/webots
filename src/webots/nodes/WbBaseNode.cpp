@@ -307,13 +307,14 @@ void WbBaseNode::removeInvisibleProtoNodes() {
       n = n->protoParameterNode();
     }
   }
-
+  /*
   // TODO: remove before merge
   printf("\nINVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
   for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
     printf("  [L%d] %s [%p]\n", invisibleProtoParameterNodes[i]->level(),
            invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
   }
+  */
 
   if (invisibleProtoParameterNodes.size() == 0)
     return;
