@@ -86,14 +86,11 @@ bool WbAltimeter::refreshSensorIfNeeded() {
   mMeasuredAltitude = t[upIndex]; //get exact altitude
   mMeasuredAltitude += reference[upIndex];
   // add noise if necessary
-  if (accuracy != 0.0) {
+  if (accuracy != 0.0)
     mMeasuredAltitude += accuracy * WbRandom::nextGaussian();
-  }
   // apply resolution if necessary
-  if (mResolution->value() != -1.0) {
+  if (mResolution->value() != -1.0)
     mMeasuredAltitude = WbMathsUtilities::discretize(mMeasuredAltitude, mResolution->value());
-  }
-
   mSensor->updateTimer();
   return true;
 }
