@@ -56,6 +56,7 @@ graph LR
   Device -.-> SolidDevice(Solid Device)
 
   Group[[Group](group.md)] --> Transform[[Transform](transform.md)]
+  Group  --> Billboard[[Billboard](billboard.md)]
     Transform --> Solid[[Solid](solid.md)]
       Solid --> SolidDevice
         SolidDevice --> Accelerometer[[Accelerometer](accelerometer.md)]
@@ -138,7 +139,7 @@ graph LR
   class AbstractClass,Device,Geometry,Joint,JointDevice,Light,Motor,SolidDevice AbstractClassStyle;
   class BoundingObject,Capsule,Mesh,Plane secondaryNode;
   class Box,Cylinder,ElevationGrid,IndexedFaceSet,Sphere highlightedSecondaryNode;
-  class Appearance,Background,Color,Cone,Coordinate,DirectionalLight,Fog,Group,ImageTexture,IndexedLineSet,Material,Normal,PointLight,PointSet,Shape,SpotLight,TextureCoordinate,TextureTransform,Transform,Viewpoint,WorldInfo highlightedNode;
+  class Appearance,Background,Billboard,Color,Cone,Coordinate,DirectionalLight,Fog,Group,ImageTexture,IndexedLineSet,Material,Normal,PointLight,PointSet,Shape,SpotLight,TextureCoordinate,TextureTransform,Transform,Viewpoint,WorldInfo highlightedNode;
   class AbstractClassDefinition,BoundingObjectDefinition,VRML97Definition DefinitionStyle;
 %end
 %end
