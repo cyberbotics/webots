@@ -155,10 +155,6 @@ static void wb_camera_write_request(WbDevice *d, WbRequest *r) {
       c->segmentation_image = image_new();
     c->segmentation_changed = false;  // done
   }
-  if (c->segmentation_image && c->segmentation_image->requested) {
-    request_write_uchar(r, C_CAMERA_GET_SEGMENTATION_IMAGE);
-    c->segmentation_image->requested = false;
-  }
 }
 
 static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {

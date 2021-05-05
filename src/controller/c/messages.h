@@ -133,8 +133,6 @@
 #define C_CAMERA_OBJECTS 11
 #define C_CAMERA_SEGMENTATION_SHARED_MEMORY 12
 #define C_CAMERA_SET_SEGMENTATION 13
-// ctr <-> sim
-#define C_CAMERA_GET_SEGMENTATION_IMAGE 14
 
 // for the emitter device
 // ctr -> sim
