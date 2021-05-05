@@ -208,10 +208,8 @@ void WbLidar::prePhysicsStep(double ms) {
 
 void WbLidar::postPhysicsStep() {
   WbSolid::postPhysicsStep();
-  if (isRotating() && mSensor->isEnabled()) {
-    // copyImageToSharedMemory(mWrenCamera, image());
+  if (isRotating() && mSensor->isEnabled())
     copyAllLayersToSharedMemory();
-  }
 }
 
 void WbLidar::write(WbVrmlWriter &writer) const {

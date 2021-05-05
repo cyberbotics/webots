@@ -714,7 +714,6 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
     return -1;
   }
 
-  // make sure image is up to date before saving it
   if (!ac->image->data) {
     robot_mutex_unlock_step();
     return -1;
