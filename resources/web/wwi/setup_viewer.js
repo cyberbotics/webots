@@ -1,4 +1,4 @@
-import {webots} from 'https://cyberbotics.com/wwi/Wrenjs/webots.js';
+import {webots} from './webots.js';
 
 let view = null;
 let ipInput = null;
