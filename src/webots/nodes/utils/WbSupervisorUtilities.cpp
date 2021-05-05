@@ -426,16 +426,19 @@ void WbSupervisorUtilities::notifyNodeUpdate(WbNode *node) {
 }
 
 WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node) const {
-  if (node && node->isProtoParameterNode()) {
+  WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
+  while (baseNode && baseNode->isProtoParameterNode()) {
     // if node is a proto parameter node we need to find the corresponding proto parameter node instance
-    for (int i = 0; i < node->protoParameterNodeInstances().size(); ++i) {
-      WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(node->protoParameterNodeInstances()[i]);
-      if (baseNode->isPostFinalizedCalled())  // if there is more than one proto parameter node instance the valid one is the
+    for (int i = 0; i < baseNode->protoParameterNodeInstances().size(); ++i) {
+      WbBaseNode *instance = static_cast<WbBaseNode *>(baseNode->protoParameterNodeInstances()[i]);
+      if (instance->isPostFinalizedCalled())  // if there is more than one proto parameter node instance the valid one is the
                                               // one finalized
-        return baseNode;
+        return instance;
+      else if (i == 0)
+        baseNode = instance;
     }
   }
-  return node;
+  return baseNode;
 }
 
 void WbSupervisorUtilities::changeSimulationMode(int newMode) {
