@@ -255,7 +255,6 @@ void WbLidar::handleMessage(QDataStream &stream) {
     mSensor->setRefreshRate(mRefreshRate);
 
     emit enabled(this, mSensor->isEnabled());
-    copyImageToSharedMemory(mWrenCamera, image());
 
     if (!hasBeenSetup()) {
       setup();
@@ -354,6 +353,13 @@ void WbLidar::copyAllLayersToSharedMemory() {
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   WbLidarPoint *lidarPoints = pointArray();
   const float *image = lidarImage();
+
+  assert(image);
+  assert(lidarPoints);
+
+  if (!lidarPoints || !image)
+    return;
+
   const int resolution = actualHorizontalResolution();
   const double w = width();
   const double time = WbSimulationState::instance()->time() / 1000.0;
