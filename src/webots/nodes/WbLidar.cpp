@@ -208,7 +208,7 @@ void WbLidar::prePhysicsStep(double ms) {
 
 void WbLidar::postPhysicsStep() {
   WbSolid::postPhysicsStep();
-  if (isRotating() && mSensor->isEnabled())
+  if (mSensor->isEnabled())
     copyAllLayersToSharedMemory();
 }
 
@@ -263,12 +263,6 @@ void WbLidar::handleMessage(QDataStream &stream) {
     double frequency;
     stream >> frequency;
     mDefaultFrequency->setValue(frequency);
-    return;
-  } else if (command == C_CAMERA_GET_IMAGE) {
-    if (!isRotating()) {
-      // in case of rotating lidar the copy is done during the step
-      copyAllLayersToSharedMemory();
-    }
     return;
   } else if (WbAbstractCamera::handleCommand(stream, command))
     return;
