@@ -447,7 +447,7 @@ void Ros::run(int argc, char **argv) {
     ros::spinOnce();
     publishClockIfNeeded();
     for (unsigned int i = 0; i < mSensorList.size(); i++)
-      mSensorList[i]->publishValues(mStep * mStepSize);
+      mSensorList[i]->publishValues(mStep * mRobot->getBasicTimeStep());
 
     if (!mUseWebotsSimTime && (mStep != 0 || mIsSynchronized)) {
       int oldStep = mStep;
@@ -458,6 +458,8 @@ void Ros::run(int argc, char **argv) {
       }
     } else if (step(mRobot->getBasicTimeStep()) == -1)
       mEnd = true;
+
+    mStep++;
   }
 }
 
