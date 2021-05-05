@@ -662,7 +662,13 @@ def update_ball_holding():
 
 
 def init_team(team):
+    # check validity of team files
+    # the players IDs should be "1", "2", "3", "4" for four players, "1", "2", "3" for three players, etc.
+    count = 1
     for number in team['players']:
+        if int(number) != count:
+            error(f'Wrong team player number: expecting "{count}", found "{number}".')
+        count += 1
         player = team['players'][number]
         player['outside_circle'] = True
         player['outside_field'] = True
