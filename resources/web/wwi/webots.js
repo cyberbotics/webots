@@ -276,11 +276,19 @@ webots.View = class View {
       labelElement.className = 'webotsLabel';
       this.x3dDiv.appendChild(labelElement);
     }
-    labelElement.style.fontFamily = properties.font;
+
+    let font = properties.font.split('/');
+    font = font[font.length - 1].replace('.ttf', '');
+
+    labelElement.style.fontFamily = font;
     labelElement.style.color = 'rgba(' + properties.color + ')';
     labelElement.style.fontSize = $(this.x3dDiv).height() * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
     labelElement.style.left = $(this.x3dDiv).width() * properties.x + 'px';
     labelElement.style.top = $(this.x3dDiv).height() * properties.y + 'px';
+
+    if (properties.text.includes('█'))
+      properties.text = properties.text.replaceAll('█', '<span style="background:' + labelElement.style.color + '"> </span>');
+
     labelElement.innerHTML = properties.text;
   }
 
