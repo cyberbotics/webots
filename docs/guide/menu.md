@@ -102,6 +102,7 @@
     - [Mavic 2 PRO](mavic-2-pro.md)
     - [Microbot](microbot.md)
     - [Mindstorms](mindstorms.md)
+    - [MiR100](mir100.md)
     - [Moose](moose.md)
     - [Nao](nao.md)
     - [P-Rob 3](p-rob3.md)

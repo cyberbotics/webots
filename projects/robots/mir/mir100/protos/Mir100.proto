@@ -166,7 +166,7 @@ PROTO Mir100 [
             }
           ]
           name "left_wheel_link"
-          contactMaterial "middle_wheel"
+          contactMaterial "wheel"
           boundingObject Transform {
             children [
               DEF WHEEL_BO Cylinder {
@@ -209,7 +209,7 @@ PROTO Mir100 [
             USE WHEEL
           ]
           name "right_wheel_link"
-          contactMaterial "middle_wheel"
+          contactMaterial "wheel"
           boundingObject Transform {
             children [
               USE WHEEL_BO

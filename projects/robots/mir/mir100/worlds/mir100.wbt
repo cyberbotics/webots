@@ -6,10 +6,6 @@ WorldInfo {
   title "Simulation of Mobile Industrial Robotics' MiR100 robot"
   contactProperties [
     ContactProperties {
-      material1 "middle_wheel"
-      softCFM 0.0001
-    }
-    ContactProperties {
       material1 "wheel"
       softCFM 0.0001
     }
