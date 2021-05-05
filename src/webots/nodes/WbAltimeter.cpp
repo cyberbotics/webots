@@ -96,7 +96,6 @@ bool WbAltimeter::refreshSensorIfNeeded() {
 
 void WbAltimeter::reset(const QString &id) {
   WbSolidDevice::reset(id);
-  mPreviousAltitude = 0.0;
 }
 
 void WbAltimeter::handleMessage(QDataStream &stream) {
