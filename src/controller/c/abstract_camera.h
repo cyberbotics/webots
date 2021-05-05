@@ -59,6 +59,5 @@ int wb_abstract_camera_get_height(WbDevice *d);
 int wb_abstract_camera_get_width(WbDevice *d);
 double wb_abstract_camera_get_fov(WbDevice *d);
 double wb_abstract_camera_get_near(WbDevice *d);
-void wb_abstract_camera_update_timestamp(WbDevice *d);
 
 #endif  // ABSTRACT_CAMERA_PRIVATE_H

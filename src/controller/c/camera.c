@@ -272,12 +272,6 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       image_cleanup_shm(c->segmentation_image);
       image_setup_shm(c->segmentation_image, r);
       break;
-    case C_CAMERA_GET_SEGMENTATION_IMAGE:
-      c = ac->pdata;
-      assert(c->segmentation);
-      if (c->segmentation)
-        c->segmentation_image->update_time = wb_robot_get_time();
-      break;
     default:
       ROBOT_ASSERT(0);
       break;
@@ -286,10 +280,6 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
 
 static void wb_camera_reset(WbDevice *d) {
   wb_abstract_camera_reset(d);
-  const AbstractCamera *ac = d->pdata;
-  const Camera *c = ac->pdata;
-  if (c->segmentation_image)
-    c->segmentation_image->update_time = 0.0;
 }
 
 static void camera_toggle_remote(WbDevice *d, WbRequest *r) {
@@ -866,8 +856,7 @@ const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag ta
     robot_mutex_unlock_step();
     return NULL;
   }
-  bool success = image_request(c->segmentation_image, __FUNCTION__);
-  if (!c->segmentation_image->data || !success) {
+  if (!c->segmentation_image->data) {
     robot_mutex_unlock_step();
     return NULL;
   }
@@ -905,10 +894,6 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
   }
 
   // make sure image is up to date before saving it
-  if (!image_request(c->segmentation_image, __FUNCTION__)) {
-    robot_mutex_unlock_step();
-    return -1;
-  }
   GImage img;
   img.width = ac->width;
   img.height = ac->height;
