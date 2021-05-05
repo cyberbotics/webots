@@ -150,6 +150,7 @@ protected:
   char mCharType;
   bool mNeedToConfigure;
   bool mHasSharedMemoryChanged;
+  bool mImageChanged;
 
   bool mNeedToCheckShaderErrors;
 

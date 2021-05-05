@@ -84,6 +84,7 @@ void WbAbstractCamera::init() {
   mMotionBlur = findSFDouble("motionBlur");
   mNoise = findSFDouble("noise");
   mLens = findSFNode("lens");
+  mImageChanged = false;
 }
 
 WbAbstractCamera::WbAbstractCamera(const QString &modelName, WbTokenizer *tokenizer) : WbRenderingDevice(modelName, tokenizer) {
@@ -231,8 +232,10 @@ void WbAbstractCamera::updateCameraTexture() {
   if (isPowerOn() && needToRender()) {
     // update camera overlay before main rendering
     computeValue();
-    if (WbAbstractCamera::needToRender())
+    if (WbAbstractCamera::needToRender()) {
       mSensor->updateTimer();
+      mImageChanged = true;
+    }
   } else if (mOverlay && mSensor->isEnabled() && mSensor->isRemoteModeEnabled())
     // keep updating the overlay in remote mode
     mOverlay->requestUpdateTexture();
@@ -304,9 +307,10 @@ void WbAbstractCamera::writeConfigure(QDataStream &stream) {
 }
 
 void WbAbstractCamera::writeAnswer(QDataStream &stream) {
-  if (mSensor->isEnabled()) {
+  if (mSensor->isEnabled() && mImageChanged) {
     copyImageToSharedMemory(mWrenCamera, image());
     mSensor->resetPendingValue();
+    mImageChanged = false;
   }
 
   if (mNeedToConfigure)
