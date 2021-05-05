@@ -31,7 +31,6 @@ void WbAltimeter::init() {
   mType = findSFString("type");
   mAccuracy = findSFDouble("accuracy");
   mResolution = findSFDouble("resolution");
-
   mSensor = NULL;
 }
 

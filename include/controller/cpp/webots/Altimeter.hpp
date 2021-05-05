@@ -20,15 +20,13 @@
 namespace webots {
   class Altimeter : public Device {
   public:
-    explicit Altimeter(const std::string &name) : Device(name) {} // Use Robot::getAltimeter instead
+    explicit Altimeter(const std::string &name) : Device(name) {}  // Use Robot::getAltimeter instead
     virtual ~Altimeter() {}
-
     virtual void enable(int samplingPeriod);
     virtual void disable();
     int getSamplingPeriod() const;
-
     double getValue() const; 
   };
 } // namespace webots
 
-#endif
+#endif  // ALTIMETER_HPP
