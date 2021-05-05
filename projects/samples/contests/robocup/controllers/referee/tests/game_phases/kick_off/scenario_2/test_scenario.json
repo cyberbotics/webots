@@ -8,17 +8,17 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [0.8,0.3,0.24],
                 "orientation" : [0,0,1,3.14]
             },
             {
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "position" : [0.8,-0.3,0.24],
                 "orientation" : [0,0,1,3.14]
             },
             {
-                "target" : "BLUE_PLAYER_2",
+                "target" : "BLUE_PLAYER_1",
                 "position" : [-0.20,0,0.24],
                 "orientation" : [0,0,1,0]
             }
@@ -34,17 +34,17 @@
         "tests" : [
             {
                 "name" : "Sanity check: valid pos for R2",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
                 "name" : "Sanity check: valid pos for R3",
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "penalty" : 0
             },
             {
                 "name" : "Sanity check: valid pos for B2",
-                "target" : "BLUE_PLAYER_2",
+                "target" : "BLUE_PLAYER_1",
                 "penalty" : 0
             }
         ]
@@ -72,7 +72,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [0.3,0.3,0.24]
             }
         ]
@@ -86,17 +86,17 @@
         "tests" : [
             {
                 "name" : "Ball out of play, opponent can't enter -> penalty",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 34
             },
             {
                 "name" : "Robot not moving -> not penalized",
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "penalty" : 0
             },
             {
                 "name" : "Robot with kick-off -> not penalized",
-                "target" : "BLUE_PLAYER_2",
+                "target" : "BLUE_PLAYER_1",
                 "penalty" : 0
             }
         ],
@@ -115,7 +115,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "position" : [0.3,-0.3,0.24]
             }
         ]

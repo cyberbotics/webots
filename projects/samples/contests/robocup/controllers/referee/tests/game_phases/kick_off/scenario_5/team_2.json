@@ -1,7 +1,7 @@
 {
   "name": "Agile Lynxes",
   "players": {
-    "2": {
+    "1": {
       "proto": "RobocupRobot",
       "halfTimeStartingPose": {
         "translation": [-4.6, 2.06, 0.24],
