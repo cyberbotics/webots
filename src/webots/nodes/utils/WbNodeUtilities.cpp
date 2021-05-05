@@ -1111,6 +1111,10 @@ WbAbstractTransform *WbNodeUtilities::abstractTransformCast(WbBaseNode *node) {
 bool WbNodeUtilities::isNodeOrAncestorLocked(WbNode *node) {
   WbNode *n = node;
   while (n && !n->isWorldRoot()) {
+    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
+    if (baseNode && baseNode->nodeType() == WB_NODE_BILLBOARD)
+      return true;
+
     WbMatter *matter = dynamic_cast<WbMatter *>(n);
     if (matter && matter->isLocked())
       return true;
