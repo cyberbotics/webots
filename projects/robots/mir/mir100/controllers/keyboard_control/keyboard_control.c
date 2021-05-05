@@ -31,13 +31,13 @@
 
 #define TIME_STEP 32
 #define WHEEL_RADIUS 0.075
-#define SPEED_MAX 1.5
+#define SPEED_MAX 1.4
 #define SPEED_MIN -0.3
 #define ANGULAR_SPEED_MAX 0.3
 #define ANGULAR_SPEED_MIN -0.3
 #define SPEED_INCREMENT 0.15
+#define ANGULAR_SPEED_INCREMENT 0.1
 #define DISTANCE_TO_CENTER 0.2226
-
 
 int main() {
   wb_robot_init();
@@ -51,14 +51,13 @@ int main() {
   wb_motor_set_velocity(motor_left_wheel, 0.0);
   wb_motor_set_velocity(motor_right_wheel, 0.0);
 
-  double target_speed = 0.0; // forwards speed [m].
-  double target_omega = 0.0; // angular speed [rad/s].
-  double new_target_speed;
-  double new_target_omega;
-  
-  bool is_key_valid = 0;
+  double target_speed = 0.0;  // forwards speed [m].
+  double target_omega = 0.0;  // angular speed [rad/s].
+
+  int key;
+  int previous_key = 0;
+  bool is_key_valid;
   wb_keyboard_enable(TIME_STEP);
-  int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
 
   printf("To move the Mir100 with your keyboard, click first inside the simulation window and press:\n \
     vx   : ↑/↓ \n \
@@ -66,36 +65,31 @@ int main() {
     Reset: Space bar \n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    if (waiting_counter == 0) {
-      int key = wb_keyboard_get_key();
-
+    key = wb_keyboard_get_key();
+    if (key >= 0 && key != previous_key) {
+      is_key_valid = 1;
       switch (key) {
         case WB_KEYBOARD_UP:
-          is_key_valid = 1;
-          new_target_speed = target_speed + SPEED_INCREMENT;
-          target_speed = new_target_speed > SPEED_MAX ? SPEED_MAX : new_target_speed;
+          target_speed = target_speed + SPEED_INCREMENT;
+          target_speed = target_speed > SPEED_MAX ? SPEED_MAX : target_speed;
           break;
 
         case WB_KEYBOARD_DOWN:
-          is_key_valid = 1;
-          new_target_speed = target_speed - SPEED_INCREMENT;
-          target_speed = new_target_speed < SPEED_MIN ? SPEED_MIN : new_target_speed;
+          target_speed = target_speed - SPEED_INCREMENT;
+          target_speed = target_speed < SPEED_MIN ? SPEED_MIN : target_speed;
           break;
 
         case WB_KEYBOARD_PAGEUP:
-          is_key_valid = 1;
-          new_target_omega = target_omega + SPEED_INCREMENT;
-          target_omega = new_target_omega > ANGULAR_SPEED_MAX ? ANGULAR_SPEED_MAX : new_target_omega;
+          target_omega = target_omega + ANGULAR_SPEED_INCREMENT;
+          target_omega = target_omega > ANGULAR_SPEED_MAX ? ANGULAR_SPEED_MAX : target_omega;
           break;
 
         case WB_KEYBOARD_PAGEDOWN:
-          is_key_valid = 1;
-          new_target_omega = target_omega - SPEED_INCREMENT;
-          target_omega = new_target_omega < ANGULAR_SPEED_MIN ? ANGULAR_SPEED_MIN : new_target_omega;
+          target_omega = target_omega - ANGULAR_SPEED_INCREMENT;
+          target_omega = target_omega < ANGULAR_SPEED_MIN ? ANGULAR_SPEED_MIN : target_omega;
           break;
 
         case ' ':
-          is_key_valid = 1;
           target_speed = 0;
           target_omega = 0;
           break;
@@ -106,15 +100,12 @@ int main() {
 
       if (is_key_valid) {
         printf("vx:%.2f[m/s] ω:%.2f[rad/s]\n", target_speed, target_omega);
-        waiting_counter = 10;
-
         // Computes the wheel motors speeds from vx and ω.
         wb_motor_set_velocity(motor_left_wheel, (target_speed + target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
         wb_motor_set_velocity(motor_right_wheel, (target_speed - target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
       }
-    } else {
-      waiting_counter -= 1;
     }
+    previous_key = key;
   }
 
   wb_robot_cleanup();
