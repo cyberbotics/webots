@@ -1,0 +1,91 @@
+{
+  "devices": [
+    {
+      "anchor": "0 0.222604 0.0625",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "mir100_middle_left_wheel_joint",
+      "position": 0,
+      "transformID": "n42",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0 -0.222604 0.0625",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "mir100_middle_right_wheel_joint",
+      "position": 0,
+      "transformID": "n57",
+      "type": "RotationalMotor"
+    },
+    {
+      "name": "imu_data accelerometer",
+      "transformID": "n24",
+      "type": "Accelerometer"
+    },
+    {
+      "name": "imu_data compass",
+      "transformID": "n24",
+      "type": "Compass"
+    },
+    {
+      "name": "imu_data gyro",
+      "transformID": "n24",
+      "type": "Gyro"
+    },
+    {
+      "name": "mir100_back_left_caster_joint_sensor",
+      "transformID": "n119",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_back_left_wheel_joint_sensor",
+      "transformID": "n126",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_back_right_caster_joint_sensor",
+      "transformID": "n143",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_back_right_wheel_joint_sensor",
+      "transformID": "n150",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_front_left_caster_joint_sensor",
+      "transformID": "n71",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_front_left_wheel_joint_sensor",
+      "transformID": "n78",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_front_right_caster_joint_sensor",
+      "transformID": "n95",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_front_right_wheel_joint_sensor",
+      "transformID": "n102",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_middle_left_wheel_joint_sensor",
+      "transformID": "n42",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "mir100_middle_right_wheel_joint_sensor",
+      "transformID": "n57",
+      "type": "PositionSensor"
+    }
+  ],
+  "name": "mir100",
+  "robotID": "n11"
+}
