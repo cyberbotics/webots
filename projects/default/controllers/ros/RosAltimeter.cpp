@@ -36,6 +36,6 @@ void RosAltimeter::publishValue(ros::Publisher publisher) {
   webots_ros::Float64Stamped value;
   value.header.stamp = ros::Time::now();
   value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
-  value.altitude = mAltimeter->getValue();
+  value.data = mAltimeter->getValue();
   publisher.publish(value);
 }
