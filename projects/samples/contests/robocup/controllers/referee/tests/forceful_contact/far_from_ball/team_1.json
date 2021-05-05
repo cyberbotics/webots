@@ -1,7 +1,7 @@
 {
   "name": "Funny Dingos",
   "players": {
-    "2": {
+    "1": {
       "proto": "RobocupRobot",
       "halfTimeStartingPose": {
         "translation": [-3.5, 3.06, 0.24],
