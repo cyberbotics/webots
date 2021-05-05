@@ -30,7 +30,7 @@ endif
 
 WB_ODE_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) $(CONTROLLER_INCLUDE) -Iapp -Icore -Imaths -Inodes -Inodes/utils -Ivrml -Iengine
 WB_MATHS_INCLUDE         = $(QT_CORE_INCLUDE)
-WB_CORE_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(LUA_INCLUDE) -Iexternal/compilation_timestamp
+WB_CORE_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(QT_QML_INCLUDE) $(LUA_INCLUDE) -Iqml -Iexternal/compilation_timestamp
 WB_UTIL_INCLUDE          = $(QT_CORE_INCLUDE) $(ODE_INCLUDE) -Icore
 WB_WREN_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(WREN_INCLUDE) $(GLU_INCLUDE) -Icore -Imaths -Ivrml -Iutil
 WB_VRML_INCLUDE          = $(QT_CORE_INCLUDE) -Icore -Imaths -Ivrml
@@ -113,6 +113,7 @@ QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
 QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui
 QT_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWidgets
 QT_PRINT_SUPPORT_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtPrintSupport
+QT_QML_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtQml
 QT_OPENGL_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGL
 QT_NETWORK_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
 QT_WEB_INCLUDE  = -isystem $(WEBOTS_PATH)/include/qt/QtWebEngineCore -isystem $(WEBOTS_PATH)/include/qt/QtWebEngineWidgets -isystem $(WEBOTS_PATH)/include/qt/QtWebChannel
@@ -123,7 +124,7 @@ TARGET             = $(WEBOTS_PATH)/bin/webots-bin
 CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
-LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lusb -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
+LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lQt5Qml -lopenal -lGL -lusb -lGLU -ldl -lOIS -lcrypto -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots

@@ -25,6 +25,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QVector>
+#include <QtQml/QJSEngine>
 
 #include <lua.hpp>
 
