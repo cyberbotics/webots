@@ -38,7 +38,6 @@ PROTO JetBot [
         children [
           %{ if fields.chassis.value then }%
           DEF CHASSIS Transform {
-            scale 0.001 0.001 0.001
             children [
               Shape {
                 appearance PBRAppearance {
@@ -183,7 +182,6 @@ PROTO JetBot [
             ]
           }
           DEF POWER_BANK Transform {
-            scale 0.001 0.001 0.001
             children [
               Shape {
                 appearance DEF BLACK_APPEARANCE PBRAppearance {
@@ -200,7 +198,7 @@ PROTO JetBot [
             ]
           }
           DEF DISPLAY Transform {
-            scale 0.001 0.001 0.001
+            translation 0.01197 0.0395 -0.0606
             children [
               Shape {
                 appearance PBRAppearance {
@@ -215,7 +213,7 @@ PROTO JetBot [
                 }
               }
               Display {
-                translation 10.3 40.4 -62.6
+                translation -0.0017 0.0009 -0.002
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -224,7 +222,7 @@ PROTO JetBot [
                       metalness 0.2
                     }
                     geometry Plane {
-                      size 31 11
+                      size 0.031 0.011
                     }
                   }
                 ]
@@ -304,7 +302,6 @@ PROTO JetBot [
         endPoint DEF LEFT_WHEEL Solid {
           translation 0.030000006847380994 0.0521500000157608 0.03000053415098986
           rotation 9.001921986231733e-10 -1.241383373472994e-09 1 1.5707999999726359
-          scale 0.001 0.001 0.001
           children [
             DEF WHEEL_SHAPE Shape {
               appearance PBRAppearance {
@@ -322,12 +319,12 @@ PROTO JetBot [
           name "left wheel"
           contactMaterial "jetbot wheel"
           boundingObject Transform {
-            translation 4.01 0 0
+            translation 0.00401 0 0
             rotation 0 0 1 1.5708
             children [
               Cylinder {
-                height 7.8
-                radius 29.9
+                height 0.0078
+                radius 0.0299
               }
             ]
           }
@@ -352,19 +349,18 @@ PROTO JetBot [
         endPoint DEF RIGHT_WHEEL Solid {
           translation 0.03000000689397781 -0.05949999998422251 0.030000540571122995
           rotation 9.173892360923732e-10 -1.2499268609165539e-09 1 1.570796319972449
-          scale 0.001 0.001 0.001
           children [
             USE WHEEL_SHAPE
           ]
           name "right wheel"
           contactMaterial "jetbot wheel"
           boundingObject Transform {
-            translation 4.01 0 0
+            translation 0.00401 0 0
             rotation 0 0 1 1.5708
             children [
               Cylinder {
-                height 7.8
-                radius 29.9
+                height 0.0078
+                radius 0.0299
               }
             ]
           }
