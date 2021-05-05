@@ -16,6 +16,9 @@ class ForcefulContactMatrix:
             for j in range(self.blue_team_size):
                 self.matrix[i][j][index] = False
 
+    def clear_all(self):
+        self.matrix.fill(False)
+
     def set_contact(self, red_number, blue_number, time_count, value=True):
         index = int(time_count / self.time_step) % self.time_window_size
         self.matrix[int(red_number) - 1][int(blue_number) - 1][index] = value

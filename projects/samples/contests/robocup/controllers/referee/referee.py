@@ -878,14 +878,15 @@ def send_penalty(player, penalty, reason, log=None):
         info(log)
 
 
-def forceful_contact_foul(team, number, opponent_team, opponent_number, goal_keeper=False):
-    extra = ' (goal keeper)' if goal_keeper else ''
+def forceful_contact_foul(team, number, opponent_team, opponent_number, message):
     if team['players'][number]['outside_penalty_area']:
         area = 'outside penalty area'
     else:
         area = 'inside penalty area'
     info(f'{team["color"].capitalize()} player {number} committed a forceful contact foul on '
-         f'{opponent_team["color"]} player {opponent_number}{extra} {area}.')
+         f'{opponent_team["color"]} player {opponent_number} ({message}) {area}.')
+    game.forceful_contact_matrix.clear_all()
+
     if area[0] == 'i':  # inside penalty area
         interruption('PENALTYKICK')
     else:
@@ -919,10 +920,10 @@ def check_forceful_contacts():
             if not fcm.contact(red_number, blue_number, time_count):
                 continue  # no contact
             if goal_keeper_inside_own_goal_area(red_team, red_number):
-                forceful_contact_foul(blue_team, blue_number, red_team, red_number, goal_keeper=True)
+                forceful_contact_foul(blue_team, blue_number, red_team, red_number, 'goalkeeper')
                 continue
             if goal_keeper_inside_own_goal_area(blue_team, blue_number):
-                forceful_contact_foul(red_team, red_number, blue_team, blue_number, goal_keeper=True)
+                forceful_contact_foul(red_team, red_number, blue_team, blue_number, 'goalkeeper')
                 continue
             p1 = red_team['players'][red_number]
             p2 = blue_team['players'][blue_number]
@@ -930,9 +931,9 @@ def check_forceful_contacts():
             d2 = distance2(p2['position'], game.ball_position)
             if game.forceful_contact_matrix.long_collision(red_number, blue_number):
                 if d1 < FOUL_VINCITY_DISTANCE and d1 - d2 > FOUL_DISTANCE_THRESHOLD:
-                    forceful_contact_foul(red_team, red_number, blue_team, blue_number)
+                    forceful_contact_foul(red_team, red_number, blue_team, blue_number, 'long collision')
                 elif d2 < FOUL_VINCITY_DISTANCE and d2 - d1 > FOUL_DISTANCE_THRESHOLD:
-                    forceful_contact_foul(blue_team, blue_number, red_team, red_number)
+                    forceful_contact_foul(blue_team, blue_number, red_team, red_number, 'long collision')
                 continue
             v1 = p1['robot'].getVelocity()
             v2 = p2['robot'].getVelocity()
@@ -943,17 +944,19 @@ def check_forceful_contacts():
                 if d1 < FOUL_VINCITY_DISTANCE:
                     if moves_to_ball(p2, v2, v2_squared):
                         if not moves_to_ball(p1, v1, v1_squared) or d1 - d2 > FOUL_DISTANCE_THRESHOLD:
-                            forceful_contact_foul(red_team, red_number, blue_team, blue_number)
+                            forceful_contact_foul(red_team, red_number, blue_team, blue_number,
+                                                  'opponent moving towards the ball')
             elif math.sqrt(v1_squared) - math.sqrt(v2_squared) > FOUL_SPEED_THRESHOLD:
-                forceful_contact_foul(red_team, red_number, blue_team, blue_number)
+                forceful_contact_foul(red_team, red_number, blue_team, blue_number, 'violent collision')
             # symetrical rule for R2
             if v2_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
                 if d2 < FOUL_VINCITY_DISTANCE:
                     if moves_to_ball(p1, v1, v1_squared):
                         if not moves_to_ball(p2, v2, v2_squared) or d2 - d1 > FOUL_DISTANCE_THRESHOLD:
-                            forceful_contact_foul(blue_team, blue_number, red_team, red_number)
+                            forceful_contact_foul(blue_team, blue_number, red_team, red_number,
+                                                  'opponent moving towards the ball')
             elif math.sqrt(v2_squared) - math.sqrt(v1_squared) > FOUL_SPEED_THRESHOLD:
-                forceful_contact_foul(blue_team, blue_number, red_team, red_number)
+                forceful_contact_foul(blue_team, blue_number, red_team, red_number, 'violent collision')
 
 
 def check_team_ball_holding(team):
