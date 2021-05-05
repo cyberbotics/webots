@@ -208,7 +208,7 @@ void WbLidar::prePhysicsStep(double ms) {
 
 void WbLidar::postPhysicsStep() {
   WbSolid::postPhysicsStep();
-  if (mSensor->isEnabled())
+  if (isRotating() && mSensor->isEnabled())
     copyAllLayersToSharedMemory();
 }
 
@@ -232,6 +232,13 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
   stream << (double)mMaxFrequency->value();
   stream << (double)mVerticalFieldOfView->value();
   stream << (double)actualHorizontalResolution();
+}
+
+void WbLidar::writeAnswer(QDataStream &stream) {
+  WbAbstractCamera::writeAnswer(stream);
+
+  if (!isRotating() && mSensor->isEnabled())
+    copyAllLayersToSharedMemory();
 }
 
 void WbLidar::handleMessage(QDataStream &stream) {
@@ -423,6 +430,11 @@ void WbLidar::displayPointCloud() {
 
     wr_dynamic_mesh_clear(mLidarRaysMesh);
     wr_dynamic_mesh_clear(mLidarPointsMesh);
+
+    if (isRotating()) {
+      int a;
+      QTextStream(stdout) << "test\n";
+    }
 
     const float origin[3] = {0.0f, 0.0f, 0.0f};
     float color[3] = {0.0f, 0.0f, 1.0f};

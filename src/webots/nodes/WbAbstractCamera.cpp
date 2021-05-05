@@ -238,12 +238,6 @@ void WbAbstractCamera::updateCameraTexture() {
     mOverlay->requestUpdateTexture();
 }
 
-void WbAbstractCamera::prePhysicsStep(double ms) {
-  if (mSensor->isEnabled()) {
-    copyImageToSharedMemory(mWrenCamera, image());
-  }
-}
-
 // Generally, computeValue() acquires the data from the RTT
 // handle and copies the resulting value in the shared memory
 void WbAbstractCamera::computeValue() {
@@ -310,6 +304,11 @@ void WbAbstractCamera::writeConfigure(QDataStream &stream) {
 }
 
 void WbAbstractCamera::writeAnswer(QDataStream &stream) {
+  if (mSensor->isEnabled()) {
+    copyImageToSharedMemory(mWrenCamera, image());
+    mSensor->resetPendingValue();
+  }
+
   if (mNeedToConfigure)
     addConfigureToStream(stream, true);
 
@@ -357,6 +356,7 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       applyMotionBlurToWren();
 
       emit enabled(this, isEnabled());
+      copyImageToSharedMemory(mWrenCamera, image());
 
       if (!hasBeenSetup()) {
         setup();

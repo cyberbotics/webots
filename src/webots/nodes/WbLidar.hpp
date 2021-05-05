@@ -40,6 +40,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
+  void writeAnswer(QDataStream &stream) override;
   void reset(const QString &id) override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
