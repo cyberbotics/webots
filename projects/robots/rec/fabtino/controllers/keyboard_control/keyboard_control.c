@@ -60,7 +60,6 @@ int main() {
   int sign;                                      // sign of the increment (decrement if -1).
   double motor_speed[4] = {0.0, 0.0, 0.0, 0.0};  // wheels speed in [m/s], computed from vx, vy and ω.
 
-  int key;
   int previous_key = 0;
   bool is_key_valid;
   wb_keyboard_enable(TIME_STEP);
@@ -72,7 +71,7 @@ int main() {
     Reset: Space bar         \n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    key = wb_keyboard_get_key();
+    int key = wb_keyboard_get_key();
     if (key >= 0 && key != previous_key) {
       is_key_valid = 1;
       switch (key) {
