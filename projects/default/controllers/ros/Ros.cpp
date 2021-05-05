@@ -112,6 +112,8 @@ void Ros::launchRos(int argc, char **argv) {
   fixName();
   bool rosMasterUriSet = false;
 
+  mStepSize = mRobot->getBasicTimeStep();
+
   for (int i = 1; i < argc; ++i) {
     const char masterUri[] = "--ROS_MASTER_URI=";
     const char name[] = "--name=";
@@ -447,7 +449,7 @@ void Ros::run(int argc, char **argv) {
     ros::spinOnce();
     publishClockIfNeeded();
     for (unsigned int i = 0; i < mSensorList.size(); i++)
-      mSensorList[i]->publishValues(mStep * mRobot->getBasicTimeStep());
+      mSensorList[i]->publishValues(mStep * mStepSize);
 
     if (!mUseWebotsSimTime && (mStep != 0 || mIsSynchronized)) {
       int oldStep = mStep;
