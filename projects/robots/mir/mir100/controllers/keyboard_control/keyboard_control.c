@@ -54,7 +54,6 @@ int main() {
   double target_speed = 0.0;  // forwards speed [m].
   double target_omega = 0.0;  // angular speed [rad/s].
 
-  int key;
   int previous_key = 0;
   bool is_key_valid;
   wb_keyboard_enable(TIME_STEP);
@@ -65,7 +64,7 @@ int main() {
     Reset: Space bar \n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    key = wb_keyboard_get_key();
+    int key = wb_keyboard_get_key();
     if (key >= 0 && key != previous_key) {
       is_key_valid = 1;
       switch (key) {
