@@ -21062,7 +21062,7 @@ with robot being a Supervisor()
 
 Well I guess LEDs dont have to be set up on the fly...
 
-##### froggyspond 06/17/2020 22:45:04
+##### doppiooooh 06/17/2020 22:45:04
 can anyone help me figure out a problemo
 
 
@@ -21086,7 +21086,7 @@ do you have enough storage on your computer? :p
 
 and what OS are you using?
 
-##### froggyspond 06/17/2020 22:46:38
+##### doppiooooh 06/17/2020 22:46:38
 yeah i have plenty
 
 
@@ -21098,7 +21098,7 @@ you tried this link? [https://github.com/cyberbotics/webots/releases/tag/R2020a-
 
 must be a problem on your side. Perhaps try updating and restarting your pc
 
-##### froggyspond 06/17/2020 22:49:13
+##### doppiooooh 06/17/2020 22:49:13
 ill try that link and update my computer
 
 
@@ -21107,7 +21107,7 @@ i tried it on my old pc and the same thing happened
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 06/17/2020 22:49:49
 I doubt github is down
 
-##### froggyspond 06/17/2020 22:49:50
+##### doppiooooh 06/17/2020 22:49:50
 ill try that link though
 
 ##### David Mansolino [Cyberbotics] 06/18/2020 05:33:14
@@ -24166,16 +24166,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### 𝐎 𝐍 𝐈 07/07/2020 11:47:56
+##### ONI 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 07/07/2020 11:50:45
-`@𝐎 𝐍 𝐈` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@ONI` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### 𝐎 𝐍 𝐈 07/07/2020 12:09:20
+##### ONI 07/07/2020 12:09:20
 `@Simon Steinmann` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
