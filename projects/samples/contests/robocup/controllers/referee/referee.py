@@ -916,13 +916,14 @@ def check_forceful_contacts():
     fcm = game.forceful_contact_matrix
     for red_number in red_team['players']:
         for blue_number in blue_team['players']:
-            if fcm.contact(red_number, blue_number, time_count):  # immediate contact
-                if goal_keeper_inside_own_goal_area(red_team, red_number):
-                    forceful_contact_foul(blue_team, blue_number, red_team, red_number, goal_keeper=True)
-                    continue
-                if goal_keeper_inside_own_goal_area(blue_team, blue_number):
-                    forceful_contact_foul(red_team, red_number, blue_team, blue_number, goal_keeper=True)
-                    continue
+            if not fcm.contact(red_number, blue_number, time_count):
+                continue  # no contact
+            if goal_keeper_inside_own_goal_area(red_team, red_number):
+                forceful_contact_foul(blue_team, blue_number, red_team, red_number, goal_keeper=True)
+                continue
+            if goal_keeper_inside_own_goal_area(blue_team, blue_number):
+                forceful_contact_foul(red_team, red_number, blue_team, blue_number, goal_keeper=True)
+                continue
             p1 = red_team['players'][red_number]
             p2 = blue_team['players'][blue_number]
             d1 = distance2(p1['position'], game.ball_position)
