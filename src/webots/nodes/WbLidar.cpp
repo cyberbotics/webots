@@ -208,8 +208,10 @@ void WbLidar::prePhysicsStep(double ms) {
 
 void WbLidar::postPhysicsStep() {
   WbSolid::postPhysicsStep();
-  if (isRotating() && mSensor->isEnabled())
+  if (isRotating() && mSensor->isEnabled()) {
+    // copyImageToSharedMemory(mWrenCamera, image());
     copyAllLayersToSharedMemory();
+  }
 }
 
 void WbLidar::write(WbVrmlWriter &writer) const {
@@ -235,6 +237,9 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
 }
 
 void WbLidar::writeAnswer(QDataStream &stream) {
+  if (isRotating())
+    mImageChanged = false;
+
   WbAbstractCamera::writeAnswer(stream);
 
   if (!isRotating() && mSensor->isEnabled())
