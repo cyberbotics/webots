@@ -37,12 +37,11 @@ This field accepts any value in the interval (0.0, inf).
 ```c
 #include <webots/altimeter.h>
 
-void wb_altimeter_enable(WbDeviceTag tag, int sampling period);
-void wb_altimeter_disable(WbDeviceTag tag);
-int wb_altimeter_get_sampling_period(WbDeviceTag tag);
-double wb_altimeter_get_value(WbDeviceTag tag);
+void wb_altimeter_enable(WbDeviceTag tag, int sampling period)
+void wb_altimeter_disable(WbDeviceTag tag)
+int wb_altimeter_get_sampling_period(WbDeviceTag tag)
+double wb_altimeter_get_value(WbDeviceTag tag)
 ```
-
 %tab-end
 
 %tab "C++"
@@ -109,7 +108,7 @@ altitude = wb_altimeter_get_value(tag)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/<device_name>/value` | `topic` | webots_ros::float64stamped | [`Header`](https://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
+| `/<device_name>/value` | `topic` | webots_ros::Float64stamped | [`Header`](https://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | | 
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 
@@ -127,7 +126,6 @@ The `sampling_period` arguement specifies the sampling period of the sensor and 
 Note that the first measurement will be available only after the first sampling period has elapsed.
 
 The `wb_altimeter_disable` function turns the altimeter off, saving computation time.
-
 
 The `wb_altimeter_get_value` function returns the last value measured by the altimeter.
 
