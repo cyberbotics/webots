@@ -115,7 +115,7 @@ altitude = wb_altimeter_get_value(tag)
 
 %tab-end
 
-#end
+%end
 
 ##### Description
 
