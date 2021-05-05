@@ -1696,3 +1696,12 @@ this is my simulation. reds first and greens behind them. this is working for a 
 
 > **Attachment**: [code\_greens.txt](https://cdn.discordapp.com/attachments/565155651395780609/836732424238792774/code_greens.txt)
 
+##### Nick R 04/29/2021 21:45:23
+Very general question about Webots: was it free for academic use before becoming free/open source in 2019?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/30/2021 06:44:30
+No. It was not free for academic use. It became open source in December 2018.
+
+##### Nick R 04/30/2021 14:17:27
+Thank you, was just wondering.
+
