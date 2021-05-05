@@ -43,32 +43,30 @@ int main() {
 
   double target_belt_speed = 0.0;  // in [m/s].
   int sign;                        // sign of the increment (decrement if -1).
-  bool is_key_valid = 0;
 
+  int key;
+  int previous_key = 0;
+  bool is_key_valid;
   wb_keyboard_enable(TIME_STEP);
-  int waiting_counter = 0;  // waiting counter (to avoid registering too much clicks when user long-clicks.
 
   printf("To move the ConveyorPlatform with your keyboard, click first inside the simulation window and press: \n \
   Belt : +/-       \n \
   Reset: Space bar \n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    if (waiting_counter == 0) {
-      int key = wb_keyboard_get_key();
-
+    key = wb_keyboard_get_key();
+    if (key >= 0 && key != previous_key) {
+      is_key_valid = 1;
       switch (key) {
         case '+':
-          is_key_valid = 1;
           sign = 1;
           break;
 
         case '-':
-          is_key_valid = 1;
           sign = -1;
           break;
 
         case ' ':
-          is_key_valid = 1;
           sign = 0;
           break;
 
@@ -89,14 +87,12 @@ int main() {
         } else {
           target_belt_speed = 0.0;
         }
-        printf("vbelt:%.1f\n", target_belt_speed);
-        waiting_counter = 10;
+        printf("vbelt:%.1f[m/s]\n", target_belt_speed);
 
         wb_motor_set_velocity(motor_belt, target_belt_speed);
       }
-    } else {
-      waiting_counter -= 1;
     }
+    previous_key = key;
   }
 
   wb_robot_cleanup();
