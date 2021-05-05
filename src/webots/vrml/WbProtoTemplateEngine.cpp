@@ -37,12 +37,14 @@
 
 static QString gCoordinateSystem;
 
-WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : WbTemplateEngine(templateContent) {
+WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent, const QString &engine) :
+  WbTemplateEngine(templateContent, engine) {
 }
 
 bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector<WbField *> &parameters,
                                      const QString &protoPath, const QString &worldPath, int id) {
   // generate the final script file from the template script file
+  printf("WbProtoTemplateEngine::generate\n");
   QHash<QString, QString> tags;
 
   tags["fields"] = "";

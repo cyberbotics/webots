@@ -62,6 +62,7 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
 }
 
 void WbTemplateEngine::initialize() {
+  printf("WbTemplateEngine::initialize()\n");
   QFileInfo luaSLT2Script(WbStandardPaths::resourcesPath() + "lua/liluat/liluat.lua");
   if (!luaSLT2Script.exists()) {
     gValidLuaResources = false;
@@ -91,12 +92,21 @@ void WbTemplateEngine::initialize() {
   templateFile.close();
 }
 
-WbTemplateEngine::WbTemplateEngine(const QString &templateContent) {
+void WbTemplateEngine::initializeJavascriptEngine() {
+  printf("WbTemplateEngine::initializeJavascriptEngine\n");
+}
+
+WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString &engine) {
   static bool firstCall = true;
-  if (firstCall) {
+  mTemplateEngine = engine;
+
+  if (mTemplateEngine == "lua" && firstCall) {
     initialize();
     firstCall = false;
   }
+
+  if (mTemplateEngine == "javascript")
+    initializeJavascriptEngine();
 
   mTemplateContent = templateContent;
 }
@@ -110,6 +120,71 @@ const QString &WbTemplateEngine::closingToken() {
 }
 
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
+  bool result;
+
+  if (mTemplateEngine == "javascript")
+    result = generateJavascript(tags, logHeaderName);
+  else
+    result = generateLua(tags, logHeaderName);
+
+  return result;
+}
+
+bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
+  printf("WbTemplateEngine::generateJavascript\n");
+  // printf("------------------\n%s-------------------\n", gTemplateFileContent.toUtf8().constData());
+
+  mResult.clear();
+  mError = "";
+
+  // cd to temporary directory
+  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
+  if (!success) {
+    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
+    return false;
+  }
+
+  tags["templateContent"] = mTemplateContent;
+  tags["templateContent"] = tags["templateContent"].replace("\\", "\\\\");
+  tags["templateContent"] = tags["templateContent"].replace("\n", "\\n");
+  tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
+  tags["templateContent"] = tags["templateContent"].toUtf8();
+
+  // make sure these key are set
+  if (!tags.contains("fields"))
+    tags["fields"] = "";
+  if (!tags.contains("context"))
+    tags["context"] = "";
+
+  tags["openingToken"] = gOpeningToken;
+  tags["closingToken"] = gClosingToken;
+  tags["templateFileName"] = logHeaderName;
+
+  QString scriptContent = gTemplateFileContent;
+  QHashIterator<QString, QString> i(tags);
+  while (i.hasNext()) {
+    i.next();
+    QString keyTag = QString("") + "%" + i.key() + "%";
+    scriptContent.replace(keyTag, i.value());
+  }
+
+  QJSEngine engine;
+  QJSValueList args;
+  args << 1 << 2;
+
+  QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.mjs");
+  QJSValue sumFunction = module.property("sum");
+  QJSValue result = sumFunction.call(args);
+  // printf(">> %d\n", result.toInt());
+
+  return true;
+}
+
+bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
+  printf("WbTemplateEngine::generateLua\n");
+  printf("-----------\n%s\n----------\n==========\n%s\n========\n", gTemplateFileContent.toUtf8().constData(),
+         mTemplateContent.toUtf8().constData());
+
   mResult.clear();
 
   if (!gValidLuaResources) {
@@ -119,13 +194,6 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 
   mError = "";
   QString initialDir = QDir::currentPath();
-
-  // cd to temporary directory
-  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
-  if (!success) {
-    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
-    return false;
-  }
 
 // Update 'package.cpath' variable to be able to load '*.dll' and '*.dylib'
 #ifdef _WIN32
@@ -161,6 +229,8 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     QString keyTag = QString("") + "%" + i.key() + "%";
     scriptContent.replace(keyTag, i.value());
   }
+
+  printf("-----------\n%s\n----------\n", scriptContent.toUtf8().constData());
 
   // needed for procedurale PROTO using lua-gd
   QString webotsFontsPath(QDir::toNativeSeparators(WbStandardPaths::fontsPath()));
@@ -209,6 +279,9 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   // Get the result
   lua_getglobal(state, "content");
   mResult = lua_tostring(state, -1);
+
+  QString res = mResult;
+  printf("*********\n%s\n**********\n", res.toUtf8().constData());
 
   QDir::setCurrent(initialDir);
 

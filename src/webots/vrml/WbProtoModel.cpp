@@ -53,7 +53,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     const QStringList info = tokenizerInfo.split("\n");  // .wrl # comments
     for (int i = 0; i < info.size(); ++i) {
       if (!info.at(i).startsWith("tags:") && !info.at(i).startsWith("license:") && !info.at(i).startsWith("license url:") &&
-          !info.at(i).startsWith("documentation url:"))
+          !info.at(i).startsWith("documentation url:") && !info.at(i).startsWith("template engine:"))
         mInfo += info.at(i) + "\n";
     }
     mInfo.chop(1);
@@ -62,6 +62,11 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mLicense = tokenizer->license();
   mLicenseUrl = tokenizer->licenseUrl();
   mDocumentationUrl = tokenizer->documentationUrl();
+  mTemplateEngine = tokenizer->templateEngine();
+  if (mTemplateEngine == "javascript")
+    printf("ENGINE: JAVASCRIPT\n");
+  else
+    printf("ENGINE: LUA\n");
   mIsDeterministic = !mTags.contains("nonDeterministic");
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
@@ -343,7 +348,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
     }
 
     if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
-      WbProtoTemplateEngine te(mContent);
+      WbProtoTemplateEngine te(mContent, mTemplateEngine);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
       if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId)) {
         tokenizer.setErrorPrefix(mFileName);

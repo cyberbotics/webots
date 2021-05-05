@@ -31,7 +31,7 @@ class WbProtoTemplateEngine : public WbTemplateEngine {
   Q_OBJECT
 
 public:
-  explicit WbProtoTemplateEngine(const QString &templateContent);
+  explicit WbProtoTemplateEngine(const QString &templateContent, const QString &engine);
   virtual ~WbProtoTemplateEngine() {}
 
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,

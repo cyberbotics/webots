@@ -452,6 +452,16 @@ const QStringList WbTokenizer::tags() const {
   return QStringList();
 }
 
+const QString WbTokenizer::templateEngine() const {
+  const QStringList lines = mInfo.split("\n");
+  foreach (QString line, lines) {
+    if (line.startsWith("template engine:") && line.toLower().contains("javascript")) {
+      return QString("javascript");
+    }
+  }
+  return QString("lua");
+}
+
 const QString WbTokenizer::license() const {
   const QStringList lines = mInfo.split("\n");
   foreach (QString line, lines) {

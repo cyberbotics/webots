@@ -49,6 +49,9 @@ public:
   // returns the tags stored as (# tags: tag1, tag2) comments in the file header
   const QStringList tags() const;
 
+  // returns the scripting language used in procedural PROTOs stored as (# templateEngine: string)
+  const QString templateEngine() const;
+
   // returns the license stored as (# license: string) comments in the file header
   const QString license() const;
 
