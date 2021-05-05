@@ -881,7 +881,6 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
     return -1;
   }
 
-  // make sure image is up to date before saving it
   GImage img;
   img.width = ac->width;
   img.height = ac->height;
