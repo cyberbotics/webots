@@ -429,8 +429,10 @@ WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node)
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
   while (baseNode && baseNode->isProtoParameterNode()) {
     // if node is a proto parameter node we need to find the corresponding proto parameter node instance
-    for (int i = 0; i < baseNode->protoParameterNodeInstances().size(); ++i) {
-      WbBaseNode *instance = static_cast<WbBaseNode *>(baseNode->protoParameterNodeInstances()[i]);
+    const QVector<WbNode *> instances = baseNode->protoParameterNodeInstances();
+    const int size = instances.size();
+    for (int i = 0; i < size; ++i) {
+      WbBaseNode *instance = static_cast<WbBaseNode *>(instances[i]);
       if (instance->isPostFinalizedCalled())  // if there is more than one proto parameter node instance the valid one is the
                                               // one finalized
         return instance;
