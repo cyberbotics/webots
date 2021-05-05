@@ -226,7 +226,7 @@ public:
     content_size(0),
     robot(robot) {
     basic_time_step = robot->getBasicTimeStep();
-    printMessage("server started on port" + std::to_string(port));
+    printMessage("server started on port " + std::to_string(port));
     server_fd = create_socket_server(port);
     set_blocking(server_fd, false);
   }
