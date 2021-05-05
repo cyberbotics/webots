@@ -257,6 +257,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
     mSensor->setRefreshRate(mRefreshRate);
 
     emit enabled(this, mSensor->isEnabled());
+    copyImageToSharedMemory(mWrenCamera, image());
 
     if (!hasBeenSetup()) {
       setup();
