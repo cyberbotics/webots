@@ -895,7 +895,7 @@ def moves_to_ball(player, velocity, velocity_squared):
     ry = game.ball_position[1] - player['position'][1]
     vx = velocity[0]
     vy = velocity[1]
-    angle = math.arccos((rx * vx + ry * vy) / (math.sqrt(rx * rx + ry * ry) * math.sqrt(vx * vx + vy * vy)))
+    angle = math.acos((rx * vx + ry * vy) / (math.sqrt(rx * rx + ry * ry) * math.sqrt(vx * vx + vy * vy)))
     return angle < FOUL_DIRECTION_THRESHOLD
 
 
