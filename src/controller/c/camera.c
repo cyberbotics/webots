@@ -682,7 +682,6 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
 
 const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
-  robot_mutex_lock_step();
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -697,7 +696,6 @@ const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
     return ac->image->data;
 
-  robot_mutex_unlock_step();
   return ac->image->data;
 }
 
