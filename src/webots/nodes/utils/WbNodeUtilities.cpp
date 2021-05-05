@@ -46,7 +46,7 @@
 #include <QtCore/QStack>
 #include <QtCore/QStringList>
 #include <cassert>
-
+#include <iostream>
 namespace {
   bool checkForUseOrDefNode(const WbNode *node, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch);
@@ -245,8 +245,11 @@ namespace {
         errorMessage = QObject::tr("%1 node cannot be inserted at the top level of the node hierarchy.").arg(nodeName);
         return false;
       }
-      if (nodeName == "Slot")
+      if (nodeName == "Slot") {
+        if (WbNodeUtilities::isDescendantOfBillboard(node))
+          return false;
         return true;
+      }
     }
 
     static QStringList *fields = NULL;
@@ -857,6 +860,14 @@ bool WbNodeUtilities::isFieldDescendant(const WbNode *node, const QString &field
 bool WbNodeUtilities::isDescendantOfBillboard(const WbNode *node) {
   if (node == NULL)
     return false;
+
+  const WbBaseNode *initialNode = dynamic_cast<const WbBaseNode *>(node);
+
+  if (!initialNode)
+    return false;
+
+  if (initialNode->nodeType() == WB_NODE_BILLBOARD)
+    return true;
 
   WbNode *n = node->parentNode();
   WbField *field = node->parentField(true);
