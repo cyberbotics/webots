@@ -431,11 +431,6 @@ void WbLidar::displayPointCloud() {
     wr_dynamic_mesh_clear(mLidarRaysMesh);
     wr_dynamic_mesh_clear(mLidarPointsMesh);
 
-    if (isRotating()) {
-      int a;
-      QTextStream(stdout) << "test\n";
-    }
-
     const float origin[3] = {0.0f, 0.0f, 0.0f};
     float color[3] = {0.0f, 0.0f, 1.0f};
     unsigned int pointsIndex = 0;
