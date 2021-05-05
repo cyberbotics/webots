@@ -8,7 +8,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [-1.4, 1.0, 0.24]
             },
             {
@@ -30,7 +30,7 @@
                 "position" : [0.0, 1.5, 0.08]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [0.0, -0.4, 0.3]
             },
             {
@@ -47,7 +47,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "velocity" : [0, 0.1, 0.24]
             },
             {
@@ -69,7 +69,7 @@
             },
             {
                 "name" : "A. Low speed collision -> No penalty (1)",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
@@ -92,7 +92,7 @@
                 "position" : [2.5, 0.0, 0.08]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [-0.6, 0, 0.3]
             },
             {
@@ -109,7 +109,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "velocity" : [0.4, 0, 0.24]
             },
             {
@@ -131,7 +131,7 @@
             },
             {
                 "name" : "B. Faster player moves to the ball -> No penalty",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
@@ -154,7 +154,7 @@
                 "position" : [-1.0, 1.5, 0.08]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [-1.0, -0.9, 0.3]
             },
             {
@@ -171,7 +171,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "velocity" : [0, 0.15, 0.24]
             },
             {
@@ -193,7 +193,7 @@
             },
             {
                 "name" : "C. Player moving to the ball -> No penalty",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
@@ -216,7 +216,7 @@
                 "position" : [1.0, 1.8, 0.08]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [1.0, -1.0, 0.3]
             },
             {
@@ -233,7 +233,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "velocity" : [0, 0.5, 0.24]
             },
             {
@@ -255,7 +255,7 @@
             },
             {
                 "name" : "D. Player moving to the ball -> No penalty",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
