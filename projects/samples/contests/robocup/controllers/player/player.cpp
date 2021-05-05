@@ -454,7 +454,15 @@ public:
     gettimeofday(&tp, NULL);
     uint64_t real_time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
     sensor_measurements.set_real_time(real_time);
+    std::string active_sensor;
+    std::chrono::time_point<sc> sensor_start;
     for (const auto &entry : sensors) {
+      if (benchmark_level >= 4 && active_sensor != "") {
+        std::cout << "\t\t" << active_sensor << " update time " << duration(sc::now() - sensor_start).count() << "ms"
+                  << std::endl;
+      }
+      sensor_start = sc::now();
+      active_sensor = entry.first->getName();
       webots::Device *dev = entry.first;
       webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(dev);
       if (accelerometer) {
@@ -554,6 +562,10 @@ public:
           }
         }
       }
+    }
+    if (benchmark_level >= 4 && active_sensor != "") {
+      std::cout << "\t\t" << active_sensor << " update time " << duration(sc::now() - sensor_start).count() << "ms"
+                << std::endl;
     }
   }
 
@@ -656,6 +668,7 @@ private:
   // 1: print global step cost and details if budget is exceeded
   // 2: additionally to 1: print global cost systematically
   // 3: print costs recap at each step
+  // 4: print sensor by sensor recap
   // WARNING: any value higher than 1 significantly impacts simulation speed
   static int benchmark_level;
   // The allowed ms per step before producing a warning
