@@ -669,6 +669,7 @@ def init_team(team):
         player['inside_field'] = False
         player['inside_own_side'] = False
         player['outside_goal_area'] = True
+        player['outside_penalty_area'] = True
         player['left_turf_time'] = None
         # Stores tuples of with (time_count[int], dic) at a 1Hz frequency
         player['history'] = []
@@ -691,6 +692,7 @@ def update_team_contacts(team):
         player['inside_field'] = True          # true if fully inside the field
         player['inside_own_side'] = True       # true if fully inside its own side (half field side)
         player['outside_goal_area'] = True     # true if fully outside of any goal area
+        player['outside_penalty_area'] = True  # true if fully outside of any penalty area
         outside_turf = True                    # true if fully outside turf
         fallen = False
         for i in range(n):
@@ -727,9 +729,12 @@ def update_team_contacts(team):
                 outside_turf = False
             if game.field.point_inside(point):
                 player['outside_field'] = False
-                if abs(point[0]) > game.field.size_x - game.field.goal_area_length and \
-                   abs(point[1]) < game.field.goal_area_width / 2:
-                    player['outside_goal_area'] = False
+                if abs(point[0]) > game.field.size_x - game.field.penalty_area_length and \
+                   abs(point[1]) < game.field.penalty_area_width / 2:
+                    player['outside_penalty_area'] = False
+                    if abs(point[0]) > game.field.size_x - game.field.goal_area_length and \
+                       abs(point[1]) < game.field.goal_area_width / 2:
+                        player['outside_goal_area'] = False
             else:
                 player['inside_field'] = False
             if game.side_left == (game.red.id if color == 'red' else game.blue.id):
@@ -863,8 +868,16 @@ def send_penalty(player, penalty, reason, log=None):
 
 def forceful_contact_foul(team, number, opponent_team, opponent_number, goal_keeper=False):
     extra = ' (goal keeper)' if goal_keeper else ''
+    if team['players'][number]['outside_penalty_area']:
+        area = 'outside penalty area'
+    else:
+        area = 'inside penalty area'
     info(f'{team["color"].capitalize()} player {number} committed a forceful contact foul on '
-         f'{opponent_team["color"]} player {opponent_number}{extra}.')
+         f'{opponent_team["color"]} player {opponent_number}{extra} {area}.')
+    if area[0] == 'i':  # inside penalty area
+        interruption('PENALTYKICK')
+    else:
+        interruption('DIRECT_FREEKICK')
 
 
 def goal_keeper_inside_own_goal_area(team, number):
@@ -873,6 +886,17 @@ def goal_keeper_inside_own_goal_area(team, number):
         if not goal_keeper['outside_goal_area'] and goal_keeper['inside_own_side']:
             return True
     return False
+
+
+def moves_to_ball(player, velocity, velocity_squared):
+    if velocity_squared < FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
+        return True
+    rx = game.ball_position[0] - player['position'][0]
+    ry = game.ball_position[1] - player['position'][1]
+    vx = velocity[0]
+    vy = velocity[1]
+    angle = math.arccos((rx * vx + ry * vy) / (math.sqrt(rx * rx + ry * ry) * math.sqrt(vx * vx + vy * vy)))
+    return angle < FOUL_DIRECTION_THRESHOLD
 
 
 def check_forceful_contacts():
@@ -887,8 +911,36 @@ def check_forceful_contacts():
                 if goal_keeper_inside_own_goal_area(blue_team, blue_number):
                     forceful_contact_foul(red_team, red_number, blue_team, blue_number, goal_keeper=True)
                     continue
-            if game.forceful_contact_matrix.foul(red_number, blue_number):
-                info(f'Forceful contact foul between red player {red_number} and blue player {blue_number}.')
+            p1 = red_team['players'][red_number]
+            p2 = blue_team['players'][blue_number]
+            d1 = distance2(p1['position'], game.ball_position)
+            d2 = distance2(p2['position'], game.ball_position)
+            if game.forceful_contact_matrix.long_collision(red_number, blue_number):
+                if d1 < FOUL_VINCITY_DISTANCE and d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+                    forceful_contact_foul(red_team, red_number, blue_team, blue_number)
+                elif d2 < FOUL_VINCITY_DISTANCE and d2 - d1 > FOUL_DISTANCE_THRESHOLD:
+                    forceful_contact_foul(blue_team, blue_number, red_team, red_number)
+                continue
+            v1 = p1['robot'].getVelocity()
+            v2 = p2['robot'].getVelocity()
+            v1_squared = v1[0] * v1[0] + v1[1] * v1[1]
+            v2_squared = v2[0] * v2[0] + v2[1] * v2[1]
+            # rule for R1
+            if v1_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
+                if d1 < FOUL_VINCITY_DISTANCE:
+                    if moves_to_ball(p2, v2, v2_squared):
+                        if not moves_to_ball(p1, v1, v1_squared) or d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+                            forceful_contact_foul(red_team, red_number, blue_team, blue_number)
+            elif math.sqrt(v1_squared) - math.sqrt(v2_squared) > FOUL_SPEED_THRESHOLD:
+                forceful_contact_foul(red_team, red_number, blue_team, blue_number)
+            # symetrical rule for R2
+            if v2_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
+                if d2 < FOUL_VINCITY_DISTANCE:
+                    if moves_to_ball(p1, v1, v1_squared):
+                        if not moves_to_ball(p2, v2, v2_squared) or d2 - d1 > FOUL_DISTANCE_THRESHOLD:
+                            forceful_contact_foul(blue_team, blue_number, red_team, red_number)
+            elif math.sqrt(v2_squared) - math.sqrt(v1_squared) > FOUL_SPEED_THRESHOLD:
+                forceful_contact_foul(blue_team, blue_number, red_team, red_number)
 
 
 def check_team_ball_holding(team):

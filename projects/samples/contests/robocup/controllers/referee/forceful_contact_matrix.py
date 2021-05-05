@@ -24,7 +24,7 @@ class ForcefulContactMatrix:
         index = int(time_count / self.time_step) % self.time_window_size
         return self.matrix[int(red_number) - 1][int(blue_number) - 1][index]
 
-    def foul(self, red_number, blue_number):
+    def long_collision(self, red_number, blue_number):
         sum = 0
         for touch in self.matrix[int(red_number) - 1][int(blue_number) - 1]:
             if touch:
