@@ -64,10 +64,6 @@ void wb_abstract_camera_write_request(WbDevice *d, WbRequest *r) {
   }
 }
 
-void wb_abstract_camera_reset(WbDevice *d) {
-  AbstractCamera *c = d->pdata;
-}
-
 bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char command) {
   bool command_handled = true;
   AbstractCamera *c = d->pdata;
