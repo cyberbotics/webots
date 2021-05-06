@@ -317,6 +317,7 @@ webots.View = class View {
     this.close();
     $('#webotsProgressMessage').html('Bye bye...');
     $('#webotsProgress').show();
+    setTimeout(() => { $('#webotsProgress').hide(); }, 1000);
     this.quitting = true;
     this.onquit();
   }
