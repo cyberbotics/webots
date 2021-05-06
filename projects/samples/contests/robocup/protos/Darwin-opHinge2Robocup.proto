@@ -1540,6 +1540,7 @@ PROTO Darwin-opHinge2Robocup [
           endPoint Solid {
             translation 0 0.082 0
             rotation 0.6734 0.6734 0.3051 2.5494
+            model "left arm"
             children [
               DEF DShoulderLShape Shape {
                 appearance USE METAL_APPEARANCE
@@ -1587,6 +1588,7 @@ PROTO Darwin-opHinge2Robocup [
                   endPoint Solid {
                     translation 0 -0.016 0
                     rotation 0 0 -1 -0.4254
+                    model "left arm"
                     children [
                       DEF DArmUpperLShape Group {
                         children [
@@ -1790,6 +1792,7 @@ PROTO Darwin-opHinge2Robocup [
           endPoint Solid {
             translation 0 -0.082 0
             rotation 0.6826 0.6826 0.2611 2.6307
+            model "right arm"
             children [
               DEF DShoulderRShape Shape {
                 appearance USE METAL_APPEARANCE
@@ -1837,6 +1840,7 @@ PROTO Darwin-opHinge2Robocup [
                   endPoint Solid {
                     translation 0 -0.016 0
                     rotation 0 0 -1 0.4554
+                    model "right arm"
                     children [
                       DEF DArmUpperRShape Group {
                         children [
