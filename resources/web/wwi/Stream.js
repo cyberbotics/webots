@@ -92,7 +92,7 @@ export default class Stream {
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
       if (this.view.mode === 'mjpeg') {
         $('#webotsProgress').hide();
-        this.view.multimediaClient.requestNewSize(); //To force the server to render once
+        this.view.multimediaClient.requestNewSize(); // To force the server to render once
       }
 
       if (typeof this.onready === 'function')
