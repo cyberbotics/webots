@@ -362,9 +362,6 @@ void WbWorld::write(WbVrmlWriter &writer) const {
     WbWrenOpenGlContext::doneWren();
   }
 
-  assert(mPerspective);
-  QMap<QString, QString> parameters = mPerspective->x3dExportParameters();
-  writer.setX3DFrustumCullingValue(parameters.value("frustumCulling"));
   writer.writeHeader(worldInfo()->title());
 
   // write nodes
