@@ -663,24 +663,23 @@ WbMatter *WbNodeUtilities::findUppermostMatter(WbNode *node) {
 }
 
 WbSolid *WbNodeUtilities::findTopSolid(const WbNode *node) {
-  if (node == NULL || node->isWorldRoot())
+  if (node == NULL)
     return NULL;
 
   const WbNode *n = node;
   const WbNode *parent = n->parentNode();
   WbSolid *topSolid = NULL;
-  WbSolid *currentNode;
   while (parent) {
-    currentNode = dynamic_cast<WbSolid *>(const_cast<WbNode *>(n));
-    if (currentNode)
-      topSolid = currentNode;
+    WbSolid *currentSolid = dynamic_cast<WbSolid *>(const_cast<WbNode *>(n));
+    if (currentSolid)
+      topSolid = currentSolid;
     if (parent->isWorldRoot())
-      return topSolid;
+      break;
 
     n = parent;
     parent = n->parentNode();
   }
-  return NULL;
+  return topSolid;
 }
 
 WbTransform *WbNodeUtilities::findUpperTransform(const WbNode *node) {
