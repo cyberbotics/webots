@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
   WbNodeRef test_node = wb_supervisor_node_get_from_proto_def(parent_node, "TEST_PROTO");
   wb_robot_step(TIME_STEP);
   const double *position_before = wb_supervisor_node_get_position(test_node);
-  ts_assert_vec3_in_delta(position_before[0], position_before[1], position_before[2], 2.0, 0.0, 1.0, 0.0001,
+  ts_assert_vec3_in_delta(position_before[0], position_before[1], position_before[2], 3.0, 0.0, 1.0, 0.0001,
                           "Initial position of deeply nested PROTO parameter is wrong.");
 
   const double new_position[3] = {0.0, 1.0, 0.0};
@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   const double *position_after = wb_supervisor_node_get_position(test_node);
-  ts_assert_vec3_in_delta(position_after[0], position_after[1], position_after[2], 1.0, 1.0, 1.0, 0.0001,
+  ts_assert_vec3_in_delta(position_after[0], position_after[1], position_after[2], 2.0, 1.0, 1.0, 0.0001,
                           "Position of deeply nested PROTO parameter is wrong after top node position change.");
 
   ts_send_success();
