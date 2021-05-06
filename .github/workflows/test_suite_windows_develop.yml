@@ -30,11 +30,11 @@ jobs:
       with:
          submodules: true
          ref: develop
-    - name: Install Visual Studio 10 and OpenJDK 8
+    - name: Install Visual C++ 17 and OpenJDK 8
       shell: powershell
       run: |
         choco install jdk8
-        choco install vcexpress2010
+        choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
