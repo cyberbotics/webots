@@ -38,7 +38,7 @@ jobs:
       shell: powershell
       run: |
         choco install jdk8
-        choco install vcexpress2010
+        choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
