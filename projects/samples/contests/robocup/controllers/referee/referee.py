@@ -456,7 +456,7 @@ def append_solid(solid, solids):  # we list only the hands and feet
     if model_field:
         model = model_field.getSFString()
         suffix = model[-4:]
-        if suffix == 'hand' or suffix == 'foot':
+        if suffix in ['hand', 'foot']:
             solids.append(solid)
     children = solid.getProtoField('children') if solid.isProto() else solid.getField('children')
     for i in range(children.getCount()):
@@ -709,8 +709,14 @@ def update_team_contacts(team):
         fallen = False
         for i in range(n):
             point = robot.getContactPoint(i)
+            node = robot.getContactPointNode(i)
+            model_field = None if not node else node.getField('model')
+            model = None if model_field is None else model_field.getSFString()
+            member = model.split(' ')[-1] if model.contains(' ') else model
             if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
+                    if member in ['arm', 'hand']:
+                        info(f'Ball touch the {member} of {color} player {number}.')
                     if game.ball_first_touch_time == 0:
                         game.ball_first_touch_time = time_count
                     game.ball_last_touch_time = time_count
@@ -756,14 +762,7 @@ def update_team_contacts(team):
                 if point[0] < LINE_HALF_WIDTH:
                     player['inside_own_side'] = False
             # check if the robot has fallen
-            node = robot.getContactPointNode(i)
-            if not node:
-                continue
-            model_field = node.getField('model')
-            if model_field is None:
-                continue
-            model = model_field.getSFString()
-            if model[-4:] == 'foot':
+            if member == 'foot':
                 continue
             if 'fallen' in player:  # was already down
                 fallen = True
@@ -785,7 +784,7 @@ def update_ball_contacts():
     game.ball.contact_points = []
     for i in range(game.ball.getNumberOfContactPoints()):
         point = game.ball.getContactPoint(i)
-        if point[2] <= 0.01:  # contact with the ground
+        if point[2] <= game.field.turf_depth:  # contact with the ground
             continue
         game.ball.contact_points.append(point)
         break
