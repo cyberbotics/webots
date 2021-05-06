@@ -97,8 +97,8 @@ protected:
   virtual double computeFeedback() const = 0;
 
 protected slots:
-  void updateMaxForceOrTorque(bool checkLimits = true);
-  void updateMinAndMaxPosition(bool checkLimits = true);
+  void updateMaxForceOrTorque();
+  void updateMinAndMaxPosition();
 
 protected:
   void setupJointFeedback();
@@ -109,11 +109,12 @@ private:
   void addConfigureToStream(QDataStream &stream);
   void inferMotorCouplings();
   void enforceMotorLimitsInsideJointLimits();
+  void removeFromCoupledMotors(WbMotor *motor) { mCoupledMotors.removeAll(motor); };
+  void addToCoupledMotors(WbMotor *motor);
 
   void checkMinAndMaxPositionAcrossCoupledMotors();
   void checkMaxVelocityAcrossCoupledMotors();
   void checkMaxAccelerationAcrossCoupledMotors();
-  void checkMaxForceOrTorqueAcrossCoupledMotors();
   void checkMultiplierAcrossCoupledMotors();
 
   // the effect of these functions depends on the current control strategy
@@ -144,7 +145,6 @@ private:
   bool mHasAllocatedJointFeedback;
   void setMaxAcceleration(double acc);
   void setMaxVelocity(double v);
-  void setMaxForceOrTorque(double forceOrTorque);
   void awake() const;
   double mErrorIntegral;
   double mPreviousError;
@@ -158,11 +158,11 @@ private:
 
 private slots:
   void updateSound();
-  void updateMaxVelocity(bool checkLimits = true);
-  void updateMaxAcceleration(bool checkLimits = true);
+  void updateMaxVelocity();
+  void updateMaxAcceleration();
   void updateControlPID();
   void updateMuscles();
-  void updateMultiplier(bool checkLimits = true);
+  void updateMultiplier();
 };
 
 #endif

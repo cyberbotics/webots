@@ -107,7 +107,6 @@ DEF GRIPPER Robot {
             device [
               RotationalMotor {
                 name "motor::left finger"
-                maxVelocity 10.000000000000004
               }
             ]
             endPoint Solid {
@@ -265,7 +264,6 @@ DEF GRIPPER Robot {
             device [
               RotationalMotor {
                 name "motor::right finger"
-                maxVelocity 10.000000000000004
                 multiplier -1
               }
             ]
