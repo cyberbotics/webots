@@ -555,7 +555,10 @@ class Action:
         self._position = position
         self._orientation = orientation
         self._force = force
+        if velocity is not None and len(velocity) == 3:
+            velocity.extend((0, 0, 0))  # add null angular velocity
         self._velocity = velocity
+
 
     def buildFromDictionary(dic):
         """Returns an Action based on the provided dictionary.
@@ -567,6 +570,8 @@ class Action:
         a._orientation = dic.get("orientation")
         a._force = dic.get("force")
         a._velocity = dic.get("velocity")
+        if a._velocity is not None and len(a._velocity) == 3:
+            a._velocity.extend((0, 0, 0))  # add null angular velocity
         return a
 
 
@@ -746,4 +751,3 @@ class Scenario:
         for e in event_list:
             s._waiting_events.append(Event.buildFromDictionary(e))
         return s
-

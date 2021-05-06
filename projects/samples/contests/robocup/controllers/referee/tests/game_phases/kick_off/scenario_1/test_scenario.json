@@ -22,11 +22,11 @@
                 "position" : [0.2,-2,0.24]
             },
             {
-                "target" : "BLUE_PLAYER_2",
+                "target" : "BLUE_PLAYER_1",
                 "position" : [-1.2,0,0.24]
             },
             {
-                "target" : "BLUE_PLAYER_3",
+                "target" : "BLUE_PLAYER_2",
                 "position" : [-0.2,2,0.24]
             }
         ]
@@ -56,12 +56,12 @@
             },
             {
                 "name" : "Sanity check: valid pos for B2",
-                "target" : "BLUE_PLAYER_2",
+                "target" : "BLUE_PLAYER_1",
                 "penalty" : 0
             },
             {
                 "name" : "Sanity check: valid pos for B3",
-                "target" : "BLUE_PLAYER_3",
+                "target" : "BLUE_PLAYER_2",
                 "penalty" : 0
             }
         ]
@@ -83,11 +83,11 @@
                 "position" : [-0.2,-2,0.24]
             },
             {
-                "target" : "BLUE_PLAYER_2",
+                "target" : "BLUE_PLAYER_1",
                 "position" : [-0.6,-0.2,0.24]
             },
             {
-                "target" : "BLUE_PLAYER_3",
+                "target" : "BLUE_PLAYER_2",
                 "position" : [0.2,2,0.24]
             }
         ]
@@ -116,12 +116,12 @@
             },
             {
                 "name" : "Ball out of play, opponent can't enter -> penalty",
-                "target" : "BLUE_PLAYER_2",
+                "target" : "BLUE_PLAYER_1",
                 "penalty" : 34
             },
             {
                 "name" : "Robots can move to opponent field (2)",
-                "target" : "BLUE_PLAYER_3",
+                "target" : "BLUE_PLAYER_2",
                 "penalty" : 0
             }
         ]
@@ -134,7 +134,7 @@
         },
         "actions" : [
             {
-                "target" : "BLUE_PLAYER_3",
+                "target" : "BLUE_PLAYER_2",
                 "position" : [0.2,0.4,0.24]
             }
         ]
@@ -148,7 +148,7 @@
         "tests" : [
             {
                 "name" : "More than 10s after playing, opponent can move to central circle",
-                "target" : "BLUE_PLAYER_3",
+                "target" : "BLUE_PLAYER_2",
                 "penalty" : 0
             }
         ]

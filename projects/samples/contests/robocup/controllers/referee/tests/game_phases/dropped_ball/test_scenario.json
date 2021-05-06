@@ -22,11 +22,11 @@
                 "position" : [0.2,-2,0.24]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [-1.2,0,0.24]
             },
             {
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "position" : [-0.2,2,0.24]
             }
         ]
@@ -123,11 +123,11 @@
                 "position" : [-0.25,-2,0.24]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [-0.7,0,0.24]
             },
             {
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "position" : [-0.2,1,0.24]
             }
         ]
@@ -158,12 +158,12 @@
             },
             {
                 "name" : "Player partially inside center circle at SET is penalized",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 34
             },
             {
                 "name" : "Properly positioned player is not penalized (2)",
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "penalty" : 0
             }
         ]
@@ -196,7 +196,7 @@
                 "position" : [0.4,0,0.24]
             },
             {
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "position" : [-0.4,0,0.24]
             }
         ]
@@ -216,7 +216,7 @@
             },
             {
                 "name" : "Both teams can enter the center circle once PLAYING (2)",
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "penalty" : 0
             }
         ]

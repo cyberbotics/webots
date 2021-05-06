@@ -14,6 +14,8 @@
 
 from gamestate import GameState
 from field import Field
+from forceful_contact_matrix import ForcefulContactMatrix
+
 from controller import Supervisor, AnsiCodes, Node
 
 import copy
@@ -81,8 +83,12 @@ global supervisor, game, red_team, blue_team, log_file, time_count
 
 
 def log(message, type):
-    console_message = f'{AnsiCodes.YELLOW_FOREGROUND}{AnsiCodes.BOLD}{message}{AnsiCodes.RESET}' if type == 'Warning' \
-                      else message
+    if type == 'Warning':
+        console_message = f'{AnsiCodes.YELLOW_FOREGROUND}{AnsiCodes.BOLD}{message}{AnsiCodes.RESET}'
+    elif type == 'Error':
+        console_message = f'{AnsiCodes.RED_FOREGROUND}{AnsiCodes.BOLD}{message}{AnsiCodes.RESET}'
+    else:
+        console_message = message
     print(console_message, file=sys.stderr if type == 'Error' else sys.stdout)
     if log_file:
         real_time = int(1000 * (time.time() - log.start_time)) / 1000
@@ -100,8 +106,10 @@ def warning(message):
     log(message, 'Warning')
 
 
-def error(message):
+def error(message, fatal=False):
     log(message, 'Error')
+    if fatal:
+        quit()
 
 
 def toss_a_coin_if_needed(attribute):  # attribute should be either "side_left" or "kickoff"
@@ -390,21 +398,21 @@ def game_controller_send(message):
                     if int(id) == sent_id:
                         answered = True
                 except ValueError:
-                    error(f'Cannot split {answer}')
+                    error(f'Cannot split {answer}', fatal=True)
                 try:
                     answered_message = game_controller_send.unanswered[int(id)]
                     del game_controller_send.unanswered[int(id)]
                 except KeyError:
-                    error(f'Received acknowledgment message for unknown message: {id}')
+                    error(f'Received acknowledgment message for unknown message: {id}', fatal=True)
                     continue
                 if result == 'OK':
                     continue
                 if result == 'INVALID':
-                    error(f'Received invalid answer from GameController for message {answered_message}.')
+                    error(f'Received invalid answer from GameController for message {answered_message}.', fatal=True)
                 elif result == 'ILLEGAL':
                     error(f'Received illegal answer from GameController for message {answered_message}.')
                 else:
-                    error(f'Received unknown answer from GameController: {answer}.')
+                    error(f'Received unknown answer from GameController: {answer}.', fatal=True)
         except BlockingIOError:
             if not game.game_controller_synchronization:
                 break
@@ -473,7 +481,7 @@ def list_team_solids(team):
         solids = player['solids']
         append_solid(robot, solids)
         if len(solids) != 4:
-            error(f"{team['color']} player {number} is missing a hand or a foot.")
+            error(f'{team["color"]} player {number} is missing a hand or a foot.', fatal=True)
 
 
 def list_solids():
@@ -660,13 +668,20 @@ def update_ball_holding():
 
 
 def init_team(team):
+    # check validity of team files
+    # the players IDs should be "1", "2", "3", "4" for four players, "1", "2", "3" for three players, etc.
+    count = 1
     for number in team['players']:
+        if int(number) != count:
+            error(f'Wrong team player number: expecting "{count}", found "{number}".', fatal=True)
+        count += 1
         player = team['players'][number]
         player['outside_circle'] = True
         player['outside_field'] = True
         player['inside_field'] = False
         player['inside_own_side'] = False
         player['outside_goal_area'] = True
+        player['outside_penalty_area'] = True
         player['left_turf_time'] = None
         # Stores tuples of with (time_count[int], dic) at a 1Hz frequency
         player['history'] = []
@@ -689,6 +704,7 @@ def update_team_contacts(team):
         player['inside_field'] = True          # true if fully inside the field
         player['inside_own_side'] = True       # true if fully inside its own side (half field side)
         player['outside_goal_area'] = True     # true if fully outside of any goal area
+        player['outside_penalty_area'] = True  # true if fully outside of any penalty area
         outside_turf = True                    # true if fully outside turf
         fallen = False
         for i in range(n):
@@ -725,9 +741,12 @@ def update_team_contacts(team):
                 outside_turf = False
             if game.field.point_inside(point):
                 player['outside_field'] = False
-                if abs(point[0]) > game.field.size_x - game.field.goal_area_length and \
-                   abs(point[1]) < game.field.goal_area_width / 2:
-                    player['outside_goal_area'] = False
+                if abs(point[0]) > game.field.size_x - game.field.penalty_area_length and \
+                   abs(point[1]) < game.field.penalty_area_width / 2:
+                    player['outside_penalty_area'] = False
+                    if abs(point[0]) > game.field.size_x - game.field.goal_area_length and \
+                       abs(point[1]) < game.field.goal_area_width / 2:
+                        player['outside_goal_area'] = False
             else:
                 player['inside_field'] = False
             if game.side_left == (game.red.id if color == 'red' else game.blue.id):
@@ -779,6 +798,44 @@ def update_contacts():
     update_team_contacts(blue_team)
 
 
+def find_robot_contact(team, point):
+    for number in team['players']:
+        if point in team['players'][number]['contact_points']:
+            return number
+    return None
+
+
+def update_team_robot_contacts(team):
+    for number in team['players']:
+        player = team['players'][number]
+        contact_points = player['contact_points']
+        if len(contact_points) == 0:
+            continue
+        opponent_team = red_team if team == blue_team else blue_team
+        opponent_number = None
+        for point in contact_points:
+            opponent_number = find_robot_contact(opponent_team, point)
+            if opponent_number is not None:
+                if team == red_team:
+                    red_number = number
+                    blue_number = opponent_number
+                else:
+                    red_number = opponent_number
+                    blue_number = number
+                fcm = game.forceful_contact_matrix
+                if (not fcm.contact(red_number, blue_number, time_count - time_step) and
+                   not fcm.contact(red_number, blue_number, time_count)):
+                    info(f'{time_count}: contact between {team["color"]} player {number} and '
+                         f'{opponent_team["color"]} player {opponent_number}.')
+                fcm.set_contact(red_number, blue_number, time_count)
+
+
+def update_robot_contacts():
+    game.forceful_contact_matrix.clear(time_count)
+    update_team_robot_contacts(red_team)
+    update_team_robot_contacts(blue_team)
+
+
 def update_histories():
     for team in [red_team, blue_team]:
         for number in team['players']:
@@ -819,6 +876,87 @@ def send_penalty(player, penalty, reason, log=None):
     player['penalty_reason'] = reason
     if log is not None:
         info(log)
+
+
+def forceful_contact_foul(team, number, opponent_team, opponent_number, message):
+    if team['players'][number]['outside_penalty_area']:
+        area = 'outside penalty area'
+    else:
+        area = 'inside penalty area'
+    info(f'{team["color"].capitalize()} player {number} committed a forceful contact foul on '
+         f'{opponent_team["color"]} player {opponent_number} ({message}) {area}.')
+    game.forceful_contact_matrix.clear_all()
+
+    if area[0] == 'i':  # inside penalty area
+        interruption('PENALTYKICK')
+    else:
+        interruption('DIRECT_FREEKICK')
+
+
+def goal_keeper_inside_own_goal_area(team, number):
+    if is_goal_keeper(team, number):
+        goal_keeper = team['players'][number]
+        if not goal_keeper['outside_goal_area'] and goal_keeper['inside_own_side']:
+            return True
+    return False
+
+
+def moves_to_ball(player, velocity, velocity_squared):
+    if velocity_squared < FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
+        return True
+    rx = game.ball_position[0] - player['position'][0]
+    ry = game.ball_position[1] - player['position'][1]
+    vx = velocity[0]
+    vy = velocity[1]
+    angle = math.acos((rx * vx + ry * vy) / (math.sqrt(rx * rx + ry * ry) * math.sqrt(vx * vx + vy * vy)))
+    return angle < FOUL_DIRECTION_THRESHOLD
+
+
+def check_forceful_contacts():
+    update_robot_contacts()
+    fcm = game.forceful_contact_matrix
+    for red_number in red_team['players']:
+        for blue_number in blue_team['players']:
+            if not fcm.contact(red_number, blue_number, time_count):
+                continue  # no contact
+            if goal_keeper_inside_own_goal_area(red_team, red_number):
+                forceful_contact_foul(blue_team, blue_number, red_team, red_number, 'goalkeeper')
+                continue
+            if goal_keeper_inside_own_goal_area(blue_team, blue_number):
+                forceful_contact_foul(red_team, red_number, blue_team, blue_number, 'goalkeeper')
+                continue
+            p1 = red_team['players'][red_number]
+            p2 = blue_team['players'][blue_number]
+            d1 = distance2(p1['position'], game.ball_position)
+            d2 = distance2(p2['position'], game.ball_position)
+            if game.forceful_contact_matrix.long_collision(red_number, blue_number):
+                if d1 < FOUL_VINCITY_DISTANCE and d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+                    forceful_contact_foul(red_team, red_number, blue_team, blue_number, 'long collision')
+                elif d2 < FOUL_VINCITY_DISTANCE and d2 - d1 > FOUL_DISTANCE_THRESHOLD:
+                    forceful_contact_foul(blue_team, blue_number, red_team, red_number, 'long collision')
+                continue
+            v1 = p1['robot'].getVelocity()
+            v2 = p2['robot'].getVelocity()
+            v1_squared = v1[0] * v1[0] + v1[1] * v1[1]
+            v2_squared = v2[0] * v2[0] + v2[1] * v2[1]
+            # rule for R1
+            if v1_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
+                if d1 < FOUL_VINCITY_DISTANCE:
+                    if moves_to_ball(p2, v2, v2_squared):
+                        if not moves_to_ball(p1, v1, v1_squared) or d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+                            forceful_contact_foul(red_team, red_number, blue_team, blue_number,
+                                                  'opponent moving towards the ball')
+            elif math.sqrt(v1_squared) - math.sqrt(v2_squared) > FOUL_SPEED_THRESHOLD:
+                forceful_contact_foul(red_team, red_number, blue_team, blue_number, 'violent collision')
+            # symetrical rule for R2
+            if v2_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
+                if d2 < FOUL_VINCITY_DISTANCE:
+                    if moves_to_ball(p1, v1, v1_squared):
+                        if not moves_to_ball(p2, v2, v2_squared) or d2 - d1 > FOUL_DISTANCE_THRESHOLD:
+                            forceful_contact_foul(blue_team, blue_number, red_team, red_number,
+                                                  'opponent moving towards the ball')
+            elif math.sqrt(v2_squared) - math.sqrt(v1_squared) > FOUL_SPEED_THRESHOLD:
+                forceful_contact_foul(blue_team, blue_number, red_team, red_number, 'violent collision')
 
 
 def check_team_ball_holding(team):
@@ -1387,7 +1525,7 @@ log_file = open('log.txt', 'w')
 game_config_file = os.environ['WEBOTS_ROBOCUP_GAME'] if 'WEBOTS_ROBOCUP_GAME' in os.environ \
     else os.path.join(os.getcwd(), 'game.json')
 if not os.path.isfile(game_config_file):
-    error(f'Cannot read {game_config_file} game config file.')
+    error(f'Cannot read {game_config_file} game config file.', fatal=True)
 
 # read configuration files
 with open(game_config_file) as json_file:
@@ -1405,7 +1543,7 @@ if not hasattr(game, 'press_a_key_to_terminate'):
 if not hasattr(game, 'game_controller_synchronization'):
     game.game_controller_synchronization = True
 if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
-    error(f'Unsupported game type: {game.type}.')
+    error(f'Unsupported game type: {game.type}.', fatal=True)
 game.penalty_shootout = game.type == 'PENALTY'
 info(f'Minimum real time factor is set to {game.minimum_real_time_factor}.')
 if game.minimum_real_time_factor == 0:
@@ -1429,7 +1567,7 @@ if len(blue_team['name']) > 12:
 # check if the host parameter of the game.json file correspond to the actual host
 host = socket.gethostbyname(socket.gethostname())
 if host != '127.0.0.1' and host != game.host:
-    error(f'Host is not correctly defined in game.json file, it should be {host} instead of {game.host}.')
+    warning(f'Host is not correctly defined in game.json file, it should be {host} instead of {game.host}.')
 
 # launch the GameController
 try:
@@ -1437,7 +1575,7 @@ try:
     try:
         GAME_CONTROLLER_HOME = os.environ['GAME_CONTROLLER_HOME']
         if not os.path.exists(GAME_CONTROLLER_HOME):
-            error(f'{GAME_CONTROLLER_HOME} (GAME_CONTROLLER_HOME) folder not found.')
+            error(f'{GAME_CONTROLLER_HOME} (GAME_CONTROLLER_HOME) folder not found.', fatal=True)
             game.controller_process = None
         else:
             path = os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar', 'config', f'hl_sim_{field_size}', 'teams.cfg')
@@ -1454,12 +1592,12 @@ try:
     except KeyError:
         GAME_CONTROLLER_HOME = None
         game.controller_process = None
-        error('GAME_CONTROLLER_HOME environment variable not set, unable to launch GameController.')
+        error('GAME_CONTROLLER_HOME environment variable not set, unable to launch GameController.', fatal=True)
 except KeyError:
     JAVA_HOME = None
     GAME_CONTROLLER_HOME = None
     game.controller_process = None
-    error('JAVA_HOME environment variable not set, unable to launch GameController.')
+    error('JAVA_HOME environment variable not set, unable to launch GameController.', fatal=True)
 
 toss_a_coin_if_needed('side_left')
 toss_a_coin_if_needed('kickoff')
@@ -1509,7 +1647,7 @@ if game.controller_process:
                 time.sleep(retry)  # give some time to allow the GameControllerSimulator to start-up
                 supervisor.step(time_step)
             else:
-                error('Could not connect to GameController at localhost:8750.')
+                error('Could not connect to GameController at localhost:8750.', fatal=True)
                 game.controller = None
                 break
     info('Connected to GameControllerSimulator at localhost:8750.')
@@ -1560,6 +1698,8 @@ game.in_play = None
 game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
+game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
+                                                     FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
 
 previous_seconds_remaining = 0
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
@@ -1610,6 +1750,7 @@ while supervisor.step(time_step) != -1 and not game.over:
         continue
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
+        check_forceful_contacts()
         check_inactive_goalies()
         if game.in_play is None:
             # During period after the end of a game interruption, check distance of opponents
@@ -1704,7 +1845,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                     else:
                         info('End of knockout second half.')
                 else:
-                    error(f'Unsupported game type: {game.type}.')
+                    error(f'Unsupported game type: {game.type}.', fatal=True)
         if game.interruption_countdown == 0 and game.ready_countdown == 0 and \
             (game.ball_position[1] - game.ball_radius >= game.field.size_y or
              game.ball_position[1] + game.ball_radius <= -game.field.size_y or
