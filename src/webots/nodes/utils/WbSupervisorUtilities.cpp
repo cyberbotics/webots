@@ -427,18 +427,14 @@ void WbSupervisorUtilities::notifyNodeUpdate(WbNode *node) {
 
 WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node) const {
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
-  while (baseNode && baseNode->isProtoParameterNode()) {
+  while (baseNode && !baseNode->isPostFinalizedCalled() && baseNode->isProtoParameterNode()) {
     // if node is a proto parameter node we need to find the corresponding proto parameter node instance
+    // if the parameter is used multiple times, the first occurrence is returned
     const QVector<WbNode *> instances = baseNode->protoParameterNodeInstances();
-    const int size = instances.size();
-    for (int i = 0; i < size; ++i) {
-      WbBaseNode *instance = static_cast<WbBaseNode *>(instances[i]);
-      if (instance->isPostFinalizedCalled())  // if there is more than one proto parameter node instance the valid one is the
-                                              // one finalized
-        return instance;
-      else if (i == 0)
-        baseNode = instance;
-    }
+    assert(!instances.isEmpty());
+    if (instances.isEmpty())
+      return NULL;
+    baseNode = static_cast<WbBaseNode *>(instances[0]);
   }
   return baseNode;
 }
