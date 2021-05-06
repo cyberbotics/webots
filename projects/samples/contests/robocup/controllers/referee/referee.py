@@ -712,7 +712,7 @@ def update_team_contacts(team):
             node = robot.getContactPointNode(i)
             model_field = None if not node else node.getField('model')
             model = None if model_field is None else model_field.getSFString()
-            member = model.split(' ')[-1] if model.contains(' ') else model
+            member = model.split(' ')[-1] if ' ' in model else model
             if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
                     if member in ['arm', 'hand']:
