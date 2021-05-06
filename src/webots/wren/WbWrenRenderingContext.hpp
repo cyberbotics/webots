@@ -38,6 +38,8 @@ public:
     VF_OUTLINE = 0x00000001,  // flag for bounding objects, axes and centers of mass, i.e. outlines that should not be rendered
                               // by a WbCamera
     VF_SELECTED_OUTLINE = 0x00000002,  // flag for selected outlines
+    VF_BILLBOARDS = 0x00000003,        // flag for billboards
+
     // optional rendering from the menu (up to 30 flags)
     VF_ALL_BOUNDING_OBJECTS = 0x00000004,   // flag for the lines defining a bounding object
     VF_CAMERA_FRUSTUMS = 0x00000008,        // flag for camera frustum

@@ -40,7 +40,7 @@
 #include <wren/transform.h>
 
 #include <ode/ode.h>
-
+#include <iostream>
 // Constant used to scale down the line scale property
 const float WbGeometry::LINE_SCALE_FACTOR = 250.0f;
 
@@ -222,6 +222,9 @@ void WbGeometry::applyVisibilityFlagToWren(bool selected) {
       wr_node_set_visible(WR_NODE(mWrenScaleTransform), true);
     } else if (wr_node_get_parent(WR_NODE(mWrenScaleTransform)))
       wr_node_set_visible(WR_NODE(mWrenScaleTransform), false);
+  } else if (WbNodeUtilities::isDescendantOfBillboard(this)) {
+    wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VF_BILLBOARDS);
+    wr_node_set_visible(WR_NODE(mWrenScaleTransform), true);
   } else {
     wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VM_REGULAR);
     wr_node_set_visible(WR_NODE(mWrenScaleTransform), true);
