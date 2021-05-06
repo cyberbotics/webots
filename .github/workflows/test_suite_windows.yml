@@ -41,7 +41,6 @@ jobs:
         choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
         export PYTHON27_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^2\.7\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON37_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.7\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
@@ -52,6 +51,7 @@ jobs:
         echo 'export PYTHON37_HOME='$PYTHON_INSTALLATION_FOLDER'3.7.'$PYTHON37_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON38_HOME='$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON39_HOME='$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64' >> ~/.bash_profile
+        echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2017"' >> ~/.bash_profile
         echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
         echo 'export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
         export WEBOTS_HOME=$GITHUB_WORKSPACE
