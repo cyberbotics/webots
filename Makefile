@@ -166,6 +166,7 @@ help:
 	@+echo -e "\033[33;1mmake -j$(THREADS) debug\033[0m  \t# compile with gdb debugging symbols"
 	@+echo -e "\033[33;1mmake -j$(THREADS) profile\033[0m\t# compile with gprof profiling information"
 	@+echo -e "\033[33;1mmake -j$(THREADS) distrib\033[0m\t# compile in release mode & create distribution package"
+	@+echo -e "\033[33;1mmake -j$(THREADS) docs\033[0m\t# build documentation"
 	@+echo -e "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# clean-up the compilation output"
 	@+echo -e "\033[33;1mmake -j$(THREADS) cleanse\033[0m\t# deep clean-up (dependencies are also removed)"
 	@+echo -e "\033[33;1mmake help\033[0m\t\t# display this message and exit"
