@@ -13,3 +13,5 @@ When a `node` is added to the `children` of a [Billboard](#billboard), it will b
 To see the new `node`, it should be translated negatively along the z-axis.
 
 The objects contained in billboard are not seen by [Cameras](camera.md).
+
+[Shapes][shape.md] that are inside a [Billboard](#billboard) cannot cast or receive shadows.

@@ -493,7 +493,7 @@ void WbGeometry::computeCastShadows(bool enabled) {
   if (!mWrenRenderable)
     return;
 
-  if (isInBoundingObject()) {
+  if (isInBoundingObject() || WbNodeUtilities::isDescendantOfBillboard(this)) {
     wr_renderable_set_cast_shadows(mWrenRenderable, false);
     wr_renderable_set_receive_shadows(mWrenRenderable, false);
   } else
