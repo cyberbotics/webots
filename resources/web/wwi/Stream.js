@@ -90,6 +90,11 @@ export default class Stream {
     } else if (data === 'scene load completed') {
       this.view.time = 0;
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
+      if (this.view.mode === 'mjpeg') {
+        $('#webotsProgress').hide();
+        this.view.multimediaClient.requestNewSize(); //To force the server to render once
+      }
+
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data === 'reset finished') {
@@ -101,9 +106,6 @@ export default class Stream {
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('time: ')) {
-      if (this.view.mode === 'mjpeg')
-        $('#webotsProgress').hide();
-
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
     } else if (data === 'delete world')
