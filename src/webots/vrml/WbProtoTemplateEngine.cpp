@@ -44,11 +44,13 @@ WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent, con
 bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector<WbField *> &parameters,
                                      const QString &protoPath, const QString &worldPath, int id) {
   // generate the final script file from the template script file
-  printf("WbProtoTemplateEngine::generate\n");
+  printf("WbProtoTemplateEngine::generate (param size: %d)\n", parameters.size());
   QHash<QString, QString> tags;
 
   tags["fields"] = "";
   foreach (const WbField *parameter, parameters) {
+    printf(">> parameter: %s (isTemplateRegenerator: %d)\n", parameter->name().toUtf8().constData(),
+           parameter->isTemplateRegenerator());
     if (!parameter->isTemplateRegenerator())  // keep only regenerator fields
       continue;
     const QString &valueLuaString = convertFieldValueToLuaStatement(parameter);
