@@ -114,7 +114,6 @@ private:
 
   void checkMinAndMaxPositionAcrossCoupledMotors();
   void checkMaxVelocityAcrossCoupledMotors();
-  void checkMaxAccelerationAcrossCoupledMotors();
   void checkMultiplierAcrossCoupledMotors();
 
   // the effect of these functions depends on the current control strategy
@@ -123,7 +122,6 @@ private:
   void setForceOrTorque(double forceOrTorque);
   void setAvailableForceOrTorque(double availableForceOrTorque);
 
-  bool isAccelerationUnlimited() { return acceleration() == -1 ? true : false; }
   bool isPositionUnlimited() { return minPosition() == 0.0 && maxPosition() == 0.0; }
 
   WbMotor &operator=(const WbMotor &);  // non copyable

@@ -133,8 +133,7 @@ void WbMotor::postFinalize() {
   if (!mMuscles->isEmpty() || robot()->maxEnergy() > 0)
     setupJointFeedback();
 
-  inferMotorCouplings();
-  checkMultiplierAcrossCoupledMotors();  // it calls all the other checks implicitly
+  inferMotorCouplings();  // it also checks consistency across couplings
 
   // must be done in the postFinalize step as the coupled motor consistency check could change the values
   mTargetVelocity = mMaxVelocity->value();
@@ -226,7 +225,7 @@ void WbMotor::inferMotorCouplings() {
 void WbMotor::updateMinAndMaxPosition() {
   enforceMotorLimitsInsideJointLimits();
 
-  if (mCoupledMotors.size() > 0 && isPreFinalizedCalled())
+  if (isPreFinalizedCalled())
     checkMinAndMaxPositionAcrossCoupledMotors();
 
   mNeedToConfigure = true;
@@ -301,10 +300,6 @@ void WbMotor::updateMuscles() {
 
 void WbMotor::updateMaxAcceleration() {
   WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mAcceleration, -1, -1);
-
-  if (mCoupledMotors.size() > 0 && isPreFinalizedCalled())
-    checkMaxAccelerationAcrossCoupledMotors();
-
   mNeedToConfigure = true;
 }
 
@@ -365,7 +360,7 @@ void WbMotor::setVelocity(double velocity) {
 
 void WbMotor::setAcceleration(double acceleration) {
   // note: a check is performed on libController side for negative values
-  mAcceleration->setValue(acceleration * fabs(multiplier()));
+  mAcceleration->setValue(acceleration);
   awake();
 }
 
@@ -386,12 +381,13 @@ void WbMotor::setForceOrTorque(double forceOrTorque) {
     mRawInput = mRawInput >= 0.0 ? mMotorForceOrTorque : -mMotorForceOrTorque;
   }
 
+  mNeedToConfigure = true;
   awake();
 }
 
 void WbMotor::setAvailableForceOrTorque(double availableForceOrTorque) {
   // note: a check is performed on libController side for negative values
-  mMotorForceOrTorque = availableForceOrTorque * fabs(multiplier());
+  mMotorForceOrTorque = availableForceOrTorque;
 
   const double m = mMaxForceOrTorque->value();
   if (mMotorForceOrTorque > m) {
@@ -591,35 +587,6 @@ void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
   }
 }
 
-void WbMotor::checkMaxAccelerationAcrossCoupledMotors() {
-  // if the acceleration is unlimited for this motor, the coupled ones must also be
-  for (int i = 0; i < mCoupledMotors.size(); ++i) {
-    if (isAccelerationUnlimited() && !mCoupledMotors[i]->isAccelerationUnlimited()) {
-      parsingWarn(tr("For coupled motors, if one has unlimited acceleration, its siblings must also have it. Adjusting "
-                     "'acceleration' from %1 to -1 for motors '%2'.")
-                    .arg(mCoupledMotors[i]->acceleration())
-                    .arg(deviceName()));
-      mCoupledMotors[i]->setMaxAcceleration(-1);
-    }
-  }
-
-  // if the acceleration is limited for this motor, adjust the limits of the siblings accordingly
-  if (!isAccelerationUnlimited()) {
-    for (int i = 0; i < mCoupledMotors.size(); ++i) {
-      const double potentialMaximalAcceleration = acceleration() * fabs(mCoupledMotors[i]->multiplier()) / fabs(multiplier());
-
-      if (mCoupledMotors[i]->acceleration() != potentialMaximalAcceleration) {
-        parsingWarn(tr("When using coupled motors, acceleration limits must be consistent across devices. Adjusting "
-                       "'acceleration' from %1 to %2 for motor '%3'.")
-                      .arg(mCoupledMotors[i]->acceleration())
-                      .arg(potentialMaximalAcceleration)
-                      .arg(deviceName()));
-        mCoupledMotors[i]->setMaxAcceleration(potentialMaximalAcceleration);
-      }
-    }
-  }
-}
-
 void WbMotor::checkMultiplierAcrossCoupledMotors() {
   if (multiplier() == 0.0) {
     parsingWarn(tr("The value of 'multiplier' cannot be 0. Value reverted to 1."));
@@ -631,7 +598,6 @@ void WbMotor::checkMultiplierAcrossCoupledMotors() {
 
   checkMinAndMaxPositionAcrossCoupledMotors();
   checkMaxVelocityAcrossCoupledMotors();
-  checkMaxAccelerationAcrossCoupledMotors();
 }
 
 /////////////
@@ -742,16 +708,12 @@ void WbMotor::handleMessage(QDataStream &stream) {
       double acceleration;
       stream >> acceleration;
       setAcceleration(acceleration);
-      // relay target acceleration to coupled motors, if any
-      for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setAcceleration(acceleration);
       break;
     }
     case C_MOTOR_SET_FORCE: {
       double forceOrTorque;
       stream >> forceOrTorque;
       setForceOrTorque(forceOrTorque);
-      // relay force or torque to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
         mCoupledMotors[i]->setForceOrTorque(forceOrTorque);
       break;
@@ -760,9 +722,6 @@ void WbMotor::handleMessage(QDataStream &stream) {
       double availableForceOrTorque;
       stream >> availableForceOrTorque;
       setAvailableForceOrTorque(availableForceOrTorque);
-      // relay available force or torque to coupled motors, if any
-      for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setAvailableForceOrTorque(availableForceOrTorque);
       break;
     }
     case C_MOTOR_SET_CONTROL_PID: {

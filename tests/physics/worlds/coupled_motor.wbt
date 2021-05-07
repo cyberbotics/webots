@@ -21,7 +21,6 @@ DEF CHECK_COUPLING Robot {
       device [
         RotationalMotor {
           name "motor group a"
-          acceleration 10
         }
       ]
     }
@@ -29,7 +28,6 @@ DEF CHECK_COUPLING Robot {
       device [
         RotationalMotor {
           name "motor group a::subgroup b"
-          acceleration 10
         }
       ]
     }
@@ -37,7 +35,6 @@ DEF CHECK_COUPLING Robot {
       device [
         RotationalMotor {
           name "motor group a::subgroup c"
-          acceleration 10
         }
       ]
     }
@@ -45,7 +42,6 @@ DEF CHECK_COUPLING Robot {
       device [
         RotationalMotor {
           name "motor group b::subgroup b"
-          acceleration 10
         }
       ]
     }
@@ -53,64 +49,10 @@ DEF CHECK_COUPLING Robot {
   name "coupling test"
   controller "coupled_motor"
   controllerArgs "coupling_test"
+  supervisor TRUE
 }
 DEF CHECK_PARAMETER_LOAD Robot {
   children [
-    # acceleration check
-    DEF MOTOR_A1 HingeJoint {
-      device [
-        RotationalMotor {
-          name "motor A::0"
-          acceleration 5
-          multiplier 2
-        }
-      ]
-    }
-    DEF MOTOR_A2 HingeJoint {
-      device [
-        RotationalMotor {
-          name "motor A::1"
-          acceleration 10
-          multiplier 2
-        }
-      ]
-    }
-    DEF MOTOR_A3 HingeJoint {
-      device [
-        RotationalMotor {
-          name "motor A::2"
-          acceleration 20
-          multiplier 2
-        }
-      ]
-    }
-    DEF MOTOR_B1 HingeJoint {
-      device [
-        RotationalMotor {
-          name "motor B::0"
-          acceleration -1
-          multiplier 2
-        }
-      ]
-    }
-    DEF MOTOR_B2 HingeJoint {
-      device [
-        RotationalMotor {
-          name "motor B::1"
-          acceleration 10
-          multiplier 2
-        }
-      ]
-    }
-    DEF MOTOR_B3 HingeJoint {
-      device [
-        RotationalMotor {
-          name "motor B::2"
-          acceleration 20
-          multiplier 2
-        }
-      ]
-    }
     # velocity check
     DEF MOTOR_C1 HingeJoint {
       device [
@@ -207,7 +149,6 @@ DEF CHECK_PARAMETER_LOAD Robot {
           name "motor F::0"
           multiplier 2
           maxVelocity 10
-          acceleration 10
           minPosition -2
           maxPosition 4
         }
@@ -219,7 +160,6 @@ DEF CHECK_PARAMETER_LOAD Robot {
           name "motor F::1"
           multiplier 0.5
           maxVelocity 10
-          acceleration 10
           minPosition -2
           maxPosition 4
         }
@@ -231,7 +171,6 @@ DEF CHECK_PARAMETER_LOAD Robot {
           name "motor F::2"
           multiplier 4
           maxVelocity 10
-          acceleration 10
           minPosition -2
           maxPosition 4
         }
@@ -243,7 +182,6 @@ DEF CHECK_PARAMETER_LOAD Robot {
           name "motor G::0"
           multiplier 2
           maxVelocity 10
-          acceleration 10
           minPosition -2
           maxPosition 4
         }
@@ -255,7 +193,6 @@ DEF CHECK_PARAMETER_LOAD Robot {
           name "motor G::1"
           multiplier -0.5
           maxVelocity 10
-          acceleration 10
           minPosition -2
           maxPosition 4
         }
@@ -267,7 +204,6 @@ DEF CHECK_PARAMETER_LOAD Robot {
           name "motor G::2"
           multiplier -4
           maxVelocity 10
-          acceleration 10
           minPosition -2
           maxPosition 4
         }
@@ -325,7 +261,6 @@ DEF PHYSICS_TEST Robot {
         RotationalMotor {
           name "motor::2"
           maxVelocity 5
-          maxTorque 20
           multiplier 0.5
         }
       ]
@@ -361,7 +296,6 @@ DEF PHYSICS_TEST Robot {
         RotationalMotor {
           name "motor::3"
           maxVelocity 40
-          maxTorque 2.5
           multiplier 4
         }
       ]
@@ -397,7 +331,6 @@ DEF PHYSICS_TEST Robot {
         RotationalMotor {
           name "motor::4"
           maxVelocity 5
-          maxTorque 20
           multiplier -0.5
         }
       ]
@@ -433,7 +366,6 @@ DEF PHYSICS_TEST Robot {
         RotationalMotor {
           name "motor::5"
           maxVelocity 40
-          maxTorque 2.5
           multiplier -4
         }
       ]
