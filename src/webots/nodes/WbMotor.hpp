@@ -54,7 +54,7 @@ public:
   bool runKinematicControl(double ms, double &position);
   double currentVelocity() const { return mCurrentVelocity; }
   int kinematicVelocitySign() const { return mKinematicVelocitySign; }
-  void setTargetPosition(double position, WbMotor *relayer = NULL);
+  void setTargetPosition(double position);
   void resetPhysics();
   double energyConsumption() const override;
   void powerOn(bool) override;
@@ -118,10 +118,10 @@ private:
   void checkMultiplierAcrossCoupledMotors();
 
   // the effect of these functions depends on the current control strategy
-  void setVelocity(double velocity, const WbMotor *const relayer = NULL);
-  void setAcceleration(double acceleration, const WbMotor *const relayer = NULL);
-  void setForceOrTorque(double forceOrTorque, const WbMotor *const relayer = NULL);
-  void setAvailableForceOrTorque(double availableForceOrTorque, const WbMotor *const relayer = NULL);
+  void setVelocity(double velocity);
+  void setAcceleration(double acceleration);
+  void setForceOrTorque(double forceOrTorque);
+  void setAvailableForceOrTorque(double availableForceOrTorque);
 
   bool isAccelerationUnlimited() { return acceleration() == -1 ? true : false; }
   bool isPositionUnlimited() { return minPosition() == 0.0 && maxPosition() == 0.0; }

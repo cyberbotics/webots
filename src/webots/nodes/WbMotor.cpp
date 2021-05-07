@@ -326,13 +326,13 @@ void WbMotor::setMaxAcceleration(double acc) {
 // API setters //
 /////////////////
 
-void WbMotor::setTargetPosition(double position, WbMotor *relayer) {
+void WbMotor::setTargetPosition(double position) {
   const double maxp = mMaxPosition->value();
   const double minp = mMinPosition->value();
   const bool velocityControl = std::isinf(position);
 
   // negative multipliers could turn the +inf into a -inf
-  mTargetPosition = (relayer == NULL || velocityControl) ? position : position * multiplier() / relayer->multiplier();
+  mTargetPosition = velocityControl ? position : position * multiplier();
 
   if (maxp != minp && !velocityControl) {
     if (position > maxp) {
@@ -349,9 +349,9 @@ void WbMotor::setTargetPosition(double position, WbMotor *relayer) {
   awake();
 }
 
-void WbMotor::setVelocity(double velocity, const WbMotor *const relayer) {
+void WbMotor::setVelocity(double velocity) {
   // multipliers would cancel out if this is the motor being controlled, however it could accumulate precision errors
-  mTargetVelocity = relayer == NULL ? velocity : velocity * multiplier() / relayer->multiplier();
+  mTargetVelocity = velocity * multiplier();
 
   const double m = mMaxVelocity->value();
   const bool isNegative = mTargetVelocity < 0.0;
@@ -363,18 +363,18 @@ void WbMotor::setVelocity(double velocity, const WbMotor *const relayer) {
   awake();
 }
 
-void WbMotor::setAcceleration(double acceleration, const WbMotor *const relayer) {
+void WbMotor::setAcceleration(double acceleration) {
   // note: a check is performed on libController side for negative values
-  mAcceleration->setValue(relayer == NULL ? acceleration : acceleration * fabs(multiplier()) / fabs(relayer->multiplier()));
+  mAcceleration->setValue(acceleration * fabs(multiplier()));
   awake();
 }
 
-void WbMotor::setForceOrTorque(double forceOrTorque, const WbMotor *const relayer) {
+void WbMotor::setForceOrTorque(double forceOrTorque) {
   if (!mUserControl)  // we were previously using motor force
     turnOffMotor();
   mUserControl = true;
 
-  mRawInput = relayer == NULL ? forceOrTorque : forceOrTorque * multiplier() / relayer->multiplier();
+  mRawInput = forceOrTorque * multiplier();
   if (fabs(mRawInput) > mMotorForceOrTorque) {
     if (mCoupledMotors.size() == 0) {  // silence warning for coupled motors
       if (nodeType() == WB_NODE_ROTATIONAL_MOTOR)
@@ -389,10 +389,9 @@ void WbMotor::setForceOrTorque(double forceOrTorque, const WbMotor *const relaye
   awake();
 }
 
-void WbMotor::setAvailableForceOrTorque(double availableForceOrTorque, const WbMotor *const relayer) {
+void WbMotor::setAvailableForceOrTorque(double availableForceOrTorque) {
   // note: a check is performed on libController side for negative values
-  mMotorForceOrTorque =
-    relayer == NULL ? availableForceOrTorque : availableForceOrTorque * fabs(multiplier()) / fabs(relayer->multiplier());
+  mMotorForceOrTorque = availableForceOrTorque * fabs(multiplier());
 
   const double m = mMaxForceOrTorque->value();
   if (mMotorForceOrTorque > m) {
@@ -727,7 +726,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       setTargetPosition(position);
       // relay target position to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setTargetPosition(position, this);
+        mCoupledMotors[i]->setTargetPosition(position);
       break;
     }
     case C_MOTOR_SET_VELOCITY: {
@@ -736,7 +735,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       setVelocity(velocity);
       // relay target velocity to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setVelocity(velocity, this);
+        mCoupledMotors[i]->setVelocity(velocity);
       break;
     }
     case C_MOTOR_SET_ACCELERATION: {
@@ -745,7 +744,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       setAcceleration(acceleration);
       // relay target acceleration to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setAcceleration(acceleration, this);
+        mCoupledMotors[i]->setAcceleration(acceleration);
       break;
     }
     case C_MOTOR_SET_FORCE: {
@@ -754,7 +753,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       setForceOrTorque(forceOrTorque);
       // relay force or torque to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setForceOrTorque(forceOrTorque, this);
+        mCoupledMotors[i]->setForceOrTorque(forceOrTorque);
       break;
     }
     case C_MOTOR_SET_AVAILABLE_FORCE: {
@@ -763,7 +762,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       setAvailableForceOrTorque(availableForceOrTorque);
       // relay available force or torque to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setAvailableForceOrTorque(availableForceOrTorque, this);
+        mCoupledMotors[i]->setAvailableForceOrTorque(availableForceOrTorque);
       break;
     }
     case C_MOTOR_SET_CONTROL_PID: {
