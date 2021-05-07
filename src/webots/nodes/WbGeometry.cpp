@@ -214,7 +214,7 @@ void WbGeometry::applyVisibilityFlagToWren(bool selected) {
 
   if (isInBoundingObject()) {
     if (selected) {
-      wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VF_SELECTED_OUTLINE);
+      wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
       wr_node_set_visible(WR_NODE(mWrenScaleTransform), true);
     } else if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(
                  WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS)) {
@@ -223,7 +223,7 @@ void WbGeometry::applyVisibilityFlagToWren(bool selected) {
     } else if (wr_node_get_parent(WR_NODE(mWrenScaleTransform)))
       wr_node_set_visible(WR_NODE(mWrenScaleTransform), false);
   } else if (WbNodeUtilities::isDescendantOfBillboard(this)) {
-    wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VF_BILLBOARDS);
+    wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
     wr_node_set_visible(WR_NODE(mWrenScaleTransform), true);
   } else {
     wr_renderable_set_visibility_flags(mWrenRenderable, WbWrenRenderingContext::VM_REGULAR);
