@@ -522,9 +522,16 @@ def segment_circle_collision(p1, p2, center, radius):
     dx = (p2[0] - p1[0]) / len
     dy = (p2[1] - p1[1]) / len
     t = dx * (center[0] - p1[0]) + dy * (center[1] - p1[1])
-    e = [t * dx + p1[0], t * dy + p1[1]]  # projection of circle center onto the segment
-    d = distance2(e, center)
-    return d < radius
+    e = [t * dx + p1[0], t * dy + p1[1]]  # projection of circle center onto the (p1, p2) line
+    if distance2(e, center) > radius:  # circle is too far away from (p1 p2) line
+        return False
+    if t >= 0 and t <= len:  # E is on the [p1, p2] segment
+        return True
+    if distance2(p1, center) < radius:
+        return True
+    if distance2(p2, center) < radius:
+        return True
+    return False
 
 
 def triangle_circle_collision(p1, p2, p3, center, radius):
@@ -559,6 +566,7 @@ def point_inside_polygon(point, polygon):
 
 
 def polygon_circle_collision(polygon, center, radius):
+    # show_polygon(polygon)  # uncomment this to display convex hull polygons for debugging purposes
     # 1. there is collision if one point of the polygon is inside the circle
     for point in polygon:
         if distance2(point, center) <= radius:
@@ -586,6 +594,28 @@ def update_aabb(aabb, position):
         elif position[1] > aabb[3]:
             aabb[3] = position[1]
     return aabb
+
+
+def show_polygon(vertices):
+    polygon = supervisor.getFromDef('POLYGON')
+    if polygon:
+        polygon.remove()
+    material = 'Material { diffuseColor 1 1 0 }'
+    appearance = f'Appearance {{ material {material} }}'
+    point = 'point ['
+    for vertex in vertices:
+        point += ' ' + str(vertex[0]) + ' ' + str(vertex[1]) + f' {game.field.turf_depth + 0.001},'  # 1 mm above turf
+    point = point[:-1]
+    point += ' ]'
+    coord = f'Coordinate {{ {point} }}'
+    coordIndex = '['
+    for i in range(len(vertices)):
+        coordIndex += ' ' + str(i)
+    coordIndex += ' -1 ]'
+    geometry = f'IndexedFaceSet {{ coord {coord} coordIndex {coordIndex} }}'
+    shape = f'DEF POLYGON Shape {{ appearance {appearance} geometry {geometry} castShadows FALSE isPickable FALSE }}'
+    children = supervisor.getRoot().getField('children')
+    children.importMFNodeFromString(-1, shape)
 
 
 def update_team_ball_holding(team):
