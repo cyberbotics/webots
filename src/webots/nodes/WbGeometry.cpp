@@ -40,7 +40,7 @@
 #include <wren/transform.h>
 
 #include <ode/ode.h>
-#include <iostream>
+
 // Constant used to scale down the line scale property
 const float WbGeometry::LINE_SCALE_FACTOR = 250.0f;
 

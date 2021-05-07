@@ -46,7 +46,7 @@
 #include <QtCore/QStack>
 #include <QtCore/QStringList>
 #include <cassert>
-#include <iostream>
+
 namespace {
   bool checkForUseOrDefNode(const WbNode *node, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch);
