@@ -81,7 +81,7 @@ Here are some workarounds:
         ```
 
 - disable browser security flags:
-    - Chrome: launch with the `--allow-file-access-from-files` option
+    - Chrome: launch with the `--allow-file-access-from-files` option or with the `--disable-web-security --user-data-dir="[some directory here]"`.
     - Firefox:
         1. Open Firefox browser and in the address bar type ``about:config``, hit Enter button and click on `I'll be careful, I promise!`.
         2. Search for `privacy.file_unique_origin` or `security.fileuri.strict_origin_policy` and double click on it to change the status from true to false.
