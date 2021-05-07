@@ -14,6 +14,7 @@ $script_full_path/linux_compilation_dependencies.sh
 apt install --yes software-properties-common
 add-apt-repository -y ppa:deadsnakes/ppa
 apt update
+apt upgrade -y
 apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr execstack
 curl -sL https://deb.nodesource.com/setup_15.x | bash -
 apt install --yes nodejs
