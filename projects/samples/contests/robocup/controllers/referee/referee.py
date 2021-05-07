@@ -59,6 +59,7 @@ FOUL_VINCITY_DISTANCE = 2                 # 2 meters
 FOUL_DISTANCE_THRESHOLD = 0.1             # 0.1 meter
 FOUL_SPEED_THRESHOLD = 0.2                # 0.2 m/s
 FOUL_DIRECTION_THRESHOLD = math.pi / 6    # 30 degrees
+FOUL_BALL_DISTANCE = 1                    # if the ball is more than 1 m away from an offense, a removal penalty is applied
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 RED_COLOR = 0xd62929                      # red team color used for the display
@@ -886,7 +887,7 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     info(f'{team["color"].capitalize()} player {number} committed a forceful contact foul on '
          f'{opponent_team["color"]} player {opponent_number} ({message}) {area}.')
     game.forceful_contact_matrix.clear_all()
-    if distance_to_ball > 1 or not game.in_play:
+    if distance_to_ball > FOUL_BALL_DISTANCE or not game.in_play:
         send_penalty(team['players'][number], 'INCAPABLE', 'forceful contact foul')
     elif area[0] == 'i':  # inside penalty area
         interruption('PENALTYKICK')
