@@ -7,7 +7,8 @@ fi
 
 script_full_path=$(dirname "$0")
 
-$script_full_path/linux_test_dependencies.sh --norecurse
+$script_full_path/linux_compilation_dependencies.sh
+
 
 # Install add-apt-repository command
 apt install --yes software-properties-common
@@ -28,4 +29,4 @@ else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi
 
-$script_full_path/linux_compilation_dependencies.sh
+$script_full_path/linux_test_dependencies.sh --norecurse
