@@ -973,13 +973,14 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
     v2 = p2['robot'].getVelocity()
     v1_squared = v1[0] * v1[0] + v1[1] * v1[1]
     v2_squared = v2[0] * v2[0] + v2[1] * v2[1]
-    if v1_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
-        if d1 < FOUL_VINCITY_DISTANCE:
-            if moves_to_ball(p2, v2, v2_squared):
-                if not moves_to_ball(p1, v1, v1_squared) or d1 - d2 > FOUL_DISTANCE_THRESHOLD:
-                    forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                          'opponent moving towards the ball')
-                    return True
+    if not v1_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
+        return False
+    if d1 < FOUL_VINCITY_DISTANCE:
+        if moves_to_ball(p2, v2, v2_squared):
+            if not moves_to_ball(p1, v1, v1_squared) or d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+                forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
+                                      'opponent moving towards the ball')
+                return True
     elif math.sqrt(v1_squared) - math.sqrt(v2_squared) > FOUL_SPEED_THRESHOLD:
         forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'violent collision')
         return True
