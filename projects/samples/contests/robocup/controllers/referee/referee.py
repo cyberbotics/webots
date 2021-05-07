@@ -1732,7 +1732,7 @@ game.interruption_team = None
 game.interruption_seconds = None
 game.dropped_ball = False
 game.overtime = False
-game.ready_countdown = 20 if game.minimum_real_time_factor == 0 else 1000000000000
+game.ready_countdown = 125 if game.minimum_real_time_factor == 0 else 1000000000000
 game.play_countdown = 0
 game.in_play = None
 game.sent_finish = False
