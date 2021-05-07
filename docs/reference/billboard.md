@@ -10,7 +10,7 @@ A [Billboard](#billboard) node contains `children` nodes that rotate and transla
 It is otherwise similar to a [Group](group.md) node.
 
 When a node is added to the `children` list of a [Billboard](#billboard), it is placed in the world relatively to the viewpoint position and orientation.
-To see the new `node`, it should be translated negatively along the z-axis.
+To see the newly added nodes, they should be translated negatively along their z-axis.
 
 The objects contained in billboard are not seen by [Cameras](camera.md).
 
