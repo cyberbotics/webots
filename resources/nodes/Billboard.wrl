@@ -1,4 +1,4 @@
-# A Billboard node contains children nodes that rotates automatically to face the users.
+# A Billboard node contains children nodes that rotate and translate automatically to face the viewpoint.
 # It is otherwise similar to a Group node.
 
 Billboard {
