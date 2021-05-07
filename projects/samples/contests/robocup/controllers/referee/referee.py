@@ -60,6 +60,7 @@ FOUL_DISTANCE_THRESHOLD = 0.1             # 0.1 meter
 FOUL_SPEED_THRESHOLD = 0.2                # 0.2 m/s
 FOUL_DIRECTION_THRESHOLD = math.pi / 6    # 30 degrees
 FOUL_BALL_DISTANCE = 1                    # if the ball is more than 1 m away from an offense, a removal penalty is applied
+FOUL_PENALTY_IMMUNITY = 2                 # after a foul, a player is immune to penalty for a period of 2 seconds
 LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 RED_COLOR = 0xd62929                      # red team color used for the display
@@ -726,9 +727,9 @@ def update_team_contacts(team):
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
         if n == 0:  # robot is asleep
-            player['flying'] = True
+            player['asleep'] = True
             continue
-        player['flying'] = False
+        player['asleep'] = False
         player['position'] = robot.getCenterOfMass()
         player['outside_circle'] = True        # true if fully outside the center cicle
         player['outside_field'] = True         # true if fully outside the field
@@ -889,8 +890,8 @@ def update_team_penalized(team):
         player = team['players'][number]
         if n > 0:
             player['penalized'] = n
-            if 'sent_to_penality_position' in player:
-                del player['sent_to_penality_position']
+            if 'sent_to_penalty_position' in player:
+                del player['sent_to_penalty_position']
         elif 'penalized' in player:
             del player['penalized']
 
@@ -901,7 +902,7 @@ def update_penalized():
 
 
 def send_penalty(player, penalty, reason, log=None):
-    if 'sent_to_penality_position' in player:  # was just penalized
+    if 'sent_to_penalty_position' in player:  # was just penalized
         return
     player['penalty'] = penalty
     player['penalty_reason'] = reason
@@ -910,7 +911,13 @@ def send_penalty(player, penalty, reason, log=None):
 
 
 def forceful_contact_foul(team, number, opponent_team, opponent_number, distance_to_ball, message):
-    if team['players'][number]['outside_penalty_area']:
+    player = team['players'][number]
+    if 'penalty_immunity' in player:
+        if player['penalty_immunity'] < time_count:
+            del player['penalty_immunity']
+        else:
+            return
+    if player['outside_penalty_area']:
         area = 'outside penalty area'
     else:
         area = 'inside penalty area'
@@ -918,7 +925,7 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
          f'{opponent_team["color"]} player {opponent_number} ({message}) {area}.')
     game.forceful_contact_matrix.clear_all()
     if distance_to_ball > FOUL_BALL_DISTANCE or not game.in_play:
-        send_penalty(team['players'][number], 'PHYSICAL_CONTACT', 'forceful contact foul')
+        send_penalty(player, 'PHYSICAL_CONTACT', 'forceful contact foul')
     elif area[0] == 'i':  # inside penalty area
         interruption('PENALTYKICK')
     else:
@@ -1041,7 +1048,7 @@ def check_team_inactive_goalie(team):
         if not is_goal_keeper(team, number):
             continue
         player = team['players'][number]
-        if 'penalized' in player or 'sent_to_penality_position' in player or len(player['history']) == 0:
+        if 'penalized' in player or 'sent_to_penalty_position' in player or len(player['history']) == 0:
             return
         # If player was out of his own goal area recently, it can't be considered as inactive
         if not all([e[1]["own_goal_area"] for e in player['history']]):
@@ -1248,6 +1255,7 @@ def send_team_penalties(team):
             reason = player['penalty_reason']
             del player['penalty']
             del player['penalty_reason']
+            player['penalty_immunity'] = time_count + FOUL_PENALTY_IMMUNITY * 1000
             team_id = game.red.id if color == 'red' else game.blue.id
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
             robot = player['robot']
@@ -1278,7 +1286,7 @@ def send_team_penalties(team):
                 t[0] += 4 * game.field.penalty_offset
             translation.setSFVec3f(t)
             rotation.setSFRotation(r)
-            player['sent_to_penality_position'] = True
+            player['sent_to_penalty_position'] = True
             # Once removed from the field, the robot will be in the air, therefore its status will not be updated.
             # Thus, we need to make sure it will not be considered in the air while falling
             player['outside_field'] = True
@@ -1460,7 +1468,7 @@ def check_penalty_goal_line():
     defending_team = get_penalty_defending_team()
     for number in defending_team['players']:
         player = defending_team['players'][number]
-        if player['flying'] or 'penalized' in player or not is_goal_keeper(defending_team, number):
+        if player['asleep'] or 'penalized' in player or not is_goal_keeper(defending_team, number):
             continue
         # If fully inside or fully outside, the robot is out of field
         if player['outside_field'] or player['inside_field'] or abs(player['position'][1]) > GOAL_WIDTH:
