@@ -25,7 +25,7 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
    ```
    apt-get install protobuf-compiler libprotobuf-dev
    cd webots/projects/samples/contests/robocup
-   WEBOTS_HOME=/path/to/webots make
+   make # This requires the environment variable WEBOTS_HOME to be set
    ```
 
 ## Run the Demo
