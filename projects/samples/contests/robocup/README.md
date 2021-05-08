@@ -9,7 +9,7 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
 
 ## Installation
 
-1. [Build Webots from the source](https://github.com/cyberbotics/webots/wiki) from the [release](https://github.com/RoboCup-Humanoid-TC/webots/tree/release) branch on the official RoboCup Humanoid TC fork: https://github.com/RoboCup-Humanoid-TC/webots
+1. Build Webots from the source from the release branch on the official RoboCup Humanoid TC fork: https://github.com/RoboCup-Humanoid-TC/webots
 
    ```
    git clone --recurse-submodules --branch release https://github.com/RoboCup-Humanoid-TC/webots
@@ -32,6 +32,8 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
 
    make
    ```
+
+   Also see the Webots wiki for more information: https://github.com/cyberbotics/webots/wiki
 
 2. Build the latest version of the official RoboCup Humanoid TC fork of the [GameController](https://github.com/RoboCup-Humanoid-TC/GameController).
    ```
