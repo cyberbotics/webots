@@ -15,7 +15,7 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
    git clone --recurse-submodules --branch release https://github.com/RoboCup-Humanoid-TC/webots
    cd webots
    ./scripts/install/linux_compilation_dependencies.sh
-   make
+   make -j
    echo WEBOTS_HOME=/path/to/webots >> ~/.bashrc
    ```
 
@@ -30,7 +30,7 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
    # make sure that you have no modified files before continuing
    git status
 
-   make
+   make -j
    ```
 
    Also see the Webots wiki for more information: https://github.com/cyberbotics/webots/wiki
