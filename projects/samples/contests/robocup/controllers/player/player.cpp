@@ -92,9 +92,10 @@ static void close_socket(int fd) {
 
 static bool send_all(int socket, const char *buffer, size_t length) {
   while (length > 0) {
-    int i = send(socket, buffer, length, 0);
-    if (i < 1)
+    int i = send(socket, buffer, length, MSG_NOSIGNAL);
+    if (i < 1) {
       return false;
+    }
     buffer += i;
     length -= i;
   }
@@ -586,7 +587,11 @@ public:
     uint32_t *output_size = (uint32_t *)output;
     *output_size = htonl(size);
     sensor_measurements.SerializeToArray(&output[sizeof(uint32_t)], size);
-    send_all(client_fd, output, sizeof(uint32_t) + size);
+    if (!send_all(client_fd, output, sizeof(uint32_t) + size)) {
+      std::cerr << "Failed to send a message to client" << std::endl;
+      close_socket(client_fd);
+      client_fd = -1;
+    }
     delete[] output;
     sensor_measurements.Clear();
   }
