@@ -10,8 +10,32 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
 ## Installation
 
 1. [Build Webots from the source](https://github.com/cyberbotics/webots/wiki) from the [release](https://github.com/RoboCup-Humanoid-TC/webots/tree/release) branch on the official RoboCup Humanoid TC fork: https://github.com/RoboCup-Humanoid-TC/webots
+
+   ```
+   git clone --recurse-submodules --branch release https://github.com/RoboCup-Humanoid-TC/webots
+   cd webots
+   ./scripts/install/linux_compilation_dependencies.sh
+   make
+   echo WEBOTS_HOME=/path/to/webots >> ~/.bashrc
+   ```
+
+   If you already cloned the repo, update Webots like this:
+
+   ```
+   git pull --recursive-submodules
+   ./scripts/install/linux_compilation_dependencies.sh
+   git clean -xf
+   make clean
+
+   # make sure that you have no modified files before continuing
+   git status
+
+   make
+   ```
+
 2. Build the latest version of the official RoboCup Humanoid TC fork of the [GameController](https://github.com/RoboCup-Humanoid-TC/GameController).
    ```
+   apt-get install ant
    git clone https://github.com/RoboCup-Humanoid-TC/GameController
    cd GameController
    ant
