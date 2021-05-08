@@ -45,7 +45,7 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
 3. Install Python dependencies:
    ```
    cd webots/projects/samples/contests/robocup/controllers/referee
-   pip install -r requirements.txt
+   pip3 install -r requirements.txt
    ```
 4. Build the controllers:
    ```
