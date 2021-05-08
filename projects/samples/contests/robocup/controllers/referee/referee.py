@@ -974,9 +974,13 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
         return False
     if d1 < FOUL_VINCITY_DISTANCE:
         if moves_to_ball(p2, v2, v2_squared):
-            if not moves_to_ball(p1, v1, v1_squared) or d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+            if not moves_to_ball(p1, v1, v1_squared):
                 forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                      'opponent moving towards the ball')
+                                      'opponent moving towards the ball, charge')
+                return True
+            if d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+                forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
+                                      'opponent moving towards the ball, charge from behind')
                 return True
     elif math.sqrt(v1_squared) - math.sqrt(v2_squared) > FOUL_SPEED_THRESHOLD:
         forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'violent collision')
