@@ -67,7 +67,7 @@ It is expressed in *meter per second* [m/s] for linear motors and in *radian per
 The *velocity* can be changed at run-time with the `wb_motor_set_velocity` function.
 The value should always be positive (the default is 10).
 
-- The `multiplier` field specifies the factor by which position, velocity and force/torque commands are multiplied when imposing it on the motor.
+- The `multiplier` field specifies the factor by which position, velocity and force/torque commands sent by the controller are multiplied.
 Only the following API functions are affected by this field: `wb_motor_set_position`, `wb_motor_set_velocity`, `wb_motor_set_torque` and `wb_motor_set_force`.
 By default, this field is 1.
 
@@ -223,7 +223,7 @@ Although each sibling motor receives the same command, what the motors actually 
 If one of the motors is physically blocked, the others are in no way affected by it.
 
 > **Note**: Although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
-For instance, assume two coupled motors are present, then it isn't possible to do Position Control for one and Velocity Control for the other at the same time.
+For instance, it isn't possible to do Position Control for one motor and Velocity Control another at the same time.
 Whatever command is given to a motor, it is relayed to all of its siblings hence overwriting any prior settings imposed on them.
 In other words, only the last command given is the one actually being enforced across the coupling.
 
@@ -241,7 +241,7 @@ Since each motor applies the command received according to their own multiplier 
 Therefore, in a coupled motor context, these motor limits have to be exactly a factor of each other.
 
 > **Note**: this rule is enforced only for `minPosition`, `maxPosition` and `maxVelocity`.
-For `maxForce` and `maxTorque` it is not, and if due to the multipliers a command beyond the limit is demanded, the corresponding warning messages are silenced but the limit itself as specified in the motor fields is nonetheless respected.
+For `maxForce` and `maxTorque` it is not and if due to the multiplier value a command beyond the limit is demanded, the corresponding warning messages are silenced but the limit itself as specified in the motor fields is nonetheless respected.
 
 For example, assume a set of four coupled motors having `multiplier` values of 2, 0.5, 4 and -4, the table below shows how the limits of motor B, C and D should be set.
 
@@ -550,7 +550,6 @@ The `wb_motor_get_[min|max]_position` functions allow to get the values of respe
 Positions are expressed in *radian* [rad] for rotational motors and in *meter* [m] for linear motors.
 
 The `wb_motor_get_multiplier` function allows to retrieve the `multiplier` value specified for the provided motor.
-This value is enforced only in the context of coupled motors and will return 1 otherwise.
 
 ---
 

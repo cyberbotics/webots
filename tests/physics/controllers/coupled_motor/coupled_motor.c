@@ -21,58 +21,78 @@ int main(int argc, char **argv) {
     // Test: verify that motors are coupled correctly according to naming convention (indirect test by changing the parameters
     // and see how they propagate) names are: ["motor group a", "motor group a::subgroup b",
     // "motor group a::subgroup c", "motor group b::subgroup b"]
-    // WbDeviceTag motor_group_a = wb_robot_get_device("motor group a");
-    // WbDeviceTag motor_group_a_subgroup_b = wb_robot_get_device("motor group a::subgroup b");
-    // WbDeviceTag motor_group_a_subgroup_c = wb_robot_get_device("motor group a::subgroup c");
-    // WbDeviceTag motor_group_b_subgroup_b = wb_robot_get_device("motor group b::subgroup b");
-
-    WbDeviceTag motor_tags[4];
-    WbNodeRef motor_nodes[4];
-    WbFieldRef max_velocity_fields[4];
-
-    for (int i = 0; i < 4; ++i) {
-      motor_tags[i] = wb_robot_get_device_by_index(i);
-      motor_nodes[i] = wb_supervisor_node_get_from_device(motor_tags[i]);
-      max_velocity_fields[i] = wb_supervisor_node_get_field(motor_nodes[i], "maxVelocity");
-    }
+    WbDeviceTag motor_group_a = wb_robot_get_device("motor group a");
+    WbDeviceTag motor_group_a_subgroup_b = wb_robot_get_device("motor group a::subgroup b");
+    WbDeviceTag motor_group_a_subgroup_c = wb_robot_get_device("motor group a::subgroup c");
+    WbDeviceTag motor_group_b_subgroup_b = wb_robot_get_device("motor group b::subgroup b");
 
     // should affect only itself, right name but missing delimiter
-    wb_supervisor_field_set_sf_float(max_velocity_fields[0], 20);
+    wb_motor_set_velocity(motor_group_a, 5);
+    wb_motor_set_position(motor_group_a, 5);
 
     wb_robot_step(TIME_STEP);
 
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[0]), 20,
-                           "Motor 'motor group a' should have velocity 20 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[1]), 10,
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a), 5,
+                           "Motor 'motor group a' should have velocity 5 but does not.");
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a_subgroup_b), 10,
                            "Motor 'motor group a::subgroup b' should have velocity 10 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[2]), 10,
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a_subgroup_c), 10,
                            "Motor 'motor group a::subgroup c' should have velocity 10 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[3]), 10,
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_b_subgroup_b), 10,
                            "Motor 'motor group b::subgroup b' should have velocity 10 but does not.");
 
-    wb_supervisor_field_set_sf_float(max_velocity_fields[2], 30);  // should affect only the second and third
-    wb_robot_step(TIME_STEP);
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a), 5,
+                           "Motor 'motor group a' should have position 5 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a_subgroup_b), 0,
+                           "Motor 'motor group a::subgroup b' should have position 0 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a_subgroup_c), 0,
+                           "Motor 'motor group a::subgroup c' should have position 0 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_b_subgroup_b), 0,
+                           "Motor 'motor group b::subgroup b' should have position 0 but does not.");
 
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[0]), 20,
-                           "Motor 'motor group a' should have velocity 20 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[1]), 30,
-                           "Motor 'motor group a::subgroup b' should have velocity 30 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[2]), 30,
-                           "Motor 'motor group a::subgroup c' should have velocity 30 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[3]), 10,
+    wb_motor_set_velocity(motor_group_a_subgroup_c, 2.5);  // should affect only the second and third
+    wb_motor_set_position(motor_group_a_subgroup_c, 2.5);
+    wb_robot_step(10 * TIME_STEP);
+
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a), 5,
+                           "Motor 'motor group a' should have velocity 5 but does not.");
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a_subgroup_b), 2.5,
+                           "Motor 'motor group a::subgroup b' should have velocity 2.5 but does not.");
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a_subgroup_c), 2.5,
+                           "Motor 'motor group a::subgroup c' should have velocity 2.5 but does not.");
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_b_subgroup_b), 10,
                            "Motor 'motor group b::subgroup b' should have velocity 10 but does not.");
 
-    wb_supervisor_field_set_sf_float(max_velocity_fields[3], 40);  // should affect itself
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a), 5,
+                           "Motor 'motor group a' should have position 5 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a_subgroup_b), 2.5,
+                           "Motor 'motor group a::subgroup b' should have position 2.5 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a_subgroup_c), 2.5,
+                           "Motor 'motor group a::subgroup c' should have position 2.5 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_b_subgroup_b), 0,
+                           "Motor 'motor group b::subgroup b' should have position 0 but does not.");
+
+    wb_motor_set_velocity(motor_group_b_subgroup_b, 7.5);  // should affect itself
+    wb_motor_set_position(motor_group_b_subgroup_b, 7.5);
     wb_robot_step(TIME_STEP);
 
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[0]), 20,
-                           "Motor 'motor group a' should have velocity 20 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[0]), 30,
-                           "Motor 'motor group a::subgroup b' should have velocity 30 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[0]), 30,
-                           "Motor 'motor group a::subgroup c' should have velocity 30 but does not.");
-    ts_assert_double_equal(wb_motor_get_max_velocity(motor_tags[0]), 40,
-                           "Motor 'motor group b::subgroup b' should have velocity 40 but does not.");
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a), 5,
+                           "Motor 'motor group a' should have velocity 5 but does not.");
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a_subgroup_b), 2.5,
+                           "Motor 'motor group a::subgroup b' should have velocity 2.5 but does not.");
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_a_subgroup_c), 2.5,
+                           "Motor 'motor group a::subgroup c' should have velocity 2.5 but does not.");
+    ts_assert_double_equal(wb_motor_get_velocity(motor_group_b_subgroup_b), 7.5,
+                           "Motor 'motor group b::subgroup b' should have velocity 7.5 but does not.");
+
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a), 5,
+                           "Motor 'motor group a' should have position 5 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a_subgroup_b), 2.5,
+                           "Motor 'motor group a::subgroup b' should have position 2.5 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_a_subgroup_c), 2.5,
+                           "Motor 'motor group a::subgroup c' should have position 2.5 but does not.");
+    ts_assert_double_equal(wb_motor_get_target_position(motor_group_b_subgroup_b), 7.5,
+                           "Motor 'motor group b::subgroup b' should have position 7.5 but does not.");
   }
 
   if (strcmp("load_test", test_type) == 0) {

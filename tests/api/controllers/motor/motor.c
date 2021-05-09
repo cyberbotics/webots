@@ -19,7 +19,6 @@
 #define MAX_ACCELERATION 5.0
 #define MAX_VELOCITY 20.0
 #define MAX_TORQUE 100.0
-#define MULTIPLIER 5
 // saved from prior simulation
 #define REFERENCE_POSITION 1.18212
 #define REFERENCE_TORQUE 0.0268543
@@ -72,12 +71,11 @@ int main(int argc, char **argv) {
   double uncoupled_multiplier = wb_motor_get_multiplier(uncoupled_motor);
   double coupled_multiplier = wb_motor_get_multiplier(coupled_motor);
   double coupled_multiplier2 = wb_motor_get_multiplier(coupled_motor2);
-  ts_assert_double_equal(uncoupled_multiplier, 1, "The multiplier value of the motor should be %g and not %g", 1,
+  ts_assert_double_equal(uncoupled_multiplier, 0.2, "The multiplier value of the motor should be %g and not %g", 0.2,
                          uncoupled_multiplier);
-  ts_assert_double_equal(coupled_multiplier, MULTIPLIER, "The multiplier value of the motor should be %g and not %g",
-                         MULTIPLIER, coupled_multiplier);
-  ts_assert_double_equal(coupled_multiplier2, -MULTIPLIER, "The multiplier value of the motor should be %g and not %g",
-                         -MULTIPLIER, coupled_multiplier2);
+  ts_assert_double_equal(coupled_multiplier, 5, "The multiplier value of the motor should be 5 and not %g", coupled_multiplier);
+  ts_assert_double_equal(coupled_multiplier2, -5, "The multiplier value of the motor should be -5 and not %g",
+                         coupled_multiplier2);
 
   double torque = wb_motor_get_available_torque(motor);
   double max_torque = wb_motor_get_max_torque(motor);

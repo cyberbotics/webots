@@ -23,7 +23,6 @@
 #include "WbFieldChecker.hpp"
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
-#include "WbMathsUtilities.hpp"
 #include "WbMuscle.hpp"
 #include "WbPropeller.hpp"
 #include "WbRobot.hpp"
@@ -115,8 +114,9 @@ void WbMotor::preFinalize() {
   // note: only parameter validity check has to occur in preFinalize, validity across couplings must be done in postFinalize
   updateMaxVelocity();
   updateMaxAcceleration();
-  updateMinAndMaxPosition();
   updateControlPID();
+  updateMinAndMaxPosition();
+  updateMultiplier();
   updateSound();
 
   mForceOrTorqueSensor = new WbSensor();
@@ -137,7 +137,6 @@ void WbMotor::postFinalize() {
 
   // must be done in the postFinalize step as the coupled motor consistency check could change the values
   mTargetVelocity = mMaxVelocity->value();
-
   mNeedToConfigure = true;  // notify libController about the changes done by the check
 
   WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
@@ -146,15 +145,15 @@ void WbMotor::postFinalize() {
 
   connect(mMultiplier, &WbSFDouble::changed, this, &WbMotor::updateMultiplier);
   connect(mMaxVelocity, &WbSFDouble::changed, this, &WbMotor::updateMaxVelocity);
+  connect(mAcceleration, &WbSFDouble::changed, this, &WbMotor::updateMaxAcceleration);
+  connect(mControlPID, &WbSFVector3::changed, this, &WbMotor::updateControlPID);
   connect(mMinPosition, &WbSFDouble::changed, this, &WbMotor::updateMinAndMaxPosition);
   connect(mMaxPosition, &WbSFDouble::changed, this, &WbMotor::updateMinAndMaxPosition);
-  connect(mAcceleration, &WbSFDouble::changed, this, &WbMotor::updateMaxAcceleration);
-  connect(mMaxForceOrTorque, &WbSFDouble::changed, this, &WbMotor::updateMaxForceOrTorque);
-  connect(mControlPID, &WbSFVector3::changed, this, &WbMotor::updateControlPID);
   connect(mMinPosition, &WbSFDouble::changed, this, &WbMotor::minPositionChanged);
   connect(mMaxPosition, &WbSFDouble::changed, this, &WbMotor::maxPositionChanged);
   connect(mSound, &WbSFString::changed, this, &WbMotor::updateSound);
   connect(mMuscles, &WbSFNode::changed, this, &WbMotor::updateMuscles);
+  connect(mMaxForceOrTorque, &WbSFDouble::changed, this, &WbMotor::updateMaxForceOrTorque);
   connect(mDeviceName, &WbSFString::changed, this, &WbMotor::inferMotorCouplings);
 }
 
@@ -246,10 +245,16 @@ void WbMotor::updateMaxVelocity() {
 }
 
 void WbMotor::updateMultiplier() {
+  if (multiplier() == 0.0) {
+    parsingWarn(tr("The value of 'multiplier' cannot be 0. Value reverted to 1."));
+    mMultiplier->setValue(1.0);
+  }
+
   if (isPreFinalizedCalled()) {
     checkMultiplierAcrossCoupledMotors();
-    mNeedToConfigure = true;
   }
+
+  mNeedToConfigure = true;
 }
 
 void WbMotor::updateControlPID() {
@@ -330,22 +335,21 @@ void WbMotor::setTargetPosition(double position) {
   mTargetPosition = velocityControl ? position : position * multiplier();
 
   if (maxp != minp && !velocityControl) {
-    if (position > maxp) {
+    if (mTargetPosition > maxp) {
       mTargetPosition = maxp;
       warn(QString("too big requested position: %1 > %2").arg(position).arg(maxp));
-    } else if (position < minp) {
+    } else if (mTargetPosition < minp) {
       mTargetPosition = minp;
       warn(QString("too low requested position: %1 < %2").arg(position).arg(minp));
     }
   }
 
   mUserControl = false;
-  mNeedToConfigure = true;  // needed to notify sibling motors about control strategy
+  mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl
   awake();
 }
 
 void WbMotor::setVelocity(double velocity) {
-  // multipliers would cancel out if this is the motor being controlled, however it could accumulate precision errors
   mTargetVelocity = velocity * multiplier();
 
   const double m = mMaxVelocity->value();
@@ -355,12 +359,13 @@ void WbMotor::setVelocity(double velocity) {
     mTargetVelocity = isNegative ? -m : m;
   }
 
+  mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl
   awake();
 }
 
 void WbMotor::setAcceleration(double acceleration) {
   // note: a check is performed on libController side for negative values
-  mAcceleration->setValue(acceleration);
+  mAcceleration->setValue(acceleration);  // mAcceleration specifies maximal acceleration, hence it isn't multiplied
   awake();
 }
 
@@ -381,7 +386,6 @@ void WbMotor::setForceOrTorque(double forceOrTorque) {
     mRawInput = mRawInput >= 0.0 ? mMotorForceOrTorque : -mMotorForceOrTorque;
   }
 
-  mNeedToConfigure = true;
   awake();
 }
 
@@ -588,11 +592,6 @@ void WbMotor::checkMaxVelocityAcrossCoupledMotors() {
 }
 
 void WbMotor::checkMultiplierAcrossCoupledMotors() {
-  if (multiplier() == 0.0) {
-    parsingWarn(tr("The value of 'multiplier' cannot be 0. Value reverted to 1."));
-    mMultiplier->setValue(1.0);
-  }
-
   if (mCoupledMotors.size() == 0)
     return;
 
@@ -617,6 +616,7 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   stream << (double)mControlPID->value().y();
   stream << (double)mControlPID->value().z();
   stream << (double)mTargetPosition;
+  stream << (double)mTargetVelocity;
   stream << (double)mMultiplier->value();
   mNeedToConfigure = false;
 }
