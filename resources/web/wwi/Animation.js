@@ -398,14 +398,14 @@ export default class Animation {
   }
 
   _createSlider() {
-    window.customElements.define('my-slider', AnimationSlider);
-    let timeSlider = document.createElement('my-slider');
+    window.customElements.define('animation-slider', AnimationSlider);
+    let timeSlider = document.createElement('animation-slider');
     timeSlider.id = 'time-slider';
     let those = this;
     document.addEventListener('slider_input', (e) => { those._updateSlider(e); });
     document.getElementById('play-bar').appendChild(timeSlider);
-    document.querySelector('my-slider').shadowRoot.getElementById('range').addEventListener('mousemove', _ => this._updateFloatingTimePosition(_));
-    document.querySelector('my-slider').shadowRoot.getElementById('range').addEventListener('mouseleave', _ => this._hideFloatingTimePosition(_));
+    document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mousemove', _ => this._updateFloatingTimePosition(_));
+    document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mouseleave', _ => this._hideFloatingTimePosition(_));
   }
 
   _createPlayButton() {
@@ -741,9 +741,9 @@ export default class Animation {
   }
 
   _updateFloatingTimePosition(e) {
-    document.querySelector('my-slider').shadowRoot.getElementById('floating-time').style.visibility = 'visible';
+    document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.visibility = 'visible';
 
-    let bounds = document.querySelector('my-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+    let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
     let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     if (x > 100)
       x = 100;
@@ -758,6 +758,6 @@ export default class Animation {
   }
 
   _hideFloatingTimePosition() {
-    document.querySelector('my-slider').shadowRoot.getElementById('floating-time').style.visibility = '';
+    document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.visibility = '';
   }
 }
