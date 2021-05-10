@@ -1620,7 +1620,7 @@ void WbMainWindow::exportHtml() {
 
   QString fileName;
   for (int i = 0; i < 1000; ++i) {
-    QString suffix = i == 0 ? "" : QString("_%1").arg(i);
+    const QString suffix = i == 0 ? "" : QString("_%1").arg(i);
     fileName = WbPreferences::instance()->value("Directories/www").toString() + worldName + suffix + ".html";
     if (!QFileInfo::exists(fileName))
       break;
