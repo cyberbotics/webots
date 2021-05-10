@@ -1,65 +1,8 @@
 const template = document.createElement('template');
 
 template.innerHTML = `
-<style>
-.range {
-  z-index: 1;
-  position: absolute;
-  bottom: 41px;
-  left: 1%;
-  width: 98%;
-  height:3px;
-  background:rgba(140,140,140,0.5);
-  cursor: pointer;
-  padding: 3px 0px;
-  background-clip: content-box;
-  user-select: none; /*fix selection bug in chrome*/
-  -webkit-user-select: none;
-}
+<link rel="stylesheet" href="../webots/resources/web/wwi/css/animation_slider.css">
 
-.range:hover{
-  height: 5px;
-}
-
-.range:hover .slider{
-  height: 5px;
-}
-
-.range:hover .thumb{
-  visibility: visible
-}
-
-.slider {
-  z-index: 3;
-  background:red;
-  height: 3px;
-  width:50%;
-  position: absolute;
-  opacity:1;
-}
-
-.thumb {
-  visibility: hidden;
-  z-index: 2;
-  background: red;
-  border-radius: 50%;
-  width: 14px;
-  height: 14px;
-  position: absolute;
-  bottom: -5px;
-  right: -7px;
-  opacity:1;
-}
-
-.floating-time {
-  visibility: hidden;
-  position: absolute;
-  bottom: 15px;
-  color:rgb(240, 240, 240);
-  text-shadow: 1px 1px 1px rgb(104,104,104);
-}
-
-</style>
 <div class="range" id="range">
   <div class="slider" id="slider">
     <div class="thumb" id="thumb"></div>
