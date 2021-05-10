@@ -1,6 +1,6 @@
 'use strict';
 
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 
 export default class Stream {
   constructor(wsServer, view, onready) {
@@ -51,33 +51,13 @@ export default class Stream {
   }
 
   onSocketMessage(event) {
-    let lines, i;
     let data = event.data;
     if (data.startsWith('robot:') ||
         data.startsWith('stdout:') ||
-        data.startsWith('stderr:')) {
-      lines = data.split('\n'); // in that case, we support one message per line
-      for (i = 0; i < lines.length; i++) {
-        let line = lines[i];
-        if (line === '') // FIXME: should not happen
-          continue;
-        else if (line.startsWith('robot:')) {
-          let robot, message;
-          try {
-            let str = line.substring(line.indexOf(':') + 1).trim();
-            let dataObject = JSON.parse(str);
-            robot = dataObject.name;
-            message = dataObject.message;
-          } catch (e) {
-            // backward compatibility
-            let secondColonIndex = line.indexOf(':', 6);
-            robot = line.substring(6, secondColonIndex);
-            message = line.substring(secondColonIndex + 1);
-          }
-          this.view.onrobotmessage(robot, message);
-        }
-      }
-    } else if (data.startsWith('world:')) {
+        data.startsWith('stderr:') ||
+        data.startsWith('robot window:'))
+      return 0; // We need to keep this condition, otherwise the robot window messages will be printed as errors.
+    else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       let currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
@@ -111,16 +91,22 @@ export default class Stream {
     } else if (data === 'scene load completed') {
       this.view.time = 0;
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
+      if (this.view.mode === 'mjpeg') {
+        $('#webotsProgress').hide();
+        this.view.multimediaClient.requestNewSize(); // To force the server to render once
+      }
+
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data === 'reset finished') {
       this.view.resetSimulation();
+      if (typeof this.view.x3dScene !== 'undefined')
+        this.view.x3dScene.resetViewpoint();
+      if (webots.currentView.toolBar)
+        webots.currentView.toolBar.enableToolBarButtons(true);
       if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('time: ')) {
-      if (this.view.mode === 'mjpeg')
-        $('#webotsProgress').hide();
-
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
     } else if (data === 'delete world')

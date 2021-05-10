@@ -107,8 +107,7 @@ namespace wren {
     static std::vector<std::unique_ptr<UniformBuffer>> cUniformBuffers;
 
     void init() {
-#ifdef __EMSCRIPTEN__
-#else
+#ifndef __EMSCRIPTEN__
       if (!gladLoadGL())
         std::cerr << "ERROR: Unable to load OpenGL functions!" << std::endl;
 
@@ -134,7 +133,7 @@ namespace wren {
 #ifdef __EMSCRIPTEN__
       int array[4];
       array[0] = -1;
-      // glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
+
       cGpuMemory = array[0];
       checkError(GL_INVALID_ENUM);
 #else
@@ -160,9 +159,7 @@ namespace wren {
       glstate::setDepthTest(true);
       glstate::setCullFace(true);
       glstate::setPolygonMode(GL_FILL);
-#ifdef __EMSCRIPTEN__
-      // By default in WebGL2
-#else
+#ifndef __EMSCRIPTEN__
       glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);  // for proper interpolation across cubemap faces
 #endif
 
@@ -433,8 +430,7 @@ namespace wren {
 
     void setTextureAnisotropy(unsigned int glName, int textureUnit, float anisotropy) {
       assert(cBoundTextures[textureUnit] == glName);
-#ifdef __EMSCRIPTEN__
-#else
+#ifndef __EMSCRIPTEN__
       if (!GLAD_GL_EXT_texture_filter_anisotropic)
         return;
 #endif

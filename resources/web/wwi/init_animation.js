@@ -1,4 +1,4 @@
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 
 function init() {
   const name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');

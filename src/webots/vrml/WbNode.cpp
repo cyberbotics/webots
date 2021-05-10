@@ -84,7 +84,8 @@ const QStringList WbNode::cHiddenParameterNames = QStringList() << "translation"
                                                                 << "linearVelocity"
                                                                 << "angularVelocity"
                                                                 << "position"
-                                                                << "position2";
+                                                                << "position2"
+                                                                << "position3";
 
 void WbNode::setInstantiateMode(bool mode) {
   gInstantiateMode = mode;

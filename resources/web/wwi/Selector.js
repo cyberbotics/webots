@@ -1,4 +1,3 @@
-import {getAncestor} from './nodes/utils/utils.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -6,6 +5,8 @@ export default class Selector {
   static select(id) {
     Selector.previousId = Selector.selectedId;
     Selector.selectedId = 'n-1'; // in case we select nothing
+    if (typeof WbWorld.instance === 'undefined')
+      return;
 
     const node = WbWorld.instance.nodes.get('n' + id);
     if (typeof node === 'undefined') {
@@ -14,11 +15,11 @@ export default class Selector {
       return;
     }
 
-    if (Selector.previousAncestor === getAncestor(node).id && (!Selector.local || Selector.preciseId !== 'n' + id)) {
+    if (Selector.previousAncestor === Selector.topSolidId(node) && (!Selector.local || Selector.preciseId !== 'n' + id)) {
       Selector.selectedId = Selector.firstSolidId(node);
       Selector.local = true;
     } else {
-      Selector.selectedId = getAncestor(node).id;
+      Selector.selectedId = Selector.topSolidId(node);
       Selector.previousAncestor = Selector.selectedId;
       Selector.local = false;
     }
@@ -26,13 +27,13 @@ export default class Selector {
     Selector.preciseId = 'n' + id;
   }
 
-  static checkIfParentisSelected(node) {
+  static checkIfParentIsSelected(node) {
     const parent = WbWorld.instance.nodes.get(node.parent);
     if (typeof parent !== 'undefined') {
       if (Selector.selectedId === parent.id)
         return true;
       else if (typeof parent.parent !== 'undefined')
-        return Selector.checkIfParentisSelected(parent);
+        return Selector.checkIfParentIsSelected(parent);
     }
 
     return false;
@@ -46,6 +47,22 @@ export default class Selector {
         return Selector.firstSolidId(WbWorld.instance.nodes.get(node.parent));
     }
     return -1;
+  }
+
+  static topSolidId(node) {
+    let topSolid;
+    let currentNode = node;
+    while (typeof currentNode !== 'undefined') {
+      if (currentNode instanceof WbTransform && currentNode.isSolid)
+        topSolid = currentNode.id;
+
+      if (typeof currentNode.parent !== 'undefined')
+        currentNode = WbWorld.instance.nodes.get(currentNode.parent);
+      else
+        break;
+    }
+
+    return topSolid;
   }
 
   static reset() {

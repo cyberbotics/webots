@@ -2,13 +2,15 @@ export default class WbWorld {
   constructor() {
     this.hasFog = false;
     this.basicTimeStep = 32;
-    this.coordinateSystem = 'NUE';
+    this.coordinateSystem = 'ENU';
     this.upVector = glm.vec3(0, 1, 0);
     // Only the top level nodes are represented here
     this.sceneTree = [];
     // All the nodes are included here so it is easier to retrieve them for updates
     // map from id to node
     this.nodes = new Map();
+
+    this.readyForUpdates = false;
   }
 
   static init() {

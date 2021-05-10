@@ -343,6 +343,7 @@ resources/web/server/log/simulation/
 resources/web/server/kill_old_webots_instances.py
 resources/web/streaming_viewer/
 resources/web/streaming_viewer/index.html
+resources/web/streaming_viewer/style.css
 resources/web/templates/
 resources/web/templates/x3d_playback.html
 resources/wren/

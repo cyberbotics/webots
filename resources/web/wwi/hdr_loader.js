@@ -1,9 +1,14 @@
 export default function loadHdr(url, onLoad) {
-  fetch(url)
-    .then(response => response.arrayBuffer())
-    .then(function(data) {
-      onLoad(parse(data));
-    });
+  const xmlhttp = new XMLHttpRequest();
+  xmlhttp.open('GET', url, true);
+  xmlhttp.responseType = 'arraybuffer';
+  xmlhttp.overrideMimeType('arrayBuffer');
+  xmlhttp.onreadystatechange = () => {
+    if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) { // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+      onLoad(parse(xmlhttp.response));
+    }
+  };
+  xmlhttp.send();
 }
 
 function parse(buffer) {

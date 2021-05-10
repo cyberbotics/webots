@@ -1,4 +1,4 @@
-import {webots} from './../wwi/Webots.js';
+import {webots} from './webots.js';
 
 let view = null;
 let ipInput = null;
@@ -58,9 +58,15 @@ function connect() {
 
 function disconnect() {
   view.close();
-  let toolbar = document.getElementById('toolBar');
-  if (toolbar !== 'undefined' && toolbar !== null)
-    toolbar.parentNode.removeChild(toolbar);
+
+  if (view.mode === 'mjpeg') {
+    let playerDiv = document.getElementById('playerDiv');
+    playerDiv.innerHTML = null;
+  } else {
+    let toolbar = document.getElementById('toolBar');
+    if (toolbar !== 'undefined' && toolbar !== null)
+      toolbar.parentNode.removeChild(toolbar);
+  }
 
   connectButton.value = 'Connect';
   connectButton.onclick = connect;

@@ -151,6 +151,8 @@ webots.View = class View {
       if (this.isWebSocketProtocol) {
         if (typeof this.toolBar === 'undefined')
           this.toolBar = new Toolbar(this.view3D, this);
+        else if (!document.getElementById('toolBar'))
+          this.view3D.appendChild(this.toolBar.domElement);
 
         const url = findGetParameter('url');
         if (url || this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
@@ -188,8 +190,9 @@ webots.View = class View {
       if (typeof this.multimediaClient !== 'undefined')
         // finalize multimedia client and set toolbar buttons status
         this.multimediaClient.finalize();
-      else if (this.toolBar)
-        this.toolBar.enableToolBarButtons(true);
+
+      if (typeof this.onready === 'function')
+        this.onready();
 
       if (this.runOnLoad && this.toolBar)
         this.toolBar.realTime();
@@ -276,11 +279,19 @@ webots.View = class View {
       labelElement.className = 'webotsLabel';
       this.x3dDiv.appendChild(labelElement);
     }
-    labelElement.style.fontFamily = properties.font;
-    labelElement.style.color = properties.color;
+
+    let font = properties.font.split('/');
+    font = font[font.length - 1].replace('.ttf', '');
+
+    labelElement.style.fontFamily = font;
+    labelElement.style.color = 'rgba(' + properties.color + ')';
     labelElement.style.fontSize = $(this.x3dDiv).height() * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
     labelElement.style.left = $(this.x3dDiv).width() * properties.x + 'px';
     labelElement.style.top = $(this.x3dDiv).height() * properties.y + 'px';
+
+    if (properties.text.includes('█'))
+      properties.text = properties.text.replaceAll('█', '<span style="background:' + labelElement.style.color + '"> </span>');
+
     labelElement.innerHTML = properties.text;
   }
 
@@ -309,6 +320,7 @@ webots.View = class View {
     this.close();
     $('#webotsProgressMessage').html('Bye bye...');
     $('#webotsProgress').show();
+    setTimeout(() => { $('#webotsProgress').hide(); }, 1000);
     this.quitting = true;
     this.onquit();
   }

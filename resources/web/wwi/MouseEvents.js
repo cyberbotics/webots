@@ -1,7 +1,7 @@
 import {direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle} from './nodes/utils/utils.js';
 import Selector from './Selector.js';
 import SystemInfo from './system_info.js';
-import {webots} from './Webots.js';
+import {webots} from './webots.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbWrenPicker from './wren/WbWrenPicker.js';
@@ -44,6 +44,9 @@ export default class MouseEvents {
   }
 
   _onMouseDown(event) {
+    if (typeof WbWorld.instance === 'undefined')
+      return;
+
     this.init();
 
     this.state.wheelFocus = true;
@@ -64,7 +67,6 @@ export default class MouseEvents {
       this.state.mouseDown = 2;
 
     if (this.state.mouseDown !== 0) {
-      this._setupMoveParameters(event);
       this.state.initialX = event.clientX;
       this.state.initialY = event.clientY;
       document.addEventListener('mousemove', this.onmousemove, false);
@@ -79,6 +81,9 @@ export default class MouseEvents {
   }
 
   _onMouseMove(event) {
+    if (typeof WbWorld.instance === 'undefined')
+      return;
+
     if (!this.enableNavigation && event.button === 0) {
       if (typeof webots.currentView.onmousemove === 'function')
         webots.currentView.onmousemove(event);
@@ -207,13 +212,13 @@ export default class MouseEvents {
   }
 
   _onMouseWheel(event) {
+    if (typeof WbWorld.instance === 'undefined')
+      return;
+
     this.init();
     this._detectImmobility();
 
     event.preventDefault(); // do not scroll page
-    if (!('initialCameraPosition' in this.moveParams))
-      this._setupMoveParameters(event);
-    // else another drag event is already active
 
     if (!this.enableNavigation || this.state.wheelFocus === false) {
       let offset = event.deltaY;
@@ -285,6 +290,9 @@ export default class MouseEvents {
   }
 
   _onTouchMove(event) {
+    if (typeof WbWorld.instance === 'undefined')
+      return;
+
     if (!this.enableNavigation || event.targetTouches.length === 0 || event.targetTouches.length > 2)
       return;
     if (this.state.initialTimeStamp === null)
@@ -421,6 +429,9 @@ export default class MouseEvents {
   }
 
   _onTouchStart(event) {
+    if (typeof WbWorld.instance === 'undefined')
+      return;
+
     this.init();
     this._initMouseMove(event.targetTouches['0']);
     if (event.targetTouches.length === 2) {
@@ -435,7 +446,6 @@ export default class MouseEvents {
     } else
       this.state.mouseDown = 2; // 1 finger: translation or single click
 
-    this._setupMoveParameters(event.targetTouches['0']);
     this.domElement.addEventListener('touchend', this.ontouchend, true);
     this.domElement.addEventListener('touchmove', this.ontouchmove, true);
 
@@ -462,28 +472,6 @@ export default class MouseEvents {
     this.state.moved = false;
     this.state.initialTimeStamp = Date.now();
     this.state.longClick = false;
-  }
-
-  _setupMoveParameters(event) {
-    this.moveParams = {};
-
-    if (this.intersection && this.intersection.object)
-      this.moveParams.pickPosition = this.intersection.point;
-    else
-      this.moveParams.pickPosition = null;
-
-    if (this.intersection == null) {
-      const cameraPosition = new glm.vec3();
-      this.moveParams.distanceToPickPosition = cameraPosition.length;
-    } else
-      this.moveParams.distanceToPickPosition = this.intersection.distance;
-    if (this.moveParams.distanceToPickPosition < 0.001) // 1 mm
-      this.moveParams.distanceToPickPosition = 0.001;
-
-    // Webots mFieldOfView corresponds to the horizontal FOV, i.e. viewpoint.fovX.
-    const viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
-    const viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
-    this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
   }
 
   _clearMouseMove() {

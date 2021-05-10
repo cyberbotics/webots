@@ -190,7 +190,6 @@ namespace wren {
     const int rowIndex = flipY ? (mHeight - 1 - y) : y;
 
 #ifdef __EMSCRIPTEN__
-    // TODO: Resolve warning
     int offset = params.mPixelSize * (rowIndex * mWidth + x);
     EM_ASM_({ Module.ctx.getBufferSubData(Module.ctx.PIXEL_PACK_BUFFER, $2, HEAPU8.subarray($0, $0 + $1)); }, data,
             params.mPixelSize, offset);

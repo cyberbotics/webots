@@ -11,10 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #include "JSHelper.hpp"
 
 #ifdef __EMSCRIPTEN__
-#include <wren/jsHelper.h>
+#include <wren/js_helper.h>
 
 #include <GL/gl.h>
 #include <GLES3/gl3.h>

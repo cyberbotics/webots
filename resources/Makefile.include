@@ -254,6 +254,7 @@ endif
 # files to remove
 FILES_TO_REMOVE += $(MAIN_TARGET_COPY)
 
+WRENJS_DIR = $(WEBOTS_HOME_PATH)/resources/web/wwi
 ###-----------------------------------------------------------------------------
 ### Compilation flags
 ###-----------------------------------------------------------------------------
@@ -491,7 +492,7 @@ $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(OBJECTS) $(notdir $@)
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 ifdef WREN
-	$(SILENT) emcc -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functionsToExport.txt)]' -s 'EXTRA_EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o ../../resources/web/streaming_viewer/wrenjs.js
+	$(SILENT) emcc -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o $(WRENJS_DIR)/wrenjs.js
 endif
 endif
 ### End ifdef MAIN_TARGET
@@ -548,8 +549,8 @@ endif
 ###-----------------------------------------------------------------------------
 ### How to clean up the directory
 ###-----------------------------------------------------------------------------
-WRENJS_DIR = $(WEBOTS_HOME_PATH)/resources/web/streaming_viewer
 clean:
 	$(SILENT)rm -fr $(FILES_TO_REMOVE) $(BUILD_DIR) > /dev/null 2>&1 || :
 	$(SILENT)rm -d $(EMPTY_DIRECTORIES_TO_REMOVE) > /dev/null 2>&1 || :
 	$(SILENT)rm $(WRENJS_DIR)/wrenjs.js $(WRENJS_DIR)/wrenjs.data $(WRENJS_DIR)/wrenjs.wasm > /dev/null 2>&1 || :
+	$(SILENT)rm -r $(WRENJS_DIR)/images/post_processing > /dev/null 2>&1 || :
