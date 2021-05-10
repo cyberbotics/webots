@@ -261,7 +261,7 @@ public:
 
       double step_time = duration(after_send - start).count();
 
-      bool diagnose_time = step_time > budget_ms;
+      bool diagnose_time = benchmark_level != 0 && step_time > budget_ms;
 
       if (benchmark_level >= 3 || diagnose_time) {
         benchmarkPrint("\tSelect time", after_select, start);
@@ -675,7 +675,7 @@ private:
   static double budget_ms;
 };
 
-int PlayerServer::benchmark_level = 1;
+int PlayerServer::benchmark_level = 0;
 double PlayerServer::budget_ms = 1.0;
 
 int main(int argc, char *argv[]) {

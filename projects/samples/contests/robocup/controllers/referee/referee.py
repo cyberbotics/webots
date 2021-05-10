@@ -93,11 +93,8 @@ def log(message, type):
         console_message = message
     print(console_message, file=sys.stderr if type == 'Error' else sys.stdout)
     if log_file:
-        real_time = int(1000 * (time.time() - log.start_time)) / 1000
+        real_time = int(1000 * (time.time() - game.start_real_time)) / 1000
         log_file.write(f'[{real_time:08.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
-
-
-log.start_time = time.time()
 
 
 def info(message):
@@ -977,9 +974,13 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
         return False
     if d1 < FOUL_VINCITY_DISTANCE:
         if moves_to_ball(p2, v2, v2_squared):
-            if not moves_to_ball(p1, v1, v1_squared) or d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+            if not moves_to_ball(p1, v1, v1_squared):
                 forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                      'opponent moving towards the ball')
+                                      'opponent moving towards the ball, charge')
+                return True
+            if d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+                forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
+                                      'opponent moving towards the ball, charge from behind')
                 return True
     elif math.sqrt(v1_squared) - math.sqrt(v2_squared) > FOUL_SPEED_THRESHOLD:
         forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'violent collision')
@@ -1578,6 +1579,7 @@ with open(game.blue.config) as json_file:
     blue_team = json.load(json_file)
 
 # finalize the game object
+game.start_real_time = time.time()
 if not hasattr(game, 'minimum_real_time_factor'):
     game.minimum_real_time_factor = 3  # we garantee that each time step lasts at least 3x simulated time
 if not hasattr(game, 'press_a_key_to_terminate'):
@@ -1734,7 +1736,7 @@ game.interruption_team = None
 game.interruption_seconds = None
 game.dropped_ball = False
 game.overtime = False
-game.ready_countdown = (int)(REAL_TIME_BEFORE_FIRST_READY_STATE * game.real_time_multiplier)
+game.ready_countdown = 125 if game.minimum_real_time_factor == 0 else 1000000000000
 game.play_countdown = 0
 game.in_play = None
 game.sent_finish = False
@@ -2049,13 +2051,14 @@ while supervisor.step(time_step) != -1 and not game.over:
     elif game.state.game_state == 'STATE_INITIAL':
         if game.ready_countdown > 0:
             game.ready_countdown -= 1
-            if game.ready_countdown == 0:
-                if game.penalty_shootout:
+            if game.penalty_shootout:
+                if game.ready_countdown == 0:
                     set_penalty_positions()
                     game_controller_send('STATE:SET')
-                else:
-                    check_start_position()
-                    game_controller_send('STATE:READY')
+            elif time.time() - game.start_real_time > REAL_TIME_BEFORE_FIRST_READY_STATE or game.ready_countdown == 0:
+                check_start_position()
+                game_controller_send('STATE:READY')
+                game.ready_countdown = 0
         elif game.ready_countdown == 0 and not game.state.first_half:
             game.sent_finish = False
             game_type = ""
