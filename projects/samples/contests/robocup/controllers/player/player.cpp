@@ -61,6 +61,9 @@ typedef int socklen_t;
 #define RED 0
 #define BLUE 1
 
+// Time to wait before attempting to send the message again when the buffer is full
+#define BUFFER_FULL_SLEEP_US 500
+
 using sc = std::chrono::steady_clock;
 using time_point = std::chrono::time_point<sc>;
 using duration = std::chrono::duration<double, std::milli>;
@@ -90,11 +93,26 @@ static void close_socket(int fd) {
 #endif
 }
 
+// TODO: make a non-blocking version and store the data sent to send it again
+// afterwards
+// The return value might be insufficient to consider the three different
+// cases if we want to consider real async communication:
+// 1. Message is properly sent
+// 2. Message is sent partially because buffer is full (currently not possible)
+// 3. Connection broke
 static bool send_all(int socket, const char *buffer, size_t length) {
   while (length > 0) {
     int i = send(socket, buffer, length, MSG_NOSIGNAL);
     if (i < 1) {
-      return false;
+      if (errno == EAGAIN || errno == EWOULDBLOCK)
+        usleep(BUFFER_FULL_SLEEP_US);
+      else if (errno == EPIPE) {
+        fprintf(stderr, "Connection broke\n");
+        return false;
+      } else {
+        fprintf(stderr, "Unknown error while sending message\n");
+        return false;
+      }
     }
     buffer += i;
     length -= i;
@@ -306,15 +324,13 @@ public:
         if (errno != EAGAIN || errno != EWOULDBLOCK) {
           perror("recv()");
           printMessage("Unexpected failure while receiving data");
-          close_socket(client_fd);
-          client_fd = -1;
+          closeClientSocket();
         }
         break;
       }
       if (n == 0) {
         printMessage("Client disconnected");
-        close_socket(client_fd);
-        client_fd = -1;
+        closeClientSocket();
         break;
       }
       received += n;
@@ -589,8 +605,7 @@ public:
     sensor_measurements.SerializeToArray(&output[sizeof(uint32_t)], size);
     if (!send_all(client_fd, output, sizeof(uint32_t) + size)) {
       std::cerr << "Failed to send a message to client" << std::endl;
-      close_socket(client_fd);
-      client_fd = -1;
+      closeClientSocket();
     }
     delete[] output;
     sensor_measurements.Clear();
@@ -643,6 +658,12 @@ public:
   void printMessage(const std::string &msg) {
     const char *team_name = team == RED ? "RED" : "BLUE";
     printf("%s %d: %s\n", team_name, player_id, msg.c_str());
+  }
+
+  void closeClientSocket() {
+    close_socket(client_fd);
+    client_fd = -1;
+    content_size = 0;
   }
 
 private:
