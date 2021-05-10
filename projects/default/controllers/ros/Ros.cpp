@@ -112,6 +112,8 @@ void Ros::launchRos(int argc, char **argv) {
   fixName();
   bool rosMasterUriSet = false;
 
+  mStepSize = mRobot->getBasicTimeStep();
+
   for (int i = 1; i < argc; ++i) {
     const char masterUri[] = "--ROS_MASTER_URI=";
     const char name[] = "--name=";
@@ -458,6 +460,8 @@ void Ros::run(int argc, char **argv) {
       }
     } else if (step(mRobot->getBasicTimeStep()) == -1)
       mEnd = true;
+
+    mStep++;
   }
 }
 
