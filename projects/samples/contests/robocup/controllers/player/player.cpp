@@ -392,19 +392,10 @@ public:
       webots::Device *device = robot->getDevice(sensorTimeStep.name());
       if (device) {
         const int sensor_time_step = sensorTimeStep.timestep();
-        int old_time_step = 0;
-        if (sensor_time_step) {
-          if (sensors.count(device) == 0)
-            new_sensors[device] = sensor_time_step;
-          else
-            old_time_step = sensors.at(device);
-        } else
-          sensors.erase(device);
 
-        if (sensor_time_step == old_time_step)
-          // Avoiding to enable again if the request is not making any change to the sensor
-          continue;
-        if (sensor_time_step != 0 && sensor_time_step < basic_time_step)
+        if (sensor_time_step == 0)
+          sensors.erase(device);
+        else if (sensor_time_step < basic_time_step)
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
                                       std::to_string(basic_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
                                       " value.");
@@ -412,30 +403,37 @@ public:
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be a multiple of " +
                                       std::to_string(basic_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
                                       " value.");
-        else
+        else {
+          // only add device if device isn't added
+          if (sensors.count(device) == 0)
+            new_sensors[device] = sensor_time_step;
+          // Avoiding to enable again if the request is not making any change to the sensor
+          else if (sensors.at(device) == sensor_time_step)
+            continue;
+
           switch (device->getNodeType()) {
             case webots::Node::ACCELEROMETER: {
-              webots::Accelerometer *accelerometer = (webots::Accelerometer *)device;
+              webots::Accelerometer *accelerometer = static_cast<webots::Accelerometer *>(device);
               accelerometer->enable(sensor_time_step);
               break;
             }
             case webots::Node::CAMERA: {
-              webots::Camera *camera = (webots::Camera *)device;
+              webots::Camera *camera = static_cast<webots::Camera *>(device);
               camera->enable(sensor_time_step);
               break;
             }
             case webots::Node::GYRO: {
-              webots::Gyro *gyro = (webots::Gyro *)device;
+              webots::Gyro *gyro = static_cast<webots::Gyro *>(device);
               gyro->enable(sensor_time_step);
               break;
             }
             case webots::Node::POSITION_SENSOR: {
-              webots::PositionSensor *positionSensor = (webots::PositionSensor *)device;
+              webots::PositionSensor *positionSensor = static_cast<webots::PositionSensor *>(device);
               positionSensor->enable(sensor_time_step);
               break;
             }
             case webots::Node::TOUCH_SENSOR: {
-              webots::TouchSensor *touchSensor = (webots::TouchSensor *)device;
+              webots::TouchSensor *touchSensor = static_cast<webots::TouchSensor *>(device);
               touchSensor->enable(sensor_time_step);
               break;
             }
@@ -443,6 +441,7 @@ public:
               warn(sensor_measurements,
                    "Device \"" + sensorTimeStep.name() + "\" is not supported, time step command, ignored.");
           }
+        }
       } else
         warn(sensor_measurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
     }
