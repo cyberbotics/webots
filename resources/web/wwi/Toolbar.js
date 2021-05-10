@@ -136,7 +136,8 @@ export default class Toolbar {
     this.view.stream.socket.send('fast:' + this.view.timeout);
     this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'inline';
-    this.runButton.style.display = 'none';
+    if (typeof this.runButton !== 'undefined')
+      this.runButton.style.display = 'none';
   }
 
   step() {

@@ -77,8 +77,10 @@ export default class Stream {
         $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.deadline));
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      if (this.view.toolBar)
+      if (this.view.toolBar) {
         this.view.toolBar.setMode(data);
+        this.view.runOnLoad = data;
+      } else
       if (this.view.timeout >= 0)
         this.socket.send('timeout:' + this.view.timeout);
     } else if (data.startsWith('loading:')) {

@@ -83,8 +83,15 @@ export default class Parser {
 
     renderer.render();
     $('#webotsProgress').hide();
-    if (webots.currentView.toolBar)
+    if (webots.currentView.toolBar) {
       webots.currentView.toolBar.enableToolBarButtons(true);
+      console.log(webots.currentView.runOnLoad)
+      if (webots.currentView.runOnLoad === 'real-time')
+        webots.currentView.toolBar.realTime();
+      else if (webots.currentView.runOnLoad === 'run' || webots.currentView.runOnLoad === 'fast')
+        webots.currentView.toolBar.run();
+    }
+
     if (typeof callback === 'function')
       callback();
   }
