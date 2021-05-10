@@ -184,7 +184,7 @@ period = wb_range_finder_get_sampling_period(tag)
 *enable and disable range-finder updates*
 
 The `wb_range_finder_enable` function allows the user to enable range-finder updates.
-Once the range-finder is enabled, it will copy depth images from VRAM to RAM on each time step, regardless of `wb_range_finder_get_range_image` calls.
+Once the range-finder is enabled, it will copy depth images from VRAM to RAM at each time step, regardless of `wb_range_finder_get_range_image` calls.
 
 The `sampling_period` argument specifies the sampling period of the sensor and is expressed in milliseconds.
 Note that the first measurement will be available only after the first sampling period elapsed.
