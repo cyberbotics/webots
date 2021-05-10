@@ -150,7 +150,7 @@ export default class Toolbar {
   }
 
   enableToolBarButtons(enabled) {
-    const buttons = [this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
+    const buttons = [this.quitButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
         if (enabled && (!this.view.broadcast)) {
