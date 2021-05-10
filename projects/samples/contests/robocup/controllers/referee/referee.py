@@ -44,7 +44,7 @@ SIMULATED_TIME_INTERRUPTION_PHASE_0 = 10  # waiting time of 10 simulated seconds
 SIMULATED_TIME_INTERRUPTION_PHASE_1 = 30  # waiting time of 30 simulated seconds in phase 1 of interruption
 SIMULATED_TIME_BEFORE_PLAY_STATE = 5      # wait 5 simulated seconds in SET state before sending the PLAY state
 SIMULATED_TIME_SET_PENALTY_SHOOTOUT = 15  # wait 15 simulated seconds in SET state before sending the PLAY state
-HALF_TIME_BREAK_SIMULATED_DURATION = 15   # the half-time break lasts 15 simulated seconds
+HALF_TIME_BREAK_REAL_TIME_DURATION = 15   # the half-time break lasts 15 real seconds
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
 IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more than this amount of time, it gets penalized
@@ -1460,7 +1460,6 @@ def next_penalty_shootout():
     info(f'fliped sides: game.side_left = {game.side_left}')
     set_penalty_positions()
     game_controller_send('STATE:SET')
-    game.play_countdown = SIMULATED_TIME_SET_PENALTY_SHOOTOUT
     return
 
 
@@ -1584,6 +1583,9 @@ with open(game.blue.config) as json_file:
 # finalize the game object
 if not hasattr(game, 'minimum_real_time_factor'):
     game.minimum_real_time_factor = 3  # we garantee that each time step lasts at least 3x simulated time
+if game.minimum_real_time_factor == 0:  # speed up non-real time tests
+    REAL_TIME_BEFORE_FIRST_READY_STATE = 5
+    HALF_TIME_BREAK_REAL_TIME_DURATION = 2
 if not hasattr(game, 'press_a_key_to_terminate'):
     game.press_a_key_to_terminate = False
 if not hasattr(game, 'game_controller_synchronization'):
@@ -1738,13 +1740,12 @@ game.interruption_team = None
 game.interruption_seconds = None
 game.dropped_ball = False
 game.overtime = False
-game.ready_countdown = 125 if game.minimum_real_time_factor == 0 else 1000000000000
+game.ready_countdown = 0  # simulated time countdown before ready state (used in kick-off after goal and dropped ball)
 game.play_countdown = 0
 game.in_play = None
 game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
-game.start_real_time = time.time()
 game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
                                                      FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
 
@@ -1755,9 +1756,13 @@ if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
 if game.penalty_shootout:
     info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will start the penalty shoot-out.')
     game.phase = 'PENALTY-SHOOTOUT'
+    game.ready_real_time = None
+    game.set_countdown = 1  # immediately reach the SET state
     # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
     # meanwhile, assuming kickoff for red team
 else:
+    game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (used for initial kick-off)
+    game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
     kickoff()
     game_controller_send(f'KICKOFF:{game.kickoff}')
 
@@ -1893,11 +1898,12 @@ while supervisor.step(time_step) != -1 and not game.over:
                         info('End of knockout second half.')
                 else:
                     error(f'Unsupported game type: {game.type}.', fatal=True)
-        if game.interruption_countdown == 0 and game.ready_countdown == 0 and \
+        if (game.interruption_countdown == 0 and game.set_countdown == 0 and game.ready_countdown == 0 and
+            game.ready_real_time is None and
             (game.ball_position[1] - game.ball_radius >= game.field.size_y or
              game.ball_position[1] + game.ball_radius <= -game.field.size_y or
              game.ball_position[0] - game.ball_radius >= game.field.size_x or
-             game.ball_position[0] + game.ball_radius <= -game.field.size_x):
+             game.ball_position[0] + game.ball_radius <= -game.field.size_x)):
             info(f'Ball left the field at ({game.ball_position[0]} {game.ball_position[1]} {game.ball_position[2]}) after '
                  f'being touched by {game.ball_last_touch_team} player {game.ball_last_touch_player_number}.')
             game.ball_exit_translation = game.ball_position
@@ -1972,11 +1978,11 @@ while supervisor.step(time_step) != -1 and not game.over:
                 elif game.state.teams[i].players[game.ball_last_touch_player_number - 1].secs_till_unpenalized == 0:
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number}')
-                    game.ready_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                     if game.penalty_shootout:
                         game.penalty_shootout_goal = True
                         next_penalty_shootout()
                     else:
+                        game.ready_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
                         kickoff()
                 elif not right_way:  # own goal
                     game_controller_send(f'SCORE:{scoring_team}')
@@ -2027,7 +2033,7 @@ while supervisor.step(time_step) != -1 and not game.over:
         elif game.state.first_half:
             # NOTE: this part is probably dead code that is never used, transition from end of first Half to initial is
             #       now automatic.
-            if game.ready_countdown == 0:
+            if game.ready_real_time is None:
                 if game.overtime:
                     type = 'knockout '
                     game_controller_send('STATE:OVERTIME-SECOND-HALF')
@@ -2035,51 +2041,52 @@ while supervisor.step(time_step) != -1 and not game.over:
                     type = ''
                     game_controller_send('STATE:SECOND-HALF')
                 info(f'Beginning of {type}second half.')
-                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
+                game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
         elif game.type == 'KNOCKOUT' and game.overtime and game.state.teams[0].score == game.state.teams[1].score:
-            if game.ready_countdown == 0:
+            if game.ready_real_time is None:
                 info('Beginning of the knockout first half.')
                 game_controller_send('STATE:OVERTIME-FIRST-HALF')
-                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
+                game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
         elif game.type == 'KNOCKOUT' and game.state.teams[0].score == game.state.teams[1].score:
-            if game.ready_countdown == 0:
+            if game.ready_real_Time is None:
                 info('Beginning of penalty shout-out.')
                 game_controller_send('STATE:PENALTY-SHOOTOUT')
                 game.penalty_shootout = True
-                game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
+                game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
         else:
             game.over = True
             break
 
     elif game.state.game_state == 'STATE_INITIAL':
-        if game.ready_countdown > 0:
-            game.ready_countdown -= 1
-            if game.penalty_shootout:
-                if game.ready_countdown == 0:
+        if game.penalty_shootout:
+            if game.set_countdown > 0:
+                game.set_countdown -= 1
+                if game.set_countdown == 0:
                     set_penalty_positions()
                     game_controller_send('STATE:SET')
-            elif time.time() - game.start_real_time > REAL_TIME_BEFORE_FIRST_READY_STATE or game.ready_countdown == 0:
+        elif game.ready_real_time is not None:
+            if game.ready_real_time <= time.time():  # initial kick-off (1st, 2nd half, extended periods, penalty shootouts)
+                game.ready_real_time = None
                 check_start_position()
                 game_controller_send('STATE:READY')
-                game.ready_countdown = 0
-        elif game.ready_countdown == 0 and not game.state.first_half:
+        elif game.ready_countdown > 0:
+            game.ready_countdown -= 1
+            if game.ready_countdown == 0:  # kick-off after goal or dropped ball
+                check_start_position()
+                game_controller_send('STATE:READY')
+        elif not game.state.first_half and game.sent_finish:
             game.sent_finish = False
-            game_type = ""
+            game_type = ''
             if game.overtime:
-                game_type = "overtime "
+                game_type = 'overtime '
             info(f'Beginning of {game_type} second half.')
             kickoff()
-            game.ready_countdown = int(HALF_TIME_BREAK_SIMULATED_DURATION * game.real_time_multiplier)
+            game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
 
     if game.interruption_countdown > 0:
         game.interruption_countdown -= 1
         if game.interruption_countdown == 0:
-            # TODO this first if should be useless now
-            if game.penalty_shootout:
-                next_penalty_shootout()
-                if game.over:
-                    break
-            elif game.ball_set_kick:
+            if game.ball_set_kick:
                 game.ball.resetPhysics()
                 game.ball_translation.setSFVec3f(game.ball_kick_translation)
                 game.ball_set_kick = False
