@@ -538,13 +538,15 @@ double wb_motor_get_available_torque(WbDeviceTag tag) {
 }
 
 double wb_motor_get_multiplier(WbDeviceTag tag) {
-  double multiplier = NAN;
+  double multiplier;
   robot_mutex_lock_step();
   Motor *m = motor_get_struct(tag);
   if (m)
     multiplier = m->multiplier;
-  else
+  else {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    multiplier = NAN
+  }
   robot_mutex_unlock_step();
   return multiplier;
 }
