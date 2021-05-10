@@ -61,18 +61,19 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     }
     tags["fields"] += "},\n";
   }
+  tags["fields"].chop(2);  // remove the last ",\n" if any
   if (scriptingEngine() == "javascript")
     tags["fields"] += "}";  // close object
-  else
-    tags["fields"].chop(2);  // remove the last ",\n" if any
+
+  tags["context"] = scriptingEngine() == "javascript" ? "var context = {" : "";
 #ifdef _WIN32
-  tags["context"] = QString("os = \"windows\",");
+  tags["context"] += QString("os = \"windows\",");
 #endif
 #ifdef __linux__
-  tags["context"] = QString("os = \"linux\",");
+  tags["context"] += QString("os = \"linux\",");
 #endif
 #ifdef __APPLE__
-  tags["context"] = QString("os = \"mac\",");
+  tags["context"] += QString("os = \"mac\",");
 #endif
   tags["context"] += QString("world = \"%1\", ").arg(worldPath);
   tags["context"] += QString("proto = \"%1\",").arg(protoPath);
@@ -86,6 +87,9 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["context"] += QString("webots_version = { major = \"%1\", revision = \"%2\" }")
                        .arg(version.toString(false))
                        .arg(version.revisionNumber());
+
+  if (scriptingEngine() == "javascript")
+    tags["context"] += "}";  // close object
 
   printf("Scipting Language: %s\n", scriptingEngine().toUtf8().constData());
   return WbTemplateEngine::generate(tags, logHeaderName);

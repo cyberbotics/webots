@@ -3,8 +3,10 @@ function render(text) {
 }
 
 function compile() {
-  var result = ""; 
-  
+  var result = "";
+
+  %context%
+
   %fields%
 
   %body%

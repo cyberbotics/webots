@@ -132,7 +132,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 }
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
-  printf("WbTemplateEngine::generateJavascript\n");
+  printf("WbTemplateEngine::generateJavascript\n\n\n");
 
   mResult.clear();
   mError = "";
@@ -151,9 +151,9 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   tags["templateContent"] = tags["templateContent"].toUtf8();
 
   QJSEngine engine;
-
-  // set context
-
+  engine.installExtensions(QJSEngine::ConsoleExtension);
+  engine.evaluate("console.log('Hello!');");
+  // engine.evaluate("console.log(\"%1\".arg(\"TEST\")");
   // translate mixed proto into javascript
   int start = -1;
   int end = -1;
@@ -190,27 +190,20 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     }
   }
 
-  jsBody += "result += render(`" + tags["templateContent"].mid(start) + "`);";
-  // remove escapes
-  printf("\n== tags[\"templateContent\"] ================\n");
-  printf("%s\n", tags["templateContent"].toUtf8().constData());
-  printf("== jsBody literal ===========================\n");
-  printf("%s\n", jsBody.toLatin1().constData());
-  printf("== jsBody ===================================\n");
-  jsBody = jsBody.replace("\\n", "\n");
-  printf("%s\n", jsBody.toUtf8().constData());
-  printf("=============================================\n\n");
-
   // load template and replace body with javascript code
   QFile templateFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.js");
   if (!templateFile.open(QIODevice::ReadOnly)) {
     mError = tr("Javascript template not found.");
     return false;
   }
-
-  // replace body
   QString jsTemplate = templateFile.readAll();
-  jsTemplate.replace("%body%", jsBody);
+
+  // replace fields, TODO: move to WbProtoTemplateEngine
+  // should be: var car = {field:"size", value:2, defaultValue:1};
+  printf("&& context raw &&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n");
+  printf("%s\n", tags["context"].toUtf8().constData());
+  printf("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n\n");
+  jsTemplate.replace("%context%", tags["context"]);
 
   // replace fields, TODO: move to WbProtoTemplateEngine
   // should be: var car = {field:"size", value:2, defaultValue:1};
@@ -228,20 +221,34 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   //}
   // printf("%s\n", jsFields.toUtf8().constData());
   printf("#############################################\n\n");
-
   jsTemplate.replace("%fields%", tags["fields"]);
+
+  jsBody += "result += render(`" + tags["templateContent"].mid(start) + "`);";
+  // remove escapes
+  printf("\n== tags[\"templateContent\"] ================\n");
+  printf("%s\n", tags["templateContent"].toUtf8().constData());
+  printf("== jsBody literal ===========================\n");
+  printf("%s\n", jsBody.toLatin1().constData());
+  printf("== jsBody ===================================\n");
+  jsBody = jsBody.replace("\\n", "\n");
+  printf("%s\n", jsBody.toUtf8().constData());
+  printf("=============================================\n\n");
+
+  // replace body
+  jsTemplate.replace("%body%", jsBody);
+
   // evaluate and get result
   QJSValue result = engine.evaluate(jsTemplate);
   printf(">> result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
   printf("%s\n", result.toString().toUtf8().constData());
-  printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+  printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n");
 
   mResult = result.toString().toUtf8();
   return true;
 }
 
 bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
-  printf("WbTemplateEngine::generateLua\n");
+  printf("WbTemplateEngine::generateLua\n\n\n");
   mResult.clear();
 
   if (!gValidLuaResources) {
@@ -274,6 +281,10 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
     tags["fields"] = "";
   if (!tags.contains("context"))
     tags["context"] = "";
+
+  printf("## context raw ###############################\n");
+  printf("%s\n", tags["context"].toUtf8().constData());
+  printf("#############################################\n\n");
 
   printf("## fields raw ###############################\n");
   printf("%s\n", tags["fields"].toUtf8().constData());
@@ -346,7 +357,7 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
   QString res = mResult;
   printf(">> result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
   printf("%s\n", res.toUtf8().constData());
-  printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+  printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n");
 
   QDir::setCurrent(initialDir);
 
