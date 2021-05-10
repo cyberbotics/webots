@@ -131,6 +131,7 @@ def toss_a_coin_if_needed(attribute):  # attribute should be either "side_left" 
 
 def spawn_team(team, red_on_right, children):
     color = team['color']
+    nb_players = len(team['players'])
     for number in team['players']:
         model = team['players'][number]['proto']
         n = int(number) - 1
@@ -143,7 +144,7 @@ def spawn_team(team, red_on_right, children):
         string = f'DEF {defname} {model}{{name "{color} player {number}" translation ' + \
             f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]} rotation ' + \
             f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' + \
-            f'{halfTimeStartingRotation[3]} controllerArgs ["{port}"'
+            f'{halfTimeStartingRotation[3]} controllerArgs ["{port}" "{nb_players}"'
         hosts = game.red.hosts if color == 'red' else game.blue.hosts
         for host in hosts:
             string += f', "{host}"'
