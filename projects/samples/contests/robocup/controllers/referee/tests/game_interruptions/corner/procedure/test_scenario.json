@@ -13,7 +13,7 @@
                 "orientation" : [0, 0, 1, 0]
             },
             {
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "position" : [-4.3, -2, 0.24],
                 "orientation" : [0, 0, 1, 0]
             },
@@ -215,7 +215,7 @@
             },
             {
                 "name" : "Opponent that was far enough at end of P1 is not penalized",
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "penalty" : 0
             },
             {
@@ -235,7 +235,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "position" : [-4.5, -2.5, 0.24]
             }
         ]
@@ -251,7 +251,7 @@
         "tests" : [
             {
                 "name" : "Opponent that moved too close while ball was not in play is penalized",
-                "target" : "RED_PLAYER_3",
+                "target" : "RED_PLAYER_2",
                 "penalty" : 34
             }
         ]

@@ -372,11 +372,25 @@
         ]
     },
     {
-        "description" : "testing transition to READY directly because time spent in INITIAL is too low",
         "timing" : {
-            "time" : 610,
+            "time" : 605,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
+        },
+        "tests" : [
+            {
+                "name" : "Automatic transition to 1st Half PLAYING -> 2nd half INITIAL",
+                "state" : "INITIAL",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 3,
+            "clock_type" : "System",
+            "state" : "INITIAL",
+            "state_count" : 2
         },
         "tests" : [
             {

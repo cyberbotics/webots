@@ -20,7 +20,7 @@
         "rotation": [0, 0, 1, 0]
       }
     },
-    "3": {
+    "2": {
       "proto": "RobocupRobot",
       "halfTimeStartingPose": {
         "translation": [-3.5, -3.06, 0.24],

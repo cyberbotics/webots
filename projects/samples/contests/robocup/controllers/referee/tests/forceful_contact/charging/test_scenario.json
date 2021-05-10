@@ -8,7 +8,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [-1.4, 1.0, 0.24]
             },
             {
@@ -30,24 +30,26 @@
                 "position" : [0.0, 1.5, 0.08]
             },
             {
-                "target" : "RED_PLAYER_2",
-                "position" : [0.0, -0.4, 0.3]
+                "target" : "RED_PLAYER_1",
+                "position" : [-0.1, -0.4, 0.3],
+                "orientation" : [0,0,1,1.57]
             },
             {
                 "target" : "BLUE_PLAYER_1",
-                "position" : [0.0, 0.2, 0.3]
+                "position" : [0.1, 0.2, 0.3],
+                "orientation" : [0,0,1,-1.57]
             }
         ]
     },
     {
         "timing" : {
-            "time" : [11.001, 13.5],
+            "time" : [11.001, 15],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "velocity" : [0, 0.1, 0.24]
             },
             {
@@ -69,7 +71,7 @@
             },
             {
                 "name" : "A. Low speed collision -> No penalty (1)",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
@@ -92,7 +94,7 @@
                 "position" : [2.5, 0.0, 0.08]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [-0.6, 0, 0.3]
             },
             {
@@ -109,7 +111,7 @@
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "velocity" : [0.4, 0, 0.24]
             },
             {
@@ -120,22 +122,22 @@
     },
     {
         "timing" : {
-            "time" : [23.0, 30.0],
+            "time" : [27.0, 30.0],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "tests" : [
             {
-                "name" : "B. Faster player aims for the ball -> Normal state",
+                "name" : "B. Foul more than 1m away from the ball -> Normal state",
                 "secondary_state" : "NORMAL"
             },
             {
-                "name" : "B. Faster player moves to the ball -> No penalty",
-                "target" : "RED_PLAYER_2",
-                "penalty" : 0
+                "name" : "B. Faster player moves to the ball and other robot is closer to the ball -> Penalty",
+                "target" : "RED_PLAYER_1",
+                "penalty" : 31
             },
             {
-                "name" : "B. Player moving away is slow -> No penalty (2)",
+                "name" : "B. Player moving away is slow -> No penalty",
                 "target" : "BLUE_PLAYER_1",
                 "penalty" : 0
             }
@@ -144,7 +146,7 @@
     {
         "description" : "Part C. Moving robots for theoretical impact at [-1.0,0.0]",
         "timing" : {
-            "time" : 31.0,
+            "time" : 71.0,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -154,7 +156,7 @@
                 "position" : [-1.0, 1.5, 0.08]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [-1.0, -0.9, 0.3]
             },
             {
@@ -165,13 +167,13 @@
     },
     {
         "timing" : {
-            "time" : [31.001, 35.2],
+            "time" : [71.001, 75.2],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "velocity" : [0, 0.15, 0.24]
             },
             {
@@ -182,7 +184,7 @@
     },
     {
         "timing" : {
-            "time" : [38.0, 40.0],
+            "time" : [78.0, 80.0],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -193,7 +195,7 @@
             },
             {
                 "name" : "C. Player moving to the ball -> No penalty",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
@@ -206,7 +208,7 @@
     {
         "description" : "Part D. Moving robots for theoretical impact at [1.0,1.0], with time margin for penalties",
         "timing" : {
-            "time" : 91.0,
+            "time" : 131.0,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -216,7 +218,7 @@
                 "position" : [1.0, 1.8, 0.08]
             },
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "position" : [1.0, -1.0, 0.3]
             },
             {
@@ -227,13 +229,13 @@
     },
     {
         "timing" : {
-            "time" : [91.001, 94.8],
+            "time" : [131.001, 134.8],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "actions" : [
             {
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "velocity" : [0, 0.5, 0.24]
             },
             {
@@ -244,7 +246,7 @@
     },
     {
         "timing" : {
-            "time" : [98.0, 100.0],
+            "time" : [138.0, 140.0],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -255,7 +257,7 @@
             },
             {
                 "name" : "D. Player moving to the ball -> No penalty",
-                "target" : "RED_PLAYER_2",
+                "target" : "RED_PLAYER_1",
                 "penalty" : 0
             },
             {
