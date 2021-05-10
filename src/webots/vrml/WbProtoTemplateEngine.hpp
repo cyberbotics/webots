@@ -36,13 +36,13 @@ public:
 
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,
                 const QString &worldPath, int id);
-  static QString convertFieldValueToLuaStatement(const WbField *field);
+  static QString convertFieldValueToStatement(const WbField *field, const QString &templateEngine);
   static const QString &coordinateSystem();
   static void setCoordinateSystem(const QString &coordinateSystem);
 
 private:
-  static QString convertFieldDefaultValueToLuaStatement(const WbField *field);
-  static QString convertVariantToLuaStatement(const WbVariant &variant);
+  static QString convertFieldDefaultValueToStatement(const WbField *field, const QString &templateEngine);
+  static QString convertVariantToStatement(const WbVariant &variant, const QString &templateEngine);
 };
 
 #endif

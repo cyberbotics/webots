@@ -98,7 +98,6 @@ void WbTemplateEngine::initializeJavascriptEngine() {
 
 WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString &engine) {
   static bool firstCall = true;
-  mTemplateEngine = engine;
 
   if (mTemplateEngine == "lua" && firstCall) {
     initialize();
@@ -109,6 +108,7 @@ WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString
     initializeJavascriptEngine();
 
   mTemplateContent = templateContent;
+  mTemplateEngine = engine;
 }
 
 const QString &WbTemplateEngine::openingToken() {

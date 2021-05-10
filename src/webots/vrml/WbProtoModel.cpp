@@ -343,7 +343,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
     if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator())
-          key += WbProtoTemplateEngine::convertFieldValueToLuaStatement(parameter);
+          key += WbProtoTemplateEngine::convertFieldValueToStatement(parameter, mTemplateEngine);
       }
     }
 

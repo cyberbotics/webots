@@ -51,11 +51,11 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   foreach (const WbField *parameter, parameters) {
     if (!parameter->isTemplateRegenerator())  // keep only regenerator fields
       continue;
-    const QString &valueLuaString = convertFieldValueToLuaStatement(parameter);
-    if (!valueLuaString.isEmpty()) {
+    const QString &valueString = convertFieldValueToStatement(parameter, scriptingEngine());
+    if (!valueString.isEmpty()) {
       tags["fields"] += QString("%1 = {").arg(parameter->name());
-      tags["fields"] += QString("value = %1, ").arg(valueLuaString);
-      tags["fields"] += QString("defaultValue = %1").arg(convertFieldDefaultValueToLuaStatement(parameter));
+      tags["fields"] += QString("value = %1, ").arg(valueString);
+      tags["fields"] += QString("defaultValue = %1").arg(convertFieldDefaultValueToStatement(parameter, scriptingEngine()));
     }
     tags["fields"] += "},\n";
   }
@@ -81,6 +81,8 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["context"] += QString("webots_version = { major = \"%1\", revision = \"%2\" }")
                        .arg(version.toString(false))
                        .arg(version.revisionNumber());
+
+  printf("Scipting Language: %s\n", scriptingEngine().toUtf8().constData());
   return WbTemplateEngine::generate(tags, logHeaderName);
 }
 
@@ -92,12 +94,12 @@ const QString &WbProtoTemplateEngine::coordinateSystem() {
   return gCoordinateSystem;
 }
 
-QString WbProtoTemplateEngine::convertFieldValueToLuaStatement(const WbField *field) {
+QString WbProtoTemplateEngine::convertFieldValueToStatement(const WbField *field, const QString &templateEngine) {
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->value());
     assert(singleValue);
     const WbVariant &variant = singleValue->variantValue();
-    return convertVariantToLuaStatement(variant);
+    return convertVariantToStatement(variant, templateEngine);
   } else if (field->isMultiple()) {
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->value());
     assert(multipleValue);
@@ -107,7 +109,7 @@ QString WbProtoTemplateEngine::convertFieldValueToLuaStatement(const WbField *fi
       if (i != 0)
         result += ", ";
       const WbVariant &variant = multipleValue->variantValue(i);
-      result += convertVariantToLuaStatement(variant);
+      result += convertVariantToStatement(variant, templateEngine);
     }
     result += "}";
     return result;
@@ -117,12 +119,12 @@ QString WbProtoTemplateEngine::convertFieldValueToLuaStatement(const WbField *fi
   return "";
 }
 
-QString WbProtoTemplateEngine::convertFieldDefaultValueToLuaStatement(const WbField *field) {
+QString WbProtoTemplateEngine::convertFieldDefaultValueToStatement(const WbField *field, const QString &templateEngine) {
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->defaultValue());
     assert(singleValue);
     const WbVariant &variant = singleValue->variantValue();
-    return convertVariantToLuaStatement(variant);
+    return convertVariantToStatement(variant, templateEngine);
   }
 
   else if (field->isMultiple()) {
@@ -134,7 +136,7 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToLuaStatement(const WbFi
       if (i != 0)
         result += ", ";
       const WbVariant &variant = multipleValue->variantValue(i);
-      result += convertVariantToLuaStatement(variant);
+      result += convertVariantToStatement(variant, templateEngine);
     }
     result += "}";
     return result;
@@ -144,7 +146,7 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToLuaStatement(const WbFi
   return "";
 }
 
-QString WbProtoTemplateEngine::convertVariantToLuaStatement(const WbVariant &variant) {
+QString WbProtoTemplateEngine::convertVariantToStatement(const WbVariant &variant, const QString &templateEngine) {
   switch (variant.type()) {
     case WB_SF_BOOL:
       return QString("%1").arg(variant.toBool() ? "true" : "false");
@@ -152,15 +154,17 @@ QString WbProtoTemplateEngine::convertVariantToLuaStatement(const WbVariant &var
       return QString("%1").arg(variant.toInt());
     case WB_SF_FLOAT:
       return QString("%1").arg(variant.toDouble());
-    case WB_SF_VEC2F:
-      return QString("{x = %1, y = %2}")  // lua dictionary
-        .arg(variant.toVector2().x())
-        .arg(variant.toVector2().y());
-    case WB_SF_VEC3F:
-      return QString("{x = %1, y = %2, z = %3}")  // lua dictionary
-        .arg(variant.toVector3().x())
-        .arg(variant.toVector3().y())
-        .arg(variant.toVector3().z());
+    case WB_SF_VEC2F: {
+      QString statement = QString("{x: %1, y: %2}").arg(variant.toVector2().x()).arg(variant.toVector2().y());
+      return templateEngine == "javascript" ? statement : statement.replace(":", " =");
+    }
+    case WB_SF_VEC3F: {
+      QString statement = QString("{x = %1, y = %2, z = %3}")
+                            .arg(variant.toVector3().x())
+                            .arg(variant.toVector3().y())
+                            .arg(variant.toVector3().z());
+      return templateEngine == "javascript" ? statement : statement.replace(":", " =");
+    }
     case WB_SF_ROTATION:
       return QString("{x = %1, y = %2, z = %3, a = %4}")  // lua dictionary
         .arg(variant.toRotation().x())
@@ -194,8 +198,8 @@ QString WbProtoTemplateEngine::convertVariantToLuaStatement(const WbVariant &var
         foreach (const WbField *field, node->fieldsOrParameters()) {
           if (field->name() != "node_name") {
             nodeString += QString("%1 = {").arg(field->name());
-            nodeString += QString("value = %1, ").arg(convertFieldValueToLuaStatement(field));
-            nodeString += QString("defaultValue = %1").arg(convertFieldDefaultValueToLuaStatement(field));
+            nodeString += QString("value = %1, ").arg(convertFieldValueToStatement(field, templateEngine));
+            nodeString += QString("defaultValue = %1").arg(convertFieldDefaultValueToStatement(field, templateEngine));
             if (field != node->fieldsOrParameters().last())
               nodeString += "}, ";
             else

@@ -37,6 +37,7 @@ public:
   const QByteArray &result() { return mResult; }
 
   const QString &error() const { return mError; }
+  const QString &scriptingEngine() const { return mTemplateEngine; }
 
 private:
   static void initialize();
