@@ -47,7 +47,7 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   printf("WbProtoTemplateEngine::generate (param size: %d)\n", parameters.size());
   QHash<QString, QString> tags;
 
-  tags["fields"] = "";
+  tags["fields"] = scriptingEngine() == "javascript" ? "var fields = {" : "";
   foreach (const WbField *parameter, parameters) {
     printf(">> parameter: %s (isTemplateRegenerator: %d)\n", parameter->name().toUtf8().constData(),
            parameter->isTemplateRegenerator());
@@ -61,7 +61,10 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     }
     tags["fields"] += "},\n";
   }
-  tags["fields"].chop(2);  // remove the last ",\n" if any
+  if (scriptingEngine() == "javascript")
+    tags["fields"] += "}";  // close object
+  else
+    tags["fields"].chop(2);  // remove the last ",\n" if any
 #ifdef _WIN32
   tags["context"] = QString("os = \"windows\",");
 #endif

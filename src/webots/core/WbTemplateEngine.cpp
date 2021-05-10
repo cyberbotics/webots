@@ -152,7 +152,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   QJSEngine engine;
 
-  // set context etc as global variables
+  // set context
 
   // translate mixed proto into javascript
   int start = -1;
@@ -216,20 +216,20 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   // should be: var car = {field:"size", value:2, defaultValue:1};
   printf("## fields raw ###############################\n");
   printf("%s\n", tags["fields"].toUtf8().constData());
-  printf("## jsFields #################################\n");
-  QString jsFields = "";
-  QStringList f = tags["fields"].split("\n");
-  if (f.size() > 0) {
-    jsFields += "var fields = {";
-    for (int i = 0; i < f.size(); ++i) {
-      jsFields += f[i].replace("value = ", "value:").replace("defaultValue = ", "defaultValue:");
-    }
-    jsFields += "};";
-  }
-  printf("%s\n", jsFields.toUtf8().constData());
+  // printf("## jsFields #################################\n");
+  // QString jsFields = "";
+  // QStringList f = tags["fields"].split("\n");
+  // if (f.size() > 0) {
+  //  jsFields += "var fields = {";
+  //  for (int i = 0; i < f.size(); ++i) {
+  //    jsFields += f[i].replace("value = ", "value:").replace("defaultValue = ", "defaultValue:");
+  //  }
+  //  jsFields += "};";
+  //}
+  // printf("%s\n", jsFields.toUtf8().constData());
   printf("#############################################\n\n");
 
-  jsTemplate.replace("%fields%", jsFields);
+  jsTemplate.replace("%fields%", tags["fields"]);
   // evaluate and get result
   QJSValue result = engine.evaluate(jsTemplate);
   printf(">> result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
