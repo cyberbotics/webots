@@ -61,6 +61,8 @@ function disconnect() {
 
   let playerDiv = document.getElementById('playerDiv');
   playerDiv.innerHTML = null;
+  if (view.mode === 'mjpeg')
+    view.multimediaClient = undefined;
 
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
