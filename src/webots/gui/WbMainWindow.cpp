@@ -1616,7 +1616,7 @@ void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
   WbWorld *world = WbWorld::instance();
-  QString worldName = QFileInfo(world->fileName()).baseName();
+  const QString worldName = QFileInfo(world->fileName()).baseName();
 
   QString fileName;
   for (int i = 0; i < 1000; ++i) {
