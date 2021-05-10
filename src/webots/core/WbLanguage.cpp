@@ -594,6 +594,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_BACKGROUND "
                                      "WB_NODE_BALL_JOINT "
                                      "WB_NODE_BALL_JOINT_PARAMETERS "
+                                     "WB_NODE_BILLBOARD"
                                      "WB_NODE_BOX "
                                      "WB_NODE_BRAKE "
                                      "WB_NODE_CAMERA "
@@ -679,7 +680,7 @@ static const char *API_CLASSES =
   "SimulationMode Skin Speaker Supervisor TouchSensor Type UserInputEvent WiperMode WheelIndex";
 
 static const char *WBT_OBJECTS =
-  "Appearance Background BallJoint BallJointParameters Box "
+  "Appearance Background BallJoint BallJointParameters Billboard Box "
   "Capsule Charger Color Cone ContactProperties Coordinate Cylinder Damping "
   "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
   "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
