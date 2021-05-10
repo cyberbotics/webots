@@ -545,7 +545,7 @@ double wb_motor_get_multiplier(WbDeviceTag tag) {
     multiplier = m->multiplier;
   else {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    multiplier = NAN
+    multiplier = NAN;
   }
   robot_mutex_unlock_step();
   return multiplier;
