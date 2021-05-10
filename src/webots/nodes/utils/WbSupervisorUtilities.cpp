@@ -877,9 +877,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         WbVector3 force(fx, fy, fz);
         if (relative == 1)
           force = solid->matrix().extracted3x3Matrix() * force;
-        dBodyID body = solid->bodyMerger();
-        WbVector3 position = solid->computedGlobalCenterOfMass() - solid->solidMerger()->solid()->computedGlobalCenterOfMass();
+        const dBodyID body = solid->bodyMerger();
         if (body) {
+          const WbVector3 position =
+            solid->computedGlobalCenterOfMass() - solid->solidMerger()->solid()->computedGlobalCenterOfMass();
           dBodyAddForceAtRelPos(body, force.x(), force.y(), force.z(), position.x(), position.y(), position.z());
           dBodyEnable(body);
         } else
@@ -905,16 +906,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
-        const WbMatrix4 &solidMatrix = solid->matrix();
-
-        const WbVector3 offset = solidMatrix * WbVector3(ox, oy, oz);
-
-        WbVector3 force(fx, fy, fz);
-        if (relative == 1)
-          force = solidMatrix.extracted3x3Matrix() * force;
-
-        dBodyID body = solid->bodyMerger();
+        const dBodyID body = solid->bodyMerger();
         if (body) {
+          const WbMatrix4 &solidMatrix = solid->matrix();
+          const WbVector3 offset = solidMatrix * WbVector3(ox, oy, oz);
+          WbVector3 force(fx, fy, fz);
+          if (relative == 1)
+            force = solidMatrix.extracted3x3Matrix() * force;
           dBodyEnable(body);
           dBodyAddForceAtPos(body, force.x(), force.y(), force.z(), offset.x(), offset.y(), offset.z());
         } else
@@ -940,7 +938,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         WbVector3 torque(tx, ty, tz);
         if (relative == 1)
           torque = solid->matrix().extracted3x3Matrix() * torque;
-        dBodyID body = solid->bodyMerger();
+        const dBodyID body = solid->bodyMerger();
         if (body) {
           dBodyEnable(body);
           dBodyAddTorque(body, torque.x(), torque.y(), torque.z());
