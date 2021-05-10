@@ -673,8 +673,6 @@ WbSolid *WbNodeUtilities::findTopSolid(const WbNode *node) {
     WbSolid *currentSolid = dynamic_cast<WbSolid *>(const_cast<WbNode *>(n));
     if (currentSolid)
       topSolid = currentSolid;
-    if (parent->isWorldRoot())
-      break;
 
     n = parent;
     parent = n->parentNode();
