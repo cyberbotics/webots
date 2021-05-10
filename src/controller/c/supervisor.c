@@ -62,7 +62,7 @@ typedef struct WbFieldStructPrivate {
   bool is_proto_internal;  // internal field can't be changed
   union WbFieldData data;
   WbFieldRef next;
-  int last_update;
+  double last_update;
 } WbFieldStruct;
 
 typedef struct WbFieldRequestPrivate {
@@ -535,7 +535,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_int32(r, field_change_tracking.field->node_unique_id);
     request_write_int32(r, field_change_tracking.field->id);
     request_write_uchar(r, field_change_tracking.field->is_proto_internal ? 1 : 0);
-    request_write_int32(r, field_change_tracking.enable);
+    request_write_uchar(r, field_change_tracking.enable);
     if (field_change_tracking.enable)
       request_write_int32(r, field_change_tracking.sampling_period);
   } else if (!robot_is_immediate_message() || is_field_immediate_message) {
@@ -911,9 +911,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int field_id = request_read_int32(r);
 
       WbFieldStruct *f = sent_field_get_request ? sent_field_get_request->field : find_field_by_id(node_id, field_id);
- 
       // field_type == 0 if node was deleted
-      if (sent_field_get_request && field_type != 0) {
+      if (f && field_type != 0) {
         switch (f->type) {
           case WB_SF_BOOL:
           case WB_MF_BOOL:
@@ -969,6 +968,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
             assert(0);
         }
       }
+      f->last_update = wb_robot_get_time();
       if (sent_field_get_request) {
         if (sent_field_get_request->is_string)
           free(sent_field_get_request->data.sf_string);
@@ -2564,6 +2564,9 @@ const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
 const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false, false))
     return NULL;
+
+  if (field->last_update == wb_robot_get_time())
+    return ((WbFieldStruct *)field)->data.sf_vec3f;
 
   field_operation(field, GET, -1);
   return ((WbFieldStruct *)field)->data.sf_vec3f;
