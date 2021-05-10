@@ -112,9 +112,10 @@ static bool send_all(int socket, const char *buffer, size_t length) {
         fprintf(stderr, "Unknown error while sending message\n");
         return false;
       }
+    } else {
+      buffer += i;
+      length -= i;
     }
-    buffer += i;
-    length -= i;
   }
   return true;
 }
