@@ -38,7 +38,7 @@ export default class Animation {
     this.data = data;
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
-    this.labelsIds = this.data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
+    this.labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
 
     this._createPlayBar();
     this._createSlider();
