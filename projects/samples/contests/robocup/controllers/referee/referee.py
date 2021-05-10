@@ -93,8 +93,11 @@ def log(message, type):
         console_message = message
     print(console_message, file=sys.stderr if type == 'Error' else sys.stdout)
     if log_file:
-        real_time = int(1000 * (time.time() - game.start_real_time)) / 1000
+        real_time = int(1000 * (time.time() - log.real_time)) / 1000
         log_file.write(f'[{real_time:08.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
+
+
+log.real_time = time.time()
 
 
 def info(message):
@@ -1579,7 +1582,6 @@ with open(game.blue.config) as json_file:
     blue_team = json.load(json_file)
 
 # finalize the game object
-game.start_real_time = time.time()
 if not hasattr(game, 'minimum_real_time_factor'):
     game.minimum_real_time_factor = 3  # we garantee that each time step lasts at least 3x simulated time
 if not hasattr(game, 'press_a_key_to_terminate'):
@@ -1742,6 +1744,7 @@ game.in_play = None
 game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
+game.start_real_time = time.time()
 game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
                                                      FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
 
