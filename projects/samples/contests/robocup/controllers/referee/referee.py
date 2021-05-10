@@ -1460,7 +1460,6 @@ def next_penalty_shootout():
     info(f'fliped sides: game.side_left = {game.side_left}')
     set_penalty_positions()
     game_controller_send('STATE:SET')
-    game.set_countdown = SIMULATED_TIME_SET_PENALTY_SHOOTOUT
     return
 
 
@@ -1584,6 +1583,9 @@ with open(game.blue.config) as json_file:
 # finalize the game object
 if not hasattr(game, 'minimum_real_time_factor'):
     game.minimum_real_time_factor = 3  # we garantee that each time step lasts at least 3x simulated time
+if game.minimum_real_time_factor == 0:  # speed up non-real time tests
+    REAL_TIME_BEFORE_FIRST_READY_STATE = 5
+    HALF_TIME_BREAK_REAL_TIME_DURATION = 2
 if not hasattr(game, 'press_a_key_to_terminate'):
     game.press_a_key_to_terminate = False
 if not hasattr(game, 'game_controller_synchronization'):
@@ -1738,9 +1740,7 @@ game.interruption_team = None
 game.interruption_seconds = None
 game.dropped_ball = False
 game.overtime = False
-game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
-game.ready_countdown = 0  # simulated time countdown before ready state (used in kick-off after goal and ball dropped)
-game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (used for initial kick-off)
+game.ready_countdown = 0  # simulated time countdown before ready state (used in kick-off after goal and dropped ball)
 game.play_countdown = 0
 game.in_play = None
 game.sent_finish = False
@@ -1756,9 +1756,13 @@ if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
 if game.penalty_shootout:
     info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will start the penalty shoot-out.')
     game.phase = 'PENALTY-SHOOTOUT'
+    game.ready_real_time = None
+    game.set_countdown = 1  # immediately reach the SET state
     # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
     # meanwhile, assuming kickoff for red team
 else:
+    game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (used for initial kick-off)
+    game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
     kickoff()
     game_controller_send(f'KICKOFF:{game.kickoff}')
 
@@ -2067,7 +2071,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                 game_controller_send('STATE:READY')
         elif game.ready_countdown > 0:
             game.ready_countdown -= 1
-            if game.ready_countdown == 0:  # kick-off after goal or ball dropped
+            if game.ready_countdown == 0:  # kick-off after goal or dropped ball
                 check_start_position()
                 game_controller_send('STATE:READY')
         elif not game.state.first_half and game.sent_finish:
