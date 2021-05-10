@@ -180,6 +180,7 @@ private:
   QMenu *createWizardsMenu();
   QMenu *createHelpMenu();
   bool proposeToSaveWorld(bool reloading = false);
+  QString findHtmlFileName(const char *title);
   void enableToolsWidgetItems(bool enabled);
   void updateWindowTitle();
   void updateGui();

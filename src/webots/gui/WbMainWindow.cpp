@@ -1320,6 +1320,31 @@ bool WbMainWindow::proposeToSaveWorld(bool reloading) {
   return true;
 }
 
+QString WbMainWindow::findHtmlFileName(const char *title) {
+  WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
+  const QString worldName = QFileInfo(WbWorld::instance()->fileName()).baseName();
+
+  QString fileName;
+  for (int i = 0; i < 1000; ++i) {
+    const QString suffix = i == 0 ? "" : QString("_%1").arg(i);
+    fileName = WbPreferences::instance()->value("Directories/www").toString() + worldName + suffix + ".html";
+    if (!QFileInfo::exists(fileName))
+      break;
+  }
+
+  fileName = QFileDialog::getSaveFileName(this, tr(title), WbProject::computeBestPathForSaveAs(fileName),
+                                          tr("HTML Files (*.html *.HTML)"));
+
+  if (fileName.isEmpty()) {
+    return "";
+  }
+
+  if (!fileName.endsWith(".html", Qt::CaseInsensitive))
+    fileName.append(".html");
+
+  return fileName;
+}
+
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return true;
@@ -1614,28 +1639,13 @@ void WbMainWindow::exportVrml() {
 
 void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
   WbWorld *world = WbWorld::instance();
-  const QString worldName = QFileInfo(world->fileName()).baseName();
 
-  QString fileName;
-  for (int i = 0; i < 1000; ++i) {
-    const QString suffix = i == 0 ? "" : QString("_%1").arg(i);
-    fileName = WbPreferences::instance()->value("Directories/www").toString() + worldName + suffix + ".html";
-    if (!QFileInfo::exists(fileName))
-      break;
-  }
-
-  fileName = QFileDialog::getSaveFileName(this, tr("Export HTML Model"), WbProject::computeBestPathForSaveAs(fileName),
-                                          tr("HTML Files (*.html *.HTML)"));
-
-  if (fileName.isEmpty()) {
+  QString fileName = findHtmlFileName("Export HTML Model");
+  if (fileName == "") {
     WbSimulationState::instance()->setMode(currentMode);
     return;
   }
-
-  if (!fileName.endsWith(".html", Qt::CaseInsensitive))
-    fileName.append(".html");
 
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     world->exportAsHtml(fileName, false);
@@ -2236,27 +2246,11 @@ void WbMainWindow::setWorldLoadingStatus(const QString &status) {
 
 void WbMainWindow::startAnimationRecording() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
-  QString worldName = QFileInfo(WbWorld::instance()->fileName()).baseName();
-
-  QString fileName;
-  for (int i = 0; i < 1000; ++i) {
-    QString suffix = i == 0 ? "" : QString("_%1").arg(i);
-    fileName = WbPreferences::instance()->value("Directories/www").toString() + worldName + suffix + ".html";
-    if (!QFileInfo::exists(fileName))
-      break;
-  }
-
-  fileName = QFileDialog::getSaveFileName(this, tr("Save Animation File"), WbProject::computeBestPathForSaveAs(fileName),
-                                          tr("HTML Files (*.html *.HTML)"));
-
-  if (fileName.isEmpty()) {
+  QString fileName = findHtmlFileName("Save Animation File");
+  if (fileName == "") {
     WbSimulationState::instance()->setMode(currentMode);
     return;
   }
-
-  if (!fileName.endsWith(".html", Qt::CaseInsensitive))
-    fileName.append(".html");
 
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
