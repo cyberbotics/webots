@@ -55,9 +55,8 @@ typedef int socklen_t;
 #include <webots/TouchSensor.hpp>
 
 #include <chrono>
+#include <deque>
 
-// teams are limited to a bandwdith of 100 MB/s from the server evaluated on a floating time window of 1000 milliseconds.
-#define TEAM_QUOTA (100 * 1024 * 1024)
 #define RED 0
 #define BLUE 1
 
@@ -592,13 +591,29 @@ public:
   }
 
   void sendSensorMessage() {
-    const uint32_t size = sensor_measurements.ByteSizeLong();
-    if (bandwidth_usage(size) > TEAM_QUOTA) {
+    uint32_t size = sensor_measurements.ByteSizeLong();
+    uint64_t new_msg_real_time = sensor_measurements.real_time();
+    // Clearing old messages from history
+    while (message_size_history.size() > 0) {
+      uint64_t history_start = message_size_history.back().first;
+      if ((new_msg_real_time - history_start) / 1000.0 < window_duration)
+        break;
+      message_size_history.pop_back();
+    }
+    uint64_t history_size = 0;
+    for (const auto &entry : message_size_history)
+      history_size += entry.second;
+    double robot_quota = team_quota / nb_robots_in_team;
+    if (size + history_size > robot_quota * window_duration * std::pow(2, 20)) {
       sensor_measurements.Clear();
+      sensor_measurements.set_time(controller_time);
+      sensor_measurements.set_real_time(new_msg_real_time);
       Message *message = sensor_measurements.add_messages();
       message->set_message_type(Message::ERROR_MESSAGE);
-      message->set_text(std::to_string(TEAM_QUOTA) + " MB/s quota exceeded.");
+      message->set_text(std::to_string(robot_quota) + " MB/s quota exceeded.");
+      size = sensor_measurements.ByteSizeLong();
     }
+    message_size_history.push_front({new_msg_real_time, size});
     char *output = new char[sizeof(uint32_t) + size];
     uint32_t *output_size = (uint32_t *)output;
     *output_size = htonl(size);
@@ -609,45 +624,6 @@ public:
     }
     delete[] output;
     sensor_measurements.Clear();
-  }
-
-  // this function updates the bandwith usage in the files quota-%d.txt and returns the total bandwith of the current time
-  // window
-  int bandwidth_usage(size_t new_packet_size) {
-    static int *data_transferred = NULL;
-    const int window_size = 1000 / basic_time_step;
-    const int index = (controller_time / basic_time_step) % window_size;
-    int sum = 0;
-    char filename[32];
-    if (data_transferred == NULL) {
-      data_transferred = new int[window_size];
-      for (int i = 0; i < window_size; i++)
-        data_transferred[i] = 0;
-    }
-    data_transferred[index] = new_packet_size;
-    snprintf(filename, sizeof(filename), "quota-%s-%d.txt", team == 0 ? "red" : "blue", player_id);
-    FILE *fd = fopen(filename, "w");
-    for (int i = 0; i < window_size; i++) {
-      sum += data_transferred[i];
-      fprintf(fd, "%d\n", data_transferred[i]);
-    }
-    fclose(fd);
-    for (int i = 1; i < 5; i++) {
-      if (i == player_id)
-        continue;
-      snprintf(filename, sizeof(filename), "quota-%s-%d.txt", team == 0 ? "red" : "blue", i);
-      fd = fopen(filename, "r");
-      if (fd == NULL)
-        continue;
-      while (!feof(fd)) {
-        int v;
-        if (fscanf(fd, "%d\n", &v) == 0)
-          break;
-        sum += v;
-      }
-      fclose(fd);
-    }
-    return sum;
   }
 
   void benchmarkPrint(const std::string &msg, const time_point &end, const time_point &start) {
@@ -689,6 +665,9 @@ private:
   int basic_time_step;
   SensorMeasurements sensor_measurements;
 
+  /// Stores pair with {real_timestamp_ms, msg_size}
+  std::deque<std::pair<uint64_t, uint32_t>> message_size_history;
+
   // 0: silent
   // 1: print global step cost and details if budget is exceeded
   // 2: additionally to 1: print global cost systematically
@@ -698,20 +677,31 @@ private:
   static int benchmark_level;
   // The allowed ms per step before producing a warning
   static double budget_ms;
+  /// The bandwidth allowed for a team MB/s (per real-time second and not simulated second)
+  static double team_quota;
+  /// The duration of the time window used to average the bandwidth (seconds)
+  static double window_duration;
+
+public:
+  static int nb_robots_in_team;
 };
 
 int PlayerServer::benchmark_level = 0;
 double PlayerServer::budget_ms = 1.0;
+double PlayerServer::team_quota = 100.0;
+double PlayerServer::window_duration = 1.0;
+int PlayerServer::nb_robots_in_team = 4;
 
 int main(int argc, char *argv[]) {
-  if (argc < 2) {
-    fprintf(stderr, "Missing port argument");
+  if (argc < 3) {
+    fprintf(stderr, "Usage: %s <port> <nb_players> <host1> <host2> ...", argv[0]);
     return 1;
   }
   const int port = atoi(argv[1]);
-  n_allowed_hosts = argc - 2;
+  PlayerServer::nb_robots_in_team = atoi(argv[2]);
+  n_allowed_hosts = argc - 3;
   for (int i = 0; i < n_allowed_hosts; i++)
-    allowed_hosts.push_back(argv[i + 2]);
+    allowed_hosts.push_back(argv[i + 3]);
 
   webots::Robot *robot = new webots::Robot();
   const int basic_time_step = robot->getBasicTimeStep();
