@@ -22,6 +22,7 @@
 #include <QtCore/QDirIterator>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QVector>
@@ -98,6 +99,7 @@ void WbTemplateEngine::initializeJavascriptEngine() {
 
 WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString &engine) {
   static bool firstCall = true;
+  mTemplateEngine = engine;
 
   if (mTemplateEngine == "lua" && firstCall) {
     initialize();
@@ -108,7 +110,6 @@ WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString
     initializeJavascriptEngine();
 
   mTemplateContent = templateContent;
-  mTemplateEngine = engine;
 }
 
 const QString &WbTemplateEngine::openingToken() {
@@ -132,7 +133,6 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
   printf("WbTemplateEngine::generateJavascript\n");
-  // printf("------------------\n%s-------------------\n", gTemplateFileContent.toUtf8().constData());
 
   mResult.clear();
   mError = "";
@@ -150,41 +150,98 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
   tags["templateContent"] = tags["templateContent"].toUtf8();
 
-  // make sure these key are set
-  if (!tags.contains("fields"))
-    tags["fields"] = "";
-  if (!tags.contains("context"))
-    tags["context"] = "";
+  QJSEngine engine;
 
-  tags["openingToken"] = gOpeningToken;
-  tags["closingToken"] = gClosingToken;
-  tags["templateFileName"] = logHeaderName;
+  // set context etc as global variables
 
-  QString scriptContent = gTemplateFileContent;
-  QHashIterator<QString, QString> i(tags);
-  while (i.hasNext()) {
-    i.next();
-    QString keyTag = QString("") + "%" + i.key() + "%";
-    scriptContent.replace(keyTag, i.value());
+  // translate mixed proto into javascript
+  int start = -1;
+  int end = -1;
+  QString jsBody = "";
+  QRegularExpression reTemplate("\%{(.*?)}\%");
+  QRegularExpressionMatchIterator it = reTemplate.globalMatch(tags["templateContent"]);
+
+  while (it.hasNext()) {
+    QRegularExpressionMatch match = it.next();
+    if (match.hasMatch()) {
+      if (start == -1 && end == -1)
+        start = match.capturedEnd();
+      if (start != -1 && end == -1)
+        if (match.capturedStart() != 0)
+          end = match.capturedStart();
+
+      if (start != -1 && end != -1) {
+        jsBody += "result += render(`" + tags["templateContent"].mid(start, end - start) + "`);";
+        start = match.capturedEnd();
+        end = -1;
+      }
+
+      QString matched = match.captured(0);
+
+      if (matched.startsWith("%{=")) {
+        matched = matched.replace("%{=", "");
+        matched = matched.replace("}%", "");
+        jsBody += "result += eval(\"" + matched + "\");";
+      } else if (matched.startsWith("%{")) {
+        matched = matched.replace("%{", "");
+        matched = matched.replace("}%", "");
+        jsBody += matched;
+      }
+    }
   }
 
-  QJSEngine engine;
-  QJSValueList args;
-  args << 1 << 2;
+  jsBody += "result += render(`" + tags["templateContent"].mid(start) + "`);";
+  // remove escapes
+  printf("\n== tags[\"templateContent\"] ================\n");
+  printf("%s\n", tags["templateContent"].toUtf8().constData());
+  printf("== jsBody literal ===========================\n");
+  printf("%s\n", jsBody.toLatin1().constData());
+  printf("== jsBody ===================================\n");
+  jsBody = jsBody.replace("\\n", "\n");
+  printf("%s\n", jsBody.toUtf8().constData());
+  printf("=============================================\n\n");
 
-  QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.mjs");
-  QJSValue sumFunction = module.property("sum");
-  QJSValue result = sumFunction.call(args);
-  // printf(">> %d\n", result.toInt());
+  // load template and replace body with javascript code
+  QFile templateFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.js");
+  if (!templateFile.open(QIODevice::ReadOnly)) {
+    mError = tr("Javascript template not found.");
+    return false;
+  }
 
+  // replace body
+  QString jsTemplate = templateFile.readAll();
+  jsTemplate.replace("%body%", jsBody);
+
+  // replace fields, TODO: move to WbProtoTemplateEngine
+  // should be: var car = {field:"size", value:2, defaultValue:1};
+  printf("## fields raw ###############################\n");
+  printf("%s\n", tags["fields"].toUtf8().constData());
+  printf("## jsFields #################################\n");
+  QString jsFields = "";
+  QStringList f = tags["fields"].split("\n");
+  if (f.size() > 0) {
+    jsFields += "var fields = {";
+    for (int i = 0; i < f.size(); ++i) {
+      jsFields += f[i].replace("value = ", "value:").replace("defaultValue = ", "defaultValue:");
+    }
+    jsFields += "};";
+  }
+  printf("%s\n", jsFields.toUtf8().constData());
+  printf("#############################################\n\n");
+
+  jsTemplate.replace("%fields%", jsFields);
+  // evaluate and get result
+  QJSValue result = engine.evaluate(jsTemplate);
+  printf(">> result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+  printf("%s\n", result.toString().toUtf8().constData());
+  printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+
+  mResult = result.toString().toUtf8();
   return true;
 }
 
 bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
   printf("WbTemplateEngine::generateLua\n");
-  printf("-----------\n%s\n----------\n==========\n%s\n========\n", gTemplateFileContent.toUtf8().constData(),
-         mTemplateContent.toUtf8().constData());
-
   mResult.clear();
 
   if (!gValidLuaResources) {
@@ -218,6 +275,10 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
   if (!tags.contains("context"))
     tags["context"] = "";
 
+  printf("## fields raw ###############################\n");
+  printf("%s\n", tags["fields"].toUtf8().constData());
+  printf("#############################################\n\n");
+
   tags["openingToken"] = gOpeningToken;
   tags["closingToken"] = gClosingToken;
   tags["templateFileName"] = logHeaderName;
@@ -230,7 +291,9 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
     scriptContent.replace(keyTag, i.value());
   }
 
-  printf("-----------\n%s\n----------\n", scriptContent.toUtf8().constData());
+  printf("\n== tags[\"templateContent\"] ================\n");
+  printf("%s\n", tags["templateContent"].toUtf8().constData());
+  printf("=============================================\n\n");
 
   // needed for procedurale PROTO using lua-gd
   QString webotsFontsPath(QDir::toNativeSeparators(WbStandardPaths::fontsPath()));
@@ -281,7 +344,9 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
   mResult = lua_tostring(state, -1);
 
   QString res = mResult;
-  printf("*********\n%s\n**********\n", res.toUtf8().constData());
+  printf(">> result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+  printf("%s\n", res.toUtf8().constData());
+  printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 
   QDir::setCurrent(initialDir);
 

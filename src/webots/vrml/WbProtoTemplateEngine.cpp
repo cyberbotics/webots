@@ -44,11 +44,13 @@ WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent, con
 bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector<WbField *> &parameters,
                                      const QString &protoPath, const QString &worldPath, int id) {
   // generate the final script file from the template script file
-  printf("WbProtoTemplateEngine::generate\n");
+  printf("WbProtoTemplateEngine::generate (param size: %d)\n", parameters.size());
   QHash<QString, QString> tags;
 
   tags["fields"] = "";
   foreach (const WbField *parameter, parameters) {
+    printf(">> parameter: %s (isTemplateRegenerator: %d)\n", parameter->name().toUtf8().constData(),
+           parameter->isTemplateRegenerator());
     if (!parameter->isTemplateRegenerator())  // keep only regenerator fields
       continue;
     const QString &valueString = convertFieldValueToStatement(parameter, scriptingEngine());
@@ -159,23 +161,25 @@ QString WbProtoTemplateEngine::convertVariantToStatement(const WbVariant &varian
       return templateEngine == "javascript" ? statement : statement.replace(":", " =");
     }
     case WB_SF_VEC3F: {
-      QString statement = QString("{x = %1, y = %2, z = %3}")
-                            .arg(variant.toVector3().x())
-                            .arg(variant.toVector3().y())
-                            .arg(variant.toVector3().z());
+      QString statement =
+        QString("{x: %1, y: %2, z: %3}").arg(variant.toVector3().x()).arg(variant.toVector3().y()).arg(variant.toVector3().z());
       return templateEngine == "javascript" ? statement : statement.replace(":", " =");
     }
-    case WB_SF_ROTATION:
-      return QString("{x = %1, y = %2, z = %3, a = %4}")  // lua dictionary
-        .arg(variant.toRotation().x())
-        .arg(variant.toRotation().y())
-        .arg(variant.toRotation().z())
-        .arg(variant.toRotation().angle());
-    case WB_SF_COLOR:
-      return QString("{r = %1, g = %2, b = %3}")  // lua dictionary
-        .arg(variant.toColor().red())
-        .arg(variant.toColor().green())
-        .arg(variant.toColor().blue());
+    case WB_SF_ROTATION: {
+      QString statement = QString("{x: %1, y: %2, z: %3, a: %4}")
+                            .arg(variant.toRotation().x())
+                            .arg(variant.toRotation().y())
+                            .arg(variant.toRotation().z())
+                            .arg(variant.toRotation().angle());
+      return templateEngine == "javascript" ? statement : statement.replace(":", " =");
+    }
+    case WB_SF_COLOR: {
+      QString statement = QString("{r: %1, g: %2, b: %3}")
+                            .arg(variant.toColor().red())
+                            .arg(variant.toColor().green())
+                            .arg(variant.toColor().blue());
+      return templateEngine == "javascript" ? statement : statement.replace(":", " =");
+    }
     case WB_SF_STRING: {
       QString string = variant.toString();
       string.replace("\\\"", "\"");  // make sure that if a double
