@@ -5,16 +5,10 @@ if [[ $EUID -ne 0 ]]; then
        exit 1
 fi
 
-script_full_path=$(dirname "$0")
-
-$script_full_path/linux_compilation_dependencies.sh
-
-
 # Install add-apt-repository command
 apt install --yes software-properties-common
 add-apt-repository -y ppa:deadsnakes/ppa
 apt update
-apt upgrade -y
 apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr execstack
 curl -sL https://deb.nodesource.com/setup_15.x | bash -
 apt install --yes nodejs
@@ -30,4 +24,6 @@ else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi
 
+script_full_path=$(dirname "$0")
 $script_full_path/linux_test_dependencies.sh --norecurse
+$script_full_path/linux_compilation_dependencies.sh
