@@ -1,4 +1,4 @@
-import {GTAO_LEVEL} from './wb_preferences.js';
+import {GtaoLevel} from './wb_preferences.js';
 import WbWorld from './WbWorld.js';
 import WbWrenPostProcessingEffects from './../wren/WbWrenPostProcessingEffects.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
@@ -66,7 +66,7 @@ export default class WbScene {
 
     _wr_texture_set_internal_format(this.wrenNormalFrameBufferTexture, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
     _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenMainFrameBufferTexture);
-    if (GTAO_LEVEL < 1)
+    if (GtaoLevel < 1)
       _wr_frame_buffer_append_output_texture_disable(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);
     else
       _wr_frame_buffer_append_output_texture(this.wrenMainFrameBuffer, this.wrenNormalFrameBufferTexture);

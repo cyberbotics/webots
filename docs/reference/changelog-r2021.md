@@ -38,6 +38,7 @@ Released on June, Xth, 2021.
     - Added support for fonts in the streaming viewer ([#2976](https://github.com/cyberbotics/webots/pull/2976)).
     - Added measurement of the load time and average speed factor when using the `--log-performance` command ([#3002](https://github.com/cyberbotics/webots/pull/3002)).
     - Support labels in animations ([#3019](https://github.com/cyberbotics/webots/pull/3019)).
+    - Modernized and improved the animations' player ([#2979](https://github.com/cyberbotics/webots/pull/2979)).
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
     - Added HingeJointWithBacklash proto that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).

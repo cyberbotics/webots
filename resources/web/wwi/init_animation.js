@@ -2,7 +2,7 @@ import {webots} from './webots.js';
 
 function init() {
   const name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
-  let view = new webots.View(document.getElementById('playerDiv'));
+  let view = new webots.View(document.getElementById('view3d'));
   view.open(name + '.x3d');
   view.setAnimation(name + '.json', 'play', true);
 }
