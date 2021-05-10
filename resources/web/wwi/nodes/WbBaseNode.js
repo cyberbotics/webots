@@ -37,10 +37,8 @@ export default class WbBaseNode {
         index++;
       }
 
-      if (typeof newDef !== 'undefined') {
+      if (typeof newDef !== 'undefined')
         newDef.useList = this.useList;
-        console.log(newDef);
-      }
     }
 
     WbWorld.instance.nodes.delete(this.id);

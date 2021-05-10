@@ -1,4 +1,5 @@
 /*Inspired from https://gitlab.com/robocup-sim/JaSMIn/*/
+@import "fonts.css";
 
 body {
   scroll-behavior: smooth;
@@ -22,6 +23,11 @@ body {
 #view3d {
  display: flex;
  position: relative
+}
+
+.webotsLabel {
+  position: absolute;
+  white-space: pre;
 }
 
 /* Play bar*/
