@@ -59,14 +59,8 @@ function connect() {
 function disconnect() {
   view.close();
 
-  if (view.mode === 'mjpeg') {
-    let playerDiv = document.getElementById('playerDiv');
-    playerDiv.innerHTML = null;
-  } else {
-    let toolbar = document.getElementById('toolBar');
-    if (toolbar !== 'undefined' && toolbar !== null)
-      toolbar.parentNode.removeChild(toolbar);
-  }
+  let playerDiv = document.getElementById('playerDiv');
+  playerDiv.innerHTML = null;
 
   connectButton.value = 'Connect';
   connectButton.onclick = connect;

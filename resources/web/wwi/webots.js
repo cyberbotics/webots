@@ -220,7 +220,13 @@ webots.View = class View {
       param.name = 'showProgress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
+    } else {
+      if (typeof this.x3dDiv !== 'undefined')
+        this.view3D.appendChild(this.x3dDiv);
+      if (typeof this.progress !== 'undefined')
+        this.view3D.appendChild(this.progress);
     }
+
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
       let canvas = document.getElementById('canvas');
       this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this.mobileDevice);
