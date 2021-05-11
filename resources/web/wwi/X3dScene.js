@@ -281,5 +281,3 @@ export default class X3dScene {
     this.render();
   }
 }
-
-export {X3dScene};

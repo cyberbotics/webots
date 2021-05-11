@@ -15,6 +15,7 @@ export default class Animation {
   };
 
   init(onReady) {
+    console.log("yo");
     this.onReady = onReady;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', this.url, true);
@@ -75,7 +76,7 @@ export default class Animation {
     } else {
       this.gui = 'real_time';
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step / this.speed;
-      window.requestAnimationFrame(() => { this._updateAnimation(); });
+      window.requestAnimationFrame(() => this._updateAnimation());
     }
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
     document.getElementById('play-tooltip').innerHTML = 'P' + action.substring(1) + ' (k)';
@@ -196,7 +197,7 @@ export default class Animation {
     if (this.gui === 'real_time')
       this._updateAnimationState();
 
-    window.requestAnimationFrame(() => { this._updateAnimation(); });
+    window.requestAnimationFrame(() => this._updateAnimation());
   }
 
   _parseMillisecondsIntoReadableTime(milliseconds) {
@@ -401,8 +402,7 @@ export default class Animation {
     window.customElements.define('animation-slider', AnimationSlider);
     let timeSlider = document.createElement('animation-slider');
     timeSlider.id = 'time-slider';
-    let those = this;
-    document.addEventListener('slider_input', (e) => { those._updateSlider(e); });
+    document.addEventListener('slider_input', _ => this._updateSlider(_));
     document.getElementById('play-bar').appendChild(timeSlider);
     document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mousemove', _ => this._updateFloatingTimePosition(_));
     document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mouseleave', _ => this._hideFloatingTimePosition(_));
@@ -707,7 +707,7 @@ export default class Animation {
     this.fullscreenButton = document.createElement('button');
     this.fullscreenButton.className = 'player-btn icon-fullscreen';
     this.fullscreenButton.title = 'Full screen (f)';
-    this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
+    this.fullscreenButton.onclick = () => requestFullscreen(this.view);
     document.getElementById('right-pane').appendChild(this.fullscreenButton);
 
     let fullscreenTooltip = document.createElement('span');
@@ -719,7 +719,7 @@ export default class Animation {
     exitFullscreenButton.title = 'Exit full screen (f)';
     exitFullscreenButton.className = 'player-btn icon-partscreen';
     exitFullscreenButton.style.display = 'none';
-    exitFullscreenButton.onclick = () => { exitFullscreen(); };
+    exitFullscreenButton.onclick = () => exitFullscreen();
     document.getElementById('right-pane').appendChild(exitFullscreenButton);
 
     fullscreenTooltip = document.createElement('span');
@@ -727,10 +727,10 @@ export default class Animation {
     fullscreenTooltip.innerHTML = 'Exit full screen (f)';
     exitFullscreenButton.appendChild(fullscreenTooltip);
 
-    document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, exitFullscreenButton); });
-    document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, exitFullscreenButton); });
-    document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, exitFullscreenButton); });
-    document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(this.fullscreenButton, exitFullscreenButton); });
+    document.addEventListener('fullscreenchange', () => onFullscreenChange(this.fullscreenButton, exitFullscreenButton));
+    document.addEventListener('webkitfullscreenchange', () => onFullscreenChange(this.fullscreenButton, exitFullscreenButton));
+    document.addEventListener('mozfullscreenchange', () => onFullscreenChange(this.fullscreenButton, exitFullscreenButton));
+    document.addEventListener('MSFullscreenChange', () => onFullscreenChange(this.fullscreenButton, exitFullscreenButton));
   }
 
   _keyboardHandler(e) {

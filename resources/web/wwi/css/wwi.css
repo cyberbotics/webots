@@ -186,7 +186,7 @@ button::-moz-focus-inner {
   line-height: normal;
 }
 
-.webotsLabel {
+.webots-label {
   position: absolute;
   white-space: pre;
 }

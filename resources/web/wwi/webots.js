@@ -282,7 +282,7 @@ webots.View = class View {
     if (labelElement == null) {
       labelElement = document.createElement('div');
       labelElement.id = 'label' + properties.id;
-      labelElement.className = 'webotsLabel';
+      labelElement.className = 'webots-label';
       this.x3dDiv.appendChild(labelElement);
     }
 
@@ -302,7 +302,7 @@ webots.View = class View {
   }
 
   removeLabels() {
-    const labels = document.getElementsByClassName('webotsLabel');
+    const labels = document.getElementsByClassName('webots-label');
     for (let i = labels.length - 1; i >= 0; i--) {
       const element = labels.item(i);
       element.parentNode.removeChild(element);

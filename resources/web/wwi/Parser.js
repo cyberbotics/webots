@@ -37,6 +37,9 @@ import DefaultUrl from './DefaultUrl.js';
 import loadHdr from './hdr_loader.js';
 import {webots} from './webots.js';
 
+/*
+  This module takes an x3d world, parse it and populate the scene.
+*/
 export default class Parser {
   constructor(prefix = '') {
     this.prefix = prefix;
