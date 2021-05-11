@@ -82,7 +82,7 @@ GAME_INTERRUPTIONS = {
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
-global supervisor, game, red_team, blue_team, log_file, time_count, host
+global supervisor, game, red_team, blue_team, log_file, time_count, time_step, host
 
 
 def log(message, type):
@@ -723,7 +723,10 @@ def init_team(team):
         player['left_turf_time'] = None
         # Stores tuples of with (time_count[int], dic) at a 1Hz frequency
         player['history'] = []
-        player['velocity_buffer'] = [[0] * 6] * 125  # average velocity over 125 time steps (smoothing)
+        window_size = int(1000 / time_step)  # one second window size
+        player['velocity_buffer'] = [[0] * 6] * window_size
+        player['ball_handling'] = np.zeros(window_size, dtype=bool)
+        player['ball_handling_counter'] = 0
 
 
 def update_team_contacts(team):
@@ -752,7 +755,6 @@ def update_team_contacts(team):
         player['inside_own_side'] = True       # true if fully inside its own side (half field side)
         player['outside_goal_area'] = True     # true if fully outside of any goal area
         player['outside_penalty_area'] = True  # true if fully outside of any penalty area
-        player['handling_ball'] = None         # time stamp since a player touches the ball with its arm or hand
         outside_turf = True                    # true if fully outside turf
         fallen = False
         for i in range(n):
@@ -769,7 +771,9 @@ def update_team_contacts(team):
             if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
                     if member in ['arm', 'hand']:
-                        player['handling_ball'] = True
+                        window_size = len(player['ball_handling'])
+                        i = int(time_count / time_step)
+                        player['ball_handling'][i % window_size] = True
                         info(f'Ball touched the {member} of {color} player {number}.')
                     if game.ball_first_touch_time == 0:
                         game.ball_first_touch_time = time_count
@@ -1051,6 +1055,47 @@ def check_ball_holding():  # return the team id which gets a free kick in case o
     return None
 
 
+def check_team_ball_handling(team):
+    for number in team['players']:
+        player = team['players'][number]
+        i = int(time_count / time_step)
+        length = len(player['ball_handling'])
+        if not player['ball_handling'][i % length]:  # not touching the ball currently
+            continue
+        goalkeeper = goalkeeper_inside_own_goal_area(team, number)
+        color = team['color']
+        if not goalkeeper and game.interrution != 'THROWIN':
+            sentence = 'touched the ball with its hand or arm'
+            send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
+        else:
+            if np.sum(player['ball_handling']) > length / 2:  # if the ball was touched most of the time during the last second
+                player['ball_handling_counter'] += 1
+            else:
+                player['ball_handling_counter'] = 0
+            if game.interruption == 'THROWIN':
+                if player['ball_handling_counter'] >= 10:  # a player can handle the ball for 10 seconds for throw-in, no more
+                    sentence = 'touched the ball with its hand or arm for more than 10 seconds during throw-in'
+                    send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
+            else:  # goalkeeper case
+                if player['ball_handling_counter'] >= 10:
+                    info(f'{color.capitalize()} goalkeeper {number} handled the ball up for more than 10 seconds.')
+                    return True
+                ball_on_the_ground = game.ball_position[2] <= game.turf_depth + game.ball_radius
+                if ball_on_the_ground and player['ball_handling_counter'] >= 6:
+                    info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than 6 seconds.')
+                    return True
+
+    return False  # not free kick awarded
+
+
+def check_ball_handling():  # return the team id which gets a free kick in case of wrong ball handling by a goalkeeper
+    if check_team_ball_handling(red_team):
+        return game.blue.id
+    if check_team_ball_handling(blue_team):
+        return game.red.id
+    return None
+
+
 def check_team_fallen(team):
     color = team['color']
     penalty = False
@@ -1097,7 +1142,7 @@ def check_team_inactive_goalkeeper(team):
             if new_active_dist > active_dist:
                 active_dist = new_active_dist
         info(f'Goalkeeper did not move toward the ball over the last {INACTIVE_GOALKEEPER_TIMEOUT} seconds')
-        send_penalty(player, 'INCAPABLE', "Inactive goalkeeper")
+        send_penalty(player, 'INCAPABLE', 'Inactive goalkeeper')
 
 
 def check_inactive_goalkeepers():
@@ -1643,6 +1688,10 @@ else:
 field_size = getattr(game, 'class').lower()
 game.field = Field(field_size)
 
+# start the webots supervisor
+supervisor = Supervisor()
+time_step = int(supervisor.getBasicTimeStep())
+
 red_team['color'] = 'red'
 blue_team['color'] = 'blue'
 init_team(red_team)
@@ -1692,8 +1741,6 @@ except KeyError:
 toss_a_coin_if_needed('side_left')
 toss_a_coin_if_needed('kickoff')
 
-# start the webots supervisor
-supervisor = Supervisor()
 root = supervisor.getRoot()
 children = root.getField('children')
 
@@ -1711,7 +1758,6 @@ spawn_team(red_team, game.side_left == game.blue.id, children)
 spawn_team(blue_team, game.side_left == game.red.id, children)
 setup_display()
 
-time_step = int(supervisor.getBasicTimeStep())
 SIMULATED_TIME_INTERRUPTION_PHASE_0 = int(SIMULATED_TIME_INTERRUPTION_PHASE_0 * 1000 / time_step)
 SIMULATED_TIME_BEFORE_PLAY_STATE = int(SIMULATED_TIME_BEFORE_PLAY_STATE * 1000 / time_step)
 SIMULATED_TIME_SET_PENALTY_SHOOTOUT = int(SIMULATED_TIME_SET_PENALTY_SHOOTOUT * 1000 / time_step)
@@ -2147,6 +2193,7 @@ while supervisor.step(time_step) != -1 and not game.over:
         ball_holding = check_ball_holding()       # check for ball holding fouls
         if ball_holding:
             interruption('DIRECT_FREEKICK', ball_holding)
+        ball_handling = check_ball_handling()
 
     check_penalized_in_field()                    # check for penalized robots inside the field
     if game.state.game_state != 'STATE_INITIAL':  # send penalties if needed
