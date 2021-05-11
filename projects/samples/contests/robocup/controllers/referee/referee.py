@@ -723,7 +723,7 @@ def init_team(team):
         player['left_turf_time'] = None
         # Stores tuples of with (time_count[int], dic) at a 1Hz frequency
         player['history'] = []
-        player['velocity_buffer'] = [[0] * 6] * 25  # average velocity over 25 time steps (smoothing)
+        player['velocity_buffer'] = [[0] * 6] * 125  # average velocity over 125 time steps (smoothing)
 
 
 def update_team_contacts(team):
