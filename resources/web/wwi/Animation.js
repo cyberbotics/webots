@@ -409,7 +409,7 @@ export default class Animation {
   }
 
   _createPlayButton() {
-    let playButton = document.createElement('button');
+    const playButton = document.createElement('button');
     const action = (this.gui === 'real_time') ? 'pause' : 'play';
     playButton.className = 'player-btn icon-' + action;
     playButton.id = 'play-button';
