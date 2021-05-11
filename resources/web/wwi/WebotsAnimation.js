@@ -5,7 +5,7 @@ template.innerHTML = `
 <div id="view3d" style="height:80%"></div>
 `;
 
-export default class AnimationSlider extends HTMLElement {
+export default class WebotsAnimation extends HTMLElement {
   constructor() {
     super();
     document.getElementsByTagName('webots-animation')[0].appendChild(template.content.cloneNode(true));
@@ -49,4 +49,4 @@ export default class AnimationSlider extends HTMLElement {
   }
 }
 
-window.customElements.define('webots-animation', AnimationSlider);
+window.customElements.define('webots-animation', WebotsAnimation);
