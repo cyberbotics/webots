@@ -258,7 +258,7 @@ WBCFLAGS += -Wall
 
 # goal dependent flags
 ifeq ($(GOAL),debug)
- WBCFLAGS += -g
+ WBCFLAGS += -ggdb
 endif
 
 ifeq ($(TREAT_WARNINGS_AS_ERRORS),1)
