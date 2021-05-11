@@ -723,6 +723,7 @@ def init_team(team):
         player['left_turf_time'] = None
         # Stores tuples of with (time_count[int], dic) at a 1Hz frequency
         player['history'] = []
+        player['velocity_buffer'] = [[0] * 6] * 25  # average velocity over 25 time steps (smoothing)
 
 
 def update_team_contacts(team):
@@ -730,6 +731,14 @@ def update_team_contacts(team):
     for number in team['players']:
         player = team['players'][number]
         robot = player['robot']
+        l1 = len(player['velocity_buffer'])     # number of iterations
+        l2 = len(player['velocity_buffer'][0])  # should be 6 (velocity vector size)
+        player['velocity_buffer'][int(time_count / time_step) % l1] = robot.getVelocity()
+        sum = [0] * l2
+        for v in player['velocity_buffer']:
+            for i in range(l2):
+                sum[i] += v[i]
+        player['velocity'] = [s / l1 for s in sum]
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
         if n == 0:  # robot is asleep
@@ -979,8 +988,8 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
         if d1 < FOUL_VINCITY_DISTANCE and d1 - d2 > FOUL_DISTANCE_THRESHOLD:
             forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'long collision')
             return True
-    v1 = p1['robot'].getVelocity()
-    v2 = p2['robot'].getVelocity()
+    v1 = p1['velocity']
+    v2 = p2['velocity']
     v1_squared = v1[0] * v1[0] + v1[1] * v1[1]
     v2_squared = v2[0] * v2[0] + v2[1] * v2[1]
     if not v1_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
