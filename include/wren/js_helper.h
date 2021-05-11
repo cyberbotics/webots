@@ -33,4 +33,4 @@ void wrjs_exit();
 }
 #endif
 
-#endif  // WR_VIEWPORT_H
+#endif  // WR_JS_HELPER_H
