@@ -1,2 +1,2 @@
 function value = WB_NODE_TEXTURE_COORDINATE
-value = 27;
+value = 28;

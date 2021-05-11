@@ -1125,7 +1125,9 @@ void WbSceneTree::updateSelection() {
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
     mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)
-      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL);
+      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL &&
+                   baseNode->nodeType() != WB_NODE_BILLBOARD &&
+                   !WbNodeUtilities::findUpperNodeByType(baseNode, WB_NODE_BILLBOARD));
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }

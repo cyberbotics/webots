@@ -36,6 +36,7 @@ Released on June, Xth, 2021.
     - Added the `wb_supervisor_node_get_pose` function that retrieves an absolute or relative pose. Relative pose is expressed in the coordinate system of another node specified as an argument ([#2932](https://github.com/cyberbotics/webots/pull/2932)).
     - Added measurement of the load time and average speed factor when using the `--log-performance` command ([#3002](https://github.com/cyberbotics/webots/pull/3002)).
     - Support labels in animations ([#3019](https://github.com/cyberbotics/webots/pull/3019)).
+    - Added the [Billboard](billboard.md) node. A Billboard node contains children nodes that translate and rotate automatically to always face the viewpoint ([#3023](https://github.com/cyberbotics/webots/pull/3023)). 
   - New Samples:
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
     - Added HingeJointWithBacklash proto that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
@@ -64,6 +65,7 @@ Released on XX Xth, 2021.
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
     - Added an `allowedChannels` field in the [Emitter](emitter.md) and [Receiver](receiver.md) nodes to restrict the channel usage ([#2849](https://github.com/cyberbotics/webots/pull/2849)).
   - Bug fixes
+    - Fixed mecanum wheels [ContactProperties](contactproperties.md) in [YouBot](../guide/youbot.md) worlds ([#3025](https://github.com/cyberbotics/webots/pull/3025)).
     - Fixed [`wb_supervisor_node_reset_physics`](supervisor.md#wb_supervisor_node_reset_physics) not working if during the same step the node is also artificially moved with the [Supervisor](supervisor.md) API ([#2991](https://github.com/cyberbotics/webots/pull/2991)).
     - Fixed crash changing the [`Lidar.type`](lidar.md) field during the simulation run by requiring to save and reload the world ([#2983](https://github.com/cyberbotics/webots/pull/2983)).
     - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
@@ -104,6 +106,7 @@ Released on XX Xth, 2021.
     - Fixed the [Pen](pen.md) ink mixed with the background and other ink when the `inkDensity` is lower than 1.0 ([#2804](https://github.com/cyberbotics/webots/pull/2804)).
     - Fixed issue where motor position limits in [Hinge2Joint](hinge2joint.md) and [BallJoint](balljoint.md) were enforced incorrectly ([#2825](https://github.com/cyberbotics/webots/pull/2825)).
     - Fixed issue where the hidden field of a [BallJoint](balljoint.md) is not stored in the world file when saving after the simulation has run ([#2964](https://github.com/cyberbotics/webots/pull/2964)).
+    - Fixed crash when the top node of a [SolidReference](solidreference.md) was a [Transform](transform.md) or a [Group](group.md) ([#3039](https://github.com/cyberbotics/webots/pull/3039)).
   - Cleanup
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
   - Dependency Updates

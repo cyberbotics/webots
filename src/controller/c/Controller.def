@@ -182,6 +182,7 @@ wb_motor_get_max_torque
 wb_motor_get_max_position
 wb_motor_get_max_velocity
 wb_motor_get_min_position
+wb_motor_get_multiplier
 wb_motor_get_target_position
 wb_motor_get_torque_feedback
 wb_motor_get_torque_feedback_sampling_period

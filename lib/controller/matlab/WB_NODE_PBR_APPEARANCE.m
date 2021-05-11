@@ -1,2 +1,2 @@
 function value = WB_NODE_PBR_APPEARANCE
-value = 20;
+value = 21;

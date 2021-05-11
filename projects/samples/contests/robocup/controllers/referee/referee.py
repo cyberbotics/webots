@@ -48,6 +48,7 @@ HALF_TIME_BREAK_REAL_TIME_DURATION = 15   # the half-time break lasts 15 real se
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
 IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more than this amount of time, it gets penalized
+REMOVAL_PENALTY_TIMEOUT = 30              # removal penalty lasts for 30 seconds
 GOALKEEPER_BALL_HOLDING_TIMEOUT = 6       # a goalkeeper may hold the ball up to 6 seconds on the ground
 PLAYERS_BALL_HOLDING_TIMEOUT = 1          # field players may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goalkeeper may hold the ball up to 10 seconds in hands
@@ -81,7 +82,7 @@ GAME_INTERRUPTIONS = {
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
-global supervisor, game, red_team, blue_team, log_file, time_count
+global supervisor, game, red_team, blue_team, log_file, time_count, host
 
 
 def log(message, type):
@@ -148,8 +149,8 @@ def spawn_team(team, red_on_right, children):
             f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' + \
             f'{halfTimeStartingRotation[3]} controllerArgs ["{port}" "{nb_players}"'
         hosts = game.red.hosts if color == 'red' else game.blue.hosts
-        for host in hosts:
-            string += f', "{host}"'
+        for h in hosts:
+            string += f', "{h}"'
         string += '] }}'
         children.importMFNodeFromString(-1, string)
         team['players'][number]['robot'] = supervisor.getFromDef(defname)
@@ -271,6 +272,10 @@ def game_controller_receive():
     while True:
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
+            ip, port = peer
+            if host != ip:  # ignore UDP packets coming from a different machine (GameController should run on the same machine)
+                warning(f'Ignoring UDP packet coming from a different host {ip} != {host}.')
+                continue
         except BlockingIOError:
             if data is None:
                 return
@@ -924,6 +929,10 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     info(f'{team["color"].capitalize()} player {number} committed a forceful contact foul on '
          f'{opponent_team["color"]} player {opponent_number} ({message}) {area}.')
     game.forceful_contact_matrix.clear_all()
+    opponent = opponent_team['players'][opponent_number]
+    immunity_timeout = time_count + FOUL_PENALTY_IMMUNITY * 1000
+    opponent['penalty_immunity'] = immunity_timeout
+    player['penalty_immunity'] = immunity_timeout
     if distance_to_ball > FOUL_BALL_DISTANCE or not game.in_play:
         send_penalty(player, 'PHYSICAL_CONTACT', 'forceful contact foul')
     elif area[0] == 'i':  # inside penalty area
@@ -1264,9 +1273,6 @@ def send_team_penalties(team):
             team_id = game.red.id if color == 'red' else game.blue.id
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
             robot = player['robot']
-            robot.resetPhysics()
-            translation = robot.getField('translation')
-            rotation = robot.getField('rotation')
             t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
             r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
             t[0] = game.field.penalty_mark_x if t[0] > 0 else -game.field.penalty_mark_x
@@ -1289,9 +1295,12 @@ def send_team_penalties(team):
                 t[0] -= 4 * game.field.penalty_offset
             elif t[0] < -game.field.size_x:
                 t[0] += 4 * game.field.penalty_offset
-            translation.setSFVec3f(t)
-            rotation.setSFRotation(r)
+            robot.getField('translation').setSFVec3f(t)
+            robot.getField('rotation').setSFRotation(r)
+            robot.resetPhysics()
             player['sent_to_penalty_position'] = True
+            player['penalty_translation'] = t
+            player['penalty_rotation'] = r
             # Once removed from the field, the robot will be in the air, therefore its status will not be updated.
             # Thus, we need to make sure it will not be considered in the air while falling
             player['outside_field'] = True
@@ -1302,6 +1311,22 @@ def send_team_penalties(team):
 def send_penalties():
     send_team_penalties(red_team)
     send_team_penalties(blue_team)
+
+
+def stabilize_team_penalized_robots(team):
+    for number in team['players']:
+        player = team['players'][number]
+        n = game.state.teams[team_index(team['color'])].players[int(number) - 1].secs_till_unpenalized
+        if 'sent_to_penalty_position' in player or n == REMOVAL_PENALTY_TIMEOUT:  # stabilize robot for one second
+            robot = player['robot']
+            robot.resetPhysics()
+            robot.getField('translation').setSFVec3f(player['penalty_translation'])
+            robot.getField('rotation').setSFRotation(player['penalty_rotation'])
+
+
+def stabilize_penalized_robots():
+    stabilize_team_penalized_robots(red_team)
+    stabilize_team_penalized_robots(blue_team)
 
 
 def flip_pose(pose):
@@ -1326,9 +1351,10 @@ def flip_sides():  # flip sides (no need to notify GameController, it does it au
 def reset_player(color, number, pose):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
-    player['robot'].resetPhysics()
-    translation = player['robot'].getField('translation')
-    rotation = player['robot'].getField('rotation')
+    robot = player['robot']
+    robot.resetPhysics()
+    translation = robot.getField('translation')
+    rotation = robot.getField('rotation')
     t = player[pose]['translation']
     r = player[pose]['rotation']
     translation.setSFVec3f(t)
@@ -1761,7 +1787,7 @@ if game.penalty_shootout:
     # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
     # meanwhile, assuming kickoff for red team
 else:
-    game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (used for initial kick-off)
+    game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (initial kick-off)
     game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
     kickoff()
     game_controller_send(f'KICKOFF:{game.kickoff}')
@@ -1784,7 +1810,7 @@ if hasattr(game, 'record_simulation'):
 
 previous_real_time = time.time()
 while supervisor.step(time_step) != -1 and not game.over:
-    if hasattr(game, 'max_duration') and (time.time() - log.start_time) > game.max_duration:
+    if hasattr(game, 'max_duration') and (time.time() - log.real_time) > game.max_duration:
         info(f'Interrupting game automatically after {game.max_duration} seconds')
         break
     game_controller_send(f'CLOCK:{time_count}')
@@ -1792,6 +1818,7 @@ while supervisor.step(time_step) != -1 and not game.over:
     if game.state is None:
         time_count += time_step
         continue
+    stabilize_penalized_robots()
     send_play_state_after_penalties = False
     previous_position = copy.deepcopy(game.ball_position)
     game.ball_position = game.ball_translation.getSFVec3f()

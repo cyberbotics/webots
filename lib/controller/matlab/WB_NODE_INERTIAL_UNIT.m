@@ -1,2 +1,2 @@
 function value = WB_NODE_INERTIAL_UNIT
-value = 42;
+value = 43;
