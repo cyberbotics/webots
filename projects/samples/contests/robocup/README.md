@@ -22,7 +22,7 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
    If you already cloned the repo, update Webots like this:
 
    ```
-   git pull --recursive-submodules
+   git pull --recurse-submodules
    ./scripts/install/linux_compilation_dependencies.sh
    git clean -xf
    make clean
