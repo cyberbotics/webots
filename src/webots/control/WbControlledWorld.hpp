@@ -60,7 +60,7 @@ private:
   void startControllerFromSocket(WbRobot *robot, QLocalSocket *socket);
   void updateRobotController(WbRobot *robot);
   void handleRobotRemoval(WbBaseNode *node);
-
+  WbRobot *findRobotToReconnect(QString robotName);
   QLocalServer *mServer;
   QList<WbController *> mControllers;
   QList<WbController *> mWaitingControllers;  // controllers inserted in previous step and waiting to be started in current step

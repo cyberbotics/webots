@@ -192,64 +192,71 @@ void WbControlledWorld::deleteController(WbController *controller) {
     step();
 }
 
+WbRobot *WbControlledWorld::findRobotToReconnect(QString robotName) {
+  int nbExternalController = 0;
+  WbRobot *matchingRobot = NULL;
+  foreach (WbRobot *const robot, robots()) {
+    if (robot->controllerName() == "<extern>") {
+      nbExternalController++;
+      if (robotName == robot->name()) {
+        // find first robot targeted with the given name
+        matchingRobot = robot;
+        break;
+      } else if ((!matchingRobot || matchingRobot->isControllerStarted()) && robotName.isEmpty() &&
+                  (nbExternalController == 1 || !robot->isControllerStarted()))
+        // if no robot name is specified and only one extern controller is used,
+        matchingRobot = robot;
+      }
+    }
+  return matchingRobot;
+}
+
+void readSocket(QLocalSocket *s, char *data, qint64 len) {
+  qint64 i = 0, rc;
+  while ((rc = s->read(&data[i], len - i)) >= 0) {
+    i += rc;
+    if (i >= len)
+      break;
+    s->waitForReadyRead();
+  }
+}
+
 void WbControlledWorld::addControllerConnection() {
   QLocalSocket *socket = mServer->nextPendingConnection();
   int robotId = 0;
-  int n, i = 0;
-  while ((n = socket->read((char *)&robotId, sizeof(robotId) - i)) != (int)sizeof(robotId) - i) {
-    i = n;
-    socket->waitForReadyRead();
-  }
-  QString robotName;
+  readSocket(socket, (char *)&robotId, sizeof(robotId));
   if (robotId == 0) {  // the Robot.name should be sent
+    QString robotName;
     int size = 0;
-    i = 0;
-    while ((n = socket->read((char *)&size, sizeof(size) - i)) != (int)sizeof(size) - i) {
-      i = n;
-      socket->waitForReadyRead();
-    }
+    readSocket(socket, (char *)&size, sizeof(size));
     if (size) {
       char *buffer = new char[size + 1];
-      i = 0;
-      while ((n = socket->read(&buffer[i], size - i)) != size - i) {
-        i = n;
-        socket->waitForReadyRead();
-      }
+      readSocket(socket, buffer, size);
       buffer[size] = '\0';
       robotName = buffer;
       delete[] buffer;
     }
-    int nbExternalController = 0;
-    foreach (WbRobot *const robot, robots()) {
-      if (robot->controllerName() == "<extern>")
-	    nbExternalController++;
-    }
-    foreach (WbRobot *const robot, robots()) {
-      if (robot->isControllerStarted()) {
-        // if a specific robot have been targeted by giving a name, or only one external controller is in the scene (hence it's the target)
-        if (robot->controllerName() == "<extern>" && (robotName == robot->name() || nbExternalController == 1)) {
-          // automatically disconnect from previous extern controller that may have failed, the slot could be immediately used to restart
-          WbLog::info(tr("Closing extern controller connection for robot \"%1\".").arg(robot->name()));
-          updateRobotController(robot);
-        }
-        else // this controller seems to be in active use, ignore it
-          continue;
+    if (WbRobot *matchingRobot = findRobotToReconnect(robotName)) {
+      if (matchingRobot->isControllerStarted()) {
+        // automatically disconnect from previous extern controller that may have failed,
+        // the slot could be immediately used to restart
+        WbLog::info(tr("Closing extern controller connection for robot \"%1\".").arg(matchingRobot->name()));
+        updateRobotController(matchingRobot);
       }
-      if ((robotName == robot->name() || robotName.isEmpty()) && robot->controllerName() == "<extern>") {
-        WbLog::info(tr("Starting extern controller for robot \"%1\".").arg(robot->name()));
-        mRobotsWaitingExternController.append(robot);
-        startControllerFromSocket(robot, socket);
-        return;
-      }
+      WbLog::info(tr("Starting extern controller for robot \"%1\".").arg(matchingRobot->name()));
+      mRobotsWaitingExternController.append(matchingRobot);
+      startControllerFromSocket(matchingRobot, socket);
     }
-    socket->close();
-    if (robotName.isEmpty())
-      WbLog::warning(tr("Failed to attach extern robot controller: no available \"<extern>\" robot controller found."), true);
-    else
-      WbLog::warning(
-        tr("Failed to attach extern robot controller: no available \"<extern>\" robot controller named \"%1\" found.")
-          .arg(robotName),
-        true);
+    else {
+      socket->close();
+      if (robotName.isEmpty())
+        WbLog::warning(tr("Failed to attach extern robot controller: no available \"<extern>\" robot controller found."), true);
+      else
+        WbLog::warning(
+          tr("Failed to attach extern robot controller: no available \"<extern>\" robot controller named \"%1\" found.")
+            .arg(robotName),
+          true);
+    }
     return;
   }
   foreach (WbController *const controller, mControllers) {
