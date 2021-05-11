@@ -743,18 +743,25 @@ def update_team_contacts(team):
         player['inside_own_side'] = True       # true if fully inside its own side (half field side)
         player['outside_goal_area'] = True     # true if fully outside of any goal area
         player['outside_penalty_area'] = True  # true if fully outside of any penalty area
+        player['handling_ball'] = None         # time stamp since a player touches the ball with its arm or hand
         outside_turf = True                    # true if fully outside turf
         fallen = False
         for i in range(n):
             point = robot.getContactPoint(i)
             node = robot.getContactPointNode(i)
-            model_field = None if not node else node.getField('model')
-            model = None if model_field is None else model_field.getSFString()
-            member = model.split(' ')[-1] if ' ' in model else model
+            if not node:
+                continue
+            model_field = node.getField('model')
+            if model_field:
+                model = model_field.getSFString()
+                member = model.split(' ')[-1] if ' ' in model else model
+            else:
+                member = 'unknown body part'
             if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
                     if member in ['arm', 'hand']:
-                        info(f'Ball touch the {member} of {color} player {number}.')
+                        player['handling_ball'] = True
+                        info(f'Ball touched the {member} of {color} player {number}.')
                     if game.ball_first_touch_time == 0:
                         game.ball_first_touch_time = time_count
                     game.ball_last_touch_time = time_count
