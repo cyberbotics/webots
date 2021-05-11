@@ -1,2 +1,2 @@
 function value = WB_NODE_PLANE
-value = 21;
+value = 22;

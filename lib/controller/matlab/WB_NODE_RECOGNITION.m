@@ -1,2 +1,2 @@
 function value = WB_NODE_RECOGNITION
-value = 71;
+value = 72;

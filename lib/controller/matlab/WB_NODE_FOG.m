@@ -1,2 +1,2 @@
 function value = WB_NODE_FOG
-value = 11;
+value = 12;
