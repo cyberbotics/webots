@@ -481,6 +481,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
         if (this.viewpoint.updateViewpointPosition(null, view.time))
           this.viewpoint.notifyCameraParametersChanged(false);
         this.onSceneUpdate();
+      } else { // parse the labels even so the scene loading is not completed
+        data = data.substring(data.indexOf(':') + 1);
+        let frame = JSON.parse(data);
+        if (frame.hasOwnProperty('labels')) {
+          for (let i = 0; i < frame.labels.length; i++)
+            this.applyLabel(frame.labels[i], view);
+        }
       }
     } else if (data.startsWith('node:')) {
       data = data.substring(data.indexOf(':') + 1);
