@@ -15,7 +15,6 @@ export default class Animation {
   };
 
   init(onReady) {
-    console.log("yo");
     this.onReady = onReady;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', this.url, true);
@@ -92,7 +91,7 @@ export default class Animation {
       return;
     }
 
-    let value = event.detail;
+    const value = event.detail;
 
     if (this.gui === 'real_time') {
       this.previousState = 'real_time';
@@ -139,7 +138,7 @@ export default class Animation {
       }
 
       if (this.data.frames[this.step].hasOwnProperty('labels')) {
-        let labels = this.data.frames[this.step].labels;
+        const labels = this.data.frames[this.step].labels;
         for (let i = 0; i < labels.length; i++) {
           this.scene.applyLabel(labels[i], this.view);
           appliedLabelsIds.push(labels[i].id);
@@ -220,7 +219,7 @@ export default class Animation {
 
   _formatTime(time) {
     if (typeof this.unusedPrefix === 'undefined') {
-      let maxTime = this.data.frames[this.data.frames.length - 1].time;
+      const maxTime = this.data.frames[this.data.frames.length - 1].time;
       if (maxTime < 60000)
         this.unusedPrefix = 6;
       else if (maxTime < 600000)
@@ -240,8 +239,8 @@ export default class Animation {
   }
 
   _hidePlayBar() {
-    let isPlaying = document.getElementById('play-button').className === 'player-btn icon-pause';
-    let isSelected = document.getElementById('time-slider').selected();
+    const isPlaying = document.getElementById('play-button').className === 'player-btn icon-pause';
+    const isSelected = document.getElementById('time-slider').selected();
 
     if (!isSelected && isPlaying &&
     document.getElementById('settings-pane').style.visibility === 'hidden' &&
@@ -265,14 +264,14 @@ export default class Animation {
     if (event.target.id === 'settings-button' && document.getElementById('settings-pane').style.visibility === 'hidden' && document.getElementById('gtao-pane').style.visibility === 'hidden' && document.getElementById('speed-pane').style.visibility === 'hidden') {
       document.getElementById('settings-pane').style.visibility = 'visible';
       document.getElementById('settings-button').style.transform = 'rotate(10deg)';
-      let tooltips = document.getElementsByClassName('tooltip');
+      const tooltips = document.getElementsByClassName('tooltip');
       for (let i of tooltips)
         i.style.visibility = 'hidden';
     } else if (document.getElementById('settings-pane').style.visibility === 'visible' || document.getElementById('gtao-pane').style.visibility === 'visible' || document.getElementById('speed-pane').style.visibility === 'visible') {
       document.getElementById('settings-pane').style.visibility = 'hidden';
       if (document.getElementById('gtao-pane').style.visibility === 'hidden' && document.getElementById('speed-pane').style.visibility === 'hidden') {
         document.getElementById('settings-button').style.transform = '';
-        let tooltips = document.getElementsByClassName('tooltip');
+        const tooltips = document.getElementsByClassName('tooltip');
         for (let i of tooltips)
           i.style.visibility = '';
       }
@@ -384,11 +383,11 @@ export default class Animation {
     div.addEventListener('mouseover', () => this._showPlayBar());
     div.addEventListener('mouseleave', _ => this._onMouseLeave(_));
 
-    let leftPane = document.createElement('div');
+    const leftPane = document.createElement('div');
     leftPane.className = 'left-pane';
     leftPane.id = 'left-pane';
 
-    let rightPane = document.createElement('div');
+    const rightPane = document.createElement('div');
     rightPane.className = 'right-pane';
     rightPane.id = 'right-pane';
 
@@ -400,7 +399,7 @@ export default class Animation {
 
   _createSlider() {
     window.customElements.define('animation-slider', AnimationSlider);
-    let timeSlider = document.createElement('animation-slider');
+    const timeSlider = document.createElement('animation-slider');
     timeSlider.id = 'time-slider';
     document.addEventListener('slider_input', _ => this._updateSlider(_));
     document.getElementById('play-bar').appendChild(timeSlider);
@@ -416,7 +415,7 @@ export default class Animation {
     playButton.addEventListener('click', () => this._triggerPlayPauseButton());
     document.getElementById('left-pane').appendChild(playButton);
 
-    let playTooltip = document.createElement('span');
+    const playTooltip = document.createElement('span');
     playTooltip.className = 'tooltip play-tooltip';
     playTooltip.id = 'play-tooltip';
     playTooltip.innerHTML = 'P' + action.substring(1) + ' (k)';
@@ -430,14 +429,14 @@ export default class Animation {
     this.currentTime.innerHTML = this._formatTime(this.data.frames[0].time);
     document.getElementById('left-pane').appendChild(this.currentTime);
 
-    let timeDivider = document.createElement('span');
+    const timeDivider = document.createElement('span');
     timeDivider.innerHTML = '\\';
     timeDivider.className = 'time-divider';
     document.getElementById('left-pane').appendChild(timeDivider);
 
-    let totalTime = document.createElement('span');
+    const totalTime = document.createElement('span');
     totalTime.className = 'total-time';
-    let time = this._formatTime(this.data.frames[this.data.frames.length - 1].time);
+    const time = this._formatTime(this.data.frames[this.data.frames.length - 1].time);
     totalTime.innerHTML = time;
     document.getElementById('left-pane').appendChild(totalTime);
 
@@ -468,26 +467,26 @@ export default class Animation {
   }
 
   _createSettingsButton() {
-    let settingsButton = document.createElement('button');
+    const settingsButton = document.createElement('button');
     settingsButton.className = 'player-btn icon-settings';
     settingsButton.id = 'settings-button';
     document.getElementById('right-pane').appendChild(settingsButton);
 
-    let settingsTooltip = document.createElement('span');
+    const settingsTooltip = document.createElement('span');
     settingsTooltip.className = 'tooltip settings-tooltip';
     settingsTooltip.innerHTML = 'Settings';
     settingsButton.appendChild(settingsTooltip);
   }
 
   _createSettingsPane() {
-    let settingsPane = document.createElement('div');
+    const settingsPane = document.createElement('div');
     settingsPane.className = 'settings-pane';
     settingsPane.id = 'settings-pane';
     settingsPane.style.visibility = 'hidden';
     document.addEventListener('mouseup', _ => this._changeSettingsPaneVisibility(_));
     document.getElementById('view3d').appendChild(settingsPane);
 
-    let settingsList = document.createElement('ul');
+    const settingsList = document.createElement('ul');
     settingsList.id = 'settings-list';
     document.getElementById('settings-pane').appendChild(settingsList);
 
@@ -498,7 +497,7 @@ export default class Animation {
   }
 
   _createResetViewpoint() {
-    let resetViewpoint = document.createElement('li');
+    const resetViewpoint = document.createElement('li');
     resetViewpoint.onclick = () => this._resetViewpoint();
     document.getElementById('settings-list').appendChild(resetViewpoint);
 
@@ -513,7 +512,7 @@ export default class Animation {
   }
 
   _createChangeShadows() {
-    let shadowLi = document.createElement('li');
+    const shadowLi = document.createElement('li');
     shadowLi.id = 'enable-shadows';
     document.getElementById('settings-list').appendChild(shadowLi);
 
@@ -526,7 +525,7 @@ export default class Animation {
     label.className = 'spacer';
     shadowLi.appendChild(label);
 
-    let button = document.createElement('label');
+    const button = document.createElement('label');
     button.className = 'switch';
     shadowLi.appendChild(button);
 
@@ -547,7 +546,7 @@ export default class Animation {
   }
 
   _createChangeGtao() {
-    let gtaoLi = document.createElement('li');
+    const gtaoLi = document.createElement('li');
     gtaoLi.id = 'gtao-settings';
     document.getElementById('settings-list').appendChild(gtaoLi);
     gtaoLi.onclick = () => this._openGtaoPane();
@@ -575,13 +574,13 @@ export default class Animation {
   }
 
   _createGtaoPane() {
-    let gtaoPane = document.createElement('div');
+    const gtaoPane = document.createElement('div');
     gtaoPane.className = 'settings-pane';
     gtaoPane.id = 'gtao-pane';
     gtaoPane.style.visibility = 'hidden';
     document.getElementById('view3d').appendChild(gtaoPane);
 
-    let gtaoList = document.createElement('ul');
+    const gtaoList = document.createElement('ul');
     gtaoPane.appendChild(gtaoList);
 
     let gtaoLevelLi = document.createElement('li');
@@ -624,7 +623,7 @@ export default class Animation {
   }
 
   _createChangeSpeed() {
-    let playbackLi = document.createElement('li');
+    const playbackLi = document.createElement('li');
     playbackLi.id = 'playback-li';
     document.getElementById('settings-list').appendChild(playbackLi);
     playbackLi.onclick = () => this._openSpeedPane();
@@ -652,12 +651,12 @@ export default class Animation {
   }
 
   _createSpeedPane() {
-    let speedPane = document.createElement('div');
+    const speedPane = document.createElement('div');
     speedPane.className = 'settings-pane';
     speedPane.id = 'speed-pane';
     speedPane.style.visibility = 'hidden';
 
-    let speedList = document.createElement('ul');
+    const speedList = document.createElement('ul');
     speedPane.appendChild(speedList);
     document.getElementById('view3d').appendChild(speedPane);
 
@@ -715,7 +714,7 @@ export default class Animation {
     fullscreenTooltip.innerHTML = 'Full screen (f)';
     this.fullscreenButton.appendChild(fullscreenTooltip);
 
-    let exitFullscreenButton = document.createElement('button');
+    const exitFullscreenButton = document.createElement('button');
     exitFullscreenButton.title = 'Exit full screen (f)';
     exitFullscreenButton.className = 'player-btn icon-partscreen';
     exitFullscreenButton.style.display = 'none';
@@ -743,7 +742,7 @@ export default class Animation {
   _updateFloatingTimePosition(e) {
     document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.visibility = 'visible';
 
-    let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+    const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
     let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     if (x > 100)
       x = 100;
