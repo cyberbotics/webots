@@ -1,13 +1,13 @@
 [
     {
         "timing" : {
-            "time" : [1.0, 4.0],
+            "time" : [0.1, 0.5],
             "clock_type" : "Simulated",
             "state" : "INITIAL"
         },
         "tests" : [
             {
-                "name" : "Staying in INITIAL for a few seconds",
+                "name" : "Staying in INITIAL",
                 "state" : "INITIAL"
             },
             {
