@@ -925,6 +925,10 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     info(f'{team["color"].capitalize()} player {number} committed a forceful contact foul on '
          f'{opponent_team["color"]} player {opponent_number} ({message}) {area}.')
     game.forceful_contact_matrix.clear_all()
+    opponent = opponent_team['players'][opponent_number]
+    immunity_timeout = time_count + FOUL_PENALTY_IMMUNITY * 1000
+    opponent['penalty_immunity'] = immunity_timeout
+    player['penalty_immunity'] = immunity_timeout
     if distance_to_ball > FOUL_BALL_DISTANCE or not game.in_play:
         send_penalty(player, 'PHYSICAL_CONTACT', 'forceful contact foul')
     elif area[0] == 'i':  # inside penalty area
