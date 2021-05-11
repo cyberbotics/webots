@@ -48,6 +48,7 @@ HALF_TIME_BREAK_REAL_TIME_DURATION = 15   # the half-time break lasts 15 real se
 REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending the first READY state
 IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more than this amount of time, it gets penalized
+REMOVAL_PENALTY_TIMEOUT = 30              # removal penalty lasts for 30 seconds
 GOALKEEPER_BALL_HOLDING_TIMEOUT = 6       # a goalkeeper may hold the ball up to 6 seconds on the ground
 PLAYERS_BALL_HOLDING_TIMEOUT = 1          # field players may hold the ball up to 1 second
 HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goalkeeper may hold the ball up to 10 seconds in hands
@@ -722,6 +723,7 @@ def init_team(team):
         player['left_turf_time'] = None
         # Stores tuples of with (time_count[int], dic) at a 1Hz frequency
         player['history'] = []
+        player['velocity_buffer'] = [[0] * 6] * 125  # average velocity over 125 time steps (smoothing)
 
 
 def update_team_contacts(team):
@@ -729,6 +731,14 @@ def update_team_contacts(team):
     for number in team['players']:
         player = team['players'][number]
         robot = player['robot']
+        l1 = len(player['velocity_buffer'])     # number of iterations
+        l2 = len(player['velocity_buffer'][0])  # should be 6 (velocity vector size)
+        player['velocity_buffer'][int(time_count / time_step) % l1] = robot.getVelocity()
+        sum = [0] * l2
+        for v in player['velocity_buffer']:
+            for i in range(l2):
+                sum[i] += v[i]
+        player['velocity'] = [s / l1 for s in sum]
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
         if n == 0:  # robot is asleep
@@ -929,6 +939,10 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     info(f'{team["color"].capitalize()} player {number} committed a forceful contact foul on '
          f'{opponent_team["color"]} player {opponent_number} ({message}) {area}.')
     game.forceful_contact_matrix.clear_all()
+    opponent = opponent_team['players'][opponent_number]
+    immunity_timeout = time_count + FOUL_PENALTY_IMMUNITY * 1000
+    opponent['penalty_immunity'] = immunity_timeout
+    player['penalty_immunity'] = immunity_timeout
     if distance_to_ball > FOUL_BALL_DISTANCE or not game.in_play:
         send_penalty(player, 'PHYSICAL_CONTACT', 'forceful contact foul')
     elif area[0] == 'i':  # inside penalty area
@@ -974,8 +988,8 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
         if d1 < FOUL_VINCITY_DISTANCE and d1 - d2 > FOUL_DISTANCE_THRESHOLD:
             forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'long collision')
             return True
-    v1 = p1['robot'].getVelocity()
-    v2 = p2['robot'].getVelocity()
+    v1 = p1['velocity']
+    v2 = p2['velocity']
     v1_squared = v1[0] * v1[0] + v1[1] * v1[1]
     v2_squared = v2[0] * v2[0] + v2[1] * v2[1]
     if not v1_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
@@ -1269,9 +1283,6 @@ def send_team_penalties(team):
             team_id = game.red.id if color == 'red' else game.blue.id
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
             robot = player['robot']
-            robot.resetPhysics()
-            translation = robot.getField('translation')
-            rotation = robot.getField('rotation')
             t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
             r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
             t[0] = game.field.penalty_mark_x if t[0] > 0 else -game.field.penalty_mark_x
@@ -1294,9 +1305,12 @@ def send_team_penalties(team):
                 t[0] -= 4 * game.field.penalty_offset
             elif t[0] < -game.field.size_x:
                 t[0] += 4 * game.field.penalty_offset
-            translation.setSFVec3f(t)
-            rotation.setSFRotation(r)
+            robot.getField('translation').setSFVec3f(t)
+            robot.getField('rotation').setSFRotation(r)
+            robot.resetPhysics()
             player['sent_to_penalty_position'] = True
+            player['penalty_translation'] = t
+            player['penalty_rotation'] = r
             # Once removed from the field, the robot will be in the air, therefore its status will not be updated.
             # Thus, we need to make sure it will not be considered in the air while falling
             player['outside_field'] = True
@@ -1307,6 +1321,22 @@ def send_team_penalties(team):
 def send_penalties():
     send_team_penalties(red_team)
     send_team_penalties(blue_team)
+
+
+def stabilize_team_penalized_robots(team):
+    for number in team['players']:
+        player = team['players'][number]
+        n = game.state.teams[team_index(team['color'])].players[int(number) - 1].secs_till_unpenalized
+        if 'sent_to_penalty_position' in player or n == REMOVAL_PENALTY_TIMEOUT:  # stabilize robot for one second
+            robot = player['robot']
+            robot.resetPhysics()
+            robot.getField('translation').setSFVec3f(player['penalty_translation'])
+            robot.getField('rotation').setSFRotation(player['penalty_rotation'])
+
+
+def stabilize_penalized_robots():
+    stabilize_team_penalized_robots(red_team)
+    stabilize_team_penalized_robots(blue_team)
 
 
 def flip_pose(pose):
@@ -1331,9 +1361,10 @@ def flip_sides():  # flip sides (no need to notify GameController, it does it au
 def reset_player(color, number, pose):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
-    player['robot'].resetPhysics()
-    translation = player['robot'].getField('translation')
-    rotation = player['robot'].getField('rotation')
+    robot = player['robot']
+    robot.resetPhysics()
+    translation = robot.getField('translation')
+    rotation = robot.getField('rotation')
     t = player[pose]['translation']
     r = player[pose]['rotation']
     translation.setSFVec3f(t)
@@ -1789,7 +1820,7 @@ if hasattr(game, 'record_simulation'):
 
 previous_real_time = time.time()
 while supervisor.step(time_step) != -1 and not game.over:
-    if hasattr(game, 'max_duration') and (time.time() - log.start_time) > game.max_duration:
+    if hasattr(game, 'max_duration') and (time.time() - log.real_time) > game.max_duration:
         info(f'Interrupting game automatically after {game.max_duration} seconds')
         break
     game_controller_send(f'CLOCK:{time_count}')
@@ -1797,6 +1828,7 @@ while supervisor.step(time_step) != -1 and not game.over:
     if game.state is None:
         time_count += time_step
         continue
+    stabilize_penalized_robots()
     send_play_state_after_penalties = False
     previous_position = copy.deepcopy(game.ball_position)
     game.ball_position = game.ball_translation.getSFVec3f()

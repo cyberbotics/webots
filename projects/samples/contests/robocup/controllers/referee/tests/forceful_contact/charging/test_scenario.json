@@ -157,7 +157,7 @@
             },
             {
                 "target" : "RED_PLAYER_1",
-                "position" : [-1.0, -0.9, 0.3]
+                "position" : [-1.0, -0.8, 0.3]
             },
             {
                 "target" : "BLUE_PLAYER_1",
