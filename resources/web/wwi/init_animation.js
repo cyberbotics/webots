@@ -1,17 +1,13 @@
 import {webots} from './webots.js';
 
 function init() {
-  const name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
-  let view = new webots.View(document.getElementById('view3d'));
+  let name = document.getElementsByTagName('webots-animation')[0].title;
+  if (!name)
+    name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
+
+  const view = new webots.View(document.getElementById('view3d'));
   view.open(name + '.x3d');
   view.setAnimation(name + '.json', 'play', true);
 }
 
-if (!!window.chrome)
-  init();
-else {
-  Module['onRuntimeInitialized'] = _ => {
-    console.log('wasm loaded ');
-    init();
-  };
-}
+init()
