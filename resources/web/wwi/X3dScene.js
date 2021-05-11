@@ -229,7 +229,7 @@ export default class X3dScene {
         data = data.substring(data.indexOf(':') + 1);
         const frame = JSON.parse(data);
         view.time = frame.time;
-        $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
+        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
@@ -261,9 +261,9 @@ export default class X3dScene {
     } else if (data.startsWith('model:')) {
       if (view.toolBar)
         view.toolBar.enableToolBarButtons(false);
-      $('#webotsProgressMessage').html('Loading 3D scene...');
-      $('#webotsProgressPercent').html('');
-      $('#webotsProgress').show();
+      document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
+      document.getElementById('webotsProgressPercent').innerHTML = '';
+      document.getElementById('webotsProgress').style.display = 'block';
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();

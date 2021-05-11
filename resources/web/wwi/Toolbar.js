@@ -91,18 +91,18 @@ export default class Toolbar {
       return;
     this.time = 0; // reset time to correctly compute the initial deadline
     if (revert)
-      $('#webotsProgressMessage').html('Reverting simulation...');
+      document.getElementById('webotsProgressMessage').innerHTML = 'Reverting simulation...';
     else
-      $('#webotsProgressMessage').html('Restarting simulation...');
-    $('#webotsProgress').show();
+      document.getElementById('webotsProgressMessage').innerHTML = 'Restarting simulation...';
+    document.getElementById('webotsProgress').style.display = 'block';
     this.view.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
 
     if (this.view.timeout >= 0) {
       this.view.deadline = this.view.timeout;
-      $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.timeout));
+      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.timeout);
     } else
-      $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
+      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
     this.enableToolBarButtons(false);
     if (revert)
       this.view.stream.socket.send('revert');

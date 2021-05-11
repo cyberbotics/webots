@@ -24,16 +24,16 @@ export default class Server {
   connect() {
     const n = this.url.indexOf('/session?url=', 6);
     const url = 'http' + (n > 0 ? this.url.substring(2, n + 8) : this.url.substring(2, this.url.indexOf('/', 6)) + '/session');
-    $('#webotsProgressMessage').html('Connecting to session server...');
+    document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to session server...';
     let self = this;
     fetch(url)
       .then(response => response.text())
       .then(function(data) {
         if (data.startsWith('Error:')) {
-          $('#webotsProgress').hide();
+          document.getElementById('webotsProgress').style.display = 'none';
           let errorMessage = data.substring(6).trim();
           errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
-          webots.alert('Session server error', errorMessage);
+          alert('Session server error: ' + errorMessage);
           return;
         }
         self.socket = new WebSocket(data + '/client');
@@ -54,7 +54,7 @@ export default class Server {
 
   onOpen(event) {
     if (this.repository) {
-      let message = `{"start":{"url":"${this.repository}"`;
+      let message = `{"start":{"url":"` + this.repository + `"`;
       if (this.view.mode === 'mjpeg')
         message += ',"mode":"mjpeg"';
       message += '}}';
@@ -77,7 +77,7 @@ export default class Server {
         webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
         webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
     }
-    $('#webotsProgressMessage').html('Starting simulation...');
+    document.getElementById('webotsProgressMessage').innerHTML = 'Starting simulation...';
   }
 
   onMessage(event) {

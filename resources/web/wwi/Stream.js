@@ -12,7 +12,7 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
-    $('#webotsProgressMessage').html('Connecting to Webots instance...');
+    document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to Webots instance...';
     this.socket.onopen = (event) => { this.onSocketOpen(event); };
     this.socket.onmessage = (event) => { this.onSocketMessage(event); };
     this.socket.onclose = (event) => { this.onSocketClose(event); };
@@ -40,10 +40,10 @@ export default class Stream {
   onSocketClose(event) {
     this.view.onerror('Disconnected from ' + this.wsServer + ' (' + event.code + ')');
     if ((event.code > 1001 && event.code < 1016) || (event.code === 1001 && this.view.quitting === false)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
-      webots.alert('Streaming server error',
-        'Connection closed abnormally.<br>(Error code: ' + event.code + ')<br><br>' +
-        'Please reset the simulation by clicking ' +
-        '<a href="' + window.location.href + '">here</a>.');
+      if (window.confirm(`Streaming server error
+      Connection closed abnormally. (Error code:` + event.code + `)
+      The simulation is going to be reset`))
+        window.open(window.location.href, '_self');
     }
     this.view.destroyWorld();
     if (typeof this.view.onclose === 'function')
@@ -74,7 +74,7 @@ export default class Stream {
         this.view.deadline = this.view.timeout;
         if (typeof this.view.time !== 'undefined')
           this.view.deadline += this.view.time;
-        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.deadline));
+        document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.deadline);
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
       if (this.view.toolBar) {
@@ -84,17 +84,17 @@ export default class Stream {
       if (this.view.timeout >= 0)
         this.socket.send('timeout:' + this.view.timeout);
     } else if (data.startsWith('loading:')) {
-      $('#webotsProgress').show();
+      document.getElementById('webotsProgress').style.display = 'block';
       data = data.substring(data.indexOf(':') + 1).trim();
       let loadingStatus = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
-      $('#webotsProgressMessage').html('Webots: ' + loadingStatus);
-      $('#webotsProgressPercent').html('<progress value="' + data + '" max="100"></progress>');
+      document.getElementById('webotsProgressMessage').innerHTML = 'Webots: ' + loadingStatus;
+      document.getElementById('webotsProgressPercent').innerHTML = '<progress value="' + data + '" max="100"></progress>';
     } else if (data === 'scene load completed') {
       this.view.time = 0;
-      $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
+      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
       if (this.view.mode === 'mjpeg') {
-        $('#webotsProgress').hide();
+        document.getElementById('webotsProgress').style.display = 'none';
         this.view.multimediaClient.requestNewSize(); // To force the server to render once
       }
 
@@ -110,7 +110,7 @@ export default class Stream {
         this.onready();
     } else if (data.startsWith('time: ')) {
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
-      $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(this.view.time));
+      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.time);
     } else if (data === 'delete world')
       this.view.destroyWorld();
     else {

@@ -79,18 +79,13 @@ webots.View = class View {
       this.mobileDevice = mobile;
 
     this.fullscreenEnabled = !SystemInfo.isIOS();
-    if (!this.fullscreenEnabled)
+    if (!this.fullscreenEnabled) {
       // Add tag needed to run standalone web page in fullscreen on iOS.
-      $('head').append('<meta name="apple-mobile-web-app-capable" content="yes">');
-
-    // Prevent the backspace key to quit the simulation page.
-    const rx = /INPUT|SELECT|TEXTAREA/i;
-    $(document).bind('keydown keypress', (e) => {
-      if (e.which === 8) { // backspace key
-        if (!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly)
-          e.preventDefault();
-      }
-    });
+      let meta = document.createElement('meta');
+      meta.name = 'apple-mobile-web-app-capable';
+      meta.content = 'yes';
+      document.getElementsByTagName('head')[0].appendChild(meta);
+    }
 
     this.debug = false;
     this.timeout = 60 * 1000; // default to one minute
@@ -146,7 +141,9 @@ webots.View = class View {
         "</div><div id='webotsProgressPercent'></div>";
         this.view3D.appendChild(this.progress);
       }
-      $('#webotsProgress').show();
+
+      if (document.getElementById('webotsProgress'))
+        document.getElementById('webotsProgress').style.display = 'block';
 
       if (this.isWebSocketProtocol) {
         if (typeof this.toolBar === 'undefined')
@@ -171,7 +168,7 @@ webots.View = class View {
     };
 
     const finalizeWorld = () => {
-      $('#webotsProgressMessage').html('Loading World...');
+      document.getElementById('webotsProgressMessage').innerHTML = 'Loading World...';
       if (typeof this.x3dScene !== 'undefined') {
         if (!this.isWebSocketProtocol) { // skip robot windows initialization
           if (this.animation != null)
@@ -271,8 +268,8 @@ webots.View = class View {
       if (this.toolBar)
         this.toolBar.enableToolBarButtons(false);
 
-      $('#webotsProgressMessage').html('Loading ' + this.toolBar.worldSelect.value + '...');
-      $('#webotsProgress').show();
+      document.getElementById('webotsProgressMessage').innerHTML = 'Loading ' + this.toolBar.worldSelect.value + '...';
+      document.getElementById('webotsProgress').style.display = 'block';
       this.stream.socket.send('load:' + this.toolBar.worldSelect.value);
     };
   }
@@ -291,9 +288,9 @@ webots.View = class View {
 
     labelElement.style.fontFamily = font;
     labelElement.style.color = 'rgba(' + properties.color + ')';
-    labelElement.style.fontSize = $(this.x3dDiv).height() * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
-    labelElement.style.left = $(this.x3dDiv).width() * properties.x + 'px';
-    labelElement.style.top = $(this.x3dDiv).height() * properties.y + 'px';
+    labelElement.style.fontSize = this._getHeight(this.x3dDiv) * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
+    labelElement.style.left = this._getWidth(this.x3dDiv) * properties.x + 'px';
+    labelElement.style.top = this._getHeight(this.x3dDiv) * properties.y + 'px';
 
     if (properties.text.includes('█'))
       properties.text = properties.text.replaceAll('█', '<span style="background:' + labelElement.style.color + '"> </span>');
@@ -310,23 +307,26 @@ webots.View = class View {
   }
 
   resetSimulation() {
-    $('#webotsProgress').hide();
+    document.getElementById('webotsProgress').style.display = 'none';
     this.removeLabels();
-    $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
+    document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
     this.deadline = this.timeout;
     if (this.deadline >= 0)
-      $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.deadline));
+      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.deadline);
     else
-      $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
+      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
   }
 
   quitSimulation() {
     if (this.broadcast)
       return;
     this.close();
-    $('#webotsProgressMessage').html('Bye bye...');
-    $('#webotsProgress').show();
-    setTimeout(() => { $('#webotsProgress').hide(); }, 1000);
+    document.getElementById('webotsProgressMessage').innerHTML = 'Bye bye...';
+    document.getElementById('webotsProgress').style.display = 'block';
+    setTimeout(() => {
+      if (document.getElementById('webotsProgress'))
+        document.getElementById('webotsProgress').style.display = 'none';
+    }, 1000);
     this.quitting = true;
     this.onquit();
   }
@@ -342,31 +342,16 @@ webots.View = class View {
       Selector.reset();
     }
   }
-};
 
-webots.alert = (title, message, callback) => {
-  const parent = webots.currentView.view3D;
-  let panel = document.getElementById('webotsAlert');
-  if (!panel) {
-    panel = document.createElement('div');
-    panel.id = 'webotsAlert';
-    parent.appendChild(panel);
+  _getHeight(el) {
+    const s = window.getComputedStyle(el, null);
+    return el.clientHeight - parseInt(s.getPropertyValue('padding-top')) - parseInt(s.getPropertyValue('padding-bottom'));
   }
-  panel.innerHTML = message;
-  $('#webotsAlert').dialog({
-    title: title,
-    appendTo: parent,
-    modal: true,
-    width: 400, // enough room to display the social network buttons in a line
-    buttons: {
-      Ok: () => { $('#webotsAlert').dialog('close'); }
-    },
-    close: () => {
-      if (typeof callback === 'function')
-        callback();
-      $('#webotsAlert').remove();
-    }
-  });
+
+  _getWidth(el) {
+    const s = window.getComputedStyle(el, null);
+    return el.clientWidth - parseInt(s.getPropertyValue('padding-right')) - parseInt(s.getPropertyValue('padding-left'));
+  }
 };
 
 webots.parseMillisecondsIntoReadableTime = (milliseconds) => {

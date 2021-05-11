@@ -71,7 +71,7 @@ export default class Parser {
     }
 
     console.log(WbWorld.instance);
-    $('#webotsProgressMessage').html('Finalizing...');
+    document.getElementById('webotsProgressMessage').innerHTML = 'Finalizing...';
 
     if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;
@@ -85,10 +85,9 @@ export default class Parser {
     WbWorld.instance.readyForUpdates = true;
 
     renderer.render();
-    $('#webotsProgress').hide();
+    document.getElementById('webotsProgress').style.display = 'none';
     if (webots.currentView.toolBar) {
       webots.currentView.toolBar.enableToolBarButtons(true);
-      console.log(webots.currentView.runOnLoad)
       if (webots.currentView.runOnLoad === 'real-time')
         webots.currentView.toolBar.realTime();
       else if (webots.currentView.runOnLoad === 'run' || webots.currentView.runOnLoad === 'fast')
