@@ -23,6 +23,7 @@ template.innerHTML = `
 </script>
 <div id="view3d" style="height:80%"></div>
 `;
+
 export default class AnimationSlider extends HTMLElement {
   constructor() {
     super();
@@ -30,10 +31,6 @@ export default class AnimationSlider extends HTMLElement {
     this._shadowRoot.appendChild(template.content.cloneNode(true));
 
     let script = document.createElement('script');
-    script.src = 'https://www.cyberbotics.com/jquery/1.11.3/jquery.min.js';
-    this._shadowRoot.appendChild(script);
-
-    script = document.createElement('script');
     script.textContent = `var Module = [];
         Module['locateFile'] = function(path, prefix) {
 
@@ -47,26 +44,12 @@ export default class AnimationSlider extends HTMLElement {
     this._shadowRoot.appendChild(script);
 
     script = document.createElement('script');
-    script.src = 'https://www.cyberbotics.com/jquery-ui/1.11.4/jquery-ui.min.js';
-    this._shadowRoot.appendChild(script);
-
-    script = document.createElement('script');
-    script.src = 'https://www.cyberbotics.com/jquery-dialogextend/2.0.4/jquery.dialogextend.min.js';
-    this._shadowRoot.appendChild(script);
-
-    script = document.createElement('script');
-    script.src = 'https://www.cyberbotics.com/ace/1.2.0/ace.js';
-    this._shadowRoot.appendChild(script);
-
-    script = document.createElement('script');
     script.src = 'https://git.io/glm-js.min.js';
     this._shadowRoot.appendChild(script);
 
     script = document.createElement('script');
     script.src = 'https://cyberbotics.com/wwi/Wrenjs/enum.js';
     this._shadowRoot.appendChild(script);
-
-
 
     script = document.createElement('script');
     script.src = 'https://cyberbotics.com/wwi/Wrenjs/wrenjs.js';
