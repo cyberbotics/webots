@@ -81,7 +81,7 @@ GAME_INTERRUPTIONS = {
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
-global supervisor, game, red_team, blue_team, log_file, time_count
+global supervisor, game, red_team, blue_team, log_file, time_count, host
 
 
 def log(message, type):
@@ -148,8 +148,8 @@ def spawn_team(team, red_on_right, children):
             f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' + \
             f'{halfTimeStartingRotation[3]} controllerArgs ["{port}" "{nb_players}"'
         hosts = game.red.hosts if color == 'red' else game.blue.hosts
-        for host in hosts:
-            string += f', "{host}"'
+        for h in hosts:
+            string += f', "{h}"'
         string += '] }}'
         children.importMFNodeFromString(-1, string)
         team['players'][number]['robot'] = supervisor.getFromDef(defname)
@@ -271,6 +271,10 @@ def game_controller_receive():
     while True:
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
+            ip, port = peer
+            if host != ip:  # ignore UDP packets coming from a different machine (GameController should run on the same machine)
+                warning(f'Ignoring UDP packet coming from a different host {ip} != {host}.')
+                continue
         except BlockingIOError:
             if data is None:
                 return
@@ -1762,7 +1766,7 @@ if game.penalty_shootout:
     # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
     # meanwhile, assuming kickoff for red team
 else:
-    game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (used for initial kick-off)
+    game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (initial kick-off)
     game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
     kickoff()
     game_controller_send(f'KICKOFF:{game.kickoff}')
