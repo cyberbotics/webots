@@ -1785,7 +1785,7 @@ if hasattr(game, 'record_simulation'):
 
 previous_real_time = time.time()
 while supervisor.step(time_step) != -1 and not game.over:
-    if hasattr(game, 'max_duration') and (time.time() - log.start_time) > game.max_duration:
+    if hasattr(game, 'max_duration') and (time.time() - log.real_time) > game.max_duration:
         info(f'Interrupting game automatically after {game.max_duration} seconds')
         break
     game_controller_send(f'CLOCK:{time_count}')
