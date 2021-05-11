@@ -169,6 +169,7 @@ button::-moz-focus-inner {
 .webotsView {
   padding: 0px;
   overflow: hidden;
+  height: 100%
 }
 
 .webots3DView {

@@ -12,7 +12,8 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
-    document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to Webots instance...';
+    if (document.getElementById('webotsProgressMessage'))
+      document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to Webots instance...';
     this.socket.onopen = (event) => { this.onSocketOpen(event); };
     this.socket.onmessage = (event) => { this.onSocketMessage(event); };
     this.socket.onclose = (event) => { this.onSocketClose(event); };

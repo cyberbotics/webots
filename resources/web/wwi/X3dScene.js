@@ -261,9 +261,13 @@ export default class X3dScene {
     } else if (data.startsWith('model:')) {
       if (view.toolBar)
         view.toolBar.enableToolBarButtons(false);
-      document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
-      document.getElementById('webotsProgressPercent').innerHTML = '';
-      document.getElementById('webotsProgress').style.display = 'block';
+
+      if (document.getElementById('webotsProgressMessage'))
+        document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
+      if (document.getElementById('webotsProgressPercent'))
+        document.getElementById('webotsProgressPercent').innerHTML = '';
+      if (document.getElementById('webotsProgress'))
+        document.getElementById('webotsProgress').style.display = 'block';
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();

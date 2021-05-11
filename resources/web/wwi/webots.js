@@ -168,7 +168,8 @@ webots.View = class View {
     };
 
     const finalizeWorld = () => {
-      document.getElementById('webotsProgressMessage').innerHTML = 'Loading World...';
+      if (document.getElementById('webotsProgressMessage'))
+        document.getElementById('webotsProgressMessage').innerHTML = 'Loading World...';
       if (typeof this.x3dScene !== 'undefined') {
         if (!this.isWebSocketProtocol) { // skip robot windows initialization
           if (this.animation != null)

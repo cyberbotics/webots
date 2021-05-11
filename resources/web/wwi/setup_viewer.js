@@ -71,4 +71,4 @@ function disconnect() {
   broadcast.disabled = false;
 }
 
-window.addEventListener('load', init, false);
+init();
