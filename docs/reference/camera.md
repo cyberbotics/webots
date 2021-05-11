@@ -293,7 +293,7 @@ period = wb_camera_get_sampling_period(tag)
 *enable and disable camera updates*
 
 The `wb_camera_enable` function allows the user to enable a camera.
-Once the camera is enabled, it will copy images from VRAM to RAM at each time step, regardless of `wb_camera_get_image` calls.
+Once the camera is enabled, it will copy images from GPU memory to CPU memory at each time step, regardless of `wb_camera_get_image` calls.
 
 The `sampling_period` argument specifies the sampling period of the sensor and is expressed in milliseconds.
 Note that the first measurement will be available only after the first sampling period elapsed.
