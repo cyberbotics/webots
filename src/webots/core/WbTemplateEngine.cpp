@@ -97,16 +97,16 @@ void WbTemplateEngine::initializeJavascriptEngine() {
   printf("WbTemplateEngine::initializeJavascriptEngine\n");
 }
 
-WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString &engine) {
+WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString &language) {
   static bool firstCall = true;
-  mTemplateEngine = engine;
+  mLanguage = language;
 
-  if (mTemplateEngine == "lua" && firstCall) {
+  if (language == "lua" && firstCall) {
     initialize();
     firstCall = false;
   }
 
-  if (mTemplateEngine == "javascript")
+  if (language == "javascript")
     initializeJavascriptEngine();
 
   mTemplateContent = templateContent;
@@ -123,7 +123,7 @@ const QString &WbTemplateEngine::closingToken() {
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
   bool result;
 
-  if (mTemplateEngine == "javascript")
+  if (mLanguage == "javascript")
     result = generateJavascript(tags, logHeaderName);
   else
     result = generateLua(tags, logHeaderName);
@@ -152,7 +152,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   QJSEngine engine;
   engine.installExtensions(QJSEngine::ConsoleExtension);
-  engine.evaluate("console.log('Hello!');");
   // engine.evaluate("console.log(\"%1\".arg(\"TEST\")");
   // translate mixed proto into javascript
   int start = -1;

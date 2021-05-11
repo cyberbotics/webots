@@ -137,7 +137,7 @@ private:
   QString mLicenseUrl;
   QString mDocumentationUrl;
   QStringList mTags;
-  QString mTemplateEngine;
+  QString mLanguage;
 
   ~WbProtoModel();  // called from unref()
   void verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const;

@@ -29,7 +29,7 @@ public:
   static const QString &openingToken();
   static const QString &closingToken();
 
-  explicit WbTemplateEngine(const QString &templateContent, const QString &engine);
+  explicit WbTemplateEngine(const QString &templateContent, const QString &language);
   virtual ~WbTemplateEngine() {}
 
   bool generate(QHash<QString, QString> tags, const QString &logHeaderName);
@@ -37,7 +37,7 @@ public:
   const QByteArray &result() { return mResult; }
 
   const QString &error() const { return mError; }
-  const QString &scriptingEngine() const { return mTemplateEngine; }
+  const QString &language() const { return mLanguage; }
 
 private:
   static void initialize();
@@ -50,7 +50,7 @@ private:
   QString mTemplateContent;
   QString mError;
   QByteArray mResult;
-  QString mTemplateEngine;
+  QString mLanguage;
 };
 
 #endif
