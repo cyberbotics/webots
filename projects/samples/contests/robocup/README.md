@@ -24,7 +24,7 @@ You will also need to get familiar with Webots by reading the [Webots User Guide
    ```
    git pull --recurse-submodules
    ./scripts/install/linux_compilation_dependencies.sh
-   git clean -xf
+   git clean -xfd
    make clean
 
    # make sure that you have no modified files before continuing
