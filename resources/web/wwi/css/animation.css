@@ -25,7 +25,7 @@ body {
  position: relative
 }
 
-.webotsLabel {
+.webots-label {
   position: absolute;
   white-space: pre;
 }
