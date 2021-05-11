@@ -31,6 +31,7 @@ namespace webots {
       // 3D rendering
       APPEARANCE,
       BACKGROUND,
+      BILLBOARD,
       BOX,
       CAPSULE,
       COLOR,

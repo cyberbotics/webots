@@ -1,2 +1,2 @@
 function value = WB_NODE_SHAPE
-value = 24;
+value = 25;
