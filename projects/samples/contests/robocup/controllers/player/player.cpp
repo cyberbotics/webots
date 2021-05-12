@@ -331,7 +331,7 @@ public:
     while (received < length) {
       int n = recv(client_fd, buffer, length - received, 0);
       if (n == -1) {
-        if (errno != EAGAIN && errno != EWOULDBLOCK) {
+        if (errno && errno != EAGAIN && errno != EWOULDBLOCK) {
           perror("recv()");
           printMessage("Unexpected failure while receiving data");
           closeClientSocket();
