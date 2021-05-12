@@ -82,7 +82,7 @@ GAME_INTERRUPTIONS = {
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
-global supervisor, game, red_team, blue_team, log_file, time_count, time_step, host
+global supervisor, game, red_team, blue_team, log_file, time_count, time_step, game_controller_host
 
 
 def log(message, type):
@@ -154,6 +154,7 @@ def spawn_team(team, red_on_right, children):
         string += '] }}'
         children.importMFNodeFromString(-1, string)
         team['players'][number]['robot'] = supervisor.getFromDef(defname)
+        team['players'][number]['position'] = team['players'][number]['robot'].getCenterOfMass()
         info(f'Spawned {defname} {model} on port {port} at halfTimeStartingPose: translation (' +
              f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]}), ' +
              f'rotation ({halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' +
@@ -273,8 +274,8 @@ def game_controller_receive():
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
             ip, port = peer
-            if host != ip:  # ignore UDP packets coming from a different machine (GameController should run on the same machine)
-                warning(f'Ignoring UDP packet coming from a different host {ip} != {host}.')
+            if game_controller_host != ip:  # ignore UDP packets not coming from our GameController
+                warning(f'Ignoring UDP packet coming from a different host {ip} != {game_controller_host}.')
                 continue
         except BlockingIOError:
             if data is None:
@@ -1708,7 +1709,8 @@ host = socket.gethostbyname(socket.gethostname())
 if host != '127.0.0.1' and host != game.host:
     warning(f'Host is not correctly defined in game.json file, it should be {host} instead of {game.host}.')
 
-# launch the GameController
+game_controller_host = os.environ['GAME_CONTROLLER_HOST'] if 'GAME_CONTROLLER_HOST' in os.environ else host
+
 try:
     JAVA_HOME = os.environ['JAVA_HOME']
     try:

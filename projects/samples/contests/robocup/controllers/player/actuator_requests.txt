@@ -4,7 +4,7 @@ motor_positions {
 }
 motor_positions {
   name: "Head"
-  position: 1.8
+  position: 0.8
 }
 sensor_time_steps {
   name: "NeckS"
