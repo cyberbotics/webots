@@ -4,7 +4,7 @@ LIBS = -lws2_32
 CXX=g++
 else
 TARGET = client
-LIBS =
+LIBS = -lpthread
 endif
 ifeq ($(MAKECMDGOALS),)
 GOAL = release
