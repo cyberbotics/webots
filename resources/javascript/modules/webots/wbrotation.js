@@ -38,7 +38,7 @@ export function fromQuaternion(q) {
 
 export function fromMatrix3(m) {
   let r = {};
-  let cosAngle = 0.5 * (m[1] + m[5] + m[9] - 1);
+  const cosAngle = 0.5 * (m[1] + m[5] + m[9] - 1);
   if (Math.abs(cosAngle) > 1) {
     r['x'] = 1;
     r['y'] = 0;
@@ -64,12 +64,12 @@ export function toQuaternion(r) {
 };
 
 export function toMatrix3(r) {
-  let c = Math.cos(r.a);
-  let s = Math.sin(r.a);
-  let t1 = 1 - c;
-  let t2 = r.x * r.z * t1;
-  let t3 = r.x * r.y * t1;
-  let t4 = r.y * r.z * t1;
+  const c = Math.cos(r.a);
+  const s = Math.sin(r.a);
+  const t1 = 1 - c;
+  const t2 = r.x * r.z * t1;
+  const t3 = r.x * r.y * t1;
+  const t4 = r.y * r.z * t1;
 
   let m = {};
   m[0] = r.x * r.x * t1 + c;
@@ -120,8 +120,8 @@ export function normalize(r) {
 };
 
 export function combine(rA, rB) {
-  let qA = toQuaternion(rA);
-  let qB = toQuaternion(rB);
+  const qA = toQuaternion(rA);
+  const qB = toQuaternion(rB);
 
   let q = {
     w: qA.w * qB.w - qA.x * qB.x - qA.y * qB.y - qA.z * qB.z,
@@ -132,8 +132,8 @@ export function combine(rA, rB) {
   return fromQuaternion(q);
 };
 
-export function rotatevector3bymatrix3(m, v) {
-  let vector3 = {
+export function rotateVector3ByMatrix3(m, v) {
+  const vector3 = {
     x: m[1] * v.x + m[2] * v.y + m[3] * v.z,
     y: m[4] * v.x + m[5] * v.y + m[6] * v.z,
     z: m[7] * v.x + m[8] * v.y + m[9] * v.z
@@ -142,16 +142,16 @@ export function rotatevector3bymatrix3(m, v) {
   return vector3;
 };
 
-export function rotatevector3byrotation(r, v) {
-  let matrix3 = toMatrix3(r);
-  let vector3 = rotatevector3bymatrix3(matrix3, v);
+export function rotateVector3ByRotation(r, v) {
+  const matrix3 = toMatrix3(r);
+  const vector3 = rotateVector3ByMatrix3(matrix3, v);
 
   return vector3;
 };
 
-export function rotatevector3byquaternion(q, v) {
-  let rotation = fromQuaternion(q);
-  let vector3 = rotatevector3byrotation(rotation, v);
+export function rotateVector3ByQuaternion(q, v) {
+  const rotation = fromQuaternion(q);
+  const vector3 = rotateVector3ByRotation(rotation, v);
 
   return vector3;
 };
