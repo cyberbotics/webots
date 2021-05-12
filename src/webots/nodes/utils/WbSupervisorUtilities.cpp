@@ -335,7 +335,7 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
 }
 
 void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
-  int n = mFieldSetRequests.size();
+  const int n = mFieldSetRequests.size();
   if (n == 0)
     return;
   WbTemplateManager::instance()->blockRegeneration(true);
@@ -763,6 +763,27 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mRobot->warn(tr("wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived)."));
       return;
     }
+    case C_SUPERVISOR_NODE_GET_POSE: {
+      unsigned int idFrom;
+      unsigned int idTo;
+
+      stream >> idFrom;
+      stream >> idTo;
+
+      if (idFrom) {
+        WbNode *const nodeFrom = getProtoParameterNodeInstance(WbNode::findNode(idFrom));
+        WbTransform *const transformFrom = dynamic_cast<WbTransform *>(nodeFrom);
+        mNodeGetPose.first = transformFrom;
+      } else
+        mNodeGetPose.first = NULL;
+      WbNode *const nodeTo = getProtoParameterNodeInstance(WbNode::findNode(idTo));
+      WbTransform *const transformTo = dynamic_cast<WbTransform *>(nodeTo);
+      mNodeGetPose.second = transformTo;
+
+      if (!transformTo)
+        mRobot->warn(tr("wb_supervisor_node_get_pose() can exclusively be used with Transform (or derived)."));
+      return;
+    }
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS: {
       unsigned int id;
 
@@ -848,14 +869,18 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
 
       WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
-      if (solidNode)
+      if (solidNode) {
         solidNode->resetPhysics(false);
+        solidNode->pausePhysics(true);
+      }
       QList<WbNode *> descendants = node->subNodes(true);
       for (int i = 0; i < descendants.size(); i++) {
         WbNode *child = descendants.at(i);
         WbSolid *solidChild = dynamic_cast<WbSolid *>(child);
-        if (solidChild)
+        if (solidChild) {
           solidChild->resetPhysics(false);
+          solidChild->pausePhysics(true);
+        }
       }
       return;
     }
@@ -1502,6 +1527,32 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2);
     mNodeGetOrientation = NULL;
   }
+  if (mNodeGetPose.second) {
+    WbMatrix4 m;
+
+    WbMatrix4 mTo(mNodeGetPose.second->matrix());
+    const WbVector3 &sTo = mTo.scale();
+    mTo.scale(1.0 / sTo.x(), 1.0 / sTo.y(), 1.0 / sTo.z());
+
+    if (mNodeGetPose.first) {
+      WbMatrix4 mFrom(mNodeGetPose.first->matrix());
+      const WbVector3 &sFrom = mFrom.scale();
+      mFrom.scale(1.0 / sFrom.x(), 1.0 / sFrom.y(), 1.0 / sFrom.z());
+
+      m = mFrom.pseudoInversed() * mTo;
+    } else
+      m = mTo;
+
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_NODE_GET_POSE;
+    stream << (double)m(0, 0) << (double)m(0, 1) << (double)m(0, 2) << (double)m(0, 3);
+    stream << (double)m(1, 0) << (double)m(1, 1) << (double)m(1, 2) << (double)m(1, 3);
+    stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2) << (double)m(2, 3);
+    stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
+
+    mNodeGetPose.first = NULL;
+    mNodeGetPose.second = NULL;
+  }
   if (mNodeGetCenterOfMass) {
     const WbVector3 &com = mNodeGetCenterOfMass->computedGlobalCenterOfMass();
     stream << (short unsigned int)0;
@@ -1829,7 +1880,7 @@ QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay 
   int r, g, b;
   labelOverlay->position(x, y);
   labelOverlay->color(r, g, b, alpha);
-  return QString("label:%1;%2;rgba(%3,%4,%5,%6);%7;%8;%9;%10")
+  return QString("\"id\":%1,\"font\":\"%2\",\"rgba\":\"%3,%4,%5,%6\",\"size\":%7,\"x\":%8,\"y\":%9,\"text\":\"%10\"")
     .arg(labelOverlay->id())
     .arg(labelOverlay->font())
     .arg(r)

@@ -262,7 +262,7 @@ DEF ROBOT1 Robot {
     density -1
     mass 0.5
   }
-  controller "slave"
+  controller "<extern>"
 }
 DEF ROBOT2 Robot {
   translation 0.288898 0 0.511288
@@ -481,7 +481,7 @@ DEF ROBOT2 Robot {
     density -1
     mass 0.5
   }
-  controller "slave"
+  controller "<extern>"
 }
 DEF ROBOT3 Robot {
   translation 0.15 0 0

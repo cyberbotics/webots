@@ -305,7 +305,7 @@ They can join the discussion, like it, suggest new ideas
 ##### Moha 01/19/2021 10:52:14
 ok thank you 👍
 
-##### pk1jk1 01/20/2021 05:59:29
+##### mayank.kishore 01/20/2021 05:59:29
 What is the best way to locally edit a webots package?
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 01/20/2021 07:30:40
@@ -334,7 +334,7 @@ yeah, i'm excited for the new changes there. I'm gonna wait then until I dive ba
 ##### fowzan 01/21/2021 18:08:36
 I would love to simulate spot mini on my terminal , could you share links if available
 
-##### pk1jk1 01/22/2021 16:58:40
+##### mayank.kishore 01/22/2021 16:58:40
 Having trouble editing a package locally, please message me if you can help
 
 
@@ -361,7 +361,7 @@ seems to work
 ##### Krish 01/25/2021 15:33:10
 oh wow, already created.
 
-##### pk1jk1 01/25/2021 15:55:58
+##### mayank.kishore 01/25/2021 15:55:58
 Does anyone have experience creating an overhead map with a camera? And potentially stitching multiple images together to create an encompassing overhead map?
 
 ##### babaev1 01/25/2021 16:04:06
@@ -1466,4 +1466,233 @@ wb_motor_set_position(right_motor, INFINITY);
 wb_motor_set_velocity(left_motor, 0.0);
 wb_motor_set_velocity(right_motor, 0.0);
 ```
+
+##### Ginzo1 03/25/2021 18:22:47
+Hello everyone! I need to create a spraying device for my simulation - the form and size do not matter so I wondered if something similar's been done before and it is available to use. Also any suggestions for the implementation are more than welcome 🙂
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/25/2021 18:52:23
+You can use the Pen node:
+
+[https://cyberbotics.com/doc/reference/pen](https://cyberbotics.com/doc/reference/pen)
+
+##### Ginzo1 03/25/2021 19:33:18
+Thank you!
+
+##### Vial 03/25/2021 23:35:00
+Hi, I'm trying to implement a new endpoint for lidars in remote control library but I have some questions about the API, I thought it would be much easier for everyone with screenshots. Hence the pdf file, it's mostly screenshots.
+
+Thanks by advance for considering this question
+> **Attachment**: [Question-remote-api.pdf](https://cdn.discordapp.com/attachments/565155651395780609/824788493434617886/Question-remote-api.pdf)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/26/2021 08:08:39
+Hello Vial, It would be very nice to extend the remote library to support Lidars!  
+
+
+
+Hopefully I managed to understand details of your problem.
+
+
+
+> Why is c→image→data remains null in remote
+
+> control mode (figure 4), where is the memory allocated
+
+> for this field or should I calloc it myself
+
+You should populate the Lidar image in your plugin:
+
+```c
+const unsigned char *lidar_data_from_robot = malloc(...);
+wbr_lidar_set_image(camera->tag(), lidar_data_from_robot);
+```
+
+
+
+I would strongly advise you to open a PR and put the everything inside, so we can easily review it. Just mark it is as a `Draft` and keep iterating until you have a question or it is ready to be merged.
+
+##### Spur 03/27/2021 05:05:26
+dumb question but does anyone know what the lidar point cloud returns and how to access it?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/27/2021 13:58:42
+It should be clear from the documentation:
+
+[https://cyberbotics.com/doc/reference/lidar#wb\_lidar\_get\_point\_cloud](https://cyberbotics.com/doc/reference/lidar#wb_lidar_get_point_cloud)
+
+
+
+Let us know if there is something unclear.
+
+##### ouur 03/28/2021 15:49:44
+Hello everyone. im using python and trying to get self node but it gives me error. Any idea?
+
+TypeError: in method 'Supervisor\_getSelf', argument 1 of type 'webots::Supervisor const *'
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/28/2021 18:30:49
+`@ouur` show us your code
+
+##### Srivastav\_Udit 03/30/2021 03:22:47
+Thank you so much!
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 03/30/2021 19:22:27
+I found a very strange issue. The wheel seems to move the robot in the same direction, regardless of which way it is spinning
+> **Attachment**: [simple\_crashderby\_1.mp4](https://cdn.discordapp.com/attachments/565155651395780609/826536875283447818/simple_crashderby_1.mp4)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/30/2021 19:26:39
+What's that? Which world?
+
+## April
+
+##### Krish 04/01/2021 11:48:12
+Is the other wheel pivoted?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/01/2021 21:13:50
+it's due to kinematics mode (no physics). It works for velocity control, but not position control
+
+##### Spur 04/02/2021 06:37:26
+does getRecognitionObjects() return a pointer to an array of objects or just to one? and how do I access the id of one of those object?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/03/2021 13:59:20
+See this example:
+
+[https://github.com/cyberbotics/webots/blob/ab8b93ff30523825a8193327db756f44f12d390c/projects/samples/devices/controllers/camera\_recognition/camera\_recognition.c#L60-L75](https://github.com/cyberbotics/webots/blob/ab8b93ff30523825a8193327db756f44f12d390c/projects/samples/devices/controllers/camera_recognition/camera_recognition.c#L60-L75)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/04/2021 01:21:49
+<@&568329906048598039> The webots docs directory is huge. I know that transparency is nice with the png files, but they are only included in white documents. These images could be compressed to jpg files, reducing the file size by about 10-20 times.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/828076864353730600/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 04/04/2021 07:27:53
+`@Simon Steinmann` it's in the works, the offline documentation might be removed entirely by default (with the option of downloading it if needed) among other things. [https://github.com/cyberbotics/webots/pull/2787](https://github.com/cyberbotics/webots/pull/2787)
+
+##### Spur 04/08/2021 01:56:50
+Does anyone know how the  'position' field of a Camera Recognition Object works? it says it has 3 values but I'm unsure what they represent
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/08/2021 06:03:46
+XYZ coordinates?
+
+##### DrVoodoo [Moderator] 04/08/2021 16:06:45
+I'm having some grief on a world a ENU world with an inertial unit
+
+
+I have the inertial unit aligned as per the docs (x forward, y up, z right)
+
+
+And I am using getQuaternion() to get the orientation (which I assume is returning in x,y,z,w order)
+
+
+Now the robot is on a flat(ish) surface so that's giving me ( 0.000950936, -0.00466466, 0.980983, -0.194035 ) for example
+
+
+No wait, I think I figured this out. I'm trying to present the data in PCL which is using NUE still
+
+
+As always, you bang your head on the problem for an hour and realise the issue as soon as you start explaining it.
+
+##### Bitbots\_Jasper [Moderator] 04/08/2021 16:45:20
+have you tried the rubber ducky method ([https://en.wikipedia.org/wiki/Rubber\_duck\_debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging)) ? 😋
+
+##### Spur 04/09/2021 00:12:04
+oh ok thanks, do you know what the orientation field values represent, theres 4 so im very unsure
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/09/2021 00:24:23
+axis angles usually
+
+##### Spur 04/09/2021 06:26:06
+wont there only be 3 though? xy xz yz ?
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 06:29:30
+In the axis angle notation used in webots  the first three values specify the rotation axis and the fourth specifies the rotation in radians
+
+##### Spur 04/09/2021 06:32:35
+sorry i'm a bit confused, how do the three values describe the axis, isnt an axis by definition only 1 value, ie x axis y axis or z axis
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 06:36:12
+It is not necessarily the x y or z axis. You can think of the axis being specified as a line though the origin of the coordinate system and a point on the unit sphere specified by the three coordinates. If the point is (1,0,0) it is simply a rotation around the x axis but any axis is possible
+
+##### Spur 04/09/2021 06:38:19
+oh ok, forgive my ignorance but whats the point of the rotation value then? (4th value)
+
+##### Drake P. 04/09/2021 06:53:55
+The 4th value is the roll around the specified axis to my understanding
+
+##### Spur 04/09/2021 06:54:21
+oh gotcha thanks
+
+##### Bitbots\_Jasper [Moderator] 04/09/2021 07:16:05
+Yes, thanks `@Drake P.` for explaining
+
+##### Gotcha97 04/09/2021 19:29:53
+Is it possible to add a speaker device to an existing robot template (in my case a TIAGo Titanium)?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/09/2021 20:49:33
+Yes, you should be able to insert it in one of the extension slots of the TIAGo proto.
+
+##### Westin 04/14/2021 16:39:28
+I found a typo.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/831931677990191204/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/14/2021 19:51:46
+<@&568329906048598039> [https://github.com/cyberbotics/webots/blob/develop/src/webots/nodes/WbLidar.cpp#L728](https://github.com/cyberbotics/webots/blob/develop/src/webots/nodes/WbLidar.cpp#L728) found it. it's supposed to be 'using' right?
+
+
+it comes up several times. Doing a search in VC for webots, brings up more instances. Mostly in translation files.
+
+##### Stefania Pedrazzi [Cyberbotics] 04/15/2021 06:09:49
+Thank you! We will fix it immediately.
+
+##### aja\_discord 04/15/2021 08:17:34
+Hi Guys checkout my first own project on webots where I have made a self balancing robot which learns to balance itself using a genetic algorithm.Let me know your ideas. Thanks..LINK - [https://www.youtube.com/watch?v=l9BZQ9E5y6A](https://www.youtube.com/watch?v=l9BZQ9E5y6A)
+
+##### Troy 04/20/2021 00:48:34
+Hi sorry to bother again, we can use camera to recognize object, can we directly  get distance feedback between the camera and the object?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/20/2021 05:34:27
+Yes, by adding a DistanceSensor node.
+
+##### Troy 04/20/2021 21:18:50
+Yeah, but what if the distance sensor is not pointing directly to the object?
+
+
+for example, the camera on the robot recognizes an object on top right of the image, but the distance sensor is pointing in the middle, how can I get the distance feedback of the object?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/21/2021 06:14:42
+Then, you should use a Lidar with the same position, orientation, field of view, resolution, etc. as the camera.
+
+##### B0Bhead 04/22/2021 12:48:39
+`@Olivier Michel` Thank you for linking that Master Thesis paper. I am also currently working on my Bachelor Thesis, doing research on SLAM. Is there a way to get in contact with you guys? Can I DM you on Discord?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/22/2021 12:56:28
+For technical support, you should ask on the different Discord channel. For personal messages, yes, feel free to contact me in DM.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/22/2021 22:06:53
+does anyone here have experience compiling webots for profiling? make has the `profile` and `debug` options. This page says i have to compile in debug [https://github.com/cyberbotics/webots/wiki/Valgrind](https://github.com/cyberbotics/webots/wiki/Valgrind). I remember not being able to successfuly use valgrind in the past. But I think the profile option did not exists back then. Any ideas how to proceed?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/23/2021 06:23:58
+Simply type "make profile" in the `WEBOTS_HOME/src/webots` folder. Then, you should be able to use gprof to analyse the result of a run. See [https://sourceware.org/binutils/docs/gprof/](https://sourceware.org/binutils/docs/gprof/)
+
+##### Bitbots\_Jasper [Moderator] 04/23/2021 13:56:53
+The current way of modeling noise for gyros and accelerometers using a lookup table. The noise is given as a percentage of the response value (see [https://cyberbotics.com/doc/reference/distancesensor#lookup-table](https://cyberbotics.com/doc/reference/distancesensor#lookup-table)). In my opinion this does not make much sense as a model of noise for these sensors (opposed to distance sensors for which it does) since it causes that there is very little noise around zero. 
+
+In gazebo using a gaussian around the signal with a fixed standard deviation and an optional bias. 
+
+Is there a way to model the noise in this way in webots as well?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/23/2021 14:45:29
+Well, if you increase the noise when getting close to the 0 zero value in the lookup table, you will have somehow a constant noise level. But I agree, this is not ideal. If you have any idea to improve this, feel free to open an issue.
+
+##### Ragemor 04/27/2021 22:33:47
+ı have different colored objects in my simulation. and i want to move my robots to different colored objects. how can i perform that? basicly a leader follower concept with camera recognition. I try to use objects[].colors[] but i cant made what i want. my english is not pretty good. anyone can help me about that?
+
+
+this is my simulation. reds first and greens behind them. this is working for a while but if green object robots see another colored robot it stopped moving.
+%figure
+![webbb.jpg](https://cdn.discordapp.com/attachments/565155651395780609/836732246350233631/webbb.jpg)
+%end
+
+
+
+> **Attachment**: [code\_greens.txt](https://cdn.discordapp.com/attachments/565155651395780609/836732424238792774/code_greens.txt)
 

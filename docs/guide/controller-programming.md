@@ -1374,7 +1374,7 @@ printf("This is %sred%s!\n", ANSI_RED_FOREGROUND, ANSI_RESET);
 %tab "C++"
 
 ```cpp
-#include <AnsiCodes.hpp>
+#include <webots/utils/AnsiCodes.hpp>
 
 cout << "This is " << AnsiCodes::RED_FOREGROUND << "red" << AnsiCodes::RESET << "!" << endl;
 ```

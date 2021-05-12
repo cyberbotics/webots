@@ -7,6 +7,3 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/driver/driver.py" "controllers/slave/slave.py"
 consoles: Console:All:All
-renderingDevicePerspectives: robot1:camera;1;1;0;0
-renderingDevicePerspectives: robot2:camera;1;1;0;0.767606
-renderingDevicePerspectives: robot3:camera;1;1;0.788462;0.767606

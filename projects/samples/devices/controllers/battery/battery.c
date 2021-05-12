@@ -19,6 +19,7 @@
  */
 
 #include <stdio.h>
+#include <webots/camera.h>
 #include <webots/distance_sensor.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
@@ -28,7 +29,7 @@
 #define TIME_STEP 64
 
 int main() {
-  WbDeviceTag ds0, ds1, left_motor, right_motor;
+  WbDeviceTag ds0, ds1, left_motor, right_motor, camera;
   double left_speed, right_speed;
 
   wb_robot_init();
@@ -39,6 +40,8 @@ int main() {
   /* get a handler to the motors and set target position to infinity (speed control). */
   left_motor = wb_robot_get_device("left wheel motor");
   right_motor = wb_robot_get_device("right wheel motor");
+  camera = wb_robot_get_device("camera");
+  wb_camera_enable(camera, TIME_STEP);
   wb_motor_set_position(left_motor, INFINITY);
   wb_motor_set_position(right_motor, INFINITY);
   wb_motor_set_velocity(left_motor, 0.0);

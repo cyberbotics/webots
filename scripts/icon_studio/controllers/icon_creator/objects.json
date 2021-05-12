@@ -5,6 +5,15 @@
     "fields": "rotation 0 1 0 0.3",
     "nodeString": ""
   },
+  "projects/robots/nvidia/jetbot/protos/JetBotRaspberryPiCamera.proto": {
+    "fields": "translation 3.9945e-08 0.02 -1.26342e-07 rotation 0.6215148306813593 -0.621512830681904 0.4769078700764835 -2.2515953071795867"
+  },
+  "projects/devices/nvidia/protos/JetsonNano.proto": {
+    "fields": "rotation 0.935113 0.250563 0.250563 -1.63784"
+  },
+  "projects/robots/nvidia/jetbot/protos/JetBot.proto": {
+    "fields": "rotation 0.935113 0.250563 0.250563 -1.63784"
+  },
   "projects/bounding_objects/protos/PipeBoundingObject": {
     "nodeString": "SolidPipe { translation 0 1 0 appearance PBRAppearance { baseColor 0.93 0.16 0.16 roughness 1 metalness 0 } }"
   },

@@ -99,6 +99,8 @@ using namespace std;
     len = 6;
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     len = 9;
+  else if (test == "getPose")
+    len = 16;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
@@ -1134,7 +1136,7 @@ class AnsiCodes(object):
       size = len(Robot.__devices)
       # if new devices have been added, then count is greater than size
       # deleted devices are not removed from the C API list and don't affect the number of devices
-      if count == size and size > 0 and tag < size:
+      if size == count + 1 and size > 0 and tag < size:
           return Robot.__devices[tag]
 
       # (re-)initialize Robot.__devices list
