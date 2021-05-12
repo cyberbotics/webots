@@ -62,7 +62,7 @@ body {
   display: inline-block;
   padding: 11px 3px;
   color: rgba(240, 240, 240, 1);
-  text-shadow: 1px 1px 1px rgb(104,104,104);
+  text-shadow: 1px 1px 1px rgb(0,0,0);
   user-select: none;
   -webkit-user-select: none;
 }
