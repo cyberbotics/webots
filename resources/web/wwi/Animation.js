@@ -591,7 +591,7 @@ export default class Animation {
     gtaoLevelLi.appendChild(label);
 
     label = document.createElement('span');
-    label.innerHTML = 'Ambiant Occlusion Level';
+    label.innerHTML = 'Ambient Occlusion Level';
     label.className = 'setting-span';
     gtaoLevelLi.appendChild(label);
 
