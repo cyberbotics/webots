@@ -64,7 +64,7 @@ export default class Toolbar {
 
     if (this.view.fullscreenEnabled) {
       this.domElement.right.appendChild(this.createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
-      this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
+      this.exit_fullscreenButton.onclick = () => { exitFullscreen(this.view.x3dScene); };
       this.exit_fullscreenButton.style.display = 'none';
       this.domElement.right.appendChild(this.createToolBarButton('fullscreen', 'Enter fullscreen'));
       this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
