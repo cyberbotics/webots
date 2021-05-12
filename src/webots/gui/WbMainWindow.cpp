@@ -1336,7 +1336,7 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
                                           tr("HTML Files (*.html *.HTML)"));
 
   if (fileName.isEmpty()) {
-    return "";
+    return QString();
   }
 
   if (!fileName.endsWith(".html", Qt::CaseInsensitive))
@@ -1641,8 +1641,8 @@ void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbWorld *world = WbWorld::instance();
 
-  const QString fileName = findHtmlFileName("Export HTML Model");
-  if (fileName == "") {
+  QString fileName = findHtmlFileName("Export HTML Model");
+  if (fileName.isEmpty()) {
     WbSimulationState::instance()->setMode(currentMode);
     return;
   }
@@ -2246,8 +2246,8 @@ void WbMainWindow::setWorldLoadingStatus(const QString &status) {
 
 void WbMainWindow::startAnimationRecording() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  const QString fileName = findHtmlFileName("Save Animation File");
-  if (fileName == "") {
+  QString fileName = findHtmlFileName("Save Animation File");
+  if (fileName.isEmpty()) {
     WbSimulationState::instance()->setMode(currentMode);
     return;
   }
