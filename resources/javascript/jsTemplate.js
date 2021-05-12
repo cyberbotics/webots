@@ -6,7 +6,7 @@ export function render(text) {
 
 // function main() {
 export function main() {
-  var result = '';
+  let result = '';
 
   %context%
 

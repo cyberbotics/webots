@@ -7,7 +7,7 @@
  *              a matrix 3x3 is a table with 9 elements
  */
 
-export function testFunction() {
+export function testFunction() { // TODO: to remove
   return 'WORKS';
 };
 
@@ -15,8 +15,8 @@ export function equal(rA, rB) {
   return rA.x === rB.x && rA.y === rB.y && rA.z === rB.z && rA.a === rB.a;
 };
 
-export function fromquaternion(q) {
-  var r = {};
+export function fromQuaternion(q) {
+  let r = {};
 
   r['a'] = 2 * Math.acos(q.w);
   if (r.a < 0.0001) {
@@ -26,7 +26,7 @@ export function fromquaternion(q) {
     r['a'] = 0;
   } else {
     // normalize axes
-    var n = Math.sqrt(q.x * q.x + q.y * q.y + q.z * q.z);
+    let n = Math.sqrt(q.x * q.x + q.y * q.y + q.z * q.z);
     r['x'] = q.x / n;
     r['y'] = q.y / n;
     r['z'] = q.z / n;
@@ -35,9 +35,9 @@ export function fromquaternion(q) {
   return r;
 };
 
-export function frommatrix3 (m) {
-  var r = {};
-  var cosAngle = 0.5 * (m[1] + m[5] + m[9] - 1);
+export function fromMatrix3(m) {
+  let r = {};
+  let cosAngle = 0.5 * (m[1] + m[5] + m[9] - 1);
   if (Math.abs(cosAngle) > 1) {
     r['x'] = 1;
     r['y'] = 0;
@@ -53,24 +53,24 @@ export function frommatrix3 (m) {
   return r;
 };
 
-export function toquaternion (r) {
+export function toQuaternion(r) {
   normalize(r);
-  var halfAngle = rot.a * 0.5
-  var sinHalfAngle = Math.sin(halfAngle);
-  var cosHalfAngle = Math.cos(halfAngle);
+  let halfAngle = r.a * 0.5;
+  let sinHalfAngle = Math.sin(halfAngle);
+  let cosHalfAngle = Math.cos(halfAngle);
 
-  return {w: cosHalfAngle, x: rot.x * sinHalfAngle, y: rot.y * sinHalfAngle, z: rot.z * sinHalfAngle};
+  return {w: cosHalfAngle, x: r.x * sinHalfAngle, y: r.y * sinHalfAngle, z: r.z * sinHalfAngle};
 };
 
-export function tomatrix3(r) {
-  var c = Math.cos(r.a)
-  var s = Math.sin(r.a)
-  var t1 = 1 - c;
-  var t2 = r.x * r.z * t1;
-  var t3 = r.x * r.y * t1;
-  var t4 = r.y * r.z * t1;
+export function toMatrix3(r) {
+  let c = Math.cos(r.a);
+  let s = Math.sin(r.a);
+  let t1 = 1 - c;
+  let t2 = r.x * r.z * t1;
+  let t3 = r.x * r.y * t1;
+  let t4 = r.y * r.z * t1;
 
-  var m = {};
+  let m = {};
   m[0] = r.x * r.x * t1 + c;
   m[1] = t3 - r.z * s;
   m[2] = t2 + r.y * s;
@@ -84,73 +84,73 @@ export function tomatrix3(r) {
   return m;
 };
 
-export function isvalid(r) {
+export function isValid(r) {
   return r.x !== 0 || r.y !== 0 || r.z !== 0;
 }
 
-export function isidentity(r) {
+export function isIdentity(r) {
   return r.a === 0.0;
 }
 
-export function normalizeangle (r) {
+export function normalizeAngle(r) {
   while (r.a < -Math.PI)
     r.a = r.a + 2 * Math.PI;
   while (r.a > Math.PI)
     r.a = r.a - 2 * Math.PI;
 };
 
-export function normalizeaxis (r) {
-  if (!isvalid(r)) { // TODO: should give error instead of overwriting?
+export function normalizeAxis(r) {
+  if (!isValid(r)) { // TODO: should give error instead of overwriting?
     r.x = 0;
     r.y = 1;
     r.z = 0;
   }
 
-  var invl = 1 / Math.sqrt(r.x * r.x + r.y * r.y + r.z * r.z);
+  let invl = 1 / Math.sqrt(r.x * r.x + r.y * r.y + r.z * r.z);
   r.x = r.x * invl;
   r.y = r.y * invl;
   r.z = r.z * invl;
 };
 
 export function normalize(r) {
-  normalizeaxis(r);
-  normalizeangle(r);
+  normalizeAxis(r);
+  normalizeAngle(r);
   return r;
 };
 
-
 export function combine(rA, rB) {
-  var qA = toquaternion(rA);
-  var qB = toquaternion(rB);
+  let qA = toQuaternion(rA);
+  let qB = toQuaternion(rB);
 
-  var q = {
+  let q = {
     w: qA.w * qB.w - qA.x * qB.x - qA.y * qB.y - qA.z * qB.z,
     x: qA.w * qB.x + qA.x * qB.w + qA.y * qB.z - qA.z * qB.y,
     y: qA.w * qB.y - qA.x * qB.z + qA.y * qB.w + qA.z * qB.x,
     z: qA.w * qB.z + qA.x * qB.y - qA.y * qB.x + qA.z * qB.w
-  }
-  return fromquaternion(q);
+  };
+  return fromQuaternion(q);
 };
 
 export function rotatevector3bymatrix3(m, v) {
-  var vector3 = {
+  let vector3 = {
     x: m[1] * v.x + m[2] * v.y + m[3] * v.z,
     y: m[4] * v.x + m[5] * v.y + m[6] * v.z,
     z: m[7] * v.x + m[8] * v.y + m[9] * v.z
-  }
+  };
 
   return vector3;
 };
 
 export function rotatevector3byrotation(r, v) {
-  var matrix3 = tomatrix3(r);
-  var vector3 = rotatevector3bymatrix3(matrix3, v);
+  let matrix3 = toMatrix3(r);
+  let vector3 = rotatevector3bymatrix3(matrix3, v);
 
   return vector3;
 };
 
 export function rotatevector3byquaternion(q, v) {
-  var rotation = fromquaternion(q);
-  var vector3 = rotatevector3byrotation(rotation, v);
+  let rotation = fromQuaternion(q);
+  let vector3 = rotatevector3byrotation(rotation, v);
+
   return vector3;
 };
