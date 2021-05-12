@@ -553,7 +553,7 @@ export default class Animation {
 
     let label = document.createElement('span');
     label.className = 'setting-span';
-    label.innerHTML = 'Ambiant Occlusion';
+    label.innerHTML = 'Ambient Occlusion';
     gtaoLi.appendChild(label);
 
     label = document.createElement('div');
