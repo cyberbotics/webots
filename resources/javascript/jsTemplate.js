@@ -1,9 +1,12 @@
-function render(text) {
+%import%
+
+export function render(text) {
   return text
 }
 
-function compile() {
-  var result = "";
+// function main() {
+export function main() {
+  var result = '';
 
   %context%
 
@@ -14,4 +17,4 @@ function compile() {
   return result;
 }
 
-compile()
+//main()

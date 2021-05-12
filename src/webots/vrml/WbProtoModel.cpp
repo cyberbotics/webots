@@ -62,8 +62,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mLicense = tokenizer->license();
   mLicenseUrl = tokenizer->licenseUrl();
   mDocumentationUrl = tokenizer->documentationUrl();
-  mLanguage = tokenizer->templateEngine();
-  if (mLanguage == "javascript")
+  mTemplateLanguage = tokenizer->templateLanguage();
+  if (mTemplateLanguage == "javascript")
     printf("ENGINE: JAVASCRIPT\n");
   else
     printf("ENGINE: LUA\n");
@@ -343,12 +343,12 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
     if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator())
-          key += WbProtoTemplateEngine::convertFieldValueToStatement(parameter, mLanguage);
+          key += WbProtoTemplateEngine::convertFieldValueToStatement(parameter, mTemplateLanguage);
       }
     }
 
     if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
-      WbProtoTemplateEngine te(mContent, mLanguage);
+      WbProtoTemplateEngine te(mContent, mTemplateLanguage);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
       if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId)) {
         tokenizer.setErrorPrefix(mFileName);

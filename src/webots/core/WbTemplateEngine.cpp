@@ -25,6 +25,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QTextStream>
 #include <QtCore/QVector>
 #include <QtQml/QJSEngine>
 
@@ -153,28 +154,30 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   printf("ENGINE START\n");
   QJSEngine engine;
   engine.installExtensions(QJSEngine::ConsoleExtension);
-  // need to load the template as module otherwise imports don't work
-  QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/test.js");
-  if (module.isError())
+  /*
+  // how to import modules
+  QJSValue modulee = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/test.js");
+  if (modulee.isError())
     printf("ERROR LOADING MODULE\n");
   else
     printf("MODULE LOADED\n");
 
-  QJSValue main = module.property("main");
-  if (main.isError())
+  QJSValue mainn = modulee.property("main");
+  if (mainn.isError())
     printf("PROPERTY ERROR\n");
   else
     printf("PROPERTY FINE\n");
 
-  QJSValue res = main.call();
+  QJSValue res = mainn.call();
 
   printf(">>>>>>>>>>>>>>>>>>>%s<<<<<<<<<<<<<<<<\n", res.toString().toUtf8().constData());
+  */
 
-  // engine.evaluate("console.log(\"%1\".arg(\"TEST\")");
   // translate mixed proto into javascript
   int start = -1;
   int end = -1;
   QString jsBody = "";
+  QString jsImport = "";
   QRegularExpression reTemplate("\%{(.*?)}\%");
   QRegularExpressionMatchIterator it = reTemplate.globalMatch(tags["templateContent"]);
 
@@ -202,6 +205,16 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
       } else if (matched.startsWith("%{")) {
         matched = matched.replace("%{", "");
         matched = matched.replace("}%", "");
+        // check if it contains an import
+        QRegularExpression reImport("import(.*?)[;\n]");
+        QRegularExpressionMatch importInstruction = reImport.match(matched);
+        if (importInstruction.hasMatch()) {
+          jsImport += importInstruction.captured(0);
+          // TODO: if doesn't end with ; or \n, add one in case of multiple imports
+          matched.replace(importInstruction.captured(0), "");
+          // printf("found >>%s<<\n", jsImport.toUtf8().constData());
+        }
+
         jsBody += matched;
       }
     }
@@ -215,6 +228,12 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
   QString jsTemplate = templateFile.readAll();
 
+  // add imports
+  jsImport = jsImport.replace("\\n", "\n");
+  jsImport = jsImport.replace("\\'", "'");
+  jsImport = jsImport.replace("\\\\", "\\");
+  jsTemplate.replace("%import%", jsImport);
+
   // replace fields, TODO: move to WbProtoTemplateEngine
   // should be: var car = {field:"size", value:2, defaultValue:1};
   printf("&& context raw &&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n");
@@ -226,17 +245,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   // should be: var car = {field:"size", value:2, defaultValue:1};
   printf("## fields raw ###############################\n");
   printf("%s\n", tags["fields"].toUtf8().constData());
-  // printf("## jsFields #################################\n");
-  // QString jsFields = "";
-  // QStringList f = tags["fields"].split("\n");
-  // if (f.size() > 0) {
-  //  jsFields += "var fields = {";
-  //  for (int i = 0; i < f.size(); ++i) {
-  //    jsFields += f[i].replace("value = ", "value:").replace("defaultValue = ", "defaultValue:");
-  //  }
-  //  jsFields += "};";
-  //}
-  // printf("%s\n", jsFields.toUtf8().constData());
   printf("#############################################\n\n");
   jsTemplate.replace("%fields%", tags["fields"]);
 
@@ -247,18 +255,58 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   printf("== jsBody literal ===========================\n");
   printf("%s\n", jsBody.toLatin1().constData());
   printf("== jsBody ===================================\n");
+  // restore escapements
   jsBody = jsBody.replace("\\n", "\n");
+  jsBody = jsBody.replace("\\'", "'");
+  jsBody = jsBody.replace("\\\\", "\\");
+
+  tags["templateContent"] = tags["templateContent"].replace("\n", "\\n");
+  tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
   printf("%s\n", jsBody.toUtf8().constData());
   printf("=============================================\n\n");
-
   // replace body
   jsTemplate.replace("%body%", jsBody);
 
+  // write file (can't evaluate directly because it doesn't support importing of modules)
+  QFile outputFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
+  if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+    mError = tr("Couldn't write jsTemplateFilled to disk.");
+    return false;
+  }
+
+  QTextStream outputStream(&outputFile);
+  outputStream << jsTemplate;
+  outputFile.close();
+
+  // add script as module
+  QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
+  if (module.isError())
+    printf("ERROR LOADING MODULE\n");
+  else
+    printf("MODULE LOADED\n");
+
+  QJSValue main = module.property("main");
+  if (main.isError())
+    printf("PROPERTY ERROR\n");
+  else
+    printf("PROPERTY FINE\n");
+
+  QJSValue result = main.call();
+  if (result.isError()) {
+    printf("RESULT ERROR\n");
+  } else {
+    printf("RESULT FINE\n");
+  }
+
   // evaluate and get result
-  QJSValue result = engine.evaluate(jsTemplate);
+  // QJSValue result = engine.evaluate(jsTemplate);
   printf(">> result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+  // printf("%s\n", jsTemplate.toUtf8().constData());
   printf("%s\n", result.toString().toUtf8().constData());
   printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n");
+
+  // remove temporary file
+  // QFile::remove(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
 
   mResult = result.toString().toUtf8();
   return true;

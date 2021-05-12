@@ -47,7 +47,7 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   printf("WbProtoTemplateEngine::generate (param size: %d)\n", parameters.size());
   QHash<QString, QString> tags;
 
-  tags["fields"] = language() == "javascript" ? "var fields = {" : "";
+  tags["fields"] = "";
   foreach (const WbField *parameter, parameters) {
     printf(">> parameter: %s (isTemplateRegenerator: %d)\n", parameter->name().toUtf8().constData(),
            parameter->isTemplateRegenerator());
@@ -61,12 +61,8 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     }
     tags["fields"] += "},\n";
   }
-  if (parameters.size() > 0)
-    tags["fields"].chop(2);  // remove the last ",\n" if any
-  if (language() == "javascript")
-    tags["fields"] += "}";  // close object
+  tags["fields"].chop(2);  // remove the last ",\n" if any
 
-  tags["context"] = language() == "javascript" ? "var context = {" : "";
 #ifdef _WIN32
   tags["context"] += QString("os = \"windows\",");
 #endif
@@ -89,8 +85,17 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
                        .arg(version.toString(false))
                        .arg(version.revisionNumber());
 
-  if (language() == "javascript")
-    tags["context"] += "}";  // close object
+  // TMP SOLUTION, TO DO PROPERLY
+  if (language() == "javascript") {
+    tags["context"] = tags["context"].replace(" =", ":");
+    tags["fields"] = tags["fields"].replace(" =", ":");
+
+    tags["fields"] = tags["fields"].insert(0, "var fields = {");
+    tags["fields"] += "}";
+
+    tags["context"] = tags["context"].insert(0, "var context = {");
+    tags["context"] += "}";
+  }
 
   printf("Scipting Language: %s\n", language().toUtf8().constData());
   return WbTemplateEngine::generate(tags, logHeaderName);
