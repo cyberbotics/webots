@@ -28,6 +28,7 @@ body {
 .webots-label {
   position: absolute;
   white-space: pre;
+  z-index: 1;
 }
 
 /* Play bar*/
@@ -38,6 +39,7 @@ body {
   background-color: rgba(255,0,0,0);
   position: absolute;
   align-self: flex-end;
+  z-index: 2;
 }
 
 .left-pane {
