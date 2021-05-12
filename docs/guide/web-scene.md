@@ -48,7 +48,7 @@ The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://w
 
 - All the graphical nodes ([Box](../reference/box.md), [Sphere](../reference/sphere.md), [Appearance](../reference/appearance.md), [Material](../reference/material.md), [ImageTexture](../reference/imagetexture.md), [Light](../reference/light.md), [Transform](../reference/transform.md), etc.) are supported.
 
-- The rendering of the Webots player is performed using `WRENJS`, a version of `WREN` (Webots Rendering ENgine) compiled in webassembly.
+- The rendering of the Webots player is performed using `WRENJS`, a version of `WREN` (Webots Rendering ENgine) compiled in WebAssembly.
 It may occur that the rendering in the Webots application and in the exported Web page are not strictly equivalent.
 
 - The `Skin` node is not supported.
