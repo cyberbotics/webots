@@ -197,7 +197,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
       }
 
       QString matched = match.captured(0);
-
       if (matched.startsWith("%{=")) {
         matched = matched.replace("%{=", "");
         matched = matched.replace("}%", "");
@@ -205,18 +204,24 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
       } else if (matched.startsWith("%{")) {
         matched = matched.replace("%{", "");
         matched = matched.replace("}%", "");
-        // check if it contains an import
-        QRegularExpression reImport("import(.*?)[;\n]");
-        QRegularExpressionMatch importInstruction = reImport.match(matched);
-        if (importInstruction.hasMatch()) {
-          jsImport += importInstruction.captured(0);
-          // TODO: if doesn't end with ; or \n, add one in case of multiple imports
-          matched.replace(importInstruction.captured(0), "");
-          // printf("found >>%s<<\n", jsImport.toUtf8().constData());
-        }
-
         jsBody += matched;
       }
+    }
+  }
+
+  // extract imports from jsBody, if any
+  // check if it contains an import
+  QRegularExpression reImport("import(.*?)[;\n]");
+  it = reImport.globalMatch(jsBody);
+  while (it.hasNext()) {
+    QRegularExpressionMatch match = it.next();
+    if (match.hasMatch()) {
+      jsBody.replace(match.captured(0), "");  // from import from jsBody
+      // TODO: if doesn't end with ; or \n, add one in case of multiple imports
+      if (match.captured(0).back() != '\n')
+        jsImport += "\n";
+      jsImport += match.captured(0);
+      // printf("found >>%s<<\n", match.captured(0).toUtf8().constData());
     }
   }
 
@@ -294,6 +299,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QJSValue result = main.call();
   if (result.isError()) {
     printf("RESULT ERROR\n");
+    mError = result.toString();
+    // return false;
   } else {
     printf("RESULT FINE\n");
   }

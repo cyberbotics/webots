@@ -1,4 +1,5 @@
 /*
+ * content: utility functions for rotations
  * assumptions: a rotation is a table with x, y, z and a ids
  *              and angle is in radians.
  *              e.g. r = { x = 0; y = 1; z = 0; a = 1.5708 }
@@ -8,7 +9,7 @@
  */
 
 export function testFunction() { // TODO: to remove
-  return 'WORKS';
+  return 'WBROTATION WORKS';
 };
 
 export function equal(rA, rB) {
