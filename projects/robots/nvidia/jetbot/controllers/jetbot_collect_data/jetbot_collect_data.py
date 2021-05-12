@@ -19,12 +19,13 @@
 # After the dataset of "free" and "blocked" images is created, please run the `jetbot_train` on a terminal.
 # A `best_model.pth` file will be created that can be copied in the `jetbot_collision_avoidance` controller folder.
 #
-# The code is taken from the Jupyter notebooks at https://github.com/NVIDIA-AI-IOT/jetbot/tree/master/notebooks/collision_avoidance
+# The code is taken from the Jupyter notebooks at:
+# https://github.com/NVIDIA-AI-IOT/jetbot/tree/master/notebooks/collision_avoidance
 
 import os
 import os.path
 
-from controller import Robot, Camera, Keyboard, Supervisor
+from controller import Supervisor
 import jetbot_train
 
 # create the Robot instance.
@@ -55,7 +56,7 @@ while robot.step(4 * timestep) != -1:
     key = keyboard.getKey()
     dir_name = 'dataset/'
     if not os.path.isdir(dir_name):
-       os.mkdir(dir_name)
+        os.mkdir(dir_name)
     if key == ord('F'):
         dir_name += 'free'
     elif key == ord('B'):
@@ -67,16 +68,12 @@ while robot.step(4 * timestep) != -1:
         print('Trained model ready.')
         continue
     else:
-       continue
-        
+        continue
+
     if not os.path.isdir(dir_name):
-       os.mkdir(dir_name)
-        
-    
-    
+        os.mkdir(dir_name)
+
     path = os.path.join(dir_name, 'image' + str(index) + '.jpg')
     camera.saveImage(path, 100)
     print(path)
     index += 1
-    
-    

@@ -14,22 +14,22 @@
 
 """jetbot_collision_avoidance controller."""
 
-# The code is taken from the Jupyter notebook at https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/collision_avoidance/live_demo.ipynb
+# The code is taken from the Jupyter notebook at
+# https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/collision_avoidance/live_demo.ipynb
 
 import torch
 import torch.nn.functional as F
-import time
 import torchvision
 import cv2
 import numpy as np
 import os.path
 
 from jetbot_python_control import JetBot
-from controller import Camera
 
 mean = 255.0 * np.array([0.485, 0.456, 0.406])
 stdev = 255.0 * np.array([0.229, 0.224, 0.225])
 normalize = torchvision.transforms.Normalize(mean, stdev)
+
 
 def preprocessCameraImage(camera):
     global device, normalize
@@ -42,7 +42,8 @@ def preprocessCameraImage(camera):
     x = x.to(device)
     x = x[None, ...]
     return x
-    
+
+
 if not os.path.isfile('best_model.pth'):
     print('Trained model "best_model.pth" not found, please use the "jetbot_collect_data" controller to generate it.')
     exit()
@@ -84,4 +85,3 @@ while robot.step(timestep) != -1:
         direction = 'left'
         robot.left(0.4)
     pass
-
