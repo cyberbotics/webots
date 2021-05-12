@@ -3,7 +3,7 @@ import {webots} from './webots.js';
 const template = document.createElement('template');
 
 template.innerHTML = `
-<link type="text/css" href="https://cyberbotics.com/wwi/Wrenjs/css/wwi.css" rel="stylesheet"/>
+<link type="text/css" href="https://cyberbotics.com/wwi/wrenjs/css/wwi.css" rel="stylesheet"/>
 <div id="playerDiv" ></div>
 `;
 
@@ -18,7 +18,7 @@ export default class WebotsStreaming extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith(".data"))
-          return "https://cyberbotics.com/wwi/Wrenjs/" + path;
+          return "https://cyberbotics.com/wwi/wrenjs/" + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -78,8 +78,8 @@ export default class WebotsStreaming extends HTMLElement {
   async _init() {
     let promises = [];
     promises.push(this._load('https://git.io/glm-js.min.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/Wrenjs/enum.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/Wrenjs/wrenjs.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/wrenjs/enum.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/wrenjs/wrenjs.js'));
 
     await Promise.all(promises);
   }
