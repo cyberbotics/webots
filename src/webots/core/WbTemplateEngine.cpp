@@ -150,8 +150,26 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
   tags["templateContent"] = tags["templateContent"].toUtf8();
 
+  printf("ENGINE START\n");
   QJSEngine engine;
   engine.installExtensions(QJSEngine::ConsoleExtension);
+  // need to load the template as module otherwise imports don't work
+  QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/test.js");
+  if (module.isError())
+    printf("ERROR LOADING MODULE\n");
+  else
+    printf("MODULE LOADED\n");
+
+  QJSValue main = module.property("main");
+  if (main.isError())
+    printf("PROPERTY ERROR\n");
+  else
+    printf("PROPERTY FINE\n");
+
+  QJSValue res = main.call();
+
+  printf(">>>>>>>>>>>>>>>>>>>%s<<<<<<<<<<<<<<<<\n", res.toString().toUtf8().constData());
+
   // engine.evaluate("console.log(\"%1\".arg(\"TEST\")");
   // translate mixed proto into javascript
   int start = -1;
