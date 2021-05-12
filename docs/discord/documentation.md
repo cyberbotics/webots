@@ -1910,3 +1910,15 @@ I just checked the sensors position in the simulation and their response to obje
 ##### reinaldobianchi 04/10/2021 20:46:00
 Thanks! Now I finally understand how it works.
 
+##### ShuffleWire 05/05/2021 23:49:55
+In the coding style page [https://github.com/cyberbotics/webots/wiki/CPP-Coding-Style](https://github.com/cyberbotics/webots/wiki/CPP-Coding-Style), the first link in #CS300  [https://github.com/cyberbotics/webots/blob/master/.clang-format](https://github.com/cyberbotics/webots/blob/master/.clang-format) is dead. But I wasn't comfortable to open an issue just for that...
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/06/2021 05:31:44
+Thank you for reporting this. I just fixed it.
+
+##### mmoralesp 05/07/2021 15:49:25
+Hello Everyone!,  I am working on a project for my university on ROS and Webots, I am trying to control two epuck in the same Webots environment with ROS but I am not able to make them work, as if I can do it with only one epuck. I would like to know if anyone has tried to do this and if you could help me thanks.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 09:20:53
+It should work with multiple robots without problems. To each robot, the `ros` controller adds an unique prefix to all topics and services. What was the issue?
+
