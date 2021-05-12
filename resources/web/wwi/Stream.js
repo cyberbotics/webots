@@ -95,7 +95,8 @@ export default class Stream {
       this.view.time = 0;
       document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
       if (this.view.mode === 'mjpeg') {
-        document.getElementById('webotsProgress').style.display = 'none';
+        if (document.getElementById('webotsProgress'))
+          document.getElementById('webotsProgress').style.display = 'none';
         this.view.multimediaClient.requestNewSize(); // To force the server to render once
       }
 

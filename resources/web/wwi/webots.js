@@ -322,8 +322,10 @@ webots.View = class View {
     if (this.broadcast)
       return;
     this.close();
-    document.getElementById('webotsProgressMessage').innerHTML = 'Bye bye...';
-    document.getElementById('webotsProgress').style.display = 'block';
+    if (document.getElementById('webotsProgressMessage'))
+      document.getElementById('webotsProgressMessage').innerHTML = 'Bye bye...';
+    if (document.getElementById('webotsProgress'))
+      document.getElementById('webotsProgress').style.display = 'block';
     setTimeout(() => {
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'none';

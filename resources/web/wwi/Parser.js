@@ -71,7 +71,8 @@ export default class Parser {
     }
 
     console.log(WbWorld.instance);
-    document.getElementById('webotsProgressMessage').innerHTML = 'Finalizing...';
+    if (document.getElementById('webotsProgressMessage'))
+      document.getElementById('webotsProgressMessage').innerHTML = 'Finalizing...';
 
     if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;

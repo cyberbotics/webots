@@ -3,7 +3,6 @@ import {webots} from './webots.js';
 const template = document.createElement('template');
 
 template.innerHTML = `
-<link type="text/css" href="https://cyberbotics.com/wwi/wrenjs/css/wwi.css" rel="stylesheet"/>
 <div id="playerDiv" ></div>
 `;
 
@@ -11,6 +10,12 @@ export default class WebotsStreaming extends HTMLElement {
   constructor() {
     super();
     document.getElementsByTagName('webots-streaming')[0].appendChild(template.content.cloneNode(true));
+
+    let link = document.createElement('link');
+    link.href = 'https://cyberbotics.com/wwi/wrenjs//css/wwi.css';
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
 
     let script = document.createElement('script');
     script.textContent = `var Module = [];
@@ -57,7 +62,7 @@ export default class WebotsStreaming extends HTMLElement {
   disconnect() {
     this.view.close();
 
-    let playerDiv = document.getElementById('playerDiv');
+    let playerDiv = document.getElementsByTagName('webots-streaming')[0];
     playerDiv.innerHTML = null;
     if (this.view.mode === 'mjpeg')
       this.view.multimediaClient = undefined;
