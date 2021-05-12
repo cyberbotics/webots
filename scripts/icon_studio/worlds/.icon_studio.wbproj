@@ -5,5 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c00000011201000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "../../projects/robots/nvidia/jetbot/protos/JetBot.proto" "controllers/icon_creator/objects.json"
-consoles: Console:All:All
+textFiles: -1
+renderingDevicePerspectives: supervisor:camera;1;0.546875;0.152763;0.181935
+renderingDevicePerspectives: NAO:CameraTop;0;1;0.0877573;0.0787097
+renderingDevicePerspectives: NAO:CameraBottom;0;1;0.0877573;0.0787097

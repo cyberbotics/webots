@@ -71,7 +71,6 @@ def autocrop(im):
     bbox = diff.getbbox()
     if bbox:
         return im.crop(bbox)
-    return im
     assert False, "Impossible to crop image"
 
 
@@ -237,7 +236,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
 # Initialize the Supervisor.
 controller = Supervisor()
 timeStep = int(controller.getBasicTimeStep())
-camera = controller.getDevice('camera')
+camera = controller.getCamera('camera')
 camera.enable(timeStep)
 options = get_options()
 
@@ -292,7 +291,6 @@ else:
 
             objectDirectory = '.' + os.sep + 'images' + os.sep + os.path.basename(os.path.dirname(os.path.dirname(key)))
             objectDirectory += os.sep + protoName
-            print('objectDirectory', objectDirectory)
             if not os.path.exists(objectDirectory):
                 os.makedirs(objectDirectory)
             else:
