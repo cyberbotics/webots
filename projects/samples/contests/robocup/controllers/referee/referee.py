@@ -82,7 +82,7 @@ GAME_INTERRUPTIONS = {
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
-global supervisor, game, red_team, blue_team, log_file, time_count, host
+global supervisor, game, red_team, blue_team, log_file, time_count, game_controller_host
 
 
 def log(message, type):
@@ -273,8 +273,8 @@ def game_controller_receive():
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
             ip, port = peer
-            if host != ip:  # ignore UDP packets coming from a different machine (GameController should run on the same machine)
-                warning(f'Ignoring UDP packet coming from a different host {ip} != {host}.')
+            if game_controller_host != ip:  # ignore UDP packets not coming from our GameController
+                warning(f'Ignoring UDP packet coming from a different host {ip} != {game_controller_host}.')
                 continue
         except BlockingIOError:
             if data is None:
@@ -1653,7 +1653,8 @@ host = socket.gethostbyname(socket.gethostname())
 if host != '127.0.0.1' and host != game.host:
     warning(f'Host is not correctly defined in game.json file, it should be {host} instead of {game.host}.')
 
-# launch the GameController
+game_controller_host = os.environ['GAME_CONTROLLER_HOST'] if 'GAME_CONTROLLER_HOST' in os.environ else host
+
 try:
     JAVA_HOME = os.environ['JAVA_HOME']
     try:
