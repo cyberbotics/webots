@@ -738,8 +738,8 @@ def init_team(team):
         player['history'] = []
         window_size = int(1000 / time_step)  # one second window size
         player['velocity_buffer'] = [[0] * 6] * window_size
-        player['ball_handling'] = np.zeros(window_size, dtype=bool)
-        player['ball_handling_counter'] = 0
+        player['ball_handling_start'] = None
+        player['ball_handling_last'] = None
 
 
 def update_team_contacts(team):
@@ -757,9 +757,6 @@ def update_team_contacts(team):
         player['velocity'] = [s / l1 for s in sum]
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
-        window_size = len(player['ball_handling'])
-        window_index = int(time_count / time_step) % window_size
-        player['ball_handling'][window_index] = False
         if n == 0:  # robot is asleep
             player['asleep'] = True
             continue
@@ -787,9 +784,9 @@ def update_team_contacts(team):
             if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
                     if member in ['arm', 'hand']:
-                        player['ball_handling'][window_index] = True
-                        previous_index = window_size - 1 if window_index == 0 else window_index - 1
-                        if not player['ball_handling'][previous_index]:
+                        player['ball_handling_last'] = time_count
+                        if player['ball_handling_start'] is None:
+                            player['ball_handling_start'] = time_count
                             info(f'Ball touched the {member} of {color} player {number}.')
                     if game.ball_first_touch_time == 0:
                         game.ball_first_touch_time = time_count
@@ -798,8 +795,7 @@ def update_team_contacts(team):
                         game.penalty_shootout_time_to_touch_ball[game.penalty_shootout_count - 10] = \
                           60 - game.state.seconds_remaining
                     if game.ball_last_touch_team != color or game.ball_last_touch_player_number != int(number):
-                        game.ball_last_touch_team = color
-                        game.ball_last_touch_player_number = int(number)
+                        set_ball_touched(color, int(number))
                         game.ball_last_touch_time_for_display = time_count
                         action = 'kicked' if game.kicking_player_number is None else 'touched'
                         info(f'Ball {action} by {color} player {number}.')
@@ -1071,35 +1067,41 @@ def check_ball_holding():  # return the team id which gets a free kick in case o
     return None
 
 
+def reset_ball_handling(player):
+    player['ball_handling_start'] = None
+    player['ball_handling_last'] = None
+
+
 def check_team_ball_handling(team):
     for number in team['players']:
         player = team['players'][number]
-        i = int(time_count / time_step)
-        length = len(player['ball_handling'])
-        if not player['ball_handling'][i % length]:  # not touching the ball currently
+        if player['ball_handling_start'] is None:  # ball is not handled
             continue
+        duration = (player['ball_handling_last'] - player['ball_handling_start']) / 1000
+        if player['ball_handling_last'] - time_count >= 1000:  # ball was released one second ago or more
+            reset_ball_handling(player)
         goalkeeper = goalkeeper_inside_own_goal_area(team, number)
         color = team['color']
         if not goalkeeper and game.interruption != 'THROWIN':
+            reset_ball_handling(player)
             sentence = 'touched the ball with its hand or arm'
             send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
         else:
             ball_on_the_ground = game.ball_position[2] <= game.turf_depth + game.ball_radius
-            if np.sum(player['ball_handling']) > length / 2:  # if the ball was touched most of the time during the last second
-                player['ball_handling_counter'] += 1
-            else:
-                player['ball_handling_counter'] = 0
             if game.interruption == 'THROWIN':
-                if player['ball_handling_counter'] >= 10:  # a player can handle the ball for 10 seconds for throw-in, no more
+                if duration >= 10:  # a player can handle the ball for 10 seconds for throw-in, no more
+                    reset_ball_handling(player)
                     sentence = 'touched the ball with its hand or arm for more than 10 seconds during throw-in'
                     send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
             else:  # goalkeeper case
-                if player['ball_handling_counter'] >= 10:
+                if duration >= 10:
+                    reset_ball_handling(player)
                     info(f'{color.capitalize()} goalkeeper {number} handled the ball up for more than 10 seconds.')
-                    return True
-                if ball_on_the_ground and player['ball_handling_counter'] >= 6:
+                    return True  # a freekick will be awarded
+                if ball_on_the_ground and duration >= 6:
+                    reset_ball_handling(player)
                     info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than 6 seconds.')
-                    return True
+                    return True  # a freekick will be awarded
 
     return False  # not free kick awarded
 
@@ -1298,6 +1300,8 @@ def check_circle_entrance(team):
 
 
 def check_ball_must_kick(team):
+    if game.ball_last_touch_team is None:
+        return False  # nobody touched the ball
     if game.ball_last_touch_team == game.ball_must_kick_team:
         return False  # no foul
     info('Ball was touched by wrong team.')
@@ -1312,6 +1316,20 @@ def check_ball_must_kick(team):
                      f'Non-kicking {color} player {number} touched ball not in play.')
         break
     return True
+
+
+def set_ball_touched(team_color, player_number):
+    game.ball_previous_touch_team = game.ball_last_touch_team
+    game.ball_previous_touch_player_number = game.ball_last_touch_player_number
+    game.ball_last_touch_team = team_color
+    game.ball_last_touch_player_number = player_number
+
+
+def reset_ball_touched():
+    game.ball_previous_touch_team = None
+    game.ball_previous_touch_player_number = None
+    game.ball_last_touch_team = None
+    game.ball_last_touch_player_number = None
 
 
 def game_interruption_touched(team, number):
@@ -1502,13 +1520,13 @@ def set_penalty_positions():
             reset_player(defending_color, number, 'halfTimeStartingPose')
     x = game.field.penalty_mark_x if game.side_left == game.kickoff and default else -game.field.penalty_mark_x
     game.ball.resetPhysics()
+    reset_ball_touched()
     game.in_play = None
     game.can_score = True
     game.can_score_own = False
     game.ball_set_kick = True
     game.ball_left_circle = True
     game.ball_must_kick_team = attacking_team['color']
-    game.ball_last_touch_team = game.ball_must_kick_team
     game.kicking_player_number = None
     game.ball_kick_translation[0] = x
     game.ball_kick_translation[1] = 0
@@ -1602,7 +1620,7 @@ def interruption(type, team=None):
     else:
         game.interruption_team = team
     game.ball_must_kick_team = 'red' if game.interruption_team == game.red.id else 'blue'
-    game.ball_last_touch_team = game.ball_must_kick_team
+    reset_ball_touched()
     info(f'Ball not in play, will be kicked by a player from the {game.ball_must_kick_team} team.')
     color = 'red' if game.interruption_team == game.red.id else 'blue'
     info(f'{GAME_INTERRUPTIONS[type].capitalize()} awarded to {color} team.')
@@ -1647,8 +1665,7 @@ def kickoff():
     game.ball_first_touch_time = 0
     game.in_play = None
     game.ball_must_kick_team = color
-    game.ball_last_touch_team = game.ball_must_kick_team
-    game.ball_last_touch_player_number = 0
+    reset_ball_touched()
     game.ball_left_circle = None  # one can score only after ball went out of the circle
     game.can_score = False        # or was touched by another player
     game.can_score_own = False
@@ -1835,8 +1852,7 @@ game.ball_radius = 0.07 if field_size == 'kid' else 0.1125
 game.ball_kick_translation = [0, 0, game.ball_radius + game.field.turf_depth]  # initial position of ball before kick
 game.ball_translation = supervisor.getFromDef('BALL').getField('translation')
 game.ball_exit_translation = None
-game.ball_last_touch_team = 'red'
-game.ball_last_touch_player_number = 1
+reset_ball_touched()
 game.ball_last_touch_time = 0
 game.ball_first_touch_time = 0
 game.ball_last_touch_time_for_display = 0
@@ -2090,7 +2106,8 @@ while supervisor.step(time_step) != -1 and not game.over:
                     else:
                         corner_kick(left_side=scoring_team != game.side_left)
 
-                elif game.state.teams[i].players[game.ball_last_touch_player_number - 1].secs_till_unpenalized == 0:
+                elif (game.ball_last_touch_player_number is not None and
+                      game.state.teams[i].players[game.ball_last_touch_player_number - 1].secs_till_unpenalized == 0):
                     game_controller_send(f'SCORE:{scoring_team}')
                     info(f'Score in {goal} goal by {game.ball_last_touch_team} player {game.ball_last_touch_player_number}')
                     if game.penalty_shootout:
