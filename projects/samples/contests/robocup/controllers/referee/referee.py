@@ -136,14 +136,15 @@ def spawn_team(team, red_on_right, children):
     color = team['color']
     nb_players = len(team['players'])
     for number in team['players']:
-        model = team['players'][number]['proto']
+        player = team['players'][number]
+        model = player['proto']
         n = int(number) - 1
         port = game.red.ports[n] if color == 'red' else game.blue.ports[n]
         if red_on_right:  # symmetry with respect to the central line of the field
-            flip_poses(team['players'][number])
+            flip_poses(player)
         defname = color.upper() + '_PLAYER_' + number
-        halfTimeStartingTranslation = team['players'][number]['halfTimeStartingPose']['translation']
-        halfTimeStartingRotation = team['players'][number]['halfTimeStartingPose']['rotation']
+        halfTimeStartingTranslation = player['halfTimeStartingPose']['translation']
+        halfTimeStartingRotation = player['halfTimeStartingPose']['rotation']
         string = f'DEF {defname} {model}{{name "{color} player {number}" translation ' + \
             f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]} rotation ' + \
             f'{halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' + \
@@ -153,8 +154,8 @@ def spawn_team(team, red_on_right, children):
             string += f', "{h}"'
         string += '] }}'
         children.importMFNodeFromString(-1, string)
-        team['players'][number]['robot'] = supervisor.getFromDef(defname)
-        team['players'][number]['position'] = team['players'][number]['robot'].getCenterOfMass()
+        player['robot'] = supervisor.getFromDef(defname)
+        player['position'] = player['robot'].getCenterOfMass()
         info(f'Spawned {defname} {model} on port {port} at halfTimeStartingPose: translation (' +
              f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]}), ' +
              f'rotation ({halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' +
@@ -1335,8 +1336,8 @@ def send_team_penalties(team):
             team_id = game.red.id if color == 'red' else game.blue.id
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
             robot = player['robot']
-            t = copy.deepcopy(team['players'][number]['reentryStartingPose']['translation'])
-            r = copy.deepcopy(team['players'][number]['reentryStartingPose']['rotation'])
+            t = copy.deepcopy(player['reentryStartingPose']['translation'])
+            r = copy.deepcopy(player['reentryStartingPose']['rotation'])
             t[0] = game.field.penalty_mark_x if t[0] > 0 else -game.field.penalty_mark_x
             if (game.ball_position[1] > 0 and t[1] > 0) or (game.ball_position[1] < 0 and t[1] < 0):
                 t[1] = -t[1]
