@@ -757,6 +757,9 @@ def update_team_contacts(team):
         player['velocity'] = [s / l1 for s in sum]
         n = robot.getNumberOfContactPoints(True)
         player['contact_points'] = []
+        window_size = len(player['ball_handling'])
+        window_index = int(time_count / time_step) % window_size
+        player['ball_handling'][window_index] = False
         if n == 0:  # robot is asleep
             player['asleep'] = True
             continue
@@ -784,10 +787,10 @@ def update_team_contacts(team):
             if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
                     if member in ['arm', 'hand']:
-                        window_size = len(player['ball_handling'])
-                        i = int(time_count / time_step)
-                        player['ball_handling'][i % window_size] = True
-                        info(f'Ball touched the {member} of {color} player {number}.')
+                        player['ball_handling'][window_index] = True
+                        previous_index = window_size - 1 if window_index == 0 else window_index - 1
+                        if not player['ball_handling'][previous_index]:
+                            info(f'Ball touched the {member} of {color} player {number}.')
                     if game.ball_first_touch_time == 0:
                         game.ball_first_touch_time = time_count
                     game.ball_last_touch_time = time_count
@@ -2209,7 +2212,7 @@ while supervisor.step(time_step) != -1 and not game.over:
 
     check_fallen()                                # detect fallen robots
 
-    if not game.interruption and game.state.game_state in ['STATE_PLAYING', 'STATE_SET']:
+    if not game.interruption and game.state.game_state == 'STATE_PLAYING':
         ball_holding = check_ball_holding()       # check for ball holding fouls
         if ball_holding:
             interruption('FREEKICK', ball_holding)
