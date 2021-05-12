@@ -1,9 +1,9 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
   info [
-    "JetBot basic motion performed using a C controller."
+    "JetBot collision avoidance performed using pre-trained PyTorch neural network."
   ]
-  title "JetBot Basic Motion"
+  title "JetBot Collision Avoidance"
   contactProperties [
     ContactProperties {
       material1 "jetbot rear wheel"

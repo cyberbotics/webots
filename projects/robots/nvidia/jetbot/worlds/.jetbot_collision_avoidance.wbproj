@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c00000011201000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/jetbot_basic_motion/jetbot_basic_motion.c"
+textFiles: 0 "controllers/jetbot_collision_avoidance/jetbot_collision_avoidance.py" "controllers/jetbot_collect_data/jetbot_collect_data.py"
 consoles: Console:All:All
 renderingDevicePerspectives: JetBot:camera;1;0.78125;0;0
 renderingDevicePerspectives: JetBot:display;1;1;0;0
