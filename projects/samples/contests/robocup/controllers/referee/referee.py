@@ -971,7 +971,7 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     elif area[0] == 'i':  # inside penalty area
         interruption('PENALTYKICK')
     else:
-        interruption('DIRECT_FREEKICK')
+        interruption('FREEKICK')
 
 
 def goalkeeper_inside_own_goal_area(team, number):
@@ -1581,6 +1581,12 @@ def check_penalty_goal_line():
 
 
 def interruption(type, team=None):
+    if type == 'FREEKICK':
+        if (game.field.circle_fully_inside_goal_area(game.ball_position, game.ball_radius) and
+           (game.side_left == team and game.ball_position[0] > 0) or (game.side_left != team and game.ball_position[0] < 0)):
+            type = 'INDIRECT_FREEKICK'
+        else:
+            type = 'DIRECT_FREEKICK'
     game.in_play = None
     game.can_score_own = False
     game.ball_set_kick = True
@@ -2206,8 +2212,10 @@ while supervisor.step(time_step) != -1 and not game.over:
     if not game.interruption and game.state.game_state in ['STATE_PLAYING', 'STATE_SET']:
         ball_holding = check_ball_holding()       # check for ball holding fouls
         if ball_holding:
-            interruption('DIRECT_FREEKICK', ball_holding)
+            interruption('FREEKICK', ball_holding)
         ball_handling = check_ball_handling()
+        if ball_handling:
+            interruption('FREEKICK', ball_handling)
 
     check_penalized_in_field()                    # check for penalized robots inside the field
     if game.state.game_state != 'STATE_INITIAL':  # send penalties if needed
