@@ -7,7 +7,7 @@ The robot is an affordable two-wheeled robot distributed as DIY kit.
 
 More information on the JetBot robot can be found on this [website](https://jetbot.org/v0.4.3/).
 
-### JetBot PROTO nodes
+### JetBot PROTO Nodes
 
 #### JetBot PROTO
 
@@ -88,7 +88,7 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 The `jetbot` C controller replicates the basic motion provided by the official ["Basic Motion"](https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/basic_motion/basic_motion.ipynb) Jupyter notebook.
 
 
-#### jetbot_collision_avoidance.wbt
+#### jetbot\_collision\_avoidance.wbt
 
 ![jetbot_collision_avoidance.wbt.png](images/robots/jetbot/jetbot_collision_avoidance.wbt.thumbnail.jpg) In this example, the JetBot robot performs collision avoidance based on a PyTorch neural network.
 A pre-trained model is provided to be used directly with the Python `jetbot_collision_avoidance` controller.
