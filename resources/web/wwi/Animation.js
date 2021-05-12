@@ -138,7 +138,7 @@ export default class Animation {
       if (this.data.frames[this.step].hasOwnProperty('poses')) {
         const poses = this.data.frames[this.step].poses;
         for (let p = 0; p < poses.length; p++)
-          appliedIds[poses[p].id] = this.scene.applyPose(poses[p], this.data.frames[this.step].time);
+          appliedIds[poses[p].id] = this.scene.applyPose(poses[p], this.data.frames[this.step].time, undefined, automaticMove);
       }
 
       if (this.data.frames[this.step].hasOwnProperty('labels')) {
@@ -164,7 +164,7 @@ export default class Animation {
             if (this.data.frames[f].poses) {
               for (let p = 0; p < this.data.frames[f].poses.length; p++) {
                 if (this.data.frames[f].poses[p].id === id)
-                  appliedFields = this.scene.applyPose(this.data.frames[f].poses[p], this.data.frames[f].time, appliedFields);
+                  appliedFields = this.scene.applyPose(this.data.frames[f].poses[p], this.data.frames[f].time, appliedFields, automaticMove);
               }
             }
           }

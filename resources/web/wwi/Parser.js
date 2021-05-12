@@ -218,8 +218,6 @@ export default class Parser {
   }
 
   parseWorldInfo(node) {
-    const basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', '32'));
-    WbWorld.instance.basicTimeStep = basicTimeStep;
     const coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
     WbWorld.instance.coordinateSystem = coordinateSystem;
     WbWorld.computeUpVector();

@@ -129,7 +129,7 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, time, appliedFields = []) {
+  applyPose(pose, time, appliedFields = [], automaticMove) {
     const id = pose.id;
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
@@ -158,7 +158,7 @@ export default class X3dScene {
     return fields;
   }
 
-  applyPoseToObject(pose, object, time, fields) {
+  applyPoseToObject(pose, object, time, fields, automaticMove) {
     for (let key in pose) {
       if (key === 'id')
         continue;
@@ -169,6 +169,12 @@ export default class X3dScene {
       let valid = true;
       if (key === 'translation' && object instanceof WbTransform) {
         const translation = convertStringToVec3(pose[key]);
+
+        if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id) {
+          WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
+          WbWorld.instance.viewpoint.updateFollowUp(time);
+        }
+
         object.translation = translation;
         if (WbWorld.instance.readyForUpdates)
           object.applyTranslationToWren();
@@ -205,9 +211,6 @@ export default class X3dScene {
         parent.switchHelix(object.id);
     }
 
-    if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
-      WbWorld.instance.viewpoint.updateFollowUp(time);
-
     return fields;
   }
 
@@ -233,7 +236,7 @@ export default class X3dScene {
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
-            this.applyPose(frame.poses[i]);
+            this.applyPose(frame.poses[i], view.time);
         }
 
         if (frame.hasOwnProperty('labels')) {

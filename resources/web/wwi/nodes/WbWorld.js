@@ -1,7 +1,6 @@
 export default class WbWorld {
   constructor() {
     this.hasFog = false;
-    this.basicTimeStep = 32;
     this.coordinateSystem = 'ENU';
     this.upVector = glm.vec3(0, 1, 0);
     // Only the top level nodes are represented here
