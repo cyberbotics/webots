@@ -2246,7 +2246,7 @@ void WbMainWindow::setWorldLoadingStatus(const QString &status) {
 
 void WbMainWindow::startAnimationRecording() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  QString fileName = findHtmlFileName("Save Animation File");
+  const QString fileName = findHtmlFileName("Save Animation File");
   if (fileName == "") {
     WbSimulationState::instance()->setMode(currentMode);
     return;
