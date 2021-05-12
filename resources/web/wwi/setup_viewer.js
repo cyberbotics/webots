@@ -9,10 +9,6 @@ let broadcast = null;
 const mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 if (mobileDevice) {
   let head = document.getElementsByTagName('head')[0];
-  let jqueryTouch = document.createElement('script');
-  jqueryTouch.setAttribute('type', 'text/javascript');
-  jqueryTouch.setAttribute('src', 'https://www.cyberbotics.com/jquery-ui/1.11.4/jquery.ui.touch-punch.min.js');
-  head.appendChild(jqueryTouch);
 
   let mobileCss = document.createElement('link');
   mobileCss.setAttribute('rel', 'stylesheet');
