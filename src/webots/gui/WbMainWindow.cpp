@@ -1641,7 +1641,7 @@ void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbWorld *world = WbWorld::instance();
 
-  QString fileName = findHtmlFileName("Export HTML Model");
+  const QString fileName = findHtmlFileName("Export HTML Model");
   if (fileName == "") {
     WbSimulationState::instance()->setMode(currentMode);
     return;
