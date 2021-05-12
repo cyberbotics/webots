@@ -154,6 +154,7 @@ def spawn_team(team, red_on_right, children):
         string += '] }}'
         children.importMFNodeFromString(-1, string)
         team['players'][number]['robot'] = supervisor.getFromDef(defname)
+        team['players'][number]['position'] = team['players'][number]['robot'].getCenterOfMass()
         info(f'Spawned {defname} {model} on port {port} at halfTimeStartingPose: translation (' +
              f'{halfTimeStartingTranslation[0]} {halfTimeStartingTranslation[1]} {halfTimeStartingTranslation[2]}), ' +
              f'rotation ({halfTimeStartingRotation[0]} {halfTimeStartingRotation[1]} {halfTimeStartingRotation[2]} ' +
