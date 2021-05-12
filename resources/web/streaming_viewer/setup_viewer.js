@@ -1,6 +1,3 @@
-import {webots} from './webots.js';
-
-let view = null;
 let ipInput = null;
 let connectButton = null;
 let modeSelect = null;
@@ -27,24 +24,8 @@ function init() {
 }
 
 function connect() {
-  // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
-  // For any other use, please refer to the documentation:
-  // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
-  let playerDiv = document.getElementById('playerDiv');
-  if (!view)
-    view = new webots.View(playerDiv, mobileDevice);
-  view.broadcast = broadcast.checked;
-  view.setTimeout(-1); // disable timeout that stops the simulation after a given time
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
-
-  view.onready = _ => {
-    connectButton.value = 'Disconnect';
-    connectButton.onclick = disconnect;
-    connectButton.disabled = false;
-  };
-
-  view.open(ipInput.value, streamingMode);
-  view.onquit = disconnect;
+  document.getElementsByTagName('webots-streaming')[0].connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice, changeToDisconnect, changeToConnect);
 
   ipInput.disabled = true;
   modeSelect.disabled = true;
@@ -52,16 +33,20 @@ function connect() {
   connectButton.disabled = true;
 }
 
-function disconnect() {
-  view.close();
+function changeToDisconnect() {
+  connectButton.value = 'Disconnect';
+  connectButton.onclick = disconnect;
+  connectButton.disabled = false;
+}
 
-  let playerDiv = document.getElementById('playerDiv');
-  playerDiv.innerHTML = null;
-  if (view.mode === 'mjpeg')
-    view.multimediaClient = undefined;
-
+function changeToConnect() {
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
+}
+
+function disconnect() {
+  document.getElementsByTagName('webots-streaming')[0].disconnect();
+
   ipInput.disabled = false;
   modeSelect.disabled = false;
   broadcast.disabled = false;
