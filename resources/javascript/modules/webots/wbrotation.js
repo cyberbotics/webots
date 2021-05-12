@@ -1,11 +1,11 @@
 /*
  * content: utility functions for rotations
- * assumptions: a rotation is a table with x, y, z and a ids
+ * assumptions: a rotation is an object with x, y, z and a keys
  *              and angle is in radians.
- *              e.g. r = { x = 0; y = 1; z = 0; a = 1.5708 }
- *              a quaternion is a table with w, x, y, and z ids
- *              a vector is a table with x, y and z ids
- *              a matrix 3x3 is a table with 9 elements
+ *              e.g. r = {x: 0, y: 1, z: 0, a: 1.5708}
+ *              a quaternion is an object with w, x, y, and z keys
+ *              a vector is an object with x, y and z keys
+ *              a matrix 3x3 is an object with 9 elements
  */
 
 export function testFunction() { // TODO: to remove
