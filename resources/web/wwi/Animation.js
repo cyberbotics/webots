@@ -87,6 +87,10 @@ export default class Animation {
       if (this.previousState === 'real_time' && this.gui === 'pause') {
         this.previousState = undefined;
         this._triggerPlayPauseButton();
+      } else {
+        // Fix gtao "ghost" when modifying manually the position on the slidebar
+        for (let x = 0; x < 5; x++)
+          this.scene.renderer.render();
       }
       return;
     }
