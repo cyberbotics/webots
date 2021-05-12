@@ -1705,3 +1705,33 @@ No. It was not free for academic use. It became open source in December 2018.
 ##### Nick R 04/30/2021 14:17:27
 Thank you, was just wondering.
 
+## May
+
+##### ShuffleWire 05/05/2021 15:47:54
+Hello ! 
+
+I'm using gdb to play with webots, and additionally to the -g option, I had to use the -ggdb one. I've read about it that it generate more "gdb friendly" symbol (and there is additional version of this flag). Is it expected or did I miss something ?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/05/2021 17:18:52
+I believe it is not included in the Makefiles of Webots, but it should be easy to add. What are the exact benefits of this flag?
+
+##### ShuffleWire 05/05/2021 23:08:24
+I'm using my IDE to have a nice GUI interface for GDB (Codeblock IDE), which work fine with this flag. Otherwise it work as well, but I don't get any function name in stack listing etc, which make the thing less useful...
+
+It's seems related to Qt, which could cause trouble to GDB "as it" (ie only -g)
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/06/2021 05:33:27
+Did you try to add the `-ggdb` option here: [https://github.com/cyberbotics/webots/blob/master/src/webots/Makefile#L191?](https://github.com/cyberbotics/webots/blob/master/src/webots/Makefile#L191?)
+
+##### ShuffleWire [Moderator] 05/06/2021 11:26:07
+I've not, but should make a PR for that ? It's seems to be a so tiny fix...
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/06/2021 11:26:58
+Yes, please, tiny PRs are also very welcome!
+
+##### ShuffleWire [Moderator] 05/06/2021 11:27:37
+Allright, I might have some to do, then 🙂
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/06/2021 11:28:36
+You are very welcome.
+

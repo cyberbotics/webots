@@ -1402,7 +1402,7 @@ but you can start it from the terminal from the webots folder
 ##### John-ns 01/20/2020 16:51:35
 Thank you `@Stefania Pedrazzi` for your help. It works.
 
-##### JC 01/20/2020 19:03:16
+##### Mr J 01/20/2020 19:03:16
 Hi everyone, im currently trying to implement a genetic program to teach a robot to walk. To test this i need to be able to automatically reset the simulation after testing a possible solution, how would i go about automatically resetting the simulation like this?
 
 ##### DrVoodoo [Moderator] 01/20/2020 19:04:10
@@ -1414,7 +1414,7 @@ Well, it's not a node.
 
 But you set supervisor to True on your robot and you get access to the god mode functions, including rest sim
 
-##### JC 01/20/2020 19:05:55
+##### Mr J 01/20/2020 19:05:55
 ah i see , so it would allow me to reset the simulation after a set number of time steps?
 
 
@@ -1423,7 +1423,7 @@ or something like that
 ##### DrVoodoo [Moderator] 01/20/2020 19:06:42
 As long as you keep the timestep count yourself, yes
 
-##### JC 01/20/2020 19:07:05
+##### Mr J 01/20/2020 19:07:05
 awesome , ill read through the documentation. Thanks for the help
 
 ##### DrVoodoo [Moderator] 01/20/2020 21:46:44
@@ -1671,7 +1671,7 @@ Great, that clears things up! Thanks once again!
 ##### David Mansolino [Cyberbotics] 01/23/2020 09:12:30
 You're welcome
 
-##### JC 01/23/2020 16:53:50
+##### Mr J 01/23/2020 16:53:50
 Hi, cant quite seem to initialise the supervisor in python, i really feel like im missing something simple.
 
 
@@ -1692,7 +1692,7 @@ Try:
 
 😉
 
-##### JC 01/23/2020 16:56:07
+##### Mr J 01/23/2020 16:56:07
 i tried that and got:
 
 
@@ -1717,7 +1717,7 @@ Typically:
 
 > node = supervisor.getSelf()  # Supervisor API example
 
-##### JC 01/23/2020 16:59:13
+##### Mr J 01/23/2020 16:59:13
 oh i see, i thought of it like an add on to an existing robot but its more like a robot instance with more functionality
 
 ##### Fabien Rohrer [Moderator] 01/23/2020 16:59:41
@@ -1726,7 +1726,7 @@ yes, exactly.
 
 Supervisor is a subclass of Robot.
 
-##### JC 01/23/2020 16:59:58
+##### Mr J 01/23/2020 16:59:58
 fantastic, thanks for your help
 
 ##### Kormit 01/23/2020 18:53:26
@@ -5635,11 +5635,11 @@ I don't know any model of this gripper in Webots yet. But it is for sure feasibl
 
 Maybe you can find an URDF model and use the importer: [https://github.com/cyberbotics/urdf2webots](https://github.com/cyberbotics/urdf2webots)
 
-##### JC 03/04/2020 10:58:39
+##### Mr J 03/04/2020 10:58:39
 Hi, i have a controller that runs a simulation then resets using supervisor.simulationReset() , then changes some variables before running again . This repeats a fair few times but each time the simulation takes longer and longer to reset. Is there any way to remedy this?
 
 ##### David Mansolino [Cyberbotics] 03/04/2020 12:43:20
-Hi, `@JC` this should in theory not be the case, are you adding some node while the simulation it running from your supervisor or something similar?
+Hi, `@Mr J` this should in theory not be the case, are you adding some node while the simulation it running from your supervisor or something similar?
 
 ##### SimonDK 03/04/2020 12:45:20
 Great, thank you very much `@David Mansolino` , forgot about the URDF importer, will see if I can find a URDF model of the gripper. If I do not want to simulate the physics behind grasping, can I cheat and attache the object to the gripper with a fixed joint or something?
@@ -5653,7 +5653,7 @@ Great, you are a lifesaver 😀
 ##### David Mansolino [Cyberbotics] 03/04/2020 12:48:29
 You're welcome 😉
 
-##### JC 03/04/2020 12:57:07
+##### Mr J 03/04/2020 12:57:07
 i made another controller just to be sure, this other controller is  just this:from controller import Supervisor
 
 
@@ -5682,7 +5682,7 @@ discord messed the formating of it but its got no errors and the simulation take
 ##### David Mansolino [Cyberbotics] 03/04/2020 12:58:14
 Thank you, I will try it
 
-##### JC 03/04/2020 12:58:48
+##### Mr J 03/04/2020 12:58:48
 accidently deleted some from the end of supervisor.SimulationReset() when copying over
 
 
@@ -5697,7 +5697,7 @@ also im using the sony Aibo robot if that helps
 how can i get the information that my goal succeded. I tried thorught the action client but i cant get the result with just the get\_result commande
 
 ##### David Mansolino [Cyberbotics] 03/04/2020 13:27:17
-`@JC` I can indeed reproduce the issue you are mentioning thank to your controller, it seems the problem is on the Webots side, I did open an issue about this and we will try to fix this for the next release of Webots: [https://github.com/cyberbotics/webots/issues/1432](https://github.com/cyberbotics/webots/issues/1432)
+`@Mr J` I can indeed reproduce the issue you are mentioning thank to your controller, it seems the problem is on the Webots side, I did open an issue about this and we will try to fix this for the next release of Webots: [https://github.com/cyberbotics/webots/issues/1432](https://github.com/cyberbotics/webots/issues/1432)
 
 
 `@User21` I am sorry but I have no idea, but I am sure this is feasible because RVIZ is able to detect it (when used with this example: [https://github.com/cyberbotics/webots/blob/master/projects/robots/universal\_robots/resources/ros\_package/ur\_e\_webots/README.md#usage](https://github.com/cyberbotics/webots/blob/master/projects/robots/universal_robots/resources/ros_package/ur_e_webots/README.md#usage) )
@@ -5705,19 +5705,19 @@ how can i get the information that my goal succeded. I tried thorught the action
 ##### User21 03/04/2020 13:30:23
 `@David Mansolino` okay
 
-##### JC 03/04/2020 13:39:57
+##### Mr J 03/04/2020 13:39:57
 `@David Mansolino` ill look forward to it, thanks for your help
 
 ##### David Mansolino [Cyberbotics] 03/04/2020 13:45:31
 You're welcome, thank you for the precise bug report
 
-##### JC 03/04/2020 14:18:47
+##### Mr J 03/04/2020 14:18:47
 is there an estimation on when the next release will be?
 
 ##### David Mansolino [Cyberbotics] 03/04/2020 15:09:30
 Unfortunately, the next release is not planned yet, but as soon as it will be fixed you will be able to use the beta nightly releases including the patch.
 
-##### JC 03/04/2020 15:46:39
+##### Mr J 03/04/2020 15:46:39
 ok, whats the best way to know when its been fixed?
 
 ##### David Mansolino [Cyberbotics] 03/04/2020 15:47:41
@@ -6481,13 +6481,13 @@ Yes, this is on our roadmap, we plan to create a platform for the community to s
 
 If you create a model of the kinova JACO2 robotic arm we will be more than happy to assist you for integrating it in Webots.
 
-##### JC 03/16/2020 15:04:42
+##### Mr J 03/16/2020 15:04:42
 Is there any way to get the translation of a robot through the controller?
 
 ##### David Mansolino [Cyberbotics] 03/16/2020 15:05:10
 Yes, you can either use a GPS either use the Supervisor API.
 
-##### JC 03/16/2020 15:07:04
+##### Mr J 03/16/2020 15:07:04
 im in python and i cant seem to get supervisor.getPosition() to work, im not sure what im missing but i feel like its something
 
 ##### David Mansolino [Cyberbotics] 03/16/2020 15:12:27
@@ -6498,7 +6498,7 @@ node = supervisor.getSelf()
 position = node.getPosition()
 ```
 
-##### JC 03/16/2020 15:12:59
+##### Mr J 03/16/2020 15:12:59
 oh i see, thank you for the help!
 
 ##### David Mansolino [Cyberbotics] 03/16/2020 15:13:04
@@ -9477,11 +9477,11 @@ I was clicking on the icon. If I do right click and choose Nvdia as graphic card
 ##### Yuxiang Z's grandpapa 04/08/2020 16:27:08
 Cooool!
 
-##### JC 04/08/2020 20:10:36
+##### Mr J 04/08/2020 20:10:36
 Is there a way to stop execution of commands without stopping the whole simulation? My goal is to give my robot enough time to move its motors before going onto the next instruction. I have tried time.sleep but that just pauses the whole simulation and has no effect on the end result
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/08/2020 20:51:08
-`@JC` You need to call `robot.step(timestep)` periodically, e.g.:
+`@Mr J` You need to call `robot.step(timestep)` periodically, e.g.:
 
 ```py
 # Set motor velocity at e.g. 1 radian per second
@@ -9501,7 +9501,7 @@ You can find more about `.step()`  here:
 
 [https://cyberbotics.com/doc/reference/robot#wb\_robot\_step](https://cyberbotics.com/doc/reference/robot#wb_robot_step)
 
-##### JC 04/08/2020 20:57:09
+##### Mr J 04/08/2020 20:57:09
 ah ok thank you
 
 ##### Jie 04/09/2020 02:09:26

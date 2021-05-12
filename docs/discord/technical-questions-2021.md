@@ -11453,7 +11453,7 @@ Is this what the tree should look like? I'm unsure whether the two hinge joints 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/824780857847709786/unknown.png)
 %end
 
-##### eturtle21 03/26/2021 02:57:58
+##### Eturtle121 03/26/2021 02:57:58
 I dont understand how to make the Hoap2 robot to move can anyone help?
 
 ##### Uanuan 03/26/2021 06:35:46
@@ -12324,13 +12324,13 @@ I tried but show error the code crash 😢 and didn’t work
 ##### benj3110 04/03/2021 14:19:20
 Thank you! really big help!😁
 
-##### ali\_69426 04/05/2021 03:32:29
+##### Ali\_1 04/05/2021 03:32:29
 Hi, 
 
 How can I move a solid object (with physics) on a path in the  supervisor node?  Since physics is enabled if falls when I simply change its position.
 
 ##### DDaniel [Cyberbotics] 04/05/2021 08:28:38
-`@ali_69426` if the object is supposed to be entirely moved by the supervisor you need to manually set it's translation/rotation field at every timestep. If instead you want the object to have physics but "float"  then you can insert the solid object as a child of the robot, then give physics to the object itself but not to the parent (the robot)
+`@Ali_1` if the object is supposed to be entirely moved by the supervisor you need to manually set it's translation/rotation field at every timestep. If instead you want the object to have physics but "float"  then you can insert the solid object as a child of the robot, then give physics to the object itself but not to the parent (the robot)
 
 ##### Yi Zhou 04/05/2021 09:33:15
 Hello, thanks for your reply, I get my kinect camera by using "getFromDEF" because the kinect camera was defined as DEF. But there is no enable function
@@ -13203,7 +13203,7 @@ Yeah, I'm also a student
 
 `@rendermite_` Where in the US? If you're in the west coast go to DMs
 
-##### ali\_69426 04/11/2021 05:08:50
+##### Ali\_1 04/11/2021 05:08:50
 Hi, is it possible to change the cursor style in 3D view?
 
 ##### rendermite\_ 04/11/2021 05:11:06
@@ -15264,7 +15264,7 @@ while robot.step(timestep) != -1:
 ##### Yi Zhou 04/26/2021 15:03:55
 Thanks. I'll try😀
 
-##### Monke 04/26/2021 17:06:15
+##### Fareed 04/26/2021 17:06:15
 Hi there! I'm a student from New Rochelle High School in the Advanced Robotics class. While using WeBots we ran into several glitches which left me and my classmates stumped. Such examples are as followed: The robot itself glitching through the floor, the robot flinging itself while holding the ring, some portion of the robot being left behind while moving up or down on the Z-axis, and the robot falling through the floor even though physics are enabled. Some of these issues were resolved after shutting down and reopening WeBots but later persisted. If you have a fix to these problems please let me know.
 
 
@@ -15280,7 +15280,7 @@ For now, I am running the web server locally (on the same computer with the cont
 Hello, my HTML export does not contain labels created via "set\_label" method. Should it be there or is it currently not supported?
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/26/2021 22:55:08
-`@Monke` I suggest you fix the warnings that Webots shows you.
+`@Fareed` I suggest you fix the warnings that Webots shows you.
 
 ##### Yi Zhou 04/27/2021 06:52:21
 Hi, the camera can be enabled, but both color image and depth image cannot show, is it possible because of the kinect camera?
@@ -16406,4 +16406,544 @@ If you `(Right click on the PROTO) > Convert to Base Node` you should be able to
 
 ##### tabousoud 05/05/2021 13:23:27
 Cool, I'll give that a shot. Just to clarify: Is it the child (i.e. gripper) PROTO that I should convert?
+
+##### Gustavo Cruz 05/05/2021 13:40:41
+I executed the instruction on a terminal. The Webots program started but then closed quickly. And then a message appeared at the terminal. I think the problem is because he is trying to open the file that is in the path '/tmp/webots/instances/140192500708640/worlds/empty.wbt' but the right path is' / tmp / webots / instances / 140192500708640 / WebotsWorld / worlds /empty.wbt '
+%figure
+![OpenFile.PNG](https://cdn.discordapp.com/attachments/565154703139405824/839496830605066300/OpenFile.PNG)
+%end
+
+##### tabousoud 05/05/2021 14:26:11
+`@Darko Lukić` Thanks, I have it working now. The problem is that I tried to convert the Robot node I made for the gripper into a Solid node by manually editing its PROTO and removing some fields. I noticed when using `Convert to Base Node` that it still shows up as a `Robot` node. I reversed the process by converting the Robot node into a solid (from the scene tree) first and then adding back the actuators - which get lost when converting Robot to Solid - manually in the PROTO. This fixed the issue.
+
+##### milacuk 05/05/2021 14:31:01
+hello friends,can somebody explain me why i could't buid and simulate  a project
+%figure
+![2021-05-05_15.21.04.png](https://cdn.discordapp.com/attachments/565154703139405824/839509497348620318/2021-05-05_15.21.04.png)
+%end
+
+##### DDaniel [Cyberbotics] 05/05/2021 14:38:15
+`@milacuk` Hi, what error do you get?
+
+##### Yannnick3 05/05/2021 14:45:43
+Yes of course ! I made the pull request just now.
+
+##### milacuk 05/05/2021 14:49:32
+Actually ,i cant build it
+%figure
+![2021-05-05_17.48.29.png](https://cdn.discordapp.com/attachments/565154703139405824/839514158197637130/2021-05-05_17.48.29.png)
+%end
+
+##### DDaniel [Cyberbotics] 05/05/2021 14:51:02
+`@milacuk` you're using a python controller, you don't need to build it, only to save it
+
+##### milacuk 05/05/2021 14:55:59
+ok, but when i run the simulation nothing happens
+
+##### DDaniel [Cyberbotics] 05/05/2021 14:57:26
+because you're not giving any instructions to the robot, the controller you're showing is an empty loop
+
+
+`@milacuk` replace it with this and it will do stuff: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python#the-controller-code](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python#the-controller-code)
+
+##### milacuk 05/05/2021 15:01:00
+ok, i will try tnx a lot
+
+##### Gustavo Cruz 05/05/2021 17:32:24
+I executed the instruction in the terminal and the simulation started in Webots, but in the browser it still continues "Starting simulation..."
+%figure
+![Open.PNG](https://cdn.discordapp.com/attachments/565154703139405824/839555143850524693/Open.PNG)
+%end
+
+##### main 05/05/2021 17:56:42
+Is the max torque on webots the Stall Torque?
+
+##### Mohannad Kassar 05/05/2021 19:10:49
+Hello Every one, please any one who tried to import a VRML file to webots and worked reply to me.
+
+
+I builded a model using solidwork and exported the VRML file and when importing it it gives many erros of this type: ERROR: 'C:/Users/ASUS/Desktop/finall/bag holder.wrl':2:1: error: Skipped unknown 'Separator' node or PROTO.
+
+
+and I tried to import only one part of the simulation, for the fact this error may be from the complexity of the model, and even this part didn't work and gave the same error
+
+
+any solution ?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/05/2021 22:24:15
+`@Mohannad Kassar` As the error says, the file has Separator nodes, which do not exist in Webots.
+
+
+`@main` It is the maximum torque the motor can utilize. It is not dependent on rotational speed
+
+##### Stefania Pedrazzi [Cyberbotics] 05/06/2021 06:04:55
+About the browser, if you start the simulation manually then, you should pay attention because on the browser the use simulation server port may not match.
+
+But if the simulation starts from a terminal then it should also start directly from the script (if you are using the exact same instructions). You should debug what is the difference and why the simulation server doesn't work.
+
+##### Majanao 05/06/2021 10:31:49
+Hi everyone, I'm trying to control the motors of a Robotique2F gripper attached to a Kinova Gen3 through a tool slot with 'getDevice('xxx')'. It finds all the motors of the Gen3 but none of the gripper. Can you tell me what I'm doing wrong?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/839811690233462824/unknown.png)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 05/06/2021 10:47:14
+Note that each `Robot` node is an independent system with each own robot controller and can only access its own devices. So you cannot access devices from a descendant robot from the parent robot controller.
+
+in practice, if the `Robotiq2f` PROTO is of type `Robot`, then you should add a dedicated controller in the `Robotiq2f.controller` field to control its devices.
+
+Alternatively, you should replace the `Robot` node with a `Solid` node in the `Robotiq2f` PROTO definition
+
+##### bingdong 05/06/2021 10:55:43
+Hi, how can I add an LCD screen on my robot in simulation?
+
+##### DDaniel [Cyberbotics] 05/06/2021 11:01:53
+`@bingdong` hi, you can add a display: [https://cyberbotics.com/doc/reference/display](https://cyberbotics.com/doc/reference/display)
+
+##### Gustavo Cruz 05/06/2021 12:30:35
+I did some tests here and found that the problem is in that part of the image code. The simulation server is never receiving the "open" message from the webots. The condition "if line.startswith ('open')" is never true and is always in the loop.
+%figure
+![Open.PNG](https://cdn.discordapp.com/attachments/565154703139405824/839841575865155624/Open.PNG)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 05/06/2021 12:32:05
+Which Webots version are you using?
+
+I just tested on R2021a and everything works correctly.
+
+
+You should probably also make sure that the Webots version you are using is the same as the session and simulation server.
+
+##### Gustavo Cruz 05/06/2021 12:41:26
+I am using a version R2021a-x86-64.
+
+##### Stefania Pedrazzi [Cyberbotics] 05/06/2021 12:45:51
+Note that the "open" message is only sent if Webots is started with the streaming `monitorActivity` option.
+
+
+The original `simulation_server.py` code already enables this option by default.
+
+##### Gustavo Cruz 05/06/2021 13:00:39
+Webots are being started with the streaming monitorActivity option here.
+
+I think I will try to reinstall Webots or install on another version of Ubuntu.
+
+
+
+Thanks for helping me. I'm sorry for the inconvenience.
+
+##### Seedow 05/06/2021 13:06:27
+Hi! I'm using Webots R2021a revision 1 Nightly 19/3/2021 and Matlab R2020a. If I want to run a controller in extern mode, at first time it works well, but after I stop it or it crashes, after the second start (after resetting the simulation) Matlab crashes completely. Has anyone run into this issue? Should I upgrade my Matlab to a newer version?
+
+##### Majanao 05/06/2021 14:13:41
+Thanks a lot `@Stefania Pedrazzi`! I set it to Solid and it work just fine.
+
+##### bingdong 05/06/2021 14:21:39
+@<@787796043987025941> Thanks a lot!
+
+##### alejanpa17 05/06/2021 16:11:30
+Hello everyone, Im trying to get the absolute position of an object given the relative position from the camera recognition any clue of the formulas i have to apply?
+
+##### bingdong 05/06/2021 16:12:09
+<@787796043987025941> I actually wanted to have the display as a 2D texture on a shape inside of an overlay. The functions described worked for the overlay but I'm not sure how to use them for texture.  
+
+Display>children>Shape>Appearance>baseColorMap>ImageTexture>url 
+
+Is there a display function for making changes to the url or will I have to use Supervisor?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/06/2021 18:52:00
+`@alejanpa17` [https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_node\_get\_position](https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_node_get_position) take a look at the python example
+
+
+If you are working in python, I can give you a easy to implement module
+
+##### alejanpa17 05/06/2021 18:56:18
+Awesome, i get the idea thank you!
+
+##### jasonsteakham4 05/06/2021 22:22:23
+hey, could anyone detail how to go about saving a camera image through python? I can't seem to make sense of the code in the doccumentation
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/06/2021 22:54:15
+`@jasonsteakham4` you want to save it as an image file?
+
+
+if you use opencv (cv2), then you can use this: [https://www.geeksforgeeks.org/python-opencv-cv2-imwrite-method/](https://www.geeksforgeeks.org/python-opencv-cv2-imwrite-method/)
+
+##### jasonsteakham4 05/06/2021 22:55:29
+Yes ideally
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/06/2021 22:55:31
+otherwise look for general python documentation.
+
+##### jasonsteakham4 05/06/2021 22:55:39
+Thanks!
+
+##### ~E 05/08/2021 00:37:56
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/840387007431966740/unknown.png)
+%end
+
+
+does anyone know how to fix these weird wireframe things?
+
+##### DDaniel [Cyberbotics] 05/08/2021 00:39:01
+`@~E` Hi, View > Plain rendering
+
+##### chika 05/08/2021 08:46:31
+Hi. I am using webots 2021 and I'm trying to get the color of a color patch on ground using webots camera node. I program with C++.
+
+I came across 2 problems. 
+
+1. When I reload the world and simulate for the first time, it take some time for the camera to start capturing (about 2 seconds) and by that time the color patch is already passed. But when I reset the world (without reloading) and simulate again, camera start capturing right from the beginning (just the way I want it to). 
+
+How can I solve this issue?
+
+2. When the camera gets disabled through code after serving it's purpose, the camera keep disabled even in next simulations (even after I reload the world the camera is still disabled). Why?
+
+##### aslisevil 05/08/2021 12:07:09
+hello, I have a question. I use the supervisor rotate function in my simulation. But when I do rotation, my robot starts to walk with a curve instead of walking in a straight line. And sometimes it starts shifting out of nowhere after rotation. Do you know why this might be happening?
+
+##### Beginner26798 05/08/2021 12:36:53
+Hi guys ... i need please anything that helps me to make a robotic arm i don't want to use the samples in webots
+
+##### Donny\_234 05/08/2021 14:48:56
+Hello I am a beginner in Webots. I wanted to ask whether it is possible to control the motion of a robotic arm using hand gestures as live input from the computer's webcam?
+
+##### pnaraltnsk 05/08/2021 17:45:27
+Hello, is there any way of changing the angular velocity magnitude of nao robot?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/08/2021 23:03:21
+It is possible, but sounds very complicated. You would need some form of computervision algorithms recognizing and translating the video input into movement commands. That is not included in Webots
+
+
+Dont use the supervisor for controlling a robot. It "cheats" or "teleports", which screws up the physics. You should only control your robot with motor commands
+
+
+A custom arm or an existing one? For existing ones you can convert urdf into Webot's proto format
+
+
+otherwise I suggest you add an existing arm to your webots world, right-click > convert to base nodes
+
+
+then take a look at the structure and create your own arm accordingly
+
+##### main 05/09/2021 03:46:11
+Any appropriate way to add delays in your script?
+
+
+(to have a delay between code continuously executing)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/09/2021 03:49:08
+`@main` just add waiting loops or pauses. You can either use simulation time or computer time
+
+##### main 05/09/2021 03:49:31
+As in the python sleep function?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/09/2021 03:49:42
+yes
+
+
+or you do a check on what simulation time it is
+
+
+and only execute your code when enough sim time has elapsed
+
+##### main 05/09/2021 03:51:03
+The sleep function would be better for the scenario, however I always have trouble defining it?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/09/2021 03:51:47
+what exactly do you want to accomplish?
+
+##### main 05/09/2021 03:53:27
+Ive got distance sensors on my offroad truck , and im trying to make it so the distance isnt being repeatedly checked
+
+
+so theres a bit of timing in between distance sensor measurments
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/09/2021 03:54:31
+enable the sensor with a different frequency then
+
+
+(should be a multiple of basicTimeStep
+
+##### main 05/09/2021 03:55:00
+Thats where ive been going wrong with the multiple of time step, thanks
+
+
+Its in milliseconds right? so 2048 is around 2s
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/09/2021 03:57:14
+yes
+
+##### SeanLuTW 05/09/2021 17:25:13
+I made some customized revised of `UR5e.proto` and `Kinect.proto` and put them in the `protos` in my project directory. When I try to import them, I found that only `UR5e (Robot)` under `PROTO nodes (Current Project)`  and couldn't find Kinect. Does anyone know why?
+
+##### aslisevil 05/09/2021 18:25:49
+hello, I was wondering if it's possible to disable distance sensor for one specific object only.
+
+##### mmoralesp 05/09/2021 19:33:34
+Hello Everyone!,  I am working on a project for my university on ROS and Webots, I am trying to control two epuck in the same Webots environment with ROS but I am not able to make them work, as if I can do it with only one epuck. I would like to know if anyone has tried to do this and if you could help me thanks.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/09/2021 20:39:26
+`@mmoralesp` you need one controller per robot, but they can be "dumb" controllers, simply subscribing and publishing topics. All your logic can be done from the same script / node
+
+
+The name of the proto file and the name of the proto node inside the file have to be exactly the same.  Post the file and I can take a look
+
+##### SeanLuTW 05/10/2021 00:54:51
+If I named the file which doesn't match with the name of the PROTO node, the console will show `'FILE_TO_PROTO': error: PROTO identifier does not match filename`. But if I fixed it, it still not shown.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/10/2021 00:55:15
+post the file here, i'll take a look
+
+
+it is in the protos folder of your project?
+
+##### SeanLuTW 05/10/2021 00:55:38
+Here's my PROTO
+> **Attachment**: [Kinect.proto](https://cdn.discordapp.com/attachments/565154703139405824/841116239266971689/Kinect.proto)
+
+
+Yes, I put them into the protos subdirectory
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/841118431172624424/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/10/2021 01:04:37
+not showing up for me either, i'm investigating
+
+
+`@SeanLuTW` figured it out. It only shows up when you add it as a child node of a robot
+
+
+or a handslot etc of a robot
+
+
+only if "devices" show up under Webots Projects, can your device show up as well
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/841120213969010688/unknown.png)
+%end
+
+
+It contains sensors, any device needs a robot as a parent
+
+##### SeanLuTW 05/10/2021 01:13:25
+Yes, it show up when I add it as a child of a robot
+
+
+Thanks! I forgot it is a `Solid` instead of a `Robot`
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/10/2021 01:15:03
+if you want to simply place a kinect "in the room" you have to add a base Robot node and add it as a child
+
+
+it does not need any other solids or shapes
+
+##### Luiz Felipe 05/10/2021 09:38:39
+Hello, is it possible to stream a simulation to the browser in 'run' mode? (Running as fast as possible but also able to see the graphics) It seems I can only run in real time or fast mode without graphics during training.
+
+##### h.sciascia 05/10/2021 09:54:17
+Hello everyone, 
+
+Is that possible to do a check collision with a Physics Plugin if the robot and environment are not moving ?
+
+
+I can only detect collision when colliding, not when my robot and environment are already in collision
+
+##### Stefania Pedrazzi [Cyberbotics] 05/10/2021 10:50:25
+Which version of Webots are you using? Are you using X3D or MJPEG streaming?
+
+I just checked and the run mode with the X3D streaming works correctly on Webots R2021a after enabling the `webots.showRun = true;` option in the streaming viewer.
+
+##### Luiz Felipe 05/10/2021 10:52:01
+Oh... I am testing with Webots 2020b and MJPEG mode `@Stefania Pedrazzi`... Does it work only with the R2021a and X3D mode?
+
+##### Stefania Pedrazzi [Cyberbotics] 05/10/2021 10:54:12
+It works on R2020b too, but with the MJPEG mode you need to enable the graphics rendering in Webots.
+
+If you disabled them in Webots, then the MJPEG streaming cannot work.
+
+
+To speed up the physics computations, objects are "disabled" if they do not move or don't have new collisions. These "idle" objects are represented in Webots by changing the color of the bounding object from white to blue.
+
+One thing you could try in your physics plugin is to check if the body is enabled using the function `bool dBodyIsEnabled(dBodyID)` and if not try to enabled it manually using  `void dBodeEnable(dBodyID)` and check again if you can detect the collisions.
+
+You can find additional information in the ODE physics engine manual:
+
+[http://ode.org/wiki/index.php?title=Manual#Collision\_handling](http://ode.org/wiki/index.php?title=Manual#Collision_handling)
+
+##### Luiz Felipe 05/10/2021 11:07:00
+Locally I can run the three modes (real-time, run, and fast) in 2020b. Yups... it seems the 3 types are supported by the webots class... when I run the 'real-time' mode with MJPEG it works fine with graphics in the stream... If I run the 'run' or 'fast' mode the simulation run as fast as possible but both of them without graphics in the stream...
+
+
+If i get the graphics in 'real-time' it means the graphics rendering in Webots is enabled right?
+
+##### Stefania Pedrazzi [Cyberbotics] 05/10/2021 11:09:16
+Yes. The MJPEG won't work when running with the FAST mode, but should work running the simulation in RUN mode.
+
+If it doesn't, then I would suggest you to upgrade to the latest Webots R2021a.
+
+##### Luiz Felipe 05/10/2021 11:10:30
+Okkz! I will test again... because the websocket call changes to R2021a right?
+
+##### Stefania Pedrazzi [Cyberbotics] 05/10/2021 11:16:00
+In R2021a, the "run" and "fast" mode have been changed in Webots: only the "fast" remains and the graphics rendering has been added as separate option. In the streaming communication nothing changed.
+
+The main reason to upgrade is that we won't be able to fix bugs, if any, in the old Webots R2020b release.
+
+##### Luiz Felipe 05/10/2021 11:19:42
+ok!
+
+##### h.sciascia 05/10/2021 11:33:17
+Ok thanks i will try that
+
+##### Iris230 05/10/2021 13:19:22
+guys I'm wondering how can I use the vehicle libraries in pycharm?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 13:19:56
+[https://cyberbotics.com/doc/guide/using-your-ide#pycharm](https://cyberbotics.com/doc/guide/using-your-ide#pycharm)
+
+##### Iris230 05/10/2021 13:23:36
+thank you, I've seen this😂 but  what exactly value of path should I type?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 13:25:32
+Check this:
+
+[https://cyberbotics.com/doc/guide/running-extern-robot-controllers#environment-variables](https://cyberbotics.com/doc/guide/running-extern-robot-controllers#environment-variables)
+
+##### Iris230 05/10/2021 13:28:18
+but there is no vehicle libraries🥲
+
+
+
+%figure
+![IMG_20210510_212543.jpg](https://cdn.discordapp.com/attachments/565154703139405824/841305700470882354/IMG_20210510_212543.jpg)
+%end
+
+
+here is the error🥲
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 13:31:10
+That means that your `LD_LIBRARY_PATH` is not properly configured. What do you get when you do `echo $LD_LIBRARY_PATH`?
+
+
+Oh, my bad, you are in Windows
+
+##### Iris230 05/10/2021 13:34:01
+yes,I'm in windows😂
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 13:34:08
+What is your PATH?
+
+##### Iris230 05/10/2021 13:35:45
+sorry give me a second
+
+
+
+%figure
+![IMG_20210510_213810.jpg](https://cdn.discordapp.com/attachments/565154703139405824/841308208903356446/IMG_20210510_213810.jpg)
+%end
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 13:40:37
+Can you check whether those directories exist?
+
+##### Iris230 05/10/2021 13:42:30
+they do exist, cause I just copied and add them
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 13:48:40
+Can you run the controller from a CLI using these instructions?
+
+[https://cyberbotics.com/doc/guide/running-extern-robot-controllers#environment-variables](https://cyberbotics.com/doc/guide/running-extern-robot-controllers#environment-variables)
+
+##### Iris230 05/10/2021 13:56:30
+it seems like there is no instruction about running the controller from a  CLI?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 13:57:48
+You should be able to run `python3 /path/to/your_controller.py` once all environment variables are set
+
+##### Iris230 05/10/2021 14:12:25
+nothing happened… it still can't control my car
+
+
+
+%figure
+![IMG_20210510_221258.jpg](https://cdn.discordapp.com/attachments/565154703139405824/841316923597258802/IMG_20210510_221258.jpg)
+%end
+
+
+I couldn't see anything🥲
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 14:19:06
+You use Python from Anaconda :/
+
+[https://cyberbotics.com/doc/guide/using-python#use-an-alternative-python-version](https://cyberbotics.com/doc/guide/using-python#use-an-alternative-python-version)
+
+##### Iris230 05/10/2021 14:23:57
+oh thank you very much
+
+##### Luiz Felipe 05/11/2021 00:54:21
+Just as a feedback `@Stefania Pedrazzi` , with the R2021a it works fine... Thank you!
+
+##### h.sciascia 05/11/2021 06:35:05
+Hello everyone, 
+
+I am doing a simulation with a personalized physics plugin.
+
+
+
+My code is generating a lot of random configuration of a 6 dof arm robot and realize them. 
+
+For each configuration I setPosition to the motors, and then erase the previous configuration with a new random one. 
+
+
+
+But my simulation is freezing about 5-6 secs after i launch the process.
+
+
+
+Have you any idea for the resolution of my problem ? 
+
+Because even if I reset the physics plugin and erase all of the components of my environment to only keep the robot arm the simulation freeze...
+
+
+
+Thanks in advance 😉
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/11/2021 06:45:15
+The Physics plugin is usually a critical part, you may have a blocking code there. Is it possible for you to test without the plugin?
+
+##### yash 05/11/2021 14:20:55
+Hi ! I want to know the radius of the wheels of iRobot’s create that’s available in WEBOTS.
+
+
+
+I couldn’t find it ... please help me if there’s any way to find out.
+
+##### harrymcc 05/11/2021 15:00:22
+wb\_motor\_set\_position(left\_motor, 1);
+
+ wb\_motor\_set\_position(right\_motor, 1); i have been going through the tutorials and this code according to it makes the robot come to a stop after 1 rotation of the wheel but it just keep going. Any clue why it does this. Even tried a straight copy and paste of the tutorial code and still nothing
+
+##### Majanao 05/11/2021 16:58:15
+Hi, is someone able to use the Blender import function. I always get the same error even with different Blender models.... WARNING: Invalid data, please verify mesh file (bone weights, normals, ...): BLEND: Expected at least one object with no parent
+
+##### KajalGada 05/12/2021 00:08:25
+From my understanding, any set position or set velocity command once given will continue to be in that state and not a one off.
+
+
+
+If you want it stop after a rotation, you can add an if condition to check current position of wheel and once reached to 1, stop it.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/12/2021 02:02:36
+`@harrymcc` `@KajalGada` wb\_motor\_set\_position(right\_motor, 1) gives the motor the command to reach the position 1. Once it reaches that position, it stops and holds it. The value is in radian (2*pi = 6.28...) is one rotation. So if your current motor position is 0 and you turn to 1, the robot will only roll a bit. However, if your current position is -100, it will roll quite a bit.
+
+
+`@Majanao` what type of file did you try to import? Perhaps try to export it as an .obj file and import that
+
+
+It sounds like you want to export a scene or special structure.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/12/2021 08:15:16
+Hello `@cahyadiryan30`, I had remove your post as it contained images that make hard for users to debug your simulation. Please post the code to services like Gist ([https://gist.github.com/](https://gist.github.com/)) or use a proper tag ([https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-)).
 

@@ -4,7 +4,10 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/22/2021 11:05:26
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/12/2021 12:16:34
+Webots appears in a pretty good position in this open source robotics simulation page: [https://www.libhunt.com/t/robotics-simulation](https://www.libhunt.com/t/robotics-simulation)
+
+
 Here is a nice master thesis report making extensive use of Webots: [https://webthesis.biblio.polito.it/17504/1/tesi.pdf](https://webthesis.biblio.polito.it/17504/1/tesi.pdf)
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/14/2021 06:36:47
