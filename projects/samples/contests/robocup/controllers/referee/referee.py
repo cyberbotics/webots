@@ -1093,6 +1093,8 @@ def check_team_ball_handling(team):
                     reset_ball_handling(player)
                     sentence = 'touched the ball with its hand or arm for more than 10 seconds during throw-in'
                     send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
+                # FIXME: test if a player released the ball and retook it => BALL_MANIPULATION penalty
+                # FIXME: during the throw-in, the ball may be in outside of the field (in the air).
             else:  # goalkeeper case
                 if duration >= 10:
                     reset_ball_handling(player)
@@ -1102,7 +1104,8 @@ def check_team_ball_handling(team):
                     reset_ball_handling(player)
                     info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than 6 seconds.')
                     return True  # a freekick will be awarded
-
+                # FIXME: test if the goal keeper released the ball and retook it => return True
+                # FIXME: test if the ball was sent to goalkeeper by teammate => return True
     return False  # not free kick awarded
 
 
