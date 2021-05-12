@@ -271,17 +271,25 @@ def team_index(color):
 
 def game_controller_receive():
     data = None
+    ip = None
     while True:
+        if ip and ip not in game_controller_receive.others:
+            game_controller_receive.others.append(ip)
+            warning(f'Ignoring UDP packet coming from a different host {ip} != {game_controller_host}.')
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
             ip, port = peer
-            if game_controller_host != ip:  # ignore UDP packets not coming from our GameController
-                warning(f'Ignoring UDP packet coming from a different host {ip} != {game_controller_host}.')
+            if game_controller_host == ip:
+                break
+            else:
                 continue
         except BlockingIOError:
             if data is None:
                 return
-            break
+            if game_controller_host == ip:
+                break
+            else:
+                continue
         except Exception as e:
             error(f'UDP input failure: {e}')
             data = None
@@ -367,6 +375,9 @@ def game_controller_receive():
     elif secondary_state not in ['STATE_NORMAL', 'STATE_OVERTIME', 'STATE_PENALTYSHOOT']:
         print(f'GameController {game.state.game_state}:{secondary_state}: {secondary_state_info}')
     update_penalized()
+
+
+game_controller_receive.others = []
 
 
 def game_controller_send(message):
@@ -1066,10 +1077,11 @@ def check_team_ball_handling(team):
             continue
         goalkeeper = goalkeeper_inside_own_goal_area(team, number)
         color = team['color']
-        if not goalkeeper and game.interrution != 'THROWIN':
+        if not goalkeeper and game.interruption != 'THROWIN':
             sentence = 'touched the ball with its hand or arm'
             send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
         else:
+            ball_on_the_ground = game.ball_position[2] <= game.turf_depth + game.ball_radius
             if np.sum(player['ball_handling']) > length / 2:  # if the ball was touched most of the time during the last second
                 player['ball_handling_counter'] += 1
             else:
@@ -1082,7 +1094,6 @@ def check_team_ball_handling(team):
                 if player['ball_handling_counter'] >= 10:
                     info(f'{color.capitalize()} goalkeeper {number} handled the ball up for more than 10 seconds.')
                     return True
-                ball_on_the_ground = game.ball_position[2] <= game.turf_depth + game.ball_radius
                 if ball_on_the_ground and player['ball_handling_counter'] >= 6:
                     info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than 6 seconds.')
                     return True
@@ -2192,7 +2203,7 @@ while supervisor.step(time_step) != -1 and not game.over:
 
     check_fallen()                                # detect fallen robots
 
-    if not game.interruption:
+    if not game.interruption and game.state.game_state in ['STATE_PLAYING', 'STATE_SET']:
         ball_holding = check_ball_holding()       # check for ball holding fouls
         if ball_holding:
             interruption('DIRECT_FREEKICK', ball_holding)
