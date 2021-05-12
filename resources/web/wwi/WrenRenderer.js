@@ -8,7 +8,7 @@ export default class WrenRenderer {
     let div = document.getElementById('view3d');
 
     if (typeof div === 'undefined' || div === null)
-      div = document.getElementById('playerDiv');
+      div = document.getElementsByTagName('webots-streaming');
     div.insertBefore(this.canvas, div.firstChild);
 
     _wr_config_enable_shadows(!disableShadows);

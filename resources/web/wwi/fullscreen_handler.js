@@ -10,7 +10,7 @@ function requestFullscreen(view) {
     elem.webkitRequestFullscreen();
 }
 
-function exitFullscreen(scene) {
+function exitFullscreen() {
   if (typeof document.exitFullscreen !== 'undefined')
     document.exitFullscreen();
   else if (typeof document.msExitFullscreen !== 'undefined')
@@ -19,15 +19,6 @@ function exitFullscreen(scene) {
     document.mozCancelFullScreen();
   else if (typeof document.webkitExitFullscreen !== 'undefined')
     document.webkitExitFullscreen();
-
-  // Fix bug where toolbar can be hidden by the canvas on exit fullscreen
-  if (typeof scene !== 'undefined') {
-    setTimeout(() => {
-      scene.resize();
-      scene.resize();
-      scene.resize();
-    }, 100);
-  }
 }
 
 function onFullscreenChange(fullscreenButton, exitFullscreenButton) {

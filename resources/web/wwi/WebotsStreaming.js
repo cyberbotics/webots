@@ -38,7 +38,7 @@ export default class WebotsStreaming extends HTMLElement {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
-    let playerDiv = document.getElementById('playerDiv');
+    let playerDiv = document.getElementsByTagName('webots-streaming')[0];
     if (typeof this.view === 'undefined')
       this.view = new webots.View(playerDiv, mobileDevice);
     this.view.broadcast = broadcast;
