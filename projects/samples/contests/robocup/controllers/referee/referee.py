@@ -51,7 +51,8 @@ FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more
 REMOVAL_PENALTY_TIMEOUT = 30              # removal penalty lasts for 30 seconds
 GOALKEEPER_BALL_HOLDING_TIMEOUT = 6       # a goalkeeper may hold the ball up to 6 seconds on the ground
 PLAYERS_BALL_HOLDING_TIMEOUT = 1          # field players may hold the ball up to 1 second
-HAND_BALL_HOLDING_TIMEOUT = 10            # a player throwing in or a goalkeeper may hold the ball up to 10 seconds in hands
+BALL_HANDLING_TIMEOUT = 10                # a player throwing in or a goalkeeper may hold the ball up to 10 seconds in hands
+GOALKEEPER_GROUND_BALL_HANDLING = 6       # a goalkeeper may handle the ball on the ground for up to 6 seconds
 END_OF_GAME_TIMEOUT = 10                  # Once the game is finished, let the referee run for 10 seconds before closing game
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
 FOUL_PUSHING_TIME = 1                     # 1 second
@@ -1089,20 +1090,23 @@ def check_team_ball_handling(team):
         else:
             ball_on_the_ground = game.ball_position[2] <= game.turf_depth + game.ball_radius
             if game.interruption == 'THROWIN':
-                if duration >= 10:  # a player can handle the ball for 10 seconds for throw-in, no more
+                if duration >= BALL_HANDLING_TIMEOUT:  # a player can handle the ball for 10 seconds for throw-in, no more
                     reset_ball_handling(player)
-                    sentence = 'touched the ball with its hand or arm for more than 10 seconds during throw-in'
+                    sentence = f'touched the ball with its hand or arm for more than {BALL_HANDLING_TIMEOUT} seconds ' + \
+                               'during throw-in'
                     send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
                 # FIXME: test if a player released the ball and retook it => BALL_MANIPULATION penalty
                 # FIXME: during the throw-in, the ball may be in outside of the field (in the air).
             else:  # goalkeeper case
-                if duration >= 10:
+                if duration >= BALL_HANDLING_TIMEOUT:
                     reset_ball_handling(player)
-                    info(f'{color.capitalize()} goalkeeper {number} handled the ball up for more than 10 seconds.')
+                    info(f'{color.capitalize()} goalkeeper {number} handled the ball up for more than '
+                         f'{BALL_HANDLING_TIMEOUT} seconds.')
                     return True  # a freekick will be awarded
-                if ball_on_the_ground and duration >= 6:
+                if ball_on_the_ground and duration >= GOALKEEPER_GROUND_BALL_HANDLING:
                     reset_ball_handling(player)
-                    info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than 6 seconds.')
+                    info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than '
+                         f'{GOALKEEPER_GROUND_BALL_HANDLING} seconds.')
                     return True  # a freekick will be awarded
                 # FIXME: test if the goal keeper released the ball and retook it => return True
                 # FIXME: test if the ball was sent to goalkeeper by teammate => return True
