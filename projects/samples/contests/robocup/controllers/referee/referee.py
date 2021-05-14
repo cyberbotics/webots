@@ -1430,6 +1430,7 @@ def send_team_penalties(team):
             robot.getField('rotation').setSFRotation(r)
             robot.resetPhysics()
             player['sent_to_penalty_position'] = True
+            player['penalty_stabilize'] = time_count + 1000  # stabilize for one virtual second
             player['penalty_translation'] = t
             player['penalty_rotation'] = r
             # Once removed from the field, the robot will be in the air, therefore its status will not be updated.
@@ -1447,12 +1448,13 @@ def send_penalties():
 def stabilize_team_penalized_robots(team):
     for number in team['players']:
         player = team['players'][number]
-        n = game.state.teams[team_index(team['color'])].players[int(number) - 1].secs_till_unpenalized
-        if n == REMOVAL_PENALTY_TIMEOUT and time_count % (10 * time_step) == 0:  # stabilize robot for one second
+        if 'penalty_stabilize' in player and time_count % (10 * time_step) == 0:  # stabilize every 10 time steps
             robot = player['robot']
             robot.resetPhysics()
             robot.getField('translation').setSFVec3f(player['penalty_translation'])
             robot.getField('rotation').setSFRotation(player['penalty_rotation'])
+            if player['penalty_stabilize'] <= time_count:
+                del player['penalty_stabilize']
 
 
 def stabilize_penalized_robots():
