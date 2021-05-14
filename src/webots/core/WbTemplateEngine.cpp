@@ -64,7 +64,7 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
 }
 
 void WbTemplateEngine::initialize() {
-  printf("WbTemplateEngine::initialize()\n");
+  printf("WbTemplateEngine::initialize lua\n");
   QFileInfo luaSLT2Script(WbStandardPaths::resourcesPath() + "lua/liluat/liluat.lua");
   if (!luaSLT2Script.exists()) {
     gValidLuaResources = false;
@@ -94,22 +94,7 @@ void WbTemplateEngine::initialize() {
   templateFile.close();
 }
 
-void WbTemplateEngine::initializeJavascriptEngine() {
-  printf("WbTemplateEngine::initializeJavascriptEngine\n");
-}
-
-WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString &language) {
-  static bool firstCall = true;
-  mLanguage = language;
-
-  if (language == "lua" && firstCall) {
-    initialize();
-    firstCall = false;
-  }
-
-  if (language == "javascript")
-    initializeJavascriptEngine();
-
+WbTemplateEngine::WbTemplateEngine(const QString &templateContent) {
   mTemplateContent = templateContent;
 }
 
@@ -121,13 +106,23 @@ const QString &WbTemplateEngine::closingToken() {
   return gClosingToken;
 }
 
-bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
+bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage) {
+  printf("WbTemplateEngine::generate: %s\n", templateLanguage.toUtf8().constData());
+  static bool firstCall = true;
   bool result;
 
-  if (mLanguage == "javascript")
-    result = generateJavascript(tags, logHeaderName);
-  else
+  if (templateLanguage == "lua") {
+    printf("GENERATING LUA\n");
+    if (firstCall) {
+      initialize();
+      firstCall = false;
+    }
+
     result = generateLua(tags, logHeaderName);
+  } else {
+    printf("GENERATING JAVASCRIPT\n");
+    result = generateJavascript(tags, logHeaderName);
+  }
 
   return result;
 }

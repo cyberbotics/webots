@@ -8,9 +8,9 @@ export function render(text) {
 export function main() {
   let result = '';
 
-  %context%
+  let context = { %context% }
 
-  %fields%
+  let fields = { %fields% }
 
   %body%
 

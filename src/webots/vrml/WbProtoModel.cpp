@@ -328,6 +328,7 @@ WbProtoModel::~WbProtoModel() {
 }
 
 WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const QString &worldPath, int uniqueId) {
+  printf("WbProtoModel::generateRoot: %s\n", mTemplateLanguage.toUtf8().constData());
   if (mContent.isEmpty())
     return NULL;
 
@@ -342,15 +343,19 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   if (mTemplate) {
     if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
-        if (parameter->isTemplateRegenerator())
-          key += WbProtoTemplateEngine::convertFieldValueToStatement(parameter, mTemplateLanguage);
+        if (parameter->isTemplateRegenerator()) {
+          QString statement = WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(parameter);
+          if (mTemplateLanguage == "lua")
+            statement = WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(statement);
+          key += statement;
+        }
       }
     }
 
     if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
-      WbProtoTemplateEngine te(mContent, mTemplateLanguage);
+      WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
-      if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId)) {
+      if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId, mTemplateLanguage)) {
         tokenizer.setErrorPrefix(mFileName);
         tokenizer.reportFileError(tr("Template engine error: %1").arg(te.error()));
         return NULL;
