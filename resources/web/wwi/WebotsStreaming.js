@@ -12,7 +12,7 @@ export default class WebotsStreaming extends HTMLElement {
     document.getElementsByTagName('webots-streaming')[0].appendChild(template.content.cloneNode(true));
 
     let link = document.createElement('link');
-    link.href = 'https://cyberbotics.com/wwi/wrenjs//css/wwi.css';
+    link.href = 'https://cyberbotics.com/wwi/wrenjs/css/wwi.css';
     link.type = 'text/css';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
