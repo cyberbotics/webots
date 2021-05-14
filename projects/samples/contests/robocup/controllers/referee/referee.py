@@ -1332,6 +1332,7 @@ def set_ball_touched(team_color, player_number):
     game.ball_previous_touch_player_number = game.ball_last_touch_player_number
     game.ball_last_touch_team = team_color
     game.ball_last_touch_player_number = player_number
+    game.dropped_ball = False
 
 
 def reset_ball_touched():
