@@ -157,6 +157,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   /*
   // how to import modules
   QJSValue modulee = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/test.js");
+
   if (modulee.isError())
     printf("ERROR LOADING MODULE\n");
   else
@@ -171,8 +172,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QJSValue res = mainn.call();
 
   printf(">>>>>>>>>>>>>>>>>>>%s<<<<<<<<<<<<<<<<\n", res.toString().toUtf8().constData());
+  return 0;
   */
-
   // translate mixed proto into javascript
   int start = -1;
   int end = -1;
@@ -200,7 +201,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
       if (matched.startsWith("%{=")) {
         matched = matched.replace("%{=", "");
         matched = matched.replace("}%", "");
-        jsBody += "result += eval(\"" + matched + "\");";
+        // jsBody += "result += eval(\"" + matched + "\");";
+        jsBody += "var x = " + matched + "; result += eval(\"x\");";  // var because there might be multiple expressions
       } else if (matched.startsWith("%{")) {
         matched = matched.replace("%{", "");
         matched = matched.replace("}%", "");
