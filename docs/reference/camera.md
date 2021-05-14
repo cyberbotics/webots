@@ -1249,6 +1249,7 @@ If the [Recognition](recognition.md) node is not defined, the function returns F
 
 The `wb_camera_recognition_enable_segmentation` and `wb_camera_recognition_disable_segmentation` functions toggle the generation of the segmented image.
 Note that the generation of the segmented image can only be enabled if the recognition functionality is enabled (see [`wb_camera_has_recognition`](#wb_camera_has_recognition) and [`wb_camera_recognition_enable`](#wb_camera_recognition_enable)).
+Once the camera segmentation is enabled, it will copy images from GPU memory to CPU memory at each time step, regardless of `wb_camera_recognition_get_segmentation_image` calls.
 
 The `wb_camera_recognition_is_segmentation_enabled` function returns TRUE if the generation of the segmented image is enabled and FALSE otherwise.
 If the recognition functionality is disabled, the segmentation functionality will be disabled as well.
