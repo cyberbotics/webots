@@ -75,7 +75,9 @@ export default class Stream {
         this.view.deadline = this.view.timeout;
         if (typeof this.view.time !== 'undefined')
           this.view.deadline += this.view.time;
-        document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.deadline);
+
+        if (document.getElementById('webotsTimeout'))
+          document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.deadline);
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
       if (this.view.toolBar) {
@@ -85,15 +87,19 @@ export default class Stream {
       if (this.view.timeout >= 0)
         this.socket.send('timeout:' + this.view.timeout);
     } else if (data.startsWith('loading:')) {
-      document.getElementById('webotsProgress').style.display = 'block';
+      if (document.getElementById('webotsProgress'))
+        document.getElementById('webotsProgress').style.display = 'block';
       data = data.substring(data.indexOf(':') + 1).trim();
       let loadingStatus = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
-      document.getElementById('webotsProgressMessage').innerHTML = 'Webots: ' + loadingStatus;
-      document.getElementById('webotsProgressPercent').innerHTML = '<progress value="' + data + '" max="100"></progress>';
+      if (document.getElementById('webotsProgressMessage'))
+        document.getElementById('webotsProgressMessage').innerHTML = 'Webots: ' + loadingStatus;
+      if (document.getElementById('webotsProgressPercent'))
+        document.getElementById('webotsProgressPercent').innerHTML = '<progress value="' + data + '" max="100"></progress>';
     } else if (data === 'scene load completed') {
       this.view.time = 0;
-      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+      if (document.getElementById('webotsClock'))
+        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
       if (this.view.mode === 'mjpeg') {
         if (document.getElementById('webotsProgress'))
           document.getElementById('webotsProgress').style.display = 'none';
@@ -112,7 +118,8 @@ export default class Stream {
         this.onready();
     } else if (data.startsWith('time: ')) {
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
-      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.time);
+      if (document.getElementById('webotsClock'))
+        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.time);
     } else if (data === 'delete world') {
       this.view.destroyWorld();
       webots.currentView.toolBar.enableToolBarButtons(false);

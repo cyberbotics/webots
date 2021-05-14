@@ -268,9 +268,10 @@ webots.View = class View {
         return;
       if (this.toolBar)
         this.toolBar.enableToolBarButtons(false);
-
-      document.getElementById('webotsProgressMessage').innerHTML = 'Loading ' + this.toolBar.worldSelect.value + '...';
-      document.getElementById('webotsProgress').style.display = 'block';
+      if (document.getElementById('webotsProgressMessage'))
+        document.getElementById('webotsProgressMessage').innerHTML = 'Loading ' + this.toolBar.worldSelect.value + '...';
+      if (document.getElementById('webotsProgress'))
+        document.getElementById('webotsProgress').style.display = 'block';
       this.stream.socket.send('load:' + this.toolBar.worldSelect.value);
     };
   }
@@ -308,14 +309,18 @@ webots.View = class View {
   }
 
   resetSimulation() {
-    document.getElementById('webotsProgress').style.display = 'none';
+    if (document.getElementById('webotsProgress'))
+      document.getElementById('webotsProgress').style.display = 'none';
     this.removeLabels();
-    document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+    if (document.getElementById('webotsClock'))
+      document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
     this.deadline = this.timeout;
-    if (this.deadline >= 0)
-      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.deadline);
-    else
-      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+    if (document.getElementById('webotsTimeout')) {
+      if (this.deadline >= 0)
+        document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.deadline);
+      else
+        document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+    }
   }
 
   quitSimulation() {

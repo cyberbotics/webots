@@ -90,11 +90,14 @@ export default class Toolbar {
     if (this.view.broadcast)
       return;
     this.time = 0; // reset time to correctly compute the initial deadline
-    if (revert)
-      document.getElementById('webotsProgressMessage').innerHTML = 'Reverting simulation...';
-    else
-      document.getElementById('webotsProgressMessage').innerHTML = 'Restarting simulation...';
-    document.getElementById('webotsProgress').style.display = 'block';
+    if (document.getElementById('webotsProgressMessage')) {
+      if (revert)
+        document.getElementById('webotsProgressMessage').innerHTML = 'Reverting simulation...';
+      else
+        document.getElementById('webotsProgressMessage').innerHTML = 'Restarting simulation...';
+    }
+    if (document.getElementById('webotsProgress'))
+      document.getElementById('webotsProgress').style.display = 'block';
     this.view.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
 
