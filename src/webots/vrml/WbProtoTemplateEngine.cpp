@@ -37,8 +37,7 @@
 
 static QString gCoordinateSystem;
 
-WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent, const QString &language) :
-  WbTemplateEngine(templateContent, language) {
+WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : WbTemplateEngine(templateContent) {
 }
 
 bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector<WbField *> &parameters,
@@ -53,11 +52,11 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
            parameter->isTemplateRegenerator());
     if (!parameter->isTemplateRegenerator())  // keep only regenerator fields
       continue;
-    const QString &valueString = convertFieldValueToStatement(parameter, language());
+    const QString &valueString = convertFieldValueToStatement(parameter);
     if (!valueString.isEmpty()) {
       tags["fields"] += QString("%1 = {").arg(parameter->name());
       tags["fields"] += QString("value = %1, ").arg(valueString);
-      tags["fields"] += QString("defaultValue = %1").arg(convertFieldDefaultValueToStatement(parameter, language()));
+      tags["fields"] += QString("defaultValue = %1").arg(convertFieldDefaultValueToStatement(parameter));
     }
     tags["fields"] += "},\n";
   }
@@ -86,7 +85,7 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
                        .arg(version.revisionNumber());
 
   // TMP SOLUTION, TO DO PROPERLY
-  if (language() == "javascript") {
+  if (WbTemplateEngine::mTemplateLanguage == "javascript") {
     tags["context"] = tags["context"].replace(" =", ":");
     tags["fields"] = tags["fields"].replace(" =", ":");
 
@@ -97,7 +96,7 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     tags["context"] += "}";
   }
 
-  printf("Scipting Language: %s\n", language().toUtf8().constData());
+  // printf("Scipting Language: %s\n", (WbTemplateEngine::templateLanguage).toUtf8().constData());
   return WbTemplateEngine::generate(tags, logHeaderName);
 }
 
@@ -109,12 +108,12 @@ const QString &WbProtoTemplateEngine::coordinateSystem() {
   return gCoordinateSystem;
 }
 
-QString WbProtoTemplateEngine::convertFieldValueToStatement(const WbField *field, const QString &language) {
+QString WbProtoTemplateEngine::convertFieldValueToStatement(const WbField *field) {
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->value());
     assert(singleValue);
     const WbVariant &variant = singleValue->variantValue();
-    return convertVariantToStatement(variant, language);
+    return convertVariantToStatement(variant);
   } else if (field->isMultiple()) {
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->value());
     assert(multipleValue);
@@ -124,7 +123,7 @@ QString WbProtoTemplateEngine::convertFieldValueToStatement(const WbField *field
       if (i != 0)
         result += ", ";
       const WbVariant &variant = multipleValue->variantValue(i);
-      result += convertVariantToStatement(variant, language);
+      result += convertVariantToStatement(variant);
     }
     result += "}";
     return result;
@@ -134,12 +133,12 @@ QString WbProtoTemplateEngine::convertFieldValueToStatement(const WbField *field
   return "";
 }
 
-QString WbProtoTemplateEngine::convertFieldDefaultValueToStatement(const WbField *field, const QString &language) {
+QString WbProtoTemplateEngine::convertFieldDefaultValueToStatement(const WbField *field) {
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->defaultValue());
     assert(singleValue);
     const WbVariant &variant = singleValue->variantValue();
-    return convertVariantToStatement(variant, language);
+    return convertVariantToStatement(variant);
   }
 
   else if (field->isMultiple()) {
@@ -151,7 +150,7 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToStatement(const WbField
       if (i != 0)
         result += ", ";
       const WbVariant &variant = multipleValue->variantValue(i);
-      result += convertVariantToStatement(variant, language);
+      result += convertVariantToStatement(variant);
     }
     result += "}";
     return result;
@@ -161,7 +160,7 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToStatement(const WbField
   return "";
 }
 
-QString WbProtoTemplateEngine::convertVariantToStatement(const WbVariant &variant, const QString &language) {
+QString WbProtoTemplateEngine::convertVariantToStatement(const WbVariant &variant) {
   switch (variant.type()) {
     case WB_SF_BOOL:
       return QString("%1").arg(variant.toBool() ? "true" : "false");
@@ -171,12 +170,12 @@ QString WbProtoTemplateEngine::convertVariantToStatement(const WbVariant &varian
       return QString("%1").arg(variant.toDouble());
     case WB_SF_VEC2F: {
       QString statement = QString("{x: %1, y: %2}").arg(variant.toVector2().x()).arg(variant.toVector2().y());
-      return language == "javascript" ? statement : statement.replace(":", " =");
+      return mTemplateLanguage == "javascript" ? statement : statement.replace(":", " =");
     }
     case WB_SF_VEC3F: {
       QString statement =
         QString("{x: %1, y: %2, z: %3}").arg(variant.toVector3().x()).arg(variant.toVector3().y()).arg(variant.toVector3().z());
-      return language == "javascript" ? statement : statement.replace(":", " =");
+      return mTemplateLanguage == "javascript" ? statement : statement.replace(":", " =");
     }
     case WB_SF_ROTATION: {
       QString statement = QString("{x: %1, y: %2, z: %3, a: %4}")
@@ -184,14 +183,14 @@ QString WbProtoTemplateEngine::convertVariantToStatement(const WbVariant &varian
                             .arg(variant.toRotation().y())
                             .arg(variant.toRotation().z())
                             .arg(variant.toRotation().angle());
-      return language == "javascript" ? statement : statement.replace(":", " =");
+      return mTemplateLanguage == "javascript" ? statement : statement.replace(":", " =");
     }
     case WB_SF_COLOR: {
       QString statement = QString("{r: %1, g: %2, b: %3}")
                             .arg(variant.toColor().red())
                             .arg(variant.toColor().green())
                             .arg(variant.toColor().blue());
-      return language == "javascript" ? statement : statement.replace(":", " =");
+      return mTemplateLanguage == "javascript" ? statement : statement.replace(":", " =");
     }
     case WB_SF_STRING: {
       QString string = variant.toString();
@@ -215,8 +214,8 @@ QString WbProtoTemplateEngine::convertVariantToStatement(const WbVariant &varian
         foreach (const WbField *field, node->fieldsOrParameters()) {
           if (field->name() != "node_name") {
             nodeString += QString("%1 = {").arg(field->name());
-            nodeString += QString("value = %1, ").arg(convertFieldValueToStatement(field, language));
-            nodeString += QString("defaultValue = %1").arg(convertFieldDefaultValueToStatement(field, language));
+            nodeString += QString("value = %1, ").arg(convertFieldValueToStatement(field));
+            nodeString += QString("defaultValue = %1").arg(convertFieldDefaultValueToStatement(field));
             if (field != node->fieldsOrParameters().last())
               nodeString += "}, ";
             else

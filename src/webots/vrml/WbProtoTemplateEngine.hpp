@@ -31,18 +31,18 @@ class WbProtoTemplateEngine : public WbTemplateEngine {
   Q_OBJECT
 
 public:
-  explicit WbProtoTemplateEngine(const QString &templateContent, const QString &language);
+  explicit WbProtoTemplateEngine(const QString &templateContent);
   virtual ~WbProtoTemplateEngine() {}
 
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,
                 const QString &worldPath, int id);
-  static QString convertFieldValueToStatement(const WbField *field, const QString &language);
+  static QString convertFieldValueToStatement(const WbField *field);
   static const QString &coordinateSystem();
   static void setCoordinateSystem(const QString &coordinateSystem);
 
 private:
-  static QString convertFieldDefaultValueToStatement(const WbField *field, const QString &language);
-  static QString convertVariantToStatement(const WbVariant &variant, const QString &language);
+  static QString convertFieldDefaultValueToStatement(const WbField *field);
+  static QString convertVariantToStatement(const WbVariant &variant);
 };
 
 #endif

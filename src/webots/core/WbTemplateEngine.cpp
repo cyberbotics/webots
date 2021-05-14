@@ -36,6 +36,8 @@
 static bool gValidLuaResources = true;
 static QString gTemplateFileContent;
 
+QString WbTemplateEngine::mTemplateLanguage = "javascript";
+
 namespace {
   // Note: not the default opening/closing tokens in order to allow
   //       VRML comments to comment templates
@@ -98,16 +100,21 @@ void WbTemplateEngine::initializeJavascriptEngine() {
   printf("WbTemplateEngine::initializeJavascriptEngine\n");
 }
 
-WbTemplateEngine::WbTemplateEngine(const QString &templateContent, const QString &language) {
+WbTemplateEngine::WbTemplateEngine(const QString &templateContent) {
   static bool firstCall = true;
-  mLanguage = language;
 
-  if (language == "lua" && firstCall) {
+  if (WbTemplateEngine::mTemplateLanguage == "lua")
+    printf("ENGINE: LUA\n");
+
+  if (WbTemplateEngine::mTemplateLanguage == "javascript")
+    printf("ENGINE: JAVASCRIPT\n");
+
+  if (WbTemplateEngine::mTemplateLanguage == "lua" && firstCall) {
     initialize();
     firstCall = false;
   }
 
-  if (language == "javascript")
+  if (WbTemplateEngine::mTemplateLanguage == "javascript")
     initializeJavascriptEngine();
 
   mTemplateContent = templateContent;
@@ -124,7 +131,7 @@ const QString &WbTemplateEngine::closingToken() {
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
   bool result;
 
-  if (mLanguage == "javascript")
+  if (mTemplateLanguage == "javascript")
     result = generateJavascript(tags, logHeaderName);
   else
     result = generateLua(tags, logHeaderName);
