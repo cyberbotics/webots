@@ -212,7 +212,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   // extract imports from jsBody, if any
-  // check if it contains an import
   QRegularExpression reImport("import(.*?)[;\n]");
   it = reImport.globalMatch(jsBody);
   while (it.hasNext()) {

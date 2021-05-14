@@ -85,23 +85,23 @@ export function toMatrix3(r) {
   return m;
 };
 
-export function isValid(r) {
-  return r.x !== 0 || r.y !== 0 || r.z !== 0;
+export function isValidAxis(v) {
+  return v.x !== 0 || v.y !== 0 || v.z !== 0;
 }
 
 export function isIdentity(r) {
   return r.a === 0.0;
 }
 
-export function normalizeAngle(r) {
+function normalizeAngle(r) {
   while (r.a < -Math.PI)
     r.a = r.a + 2 * Math.PI;
   while (r.a > Math.PI)
     r.a = r.a - 2 * Math.PI;
 };
 
-export function normalizeAxis(r) {
-  if (!isValid(r)) { // TODO: should give error instead of overwriting?
+function normalizeAxis(r) {
+  if (!isValidAxis(r)) { // TODO: should give error instead of overwriting?
     r.x = 0;
     r.y = 1;
     r.z = 0;
