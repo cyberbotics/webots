@@ -308,7 +308,7 @@ export default class Animation {
   }
 
   _changeGtao(event) {
-    changeGtaoLevel(this.textToGtaoLevel(event.srcElement.id));
+    changeGtaoLevel(this._textToGtaoLevel(event.srcElement.id));
     document.getElementById('gtao-pane').style.visibility = 'hidden';
     document.getElementById('gtao-display').innerHTML = event.srcElement.id;
     document.getElementById('settings-pane').style.visibility = 'visible';
@@ -352,7 +352,7 @@ export default class Animation {
     return string;
   }
 
-  textToGtaoLevel(text) {
+  _textToGtaoLevel(text) {
     let level = 4;
     switch (text) {
       case 'Low':
