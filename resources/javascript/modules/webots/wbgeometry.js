@@ -1,111 +1,116 @@
-
-
 /*
-local M = {}
+ * content:
+ */
+import * as wbvector2 from 'wbvector2.js';
 
--- create a list of 'div' circle coordinates according
--- to a circle centered at {'cx', 'cy'} and rotated by
--- 'shift' radians
-function M.circle(radius, div, cx, cy, shift)
-  local circle = {}
-  local quantum = 2 * math.pi / div
-  for i = 0, div do
-    table.insert(circle, {x = radius * math.cos(i * quantum + shift) + cx; y = radius * math.sin(i * quantum + shift) + cy})
-  end
-  return circle
-end
+export function testFunction() { // TODO: to remove
+  return 'WBGEOMETRY WORKS';
+};
 
--- determine if a point is inside a given polygon or not
--- polygon is a list of (x,y) pairs.
-function M.ispointinpolygon(x, y, polygon)
-  local wbcore = require('wbcore')
-  local n = wbcore.tablelength(polygon)
-  if n < 3 then
-    return false
-  end
-  local inside = false
-  local p1x = polygon[1].x
-  local p1y = polygon[1].y
-  local xinters = 0
-  for i = 1, n do
-    local p2x = polygon[i % n + 1].x
-    local p2y = polygon[i % n + 1].y
-    if y > math.min(p1y,p2y) then
-      if y <= math.max(p1y,p2y) then
-        if x <= math.max(p1x,p2x) then
-          if p1y ~= p2y then
-            xinters = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
-          end
-          if p1x == p2x or x <= xinters then
-            inside = not inside
-          end
-        end
-      end
-    end
-    p1x = p2x
-    p1y = p2y
-  end
-  return inside
-end
+// create a list of 'div' circle coordinates according
+// to a circle centered at {'cx', 'cy'} and rotated by
+// 'shift' radians
+export function circle(radius, div, cx, cy, shift) {
+  let circle = [];
+  const quantum = 2 * Math.PI / div;
 
--- return the closest points in the array
--- referencepoint should be a 2d point (x, y)
--- pointsarray should be a array of 2d points (x, y)
-function M.findclosest2Dpointinarray(referencePoint, pointsArray)
-  local point = referencePoint
-  local wbcore = require('wbcore')
-  local wbvector2 = require('wbvector2')
-  local dist = 1 / 0
-  local pointsNumber = wbcore.tablelength(pointsArray)
-  for i = 1, pointsNumber do
-    local currentDistance = wbvector2.distance(referencePoint, pointsArray[i])
-    if currentDistance < dist then
-      dist = currentDistance
-      point = pointsArray[i]
-    end
-  end
-  return point
-end
+  for (let i = 0; i <= div; ++i)
+    circle.push({x: radius * Math.cos(i * quantum + shift) + cx, y: radius * Math.sin(i * quantum + shift) + cy});
 
--- check if an array of points (x, y) is defined in a clockwise order
--- based on the formula (x2-x1)(y2+y1) (http://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order)
-function M.islistclockwise2D(points)
-  local wbcore = require('wbcore')
-  local pointsNumber = wbcore.tablelength(points)
-  local total = 0
-  for i = 1, pointsNumber - 1 do
-    total = total + (points[i+1].x - points[i].x) * (points[i+1].y + points[i].y)
-  end
-  total = total + (points[1].x - points[pointsNumber].x) * (points[1].y + points[pointsNumber].y)
+  return circle;
+};
 
-  if total >= 0 then
-    return false
+// determine if a point is inside a given polygon or not
+// polygon is a list of (x,y) pairs.
+export function isPointInPolygon(x, y, polygon) {
+  // local wbcore = require('wbcore')
+  // local n = wbcore.tablelength(polygon)
+  const n = polygon.length;
+  if (n < 3)
+    return false;
+
+  let inside = false;
+  let p1x = polygon[0].x;
+  let p1y = polygon[0].y;
+  let p2x;
+  let p2y;
+  let xinters = 0;
+  for (let i = 1; i <= n; ++i) {
+    p2x = polygon[i % n + 1].x;
+    p2y = polygon[i % n + 1].y;
+
+    if (y > Math.min(p1y, p2y)) {
+      if (y <= Math.max(p1y, p2y)) {
+        if (x <= Math.max(p1x, p2x)) {
+          if (p1y !== p2y)
+            xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x;
+          if (p1x === p2x || x <= xinters)
+            inside = !inside;
+        }
+      }
+    }
+
+    p1x = p2x;
+    p1y = p2y;
+  }
+
+  return inside;
+};
+
+// return the closest points in the array
+// referencepoint should be a 2d point (x, y)
+// pointsarray should be a array of 2d points (x, y)
+export function findClosest2DPointInArray(referencePoint, pointsArray) {
+  const pointsNumber = pointsArray.length;
+  let point = referencePoint;
+  let dist = Infinity;
+  let currentDistance;
+  for (let i = 0; i < pointsNumber; ++i) {
+    currentDistance = wbvector2.distance(referencePoint, pointsArray[i]);
+    if (currentDistance < dist) {
+      dist = currentDistance;
+      point = pointsArray[i];
+    }
+  }
+
+  return point;
+};
+
+// check if an array of points (x, y) is defined in a clockwise order
+// based on the formula (x2-x1)(y2+y1) (http://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order)
+export function isListClockwise2D(points) {
+  const pointsNumber = points.length;
+  let total = 0;
+
+  for (let i = 0; i < pointsNumber - 1; ++i)
+    total = total + (points[i + 1].x - points[i].x) * (points[i + 1].y + points[i].y);
+  total = total + (points[0].x - points[pointsNumber - 1].x) * (points[0].y + points[pointsNumber - 1].y);
+
+  if (total >= 0)
+    return false;
   else
-    return true
-  end
-end
+    return true;
+};
 
--- create a B-Spline curve of third order using the array of points (x and y)
--- return then a new array of point following this B-Spline subdividing
--- each segment by 'subdivision'
-function M.bspline2D(points, subdivision)
+// create a B-Spline curve of third order using the array of points (x and y)
+// return then a new array of point following this B-Spline subdividing
+// each segment by 'subdivision'
+export function bSpline2D(points, subdivision) {
   local spline = {}
-  local wbcore = require('wbcore')
-  local wbvector2 = require('wbvector2')
-  local pointsNumber = wbcore.tablelength(points)
+  const pointsNumber = points.length;
 
-  -- extend the points array
-  points[0]                = wbvector2.add(points[1], wbvector2.minus(points[1], points[2]))
-  points[-1]               = wbvector2.add(points[0], wbvector2.minus(points[0], points[1]))
-  points[pointsNumber + 1] = wbvector2.add(points[pointsNumber], wbvector2.minus(points[pointsNumber], points[pointsNumber - 1]))
-  points[pointsNumber + 2] = wbvector2.add(points[pointsNumber + 1], wbvector2.minus(points[pointsNumber + 1], points[pointsNumber]))
+  // extend the points array
+  points.unshift(wbvector2.add(points[0], wbvector2.minus(points[0], points[1])));
+  points.unshift(wbvector2.add(points[0], wbvector2.minus(points[0], points[1])));
+  points.push(wbvector2.add(points[pointsNumber - 1], wbvector2.minus(points[pointsNumber - 1], points[pointsNumber - 2])));
+  points.push(wbvector2.add(points[pointsNumber], wbvector2.minus(points[pointsNumber], points[pointsNumber - 1])));
 
-  -- Interpolation
-  local index = 1
-  spline[index] = points[1] -- first point
+  // Interpolation
+  let index = 0;
+  spline[index] = points[2]; // first point
   for i = 0, pointsNumber - 1 do
-    local a = {} -- compute the third order coefficients for x
-    local b = {} -- compute the third order coefficients for y
+    let a = {}; // compute the third order coefficients for x
+    let b = {}; // compute the third order coefficients for y
     a[1] = (-points[i-1].x + 3 * points[i].x - 3 * points[i+1].x + points[i+2].x) / 6.0;
     a[2] = (3 * points[i-1].x - 6 * points[i].x + 3 * points[i+1].x) / 6.0;
     a[3] = (-3 * points[i-1].x + 3 * points[i+1].x) / 6.0;
@@ -123,8 +128,9 @@ function M.bspline2D(points, subdivision)
     end
   end
   return spline
-end
+}
 
+/*
 -- create a B-Spline curve of third order using the array of points (x, y and z)
 -- return then a new array of point following this B-Spline subdividing
 -- each segment by 'subdivision'
