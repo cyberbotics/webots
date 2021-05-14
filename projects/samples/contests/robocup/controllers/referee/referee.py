@@ -52,6 +52,7 @@ REMOVAL_PENALTY_TIMEOUT = 30              # removal penalty lasts for 30 seconds
 GOALKEEPER_BALL_HOLDING_TIMEOUT = 6       # a goalkeeper may hold the ball up to 6 seconds on the ground
 PLAYERS_BALL_HOLDING_TIMEOUT = 1          # field players may hold the ball up to 1 second
 BALL_HANDLING_TIMEOUT = 10                # a player throwing in or a goalkeeper may hold the ball up to 10 seconds in hands
+BALL_LIFT_THRESHOLD = 0.05                # during a throw-in with the hands, the ball must be lifted by at least 5 cm
 GOALKEEPER_GROUND_BALL_HANDLING = 6       # a goalkeeper may handle the ball on the ground for up to 6 seconds
 END_OF_GAME_TIMEOUT = 10                  # Once the game is finished, let the referee run for 10 seconds before closing game
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
@@ -375,6 +376,8 @@ def game_controller_receive():
             game_controller_send(f'{kick}:{secondary_state_info[0]}:EXECUTE')
             info(f'Execute {GAME_INTERRUPTIONS[kick]}.')
             game.interruption_seconds = game.state.seconds_remaining
+            if game.interruption_seconds == 0:
+                game.interruption_seconds = None
     elif secondary_state not in ['STATE_NORMAL', 'STATE_OVERTIME', 'STATE_PENALTYSHOOT']:
         print(f'GameController {game.state.game_state}:{secondary_state}: {secondary_state_info}')
     update_penalized()
@@ -791,6 +794,11 @@ def update_team_contacts(team):
                         if player['ball_handling_start'] is None:
                             player['ball_handling_start'] = time_count
                             info(f'Ball touched the {member} of {color} player {number}.')
+                        if (game.throw_in and
+                           game.ball_position[2] > game.field.turf_depth + game.ball_radius + BALL_LIFT_THRESHOLD):
+                            game.throw_in_ball_was_lifted = True
+                    else:  # the ball was touched by another part of the robot
+                        game.throw_in = False  # if the ball was hit by any player, we consider the throw-in (if any) complete
                     if game.ball_first_touch_time == 0:
                         game.ball_first_touch_time = time_count
                     game.ball_last_touch_time = time_count
@@ -1081,37 +1089,43 @@ def check_team_ball_handling(team):
         if player['ball_handling_start'] is None:  # ball is not handled
             continue
         duration = (player['ball_handling_last'] - player['ball_handling_start']) / 1000
-        if player['ball_handling_last'] - time_count >= 1000:  # ball was released one second ago or more
-            reset_ball_handling(player)
-        goalkeeper = goalkeeper_inside_own_goal_area(team, number)
         color = team['color']
-        if not goalkeeper and game.interruption != 'THROWIN':
+        if time_count - player['ball_handling_last'] >= 1000:  # ball was released one second ago or more
+            reset_ball_handling(player)
+            was_throw_in = game.throw_in
+            game.throw_in = False
+            if was_throw_in and not game.throw_in_ball_was_lifted:
+                sentence = 'throw-in with the hand or arm while the ball was not lifted by at least ' + \
+                           f'{BALL_LIFT_THRESHOLD * 100} cm'
+                send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
+                continue
+        goalkeeper = goalkeeper_inside_own_goal_area(team, number)
+        if not goalkeeper and not game.throw_in:
             reset_ball_handling(player)
             sentence = 'touched the ball with its hand or arm'
             send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
-        else:
-            ball_on_the_ground = game.ball_position[2] <= game.turf_depth + game.ball_radius
-            if game.interruption == 'THROWIN':
-                if duration >= BALL_HANDLING_TIMEOUT:  # a player can handle the ball for 10 seconds for throw-in, no more
-                    reset_ball_handling(player)
-                    sentence = f'touched the ball with its hand or arm for more than {BALL_HANDLING_TIMEOUT} seconds ' + \
-                               'during throw-in'
-                    send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
-                # FIXME: test if a player released the ball and retook it => BALL_MANIPULATION penalty
-                # FIXME: during the throw-in, the ball may be in outside of the field (in the air).
-            else:  # goalkeeper case
-                if duration >= BALL_HANDLING_TIMEOUT:
-                    reset_ball_handling(player)
-                    info(f'{color.capitalize()} goalkeeper {number} handled the ball up for more than '
-                         f'{BALL_HANDLING_TIMEOUT} seconds.')
-                    return True  # a freekick will be awarded
-                if ball_on_the_ground and duration >= GOALKEEPER_GROUND_BALL_HANDLING:
-                    reset_ball_handling(player)
-                    info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than '
-                         f'{GOALKEEPER_GROUND_BALL_HANDLING} seconds.')
-                    return True  # a freekick will be awarded
-                # FIXME: test if the goal keeper released the ball and retook it => return True
-                # FIXME: test if the ball was sent to goalkeeper by teammate => return True
+            continue
+        ball_on_the_ground = game.ball_position[2] <= game.field.turf_depth + game.ball_radius
+        if game.throw_in:
+            if duration >= BALL_HANDLING_TIMEOUT:  # a player can handle the ball for 10 seconds for throw-in, no more
+                reset_ball_handling(player)
+                sentence = f'touched the ball with its hand or arm for more than {BALL_HANDLING_TIMEOUT} seconds ' + \
+                           'during throw-in'
+                send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
+                continue
+        # goalkeeper case
+        if duration >= BALL_HANDLING_TIMEOUT:
+            reset_ball_handling(player)
+            info(f'{color.capitalize()} goalkeeper {number} handled the ball up for more than '
+                 f'{BALL_HANDLING_TIMEOUT} seconds.')
+            return True  # a freekick will be awarded
+        if ball_on_the_ground and duration >= GOALKEEPER_GROUND_BALL_HANDLING:
+            reset_ball_handling(player)
+            info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than '
+                 f'{GOALKEEPER_GROUND_BALL_HANDLING} seconds.')
+            return True  # a freekick will be awarded
+        # FIXME: test if the goal keeper released the ball and retook it => return True
+        # FIXME: test if the ball was sent to goalkeeper by teammate => return True
     return False  # not free kick awarded
 
 
@@ -1643,6 +1657,8 @@ def throw_in(left_side):
     game.ball_kick_translation[0] = game.ball_exit_translation[0]
     game.ball_kick_translation[1] = sign * (game.field.size_y - LINE_HALF_WIDTH)
     game.can_score = False  # disallow direct goal
+    game.throw_in = True
+    game.throw_in_ball_was_lifted = False
     interruption('THROWIN')
 
 
@@ -1880,6 +1896,8 @@ game.overtime = False
 game.ready_countdown = 0  # simulated time countdown before ready state (used in kick-off after goal and dropped ball)
 game.play_countdown = 0
 game.in_play = None
+game.throw_in = False  # True while throwing in to allow ball handling
+game.throw_in_ball_was_lifted = False  # True if the throwing-in player lifted the ball
 game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
@@ -2040,7 +2058,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                 else:
                     error(f'Unsupported game type: {game.type}.', fatal=True)
         if (game.interruption_countdown == 0 and game.set_countdown == 0 and game.ready_countdown == 0 and
-            game.ready_real_time is None and
+            game.ready_real_time is None and not game.throw_in and
             (game.ball_position[1] - game.ball_radius >= game.field.size_y or
              game.ball_position[1] + game.ball_radius <= -game.field.size_y or
              game.ball_position[0] - game.ball_radius >= game.field.size_x or
@@ -2239,14 +2257,13 @@ while supervisor.step(time_step) != -1 and not game.over:
 
     check_fallen()                                # detect fallen robots
 
-    if not game.interruption and game.state.game_state == 'STATE_PLAYING':
+    if game.state.game_state == 'STATE_PLAYING' and (game.interruption is None or game.interruption_seconds is not None):
         ball_holding = check_ball_holding()       # check for ball holding fouls
         if ball_holding:
             interruption('FREEKICK', ball_holding)
         ball_handling = check_ball_handling()
         if ball_handling:
             interruption('FREEKICK', ball_handling)
-
     check_penalized_in_field()                    # check for penalized robots inside the field
     if game.state.game_state != 'STATE_INITIAL':  # send penalties if needed
         send_penalties()
