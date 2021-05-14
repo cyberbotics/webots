@@ -209,6 +209,8 @@ def update_state_display():
             state += ' ' + format_time(sr)
         elif game.interruption is not None:
             state = game.interruption
+            if game.interruption_step is not None:
+                state += ' [' + str(game.interruption_step) + ']'
     else:
         state = ''
         color = 0x000000
