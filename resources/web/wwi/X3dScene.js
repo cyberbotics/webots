@@ -131,6 +131,9 @@ export default class X3dScene {
 
   applyPose(pose, time, appliedFields = [], automaticMove) {
     const id = pose.id;
+    if (typeof WbWorld.instance === 'undefined')
+      return appliedFields;
+
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;
@@ -149,7 +152,7 @@ export default class X3dScene {
         this.useList.splice(index, 1);
       } else {
         fields = [...appliedFields];
-        fields = this.applyPoseToObject(pose, use, time);
+        fields = this.applyPoseToObject(pose, use, time, fields);
       }
 
       --length;
@@ -232,7 +235,8 @@ export default class X3dScene {
         data = data.substring(data.indexOf(':') + 1);
         const frame = JSON.parse(data);
         view.time = frame.time;
-        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
+        if (document.getElementById('webotsClock'))
+          document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)

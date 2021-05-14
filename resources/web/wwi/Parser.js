@@ -86,7 +86,8 @@ export default class Parser {
     WbWorld.instance.readyForUpdates = true;
 
     renderer.render();
-    document.getElementById('webotsProgress').style.display = 'none';
+    if (document.getElementById('webotsProgress'))
+      document.getElementById('webotsProgress').style.display = 'none';
     if (webots.currentView.toolBar) {
       webots.currentView.toolBar.enableToolBarButtons(true);
       if (webots.currentView.runOnLoad === 'real-time')
