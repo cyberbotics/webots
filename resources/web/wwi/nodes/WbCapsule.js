@@ -23,7 +23,7 @@ export default class WbCapsule extends WbGeometry {
   }
 
   delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
   }
@@ -33,9 +33,9 @@ export default class WbCapsule extends WbGeometry {
   _buildWrenMesh() {
     super._deleteWrenRenderable();
 
-    if (typeof this.wrenMesh !== 'undefined') {
-      _wr_static_mesh_delete(this.wrenMesh);
-      this.wrenMesh = undefined;
+    if (typeof this._wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this._wrenMesh);
+      this._wrenMesh = undefined;
     }
 
     if (!this.bottom && !this.side && !this.top)
@@ -46,8 +46,8 @@ export default class WbCapsule extends WbGeometry {
     // Restore pickable state
     super.setPickable(this.isPickable);
 
-    this.wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom, false);
+    this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom, false);
 
-    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+    _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }
 }

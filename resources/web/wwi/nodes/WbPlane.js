@@ -19,13 +19,13 @@ export default class WbPlane extends WbGeometry {
     const createOutlineMesh = super.isInBoundingObject();
     const wrenMesh = _wr_static_mesh_unit_rectangle_new(createOutlineMesh);
 
-    _wr_renderable_set_mesh(this.wrenRenderable, wrenMesh);
+    _wr_renderable_set_mesh(this._wrenRenderable, wrenMesh);
 
     this.updateSize();
   }
 
   delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
   }

@@ -6,18 +6,18 @@ import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.
 
 export default class Animation {
   constructor(url, scene, view, gui, loop) {
-    this.url = url;
-    this.scene = scene;
-    this.view = view;
-    this.gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
-    this.loop = typeof loop === 'undefined' ? true : loop;
-    this.speed = 1;
+    this._url = url;
+    this._scene = scene;
+    this._view = view;
+    this._gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
+    this._loop = typeof loop === 'undefined' ? true : loop;
+    this._speed = 1;
   };
 
   init(onReady) {
-    this.onReady = onReady;
+    this._onReady = onReady;
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', this.url, true);
+    xmlhttp.open('GET', this._url, true);
     xmlhttp.overrideMimeType('application/json');
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0))
@@ -26,19 +26,12 @@ export default class Animation {
     xmlhttp.send();
   }
 
-  // Return the animation status: play or pause.
-  // This should be used to store the current animation status and restore it later when calling webots.View.setAnimation().
-  // This is for example used in robotbenchmark.net benchmark page.
-  getStatus() {
-    return this.gui === 'real_time' ? 'play' : 'pause';
-  }
-
   // private methods
   _setup(data) {
-    this.data = data;
+    this._data = data;
     // extract animated node ids: remove empty items and convert to integer
-    this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
-    this.labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
+    this._allIds = this._data.ids.split(';').filter(Boolean).map(s => parseInt(s));
+    this._labelsIds = typeof this._data._labelsIds === 'undefined' ? [] : this._data._labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
 
     this._createPlayBar();
     this._createSlider();
@@ -49,134 +42,134 @@ export default class Animation {
 
     document.addEventListener('keydown', _ => this._keyboardHandler(_));
     // Initialize animation data.
-    this.start = new Date().getTime();
-    this.step = 0;
-    this.previousStep = 0;
+    this._start = new Date().getTime();
+    this._step = 0;
+    this._previousStep = 0;
     this._updateAnimation();
 
     // Notify creation completed.
-    if (typeof this.onReady === 'function')
-      this.onReady();
+    if (typeof this._onReady === 'function')
+      this._onReady();
   }
 
   _elapsedTime() {
     const end = new Date().getTime();
-    return end - this.start;
+    return end - this._start;
   }
 
   _triggerPlayPauseButton() {
-    if (this.gui === 'real_time') {
-      this.gui = 'pause';
-      if (this.step < 0 || this.step >= this.data.frames.length) {
-        this.start = new Date().getTime();
+    if (this._gui === 'real_time') {
+      this._gui = 'pause';
+      if (this._step < 0 || this._step >= this._data.frames.length) {
+        this._start = new Date().getTime();
         this._updateAnimationState();
       } else
-        this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
+        this._start = new Date().getTime() - this._data.basicTimeStep * this._step;
     } else {
-      this.gui = 'real_time';
-      this.start = new Date().getTime() - this.data.basicTimeStep * this.step / this.speed;
+      this._gui = 'real_time';
+      this._start = new Date().getTime() - this._data.basicTimeStep * this._step / this._speed;
       window.requestAnimationFrame(() => this._updateAnimation());
     }
-    const action = (this.gui === 'real_time') ? 'pause' : 'play';
+    const action = (this._gui === 'real_time') ? 'pause' : 'play';
     document.getElementById('play-tooltip').innerHTML = 'P' + action.substring(1) + ' (k)';
     document.getElementById('play-button').className = 'player-btn icon-' + action;
   }
 
   _updateSlider(event) {
     if (event.mouseup) {
-      if (this.previousState === 'real_time' && this.gui === 'pause') {
-        this.previousState = undefined;
+      if (this._previousState === 'real_time' && this._gui === 'pause') {
+        this._previousState = undefined;
         this._triggerPlayPauseButton();
       } else {
         // Fix gtao "ghost" when modifying manually the position on the slidebar
         for (let x = 0; x < 5; x++)
-          this.scene.renderer.render();
+          this._scene.renderer.render();
       }
       return;
     }
 
     const value = event.detail;
 
-    if (this.gui === 'real_time') {
-      this.previousState = 'real_time';
+    if (this._gui === 'real_time') {
+      this._previousState = 'real_time';
       this._triggerPlayPauseButton();
     }
 
     const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
-    const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
-    this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
+    const requestedStep = Math.floor(this._data.frames.length * clampedValued / 100);
+    this._start = (new Date().getTime()) - Math.floor(this._data.basicTimeStep * this._step);
     this._updateAnimationState(requestedStep);
 
-    document.getElementById('time-slider').setTime(this._formatTime(this.data.frames[requestedStep].time));
+    document.getElementById('time-slider').setTime(this._formatTime(this._data.frames[requestedStep].time));
   }
 
   _updateAnimationState(requestedStep = undefined) {
     const automaticMove = typeof requestedStep === 'undefined';
     if (automaticMove) {
-      requestedStep = Math.floor(this._elapsedTime() * this.speed / this.data.basicTimeStep);
-      if (requestedStep < 0 || requestedStep >= this.data.frames.length) {
-        if (this.loop) {
-          if (requestedStep > this.data.frames.length) {
+      requestedStep = Math.floor(this._elapsedTime() * this._speed / this._data.basicTimeStep);
+      if (requestedStep < 0 || requestedStep >= this._data.frames.length) {
+        if (this._loop) {
+          if (requestedStep > this._data.frames.length) {
             requestedStep = 0;
-            this.previousStep = 0;
-            this.start = new Date().getTime();
+            this._previousStep = 0;
+            this._start = new Date().getTime();
           } else
             return;
-        } else if (this.gui === 'real_time') {
+        } else if (this._gui === 'real_time') {
           this._triggerPlayPauseButton();
           return;
         } else
           return;
       }
     }
-    if (requestedStep !== this.step) {
-      this.step = requestedStep;
+    if (requestedStep !== this._step) {
+      this._step = requestedStep;
 
       const appliedIds = [];
       const appliedLabelsIds = [];
 
-      if (this.data.frames[this.step].hasOwnProperty('poses')) {
-        const poses = this.data.frames[this.step].poses;
+      if (this._data.frames[this._step].hasOwnProperty('poses')) {
+        const poses = this._data.frames[this._step].poses;
         for (let p = 0; p < poses.length; p++)
-          appliedIds[poses[p].id] = this.scene.applyPose(poses[p], this.data.frames[this.step].time, undefined, automaticMove);
+          appliedIds[poses[p].id] = this._scene.applyPose(poses[p], this._data.frames[this._step].time, undefined, automaticMove);
       }
 
-      if (this.data.frames[this.step].hasOwnProperty('labels')) {
-        const labels = this.data.frames[this.step].labels;
+      if (this._data.frames[this._step].hasOwnProperty('labels')) {
+        const labels = this._data.frames[this._step].labels;
         for (let i = 0; i < labels.length; i++) {
-          this.scene.applyLabel(labels[i], this.view);
+          this._scene.applyLabel(labels[i], this._view);
           appliedLabelsIds.push(labels[i].id);
         }
       }
 
       // lookback mechanism: search in history
-      if (this.step !== this.previousStep + 1) {
+      if (this._step !== this._previousStep + 1) {
         let previousPoseStep;
-        if (this.step > this.previousStep)
+        if (this._step > this._previousStep)
           // in forward animation check only the changes since last pose
-          previousPoseStep = this.previousStep;
+          previousPoseStep = this._previousStep;
         else
           previousPoseStep = 0;
-        for (let i in this.allIds) {
-          const id = this.allIds[i];
+        for (let i in this._allIds) {
+          const id = this._allIds[i];
           let appliedFields = appliedIds[id];
-          for (let f = this.step - 1; f >= previousPoseStep; f--) {
-            if (this.data.frames[f].poses) {
-              for (let p = 0; p < this.data.frames[f].poses.length; p++) {
-                if (this.data.frames[f].poses[p].id === id)
-                  appliedFields = this.scene.applyPose(this.data.frames[f].poses[p], this.data.frames[f].time, appliedFields, automaticMove);
+          for (let f = this._step - 1; f >= previousPoseStep; f--) {
+            if (this._data.frames[f].poses) {
+              for (let p = 0; p < this._data.frames[f].poses.length; p++) {
+                if (this._data.frames[f].poses[p].id === id)
+                  appliedFields = this._scene.applyPose(this._data.frames[f].poses[p], this._data.frames[f].time, appliedFields, automaticMove);
               }
             }
           }
         }
 
-        for (let id of this.labelsIds) {
-          for (let f = this.step - 1; f >= previousPoseStep; f--) {
-            if (this.data.frames[f].labels) {
-              for (let p = 0; p < this.data.frames[f].labels.length; p++) {
-                if (this.data.frames[f].labels[p].id === id) {
+        for (let id of this._labelsIds) {
+          for (let f = this._step - 1; f >= previousPoseStep; f--) {
+            if (this._data.frames[f].labels) {
+              for (let p = 0; p < this._data.frames[f].labels.length; p++) {
+                if (this._data.frames[f].labels[p].id === id) {
                   if (!appliedLabelsIds.includes(id)) {
-                    this.scene.applyLabel(this.data.frames[f].labels[p], this.view);
+                    this._scene.applyLabel(this._data.frames[f].labels[p], this._view);
                     appliedLabelsIds.push(id);
                   }
                 }
@@ -187,17 +180,17 @@ export default class Animation {
       }
 
       if (automaticMove)
-        document.getElementById('time-slider').setValue(100 * this.step / this.data.frames.length);
+        document.getElementById('time-slider').setValue(100 * this._step / this._data.frames.length);
 
-      this.previousStep = this.step;
-      this.view.time = this.data.frames[this.step].time;
-      this.currentTime.innerHTML = this._formatTime(this.view.time);
-      this.scene.render();
+      this._previousStep = this._step;
+      this._view.time = this._data.frames[this._step].time;
+      this._currentTime.innerHTML = this._formatTime(this._view.time);
+      this._scene.render();
     }
   }
 
   _updateAnimation() {
-    if (this.gui === 'real_time')
+    if (this._gui === 'real_time')
       this._updateAnimationState();
 
     window.requestAnimationFrame(() => this._updateAnimation());
@@ -222,19 +215,19 @@ export default class Animation {
   };
 
   _formatTime(time) {
-    if (typeof this.unusedPrefix === 'undefined') {
-      const maxTime = this.data.frames[this.data.frames.length - 1].time;
+    if (typeof this._unusedPrefix === 'undefined') {
+      const maxTime = this._data.frames[this._data.frames.length - 1].time;
       if (maxTime < 60000)
-        this.unusedPrefix = 6;
+        this._unusedPrefix = 6;
       else if (maxTime < 600000)
-        this.unusedPrefix = 4;
+        this._unusedPrefix = 4;
       else if (maxTime < 3600000)
-        this.unusedPrefix = 3;
+        this._unusedPrefix = 3;
       else if (maxTime < 36000000)
-        this.unusedPrefix = 1;
+        this._unusedPrefix = 1;
     }
 
-    return this._parseMillisecondsIntoReadableTime(time).substring(this.unusedPrefix);
+    return this._parseMillisecondsIntoReadableTime(time).substring(this._unusedPrefix);
   }
 
   _showPlayBar() {
@@ -258,7 +251,7 @@ export default class Animation {
   _onMouseLeave(e) {
     if (e.relatedTarget != null &&
     e.relatedTarget.id !== 'canvas')
-      this.view.mouseEvents.onMouseLeave();
+      this._view.mouseEvents.onMouseLeave();
   }
 
   _changeSettingsPaneVisibility(event) {
@@ -287,21 +280,21 @@ export default class Animation {
 
   _resetViewpoint() {
     WbWorld.instance.viewpoint.resetViewpoint();
-    this.scene.render(); // render once to reset immediatly the viewpoint even if the animation is on pause
+    this._scene.render(); // render once to reset immediatly the viewpoint even if the animation is on pause
   }
 
   _changeSpeed(event) {
-    this.speed = event.srcElement.id;
+    this._speed = event.srcElement.id;
     document.getElementById('speed-pane').style.visibility = 'hidden';
-    document.getElementById('speed-display').innerHTML = this.speed === '1' ? 'Normal' : this.speed;
+    document.getElementById('speed-display').innerHTML = this._speed === '1' ? 'Normal' : this._speed;
     document.getElementById('settings-pane').style.visibility = 'visible';
     for (let i of document.getElementsByClassName('check-speed')) {
-      if (i.id === 'c' + this.speed)
+      if (i.id === 'c' + this._speed)
         i.innerHTML = '&check;';
       else
         i.innerHTML = '';
     }
-    this.start = new Date().getTime() - this.data.basicTimeStep * this.step / this.speed;
+    this._start = new Date().getTime() - this._data.basicTimeStep * this._step / this._speed;
   }
 
   _openSpeedPane() {
@@ -325,8 +318,8 @@ export default class Animation {
       else
         i.innerHTML = '';
     }
-    this.start = new Date().getTime() - this.data.basicTimeStep * this.step / this.speed;
-    this.scene.render();
+    this._start = new Date().getTime() - this._data.basicTimeStep * this._step / this._speed;
+    this._scene.render();
   }
 
   _openGtaoPane() {
@@ -382,7 +375,7 @@ export default class Animation {
   _createPlayBar() {
     const div = document.createElement('div');
     div.id = 'play-bar';
-    this.view.view3D.appendChild(div);
+    this._view.view3D.appendChild(div);
 
     div.addEventListener('mouseover', () => this._showPlayBar());
     div.addEventListener('mouseleave', _ => this._onMouseLeave(_));
@@ -397,8 +390,8 @@ export default class Animation {
 
     document.getElementById('play-bar').appendChild(leftPane);
     document.getElementById('play-bar').appendChild(rightPane);
-    this.view.mouseEvents.hidePlayBar = this._hidePlayBar;
-    this.view.mouseEvents.showPlayBar = this._showPlayBar;
+    this._view.mouseEvents.hidePlayBar = this._hidePlayBar;
+    this._view.mouseEvents.showPlayBar = this._showPlayBar;
   }
 
   _createSlider() {
@@ -413,7 +406,7 @@ export default class Animation {
 
   _createPlayButton() {
     const playButton = document.createElement('button');
-    const action = (this.gui === 'real_time') ? 'pause' : 'play';
+    const action = (this._gui === 'real_time') ? 'pause' : 'play';
     playButton.className = 'player-btn icon-' + action;
     playButton.id = 'play-button';
     playButton.addEventListener('click', () => this._triggerPlayPauseButton());
@@ -427,11 +420,11 @@ export default class Animation {
   }
 
   _createTimeIndicator() {
-    this.currentTime = document.createElement('span');
-    this.currentTime.className = 'current-time';
-    this.currentTime.disabled = false;
-    this.currentTime.innerHTML = this._formatTime(this.data.frames[0].time);
-    document.getElementById('left-pane').appendChild(this.currentTime);
+    this._currentTime = document.createElement('span');
+    this._currentTime.className = 'current-time';
+    this._currentTime.disabled = false;
+    this._currentTime.innerHTML = this._formatTime(this._data.frames[0].time);
+    document.getElementById('left-pane').appendChild(this._currentTime);
 
     const timeDivider = document.createElement('span');
     timeDivider.innerHTML = '\\';
@@ -440,7 +433,7 @@ export default class Animation {
 
     const totalTime = document.createElement('span');
     totalTime.className = 'total-time';
-    const time = this._formatTime(this.data.frames[this.data.frames.length - 1].time);
+    const time = this._formatTime(this._data.frames[this._data.frames.length - 1].time);
     totalTime.innerHTML = time;
     document.getElementById('left-pane').appendChild(totalTime);
 
@@ -545,7 +538,7 @@ export default class Animation {
     shadowLi.onclick = _ => {
       button.click();
       changeShadows();
-      this.scene.render();
+      this._scene.render();
     };
   }
 
@@ -707,16 +700,16 @@ export default class Animation {
   }
 
   _createFullscreenButton() {
-    this.fullscreenButton = document.createElement('button');
-    this.fullscreenButton.className = 'player-btn icon-fullscreen';
-    this.fullscreenButton.title = 'Full screen (f)';
-    this.fullscreenButton.onclick = () => requestFullscreen(this.view);
-    document.getElementById('right-pane').appendChild(this.fullscreenButton);
+    this._fullscreenButton = document.createElement('button');
+    this._fullscreenButton.className = 'player-btn icon-fullscreen';
+    this._fullscreenButton.title = 'Full screen (f)';
+    this._fullscreenButton.onclick = () => requestFullscreen(this._view);
+    document.getElementById('right-pane').appendChild(this._fullscreenButton);
 
     let fullscreenTooltip = document.createElement('span');
     fullscreenTooltip.className = 'tooltip fullscreen-tooltip';
     fullscreenTooltip.innerHTML = 'Full screen (f)';
-    this.fullscreenButton.appendChild(fullscreenTooltip);
+    this._fullscreenButton.appendChild(fullscreenTooltip);
 
     const exitFullscreenButton = document.createElement('button');
     exitFullscreenButton.title = 'Exit full screen (f)';
@@ -730,17 +723,17 @@ export default class Animation {
     fullscreenTooltip.innerHTML = 'Exit full screen (f)';
     exitFullscreenButton.appendChild(fullscreenTooltip);
 
-    document.addEventListener('fullscreenchange', () => onFullscreenChange(this.fullscreenButton, exitFullscreenButton));
-    document.addEventListener('webkitfullscreenchange', () => onFullscreenChange(this.fullscreenButton, exitFullscreenButton));
-    document.addEventListener('mozfullscreenchange', () => onFullscreenChange(this.fullscreenButton, exitFullscreenButton));
-    document.addEventListener('MSFullscreenChange', () => onFullscreenChange(this.fullscreenButton, exitFullscreenButton));
+    document.addEventListener('fullscreenchange', () => onFullscreenChange(this._fullscreenButton, exitFullscreenButton));
+    document.addEventListener('webkitfullscreenchange', () => onFullscreenChange(this._fullscreenButton, exitFullscreenButton));
+    document.addEventListener('mozfullscreenchange', () => onFullscreenChange(this._fullscreenButton, exitFullscreenButton));
+    document.addEventListener('MSFullscreenChange', () => onFullscreenChange(this._fullscreenButton, exitFullscreenButton));
   }
 
   _keyboardHandler(e) {
     if (e.code === 'KeyK')
       this._triggerPlayPauseButton();
     else if (e.code === 'KeyF')
-      this.fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this.view);
+      this._fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this._view);
   }
 
   _updateFloatingTimePosition(e) {
@@ -754,8 +747,8 @@ export default class Animation {
       x = 0;
 
     const clampedValued = Math.min(x, 99); // set maximum value to get valid step index
-    const requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
-    document.getElementById('time-slider').setTime(this._formatTime(this.data.frames[requestedStep].time));
+    const requestedStep = Math.floor(this._data.frames.length * clampedValued / 100);
+    document.getElementById('time-slider').setTime(this._formatTime(this._data.frames[requestedStep].time));
 
     document.getElementById('time-slider').setFloatingTimePosition(e.clientX);
   }

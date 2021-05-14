@@ -17,12 +17,12 @@ export default class AnimationSlider extends HTMLElement {
     this._shadowRoot = this.attachShadow({ mode: 'open' });
     this._shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.shadowRoot.getElementById('range').addEventListener('mousedown', _ => this._mouseDown(_));
+    this._shadowRoot.getElementById('range').addEventListener('mousedown', _ => this._mouseDown(_));
     document.addEventListener('mousemove', _ => this._mouseMove(_));
     document.addEventListener('mouseup', () => this._mouseUp());
 
-    this.offset = 0; // use to center the floating time correctly
-    this.isSelected = false;
+    this._offset = 0; // use to center the floating time correctly
+    this._isSelected = false;
   }
 
   _mouseDown(e) {
@@ -38,14 +38,14 @@ export default class AnimationSlider extends HTMLElement {
     event.detail = x;
     document.dispatchEvent(event);
 
-    this.isSelected = true;
+    this._isSelected = true;
     document.querySelector('animation-slider').shadowRoot.getElementById('thumb').style.visibility = 'visible';
     document.querySelector('animation-slider').shadowRoot.getElementById('slider').style.height = '5px';
     document.querySelector('animation-slider').shadowRoot.getElementById('range').style.height = '5px';
   }
 
   _mouseUp() {
-    if (this.isSelected) {
+    if (this._isSelected) {
       let event = new Event('slider_input', {
         bubbles: true,
         cancelable: true
@@ -54,7 +54,7 @@ export default class AnimationSlider extends HTMLElement {
       event.mouseup = true;
       document.dispatchEvent(event);
 
-      this.isSelected = false;
+      this._isSelected = false;
       document.querySelector('animation-slider').shadowRoot.getElementById('thumb').style.visibility = '';
       document.querySelector('animation-slider').shadowRoot.getElementById('slider').style.height = '';
       document.querySelector('animation-slider').shadowRoot.getElementById('range').style.height = '';
@@ -63,7 +63,7 @@ export default class AnimationSlider extends HTMLElement {
   }
 
   _mouseMove(e) {
-    if (this.isSelected) {
+    if (this._isSelected) {
       let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
       let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
       if (x > 100)
@@ -101,18 +101,18 @@ export default class AnimationSlider extends HTMLElement {
   setFloatingTimePosition(position) {
     let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
     let x = (position - bounds.left);
-    if (x - this.offset < bounds.left)
-      x = bounds.left + this.offset;
-    else if (x + this.offset + 20 > bounds.right)
-      x = bounds.right - this.offset - 20;
-    document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.left = x - this.offset + 'px';
+    if (x - this._offset < bounds.left)
+      x = bounds.left + this._offset;
+    else if (x + this._offset + 20 > bounds.right)
+      x = bounds.right - this._offset - 20;
+    document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.left = x - this._offset + 'px';
   }
 
   setOffset(offset) {
-    this.offset = offset;
+    this._offset = offset;
   }
 
   selected() {
-    return this.isSelected;
+    return this._isSelected;
   }
 }

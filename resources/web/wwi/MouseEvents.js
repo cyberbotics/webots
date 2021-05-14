@@ -8,34 +8,34 @@ import WbWrenPicker from './wren/WbWrenPicker.js';
 
 export default class MouseEvents {
   constructor(scene, domElement, mobileDevice) {
-    this.scene = scene;
-    this.domElement = domElement;
-    this.mobileDevice = mobileDevice;
+    this._scene = scene;
+    this._domElement = domElement;
+    this._mobileDevice = mobileDevice;
 
-    this.state = {
+    this._state = {
       'initialized': false,
       'mouseDown': 0,
       'moved': false,
       'wheelFocus': false,
       'wheelTimeout': null
     };
-    this.moveParams = {};
-    this.enableNavigation = true;
+    this._moveParams = {};
+    this._enableNavigation = true;
 
     this.onmousemove = (event) => { this._onMouseMove(event); };
     this.onmouseup = (event) => { this._onMouseUp(event); };
     this.ontouchmove = (event) => { this._onTouchMove(event); };
     this.ontouchend = (event) => { this._onTouchEnd(event); };
-    domElement.addEventListener('mousedown', (event) => { this._onMouseDown(event); }, false);
-    domElement.addEventListener('mouseover', (event) => { this._onMouseOver(event); }, false);
-    domElement.addEventListener('mouseleave', (event) => { this.onMouseLeave(event); }, false);
-    domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
-    domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
-    domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
-    domElement.addEventListener('mousemove', () => this._detectImmobility());
+    this._domElement.addEventListener('mousedown', (event) => { this._onMouseDown(event); }, false);
+    this._domElement.addEventListener('mouseover', (event) => { this._onMouseOver(event); }, false);
+    this._domElement.addEventListener('mouseleave', (event) => { this.onMouseLeave(event); }, false);
+    this._domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
+    this._domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
+    this._domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
+    this._domElement.addEventListener('mousemove', () => this._detectImmobility());
     // Prevent '#playerDiv' to raise the context menu of the browser.
     // This bug has been seen on Windows 10 / Firefox only.
-    domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
+    this._domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
   }
 
   init() {
@@ -49,26 +49,26 @@ export default class MouseEvents {
 
     this.init();
 
-    this.state.wheelFocus = true;
+    this._state.wheelFocus = true;
     this._initMouseMove(event);
     switch (event.button) {
       case MouseEvents.Click.RIGHT_CLICK:
-        this.state.mouseDown |= 1;
+        this._state.mouseDown |= 1;
         break;
       case MouseEvents.Click.LEFT_CLICK:
-        this.state.mouseDown |= 4;
+        this._state.mouseDown |= 4;
         break;
       case MouseEvents.Click.WHEEL_CLICK:
-        this.state.mouseDown |= 2;
+        this._state.mouseDown |= 2;
         break;
     }
-    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
+    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this._state.mouseDown === 1)
       // On macOS, "Ctrl + left click" should be dealt as a right click.
-      this.state.mouseDown = 2;
+      this._state.mouseDown = 2;
 
-    if (this.state.mouseDown !== 0) {
-      this.state.initialX = event.clientX;
-      this.state.initialY = event.clientY;
+    if (this._state.mouseDown !== 0) {
+      this._state.initialX = event.clientX;
+      this._state.initialY = event.clientY;
       document.addEventListener('mousemove', this.onmousemove, false);
       document.addEventListener('mouseup', this.onmouseup, false);
     }
@@ -76,7 +76,7 @@ export default class MouseEvents {
     if (typeof webots.currentView.onmousedown === 'function')
       webots.currentView.onmousedown(event);
 
-    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this.state.x, this.state.y);
+    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this._state.x, this._state.y);
     this.picker.pick(pos.x, pos.y);
   }
 
@@ -84,40 +84,40 @@ export default class MouseEvents {
     if (typeof WbWorld.instance === 'undefined')
       return;
 
-    if (!this.enableNavigation && event.button === 0) {
+    if (!this._enableNavigation && event.button === 0) {
       if (typeof webots.currentView.onmousemove === 'function')
         webots.currentView.onmousemove(event);
       return;
     }
 
-    if (typeof this.state.x === 'undefined')
+    if (typeof this._state.x === 'undefined')
       // mousedown event has not been called yet.
       // This could happen for example when another application has focus while loading the scene.
       return;
     if ('buttons' in event)
-      this.state.mouseDown = event.buttons;
+      this._state.mouseDown = event.buttons;
     else if ('which' in event) { // Safari only
       switch (event.which) {
-        case 0: this.state.mouseDown = 0; break;
-        case 1: this.state.mouseDown = 1; break;
-        case 2: this.state.pressedButton = 4; break;
-        case 3: this.state.pressedButton = 2; break;
-        default: this.state.pressedButton = 0; break;
+        case 0: this._state.mouseDown = 0; break;
+        case 1: this._state.mouseDown = 1; break;
+        case 2: this._state.pressedButton = 4; break;
+        case 3: this._state.pressedButton = 2; break;
+        default: this._state.pressedButton = 0; break;
       }
     }
-    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
+    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this._state.mouseDown === 1)
       // On macOS, "Ctrl + left click" should be dealt as a right click.
-      this.state.mouseDown = 2;
+      this._state.mouseDown = 2;
 
-    if (this.state.mouseDown === 0)
+    if (this._state.mouseDown === 0)
       return;
 
-    if (this.state.initialTimeStamp === null)
+    if (this._state.initialTimeStamp === null)
       // Prevent applying mouse move action before drag initialization in mousedrag event.
       return;
 
-    this.moveParams.dx = event.clientX - this.state.x;
-    this.moveParams.dy = event.clientY - this.state.y;
+    this._moveParams.dx = event.clientX - this._state.x;
+    this._moveParams.dy = event.clientY - this._state.y;
 
     let orientation = WbWorld.instance.viewpoint.orientation;
     let position = WbWorld.instance.viewpoint.position;
@@ -126,9 +126,9 @@ export default class MouseEvents {
     rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
     rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
 
-    if (this.state.mouseDown === 1) { // left mouse button to rotate viewpoint
-      let halfPitchAngle = -0.005 * this.moveParams.dy;
-      let halfYawAngle = -0.005 * this.moveParams.dx;
+    if (this._state.mouseDown === 1) { // left mouse button to rotate viewpoint
+      let halfPitchAngle = -0.005 * this._moveParams.dy;
+      let halfYawAngle = -0.005 * this._moveParams.dx;
       if (this.picker.selectedId === -1) {
         halfPitchAngle /= -8;
         halfYawAngle /= -8;
@@ -148,7 +148,7 @@ export default class MouseEvents {
       WbWorld.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
       WbWorld.instance.viewpoint.updatePosition();
       WbWorld.instance.viewpoint.updateOrientation();
-      this.scene.render();
+      this._scene.render();
     } else {
       let distanceToPickPosition = 0.001;
       if (this.picker.selectedId !== -1)
@@ -161,9 +161,9 @@ export default class MouseEvents {
 
       let scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
 
-      if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
-        let targetRight = -scaleFactor * this.moveParams.dx;
-        let targetUp = scaleFactor * this.moveParams.dy;
+      if (this._state.mouseDown === 2) { // right mouse button to translate viewpoint
+        let targetRight = -scaleFactor * this._moveParams.dx;
+        let targetUp = scaleFactor * this._moveParams.dy;
         let upVec = up(orientation);
         let rightVec = right(orientation);
         let targetR = rightVec.mul(targetRight);
@@ -171,11 +171,11 @@ export default class MouseEvents {
         let target = targetR.add(targetU);
         WbWorld.instance.viewpoint.position = position.add(target);
         WbWorld.instance.viewpoint.updatePosition();
-        this.scene.render();
-      } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
+        this._scene.render();
+      } else if (this._state.mouseDown === 3 || this._state.mouseDown === 4) { // both left and right button or middle button to zoom
         let rollVector = direction(orientation);
-        let zDisplacement = rollVector.mul(scaleFactor * 5 * this.moveParams.dy);
-        let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
+        let zDisplacement = rollVector.mul(scaleFactor * 5 * this._moveParams.dy);
+        let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this._moveParams.dx);
         let roll3 = glm.quat();
         roll3.w = roll2.w;
         roll3.x = roll2.x;
@@ -187,12 +187,12 @@ export default class MouseEvents {
         WbWorld.instance.viewpoint.updatePosition();
         WbWorld.instance.viewpoint.updateOrientation();
 
-        this.scene.render();
+        this._scene.render();
       }
     }
-    this.state.moved = event.clientX !== this.state.x || event.clientY !== this.state.y;
-    this.state.x = event.clientX;
-    this.state.y = event.clientY;
+    this._state.moved = event.clientX !== this._state.x || event.clientY !== this._state.y;
+    this._state.x = event.clientX;
+    this._state.y = event.clientY;
 
     if (typeof webots.currentView.onmousemove === 'function')
       webots.currentView.onmousemove(event);
@@ -220,14 +220,14 @@ export default class MouseEvents {
 
     event.preventDefault(); // do not scroll page
 
-    if (!this.enableNavigation || this.state.wheelFocus === false) {
+    if (!this._enableNavigation || this._state.wheelFocus === false) {
       let offset = event.deltaY;
       if (event.deltaMode === 1)
         offset *= 40; // standard line height in pixel
       window.scroll(0, window.pageYOffset + offset);
-      if (this.state.wheelTimeout) { // you have to rest at least 1.5 seconds over the x3d canvas
-        clearTimeout(this.state.wheelTimeout); // so that the wheel focus will get enabled and
-        this.state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
+      if (this._state.wheelTimeout) { // you have to rest at least 1.5 seconds over the x3d canvas
+        clearTimeout(this._state.wheelTimeout); // so that the wheel focus will get enabled and
+        this._state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
       }
       return;
     }
@@ -253,34 +253,34 @@ export default class MouseEvents {
     WbWorld.instance.viewpoint.position = position.add(zDisplacement);
     WbWorld.instance.viewpoint.updatePosition();
 
-    this.scene.render();
+    this._scene.render();
   }
 
   _wheelTimeoutCallback(event) {
-    this.state.wheelTimeout = null;
-    this.state.wheelFocus = true;
+    this._state.wheelTimeout = null;
+    this._state.wheelFocus = true;
   }
 
   _onMouseOver(event) {
-    this.state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500);
+    this._state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500);
 
     if (typeof this.showPlayBar !== 'undefined')
       this.showPlayBar();
   }
 
   onMouseLeave(event) {
-    clearTimeout(this.moveTimeout);
+    clearTimeout(this._moveTimeout);
 
     if (typeof event !== 'undefined' && event.relatedTarget != null &&
       event.relatedTarget.id === 'time-slider')
       return;
 
-    if (this.state.wheelTimeout != null) {
-      clearTimeout(this.state.wheelTimeout);
-      this.state.wheelTimeout = null;
+    if (this._state.wheelTimeout != null) {
+      clearTimeout(this._state.wheelTimeout);
+      this._state.wheelTimeout = null;
     }
 
-    this.state.wheelFocus = false;
+    this._state.wheelFocus = false;
 
     if (typeof webots.currentView.onmouseleave === 'function')
       webots.currentView.onmouseleave(event);
@@ -293,12 +293,12 @@ export default class MouseEvents {
     if (typeof WbWorld.instance === 'undefined')
       return;
 
-    if (!this.enableNavigation || event.targetTouches.length === 0 || event.targetTouches.length > 2)
+    if (!this._enableNavigation || event.targetTouches.length === 0 || event.targetTouches.length > 2)
       return;
-    if (this.state.initialTimeStamp === null)
+    if (this._state.initialTimeStamp === null)
       // Prevent applying mouse move action before drag initialization in mousedrag event.
       return;
-    if ((this.state.mouseDown !== 2) !== (event.targetTouches.length > 1))
+    if ((this._state.mouseDown !== 2) !== (event.targetTouches.length > 1))
       // Gesture single/multi touch changed after initialization.
       return;
 
@@ -322,26 +322,26 @@ export default class MouseEvents {
 
     let scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
 
-    if (this.state.mouseDown === 2) { // translation
-      this.moveParams.dx = x - this.state.x;
-      this.moveParams.dy = y - this.state.y;
+    if (this._state.mouseDown === 2) { // translation
+      this._moveParams.dx = x - this._state.x;
+      this._moveParams.dy = y - this._state.y;
 
       // On small phone screens (Android) this is needed to correctly detect clicks and longClicks.
-      if (this.state.initialX == null && this.state.initialY == null) {
-        this.state.initialX = Math.round(this.state.x);
-        this.state.initialY = Math.round(this.state.y);
+      if (this._state.initialX == null && this._state.initialY == null) {
+        this._state.initialX = Math.round(this._state.x);
+        this._state.initialY = Math.round(this._state.y);
       }
-      if (Math.abs(this.moveParams.dx) < 2 && Math.abs(this.moveParams.dy) < 2 &&
-        Math.abs(this.state.initialX - x) < 5 && Math.abs(this.state.initialY - y) < 5)
-        this.state.moved = false;
+      if (Math.abs(this._moveParams.dx) < 2 && Math.abs(this._moveParams.dy) < 2 &&
+        Math.abs(this._state.initialX - x) < 5 && Math.abs(this._state.initialY - y) < 5)
+        this._state.moved = false;
       else
-        this.state.moved = true;
+        this._state.moved = true;
 
-      this.moveParams.dx = x - this.state.initialX;
-      this.moveParams.dy = y - this.state.initialY;
+      this._moveParams.dx = x - this._state.initialX;
+      this._moveParams.dy = y - this._state.initialY;
 
-      let targetRight = -scaleFactor * this.moveParams.dx;
-      let targetUp = scaleFactor * this.moveParams.dy;
+      let targetRight = -scaleFactor * this._moveParams.dx;
+      let targetUp = scaleFactor * this._moveParams.dy;
       let upVec = up(orientation);
       let rightVec = right(orientation);
       let targetR = rightVec.mul(targetRight);
@@ -349,7 +349,7 @@ export default class MouseEvents {
       let target = targetR.add(targetU);
       WbWorld.instance.viewpoint.position = position.add(target);
       WbWorld.instance.viewpoint.updatePosition();
-      this.scene.render();
+      this._scene.render();
     } else {
       const touch1 = event.targetTouches['1'];
       const x1 = Math.round(touch1.clientX);
@@ -357,12 +357,12 @@ export default class MouseEvents {
       const distanceX = x - x1;
       const distanceY = y - y1;
       const newTouchDistance = distanceX * distanceX + distanceY * distanceY;
-      const pinchSize = this.state.touchDistance - newTouchDistance;
+      const pinchSize = this._state.touchDistance - newTouchDistance;
 
-      const moveX1 = x - this.state.x;
-      const moveX2 = x1 - this.state.x1;
-      const moveY1 = y - this.state.y;
-      const moveY2 = y1 - this.state.y1;
+      const moveX1 = x - this._state.x;
+      const moveX2 = x1 - this._state.x1;
+      const moveY1 = y - this._state.y;
+      const moveY2 = y1 - this._state.y1;
       const ratio = 1;
 
       if (Math.abs(pinchSize) > 500 * ratio) { // zoom and tilt
@@ -371,11 +371,11 @@ export default class MouseEvents {
           d = moveX1;
         else
           d = moveX2;
-        this.moveParams.tiltAngle = 0.0004 * d;
-        this.moveParams.zoomScale = this.moveParams.scaleFactor * 0.015 * pinchSize;
+        this._moveParams.tiltAngle = 0.0004 * d;
+        this._moveParams.zoomScale = this._moveParams.scaleFactor * 0.015 * pinchSize;
         let rollVector = direction(orientation);
-        let zDisplacement = rollVector.mul(scaleFactor * 5 * this.moveParams.dy);
-        let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this.moveParams.dx);
+        let zDisplacement = rollVector.mul(scaleFactor * 5 * this._moveParams.dy);
+        let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this._moveParams.dx);
         let roll3 = glm.quat();
         roll3.w = roll2.w;
         roll3.x = roll2.x;
@@ -387,13 +387,13 @@ export default class MouseEvents {
         WbWorld.instance.viewpoint.updatePosition();
         WbWorld.instance.viewpoint.updateOrientation();
 
-        this.scene.render();
+        this._scene.render();
       } else if (Math.abs(moveY2 - moveY1) < 3 * ratio && Math.abs(moveX2 - moveX1) < 3 * ratio) { // rotation (pitch and yaw)
-        this.moveParams.dx = moveX1 * 0.8;
-        this.moveParams.dy = moveY1 * 0.5;
+        this._moveParams.dx = moveX1 * 0.8;
+        this._moveParams.dy = moveY1 * 0.5;
 
-        let halfPitchAngle = -0.005 * this.moveParams.dy;
-        let halfYawAngle = -0.005 * this.moveParams.dx;
+        let halfPitchAngle = -0.005 * this._moveParams.dy;
+        let halfYawAngle = -0.005 * this._moveParams.dx;
         if (this.picker.selectedId === -1) {
           halfPitchAngle /= -8;
           halfYawAngle /= -8;
@@ -413,16 +413,16 @@ export default class MouseEvents {
         WbWorld.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
         WbWorld.instance.viewpoint.updatePosition();
         WbWorld.instance.viewpoint.updateOrientation();
-        this.scene.render();
+        this._scene.render();
       }
 
-      this.state.touchDistance = newTouchDistance;
-      this.state.moved = true;
+      this._state.touchDistance = newTouchDistance;
+      this._state.moved = true;
     }
-    this.state.x = x;
-    this.state.y = y;
-    this.state.x1 = x1;
-    this.state.y1 = y1;
+    this._state.x = x;
+    this._state.y = y;
+    this._state.x1 = x1;
+    this._state.y1 = y1;
 
     if (typeof webots.currentView.ontouchmove === 'function')
       webots.currentView.ontouchmove(event);
@@ -436,18 +436,18 @@ export default class MouseEvents {
     this._initMouseMove(event.targetTouches['0']);
     if (event.targetTouches.length === 2) {
       const touch1 = event.targetTouches['1'];
-      this.state.x1 = touch1.clientX;
-      this.state.y1 = touch1.clientY;
-      const distanceX = this.state.x - this.state.x1;
-      const distanceY = this.state.y - this.state.y1;
-      this.state.touchDistance = distanceX * distanceX + distanceY * distanceY;
-      this.state.touchOrientation = Math.atan2(this.state.y1 - this.state.y, this.state.x1 - this.state.x);
-      this.state.mouseDown = 3; // two fingers: rotation, tilt, zoom
+      this._state.x1 = touch1.clientX;
+      this._state.y1 = touch1.clientY;
+      const distanceX = this._state.x - this._state.x1;
+      const distanceY = this._state.y - this._state.y1;
+      this._state.touchDistance = distanceX * distanceX + distanceY * distanceY;
+      this._state.touchOrientation = Math.atan2(this._state.y1 - this._state.y, this._state.x1 - this._state.x);
+      this._state.mouseDown = 3; // two fingers: rotation, tilt, zoom
     } else
-      this.state.mouseDown = 2; // 1 finger: translation or single click
+      this._state.mouseDown = 2; // 1 finger: translation or single click
 
-    this.domElement.addEventListener('touchend', this.ontouchend, true);
-    this.domElement.addEventListener('touchmove', this.ontouchmove, true);
+    this._domElement.addEventListener('touchend', this.ontouchend, true);
+    this._domElement.addEventListener('touchmove', this.ontouchmove, true);
 
     if (typeof webots.currentView.ontouchstart === 'function')
       webots.currentView.ontouchstart(event);
@@ -457,40 +457,36 @@ export default class MouseEvents {
     this._clearMouseMove();
     this._selectAndHandleClick();
 
-    this.domElement.removeEventListener('touchend', this.ontouchend, true);
-    this.domElement.removeEventListener('touchmove', this.ontouchmove, true);
+    this._domElement.removeEventListener('touchend', this.ontouchend, true);
+    this._domElement.removeEventListener('touchmove', this.ontouchmove, true);
 
     if (typeof webots.currentView.ontouchend === 'function')
       webots.currentView.ontouchend(event);
   }
 
   _initMouseMove(event) {
-    this.state.x = event.clientX;
-    this.state.y = event.clientY;
-    this.state.initialX = null;
-    this.state.initialY = null;
-    this.state.moved = false;
-    this.state.initialTimeStamp = Date.now();
-    this.state.longClick = false;
+    this._state.x = event.clientX;
+    this._state.y = event.clientY;
+    this._state.initialX = null;
+    this._state.initialY = null;
+    this._state.moved = false;
+    this._state.initialTimeStamp = Date.now();
+    this._state.longClick = false;
   }
 
   _clearMouseMove() {
-    const timeDelay = this.mobileDevice ? 100 : 1000;
-    this.state.longClick = Date.now() - this.state.initialTimeStamp >= timeDelay;
-    if (this.state.moved === false)
-      this.previousSelection = this.selection;
-    else
-      this.previousSelection = null;
-    this.state.previousMouseDown = this.state.mouseDown;
-    this.state.mouseDown = 0;
-    this.state.initialTimeStamp = null;
-    this.state.initialX = null;
-    this.state.initialY = null;
-    this.moveParams = {};
+    const timeDelay = this._mobileDevice ? 100 : 1000;
+    this._state.longClick = Date.now() - this._state.initialTimeStamp >= timeDelay;
+    this._state.previousMouseDown = this._state.mouseDown;
+    this._state.mouseDown = 0;
+    this._state.initialTimeStamp = null;
+    this._state.initialX = null;
+    this._state.initialY = null;
+    this._moveParams = {};
   }
 
   _selectAndHandleClick() {
-    if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
+    if (this._state.moved === false && (!this._state.longClick || this._mobileDevice)) {
       Selector.select(this.picker.selectedId);
 
       if (typeof WbWorld.instance.nodes.get(Selector.selectedId) !== 'undefined')
@@ -499,16 +495,16 @@ export default class MouseEvents {
       if (typeof WbWorld.instance.nodes.get(Selector.previousId) !== 'undefined')
         WbWorld.instance.nodes.get(Selector.previousId).updateBoundingObjectVisibility();
 
-      this.scene.render();
+      this._scene.render();
     }
   }
 
   _detectImmobility() {
-    clearTimeout(this.moveTimeout);
+    clearTimeout(this._moveTimeout);
     if (typeof this.showPlayBar !== 'undefined')
       this.showPlayBar();
 
-    this.moveTimeout = setTimeout(() => {
+    this._moveTimeout = setTimeout(() => {
       if (typeof this.hidePlayBar !== 'undefined')
         this.hidePlayBar();
     }, 3000);

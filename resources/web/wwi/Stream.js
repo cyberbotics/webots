@@ -5,8 +5,8 @@ import {webots} from './webots.js';
 export default class Stream {
   constructor(wsServer, view, onready) {
     this.wsServer = wsServer + '/';
-    this.view = view;
-    this.onready = onready;
+    this._view = view;
+    this._onready = onready;
     this.socket = null;
   }
 
@@ -14,12 +14,12 @@ export default class Stream {
     this.socket = new WebSocket(this.wsServer);
     if (document.getElementById('webotsProgressMessage'))
       document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to Webots instance...';
-    this.socket.onopen = (event) => { this.onSocketOpen(event); };
-    this.socket.onmessage = (event) => { this.onSocketMessage(event); };
-    this.socket.onclose = (event) => { this.onSocketClose(event); };
+    this.socket.onopen = (event) => { this._onSocketOpen(event); };
+    this.socket.onmessage = (event) => { this._onSocketMessage(event); };
+    this.socket.onclose = (event) => { this._onSocketClose(event); };
     this.socket.onerror = (event) => {
-      this.view.destroyWorld();
-      this.view.onerror('WebSocket error: ' + event.data);
+      this._view.destroyWorld();
+      this._view.onerror('WebSocket error: ' + event.data);
     };
   }
 
@@ -28,30 +28,30 @@ export default class Stream {
       this.socket.close();
   }
 
-  onSocketOpen(event) {
-    let mode = this.view.mode;
+  _onSocketOpen(event) {
+    let mode = this._view.mode;
     if (mode === 'mjpeg')
-      mode += ': ' + this.view.view3D.offsetWidth + 'x' + (this.view.view3D.offsetHeight - 48); // subtract toolbar height
+      mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight - 48); // subtract toolbar height
 
-    else if (this.view.broadcast)
+    else if (this._view.broadcast)
       mode += ';broadcast';
     this.socket.send(mode);
   }
 
-  onSocketClose(event) {
-    this.view.onerror('Disconnected from ' + this.wsServer + ' (' + event.code + ')');
-    if ((event.code > 1001 && event.code < 1016) || (event.code === 1001 && this.view.quitting === false)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
+  _onSocketClose(event) {
+    this._view.onerror('Disconnected from ' + this.wsServer + ' (' + event.code + ')');
+    if ((event.code > 1001 && event.code < 1016) || (event.code === 1001 && this._view.quitting === false)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
       if (window.confirm(`Streaming server error
       Connection closed abnormally. (Error code:` + event.code + `)
       The simulation is going to be reset`))
         window.open(window.location.href, '_self');
     }
-    this.view.destroyWorld();
-    if (typeof this.view.onclose === 'function')
-      this.view.onclose();
+    this._view.destroyWorld();
+    if (typeof this._view.onclose === 'function')
+      this._view.onclose();
   }
 
-  onSocketMessage(event) {
+  _onSocketMessage(event) {
     let data = event.data;
     if (data.startsWith('robot:') ||
         data.startsWith('stdout:') ||
@@ -62,30 +62,30 @@ export default class Stream {
       data = data.substring(data.indexOf(':') + 1).trim();
       let currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
-      this.view.updateWorldList(currentWorld, data.split(';'));
+      this._view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('pause:') || data === 'paused by client') {
-      if (this.view.toolBar !== null)
-        this.view.toolBar.setMode('pause');
+      if (this._view.toolBar !== null)
+        this._view.toolBar.setMode('pause');
       // Update timeout.
       if (data.startsWith('pause:')) {
-        this.view.isAutomaticallyPaused = undefined;
-        this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
+        this._view.isAutomaticallyPaused = undefined;
+        this._view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       }
-      if (this.view.timeout > 0 && !this.view.isAutomaticallyPaused) {
-        this.view.deadline = this.view.timeout;
-        if (typeof this.view.time !== 'undefined')
-          this.view.deadline += this.view.time;
+      if (this._view.timeout > 0 && !this._view.isAutomaticallyPaused) {
+        this._view.deadline = this._view.timeout;
+        if (typeof this._view.time !== 'undefined')
+          this._view.deadline += this._view.time;
 
         if (document.getElementById('webotsTimeout'))
-          document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.deadline);
+          document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.deadline);
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      if (this.view.toolBar) {
-        this.view.toolBar.setMode(data);
-        this.view.runOnLoad = data;
+      if (this._view.toolBar) {
+        this._view.toolBar.setMode(data);
+        this._view.runOnLoad = data;
       } else
-      if (this.view.timeout >= 0)
-        this.socket.send('timeout:' + this.view.timeout);
+      if (this._view.timeout >= 0)
+        this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'block';
@@ -97,38 +97,38 @@ export default class Stream {
       if (document.getElementById('webotsProgressPercent'))
         document.getElementById('webotsProgressPercent').innerHTML = '<progress value="' + data + '" max="100"></progress>';
     } else if (data === 'scene load completed') {
-      this.view.time = 0;
+      this._view.time = 0;
       if (document.getElementById('webotsClock'))
         document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
-      if (this.view.mode === 'mjpeg') {
+      if (this._view.mode === 'mjpeg') {
         if (document.getElementById('webotsProgress'))
           document.getElementById('webotsProgress').style.display = 'none';
-        this.view.multimediaClient.requestNewSize(); // To force the server to render once
+        this._view.multimediaClient.requestNewSize(); // To force the server to render once
       }
 
-      if (typeof this.onready === 'function')
-        this.onready();
+      if (typeof this._onready === 'function')
+        this._onready();
     } else if (data === 'reset finished') {
-      this.view.resetSimulation();
-      if (typeof this.view.x3dScene !== 'undefined' && typeof this.view.multimediaClient === 'undefined')
-        this.view.x3dScene.resetViewpoint();
+      this._view.resetSimulation();
+      if (typeof this._view.x3dScene !== 'undefined' && typeof this._view.multimediaClient === 'undefined')
+        this._view.x3dScene.resetViewpoint();
       if (webots.currentView.toolBar)
         webots.currentView.toolBar.enableToolBarButtons(true);
-      if (typeof this.onready === 'function')
-        this.onready();
+      if (typeof this._onready === 'function')
+        this._onready();
     } else if (data.startsWith('time: ')) {
-      this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
+      this._view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       if (document.getElementById('webotsClock'))
-        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.time);
+        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.time);
     } else if (data === 'delete world') {
-      this.view.destroyWorld();
+      this._view.destroyWorld();
       webots.currentView.toolBar.enableToolBarButtons(false);
     } else {
       let messagedProcessed = false;
-      if (typeof this.view.multimediaClient !== 'undefined')
-        messagedProcessed = this.view.multimediaClient.processServerMessage(data);
-      else if (typeof this.view.x3dScene !== 'undefined')
-        messagedProcessed = this.view.x3dScene.processServerMessage(data, this.view);
+      if (typeof this._view.multimediaClient !== 'undefined')
+        messagedProcessed = this._view.multimediaClient.processServerMessage(data);
+      else if (typeof this._view.x3dScene !== 'undefined')
+        messagedProcessed = this._view.x3dScene.processServerMessage(data, this._view);
       if (!messagedProcessed)
         console.log('WebSocket error: Unknown message received: "' + data + '"');
     }

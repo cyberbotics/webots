@@ -12,7 +12,7 @@ import WbWorld from './nodes/WbWorld.js';
 export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
-    this.loader = new Parser(this.prefix);
+    this._loader = new Parser(this.prefix);
   }
 
   init(texturePathPrefix = '') {
@@ -31,17 +31,17 @@ export default class X3dScene {
     // To be sure that no rendering request is lost, a timeout is set.
     const renderingMinTimeStep = 40; // Rendering maximum frequency: every 40 ms.
     const currentTime = (new Date()).getTime();
-    if (this.nextRenderingTime && this.nextRenderingTime > currentTime) {
-      if (!this.renderingTimeout)
-        this.renderingTimeout = setTimeout(() => this.render(), this.nextRenderingTime - currentTime);
+    if (this._nextRenderingTime && this._nextRenderingTime > currentTime) {
+      if (!this._renderingTimeout)
+        this._renderingTimeout = setTimeout(() => this.render(), this._nextRenderingTime - currentTime);
       return;
     }
 
     this.renderer.render();
 
-    this.nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
-    clearTimeout(this.renderingTimeout);
-    this.renderingTimeout = null;
+    this._nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
+    clearTimeout(this._renderingTimeout);
+    this._renderingTimeout = null;
   }
 
   renderMinimal() {
@@ -84,11 +84,11 @@ export default class X3dScene {
     }
 
     this.renderMinimal();
-    this.loader = undefined;
+    this._loader = undefined;
     webots.currentView.runOnLoad = false;
   }
 
-  deleteObject(id) {
+  _deleteObject(id) {
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;
@@ -114,7 +114,7 @@ export default class X3dScene {
     xmlhttp.send();
   }
 
-  loadObject(x3dObject, parentId, callback) {
+  _loadObject(x3dObject, parentId, callback) {
     let parentNode;
     if (typeof parentId !== 'undefined' && parentId > 0) {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -124,10 +124,10 @@ export default class X3dScene {
       ancestor.isPostFinalizeCalled = false;
     }
 
-    if (typeof this.loader === 'undefined')
-      this.loader = new Parser(this.prefix);
+    if (typeof this._loader === 'undefined')
+      this._loader = new Parser(this.prefix);
 
-    this.loader.parse(x3dObject, this.renderer, parentNode, callback);
+    this._loader.parse(x3dObject, this.renderer, parentNode, callback);
 
     this.render();
   }
@@ -143,7 +143,7 @@ export default class X3dScene {
 
     let fields = [...appliedFields];
 
-    fields = this.applyPoseToObject(pose, object, time, fields);
+    fields = this._applyPoseToObject(pose, object, time, fields);
 
     // Update the related USE nodes
     let length = object.useList.length - 1;
@@ -155,7 +155,7 @@ export default class X3dScene {
         this.useList.splice(index, 1);
       } else {
         fields = [...appliedFields];
-        fields = this.applyPoseToObject(pose, use, time, fields);
+        fields = this._applyPoseToObject(pose, use, time, fields);
       }
 
       --length;
@@ -164,7 +164,7 @@ export default class X3dScene {
     return fields;
   }
 
-  applyPoseToObject(pose, object, time, fields, automaticMove) {
+  _applyPoseToObject(pose, object, time, fields, automaticMove) {
     for (let key in pose) {
       if (key === 'id')
         continue;
@@ -264,10 +264,10 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1);
       const parentId = data.split(':')[0];
       data = data.substring(data.indexOf(':') + 1);
-      this.loadObject(data, parentId);
+      this._loadObject(data, parentId);
     } else if (data.startsWith('delete:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
-      this.deleteObject(data);
+      this._deleteObject(data);
     } else if (data.startsWith('model:')) {
       if (view.toolBar)
         view.toolBar.enableToolBarButtons(false);
@@ -284,7 +284,7 @@ export default class X3dScene {
       if (!data) // received an empty model case: just destroy the view
         return true;
       view.stream.socket.send('pause');
-      this.loadObject(data, 0, view.onready);
+      this._loadObject(data, 0, view.onready);
     } else
       return false;
     return true;

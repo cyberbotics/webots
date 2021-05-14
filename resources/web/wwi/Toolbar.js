@@ -4,7 +4,7 @@ import {webots} from './webots.js';
 
 export default class Toolbar {
   constructor(parent, view) {
-    this.view = view;
+    this._view = view;
 
     this.domElement = document.createElement('div');
     this.domElement.id = 'toolBar';
@@ -13,34 +13,34 @@ export default class Toolbar {
     this.domElement.left.className = 'toolBarLeft';
 
     if (typeof webots.showQuit === 'undefined' || webots.showQuit) { // enabled by default
-      this.domElement.left.appendChild(this.createToolBarButton('quit', 'Quit the simulation'));
-      this.quitButton.onclick = () => { this.view.quitSimulation(); };
+      this.domElement.left.appendChild(this._createToolBarButton('quit', 'Quit the simulation'));
+      this.quitButton.onclick = () => { this._view.quitSimulation(); };
     }
 
-    this.worldSelectionDiv = document.createElement('div');
-    this.worldSelectionDiv.id = 'worldSelectionDiv';
-    this.domElement.left.appendChild(this.worldSelectionDiv);
+    this._worldSelectionDiv = document.createElement('div');
+    this._worldSelectionDiv.id = 'worldSelectionDiv';
+    this.domElement.left.appendChild(this._worldSelectionDiv);
 
     if (webots.showRevert) { // disabled by default
-      this.domElement.left.appendChild(this.createToolBarButton('revert', 'Revert the simulation'));
+      this.domElement.left.appendChild(this._createToolBarButton('revert', 'Revert the simulation'));
       this.revertButton.addEventListener('click', () => { this.reset(true); });
     }
 
-    this.domElement.left.appendChild(this.createToolBarButton('reset', 'Reset the simulation'));
+    this.domElement.left.appendChild(this._createToolBarButton('reset', 'Reset the simulation'));
     this.resetButton.addEventListener('click', () => { this.reset(false); });
 
-    this.domElement.left.appendChild(this.createToolBarButton('step', 'Perform one simulation step'));
+    this.domElement.left.appendChild(this._createToolBarButton('step', 'Perform one simulation step'));
     this.stepButton.onclick = () => { this.step(); };
 
-    this.domElement.left.appendChild(this.createToolBarButton('real_time', 'Run the simulation in real time'));
+    this.domElement.left.appendChild(this._createToolBarButton('real_time', 'Run the simulation in real time'));
     this.real_timeButton.onclick = () => { this.realTime(); };
 
-    this.domElement.left.appendChild(this.createToolBarButton('pause', 'Pause the simulation'));
+    this.domElement.left.appendChild(this._createToolBarButton('pause', 'Pause the simulation'));
     this.pauseButton.onclick = () => { this.pause(); };
     this.pauseButton.style.display = 'none';
 
     if (webots.showRun) { // disabled by default
-      this.domElement.left.appendChild(this.createToolBarButton('run', 'Run the simulation as fast as possible'));
+      this.domElement.left.appendChild(this._createToolBarButton('run', 'Run the simulation as fast as possible'));
       this.runButton.onclick = () => { this.run(); };
     }
 
@@ -54,7 +54,7 @@ export default class Toolbar {
     const timeout = document.createElement('span');
     timeout.id = 'webotsTimeout';
     timeout.title = 'Simulation time out';
-    timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.timeout >= 0 ? this.view.timeout : 0);
+    timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.timeout >= 0 ? this._view.timeout : 0);
     div.appendChild(document.createElement('br'));
     div.appendChild(timeout);
     this.domElement.left.appendChild(div);
@@ -62,12 +62,12 @@ export default class Toolbar {
     this.domElement.right = document.createElement('div');
     this.domElement.right.className = 'toolBarRight';
 
-    if (this.view.fullscreenEnabled) {
-      this.domElement.right.appendChild(this.createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
+    if (this._view.fullscreenEnabled) {
+      this.domElement.right.appendChild(this._createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
       this.exit_fullscreenButton.onclick = () => { exitFullscreen(); };
       this.exit_fullscreenButton.style.display = 'none';
-      this.domElement.right.appendChild(this.createToolBarButton('fullscreen', 'Enter fullscreen'));
-      this.fullscreenButton.onclick = () => { requestFullscreen(this.view); };
+      this.domElement.right.appendChild(this._createToolBarButton('fullscreen', 'Enter fullscreen'));
+      this.fullscreenButton.onclick = () => { requestFullscreen(this._view); };
     }
 
     this.domElement.appendChild(this.domElement.left);
@@ -75,7 +75,7 @@ export default class Toolbar {
     parent.appendChild(this.domElement);
 
     this.enableToolBarButtons(false);
-    if (this.view.broadcast && this.quitButton) {
+    if (this._view.broadcast && this.quitButton) {
       this.quitButton.disabled = true;
       this.quitButton.classList.add('toolBarButtonDisabled');
     }
@@ -87,7 +87,7 @@ export default class Toolbar {
   }
 
   reset(revert = false) {
-    if (this.view.broadcast)
+    if (this._view.broadcast)
       return;
     this.time = 0; // reset time to correctly compute the initial deadline
     if (document.getElementById('webotsProgressMessage')) {
@@ -98,19 +98,19 @@ export default class Toolbar {
     }
     if (document.getElementById('webotsProgress'))
       document.getElementById('webotsProgress').style.display = 'block';
-    this.view.runOnLoad = this.pauseButton.style.display === 'inline';
+    this._view.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
 
-    if (this.view.timeout >= 0) {
-      this.view.deadline = this.view.timeout;
-      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.timeout);
+    if (this._view.timeout >= 0) {
+      this._view.deadline = this._view.timeout;
+      document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.timeout);
     } else
       document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
     this.enableToolBarButtons(false);
     if (revert)
-      this.view.stream.socket.send('revert');
+      this._view.stream.socket.send('revert');
     else
-      this.view.stream.socket.send('reset');
+      this._view.stream.socket.send('reset');
   }
 
   isPaused() {
@@ -118,15 +118,15 @@ export default class Toolbar {
   }
 
   pause() {
-    if (this.view.broadcast)
+    if (this._view.broadcast)
       return;
-    this.view.stream.socket.send('pause');
+    this._view.stream.socket.send('pause');
   }
 
   realTime() {
-    if (this.view.broadcast)
+    if (this._view.broadcast)
       return;
-    this.view.stream.socket.send('real-time:' + this.view.timeout);
+    this._view.stream.socket.send('real-time:' + this._view.timeout);
     this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'none';
     if (typeof this.runButton !== 'undefined')
@@ -134,9 +134,9 @@ export default class Toolbar {
   }
 
   run() {
-    if (this.view.broadcast)
+    if (this._view.broadcast)
       return;
-    this.view.stream.socket.send('fast:' + this.view.timeout);
+    this._view.stream.socket.send('fast:' + this._view.timeout);
     this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'inline';
     if (typeof this.runButton !== 'undefined')
@@ -144,20 +144,20 @@ export default class Toolbar {
   }
 
   step() {
-    if (this.view.broadcast)
+    if (this._view.broadcast)
       return;
     this.pauseButton.style.display = 'none';
     this.real_timeButton.style.display = 'inline';
     if (typeof this.runButton !== 'undefined')
       this.runButton.style.display = 'inline';
-    this.view.stream.socket.send('step');
+    this._view.stream.socket.send('step');
   }
 
   enableToolBarButtons(enabled) {
     const buttons = [this.quitButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.runButton, this.pauseButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
-        if (enabled && (!this.view.broadcast)) {
+        if (enabled && (!this._view.broadcast)) {
           buttons[i].disabled = false;
           buttons[i].classList.remove('toolBarButtonDisabled');
         } else {
@@ -171,7 +171,7 @@ export default class Toolbar {
       this.worldSelect.disabled = !enabled;
   }
 
-  createToolBarButton(name, tooltip) {
+  _createToolBarButton(name, tooltip) {
     const buttonName = name + 'Button';
     this[buttonName] = document.createElement('button');
     this[buttonName].id = buttonName;
@@ -182,7 +182,7 @@ export default class Toolbar {
   }
 
   deleteWorldSelect() {
-    this.worldSelectionDiv.removeChild(this.worldSelect);
+    this._worldSelectionDiv.removeChild(this.worldSelect);
     this.worldSelect = undefined;
   }
 
@@ -190,7 +190,7 @@ export default class Toolbar {
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
     this.worldSelect.classList.add('select-css');
-    this.worldSelectionDiv.appendChild(this.worldSelect);
+    this._worldSelectionDiv.appendChild(this.worldSelect);
 
     // check if toolbar buttons are disabled
     if (this.real_timeButton && this.real_timeButton.disabled)

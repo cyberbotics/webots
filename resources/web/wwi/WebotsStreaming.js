@@ -1,5 +1,5 @@
 import {webots} from './webots.js';
-import {exitFullscreen} from './fullscreen_handler.js'
+import {exitFullscreen} from './fullscreen_handler.js';
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -44,16 +44,16 @@ export default class WebotsStreaming extends HTMLElement {
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
     let playerDiv = document.getElementsByTagName('webots-streaming')[0];
-    if (typeof this.view === 'undefined')
-      this.view = new webots.View(playerDiv, mobileDevice);
-    this.view.broadcast = broadcast;
-    this.view.setTimeout(-1); // disable timeout that stops the simulation after a given time
+    if (typeof this._view === 'undefined')
+      this._view = new webots.View(playerDiv, mobileDevice);
+    this._view.broadcast = broadcast;
+    this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
 
-    this.disconnectCallback = disconnectCallback;
+    this._disconnectCallback = disconnectCallback;
 
-    this.view.open(ip, mode);
-    this.view.onquit = () => this.disconnect();
-    this.view.onready = _ => {
+    this._view.open(ip, mode);
+    this._view.onquit = () => this.disconnect();
+    this._view.onready = _ => {
       if (typeof callback === 'function')
         callback();
     };
@@ -64,15 +64,15 @@ export default class WebotsStreaming extends HTMLElement {
     if (exitFullscreenButton && exitFullscreenButton.style.display !== 'none')
       exitFullscreen();
 
-    this.view.close();
+    this._view.close();
 
     let playerDiv = document.getElementsByTagName('webots-streaming')[0];
     playerDiv.innerHTML = null;
-    if (this.view.mode === 'mjpeg')
-      this.view.multimediaClient = undefined;
+    if (this._view.mode === 'mjpeg')
+      this._view.multimediaClient = undefined;
 
-    if (typeof this.disconnectCallback === 'function')
-      this.disconnectCallback();
+    if (typeof this._disconnectCallback === 'function')
+      this._disconnectCallback();
   }
 
   _load(scriptUrl) {

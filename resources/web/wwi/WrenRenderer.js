@@ -3,13 +3,13 @@ import {disableShadows} from './nodes/wb_preferences.js';
 
 export default class WrenRenderer {
   constructor() {
-    this.canvas = document.createElement('canvas');
-    this.canvas.id = 'canvas';
+    this._canvas = document.createElement('canvas');
+    this._canvas.id = 'canvas';
     let div = document.getElementById('view3d');
 
     if (typeof div === 'undefined' || div === null)
       div = document.getElementsByTagName('webots-streaming');
-    div.insertBefore(this.canvas, div.firstChild);
+    div.insertBefore(this._canvas, div.firstChild);
 
     _wr_config_enable_shadows(!disableShadows);
 
@@ -18,8 +18,8 @@ export default class WrenRenderer {
   }
 
   setSize(width, height) {
-    this.canvas.width = width;
-    this.canvas.height = height;
+    this._canvas.width = width;
+    this._canvas.height = height;
   }
 
   render() {

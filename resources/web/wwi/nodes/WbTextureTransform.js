@@ -31,19 +31,19 @@ export default class WbTextureTransform extends WbBaseNode {
     this._destroyWrenObjects();
 
     // apply translation before rotation
-    this.wrenTextureTransform = _wr_texture_transform_new();
-    _wr_texture_transform_set_scale(this.wrenTextureTransform, this.scale.x, this.scale.y);
-    _wr_texture_transform_set_position(this.wrenTextureTransform, this.translation.x, this.translation.y);
-    _wr_texture_transform_set_center(this.wrenTextureTransform, this.center.x, this.center.y);
-    _wr_texture_transform_set_rotation(this.wrenTextureTransform, this.rotation);
+    this._wrenTextureTransform = _wr_texture_transform_new();
+    _wr_texture_transform_set_scale(this._wrenTextureTransform, this.scale.x, this.scale.y);
+    _wr_texture_transform_set_position(this._wrenTextureTransform, this.translation.x, this.translation.y);
+    _wr_texture_transform_set_center(this._wrenTextureTransform, this.center.x, this.center.y);
+    _wr_texture_transform_set_rotation(this._wrenTextureTransform, this.rotation);
 
-    _wr_material_set_texture_transform(wrenMaterial, this.wrenTextureTransform);
+    _wr_material_set_texture_transform(wrenMaterial, this._wrenTextureTransform);
   }
 
   // Private functions
 
   _destroyWrenObjects() {
-    if (typeof this.wrenTextureTransform !== 'undefined')
-      _wr_texture_transform_delete(this.wrenTextureTransform);
+    if (typeof this._wrenTextureTransform !== 'undefined')
+      _wr_texture_transform_delete(this._wrenTextureTransform);
   }
 }

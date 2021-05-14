@@ -3,23 +3,23 @@ import WbWrenPostProcessingEffects from './WbWrenPostProcessingEffects.js';
 
 export default class WbWrenSmaa extends WbWrenAbstractPostProcessingEffect {
   setup(viewport) {
-    if (typeof this.wrenPostProcessingEffect === 'undefined') {
+    if (typeof this._wrenPostProcessingEffect === 'undefined') {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
-      if (this.wrenViewport === viewport)
-        _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+      if (this._wrenViewport === viewport)
+        _wr_viewport_remove_post_processing_effect(this._wrenViewport, this._wrenPostProcessingEffect);
 
-      _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
+      _wr_post_processing_effect_delete(this._wrenPostProcessingEffect);
     }
 
-    this.wrenViewport = viewport;
+    this._wrenViewport = viewport;
 
-    const width = _wr_viewport_get_width(this.wrenViewport);
-    const height = _wr_viewport_get_height(this.wrenViewport);
+    const width = _wr_viewport_get_width(this._wrenViewport);
+    const height = _wr_viewport_get_height(this._wrenViewport);
 
-    this.wrenPostProcessingEffect = WbWrenPostProcessingEffects.smaa(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+    this._wrenPostProcessingEffect = WbWrenPostProcessingEffects.smaa(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
-    _wr_viewport_set_anti_aliasing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
-    _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);
+    _wr_viewport_set_anti_aliasing_effect(this._wrenViewport, this._wrenPostProcessingEffect);
+    _wr_post_processing_effect_setup(this._wrenPostProcessingEffect);
 
     this.hasBeenSetup = true;
   }

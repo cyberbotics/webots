@@ -74,9 +74,9 @@ webots.View = class View {
     this.view3D.className = view3D.className + ' webotsView';
 
     if (typeof mobile === 'undefined')
-      this.mobileDevice = SystemInfo.isMobileDevice();
+      this._mobileDevice = SystemInfo.isMobileDevice();
     else
-      this.mobileDevice = mobile;
+      this._mobileDevice = mobile;
 
     this.fullscreenEnabled = !SystemInfo.isIOS();
     if (!this.fullscreenEnabled) {
@@ -87,7 +87,6 @@ webots.View = class View {
       document.getElementsByTagName('head')[0].appendChild(meta);
     }
 
-    this.debug = false;
     this.timeout = 60 * 1000; // default to one minute
     this.deadline = this.timeout;
     this.runOnLoad = false;
@@ -145,7 +144,7 @@ webots.View = class View {
       if (document.getElementById('webotsProgress'))
         document.getElementById('webotsProgress').style.display = 'block';
 
-      if (this.isWebSocketProtocol) {
+      if (this._isWebSocketProtocol) {
         if (typeof this.toolBar === 'undefined')
           this.toolBar = new Toolbar(this.view3D, this);
         else if (!document.getElementById('toolBar'))
@@ -154,8 +153,8 @@ webots.View = class View {
         const url = findGetParameter('url');
         if (url || this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
           // "wss://localhost/1999/?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python"
-          this.server = new Server(this.url, this, finalizeWorld);
-          this.server.connect();
+          this._server = new Server(this.url, this, finalizeWorld);
+          this._server.connect();
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
@@ -171,7 +170,7 @@ webots.View = class View {
       if (document.getElementById('webotsProgressMessage'))
         document.getElementById('webotsProgressMessage').innerHTML = 'Loading World...';
       if (typeof this.x3dScene !== 'undefined') {
-        if (!this.isWebSocketProtocol) { // skip robot windows initialization
+        if (!this._isWebSocketProtocol) { // skip robot windows initialization
           if (this.animation != null)
             this.animation.init(loadFinalize);
           else
@@ -198,36 +197,36 @@ webots.View = class View {
 
     if (this.broadcast)
       this.setTimeout(-1);
-    this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
+    this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
     if (mode === 'mjpeg') {
       this.url = url;
       this.multimediaClient = new MultimediaClient(this, this.view3D);
     } else if (typeof this.x3dScene === 'undefined') {
-      this.x3dDiv = document.getElementById('view3d');
-      if (this.x3dDiv === null || typeof this.x3dDiv === 'undefined') {
-        this.x3dDiv = document.createElement('div');
-        this.x3dDiv.id = 'view3d';
-        this.view3D.appendChild(this.x3dDiv);
+      this._x3dDiv = document.getElementById('view3d');
+      if (this._x3dDiv === null || typeof this._x3dDiv === 'undefined') {
+        this._x3dDiv = document.createElement('div');
+        this._x3dDiv.id = 'view3d';
+        this.view3D.appendChild(this._x3dDiv);
       }
 
-      this.x3dDiv.className = 'webots3DView';
-      this.x3dScene = new X3dScene(this.x3dDiv);
+      this._x3dDiv.className = 'webots3DView';
+      this.x3dScene = new X3dScene(this._x3dDiv);
       this.x3dScene.init(texturePathPrefix);
       let param = document.createElement('param');
       param.name = 'showProgress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
     } else {
-      if (typeof this.x3dDiv !== 'undefined')
-        this.view3D.appendChild(this.x3dDiv);
+      if (typeof this._x3dDiv !== 'undefined')
+        this.view3D.appendChild(this._x3dDiv);
       if (typeof this.progress !== 'undefined')
         this.view3D.appendChild(this.progress);
     }
 
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
       let canvas = document.getElementById('canvas');
-      this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this.mobileDevice);
+      this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this._mobileDevice);
     }
 
     initWorld();
@@ -236,8 +235,8 @@ webots.View = class View {
   close() {
     if (this.multimediaClient)
       this.multimediaClient.disconnect();
-    if (this.server && this.server.socket)
-      this.server.socket.close();
+    if (this._server && this._server.socket)
+      this._server.socket.close();
     if (this.stream)
       this.stream.close();
   }
@@ -282,7 +281,7 @@ webots.View = class View {
       labelElement = document.createElement('div');
       labelElement.id = 'label' + properties.id;
       labelElement.className = 'webots-label';
-      this.x3dDiv.appendChild(labelElement);
+      this._x3dDiv.appendChild(labelElement);
     }
 
     let font = properties.font.split('/');
@@ -290,9 +289,9 @@ webots.View = class View {
 
     labelElement.style.fontFamily = font;
     labelElement.style.color = 'rgba(' + properties.color + ')';
-    labelElement.style.fontSize = this._getHeight(this.x3dDiv) * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
-    labelElement.style.left = this._getWidth(this.x3dDiv) * properties.x + 'px';
-    labelElement.style.top = this._getHeight(this.x3dDiv) * properties.y + 'px';
+    labelElement.style.fontSize = this._getHeight(this._x3dDiv) * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
+    labelElement.style.left = this._getWidth(this._x3dDiv) * properties.x + 'px';
+    labelElement.style.top = this._getHeight(this._x3dDiv) * properties.y + 'px';
 
     if (properties.text.includes('█'))
       properties.text = properties.text.replaceAll('█', '<span style="background:' + labelElement.style.color + '"> </span>');

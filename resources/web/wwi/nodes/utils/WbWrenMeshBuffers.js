@@ -2,17 +2,16 @@ import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
 
 export default class WbWrenMeshBuffers {
-  constructor(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
+  constructor(verticesCount, indicesCount, texCoordSetsCount) {
     this.vertexIndex = 0;
     this.index = 0;
 
-    this.resetAll(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize);
+    this.resetAll(verticesCount, indicesCount, texCoordSetsCount);
   }
 
   clear() {
     this.vertexBuffer = undefined;
     this.normalBuffer = undefined;
-    this.colorBuffer = undefined;
     this.texCoordBuffer = undefined;
     this.unwrappedTexCoordsBuffer = undefined;
     this.indexBuffer = undefined;
@@ -21,7 +20,7 @@ export default class WbWrenMeshBuffers {
     this.index = 0;
   }
 
-  resetAll(verticesCount, indicesCount, texCoordSetsCount, colorBufferSize) {
+  resetAll(verticesCount, indicesCount, texCoordSetsCount) {
     this.clear();
 
     this.verticesCount = verticesCount;
@@ -34,9 +33,6 @@ export default class WbWrenMeshBuffers {
       this.unwrappedTexCoordsBuffer = [];
     }
     this.indexBuffer = [];
-    this.colorBufferSize = colorBufferSize;
-    if (colorBufferSize > 0)
-      this.colorBuffer = [];
   }
 
   // Static functions

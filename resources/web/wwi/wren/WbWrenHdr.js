@@ -16,25 +16,25 @@ export default class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
   }
 
   setup(viewport) {
-    if (typeof this.wrenPostProcessingEffect !== 'undefined') {
+    if (typeof this._wrenPostProcessingEffect !== 'undefined') {
       // In case we want to update the viewport, the old postProcessingEffect has to be removed first
-      if (this.wrenViewport === viewport)
-        _wr_viewport_remove_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
+      if (this._wrenViewport === viewport)
+        _wr_viewport_remove_post_processing_effect(this._wrenViewport, this._wrenPostProcessingEffect);
 
-      _wr_post_processing_effect_delete(this.wrenPostProcessingEffect);
+      _wr_post_processing_effect_delete(this._wrenPostProcessingEffect);
     }
 
-    this.wrenViewport = viewport;
+    this._wrenViewport = viewport;
 
-    const width = _wr_viewport_get_width(this.wrenViewport);
-    const height = _wr_viewport_get_height(this.wrenViewport);
+    const width = _wr_viewport_get_width(this._wrenViewport);
+    const height = _wr_viewport_get_height(this._wrenViewport);
 
-    this.wrenPostProcessingEffect = this._hdrResolve(width, height);
+    this._wrenPostProcessingEffect = this._hdrResolve(width, height);
 
     this._applyParametersToWren();
 
-    _wr_viewport_add_post_processing_effect(this.wrenViewport, this.wrenPostProcessingEffect);
-    _wr_post_processing_effect_setup(this.wrenPostProcessingEffect);
+    _wr_viewport_add_post_processing_effect(this._wrenViewport, this._wrenPostProcessingEffect);
+    _wr_post_processing_effect_setup(this._wrenPostProcessingEffect);
 
     this.hasBeenSetup = true;
   }
@@ -42,14 +42,14 @@ export default class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
   // Private functions
 
   _applyParametersToWren() {
-    if (!this.wrenPostProcessingEffect)
+    if (!this._wrenPostProcessingEffect)
       return;
 
-    const firstPass = _wr_post_processing_effect_get_first_pass(this.wrenPostProcessingEffect);
-    if (typeof this.exposurePointer !== 'undefined')
-    _free(this.exposurePointer);
-    this.exposurePointer = pointerOnFloat(this.exposure);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, 'exposure', this.exposurePointer]);
+    const firstPass = _wr_post_processing_effect_get_first_pass(this._wrenPostProcessingEffect);
+    if (typeof this._exposurePointer !== 'undefined')
+      _free(this._exposurePointer);
+    this._exposurePointer = pointerOnFloat(this.exposure);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, 'exposure', this._exposurePointer]);
   }
 
   _hdrResolve(width, height) {

@@ -16,15 +16,15 @@ export default class WbBox extends WbGeometry {
     super._computeWrenRenderable();
 
     const createOutlineMesh = super.isInBoundingObject();
-    this.wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
 
-    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+    _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
 
     this.updateSize();
   }
 
   delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
   }

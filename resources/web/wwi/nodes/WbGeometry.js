@@ -11,18 +11,18 @@ export default class WbGeometry extends WbBaseNode {
     super(id);
 
     this.pickable = false;
-    this.isShadedGeometryPickable = true;
+    this._isShadedGeometryPickable = true;
   }
 
   computeCastShadows(enabled) {
-    if (typeof this.wrenRenderable === 'undefined')
+    if (typeof this._wrenRenderable === 'undefined')
       return;
 
     if (super.isInBoundingObject()) {
-      _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
-      _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
+      _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
+      _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
     } else
-      _wr_renderable_set_cast_shadows(this.wrenRenderable, enabled);
+      _wr_renderable_set_cast_shadows(this._wrenRenderable, enabled);
   }
 
   delete() {
@@ -39,17 +39,17 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   setPickable(pickable) {
-    if (typeof this.wrenRenderable === 'undefined'|| super.isInBoundingObject())
+    if (typeof this._wrenRenderable === 'undefined'|| super.isInBoundingObject())
       return;
 
-    this.pickable = pickable && this.isShadedGeometryPickable;
+    this.pickable = pickable && this._isShadedGeometryPickable;
 
-    WbWrenPicker.setPickable(this.wrenRenderable, this.id, pickable);
+    WbWrenPicker.setPickable(this._wrenRenderable, this.id, pickable);
   }
 
   setWrenMaterial(material, castShadows) {
-    if (typeof this.wrenRenderable !== 'undefined') {
-      _wr_renderable_set_material(this.wrenRenderable, material, null);
+    if (typeof this._wrenRenderable !== 'undefined') {
+      _wr_renderable_set_material(this._wrenRenderable, material, null);
       this.computeCastShadows(castShadows);
     }
   }
@@ -61,18 +61,18 @@ export default class WbGeometry extends WbBaseNode {
   // Private functions
 
   _applyVisibilityFlagToWren(selected) {
-    if (typeof this.wrenScaleTransform === 'undefined')
+    if (typeof this._wrenScaleTransform === 'undefined')
       return;
 
     if (super.isInBoundingObject()) {
       if (selected) {
-        _wr_renderable_set_visibility_flags(this.wrenRenderable, WbWrenRenderingContext.VF_SELECTED_OUTLINE);
-        _wr_node_set_visible(this.wrenScaleTransform, true);
-      } else if (_wr_node_get_parent(this.wrenScaleTransform))
-        _wr_node_set_visible(this.wrenScaleTransform, false);
+        _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_SELECTED_OUTLINE);
+        _wr_node_set_visible(this._wrenScaleTransform, true);
+      } else if (_wr_node_get_parent(this._wrenScaleTransform))
+        _wr_node_set_visible(this._wrenScaleTransform, false);
     } else {
-      _wr_renderable_set_visibility_flags(this.wrenRenderable, WbWrenRenderingContext.VM_REGULAR);
-      _wr_node_set_visible(this.wrenScaleTransform, true);
+      _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VM_REGULAR);
+      _wr_node_set_visible(this._wrenScaleTransform, true);
     }
   }
 
@@ -80,18 +80,18 @@ export default class WbGeometry extends WbBaseNode {
     if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();
 
-    this.wrenScaleTransform = _wr_transform_new();
-    _wr_transform_attach_child(this.wrenNode, this.wrenScaleTransform);
-    this.wrenNode = this.wrenScaleTransform;
+    this._wrenScaleTransform = _wr_transform_new();
+    _wr_transform_attach_child(this.wrenNode, this._wrenScaleTransform);
+    this.wrenNode = this._wrenScaleTransform;
 
-    this.wrenRenderable = _wr_renderable_new();
+    this._wrenRenderable = _wr_renderable_new();
     if (super.isInBoundingObject()) {
-      _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
-      _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
-      _wr_renderable_set_drawing_mode(this.wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
+      _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
+      _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
+      _wr_renderable_set_drawing_mode(this._wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
     }
 
-    _wr_transform_attach_child(this.wrenScaleTransform, this.wrenRenderable);
+    _wr_transform_attach_child(this._wrenScaleTransform, this._wrenRenderable);
 
     this.updateBoundingObjectVisibility();
 
@@ -106,17 +106,17 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   _deleteWrenRenderable() {
-    if (typeof this.wrenRenderable !== 'undefined') {
+    if (typeof this._wrenRenderable !== 'undefined') {
       // Delete picking material
-      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, 'picking']));
-      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this.wrenRenderable, 'depth']));
+      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this._wrenRenderable, 'picking']));
+      _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [this._wrenRenderable, 'depth']));
 
-      _wr_node_delete(this.wrenRenderable);
-      this.wrenRenderable = undefined;
+      _wr_node_delete(this._wrenRenderable);
+      this._wrenRenderable = undefined;
 
-      this.wrenNode = _wr_node_get_parent(this.wrenScaleTransform);
-      _wr_node_delete(this.wrenScaleTransform);
-      this.wrenScaleTransform = undefined;
+      this.wrenNode = _wr_node_get_parent(this._wrenScaleTransform);
+      _wr_node_delete(this._wrenScaleTransform);
+      this._wrenScaleTransform = undefined;
     }
   }
 

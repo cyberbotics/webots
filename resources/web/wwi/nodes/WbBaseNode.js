@@ -9,10 +9,10 @@ export default class WbBaseNode {
     this.isPreFinalizeCalled = false;
     this.isPostFinalizeCalled = false;
 
-    this.upperTransformFirstTimeSearch = true;
+    this._upperTransformFirstTimeSearch = true;
     this.upperTransform = false;
 
-    this.boundingObjectFirstTimeSearch = true;
+    this._boundingObjectFirstTimeSearch = true;
     this.isInBoundingObject = false;
 
     this.useList = [];
@@ -56,20 +56,20 @@ export default class WbBaseNode {
   }
 
   isInBoundingObject() {
-    if (this.boundingObjectFirstTimeSearch) {
+    if (this._boundingObjectFirstTimeSearch) {
       this.isInBoundingObject = nodeIsInBoundingObject(this);
       if (this.wrenObjectsCreatedCalled)
-        this.boundingObjectFirstTimeSearch = false;
+        this._boundingObjectFirstTimeSearch = false;
     }
 
     return this.isInBoundingObject;
   }
 
   upperTransform() {
-    if (this.upperTransformFirstTimeSearch) {
+    if (this._upperTransformFirstTimeSearch) {
       this.upperTransform = findUpperTransform(this);
       if (this.wrenObjectsCreatedCalled)
-        this.upperTransformFirstTimeSearch = false;
+        this._upperTransformFirstTimeSearch = false;
     }
 
     return this.upperTransform;

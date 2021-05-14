@@ -7,7 +7,7 @@ export default class WbIndexedLineSet extends WbGeometry {
     this.coord = coord;
     this.coordIndex = coordIndex;
 
-    this.isShadedGeometryPickable = false;
+    this._isShadedGeometryPickable = false;
   }
 
   clone(customID) {
@@ -22,7 +22,7 @@ export default class WbIndexedLineSet extends WbGeometry {
   }
 
   delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
   }
@@ -31,22 +31,22 @@ export default class WbIndexedLineSet extends WbGeometry {
   _buildWrenMesh() {
     super._deleteWrenRenderable();
 
-    if (typeof this.wrenMesh !== 'undefined') {
-      _wr_static_mesh_delete(this.wrenMesh);
-      this.wrenMesh = undefined;
+    if (typeof this._wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this._wrenMesh);
+      this._wrenMesh = undefined;
     }
 
     super._computeWrenRenderable();
 
-    _wr_renderable_set_drawing_mode(this.wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
+    _wr_renderable_set_drawing_mode(this._wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
 
     const coordsData = [];
     const coordsCount = this._computeCoordsData(coordsData);
 
     if (coordsCount > 0) {
       const coordsDataPointer = arrayXPointerFloat(coordsData);
-      this.wrenMesh = _wr_static_mesh_line_set_new(coordsCount, coordsDataPointer, null);
-      _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+      this._wrenMesh = _wr_static_mesh_line_set_new(coordsCount, coordsDataPointer, null);
+      _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
       _free(coordsDataPointer);
     }
   }

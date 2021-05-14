@@ -23,7 +23,7 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
   }
@@ -49,9 +49,9 @@ export default class WbElevationGrid extends WbGeometry {
   _buildWrenMesh() {
     super._deleteWrenRenderable();
 
-    if (typeof this.wrenMesh !== 'undefined') {
-      _wr_static_mesh_delete(this.wrenMesh);
-      this.wrenMesh = undefined;
+    if (typeof this._wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this._wrenMesh);
+      this._wrenMesh = undefined;
     }
 
     if (this.xDimension < 2 || this.zDimension < 2)
@@ -76,7 +76,7 @@ export default class WbElevationGrid extends WbGeometry {
     const createOutlineMesh = super.isInBoundingObject();
 
     const heightDataPointer = arrayXPointerFloat(heightData);
-    this.wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.zDimension, heightDataPointer, this.thickness, createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.zDimension, heightDataPointer, this.thickness, createOutlineMesh);
 
     _free(heightDataPointer);
 
@@ -85,7 +85,7 @@ export default class WbElevationGrid extends WbGeometry {
     else
       this.updateScale();
 
-    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+    _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }
 
   _isAValidBoundingObject() {

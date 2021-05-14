@@ -16,7 +16,7 @@ export default class WbImageTexture extends WbBaseNode {
     this.repeatT = t;
     this.filtering = filtering;
 
-    this.wrenTextureIndex = 0;
+    this._wrenTextureIndex = 0;
     this.usedFiltering = 0;
   }
 
@@ -67,15 +67,15 @@ export default class WbImageTexture extends WbBaseNode {
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
     if (!wrenMaterial)
       return;
-    this.wrenTextureIndex = mainTextureIndex;
-    _wr_material_set_texture(wrenMaterial, this.wrenTexture, this.wrenTextureIndex);
-    if (this.wrenTexture) {
-      _wr_texture_set_translucent(this.wrenTexture, this.isTransparent);
-      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
-      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this.wrenTextureIndex);
-      _wr_material_set_texture_anisotropy(wrenMaterial, 1 << (this.usedFiltering - 1), this.wrenTextureIndex);
-      _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
-      _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this.wrenTextureIndex);
+    this._wrenTextureIndex = mainTextureIndex;
+    _wr_material_set_texture(wrenMaterial, this._wrenTexture, this._wrenTextureIndex);
+    if (this._wrenTexture) {
+      _wr_texture_set_translucent(this._wrenTexture, this.isTransparent);
+      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this._wrenTextureIndex);
+      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this._wrenTextureIndex);
+      _wr_material_set_texture_anisotropy(wrenMaterial, 1 << (this.usedFiltering - 1), this._wrenTextureIndex);
+      _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering, this._wrenTextureIndex);
+      _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this._wrenTextureIndex);
     }
 
     _wr_material_set_texture(wrenMaterial, null, backgroundTextureIndex);
@@ -96,12 +96,12 @@ export default class WbImageTexture extends WbBaseNode {
   // Private fonctions
 
   _destroyWrenTexture() {
-    _wr_texture_delete(this.wrenTexture);
+    _wr_texture_delete(this._wrenTexture);
 
-    _wr_texture_transform_delete(this.wrenTextureTransform);
+    _wr_texture_transform_delete(this._wrenTextureTransform);
 
-    this.wrenTexture = undefined;
-    this.wrenTextureTransform = undefined;
+    this._wrenTexture = undefined;
+    this._wrenTextureTransform = undefined;
   }
 
   _updateFiltering() {
@@ -128,6 +128,6 @@ export default class WbImageTexture extends WbBaseNode {
     } else
       this.isTransparent = _wr_texture_is_translucent(texture);
 
-    this.wrenTexture = texture;
+    this._wrenTexture = texture;
   }
 }

@@ -8,7 +8,7 @@ export default class WbPointSet extends WbGeometry {
     this.coord = coord;
     this.color = color;
 
-    this.isShadedGeometryPickable = false;
+    this._isShadedGeometryPickable = false;
   }
 
   clone(customID) {
@@ -24,7 +24,7 @@ export default class WbPointSet extends WbGeometry {
   }
 
   delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
   }
@@ -46,9 +46,9 @@ export default class WbPointSet extends WbGeometry {
   _buildWrenMesh() {
     super._deleteWrenRenderable();
 
-    if (typeof this.wrenMesh !== 'undefined') {
-      _wr_static_mesh_delete(this.wrenMesh);
-      this.wrenMesh = undefined;
+    if (typeof this._wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this._wrenMesh);
+      this._wrenMesh = undefined;
     }
 
     if (typeof this.coord === 'undefined' || this.coord.length === 0)
@@ -65,16 +65,16 @@ export default class WbPointSet extends WbGeometry {
 
     const coordsDataPointer = arrayXPointerFloat(coordsData);
     const colorDataPointer = arrayXPointerFloat(colorData);
-    this.wrenMesh = _wr_static_mesh_point_set_new(coordsCount, coordsDataPointer, colorDataPointer);
+    this._wrenMesh = _wr_static_mesh_point_set_new(coordsCount, coordsDataPointer, colorDataPointer);
 
     _free(coordsDataPointer);
     _free(colorDataPointer);
 
-    _wr_renderable_set_cast_shadows(this.wrenRenderable, false);
-    _wr_renderable_set_receive_shadows(this.wrenRenderable, false);
-    _wr_renderable_set_drawing_mode(this.wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_POINTS);
-    _wr_renderable_set_point_size(this.wrenRenderable, 4.0);
-    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+    _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
+    _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
+    _wr_renderable_set_drawing_mode(this._wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_POINTS);
+    _wr_renderable_set_point_size(this._wrenRenderable, 4.0);
+    _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }
 
   _computeCoordsAndColorData(coordsData, colorData) {

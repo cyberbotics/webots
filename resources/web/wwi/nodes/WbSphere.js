@@ -19,7 +19,7 @@ export default class WbSphere extends WbGeometry {
   }
 
   delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
   }
@@ -48,20 +48,20 @@ export default class WbSphere extends WbGeometry {
   _buildWrenMesh() {
     super._deleteWrenRenderable();
 
-    if (typeof this.wrenMesh !== 'undefined') {
-      _wr_static_mesh_delete(this.wrenMesh);
-      this.wrenMesh = undefined;
+    if (typeof this._wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this._wrenMesh);
+      this._wrenMesh = undefined;
     }
 
     super._computeWrenRenderable();
 
     const createOutlineMesh = super.isInBoundingObject();
-    this.wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
+    this._wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
 
     // Restore pickable state
     super.setPickable(this.isPickable);
 
-    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+    _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
 
     if (createOutlineMesh)
       this.updateLineScale();

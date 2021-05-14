@@ -27,16 +27,16 @@ export default class WbCylinder extends WbGeometry {
 
     this._computeWrenRenderable();
 
-    this.wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, false);
+    this._wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, false);
 
-    _wr_renderable_set_mesh(this.wrenRenderable, this.wrenMesh);
+    _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
 
     const scale = _wrjs_array3(this.radius, this.height, this.radius);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
   delete() {
-    _wr_static_mesh_delete(this.wrenMesh);
+    _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
   }
