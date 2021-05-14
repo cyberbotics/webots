@@ -647,19 +647,19 @@ def show_polygon(vertices):
 def update_team_ball_holding(team):
     players_close_to_the_ball = []
     numbers = []
-    goalkeeper = None
+    goalkeeper_number = None
     for number in team['players']:
         player = team['players'][number]
         d = distance2(player['position'], game.ball_position)
         if d <= game.field.ball_vincity:
             if is_goalkeeper(team, number):
-                goalkeeper = number
+                goalkeeper_number = number
             players_close_to_the_ball.append(player)
             numbers.append(number)
 
     goalkeeper_hold_ball = False
-    if goalkeeper is not None:  # goalkeeper is in vincity of ball
-        goalkeeper = team['players'][goalkeeper]
+    if goalkeeper_number is not None:  # goalkeeper is in vincity of ball
+        goalkeeper = team['players'][goalkeeper_number]
         points = np.empty([4, 2])
         aabb = None
         i = 0
@@ -716,7 +716,7 @@ def update_team_ball_holding(team):
             del team['goalkeeper_hold_ball']
     elif goalkeeper_hold_ball:
         team['goalkeeper_hold_ball'] = time_count
-        info(f'{color.capitalize()} goalkeeper ({goalkeeper}) is holding the ball.')
+        info(f'{color.capitalize()} goalkeeper is holding the ball.')
 
 
 def update_ball_holding():
@@ -768,14 +768,20 @@ def update_team_contacts(team):
             continue
         player['asleep'] = False
         player['position'] = robot.getCenterOfMass()
-        player['outside_circle'] = True        # true if fully outside the center cicle
-        player['outside_field'] = True         # true if fully outside the field
-        player['inside_field'] = True          # true if fully inside the field
-        player['inside_own_side'] = True       # true if fully inside its own side (half field side)
-        player['outside_goal_area'] = True     # true if fully outside of any goal area
-        player['outside_penalty_area'] = True  # true if fully outside of any penalty area
-        outside_turf = True                    # true if fully outside turf
-        fallen = False
+        # if less then 3 contact points, the contacts do not include contacts with the ground, so don't update the following
+        # value based on ground collisions
+        if n >= 3:
+            player['outside_circle'] = True        # true if fully outside the center cicle
+            player['outside_field'] = True         # true if fully outside the field
+            player['inside_field'] = True          # true if fully inside the field
+            player['inside_own_side'] = True       # true if fully inside its own side (half field side)
+            player['outside_goal_area'] = True     # true if fully outside of any goal area
+            player['outside_penalty_area'] = True  # true if fully outside of any penalty area
+            outside_turf = True                    # true if fully outside turf
+            fallen = False
+        else:
+            outside_turf = False
+            fallen = True
         for i in range(n):
             point = robot.getContactPoint(i)
             node = robot.getContactPointNode(i)
@@ -1092,13 +1098,14 @@ def check_team_ball_handling(team):
         color = team['color']
         if time_count - player['ball_handling_last'] >= 1000:  # ball was released one second ago or more
             reset_ball_handling(player)
-            was_throw_in = game.throw_in
-            game.throw_in = False
-            if was_throw_in and not game.throw_in_ball_was_lifted:
-                sentence = 'throw-in with the hand or arm while the ball was not lifted by at least ' + \
-                           f'{BALL_LIFT_THRESHOLD * 100} cm'
-                send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
-                continue
+            if game.throw_in:
+                was_throw_in = game.throw_in
+                game.throw_in = False
+                if was_throw_in and not game.throw_in_ball_was_lifted:
+                    sentence = 'throw-in with the hand or arm while the ball was not lifted by at least ' + \
+                               f'{BALL_LIFT_THRESHOLD * 100} cm'
+                    send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
+                    continue
         goalkeeper = goalkeeper_inside_own_goal_area(team, number)
         if not goalkeeper and not game.throw_in:
             reset_ball_handling(player)
@@ -1115,6 +1122,13 @@ def check_team_ball_handling(team):
                 continue
         # goalkeeper case
         if duration >= BALL_HANDLING_TIMEOUT:
+            if (game.ball_previous_touch_team == game.ball_last_touch_team and
+               time_count - player['ball_handling_start'] >= 1000):  # ball handled by goalkeeper for 1 second or more
+                reset_ball_handling(player)
+                sentence = 'handled the ball after it received it from teammate' \
+                    if game.ball_last_touch_player_number == int(number) else 'released the ball and retook it'
+                info(f'{color.capitalize()} goalkeeper {number} {sentence}.')
+                return True  # a freekick will be awarded
             reset_ball_handling(player)
             info(f'{color.capitalize()} goalkeeper {number} handled the ball up for more than '
                  f'{BALL_HANDLING_TIMEOUT} seconds.')
@@ -1124,8 +1138,6 @@ def check_team_ball_handling(team):
             info(f'{color.capitalize()} goalkeeper {number} handled the ball on the ground for more than '
                  f'{GOALKEEPER_GROUND_BALL_HANDLING} seconds.')
             return True  # a freekick will be awarded
-        # FIXME: test if the goal keeper released the ball and retook it => return True
-        # FIXME: test if the ball was sent to goalkeeper by teammate => return True
     return False  # not free kick awarded
 
 
@@ -1436,7 +1448,7 @@ def stabilize_team_penalized_robots(team):
     for number in team['players']:
         player = team['players'][number]
         n = game.state.teams[team_index(team['color'])].players[int(number) - 1].secs_till_unpenalized
-        if 'sent_to_penalty_position' in player or n == REMOVAL_PENALTY_TIMEOUT:  # stabilize robot for one second
+        if n == REMOVAL_PENALTY_TIMEOUT and time_count % (10 * time_step) == 0:  # stabilize robot for one second
             robot = player['robot']
             robot.resetPhysics()
             robot.getField('translation').setSFVec3f(player['penalty_translation'])
