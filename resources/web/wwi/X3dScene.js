@@ -54,6 +54,9 @@ export default class X3dScene {
 
     this.renderer.setSize(width, height);
 
+    if (typeof WbWorld.instance === 'undefined')
+      return;
+
     if (typeof WbWorld.instance.scene !== 'undefined')
       WbWorld.instance.scene.updateFrameBuffer();
 

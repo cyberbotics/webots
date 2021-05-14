@@ -113,9 +113,10 @@ export default class Stream {
     } else if (data.startsWith('time: ')) {
       this.view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
       document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.time);
-    } else if (data === 'delete world')
+    } else if (data === 'delete world') {
       this.view.destroyWorld();
-    else {
+      webots.currentView.toolBar.enableToolBarButtons(false);
+    } else {
       let messagedProcessed = false;
       if (typeof this.view.multimediaClient !== 'undefined')
         messagedProcessed = this.view.multimediaClient.processServerMessage(data);

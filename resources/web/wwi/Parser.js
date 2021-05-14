@@ -85,6 +85,7 @@ export default class Parser {
 
     WbWorld.instance.readyForUpdates = true;
 
+    webots.currentView.x3dScene.resize();
     renderer.render();
     if (document.getElementById('webotsProgress'))
       document.getElementById('webotsProgress').style.display = 'none';

@@ -1,5 +1,5 @@
 import {webots} from './webots.js';
-
+import {exitFullscreen} from './fullscreen_handler.js'
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -60,6 +60,10 @@ export default class WebotsStreaming extends HTMLElement {
   }
 
   disconnect() {
+    let exitFullscreenButton = document.getElementById('exit_fullscreenButton');
+    if (exitFullscreenButton && exitFullscreenButton.style.display !== 'none')
+      exitFullscreen();
+
     this.view.close();
 
     let playerDiv = document.getElementsByTagName('webots-streaming')[0];
