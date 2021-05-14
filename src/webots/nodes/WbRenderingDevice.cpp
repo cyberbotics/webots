@@ -105,7 +105,7 @@ int WbRenderingDevice::height() const {
 
 void WbRenderingDevice::setup() {
   if (mHasBeenSetup)
-    return;  
+    return;
   if (mWidth)
     mSetupWidth = mWidth->value();
   if (mHeight)
