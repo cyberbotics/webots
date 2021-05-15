@@ -34,7 +34,7 @@ public:
 private:
   void cleanup() { mAltimeter->disable(); }
 
-  Altimeter *mAltimeter; 
+  Altimeter *mAltimeter;
 };
 
-#endif // ROS_RANGE_FINDER_HPP
+#endif  // ROS_RANGE_FINDER_HPP
