@@ -16,7 +16,7 @@
 #include "webots_ros/Float64Stamped.h"
 
 RosAltimeter::RosAltimeter(Altimeter *altimeter, Ros *ros) : RosSensor(altimeter->getName(), altimeter, ros) {
-  mAltimeter = altimeter;
+    mAltimeter = altimeter;
 }
 
 RosAltimeter::~RosAltimeter() {
