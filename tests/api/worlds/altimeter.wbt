@@ -24,8 +24,8 @@ Solid {
   locked TRUE
 }
 DEF ROBOT Robot {
-  translation 0.2 0.05 -0.4
-  rotation 0 1 0 1.57
+  translation -0.4 0.2 0.05
+  rotation 0 0 1 1.57
   children [
     Shape {
       geometry Box {
@@ -33,11 +33,11 @@ DEF ROBOT Robot {
       }
     }
     Altimeter {
-      translation -0.05 0 0
-      rotation 0 0 1 3.1415
+      translation 0 -0.05 0
+      rotation 1 0 0 3.1415
       children [
         DEF SENSOR_TRANSFROM Transform {
-          rotation 0 0 1 1.57
+          rotation 1 0 0 1.57
           children [
             Shape {
               geometry Sphere {
