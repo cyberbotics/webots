@@ -25,8 +25,8 @@ namespace webots {
     virtual void enable(int samplingPeriod);
     virtual void disable();
     int getSamplingPeriod() const;
-    double getValue() const; 
+    double getValue() const;
   };
-} // namespace webots
+}  // namespace webots
 
 #endif  // ALTIMETER_HPP
