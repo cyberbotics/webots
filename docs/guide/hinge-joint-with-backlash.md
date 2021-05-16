@@ -13,7 +13,7 @@ Derived from [HingeJoint](../reference/hingejoint.md).
 ```
 HingeJointWithBacklash [
   SFNode       jointParameters   HingeJointParameters {} 
-  SFFloat      backlash          0.1    # (0, inf)
+  SFFloat      backlash          0.01   # (0, inf)
   SFFloat      gearMass          0.01   # [0, inf)
   MFNode       device            [ ]    # {RotationalMotor, PositionSensor, Brake}
   MFNode       outputSensor      [ ]    # {PositionSensor}
