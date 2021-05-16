@@ -48,50 +48,47 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
          templateLanguage.toUtf8().constData());
   QHash<QString, QString> tags;
 
-  // tags["fields"] = "";
+  tags["fields"] = "";
   foreach (const WbField *parameter, parameters) {
     printf(">> parameter: %s (isTemplateRegenerator: %d)\n", parameter->name().toUtf8().constData(),
            parameter->isTemplateRegenerator());
     if (!parameter->isTemplateRegenerator())  // keep only regenerator fields
       continue;
-    QString valueString = convertFieldValueToJavaScriptStatement(parameter);
-    QString defaultValueString = convertFieldDefaultValueToJavaScriptStatement(parameter);
-    if (templateLanguage == "lua") {
-      valueString = convertStatementFromJavaScriptToLua(valueString);
-      defaultValueString = convertStatementFromJavaScriptToLua(defaultValueString);
-    }
-
+    const QString &valueString = convertFieldValueToJavaScriptStatement(parameter);
     if (!valueString.isEmpty()) {
-      tags["fields"] = QString("%1 = {").arg(parameter->name());
-      tags["fields"] += QString("value = %1, ").arg(valueString);
-      tags["fields"] += QString("defaultValue = %1").arg(defaultValueString);
+      tags["fields"] += QString("%1: {").arg(parameter->name());
+      tags["fields"] += QString("value: %1, ").arg(valueString);
+      tags["fields"] += QString("defaultValue: %1").arg(convertFieldDefaultValueToJavaScriptStatement(parameter));
     }
     tags["fields"] += "},\n";
   }
   tags["fields"].chop(2);  // remove the last ",\n" if any
 
 #ifdef _WIN32
-  tags["context"] += QString("os = \"windows\",");
+  tags["context"] = QString("os: \"windows\",");
 #endif
 #ifdef __linux__
-  tags["context"] += QString("os = \"linux\",");
+  tags["context"] = QString("os: \"linux\",");
 #endif
 #ifdef __APPLE__
-  tags["context"] += QString("os = \"mac\",");
+  tags["context"] = QString("os: \"mac\",");
 #endif
-  tags["context"] += QString("world = \"%1\", ").arg(worldPath);
-  tags["context"] += QString("proto = \"%1\",").arg(protoPath);
-  tags["context"] += QString("webots_home = \"%1\",").arg(WbStandardPaths::webotsHomePath());
-  tags["context"] += QString("project_path = \"%1\",").arg(WbProject::current()->path());
-  tags["context"] += QString("temporary_files_path = \"%1\",").arg(WbStandardPaths::webotsTmpPath());
-  tags["context"] += QString("id = \"%1\",").arg(id);
-  tags["context"] += QString("coordinate_system = \"%1\",").arg(gCoordinateSystem);
+  tags["context"] += QString("world: \"%1\", ").arg(worldPath);
+  tags["context"] += QString("proto: \"%1\",").arg(protoPath);
+  tags["context"] += QString("webots_home: \"%1\",").arg(WbStandardPaths::webotsHomePath());
+  tags["context"] += QString("project_path: \"%1\",").arg(WbProject::current()->path());
+  tags["context"] += QString("temporary_files_path: \"%1\",").arg(WbStandardPaths::webotsTmpPath());
+  tags["context"] += QString("id: \"%1\",").arg(id);
+  tags["context"] += QString("coordinate_system: \"%1\",").arg(gCoordinateSystem);
   WbVersion version = WbApplicationInfo::version();
   // for example major = R2018a and revision = 0
-  tags["context"] += QString("webots_version = { major = \"%1\", revision = \"%2\" }")
-                       .arg(version.toString(false))
-                       .arg(version.revisionNumber());
+  tags["context"] +=
+    QString("webots_version: { major: \"%1\", revision: \"%2\" }").arg(version.toString(false)).arg(version.revisionNumber());
 
+  if (templateLanguage == "lua") {
+    tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
+    tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
+  }
   /*
   // TMP SOLUTION, TO DO PROPERLY
   if (language() == "javascript") {

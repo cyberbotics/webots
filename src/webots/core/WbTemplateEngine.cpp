@@ -261,8 +261,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   jsBody = jsBody.replace("\\'", "'");
   jsBody = jsBody.replace("\\\\", "\\");
 
-  tags["templateContent"] = tags["templateContent"].replace("\n", "\\n");
-  tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
   printf("%s\n", jsBody.toUtf8().constData());
   printf("=============================================\n\n");
   // replace body
