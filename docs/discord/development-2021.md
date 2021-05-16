@@ -1661,3 +1661,38 @@ for example, the camera on the robot recognizes an object on top right of the im
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/21/2021 06:14:42
 Then, you should use a Lidar with the same position, orientation, field of view, resolution, etc. as the camera.
 
+##### B0Bhead 04/22/2021 12:48:39
+`@Olivier Michel` Thank you for linking that Master Thesis paper. I am also currently working on my Bachelor Thesis, doing research on SLAM. Is there a way to get in contact with you guys? Can I DM you on Discord?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/22/2021 12:56:28
+For technical support, you should ask on the different Discord channel. For personal messages, yes, feel free to contact me in DM.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/22/2021 22:06:53
+does anyone here have experience compiling webots for profiling? make has the `profile` and `debug` options. This page says i have to compile in debug [https://github.com/cyberbotics/webots/wiki/Valgrind](https://github.com/cyberbotics/webots/wiki/Valgrind). I remember not being able to successfuly use valgrind in the past. But I think the profile option did not exists back then. Any ideas how to proceed?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/23/2021 06:23:58
+Simply type "make profile" in the `WEBOTS_HOME/src/webots` folder. Then, you should be able to use gprof to analyse the result of a run. See [https://sourceware.org/binutils/docs/gprof/](https://sourceware.org/binutils/docs/gprof/)
+
+##### Bitbots\_Jasper [Moderator] 04/23/2021 13:56:53
+The current way of modeling noise for gyros and accelerometers using a lookup table. The noise is given as a percentage of the response value (see [https://cyberbotics.com/doc/reference/distancesensor#lookup-table](https://cyberbotics.com/doc/reference/distancesensor#lookup-table)). In my opinion this does not make much sense as a model of noise for these sensors (opposed to distance sensors for which it does) since it causes that there is very little noise around zero. 
+
+In gazebo using a gaussian around the signal with a fixed standard deviation and an optional bias. 
+
+Is there a way to model the noise in this way in webots as well?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/23/2021 14:45:29
+Well, if you increase the noise when getting close to the 0 zero value in the lookup table, you will have somehow a constant noise level. But I agree, this is not ideal. If you have any idea to improve this, feel free to open an issue.
+
+##### Ragemor 04/27/2021 22:33:47
+ı have different colored objects in my simulation. and i want to move my robots to different colored objects. how can i perform that? basicly a leader follower concept with camera recognition. I try to use objects[].colors[] but i cant made what i want. my english is not pretty good. anyone can help me about that?
+
+
+this is my simulation. reds first and greens behind them. this is working for a while but if green object robots see another colored robot it stopped moving.
+%figure
+![webbb.jpg](https://cdn.discordapp.com/attachments/565155651395780609/836732246350233631/webbb.jpg)
+%end
+
+
+
+> **Attachment**: [code\_greens.txt](https://cdn.discordapp.com/attachments/565155651395780609/836732424238792774/code_greens.txt)
+
