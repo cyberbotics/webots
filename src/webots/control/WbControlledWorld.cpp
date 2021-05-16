@@ -300,7 +300,7 @@ void WbControlledWorld::reset(bool restartControllers) {
 }
 
 void WbControlledWorld::checkIfReadRequestCompleted() {
-  assert(!mControllers.isEmpty());
+  //assert(!mControllers.isEmpty());
   if (!needToWait()) {
     WbSimulationState *state = WbSimulationState::instance();
     emit state->controllerReadRequestsCompleted();
