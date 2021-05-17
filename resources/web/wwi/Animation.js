@@ -131,7 +131,7 @@ export default class Animation {
       if (this._data.frames[this._step].hasOwnProperty('poses')) {
         const poses = this._data.frames[this._step].poses;
         for (let p = 0; p < poses.length; p++)
-          appliedIds[poses[p].id] = this._scene.applyPose(poses[p], this._data.frames[this._step].time, undefined, automaticMove);
+          appliedIds[poses[p].id] = this._scene.applyPose(poses[p], undefined, automaticMove);
       }
 
       if (this._data.frames[this._step].hasOwnProperty('labels')) {
@@ -157,7 +157,7 @@ export default class Animation {
             if (this._data.frames[f].poses) {
               for (let p = 0; p < this._data.frames[f].poses.length; p++) {
                 if (this._data.frames[f].poses[p].id === id)
-                  appliedFields = this._scene.applyPose(this._data.frames[f].poses[p], this._data.frames[f].time, appliedFields, automaticMove);
+                  appliedFields = this._scene.applyPose(this._data.frames[f].poses[p], appliedFields, automaticMove);
               }
             }
           }
@@ -185,6 +185,7 @@ export default class Animation {
       this._previousStep = this._step;
       this._view.time = this._data.frames[this._step].time;
       this._currentTime.innerHTML = this._formatTime(this._view.time);
+      WbWorld.instance.viewpoint.updateFollowUp(this._view.time, !automaticMove || this.step === 0);
       this._scene.render();
     }
   }

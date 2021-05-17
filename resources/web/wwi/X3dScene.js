@@ -4,6 +4,7 @@ import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbPBRAppearance from './nodes/WbPBRAppearance.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -132,7 +133,7 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, time, appliedFields = [], automaticMove) {
+  applyPose(pose, appliedFields = [], automaticMove) {
     const id = pose.id;
     if (typeof WbWorld.instance === 'undefined')
       return appliedFields;
@@ -143,7 +144,7 @@ export default class X3dScene {
 
     let fields = [...appliedFields];
 
-    fields = this._applyPoseToObject(pose, object, time, fields);
+    fields = this._applyPoseToObject(pose, object, fields);
 
     // Update the related USE nodes
     let length = object.useList.length - 1;
@@ -155,7 +156,7 @@ export default class X3dScene {
         this.useList.splice(index, 1);
       } else {
         fields = [...appliedFields];
-        fields = this._applyPoseToObject(pose, use, time, fields);
+        fields = this._applyPoseToObject(pose, use, fields);
       }
 
       --length;
@@ -164,7 +165,7 @@ export default class X3dScene {
     return fields;
   }
 
-  _applyPoseToObject(pose, object, time, fields, automaticMove) {
+  _applyPoseToObject(pose, object, fields, automaticMove) {
     for (let key in pose) {
       if (key === 'id')
         continue;
@@ -183,7 +184,7 @@ export default class X3dScene {
           object.translation = translation;
           if (WbWorld.instance.readyForUpdates)
             object.applyTranslationToWren();
-        } else {
+        } else if (object instanceof WbTextureTransform) {
           object.translation = translation;
           if (WbWorld.instance.readyForUpdates) {
             let appearance = WbWorld.instance.nodes.get(object.parent);
@@ -262,7 +263,7 @@ export default class X3dScene {
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
-            this.applyPose(frame.poses[i], view.time);
+            this.applyPose(frame.poses[i]);
         }
 
         if (frame.hasOwnProperty('labels')) {
