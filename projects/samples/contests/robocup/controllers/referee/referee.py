@@ -318,8 +318,8 @@ def game_controller_receive():
     if previous_state != game.state.game_state:
         if game.wait_for_state is not None:
             if 'STATE_' + game.wait_for_state != game.state.game_state:
-                error(f'Received unexpected state from GameController: {game.state.game_state} ' +
-                      f'while expecting {game.wait_for_state}')
+                warning(f'Received unexpected state from GameController: {game.state.game_state} ' +
+                        f'while expecting {game.wait_for_state}')
             else:
                 game.wait_for_state = None
         info(f'New state received from GameController: {game.state.game_state}.')
@@ -939,15 +939,36 @@ def update_histories():
 
 
 def update_team_penalized(team):
+    index = team_index(team['color'])
     for number in team['players']:
-        n = game.state.teams[team_index(team['color'])].players[int(number) - 1].secs_till_unpenalized
         player = team['players'][number]
-        if n > 0:
-            player['penalized'] = n
+        p = game.state.teams[index].players[int(number) - 1]
+        if p.number_of_red_cards > 0:
+            if 'penalized' in player and player['penalized'] == 'red_card':
+                continue  # already processed red card
+            player['penalized'] = 'red_card'
+            r = player['reentryStartingPose']['rotation']
+            t = player['reentryStartingPose']['translation']
+            # move robot very far away and avoid overlapping another red card robot in the far away
+            t[1] = 1000 + 3 * int(number) + (50 if team['color'] == 'blue' else 0)
+            robot = player['robot']
+            robot.resetPhysics()
+            robot.getField('translation').setSFVec3f(t)
+            robot.getField('rotation').setSFRotation(r)
+            robot.getField('customData').setSFString('red card')
             if 'sent_to_penalty_position' in player:
                 del player['sent_to_penalty_position']
-        elif 'penalized' in player:
-            del player['penalized']
+        else:
+            n = p.secs_till_unpenalized
+            customData = player['robot'].getField('customData')
+            if n > 0:
+                player['penalized'] = n
+                if 'sent_to_penalty_position' in player:
+                    customData.setSFString('penalized')
+                    del player['sent_to_penalty_position']
+            elif 'penalized' in player:
+                customData.setSFString('')
+                del player['penalized']
 
 
 def update_penalized():
@@ -956,7 +977,7 @@ def update_penalized():
 
 
 def send_penalty(player, penalty, reason, log=None):
-    if 'sent_to_penalty_position' in player:  # was just penalized
+    if 'sent_to_penalty_position' in player or 'penalized' in player:  # was just penalized or already penalized
         return
     player['penalty'] = penalty
     player['penalty_reason'] = reason
@@ -1305,6 +1326,8 @@ def check_team_penalized_in_field(team):
         player = team['players'][number]
         if 'penalized' not in player:
             continue  # skip non penalized players
+        if player['penalized'] == 'red_card':
+            continue  # skip red card players
         if player['outside_field']:
             continue
         game_controller_send(f'CARD:{game.red.id if color == "red" else game.blue.id}:{number}:YELLOW')
