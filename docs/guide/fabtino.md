@@ -14,7 +14,7 @@ Fabtino {
   SFVec3f     translation     0 0 0.0613
   SFRotation  rotation        0 0 1 0
   SFString    name            "Fabtino"
-  SFString    controller      "void"
+  SFString    controller      "keyboard_control"
   MFString    controllerArgs  []
   SFString    customData      ""
   SFBool      supervisor      FALSE

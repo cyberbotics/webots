@@ -5,17 +5,17 @@
 # Designed by Robotics Equipment Corporation (REC) GmbH, Fabtino is a four-wheeled (mecanum) robot.
 
 PROTO Fabtino [
-  field  SFVec3f     translation     0 0 0.0613
-  field  SFRotation  rotation        0 0 1 0
-  field  SFString    name            "Fabtino"          # Is `Robot.name`.
-  field  SFString    controller      "void"             # Is `Robot.controller`.
-  field  MFString    controllerArgs  []                 # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""                 # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE              # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE               # Is `Robot.synchronization`.
-  field  MFNode      frontLidarSlot  []                 # Extends the robot with a front lidar sensor.
-  field  MFNode      backLidarSlot   []                 # Extends the robot with a back lidar sensor.
-  field  MFNode      bodySlot        []                 # Extends the robot with new nodes (such as the Robotino3Platform for example).
+  field  SFVec3f     translation     0 0 0.0613          # Is `Transform.translation`.
+  field  SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
+  field  SFString    name            "Fabtino"           # Is `Robot.name`.
+  field  SFString    controller      "keyboard_control"  # Is `Robot.controller`.
+  field  MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""                  # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE                # Is `Robot.synchronization`.
+  field  MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
+  field  MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
+  field  MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
 ]
 {
   Robot {
@@ -63,7 +63,7 @@ PROTO Fabtino [
         }
         device [
           RotationalMotor {
-            name "fabtino_front_right_wheel_joint"
+            name "front_right_wheel_joint"
             maxVelocity 100
             maxTorque 100
           }
@@ -121,7 +121,7 @@ PROTO Fabtino [
         }
         device [
           RotationalMotor {
-            name "fabtino_back_right_wheel_joint"
+            name "back_right_wheel_joint"
             maxVelocity 100
             maxTorque 100
           }
@@ -167,7 +167,7 @@ PROTO Fabtino [
         }
         device [
           RotationalMotor {
-            name "fabtino_front_left_wheel_joint"
+            name "front_left_wheel_joint"
             maxVelocity 100
             maxTorque 100
           }
@@ -206,7 +206,7 @@ PROTO Fabtino [
         }
         device [
           RotationalMotor {
-            name "fabtino_back_left_wheel_joint"
+            name "back_left_wheel_joint"
             maxVelocity 100
             maxTorque 100
           }
