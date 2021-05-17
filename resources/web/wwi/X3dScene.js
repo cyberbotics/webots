@@ -173,17 +173,29 @@ export default class X3dScene {
         continue;
 
       let valid = true;
-      if (key === 'translation' && object instanceof WbTransform) {
+      if (key === 'translation') {
         const translation = convertStringToVec3(pose[key]);
 
-        if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id) {
-          WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
-          WbWorld.instance.viewpoint.updateFollowUp(time);
-        }
+        if (object instanceof WbTransform) {
+          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id) {
+            WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
+            WbWorld.instance.viewpoint.updateFollowUp(time);
+          }
 
-        object.translation = translation;
-        if (WbWorld.instance.readyForUpdates)
-          object.applyTranslationToWren();
+          object.translation = translation;
+          if (WbWorld.instance.readyForUpdates)
+            object.applyTranslationToWren();
+        } else {
+          object.translation = translation;
+          if (WbWorld.instance.readyForUpdates) {
+            let appearance = WbWorld.instance.nodes.get(object.parent);
+            if (typeof appearance !== 'undefined') {
+              let shape = WbWorld.instance.nodes.get(appearance.parent);
+              if (typeof shape !== 'undefined')
+                shape.updateAppearance();
+            }
+          }
+        }
       } else if (key === 'rotation') {
         const quaternion = convertStringToQuaternion(pose[key]);
         object.rotation = quaternion;
@@ -198,11 +210,20 @@ export default class X3dScene {
           object.emissiveColor = convertStringToVec3(pose[key]);
 
         if (object instanceof WbMaterial) {
-          if (WbWorld.instance.readyForUpdates)
-            WbWorld.instance.nodes.get(WbWorld.instance.nodes.get(object.parent).parent).updateAppearance();
+          if (WbWorld.instance.readyForUpdates) {
+            let appearance = WbWorld.instance.nodes.get(object.parent);
+            if (typeof appearance !== 'undefined') {
+              let shape = WbWorld.instance.nodes.get(appearance.parent);
+              if (typeof shape !== 'undefined')
+                shape.updateAppearance();
+            }
+          }
         } else {
-          if (WbWorld.instance.readyForUpdates)
-            WbWorld.instance.nodes.get(object.parent).updateAppearance();
+          if (WbWorld.instance.readyForUpdates) {
+            let shape = WbWorld.instance.nodes.get(object.parent);
+            if (typeof shape !== 'undefined')
+              shape.updateAppearance();
+          }
         }
       } else
         valid = false;
