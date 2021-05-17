@@ -14,9 +14,9 @@ PROTO Mir100 [
   field  SFString    customData       ""        # Is `Robot.customData`.
   field  SFBool      supervisor       FALSE     # Is `Robot.supervisor`.
   field  SFBool      synchronization  TRUE      # Is `Robot.synchronization`.
-  field  MFNode      frontLidarSlot   []
-  field  MFNode      backLidarSlot    []
-  field  MFNode      bodySlot         []
+  field  MFNode      frontLidarSlot   []        # Extends the robot with a lidar sensor at the front.
+  field  MFNode      backLidarSlot    []        # Extends the robot with a lidar sensor at the back.
+  field  MFNode      bodySlot         []        # Extends the robot with new nodes located in the body.
 ]
 {
   Robot {
