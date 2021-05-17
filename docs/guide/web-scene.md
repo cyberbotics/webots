@@ -80,9 +80,9 @@ Here are some workarounds:
         sudo npm install -g http-server
         http-server
         ```
-
+    - More ways to run a local HTTP server can be found [here](https://gist.github.com/willurd/5720255)
 - disable browser security flags:
-    - Chrome: launch with the `--allow-file-access-from-files`  or `--disable-web-security --user-data-dir=.` option.
+    - Chrome: launch with the `--allow-file-access-from-files`  or `--disable-web-security --user-data-dir=.chrome` option.
     - Firefox:
         1. Open Firefox browser and in the address bar type ``about:config``, hit Enter button and click on `I'll be careful, I promise!`.
         2. Search for `privacy.file_unique_origin` or `security.fileuri.strict_origin_policy` and double click on it to change the status from true to false.

@@ -333,33 +333,23 @@ export default class Animation {
   }
 
   _gtaoLevelToText(number) {
- const pairs = {
-	1: 'Low',
-	2: 'Medium',
-	3: 'High',
-	4: 'Ultra'
- };
- return (number in pairs) ? pairs[number] : '';
+    const pairs = {
+      1: 'Low',
+      2: 'Medium',
+      3: 'High',
+      4: 'Ultra'
+    };
+    return (number in pairs) ? pairs[number] : '';
   }
 
   _textToGtaoLevel(text) {
-    let level = 4;
-    switch (text) {
-      case 'Low':
-        level = 1;
-        break;
-      case 'Medium':
-        level = 2;
-        break;
-      case 'High':
-        level = 3;
-        break;
-      case 'Ultra':
-        level = 4;
-        break;
-    }
-
-    return level;
+    const pairs = {
+      'Low': 1,
+      'Medium': 2,
+      'High': 3,
+      'Ultra': 4
+    };
+    return (text in pairs) ? pairs[text] : 4;
   }
 
   _createPlayBar() {
