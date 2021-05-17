@@ -148,7 +148,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   printf("ENGINE START\n");
   QJSEngine engine;
-  engine.installExtensions(QJSEngine::ConsoleExtension);
+  // engine.installExtensions(QJSEngine::ConsoleExtension);
+  engine.globalObject().setProperty("stdout", "");
+  engine.globalObject().setProperty("stderr", "");
+
   /*
   // how to import modules
   QJSValue modulee = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/test.js");
@@ -298,6 +301,9 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   } else {
     printf("RESULT FINE\n");
   }
+
+  QJSValue stdout = engine.evaluate("stdout");
+  printf(">>>>%s<<<<\n", stdout.toString().toUtf8().constData());
 
   // evaluate and get result
   // QJSValue result = engine.evaluate(jsTemplate);
