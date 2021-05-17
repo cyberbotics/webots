@@ -6,8 +6,8 @@
 # center. Used in industrial environments, it can carry a payload of up to 100kg.
 
 PROTO Mir100 [
-  field  SFVec3f     translation      0 0 0
-  field  SFRotation  rotation         0 0 1 0
+  field  SFVec3f     translation      0 0 0     # Is `Transform.translation`.
+  field  SFRotation  rotation         0 0 1 0   # Is `Transform.rotation`.
   field  SFString    name             "Mir100"  # Is `Robot.name`.
   field  SFString    controller       "void"    # Is `Robot.controller`.
   field  MFString    controllerArgs   []        # Is `Robot.controllerArgs`.
