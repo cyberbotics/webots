@@ -86,12 +86,12 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     QString("webots_version: { major: \"%1\", revision: \"%2\" }").arg(version.toString(false)).arg(version.revisionNumber());
 
   if (templateLanguage == "lua") {
-    // printf("fields was:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
+    printf("fields was:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
     tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
-    // printf("fields is:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
-    // printf("context was:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
+    printf("fields is:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
+    printf("context was:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
     tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
-    // printf("context is:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
+    printf("context is:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
   }
   /*
   // TMP SOLUTION, TO DO PROPERLY
@@ -207,20 +207,20 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
     case WB_SF_NODE: {
       WbNode *node = variant.toNode();
       if (node) {
-        // lua dictionary
+        // javascript object
         QString nodeString = "{";
 
         // node_name key
-        nodeString += QString("node_name = \"%1\"").arg(node->modelName());
+        nodeString += QString("node_name: \"%1\"").arg(node->modelName());
         nodeString += ", ";
 
         // fields key: fieldName = fieldValue
-        nodeString += "fields = {";
+        nodeString += "fields: {";
         foreach (const WbField *field, node->fieldsOrParameters()) {
           if (field->name() != "node_name") {
-            nodeString += QString("%1 = {").arg(field->name());
-            nodeString += QString("value = %1, ").arg(convertFieldValueToJavaScriptStatement(field));
-            nodeString += QString("defaultValue = %1").arg(convertFieldDefaultValueToJavaScriptStatement(field));
+            nodeString += QString("%1: {").arg(field->name());
+            nodeString += QString("value: %1, ").arg(convertFieldValueToJavaScriptStatement(field));
+            nodeString += QString("defaultValue: %1").arg(convertFieldDefaultValueToJavaScriptStatement(field));
             if (field != node->fieldsOrParameters().last())
               nodeString += "}, ";
             else
@@ -233,7 +233,7 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
 
         return nodeString;
       } else
-        return "nil";
+        return "undefined";
     }
     default:
       assert(false);
@@ -243,5 +243,9 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
 
 QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
   // note: this function can be removed when Lua support is dropped
-  return statement.replace(":", " =");
+  statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
+  statement = statement.replace(":", " =");
+  statement = statement.replace("value: undefined", "value = nil");
+
+  return statement;
 }

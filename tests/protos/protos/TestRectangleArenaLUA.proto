@@ -2,14 +2,13 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable rectangle arena composed of a floor surrounded by walls.
-# template language: javascript
 
-PROTO TestRectangleArena [
+PROTO TestRectangleArenaLUA [
   field SFNode     floorAppearance Parquetry { type "chequered" }  # Defines the appearance of the floor.
 ]
 {
   %{
-    let myVariable = fields.floorAppearance;
+    local myVariable = fields.floorAppearance
   }%
   Solid {
     children [
