@@ -11,7 +11,7 @@ export default class WbMatrix4 {
   }
 
   inverse() {
-    const inv = [];
+    const inv = new Array(16);
 
     inv[0] = this.m[5] * this.m[10] * this.m[15] - this.m[5] * this.m[11] * this.m[14] - this.m[9] * this.m[6] * this.m[15] + this.m[9] * this.m[7] * this.m[14] +
             this.m[13] * this.m[6] * this.m[11] - this.m[13] * this.m[7] * this.m[10];
