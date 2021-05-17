@@ -28,6 +28,7 @@ PROTO Mir100 [
     supervisor IS supervisor
     synchronization IS synchronization
     name IS name
+    model  "Mobile Industrial Robots' MiR100"
     children [
       Transform {
         translation 0.037646 0 0
