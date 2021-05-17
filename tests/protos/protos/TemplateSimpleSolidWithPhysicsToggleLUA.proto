@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
-# template language: javascript
 
-PROTO TemplateSimpleSolidWithPhysicsToggle [
+PROTO TemplateSimpleSolidWithPhysicsToggleLUA [
   field SFVec3f translation 0.0 0.0 0.0
   field SFRotation rotation 0.0 1.0 0.0 0.0
   field SFBool physicsToggle FALSE
@@ -18,9 +17,9 @@ PROTO TemplateSimpleSolidWithPhysicsToggle [
       }
     ]
     boundingObject USE BOX
-    %{ if (fields.physicsToggle.value) { }%
+    %{ if fields.physicsToggle.value then }%
       physics Physics {
       }
-    %{ } }%
+    %{ end }%
   }
 }

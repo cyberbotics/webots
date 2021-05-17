@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
-# template language: javascript
 
-PROTO TemplateViewpoint [
+PROTO TemplateViewpointLUA [
   field     SFFloat    fieldOfView        0.785398
   field     SFRotation orientation        0 0 1 0
   field     SFVec3f    position           0 0 10

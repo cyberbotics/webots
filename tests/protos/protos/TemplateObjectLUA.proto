@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
-# template language: javascript
 
-PROTO TemplateObject [
+PROTO TemplateObjectLUA [
   field     SFColor    color             0.1 0.15 0.18
   field     SFColor    specularColor     0.61 0.7 0.78
 ]

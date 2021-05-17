@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
-# template language: javascript
 
-PROTO DerivedTemplateBoxShape [
+PROTO DerivedTemplateBoxShapeLUA [
   field SFVec3f translation 0 0 0
   field SFFloat dxSize 0.2
   field SFFloat dySize 0.2
