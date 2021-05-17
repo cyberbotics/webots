@@ -15,7 +15,7 @@ SummitXlSteel {
   SFVec3f     translation     0 0 0.118
   SFRotation  rotation        0 0 1 0
   SFString    name            "Summit-XL Steel"
-  SFString    controller      "void"
+  SFString    controller      "keyboard_control"
   MFString    controllerArgs  []
   SFString    customData      ""
   SFBool      supervisor      FALSE

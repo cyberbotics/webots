@@ -6,17 +6,17 @@
 # It is well-suited for industries, as its design enables it to carry a payload of up to 250 kg.
 
 PROTO SummitXlSteel [
-  field  SFVec3f     translation     0 0 0.118
-  field  SFRotation  rotation        0 0 1 0
-  field  SFString    name            "Summit-XL Steel"  # Is `Robot.name`.
-  field  SFString    controller      "void"             # Is `Robot.controller`.
-  field  MFString    controllerArgs  []                 # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""                 # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE              # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE               # Is `Robot.synchronization`.
-  field  MFNode      frontLidarSlot  []                 # Extends the robot with a front lidar sensor.
-  field  MFNode      backLidarSlot   []                 # Extends the robot with a back lidar sensor.
-  field  MFNode      bodySlot        []                 # Extends the robot with new nodes (such as the Robotino3Platform for example).
+  field  SFVec3f     translation     0 0 0.118           # Is `Transform.translation`
+  field  SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
+  field  SFString    name            "Summit-XL Steel"   # Is `Robot.name`.
+  field  SFString    controller      "keyboard_control"  # Is `Robot.controller`.
+  field  MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""                  # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE                # Is `Robot.synchronization`.
+  field  MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
+  field  MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
+  field  MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
 ]
 {
   Robot {
@@ -61,7 +61,7 @@ PROTO SummitXlSteel [
             }
           }
         ]
-        name "summit_xl_base_chapa"
+        name "base_chapa"
       }
       Transform{
         translation 0 0 0.39062
@@ -79,7 +79,7 @@ PROTO SummitXlSteel [
             }
           }
         ]
-        name "summit_xl_base_logo_left"
+        name "base_logo_left"
       }
       Solid {
         translation 0 -0.28931 0.29062
@@ -87,7 +87,7 @@ PROTO SummitXlSteel [
         children [
           USE LOGO
         ]
-        name "summit_xl_base_logo_right"
+        name "base_logo_right"
       }
       Solid {
         translation 0.345 0 0
@@ -95,7 +95,7 @@ PROTO SummitXlSteel [
         children [
           USE LOGO
         ]
-        name "summit_xl_base_logo_front"
+        name "base_logo_front"
       }
       Solid {
         translation -0.345 0 0
@@ -103,11 +103,11 @@ PROTO SummitXlSteel [
         children [
           USE LOGO
         ]
-        name "summit_xl_base_logo_rear"
+        name "base_logo_rear"
       }
       Solid {
         translation 0.35 0 0.09
-        name "summit_xl_base_docking_contact"
+        name "base_docking_contact"
       }
       HingeJoint {
         jointParameters HingeJointParameters {
@@ -117,12 +117,12 @@ PROTO SummitXlSteel [
         }
         device [
           RotationalMotor {
-            name "summit_xl_front_right_wheel_joint"
+            name "front_right_wheel_joint"
             maxVelocity 100
             maxTorque 100
           }
           PositionSensor {
-            name "summit_xl_front_right_wheel_joint_sensor"
+            name "front_right_wheel_joint_sensor"
           }
         ]
         endPoint Solid {
@@ -163,7 +163,7 @@ PROTO SummitXlSteel [
             }
           ]
           contactMaterial "InteriorWheelMat"
-          name "summit_xl_front_right_wheel_link"
+          name "front_right_wheel_link"
           boundingObject Transform {
             rotation 1 0 0 1.5708
             children [
@@ -194,12 +194,12 @@ PROTO SummitXlSteel [
         }
         device [
           RotationalMotor {
-            name "summit_xl_front_left_wheel_joint"
+            name "front_left_wheel_joint"
             maxVelocity 100
             maxTorque 100
           }
           PositionSensor {
-            name "summit_xl_front_left_wheel_joint_sensor"
+            name "front_left_wheel_joint_sensor"
           }
         ]
         endPoint Solid {
@@ -228,7 +228,7 @@ PROTO SummitXlSteel [
             }
           ]
           contactMaterial "ExteriorWheelMat"
-          name "summit_xl_front_left_wheel_link"
+          name "front_left_wheel_link"
           boundingObject Transform {
             rotation 1 0 0 1.5708
             children [
@@ -259,12 +259,12 @@ PROTO SummitXlSteel [
         }
         device [
           RotationalMotor {
-            name "summit_xl_back_left_wheel_joint"
+            name "back_left_wheel_joint"
             maxVelocity 100
             maxTorque 100
           }
           PositionSensor {
-            name "summit_xl_back_left_wheel_joint_sensor"
+            name "back_left_wheel_joint_sensor"
           }
         ]
         endPoint Solid {
@@ -274,7 +274,7 @@ PROTO SummitXlSteel [
             USE INTERIOR_WHEEL
           ]
           contactMaterial "InteriorWheelMat"
-          name "summit_xl_back_left_wheel_link"
+          name "back_left_wheel_link"
           boundingObject Transform {
             rotation 1 0 0 1.5708
             children [
@@ -305,12 +305,12 @@ PROTO SummitXlSteel [
         }
         device [
           RotationalMotor {
-            name "summit_xl_back_right_wheel_joint"
+            name "back_right_wheel_joint"
             maxVelocity 100
             maxTorque 100
           }
           PositionSensor {
-            name "summit_xl_back_right_wheel_joint_sensor"
+            name "back_right_wheel_joint_sensor"
           }
         ]
         endPoint Solid {
@@ -320,7 +320,7 @@ PROTO SummitXlSteel [
             USE EXTERIOR_WHEEL
           ]
           contactMaterial "ExteriorWheelMat"
-          name "summit_xl_back_right_wheel_link"
+          name "back_right_wheel_link"
           boundingObject Transform {
             rotation 1 0 0 1.5708
             children [
@@ -366,7 +366,7 @@ PROTO SummitXlSteel [
             name "imu/data_raw compass"
           }
         ]
-        name "summit_xl_imu_link"
+        name "imu_link"
         # mass neglected (0.001kg).
       }
       Transform {
@@ -386,7 +386,7 @@ PROTO SummitXlSteel [
         children [
           Solid {
             rotation -0.5774 0.5774 -0.5774 2.0944
-            name "summit_xl_front_rgbd_camera_rgb_optical_frame"
+            name "front_rgbd_camera_rgb_optical_frame"
           }
           Solid {
             translation 0 -0.0125 -0.015
@@ -400,7 +400,7 @@ PROTO SummitXlSteel [
                 }
               }
             ]
-            name "summit_xl_front_rgbd_camera_link"
+            name "front_rgbd_camera_link"
             boundingObject Transform {
               translation -0.02 0 0.015
               children [
@@ -416,13 +416,13 @@ PROTO SummitXlSteel [
             children [
               Solid {
                 rotation -0.5774 0.5774 -0.5774 2.0944
-                name "summit_xl_front_rgbd_camera_depth_optical_frame"
+                name "front_rgbd_camera_depth_optical_frame"
               }
             ]
-            name "summit_xl_front_rgbd_camera_depth_frame"
+            name "front_rgbd_camera_depth_frame"
           }
         ]
-        name "summit_xl_front_rgbd_camera_rgb_base_link"
+        name "front_rgbd_camera_rgb_base_link"
         # mass neglected (0.001kg).
       }
     ]
