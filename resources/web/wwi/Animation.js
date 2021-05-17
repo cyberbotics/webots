@@ -333,23 +333,13 @@ export default class Animation {
   }
 
   _gtaoLevelToText(number) {
-    let string = '';
-    switch (number) {
-      case 1:
-        string = 'Low';
-        break;
-      case 2:
-        string = 'Medium';
-        break;
-      case 3:
-        string = 'High';
-        break;
-      case 4:
-        string = 'Ultra';
-        break;
-    }
-
-    return string;
+ const pairs = {
+	1: 'Low',
+	2: 'Medium',
+	3: 'High',
+	4: 'Ultra'
+ };
+ return (number in pairs) ? pairs[number] : '';
   }
 
   _textToGtaoLevel(text) {
