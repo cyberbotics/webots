@@ -42,8 +42,8 @@
 int main() {
   wb_robot_init();
 
-  WbDeviceTag motor_left_wheel = wb_robot_get_device("mir100_middle_left_wheel_joint");
-  WbDeviceTag motor_right_wheel = wb_robot_get_device("mir100_middle_right_wheel_joint");
+  WbDeviceTag motor_left_wheel = wb_robot_get_device("middle_left_wheel_joint");
+  WbDeviceTag motor_right_wheel = wb_robot_get_device("middle_right_wheel_joint");
 
   // Wheels in velocity control, so position must be set to infinity.
   wb_motor_set_position(motor_left_wheel, INFINITY);

@@ -129,12 +129,12 @@ PROTO Mir100 [
         }
         device [
           RotationalMotor {
-            name "mir100_middle_left_wheel_joint"
+            name "middle_left_wheel_joint"
             maxVelocity 20
             maxTorque 100
           }
           PositionSensor {
-            name "mir100_middle_left_wheel_joint_sensor"
+            name "middle_left_wheel_joint_sensor"
           }
         ]
         endPoint DEF LEFT_WHEEL_LINK Solid {
@@ -197,12 +197,12 @@ PROTO Mir100 [
         }
         device [
           RotationalMotor {
-            name "mir100_middle_right_wheel_joint"
+            name "middle_right_wheel_joint"
             maxVelocity 20
             maxTorque 100
           }
           PositionSensor {
-            name "mir100_middle_right_wheel_joint_sensor"
+            name "middle_right_wheel_joint_sensor"
           }
         ]
         endPoint DEF RIGHT_WHEEL_LINK Solid {
@@ -238,7 +238,7 @@ PROTO Mir100 [
         }
         device [
           PositionSensor {
-            name "mir100_front_left_caster_joint_sensor"
+            name "front_left_caster_joint_sensor"
           }
         ]
         endPoint DEF FL_CASTER_ROTATION_LINK Solid {
@@ -264,7 +264,7 @@ PROTO Mir100 [
               }
               device [
                 PositionSensor {
-                  name "mir100_front_left_wheel_joint_sensor"
+                  name "front_left_wheel_joint_sensor"
                 }
               ]
               endPoint DEF FL_CASTER_WHEEL_LINK Solid {
@@ -325,7 +325,7 @@ PROTO Mir100 [
         }
         device [
           PositionSensor {
-            name "mir100_front_right_caster_joint_sensor"
+            name "front_right_caster_joint_sensor"
           }
         ]
         endPoint DEF FR_CASTER_ROTATION_LINK Solid {
@@ -340,7 +340,7 @@ PROTO Mir100 [
               }
               device [
                 PositionSensor {
-                  name "mir100_front_right_wheel_joint_sensor"
+                  name "front_right_wheel_joint_sensor"
                 }
               ]
               endPoint DEF FR_CASTER_WHEEL_LINK Solid {
@@ -398,7 +398,7 @@ PROTO Mir100 [
         }
         device [
           PositionSensor {
-            name "mir100_back_left_caster_joint_sensor"
+            name "back_left_caster_joint_sensor"
           }
         ]
         endPoint DEF BL_CASTER_ROTATION_LINK Solid {
@@ -413,7 +413,7 @@ PROTO Mir100 [
               }
               device [
                 PositionSensor {
-                  name "mir100_back_left_wheel_joint_sensor"
+                  name "back_left_wheel_joint_sensor"
                 }
               ]
               endPoint DEF BL_CASTER_WHEEL_LINK Solid {
@@ -471,7 +471,7 @@ PROTO Mir100 [
         }
         device [
           PositionSensor {
-            name "mir100_back_right_caster_joint_sensor"
+            name "back_right_caster_joint_sensor"
           }
         ]
         endPoint DEF BR_CASTER_ROTATION_LINK Solid {
@@ -486,7 +486,7 @@ PROTO Mir100 [
               }
               device [
                 PositionSensor {
-                  name "mir100_back_right_wheel_joint_sensor"
+                  name "back_right_wheel_joint_sensor"
                 }
               ]
               endPoint DEF BR_CASTER_WHEEL_LINK Solid {
