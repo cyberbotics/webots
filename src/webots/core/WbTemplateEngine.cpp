@@ -331,6 +331,13 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
   mError = "";
   QString initialDir = QDir::currentPath();
 
+  // cd to temporary directory
+  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
+  if (!success) {
+    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
+    return false;
+  }
+
 // Update 'package.cpath' variable to be able to load '*.dll' and '*.dylib'
 #ifdef _WIN32
   tags["cpath"] = "package.cpath = package.cpath .. \";?.dll\"";

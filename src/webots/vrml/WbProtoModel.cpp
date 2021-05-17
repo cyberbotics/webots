@@ -345,8 +345,10 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
       foreach (WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator()) {
           QString statement = WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(parameter);
+          // printf("was \n---\n%s\---\n", statement.toUtf8().constData());
           if (mTemplateLanguage == "lua")
             statement = WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(statement);
+          // printf("is \n---\n%s\---\n", statement.toUtf8().constData());
           key += statement;
         }
       }

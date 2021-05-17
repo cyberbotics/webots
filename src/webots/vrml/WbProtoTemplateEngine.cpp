@@ -86,8 +86,12 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     QString("webots_version: { major: \"%1\", revision: \"%2\" }").arg(version.toString(false)).arg(version.revisionNumber());
 
   if (templateLanguage == "lua") {
+    // printf("fields was:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
     tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
+    // printf("fields is:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
+    // printf("context was:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
     tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
+    // printf("context is:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
   }
   /*
   // TMP SOLUTION, TO DO PROPERLY

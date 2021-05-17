@@ -1,12 +1,10 @@
 %import%
 
-import console from './console.js';
+//import console from './console.js';
 
 export function render(text) {
   return text
 }
-
-
 
 // function main() {
 export function main() {
@@ -18,7 +16,7 @@ export function main() {
 
   %body%
 
-  console.log(1);
+  //console.log(1);
 
   return result;
 }
