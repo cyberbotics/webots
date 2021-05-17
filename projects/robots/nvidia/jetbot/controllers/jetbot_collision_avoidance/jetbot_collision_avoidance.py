@@ -15,33 +15,30 @@
 """jetbot_collision_avoidance controller."""
 
 # The code is taken from the Jupyter notebook at
-# https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/collision_avoidance/live_demo.ipynb
+# https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/collision_avoidance/live_demo_resnet18.ipynb
 
 import torch
+import torchvision.transforms as transforms
 import torch.nn.functional as F
 import torchvision
-import cv2
-import numpy as np
+import PIL.Image
 import os.path
 
 from jetbot_python_control import JetBot
 
-mean = 255.0 * np.array([0.485, 0.456, 0.406])
-stdev = 255.0 * np.array([0.229, 0.224, 0.225])
-normalize = torchvision.transforms.Normalize(mean, stdev)
+mean = torch.Tensor([0.485, 0.456, 0.406])
+std = torch.Tensor([0.229, 0.224, 0.225])
+
+normalize = torchvision.transforms.Normalize(mean, std)
 
 
 def preprocessCameraImage(camera):
     global device, normalize
     data = camera.getImage()
-    x = np.frombuffer(data, np.uint8).reshape((camera.getHeight(), camera.getWidth(), 4))
-    x = cv2.cvtColor(x, cv2.COLOR_BGRA2RGB)
-    x = x.transpose((2, 0, 1))
-    x = torch.from_numpy(x).float()
-    x = normalize(x)
-    x = x.to(device)
-    x = x[None, ...]
-    return x
+    image = PIL.Image.frombytes('RGBA', (camera.getWidth(), camera.getHeight()), data, 'raw', 'BGRA').convert('RGB')
+    image = transforms.functional.to_tensor(image).to(device)
+    image.sub_(mean[:, None, None]).div_(std[:, None, None])
+    return image[None, ...]
 
 
 if not os.path.isfile('best_model.pth'):
@@ -59,11 +56,12 @@ robot.camera.enable(timestep)
 robot.step(10 * timestep)
 
 print('Load the trained model..')
-model = torchvision.models.alexnet(pretrained=False)
-model.classifier[6] = torch.nn.Linear(model.classifier[6].in_features, 2)
+model = torchvision.models.resnet18(pretrained=False)
+model.fc = torch.nn.Linear(512, 2)
 model.load_state_dict(torch.load('best_model.pth'))
 device = torch.device('cpu')
 model = model.to(device)
+model = model.eval()
 
 
 # Main loop

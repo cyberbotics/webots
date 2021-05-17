@@ -14,6 +14,9 @@
 
 """jetbot_train code used to train collision avoidance classifier."""
 
+# The code is taken from the Jupyter notebook at
+# https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/collision_avoidance/train_model_resnet18.ipynb
+
 import torch
 import torch.optim as optim
 import torch.nn.functional as F
@@ -35,11 +38,9 @@ def train():
     )
 
     # Split dataset into train and test sets
-    print('len dataset', len(dataset))
     train_dataset, test_dataset = torch.utils.data.random_split(dataset, [len(dataset) - 20, 20])
 
     # Create data loaders to load data in batches
-
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=8,
@@ -55,16 +56,14 @@ def train():
     )
 
     # Define the neural network
-
-    model = models.alexnet(pretrained=True)
-    model.classifier[6] = torch.nn.Linear(model.classifier[6].in_features, 2)
+    model = models.resnet18(pretrained=True)
+    model.fc = torch.nn.Linear(512, 2)
     device = torch.device('cpu')
     model = model.to(device)
 
     # Train the neural network
-
     NUM_EPOCHS = 30
-    BEST_MODEL_PATH = 'best_model.pth'
+    BEST_MODEL_PATH = 'best_model_resnet18.pth'
     best_accuracy = 0.0
 
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
