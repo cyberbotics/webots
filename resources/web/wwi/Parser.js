@@ -59,18 +59,14 @@ export default class Parser {
       const scene = xml.getElementsByTagName('Scene')[0];
       if (typeof scene === 'undefined') {
         const node = xml.getElementsByTagName('nodes')[0];
-        console.log(node);
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
         else
           await this._parseChildren(node, parent);
-      } else {
-        console.log(scene);
+      } else
         await this._parseNode(scene);
-      }
     }
 
-    console.log(WbWorld.instance);
     if (document.getElementById('webotsProgressMessage'))
       document.getElementById('webotsProgressMessage').innerHTML = 'Finalizing...';
 
