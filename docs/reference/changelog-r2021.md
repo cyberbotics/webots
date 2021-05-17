@@ -6,6 +6,7 @@ Released on XX Xth, 2021.
   - New Robots
     - Added a model of the [Summit-XL Steel](../guide/summit-xl-steel.md) robot from [Robotnik](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) ([#2969](https://github.com/cyberbotics/webots/pull/2969)).
   - Enhancements
+    - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#2969](https://github.com/cyberbotics/webots/pull/2969)). 
     - Added a draft Robocup Virtual Humanoid League 2021 environment ([#2783](https://github.com/cyberbotics/webots/pull/2783)).
     - Added a script to convert PROTO files to use [Mesh](mesh.md) nodes instead of [IndexedFaceSet](indexedfaceset.md) nodes to speed-up loading times, improve PROTO readability and maintenance ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
     - Converted several PROTO files to use [Mesh](mesh.md) nodes ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
