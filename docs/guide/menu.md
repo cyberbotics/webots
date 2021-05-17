@@ -132,6 +132,7 @@
     - [Universal Robots UR3e/UR5e/UR10e](ure.md)
     - [Yamor](yamor.md)
     - [youBot](youbot.md)
+- [Single Board Computers](single-board-computers.md)
 - [Actuators](actuators.md)
     - [Grippers](gripper-actuators.md)
 - [Sensors](sensors.md)

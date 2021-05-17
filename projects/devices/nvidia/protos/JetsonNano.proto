@@ -3,15 +3,19 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/jetbot
 # NVIDIA Jetson Nano embedded module.
-# This is a pure graphical model that can be extended with other meshes or devices.
+# This is a graphical model that can be extended with solid parts, devices and physics properties.
 
 PROTO JetsonNano [
-  field SFVec3f            translation           0 0 0                    # Is `Transform.translation`.
-  field SFRotation         rotation              0 1 0 0                  # Is `Transform.rotation`.
-  field MFNode             extensionSlot         []                       # Extends the board with meshes or devices.
+  field SFVec3f            translation           0 0 0                    # Is `Robot.translation`.
+  field SFRotation         rotation              0 1 0 0                  # Is `Robot.rotation`.
+  field SFString           name                  "NVIDIA Jetson Nano"     # Is `Robot.name`.
+  field SFNode             physics               NULL                     # Is `Robot.physics`.
+  field SFString           controller            ""                       # Is `Robot.controller`.
+  field SFString           window                ""                       # Is `Robot.window`.
+  field MFNode             extensionSlot         []                       # Extends the board with meshes, solid parts or devices.
 ]
 {
-  Transform {
+  Robot {
     translation IS translation
     rotation IS rotation
     children [
@@ -804,5 +808,9 @@ PROTO JetsonNano [
         children IS extensionSlot
       }
     ]
+    name IS name
+    controller IS controller
+    physics IS physics
+    window IS window
   }
 }
