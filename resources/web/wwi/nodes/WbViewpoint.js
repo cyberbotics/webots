@@ -171,17 +171,17 @@ export default class WbViewpoint extends WbBaseNode {
         this._viewpointForce = this._viewpointForce.add(this._followedObjectDeltaPosition);
 
       if (forcePosition || mass === 0 || (timeInterval > 0.1 && typeof webots.animation === 'undefined')) {
-        deltaPosition = this._viewpointForce;
+        deltaPosition = new WbVector3(this._viewpointForce.x, this._viewpointForce.y, this._viewpointForce.z);
         this._viewpointVelocity = new WbVector3();
       } else {
-        let acceleration = this._viewpointForce;
+        let acceleration = new WbVector3(this._viewpointForce.x, this._viewpointForce.y, this._viewpointForce.z);
         acceleration = acceleration.mul(timeInterval / mass);
         this._viewpointVelocity = this._viewpointVelocity.add(acceleration);
         const scalarVelocity = this._viewpointVelocity.length();
 
         let scalarObjectVelocityProjection;
         if (typeof this._followedObjectDeltaPosition !== 'undefined') {
-          let objectVelocity = this._followedObjectDeltaPosition;
+          let objectVelocity = new WbVector3(this._followedObjectDeltaPosition.x, this._followedObjectDeltaPosition.y, this._followedObjectDeltaPosition.z);
           objectVelocity = objectVelocity.div(timeInterval);
           scalarObjectVelocityProjection = objectVelocity.dot(this._viewpointVelocity) / scalarVelocity;
         } else
@@ -199,7 +199,6 @@ export default class WbViewpoint extends WbBaseNode {
       this.position = this.position.add(deltaPosition);
       this._defaultPosition = this._defaultPosition.add(deltaPosition);
       this._followedObjectDeltaPosition = undefined;
-
       this.updatePosition();
     }
   }

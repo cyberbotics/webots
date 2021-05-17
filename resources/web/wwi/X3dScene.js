@@ -177,10 +177,8 @@ export default class X3dScene {
         const translation = convertStringToVec3(pose[key]);
 
         if (object instanceof WbTransform) {
-          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id) {
+          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
             WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
-            WbWorld.instance.viewpoint.updateFollowUp(time);
-          }
 
           object.translation = translation;
           if (WbWorld.instance.readyForUpdates)
@@ -271,7 +269,8 @@ export default class X3dScene {
           for (let i = 0; i < frame.labels.length; i++)
             this.applyLabel(frame.labels[i], view);
         }
-
+        if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined')
+          WbWorld.instance.viewpoint.updateFollowUp(view.time);
         this.render();
       } else { // parse the labels even so the scene loading is not completed
         data = data.substring(data.indexOf(':') + 1);
