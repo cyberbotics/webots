@@ -173,10 +173,12 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   return 0;
   */
   // translate mixed proto into javascript
-  int start = -1;
-  int end = -1;
   QString jsBody = "";
   QString jsImport = "";
+
+  /*
+  int start = -1;
+  int end = -1;
   QRegularExpression reTemplate("\%{(.*?)}\%");
   QRegularExpressionMatchIterator it = reTemplate.globalMatch(tags["templateContent"]);
 
@@ -188,6 +190,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
       if (start != -1 && end == -1)
         if (match.capturedStart() != 0)
           end = match.capturedStart();
+
+      printf("match: >%s<%d|%d\n", match.captured(0).toUtf8().constData(), start, end);
 
       if (start != -1 && end != -1) {
         jsBody += "result += render(`" + tags["templateContent"].mid(start, end - start) + "`);";
@@ -208,15 +212,72 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
       }
     }
   }
+  */
+
+  QString templateContent = tags["templateContent"];
+  int closing = 0;
+  int opening = 0;
+  bool firstMatch = true;
+  int previousClosing = -1;
+  while (1) {
+    opening = templateContent.indexOf("%{", closing);
+    if (opening == -1) {
+      if (closing < templateContent.size()) {
+        jsBody += "result += render(`" + templateContent.mid(closing, templateContent.size() - closing) + "`);";
+        // printf("\nENDTEXT: >%s<\n", templateContent.mid(closing, templateContent.size() - closing).toUtf8().constData());
+      }
+      break;
+    }
+
+    closing = templateContent.indexOf("}%", opening);
+    closing = closing + 2;  // point after the template symbol
+
+    if (closing == -1) {
+      printf("Missing closing bracket\n");  // mError?
+      break;
+    }
+
+    if (opening > 0 && firstMatch) {
+      // what comes before the first bracket should be treated as text
+      jsBody += "result += render(`" + templateContent.mid(0, opening) + "`);";
+      // printf("INITEXT: >%s<\n", templateContent.mid(0, opening).toUtf8().constData());
+    }
+
+    if (previousClosing != -1 && opening - previousClosing > 0) {
+      jsBody += "result += render(`" + templateContent.mid(previousClosing, opening - previousClosing) + "`);";
+      // printf("\nTEXT: >%s<\n", templateContent.mid(previousClosing, opening - previousClosing).toUtf8().constData());
+    }
+
+    QString statement = templateContent.mid(opening, closing - opening);
+    // printf("RAW: %d %d >%s<\n", opening, closing, statement.toUtf8().constData());
+    // what is between brackets is an expression if it starts with '%{='
+    if (statement.startsWith("%{=")) {
+      statement = statement.replace("%{=", "");
+      statement = statement.replace("}%", "");
+      // printf("\nEXP: >%s<\n", statement.toUtf8().constData());
+      jsBody += "var x = " + statement + "; result += eval(\"x\");";  // var because there might be multiple expressions
+    } else {
+      // raw javascript snippet
+      statement = statement.replace("%{", "");
+      statement = statement.replace("}%", "");
+      // printf("\nSTAT: >%s<\n", statement.toUtf8().constData());
+      jsBody += statement;
+    }
+
+    // printf("====%s==\n", jsBody.toUtf8().constData());
+    previousClosing = closing;
+    firstMatch = false;
+  }
 
   // extract imports from jsBody, if any
   QRegularExpression reImport("import(.*?)[;\n]");
-  it = reImport.globalMatch(jsBody);
+  QRegularExpressionMatchIterator it = reImport.globalMatch(jsBody);
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       jsBody.replace(match.captured(0), "");  // from import from jsBody
       // TODO: if doesn't end with ; or \n, add one in case of multiple imports
+      // if has // before, don't include.
       if (match.captured(0).back() != '\n')
         jsImport += "\n";
       jsImport += match.captured(0);
@@ -252,7 +313,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   printf("#############################################\n\n");
   jsTemplate.replace("%fields%", tags["fields"]);
 
-  jsBody += "result += render(`" + tags["templateContent"].mid(start) + "`);";
+  // jsBody += "result += render(`" + tags["templateContent"].mid(start) + "`);";
   // remove escapes
   printf("\n== tags[\"templateContent\"] ================\n");
   printf("%s\n", tags["templateContent"].toUtf8().constData());
