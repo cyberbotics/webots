@@ -19,7 +19,7 @@
  *               using the keyboard. The keys are the following:
  *
  *               vx         : ↑/↓
- *               ω          : Page Up/Page Down
+ *               ω          : ←/→
  *               Reset      : Space bar
  */
 
@@ -54,57 +54,53 @@ int main() {
   double target_speed = 0.0;  // forwards speed [m].
   double target_omega = 0.0;  // angular speed [rad/s].
 
-  int previous_key = 0;
   bool is_key_valid;
   wb_keyboard_enable(TIME_STEP);
 
   printf("To move the Mir100 with your keyboard, click first inside the simulation window and press:\n \
     vx   : ↑/↓ \n \
-    ω    : Page Up/Page Down \n \
+    ω    : ←/→ \n \
     Reset: Space bar \n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     int key = wb_keyboard_get_key();
-    if (key >= 0 && key != previous_key) {
-      is_key_valid = 1;
-      switch (key) {
-        case WB_KEYBOARD_UP:
-          target_speed = target_speed + SPEED_INCREMENT;
-          target_speed = target_speed > SPEED_MAX ? SPEED_MAX : target_speed;
-          break;
+    is_key_valid = 1;
+    switch (key) {
+      case WB_KEYBOARD_UP:
+        target_speed = target_speed + SPEED_INCREMENT;
+        target_speed = target_speed > SPEED_MAX ? SPEED_MAX : target_speed;
+        break;
 
-        case WB_KEYBOARD_DOWN:
-          target_speed = target_speed - SPEED_INCREMENT;
-          target_speed = target_speed < SPEED_MIN ? SPEED_MIN : target_speed;
-          break;
+      case WB_KEYBOARD_DOWN:
+        target_speed = target_speed - SPEED_INCREMENT;
+        target_speed = target_speed < SPEED_MIN ? SPEED_MIN : target_speed;
+        break;
 
-        case WB_KEYBOARD_PAGEUP:
-          target_omega = target_omega + ANGULAR_SPEED_INCREMENT;
-          target_omega = target_omega > ANGULAR_SPEED_MAX ? ANGULAR_SPEED_MAX : target_omega;
-          break;
+      case WB_KEYBOARD_LEFT:
+        target_omega = target_omega + ANGULAR_SPEED_INCREMENT;
+        target_omega = target_omega > ANGULAR_SPEED_MAX ? ANGULAR_SPEED_MAX : target_omega;
+        break;
 
-        case WB_KEYBOARD_PAGEDOWN:
-          target_omega = target_omega - ANGULAR_SPEED_INCREMENT;
-          target_omega = target_omega < ANGULAR_SPEED_MIN ? ANGULAR_SPEED_MIN : target_omega;
-          break;
+      case WB_KEYBOARD_RIGHT:
+        target_omega = target_omega - ANGULAR_SPEED_INCREMENT;
+        target_omega = target_omega < ANGULAR_SPEED_MIN ? ANGULAR_SPEED_MIN : target_omega;
+        break;
 
-        case ' ':
-          target_speed = 0;
-          target_omega = 0;
-          break;
+      case ' ':
+        target_speed = 0;
+        target_omega = 0;
+        break;
 
-        default:
-          is_key_valid = 0;
-      }
-
-      if (is_key_valid) {
-        printf("vx:%.2f[m/s] ω:%.2f[rad/s]\n", target_speed, target_omega);
-        // Computes the wheel motors speeds from vx and ω.
-        wb_motor_set_velocity(motor_left_wheel, (target_speed + target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
-        wb_motor_set_velocity(motor_right_wheel, (target_speed - target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
-      }
+      default:
+        is_key_valid = 0;
     }
-    previous_key = key;
+
+    if (is_key_valid) {
+      printf("vx:%.2f[m/s] ω:%.2f[rad/s]\n", target_speed, target_omega);
+      // Computes the wheel motors speeds from vx and ω.
+      wb_motor_set_velocity(motor_left_wheel, (target_speed + target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
+      wb_motor_set_velocity(motor_right_wheel, (target_speed - target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
+    }
   }
 
   wb_robot_cleanup();
