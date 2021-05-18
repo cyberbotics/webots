@@ -67,6 +67,9 @@ PROTO Fabtino [
             maxVelocity 100
             maxTorque 100
           }
+          PositionSensor {
+            name "front_right_wheel_joint_sensor"
+          }
         ]
         endPoint Solid {
           children [
@@ -125,6 +128,9 @@ PROTO Fabtino [
             maxVelocity 100
             maxTorque 100
           }
+          PositionSensor {
+            name "back_right_wheel_joint_sensor"
+          }
         ]
         endPoint Solid {
           children [
@@ -171,6 +177,9 @@ PROTO Fabtino [
             maxVelocity 100
             maxTorque 100
           }
+          PositionSensor {
+            name "front_left_wheel_joint_sensor"
+          }
         ]
         endPoint Solid {
           children [
@@ -209,6 +218,9 @@ PROTO Fabtino [
             name "back_left_wheel_joint"
             maxVelocity 100
             maxTorque 100
+          }
+          PositionSensor {
+            name "back_left_wheel_joint_sensor"
           }
         ]
         endPoint Solid {

@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "back_left_wheel_joint",
       "position": 0,
-      "transformID": "n97",
+      "transformID": "n101",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": 0,
       "name": "back_right_wheel_joint",
       "position": 0,
-      "transformID": "n69",
+      "transformID": "n71",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "front_left_wheel_joint",
       "position": 0,
-      "transformID": "n83",
+      "transformID": "n86",
       "type": "RotationalMotor"
     },
     {
@@ -37,17 +37,37 @@
       "minPosition": 0,
       "name": "front_right_wheel_joint",
       "position": 0,
-      "transformID": "n55",
+      "transformID": "n56",
       "type": "RotationalMotor"
     },
     {
+      "name": "back_left_wheel_joint_sensor",
+      "transformID": "n101",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "back_right_wheel_joint_sensor",
+      "transformID": "n71",
+      "type": "PositionSensor"
+    },
+    {
       "name": "backLidar",
-      "transformID": "n177",
+      "transformID": "n181",
       "type": "Lidar"
     },
     {
+      "name": "front_left_wheel_joint_sensor",
+      "transformID": "n86",
+      "type": "PositionSensor"
+    },
+    {
+      "name": "front_right_wheel_joint_sensor",
+      "transformID": "n56",
+      "type": "PositionSensor"
+    },
+    {
       "name": "frontLidar",
-      "transformID": "n161",
+      "transformID": "n165",
       "type": "Lidar"
     }
   ],
