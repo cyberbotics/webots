@@ -48,19 +48,20 @@ The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://w
 
 - All the graphical nodes ([Box](../reference/box.md), [Sphere](../reference/sphere.md), [Appearance](../reference/appearance.md), [Material](../reference/material.md), [ImageTexture](../reference/imagetexture.md), [Light](../reference/light.md), [Transform](../reference/transform.md), etc.) are supported.
 
-- The rendering of the Webots player is performed using the [three.js](https://threejs.org/) library.
+- The rendering of the Webots player is performed using `WRENJS`, a version of `WREN` (Webots Rendering ENgine) compiled in WebAssembly.
 It may occur that the rendering in the Webots application and in the exported Web page are not strictly equivalent.
 
-- The [Background](../reference/background.md) cube maps are wrongly displayed if [WorldInfo](../reference/worldinfo.md).`coordinateSytem` is set to "ENU".
+- The `Skin` node is not supported.
 
 ### Remarks on the Used Technologies and Their Limitations
 
-The Webots player is using internally the `three.js` library (based on `WebGL`).
+The Webots player is using internally the `WRENJS` library (based on `WebGL 2`).
 
-`three.js` is supported in recent versions of Firefox, Chrome, Edge, Internet Explorer and Safari on macOS (see details on the [three.js website](https://threejs.org/)).
-In case of related issues, make sure that `WebGL` is enabled in your Web browser settings.
+`WebGL 2` is supported in recent versions of Firefox, Chrome and Edge.
+Unfortunately it is not yet supported by Safari (see details on the [deployment of WebGL 2](https://caniuse.com/webgl2)).
+In case of related issues, make sure that `WebGL 2` is enabled in your Web browser settings.
 
-Some web browsers (for example Chrome and Firefox 68 or later) cannot open local files using the `file` protocol by default, while this is this is required by the Webots player to open the `X3D` file and the textures.
+Some web browsers (for example Chrome and Firefox 68 or later) cannot open local files using the `file` protocol by default, while this is required by the Webots player to open the `X3D` file and the textures.
 Here are some workarounds:
 - run a local HTTP server in the directory containing the exported files.
     - Python 3:
@@ -79,9 +80,9 @@ Here are some workarounds:
         sudo npm install -g http-server
         http-server
         ```
-
+    - More ways to run a local HTTP server can be found [here](https://gist.github.com/willurd/5720255)
 - disable browser security flags:
-    - Chrome: launch with the `--allow-file-access-from-files` option
+    - Chrome: launch with the `--allow-file-access-from-files`  or `--disable-web-security --user-data-dir=.chrome` option.
     - Firefox:
         1. Open Firefox browser and in the address bar type ``about:config``, hit Enter button and click on `I'll be careful, I promise!`.
         2. Search for `privacy.file_unique_origin` or `security.fileuri.strict_origin_policy` and double click on it to change the status from true to false.
