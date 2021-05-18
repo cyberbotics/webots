@@ -25,3 +25,8 @@ do
     echo $filename
     find ${WEBOTS_HOME}/lib/controller -maxdepth 1 -name "*${filename}*" | xargs -I{} cp {} lib/${OSTYPE}
 done
+
+# Push
+git add -A
+git commit -m "Automatic update"
+git push origin ${VERSION}
