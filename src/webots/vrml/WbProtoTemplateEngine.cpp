@@ -17,6 +17,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbStandardPaths.hpp"
 
+#include <QtCore/QRegularExpression>
 #include "WbField.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNode.hpp"
@@ -120,6 +121,7 @@ const QString &WbProtoTemplateEngine::coordinateSystem() {
 }
 
 QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbField *field) {
+  printf("doing field %s\n", field->name().toUtf8().constData());
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->value());
     assert(singleValue);
@@ -128,15 +130,22 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
   } else if (field->isMultiple()) {
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->value());
     assert(multipleValue);
-    // multiple values into a lua array
-    QString result = "{";
+    printf(">> is multi\n");
+    // multiple values into a javascript array
+    QString result = "";
+    // if (multipleValue->size() > 0) {
+    result += "{";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
         result += ", ";
+      result += QString::number(i) + ": ";
       const WbVariant &variant = multipleValue->variantValue(i);
       result += convertVariantToJavaScriptStatement(variant);
     }
     result += "}";
+    //} else
+    //  result += "undefined";
+    printf(">> done: %s\n", result.toUtf8().constData());
     return result;
   }
 
@@ -145,6 +154,7 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
 }
 
 QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(const WbField *field) {
+  printf("doing field %s\n", field->name().toUtf8().constData());
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->defaultValue());
     assert(singleValue);
@@ -155,15 +165,24 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(con
   else if (field->isMultiple()) {
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->defaultValue());
     assert(multipleValue);
-    // multiple values into a lua array
-    QString result = "{";
+    printf(">> is multi\n");
+    // multiple values into a javascript array
+    QString result = "";
+    // if (multipleValue->size() > 0) {
+    result += "{";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
         result += ", ";
+      result += QString::number(i) + ": ";
       const WbVariant &variant = multipleValue->variantValue(i);
       result += convertVariantToJavaScriptStatement(variant);
     }
     result += "}";
+    //} else
+    //  result += "undefined";
+
+    printf(">> done: %s\n", result.toUtf8().constData());
+
     return result;
   }
 
@@ -243,9 +262,21 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
 
 QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
   // note: this function can be removed when Lua support is dropped
+
+  // QRegularExpressionMatchIterator it = re.globalMatch(statement);
+  printf("\nstatement was: %s\n", statement.toUtf8().constData());
+  // statement = statement.replace(QRegularExpression("(\\d+): ?"), "");  // convert js object with integer keys to lua array
+  statement = statement.replace(QRegularExpression("(?<=[{, ])(\\d+: ?)"), "");
+  // while (it.hasNext()) {
+  //  QRegularExpressionMatch match = it.next();
+  //  if (match.hasMatch())
+  //    statement = statement.replace(match.captured(0), "");
+  //}
+
   statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
   statement = statement.replace(":", " =");
   statement = statement.replace("value: undefined", "value = nil");
+  printf("statement is: %s\n\n", statement.toUtf8().constData());
 
   return statement;
 }
