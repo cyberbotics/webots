@@ -1,126 +1,76 @@
 {
   "devices": [
     {
-      "anchor": "0 0 0.1065",
-      "axis": "0 0 1",
-      "maxPosition": 2.8,
-      "minPosition": -2.8,
-      "name": "joint_1",
-      "position": 0,
-      "transformID": "n83",
-      "type": "RotationalMotor"
-    },
-    {
-      "anchor": "0 0 0.065",
-      "axis": "-1 0 0.000796",
-      "maxPosition": 0.8,
-      "minPosition": -0.8,
-      "name": "joint_2",
+      "anchor": "-0.285061 0.235818 0.035257",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "back_left_wheel_joint",
       "position": 0,
       "transformID": "n101",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.221 0.012 0",
-      "axis": "0 0 1",
-      "maxPosition": 1.3,
-      "minPosition": -1.5,
-      "name": "joint_3",
+      "anchor": "-0.284897 -0.238057 0.03513",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "back_right_wheel_joint",
       "position": 0,
-      "transformID": "n129",
+      "transformID": "n71",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.032 0.042 0",
-      "axis": "-0.000796 1 1e-06",
-      "maxPosition": 2,
-      "minPosition": -2,
-      "name": "joint_4",
+      "anchor": "0.284897 0.238057 0.03513",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front_left_wheel_joint",
       "position": 0,
-      "transformID": "n150",
+      "transformID": "n86",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0.188",
-      "axis": "-1 0 1e-06",
-      "maxPosition": 1.5,
-      "minPosition": -1.5,
-      "name": "joint_5",
+      "anchor": "0.285061 -0.235818 0.035257",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "front_right_wheel_joint",
       "position": 0,
-      "transformID": "n178",
+      "transformID": "n56",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0197 0.00925 0",
-      "axis": "1 0 0.000796",
-      "maxPosition": 2.5,
-      "minPosition": -2.5,
-      "name": "joint_6",
-      "position": 0,
-      "transformID": "n197",
-      "type": "RotationalMotor"
-    },
-    {
-      "anchor": "0 0 0",
-      "axis": "0 -4e-06 1",
-      "maxPosition": 0.01,
-      "minPosition": -0.01,
-      "name": "joint_base_to_jaw_1",
-      "position": 0,
-      "transformID": "n223",
-      "type": "LinearMotor"
-    },
-    {
-      "anchor": "0 0 0",
-      "axis": "0 4e-06 -1",
-      "maxPosition": 0.01,
-      "minPosition": -0.01,
-      "name": "joint_base_to_jaw_2",
-      "position": 0,
-      "transformID": "n238",
-      "type": "LinearMotor"
-    },
-    {
-      "name": "joint_1_sensor",
-      "transformID": "n83",
-      "type": "PositionSensor"
-    },
-    {
-      "name": "joint_2_sensor",
+      "name": "back_left_wheel_joint_sensor",
       "transformID": "n101",
       "type": "PositionSensor"
     },
     {
-      "name": "joint_3_sensor",
-      "transformID": "n129",
+      "name": "back_right_wheel_joint_sensor",
+      "transformID": "n71",
       "type": "PositionSensor"
     },
     {
-      "name": "joint_4_sensor",
-      "transformID": "n150",
+      "name": "backLidar",
+      "transformID": "n181",
+      "type": "Lidar"
+    },
+    {
+      "name": "front_left_wheel_joint_sensor",
+      "transformID": "n86",
       "type": "PositionSensor"
     },
     {
-      "name": "joint_5_sensor",
-      "transformID": "n178",
+      "name": "front_right_wheel_joint_sensor",
+      "transformID": "n56",
       "type": "PositionSensor"
     },
     {
-      "name": "joint_6_sensor",
-      "transformID": "n197",
-      "type": "PositionSensor"
-    },
-    {
-      "name": "joint_base_to_jaw_1_sensor",
-      "transformID": "n223",
-      "type": "PositionSensor"
-    },
-    {
-      "name": "joint_base_to_jaw_2_sensor",
-      "transformID": "n238",
-      "type": "PositionSensor"
+      "name": "frontLidar",
+      "transformID": "n165",
+      "type": "Lidar"
     }
   ],
-  "name": "ned",
-  "robotID": "n11"
+  "name": "fabtino",
+  "robotID": "n44"
 }
