@@ -753,6 +753,8 @@ def update_team_contacts(team):
     for number in team['players']:
         player = team['players'][number]
         robot = player['robot']
+        if robot is None:
+            continue
         l1 = len(player['velocity_buffer'])     # number of iterations
         l2 = len(player['velocity_buffer'][0])  # should be 6 (velocity vector size)
         player['velocity_buffer'][int(time_count / time_step) % l1] = robot.getVelocity()
@@ -939,25 +941,22 @@ def update_histories():
 
 
 def update_team_penalized(team):
-    index = team_index(team['color'])
+    color = team['color']
+    index = team_index(color)
     for number in team['players']:
         player = team['players'][number]
+        if player['robot'] is None:
+            continue
         p = game.state.teams[index].players[int(number) - 1]
         if p.number_of_red_cards > 0:
-            if 'penalized' in player and player['penalized'] == 'red_card':
-                continue  # already processed red card
-            player['penalized'] = 'red_card'
-            r = player['reentryStartingPose']['rotation']
-            t = player['reentryStartingPose']['translation']
-            # move robot very far away and avoid overlapping another red card robot in the far away
-            t[1] = 1000 + 3 * int(number) + (50 if team['color'] == 'blue' else 0)
-            robot = player['robot']
-            robot.resetPhysics()
-            robot.getField('translation').setSFVec3f(t)
-            robot.getField('rotation').setSFRotation(r)
-            robot.getField('customData').setSFString('red card')
+            player['robot'].remove()
+            player['robot'] = None
+            info(f'Delete {color} player {number}.')
             if 'sent_to_penalty_position' in player:
                 del player['sent_to_penalty_position']
+            if 'penalty_stabilize' in player:
+                del player['penalty_stabilize']
+            player['outside_field'] = True
         else:
             n = p.secs_till_unpenalized
             customData = player['robot'].getField('customData')
@@ -976,8 +975,12 @@ def update_penalized():
     update_team_penalized(blue_team)
 
 
+def already_penalized(player):
+    return 'penalized' in player or 'sent_to_penalty_position' in player
+
+
 def send_penalty(player, penalty, reason, log=None):
-    if 'sent_to_penalty_position' in player or 'penalized' in player:  # was just penalized or already penalized
+    if 'yellow_card' not in player and already_penalized(player):
         return
     player['penalty'] = penalty
     player['penalty_reason'] = reason
@@ -1175,8 +1178,8 @@ def check_team_fallen(team):
     penalty = False
     for number in team['players']:
         player = team['players'][number]
-        if 'penalized' in player:
-            continue  # skip penalized players
+        if already_penalized(player):
+            continue
         if 'fallen' in player and time_count - player['fallen'] > 1000 * FALLEN_TIMEOUT:
             del player['fallen']
             send_penalty(player, 'INCAPABLE', 'fallen down',
@@ -1197,7 +1200,7 @@ def check_team_inactive_goalkeeper(team):
         if not is_goalkeeper(team, number):
             continue
         player = team['players'][number]
-        if 'penalized' in player or 'sent_to_penalty_position' in player or len(player['history']) == 0:
+        if already_penalized(player) or len(player['history']) == 0:
             return
         # If player was out of his own goal area recently, it can't be considered as inactive
         if not all([e[1]["own_goal_area"] for e in player['history']]):
@@ -1227,8 +1230,8 @@ def check_inactive_goalkeepers():
 def check_team_away_from_ball(team, distance):
     for number in team['players']:
         player = team['players'][number]
-        if 'penalized' in player:
-            continue  # skip penalized players
+        if already_penalized(player):
+            continue
         d = distance2(player['position'], game.ball_position)
         if d < distance:
             color = team['color']
@@ -1241,7 +1244,7 @@ def check_team_start_position(team):
     penalty = False
     for number in team['players']:
         player = team['players'][number]
-        if 'penalized' in player:
+        if already_penalized(player):
             continue
         if not player['outside_field']:
             send_penalty(player, 'INCAPABLE', 'halfTimeStartingPose inside field')
@@ -1264,8 +1267,8 @@ def check_team_kickoff_position(team):
     penalty = False
     for number in team['players']:
         player = team['players'][number]
-        if 'penalized' in player:
-            continue  # skip penalized players
+        if already_penalized(player):
+            continue
         if not player['inside_field']:
             send_penalty(player, 'INCAPABLE', 'outside of field at kick-off')
             penalty = True
@@ -1287,7 +1290,7 @@ def check_kickoff_position():
 def check_team_dropped_ball_position(team):
     for number in team['players']:
         player = team['players'][number]
-        if 'penalized' in player:
+        if already_penalized(player):
             continue
         if not player['outside_circle']:
             send_penalty(player, 'INCAPABLE', 'inside center circle during dropped ball')
@@ -1304,8 +1307,8 @@ def check_team_outside_turf(team):
     color = team['color']
     for number in team['players']:
         player = team['players'][number]
-        if 'penalized' in player:
-            continue  # skip already penalized players
+        if already_penalized(player):
+            continue
         if player['left_turf_time'] is None:
             continue
         if time_count - player['left_turf_time'] < OUTSIDE_TURF_TIMEOUT * 1000:
@@ -1330,7 +1333,8 @@ def check_team_penalized_in_field(team):
             continue  # skip red card players
         if player['outside_field']:
             continue
-        game_controller_send(f'CARD:{game.red.id if color == "red" else game.blue.id}:{number}:YELLOW')
+        player['yellow_card'] = True
+        info(f'Penalized {color} player {number} re-entered the field...')
         send_penalty(player, 'INCAPABLE', 'penalized player re-entered field',
                      f'Penalized {color} player {number} re-entered the field: shown yellow card.')
         penalty = True
@@ -1347,7 +1351,7 @@ def check_circle_entrance(team):
     penalty = False
     for number in team['players']:
         player = team['players'][number]
-        if 'penalized' in player:
+        if already_penalized(player):
             continue
         if not player['outside_circle']:
             color = team['color']
@@ -1367,7 +1371,7 @@ def check_ball_must_kick(team):
         if not game.ball_last_touch_player_number == int(number):
             continue
         player = team['players'][number]
-        if 'penalized' in player:
+        if already_penalized(player):
             continue
         color = team['color']
         send_penalty(player, 'INCAPABLE', 'non-kicking player touched ball not in play',
@@ -1418,6 +1422,9 @@ def send_team_penalties(team):
     color = team['color']
     for number in team['players']:
         player = team['players'][number]
+        if 'yellow_card' in player:
+            game_controller_send(f'CARD:{game.red.id if color == "red" else game.blue.id}:{number}:YELLOW')
+            del player['yellow_card']
         if 'penalty' in player:
             penalty = player['penalty']
             reason = player['penalty_reason']
@@ -1438,6 +1445,8 @@ def send_team_penalties(team):
                 moved = False
                 for n in team['players']:
                     other_robot = team['players'][n]['robot']
+                    if other_robot is None:
+                        continue
                     other_t = other_robot.getField('translation').getSFVec3f()
                     if distance3(other_t, t) < game.field.robot_radius:
                         t[0] += game.field.penalty_offset if game.ball_position[0] < t[0] else -game.field.penalty_offset
@@ -1654,7 +1663,7 @@ def check_penalty_goal_line():
     defending_team = get_penalty_defending_team()
     for number in defending_team['players']:
         player = defending_team['players'][number]
-        if player['asleep'] or 'penalized' in player or not is_goalkeeper(defending_team, number):
+        if player['asleep'] or already_penalized(player) or is_goalkeeper(defending_team, number):
             continue
         # If fully inside or fully outside, the robot is out of field
         if player['outside_field'] or player['inside_field'] or abs(player['position'][1]) > GOAL_WIDTH:
@@ -1844,9 +1853,7 @@ except KeyError:
 toss_a_coin_if_needed('side_left')
 toss_a_coin_if_needed('kickoff')
 
-root = supervisor.getRoot()
-children = root.getField('children')
-
+children = supervisor.getRoot().getField('children')
 children.importMFNodeFromString(-1, f'RobocupSoccerField {{ size "{field_size}" }}')
 ball_size = 1 if field_size == 'kid' else 5
 # the ball is initially very far away from the field
