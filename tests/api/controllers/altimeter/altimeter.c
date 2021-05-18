@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
     h = wb_altimeter_get_value(altimeter);
     ts_assert_double_equal(h, e, "The altitude measured by the Altimeter should be %g and not %g after %d wb_robot_step(s)", e, 
-                           h, j);
+                          h, j);
   }
 
   ts_send_success();
