@@ -15,7 +15,9 @@ cd /tmp/webots-controller
 git checkout -b ${VERSION}
 
 # Prepare the structure
+rm -rf lib/${OSTYPE}
 mkdir -p lib/${OSTYPE}
+rm -rf include
 mkdir -p include
 
 # Copy files
