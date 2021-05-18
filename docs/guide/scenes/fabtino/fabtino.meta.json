@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "back_left_wheel_joint",
       "position": 0,
-      "transformID": "n96",
+      "transformID": "n97",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": 0,
       "name": "back_right_wheel_joint",
       "position": 0,
-      "transformID": "n68",
+      "transformID": "n69",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "front_left_wheel_joint",
       "position": 0,
-      "transformID": "n82",
+      "transformID": "n83",
       "type": "RotationalMotor"
     },
     {
@@ -37,20 +37,20 @@
       "minPosition": 0,
       "name": "front_right_wheel_joint",
       "position": 0,
-      "transformID": "n54",
+      "transformID": "n55",
       "type": "RotationalMotor"
     },
     {
       "name": "backLidar",
-      "transformID": "n176",
+      "transformID": "n177",
       "type": "Lidar"
     },
     {
       "name": "frontLidar",
-      "transformID": "n160",
+      "transformID": "n161",
       "type": "Lidar"
     }
   ],
   "name": "fabtino",
-  "robotID": "n43"
+  "robotID": "n44"
 }
