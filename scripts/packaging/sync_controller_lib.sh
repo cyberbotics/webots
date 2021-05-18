@@ -18,6 +18,8 @@ fi
 
 # Get the repo
 rm -rf /tmp/webots-controller || true
+git config --global user.name ${GITHUB_ACTOR}
+git config --global user.email ${GITHUB_ACTOR}@github.com
 git clone --depth=1 https://${GITHUB_AUTH}github.com/cyberbotics/webots-controller.git /tmp/webots-controller
 cd /tmp/webots-controller
 git checkout -b ${VERSION}
