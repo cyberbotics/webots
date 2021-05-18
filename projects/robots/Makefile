@@ -12,15 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LIBRARIES=kuka/youbot/libraries.Makefile \
-  robotis/darwin-op/libraries.Makefile \
-  mobsya/thymio/libraries.Makefile \
-  neuronics/ipr/libraries.Makefile
+LIBRARIES=robotis/darwin-op/libraries.Makefile \
+	neuronics/ipr/libraries.Makefile \
+	mobsya/thymio/libraries.Makefile \
+	kuka/youbot/libraries.Makefile
 
 CONTROLLERS=\
+  epfl/lis/controllers.Makefile \
+  sony/aibo/controllers.Makefile \
   a4/portal/controllers.Makefile \
   adept/pioneer3/controllers.Makefile \
-  epfl/lis/controllers.Makefile \
+  softbank/nao/controllers.Makefile \
   bluebotics/shrimp/controllers.Makefile \
   boston_dynamics/atlas/controllers.Makefile \
   boston_dynamics/spot/controllers.Makefile \
@@ -59,21 +61,19 @@ CONTROLLERS=\
   robotis/bioloid/controllers.Makefile \
   robotis/darwin-op/controllers.Makefile \
   robotis/turtlebot/controllers.Makefile \
-  softbank/nao/controllers.Makefile \
-  sony/aibo/controllers.Makefile \
   sony/qrio/controllers.Makefile \
-	sphero/bb8/controllers.Makefile \
+  sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
   unimation/puma/controllers.Makefile \
   universal_robots/controllers.Makefile
 
 ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile \
-  nex/plugins/robot_windows.Makefile \
-  robotis/darwin-op/plugins/robot_windows.Makefile
+	robotis/darwin-op/plugins/robot_windows.Makefile \
+	nex/plugins/robot_windows.Makefile
 
 REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile \
-  nex/plugins/remote_controls.Makefile \
-  robotis/darwin-op/plugins/remote_controls.Makefile
+	robotis/darwin-op/plugins/remote_controls.Makefile \
+	nex/plugins/remote_controls.Makefile
 
 PHYSICS_PLUGINS=epfl/lis/plugins/physics.Makefile
 
