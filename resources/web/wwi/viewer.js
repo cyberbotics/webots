@@ -14,6 +14,7 @@ import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://
 import {webots} from 'https://cyberbotics.com/wwi/R2021b/webots.js';
 
 var handle;
+var webotsView;
 
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function(prefix) {
@@ -920,7 +921,13 @@ function createRobotComponent(view) {
     var robotComponent = robotComponents[c];
     var webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
     var robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
-    var webotsView = new webots.View(webotsViewElement);
+
+    if (typeof webotsView === 'undefined')
+      webotsView = new webots.View(webotsViewElement);
+    else {
+      webotsView.x3dScene.destroyWorld();
+      webotsView.view3D = webotsViewElement;
+    }
     robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
     webotsView.onready = function() { // When Webots View has been successfully loaded.
       var camera = webotsView.x3dScene.getCamera();
