@@ -20,7 +20,7 @@
 #include "messages.h"
 #include "robot_private.h"
 
-//Static functions
+// Static functions
 
 typedef struct {
   bool enable;
@@ -49,8 +49,8 @@ static void altimeter_read_answer(WbDevice *d, WbRequest *r) {
       altimeter->altitude = request_read_double(r);
       break;
     default:
-    ROBOT_ASSERT(0); // should never be reached
-    break;
+      ROBOT_ASSERT(0);  // should never be reached
+      break;
   }
 }
 
@@ -74,12 +74,11 @@ static void altimeter_toggle_remote(WbDevice *d, WbRequest *r) {
 }
 
 void wbr_altimeter_set_value(WbDeviceTag t, const double value) {
-
   Altimeter *altimeter = altimeter_get_struct(t);
   if (altimeter) {
     altimeter->altitude = value;
   } else
-    fprintf(stderr, "Error: %s(): invalid device tag. \n", __FUNCTION__);   
+    fprintf(stderr, "Error: %s(): invalid device tag. \n", __FUNCTION__);
 }
 
 // Protected functions (exported to device.cc)
@@ -139,7 +138,7 @@ double wb_altimeter_get_value(WbDeviceTag tag) {
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_altimeter_enable().\n", __FUNCTION__);
     result = altimeter->altitude;
   } else
-      fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();
   return result;
 }
