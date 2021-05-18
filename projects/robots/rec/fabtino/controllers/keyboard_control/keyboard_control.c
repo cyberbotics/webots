@@ -34,7 +34,7 @@
 #define WHEEL_RADIUS 0.1
 #define LX 0.238  // lateral distance from robot's COM to wheel [m].
 #define LY 0.285  // longitudinal distance from robot's COM to wheel [m].
-#define SPEED_INCREMENT 0.2
+#define SPEED_INCREMENT 0.05
 #define MAX_SPEED 2.0
 int main() {
   wb_robot_init();
@@ -60,7 +60,6 @@ int main() {
   int sign;                                      // sign of the increment (decrement if -1).
   double motor_speed[4] = {0.0, 0.0, 0.0, 0.0};  // wheels speed in [m/s], computed from vx, vy and ω.
 
-  bool is_key_valid;
   wb_keyboard_enable(TIME_STEP);
 
   printf("To move the Fabtino-XL Steel with your keyboard, click first inside the simulation window and press:\n \
@@ -71,7 +70,7 @@ int main() {
 
   while (wb_robot_step(TIME_STEP) != -1) {
     int key = wb_keyboard_get_key();
-    is_key_valid = 1;
+    bool is_key_valid = 1;
     switch (key) {
       case WB_KEYBOARD_UP:
         speed_id = 0;
