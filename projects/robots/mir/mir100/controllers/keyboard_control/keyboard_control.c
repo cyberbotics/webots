@@ -35,8 +35,8 @@
 #define SPEED_MIN -0.3
 #define ANGULAR_SPEED_MAX 0.3
 #define ANGULAR_SPEED_MIN -0.3
-#define SPEED_INCREMENT 0.15
-#define ANGULAR_SPEED_INCREMENT 0.1
+#define SPEED_INCREMENT 0.05
+#define ANGULAR_SPEED_INCREMENT 0.05
 #define DISTANCE_TO_CENTER 0.2226
 
 int main() {
@@ -54,7 +54,6 @@ int main() {
   double target_speed = 0.0;  // forwards speed [m].
   double target_omega = 0.0;  // angular speed [rad/s].
 
-  bool is_key_valid;
   wb_keyboard_enable(TIME_STEP);
 
   printf("To move the Mir100 with your keyboard, click first inside the simulation window and press:\n \
@@ -64,7 +63,7 @@ int main() {
 
   while (wb_robot_step(TIME_STEP) != -1) {
     int key = wb_keyboard_get_key();
-    is_key_valid = 1;
+    bool is_key_valid = 1;
     switch (key) {
       case WB_KEYBOARD_UP:
         target_speed = target_speed + SPEED_INCREMENT;
