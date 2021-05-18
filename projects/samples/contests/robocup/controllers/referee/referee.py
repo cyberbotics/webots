@@ -949,9 +949,21 @@ def update_team_penalized(team):
             continue
         p = game.state.teams[index].players[int(number) - 1]
         if p.number_of_red_cards > 0:
-            player['robot'].remove()
+            robot = player['robot']
+            # sending red card robot far away from the field
+            t = copy.deepcopy(player['reentryStartingPose']['translation'])
+            t[0] = 50
+            t[1] = (10 + int(number)) * (1 if color == 'red' else -1)
+            robot.getField('translation').setSFVec3f(t)
+            robot.getField('rotation').setSFRotation(player['reentryStartingPose']['rotation'])
+            robot.resetPhysics()
+            customData = player['robot'].getField('customData')
+            customData.setSFString('red_card')  # disable all devices of the robot
+            # FIXME: unfortunately, player['robot'].remove() crashes webots
+            # Once this is fixed, we should remove the robot, which seems to be a better solution
+            # than moving it away from the field
             player['robot'] = None
-            info(f'Delete {color} player {number}.')
+            info(f'sending {color} player {number} tp {t}.')
             if 'sent_to_penalty_position' in player:
                 del player['sent_to_penalty_position']
             if 'penalty_stabilize' in player:
