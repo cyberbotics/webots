@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
-# template language: javascript
 
-PROTO TemplateHingeJoint [
+PROTO TemplateHingeJointLua [
   field SFFloat height 0.4
 ]
 {
