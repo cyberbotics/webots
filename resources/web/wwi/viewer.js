@@ -10,7 +10,7 @@
 
 'use strict';
 
-import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://cyberbotics.com/wwi/R2021b/request_methods.js';
+import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://cyberbotics.com/wwi/R2021b/request_methods_module.js';
 import {webots} from 'https://cyberbotics.com/wwi/R2021b/webots.js';
 
 var handle;
@@ -1497,43 +1497,41 @@ window.onscroll = function() {
   updateMenuScrollbar();
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-  window.mermaidAPI.initialize({startOnLoad: false});
-  initializeHandle();
+window.mermaidAPI.initialize({startOnLoad: false});
+initializeHandle();
 
-  if (!isCyberboticsUrl) {
-    if (!localSetup.url)
-      localSetup.url = getGETQueryValue('url', 'https://raw.githubusercontent.com/cyberbotics/webots/');
-    if (!localSetup.book)
-      localSetup.book = getGETQueryValue('book', 'guide');
-    if (!localSetup.page)
-      localSetup.page = getGETQueryValue('page', 'index');
-    if (!localSetup.anchor)
-      localSetup.anchor = window.location.hash.substring(1);
-    if (!localSetup.branch)
-      localSetup.branch = getGETQueryValue('branch', 'released');
-    if (!localSetup.tabs)
-      localSetup.tabs = getGETQueriesMatchingRegularExpression('^tab-\\w+$', 'g');
-    // backward compatibility <= R2019b revision 1
-    if (!localSetup.tabs['tab-language']) {
-      if (localSetup.tab) {
-        localSetup.tabs['tab-language'] = localSetup.tab;
-        delete localSetup.tab;
-      } else
-        localSetup.tabs['tab-language'] = getGETQueryValue('tab', '').toLowerCase();
-    }
+if (!isCyberboticsUrl) {
+  if (!localSetup.url)
+    localSetup.url = getGETQueryValue('url', 'https://raw.githubusercontent.com/cyberbotics/webots/');
+  if (!localSetup.book)
+    localSetup.book = getGETQueryValue('book', 'guide');
+  if (!localSetup.page)
+    localSetup.page = getGETQueryValue('page', 'index');
+  if (!localSetup.anchor)
+    localSetup.anchor = window.location.hash.substring(1);
+  if (!localSetup.branch)
+    localSetup.branch = getGETQueryValue('branch', 'released');
+  if (!localSetup.tabs)
+    localSetup.tabs = getGETQueriesMatchingRegularExpression('^tab-\\w+$', 'g');
+  // backward compatibility <= R2019b revision 1
+  if (!localSetup.tabs['tab-language']) {
+    if (localSetup.tab) {
+      localSetup.tabs['tab-language'] = localSetup.tab;
+      delete localSetup.tab;
+    } else
+      localSetup.tabs['tab-language'] = getGETQueryValue('tab', '').toLowerCase();
   }
+}
 
-  // prevent FOUC for blog
-  if (localSetup.book === 'blog') {
-    var center = document.querySelector('#center');
-    center.setAttribute('class', 'blog');
-    setHandleWidth(0);
-  }
+// prevent FOUC for blog
+if (localSetup.book === 'blog') {
+  var center = document.querySelector('#center');
+  center.setAttribute('class', 'blog');
+  setHandleWidth(0);
+}
 
-  addContributionBanner();
-  setupModalWindow();
-  applyToTitleDiv();
-  getMDFile();
-  getMenuFile();
-});
+addContributionBanner();
+setupModalWindow();
+applyToTitleDiv();
+getMDFile();
+getMenuFile();
