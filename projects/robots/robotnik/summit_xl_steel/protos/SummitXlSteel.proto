@@ -111,7 +111,7 @@ PROTO SummitXlSteel [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          position -5.874687346426068e-11
+          position 0
           axis 0 1 0
           anchor 0.2225 -0.2045 0
         }
@@ -188,7 +188,7 @@ PROTO SummitXlSteel [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          position 2.0399465068926186e-10
+          position 0
           axis 0 1 0
           anchor 0.2225 0.2045 0
         }
@@ -253,7 +253,7 @@ PROTO SummitXlSteel [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          position 5.222695804381642e-10
+          position 0
           axis 0 1 0
           anchor -0.2225 0.2045 0
         }
@@ -299,7 +299,7 @@ PROTO SummitXlSteel [
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          position 1.9793720854869013e-10
+          position 0
           axis 0 1 0
           anchor -0.2225 -0.2045 0
         }
