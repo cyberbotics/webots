@@ -44,8 +44,6 @@ int main() {
   double target_belt_speed = 0.0;  // in [m/s].
   int sign;                        // sign of the increment (decrement if -1).
 
-  int previous_key = 0;
-  bool is_key_valid;
   wb_keyboard_enable(TIME_STEP);
 
   printf("To move the ConveyorPlatform with your keyboard, click first inside the simulation window and press: \n \
@@ -54,44 +52,41 @@ int main() {
 
   while (wb_robot_step(TIME_STEP) != -1) {
     int key = wb_keyboard_get_key();
-    if (key >= 0 && key != previous_key) {
-      is_key_valid = 1;
-      switch (key) {
-        case '+':
-          sign = 1;
-          break;
+    bool is_key_valid = 1;
+    switch (key) {
+      case '+':
+        sign = 1;
+        break;
 
-        case '-':
-          sign = -1;
-          break;
+      case '-':
+        sign = -1;
+        break;
 
-        case ' ':
-          sign = 0;
-          break;
+      case ' ':
+        sign = 0;
+        break;
 
-        default:
-          is_key_valid = 0;
-          sign = 0;
-      }
-
-      if (is_key_valid) {
-        // Increase or decrease target speed, depending on the sign.
-        target_belt_speed += sign * SPEED_INCREMENT;
-        if (sign > 0) {
-          if (target_belt_speed > MAX_SPEED)
-            target_belt_speed = MAX_SPEED;
-        } else if (sign < 0) {
-          if (target_belt_speed < -MAX_SPEED)
-            target_belt_speed = -MAX_SPEED;
-        } else {
-          target_belt_speed = 0.0;
-        }
-        printf("vbelt:%.1f[m/s]\n", target_belt_speed);
-
-        wb_motor_set_velocity(motor_belt, target_belt_speed);
-      }
+      default:
+        is_key_valid = 0;
+        sign = 0;
     }
-    previous_key = key;
+
+    if (is_key_valid) {
+      // Increase or decrease target speed, depending on the sign.
+      target_belt_speed += sign * SPEED_INCREMENT;
+      if (sign > 0) {
+        if (target_belt_speed > MAX_SPEED)
+          target_belt_speed = MAX_SPEED;
+      } else if (sign < 0) {
+        if (target_belt_speed < -MAX_SPEED)
+          target_belt_speed = -MAX_SPEED;
+      } else {
+        target_belt_speed = 0.0;
+      }
+      printf("vbelt:%.1f[m/s]\n", target_belt_speed);
+
+      wb_motor_set_velocity(motor_belt, target_belt_speed);
+    }
   }
 
   wb_robot_cleanup();
