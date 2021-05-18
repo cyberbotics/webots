@@ -6,7 +6,7 @@ Ned is a 6-axis collaborative robot developed by [Niryo](https://niryo.com/). It
 
 ### Movie Presentation
 
-![youtube video](https://www.youtube.com/watch?v=3MICRSWKXFw)
+![youtube video](https://www.youtube.com/watch?v=diBAJY1WJPQ)
 
 ### Ned PROTO
 
