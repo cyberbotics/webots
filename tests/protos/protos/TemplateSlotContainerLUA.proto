@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
-# template language: javascript
 
-PROTO TemplateSlotContainer [
+PROTO TemplateSlotContainerLUA [
   field SFVec3f translation 0 0 0
   field SFFloat rotationAngle 3.1415
   field MFNode children []

@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
-# template language: javascript
 
-PROTO TemplateRobotSlotContainer [
+PROTO TemplateRobotSlotContainerLUA [
   field SFVec3f translation 0 0 0
   field MFNode children []
   field SFString controller ""
@@ -10,7 +9,7 @@ PROTO TemplateRobotSlotContainer [
 ]
 {
   %{
-    const value = fields.isRegenerated.value;
+    local value = fields.isRegenerated.value
   }%
   Robot {
     translation IS translation

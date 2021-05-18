@@ -221,7 +221,7 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
       string.replace("\\\"", "\"");  // make sure that if a double
       // quote is already protected we don't 'break' this potection
       string.replace("\"", "\\\"");
-      return QString("\"%1\"").arg(string);
+      return QString("'%1'").arg(string);
     }
     case WB_SF_NODE: {
       WbNode *node = variant.toNode();
@@ -230,7 +230,7 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
         QString nodeString = "{";
 
         // node_name key
-        nodeString += QString("node_name: \"%1\"").arg(node->modelName());
+        nodeString += QString("node_name: '%1'").arg(node->modelName());
         nodeString += ", ";
 
         // fields key: fieldName = fieldValue
@@ -276,6 +276,7 @@ QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &stat
   statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
   statement = statement.replace(":", " =");
   statement = statement.replace("value: undefined", "value = nil");
+  statement = statement.replace("'", "\"");
   printf("statement is: %s\n\n", statement.toUtf8().constData());
 
   return statement;
