@@ -38,7 +38,6 @@ def _compareDevice(d1, d2):
             return 1
     return _cmp(d1['name'].lower(), d2['name'].lower())
 
-
 userGuidePath = os.path.join(os.getenv('WEBOTS_HOME'), 'docs', 'guide')
 
 supervisor = Supervisor()
@@ -100,6 +99,12 @@ with open(targetMetaFile) as f:
     background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace('textures/cubic/', '../background/')
     background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace('textures/cubic/', '../background/')
     background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['rightIrradianceUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['leftIrradianceUrl'] = background[0].attrib['leftUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['topIrradianceUrl'] = background[0].attrib['topUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['bottomIrradianceUrl'] = background[0].attrib['bottomUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['frontIrradianceUrl'] = background[0].attrib['frontUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['backIrradianceUrl'] = background[0].attrib['backUrl'].replace('textures/cubic/', '../background/')
     tree.write(targetX3DFile, pretty_print=True, xml_declaration=True, encoding="utf-8")
 
     supervisor.step(timeStep)

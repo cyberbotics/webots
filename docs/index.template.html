@@ -40,6 +40,21 @@
     %{ JS }%
 
     <script src="js/showdown-extensions.js"></script>
-    <script src="js/viewer.js"></script>
+    <script>
+      var Module = [];
+        Module['locateFile'] = function(path, prefix) {
+
+        // if it's a data file, use a custom dir
+        if (path.endsWith(".data"))
+          return "https://cyberbotics.com/wwi/R2021b/" + path;
+
+        // otherwise, use the default, the prefix (JS file's dir) + the path
+        return prefix + path;
+      };
+    </script>
+    <script src="https://cyberbotics.com/wwi/R2021b/enum.js"></script>
+    <script src="https://git.io/glm-js.min.js"></script>
+    <script src="https://cyberbotics.com/wwi/R2021b/wrenjs.js"></script>
+    <script type=module src="js/viewer.js"></script>
   </body>
 </html>

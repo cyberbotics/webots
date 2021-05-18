@@ -1,17 +1,17 @@
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
-/* global getGETQueryValue */
-/* global getGETQueriesMatchingRegularExpression */
 /* global setup */
 /* global showdown */
 /* global hljs */
 /* global THREE */
-/* global webots */
 /* exported resetRobotComponent */
 /* exported toggleDeviceComponent */
 /* exported highlightX3DElement */
 /* exported openTabFromEvent */
 
 'use strict';
+
+import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://cyberbotics.com/wwi/R2021b/request_methods.js';
+import {webots} from 'https://cyberbotics.com/wwi/R2021b/webots.js';
 
 var handle;
 
@@ -126,6 +126,7 @@ function computeTargetPath() {
   if (localSetup.url.startsWith('http'))
     targetPath = localSetup.url + branch + '/docs/';
   targetPath += localSetup.book + '/';
+  targetPath = 'http://localhost:8000/docs/' + localSetup.book + '/';
   return targetPath;
 }
 
