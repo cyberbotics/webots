@@ -18,22 +18,21 @@ int main(int argc, char **argv) {
   h = wb_altimeter_get_value(altimeter);
   ts_assert_double_equal(h, NAN, "The altitude measured by the Altimeter should be NAN and not %g before the device is enabled",
                          h);
-  
+
   wb_altimeter_enable(altimeter, TIME_STEP);
 
   h = wb_altimeter_get_value(altimeter);
 
-  ts_assert_double_equal(h, NAN, "The altitude measured by the Altimeter should be NAN and not %g before a wb_robot_step is performed",
-                         h);
+  ts_assert_double_equal(
+    h, NAN, "The altitude measured by the Altimeter should be NAN and not %g before a wb_robot_step is performed", h);
 
   for (j = 1; j <= 10; j++) {
     wb_robot_step(TIME_STEP);
     h = wb_altimeter_get_value(altimeter);
-    ts_assert_double_equal(h, e, "The altitude measured by the Altimeter should be %g and not %g after %d wb_robot_step(s)",
-                         e, h, j);
+    ts_assert_double_equal(h, e, "The altitude measured by the Altimeter should be %g and not %g after %d wb_robot_step(s)", e, 
+                           h, j);
   }
 
   ts_send_success();
   return EXIT_SUCCESS;
-
 }
