@@ -1,15 +1,14 @@
 #!/bin/bash -
 
+# WEBOTS_HOME has to be specified
+if [ -z "${WEBOTS_HOME}" ]; then
+    WEBOTS_HOME=$(pwd)
+fi
+
 VERSION=$(cat ${WEBOTS_HOME}/scripts/packaging/webots_version.txt)
 
 # Dynamic libraries to be copied
 DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
-
-# WEBOTS_HOME has to be specified
-if [ -z "${WEBOTS_HOME}" ]; then
-    echo 'The WEBOTS_HOME environment variable has to be defined'
-    exit 1
-fi
 
 # GitHub authorization if not running locally
 GITHUB_AUTH=''
