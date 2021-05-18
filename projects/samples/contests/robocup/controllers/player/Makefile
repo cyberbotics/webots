@@ -21,7 +21,7 @@ null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 LIBRARIES = -lprotobuf -ljpeg
-CXX_SOURCES = player.cpp messages.pb.cpp
+CXX_SOURCES = player.cpp messages.pb.cpp robot_client.cpp
 CFLAGS = -Wno-array-bounds
 FILES_TO_REMOVE = messages.pb.* client.exe client
 ifeq ($(OS),Windows_NT)
