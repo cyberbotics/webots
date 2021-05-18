@@ -229,6 +229,8 @@ PROTO Ned [
         device [
           RotationalMotor {
             name "joint_1"
+            minPosition -2.8
+            maxPosition 2.8
             maxTorque 10000
           }
           PositionSensor {
@@ -277,6 +279,8 @@ PROTO Ned [
               device [
                 RotationalMotor {
                   name "joint_2"
+                  minPosition -0.8
+                  maxPosition 0.8
                   maxTorque 10000
                 }
                 PositionSensor {
@@ -357,6 +361,8 @@ PROTO Ned [
                     device [
                       RotationalMotor {
                         name "joint_3"
+                        minPosition -1.5
+                        maxPosition 1.3
                         maxTorque 10000
                       }
                       PositionSensor {
@@ -417,6 +423,8 @@ PROTO Ned [
                           device [
                             RotationalMotor {
                               name "joint_4"
+                              minPosition -2.0
+                              maxPosition 2.0
                               maxTorque 10000
                             }
                             PositionSensor {
@@ -497,6 +505,8 @@ PROTO Ned [
                                 device [
                                   RotationalMotor {
                                     name "joint_5"
+                                    minPosition -1.5
+                                    maxPosition 1.5
                                     maxTorque 10000
                                   }
                                   PositionSensor {
@@ -547,6 +557,8 @@ PROTO Ned [
                                       device [
                                         RotationalMotor {
                                           name "joint_6"
+                                          minPosition -2.5
+                                          maxPosition 2.5
                                           maxTorque 10000
                                         }
                                         PositionSensor {
