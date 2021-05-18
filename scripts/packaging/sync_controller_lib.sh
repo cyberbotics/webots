@@ -19,7 +19,7 @@ fi
 
 # Get the repo
 rm -rf /tmp/webots-controller || true
-git clone --depth=1 https://${GITHUB_AUTH}@github.com/cyberbotics/webots-controller.git /tmp/webots-controller
+git clone --depth=1 https://${GITHUB_AUTH}github.com/cyberbotics/webots-controller.git /tmp/webots-controller
 cd /tmp/webots-controller
 git checkout -b ${VERSION}
 
