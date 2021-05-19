@@ -17,7 +17,8 @@
 """Create a web component scene foreach component of the components.json file."""
 
 import sys
-assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
+assert sys.version_info >= (
+    3, 5), 'Python 3.5 or later is required to run this script.'
 
 import json  # noqa
 import os  # noqa
@@ -59,13 +60,18 @@ with open(ROBOTS) as f:
 
         search_and_replace(WORLD, '%ROBOT_HEADER%',
                            'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
-        search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
+        search_and_replace(WORLD, '%ROBOT_FOOTER%',
+                           ']}' if 'insideRobot' in component else '')
         search_and_replace(WORLD, '%ROBOT%', component['proto'])
-        search_and_replace(WORLD, '%ROBOT_TRANSLATION%', component['translation'])
+        search_and_replace(WORLD, '%ROBOT_TRANSLATION%',
+                           component['translation'])
         search_and_replace(WORLD, '%ROBOT_ROTATION%', component['rotation'])
         search_and_replace(WORLD, '%ROBOT_NAME%', component['name'])
-        search_and_replace(WORLD, '%ROBOT_FIELDS%', component['fields'] if 'fields' in component else '')
-        search_and_replace(WORLD, '%VIEWPOINT_POSITION%', component['viewpoint']['position'])
-        search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%', component['viewpoint']['orientation'])
+        search_and_replace(WORLD, '%ROBOT_FIELDS%',
+                           component['fields'] if 'fields' in component else '')
+        search_and_replace(WORLD, '%VIEWPOINT_POSITION%',
+                           component['viewpoint']['position'])
+        search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%',
+                           component['viewpoint']['orientation'])
 
         run_webots()
