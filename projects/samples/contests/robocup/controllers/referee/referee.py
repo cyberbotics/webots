@@ -1675,7 +1675,7 @@ def check_penalty_goal_line():
     defending_team = get_penalty_defending_team()
     for number in defending_team['players']:
         player = defending_team['players'][number]
-        if player['asleep'] or already_penalized(player) or is_goalkeeper(defending_team, number):
+        if player['asleep'] or already_penalized(player) or not is_goalkeeper(defending_team, number):
             continue
         # If fully inside or fully outside, the robot is out of field
         if player['outside_field'] or player['inside_field'] or abs(player['position'][1]) > GOAL_WIDTH:
