@@ -28,7 +28,7 @@
 static void usage(const std::string &error_msg = "") {
   if (error_msg.length() > 0)
     fprintf(stderr, "Invalid call: %s\n", error_msg.c_str());
-  fprintf(stderr, "Usage: client [-v verbosity_level] <host> <port>\n");
+  fprintf(stderr, "Usage: client [-v verbosity_level --camera camera_name time_step] <host> <port>\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -36,6 +36,8 @@ int main(int argc, char *argv[]) {
 
   int port = -1;
   std::string host;
+  std::string camera;
+  int camera_time_step = -1;
   int arg_idx = 1;
   int verbosity = 3;
   while (arg_idx < argc) {
@@ -47,6 +49,12 @@ int main(int argc, char *argv[]) {
           usage("Missing value for verbosity");
         verbosity = std::stoi(argv[arg_idx + 1]);
         arg_idx++;
+      } else if (current_arg == "--camera") {
+        if (arg_idx + 2 >= argc)
+          usage("Missing parameters for camera");
+        camera = argv[arg_idx + 1];
+        camera_time_step = std::stoi(argv[arg_idx + 2]);
+        arg_idx += 2;
       } else if (current_arg == "-h" || current_arg == "--help")
         usage();
       else
@@ -72,6 +80,11 @@ int main(int argc, char *argv[]) {
       SensorTimeStep *sensor = request.add_sensor_time_steps();
       sensor->set_name("NeckS");
       sensor->set_timestep(8);
+      if (camera.length() > 0) {
+        SensorTimeStep *camera_sensor = request.add_sensor_time_steps();
+        camera_sensor->set_name(camera);
+        camera_sensor->set_timestep(camera_time_step);
+      }
       MotorPosition *motor = request.add_motor_positions();
       motor->set_name("Neck");
       motor->set_position(1.6);
