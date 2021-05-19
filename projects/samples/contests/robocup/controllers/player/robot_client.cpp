@@ -108,6 +108,8 @@ bool RobotClient::connectClient() {
   // Receiving the 'welcome message'
   char answer[8];
   receiveData(answer, 8);
+  if (verbosity >= 4)
+    printf("Welcome message: %s\n", answer);
   if (strncmp(answer, "Welcome", 8) != 0) {
     if (verbosity > 0) {
       if (strncmp(answer, "Refused", 8) == 0)
@@ -142,6 +144,8 @@ void RobotClient::sendRequest(const ActuatorRequests &actuator_request) {
   // See https://stackoverflow.com/questions/23280457/c-google-protocol-buffers-open-http-socket
   if (send(socket_fd, (char *)(&size), sizeof(uint32_t), 0) == -1) {
     std::string error_msg = "Failed to send message of size: " + std::to_string(size) + " errno: " + std::to_string(errno);
+    if (errno == ECONNRESET)
+      error_msg = "Simulator interrupted the connection";
     disconnectClient();
     throw std::runtime_error(error_msg);
   }
@@ -194,7 +198,9 @@ bool RobotClient::isOk() {
 }
 
 ActuatorRequests RobotClient::buildRequestMessage(const std::string &path) {
-  const char *message = read_file("actuator_requests.txt");
+  const char *message = read_file(path.c_str());
+  if (message == nullptr)
+    throw std::runtime_error("File '" + path + "' does not exist");
   ActuatorRequests actuator_request;
   google::protobuf::TextFormat::ParseFromString(message, &actuator_request);
   return actuator_request;
@@ -207,8 +213,11 @@ void RobotClient::receiveData(char *buffer, int bytes) {
   while (received < bytes) {
     int n = recv(socket_fd, buffer + received, bytes - received, 0);
     if (n == -1) {
+      std::string error_msg = "Failed to send message of size: " + std::to_string(bytes) + " errno: " + std::to_string(errno);
+      if (errno == ECONNRESET)
+        error_msg = "Simulator interrupted the connection";
       disconnectClient();
-      throw std::runtime_error("Failed to send message of size: " + std::to_string(bytes) + " errno: " + std::to_string(errno));
+      throw std::runtime_error(error_msg);
     }
     received += n;
   }

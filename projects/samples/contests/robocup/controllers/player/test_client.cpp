@@ -68,7 +68,13 @@ int main(int argc, char *argv[]) {
   client.connectClient();
   while (client.isOk()) {
     try {
-      ActuatorRequests request = RobotClient::buildRequestMessage("actuator_requests.txt");
+      ActuatorRequests request;
+      SensorTimeStep *sensor = request.add_sensor_time_steps();
+      sensor->set_name("NeckS");
+      sensor->set_timestep(8);
+      MotorPosition *motor = request.add_motor_positions();
+      motor->set_name("Neck");
+      motor->set_position(1.6);
       client.sendRequest(request);
       SensorMeasurements sensors = client.receive();
       std::string printout;
