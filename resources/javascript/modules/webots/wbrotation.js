@@ -116,6 +116,7 @@ function normalizeAxis(r) {
 export function normalize(r) {
   normalizeAxis(r);
   normalizeAngle(r);
+
   return r;
 };
 
@@ -129,6 +130,7 @@ export function combine(rA, rB) {
     y: qA.w * qB.y - qA.x * qB.z + qA.y * qB.w + qA.z * qB.x,
     z: qA.w * qB.z + qA.x * qB.y - qA.y * qB.x + qA.z * qB.w
   };
+
   return fromQuaternion(q);
 };
 

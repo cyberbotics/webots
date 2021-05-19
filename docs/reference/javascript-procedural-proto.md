@@ -95,66 +95,512 @@ To use these functions, the module needs to be included first:
 
 %end
 
-The available modules, and the corresponding functions they export are the following.
+The available modules are the following.
 
-##### `wbrotation`
+- `wbrandom`: Random number generation
 
-This module provides utility functions for dealing with rotations.
+- `wbrotation`: This module provides utility functions for dealing with rotations.
 Notation assumptions are made both for input and return parameters
 
-%tab-component "language"
+- `wbvector2`:
 
-%tab "JavaScript"
-```
-import * as wbrotation from 'modules/webots/wbrotation.js';
+- `wbvector3`:
 
-boolean = wbrotation.equal(rA{x, y, z, a}, rB{x, y, z, a});
-object{x, y, z, a} = wbrotation.fromQuaternion(q{w, x, y, z});
-object{w, x, y, z} = wbrotation.toQuaternion(r{x, y, z, a});
-object{x, y, z, a} = wbrotation.fromMatrix3(m{0, 1, ..., 8});
-object{0, 1, ..., 8} = wbrotation.toMatrix3(r{x, y, z, a});
-boolean = wbrotation.isValidAxis(v{x, y, z});
-boolean = wbrotation.isIdentity(r{x, y, z, a});
-object{x, y, z, a} = wbrotation.normalize(r{x, y, z, a});
-object{w, x, y, z} = wbrotation.combine(rA{x, y, z, a}, rB{x, y, z, a});
-object{x, y, z} = wbrotation.rotateVector3ByMatrix3(m{0, 1, ..., 8}, v{x, y, z});
-object{x, y, z} = wbrotation.rotateVector3ByRotation(r{x, y, z, a}, v{x, y, z});
-object{x, y, z} = wbrotation.rotateVector3ByQuaternion(q{w, x, y, z}, v{x, y, z});
+- `wbmath`:
+
+- `wbgeometry`:
+
+The functions exported by each module are:
+
+%tab-component "module"
+
+%tab "wbrandom"
 ```
+/**
+ * @param {number} s
+ */
+wbrandom.seed(s);
+```
+
+TODO
+
+```
+/**
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+wbrandom.real(min, max);
+```
+
+TODO
+
+```
+/**
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+wbrandom.integer(min, max);
+```
+
+TODO
+
 %tab-end
+
+%tab "wbrotation"
+```
+/**
+ * @param {Object.<x: number, y: number, z: number, a: number>} rA
+ * @param {Object.<x: number, y: number, z: number, a: number>} rB
+ * @returns {boolean}
+ */
+wbrotation.equal(rA, rB);
+```
+
+Tests whether two rotation vectors (in axis-angle format) are equal.
+
+```
+/**
+ * @param {Object.<w: number, x: number, y: number, z: number>} q
+ * @returns {Object.<x: number, y: number, z: number, a: number>}
+ */
+wbrotation.fromQuaternion(q);
+```
+
+Converts a rotation provided as quaternion to an axis-angle representation.
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number, a: number>} r
+ * @returns {Object.<w: number, x: number, y: number, z: number>}
+ */
+wbrotation.toQuaternion(r);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<0: number, 1: number, ..., 8: number>} m
+ * @returns {Object.<x: number, y: number, z: number, a: number>}
+ */
+wbrotation.fromMatrix3(m);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number, a: number>} r
+ * @returns {Object.<0: number, 1: number, ..., 8: number>}
+ */
+wbrotation.toMatrix3(r);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} r
+ * @returns {boolean}
+ */
+wbrotation.isValidAxis(v);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number, a: number>} r
+ * @returns {boolean}
+ */
+wbrotation.isIdentity(r);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number, a: number>} r
+ * @returns {Object.<x: number, y: number, z: number, a: number>}
+ */
+wbrotation.normalize(r);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number, a: number>} rA
+ * @param {Object.<x: number, y: number, z: number, a: number>} rB
+ * @returns {Object.<w: number, x: number, y: number, z: number>}
+ */
+wbrotation.combine(rA, rB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<0: number, 1: number, ..., 8: number>} m
+ * @param {Object.<x: number, y: number, z: number>} v
+ * @returns {Object.<x: number, y: number, z: number>}
+ */
+wbrotation.rotateVector3ByMatrix3(m, v);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number, a: number>} r
+ * @param {Object.<x: number, y: number, z: number>} v
+ * @returns {Object.<x: number, y: number, z: number>}
+ */
+wbrotation.rotateVector3ByRotation(r, v);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<w: number, x: number, y: number, z: number>} q
+ * @param {Object.<x: number, y: number, z: number>} v
+ * @returns {Object.<x: number, y: number, z: number>}
+ */
+wbrotation.rotateVector3ByQuaternion(q, v);
+```
+
+TODO
+
+%tab-end
+
+%tab "wbvector2"
+```
+/**
+ * @param {Object.<x: number, y: number>} vA
+ * @param {Object.<x: number, y: number>} vB
+ * @returns {boolean}
+ */
+wbvector2.equal(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} vA
+ * @param {Object.<x: number, y: number>} vB
+ * @returns {Object.<x: number, y: number>}
+ */
+wbvector2.add(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} vA
+ * @param {Object.<x: number, y: number>} vB
+ * @returns {Object.<x: number, y: number>}
+ */
+wbvector2.minus(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} v
+ * @param {number} s
+ * @returns {Object.<x: number, y: number>}
+ */
+wbvector2.multiply(v, s);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} v
+ * @returns {number}
+ */
+wbvector2.norm(v);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} v
+ * @returns {number}
+ */
+wbvector2.atan2(v);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} vA
+ * @param {Object.<x: number, y: number>} vB
+ * @returns {number}
+ */
+wbvector2.distance(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} vA
+ * @param {Object.<x: number, y: number>} vB
+ * @returns {number}
+ */
+wbvector2.angle(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} vA
+ * @param {Object.<x: number, y: number>} vB
+ * @returns {number}
+ */
+wbvector2.cross(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} vA
+ * @param {Object.<x: number, y: number>} vB
+ * @returns {number}
+ */
+wbvector2.dot(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} v
+ * @returns {Object.<x: number, y: number>}
+ */
+wbvector2.normalize(v);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number>} p1
+ * @param {Object.<x: number, y: number>} p2
+ * @param {Object.<x: number, y: number>} p3
+ * @param {Object.<x: number, y: number>} p4
+ * @returns {Object.<x: number, y: number>}
+ */
+wbvector2.intersection(p1, p2, p3, p4);
+```
+
+TODO
+
+%tab-end
+
+%tab "wbvector3"
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} vA
+ * @param {Object.<x: number, y: number, z: number>} vB
+ * @returns {boolean}
+ */
+wbvector3.equal(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} vA
+ * @param {Object.<x: number, y: number, z: number>} vB
+ * @returns {Object.<x: number, y: number, z: number>}
+ */
+wbvector3.add(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} vA
+ * @param {Object.<x: number, y: number, z: number>} vB
+ * @returns {Object.<x: number, y: number, z: number>}
+ */
+wbvector3.minus(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} v
+ * @param {number} s
+ * @returns {Object.<x: number, y: number, z: number>}
+ */
+wbvector3.multiply(v, s);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} v
+ * @returns {number}
+ */
+wbvector3.norm(v);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} vA
+ * @param {Object.<x: number, y: number, z: number>} vB
+ * @returns {number}
+ */
+wbvector3.distance(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} vA
+ * @param {Object.<x: number, y: number, z: number>} vB
+ * @returns {Object.<x: number, y: number, z: number>}
+ */
+wbvector3.cross(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} vA
+ * @param {Object.<x: number, y: number, z: number>} vB
+ * @returns {number}
+ */
+wbvector3.dot(vA, vB);
+```
+
+TODO
+
+```
+/**
+ * @param {Object.<x: number, y: number, z: number>} v
+ * @returns {Object.<x: number, y: number, z: number>}
+ */
+wbvector3.normalize(v);
+```
+
+TODO
+
+%tab-end
+
+%tab "wbmath"
+```
+/**
+ * @param {number} angle
+ * @returns {number}
+ */
+wbmath.degreesToRadians(angle);
+```
+
+TODO
+
+```
+/**
+ * @param {number} angle
+ * @returns {number}
+ */
+wbmath.radiansToDegrees(angle);
+```
+
+TODO
+
+%tab-end
+
+%tab "wbgeometry"
+```
+/**
+ * @param {number} radius
+ * @param {number} div
+ * @param {number} cx
+ * @param {number} cy
+ * @param {number} shift
+ * @returns TODO
+ */
+wbgeometry.circle(radius, div, cx, cy, shift);
+```
+
+TODO
+
+```
+/**
+ * @param TODO
+ * @returns TODO
+ */
+wbgeometry.isPointInPolygon(TODO);
+```
+
+TODO
+
+```
+/**
+ * @param TODO
+ * @returns TODO
+ */
+wbgeometry.findClosest2DPointInArray(TODO);
+```
+
+TODO
+
+```
+/**
+ * @param TODO
+ * @returns TODO
+ */
+wbgeometry.isListClockwise2D(TODO);
+```
+
+TODO
+
+```
+/**
+ * @param TODO
+ * @returns TODO
+ */
+wbgeometry.bSpline2D(TODO);
+```
+
+TODO
+
+```
+/**
+ * @param TODO
+ * @returns TODO
+ */
+wbgeometry.bspline3D(TODO);
+```
+
+TODO
+
+%tab-end
+
 %end
-
-##### Description
-
-- `equal(rA, rB)`: tests whether two rotation vectors (in axis-angle format) are equal.
-
-- `object fromQuaternion(q)`: converts a rotation provided as quaternion to an axis-angle representation.
-
-- `object toQuaternion(r)`:
-
-- `fromMatrix3(m)`:
-
-- `toMatrix3(r)`:
-
-- `isValidAxis(v)`:
-
-- `isIdentity(r)`:
-
-- `normalizeAngle(r)`:
-
-- `normalizeAxis(r)`:
-
-- `normalize(r)`:
-
-- `combine(rA, rB)`:
-
-- `rotateVector3ByMatrix3(m, v)`:
-
-- `rotateVector3ByRotation(r, v)`:
-
-- `rotateVector3ByQuaternion(q, v)`:
-
----
 
 ### Texture Generation
 
