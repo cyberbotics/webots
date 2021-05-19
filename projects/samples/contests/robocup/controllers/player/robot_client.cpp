@@ -2,6 +2,7 @@
 
 #ifdef _WIN32
 #include <winsock.h>
+#define sleep(x) Sleep(x)
 #else
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -152,7 +153,7 @@ void RobotClient::sendRequest(const ActuatorRequests &actuator_request) {
   uint32_t *content_size = (uint32_t *)output;
   *content_size = size;
   uint32_t total_size = sizeof(uint32_t) + *content_size;
-  actuator_request.SerializeToArray(&output[sizeof(uint32_t)], content_size);
+  actuator_request.SerializeToArray(&output[sizeof(uint32_t)], *content_size);
   if (send(socket_fd, output, total_size, 0) == -1) {
     std::string error_msg =
       "Failed to send message of size: " + std::to_string(total_size) + " errno: " + std::to_string(errno);
