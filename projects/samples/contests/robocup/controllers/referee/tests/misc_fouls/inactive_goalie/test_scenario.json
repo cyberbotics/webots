@@ -461,7 +461,7 @@
     {
         "description" : "Part F. after moving away",
         "timing" : {
-            "time" : 330,
+            "time" : 332,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
