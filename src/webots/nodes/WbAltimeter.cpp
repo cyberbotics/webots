@@ -82,7 +82,7 @@ bool WbAltimeter::refreshSensorIfNeeded() {
   else
     mMeasuredAltitude = reference[upIndex];
 
-  mMeasuredAltitude += t[upIndex]; //get exact altitude
+  mMeasuredAltitude += t[upIndex];  // get exact altitude
   // add noise if necessary
   if (accuracy != 0.0)
     mMeasuredAltitude += accuracy * WbRandom::nextGaussian();

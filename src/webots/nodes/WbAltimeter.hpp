@@ -34,7 +34,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_ALTIMETER; }
-  enum CoordinateSystem { Local = 0, WGS84 };  //Might only need geoid to be defined
+  enum CoordinateSystem { Local = 0, WGS84 };  // Might only need geoid to be defined
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
