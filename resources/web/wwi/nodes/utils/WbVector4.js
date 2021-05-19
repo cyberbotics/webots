@@ -9,4 +9,8 @@ export default class WbVector4 {
   div(number) {
     return new WbVector4(this.x / number, this.y / number, this.z / number, this.w / number);
   }
+
+  clone() {
+    return new WbVector4(this.x, this.y, this.z, this.w);
+  }
 }

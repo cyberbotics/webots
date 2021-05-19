@@ -9,11 +9,11 @@
 'use strict';
 
 import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://cyberbotics.com/wwi/R2021b/request_methods_module.js';
-import {webots} from 'https://cyberbotics.com/wwi/R2021b/webots.js';
+import {webots} from './webots.js';
 
-import WbVector3 from 'https://cyberbotics.com/wwi/R2021b/nodes/utils/WbVector3.js';
-import WbWorld from 'https://cyberbotics.com/wwi/R2021b/nodes/WbWorld.js';
-
+import WbVector3 from './nodes/utils/WbVector3.js';
+import WbWorld from './nodes/WbWorld.js';
+import {quaternionToVec4, vec4ToQuaternion} from './nodes/utils/utils.js';
 var handle;
 var webotsView;
 
@@ -771,8 +771,8 @@ function sliderMotorCallback(transform, slider) {
   if (typeof transform === 'undefined')
     return;
 
-  if (typeof transform.firstRotation === 'undefined' && typeof transform.quaternion !== 'undefined')
-    transform.firstRotation = transform.quaternion.clone();
+  if (typeof transform.firstRotation === 'undefined' && typeof transform.rotation !== 'undefined')
+    transform.firstRotation = transform.rotation.clone();
 
   if (typeof transform.firstPosition === 'undefined' && typeof transform.translation !== 'undefined')
     transform.firstPosition = transform.translation.clone();
@@ -803,25 +803,52 @@ function sliderMotorCallback(transform, slider) {
 
     // Compute angle.
     var angle = value - position;
-console.log(angle)
-console.log(axis)
+    console.log(position)
+    console.log(value)
+
     // Apply the new axis-angle.
     var q = glm.angleAxis(angle, axis);
 
     if (typeof transform.firstRotation !== 'undefined')
-      q.multiply(transform.firstRotation);
+      q.mul(vec4ToQuaternion(transform.firstRotation));
 
     if (typeof transform.firstPosition !== 'undefined')
-      transform.translation.copy(transform.firstPosition);
+      transform.translation = transform.firstPosition.clone();
 
-    transform.translation.sub(anchor); // remove the offset
-    transform.translation.applyAxisAngle(axis, angle); // rotate the POSITION
-    transform.translation.add(anchor); // re-add the offset
+    transform.translation = transform.translation.sub(anchor); // remove the offset
 
-    transform.quaternion.copy(q);
-    transform.updateMatrix();
+    let quat = glm.angleAxis(angle, axis); // rotate the POSITION
+
+    transform.translation = applyQuaternion(transform.translation, quat)
+    transform.translation = transform.translation.add(anchor); // re-add the offset
+
+    transform.rotation = quaternionToVec4(q);
+    transform.applyTranslationToWren();
+    transform.applyRotationToWren();
   }
 }
+
+function applyQuaternion(glmTranslation, q ) {
+
+		const x = glmTranslation.x, y = glmTranslation.y, z = glmTranslation.z;
+		const qx = q.x, qy = q.y, qz = q.z, qw = q.w;
+
+		// calculate quat * vector
+
+		const ix = qw * x + qy * z - qz * y;
+		const iy = qw * y + qz * x - qx * z;
+		const iz = qw * z + qx * y - qy * x;
+		const iw = - qx * x - qy * y - qz * z;
+
+		// calculate result * inverse quat
+
+		glmTranslation.x = ix * qw + iw * - qx + iy * - qz - iz * - qy;
+		glmTranslation.y = iy * qw + iw * - qy + iz * - qx - ix * - qz;
+		glmTranslation.z = iz * qw + iw * - qz + ix * - qy - iy * - qx;
+
+		return glmTranslation;
+
+	}
 
 function unhighlightX3DElement(robot) {
   var robotComponent = getRobotComponentByRobotName(robot);
