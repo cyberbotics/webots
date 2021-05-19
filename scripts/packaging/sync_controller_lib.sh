@@ -22,7 +22,11 @@ if [ ! -z "${GITHUB_ACTOR}" ]; then
     git config --global user.name ${GITHUB_ACTOR}
     git config --global user.email ${GITHUB_ACTOR}@github.com
 fi
-git clone --depth=1 https://github.com/cyberbotics/webots-controller.git /tmp/webots-controller
+git clone --depth=1 https://${GITHUB_AUTH}github.com/cyberbotics/webots-controller.git /tmp/webots-controller
+if [ -d /tmp/webots-controller ]; then
+    echo 'The repository is not properly cloned'
+    exit 1
+fi
 cd /tmp/webots-controller
 git checkout -b ${VERSION}
 
