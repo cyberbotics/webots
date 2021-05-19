@@ -80,4 +80,8 @@ export default class WbVector3 {
   sub(vector) {
     return new WbVector3(this.x - vector.x, this.y - vector.y, this.z - vector.z);
   }
+
+  clone() {
+    return new WbVector3(this.x, this.y, this.z);
+  }
 }

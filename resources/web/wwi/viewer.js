@@ -2,16 +2,17 @@
 /* global setup */
 /* global showdown */
 /* global hljs */
-/* global THREE */
 /* exported resetRobotComponent */
 /* exported toggleDeviceComponent */
-/* exported highlightX3DElement */
 /* exported openTabFromEvent */
 
 'use strict';
 
 import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://cyberbotics.com/wwi/R2021b/request_methods_module.js';
 import {webots} from 'https://cyberbotics.com/wwi/R2021b/webots.js';
+
+import WbVector3 from 'https://cyberbotics.com/wwi/R2021b/nodes/utils/WbVector3.js';
+import WbWorld from 'https://cyberbotics.com/wwi/R2021b/nodes/WbWorld.js';
 
 var handle;
 var webotsView;
@@ -127,7 +128,6 @@ function computeTargetPath() {
   if (localSetup.url.startsWith('http'))
     targetPath = localSetup.url + branch + '/docs/';
   targetPath += localSetup.book + '/';
-  targetPath = 'http://localhost:8000/docs/' + localSetup.book + '/';
   return targetPath;
 }
 
@@ -774,52 +774,49 @@ function sliderMotorCallback(transform, slider) {
   if (typeof transform.firstRotation === 'undefined' && typeof transform.quaternion !== 'undefined')
     transform.firstRotation = transform.quaternion.clone();
 
-  if (typeof transform.firstPosition === 'undefined' && typeof transform.position !== 'undefined')
-    transform.firstPosition = transform.position.clone();
+  if (typeof transform.firstPosition === 'undefined' && typeof transform.translation !== 'undefined')
+    transform.firstPosition = transform.translation.clone();
 
   var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
-  axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
+  axis = glm.vec3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
 
   var value = parseFloat(slider.value);
   var position = parseFloat(slider.getAttribute('webots-position'));
 
   if (slider.getAttribute('webots-type') === 'LinearMotor') {
     // Compute translation
-    var translation = new THREE.Vector3();
-    if ('initialTranslation' in transform.userData)
-      translation = transform.userData.initialTranslation.clone();
+    let translation = new WbVector3();
+    if (typeof transform.initialTranslation !== 'undefined')
+      translation = transform.initialTranslation.clone();
     else {
-      translation = transform.position;
-      transform.userData.initialTranslation = translation.clone();
+      translation = transform.translation;
+      transform.initialTranslation = translation.clone();
     }
-    translation = translation.add(axis.multiplyScalar(value - position));
+    translation = translation.add(axis.mul(value - position));
     // Apply the new position.
-    transform.position.copy(translation);
-    transform.updateMatrix();
+    transform.translation = translation;
+    transform.applyTranslationToWren();
   } else {
     // extract anchor
     var anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
-    anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+    anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
 
     // Compute angle.
     var angle = value - position;
-
+console.log(angle)
+console.log(axis)
     // Apply the new axis-angle.
-    var q = new THREE.Quaternion();
-    q.setFromAxisAngle(
-      axis,
-      angle
-    );
+    var q = glm.angleAxis(angle, axis);
 
     if (typeof transform.firstRotation !== 'undefined')
       q.multiply(transform.firstRotation);
 
     if (typeof transform.firstPosition !== 'undefined')
-      transform.position.copy(transform.firstPosition);
+      transform.translation.copy(transform.firstPosition);
 
-    transform.position.sub(anchor); // remove the offset
-    transform.position.applyAxisAngle(axis, angle); // rotate the POSITION
-    transform.position.add(anchor); // re-add the offset
+    transform.translation.sub(anchor); // remove the offset
+    transform.translation.applyAxisAngle(axis, angle); // rotate the POSITION
+    transform.translation.add(anchor); // re-add the offset
 
     transform.quaternion.copy(q);
     transform.updateMatrix();
@@ -830,16 +827,6 @@ function unhighlightX3DElement(robot) {
   var robotComponent = getRobotComponentByRobotName(robot);
   var scene = robotComponent.webotsView.x3dScene;
 
-  if (robotComponent.billboardOrigin) {
-    robotComponent.billboardOrigin.parent.remove(robotComponent.billboardOrigin);
-    robotComponent.billboardOrigin = undefined;
-  }
-
-  for (var h = 0; h < robotComponent.highlightedAppearances.length; h++) {
-    var appearance = robotComponent.highlightedAppearances[h];
-    appearance.emissive.set(appearance.userData.initialEmissive);
-  }
-  robotComponent.highlightedAppearances = [];
   scene.render();
 }
 
@@ -849,66 +836,26 @@ function highlightX3DElement(robot, deviceElement) {
   var robotComponent = getRobotComponentByRobotName(robot);
   var scene = robotComponent.webotsView.x3dScene;
   var id = deviceElement.getAttribute('webots-transform-id');
-  var type = deviceElement.getAttribute('webots-type');
-  var object = scene.getObjectById(id, true);
-
+  if (typeof WbWorld.instance === 'undefined')
+    return;
+  var object = WbWorld.instance.nodes.get(id);
   if (object) {
-    // Show billboard origin.
-    var originBillboard = robotComponent.billboardOriginMesh.clone();
     if (deviceElement.hasAttribute('device-anchor')) {
       var anchor = deviceElement.getAttribute('device-anchor').split(/[\s,]+/);
-      anchor = new THREE.Vector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
-      originBillboard.position.add(anchor);
-      object.parent.add(originBillboard);
+      anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
+      //originBillboard.position.add(anchor);
+      //object.parent.add(originBillboard);
     } else {
       if (deviceElement.hasAttribute('webots-transform-offset')) {
         var offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
-        offset = new THREE.Vector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
-        originBillboard.position.add(offset);
+        offset = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
+        //originBillboard.position.add(offset);
       }
-      object.add(originBillboard);
-    }
-    robotComponent.billboardOrigin = originBillboard;
-
-    if (type === 'LED') {
-      var pbrIDs = deviceElement.getAttribute('ledPBRAppearanceIDs').split(' ');
-      for (var p = 0; p < pbrIDs.length; p++) {
-        var pbrID = pbrIDs[p];
-        if (pbrID) {
-          var ledColor = deviceElement.getAttribute('targetColor').split(' ');
-          ledColor = new THREE.Color(ledColor[0], ledColor[1], ledColor[2]);
-          object.traverse(function(child) {
-            if (child.material && child.material.name === pbrID) {
-              if (!child.material.userData.initialEmissive)
-                child.material.userData.initialEmissive = child.material.emissive.clone();
-              child.material.emissive.set(ledColor);
-              robotComponent.highlightedAppearances.push(child.material);
-            }
-          });
-        }
-      }
+      //object.add(originBillboard);
     }
 
     scene.render();
   }
-}
-
-function setBillboardSize(robotComponent, scene) {
-  // Estimate roughly the robot scale based on the AABB.
-  var robotID = robotComponent.getAttribute('robot-node-id');
-  if (typeof robotID === 'undefined')
-    return;
-  var robot;
-  scene.traverse(function(object) {
-    if (object.isObject3D && object.name === robotID)
-      robot = object;
-  });
-  if (typeof robot === 'undefined')
-    return;
-  var aabb = new THREE.Box3().setFromObject(robot);
-  var max = Math.max(aabb.max.x - aabb.min.x, Math.max(aabb.max.y - aabb.min.y, aabb.max.z - aabb.min.z));
-  var size = Math.max(0.01, max) / 30.0;
-  robotComponent.billboardOriginMesh.geometry = new THREE.PlaneGeometry(size, size);
 }
 
 function getRobotComponentByRobotName(robotName) {
@@ -929,36 +876,6 @@ function createRobotComponent(view) {
       webotsView.view3D = webotsViewElement;
     }
     robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
-    webotsView.onready = function() { // When Webots View has been successfully loaded.
-      var camera = webotsView.x3dScene.getCamera();
-
-      // Make sure the billboard remains well oriented.
-      webotsView.x3dScene.preRender = function() {
-        if (robotComponent.billboardOrigin)
-          robotComponent.billboardOrigin.lookAt(camera.position);
-      };
-      robotComponent.highlightedAppearances = [];
-
-      // Store viewpoint.
-      camera.userData.initialQuaternion = camera.quaternion.clone();
-      camera.userData.initialPosition = camera.position.clone();
-
-      // Create the origin billboard mesh.
-      var loader = new THREE.TextureLoader();
-      var planeGeometry = new THREE.PlaneGeometry(0.05, 0.05);
-      var planeMaterial = new THREE.MeshBasicMaterial({
-        depthTest: false,
-        transparent: true,
-        opacity: 0.5,
-        map: loader.load(
-          computeTargetPath() + '../css/images/center.png'
-        )
-      });
-      robotComponent.billboardOriginMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-      robotComponent.billboardOriginMesh.renderOrder = 1;
-
-      setBillboardSize(robotComponent, webotsView.x3dScene.scene);
-    };
 
     // Load the robot X3D file.
     webotsView.open(
@@ -978,7 +895,6 @@ function createRobotComponent(view) {
         var data = JSON.parse(content);
         var categories = {};
         robotComponent.setAttribute('robot-node-id', data['robotID']);
-        setBillboardSize(robotComponent, webotsView.x3dScene.scene);
         if (data['devices'].length === 0)
           toggleDeviceComponent(robotName);
         for (var d = 0; d < data['devices'].length; d++) {
@@ -999,9 +915,9 @@ function createRobotComponent(view) {
           }
 
           // Create the new device.
-          var deviceDiv = document.createElement('div');
+          let deviceDiv = document.createElement('div');
           deviceDiv.classList.add('device');
-          deviceDiv.setAttribute('onmouseover', 'highlightX3DElement("' + robotName + '", this)');
+          deviceDiv.addEventListener('mouseover', () => highlightX3DElement(robotName, deviceDiv));
           deviceDiv.setAttribute('webots-type', deviceType);
           deviceDiv.setAttribute('webots-transform-id', device['transformID']);
           if ('transformOffset' in device) // The Device Transform has not been exported. The device is defined relatively to it's Transform parent.
@@ -1036,9 +952,11 @@ function createRobotComponent(view) {
             slider.setAttribute('webots-axis', device['axis']);
             slider.setAttribute('webots-anchor', device['anchor']);
             slider.setAttribute('webots-type', deviceType);
-            slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
-              var id = e.target.getAttribute('webots-transform-id');
-              sliderMotorCallback(webotsView.x3dScene.getObjectById(id, true), e.target);
+            slider.addEventListener(isInternetExplorer() ? 'change' : 'input', _ => {
+              if (typeof WbWorld.instance === 'undefined')
+                return;
+              let id = _.target.getAttribute('webots-transform-id');
+              sliderMotorCallback(WbWorld.instance.nodes.get(id), _.target);
               webotsView.x3dScene.render();
             });
 
