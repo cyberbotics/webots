@@ -28,7 +28,8 @@ def _cmp(a, b):
 
 
 def _compareDevice(d1, d2):
-    priortyDeviceTypes = ['RotationalMotor', 'LinearMotor', 'LED']  # Device types appearing first.
+    # Device types appearing first.
+    priortyDeviceTypes = ['RotationalMotor', 'LinearMotor', 'LED']
     for priortyDeviceType in priortyDeviceTypes:
         if d1['type'] == priortyDeviceType and d2['type'] == priortyDeviceType:
             return _cmp(d1['name'].lower(), d2['name'].lower())
@@ -37,6 +38,7 @@ def _compareDevice(d1, d2):
         elif d2['type'] == priortyDeviceType:
             return 1
     return _cmp(d1['name'].lower(), d2['name'].lower())
+
 
 userGuidePath = os.path.join(os.getenv('WEBOTS_HOME'), 'docs', 'guide')
 
@@ -83,7 +85,8 @@ with open(targetMetaFile) as f:
             break
     assert robotData, 'Failed to simplified the JSON supervisor.'
     # - sort the device list per interesting category type.
-    robotData['devices'] = sorted(robotData['devices'], key=cmp_to_key(_compareDevice))
+    robotData['devices'] = sorted(
+        robotData['devices'], key=cmp_to_key(_compareDevice))
     # - rewrite the json file.
     with open(targetMetaFile, 'w') as f:
         json.dump(robotData, f, indent=2)
@@ -93,19 +96,32 @@ with open(targetMetaFile) as f:
     tree = etree.parse(targetX3DFile)
     # Global texture paths.
     background = tree.xpath('//Background')
-    background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['rightIrradianceUrl'] = background[0].attrib['rightIrradianceUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['leftIrradianceUrl'] = background[0].attrib['leftIrradianceUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['topIrradianceUrl'] = background[0].attrib['topIrradianceUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['bottomIrradianceUrl'] = background[0].attrib['bottomIrradianceUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['frontIrradianceUrl'] = background[0].attrib['frontIrradianceUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['backIrradianceUrl'] = background[0].attrib['backIrradianceUrl'].replace('textures/cubic/', '../background/')
-    tree.write(targetX3DFile, pretty_print=True, xml_declaration=True, encoding="utf-8")
+    background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['rightIrradianceUrl'] = background[0].attrib['rightIrradianceUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['leftIrradianceUrl'] = background[0].attrib['leftIrradianceUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['topIrradianceUrl'] = background[0].attrib['topIrradianceUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['bottomIrradianceUrl'] = background[0].attrib['bottomIrradianceUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['frontIrradianceUrl'] = background[0].attrib['frontIrradianceUrl'].replace(
+        'textures/cubic/', '../background/')
+    background[0].attrib['backIrradianceUrl'] = background[0].attrib['backIrradianceUrl'].replace(
+        'textures/cubic/', '../background/')
+    tree.write(targetX3DFile, pretty_print=True,
+               xml_declaration=True, encoding="utf-8")
 
     supervisor.step(timeStep)
 
