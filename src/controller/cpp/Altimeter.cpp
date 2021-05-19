@@ -36,4 +36,3 @@ int Altimeter::getSamplingPeriod() const {
 double Altimeter::getValue() const {
   return wb_altimeter_get_value(getTag());
 }
-
