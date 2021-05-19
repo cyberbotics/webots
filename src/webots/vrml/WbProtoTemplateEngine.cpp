@@ -87,28 +87,14 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     QString("webots_version: { major: \"%1\", revision: \"%2\" }").arg(version.toString(false)).arg(version.revisionNumber());
 
   if (templateLanguage == "lua") {
-    printf("fields was:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
+    printf("\nfields was:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
     tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
-    printf("fields is:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
-    printf("context was:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
+    printf("\nfields is:\n---------------\n%s\n--------------\n\n", tags["fields"].toUtf8().constData());
+    printf("\ncontext was:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
     tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
-    printf("context is:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
-  }
-  /*
-  // TMP SOLUTION, TO DO PROPERLY
-  if (language() == "javascript") {
-    tags["context"] = tags["context"].replace(" =", ":");
-    tags["fields"] = tags["fields"].replace(" =", ":");
-
-    tags["fields"] = tags["fields"].insert(0, "var fields = {");
-    tags["fields"] += "}";
-
-    tags["context"] = tags["context"].insert(0, "var context = {");
-    tags["context"] += "}";
+    printf("context is:\n---------------\n%s\n--------------\n\n", tags["context"].toUtf8().constData());
   }
 
-  printf("Scipting Language: %s\n", language().toUtf8().constData());
-  */
   return WbTemplateEngine::generate(tags, logHeaderName, templateLanguage);
 }
 
@@ -121,7 +107,6 @@ const QString &WbProtoTemplateEngine::coordinateSystem() {
 }
 
 QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbField *field) {
-  printf("doing field %s\n", field->name().toUtf8().constData());
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->value());
     assert(singleValue);
@@ -130,10 +115,8 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
   } else if (field->isMultiple()) {
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->value());
     assert(multipleValue);
-    printf(">> is multi\n");
-    // multiple values into a javascript array
+    // multiple values into a JavaScript object with integer keys
     QString result = "";
-    // if (multipleValue->size() > 0) {
     result += "{";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
@@ -143,9 +126,7 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
       result += convertVariantToJavaScriptStatement(variant);
     }
     result += "}";
-    //} else
-    //  result += "undefined";
-    printf(">> done: %s\n", result.toUtf8().constData());
+
     return result;
   }
 
@@ -154,7 +135,6 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
 }
 
 QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(const WbField *field) {
-  printf("doing field %s\n", field->name().toUtf8().constData());
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->defaultValue());
     assert(singleValue);
@@ -165,10 +145,8 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(con
   else if (field->isMultiple()) {
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->defaultValue());
     assert(multipleValue);
-    printf(">> is multi\n");
-    // multiple values into a javascript array
+    // multiple values into a JavaScript object with integer keys
     QString result = "";
-    // if (multipleValue->size() > 0) {
     result += "{";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
@@ -178,10 +156,6 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(con
       result += convertVariantToJavaScriptStatement(variant);
     }
     result += "}";
-    //} else
-    //  result += "undefined";
-
-    printf(">> done: %s\n", result.toUtf8().constData());
 
     return result;
   }
@@ -261,23 +235,15 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
 }
 
 QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
-  // note: this function can be removed when Lua support is dropped
-
-  // QRegularExpressionMatchIterator it = re.globalMatch(statement);
-  printf("\nstatement was: %s\n", statement.toUtf8().constData());
-  // statement = statement.replace(QRegularExpression("(\\d+): ?"), "");  // convert js object with integer keys to lua array
+  printf("\nstatement was:\n%s\n", statement.toUtf8().constData());
+  // begin by converting MF entries (object with integer keys) to a Lua array (i.e remove the keys)
   statement = statement.replace(QRegularExpression("(?<=[{, ])(\\d+: ?)"), "");
-  // while (it.hasNext()) {
-  //  QRegularExpressionMatch match = it.next();
-  //  if (match.hasMatch())
-  //    statement = statement.replace(match.captured(0), "");
-  //}
 
+  statement = statement.replace("value: undefined", "value = nil");
   statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
   statement = statement.replace(":", " =");
-  statement = statement.replace("value: undefined", "value = nil");
   statement = statement.replace("'", "\"");
-  printf("statement is: %s\n\n", statement.toUtf8().constData());
+  printf("\nstatement is:\n%s\n\n", statement.toUtf8().constData());
 
   return statement;
 }

@@ -1,24 +1,19 @@
+"use strict";
+
 %import%
 
-//import console from './console.js';
+function render(text) {
+  return text;
+};
 
-export function render(text) {
-  return text
-}
-
-// function main() {
 export function main() {
   let result = '';
 
-  let context = { %context% };
+  const context = { %context% };
 
-  let fields = { %fields% };
+  const fields = { %fields% };
 
   %body%
 
-  //console.log(1);
-
   return result;
-}
-
-//main()
+};

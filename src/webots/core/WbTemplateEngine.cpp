@@ -128,7 +128,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 }
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
-  printf("WbTemplateEngine::generateJavascript\n\n\n");
+  printf("WbTemplateEngine::generateJavascript\n\n");
 
   mResult.clear();
   mError = "";
@@ -141,19 +141,17 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   tags["templateContent"] = mTemplateContent;
-  tags["templateContent"] = tags["templateContent"].replace("\\", "\\\\");
-  tags["templateContent"] = tags["templateContent"].replace("\n", "\\n");
-  tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
+  // tags["templateContent"] = tags["templateContent"].replace("\\", "\\\\");
+  // tags["templateContent"] = tags["templateContent"].replace("\n", "\\n");
+  // tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
   tags["templateContent"] = tags["templateContent"].toUtf8();
 
-  printf("ENGINE START\n");
   QJSEngine engine;
   // engine.installExtensions(QJSEngine::ConsoleExtension);
   engine.globalObject().setProperty("stdout", "");
   engine.globalObject().setProperty("stderr", "");
 
   /*
-  // how to import modules
   QJSValue modulee = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/test.js");
 
   if (modulee.isError())
@@ -172,116 +170,79 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   printf(">>>>>>>>>>>>>>>>>>>%s<<<<<<<<<<<<<<<<\n", res.toString().toUtf8().constData());
   return 0;
   */
-  // translate mixed proto into javascript
-  QString jsBody = "";
-  QString jsImport = "";
 
-  /*
-  int start = -1;
-  int end = -1;
-  QRegularExpression reTemplate("\%{(.*?)}\%");
-  QRegularExpressionMatchIterator it = reTemplate.globalMatch(tags["templateContent"]);
-
-  while (it.hasNext()) {
-    QRegularExpressionMatch match = it.next();
-    if (match.hasMatch()) {
-      if (start == -1 && end == -1)
-        start = match.capturedEnd();
-      if (start != -1 && end == -1)
-        if (match.capturedStart() != 0)
-          end = match.capturedStart();
-
-      printf("match: >%s<%d|%d\n", match.captured(0).toUtf8().constData(), start, end);
-
-      if (start != -1 && end != -1) {
-        jsBody += "result += render(`" + tags["templateContent"].mid(start, end - start) + "`);";
-        start = match.capturedEnd();
-        end = -1;
-      }
-
-      QString matched = match.captured(0);
-      if (matched.startsWith("%{=")) {
-        matched = matched.replace("%{=", "");
-        matched = matched.replace("}%", "");
-        // jsBody += "result += eval(\"" + matched + "\");";
-        jsBody += "var x = " + matched + "; result += eval(\"x\");";  // var because there might be multiple expressions
-      } else if (matched.startsWith("%{")) {
-        matched = matched.replace("%{", "");
-        matched = matched.replace("}%", "");
-        jsBody += matched;
-      }
-    }
-  }
-  */
+  // translate mixed proto into pure JavaScript
+  QString javaScriptBody = "";
+  QString javaScriptImport = "";
 
   QString templateContent = tags["templateContent"];
-  int closing = 0;
-  int opening = 0;
-  bool firstMatch = true;
-  int previousClosing = -1;
+  int positionOpeningToken = 0;
+  int positionClosingToken = 0;
+  // bool firstMatch = true;
+  int previousPositionClosingToken = -1;
   while (1) {
-    opening = templateContent.indexOf("%{", closing);
-    if (opening == -1) {
-      if (closing < templateContent.size()) {
-        jsBody += "result += render(`" + templateContent.mid(closing, templateContent.size() - closing) + "`);";
-        // printf("\nENDTEXT: >%s<\n", templateContent.mid(closing, templateContent.size() - closing).toUtf8().constData());
+    positionOpeningToken = templateContent.indexOf(gOpeningToken, positionClosingToken);
+    if (positionOpeningToken == -1) {
+      if (positionClosingToken < templateContent.size()) {
+        javaScriptBody += "result += render(`" +
+                          templateContent.mid(positionClosingToken, templateContent.size() - positionClosingToken) + "`);";
       }
       break;
     }
 
-    closing = templateContent.indexOf("}%", opening);
-    closing = closing + 2;  // point after the template symbol
+    positionClosingToken = templateContent.indexOf(gClosingToken, positionOpeningToken);
+    positionClosingToken = positionClosingToken + 2;  // point after the template token
 
-    if (closing == -1) {
+    if (positionClosingToken == -1) {
       printf("Missing closing bracket\n");  // mError?
-      break;
+      mError = tr("Expected JavaScript closing token is missing.");
+      return false;
     }
 
-    if (opening > 0 && firstMatch) {
-      // what comes before the first bracket should be treated as text
-      jsBody += "result += render(`" + templateContent.mid(0, opening) + "`);";
-      // printf("INITEXT: >%s<\n", templateContent.mid(0, opening).toUtf8().constData());
+    if (positionOpeningToken > 0 && previousPositionClosingToken == -1) {
+      // what comes before the first opening token should be treated as plain text
+      javaScriptBody += "result += render(`" + templateContent.left(positionOpeningToken) + "`);";
     }
 
-    if (previousClosing != -1 && opening - previousClosing > 0) {
-      jsBody += "result += render(`" + templateContent.mid(previousClosing, opening - previousClosing) + "`);";
-      // printf("\nTEXT: >%s<\n", templateContent.mid(previousClosing, opening - previousClosing).toUtf8().constData());
+    if (previousPositionClosingToken != -1 && positionOpeningToken - previousPositionClosingToken > 0) {
+      // what is between the previous closing token and the current opening token should be treated as plain text
+      javaScriptBody += "result += render(`" +
+                        templateContent.mid(previousPositionClosingToken, positionOpeningToken - previousPositionClosingToken) +
+                        "`);";
     }
 
-    QString statement = templateContent.mid(opening, closing - opening);
-    // printf("RAW: %d %d >%s<\n", opening, closing, statement.toUtf8().constData());
-    // what is between brackets is an expression if it starts with '%{='
-    if (statement.startsWith("%{=")) {
-      statement = statement.replace("%{=", "");
-      statement = statement.replace("}%", "");
-      // printf("\nEXP: >%s<\n", statement.toUtf8().constData());
-      jsBody += "var x = " + statement + "; result += eval(\"x\");";  // var because there might be multiple expressions
+    // anything inbetween the tokens is either an expression or plain JavaScript
+    QString statement = templateContent.mid(positionOpeningToken, positionClosingToken - positionOpeningToken);
+    // if it starts with '%{=' it's an expression
+    if (statement.startsWith(gOpeningToken + "=")) {
+      statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
+      javaScriptBody +=
+        "var __tmp = " + statement + "; result += eval(\"__tmp\");";  // var because there might be multiple expressions
     } else {
       // raw javascript snippet
-      statement = statement.replace("%{", "");
-      statement = statement.replace("}%", "");
-      // printf("\nSTAT: >%s<\n", statement.toUtf8().constData());
-      jsBody += statement;
+      javaScriptBody += statement.replace(gOpeningToken, "").replace(gClosingToken, "");
     }
 
-    // printf("====%s==\n", jsBody.toUtf8().constData());
-    previousClosing = closing;
-    firstMatch = false;
+    previousPositionClosingToken = positionClosingToken;
   }
 
-  // extract imports from jsBody, if any
+  // extract imports from javaScriptBody, if any
   QRegularExpression reImport("import(.*?)[;\n]");
-  QRegularExpressionMatchIterator it = reImport.globalMatch(jsBody);
+  QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      jsBody.replace(match.captured(0), "");  // from import from jsBody
-      // TODO: if doesn't end with ; or \n, add one in case of multiple imports
-      // if has // before, don't include.
-      if (match.captured(0).back() != '\n')
-        jsImport += "\n";
-      jsImport += match.captured(0);
-      // printf("found >>%s<<\n", match.captured(0).toUtf8().constData());
+      QString statement = match.captured(0);
+      javaScriptBody.replace(statement, "");  // remove import from javaScriptBody
+
+      if (statement.endsWith(";"))
+        statement.append("\n");
+      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != ";")
+        statement.insert(statement.size() - 2, ";");
+      else
+        statement.append(";\n");
+
+      javaScriptImport += statement;
     }
   }
 
@@ -291,46 +252,41 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     mError = tr("Javascript template not found.");
     return false;
   }
-  QString jsTemplate = templateFile.readAll();
+  QString javaScriptTemplate = templateFile.readAll();
 
   // add imports
-  jsImport = jsImport.replace("\\n", "\n");
-  jsImport = jsImport.replace("\\'", "'");
-  jsImport = jsImport.replace("\\\\", "\\");
-  jsTemplate.replace("%import%", jsImport);
+  // javaScriptImport = javaScriptImport.replace("\\n", "\n");
+  // javaScriptImport = javaScriptImport.replace("\\'", "'");
+  // javaScriptImport = javaScriptImport.replace("\\\\", "\\");
+  javaScriptTemplate.replace("%import%", javaScriptImport);
 
-  // replace fields, TODO: move to WbProtoTemplateEngine
-  // should be: var car = {field:"size", value:2, defaultValue:1};
   printf("&& context raw &&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n");
   printf("%s\n", tags["context"].toUtf8().constData());
   printf("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n\n");
-  jsTemplate.replace("%context%", tags["context"]);
+  javaScriptTemplate.replace("%context%", tags["context"]);
 
-  // replace fields, TODO: move to WbProtoTemplateEngine
-  // should be: var car = {field:"size", value:2, defaultValue:1};
   printf("## fields raw ###############################\n");
   printf("%s\n", tags["fields"].toUtf8().constData());
   printf("#############################################\n\n");
-  jsTemplate.replace("%fields%", tags["fields"]);
+  javaScriptTemplate.replace("%fields%", tags["fields"]);
 
-  // jsBody += "result += render(`" + tags["templateContent"].mid(start) + "`);";
-  // remove escapes
   printf("\n== tags[\"templateContent\"] ================\n");
   printf("%s\n", tags["templateContent"].toUtf8().constData());
   printf("== jsBody literal ===========================\n");
-  printf("%s\n", jsBody.toLatin1().constData());
+  printf("%s\n", javaScriptBody.toLatin1().constData());
   printf("== jsBody ===================================\n");
-  // restore escapements
-  jsBody = jsBody.replace("\\n", "\n");
-  jsBody = jsBody.replace("\\'", "'");
-  jsBody = jsBody.replace("\\\\", "\\");
 
-  printf("%s\n", jsBody.toUtf8().constData());
+  // restore escapements
+  // javaScriptBody = javaScriptBody.replace("\\n", "\n");
+  // javaScriptBody = javaScriptBody.replace("\\'", "'");
+  // javaScriptBody = javaScriptBody.replace("\\\\", "\\");
+
+  printf("%s\n", javaScriptBody.toUtf8().constData());
   printf("=============================================\n\n");
   // replace body
-  jsTemplate.replace("%body%", jsBody);
+  javaScriptTemplate.replace("%body%", javaScriptBody);
 
-  // write file (can't evaluate directly because it doesn't support importing of modules)
+  // write to file (note: can't evaluate directly because it doesn't support importing of modules)
   QFile outputFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
   if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
     mError = tr("Couldn't write jsTemplateFilled to disk.");
@@ -338,10 +294,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   QTextStream outputStream(&outputFile);
-  outputStream << jsTemplate;
+  outputStream << javaScriptTemplate;
   outputFile.close();
 
-  // add script as module
+  // import filled template as module
   QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
   if (module.isError())
     printf("ERROR LOADING MODULE\n");
@@ -364,16 +320,15 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   QJSValue stdout = engine.evaluate("stdout");
-  printf(">>>>%s<<<<\n", stdout.toString().toUtf8().constData());
+  QJSValue stderr = engine.evaluate("stderr");
+  printf(">>>>stdout:\n%s\n<<<<\n", stdout.toString().toUtf8().constData());
+  printf(">>>>stderr:\n%s\n<<<<\n", stderr.toString().toUtf8().constData());
 
-  // evaluate and get result
-  // QJSValue result = engine.evaluate(jsTemplate);
   printf(">> result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-  // printf("%s\n", jsTemplate.toUtf8().constData());
   printf("%s\n", result.toString().toUtf8().constData());
   printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n");
 
-  // remove temporary file
+  // remove temporary file. TODO: UNCOMMENT IN BEFORE MERGE
   // QFile::remove(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
 
   mResult = result.toString().toUtf8();
@@ -381,7 +336,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 }
 
 bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
-  printf("WbTemplateEngine::generateLua\n\n\n");
+  printf("WbTemplateEngine::generateLua\n\n");
   mResult.clear();
 
   if (!gValidLuaResources) {
