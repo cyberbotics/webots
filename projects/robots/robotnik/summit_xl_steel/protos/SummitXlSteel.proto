@@ -6,7 +6,7 @@
 # It is well-suited for industries, as its design enables it to carry a payload of up to 250 kg.
 
 PROTO SummitXlSteel [
-  field  SFVec3f     translation     0 0 0.118           # Is `Transform.translation`
+  field  SFVec3f     translation     0 0 0.118           # Is `Transform.translation`.
   field  SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
   field  SFString    name            "Summit-XL Steel"   # Is `Robot.name`.
   field  SFString    controller      "keyboard_control"  # Is `Robot.controller`.
