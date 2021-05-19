@@ -1922,3 +1922,85 @@ Hello Everyone!,  I am working on a project for my university on ROS and Webots,
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/10/2021 09:20:53
 It should work with multiple robots without problems. To each robot, the `ros` controller adds an unique prefix to all topics and services. What was the issue?
 
+##### Azhagan 05/12/2021 14:42:49
+hello
+
+
+I am azhagan, and i am new to webots , how can i start with it
+
+##### DDaniel [Cyberbotics] 05/12/2021 15:10:04
+`@Azhagan` Hi, you can start by installing it [https://cyberbotics.com/doc/guide/installing-webots](https://cyberbotics.com/doc/guide/installing-webots), then follow the "getting started" guide to learn how to navigate the interface: [https://cyberbotics.com/doc/guide/getting-started-with-webots](https://cyberbotics.com/doc/guide/getting-started-with-webots), and finally do the tutorials: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials).
+
+##### Azhagan 05/12/2021 15:52:12
+thanks !!
+
+##### Chrimo 05/12/2021 22:04:43
+Hi all, is there any example for using GPS with ros2/webots available ? TIA
+
+##### raerae 05/13/2021 09:47:08
+Hi guys, I'm new here. I just want to ask, is there a possible method to export Solidworks model to Webots that will include its original appearance?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/14/2021 06:34:50
+No, but if you include a GPS device in your PROTO you should be getting `NavSatFix` messages. I guess you tried the `webots_ros2` package:
+
+[https://github.com/cyberbotics/webots\_ros2](https://github.com/cyberbotics/webots_ros2)
+
+##### Affonso 05/14/2021 19:36:57
+Hi, I have a doubt about HingeJoints, what parameters I use to set the position of joinParameters?
+
+##### DDaniel [Cyberbotics] 05/14/2021 19:44:23
+`@Affonso` Hi, the current position of the HingeJoint is defined by the field `position` inside the `HingeJointParameters` node. If you intend to manually change with a text editor (changing the world file directly) you need to remember to also change the translation/rotation of the corresponding `endPoint` Solid to keep things consistent. If instead you change it from the interface, it automatically updates the solid as well.
+
+##### mmoralesp 05/14/2021 21:34:11
+Hi, the problem is when I start the launch and then i start the publisher with the velocity, no robot moves, but when there is only one robot it moves.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/17/2021 06:42:39
+Can you share more details? Can you list the topics (`rostopic list`)?
+
+##### BlueShrapnel 05/17/2021 06:42:44
+Okay
+
+##### mmoralesp 05/17/2021 21:13:59
+Hi, im using ros2, with only one robot (epuck) it works find, the robot moves on
+
+
+This is the scenario
+%figure
+![Captura_de_pantalla_de_2021-05-17_23-21-31.png](https://cdn.discordapp.com/attachments/565155720933146637/843961774293385216/Captura_de_pantalla_de_2021-05-17_23-21-31.png)
+%end
+
+
+When i launch the vel publisher whit only one robot in the scenario it works well
+
+
+but with two, it doesn't work
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/18/2021 07:22:34
+You can check this example:
+
+[https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_demos/launch/armed\_robots.launch.py](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_demos/launch/armed_robots.launch.py)
+
+
+
+Does your launch file looks similar?
+
+##### TheGiant 05/18/2021 10:35:13
+`@Olivier Michel` about : [https://github.com/cyberbotics/webots/issues/3075](https://github.com/cyberbotics/webots/issues/3075), I do actually enjoy offline doc 🙂 Maybe add a button to get it offline in one go ? And then open it/browse it in a regular browser. Additionally, I love the "Help..." button when right click on an item, which bring immediately to the right doc page 🙂
+
+However, I understand that it's rather heavy, and removing the viewer could be a nice cleanup.
+
+##### mmoralesp 05/18/2021 17:11:22
+Hi, this is my launcher
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/844260892518514758/unknown.png)
+%end
+
+
+For set the velocity i have another controller that i launch from another terminal
+
+
+but only works when i had a unique robot
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/19/2021 07:35:02
+It should be `executable='driver'` for both robots and you should verify whether the robot names (`--webots-robot-name`) match in the world file.
+

@@ -41024,13 +41024,13 @@ You're welcome
 ##### Justin Fisher 10/09/2020 01:05:05
 I've also often been frustrated by some scene-tree changes, esp. to robot devices, not fully registering and causing difficult-to-diagnose bugs until after a full world reload.  I wonder if there's a good way that Webots could detect when such frustrations are likely to arise and pop up a warning message?  E.g., maybe check when someone hits reset and pop up a warning saying, "Warning: your scene tree has been changed in ways that will not take effect until you reload the world.  Would you like to reload it now?  Click yes or no."
 
-##### SebasRGGamer20 10/09/2020 01:52:45
+##### SebasRG 10/09/2020 01:52:45
 Hi everyone, I'm Sebastian, I have a question about how can I change the axes in a 3d object imported to Webots?. Because when I imported a 3d object, the axes of the object are far from it. I mean, the axes aren't in the object correctly... And it is so difficult at the moment to manage the object. Thanks...
 
 ##### Justin Fisher 10/09/2020 01:55:06
 (A) You may have a translation field somewhere that is moving parts of the object, or (B) it may be that the vertices of the imported object aren't surrounding the center (0,0,0) of the object.  If (A) just change that translation.  If (B) you may be able to move the vertices in blender or whatever program you used to create the object, or you could just add a translation in webots to offset it the amount you want
 
-##### SebasRGGamer20 10/09/2020 01:55:13
+##### SebasRG 10/09/2020 01:55:13
 It is in this case, the orange object is the imported.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/763942618106429451/unknown.png)
@@ -41044,7 +41044,7 @@ It is in this case, the orange object is the imported.
 ##### Justin Fisher 10/09/2020 01:58:30
 where did you get the object you imported?
 
-##### SebasRGGamer20 10/09/2020 01:59:41
+##### SebasRG 10/09/2020 01:59:41
 From Solidworks
 
 ##### Justin Fisher 10/09/2020 02:01:06
@@ -41053,7 +41053,7 @@ so you exported it from solidworks?  If so, I'd probably suggest seeing if you c
 
 alternatively, i think you could create a webots transform node, then copy-paste your object inside of it [as one of its children], and mess with the translation field of that transform node, and with some experimentation, you may be able to center it
 
-##### SebasRGGamer20 10/09/2020 02:03:12
+##### SebasRG 10/09/2020 02:03:12
 Or for example, I can move it from blender too?
 
 ##### Justin Fisher 10/09/2020 02:03:30
@@ -41062,7 +41062,7 @@ yes, that'd probly work too
 
 probably it's just a text file, so you probably could go in and manually subtract a certain amount off each of the vertices too if you didn't want to use a program to do it, though that'd be a pain  (can't tell from the pic how many vertices it has)
 
-##### SebasRGGamer20 10/09/2020 02:06:16
+##### SebasRG 10/09/2020 02:06:16
 Thanks friend, I'll try it so
 
 ##### DrakerDG 10/09/2020 04:47:32
@@ -41896,7 +41896,7 @@ However it also looks like `def getDevice(tag)` presumes that tag will be a numb
 
 (I think I would suggest as a bugfix that Python's `def getDevice(tag)` should be changed to `def getDevice(name)` to retain symmetry with C and Matlab, and should begin with the line `tag = self.__internalGetDeviceTagFromName(name)` just as specific device getters like `getGPS` do.  Or if it were totally up to me, I'd probably make `getDevice` check whether the given argument was a string or an integer, and return a sensible result in either case.   I would then suggest changing the documentation to include `getDevice` as a perfectly legit way to get devices in Python.)
 
-##### SebasRGGamer20 10/14/2020 18:54:44
+##### SebasRG 10/14/2020 18:54:44
 Hi everyone, I have one question
 
 
@@ -41906,12 +41906,12 @@ How can I make virtual serial port communication between Webots and Matlab, I ne
 Thanks
 
 ##### Justin Fisher 10/14/2020 19:23:37
-`@SebasRGGamer20` I'm not entirely clear on what you want to do.  Webots does have emitter and receiver devices that allow you to pass serial messages from one controller to another.  So you could have your robot have an emitter that is controlled by your Matlab controller, and have another supervisor robot (perhaps a trivial one without any movable parts) with a receiver to receive such messages, where the supervisor will have lots of super-powers to manipulate the Webots simulation however it likes.  Is that what you want?  (You can also use emitter channel 0 to send messages to a plugin for the physics engine, which maybe is more what you're looking for?)
+`@SebasRG` I'm not entirely clear on what you want to do.  Webots does have emitter and receiver devices that allow you to pass serial messages from one controller to another.  So you could have your robot have an emitter that is controlled by your Matlab controller, and have another supervisor robot (perhaps a trivial one without any movable parts) with a receiver to receive such messages, where the supervisor will have lots of super-powers to manipulate the Webots simulation however it likes.  Is that what you want?  (You can also use emitter channel 0 to send messages to a plugin for the physics engine, which maybe is more what you're looking for?)
 
 
 Note that using emitters/receivers in Webots always has a one-timestep delay between transmission and receipt of messages, so it's not quite "at the same time".
 
-##### SebasRGGamer20 10/14/2020 19:35:49
+##### SebasRG 10/14/2020 19:35:49
 Oh thanks friend
 
 
@@ -41923,7 +41923,7 @@ You can write controllers in Matlab.  It sounds like that's all you'll need.  [h
 
 Depending on what changes you want your Matlab code to make in the Webots simulation, you may want to give your robot supervisor powers and/or set up a separate supervisor robot.
 
-##### SebasRGGamer20 10/14/2020 19:45:31
+##### SebasRG 10/14/2020 19:45:31
 What is the supervisor robot? What is its function?
 
 ##### Justin Fisher 10/14/2020 19:51:31
@@ -45722,7 +45722,7 @@ Sure. If I manage it, I would contact you.
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 11/23/2020 14:45:21
 `@Stefania Pedrazzi` The crashed only occured when having an optimal thread count above 1. I set it to 1 and dont have the issue anymore
 
-##### SebasRGGamer20 11/23/2020 17:35:04
+##### SebasRG 11/23/2020 17:35:04
 Hi everyone, I have a problem with my code, I'm programming in python to communicate a robot in Webots and at the same time control this robot from Matlab. So I'm using serial communication but when I start the simulation, it doesn't run in real-time. I send different commands from matlab but in Webots doesn't run the simulation.
 
 
@@ -45744,7 +45744,7 @@ Here!!
 I had the same problem.  It's probably too late to help you, but for anyone else, you have to double click on the robot.   I spent over an hour on that.
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 11/24/2020 07:53:37
-Hello `@SebasRGGamer20` , I am not sure if I understand. If you control the Webots robot from MATLAB then the issue is in the MATLAB script.
+Hello `@SebasRG` , I am not sure if I understand. If you control the Webots robot from MATLAB then the issue is in the MATLAB script.
 
 ##### jmarsik 11/24/2020 16:31:01
 Hello, I would like to include a custom sensor in the simulation, which will be computed in supervisor controller code. How should I do that, what objects could I use to represent the sensor? The sensor data should be published to ROS. Imagine a special sensor that is connected to robot GPIO in the real world. Could I used LED objects? Or simple fields in robot PROTO definition?
