@@ -68,12 +68,12 @@ void WbAltimeter::updateResolution() {
 bool WbAltimeter::refreshSensorIfNeeded() {
   if (!isPowerOn() || !mSensor->needToRefresh())
     return false;
-    
+
   const WbVector3 &t = matrix().translation();
 
   // compute current altitude
   double accuracy = mAccuracy->value();
-  
+
   WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
   const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
   int upIndex = coordinateSystem.indexOf('U');
