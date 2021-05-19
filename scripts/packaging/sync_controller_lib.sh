@@ -29,6 +29,7 @@ if [ ! -d /tmp/webots-controller ]; then
 fi
 cd /tmp/webots-controller
 git checkout -b ${VERSION}
+git pull
 
 # Prepare the structure
 rm -rf lib/${OSTYPE}
