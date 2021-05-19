@@ -41,7 +41,7 @@ showdown.extension('wbVariables', function() {
     date: {
       year: 2021
     },
-    url: { 
+    url: {
       github_tree: `https://github.com/cyberbotics/webots/tree/${branch}`
     }
   };
@@ -248,9 +248,9 @@ showdown.extension('wbRobotComponent', function() {
               '    </div>\n' +
               '    <div class="menu">\n' +
               '      <div class="menu-items">\n' +
-              '        <button class="reset-button" title="Reset Viewpoint and sliders." onclick="resetRobotComponent(\'%ROBOT%\')"></button>\n' +
-              '        <button class="menu-button" title="Show/Hide the device list." onclick="toggleDeviceComponent(\'%ROBOT%\')"></button>\n' +
-              '        <button class="fullscreen-button" title="Enter/Leave full-screen." onclick="toogleRobotComponentFullScreen(\'%ROBOT%\')"></button>\n' +
+              '        <button class="reset-button" title="Reset Viewpoint and sliders."></button>\n' +
+              '        <button class="menu-button" title="Show/Hide the device list."></button>\n' +
+              '        <button class="fullscreen-button" title="Enter/Leave full-screen."></button>\n' +
               '      </div>\n' +
               '    </div>\n' +
               '  </div>\n' +

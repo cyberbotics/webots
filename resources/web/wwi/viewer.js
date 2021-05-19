@@ -2,8 +2,6 @@
 /* global setup */
 /* global showdown */
 /* global hljs */
-/* exported resetRobotComponent */
-/* exported toggleDeviceComponent */
 /* exported openTabFromEvent */
 
 'use strict';
@@ -725,7 +723,7 @@ function toggleDeviceComponent(robot) {
   updateRobotComponentDimension(robot);
 }
 
-function toogleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-vars
+function toggleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-vars
   // Source: https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
   var element = getRobotComponentByRobotName(robot);
   if (
@@ -1010,6 +1008,13 @@ function createRobotComponent(view) {
         console.log('Error: ' + errorThrown);
       }
     });
+
+    if (document.getElementsByClassName('toggleDeviceComponent'))
+      document.getElementsByClassName('menu-button')[0].onclick = () => toggleDeviceComponent(robotName);
+    if (document.getElementsByClassName('fullscreen-button'))
+      document.getElementsByClassName('fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
+    if (document.getElementsByClassName('reset-button'))
+      document.getElementsByClassName('reset-button')[0].onclick = () => resetRobotComponent(robotName);
   }
 }
 
