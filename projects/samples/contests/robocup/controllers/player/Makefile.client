@@ -18,6 +18,9 @@ LIBS += -lprotobuf
 
 build release debug profile: $(TARGET)
 
+build/$(GOAL)/robot_client.o:
+	$(CXX) robot_client.cpp -c -o $@
+
 $(TARGET): client.cpp build/$(GOAL)/messages.pb.o build/$(GOAL)/robot_client.o
 	$(CXX) $^  -o $@ $(LIBS)
 
