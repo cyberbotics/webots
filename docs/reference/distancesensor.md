@@ -10,7 +10,7 @@ DistanceSensor {
   SFFloat  aperture                 1.5708                # [0, 2*pi]
   SFFloat  gaussianWidth            1                     # [0, inf)
   SFFloat  resolution               -1                    # {-1, [0, inf)}
-  SFFloat  redColorSensitivity      1                     # [0, 1]
+  SFFloat  redColorSensitivity      1                     # [0, inf)
 }
 ```
 
@@ -79,9 +79,9 @@ This field accepts any value in the interval (0.0, inf).
 
 - `redColorSensitivity`: red color sensitivity factor.
 This allows to tune (or even disable) red color sensitivity for infra-red distance sensor type.
-Value of 1 means ordinary Webots behavior.
+A value of 1 corresponds to the default behavior.
 Values greater that 1 increase the red color sensitivity and values lower than 1 decrease it.
-Value of 0 disables the red color sensitivity completely.
+A value of 0 disables the effect of the red color completely.
 See details [below](#infra-red-sensors).
 
 ### Lookup Table
