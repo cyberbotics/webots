@@ -74,16 +74,20 @@ int main(int argc, char *argv[]) {
 
   RobotClient client(host, port, verbosity);
   client.connectClient();
+  bool first_step = true;
   while (client.isOk()) {
     try {
       ActuatorRequests request;
-      SensorTimeStep *sensor = request.add_sensor_time_steps();
-      sensor->set_name("NeckS");
-      sensor->set_timestep(8);
-      if (camera.length() > 0) {
-        SensorTimeStep *camera_sensor = request.add_sensor_time_steps();
-        camera_sensor->set_name(camera);
-        camera_sensor->set_timestep(camera_time_step);
+      if (first_step) {
+        SensorTimeStep *sensor = request.add_sensor_time_steps();
+        sensor->set_name("NeckS");
+        sensor->set_timestep(8);
+        if (camera.length() > 0) {
+          SensorTimeStep *camera_sensor = request.add_sensor_time_steps();
+          camera_sensor->set_name(camera);
+          camera_sensor->set_timestep(camera_time_step);
+        }
+        first_step = false;
       }
       MotorPosition *motor = request.add_motor_positions();
       motor->set_name("Neck");

@@ -55,7 +55,7 @@ private:
   /**
    * 0: Silent mode, no error messages, even when the connection breaks
    * 1: Only print error messages
-   * 2: Print messages on successful connection as well
+   * 2: Print messages on successful connection and warnings + errors from the simulator
    * 3: Print statistics over messages received
    * 4: Print all messages received
    */

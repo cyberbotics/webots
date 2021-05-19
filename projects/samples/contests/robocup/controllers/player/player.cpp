@@ -424,6 +424,7 @@ public:
         if (device->getNodeType() == webots::Node::CAMERA)
           min_time_step = camera_min_time_step;
 
+        bool add_sensor = false;
         if (sensor_time_step == 0)
           sensors.erase(device);
         else if (sensor_time_step < min_time_step)
@@ -434,7 +435,28 @@ public:
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be a multiple of " +
                                       std::to_string(basic_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
                                       " value.");
-        else {
+        else if (device->getNodeType() == webots::Node::CAMERA) {
+          webots::Camera *camera = static_cast<webots::Camera *>(device);
+          double robot_rendering_quota = team_rendering_quota / nb_robots_in_team;
+          double requested_bandwidth = getRenderingBandwidth(camera, sensor_time_step);
+          // Adding bandwidth of other cameras
+          for (const auto &entry : sensors)
+            if (entry.first->getNodeType() == webots::Node::CAMERA && entry.first->getName() != sensorTimeStep.name())
+              requested_bandwidth += getRenderingBandwidth(static_cast<webots::Camera *>(entry.first), entry.second);
+          for (const auto &entry : new_sensors)
+            if (entry.first->getNodeType() == webots::Node::CAMERA && entry.first->getName() != sensorTimeStep.name())
+              requested_bandwidth += getRenderingBandwidth(static_cast<webots::Camera *>(entry.first), entry.second);
+          std::cout << "BW: " << requested_bandwidth << " allowed: " << robot_rendering_quota << std::endl;
+          // Only allowing to set time_step if the rendering bandwidth is not exceeded
+          if (requested_bandwidth > robot_rendering_quota)
+            warn(sensor_measurements, "requested rendering bandwidth is above the limit (" +
+                                        std::to_string((int)std::round(requested_bandwidth)) + "MB/s > " +
+                                        std::to_string((int)std::round(robot_rendering_quota)) + "MB/s)");
+          else
+            add_sensor = true;
+        } else
+          add_sensor = true;
+        if (add_sensor) {
           // only add device if device isn't added
           if (sensors.count(device) == 0)
             new_sensors[device] = sensor_time_step;
@@ -618,7 +640,7 @@ public:
     uint64_t history_size = 0;
     for (const auto &entry : message_size_history)
       history_size += entry.second;
-    double robot_quota = team_quota / nb_robots_in_team;
+    double robot_quota = team_network_quota / nb_robots_in_team;
     if (size + history_size > robot_quota * window_duration * std::pow(2, 20)) {
       sensor_measurements.Clear();
       sensor_measurements.set_time(controller_time);
@@ -657,6 +679,13 @@ public:
     content_size = 0;
   }
 
+  /**
+   * Returns the rendering bandwidth in MegaBytes per second for the given camera at the chosen camera_time_step (ms)
+   */
+  double getRenderingBandwidth(webots::Camera *camera, int camera_time_step) {
+    return camera->getWidth() * camera->getHeight() * 3 * 1000.0 / camera_time_step / std::pow(2, 20);
+  }
+
 private:
   std::vector<std::string> allowed_hosts;
   int port;
@@ -692,12 +721,14 @@ private:
   static int benchmark_level;
   // The allowed ms per step before producing a warning
   static double budget_ms;
-  /// The bandwidth allowed for a team MB/s (per real-time second and not simulated second)
-  static double team_quota;
+  /// The network bandwidth allowed for a team [MB/s] (per real-time second and not simulated second)
+  static double team_network_quota;
   /// The duration of the time window used to average the bandwidth (seconds)
   static double window_duration;
   /// The minimal value authorized for camera time steps in milliseconds
   static int camera_min_time_step;
+  /// The rendering bandwidth allowed for a team [MB/s] (per simulated second)
+  static double team_rendering_quota;
 
 public:
   static int nb_robots_in_team;
@@ -705,10 +736,11 @@ public:
 
 int PlayerServer::benchmark_level = 0;
 double PlayerServer::budget_ms = 1.0;
-double PlayerServer::team_quota = 350.0;
+double PlayerServer::team_network_quota = 350.0;
 double PlayerServer::window_duration = 1.0;
 int PlayerServer::nb_robots_in_team = 4;
 int PlayerServer::camera_min_time_step = 16;
+double PlayerServer::team_rendering_quota = 350.0;
 
 int main(int argc, char *argv[]) {
   if (argc < 3) {
