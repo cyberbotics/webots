@@ -34,9 +34,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
-    - name: Install Visual Studio 10, OpenJDK 8, and git
+    - name: Install Visual Studio 10 and OpenJDK 8
       shell: powershell
-      run: choco install jdk8 visualcpp-build-tools git
+      run: |
+        choco install jdk8
+        choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
@@ -63,11 +65,15 @@ jobs:
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         make distrib -j4
     - name: Prepare Webots Controller Deployment
+      # if: ${{ github.event_name == 'schedule' }}
       uses: webfactory/ssh-agent@v0.5.2
       with:
         ssh-private-key: ${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}
     - name: Deploy Webots Controller
-      run: scripts/packaging/sync_controller_lib.sh
+      # if: ${{ github.event_name == 'schedule' }}
+      run: |
+        pacman -S --noconfirm git
+        scripts/packaging/sync_controller_lib.sh
     - name: Create/Update GitHub release
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
