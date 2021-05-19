@@ -803,14 +803,12 @@ function sliderMotorCallback(transform, slider) {
 
     // Compute angle.
     var angle = value - position;
-    console.log(position)
-    console.log(value)
 
     // Apply the new axis-angle.
     var q = glm.angleAxis(angle, axis);
 
     if (typeof transform.firstRotation !== 'undefined')
-      q.mul(vec4ToQuaternion(transform.firstRotation));
+      q = q.mul(vec4ToQuaternion(transform.firstRotation));
 
     if (typeof transform.firstPosition !== 'undefined')
       transform.translation = transform.firstPosition.clone();
