@@ -28,9 +28,26 @@ else
   WEBOTS="${WEBOTS_HOME}/webots"
 fi
 
-WEBOTS_WORLD="${WEBOTS_HOME}/projects/samples/contests/robocup/worlds/robocup.wbt"
+ROBOCUP_PATH="${WEBOTS_HOME}/projects/samples/contests/robocup"
+WEBOTS_WORLD="${ROBOCUP_PATH}/worlds/robocup.wbt"
 
 TEST_FOLDER="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+TEST_CLIENT="${ROBOCUP_PATH}/controllers/player/test_client"
+
+
+# Automatically launch test clients if applicable
+if [[ -f "${TEST_FOLDER}/clients.txt" ]]
+then
+    if pgrep test_client; then
+        echo >&2 "Error: there are still clients running!"
+        exit 1
+    fi
+    client_id=1
+    while read line; do
+        ${TEST_CLIENT} $line > ${TEST_FOLDER}/client_${client_id}.log 2>&1 &
+        let client_id++
+    done < "${TEST_FOLDER}/clients.txt"
+fi
 
 WEBOTS_ROBOCUP_TEST_SCENARIO="${TEST_FOLDER}/test_scenario.json" \
                             WEBOTS_ROBOCUP_GAME="${TEST_FOLDER}/game.json" \

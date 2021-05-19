@@ -19,6 +19,16 @@
 #ifdef _WIN32
 #include <winsock.h>
 typedef int socklen_t;
+#define MSG_NOSIGNAL 0
+void usleep(__int64 usec) {
+  HANDLE timer;
+  LARGE_INTEGER ft;
+  ft.QuadPart = -10 * usec;
+  timer = CreateWaitableTimer(NULL, TRUE, NULL);
+  SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0);
+  WaitForSingleObject(timer, INFINITE);
+  CloseHandle(timer);
+}
 #else
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -244,6 +254,8 @@ public:
     recv_size(0),
     content_size(0),
     robot(robot) {
+    actuators_enabled = TRUE;
+    devices_enabled = TRUE;
     basic_time_step = robot->getBasicTimeStep();
     printMessage("server started on port " + std::to_string(port));
     server_fd = create_socket_server(port);
@@ -269,6 +281,17 @@ public:
         perror("select()");
       else
         receiveMessages();
+      std::string customData = robot->getCustomData();
+      if (customData == "")
+        actuators_enabled = TRUE;
+      else if (customData == "penalized")  // penalized robots gets only their actuators disabled so that they become asleep
+        actuators_enabled = FALSE;
+      else if (customData == "red_card") {  // robots with a red card get both sensors and actuators disabled
+        devices_enabled = FALSE;
+        for (const auto &entry : sensors)
+          enableSensor(entry.first, 0);
+        sensors.clear();
+      }
 
       auto after_receive = sc::now();
       // Independently from if we received a message or not, send a message to the Controller
@@ -305,7 +328,7 @@ public:
         // If content is expected, read it and treat message if fully received
         bytes_received = receiveData(recv_buffer + recv_index, content_size - recv_index);
         recv_index += bytes_received;
-        if (recv_index == content_size)
+        if (recv_index == content_size && devices_enabled)
           processBuffer();
       }
       // If we consumed all data, stop trying to read
@@ -321,7 +344,7 @@ public:
     while (received < length) {
       int n = recv(client_fd, buffer, length - received, 0);
       if (n == -1) {
-        if (errno != EAGAIN && errno != EWOULDBLOCK) {
+        if (errno && errno != EAGAIN && errno != EWOULDBLOCK) {
           perror("recv()");
           printMessage("Unexpected failure while receiving data");
           closeClientSocket();
@@ -338,6 +361,38 @@ public:
     return received;
   }
 
+  void enableSensor(webots::Device *device, int time_step) {
+    switch (device->getNodeType()) {
+      case webots::Node::ACCELEROMETER: {
+        webots::Accelerometer *accelerometer = static_cast<webots::Accelerometer *>(device);
+        accelerometer->enable(time_step);
+        break;
+      }
+      case webots::Node::CAMERA: {
+        webots::Camera *camera = static_cast<webots::Camera *>(device);
+        camera->enable(time_step);
+        break;
+      }
+      case webots::Node::GYRO: {
+        webots::Gyro *gyro = static_cast<webots::Gyro *>(device);
+        gyro->enable(time_step);
+        break;
+      }
+      case webots::Node::POSITION_SENSOR: {
+        webots::PositionSensor *positionSensor = static_cast<webots::PositionSensor *>(device);
+        positionSensor->enable(time_step);
+        break;
+      }
+      case webots::Node::TOUCH_SENSOR: {
+        webots::TouchSensor *touchSensor = static_cast<webots::TouchSensor *>(device);
+        touchSensor->enable(time_step);
+        break;
+      }
+      default:
+        warn(sensor_measurements, "Device \"" + device->getName() + "\" is not supported, time step command, ignored.");
+    }
+  }
+
   void processBuffer() {
     ActuatorRequests actuatorRequests;
     actuatorRequests.ParseFromArray(recv_buffer, recv_index);
@@ -345,46 +400,48 @@ public:
     recv_index = 0;
     content_size = 0;
     delete[] recv_buffer;
-    // Processing actuatorRequests and adding warnings to the sensor message
-    for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
-      const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
-      webots::Motor *motor = robot->getMotor(motorPosition.name());
-      if (motor)
-        motor->setPosition(motorPosition.position());
-      else
-        warn(sensor_measurements, "Motor \"" + motorPosition.name() + "\" not found, position command ignored.");
-    }
-    for (int i = 0; i < actuatorRequests.motor_velocities_size(); i++) {
-      const MotorVelocity motorVelocity = actuatorRequests.motor_velocities(i);
-      webots::Motor *motor = robot->getMotor(motorVelocity.name());
-      if (motor)
-        motor->setVelocity(motorVelocity.velocity());
-      else
-        warn(sensor_measurements, "Motor \"" + motorVelocity.name() + "\" not found, velocity command ignored.");
-    }
-    for (int i = 0; i < actuatorRequests.motor_forces_size(); i++) {
-      const MotorForce motorForce = actuatorRequests.motor_forces(i);
-      webots::Motor *motor = robot->getMotor(motorForce.name());
-      if (motor)
-        motor->setForce(motorForce.force());
-      else
-        warn(sensor_measurements, "Motor \"" + motorForce.name() + "\" not found, force command ignored.");
-    }
-    for (int i = 0; i < actuatorRequests.motor_torques_size(); i++) {
-      const MotorTorque motorTorque = actuatorRequests.motor_torques(i);
-      webots::Motor *motor = robot->getMotor(motorTorque.name());
-      if (motor)
-        motor->setTorque(motorTorque.torque());
-      else
-        warn(sensor_measurements, "Motor \"" + motorTorque.name() + "\" not found, torque command ignored.");
-    }
-    for (int i = 0; i < actuatorRequests.motor_pids_size(); i++) {
-      const MotorPID motorPID = actuatorRequests.motor_pids(i);
-      webots::Motor *motor = robot->getMotor(motorPID.name());
-      if (motor)
-        motor->setControlPID(motorPID.pid().x(), motorPID.pid().y(), motorPID.pid().z());
-      else
-        warn(sensor_measurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
+    if (actuators_enabled) {
+      // Processing actuatorRequests and adding warnings to the sensor message
+      for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
+        const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
+        webots::Motor *motor = robot->getMotor(motorPosition.name());
+        if (motor)
+          motor->setPosition(motorPosition.position());
+        else
+          warn(sensor_measurements, "Motor \"" + motorPosition.name() + "\" not found, position command ignored.");
+      }
+      for (int i = 0; i < actuatorRequests.motor_velocities_size(); i++) {
+        const MotorVelocity motorVelocity = actuatorRequests.motor_velocities(i);
+        webots::Motor *motor = robot->getMotor(motorVelocity.name());
+        if (motor)
+          motor->setVelocity(motorVelocity.velocity());
+        else
+          warn(sensor_measurements, "Motor \"" + motorVelocity.name() + "\" not found, velocity command ignored.");
+      }
+      for (int i = 0; i < actuatorRequests.motor_forces_size(); i++) {
+        const MotorForce motorForce = actuatorRequests.motor_forces(i);
+        webots::Motor *motor = robot->getMotor(motorForce.name());
+        if (motor)
+          motor->setForce(motorForce.force());
+        else
+          warn(sensor_measurements, "Motor \"" + motorForce.name() + "\" not found, force command ignored.");
+      }
+      for (int i = 0; i < actuatorRequests.motor_torques_size(); i++) {
+        const MotorTorque motorTorque = actuatorRequests.motor_torques(i);
+        webots::Motor *motor = robot->getMotor(motorTorque.name());
+        if (motor)
+          motor->setTorque(motorTorque.torque());
+        else
+          warn(sensor_measurements, "Motor \"" + motorTorque.name() + "\" not found, torque command ignored.");
+      }
+      for (int i = 0; i < actuatorRequests.motor_pids_size(); i++) {
+        const MotorPID motorPID = actuatorRequests.motor_pids(i);
+        webots::Motor *motor = robot->getMotor(motorPID.name());
+        if (motor)
+          motor->setControlPID(motorPID.pid().x(), motorPID.pid().y(), motorPID.pid().z());
+        else
+          warn(sensor_measurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
+      }
     }
     for (int i = 0; i < actuatorRequests.camera_qualities_size(); i++) {
       const CameraQuality cameraQuality = actuatorRequests.camera_qualities(i);
@@ -410,54 +467,49 @@ public:
       if (device) {
         const int sensor_time_step = sensorTimeStep.timestep();
 
+        int min_time_step = basic_time_step;
+        if (device->getNodeType() == webots::Node::CAMERA)
+          min_time_step = camera_min_time_step;
+
+        bool add_sensor = false;
         if (sensor_time_step == 0)
           sensors.erase(device);
-        else if (sensor_time_step < basic_time_step)
+        else if (sensor_time_step < min_time_step)
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
-                                      std::to_string(basic_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
+                                      std::to_string(min_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
                                       " value.");
         else if (sensor_time_step % basic_time_step != 0)
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be a multiple of " +
                                       std::to_string(basic_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
                                       " value.");
-        else {
+        else if (device->getNodeType() == webots::Node::CAMERA) {
+          webots::Camera *camera = static_cast<webots::Camera *>(device);
+          double robot_rendering_quota = team_rendering_quota / nb_robots_in_team;
+          double requested_bandwidth = getRenderingBandwidth(camera, sensor_time_step);
+          // Adding bandwidth of other cameras
+          for (const auto &entry : sensors)
+            if (entry.first->getNodeType() == webots::Node::CAMERA && entry.first->getName() != sensorTimeStep.name())
+              requested_bandwidth += getRenderingBandwidth(static_cast<webots::Camera *>(entry.first), entry.second);
+          for (const auto &entry : new_sensors)
+            if (entry.first->getNodeType() == webots::Node::CAMERA && entry.first->getName() != sensorTimeStep.name())
+              requested_bandwidth += getRenderingBandwidth(static_cast<webots::Camera *>(entry.first), entry.second);
+          // Only allowing to set time_step if the rendering bandwidth is not exceeded
+          if (requested_bandwidth > robot_rendering_quota)
+            warn(sensor_measurements, "requested rendering bandwidth is above the limit (" +
+                                        std::to_string((int)std::round(requested_bandwidth)) + "MB/s > " +
+                                        std::to_string((int)std::round(robot_rendering_quota)) + "MB/s)");
+          else
+            add_sensor = true;
+        } else
+          add_sensor = true;
+        if (add_sensor) {
           // only add device if device isn't added
           if (sensors.count(device) == 0)
             new_sensors[device] = sensor_time_step;
           // Avoiding to enable again if the request is not making any change to the sensor
           else if (sensors.at(device) == sensor_time_step)
             continue;
-
-          switch (device->getNodeType()) {
-            case webots::Node::ACCELEROMETER: {
-              webots::Accelerometer *accelerometer = static_cast<webots::Accelerometer *>(device);
-              accelerometer->enable(sensor_time_step);
-              break;
-            }
-            case webots::Node::CAMERA: {
-              webots::Camera *camera = static_cast<webots::Camera *>(device);
-              camera->enable(sensor_time_step);
-              break;
-            }
-            case webots::Node::GYRO: {
-              webots::Gyro *gyro = static_cast<webots::Gyro *>(device);
-              gyro->enable(sensor_time_step);
-              break;
-            }
-            case webots::Node::POSITION_SENSOR: {
-              webots::PositionSensor *positionSensor = static_cast<webots::PositionSensor *>(device);
-              positionSensor->enable(sensor_time_step);
-              break;
-            }
-            case webots::Node::TOUCH_SENSOR: {
-              webots::TouchSensor *touchSensor = static_cast<webots::TouchSensor *>(device);
-              touchSensor->enable(sensor_time_step);
-              break;
-            }
-            default:
-              warn(sensor_measurements,
-                   "Device \"" + sensorTimeStep.name() + "\" is not supported, time step command, ignored.");
-          }
+          enableSensor(device, sensor_time_step);
         }
       } else
         warn(sensor_measurements, "Device \"" + sensorTimeStep.name() + "\" not found, time step command, ignored.");
@@ -470,6 +522,8 @@ public:
     gettimeofday(&tp, NULL);
     uint64_t real_time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
     sensor_measurements.set_real_time(real_time);
+    if (!devices_enabled)  // if devices are disabled (because robot got a red card), no sensor data is sent to the controller
+      return;
     std::string active_sensor;
     std::chrono::time_point<sc> sensor_start;
     for (const auto &entry : sensors) {
@@ -604,7 +658,7 @@ public:
     uint64_t history_size = 0;
     for (const auto &entry : message_size_history)
       history_size += entry.second;
-    double robot_quota = team_quota / nb_robots_in_team;
+    double robot_quota = team_network_quota / nb_robots_in_team;
     if (size + history_size > robot_quota * window_duration * std::pow(2, 20)) {
       sensor_measurements.Clear();
       sensor_measurements.set_time(controller_time);
@@ -643,6 +697,13 @@ public:
     content_size = 0;
   }
 
+  /**
+   * Returns the rendering bandwidth in MegaBytes per second for the given camera at the chosen camera_time_step (ms)
+   */
+  double getRenderingBandwidth(webots::Camera *camera, int camera_time_step) {
+    return camera->getWidth() * camera->getHeight() * 3 * 1000.0 / camera_time_step / std::pow(2, 20);
+  }
+
 private:
   std::vector<std::string> allowed_hosts;
   int port;
@@ -650,6 +711,8 @@ private:
   int team;
   int server_fd;
   int client_fd;
+  bool actuators_enabled;
+  bool devices_enabled;
 
   /// Keys are adresses of the devices and values are timestep
   std::map<webots::Device *, int> sensors;
@@ -678,10 +741,14 @@ private:
   static int benchmark_level;
   // The allowed ms per step before producing a warning
   static double budget_ms;
-  /// The bandwidth allowed for a team MB/s (per real-time second and not simulated second)
-  static double team_quota;
+  /// The network bandwidth allowed for a team [MB/s] (per real-time second and not simulated second)
+  static double team_network_quota;
   /// The duration of the time window used to average the bandwidth (seconds)
   static double window_duration;
+  /// The minimal value authorized for camera time steps in milliseconds
+  static int camera_min_time_step;
+  /// The rendering bandwidth allowed for a team [MB/s] (per simulated second)
+  static double team_rendering_quota;
 
 public:
   static int nb_robots_in_team;
@@ -689,9 +756,11 @@ public:
 
 int PlayerServer::benchmark_level = 0;
 double PlayerServer::budget_ms = 1.0;
-double PlayerServer::team_quota = 100.0;
+double PlayerServer::team_network_quota = 350.0;
 double PlayerServer::window_duration = 1.0;
 int PlayerServer::nb_robots_in_team = 4;
+int PlayerServer::camera_min_time_step = 16;
+double PlayerServer::team_rendering_quota = 350.0;
 
 int main(int argc, char *argv[]) {
   if (argc < 3) {

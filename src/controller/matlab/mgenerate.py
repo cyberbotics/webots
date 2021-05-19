@@ -283,6 +283,7 @@ gen(FUNC, "wb_motor_get_available_force(tag)", "motor")
 gen(FUNC, "wb_motor_get_max_force(tag)", "motor")
 gen(FUNC, "wb_motor_get_available_torque(tag)", "motor")
 gen(FUNC, "wb_motor_get_max_torque(tag)", "motor")
+gen(FUNC, "wb_motor_get_multiplier(tag)", "motor")
 gen(FUNC, "wb_motor_get_brake(tag)", "motor")
 gen(FUNC, "wb_motor_get_position_sensor(tag)", "motor")
 
@@ -627,7 +628,7 @@ gen_consts_from_list('WB_GPS_LOCAL_COORDINATE, WB_GPS_WGS84_COORDINATE')
 gen_consts_from_list('WB_MODE_SIMULATION, WB_MODE_CROSS_COMPILATION, WB_MODE_REMOTE_CONTROL')
 gen_consts_from_list("""
     WB_NODE_NO_NODE,
-    WB_NODE_APPEARANCE, WB_NODE_BACKGROUND, WB_NODE_BOX, WB_NODE_CAPSULE,
+    WB_NODE_APPEARANCE, WB_NODE_BACKGROUND, WB_NODE_BILLBOARD, WB_NODE_BOX, WB_NODE_CAPSULE,
     WB_NODE_COLOR, WB_NODE_CONE, WB_NODE_COORDINATE,
     WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID,
     WB_NODE_FOG, WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET,

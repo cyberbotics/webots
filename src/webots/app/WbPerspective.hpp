@@ -128,9 +128,6 @@ public:
   void setRenderingDevicePerspective(const QString &deviceUniqueName, const QStringList &perspective);
   QStringList renderingDevicePerspective(const QString &deviceUniqueName) const;
 
-  QMap<QString, QString> &x3dExportParameters() { return mX3dExportParameters; }
-  void setX3dExportParameter(const QString &key, QString value);
-
   // load/save perspective
   bool load(bool reloading = false);
   bool save() const;
@@ -159,7 +156,6 @@ private:
   QStringList mSupportPolygonNodeNames;
   QVector<ConsoleSettings> mConsolesSettings;
   QMap<QString, QStringList> mRenderingDevicesPerspectiveList;
-  QMap<QString, QString> mX3dExportParameters;
 
   bool readContent(QTextStream &in, bool reloading);
   void addDefaultConsole();

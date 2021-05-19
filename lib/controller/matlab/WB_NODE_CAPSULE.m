@@ -1,2 +1,2 @@
 function value = WB_NODE_CAPSULE
-value = 4;
+value = 5;
