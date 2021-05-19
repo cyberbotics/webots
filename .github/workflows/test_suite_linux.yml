@@ -56,7 +56,11 @@ jobs:
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
     - name: Deploy Webots Controller
-      run: scripts/packaging/sync_controller_lib.sh
+      run: |
+        export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        ssh-add - <<< "${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}"
+        scripts/packaging/sync_controller_lib.sh
     - name: Rename Webots Tarball Package
       if: ${{ matrix.os == 'ubuntu-18.04' }}
       run: |
