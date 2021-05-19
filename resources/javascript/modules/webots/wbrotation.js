@@ -85,7 +85,7 @@ export function toMatrix3(r) {
   return m;
 };
 
-export function isValidAxis(v) {
+function isValidAxis(v) {
   return v.x !== 0 || v.y !== 0 || v.z !== 0;
 }
 

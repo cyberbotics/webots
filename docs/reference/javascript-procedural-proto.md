@@ -97,18 +97,17 @@ To use these functions, the module needs to be included first:
 
 The available modules are the following.
 
-- `wbrandom`: Random number generation
+- `wbrandom`: provides functions that allow seed-based random number generation.
 
-- `wbrotation`: This module provides utility functions for dealing with rotations.
-Notation assumptions are made both for input and return parameters
+- `wbrotation`: provides utility functions for dealing with rotations, represented in axis-angle, quaternions or matrix format.
 
-- `wbvector2`:
+- `wbvector2`: provides utility functions to manipulate two-dimensional vectors.
 
-- `wbvector3`:
+- `wbvector3`: provides utility functions to manipulate three-dimensional vectors.
 
-- `wbmath`:
+- `wbmath`: provides commonly needed mathematical functions.
 
-- `wbgeometry`:
+- `wbgeometry`: provides geometry related functions, allowing for instance to create splines.
 
 The functions exported by each module are:
 
@@ -122,29 +121,34 @@ The functions exported by each module are:
 wbrandom.seed(s);
 ```
 
-TODO
+Sets the random number generator seed to the specified value.
+The numbers are generated using a Linear Congruential Generator (LCG) algorithm.
 
 ```
 /**
- * @param {number} min
- * @param {number} max
+ * @param {number} [min]
+ * @param {number} [max]
  * @returns {number}
  */
 wbrandom.real(min, max);
 ```
 
-TODO
+Returns a floating point pseudo-random number in the range [min, max].
+If only one parameter is provided, the number will be between zero and that value.
+If no parameters are provided, it returns a value in the range [0, 1].
 
 ```
 /**
- * @param {number} min
- * @param {number} max
+ * @param {number} [min]
+ * @param {number} [max]
  * @returns {number}
  */
 wbrandom.integer(min, max);
 ```
 
-TODO
+Returns a pseudo-random integer number in the range [min, max].
+If only one parameter is provided, the number will be between zero and it.
+If no parameters are provided, it returns a value in the range [0, 2^24 - 1].
 
 %tab-end
 
@@ -158,7 +162,8 @@ TODO
 wbrotation.equal(rA, rB);
 ```
 
-Tests whether two rotation vectors (in axis-angle format) are equal.
+Returns true if the two rotation vectors, in axis-angle format, are equal.
+Returns false otherwise.
 
 ```
 /**
@@ -178,7 +183,7 @@ Converts a rotation provided as quaternion to an axis-angle representation.
 wbrotation.toQuaternion(r);
 ```
 
-TODO
+Converts a rotation in axis-angle representation to quaternion format.
 
 ```
 /**
@@ -188,7 +193,7 @@ TODO
 wbrotation.fromMatrix3(m);
 ```
 
-TODO
+Converts a rotation in matrix form (3 x 3) to an axis-angle representation.
 
 ```
 /**
@@ -198,17 +203,7 @@ TODO
 wbrotation.toMatrix3(r);
 ```
 
-TODO
-
-```
-/**
- * @param {Object.<x: number, y: number, z: number>} r
- * @returns {boolean}
- */
-wbrotation.isValidAxis(v);
-```
-
-TODO
+Converts a rotation in axis-angle representation to matrix (3 x 3) format.
 
 ```
 /**
@@ -218,7 +213,7 @@ TODO
 wbrotation.isIdentity(r);
 ```
 
-TODO
+Returns true if the rotation provided in axis-angle representation corresponds to the identity matrix.
 
 ```
 /**
@@ -228,7 +223,7 @@ TODO
 wbrotation.normalize(r);
 ```
 
-TODO
+Normalizes both the axis and the angle of the provided rotation vector.
 
 ```
 /**
@@ -239,7 +234,7 @@ TODO
 wbrotation.combine(rA, rB);
 ```
 
-TODO
+Combines two rotations, in axis-angle format, together.
 
 ```
 /**
@@ -250,7 +245,7 @@ TODO
 wbrotation.rotateVector3ByMatrix3(m, v);
 ```
 
-TODO
+Rotates the 3-dimensional vector `v` according to the rotation matrix `m`.
 
 ```
 /**
@@ -261,7 +256,7 @@ TODO
 wbrotation.rotateVector3ByRotation(r, v);
 ```
 
-TODO
+Rotates the 3-dimensional vector `v` according to the rotation vector `r`.
 
 ```
 /**
@@ -272,7 +267,7 @@ TODO
 wbrotation.rotateVector3ByQuaternion(q, v);
 ```
 
-TODO
+Rotates the 3-dimensional vector `v` according to the rotation  `q`.
 
 %tab-end
 
@@ -286,7 +281,7 @@ TODO
 wbvector2.equal(vA, vB);
 ```
 
-TODO
+Returns true if the two vectors are equal.
 
 ```
 /**
@@ -297,7 +292,7 @@ TODO
 wbvector2.add(vA, vB);
 ```
 
-TODO
+Returns the vectorial sum of the two vectors.
 
 ```
 /**
@@ -308,7 +303,7 @@ TODO
 wbvector2.minus(vA, vB);
 ```
 
-TODO
+Returns the vectorial difference of the two vectors.
 
 ```
 /**
@@ -319,7 +314,7 @@ TODO
 wbvector2.multiply(v, s);
 ```
 
-TODO
+Multiplies the vector `v` by the scalar `s` and returns the result.
 
 ```
 /**
@@ -329,7 +324,7 @@ TODO
 wbvector2.norm(v);
 ```
 
-TODO
+Returns the norm of the provided vector.
 
 ```
 /**
@@ -350,7 +345,7 @@ TODO
 wbvector2.distance(vA, vB);
 ```
 
-TODO
+Returns the shortest distance between the two vectors.
 
 ```
 /**
@@ -361,7 +356,7 @@ TODO
 wbvector2.angle(vA, vB);
 ```
 
-TODO
+Returns the angle between the two vectors.
 
 ```
 /**
@@ -372,7 +367,7 @@ TODO
 wbvector2.cross(vA, vB);
 ```
 
-TODO
+Returns the cross product between the two vectors.
 
 ```
 /**
@@ -383,7 +378,7 @@ TODO
 wbvector2.dot(vA, vB);
 ```
 
-TODO
+Returns the dot product between the two vectors.
 
 ```
 /**
@@ -393,7 +388,7 @@ TODO
 wbvector2.normalize(v);
 ```
 
-TODO
+Normalizes the provided vector.
 
 ```
 /**
@@ -406,7 +401,8 @@ TODO
 wbvector2.intersection(p1, p2, p3, p4);
 ```
 
-TODO
+Returns the intersecting point between the segments [p1, p2] and [p3, p4].
+Returns null if they do not intersect.
 
 %tab-end
 
@@ -420,7 +416,7 @@ TODO
 wbvector3.equal(vA, vB);
 ```
 
-TODO
+Returns true if the two 3-dimensional vectors are equal.
 
 ```
 /**
@@ -431,7 +427,7 @@ TODO
 wbvector3.add(vA, vB);
 ```
 
-TODO
+Returns the vectorial sum of the two vectors.
 
 ```
 /**
@@ -442,18 +438,19 @@ TODO
 wbvector3.minus(vA, vB);
 ```
 
-TODO
+Returns the vectorial difference of the two vectors.
+
 
 ```
 /**
  * @param {Object.<x: number, y: number, z: number>} v
  * @param {number} s
- * @returns {Object.<x: number, y: number, z: number>}
+ * @returns TODO
  */
 wbvector3.multiply(v, s);
 ```
 
-TODO
+Multiplies the vector `v` by the scalar value `s` and returns the result.
 
 ```
 /**
@@ -463,7 +460,7 @@ TODO
 wbvector3.norm(v);
 ```
 
-TODO
+Returns the norm of the vector.
 
 ```
 /**
@@ -474,7 +471,7 @@ TODO
 wbvector3.distance(vA, vB);
 ```
 
-TODO
+Returns the shortest distance between the two vectors.
 
 ```
 /**
@@ -485,7 +482,7 @@ TODO
 wbvector3.cross(vA, vB);
 ```
 
-TODO
+Returns the cross product between the two vectors.
 
 ```
 /**
@@ -496,7 +493,7 @@ TODO
 wbvector3.dot(vA, vB);
 ```
 
-TODO
+Returns the dot product between the two vectors.
 
 ```
 /**
@@ -506,7 +503,7 @@ TODO
 wbvector3.normalize(v);
 ```
 
-TODO
+Normalizes the vector and returns the result.
 
 %tab-end
 
@@ -519,7 +516,7 @@ TODO
 wbmath.degreesToRadians(angle);
 ```
 
-TODO
+Converts the provided number from degrees to radians.
 
 ```
 /**
@@ -529,7 +526,7 @@ TODO
 wbmath.radiansToDegrees(angle);
 ```
 
-TODO
+Converts the provided number from radians to degrees.
 
 %tab-end
 

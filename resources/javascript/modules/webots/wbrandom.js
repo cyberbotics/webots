@@ -28,6 +28,9 @@ export function real(min, max) {
     min = 0;
   }
 
+  if (typeof min !== 'number' || typeof max !== 'number')
+    stderr += 'In wbrandom.real expected parameters to be numbers but they are not.\n';
+
   updateSeed();
 
   return min + seedValue * (max - min) / (Math.pow(2, 24) - 1);
@@ -41,6 +44,9 @@ export function integer(min, max) {
     max = min;
     min = 1;
   }
+
+  if (typeof min !== 'number' || typeof max !== 'number')
+    stderr += 'In wbrandom.integer expected parameters to be numbers but they are not.\n';
 
   updateSeed();
 
