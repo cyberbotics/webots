@@ -304,6 +304,8 @@ def game_controller_receive():
     previous_seconds_remaining = game.state.seconds_remaining if game.state else 0
     previous_secondary_seconds_remaining = game.state.secondary_seconds_remaining if game.state else 0
     previous_state = game.state.game_state if game.state else None
+    previous_sec_state = game.state.secondary_state if game.state else None
+    previous_sec_phase = game.state.secondary_state_info[1] if game.state else None
     if game.state:
         red = 0 if game.state.teams[0].team_color == 'RED' else 1
         blue = 1 if red == 0 else 0
@@ -316,13 +318,26 @@ def game_controller_receive():
     game.state = GameState.parse(data)
 
     if previous_state != game.state.game_state:
+        info(f'New state received from GameController: {game.state.game_state}.')
         if game.wait_for_state is not None:
             if 'STATE_' + game.wait_for_state != game.state.game_state:
                 warning(f'Received unexpected state from GameController: {game.state.game_state} ' +
                         f'while expecting {game.wait_for_state}')
             else:
+                info(f"State has succesfully changed to {game.wait_for_state}")
                 game.wait_for_state = None
-        info(f'New state received from GameController: {game.state.game_state}.')
+    new_sec_state = game.state.secondary_state
+    new_sec_phase = game.state.secondary_state_info[1]
+    if previous_sec_state != new_sec_state or previous_sec_phase != new_sec_phase:
+        info(f'New secondary state received from GameController: {new_sec_state}, phase {new_sec_phase}.')
+        if game.wait_for_sec_state is not None or game.wait_for_sec_phase is not None:
+            if 'STATE_' + game.wait_for_sec_state != new_sec_state or new_sec_phase != game.wait_for_sec_phase:
+                warning(f'Received unexpected secondary state from GameController: {new_sec_state}:{new_sec_phase} ' +
+                        f'while expecting {game.wait_for_sec_state}:{game.wait_for_sec_phase}')
+            else:
+                info(f"State has succesfully changed to {new_sec_state}:{new_sec_phase}")
+                game.wait_for_sec_state = None
+                game.wait_for_sec_phase = None
     if game.state.game_state == 'STATE_PLAYING' and \
        game.state.secondary_seconds_remaining == 0 and previous_secondary_seconds_remaining > 0:
         if game.in_play is None and game.phase == 'KICKOFF':
@@ -397,14 +412,23 @@ def game_controller_send(message):
         elif message[6:] == 'PLAY':
             game.wait_for_state = 'PLAYING'
         elif (message[:6] == 'SCORE:' or
-              message == 'DROPPEDBALL' or
-              message[:11] == 'CORNERKICK:' or
-              message[:9] == 'GOALKICK:' or
-              message[:8] == 'THROWIN:' or
-              message[:16] == 'DIRECT_FREEKICK:' or
-              message[:18] == 'INDIRECT_FREEKICK:' or
-              message[:12] == 'PENALTYKICK:'):
+              message == 'DROPPEDBALL'):
             game.wait_for_state = 'READY'
+    if ':' in message:
+        msg_start = message.split(':', 1)[0]
+        if msg_start in GAME_INTERRUPTIONS:
+            if 'ABORT' in message or 'EXECUTE' in message:
+                game.wait_for_sec_state = 'NORMAL'
+                game.wait_for_sec_phase = 0
+            else:
+                game.wait_for_sec_state = msg_start
+                if 'READY' in message:
+                    game.wait_for_sec_phase = 1
+                elif 'PREPARE' in message:
+                    game.wait_for_sec_phase = 2
+                else:
+                    game.wait_for_sec_phase = 0
+            info(f"Waiting for secondary state: {game.wait_for_sec_state}:{game.wait_for_sec_phase}")
     game_controller_send.id += 1
     if message[:6] != 'CLOCK:':
         info(f'Sending {game_controller_send.id}:{message} to GameController.')
@@ -1957,6 +1981,8 @@ game.throw_in_ball_was_lifted = False  # True if the throwing-in player lifted t
 game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
+game.wait_for_sec_state = None
+game.wait_for_sec_phase = None
 game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
                                                      FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
 
@@ -2012,7 +2038,8 @@ while supervisor.step(time_step) != -1 and not game.over:
     update_contacts()  # check for collisions with the ground and ball
     update_ball_holding()  # check for ball holding for field players and goalkeeper
     update_histories()
-    if game.wait_for_state is not None:  # we are waiting for a new state from the GameController
+    # We are waiting for a specific update from the GC before taking any other action
+    if game.wait_for_state is not None or game.wait_for_sec_state is not None or game.wait_for_sec_phase is not None:
         time_count += time_step
         continue
     if game.state.game_state == 'STATE_PLAYING':
