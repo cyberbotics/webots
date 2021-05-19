@@ -77,6 +77,13 @@ This field is ignored for the "sonar" and "laser" DistanceSensor types.
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
 This field accepts any value in the interval (0.0, inf).
 
+- `redColorSensitivity`: red color sensitivity factor.
+This allows to tune (or even disable) red color sensitivity for infra-red distance sensor type.
+Value of 1 means ordinary Webots behavior.
+Values greater that 1 increase the red color sensitivity and values lower than 1 decrease it.
+Value of 0 disables the red color sensitivity completely.
+See details [below](#infra-red-sensors).
+
 ### Lookup Table
 
 A lookup table indicates how the value measured by Webots must be mapped to response values returned by the sensor (the distance returned by the `wb_distance_sensor_get_value` function in case of [DistanceSensor](#distancesensor)).
@@ -141,12 +148,13 @@ Two different methods are used for calculating the distance from an object.
 
 ### Infra-Red Sensors
 
-In the case of an "infra-red" sensor, the value returned by the lookup table is modified by a reflection factor depending on the color, roughness and occlusion properties of the object hit by the sensor ray. The red color sensitivity property of the distance sensor also applies and can be used to tune this sensitivity. Value of 0 will completely disable red color sensitivity.
+In the case of an "infra-red" sensor, the value returned by the lookup table is modified by a reflection factor depending on the color, roughness and occlusion properties of the object hit by the sensor ray.
+The `redColorSensitivity` field also applies and can be used to tune this functionality. Value of 0 will completely disable red color sensitivity.
 The reflection factor is computed as follows: *f = 0.2 + 0.8 * red\_level * (1 - 0.5 * roughness) * (1 - 0.5 * occlusion)* where *red\_level* is the level of red color of the object hit by the sensor ray.
 This level is evaluated combining the `diffuseColor` (in case of [Appearance](appearance.md)), `baseColor` (in case of [PBRAppearance](pbrappearance.md)) and `transparency` values of the object, the pixel value of the image texture and the paint color applied on the object with the [Pen](pen.md) device.
 The *roughness* is evaluated (only in case of [PBRAppearance](pbrappearance.md), otherwise roughness is 0) using the `roughness` value and the pixel value of the `roughnessMap` image texture.
 The *occlusion* is evaluated (only in case of [PBRAppearance](pbrappearance.md), otherwise occlusion is 0) using the pixel value of the `occlusionMap` image texture.
-Then, the distance value computed by the simulator is multiplied by the red color sensitivity factor and divided by the reflection factor before the lookup table is used to compute the output value.
+Then, the distance value computed by the simulator is multiplied by the `redColorSensitivity` field value and divided by the reflection factor before the lookup table is used to compute the output value.
 
 > **Note**: Unlike other distance sensor rays, "infra-red" rays can detect solid parts of the robot itself.
 It is thus important to ensure that no solid geometries interpose between the sensor and the area to inspect.
