@@ -493,7 +493,6 @@ public:
           for (const auto &entry : new_sensors)
             if (entry.first->getNodeType() == webots::Node::CAMERA && entry.first->getName() != sensorTimeStep.name())
               requested_bandwidth += getRenderingBandwidth(static_cast<webots::Camera *>(entry.first), entry.second);
-          std::cout << "BW: " << requested_bandwidth << " allowed: " << robot_rendering_quota << std::endl;
           // Only allowing to set time_step if the rendering bandwidth is not exceeded
           if (requested_bandwidth > robot_rendering_quota)
             warn(sensor_measurements, "requested rendering bandwidth is above the limit (" +
