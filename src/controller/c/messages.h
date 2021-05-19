@@ -290,5 +290,5 @@
 
 // Altimeter device
 // ctr -> sim
-#define C_ALTIMETER_DATA 1 
+#define C_ALTIMETER_DATA 1
 #endif  // MESSAGES_H
