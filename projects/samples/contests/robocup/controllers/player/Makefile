@@ -38,7 +38,7 @@ defaut: release
 
 release debug profile: clients
 
-clients: build/$(GOAL)/messages.pb.o
+clients: build/$(GOAL)/messages.pb.o messages.pb.h
 	$(MAKE) -f Makefile.client $(MAKECMDGOALS)
 
 messages.pb.cpp message.pb.h:	messages.proto
