@@ -467,11 +467,15 @@ public:
       if (device) {
         const int sensor_time_step = sensorTimeStep.timestep();
 
+        int min_time_step = basic_time_step;
+        if (device->getNodeType() == webots::Node::CAMERA)
+          min_time_step = camera_min_time_step;
+
         if (sensor_time_step == 0)
           sensors.erase(device);
-        else if (sensor_time_step < basic_time_step)
+        else if (sensor_time_step < min_time_step)
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be greater or equal to " +
-                                      std::to_string(basic_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
+                                      std::to_string(min_time_step) + ", ignoring " + std::to_string(sensor_time_step) +
                                       " value.");
         else if (sensor_time_step % basic_time_step != 0)
           warn(sensor_measurements, "Time step for \"" + sensorTimeStep.name() + "\" should be a multiple of " +
@@ -713,6 +717,8 @@ private:
   static double team_quota;
   /// The duration of the time window used to average the bandwidth (seconds)
   static double window_duration;
+  /// The minimal value authorized for camera time steps in milliseconds
+  static int camera_min_time_step;
 
 public:
   static int nb_robots_in_team;
@@ -720,9 +726,10 @@ public:
 
 int PlayerServer::benchmark_level = 0;
 double PlayerServer::budget_ms = 1.0;
-double PlayerServer::team_quota = 100.0;
+double PlayerServer::team_quota = 350.0;
 double PlayerServer::window_duration = 1.0;
 int PlayerServer::nb_robots_in_team = 4;
+int PlayerServer::camera_min_time_step = 16;
 
 int main(int argc, char *argv[]) {
   if (argc < 3) {
