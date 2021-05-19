@@ -64,6 +64,12 @@ jobs:
       run: |
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         make distrib -j4
+    - name: Deploy Webots Controller
+      run: |
+        export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        ssh-add - <<< "${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}"
+        scripts/packaging/sync_controller_lib.sh
     - name: Create/Update GitHub release
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
