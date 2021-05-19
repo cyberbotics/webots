@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "middle_left_wheel_joint",
       "position": 0,
-      "transformID": "n112",
+      "transformID": "n111",
       "type": "RotationalMotor"
     },
     {
@@ -17,85 +17,85 @@
       "minPosition": 0,
       "name": "middle_right_wheel_joint",
       "position": 0,
-      "transformID": "n127",
+      "transformID": "n126",
       "type": "RotationalMotor"
     },
     {
       "name": "back_left_caster_joint_sensor",
-      "transformID": "n189",
+      "transformID": "n188",
       "type": "PositionSensor"
     },
     {
       "name": "back_left_wheel_joint_sensor",
-      "transformID": "n196",
+      "transformID": "n195",
       "type": "PositionSensor"
     },
     {
       "name": "back_right_caster_joint_sensor",
-      "transformID": "n213",
+      "transformID": "n212",
       "type": "PositionSensor"
     },
     {
       "name": "back_right_wheel_joint_sensor",
-      "transformID": "n220",
+      "transformID": "n219",
       "type": "PositionSensor"
     },
     {
       "name": "backLidar",
-      "transformID": "n279",
+      "transformID": "n278",
       "type": "Lidar"
     },
     {
       "name": "front_left_caster_joint_sensor",
-      "transformID": "n141",
+      "transformID": "n140",
       "type": "PositionSensor"
     },
     {
       "name": "front_left_wheel_joint_sensor",
-      "transformID": "n148",
+      "transformID": "n147",
       "type": "PositionSensor"
     },
     {
       "name": "front_right_caster_joint_sensor",
-      "transformID": "n165",
+      "transformID": "n164",
       "type": "PositionSensor"
     },
     {
       "name": "front_right_wheel_joint_sensor",
-      "transformID": "n172",
+      "transformID": "n171",
       "type": "PositionSensor"
     },
     {
       "name": "frontLidar",
-      "transformID": "n263",
+      "transformID": "n262",
       "type": "Lidar"
     },
     {
       "name": "imu_data accelerometer",
-      "transformID": "n62",
+      "transformID": "n61",
       "type": "Accelerometer"
     },
     {
       "name": "imu_data compass",
-      "transformID": "n62",
+      "transformID": "n61",
       "type": "Compass"
     },
     {
       "name": "imu_data gyro",
-      "transformID": "n62",
+      "transformID": "n61",
       "type": "Gyro"
     },
     {
       "name": "middle_left_wheel_joint_sensor",
-      "transformID": "n112",
+      "transformID": "n111",
       "type": "PositionSensor"
     },
     {
       "name": "middle_right_wheel_joint_sensor",
-      "transformID": "n127",
+      "transformID": "n126",
       "type": "PositionSensor"
     }
   ],
   "name": "mir100",
-  "robotID": "n45"
+  "robotID": "n44"
 }
