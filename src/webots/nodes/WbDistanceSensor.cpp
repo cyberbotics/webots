@@ -535,7 +535,8 @@ void WbDistanceSensor::computeValue() {
     }
 
     // apply infrared reflection factor and red color sensitivity
-    mDistance = mDistance * (mRedColorSensitivity->value() / averageInfraRedFactor);
+    // before adding of red color sensitivity factor it was calculated with mDistance = mDistance / averageInfraRedFactor
+    mDistance = mDistance + (mDistance / averageInfraRedFactor - mDistance) * mRedColorSensitivity->value();
   } else if (mRayType == SONAR) {
     // use only the nearest ray collision, ignore ray weight
     mDistance = lutMaxRange;
