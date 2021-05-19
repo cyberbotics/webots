@@ -11453,7 +11453,7 @@ Is this what the tree should look like? I'm unsure whether the two hinge joints 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/824780857847709786/unknown.png)
 %end
 
-##### Eturtle121 03/26/2021 02:57:58
+##### 이 거북이 03/26/2021 02:57:58
 I dont understand how to make the Hoap2 robot to move can anyone help?
 
 ##### Uanuan 03/26/2021 06:35:46
@@ -16946,4 +16946,727 @@ It sounds like you want to export a scene or special structure.
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/12/2021 08:15:16
 Hello `@cahyadiryan30`, I had remove your post as it contained images that make hard for users to debug your simulation. Please post the code to services like Gist ([https://gist.github.com/](https://gist.github.com/)) or use a proper tag ([https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-)).
+
+##### KajalGada 05/12/2021 14:29:14
+That makes sense.
+
+##### harrymcc 05/12/2021 14:42:45
+okay thanks for help turns out my bot must have been well in the minuses and just wasn't stopping
+
+##### Max\_K 05/12/2021 16:17:18
+Hello, i am trying to use a camera in Webots for the detection of apriltags in ros2 foxy. I tried with the 'Webcam for Robotino3' and the custom camera, but the /camera\_info topic in ros2 is empty, there is only one message at start. 
+
+ Do i have to fill the camera\_info msgs myself or do i miss something?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/12/2021 16:18:27
+Hello, the CameraInfo topic is latched, so you should verify QoS of your subscriber
+
+##### Max\_K 05/12/2021 16:29:01
+Okay, so its not possible to echo the camera\_info via cmd without QoS settings? I also do not see the image in rviz2 when subscribing to the /image\_raw, are the QoS setting also reason for that?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/12/2021 16:49:27
+You can use echo, but:
+
+[https://answers.ros.org/question/371521/ros2-foxy-qos-durability-transient\_local-rclpy-to-echo-robot\_description/](https://answers.ros.org/question/371521/ros2-foxy-qos-durability-transient_local-rclpy-to-echo-robot_description/)
+
+
+
+For image in RViz2 yes, it may be the reason, but you can change QoS in RViz2.
+
+##### Max\_K 05/12/2021 17:00:42
+ok thanks! i m just getting one msgs when echo to the CameraInfo topic with QoS settings, but that helps.
+
+##### Alejandro Pescathore 05/12/2021 22:18:53
+Hello there! 
+
+Is it possible to record a simulation with audio?  And if it is possible, how can I do it?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/12/2021 23:02:36
+Do you have audio in the simulation?
+
+##### Alejandro Pescathore 05/12/2021 23:03:26
+Yes, i ise the speakers
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/12/2021 23:04:13
+I dont have experience with it, but if it is not implemented, that would be a good feature request
+
+##### pewpewpew 05/13/2021 02:54:31
+Are the left and right sensor values getting printed to the console in decimeters? Thanks in advance.
+%figure
+![Screenshot_1447.png](https://cdn.discordapp.com/attachments/565154703139405824/842233318715686932/Screenshot_1447.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/13/2021 03:12:15
+radians. They are motors, so it's angles in radians
+
+##### pewpewpew 05/13/2021 04:37:47
+it says that these sensors "allow the robot to know the distance traveled so far",  how would I convert two meters to radians?
+
+##### DDaniel [Cyberbotics] 05/13/2021 08:40:52
+For a full rotation of the motor (2pi radians)  the robot will advance roughly by a distance equal to the circumference of the wheel
+
+##### pewpewpew 05/13/2021 08:57:19
+thanks! I eventually figured that out, now I'm just trying to get the robot to follow the square path correctly
+
+##### bingdong 05/13/2021 09:12:10
+Hi, not sure how the motor.setPosition() function works. I initialised the rotational motor in scene tree and python script, then called motor.setPosition(PositionValue) in the main loop. From what I understand, the controller should calculate velocity according to set PID values to reach position. But the motor doesn't seem to be rotating.
+
+##### DDaniel [Cyberbotics] 05/13/2021 09:15:09
+`@bingdong` did you set motor.setVelocity(0) somewhere by any chance? In position control this command specifies the maximal velocity, if you did it won't move.
+
+##### bingdong 05/13/2021 09:17:10
+Ah okay. Thought it would change the setVelocity() value while running. Got it, thanks!
+
+##### DDaniel [Cyberbotics] 05/13/2021 09:18:53
+`@bingdong` no, only in velocity control it would do that, in position control it specifies the maximal velocity. Keep in mind that the motor API functions have different meanings depending on which type of control you're making (position control, velocity control, torque control). It's summarised in this table: [https://cyberbotics.com/doc/reference/motor#motor-control-summary](https://cyberbotics.com/doc/reference/motor#motor-control-summary)
+
+##### bingdong 05/13/2021 09:27:12
+Will go through it. Thank you.
+
+##### raerae 05/13/2021 09:42:06
+Hi guys, I'm new here. I just want to ask, is there a possible method to export Solidworks model to Webots that will include its original appearance?
+
+##### alejanpa17 05/13/2021 18:40:10
+Hi, im getting this error while compiling the racing\_wheel controller. Any clue whats happening?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/842471300152950804/unknown.png)
+%end
+
+##### Suke 05/13/2021 20:02:28
+We are trying to figure out if we can implement a conveyor with teeth shown in the attached figure with the track node. We tried to use group that includes both track and box (teeth) in the bounding geometry. Is it possible or do we need to implement this as slider joints to mimic this behavior?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/842492011101683722/unknown.png)
+%end
+
+
+Go to "File>Save as" and select VRML (.wrl). Click option and select version "VRML 97". Still You may loose some apperance, but this is the best way so far for me.
+
+##### Supernova 05/13/2021 20:37:46
+Hey, can anyone tell me why do I have a message: "Connect to SUMO... This operation may take a few seconds." that well, never dissapears? My vehicle never connects to sumo and the simulation just stops the moment it starts, for some reason.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/13/2021 22:39:52
+Can you give more information? What did you run, where did the error show?
+
+##### Supernova 05/14/2021 05:57:48
+Im running my own autonomus vehicle controller. Its tesla with a compass, gps, lidar and seven distance controllers. But most of the code is commented - i only wanted to test a tiny function i prepared for distance sensors, so the only think the car does is going forward and checking if anything is too close, and this happends. Its not even an error, just an information - nothing else gets printed out. So im just trying to ask If its my fault and i messed up the code, or is it just some form of a bug...?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/14/2021 06:30:46
+You probably have a `SumoInterface` PROTO somewhere in your world. Deleting it should fix the error:
+
+[https://cyberbotics.com/doc/automobile/sumo-interface](https://cyberbotics.com/doc/automobile/sumo-interface)
+
+
+It seems you are missing the Qt library in your PATH
+
+##### Dorteel 05/14/2021 11:49:08
+Hi everyone! Can anybody give me an advice on how to align connectors? I'm trying to grasp, and lock when there is a presence of a connector, but the can just teleports to the side after locking. The connector in the robot is in the middle of the tool center point, and the connector in the can is in the middle as well. There is a distance tolerance of 0.02. Any help is greatly appreciated, have ran out of ideas...
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/842730251021058088/unknown.png)
+%end
+
+##### alejanpa17 05/14/2021 16:31:13
+isn't that supposed to be included in webots when installing it? I didnt touch anything in that path
+
+##### antehc 05/14/2021 20:10:23
+Hi guys, I'm new here. I just want to ask, is there a way to have some fire or explotion effect in webots?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/14/2021 20:51:44
+`@alejanpa17` [https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#environment-variables](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#environment-variables) you have to set environmental variables
+
+
+`@Dorteel` can you share a project so we can take a closer look?
+
+
+Fire or explosions are not included. Perhaps you could try a point light, which you change the properties of with a script
+
+##### mmoralesp 05/14/2021 21:35:20
+Ok, but how i set in the launch file the controller or where i set this? Thanks!!
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/14/2021 21:39:08
+`@mmoralesp` just select the ros controller for each robot. It should automatically create topics and action servers / services to control the robot
+
+
+all controllers get started automatically when the simulation starts
+
+##### mmoralesp 05/14/2021 21:40:57
+but the controller is external so where i set that
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/14/2021 21:41:17
+in webots
+
+
+you can still start your external controller
+
+##### mmoralesp 05/14/2021 21:45:01
+I launch the world from the terminal with the ros command and then the ros controller to set the velocity
+
+
+so i dont know how to launch this from webots
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/14/2021 21:45:51
+what command? Is it your own world?
+
+##### mmoralesp 05/14/2021 21:47:11
+ros2 launch webots\_ros2\_epuck robot\_launch.py (Robot\_launch.py is where is configured the world, executable...)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/14/2021 21:48:50
+ohh you're using ros2. You did not mention that
+
+##### mmoralesp 05/14/2021 21:49:01
+sorry mate
+
+
+yes im using ros2
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/14/2021 21:49:10
+not very experienced with ros2
+
+##### mmoralesp 05/14/2021 21:49:44
+if i can do this with ros, i dont mind to change
+
+
+but i like to use the publish and subscription
+
+##### alejanpa17 05/15/2021 11:49:25
+Environmental variables were good. I fixed doing this: [https://github.com/cyberbotics/webots/issues/2717](https://github.com/cyberbotics/webots/issues/2717) I have the version nightly\_13\_5\_2021
+
+##### dA$H 05/15/2021 14:33:05
+hi.
+
+can we use "input()" in  webot's console?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/843133895607975936/unknown.png)
+%end
+
+##### alejanpa17 05/15/2021 17:59:11
+Hi, im trying to calibrate the engineFunctionCoefficients of a car node but I have no clue on how to do it, the rest of the configuration is on the image. I tried other values but the rpm never go higher than 900 and I dont know why
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/843185763084271656/unknown.png)
+%end
+
+##### abhicv 05/16/2021 04:51:52
+Hi, how to visualize things like fluid being sprayed by a robotic arm on objects?
+
+##### [BU] Heinrich Mellmann 05/16/2021 10:00:39
+Hi everybody, I have a problem with using the `Pen`. it works perfectly on a floor with a single texture tile, but stop working as soon as there are more texture tiles. To reproduce the issue:
+
+
+
+1. open `projects/samples/devices/worlds/pen.wbt`
+
+2. start => pen works
+
+3. change `RectangleArena->floorSize->x = 2` 
+
+4. start => pen is double
+
+5. change `RectangleArena->floorSize->y = 2`
+
+4. start => pen doesn't work
+
+
+
+`@DDaniel` I adjusted the test scenario: you have to change the `floorSize` to make sure there are several tiles. As long as there is only one tile everything works fine, but there seems to be a problem as soon as the floor consists of several tiles. Alternatively you can set `floorTileSize->x=0.5`, `floorTileSize->y=0.5`
+
+##### Beginner26798 05/16/2021 10:18:58
+Hi guys ... i'm using a regular wheel not a differential one so i need another sentence to get the encoder can you help please and give me another sentence than this in the photo below
+
+
+
+%figure
+![20210516_131647.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843432378797260820/20210516_131647.jpg)
+%end
+
+##### DDaniel [Cyberbotics] 05/16/2021 10:54:26
+`@[BU] Heinrich Mellmann` I can't reproduce the bug on 2021a, what version are you using?
+
+
+`@Beginner26798` As explained here [https://www.cyberbotics.com/doc/reference/differentialwheels#differentialwheels](https://www.cyberbotics.com/doc/reference/differentialwheels#differentialwheels), you can replace the differential wheel with a hingejoint + rotational motor + position sensor. You need to use Motor API [https://www.cyberbotics.com/doc/reference/motor](https://www.cyberbotics.com/doc/reference/motor) and Position Sensor API [https://www.cyberbotics.com/doc/reference/positionsensor](https://www.cyberbotics.com/doc/reference/positionsensor) to interact with them
+
+
+`@dA$H` Hi, haven't checked but depending on what you need to do there might be better ways to do it. If you want to control a robot using the keyboard you can use the Keyboard API [https://www.cyberbotics.com/doc/reference/keyboard](https://www.cyberbotics.com/doc/reference/keyboard), which is available by default for Robot nodes (useful for 1 stroke inputs typically, like steering). If you have multiple robots that all have the same controller but want them to behave differently you can do using using controller arguments [https://cyberbotics.com/doc/guide/controller-programming#using-controller-arguments](https://cyberbotics.com/doc/guide/controller-programming#using-controller-arguments). Lastly, you can use a supervisor to send out unique commands to each robot using emitters/receivers.
+
+##### [BU] Heinrich Mellmann 05/16/2021 11:34:28
+Thanks for the fast reply! I'm using the same version. You are right, I mistyped a variable name in my test case: for the bug to appear you have to change `floorSize` to make sure your floor texture has more than one tile. I also adjusted the test case description above.
+
+##### DDaniel [Cyberbotics] 05/16/2021 12:16:54
+`@[BU] Heinrich Mellmann` I see, I can reproduce it as well. It's due to the fact that the `RectangleArena` PROTO doesn't handle the mapping by itself when changes occur, so when you change the `floorSize` you also need to change the `floorTileSize` accordingly as reported here: [https://github.com/cyberbotics/webots/issues/1529#issuecomment-615062207](https://github.com/cyberbotics/webots/issues/1529#issuecomment-615062207), but I do agree that it can be misleading
+
+##### Beginner26798 05/16/2021 12:23:29
+I have used the position sensors it is giving me this error
+
+
+
+%figure
+![20210516_152222.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843463786090594334/20210516_152222.jpg)
+%end
+
+
+<@787796043987025941>
+
+##### DDaniel [Cyberbotics] 05/16/2021 12:27:05
+`@Beginner26798` you only need to pass `ps0`, `WbDeviceTag` is the type. I suggest you do this tutorial before: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
+
+##### Beginner26798 05/16/2021 14:33:04
+I used this code to initialize the position sensors but it is giving me the same error can you please tell me what the specific code that i should add ... and thanks for helping <@787796043987025941>
+%figure
+![Screenshot_20210516-173046_Chrome.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843496279316889611/Screenshot_20210516-173046_Chrome.jpg)
+%end
+
+
+
+%figure
+![20210516_173313.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843496357373280276/20210516_173313.jpg)
+%end
+
+
+What's wrong with this
+%figure
+![20210516_173918.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843498094838284338/20210516_173918.jpg)
+%end
+
+##### DDaniel [Cyberbotics] 05/16/2021 15:18:06
+`@Beginner26798` like I said you need to drop the `WbDeviceTag` and just call `wb_position_sensor_get_value(ps0)` as shown in the tutorial. Also, is `ps0` a global variable? Otherwise your function `compute_odometry` won't know what that is.
+
+##### Daemongear 05/16/2021 17:21:43
+Hey there. I'm trying to connect ROS with WeBots. I already have an Rviz launch file, the urdfs, protos, worlds setup, but I can't figure out how exactly I can connect RViz to the motor sensor feedbacks.
+
+
+I figured that there should be a way to pass them to the joint\_state\_publisher, but I'm not sure how
+
+
+as far as I have found, I still need to write a node to connect the two, where I simply take the results from the respective topics (whose names change each time) and plug them into their joint\_state.name and .position, then publish the results
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 20:50:55
+your robot's controller has to get the sensor values and publish them
+
+##### Beginner26798 05/16/2021 21:28:46
+Any i dea on what can cause these errors ??
+%figure
+![20210517_002742.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843600892355805204/20210517_002742.jpg)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:31:44
+which errors are you referring to? The lower half are only warnings
+
+
+and it's hard to say without seeing your code
+
+
+can you upload your controller file here?
+
+##### Beginner26798 05/16/2021 21:39:19
+
+> **Attachment**: [final\_one.c](https://cdn.discordapp.com/attachments/565154703139405824/843603549739810856/final_one.c)
+
+
+`@Simon Steinmann` this is the file
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:39:44
+`@Daemongear` are you using ROS or ROS2? If using ROS, did you use the default ROS controller
+
+##### Beginner26798 05/16/2021 21:40:29
+I'm trying to make a obstacle avoider robot with color recognition
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:40:31
+you get the errors when building?
+
+##### Beginner26798 05/16/2021 21:40:39
+Yes
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:40:52
+and can you post the whole output, without any old console messages
+
+##### Beginner26798 05/16/2021 21:44:11
+
+%figure
+![20210517_004335.jpg](https://cdn.discordapp.com/attachments/565154703139405824/843604772379951124/20210517_004335.jpg)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:44:28
+Okay, so first of all, you have wrong variable types. Check the reference manual: [https://www.cyberbotics.com/doc/reference/positionsensor#wb\_position\_sensor\_get\_value](https://www.cyberbotics.com/doc/reference/positionsensor#wb_position_sensor_get_value)
+
+get\_value is double, not int
+
+
+`@Beginner26798` I suggest you orient yourself on an example controller such as this one
+> **Attachment**: [e-puck.c](https://cdn.discordapp.com/attachments/565154703139405824/843605350808027146/e-puck.c)
+
+
+change and expand it
+
+
+understand its functionality
+
+##### DDaniel [Cyberbotics] 05/16/2021 21:47:01
+```
+static double compute_odometry() 
+
+{
+    WbDeviceTag ps[2];
+    char ps_names[2][10] = { "ps0", "ps1"};
+
+       for (i = 0; i < 2; i++) {
+        ps[i] = wb_robot_get_device(ps_names[i]);
+        wb_distance_sensor_enable(ps[i], TIME_STEP);
+}
+
+    int l =  wb_position_sensor_get_value('ps0');
+    
+    int  r =  wb_position_sensor_get_value('ps1');
+    
+    
+    // distance covered by left wheel in meter
+    double dl = l / ENCODER_RESOLUTION * WHEEL_RADIUS;
+    
+    // distance covered by right wheel in meter
+    double dr = r / ENCODER_RESOLUTION * WHEEL_RADIUS;
+    
+    // delta orientation
+    double da = (dr - dl) / AXLE_LENGTH;
+
+    X = X + (((dr + dl) / 2) * cos(da));
+    Y = Y + (((dr + dl) / 2) * sin(da)); 
+    
+    // printf("X: %3.3f m | Y: %3.3f m | D: %3.3f\n", X, Y, da);
+
+    // printf("estimated change of orientation: %g rad.\n", da);
+    
+    return da;
+}
+```
+
+the brackets `{}` here make no sense, and you can't access the array `ps`, using `'ps0'`, but instead using `ps[0]`. Like I said before already, most of what you want to do is in the tutorial-4
+
+##### Beginner26798 05/16/2021 21:47:46
+I'm using this one actually and my robot is just going forward
+
+
+Ok I'll see what I'll get sorry for bothering I'm new to webots
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:48:37
+Tutorials are your friend :). Try to do them first and understand them
+
+##### DDaniel [Cyberbotics] 05/16/2021 21:48:50
+if you're not comfortable with c, you can use other languages like python or matlab
+
+##### Beginner26798 05/16/2021 21:49:39
+The issue that I'm low on time and I'm using webots to simulate my university project that's why I'm not taking my time in reading tutorials
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:50:14
+Is c as a programming language demanded by the professor?
+
+
+You'll save lots of time using Python. Much quicker and easier to learn than c.
+
+##### Beginner26798 05/16/2021 21:51:19
+No but i started with it and i don't have the time to restart using another language
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:51:41
+believe me, you'll be faster with python
+
+##### Beginner26798 05/16/2021 21:52:31
+Actually i tried python first but i didn't now how to run it
+
+
+Know*
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:52:39
+no compiling, easier syntax
+
+##### Beginner26798 05/16/2021 21:54:24
+Is it possible that you can help me to do the code personally?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:54:44
+pm me
+
+##### Daemongear 05/16/2021 21:55:52
+hey `@Simon Steinmann` sorry for the delay, I didn't notice the ping. I'm using ROS, and currently I'm using the standard ROS controller, as provided in the tutorials. I've advanced a bit in my search, and if I'm not mistaken, I should be able to remap the same controller that I have for RViz to the webots data. (I am also using an auto generated package from a Fusion360-urdf exporter, which provides launch files for RViz, including a basic controller and such.)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 21:58:11
+`@Daemongear` when the simulation is running, do a` rostopic list` and see what is published. If i'm not mistaken, the standard ROS controller should automatically publish all sensors. You just have to select the appropiate topic in Rviiz
+
+##### Daemongear 05/16/2021 23:08:36
+yeah, but is rename enough to connect them to RViz if I model it right in  the launch file?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/16/2021 23:43:54
+verify first that everything gets published
+
+
+then just open rviz, make all the changes and save the config
+
+##### Daemongear 05/17/2021 00:36:12
+did that just fine, played around with the webots controller as well, I can get movement and feedback from the terminal via the rosservices
+
+
+I do have to enable all the motor sensors first, then I can see them in the rostopic list, as expected
+
+
+I have a launch file for RViz, with config and the proper project, but the launch file that I have declares a static joint\_state\_publisher source, or rather as I understand it, declares one but leaves it unconnected
+
+
+so sorry to be responding so late, i have been in a meeting up until now
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/17/2021 00:38:03
+just launch rviz. once it is open, add all the visualization you want. Then save the config
+
+##### Daemongear 05/17/2021 00:38:12
+did that too
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/17/2021 00:38:22
+what is the issue then?
+
+##### Daemongear 05/17/2021 00:38:32
+having what I do in webots translate to rviz 🙂
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/17/2021 00:38:46
+what exactly do you want to visualiize?
+
+##### Daemongear 05/17/2021 00:39:11
+the robot's internal movements (relative to itself, not an environment)
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/17/2021 00:39:25
+so just the joints moving?
+
+##### Daemongear 05/17/2021 00:39:29
+the joints being replicated, yeah
+
+
+Hello, so as Simon (many thanks btw) asked, I'm rephrasing my question, maybe someone can help with advice. I want to publish the WeBots joints to the ROS joint\_state\_publisher. I am using the standard, tutorial ROS controller
+
+so far the only options I've found were A) rewrite parts of the standard controller (which is heavily distributed of course) to get the joints directly published to the right topic or B) write my own node (much simpler) to subscribe to the default topics after enabling the motor sensors, and publish them to the joint\_state\_publisher. this would of course induce some delay.
+
+Any other ideas?
+
+##### harrymcc 05/17/2021 11:41:49
+in a tutorial i have seen the code robot.getTime() but would be an equivalent in c?
+
+##### Stefania Pedrazzi [Cyberbotics] 05/17/2021 11:43:49
+Yes, the C function is `wb_robot_get_time()`. All the API functions are documented in the Reference Manual:
+
+[https://www.cyberbotics.com/doc/reference/robot#wb\_robot\_get\_time](https://www.cyberbotics.com/doc/reference/robot#wb_robot_get_time)
+
+##### harrymcc 05/17/2021 11:45:04
+sorry, i dont know how i missed that. thank you
+
+##### h.sciascia 05/17/2021 14:46:50
+Hello everyone ! 
+
+I have two robots with the same architecture and node names. 
+
+For exemple, I have two RotationalMotor called "motor 0", two "motor 1", two "motor 2" etc
+
+
+
+I would like to create two list which refers to the id of my two robots motors architecture and be sure that I do not get the same motor
+
+
+
+I would like to do something like this :
+
+
+
+`Robot1 = supervisor.getFromDef("Robot1")
+
+Robot2 = supervisor.getFromDef("Robot2")
+
+
+
+for link in armChain1.links:
+
+    if 'moteur ' in link.name:
+
+        motor = Robot1.getDevice(link.name)
+
+        motors1.append(motor)
+
+for link in armChain2.links:
+
+    if 'motor ' in link.name:
+
+        motor = Robot2.getDevice(link.name)
+
+        motors2.append(motor)`
+
+
+
+In the documentation we can use getDevice for the robot but i get the error : "AttributeError: 'Node' object has no attribute 'getDevice'"
+
+Thank in advance !
+
+##### Stefania Pedrazzi [Cyberbotics] 05/17/2021 15:14:59
+First, from a controller you can only access devices in the current robot and not devices from other robots.
+
+Then, the `getDevice` is a method of the `Robot` object but your `Robot1` retrieved using the Supervisor API has the `Node` type.
+
+So you should rather call `supervisor.getDevice` to retrieve the devices defined in the Robot node associated with the current controller.
+
+##### h.sciascia 05/17/2021 15:17:27
+Ok so I cannot use one controller for two same robots okok
+
+Thanks
+
+##### Stefania Pedrazzi [Cyberbotics] 05/17/2021 15:18:32
+You can use the same controller for multiple robots, but multiple instances of the same controller will be started
+
+##### h.sciascia 05/17/2021 15:20:06
+ok I will do two controller then if I cannot use something like Node.getDevice("#")
+
+Thx
+
+##### Stefania Pedrazzi [Cyberbotics] 05/17/2021 15:23:27
+You don't need the Supervisor API to identify the robot, you could for example set a unique name or set some value in the `Robot.customData` field or use the Supervisor simply to get the DEF name of the `supervisor.getSelf().getDef()` node but without using the returned node for getting the devices.
+
+##### h.sciascia 05/17/2021 15:24:19
+Oh okok I will try that ! Great
+
+##### jmarsik 05/17/2021 16:22:01
+Hello guys, is there any way to have a distance sensor that interacts with Solids (not their bounding boxes) and does not take into account the color (like the infra-red type)?
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 05/17/2021 20:08:11
+`@jmarsik` [https://www.cyberbotics.com/doc/reference/distancesensor#distancesensor-types](https://www.cyberbotics.com/doc/reference/distancesensor#distancesensor-types)
+
+
+I believe they all use the shape, not bounding box, as they are visual sensors and use GPU
+
+
+but i'm not 100% sure
+
+##### harrymcc 05/17/2021 20:26:15
+WARNING: Forward: The process crashed some time after starting successfully.
+
+WARNING: 'Forward' controller crashed. Is this crash likely to do dodgy C code. Just in the console it didnt come up any issues
+
+##### DDaniel [Cyberbotics] 05/17/2021 20:29:34
+`@jmarsik` Laser/sonar and generic interact with `boundingObject`, infra-red with the solid itself. But since you can make the `boundingObject` as arbitrarily complex as you need it to be, the distinction shouldn't matter much. Can you explain more why you need it to interact with the solid instead of `boundingObject`? As for colored surfaces, only the infra-red is affected by it.
+
+
+`@harrymcc` remembered to put `wb_robot_init();` and `wb_robot_cleanup();` ?
+
+##### harrymcc 05/17/2021 20:39:05
+yeah all thats in.  These lines seem to cause the issue   (not in order of code                                                                                                      
+
+ 
+``` int linear_velocity = wheel_radius * MAX_SPEED; 
+  int duration_side = length_side/linear_velocity;                  if (current_time > start_time + duration_side) {
+ left_speed = 0;
+ right_speed = 0;
+ } 
+```
+
+##### DDaniel [Cyberbotics] 05/17/2021 20:44:32
+hard to say from that, can you post the file?
+
+
+`@harrymcc` `duration_side` isn't defined
+
+
+or rather, `linear_velocity`, at least in the full code
+
+##### harrymcc 05/17/2021 20:53:02
+yeah tbh  i have really confused my self messing about. That what i sent wasnt the code that would compile and crash. Sorry for messing you about
+
+
+is it okay if i upload it again. Got to same point i was on about
+
+##### DDaniel [Cyberbotics] 05/17/2021 21:11:15
+sure
+
+##### harrymcc 05/17/2021 21:12:09
+thank you
+> **Attachment**: [Forward.c](https://cdn.discordapp.com/attachments/565154703139405824/843959101787996170/Forward.c)
+
+##### DDaniel [Cyberbotics] 05/17/2021 21:25:59
+`@harrymcc` `wheel_radius` should be a double, if you set it as int it assigns it zero, not 0.025. Hence, also `linear_velocity` becomes zero and `duration_side` is infinity. Similarly, `wb_robot_get_time()` also returns a double, not a int. You should recheck all the types of your variables
+
+##### harrymcc 05/17/2021 21:28:32
+Okay thanks for the help I'll take a look. Got it going now youre a life saver. Need to go back to c basics. Doing 1st year electrical engineering so i have only known C for last few months on and off
+
+##### SeanLuTW 05/18/2021 02:53:27
+I have a `MFFloat` field with 6 values, how can I access the 0th index in my PROTO?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/18/2021 06:17:52
+You should use `wb_supervisor_node_get_proto_field` to get a handler to your field and then `wb_supervisor_field_get_mf_float` with `index=0` on it.
+
+##### SeanLuTW 05/18/2021 06:21:44
+I want to use these values in my PROTO instead of controller.
+
+
+I found some examples here. ([https://github.com/cyberbotics/webots/tree/master/tests/protos/protos](https://github.com/cyberbotics/webots/tree/master/tests/protos/protos))
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/18/2021 06:24:16
+I see. You should then be able to access it as a Lua array. Note however that the first index in a Lua array is 1, not 0.
+
+##### SeanLuTW 05/18/2021 06:26:02
+Yes, the problem solved! But I wonder which language is PROTO file used, VRML or Lua?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/18/2021 06:27:23
+It's the PROTO format (inspired from VRML97) to which you can apply Lua templating.
+
+##### TheGiant 05/18/2021 07:29:01
+Hello everyone,
+
+I'm working with hydraulic actuators, which are commanded using a velocity. Their are really strong, hence their is two behavior : 1) when a velocity is requested, it's reached almost immediately (their is a internal regulation in it, which is very good, and I don't want to simulate it). I've tweaked the P[ID] value to get something nice, and also change the max force to something very large, which is what the actuator could do. If the requested velocity is positive (resp negative), then whatever the load the actuator will not output a negative (resp positive) speed. At worst it will not move.
+
+2) When the velocity requested is 0, then the actuator will never move, (independently of the load), because the circuit in which the oil flow is closed.
+
+For the moment, I'm using a linear motor, which seems to work fine, but not for a speed of 0 (the actuator retract because of the gravity and the load), which is actually logical.
+
+Do you have any thought on that ?
+
+I thought about using connector to "lock" the actuator when speed == 0, but its not pretty.
+
+I thought also about adding a "lock" option to "transform" the motor in mechanical link when speed == 0.
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/18/2021 07:33:24
+Why not switching to position control instead of velocity control when velocity is 0?
+
+##### TheGiant 05/18/2021 07:36:21
+Yes, but I don't know which position should be used, and I'm not huge fan of adding a position sensor just for that (which don't exist in reality). Additionally, it will continue to cost time, because the solver will continue to regulate if some perturbation push it out of position, is it ?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/18/2021 07:39:13
+Yes...
+
+##### jmarsik 05/18/2021 08:46:16
+That's right, but complex bounding objects really slow down physics computation and also make it unstable sometimes. Or at least that's my experience. But I will try it because it seems like the only option right now. Maybe another is to create a pull request and try to add a property like `red color sensitivity` that would tune this sensitivity by a factor (0..1) for infra-red sensors? But I am not confident if I have enough experience to do that.
+
+##### TheGiant 05/18/2021 08:48:52
+`@Olivier Michel` fyi, devil strike again : I'm been stuck on "Finalizing node" (oscillating weirdly between 19% and 99%) when creating (and so opening) a new project directory...Add to reboot my PC.
+
+
+Is their any logs produced during file opening ?
+
+
+And here we go again, but this time, stuck on "Opening world file" at 99%. SIGKILL send, htop confirm webots shutdown, but back in gui the windows is still here, screen frozen, with mouse cursor moving but messed up... 
+
+I'm using a webots version built with "debug", but I don't expect to be the issue...
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/18/2021 09:09:21
+Did you try to debug it with gdb?
+
+##### TheGiant 05/18/2021 09:25:15
+I'm not, actually, that would be interesting.
+
+
+I'm currently rebuilding it on master with "release" makefile, and see if it change anything, I wil give gdb a try next
+
+
+Well, that didnt go according to the plan :/ Master + release => same issue (actually, I don't even see the "loading world" popup)
+
+Rebuild with "debug", on the branch makefile-improvement (to get -ggdb flags) did nothing more... gdb doesn't seems to catch anything. (but I can see m gdb output, cause screen freeze...)
+
+I think I will reinstall ubuntu, and give it another try. Also I continu to also blame my pc on that one, I've got very strange stuff in the past 
+
+At least it's consistant : run webots from command line with a fresh empty world, cause it to crash each time
+
+##### jmarsik 05/18/2021 12:24:36
+Ok, I tried to implement it and submitted a PR 🙂 [https://github.com/cyberbotics/webots/pull/3077](https://github.com/cyberbotics/webots/pull/3077)
+
+##### ShuffleWire 05/19/2021 08:24:20
+I've made progress ! 🙂 Trying to reinstall Ubuntu doesn't change the issue (however, now I could say that python3-dev and python-is-python3 are mandatory to build Webots (and docs) on a fresh Ubuntu install)
+
+I've added info to the bug, it's nicely reproducible,  and I found the faulty line. Updated to related issue [https://github.com/cyberbotics/webots/issues/3065](https://github.com/cyberbotics/webots/issues/3065) . Hope it might help...
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/19/2021 13:09:57
+Unfortunately, since we cannot reproduce this bug on our machines, you will have to continue to investigate on yours.
 

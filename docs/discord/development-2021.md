@@ -1735,3 +1735,50 @@ Allright, I might have some to do, then 🙂
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 05/06/2021 11:28:36
 You are very welcome.
 
+##### Daemongear 05/17/2021 01:34:31
+Hello, so as Simon (many thanks btw) asked, I'm rephrasing my question, maybe someone can help with advice. I want to publish the WeBots joints to the ROS joint\_state\_publisher. I am using the standard, tutorial ROS controller
+
+
+so far the only options I've found were A) rewrite parts of the standard controller (which is heavily distributed of course) to get the joints directly published to the right topic or B) write my own node (much simpler) to subscribe to the default topics after enabling the motor sensors, and publish them to the joint\_state\_publisher. this would of course induce some delay.
+
+
+Any other ideas?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/17/2021 06:33:06
+Hello `@Daemongear`, you can use `ros_control`. As of Webots R2021b it is a part of the `ros` controller. Here is an example:
+
+[https://github.com/cyberbotics/webots\_ros/blob/2bfc812411d82cf82427d0e414be3fc34a04e988/launch/tiago.launch#L18-L20](https://github.com/cyberbotics/webots_ros/blob/2bfc812411d82cf82427d0e414be3fc34a04e988/launch/tiago.launch#L18-L20)
+
+##### Daemongear 05/17/2021 06:35:51
+how does that work? do I need a launch file like that where I manually specify the joints, or is that a service I can enable or call?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/17/2021 06:38:08
+Just set the `controller` parameter to `ros` and `controllerArgs` like this:
+
+[https://github.com/cyberbotics/webots\_ros/blob/2bfc812411d82cf82427d0e414be3fc34a04e988/worlds/tiago.wbt#L539-L545](https://github.com/cyberbotics/webots_ros/blob/2bfc812411d82cf82427d0e414be3fc34a04e988/worlds/tiago.wbt#L539-L545)
+
+It will start `ros_control` and then you follow documentation from `ros_control`:
+
+[http://wiki.ros.org/ros\_control](http://wiki.ros.org/ros_control)
+
+##### Daemongear 05/17/2021 06:42:09
+oh that's awesome, I knew there must have been a generic publisher somewhere. I'll try it in a bit, thanks so much for the info!
+
+
+out of reference-making interest (I'm writing my bachelor project report right now, as it's due today, gg). are you, by any chance, one of the devs of WeBots?
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/17/2021 06:46:04
+Yes 🙂
+
+##### Daemongear 05/17/2021 06:47:03
+is it alright if I use your name as a reference in a TAROS paper and my project? (my paper is about a comparison between CoppeliaSim and WeBots, as undergraduate viability, while my project is about a specific humanoid application)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 05/17/2021 06:49:18
+Sure, but maybe it is better to use Cyberbotics as a reference
+
+##### Daemongear 05/17/2021 06:50:28
+it's more as an argument of "their team is significantly more responsive and community-involved", with the basis that CoppeliaSim has just one active dev who barely responds
+
+
+good point, I'll ask my mentor to make sure it's appropriate then
+
