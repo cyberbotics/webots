@@ -34,7 +34,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_ALTIMETER; }
-  enum CoordinateSystem { Local = 0, WGS84 }; //Might only need geoid to be defined
+  enum CoordinateSystem { Local = 0, WGS84 };  //Might only need geoid to be defined
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
@@ -54,7 +54,7 @@ private:
   double mMeasuredAltitude;
 
   WbAltimeter &operator=(const WbAltimeter &);
-  WbAltimeter *clone() const override {return new WbAltimeter(*this); }
+  WbAltimeter *clone() const override { return new WbAltimeter(*this); }
   void init();
 
   void addConfigureToStream(QDataStream &stream);
