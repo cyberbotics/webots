@@ -83,7 +83,7 @@
         "actions" : [
             {
                 "target" : "RED_PLAYER_1",
-                "position" : [1.0, -0.3, 0.24]
+                "position" : [1.0, -0.8, 0.24]
             },
             {
                 "target" : "BLUE_PLAYER_1",

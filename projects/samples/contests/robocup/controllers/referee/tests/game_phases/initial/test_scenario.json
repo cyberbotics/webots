@@ -1,7 +1,7 @@
 [
     {
         "timing" : {
-            "time" : [1.0, 119.0],
+            "time" : [1.0, 118.0],
             "clock_type" : "System"
         },
         "tests" : [
@@ -13,7 +13,7 @@
     },
     {
         "timing" : {
-            "time" : 125.0,
+            "time" : 122.0,
             "clock_type" : "System"
         },
         "tests" : [

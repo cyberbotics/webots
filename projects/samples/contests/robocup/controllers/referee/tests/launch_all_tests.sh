@@ -12,7 +12,7 @@ then
     fi
 fi
 
-TEST_FILES=$(find . -name "test_scenario.json" | sort -h | grep -v "ball_holding" | grep -v "forceful_contact")
+TEST_FILES=$(find . -name "test_scenario.json" | sort -h)
 
 TOT_SUCCESS=0
 TOT_TESTS=0

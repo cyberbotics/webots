@@ -10,6 +10,8 @@
 # - gyro
 # - camera
 # - realistic physics
+#
+# The model contains two cameras at the same position but with different resolution
 
 PROTO Darwin-opHinge2Robocup [
   field SFVec3f    translation      0 0 0                      # Is `Transform.translation`.
@@ -25,6 +27,8 @@ PROTO Darwin-opHinge2Robocup [
   field SFColor    plasticColor     0.301961 0.301961 0.301961 # Is `Material.plasticColor`.
   field SFInt32    cameraWidth      160                        # Is `Camera.width`.
   field SFInt32    cameraHeight     120                        # Is `Camera.height`.
+  field SFInt32    camera2Width     1920                       # Is `Camera2.width`.
+  field SFInt32    camera2Height    1080                       # Is `Camera2.height`.
   field SFNode     jersey           NULL                       # Extends the robot with a jersey: typically RobotisJersey.proto.
   field SFInt32    channel          0                          # Defines the channel for the `Emitter` and `Receiver` devices.
   field SFBool     showWindow       FALSE                      # Is `Robot.showWindow`.
@@ -327,6 +331,7 @@ PROTO Darwin-opHinge2Robocup [
                       }
                     ]
                   }
+                  # This second camera is located at the same position than the first one
                   Camera {
                     translation 0 0.0329074 0.0359816
                     rotation 0 -1 0 3.14159
@@ -353,6 +358,16 @@ PROTO Darwin-opHinge2Robocup [
                     fieldOfView 1.0123
                     width IS cameraWidth
                     height IS cameraHeight
+                    zoom Zoom {
+                    }
+                  }
+                  Camera {
+                    translation 0 0.0329074 0.0359816
+                    rotation 0 -1 0 3.14159
+                    name "Camera2"
+                    fieldOfView 1.0123
+                    width IS camera2Width
+                    height IS camera2Height
                     zoom Zoom {
                     }
                   }
@@ -1540,6 +1555,7 @@ PROTO Darwin-opHinge2Robocup [
           endPoint Solid {
             translation 0 0.082 0
             rotation 0.6734 0.6734 0.3051 2.5494
+            model "left arm"
             children [
               DEF DShoulderLShape Shape {
                 appearance USE METAL_APPEARANCE
@@ -1587,6 +1603,7 @@ PROTO Darwin-opHinge2Robocup [
                   endPoint Solid {
                     translation 0 -0.016 0
                     rotation 0 0 -1 -0.4254
+                    model "left arm"
                     children [
                       DEF DArmUpperLShape Group {
                         children [
@@ -1790,6 +1807,7 @@ PROTO Darwin-opHinge2Robocup [
           endPoint Solid {
             translation 0 -0.082 0
             rotation 0.6826 0.6826 0.2611 2.6307
+            model "right arm"
             children [
               DEF DShoulderRShape Shape {
                 appearance USE METAL_APPEARANCE
@@ -1837,6 +1855,7 @@ PROTO Darwin-opHinge2Robocup [
                   endPoint Solid {
                     translation 0 -0.016 0
                     rotation 0 0 -1 0.4554
+                    model "right arm"
                     children [
                       DEF DArmUpperRShape Group {
                         children [

@@ -3,7 +3,7 @@ This situation include 4 variations: A,B,C,D. When they differ, it is explicitly
 specified. In all situations, R1 moves away from the ball and R2 moves to the ball
 
 A. R1 and R2 move slowly -> no penalty
-B. R1 moves slowly, R2 moves quickly -> no penalty
+B. R1 moves slowly, R2 moves quickly -> R2 is penalized (Note: this is competing for the ball)
 C. R1 moves quickly, R2 moves slowly, dist > 1m -> R1 is penalized
 D. R1 moves quickly, R2 even more, dist < 1m -> Freekick
 
@@ -25,12 +25,7 @@ D. R1 moves quickly, R2 even more, dist < 1m -> Freekick
 
 ## Expected outcome
 
-- A+B. No freekick, no penalties
+- A. No freekick, no penalties
+- B. R2 is penalized, R1 is not penalized
 - C. R1 is penalized, R2 is not penalized
 - D. Freekick occurs, none of the robot is penalized
-
-## Note
-
-Variation B might change because current rule status imply that a robot might
-run from behind into another robot which is roughly static (e.g. performing a
-kick)...

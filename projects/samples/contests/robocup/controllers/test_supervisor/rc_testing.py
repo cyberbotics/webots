@@ -73,7 +73,7 @@ class StatusInformation:
     def getGameState(self):
         if self.gc_status is None:
             return None
-        return self.gc_status.game_state.split("_")[1]
+        return self.gc_status.game_state.split("_", 1)[1]
 
     def getSecondaryState(self):
         if self.gc_status is None:
@@ -141,14 +141,14 @@ class StatusInformation:
                                       gc_status.secondary_state != self.gc_status.secondary_state or
                                       gc_status.secondary_state_info[1] != self.gc_status.secondary_state_info[1])
             if update_state_start:
-                state = gc_status.game_state.split("_")[1]
+                state = gc_status.game_state.split("_", 1)[1]
                 self._state_starts[state].append({
                     "System" : system_time,
                     "Simulated" : simulated_time
                 })
                 print(f"Adding new state start for state {state}: count: {len(self._state_starts[state])}")
             if update_sec_state_start:
-                sec_state = gc_status.secondary_state.split("_")[1]
+                sec_state = gc_status.secondary_state.split("_", 1)[1]
                 phase = gc_status.secondary_state_info[1]
                 if phase > len(self._sec_state_starts[sec_state]):
                     raise RuntimeError(f"Unexpected phase: {phase}")
@@ -555,7 +555,10 @@ class Action:
         self._position = position
         self._orientation = orientation
         self._force = force
+        if velocity is not None and len(velocity) == 3:
+            velocity.extend((0, 0, 0))  # add null angular velocity
         self._velocity = velocity
+
 
     def buildFromDictionary(dic):
         """Returns an Action based on the provided dictionary.
@@ -567,6 +570,8 @@ class Action:
         a._orientation = dic.get("orientation")
         a._force = dic.get("force")
         a._velocity = dic.get("velocity")
+        if a._velocity is not None and len(a._velocity) == 3:
+            a._velocity.extend((0, 0, 0))  # add null angular velocity
         return a
 
 
@@ -746,4 +751,3 @@ class Scenario:
         for e in event_list:
             s._waiting_events.append(Event.buildFromDictionary(e))
         return s
-

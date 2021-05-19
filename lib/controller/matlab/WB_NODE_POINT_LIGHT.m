@@ -1,2 +1,2 @@
 function value = WB_NODE_POINT_LIGHT
-value = 22;
+value = 23;
