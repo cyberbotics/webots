@@ -48,6 +48,14 @@ static char *read_file(const char *filename) {
   return buffer;
 }
 
+void printMessages(const SensorMeasurements &sensor_measurements) {
+  for (int i = 0; i < sensor_measurements.messages_size(); i++) {
+    const Message &msg = sensor_measurements.messages(i);
+    std::string prefix = Message_MessageType_Name(msg.message_type());
+    printf("%s: %s\n", prefix.c_str(), msg.text().c_str());
+  }
+}
+
 RobotClient::RobotClient(const std::string &host, int port, int verbosity) :
   host(host),
   port(port),
@@ -183,6 +191,8 @@ SensorMeasurements RobotClient::receive() {
   sensor_measurements.ParseFromArray(buffer, answer_size);
   free(buffer);
   // History is only updated when printing it
+  if (verbosity >= 2)
+    printMessages(sensor_measurements);
   if (verbosity >= 3)
     updateHistory(sensor_measurements);
   if (verbosity >= 4) {
