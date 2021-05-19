@@ -286,7 +286,7 @@ def game_controller_receive():
             if game_controller_host == ip:
                 break
             else:
-                continue
+                break
         except BlockingIOError:
             if data is None:
                 return
