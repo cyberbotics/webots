@@ -22,7 +22,7 @@ if [ ! -d /tmp/webots-controller ]; then
     exit 1
 fi
 cd /tmp/webots-controller
-git checkout -b ${VERSION}
+git checkout ${VERSION}
 
 # Prepare the structure
 rm -rf lib/${OSTYPE}
@@ -41,4 +41,4 @@ done
 # Push
 git add -A
 git commit -m "Automatic update"
-git push -f origin ${VERSION}
+git push origin ${VERSION}
