@@ -16,8 +16,8 @@
 #define WB_PRECISION_HPP
 
 #include <math.h>
-#include <limits>
 #include <QtCore/QString>
+#include <limits>
 
 namespace WbPrecision {
 
