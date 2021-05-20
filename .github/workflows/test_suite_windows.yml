@@ -69,6 +69,7 @@ jobs:
       run: |
         pacman -S --noconfirm git openssh
         export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
+        ssh-keyscan -H github.com >> ~/.ssh/known_hosts
         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
         ssh-add - <<< "${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}"
         scripts/packaging/sync_controller_lib.sh
