@@ -27,7 +27,7 @@ DistanceSensor {
   field     SFFloat                                             aperture             1.5708                 # aperture angle
   field     SFFloat                                             gaussianWidth        1                      # gaussian distribution width
   field     SFFloat                                             resolution          -1                      # resolution
-  field     SFFloat                                             redColorSensitivity  1                      # red color sensitivity (0..1) for infra-red distance sensor
+  field     SFFloat                                             redColorSensitivity  1                      # red color sensitivity for infra-red distance sensor
 
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
