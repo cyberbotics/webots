@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
-from controller import Supervisor
 
 import numpy as np
 
-POS_ABS_TOL = 0.03 # [m]
 
-VALID_STATES = ["INITIAL","READY","SET","PLAYING","FINISHED"]
-VALID_SEC_STATES = ["NORMAL","PENALTYSHOOT","OVERTIME","TIMEOUT","DIRECT_FREEKICK","INDIRECT_FREEKICK","PENALTYKICK",
-                    "CORNERKICK","GOALKICK","THROWIN","DROPBALL","UNKNOWN"]
+POS_ABS_TOL = 0.03  # [m]
+
+VALID_STATES = ["INITIAL", "READY", "SET", "PLAYING", "FINISHED"]
+VALID_SEC_STATES = ["NORMAL", "PENALTYSHOOT", "OVERTIME", "TIMEOUT", "DIRECT_FREEKICK", "INDIRECT_FREEKICK", "PENALTYKICK",
+                    "CORNERKICK", "GOALKICK", "THROWIN", "DROPBALL", "UNKNOWN"]
+
 
 class StatusInformation:
     """Contains basic information over the Game Controller state and time properties
@@ -143,8 +144,8 @@ class StatusInformation:
             if update_state_start:
                 state = gc_status.game_state.split("_", 1)[1]
                 self._state_starts[state].append({
-                    "System" : system_time,
-                    "Simulated" : simulated_time
+                    "System": system_time,
+                    "Simulated": simulated_time
                 })
                 print(f"Adding new state start for state {state}: count: {len(self._state_starts[state])}")
             if update_sec_state_start:
@@ -153,8 +154,8 @@ class StatusInformation:
                 if phase > len(self._sec_state_starts[sec_state]):
                     raise RuntimeError(f"Unexpected phase: {phase}")
                 self._sec_state_starts[sec_state][phase].append({
-                    "System" : system_time,
-                    "Simulated" : simulated_time
+                    "System": system_time,
+                    "Simulated": simulated_time
                 })
                 count = len(self._sec_state_starts[sec_state][phase])
                 print(f"Adding new sec state start for {sec_state}:{phase}: count: {count}")
@@ -201,36 +202,36 @@ class TimeSpecification(ABC):
         raise RuntimeError(f"Unexpected value for _clock_type: {self._clock_type}")
 
     def buildFromDictionary(properties):
-       t = properties["time"]
-       clock_type = properties.get("clock_type", "Simulated")
-       state = properties.get("state")
-       state_count = properties.get("state_count",1)
-       secondary_state = properties.get("secondary_state")
-       phase = properties.get("phase")
-       if clock_type not in ["Simulated", "System"]:
-           raise RuntimeError(f"clock_type: '{clock_type}' unknown")
-       if isinstance(t,float) or isinstance(t,int):
-           return TimePoint(t, clock_type, state, state_count, secondary_state, phase)
-       elif isinstance(t, list):
-           if len(t) == 2:
-               return TimeInterval(t[0], t[1], clock_type, state, state_count, secondary_state, phase)
-           raise RuntimeError(f"Invalid size for time: {len(t)}")
-       raise RuntimeError("Invalid type for time")
+        t = properties["time"]
+        clock_type = properties.get("clock_type", "Simulated")
+        state = properties.get("state")
+        state_count = properties.get("state_count", 1)
+        secondary_state = properties.get("secondary_state")
+        phase = properties.get("phase")
+        if clock_type not in ["Simulated", "System"]:
+            raise RuntimeError(f"clock_type: '{clock_type}' unknown")
+        if isinstance(t, float) or isinstance(t, int):
+            return TimePoint(t, clock_type, state, state_count, secondary_state, phase)
+        elif isinstance(t, list):
+            if len(t) == 2:
+                return TimeInterval(t[0], t[1], clock_type, state, state_count, secondary_state, phase)
+            raise RuntimeError(f"Invalid size for time: {len(t)}")
+        raise RuntimeError("Invalid type for time")
 
 
 class TimeInterval(TimeSpecification):
     """An implementation of TimeSpecification which is active over an interval of time."""
 
     def __init__(self, start, end, clock_type, state, state_count, secondary_state, phase):
-       self._start = start
-       self._end = end
-       self._clock_type = clock_type
-       if state is not None and state not in VALID_STATES:
-           raise RuntimeError("Invalid state: {state}")
-       self._state = state
-       self._state_count = state_count
-       self._secondary_state = secondary_state
-       self._phase = phase
+        self._start = start
+        self._end = end
+        self._clock_type = clock_type
+        if state is not None and state not in VALID_STATES:
+            raise RuntimeError("Invalid state: {state}")
+        self._state = state
+        self._state_count = state_count
+        self._secondary_state = secondary_state
+        self._phase = phase
 
     def isActive(self, status):
         t = self.getCurrentTime(status)
@@ -245,14 +246,14 @@ class TimePoint(TimeSpecification):
     """An implementation of TimeSpecification which is finished as soon as it is activated."""
 
     def __init__(self, t, clock_type, state, state_count, secondary_state, phase):
-       self._t = t
-       self._clock_type = clock_type
-       if state is not None and state not in VALID_STATES:
-           raise RuntimeError("Invalid state: {state}")
-       self._state = state
-       self._state_count = state_count
-       self._secondary_state = secondary_state
-       self._phase = phase
+        self._t = t
+        self._clock_type = clock_type
+        if state is not None and state not in VALID_STATES:
+            raise RuntimeError("Invalid state: {state}")
+        self._state = state
+        self._state_count = state_count
+        self._secondary_state = secondary_state
+        self._phase = phase
 
     def isActive(self, status):
         t = self.getCurrentTime(status)
@@ -287,9 +288,9 @@ class Test:
         A pretty print version including a status message and the causes of failure, if applicable.
     """
 
-    def __init__(self, name, target = None, position = None, rotation = None,
-                 state = None, penalty = None, yellow_cards = None, secondary_state = None, secondary_team_id = None,
-                 secondary_phase = None, score = None, kick_off_team = None, critical = False, red_cards = None, warnings = None):
+    def __init__(self, name, target=None, position=None, rotation=None,
+                 state=None, penalty=None, yellow_cards=None, secondary_state=None, secondary_team_id=None,
+                 secondary_phase=None, score=None, kick_off_team=None, critical=False, red_cards=None, warnings=None):
         self._name = name
         self._target = target
         self._position = position
@@ -340,7 +341,7 @@ class Test:
     def isCritical(self):
         return self._critical
 
-    def printResult(self, skipped = True):
+    def printResult(self, skipped=True):
         status = "PASS"
         if not self._success:
             if self._critical:
@@ -387,13 +388,12 @@ class Test:
                     return status.gc_status.teams[i].players[player_idx]
         raise RuntimeError(f"Invalid target to get GameController data from {self._target}")
 
-
     def _testTargetPosition(self, status, supervisor):
         if self._target is None:
             raise RuntimeError("{self._name} tests position and has no target")
         target = supervisor.getFromDef(self._target)
         received_pos = target.getField('translation').getSFVec3f()
-        if not np.allclose(self._position, received_pos, atol = POS_ABS_TOL):
+        if not np.allclose(self._position, received_pos, atol=POS_ABS_TOL):
             failure_msg = f"Position Invalid at {status.getFormattedTime()}: "\
                 f"expecting {self._position}, received {received_pos}"
             print(f"Failure in test {self._name}\n\t{failure_msg}")
@@ -550,7 +550,7 @@ class Action:
         Applies the required modifications to the supervisor
     """
 
-    def __init__(self, target, position = None, orientation = None, force = None, velocity = None):
+    def __init__(self, target, position=None, orientation=None, force=None, velocity=None):
         self._target = target
         self._position = position
         self._orientation = orientation
@@ -558,7 +558,6 @@ class Action:
         if velocity is not None and len(velocity) == 3:
             velocity.extend((0, 0, 0))  # add null angular velocity
         self._velocity = velocity
-
 
     def buildFromDictionary(dic):
         """Returns an Action based on the provided dictionary.
@@ -573,7 +572,6 @@ class Action:
         if a._velocity is not None and len(a._velocity) == 3:
             a._velocity.extend((0, 0, 0))  # add null angular velocity
         return a
-
 
     def perform(self, supervisor):
         obj = supervisor.getFromDef(self._target)
@@ -632,8 +630,7 @@ class Event:
         return self._time_spec.isActive(status)
 
     def isFinished(self, status):
-        #TODO an event might also been 'finished' if all tests have failed and
-        # no action is there
+        # TODO: an event might also been 'finished' if all tests have failed and no action is there
         return self._time_spec.isFinished(status)
 
     def perform(self, status, supervisor):
@@ -699,7 +696,7 @@ class Scenario:
     buildFromList()
         Build a scenario from a list of events.
     """
-    def __init__(self, events = []):
+    def __init__(self, events=[]):
         self._waiting_events = events
         self._finished_events = []
 
@@ -710,7 +707,7 @@ class Scenario:
             if e.isActive(status):
                 e.perform(status, supervisor)
             if e.isFinished(status):
-                finished_events.insert(0,i)
+                finished_events.insert(0, i)
         for i in finished_events:
             print(f"{status.getFormattedTime()} Finished treating an event")
             e = self._waiting_events.pop(i)

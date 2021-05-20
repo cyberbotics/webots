@@ -10,6 +10,7 @@ import time
 import traceback
 import sys
 
+
 class GCListener:
     """A simple UDP socket listening to the GameController broadcast messages"""
 
@@ -36,6 +37,7 @@ class GCListener:
     def getState(self):
         return self._state
 
+
 scenario_config_file = os.environ['WEBOTS_ROBOCUP_TEST_SCENARIO']
 
 supervisor = Supervisor()
@@ -45,7 +47,7 @@ system_start = time.time()
 try:
     with open(scenario_config_file) as json_file:
         test_scenario = rc_testing.Scenario.buildFromList(json.load(json_file))
-except:
+except EnvironmentError:
     print(f"FAILED TO LOAD SCENARIO at {scenario_config_file}", file=sys.stderr)
     traceback.print_exc()
     # Ticking once the supervisor to flush waiting and then exit simulation
@@ -73,14 +75,13 @@ while supervisor.step(time_step) != -1:
     try:
         gc_listener.receive()
         simulated_time += time_step/1000
-        status.update(time.time() - system_start, simulated_time,
-                    gc_listener.getState())
+        status.update(time.time() - system_start, simulated_time, gc_listener.getState())
         if (status.gc_status is not None):
             test_scenario.step(status, supervisor)
 
         finished = test_scenario.isFinished()
         critical_failure = test_scenario.hasCriticalFailure()
-    except:
+    except Exception:
         traceback.print_exc()
         critical_failure = True
 
