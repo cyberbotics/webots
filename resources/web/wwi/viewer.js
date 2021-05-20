@@ -924,9 +924,18 @@ function createRobotComponent(view) {
       dataType: 'text',
       success: function(content) { // When successfully loaded.
         // Populate the device component from the JSON file.
-        var deviceComponent = view.querySelector('#' + robotName + '-device-component');
-        var data = JSON.parse(content);
-        var categories = {};
+        let deviceComponent = view.querySelector('#' + robotName + '-device-component');
+        deviceComponent.addEventListener('mouseover', () => {
+          document.getElementsByClassName('menu-button')[0].style.backgroundColor = '#333';
+          document.getElementById('arrow').style.display = '';
+        });
+        deviceComponent.addEventListener('mouseleave', () => {
+          document.getElementsByClassName('menu-button')[0].style.backgroundColor = 'transparent';
+          document.getElementById('arrow').style.display = 'none';
+        });
+
+        let data = JSON.parse(content);
+        let categories = {};
         robotComponent.setAttribute('robot-node-id', data['robotID']);
         if (data['devices'].length === 0)
           toggleDeviceComponent(robotName);
@@ -1018,12 +1027,22 @@ function createRobotComponent(view) {
         console.log('Error: ' + errorThrown);
       }
     });
-
-    if (document.getElementsByClassName('toggleDeviceComponent'))
+    if (document.getElementsByClassName('menu-button').length !== 0) {
       document.getElementsByClassName('menu-button')[0].onclick = () => toggleDeviceComponent(robotName);
-    if (document.getElementsByClassName('fullscreen-button'))
+      document.getElementsByClassName('menu-button')[0].style.backgroundColor = 'transparent';
+      document.getElementById('arrow').style.display = 'none';
+      document.getElementsByClassName('menu-button')[0].addEventListener('mouseover', () => {
+        document.getElementsByClassName('menu-button')[0].style.backgroundColor = '#333';
+        document.getElementById('arrow').style.display = '';
+      });
+      document.getElementsByClassName('menu-button')[0].addEventListener('mouseleave', () => {
+        document.getElementsByClassName('menu-button')[0].style.backgroundColor = 'transparent';
+        document.getElementById('arrow').style.display = 'none';
+      });
+    }
+    if (document.getElementsByClassName('fullscreen-button').length !== 0)
       document.getElementsByClassName('fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
-    if (document.getElementsByClassName('reset-button'))
+    if (document.getElementsByClassName('reset-button').length !== 0)
       document.getElementsByClassName('reset-button')[0].onclick = () => resetRobotComponent(robotName);
   }
 }
