@@ -822,26 +822,30 @@ function sliderMotorCallback(transform, slider) {
   }
 }
 
-function applyQuaternion(glmTranslation, q) {
-  const x = glmTranslation.x, y = glmTranslation.y, z = glmTranslation.z;
-  const qx = q.x, qy = q.y, qz = q.z, qw = q.w;
+function applyQuaternion(vec3, q) {
+  const x = vec3.x;
+  const y = vec3.y;
+  const z = vec3.z;
+  const qx = q.x;
+  const qy = q.y;
+  const qz = q.z;
+  const qw = q.w;
 
-		// calculate quat * vector
+  // calculate quat * vector
 
-		const ix = qw * x + qy * z - qz * y;
-		const iy = qw * y + qz * x - qx * z;
-		const iz = qw * z + qx * y - qy * x;
-		const iw = - qx * x - qy * y - qz * z;
+  const ix = qw * x + qy * z - qz * y;
+  const iy = qw * y + qz * x - qx * z;
+  const iz = qw * z + qx * y - qy * x;
+  const iw = -qx * x - qy * y - qz * z;
 
-		// calculate result * inverse quat
+  // calculate result * inverse quat
 
-		glmTranslation.x = ix * qw + iw * - qx + iy * - qz - iz * - qy;
-		glmTranslation.y = iy * qw + iw * - qy + iz * - qx - ix * - qz;
-		glmTranslation.z = iz * qw + iw * - qz + ix * - qy - iy * - qx;
+  vec3.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
+  vec3.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
+  vec3.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
 
-		return glmTranslation;
-
-	}
+  return vec3;
+}
 
 function unhighlightX3DElement(robot) {
   var robotComponent = getRobotComponentByRobotName(robot);

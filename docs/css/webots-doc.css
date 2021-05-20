@@ -40,6 +40,22 @@
 body {
   scroll-behavior: auto !important; /* wwi.css.body.scroll-behavior should be encapsulated in class to fix this cleanly. */
 }
+
+#webotsProgress {
+  z-index: 1;
+  position: absolute;
+  text-align: center;
+  background-color: white;
+  width: 300px;
+  height: 100px;
+  top: calc(50% - 50px);
+  left: calc(50% - 150px);
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
 .webots-doc #left {
   top: 0;
   width: 20%;
@@ -562,6 +578,7 @@ body {
 .robot-component .robot-view {
   width: 70%;
   height: 100%;
+  position: relative;
 }
 .robot-component .webots3DView {
   height: 100%;
