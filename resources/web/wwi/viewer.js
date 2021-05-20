@@ -9,11 +9,16 @@
 import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://cyberbotics.com/wwi/R2021b/request_methods_module.js';
 import {webots} from './webots.js';
 
+import WbShape from './nodes/WbShape';
+import WbSphere from './nodes/WbSphere';
+import WbTransform from './nodes/WbTransform';
 import WbVector3 from './nodes/utils/WbVector3.js';
+import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
 import {quaternionToVec4, vec4ToQuaternion} from './nodes/utils/utils.js';
 var handle;
 var webotsView;
+var pointer;
 
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function(prefix) {
@@ -126,6 +131,7 @@ function computeTargetPath() {
   if (localSetup.url.startsWith('http'))
     targetPath = localSetup.url + branch + '/docs/';
   targetPath += localSetup.book + '/';
+  targetPath = 'http://localhost:8000/docs/' +localSetup.book + '/';
   return targetPath;
 }
 
@@ -864,6 +870,8 @@ function applyQuaternion(vec3, q) {
 function unhighlightX3DElement(robot) {
   var robotComponent = getRobotComponentByRobotName(robot);
   var scene = robotComponent.webotsView.x3dScene;
+  if (typeof pointer !== 'undefined')
+    pointer.children[0].geometry.forceChangeOfVisibility(false);
 
   scene.render();
 }
@@ -871,26 +879,40 @@ function unhighlightX3DElement(robot) {
 function highlightX3DElement(robot, deviceElement) {
   unhighlightX3DElement(robot);
 
-  var robotComponent = getRobotComponentByRobotName(robot);
-  var scene = robotComponent.webotsView.x3dScene;
-  var id = deviceElement.getAttribute('webots-transform-id');
+  let robotComponent = getRobotComponentByRobotName(robot);
+  let scene = robotComponent.webotsView.x3dScene;
+  let id = deviceElement.getAttribute('webots-transform-id');
   if (typeof WbWorld.instance === 'undefined')
     return;
-  var object = WbWorld.instance.nodes.get(id);
+  let object = WbWorld.instance.nodes.get(id);
   if (object) {
+    if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
+      let sphere = new WbSphere('n999992', 0.05, true, 5);
+      WbWorld.instance.nodes.set(sphere.id, sphere);
+      let shape = new WbShape('n999991', false, false, sphere);
+      WbWorld.instance.nodes.set(shape.id, shape);
+      sphere.parent = shape.id;
+      pointer = new WbTransform('n999990', false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
+      pointer.children.push(shape);
+      WbWorld.instance.nodes.set(pointer.id, pointer);
+      shape.parent = pointer.id;
+      pointer.finalize();
+    }
+
     if (deviceElement.hasAttribute('device-anchor')) {
-      var anchor = deviceElement.getAttribute('device-anchor').split(/[\s,]+/);
-      anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
-      //originBillboard.position.add(anchor);
-      //object.parent.add(originBillboard);
+      let anchor = deviceElement.getAttribute('device-anchor').split(/[\s,]+/);
+      anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[2]), parseFloat(anchor[1]));
+      console.log(WbWorld.instance)
+      pointer.translation = anchor.add(new WbVector3(0, 0.14, 0));
     } else {
       if (deviceElement.hasAttribute('webots-transform-offset')) {
         var offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
         offset = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
-        //originBillboard.position.add(offset);
+        pointer.translation = offset;
       }
-      //object.add(originBillboard);
     }
+    pointer.applyTranslationToWren();
+    pointer.children[0].geometry.forceChangeOfVisibility(true);
 
     scene.render();
   }

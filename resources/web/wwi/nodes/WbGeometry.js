@@ -58,6 +58,11 @@ export default class WbGeometry extends WbBaseNode {
     this._applyVisibilityFlagToWren(this._isSelected());
   }
 
+  forceChangeOfVisibility(visible) {
+    _wr_renderable_set_drawing_order(this._wrenRenderable, Enum.WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
+    _wr_node_set_visible(this._wrenScaleTransform, visible);
+  }
+
   // Private functions
 
   _applyVisibilityFlagToWren(selected) {
