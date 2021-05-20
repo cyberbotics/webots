@@ -597,14 +597,6 @@ body {
   z-index: 1;
 }
 
-.robot-component .menu .reset-button {
-  background-image: url(../css/images/reset.png);
-}
-
-.robot-component .menu .reset-button:hover {
-  background-image: url(../css/images/reset_hover.png);
-}
-
 .ui-icon {
   display: inline-block;
   background-repeat: no-repeat;
@@ -617,6 +609,9 @@ body {
 
 .fullscreen-button { background-position: -420px -2px }
 .exit-fullscreen-button { background-position: -458px -2px }
+.reset-button{ background-position: -496px -2px}
+
+.reset-button:hover,
 .fullscreen-button:hover,
 .exit-fullscreen-button:hover {
   background-position-y: -40px;

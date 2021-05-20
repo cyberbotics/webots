@@ -248,7 +248,7 @@ showdown.extension('wbRobotComponent', function() {
               '    </div>\n' +
               '    <div class="menu">\n' +
               '      <div class="menu-items">\n' +
-              '        <button class="reset-button" title="Reset Viewpoint and sliders."></button>\n' +
+              '        <button class="reset-button ui-icon" title="Reset Viewpoint and sliders."></button>\n' +
               '        <button class="fullscreen-button ui-icon" title="Enter full-screen."></button>\n' +
               '        <button class="exit-fullscreen-button ui-icon" title="Leave full-screen."></button>\n' +
               '      </div>\n' +
