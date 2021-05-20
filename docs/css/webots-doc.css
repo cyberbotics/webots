@@ -589,39 +589,38 @@ body {
 }
 .robot-component .menu {
   transform: translateY(-100%);
-  width: 100%;
+  width: 99%;
 }
 .robot-component .menu-items {
   margin: 0 auto;
-  text-align: center;
+  text-align: right;
   z-index: 1;
 }
-.robot-component .menu button {
-  padding: 0;
-  border-width: 0;
-  outline: 0;
-  width: 30px;
-  height: 30px;
-  background-color: transparent;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
+
 .robot-component .menu .reset-button {
   background-image: url(../css/images/reset.png);
 }
 
-.robot-component .menu .fullscreen-button {
-  background-image: url(../css/images/fullscreen.png);
-}
 .robot-component .menu .reset-button:hover {
   background-image: url(../css/images/reset_hover.png);
 }
 
-.robot-component .menu .fullscreen-button:hover {
-  background-image: url(../css/images/fullscreen_hover.png);
+.ui-icon {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-image: url('https://cyberbotics.com/wwi/R2021b/images/icons.svg');
+  background-color: transparent;
+  border: none;
+  width: 34px;
+  height: 34px;
 }
 
+.fullscreen-button { background-position: -420px -2px }
+.exit-fullscreen-button { background-position: -458px -2px }
+.fullscreen-button:hover,
+.exit-fullscreen-button:hover {
+  background-position-y: -40px;
+}
 .menu-button {
   position: absolute;
   top:calc(50% - 15px);
@@ -663,6 +662,7 @@ body {
 .robot-component .device-component {
   width: 30%;
   overflow: auto;
+  overflow-x: hidden;
   background-color: #333;
   padding: 10px 0px 10px 0px;
   border-radius: 0px 3px 3px 0px;

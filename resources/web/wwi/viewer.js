@@ -126,7 +126,6 @@ function computeTargetPath() {
   if (localSetup.url.startsWith('http'))
     targetPath = localSetup.url + branch + '/docs/';
   targetPath += localSetup.book + '/';
-  targetPath = "http://localhost:8000/docs/"+localSetup.book+'/';
   return targetPath;
 }
 
@@ -733,13 +732,16 @@ function toggleDeviceComponent(robot) {
 
 function toggleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-vars
   // Source: https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
-  var element = getRobotComponentByRobotName(robot);
+  let element = getRobotComponentByRobotName(robot);
   if (
     document.fullscreenElement ||
     document.webkitFullscreenElement ||
     document.mozFullScreenElement ||
     document.msFullscreenElement
   ) {
+    document.getElementsByClassName('fullscreen-button')[0].style.display = '';
+    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
+
     if (document.exitFullscreen)
       document.exitFullscreen();
     else if (document.mozCancelFullScreen)
@@ -749,6 +751,9 @@ function toggleRobotComponentFullScreen(robot) { // eslint-disable-line no-unuse
     else if (document.msExitFullscreen)
       document.msExitFullscreen();
   } else {
+    document.getElementsByClassName('fullscreen-button')[0].style.display = 'none';
+    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = '';
+
     if (element.requestFullscreen) {
       element.requestFullscreen();
       document.addEventListener('fullscreenchange', function() {
@@ -1042,6 +1047,10 @@ function createRobotComponent(view) {
     }
     if (document.getElementsByClassName('fullscreen-button').length !== 0)
       document.getElementsByClassName('fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
+    if (document.getElementsByClassName('exit-fullscreen-button').length !== 0) {
+      document.getElementsByClassName('exit-fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
+      document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
+    }
     if (document.getElementsByClassName('reset-button').length !== 0)
       document.getElementsByClassName('reset-button')[0].onclick = () => resetRobotComponent(robotName);
   }
