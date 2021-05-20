@@ -104,6 +104,7 @@
     - [Mindstorms](mindstorms.md)
     - [Moose](moose.md)
     - [Nao](nao.md)
+    - [Ned](ned.md)
     - [P-Rob 3](p-rob3.md)
     - [PR2](pr2.md)
     - [Pioneer 2](pioneer2.md)
