@@ -135,7 +135,10 @@ function quaternionToVec4(quat) {
     angle = 2.0 * Math.acos(quat.w);
 
   // normalise axes
-  const inv = 1.0 / Math.sqrt(quat.x * quat.x + quat.y * quat.y + quat.z * quat.z);
+  let div = Math.sqrt(quat.x * quat.x + quat.y * quat.y + quat.z * quat.z);
+  if (div === 0)
+    div = 1;
+  const inv = 1.0 / div;
   const x = quat.x * inv;
   const y = quat.y * inv;
   const z = quat.z * inv;

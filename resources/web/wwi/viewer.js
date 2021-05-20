@@ -795,14 +795,14 @@ function sliderMotorCallback(transform, slider) {
     transform.applyTranslationToWren();
   } else {
     // extract anchor
-    var anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
+    let anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
     anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
 
     // Compute angle.
-    var angle = value - position;
+    let angle = value - position;
 
     // Apply the new axis-angle.
-    var q = glm.angleAxis(angle, axis);
+    let q = glm.angleAxis(angle, axis);
 
     if (typeof transform.firstRotation !== 'undefined')
       q = q.mul(vec4ToQuaternion(transform.firstRotation));
@@ -816,7 +816,6 @@ function sliderMotorCallback(transform, slider) {
 
     transform.translation = applyQuaternion(transform.translation, quat)
     transform.translation = transform.translation.add(anchor); // re-add the offset
-
     transform.rotation = quaternionToVec4(q);
     transform.applyTranslationToWren();
     transform.applyRotationToWren();
