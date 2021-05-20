@@ -84,7 +84,7 @@ GAME_INTERRUPTIONS = {
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
-global supervisor, game, red_team, blue_team, log_file, time_count, time_step, game_controller_host
+global supervisor, game, red_team, blue_team, log_file, time_count, time_step, game_controller_udp_filter
 
 
 def log(message, type):
@@ -277,27 +277,21 @@ def game_controller_receive():
     data = None
     ip = None
     while True:
-        if ip and ip not in game_controller_receive.others:
+        if game_controller_udp_filter and ip and ip not in game_controller_receive.others:
             game_controller_receive.others.append(ip)
-            warning(f'Ignoring UDP packet coming from a different host {ip} != {game_controller_host}.')
+            warning(f'Ignoring UDP packets from {ip} not matching GAME_CONTROLLER_UDP_FILTER={game_controller_udp_filter}.')
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
             ip, port = peer
-            if game_controller_host == ip:
-                break
-            else:
-                break
-        except BlockingIOError:
-            if data is None:
-                return
-            if game_controller_host == ip:
+            if game_controller_udp_filter is None or game_controller_udp_filter == ip:
                 break
             else:
                 continue
+        except BlockingIOError:
+            return
         except Exception as e:
             error(f'UDP input failure: {e}')
-            data = None
-            pass
+            return
         if not data:
             error('No UDP data received')
             return
@@ -1855,7 +1849,7 @@ host = socket.gethostbyname(socket.gethostname())
 if host != '127.0.0.1' and host != game.host:
     warning(f'Host is not correctly defined in game.json file, it should be {host} instead of {game.host}.')
 
-game_controller_host = os.environ['GAME_CONTROLLER_HOST'] if 'GAME_CONTROLLER_HOST' in os.environ else host
+game_controller_udp_filter = os.environ['GAME_CONTROLLER_UDP_FILTER'] if 'GAME_CONTROLLER_UDP_FILTER' in os.environ else None
 
 try:
     JAVA_HOME = os.environ['JAVA_HOME']
