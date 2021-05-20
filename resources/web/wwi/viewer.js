@@ -126,6 +126,7 @@ function computeTargetPath() {
   if (localSetup.url.startsWith('http'))
     targetPath = localSetup.url + branch + '/docs/';
   targetPath += localSetup.book + '/';
+  targetPath = "http://localhost:8000/docs/"+localSetup.book+'/';
   return targetPath;
 }
 
@@ -720,6 +721,14 @@ function toggleDeviceComponent(robot) {
     robotComponent.showDeviceComponent = true;
   robotComponent.showDeviceComponent = !robotComponent.showDeviceComponent;
   updateRobotComponentDimension(robot);
+
+  let arrow = document.getElementById('arrow');
+  if (arrow) {
+    if (arrow.className === 'arrow-right')
+      arrow.className = 'arrow-left';
+    else if (arrow.className === 'arrow-left')
+      arrow.className = 'arrow-right';
+  }
 }
 
 function toggleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-vars

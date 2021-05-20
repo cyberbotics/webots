@@ -249,10 +249,10 @@ showdown.extension('wbRobotComponent', function() {
               '    <div class="menu">\n' +
               '      <div class="menu-items">\n' +
               '        <button class="reset-button" title="Reset Viewpoint and sliders."></button>\n' +
-              '        <button class="menu-button" title="Show/Hide the device list."></button>\n' +
               '        <button class="fullscreen-button" title="Enter/Leave full-screen."></button>\n' +
               '      </div>\n' +
               '    </div>\n' +
+              '    <button class="menu-button" title="Show/Hide the device list."><div class="arrow-right" id="arrow"></div></button>\n' +
               '  </div>\n' +
               '  <div id="%ROBOT%-device-component" class="device-component"></div>\n' +
               '</div>\n';
