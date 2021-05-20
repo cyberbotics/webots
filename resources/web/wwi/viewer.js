@@ -683,16 +683,15 @@ function resetRobotComponent(robot) {
   unhighlightX3DElement(robot);
   var robotComponent = getRobotComponentByRobotName(robot);
   // Reset the Viewpoint
-  var camera = robotComponent.webotsView.x3dScene.getCamera();
-  camera.position.copy(camera.userData.initialPosition);
-  camera.quaternion.copy(camera.userData.initialQuaternion);
+  if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined')
+    WbWorld.instance.viewpoint.resetViewpoint();
   // Reset the motor sliders.
-  var sliders = robotComponent.querySelectorAll('.motor-slider');
-  for (var s = 0; s < sliders.length; s++) {
-    var slider = sliders[s];
+  let sliders = robotComponent.querySelectorAll('.motor-slider');
+  for (let s = 0; s < sliders.length; s++) {
+    let slider = sliders[s];
     slider.value = slider.getAttribute('webots-position');
-    var id = slider.getAttribute('webots-transform-id');
-    sliderMotorCallback(robotComponent.webotsView.x3dScene.getObjectById(id, true), slider);
+    let id = slider.getAttribute('webots-transform-id');
+    sliderMotorCallback(WbWorld.instance.nodes.get(id), slider);
   }
   robotComponent.webotsView.x3dScene.render();
 }
@@ -775,11 +774,11 @@ function sliderMotorCallback(transform, slider) {
   if (typeof transform.firstPosition === 'undefined' && typeof transform.translation !== 'undefined')
     transform.firstPosition = transform.translation.clone();
 
-  var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
+  let axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
   axis = glm.vec3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
 
-  var value = parseFloat(slider.value);
-  var position = parseFloat(slider.getAttribute('webots-position'));
+  let value = parseFloat(slider.value);
+  let position = parseFloat(slider.getAttribute('webots-position'));
 
   if (slider.getAttribute('webots-type') === 'LinearMotor') {
     // Compute translation
@@ -824,10 +823,9 @@ function sliderMotorCallback(transform, slider) {
   }
 }
 
-function applyQuaternion(glmTranslation, q ) {
-
-		const x = glmTranslation.x, y = glmTranslation.y, z = glmTranslation.z;
-		const qx = q.x, qy = q.y, qz = q.z, qw = q.w;
+function applyQuaternion(glmTranslation, q) {
+  const x = glmTranslation.x, y = glmTranslation.y, z = glmTranslation.z;
+  const qx = q.x, qy = q.y, qz = q.z, qw = q.w;
 
 		// calculate quat * vector
 
