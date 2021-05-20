@@ -16,7 +16,7 @@
 
 /*
  * Description:   An example of a controller using gps devices
- *                unsing latitude altitude longitude coordinates system
+ *                using latitude altitude longitude coordinates system
  */
 
 #include <stdio.h>

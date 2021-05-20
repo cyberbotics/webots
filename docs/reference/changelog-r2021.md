@@ -7,6 +7,7 @@ Released on XX Xth, 2021.
     - Added a model of the [Summit-XL Steel](../guide/summit-xl-steel.md) robot from [Robotnik](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) ([#2969](https://github.com/cyberbotics/webots/pull/2969)).
   - Enhancements
     - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#2969](https://github.com/cyberbotics/webots/pull/2969)). 
+    - Added a PROTO model for the [Niryo Ned](../guide/ned.md) robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
     - Added a draft Robocup Virtual Humanoid League 2021 environment ([#2783](https://github.com/cyberbotics/webots/pull/2783)).
     - Added a script to convert PROTO files to use [Mesh](mesh.md) nodes instead of [IndexedFaceSet](indexedfaceset.md) nodes to speed-up loading times, improve PROTO readability and maintenance ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
     - Converted several PROTO files to use [Mesh](mesh.md) nodes ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
@@ -16,6 +17,13 @@ Released on XX Xth, 2021.
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
     - Added an `allowedChannels` field in the [Emitter](emitter.md) and [Receiver](receiver.md) nodes to restrict the channel usage ([#2849](https://github.com/cyberbotics/webots/pull/2849)).
   - Bug fixes
+    - Fixed [Supervisor](supervisor.md) API operations on nodes defined in multiple nested PROTO fields ([#3036](https://github.com/cyberbotics/webots/pull/3036)).
+    - Fixed crash applying [`wb_supervisor_node_add_force`](supervisor.md#wb_supervisor_node_add_force) on kinematic objects ([#3036](https://github.com/cyberbotics/webots/pull/3036)).
+    - Fixed mecanum wheels [ContactProperties](contactproperties.md) in [YouBot](../guide/youbot.md) worlds ([#3025](https://github.com/cyberbotics/webots/pull/3025)).
+    - Fixed [`wb_supervisor_node_reset_physics`](supervisor.md#wb_supervisor_node_reset_physics) not working if during the same step the node is also artificially moved with the [Supervisor](supervisor.md) API ([#2991](https://github.com/cyberbotics/webots/pull/2991)).
+    - Fixed crash changing the [`Lidar.type`](lidar.md) field during the simulation run by requiring to save and reload the world ([#2983](https://github.com/cyberbotics/webots/pull/2983)).
+    - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
+    - Fixed [Lens](lens.md) distortion ([#2961](https://github.com/cyberbotics/webots/pull/2961)).
     - Fixed bug in the C++, Python and Java API where the [Robot.getDevice()](robot.md#wb_robot_get_device) methods were returning different objects when passing the same string argument for the device name ([#2957](https://github.com/cyberbotics/webots/pull/2957)).
     - Fixed return value type of [`CameraRecognitionObject.get_size`](camera.md#camera-recognition-object) Python function ([#2923](https://github.com/cyberbotics/webots/pull/2923)).
     - Fixed [`Camera.getRecognitionObjects`](camera.md#wb_camera_recognition_get_objects) function not available and the return value of [`CameraRecognitionObject.getPositionOnImage`](camera.md#camera-recognition-object) and [`CameraRecognitionObject.getSizeOnImage`](camera.md#camera-recognition-object) in Java API ([#2923](https://github.com/cyberbotics/webots/pull/2923)).
@@ -52,6 +60,7 @@ Released on XX Xth, 2021.
     - Fixed the [Pen](pen.md) ink mixed with the background and other ink when the `inkDensity` is lower than 1.0 ([#2804](https://github.com/cyberbotics/webots/pull/2804)).
     - Fixed issue where motor position limits in [Hinge2Joint](hinge2joint.md) and [BallJoint](balljoint.md) were enforced incorrectly ([#2825](https://github.com/cyberbotics/webots/pull/2825)).
     - Fixed issue where the hidden field of a [BallJoint](balljoint.md) is not stored in the world file when saving after the simulation has run ([#2964](https://github.com/cyberbotics/webots/pull/2964)).
+    - Fixed crash when the top node of a [SolidReference](solidreference.md) was a [Transform](transform.md) or a [Group](group.md) ([#3039](https://github.com/cyberbotics/webots/pull/3039)).
   - Cleanup
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
   - Dependency Updates
