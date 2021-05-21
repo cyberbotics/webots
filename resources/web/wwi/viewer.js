@@ -9,6 +9,8 @@
 import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://cyberbotics.com/wwi/R2021b/request_methods_module.js';
 import {webots} from './webots.js';
 
+import WbImageTexture from './nodes/WbImageTexture.js';
+import WbPBRAppearance from './nodes/WbPBRAppearance.js';
 import WbShape from './nodes/WbShape';
 import WbSphere from './nodes/WbSphere';
 import WbTransform from './nodes/WbTransform';
@@ -16,9 +18,12 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
 import {quaternionToVec4, vec4ToQuaternion} from './nodes/utils/utils.js';
+
 var handle;
 var webotsView;
 var pointer;
+var imageTexture;
+var sizeOfMarker;
 
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function(prefix) {
@@ -131,7 +136,7 @@ function computeTargetPath() {
   if (localSetup.url.startsWith('http'))
     targetPath = localSetup.url + branch + '/docs/';
   targetPath += localSetup.book + '/';
-  targetPath = 'http://localhost:8000/docs/' +localSetup.book + '/';
+  targetPath = 'http://localhost:8000/docs/' + localSetup.book + '/';
   return targetPath;
 }
 
@@ -870,8 +875,10 @@ function applyQuaternion(vec3, q) {
 function unhighlightX3DElement(robot) {
   var robotComponent = getRobotComponentByRobotName(robot);
   var scene = robotComponent.webotsView.x3dScene;
-  if (typeof pointer !== 'undefined')
-    pointer.children[0].geometry.forceChangeOfVisibility(false);
+  if (typeof pointer !== 'undefined') {
+    pointer.delete();
+    pointer = undefined;
+  }
 
   scene.render();
 }
@@ -887,32 +894,40 @@ function highlightX3DElement(robot, deviceElement) {
   let object = WbWorld.instance.nodes.get(id);
   if (object) {
     if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
-      let sphere = new WbSphere('n999992', 0.05, true, 5);
+      if (typeof sizeOfMarker === 'undefined') {
+        // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
+        let robotPosition = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1].translation;
+        let viewpointPosition = WbWorld.instance.viewpoint.position;
+        sizeOfMarker = 0.012 * robotPosition.sub(viewpointPosition).length(); // value determined empirically
+      }
+      let sphere = new WbSphere('n999992', sizeOfMarker, true, 5);
       WbWorld.instance.nodes.set(sphere.id, sphere);
-      let shape = new WbShape('n999991', false, false, sphere);
+      let baseColorMap = imageTexture.clone('n999995');
+      baseColorMap.type = 'baseColorMap';
+      WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
+      let pbr = new WbPBRAppearance('n999993', new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
+        20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);
+      baseColorMap.parent = pbr.id;
+      WbWorld.instance.nodes.set(pbr.id, pbr);
+      let shape = new WbShape('n999991', false, false, sphere, pbr);
       WbWorld.instance.nodes.set(shape.id, shape);
       sphere.parent = shape.id;
+      pbr.parent = shape.id;
       pointer = new WbTransform('n999990', false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
       pointer.children.push(shape);
       WbWorld.instance.nodes.set(pointer.id, pointer);
       shape.parent = pointer.id;
-      pointer.finalize();
     }
 
-    if (deviceElement.hasAttribute('device-anchor')) {
-      let anchor = deviceElement.getAttribute('device-anchor').split(/[\s,]+/);
-      anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[2]), parseFloat(anchor[1]));
-      console.log(WbWorld.instance)
-      pointer.translation = anchor.add(new WbVector3(0, 0.14, 0));
-    } else {
-      if (deviceElement.hasAttribute('webots-transform-offset')) {
-        var offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
-        offset = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
-        pointer.translation = offset;
-      }
+    if (deviceElement.hasAttribute('webots-transform-offset')) {
+      let offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
+      pointer.translation = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
     }
-    pointer.applyTranslationToWren();
-    pointer.children[0].geometry.forceChangeOfVisibility(true);
+
+    object.children.push(pointer);
+    pointer.parent = object.id;
+    pointer.children[0].geometry.isMarker = true;
+    pointer.finalize();
 
     scene.render();
   }
@@ -925,6 +940,10 @@ function getRobotComponentByRobotName(robotName) {
 function createRobotComponent(view) {
   var robotComponents = document.querySelectorAll('.robot-component');
   for (var c = 0; c < robotComponents.length; c++) { // foreach robot components of this page.
+    if (typeof imageTexture === 'undefined') {
+      imageTexture = new WbImageTexture('n999994', computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
+      setTimeout(() => { imageTexture.updateUrl(); }, 2000);
+    }
     var robotComponent = robotComponents[c];
     var webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
     var robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
@@ -933,6 +952,8 @@ function createRobotComponent(view) {
       webotsView = new webots.View(webotsViewElement);
     else {
       webotsView.x3dScene.destroyWorld();
+      sizeOfMarker = undefined;
+      pointer = undefined;
       webotsView.view3D = webotsViewElement;
     }
     robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
