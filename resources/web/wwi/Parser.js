@@ -1086,6 +1086,10 @@ export default class Parser {
       loadHdr(src, function(img) { resolve(img); });
     });
   }
+
+  static getAnId() {
+    return 'n' + Parser.undefinedID++;
+  }
 }
 
 function getNodeAttribute(node, attributeName, defaultValue) {
