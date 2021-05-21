@@ -148,9 +148,12 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   QJSEngine engine;
   // engine.installExtensions(QJSEngine::ConsoleExtension);
-  engine.globalObject().setProperty("stdout", "");
-  engine.globalObject().setProperty("stderr", "");
-
+  // engine.globalObject().setProperty("stdout", QString(""));
+  // engine.globalObject().setProperty("stderr", QString(""));
+  QJSValue stdout = engine.newArray();
+  engine.globalObject().setProperty("stdout", stdout);
+  QJSValue stderr = engine.newArray();
+  engine.globalObject().setProperty("stderr", stderr);
   /*
   QJSValue modulee = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/test.js");
 
@@ -319,10 +322,21 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     printf("RESULT FINE\n");
   }
 
-  QJSValue stdout = engine.evaluate("stdout");
-  QJSValue stderr = engine.evaluate("stderr");
-  printf(">>>>stdout:\n%s\n<<<<\n", stdout.toString().toUtf8().constData());
-  printf(">>>>stderr:\n%s\n<<<<\n", stderr.toString().toUtf8().constData());
+  printf(">>>>stdout:\n");
+  for (int i = 0; i < stdout.property("length").toInt(); ++i) {
+    WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(stdout.property(i).toString()), false,
+                            WbLog::PARSING);
+    printf("%d: %s\n", i, stdout.property(i).toString().toUtf8().constData());
+  }
+  printf("<<<<<<\n");
+
+  printf(">>>>stderr:\n");
+  for (int i = 0; i < stderr.property("length").toInt(); ++i) {
+    WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(stderr.property(i).toString()), false,
+                             WbLog::PARSING);
+    printf("%d: %s\n", i, stderr.property(i).toString().toUtf8().constData());
+  }
+  printf("<<<<<<\n");
 
   printf(">> result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
   printf("%s\n", result.toString().toUtf8().constData());
