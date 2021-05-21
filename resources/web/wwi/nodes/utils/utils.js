@@ -3,6 +3,8 @@ import WbVector4 from './WbVector4.js';
 import WbTransform from '../WbTransform.js';
 import WbWorld from '../WbWorld.js';
 
+let undefinedID = 90000;
+
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);
   const nDataBytes = data.length * data.BYTES_PER_ELEMENT;
@@ -95,6 +97,10 @@ function getAncestor(node) {
   return node;
 }
 
+function getAnId() {
+  return 'n' + undefinedID++;
+}
+
 function length(vec3) {
   return Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
 }
@@ -166,4 +172,4 @@ function vec4ToQuaternion(vec4) {
   return glm.quat(cosinusHalfAngle, vec4.x * sinusHalfAngle, vec4.y * sinusHalfAngle, vec4.z * sinusHalfAngle);
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, getAncestor};
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, getAncestor, getAnId};

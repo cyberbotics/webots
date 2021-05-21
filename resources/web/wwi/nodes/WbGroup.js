@@ -1,8 +1,7 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbLight from './WbLight.js';
 import WbWorld from './WbWorld.js';
-
-import Parser from './../Parser.js';
+import {getAnId} from './utils/utils.js';
 
 export default class WbGroup extends WbBaseNode {
   constructor(id, isPropeller) {
@@ -17,7 +16,7 @@ export default class WbGroup extends WbBaseNode {
     const group = new WbGroup(customID, this.isPropeller);
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
-      const cloned = await this.children[i].clone('n' + Parser.undefinedID++);
+      const cloned = await this.children[i].clone(getAnId());
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
       group.children.push(cloned);

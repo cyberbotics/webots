@@ -2,6 +2,7 @@ import {M_PI_4} from './nodes/utils/constants.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
 import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
+import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCone from './nodes/WbCone.js';
@@ -32,6 +33,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
+import {getAnId} from './nodes/utils/utils.js';
 
 import DefaultUrl from './DefaultUrl.js';
 import loadHdr from './hdr_loader.js';
@@ -113,6 +115,8 @@ export default class Parser {
       result = await this._parseBackground(node);
     else if (node.tagName === 'Transform')
       result = await this._parseTransform(node, parentNode, isBoundingObject);
+    else if (node.tagName === 'Billboard')
+      result = await this._parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
       result = await this._parseGroup(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Shape')
@@ -351,7 +355,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
     const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
@@ -378,7 +382,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     const isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
 
@@ -402,7 +406,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
@@ -461,6 +465,28 @@ export default class Parser {
     WbWorld.instance.nodes.set(shape.id, shape);
 
     return shape;
+  }
+
+  async _parseBillboard(node, parentNode) {
+    const use = await this._checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    let id = getNodeAttribute(node, 'id');
+    if (typeof id === 'undefined')
+      id = getAnId();
+
+    const billboard = new WbBillboard(id);
+
+    WbWorld.instance.nodes.set(billboard.id, billboard);
+    await this._parseChildren(node, billboard);
+
+    if (typeof parentNode !== 'undefined') {
+      billboard.parent = parentNode.id;
+      parentNode.children.push(billboard);
+    }
+
+    return billboard;
   }
 
   async _parseDirectionalLight(node, parentNode) {
@@ -566,7 +592,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     let geometry;
     if (node.tagName === 'Box')
@@ -824,7 +850,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     // Get the Material tag.
     const materialNode = node.getElementsByTagName('Material')[0];
@@ -871,7 +897,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2'));
     const diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8'));
@@ -1149,5 +1175,4 @@ function rotateHDR(image, rotate) {
   return rotatedbits;
 }
 
-Parser.undefinedID = 90000;
 export {convertStringToVec3, convertStringToQuaternion};
