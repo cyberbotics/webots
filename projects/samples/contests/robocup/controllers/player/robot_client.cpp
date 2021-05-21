@@ -16,7 +16,12 @@
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/text_format.h>
 #include <cmath>
+#include <iostream>
 #include <stdexcept>
+
+#if GOOGLE_PROTOBUF_VERSION < 3006001
+#define ByteSizeLong ByteSize
+#endif
 
 float RobotClient::history_period = 5;
 int RobotClient::max_answer_size = 1920 * 1080 * 3 + 1000;  // Adding some margin for other data than image
