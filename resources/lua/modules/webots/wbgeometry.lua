@@ -17,7 +17,7 @@ end
 function M.ispointinpolygon(x, y, polygon)
   local wbcore = require('wbcore')
   local n = wbcore.tablelength(polygon)
-  if n < 3 then 
+  if n < 3 then
     return false
   end
   local inside = false
@@ -42,7 +42,7 @@ function M.ispointinpolygon(x, y, polygon)
     p1x = p2x
     p1y = p2y
   end
-  return inside  
+  return inside
 end
 
 -- return the closest points in the array
@@ -96,7 +96,10 @@ function M.bspline2D(points, subdivision)
   points[-1]               = wbvector2.add(points[0], wbvector2.minus(points[0], points[1]))
   points[pointsNumber + 1] = wbvector2.add(points[pointsNumber], wbvector2.minus(points[pointsNumber], points[pointsNumber - 1]))
   points[pointsNumber + 2] = wbvector2.add(points[pointsNumber + 1], wbvector2.minus(points[pointsNumber + 1], points[pointsNumber]))
-
+  for i = -1,pointsNumber+2 do
+    print(points[i].x .. ' ' .. points[i].y .. '\n')
+  end
+  print('1st: ' .. points[1].x .. ' ' .. points[1].y)
   -- Interpolation
   local index = 1
   spline[index] = points[1] -- first point

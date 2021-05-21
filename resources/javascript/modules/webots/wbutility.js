@@ -73,3 +73,17 @@ export function isMatrix3(m) {
 
   return true;
 }
+
+export function isArrayOfPoints(a, d) {
+  if (!Array.isArray(a))
+    return false;
+
+  for (let i = 0; i < a.length; ++i) {
+    if (d === 2 && !isVector2(a[i]))
+      return false;
+    if (d === 3 && !isVector3(a[i]))
+      return false;
+  }
+
+  return true;
+}

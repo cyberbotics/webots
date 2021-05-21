@@ -16,9 +16,9 @@ let console = {
     let entry = '';
     for (let i = 0; i < args.length; ++i){
       if (typeof args[i] == 'object')
-        entry += JSON.stringify(args[i])
+        entry += JSON.stringify(args[i], null, 1);
       else
-        entry += args[i]
+        entry += args[i];
     }
     return entry;
   }
