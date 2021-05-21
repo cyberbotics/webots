@@ -96,10 +96,7 @@ function M.bspline2D(points, subdivision)
   points[-1]               = wbvector2.add(points[0], wbvector2.minus(points[0], points[1]))
   points[pointsNumber + 1] = wbvector2.add(points[pointsNumber], wbvector2.minus(points[pointsNumber], points[pointsNumber - 1]))
   points[pointsNumber + 2] = wbvector2.add(points[pointsNumber + 1], wbvector2.minus(points[pointsNumber + 1], points[pointsNumber]))
-  for i = -1,pointsNumber+2 do
-    print(points[i].x .. ' ' .. points[i].y .. '\n')
-  end
-  print('1st: ' .. points[1].x .. ' ' .. points[1].y)
+
   -- Interpolation
   local index = 1
   spline[index] = points[1] -- first point
