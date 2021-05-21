@@ -302,24 +302,19 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   // import filled template as module
   QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
-  if (module.isError())
-    printf("ERROR LOADING MODULE\n");
-  else
-    printf("MODULE LOADED\n");
-
+  if (module.isError()) {
+    mError = tr("failed to import JavaScript template. On line %1: %2")
+               .arg(module.property("lineNumber").toInt())
+               .arg(module.property("message").toString());
+    return false;
+  }
   QJSValue main = module.property("main");
-  if (main.isError())
-    printf("PROPERTY ERROR\n");
-  else
-    printf("PROPERTY FINE\n");
-
   QJSValue result = main.call();
   if (result.isError()) {
-    printf("RESULT ERROR\n");
-    mError = result.toString();
-    // return false;
-  } else {
-    printf("RESULT FINE\n");
+    mError = tr("failed to execute JavaScript template. On line %1: %2")
+               .arg(result.property("lineNumber").toInt())
+               .arg(result.property("message").toString());
+    return false;
   }
 
   printf(">>>>stdout:\n");

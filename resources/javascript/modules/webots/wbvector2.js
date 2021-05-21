@@ -8,98 +8,85 @@ export function testFunction() { // TODO: to remove
   return 'WBVECTOR2 WORKS';
 };
 
-export function isParameterValid(v, expectedKeys) {
-  if (typeof v !== 'object' && Object.keys(v).length !== expectedKeys.length)
-    return false;
-
-  for (let i = 0; i < expectedKeys.length; ++i)
-    if (!v.hasOwnProperty(expectedKeys[i]))
-      return false;
-
-  return true;
-}
+import * as wbutility from 'wbutility.js';
 
 export function equal(vA, vB) {
-  if (!isParameterValid(vA, ['x', 'y']) || !isParameterValid(vB, ['x', 'y']))
-    stderr += 'In wbvector2.equal, the parameters should be objects with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.equal.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.equal.');
 
   return vA.x === vB.x && vA.y === vB.y;
 };
 
 export function add(vA, vB) {
-  if (!isParameterValid(vA, ['x', 'y']) || !isParameterValid(vB, ['x', 'y']))
-    stderr += 'In wbvector2.add, the parameters should be objects with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.add.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.add.');
 
   return {x: vA.x + vB.x, y: vA.y + vB.y};
 };
 
 export function minus(vA, vB) {
-  if (!isParameterValid(vA, ['x', 'y']) || !isParameterValid(vB, ['x', 'y']))
-    stderr += 'In wbvector2.minus, the parameters should be objects with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.minus.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.minus.');
 
   return {x: vA.x - vB.x, y: vA.y - vB.y};
 };
 
 export function multiply(v, s) {
-  if (!isParameterValid(v, ['x', 'y']))
-    stderr += 'In wbvector2.multiply, the parameter should be objects with two properties (x and y).\n';
-  if (typeof s !== 'number')
-    stderr += 'In wbvector2.multiply, \'s\' should be a number.\n';
+  wbutility.assert(wbutility.isVector2(v), 'Expected an object with properties (x, y) as first parameter in wbvector2.multiply.');
+  wbutility.assert(wbutility.isScalar(s), 'Expected a number as second parameter in wbvector2.multiply.');
 
   return {x: s * v.x, y: s * v.y};
 };
 
 export function norm(v) {
-  if (!isParameterValid(v, ['x', 'y']))
-    stderr += 'In wbvector2.norm, \'v\' should be an object with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(v), 'Expected an object with properties (x, y) as parameter in wbvector2.norm.');
 
   return Math.sqrt(v.x * v.x + v.y * v.y);
 };
 
 export function atan2(v) {
-  if (!isParameterValid(v, ['x', 'y']))
-    stderr += 'In wbvector2.atan2, the parameter should be an object with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(v), 'Expected an object with properties (x, y) as parameter in wbvector2.atan2.');
 
   return Math.atan2(v.x, v.y);
 };
 
 export function distance(vA, vB) {
-  if (!isParameterValid(vA, ['x', 'y']) || !isParameterValid(vB, ['x', 'y']))
-    stderr += 'In wbvector2.distance, the parameters should be objects with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.distance.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.distance.');
 
   return norm(minus(vA, vB));
 }
 
 export function angle(vA, vB) {
-  if (!isParameterValid(vA, ['x', 'y']) || !isParameterValid(vB, ['x', 'y']))
-    stderr += 'In wbvector2.angle, the parameters should be objects with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.angle.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.angle.');
 
   return atan2(minus(vA, vB));
 };
 
 export function cross(vA, vB) {
-  if (!isParameterValid(vA, ['x', 'y']) || !isParameterValid(vB, ['x', 'y']))
-    stderr += 'In wbvector2.cross, the parameters should be objects with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.cross.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.cross.');
 
   return vA.x * vB.y - vA.y * vB.x;
 };
 
 export function dot(vA, vB) {
-  if (!isParameterValid(vA, ['x', 'y']) || !isParameterValid(vB, ['x', 'y']))
-    stderr += 'In wbvector2.dot, the parameters should be objects with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.dot.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.dot.');
 
   return vA.x * vB.x + vA.y * vB.y;
 };
 
 export function normalize(v) {
-  if (!isParameterValid(v, ['x', 'y']))
-    stderr += 'In wbvector2.normalize, the parameter should be an object with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(v), 'Expected an object with properties (x, y) as parameter in wbvector2.normalize.');
 
   const n = norm(v);
 
-  if (n === 0)
-    stderr += 'The norm cannot be zero when normalizing.\n';
-  else
+  if (n === 0) {
+    wbutility.error('The norm cannot be zero when normalizing.');
+    return null;
+  } else
     return {x: v.x / n, y: v.y / n };
 };
 
@@ -107,9 +94,10 @@ export function normalize(v) {
 // and segment 2 (p3->p4), a point is an object with x and y keys
 // if no intersections are found return null
 export function intersection(p1, p2, p3, p4) {
-  if (!isParameterValid(p1, ['x', 'y']) || !isParameterValid(p2, ['x', 'y']) ||
-      !isParameterValid(p3, ['x', 'y']) || !isParameterValid(p4, ['x', 'y']))
-    stderr += 'In wbvector2.intersection, the parameters should be objects with two properties (x and y).\n';
+  wbutility.assert(wbutility.isVector2(p1), 'Expected an object with properties (x, y) as first parameter in wbvector2.intersection.');
+  wbutility.assert(wbutility.isVector2(p2), 'Expected an object with properties (x, y) as second parameter in wbvector2.intersection.');
+  wbutility.assert(wbutility.isVector2(p3), 'Expected an object with properties (x, y) as third parameter in wbvector2.intersection.');
+  wbutility.assert(wbutility.isVector2(p4), 'Expected an object with properties (x, y) as fourth parameter in wbvector2.intersection.');
 
   // check that the interval exists
   if (Math.max(p1.x, p2.x) < Math.min(p3.x, p4.x))

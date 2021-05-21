@@ -2,24 +2,16 @@
 
 %import%
 
-function render(text) {
-  return text;
-};
-
 let console = {
   log: function() {
-    var args = Array.prototype.slice.call(arguments);
-    let entry = '';
-    for (let i = 0; i < args.length; ++i){
-      if (typeof args[i] == 'object')
-        entry += JSON.stringify(args[i])
-      else
-        entry += args[i]
-    }
-    stdout.push(entry);
+    stdout.push(this.digest.apply(this, arguments));
   },
 
   error: function() {
+    stderr.push(this.digest.apply(this, arguments));
+  },
+
+  digest: function() {
     var args = Array.prototype.slice.call(arguments);
     let entry = '';
     for (let i = 0; i < args.length; ++i){
@@ -28,10 +20,13 @@ let console = {
       else
         entry += args[i]
     }
-    stderr.push(entry);
+    return entry;
   }
 }
 
+function render(text) {
+  return text;
+};
 
 export function main() {
   let result = '';
@@ -42,8 +37,8 @@ export function main() {
 
   %body%
 
+  console.log("1 + 1 = ", 1+1);
   /*
-  console.log("something");
   console.log("1 + 1 = ", 1+1);
   var a = 2;
   console.log(a);

@@ -12,13 +12,19 @@ export function testFunction() { // TODO: to remove
   return 'WBROTATION WORKS';
 };
 
+import * as wbutility from 'wbutility.js';
+
 export function equal(rA, rB) {
+  wbutility.assert(wbutility.isAxisAngle(rA), 'Expected an object with properties (x, y, z, a) as first parameter in wbrotation.equal.');
+  wbutility.assert(wbutility.isAxisAngle(rB), 'Expected an object with properties (x, y, z, a) as second parameter in wbrotation.equal.');
+
   return rA.x === rB.x && rA.y === rB.y && rA.z === rB.z && rA.a === rB.a;
 };
 
 export function fromQuaternion(q) {
-  let r = {};
+  wbutility.assert(wbutility.isQuaternion(q), 'Expected an object with properties (w, x, y, z) as parameter in wbrotation.fromQuaternion.');
 
+  let r = {};
   r['a'] = 2 * Math.acos(q.w);
   if (r.a < 0.0001) {
     r['x'] = 0;
@@ -37,6 +43,7 @@ export function fromQuaternion(q) {
 };
 
 export function fromMatrix3(m) {
+  wbutility.assert(wbutility.isMatrix3(m), 'Expected an object with properties (0, 1, ..., 8) as parameter in wbrotation.fromMatrix3.');
   let r = {};
   const cosAngle = 0.5 * (m[1] + m[5] + m[9] - 1);
   if (Math.abs(cosAngle) > 1) {
@@ -55,6 +62,8 @@ export function fromMatrix3(m) {
 };
 
 export function toQuaternion(r) {
+  wbutility.assert(wbutility.isAxisAngle(r), 'Expected an object with properties (x, y, z, a) as first parameter in wbrotation.toQuaternion.');
+
   normalize(r);
   let halfAngle = r.a * 0.5;
   let sinHalfAngle = Math.sin(halfAngle);
@@ -64,6 +73,8 @@ export function toQuaternion(r) {
 };
 
 export function toMatrix3(r) {
+  wbutility.assert(wbutility.isAxisAngle(r), 'Expected an object with properties (x, y, z, a) as first parameter in wbrotation.toMatrix3.');
+
   const c = Math.cos(r.a);
   const s = Math.sin(r.a);
   const t1 = 1 - c;
@@ -85,42 +96,36 @@ export function toMatrix3(r) {
   return m;
 };
 
-function isValidAxis(v) {
-  return v.x !== 0 || v.y !== 0 || v.z !== 0;
-}
-
 export function isIdentity(r) {
   return r.a === 0.0;
 }
 
-function normalizeAngle(r) {
+export function normalize(r) {
+  wbutility.assert(wbutility.isAxisAngle(r), 'Expected an object with properties (x, y, z, a) as first parameter in wbrotation.normalize.');
+
+  if (r.x === 0 && r.y === 0 && r.z === 0)
+    wbutility.error('The parameter in wbrotation.normalize is not a valid axis (norm is zero).');
+  else {
+    // normalize axis
+    let invl = 1 / Math.sqrt(r.x * r.x + r.y * r.y + r.z * r.z);
+    r.x = r.x * invl;
+    r.y = r.y * invl;
+    r.z = r.z * invl;
+  }
+
+  // normalize angle
   while (r.a < -Math.PI)
     r.a = r.a + 2 * Math.PI;
   while (r.a > Math.PI)
     r.a = r.a - 2 * Math.PI;
-};
-
-function normalizeAxis(r) {
-  if (!isValidAxis(r)) { // TODO: should give error instead of overwriting?
-    r.x = 0;
-    r.y = 1;
-    r.z = 0;
-  }
-
-  let invl = 1 / Math.sqrt(r.x * r.x + r.y * r.y + r.z * r.z);
-  r.x = r.x * invl;
-  r.y = r.y * invl;
-  r.z = r.z * invl;
-};
-
-export function normalize(r) {
-  normalizeAxis(r);
-  normalizeAngle(r);
 
   return r;
 };
 
 export function combine(rA, rB) {
+  wbutility.assert(wbutility.isAxisAngle(rA), 'Expected an object with properties (x, y, z, a) as first parameter in wbrotation.combine.');
+  wbutility.assert(wbutility.isAxisAngle(rB), 'Expected an object with properties (x, y, z, a) as second parameter in wbrotation.combine.');
+
   const qA = toQuaternion(rA);
   const qB = toQuaternion(rB);
 
@@ -135,6 +140,9 @@ export function combine(rA, rB) {
 };
 
 export function rotateVector3ByMatrix3(m, v) {
+  wbutility.assert(wbutility.isMatrix3(m), 'Expected an object with properties (0, 1, ..., 8) as parameter in wbrotation.rotateVector3ByMatrix3.');
+  wbutility.assert(wbutility.isVector3(v), 'Expected an object with properties (x, y, z) as second parameter in wbrotation.rotateVector3ByMatrix3.');
+
   const vector3 = {
     x: m[1] * v.x + m[2] * v.y + m[3] * v.z,
     y: m[4] * v.x + m[5] * v.y + m[6] * v.z,
@@ -145,6 +153,9 @@ export function rotateVector3ByMatrix3(m, v) {
 };
 
 export function rotateVector3ByRotation(r, v) {
+  wbutility.assert(wbutility.isAxisAngle(r), 'Expected an object with properties (x, y, z, a) as parameter in wbrotation.rotateVector3ByRotation.');
+  wbutility.assert(wbutility.isVector3(v), 'Expected an object with properties (x, y, z) as second parameter in wbrotation.rotateVector3ByRotation.');
+
   const matrix3 = toMatrix3(r);
   const vector3 = rotateVector3ByMatrix3(matrix3, v);
 
@@ -152,6 +163,9 @@ export function rotateVector3ByRotation(r, v) {
 };
 
 export function rotateVector3ByQuaternion(q, v) {
+  wbutility.assert(wbutility.isQuaternion(q), 'Expected an object with properties (w, x, y, z) as first parameter in wbrotation.rotateVector3ByQuaternion.');
+  wbutility.assert(wbutility.isVector3(v), 'Expected an object with properties (x, y, z) as second parameter in wbrotation.rotateVector3ByQuaternion.');
+
   const rotation = fromQuaternion(q);
   const vector3 = rotateVector3ByRotation(rotation, v);
 

@@ -6,6 +6,8 @@ export function testFunction() { // TODO: to remove
   return 'WBRANDOM WORKS';
 };
 
+import * as wbutility from 'wbutility.js';
+
 let seedValue = 0;
 
 export function seed(s) {
@@ -28,8 +30,7 @@ export function real(min, max) {
     min = 0;
   }
 
-  if (typeof min !== 'number' || typeof max !== 'number')
-    stderr += 'In wbrandom.real expected parameters to be numbers but they are not.\n';
+  wbutility.assert(wbutility.isScalar(min) && wbutility.isScalar(max), 'Expected parameters to be numbers in wbrandom.real.');
 
   updateSeed();
 
@@ -45,8 +46,7 @@ export function integer(min, max) {
     min = 1;
   }
 
-  if (typeof min !== 'number' || typeof max !== 'number')
-    stderr += 'In wbrandom.integer expected parameters to be numbers but they are not.\n';
+  wbutility.assert(wbutility.isScalar(min) && wbutility.isScalar(max), 'Expected parameters to be numbers in wbrandom.integer.');
 
   updateSeed();
 
