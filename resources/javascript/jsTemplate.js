@@ -37,7 +37,6 @@ export function main() {
 
   %body%
 
-  console.log("1 + 1 = ", 1+1);
   /*
   console.log("1 + 1 = ", 1+1);
   var a = 2;
