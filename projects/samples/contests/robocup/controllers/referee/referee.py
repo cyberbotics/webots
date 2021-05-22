@@ -503,11 +503,10 @@ def rotate_along_z(axis_and_angle):
 
 
 def append_solid(solid, solids):  # we list only the hands and feet
-    model_field = solid.getField('model')
-    if model_field:
-        model = model_field.getSFString()
-        suffix = model[-4:]
-        if suffix in ['hand', 'foot']:
+    name_field = solid.getField('name')
+    if name_field:
+        name = name_field.getSFString()
+        if name.endswith("[hand]") or name.endswith("[foot]"):
             solids.append(solid)
     children = solid.getProtoField('children') if solid.isProto() else solid.getField('children')
     for i in range(children.getCount()):
@@ -813,12 +812,14 @@ def update_team_contacts(team):
             node = robot.getContactPointNode(i)
             if not node:
                 continue
-            model_field = node.getField('model')
-            if model_field:
-                model = model_field.getSFString()
-                member = model.split(' ')[-1] if ' ' in model else model
-            else:
-                member = 'unknown body part'
+            name_field = node.getField('name')
+            member = 'unknown body part'
+            if name_field:
+                name = name_field.getSFString()
+                tag_start = name.rfind('[')
+                tag_end = name.rfind(']')
+                if tag_start != -1 and tag_end != -1:
+                    member = name[tag_start+1:tag_end]
             if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
                     if member in ['arm', 'hand']:
