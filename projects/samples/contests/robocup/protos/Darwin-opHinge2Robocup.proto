@@ -947,7 +947,7 @@ PROTO Darwin-opHinge2Robocup [
                                       endPoint Solid {
                                         translation 0 -0.093 0
                                         rotation 1 0 0 -1.23
-                                        model "left foot"
+                                        name "footL[foot]"
                                         children [
                                           DEF DAnkleLShape Shape { # Motors
                                             appearance USE MOTOR_APPEARANCE
@@ -1362,7 +1362,7 @@ PROTO Darwin-opHinge2Robocup [
                                       endPoint Solid {
                                         translation 0 -0.093 0
                                         rotation -1 0 0 1.22
-                                        model "right foot"
+                                        name "footR[foot]"
                                         children [
                                           DEF DAnkleRShape Shape { # Motors
                                             appearance USE MOTOR_APPEARANCE
@@ -1555,7 +1555,6 @@ PROTO Darwin-opHinge2Robocup [
           endPoint Solid {
             translation 0 0.082 0
             rotation 0.6734 0.6734 0.3051 2.5494
-            model "left arm"
             children [
               DEF DShoulderLShape Shape {
                 appearance USE METAL_APPEARANCE
@@ -1603,7 +1602,7 @@ PROTO Darwin-opHinge2Robocup [
                   endPoint Solid {
                     translation 0 -0.016 0
                     rotation 0 0 -1 -0.4254
-                    model "left arm"
+                    name "armL[arm]"
                     children [
                       DEF DArmUpperLShape Group {
                         children [
@@ -1665,7 +1664,7 @@ PROTO Darwin-opHinge2Robocup [
                           endPoint Solid {
                             translation 0 -0.06 0.016
                             rotation 1 0 0 -2.0908
-                            model "left hand"
+                            name "handL[hand]"
                             children [
                               DEF LEFT_HAND_SLOT Group {
                                 children IS leftHandSlot
@@ -1753,7 +1752,7 @@ PROTO Darwin-opHinge2Robocup [
                   }
                 }
             ]
-            name "shoulderL"
+            name "shoulderL[arm]"
             boundingObject Transform {
               translation -0.009 -0.0065 0
               rotation 0 0 1 -0.785398
@@ -1807,7 +1806,6 @@ PROTO Darwin-opHinge2Robocup [
           endPoint Solid {
             translation 0 -0.082 0
             rotation 0.6826 0.6826 0.2611 2.6307
-            model "right arm"
             children [
               DEF DShoulderRShape Shape {
                 appearance USE METAL_APPEARANCE
@@ -1855,7 +1853,7 @@ PROTO Darwin-opHinge2Robocup [
                   endPoint Solid {
                     translation 0 -0.016 0
                     rotation 0 0 -1 0.4554
-                    model "right arm"
+                    name "armR[arm]"
                     children [
                       DEF DArmUpperRShape Group {
                         children [
@@ -1917,7 +1915,7 @@ PROTO Darwin-opHinge2Robocup [
                           endPoint Solid {
                             translation 0 -0.06 0.016
                             rotation -1 0 0 2.0808
-                            model "right hand"
+                            name "handR[hand]"
                             children [
                               DEF RIGHT_HAND_SLOT Group {
                                 children IS rightHandSlot
@@ -2005,7 +2003,7 @@ PROTO Darwin-opHinge2Robocup [
                   }
                 }
             ]
-            name "shoulderR"
+            name "shoulderR[arm]"
             boundingObject Transform {
               translation 0.009 -0.0065 0
               rotation 0 0 1 0.785398
