@@ -518,7 +518,7 @@ def append_solid(solid, solids):  # we list only the hands and feet
         if child.getType() in [Node.HINGE_JOINT, Node.HINGE_2_JOINT, Node.SLIDER_JOINT, Node.BALL_JOINT]:
             endPoint = child.getProtoField('endPoint') if child.isProto() else child.getField('endPoint')
             solid = endPoint.getSFNode()
-            if solid.getType() == Node.NO_NODE:
+            if solid.getType() == Node.NO_NODE or solid.getType() == Node.SOLID_REFERENCE:
                 continue
             append_solid(solid, solids)
 
