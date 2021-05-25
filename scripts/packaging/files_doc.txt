@@ -11,7 +11,7 @@ docs/css/images/*.png
 docs/dependencies [recurse]
 docs/js/
 docs/js/showdown-extensions.js
-docs/js/viewer.js
+docs/js/webots_documentation_loader.js
 docs/automobile/
 docs/automobile/*.md
 docs/automobile/images [recurse]
