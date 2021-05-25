@@ -35,20 +35,9 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
     if not os.path.isdir(cpp_folder):  # development environment
         cpp_folder = os.path.join(msys64_root, 'mingw64', 'bin')
     os.add_dll_directory(cpp_folder)
-
-def windows_ctrl_handler(a,b=None):
-    sys.exit(1)
-if sys.platform == 'win32':
-    import win32api
-    win32api.SetConsoleCtrlHandler(windows_ctrl_handler, True)
 %}
 
 %{
-#if !(defined(_WIN64) || defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW32__))
-#include <setjmp.h>
-#include <signal.h>
-#endif
-
 #include <webots/Accelerometer.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
@@ -87,34 +76,7 @@ if sys.platform == 'win32':
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
-
-#if !(defined(_WIN64) || defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW32__))
-static sigjmp_buf sigjmp;
-
-static void backout(int sig) {
-  siglongjmp(sigjmp, sig);
-}
-#endif
 %}
-
-
-//----------------------------------------------------------------------------------------------
-//  Error handling
-//  Reference: https://stackoverflow.com/a/12155582/1983050
-//----------------------------------------------------------------------------------------------
-
-%include <exception.i>
-
-%exception {
-#if defined(_SETJMP_H_)
-  if (!sigsetjmp(sigjmp, 1)) {
-    signal(SIGINT, backout);
-    $action
-  } else {
-    SWIG_exception(SWIG_RuntimeError, "Exception in $decl");
-  }
-#endif
-}
 
 //----------------------------------------------------------------------------------------------
 //  Miscellaneous - controller module's level
@@ -1242,5 +1204,3 @@ class AnsiCodes(object):
 %rename ("__internalGetFromDeviceTag") getFromDeviceTag;
 
 %include <webots/Supervisor.hpp>
-
-%exception;
