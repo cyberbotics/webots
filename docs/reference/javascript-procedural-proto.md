@@ -590,6 +590,119 @@ Creates a B-Spline curve of third order using the array of three-dimensional poi
 
 %tab-end
 
+%tab "wbutility"
+```
+/**
+ * @param {boolean} statement
+ * @param {string} message
+ */
+wbutility.assert(statement, message);
+```
+
+If the statement is false, it prints `message` to the standard error stream `stderr`.
+
+```
+/**
+ * @param {string} message
+ */
+wbutility.error(message);
+```
+
+It writes `message` to the standard error stream `stderr`.
+
+```
+/**
+ * @param {string} message
+ */
+wbutility.info(message);
+```
+
+It writes `message` to the standard output stream `stdout`.
+
+```
+/**
+ * @param {Object} original
+ * @returns {Object}
+ */
+wbutility.deepCopy(message);
+```
+
+Creates and returns a deep copy of any object provided as argument (i.e an independent clone).
+
+```
+/**
+ * @param {number} s
+ * @returns {boolean}
+ */
+wbutility.isScalar(s);
+```
+
+Returns true if the provided argument is a scalar.
+
+```
+/**
+ * @param {Object<x: number, y: number} v
+ * @returns {boolean}
+ */
+wbutility.isVector2(v);
+```
+
+Returns true if the provided argument is a vector2, i.e if it is a two-dimensional object with keys (x and y).
+
+```
+/**
+ * @param {Object<x: number, y: number, z: number} v
+ * @returns {boolean}
+ */
+wbutility.isVector3(v);
+```
+
+Returns true if the provided argument is a vector3, i.e if it is a three-dimensional object with keys (x, y and z).
+
+```
+/**
+ * @param {Object<x: number, y: number, z: number, a: number} r
+ * @returns {boolean}
+ */
+wbutility.isAxisAngle(r);
+```
+
+Returns true if the provided argument is a vector in axis-angle format, i.e if it is a four-dimensional object with keys (x, y, z and a).
+
+```
+/**
+ * @param {Object<w: number, x: number, y: number, z: number} q
+ * @returns {boolean}
+ */
+wbutility.isQuaternion(q);
+```
+
+Returns true if the provided argument is a quaternion, i.e if it is a four-dimensional object with keys (w, x, y and z).
+
+```
+/**
+ * @param {Object<0: number, 1: number, ... , 8: number} m
+ * @returns {boolean}
+ */
+wbutility.isMatrix3(m);
+```
+
+Returns true if the provided argument is a three-dimensional matrix, i.e if it is a 9-dimensional object with keys (0, 1, ..., 8).
+
+```
+/**
+ * @param {[{Object<x: number, y: number, [z: number]}, {Object<x: number, y: number, [z: number]}, ...]} array
+ * @param {number} dim
+ * @returns {boolean}
+ */
+wbutility.isArrayOfPoints(array, dim);
+```
+
+Returns true if the provided argument is an array of `dim`-dimensional points.
+`dim` can either be 2 or 3.
+
+%tab-end
+
 %end
 
 ### Optimization

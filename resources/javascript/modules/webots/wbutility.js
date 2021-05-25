@@ -5,18 +5,18 @@
 export function assert(statement, message) {
   if (!statement)
     error(message);
-}
+};
 
 export function error(message) {
   stderr.push(message);
-}
+};
 
 export function info(message) {
   stdout.push(message);
-}
+};
 
-export function deepCopy(orig) {
-  return JSON.parse(JSON.stringify(orig));
+export function deepCopy(original) {
+  return JSON.parse(JSON.stringify(original));
 };
 
 export function isScalar(s) {
@@ -24,7 +24,7 @@ export function isScalar(s) {
     return false;
 
   return true;
-}
+};
 
 export function isVector2(v) {
   if (typeof v !== 'object' && Object.keys(v).length !== 2)
@@ -34,7 +34,7 @@ export function isVector2(v) {
     return false;
 
   return true;
-}
+};
 
 export function isVector3(v) {
   if (typeof v !== 'object' && Object.keys(v).length !== 3)
@@ -44,7 +44,7 @@ export function isVector3(v) {
     return false;
 
   return true;
-}
+};
 
 export function isAxisAngle(r) {
   if (typeof r !== 'object' && Object.keys(r).length !== 4)
@@ -54,7 +54,7 @@ export function isAxisAngle(r) {
     return false;
 
   return true;
-}
+};
 
 export function isQuaternion(q) {
   if (typeof q !== 'object' && Object.keys(q).length !== 4)
@@ -64,7 +64,7 @@ export function isQuaternion(q) {
     return false;
 
   return true;
-}
+};
 
 export function isMatrix3(m) {
   if (typeof m !== 'object' && Object.keys(m).length !== 9)
@@ -76,18 +76,23 @@ export function isMatrix3(m) {
   }
 
   return true;
-}
+};
 
-export function isArrayOfPoints(a, d) {
-  if (!Array.isArray(a))
+export function isArrayOfPoints(array, dim) {
+  if (!Array.isArray(array))
     return false;
 
-  for (let i = 0; i < a.length; ++i) {
-    if (d === 2 && !isVector2(a[i]))
+  if (!(dim === 2 || dim === 3)) {
+    error('The second paramter of wbutility.isArrayOfPoints can only be 2 or 3.');
+    return false;
+  }
+
+  for (let i = 0; i < array.length; ++i) {
+    if (dim === 2 && !isVector2(array[i]))
       return false;
-    if (d === 3 && !isVector3(a[i]))
+    if (dim === 3 && !isVector3(array[i]))
       return false;
   }
 
   return true;
-}
+};
