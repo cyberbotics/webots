@@ -59,7 +59,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <cassert>
-#include <iostream>
 
 static const int MAX_LABELS = 100;
 
@@ -1051,22 +1050,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
       return;
     }
-    case C_SUPERVISOR_FIELD_GET_COUNT: {
-      int id;
+    case C_SUPERVISOR_NODE_GET_FIELD_COUNT: {
+      int node_id;
       unsigned char allowSearchInProto;
-      stream >> id;
+      stream >> node_id;
       stream >> allowSearchInProto;
 
-      WbNode *const node = WbNode::findNode(id);
-      if (node) {
-        if (allowSearchInProto == 1) {
-          mNodeFieldCount = node->numProtoFields();
-        }
-        else {
-          mNodeFieldCount = node->numFields();
-        }
-        std::cout << "mNodeFieldCount " << mNodeFieldCount << " allow search in proto is " << ((allowSearchInProto == 1) ? "true" : "false") << std::endl << std::flush;
-      }
+      WbNode *const node = WbNode::findNode(node_id);
+      if (node)
+        mNodeFieldCount = allowSearchInProto == 1 ? node->fields().size() : node->numFields();
       return;
     }
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
@@ -1093,7 +1085,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
             mFoundFieldType = field->type();
             mFoundFieldIsInternal = allowSearchInProto == 1;
             mFieldName = field->name();
-            std::cout << field->name().toUtf8().constData() << std::endl << std::flush;
             if (mv) {
               mWatchedFields.append(WbUpdatedFieldInfo(node->uniqueId(), field->name(), mFoundFieldCount));
               field->listenToValueSizeChanges();
@@ -1104,27 +1095,26 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
       return;
     }
-    case C_SUPERVISOR_FIELD_GET_FROM_ID: {
-      int node_id, field_id;
+    case C_SUPERVISOR_FIELD_GET_FROM_INDEX: {
+      int node_id, field_index;
       unsigned char allowSearchInProto;
       stream >> node_id;
-      stream >> field_id;
+      stream >> field_index;
       stream >> allowSearchInProto;
 
       mFoundFieldId = -1;
       mFoundFieldType = 0;
       mFoundFieldCount = -1;
       mFoundFieldIsInternal = false;
-      std::cout << "node_id: " << node_id << "  field_id: " << field_id << " allow search in proto is " << ((allowSearchInProto == 1) ? "true" : "false") << std::endl << std::flush;
 
       WbNode *const node = WbNode::findNode(node_id);
       if (node) {
-        if (field_id != -1) {
-          WbField *field = node->field(field_id, allowSearchInProto == 1);
+        if (field_index != -1) {
+          WbField *field = node->field(field_index, allowSearchInProto == 1);
           if (field) {
             WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
             mFoundFieldCount = mv ? mv->size() : -1;
-            mFoundFieldId = field_id;
+            mFoundFieldId = field_index;
             mFoundFieldType = field->type();
             mFoundFieldIsInternal = allowSearchInProto == 1;
             mFieldName = field->name();
@@ -1665,7 +1655,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   }
   if (mNodeFieldCount >= 0) {
     stream << (short unsigned int)0;
-    stream << (unsigned char)C_SUPERVISOR_FIELD_GET_COUNT;
+    stream << (unsigned char)C_SUPERVISOR_NODE_GET_FIELD_COUNT;
     stream << mNodeFieldCount;
     mNodeFieldCount = -1;
     return;
