@@ -44,7 +44,7 @@
 // Constant used to scale down the line scale property
 const float WbGeometry::LINE_SCALE_FACTOR = 250.0f;
 
-const int gMaxIndexNumberToCastShadows = (2 << 15) - 1;  // 2^16 - 1 (16-bit resolution)
+const int gMaxIndexNumberToCastShadows = (1 << 16) - 1;  // 2^16 - 1 (16-bit resolution)
 
 int WbGeometry::maxIndexNumberToCastShadows() {
   return gMaxIndexNumberToCastShadows;
