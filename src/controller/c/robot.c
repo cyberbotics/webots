@@ -29,6 +29,7 @@
 #include <stdlib.h>  // exit
 #include <string.h>  // strlen
 #include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+#include <signal.h>  // signal
 
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
@@ -111,6 +112,7 @@ static WbRobot robot;
 static WbMutexRef robot_step_mutex;
 static double simulation_time = 0.0;
 static unsigned int current_step_duration = 0;
+static bool should_abort_simulation_waiting = false;
 
 // Static functions
 static void init_robot_window_library() {
@@ -120,6 +122,12 @@ static void init_robot_window_library() {
   robot_window_init(robot.window_filename);
   if (!robot_window_is_initialized())
     fprintf(stderr, "Error: Cannot load the \"%s\" robot window library.\n", robot.window_filename);
+}
+
+static void quit_controller(int signal_number) {
+  should_abort_simulation_waiting = true;
+  signal(signal_number, SIG_DFL);
+  raise(signal_number);
 }
 
 static void init_remote_control_library() {
@@ -965,6 +973,13 @@ int wb_robot_init() {  // API initialization
   // one uint8 giving the number of devices n
   // n \0-terminated strings giving the names of the devices 0 .. n-1
 
+  signal(SIGINT, quit_controller);  // this signal is working on Windows when Ctrl+C from cmd.exe.
+#ifndef _WIN32
+  signal(SIGTERM, quit_controller);
+  signal(SIGQUIT, quit_controller);
+  signal(SIGHUP, quit_controller);
+#endif
+
   robot.configure = 0;
   robot.real_robot_cleanup = NULL;
   robot.is_supervisor = false;
@@ -994,7 +1009,7 @@ int wb_robot_init() {  // API initialization
   } else {
     pipe = NULL;
     int trial = 0;
-    while (true) {
+    while (!should_abort_simulation_waiting) {
       trial++;
       const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
       char retry[256];
@@ -1026,7 +1041,6 @@ int wb_robot_init() {  // API initialization
       }
     }
   }
-
   if (!success) {
     if (!pipe)
       fprintf(stderr, "Cannot connect to Webots: no valid pipe found.\n");
