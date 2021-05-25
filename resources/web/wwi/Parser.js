@@ -477,11 +477,6 @@ export default class Parser {
     WbWorld.instance.nodes.set(billboard.id, billboard);
     await this._parseChildren(node, billboard);
 
-    if (typeof parentNode !== 'undefined') {
-      billboard.parent = parentNode.id;
-      parentNode.children.push(billboard);
-    }
-
     return billboard;
   }
 
