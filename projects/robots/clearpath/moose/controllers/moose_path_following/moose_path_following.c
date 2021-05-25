@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -153,7 +153,7 @@ static void run_autopilot() {
   const double *pos3D = wb_gps_get_values(gps);
   const double *north3D = wb_compass_get_values(compass);
 
-  // compute the 2D position of the robo and its orientation
+  // compute the 2D position of the robot and its orientation
   Vector pos = {pos3D[X], pos3D[Z]};
   Vector north = {north3D[X], north3D[Z]};
   Vector front = {-north.u, north.v};

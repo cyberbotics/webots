@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -64,6 +64,11 @@ PYTHON_PYMALLOC = m
 endif
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-uninitialized
+ifeq ($(SUFFIX),)
+ifeq ($(PYTHON_SHORT_VERSION),38)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
+endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS        += -Wno-self-assign
 endif
@@ -92,6 +97,9 @@ TARGET          = $(PYOUT) $(LIBOUT)
 ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile:
 	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
+else ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
+release debug profile:
+	@echo -e "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
 else ifeq ($(SWIG_EXISTS),)
 release debug profile:
 	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"

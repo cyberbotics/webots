@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,6 +50,12 @@ WbAppearance::WbAppearance(const WbNode &other) : WbAbstractAppearance(other) {
 WbAppearance::~WbAppearance() {
 }
 
+void WbAppearance::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (texture())
+    texture()->downloadAssets();
+}
+
 void WbAppearance::preFinalize() {
   WbAbstractAppearance::preFinalize();
 
@@ -77,15 +83,15 @@ void WbAppearance::postFinalize() {
     emit changed();
 }
 
-void WbAppearance::reset() {
-  WbAbstractAppearance::reset();
+void WbAppearance::reset(const QString &id) {
+  WbAbstractAppearance::reset(id);
 
   WbNode *const material = mMaterial->value();
   if (material)
-    material->reset();
+    material->reset(id);
   WbNode *const texture = mTexture->value();
   if (texture)
-    texture->reset();
+    texture->reset(id);
 }
 
 void WbAppearance::updateMaterial() {
@@ -169,11 +175,11 @@ WbRgb WbAppearance::diffuseColor() const {
     return WbRgb(1.0f, 1.0f, 1.0f);
 }
 
-void WbAppearance::pickColorInTexture(WbRgb &pickedColor, const WbVector2 &uv) const {
+void WbAppearance::pickColorInTexture(const WbVector2 &uv, WbRgb &pickedColor) const {
   WbImageTexture *tex = texture();
   if (tex) {
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    tex->pickColor(pickedColor, uvTransformed);
+    tex->pickColor(uvTransformed, pickedColor);
   } else
     pickedColor.setValue(1.0, 1.0, 1.0);  // default value
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public:
   virtual ~WbJointDevice();
 
   // inherited from WbBaseNode
-  void postFinalize() override;
+  void preFinalize() override;
 
   WbJoint *joint() const;          // joint attached to the device
   WbPropeller *propeller() const;  // propeller attached to the device

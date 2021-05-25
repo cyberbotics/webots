@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -97,12 +97,12 @@ void WbPhysics::postFinalize() {
   connect(mDamping, &WbSFNode::changed, this, &WbPhysics::updateDamping);
 }
 
-void WbPhysics::reset() {
-  WbBaseNode::reset();
+void WbPhysics::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const d = mDamping->value();
   if (d)
-    d->reset();
+    d->reset(id);
 }
 
 void WbPhysics::checkMass() {

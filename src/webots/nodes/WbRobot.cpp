@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -151,7 +151,7 @@ void WbRobot::init() {
     data->setValue("");
   }
 
-  mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
+  mBatteryInitialValues[stateId()] = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
 }
 
 WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
@@ -179,7 +179,6 @@ WbRobot::~WbRobot() {
   delete mJoystickTimer;
   delete mUserInputEventTimer;
   delete mJoyStickLastValue;
-  delete mKinematicDifferentialWheels;
   if (mMouse)
     WbMouse::destroy(mMouse);
   delete mSupervisorUtilities;
@@ -250,20 +249,18 @@ void WbRobot::postFinalize() {
     parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
 }
 
-void WbRobot::reset() {
-  WbSolid::reset();
+void WbRobot::reset(const QString &id) {
+  WbSolid::reset(id);
   mPreviousTime = -1.0;
   // restore battery level
-  if (mBatteryInitialValue > 0)
-    mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValue);
-  if (mSupervisorUtilities)
-    mSupervisorUtilities->reset();
+  if (mBatteryInitialValues[id] > 0)
+    mBattery->setItem(CURRENT_ENERGY, mBatteryInitialValues[id]);
   emit wasReset();
 }
 
-void WbRobot::save() {
-  WbSolid::save();
-  mBatteryInitialValue = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
+void WbRobot::save(const QString &id) {
+  WbSolid::save(id);
+  mBatteryInitialValues[id] = (mBattery->size() > CURRENT_ENERGY) ? mBattery->item(CURRENT_ENERGY) : -1.0;
 }
 
 void WbRobot::addDevices(WbNode *node) {
@@ -567,6 +564,8 @@ void WbRobot::restartController() {
     if (ac)
       ac->resetSharedMemory();  // shared memory automatically deleted at new controller restart
   }
+  if (mSupervisorUtilities)
+    mSupervisorUtilities->reset();
 }
 
 bool WbRobot::isWaitingForUserInputEvent() const {
@@ -1026,7 +1025,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     default:
       // if it was not catched, then this message is apparently for a subclass of WbRobot
-      // we must rewind 1 byte so the DifferentialWheels or Supervisor can read the command
+      // we must rewind 1 byte so the Supervisor can read the command
       device->ungetChar(byte);
   }
   if (mSupervisorUtilities)

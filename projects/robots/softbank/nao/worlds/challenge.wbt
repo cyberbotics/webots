@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "NAO Challenge"
@@ -52,21 +52,21 @@ CeilingLight {
   translation 0.2 2 1.25
   pointLightIntensity 2
 }
-NaoRoom {
+NaoChallengeRoom {
 }
 DEF LANDMARK VisualArmature {
   translation -0.25 0.255 0.08
   rotation 0 1 0 1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark1.png"
+    "textures/landmark1.png"
   ]
 }
 DEF LANDMARK VisualArmature {
   translation 0.21 0.405 -0.995
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark2.png"
+    "textures/landmark2.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -74,7 +74,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark3.png"
+    "textures/landmark3.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -82,7 +82,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark4.png"
+    "textures/landmark4.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -90,7 +90,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark5.png"
+    "textures/landmark5.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -98,7 +98,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -2.3562
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark6.png"
+    "textures/landmark6.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -106,7 +106,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 -3.14159
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark7.png"
+    "textures/landmark7.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -114,14 +114,14 @@ DEF LANDMARK VisualArmature {
   rotation 0 1 0 1.5708
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark8.png"
+    "textures/landmark8.png"
   ]
 }
 DEF LANDMARK VisualArmature {
   translation -0.1 0.255 1
   dimension 0.09 0.09 0.001
   textureUrl [
-    "landmarks/landmark9.png"
+    "textures/landmark9.png"
   ]
 }
 DEF PAINTING_BIG VisualArmature {

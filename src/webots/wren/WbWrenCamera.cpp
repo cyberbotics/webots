@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -327,7 +327,7 @@ void WbWrenCamera::setRangeResolution(float resolution) {
   }
 }
 
-QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
+QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device) {
   if (!mIsColor || mIsSpherical)
     return tr("Noise mask can only be applied to RGB non-spherical cameras");
 
@@ -336,12 +336,12 @@ QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
   mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskTexturePath);
   if (!mNoiseMaskTexture) {
     QImage *image = new QImage();
-    QImageReader imageReader(noiseMaskTexturePath);
-    if (!imageReader.read(image)) {
+    QImageReader *imageReader = device ? new QImageReader(device) : new QImageReader(noiseMaskTexturePath);
+    if (!imageReader->read(image)) {
       delete image;
-      return tr("Cannot load %1: %2").arg(noiseMaskTexturePath).arg(imageReader.errorString());
+      return tr("Cannot load %1: %2").arg(noiseMaskTexturePath).arg(imageReader->errorString());
     }
-
+    delete imageReader;
     const bool isTranslucent = image->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
     if (image->format() != QImage::Format_ARGB32) {
       QImage tmp = image->convertToFormat(QImage::Format_ARGB32);
@@ -764,7 +764,7 @@ void WbWrenCamera::setupSphericalSubCameras() {
 }
 
 void WbWrenCamera::setupCameraPostProcessing(int index) {
-  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+  assert(index >= 0 && index < CAMERA_ORIENTATION_COUNT && mIsCameraActive[index]);
 
   if (mBloomThreshold != -1.0f && mType == 'c')
     mWrenBloom[index]->setup(mCameraViewport[index]);
@@ -870,7 +870,7 @@ void WbWrenCamera::setAspectRatio(float aspectRatio) {
 }
 
 void WbWrenCamera::updatePostProcessingParameters(int index) {
-  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+  assert(index >= 0 && index < CAMERA_ORIENTATION_COUNT && mIsCameraActive[index]);
 
   if (mWrenHdr[index]->hasBeenSetup())
     mWrenHdr[index]->setExposure(mExposure);

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public:
 
   static bool isPaintable(const WbShape *shape);
 
-  void pickColor(WbRgb &pickedColor, const WbVector2 &uv) const;
+  void pickColor(const WbVector2 &uv, WbRgb &pickedColor, float *pickedDensity = NULL) const;
   void clearTexture();
 
   // simulate ink evaporation

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -167,7 +167,7 @@ void WbNodeEditor::apply() {
   QString newDef = mDefEdit->text();
   const QString &previousDef = mNode->defName();
 
-  if (!mNode || newDef == previousDef)
+  if (newDef == previousDef)
     return;
 
   // block duplicated WbNodeEditor::apply call triggered by focusOutEvent

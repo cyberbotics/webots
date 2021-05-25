@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ endif
 include resources/Makefile.os.include
 
 ifeq ($(JAVA_HOME)$(OSTYPE),linux)
-JAVAC:=`which javac`
+JAVAC:=$(shell which javac)
 ifneq ($(JAVAC),)
 export JAVA_HOME:=$(shell dirname $(dir $(shell readlink -f $(JAVAC))))
 endif

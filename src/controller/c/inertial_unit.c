@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <webots/inertial_unit.h>
 #include <webots/nodes.h>
 #include "device_private.h"
@@ -27,12 +28,14 @@ typedef struct {
   int sampling_period;  // milliseconds
   double quaternion[4];
   double noise;
+  char *coordinate_system;
 } InertialUnit;
 
 static InertialUnit *inertial_unit_create() {
   InertialUnit *inertial_unit = malloc(sizeof(InertialUnit));
   inertial_unit->enable = false;
   inertial_unit->sampling_period = 0;
+  inertial_unit->coordinate_system = NULL;
   return inertial_unit;
 }
 
@@ -53,6 +56,7 @@ static void inertial_unit_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_CONFIGURE:
       s->noise = request_read_double(r);
+      s->coordinate_system = request_read_string(r);
       break;
     default:
       ROBOT_ASSERT(0);  // should never be reached
@@ -148,9 +152,28 @@ const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_inertial_unit_enable().\n", __FUNCTION__);
 
     const double *q = inertial_unit->quaternion;
-    result[2] = atan2(2 * q[1] * q[3] - 2 * q[0] * q[2], 1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]);
-    result[0] = atan2(2 * q[0] * q[3] - 2 * q[1] * q[2], 1 - 2 * q[0] * q[0] - 2 * q[2] * q[2]);
-    result[1] = asin(2 * q[0] * q[1] + 2 * q[2] * q[3]);
+
+    if (strcmp(inertial_unit->coordinate_system, "NUE") == 0) {
+      // NUE: extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll)
+      result[2] = atan2(2 * q[1] * q[3] - 2 * q[0] * q[2], 1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]);
+      result[0] = atan2(2 * q[0] * q[3] - 2 * q[1] * q[2], 1 - 2 * q[0] * q[0] - 2 * q[2] * q[2]);
+      result[1] = asin(2 * q[0] * q[1] + 2 * q[2] * q[3]);
+    } else {
+      // ENU: extrensic rotation matrix e = Z(yaw) Y(pitch) X(roll)
+      const double t0 = 2.0 * (q[3] * q[0] + q[1] * q[2]);
+      const double t1 = 1.0 - 2.0 * (q[0] * q[0] + q[1] * q[1]);
+      const double roll = atan2(t0, t1);
+      double t2 = 2.0 * (q[3] * q[1] - q[2] * q[0]);
+      t2 = (t2 > 1.0) ? 1.0 : t2;
+      t2 = (t2 < -1.0) ? -1.0 : t2;
+      const double pitch = asin(t2);
+      const double t3 = 2.0 * (q[3] * q[2] + q[0] * q[1]);
+      const double t4 = 1.0 - 2.0 * (q[1] * q[1] + q[2] * q[2]);
+      const double yaw = atan2(t3, t4);
+      result[0] = roll;
+      result[1] = pitch;
+      result[2] = yaw;
+    }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock_step();

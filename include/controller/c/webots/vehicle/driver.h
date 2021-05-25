@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ extern "C" {
 
 typedef enum { OFF, RIGHT, LEFT } WbuDriverIndicatorState;
 
-typedef enum { SPEED, TORQUE } WbuDriverControlMode;
+typedef enum { UNDEFINED_CONTROL_MODE = -1, SPEED = 0, TORQUE } WbuDriverControlMode;
 
 typedef enum { DOWN, SLOW, NORMAL, FAST } WbuDriverWiperMode;
 

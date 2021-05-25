@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,12 +43,14 @@
 #include "RosSpeaker.hpp"
 #include "RosSupervisor.hpp"
 #include "RosTouchSensor.hpp"
+#include "highlevel/RosControl.hpp"
 
 #include <webots/Node.hpp>
 #include <webots/Supervisor.hpp>
 
 #include <rosgraph_msgs/Clock.h>
 
+#include <algorithm>
 #include <ctime>
 #include "ros/master.h"
 #include "std_msgs/String.h"
@@ -74,7 +76,12 @@ Ros::Ros() :
   mEnd(false),
   mShouldPublishClock(false),
   mIsSynchronized(false),
-  mUseWebotsSimTime(false) {
+  mUseWebotsSimTime(false),
+  mAutoPublish(false),
+  mUseRosControl(false),
+  mRobotDescriptionPrefix(""),
+  mSetRobotDescription(false),
+  mRosControl(NULL) {
 }
 
 Ros::~Ros() {
@@ -100,6 +107,7 @@ Ros::~Ros() {
 
   ros::shutdown();
   delete mRobot;
+  delete mRosControl;
   for (unsigned int i = 0; i < mDeviceList.size(); i++)
     delete mDeviceList[i];
   delete mRosJoystick;
@@ -111,6 +119,8 @@ void Ros::launchRos(int argc, char **argv) {
   setupRobot();
   fixName();
   bool rosMasterUriSet = false;
+
+  mStepSize = mRobot->getBasicTimeStep();
 
   for (int i = 1; i < argc; ++i) {
     const char masterUri[] = "--ROS_MASTER_URI=";
@@ -134,7 +144,16 @@ void Ros::launchRos(int argc, char **argv) {
       mIsSynchronized = true;
     else if (strcmp(argv[i], "--use-sim-time") == 0)
       mUseWebotsSimTime = true;
-    else
+    else if (strcmp(argv[i], "--use-ros-control") == 0)
+      mUseRosControl = true;
+    else if (strcmp(argv[i], "--auto-publish") == 0)
+      mAutoPublish = true;
+    else if (std::string(argv[i]).rfind("--robot-description") == 0) {
+      const std::string argument = std::string(argv[i]);
+      const size_t valueStart = std::max(argument.find("="), argument.find(" "));
+      mRobotDescriptionPrefix = (valueStart == std::string::npos) ? "" : argument.substr(valueStart + 1);
+      mSetRobotDescription = true;
+    } else
       ROS_ERROR("ERROR: unkown argument %s.", argv[i]);
   }
 
@@ -381,6 +400,10 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
     if (previousDevicesCount < mDeviceList.size())
       mDeviceList.back()->init();
   }
+  if (mAutoPublish) {
+    for (RosSensor *rosSensor : mSensorList)
+      rosSensor->enableSensor(mRobot->getBasicTimeStep());
+  }
   mSensorList.push_back(static_cast<RosSensor *>(new RosBatterySensor(mRobot, this)));
   mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
   mDeviceList.back()->init();
@@ -439,12 +462,24 @@ void Ros::publishClockIfNeeded() {
 void Ros::run(int argc, char **argv) {
   launchRos(argc, argv);
   ros::Rate loopRate(1000);  // Hz
+  ros::AsyncSpinner spinner(2);
+  spinner.start();
+
+  if (mSetRobotDescription)
+    mNodeHandle->setParam("robot_description", mRobot->getUrdf(mRobotDescriptionPrefix));
+
+  if (mUseRosControl)
+    mRosControl = new highlevel::RosControl(mRobot, mNodeHandle);
+
   while (!mEnd && ros::ok()) {
     if (!ros::master::check()) {
       ROS_ERROR("ROS master has stopped or is not responding anymore.");
       mEnd = true;
     }
-    ros::spinOnce();
+
+    if (mRosControl)
+      mRosControl->read();
+
     publishClockIfNeeded();
     for (unsigned int i = 0; i < mSensorList.size(); i++)
       mSensorList[i]->publishValues(mStep * mStepSize);
@@ -452,12 +487,15 @@ void Ros::run(int argc, char **argv) {
     if (!mUseWebotsSimTime && (mStep != 0 || mIsSynchronized)) {
       int oldStep = mStep;
       while (mStep == oldStep && !mEnd && ros::ok()) {
-        ros::spinOnce();
         loopRate.sleep();
         publishClockIfNeeded();
       }
     } else if (step(mRobot->getBasicTimeStep()) == -1)
       mEnd = true;
+
+    if (mRosControl)
+      mRosControl->write();
+    mStep++;
   }
 }
 

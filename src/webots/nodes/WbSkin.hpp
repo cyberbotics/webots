@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public:
   void createWrenObjects() override;
   const QString &deviceName() const override { return mName->value(); }
   int deviceNodeType() const override { return nodeType(); }
-  void reset() override;
+  void reset(const QString &id) override;
 
   void setScaleNeedUpdate() override { WbAbstractTransform::setScaleNeedUpdateFlag(); }
   void setMatrixNeedUpdate() override { WbAbstractTransform::setMatrixNeedUpdateFlag(); }

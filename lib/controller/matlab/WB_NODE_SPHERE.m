@@ -1,2 +1,2 @@
 function value = WB_NODE_SPHERE
-value = 25;
+value = 26;

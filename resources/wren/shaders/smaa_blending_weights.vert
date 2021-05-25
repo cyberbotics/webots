@@ -1,4 +1,4 @@
-#version 300 es
+#version 330 core
 
 #define SMAA_MAX_SEARCH_STEPS 16
 #define RESOLUTION (1.0 / viewportSize)

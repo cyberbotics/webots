@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ def convert_to_enu(filename):
                 if field['name'] == 'coordinateSystem':
                     # remove the 'coordinateSystem ENU'
                     del node['fields'][node['fields'].index(field)]
-        elif node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight']:
+        elif node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight', 'PointLight']:
             print('Rotating', node['name'])
             rotation_found = False
             for field in node['fields']:

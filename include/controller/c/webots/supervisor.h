@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,6 +96,8 @@ WbNodeType wb_supervisor_node_get_type(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
 WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
 void wb_supervisor_node_remove(WbNodeRef node);
+void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name);
+void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name);
 
 const char *wb_supervisor_node_get_def(WbNodeRef node);
 const char *wb_supervisor_node_get_type_name(WbNodeRef node);
@@ -107,11 +109,13 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_position(WbNodeRef node);
+const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
 bool wb_supervisor_node_get_static_balance(WbNodeRef node);
 const double *wb_supervisor_node_get_velocity(WbNodeRef node);
 void wb_supervisor_node_set_velocity(WbNodeRef node, const double velocity[6]);
 void wb_supervisor_node_reset_physics(WbNodeRef node);
 void wb_supervisor_node_restart_controller(WbNodeRef node);
+const char *wb_supervisor_node_export_string(WbNodeRef node);
 
 void wb_supervisor_node_move_viewpoint(WbNodeRef node);
 

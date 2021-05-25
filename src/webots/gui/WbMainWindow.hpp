@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -78,6 +78,7 @@ public slots:
   void showGuidedTour();
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
+  void resetWorldFromGui();
 
 protected:
   bool event(QEvent *event) override;
@@ -92,8 +93,7 @@ private slots:
   void saveWorld();
   void saveWorldAs(bool skipSimulationHasRunWarning = false);
   void reloadWorld();
-  void resetWorldFromGui();
-  void resetWorld(bool restartControllers);
+  void resetGui(bool restartControllers);
   void importVrml();
   void exportVrml();
   void exportHtml();
@@ -180,6 +180,7 @@ private:
   QMenu *createWizardsMenu();
   QMenu *createHelpMenu();
   bool proposeToSaveWorld(bool reloading = false);
+  QString findHtmlFileName(const char *title);
   void enableToolsWidgetItems(bool enabled);
   void updateWindowTitle();
   void updateGui();

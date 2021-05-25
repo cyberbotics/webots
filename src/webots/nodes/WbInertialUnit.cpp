@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -108,11 +108,14 @@ void WbInertialUnit::addConfigure(QDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (double)mNoise->value();
+  const QByteArray &s = WbWorld::instance()->worldInfo()->coordinateSystem().toUtf8();
+  stream.writeRawData(s.constData(), s.size() + 1);
   mNeedToReconfigure = false;
 }
 
-void WbInertialUnit::writeConfigure(QDataStream &) {
+void WbInertialUnit::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
+  addConfigure(stream);
 }
 
 bool WbInertialUnit::refreshSensorIfNeeded() {
@@ -125,13 +128,7 @@ bool WbInertialUnit::refreshSensorIfNeeded() {
 }
 
 void WbInertialUnit::computeValue() {
-  // get north and -gravity in global coordinate systems
-  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
-  const WbVector3 &north = wi->northVector();
-  WbVector3 minusGravity = -wi->gravityUnitVector();
-  WbMatrix3 rm(north, minusGravity, north.cross(minusGravity));  // reference frame
-  rm.transpose();
-  WbMatrix3 e = rotationMatrix() * rm;  // extrensic rotation matrix e = Y(yaw) Z(pitch) X(roll) w.r.t reference frame
+  WbMatrix3 e = rotationMatrix();
 
   if (mNoise->value() != 0.0) {
     const double noise = mNoise->value() * M_PI;

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 // This module is not yet complete: only a few devices are implemented.
 
 #include <webots/device.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 #include <webots/accelerometer.h>
 #include <webots/camera.h>
@@ -206,6 +206,7 @@ static void ue_append(struct UpdateElement *ue, double update_time, const double
   if (value == NULL)
     return;
 
+  const int last_index = ue->n_values;
   ue->n_values++;
   if (ue->values == NULL)
     ue->values = (double **)malloc(sizeof(double *));
@@ -215,11 +216,11 @@ static void ue_append(struct UpdateElement *ue, double update_time, const double
     ue->times = (double *)malloc(sizeof(double));
   else
     ue->times = (double *)realloc(ue->times, ue->n_values * sizeof(double));
-  int last_index = ue->n_values - 1;
   ue->values[last_index] = malloc(ue->n_components * sizeof(double *));
   ue->times[last_index] = update_time;
   int v;
   for (v = 0; v < ue->n_components; ++v)
+    // cppcheck-suppress objectIndex
     ue->values[last_index][v] = value[v];
 }
 

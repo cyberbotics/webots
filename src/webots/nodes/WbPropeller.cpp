@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -358,7 +358,7 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
     if (writer.isX3d())
-      writer << "<Group>";
+      writer << "<Group isPropeller='true'>";
     else {
       writer << "Group {\n";
       writer.increaseIndent();
@@ -386,18 +386,18 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
   }
 }
 
-void WbPropeller::reset() {
-  WbBaseNode::reset();
+void WbPropeller::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const device = mDevice->value();
   if (device)
-    device->reset();
+    device->reset(id);
   WbNode *const fastHelix = mFastHelix->value();
   if (fastHelix)
-    fastHelix->reset();
+    fastHelix->reset(id);
   WbNode *const slowHelix = mSlowHelix->value();
   if (slowHelix)
-    slowHelix->reset();
+    slowHelix->reset(id);
 
   updateHelix(0.0);
 }

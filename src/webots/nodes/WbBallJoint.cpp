@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ void WbBallJoint::init() {
   // hidden field
   mPosition3 = findSFDouble("position3")->value();
   mOdePositionOffset3 = mPosition3;
-  mInitialPosition3 = mPosition3;
+  mSavedPositions3[stateId()] = mPosition3;
 
   mControlMotor = NULL;
 }
@@ -148,10 +148,10 @@ WbVector3 WbBallJoint::anchor() const {
 WbVector3 WbBallJoint::axis() const {
   const WbJointParameters *const p2 = parameters2();
   const WbJointParameters *const p3 = parameters3();
-  if (!p2 && !p3)
-    return WbVector3(1.0, 0.0, 0.0);
-  else if (p3 && !p2) {
-    if (p3->axis().cross(WbVector3(0.0, 0.0, 1.0)).isNull())
+  if (!p2) {
+    if (!p3)
+      return WbVector3(1.0, 0.0, 0.0);
+    else if (p3->axis().cross(WbVector3(0.0, 0.0, 1.0)).isNull())
       return p3->axis().cross(WbVector3(1.0, 0.0, 0.0));
     else
       return p3->axis().cross(WbVector3(0.0, 0.0, 1.0));
@@ -166,10 +166,10 @@ WbVector3 WbBallJoint::axis2() const {
 WbVector3 WbBallJoint::axis3() const {
   const WbJointParameters *const p2 = parameters2();
   const WbJointParameters *const p3 = parameters3();
-  if (!p2 && !p3)
-    return WbVector3(0.0, 0.0, 1.0);
-  else if (p2 && !p3) {
-    if (p2->axis().cross(WbVector3(1.0, 0.0, 0.0)).isNull())
+  if (!p3) {
+    if (!p2)
+      return WbVector3(0.0, 0.0, 1.0);
+    else if (p2->axis().cross(WbVector3(1.0, 0.0, 0.0)).isNull())
       return p2->axis().cross(WbVector3(0.0, 0.0, 1.0));
     else
       return p2->axis().cross(WbVector3(1.0, 0.0, 0.0));
@@ -370,30 +370,31 @@ double WbBallJoint::position(int index) const {
 double WbBallJoint::initialPosition(int index) const {
   switch (index) {
     case 1:
-      return mInitialPosition;
+      return mSavedPositions[stateId()];
     case 2:
-      return mInitialPosition2;
+      return mSavedPositions2[stateId()];
     case 3:
-      return mInitialPosition3;
+      return mSavedPositions3[stateId()];
     default:
       return NAN;
   }
 }
 
 void WbBallJoint::setPosition(double position, int index) {
-  if (index == 3) {
-    mPosition3 = position;
-    mOdePositionOffset3 = position;
-    WbJointParameters *const p3 = parameters3();
-    if (p3)
-      p3->setPosition(mPosition3);
-
-    WbMotor *const m3 = motor3();
-    if (m3)
-      m3->setTargetPosition(position);
-    return;
-  }
   WbHinge2Joint::setPosition(position, index);
+
+  if (index != 3)
+    return;
+
+  mPosition3 = position;
+  mOdePositionOffset3 = position;
+  WbJointParameters *const p3 = parameters3();
+  if (p3)
+    p3->setPosition(mPosition3);
+
+  WbMotor *const m3 = motor3();
+  if (m3)
+    m3->setTargetPosition(position);
 }
 
 bool WbBallJoint::resetJointPositions() {
@@ -425,7 +426,7 @@ void WbBallJoint::preFinalize() {
   updateParameters3();
   checkMotorLimit();
 
-  mInitialPosition3 = mPosition3;
+  mSavedPositions3["__init__"] = mPosition3;
 }
 
 void WbBallJoint::postFinalize() {
@@ -660,17 +661,17 @@ void WbBallJoint::postPhysicsStep() {
     p3->setPositionFromOde(mPosition3);
 }
 
-void WbBallJoint::reset() {
-  WbHinge2Joint::reset();
+void WbBallJoint::reset(const QString &id) {
+  WbHinge2Joint::reset(id);
 
   for (int i = 0; i < mDevice3->size(); ++i)
-    mDevice3->item(i)->reset();
+    mDevice3->item(i)->reset(id);
 
   WbNode *const p = mParameters3->value();
   if (p)
-    p->reset();
+    p->reset(id);
 
-  setPosition(mInitialPosition3, 3);
+  setPosition(mSavedPositions3[id], 3);
 }
 
 void WbBallJoint::resetPhysics() {
@@ -681,17 +682,17 @@ void WbBallJoint::resetPhysics() {
     m->resetPhysics();
 }
 
-void WbBallJoint::save() {
-  WbHinge2Joint::save();
+void WbBallJoint::save(const QString &id) {
+  WbHinge2Joint::save(id);
 
   for (int i = 0; i < mDevice3->size(); ++i)
-    mDevice3->item(i)->save();
+    mDevice3->item(i)->save(id);
 
   WbNode *const p = mParameters3->value();
   if (p)
-    p->save();
+    p->save(id);
 
-  mInitialPosition3 = mPosition3;
+  mSavedPositions3[id] = mPosition3;
 }
 
 void WbBallJoint::applyToOdeAxis() {

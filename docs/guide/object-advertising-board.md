@@ -35,7 +35,7 @@ AdvertisingBoard {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/advertising\_board/protos/AdvertisingBoard.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/advertising_board/protos/AdvertisingBoard.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/advertising\_board/protos/AdvertisingBoard.proto]({{ url.github_tree }}/projects/objects/advertising_board/protos/AdvertisingBoard.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -62,7 +62,7 @@ AdvertisingBoard {
 
 - `poleNumber`: Defines the number of poles. Their position is defined by the number of poles. There can be up to 4 equally spaced poles per board.
 
-- `poleType`: Defines the shape and behavious of the pole(s). `box` and `cylinder` pole types are placed at the center of the board and `H-shape` is placed behind. In the case of `H-shape`, backTexture is null and a base is not defined. This field accepts the following values: `"cylinder"`, `"box"` and `"H-shape"`.
+- `poleType`: Defines the shape and behavious of the pole(s). `box` and `cylinder` pole types are placed at the center of the board and `H-shape` is placed behind. In the case of `H-shape`, backTexture is null and a base is not defined. This field accepts the following values: `"cylinder"`, `"box"`, and `"H-shape"`.
 
 - `poleHeight`: Defines the height of the pole.
 

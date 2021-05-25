@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,9 +52,11 @@ public:
   void postFinalize() override;
   void writeAnswer(QDataStream &) override;
   void writeConfigure(QDataStream &) override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   virtual void updateCameraTexture();
+
+  void enableExternalWindowForAttachedCamera(bool enabled);
 
   void setNodeVisibility(WbBaseNode *node, bool visible);
 
@@ -148,7 +150,6 @@ protected:
   char mCharType;
   bool mNeedToConfigure;
   bool mHasSharedMemoryChanged;
-  bool mImageReady;
   bool mImageChanged;
 
   bool mNeedToCheckShaderErrors;
@@ -157,7 +158,7 @@ protected:
 
   bool mExternalWindowEnabled;
   void updateFrustumDisplay();
-  virtual void updateTextureUpdateNotifications();
+  virtual void updateTextureUpdateNotifications(bool enabled);
 
 public slots:
   void updateAntiAliasing();

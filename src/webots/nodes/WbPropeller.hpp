@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ public:
   void propagateSelection(bool selected) override;
   void setMatrixNeedUpdate() override;
   void write(WbVrmlWriter &writer) const override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   void prePhysicsStep(double ms);
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -94,6 +94,7 @@ signals:
 
 public slots:
   void disableRendering(bool disabled);
+  void disableStepButton(bool disabled);
 
 protected slots:
   void keyReleaseEvent(QKeyEvent *event) override;
@@ -119,7 +120,6 @@ private slots:
   void updateVisibility();
   void writeScreenshot(QImage image);
   void updateTitleBarTitle();
-  void disableStepButton(bool disabled);
   void updatePlayButtons();
   void updateRendering();
   void updateSoundButtons();

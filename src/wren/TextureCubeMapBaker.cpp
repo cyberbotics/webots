@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,13 @@
 #include "TextureCubeMap.hpp"
 #include "TextureRtt.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
+
 #include <wren/shader_program.h>
 #include <wren/texture_cubemap.h>
 #include <wren/texture_cubemap_baker.h>

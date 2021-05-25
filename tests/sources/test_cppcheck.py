@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -168,7 +168,7 @@ class TestCppCheck(unittest.TestCase):
         ]
         command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
-        command += '--suppress=strdupCalled '
+        command += '--suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation '
         # command += '--xml '  # Uncomment this line to get more information on the errors
         command += '--std=c++03 --output-file=\"' + self.reportFilename + '\"'
         sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)

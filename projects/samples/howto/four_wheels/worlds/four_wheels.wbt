@@ -1,0 +1,471 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Description: Examples of four wheels vehicles"
+  ]
+  title "Four Wheels"
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  lineScale 0.2
+}
+Viewpoint {
+  orientation -0.25435410654692275 0.9026783781248304 0.34709614539582906 2.13985
+  position 1.60218 1.79026 -0.974572
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 3 3
+}
+DEF ACKERMAN Robot {
+  translation 0 0.1 0.5
+  children [
+    DEF BODY_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.4 0.1 0.2
+      }
+    }
+    DEF REAR_RIGHT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.15 0 -0.13
+      }
+      device [
+        RotationalMotor {
+          name "rear_right_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.15 0 -0.13
+        rotation 0 0 1 0
+        children [
+          DEF WHEEL_ROT Transform {
+            rotation 1 0 0 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry DEF WHEEL_CYL Cylinder {
+                  height 0.04
+                  radius 0.08
+                }
+              }
+            ]
+          }
+        ]
+        name "rear right wheel"
+        boundingObject DEF WHEEL_ROT Transform {
+          rotation 1 0 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.8 0.8 0.8
+                roughness 1
+                metalness 0
+              }
+              geometry DEF WHEEL_CYL Cylinder {
+                height 0.04
+                radius 0.08
+              }
+            }
+          ]
+        }
+        physics Physics {
+        }
+      }
+    }
+    DEF REAR_LEFT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.15 0 0.13
+      }
+      device [
+        RotationalMotor {
+          name "rear_left_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.15 0 0.13
+        rotation 0 0 1 0
+        children [
+          USE WHEEL_ROT
+        ]
+        name "rear left wheel"
+        boundingObject USE WHEEL_ROT
+        physics Physics {
+        }
+      }
+    }
+    DEF RIGHT_STEER HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.15 0 -0.13
+      }
+      device [
+        RotationalMotor {
+          name "right_steer"
+          minPosition -0.7
+          maxPosition 0.7
+        }
+      ]
+      endPoint Solid {
+        translation -0.15 0 -0.13
+        children [
+          DEF FRONT_RIGHT_WHEEL HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+            }
+            device [
+              RotationalMotor {
+                name "front_right_wheel"
+              }
+            ]
+            endPoint Solid {
+              rotation 0 0 1 0
+              children [
+                USE WHEEL_ROT
+              ]
+              boundingObject USE WHEEL_ROT
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "right steer"
+        boundingObject DEF DUMMY Sphere {
+          radius 0.01
+        }
+        physics Physics {
+        }
+      }
+    }
+    DEF LEFT_STEER HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.15 0 0.13
+      }
+      device [
+        RotationalMotor {
+          name "left_steer"
+          minPosition -0.7
+          maxPosition 0.7
+        }
+      ]
+      endPoint Solid {
+        translation -0.15 0 0.13
+        children [
+          DEF FRONT_LEFT_WHEEL HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+            }
+            device [
+              RotationalMotor {
+                name "front_left_wheel"
+              }
+            ]
+            endPoint Solid {
+              rotation 0 0 1 0
+              children [
+                USE WHEEL_ROT
+              ]
+              boundingObject USE WHEEL_ROT
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "left steer"
+        boundingObject DEF DUMMY Sphere {
+          radius 0.01
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "ackerman"
+  boundingObject DEF BODY_SHAPE Shape {
+    appearance PBRAppearance {
+      baseColor 0.8 0.8 0.8
+      roughness 1
+      metalness 0
+    }
+    geometry Box {
+      size 0.4 0.1 0.2
+    }
+  }
+  physics Physics {
+  }
+  controller "four_wheels"
+}
+DEF FOUR_WHEELS Robot {
+  translation 0 0.1 0
+  children [
+    DEF BODY_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.4 0.1 0.2
+      }
+    }
+    DEF REAR_RIGHT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.15 0 -0.13
+      }
+      device [
+        RotationalMotor {
+          name "rear_right_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.15 0 -0.13
+        rotation 0 0 1 0
+        children [
+          DEF WHEEL_ROT Transform {
+            rotation 1 0 0 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry DEF WHEEL_CYL Cylinder {
+                  height 0.04
+                  radius 0.08
+                }
+              }
+            ]
+          }
+        ]
+        name "rear right wheel"
+        boundingObject USE WHEEL_ROT
+        physics Physics {
+        }
+      }
+    }
+    DEF REAR_LEFT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.15 0 0.13
+      }
+      device [
+        RotationalMotor {
+          name "rear_left_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.15 0 0.13
+        rotation 0 0 1 0
+        children [
+          USE WHEEL_ROT
+        ]
+        name "rear left wheel"
+        boundingObject USE WHEEL_ROT
+        physics Physics {
+        }
+      }
+    }
+    DEF FRONT_RIGHT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor -0.15 0 -0.13
+      }
+      device [
+        RotationalMotor {
+          name "front_right_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation -0.15 0 -0.13
+        rotation 0 0 1 0
+        children [
+          USE WHEEL_ROT
+        ]
+        name "front right wheel"
+        boundingObject USE WHEEL_ROT
+        physics Physics {
+        }
+      }
+    }
+    DEF FRONT_LEFT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor -0.15 0 0.13
+      }
+      device [
+        RotationalMotor {
+          name "front_left_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation -0.15 0 0.13
+        rotation 0 0 1 0
+        children [
+          USE WHEEL_ROT
+        ]
+        name "front left wheel"
+        boundingObject USE WHEEL_ROT
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "four_wheels"
+  boundingObject USE BODY_SHAPE
+  physics Physics {
+  }
+  controller "four_wheels"
+}
+DEF OMNI_WHEELS Robot {
+  translation 0 0.1 -0.5
+  children [
+    DEF BODY_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.3 0.1 0.3
+      }
+    }
+    DEF REAR_RIGHT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0.707107 0 -0.707107
+        anchor 0.15 0 -0.15
+      }
+      device [
+        RotationalMotor {
+          name "rear_right_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.15 0 -0.15
+        rotation 0.7071067811865476 0 -0.7071067811865476 0
+        children [
+          DEF WHEEL_ROT Transform {
+            rotation 0.7071067811865476 0 0.7071067811865476 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry DEF WHEEL_CYL Cylinder {
+                  height 0.04
+                  radius 0.08
+                }
+              }
+            ]
+          }
+        ]
+        name "rear right wheel"
+        boundingObject USE WHEEL_ROT
+        physics Physics {
+        }
+      }
+    }
+    DEF REAR_LEFT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0.707107 0 0.707107
+        anchor 0.15 0 0.15
+      }
+      device [
+        RotationalMotor {
+          name "rear_left_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.15 0 0.15
+        rotation 0.7071067811865476 0 0.7071067811865476 0
+        children [
+          DEF WHEEL_ROT2 Transform {
+            rotation -0.7071067811865476 0 0.7071067811865476 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry DEF WHEEL_CYL Cylinder {
+                  height 0.04
+                  radius 0.08
+                }
+              }
+            ]
+          }
+        ]
+        name "rear left wheel"
+        boundingObject USE WHEEL_ROT2
+        physics Physics {
+        }
+      }
+    }
+    DEF FRONT_RIGHT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -0.707107 0 -0.707107
+        anchor -0.15 0 -0.15
+      }
+      device [
+        RotationalMotor {
+          name "front_right_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation -0.15 0 -0.15
+        rotation -0.7071067811865476 0 -0.7071067811865476 0
+        children [
+          USE WHEEL_ROT2
+        ]
+        name "front right wheel"
+        boundingObject USE WHEEL_ROT2
+        physics Physics {
+        }
+      }
+    }
+    DEF FRONT_LEFT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -0.707107 0 0.707107
+        anchor -0.15 0 0.15
+      }
+      device [
+        RotationalMotor {
+          name "front_left_wheel"
+        }
+      ]
+      endPoint Solid {
+        translation -0.15 0 0.15
+        rotation -0.7071067811865476 0 0.7071067811865476 0
+        children [
+          USE WHEEL_ROT
+        ]
+        name "front left wheel"
+        boundingObject USE WHEEL_ROT
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "omni_wheels"
+  boundingObject USE BODY_SHAPE
+  physics Physics {
+  }
+  controller "four_wheels"
+}

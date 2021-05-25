@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,11 @@
 #include <webots/gyro.h>
 #include <webots/light_sensor.h>
 #include <webots/motor.h>
+#include <webots/plugins/robot_window/default.h>
+#include <webots/plugins/robot_window/robot_wwi.h>
 #include <webots/position_sensor.h>
 #include <webots/remote_control.h>
 #include <webots/robot.h>
-#include <webots/robot_wwi.h>
-#include <webots/utils/default_robot_window.h>
 #include <webots/utils/system.h>
 
 #include <math.h>
@@ -200,7 +200,7 @@ void wb_robot_window_step(int time_step) {
       wb_remote_control_custom_function(&upload);
       free(port);
       const char *data = &message[8 + n];
-      const char *path = wbu_system_short_path(wbu_system_webots_tmp_path());
+      const char *path = wbu_system_short_path(wbu_system_webots_tmp_path(false));
       const char *filename = "e-puck.hex";
       char *full_path = (char *)malloc(strlen(path) + strlen(filename) + 1);
       sprintf(full_path, "%s%s", path, filename);
@@ -350,7 +350,7 @@ void wb_robot_window_step(int time_step) {
     strcat(update_message, update);
 
   if (areDevicesReady && wb_camera_get_sampling_period(camera)) {
-    const char *path = wbu_system_short_path(wbu_system_webots_tmp_path());
+    const char *path = wbu_system_short_path(wbu_system_webots_tmp_path(false));
     const char *filename = "camera.jpg";
     int pid = getpid();
     int l = strlen(path) + strlen(filename) + 2 + 11;  // 11 = max length of an integer: -2147483648

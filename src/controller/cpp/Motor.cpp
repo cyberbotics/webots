@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -129,6 +129,10 @@ double Motor::getAvailableTorque() const {
 
 double Motor::getMaxTorque() const {
   return wb_motor_get_max_torque(getTag());
+}
+
+double Motor::getMultiplier() const {
+  return wb_motor_get_multiplier(getTag());
 }
 
 Brake *Motor::getBrake() {

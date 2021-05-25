@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # A simple segment of road allowing to divide a road into two smaller ones (or to assemble two roads into a bigger one).
 # The number of lanes of each of the two smaller roads is independently configurable as well as a lot of others parameters of a regular road.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).

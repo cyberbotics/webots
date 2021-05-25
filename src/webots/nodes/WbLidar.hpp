@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,8 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void writeAnswer(QDataStream &stream) override;
+  void reset(const QString &id) override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
   void setScaleNeedUpdate() override;
@@ -103,6 +104,7 @@ private:
   int mActualHorizontalResolution;
   double mActualVerticalFieldOfView;
   double mActualFieldOfView;
+  QString mActualType;
 
   WrRenderable *mFrustumRenderable;
   WrMaterial *mFrustumMaterial;
@@ -129,10 +131,10 @@ private:
   void initializeImageSharedMemory() override;
 
   int size() const override {
-    return (sizeof(float) + sizeof(WbLidarPoint)) * actualHorizontalResolution() * actualNumberOfLayers();
+    return sizeof(float) * width() * height() + sizeof(WbLidarPoint) * actualHorizontalResolution() * actualNumberOfLayers();
   }
   double minRange() const override { return mMinRange->value(); }
-  bool isRotating() const { return mType->value().startsWith('r', Qt::CaseInsensitive); }
+  bool isRotating() const { return mActualType.startsWith('r', Qt::CaseInsensitive); }
   double verticalFieldOfView() const { return actualFieldOfView() * ((double)height() / (double)width()); }
 
   WbLidarPoint *pointArray() { return (WbLidarPoint *)(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers()); }

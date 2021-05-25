@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ JAVA_FILES      = Accelerometer.java \
                   Compass.java \
                   Connector.java \
                   Device.java \
-                  DifferentialWheels.java \
                   Display.java \
                   DistanceSensor.java \
                   Emitter.java \
@@ -111,7 +110,7 @@ PLATFORM_INCLUDE= -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framewo
 TARGET          = $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib
 CFLAGS2         = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-unused-function
 JNILIB_FLAGS    = -dynamiclib -install_name @rpath/lib/controller/java/libJavaController.jnilib -Wl,-rpath,@loader_path/../../..
-JAVA_INCLUDES   = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin
+JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/darwin"
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 ECHO_N          = '\c'ifdef USE_STD_CXX

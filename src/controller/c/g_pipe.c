@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ GPipe *g_pipe_new(const char *name) {  // used by Webots 7
       break;
     DWORD dwError = GetLastError();
     if (dwError != ERROR_PIPE_BUSY) {
-      fprintf(stderr, "Cannot open pipe file: %s\n", name);
       free(p);
       return NULL;
     }

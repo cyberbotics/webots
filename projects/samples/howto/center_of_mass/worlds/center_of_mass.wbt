@@ -1,0 +1,217 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.12167500531068824 0.9233110402992962 0.36426901589906796 2.40431
+  position 0.422931 0.589675 -0.329266
+  follow "robot"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  controller "center_of_mass"
+  supervisor TRUE
+}
+Robot {
+  translation 0 0.09 0
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.01 0
+      }
+      device [
+        RotationalMotor {
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.04 0
+        children [
+          DEF TOP_GROUP Group {
+            children [
+              Transform {
+                rotation 1 0 0 1.5708
+                children [
+                  Shape {
+                    appearance DEF GRAY_APPEARANCE PBRAppearance {
+                      baseColor 0.8 0.8 0.8
+                      roughness 0.5
+                      metalness 0
+                    }
+                    geometry Cylinder {
+                      height 0.25
+                      radius 0.006
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0 0.12
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Sphere {
+                      radius 0.01
+                      subdivision 4
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0 -0.14
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Sphere {
+                      radius 0.03
+                      subdivision 3
+                    }
+                  }
+                ]
+              }
+              Shape {
+                appearance USE GRAY_APPEARANCE
+                geometry Cylinder {
+                  height 0.03
+                  radius 0.03
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE TOP_GROUP
+        physics Physics {
+          density 1950
+        }
+      }
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+        anchor 0.025 -0.075 0.025
+      }
+      endPoint Solid {
+        translation 0.025 -0.075 0.025
+        children [
+          DEF FOOT_SPHERE_SHAPE Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              roughness 1
+              metalness 0
+            }
+            geometry Sphere {
+              radius 0.01
+            }
+          }
+        ]
+        name "foot 1"
+        boundingObject USE FOOT_SPHERE_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+        anchor 0.025 -0.075 -0.025
+      }
+      endPoint Solid {
+        translation 0.025 -0.075 -0.025
+        children [
+          USE FOOT_SPHERE_SHAPE
+        ]
+        name "foot 2"
+        boundingObject USE FOOT_SPHERE_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+        anchor -0.025 -0.075 -0.025
+      }
+      endPoint Solid {
+        translation -0.025 -0.075 -0.025
+        children [
+          USE FOOT_SPHERE_SHAPE
+        ]
+        name "foot 3"
+        boundingObject USE FOOT_SPHERE_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+        anchor -0.025 -0.075 0.025
+      }
+      endPoint Solid {
+        translation -0.025 -0.075 0.025
+        children [
+          USE FOOT_SPHERE_SHAPE
+        ]
+        name "foot 4"
+        boundingObject USE FOOT_SPHERE_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    DEF GROUP Group {
+      children [
+        Transform {
+          translation 0.025 -0.05 0.025
+          children [
+            DEF CYLINDER_SHAPE Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1.1102230246251565e-16
+                metalness 0
+              }
+              geometry DEF CYLINDER Cylinder {
+                height 0.05
+                radius 0.013
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.025 -0.05 0.025
+          children [
+            USE CYLINDER_SHAPE
+          ]
+        }
+        Transform {
+          translation -0.025 -0.05 -0.025
+          children [
+            USE CYLINDER_SHAPE
+          ]
+        }
+        Transform {
+          translation 0.025 -0.05 -0.025
+          children [
+            USE CYLINDER_SHAPE
+          ]
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 0.09966656699999998
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.05 0.15
+          }
+        }
+      ]
+    }
+  ]
+  name "robot(1)"
+  boundingObject USE GROUP
+  physics Physics {
+  }
+  controller "rotation"
+}

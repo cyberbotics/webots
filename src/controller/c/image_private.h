@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ typedef struct {
   int shm_size;
   unsigned char *data;
   bool requested;
-  double update_time;
 #ifdef _WIN32
   HANDLE shm_file;
 #endif
@@ -38,6 +37,5 @@ Image *image_new();
 void image_cleanup_shm(Image *i);
 void image_setup_shm(Image *i, WbRequest *r);
 void image_get_shm(Image *i);
-bool image_request(Image *i, const char *functionName);
 
 #endif  // IMAGE_PRIVATE_H

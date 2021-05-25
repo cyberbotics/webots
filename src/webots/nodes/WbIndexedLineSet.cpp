@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -130,12 +130,12 @@ void WbIndexedLineSet::buildWrenMesh() {
   delete[] coordsData;
 }
 
-void WbIndexedLineSet::reset() {
-  WbGeometry::reset();
+void WbIndexedLineSet::reset(const QString &id) {
+  WbGeometry::reset(id);
 
   WbNode *const c = mCoord->value();
   if (c)
-    c->reset();
+    c->reset(id);
 }
 
 int WbIndexedLineSet::computeCoordsData(float *data) {

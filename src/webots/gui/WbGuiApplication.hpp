@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,9 +38,11 @@ public:
   int exec();
   void restart();
 
-  enum Task { NORMAL, SYSINFO, HELP, VERSION, UPDATE_PROTO_CACHE, UPDATE_WORLD, INVALID_LOGIN, FAILURE, QUIT };
-#ifdef __APPLE__
+  enum Task { NORMAL, SYSINFO, HELP, VERSION, UPDATE_PROTO_CACHE, UPDATE_WORLD, INVALID_LOGIN, FAILURE, QUIT, CONVERT };
+  WbApplication *application() const { return mApplication; };
+
 protected:
+#ifdef __APPLE__
   virtual bool event(QEvent *event);
 #endif
 
@@ -55,7 +57,7 @@ private:
   bool mShouldDoRendering;
 
   Task mTask;
-  QString mTaskArgument;
+  QStringList mTaskArguments;
 
   WbStreamingServer *mStreamingServer;
 

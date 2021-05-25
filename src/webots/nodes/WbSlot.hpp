@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,8 +45,8 @@ public:
   void setScaleNeedUpdate() override;
   void attachResizeManipulator() override;
   void detachResizeManipulator() const override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // field accessors
   bool hasEndpoint() const { return mEndPoint->value() != NULL; }

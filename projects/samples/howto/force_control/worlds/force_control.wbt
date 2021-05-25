@@ -1,0 +1,78 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Example of force control"
+  ]
+  title "Force control example"
+  gravity 0
+  basicTimeStep 4
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.4651670259530646 0.7555660421552973 0.4612370257337981 4.4566
+  position -0.950806 1.7677 0.022193
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF ROBOT Robot {
+  translation 0.138023 0.1 -0.122829
+  rotation 0 1 0 11.6321
+  children [
+    DEF RED_BOX_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    DEF SLIDER_JOINT SliderJoint {
+      jointParameters JointParameters {
+      }
+      device [
+        LinearMotor {
+          name "slider"
+          maxForce 100000
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.4
+        children [
+          DEF BLUE_BOX_SHAPE Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 1
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.095 0.1
+            }
+          }
+        ]
+        boundingObject Box {
+          size 0.1 0.1 0.1
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.1 0.1
+  }
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "force_control"
+}

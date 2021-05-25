@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "BallJoint";
     case WB_NODE_BALL_JOINT_PARAMETERS:
       return "BallJointParameters";
+    case WB_NODE_BILLBOARD:
+      return "Billboard";
     case WB_NODE_BOX:
       return "Box";
     case WB_NODE_BRAKE:
@@ -54,8 +56,6 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Cylinder";
     case WB_NODE_DAMPING:
       return "Damping";
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      return "DifferentialWheels";
     case WB_NODE_DIRECTIONAL_LIGHT:
       return "DirectionalLight";
     case WB_NODE_DISPLAY:

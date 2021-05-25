@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ namespace webots {
       // 3D rendering
       APPEARANCE,
       BACKGROUND,
+      BILLBOARD,
       BOX,
       CAPSULE,
       COLOR,
@@ -61,7 +62,6 @@ namespace webots {
       VIEWPOINT,
       // robots
       ROBOT,
-      DIFFERENTIAL_WHEELS,
       // devices
       ACCELEROMETER,
       BRAKE,
@@ -131,12 +131,15 @@ namespace webots {
     Field *getProtoField(const std::string &fieldName) const;
     const double *getPosition() const;
     const double *getOrientation() const;
+    const double *getPose() const;
+    const double *getPose(const Node *fromNode) const;
     const double *getCenterOfMass() const;
     const double *getContactPoint(int index) const;
     Node *getContactPointNode(int index) const;
     int getNumberOfContactPoints(bool includeDescendants = false) const;
     bool getStaticBalance() const;
     const double *getVelocity() const;
+    std::string exportString() const;
 
     void setVelocity(const double velocity[6]);
     void resetPhysics();
@@ -148,6 +151,9 @@ namespace webots {
     void addForce(const double force[3], bool relative);
     void addForceWithOffset(const double force[3], const double offset[3], bool relative);
     void addTorque(const double torque[3], bool relative);
+
+    void saveState(const std::string &stateName);
+    void loadState(const std::string &stateName);
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Node *findNode(WbNodeRef ref);

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,11 +68,11 @@ void WbX3dStreamingServer::create(int port) {
   generateX3dWorld();
 }
 
-void WbX3dStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+void WbX3dStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
   if (!mX3dWorldTextures.contains(requestedUrl))
-    WbStreamingServer::sendTcpRequestReply(requestedUrl, socket);
+    WbStreamingServer::sendTcpRequestReply(requestedUrl, etag, socket);
   else
-    socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[requestedUrl]));
+    socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[requestedUrl], etag));
 }
 
 void WbX3dStreamingServer::processTextMessage(QString message) {
@@ -142,19 +142,7 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
 
 bool WbX3dStreamingServer::prepareWorld() {
   try {
-    bool regenerationRequired = mX3dWorldReferenceFile != WbWorld::instance()->fileName() || mX3dWorldGenerationTime != 0.0;
-    if (!regenerationRequired) {
-      // if a non static procedural PROTO is used we need to regenerate the world anyway
-      const QList<WbProtoModel *> &models = WbProtoList::current()->models();
-      for (int i = 0; i < models.size(); ++i) {
-        if (models.at(i)->isTemplate() && !models.at(i)->isStatic()) {
-          regenerationRequired = true;
-          break;
-        }
-      }
-    }
-    if (regenerationRequired)
-      generateX3dWorld();
+    generateX3dWorld();
     foreach (QWebSocket *client, mWebSocketClients)
       sendWorldToClient(client);
     WbAnimationRecorder::instance()->initFromStreamingServer();
@@ -172,14 +160,6 @@ void WbX3dStreamingServer::deleteWorld() {
     return;
   WbAnimationRecorder::instance()->cleanupFromStreamingServer();
   WbStreamingServer::deleteWorld();
-}
-
-void WbX3dStreamingServer::connectNewRobot(const WbRobot *robot) {
-  WbStreamingServer::connectNewRobot(robot);
-
-  if (robot->supervisor())
-    connect(robot->supervisorUtilities(), &WbSupervisorUtilities::labelChanged, this, &WbX3dStreamingServer::sendLabelUpdate,
-            Qt::UniqueConnection);
 }
 
 void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
@@ -203,6 +183,9 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
     QString nodeString;
     WbVrmlWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
+
+    mX3dWorldTextures.insert(writer.texturesList());
+
     foreach (QWebSocket *client, mWebSocketClients)
       // add root <nodes> element to handle correctly multiple root elements like in case of PBRAppearance node.
       client->sendTextMessage(QString("node:%1:<nodes>%2</nodes>").arg(node->parentNode()->uniqueId()).arg(nodeString));
@@ -228,7 +211,6 @@ void WbX3dStreamingServer::generateX3dWorld() {
   mX3dWorld = worldString;
   mX3dWorldTextures = writer.texturesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
-  mX3dWorldReferenceFile = WbWorld::instance()->fileName();
   mLastUpdateTime = -1.0;
 }
 
@@ -241,21 +223,9 @@ void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   if (!state.isEmpty())
     sendWorldStateToClient(client, state);
 
-  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (robot->supervisor()) {
-      foreach (const QString &label, robot->supervisorUtilities()->labelsState())
-        client->sendTextMessage(label);
-    }
-  }
-
   WbStreamingServer::sendWorldToClient(client);
 }
 
 void WbX3dStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) const {
   client->sendTextMessage(QString("application/json:") + state);
-}
-
-void WbX3dStreamingServer::sendLabelUpdate(const QString &labelDescription) {
-  sendToClients(labelDescription);
 }
