@@ -63,10 +63,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mLicenseUrl = tokenizer->licenseUrl();
   mDocumentationUrl = tokenizer->documentationUrl();
   mTemplateLanguage = tokenizer->templateLanguage();
-  if (mTemplateLanguage == "javascript")
-    printf("ENGINE: JAVASCRIPT\n");
-  else
-    printf("ENGINE: LUA\n");
   mIsDeterministic = !mTags.contains("nonDeterministic");
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();

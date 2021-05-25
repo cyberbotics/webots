@@ -88,7 +88,7 @@ GLU_INCLUDE        = -I$(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/include
 ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
-LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtWebChannel -framework QtWebEngine -framework QtWebEngineCore -framework QtWebEngineWidgets  -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
+LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtWebChannel -framework QtWebEngine -framework QtWebEngineCore -framework QtWebEngineWidgets -framework QtXml -framework QtQml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
 CFLAGS             = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
@@ -158,7 +158,7 @@ CFLAGS            = -isystem /mingw64/lib/libzip/include
 CXXFLAGS          = -std=c++11 -D_USE_MATH_DEFINES
 MOC               = moc
 MOC_FLAGS        += -D_WIN32
-LIBS             += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebKit -lQt5WebKitWidgets -lQt5Xml -lode -lopenal -lcrypto -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
+LIBS             += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebKit -lQt5WebKitWidgets -lQt5Xml -lQt5Qml -lode -lopenal -lcrypto -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
 LD_FLAGS          = -Wl,--enable-auto-import
 EXTRA_CMD         = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
 FILES_TO_REMOVE   = $(TARGET_PATH)/webots-bin.exe.config

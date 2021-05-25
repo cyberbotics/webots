@@ -38,7 +38,7 @@ cd $script_full_path/../..
 
 rm -rf include/qt
 
-for MODULE in QtCore QtConcurrent QtGui QtNetwork QtOpenGL QtPrintSupport QtWebKit QtWebKitWidgets QtWebSockets QtWidgets QtXml
+for MODULE in QtCore QtConcurrent QtGui QtNetwork QtOpenGL QtPrintSupport QtWebKit QtWebKitWidgets QtWebSockets QtWidgets QtXml QtQml
 do
   echo installing $MODULE...
   mkdir -p include/qt/$MODULE/$MODULE

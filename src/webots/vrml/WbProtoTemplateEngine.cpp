@@ -45,14 +45,10 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
                                      const QString &protoPath, const QString &worldPath, int id,
                                      const QString &templateLanguage) {
   // generate the final script file from the template script file
-  printf("WbProtoTemplateEngine::generate (param size: %d), language %s\n", parameters.size(),
-         templateLanguage.toUtf8().constData());
   QHash<QString, QString> tags;
 
   tags["fields"] = "";
   foreach (const WbField *parameter, parameters) {
-    printf(">> parameter: %s (isTemplateRegenerator: %d)\n", parameter->name().toUtf8().constData(),
-           parameter->isTemplateRegenerator());
     if (!parameter->isTemplateRegenerator())  // keep only regenerator fields
       continue;
     const QString &valueString = convertFieldValueToJavaScriptStatement(parameter);
@@ -87,12 +83,8 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     QString("webots_version: { major: \"%1\", revision: \"%2\" }").arg(version.toString(false)).arg(version.revisionNumber());
 
   if (templateLanguage == "lua") {
-    printf("\nfields was:\n---------------\n%s\n--------------\n", tags["fields"].toUtf8().constData());
     tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
-    printf("\nfields is:\n---------------\n%s\n--------------\n\n", tags["fields"].toUtf8().constData());
-    printf("\ncontext was:\n---------------\n%s\n--------------\n", tags["context"].toUtf8().constData());
     tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
-    printf("context is:\n---------------\n%s\n--------------\n\n", tags["context"].toUtf8().constData());
   }
 
   return WbTemplateEngine::generate(tags, logHeaderName, templateLanguage);
@@ -235,7 +227,6 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
 }
 
 QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
-  printf("\nstatement was:\n%s\n", statement.toUtf8().constData());
   // begin by converting MF entries (object with integer keys) to a Lua array (i.e remove the keys)
   statement = statement.replace(QRegularExpression("(?<=[{, ])(\\d+: ?)"), "");
 
@@ -243,7 +234,6 @@ QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &stat
   statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
   statement = statement.replace(":", " =");
   statement = statement.replace("'", "\"");
-  printf("\nstatement is:\n%s\n\n", statement.toUtf8().constData());
 
   return statement;
 }

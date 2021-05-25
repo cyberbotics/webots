@@ -44,6 +44,7 @@ declare -a qtFrameworks=( \
   "QtWebSockets" \
   "QtWidgets" \
   "QtXml" \
+  "QtQml" \
 )
 
 for f in "${qtFrameworks[@]}"
@@ -104,9 +105,11 @@ cd $WEBOTS_HOME/bin/qt
 install_name_tool -rpath @loader_path/../lib @loader_path/../.. lrelease
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lrelease
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lrelease
+install_name_tool -change @rpath/QtQml.framework/Versions/5/QtQml @rpath/Contents/Frameworks/QtQml.framework/Versions/5/Qtml lrelease
 install_name_tool -rpath @loader_path/../lib @loader_path/../.. lupdate
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lupdate
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lupdate
+install_name_tool -change @rpath/QtQml.framework/Versions/5/QtQml @rpath/Contents/Frameworks/QtQml.framework/Versions/5/QtQml lupdate
 install_name_tool -add_rpath @loader_path/../.. moc
 cd $WEBOTS_HOME/Contents/Frameworks/QtWebEngineCore.framework/Helpers/QtWebEngineProcess.app/Contents/MacOS
 install_name_tool -change @rpath/QtWebEngineCore.framework/Versions/5/QtWebEngineCore @rpath/Contents/Frameworks/QtWebEngineCore.framework/Versions/5/QtWebEngineCore QtWebEngineProcess

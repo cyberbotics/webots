@@ -7,6 +7,18 @@ let console = {
     stdout.push(this.digest.apply(this, arguments));
   },
 
+  info: function() {
+    stdout.push(this.digest.apply(this, arguments));
+  },
+
+  warn: function() {
+    stdout.push(this.digest.apply(this, arguments));
+  },
+
+  debug: function() {
+    stdout.push(this.digest.apply(this, arguments));
+  },
+
   error: function() {
     stderr.push(this.digest.apply(this, arguments));
   },
@@ -36,21 +48,6 @@ export function main() {
   const fields = { %fields% };
 
   %body%
-
-  /*
-  console.log("1 + 1 = ", 1+1);
-  var a = 2;
-  console.log(a);
-  console.log({x:1, y:1})
-  function func() { return (5 * 19); }
-  console.log(func());
-  console.log("The value of a is " + a);
-  var players = ['Jim', 'Shawna', 'Andrew', 'Lora', 'Aimee', 'Nick'];
-  console.log(players);
-  var b = {x: 1, y: 2};
-  console.log(b);
-  console.error("ASD!", players[2])
-  */
 
   return result;
 };
