@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/22/2021 11:05:26
+Here is a nice master thesis report making extensive use of Webots: [https://webthesis.biblio.polito.it/17504/1/tesi.pdf](https://webthesis.biblio.polito.it/17504/1/tesi.pdf)
+
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/14/2021 06:36:47
 **Check out this TIAGo Simulation in Webots with ROS 2, BehaviorTrees, Nav2, and plansys2**
 
@@ -11,7 +14,7 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 [https://www.youtube.com/watch?v=ZnwPNG17jVQ](https://www.youtube.com/watch?v=ZnwPNG17jVQ)
 
-##### harunkurt00 04/07/2021 18:44:06
+##### baby\_droid\_yoda 04/07/2021 18:44:06
 [https://lnkd.in/dApbakU](https://lnkd.in/dApbakU)
 
 
@@ -450,7 +453,7 @@ That competition is live now [https://www.youtube.com/watch?v=xLL7SoQywf4](https
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 06/13/2020 09:21:11
 Student competition based on Webots: [https://studentrobotics.org/docs/competition-simulator/](https://studentrobotics.org/docs/competition-simulator/)
 
-##### harunkurt00 06/10/2020 13:17:09
+##### baby\_droid\_yoda 06/10/2020 13:17:09
 [Turkish] [https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE](https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE)
 
 ##### iagsav 06/05/2020 21:59:47
