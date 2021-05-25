@@ -468,10 +468,6 @@ export default class Parser {
   }
 
   async _parseBillboard(node, parentNode) {
-    const use = await this._checkUse(node, parentNode);
-    if (typeof use !== 'undefined')
-      return use;
-
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
       id = getAnId();
