@@ -2,7 +2,6 @@
 /* global setup */
 /* global showdown */
 /* global hljs */
-/* exported openTabFromEvent */
 
 'use strict';
 
@@ -1160,6 +1159,12 @@ function openTab(tabcomponent, name) {
 }
 
 function applyTabs() {
+  const tabLinks = document.getElementsByClassName('tab-links');
+  for (let i = 0; i < tabLinks.length; i++) {
+    let element = tabLinks[i];
+    element.onclick = _ => openTabFromEvent(_, 'tab-' + element.title, element.innerHTML);
+  }
+
   const tabComponents = document.querySelectorAll('.tab-component');
   for (let k = 0; k < tabComponents.length; k++) {
     for (let tabName in localSetup.tabs) {
