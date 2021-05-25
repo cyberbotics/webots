@@ -1061,7 +1061,7 @@ function createRobotComponent(view) {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log('Error: ' + error);
       });
 
     if (document.getElementsByClassName('menu-button').length !== 0)
@@ -1421,8 +1421,13 @@ function populateMenu(menu) {
 
 function showAccodionItem(item) {
   if (!item.className.includes('active')) {
-    $('#accordion li ul').slideUp();
-    $(item.nextElementSibling).slideToggle();
+    document.querySelectorAll('#accordion li ul').forEach(ul => {
+      if (item.nextElementSibling !== ul)
+        slideUp(ul);
+    });
+    // $('#accordion li ul').slideUp();
+    // $(item.nextElementSibling).slideToggle();
+    slideToggle(item.nextElementSibling);
     document.querySelectorAll('#accordion li a').forEach(item => {
       item.classList.remove('active');
     });
@@ -1430,40 +1435,40 @@ function showAccodionItem(item) {
   }
 }
 
+function slideUp(item) {
+  if (item)
+    item.style.display = 'none';
+}
+
+function slideToggle(item) {
+  if (item)
+    item.style.display = 'block'
+}
+
 function getMDFile() {
   const target = computeTargetPath() + localSetup.page + '.md';
   console.log('Get MD file: ' + target);
-  $.ajax({
-    type: 'GET',
-    url: target,
-    dataType: 'text',
-    success: populateViewDiv,
-    error: function(XMLHttpRequest, textStatus, errorThrown) {
-      console.log('Status: ' + textStatus);
-      console.log('Error: ' + errorThrown);
+  fetch(target)
+    .then(response => response.text())
+    .then(content => populateViewDiv(content))
+    .catch(error => {
+      console.log('Error: ' + error);
       const mainPage = 'index';
       // get the main page instead
       if (localSetup.page !== mainPage) {
         localSetup.page = mainPage;
         getMDFile();
       }
-    }
-  });
+    });
 }
 
 function getMenuFile() {
   const target = computeTargetPath() + 'menu.md';
   console.log('Get menu file: ' + target);
-  $.ajax({
-    type: 'GET',
-    url: target,
-    dataType: 'text',
-    success: receiveMenuContent,
-    error: function(XMLHttpRequest, textStatus, errorThrown) {
-      console.log('Status: ' + textStatus);
-      console.log('Error: ' + errorThrown);
-    }
-  });
+  fetch(target)
+    .then(response => response.text())
+    .then(content => receiveMenuContent(content))
+    .catch(error => console.log('Error: ' + error));
 }
 
 function extractAnchor(url) {
