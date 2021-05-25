@@ -35,7 +35,6 @@ PROTO Mir100 [
         children [
           Shape {
             appearance DEF WHITE Plastic {
-              colorOverride 1 1 1
             }
             geometry Mesh {
               url [
