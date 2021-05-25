@@ -3,7 +3,7 @@ import WbVector4 from './WbVector4.js';
 import WbTransform from '../WbTransform.js';
 import WbWorld from '../WbWorld.js';
 
-let undefinedID = 90000;
+let undefinedID = -1; // Negative IDs are assigned to nodes provided by Webots without IDs.
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);
@@ -98,7 +98,7 @@ function getAncestor(node) {
 }
 
 function getAnId() {
-  return 'n' + undefinedID++;
+  return 'n' + undefinedID--;
 }
 
 function length(vec3) {

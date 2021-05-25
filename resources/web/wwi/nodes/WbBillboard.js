@@ -1,6 +1,5 @@
 import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
-import {vec4ToQuaternion} from './utils/utils.js';
 
 export default class WbBillboard extends WbGroup {
   constructor(id) {
