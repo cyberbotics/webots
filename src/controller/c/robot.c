@@ -1033,10 +1033,8 @@ int wb_robot_init() {  // API initialization
               fprintf(stderr, "Cannot open %s. %s\nDelete %s to clear this warning.\n", buffer, retry, WEBOTS_TMP_PATH);
           }
           fclose(fd);
-        } else {
+        } else
           fprintf(stderr, "Cannot open file: %s (retry count %d)\n", buffer, trial);
-          pipe = NULL;
-        }
         sleep(1);
       }
     }
