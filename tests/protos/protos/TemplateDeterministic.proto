@@ -16,7 +16,7 @@ PROTO TemplateDeterministic [
     children [
       Shape {
         geometry DEF BOX Box {
-          size %{= fields.width.value }% %{= fields.width.value }% %{= wbrandom.real(); + 0.001 }%
+          size %{= fields.width.value }% %{= fields.width.value }% %{= wbrandom.real() + 0.001 }%
         }
       }
     ]

@@ -37,7 +37,7 @@ This allows developers to use `console.log` and `console.error` to write on thes
 | SFBool       | boolean                                               | true                        |
 | SFInt32      | number                                                | 10                          |
 | SFFloat      | number                                                | 10.0                        |
-| SFString     | string                                                | "Webots"                    |
+| SFString     | string                                                | 'Webots'                    |
 | SFVec2f      | object (keys: "x" and "y")                            | {x: 1, y: 2}                |
 | SFVec3f      | object (keys: "x", "y" and "z")                       | {x: 1, y: 2, z: 3}          |
 | SFRotation   | object (keys: "x", "y", "z" and "a")                  | {x: 1, y: 2, z: 3, a: 3.14} |
@@ -466,7 +466,7 @@ Returns the shortest distance between the two vectors.
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
  * @returns {Object.<x: number, y: number, z: number>}
- */
+ */String
 wbvector3.cross(vA, vB);
 ```
 

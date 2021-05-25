@@ -9,7 +9,7 @@ PROTO TemplateNestedSlotContainer [
 {
   %{
     // trigger PROTO template regeneration
-    let test = fields.regenerate.value;
+    const test = fields.regenerate.value;
   }%
   TwoSlotsContainer {
     slot1 IS slotA

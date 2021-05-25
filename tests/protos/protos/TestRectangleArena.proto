@@ -9,7 +9,7 @@ PROTO TestRectangleArena [
 ]
 {
   %{
-    let myVariable = fields.floorAppearance;
+    const myVariable = fields.floorAppearance;
   }%
   Solid {
     children [
