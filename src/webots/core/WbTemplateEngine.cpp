@@ -99,10 +99,6 @@ WbTemplateEngine::WbTemplateEngine(const QString &templateContent) {
   }
 
   mTemplateContent = templateContent;
-
-  QJSEngine engine;
-  QJSValue stdout = engine.newArray();
-  engine.globalObject().setProperty("stdout", stdout);
 }
 
 const QString &WbTemplateEngine::openingToken() {
@@ -115,6 +111,10 @@ const QString &WbTemplateEngine::closingToken() {
 
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
   mResult.clear();
+
+  QJSEngine engine;
+  engine.globalObject().setProperty("myNumber", 123);
+  QJSValue myNumberPlusOne = engine.evaluate("myNumber + 1");
 
   if (!gValidLuaResources) {
     mError = tr("Installation error: Lua resources are not found");
