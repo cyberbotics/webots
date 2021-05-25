@@ -25,6 +25,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QVector>
+#include <QtQml/QJSEngine>
 
 #include <lua.hpp>
 
@@ -98,6 +99,10 @@ WbTemplateEngine::WbTemplateEngine(const QString &templateContent) {
   }
 
   mTemplateContent = templateContent;
+
+  QJSEngine engine;
+  QJSValue stdout = engine.newArray();
+  engine.globalObject().setProperty("stdout", stdout);
 }
 
 const QString &WbTemplateEngine::openingToken() {
