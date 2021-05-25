@@ -670,12 +670,7 @@ PROTO Mir100 [
     }
     physics Physics {
       density -1
-      mass 58.000000
-      centerOfMass [ 0.037646 0.000000 0.200000 ]
-      inertiaMatrix [
-        2.060933e+00 4.349998e+00 5.540931e+00
-        0.000000e+00 0.000000e+00 0.000000e+00
-      ]
+      mass 70
     }
   }
 }
