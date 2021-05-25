@@ -1,5 +1,6 @@
 import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
+import WbBillboard from '../WbBillboard.js';
 import WbTransform from '../WbTransform.js';
 import WbWorld from '../WbWorld.js';
 
@@ -120,6 +121,17 @@ function nodeIsInBoundingObject(node) {
   return false;
 }
 
+function isDescendantOfBillboard(node) {
+  while (typeof node !== 'undefined') {
+    if (node instanceof WbBillboard)
+      return true;
+
+    node = WbWorld.instance.nodes.get(node.parent);
+  }
+
+  return false;
+}
+
 function pointerOnFloat(float) {
   const data = new Float32Array(1);
   data[0] = float;
@@ -172,4 +184,4 @@ function vec4ToQuaternion(vec4) {
   return glm.quat(cosinusHalfAngle, vec4.x * sinusHalfAngle, vec4.y * sinusHalfAngle, vec4.z * sinusHalfAngle);
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, getAncestor, getAnId};
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard, getAncestor, getAnId};

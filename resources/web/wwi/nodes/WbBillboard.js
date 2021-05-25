@@ -13,7 +13,6 @@ export default class WbBillboard extends WbGroup {
     _wr_transform_attach_child(this.wrenNode, transform);
     this.wrenNode = transform;
 
-    const length = this.children.length;
     this.children.forEach(child => {
       child.createWrenObjects();
     });
