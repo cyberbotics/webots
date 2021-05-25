@@ -176,11 +176,6 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
         // handle case where a Solid name contains the character ';'
         deviceUniqueName += ";" + values.takeFirst();
       mRenderingDevicesPerspectiveList.insert(deviceUniqueName, values);
-    } else if (key.startsWith("x3dExport-")) {
-      QString label = key.split("-")[1].remove(":");
-      QString value;
-      ls >> value;
-      mX3dExportParameters.insert(label, value);
     } else
       WbLog::warning(QObject::tr("Unknown key in perspective file: %1 (ignored).").arg(key));
   }
@@ -298,11 +293,6 @@ bool WbPerspective::save() const {
   for (it = mRenderingDevicesPerspectiveList.constBegin(); it != mRenderingDevicesPerspectiveList.constEnd(); ++it)
     out << "renderingDevicePerspectives: " << it.key() << ";" << it.value().join(";") << "\n";
 
-  QStringList x3dParametersKeys(mX3dExportParameters.keys());
-  x3dParametersKeys.sort();
-  foreach (QString key, x3dParametersKeys)
-    out << "x3dExport-" << key << ": " << mX3dExportParameters.value(key) << "\n";
-
   file.close();
 
 #ifdef _WIN32
@@ -359,10 +349,6 @@ QStringList WbPerspective::renderingDevicePerspective(const QString &deviceUniqu
 
 void WbPerspective::clearRenderingDevicesPerspectiveList() {
   mRenderingDevicesPerspectiveList.clear();
-}
-
-void WbPerspective::setX3dExportParameter(const QString &key, QString value) {
-  mX3dExportParameters.insert(key, value);
 }
 
 QString WbPerspective::joinUniqueNameList(const QStringList &nameList) {
