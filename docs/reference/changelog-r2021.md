@@ -13,6 +13,7 @@ Released on June, Xth, 2021.
   - Enhancements
     - Significantly improved the performance of the `wb_camera_get_image`, `wb_range_finder_get_range_image`, and `wb_lidar_get_range_image` functions ([#3032](https://github.com/cyberbotics/webots/pull/3032)).
     - Added a `stadium_dry` [background](../guide/object-backgrounds.md) with dry grass to allow Robocup players to distinguish the soccer field from the background ([#2874](https://github.com/cyberbotics/webots/pull/2874)).
+    - Make the external controller check more frequently (and indefinitely) for the simulation ([#2442](https://github.com/cyberbotics/webots/pull/2442)).
     - Allow the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
     - Allow the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
     - **`<webots/utils/default_robot_window.h>` C include file moved to `<webots/plugins/robot_window/default.h>` ([#2655](https://github.com/cyberbotics/webots/pull/2655)).**
