@@ -6,15 +6,15 @@
 
 'use strict';
 
-import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from 'https://cyberbotics.com/wwi/R2021b/request_methods_module.js';
+import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './request_methods_module.js';
 import {webots} from './webots.js';
 import Parser from './Parser.js';
 
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbPBRAppearance from './nodes/WbPBRAppearance.js';
-import WbShape from './nodes/WbShape';
-import WbSphere from './nodes/WbSphere';
-import WbTransform from './nodes/WbTransform';
+import WbShape from './nodes/WbShape.js';
+import WbSphere from './nodes/WbSphere.js';
+import WbTransform from './nodes/WbTransform.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -710,6 +710,8 @@ function resetRobotComponent(robot) {
 
 function updateRobotComponentDimension(robot) {
   const robotComponent = getRobotComponentByRobotName(robot);
+  if (typeof robotComponent === 'undefined')
+    return;
   const deviceMenu = robotComponent.querySelector('.device-component');
   const robotView = robotComponent.querySelector('.robot-view');
 
@@ -873,14 +875,17 @@ function applyQuaternion(vec3, q) {
   return vec3;
 }
 
-function unhighlightX3DElement(robot) {
-  const robotComponent = getRobotComponentByRobotName(robot);
-  const scene = robotComponent.webotsView.x3dScene;
+function removePointer() {
   if (typeof pointer !== 'undefined') {
     pointer.delete();
     pointer = undefined;
   }
+}
 
+function unhighlightX3DElement(robot) {
+  const robotComponent = getRobotComponentByRobotName(robot);
+  const scene = robotComponent.webotsView.x3dScene;
+  removePointer();
   scene.render();
 }
 
@@ -888,8 +893,8 @@ function highlightX3DElement(robot, deviceElement) {
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(Parser.getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
     imageTexture.updateUrl().then(() => {
-      if (typeof pointer !== 'undefined' && typeof pointer.children[0] !== 'undefined')
-        pointer.children[0].updateAppearance();
+      // highlight again when the texture is loaded
+      highlightX3DElement(robot, deviceElement);
     });
   }
   unhighlightX3DElement(robot);
@@ -977,15 +982,6 @@ function createRobotComponent(view) {
       success: function(content) { // When successfully loaded.
         // Populate the device component from the JSON file.
         let deviceComponent = view.querySelector('#' + robotName + '-device-component');
-        deviceComponent.addEventListener('mouseover', () => {
-          document.getElementsByClassName('menu-button')[0].style.backgroundColor = '#333';
-          document.getElementById('arrow').style.display = '';
-        });
-        deviceComponent.addEventListener('mouseleave', () => {
-          document.getElementsByClassName('menu-button')[0].style.backgroundColor = 'transparent';
-          document.getElementById('arrow').style.display = 'none';
-        });
-
         let data = JSON.parse(content);
         let categories = {};
         robotComponent.setAttribute('robot-node-id', data['robotID']);
@@ -1063,14 +1059,6 @@ function createRobotComponent(view) {
             deviceDiv.setAttribute('device-anchor', device['anchor']);
           }
 
-          // LED case: set the target color.
-          if (deviceType === 'LED' && 'ledColors' in device && 'ledPBRAppearanceIDs' in device) {
-            // For now, simply take the first color. More complex mechanism could be implemented if required.
-            const targetColor = (device['ledColors'].length > 0) ? device['ledColors'][0] : '0 0 1';
-            deviceDiv.setAttribute('targetColor', targetColor);
-            deviceDiv.setAttribute('ledPBRAppearanceIDs', device['ledPBRAppearanceIDs'].join(' '));
-          }
-
           category.appendChild(deviceDiv);
         }
       },
@@ -1079,19 +1067,8 @@ function createRobotComponent(view) {
         console.log('Error: ' + errorThrown);
       }
     });
-    if (document.getElementsByClassName('menu-button').length !== 0) {
+    if (document.getElementsByClassName('menu-button').length !== 0)
       document.getElementsByClassName('menu-button')[0].onclick = () => toggleDeviceComponent(robotName);
-      document.getElementsByClassName('menu-button')[0].style.backgroundColor = 'transparent';
-      document.getElementById('arrow').style.display = 'none';
-      document.getElementsByClassName('menu-button')[0].addEventListener('mouseover', () => {
-        document.getElementsByClassName('menu-button')[0].style.backgroundColor = '#333';
-        document.getElementById('arrow').style.display = '';
-      });
-      document.getElementsByClassName('menu-button')[0].addEventListener('mouseleave', () => {
-        document.getElementsByClassName('menu-button')[0].style.backgroundColor = 'transparent';
-        document.getElementById('arrow').style.display = 'none';
-      });
-    }
     if (document.getElementsByClassName('fullscreen-button').length !== 0)
       document.getElementsByClassName('fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
     if (document.getElementsByClassName('exit-fullscreen-button').length !== 0) {
@@ -1100,7 +1077,41 @@ function createRobotComponent(view) {
     }
     if (document.getElementsByClassName('reset-button').length !== 0)
       document.getElementsByClassName('reset-button')[0].onclick = () => resetRobotComponent(robotName);
+
+    if (document.getElementsByClassName('robot-component').length !== 0) {
+      document.getElementsByClassName('robot-component')[0].onmouseenter = () => showButtons();
+      document.getElementsByClassName('robot-component')[0].onmouseleave = () => hideButtons(robotName);
+    }
   }
+}
+
+function showButtons() {
+  if (document.getElementsByClassName('reset-button').length !== 0)
+    document.getElementsByClassName('reset-button')[0].style.display = '';
+
+  if (document.getElementsByClassName('fullscreen-button').length !== 0)
+    document.getElementsByClassName('fullscreen-button')[0].style.display = '';
+
+  if (document.getElementsByClassName('menu-button').length !== 0)
+    document.getElementsByClassName('menu-button')[0].style.display = '';
+}
+
+function hideButtons(robot) {
+  if (document.getElementsByClassName('reset-button').length !== 0)
+    document.getElementsByClassName('reset-button')[0].style.display = 'none';
+
+  if (document.getElementsByClassName('fullscreen-button').length !== 0)
+    document.getElementsByClassName('fullscreen-button')[0].style.display = 'none';
+
+  if (document.getElementsByClassName('exit-fullscreen-button').length !== 0)
+    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
+
+  if (document.getElementsByClassName('menu-button').length !== 0)
+    document.getElementsByClassName('menu-button')[0].style.display = 'none';
+
+  removePointer();
+  const robotComponent = getRobotComponentByRobotName(robot);
+  robotComponent.webotsView.x3dScene.render();
 }
 
 // Open a tab component tab
