@@ -976,14 +976,11 @@ function createRobotComponent(view) {
     );
 
     // Load the robot meta JSON file.
-    $.ajax({
-      type: 'GET',
-      url: computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.meta.json',
-      dataType: 'text',
-      success: function(content) { // When successfully loaded.
+    fetch(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.meta.json')
+      .then(response => response.json())
+      .then(function(data) {
         // Populate the device component from the JSON file.
         let deviceComponent = view.querySelector('#' + robotName + '-device-component');
-        let data = JSON.parse(content);
         let categories = {};
         robotComponent.setAttribute('robot-node-id', data['robotID']);
         if (data['devices'].length === 0)
@@ -1062,12 +1059,11 @@ function createRobotComponent(view) {
 
           category.appendChild(deviceDiv);
         }
-      },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-        console.log('Status: ' + textStatus);
-        console.log('Error: ' + errorThrown);
-      }
-    });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
     if (document.getElementsByClassName('menu-button').length !== 0)
       document.getElementsByClassName('menu-button')[0].onclick = () => toggleDeviceComponent(robotName);
     if (document.getElementsByClassName('fullscreen-button').length !== 0)
@@ -1417,17 +1413,20 @@ function populateMenu(menu) {
   menuDiv.appendChild(menu);
 
   menu.setAttribute('id', 'accordion');
-  $('#accordion > li > a').click(function() {
-    showAccodionItem(this);
+  let list = document.querySelectorAll('#accordion > li > a');
+  list.forEach(item => {
+    item.onclick = () => showAccodionItem(item);
   });
 }
 
 function showAccodionItem(item) {
-  if (!$(item).hasClass('active')) {
+  if (!item.className.includes('active')) {
     $('#accordion li ul').slideUp();
-    $(item).next().slideToggle();
-    $('#accordion li a').removeClass('active');
-    $(item).addClass('active');
+    $(item.nextElementSibling).slideToggle();
+    document.querySelectorAll('#accordion li a').forEach(item => {
+      item.classList.remove('active');
+    });
+    item.className += ' active';
   }
 }
 
