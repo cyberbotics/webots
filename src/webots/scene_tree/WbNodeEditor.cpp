@@ -149,9 +149,9 @@ void WbNodeEditor::update() {
   if (node && !node->isUseNode()) {
     const int maxTriangleNumberToCastShadows = node->maxIndexNumberToCastShadows() / 3;
     int triangleCount = node->triangleCount();
-    if (triangleCount > maxTriangleNumberToCastShadows) {
+    if (triangleCount > maxTriangleNumberToCastShadows)
       mNbTriangles->setText(tr("Triangle count: %1 (no shadow)").arg(triangleCount));
-    } else
+    else
       mNbTriangles->setText(tr("Triangle count: %1").arg(triangleCount));
   } else
     mNbTriangles->clear();
