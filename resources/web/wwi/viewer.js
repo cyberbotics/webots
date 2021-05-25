@@ -651,7 +651,7 @@ function populateViewDiv(mdContent) {
     // apply the anchor only when the images are loaded,
     // otherwise, the anchor can be overestimated.
     const lastImage = images[images.length - 1];
-    $(lastImage).load(applyAnchor);
+    lastImage.onload = () => applyAnchor();
   } else
     applyAnchor();
   applyTabs();
@@ -667,7 +667,9 @@ function updateBrowserUrl() {
     }
   }
   const canonicalUrl = 'https://cyberbotics.com/doc/' + localSetup.book + '/' + localSetup.page;
-  $('link[rel="canonical"]').attr('href', canonicalUrl);
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical !== null)
+    canonical.href = canonicalUrl;
 }
 
 // Make in order that the back button is working correctly
