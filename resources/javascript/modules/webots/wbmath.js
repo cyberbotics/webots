@@ -2,10 +2,6 @@
  * content: math utility functions
  */
 
-export function testFunction() { // TODO: to remove
-  return 'WBMATH WORKS';
-};
-
 export function degreesToRadians(angle) {
   return angle * Math.PI / 180.0;
 };

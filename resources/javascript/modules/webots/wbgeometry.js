@@ -1,35 +1,31 @@
 /*
- * content:
+ * content: utility functions for geometry based operations
  */
+
 import * as wbvector2 from 'wbvector2.js';
 import * as wbvector3 from 'wbvector3.js';
 import * as wbutility from 'wbutility.js';
 
-export function testFunction() { // TODO: to remove
-  return 'WBGEOMETRY WORKS';
-};
-
 // create an array of 'div' circle coordinates according to a circle centered at {'cx', 'cy'} and rotated by 'shift' radians
-export function circle(radius, div, cx, cy, shift) {
+export function circle(radius, div, center, shift) {
   wbutility.assert(wbutility.isScalar(radius) && radius > 0, 'Expected radius to be a positive number in wbgeometry.circle.');
   wbutility.assert(wbutility.isScalar(div) && div > 0, 'Expected div to be a positive number in wbgeometry.circle.');
-  wbutility.assert(wbutility.isScalar(cx), 'Expected cx to be a number in wbgeometry.circle.');
-  wbutility.assert(wbutility.isScalar(cy), 'Expected cy to be a number in wbgeometry.circle.');
+  wbutility.assert(wbutility.isVector2(center), 'Expected c to be an object with keys (x, y) in wbgeometry.circle.');
   wbutility.assert(wbutility.isScalar(shift), 'Expected shift to be a number in wbgeometry.circle.');
 
   let circle = [];
   const quantum = 2 * Math.PI / div;
 
   for (let i = 0; i <= div; ++i)
-    circle.push({x: radius * Math.cos(i * quantum + shift) + cx, y: radius * Math.sin(i * quantum + shift) + cy});
+    circle.push({x: radius * Math.cos(i * quantum + shift) + center.x, y: radius * Math.sin(i * quantum + shift) + center.y});
 
   return circle;
 };
 
-// determine if a point is inside a given polygon or not. The polygon is an array of objects with properties (x, y)
+// determine if a point is inside a given polygon or not. The polygon is an array of objects with keys (x, y)
 export function isPoint2InPolygon(p, polygon) {
-  wbutility.assert(wbutility.isVector2(p), 'Expected an object with properties (x, y) as first parameter in wbgeometry.isPointInPolygon.');
-  wbutility.assert(wbutility.isArrayOfPoints(polygon, 2), 'Expected an array of objects with properties (x, y) as second parameter in wbgeometry.isPointInPolygon.');
+  wbutility.assert(wbutility.isVector2(p), 'Expected an object with keys (x, y) as first parameter in wbgeometry.isPointInPolygon.');
+  wbutility.assert(wbutility.isArrayOfPoints(polygon, 2), 'Expected an array of objects with keys (x, y) as second parameter in wbgeometry.isPointInPolygon.');
 
   const n = polygon.length;
   if (n < 3)
@@ -63,19 +59,19 @@ export function isPoint2InPolygon(p, polygon) {
   return inside;
 };
 
-// return the closest point in the array to the reference point. The array is comprised of objects with properties (x, y)
-export function findClosestPoint2InArray(referencePoint, pointsArray) {
-  wbutility.assert(wbutility.isVector2(referencePoint), 'Expected an object with properties (x, y) as first parameter in wbgeometry.findClosestPoint2InArray.');
-  wbutility.assert(wbutility.isArrayOfPoints(pointsArray, 2), 'Expected an array of objects with properties (x, y) as second parameter in wbgeometry.findClosestPoint2InArray.');
+// return the closest point in the array to the reference point. The array is comprised of objects with keys (x, y)
+export function findClosestPoint2InArray(reference, points) {
+  wbutility.assert(wbutility.isVector2(reference), 'Expected an object with keys (x, y) as first parameter in wbgeometry.findClosestPoint2InArray.');
+  wbutility.assert(wbutility.isArrayOfPoints(points, 2), 'Expected an array of objects with keys (x, y) as second parameter in wbgeometry.findClosestPoint2InArray.');
 
-  let point = referencePoint;
+  let point = reference;
   let dist = Infinity;
   let currentDistance;
-  for (let i = 0; i < pointsArray.length; ++i) {
-    currentDistance = wbvector2.distance(referencePoint, pointsArray[i]);
+  for (let i = 0; i < points.length; ++i) {
+    currentDistance = wbvector2.distance(reference, points[i]);
     if (currentDistance < dist) {
       dist = currentDistance;
-      point = pointsArray[i];
+      point = points[i];
     }
   }
 
@@ -84,15 +80,15 @@ export function findClosestPoint2InArray(referencePoint, pointsArray) {
 
 // check if an array of points (x, y) is defined in a clockwise order
 // based on the formula (x2-x1)(y2+y1) (http://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order)
-export function isPoint2ArrayClockwise(pointsArray) {
-  wbutility.assert(wbutility.isArrayOfPoints(pointsArray, 2), 'Expected an array of objects with properties (x, y) as second parameter in wbgeometry.findClosestPoint2InArray.');
+export function isPoint2ArrayClockwise(points) {
+  wbutility.assert(wbutility.isArrayOfPoints(points, 2), 'Expected an array of objects with keys (x, y) as second parameter in wbgeometry.findClosestPoint2InArray.');
 
-  const n = pointsArray.length;
+  const n = points.length;
   let total = 0;
 
   for (let i = 1; i < n - 1; ++i)
-    total = total + (pointsArray[i + 1].x - pointsArray[i].x) * (pointsArray[i + 1].y + pointsArray[i].y);
-  total = total + (pointsArray[0].x - pointsArray[n - 1].x) * (pointsArray[0].y + pointsArray[n - 1].y);
+    total = total + (points[i + 1].x - points[i].x) * (points[i + 1].y + points[i].y);
+  total = total + (points[0].x - points[n - 1].x) * (points[0].y + points[n - 1].y);
 
   if (total >= 0)
     return false;

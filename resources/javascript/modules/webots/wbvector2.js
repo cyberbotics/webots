@@ -1,85 +1,81 @@
 /*
  * content: utility functions for vector2 variables
- * assumptions: a vector 2 is an object with x and y keys
+ * assumptions: a vector2 is an object with x and y keys
  *              e.g. v = {x: 1, y: 2}
  */
-
-export function testFunction() { // TODO: to remove
-  return 'WBVECTOR2 WORKS';
-};
 
 import * as wbutility from 'wbutility.js';
 
 export function equal(vA, vB) {
-  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.equal.');
-  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.equal.');
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.equal.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.equal.');
 
   return vA.x === vB.x && vA.y === vB.y;
 };
 
 export function add(vA, vB) {
-  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.add.');
-  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.add.');
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.add.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.add.');
 
   return {x: vA.x + vB.x, y: vA.y + vB.y};
 };
 
 export function minus(vA, vB) {
-  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.minus.');
-  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.minus.');
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.minus.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.minus.');
 
   return {x: vA.x - vB.x, y: vA.y - vB.y};
 };
 
 export function multiply(v, s) {
-  wbutility.assert(wbutility.isVector2(v), 'Expected an object with properties (x, y) as first parameter in wbvector2.multiply.');
+  wbutility.assert(wbutility.isVector2(v), 'Expected an object with keys (x, y) as first parameter in wbvector2.multiply.');
   wbutility.assert(wbutility.isScalar(s), 'Expected a number as second parameter in wbvector2.multiply.');
 
   return {x: s * v.x, y: s * v.y};
 };
 
 export function norm(v) {
-  wbutility.assert(wbutility.isVector2(v), 'Expected an object with properties (x, y) as parameter in wbvector2.norm.');
+  wbutility.assert(wbutility.isVector2(v), 'Expected an object with keys (x, y) as parameter in wbvector2.norm.');
 
   return Math.sqrt(v.x * v.x + v.y * v.y);
 };
 
 export function atan2(v) {
-  wbutility.assert(wbutility.isVector2(v), 'Expected an object with properties (x, y) as parameter in wbvector2.atan2.');
+  wbutility.assert(wbutility.isVector2(v), 'Expected an object with keys (x, y) as parameter in wbvector2.atan2.');
 
-  return Math.atan2(v.x, v.y);
+  return Math.atan2(v.y, v.x);
 };
 
 export function distance(vA, vB) {
-  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.distance.');
-  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.distance.');
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.distance.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.distance.');
 
   return norm(minus(vA, vB));
 }
 
 export function angle(vA, vB) {
-  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.angle.');
-  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.angle.');
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.angle.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.angle.');
 
   return atan2(minus(vA, vB));
 };
 
 export function cross(vA, vB) {
-  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.cross.');
-  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.cross.');
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.cross.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.cross.');
 
   return vA.x * vB.y - vA.y * vB.x;
 };
 
 export function dot(vA, vB) {
-  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with properties (x, y) as first parameter in wbvector2.dot.');
-  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with properties (x, y) as second parameter in wbvector2.dot.');
+  wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.dot.');
+  wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.dot.');
 
   return vA.x * vB.x + vA.y * vB.y;
 };
 
 export function normalize(v) {
-  wbutility.assert(wbutility.isVector2(v), 'Expected an object with properties (x, y) as parameter in wbvector2.normalize.');
+  wbutility.assert(wbutility.isVector2(v), 'Expected an object with keys (x, y) as parameter in wbvector2.normalize.');
 
   const n = norm(v);
 
@@ -94,10 +90,10 @@ export function normalize(v) {
 // and segment 2 (p3->p4), a point is an object with x and y keys
 // if no intersections are found return null
 export function intersection(p1, p2, p3, p4) {
-  wbutility.assert(wbutility.isVector2(p1), 'Expected an object with properties (x, y) as first parameter in wbvector2.intersection.');
-  wbutility.assert(wbutility.isVector2(p2), 'Expected an object with properties (x, y) as second parameter in wbvector2.intersection.');
-  wbutility.assert(wbutility.isVector2(p3), 'Expected an object with properties (x, y) as third parameter in wbvector2.intersection.');
-  wbutility.assert(wbutility.isVector2(p4), 'Expected an object with properties (x, y) as fourth parameter in wbvector2.intersection.');
+  wbutility.assert(wbutility.isVector2(p1), 'Expected an object with keys (x, y) as first parameter in wbvector2.intersection.');
+  wbutility.assert(wbutility.isVector2(p2), 'Expected an object with keys (x, y) as second parameter in wbvector2.intersection.');
+  wbutility.assert(wbutility.isVector2(p3), 'Expected an object with keys (x, y) as third parameter in wbvector2.intersection.');
+  wbutility.assert(wbutility.isVector2(p4), 'Expected an object with keys (x, y) as fourth parameter in wbvector2.intersection.');
 
   // check that the interval exists
   if (Math.max(p1.x, p2.x) < Math.min(p3.x, p4.x))

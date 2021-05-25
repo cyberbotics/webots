@@ -15,6 +15,10 @@ export function info(message) {
   stdout.push(message);
 }
 
+export function deepCopy(orig) {
+  return JSON.parse(JSON.stringify(orig));
+};
+
 export function isScalar(s) {
   if (typeof s !== 'number')
     return false;

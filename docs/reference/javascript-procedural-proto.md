@@ -1,41 +1,30 @@
 ## Procedural PROTO Nodes
 
-The expressive power of PROTO nodes can be significantly improved by extending them using a scripting language.
-In this way, the PROTO node may contain constants, mathematic expressions, loops, conditional expressions, randomness, and so on.
-
-### Scripting Language
-
-The used scripting language is [Lua](http://www.lua.org).
-Introducing and learning Lua is outside the scope of this document.
-Please refer to the [Lua documentation](http://www.lua.org/docs.html) for complementary information.
+Procedural PROTO nodes can be created using JavaScript as a scripting language.
+Introducing and learning JavaScript is outside the scope of this document.
 
 ### Template Engine
 
-A template engine is used to evaluate the PROTO according to the field values of the PROTO, before being loaded in Webots.
-The template engine used is [liluat](https://github.com/FSMaxB/liluat) (under the MIT license).
+In the event that a PROTO file contains JavaScript template statements, as denoted by "%{" and the "}%" tokens, a template engine is used to evaluate it.
+The contents of the file are first translated to pure JavaScript that is successively evaluated using QJSEngine, yielding a VRML97 compatible PROTO file which is then parsed by Webots as any other PROTO would.
 
 ### Programming Facts
 
-- Using the template statements is exclusively allowed inside the content scope of the PROTO (cf. example).
 - A template statement is encapsulated inside the "%{" and the "}%" tokens and can be written on several lines.
 - Adding an "=" just after the opening token ("%{=") allows to evaluate a statement.
-- The fields are accessible into a global Lua dictionary named "fields".
-The dictionary keys matches the PROTO's fields names.
-Each entry of this dictionary is a sub-dictionary with two keys named "value" and "defaultValue", the first one contains the current state of the field and the second one contains its the default state.
-The conversion between the VRML97 types and the Lua types is detailed in [this table](#vrml97-type-to-lua-type-conversion).
-- As shown in [this table](#vrml97-type-to-lua-type-conversion), the conversion of a VRML97 node is a Lua dictionary.
-This dictionary contains the following keys: "node\_name" containing the VRML97 node name and "fields" which is a dictionary containing the Lua representation of the VRML97 node fields.
-This dictionary is equal to `nil` if the VRML97 node is not defined (`NULL`).
-For example, in the SimpleStairs example below, the `fields.appearance.node_name` key contains the `'Appearance'` string.
-- The `context` dictionary provides contextual information about the PROTO.
-Table [this table](#content-of-the-context-dictionary) shows the available information and its corresponding keys.
-- The VRML97 comment ("#") prevails over the Lua statements.
-- The following Lua modules are available directly: base, table, io, os, string, math, debug, package.
-- The LUA\_PATH environment variable can be modified (before running Webots) to include external Lua modules.
-- Lua standard output and error streams are redirected on the Webots console (written respectively in regular and in red colors).
-This allows developers to use the Lua regular functions to write on these streams.
-- The [lua-gd](http://ittner.github.io/lua-gd) module is contained in Webots and can simply be imported using `local gd = require("gd")`.
-This module is very useful to manipulate images, it can be used, for example, to generate textures.
+- The use of template statements is exclusively allowed inside the content scope of the PROTO (cf. example).
+- The fields are accessible in a globally accessible object named "fields".
+The keys of this object matches the PROTO's field names and for each entry, an additional sub-object with two keys named "value" and "defaultValue" is available.
+The first one contains the current value of the field and the second one contains its default state.
+The conversion between the VRML97 types and the JavaScript types is detailed in [this table](#vrml97-type-to-javascript-type-conversion).
+- As shown in [this table](#vrml97-type-to-javascript-type-conversion), the conversion of a VRML97 node is an object.
+This object contains the following keys: "node\_name" containing the VRML97 node name and "fields" which is in turn an object containing the JavaScript representation of the VRML97 node fields.
+This object is equal to `undefined` if the VRML97 node is not defined (`NULL`).
+- The `context` object provides contextual information about the PROTO.
+Table [this table](#content-of-the-context-object) shows the available information and the corresponding keys.
+- The VRML97 comment ("#") prevails over the JavaScript statements.
+- JavaScript standard output and error streams are redirected on the Webots console (written respectively in regular and in red colors).
+This allows developers to use `console.log` and `console.error` to write on these streams.
 
 #### VRML97 Type Conversion
 
@@ -56,14 +45,14 @@ This module is very useful to manipulate images, it can be used, for example, to
 
 %end
 
-%figure "Content of the context dictionary"
+%figure "Content of the context object"
 
 | Key                     | Value                                                                                                                                                                                                                                     |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | world                   | absolute path to the current world file (including file name and extension)                                                                                                                                                               |
 | proto                   | absolute path to the current PROTO file (including file name and extension)                                                                                                                                                               |
 | project\_path           | absolute path to the current project directory                                                                                                                                                                                            |
-| webots\_version         | dictionary representing the version of Webots with which the PROTO is currently used (dictionary keys: major and revision)                                                                                                                |
+| webots\_version         | object representing the version of Webots with which the PROTO is currently used (keys: "major" and "revision")                                                                                                                |
 | webots\_home            | absolute path to the Webots installation directory                                                                                                                                                                                        |
 | temporary\_files\_path  | absolute path to the temporary folder currently used by Webots (this is the location where the PROTO file is generated)                                                                                                                   |
 | os                      | OS string ("windows", "linux" or "mac")                                                                                                                                                                                                   |
@@ -77,13 +66,11 @@ This module is very useful to manipulate images, it can be used, for example, to
 A number of modules provide additional utility functions that can be useful when creating procedural PROTO files.
 To use these functions, the module needs to be included first:
 
-%tab-component "language"
-
-%tab "JavaScript"
 ```
 %{
   // to import the entire module
   import * as wbrotation from 'modules/webots/wbrotation.js';
+
   // access functions
   let number = wbrandom.integer(0, 10);
 
@@ -91,13 +78,10 @@ To use these functions, the module needs to be included first:
   import {integer} from 'modules/webots/wbrotation.js';
 }%
 ```
-%tab-end
-
-%end
 
 The available modules are the following.
 
-- `wbrandom`: provides functions that allow seed-based random number generation.
+- `wbrandom`: provides functions that allow seed-based pseudo-random number generation.
 
 - `wbrotation`: provides utility functions for dealing with rotations, represented in axis-angle, quaternions or matrix format.
 
@@ -123,6 +107,7 @@ wbrandom.seed(s);
 
 Sets the random number generator seed to the specified value.
 The numbers are generated using a Linear Congruential Generator (LCG) algorithm.
+To generate non-deterministic results, a time-based seed can be used `wbrandom.seed(Date.now())`.
 
 ```
 /**
@@ -229,7 +214,7 @@ Normalizes both the axis and the angle of the provided rotation vector.
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} rA
  * @param {Object.<x: number, y: number, z: number, a: number>} rB
- * @returns {Object.<w: number, x: number, y: number, z: number>}
+ * @returns {Object.<x: number, y: number, z: number, a: number>}
  */
 wbrotation.combine(rA, rB);
 ```
@@ -334,7 +319,8 @@ Returns the norm of the provided vector.
 wbvector2.atan2(v);
 ```
 
-TODO
+Returns the angle in the plane (in radians) between the positive x-axis and the ray from (0, 0) to the point `v`.
+It should be noted that what this function returns is `Math.atan2(v.y, v.x)`.
 
 ```
 /**
@@ -445,7 +431,7 @@ Returns the vectorial difference of the two vectors.
 /**
  * @param {Object.<x: number, y: number, z: number>} v
  * @param {number} s
- * @returns TODO
+ * @returns {Object.<x: number, y: number, z: number>}
  */
 wbvector3.multiply(v, s);
 ```
@@ -535,90 +521,74 @@ Converts the provided number from radians to degrees.
 /**
  * @param {number} radius
  * @param {number} div
- * @param {number} cx
- * @param {number} cy
+ * @param {Object.<x: number, y: number>} center
  * @param {number} shift
- * @returns TODO
+ * @returns {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]}
  */
-wbgeometry.circle(radius, div, cx, cy, shift);
+wbgeometry.circle(radius, div, c, shift);
 ```
 
-TODO
+Creates an array of `div` circle coordinates according to a circle of radius `radius` centered at `(center.x, center.y)` and rotated by `shift` radians.
 
 ```
 /**
- * @param TODO
- * @returns TODO
+ * @param {Object.<x: number, y: number>} p
+ * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} polygon
+ * @returns {boolean}
  */
-wbgeometry.isPointInPolygon(TODO);
+wbgeometry.isPoint2InPolygon(p, polygon);
 ```
 
-TODO
+Returns true if point `p` is inside the provided polygon.
+The polygon is defined as an array of objects with keys (x, y), each defining a vertex.
 
 ```
 /**
- * @param TODO
- * @returns TODO
+ * @param {Object.<x: number, y: number>} reference
+ * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} points
+ * @returns {Object.<x: number, y: number>}
  */
-wbgeometry.findClosest2DPointInArray(TODO);
+wbgeometry.findClosestPoint2InArray(reference, points);
 ```
 
-TODO
+Returns the closest point in the array to the reference point.
+The array is comprised of objects with keys (x, y).
 
 ```
 /**
- * @param TODO
- * @returns TODO
+ * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} points
+ * @returns {boolean}
  */
-wbgeometry.isListClockwise2D(TODO);
+wbgeometry.isPoint2ArrayClockwise(points);
 ```
 
-TODO
+Returns true if an array of provided points is defined in a clockwise order.
 
 ```
 /**
- * @param TODO
- * @returns TODO
+ * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} points
+ * @param {number} subdivision
+ * @returns {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]}
  */
-wbgeometry.bSpline2D(TODO);
+wbgeometry.bSpline2(points, subdivision);
 ```
 
-TODO
+Creates a B-Spline curve of third order using the array of two-dimensional points, subdividing each segment by `subdivision` and returning the result.
 
 ```
 /**
- * @param TODO
- * @returns TODO
+ * @param {[Object.<x: number, y: number, z: number>, Object.<x: number, y: number, z: number>, ... ]} points
+ * @param {number} subdivision
+ * @returns {[Object.<x: number, y: number, z: number>, Object.<x: number, y: number, z: number>, ... ]}
  */
-wbgeometry.bspline3D(TODO);
+wbgeometry.bSpline3(points, subdivision);
 ```
 
-TODO
+Creates a B-Spline curve of third order using the array of three-dimensional points, subdividing each segment by `subdivision` and returning the result.
 
 %tab-end
 
 %end
-
-### Texture Generation
-
-Using the [lua-gd](http://ittner.github.io/lua-gd) module it is possible to generate a texture image to be used by the PROTO.
-The following standard fonts are available to write on the texture:
-
- - Arial
- - Arial Black
- - Comic Sans MS
- - Courier New
- - Georgia
- - Impact
- - Lucida Console
- - Lucida Sans Unicode
- - Palatino Linotype
- - Tahoma
- - Times New Roman
- - Trebuchet MS
- - Verdana
-
-In addition to these fonts, it is possible to add other TrueType fonts file in your `PROJECT_HOME/fonts` directory.
 
 ### Optimization
 
@@ -631,100 +601,11 @@ Typical cases of `nonDeterministic` PROTO files are those where the end result d
 `nonDeterministic` PROTO files are regenerated and therefore change at every reset.
 
 > **Note**: when randomness is concerned, what defines determinism in a PROTO file, or lack of it, is the nature of the seed used by the random number generator.
-Using a time-based seed (e.g. `wbrandom.seed(os.clock() + os.time())`) or a seed based on the id of the node (e.g. `wbrandom.seed(context.id)`) are typical non-deterministic situations.
+Using a time-based seed (e.g. `wbrandom.seed(Date.now())`) or a seed based on the id of the node (e.g. `wbrandom.seed(context.id)`) are typical non-deterministic situations.
 If the same seed is used every time or if it is not specified (i.e using the default seed), it leads instead to deterministic results.
 
 ### Example
 
 ```
-
-#VRML_SIM R2019a utf8
-
-PROTO SimpleStairs [
-  field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
-  field SFString   name        "stairs"
-  field SFInt32    nSteps      10
-  field SFVec3f    stepSize    0.2 0.2 0.8
-  field SFColor    color       0 1 0
-  field SFString   text        "my text"
-  field SFNode     physics     NULL
-]
-{
-  # template statements can be used from here
-  %{
-    -- a template statement can be written on several lines
-    if fields.nSteps.value < 1 then
-      print('nSteps should be strictly positive')
-    end
-
-    -- print the path to this proto
-    print(context.proto)
-
-    if fields.stepSize.value.x ~= fields.stepSize.defaultValue.x then
-      print('The X step size used is not the default one')
-    end
-
-    -- print the mass inside the physics node
-    if fields.physics.value then
-      print (fields.physics.value.fields.mass.value)
-    end
-
-   -- load lua-gd module and create a uniform texture
-   local gd = require("gd")
-   local debug = require("debug")
-   local im = gd.createTrueColor(128, 128)
-   color = im:colorAllocate(fields.color.value.r * 255, fields.color.value.g * 255, fields.color.value.b * 255)
-   im:filledRectangle(0, 0, 127, 127, color)
-   -- add the text in the texture
-   textColor = im:colorAllocate(0, 0, 0)
-   gd.fontCacheSetup()
-   im:stringFT(textColor, "Arial", 20, 0, 5, 60, fields.text.value)
-   -- save the image in a png file
-   local name = debug.getinfo(1,'S').source  -- get the name of the current file
-   name = name .. context.id  -- prevent name clashes
-   local i = 0  -- make sure the file does not already exist
-   local file = io.open(name .. i .. ".png", "r")
-   while file do
-     file:close()
-     i = i + 1
-     file = io.open(name .. i .. ".png", "r")
-   end
-   im:png(name .. i .. ".png")
-   gd.fontCacheShutdown()
-  }%
-  Solid {
-    translation IS translation
-    rotation IS rotation
-    children [
-      DEF SIMPLE_STAIRS_GROUP Group {
-        children [
-        %{ for j = 0, (fields.nSteps.value - 1) do }%
-          %{ x = j * fields.stepSize.value.x }%
-          %{ y = j * fields.stepSize.value.y + fields.stepSize.value.y / 2 }%
-            Transform {
-              translation %{=x}% %{=y}% 0
-              children [
-                Shape {
-                  appearance Appearance {
-                    texture ImageTexture {
-                      url [ %{= '"' .. context.temporary_files_path .. name .. i .. '.png"' }% ]
-                    }
-                  }
-                  geometry Box {
-                    size IS stepSize
-                  }
-                }
-              ]
-            }
-          %{ end }%
-        ]
-      }
-    ]
-    name IS name
-    boundingObject USE SIMPLE_STAIRS_GROUP
-    physics IS physics
-  }
-  # template statements can be used up to there
-}
+TODO
 ```
