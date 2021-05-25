@@ -94,8 +94,7 @@ void WbTemplateEngine::initialize() {
   templateFile.close();
 }
 
-WbTemplateEngine::WbTemplateEngine(const QString &templateContent) {
-  mTemplateContent = templateContent;
+WbTemplateEngine::WbTemplateEngine(const QString &templateContent) : mTemplateContent(templateContent) {
 }
 
 const QString &WbTemplateEngine::openingToken() {
@@ -138,12 +137,11 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QString javaScriptBody = "";
   QString javaScriptImport = "";
 
-  int indexOpeningToken;
-  int indexClosingToken;
+  int indexClosingToken = 0;
   int lastIndexClosingToken = -1;
   mTemplateContent = mTemplateContent.toUtf8();
   while (1) {
-    indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
+    int indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
     if (indexOpeningToken == -1) {  // no more matches
       if (indexClosingToken < mTemplateContent.size()) {
         javaScriptBody +=
@@ -153,11 +151,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     }
 
     indexClosingToken = mTemplateContent.indexOf(gClosingToken, indexOpeningToken);
-    indexClosingToken = indexClosingToken + 2;  // point after the template token
+    indexClosingToken = indexClosingToken + gClosingToken.size();  // point after the template token
 
     if (indexClosingToken == -1) {
-      printf("Missing closing bracket\n");  // mError?
-      mError = tr("Expected JavaScript closing token is missing.");
+      mError = tr("Expected JavaScript closing token '%1' is missing.").arg(gClosingToken);
       return false;
     }
 

@@ -10,7 +10,7 @@ The contents of the file are first translated to pure JavaScript that is success
 
 ### Programming Facts
 
-- For compatibility reasons, procedural PROTO files are assumed to be Lua by default.
+- For compatibility reasons, at the moment procedural PROTO files are assumed to be Lua by default.
 In order to use JavaScript scripting it is required to add the comment `# template language: javascript` in the header of the file.
 - A template statement is encapsulated inside the "%{" and the "}%" tokens and can be written on several lines.
 - Adding an "=" just after the opening token ("%{=") allows to evaluate a statement.
