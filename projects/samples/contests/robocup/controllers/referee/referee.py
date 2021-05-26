@@ -973,9 +973,9 @@ def update_team_penalized(team):
             t = copy.deepcopy(player['reentryStartingPose']['translation'])
             t[0] = 50
             t[1] = (10 + int(number)) * (1 if color == 'red' else -1)
+            robot.loadState('__init__')
             robot.getField('translation').setSFVec3f(t)
             robot.getField('rotation').setSFRotation(player['reentryStartingPose']['rotation'])
-            robot.resetPhysics()
             customData = player['robot'].getField('customData')
             customData.setSFString('red_card')  # disable all devices of the robot
             # FIXME: unfortunately, player['robot'].remove() crashes webots
@@ -1489,9 +1489,9 @@ def send_team_penalties(team):
                 t[0] -= 4 * game.field.penalty_offset
             elif t[0] < -game.field.size_x:
                 t[0] += 4 * game.field.penalty_offset
+            robot.loadState('__init__')
             robot.getField('translation').setSFVec3f(t)
             robot.getField('rotation').setSFRotation(r)
-            robot.resetPhysics()
             player['sent_to_penalty_position'] = True
             player['penalty_stabilize'] = time_count + 1000  # stabilize for one virtual second
             player['penalty_translation'] = t
@@ -1548,7 +1548,7 @@ def reset_player(color, number, pose):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
     robot = player['robot']
-    robot.resetPhysics()
+    robot.loadState('__init__')
     translation = robot.getField('translation')
     rotation = robot.getField('rotation')
     t = player[pose]['translation']
