@@ -207,11 +207,11 @@ export default class Parser {
 
   async _parseScene(node) {
     const prefix = DefaultUrl.wrenImagesUrl();
-    const smaaAreaTexture = await Parser.loadTextureData(prefix + 'smaa_area_texture.png');
+    const smaaAreaTexture = await Parser.loadTextureData(prefix, 'smaa_area_texture.png');
     smaaAreaTexture.isTranslucent = false;
-    const smaaSearchTexture = await Parser.loadTextureData(prefix + 'smaa_search_texture.png');
+    const smaaSearchTexture = await Parser.loadTextureData(prefix, 'smaa_search_texture.png');
     smaaSearchTexture.isTranslucent = false;
-    const gtaoNoiseTexture = await Parser.loadTextureData(prefix + 'gtao_noise_texture.png');
+    const gtaoNoiseTexture = await Parser.loadTextureData(prefix, 'gtao_noise_texture.png');
     gtaoNoiseTexture.isTranslucent = true;
     return new WbScene(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
@@ -260,19 +260,19 @@ export default class Parser {
       topUrl = topUrl.slice(1, topUrl.length - 1);
 
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        cubeImages[0] = await Parser.loadTextureData(this._prefix + backUrl, false, 90);
-        cubeImages[4] = await Parser.loadTextureData(this._prefix + bottomUrl, false, -90);
-        cubeImages[1] = await Parser.loadTextureData(this._prefix + frontUrl, false, -90);
-        cubeImages[3] = await Parser.loadTextureData(this._prefix + leftUrl, false, 180);
-        cubeImages[2] = await Parser.loadTextureData(this._prefix + rightUrl);
-        cubeImages[5] = await Parser.loadTextureData(this._prefix + topUrl, false, -90);
+        cubeImages[0] = await Parser.loadTextureData(this._prefix, backUrl, false, 90);
+        cubeImages[4] = await Parser.loadTextureData(this._prefix, bottomUrl, false, -90);
+        cubeImages[1] = await Parser.loadTextureData(this._prefix, frontUrl, false, -90);
+        cubeImages[3] = await Parser.loadTextureData(this._prefix, leftUrl, false, 180);
+        cubeImages[2] = await Parser.loadTextureData(this._prefix, rightUrl);
+        cubeImages[5] = await Parser.loadTextureData(this._prefix, topUrl, false, -90);
       } else {
-        cubeImages[5] = await Parser.loadTextureData(this._prefix + backUrl);
-        cubeImages[3] = await Parser.loadTextureData(this._prefix + bottomUrl);
-        cubeImages[4] = await Parser.loadTextureData(this._prefix + frontUrl);
-        cubeImages[1] = await Parser.loadTextureData(this._prefix + leftUrl);
-        cubeImages[0] = await Parser.loadTextureData(this._prefix + rightUrl);
-        cubeImages[2] = await Parser.loadTextureData(this._prefix + topUrl);
+        cubeImages[5] = await Parser.loadTextureData(this._prefix, backUrl);
+        cubeImages[3] = await Parser.loadTextureData(this._prefix, bottomUrl);
+        cubeImages[4] = await Parser.loadTextureData(this._prefix, frontUrl);
+        cubeImages[1] = await Parser.loadTextureData(this._prefix, leftUrl);
+        cubeImages[0] = await Parser.loadTextureData(this._prefix, rightUrl);
+        cubeImages[2] = await Parser.loadTextureData(this._prefix, topUrl);
       }
     }
 
@@ -293,19 +293,19 @@ export default class Parser {
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length - 1);
 
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        irradianceCubeURL[0] = await Parser.loadTextureData(this._prefix + backIrradianceUrl, true, 90);
-        irradianceCubeURL[4] = await Parser.loadTextureData(this._prefix + bottomIrradianceUrl, true, -90);
-        irradianceCubeURL[1] = await Parser.loadTextureData(this._prefix + frontIrradianceUrl, true, -90);
-        irradianceCubeURL[3] = await Parser.loadTextureData(this._prefix + leftIrradianceUrl, true, 180);
-        irradianceCubeURL[2] = await Parser.loadTextureData(this._prefix + rightIrradianceUrl, true);
-        irradianceCubeURL[5] = await Parser.loadTextureData(this._prefix + topIrradianceUrl, true, -90);
+        irradianceCubeURL[0] = await Parser.loadTextureData(this._prefix, backIrradianceUrl, true, 90);
+        irradianceCubeURL[4] = await Parser.loadTextureData(this._prefix, bottomIrradianceUrl, true, -90);
+        irradianceCubeURL[1] = await Parser.loadTextureData(this._prefix, frontIrradianceUrl, true, -90);
+        irradianceCubeURL[3] = await Parser.loadTextureData(this._prefix, leftIrradianceUrl, true, 180);
+        irradianceCubeURL[2] = await Parser.loadTextureData(this._prefix, rightIrradianceUrl, true);
+        irradianceCubeURL[5] = await Parser.loadTextureData(this._prefix, topIrradianceUrl, true, -90);
       } else {
-        irradianceCubeURL[2] = await Parser.loadTextureData(this._prefix + topIrradianceUrl, true);
-        irradianceCubeURL[5] = await Parser.loadTextureData(this._prefix + backIrradianceUrl, true);
-        irradianceCubeURL[3] = await Parser.loadTextureData(this._prefix + bottomIrradianceUrl, true);
-        irradianceCubeURL[4] = await Parser.loadTextureData(this._prefix + frontIrradianceUrl, true);
-        irradianceCubeURL[1] = await Parser.loadTextureData(this._prefix + leftIrradianceUrl, true);
-        irradianceCubeURL[0] = await Parser.loadTextureData(this._prefix + rightIrradianceUrl, true);
+        irradianceCubeURL[2] = await Parser.loadTextureData(this._prefix, topIrradianceUrl, true);
+        irradianceCubeURL[5] = await Parser.loadTextureData(this._prefix, backIrradianceUrl, true);
+        irradianceCubeURL[3] = await Parser.loadTextureData(this._prefix, bottomIrradianceUrl, true);
+        irradianceCubeURL[4] = await Parser.loadTextureData(this._prefix, frontIrradianceUrl, true);
+        irradianceCubeURL[1] = await Parser.loadTextureData(this._prefix, leftIrradianceUrl, true);
+        irradianceCubeURL[0] = await Parser.loadTextureData(this._prefix, rightIrradianceUrl, true);
       }
     }
 
@@ -905,8 +905,7 @@ export default class Parser {
 
     let imageTexture;
     if (typeof url !== 'undefined' && url !== '') {
-      url = this._prefix + url;
-      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering);
+      imageTexture = new WbImageTexture(id, this._prefix, url, isTransparent, s, t, filtering);
       await imageTexture.updateUrl();
     }
 
@@ -1030,12 +1029,13 @@ export default class Parser {
     return textureTransform;
   }
 
-  static async loadTextureData(url, isHdr, rotation) {
+  static async loadTextureData(prefix, url, isHdr, rotation) {
     const canvas2 = document.createElement('canvas');
     const context = canvas2.getContext('2d');
 
     const image = new WbImage();
-
+    if (typeof prefix !== 'undefined' && !url.startsWith('https://raw.githubusercontent.com'))
+      url = prefix + url;
     if (isHdr) {
       const img = await Parser.loadHDRImage(url);
       image.bits = img.data;

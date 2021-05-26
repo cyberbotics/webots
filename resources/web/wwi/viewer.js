@@ -135,6 +135,7 @@ function computeTargetPath() {
     branch = localSetup.branch;
   if (localSetup.url.startsWith('http'))
     targetPath = localSetup.url + branch + '/docs/';
+
   targetPath += localSetup.book + '/';
 
   return targetPath;
@@ -892,7 +893,7 @@ function unhighlightX3DElement(robot) {
 
 function highlightX3DElement(robot, deviceElement) {
   if (typeof imageTexture === 'undefined') {
-    imageTexture = new WbImageTexture(Parser.getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
+    imageTexture = new WbImageTexture(Parser.getAnId(), undefined, computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
     imageTexture.updateUrl().then(() => {
       // highlight again when the texture is loaded
       highlightX3DElement(robot, deviceElement);
