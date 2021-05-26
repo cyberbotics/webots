@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # A drawer for the Cabinet PROTO.
+# template language: javascript
 
 PROTO CabinetDrawer [
   field SFVec3f  translation         0 0 0
@@ -16,23 +17,23 @@ PROTO CabinetDrawer [
 ]
 {
   %{
-    local size = fields.size.value
-    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then -- avoid negative values
-      io.stderr:write("'size' must contain positive values.\n")
-      size = fields.size.default
-    end
+    let size = fields.size.value;
+    if (size.x <= 0.0 || size.y <= 0.0 || size.z <= 0.0) { // avoid negative values
+      size = fields.size.defaultValue;
+      console.error('\'size\' must contain positive values. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
 
-    local thickness = fields.thickness.value
-    if thickness <= 0.0 then
-      io.stderr:write("'thickness' must be positive.\n")
-      thickness = fields.thickness.default
-    end
+    let thickness = fields.thickness.value;
+    if (thickness <= 0.0) {
+      thickness = fields.thickness.defaultValue;
+      console.error('\'thickness\' must be positive. Value reset to ' + thickness + '.');
+    }
 
-    local mass = fields.mass.value
-    if mass <= 0.0 then
-      io.stderr:write("'mass' must be positive.\n")
-      mass = fields.mass.default
-    end
+    let mass = fields.mass.value;
+    if (mass <= 0.0) {
+      mass = fields.mass.defaultValue;
+      console.error('\'mass\' must be positive. Value reset to ' + mass + '.');
+    }
   }%
   Solid {
     translation IS translation

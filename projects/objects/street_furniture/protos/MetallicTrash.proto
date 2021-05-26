@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A metallic trash with optional physics.
+# template language: javascript
 
 PROTO MetallicTrash [
   field SFVec3f    translation    0 0 0
@@ -78,7 +79,7 @@ PROTO MetallicTrash [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %{ if (fields.enablePhysics.value) { }%
     physics Physics {
       density -1
       mass 8
@@ -90,6 +91,6 @@ PROTO MetallicTrash [
         0 1.7763568394002505e-15 0
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }
