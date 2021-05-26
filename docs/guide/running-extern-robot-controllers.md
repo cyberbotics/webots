@@ -38,10 +38,10 @@ Generic Webots environment variables needed for all the controller languages:
 
 %tab "Linux"
 
-| Environment Variable     | Typical Value                                    |
-|--------------------------|--------------------------------------------------|
-| WEBOTS\_HOME             | `/usr/local/webots`                              |
-| LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib/controller`              |
+| Environment Variable                                  | Typical Value                                    |
+|-------------------------------------------------------|--------------------------------------------------|
+| WEBOTS\_HOME                                          | `/usr/local/webots`                              |
+| LD\_LIBRARY\_PATH (not needed for Python controllers) | add `${WEBOTS_HOME}/lib/controller`              |
 
 %tab-end
 
