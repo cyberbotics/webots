@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable building, the size and geometry can fully be defined.
 # The texture of the wall and roof can be selected using the fields 'wallType' and 'roofType'.
+# template language: javascript
 
 PROTO SimpleBuilding [
   field SFVec3f     translation            0 0 0
@@ -30,10 +31,9 @@ PROTO SimpleBuilding [
 ]
 {
   %{
-    local wbcore = require('wbcore')
 
-    local roofTypes = {
-      ["tiled"]  =      { textureSize = 2 },
+    const roofTypes = {
+      ["tiled"] =       { textureSize = 2 },
       ["gravel"] =      { textureSize = 1 },
       ["slate"]  =      { textureSize = 2 },
       ["old tiles"] =   { textureSize = 2 },

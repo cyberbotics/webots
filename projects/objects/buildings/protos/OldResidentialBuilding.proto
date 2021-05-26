@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # An old residential building with optional boundingObject.
+# template language: javascript
 
 PROTO OldResidentialBuilding [
   field SFVec3f    translation           0 0 0
@@ -13,16 +14,15 @@ PROTO OldResidentialBuilding [
 ]
 {
   %{
-    local availableTypes = {
-      ["red grey"] = "light_grey",
-      ["dark grey"] = "medium_grey",
-      ["light grey"] = "dark_grey",
-      ["red"] = "red",
-      ["braun"] = "braun"
-    }
+    const availableTypes = {
+      'red grey': 'light_grey',
+      'dark grey': 'medium_grey',
+      'light grey': 'dark_grey',
+      'red': 'red',
+      'braun': 'braun'};
 
-    local type = fields.type.value
-    local texture = availableTypes[type]
+    let type = fields.type.value;
+    let texture = availableTypes[type];
   }%
   Solid {
     translation IS translation
@@ -30,44 +30,44 @@ PROTO OldResidentialBuilding [
     name IS name
     model "building"
     recognitionColors [
-      %{ if type == 'red grey' then }%
+      %{ if (type === 'red grey') { }%
         0.6666666666666666 0.06274509803921569 0.19607843137254902 0.3686274509803922 0.3686274509803922 0.3686274509803922
-      %{ elseif type == 'dark grey' then }%
+      %{ } else if (type === 'dark grey') { }%
         0.7215686274509804 0.7215686274509804 0.7215686274509804
-      %{ elseif type == 'light grey' then }%
+      %{ } else if (type === 'light grey') { }%
         0.27450980392156865 0.27450980392156865 0.27450980392156865
-      %{ elseif type == 'red' then }%
+      %{ } else if (type === 'red') { }%
         0.4627450980392157 0 0 0.7647058823529411 0.7647058823529411 0.7647058823529411
-      %{ elseif type == 'braun' then }%
+      %{ } else if (type === 'braun') { }%
         0.3764705882352941 0.2901960784313726 0.22745098039215686
-      %{ end }%
+      %{ } }%
     ]
     children [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_frames_' ..  texture .. '_base_color.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_frames_' +  texture + '_base_color.jpg"' }%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_frames_' ..  texture .. '_roughness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_frames_' +  texture + '_roughness.jpg"' }%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_frames_' ..  texture .. '_metalness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_frames_' +  texture + '_metalness.jpg"' }%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_frames_' ..  texture .. '_normal.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_frames_' +  texture + '_normal.jpg"' }%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_frames_' ..  texture .. '_occlusion.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_frames_' +  texture + '_occlusion.jpg"' }%
             ]
           }
         }
@@ -94,27 +94,27 @@ PROTO OldResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_wall_' ..  texture .. '_base_color.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_wall_' +  texture + '_base_color.jpg"' }%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_wall_' ..  texture .. '_roughness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_wall_' +  texture + '_roughness.jpg"' }%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_wall_' ..  texture .. '_metalness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_wall_' +  texture + '_metalness.jpg"' }%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_wall_' ..  texture .. '_normal.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_wall_' +  texture + '_normal.jpg"' }%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_wall_' ..  texture .. '_occlusion.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_wall_' +  texture + '_occlusion.jpg"' }%
             ]
           }
         }
@@ -141,35 +141,35 @@ PROTO OldResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_stair_' ..  texture .. '_base_color.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_stair_' +  texture + '_base_color.jpg"' }%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_stair_' ..  texture .. '_roughness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_stair_' +  texture + '_roughness.jpg"' }%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_stair_' ..  texture .. '_metalness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_stair_' +  texture + '_metalness.jpg"' }%
             ]
           }
-          %{ if type ~= 'light grey' then }%
+          %{ if (type !== 'light grey') { }%
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_stair_' ..  texture .. '_normal.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_stair_' +  texture + '_normal.jpg"' }%
             ]
           }
-          %{ else }%
+          %{ } else { }%
           normalMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/small_residential_building_stair_medium_grey_normal.jpg"' }%
             ]
           }
-          %{ end }%
+          %{ } }%
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_stair_' ..  texture .. '_occlusion.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_stair_' +  texture + '_occlusion.jpg"' }%
             ]
           }
         }
@@ -196,27 +196,27 @@ PROTO OldResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_roof_' ..  texture .. '_base_color.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_roof_' +  texture + '_base_color.jpg"' }%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_roof_' ..  texture .. '_roughness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_roof_' +  texture + '_roughness.jpg"' }%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_roof_' ..  texture .. '_metalness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_roof_' +  texture + '_metalness.jpg"' }%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_roof_' ..  texture .. '_normal.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_roof_' +  texture + '_normal.jpg"' }%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_roof_' ..  texture .. '_occlusion.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_roof_' +  texture + '_occlusion.jpg"' }%
             ]
           }
         }
@@ -243,35 +243,35 @@ PROTO OldResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_windows_' ..  texture .. '_base_color.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_windows_' +  texture + '_base_color.jpg"' }%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_windows_' ..  texture .. '_roughness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_windows_' +  texture + '_roughness.jpg"' }%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_windows_' ..  texture .. '_metalness.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_windows_' +  texture + '_metalness.jpg"' }%
             ]
           }
-          %{ if type == 'light grey' then }%
+          %{ if (type === 'light grey') { }%
           normalMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/small_residential_building_windows_medium_grey_normal.jpg"' }%
             ]
           }
-          %{ elseif type ~= 'braun' and type ~= 'red grey' then }%
+          %{ } else if (type !== 'braun' && type !== 'red grey') { }%
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_windows_' ..  texture .. '_normal.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_windows_' +  texture + '_normal.jpg"' }%
             ]
           }
-          %{ end }%
+          %{ } }%
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/small_residential_building_windows_' ..  texture .. '_occlusion.jpg"' }%
+              %{= '"textures/residential_building_textures/small_residential_building_windows_' +  texture + '_occlusion.jpg"' }%
             ]
           }
         }
@@ -295,7 +295,7 @@ PROTO OldResidentialBuilding [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %{ if (fields.enableBoundingObject.value) { }%
     boundingObject Transform {
       translation -0.030000000000000693 5.5 -0.03000000000000022
       children [
@@ -304,6 +304,6 @@ PROTO OldResidentialBuilding [
         }
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }

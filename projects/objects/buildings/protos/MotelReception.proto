@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A motel reception with optional boundingObject.
+# template language: javascript
 
 PROTO MotelReception [
   field SFVec3f    translation           0 0 0
@@ -144,7 +145,7 @@ PROTO MotelReception [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %{ if (fields.enableBoundingObject.value) { }%
     boundingObject Group {
       children [
         Transform {
@@ -165,6 +166,6 @@ PROTO MotelReception [
         }
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }

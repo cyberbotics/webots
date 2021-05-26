@@ -113,10 +113,11 @@ PROTO TexturedBackgroundLight [
     direction %{= direction[0] }% %{= direction[1] }% %{= direction[2] }%
     color %{= color[0] }% %{= color[1] }% %{= color[2] }%
     intensity %{= luminosity * intensity }%
-    %{ if (on) }%
+    %{ if (on) { }%
       on TRUE
-    %{ else }%
+    %{ } else { }%
       on FALSE
+    %{ } }%
     castShadows IS castShadows
   }
 }

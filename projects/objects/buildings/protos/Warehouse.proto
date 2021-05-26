@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A warehouse with optional boundingObject.
+# template language: javascript
 
 PROTO Warehouse [
   field SFVec3f    translation           0 0 0
@@ -303,7 +304,7 @@ PROTO Warehouse [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %{ if (fields.enableBoundingObject.value) { }%
     boundingObject Transform {
       translation 0 4.6 0
       children [
@@ -312,6 +313,6 @@ PROTO Warehouse [
         }
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }

@@ -4,6 +4,7 @@
 # A simple house with two floors.
 # The original blender model was made by andreschneider (http://www.blendswap.com/blends/view/59482).
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO SimpleTwoFloorsHouse [
   field SFVec3f    translation           0 0 0
@@ -17,12 +18,12 @@ PROTO SimpleTwoFloorsHouse [
     translation IS translation
     rotation IS rotation
     scale 2 2 2
-    %{ if fields.appearance.value ~= nil and fields.appearance.value.fields.baseColor ~= nil then}%
-      %{ local color = fields.appearance.value.fields.baseColor.value }%
+    %{ if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor) !== 'undefined') { }%
+      %{ const color = fields.appearance.value.fields.baseColor.value; }%
       recognitionColors [
         %{= color.r }% %{= color.g }% %{= color.b }%
       ]
-    %{ end }%
+    %{ } }%
     children [
       DEF DOOR Shape {
         appearance PBRAppearance {
@@ -259,7 +260,7 @@ PROTO SimpleTwoFloorsHouse [
     ]
     name IS name
     model "simple two floors house"
-    %{ if fields.enableBoundingObject.value then }%
+    %{ if (fields.enableBoundingObject.value) { }%
     boundingObject Group {
       children [
         Transform {
@@ -281,6 +282,6 @@ PROTO SimpleTwoFloorsHouse [
         }
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }

@@ -5,6 +5,7 @@
 # A customizable building, the size and geometry can fully be defined.
 # The texture of the wall is selected randomly.
 # The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).
+# template language: javascript
 
 PROTO RandomBuilding [
   field SFVec3f     translation            0 0 0
@@ -29,38 +30,38 @@ PROTO RandomBuilding [
 ]
 {
   %{
-    local wbcore = require('wbcore')
-    local wbrandom = require('wbrandom')
-    wbrandom.seed(context.id)
-    local wallTypes = {
-      "glass building",
-      "classic building",
-      "orange building",
-      "gray glass building",
-      "blue glass building",
-      "arcade-style building",
-      "transparent highrise",
-      "windowed building",
-      "old brick building",
-      "red and white building",
-      "construction building",
-      "red brick wall",
-      "old brick wall",
-      "stone brick",
-      "stone wall",
-      "glass highrise",
-      "old house",
-      "old building",
-      "highrise",
-      "brick building",
-      "residential building",
-      "old office building",
-      "factory building",
-      "tall house",
-      "office building",
-      "concrete building"
-    }
-    local wallType = wallTypes[wbrandom.integer(wbcore.tablelength(wallTypes))]
+    import * as wbrandom from 'modules/webots/wbrandom.js';
+    wbrandom.seed(context.id);
+
+    const wallTypes = [
+      'glass building',
+      'classic building',
+      'orange building',
+      'gray glass building',
+      'blue glass building',
+      'arcade-style building',
+      'transparent highrise',
+      'windowed building',
+      'old brick building',
+      'red and white building',
+      'construction building',
+      'red brick wall',
+      'old brick wall',
+      'stone brick',
+      'stone wall',
+      'glass highrise',
+      'old house',
+      'old building',
+      'highrise',
+      'brick building',
+      'residential building',
+      'old office building',
+      'factory building',
+      'tall house',
+      'office building',
+      'concrete building'
+    ]
+    const wallType = wallTypes[wbrandom.integer(wallTypes.length)];
   }%
   SimpleBuilding {
     translation IS translation
@@ -68,7 +69,7 @@ PROTO RandomBuilding [
     name IS name
     floorHeight IS floorHeight
     floorNumber IS floorNumber
-    startingFloor IS startingFloor
+    startingFloor IS startingFloor§
     corners IS corners
     groundFloor IS groundFloor
     groundFloorScale IS groundFloorScale
@@ -80,6 +81,6 @@ PROTO RandomBuilding [
     roofHeight IS roofHeight
     enableBoundingObject IS enableBoundingObject
     bottom IS bottom
-    wallType %{= '"' .. wallType .. '"' }%
+    wallType %{= '"' + wallType + '"' }%
   }
 }
