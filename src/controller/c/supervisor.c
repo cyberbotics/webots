@@ -2093,7 +2093,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
     return NULL;
   }
   const int node_fields = wb_supervisor_node_get_number_of_fields(node);
-  if (index < 0 || index > node_fields) {
+  if (index < 0) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with an invalid 'index' argument (%d while node has %d fields).\n", __FUNCTION__,
               index, node_fields);
@@ -2131,7 +2131,7 @@ WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index
     return NULL;
   }
   const int node_fields = wb_supervisor_node_get_proto_number_of_fields(node);
-  if (index < 0 || index > node_fields) {
+  if (index < 0) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with an invalid 'index' argument (%d while node has %d fields).\n", __FUNCTION__,
               index, node_fields);
@@ -2213,6 +2213,7 @@ const int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
   robot_mutex_lock_step();
   requested_node_number_of_fields = true;
   node_ref = node->id;
+  node_number_of_fields = -1;
   allow_search_in_proto = true;
   wb_robot_flush_unlocked();
   requested_node_number_of_fields = false;

@@ -94,7 +94,7 @@ WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_selected();
 WbNodeType wb_supervisor_node_get_type(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
-WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, const int index);
+WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index);
 WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
 WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index);
 void wb_supervisor_node_remove(WbNodeRef node);

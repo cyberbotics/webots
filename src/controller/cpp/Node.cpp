@@ -86,9 +86,11 @@ Node *Node::getFromProtoDef(const std::string &name) const {
 bool Node::isProto() const {
   return wb_supervisor_node_is_proto(nodeRef);
 }
+
 int Node::getNumberOfFields() const {
   return wb_supervisor_node_get_number_of_fields(nodeRef);
 }
+
 int Node::getProtoNumberOfFields() const {
   return wb_supervisor_node_get_proto_number_of_fields(nodeRef);
 }
