@@ -42,7 +42,7 @@ TripleValuesSensor *accelerometer = DeviceManager::instance()->accelerometer();
 
 also, on the wiki, I've seen that the accelerometer and the gyro are encoded on 6 bytes so 2 bytes for X, Y and Z. But the magnetometer is encoded on 12 bytes, which doesn't make sense to me as the raw values are between -32460 and 32760... So are there 3 axis encoded on 4 bytes, or am I missing something?
 
-##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/25/2019 11:19:50
+##### Olivier Michel [Cyberbotics] 04/25/2019 11:19:50
 Hi, welcome.
 
 
@@ -900,7 +900,7 @@ For sur it will 😉 let us know if you have any issues doing so.
 
 And what about the ROS controller provided by Webots? can i use it in my custom made robot or should i create custom made controller for my robot that work as bridge between ROS and Webots?.
 
-##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 10/23/2019 10:33:18
+##### Olivier Michel [Cyberbotics] 10/23/2019 10:33:18
 Of course you can create your custom robot in Webots.
 
 
