@@ -95,7 +95,7 @@ Two [Connector](#connector) nodes can lock when their *z*-axes are parallel (wit
 
 - `numberOfRotations`: specifies how many different docking rotations are allowed in a full 360 degree rotation around the [Connector](#connector)'s z-axis.
 For example, modular robots' connectors are often 1-, 2- or 4-way dockable depending on mechanical and electrical interfaces.
-As illustrated in [this figure](#example-of-rotational-alignment), if `numberOfRotations` is 4 then there will be 4 different docking positions (one every 90 degrees).
+As illustrated in [this figure](#example-of-rotational-alignment-numberofrotations4-and-rotationaltolerance22-5-deg), if `numberOfRotations` is 4 then there will be 4 different docking positions (one every 90 degrees).
 If you don't wish to check the rotational alignment criterion this field should be set to zero.
 
 %figure "Example of rotational alignment (numberOfRotations=4 and rotationalTolerance=22.5 deg)"
