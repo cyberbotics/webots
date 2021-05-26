@@ -1480,75 +1480,88 @@ function extractAnchor(url) {
 
 // width: in pixels
 function setHandleWidth(width) {
-  handle.left.css('width', width + 'px');
-  handle.menu.css('width', width + 'px');
-  handle.handle.css('left', width + 'px');
-  handle.center.css('left', width + 'px');
-  handle.center.css('width', 'calc(100% - ' + width + 'px)');
+  handle.left.style.width = width + 'px';
+  handle.menu.style.width = width + 'px';
+  handle.handle.style.left = width + 'px';
+  handle.center.style.left = width + 'px';
+  handle.center.style.width = 'calc(100% - ' + width + 'px)';
 }
 
 function initializeHandle() {
   // inspired from: http://stackoverflow.com/questions/17855401/how-do-i-make-a-div-width-draggable
   handle = {}; // structure where all the handle info is stored
 
-  handle.left = $('#left');
-  handle.menu = $('#menu');
-  handle.center = $('#center');
-  handle.handle = $('#handle');
-  handle.container = $('#webots-doc');
+  handle.left = document.getElementById('left');
+  handle.menu = document.getElementById('menu');
+  handle.center = document.getElementById('center');
+  handle.handle = document.getElementById('handle');
+  handle.container = document.getElementById('webots-doc');
 
   // dimension bounds of the handle in pixels
   handle.min = 0;
   handle.minThreshold = 90; // under this threshold, the handle is totally hidden
-  handle.initialWidth = Math.max(handle.minThreshold, handle.left.width());
+  handle.initialWidth = Math.max(handle.minThreshold, parseFloat(getComputedStyle(handle.left, null).width.replace('px', '')));
   handle.max = Math.max(250, handle.initialWidth);
 
   handle.isResizing = false;
   handle.lastDownX = 0;
 
   if (isCyberboticsUrl) {
-    handle.left.addClass('cyberbotics');
-    handle.handle.addClass('cyberbotics');
-    handle.center.addClass('cyberbotics');
+    handle.left.classList.add('cyberbotics');
+    handle.handle.classList.add('cyberbotics');
+    handle.center.classList.add('cyberbotics');
   } else {
-    handle.left.addClass('default');
-    handle.handle.addClass('default');
-    handle.center.addClass('default');
+    handle.left.classList.add('default');
+    handle.handle.classList.add('default');
+    handle.center.classList.add('default');
   }
 
   setHandleWidth(handle.initialWidth);
 
-  handle.handle.on('mousedown touchstart', function(e) {
-    if (e.type === 'touchstart')
-      e = e.originalEvent.touches[0];
-    handle.isResizing = true;
-    handle.lastDownX = e.clientX;
-    handle.container.css('user-select', 'none');
-  }).on('dblclick', function(e) {
-    if (handle.left.css('width').startsWith('0'))
-      setHandleWidth(handle.initialWidth);
-    else
-      setHandleWidth(0);
-  });
+  handle.handle.onmousedown = _ => onSelectHandle(_);
+  handle.handle.ontouchstart = _ => onSelectHandle(_);
+  handle.handle.ondblclick = () => toggleHandle();
 
-  $(document).on('mousemove touchmove', function(e) {
-    if (e.type === 'touchmove')
-      e = e.originalEvent.touches[0];
-    if (!handle.isResizing)
-      return;
-    const mousePosition = e.clientX - handle.container.offset().left; // in pixels
-    if (mousePosition < handle.minThreshold / 2) {
-      setHandleWidth(0);
-      return;
-    } else if (mousePosition < handle.minThreshold)
-      return;
-    if (mousePosition < handle.min || mousePosition > handle.max)
-      return;
-    setHandleWidth(mousePosition);
-  }).on('mouseup touchend', function(e) {
-    handle.isResizing = false;
-    handle.container.css('user-select', 'auto');
-  });
+  document.onmousemove = _ => resizeHandle(_);
+  document.ontouchmove = _ => resizeHandle(_);
+  document.onmouseup = () => releaseHandle();
+  document.ontouchend = () => releaseHandle();
+}
+
+function onSelectHandle(e) {
+  if (e.type === 'touchstart')
+    e = e.originalEvent.touches[0];
+  handle.isResizing = true;
+  handle.lastDownX = e.clientX;
+  handle.container.style.userSelect = 'none';
+}
+
+function toggleHandle() {
+  if (handle.left.style.width.startsWith('0'))
+    setHandleWidth(handle.initialWidth);
+  else
+    setHandleWidth(0);
+}
+
+function resizeHandle(e) {
+  if (e.type === 'touchmove')
+    e = e.originalEvent.touches[0];
+  if (!handle.isResizing)
+    return;
+  const mousePosition = e.clientX - (handle.container.getBoundingClientRect().left + document.body.scrollLeft); // in pixels
+  if (mousePosition < handle.minThreshold / 2) {
+    setHandleWidth(0);
+    return;
+  } else if (mousePosition < handle.minThreshold)
+    return;
+  if (mousePosition < handle.min || mousePosition > handle.max)
+    return;
+  setHandleWidth(mousePosition);
+}
+
+function releaseHandle() {
+  handle.isResizing = false;
+  handle.container.style.userSelect = 'auto';
 }
 
 window.onscroll = function() {
