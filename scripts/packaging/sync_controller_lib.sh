@@ -5,7 +5,7 @@ if [ -z "${WEBOTS_HOME}" ]; then
     WEBOTS_HOME=$(pwd)
 fi
 
-VERSION=$(cat ${WEBOTS_HOME}/scripts/packaging/webots_version.txt)
+VERSION=$(cat ${WEBOTS_HOME}/scripts/packaging/webots_version.txt | sed 's/ /-/g')
 
 # Dynamic libraries to be copied
 DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
@@ -16,7 +16,7 @@ if [ ! -z "${GITHUB_ACTOR}" ]; then
     git config --global user.name ${GITHUB_ACTOR}
     git config --global user.email ${GITHUB_ACTOR}@github.com
 fi
-git clone git@github.com:cyberbotics/webots-controller.git /tmp/webots-controller
+git clone git@github.com:cyberbotics/webots-libcontroller.git /tmp/webots-controller
 if [ ! -d /tmp/webots-controller ]; then
     echo 'The repository is not properly cloned'
     exit 1
