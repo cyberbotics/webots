@@ -229,7 +229,7 @@ export default class Parser {
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold', 21));
-    const far = parseFloat(getNodeAttribute(node, 'far', '2000'));
+    const far = parseFloat(getNodeAttribute(node, 'zFar', '2000'));
     const near = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
     const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness'));
     const followedId = getNodeAttribute(node, 'followedId');
