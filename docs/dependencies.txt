@@ -1,7 +1,3 @@
-# jquery-dialogextend
-
-https://cyberbotics.com/jquery-dialogextend/2.0.4/jquery.dialogextend.min.js
-
 # highlight
 
 https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js

@@ -1425,8 +1425,7 @@ function showAccodionItem(item) {
       if (item.nextElementSibling !== ul)
         slideUp(ul);
     });
-    // $('#accordion li ul').slideUp();
-    // $(item.nextElementSibling).slideToggle();
+
     slideToggle(item.nextElementSibling);
     document.querySelectorAll('#accordion li a').forEach(item => {
       item.classList.remove('active');
@@ -1435,14 +1434,65 @@ function showAccodionItem(item) {
   }
 }
 
+// Taken from https://dev.to/bmsvieira/vanilla-js-slidedown-up-4dkn
 function slideUp(item) {
-  if (item)
+  if (!item)
+    return;
+
+  item.style.transitionProperty = 'height, margin, padding';
+  item.style.transitionDuration = 500 + 'ms';
+  item.style.boxSizing = 'border-box';
+  item.style.height = item.offsetHeight + 'px';
+  item.offsetHeight; // Do not remove, the transition is not correctly executed otherwise
+  item.style.overflow = 'hidden';
+  item.style.height = 0;
+  item.style.paddingTop = 0;
+  item.style.paddingBottom = 0;
+  item.style.marginTop = 0;
+  item.style.marginBottom = 0;
+  window.setTimeout(() => {
     item.style.display = 'none';
+    item.style.removeProperty('height');
+    item.style.removeProperty('padding-top');
+    item.style.removeProperty('padding-bottom');
+    item.style.removeProperty('margin-top');
+    item.style.removeProperty('margin-bottom');
+    item.style.removeProperty('overflow');
+    item.style.removeProperty('transition-duration');
+    item.style.removeProperty('transition-property');
+  }, 500);
 }
 
 function slideToggle(item) {
-  if (item)
-    item.style.display = 'block'
+  if (!item)
+    return;
+
+  item.style.removeProperty('display');
+  let display = window.getComputedStyle(item).display;
+  if (display === 'none') display = 'block';
+  item.style.display = display;
+  let height = item.offsetHeight;
+  item.style.overflow = 'hidden';
+  item.style.height = 0;
+  item.style.paddingTop = 0;
+  item.style.paddingBottom = 0;
+  item.style.marginTop = 0;
+  item.style.marginBottom = 0;
+  item.offsetHeight; // Do not remove, the transition is not correctly executed otherwise
+  item.style.boxSizing = 'border-box';
+  item.style.transitionProperty = 'height, margin, padding';
+  item.style.transitionDuration = 500 + 'ms';
+  item.style.height = height + 'px';
+  item.style.removeProperty('padding-top');
+  item.style.removeProperty('padding-bottom');
+  item.style.removeProperty('margin-top');
+  item.style.removeProperty('margin-bottom');
+  window.setTimeout(() => {
+    item.style.removeProperty('height');
+    item.style.removeProperty('overflow');
+    item.style.removeProperty('transition-duration');
+    item.style.removeProperty('transition-property');
+  }, 500);
 }
 
 function getMDFile() {
