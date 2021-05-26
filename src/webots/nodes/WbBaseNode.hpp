@@ -153,11 +153,6 @@ private:
 
   // checks if a chain starting from an internal node is visible
   bool isInternalNodeVisible(WbNode *internal) const;
-  void printNodeFlags();                                                    // TODO: remove before merge
-  void printNodeStructure();                                                // TODO: remove before merge
-  void printFieldsAndParams();                                              // TODO: remove before merge
-  void printNodeFieldVisibility();                                          // TODO: remove before merge
-  void printChainCandidate(WbNode *node, int depth = 0, bool end = false);  // TODO: remove before merge
 
   // WREN
   WrTransform *mWrenNode;

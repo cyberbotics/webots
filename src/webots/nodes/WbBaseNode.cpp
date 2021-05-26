@@ -125,108 +125,6 @@ void WbBaseNode::validateProtoNodes() {
       dynamic_cast<WbBaseNode *>(node)->validateProtoNode();
   }
 }
-/*
-void WbBaseNode::printChainCandidate(WbNode *node, int depth, bool end) {
-  // This function is only for debug purposes, no need to review it
-  if (node == NULL) {
-    return;
-  }
-  if (!end) {
-    if (depth > 0 && node->protoParameterNode() == NULL)
-      printChainCandidate(node->parentNode(), depth + 1, true);
-    else
-      printChainCandidate(node->protoParameterNode(), depth + 1);
-  }
-  QString indent = "";
-  for (int i = 0; i < depth; ++i) {
-    indent += "  ";
-  }
-  QString type = "";
-  if (node->isNestedProtoNode() && !node->isProtoParameterNode())
-    type = "[N]";
-  else if (!node->isNestedProtoNode() && node->isProtoParameterNode())
-    type = "[P]";
-  else if (node->isNestedProtoNode() && node->isProtoParameterNode())
-    type = "[P/N]";
-  else if (node->isInternalNode())
-    type = "[I] ";
-  if (end)
-    printf("%s(%s %s (%p) -> (%p))\n", indent.toUtf8().constData(), type.toUtf8().constData(),
-           node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
-  else
-    printf("%s%s %s (%p) -> (%p)\n", indent.toUtf8().constData(), type.toUtf8().constData(),
-           node->usefulName().toUtf8().constData(), node, node->protoParameterNode());
-}
-
-void WbBaseNode::printNodeFlags() {
-  // This function is only for debug purposes, no need to review it
-  QList<WbNode *> nodes = subNodes(true, true, true);
-
-  printf("\nNODE FLAGS\n\n");
-  for (int i = 0; i < nodes.size(); ++i) {
-    printf("%d) %60s (%p) :  isVis %d / isVisOrVisField %d / isPPN %d / isNP %d / isPI %d / NN-PPN? %d / isDef %d\n", i,
-           nodes[i]->usefulName().toUtf8().constData(), nodes[i], WbNodeUtilities::isVisible(nodes[i]),
-           isInternalNodeVisible(nodes[i]), nodes[i]->isProtoParameterNode(), nodes[i]->isNestedProtoNode(),
-           nodes[i]->isProtoInstance(), nodes[i]->protoParameterNode() != NULL, nodes[i]->isDefNode());
-  }
-}
-*/
-/*
-void WbBaseNode::printNodeStructure() {
-  // This function is only for debug purposes, no need to review it
-  QList<WbNode *> nodes = subNodes(true, true, true);
-
-  printf("=============================\n");
-  root->printDebugNodeStructure();
-  printf("=============================\n");
-}
-
-void WbBaseNode::printFieldsAndParams() {
-  // This function is only for debug purposes, no need to review it
-  QList<WbNode *> nodes = subNodes(true, true, true);
-
-  for (int i = 0; i < nodes.size(); ++i) {
-    printf("---------------------\n");
-    printf("NODE %s (%p)\n", nodes[i]->usefulName().toUtf8().constData(), nodes[i]);
-    QVector<WbField *> fieldsList = nodes[i]->fields();
-    QVector<WbField *> parametersList = nodes[i]->parameters();
-
-    printf("FIELDS\n");
-    for (int i = 0; i < fieldsList.size(); ++i) {
-      printf(" > field %s (%p (-> %p))\n", fieldsList[i]->name().toUtf8().constData(), fieldsList[i],
-fieldsList[i]->parameter());
-    }
-    printf("PARAMETERS\n");
-    for (int i = 0; i < parametersList.size(); ++i) {
-      printf(" > %s (%p (-> %p))\n", parametersList[i]->name().toUtf8().constData(), parametersList[i],
-             parametersList[i]->parameter());
-    }
-    printf("---------------------\n");
-  }
-}
-
-void WbBaseNode::printNodeFieldVisibility() {
-  // This function is only for debug purposes, no need to review it
-  QList<WbNode *> nodes = subNodes(true, true, true);
-
-  printf("\nNODE/FIELD VISIBILITY\n\n");
-  for (int i = 0; i < nodes.size(); ++i) {
-    printf("%40s visibility: %d\n", nodes[i]->usefulName().toUtf8().constData(), WbNodeUtilities::isVisible(nodes[i]));
-
-    QVector<WbField *> fieldList = nodes[i]->fields();
-    for (int j = 0; j < fieldList.size(); ++j) {
-      printf("  %40s (field) visibility: %d\n", fieldList[j]->name().toUtf8().constData(),
-             WbNodeUtilities::isVisible(fieldList[j]));
-    }
-
-    QVector<WbField *> parameterList = nodes[i]->parameters();
-    for (int j = 0; j < parameterList.size(); ++j) {
-      printf("  %40s (param) visibility: %d\n", parameterList[j]->name().toUtf8().constData(),
-             WbNodeUtilities::isVisible(parameterList[j]));
-    }
-  }
-}
-*/
 
 bool WbBaseNode::isInternalNodeVisible(WbNode *internal) const {
   // reach the highest parameter node in the chain, there can be multiple in a heavily nested PROTO
@@ -247,11 +145,6 @@ bool WbBaseNode::isInternalNodeVisible(WbNode *internal) const {
 }
 
 void WbBaseNode::removeInvisibleProtoNodes() {
-  // printNodeStructure();        // TODO: remove before merge
-  // printNodeFlags();            // TODO: remove before merge
-  // printFieldsAndParams();      // TODO: remove before merge
-  // printNodeFieldVisibility();  // TODO: remove before merge
-
   // when loading, root is the global root. When regenerating, root is the finalized node after the regeneration process
   const QList<WbNode *> nodes = subNodes(true, true, true);
 
@@ -262,14 +155,6 @@ void WbBaseNode::removeInvisibleProtoNodes() {
   for (int i = 0; i < nodes.size(); ++i)
     if (nodes[i]->isInternalNode())
       internalProtoNodes.append(nodes[i]);
-  /*
-  // TODO: remove before merge
-  printf("PRINT CHAINS FOR UNFILTERED CANDIDATES\n");
-  for (int i = 0; i < internalProtoNodes.size(); ++i) {
-    printf("\n");
-    printChainCandidate(internalProtoNodes[i]);
-  }
-  */
 
   QList<WbNode *> tmp = internalProtoNodes;
   for (int i = 0; i < internalProtoNodes.size(); ++i) {
@@ -307,14 +192,6 @@ void WbBaseNode::removeInvisibleProtoNodes() {
       n = n->protoParameterNode();
     }
   }
-  /*
-  // TODO: remove before merge
-  printf("\nINVISIBLE PROTO PARAMETER NODES (WHAT WILL BE REMOVED)\n");
-  for (int i = 0; i < invisibleProtoParameterNodes.size(); ++i) {
-    printf("  [L%d] %s [%p]\n", invisibleProtoParameterNodes[i]->level(),
-           invisibleProtoParameterNodes[i]->usefulName().toUtf8().constData(), invisibleProtoParameterNodes[i]);
-  }
-  */
 
   if (invisibleProtoParameterNodes.size() == 0)
     return;
@@ -346,47 +223,27 @@ void WbBaseNode::removeInvisibleProtoNodes() {
     WbNode *parameterNode = invisibleProtoParameterNodes[i];
     WbNode *parent = parameterNode->parentNode();
 
-    const QVector<WbField *> fields = parent->fields();
-    for (int j = 0; j < fields.size(); ++j) {
-      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fields[j]->value());
-      WbMFNode *mfnode = dynamic_cast<WbMFNode *>(fields[j]->value());
+    QVector<WbField *> fieldsAndParameters = parent->fields();
+    fieldsAndParameters.append(parent->parameters());
+
+    for (int j = 0; j < fieldsAndParameters.size(); ++j) {
+      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(fieldsAndParameters[j]->value());
+      WbMFNode *mfnode = dynamic_cast<WbMFNode *>(fieldsAndParameters[j]->value());
       if (sfnode && sfnode->value() == parameterNode) {
         sfnode->blockSignals(true);
         sfnode->setValue(NULL);
         sfnode->blockSignals(false);
-        parent->removeFromFieldsOrParameters(fields[j]);
+        parent->removeFromFieldsOrParameters(fieldsAndParameters[j]);
       } else {
         if (mfnode && mfnode->nodeIndex(parameterNode) != -1) {
           mfnode->blockSignals(true);
           mfnode->removeNode(parameterNode);
           mfnode->blockSignals(false);
-          parent->removeFromFieldsOrParameters(fields[j]);
-        }
-      }
-    }
-
-    const QVector<WbField *> parameters = parent->parameters();
-    for (int j = 0; j < parameters.size(); j++) {
-      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(parameters[j]->value());
-      WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parameters[j]->value());
-
-      if (sfnode && sfnode->value() == parameterNode) {
-        sfnode->blockSignals(true);
-        sfnode->setValue(NULL);
-        sfnode->blockSignals(false);
-        parent->removeFromFieldsOrParameters(parameters[j]);
-      } else {
-        if (mfnode && mfnode->nodeIndex(parameterNode) != -1) {
-          mfnode->blockSignals(true);
-          mfnode->removeNode(parameterNode);
-          mfnode->blockSignals(false);
-          parent->removeFromFieldsOrParameters(parameters[j]);
+          parent->removeFromFieldsOrParameters(fieldsAndParameters[j]);
         }
       }
     }
   }
-
-  // printNodeStructure(root);  // TODO: remove before merge
 }
 
 void WbBaseNode::reset(const QString &id) {
