@@ -1081,11 +1081,8 @@ void WbSolid::printKinematicWarningIfNeeded() {
                  "but some Solid descendant nodes have physics and won't move along with this node."));
 }
 
-#include <QtCore/QDebug>
 WbVector3 WbSolid::relativeLinearVelocity(const WbSolid *parentSolid) const {
   WbVector3 l = isDynamic() ? solidMerger()->solid()->linearVelocity() : linearVelocity();
-  qDebug() << "solidMerger()" << solidMerger();
-  qDebug() << "solidMerger()->solid()" << solidMerger()->solid();
 
   const WbSolid *solid = this;
   // if this solid is kinematic we need to add the velocities of the parents
