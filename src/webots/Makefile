@@ -242,6 +242,7 @@ QT_SOURCES += \
   WbBallJointParameters.cpp \
   WbBaseNode.cpp \
   WbBasicJoint.cpp \
+  WbBillboard.cpp \
   WbBoolEditor.cpp \
   WbBox.cpp \
   WbBrake.cpp \
@@ -299,7 +300,6 @@ QT_SOURCES += \
   WbHingeJoint.cpp \
   WbHingeJointParameters.cpp \
   WbHinge2Joint.cpp \
-  WbHtmlExportDialog.cpp \
   WbImageTexture.cpp \
   WbImportWizard.cpp \
   WbImmersionProperties.cpp \

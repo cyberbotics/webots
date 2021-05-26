@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/22/2021 11:05:26
+Here is a nice master thesis report making extensive use of Webots: [https://webthesis.biblio.polito.it/17504/1/tesi.pdf](https://webthesis.biblio.polito.it/17504/1/tesi.pdf)
+
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/14/2021 06:36:47
 **Check out this TIAGo Simulation in Webots with ROS 2, BehaviorTrees, Nav2, and plansys2**
 
