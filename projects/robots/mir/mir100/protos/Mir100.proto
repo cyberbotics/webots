@@ -70,6 +70,16 @@ PROTO Mir100 [
               ]
             }
           }
+          Shape {
+            appearance DEF BLACK Plastic {
+              colorOverride 0 0 0
+            }
+            geometry Mesh {
+              url [
+                "meshes/mir_100_top_plugs.dae"
+              ]
+            }
+          }
         ]
       }
       DEF IMU_LINK Solid {
