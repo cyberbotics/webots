@@ -558,6 +558,15 @@ PROTO Mir100 [
         translation 0.037646 0 0.352
         name "surface"
       }
+      Accelerometer {
+        name "accelerometer"
+      }
+      Gyro {
+        name "gyro"
+      }
+      Compass {
+        name "compass"
+      }
     ]
     boundingObject Group {
       children [
