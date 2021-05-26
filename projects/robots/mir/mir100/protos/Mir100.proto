@@ -116,18 +116,81 @@ PROTO Mir100 [
         translation 0.037646 0 0.349
         children IS bodySlot
       }
+      DEF CAMERA_RIGHT Transform {
+        translation 0.448325 -0.063463 0.110114
+        rotation -0.5314699172926579 -0.816513872934121 0.22548796490956566 -1.7730453071795864
+        scale 1.0003465485345713 0.92893 0.92893
+        children [
+          DEF CAMERA_SHAPE Shape {
+            appearance Appearance {
+              material Material {
+                emissiveColor 1 1 1
+              }
+              texture ImageTexture {
+                url [
+                  "textures/camera.png"
+                ]
+              }
+            }
+            geometry Plane {
+              size 0.08 0.015
+            }
+          }
+        ]
+      }
+
+      DEF CAMERA_LEFT Transform {
+        translation 0.448325 0.063463 0.110114
+        rotation 0.6425837390040647 0.41825883011730935 0.6419857392469521 -2.7903353071795864
+        scale 1.0003465485345713 0.92893 0.92893
+        children [
+          USE CAMERA_SHAPE
+        ]
+      }
       Transform {
         translation 0.03733 0.0005 0.2085
         children [
-          Shape {
-            appearance PBRAppearance {
-              baseColor 0 0.9 1
-              emissiveColor 0 0.9 1
-              transparency 0.5
-            }
-            geometry DEF SIDE_LIGHT Box {
-              size 0.785 0.47 0.053
-            }
+          DEF LIGHT_FRONT Transform {
+            translation 0.39 0 0
+            children [
+              DEF LIGHT_WIDTH_SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0.9 1
+                  emissiveColor 0 0.9 1
+                  transparency 0.5
+                }
+                geometry Box {
+                  size 0.01 0.47 0.053
+                }
+              }
+            ]
+          }
+          DEF LIGHT_BACK Transform {
+            translation -0.39 0 0
+            children [
+              USE LIGHT_WIDTH_SHAPE
+            ]
+          }
+          DEF LIGHT_LEFT Transform {
+            translation 0 0.23 0
+            children [
+              DEF LIGHT_WIDTH_SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0.9 1
+                  emissiveColor 0 0.9 1
+                  transparency 0.5
+                }
+                geometry Box {
+                  size 0.785 0.01 0.053
+                }
+              }
+            ]
+          }
+          DEF LIGHT_RIGHT Transform {
+            translation 0 -0.23 0
+            children [
+              USE LIGHT_WIDTH_SHAPE
+            ]
           }
         ]
       }
@@ -557,15 +620,6 @@ PROTO Mir100 [
       DEF SURFACE Solid {
         translation 0.037646 0 0.352
         name "surface"
-      }
-      Accelerometer {
-        name "accelerometer"
-      }
-      Gyro {
-        name "gyro"
-      }
-      Compass {
-        name "compass"
       }
     ]
     boundingObject Group {
