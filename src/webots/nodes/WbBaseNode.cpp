@@ -335,7 +335,7 @@ void WbBaseNode::removeInvisibleProtoNodes() {
     invisibleProtoParameterNodes[i]->clearProtoParameterNodeInstances();  // clear downward references
 
     // clear internal field references (for protoParameterNodes the reference is kept in its fields)
-    QVector<WbField *> fields = invisibleProtoParameterNodes[i]->fields();
+    const QVector<WbField *> fields = invisibleProtoParameterNodes[i]->fields();
     for (int j = 0; j < fields.size(); ++j)
       fields[j]->clearInternalFields();
   }
