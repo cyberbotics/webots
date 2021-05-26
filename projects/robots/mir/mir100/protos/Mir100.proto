@@ -43,6 +43,14 @@ PROTO Mir100 [
             }
           }
           Shape {
+            appearance USE WHITE
+            geometry Mesh {
+              url [
+                "meshes/mir_100_inside.dae"
+              ]
+            }
+          }
+          Shape {
             appearance Plastic {
               colorOverride 0.93 0.93 0.93
             }
