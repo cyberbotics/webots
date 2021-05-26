@@ -123,6 +123,8 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 }
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
+  printf("JS: tokens are %s %s\n", gOpeningToken.toUtf8().constData(), gClosingToken.toUtf8().constData());
+
   mResult.clear();
   mError = "";
 
@@ -144,8 +146,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     int indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
     if (indexOpeningToken == -1) {  // no more matches
       if (indexClosingToken < mTemplateContent.size()) {
+        // javaScriptBody +=
+        //  "result += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
         javaScriptBody +=
-          "result += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
+          "renderV2(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);\n";
       }
       break;
     }
@@ -160,13 +164,16 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
     if (indexOpeningToken > 0 && lastIndexClosingToken == -1) {
       // what comes before the first opening token should be treated as plain text
-      javaScriptBody += "result += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
+      // javaScriptBody += "result += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
+      javaScriptBody += "renderV2(`" + mTemplateContent.left(indexOpeningToken) + "`);\n";
     }
 
     if (lastIndexClosingToken != -1 && indexOpeningToken - lastIndexClosingToken > 0) {
       // what is between the previous closing token and the current opening token should be treated as plain text
+      // javaScriptBody +=
+      //  "result += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
       javaScriptBody +=
-        "result += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
+        "renderV2(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);\n";
     }
 
     // anything inbetween the tokens is either an expression or plain JavaScript
@@ -174,8 +181,9 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     // if it starts with '%{=' it's an expression
     if (statement.startsWith(gOpeningToken + "=")) {
       statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
-      javaScriptBody +=
-        "var __tmp = " + statement + "; result += eval(\"__tmp\");";  // var because there might be multiple expressions
+      // javaScriptBody +=
+      //  "var __tmp = " + statement + "; result += eval(\"__tmp\");";  // var because there might be multiple expressions
+      javaScriptBody += "executeStatement(\"" + statement + "\");\n";
     } else {
       // raw javascript snippet
       javaScriptBody += statement.replace(gOpeningToken, "").replace(gClosingToken, "");
@@ -271,6 +279,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
   mResult.clear();
 
+  printf("LUA: tokens are %s %s\n", gOpeningToken.toUtf8().constData(), gClosingToken.toUtf8().constData());
   if (!gValidLuaResources) {
     mError = tr("Installation error: Lua resources are not found");
     return false;

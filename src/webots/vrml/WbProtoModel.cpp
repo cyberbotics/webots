@@ -324,7 +324,6 @@ WbProtoModel::~WbProtoModel() {
 }
 
 WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const QString &worldPath, int uniqueId) {
-  printf("WbProtoModel::generateRoot: %s\n", mTemplateLanguage.toUtf8().constData());
   if (mContent.isEmpty())
     return NULL;
 

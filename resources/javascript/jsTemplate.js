@@ -40,14 +40,25 @@ function render(text) {
   return text;
 };
 
+function renderV2(text) {
+  result += text;
+};
+
+function executeStatement() {
+  //let tmp = arguments[0];
+  result += eval.apply(this, arguments[0]);
+}
+
+let result;
+const context = { %context% };
+const fields = { %fields% };
+
 export function main() {
-  let result = '';
-
-  const context = { %context% };
-
-  const fields = { %fields% };
+  result = '';
 
   %body%
+
+  console.log(result);
 
   return result;
 };
