@@ -1081,8 +1081,11 @@ void WbSolid::printKinematicWarningIfNeeded() {
                  "but some Solid descendant nodes have physics and won't move along with this node."));
 }
 
+#include <QtCore/QDebug>
 WbVector3 WbSolid::relativeLinearVelocity(const WbSolid *parentSolid) const {
   WbVector3 l = isDynamic() ? solidMerger()->solid()->linearVelocity() : linearVelocity();
+  qDebug() << "solidMerger()" << solidMerger();
+  qDebug() << "solidMerger()->solid()" << solidMerger()->solid();
 
   const WbSolid *solid = this;
   // if this solid is kinematic we need to add the velocities of the parents
@@ -1097,7 +1100,7 @@ WbVector3 WbSolid::relativeLinearVelocity(const WbSolid *parentSolid) const {
   } else if (parentSolid != NULL) {  // in case of dynamic solid, the velocity is already absolute
     while (!solid->isTopSolid() && solid != parentSolid)
       solid = solid->upperSolid();
-    l -= solid->solidMerger()->solid()->linearVelocity();
+    l -= solid->isDynamic() ? solid->solidMerger()->solid()->linearVelocity() : solid->linearVelocity();
   }
 
   assert(solid == parentSolid || parentSolid == NULL);
@@ -1120,7 +1123,7 @@ WbVector3 WbSolid::relativeAngularVelocity(const WbSolid *parentSolid) const {
   } else if (parentSolid != NULL) {  // in case of dynamic solid, the velocity is already absolute
     while (!solid->isTopSolid() && solid != parentSolid)
       solid = solid->upperSolid();
-    a -= solid->solidMerger()->solid()->angularVelocity();
+    a -= solid->isDynamic() ? solid->solidMerger()->solid()->angularVelocity() : solid->angularVelocity();
   }
 
   assert(solid == parentSolid || parentSolid == NULL);
