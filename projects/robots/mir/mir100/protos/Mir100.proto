@@ -103,12 +103,12 @@ PROTO Mir100 [
         name "imu_link"
       }
       Transform {
-        translation 0.4288 0.2358 0.1954
+        translation 0.4288 0.2358 0.188
         rotation -0.2811 -0.6786 0.6786 2.5936
         children IS frontLidarSlot
       }
       Transform {
-        translation -0.3548 -0.2352 0.1954
+        translation -0.3548 -0.2352 0.188
         rotation 0.8629 -0.3574 0.3574 -1.7178
         children IS backLidarSlot
       }
