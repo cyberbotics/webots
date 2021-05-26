@@ -54,6 +54,15 @@ Generic Webots environment variables needed for all the controller languages:
 
 %tab-end
 
+%tab "Windows (development)"
+| Environment Variable                | Typical Value                                                             |
+|-------------------------------------|---------------------------------------------------------------------------|
+| WEBOTS\_HOME                        | `C:\tools\msys64\home\username\webots`                                    |
+| Path (all controllers)              | add `%WEBOTS_HOME%\lib\controller` and `%WEBOTS_HOME%\msys64\mingw64\bin` |
+| MSYS\_HOME (for Python controllers) | `C:\tools\msys64`                                                         |
+
+%tab-end
+
 %end
 
 Specific setup depending on the controller language:
