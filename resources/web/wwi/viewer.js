@@ -136,7 +136,7 @@ function computeTargetPath() {
   if (localSetup.url.startsWith('http'))
     targetPath = localSetup.url + branch + '/docs/';
   targetPath += localSetup.book + '/';
-  targetPath = 'http://localhost:8000/docs/' + localSetup.book + '/';
+
   return targetPath;
 }
 
