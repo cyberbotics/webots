@@ -316,7 +316,7 @@ void WbBaseNode::removeInvisibleProtoNodes() {
   }
   */
 
-  if (invisibleProtoParameterNodes.size() == 0)
+  if (invisibleProtoParameterNodes.isEmpty())
     return;
 
   // break link between [field] -> [parameter] and [internal node] -> [parameter node] (from internal node side)
