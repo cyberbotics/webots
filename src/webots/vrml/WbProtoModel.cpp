@@ -34,6 +34,8 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QUrl>
+#include <QtNetwork/QTcpSocket>
 
 #include <cassert>
 
@@ -508,7 +510,9 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
   if (isRobot) {
     // check for robot doc
     const QString &name = mName.toLower();
-    if (QFile::exists(WbStandardPaths::localDocPath() + "guide/" + name + ".md")) {
+
+    const QUrl url(WbStandardPaths::cyberboticsUrl() + "/doc/guide/" + name);
+    if (checkIfDocumentationPageExist(url)) {
       bookAndPage << "guide" << name;
       return bookAndPage;
     }
@@ -519,7 +523,8 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
     QString name = dir.dirName().replace('_', '-');
     while (!dir.isRoot()) {
       if (dir == objectsDir) {
-        if (QFile::exists(WbStandardPaths::localDocPath() + "guide/object-" + name + ".md")) {
+        const QUrl url(WbStandardPaths::cyberboticsUrl() + "/doc/guide/object-" + name);
+        if (checkIfDocumentationPageExist(url)) {
           bookAndPage << "guide"
                       << "object-" + name;
           return bookAndPage;
@@ -537,7 +542,8 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
       const QStringList &splittedPath = documentationUrl.split("doc/");
       if (splittedPath.size() == 2) {
         const QString file(splittedPath[1].split('#')[0]);
-        if (QFile::exists(WbStandardPaths::localDocPath() + file + ".md")) {
+        const QUrl url(WbStandardPaths::cyberboticsUrl() + "/doc/" + file);
+        if (checkIfDocumentationPageExist(url)) {
           bookAndPage = file.split('/');
           if (splittedPath[1].contains('#'))
             bookAndPage[1] += '#' + splittedPath[1].split('#')[1];
@@ -548,4 +554,25 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
   }
 
   return bookAndPage;  // return empty
+}
+
+bool WbProtoModel::checkIfDocumentationPageExist(const QUrl url) const {
+  bool exist = false;
+  QTcpSocket socket;
+  socket.connectToHost(url.host(), 80);
+  if (socket.waitForConnected()) {
+    socket.write("HEAD " + url.path().toUtf8() +
+                 " HTTP/1.1\r\n"
+                 "Host: " +
+                 url.host().toUtf8() +
+                 "\r\n"
+                 "\r\n");
+    if (socket.waitForReadyRead()) {
+      QByteArray bytes = socket.readAll();
+      if (bytes.contains("200 OK"))
+        exist = true;
+    }
+  }
+
+  return exist;
 }
