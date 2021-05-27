@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
 # Randomly generated uneven terrain based on Perlin noise.
+# template language: javascript
 
 PROTO UnevenTerrain [
   field SFVec3f    translation    0 0 0
@@ -24,51 +25,47 @@ PROTO UnevenTerrain [
 ]
 {
   %{
-    -- Reference: https://stackoverflow.com/a/42543313/2210777
-    local wbrandom = require('wbrandom')
-    local os = require('os')
+    // reference: https://stackoverflow.com/a/42543313/2210777
+    import * as wbrandom from 'modules/webots/wbrandom.js';
 
-    if fields.randomSeed.value <= 0 then
-      wbrandom.seed(os.clock() + os.time())
+    if (fields.randomSeed.value <= 0) {
+      wbrandom.seed(Date.now());
     else
-      wbrandom.seed(fields.randomSeed.value)
-    end
+      wbrandom.seed(fields.randomSeed.value);
 
-    function gaussian2d(x, y, amp, cx, cy, sx, sy)
-      return amp * math.exp( - ( ( math.pow(x - cx, 2) / (2.0 * math.pow(sx, 2)) ) + (math.pow(y - cy, 2) / (2.0 * math.pow(sy, 2)) ) ))
-    end
+    function gaussian2d(x, y, amp, cx, cy, sx, sy) {
+      return amp * Math.exp( - ( ( Math.pow(x - cx, 2) / (2.0 * Math.pow(sx, 2)) ) + (Math.pow(y - cy, 2) / (2.0 * Math.pow(sy, 2)) ) ));
+    }
 
-    -- Create 256 shuffled numbers repeated twice.
-    local perm = {}
-    for i = 1, 256 do
-      table.insert(perm, wbrandom.integer(i), i)
-    end
-    for i = 1, 256 do
-      perm[i + 256] = perm[i]
-    end
+    // create 256 shuffled numbers repeated twice.
+    let perm = [];
+    for (let i = 1; i <= 256; ++i)
+      perm.splice(wbrandom.integer(i), 0, i);
+      
+    console.log(perm);
 
-    -- Generate 256 directions
-    local dirs = {}
-    for a = 0, 255 do
-      table.insert(dirs, {
-        math.cos(a * 2.0 * math.pi / 256),
-        math.sin(a * 2.0 * math.pi / 256)
-      })
-    end
+    for (let i = 0; i < 256; ++i)
+      perm.push(perm[i]);
 
-    local function noise(x, y, per)
-      local function surflet(grid_x, grid_y)
-        local dist_x, dist_y = math.abs(x - grid_x), math.abs(y - grid_y)
-        local poly_x = 1 - 6 * dist_x ^ 5 + 15 * dist_x ^ 4 - 10 * dist_x ^ 3
-        local poly_y = 1 - 6 * dist_y ^ 5 + 15 * dist_y ^ 4 - 10 * dist_y ^ 3
-        local hashed = perm[(perm[(math.floor(grid_x) % per) + 1] + math.floor(grid_y) % per) + 1]
+    // generate 256 directions
+    let dirs = [];
+    for (let a = 0; a < 256); ++a)
+      dirs.push([Math.cos(a * 2.0 * Math.PI / 256), Math.sin(a * 2.0 * Math.PI / 256)]);
+
+    function noise(x, y, per) {
+      function surflet(grid_x, grid_y) {
+        let dist_x = Math.abs(x - grid_x);
+        let dist_y = Math.abs(y - grid_y);
+        let poly_x = 1 - 6 * Math.pow(dist_x, 5) + 15 * Math.pow(dist_x, 4) - 10 * Math.pow(dist_x, 3);
+        let poly_y = 1 - 6 * Math.pow(dist_y, 5) + 15 * Math.pow(dist_y, 4) - 10 * Math.pow(dist_y, 3);
+        let hashed = perm[(perm[Math.floor(grid_x) % per] + Math.floor(grid_y) % per) + 1]
         local grad = (x - grid_x)  * dirs[hashed][1] + (y - grid_y) * dirs[hashed][2]
         return poly_x * poly_y * grad
-      end
+      }
       local int_x, int_y = math.floor(x), math.floor(y)
       return surflet(int_x + 0, int_y + 0) + surflet(int_x + 1, int_y + 0) +
         surflet(int_x + 0, int_y + 1) + surflet(int_x + 1, int_y + 1)
-    end
+    }
 
     local function fBm(x, y, per, octs)  -- Fractional Brownian motion
       local val = 0
