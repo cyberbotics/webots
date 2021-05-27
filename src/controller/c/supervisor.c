@@ -2092,7 +2092,6 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return NULL;
   }
-  const int node_fields = wb_supervisor_node_get_number_of_fields(node);
   if (index < 0) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with an invalid 'index' argument (%d while node has %d fields).\n", __FUNCTION__,
@@ -2130,7 +2129,6 @@ WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return NULL;
   }
-  const int node_fields = wb_supervisor_node_get_proto_number_of_fields(node);
   if (index < 0) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with an invalid 'index' argument (%d while node has %d fields).\n", __FUNCTION__,
