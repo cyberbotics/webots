@@ -105,9 +105,6 @@ private slots:
   void showUserGuide();
   void showReferenceManual();
   void showAutomobileDocumentation();
-  void showOfflineUserGuide();
-  void showOfflineReferenceManual();
-  void showOfflineAutomobileDocumentation();
 
   void openGithubRepository();
   void openCyberboticsWebsite();

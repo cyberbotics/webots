@@ -33,8 +33,7 @@ public:
   const QString page() const;
 
 public slots:
-  void open(const QString &book, const QString &page = "index", bool visible = true);
-  void openUrlInSystemBrowser(const QUrl &url);
+  void openUrlInSystemBrowser(const QString &book, const QString &page = "index");
 
 private:
   static WbDocumentation *cInstance;

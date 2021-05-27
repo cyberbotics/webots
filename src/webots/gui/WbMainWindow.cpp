@@ -399,8 +399,8 @@ void WbMainWindow::createMainTools() {
   mDocumentation = new WbDocumentation(this);
   addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
   addDock(mDocumentation);
-  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, mDocumentation, &WbDocumentation::open);
-  mDocumentation->open("guide", "index", false);
+  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, mDocumentation,
+          &WbDocumentation::openUrlInSystemBrowser);
   // this instruction does nothing but prevents issues resizing QDockWidgets
   // https://stackoverflow.com/questions/48766663/resize-qdockwidget-without-undocking-and-docking
   resizeDocks({mDocumentation}, {20}, Qt::Horizontal);
@@ -891,28 +891,6 @@ QMenu *WbMainWindow::createHelpMenu() {
   connect(action, &QAction::triggered, this, &WbMainWindow::showAutomobileDocumentation);
   menu->addAction(action);
 
-  QMenu *offlineDocumentationMenu = new QMenu(tr("&Offline documentation"), this);
-
-  action = new QAction(this);
-  action->setText(tr("&User Guide"));
-  action->setStatusTip(tr("Open the Webots user guide in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineUserGuide);
-  offlineDocumentationMenu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Reference manual"));
-  action->setStatusTip(tr("Open the Webots reference manual in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineReferenceManual);
-  offlineDocumentationMenu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Webots for automobiles"));
-  action->setStatusTip(tr("Open the Webots for automobiles book in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineAutomobileDocumentation);
-  offlineDocumentationMenu->addAction(action);
-
-  menu->addMenu(offlineDocumentationMenu);
-
   menu->addSeparator();
 
   action = new QAction(this);
@@ -1255,14 +1233,6 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
       mSimulationView->restoreState(perspective->simulationViewState(), firstLoad);
       if (mTextEditor)
         mTextEditor->openFiles(perspective->filesList(), perspective->selectedTab());
-      if (!perspective->documentationBook().isEmpty())
-        mDocumentation->open(perspective->documentationBook(), perspective->documentationPage());
-      else {  // the documentation dock is not specified, reset it to its default location and contents
-        mDocumentation->open("guide", "index", false);
-        removeDockWidget(mDocumentation);
-        addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
-        mDocumentation->hide();
-      }
     }
     // update icons
     foreach (QWidget *dock, mDockWidgets)
@@ -1838,18 +1808,6 @@ void WbMainWindow::showReferenceManual() {
 
 void WbMainWindow::showAutomobileDocumentation() {
   showOnlineBook("automobile");
-}
-
-void WbMainWindow::showOfflineUserGuide() {
-  mDocumentation->open("guide");
-}
-
-void WbMainWindow::showOfflineReferenceManual() {
-  mDocumentation->open("reference");
-}
-
-void WbMainWindow::showOfflineAutomobileDocumentation() {
-  mDocumentation->open("automobile");
 }
 
 void WbMainWindow::openGithubRepository() {

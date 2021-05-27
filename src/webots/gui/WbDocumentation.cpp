@@ -14,9 +14,11 @@
 
 #include "WbDocumentation.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbClipboard.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbWebotsUpdateManager.hpp"
 
 #include <QtCore/QUrl>
 
@@ -38,6 +40,7 @@
 #endif
 #endif
 
+#include <iostream>
 /*
 // Debug code: uncomment to show a web inspector for QtWebKit.
 #include <QtWebKitWidgets/QWebInspector>
@@ -82,18 +85,6 @@ protected:
 #endif
     menu.exec(event->globalPos());
   }
-
-#ifndef _WIN32
-  // Open the external links (for example `<a href="https://www.w3schools.com" target="_blank">`) in the system browser.
-  QWebEngineView *createWindow(QWebEnginePage::WebWindowType type) override {
-    // create a dummy view until the url is actually set, and remove it later.
-    QWebEngineView *view = new QWebEngineView(this);
-    connect(view->page(), &QWebEnginePage::urlChanged, dynamic_cast<WbDocumentation *>(parent()),
-            &WbDocumentation::openUrlInSystemBrowser);
-    connect(view->page(), &QWebEnginePage::urlChanged, view, &QObject::deleteLater);
-    return view;
-  }
-#endif
 };
 
 static const QStringList cBooks = QStringList() << "guide"
@@ -128,57 +119,6 @@ WbDocumentation::~WbDocumentation() {
   delete mWebView;
 }
 
-void WbDocumentation::open(const QString &book, const QString &page, bool visible) {
-  /*
-  // Debug code: uncomment to show a web inspector for QtWebKit.
-  static QWebInspector *inspector = NULL;
-  if (inspector == NULL) {
-    mWebView->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-
-    inspector = new QWebInspector;
-    inspector->setPage(mWebView->page());
-
-    QDialog *dialog = new QDialog();
-    QVBoxLayout *layout = new QVBoxLayout(dialog);
-    layout->addWidget(inspector);
-    dialog->show();
-  }
-  */
-
-  QUrl url = QUrl::fromLocalFile(WbStandardPaths::webotsHomePath() + "docs/index.html");
-  url.setUrl(QString("%1?url=&book=%2&page=%3").arg(url.toString()).arg(book).arg(page));
-  mWebView->load(url);
-
-  for (int i = 0; i < cBooks.size(); i += 2)
-    if (cBooks[i] == book) {
-      setWindowTitle(cBooks[i + 1]);
-      break;
-    }
-  if (visible)
-    show();
-  else
-    hide();
-
-#ifdef _WIN32
-  // QtWebKit: Open external links in system browser.
-  mWebView->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
-  connect(mWebView->page(), &QWebPage::linkClicked, this, &WbDocumentation::openUrlInSystemBrowser, Qt::UniqueConnection);
-#elif defined(__APPLE__)
-  // Chromium bug on macOS:
-  // - warnings like the following one are displayed in the console: "2018-05-08 11:17:37.496 QtWebEngineProcess[70885:9694859]
-  // Couldn't set selectedTextBackgroundColor from default ()"
-  // - reference: https://bugs.chromium.org/p/chromium/issues/detail?id=641509
-  QWebEngineScript script;
-  script.setSourceCode("(function() {"
-                       "    css = document.createElement('style');"
-                       "    css.type = 'text/css';"
-                       "    document.head.appendChild(css);"
-                       "    css.innerText = '::selection { background: #b2d7fe; }';"
-                       "})()");
-  mWebView->page()->scripts().insert(script);
-#endif
-}
-
 const QString WbDocumentation::book() const {
   const QString url = mWebView->url().toString();
   int start = url.lastIndexOf("&book=") + 6;
@@ -203,6 +143,10 @@ void WbDocumentation::handleUserCommand(WbAction::WbActionKind actionKind) {
   }
 }
 
-void WbDocumentation::openUrlInSystemBrowser(const QUrl &url) {
-  WbDesktopServices::openUrl(url.toString());
+void WbDocumentation::openUrlInSystemBrowser(const QString &book, const QString &page) {
+  QString versionString = WbApplicationInfo::version().toString();
+  versionString.replace(" revision ", "-rev");
+  QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/" + page + "?version=" + versionString;
+
+  WbDesktopServices::openUrl(url);
 }
