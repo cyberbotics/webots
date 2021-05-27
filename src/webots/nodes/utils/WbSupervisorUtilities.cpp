@@ -452,15 +452,22 @@ void WbSupervisorUtilities::notifyFieldUpdate() {
 }
 
 WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node) const {
+  QList<WbNode *> nodes;  // stack containing other instances of the proto parameter node
+                          // to be used in case of deeply nested PROTOs where the first one could not be finalized
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
   while (baseNode && !baseNode->isPostFinalizedCalled() && baseNode->isProtoParameterNode()) {
     // if node is a proto parameter node we need to find the corresponding proto parameter node instance
-    // if the parameter is used multiple times, the first occurrence is returned
+    // if the parameter is used multiple times all the instances are inspected (using the "nodes" list)
     const QVector<WbNode *> instances = baseNode->protoParameterNodeInstances();
-    assert(!instances.isEmpty());
-    if (instances.isEmpty())
-      return NULL;
+    if (instances.isEmpty()) {
+      if (nodes.isEmpty())
+        return NULL;
+      baseNode = static_cast<WbBaseNode *>(nodes.takeFirst());
+      continue;
+    }
     baseNode = static_cast<WbBaseNode *>(instances[0]);
+    for (int i = instances.size() - 1; i >= 1; --i)
+      nodes.append(instances.at(i));
   }
   return baseNode;
 }
@@ -744,6 +751,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       unsigned int id;
 
       stream >> id;
+
+      WbWorld::instance()->root()->printDebugNodeStructure();
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbTransform *const transform = dynamic_cast<WbTransform *>(node);
