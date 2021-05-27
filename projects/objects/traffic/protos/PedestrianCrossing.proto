@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A pedestrian crossing 20 x 8 meters (0.1m thick).
+# template language: javascript
 
 PROTO PedestrianCrossing [
   field SFVec3f    translation          0 0 0
@@ -13,11 +14,11 @@ PROTO PedestrianCrossing [
 ]
 {
   %{
-    local size = fields.size.value
-    if size.x <= 0 or size.y <= 0 then
-      io.stderr:write("Both components of 'size' must be strictly positive\n")
-      size = fields.size.defaultValue
-    end
+    let size = fields.size.value;
+    if (size.x <= 0 || size.y <= 0) {
+      size = fields.size.defaultValue;
+      console.error('Both components of \'size\' must be strictly positive. Value reset to (' + size.x + ', ' + size.y + ').');
+    }
   }%
   Solid {
     translation IS translation
@@ -58,7 +59,7 @@ PROTO PedestrianCrossing [
     ]
     name IS name
     model "pedestrian crossing"
-    %{ if fields.enableBoundingObject.value then }%
+    %{ if (fields.enableBoundingObject.value) { }%
     boundingObject Group {
       children [
         Transform {
@@ -70,23 +71,23 @@ PROTO PedestrianCrossing [
           ]
         }
         DEF RAMP1_TRANS Transform {
-        translation 0 -0.2535 %{= size.y / 2 }%
-        rotation 1 0 0 0.7854
-        children [
-          DEF RAMP_BOX Box {
-            size %{= size.x }% 0.5 0.5
-          }
-        ]
-      }
-      DEF RAMP2_TRANS Transform {
-        translation 0 -0.2535 %{= -size.y / 2 }%
-        rotation 1 0 0 0.7854
-        children [
-          USE RAMP_BOX
-        ]
-      }
+          translation 0 -0.2535 %{= size.y * 0.5 }%
+          rotation 1 0 0 0.7854
+          children [
+            DEF RAMP_BOX Box {
+              size %{= size.x }% 0.5 0.5
+            }
+          ]
+        }
+        DEF RAMP2_TRANS Transform {
+          translation 0 -0.2535 %{= -size.y * 0.5 }%
+          rotation 1 0 0 0.7854
+          children [
+            USE RAMP_BOX
+          ]
+        }
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }

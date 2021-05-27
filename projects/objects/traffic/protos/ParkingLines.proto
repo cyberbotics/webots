@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Parking lines for several consecutive cars.
+# template language: javascript
 
 PROTO ParkingLines [
   field SFVec3f    translation      0 0 0
@@ -13,8 +14,8 @@ PROTO ParkingLines [
 ]
 {
   %{
-    local width  = fields.numberOfCarParks.value * fields.carParkWidth.value
-    local length = fields.carParkLength.value
+    const width  = fields.numberOfCarParks.value * fields.carParkWidth.value;
+    const length = fields.carParkLength.value;
   }%
   Transform {
     translation IS translation

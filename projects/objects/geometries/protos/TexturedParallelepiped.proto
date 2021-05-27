@@ -32,7 +32,7 @@ PROTO TexturedParallelepiped [
 {
   %{
     let front = fields.front.value;
-    if (!fields.front.value || !fields.back.value || !fields.left.value || !fields.right.value || !fields.top.value || !fields.bottom.value) {
+    if (!(fields.front.value || fields.back.value || fields.left.value || fields.right.value || fields.top.value || fields.bottom.value)) {
       console.error('cannot create an object without any faces: \'front\' reset to default value.');
       front = fields.front.defaultValue;
     }

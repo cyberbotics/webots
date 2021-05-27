@@ -3,6 +3,7 @@
 # license url: https://creativecommons.org/licenses/by/3.0/legalcode
 # Simple model of a street light including a customizable SpotLight.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO StreetLight [
   field SFVec3f    translation   0 0 0
