@@ -17,7 +17,7 @@ function wbSlugify(obj) {
     .replace(/[-]+/g, '-')
     .replace(/^-*/, '')
     .replace(/-*$/, '')
-    .replace('+', 'p')
+    .replace(/\+/g, 'p')
     .replace(/[^\w-]+/g, '');
 }
 
