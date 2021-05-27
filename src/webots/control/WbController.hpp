@@ -77,7 +77,7 @@ private:
   WbFileUtil::FileType mType;
   QString mControllerPath;  // path where the controller file is located
   QString mName;            // controller name, e.g. "void"
-  QString mCommand;         // command to be exectuted, e.g. "java"
+  QString mCommand;         // command to be executed, e.g. "java"
   QStringList mArguments;   // command arguments
   QString mJavaCommand;
   QString mJavaOptions;
