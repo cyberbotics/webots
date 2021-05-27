@@ -42,11 +42,7 @@ def set_rotation(node, value):
     if not rotation_field:
         if all([float(v) < 1e-4 for v in value]):  # Ignore [0, 0, 0] arrays
             return
-        node['fields'].insert(0,
-                              {'name': 'rotation',
-                               'value': value,
-                               'type': 'SFRotation'}
-                              )
+        node['fields'].insert(0, {'name': 'rotation', 'value': value, 'type': 'SFRotation'})
         return
     rotation_field['value'] = value
 
@@ -57,18 +53,14 @@ def set_translation(node, value):
     if not vector3_field:
         if all([float(v) < 1e-4 for v in value]):  # Ignore [0, 0, 0] arrays
             return
-        node['fields'].insert(0,
-                              {'name': 'translation',
-                               'value': value,
-                               'type': 'SFVec3f'}
-                              )
+        node['fields'].insert(0, {'name': 'translation', 'value': value, 'type': 'SFVec3f'})
         return
     vector3_field['value'] = value
 
 
 def squash_points(points, transform):
     rotation_angle_axis = get_rotation(transform)
-    rotation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
+    rotation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], -rotation_angle_axis[3])
     translation = np.array(get_translation(transform))
 
     n = len(points)
@@ -79,7 +71,7 @@ def squash_points(points, transform):
     for i in range(n3):
         i3 = 3 * i
         point = np.array([float(points[i3]), float(points[i3 + 1]), float(points[i3 + 2])])
-        point = point @ rotation
+        point = point @ rotation + translation
         for j in range(3):
             points[i3 + j] = f'{round(float(point[j]), 5):.5g}'
     set_translation(transform, [0, 0, 0])
