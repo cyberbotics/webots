@@ -26,7 +26,6 @@
 #include "WbControlledWorld.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDockWidget.hpp"
-#include "WbDocumentation.hpp"
 #include "WbFileUtil.hpp"
 #include "WbGuidedTour.hpp"
 #include "WbImportWizard.hpp"
@@ -393,7 +392,7 @@ void WbMainWindow::createMainTools() {
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
   connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorldFromGui, Qt::QueuedConnection);
 
-  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, &WbDocumentation::openUrlInSystemBrowser);
+  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, this, &WbMainWindow::showOnlineDocumentationPage);
   // this instruction does nothing but prevents issues resizing QDockWidgets
   // https://stackoverflow.com/questions/48766663/resize-qdockwidget-without-undocking-and-docking
 
@@ -1761,8 +1760,8 @@ void WbMainWindow::showDocument(const QString &url) {
     QString WEBOTS_HOME(QDir::toNativeSeparators(WbStandardPaths::webotsHomePath()));
     QByteArray ldLibraryPathBackup = qgetenv("LD_LIBRARY_PATH");
     QByteArray newLdLibraryPath = ldLibraryPathBackup;
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots/", "");
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots", "");
+    newLdLibraryPath.replace((WEBOTS_HOME + "lib/webots/").toUtf8(), "");
+    newLdLibraryPath.replace((WEBOTS_HOME + "lib/webots").toUtf8(), "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
 #endif
     QString u("file:///" + url);
@@ -1779,6 +1778,14 @@ void WbMainWindow::showOnlineBook(const QString &book) {
   QString versionString = WbApplicationInfo::version().toString();
   versionString.replace(" revision ", "-rev");
   const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/index?version=" + versionString;
+  showDocument(url);
+}
+
+void WbMainWindow::showOnlineDocumentationPage(const QString &book, const QString &page) {
+  QString versionString = WbApplicationInfo::version().toString();
+  versionString.replace(" revision ", "-rev");
+  QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/" + page + "?version=" + versionString;
+
   showDocument(url);
 }
 

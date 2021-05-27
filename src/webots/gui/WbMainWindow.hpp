@@ -26,7 +26,6 @@
 
 class WbBuildEditor;
 class WbConsole;
-class WbDocumentation;
 class WbNode;
 class WbOdeDebugger;
 class WbRecentFilesList;
@@ -201,6 +200,7 @@ private:
   WbStreamingServer *mStreamingServer;
 
 private slots:
+  void showOnlineDocumentationPage(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
   void openFileInTextEditor(const QString &);

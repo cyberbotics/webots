@@ -269,7 +269,6 @@ QT_SOURCES += \
   WbDisplay.cpp \
   WbDockTitleBar.cpp \
   WbDockWidget.cpp \
-  WbDocumentation.cpp \
   WbDoubleEditor.cpp \
   WbDoubleSpinBox.cpp \
   WbDownloader.cpp \
