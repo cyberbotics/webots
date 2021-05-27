@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A cypress tree with optional boundingObject.
+# template language: javascript
 
 PROTO Cypress [
   field SFVec3f    translation           0 0 0
@@ -110,7 +111,7 @@ PROTO Cypress [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %{ if (fields.enableBoundingObject.value) { }%
     boundingObject Transform {
       translation 0 2.125 0
       children [
@@ -120,6 +121,6 @@ PROTO Cypress [
         }
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }
