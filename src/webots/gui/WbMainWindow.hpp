@@ -144,7 +144,6 @@ private:
   void showHtmlRobotWindow(WbRobot *);
   int mExitStatus;
   QList<WbConsole *> mConsoles;
-  WbDocumentation *mDocumentation;
   WbBuildEditor *mTextEditor;
   WbSimulationView *mSimulationView;
   WbRecentFilesList *mRecentFiles;

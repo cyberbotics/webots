@@ -106,7 +106,6 @@
 WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent) :
   QMainWindow(parent),
   mExitStatus(0),
-  mDocumentation(NULL),
   mTextEditor(NULL),
   mSimulationView(NULL),
   mRecentFiles(NULL),
@@ -315,7 +314,6 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     // hide docks
     for (int i = 0; i < mConsoles.size(); ++i)
       mConsoles.at(i)->hide();
-    mDocumentation->hide();
     if (mTextEditor)
       mTextEditor->hide();
 
@@ -340,7 +338,6 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     // show docks
     for (int i = 0; i < mConsoles.size(); ++i)
       mConsoles.at(i)->show();
-    mDocumentation->show();
     if (mTextEditor)
       mTextEditor->show();
 
@@ -396,14 +393,9 @@ void WbMainWindow::createMainTools() {
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
   connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorldFromGui, Qt::QueuedConnection);
 
-  mDocumentation = new WbDocumentation(this);
-  addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
-  addDock(mDocumentation);
-  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, mDocumentation,
-          &WbDocumentation::openUrlInSystemBrowser);
+  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, &WbDocumentation::openUrlInSystemBrowser);
   // this instruction does nothing but prevents issues resizing QDockWidgets
   // https://stackoverflow.com/questions/48766663/resize-qdockwidget-without-undocking-and-docking
-  resizeDocks({mDocumentation}, {20}, Qt::Horizontal);
 
   mOdeDebugger = new WbOdeDebugger();
   connect(WbVideoRecorder::instance(), &WbVideoRecorder::requestOpenUrl, this, &WbMainWindow::openUrl);
@@ -710,7 +702,6 @@ void WbMainWindow::enableToolsWidgetItems(bool enabled) {
     WbActionManager::setActionEnabledSilently(mTextEditor->toggleViewAction(), enabled);
   for (int i = 0; i < mConsoles.size(); ++i)
     WbActionManager::setActionEnabledSilently(mConsoles.at(i)->toggleViewAction(), enabled);
-  WbActionManager::setActionEnabledSilently(mDocumentation->toggleViewAction(), enabled);
 }
 
 // we need this function because WbDockWidget and WbSimulationView don't have a common base class
@@ -755,7 +746,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   menu->addAction(mSimulationView->toggleSceneTreeAction());
   if (mTextEditor)
     menu->addAction(mTextEditor->toggleViewAction());
-  menu->addAction(mDocumentation->toggleViewAction());
 
   QAction *action = new QAction(this);
   action->setText(tr("Restore &Layout"));
@@ -1142,13 +1132,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->setFilesList(mTextEditor->openFiles());
     perspective->setSelectedTab(mTextEditor->selectedTab());
   }
-  if (mDocumentation->isVisible()) {
-    perspective->setDocumentationBook(mDocumentation->book());
-    perspective->setDocumentationPage(mDocumentation->page());
-  } else {
-    perspective->setDocumentationBook("");
-    perspective->setDocumentationPage("");
-  }
+
   perspective->setOrthographicViewHeight(world->orthographicViewHeight());
 
   QStringList robotWindowNodeNames;
