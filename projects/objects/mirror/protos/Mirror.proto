@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple mirror made of a display attached to a camera.
 # The reflected image does not depend on the viewpoint position.
+# template language: javascript
 
 PROTO Mirror [
   field SFVec3f    translation     0 0 0
@@ -22,43 +23,38 @@ PROTO Mirror [
 ]
 {
   %{
-      local fieldOfView = fields.fieldOfView.value
-      if fieldOfView <= 0.0 then
-        fieldOfView = fields.fieldOfView.defaultValue
-        io.stderr:write("'fieldOfView' should be strictly positive.\n")
-        io.stderr:write("'fieldOfView' was reset to '" .. fieldOfView .. "'.\n")
-      end
-      if fieldOfView > math.pi then
-        fieldOfView = fields.fieldOfView.defaultValue
-        io.stderr:write("'fieldOfView' should not be bigger than pi.\n")
-        io.stderr:write("'fieldOfView' was reset to '" .. fieldOfView .. "'.\n")
-      end
-      local width = fields.width.value
-      if width <= 0.0 then
-        width = fields.width.defaultValue
-        io.stderr:write("'width' should be strictly positive.\n")
-        io.stderr:write("'width' was reset to '" .. width .. "'.\n")
-      end
-      local height = fields.height.value
-      if height <= 0.0 then
-        height = fields.height.defaultValue
-        io.stderr:write("'height' should be strictly positive.\n")
-        io.stderr:write("'height' was reset to '" .. height .. "'.\n")
-      end
-      local frameThickness = fields.frameThickness.value
-      if frameThickness <= 0.0 then
-        frameThickness = fields.frameThickness.defaultValue
-        io.stderr:write("'frameThickness' should be strictly positive.\n")
-        io.stderr:write("'frameThickness' was reset to '" .. frameThickness .. "'.\n")
-      end
+    let fieldOfView = fields.fieldOfView.value;
+    if (fieldOfView <= 0.0) {
+      fieldOfView = fields.fieldOfView.defaultValue;
+      console.error('\'fieldOfView\' must be strictly positive. Value reset to ' + fieldOfView + '.');
+    }
+    if (fieldOfView > Math.PI) {
+      fieldOfView = fields.fieldOfView.defaultValue;
+      console.error('\'fieldOfView\' should not be bigger than pi. Value reset to ' + fieldOfView + '.');
+    }
+    
+    let width = fields.width.value;
+    if (width <= 0.0) {
+      width = fields.width.defaultValue;
+      console.error('\'width\' must be strictly positive. Value reset to ' + width + '.');
+    }
+    let height = fields.height.value;
+    if (height <= 0.0) {
+      height = fields.height.defaultValue;
+      console.error('\'height\' must be strictly positive. Value reset to ' + height + '.');
+    }
+    let frameThickness = fields.frameThickness.value;
+    if (frameThickness <= 0.0) {
+      frameThickness = fields.frameThickness.defaultValue;
+      console.error('\'frameThickness\' must be strictly positive. Value reset to ' + frameThickness + '.');
+    }
 
-      local frameTexture = fields.frameTexture.value[0]
-      if frameTexture ~= fields.frameTexture.defaultValue[0] then
-        io.stderr:write("The 'frameTexture' field is deprecated, using the new 'frameAppearance' field instead.\n")
-      end
+    let frameTexture = fields.frameTexture.value[0];
+    if (frameTexture !== fields.frameTexture.defaultValue[0])
+      console.error('The \'frameTexture\' field is deprecated, using the new \'frameAppearance\' field instead.');
 
-      local cameraWidth = 256
-      local cameraHeight = math.ceil(256 * height / width) 
+    const cameraWidth = 256;
+    const cameraHeight = Math.ceil(256 * height / width);
   }%
   Robot {
     translation IS translation
@@ -66,18 +62,18 @@ PROTO Mirror [
     controller IS controller
     supervisor IS supervisor
     children [
-      %{ local camera_distance = (width / 2) / math.tan(fieldOfView / 2) }%
+      %{ const camera_distance = (width * 0.5) / Math.tan(fieldOfView * 0.5); }%
       Camera {
-        translation 0 %{= height / 2 + frameThickness }% %{= -camera_distance }%
+        translation 0 %{= height * 0.5 + frameThickness }% %{= -camera_distance }%
         rotation 0 1 0 3.14159
         fieldOfView IS fieldOfView
         width %{= cameraWidth }%
         height %{= cameraHeight }%
-        near %{= (1 + 0.0001 * math.max(width, height)) * camera_distance }%
+        near %{= (1 + 0.0001 * Math.max(width, height)) * camera_distance }%
         antiAliasing TRUE
       }
       DEF FRONT Display {
-        translation 0 %{= height / 2 + frameThickness }% 0
+        translation 0 %{= height * 0.5 + frameThickness }% 0
         rotation 1 0 0 1.5708
         children [
           Shape {
@@ -100,7 +96,7 @@ PROTO Mirror [
         height %{= cameraHeight }%
       }
       DEF BACK Transform {
-        translation 0 %{= height / 2 + frameThickness }% 0
+        translation 0 %{= height * 0.5 + frameThickness }% 0
         rotation 0 -0.707108 0.707105 3.14159
         children [
           Shape {
@@ -127,7 +123,7 @@ PROTO Mirror [
         ]
       }
       DEF LOWER_FRAME Transform {
-        translation 0 %{= frameThickness / 2 }% 0
+        translation 0 %{= frameThickness * 0.5 }% 0
         children [
           Shape {
             appearance IS frameAppearance
@@ -138,7 +134,7 @@ PROTO Mirror [
         ]
       }
       DEF RIGHT_FRAME Transform {
-        translation %{= width / 2 + frameThickness / 2 }% %{= height / 2 + frameThickness }% 0
+        translation %{= 0.5 * (width + frameThickness) }% %{= height * 0.5 + frameThickness }% 0
         children [
           Shape {
             appearance IS frameAppearance
@@ -149,7 +145,7 @@ PROTO Mirror [
         ]
       }
       DEF LEFT_FRAME Transform {
-        translation %{= -width / 2 - frameThickness / 2 }% %{= height / 2 + frameThickness }% 0
+        translation %{= - 0.5 * (width + frameThickness) }% %{= height * 0.5 + frameThickness }% 0
         children [
           Shape {
             appearance IS frameAppearance
@@ -163,7 +159,7 @@ PROTO Mirror [
     name IS name
     model "mirror"
     boundingObject Transform {
-      translation 0 %{= height / 2 + frameThickness }% 0
+      translation 0 %{= height * 0.5 + frameThickness }% 0
       children [
         Box {
           size %{= width + 2 * frameThickness }% %{= height + 2 * frameThickness }% %{= frameThickness }%
