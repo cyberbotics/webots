@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A plastic crate.
+# template language: javascript
 
 PROTO PlasticCrate [
   field SFVec3f    translation 0 0 0
@@ -13,11 +14,14 @@ PROTO PlasticCrate [
 ]
 {
   %{
-    local thicknessFactor = 0.035
-    local thickness = {}
-    thickness["x"] = thicknessFactor * fields.size.value.x
-    thickness["y"] = thicknessFactor * fields.size.value.y
-    thickness["z"] = thicknessFactor * fields.size.value.z
+    const thicknessFactor = 0.035;
+    let thickness = {x: thicknessFactor * fields.size.value.x, y: thicknessFactor * fields.size.value.y, z: thicknessFactor * fields.size.value.z};
+
+    let size = fields.size.value;
+    if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+      size = fields.size.defaultValue;
+      console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
   }%
   Solid {
     translation IS translation
@@ -89,11 +93,11 @@ PROTO PlasticCrate [
         }
       ]
     }
-    %{ if fields.mass.value > 0 then }%
+    %{ if (fields.mass.value > 0) { }%
     physics Physics {
       density -1
       mass %{= fields.mass.value }%
     }
-    %{ end }%
+    %{ } }%
   }
 }

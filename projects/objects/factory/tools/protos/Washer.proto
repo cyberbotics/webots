@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A washer with variable radius and thickness.
+# template language: javascript
 
 PROTO Washer [
   field SFVec3f    translation     0 0.004 0
@@ -14,17 +15,17 @@ PROTO Washer [
 ]
 {
   %{
-    local innerRadius = fields.innerRadius.value
-    if innerRadius <= 0.0 then
-      innerRadius = fields.innerRadius.defaultValue
-      io.stderr:write("'innerRadius' should be positive.\n")
-    end
+    let innerRadius = fields.innerRadius.value;
+    if (innerRadius <= 0.0) {
+      innerRadius = fields.innerRadius.defaultValue;
+      console.error('\'innerRadius\' must be strictly positive. Value reset to ' + innerRadius + '.');
+    }
 
-    local thickness = fields.thickness.value
-    if thickness <= 0.0 then
-      thickness = fields.thickness.defaultValue
-      io.stderr:write("'thickness' should be positive.\n")
-    end
+    let thickness = fields.thickness.value;
+    if (thickness <= 0.0) {
+      thickness = fields.thickness.defaultValue;
+      console.error('\'thickness\' must be strictly positive. Value reset to ' + thickness + '.');
+    }
   }%
   Solid {
     translation IS translation

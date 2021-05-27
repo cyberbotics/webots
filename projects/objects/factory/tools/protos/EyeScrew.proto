@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An eye screw with variable radius and length.
+# template language: javascript
 
 PROTO EyeScrew [
   field SFVec3f    translation      0 0 0
@@ -14,17 +15,17 @@ PROTO EyeScrew [
 ]
 {
   %{
-    local screwLength = fields.screwLength.value
-    if screwLength <= 0.0 then
-      screwLength = fields.screwLength.defaultValue
-      io.stderr:write("'screwLength' should be positive.\n")
-    end
+    let screwLength = fields.screwLength.value;
+    if (screwLength <= 0.0) {
+      screwLength = fields.screwLength.defaultValue;
+      console.error('\'screwLength\' must be strictly positive. Value reset to ' + screwLength + '.');
+    }
 
-    local screwRadius = fields.screwRadius.value
-    if screwRadius <= 0.0 then
-      screwRadius = fields.screwRadius.defaultValue
-      io.stderr:write("'screwRadius' should be positive.\n")
-    end
+    let screwRadius = fields.screwRadius.value;
+    if (screwRadius <= 0.0) {
+      screwRadius = fields.screwRadius.defaultValue;
+      console.error('\'screwRadius\' must be strictly positive. Value reset to ' + screwRadius + '.');
+    }
   }%
   Solid {
     translation IS translation
