@@ -279,7 +279,6 @@ static void robot_send_request(unsigned int step_duration) {
     remote_control_step(step_duration);
   }
 
-  // scheduler_print_request(req);
   if (scheduler_is_local())
     scheduler_send_request(req);
   else if (request_get_size(req) != 8)
