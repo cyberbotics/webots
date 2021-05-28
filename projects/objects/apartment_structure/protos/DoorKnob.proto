@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A door knob.
 # This object can be used in the 'doorHandle' field of the Door object.
+# template language: javascript
 
 PROTO DoorKnob [
   field SFVec3f    translation      0 0 0
@@ -17,26 +18,26 @@ PROTO DoorKnob [
 ]
 {
   %{
-    local doorThickness = fields.doorThickness.value
-    if doorThickness <= 0.0 then
-      io.stderr:write("'doorThickness' must be positive\n")
-      doorThickness = fields.doorThickness.defaultValue
-    end
+    let doorThickness = fields.doorThickness.value;
+    if (doorThickness <= 0.0) {
+      doorThickness = fields.doorThickness.defaultValue;
+      console.error('\'doorThickness\' must be strictly positive. Value reset to ' + doorThickness + '.');
+    }
 
-    local handleRadius = fields.handleRadius.value
-    if handleRadius <= 0.0 then
-      io.stderr:write("'handleRadius' must be positive\n")
-      handleRadius = fields.handleRadius.defaultValue
-    end
+    let handleRadius = fields.handleRadius.value;
+    if (handleRadius <= 0.0) {
+      handleRadius = fields.handleRadius.defaultValue;
+      console.error('\'handleRadius\' must be strictly positive. Value reset to ' + handleRadius + '.');
+    }
 
-    local distanceFromDoor = fields.distanceFromDoor.value
-    if distanceFromDoor <= 0.0 then
-      io.stderr:write("'distanceFromDoor' must be positive\n")
-      distanceFromDoor = fields.distanceFromDoor.defaultValue
-    end
+    let distanceFromDoor = fields.distanceFromDoor.value;
+    if (distanceFromDoor <= 0.0) {
+      distanceFromDoor = fields.distanceFromDoor.defaultValue;
+      console.error('\'distanceFromDoor\' must be strictly positive. Value reset to ' + distanceFromDoor + '.');
+    }
 
-    local axisHeight = distanceFromDoor * 2 + doorThickness
-    local handlePositionZ = axisHeight * 0.5
+    const axisHeight = distanceFromDoor * 2 + doorThickness;
+    const handlePositionZ = axisHeight * 0.5;
   }%
   Slot {
     type "door handle"

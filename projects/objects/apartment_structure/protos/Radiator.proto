@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A radiator with a variable number of fins and optional bounding object.
+# template language: javascript
 
 PROTO Radiator [
   field SFVec3f    translation           0 0 0
@@ -14,11 +15,11 @@ PROTO Radiator [
 ]
 {
   %{
-    local numberOfFins = fields.numberOfFins.value
-    if numberOfFins <= 0 then
-      numberOfFins = fields.numberOfFins.defaultValue
-      io.stderr:write("'numberOfFins' should be strictly positive.\n")
-    end
+    let numberOfFins = fields.numberOfFins.value;
+    if (numberOfFins <= 0) {
+      numberOfFins = fields.numberOfFins.defaultValue;
+      console.error('\'numberOfFins\' must be strictly positive. Value reset to ' + numberOfFins + '.');
+    }
   }%
   Solid {
     translation IS translation
@@ -130,14 +131,14 @@ PROTO Radiator [
           creaseAngle 1.1
         }
       }
-      %{ for i = 1, numberOfFins - 1 do }%
+      %{ for (let i = 1; i <= numberOfFins - 1; ++i) { }%
         Transform {
           translation 0 0 %{= -0.06 * i }%
           children [
             USE SLIDE
           ]
         }
-      %{ end }%
+      %{ } }%
       DEF LOWER_CONNECTOR Transform {
         translation 0 -0.5 0
         children [
@@ -224,7 +225,7 @@ PROTO Radiator [
     ]
     name IS name
     model "radiator"
-    %{ if fields.enableBoundingObject.value then }%
+    %{ if (fields.enableBoundingObject.value) { }%
     boundingObject Transform {
       translation -0.02 0 %{= -0.03 * (numberOfFins - 2) }%
       children [
@@ -233,6 +234,6 @@ PROTO Radiator [
         }
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }
