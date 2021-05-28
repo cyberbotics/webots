@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ WbView3D::WbView3D() :
   mLastRefreshTimer(),
   mMousePressTimer(NULL),
   mAspectRatio(1.0),
-  mFastModeOverlay(NULL),
+  mDisabledRenderingOverlay(NULL),
   mLoadingWorldOverlay(NULL),
   mVirtualRealityHeadsetOverlay(NULL),
   mContactPointsRepresentation(NULL),
@@ -135,6 +135,8 @@ WbView3D::WbView3D() :
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this, &WbView3D::refresh,
           Qt::UniqueConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbView3D::refresh, Qt::UniqueConnection);
+  connect(WbSimulationState::instance(), &WbSimulationState::renderingStateChanged, this, &WbView3D::refresh,
+          Qt::UniqueConnection);
   // clean up pending drag-force / drag-torque when simulation restarts
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbView3D::unleashPhysicsDrags);
   // update mouses if required
@@ -319,7 +321,7 @@ void WbView3D::focusOutEvent(QFocusEvent *event) {
 // main refresh function (update from the simulation engine)
 // for refresh coming from the GUI, use renderLater() instead
 void WbView3D::refresh() {
-  if (!mWorld) {
+  if (!mWorld || !WbSimulationState::instance()->isRendering()) {
     // render black screen
     renderLater();
     return;
@@ -329,26 +331,20 @@ void WbView3D::refresh() {
   mPhysicsRefresh = true;
   if (sim->isPaused())
     renderLater();
-  else if (sim->isStep() || sim->isRealTime() || sim->isRunning()) {
-    if (WbVideoRecorder::instance()->isRecording()) {
-      const double time = WbSimulationState::instance()->time();
-      static double lastRefreshTime = time;
-      if (time - lastRefreshTime >= WbVideoRecorder::displayRefresh() || time < lastRefreshTime) {
-        // render main window immediately even if it is not exposed
-        lastRefreshTime = time;
-        renderNow();
-      }
-    } else if (sim->isPaused())
-      renderLater();
-    else {
-      const qint64 lastRefreshDelta = mLastRefreshTimer.elapsed();
-      const double maxFrameDuration = 1000.0 / mWorld->worldInfo()->fps();  // ms
-      if (lastRefreshDelta > maxFrameDuration)
-        renderNow();
+  else if (WbVideoRecorder::instance()->isRecording()) {
+    const double time = WbSimulationState::instance()->time();
+    static double lastRefreshTime = time;
+    if (time - lastRefreshTime >= WbVideoRecorder::displayRefresh() || time < lastRefreshTime) {
+      // render main window immediately even if it is not exposed
+      lastRefreshTime = time;
+      renderNow();
     }
+  } else {
+    const qint64 lastRefreshDelta = mLastRefreshTimer.elapsed();
+    const double maxFrameDuration = 1000.0 / mWorld->worldInfo()->fps();  // ms
+    if (lastRefreshDelta > maxFrameDuration)
+      renderNow();
   }
-  // else isFast -> no rendering
-
   mPhysicsRefresh = false;
 }
 
@@ -929,7 +925,7 @@ void WbView3D::prepareWorldLoading() {
   if (WbVirtualRealityHeadset::isInUse())
     WbVirtualRealityHeadset::instance()->setTextureOverlayVisible(true);
 #endif
-  hideFastModeOverlay();
+  hideBlackRenderingOverlay();
   mLoadingWorldOverlay->setVisible(true);
   WbWrenWindow::renderNow();
 
@@ -1052,8 +1048,8 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   const WbSimulationState *const simulationState = WbSimulationState::instance();
   connect(mWrenRenderingContext, &WbWrenRenderingContext::optionalRenderingChanged, mWorld,
           &WbSimulationWorld::checkNeedForBoundingMaterialUpdate, Qt::UniqueConnection);
-  connect(simulationState, &WbSimulationState::modeChanged, mWorld, &WbSimulationWorld::checkNeedForBoundingMaterialUpdate,
-          Qt::UniqueConnection);
+  connect(simulationState, &WbSimulationState::renderingStateChanged, mWorld,
+          &WbSimulationWorld::checkNeedForBoundingMaterialUpdate, Qt::UniqueConnection);
   mWorld->checkNeedForBoundingMaterialUpdate();
 
   // Prepares the shape picker
@@ -1063,14 +1059,14 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   mPicker = new WbWrenPicker();
 
   // Creates the fast mode overlay
-  if (!mFastModeOverlay) {
-    mFastModeOverlay = new WbWrenFullScreenOverlay("Fast mode", 128, true);
-    mFastModeOverlay->attachToViewport(wr_scene_get_viewport(wr_scene_get_instance()));
+  if (!mDisabledRenderingOverlay) {
+    mDisabledRenderingOverlay = new WbWrenFullScreenOverlay("No Rendering", 128, true);
+    mDisabledRenderingOverlay->attachToViewport(wr_scene_get_viewport(wr_scene_get_instance()));
   }
-  if (simulationState->mode() == WbSimulationState::FAST)
-    showFastModeOverlay();
+  if (WbSimulationState::instance()->isRendering())
+    hideBlackRenderingOverlay();
   else
-    hideFastModeOverlay();
+    showBlackRenderingOverlay();
 
 #ifdef _WIN32
   // Creates the virtual reality headset overlay
@@ -1235,25 +1231,31 @@ void WbView3D::checkRendererCapabilities() {
     reduceTextureQuality = 1;
   }
 
-  if (mWrenRenderingContext->isIntelRenderer()) {
-    message += tr("Webots has detected that your system features an Intel GPU. "
-                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
-    message += '\n';
-
 #ifdef _WIN32
+  if (mWrenRenderingContext->isIntelRenderer()) {
     int gpuGeneration = WbSysInfo::intelGPUGeneration(WbWrenOpenGlContext::instance()->functions());
     if (gpuGeneration < 5) {
+      message += tr("Webots has detected that your system features an old unsupported Intel GPU. "
+                    "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
+      message += '\n';
       disableShadows = true;
       disableAntiAliasing = true;
     }
-#endif
-  }
-#ifdef _WIN32
-  else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
-    message += tr("Webots has detected that you are using an old AMD GPU. "
+  } else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
+    message += tr("Webots has detected that you are using an old unsupported AMD GPU. "
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     disableAntiAliasing = true;
     disableGTAO = true;
+    reduceTextureQuality = 1;
+  }
+#else
+  if (WbSysInfo::isLowEndGpu()) {
+    message += tr("Webots has detected that your system features an old unsupported GPU. "
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
+    message += '\n';
+    disableAntiAliasing = true;
+    disableGTAO = true;
+    disableShadows = true;
     reduceTextureQuality = 1;
   }
 #endif
@@ -1264,17 +1266,19 @@ void WbView3D::checkRendererCapabilities() {
   while (maxHardwareAfLevel >>= 1)
     ++maxTextureFiltering;
 
-  // check GPU memory (not for Intel GPU, because the texture size has no impact on the rendring speed)
-  if (mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) {
+  // check GPU memory on NVIDIA GPU
+  // (not for Intel GPU, because the texture size has no impact on the rendring speed)
+  // (not for AMD GPU, because the GPU memory cannot be retrieved accurately)
+  if (mWrenRenderingContext->isNvidiaRenderer()) {
     if (wr_gl_state_get_gpu_memory() == 2097152)
       WbPreferences::instance()->setValue("OpenGL/limitBakingResolution", true);
-    else if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
+    else if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2 GB of GPU memory
       if (message.isEmpty()) {
-        message += tr("Webots has detected that your GPU has less than 2Gb of memory. "
-                      "A minimum of 2Gb of memory is recommended to use high-resolution textures. ");
+        message += tr("Webots has detected that your GPU has less than 2 GB of memory. "
+                      "A minimum of 2 GB of memory is recommended to use high-resolution textures. ");
         message += '\n';
       }
-      if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1Gb of GPU memory
+      if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1 GB of GPU memory
         reduceTextureQuality = 2;
       else
         reduceTextureQuality = 1;
@@ -1367,7 +1371,7 @@ void WbView3D::resizeWren(int width, int height) {
   if (mWrenRenderingContext)
     mWrenRenderingContext->setDimension(width, height);
 
-  if (mFastModeOverlay && mFastModeOverlay->isVisible())
+  if (mDisabledRenderingOverlay && mDisabledRenderingOverlay->isVisible())
     rescaleFastModePanel();
 
   if (mLoadingWorldOverlay && mLoadingWorldOverlay->isVisible())
@@ -1939,9 +1943,21 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (mDisabledUserInteractionsMap.value(WbAction::DISABLE_FORCE_AND_TORQUE, false))
       // user interaction disabled
       return;
-    WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(mPickedMatter);
-    if (!selectedSolid || selectedSolid->bodyMerger() == NULL)
+
+    WbNode *node = dynamic_cast<WbNode *>(mPickedMatter);
+    if (!node)
       return;
+    WbSolid *selectedSolid;
+    while (1) {
+      selectedSolid = dynamic_cast<WbSolid *>(node);
+      if (selectedSolid && selectedSolid->bodyMerger() != NULL)
+        break;
+
+      node = node->parentNode();
+      if (!node || node->level() < 1)  // abort the search at the top of this node chain
+        return;
+    }
+
     Qt::MouseButtons buttons = event->buttons();
     bool forceButtonPressed = buttons == Qt::LeftButton;
 #ifdef __APPLE__
@@ -2157,7 +2173,11 @@ void WbView3D::keyPressEvent(QKeyEvent *event) {
 
   // pass key event to robots if appropriate
   const int modifiers = (((event->modifiers() & Qt::SHIFT) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::SHIFT)) +
+#ifdef __APPLE__
+                        (((event->modifiers() & Qt::META) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::CTRL)) +
+#else
                         (((event->modifiers() & Qt::CTRL) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::CTRL)) +
+#endif
                         (((event->modifiers() & Qt::ALT) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::ALT));
 
   WbRobot *const currentRobot = getCurrentRobot();
@@ -2167,8 +2187,11 @@ void WbView3D::keyPressEvent(QKeyEvent *event) {
   else
     robotList = mWorld->robots();
 
-  foreach (WbRobot *robot, robotList)
-    robot->keyPressed(event->text(), event->key(), modifiers);
+  const int key = event->key();
+  if (key != Qt::Key_Control && key != Qt::Key_Meta && key != Qt::Key_Shift && key != Qt::Key_Alt) {
+    foreach (WbRobot *robot, robotList)
+      robot->keyPressed(key, modifiers);
+  }
   handleModifierKey(event, true);
   QWindow::keyPressEvent(event);
 }
@@ -2186,8 +2209,11 @@ void WbView3D::keyReleaseEvent(QKeyEvent *event) {
     else
       robotList = mWorld->robots();
 
-    foreach (WbRobot *const robot, robotList)
-      robot->keyReleased(event->text(), event->key());
+    const int key = event->key();
+    if (key != Qt::Key_Control && key != Qt::Key_Meta && key != Qt::Key_Shift && key != Qt::Key_Alt) {
+      foreach (WbRobot *const robot, robotList)
+        robot->keyReleased(key);
+    }
   }
   handleModifierKey(event, false);
   QWindow::keyReleaseEvent(event);
@@ -2400,17 +2426,17 @@ void WbView3D::unleashPhysicsDrags() {
 // Fast mode related methods
 
 void WbView3D::rescaleFastModePanel() {
-  mFastModeOverlay->adjustSize();
+  mDisabledRenderingOverlay->adjustSize();
 }
 
-void WbView3D::showFastModeOverlay() {
-  if (!mWorld || mFastModeOverlay->isVisible())
+void WbView3D::showBlackRenderingOverlay() {
+  if (!mWorld || mDisabledRenderingOverlay->isVisible())
     return;
 
   disconnect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this, &WbView3D::refresh);
 
   rescaleFastModePanel();
-  mFastModeOverlay->setVisible(true);
+  mDisabledRenderingOverlay->setVisible(true);
 
   mParentWidget->setEnabled(false);
   renderLater();
@@ -2420,14 +2446,14 @@ void WbView3D::showFastModeOverlay() {
   updateVirtualRealityHeadsetOverlay();
 }
 
-void WbView3D::hideFastModeOverlay() {
-  if (!mWorld || !mFastModeOverlay->isVisible())
+void WbView3D::hideBlackRenderingOverlay() {
+  if (!mWorld || !mDisabledRenderingOverlay->isVisible())
     return;
 
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this, &WbView3D::refresh,
           Qt::UniqueConnection);
 
-  mFastModeOverlay->setVisible(false);
+  mDisabledRenderingOverlay->setVisible(false);
 
   mParentWidget->setEnabled(true);
   renderLater();
@@ -2438,8 +2464,8 @@ void WbView3D::hideFastModeOverlay() {
 }
 
 void WbView3D::cleanupFullScreenOverlay() {
-  delete mFastModeOverlay;
-  mFastModeOverlay = NULL;
+  delete mDisabledRenderingOverlay;
+  mDisabledRenderingOverlay = NULL;
   delete mVirtualRealityHeadsetOverlay;
   mVirtualRealityHeadsetOverlay = NULL;
   delete mLoadingWorldOverlay;
@@ -2450,7 +2476,7 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
   if (!mWorld || !mVirtualRealityHeadsetOverlay)
     return;
 
-  if (mFastModeOverlay->isVisible()) {
+  if (mDisabledRenderingOverlay->isVisible()) {
     mVirtualRealityHeadsetOverlay->setVisible(false);
     return;
   }

@@ -128,8 +128,8 @@ robot = Robot()
 
 timestep = int(robot.getBasicTimeStep())
 
-led = robot.getLED('ledName')
-distanceSensor = robot.getDistanceSensor('distanceSensorName')
+led = robot.getDevice('ledName')
+distanceSensor = robot.getDevice('distanceSensorName')
 distanceSensor.enable(timestep)
 
 while (robot.step(timestep) != -1):

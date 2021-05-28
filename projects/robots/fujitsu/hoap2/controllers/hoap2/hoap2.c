@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -192,6 +192,7 @@ int main(int argc, char *argv[]) {
   char *ptr = fgets(l, 500, file);
   if (ptr == NULL) {
     fprintf(stderr, "Error while reading the %s file\n", filename);
+    fclose(file);
     return 1;
   }
 

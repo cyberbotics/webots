@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -171,6 +171,7 @@ bool RosLidar::setFrequencyCallback(webots_ros::set_float::Request &req, webots_
 }
 
 // cppcheck-suppress constParameter
+// cppcheck-suppress constParameterCallback
 bool RosLidar::enablePointCloudCallback(webots_ros::set_bool::Request &req, webots_ros::set_bool::Response &res) {
   if (!mIsPointCloudEnabled && req.value) {
     mIsPointCloudEnabled = true;

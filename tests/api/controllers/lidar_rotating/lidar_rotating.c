@@ -15,8 +15,8 @@ int main(int argc, char **argv) {
   WbDeviceTag fixed_lidar = wb_robot_get_device("lidar");
   WbDeviceTag rotating_lidar = wb_robot_get_device("rotating lidar");
 
-  int fixed_lidar_resolution = wb_lidar_get_horizontal_resolution(fixed_lidar);
-  int rotating_lidar_resolution = wb_lidar_get_horizontal_resolution(rotating_lidar);
+  const int fixed_lidar_resolution = wb_lidar_get_horizontal_resolution(fixed_lidar);
+  const int rotating_lidar_resolution = wb_lidar_get_horizontal_resolution(rotating_lidar);
 
   ts_assert_int_equal(4 * fixed_lidar_resolution, rotating_lidar_resolution,
                       "The resolution of the rotating lidar should be 4 times bigger than the resolution of the fixed one.");
@@ -37,7 +37,8 @@ int main(int argc, char **argv) {
   double diff_sum = 0.0;
 
   for (i = 0; i < fixed_lidar_resolution; ++i)
-    diff_sum += fabs(image_rotating_lidar[i] - image_fixed_lidar[i]);
+    if (!isinf(image_rotating_lidar[i]) && !isinf(image_fixed_lidar[i]))
+      diff_sum += fabs(image_rotating_lidar[i] - image_fixed_lidar[i]);
 
   ts_assert_double_is_bigger(15, diff_sum,
                              "There is too much difference in the image resulting from the fixed and from the rotating lidar, "

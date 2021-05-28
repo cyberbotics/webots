@@ -6,8 +6,8 @@ from controller import Robot
 robot = Robot()
 
 # Get pointer to each wheel of our robot.
-leftWheel = robot.getMotor('left wheel')
-rightWheel = robot.getMotor('right wheel')
+leftWheel = robot.getDevice('left wheel')
+rightWheel = robot.getDevice('right wheel')
 
 # Repeat the following 4 times (once for each side).
 for i in range(0, 4):

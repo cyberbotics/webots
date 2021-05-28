@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -54,10 +54,14 @@ endif
 	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.8;
 	+PYTHON_COMMAND=python3.8 make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python3.9;
+	+PYTHON_COMMAND=python3.9 make -s -C python $(MAKECMDGOALS)
 endif
 ifeq ($(OSTYPE),windows)
+	@echo "# make" $@ python3.9;
+	+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.8;
-	+make -s -C python $(MAKECMDGOALS)
+	+PATH="$(PYTHON38_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.7;
 	+PATH="$(PYTHON37_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python2.7;
@@ -70,5 +74,8 @@ ifeq ($(OSTYPE),darwin)
 	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.8;
 	+PYTHON_COMMAND=python3.8 make -s -C python $(MAKECMDGOALS)
+	+make -f Makefile.mac $(MAKECMDGOALS)
+	@echo "# make" $@ python3.9;
+	+PYTHON_COMMAND=python3.9 make -s -C python $(MAKECMDGOALS)
 	+make -f Makefile.mac $(MAKECMDGOALS)
 endif

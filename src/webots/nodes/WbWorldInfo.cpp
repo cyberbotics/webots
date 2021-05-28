@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -100,6 +100,14 @@ WbWorldInfo::~WbWorldInfo() {
   delete mPhysicsReceiver;
 }
 
+void WbWorldInfo::downloadAssets() {
+  const int size = mContactProperties->size();
+  for (int i = 0; i < size; ++i) {
+    WbContactProperties *const cp = static_cast<WbContactProperties *>(mContactProperties->item(i));
+    cp->downloadAssets();
+  }
+}
+
 void WbWorldInfo::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -165,14 +173,14 @@ void WbWorldInfo::postFinalize() {
   WbWorld::instance()->setWorldInfo(this);
 }
 
-void WbWorldInfo::reset() {
-  WbBaseNode::reset();
+void WbWorldInfo::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   for (int i = 0; i < mContactProperties->size(); ++i)
-    mContactProperties->item(i)->reset();
+    mContactProperties->item(i)->reset(id);
   WbNode *const d = mDefaultDamping->value();
   if (d)
-    d->reset();
+    d->reset(id);
 }
 
 double WbWorldInfo::lineScale() const {
@@ -368,6 +376,9 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
       }
       writer << "'";
     }
+
+    writer << " basicTimeStep=\'" << mBasicTimeStep->value() << "\'";
+    writer << " coordinateSystem=\'" << mCoordinateSystem->value() << "\'";
 
     if (!findField("window")->isDefault())
       writer << " window='" << mWindow->value() << "'";

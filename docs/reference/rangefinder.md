@@ -56,9 +56,11 @@ A typically good value for this field is to set it just big enough so that the s
 More information about the frustum is provided in the [frustum](camera.md#frustum) section of the [Camera](camera.md) node.
 
 - The `minRange` field defines the minimum range of the range-finder (objects closer to the range-finder than the minimum range are not detected (but still occlude other objects).
+If the depth is smaller than the `minRange` value then infinity is returned.
 
 - The `maxRange` defines the distance between the range-finder and the far clipping plane of the OpenGL view frustum.
 This field defines the maximum range that a range-finder can achieve and so the maximum possible value of the range image (in meter).
+If the depth is bigger than the `maxRange` value then infinity is returned.
 
 - If the `motionBlur` field is greater than 0.0, the image is blurred by the motion of the range-finder or objects in the field of view.
 More information on motion blur is provided in the [motionBlur](camera.md) field description of the [Camera](camera.md) node.
@@ -182,6 +184,8 @@ period = wb_range_finder_get_sampling_period(tag)
 *enable and disable range-finder updates*
 
 The `wb_range_finder_enable` function allows the user to enable range-finder updates.
+Once the range-finder is enabled, it will copy depth images from GPU memory to CPU memory at each time step, regardless of `wb_range_finder_get_range_image` calls.
+
 The `sampling_period` argument specifies the sampling period of the sensor and is expressed in milliseconds.
 Note that the first measurement will be available only after the first sampling period elapsed.
 
@@ -481,7 +485,7 @@ namespace webots {
 from controller import RangeFinder
 
 class RangeFinder (Device):
-    def getRangeImage(self):
+    def getRangeImage(self, data_type='list'):
     def getRangeImageArray(self):
     @staticmethod
     def rangeImageGetDepth(image, width, x, y):
@@ -548,8 +552,17 @@ The `range_finder_width` parameter can be obtained from the `wb_range_finder_get
 The `x` and `y` parameters are the coordinates of the pixel in the image.
 
 > **Note** [Python]: The RangeFinder class has two methods for getting the range-finder image.
-The `getRangeImage` function returns a one-dimensional list of floats, while the `getRangeImageArray` function returns a two-dimensional list of floats.
+The `getRangeImage` function, by default, returns a one-dimensional list of floats, while the `getRangeImageArray` function returns a two-dimensional list of floats.
 Their content are identical but their handling is of course different.
+
+> `getRangeImage` takes a `data_type` keyword parameter, supporting either `list` (default) or `buffer`.
+> If `buffer`, the function will return a `bytes` object containing the native machine encoding for a buffer of `float` values, closely resembling the C API.
+> `buffer` is significantly faster than `list`, and can easily be wrapped using external libraries such as NumPy:
+
+> ```python
+> image_bytes = range_finder.getRangeImage(data_type="buffer")
+> image_np = np.frombuffer(image_bytes, dtype=np.float32)
+> ```
 
 ---
 
@@ -629,7 +642,7 @@ success = wb_range_finder_save_image(tag, 'filename', quality)
 
 *save a range-finder image in PNG, JPEG or HDR format*
 
-The `wb_range_finder_save_image` function allows the user to save a `tag` image which was previously obtained with the `wb_range_finder_get_image` function.
+The `wb_range_finder_save_image` function allows the user to save a `tag` image which was previously obtained with the `wb_range_finder_get_range_image` function.
 The image can be saved in a file using the PNG, JPEG, or HDR format.
 The image format is specified by the `filename` parameter.
 If `filename` is terminated by `.png`, the image format is PNG.

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,10 +36,11 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_APPEARANCE; }
+  void downloadAssets() override;
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override { return true; }
 
   // field accessors
@@ -51,7 +52,7 @@ public:
 
   // specific functions
   bool isTextureLoaded() const;
-  void pickColorInTexture(WbRgb &pickedColor, const WbVector2 &uv) const;
+  void pickColorInTexture(const WbVector2 &uv, WbRgb &pickedColor) const;
   WbRgb diffuseColor() const;
 
   static WrMaterial *fillWrenDefaultMaterial(WrMaterial *wrenMaterial);

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,8 +35,8 @@ namespace WbAction {
     REAL_TIME,
     PAUSE,
     STEP,
-    RUN,
     FAST,
+    RENDERING,
     SOUND_UNMUTE,
     SOUND_MUTE,
     ANIMATION,
@@ -72,7 +72,7 @@ namespace WbAction {
     LOCK_VIEWPOINT,
     DISABLE_OBJECT_MOVE,
     DISABLE_FORCE_AND_TORQUE,
-    DISABLE_FAST_MODE,
+    DISABLE_RENDERING,
     // application actions
     CUT,
     COPY,

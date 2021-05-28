@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ private:
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mExtraProjectsPath, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername,
     *mHttpProxyPassword;
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
-    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox;
+    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox;
 
   QStringList mValidThemeFilenames;
 

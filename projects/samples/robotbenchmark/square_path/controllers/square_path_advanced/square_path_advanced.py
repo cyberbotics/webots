@@ -24,8 +24,8 @@ robot = Robot()
 
 timestep = int(robot.getBasicTimeStep())
 
-leftWheel = robot.getMotor('left wheel')
-rightWheel = robot.getMotor('right wheel')
+leftWheel = robot.getDevice('left wheel')
+rightWheel = robot.getDevice('right wheel')
 
 leftWheel.setVelocity(0)
 rightWheel.setVelocity(0)
@@ -33,10 +33,10 @@ rightWheel.setVelocity(0)
 leftWheel.setPosition(float('inf'))
 rightWheel.setPosition(float('inf'))
 
-leftWheelSensor = robot.getPositionSensor('left wheel sensor')
+leftWheelSensor = robot.getDevice('left wheel sensor')
 leftWheelSensor.enable(timestep)
 
-rightWheelSensor = robot.getPositionSensor('right wheel sensor')
+rightWheelSensor = robot.getDevice('right wheel sensor')
 rightWheelSensor.enable(timestep)
 
 

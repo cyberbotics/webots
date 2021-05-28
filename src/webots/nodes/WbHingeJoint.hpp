@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ public:
   WbVector3 anchor() const override;
   // return the axis of the joint with coordinates relative to the parent Solid; defaults to unit x-axis
   WbVector3 axis() const override;
+  void updateEndPointZeroTranslationAndRotation() override;
 
 public slots:
   bool setJoint() override;
@@ -50,13 +51,14 @@ protected:
   WbRotationalMotor *rotationalMotor() const;
   void updatePosition(double position) override;  // position change caused by the jerk of a statically based robot
   WbHingeJointParameters *hingeJointParameters() const;
-  void updateEndPointZeroTranslationAndRotation() override;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
 
 protected slots:
   void updatePosition() override;
   void updateParameters() override;
   void updateMinAndMaxStop(double min, double max) override;
+  void updateStopErp();
+  void updateStopCfm();
   virtual void updateAnchor();
 
 private slots:
@@ -68,6 +70,8 @@ private:
   void applyToOdeAxis() override;
   virtual void applyToOdeSuspensionAxis();
   void applyToOdeAnchor();
+  void applyToOdeStopErp();
+  void applyToOdeStopCfm();
 };
 
 #endif

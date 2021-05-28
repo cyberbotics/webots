@@ -24,7 +24,6 @@ typedef enum WrTextureOrientation {
 /* Use wr_texture_delete(WR_TEXTURE(texture)) to delete an instance */
 WrTextureCubeMap *wr_texture_cubemap_new();
 
-void wr_texture_cubemap_set_wrap_r(WrTextureCubeMap *texture, WrTextureWrapMode mode);
 void wr_texture_cubemap_set_data(WrTextureCubeMap *texture, const char *data, WrTextureOrientation orientation);
 void wr_texture_cubemap_disable_automatic_mip_map_generation(WrTextureCubeMap *texture);
 

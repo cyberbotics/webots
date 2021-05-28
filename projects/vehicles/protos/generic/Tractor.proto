@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # A simple tractor.
 
@@ -12,8 +11,10 @@ PROTO Tractor [
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
   field     MFString   controllerArgs    [ ]
+  field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE
   field     MFNode     sensorSlot        [ ]
+  field     SFString   window            "automobile"
 ]
 {
 Car {
@@ -23,6 +24,7 @@ Car {
   model "tractor"
   controller IS controller
   controllerArgs IS controllerArgs
+  supervisor IS supervisor
   synchronization IS synchronization
   trackFront 1.4
   trackRear 1.4
@@ -1180,5 +1182,6 @@ Car {
   }
   type "4x4"
   time0To100 20
+  window IS window
 }
 }

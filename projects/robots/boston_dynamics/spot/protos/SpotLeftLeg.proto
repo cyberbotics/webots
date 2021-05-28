@@ -1,5 +1,5 @@
-#VRML_SIM R2021a utf8
-# tags: static, hidden
+#VRML_SIM R2021b utf8
+# tags: hidden
 
 PROTO SpotLeftLeg [
   field SFVec3f     translation  0 0 0       # Is `Transform.translation`.

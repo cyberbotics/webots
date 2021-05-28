@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -172,11 +172,11 @@ int WbPointSet::computeCoordsAndColorData(float *coordsData, float *colorData) {
 }
 
 void WbPointSet::updateCoord() {
-  if (!sanitizeFields())
-    return;
-
   if (coord())
     connect(coord(), &WbCoordinate::fieldChanged, this, &WbPointSet::updateCoord, Qt::UniqueConnection);
+
+  if (!sanitizeFields())
+    return;
 
   if (areWrenObjectsInitialized())
     buildWrenMesh();
@@ -188,11 +188,11 @@ void WbPointSet::updateCoord() {
 }
 
 void WbPointSet::updateColor() {
-  if (!sanitizeFields())
-    return;
-
   if (color())
     connect(color(), &WbCoordinate::fieldChanged, this, &WbPointSet::updateColor, Qt::UniqueConnection);
+
+  if (!sanitizeFields())
+    return;
 
   if (areWrenObjectsInitialized())
     buildWrenMesh();

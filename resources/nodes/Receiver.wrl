@@ -29,6 +29,7 @@ Receiver {
   field     SFInt32                                  bufferSize          -1      # reception buffer size in bytes (-1 for unlimited)
   field     SFFloat                                  signalStrengthNoise 0       # standard deviation of the noise applied to the signal strength (0 for no noise)
   field     SFFloat                                  directionNoise      0       # standard deviation of the noise applied to the direction (0 for no noise)
+  field     MFInt32                                  allowedChannels     []      # allowed channels to listen to (empty for unlimited access)
 
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity

@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # This bounding object with a pipe shape is formed by a group of boxes.
 
 PROTO PipeBoundingObject [
@@ -72,7 +71,7 @@ PROTO PipeBoundingObject [
           local az = boxRadius * math.cos(gamma)
           local angle = gamma + 0.5 * math.pi
           -- add small offset to boxes y translation to reduce constraints
-          -- on the top and bottm face due to co-planarity
+          -- on the top and bottom face due to co-planarity
           local offset = wbrandom.real(-1.0, 1.0) * fields.accuracy.value;
         }%
         Transform {

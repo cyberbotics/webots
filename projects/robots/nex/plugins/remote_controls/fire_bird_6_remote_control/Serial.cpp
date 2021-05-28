@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -125,7 +125,8 @@ Serial::Serial(const string &port) : mName(port) {
     throwFatalException("Error getting the tty attributes");
   }
 
-#else   // __linux__
+#else
+  // __linux__
   mFd = open(mName.c_str(), O_RDWR | O_NOCTTY);
   if (mFd > 0) {
     tcflush(mFd, TCIOFLUSH);  // flush old data

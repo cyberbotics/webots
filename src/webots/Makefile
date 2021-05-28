@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -136,7 +136,7 @@ LIBS += -lode
 endif
 
 else ifeq ($(OSTYPE),windows)
-vpath %.c ../Controller/api
+vpath %.c ../controller/c
 WB_NODES_INCLUDE  += $(OPEN_VR_INCLUDE)
 C_SOURCES         += system.c
 LIB_WREN           = ../wren/wren.a ../glad/glad.a
@@ -242,6 +242,7 @@ QT_SOURCES += \
   WbBallJointParameters.cpp \
   WbBaseNode.cpp \
   WbBasicJoint.cpp \
+  WbBillboard.cpp \
   WbBoolEditor.cpp \
   WbBox.cpp \
   WbBrake.cpp \
@@ -263,7 +264,6 @@ QT_SOURCES += \
   WbCoordinateSystem.cpp \
   WbCylinder.cpp \
   WbDamping.cpp \
-  WbDifferentialWheels.cpp \
   WbDirectionalLight.cpp \
   WbDistanceSensor.cpp \
   WbDisplay.cpp \
@@ -272,6 +272,7 @@ QT_SOURCES += \
   WbDocumentation.cpp \
   WbDoubleEditor.cpp \
   WbDoubleSpinBox.cpp \
+  WbDownloader.cpp \
   WbDragResizeEvent.cpp \
   WbDragScaleEvent.cpp \
   WbDragSolidEvent.cpp \
@@ -299,7 +300,6 @@ QT_SOURCES += \
   WbHingeJoint.cpp \
   WbHingeJointParameters.cpp \
   WbHinge2Joint.cpp \
-  WbHtmlExportDialog.cpp \
   WbImageTexture.cpp \
   WbImportWizard.cpp \
   WbImmersionProperties.cpp \

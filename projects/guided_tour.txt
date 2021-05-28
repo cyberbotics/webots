@@ -36,6 +36,7 @@ projects/samples/devices/worlds/camera_auto_focus.wbt 20
 projects/samples/devices/worlds/camera_motion_blur.wbt 20
 projects/samples/devices/worlds/camera_noise_mask.wbt 20
 projects/samples/devices/worlds/camera_recognition.wbt 20
+projects/samples/devices/worlds/camera_segmentation.wbt 20
 projects/samples/devices/worlds/compass.wbt 20
 projects/samples/devices/worlds/connector.wbt 20
 projects/samples/devices/worlds/display.wbt 20
@@ -64,6 +65,7 @@ projects/samples/devices/worlds/radar.wbt 20
 projects/samples/devices/worlds/range_finder.wbt 20
 projects/samples/devices/worlds/receiver_noise.wbt 20
 projects/samples/devices/worlds/sick.wbt 20
+projects/samples/devices/worlds/sick_point_cloud.wbt 20
 projects/samples/devices/worlds/speaker.wbt 20
 projects/samples/devices/worlds/speaker_text_to_speech.wbt 20
 projects/samples/devices/worlds/spherical_camera.wbt 20

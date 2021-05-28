@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ def search_and_replace(filename, fromString, toString):
 
 def run_webots():
     """Run Webots on WORLD with right flags."""
-    os.system(WEBOTS_HOME + '/webots --enable-x3d-meta-file-export --mode=fast --minimize %s' % WORLD)
+    os.system(WEBOTS_HOME + '/webots --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize %s' % WORLD)
 
 
 # Script logics.

@@ -1,4 +1,6 @@
-#version 330
+#version 330 core
+
+precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
 const int maxDirectionalLights = 256;
@@ -189,7 +191,7 @@ void main() {
     // Apply main texture
     if (material.textureFlags.x > 0.0) {
       vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
-      texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
+      texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0.0, 1.0));
     }
 
     // Mix with pen texture

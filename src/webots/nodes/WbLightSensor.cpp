@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <wren/config.h>
 #include <wren/material.h>
@@ -252,7 +252,7 @@ void WbLightSensor::prePhysicsStep(double ms) {
 }
 
 void WbLightSensor::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
   foreach (LightRay *ray, mRayList)
     ray->recomputeRayDirection();
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ RosSpeaker::RosSpeaker(Speaker *speaker, Ros *ros) : RosDevice(speaker, ros) {
   mSpeakServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/speak", &RosSpeaker::speakCallback);
   mPlayServer =
     RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/play_sound", &RosSpeaker::playCallback);
-  mIsSpeakingServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_sound_playing",
-                                                     &RosSpeaker::isSpeakingCallback);
+  mIsSpeakingServer =
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_speaking", &RosSpeaker::isSpeakingCallback);
   mIsPlayingServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_speaking", &RosSpeaker::isPlayingCallback);
+    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_sound_playing", &RosSpeaker::isPlayingCallback);
   mSpeaker = speaker;
 }
 

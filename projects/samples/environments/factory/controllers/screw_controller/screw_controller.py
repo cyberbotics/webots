@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,8 +34,8 @@ for i in range(robot.getNumberOfDevices()):
     positionSensorName = 'position sensor %d' % i
     if linearMotorName in deviceNames and positionSensorName in deviceNames:
         numberOfScrews += 1
-        motors.append(robot.getMotor(linearMotorName))
-        sensors.append(robot.getPositionSensor(positionSensorName))
+        motors.append(robot.getDevice(linearMotorName))
+        sensors.append(robot.getDevice(positionSensorName))
         previousPosition.append(0)
     else:
         break

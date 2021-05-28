@@ -1,0 +1,543 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Model of pedal racer."
+    "A simple example of a passive system including a mechanical loop"
+    "Biorob, EPFL"
+  ]
+  coordinateSystem "NUE"
+  lineScale 0.2
+}
+Viewpoint {
+  orientation -0.33486694206627604 -0.9385058376336051 -0.08408878545220244 0.880818
+  position -2.03031 0.928808 1.87176
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+}
+DEF PEDAL_RACER Solid {
+  translation 0 0.075 0
+  children [
+    DEF RIGHT_PEDAL_GROUP Group {
+      children [
+        DEF FRONT_CYLINDER Transform {
+          translation 0.08 0.038 0.09
+          children [
+            DEF PEDAL_FRONT_HALF_CYLINDER Shape {
+              appearance DEF RED_PLASTIC PBRAppearance {
+                baseColor 0.8 0.094453 0.068437
+                roughness 0.04174483200000001
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.0249
+                radius 0.055
+                subdivision 24
+              }
+            }
+          ]
+        }
+        DEF MIDDLE_BOX Transform {
+          translation 0.08 0.038 0
+          children [
+            Shape {
+              appearance USE RED_PLASTIC
+              geometry Box {
+                size 0.11 0.025 0.2
+              }
+            }
+          ]
+        }
+        DEF BACK_CYLINDER Transform {
+          translation 0.08 0.038 -0.09
+          children [
+            DEF PEDAL_FRONT_HALF_CYLINDER Shape {
+              appearance DEF RED_PLASTIC PBRAppearance {
+                baseColor 0.8 0.094453 0.068437
+                roughness 0.04174483200000001
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.0249
+                radius 0.055
+                subdivision 24
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF PLASTIC_HINGES Group {
+      children [
+        DEF BACK_HINGE Transform {
+          translation 0.144 0.038 0.11
+          rotation 0 0 1 1.5708
+          children [
+            Shape {
+              appearance USE RED_PLASTIC
+              geometry Cylinder {
+                height 0.036
+                radius 0.013
+                subdivision 24
+              }
+            }
+          ]
+        }
+        DEF FRONT_HINGE Transform {
+          translation 0.144 0.038 -0.11
+          rotation 0 0 1 1.5708
+          children [
+            Shape {
+              appearance USE RED_PLASTIC
+              geometry Cylinder {
+                height 0.036
+                radius 0.013
+                subdivision 24
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BACK_RIGHT_AXLE_HINGE HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.08 0.038 0.11
+      }
+      endPoint DEF BACK_AXLE Solid {
+        rotation 1 0 0 0
+        children [
+          DEF BACK_RIGHT_WHEEL Solid {
+            rotation 1 0 0 0
+            children [
+              Group {
+                children [
+                  DEF BLACK_TIRE Transform {
+                    translation 0.2125 0 0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColor 0.036484 0.036484 0.036484
+                          roughness 0.2772110000000001
+                          metalness 0
+                        }
+                        geometry Cylinder {
+                          height 0.025
+                          radius 0.075
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                  DEF RED_RIM Transform {
+                    translation 0.2125 0 0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE RED_PLASTIC
+                        geometry Cylinder {
+                          height 0.0255
+                          radius 0.058
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                  DEF ANCHOR Transform {
+                    translation 0.19 0.038 0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE RED_PLASTIC
+                        geometry Cylinder {
+                          height 0.025
+                          radius 0.013
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            name "back right wheel"
+            boundingObject USE BLACK_TIRE
+            physics DEF PLASTIC_DENSITY Physics {
+              density 750
+            }
+          }
+          DEF BACK_LEFT_WHEEL Solid {
+            rotation 1 0 0 0
+            children [
+              Group {
+                children [
+                  DEF BLACK_TIRE Transform {
+                    translation -0.2125 0 0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColor 0.036484 0.036484 0.036484
+                          roughness 0.2772110000000001
+                          metalness 0
+                        }
+                        geometry Cylinder {
+                          height 0.025
+                          radius 0.075
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                  DEF RED_RIM Transform {
+                    translation -0.2125 0 0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE RED_PLASTIC
+                        geometry Cylinder {
+                          height 0.0255
+                          radius 0.058
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                  DEF ANCHOR Transform {
+                    translation -0.19 -0.038 0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE RED_PLASTIC
+                        geometry Cylinder {
+                          height 0.025
+                          radius 0.013
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            name "back left wheel"
+            boundingObject USE BLACK_TIRE
+            physics USE PLASTIC_DENSITY
+          }
+          DEF LEFT_PEDAL_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              anchor -0.08 -0.038 0.11
+            }
+            endPoint DEF LEFT_PEDAL Solid {
+              rotation 1 0 0 0
+              children [
+                DEF LEFT_PEDAL_GROUP Group {
+                  children [
+                    DEF FRONT_CYLINDER Transform {
+                      translation -0.08 -0.038 0.09
+                      children [
+                        DEF PEDAL_FRONT_HALF_CYLINDER Shape {
+                          appearance DEF RED_PLASTIC PBRAppearance {
+                            baseColor 0.8 0.094453 0.068437
+                            roughness 0.04174483200000001
+                            metalness 0
+                          }
+                          geometry Cylinder {
+                            height 0.0249
+                            radius 0.055
+                            subdivision 24
+                          }
+                        }
+                      ]
+                    }
+                    DEF MIDDLE_BOX Transform {
+                      translation -0.08 -0.038 0
+                      children [
+                        Shape {
+                          appearance USE RED_PLASTIC
+                          geometry Box {
+                            size 0.11 0.025 0.2
+                          }
+                        }
+                      ]
+                    }
+                    DEF BACK_CYLINDER Transform {
+                      translation -0.08 -0.038 -0.09
+                      children [
+                        DEF PEDAL_FRONT_HALF_CYLINDER Shape {
+                          appearance DEF RED_PLASTIC PBRAppearance {
+                            baseColor 0.8 0.094453 0.068437
+                            roughness 0.04174483200000001
+                            metalness 0
+                          }
+                          geometry Cylinder {
+                            height 0.0249
+                            radius 0.055
+                            subdivision 24
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+                DEF PLASTIC_HINGES Group {
+                  children [
+                    DEF BACK_HINGE Transform {
+                      translation -0.144 -0.038 0.11
+                      rotation 0 0 1 1.5708
+                      children [
+                        Shape {
+                          appearance USE RED_PLASTIC
+                          geometry Cylinder {
+                            height 0.036
+                            radius 0.013
+                            subdivision 24
+                          }
+                        }
+                      ]
+                    }
+                    DEF FRONT_HINGE Transform {
+                      translation -0.144 -0.038 -0.11
+                      rotation 0 0 1 1.5708
+                      children [
+                        Shape {
+                          appearance USE RED_PLASTIC
+                          geometry Cylinder {
+                            height 0.036
+                            radius 0.013
+                            subdivision 24
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+                DEF FRONT_AXLE_HINGE HingeJoint {
+                  jointParameters HingeJointParameters {
+                    anchor -0.08 -0.038 -0.11
+                  }
+                  endPoint SolidReference {
+                    solidName "front axle"
+                  }
+                }
+              ]
+              name "left pedal"
+              boundingObject USE LEFT_PEDAL_GROUP
+              physics USE PLASTIC_DENSITY
+            }
+          }
+          DEF AXLE_GROUP Group {
+            children [
+              DEF MIDDLE_SEGMENT Transform {
+                translation 0 0 0.11
+                rotation 0 0 1 -0.5
+                children [
+                  DEF SMALL_CAPSULE Shape {
+                    appearance DEF METAL PBRAppearance {
+                      baseColor 0.556786 0.618021 0.668055
+                      roughness 0.10093799999999997
+                      metalness 0
+                    }
+                    geometry DEF SMALL_CAPSULE_SEGMENT Capsule {
+                      height 0.07
+                      radius 0.007
+                    }
+                  }
+                ]
+              }
+              DEF UPPER_SEGMENT Transform {
+                translation 0.105 0.038 0.11
+                rotation 0 0 1 1.5708
+                children [
+                  DEF LONG_CAPSULE Shape {
+                    appearance DEF METAL PBRAppearance {
+                      baseColor 0.556786 0.618021 0.668055
+                      roughness 0.10093799999999997
+                      metalness 0
+                    }
+                    geometry Capsule {
+                      height 0.17
+                      radius 0.007
+                    }
+                  }
+                ]
+              }
+              DEF LOWER_SEGMENT Transform {
+                translation -0.105 -0.038 0.11
+                rotation 0 0 1 1.5708
+                children [
+                  USE LONG_CAPSULE
+                ]
+              }
+            ]
+          }
+        ]
+        name "back axle"
+        boundingObject USE AXLE_GROUP
+        physics DEF METAL_DENSITY Physics {
+          density 2500
+        }
+      }
+    }
+    DEF FRONT_RIGHT_AXLE_HINGE HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.08 0.038 -0.11
+      }
+      endPoint DEF FRONT_AXLE Solid {
+        rotation 1 0 0 0
+        children [
+          DEF FRONT_RIGHT_WHEEL Solid {
+            rotation 1 0 0 0
+            children [
+              Group {
+                children [
+                  DEF BLACK_TIRE Transform {
+                    translation 0.2125 0 -0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColor 0.036484 0.036484 0.036484
+                          roughness 0.2772110000000001
+                          metalness 0
+                        }
+                        geometry Cylinder {
+                          height 0.025
+                          radius 0.075
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                  DEF RED_RIM Transform {
+                    translation 0.2125 0 -0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE RED_PLASTIC
+                        geometry Cylinder {
+                          height 0.0255
+                          radius 0.058
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                  DEF ANCHOR Transform {
+                    translation 0.19 0.038 -0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE RED_PLASTIC
+                        geometry Cylinder {
+                          height 0.025
+                          radius 0.013
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            name "front right wheel"
+            boundingObject USE BLACK_TIRE
+            physics USE PLASTIC_DENSITY
+          }
+          DEF FRONT_LEFT_WHEEL Solid {
+            rotation 1 0 0 0
+            children [
+              Group {
+                children [
+                  DEF BLACK_TIRE Transform {
+                    translation -0.2125 0 -0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColor 0.036484 0.036484 0.036484
+                          roughness 0.2772110000000001
+                          metalness 0
+                        }
+                        geometry Cylinder {
+                          height 0.025
+                          radius 0.075
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                  DEF RED_RIM Transform {
+                    translation -0.2125 0 -0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE RED_PLASTIC
+                        geometry Cylinder {
+                          height 0.0255
+                          radius 0.058
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                  DEF ANCHOR Transform {
+                    translation -0.19 -0.038 -0.11
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE RED_PLASTIC
+                        geometry Cylinder {
+                          height 0.025
+                          radius 0.013
+                          subdivision 24
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            name "front left wheel"
+            boundingObject USE BLACK_TIRE
+            physics USE PLASTIC_DENSITY
+          }
+          DEF AXLE_GROUP Group {
+            children [
+              DEF MIDDLE_SEGMENT Transform {
+                translation 0 0 -0.11
+                rotation 0 0 1 -0.5
+                children [
+                  USE SMALL_CAPSULE
+                ]
+              }
+              DEF UPPER_SEGMENT Transform {
+                translation 0.105 0.038 -0.11
+                rotation 0 0 1 1.5708
+                children [
+                  USE LONG_CAPSULE
+                ]
+              }
+              DEF LOWER_SEGMENT Transform {
+                translation -0.105 -0.038 -0.11
+                rotation 0 0 1 1.5708
+                children [
+                  USE LONG_CAPSULE
+                ]
+              }
+            ]
+          }
+        ]
+        name "front axle"
+        boundingObject USE AXLE_GROUP
+        physics USE METAL_DENSITY
+      }
+    }
+  ]
+  name "robot"
+  boundingObject USE RIGHT_PEDAL_GROUP
+  physics USE PLASTIC_DENSITY
+}

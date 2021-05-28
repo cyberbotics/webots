@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -132,6 +132,32 @@ void WbHingeJoint::applyToOdeMinAndMaxStop() {
     dJointSetHingeParam(mJoint, dParamLoStop, min);
     dJointSetHingeParam(mJoint, dParamHiStop, max);
   }
+}
+
+void WbHingeJoint::applyToOdeStopErp() {
+  assert(mJoint);
+
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
+  const double erp = (p && p->stopErp() != -1) ? p->stopErp() : wi->erp();
+
+  if (nodeType() == WB_NODE_HINGE_JOINT)
+    dJointSetHingeParam(mJoint, dParamStopERP, erp);
+  if (nodeType() == WB_NODE_HINGE_2_JOINT)
+    dJointSetHinge2Param(mJoint, dParamStopERP, erp);
+}
+
+void WbHingeJoint::applyToOdeStopCfm() {
+  assert(mJoint);
+
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
+  const double cfm = (p && p->stopCfm() != -1) ? p->stopCfm() : wi->cfm();
+
+  if (nodeType() == WB_NODE_HINGE_JOINT)
+    dJointSetHingeParam(mJoint, dParamStopCFM, cfm);
+  if (nodeType() == WB_NODE_HINGE_2_JOINT)
+    dJointSetHinge2Param(mJoint, dParamStopCFM, cfm);
 }
 
 void WbHingeJoint::applyToOdeAxis() {
@@ -360,6 +386,9 @@ void WbHingeJoint::updatePosition(double position) {
   assert(s);
   // called after an artificial move
   mPosition = position;
+  WbMotor *m = motor();
+  if (m && !m->isConfigureDone())
+    m->setTargetPosition(position);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);
@@ -379,6 +408,8 @@ void WbHingeJoint::updateParameters() {
   if (p) {
     connect(p, &WbHingeJointParameters::anchorChanged, this, &WbHingeJoint::updateAnchor, Qt::UniqueConnection);
     connect(p, &WbHingeJointParameters::suspensionChanged, this, &WbHingeJoint::updateSuspension, Qt::UniqueConnection);
+    connect(p, &WbHingeJointParameters::stopErpChanged, this, &WbHingeJoint::updateStopErp, Qt::UniqueConnection);
+    connect(p, &WbHingeJointParameters::stopCfmChanged, this, &WbHingeJoint::updateStopCfm, Qt::UniqueConnection);
   }
 }
 
@@ -410,6 +441,16 @@ void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
 
   if (mJoint)
     applyToOdeMinAndMaxStop();
+}
+
+void WbHingeJoint::updateStopErp() {
+  if (mJoint)
+    applyToOdeStopErp();
+}
+
+void WbHingeJoint::updateStopCfm() {
+  if (mJoint)
+    applyToOdeStopCfm();
 }
 
 void WbHingeJoint::updateAnchor() {

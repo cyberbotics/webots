@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
 #ifdef __linux__
                 "x"  // we support 3.6 on ubuntu 18.04 and 3.5 and 3.6 on ubuntu 16.04
 #else
-                "8, 3.7"
+                "9, 3.8, 3.7"
 #endif
                 " or 2.7 (64 bit) from python.org in your current PATH.\n"
                 "To fix the problem, you should:\n"
@@ -88,7 +88,8 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   const QString output = process.readAll();
   // "3.6.3 (v3.6.3:2c5fed8, Oct  3 2017, 18:11:49) [MSC v.1900 64 bit (AMD64)]\nTrue\n" or the like
   const QStringList version = output.split("\n");
-  if (!version[0].startsWith("3.8.") && !version[0].startsWith("3.7.") && !version[0].startsWith("2.7.")) {
+  if (!version[0].startsWith("3.9.") && !version[0].startsWith("3.8.") && !version[0].startsWith("3.7.") &&
+      !version[0].startsWith("2.7.")) {
     WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
     pythonCommand = "!";
   } else if (version.size() > 1 && version[1].startsWith("False")) {
@@ -128,10 +129,8 @@ const QString &WbLanguageTools::matlabCommand() {
     // and with the termination of the QProcess.
     QString PATH = qgetenv("PATH");
     QStringList dirs = PATH.split(';', Qt::SkipEmptyParts);
-    bool matlabFound = false;
     foreach (QString dir, dirs) {
-      if (dir.contains("matlab", Qt::CaseInsensitive)) {
-        matlabFound = QDir(dir).exists();
+      if (QDir(dir).exists()) {
         QString file = dir + "\\win64\\MATLAB.exe";
         if (QFile::exists(file)) {
           gMatlabCommand = file;
@@ -140,11 +139,8 @@ const QString &WbLanguageTools::matlabCommand() {
       }
     }
     if (gMatlabCommand.isEmpty()) {
-      if (matlabFound)
-        WbLog::warning(QObject::tr("To run Matlab controllers, you need to install a 64-bit version of Matlab."));
-      else
-        WbLog::warning(QObject::tr("To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available "
-                                   "from the DOS CMD.EXE console."));
+      WbLog::warning(QObject::tr("To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available "
+                                 "from the DOS CMD.EXE console."));
       gMatlabCommand = "!";
     }
 #else

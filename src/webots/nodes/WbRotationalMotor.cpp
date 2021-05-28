@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
+#include "WbPropeller.hpp"
 #include "WbSolid.hpp"
 
 #include <ode/ode.h>
@@ -84,6 +85,14 @@ void WbRotationalMotor::turnOffMotor() {
 }
 
 double WbRotationalMotor::computeFeedback() const {
+  const WbPropeller *propeller = dynamic_cast<WbPropeller *>(parentNode());
+  if (propeller)
+    // RotationalMotor usually returns only torque feedback,
+    // but the propeller case is different since the motor produces both a torque and a force (thrust).
+    // We therefore estimate the feedback by the sum of the force and torque,
+    // so that the consumption computation takes both into account.
+    return fabs(propeller->currentThrust()) + fabs(propeller->currentTorque());
+
   const WbJoint *j = joint();
   if (j == NULL) {  // function available for motorized joints only
     warn(tr("Feedback is available for motorized joints only"));

@@ -1,0 +1,34 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Webots console using some ANSI escape codes"
+  ]
+  title "Console"
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.9995664265494058 0.025776351375602483 -0.014231606550659226 5.521444598818434
+  position -0.0737301829637464 1.514885123815716 1.6184389643970347
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  children [
+    DEF BOX Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE BOX
+  controller "console"
+}

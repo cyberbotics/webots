@@ -20,7 +20,7 @@ Auditorium {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Auditorium.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Auditorium.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Auditorium.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Auditorium.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -45,7 +45,7 @@ BigGlassTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BigGlassTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/BigGlassTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BigGlassTower.proto]({{ url.github_tree }}/projects/objects/buildings/protos/BigGlassTower.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -85,7 +85,7 @@ Building {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Building.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Building.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Building.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Building.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -112,7 +112,7 @@ Building {
 
 - `roofAppearance`: Defines the appearance used for the roof of the building.
 
-- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, `"pyramidal roof"`, `"gabled roof"` and `"hipped roof"`.
+- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, `"pyramidal roof"`, `"gabled roof"`, and `"hipped roof"`.
 
 - `roofHeight`: Defines the height of the roof (used only in the case of pyramidal roof).
 
@@ -140,7 +140,7 @@ BuildingUnderConstruction {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BuildingUnderConstruction.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/BuildingUnderConstruction.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BuildingUnderConstruction.proto]({{ url.github_tree }}/projects/objects/buildings/protos/BuildingUnderConstruction.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -174,7 +174,7 @@ BungalowStyleHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BungalowStyleHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/BungalowStyleHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BungalowStyleHouse.proto]({{ url.github_tree }}/projects/objects/buildings/protos/BungalowStyleHouse.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -216,7 +216,7 @@ Carwash {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Carwash.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Carwash.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Carwash.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Carwash.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -246,7 +246,7 @@ Church {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Church.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Church.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Church.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Church.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -275,7 +275,7 @@ CommercialBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/CommercialBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/CommercialBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/CommercialBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/CommercialBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -301,7 +301,7 @@ ComposedHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ComposedHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ComposedHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ComposedHouse.proto]({{ url.github_tree }}/projects/objects/buildings/protos/ComposedHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -330,7 +330,7 @@ CyberboticsTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/CyberboticsTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/CyberboticsTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/CyberboticsTower.proto]({{ url.github_tree }}/projects/objects/buildings/protos/CyberboticsTower.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -360,7 +360,7 @@ FastFoodRestaurant {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/FastFoodRestaurant.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/FastFoodRestaurant.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/FastFoodRestaurant.proto]({{ url.github_tree }}/projects/objects/buildings/protos/FastFoodRestaurant.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -373,7 +373,7 @@ FastFoodRestaurant {
 
 - `width`: Defines the width of the building.
 
-- `brand`: Defines the brand of the restaurant. This field accepts the following values: `"KFC"`, `"FFC"`, `"subway"` and `"momo"`.
+- `brand`: Defines the brand of the restaurant. This field accepts the following values: `"KFC"`, `"FFC"`, `"subway"`, and `"momo"`.
 
 - `numberOfSides`: Defines whether it is a two sided restaurant. This field accepts the following values: `1` and `2`.
 
@@ -398,7 +398,7 @@ GasStation {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/GasStation.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/GasStation.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/GasStation.proto]({{ url.github_tree }}/projects/objects/buildings/protos/GasStation.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -427,7 +427,7 @@ HollowBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/HollowBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/HollowBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/HollowBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/HollowBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -452,7 +452,7 @@ Hotel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Hotel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Hotel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Hotel.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Hotel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -478,7 +478,7 @@ HouseWithGarage {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/HouseWithGarage.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/HouseWithGarage.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/HouseWithGarage.proto]({{ url.github_tree }}/projects/objects/buildings/protos/HouseWithGarage.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -510,7 +510,7 @@ LargeResidentialTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/LargeResidentialTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/LargeResidentialTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/LargeResidentialTower.proto]({{ url.github_tree }}/projects/objects/buildings/protos/LargeResidentialTower.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -548,7 +548,7 @@ ModernHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ModernHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ModernHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ModernHouse.proto]({{ url.github_tree }}/projects/objects/buildings/protos/ModernHouse.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -582,7 +582,7 @@ ModernSuburbanHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ModernSuburbanHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ModernSuburbanHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ModernSuburbanHouse.proto]({{ url.github_tree }}/projects/objects/buildings/protos/ModernSuburbanHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -612,7 +612,7 @@ MotelReception {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/MotelReception.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/MotelReception.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/MotelReception.proto]({{ url.github_tree }}/projects/objects/buildings/protos/MotelReception.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -641,7 +641,7 @@ Museum {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Museum.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Museum.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Museum.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Museum.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -668,14 +668,14 @@ OldResidentialBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/OldResidentialBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/OldResidentialBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/OldResidentialBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/OldResidentialBuilding.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
 
 ### OldResidentialBuilding Field Summary
 
-- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"red grey"`, `"dark grey"`, `"light grey"`, `"red"` and `"braun"`.
+- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"red grey"`, `"dark grey"`, `"light grey"`, `"red"`, and `"braun"`.
 
 - `enableBoundingObject`: Defines whether the building should have a bounding object.
 
@@ -715,7 +715,7 @@ RandomBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/RandomBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/RandomBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/RandomBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/RandomBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -736,11 +736,11 @@ RandomBuilding {
 
 - `groundFloorTranslation`: Defines the translation of the ground floor textures.
 
-- `roofType`: Defines the texture to be used for the roof. This field accepts the following values: `"tiled"`, `"gravel"`, `"slate"`, `"old tiles"`, `"sheet metal"`, `"metal tiles"` and `"bitumen"`.
+- `roofType`: Defines the texture to be used for the roof. This field accepts the following values: `"tiled"`, `"gravel"`, `"slate"`, `"old tiles"`, `"sheet metal"`, `"metal tiles"`, and `"bitumen"`.
 
 - `roofColor`: Defines the color to be used for the roof.
 
-- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, `"pyramidal roof"`, `"gabled roof"` and `"hipped roof"`.
+- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, `"pyramidal roof"`, `"gabled roof"`, and `"hipped roof"`.
 
 - `snowOnRoof`: Defines whether the texture with or without snow should be used.
 
@@ -770,7 +770,7 @@ ResidentialBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ResidentialBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/ResidentialBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -797,14 +797,14 @@ ResidentialBuildingWithRoundFront {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto]({{ url.github_tree }}/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
 
 ### ResidentialBuildingWithRoundFront Field Summary
 
-- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"dark grey"`, `"orange"`, `"green"`, `"dark braun"`, `"light grey"` and `"light braun"`.
+- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"dark grey"`, `"orange"`, `"green"`, `"dark braun"`, `"light grey"`, and `"light braun"`.
 
 - `enableBoundingObject`: Defines whether the building should have a bounding object.
 
@@ -830,7 +830,7 @@ ResidentialTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ResidentialTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialTower.proto]({{ url.github_tree }}/projects/objects/buildings/protos/ResidentialTower.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -878,7 +878,7 @@ SimpleBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SimpleBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SimpleBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SimpleBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/SimpleBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -893,7 +893,7 @@ SimpleBuilding {
 
 - `corners`: Defines the 2D geometry of the building (2D ground footprint of the building).
 
-- `wallType`: Defines the wall type. This field accepts the following values: `"glass building"`, `"classic building"`, `"orange building"`, `"gray glass building"`, `"blue glass building"`, `"arcade-style building"`, `"transparent highrise"`, `"windowed building"`, `"old brick building"`, `"red and white building"`, `"construction building"`, `"red brick wall"`, `"old brick wall"`, `"stone brick"`, `"stone wall"`, `"glass highrise"`, `"old house"`, `"old building"`, `"highrise"`, `"brick building"`, `"residential building"`, `"old office building"`, `"factory building"`, `"tall house"`, `"office building"` and `"concrete building"`.
+- `wallType`: Defines the wall type. This field accepts the following values: `"glass building"`, `"classic building"`, `"orange building"`, `"gray glass building"`, `"blue glass building"`, `"arcade-style building"`, `"transparent highrise"`, `"windowed building"`, `"old brick building"`, `"red and white building"`, `"construction building"`, `"red brick wall"`, `"old brick wall"`, `"stone brick"`, `"stone wall"`, `"glass highrise"`, `"old house"`, `"old building"`, `"highrise"`, `"brick building"`, `"residential building"`, `"old office building"`, `"factory building"`, `"tall house"`, `"office building"`, and `"concrete building"`.
 
 - `wallColor`: Defines the wall color.
 
@@ -903,11 +903,11 @@ SimpleBuilding {
 
 - `groundFloorTranslation`: Defines the translation of the ground floor textures.
 
-- `roofType`: Defines roof type. This field accepts the following values: `"tiled"`, `"gravel"`, `"slate"`, `"old tiles"`, `"sheet metal"`, `"metal tiles"` and `"bitumen"`.
+- `roofType`: Defines roof type. This field accepts the following values: `"tiled"`, `"gravel"`, `"slate"`, `"old tiles"`, `"sheet metal"`, `"metal tiles"`, and `"bitumen"`.
 
 - `roofColor`: Defines the roof color.
 
-- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, `"pyramidal roof"`, `"gabled roof"` and `"hipped roof"`.
+- `roofShape`: Defines the geometry of the roof. This field accepts the following values: `"flat roof"`, `"pyramidal roof"`, `"gabled roof"`, and `"hipped roof"`.
 
 - `snowOnRoof`: Defines whether the texture with or without snow should be used.
 
@@ -941,7 +941,7 @@ SimpleTwoFloorsHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto]({{ url.github_tree }}/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -973,7 +973,7 @@ SmallManor {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallManor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SmallManor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallManor.proto]({{ url.github_tree }}/projects/objects/buildings/protos/SmallManor.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1004,14 +1004,14 @@ SmallResidentialBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallResidentialBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SmallResidentialBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallResidentialBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/SmallResidentialBuilding.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
 
 ### SmallResidentialBuilding Field Summary
 
-- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"white"`, `"braun black"` and `"red"`.
+- `type`: Defines the type which has a direct influence on the building texture. This field accepts the following values: `"white"`, `"braun black"`, and `"red"`.
 
 - `enableBoundingObject`: Defines whether the building should have a bounding object.
 
@@ -1037,7 +1037,7 @@ SmallResidentialTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallResidentialTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SmallResidentialTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallResidentialTower.proto]({{ url.github_tree }}/projects/objects/buildings/protos/SmallResidentialTower.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1071,7 +1071,7 @@ StripBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/StripBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/StripBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/StripBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/StripBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1105,7 +1105,7 @@ SuburbanHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SuburbanHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SuburbanHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SuburbanHouse.proto]({{ url.github_tree }}/projects/objects/buildings/protos/SuburbanHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1134,7 +1134,7 @@ TheThreeTowers {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/TheThreeTowers.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/TheThreeTowers.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/TheThreeTowers.proto]({{ url.github_tree }}/projects/objects/buildings/protos/TheThreeTowers.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1159,7 +1159,7 @@ UBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/UBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/UBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/UBuilding.proto]({{ url.github_tree }}/projects/objects/buildings/protos/UBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1185,7 +1185,7 @@ Warehouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Warehouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Warehouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Warehouse.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Warehouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1215,7 +1215,7 @@ Windmill {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Windmill.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Windmill.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Windmill.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Windmill.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)

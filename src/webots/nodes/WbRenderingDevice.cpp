@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -104,6 +104,8 @@ int WbRenderingDevice::height() const {
 }
 
 void WbRenderingDevice::setup() {
+  if (mHasBeenSetup)
+    return;
   if (mWidth)
     mSetupWidth = mWidth->value();
   if (mHeight)
@@ -241,6 +243,13 @@ int WbRenderingDevice::backgroundTextureGLId() const {
   assert(mOverlay);
   if (mOverlay)
     return mOverlay->backgroundTextureGLId();
+  return 0;
+}
+
+int WbRenderingDevice::maskTextureGLId() const {
+  assert(mOverlay);
+  if (mOverlay)
+    return mOverlay->maskTextureGLId();
   return 0;
 }
 

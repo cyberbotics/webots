@@ -171,7 +171,7 @@ TIME_STEP = 32
 
 robot = Robot()
 
-sensor = robot.getDistanceSensor("my_distance_sensor")
+sensor = robot.getDevice("my_distance_sensor")
 sensor.enable(TIME_STEP)
 
 while robot.step(TIME_STEP) != -1:
@@ -442,7 +442,7 @@ from math import pi, sin
 TIME_STEP = 32
 
 robot = Robot()
-motor = robot.getMotor("my_motor")
+motor = robot.getDevice("my_motor")
 
 F = 2.0   # frequency 2 Hz
 t = 0.0   # elapsed simulation time
@@ -622,8 +622,8 @@ while (wb_robot_step(40) != -1) {
 %tab "C++"
 ```cpp
 while (robot->step(40) != -1) {
-  double d1 = robot->getDistanceSensor(sensor);
-  double d2 = robot->getDistanceSensor(sensor);
+  double d1 = sensor->getValue();
+  double d2 = sensor->getValue();
   if (d2 > d1)  // WRONG: d2 will always equal d1 here
     avoidCollision();
 }
@@ -633,8 +633,8 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(40) != -1:
-    d1 = robot.getDistanceSensor(sensor)
-    d2 = robot.getDistanceSensor(sensor)
+    d1 = sensor.getValue()
+    d2 = sensor.getValue()
     if d2 > d1: # WRONG: d2 will always equal d1 here
         avoidCollision()
 ```
@@ -643,8 +643,8 @@ while robot.step(40) != -1:
 %tab "Java"
 ```java
 while (robot.step(40) != -1) {
-  d1 = robot.getDistanceSensor(sensor);
-  d2 = robot.getDistanceSensor(sensor);
+  d1 = sensor.getValue();
+  d2 = sensor.getValue();
   if (d2 > d1) // WRONG: d2 will always equal d1 here
     avoidCollision();
 }
@@ -684,10 +684,10 @@ while (wb_robot_step(40) != -1) {
 %tab "C++"
 ```cpp
 while (robot->step(40) != -1) {
-  double d1 = robot->getDistanceSensor(sensor);
+  double d1 = sensor->getValue();
   if (robot->step(40) == -1)
     break;
-  double d2 = robot->getDistanceSensor(sensor);
+  double d2 = sensor->getValue();
   if (d2 > d1)
     avoidCollision();
 }
@@ -697,10 +697,10 @@ while (robot->step(40) != -1) {
 %tab "Python"
 ```python
 while robot.step(40) != -1:
-    d1 = robot.getDistanceSensor(sensor)
+    d1 = sensor.getValue()
     if robot.step(40) == -1:
         break
-    d2 = robot.getDistanceSensor(sensor)
+    d2 = sensor.getValue()
     if d2 > d1:
         avoidCollision()
 ```
@@ -709,10 +709,10 @@ while robot.step(40) != -1:
 %tab "Java"
 ```java
 while (robot.step(40) != -1) {
-  double d1 = robot.getDistanceSensor(sensor);
+  double d1 = sensor.getValue();
   if (robot.step(40) == -1)
     break;
-  double d2 = robot.getDistanceSensor(sensor);
+  double d2 = sensor.getValue();
   if (d2 > d1)
     avoidCollision();
 }
@@ -919,13 +919,13 @@ TIME_STEP = 32
 
 robot = Robot()
 
-left_sensor = robot.getDistanceSensor("left_sensor")
-right_sensor = robot.getDistanceSensor("right_sensor")
+left_sensor = robot.getDevice("left_sensor")
+right_sensor = robot.getDevice("right_sensor")
 left_sensor.enable(TIME_STEP)
 right_sensor.enable(TIME_STEP)
 
-left_motor = robot.getMotor("left_motor")
-right_motor = robot.getMotor("right_motor")
+left_motor = robot.getDevice("left_motor")
+right_motor = robot.getDevice("right_motor")
 left_motor.setPosition(float('inf'))
 right_motor.setPosition(float('inf'))
 left_motor.setVelocity(0.0)
@@ -1212,7 +1212,7 @@ TIME_STEP = 32
 
 robot = Robot()
 
-sensor = robot.getDistanceSensor("my_distance_sensor")
+sensor = robot.getDevice("my_distance_sensor")
 sensor.enable(TIME_STEP)
 
 while robot.step(TIME_STEP) != -1:
@@ -1355,9 +1355,9 @@ Like most terminals, it supports a few basic [ANSI escape codes](https://en.wiki
   - Clear screen (same as issuing `clear` command in your terminal)
   - Reset (colors and styles)
 
-To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/worlds/console.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/controllers/console/console.c](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/controllers/console/console.c)".
+To demonstrate how to use those, there is an example world and a controller file respectively located in "[WEBOTS\_HOME/projects/samples/howto/console/worlds/console.wbt]({{ url.github_tree }}/projects/samples/howto/console/worlds/console.wbt)" and "[WEBOTS\_HOME/projects/samples/howto/console/controllers/console/console.c]({{ url.github_tree }}/projects/samples/howto/console/controllers/console/console.c)".
 
-The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h](https://github.com/cyberbotics/webots/tree/master/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
+The related C header is located at "[WEBOTS\_HOME/include/controller/c/webots/utils/ansi\_codes.h]({{ url.github_tree }}/include/controller/c/webots/utils/ansi_codes.h)", it contains some useful macros on top of constants, to use it:
 
 %tab-component "language"
 
@@ -1374,7 +1374,7 @@ printf("This is %sred%s!\n", ANSI_RED_FOREGROUND, ANSI_RESET);
 %tab "C++"
 
 ```cpp
-#include <AnsiCodes.hpp>
+#include <webots/utils/AnsiCodes.hpp>
 
 cout << "This is " << AnsiCodes::RED_FOREGROUND << "red" << AnsiCodes::RESET << "!" << endl;
 ```
@@ -1418,9 +1418,9 @@ If the console output is altered because of a previous escape code use without r
 Creating shared libraries can be very useful to share code between controllers and/or plugins.
 There are several ways to do so, but we recommend to place them into a subdirectory of the `libraries` directory of your project.
 Indeed the environment variables of the controllers are modified to include these paths into your [[DY]LD\_LIBRARY\_]PATH environment variable (depending on the OS).
-Moreover the main Makefile ("[WEBOTS\_HOME/resources/Makefile.include](https://github.com/cyberbotics/webots/tree/master/resources/Makefile.include)") used to compile Webots controllers is able to create shared libraries and to link easily with the Controller libraries, ODE or the Qt framework.
+Moreover the main Makefile ("[WEBOTS\_HOME/resources/Makefile.include]({{ url.github_tree }}/resources/Makefile.include)") used to compile Webots controllers is able to create shared libraries and to link easily with the Controller libraries, ODE or the Qt framework.
 
-A good example of this is the Qt utility library located there: "[WEBOTS\_HOME/resources/projects/libraries/qt\_utils](https://github.com/cyberbotics/webots/tree/master/resources/projects/libraries/qt_utils)".
+A good example of this is the Qt utility library located there: "[WEBOTS\_HOME/resources/projects/libraries/qt\_utils]({{ url.github_tree }}/resources/projects/libraries/qt_utils)".
 
 If for some reason shared libraries cannot be in the `libraries` directory, the `WEBOTS_LIBRARY_PATH` environment variable will be very helpful.
 The paths it contains will be added at the beginning of the library search path([[DY]LD\_LIBRARY\_]PATH) when starting the controller.

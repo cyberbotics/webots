@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -959,6 +959,10 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -fs Versions/5/QtQml QtQml\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
       fprintf(fd, "cd ..\n");
+      fprintf(fd, "cd QtQmlModels.framework\n");
+      fprintf(fd, "ln -fs Versions/5/QtQmlModels QtQmlModels\n");
+      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtQuick.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtQuick QtQuick\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
@@ -1221,7 +1225,7 @@ static void create_file(const char *name, int m) {
         fprintf(fd, "cd ..\n");
       }
 
-#ifdef WEBOTS_UBUNTU_16_04
+#ifdef WEBOTS_UBUNTU_18_04
       fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
 

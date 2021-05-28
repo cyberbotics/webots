@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -128,9 +128,6 @@ public:
   void setRenderingDevicePerspective(const QString &deviceUniqueName, const QStringList &perspective);
   QStringList renderingDevicePerspective(const QString &deviceUniqueName) const;
 
-  QMap<QString, QString> &x3dExportParameters() { return mX3dExportParameters; }
-  void setX3dExportParameter(const QString &key, QString value);
-
   // load/save perspective
   bool load(bool reloading = false);
   bool save() const;
@@ -159,7 +156,6 @@ private:
   QStringList mSupportPolygonNodeNames;
   QVector<ConsoleSettings> mConsolesSettings;
   QMap<QString, QStringList> mRenderingDevicesPerspectiveList;
-  QMap<QString, QString> mX3dExportParameters;
 
   bool readContent(QTextStream &in, bool reloading);
   void addDefaultConsole();

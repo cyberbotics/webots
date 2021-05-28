@@ -22,7 +22,7 @@ Webots looks for the "matlab" executable in every directory of your *PATH* (or *
 Note that this is similar to calling "matlab" from a terminal (or *Command Prompt* on Windows), therefore, if MATLAB can be started from a terminal then it can also be started from Webots.
 
 On Windows, the MATLAB installer will normally add MATLAB's bin directories to your *Path* environment variable, so usually, Webots will be able to locate MATLAB after a standard installation.
-However, in case it does not work, please make sure that your *Path* environment variable contains this directory (or something slightly different, according to your MATLAB version): `C:\Program Files\MATLAB\R2019b\bin`.
+However, in case it does not work, please make sure that your *Path* environment variable contains this directory (or something slightly different, according to your MATLAB version): `C:\Program Files\MATLAB\R2020b\bin`.
 With older versions of MATLAB (e.g., R0217b), your *Path* environment variable should also include: `C:\Program Files\MATLAB\R2017b\bin\win64`.
 
 
@@ -31,18 +31,18 @@ This is a good option to make "matlab" globally accessible.
 Otherwise you can create the link at anytime afterwards with this shell command (please change according to your actual MATLAB installation directory and version):
 
 ```sh
-$ sudo ln -s /usr/local/MATLAB/R2018b/bin/matlab /usr/local/bin/matlab
+$ sudo ln -s /usr/local/MATLAB/R2020b/bin/matlab /usr/local/bin/matlab
 ```
 
 Similarly, on macOS, if Webots is unable to find the "matlab" startup script then you should add a symlink in "/usr/bin":
 
 ```sh
-$ sudo ln -s /Applications/MATLAB_R2018b.app/bin/matlab /usr/local/bin/matlab
+$ sudo ln -s /Applications/MATLAB_R2020b.app/bin/matlab /usr/local/bin/matlab
 ```
 
 ### How to Run the Examples?
 
-To test MATLAB in Webots, start Webots and open the "WEBOTS\_HOME/projects/languages/matlab/worlds/e-puck\_matlab.wbt" or "[WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao\_matlab.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/worlds/nao_matlab.wbt)" world file.
+To test MATLAB in Webots, start Webots and open the "WEBOTS\_HOME/projects/languages/matlab/worlds/e-puck\_matlab.wbt" or "[WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao\_matlab.wbt]({{ url.github_tree }}/projects/robots/softbank/nao/worlds/nao_matlab.wbt)" world file.
 Webots automatically starts MATLAB when it detects an m-file in a controller directory.
 Note that the m-file must be named after its directory in order to be identified as a controller file by Webots.
 So, for example, if the directory is named "my\_controller", then the controller m-file must be named "my\_controller/my\_controller.m".

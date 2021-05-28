@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -168,6 +168,8 @@ void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *
     mRobotsWaitingExternController.removeAll(robot);
     controller->setSocket(socket);
     robot->setControllerStarted(true);
+    // restart simulation if waiting for extern controller
+    restartStepTimer();
     return;
   }
   controller->start();
@@ -277,10 +279,30 @@ void WbControlledWorld::reset(bool restartControllers) {
   }
 }
 
-void WbControlledWorld::step() {
-  if (mFirstStep && !mRetryEnabled) {
-    startControllers();
+void WbControlledWorld::checkIfReadRequestCompleted() {
+  assert(!mControllers.isEmpty());
+  if (!needToWait()) {
+    WbSimulationState *state = WbSimulationState::instance();
+    emit state->controllerReadRequestsCompleted();
+    if (state->isPaused() || state->isStep()) {
+      // in order to avoid mixing immediate messages sent by Webots and the libController
+      // some Webots immediate messages could have been postponed
+      // if the simulation is running these messages will be sent within the step message
+      // otherwise we want to send them as soon as the libController request is over
+      writePendingImmediateAnswer();
+    }
+
+    // print controller logs to Webots console(s)
+    // wait until read request completed to guarantee the printout determinism
+    // logs are ordered by controller and not by receiving time
+    foreach (WbController *const controller, mControllers)
+      controller->flushBuffers();
   }
+}
+
+void WbControlledWorld::step() {
+  if (mFirstStep && !mRetryEnabled)
+    startControllers();
 
   WbSimulationState *const simulationState = WbSimulationState::instance();
 
@@ -298,16 +320,20 @@ void WbControlledWorld::step() {
   }
 
   // we will have to handle the controllers requests here...
-  bool waitForController = needToWait();
+  bool waitForExternControllerStart = false;
+  bool waitForController = needToWait(&waitForExternControllerStart);
   if (mNeedToYield) {
     QThread::yieldCurrentThread();
     mNeedToYield = false;
   }
 
   if (waitForController) {
-    // wait for controllers configuration and try to call step function later
-    // otherwise the simulation time is not updated when clicking on the step button the first time
-    if ((simulationState->isStep() || simulationState->isPaused()))
+    if (waitForExternControllerStart)
+      // stop timer and restore it when extern controller is connected
+      pauseStepTimer();
+    else if (simulationState->isStep() || simulationState->isPaused())
+      // wait for controllers configuration and try to call step function later
+      // otherwise the simulation time is not updated when clicking on the step button the first time
       retryStepLater();
     return;
   }
@@ -349,16 +375,23 @@ void WbControlledWorld::step() {
     }
   }
 
-  mIsExecutingStep = true;
-  WbSimulationWorld::step();
+  if (mNewControllers.isEmpty()) {
+    mIsExecutingStep = true;
+    WbSimulationWorld::step();
+  }
 
   waitForRobotWindowIfNeededAndCompleteStep();
 }
 
-bool WbControlledWorld::needToWait() {
+bool WbControlledWorld::needToWait(bool *waitForExternControllerStart) {
+  if (waitForExternControllerStart)
+    *waitForExternControllerStart = false;
   foreach (WbRobot *const robot, mRobotsWaitingExternController) {
-    if (robot->synchronization())
+    if (robot->synchronization()) {
+      if (waitForExternControllerStart)
+        *waitForExternControllerStart = true;
       return true;
+    }
   }
   foreach (WbController *const controller, mControllers) {
     if (!controller->isRequestPending() || controller->isIncompleteRequest()) {
@@ -470,7 +503,6 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
   WbSimulationState *const simulationState = WbSimulationState::instance();
   for (int i = 0; i < controllersCount; ++i) {
     WbController *controller = mControllers[i];
-    controller->flushBuffers();
     if (!controller->isRequestPending())
       continue;
     double rt = controller->requestTime() + controller->deltaTimeRequested();

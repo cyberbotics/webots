@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public:
   }
   bool operator==(const WbRgb &c) const { return mRed == c.mRed && mGreen == c.mGreen && mBlue == c.mBlue; }
   bool operator!=(const WbRgb &c) const { return mRed != c.mRed || mGreen != c.mGreen || mBlue != c.mBlue; }
-  QString toString(WbPrecision::Level level) const {
+  QString toString(WbPrecision::Level level = WbPrecision::Level::DOUBLE_MAX) const {
     return QString("%1 %2 %3")
       .arg(WbPrecision::doubleToString(mRed, level))
       .arg(WbPrecision::doubleToString(mGreen, level))

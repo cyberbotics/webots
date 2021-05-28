@@ -1,2 +1,2 @@
 function value = WB_NODE_COORDINATE
-value = 7;
+value = 8;

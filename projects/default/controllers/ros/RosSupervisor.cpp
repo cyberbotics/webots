@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -96,6 +96,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                 &RosSupervisor::nodeGetPositionCallback, this);
   mNodeGetOrientationServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_orientation",
                                                                    &RosSupervisor::nodeGetOrientationCallback, this);
+  mNodeGetPoseServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_pose",
+                                                            &RosSupervisor::nodeGetPoseCallback, this);
   mNodeGetCenterOfMassServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_center_of_mass",
                                                                     &RosSupervisor::nodeGetCenterOfMassCallback, this);
   mNodeGetNumberOfContactPointsServer =
@@ -103,6 +105,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                          &RosSupervisor::nodeGetNumberOfContactPointsCallback, this);
   mNodeGetContactPointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_contact_point",
                                                                     &RosSupervisor::nodeGetContactPointCallback, this);
+  mNodeGetContactPointNodeServer = mRos->nodeHandle()->advertiseService(
+    (ros->name()) + "/supervisor/node/get_contact_point_node", &RosSupervisor::nodeGetContactPointNodeCallback, this);
   mNodeGetStaticBalanceServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_static_balance",
                                                                      &RosSupervisor::nodeGetStaticBalanceCallback, this);
   mNodeGetVelocityServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_velocity",
@@ -123,8 +127,14 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                   &RosSupervisor::nodeSetVisibilityCallback, this);
   mNodeRemoveServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/remove", &RosSupervisor::nodeRemoveCallback, this);
+  mNodeExportStringServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/export_string",
+                                                                 &RosSupervisor::nodeExportStringCallback, this);
   mNodeResetPhysicsServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/reset_physics",
                                                                  &RosSupervisor::nodeResetPhysicsCallback, this);
+  mNodeSaveStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/save_state",
+                                                              &RosSupervisor::nodeSaveStateCallback, this);
+  mNodeLoadStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/load_state",
+                                                              &RosSupervisor::nodeLoadStateCallback, this);
   mNodeRestartControllerServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/restart_controller",
                                                                       &RosSupervisor::nodeRestartControllerCallback, this);
 
@@ -228,9 +238,11 @@ RosSupervisor::~RosSupervisor() {
   mNodeGetParentNodeServer.shutdown();
   mNodeGetPositionServer.shutdown();
   mNodeGetOrientationServer.shutdown();
+  mNodeGetPoseServer.shutdown();
   mNodeGetCenterOfMassServer.shutdown();
   mNodeGetNumberOfContactPointsServer.shutdown();
   mNodeGetContactPointServer.shutdown();
+  mNodeGetContactPointNodeServer.shutdown();
   mNodeGetStaticBalanceServer.shutdown();
   mNodeGetVelocityServer.shutdown();
   mNodeSetVelocityServer.shutdown();
@@ -238,6 +250,7 @@ RosSupervisor::~RosSupervisor() {
   mNodeMoveViewpointServer.shutdown();
   mNodeSetVisibilityServer.shutdown();
   mNodeRemoveServer.shutdown();
+  mNodeExportStringServer.shutdown();
   mNodeResetPhysicsServer.shutdown();
   mNodeRestartControllerServer.shutdown();
 
@@ -568,6 +581,22 @@ bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation:
 }
 
 // cppcheck-suppress constParameter
+bool RosSupervisor::nodeGetPoseCallback(webots_ros::node_get_pose::Request &req, webots_ros::node_get_pose::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *nodeFrom = reinterpret_cast<Node *>(req.node_from);
+  Node *nodeTo = reinterpret_cast<Node *>(req.node);
+  const double *m = nodeFrom->getPose(nodeTo);
+  const double rotation[9] = {m[0], m[1], m[2], m[4], m[5], m[6], m[8], m[9], m[10]};
+  RosMathUtils::matrixToQuaternion(rotation, res.pose.rotation);
+  res.pose.translation.x = m[3];
+  res.pose.translation.y = m[7];
+  res.pose.translation.z = m[11];
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
                                                 webots_ros::node_get_center_of_mass::Response &res) {
   assert(this);
@@ -589,7 +618,7 @@ bool RosSupervisor::nodeGetNumberOfContactPointsCallback(webots_ros::node_get_nu
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  res.numberOfContactPoints = node->getNumberOfContactPoints();
+  res.numberOfContactPoints = node->getNumberOfContactPoints(req.includeDescendants);
   return true;
 }
 
@@ -604,6 +633,16 @@ bool RosSupervisor::nodeGetContactPointCallback(webots_ros::node_get_contact_poi
   res.point.x = point[0];
   res.point.y = point[1];
   res.point.z = point[2];
+  return true;
+}
+
+bool RosSupervisor::nodeGetContactPointNodeCallback(webots_ros::node_get_contact_point_node::Request &req,
+                                                    webots_ros::node_get_contact_point_node::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.node = reinterpret_cast<uint64_t>(node->getContactPointNode(req.index));
   return true;
 }
 
@@ -752,6 +791,17 @@ bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, we
 }
 
 // cppcheck-suppress constParameter
+bool RosSupervisor::nodeExportStringCallback(webots_ros::node_get_string::Request &req,
+                                             webots_ros::node_get_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.value = node->exportString();
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                              webots_ros::node_reset_functions::Response &res) {
   assert(this);
@@ -771,6 +821,30 @@ bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functio
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   node->restartController();
+  res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeSaveStateCallback(webots_ros::node_set_string::Request &req,
+                                          webots_ros::node_set_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->saveState(req.state_name);
+  res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeLoadStateCallback(webots_ros::node_set_string::Request &req,
+                                          webots_ros::node_set_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->loadState(req.state_name);
   res.success = 1;
   return true;
 }

@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: api parser physics protos rendering
+.PHONY: api other_api parser physics protos rendering
 
-release debug profile: api parser physics protos rendering
+release debug profile: api other_api parser physics protos rendering
 
 clean: api parser physics protos rendering
 	@-rm -rf *.txt \
@@ -37,6 +37,9 @@ clean: api parser physics protos rendering
 
 api:
 	+@make -s -C api $(MAKECMDGOALS)
+
+other_api:
+	+@make -s -C other_api $(MAKECMDGOALS)
 
 parser:
 	+@make -s -C parser $(MAKECMDGOALS)

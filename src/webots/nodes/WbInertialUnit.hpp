@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@
 class WbSensor;
 class WbMFVector3;
 class WbSFBool;
-class WbLookupTable;
 
 class WbInertialUnit : public WbSolidDevice {
   Q_OBJECT
@@ -43,14 +42,13 @@ public:
 
 private:
   // user accessible fields
-  WbMFVector3 *mLookupTable;
   WbSFBool *mXAxis, *mYAxis, *mZAxis;
   WbSFDouble *mResolution;
+  WbSFDouble *mNoise;
 
   // other stuff
   WbSensor *mSensor;
-  WbLookupTable *mLut;
-  double mValues[3];  // current sensor value according to lookup table
+  WbQuaternion mQuaternion;
   bool mNeedToReconfigure;
 
   // private functions
@@ -61,8 +59,8 @@ private:
   void addConfigure(QDataStream &);
 
 private slots:
-  void updateLookupTable();
   void updateResolution();
+  void updateNoise();
 };
 
 #endif

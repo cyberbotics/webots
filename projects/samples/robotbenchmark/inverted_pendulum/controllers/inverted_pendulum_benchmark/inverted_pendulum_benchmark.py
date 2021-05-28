@@ -30,7 +30,7 @@ timestep = int(robot.getBasicTimeStep())
 jointParameters = robot.getFromDef("PENDULUM_PARAMETERS")
 positionField = jointParameters.getField("position")
 
-emitter = robot.getEmitter("emitter")
+emitter = robot.getDevice("emitter")
 time = 0
 force = 0
 forceStep = 800

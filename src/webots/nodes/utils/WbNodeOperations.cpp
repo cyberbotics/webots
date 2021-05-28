@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -101,23 +101,19 @@ QString WbNodeOperations::exportNodeToString(WbNode *node) {
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, const QString &filename,
-                                                               const QString &nodeString, int *importedNodesNumber,
-                                                               bool fromSupervisor) {
+                                                               const QString &nodeString, bool fromSupervisor) {
   WbBaseNode *parentNode = static_cast<WbBaseNode *>(WbNode::findNode(nodeId));
   assert(parentNode);
 
   WbField *field = parentNode->field(fieldId);
   assert(field);
 
-  return importNode(parentNode, field, itemIndex, filename, nodeString, false, importedNodesNumber, fromSupervisor);
+  return importNode(parentNode, field, itemIndex, filename, nodeString, false, fromSupervisor);
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNode, WbField *field, int itemIndex,
                                                                const QString &filename, const QString &nodeString,
-                                                               bool avoidIntersections, int *importedNodesNumber,
-                                                               bool fromSupervisor) {
-  if (importedNodesNumber)
-    *importedNodesNumber = 0;
+                                                               bool avoidIntersections, bool fromSupervisor) {
   mFromSupervisor = fromSupervisor;
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
@@ -205,17 +201,11 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       break;
   }
 
-  if (importedNodesNumber && sfnode && nodes.size() > 0)
-    *importedNodesNumber = 1;
-  else if (importedNodesNumber)
-    *importedNodesNumber = nodes.size();
-
   mFromSupervisor = false;
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
 }
 
-WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &filename, int *importedNodesNumber,
-                                                               bool fromSupervisor) {
+WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &filename, bool fromSupervisor) {
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(filename);
   if (errors)
@@ -248,7 +238,6 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   WbNodeReader nodeReader;
   QList<WbNode *> nodes = nodeReader.readVrml(&tokenizer, WbWorld::instance()->fileName());
   WbBaseNode *lastBaseNodeCreated = NULL;
-  int numberOfNodes = 0;
   foreach (WbNode *node, nodes) {
     WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
     if (WbNodeUtilities::isSingletonTypeName(baseNode->nodeModelName())) {
@@ -264,15 +253,12 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
         baseNode->finalize();
         lastBaseNodeCreated = baseNode;
         result = SUCCESS;
-        numberOfNodes++;
       } else {
         WbLog::error(errorMessage, false, WbLog::PARSING);
         delete baseNode;
       }
     }
   }
-  if (importedNodesNumber)
-    *importedNodesNumber = numberOfNodes;
   if (lastBaseNodeCreated && !fromSupervisor)
     WbSelection::instance()->selectNodeFromSceneTree(lastBaseNodeCreated);
   return result;

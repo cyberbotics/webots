@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,10 +34,11 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PBR_APPEARANCE; }
+  void downloadAssets() override;
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override { return true; }
 
   void setEmissiveColor(const WbRgb &color);
@@ -80,7 +81,7 @@ protected:
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
   WbNode *clone() const override { return new WbPbrAppearance(*this); }
-  double getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const;
+  double getRedValueInTexture(WbImageTexture *texture, const WbVector2 &uv) const;
 
   void init();
 

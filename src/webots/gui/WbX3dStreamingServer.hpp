@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,12 +34,10 @@ private slots:
   void processTextMessage(QString) override;
 
   void propagateNodeDeletion(WbNode *node);
-  void sendLabelUpdate(const QString &labelDescription);
 
 private:
   void create(int port) override;
-  void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
-  void connectNewRobot(const WbRobot *robot) override;
+  void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) override;
   bool prepareWorld() override;
   void deleteWorld() override;
   void sendWorldToClient(QWebSocket *client) override;
@@ -51,7 +49,6 @@ private:
   QString mX3dWorld;
   QHash<QString, QString> mX3dWorldTextures;
   double mX3dWorldGenerationTime;
-  QString mX3dWorldReferenceFile;
 
   qint64 mLastUpdateTime;
 };

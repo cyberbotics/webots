@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ void WbHinge2Joint::init() {
   // hidden field
   mPosition2 = findSFDouble("position2")->value();
   mOdePositionOffset2 = mPosition2;
-  mInitialPosition2 = mPosition2;
+  mSavedPositions2[stateId()] = mPosition2;
 }
 
 WbHinge2Joint::WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer) : WbHingeJoint(modelName, tokenizer) {
@@ -80,7 +80,7 @@ void WbHinge2Joint::preFinalize() {
 
   updateParameters2();
 
-  mInitialPosition2 = mPosition2;
+  mSavedPositions2[stateId()] = mPosition2;
 }
 
 void WbHinge2Joint::postFinalize() {
@@ -138,29 +138,19 @@ double WbHinge2Joint::position(int index) const {
 double WbHinge2Joint::initialPosition(int index) const {
   switch (index) {
     case 1:
-      return mInitialPosition;
+      return mSavedPositions[stateId()];
     case 2:
-      return mInitialPosition2;
+      return mSavedPositions2[stateId()];
     default:
       return NAN;
   }
 }
 
 void WbHinge2Joint::setPosition(double position, int index) {
-  if (index == 1) {
-    mPosition = position;
-    mOdePositionOffset = position;
-    WbJointParameters *const p = parameters();
-    if (p)
-      p->setPosition(mPosition);
+  WbJoint::setPosition(position, index);
 
-    WbMotor *const m = motor();
-    if (m)
-      m->setTargetPosition(position);
+  if (index != 2)
     return;
-  }
-
-  assert(index == 2);
 
   mPosition2 = position;
   mOdePositionOffset2 = position;
@@ -460,17 +450,17 @@ void WbHinge2Joint::postPhysicsStep() {
     emit updateMuscleStretch(rm2->computeFeedback() / rm2->maxForceOrTorque(), false, 2);
 }
 
-void WbHinge2Joint::reset() {
-  WbJoint::reset();
+void WbHinge2Joint::reset(const QString &id) {
+  WbJoint::reset(id);
 
   for (int i = 0; i < mDevice2->size(); ++i)
-    mDevice2->item(i)->reset();
+    mDevice2->item(i)->reset(id);
 
   WbNode *const p = mParameters2->value();
   if (p)
-    p->reset();
+    p->reset(id);
 
-  setPosition(mInitialPosition2, 2);
+  setPosition(mSavedPositions2[id], 2);
 }
 
 void WbHinge2Joint::resetPhysics() {
@@ -481,17 +471,17 @@ void WbHinge2Joint::resetPhysics() {
     m->resetPhysics();
 }
 
-void WbHinge2Joint::save() {
-  WbJoint::save();
+void WbHinge2Joint::save(const QString &id) {
+  WbJoint::save(id);
 
   for (int i = 0; i < mDevice2->size(); ++i)
-    mDevice2->item(i)->save();
+    mDevice2->item(i)->save(id);
 
   WbNode *const p = mParameters2->value();
   if (p)
-    p->save();
+    p->save(id);
 
-  mInitialPosition2 = mPosition2;
+  mSavedPositions2[id] = mPosition2;
 }
 
 void WbHinge2Joint::updateEndPointZeroTranslationAndRotation() {
@@ -549,6 +539,12 @@ void WbHinge2Joint::updatePositions(double position, double position2) {
   // called after an artificial move (user or Supervisor move) or in kinematic mode
   mPosition = position;
   mPosition2 = position2;
+  WbMotor *m1 = motor();
+  WbMotor *m2 = motor2();
+  if (m1 && !m1->isConfigureDone())
+    m1->setTargetPosition(position);
+  if (m2 && !m2->isConfigureDone())
+    m2->setTargetPosition(position2);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);

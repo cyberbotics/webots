@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@
 #include <webots/keyboard.h>
 #include <webots/led.h>
 #include <webots/motor.h>
+#include <webots/plugins/robot_window/default.h>
 #include <webots/robot.h>
 #include <webots/touch_sensor.h>
-#include <webots/utils/default_robot_window.h>
 
 #include <math.h>
 #include <stdio.h>

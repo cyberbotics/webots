@@ -10,10 +10,10 @@ timestep = int(robot.getBasicTimeStep())
 
 # Inizialize base motors.
 wheels = []
-wheels.append(robot.getMotor("wheel1"))
-wheels.append(robot.getMotor("wheel2"))
-wheels.append(robot.getMotor("wheel3"))
-wheels.append(robot.getMotor("wheel4"))
+wheels.append(robot.getDevice("wheel1"))
+wheels.append(robot.getDevice("wheel2"))
+wheels.append(robot.getDevice("wheel3"))
+wheels.append(robot.getDevice("wheel4"))
 for wheel in wheels:
     # Activate controlling the motors setting the velocity.
     # Otherwise by default the motor expects to be controlled in force or position,
@@ -22,11 +22,11 @@ for wheel in wheels:
 
 # Initialize arm motors.
 armMotors = []
-armMotors.append(robot.getMotor("arm1"))
-armMotors.append(robot.getMotor("arm2"))
-armMotors.append(robot.getMotor("arm3"))
-armMotors.append(robot.getMotor("arm4"))
-armMotors.append(robot.getMotor("arm5"))
+armMotors.append(robot.getDevice("arm1"))
+armMotors.append(robot.getDevice("arm2"))
+armMotors.append(robot.getDevice("arm3"))
+armMotors.append(robot.getDevice("arm4"))
+armMotors.append(robot.getDevice("arm5"))
 # Set the maximum motor velocity.
 armMotors[0].setVelocity(0.2)
 armMotors[1].setVelocity(0.5)
@@ -36,17 +36,17 @@ armMotors[3].setVelocity(0.3)
 # Initialize arm position sensors.
 # These sensors can be used to get the current joint position and monitor the joint movements.
 armPositionSensors = []
-armPositionSensors.append(robot.getPositionSensor("arm1sensor"))
-armPositionSensors.append(robot.getPositionSensor("arm2sensor"))
-armPositionSensors.append(robot.getPositionSensor("arm3sensor"))
-armPositionSensors.append(robot.getPositionSensor("arm4sensor"))
-armPositionSensors.append(robot.getPositionSensor("arm5sensor"))
+armPositionSensors.append(robot.getDevice("arm1sensor"))
+armPositionSensors.append(robot.getDevice("arm2sensor"))
+armPositionSensors.append(robot.getDevice("arm3sensor"))
+armPositionSensors.append(robot.getDevice("arm4sensor"))
+armPositionSensors.append(robot.getDevice("arm5sensor"))
 for sensor in armPositionSensors:
     sensor.enable(timestep)
 
 # Initialize gripper motors.
-finger1 = robot.getMotor("finger1")
-finger2 = robot.getMotor("finger2")
+finger1 = robot.getDevice("finger1")
+finger2 = robot.getDevice("finger2")
 # Set the maximum motor velocity.
 finger1.setVelocity(0.03)
 finger2.setVelocity(0.03)

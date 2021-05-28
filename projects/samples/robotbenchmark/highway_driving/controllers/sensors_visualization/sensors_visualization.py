@@ -28,7 +28,7 @@ supervisor = Supervisor()
 
 # get and enable the distance sensors
 for name in sensorsNames:
-    sensors[name] = supervisor.getDistanceSensor('distance sensor ' + name)
+    sensors[name] = supervisor.getDevice('distance sensor ' + name)
     sensors[name].enable(TIME_STEP)
     defName = name.upper().replace(' ', '_')
     colorFields[name] = supervisor.getFromDef(defName + '_VISUALIZATION').getField('diffuseColor')

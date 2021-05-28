@@ -53,7 +53,7 @@ For services, it is also the name of the corresponding srv file.
 The controller, named `ros`, is pre-compiled and you shouldn't edit it.
 All you have to do is to load it in the `controller` field of your robot; you will find it in the default list of controller.
 In order to use it, you will have to build a ROS node that will communicate with the robot using the different services available.
-Good examples of such ROS node can be found inside Webots at "[WEBOTS\_HOME/projects/languages/ros/webots\_ros](https://github.com/cyberbotics/webots/tree/master/projects/languages/ros/webots_ros)", they are documented in the [webots\_ros package tutorial](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations).
+Good examples of such ROS node can be found in the [webots\_ros repository](https://github.com/cyberbotics/webots_ros), they are documented in the [webots\_ros package tutorial](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations).
 
 In the [Tutorial 8](tutorial-8-using-ros.md) chapter, you will find the instructions to run a sample simulation using ROS.
 
@@ -68,6 +68,10 @@ In the following table you can find the list of `ros` controller arguments.
 | `--synchronize`   | By default the `ros` controller is not blocking the simulation even if no ROS node is connected to it. In order to synchronize the simulation with the ROS node, the `--synchronize` argument can be specified, so that the simulation will not run as long as the robot `time_step` service is not called. |
 | `--clock`   | Publish the Webots time using the `clock` topic. |
 | `--use-sim-time` | Specify that the Webots time should be used as ROS time. To work correctly you should also define the `--clock` argument and set the ROS parameter `use_sim_time` to true. |
+| `--auto-publish` | Force the controller to automatically enable all devices on startup and create the corresponding topics. |
+| `--use-ros-control` | Initialize the `controller_manager` from the [`ros_control`](http://wiki.ros.org/ros_control). |
+| `--robot-description[={robot_description_prefix}]` | Expose the `robot_description` ROS parameter that contains the URDF of the robot. The `robot_description_prefix` parameter is optional and it corresponds to the `prefix` argument of the [`wb_robot_get_urdf`](../reference/robot.md#wb_robot_get_urdf) function. |
+
 
 %end
 
@@ -88,13 +92,13 @@ In this case, you can build your own custom ROS controller.
 
 It is possible to implement such a ROS node in C++ using the "roscpp" library on Linux and macOS.
 However, in this case, you need to setup a build configuration to handle both the "catkin\_make" from ROS and the "Makefile" from Webots to have the resulting binary linked both against the Webots "libController" and the "roscpp" library.
-An example is provided [here](https://github.com/cyberbotics/webots/tree/master/projects/vehicles/controllers/ros_automobile) to create a specific controller for controlling a vehicle.
+An example is provided [here]({{ url.github_tree }}/projects/vehicles/controllers/ros_automobile) to create a specific controller for controlling a vehicle.
 
 An even more generic solution, is to use an [extern controller](running-extern-robot-controllers.md) and run the controller as a regular ROS node on the ROS side.
-A very simple example is provided [here](https://github.com/cyberbotics/webots/blob/master/projects/languages/ros/webots_ros/scripts/ros_python.py), it is written in pure Python and should work on Windows, Linux and macOS, straight out of the box.
+A very simple example is provided [here]({{ url.github_tree }}/projects/languages/ros/webots_ros/scripts/ros_python.py), it is written in pure Python and should work on Windows, Linux and macOS, straight out of the box.
 A launch file is available to launch Webots with the correct world file, the extern controller and a simple ROS node moving the robot straight as long as there is no obstacle (detected using the front [DistanceSensor](../reference/distancesensor.md)), it can be launched with:
 ```
 roslaunch webots_ros webots_ros_python.launch
 ```
 
-A [second more complicated example](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/resources/ros_package/ur_e_webots) shows how to interface a model of a Universal Robots arm in Webots with ROS using [rospy](http://wiki.ros.org/rospy).
+A [second more complicated example]({{ url.github_tree }}/projects/robots/universal_robots/resources/ros_package/ur_e_webots) shows how to interface a model of a Universal Robots arm in Webots with ROS using [rospy](http://wiki.ros.org/rospy).

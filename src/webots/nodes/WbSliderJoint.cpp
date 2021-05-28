@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -123,6 +123,9 @@ void WbSliderJoint::updatePosition(double position) {
   assert(s);
   // called after a special artificial move, i.e. a statically based robot was moved
   mPosition = position;
+  WbMotor *m = motor();
+  if (m && !m->isConfigureDone())
+    m->setTargetPosition(position);
   WbVector3 translation;
   WbRotation rotation;
   computeEndPointSolidPositionFromParameters(translation, rotation);

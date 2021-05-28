@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@
 #include "WbSysInfo.hpp"
 #include "WbTextBuffer.hpp"
 #include "WbWorld.hpp"
+
+#include "../../../include/controller/c/webots/utils/ansi_codes.h"
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QToolBar>
@@ -101,12 +103,6 @@ void WbBuildEditor::createActions() {
   bar->widgetForAction(mBuildAction)->setObjectName("editorButton");
   bar->addAction(mCleanAction);
   bar->widgetForAction(mCleanAction)->setObjectName("editorButton");
-  /*
-    bar->addAction(mCrossCompileAction);
-    bar->widgetForAction(mCrossCompileAction)->setObjectName("menuButton");
-    bar->addAction(mCleanCrossCompilationAction);
-    bar->widgetForAction(mCleanCrossCompilationAction)->setObjectName("menuButton");
-  */
 }
 
 void WbBuildEditor::updateBuildButtons() {
@@ -178,6 +174,7 @@ void WbBuildEditor::build() {
 void WbBuildEditor::clean() {
   unmarkError();
   mIsCleaning = true;
+  WbLog::appendStdout(ANSI_CLEAR_SCREEN, WbLog::COMPILATION);
   make("clean");
 }
 
@@ -195,6 +192,7 @@ void WbBuildEditor::crossCompile() {
 void WbBuildEditor::cleanCrossCompilation() {
   unmarkError();
   mIsCleaning = true;
+  WbLog::appendStdout(ANSI_CLEAR_SCREEN, WbLog::COMPILATION);
   make("-f " + mCrossCompileMakefile + " clean");
 }
 
@@ -274,7 +272,7 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
         if (ret == 0)
           emit reloadRequested();
         else if (ret == 1)
-          emit resetRequested(true);
+          emit resetRequested();
       }
     } else
       WbLog::appendStdout("Nothing to be done for build targets.\n", WbLog::COMPILATION);

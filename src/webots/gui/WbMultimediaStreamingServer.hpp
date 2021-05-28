@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ private slots:
 
 private:
   void start(int port) override;
-  void sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) override;
+  void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) override;
   int bytesToWrite();
   void sendContextMenuInfo(const WbMatter *node);
   void sendLastImage(QTcpSocket *client = NULL);

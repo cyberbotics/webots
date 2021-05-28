@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,8 +54,8 @@ public:
   int nodeType() const override { return WB_NODE_ROBOT; }
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // controller
   bool isControllerStarted() const { return mControllerStarted; }
@@ -118,8 +118,8 @@ public:
   double energyUploadSpeed() const;
 
   // handle key events
-  void keyPressed(const QString &text, int key, int modifiers);
-  void keyReleased(const QString &text, int key);
+  void keyPressed(int key, int modifiers);
+  void keyReleased(int key);
 
   // map qt special key to webots special key, return 0 if not found
   static int mapSpecialKey(int qtKey);
@@ -218,7 +218,7 @@ private:
   WbSensor *mKeyboardSensor;
   WbSensor *mJoystickSensor;
   double mBatteryLastValue;
-  double mBatteryInitialValue;
+  QMap<QString, double> mBatteryInitialValues;
   QList<int> mKeyboardLastValue;
   struct JoyStickLastValue {
     int numberOfPressedButtons;

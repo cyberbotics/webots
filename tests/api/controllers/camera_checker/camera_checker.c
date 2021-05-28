@@ -212,6 +212,28 @@ int main(int argc, char **argv) {
                             "Lower part of the image should not be entirely red with focus");
     ts_assert_int_not_equal(wb_camera_image_get_blue(image, width, 31, 32), 0,
                             "Lower part of the image should contain some blue with focus");
+  } else if (strcmp(argv[1], "camera_color_exposure") == 0) {
+    unsigned char *image = (unsigned char *)wb_camera_get_image(camera);
+    ts_assert_double_equal(wb_camera_get_exposure(camera), 0.5, "Unexpected exposure value: %f",
+                           wb_camera_get_exposure(camera));
+    // half exposure => upper part should be entirely blue (background) and lower part half red
+    ts_assert_int_equal(wb_camera_image_get_red(image, width, 31, 30), 0, "Upper part of the image should not contain any red");
+    ts_assert_int_equal(wb_camera_image_get_blue(image, width, 31, 30), 255,
+                        "Upper part of the image should be entirely blue without focus");
+    ts_assert_int_equal(wb_camera_image_get_red(image, width, 31, 32), 190, "Lower part of the image should be dark red");
+    ts_assert_int_equal(wb_camera_image_get_blue(image, width, 31, 32), 0,
+                        "Lower part of the image should not contain any blue");
+
+    wb_camera_set_exposure(camera, 5);
+    wb_robot_step(TIME_STEP);
+    ts_assert_double_equal(wb_camera_get_exposure(camera), 5, "Unexpected exposure value: %f", wb_camera_get_exposure(camera));
+
+    image = (unsigned char *)wb_camera_get_image(camera);
+    ts_assert_int_equal(wb_camera_image_get_red(image, width, 31, 30), 0, "Upper part of the image should not contain any red");
+    ts_assert_int_equal(wb_camera_image_get_blue(image, width, 31, 30), 255, "Upper part of the image should be entirely blue");
+    ts_assert_int_equal(wb_camera_image_get_red(image, width, 31, 32), 255, "Lower part of the image should be red saturated");
+    ts_assert_int_equal(wb_camera_image_get_blue(image, width, 31, 32), 0,
+                        "Lower part of the image should not contain any blue");
   } else
     ts_send_error_and_exit("camera_checker doesn't support this world: %s", argv[1]);
 

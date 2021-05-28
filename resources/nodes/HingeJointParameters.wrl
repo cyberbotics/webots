@@ -12,4 +12,6 @@ HingeJointParameters {
   field SFFloat    suspensionSpringConstant  0       # suspension spring constant along the suspension axis
   field SFFloat    suspensionDampingConstant 0       # suspension damping constant along the suspension axis
   field SFVec3f    suspensionAxis            1 0 0   # direction of the suspension axis
+  field SFFloat    stopERP                   -1      # error reduction parameter used by the stops
+  field SFFloat    stopCFM                   -1      # constraint force mixing used by the stops
 }

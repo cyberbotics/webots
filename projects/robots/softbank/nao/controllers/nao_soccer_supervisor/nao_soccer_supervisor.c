@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,26 +65,29 @@ enum { X, Y, Z };
 #define MAX_NUM_ROBOTS (2 * MAX_NUM_PLAYERS)
 
 // field dimensions (in meters) according to the SPL Nao Rule Book
+// clang-format off
+// clang-format 11.0.0 has problems with AlignTrailingComments when the line starts with a hash (#).
 #define FIELD_SIZE_X 9.050        // official size of the field
-#define FIELD_SIZE_Z 6.050        // for the 2014 competition
+#define FIELD_SIZE_Y 6.050        // for the 2014 competition
 #define CIRCLE_DIAMETER 1.550     // soccer field's central circle
 #define PENALTY_SPOT_DIST 1.325   // distance between penalty spot and goal
-#define PENALTY_AREA_Z_DIM 2.250  // changed according to 2014 specification
+#define PENALTY_AREA_Y_DIM 2.250  // changed according to 2014 specification
 #define PENALTY_AREA_X_DIM 0.650
 #define GOAL_WIDTH 1.500
 #define THROW_IN_LINE_LENGTH 7.000  // total length
 #define THROW_IN_LINE_OFFSET 0.400  // offset from side line
 #define LINE_WIDTH 0.050            // white lines
 #define BALL_RADIUS 0.0325
+// clang-format on
 
 // throw-in lines
 const double THROW_IN_LINE_X_END = THROW_IN_LINE_LENGTH / 2;
-const double THROW_IN_LINE_Z = FIELD_SIZE_Z / 2 - THROW_IN_LINE_OFFSET;
+const double THROW_IN_LINE_Y = FIELD_SIZE_Y / 2 - THROW_IN_LINE_OFFSET;
 
 // ball position limits
 static const double CIRCLE_RADIUS_LIMIT = CIRCLE_DIAMETER / 2 + BALL_RADIUS;
 static const double FIELD_X_LIMIT = FIELD_SIZE_X / 2 + BALL_RADIUS;
-static const double FIELD_Z_LIMIT = FIELD_SIZE_Z / 2 + BALL_RADIUS;
+static const double FIELD_Y_LIMIT = FIELD_SIZE_Y / 2 + BALL_RADIUS;
 
 // penalties
 static const double PENALTY_BALL_X_POS = FIELD_SIZE_X / 2 - PENALTY_SPOT_DIST;
@@ -293,7 +296,7 @@ static void sendGameControlData() {
   if (match_type == DEMO) {
     // ball position is not sent during official matches
     control_data.ballXPos = ball_pos[X];
-    control_data.ballZPos = ball_pos[Z];
+    control_data.ballZPos = ball_pos[Y];
   }
 
   // send the data with a webots emitter for the robots using a webots receiver instead of handling TCP
@@ -477,22 +480,22 @@ static void initialize() {
 static double compute_ball_velocity() {
   // ball position at previous time step
   static double x1 = 0.0;
-  static double z1 = 0.0;
+  static double y1 = 0.0;
 
   // ball position at current time step
   double x2 = ball_pos[X];
-  double z2 = ball_pos[Z];
+  double y2 = ball_pos[Y];
 
   // compute ball direction
   double dx = x2 - x1;
-  double dz = z2 - z1;
+  double dy = y2 - y1;
 
   // remember for the next call to this function
   x1 = x2;
-  z1 = z2;
+  y1 = y2;
 
   // compute ball velocity
-  return sqrt(dx * dx + dz * dz);
+  return sqrt(dx * dx + dy * dy);
 }
 
 // detect if the ball has hit something (a robot, a goal post, a wall, etc.) during the last time step
@@ -594,8 +597,8 @@ static void move_robot_3d(int robot_index, double tx, double ty, double tz, doub
     // set rotation
     if (robots[robot_index]->model == NAO) {
       // in NAO case we need to add a rotation before
-      double rot1[4] = {1, 0, 0, -1.5708};
-      double rot2[4] = {0, 1, 0, alpha};
+      double rot1[4] = {1, 0, 0, 0};
+      double rot2[4] = {0, 0, 1, alpha};
 
       // convert to quaternions
       double q1[4], q2[4], qr[4], rr[4];
@@ -611,8 +614,8 @@ static void move_robot_3d(int robot_index, double tx, double ty, double tz, doub
       wb_supervisor_field_set_sf_rotation(robots[robot_index]->rotation, rr);
     } else {
       // in robotis-op2 case we need to add a rotation before
-      double rot1[4] = {1, 0, 0, 0.12};
-      double rot2[4] = {0, 1, 0, alpha + 1.5708};
+      double rot1[4] = {0, 1, 0, 0.12};
+      double rot2[4] = {0, 0, 1, alpha};
 
       // convert to quaternions
       double q1[4], q2[4], qr[4], rr[4];
@@ -632,11 +635,11 @@ static void move_robot_3d(int robot_index, double tx, double ty, double tz, doub
 }
 
 // place robot in upright position, feet on the floor, facing
-static void move_robot_2d(int robot_index, double tx, double tz, double alpha) {
+static void move_robot_2d(int robot_index, double tx, double ty, double alpha) {
   if (robots[robot_index] && robots[robot_index]->model == NAO)
-    move_robot_3d(robot_index, tx, 0.35, tz, alpha);
+    move_robot_3d(robot_index, tx, ty, 0.35, alpha);
   if (robots[robot_index] && robots[robot_index]->model == DARWIN)
-    move_robot_3d(robot_index, tx, 0.25, tz, alpha);
+    move_robot_3d(robot_index, tx, ty, 0.25, alpha);
 }
 
 // move ball to 3d position
@@ -651,30 +654,30 @@ static void move_ball_3d(double tx, double ty, double tz) {
 }
 
 // move ball to 2d position and down on the floor
-static void move_ball_2d(double tx, double tz) {
-  move_ball_3d(tx, BALL_RADIUS, tz);
+static void move_ball_2d(double tx, double ty) {
+  move_ball_3d(tx, ty, BALL_RADIUS);
 }
 
 // remove penalized robot from the field
 static void penalize_robot(int robot_index) {
   double xTranslation = ((0 < robot_index - MAX_NUM_PLAYERS) - (robot_index - MAX_NUM_PLAYERS < 0)) * 10.0;
-  double yTranslation = wb_supervisor_field_get_sf_vec3f(robots[robot_index]->translation)[Y];
-  double zTranslation = -5 + 2 * (robot_index - robot_get_teamID(robot_index) * MAX_NUM_PLAYERS);
+  double yTranslation = -5 + 2 * (robot_index - robot_get_teamID(robot_index) * MAX_NUM_PLAYERS);
+  double zTranslation = wb_supervisor_field_get_sf_vec3f(robots[robot_index]->translation)[Y];
 
   double out_of_field[3] = {xTranslation, yTranslation, zTranslation};
   wb_supervisor_field_set_sf_vec3f(robots[robot_index]->translation, out_of_field);
 }
 
-// check if a robot is near the 2d position (x, z)
-static int is_robot_near(double x, double z) {
+// check if a robot is near the 2d position (x, y)
+static int is_robot_near(double x, double y) {
   int i;
   for (i = 0; i < MAX_NUM_ROBOTS; ++i) {
     if (robots[i]) {
       double dx = robots[i]->position[X] - x;
-      double dz = robots[i]->position[Z] - z;
+      double dy = robots[i]->position[Y] - y;
 
       // squared distance between robot and ball
-      double dist2 = sqrt(dx * dx + dz * dz);
+      double dist2 = sqrt(dx * dx + dy * dy);
       if (dist2 < 0.4)  // we want 40 cm free around
         return 1;
     }
@@ -692,17 +695,17 @@ static void remove_penalty(int robot_index) {
   double xEntryPoint = ((0 < robot_index - MAX_NUM_PLAYERS) - (robot_index - MAX_NUM_PLAYERS < 0)) * PENALTY_BALL_X_POS;
   if (!control_data.firstHalf)
     xEntryPoint *= -1;
-  double zEntryPoint = -FIELD_Z_LIMIT;
+  double yEntryPoint = -FIELD_Y_LIMIT;
 
   // try to find a possible position if the default one is occupied
-  while (is_robot_near(xEntryPoint, zEntryPoint)) {
+  while (is_robot_near(xEntryPoint, yEntryPoint)) {
     if (zone1) {
       xEntryPoint += 0.2 * ((0 < robot_index - MAX_NUM_PLAYERS) - (robot_index - MAX_NUM_PLAYERS < 0));
       if (fabs(xEntryPoint) > FIELD_X_LIMIT) {
         xEntryPoint = ((0 < robot_index - MAX_NUM_PLAYERS) - (robot_index - MAX_NUM_PLAYERS < 0)) * PENALTY_BALL_X_POS;
         if (!control_data.firstHalf)
           xEntryPoint *= -1;
-        zEntryPoint = FIELD_Z_LIMIT;
+        yEntryPoint = FIELD_Y_LIMIT;
         zone1 = 0;
         zone2 = 1;
       }
@@ -712,7 +715,7 @@ static void remove_penalty(int robot_index) {
         xEntryPoint = ((0 < robot_index - MAX_NUM_PLAYERS) - (robot_index - MAX_NUM_PLAYERS < 0)) * PENALTY_BALL_X_POS;
         if (!control_data.firstHalf)
           xEntryPoint *= -1;
-        zEntryPoint = -FIELD_Z_LIMIT;
+        yEntryPoint = -FIELD_Y_LIMIT;
         zone2 = 0;
         zone3 = 1;
       }
@@ -722,7 +725,7 @@ static void remove_penalty(int robot_index) {
         xEntryPoint = ((0 < robot_index - MAX_NUM_PLAYERS) - (robot_index - MAX_NUM_PLAYERS < 0)) * PENALTY_BALL_X_POS;
         if (!control_data.firstHalf)
           xEntryPoint *= -1;
-        zEntryPoint = FIELD_Z_LIMIT;
+        yEntryPoint = FIELD_Y_LIMIT;
         zone3 = 0;
         zone4 = 1;
       }
@@ -732,17 +735,17 @@ static void remove_penalty(int robot_index) {
         xEntryPoint = ((0 < robot_index - MAX_NUM_PLAYERS) - (robot_index - MAX_NUM_PLAYERS < 0)) * PENALTY_BALL_X_POS;
         if (!control_data.firstHalf)
           xEntryPoint *= -1;
-        zEntryPoint = -FIELD_Z_LIMIT;
+        yEntryPoint = -FIELD_Y_LIMIT;
         zone4 = 0;
         zone1 = 1;
       }
     }
   }
 
-  if (zEntryPoint < 0)
-    move_robot_2d(robot_index, xEntryPoint, zEntryPoint, -M_PI_2);
+  if (yEntryPoint < 0)
+    move_robot_2d(robot_index, xEntryPoint, yEntryPoint, -M_PI_2);
   else
-    move_robot_2d(robot_index, xEntryPoint, zEntryPoint, M_PI_2);
+    move_robot_2d(robot_index, xEntryPoint, yEntryPoint, M_PI_2);
 }
 
 // handles a "move robot" request received from a robot controller
@@ -828,6 +831,7 @@ static void step() {
   if (step_count % attempt_frequency == 0) {
     open_tcp_connections();
 
+    // cppcheck-suppress knownConditionTrueFalse
     if (attempt_frequency < 256)
       attempt_frequency *= 2;
   }
@@ -850,7 +854,7 @@ static void place_to_kickoff() {
   //   of one of the goal posts on the height of the penalty mark"
 
   double KICK_OFF_X = CIRCLE_DIAMETER / 2 + LINE_WIDTH;
-  double KICK_OFF_Z = (PENALTY_AREA_Z_DIM + FIELD_SIZE_Z) / 4.0;
+  double KICK_OFF_Y = (PENALTY_AREA_Y_DIM + FIELD_SIZE_Y) / 4.0;
   double PENALTY_X_POS = PENALTY_BALL_X_POS;
   double GOALIE_X = (FIELD_SIZE_X - LINE_WIDTH) / 2.0;
   double DEFENDER_X = FIELD_SIZE_X / 2 - PENALTY_AREA_X_DIM - LINE_WIDTH;
@@ -876,24 +880,24 @@ static void place_to_kickoff() {
   if (control_data.kickOffTeam == TEAM_BLUE) {
     move_robot_2d(get_blue_robot_index(1), KICK_OFF_X, 0, M_PI_BLUE);
     move_robot_2d(get_blue_robot_index(2), PENALTY_X_POS, GOAL_WIDTH / 2, M_PI_BLUE);
-    move_robot_2d(get_blue_robot_index(3), DEFENDER_X - DEFENDER_OFFSET_X / 2.0, -PENALTY_AREA_Z_DIM / 2, M_PI_BLUE);
-    move_robot_2d(get_blue_robot_index(4), DEFENDER_X - DEFENDER_OFFSET_X / 2.0, PENALTY_AREA_Z_DIM / 2, M_PI_BLUE);
+    move_robot_2d(get_blue_robot_index(3), DEFENDER_X - DEFENDER_OFFSET_X / 2.0, -PENALTY_AREA_Y_DIM / 2, M_PI_BLUE);
+    move_robot_2d(get_blue_robot_index(4), DEFENDER_X - DEFENDER_OFFSET_X / 2.0, PENALTY_AREA_Y_DIM / 2, M_PI_BLUE);
 
     // The 0.5 diff is to avoid provoking the illegal defender rule immediately
     move_robot_2d(get_red_robot_index(1), -DEFENDER_X + DEFENDER_OFFSET_X, GOAL_WIDTH / 4.0, -M_PI_RED);
     move_robot_2d(get_red_robot_index(2), -DEFENDER_X + DEFENDER_OFFSET_X, -GOAL_WIDTH / 4.0, -M_PI_RED);
-    move_robot_2d(get_red_robot_index(3), -DEFENDER_X, KICK_OFF_Z, M_PI_RED);
-    move_robot_2d(get_red_robot_index(4), -DEFENDER_X, -KICK_OFF_Z, M_PI_RED);
+    move_robot_2d(get_red_robot_index(3), -DEFENDER_X, KICK_OFF_Y, M_PI_RED);
+    move_robot_2d(get_red_robot_index(4), -DEFENDER_X, -KICK_OFF_Y, M_PI_RED);
   } else {
     move_robot_2d(get_blue_robot_index(1), DEFENDER_X - DEFENDER_OFFSET_X, GOAL_WIDTH / 4.0, -M_PI_BLUE);
     move_robot_2d(get_blue_robot_index(2), DEFENDER_X - DEFENDER_OFFSET_X, -GOAL_WIDTH / 4.0, -M_PI_BLUE);
-    move_robot_2d(get_blue_robot_index(3), DEFENDER_X, KICK_OFF_Z, M_PI_BLUE);
-    move_robot_2d(get_blue_robot_index(4), DEFENDER_X, -KICK_OFF_Z, M_PI_BLUE);
+    move_robot_2d(get_blue_robot_index(3), DEFENDER_X, KICK_OFF_Y, M_PI_BLUE);
+    move_robot_2d(get_blue_robot_index(4), DEFENDER_X, -KICK_OFF_Y, M_PI_BLUE);
 
     move_robot_2d(get_red_robot_index(1), -KICK_OFF_X, 0, M_PI_RED);
     move_robot_2d(get_red_robot_index(2), -PENALTY_X_POS, -GOAL_WIDTH / 2, M_PI_RED);
-    move_robot_2d(get_red_robot_index(3), -DEFENDER_X + DEFENDER_OFFSET_X / 2.0, -PENALTY_AREA_Z_DIM / 2, M_PI_RED);
-    move_robot_2d(get_red_robot_index(4), -DEFENDER_X + DEFENDER_OFFSET_X / 2.0, PENALTY_AREA_Z_DIM / 2, M_PI_RED);
+    move_robot_2d(get_red_robot_index(3), -DEFENDER_X + DEFENDER_OFFSET_X / 2.0, -PENALTY_AREA_Y_DIM / 2, M_PI_RED);
+    move_robot_2d(get_red_robot_index(4), -DEFENDER_X + DEFENDER_OFFSET_X / 2.0, PENALTY_AREA_Y_DIM / 2, M_PI_RED);
   }
 
   // reset ball position
@@ -963,10 +967,10 @@ static int detect_ball_touch() {
   for (i = 0; i < MAX_NUM_ROBOTS; i++) {
     if (robots[i]) {
       double dx = robots[i]->position[X] - ball_pos[X];
-      double dz = robots[i]->position[Z] - ball_pos[Z];
+      double dy = robots[i]->position[Y] - ball_pos[Y];
 
       // squared distance between robot and ball
-      double dist2 = dx * dx + dz * dz;
+      double dist2 = dx * dx + dy * dy;
       if (dist2 < minDist2) {
         minDist2 = dist2;
         index = i;
@@ -986,26 +990,26 @@ static int detect_ball_touch() {
 }
 
 static int is_ball_in_field() {
-  return fabs(ball_pos[Z]) <= FIELD_Z_LIMIT && fabs(ball_pos[X]) <= FIELD_X_LIMIT;
+  return fabs(ball_pos[Y]) <= FIELD_Y_LIMIT && fabs(ball_pos[X]) <= FIELD_X_LIMIT;
 }
 
 static int is_ball_in_red_goal() {
   if (control_data.firstHalf)
-    return ball_pos[X] < -FIELD_X_LIMIT && ball_pos[X] > -(FIELD_X_LIMIT + 0.25) && fabs(ball_pos[Z]) < GOAL_WIDTH / 2;
+    return ball_pos[X] < -FIELD_X_LIMIT && ball_pos[X] > -(FIELD_X_LIMIT + 0.25) && fabs(ball_pos[Y]) < GOAL_WIDTH / 2;
   else
-    return ball_pos[X] > FIELD_X_LIMIT && ball_pos[X] < FIELD_X_LIMIT + 0.25 && fabs(ball_pos[Z]) < GOAL_WIDTH / 2;
+    return ball_pos[X] > FIELD_X_LIMIT && ball_pos[X] < FIELD_X_LIMIT + 0.25 && fabs(ball_pos[Y]) < GOAL_WIDTH / 2;
 }
 
 static int is_ball_in_blue_goal() {
   if (control_data.firstHalf)
-    return ball_pos[X] > FIELD_X_LIMIT && ball_pos[X] < FIELD_X_LIMIT + 0.25 && fabs(ball_pos[Z]) < GOAL_WIDTH / 2;
+    return ball_pos[X] > FIELD_X_LIMIT && ball_pos[X] < FIELD_X_LIMIT + 0.25 && fabs(ball_pos[Y]) < GOAL_WIDTH / 2;
   else
-    return ball_pos[X] < -FIELD_X_LIMIT && ball_pos[X] > -(FIELD_X_LIMIT + 0.25) && fabs(ball_pos[Z]) < GOAL_WIDTH / 2;
+    return ball_pos[X] < -FIELD_X_LIMIT && ball_pos[X] > -(FIELD_X_LIMIT + 0.25) && fabs(ball_pos[Y]) < GOAL_WIDTH / 2;
 }
 
 static int is_robot_in_central_circle(int robot_index) {
   return (robots[robot_index]->position[X] * robots[robot_index]->position[X] +
-          robots[robot_index]->position[Z] * robots[robot_index]->position[Z]) < CIRCLE_RADIUS_LIMIT * CIRCLE_RADIUS_LIMIT;
+          robots[robot_index]->position[Y] * robots[robot_index]->position[Y]) < CIRCLE_RADIUS_LIMIT * CIRCLE_RADIUS_LIMIT;
 }
 
 static int is_robot_in_own_penalty_area(int robot_index) {
@@ -1013,11 +1017,11 @@ static int is_robot_in_own_penalty_area(int robot_index) {
       ((robot_get_teamID(robot_index) == TEAM_RED) && !control_data.firstHalf)) {
     return robots[robot_index]->position[X] < FIELD_X_LIMIT &&
            robots[robot_index]->position[X] > FIELD_X_LIMIT - PENALTY_AREA_X_DIM &&
-           fabs(robots[robot_index]->position[Z]) < PENALTY_AREA_Z_DIM / 2;
+           fabs(robots[robot_index]->position[Y]) < PENALTY_AREA_Y_DIM / 2;
   } else {
     return robots[robot_index]->position[X] > -FIELD_X_LIMIT &&
            robots[robot_index]->position[X] < -(FIELD_X_LIMIT - PENALTY_AREA_X_DIM) &&
-           fabs(robots[robot_index]->position[Z]) < PENALTY_AREA_Z_DIM / 2;
+           fabs(robots[robot_index]->position[Y]) < PENALTY_AREA_Y_DIM / 2;
   }
 }
 
@@ -1041,7 +1045,7 @@ static void update_kick_off_state(double startTime, double currentTime) {
 
 // check if throwing the ball in does not collide with a robot.
 // If it does collide, change the throw-in location.
-static void check_throw_in(double x, double z) {
+static void check_throw_in(double x, double y) {
   // run some steps to see if the ball is moving: that would indicate a collision
   step();
   ball_has_hit_something();
@@ -1051,11 +1055,11 @@ static void check_throw_in(double x, double z) {
 
   while (ball_has_hit_something()) {
     // slope of the line formed by the throw in point and the origin point.
-    double slope = z / x;
-    z -= sign(z) * 0.1;
-    x = z / slope;
-    move_ball_2d(x, z);
-    check_throw_in(x, z);  // recursive call to check the new throw in point.
+    double slope = y / x;
+    y -= sign(y) * 0.1;
+    x = y / slope;
+    move_ball_2d(x, y);
+    check_throw_in(x, y);  // recursive call to check the new throw in point.
   }
 }
 
@@ -1063,8 +1067,8 @@ static void check_throw_in(double x, double z) {
 static void check_ball_out() {
   double throw_in_pos[3];  // x and z throw-in position
 
-  if (fabs(ball_pos[Z]) > FIELD_Z_LIMIT) {  // out at side line
-    // printf("ball over side-line: %f %f\n", ball_pos[X], ball_pos[Z]);
+  if (fabs(ball_pos[Y]) > FIELD_Y_LIMIT) {  // out at side line
+    // printf("ball over side-line: %f %f\n", ball_pos[X], ball_pos[Y]);
     double back;
     if (last_touch_robot_index == -1)  // not sure which team has last touched the ball
       back = 0.0;
@@ -1074,7 +1078,7 @@ static void check_ball_out() {
       back = -1.0;  // 1 meter towards blue goal
 
     throw_in_pos[X] = ball_pos[X] + back;
-    throw_in_pos[Z] = sign(ball_pos[Z]) * THROW_IN_LINE_Z;
+    throw_in_pos[Y] = sign(ball_pos[Y]) * THROW_IN_LINE_Y;
 
     // in any case the ball cannot be placed off the throw-in line
     if (throw_in_pos[X] > THROW_IN_LINE_X_END)
@@ -1082,28 +1086,28 @@ static void check_ball_out() {
     else if (throw_in_pos[X] < -THROW_IN_LINE_X_END)
       throw_in_pos[X] = -THROW_IN_LINE_X_END;
   } else if (ball_pos[X] > FIELD_X_LIMIT && !is_ball_in_red_goal() && !is_ball_in_blue_goal()) {  // out at end line
-    // printf("ball over end-line (near red goal): %f %f\n", ball_pos[X], ball_pos[Z]);
+    // printf("ball over end-line (near red goal): %f %f\n", ball_pos[X], ball_pos[Y]);
     if (last_touch_robot_index == -1) {  // not sure which team has last touched the ball
       throw_in_pos[X] = THROW_IN_LINE_X_END;
-      throw_in_pos[Z] = sign(ball_pos[Z]) * THROW_IN_LINE_Z;
+      throw_in_pos[Y] = sign(ball_pos[Y]) * THROW_IN_LINE_Y;
     } else if (robot_is_red(last_touch_robot_index)) {  // defensive team
       throw_in_pos[X] = THROW_IN_LINE_X_END;
-      throw_in_pos[Z] = sign(ball_pos[Z]) * THROW_IN_LINE_Z;
+      throw_in_pos[Y] = sign(ball_pos[Y]) * THROW_IN_LINE_Y;
     } else {                  // offensive team
       throw_in_pos[X] = 0.0;  // halfway line
-      throw_in_pos[Z] = sign(ball_pos[Z]) * THROW_IN_LINE_Z;
+      throw_in_pos[Y] = sign(ball_pos[Y]) * THROW_IN_LINE_Y;
     }
   } else if (ball_pos[X] < -FIELD_X_LIMIT && !is_ball_in_blue_goal() && !is_ball_in_red_goal()) {  // out at end line
-    // printf("ball over end-line (near blue goal): %f %f\n", ball_pos[X], ball_pos[Z]);
+    // printf("ball over end-line (near blue goal): %f %f\n", ball_pos[X], ball_pos[Y]);
     if (last_touch_robot_index == -1) {  // not sure which team has last touched the ball
       throw_in_pos[X] = -THROW_IN_LINE_X_END;
-      throw_in_pos[Z] = sign(ball_pos[Z]) * THROW_IN_LINE_Z;
+      throw_in_pos[Y] = sign(ball_pos[Y]) * THROW_IN_LINE_Y;
     } else if (robot_is_blue(last_touch_robot_index)) {  // defensive team
       throw_in_pos[X] = -THROW_IN_LINE_X_END;
-      throw_in_pos[Z] = sign(ball_pos[Z]) * THROW_IN_LINE_Z;
+      throw_in_pos[Y] = sign(ball_pos[Y]) * THROW_IN_LINE_Y;
     } else {                  // offensive team
       throw_in_pos[X] = 0.0;  // halfway line
-      throw_in_pos[Z] = sign(ball_pos[Z]) * THROW_IN_LINE_Z;
+      throw_in_pos[Y] = sign(ball_pos[Y]) * THROW_IN_LINE_Y;
     }
   } else
     return;  // ball is not out
@@ -1116,8 +1120,8 @@ static void check_ball_out() {
   run_seconds(2.0);
 
   // throw the ball in
-  move_ball_2d(throw_in_pos[X], throw_in_pos[Z]);
-  check_throw_in(throw_in_pos[X], throw_in_pos[Z]);
+  move_ball_2d(throw_in_pos[X], throw_in_pos[Y]);
+  check_throw_in(throw_in_pos[X], throw_in_pos[Y]);
 }
 
 // "Only the goal keeper and at most one defending field player can
@@ -1351,8 +1355,8 @@ static double randomize_angle() {
 
 static int ball_completely_outside_penalty_area() {
   const double X_LIMIT = FIELD_SIZE_X / 2 - PENALTY_AREA_X_DIM - BALL_RADIUS;
-  const double Z_LIMIT = PENALTY_AREA_Z_DIM / 2 + BALL_RADIUS;
-  return ball_pos[X] > -X_LIMIT || fabs(ball_pos[Z]) > Z_LIMIT;
+  const double Y_LIMIT = PENALTY_AREA_Y_DIM / 2 + BALL_RADIUS;
+  return ball_pos[X] > -X_LIMIT || fabs(ball_pos[Y]) > Y_LIMIT;
 }
 
 static void run_penalty_kick(double delay, int team_color) {
@@ -1419,7 +1423,7 @@ static void run_penalty_kick(double delay, int team_color) {
   int alreadyTouched = 0;
   int nbStepsBallNotMoving = 0;
   double xBall = 0.0;
-  double zBall = 0.0;
+  double yBall = 0.0;
   do {
     // substract TIME_STEP to current time
     timeRemaining -= TIME_STEP / 1000.0;
@@ -1443,9 +1447,9 @@ static void run_penalty_kick(double delay, int team_color) {
     if (alreadyTouched && (nbStepsBallNotMoving < 10)) {
       if (!nbStepsBallNotMoving) {
         xBall = ball_pos[X];
-        zBall = ball_pos[Z];
+        yBall = ball_pos[Y];
         ++nbStepsBallNotMoving;
-      } else if ((ball_pos[X] == xBall) && (ball_pos[Z] == zBall)) {
+      } else if ((ball_pos[X] == xBall) && (ball_pos[Y] == yBall)) {
         ++nbStepsBallNotMoving;
       } else {
         nbStepsBallNotMoving = 0;
@@ -1455,17 +1459,17 @@ static void run_penalty_kick(double delay, int team_color) {
     // "The attacking robot is only allowed to contact the ball once"
     if ((robot_index == attacker) && (alreadyTouched == 1)) {
       xBall = ball_pos[X];
-      zBall = ball_pos[Z];
+      yBall = ball_pos[Y];
       double xMargin = fabs(xBall + FIELD_X_LIMIT);
-      double zMargin;
-      if (fabs(zBall) > (GOAL_WIDTH / 2))
-        zMargin = fabs(zBall) - (GOAL_WIDTH / 2);
+      double yMargin;
+      if (fabs(yBall) > (GOAL_WIDTH / 2))
+        yMargin = fabs(yBall) - (GOAL_WIDTH / 2);
       else
-        zMargin = 0;
+        yMargin = 0;
       if (team_color)
-        marginOfErrorBlue = sqrt((xMargin * xMargin) + (zMargin * zMargin));
+        marginOfErrorBlue = sqrt((xMargin * xMargin) + (yMargin * yMargin));
       else
-        marginOfErrorRed = sqrt((xMargin * xMargin) + (zMargin * zMargin));
+        marginOfErrorRed = sqrt((xMargin * xMargin) + (yMargin * yMargin));
       show_message("ILLEGAL ACTION! (2ND TOUCH)");
       return;
     }
@@ -1474,17 +1478,17 @@ static void run_penalty_kick(double delay, int team_color) {
     // the first contact by the attacking robot"
     if ((nbStepsBallNotMoving == 10) && (alreadyTouched == 1)) {
       xBall = ball_pos[X];
-      zBall = ball_pos[Z];
+      yBall = ball_pos[Y];
       double xMargin = fabs(xBall + FIELD_X_LIMIT);
-      double zMargin;
-      if (fabs(zBall) > (GOAL_WIDTH / 2))
-        zMargin = fabs(zBall) - (GOAL_WIDTH / 2);
+      double yMargin;
+      if (fabs(yBall) > (GOAL_WIDTH / 2))
+        yMargin = fabs(yBall) - (GOAL_WIDTH / 2);
       else
-        zMargin = 0;
+        yMargin = 0;
       if (team_color)
-        marginOfErrorBlue = sqrt((xMargin * xMargin) + (zMargin * zMargin));
+        marginOfErrorBlue = sqrt((xMargin * xMargin) + (yMargin * yMargin));
       else
-        marginOfErrorRed = sqrt((xMargin * xMargin) + (zMargin * zMargin));
+        marginOfErrorRed = sqrt((xMargin * xMargin) + (yMargin * yMargin));
       show_message("BALL NOT IN!");
       return;
     }
@@ -1523,17 +1527,17 @@ static void run_penalty_kick(double delay, int team_color) {
     show_message("GOAL!");
   } else {
     xBall = ball_pos[X];
-    zBall = ball_pos[Z];
+    yBall = ball_pos[Y];
     double xMargin = fabs(xBall + FIELD_X_LIMIT);
-    double zMargin;
-    if (fabs(zBall) > (GOAL_WIDTH / 2))
-      zMargin = fabs(zBall) - (GOAL_WIDTH / 2);
+    double yMargin;
+    if (fabs(yBall) > (GOAL_WIDTH / 2))
+      yMargin = fabs(yBall) - (GOAL_WIDTH / 2);
     else
-      zMargin = 0;
+      yMargin = 0;
     if (team_color)
-      marginOfErrorBlue = sqrt((xMargin * xMargin) + (zMargin * zMargin));
+      marginOfErrorBlue = sqrt((xMargin * xMargin) + (yMargin * yMargin));
     else
-      marginOfErrorRed = sqrt((xMargin * xMargin) + (zMargin * zMargin));
+      marginOfErrorRed = sqrt((xMargin * xMargin) + (yMargin * yMargin));
     show_message("MISSED!");
   }
 }

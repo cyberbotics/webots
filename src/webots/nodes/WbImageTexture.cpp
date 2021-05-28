@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbImageTexture.hpp"
 
 #include "WbAbstractAppearance.hpp"
+#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbImage.hpp"
@@ -26,6 +27,7 @@
 #include "WbSFBool.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
+#include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
 
@@ -53,6 +55,7 @@ void WbImageTexture::init() {
   mWrenTextureIndex = 0;
   mIsMainTextureTransparent = true;
   mRole = "";
+  mDownloader = NULL;
 
   mUrl = findMFString("url");
   mRepeatS = findSFBool("repeatS");
@@ -74,6 +77,24 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
 
 WbImageTexture::~WbImageTexture() {
   destroyWrenTexture();
+}
+
+void WbImageTexture::downloadAssets() {
+  if (mUrl->size() == 0)
+    return;
+  const QString &url(mUrl->item(0));
+  if (WbUrl::isWeb(url)) {
+    delete mDownloader;
+    mDownloader = new WbDownloader(this);
+    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
+    mDownloader->download(QUrl(url));
+  }
+}
+
+void WbImageTexture::downloadUpdate() {
+  updateUrl();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbImageTexture::preFinalize() {
@@ -98,6 +119,90 @@ void WbImageTexture::postFinalize() {
     emit changed();
 }
 
+bool WbImageTexture::loadTexture() {
+  if (mDownloader) {
+    assert(mDownloader->device());
+    if (!mDownloader->error().isEmpty()) {
+      warn(mDownloader->error());
+      return false;
+    }
+    return loadTextureData(mDownloader->device());
+  }
+  const QString filePath(path(true));
+  if (filePath.isEmpty())
+    return false;
+  QFile file(filePath);
+  if (!file.open(QIODevice::ReadOnly))
+    return false;
+  const bool r = loadTextureData(&file);
+  file.close();
+  return r;
+}
+
+bool WbImageTexture::loadTextureData(QIODevice *device) {
+  QImageReader imageReader(device);
+  QSize textureSize = imageReader.size();
+  const int imageWidth = textureSize.width();
+  const int imageHeight = textureSize.height();
+  int width = WbMathsUtilities::nextPowerOf2(imageWidth);
+  int height = WbMathsUtilities::nextPowerOf2(imageHeight);
+  if (width != imageWidth || height != imageHeight)
+    warn(tr("Texture image size of '%1' is not a power of two: rescaling it from %2x%3 to %4x%5.")
+           .arg(path())
+           .arg(imageWidth)
+           .arg(imageHeight)
+           .arg(width)
+           .arg(height));
+
+  const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
+  const int divider = 4 * pow(0.5, quality);      // 0: 4, 1: 2, 2: 1
+  const int maxResolution = pow(2, 9 + quality);  // 0: 512, 1: 1024, 2: 2048
+  if (divider != 1) {
+    if (width >= maxResolution)
+      width /= divider;
+    if (height >= maxResolution)
+      height /= divider;
+  }
+
+  delete mImage;
+  mImage = new QImage();
+
+  if (!imageReader.read(mImage)) {
+    warn(tr("Cannot load texture '%1': %2.").arg(path()).arg(imageReader.errorString()));
+    return false;
+  }
+
+  mIsMainTextureTransparent = mImage->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
+
+  if (mImage->format() != QImage::Format_ARGB32) {
+    QImage tmp = mImage->convertToFormat(QImage::Format_ARGB32);
+    mImage->swap(tmp);
+  }
+
+  if (mImage->width() != width || mImage->height() != height) {
+    // Qt::SmoothTransformation alterates the alpha channel.
+    // Qt::FastTransformation creates ugly aliasing effects.
+    // A custom scale with gaussian blur is the best tradeoff found between quality and loading performance.
+    WbImage *image = new WbImage((unsigned char *)mImage->constBits(), mImage->width(), mImage->height());
+    WbImage *downscaledImage =
+      image->downscale(width, height, qMax(0, mImage->width() / width - 1), qMax(0, mImage->height() / height - 1));
+    delete image;
+    QImage tmp(downscaledImage->data(), width, height, mImage->format());
+    delete downscaledImage;
+    mImage->swap(tmp);
+
+    if (WbWorld::isX3DStreaming()) {
+      const QString &tmpFileName = WbStandardPaths::webotsTmpPath() + QFileInfo(path()).fileName();
+      if (mImage->save(tmpFileName))
+        cQualityChangedTexturesList.insert(path());
+      else
+        warn(tr("Cannot save texture with reduced quality to temporary file '%1'.").arg(tmpFileName));
+    }
+  }
+
+  return true;
+}
+
 void WbImageTexture::updateWrenTexture() {
   destroyWrenTexture();
 
@@ -108,61 +213,7 @@ void WbImageTexture::updateWrenTexture() {
   // Only load the image from disk if the texture isn't already in the cache
   WrTexture2d *texture = wr_texture_2d_copy_from_cache(filePath.toUtf8().constData());
   if (!texture) {
-    QImageReader imageReader(filePath);
-    QSize textureSize = imageReader.size();
-    const int imageWidth = textureSize.width();
-    const int imageHeight = textureSize.height();
-    int width = WbMathsUtilities::nextPowerOf2(imageWidth);
-    int height = WbMathsUtilities::nextPowerOf2(imageHeight);
-    if (width != imageWidth || height != imageHeight)
-      WbLog::warning(tr("Texture image size of '%1' is not a power of two: rescaling it from %2x%3 to %4x%5.")
-                       .arg(filePath)
-                       .arg(imageWidth)
-                       .arg(imageHeight)
-                       .arg(width)
-                       .arg(height));
-
-    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
-    const int divider = 4 * pow(0.5, quality);      // 0: 4, 1: 2, 2: 1
-    const int maxResolution = pow(2, 9 + quality);  // 0: 512, 1: 1024, 2: 2048
-    if (divider != 1) {
-      if (width >= maxResolution)
-        width /= divider;
-      if (height >= maxResolution)
-        height /= divider;
-    }
-
-    delete mImage;
-    mImage = new QImage();
-    if (imageReader.read(mImage)) {
-      mIsMainTextureTransparent = mImage->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
-
-      if (mImage->format() != QImage::Format_ARGB32) {
-        QImage tmp = mImage->convertToFormat(QImage::Format_ARGB32);
-        mImage->swap(tmp);
-      }
-
-      if (mImage->width() != width || mImage->height() != height) {
-        // Qt::SmoothTransformation alterates the alpha channel.
-        // Qt::FastTransformation creates ugly aliasing effects.
-        // A custom scale with gaussian blur is the best tradeoff found between quality and loading performance.
-        WbImage *image = new WbImage((unsigned char *)mImage->constBits(), mImage->width(), mImage->height());
-        WbImage *downscaledImage =
-          image->downscale(width, height, qMax(0, mImage->width() / width - 1), qMax(0, mImage->height() / height - 1));
-        delete image;
-        QImage tmp(downscaledImage->data(), width, height, mImage->format());
-        delete downscaledImage;
-        mImage->swap(tmp);
-
-        if (WbWorld::isX3DStreaming()) {
-          const QString &tmpFileName = WbStandardPaths::webotsTmpPath() + QFileInfo(filePath).fileName();
-          if (mImage->save(tmpFileName))
-            cQualityChangedTexturesList.insert(filePath);
-          else
-            warn(tr("Cannot save texture with reduced quality to temporary file '%1'.").arg(tmpFileName));
-        }
-      }
-
+    if (loadTexture()) {
       WbWrenOpenGlContext::makeWrenCurrent();
 
       texture = wr_texture_2d_new();
@@ -173,12 +224,13 @@ void WbImageTexture::updateWrenTexture() {
       wr_texture_setup(WR_TEXTURE(texture));
 
       WbWrenOpenGlContext::doneWren();
-    } else
-      warn(tr("Cannot load texture '%1': %2.").arg(filePath).arg(imageReader.errorString()));
+    }
   } else
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
 
   mWrenTexture = WR_TEXTURE(texture);
+  delete mDownloader;
+  mDownloader = NULL;
 }
 
 void WbImageTexture::destroyWrenTexture() {
@@ -196,10 +248,18 @@ void WbImageTexture::destroyWrenTexture() {
 
 void WbImageTexture::updateUrl() {
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
-  int n = mUrl->size();
+  const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
     mUrl->setItem(i, item.replace("\\", "/"));
+  }
+  if (n > 0) {
+    const QString &url = mUrl->item(0);
+    if (isPostFinalizedCalled() && WbUrl::isWeb(url) && mDownloader == NULL) {
+      // url was changed from the scene tree or supervisor
+      downloadAssets();
+      return;
+    }
   }
 
   updateWrenTexture();
@@ -322,7 +382,7 @@ int WbImageTexture::height() const {
   return 0;
 }
 
-void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
+void WbImageTexture::pickColor(const WbVector2 &uv, WbRgb &pickedColor) {
   if (!mWrenTexture)
     return;
 
@@ -337,8 +397,12 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
   } else if (mImage)
     data = mImage->bits();
   else {
-    pickedColor.setValue(1.0, 1.0, 1.0);
-    return;
+    if (loadTexture() && mImage)
+      data = mImage->bits();
+    else {
+      pickedColor.setValue(1.0, 1.0, 1.0);
+      return;
+    }
   }
 
   double u = uv.x();
@@ -366,8 +430,12 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
   // printf("pickedColor (u=%f, v=%f): (r=%f g=%f b=%f)\n", u, v, pickedColor.red(), pickedColor.green(), pickedColor.blue());
 }
 
-QString WbImageTexture::path() {
-  return WbUrl::computePath(this, "url", mUrl, 0);
+const QString WbImageTexture::path(bool warning) const {
+  if (mUrl->size() == 0)
+    return "";
+  if (WbUrl::isWeb(mUrl->item(0)))
+    return mUrl->item(0);
+  return WbUrl::computePath(this, "url", mUrl, 0, warning);
 }
 
 void WbImageTexture::write(WbVrmlWriter &writer) const {
@@ -415,6 +483,7 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   urlFieldCopy.write(writer);
   findField("repeatS", true)->write(writer);
   findField("repeatT", true)->write(writer);
+  findField("filtering", true)->write(writer);
 
   if (writer.isX3d()) {
     writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"

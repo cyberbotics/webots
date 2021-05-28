@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,6 +49,9 @@ public:
 
   bool saveAs(const QString &fileName) override;
   void reset(bool restartControllers) override;
+
+  void pauseStepTimer();
+  void restartStepTimer();
 
   virtual void step();
 

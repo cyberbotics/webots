@@ -1,2 +1,2 @@
 function value = WB_NODE_NORMAL
-value = 19;
+value = 20;

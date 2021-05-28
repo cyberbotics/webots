@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Lincoln MKZ 2017
 
@@ -21,6 +20,7 @@ PROTO LincolnMKZ [
   field     MFNode     sensorsSlotTop    []
   field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
+  field     SFString   window            "automobile"
 ]
 {
   %{ local frontSpotLights = fields.frontSpotLights.value }%
@@ -165,7 +165,7 @@ PROTO LincolnMKZ [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_base_color.jpeg"
+                      "textures/lincoln_mkz_details_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
@@ -200,7 +200,7 @@ PROTO LincolnMKZ [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_base_color.jpeg"
+                      "textures/lincoln_mkz_details_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
@@ -227,22 +227,40 @@ PROTO LincolnMKZ [
           }
         ]
         rear [
-          Transform {
-            translation 0 -0.35 1.44
-            rotation 0 1 0 3.14159
-            children [
-              DEF BRAKE_LIGHT Shape {
-                appearance DEF BREAKING_LIGHT_APP PBRAppearance {
-                  baseColor 0.560784 0.113725 0.113725
-                  metalness 0
-                  emissiveIntensity 10
-                }
-                geometry LincolnMKZBackLightsMesh {
-                }
-              }
-            ]
+          DEF TAIL_LIGHT Shape {
+            appearance PBRAppearance {
+              baseColor 0.560784 0.113725 0.113725
+              metalness 0
+              emissiveIntensity 10
+            }
+            geometry LincolnMKZTailLightsMesh {
+            }
           }
         ]
+        braking [
+          DEF BRAKING_LIGHTS Shape {
+            appearance PBRAppearance {
+              baseColor 0.560784 0.113725 0.113725
+              metalness 0
+              emissiveIntensity 30
+            }
+            geometry LincolnMKZBrakingLightsMesh {
+            }
+          }
+        ]
+        antifogColor [ 0.3 0 0 ]
+        antifog [
+          DEF ANTIFOG_LIGHTS Shape {
+            appearance PBRAppearance {
+              baseColor 0.560784 0.113725 0.113725
+              metalness 0
+              emissiveIntensity 10
+            }
+            geometry LincolnMKZRearAntifogLightsMesh {
+            }
+          }
+        ]
+
       }
       # vehicle shape
       DEF COACHWORK Shape {
@@ -264,7 +282,7 @@ PROTO LincolnMKZ [
         appearance DEF DETAILS_APP PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/lincoln_mkz_details_base_color.jpeg"
+              "textures/lincoln_mkz_details_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
@@ -366,5 +384,6 @@ PROTO LincolnMKZ [
         0 0.2 1.6 # estimated roughly
       ]
     }
+    window IS window
   }
 }

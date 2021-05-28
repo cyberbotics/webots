@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ endif
 include resources/Makefile.os.include
 
 ifeq ($(JAVA_HOME)$(OSTYPE),linux)
-JAVAC:=`which javac`
+JAVAC:=$(shell which javac)
 ifneq ($(JAVAC),)
 export JAVA_HOME:=$(shell dirname $(dir $(shell readlink -f $(JAVAC))))
 endif
@@ -78,7 +78,7 @@ clean: webots_target clean-docs
 	@+echo "#"; echo "# * packaging *"; echo "#"
 	@+make --silent -C scripts/packaging clean
 	@+echo "#"; echo "# remove OS generated files and text editor backup files";
-	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -fv -- {} \;
+	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
 ifeq ($(MAKECMDGOALS),clean)
 	@+echo "#"; echo "# testing if everything was cleaned...";
 	@+git clean -fdfxn -e tests $(CLEAN_IGNORE)
@@ -116,8 +116,8 @@ endif
 	@+make --silent -C src/wren $(TARGET)
 	@+echo "#"; echo "# * webots (core) *"; echo "#"
 	@+make --silent -C src/webots $(TARGET)
-	@+echo "#"; echo "# * libController *"; echo "#"
-	@+make --silent -C src/Controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+echo "#"; echo "# * controller library *"; echo "#"
+	@+make --silent -C src/controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";

@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ MODULE_NAME = managers
 
 INTERFACE          = $(MODULE_NAME).i
 SOURCE_HEADERS     = $(substr $(WEBOTS_HOME_PATH_NO_ESCAPE),$(WEBOTS_HOME_PATH),$(wildcard $(WEBOTS_HOME_PATH)/include/controller/cpp/webots/*.hpp))
-SWIG_OPTS          = -c++ -python -outdir $(PYTHON_LIB_FOLDER) -I$(WEBOTS_HOME_PATH)/resources/languages/python/
+SWIG_OPTS          = -c++ -python -outdir $(PYTHON_LIB_FOLDER) -I$(WEBOTS_HOME_PATH)/src/controller/python/
 WRAPPER            = $(MODULE_NAME)$(PYTHON_SHORT_VERSION).cpp
 WRAPPER_OBJECT     = $(WRAPPER:.cpp=.o)
 PYOUT              = $(PYTHON_LIB_FOLDER)/$(MODULE_NAME).py
@@ -54,17 +54,18 @@ endif
 ifeq ($(OSTYPE),darwin)
 ifeq ($(PYTHON_SHORT_VERSION), 27)
 PYTHON_PATH ?= /System/Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-PYTHON_PYMALLOC =
 else
 PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-ifeq ($(PYTHON_SHORT_VERSION), 38)
-PYTHON_PYMALLOC =
-else
-PYTHON_PYMALLOC = m
 endif
+SKIP_PYTHON_PYMALLOC := 27 38 39
+ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
+PYTHON_PYMALLOC = m
 endif
 BREW_PYTHON_PATH = /usr/local/Cellar/python/$(PYTHON_FULL_VERSION)/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
+ifeq ($(PYTHON_SHORT_VERSION),38)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS         += -Wno-self-assign
 endif

@@ -27,18 +27,22 @@ function wbSlugify(obj) {
 showdown.extension('wbVariables', function() {
   // static variables to maintain
   // TODO: could be computed
+  const branch = (typeof setup !== 'undefined' && typeof setup.branch !== 'undefined') ? setup.branch : 'released';
   var vars = {
     webots: {
       version: {
-        major: 'R2021a',
+        major: 'R2021b',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-        full: 'R2021a',
-        package: 'R2021a'
+        full: 'R2021b',
+        package: 'R2021b'
       }
     },
     date: {
       year: 2021
+    },
+    url: { 
+      github_tree: `https://github.com/cyberbotics/webots/tree/${branch}`
     }
   };
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,9 +67,9 @@ void WbMultimediaStreamingServer::start(int port) {
   connect(&mLimiterTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::processLimiterTimeout);
 }
 
-void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
   if (requestedUrl != "mjpeg") {
-    WbStreamingServer::sendTcpRequestReply(requestedUrl, socket);
+    WbStreamingServer::sendTcpRequestReply(requestedUrl, etag, socket);
     return;
   }
   socket->readAll();

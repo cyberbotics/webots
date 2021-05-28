@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,9 +37,10 @@ public:
   void startController(WbRobot *robot);
 
   QStringList activeControllersNames() const;
-  bool needToWait();
+  bool needToWait(bool *waitForExternControllerStart = NULL);
   void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
+  void checkIfReadRequestCompleted();
 
   void reset(bool restartControllers) override;
 

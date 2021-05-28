@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 #include <QtCore/QDataStream>
 #include <cassert>
-#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_BRAKE_SET_DAMPING_CONSTANT and C_CONFIGURE
+#include "../../controller/c/messages.h"  // contains the definitions for the macros C_BRAKE_SET_DAMPING_CONSTANT and C_CONFIGURE
 
 WbBrake::WbBrake(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevice(modelName, tokenizer) {
   init();
@@ -39,13 +39,8 @@ void WbBrake::init() {
   mRequestedDeviceTag = NULL;
 }
 
-void WbBrake::postFinalize() {
-  WbJointDevice::postFinalize();
-}
-
-void WbBrake::reset() {
-  WbJointDevice::reset();
-
+void WbBrake::reset(const QString &id) {
+  WbJointDevice::reset(id);
   mBrakingDampingConstant = 0.0;
   emit brakingChanged();
 }

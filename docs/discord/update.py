@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,6 +33,9 @@ contributors = {}
 
 
 class MyClient(discord.Client):
+    def __init__(self):
+        discord.Client.__init__(self, intents=discord.Intents.all())
+
     async def export_channel(self, channel):
         year = None
         month = None

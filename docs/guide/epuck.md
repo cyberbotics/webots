@@ -404,6 +404,8 @@ This is done using the distance sensors of the e-puck.
 
 ![e-puck2_pi-puck.wbt.png](images/robots/epuck/e-puck2_pi-puck.wbt.thumbnail.jpg) This is again the same simulation with the "e-puck2" model, but the robot is equipped with the `Pi-Puck` extension which gives it more sensors, [LEDs](../reference/led.md) and computation power.
 
+>**Note**: The model of the pi-puck extension was sponsored by the [ROSin european project](https://www.rosin-project.eu/ftp/ros2-for-the-e-puck2-robot).
+
 #### e-puck2\_server.wbt
 
 ![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.thumbnail.jpg) This is a simulation of an e-puck2 robot running a controller that implements a TCP/IP server emulating the e-puck2 Wi-Fi protocol.
@@ -442,4 +444,3 @@ The BotStudio windows appears upon double clicking on the e-puck allowing the us
 
 ![e-puck_kinematic.wbt.png](images/robots/epuck/e-puck_kinematic.wbt.thumbnail.jpg) The "e-puck\_kinematic.wbt" is an example world similar to "e-puck.wbt" but where the kinematic field of the E-puck PROTO node is true.
 This allows the robot's motion to be calculated according to 2D kinematics algorithms and the collision detection to be calculated with 3D algorithms.
-More information on the kinematic mode in Webots can be found [here](../reference/differentialwheels.md).

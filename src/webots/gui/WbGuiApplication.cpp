@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -100,6 +100,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   mShouldMinimize = false;
   mShouldStartFullscreen = false;
   mStartupMode = WbSimulationState::NONE;
+  mShouldDoRendering = true;
 
   parseArguments();
 }
@@ -130,11 +131,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   int port = 1234;
   QString mode = "x3d";
 
-#ifdef __APPLE__
-  const QStringList &options = streamArguments.split(';', QString::SkipEmptyParts);
-#else  //  Qt >= 5.15
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
-#endif
   foreach (QString option, options) {
     option = option.trimmed();
     const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
@@ -212,11 +209,18 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::PAUSE;
     else if (arg == "--mode=realtime")
       mStartupMode = WbSimulationState::REALTIME;
-    else if (arg == "--mode=run")
-      mStartupMode = WbSimulationState::RUN;
     else if (arg == "--mode=fast")
       mStartupMode = WbSimulationState::FAST;
-    else if (arg == "--help")
+    else if (arg == "--mode=run") {
+      cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
+      mStartupMode = WbSimulationState::FAST;
+    } else if (arg == "--no-rendering")
+      mShouldDoRendering = false;
+    else if (arg == "convert") {
+      mTask = CONVERT;
+      mTaskArguments = args.mid(i);
+      break;
+    } else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
       mTask = SYSINFO;
@@ -228,9 +232,9 @@ void WbGuiApplication::parseArguments() {
     } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
-        mTaskArgument = items[1];
+        mTaskArguments.append(items[1]);
       else
-        mTaskArgument.clear();
+        mTaskArguments.clear();
       mTask = UPDATE_PROTO_CACHE;
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
@@ -325,7 +329,7 @@ int WbGuiApplication::exec() {
 
   WbSingleTaskApplication *task = NULL;
   if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArgument, this);
+    task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
     if (mMainWindow)
       connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
     else
@@ -343,8 +347,11 @@ bool WbGuiApplication::setup() {
   WbPreferences *const prefs = WbPreferences::instance();
   if (mStartupMode == WbSimulationState::NONE)
     mStartupMode = startupModeFromPreferences();
+  if (mShouldDoRendering)
+    mShouldDoRendering = renderingFromPreferences();
 
   WbSimulationState::instance()->setMode(mStartupMode);
+  WbSimulationState::instance()->setRendering(mShouldDoRendering);
 
   // check specified world file if any
   if (!mStartWorldName.isEmpty()) {
@@ -482,11 +489,14 @@ WbSimulationState::Mode WbGuiApplication::startupModeFromPreferences() const {
 
   if (startupMode == "Real-time")
     return WbSimulationState::REALTIME;
-  if (startupMode == "Run")
-    return WbSimulationState::RUN;
   if (startupMode == "Fast")
     return WbSimulationState::FAST;
   return WbSimulationState::PAUSE;
+}
+
+bool WbGuiApplication::renderingFromPreferences() const {
+  WbPreferences *const prefs = WbPreferences::instance();
+  return prefs->value("General/rendering", true).toBool();
 }
 
 #ifdef __APPLE__

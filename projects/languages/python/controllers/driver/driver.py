@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ class Driver (Supervisor):
 
     def __init__(self):
         super(Driver, self).__init__()
-        self.emitter = self.getEmitter('emitter')
+        self.emitter = self.getDevice('emitter')
         robot = self.getFromDef('ROBOT1')
         self.translationField = robot.getField('translation')
         self.keyboard.enable(Driver.timeStep)

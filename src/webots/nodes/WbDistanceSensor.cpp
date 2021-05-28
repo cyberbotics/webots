@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <wren/config.h>
 #include <wren/dynamic_mesh.h>
@@ -183,6 +183,7 @@ void WbDistanceSensor::init() {
   mNumberOfRays = findSFInt("numberOfRays");
   mGaussianWidth = findSFDouble("gaussianWidth");
   mResolution = findSFDouble("resolution");
+  mRedColorSensitivity = findSFDouble("redColorSensitivity");
 
   mTransform = NULL;
   mMesh = NULL;
@@ -247,6 +248,7 @@ void WbDistanceSensor::postFinalize() {
   connect(mNumberOfRays, &WbSFInt::changed, this, &WbDistanceSensor::updateRaySetup);
   connect(mGaussianWidth, &WbSFDouble::changed, this, &WbDistanceSensor::updateRaySetup);
   connect(mResolution, &WbSFDouble::changed, this, &WbDistanceSensor::updateRaySetup);
+  connect(mRedColorSensitivity, &WbSFDouble::changed, this, &WbDistanceSensor::updateRaySetup);
 }
 
 void WbDistanceSensor::updateRaySetup() {
@@ -269,6 +271,8 @@ void WbDistanceSensor::updateRaySetup() {
   if (WbFieldChecker::resetDoubleIfNonPositive(this, mGaussianWidth, 1.0))
     return;  // in order to avoiding passing twice in this function
   if (WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1, -1))
+    return;  // in order to avoiding passing twice in this function
+  if (WbFieldChecker::resetDoubleIfNegative(this, mRedColorSensitivity, -mRedColorSensitivity->value()))
     return;  // in order to avoiding passing twice in this function
   if (mRayType == LASER && mNumberOfRays->value() > 1) {
     parsingWarn(tr("'type' \"laser\" must have one single ray."));
@@ -451,7 +455,7 @@ void WbDistanceSensor::setSensorRays() {
 }
 
 void WbDistanceSensor::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
   setSensorRays();
 }
 
@@ -478,9 +482,9 @@ bool WbDistanceSensor::refreshSensorIfNeeded() {
   return false;
 }
 
-void WbDistanceSensor::reset() {
-  WbSolidDevice::reset();
-  wr_node_set_visible(WR_NODE(mTransform), false);
+void WbDistanceSensor::reset(const QString &id) {
+  WbSolidDevice::reset(id);
+  updateOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS);
 }
 
 void WbDistanceSensor::computeValue() {
@@ -520,7 +524,7 @@ void WbDistanceSensor::computeValue() {
 
         WbRgb pickedColor;
         double roughness, occlusion;
-        shape->pickColor(pickedColor, WbRay(trans, r), &roughness, &occlusion);
+        shape->pickColor(WbRay(trans, r), pickedColor, &roughness, &occlusion);
 
         const double infraRedFactor = 0.8 * pickedColor.red() * (1 - 0.5 * roughness) * (1 - 0.5 * occlusion) + 0.2;
         averageInfraRedFactor += infraRedFactor * mRays[i].weight();
@@ -530,8 +534,9 @@ void WbDistanceSensor::computeValue() {
       mDistance += distance * mRays[i].weight();
     }
 
-    // apply infrared reflection factor
-    mDistance = mDistance / averageInfraRedFactor;
+    // apply infrared reflection factor and red color sensitivity
+    // before adding of red color sensitivity factor it was calculated with mDistance = mDistance / averageInfraRedFactor
+    mDistance = mDistance + (mDistance / averageInfraRedFactor - mDistance) * mRedColorSensitivity->value();
   } else if (mRayType == SONAR) {
     // use only the nearest ray collision, ignore ray weight
     mDistance = lutMaxRange;

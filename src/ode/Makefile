@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ ifeq ($(MAKECMDGOALS),release)
 endif
 
 CXXFLAGS = -std=c++11
-INCLUDE = -I../../include/ode -I../../include/ode/ode/fluid_dynamics -Iode/src -Iode/src/fluid_dynamics -Ilibccd/src -IOPCODE
+INCLUDE = -I../../include/ode -I../../include/ode/ode/fluid_dynamics -Iode/src -Iode/src/fluid_dynamics -Ilibccd/src -Ilibccd/src/custom -IOPCODE
 
 # define the source files
 C_SOURCES = $(wildcard libccd/src/*.c) $(wildcard ode/src/*.c)

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,12 @@
 
 #include <wren/static_mesh.h>
 
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+#else
 #include <glad/glad.h>
+#endif
 
 #include <unordered_map>
 #include <vector>
@@ -503,7 +508,7 @@ namespace wren {
           mesh->addCoord(glm::vec3(x, -h, y));
           mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
           mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, -0.5f * y + 0.5f));
-          mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.75f, -0.25f * y + 0.25));
+          mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.25f, -0.25f * y + 0.75f));
         }
 
         // connect bottom circle points
@@ -1938,7 +1943,9 @@ namespace wren {
 
   static void copyFromBuffer(unsigned int target, unsigned int buffer, size_t size, void *dest) {
     glBindBuffer(target, buffer);
+#ifndef __EMSCRIPTEN__
     glGetBufferSubData(target, 0, size, dest);
+#endif
   }
 
   /*
@@ -1982,14 +1989,14 @@ namespace wren {
     }
   }
 
-  int StaticMesh::vertexCount() {
+  int StaticMesh::vertexCount() const {
     if (mCoords.size() > 0)
       return mCoords.size();
     else
       return mCacheData->mVertexCount;
   }
 
-  int StaticMesh::indexCount() {
+  int StaticMesh::indexCount() const {
     if (mIndices.size() > 0)
       return mIndices.size();
     else

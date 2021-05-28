@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@
 #include <climits>
 #include <cmath>
 #include "../../../include/controller/c/webots/display.h"  // contains the definitions of the image format
-#include "../../Controller/api/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
+#include "../../controller/c/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
 
 #include <QtCore/QDataStream>
 
@@ -1004,8 +1004,7 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
     const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset] != 0xFF)
-        isTransparent = true;
+      isTransparent = (dataUC[offset] & 0XFF) != 0xFF;
       clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 1] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 3];
     }
   } else if (format == WB_IMAGE_RGB) {
@@ -1018,16 +1017,14 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
     const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset + 3] != 0xFF)
-        isTransparent = true;
+      isTransparent = (dataUC[offset + 3] & 0xFF) != 0xFF;
       clippedImage[i] = (dataUC[offset + 3] << 24) | (dataUC[offset] << 16) | (dataUC[offset + 1] << 8) | dataUC[offset + 2];
     }
   } else if (format == WB_IMAGE_ABGR) {
     const unsigned char *dataUC = (unsigned char *)data;
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
-      if (dataUC[offset] != 0xFF)
-        isTransparent = true;
+      isTransparent = (dataUC[offset] & 0xFF) != 0xFF;
       clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 3] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 1];
     }
   } else
@@ -1079,7 +1076,7 @@ void WbDisplay::createWrenOverlay() {
   else
     mOverlay->setVisible(true, areOverlaysEnabled());
 
-  emit textureIdUpdated(mOverlay->textureGLId());
+  emit textureIdUpdated(mOverlay->textureGLId(), MAIN_TEXTURE);
 
   WbWrenOpenGlContext::doneWren();
 }
@@ -1109,6 +1106,12 @@ void WbDisplay::attachCamera(WbDeviceTag cameraTag) {
   assert(camera);
   WrTexture *texture = camera->getWrenTexture();
   if (texture != NULL && mAttachedCamera != camera) {
+    if (isWindowActive()) {
+      if (mAttachedCamera)
+        mAttachedCamera->enableExternalWindowForAttachedCamera(false);
+      camera->enableExternalWindowForAttachedCamera(true);
+    }
+    emit attachedCameraChanged(mAttachedCamera, camera);
     mAttachedCamera = camera;
     connect(mAttachedCamera, &WbCamera::destroyed, this, &WbDisplay::detachCamera);
     mOverlay->setBackgroundTexture(texture);
@@ -1116,7 +1119,7 @@ void WbDisplay::attachCamera(WbDeviceTag cameraTag) {
     foreach (WbImageTexture *imageTexture, mImageTextures)
       imageTexture->setBackgroundTexture(texture);
 
-    emit backgroundTextureIdUpdated(mOverlay->backgroundTextureGLId());
+    emit textureIdUpdated(mOverlay->backgroundTextureGLId(), BACKGROUND_TEXTURE);
     // clear the alpha channel so that the background image is visible
     const int size = width() * height();
     for (int i = 0; i < size; i++) {
@@ -1135,9 +1138,19 @@ void WbDisplay::detachCamera() {
     foreach (WbImageTexture *imageTexture, mImageTextures)
       imageTexture->unsetBackgroundTexture();
 
+    if (isWindowActive()) {
+      mAttachedCamera->enableExternalWindowForAttachedCamera(false);
+      emit attachedCameraChanged(mAttachedCamera, NULL);
+    }
+    emit textureIdUpdated(0, BACKGROUND_TEXTURE);
     mAttachedCamera = NULL;
-    emit backgroundTextureIdUpdated(0);
   }
+}
+
+void WbDisplay::enableExternalWindow(bool enabled) {
+  if (mAttachedCamera)
+    mAttachedCamera->enableExternalWindowForAttachedCamera(enabled);
+  WbRenderingDevice::enableExternalWindow(enabled);
 }
 
 int WbDisplay::shiftedChannel(int x, int y, int shift) const {
@@ -1181,9 +1194,10 @@ void WbDisplay::postPhysicsStep() {
   mUpdateRequired = false;
 }
 
-void WbDisplay::reset() {
-  WbRenderingDevice::reset();
+void WbDisplay::reset(const QString &id) {
+  WbRenderingDevice::reset(id);
 
+  delete[] mImage;
   mImage = NULL;
   mColor = 0xFFFFFF;
   mAlpha = 0xFF;

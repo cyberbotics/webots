@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -639,4 +639,23 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::hdrResolve(float width, flo
   wr_post_processing_effect_set_result_program(hdrResolveEffect, WbWrenShaders::passThroughShader());
 
   return hdrResolveEffect;
+}
+
+WrPostProcessingEffect *WbWrenPostProcessingEffects::passThrough(float width, float height) {
+  WrPostProcessingEffect *passThroughEffect = wr_post_processing_effect_new();
+  wr_post_processing_effect_set_drawing_index(passThroughEffect, WbWrenRenderingContext::PP_PASS_THROUGH);
+
+  WrPostProcessingEffectPass *passThrough = wr_post_processing_effect_pass_new();
+  wr_post_processing_effect_pass_set_name(passThrough, "PassThrough");
+  wr_post_processing_effect_pass_set_program(passThrough, WbWrenShaders::passThroughShader());
+  wr_post_processing_effect_pass_set_output_size(passThrough, width, height);
+  wr_post_processing_effect_pass_set_alpha_blending(passThrough, false);
+  wr_post_processing_effect_pass_set_input_texture_count(passThrough, 1);
+  wr_post_processing_effect_pass_set_output_texture_count(passThrough, 1);
+  wr_post_processing_effect_pass_set_output_texture_format(passThrough, 0, WR_TEXTURE_INTERNAL_FORMAT_RGB8);
+  wr_post_processing_effect_append_pass(passThroughEffect, passThrough);
+
+  wr_post_processing_effect_set_result_program(passThroughEffect, WbWrenShaders::passThroughShader());
+
+  return passThroughEffect;
 }

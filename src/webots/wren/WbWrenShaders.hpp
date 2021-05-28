@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -63,6 +63,7 @@ namespace WbWrenShaders {
   WrShaderProgram *pickingShader();
   WrShaderProgram *pointSetShader();
   WrShaderProgram *rangeNoiseShader();
+  WrShaderProgram *segmentationShader();
   WrShaderProgram *shadowVolumeShader();
   WrShaderProgram *simpleShader();
   WrShaderProgram *skyboxShader();

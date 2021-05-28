@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@ void WbObjectDetection::setCollided(double depth) {
 bool WbObjectDetection::recomputeRayDirection(WbSolid *device, const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
                                               const WbMatrix3 &deviceInverseRotation, const WbAffinePlane *frustumPlanes) {
   assert(mGeom);
-  mObject->updateTransformAfterPhysicsStep();
+  mObject->updateTransformForPhysicsStep();
   // recompute ray properties
   if (!computeObject(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes))
     return false;
@@ -275,10 +275,9 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     double outsidePart[4] = {0.0, 0.0, 0.0, 0.0};
     if (useBoundingSphere) {
       WbBoundingSphere *boundingSphere = rootObject->boundingSphere();
-      double radius = boundingSphere->radius();
-      objectSize.setX(2 * radius);
-      objectSize.setY(2 * radius);
-      objectSize.setZ(2 * radius);
+      const WbVector3 &scale = transform->absoluteScale();
+      const double size = 2 * boundingSphere->radius() * std::max(std::max(scale.x(), scale.y()), scale.z());
+      objectSize.setXyz(size, size, size);
       // correct the object center
       objectPosition += boundingSphere->center();
     } else {

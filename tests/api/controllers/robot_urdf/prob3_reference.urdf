@@ -248,45 +248,59 @@
       </geometry>
     </collision>
   </link>
-  <link name="link_base_tcp180_50247">
+  <link name="ts_emitter">
+  </link>
+  <joint name="link_6_top_ts_emitter_joint" type="fixed">
+    <parent link="link_6_top"/>
+    <child link="ts_emitter"/>
+    <origin xyz="0 0 0.02075" rpy="0 0 0"/>
+  </joint>
+  <link name="link_base_tcp180">
     <visual>
-      <origin xyz="0 0 0.04675" rpy="0 0 0"/>
+      <origin xyz="0 0 0.026" rpy="0 0 0"/>
       <geometry>
         <sphere radius="0.08"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.04675" rpy="0 0 0"/>
+      <origin xyz="0 0 0.026" rpy="0 0 0"/>
       <geometry>
         <sphere radius="0.08"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 1.34683e-07 0.00675" rpy="-3.1415894 0 0"/>
+      <origin xyz="0 1.34683e-07 -0.014" rpy="-3.1415894 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.07"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 1.34683e-07 0.00675" rpy="-3.1415894 0 0"/>
+      <origin xyz="0 1.34683e-07 -0.014" rpy="-3.1415894 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.07"/>
       </geometry>
     </collision>
   </link>
-  <joint name="link_6_top_link_base_tcp180_50247_joint" type="fixed">
+  <joint name="link_6_top_link_base_tcp180_joint" type="fixed">
     <parent link="link_6_top"/>
-    <child link="link_base_tcp180_50247"/>
-    <origin xyz="0 0 0.0985" rpy="0 0 0"/>
+    <child link="link_base_tcp180"/>
+    <origin xyz="0 0 0.07775" rpy="0 0 0"/>
+  </joint>
+  <link name="gripper middle distance sensor">
+  </link>
+  <joint name="link_base_tcp180_gripper middle distance sensor_joint" type="fixed">
+    <parent link="link_base_tcp180"/>
+    <child link="gripper middle distance sensor"/>
+    <origin xyz="0 0 0.085" rpy="0 -1.5707897 0"/>
   </joint>
   <joint name="7 left" type="revolute">
-    <parent link="link_base_tcp180_50247"/>
-    <child link="left finger_50332"/>
+    <parent link="link_base_tcp180"/>
+    <child link="left finger"/>
     <axis xyz="-1 -2.614661e-06 4.528642e-07"/>
     <limit effort="5.44164" lower="0" upper="1.0472" velocity="1.0472"/>
     <origin xyz="0 0 0.058" rpy="0.3430009 4.528642e-07 3.14159"/>
   </joint>
-  <link name="left finger_50332">
+  <link name="left finger">
     <visual>
       <origin xyz="0 0.0437334 0.0442707" rpy="-0.2879853 0 0"/>
       <geometry>
@@ -372,14 +386,42 @@
       </geometry>
     </collision>
   </link>
+  <link name="left finger sensor 3">
+  </link>
+  <joint name="left finger_left finger sensor 3_joint" type="fixed">
+    <parent link="left finger"/>
+    <child link="left finger sensor 3"/>
+    <origin xyz="-6.75982e-08 0.0173238 0.0871813" rpy="7.8457396e-07 0.26179942 1.5708023"/>
+  </joint>
+  <link name="left finger sensor 2">
+  </link>
+  <joint name="left finger_left finger sensor 2_joint" type="fixed">
+    <parent link="left finger"/>
+    <child link="left finger sensor 2"/>
+    <origin xyz="-7.548e-10 0.0214379 0.13449" rpy="-3.3035767e-06 -1.1257437 -1.5707953"/>
+  </joint>
+  <link name="left finger sensor 1">
+  </link>
+  <joint name="left finger_left finger sensor 1_joint" type="fixed">
+    <parent link="left finger"/>
+    <child link="left finger sensor 1"/>
+    <origin xyz="-0.013 0.02 0.118" rpy="0 0 3.1415927"/>
+  </joint>
+  <link name="left finger sensor 0">
+  </link>
+  <joint name="left finger_left finger sensor 0_joint" type="fixed">
+    <parent link="left finger"/>
+    <child link="left finger sensor 0"/>
+    <origin xyz="0.013 0.02 0.118" rpy="0 0 0"/>
+  </joint>
   <joint name="7" type="revolute">
-    <parent link="link_base_tcp180_50247"/>
-    <child link="right finger_50284"/>
+    <parent link="link_base_tcp180"/>
+    <child link="right finger"/>
     <axis xyz="-1 0 0"/>
     <limit effort="5.44164" lower="0" upper="1.0472" velocity="1.0472"/>
     <origin xyz="0 0 0.058" rpy="0.343 0 0"/>
   </joint>
-  <link name="right finger_50284">
+  <link name="right finger">
     <visual>
       <origin xyz="0 0.0437334 0.0442707" rpy="-0.2879853 0 0"/>
       <geometry>
@@ -465,6 +507,34 @@
       </geometry>
     </collision>
   </link>
+  <link name="right finger sensor 3">
+  </link>
+  <joint name="right finger_right finger sensor 3_joint" type="fixed">
+    <parent link="right finger"/>
+    <child link="right finger sensor 3"/>
+    <origin xyz="-6.75982e-08 0.0173238 0.0871813" rpy="7.8457396e-07 0.26179942 1.5708023"/>
+  </joint>
+  <link name="right finger sensor 2">
+  </link>
+  <joint name="right finger_right finger sensor 2_joint" type="fixed">
+    <parent link="right finger"/>
+    <child link="right finger sensor 2"/>
+    <origin xyz="-7.548e-10 0.0214379 0.13449" rpy="-3.3035767e-06 -1.1257437 -1.5707953"/>
+  </joint>
+  <link name="right finger sensor 1">
+  </link>
+  <joint name="right finger_right finger sensor 1_joint" type="fixed">
+    <parent link="right finger"/>
+    <child link="right finger sensor 1"/>
+    <origin xyz="-0.013 0.02 0.118" rpy="0 0 3.1415927"/>
+  </joint>
+  <link name="right finger sensor 0">
+  </link>
+  <joint name="right finger_right finger sensor 0_joint" type="fixed">
+    <parent link="right finger"/>
+    <child link="right finger sensor 0"/>
+    <origin xyz="0.013 0.02 0.118" rpy="0 0 0"/>
+  </joint>
   <link name="button 7">
   </link>
   <joint name="link_6_top_button 7_joint" type="fixed">

@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
     wb_supervisor_node_restart_controller(wb_supervisor_node_get_from_def("TEST_SUITE_SUPERVISOR"));
   } else if (strcmp(argv[1], "supervisor_reset_simulation_iteration_1") == 0) {
     wb_supervisor_field_set_mf_string(controllerArgs_field, 0, "supervisor_reset_simulation_iteration_2");
-    // check that the non-static PROTO node was regenerated
+    // check that the non-deterministic PROTO node was regenerated
     ts_assert_int_equal(iteration, 1, "Robot custom data should start with '1' at second iteration.");
     // read expected position from the 'description' field and compare with current position
     char *buffer = (char *)wb_supervisor_field_get_sf_string(description_field);

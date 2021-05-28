@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ release debug profile clean:
 else
 CXX_SOURCES = $(wildcard *.cpp)
 CXX_SOURCES += $(wildcard $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/Ros*.cpp)
+CXX_SOURCES += $(wildcard $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/highlevel/*.cpp)
 
 ifeq ($(OSTYPE),windows)
  ros_automobile.exe: $(CXX_SOURCES:.cxx=.d)
@@ -54,7 +55,7 @@ LIBRARIES += -lCppDriver -lCppCar -ldriver -lcar
 
 # include ros libraries
 
-LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime
+LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -Wl,-rpath-link=/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime -lcontroller_manager -lboost_system
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)

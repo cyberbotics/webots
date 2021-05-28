@@ -1,6 +1,6 @@
 ## Modeling
 
-### My Robot/Simulation Explodes, What Should I Do?
+### My Robot/Simulation Explodes or Behaves Weirdly, What Should I Do?
 
 The explosion is usually caused by inappropriate values passed to the physics engine (ODE).
 There are many things you can be try to improve the stability of the simulation (adapted from ODE's User Guide):
@@ -20,6 +20,12 @@ Since contact forces are computed and applied only at every time step, too fast 
 6. Avoid building mechanical loops by using [Connector](../reference/connector.md) nodes.
 The mechanical loops may cause constraints to fight each other and generate strange forces in the system that can swamp the normal forces.
 For example, an affected body might fly around as though it has life on its own, with complete disregard for gravity.
+7. Avoid thin objects.
+The problem with thin objects is the following: since the simulation time increases step-by-step, if the time step is too large and a thin object is moving fast, it is possible that at step _t_, the thin object does not collide and at step _t+1_ it is already completely inside another object.
+In that case, ODE (the physics engine of Webots) might not know on which side to push back the thin object and this might result in big instabilities.
+Similarly, you can think of a bullet fired into a wall.
+If the simulation step is too large, it is completely possible that the bullet goes through the wall without even noticing it.
+At time _t_, it will be on one side of the wall and at time _t+1_, it will be already on the other side, so no step is producing a collision.
 
 ### How to Make Replicable/Deterministic Simulations?
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ typedef enum {
   // 3D rendering
   WB_NODE_APPEARANCE,
   WB_NODE_BACKGROUND,
+  WB_NODE_BILLBOARD,
   WB_NODE_BOX,
   WB_NODE_CAPSULE,
   WB_NODE_COLOR,
@@ -56,7 +57,6 @@ typedef enum {
   WB_NODE_VIEWPOINT,
   // robots
   WB_NODE_ROBOT,
-  WB_NODE_DIFFERENTIAL_WHEELS,
   // devices
   WB_NODE_ACCELEROMETER,
   WB_NODE_BRAKE,

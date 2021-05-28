@@ -98,7 +98,7 @@ graph TD
     Shape1 -->|geometry| Box[[Box](../reference/box.md)]
     Shape1 -.- USEBODY
   Robot -->|children| HingeJoint[[HingeJoint](../reference/hingejoint.md)]
-    HingeJoint -->|devices| RotationalMotor[[RotationalMotor](../reference/rotationalmotor.md)]
+    HingeJoint -->|device| RotationalMotor[[RotationalMotor](../reference/rotationalmotor.md)]
     HingeJoint -->|jointParameters| HingeJointParameters[[HingeJointParameters](../reference/hingejointparameters.md)]
     HingeJoint -->|endPoint| Solid[[DEF WHEEL1 Solid](../reference/solid.md)]
       Solid -->|physics| Physics2[[DEF WHEEL_PH Physics](../reference/physics.md)]
@@ -159,7 +159,7 @@ So, it is necessary to rotate the distance sensor to point their x-axis outside 
 
 %spoiler "**Reminder**: How to know the orientation of the distance sensor?"
 
-As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut `(Ctrl + F10)` or `View / Optional Rendering / Show DistanceSensor Rays`.
+As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut <kbd>ctrl</kbd>-<kbd>F10</kbd> or `View / Optional Rendering / Show DistanceSensor Rays`.
 
 %end
 
@@ -243,7 +243,7 @@ for (int i = 0; i < 4 ; i++)
 wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for name in wheelsNames:
-    wheels.append(robot.getMotor(name))
+    wheels.append(robot.getDevice(name))
 ```
 %tab-end
 
@@ -438,12 +438,12 @@ robot = Robot()
 ds = []
 dsNames = ['ds_right', 'ds_left']
 for i in range(2):
-    ds.append(robot.getDistanceSensor(dsNames[i]))
+    ds.append(robot.getDevice(dsNames[i]))
     ds[i].enable(TIME_STEP)
 wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for i in range(4):
-    wheels.append(robot.getMotor(wheelsNames[i]))
+    wheels.append(robot.getDevice(wheelsNames[i]))
     wheels[i].setPosition(float('inf'))
     wheels[i].setVelocity(0.0)
 avoidObstacleCounter = 0
@@ -558,7 +558,7 @@ end
 ### Solution: World File
 
 To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
-[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/4_wheels_robot.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
+[This solution]({{ url.github_tree }}/projects/samples/tutorials/worlds/4_wheels_robot.wbt) as the others is located in the [solution directory]({{ url.github_tree }}/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

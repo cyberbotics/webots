@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@
 #include <wren/static_mesh.h>
 #include <wren/transform.h>
 
-#include "../../Controller/api/messages.h"
+#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QVector>
@@ -302,7 +302,7 @@ void WbRadar::postPhysicsStep() {
 }
 
 void WbRadar::updateRaysSetupIfNeeded() {
-  updateTransformAfterPhysicsStep();
+  updateTransformForPhysicsStep();
 
   // compute the radar position, rotation, axis and plane
   const WbVector3 radarPosition = matrix().translation();
@@ -313,7 +313,7 @@ void WbRadar::updateRaysSetupIfNeeded() {
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(radarPosition, radarRotation, verticalFieldOfView(),
                                                                          horizontalFieldOfView(), maxRange());
   foreach (WbRadarTarget *target, mRadarTargets) {
-    target->object()->updateTransformAfterPhysicsStep();
+    target->object()->updateTransformForPhysicsStep();
     bool valid = target->recomputeRayDirection(this, radarPosition, radarRotation, radarInverseRotation, frustumPlanes);
     if (valid)
       valid =
@@ -546,8 +546,8 @@ bool WbRadar::refreshSensorIfNeeded() {
   return true;
 }
 
-void WbRadar::reset() {
-  WbSolidDevice::reset();
+void WbRadar::reset(const QString &id) {
+  WbSolidDevice::reset(id);
 
   qDeleteAll(mRadarTargets);
   mRadarTargets.clear();

@@ -17,6 +17,7 @@ Supported values for the `texture` field:
 - noon\_park\_empty
 - mountains
 - stadium
+- stadium\_dry
 
 Deprecated backgrounds:
 
@@ -42,23 +43,20 @@ TexturedBackground {
   SFString texture      "mountains"
   SFFloat  luminosity   1
   SFBool   skybox       TRUE
-  SFBool   reflections  TRUE
   MFColor  skyColor     [0 0 0]
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/backgrounds/protos/TexturedBackground.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/backgrounds/protos/TexturedBackground.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/backgrounds/protos/TexturedBackground.proto]({{ url.github_tree }}/projects/objects/backgrounds/protos/TexturedBackground.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 ### TexturedBackground Field Summary
 
-- `texture`: Defines the texture of the background. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"` and `"twilight_cloudy_empty"`.
+- `texture`: Defines the texture of the background. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"`, `"stadium_dry"`, and `"twilight_cloudy_empty"`.
 
 - `skybox`: Specifies if the `texture` field is used to define the skybox shown in the scene background.
-
-- `reflections`: Specifies if the `texture` field is used in the reflections of the [PBRAppearance](../reference/pbrappearance.md) nodes.
 
 - `skyColor`: Defines the background color in case the `skybox` field is `FALSE`.
 
@@ -78,6 +76,7 @@ Supported values for the `texture` field:
 - noon\_park\_empty
 - mountains
 - stadium
+- stadium\_dry
 
 Deprecated backgrounds:
 
@@ -106,14 +105,14 @@ TexturedBackgroundLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto]({{ url.github_tree }}/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 ### TexturedBackgroundLight Field Summary
 
-- `texture`: Should be equivalent to the 'texture' field of the TexturedBackground. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"` and `"twilight_cloudy_empty"`.
+- `texture`: Should be equivalent to the 'texture' field of the TexturedBackground. This field accepts the following values: `"dawn_cloudy_empty"`, `"dusk"`, `"empty_office"`, `"entrance_hall"`, `"factory"`, `"mars"`, `"morning_cloudy_empty"`, `"mountains"`, `"noon_building_overcast"`, `"noon_cloudy_countryside"`, `"noon_cloudy_empty"`, `"noon_cloudy_mountains"`, `"noon_park_empty"`, `"noon_stormy_empty"`, `"noon_sunny_empty"`, `"noon_sunny_garden"`, `"stadium"`, `"stadium_dry"`, and `"twilight_cloudy_empty"`.
 
 - `luminosity`: Multiplies the `Light.intensity` field.
 
