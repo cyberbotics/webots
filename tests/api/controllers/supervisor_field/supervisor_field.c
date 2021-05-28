@@ -424,6 +424,11 @@ int main(int argc, char **argv) {
     "Returned value for 'wb_supervisor_node_get_id' field should be '-1' when 'supervisor' field is set to FALSE and not '%d'",
     self_id);
 
+  // supervisor field tracking
+  field = wb_supervisor_node_get_field(proto, "translation");
+  wb_supervisor_field_enable_tracking(proto, TIME_STEP);
+
+
   ts_send_success();
   return EXIT_SUCCESS;
 }

@@ -115,6 +115,15 @@ typedef struct WbFieldChangeTrackingPrivate {
 
 static WbFieldChangeTracking *field_change_tracking = NULL;
 
+typedef struct WbPoseChangeTrackingPrivate {
+  WbNodeRef *node;
+  WbNodeRef *from_node;
+  int sampling_period;
+  bool enable;
+} WbPoseChangeTracking;
+
+static WbPoseChangeTracking *pose_change_tracking = NULL;
+
 static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
 // These functions may be used for debugging:
@@ -2467,6 +2476,31 @@ void wb_supervisor_field_disable_tracking(WbFieldRef field) {
   field_change_tracking->enable = false;
   wb_robot_flush_unlocked();
   field_change_tracking = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_pose_enable_tracking(WbNodeRef *node, WbNodeRef *from_node, int sampling_period) {
+  if (sampling_period < 0) {
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  pose_change_tracking->node = node;
+  pose_change_tracking->from_node = from_node;
+  pose_change_tracking->enable = true;
+  wb_robot_flush_unlocked();
+  pose_change_tracking = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_pose_disable_tracking(WbNodeRef *node, WbNodeRef *from_node) {
+  robot_mutex_lock_step();
+  pose_change_tracking->node = node;
+  pose_change_tracking->from_node = from_node;
+  pose_change_tracking->enable = false;
+  wb_robot_flush_unlocked();
+  pose_change_tracking = NULL;
   robot_mutex_unlock_step();
 }
 
