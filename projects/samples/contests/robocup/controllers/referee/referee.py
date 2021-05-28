@@ -502,25 +502,31 @@ def rotate_along_z(axis_and_angle):
     return [v[0], v[1], v[2], a]
 
 
-def append_solid(solid, solids):  # we list only the hands and feet
+def append_solid(solid, solids, tagged_solids, active_tag=None):  # we list only the hands and feet
     name_field = solid.getField('name')
     if name_field:
         name = name_field.getSFString()
+        tag_start = name.rfind('[')
+        tag_end = name.rfind(']')
+        if tag_start != -1 and tag_end != -1:
+            active_tag = name[tag_start+1:tag_end]
         if name.endswith("[hand]") or name.endswith("[foot]"):
             solids.append(solid)
+        if active_tag is not None:
+            tagged_solids[name] = active_tag
     children = solid.getProtoField('children') if solid.isProto() else solid.getField('children')
     for i in range(children.getCount()):
         child = children.getMFNode(i)
         if child.getType() in [Node.ROBOT, Node.SOLID, Node.GROUP, Node.TRANSFORM, Node.ACCELEROMETER, Node.CAMERA, Node.GYRO,
                                Node.TOUCH_SENSOR]:
-            append_solid(child, solids)
+            append_solid(child, solids, tagged_solids, active_tag)
             continue
         if child.getType() in [Node.HINGE_JOINT, Node.HINGE_2_JOINT, Node.SLIDER_JOINT, Node.BALL_JOINT]:
             endPoint = child.getProtoField('endPoint') if child.isProto() else child.getField('endPoint')
             solid = endPoint.getSFNode()
             if solid.getType() == Node.NO_NODE or solid.getType() == Node.SOLID_REFERENCE:
                 continue
-            append_solid(solid, solids)
+            append_solid(solid, solids, tagged_solids, None)  # active tag is reset after a joint
 
 
 def list_team_solids(team):
@@ -528,10 +534,13 @@ def list_team_solids(team):
         player = team['players'][number]
         robot = player['robot']
         player['solids'] = []
+        player['tagged_solids'] = {}  # Keys: name of solid, Values: name of tag
         solids = player['solids']
-        append_solid(robot, solids)
+        append_solid(robot, solids, player['tagged_solids'])
+        info(f"Tagged solids: {player['tagged_solids']}\n")
         if len(solids) != 4:
-            error(f'{team["color"]} player {number} is missing a hand or a foot.', fatal=True)
+            error(f'{team["color"]} player {number}: invalid number of [hand]+[foot], received {len(solids)}, expected 4.',
+                  fatal=True)
 
 
 def list_solids():
@@ -816,10 +825,8 @@ def update_team_contacts(team):
             member = 'unknown body part'
             if name_field:
                 name = name_field.getSFString()
-                tag_start = name.rfind('[')
-                tag_end = name.rfind(']')
-                if tag_start != -1 and tag_end != -1:
-                    member = name[tag_start+1:tag_end]
+                if name in player['tagged_solids']:
+                    member = player['tagged_solids'][name]
             if point[2] > game.field.turf_depth:  # not a contact with the ground
                 if point in game.ball.contact_points:  # ball contact
                     if member in ['arm', 'hand']:
