@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A residential building with a rounded front face and optional boundingObject.
+# template language: javascript
 
 PROTO ResidentialBuildingWithRoundFront [
   field SFVec3f    translation           0 0 0
@@ -21,8 +22,8 @@ PROTO ResidentialBuildingWithRoundFront [
       'light grey': 'light_grey',
       'light braun': 'light_braun'};
 
-    let type = fields.type.value;
-    let texture = availableTypes[type];
+    const type = fields.type.value;
+    const texture = availableTypes[type];
   }%
   Solid {
     translation IS translation
@@ -156,7 +157,7 @@ PROTO ResidentialBuildingWithRoundFront [
               %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' +  texture + '_metalness.jpg"' }%
             ]
           }
-          %{ if (type !== 'dark grey' && type !== 'dark braun') }%
+          %{ if (type !== 'dark grey' && type !== 'dark braun') { }%
           normalMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' +  texture + '_normal.jpg"' }%
