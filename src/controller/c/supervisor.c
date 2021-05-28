@@ -875,11 +875,11 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const WbFieldType field_type = request_read_int32(r);
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const int field_count = ((field_type & WB_MF) == WB_MF) ? request_read_int32(r) : -1;
+      const char *name = request_read_string(r);
       if (field_ref == -1) {
         requested_field_name = NULL;
         break;
       }
-      const char *name = request_read_string(r);
       WbFieldStruct *f = malloc(sizeof(WbFieldStruct));
       f->next = field_list;
       f->id = field_ref;
