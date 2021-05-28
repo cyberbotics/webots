@@ -75,13 +75,19 @@ export default class WebotsStreaming extends HTMLElement {
       this._disconnectCallback();
   }
 
-  toggleToolbar() {
+  hideToolbar() {
     let toolbar = document.getElementById('toolBar');
     if (toolbar) {
-      if (toolbar.style.display === 'none')
-        toolbar.style.display = 'block';
-      else
+      if (toolbar.style.display !== 'none')
         toolbar.style.display = 'none';
+    }
+  }
+
+  showToolbar() {
+    let toolbar = document.getElementById('toolBar');
+    if (toolbar) {
+      if (toolbar.style.display !== 'block')
+        toolbar.style.display = 'block';
     }
   }
 
