@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A viewer to visualize C3D (www.c3d.org) files.
+# template language: javascript
 
 PROTO C3dViewer [
   field  SFVec3f     translation                      0 0 0
@@ -19,10 +20,9 @@ PROTO C3dViewer [
 ]
 {
   %{
-    local c3dFile = fields.c3dFile.value
-    if c3dFile == nil or c3dFile == '' then
-      c3dFile = "None"
-    end
+    let c3dFile = fields.c3dFile.value;
+    if (c3dFile === 'undefined' || c3dFile === '')
+      c3dFile = 'None';
   }%
   Robot {
     translation IS translation
