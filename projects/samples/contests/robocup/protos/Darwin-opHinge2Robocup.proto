@@ -771,7 +771,7 @@ PROTO Darwin-opHinge2Robocup [
               %{ end }%
                   device [
                     RotationalMotor {
-                      name "PelvL"
+                      name "PelvL[hip]"
                       acceleration 55
                       maxVelocity %{= mx28_max_velocity }%
                       minPosition -1
@@ -1186,7 +1186,7 @@ PROTO Darwin-opHinge2Robocup [
               %{ end }%
                   device [
                     RotationalMotor {
-                      name "PelvR"
+                      name "PelvR[hip]"
                       acceleration 55
                       maxVelocity %{= mx28_max_velocity }%
                       minPosition -1.01
@@ -1533,7 +1533,7 @@ PROTO Darwin-opHinge2Robocup [
       %{ end }%
           device [
             RotationalMotor {
-              name "ShoulderL"
+              name "ShoulderL[shoulder]"
               acceleration 55
               maxVelocity %{= mx28_max_velocity }%
               minPosition -3.14
@@ -1664,8 +1664,16 @@ PROTO Darwin-opHinge2Robocup [
                           endPoint Solid {
                             translation 0 -0.06 0.016
                             rotation 1 0 0 -2.0908
-                            name "handL[hand]"
+                            name "handL[arm]"
                             children [
+                              Transform {
+                                translation 0.0075 -0.1295 -0.016
+                                children [
+                                  Solid {
+                                    name "fingerL[hand]"
+                                  }
+                                ]
+                              }
                               DEF LEFT_HAND_SLOT Group {
                                 children IS leftHandSlot
                               }
@@ -1784,7 +1792,7 @@ PROTO Darwin-opHinge2Robocup [
       %{ end }%
           device [
             RotationalMotor {
-              name "ShoulderR"
+              name "ShoulderR[shoulder]"
               acceleration 55
               maxVelocity %{= mx28_max_velocity }%
               minPosition -3.14
@@ -1915,8 +1923,16 @@ PROTO Darwin-opHinge2Robocup [
                           endPoint Solid {
                             translation 0 -0.06 0.016
                             rotation -1 0 0 2.0808
-                            name "handR[hand]"
+                            name "handR[arm]"
                             children [
+                              Transform {
+                                translation -0.0075 -0.1295 -0.016
+                                children [
+                                  Solid {
+                                    name "fingerR[hand]"
+                                  }
+                                ]
+                              }
                               DEF RIGHT_HAND_SLOT Group {
                                 children IS rightHandSlot
                               }
