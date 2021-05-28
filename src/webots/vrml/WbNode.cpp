@@ -552,9 +552,12 @@ int WbNode::numFields() const {
 }
 
 WbField *WbNode::field(int index, bool internal) const {
+  if (index < 0)
+    return NULL;
   if (internal)
-    return mFields[index];
-  return fieldsOrParameters().at(index);
+    return index < mFields.size() ? mFields.at(index) : NULL;
+  const QVector<WbField *> &fields = fieldsOrParameters();
+  return index < fields.size() ? fields.at(index) : NULL;
 }
 
 WbField *WbNode::findField(const QString &fieldName, bool internal) const {
