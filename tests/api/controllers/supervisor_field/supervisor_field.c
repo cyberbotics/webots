@@ -426,8 +426,16 @@ int main(int argc, char **argv) {
 
   // supervisor field tracking
   field = wb_supervisor_node_get_field(proto, "translation");
-  wb_supervisor_field_enable_tracking(proto, TIME_STEP);
+  wb_supervisor_field_enable_tracking(field, TIME_STEP);
 
+  vector3_modified = wb_supervisor_field_get_sf_vec3f(field);
+  // vector3_expected[0];
+  ts_assert_doubles_equal(3, vector3_modified, vector3_expected,
+                          "Field tracking failed, should be [%lf, %lf, %lf] instead of [%lf, %lf, %lf]", vector3_expected[0],
+                          vector3_expected[1], vector3_expected[2], vector3_modified[0], vector3_modified[1],
+                          vector3_modified[2]);
+
+  wb_supervisor_field_disable_tracking(field);
 
   ts_send_success();
   return EXIT_SUCCESS;
