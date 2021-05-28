@@ -62,6 +62,11 @@
 
 static const int MAX_LABELS = 100;
 
+struct WbTrackedFieldInfo {
+  WbField *field;
+  int sampling_period;
+};
+
 struct WbFieldGetRequest {
   WbField *field;
   int index;  // for MF fields only
@@ -1082,6 +1087,53 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           }
         }
       }
+      return;
+    }
+    case C_SUPERVISOR_FIELD_ENABLE_TRACKING: {
+      unsigned int uniqueId;
+      unsigned int fieldId;
+      unsigned char internal = false;
+      unsigned int sampling_period;
+
+      stream >> sampling_period;
+      stream >> uniqueId;
+      stream >> fieldId;
+      stream >> internal;
+
+      WbNode *const node = WbNode::findNode(uniqueId);
+      WbField *field = NULL;
+
+      if (node)
+        field = node->field(fieldId, internal == 1);
+
+      WbTrackedFieldInfo trackedField;
+      trackedField.field = field;
+      trackedField.sampling_period = sampling_period;
+      mTrackedFields.append(trackedField);
+
+      return;
+    }
+    case C_SUPERVISOR_FIELD_DISABLE_TRACKING: {
+      unsigned int uniqueId;
+      unsigned int fieldId;
+      unsigned char internal = false;
+
+      stream >> uniqueId;
+      stream >> fieldId;
+      stream >> internal;
+
+      WbNode *const node = WbNode::findNode(uniqueId);
+      WbField *field = NULL;
+
+      if (node)
+        field = node->field(fieldId, internal == 1);
+
+      for (int i = 0; i < mTrackedFields.size(); i++)
+        if (mTrackedFields[i].field == field) {
+          mTrackedFields.removeAt(i);
+          break;
+        }
+
       return;
     }
     case C_SUPERVISOR_FIELD_GET_VALUE: {

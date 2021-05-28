@@ -24,6 +24,7 @@ class QDataStream;
 
 struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
+struct WbTrackedFieldInfo;
 class WbFieldSetRequest;
 
 class WbBaseNode;
@@ -128,6 +129,7 @@ private:
   QString createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const;
 
   QList<int> mLabelIds;
+  QVector<WbTrackedFieldInfo> mTrackedFields;
 };
 
 #endif

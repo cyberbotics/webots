@@ -62,6 +62,7 @@ typedef struct WbFieldStructPrivate {
   bool is_proto_internal;  // internal field can't be changed
   union WbFieldData data;
   WbFieldRef next;
+  int last_update;
 } WbFieldStruct;
 
 typedef struct WbFieldRequestPrivate {
@@ -105,6 +106,14 @@ typedef struct WbNodeStructPrivate {
 } WbNodeStruct;
 
 static WbNodeStruct *node_list = NULL;
+
+typedef struct WbFieldChangeTrackingPrivate {
+  WbFieldStruct *field;
+  int sampling_period;
+  bool enable;
+} WbFieldChangeTracking;
+
+static WbFieldChangeTracking *field_change_tracking = NULL;
 
 static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
@@ -2444,21 +2453,21 @@ void wb_supervisor_field_enable_tracking(WbFieldRef field, int sampling_period) 
   }
 
   robot_mutex_lock_step();
-  PositionSensor *p = position_sensor_get_struct(tag);
-  if (p) {
-    p->enable = true;
-    p->sampling_period = sampling_period;
-  } else
-    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  field_change_tracking->field = field;
+  field_change_tracking->sampling_period = sampling_period;
+  field_change_tracking->enable = true;
+  wb_robot_flush_unlocked();
+  field_change_tracking = NULL;
   robot_mutex_unlock_step();
 }
 
 void wb_supervisor_field_disable_tracking(WbFieldRef field) {
-  PositionSensor *p = position_sensor_get_struct(tag);
-  if (p)
-    wb_position_sensor_enable(tag, 0);
-  else
-    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_lock_step();
+  field_change_tracking->field = field;
+  field_change_tracking->enable = false;
+  wb_robot_flush_unlocked();
+  field_change_tracking = NULL;
+  robot_mutex_unlock_step();
 }
 
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
