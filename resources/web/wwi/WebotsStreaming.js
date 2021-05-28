@@ -75,6 +75,21 @@ export default class WebotsStreaming extends HTMLElement {
       this._disconnectCallback();
   }
 
+  toggleToolbar() {
+    let toolbar = document.getElementById('toolBar');
+    if (toolbar) {
+      if (toolbar.style.display === 'none')
+        toolbar.style.display = 'block';
+      else
+        toolbar.style.display = 'none';
+    }
+  }
+
+  sendMessage(message) {
+    if (typeof this._view !== 'undefined' && this._view.stream.socket.readyState === 1)
+      this._view.stream.socket.send(message);
+  }
+
   _load(scriptUrl) {
     return new Promise(function(resolve, reject) {
       let script = document.createElement('script');
