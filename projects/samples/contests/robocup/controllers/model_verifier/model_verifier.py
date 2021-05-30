@@ -182,10 +182,11 @@ def build_dict_node(node):
         return {}
     local_fields = {}
     local_fields["__type"] = node.getTypeName()
-    for i in range(node.getProtoNumberOfFields()):
+    nb_fields = node.getProtoNumberOfFields()
+    for i in range(nb_fields):
         field = node.getProtoFieldByIndex(i)
         if field is None:
-            error("None field reached")
+            error(f"None field reached {i+1}/{nb_fields} in {get_node_desc(('SFNode',local_fields))}\n")
             continue
         local_fields[field.getName()] = build_dict_field(field)
     return local_fields
@@ -195,7 +196,7 @@ def check_self_collision(robot):
     self_collision_node = robot.get("selfCollision")
     if self_collision_node is None:
         error("Robot has no field selfCollision\n")
-    if not self_collision_node[1]:
+    elif not self_collision_node[1]:
         error("Self-collision is disabled\n")
 
 
@@ -628,6 +629,8 @@ def find_solid_tag(node, solid_tag, transform_list=[]):
             for device in node[1]["device"][1]:
                 if device["__type"] == "RotationalMotor":
                     motor_name = device["name"][1]
+            if 'position' not in node[1]:
+                error(f"Missing position field in joint with motor {motor_name}: {get_node_desc(node)}\n")
             transform_list.append((node_type,
                                    node[1]["jointParameters"][1]["anchor"][1],
                                    node[1]["jointParameters"][1]["axis"][1],
@@ -705,7 +708,7 @@ def compute_h_leg(robot, vertices):
 def compute_h_head(robot, vertices):
     shoulder_positions = find_joint_pos("[shoulder]", postures["upright"])
     if len(shoulder_positions) == 0:
-        error("Cannot compute hleg, because no joint is tagged [shoulder]\n")
+        error("Cannot compute hhead, because no joint is tagged [shoulder]\n")
         return None
     shoulder_pos = shoulder_positions[0]
     max_z_dist = 0
@@ -862,12 +865,12 @@ def get_single_mesh(bounding_objects, posture):
 
 
 def compute_robot_properties():
-    h_top = ""
-    h_leg = ""
-    h_head = ""
-    foot_length = ""
-    foot_width = ""
-    max_length = ""
+    h_top = None
+    h_leg = None
+    h_head = None
+    foot_length = None
+    foot_width = None
+    max_length = None
     mass, h_com = compute_physics(robot)
     if single_mesh_upright is not None:
         h_top = compute_h_top(single_mesh_upright.vertices)
@@ -898,7 +901,7 @@ def compute_robot_properties():
 
 joints_list = None
 robot_properties = None
-sensors_dic = None
+sensors_dictionaries = None
 EXPORT_MF = True
 s = Supervisor()
 log_file = open('model_verifier.log', 'w')
@@ -927,6 +930,8 @@ try:
         error(f"Model is too complex to be spawn in reasonable time: {spawn_time}>{MAX_SPAWN_TIME}\n")
     else:
         info(f"Model is spawn in reasonable time: {spawn_time}<={MAX_SPAWN_TIME}\n")
+    if robot_node is None:
+        raise RuntimeError(f"Failed to spawn robot {MODEL_NAME}")
 
     info("Loading Robot Model.... this might take a while")
     robot = build_dict_node(robot_node)
@@ -959,73 +964,70 @@ try:
 except Exception:
     error(f"Failed execution of model verifier with error:\n{traceback.format_exc()}\n")
 
-if robot_properties is not None:
-    prop_dic = {
-        "robot": MODEL_NAME,
-        "markersFront": 1000,
-        "markersBack": 1000,
-        "markersLeft": 1000,
-        "markersRight": 1000,
-        "canStandUp": 0,
-        "canStandUpBack": 0,
-        "emergencyButton": 1,
-        "customReject": len(ERRORS) > 0,
-        "comment": '\n'.join(ERRORS)
-    }
-    for index, row in robot_properties.iterrows():
-        v = row["value"]
-        # Convert to cm for robot_inspection tool
-        if v is None or math.isnan(float(v)):
-            v = 0.001  # If value is set to 0, import fails
-        elif row["unit"] == "[m]":
-            v *= 100
-        prop_dic[row["name"]] = v
-    with open("robot_properties.json", "w") as json_file:
-        json.dump(prop_dic, json_file)
-
-
-with open("report.md", "w") as f:
-    f.write(f"---\ntitle: Semi-automated review of {MODEL_NAME}\n---\n")
-    if len(ERRORS) > 0:
-        f.write("\n# Errors\n```\n")
-        for e in ERRORS:
-            f.write('\n'.join(textwrap.wrap(f"{e}", MAX_LINE_WIDTH, replace_whitespace=False)) + "\n")
-        f.write("```\n")
-    if len(WARNINGS) > 0:
-        f.write("\n# Warnings\n```\n")
-        for w in WARNINGS:
-            f.write('\n'.join(textwrap.wrap(f"{w}", MAX_LINE_WIDTH, replace_whitespace=False)) + "\n")
-        f.write("```\n")
-    if joints_list is not None:
-        joint_properties = pd.DataFrame(joints_list).sort_values(["maxTorque", "jointName"])
-        f.write("\n# Joint properties\n")
-        f.write("\\tiny\n")
-        f.write(joint_properties.to_markdown(index=False, tablefmt="pipe", floatfmt=".03f"))
-        f.write("\n\\normalsize\n")
-    if len(sensors_dictionaries) > 0:
-        f.write("\n# Sensors\n\n")
-        for sensor_type, sensor_information in sensors_dictionaries.items():
-            if len(sensor_information) == 0:
-                continue
-            f.write(f"## {sensor_type}\n\n")
-            sensor_data = pd.DataFrame(sensor_information)
-            f.write(sensor_data.to_markdown(index=False, tablefmt="pipe", floatfmt=".03f"))
-            f.write("\n")
+try:
     if robot_properties is not None:
-        f.write("\n# Robot properties\n")
-        f.write(robot_properties.to_markdown(index=False, tablefmt="pipe", floatfmt=".03f"))
-        f.write("\n")
+        prop_dic = {
+            "robot": MODEL_NAME,
+            "markersFront": 1000,
+            "markersBack": 1000,
+            "markersLeft": 1000,
+            "markersRight": 1000,
+            "canStandUp": 0,
+            "canStandUpBack": 0,
+            "emergencyButton": 1,
+            "customReject": len(ERRORS) > 0,
+            "comment": '\n'.join(ERRORS)
+        }
+        for index, row in robot_properties.iterrows():
+            v = row["value"]
+            # Convert to cm for robot_inspection tool
+            if v is None or math.isnan(float(v)):
+                v = 0.001  # If value is set to 0, import fails
+            elif row["unit"] == "[m]":
+                v *= 100
+            prop_dic[row["name"]] = v
+        with open("robot_properties.json", "w") as json_file:
+            json.dump(prop_dic, json_file)
+except Exception:
+    error(f"Failed while writing robot_properties:\n{traceback.format_exc()}\n")
+
+
+try:
+    with open("report.md", "w") as f:
+        f.write(f"---\ntitle: Semi-automated review of {MODEL_NAME}\n---\n")
+        if len(ERRORS) > 0:
+            f.write("\n# Errors\n```\n")
+            for e in ERRORS:
+                f.write('\n'.join(textwrap.wrap(f"{e}", MAX_LINE_WIDTH, replace_whitespace=False)) + "\n")
+            f.write("```\n")
+        if len(WARNINGS) > 0:
+            f.write("\n# Warnings\n```\n")
+            for w in WARNINGS:
+                f.write('\n'.join(textwrap.wrap(f"{w}", MAX_LINE_WIDTH, replace_whitespace=False)) + "\n")
+            f.write("```\n")
+        if joints_list is not None:
+            joint_properties = pd.DataFrame(joints_list).sort_values(["maxTorque", "jointName"])
+            f.write("\n# Joint properties\n")
+            f.write("\\tiny\n")
+            f.write(joint_properties.to_markdown(index=False, tablefmt="pipe", floatfmt=".03f"))
+            f.write("\n\\normalsize\n")
+        if sensors_dictionaries is not None and len(sensors_dictionaries) > 0:
+            f.write("\n# Sensors\n\n")
+            for sensor_type, sensor_information in sensors_dictionaries.items():
+                if len(sensor_information) == 0:
+                    continue
+                f.write(f"## {sensor_type}\n\n")
+                sensor_data = pd.DataFrame(sensor_information)
+                f.write(sensor_data.to_markdown(index=False, tablefmt="pipe", floatfmt=".03f"))
+                f.write("\n")
+        if robot_properties is not None:
+            f.write("\n# Robot properties\n")
+            f.write(robot_properties.to_markdown(index=False, tablefmt="pipe", floatfmt=".03f"))
+            f.write("\n")
+except Exception:
+    error(f"Failed while writing report:\n{traceback.format_exc()}\n")
 
 s.simulationQuit(0)
 
 # todo visual model complexity (count vertices) (optional)
-# todo collision model complexity (count vertices and primitives) (optional)
-# todo Htop (max of vertices in z) (upright) (done)
-# todo Hleg (distance between hip anchor and vertex with lowest z coordinate) (upright) (done)
-# todo Hhead (distance between shoulder anchor and vertex with highest z value) (upright) (done)
-# todo Mass (find all physics nodes, sum mass together, throw error when mass = -1) (done)
-# todo Hcom (find all physics nodes with their transforms, weighted sum (by their mass) of position of each (done)
-# todo BMI = M/(Htop**2) (done)
-# todo width (diameter is max of(max difference in x direction, max difference in y direction)) (done)
-# todo FoodWidth, FootLenght (trimesh.boolean.union([all meshes that are the foot]).bounding_box.bounds (done)
-# todo MaxLength (max distance between all verticies in extension posture) (done)
+# todo collision model complexity (count primitives) (optional)
