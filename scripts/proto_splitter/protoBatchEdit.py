@@ -61,15 +61,14 @@ def mutliprocess_initializer():
     """Ignore CTRL+C in the worker process."""
     signal.signal(signal.SIGINT, signal.SIG_IGN)
 
+
 class proto2mesh:
     def __init__(self):
         print('Proto Batch Editor by Simon Steinmann', flush=True)
         self.disableMeshOptimization = False
         self.disableFileCreation = False
 
-
     def convert(self, inFile, outFile, headerInsert, baseNodeInsert, baseNodeTypes, abortKeywords, verbose=True):
-        path = os.path.dirname(inFile)
         self.robotName = os.path.splitext(os.path.basename(inFile))[0]
         newPath = os.path.dirname(outFile)
         print('Editing ' + outFile, flush=True)
@@ -101,9 +100,9 @@ class proto2mesh:
                     self.cleanup(inFile)
                     if not self.disableFileCreation:
                         lines.insert(-13, baseNodeInsert)
-                        self.pf = open(outFile, 'w', newline='\n')  
+                        self.pf = open(outFile, 'w', newline='\n')
                         self.pf.write(''.join(lines[:-10]))
-                        self.pf.close()                  
+                        self.pf.close()
                     return 'success'
             if not headerIsEdited:
                 if line == ']\n':
@@ -239,7 +238,7 @@ if __name__ == '__main__':
     tStart = time.time()
     p2m = proto2mesh()
     headerInsert = "  field MFColor    recognitionColors []            # any color.\n"
-    baseNodeInsert = "    recognitionColors IS recognitionColors\n" 
+    baseNodeInsert = "    recognitionColors IS recognitionColors\n"
     baseNodeTypes = ['Solid']
     abortKeywords = ['recognitionColors', 'hidden']
     if multithreaded:
@@ -254,7 +253,8 @@ if __name__ == '__main__':
                 print('Conversion done. Duration: ', round(time.time() - tStart, 3), ' seconds')
             elif os.path.isdir(inPath):
                 inPath = os.path.abspath(inPath)
-                results = p2m.convert_all(pool, inPath, outPath, headerInsert, baseNodeInsert, baseNodeTypes, abortKeywords, verbose)
+                results = p2m.convert_all(pool, inPath, outPath, headerInsert, baseNodeInsert,
+                                          baseNodeTypes, abortKeywords, verbose)
                 if multithreaded:
                     pool.close()
                     pool.join()
