@@ -8,7 +8,7 @@ PROTO Fork [
   field SFRotation rotation    0 1 0 0
   field SFString   name        "fork"
   field SFColor    color       0.75 0.75 0.75  # Defines the color of the fork.
-  field MFColor    recognitionColors []            # any color
+  field MFColor    recognitionColors []            # any color.
 ]
 {
 Solid {

@@ -32,7 +32,7 @@ PROTO RoadIntersection [
 
   hiddenField  SFFloat              roadsWith                7                                     # Deprecated in Webots R2018b.
   hiddenField  MFBool               startRoadsDashedLine     TRUE                                  # Deprecated in Webots R2018c.
-  field MFColor    recognitionColors []            # any color
+  field MFColor    recognitionColors []            # any color.
 ]
 {
   %{

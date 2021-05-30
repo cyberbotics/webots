@@ -8,7 +8,7 @@ PROTO Oven [
   field SFRotation rotation       0 1 0 0
   field SFString   name           "oven"
   field SFColor    mainColor      1 1 1                  # Defines the color of the oven.
-  field MFColor    recognitionColors []            # any color
+  field MFColor    recognitionColors []            # any color.
 ]
 {
   Solid {

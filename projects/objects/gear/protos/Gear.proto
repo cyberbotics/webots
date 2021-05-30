@@ -16,7 +16,7 @@ PROTO Gear [
   field SFFloat         density                0.001      # Defines the density of the gear. If zero, physics is disabled.
   field SFBool          bodyBoundingObject     TRUE       # Enables gear body collision area (cylinder).
   field SFBool          teethBoundingObject    FALSE      # Enables a boundingObject on each tooth.
-  field MFColor    recognitionColors []            # any color
+  field MFColor    recognitionColors []            # any color.
 ]
 {
   %{

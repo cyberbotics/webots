@@ -10,7 +10,7 @@ PROTO CardboardBox [
   field SFVec3f    size        0.6 0.6 0.6      # Defines the size of the cardboard box.
   field SFFloat    mass        0                # Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
   field SFBool     locked      FALSE            # Is `Solid.locked`.
-  field MFColor    recognitionColors []            # any color
+  field MFColor    recognitionColors []            # any color.
 ]
 {
 Solid {

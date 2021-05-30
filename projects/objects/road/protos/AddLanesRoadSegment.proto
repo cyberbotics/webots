@@ -40,7 +40,7 @@ PROTO AddLanesRoadSegment [
   field        SFString             contactMaterial           "default"                           # Is `Solid.contactMaterial`.
 
   hiddenField  MFBool               dashedLine                TRUE                                # Deprecated in Webots R2018c.
-  field MFColor    recognitionColors []            # any color
+  field MFColor    recognitionColors []            # any color.
 ]
 {
   %{

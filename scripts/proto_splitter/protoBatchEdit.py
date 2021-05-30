@@ -238,7 +238,7 @@ if __name__ == '__main__':
     multithreaded = args.multithreaded
     tStart = time.time()
     p2m = proto2mesh()
-    headerInsert = "  field MFColor    recognitionColors []            # any color\n"
+    headerInsert = "  field MFColor    recognitionColors []            # any color.\n"
     baseNodeInsert = "    recognitionColors IS recognitionColors\n" 
     baseNodeTypes = ['Solid']
     abortKeywords = ['recognitionColors', 'hidden']

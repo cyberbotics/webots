@@ -8,7 +8,7 @@ PROTO WoodenSpoon [
   field SFRotation rotation    0 1 0 0
   field SFString   name        "wooden spoon"
   field MFString   textureUrl  "textures/wooden_spoon.jpg"  # Defines the texture used for the spoon.
-  field MFColor    recognitionColors []            # any color
+  field MFColor    recognitionColors []            # any color.
 ]
 {
 Solid {

@@ -18,7 +18,7 @@ PROTO StraightStairsLanding [
   field SFNode     floorAppearance Parquetry {}                                                       # Defines the floor appearance.
   field MFNode     rail            []                                                                 # Defines the rail.
   field SFString   contactMaterial "default"                                                          # Is `Solid.contactMaterial`.  
-  field MFColor    recognitionColors []            # any color
+  field MFColor    recognitionColors []            # any color.
 ]
 {
   %{
