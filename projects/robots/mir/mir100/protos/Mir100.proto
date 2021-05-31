@@ -38,7 +38,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "meshes/mir_100_base.dae"
+                "meshes/mir_100_base.obj"
               ]
             }
           }
@@ -46,7 +46,7 @@ PROTO Mir100 [
             appearance USE WHITE
             geometry Mesh {
               url [
-                "meshes/mir_100_inside.dae"
+                "meshes/mir_100_inside.obj"
               ]
             }
           }
