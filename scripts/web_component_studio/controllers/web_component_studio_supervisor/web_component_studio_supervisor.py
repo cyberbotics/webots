@@ -97,7 +97,8 @@ with open(targetMetaFile) as f:
     # Global texture paths.
     background = tree.xpath('//Background')
     background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/',
-                                                                                'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+                                        'https://raw.githubusercontent.com/cyberbotics/webots/master\
+                                        /projects/default/worlds/textures/cubic/')
     background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace('textures/cubic/',
                                                                               'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
     background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace('textures/cubic/',
