@@ -8,9 +8,7 @@ although it did not trigger errors nor warning during the analysis.
 
 ## Dependencies
 
-Additionally to `Webots`, you will need the following modules to run the `model_verifier.py` controller:
-
-`pip3 install trimesh transforms3d numpy pandas tabulate`
+Additionally to `Webots`, you will need the python modules listed in `requirements.txt`.
 
 Generating a `pdf` report requires the `pandoc` tool:
 
