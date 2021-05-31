@@ -7,7 +7,6 @@
 
 import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './request_methods_module.js';
 import {webots} from './webots.js';
-import Parser from './Parser.js';
 
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbPBRAppearance from './nodes/WbPBRAppearance.js';
@@ -17,7 +16,7 @@ import WbTransform from './nodes/WbTransform.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
-import {quaternionToVec4, vec4ToQuaternion} from './nodes/utils/utils.js';
+import {quaternionToVec4, vec4ToQuaternion, getAnId} from './nodes/utils/utils.js';
 
 let handle;
 let webotsView;
@@ -893,7 +892,7 @@ function unhighlightX3DElement(robot) {
 
 function highlightX3DElement(robot, deviceElement) {
   if (typeof imageTexture === 'undefined') {
-    imageTexture = new WbImageTexture(Parser.getAnId(), undefined, computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
+    imageTexture = new WbImageTexture(getAnId(), undefined, computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
     imageTexture.updateUrl().then(() => {
       // highlight again when the texture is loaded
       highlightX3DElement(robot, deviceElement);
@@ -915,20 +914,20 @@ function highlightX3DElement(robot, deviceElement) {
         let viewpointPosition = WbWorld.instance.viewpoint.position;
         sizeOfMarker = 0.012 * robotPosition.sub(viewpointPosition).length(); // value determined empirically
       }
-      let sphere = new WbSphere(Parser.getAnId(), sizeOfMarker, true, 5);
+      let sphere = new WbSphere(getAnId(), sizeOfMarker, true, 5);
       WbWorld.instance.nodes.set(sphere.id, sphere);
-      let baseColorMap = imageTexture.clone(Parser.getAnId());
+      let baseColorMap = imageTexture.clone(getAnId());
       baseColorMap.type = 'baseColorMap';
       WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
-      let pbr = new WbPBRAppearance(Parser.getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
+      let pbr = new WbPBRAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
         20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);
       baseColorMap.parent = pbr.id;
       WbWorld.instance.nodes.set(pbr.id, pbr);
-      let shape = new WbShape(Parser.getAnId(), false, false, sphere, pbr);
+      let shape = new WbShape(getAnId(), false, false, sphere, pbr);
       WbWorld.instance.nodes.set(shape.id, shape);
       sphere.parent = shape.id;
       pbr.parent = shape.id;
-      pointer = new WbTransform(Parser.getAnId(), false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
+      pointer = new WbTransform(getAnId(), false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
       pointer.children.push(shape);
       WbWorld.instance.nodes.set(pointer.id, pointer);
       shape.parent = pointer.id;
