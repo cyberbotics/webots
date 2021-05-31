@@ -38,7 +38,7 @@ const WbVersion &WbApplicationInfo::version() {
 }
 
 const QString &WbApplicationInfo::branch() {
-  static QString version;
+  static QString branchName;
   static bool firstCall = true;
 
   if (firstCall) {
