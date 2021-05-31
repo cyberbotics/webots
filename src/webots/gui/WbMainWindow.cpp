@@ -392,7 +392,7 @@ void WbMainWindow::createMainTools() {
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
   connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorldFromGui, Qt::QueuedConnection);
 
-  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, this, &WbMainWindow::showOnlineDocumentationPage);
+  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, this, &WbMainWindow::showOnlineDocumentation);
   // this instruction does nothing but prevents issues resizing QDockWidgets
   // https://stackoverflow.com/questions/48766663/resize-qdockwidget-without-undocking-and-docking
 
@@ -1774,37 +1774,26 @@ void WbMainWindow::showDocument(const QString &url) {
     WbMessageBox::warning(tr("Cannot open the document: '%1'.").arg(url), this, tr("Internal error"));
 }
 
-void WbMainWindow::showOnlineBook(const QString &book) {
-  QString versionString = WbApplicationInfo::branch();
-  if (versionString.isEmpty()) {
-    versionString = WbApplicationInfo::version().toString();
-    versionString.replace(" revision ", "-rev");
-  }
-  const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/index?version=" + versionString;
-  showDocument(url);
-}
-
-void WbMainWindow::showOnlineDocumentationPage(const QString &book, const QString &page) {
+void WbMainWindow::showOnlineDocumentation(const QString &book, const QString &page) {
   QString versionString = WbApplicationInfo::branch();
   if (versionString.isEmpty()) {
     versionString = WbApplicationInfo::version().toString();
     versionString.replace(" revision ", "-rev");
   }
   const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/" + page + "?version=" + versionString;
-
   showDocument(url);
 }
 
 void WbMainWindow::showUserGuide() {
-  showOnlineBook("guide");
+  showOnlineDocumentation("guide");
 }
 
 void WbMainWindow::showReferenceManual() {
-  showOnlineBook("reference");
+  showOnlineDocumentation("reference");
 }
 
 void WbMainWindow::showAutomobileDocumentation() {
-  showOnlineBook("automobile");
+  showOnlineDocumentation("automobile");
 }
 
 void WbMainWindow::openGithubRepository() {

@@ -139,7 +139,6 @@ private slots:
   void disableAnimationAction();
 
 private:
-  void showOnlineBook(const QString &);
   void showHtmlRobotWindow(WbRobot *);
   int mExitStatus;
   QList<WbConsole *> mConsoles;
@@ -200,7 +199,7 @@ private:
   WbStreamingServer *mStreamingServer;
 
 private slots:
-  void showOnlineDocumentationPage(const QString &book, const QString &page = "index");
+  void showOnlineDocumentation(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
   void openFileInTextEditor(const QString &);

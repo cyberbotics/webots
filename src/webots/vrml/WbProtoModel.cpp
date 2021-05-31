@@ -556,10 +556,10 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
 
 bool WbProtoModel::checkIfDocumentationPageExist(const QString &page) const {
   bool exist = false;
-  QFile MyFile(WbStandardPaths::webotsHomePath() + "docs/list.txt");
-  if (!MyFile.open(QIODevice::ReadOnly))
+  QFile file(WbStandardPaths::webotsHomePath() + "docs/list.txt");
+  if (!file.open(QIODevice::ReadOnly))
     return false;
-  QTextStream in(&MyFile);
+  QTextStream in(&file);
   QString line = in.readLine();
   while (!line.isNull()) {
     if (line.contains(page, Qt::CaseSensitive)) {
@@ -569,7 +569,7 @@ bool WbProtoModel::checkIfDocumentationPageExist(const QString &page) const {
     line = in.readLine();
   }
 
-  MyFile.close();
+  file.close();
 
   return exist;
 }

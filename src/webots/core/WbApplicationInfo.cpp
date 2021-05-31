@@ -42,17 +42,17 @@ const QString &WbApplicationInfo::branch() {
   static bool firstCall = true;
 
   if (firstCall) {
-    QFile MyFile(WbStandardPaths::webotsHomePath() + "resources/branch.txt");
-    if (MyFile.open(QIODevice::ReadOnly)) {
-      QTextStream in(&MyFile);
+    QFile file(WbStandardPaths::webotsHomePath() + "resources/branch.txt");
+    if (file.open(QIODevice::ReadOnly)) {
+      QTextStream in(&file);
       const QString line = in.readLine();
       if (!line.isNull())
-        version = line;
+        branchName = line;
 
-      MyFile.close();
+      file.close();
     }
   }
-  return version;
+  return branchName;
 }
 
 unsigned int WbApplicationInfo::releaseDate() {
