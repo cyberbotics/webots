@@ -1775,15 +1775,21 @@ void WbMainWindow::showDocument(const QString &url) {
 }
 
 void WbMainWindow::showOnlineBook(const QString &book) {
-  QString versionString = WbApplicationInfo::version().toString();
-  versionString.replace(" revision ", "-rev");
+  QString versionString = WbApplicationInfo::branch();
+  if (versionString.isEmpty()) {
+    versionString = WbApplicationInfo::version().toString();
+    versionString.replace(" revision ", "-rev");
+  }
   const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/index?version=" + versionString;
   showDocument(url);
 }
 
 void WbMainWindow::showOnlineDocumentationPage(const QString &book, const QString &page) {
-  QString versionString = WbApplicationInfo::version().toString();
-  versionString.replace(" revision ", "-rev");
+  QString versionString = WbApplicationInfo::branch();
+  if (versionString.isEmpty()) {
+    versionString = WbApplicationInfo::version().toString();
+    versionString.replace(" revision ", "-rev");
+  }
   QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/" + page + "?version=" + versionString;
 
   showDocument(url);
