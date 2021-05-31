@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 
   WbNodeRef parent_node = wb_supervisor_node_get_from_def("PARENT");
   WbFieldRef translation = wb_supervisor_node_get_field(parent_node, "translation");
-  
+
   // Test position update of node defined in nested PROTO parameter
   WbNodeRef parameter_node = wb_supervisor_node_get_from_def("PARAMETER");
   const double *parameter_position = wb_supervisor_node_get_position(parameter_node);
@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
   const double *position_after = wb_supervisor_node_get_position(test_node);
   ts_assert_vec3_in_delta(position_after[0], position_after[1], position_after[2], 2.0, 1.0, 1.0, 0.0001,
                           "Position of deeply nested PROTO parameter is wrong after top node position change.");
-  
+
   ts_send_success();
   return EXIT_SUCCESS;
 }
