@@ -200,6 +200,16 @@ def check_self_collision(robot):
         error("Self-collision is disabled\n")
 
 
+def check_custom_data(robot):
+    custom_data_node = robot.get("customData")
+    if custom_data_node is not None:
+        error("Robot has no field customData\n")
+    elif custom_data_node[0] != "SFString":
+        error(f"CustomData has invalid type {custom_data_node[0]}, while expecting SFString\n")
+    else:
+        info("Robot has valid customData field")
+
+
 def check_nodes_support(node):
     """Add errors if some nodes are unsupported or forbidden"""
     if node[0] == "SFNode":
@@ -936,6 +946,7 @@ try:
     info("Loading Robot Model.... this might take a while")
     robot = build_dict_node(robot_node)
     check_self_collision(robot)
+    check_custom_data(robot)
     check_nodes_support(("SFNode", robot))
     check_bounding_objects(("SFNode", robot))
     check_structure(("SFNode", robot))
