@@ -1790,7 +1790,7 @@ void WbMainWindow::showOnlineDocumentationPage(const QString &book, const QStrin
     versionString = WbApplicationInfo::version().toString();
     versionString.replace(" revision ", "-rev");
   }
-  QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/" + page + "?version=" + versionString;
+  const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/" + page + "?version=" + versionString;
 
   showDocument(url);
 }
