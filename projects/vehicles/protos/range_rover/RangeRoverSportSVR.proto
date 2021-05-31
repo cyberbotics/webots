@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Range Rover Sport SVR 2015
+# template language: javascript
 
 PROTO RangeRoverSportSVR [
   field     SFVec3f    translation       0 0.4 0
@@ -24,7 +25,7 @@ PROTO RangeRoverSportSVR [
   field     SFString   window            "automobile"
 ]
 {
-  %{ local frontSpotLights = fields.frontSpotLights.value }%
+  %{ const frontSpotLights = fields.frontSpotLights.value; }%
   Car {
     translation IS translation
     rotation IS rotation
@@ -117,7 +118,7 @@ PROTO RangeRoverSportSVR [
         front [
           Group {
             children [
-              %{ if frontSpotLights then }%
+              %{ if (frontSpotLights) { }%
                 SpotLight {
                   attenuation 0 0 1
                   intensity 20
@@ -137,7 +138,7 @@ PROTO RangeRoverSportSVR [
                   location -0.52 1 4
                   radius 20
                 }
-              %{ end }%
+              %{ } }%
               DEF HEADLIGHT Shape {
                 appearance PBRAppearance {
                   baseColor 0.702 0.702 0.702

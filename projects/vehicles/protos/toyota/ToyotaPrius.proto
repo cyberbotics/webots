@@ -5,6 +5,7 @@
 # Model of an Toyota Prius car using the Car proto as a base.
 # The contactMaterial of the wheels is "ToyotaPriusWheels"
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO ToyotaPrius [
   field     SFVec3f    translation       0 0.4 0
@@ -25,7 +26,7 @@ PROTO ToyotaPrius [
   field     SFString   window            "automobile"
 ]
 {
-  %{ local frontSpotLights = fields.frontSpotLights.value }%
+  %{ const frontSpotLights = fields.frontSpotLights.value; }%
   Car {
     translation IS translation
     rotation IS rotation
@@ -88,7 +89,7 @@ PROTO ToyotaPrius [
         front [
           Group {
             children [
-              %{ if frontSpotLights then }%
+              %{ if (frontSpotLights) { }%
                 SpotLight {
                   attenuation 0 0 1
                   intensity 20
@@ -107,7 +108,7 @@ PROTO ToyotaPrius [
                   location -0.7 0.6 3.4
                   radius 20
                 }
-              %{ end }%
+              %{ } }%
               ToyotaPriusFrontLight {
               }
             ]

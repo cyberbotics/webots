@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+# template language: javascript
 
 PROTO TruckCab [
   field SFColor color     0.39 0 0

@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#heavy-weights
 # A simple truck
+# template language: javascript
 
 PROTO Truck [
   field     SFVec3f    translation       0 0.5 0
@@ -25,11 +26,11 @@ PROTO Truck [
 ]
 {
   %{
-    local wheelbase = fields.wheelbase.value
-    if wheelbase < 2.0 then
-      wheelbase = 2.0
-      io.stderr:write("'wheelbase' should not be smaller than 2.0.\n")
-    end
+    const wheelbase = fields.wheelbase.value;
+    if (wheelbase < 2.0) {
+      wheelbase = 2.0;
+      console.error('\'wheelbase\' should not be smaller than 2.0. Value reset to ' + wheelbase + '.');
+    }
   }%
   Car {
     translation IS translation
@@ -163,11 +164,11 @@ PROTO Truck [
       physics USE WHEEL_PHYSICS
     }
     brakeCoefficient 5000
-    %{ if fields.trailer.value then }%
+    %{ if (fields.trailer.value) { }%
       time0To100 25
-    %{ else }%
+    %{ } else { }%
       time0To100 18
-    %{ end }%
+    %{ } }%
     window IS window
   }
 }

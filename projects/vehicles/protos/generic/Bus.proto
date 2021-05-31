@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#heavy-weights
 # A simple bus.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO Bus [
   field     SFVec3f    translation       0 0.55 0

@@ -157,7 +157,7 @@ PROTO Car [
       if (node.fields.tireRadius && node.fields.tireRadius.value)
         frontTireRadius = node.fields.tireRadius.value;
       else
-        console.error('The node in the \'wheelFrontRight\' field should have a \'tireRadius\' field.')
+        console.error('The node in the \'wheelFrontRight\' field should have a \'tireRadius\' field.');
     }
     // rear wheels, the slot should be a proto with the 'tireRadius' fields
     let rearTireRadius = -1;
@@ -166,15 +166,15 @@ PROTO Car [
       if (node.fields.tireRadius && node.fields.tireRadius.value)
         rearTireRadius = node.fields.tireRadius.value;
       else
-        console.error('The node in the \'wheelRearRight\' field should have a \'tireRadius\' field.')
+        console.error('The node in the \'wheelRearRight\' field should have a \'tireRadius\' field.');
     }
     // compute the accelerations of the rotational motors from 'time0To100'
     let frontAcceleration;
     let rearAcceleration;
-    if (frontTireRadius === -1) // use 0.4 if radius not found
+    if (frontTireRadius === -1) { // use 0.4 if radius not found
       // 1000 / 36 => 100km/h => m/s
       frontAcceleration = 1000 / 36 / time0To100 / 0.4;
-    else
+    } else
       frontAcceleration = 1000 / 36 / time0To100 / frontTireRadius;
 
     if (rearTireRadius === -1) // use 0.4 if radius not found
@@ -193,35 +193,35 @@ PROTO Car [
       if (frontTireRadius === -1)
         frontMaxVelocity = fields.maxVelocity.value / 0.4;
       else
-        frontMaxVelocity = fields.maxVelocity.value /  frontTireRadius;
+        frontMaxVelocity = fields.maxVelocity.value / frontTireRadius;
 
-      if (rearTireRadius === -1) {
+      if (rearTireRadius === -1)
         rearMaxVelocity = fields.maxVelocity.value / 0.4;
       else
-        rearMaxVelocity = fields.maxVelocity.value /  rearTireRadius;
+        rearMaxVelocity = fields.maxVelocity.value / rearTireRadius;
     }
 
     // compute the 'customData' string which is used to communicate configuration of the vehicle to the library
     // the structure is the following: "wheelbase frontTrack rearTrack frontWheelsRadius (-1 if no wheel detected) rearWheelsRadius (-1 if no wheel detected) brakeCoefficient wheelsDampingConstant engineType engineMaxTorque engineMaxPower engineMinRPM engineMaxRPM engineFunctionCoefficients[0] engineFunctionCoefficients[1] engineFunctionCoefficients[2] hybridPowerSplitRatio hybridPowerSplitRPM  engineSoundRpmReference sizeOfGearRatio length(engineSound) gearRatio0 gearRatio1 .. gearRatioN engineSound" (more will be added).
     let customData = '"' + wheelbase + ' ' + frontTrack + ' ' + rearTrack + ' ';
     // front wheels tire radius if found (-1 otherwise)
-    customData = customData + frontTireRadius + ' ';
+    customData += frontTireRadius + ' ';
     // rear wheels tire radius if found (-1 otherwise)
-    customData = customData + rearTireRadius + ' ';
+    customData += rearTireRadius + ' ';
     // brake caracteristic
-    customData = customData + brakeCoefficient + ' ';
+    customData += brakeCoefficient + ' ';
     // wheels dampingConstant
-    customData = customData + wheelsDampingConstant + ' ';
+    customData += wheelsDampingConstant + ' ';
     // engine type
     let engineType = fields.engineType.value;
     if (engineType === 'combustion')
-      customData = customData + 'C ';
+      customData += 'C ';
     else if (engineType === 'electric')
-      customData = customData + 'E ';
+      customData += 'E ';
     else if (engineType === 'parallel hybrid')
-      customData = customData + 'P ';
+      customData += 'P ';
     else
-      customData = customData + 'S ';
+      customData +=  'S ';
 
     // engine min and max rotating speed engineMaxTorque engineMaxPower
     customData += engineMaxTorque + ' ' + engineMaxPower + ' ';
@@ -233,13 +233,13 @@ PROTO Car [
     // engineSoundRpmReference
     customData += engineSoundRpmReference + ' ';
     // gears number
-    let gearNumber = Object.keys(fields.gearRatio.value).length; // TODO: is SAME? print out...
+    const gearNumber = Object.keys(fields.gearRatio.value).length; // TODO: is SAME? print out...
     customData += gearNumber + ' ';
     // length of engineSound
-    customData += engineSound.length + ' '
+    customData += engineSound.length + ' ';
     // gears ratio of each gear
     let gearRatio = fields.gearRatio.value;
-    for (int i = 0; i < gearNumber; ++i) // TODO: is SAME? print out ...
+    for (let i = 0; i < gearNumber; ++i) // TODO: is SAME? print out ...
       customData += gearRatio[i] + ' ';
     // engineSound
     customData += engineSound + ' ';

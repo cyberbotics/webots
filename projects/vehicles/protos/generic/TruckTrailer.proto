@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A non-controllable truck trailer model with physics properties.
 # The length and number of wheels is configurable.
+# template language: javascript
 
 PROTO TruckTrailer [
   field SFString   name             "truck trailer"
@@ -13,15 +14,14 @@ PROTO TruckTrailer [
   field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
 ]
 {
-%{
-  local length = fields.length.value
-  if length < 5.0 then
-    length = 5.0
-    io.stderr:write("'length' should not be smaller than 5.0.\n")
-  end
-  local wbcore = require('wbcore')
-  local wheelAxlesNumber = wbcore.tablelength(fields.wheelAxles.value)
-}%
+  %{
+    let length = fields.length.value;
+    if (length < 5.0) {
+      length = 5.0;
+      console.error('\'length\' should not be smaller than 5.0. Value reset to ' + length + '.');
+    }
+    const wheelAxlesNumber = Object.keys(fields.wheelAxles.value).length;
+  }%
   Slot {
     type "truck trailer"
     endPoint Solid {
@@ -46,7 +46,7 @@ PROTO TruckTrailer [
             }
           ]
         }
-        %{ for i = 1, wheelAxlesNumber do }%
+        %{ for (let i = 0; i < wheelAxlesNumber; ++i) { }%
         # right wheel
         Transform {
           translation -1 0 %{= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) }%
@@ -62,7 +62,7 @@ PROTO TruckTrailer [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
-                  name %{= "\"right wheel(" .. i .. ")\"" }%
+                  name %{= '"right wheel(' + i + ')"' }%
                   physics DEF WHEEL_PHYSICS Physics {
                     density -1
                     mass 100
@@ -87,14 +87,14 @@ PROTO TruckTrailer [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
-                  name %{= "\"left wheel(" .. i .. ")\"" }%
+                  name %{= '"left wheel(' + i + ')"' }%
                   physics USE WHEEL_PHYSICS
                 }
               }
             }
           ]
         }
-        %{ end }%
+        %{ } }%
       ]
       name IS name
       model "truck trailer"

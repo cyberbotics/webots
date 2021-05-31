@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tractor Front Wheel
+# template language: javascript
 
 PROTO TractorFrontWheel [
   field SFString name           "tractor front wheel"
@@ -67,13 +68,13 @@ PROTO TractorFrontWheel [
       ]
       name IS name
       model "tractor front wheel"
-      %{ if fields.boundingObject.value then }%
+      %{ if (fields.boundingObject.value) { }%
         boundingObject Cylinder {
           height IS width
           radius IS tireRadius
           subdivision IS subdivision
         }
-      %{ end }%
+      %{ } }%
       physics IS physics
     }
   }

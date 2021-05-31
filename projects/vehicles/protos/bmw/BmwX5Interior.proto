@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+# template language: javascript
 
 PROTO BmwX5Interior [
   field MFString  baseColorMap     "textures/bmw_interior_speedometer.jpg"
@@ -1045,7 +1046,7 @@ PROTO BmwX5Interior [
           creaseAngle 0.5
         }
       }
-      %{ if fields.indicatorLevers.value then }%
+      %{ if (fields.indicatorLevers.value) { }%
       DEF RIGHT_INDICATOR_LEVER Shape {
         appearance USE PLASTIC_DETAILS_APPEARANCE
         geometry IndexedFaceSet {
@@ -1097,7 +1098,7 @@ PROTO BmwX5Interior [
           ]
         }
       }
-      %{ end }%
+      %{ } }%
       DEF BOARD_TOP Shape {
         appearance DEF DARK_LEATHER Leather {
         }
