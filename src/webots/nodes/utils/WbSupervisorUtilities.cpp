@@ -457,7 +457,7 @@ WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node)
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
   while (baseNode && !baseNode->isPostFinalizedCalled() && baseNode->isProtoParameterNode()) {
     // if node is a proto parameter node we need to find the corresponding proto parameter node instance
-    // if the parameter is used multiple times all the instances are inspected (using the "nodes" list)
+    // if the parameter is used multiple times all the instances are inspected in depth-first search (using the "nodes" list)
     const QVector<WbNode *> instances = baseNode->protoParameterNodeInstances();
     if (instances.isEmpty()) {
       if (nodes.isEmpty())
@@ -751,8 +751,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       unsigned int id;
 
       stream >> id;
-
-      WbWorld::instance()->root()->printDebugNodeStructure();
 
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbTransform *const transform = dynamic_cast<WbTransform *>(node);
