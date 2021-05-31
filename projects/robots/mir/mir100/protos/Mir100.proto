@@ -179,16 +179,6 @@ PROTO Mir100 [
       RangeFinder {
         translation 0.464 0 0.116
         rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
-        children [
-          Shape {
-            appearance PBRAppearance {
-              baseColor 1 0 0
-            }
-            geometry Plane {
-              size 0.01 0.01
-            }
-          }
-        ]
         name "depth_camera"
         fieldOfView 2.05949
         minRange 0.18
