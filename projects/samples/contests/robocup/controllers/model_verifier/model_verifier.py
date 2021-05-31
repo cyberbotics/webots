@@ -216,7 +216,7 @@ def check_self_collision(robot):
 
 def check_custom_data(robot):
     custom_data_node = robot.get("customData")
-    if custom_data_node is not None:
+    if custom_data_node is None:
         error("Robot has no field customData\n")
     elif custom_data_node[0] != "SFString":
         error(f"CustomData has invalid type {custom_data_node[0]}, while expecting SFString\n")
