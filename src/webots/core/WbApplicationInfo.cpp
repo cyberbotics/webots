@@ -45,7 +45,7 @@ const QString &WbApplicationInfo::branch() {
     QFile MyFile(WbStandardPaths::webotsHomePath() + "resources/branch.txt");
     if (MyFile.open(QIODevice::ReadOnly)) {
       QTextStream in(&MyFile);
-      QString line = in.readLine();
+      const QString line = in.readLine();
       if (!line.isNull())
         version = line;
 
