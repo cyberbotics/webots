@@ -2,6 +2,7 @@
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # Parallel gripper end-effector for the TIAGo robot from PAL Robotics.
+# template language: javascript
 
 PROTO TiagoGripper [
   field  SFVec3f                             translation  0 0.016 0
@@ -10,12 +11,11 @@ PROTO TiagoGripper [
 ]
 {
   %{
-    local side = ""
-    if fields.name.value == "left" then
-      side = "left_hand_"
-    elseif fields.name.value == "right" then
-      side = "right_hand_"
-    end
+    let side = '';
+    if (fields.name.value === 'left')
+      side = 'left_hand_';
+    else if (fields.name.value === 'right')
+      side = 'right_hand_';
   }%
     Solid {
       translation IS translation
@@ -358,13 +358,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %{= "\"" .. side .. "gripper_left_finger_joint\""}%
+              name %{= '"' + side + 'gripper_left_finger_joint"' }%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %{= "\"" .. side .. "gripper_left_finger_joint_sensor\""}%
+              name %{= '"' + side + 'gripper_left_finger_joint_sensor"' }%
             }
           ]
           endPoint DEF LEFT_GRIPPER Solid {
@@ -468,13 +468,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %{= "\"" .. side .. "gripper_right_finger_joint\""}%
+              name %{= '"' + side + 'gripper_right_finger_joint"' }%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %{= "\"" .. side .. "gripper_right_finger_joint_sensor\""}%
+              name %{= '"' + side + 'gripper_right_finger_joint_sensor"' }%
             }
           ]
           endPoint DEF RIGHT_GRIPPER Solid {

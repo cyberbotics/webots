@@ -3,9 +3,8 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
 # This is a PROTO file for Webots for the robot Robotino 3 from Festo.
-# It is the Robotino 3 robot that can be extended with different features to fullfil your requirement.
-#
 # changed by Thomas Feldmeier 2020, www.servicerobotik-ulm.de
+# template language: javascript
 
 PROTO Robotino3 [
   field  SFVec3f     translation       0 0 0
@@ -27,7 +26,7 @@ PROTO Robotino3 [
 ]
 {
   %{
-    local IRname = fields.infraredSensorModel.value
+    const IRname = fields.infraredSensorModel.value;
   }%
   Robot {
     translation IS translation

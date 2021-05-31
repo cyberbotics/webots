@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots motor block.
 # https://www.tinkerbots.com
+# template language: javascript
 
 PROTO TinkerbotsMotor [
   field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
@@ -183,7 +184,7 @@ PROTO TinkerbotsMotor [
         }
         LED {
           translation 0 0.016 0.0065
-          name %{= "\"" .. fields.name.value .. " led\"" }%
+          name %{= '"' + fields.name.value + ' led"' }%
           color []
           gradual TRUE
           children [
@@ -258,7 +259,7 @@ PROTO TinkerbotsMotor [
               maxVelocity 22  # Calibrated.
             }
             PositionSensor {
-              name %{= "\"" .. fields.name.value .. " sensor\"" }%
+              name %{= '"' + fields.name.value + ' sensor"' }%
             }
           ]
           endPoint Solid {

@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots twister block.
 # https://www.tinkerbots.com
+# template language: javascript
 
 PROTO TinkerbotsTwister [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
@@ -23,7 +24,7 @@ PROTO TinkerbotsTwister [
       children [
         LED {
           translation 0 0.016 0.0045
-          name %{= "\"" .. fields.name.value .. " led\"" }%
+          name %{= '"' + fields.name.value + ' led"' }%
           color []
           gradual TRUE
           children [
@@ -97,7 +98,7 @@ PROTO TinkerbotsTwister [
               maxPosition 1.57
             }
             PositionSensor {
-              name %{= "\"" .. fields.name.value .. " sensor\"" }%
+              name %{= '"' + fields.name.value + ' sensor"' }%
             }
           ]
           endPoint Solid {

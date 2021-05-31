@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
 # An Universal Robots UR5e robotic arm.
+# template language: javascript
 
 PROTO UR5e [
   field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
@@ -744,7 +745,7 @@ PROTO UR5e [
         }
       ]
     }
-    %{ if fields.staticBase.value == false then }%
+    %{ if (!fields.staticBase.value) { }%
     physics Physics {
       density -1
       mass 4
@@ -752,6 +753,6 @@ PROTO UR5e [
         0 0 0
       ]
     }
-    %{ end }%
+    %{ } }%
   }
 }

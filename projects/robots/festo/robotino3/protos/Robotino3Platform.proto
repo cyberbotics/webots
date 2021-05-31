@@ -4,6 +4,7 @@
 # This is a PROTO file for Webots of a platform for the robot Robotino 3 from Festo.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "bodySlot" field of the Robotino 3 robot.
+# template language: javascript
 
 PROTO Robotino3Platform [
   field  SFVec3f     translation  0 0 0
@@ -15,9 +16,8 @@ PROTO Robotino3Platform [
 ]
 {
   %{
-    local height = fields.height.value
+    const height = fields.height.value;
   }%
-
   Solid {
     translation IS translation
     rotation IS rotation
