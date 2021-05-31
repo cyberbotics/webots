@@ -32,145 +32,145 @@ PROTO SimpleTree [
   field SFBool     isPickable           TRUE
 ]
 {
-  %{
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';
-    import * as wbrandom from 'modules/webots/wbrandom.js';
-    console.log(context.id)
-    wbrandom.seed(context.id)
+%{
+  import * as wbgeometry from 'modules/webots/wbgeometry.js';
+  import * as wbrandom from 'modules/webots/wbrandom.js';
+  console.log(context.id)
+  wbrandom.seed(context.id)
 
-    const treeType = {
-      'crab apple tree': 'crab_apple_tree.png',
-      'hackberry tree': 'hackberry_tree.png',
-      'hazel tree': 'hazel_tree.png',
-      'oak tree': 'oak_tree.png',
-      'palm tree': 'palm_tree.png',
-      'spruce': 'spruce.png',
-      'white pine': 'white_pine.png',
-      'cherry tree': 'cherry_tree.png',
-      'birch tree': 'birch_tree.png'
-    };
+  const treeType = {
+    'crab apple tree': 'crab_apple_tree.png',
+    'hackberry tree': 'hackberry_tree.png',
+    'hazel tree': 'hazel_tree.png',
+    'oak tree': 'oak_tree.png',
+    'palm tree': 'palm_tree.png',
+    'spruce': 'spruce.png',
+    'white pine': 'white_pine.png',
+    'cherry tree': 'cherry_tree.png',
+    'birch tree': 'birch_tree.png'
+  };
 
-    let height = fields.height.value;
-    if (height <= 0) {
-      height = fields.height.defaultValue;
-      console.error('\'height\' must be strictly positive. Value reset to ' + height + '.');
+  let height = fields.height.value;
+  if (height <= 0) {
+    height = fields.height.defaultValue;
+    console.error('\'height\' must be strictly positive. Value reset to ' + height + '.');
+  }
+
+  let radius = fields.radius.value;
+  if (radius <= 0) {
+    radius = fields.radius.defaultValue;
+    console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
+  }
+
+  let subdivision = fields.subdivision.value;
+  if (subdivision < 2) {
+    subdivision = fields.subdivision.defaultValue;
+    console.error('\'subdivision\' must be bigger or equal to 2. Value reset to ' + subdivision + '.');
+  }
+
+  let type = fields.type.value;
+  let keys = Object.keys(treeType);
+  if (type !== 'random' && !treeType.hasOwnProperty(type)) {
+    type = fields.type.defaultValue;
+
+    let candidates = '';
+    for (let i = 0; i < keys.length; ++i) {
+      if (i === keys.length - 1)
+        candidates += '\'' + keys[i] + '\'';
+      else
+        candidates += '\'' + keys[i] + '\', ';
     }
+    candidates += ' or \'random\'';
+    console.error('\'type\' must be a value in the list: ' + candidates + '. Value reset to \'' + type + '\'.');
+  } else if (type === 'random') {
+    type = keys[wbrandom.integer(keys.length)];
+  }
 
-    let radius = fields.radius.value;
-    if (radius <= 0) {
-      radius = fields.radius.defaultValue;
-      console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
-    }
-
-    let subdivision = fields.subdivision.value;
-    if (subdivision < 2) {
-      subdivision = fields.subdivision.defaultValue;
-      console.error('\'subdivision\' must be bigger or equal to 2. Value reset to ' + subdivision + '.');
-    }
-    
-    let type = fields.type.value;
-    let keys = Object.keys(treeType);
-    if (type !== 'random' && !treeType.hasOwnProperty(type)) {
-      type = fields.type.defaultValue;
-      
-      let candidates = '';
-      for (let i = 0; i < keys.length; ++i) {
-        if (i === keys.length - 1)
-          candidates += '\'' + keys[i] + '\'';
-        else
-          candidates += '\'' + keys[i] + '\', ';
-      }
-      candidates += ' or \'random\'';
-      console.error('\'type\' must be a value in the list: ' + candidates + '. Value reset to \'' + type + '\'.');
-    } else if (type === 'random') {
-      type = keys[wbrandom.integer(keys.length)];
-    }
-
-    const boundinObject = fields.enableBoundingObject.value;
-    const circle = wbgeometry.circle(radius, subdivision * 2, {x: 0, y: 0}, 0);
-    const skip = subdivision * 2;
-  }%
-  Solid {
-    translation IS translation
-    rotation IS rotation
-    children [
-      Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              %{ if (fields.withSnow.value) { }%
-                %{= '"' + "textures/" + treeType[type].slice(0, treeType[type].length - 4) + "_with_snow" + treeType[type].slice(treeType[type].length - 4) + '"' }%
-              %{ } else { }%
-                %{= '"' + "textures/" + treeType[type] + '"' }%
-              %{ } }%
-            ]
-            repeatS FALSE
-            repeatT FALSE
-          }
-          metalness 0
-          roughness 1
-        }
-        geometry IndexedFaceSet {
-          coord Coordinate {
-            point [
-              # bottom cylinder
-              %{ for (let i = 0; i <= skip - 1; ++i) { }%
-                %{= circle[i].x }% %{= 0 }% %{= circle[i].y }%
-              %{ } }%
-              # top cylinder
-              %{ for (let i = 0; i <= skip - 1; ++i) { }%
-                %{= circle[i].x }% %{= height }% %{= circle[i].y }%
-              %{ } }%
-            ]
-          }
-          texCoord TextureCoordinate {
-            point [
-              0 0
-              1 0
-              0 1
-              1 1
-            ]
-          }
-          coordIndex [
-            # each face
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= subdivision * 2 + i }% %{= i }% %{= subdivision + i }% %{= subdivision * 3 + i }% -1
-              %{= subdivision * 2 + i }% %{= subdivision * 3 + i }% %{= subdivision + i }% %{= i }%  -1
+  const boundinObject = fields.enableBoundingObject.value;
+  const circle = wbgeometry.circle(radius, subdivision * 2, {x: 0, y: 0}, 0);
+  const skip = subdivision * 2;
+}%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            %{ if (fields.withSnow.value) { }%
+              %{= '"' + "textures/" + treeType[type].slice(0, treeType[type].length - 4) + "_with_snow" + treeType[type].slice(treeType[type].length - 4) + '"' }%
+            %{ } else { }%
+              %{= '"' + "textures/" + treeType[type] + '"' }%
             %{ } }%
           ]
-          texCoordIndex [
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              2, 0, 1, 3, -1, 3, 2, 0, 1, -1,
+          repeatS FALSE
+          repeatT FALSE
+        }
+        metalness 0
+        roughness 1
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            # bottom cylinder
+            %{ for (let i = 0; i <= skip - 1; ++i) { }%
+              %{= circle[i].x }% %{= 0 }% %{= circle[i].y }%
+            %{ } }%
+            # top cylinder
+            %{ for (let i = 0; i <= skip - 1; ++i) { }%
+              %{= circle[i].x }% %{= height }% %{= circle[i].y }%
             %{ } }%
           ]
         }
-        isPickable IS isPickable
-      }
-    ]
-    name IS name
-    model %{= '"' + type + '"' }%
-    recognitionColors [
-      %{ if (fields.withSnow.value) { }%
-        0.82 0.82 0.84
-      %{ } else { }%
-        %{ if (type === 'crab apple tree') { }%
-          0.85 0.49 0.57
-        %{ } else { }%
-          0.1 0.4 0
-        %{ } }%
-      %{ } }%
-    ]
-    %{ if (boundinObject) { }%
-      boundingObject Transform {
-        translation 0 %{= height * 0.5 }% 0
-        children [
-          Cylinder {
-            height %{= height }%
-            radius 0.1
-          }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            0 1
+            1 1
+          ]
+        }
+        coordIndex [
+          # each face
+          %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
+            %{= subdivision * 2 + i }% %{= i }% %{= subdivision + i }% %{= subdivision * 3 + i }% -1
+            %{= subdivision * 2 + i }% %{= subdivision * 3 + i }% %{= subdivision + i }% %{= i }%  -1
+          %{ } }%
+        ]
+        texCoordIndex [
+          %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
+            2, 0, 1, 3, -1, 3, 2, 0, 1, -1,
+          %{ } }%
         ]
       }
+      isPickable IS isPickable
+    }
+  ]
+  name IS name
+  model %{= '"' + type + '"' }%
+  recognitionColors [
+    %{ if (fields.withSnow.value) { }%
+      0.82 0.82 0.84
+    %{ } else { }%
+      %{ if (type === 'crab apple tree') { }%
+        0.85 0.49 0.57
+      %{ } else { }%
+        0.1 0.4 0
+      %{ } }%
     %{ } }%
-    locked IS locked
-  }
+  ]
+  %{ if (boundinObject) { }%
+    boundingObject Transform {
+      translation 0 %{= height * 0.5 }% 0
+      children [
+        Cylinder {
+          height %{= height }%
+          radius 0.1
+        }
+      ]
+    }
+  %{ } }%
+  locked IS locked
+}
 }

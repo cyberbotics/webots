@@ -20,88 +20,88 @@ PROTO WoodenPalletStack [
   field SFBool     locked                   FALSE                  # Is `Solid.locked`.
 ]
 {
-  %{
-    import * as wbrandom from 'modules/webots/wbrandom.js';
-    wbrandom.seed(context.id);
+%{
+  import * as wbrandom from 'modules/webots/wbrandom.js';
+  wbrandom.seed(context.id);
 
-    let palletSize = fields.palletSize.value;
-    if (palletSize.x <= 0 || palletSize.y <= 0 || palletSize.z <= 0) {
-      size = fields.size.defaultValue;
-      console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
-    }
-
-    let palletNumber = fields.palletNumber.value;
-    if (palletNumber <= 0) {
-      palletNumber = fields.palletNumber.defaultValue;
-      console.error('\'palletNumber\' must be strictly positive. Value reset to ' + palletNumber + '.');
-    }
-
-    let lateralMisalignment = fields.lateralMisalignment.value;
-    if (lateralMisalignment < 0) {
-      lateralMisalignment = 0;
-      console.error('\'lateralMisalignment\' must be positive or zero. Value set to ' + lateralMisalignment + '.');
-    } else if (lateralMisalignment > palletSize.x * 0.5) {
-      lateralMisalignment = palletSize.x * 0.5;
-      console.error('\'lateralMisalignment\' must be smaller than half of first component of \'size\'. Value reset to ' + lateralMisalignment + '.');
-    }
-
-    let longitudinalMisalignment = fields.longitudinalMisalignment.value;
-    if (longitudinalMisalignment < 0) {
-      longitudinalMisalignment = 0;
-      console.error('\'longitudinalMisalignment\' must be positive or zero. Value set to ' + longitudinalMisalignment + '.');
-    } else if (longitudinalMisalignment > palletSize.z * 0.5) {
-      longitudinalMisalignment = palletSize.z * 0.5;
-      console.error('\'longitudinalMisalignment\' must be smaller than half of third component of \'size\'. Value reset to ' + longitudinalMisalignment + '.');
-    }
-
-    let maxLateralMisalignment = 0;
-    let maxLongitudinalMisalignment = 0;
-
-    const palletMass = fields.palletMass.value;
-  }%
-  Solid {
-    translation IS translation
-    rotation IS rotation
-    children [
-      %{ for (let i = 0; i <= palletNumber - 1; ++i) { }%
-        WoodenPallet {
-          %{
-            let xOffset = lateralMisalignment * wbrandom.real(-0.5, 0.5);
-            let yOffset = longitudinalMisalignment * wbrandom.real(-0.5, 0.5);
-            if (Math.abs(xOffset) > maxLateralMisalignment)
-              maxLateralMisalignment = xOffset;
-            if (Math.abs(yOffset) > maxLongitudinalMisalignment)
-              maxLongitudinalMisalignment = xOffset;
-          }%
-          translation %{= xOffset }% %{= i * palletSize.y }% %{= yOffset }%
-          name %{= '"wooden pallet' + i + '"' }%
-          size %{= palletSize.x }% %{= palletSize.y }% %{= palletSize.z }%
-          lathNumber IS palletLathNumber
-          lathWidth IS palletLathWidth
-          mass 0
-          boundingObject FALSE
-        }
-      %{ } }%
-    ]
-    name IS name
-    model "wooden pallet stack"
-    %{ if (fields.boundingObject.value) { }%
-    boundingObject Transform {
-      translation 0 %{= palletSize.y * palletNumber * 0.5 }% 0
-      children
-      [
-        Box {
-          size %{= palletSize.x + maxLateralMisalignment }% %{= palletSize.y * palletNumber }% %{= palletSize.z + maxLongitudinalMisalignment }%
-        }
-      ]
-    }
-    %{ } }%
-    %{ if (palletMass > 0) { }%
-    physics Physics {
-      density -1
-      mass %{= palletMass * palletNumber }%
-    }
-    %{ } }%
-    locked IS locked
+  let palletSize = fields.palletSize.value;
+  if (palletSize.x <= 0 || palletSize.y <= 0 || palletSize.z <= 0) {
+    size = fields.size.defaultValue;
+    console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
   }
+
+  let palletNumber = fields.palletNumber.value;
+  if (palletNumber <= 0) {
+    palletNumber = fields.palletNumber.defaultValue;
+    console.error('\'palletNumber\' must be strictly positive. Value reset to ' + palletNumber + '.');
+  }
+
+  let lateralMisalignment = fields.lateralMisalignment.value;
+  if (lateralMisalignment < 0) {
+    lateralMisalignment = 0;
+    console.error('\'lateralMisalignment\' must be positive or zero. Value set to ' + lateralMisalignment + '.');
+  } else if (lateralMisalignment > palletSize.x * 0.5) {
+    lateralMisalignment = palletSize.x * 0.5;
+    console.error('\'lateralMisalignment\' must be smaller than half of first component of \'size\'. Value reset to ' + lateralMisalignment + '.');
+  }
+
+  let longitudinalMisalignment = fields.longitudinalMisalignment.value;
+  if (longitudinalMisalignment < 0) {
+    longitudinalMisalignment = 0;
+    console.error('\'longitudinalMisalignment\' must be positive or zero. Value set to ' + longitudinalMisalignment + '.');
+  } else if (longitudinalMisalignment > palletSize.z * 0.5) {
+    longitudinalMisalignment = palletSize.z * 0.5;
+    console.error('\'longitudinalMisalignment\' must be smaller than half of third component of \'size\'. Value reset to ' + longitudinalMisalignment + '.');
+  }
+
+  let maxLateralMisalignment = 0;
+  let maxLongitudinalMisalignment = 0;
+
+  const palletMass = fields.palletMass.value;
+}%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    %{ for (let i = 0; i <= palletNumber - 1; ++i) { }%
+      WoodenPallet {
+        %{
+          let xOffset = lateralMisalignment * wbrandom.real(-0.5, 0.5);
+          let yOffset = longitudinalMisalignment * wbrandom.real(-0.5, 0.5);
+          if (Math.abs(xOffset) > maxLateralMisalignment)
+            maxLateralMisalignment = xOffset;
+          if (Math.abs(yOffset) > maxLongitudinalMisalignment)
+            maxLongitudinalMisalignment = xOffset;
+        }%
+        translation %{= xOffset }% %{= i * palletSize.y }% %{= yOffset }%
+        name %{= '"wooden pallet' + i + '"' }%
+        size %{= palletSize.x }% %{= palletSize.y }% %{= palletSize.z }%
+        lathNumber IS palletLathNumber
+        lathWidth IS palletLathWidth
+        mass 0
+        boundingObject FALSE
+      }
+    %{ } }%
+  ]
+  name IS name
+  model "wooden pallet stack"
+  %{ if (fields.boundingObject.value) { }%
+  boundingObject Transform {
+    translation 0 %{= palletSize.y * palletNumber * 0.5 }% 0
+    children
+    [
+      Box {
+        size %{= palletSize.x + maxLateralMisalignment }% %{= palletSize.y * palletNumber }% %{= palletSize.z + maxLongitudinalMisalignment }%
+      }
+    ]
+  }
+  %{ } }%
+  %{ if (palletMass > 0) { }%
+  physics Physics {
+    density -1
+    mass %{= palletMass * palletNumber }%
+  }
+  %{ } }%
+  locked IS locked
+}
 }
