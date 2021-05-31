@@ -407,6 +407,7 @@ namespace wren {
 #ifdef __EMSCRIPTEN__
       mCurrentViewport->camera()->setNear(near);
       mCurrentViewport->camera()->setFar(far);
+      mCurrentViewport->camera()->updateUniforms();
 #endif
     }
 

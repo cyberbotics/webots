@@ -1,7 +1,7 @@
 import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
 
-import Parser from './../Parser.js';
+import {getAnId} from './utils/utils.js';
 
 // Also used to represent a solid
 export default class WbTransform extends WbGroup {
@@ -35,7 +35,7 @@ export default class WbTransform extends WbGroup {
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
-      const cloned = await this.children[i].clone('n' + Parser.undefinedID++);
+      const cloned = await this.children[i].clone(getAnId());
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
       transform.children.push(cloned);

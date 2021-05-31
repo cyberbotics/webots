@@ -9,6 +9,7 @@ Released on June, Xth, 2021.
     - Added the `wb_supervisor_node_save/load_state` functions that allow partial world reverting to a saved state ([#2740](https://github.com/cyberbotics/webots/pull/2740)).
     - Added coupled motors feature which allows to control multiple logically linked [Motors](motor.md) at once ([#2939](https://github.com/cyberbotics/webots/pull/2939)).
     - Changed the rendering engine of the streaming viewer and of the animations for WREN ([#2769](https://github.com/cyberbotics/webots/pull/2769)).
+    - Added the `redColorSensitivity` field to [DistanceSensor](distancesensor.md) that allows tuning (or even disabling) of the red color sensitivity for an infra-red distance sensor ([#3077](https://github.com/cyberbotics/webots/pull/3077)).
   - Enhancements
     - Significantly improved the performance of the `wb_camera_get_image`, `wb_range_finder_get_range_image`, and `wb_lidar_get_range_image` functions ([#3032](https://github.com/cyberbotics/webots/pull/3032)).
     - Added a `stadium_dry` [background](../guide/object-backgrounds.md) with dry grass to allow Robocup players to distinguish the soccer field from the background ([#2874](https://github.com/cyberbotics/webots/pull/2874)).
@@ -50,6 +51,9 @@ Released on June, Xth, 2021.
     - Added a version of the [RobotisOp2](../guide/robotis-op2.md) modeled using [Hinge2Joint](hinge2joint.md) on the ankles, hips, and neck ([#2861](https://github.com/cyberbotics/webots/pull/2861)).
     - Made the `static` behavior the default for PROTO files and removal of the tag. Non static cases must be labeled as such using the `nonDeterministic` tag instead ([#2903](https://github.com/cyberbotics/webots/pull/2903)).
   - Bug fixes:
+    - Fixed broken multithreading in Python controllers due to Python GIL ([#3104](https://github.com/cyberbotics/webots/pull/3104)).
+    - Fixed crash when selecting velocities relative to kinematic ancestor [Solid](solid.md) node in Node Editor ([#3098](https://github.com/cyberbotics/webots/pull/3098)).
+    - Fixed instabilities in the box-cylinder collision detection ([#3105](https://github.com/cyberbotics/webots/pull/3105)).
     - Fixed crash due to [Supervisor](supervisor.md) MF field operations based on negative positions that were not translated into valid indices after resetting the simulation from the same [Supervisor](supervisor.md) controller ([#2997](https://github.com/cyberbotics/webots/pull/2997)).
     - Fixed the [`wb_supervisor_field_get_count`](supervisor.md#wb_supervisor_field_get_count) function's returned value not updated after modifying the fields from the GUI or from another [Supervisor](supervisor.md) controller ([#2812](https://github.com/cyberbotics/webots/pull/2812)).
     - Fixed the conversion from quaternions to euler angles in the [InertialUnit](inertialunit.md) for the ENU coordinate system ([#2768](https://github.com/cyberbotics/webots/pull/2768)).
