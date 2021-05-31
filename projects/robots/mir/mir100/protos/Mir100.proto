@@ -131,6 +131,14 @@ PROTO Mir100 [
         rotation -0.5314699172926579 -0.816513872934121 0.22548796490956566 -1.7730453071795864
         scale 1.0003465485345713 0.92893 0.92893
         children [
+          Camera {
+            name "depth_camera_right"
+            rotation 0.5773509358554485 -0.5773489358556708 0.5773509358554485 2.0944
+            fieldOfView 2.05949
+            maxRange 1.8
+            width 1900
+            height 1080
+          }
           DEF CAMERA_SHAPE Shape {
             appearance Appearance {
               material Material {
@@ -155,6 +163,14 @@ PROTO Mir100 [
         scale 1.0003465485345713 0.92893 0.92893
         children [
           USE CAMERA_SHAPE
+          Camera {
+            name "depth_camera_left"
+            rotation 0.577351602520694 0.5773506025213824 -0.5773486025227593 2.0944
+            fieldOfView 2.05949
+            maxRange 1.8
+            width 1900
+            height 1080
+          }
         ]
       }
       Transform {
