@@ -230,7 +230,7 @@ WbBaseNode *WbBaseNode::getFirstFinalizedProtoInstance() const {
       nodes.append(nodeInstances.at(i));
   }
 
-  return baseNode->isPostFinalizedCalled() ? const_cast<WbBaseNode *>(baseNode) : NULL;
+  return baseNode && baseNode->isPostFinalizedCalled() ? const_cast<WbBaseNode *>(baseNode) : NULL;
 }
 
 bool WbBaseNode::isInvisibleNode() const {
