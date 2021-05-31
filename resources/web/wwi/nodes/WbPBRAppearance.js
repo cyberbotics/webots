@@ -5,8 +5,7 @@ import WbBackground from './WbBackground.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
-
-import Parser from './../Parser.js';
+import {getAnId} from './utils/utils.js';
 
 export default class WbPBRAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,
@@ -33,49 +32,49 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
   clone(customID) {
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap, textureTransform;
     if (typeof this.baseColorMap !== 'undefined') {
-      baseColorMap = this.baseColorMap.clone('n' + Parser.undefinedID++);
+      baseColorMap = this.baseColorMap.clone(getAnId());
       baseColorMap.parent = customID;
       baseColorMap.type = 'baseColorMap';
       WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
     }
 
     if (typeof this.roughnessMap !== 'undefined') {
-      roughnessMap = this.roughnessMap.clone('n' + Parser.undefinedID++);
+      roughnessMap = this.roughnessMap.clone(getAnId());
       roughnessMap.type = 'roughnessMap';
       roughnessMap.parent = customID;
       WbWorld.instance.nodes.set(roughnessMap.id, roughnessMap);
     }
 
     if (typeof this.metalnessMap !== 'undefined') {
-      metalnessMap = this.metalnessMap.clone('n' + Parser.undefinedID++);
+      metalnessMap = this.metalnessMap.clone(getAnId());
       metalnessMap.type = 'metalnessMap';
       metalnessMap.parent = customID;
       WbWorld.instance.nodes.set(metalnessMap.id, metalnessMap);
     }
 
     if (typeof this.normalMap !== 'undefined') {
-      normalMap = this.normalMap.clone('n' + Parser.undefinedID++);
+      normalMap = this.normalMap.clone(getAnId());
       normalMap.type = 'normalMap';
       normalMap.parent = customID;
       WbWorld.instance.nodes.set(normalMap.id, normalMap);
     }
 
     if (typeof this.occlusionMap !== 'undefined') {
-      occlusionMap = this.occlusionMap.clone('n' + Parser.undefinedID++);
+      occlusionMap = this.occlusionMap.clone(getAnId());
       occlusionMap.type = 'occlusionMap';
       occlusionMap.parent = customID;
       WbWorld.instance.nodes.set(occlusionMap.id, occlusionMap);
     }
 
     if (typeof this.emissiveColorMap !== 'undefined') {
-      emissiveColorMap = this.emissiveColorMap.clone('n' + Parser.undefinedID++);
+      emissiveColorMap = this.emissiveColorMap.clone(getAnId());
       emissiveColorMap.type = 'emissiveColorMap';
       emissiveColorMap.parent = customID;
       WbWorld.instance.nodes.set(emissiveColorMap.id, emissiveColorMap);
     }
 
     if (typeof this.textureTransform !== 'undefined') {
-      textureTransform = this.textureTransform.clone('n' + Parser.undefinedID++);
+      textureTransform = this.textureTransform.clone(getAnId());
       textureTransform.parent = customID;
       WbWorld.instance.nodes.set(textureTransform.id, textureTransform);
     }
