@@ -1075,7 +1075,7 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
     WbMatter *matter = dynamic_cast<WbMatter *>(n);
     if (matter) {
       if (matter->isProtoParameterNode()) {
-        WbBaseNode *finalizedInstance = matter->getSingleFinalizedProtoInstance();
+        WbBaseNode *finalizedInstance = matter->getFirstFinalizedProtoInstance();
         if (finalizedInstance)
           visibleMatter = dynamic_cast<WbMatter *>(finalizedInstance);
       } else

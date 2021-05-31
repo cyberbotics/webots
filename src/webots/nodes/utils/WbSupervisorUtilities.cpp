@@ -451,25 +451,13 @@ void WbSupervisorUtilities::notifyFieldUpdate() {
   mUpdatedFields.append(info);
 }
 
-WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node) const {
-  QList<WbNode *> nodes;  // stack containing other instances of the proto parameter node
-                          // to be used in case of deeply nested PROTOs where the first one could not be finalized
-  WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
-  while (baseNode && !baseNode->isPostFinalizedCalled() && baseNode->isProtoParameterNode()) {
-    // if node is a proto parameter node we need to find the corresponding proto parameter node instance
-    // if the parameter is used multiple times all the instances are inspected in depth-first search (using the "nodes" list)
-    const QVector<WbNode *> instances = baseNode->protoParameterNodeInstances();
-    if (instances.isEmpty()) {
-      if (nodes.isEmpty())
-        return NULL;
-      baseNode = static_cast<WbBaseNode *>(nodes.takeFirst());
-      continue;
-    }
-    baseNode = static_cast<WbBaseNode *>(instances[0]);
-    for (int i = instances.size() - 1; i >= 1; --i)
-      nodes.append(instances.at(i));
+WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(int nodeId, const QString &functionName) const {
+  WbNode *node = WbNode::findNode(nodeId);
+  if (!node) {
+    mRobot->warn(tr("%1: node not found.").arg(functionName));
+    return NULL;
   }
-  return baseNode;
+  return static_cast<WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
 }
 
 void WbSupervisorUtilities::changeSimulationMode(int newMode) {
@@ -534,7 +522,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       unsigned int nodeId;
       stream >> nodeId;
       const QString &stateName = readString(stream);
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(nodeId));
+      WbNode *const node = getProtoParameterNodeInstance(nodeId, "wb_supervisor_node_load_state()");
       node->reset(stateName);
       return;
     }
@@ -542,7 +530,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       unsigned int nodeId;
       stream >> nodeId;
       const QString &stateName = readString(stream);
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(nodeId));
+      WbNode *const node = getProtoParameterNodeInstance(nodeId, "wb_supervisor_node_save_state()");
       node->save(stateName);
       return;
     }
@@ -752,7 +740,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       stream >> id;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_position()");
       WbTransform *const transform = dynamic_cast<WbTransform *>(node);
       mNodeGetPosition = transform;
       if (!transform)
@@ -764,7 +752,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       stream >> id;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_orientation()");
       WbTransform *const transform = dynamic_cast<WbTransform *>(node);
       mNodeGetOrientation = transform;
       if (!transform)
@@ -779,12 +767,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> idTo;
 
       if (idFrom) {
-        WbNode *const nodeFrom = getProtoParameterNodeInstance(WbNode::findNode(idFrom));
+        WbNode *const nodeFrom = getProtoParameterNodeInstance(idFrom, "wb_supervisor_node_get_pose()");
         WbTransform *const transformFrom = dynamic_cast<WbTransform *>(nodeFrom);
         mNodeGetPose.first = transformFrom;
       } else
         mNodeGetPose.first = NULL;
-      WbNode *const nodeTo = getProtoParameterNodeInstance(WbNode::findNode(idTo));
+      WbNode *const nodeTo = getProtoParameterNodeInstance(idTo, "wb_supervisor_node_get_pose()");
       WbTransform *const transformTo = dynamic_cast<WbTransform *>(nodeTo);
       mNodeGetPose.second = transformTo;
 
@@ -797,7 +785,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       stream >> id;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_center_of_mass()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetCenterOfMass = solid;
       if (!solid)
@@ -811,7 +799,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> id;
       stream >> includeDescendants;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_number_of_contact_points()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetContactPoints = solid;
       mGetContactPointsIncludeDescendants = includeDescendants == 1;
@@ -826,7 +814,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       stream >> id;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_static_balance()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetStaticBalance = solid;
       if (!solid || !solid->isTopLevel())
@@ -838,7 +826,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       stream >> id;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_velocity()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid)
         mNodeGetVelocity = solid;
@@ -860,7 +848,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       const double linearVelocity[3] = {l0, l1, l2};
       const double angularVelocity[3] = {a0, a1, a2};
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_set_velocity()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
         solid->setLinearVelocity(linearVelocity);
@@ -874,8 +862,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       stream >> id;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
-
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_simulation_reset_physics()");
       WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
       if (solidNode) {
         solidNode->resetPhysics(false);
@@ -897,7 +884,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       stream >> id;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_simulation_restart_controller()");
       WbRobot *const robot = dynamic_cast<WbRobot *>(node);
       if (robot)  // postpone the restart to the end of the physic step.
         robot->setControllerNeedRestart();
@@ -913,8 +900,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fromId;
       stream >> visible;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(nodeId));
-      WbNode *const cameraNode = getProtoParameterNodeInstance(WbNode::findNode(fromId));
+      WbNode *const node = getProtoParameterNodeInstance(nodeId, "wb_supervisor_node_set_visibility()");
+      WbNode *const cameraNode = getProtoParameterNodeInstance(fromId, "wb_supervisor_node_set_visibility()");
       WbAbstractCamera *const camera = dynamic_cast<WbAbstractCamera *>(cameraNode);
       WbViewpoint *const viewpoint = dynamic_cast<WbViewpoint *>(cameraNode);
       WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(node);
@@ -930,7 +917,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     case C_SUPERVISOR_NODE_MOVE_VIEWPOINT: {
       unsigned int nodeId;
       stream >> nodeId;
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(nodeId));
+      WbNode *const node = getProtoParameterNodeInstance(nodeId, "wb_supervisor_node_move_viewpoint()");
       WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(node);
       assert(baseNode);
       if (WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL)
@@ -948,7 +935,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fz;
       stream >> relative;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_add_force()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
         WbVector3 force(fx, fy, fz);
@@ -980,7 +967,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> oz;
       stream >> relative;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_add_force_with_offset()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
         const dBodyID body = solid->bodyMerger();
@@ -1009,7 +996,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> tz;
       stream >> relative;
 
-      WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
+      WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_add_torque()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
         WbVector3 torque(tx, ty, tz);
