@@ -919,7 +919,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -fs Versions/5/QtConcurrent QtConcurrent\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
       fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd Qt.framework\n");
+      fprintf(fd, "cd QtCore.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtCore QtCore\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
       fprintf(fd, "cd ..\n");

@@ -34,8 +34,6 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
-#include <QtCore/QUrl>
-#include <QtNetwork/QTcpSocket>
 
 #include <cassert>
 
@@ -511,8 +509,8 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
     // check for robot doc
     const QString &name = mName.toLower();
 
-    const QUrl url(WbStandardPaths::cyberboticsUrl() + "/doc/guide/" + name);
-    if (checkIfDocumentationPageExist(url)) {
+    const QString page("guide/" + name + ".md");
+    if (checkIfDocumentationPageExist(page)) {
       bookAndPage << "guide" << name;
       return bookAndPage;
     }
@@ -523,8 +521,8 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
     QString name = dir.dirName().replace('_', '-');
     while (!dir.isRoot()) {
       if (dir == objectsDir) {
-        const QUrl url(WbStandardPaths::cyberboticsUrl() + "/doc/guide/object-" + name);
-        if (checkIfDocumentationPageExist(url)) {
+        const QString page("guide/object-" + name + ".md");
+        if (checkIfDocumentationPageExist(page)) {
           bookAndPage << "guide"
                       << "object-" + name;
           return bookAndPage;
@@ -542,8 +540,8 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
       const QStringList &splittedPath = documentationUrl.split("doc/");
       if (splittedPath.size() == 2) {
         const QString file(splittedPath[1].split('#')[0]);
-        const QUrl url(WbStandardPaths::cyberboticsUrl() + "/doc/" + file);
-        if (checkIfDocumentationPageExist(url)) {
+        const QString page(file + ".md");
+        if (checkIfDocumentationPageExist(page)) {
           bookAndPage = file.split('/');
           if (splittedPath[1].contains('#'))
             bookAndPage[1] += '#' + splittedPath[1].split('#')[1];
@@ -556,23 +554,22 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
   return bookAndPage;  // return empty
 }
 
-bool WbProtoModel::checkIfDocumentationPageExist(const QUrl url) const {
+bool WbProtoModel::checkIfDocumentationPageExist(const QString page) const {
   bool exist = false;
-  QTcpSocket socket;
-  socket.connectToHost(url.host(), 80);
-  if (socket.waitForConnected()) {
-    socket.write("HEAD " + url.path().toUtf8() +
-                 " HTTP/1.1\r\n"
-                 "Host: " +
-                 url.host().toUtf8() +
-                 "\r\n"
-                 "\r\n");
-    if (socket.waitForReadyRead()) {
-      QByteArray bytes = socket.readAll();
-      if (bytes.contains("200 OK"))
-        exist = true;
+  QFile MyFile(WbStandardPaths::webotsHomePath() + "docs/list.txt");
+  if (!MyFile.open(QIODevice::ReadOnly))
+    return false;
+  QTextStream in (&MyFile);
+  QString line = in.readLine();
+  while(!line.isNull()) {
+    if (line.contains(page, Qt::CaseSensitive)) {
+      exist = true;
+      break;
     }
+    line = in.readLine();
   }
+
+  MyFile.close();
 
   return exist;
 }
