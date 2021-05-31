@@ -131,14 +131,6 @@ PROTO Mir100 [
         rotation -0.5314699172926579 -0.816513872934121 0.22548796490956566 -1.7730453071795864
         scale 1.0003465485345713 0.92893 0.92893
         children [
-          Camera {
-            name "depth_camera_right"
-            rotation 0.5773509358554485 -0.5773489358556708 0.5773509358554485 2.0944
-            fieldOfView 2.05949
-            maxRange 1.8
-            width 1900
-            height 1080
-          }
           DEF CAMERA_SHAPE Shape {
             appearance Appearance {
               material Material {
@@ -156,22 +148,53 @@ PROTO Mir100 [
           }
         ]
       }
-
       DEF CAMERA_LEFT Transform {
         translation 0.448325 0.063463 0.110114
         rotation 0.6425837390040647 0.41825883011730935 0.6419857392469521 -2.7903353071795864
         scale 1.0003465485345713 0.92893 0.92893
         children [
           USE CAMERA_SHAPE
-          Camera {
-            name "depth_camera_left"
-            rotation 0.577351602520694 0.5773506025213824 -0.5773486025227593 2.0944
-            fieldOfView 2.05949
-            maxRange 1.8
-            width 1900
-            height 1080
+        ]
+      }
+      HC-SR04 {
+        translation 0.415448 -0.108238 0.08
+        rotation 0.8628559982596194 -0.35740699927911007 -0.35740699927911007 1.71777
+        name "ds0"
+      }
+      HC-SR04 {
+        translation -0.3844 -0.1328 0.156
+        rotation 0 0 1 3.141592653589793
+        name "ds1"
+      }
+      HC-SR04 {
+        translation -0.3844 0.1328 0.156
+        rotation 0 0 1 3.141592653589793
+        name "ds2"
+      }
+      HC-SR04 {
+        translation 0.415448 0.108238 0.08
+        rotation 0.8628559982596194 0.35740699927911007 0.35740699927911007 1.71777
+        name "ds3"
+      }
+      RangeFinder {
+        translation 0.464 0 0.116
+        rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+            }
+            geometry Plane {
+              size 0.01 0.01
+            }
           }
         ]
+        name "depth_camera"
+        fieldOfView 2.05949
+        minRange 0.18
+        maxRange 1.95
+        width 1280
+        height 720
       }
       Transform {
         translation 0.03733 0.0005 0.2085
