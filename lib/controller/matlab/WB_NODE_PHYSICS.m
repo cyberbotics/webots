@@ -1,2 +1,2 @@
 function value = WB_NODE_PHYSICS
-value = 70;
+value = 71;

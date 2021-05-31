@@ -21,14 +21,21 @@
 //
 
 #include "QtCore/QObject"
+#include "WbVector3.hpp"
 
 class WbBaseNode;
+
+struct WrMaterial;
+struct WrStaticMesh;
+struct WrRenderable;
+struct WrTransform;
 
 class WbVisualBoundingSphere : public QObject {
   Q_OBJECT
 
 public:
   static WbVisualBoundingSphere *instance();
+  static void deleteInstance();
 
   static void enable(bool enabled, const WbBaseNode *node = NULL);
 
@@ -37,11 +44,22 @@ public slots:
 
 private:
   static WbVisualBoundingSphere *cInstance;
-  static void createSphere(/* const Ogre::String &meshName, const float r, const int nRings = 16, const int nSegments = 16 */);
+  void createSphere(const WbVector3 &center, float radius);
 
   WbVisualBoundingSphere();
   ~WbVisualBoundingSphere();
-  void clear();
+  void deleteWrenObjects();
+
+  bool mInitialized;
+
+  // Wren
+  WrTransform *mWrenNode;
+  WrTransform *mWrenScaleTransform;
+  WrMaterial *mWrenMaterial;
+  WrMaterial *mWrenEncodeDepthMaterial;
+  WrMaterial *mWrenSegmentationMaterial;
+  WrStaticMesh *mWrenMesh;
+  WrRenderable *mWrenRenderable;
 };
 
 #endif  // WB_VISUAL_BOUNDING_SPHERE_HPP

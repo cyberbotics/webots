@@ -202,16 +202,12 @@ void WbCharger::prePhysicsStep(double ms) {
       // special case:
       //   if the current energy of the robot is already bigger that its max energy
       //   the robot battery cannot be filled (useful for ratslife)
-      if (robotCurrentEnergy > mRobot->maxEnergy()) {
-        // emtpy the Charger - the energy is lost
-        currentEnergy = 0.0;
+      if (robotCurrentEnergy > mRobot->maxEnergy())
         mDone = true;
-      } else {
+      else {
         robotCurrentEnergy += e;
         if (robotCurrentEnergy > mRobot->maxEnergy()) {
-          // emtpy the Charger - some energy is lost
           robotCurrentEnergy = mRobot->maxEnergy();
-          currentEnergy = 0.0;
           mDone = true;
         }
       }

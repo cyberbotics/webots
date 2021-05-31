@@ -15,6 +15,7 @@
 #ifndef WB_RECEIVER_HPP
 #define WB_RECEIVER_HPP
 
+#include "WbMFInt.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
 #include "WbSolidDevice.hpp"
@@ -80,6 +81,7 @@ private:
   WbSFInt *mBufferSize;
   WbSFDouble *mSignalStrengthNoise;
   WbSFDouble *mDirectionNoise;
+  WbMFInt *mAllowedChannels;
 
   bool mNeedToConfigure;
 
@@ -91,9 +93,11 @@ private:
   void receivePacketIfPossible(WbDataPacket *packet);
   bool checkApertureAndRange(const WbEmitter *emitter, const WbReceiver *receiver, bool checkRangeOnly = false) const;
   void updateRaysSetupIfNeeded() override;
+  bool isChannelAllowed();
 
 private slots:
   void updateTransmissionSetup();
+  void updateAllowedChannels();
 };
 
 #endif  // WB_RECEIVER_HPP

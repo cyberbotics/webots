@@ -76,6 +76,9 @@ Options:
     specifies how many steps are logged. If the --sysinfo option is used, the
     system information is prepended into the log file.
 
+  convert
+    Convert a PROTO file to a URDF, WBO, or WRL file.
+
 Please report any bug to https://cyberbotics.com/bug
 ```
 
@@ -119,6 +122,14 @@ For example, the following command will start Webots with the streaming server e
 
 You can get more information about web streaming in [this section](web-streaming.md).
 
+The `convert` subcommand allows conversion of a PROTO file to a URDF, WBO, or WRL file.
+You can use a `-p` flag to override default PROTO parameters.
+Usage example:
+```
+webots convert -p extensionSlot="Box {}" ${WEBOTS_HOME}/projects/robots/adept/pioneer3/protos/Pioneer3dx.proto -o pioneer3dx.urdf
+```
+For more details use: `webots convert --help`.
+
 ### Safe Mode
 
 It may happen that Webots cannot start because it is blocked on a world causing a Webots or OpenGL crash.
@@ -131,9 +142,15 @@ This action may cause a new crash.
 
 #### On Windows
 
+From the Windows graphical user interface:
 1. Open the `Environment Variables` system dialog box. To do so, look for "environment variable" in the `search bar` of the Windows `start menu`, click on `Edit the system environment variables`, this will open up the `System Properties` dialog box to the `Advanced` tab. Click on the `Environment Variables` button at the bottom.
 2. Add a new `WEBOTS_SAFE_MODE` user environment variable. To do so, in the `user variables` panel, click on the `New` button and add a `New User Variable` named `WEBOTS_SAFE_MODE` with a value of `true`.
 3. Start Webots as usual.
+
+From the `cmd` command prompt:
+```
+setx WEBOTS_SAFE_MODE true
+```
 
 #### On Linux and macOS
 

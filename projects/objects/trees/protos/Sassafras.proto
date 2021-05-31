@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A sassafras tree with optional boundingObject.
 
 PROTO Sassafras [

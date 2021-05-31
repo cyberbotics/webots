@@ -56,12 +56,13 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
           !info.at(i).startsWith("documentation url:"))
         mInfo += info.at(i) + "\n";
     }
+    mInfo.chop(1);
   }
   mTags = tokenizer->tags();
   mLicense = tokenizer->license();
   mLicenseUrl = tokenizer->licenseUrl();
   mDocumentationUrl = tokenizer->documentationUrl();
-  mIsStatic = mTags.contains("static");
+  mIsDeterministic = !mTags.contains("nonDeterministic");
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
   // check recursive definition
@@ -318,7 +319,7 @@ WbProtoModel::~WbProtoModel() {
   foreach (WbFieldModel *model, mFieldModels)
     model->unref();
   mFieldModels.clear();
-  mStaticContentMap.clear();
+  mDeterministicContentMap.clear();
 }
 
 WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const QString &worldPath, int uniqueId) {
@@ -334,14 +335,14 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   QString content = mContent;
   QString key;
   if (mTemplate) {
-    if (mIsStatic) {
+    if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator())
           key += WbProtoTemplateEngine::convertFieldValueToLuaStatement(parameter);
       }
     }
 
-    if (!mIsStatic || (!mStaticContentMap.contains(key) || mStaticContentMap.value(key).isEmpty())) {
+    if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
       if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId)) {
@@ -350,12 +351,12 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
         return NULL;
       }
       content = te.result();
-      if (mIsStatic)
-        mStaticContentMap.insert(key, content);
+      if (mIsDeterministic)
+        mDeterministicContentMap.insert(key, content);
     } else
-      content = mStaticContentMap.value(key);
+      content = mDeterministicContentMap.value(key);
   } else
-    mIsStatic = true;
+    mIsDeterministic = true;
 
   tokenizer.setErrorPrefix(mFileName);
   if (tokenizer.tokenizeString(content) > 0) {
@@ -451,8 +452,8 @@ QStringList WbProtoModel::parameterNames() const {
 
 void WbProtoModel::setIsTemplate(bool value) {
   mTemplate = value;
-  if (mTemplate && mIsStatic) {  // if ancestor is not static this proto can't be eihter
-    mIsStatic = mAncestorProtoModel->isStatic();
+  if (mTemplate && mIsDeterministic) {  // if ancestor is nonDeterministic this proto can't be either
+    mIsDeterministic = mAncestorProtoModel->isDeterministic();
   }
 }
 

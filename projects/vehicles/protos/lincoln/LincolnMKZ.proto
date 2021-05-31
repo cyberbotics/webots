@@ -1,7 +1,6 @@
 #VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Lincoln MKZ 2017
 
@@ -21,6 +20,7 @@ PROTO LincolnMKZ [
   field     MFNode     sensorsSlotTop    []
   field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
+  field     SFString   window            "automobile"
 ]
 {
   %{ local frontSpotLights = fields.frontSpotLights.value }%
@@ -384,5 +384,6 @@ PROTO LincolnMKZ [
         0 0.2 1.6 # estimated roughly
       ]
     }
+    window IS window
   }
 }

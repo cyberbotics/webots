@@ -4,6 +4,83 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/22/2021 11:05:26
+Here is a nice master thesis report making extensive use of Webots: [https://webthesis.biblio.polito.it/17504/1/tesi.pdf](https://webthesis.biblio.polito.it/17504/1/tesi.pdf)
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 04/14/2021 06:36:47
+**Check out this TIAGo Simulation in Webots with ROS 2, BehaviorTrees, Nav2, and plansys2**
+
+
+
+[https://www.youtube.com/watch?v=ZnwPNG17jVQ](https://www.youtube.com/watch?v=ZnwPNG17jVQ)
+
+##### baby\_droid\_yoda 04/07/2021 18:44:06
+[https://lnkd.in/dApbakU](https://lnkd.in/dApbakU)
+
+
+
+Hello everyone,
+
+
+
+I created youtube list for you.
+
+This list is about with Fusion360 and Webots.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/29/2021 15:25:52
+**Cyberbotics helped to deploy ROS 2 on Raspberry Pi Pico**
+
+
+
+Ubuntu has recently published a very nice article about deploying ROS 2 on Raspberry Pi Pico. The article is based on an example that Cyberbotics contributed.  It shows Cyberbotic's initiative to contribute to ROS 2 in aspects other than simulation.
+
+ 
+
+[https://ubuntu.com/blog/getting-started-with-micro-ros-on-raspberry-pi-pico](https://ubuntu.com/blog/getting-started-with-micro-ros-on-raspberry-pi-pico)
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 03/26/2021 13:12:39
+Here is a new tutorial on how to install and run Webots with ROS2: [https://automaticaddison.com/how-to-install-and-demo-the-webots-robot-simulator-for-ros-2/](https://automaticaddison.com/how-to-install-and-demo-the-webots-robot-simulator-for-ros-2/)
+
+
+Robotbenchmark got nominated at WSIS PRIZES 2021!
+
+You can vote for us here: [https://www.itu.int/net4/wsis/stocktaking/Prizes/2021/Nominated?idx=11&page=9#start](https://www.itu.int/net4/wsis/stocktaking/Prizes/2021/Nominated?idx=11&page=9#start)
+
+So, far we already received about 1500 votes, but we need more.
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/15/2021 15:33:46
+**Webots and `ros_control`**
+
+
+
+For ROS 1 users, `ros_control` is now a part of the standard Webots `ros` controller!
+
+
+
+See more details:
+
+[https://discourse.ros.org/t/webots-and-ros-control/19463](https://discourse.ros.org/t/webots-and-ros-control/19463)
+
+##### Soft\_illusion 03/07/2021 17:17:57
+Special Thanks to `@Olivier Michel` `@Darko Lukić` `@David Mansolino`
+
+
+It's true, when you are willing to learn, teach and share knowledge, we grow together as a community. 📚Today as we reach 1000 subscribers, we wish to thank and congratulate each one of you who's reading this. 🥳🎉 It's the curiosity and eagerness to learn from each one of you that keeps us going. 📈 If you aren't a part of our growing robotics community yet, do subscribe so that you don't miss out on more interesting content. 🤖 
+
+[https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ](https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ)
+%figure
+![1000SubscribersMilestone.png](https://cdn.discordapp.com/attachments/568354695513374730/818170409890349056/1000SubscribersMilestone.png)
+%end
+
+##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 03/01/2021 14:14:31
+**Tesla Model 3 simulation in Webots: The first step towards ROS 2 automobile integration **
+
+
+
+More about this is available:
+
+[https://discourse.ros.org/t/tesla-model-3-simulation-in-webots-the-first-step-towards-ros-2-automobile-integration/19213](https://discourse.ros.org/t/tesla-model-3-simulation-in-webots-the-first-step-towards-ros-2-automobile-integration/19213)
+
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 02/16/2021 17:11:31
 It is now official: Webots will be used as the simulation platform of the upcoming Robocup Virtual Humanoid Soccer Competition: [https://humanoid.robocup.org/hl-2021/call-for-participation/](https://humanoid.robocup.org/hl-2021/call-for-participation/)
 
@@ -376,7 +453,7 @@ That competition is live now [https://www.youtube.com/watch?v=xLL7SoQywf4](https
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 06/13/2020 09:21:11
 Student competition based on Webots: [https://studentrobotics.org/docs/competition-simulator/](https://studentrobotics.org/docs/competition-simulator/)
 
-##### harunkurt00 06/10/2020 13:17:09
+##### baby\_droid\_yoda 06/10/2020 13:17:09
 [Turkish] [https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE](https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE)
 
 ##### iagsav 06/05/2020 21:59:47

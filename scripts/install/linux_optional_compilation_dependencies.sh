@@ -9,7 +9,7 @@ fi
 apt install --yes software-properties-common
 add-apt-repository -y ppa:deadsnakes/ppa
 apt update
-apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr
+apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr execstack
 curl -sL https://deb.nodesource.com/setup_15.x | bash -
 apt install --yes nodejs
 
@@ -21,9 +21,10 @@ elif [[ $UBUNTU_VERSION == "18.04" ]]; then
 elif [[ $UBUNTU_VERSION == "20.04" ]]; then
        apt install --yes openjdk-14-jdk
 else
-       echo "Unsupported Linux version."
+       echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi
 
 script_full_path=$(dirname "$0")
 $script_full_path/linux_test_dependencies.sh --norecurse
 $script_full_path/linux_compilation_dependencies.sh
+$script_full_path/linux_web_viewer_dependencies.sh

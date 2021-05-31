@@ -539,7 +539,7 @@ wow.. Thank you I couldn't find that even after hours of search. You saved a lot
 ##### David Mansolino [Cyberbotics] 03/25/2020 12:39:30
 You're welcome 😉
 
-##### luhang 03/27/2020 01:40:47
+##### Mistral 03/27/2020 01:40:47
 Can we program and control the NAO robot in webots now?
 
 
@@ -548,7 +548,7 @@ I didn't find APIs
 ##### David Mansolino [Cyberbotics] 03/27/2020 06:21:02
 Hi yes of course, in Webots you can use the regular Webots API to control the simulated robot, you will find some example controllers here: [https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/controllers](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/controllers)
 
-##### luhang 03/27/2020 07:47:41
+##### Mistral 03/27/2020 07:47:41
 Thanks!😁
 
 ##### David Mansolino [Cyberbotics] 03/27/2020 07:49:44
@@ -7307,7 +7307,7 @@ const std::array<double,9> matrix
 ##### Srivastav\_Udit 11/03/2020 10:56:57
 `@DrVoodoo` It's a small robot aimed at swarm robotic applications. I'm importing it as a single object but all the joints connecting the individual components are already defined in Fusion360 before saving as a .STL file
 
-##### MumsDad 11/03/2020 11:06:21
+##### ChristopherD 11/03/2020 11:06:21
 `@Srivastav_Udit` i can't remember how i've imported cad. pretty sure you can just drop the stl in and avoid all intermediate softwares (like in this tutorial they use blender).
 
 
@@ -7319,7 +7319,7 @@ read up on what stl actually is, it is simply a file format which saves your geo
 [https://www.youtube.com/watch?v=s151UClAnEk](https://www.youtube.com/watch?v=s151UClAnEk)
 
 ##### Srivastav\_Udit 11/03/2020 11:09:29
-`@MumsDad` Thanks! I'll have a look and let you know how it goes!
+`@ChristopherD` Thanks! I'll have a look and let you know how it goes!
 
 ##### Simon Steinmann [ROS 2 Meeting-Moderator] 11/03/2020 14:29:19
 `@DrVoodoo`  For future transformation issues, I find these two things really help:

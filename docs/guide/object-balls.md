@@ -15,8 +15,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Ball {
-  SFVec3f    translation     0 0.0325 0
-  SFRotation rotation        0 1 0 0
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "ball"
   SFColor    color           1.0 0.54 0.08
   SFFloat    radius          0.0325
@@ -54,7 +54,7 @@ This object is physics-enabled so it will roll or bounce when hit.
 
 %figure
 
-![FifaSoccerBall](images/objects/balls/FifaSoccerBall/model.thumbnail.jpg)
+![FifaSoccerBall](images/objects/balls/FifaSoccerBall/model.thumbnail.png)
 
 %end
 
@@ -63,7 +63,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 FifaSoccerBall {
   SFVec3f     translation 0 0 0
-  SFRotation  rotation    0 1 0 0
+  SFRotation  rotation    0 0 1 0
   SFString    name        "fifa soccer ball"
   SFInt32     size        5
 }
@@ -76,7 +76,7 @@ FifaSoccerBall {
 
 ### FifaSoccerBall Field Summary
 
-- `size`: Defines the ball size according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
+- `size`: Defines the ball size and mass according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
 
 ## PingPongBall
 
@@ -93,7 +93,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PingPongBall {
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "ping pong ball"
   MFNode     immersionProperties []
   MFString   textureUrl          "textures/pingpong_logo.jpg"
@@ -108,6 +108,37 @@ PingPongBall {
 ### PingPongBall Field Summary
 
 - `textureUrl`: Defines the texture used for the ball.
+
+## RobocupSoccerBall
+
+A black and white soccer ball with customizable radius and mass.
+This object is physics-enabled so it will roll or bounce when hit.
+
+%figure
+
+![RobocupSoccerBall](images/objects/balls/RobocupSoccerBall/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+RobocupSoccerBall {
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 0 1 0
+  SFString   name         "robocup soccer ball"
+  SFInt32                 size 1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/RobocupSoccerBall.proto]({{ url.github_tree }}/projects/objects/balls/protos/RobocupSoccerBall.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### RobocupSoccerBall Field Summary
+
+- `size`: Defines the ball size and mass according to FIFA standards. This field accepts the following values: `1`, `2`, `3`, `4`, and `5`.
 
 ## SoccerBall
 
@@ -124,8 +155,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 SoccerBall {
-  SFVec3f    translation 0 0.1 0
-  SFRotation rotation    0 1 0 0
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "soccer ball"
   SFFloat    radius      0.113
   SFFloat    mass        0.6
@@ -142,3 +173,4 @@ SoccerBall {
 - `radius`: Defines the radius of the ball.
 
 - `mass`: Defines the mass of the ball.
+

@@ -1,2 +1,2 @@
 function value = WB_NODE_ZOOM
-value = 79;
+value = 80;

@@ -109,10 +109,14 @@ public:
   bool hasRestrictedValues() const { return mModel->hasRestrictedValues(); }
   const QList<WbVariant> acceptedValues() const { return mModel->acceptedValues(); }
 
+  // enable forwarding signals when the size of MF fields changes
+  void listenToValueSizeChanges() const;
+
 signals:
   void valueChanged();
   void valueChangedByOde();
   void valueChangedByWebots();
+  void valueSizeChanged();
 
 protected:
 private:

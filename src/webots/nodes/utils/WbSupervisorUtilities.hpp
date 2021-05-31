@@ -22,7 +22,7 @@
 
 class QDataStream;
 
-struct WbDeletedNodeInfo;
+struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
 class WbFieldSetRequest;
 
@@ -46,7 +46,7 @@ public:
   void writeConfigure(QDataStream &stream);
   void processImmediateMessages(bool blockRegeneration = false);
   void postPhysicsStep();
-  void reset();
+  void reset();  // should be called when controllers are restarted
 
   bool shouldBeRemoved() const { return mShouldRemoveNode; }
   QStringList labelsState() const;
@@ -54,7 +54,7 @@ public:
 signals:
   void worldModified();
   void changeSimulationModeRequested(int newMode);
-  void labelChanged(const QString &labelDescription);  // i.e. "label:<id>;<font>;<color>;<size>;<x>;<y>;<text>"
+  void labelChanged(const QString &labelDescription);  // i.e. json format
 
 private slots:
   void animationStartStatusChanged(int status);
@@ -63,7 +63,8 @@ private slots:
   void changeSimulationMode(int newMode);
   void updateDeletedNodeList(WbNode *node);
   void notifyNodeUpdate(WbNode *node);
-  void updateProtoRegeneratedFlag();
+  void notifyFieldUpdate();
+  void updateProtoRegeneratedFlag(WbNode *node);
 
 private:
   WbRobot *mRobot;
@@ -83,6 +84,7 @@ private:
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;
+  QPair<WbTransform *, WbTransform *> mNodeGetPose;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
   bool mGetContactPointsIncludeDescendants;
@@ -99,7 +101,7 @@ private:
   int *mMovieStatus;
   bool *mSaveStatus;
 
-  int mImportedNodesNumber;
+  int mImportedNodeId;
   bool mLoadWorldRequested;
   QString mWorldToLoad;
 
@@ -107,7 +109,9 @@ private:
   bool mVirtualRealityHeadsetPositionRequested;
   bool mVirtualRealityHeadsetOrientationRequested;
 
-  QVector<struct WbDeletedNodeInfo> mNodesDeletedSinceLastStep;
+  QVector<int> mNodesDeletedSinceLastStep;
+  QVector<WbUpdatedFieldInfo> mWatchedFields;  // fields used by the libController that need to be updated on change
+  QVector<WbUpdatedFieldInfo> mUpdatedFields;  // changed fields that have to be notified to the libController
   QVector<WbFieldSetRequest *> mFieldSetRequests;
   struct WbFieldGetRequest *mFieldGetRequest;
 

@@ -59,7 +59,9 @@ struct ProtoParameters {
 };
 static QList<ProtoParameters *> gProtoParameterList;
 static QList<const WbNode *> gUrdfNodesQueue;
+static QMap<int, QString> gUrdfNames;
 static const WbNode *gUrdfCurrentNode;
+static int gUrdfNameIndex = 0;
 
 static bool gInstantiateMode = true;
 static QVector<WbNode *> gNodes = {NULL};  // id 0 is reserved for root node
@@ -82,7 +84,8 @@ const QStringList WbNode::cHiddenParameterNames = QStringList() << "translation"
                                                                 << "linearVelocity"
                                                                 << "angularVelocity"
                                                                 << "position"
-                                                                << "position2";
+                                                                << "position2"
+                                                                << "position3";
 
 void WbNode::setInstantiateMode(bool mode) {
   gInstantiateMode = mode;
@@ -990,6 +993,12 @@ void WbNode::write(WbVrmlWriter &writer) const {
     }
   }
   if (writer.isUrdf()) {
+    // Start naming from scratch
+    if (isRobot()) {
+      gUrdfNames.clear();
+      gUrdfNameIndex = 0;
+    }
+
     if (gUrdfCurrentNode != this && isJoint() && !gUrdfNodesQueue.contains(this)) {
       gUrdfNodesQueue.append(this);
       return;
@@ -1090,23 +1099,27 @@ QStringList WbNode::listTextureFiles() const {
 }
 
 const QString WbNode::urdfName() const {
+  // Use existing name if already given
+  if (gUrdfNames.contains(uniqueId()))
+    return gUrdfNames[uniqueId()];
+
+  // Name the link/joint according to priority: name -> def -> model
   QString name;
-  if (this->findSFString("name")) {
+  if (this->findSFString("name") && this->findSFString("name")->value() != "")
     name = this->findSFString("name")->value();
+  else if (this->defName() != "")
+    name = this->defName();
+  else
+    name = QString(mModel->name().toLower());
+  QString fullName = getUrdfPrefix() + name;
 
-    // Make sure there are no duplicates
-    const QList<WbNode *> children = findRobotRootNode()->subNodes(true, true, true);
-    for (int i = 0; i < children.size(); i++) {
-      const WbNode *const child = children.at(i);
-      if (child != this && child->findSFString("name") && child->findSFString("name")->value() == name) {
-        name += "_" + QString::number(mUniqueId);
-        break;
-      }
-    }
-  } else
-    name = QString(mModel->name().toLower() + "_" + QString::number(mUniqueId));
+  // Add suffix if needed
+  if (gUrdfNames.values().contains(fullName))
+    fullName += "_" + QString::number(gUrdfNameIndex++);
 
-  return getUrdfPrefix() + name;
+  // Return
+  gUrdfNames[uniqueId()] = fullName;
+  return fullName;
 }
 
 bool WbNode::exportNodeHeader(WbVrmlWriter &writer) const {
@@ -1834,8 +1847,8 @@ void WbNode::setCreationCompleted() {
 
 void WbNode::reset(const QString &id) {
   mCurrentStateId = id;
-  if (isTemplate() && !mProto->isStatic())
-    // make sure non-static procedural PROTO are regenerated
+  if (isTemplate() && !mProto->isDeterministic())
+    // nonDeterministic procedural PROTO must be regenerated on reset
     setRegenerationRequired(true);
 }
 

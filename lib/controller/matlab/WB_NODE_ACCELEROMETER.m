@@ -1,2 +1,2 @@
 function value = WB_NODE_ACCELEROMETER
-value = 32;
+value = 33;

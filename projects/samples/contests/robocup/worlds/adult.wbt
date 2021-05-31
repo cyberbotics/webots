@@ -1,0 +1,108 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Description: official soccer simulation for the 2021 Robocup Virtual Humanoid League (adult size)"
+    "Version 0.2"
+  ]
+  title "Robocup V-HL Adult"
+  basicTimeStep 8
+  optimalThreadCount 8
+  physicsDisableTime 0.1
+  physicsDisableLinearThreshold 0.1
+  physicsDisableAngularThreshold 0.1
+  contactProperties [
+    ContactProperties {
+      material1 "grass"
+      coulombFriction [
+        0.5
+      ]
+      softCFM 0.03
+    }
+    ContactProperties {
+      material1 "grass"
+      material2 "robocup soccer ball"
+      coulombFriction [
+        0.5
+      ]
+      bounce 0.76
+      softCFM 0.05
+    }
+    ContactProperties {
+      material2 "robocup soccer ball"
+      bounce 0.76
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.7383932268613509 -0.3325176727841018 -0.5866919462644143 1.3093003849227038
+  position -16.79829093831298 -13.708471693751367 11.587284893830196
+}
+TexturedBackground {
+  texture "stadium_dry"
+}
+TexturedBackgroundLight {
+  texture "stadium_dry"
+}
+RobocupSoccerField {
+}
+RobocupSoccerBall {
+  translation 0 0 0.12
+  size 5
+}
+DEF RED_1 Darwin-opHinge2 {
+  translation 6.51 0 0.24
+  rotation 5.25424e-07 -1.21381e-06 1 3.14159
+  name "player red 1"
+  controller "soccer"
+  selfCollision TRUE
+  cameraWidth 640
+  cameraHeight 480
+  jersey RobotisJersey {
+  }
+  backlash TRUE
+}
+DEF RED_2 Darwin-opHinge2 {
+  translation 1.75 0 0.24
+  rotation 5.25424e-07 -1.21381e-06 1 3.14159
+  name "player red 2"
+  controller "soccer"
+  selfCollision TRUE
+  cameraWidth 640
+  cameraHeight 480
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_2_red.png"
+    ]
+  }
+  backlash TRUE
+}
+DEF BLUE_1 Darwin-opHinge2 {
+  translation -6.51 0 0.24
+  rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
+  name "player blue 1"
+  controller "soccer"
+  selfCollision TRUE
+  cameraWidth 640
+  cameraHeight 480
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_1_blue.png"
+    ]
+  }
+  backlash TRUE
+}
+DEF BLUE_2 Darwin-opHinge2 {
+  translation -1.75 0 0.24
+  rotation -0.8804878560490522 0.40018993457295293 0.2541439584500076 -5.307179586466759e-06
+  name "player blue 2"
+  controller "soccer"
+  selfCollision TRUE
+  cameraWidth 640
+  cameraHeight 480
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_2_blue.png"
+    ]
+  }
+  backlash TRUE
+}

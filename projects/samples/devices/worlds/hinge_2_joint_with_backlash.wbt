@@ -1,0 +1,440 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Example world demonstrating the difference between a Hinge2Joint and Hinge2JointWithBacklash."
+  ]
+  title "Motor 2 with backlash"
+  coordinateSystem "NUE"
+  lineScale 0.3
+}
+Viewpoint {
+  orientation 0.3151514153579484 0.8962844856543382 0.3120155543770544 4.613055497332658
+  position -0.4848421147396492 0.5256946355814863 -0.005904186696561122
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorAppearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 2 2
+    }
+  }
+}
+DEF WITHOUT_BACKLASH Robot {
+  translation 0 0 -0.1
+  children [
+    SolidRoundedBox {
+      size 0.2 0.01 0.2
+      borderRadius 0.005
+      appearance GalvanizedMetal {
+      }
+    }
+    SolidTorus {
+      majorRadius 0.03
+      minorRadius 0.02
+      appearance BrushedAluminium {
+      }
+    }
+    CapScrew {
+      translation -0.08 0.005 -0.08
+      rotation 1 0 0 1.570796
+      name "cap scre left side 1"
+    }
+    CapScrew {
+      translation 0.08 0.005 -0.08
+      rotation 1 0 0 1.570796
+      name "cap screw left side 2"
+    }
+    CapScrew {
+      translation 0.08 0.005 0.08
+      rotation 1 0 0 1.570796
+      name "cap scre left side 3"
+    }
+    CapScrew {
+      translation -0.08 0.005 0.08
+      rotation 1 0 0 1.570796
+      name "cap scre left side 4"
+    }
+    Solid {
+      translation 0 0.06 0
+      children [
+        Shape {
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+            }
+          }
+          geometry DEF CYLINDER Cylinder {
+            height 0.1
+            radius 0.02
+          }
+        }
+        SolidBox {
+          translation 0 0.065 -0.014
+          size 0.02 0.03 0.005
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.2 0.2
+            }
+          }
+          physics Physics {
+          }
+        }
+        SolidBox {
+          translation 0 0.065 0.014
+          name "box(1)"
+          size 0.02 0.03 0.005
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.2 0.2
+            }
+          }
+          physics Physics {
+          }
+        }
+        Solid {
+          translation 0 0.07 0
+          rotation 1 0 0 -1.5707963071795863
+          children [
+            Shape {
+              appearance BrushedAluminium {
+              }
+              geometry DEF CYLINDER_2 Cylinder {
+                height 0.03
+                radius 0.008
+              }
+            }
+            Bolt {
+              translation 0 0.0053 0
+              rotation 1 0 0 1.570796
+              name "bolt left side 1"
+              screwRadius 0.0031
+              screwLength 0.02
+            }
+            Bolt {
+              translation 0 -0.0052 0
+              rotation 0 0.7071067811865476 0.7071067811865476 -3.1415923071795864
+              name "bolt left side 2"
+              screwRadius 0.0031
+              screwLength 0.02
+            }
+          ]
+          boundingObject USE CYLINDER_2
+          physics Physics {
+          }
+        }
+        Hinge2Joint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0 0.07 0
+          }
+          jointParameters2 JointParameters {
+            axis 1 0 0
+          }
+          device [
+            RotationalMotor {
+              name "motor 1"
+              maxVelocity 1
+            }
+          ]
+          device2 [
+            RotationalMotor {
+              name "motor 2"
+              maxVelocity 1
+            }
+          ]
+          endPoint Solid {
+            translation 0 0.07 0
+            rotation -0.577350269189626 -0.577350269189626 -0.5773502691896252 2.0943953071795867
+            children [
+              Shape {
+                appearance BrushedAluminium {
+                }
+                geometry DEF CYLINDER_2 Cylinder {
+                  height 0.03
+                  radius 0.008
+                }
+              }
+              Bolt {
+                translation 0 0.0053 0
+                rotation 1 0 0 1.570796
+                name "bolt left 1"
+                screwRadius 0.0031
+                screwLength 0.02
+              }
+              Bolt {
+                translation 0 -0.0052 0
+                rotation 0 0.7071067811865476 0.7071067811865476 -3.1415923071795864
+                name "bolt left 2"
+                screwRadius 0.0031
+                screwLength 0.02
+              }
+              SolidBox {
+                translation 0 0.015 0.006
+                rotation 1 0 0 1.570796
+                size 0.02 0.03 0.005
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+              SolidBox {
+                translation 0 -0.015 0.006
+                rotation 1 0 0 1.570796
+                name "box(1)"
+                size 0.02 0.03 0.005
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+              SolidBox {
+                translation 0 0 0.026
+                rotation 1 0 0 3.141592
+                name "box(2)"
+                size 0.05 0.05 0.014
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE CYLINDER_2
+            physics Physics {
+            }
+          }
+        }
+      ]
+      boundingObject USE CYLINDER
+      physics Physics {
+      }
+    }
+  ]
+  name "robot without backlash"
+  controller "motor2"
+}
+DEF WITH_BACKLASH Robot {
+  translation 0 0 0.1
+  children [
+    SolidRoundedBox {
+      size 0.2 0.01 0.2
+      borderRadius 0.005
+      appearance GalvanizedMetal {
+      }
+    }
+    SolidTorus {
+      majorRadius 0.03
+      minorRadius 0.02
+      appearance BrushedAluminium {
+      }
+    }
+    CapScrew {
+      translation -0.08 0.005 -0.08
+      rotation 1 0 0 1.570796
+    }
+    CapScrew {
+      translation 0.08 0.005 -0.08
+      rotation 1 0 0 1.570796
+      name "cap screw right side 1"
+    }
+    CapScrew {
+      translation 0.08 0.005 0.08
+      rotation 1 0 0 1.570796
+      name "cap screw right side 2"
+    }
+    CapScrew {
+      translation -0.08 0.005 0.08
+      rotation 1 0 0 1.570796
+      name "cap screw right side 3"
+    }
+    Solid {
+      translation 0 0.06 0
+      children [
+        Shape {
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+            }
+          }
+          geometry DEF CYLINDER Cylinder {
+            height 0.1
+            radius 0.02
+          }
+        }
+        SolidBox {
+          translation 0 0.065 -0.014
+          size 0.02 0.03 0.005
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.2 0.2
+            }
+          }
+          physics Physics {
+          }
+        }
+        SolidBox {
+          translation 0 0.065 0.014
+          name "box(1)"
+          size 0.02 0.03 0.005
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.2 0.2
+            }
+          }
+          physics Physics {
+          }
+        }
+        Solid {
+          translation 0 0.07 0
+          rotation 1 0 0 -1.5707963071795863
+          children [
+            Shape {
+              appearance BrushedAluminium {
+              }
+              geometry DEF CYLINDER_2 Cylinder {
+                height 0.03
+                radius 0.008
+              }
+            }
+            Bolt {
+              translation 0 0.0053 0
+              rotation 1 0 0 1.570796
+              name "bolt right side 1"
+              screwRadius 0.0031
+              screwLength 0.02
+            }
+            Bolt {
+              translation 0 -0.0052 0
+              rotation 0 0.7071067811865476 0.7071067811865476 -3.1415923071795864
+              name "bolt right side 2"
+              screwRadius 0.0031
+              screwLength 0.02
+            }
+          ]
+          boundingObject USE CYLINDER_2
+          physics Physics {
+          }
+        }
+        Hinge2JointWithBacklash {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0 0.07 0
+          }
+          jointParameters2 JointParameters {
+            axis 1 0 0
+          }
+          backlash 0.2
+          backlash2 0.2
+          device [
+            RotationalMotor {
+              name "motor 1"
+              maxVelocity 1
+            }
+          ]
+          device2 [
+            RotationalMotor {
+              name "motor 2"
+              maxVelocity 1
+            }
+          ]
+          endPoint Solid {
+            translation 0 0.07 0
+            rotation -0.5773502691896258 -0.5773502691896258 -0.5773502691896256 2.0943953071795867
+            children [
+              Shape {
+                appearance BrushedAluminium {
+                }
+                geometry DEF CYLINDER_2 Cylinder {
+                  height 0.03
+                  radius 0.008
+                }
+              }
+              Bolt {
+                translation 0 0.0053 0
+                rotation 1 0 0 1.570796
+                screwRadius 0.0031
+                screwLength 0.02
+              }
+              Bolt {
+                translation 0 -0.0052 0
+                rotation 0 0.7071067811865476 0.7071067811865476 -3.1415923071795864
+                name "bolt(1)"
+                screwRadius 0.0031
+                screwLength 0.02
+              }
+              SolidBox {
+                translation 0 0.015 0.006
+                rotation 1 0 0 1.570796
+                size 0.02 0.03 0.005
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+              SolidBox {
+                translation 0 -0.015 0.006
+                rotation 1 0 0 1.570796
+                name "box(1)"
+                size 0.02 0.03 0.005
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+              SolidBox {
+                translation 0 0 0.026
+                rotation 1 0 0 3.141592
+                name "box(2)"
+                size 0.05 0.05 0.014
+                appearance BrushedAluminium {
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.2 0.2
+                  }
+                }
+                physics Physics {
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE CYLINDER_2
+            physics Physics {
+            }
+          }
+        }
+      ]
+      boundingObject USE CYLINDER
+      physics Physics {
+      }
+    }
+  ]
+  name "robot with backlash"
+  controller "motor2"
+}

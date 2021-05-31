@@ -143,7 +143,7 @@ void PoseWidget::updateStateFromModel(int index) {
     QListWidgetItem *i = mListWidget->item(index);
     i->setText(state->toString());
     setItemAppearance(i, state->status());
-    mResetButton->setEnabled(state && state->status() == MotorTargetState::MODIFIED);
+    mResetButton->setEnabled(state->status() == MotorTargetState::MODIFIED);
   } else {
     mResetButton->setEnabled(false);
   }

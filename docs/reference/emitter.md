@@ -4,14 +4,15 @@ Derived from [Device](device.md) and [Solid](solid.md).
 
 ```
 Emitter {
-  SFString type       "radio"   # {"radio", "serial", "infra-red"}
-  SFFloat  range      -1        # {-1, [0, inf)}
-  SFFloat  maxRange   -1        # {-1, [0, inf)}
-  SFFloat  aperture   -1        # {-1 ,[0, 2*pi]}
-  SFInt32  channel    0         # [0, inf)
-  SFInt32  baudRate   -1        # {-1, [0, inf)}
-  SFInt32  byteSize   8         # [8, inf)
-  SFInt32  bufferSize -1        # {-1, [0, inf)}
+  SFString type             "radio"   # {"radio", "serial", "infra-red"}
+  SFFloat  range            -1        # {-1, [0, inf)}
+  SFFloat  maxRange         -1        # {-1, [0, inf)}
+  SFFloat  aperture         -1        # {-1 ,[0, 2*pi]}
+  SFInt32  channel          0         # [0, inf)
+  SFInt32  baudRate         -1        # {-1, [0, inf)}
+  SFInt32  byteSize         8         # [8, inf)
+  SFInt32  bufferSize       -1        # {-1, [0, inf)}
+  MFInt32  allowedChannels  [ ]       # [0, inf)
 }
 ```
 
@@ -70,6 +71,9 @@ This is usually 8 (the default), but can be more if control bits are used.
 - `bufferSize`: specifies the size (in bytes) of the transmission buffer.
 The total number of bytes in the packets enqueued in the emitter cannot exceed this number.
 A `bufferSize` of -1 (the default) is regarded as unlimited buffer size.
+
+- `allowedChannels`: specifies allowed channels [Emitter](#emitter) is allowed to emit to.
+Empty list (default) gives unlimited access.
 
 > **Note**: [Emitter](#emitter) nodes can also be used to communicate with the physics plugin (see [this chapter](physics-plugin.md)).
 In this case the channel must be set to 0 (the default).
@@ -309,6 +313,7 @@ channel = wb_emitter_get_channel(tag)
 *set and get the emitter's channel.*
 
 The `wb_emitter_set_channel` function allows the controller to change the transmission channel.
+The target channel must be included in `allowedChannels` or `allowedChannels` should be empty.
 This modifies the `channel` field of the corresponding [Emitter](#emitter) node.
 Normally, an emitter can send data only to receivers that use the same channel.
 However, the special WB\_CHANNEL\_BROADCAST value can be used for broadcasting to all channels.

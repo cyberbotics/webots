@@ -46,6 +46,10 @@ PROTO TiagoBase [
       }
       Gyro {
       }
+      Solid {
+        name "base_footprint"
+        translation 0 0 -0.095
+      }
       DEF BASE_MOBILE_SHAPE Group {
         children [
           DEF BASE Shape {
@@ -502,7 +506,7 @@ PROTO TiagoBase [
           axis 0 0 1
           anchor 0.1695 -0.102 -0.0335
           dampingConstant 0
-          suspensionSpringConstant 25000
+          suspensionSpringConstant 250000
           suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
@@ -615,7 +619,7 @@ PROTO TiagoBase [
           axis 0 0 1
           anchor 0.1695 0.102 -0.0335
           dampingConstant 0
-          suspensionSpringConstant 25000
+          suspensionSpringConstant 250000
           suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
@@ -728,7 +732,7 @@ PROTO TiagoBase [
           axis 0 0 1
           anchor -0.1735 -0.102 -0.0335
           dampingConstant 0
-          suspensionSpringConstant 25000
+          suspensionSpringConstant 250000
           suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }
@@ -841,7 +845,7 @@ PROTO TiagoBase [
           axis 0 0 1
           anchor -0.1735 0.102 -0.0335
           dampingConstant 0
-          suspensionSpringConstant 25000
+          suspensionSpringConstant 250000
           suspensionDampingConstant 0
           suspensionAxis 0 0 1
         }

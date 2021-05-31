@@ -49,6 +49,7 @@ release debug profile clean:
 	@echo "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
 else
 CXX_SOURCES = $(wildcard *.cpp)
+CXX_SOURCES += $(wildcard highlevel/*.cpp)
 
 ifeq ($(OSTYPE),windows)
  ros.exe: $(CXX_SOURCES:.cxx=.d)
@@ -75,7 +76,7 @@ INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include 
 
 # include ros libraries
 
-LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime
+LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -Wl,-rpath-link=/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime -lcontroller_manager -lboost_system
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -98,7 +99,7 @@ CFLAGS += -Wno-unused-local-typedefs
 CFLAGS += -std=c++11
 endif
 
-FILES_TO_REMOVE += include/webots_ros include/messages include/services headersGenerator.pyc include/XmlRpcDecl.h include/XmlRpcValue.h include/geometry_msgs include/log4cxx include/ros include/rosconsole include/rosgraph_msgs include/sensor_msgs include/std_msgs include/boost __pycache__ $(wildcard include/*.zip)
+FILES_TO_REMOVE += include/webots_ros include/messages include/services headersGenerator.pyc include/XmlRpcDecl.h include/XmlRpcValue.h include/geometry_msgs include/log4cxx include/ros include/rosconsole include/rosgraph_msgs include/sensor_msgs include/std_msgs include/hardware_interface include/controller_manager include/boost __pycache__ $(wildcard include/*.zip)
 
 ### Do not modify: this includes Webots global Makefile.include
 

@@ -111,6 +111,16 @@ Then both robots rotate their handles simultaneously, hence the light robot gets
 Then the light robot gets passed over another time by the second heavy robot and so on...
 All the robots in this simulation use the same controller; the different behaviors are selected according to the robot's name.
 
+### [coupled\_motor.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/coupled_motor.wbt)
+
+**Keywords**: [Motor](../reference/motor.md), coupled motor, multiplier
+
+![coupled_motor.png](images/samples/coupled_motor.thumbnail.jpg) In this example is showcased the usage of coupled motors in a gripper.
+Although the gripper itself is comprised of two actuators (one for each finger), in practice only one of them is commanded in the controller.
+Coupled motors are obtained when two or more motors belonging to the same robot share the same name structure.
+By attributing a `multiplier` of -1 to the second motor, the motion is reversed.
+Additional information concerning coupled motors and the rules surrounding it are available in the [Motor](../reference/motor.md#coupled-motors) reference page.
+
 ### [display.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/display.wbt)
 
 **Keywords**: [Display](../reference/display.md), write in textures, overlay
@@ -199,6 +209,23 @@ The resulting position is displayed in the `Console` at each step.
 A [Gyro](../reference/gyro.md) is mounted on three rotational motors (each motor corresponds to one axis).
 The motors a running consecutively for a while.
 The resulting angular velocity measured by the gyro is displayed in the `Console`.
+
+### [hinge\_joint\_with\_backlash.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/hinge_joint_with_backlash.wbt)
+
+**Keywords**: Backlash, [HingeJoint](../reference/hingejoint.md)
+
+![hinge_joint_with_backlash.png](images/samples/hinge_joint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](hinge-joint-with-backlash.md).
+The shape of the rotor and shaft of the motor are described in the `startPoint` field whereas the `endPoint` refers to the blue shaft.
+When the rotor is motorized, the output axis lags behind due to the effect of backlash intrinsic to the gear train, which is represented by the black cylinder.
+
+### [hinge\_2\_joint\_with\_backlash.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/hinge_2_joint_with_backlash.wbt)
+
+**Keywords**: Backlash, [Hinge2Joint](../reference/hinge2joint.md)
+
+![hinge_2_joint_with_backlash.png](images/samples/hinge_2_joint_with_backlash.thumbnail.jpg) This example shows how to use [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md).
+The left side robot uses a classic [Hinge2Joint](../reference/hinge2joint.md) whereas the right side one uses [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md) with a large backlash.
+Given the added joint play, in the presence of gravity, at rest the end-point is unstable and therefore slumps down compared to the case without backlash.
+In a real scenario, this is analogous to having a large clearance in between the driving and driven gear.
 
 ### [hokuyo.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/hokuyo.wbt)
 

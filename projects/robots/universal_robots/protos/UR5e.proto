@@ -2,7 +2,6 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
-# tags: static
 # An Universal Robots UR5e robotic arm.
 
 PROTO UR5e [

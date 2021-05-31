@@ -1,12 +1,13 @@
 /* global webots: false */
 /* global DeviceWidget: false */
-/* global menuTabCallback, openMenu, closeMenu, addSettingsTab */
+/* global menuTabCallback, openMenu, closeMenu, addSettingsTab, refreshSelectedTab */
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
-/* global widgets */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var robotName = '';
 var commands = [];
+window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
+window.selectedDeviceType = null;
 
 function setDeviceModeCallback(switchButton, deviceType) {
   const messageHeader = 'device-control-mode:' + deviceType;
@@ -20,9 +21,9 @@ function setDeviceModeCallback(switchButton, deviceType) {
   commands.push(message);
 
   // force widgets refresh when they are shown.
-  Object.keys(widgets).forEach(function(deviceName) {
-    const widget = widgets[deviceName];
-    if (widget && widget.device.type === deviceType) {
+  Object.keys(window.widgets[deviceType]).forEach(function(deviceName) {
+    const widget = window.widgets[deviceType][deviceName];
+    if (widget) {
       const checkbox = document.getElementById(widget.device.name + '-enable-checkbox');
       DeviceWidget.checkboxCallback(checkbox);
     }
@@ -65,8 +66,10 @@ function receive(message, _robot) {
     return;
   else if (message.indexOf('update ') === 0) {
     data = parseJSONMessage(message.substring(7));
-    if (data)
-      DeviceWidget.updateDeviceWidgets(data, widgets);
+    if (data) {
+      if (DeviceWidget.updateDeviceWidgets(data, window.selectedDeviceType))
+        refreshSelectedTab();
+    }
   } else
     console.log("Unexpected message received: '" + message + "'");
 

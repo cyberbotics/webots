@@ -106,7 +106,7 @@ typedef struct WbNodeStructPrivate {
 
 static WbNodeStruct *node_list = NULL;
 
-static const double invalid_vector[9] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
+static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
 // These functions may be used for debugging:
 //
@@ -355,7 +355,7 @@ static bool simulation_reset = false;
 static bool world_reload = false;
 static bool simulation_reset_physics = false;
 static bool simulation_change_mode = false;
-static int imported_nodes_number = -1;
+static int imported_node_id = -1;
 static const char *world_to_load = NULL;
 static char movie_stop = false;
 static char movie_status = WB_SUPERVISOR_MOVIE_READY;
@@ -387,6 +387,9 @@ static WbNodeRef self_node_ref = NULL;
 static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
+static double node_pose[16];
+static WbNodeRef pose_from_node_ref = NULL;
+static WbNodeRef pose_to_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
@@ -658,6 +661,11 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   if (orientation_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_ORIENTATION);
     request_write_uint32(r, orientation_node_ref->id);
+  }
+  if (pose_to_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_GET_POSE);
+    request_write_uint32(r, pose_from_node_ref ? pose_from_node_ref->id : 0);
+    request_write_uint32(r, pose_to_node_ref->id);
   }
   if (center_of_mass_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CENTER_OF_MASS);
@@ -932,19 +940,22 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       remove_internal_proto_nodes_and_fields_from_list();
       break;
     case C_SUPERVISOR_FIELD_INSERT_VALUE:
-      imported_nodes_number = request_read_int32(r);
+      imported_node_id = request_read_int32(r);
       break;
+    case C_SUPERVISOR_FIELD_COUNT_CHANGED: {
+      const int parent_node_id = request_read_int32(r);
+      const char *field_name = request_read_string(r);
+      const int field_count = request_read_int32(r);
+      if (parent_node_id >= 0) {
+        WbFieldStruct *field = find_field(field_name, parent_node_id);
+        if (field)
+          field->count = field_count;
+      }
+      break;
+    }
     case C_SUPERVISOR_NODE_REMOVE_NODE:
       // Remove the deleted node from the internal reference list
       remove_node_from_list(request_read_uint32(r));
-      const int parent_node_unique_id = request_read_int32(r);
-      const char *field_name = request_read_string(r);
-      const int parent_field_count = request_read_int32(r);
-      if (parent_node_unique_id >= 0) {
-        WbFieldStruct *parent_field = find_field(field_name, parent_node_unique_id);
-        if (parent_field)
-          parent_field->count = parent_field_count;
-      }
       break;
     case C_SUPERVISOR_NODE_GET_POSITION:
       free(position_node_ref->position);
@@ -961,6 +972,10 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       orientation_node_ref->orientation = malloc(9 * sizeof(double));
       for (i = 0; i < 9; i++)
         orientation_node_ref->orientation[i] = request_read_double(r);
+      break;
+    case C_SUPERVISOR_NODE_GET_POSE:
+      for (i = 0; i < 16; i++)
+        node_pose[i] = request_read_double(r);
       break;
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS:
       free(center_of_mass_node_ref->center_of_mass);
@@ -1836,6 +1851,32 @@ const double *wb_supervisor_node_get_orientation(WbNodeRef node) {
   orientation_node_ref = NULL;
   robot_mutex_unlock_step();
   return node->orientation ? node->orientation : invalid_vector;  // will be (NaN, ..., NaN) if n is not derived from Transform
+}
+
+const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return invalid_vector;
+
+  if (from_node != NULL && !is_node_ref_valid(from_node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_from' argument.\n", __FUNCTION__);
+    return invalid_vector;
+  }
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return invalid_vector;
+  }
+
+  robot_mutex_lock_step();
+  pose_from_node_ref = from_node;
+  pose_to_node_ref = node;
+  wb_robot_flush_unlocked();
+  pose_from_node_ref = NULL;
+  pose_to_node_ref = NULL;
+  robot_mutex_unlock_step();
+  return node_pose;
 }
 
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
@@ -2788,7 +2829,6 @@ void wb_supervisor_field_insert_mf_bool(WbFieldRef field, int index, bool value)
   union WbFieldData data;
   data.sf_bool = value;
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_int32(WbFieldRef field, int index, int value) {
@@ -2798,7 +2838,6 @@ void wb_supervisor_field_insert_mf_int32(WbFieldRef field, int index, int value)
   union WbFieldData data;
   data.sf_int32 = value;
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double value) {
@@ -2811,7 +2850,6 @@ void wb_supervisor_field_insert_mf_float(WbFieldRef field, int index, double val
   union WbFieldData data;
   data.sf_float = value;
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const double values[2]) {
@@ -2825,7 +2863,6 @@ void wb_supervisor_field_insert_mf_vec2f(WbFieldRef field, int index, const doub
   data.sf_vec2f[0] = values[0];
   data.sf_vec2f[1] = values[1];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const double values[3]) {
@@ -2840,7 +2877,6 @@ void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const doub
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const double values[4]) {
@@ -2861,7 +2897,6 @@ void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const d
   data.sf_rotation[2] = values[2];
   data.sf_rotation[3] = values[3];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const double values[3]) {
@@ -2883,7 +2918,6 @@ void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const doub
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const char *value) {
@@ -2898,7 +2932,6 @@ void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const cha
   union WbFieldData data;
   data.sf_string = supervisor_strdup(value);
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data);
-  field->count++;
 }
 
 void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
@@ -2911,9 +2944,6 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
     return;
 
   field_operation(field, REMOVE, index);
-  // in case of WB_MF_NODE, Webots will send the number of node really removed
-  if (((WbFieldStruct *)field)->type != WB_MF_NODE)
-    field->count--;
 }
 
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename) {
@@ -2972,10 +3002,7 @@ void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const ch
   union WbFieldData data;
   data.sf_string = supervisor_strdup(filename);
   create_and_append_field_request(f, IMPORT, position, data, false);
-  imported_nodes_number = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number > 0)
-    f->count += imported_nodes_number;
   robot_mutex_unlock_step();
 }
 
@@ -3011,10 +3038,7 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
   create_and_append_field_request(f, IMPORT_FROM_STRING, position, data, false);
-  imported_nodes_number = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number > 0)
-    f->count += imported_nodes_number;
   robot_mutex_unlock_step();
 }
 
@@ -3073,10 +3097,10 @@ void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) 
   union WbFieldData data;
   data.sf_string = supervisor_strdup(filename);
   create_and_append_field_request(f, IMPORT, -1, data, false);
-  imported_nodes_number = -1;
+  imported_node_id = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number >= 0)
-    field->data.sf_node_uid = imported_nodes_number;
+  if (imported_node_id >= 0)
+    field->data.sf_node_uid = imported_node_id;
   robot_mutex_unlock_step();
 }
 
@@ -3106,10 +3130,10 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
   create_and_append_field_request(f, IMPORT_FROM_STRING, -1, data, false);
-  imported_nodes_number = -1;
+  imported_node_id = -1;
   wb_robot_flush_unlocked();
-  if (imported_nodes_number >= 0)
-    field->data.sf_node_uid = imported_nodes_number;
+  if (imported_node_id >= 0)
+    field->data.sf_node_uid = imported_node_id;
   robot_mutex_unlock_step();
 }
 

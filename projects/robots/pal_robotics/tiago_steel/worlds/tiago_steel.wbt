@@ -5,6 +5,11 @@ WorldInfo {
   ]
   title "Simulation of PAL Robotics' TIAGo Steel robot"
   coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      softCFM 0.0002
+    }
+  ]
 }
 Viewpoint {
   orientation 0.28882343295926544 -0.9512999432180493 -0.10774712342777662 5.502273164124365

@@ -2426,7 +2426,7 @@ right, thanks
 ##### David Mansolino [Cyberbotics] 05/08/2019 09:51:44
 You're welcome
 
-##### avnishsachar 05/08/2019 12:35:59
+##### Avnish Sachar 05/08/2019 12:35:59
 Hi, is there a way to print a custom message on the console even when the simulation is paused?
 
 ##### Fabien Rohrer [Moderator] 05/08/2019 12:38:14
@@ -2435,7 +2435,7 @@ Unfortunately, this is not possible.
 
 Could you write your output into a file instead? Or use a debugger?
 
-##### avnishsachar 05/08/2019 12:44:09
+##### Avnish Sachar 05/08/2019 12:44:09
 Yes, I can write into a file instead. Thanks!
 
 ##### Hussein 05/09/2019 09:34:16
@@ -4110,14 +4110,14 @@ how can i start with webots ..
 
 Is there any online course ?
 
-##### Bizzaropoulos 06/10/2019 00:08:45
+##### Xron 06/10/2019 00:08:45
 what are the formats for Display.imageNew(data,format) in Python?
 
 ##### Fabien Rohrer [Moderator] 06/11/2019 06:16:43
 `@Mu.Hesham` We recommend to start with our tutorial: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
 
 
-`@Bizzaropoulos` Formats are:
+`@Xron` Formats are:
 
 
 class Display (Device):
@@ -4992,11 +4992,11 @@ Are there any simulations that uses reinforcement learning?
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 06/17/2019 15:26:52
 Hi, not in the examples provided in Webots. It is up to you to implement it, like many Webots users did.
 
-##### Bizzaropoulos 06/17/2019 17:11:43
+##### Xron 06/17/2019 17:11:43
 Hello I am trying to use OpenCV(Python) but the image captured from the camera object is in a different format from OpenCV. How can I convert between formats?
 
 ##### Fabien Rohrer [Moderator] 06/18/2019 06:35:29
-`@Bizzaropoulos` You could refer to the following example/snippets:
+`@Xron` You could refer to the following example/snippets:
 
 
 [https://cyberbotics.com/forum?message=8666](https://cyberbotics.com/forum?message=8666) Here is a small snippet to convert the camera image to a numpy array (the input of Python OpenCV)
@@ -23301,7 +23301,7 @@ If you check here in this link with every MF field they are arrays
 ##### swebdev 12/22/2019 21:34:09
 `@Tahir` Makes sense, thanks!
 
-##### casey 12/23/2019 03:45:27
+##### c.w 12/23/2019 03:45:27
 I follow this tutorial, [https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum/Beginner\_programming\_Exercises](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum/Beginner_programming_Exercises)
 
 but I don't know  how to open the BotStudio, I believe `@Stefania Pedrazzi` said that 
