@@ -96,31 +96,30 @@ with open(targetMetaFile) as f:
     tree = etree.parse(targetX3DFile)
     # Global texture paths.
     background = tree.xpath('//Background')
-    background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/',
-                                        'https://raw.githubusercontent.com/cyberbotics/webots/master\
-                                        /projects/default/worlds/textures/cubic/')
-    background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace('textures/cubic/',
-                                                                              'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace('textures/cubic/',
-                                                                            'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace('textures/cubic/',
-                                                                                  'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace('textures/cubic/',
-                                                                                'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace('textures/cubic/',
-                                                                              'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['rightIrradianceUrl'] = background[0].attrib['rightIrradianceUrl'].replace('textures/cubic/',
-                                                                                                    'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['leftIrradianceUrl'] = background[0].attrib['leftIrradianceUrl'].replace('textures/cubic/',
-                                                                                                  'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['topIrradianceUrl'] = background[0].attrib['topIrradianceUrl'].replace('textures/cubic/',
-                                                                                                'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['bottomIrradianceUrl'] = background[0].attrib['bottomIrradianceUrl'].replace('textures/cubic/',
-                                                                                                      'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['frontIrradianceUrl'] = background[0].attrib['frontIrradianceUrl'].replace('textures/cubic/',
-                                                                                                    'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
-    background[0].attrib['backIrradianceUrl'] = background[0].attrib['backIrradianceUrl'].replace('textures/cubic/',
-                                                                                                  'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['rightIrradianceUrl'] = background[0].attrib['rightIrradianceUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['leftIrradianceUrl'] = background[0].attrib['leftIrradianceUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['topIrradianceUrl'] = background[0].attrib['topIrradianceUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['bottomIrradianceUrl'] = background[0].attrib['bottomIrradianceUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['frontIrradianceUrl'] = background[0].attrib['frontIrradianceUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
+    background[0].attrib['backIrradianceUrl'] = background[0].attrib['backIrradianceUrl'].replace(
+        'textures/cubic/', 'https://raw.githubusercontent.com/cyberbotics/webots/master/projects/default/worlds/textures/cubic/')
     tree.write(targetX3DFile, pretty_print=True,
                xml_declaration=True, encoding="utf-8")
 
