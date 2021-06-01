@@ -41,7 +41,7 @@
       "type": "PositionSensor"
     },
     {
-      "name": "backLidar",
+      "name": "back_lidar",
       "transformID": "n575",
       "type": "Lidar"
     },
@@ -92,7 +92,7 @@
       "type": "PositionSensor"
     },
     {
-      "name": "frontLidar",
+      "name": "front_idar",
       "transformID": "n559",
       "type": "Lidar"
     },
