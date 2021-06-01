@@ -157,25 +157,41 @@ PROTO Mir100 [
           USE CAMERA_SHAPE
         ]
       }
-      HC-SR04 {
+      Mir100UltrasonicSensor {
         translation 0.415448 -0.108238 0.08
         rotation 0.8628559982596194 -0.35740699927911007 -0.35740699927911007 1.71777
         name "ds0"
+        lookupTable [
+          0.2 1000 0
+          0.3 0 0
+        ]
       }
-      HC-SR04 {
+      Mir100UltrasonicSensor {
         translation -0.3844 -0.1328 0.156
         rotation 0 0 1 3.141592653589793
         name "ds1"
+        lookupTable [
+          0.01 1000 0
+          0.35 0 0
+        ]
       }
-      HC-SR04 {
+      Mir100UltrasonicSensor {
         translation -0.3844 0.1328 0.156
         rotation 0 0 1 3.141592653589793
         name "ds2"
+        lookupTable [
+          0.01 1000 0
+          0.35 0 0
+        ]
       }
-      HC-SR04 {
+      Mir100UltrasonicSensor {
         translation 0.415448 0.108238 0.08
         rotation 0.8628559982596194 0.35740699927911007 0.35740699927911007 1.71777
         name "ds3"
+        lookupTable [
+          0.2 1000 0
+          0.3 0 0
+        ]
       }
       RangeFinder {
         translation 0.464 0 0.116
