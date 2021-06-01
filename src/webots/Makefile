@@ -132,7 +132,7 @@ ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE) -lpthread
 else
-LIBS += -lode
+LIBS += -lode -lpthread
 endif
 
 else ifeq ($(OSTYPE),windows)
@@ -269,7 +269,6 @@ QT_SOURCES += \
   WbDisplay.cpp \
   WbDockTitleBar.cpp \
   WbDockWidget.cpp \
-  WbDocumentation.cpp \
   WbDoubleEditor.cpp \
   WbDoubleSpinBox.cpp \
   WbDownloader.cpp \
