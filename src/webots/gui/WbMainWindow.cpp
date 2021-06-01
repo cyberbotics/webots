@@ -1701,6 +1701,7 @@ void WbMainWindow::show3DForceInfo() {
       break;
     case WbSysInfo::WIN32_PLATFORM:
       info = infoWindows;
+      break;
     default:
       assert(false);
   }
