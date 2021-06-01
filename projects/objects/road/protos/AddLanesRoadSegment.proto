@@ -4,6 +4,7 @@
 # A simple segment of road allowing to add (or remove) several lanes to the road.
 # The side where the new lanes are added is configurable as well as a lot of others parameters of a regular road.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO AddLanesRoadSegment [
   field        SFVec3f              translation               0 0 0
@@ -43,47 +44,48 @@ PROTO AddLanesRoadSegment [
 ]
 {
   %{
-    local wbcore = require('wbcore')
+    // fields checks
+    let width = fields.width.value;
+    if (width < 0) {
+      width = fields.width.defaultValue;
+      console.error('\'width\' must be greater or equal to 0. Value reset to ' + width + '.');
+    }
 
-    -- fields checks
-    local width = fields.width.value
-    if width < 0 then
-      io.stderr:write("'width' must be greater than 0\n")
-      width = fields.width.defaultValue
-    end
-    local barrierOffset = 0.06 + 0.05 * width
-    local length = fields.length.value
-    if length < 0 then
-      io.stderr:write("'length' must be greater than 0\n")
-      length = fields.length.defaultValue
-    end
-    local numberOfNewLanes = fields.numberOfNewLanes.value
-    if numberOfNewLanes < 1 then
-      io.stderr:write("'numberOfNewLanes' must be greater than 1\n")
-      numberOfNewLanes = fields.numberOfNewLanes.defaultValue
-    end
-    local lanes = fields.numberOfLanes.value
-    if lanes < 1 then
-      io.stderr:write("'numberOfLanes' must be greater than 1\n")
-      lanes = fields.numberOfLanes.defaultValue
-    end
-    local newLaneLeft   = fields.newLaneLeft.value
-    local dashedLine    = fields.dashedLine.value
-    local roadLines     = fields.lines.value
-    for i = 1, wbcore.tablelength(roadLines) do
-      if roadLines[i].node_name ~= "RoadLine" then
-        roadLines[i] = nil
-        io.stderr:write("Only 'RoadLine' nodes should be added in the 'lines' field.\n")
-      end
-    end
-    for i = 1, numberOfNewLanes + lanes - 1 do
-      if dashedLine[i] == nil then
-        dashedLine[i] = true
-      end
-    end
-    local rightBarrier = fields.rightBarrier.value
-    local leftBarrier = fields.leftBarrier.value
-    local outputAddedWidth = numberOfNewLanes * width / lanes
+    const barrierOffset = 0.06 + 0.05 * width;
+    let length = fields.length.value;
+    if (length < 0) {
+      length = fields.length.defaultValue;
+      console.error('\'length\' must be greater or equal to 0. Value reset to ' + length + '.');
+    }
+
+    let numberOfNewLanes = fields.numberOfNewLanes.value;
+    if (numberOfNewLanes < 1) {
+      numberOfNewLanes = fields.numberOfNewLanes.defaultValue;
+      console.error('\'numberOfNewLanes\' must be greater than 1. Value reset to ' + numberOfNewLanes + '.');
+    }
+    let lanes = fields.numberOfLanes.value;
+    if (lanes < 1) {
+      lanes = fields.numberOfLanes.defaultValue;
+      console.error('\'numberOfLanes\' must be greater than 1. Value reset to ' + lanes + '.');
+    }
+    const newLaneLeft   = fields.newLaneLeft.value;
+    let dashedLine    = fields.dashedLine.value;
+    let roadLines     = fields.lines.value;
+    for (let i = 0; i < Object.keys(roadLines).length; ++i) {
+      if (roadLines[i].node_name !== 'RoadLine') {
+        roadLines[i] = undefined;
+        console.error('Only \'RoadLine\' nodes should be added in the \'lines\' field.');
+      }
+    }
+
+    for (let i = 0; i < numberOfNewLanes + lanes - 1; ++i) {
+      if (dashedLine[i] === undefined)
+        dashedLine[i] = true;
+    }
+
+    const rightBarrier = fields.rightBarrier.value;
+    const leftBarrier = fields.leftBarrier.value;
+    const outputAddedWidth = numberOfNewLanes * width / lanes;
   }%
   Solid {
     translation IS translation
@@ -94,55 +96,55 @@ PROTO AddLanesRoadSegment [
       Group {
         children IS lines
       }
-      %{ for i = 0, numberOfNewLanes - 1 do }%
+      %{ for (let i = 0; i <= numberOfNewLanes - 1; ++i) { }%
         AddLaneRoadSegment {
-          %{ if newLaneLeft then }%
-            translation %{= (width / lanes) * (i / 2) }% 0 %{= i * length / numberOfNewLanes }%
-          %{ else }%
-            translation %{= -(width / lanes) * (i / 2) }% 0 %{= i * length / numberOfNewLanes }%
-          %{ end }%
-          name %{= "\"road ".. i .. "\"" }%
+          %{ if (newLaneLeft) { }%
+            translation %{= (width / lanes) * (i * 0.5) }% 0 %{= i * length / numberOfNewLanes }%
+          %{ } else { }%
+            translation %{= -(width / lanes) * (i * 0.5) }% 0 %{= i * length / numberOfNewLanes }%
+          %{ } }%
+          name %{= '"road ' + i + '"' }%
           width %{= width + i * width / lanes }%
           length %{= length / numberOfNewLanes }%
           numberOfLanes %{= lanes + i }%
           newLaneLeft IS newLaneLeft
           dashedLine [
-            %{ for j = 1, lanes + i do }%
-              %{ if newLaneLeft then }%
-                %{ if dashedLine[j] == false then }%
+            %{ for (let j = 0; j < lanes + i; ++j) { }%
+              %{ if (newLaneLeft) { }%
+                %{ if (!dashedLine[j]) { }%
                   FALSE
-                %{ else }%
+                %{ } else { }%
                   TRUE
-                %{ end }%
-              %{ else }%
-                %{ if dashedLine[(lanes + i) - j + 1] == false then }%
+                %{ } }%
+              %{ } else { }%
+                %{ if (!dashedLine[(lanes + i - 1) - j]) { }%
                   FALSE
-                %{ else }%
+                %{ } else { }%
                   TRUE
-                %{ end }%
-              %{ end }%
-            %{ end }%
+                %{ } }%
+              %{ } }%
+          %{ } }%
           ]
           lines [
-            %{ for j = 1, lanes + i do }%
-              %{ if newLaneLeft then }%
-                %{ if roadLines[j] then }%
+            %{ for (let j = 0; j < lanes + i; ++j) { }%
+              %{ if (newLaneLeft) { }%
+                %{ if (roadLines[j]) { }%
                   RoadLine {
                     color %{= roadLines[j].fields.color.value.r }% %{= roadLines[j].fields.color.value.g }% %{= roadLines[j].fields.color.value.b }%
-                    type %{= '"' .. roadLines[j].fields.type.value .. '"' }%
+                    type %{= '"' + roadLines[j].fields.type.value + '"' }%
                     width %{= roadLines[j].fields.width.value }%
                  }
-                %{ end }%
-              %{ else }%
-                %{ if roadLines[(lanes + i) - j + 1] then }%
+                %{ } }%
+              %{ } else { }%
+                %{ if (roadLines[(lanes + i) - j - 1] !== undefined) { }%
                   RoadLine {
-                    color %{= roadLines[(lanes + i) - j + 1].fields.color.value.r }% %{= roadLines[(lanes + i) - j + 1].fields.color.value.g }% %{= roadLines[(lanes + i) - j + 1].fields.color.value.b }%
-                    type %{= '"' .. roadLines[(lanes + i) - j + 1].fields.type.value .. '"' }%
-                    width %{= roadLines[(lanes + i) - j + 1].fields.width.value }%
+                    color %{= roadLines[(lanes + i) - j - 1].fields.color.value.r }% %{= roadLines[(lanes + i) - j - 1].fields.color.value.g }% %{= roadLines[(lanes + i) - j - 1].fields.color.value.b }%
+                    type %{= '"' + roadLines[(lanes + i) - j - 1].fields.type.value + '"' }%
+                    width %{= roadLines[(lanes + i) - j - 1].fields.width.value }%
                  }
-                %{ end }%
-              %{ end }%
-            %{ end }%
+                %{ } }%
+              %{ } }%
+            %{ } }%
           ]
           roadBorderHeight IS roadBorderHeight
           roadBorderWidth IS roadBorderWidth
@@ -151,12 +153,12 @@ PROTO AddLanesRoadSegment [
           rightBarrier FALSE
           leftBarrier FALSE
           bottom IS bottom
-          %{ if i == 0 then }%
+          %{ if (i === 0) { }%
             startLine IS startLine
-          %{ end }%
-          %{ if i == (numberOfNewLanes - 1) then }%
+          %{ } }%
+          %{ if (i === (numberOfNewLanes - 1)) { }%
             endLine IS endLine
-          %{ end }%
+          %{ } }%
           appearance IS appearance
           pavementAppearance IS pavementAppearance
           locked IS locked
@@ -166,41 +168,41 @@ PROTO AddLanesRoadSegment [
           contactMaterial IS contactMaterial
           castShadows IS castShadows
         }
-      %{ end }%
+      %{ } }%
       # new barrier left
-      %{ if leftBarrier then }%
+      %{ if (leftBarrier) { }%
         CrashBarrier {
           name "left barrier"
           subdivision -1
           enableBoundingObject IS leftBarrierBoundingObject
           barrierOnRightSide FALSE
           path [
-            %{ if newLaneLeft then }%
-              %{= width / 2 + outputAddedWidth + barrierOffset }% %{= 0 }% %{= length }%
-            %{ else }%
-              %{= width / 2 + barrierOffset }% %{= 0 }% %{= length }%
-            %{ end }%
-            %{= width / 2  + barrierOffset }% 0 0
+            %{ if (newLaneLeft) { }%
+              %{= width * 0.5 + outputAddedWidth + barrierOffset }% %{= 0 }% %{= length }%
+            %{ } else { }%
+              %{= width * 0.5 + barrierOffset }% %{= 0 }% %{= length }%
+            %{ } }%
+            %{= width * 0.5  + barrierOffset }% 0 0
           ]
         }
-      %{ end }%
+      %{ } }%
       # new barrier right
-      %{ if rightBarrier then }%
+      %{ if (rightBarrier) { }%
         CrashBarrier {
           name "right barrier"
           subdivision -1
           enableBoundingObject IS rightBarrierBoundingObject
           barrierOnRightSide TRUE
           path [
-            %{ if newLaneLeft == false then }%
-              %{= -width / 2 - outputAddedWidth - barrierOffset }% %{= 0 }% %{= length }%
-            %{ else }%
-              %{= -width / 2 - barrierOffset }% %{= 0 }% %{= length }%
-            %{ end }%
-            %{= -width / 2  - barrierOffset }% 0 0
+            %{ if (!newLaneLeft) { }%
+              %{= -width * 0.5 - outputAddedWidth - barrierOffset }% %{= 0 }% %{= length }%
+            %{ } else { }%
+              %{= -width * 0.5 - barrierOffset }% %{= 0 }% %{= length }%
+            %{ } }%
+            %{= -width * 0.5 - barrierOffset }% 0 0
           ]
         }
-      %{ end }%
+      %{ } }%
     ]
   }
 }
