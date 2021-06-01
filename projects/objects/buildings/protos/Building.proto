@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable building, the size, appearance and geometry can fully be defined.
+# template language: javascript
 
 PROTO Building [
   field SFVec3f     translation            0 0 0
@@ -26,76 +27,73 @@ PROTO Building [
 ]
 {
   %{
-    local wbcore = require('wbcore')
-    local wbgeometry = require('wbgeometry')
-    local wbvector2 = require('wbvector2')
+    import * as wbvector2 from 'modules/webots/wbvector2.js';
+    import * as wbgeometry from 'modules/webots/wbgeometry.js';
 
-    -- compute distance for the first floors with a shift
-    function distanceArray(corners, nbCorners, shift)
-      local distance = {}
-      distance[1] = shift
-      if nbCorners > 0 then
-        for i = 2, nbCorners do
-          distance[i] = distance[i-1] - wbvector2.norm({x=corners[i].x - corners[i-1].x, y=corners[i].y - corners[i-1].y})
-        end
-      distance[nbCorners+1] = distance[nbCorners] - wbvector2.norm({x=corners[nbCorners].x - corners[1].x, y=corners[nbCorners].y - corners[1].y})
-      end
-      return distance
-    end
+    // compute distance for the first floors with a shift
+    function distanceArray(corners, nbCorners, shift) {
+      let distance = [shift];
+      if (nbCorners > 0) {
+        for (let i = 1; i < nbCorners; ++i)
+          distance[i] = distance[i-1] - wbvector2.norm({x: corners[i].x - corners[i-1].x, y: corners[i].y - corners[i-1].y});
 
-    -- parameter checking
-    local floorHeight = fields.floorHeight.value
+        distance.push(distance[nbCorners - 1] - wbvector2.norm({x: corners[nbCorners - 1].x - corners[0].x, y:corners[nbCorners - 1].y - corners[0].y});
+      }
+      return distance;
+    }
+
+    // parameter checking
+    let floorHeight = fields.floorHeight.value;
     if floorHeight <= 0 then
       io.stderr:write("'floorHeight' must be greater than 0\n")
       floorHeight = fields.floorHeight.defaultValue
     end
 
-    local roofHeight = fields.roofHeight.value
-    if roofHeight <= 0 then
-      io.stderr:write("'roofHeight' must be greater than 0\n")
-      roofHeight = fields.roofHeight.defaultValue
-    end
+    let roofHeight = fields.roofHeight.value;
+    if (roofHeight <= 0) {
+      roofHeight = fields.roofHeight.defaultValue;
+      console.error('\'roofHeight\' must be strictly positive. Value reset to ' + roofHeight + '.');
+    }
 
-    local floorNumber = fields.floorNumber.value
-    if floorNumber <= 0 then
-      io.stderr:write("'floorNumber' must be greater than 0\n")
-      floorNumber = fields.floorNumber.defaultValue
-    end
+    let floorNumber = fields.floorNumber.value;
+    if (floorNumber <= 0) {
+      floorNumber = fields.floorNumber.defaultValue;
+      console.error('\'floorNumber\' must be strictly positive. Value reset to ' + floorNumber + '.');
+    }
 
+    let startingFloor = fields.startingFloor.value;
+    if (startingFloor < 0) {
+      startingFloor = fields.startingFloor.defaultValue;
+      console.error('\'startingFloor\' must be strictly positive. Value reset to ' + startingFloor + '.');
+    }
 
-    local startingFloor = fields.startingFloor.value
-    if startingFloor < 0 then
-      io.stderr:write("'startingFloor' must not be smaller than 0\n")
-      startingFloor = fields.startingFloor.defaultValue
-    end
+    if (startingFloor > floorNumber) {
+      startingFloor = fields.startingFloor.defaultValue;
+      console.error('\'startingFloor\' must not be greater than \'floorNumber\'. Value reset to ' + startingFloor + '.');
+    }
 
-    if startingFloor > floorNumber then
-      io.stderr:write("'startingFloor' must not be greater than 'floorNumber'\n")
-      startingFloor = fields.startingFloor.defaultValue
-    end
+    let roofShape = fields.roofShape.value;
+    if (roofShape !== 'flat roof' && roofShape !== 'pyramidal roof' && roofShape !== 'gabled roof' && roofShape !== 'hipped roof') {
+      console.error('\'roofShape\' must be \'flat roof\', \'pyramidal roof\', \'gabled roof\' or \'hipped roof\'.');
+      roofShape = fields.roofShape.defaultValue;
+    }
 
-    local roofShape = fields.roofShape.value
-    if roofShape ~= "flat roof" and roofShape ~= "pyramidal roof" and  roofShape ~= "gabled roof" and roofShape ~= "hipped roof" then
-      io.stderr:write("'roofShape' must be 'flat roof', 'pyramidal roof', 'gabled roof' or 'hipped roof' \n")
-      roofShape = fields.roofShape.defaultValue
-    end
+    let height = floorHeight * floorNumber;
 
-    local height = floorHeight * floorNumber
+    let corners = fields.corners.value;
+    let nbCorners = Object.keys(corners).length;
+    if (!wbgeometry.isPoint2ArrayClockwise(Object.values(corners)) { // TODO: MF blah blah
+      temporaryCorners = [];
+      for (let i = 0; i < nbCorners; ++i)
+        temporaryCorners.push(corners[nbCorners - i]); // TODO: removed stuff
 
-    local corners = fields.corners.value
-    local nbCorners = wbcore.tablelength(corners)
-    if wbgeometry.islistclockwise2D(corners) == false then
-      temporaryCorners = {}
-      for i = 1, nbCorners do
-        temporaryCorners[i] = corners[nbCorners + 1 - i]
-      end
-      corners = temporaryCorners
-    end
+      corners = temporaryCorners;
+    }
 
-    if roofShape == "gabled roof" and nbCorners ~= 4 then
-      io.stderr:write("'gabled roof' must have 4 corners\n")
-      roofShape = fields.roofShape.defaultValue
-    end
+    if (roofShape === 'gabled roof' && nbCorners !== 4) {
+      roofShape = fields.roofShape.defaultValue;
+      console.error('\'gabled roof\' must have 4 corners. Shape reset to ' + roofShape + '.');
+    }
 
     if roofShape == "hipped roof" and nbCorners ~= 4 then
       io.stderr:write("'hipped roof' must have 4 corners\n")
