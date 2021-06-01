@@ -14,6 +14,7 @@ PROTO Mir100 [
   field  SFString    customData       ""                  # Is `Robot.customData`.
   field  SFBool      supervisor       FALSE               # Is `Robot.supervisor`.
   field  SFBool      synchronization  TRUE                # Is `Robot.synchronization`.
+  field  SFColor     color            0 0.9 1             # Middle section color of the robot.
   field  MFNode      frontLidarSlot   []                  # Extends the robot with a lidar sensor at the front.
   field  MFNode      backLidarSlot    []                  # Extends the robot with a lidar sensor at the back.
   field  MFNode      bodySlot         []                  # Extends the robot with new nodes located in the body.
@@ -190,43 +191,43 @@ PROTO Mir100 [
         translation 0.03733 0.0005 0.2085
         children [
           DEF LIGHT_FRONT Transform {
-            translation 0.39 0 0
+            translation 0.392 0 0
             children [
               DEF LIGHT_WIDTH_SHAPE Shape {
                 appearance PBRAppearance {
-                  baseColor 0 0.9 1
-                  emissiveColor 0 0.9 1
+                  baseColor 1 1 1
+                  emissiveColor IS color
                   transparency 0.5
                 }
                 geometry Box {
-                  size 0.01 0.47 0.053
+                  size 0.001 0.4723 0.053
                 }
               }
             ]
           }
           DEF LIGHT_BACK Transform {
-            translation -0.39 0 0
+            translation -0.392 0 0
             children [
               USE LIGHT_WIDTH_SHAPE
             ]
           }
           DEF LIGHT_LEFT Transform {
-            translation 0 0.23 0
+            translation 0 0.2355 0
             children [
               DEF LIGHT_WIDTH_SHAPE Shape {
                 appearance PBRAppearance {
-                  baseColor 0 0.9 1
-                  emissiveColor 0 0.9 1
+                  baseColor 1 1 1
+                  emissiveColor IS color
                   transparency 0.5
                 }
                 geometry Box {
-                  size 0.785 0.01 0.053
+                  size 0.783 0.001 0.053
                 }
               }
             ]
           }
           DEF LIGHT_RIGHT Transform {
-            translation 0 -0.23 0
+            translation 0 -0.2355 0
             children [
               USE LIGHT_WIDTH_SHAPE
             ]
