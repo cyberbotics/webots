@@ -24,10 +24,8 @@ import sys
 
 PROC = 0
 FUNC = 1
-FOLDER = '../../../lib/controller/matlab/'
+FOLDER = os.environ['WEBOTS_HOME'] + '/lib/controller/matlab/'
 GITIGNORE = FOLDER + ".gitignore"
-GITIGNOREFILE = None
-UPDATE = False
 
 
 def gen_with_doc(type, line, doc_url=None):
@@ -67,14 +65,15 @@ def gen_consts_from_list(list):
         gen_const(items[i].strip(), i)
 
 
-if __name__ == '__main__':
-    args = sys.argv[1:]
+def main(args=None):
+    global UPDATE
     if args:
         UPDATE = (args[0] == "-update")
 
     if UPDATE:
         if os.path.exists(GITIGNORE):
             os.remove(GITIGNORE)
+        global GITIGNOREFILE
         GITIGNOREFILE = open(GITIGNORE, 'w')
 
     # accelerometer.h
@@ -434,7 +433,8 @@ if __name__ == '__main__':
     gen(PROC, "wb_supervisor_export_image(filename, quality)", "supervisor")
     gen(FUNC, "wb_supervisor_animation_start_recording(filename)", "supervisor")
     gen(FUNC, "wb_supervisor_animation_stop_recording()", "supervisor")
-    gen(PROC, "wb_supervisor_movie_start_recording(filename, width, height, codec, quality, acceleration, caption)", "supervisor")
+    gen(PROC, "wb_supervisor_movie_start_recording(filename, width, height, codec, quality, acceleration, caption)",
+        "supervisor")
     # gen(PROC, "wb_supervisor_start_movie(filename, width, height, codec, quality, acceleration, caption)");  # DEPRECATED
     gen(PROC, "wb_supervisor_movie_stop_recording()", "supervisor")
     gen(FUNC, "wb_supervisor_movie_is_ready()", "supervisor")
@@ -684,3 +684,7 @@ if __name__ == '__main__':
         'WB_TOUCH_SENSOR_BUMPER, WB_TOUCH_SENSOR_FORCE, WB_TOUCH_SENSOR_FORCE3D')
     if UPDATE:
         GITIGNOREFILE.close()
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])

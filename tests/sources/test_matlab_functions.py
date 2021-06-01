@@ -17,12 +17,17 @@
 """Test that all the required Matlab functions are defined."""
 import unittest
 import os
+import sys
+sys.path.append("/home/benjamin/webots/src/controller/matlab/")
+import mgenerate  # noqa: E402
 
 
 class TestMatlabFunctions(unittest.TestCase):
     """Unit test for checking that all the required Matlab functions are defined."""
 
     def setUp(self):
+        mgenerate.UPDATE = False
+        mgenerate.main()
         """Get all the required function."""
         skippedLines = [
             'wbr',
