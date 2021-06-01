@@ -45,13 +45,13 @@ PROTO Extrusion [
       for (let i = nbScale; i < nbSpinePoints; ++i)
         scale[i] = scale[i - 1];
     }
-    nbScale = Object.keys(scale).length;
-
+    nbScale = Object.keys(scale).length; // TODO: JUST LENGTH IF MODIFIED MF TO ARRAY
     const splineSubdivision = fields.splineSubdivision.value;
     // use B-Spline interpolation if splineSubdivision is greater than 1
-    if (splineSubdivision > 0)
-      spine = wbgeometry.bSpline3(Object.values(spine), splineSubdivision); // TODO.. MF => PURE ARRAY NOT OBJ ARRAY
-    nbSpinePoints = Object.keys(spine).length;
+    if (splineSubdivision > 0) {
+      spine = wbgeometry.bSpline3(Object.values(spine), splineSubdivision); // TODO: MF => PURE ARRAY NOT OBJ ARRAY
+      nbSpinePoints = spine.length;
+    }
 
     // recompute scale array after subdivision (if any)
     if (splineSubdivision > 1) {
@@ -60,9 +60,10 @@ PROTO Extrusion [
         scaleOriginal[i] = scale[i];
       scaleOriginal.push(scaleOriginal[nbScale-1]);
 
+      scale = []; // TODO: CAN BE REMOVED IF MF CHANGED TO ARRAY
       for (let j = 0; j < nbSpinePoints; ++j) {
         let ratio = (j % splineSubdivision) / splineSubdivision;
-        let index = Math.floor(j / splineSubdivision + 1);
+        let index = Math.floor(j / splineSubdivision);
         scale[j] = {x: scaleOriginal[index].x * (1 - ratio) + scaleOriginal[index+1].x * ratio,
                     y: scaleOriginal[index].y * (1 - ratio) + scaleOriginal[index+1].y * ratio};
       }
@@ -79,14 +80,13 @@ PROTO Extrusion [
 
       for (let j = 0; j < nbOrientation * splineSubdivision; ++j) {
         let ratio = (j % splineSubdivision) / splineSubdivision;
-        let index = Math.floor(j / splineSubdivision + 1);
+        let index = Math.floor(j / splineSubdivision);
         orientation[j] = {x: orientationOriginal[index].x * (1 - ratio) + orientationOriginal[index+1].x * ratio,
                           y: orientationOriginal[index].y * (1 - ratio) + orientationOriginal[index+1].y * ratio,
                           z: orientationOriginal[index].z * (1 - ratio) + orientationOriginal[index+1].z * ratio,
                           a: orientationOriginal[index].a * (1 - ratio) + orientationOriginal[index+1].a * ratio};
       }
     }
-
     // compute the X, Y and Z axes at each spine point (Y = tangent)
     let X = [];
     let Y = [];
@@ -179,7 +179,6 @@ PROTO Extrusion [
     let crossSectionDistance = [0];
     for (let i = 1; i < nbCrossSectionPoint; ++i)
       crossSectionDistance.push(crossSectionDistance[i-1] + wbvector2.distance(crossSection[i-1], crossSection[i]));
-
   }%
   IndexedFaceSet {
     coord Coordinate {
@@ -188,7 +187,7 @@ PROTO Extrusion [
           %{ for (let j = 0; j < nbCrossSectionPoint; ++j) { }%
             %{
               let point = wbvector3.add(wbvector3.multiply(X[i], crossSection[j].x * scale[i].x), (wbvector3.multiply(Z[i], -crossSection[j].y * scale[i].y)));
-              if (i < nbOrientation) // TODO: ERROR LIKELY HERE
+              if (orientation[i] !== undefined)
                 point = wbrotation.rotateVector3ByRotation(orientation[i], point);
 
               let x = point.x;
