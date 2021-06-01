@@ -13,7 +13,7 @@ PROTO CapScrew [
   field SFString   contactMaterial       "default"    # Is `Solid.contactMaterial`.
   field SFBool     enablePhysics         TRUE         # Defines whether the screw should have physics.
   field SFBool     enableBoundingObject  TRUE         # Defines whether the screw should have a bounding object.
-  field MFColor    recognitionColors []            # any color.
+  field MFColor    recognitionColors     []           # Is Solid.recognitionColors .
 ]
 {
   %{

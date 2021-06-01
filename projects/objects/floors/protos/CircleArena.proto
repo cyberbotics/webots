@@ -22,7 +22,7 @@ PROTO CircleArena [
   # Deprecated in R2019-rev2
   hiddenField SFVec2f    wallTileSize 0.5 0.5
 
-  field MFColor    recognitionColors []            # any color.
+  field MFColor    recognitionColors []                            # Is Solid.recognitionColors .
 ]
 {
   %{

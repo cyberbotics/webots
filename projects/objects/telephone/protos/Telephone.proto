@@ -6,7 +6,7 @@
 PROTO Telephone [
   field SFVec3f translation 0 0 0
   field SFRotation rotation 0 1 0 0
-  field MFColor    recognitionColors []            # any color.
+  field MFColor    recognitionColors []                # Is Solid.recognitionColors .
 ]
 {
   Solid {

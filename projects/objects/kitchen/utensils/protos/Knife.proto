@@ -8,7 +8,7 @@ PROTO Knife [
   field SFRotation rotation    0 1 0 0
   field SFString   name        "knife"
   field SFColor    color       0.75 0.75 0.75  # Defines the color of the knife.
-  field MFColor    recognitionColors []            # any color.
+  field MFColor    recognitionColors []        # Is Solid.recognitionColors .
 ]
 {
 Solid {

@@ -78,6 +78,9 @@ class proto2mesh:
         # The new proto file, with meshes extracted
         self.lineNumber = 0  # current line in the source proto file. For debug purposes.
         lines = []
+        # Standard spacings that are used if the proto header is empty or has no comments.
+        # The indices are ["field", fieldType, fieldName, Data, '#']
+        headerColumnIndices = [2, 8, 19, 34, 55]
         headerIsEdited = False
         checkedBaseNode = False
         while True:
@@ -101,16 +104,35 @@ class proto2mesh:
                         self.pf.write(''.join(lines[:-10]))
                         self.pf.close()
                     return 'success'
-            if not headerIsEdited:
-                if line == ']\n':
-                    headerIsEdited = True
-                    lines.append(headerInsert)
+
             # check if we have the correct Basenode Type
-            if not checkedBaseNode:
-                if len(ln) == 2 and ln[1] == '{':
-                    checkedBaseNode = True
-                    if not ln[0] in baseNodeTypes:
-                        raise ValueError('Error: Wrong BaseNode Type. {} is not in {}'.format(ln[0], baseNodeTypes))
+            if headerIsEdited:
+                if not checkedBaseNode:
+                    if len(ln) == 2 and ln[1] == '{':
+                        checkedBaseNode = True
+                        if not ln[0] in baseNodeTypes:
+                            raise ValueError('Error: Wrong BaseNode Type. {} is not in {}'.format(ln[0], baseNodeTypes))
+            if not headerIsEdited:
+                # Detect the spacings of arguments in the header
+                if 'field' in ln:
+                    for i in range(min(len(ln), 4)):
+                        headerColumnIndices[i] = line.index(ln[i])
+                    if '#' in ln:
+                        headerColumnIndices[4] = line.index('#')
+                if line == ']\n':
+                    # Insert our insertString at the end of the PROTO header, using the spacings extracted above
+                    headerIsEdited = True
+                    insertSplit = headerInsert.split()
+                    insertCommentIndex = insertSplit.index('#')
+                    insertString = ''
+                    insertString += ' ' * headerColumnIndices[0] + insertSplit[0]
+                    insertString += ' ' * (headerColumnIndices[1] - len(insertString)) + insertSplit[1]
+                    insertString += ' ' * (headerColumnIndices[2] - len(insertString)) + insertSplit[2]
+                    insertString += ' ' * max(1, (headerColumnIndices[3] - len(insertString))) + insertSplit[3]
+                    insertString += ' ' + ' '.join(insertSplit[4:insertCommentIndex])
+                    insertString += ' ' * (headerColumnIndices[4] - len(insertString)
+                                           ) + ' '.join(insertSplit[insertCommentIndex:])
+                    lines.append(insertString + '\n')
 
             # Write the whole line from input to output file, without changes
             if any(item in ln for item in abortKeywords):
@@ -196,7 +218,7 @@ class proto2mesh:
         while os.path.isdir(newDirPath):
             n += 1
             newDirPath = newDirPath[:-1] + str(n)
-        shutil.copytree(sourcePath, newDirPath)
+        shutil.copytree(sourcePath, newDirPath, ignore=shutil.ignore_patterns('*.png', '*.jpg', '*.xcf'))
         return newDirPath
 
 
@@ -234,10 +256,10 @@ if __name__ == '__main__':
     multithreaded = args.multithreaded
     tStart = time.time()
     p2m = proto2mesh()
-    headerInsert = "  field MFColor    recognitionColors []            # any color.\n"
+    headerInsert = "  field MFColor    recognitionColors []            # Is Solid.recognitionColors .\n"
     baseNodeInsert = "    recognitionColors IS recognitionColors\n"
-    baseNodeTypes = ['Solid']
-    abortKeywords = ['recognitionColors', 'hidden']
+    baseNodeTypes = ['Solid', 'Robot']
+    abortKeywords = ['recognitionColors']
     if multithreaded:
         pool = multiprocessing.Pool(initializer=mutliprocess_initializer, maxtasksperchild=10)
     else:

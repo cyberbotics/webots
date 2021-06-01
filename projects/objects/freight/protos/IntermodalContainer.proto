@@ -8,7 +8,7 @@ PROTO IntermodalContainer [
   field SFRotation rotation     0 1 0 0      # Is `Transform.rotation`.
   field SFString   name         "container"  # Is `Solid.name`.
   field SFColor    color        0.9 0.1 0.1  # Defines the color.
-  field MFColor    recognitionColors []            # any color.
+  field MFColor    recognitionColors []      # Is Solid.recognitionColors .
 ]
 {
   Solid {
