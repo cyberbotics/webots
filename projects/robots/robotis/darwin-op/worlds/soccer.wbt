@@ -13,11 +13,11 @@ Viewpoint {
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
-  texture "stadium_dry"
+  texture "noon_cloudy_countryside"
   luminosity 1.5
 }
 TexturedBackgroundLight {
-  texture "stadium_dry"
+  texture "noon_cloudy_countryside"
   luminosity 0.5
 }
 DEF BALL Ball {
