@@ -57,6 +57,8 @@ def gen_const(name, value):
     with open(FOLDER + name + '.m', 'w', newline='\n') as file:
         file.write('function value = %s\n' % name)
         file.write('value = %s;\n' % value)
+        if UPDATE:
+            GITIGNOREFILE.write(name + '.m\n')
 
 
 def gen_consts_from_list(list):
@@ -69,7 +71,8 @@ def main(args=None):
     global UPDATE
     if args:
         UPDATE = (args[0] == "-update")
-
+    else:
+        UPDATE = False
     if UPDATE:
         if os.path.exists(GITIGNORE):
             os.remove(GITIGNORE)
