@@ -335,7 +335,7 @@ WbSimulationState::Mode WbSupervisorUtilities::convertSimulationMode(int supervi
 }
 
 void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
-  int n = mFieldSetRequests.size();
+  const int n = mFieldSetRequests.size();
   if (n == 0)
     return;
   WbTemplateManager::instance()->blockRegeneration(true);
@@ -452,16 +452,17 @@ void WbSupervisorUtilities::notifyFieldUpdate() {
 }
 
 WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(WbNode *const node) const {
-  if (node && node->isProtoParameterNode()) {
+  WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
+  while (baseNode && !baseNode->isPostFinalizedCalled() && baseNode->isProtoParameterNode()) {
     // if node is a proto parameter node we need to find the corresponding proto parameter node instance
-    for (int i = 0; i < node->protoParameterNodeInstances().size(); ++i) {
-      WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(node->protoParameterNodeInstances()[i]);
-      if (baseNode->isPostFinalizedCalled())  // if there is more than one proto parameter node instance the valid one is the
-                                              // one finalized
-        return baseNode;
-    }
+    // if the parameter is used multiple times, the first occurrence is returned
+    const QVector<WbNode *> instances = baseNode->protoParameterNodeInstances();
+    assert(!instances.isEmpty());
+    if (instances.isEmpty())
+      return NULL;
+    baseNode = static_cast<WbBaseNode *>(instances[0]);
   }
-  return node;
+  return baseNode;
 }
 
 void WbSupervisorUtilities::changeSimulationMode(int newMode) {
@@ -869,14 +870,18 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
 
       WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
-      if (solidNode)
+      if (solidNode) {
         solidNode->resetPhysics(false);
+        solidNode->pausePhysics(true);
+      }
       QList<WbNode *> descendants = node->subNodes(true);
       for (int i = 0; i < descendants.size(); i++) {
         WbNode *child = descendants.at(i);
         WbSolid *solidChild = dynamic_cast<WbSolid *>(child);
-        if (solidChild)
+        if (solidChild) {
           solidChild->resetPhysics(false);
+          solidChild->pausePhysics(true);
+        }
       }
       return;
     }
@@ -942,9 +947,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         WbVector3 force(fx, fy, fz);
         if (relative == 1)
           force = solid->matrix().extracted3x3Matrix() * force;
-        dBodyID body = solid->bodyMerger();
-        WbVector3 position = solid->computedGlobalCenterOfMass() - solid->solidMerger()->solid()->computedGlobalCenterOfMass();
+        const dBodyID body = solid->bodyMerger();
         if (body) {
+          const WbVector3 position =
+            solid->computedGlobalCenterOfMass() - solid->solidMerger()->solid()->computedGlobalCenterOfMass();
           dBodyAddForceAtRelPos(body, force.x(), force.y(), force.z(), position.x(), position.y(), position.z());
           dBodyEnable(body);
         } else
@@ -970,16 +976,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = getProtoParameterNodeInstance(WbNode::findNode(id));
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (solid) {
-        const WbMatrix4 &solidMatrix = solid->matrix();
-
-        const WbVector3 offset = solidMatrix * WbVector3(ox, oy, oz);
-
-        WbVector3 force(fx, fy, fz);
-        if (relative == 1)
-          force = solidMatrix.extracted3x3Matrix() * force;
-
-        dBodyID body = solid->bodyMerger();
+        const dBodyID body = solid->bodyMerger();
         if (body) {
+          const WbMatrix4 &solidMatrix = solid->matrix();
+          const WbVector3 offset = solidMatrix * WbVector3(ox, oy, oz);
+          WbVector3 force(fx, fy, fz);
+          if (relative == 1)
+            force = solidMatrix.extracted3x3Matrix() * force;
           dBodyEnable(body);
           dBodyAddForceAtPos(body, force.x(), force.y(), force.z(), offset.x(), offset.y(), offset.z());
         } else
@@ -1005,7 +1008,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         WbVector3 torque(tx, ty, tz);
         if (relative == 1)
           torque = solid->matrix().extracted3x3Matrix() * torque;
-        dBodyID body = solid->bodyMerger();
+        const dBodyID body = solid->bodyMerger();
         if (body) {
           dBodyEnable(body);
           dBodyAddTorque(body, torque.x(), torque.y(), torque.z());
@@ -1876,7 +1879,7 @@ QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay 
   int r, g, b;
   labelOverlay->position(x, y);
   labelOverlay->color(r, g, b, alpha);
-  return QString("label:%1;%2;rgba(%3,%4,%5,%6);%7;%8;%9;%10")
+  return QString("\"id\":%1,\"font\":\"%2\",\"rgba\":\"%3,%4,%5,%6\",\"size\":%7,\"x\":%8,\"y\":%9,\"text\":\"%10\"")
     .arg(labelOverlay->id())
     .arg(labelOverlay->font())
     .arg(r)

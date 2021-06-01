@@ -305,7 +305,7 @@ They can join the discussion, like it, suggest new ideas
 ##### Moha 01/19/2021 10:52:14
 ok thank you 👍
 
-##### pk1jk1 01/20/2021 05:59:29
+##### mayank.kishore 01/20/2021 05:59:29
 What is the best way to locally edit a webots package?
 
 ##### Darko Lukić [ROS 2 Meeting-Cyberbotics] 01/20/2021 07:30:40
@@ -334,7 +334,7 @@ yeah, i'm excited for the new changes there. I'm gonna wait then until I dive ba
 ##### fowzan 01/21/2021 18:08:36
 I would love to simulate spot mini on my terminal , could you share links if available
 
-##### pk1jk1 01/22/2021 16:58:40
+##### mayank.kishore 01/22/2021 16:58:40
 Having trouble editing a package locally, please message me if you can help
 
 
@@ -361,7 +361,7 @@ seems to work
 ##### Krish 01/25/2021 15:33:10
 oh wow, already created.
 
-##### pk1jk1 01/25/2021 15:55:58
+##### mayank.kishore 01/25/2021 15:55:58
 Does anyone have experience creating an overhead map with a camera? And potentially stitching multiple images together to create an encompassing overhead map?
 
 ##### babaev1 01/25/2021 16:04:06
@@ -1627,4 +1627,72 @@ Is it possible to add a speaker device to an existing robot template (in my case
 
 ##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/09/2021 20:49:33
 Yes, you should be able to insert it in one of the extension slots of the TIAGo proto.
+
+##### Westin 04/14/2021 16:39:28
+I found a typo.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/831931677990191204/unknown.png)
+%end
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/14/2021 19:51:46
+<@&568329906048598039> [https://github.com/cyberbotics/webots/blob/develop/src/webots/nodes/WbLidar.cpp#L728](https://github.com/cyberbotics/webots/blob/develop/src/webots/nodes/WbLidar.cpp#L728) found it. it's supposed to be 'using' right?
+
+
+it comes up several times. Doing a search in VC for webots, brings up more instances. Mostly in translation files.
+
+##### Stefania Pedrazzi [Cyberbotics] 04/15/2021 06:09:49
+Thank you! We will fix it immediately.
+
+##### aja\_discord 04/15/2021 08:17:34
+Hi Guys checkout my first own project on webots where I have made a self balancing robot which learns to balance itself using a genetic algorithm.Let me know your ideas. Thanks..LINK - [https://www.youtube.com/watch?v=l9BZQ9E5y6A](https://www.youtube.com/watch?v=l9BZQ9E5y6A)
+
+##### Troy 04/20/2021 00:48:34
+Hi sorry to bother again, we can use camera to recognize object, can we directly  get distance feedback between the camera and the object?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/20/2021 05:34:27
+Yes, by adding a DistanceSensor node.
+
+##### Troy 04/20/2021 21:18:50
+Yeah, but what if the distance sensor is not pointing directly to the object?
+
+
+for example, the camera on the robot recognizes an object on top right of the image, but the distance sensor is pointing in the middle, how can I get the distance feedback of the object?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/21/2021 06:14:42
+Then, you should use a Lidar with the same position, orientation, field of view, resolution, etc. as the camera.
+
+##### B0Bhead 04/22/2021 12:48:39
+`@Olivier Michel` Thank you for linking that Master Thesis paper. I am also currently working on my Bachelor Thesis, doing research on SLAM. Is there a way to get in contact with you guys? Can I DM you on Discord?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/22/2021 12:56:28
+For technical support, you should ask on the different Discord channel. For personal messages, yes, feel free to contact me in DM.
+
+##### Simon Steinmann [ROS 2 Meeting-Moderator] 04/22/2021 22:06:53
+does anyone here have experience compiling webots for profiling? make has the `profile` and `debug` options. This page says i have to compile in debug [https://github.com/cyberbotics/webots/wiki/Valgrind](https://github.com/cyberbotics/webots/wiki/Valgrind). I remember not being able to successfuly use valgrind in the past. But I think the profile option did not exists back then. Any ideas how to proceed?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/23/2021 06:23:58
+Simply type "make profile" in the `WEBOTS_HOME/src/webots` folder. Then, you should be able to use gprof to analyse the result of a run. See [https://sourceware.org/binutils/docs/gprof/](https://sourceware.org/binutils/docs/gprof/)
+
+##### Bitbots\_Jasper [Moderator] 04/23/2021 13:56:53
+The current way of modeling noise for gyros and accelerometers using a lookup table. The noise is given as a percentage of the response value (see [https://cyberbotics.com/doc/reference/distancesensor#lookup-table](https://cyberbotics.com/doc/reference/distancesensor#lookup-table)). In my opinion this does not make much sense as a model of noise for these sensors (opposed to distance sensors for which it does) since it causes that there is very little noise around zero. 
+
+In gazebo using a gaussian around the signal with a fixed standard deviation and an optional bias. 
+
+Is there a way to model the noise in this way in webots as well?
+
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 04/23/2021 14:45:29
+Well, if you increase the noise when getting close to the 0 zero value in the lookup table, you will have somehow a constant noise level. But I agree, this is not ideal. If you have any idea to improve this, feel free to open an issue.
+
+##### Ragemor 04/27/2021 22:33:47
+ı have different colored objects in my simulation. and i want to move my robots to different colored objects. how can i perform that? basicly a leader follower concept with camera recognition. I try to use objects[].colors[] but i cant made what i want. my english is not pretty good. anyone can help me about that?
+
+
+this is my simulation. reds first and greens behind them. this is working for a while but if green object robots see another colored robot it stopped moving.
+%figure
+![webbb.jpg](https://cdn.discordapp.com/attachments/565155651395780609/836732246350233631/webbb.jpg)
+%end
+
+
+
+> **Attachment**: [code\_greens.txt](https://cdn.discordapp.com/attachments/565155651395780609/836732424238792774/code_greens.txt)
 

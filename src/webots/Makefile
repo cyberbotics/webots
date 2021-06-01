@@ -132,7 +132,7 @@ ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE) -lpthread
 else
-LIBS += -lode
+LIBS += -lode -lpthread
 endif
 
 else ifeq ($(OSTYPE),windows)
@@ -242,6 +242,7 @@ QT_SOURCES += \
   WbBallJointParameters.cpp \
   WbBaseNode.cpp \
   WbBasicJoint.cpp \
+  WbBillboard.cpp \
   WbBoolEditor.cpp \
   WbBox.cpp \
   WbBrake.cpp \
@@ -268,7 +269,6 @@ QT_SOURCES += \
   WbDisplay.cpp \
   WbDockTitleBar.cpp \
   WbDockWidget.cpp \
-  WbDocumentation.cpp \
   WbDoubleEditor.cpp \
   WbDoubleSpinBox.cpp \
   WbDownloader.cpp \
@@ -299,7 +299,6 @@ QT_SOURCES += \
   WbHingeJoint.cpp \
   WbHingeJointParameters.cpp \
   WbHinge2Joint.cpp \
-  WbHtmlExportDialog.cpp \
   WbImageTexture.cpp \
   WbImportWizard.cpp \
   WbImmersionProperties.cpp \
