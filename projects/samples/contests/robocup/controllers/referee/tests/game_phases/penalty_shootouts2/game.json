@@ -1,16 +1,14 @@
 {
-  "type": "NORMAL",
-  "kickoff": "red",
+  "type": "PENALTY",
   "class": "KID",
-  "host": "127.0.0.1",
+  "host": "192.168.1.133",
   "minimum_real_time_factor": 0,
   "side_left": "blue",
-  "press_a_key_to_terminate": true,
-  "game_controller_synchronization": true,
-  "use_bouncing_server": true,
+  "kickoff": "blue",
+  "supervisor": "test_supervisor",
   "red": {
-    "id": 8,
-    "config": "team_1.json",
+    "id": 1,
+    "config": "tests/game_phases/penalty_shootouts/team_1.json",
     "hosts": [
       "127.0.0.1",
       "192.168.123.21",
@@ -26,8 +24,8 @@
     ]
   },
   "blue": {
-    "id": 25,
-    "config": "team_2.json",
+    "id": 4,
+    "config": "tests/game_phases/penalty_shootouts/team_2.json",
     "hosts": [
       "127.0.0.1",
       "192.168.123.41",

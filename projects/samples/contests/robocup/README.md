@@ -153,3 +153,9 @@ In order to facilitate Continuous Integration (CI) tests, a number of options ar
 - "supervisor" is used to define an optional extra supervisor controller process that will run in parallel with the referee.
 This extra supervisor controller will be spawned by the referee at the beginning of the game.
 The following new node with be added to the scene after the referee robot: `Robot { supervisor TRUE controller "MyTestSupervisor" }`.
+
+## Model verifier
+
+A semi-automated tool allowing to check if a robot respects the rules is available in
+the `controllers/model_verifier` directory.
+The available scripts are documented in a dedicated [README](controllers/model_verifier/README.md).

@@ -15,6 +15,7 @@
 from gamestate import GameState
 from field import Field
 from forceful_contact_matrix import ForcefulContactMatrix
+from udp_bouncer import start_bouncing_server
 
 from controller import Supervisor, AnsiCodes, Node
 
@@ -84,7 +85,7 @@ GAME_INTERRUPTIONS = {
 LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
-global supervisor, game, red_team, blue_team, log_file, time_count, time_step, game_controller_host
+global supervisor, game, red_team, blue_team, log_file, time_count, time_step, game_controller_udp_filter
 
 
 def log(message, type):
@@ -98,6 +99,7 @@ def log(message, type):
     if log_file:
         real_time = int(1000 * (time.time() - log.real_time)) / 1000
         log_file.write(f'[{real_time:08.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
+        log_file.flush()
 
 
 log.real_time = time.time()
@@ -277,27 +279,21 @@ def game_controller_receive():
     data = None
     ip = None
     while True:
-        if ip and ip not in game_controller_receive.others:
+        if game_controller_udp_filter and ip and ip not in game_controller_receive.others:
             game_controller_receive.others.append(ip)
-            warning(f'Ignoring UDP packet coming from a different host {ip} != {game_controller_host}.')
+            warning(f'Ignoring UDP packets from {ip} not matching GAME_CONTROLLER_UDP_FILTER={game_controller_udp_filter}.')
         try:
             data, peer = game.udp.recvfrom(GameState.sizeof())
             ip, port = peer
-            if game_controller_host == ip:
-                break
-            else:
-                break
-        except BlockingIOError:
-            if data is None:
-                return
-            if game_controller_host == ip:
+            if game_controller_udp_filter is None or game_controller_udp_filter == ip:
                 break
             else:
                 continue
+        except BlockingIOError:
+            return
         except Exception as e:
             error(f'UDP input failure: {e}')
-            data = None
-            pass
+            return
         if not data:
             error('No UDP data received')
             return
@@ -986,9 +982,9 @@ def update_team_penalized(team):
             t = copy.deepcopy(player['reentryStartingPose']['translation'])
             t[0] = 50
             t[1] = (10 + int(number)) * (1 if color == 'red' else -1)
+            robot.loadState('__init__')
             robot.getField('translation').setSFVec3f(t)
             robot.getField('rotation').setSFRotation(player['reentryStartingPose']['rotation'])
-            robot.resetPhysics()
             customData = player['robot'].getField('customData')
             customData.setSFString('red_card')  # disable all devices of the robot
             # FIXME: unfortunately, player['robot'].remove() crashes webots
@@ -1502,9 +1498,9 @@ def send_team_penalties(team):
                 t[0] -= 4 * game.field.penalty_offset
             elif t[0] < -game.field.size_x:
                 t[0] += 4 * game.field.penalty_offset
+            robot.loadState('__init__')
             robot.getField('translation').setSFVec3f(t)
             robot.getField('rotation').setSFRotation(r)
-            robot.resetPhysics()
             player['sent_to_penalty_position'] = True
             player['penalty_stabilize'] = time_count + 1000  # stabilize for one virtual second
             player['penalty_translation'] = t
@@ -1561,7 +1557,7 @@ def reset_player(color, number, pose):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
     robot = player['robot']
-    robot.resetPhysics()
+    robot.loadState('__init__')
     translation = robot.getField('translation')
     rotation = robot.getField('rotation')
     t = player[pose]['translation']
@@ -1613,7 +1609,7 @@ def penalty_kicker_player():
 
 def set_penalty_positions():
     default = game.penalty_shootout_count % 2 == 0
-    attacking_color = 'red' if game.kickoff == game.red.id and default else 'blue'
+    attacking_color = 'red' if (game.kickoff == game.blue.id) ^ default else 'blue'
     if attacking_color == 'red':
         defending_color = 'blue'
         attacking_team = red_team
@@ -1632,7 +1628,7 @@ def set_penalty_positions():
             reset_player(defending_color, number, 'goalKeeperStartingPose')
         else:
             reset_player(defending_color, number, 'halfTimeStartingPose')
-    x = game.field.penalty_mark_x if game.side_left == game.kickoff and default else -game.field.penalty_mark_x
+    x = -game.field.penalty_mark_x if (game.side_left == game.kickoff) ^ default else game.field.penalty_mark_x
     game.ball.resetPhysics()
     reset_ball_touched()
     game.in_play = None
@@ -1684,8 +1680,9 @@ def stop_penalty_shootout():
 
 def next_penalty_shootout():
     game.penalty_shootout_count += 1
-    if not game.penalty_shootout_goal and not game.state.state[:6] == "FINISH":
+    if not game.penalty_shootout_goal and not game.state.game_state[:6] == "FINISH":
         game_controller_send('STATE:FINISH')
+        game.penalty_shootout_goal
     if stop_penalty_shootout():
         game.over = True
         return
@@ -1863,7 +1860,7 @@ host = socket.gethostbyname(socket.gethostname())
 if host != '127.0.0.1' and host != game.host:
     warning(f'Host is not correctly defined in game.json file, it should be {host} instead of {game.host}.')
 
-game_controller_host = os.environ['GAME_CONTROLLER_HOST'] if 'GAME_CONTROLLER_HOST' in os.environ else host
+game_controller_udp_filter = os.environ['GAME_CONTROLLER_UDP_FILTER'] if 'GAME_CONTROLLER_UDP_FILTER' in os.environ else None
 
 try:
     JAVA_HOME = os.environ['JAVA_HOME']
@@ -1883,6 +1880,10 @@ try:
                 command_line.append('--fast')
             command_line.append('--config')
             command_line.append(game_config_file)
+            if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
+                command_line.append('-b')
+                command_line.append(game.host)
+                start_bouncing_server(game_config_file)
             game.controller_process = subprocess.Popen(command_line, cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
     except KeyError:
         GAME_CONTROLLER_HOME = None
@@ -1941,10 +1942,18 @@ if game.controller_process:
                 game.controller = None
                 break
     info('Connected to GameControllerSimulator at localhost:8750.')
-    game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    game.udp.bind(('0.0.0.0', 3838))
-    game.udp.setblocking(False)
+    try:
+        game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
+            # In case we are using the bouncing server we have to select which interface is used because messages are not
+            # broadcast
+            game.udp.bind((game.host, 3838))
+        else:
+            game.udp.bind(('0.0.0.0', 3838))
+        game.udp.setblocking(False)
+    except Exception:
+        error("Failed to set up UDP socket to listen to GC messages")
 else:
     game.controller = None
 
@@ -1993,6 +2002,7 @@ game.wait_for_sec_state = None
 game.wait_for_sec_phase = None
 game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
                                                      FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
+game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
 
 previous_seconds_remaining = 0
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
@@ -2002,12 +2012,10 @@ if game.penalty_shootout:
     info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will start the penalty shoot-out.')
     game.phase = 'PENALTY-SHOOTOUT'
     game.ready_real_time = None
-    game.set_countdown = 1  # immediately reach the SET state
-    # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
-    # meanwhile, assuming kickoff for red team
+    game.set_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (initial kick-off)
+    game_controller_send(f'KICKOFF:{game.kickoff}')
 else:
     game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (initial kick-off)
-    game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
     kickoff()
     game_controller_send(f'KICKOFF:{game.kickoff}')
 
@@ -2310,11 +2318,9 @@ while supervisor.step(time_step) != -1 and not game.over:
 
     elif game.state.game_state == 'STATE_INITIAL':
         if game.penalty_shootout:
-            if game.set_countdown > 0:
-                game.set_countdown -= 1
-                if game.set_countdown == 0:
-                    set_penalty_positions()
-                    game_controller_send('STATE:SET')
+            if game.set_real_time <= time.time():
+                set_penalty_positions()
+                game_controller_send('STATE:SET')
         elif game.ready_real_time is not None:
             if game.ready_real_time <= time.time():  # initial kick-off (1st, 2nd half, extended periods, penalty shootouts)
                 game.ready_real_time = None
