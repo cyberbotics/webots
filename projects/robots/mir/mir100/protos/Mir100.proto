@@ -264,10 +264,7 @@ PROTO Mir100 [
             DEF WHEEL Group {
               children [
                 Shape {
-                  appearance PBRAppearance {
-                    baseColor 0.3 0.3 0.3
-                    roughness 1
-                    metalness 0
+                  appearance CorrodedMetal {
                   }
                   geometry Cylinder {
                       radius 0.054

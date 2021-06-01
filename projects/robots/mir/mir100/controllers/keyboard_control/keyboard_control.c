@@ -97,8 +97,8 @@ int main() {
     if (is_key_valid) {
       printf("vx:%.2f[m/s] ω:%.2f[rad/s]\n", target_speed, target_omega);
       // Computes the wheel motors speeds from vx and ω.
-      wb_motor_set_velocity(motor_left_wheel, (target_speed + target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
-      wb_motor_set_velocity(motor_right_wheel, (target_speed - target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
+      wb_motor_set_velocity(motor_left_wheel, (target_speed - target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
+      wb_motor_set_velocity(motor_right_wheel, (target_speed + target_omega * DISTANCE_TO_CENTER) / WHEEL_RADIUS);
     }
   }
 
