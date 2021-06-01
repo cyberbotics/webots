@@ -18,7 +18,7 @@
 import unittest
 import os
 import sys
-sys.path.append("/home/benjamin/webots/src/controller/matlab/")
+sys.path.append(os.environ['WEBOTS_HOME'] + "/src/controller/matlab/")
 import mgenerate  # noqa: E402
 
 
