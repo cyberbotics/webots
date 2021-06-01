@@ -484,7 +484,7 @@ void Ros::run(int argc, char **argv) {
     for (unsigned int i = 0; i < mSensorList.size(); i++)
       mSensorList[i]->publishValues(mStep * mStepSize);
 
-    if (!mUseWebotsSimTime && (mStep != 0 || mIsSynchronized)) {
+    if (!mUseWebotsSimTime && mIsSynchronized) {
       int oldStep = mStep;
       while (mStep == oldStep && !mEnd && ros::ok()) {
         loopRate.sleep();

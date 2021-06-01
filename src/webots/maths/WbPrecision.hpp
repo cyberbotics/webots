@@ -17,6 +17,7 @@
 
 #include <math.h>
 #include <QtCore/QString>
+#include <limits>
 
 namespace WbPrecision {
 

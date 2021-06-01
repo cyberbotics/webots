@@ -1701,6 +1701,7 @@ void WbMainWindow::show3DForceInfo() {
       break;
     case WbSysInfo::WIN32_PLATFORM:
       info = infoWindows;
+      break;
     default:
       assert(false);
   }
@@ -1758,16 +1759,24 @@ void WbMainWindow::showDocument(const QString &url) {
 #ifdef __linux__  // on linux, the '/lib' directory need to be removed from the LD_LIBRARY_PATH,
                   // otherwise their is some libraries conflicts when trying to open pdf with Evince
     QString WEBOTS_HOME(QDir::toNativeSeparators(WbStandardPaths::webotsHomePath()));
+<<<<<<< HEAD
     QByteArray ldLibraryPathBackup = qgetenv("LD_LIBRARY_PATH");
     QByteArray newLdLibraryPath = ldLibraryPathBackup;
     newLdLibraryPath.replace((WEBOTS_HOME + "lib/webots/").toUtf8(), "");
     newLdLibraryPath.replace((WEBOTS_HOME + "lib/webots").toUtf8(), "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
+=======
+    QString ldLibraryPathBackup = QString(qgetenv("LD_LIBRARY_PATH"));
+    QString newLdLibraryPath = ldLibraryPathBackup;
+    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots/", "");
+    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots", "");
+    qputenv("LD_LIBRARY_PATH", newLdLibraryPath.toUtf8());
+>>>>>>> origin/master
 #endif
     QString u("file:///" + url);
     ret = WbDesktopServices::openUrl(u);
 #ifdef __linux__
-    qputenv("LD_LIBRARY_PATH", ldLibraryPathBackup);
+    qputenv("LD_LIBRARY_PATH", ldLibraryPathBackup.toUtf8());
 #endif
   }
   if (!ret)
