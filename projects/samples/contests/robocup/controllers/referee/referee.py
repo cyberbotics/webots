@@ -1600,7 +1600,7 @@ def penalty_kicker_player():
 
 def set_penalty_positions():
     default = game.penalty_shootout_count % 2 == 0
-    attacking_color = 'red' if game.kickoff == game.red.id and default else 'blue'
+    attacking_color = 'red' if (game.kickoff == game.blue.id) ^ default else 'blue'
     if attacking_color == 'red':
         defending_color = 'blue'
         attacking_team = red_team
@@ -1619,7 +1619,7 @@ def set_penalty_positions():
             reset_player(defending_color, number, 'goalKeeperStartingPose')
         else:
             reset_player(defending_color, number, 'halfTimeStartingPose')
-    x = game.field.penalty_mark_x if game.side_left == game.kickoff and default else -game.field.penalty_mark_x
+    x = -game.field.penalty_mark_x if (game.side_left == game.kickoff) ^ default else game.field.penalty_mark_x
     game.ball.resetPhysics()
     reset_ball_touched()
     game.in_play = None
@@ -1671,8 +1671,9 @@ def stop_penalty_shootout():
 
 def next_penalty_shootout():
     game.penalty_shootout_count += 1
-    if not game.penalty_shootout_goal and not game.state.state[:6] == "FINISH":
+    if not game.penalty_shootout_goal and not game.state.game_state[:6] == "FINISH":
         game_controller_send('STATE:FINISH')
+        game.penalty_shootout_goal
     if stop_penalty_shootout():
         game.over = True
         return
@@ -1980,6 +1981,7 @@ game.wait_for_sec_state = None
 game.wait_for_sec_phase = None
 game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), len(blue_team['players']),
                                                      FOUL_PUSHING_PERIOD, FOUL_PUSHING_TIME, time_step)
+game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
 
 previous_seconds_remaining = 0
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
@@ -1989,12 +1991,10 @@ if game.penalty_shootout:
     info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will start the penalty shoot-out.')
     game.phase = 'PENALTY-SHOOTOUT'
     game.ready_real_time = None
-    game.set_countdown = 1  # immediately reach the SET state
-    # game_controller_send(f'KICKOFF:{game.kickoff}')  # FIXME: GameController says this is illegal => we should fix it.
-    # meanwhile, assuming kickoff for red team
+    game.set_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (initial kick-off)
+    game_controller_send(f'KICKOFF:{game.kickoff}')
 else:
     game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (initial kick-off)
-    game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
     kickoff()
     game_controller_send(f'KICKOFF:{game.kickoff}')
 
@@ -2297,11 +2297,9 @@ while supervisor.step(time_step) != -1 and not game.over:
 
     elif game.state.game_state == 'STATE_INITIAL':
         if game.penalty_shootout:
-            if game.set_countdown > 0:
-                game.set_countdown -= 1
-                if game.set_countdown == 0:
-                    set_penalty_positions()
-                    game_controller_send('STATE:SET')
+            if game.set_real_time <= time.time():
+                set_penalty_positions()
+                game_controller_send('STATE:SET')
         elif game.ready_real_time is not None:
             if game.ready_real_time <= time.time():  # initial kick-off (1st, 2nd half, extended periods, penalty shootouts)
                 game.ready_real_time = None

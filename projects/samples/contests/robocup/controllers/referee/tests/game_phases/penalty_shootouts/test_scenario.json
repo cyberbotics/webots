@@ -1,8 +1,22 @@
 [
     {
         "timing" : {
-            "time" : 12.0,
-            "clock_type" : "Simulated",
+            "time" : [0,4.5],
+            "clock_type" : "System",
+            "state" : "INITIAL"
+        },
+        "tests" : [
+            {
+                "name" : "Sanity check: in fast mode, expecting 5 seconds of INITIAL time",
+                "state" : "INITIAL",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 5.3,
+            "clock_type" : "System",
             "state" : "INITIAL"
         },
         "tests" : [
