@@ -114,8 +114,8 @@ PROTO Mir100UltrasonicSensor [
     }
     %{ end }%
     lookupTable [
-      0.02 1000 0
-      4 0 0
+      0.01 1000 0
+      0.35 0 0
     ]
     type "sonar"
   }
