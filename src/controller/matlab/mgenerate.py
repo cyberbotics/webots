@@ -14,7 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Generate the matlab files."""
+"""Generate the matlab files.
+
+Execute with '-update' to update the list of generated functions"""
 
 import os
 import re
@@ -45,7 +47,7 @@ def gen_with_doc(type, line, doc_url=None):
         file.write("%scalllib('libController', '%s'%s%s);\n" %
                    (result, function, ', ' if arguments else '', arguments))
         if UPDATE:
-            GITIGNOREFILE.write(function + '.m')
+            GITIGNOREFILE.write(function + '.m\n')
 
 
 def gen(type, line, doc_page=None):

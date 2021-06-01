@@ -20,14 +20,16 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
-PYTHON3_OK := $(shell which python3)
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+PYTHON_OK := $(shell which python)
 release debug profile:
-ifeq ('$(PYTHON3_OK)','')
-		$(warning Unable to find python 3, skipping MATLAB library build)
+	@echo "# generating matlab"
+ifeq ('$(PYTHON_OK)','')
+	@echo "# \033[0;33mUnable to find python, skipping matlab API\033[0m"
 else
-		$(shell python3 mgenerate.py;)
+	$(shell python mgenerate.py;)
 endif 
 
 clean:
-#	rm -rf *.o *.cpp $(WEBOTS_CONTROLLER_LIB_PATH)/matlab*
+	for name in $$(cat $(WEBOTS_CONTROLLER_LIB_PATH)/matlab/.gitignore); do rm -f $(WEBOTS_CONTROLLER_LIB_PATH)/matlab/$$name; done;
