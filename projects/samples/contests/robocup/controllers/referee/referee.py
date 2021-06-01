@@ -15,6 +15,7 @@
 from gamestate import GameState
 from field import Field
 from forceful_contact_matrix import ForcefulContactMatrix
+from udp_bouncer import start_bouncing_server
 
 from controller import Supervisor, AnsiCodes, Node
 
@@ -98,6 +99,7 @@ def log(message, type):
     if log_file:
         real_time = int(1000 * (time.time() - log.real_time)) / 1000
         log_file.write(f'[{real_time:08.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
+        log_file.flush()
 
 
 log.real_time = time.time()
@@ -1871,6 +1873,10 @@ try:
                 command_line.append('--fast')
             command_line.append('--config')
             command_line.append(game_config_file)
+            if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
+                command_line.append('-b')
+                command_line.append(game.host)
+                start_bouncing_server(game_config_file)
             game.controller_process = subprocess.Popen(command_line, cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
     except KeyError:
         GAME_CONTROLLER_HOME = None
@@ -1929,10 +1935,18 @@ if game.controller_process:
                 game.controller = None
                 break
     info('Connected to GameControllerSimulator at localhost:8750.')
-    game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    game.udp.bind(('0.0.0.0', 3838))
-    game.udp.setblocking(False)
+    try:
+        game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
+            # In case we are using the bouncing server we have to select which interface is used because messages are not
+            # broadcast
+            game.udp.bind((game.host, 3838))
+        else:
+            game.udp.bind(('0.0.0.0', 3838))
+        game.udp.setblocking(False)
+    except Exception:
+        error("Failed to set up UDP socket to listen to GC messages")
 else:
     game.controller = None
 
