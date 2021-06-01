@@ -1768,7 +1768,7 @@ void WbMainWindow::showDocument(const QString &url) {
     QString u("file:///" + url);
     ret = WbDesktopServices::openUrl(u);
 #ifdef __linux__
-    qputenv("LD_LIBRARY_PATH", ldLibraryPathBackup.toUtf8());
+    qputenv("LD_LIBRARY_PATH", ldLibraryPathBackup);
 #endif
   }
   if (!ret)
