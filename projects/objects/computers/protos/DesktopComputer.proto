@@ -9,7 +9,7 @@ PROTO DesktopComputer [
   field SFString   name             "desktop computer"
   field SFColor    powerbuttonColor 0.252903 0.263813 0.266361  # Defines the color of the computer power button.
   field SFFloat    mass             0                           # Defines the mass of the computer in kg. A value smaller or equal to 0 removes the physics of the computer.
-  field MFColor    recognitionColors []                         # Is Solid.recognitionColors .
+  field MFColor    recognitionColors []                         # Is `Solid.recognitionColors`.
 ]
 {
 %{ local mass = fields.mass.value }%

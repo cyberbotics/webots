@@ -12,7 +12,7 @@ PROTO CreateWall [
   field MFString   controllerArgs []                         # Is `Robot.controllerArgs`.
   field SFBool     supervisor     FALSE                      # Is `Robot.supervisor`.
   field SFString   name           "iRobot wall"
-  field MFColor    recognitionColors []                      # Is Solid.recognitionColors .
+  field MFColor    recognitionColors []                      # Is `Solid.recognitionColors`.
 ]
 {
 Robot {

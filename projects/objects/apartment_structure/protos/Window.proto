@@ -16,7 +16,7 @@ PROTO Window [
   field SFNode     wallAppearance         Roughcast {}      # Defines the appearance of the wall.
   field SFNode     frameAppearance        VarnishedPine {}  # Defines the appearance of the frame.
   field SFBool     castShadows            TRUE              # Defines whether this object should cast shadows.
-  field MFColor    recognitionColors      []                # Is Solid.recognitionColors .
+  field MFColor    recognitionColors      []                # Is `Solid.recognitionColors`.
 ]
 {
   %{

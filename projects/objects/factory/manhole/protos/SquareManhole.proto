@@ -9,7 +9,7 @@ PROTO SquareManhole [
   field SFString   name                  "manhole"
   field SFVec3f    size                  1 0.1 1    # Defines the size of the manhole.
   field SFBool     enableBoundingObject  TRUE       # Defines whether the manhole should have a bounding object.
-  field MFColor    recognitionColors     []         # Is Solid.recognitionColors .
+  field MFColor    recognitionColors     []         # Is `Solid.recognitionColors`.
 ]
 {
   Solid {

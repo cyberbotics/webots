@@ -16,7 +16,7 @@ PROTO StraightStairsRail [
   field SFInt32    nBalusters       20                                                                 # Defines the number of balusters.
   field SFNode     appearance       VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the appearance of the rail.
   field SFString   contactMaterial "default"                                                           # Is `Solid.contactMaterial`.
-  field MFColor    recognitionColors []                                                                # Is Solid.recognitionColors .
+  field MFColor    recognitionColors []                                                                # Is `Solid.recognitionColors`.
 ]
 {
   %{

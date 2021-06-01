@@ -11,7 +11,7 @@ PROTO Plate [
   field SFFloat    height      0.01                         # Defines the height of the plate.
   field SFFloat    radius      0.11                         # Defines the radius of the plate.
   field SFFloat    mass        0.3                          # Defines the mass of the plate in kg.
-  field MFColor    recognitionColors []                     # Is Solid.recognitionColors .
+  field MFColor    recognitionColors []                     # Is `Solid.recognitionColors`.
 ]
 {
 %{

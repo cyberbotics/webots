@@ -19,7 +19,7 @@ PROTO Mirror [
   
   # Deprecated in Webots R2019a
   hiddenField MFString   frameTexture    ["textures/wood.jpg"]
-  field MFColor    recognitionColors []              # Is Solid.recognitionColors .
+  field MFColor    recognitionColors []              # Is `Solid.recognitionColors`.
 ]
 {
   %{
