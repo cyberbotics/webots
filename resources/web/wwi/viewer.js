@@ -5,7 +5,7 @@
 
 'use strict';
 
-import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './request_methods_module.js';
+import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './request_methods.js';
 import {webots} from './webots.js';
 
 import WbImageTexture from './nodes/WbImageTexture.js';
