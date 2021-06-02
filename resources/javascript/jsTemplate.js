@@ -40,8 +40,9 @@ function render(text) {
   return text;
 };
 
-export function main() {
-  let result = '';
+export function generateVrml() {
+  let ___vrml = '';
+  let ___tmp;
 
   const context = { %context% };
 
@@ -49,5 +50,5 @@ export function main() {
 
   %body%
 
-  return result;
+  return ___vrml;
 };

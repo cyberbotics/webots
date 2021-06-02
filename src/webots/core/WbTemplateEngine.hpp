@@ -39,8 +39,8 @@ public:
   const QString &error() const { return mError; }
 
 private:
-  static void initialize();
-  static void initializeJavascriptEngine();
+  static void initializeLua();
+  static void initializeJavaScript();
   static void copyModuleToTemporaryFile(QString modulePath);
 
   bool generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName);

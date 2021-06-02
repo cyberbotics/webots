@@ -34,7 +34,9 @@
 #include <cassert>
 
 static bool gValidLuaResources = true;
-static QString gTemplateFileContent;
+static bool gValidJavaScriptResources = true;
+static QString gLuaTemplateFileContent;
+static QString gJavaScriptTemplateFileContent;
 
 namespace {
   // Note: not the default opening/closing tokens in order to allow
@@ -63,7 +65,18 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
   }
 }
 
-void WbTemplateEngine::initialize() {
+void WbTemplateEngine::initializeJavaScript() {
+  printf("WbTemplateEngine::initialize JavaScript\n");
+  QFile templateFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.js");
+  if (!templateFile.open(QIODevice::ReadOnly)) {
+    gValidJavaScriptResources = false;
+    return;
+  }
+
+  gJavaScriptTemplateFileContent = templateFile.readAll();
+}
+
+void WbTemplateEngine::initializeLua() {
   printf("WbTemplateEngine::initialize lua\n");
   QFileInfo luaSLT2Script(WbStandardPaths::resourcesPath() + "lua/liluat/liluat.lua");
   if (!luaSLT2Script.exists()) {
@@ -90,7 +103,7 @@ void WbTemplateEngine::initialize() {
     gValidLuaResources = false;
     return;
   }
-  gTemplateFileContent = templateFile.readAll();
+  gLuaTemplateFileContent = templateFile.readAll();
   templateFile.close();
 }
 
@@ -109,15 +122,24 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   bool result;
 
   if (templateLanguage == "lua") {
-    static bool firstCall = true;
+    static bool firstLuaCall = true;
 
-    if (firstCall) {
-      initialize();
-      firstCall = false;
+    if (firstLuaCall) {
+      initializeLua();
+      firstLuaCall = false;
     }
+
     result = generateLua(tags, logHeaderName);
-  } else
+  } else {
+    static bool firstJavaScriptCall = true;
+
+    if (firstJavaScriptCall) {
+      initializeJavaScript();
+      firstJavaScriptCall = true;
+    }
+
     result = generateJavascript(tags, logHeaderName);
+  }
 
   return result;
 }
@@ -127,6 +149,11 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   mResult.clear();
   mError = "";
+
+  if (!gValidJavaScriptResources) {
+    mError = tr("Initialization error: JavaScript resources are not found.");
+    return false;
+  }
 
   // cd to temporary directory
   bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
@@ -174,8 +201,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     // if it starts with '%{=' it's an expression
     if (statement.startsWith(gOpeningToken + "=")) {
       statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
-      javaScriptBody +=
-        "var __tmp = " + statement + "; result += eval(\"__tmp\");";  // var because there might be multiple expressions
+      // var because there might be multiple expressions
+      javaScriptBody += "var __tmp = " + statement + "; result += eval(\"__tmp\");";
     } else {
       // raw javascript snippet
       javaScriptBody += statement.replace(gOpeningToken, "").replace(gClosingToken, "");
@@ -204,28 +231,14 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     }
   }
 
-  // load template and fill it
-  QFile templateFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.js");
-  if (!templateFile.open(QIODevice::ReadOnly)) {
-    mError = tr("Javascript template not found.");
-    return false;
-  }
-  QString javaScriptTemplate = templateFile.readAll();
-
-  // create engine and stream holders
-  QJSEngine engine;
-  QJSValue stdout = engine.newArray();
-  engine.globalObject().setProperty("stdout", stdout);
-  QJSValue stderr = engine.newArray();
-  engine.globalObject().setProperty("stderr", stderr);
-
-  // fill template
+  // fill template skeleton
+  QString javaScriptTemplate = gJavaScriptTemplateFileContent;
   javaScriptTemplate.replace("%import%", javaScriptImport);
   javaScriptTemplate.replace("%context%", tags["context"]);
   javaScriptTemplate.replace("%fields%", tags["fields"]);
   javaScriptTemplate.replace("%body%", javaScriptBody);
 
-  // write to file (note: can't evaluate directly because it doesn't support importing of modules)
+  // write to file (note: can't evaluate directly because the evaluator doesn't support importing of modules)
   QFile outputFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
   if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
     mError = tr("Couldn't write jsTemplateFilled to disk.");
@@ -236,20 +249,23 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   outputStream << javaScriptTemplate;
   outputFile.close();
 
+  // create engine and stream holders
+  QJSEngine engine;
+  QJSValue stdout = engine.newArray();
+  engine.globalObject().setProperty("stdout", stdout);
+  QJSValue stderr = engine.newArray();
+  engine.globalObject().setProperty("stderr", stderr);
   // import filled template as module
   QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
   if (module.isError()) {
-    mError = tr("failed to import JavaScript template. On line %1: %2")
-               .arg(module.property("lineNumber").toInt())
-               .arg(module.property("message").toString());
+    mError = tr("failed to import JavaScript template. %1").arg(module.property("message").toString());
     return false;
   }
+
   QJSValue main = module.property("main");
   QJSValue result = main.call();
   if (result.isError()) {
-    mError = tr("failed to execute JavaScript template. On line %1: %2")
-               .arg(result.property("lineNumber").toInt())
-               .arg(result.property("message").toString());
+    mError = tr("failed to execute JavaScript template. On line %1").arg(result.property("message").toString());
     return false;
   }
 
@@ -314,7 +330,7 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
   tags["closingToken"] = gClosingToken;
   tags["templateFileName"] = logHeaderName;
 
-  QString scriptContent = gTemplateFileContent;
+  QString scriptContent = gLuaTemplateFileContent;
   QHashIterator<QString, QString> i(tags);
   while (i.hasNext()) {
     i.next();
