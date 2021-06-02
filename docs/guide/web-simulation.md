@@ -446,7 +446,6 @@ Also the robot windows are not yet supported.
 #### How to Embed a Web Scene in Your Website
 
 Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-streaming` web component from the [WebotsStreaming.js] package.
-In this case the `webots.View.broadcast` parameters doesn't have to be set to true.
 
 This is the API of the `webots-streaming` web component:
 * `connect(url, mode, broadcast, mobileDevice, callback, disconnectCallback) `: function instantiating the simulation web interface and taking as argument:
@@ -458,7 +457,18 @@ This is the API of the `webots-streaming` web component:
   * `broadcast`: boolean variable enabling or not the broadcast
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `callback`: function to be executed once the simulation is ready.
-  * `disconnectCallback`: function to be executed once the simulation is ready.
+  * `disconnectCallback`: function to be executed once the simulation is exited.
+* `disconnect()`: close the simulation web scene.
+* `hideToolbar()`: hide the toolbar. Must be called after connect.
+* `showToolbar()`: show the toolbar. Must be called after connect. The toolbar is displayed by default.
+* `showQuit(enable)`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `showRevert(enable)`: specify is the revert button must be displayed on the toolbar. Must be called before connect. The quit button is hidden by default.
+* `sendMessage(message)`: send a message to the streaming server through the web socket. Examples of messages could be:
+    *`real-time:-1`: to play the simulation.
+    *`pause`: to pause the simulation.
+    *`robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named supervisor.
+
+An example of the use of this api is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/)
 
 ### Scene Refresh Rate
 
