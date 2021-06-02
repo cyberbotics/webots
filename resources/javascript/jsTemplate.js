@@ -27,7 +27,7 @@ let console = {
     var args = Array.prototype.slice.call(arguments);
     let entry = '';
     for (let i = 0; i < args.length; ++i){
-      if (typeof args[i] == 'object')
+      if (typeof args[i] === 'object')
         entry += JSON.stringify(args[i], null, 1);
       else
         entry += args[i];
@@ -40,25 +40,14 @@ function render(text) {
   return text;
 };
 
-function renderV2(text) {
-  result += text;
-};
-
-function executeStatement() {
-  //let tmp = arguments[0];
-  result += eval.apply(this, arguments[0]);
-}
-
-let result;
-const context = { %context% };
-const fields = { %fields% };
-
 export function main() {
-  result = '';
+  let result = '';
+
+  const context = { %context% };
+
+  const fields = { %fields% };
 
   %body%
-
-  console.log(result);
 
   return result;
 };

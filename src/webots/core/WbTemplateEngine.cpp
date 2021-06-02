@@ -146,10 +146,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     int indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
     if (indexOpeningToken == -1) {  // no more matches
       if (indexClosingToken < mTemplateContent.size()) {
-        // javaScriptBody +=
-        //  "result += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
         javaScriptBody +=
-          "renderV2(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);\n";
+          "result += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
       }
       break;
     }
@@ -164,26 +162,20 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
     if (indexOpeningToken > 0 && lastIndexClosingToken == -1) {
       // what comes before the first opening token should be treated as plain text
-      // javaScriptBody += "result += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
-      javaScriptBody += "renderV2(`" + mTemplateContent.left(indexOpeningToken) + "`);\n";
+      javaScriptBody += "result += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
     }
-
     if (lastIndexClosingToken != -1 && indexOpeningToken - lastIndexClosingToken > 0) {
       // what is between the previous closing token and the current opening token should be treated as plain text
-      // javaScriptBody +=
-      //  "result += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
       javaScriptBody +=
-        "renderV2(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);\n";
+        "result += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
     }
-
     // anything inbetween the tokens is either an expression or plain JavaScript
     QString statement = mTemplateContent.mid(indexOpeningToken, indexClosingToken - indexOpeningToken);
     // if it starts with '%{=' it's an expression
     if (statement.startsWith(gOpeningToken + "=")) {
       statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
-      // javaScriptBody +=
-      //  "var __tmp = " + statement + "; result += eval(\"__tmp\");";  // var because there might be multiple expressions
-      javaScriptBody += "executeStatement(\"" + statement + "\");\n";
+      javaScriptBody +=
+        "var __tmp = " + statement + "; result += eval(\"__tmp\");";  // var because there might be multiple expressions
     } else {
       // raw javascript snippet
       javaScriptBody += statement.replace(gOpeningToken, "").replace(gClosingToken, "");

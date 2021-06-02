@@ -466,7 +466,7 @@ Returns the shortest distance between the two vectors.
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
  * @returns {Object.<x: number, y: number, z: number>}
- */String
+ */
 wbvector3.cross(vA, vB);
 ```
 
