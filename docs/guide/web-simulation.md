@@ -121,7 +121,7 @@ sequenceDiagram
       W-->>C: Return web page content
     deactivate W
     U->>C: Start simulation
-    Note left of C: webots.min.js
+    Note left of C: webots-streaming web component
     C->>SE: Open simulation session
     activate SE
       SE-->>C: Return simulation server web socket URL
@@ -144,13 +144,6 @@ sequenceDiagram
       loop Each simulation step
         SW1->>C: Send simulation world status
       end
-      U->>C: Edit and save controller
-      C->>W: Send new file
-      activate W
-        Note right of W: upload_file.php
-        W-->>C: Return OK
-      deactivate W
-      C->>SW1: Send new file
       U->>C: Reset simulation
       C->>SW1: Reset simulation
       loop Each simulation step
@@ -452,7 +445,7 @@ Also the robot windows are not yet supported.
 
 #### How to Embed a Web Scene in Your Website
 
-Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots.View` object from the [webots.min.js] package.
+Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-streaming` web component from the [WebotsStreaming.js] package.
 In this case the `webots.View.broadcast` parameters doesn't have to be set to true.
 But some other parameters could be used:
 * `webots.CustomData`: application specific data to be passed to the simulation server and then to the `download_project.php` (see [init Simulation Data Download](web-simulation.md#init-simulation-data-download) section) script. These can be used to specify the setup of the simulation that will be copied in the Webots instance folder.
