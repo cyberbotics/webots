@@ -55,6 +55,9 @@ namespace webots {
     std::string getTypeName() const;
     int getCount() const;
 
+    void enableTracking(int samplingPeriod);
+    void disableTracking();
+
     bool getSFBool() const;
     int getSFInt32() const;
     double getSFFloat() const;
