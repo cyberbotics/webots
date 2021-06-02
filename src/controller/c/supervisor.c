@@ -113,16 +113,12 @@ typedef struct WbFieldChangeTrackingPrivate {
   bool enable;
 } WbFieldChangeTracking;
 
-static WbFieldChangeTracking *field_change_tracking = NULL;
-
 typedef struct WbPoseChangeTrackingPrivate {
   WbNodeRef *node;
   WbNodeRef *from_node;
   int sampling_period;
   bool enable;
 } WbPoseChangeTracking;
-
-static WbPoseChangeTracking *pose_change_tracking = NULL;
 
 static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
@@ -158,10 +154,22 @@ static char *supervisor_strdup(const char *src) {
 }
 
 // find field in field_list
-static WbFieldStruct *find_field(const char *fieldName, int node_id) {
+static WbFieldStruct *find_field_by_name(const char *fieldName, int node_id) {
+  // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
     if (field->node_unique_id == node_id && strcmp(fieldName, field->name) == 0)
+      return field;
+    field = field->next;
+  }
+  return NULL;
+}
+
+static WbFieldStruct *find_field_by_id(int node_id, int field_id) {
+  // TODO: Hash map needed
+  WbFieldStruct *field = field_list;
+  while (field) {
+    if (field->node_unique_id == node_id && field->id == field_id)
       return field;
     field = field->next;
   }
@@ -365,6 +373,10 @@ static void clean_field_request_garbage_collector() {
 }
 
 // Private fields
+static WbFieldChangeTracking field_change_tracking;
+static bool field_change_tracking_requested = false;
+static WbPoseChangeTracking pose_change_tracking;
+static bool pose_change_tracking_requested = false;
 static char *export_image_filename = NULL;
 static int export_image_quality = 0;
 static bool simulation_quit = false;
@@ -518,14 +530,14 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uint32(r, node_ref);
     request_write_string(r, requested_field_name);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
-  } else if (field_change_tracking) {
+  } else if (field_change_tracking_requested) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE);
-    request_write_int32(r, field_change_tracking->field->node_unique_id);
-    request_write_int32(r, field_change_tracking->field->id);
-    request_write_uchar(r, field_change_tracking->field->is_proto_internal ? 1 : 0);
-    request_write_int32(r, field_change_tracking->enable);
-    if (field_change_tracking->enable)
-      request_write_int32(r, field_change_tracking->sampling_period);
+    request_write_int32(r, field_change_tracking.field->node_unique_id);
+    request_write_int32(r, field_change_tracking.field->id);
+    request_write_uchar(r, field_change_tracking.field->is_proto_internal ? 1 : 0);
+    request_write_int32(r, field_change_tracking.enable);
+    if (field_change_tracking.enable)
+      request_write_int32(r, field_change_tracking.sampling_period);
   } else if (!robot_is_immediate_message() || is_field_immediate_message) {
     is_field_immediate_message = false;
     WbFieldRequest *request;
@@ -895,10 +907,13 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
     } break;
     case C_SUPERVISOR_FIELD_GET_VALUE: {
       const WbFieldType field_type = request_read_int32(r);
-      assert(sent_field_get_request != NULL);
+      const int node_id = request_read_int32(r);
+      const int field_id = request_read_int32(r);
+
+      WbFieldStruct *f = sent_field_get_request ? sent_field_get_request->field : find_field_by_id(node_id, field_id);
+ 
       // field_type == 0 if node was deleted
       if (sent_field_get_request && field_type != 0) {
-        WbFieldStruct *f = sent_field_get_request->field;
         switch (f->type) {
           case WB_SF_BOOL:
           case WB_MF_BOOL:
@@ -973,7 +988,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const char *field_name = request_read_string(r);
       const int field_count = request_read_int32(r);
       if (parent_node_id >= 0) {
-        WbFieldStruct *field = find_field(field_name, parent_node_id);
+        WbFieldStruct *field = find_field_by_name(field_name, parent_node_id);
         if (field)
           field->count = field_count;
       }
@@ -2100,7 +2115,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
   robot_mutex_lock_step();
 
   // yb: search if field is already present in field_list
-  WbFieldRef result = find_field(field_name, node->id);
+  WbFieldRef result = find_field_by_name(field_name, node->id);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
@@ -2141,7 +2156,7 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
   robot_mutex_lock_step();
 
   // search if field is already present in field_list
-  WbFieldRef result = find_field(field_name, node->id);
+  WbFieldRef result = find_field_by_name(field_name, node->id);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
@@ -2470,20 +2485,22 @@ void wb_supervisor_field_enable_tracking(WbFieldRef field, int sampling_period) 
   }
 
   robot_mutex_lock_step();
-  field_change_tracking->field = field;
-  field_change_tracking->sampling_period = sampling_period;
-  field_change_tracking->enable = true;
+  field_change_tracking.field = field;
+  field_change_tracking.sampling_period = sampling_period;
+  field_change_tracking.enable = true;
+  field_change_tracking_requested = true;
   wb_robot_flush_unlocked();
-  field_change_tracking = NULL;
+  field_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
 
 void wb_supervisor_field_disable_tracking(WbFieldRef field) {
   robot_mutex_lock_step();
-  field_change_tracking->field = field;
-  field_change_tracking->enable = false;
+  field_change_tracking.field = field;
+  field_change_tracking.enable = false;
+  field_change_tracking_requested = true;
   wb_robot_flush_unlocked();
-  field_change_tracking = NULL;
+  field_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
 
@@ -2494,21 +2511,21 @@ void wb_supervisor_pose_enable_tracking(WbNodeRef *node, WbNodeRef *from_node, i
   }
 
   robot_mutex_lock_step();
-  pose_change_tracking->node = node;
-  pose_change_tracking->from_node = from_node;
-  pose_change_tracking->enable = true;
+  pose_change_tracking.node = node;
+  pose_change_tracking.from_node = from_node;
+  pose_change_tracking.enable = true;
   wb_robot_flush_unlocked();
-  pose_change_tracking = NULL;
+  pose_change_tracking.node = NULL;
   robot_mutex_unlock_step();
 }
 
 void wb_supervisor_pose_disable_tracking(WbNodeRef *node, WbNodeRef *from_node) {
   robot_mutex_lock_step();
-  pose_change_tracking->node = node;
-  pose_change_tracking->from_node = from_node;
-  pose_change_tracking->enable = false;
+  pose_change_tracking.node = node;
+  pose_change_tracking.from_node = from_node;
+  pose_change_tracking.enable = false;
   wb_robot_flush_unlocked();
-  pose_change_tracking = NULL;
+  pose_change_tracking.node = NULL;
   robot_mutex_unlock_step();
 }
 

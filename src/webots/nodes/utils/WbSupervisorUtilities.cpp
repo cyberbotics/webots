@@ -64,7 +64,10 @@ static const int MAX_LABELS = 100;
 
 struct WbTrackedFieldInfo {
   WbField *field;
-  int sampling_period;
+  int fieldId;
+  int nodeId;
+  bool internal;
+  int samplingPeriod;
 };
 
 struct WbFieldGetRequest {
@@ -373,6 +376,7 @@ void WbSupervisorUtilities::reset() {
   foreach (int labelId, mLabelIds)
     WbWrenLabelOverlay::removeLabel(labelId);
   mLabelIds.clear();
+  mTrackedFields.clear();
 
   // delete pending requests and reinitialize them
   deleteControllerRequests();
@@ -1090,20 +1094,20 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       return;
     }
     case C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE: {
-      unsigned int uniqueId;
+      unsigned int nodeId;
       unsigned int fieldId;
       unsigned char internal = false;
       unsigned char enable;
-      unsigned int sampling_period;
+      unsigned int samplingPeriod;
 
-      stream >> uniqueId;
+      stream >> nodeId;
       stream >> fieldId;
       stream >> internal;
       stream >> enable;
       if (enable)
-        stream >> sampling_period;
+        stream >> samplingPeriod;
 
-      WbNode *const node = WbNode::findNode(uniqueId);
+      WbNode *const node = WbNode::findNode(nodeId);
       WbField *field = NULL;
 
       if (node)
@@ -1112,7 +1116,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (enable) {
         WbTrackedFieldInfo trackedField;
         trackedField.field = field;
-        trackedField.sampling_period = sampling_period;
+        trackedField.samplingPeriod = samplingPeriod;
+        trackedField.fieldId = fieldId;
+        trackedField.nodeId = nodeId;
+        trackedField.internal = internal;
         mTrackedFields.append(trackedField);
       } else {
         for (int i = 0; i < mTrackedFields.size(); i++)
@@ -1717,6 +1724,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_FIELD_GET_VALUE;
     stream << (int)field.field->type();
+    stream << (int)field.nodeId;
+    stream << (int)field.fieldId;
     pushSingleFieldContentToStream(stream, field.field);
   }
   if (mFieldGetRequest) {
@@ -1731,6 +1740,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
       return;
     }
     stream << (int)field->type();
+    stream << (int)0; // Node ID, not relevant
+    stream << (int)0; // Field ID, not relevant
     switch (field->type()) {
       case WB_MF_BOOL: {
         const bool v = dynamic_cast<WbMFBool *>(field->value())->item(mFieldGetRequest->index);
