@@ -32,7 +32,6 @@ mkdir include/qt/QtGui
 mkdir include/qt/QtNetwork
 mkdir include/qt/QtOpenGL
 mkdir include/qt/QtPrintSupport
-mkdir include/qt/QtQml
 mkdir include/qt/QtWebChannel
 mkdir include/qt/QtWebEngine
 mkdir include/qt/QtWebEngineCore
@@ -61,7 +60,6 @@ cp -r $QT_INSTALLATION_PATH/include/QtGui                          include/qt/Qt
 cp -r $QT_INSTALLATION_PATH/include/QtNetwork                      include/qt/QtNetwork/
 cp -r $QT_INSTALLATION_PATH/include/QtOpenGL                       include/qt/QtOpenGL/
 cp -r $QT_INSTALLATION_PATH/include/QtPrintSupport                 include/qt/QtPrintSupport/
-cp -r $QT_INSTALLATION_PATH/include/QtQml                          include/qt/QtQml/
 cp -r $QT_INSTALLATION_PATH/include/QtWebChannel                   include/qt/QtWebChannel/
 cp -r $QT_INSTALLATION_PATH/include/QtWebEngine                    include/qt/QtWebEngine/
 cp -r $QT_INSTALLATION_PATH/include/QtWebEngineCore                include/qt/QtWebEngineCore/
