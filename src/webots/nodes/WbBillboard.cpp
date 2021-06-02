@@ -54,8 +54,7 @@ void WbBillboard::createWrenObjects() {
     n->createWrenObjects();
   }
 
-  applyRotationToWren();
-  applyTranslationToWren();
+  updatePosition();
 }
 
 void WbBillboard::applyTranslationToWren() {

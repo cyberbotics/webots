@@ -123,11 +123,7 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
         mFilesList.append(dir.absoluteFilePath(file));  // make absolute path
         pos += rx.matchedLength();
       }
-    } else if (key == "documentationBook:")
-      ls >> mDocumentationBook;
-    else if (key == "documentationPage:")
-      ls >> mDocumentationPage;
-    else if (key == "robotWindow:") {
+    } else if (key == "robotWindow:") {
       if (!mRobotWindowNodeNames.isEmpty() || skipNodeIdsOptions)
         continue;
       QString s = line.right(line.length() - 12).trimmed();  // remove label
@@ -270,10 +266,6 @@ bool WbPerspective::save() const {
   foreach (const QString file, mFilesList)
     out << " \"" << dir.relativeFilePath(file) << "\"";
   out << "\n";
-  if (!mDocumentationBook.isEmpty())
-    out << "documentationBook: " << mDocumentationBook << "\n";
-  if (!mDocumentationPage.isEmpty())
-    out << "documentationPage: " << mDocumentationPage << "\n";
   if (!mRobotWindowNodeNames.isEmpty())
     out << "robotWindow: " << joinUniqueNameList(mRobotWindowNodeNames) << "\n";
   if (!mEnabledOptionalRenderingList.isEmpty())

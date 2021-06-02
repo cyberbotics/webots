@@ -1,7 +1,10 @@
 import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
+import WbBillboard from '../WbBillboard.js';
 import WbTransform from '../WbTransform.js';
 import WbWorld from '../WbWorld.js';
+
+let undefinedID = -1; // Negative IDs are assigned to nodes provided by Webots without IDs.
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);
@@ -95,6 +98,10 @@ function getAncestor(node) {
   return node;
 }
 
+function getAnId() {
+  return 'n' + undefinedID--;
+}
+
 function length(vec3) {
   return Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
 }
@@ -109,6 +116,17 @@ function nodeIsInBoundingObject(node) {
       return parent.boundingObject === node;
     else if (typeof parent.parent !== 'undefined')
       return nodeIsInBoundingObject(parent);
+  }
+
+  return false;
+}
+
+function isDescendantOfBillboard(node) {
+  while (typeof node !== 'undefined') {
+    if (node instanceof WbBillboard)
+      return true;
+
+    node = WbWorld.instance.nodes.get(node.parent);
   }
 
   return false;
@@ -135,7 +153,10 @@ function quaternionToVec4(quat) {
     angle = 2.0 * Math.acos(quat.w);
 
   // normalise axes
-  const inv = 1.0 / Math.sqrt(quat.x * quat.x + quat.y * quat.y + quat.z * quat.z);
+  let div = Math.sqrt(quat.x * quat.x + quat.y * quat.y + quat.z * quat.z);
+  if (div === 0)
+    div = 1;
+  const inv = 1.0 / div;
   const x = quat.x * inv;
   const y = quat.y * inv;
   const z = quat.z * inv;
@@ -166,4 +187,4 @@ function vec4ToQuaternion(vec4) {
   return glm.quat(cosinusHalfAngle, vec4.x * sinusHalfAngle, vec4.y * sinusHalfAngle, vec4.z * sinusHalfAngle);
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, getAncestor};
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard, getAncestor, getAnId};

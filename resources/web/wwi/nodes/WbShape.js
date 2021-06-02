@@ -4,8 +4,7 @@ import WbPBRAppearance from './WbPBRAppearance.js';
 import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
-
-import Parser from './../Parser.js';
+import {getAnId} from './utils/utils.js';
 
 export default class WbShape extends WbBaseNode {
   constructor(id, castShadow, isPickable, geometry, appearance) {
@@ -39,13 +38,13 @@ export default class WbShape extends WbBaseNode {
   async clone(customID) {
     let geometry, appearance;
     if (typeof this.geometry !== 'undefined') {
-      geometry = this.geometry.clone('n' + Parser.undefinedID++);
+      geometry = this.geometry.clone(getAnId());
       geometry.parent = customID;
       WbWorld.instance.nodes.set(geometry.id, geometry);
     }
 
     if (typeof this.appearance !== 'undefined') {
-      appearance = await this.appearance.clone('n' + Parser.undefinedID++);
+      appearance = await this.appearance.clone(getAnId());
       appearance.parent = customID;
       WbWorld.instance.nodes.set(appearance.id, appearance);
     }
