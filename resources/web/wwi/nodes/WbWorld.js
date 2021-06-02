@@ -9,6 +9,7 @@ export default class WbWorld {
     // map from id to node
     this.nodes = new Map();
 
+    this.billboards = [];
     this.readyForUpdates = false;
   }
 

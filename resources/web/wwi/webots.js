@@ -218,8 +218,10 @@ webots.View = class View {
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
     } else {
-      if (typeof this._x3dDiv !== 'undefined')
+      if (typeof this._x3dDiv !== 'undefined') {
         this.view3D.appendChild(this._x3dDiv);
+        this.x3dScene.prefix = texturePathPrefix;
+      }
       if (typeof this.progress !== 'undefined')
         this.view3D.appendChild(this.progress);
     }

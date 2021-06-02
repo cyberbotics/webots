@@ -4,6 +4,9 @@ bin/qt/lrelease [mac,linux,exe] # allow users to create translations in their ow
 bin/qt/lupdate [mac,linux,exe]
 bin/qt/moc [mac,linux,exe]
 
+docs/
+docs/list.txt
+
 include/
 include/ode/
 include/ode/ode/
