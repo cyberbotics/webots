@@ -67,9 +67,8 @@ PROTO TemplateExaustiveParameters [
         message = 'PROTO SFNode.node_name test failed';
       else if (fields.mfi.value[0] !== 1 || fields.mfi.value[1] !== 2 || fields.mfi.value[2] !== 3)
         message = 'MFInt32 test failed';
-      
-      let arg = 'test --prefix in ' + fields.sfs3.value + '.';
 
+      let arg = 'test --prefix in ' + fields.sfs3.value + '.';
     }%
     model "%{= message }%"
     customData "%{= fields.sfs2.value }%"

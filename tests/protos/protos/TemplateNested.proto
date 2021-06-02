@@ -5,7 +5,7 @@ PROTO TemplateNested [
   field SFBool nestedParameter TRUE
 ]
 {
-  %{ const p = fields.nestedParameter.value && "TRUE" || "FALSE"; }%
+  %{ const p = fields.nestedParameter.value ? 'TRUE' : 'FALSE'; }%
   Shape {
     appearance Appearance {
       material Material {

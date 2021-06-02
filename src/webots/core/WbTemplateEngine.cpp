@@ -169,6 +169,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   int indexClosingToken = 0;
   int lastIndexClosingToken = -1;
   mTemplateContent = mTemplateContent.toUtf8();
+
   while (1) {
     int indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
     if (indexOpeningToken == -1) {  // no more matches

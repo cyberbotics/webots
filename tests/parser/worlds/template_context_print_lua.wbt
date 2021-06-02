@@ -12,5 +12,5 @@ Background {
 }
 ParserTestSupervisor {
 }
-TemplateContextPrint {
+TemplateContextPrintLua {
 }
