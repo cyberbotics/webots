@@ -33,6 +33,7 @@ class WbRobot;
 class WbTransform;
 class WbSolid;
 class WbWrenLabelOverlay;
+class WbField;
 
 class WbSupervisorUtilities : public QObject {
   Q_OBJECT
