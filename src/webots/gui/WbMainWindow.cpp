@@ -26,7 +26,6 @@
 #include "WbControlledWorld.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDockWidget.hpp"
-#include "WbDocumentation.hpp"
 #include "WbFileUtil.hpp"
 #include "WbGuidedTour.hpp"
 #include "WbImportWizard.hpp"
@@ -106,7 +105,6 @@
 WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingServer, QWidget *parent) :
   QMainWindow(parent),
   mExitStatus(0),
-  mDocumentation(NULL),
   mTextEditor(NULL),
   mSimulationView(NULL),
   mRecentFiles(NULL),
@@ -315,7 +313,6 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     // hide docks
     for (int i = 0; i < mConsoles.size(); ++i)
       mConsoles.at(i)->hide();
-    mDocumentation->hide();
     if (mTextEditor)
       mTextEditor->hide();
 
@@ -340,7 +337,6 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     // show docks
     for (int i = 0; i < mConsoles.size(); ++i)
       mConsoles.at(i)->show();
-    mDocumentation->show();
     if (mTextEditor)
       mTextEditor->show();
 
@@ -396,14 +392,9 @@ void WbMainWindow::createMainTools() {
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
   connect(mTextEditor, &WbBuildEditor::resetRequested, this, &WbMainWindow::resetWorldFromGui, Qt::QueuedConnection);
 
-  mDocumentation = new WbDocumentation(this);
-  addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
-  addDock(mDocumentation);
-  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, mDocumentation, &WbDocumentation::open);
-  mDocumentation->open("guide", "index", false);
+  connect(mSimulationView->sceneTree(), &WbSceneTree::documentationRequest, this, &WbMainWindow::showOnlineDocumentation);
   // this instruction does nothing but prevents issues resizing QDockWidgets
   // https://stackoverflow.com/questions/48766663/resize-qdockwidget-without-undocking-and-docking
-  resizeDocks({mDocumentation}, {20}, Qt::Horizontal);
 
   mOdeDebugger = new WbOdeDebugger();
   connect(WbVideoRecorder::instance(), &WbVideoRecorder::requestOpenUrl, this, &WbMainWindow::openUrl);
@@ -710,7 +701,6 @@ void WbMainWindow::enableToolsWidgetItems(bool enabled) {
     WbActionManager::setActionEnabledSilently(mTextEditor->toggleViewAction(), enabled);
   for (int i = 0; i < mConsoles.size(); ++i)
     WbActionManager::setActionEnabledSilently(mConsoles.at(i)->toggleViewAction(), enabled);
-  WbActionManager::setActionEnabledSilently(mDocumentation->toggleViewAction(), enabled);
 }
 
 // we need this function because WbDockWidget and WbSimulationView don't have a common base class
@@ -755,7 +745,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   menu->addAction(mSimulationView->toggleSceneTreeAction());
   if (mTextEditor)
     menu->addAction(mTextEditor->toggleViewAction());
-  menu->addAction(mDocumentation->toggleViewAction());
 
   QAction *action = new QAction(this);
   action->setText(tr("Restore &Layout"));
@@ -890,28 +879,6 @@ QMenu *WbMainWindow::createHelpMenu() {
   action->setStatusTip(tr("Open the Webots for automobiles book online."));
   connect(action, &QAction::triggered, this, &WbMainWindow::showAutomobileDocumentation);
   menu->addAction(action);
-
-  QMenu *offlineDocumentationMenu = new QMenu(tr("&Offline documentation"), this);
-
-  action = new QAction(this);
-  action->setText(tr("&User Guide"));
-  action->setStatusTip(tr("Open the Webots user guide in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineUserGuide);
-  offlineDocumentationMenu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Reference manual"));
-  action->setStatusTip(tr("Open the Webots reference manual in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineReferenceManual);
-  offlineDocumentationMenu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Webots for automobiles"));
-  action->setStatusTip(tr("Open the Webots for automobiles book in the documentation tool."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showOfflineAutomobileDocumentation);
-  offlineDocumentationMenu->addAction(action);
-
-  menu->addMenu(offlineDocumentationMenu);
 
   menu->addSeparator();
 
@@ -1164,13 +1131,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile) {
     perspective->setFilesList(mTextEditor->openFiles());
     perspective->setSelectedTab(mTextEditor->selectedTab());
   }
-  if (mDocumentation->isVisible()) {
-    perspective->setDocumentationBook(mDocumentation->book());
-    perspective->setDocumentationPage(mDocumentation->page());
-  } else {
-    perspective->setDocumentationBook("");
-    perspective->setDocumentationPage("");
-  }
+
   perspective->setOrthographicViewHeight(world->orthographicViewHeight());
 
   QStringList robotWindowNodeNames;
@@ -1255,14 +1216,6 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
       mSimulationView->restoreState(perspective->simulationViewState(), firstLoad);
       if (mTextEditor)
         mTextEditor->openFiles(perspective->filesList(), perspective->selectedTab());
-      if (!perspective->documentationBook().isEmpty())
-        mDocumentation->open(perspective->documentationBook(), perspective->documentationPage());
-      else {  // the documentation dock is not specified, reset it to its default location and contents
-        mDocumentation->open("guide", "index", false);
-        removeDockWidget(mDocumentation);
-        addDockWidget(Qt::LeftDockWidgetArea, mDocumentation, Qt::Horizontal);
-        mDocumentation->hide();
-      }
     }
     // update icons
     foreach (QWidget *dock, mDockWidgets)
@@ -1748,6 +1701,7 @@ void WbMainWindow::show3DForceInfo() {
       break;
     case WbSysInfo::WIN32_PLATFORM:
       info = infoWindows;
+      break;
     default:
       assert(false);
   }
@@ -1807,8 +1761,8 @@ void WbMainWindow::showDocument(const QString &url) {
     QString WEBOTS_HOME(QDir::toNativeSeparators(WbStandardPaths::webotsHomePath()));
     QByteArray ldLibraryPathBackup = qgetenv("LD_LIBRARY_PATH");
     QByteArray newLdLibraryPath = ldLibraryPathBackup;
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots/", "");
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots", "");
+    newLdLibraryPath.replace((WEBOTS_HOME + "lib/webots/").toUtf8(), "");
+    newLdLibraryPath.replace((WEBOTS_HOME + "lib/webots").toUtf8(), "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
 #endif
     QString u("file:///" + url);
@@ -1821,35 +1775,26 @@ void WbMainWindow::showDocument(const QString &url) {
     WbMessageBox::warning(tr("Cannot open the document: '%1'.").arg(url), this, tr("Internal error"));
 }
 
-void WbMainWindow::showOnlineBook(const QString &book) {
-  QString versionString = WbApplicationInfo::version().toString();
-  versionString.replace(" revision ", "-rev");
-  const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/index?version=" + versionString;
+void WbMainWindow::showOnlineDocumentation(const QString &book, const QString &page) {
+  QString versionString = WbApplicationInfo::branch();
+  if (versionString.isEmpty()) {
+    versionString = WbApplicationInfo::version().toString();
+    versionString.replace(" revision ", "-rev");
+  }
+  const QString url = WbStandardPaths::cyberboticsUrl() + "/doc/" + book + "/" + page + "?version=" + versionString;
   showDocument(url);
 }
 
 void WbMainWindow::showUserGuide() {
-  showOnlineBook("guide");
+  showOnlineDocumentation("guide");
 }
 
 void WbMainWindow::showReferenceManual() {
-  showOnlineBook("reference");
+  showOnlineDocumentation("reference");
 }
 
 void WbMainWindow::showAutomobileDocumentation() {
-  showOnlineBook("automobile");
-}
-
-void WbMainWindow::showOfflineUserGuide() {
-  mDocumentation->open("guide");
-}
-
-void WbMainWindow::showOfflineReferenceManual() {
-  mDocumentation->open("reference");
-}
-
-void WbMainWindow::showOfflineAutomobileDocumentation() {
-  mDocumentation->open("automobile");
+  showOnlineDocumentation("automobile");
 }
 
 void WbMainWindow::openGithubRepository() {
