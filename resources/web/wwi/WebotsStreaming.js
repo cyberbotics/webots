@@ -91,6 +91,18 @@ export default class WebotsStreaming extends HTMLElement {
     }
   }
 
+  showQuit(enable) {
+    webots.showQuit = enable;
+  }
+
+  showRevert(enable) {
+    webots.showRevert = enable;
+  }
+
+  showRun(enable) {
+    webots.showRun = enable;
+  }
+
   sendMessage(message) {
     if (typeof this._view !== 'undefined' && this._view.stream.socket.readyState === 1)
       this._view.stream.socket.send(message);
