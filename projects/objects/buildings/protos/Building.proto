@@ -81,8 +81,8 @@ PROTO Building [
     let height = floorHeight * floorNumber;
 
     let corners = fields.corners.value;
-    let nbCorners = Object.keys(corners).length;
-    if (!wbgeometry.isPoint2ArrayClockwise(Object.values(corners)) { // TODO: MF blah blah
+    let nbCorners = corners.length;
+    if (!wbgeometry.isPoint2ArrayClockwise(corners) {
       temporaryCorners = [];
       for (let i = 0; i < nbCorners; ++i)
         temporaryCorners.push(corners[nbCorners - i]); // TODO: removed stuff

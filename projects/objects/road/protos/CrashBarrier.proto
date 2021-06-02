@@ -24,10 +24,10 @@ PROTO CrashBarrier [
     const height = 0.8;
 
     let path = fields.path.value;
-    let nbPath = Object.keys(path).length;
+    let nbPath = path.length;
     if (nbPath < 2) {
       path = fields.path.defaultValue;
-      nbPath = Object.keys(path).length;
+      nbPath = path.length;
       console.error('\'path\' must have at least two components. Value reset to default.');
     }
     const subdivision = fields.subdivision.value;
@@ -39,7 +39,7 @@ PROTO CrashBarrier [
 
     // compute the length (used for the texture scale)
     if (subdivision > 0) {
-      path = wbgeometry.bSpline3(Object.values(path), subdivision);
+      path = wbgeometry.bSpline3(path, subdivision);
       nbPath = path.length;
     }
 

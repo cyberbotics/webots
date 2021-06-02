@@ -43,7 +43,7 @@ This allows developers to use `console.log` and `console.error` to write on thes
 | SFRotation   | object (keys: "x", "y", "z" and "a")                  | {x: 1, y: 2, z: 3, a: 3.14} |
 | SFColor      | object (keys: "r", "g" and "b")                       | {r: 1, g: 0, b: 0}          |
 | SFNode       | object (keys: "node\_name", "fields")                 |                             |
-| MF*          | array (indexes = multiple value positions)            |                             |
+| MF*          | array                                                 | [1.2, {x: 1, y: 0}, 'word'] |
 
 %end
 
@@ -611,7 +611,7 @@ Creates and returns a deep copy of any object provided as argument (i.e an indep
  * @param {number} angle
  * @returns {number}
  */
-wbmath.degreesToRadians(angle);
+wbutility.degreesToRadians(angle);
 ```
 
 Converts the provided number from degrees to radians.
@@ -621,7 +621,7 @@ Converts the provided number from degrees to radians.
  * @param {number} angle
  * @returns {number}
  */
-wbmath.radiansToDegrees(angle);
+wbutility.radiansToDegrees(angle);
 ```
 
 Converts the provided number from radians to degrees.

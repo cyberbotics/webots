@@ -21,7 +21,7 @@ PROTO SickLdMrs [
 {
   %{
     import * as wbrotation from 'modules/webots/wbrotation.js';
-    import * as wbmath from 'modules/webots/wbmath.js';
+    import * as wbutility from 'modules/webots/wbutility.js';
 
     // get and check fields
     const type = fields.type.value;
@@ -31,7 +31,7 @@ PROTO SickLdMrs [
 
     let measurementLayers = is8L ? 8 : 4;
 
-    let angularResolution = wbmath.degreesToRadians(0.5);
+    let angularResolution = wbutility.degreesToRadians(0.5);
     if (fields.angularResolution.value === '0.25 [deg]')
       angularResolution = angularResolution * 0.5;
     else if (fields.angularResolution.value === '0.125 [deg]')
@@ -44,15 +44,15 @@ PROTO SickLdMrs [
     children [
       Lidar {
         %{
-          let internalRotation = wbrotation.combine({x: 0, y: 1, z: 0, a: -wbmath.degreesToRadians(7.5)}, {x: 0, y: 0, z: 1, a: Math.PI});
-          let horizontalFieldOfView = wbmath.degreesToRadians(85);
+          let internalRotation = wbrotation.combine({x: 0, y: 1, z: 0, a: -wbutility.degreesToRadians(7.5)}, {x: 0, y: 0, z: 1, a: Math.PI});
+          let horizontalFieldOfView = wbutility.degreesToRadians(85);
         }%
         rotation %{= internalRotation.x }% %{= internalRotation.y }% %{= internalRotation.z }% %{= internalRotation.a }%
         name IS name
         model %{= '"Sick LD-MRS ' + fields.type.value + '"' }%
         fieldOfView %{= horizontalFieldOfView }%
         horizontalResolution %{= Math.round(horizontalFieldOfView / angularResolution)  }%
-        verticalFieldOfView %{= wbmath.degreesToRadians(0.8 * (measurementLayers + 1)) }%
+        verticalFieldOfView %{= wbutility.degreesToRadians(0.8 * (measurementLayers + 1)) }%
         numberOfLayers %{= measurementLayers }%
         minRange 0.5
         maxRange 300
@@ -60,8 +60,8 @@ PROTO SickLdMrs [
       }
       Lidar {
         %{
-          internalRotation = wbrotation.combine({x: 0, y: 1, z: 0, a: -wbmath.degreesToRadians(5)}, {x: 0, y: 0, z: 1, a: Math.PI});
-          horizontalFieldOfView = wbmath.degreesToRadians(110);
+          internalRotation = wbrotation.combine({x: 0, y: 1, z: 0, a: -wbutility.degreesToRadians(5)}, {x: 0, y: 0, z: 1, a: Math.PI});
+          horizontalFieldOfView = wbutility.degreesToRadians(110);
           measurementLayers = measurementLayers * 0.5;
         }%
         rotation %{= internalRotation.x }% %{= internalRotation.y }% %{= internalRotation.z }% %{= internalRotation.a }%
@@ -69,7 +69,7 @@ PROTO SickLdMrs [
         model %{= '"Sick LD-MRS ' + fields.type.value + '"' }%
         fieldOfView %{= horizontalFieldOfView }%
         horizontalResolution %{= Math.round(horizontalFieldOfView / angularResolution) }%
-        verticalFieldOfView %{= wbmath.degreesToRadians(0.8 * (measurementLayers + 1)) }%
+        verticalFieldOfView %{= wbutility.degreesToRadians(0.8 * (measurementLayers + 1)) }%
         numberOfLayers %{= measurementLayers }%
         minRange 0.5
         maxRange 300

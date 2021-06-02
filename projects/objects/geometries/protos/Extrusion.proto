@@ -27,17 +27,17 @@ PROTO Extrusion [
 
     // fields checks
     let crossSection = fields.crossSection.value;
-    let nbCrossSectionPoint = Object.keys(crossSection).length;
+    let nbCrossSectionPoint = crossSection.length;
 
     let spine = fields.spine.value;
-    let nbSpinePoints = Object.keys(spine).length;
+    let nbSpinePoints = spine.length;
 
     let orientation = fields.orientation.value;
-    let nbOrientation = Object.keys(orientation).length;
+    let nbOrientation = orientation.length;
 
     // check and complement the scale array
     let scale = fields.scale.value;
-    let nbScale = Object.keys(scale).length;
+    let nbScale = scale.length;
     if (nbScale === 0) {
       for (let i = 0; i < nbSpinePoints; ++i)
         scale[i] = {x: 1.0, y: 1.0};
@@ -45,11 +45,11 @@ PROTO Extrusion [
       for (let i = nbScale; i < nbSpinePoints; ++i)
         scale[i] = scale[i - 1];
     }
-    nbScale = Object.keys(scale).length; // TODO: JUST LENGTH IF MODIFIED MF TO ARRAY
+    nbScale = scale.length;
     const splineSubdivision = fields.splineSubdivision.value;
     // use B-Spline interpolation if splineSubdivision is greater than 1
     if (splineSubdivision > 0) {
-      spine = wbgeometry.bSpline3(Object.values(spine), splineSubdivision); // TODO: MF => PURE ARRAY NOT OBJ ARRAY
+      spine = wbgeometry.bSpline3(spine, splineSubdivision);
       nbSpinePoints = spine.length;
     }
 

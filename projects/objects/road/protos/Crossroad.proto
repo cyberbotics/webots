@@ -21,7 +21,7 @@ PROTO Crossroad [
 ]
 {
   %{
-    const nShape = Object.keys(fields.shape.value).length;
+    const nShape = fields.shape.value.length;
     const shape = fields.shape.value;
     const textureCoordinateRatio = 0.2;
     console.log(nShape)

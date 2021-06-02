@@ -20,7 +20,7 @@ PROTO TruckTrailer [
       length = 5.0;
       console.error('\'length\' should not be smaller than 5.0. Value reset to ' + length + '.');
     }
-    const wheelAxlesNumber = Object.keys(fields.wheelAxles.value).length;
+    const wheelAxlesNumber = fields.wheelAxles.value.length;
   }%
   Slot {
     type "truck trailer"

@@ -50,7 +50,7 @@ PROTO Fence [
       console.error('\'poleRadius\' must be strictly positive. Value reset to ' + poleRadius + '.');
     }
     let path = fields.path.value;
-    if (Object.keys(path).length < 2) {
+    if (path.length < 2) {
       path = fields.path.defaultValue;
       console.error('\'path\' must have at least two components. Value reset to default value.');
     }
@@ -64,9 +64,9 @@ PROTO Fence [
 
     // use B-Spline interpolation if subdivision is greater than 1
     if (subdivision > 0)
-      path = wbgeometry.bSpline3(Object.values(path), subdivision); // TODO.. MF => PURE ARRAY NOT OBJ ARRAY
+      path = wbgeometry.bSpline3(path, subdivision); // TODO.. MF => PURE ARRAY NOT OBJ ARRAY
 
-    let nbPath = Object.keys(path).length;
+    let nbPath = path.length;
 
     // compute pole positions
     let polePositions = [];

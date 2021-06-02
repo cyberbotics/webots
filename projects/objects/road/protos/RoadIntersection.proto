@@ -69,7 +69,7 @@ PROTO RoadIntersection [
 
     let startRoadsLength = fields.startRoadsLength.value;
     let useIndependentStartRoadLength = true;
-    let startRoadsLengthNB = Object.keys(startRoadsLength).length;
+    let startRoadsLengthNB = startRoadsLength.length;
     if (startRoadsLengthNB === 0) {
       useIndependentStartRoadLength = false;
       startRoadsLength.push(0);

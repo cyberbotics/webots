@@ -16,10 +16,10 @@ PROTO Thymio2LED [
 ]
 {
   %{
-    const length = Object.keys(fields.translations.value).length;
-    const lengthTextureUrls = Object.keys(fields.textureUrls.value).length;
-    const lengthRotations = Object.keys(fields.rotations.value).length;
-    const lengthSizes = Object.keys(fields.sizes.value).length;
+    const length = fields.translations.value.length;
+    const lengthTextureUrls = fields.textureUrls.value.length;
+    const lengthRotations = fields.rotations.value.length;
+    const lengthSizes = fields.sizes.value.length;
     const isLight = fields.lightPosition.value.x !== -1 || fields.lightPosition.value.y !== -1 || fields.lightPosition.value.z !== -1;
 
     if (length !== lengthRotations || length !== lengthTextureUrls || length !== lengthSizes) {

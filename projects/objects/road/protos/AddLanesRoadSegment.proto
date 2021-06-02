@@ -71,7 +71,7 @@ PROTO AddLanesRoadSegment [
     const newLaneLeft   = fields.newLaneLeft.value;
     let dashedLine    = fields.dashedLine.value;
     let roadLines     = fields.lines.value;
-    for (let i = 0; i < Object.keys(roadLines).length; ++i) {
+    for (let i = 0; i < roadLines.length; ++i) {
       if (roadLines[i].node_name !== 'RoadLine') {
         roadLines[i] = undefined;
         console.error('Only \'RoadLine\' nodes should be added in the \'lines\' field.');

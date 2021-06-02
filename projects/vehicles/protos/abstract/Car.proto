@@ -233,7 +233,7 @@ PROTO Car [
     // engineSoundRpmReference
     customData += engineSoundRpmReference + ' ';
     // gears number
-    const gearNumber = Object.keys(fields.gearRatio.value).length; // TODO: is SAME? print out...
+    const gearNumber = fields.gearRatio.value.length; // TODO: is SAME? print out...
     customData += gearNumber + ' ';
     // length of engineSound
     customData += engineSound.length + ' ';

@@ -130,7 +130,7 @@ PROTO AdvertisingBoard [
             ]
           }
           %{
-            if (Object.keys(fields.frontTexture.value).length === 0) {
+            if (fields.frontTexture.value.length === 0) {
               // get size of Lua table component to decide whether an url is present or not.
               // if test is true, the frame indentation is deleted
               offsetFront = 0;
@@ -162,7 +162,7 @@ PROTO AdvertisingBoard [
             ]
           }
           %{
-            if (Object.keys(fields.backTexture.value).length === 0 || poleType === 'H-shape') {
+            if (fields.backTexture.value.length === 0 || poleType === 'H-shape') {
               // Manually setting the display offset for the H-shape because backTexture
               // is still present in the arguments, thus not allowing the loop to detect
               // the absence of texture.
