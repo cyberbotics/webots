@@ -81,16 +81,10 @@ JetBotRaspberryPiCamera {
 ### Sample
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/nvidia/jetbot/worlds]({{ url.github_tree }}/projects/robots/nvidia/jetbot/worlds)".
+An additional example using PyTorch CNN to perform collision avoidance is available [here](https://github.com/cyberbotics/webots-projects/blob/projects/nvidia-jetbot-collision-avoidance).
 
 #### jetbot.wbt
 
 ![jetbot.wbt.png](images/robots/jetbot/jetbot.wbt.thumbnail.jpg) In this example, you can see a JetBot robot performing basic motion.
 The `jetbot` C controller replicates the basic motion provided by the official ["Basic Motion"](https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/basic_motion/basic_motion.ipynb) Jupyter notebook.
 
-
-#### jetbot\_collision\_avoidance.wbt
-
-![jetbot_collision_avoidance.wbt.png](images/robots/jetbot/jetbot_collision_avoidance.wbt.thumbnail.jpg) In this example, the JetBot robot performs collision avoidance based on a PyTorch neural network.
-A pre-trained model is provided to be used directly with the Python `jetbot_collision_avoidance` controller.
-However, a Python `jetbot_collect_data` controller is also provided to build a dataset and computer the PyTorch trained model.
-The Python controllers used in this example replicates the collision avoidance code provided by the official ["Collision Avoidance"](https://github.com/NVIDIA-AI-IOT/jetbot/tree/master/notebooks/collision_avoidance) Jupyter notebooks.
