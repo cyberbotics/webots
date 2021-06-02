@@ -447,28 +447,11 @@ Also the robot windows are not yet supported.
 
 Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-streaming` web component from the [WebotsStreaming.js] package.
 In this case the `webots.View.broadcast` parameters doesn't have to be set to true.
-But some other parameters could be used:
-* `webots.CustomData`: application specific data to be passed to the simulation server and then to the `download_project.php` (see [init Simulation Data Download](web-simulation.md#init-simulation-data-download) section) script. These can be used to specify the setup of the simulation that will be copied in the Webots instance folder.
-* `webots.showRevert`: defines whether the revert button should be displayed in the web interface toolbar.
-* `webots.showQuit`:  defines whether the quit button should be displayed in the web interface toolbar.
 
-If the application requires individual access and authentication, then these additional parameters are available:
-* `webots.User1Id`: id of the main user (integer value > 0). If 0 or unset, the user is not logged in.
-* `webots.User1Name`: user name of the main user.
-* `webots.User1Authentication`: password hash or authentication data for the main user. Empty or unset if user not authenticated.
-* `webots.User2Id`: id of the secondary user, used for example in case of a soccer match between two different users. 0 or unset if not used.
-* `webots.User2Name`: user name of the secondary user.
-
-This is the API of the `webots.View` class:
+This is the API of the `webots-streaming` web component:
 * `webots.View(view3D, mobile)`: constructor instantiating the simulation web interface and taking as argument:
   * `view3d`: DOM element that will contain the simulation web interface.
   * `mobile`: boolean variable specifying if the application is running on a mobile device.
-* `webots.View.open(url)`: load the given simulation. Three different `url` formats are supported:
-  * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The `url` value specifies both the session server host and the desired simulation name.
-  * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
-  * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md)).
-* `webots.View.setTimeout(timeout)`: utility function to specify how long the simulation can run without user interaction. Setting a timeout value is useful to save resources on the server side and avoid having very long simulation running continuously on the machines and saturating the machines. The `timeout` value is expressed in seconds.
-* `webots.View.setWebotsDocUrl(url)`: utility function to specify the URL of the Webots documentation shown in the Help window.
 
 ### Scene Refresh Rate
 
