@@ -7,7 +7,7 @@ PROTO DerivedNotAssociated [
 {
   %{
     if (fields.size.value.x > 0)
-      console.log("'size.x' is positive")
+      console.log("'size.x' is positive");
   }%
   BoxShape {
     size 0.1 0.1 0.1

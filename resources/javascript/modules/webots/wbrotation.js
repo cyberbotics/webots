@@ -140,9 +140,9 @@ export function rotateVector3ByMatrix3(m, v) {
   wbutility.assert(wbutility.isVector3(v), 'Expected an object with keys (x, y, z) as second parameter in wbrotation.rotateVector3ByMatrix3.');
 
   const vector3 = {
-    x: m[1] * v.x + m[2] * v.y + m[3] * v.z,
-    y: m[4] * v.x + m[5] * v.y + m[6] * v.z,
-    z: m[7] * v.x + m[8] * v.y + m[9] * v.z
+    x: m[0] * v.x + m[1] * v.y + m[2] * v.z,
+    y: m[3] * v.x + m[4] * v.y + m[5] * v.z,
+    z: m[6] * v.x + m[7] * v.y + m[8] * v.z
   };
 
   return vector3;

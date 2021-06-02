@@ -1536,7 +1536,7 @@ void WbViewpoint::exportNodeFields(WbVrmlWriter &writer) const {
     writer << " exposure=\'" << mExposure->value() << "\'";
     writer << " bloomThreshold=\'" << mBloomThreshold->value() << "\'";
     writer << " zNear=\'" << mNear->value() << "\'";
-    writer << " far=\'" << mFar->value() << "\'";
+    writer << " zFar=\'" << mFar->value() << "\'";
     writer << " followSmoothness=\'" << mFollowSmoothness->value() << "\'";
     writer << " ambientOcclusionRadius=\'" << mAmbientOcclusionRadius->value() << "\'";
     if (mFollowedSolid)

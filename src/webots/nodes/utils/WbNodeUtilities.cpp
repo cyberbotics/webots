@@ -19,6 +19,7 @@
 #include "WbBallJoint.hpp"
 #include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
+#include "WbBillboard.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbBrake.hpp"
 #include "WbDevice.hpp"
@@ -1647,6 +1648,13 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
   if (solid) {
     if (warning)
       *warning = QObject::tr("Solid nodes cannot be USEd.");
+    return false;
+  }
+
+  const WbBillboard *const billboard = dynamic_cast<WbBillboard *>(n);
+  if (billboard) {
+    if (warning)
+      *warning = QObject::tr("Billboard nodes cannot be USEd.");
     return false;
   }
 

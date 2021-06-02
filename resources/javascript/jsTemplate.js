@@ -27,7 +27,7 @@ let console = {
     var args = Array.prototype.slice.call(arguments);
     let entry = '';
     for (let i = 0; i < args.length; ++i){
-      if (typeof args[i] == 'object')
+      if (typeof args[i] === 'object')
         entry += JSON.stringify(args[i], null, 1);
       else
         entry += args[i];
@@ -40,8 +40,9 @@ function render(text) {
   return text;
 };
 
-export function main() {
-  let result = '';
+export function generateVrml() {
+  let ___vrml = '';
+  let ___tmp;
 
   const context = { %context% };
 
@@ -49,5 +50,5 @@ export function main() {
 
   %body%
 
-  return result;
+  return ___vrml;
 };

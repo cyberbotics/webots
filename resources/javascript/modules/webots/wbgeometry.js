@@ -99,6 +99,9 @@ export function isPoint2ArrayClockwise(points) {
 // create a B-Spline curve of third order using the array of points (x and y)
 // return then a new array of point following this B-Spline subdividing each segment by 'subdivision'
 export function bSpline2(points, subdivision) {
+  wbutility.assert(wbutility.isArrayOfPoints(points, 2), 'Expected an array of objects with keys (x and y) as first parameter in wbgeometry.bSpline2.');
+  wbutility.assert(wbutility.isScalar(subdivision), 'Expected subdivision to be a number in wbgeometry.bSpline2.');
+
   let spline = [];
   const pointsNumber = points.length;
   // extend the points array
@@ -135,6 +138,9 @@ export function bSpline2(points, subdivision) {
 // create a B-Spline curve of third order using the array of points (x, y and z)
 // return then a new array of point following this B-Spline subdividing each segment by 'subdivision'
 export function bSpline3(points, subdivision) {
+  wbutility.assert(wbutility.isArrayOfPoints(points, 3), 'Expected an array of objects with keys (x, y and z) as first parameter in wbgeometry.bSpline3.');
+  wbutility.assert(wbutility.isScalar(subdivision), 'Expected subdivision to be a number in wbgeometry.bSpline3.');
+
   let spline = [];
   const pointsNumber = points.length;
   // extend the points array
@@ -144,7 +150,7 @@ export function bSpline3(points, subdivision) {
   points.unshift(wbvector3.add(points[0], wbvector3.minus(points[0], points[1])));
   // interpolation
   spline[0] = points[2]; // first point
-  for (let i = 1; i < pointsNumber + 1; ++i) {
+  for (let i = 2; i < pointsNumber + 1; ++i) {
     let a = []; // compute the third order coefficients for x
     let b = []; // compute the third order coefficients for y
     let c = []; // compute the third order coefficients for z

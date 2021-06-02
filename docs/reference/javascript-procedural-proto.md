@@ -91,9 +91,9 @@ The available modules are the following.
 
 - `wbvector3`: provides utility functions to manipulate three-dimensional vectors.
 
-- `wbmath`: provides commonly needed mathematical functions.
-
 - `wbgeometry`: provides geometry related functions, allowing for instance to create splines.
+
+- `wbutility`: provides commonly needed functions.
 
 The functions exported by each module are:
 
@@ -466,7 +466,7 @@ Returns the shortest distance between the two vectors.
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
  * @returns {Object.<x: number, y: number, z: number>}
- */String
+ */
 wbvector3.cross(vA, vB);
 ```
 
@@ -492,29 +492,6 @@ wbvector3.normalize(v);
 ```
 
 Normalizes the vector and returns the result.
-
-%tab-end
-
-%tab "wbmath"
-```
-/**
- * @param {number} angle
- * @returns {number}
- */
-wbmath.degreesToRadians(angle);
-```
-
-Converts the provided number from degrees to radians.
-
-```
-/**
- * @param {number} angle
- * @returns {number}
- */
-wbmath.radiansToDegrees(angle);
-```
-
-Converts the provided number from radians to degrees.
 
 %tab-end
 
@@ -628,6 +605,26 @@ wbutility.deepCopy(message);
 ```
 
 Creates and returns a deep copy of any object provided as argument (i.e an independent clone).
+
+```
+/**
+ * @param {number} angle
+ * @returns {number}
+ */
+wbmath.degreesToRadians(angle);
+```
+
+Converts the provided number from degrees to radians.
+
+```
+/**
+ * @param {number} angle
+ * @returns {number}
+ */
+wbmath.radiansToDegrees(angle);
+```
+
+Converts the provided number from radians to degrees.
 
 ```
 /**
