@@ -449,9 +449,16 @@ Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-we
 In this case the `webots.View.broadcast` parameters doesn't have to be set to true.
 
 This is the API of the `webots-streaming` web component:
-* `webots.View(view3D, mobile)`: constructor instantiating the simulation web interface and taking as argument:
-  * `view3d`: DOM element that will contain the simulation web interface.
-  * `mobile`: boolean variable specifying if the application is running on a mobile device.
+* `connect(url, mode, broadcast, mobileDevice, callback, disconnectCallback) `: function instantiating the simulation web interface and taking as argument:
+  * `url`: Three different `url` formats are supported:
+      * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The `url` value specifies both the session server host and the desired simulation name.
+      * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
+      * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md)).
+  * `mode`: `x3d` or `mjpeg`
+  * `broadcast`: boolean variable enabling or not the broadcast
+  * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+  * `callback`: function to be executed once the simulation is ready.
+  * `disconnectCallback`: function to be executed once the simulation is ready.
 
 ### Scene Refresh Rate
 
