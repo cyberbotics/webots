@@ -53,6 +53,7 @@ Released on June, Xth, 2021.
     - Made the `static` behavior the default for PROTO files and removal of the tag. Non static cases must be labeled as such using the `nonDeterministic` tag instead ([#2903](https://github.com/cyberbotics/webots/pull/2903)).
   - Bug fixes:
     - Fixed broken multithreading in Python controllers due to Python GIL ([#3104](https://github.com/cyberbotics/webots/pull/3104)).
+    - Fixed crash visualizing node properties in Node Editor for nodes in deeply nested PROTO structures ([#3109](https://github.com/cyberbotics/webots/pull/30109)).
     - Fixed crash when selecting velocities relative to kinematic ancestor [Solid](solid.md) node in Node Editor ([#3098](https://github.com/cyberbotics/webots/pull/3098)).
     - Fixed instabilities in the box-cylinder collision detection ([#3105](https://github.com/cyberbotics/webots/pull/3105)).
     - Fixed crash due to [Supervisor](supervisor.md) MF field operations based on negative positions that were not translated into valid indices after resetting the simulation from the same [Supervisor](supervisor.md) controller ([#2997](https://github.com/cyberbotics/webots/pull/2997)).
