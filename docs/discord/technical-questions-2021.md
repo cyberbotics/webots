@@ -16353,7 +16353,7 @@ Webots supports a lot of 3D formats, here is a list of what it can import. There
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/839261861785763910/unknown.png)
 %end
 
-##### dududd 05/05/2021 04:56:58
+##### Deleted User 05/05/2021 04:56:58
 Hello, does anybody knows how to change the icon size of Webots UI?
 
 ##### Stefania Pedrazzi [Cyberbotics] 05/05/2021 06:08:43
@@ -18052,4 +18052,614 @@ same with getOrientation()
 
 
 is that a nightly bug or an API change?
+
+##### Stefania Pedrazzi [Cyberbotics] 05/26/2021 14:11:40
+What is the `box_node` a node visible in the scene tree, a PROTO internal node or a base node?
+
+
+Which nighlty are you testing? R2021b or R2021a-rev1?
+
+
+We fixed an issue in R2021b with the `getPosition` function. It would be good if you could provide an example where this function is not working as you expect.
+
+##### Darko Lukić [Cyberbotics] 05/26/2021 14:36:27
+We added `wb_supervisor_node_get_pose`:
+
+[https://github.com/cyberbotics/webots/pull/2932](https://github.com/cyberbotics/webots/pull/2932)
+
+but we the `wb_supervisor_node_get_position` should still work.
+
+
+You mean levels, something like this?
+
+[https://ignitionrobotics.org/api/gazebo/2.10/levels.html](https://ignitionrobotics.org/api/gazebo/2.10/levels.html)
+
+##### James Le Poidevin 05/26/2021 14:39:18
+Yes i can't see the images but it sounds like that
+
+
+Is it already in webots ?
+
+##### bingdong 05/26/2021 16:14:16
+Hi! For the LED node that is non-gradual (gradual parameter is False and multiple colours can be assumed by the Light node), can the intensity be modified from the controller? Documentation specifies it can be done for a monochromatic LED, but nothing is mentioned in case of multicolor LED.
+
+##### Darko Lukić [Cyberbotics] 05/26/2021 16:28:44
+Unfortunately not, but you can use Supervisor to delete and elements in the scene
+
+##### Matt Estrada 05/26/2021 16:58:43
+Hello! I am interested in aquatic simulation of an amphibious robot we are developing in the Biorobotics Lab at EPFL. We have implemented this in the past via `Fluid Nodes` and `Immersion Properties` . 
+
+
+
+We are curious about a more complex interaction than  a single direction of fluid flow-- perhaps to implement flow along a "river" that might curve and simulate "flow" of this fluid in different directions, which could lead to some interesting motion planning problems. 
+
+
+
+I notice `streamVelocity` as part of a [Fluid]([https://cyberbotics.com/doc/reference/fluid](https://cyberbotics.com/doc/reference/fluid)) node seems to implement a single direction of flow. Do you know if anyone has tried to vary this streamVelocity, or any node's property, while the simulation was running? If so, this might allow us imitate a water flow that changes with respect to the robot's position in the map. 
+
+
+
+Not sure if I'm missing a higher level API for changing node properties in general that I might be able to use to attain this desired effect...
+
+##### robert.hobbs 05/26/2021 18:12:56
+Matt,  I was just reviewing the discord channel before asking the same question.  I need to model an AFV in a stream and it would be beneficail to include at least varying water velocities if not turbulent flows. I will follow your thread with interest and let you know if I find an answer beforehand.  Thanks
+
+##### mclzc 05/26/2021 19:03:03
+Hi, I was hearing this interview
+
+[https://www.theconstructsim.com/webots-robot-simulator-ros-olivier-michel/](https://www.theconstructsim.com/webots-robot-simulator-ros-olivier-michel/)
+
+
+
+and at minute 9:30 Oliver talks about preconfigured sensors. Is there an available list of these pre-configured sensors? I'd like to know of there are rgbd cameras configured like the Intel Realsense ones.
+
+##### pnaraltnsk 05/26/2021 19:29:49
+Hi, I am using Nao robot’s distance sensor and I want to disable the sensor for a specific object. Is that possible? Do you have any suggestions of how to do it?
+
+##### mclzc 05/26/2021 21:21:20
+Where could I find more information on how to translate Gazebo URDF to PROTO files? 
+
+
+
+I know and have used the `xacro2proto` script (which underneath uses `urdf2webots`),  but I don't really know what did it do and to what extent did it work. I see the Gazebo robot that I'm using being rendered in Webots... but I'm completely clueless of if it's a complete and successful translation into the PROTO format. The first question that comes to my mind is, "are the sensors correctly defined in the PROTO file now?"
+
+
+
+In this Github question ([https://github.com/cyberbotics/urdf2webots/issues/112](https://github.com/cyberbotics/urdf2webots/issues/112)) I have found the first piece of information that I have not seen around in the Webots tutorials that I've come across: `Why not introduce a <webots> xml tag instead of parsing the <gazebo> tags?`. Now I know that the script is indeed gazebo-tags aware and will look into the code, but would be nice to know what is it capable of.
+
+##### Olivier Michel [Cyberbotics] 05/27/2021 05:50:36
+Here the list of pre-configured sensors in Webots: [https://cyberbotics.com/doc/guide/sensors#commercially-available-sensors](https://cyberbotics.com/doc/guide/sensors#commercially-available-sensors). You can use a Kinect if you need a RGBD camera, or implement a Intel Realsense from basic sensors:  RGB camera + range finder camera: [https://cyberbotics.com/doc/reference/camera](https://cyberbotics.com/doc/reference/camera) + [https://cyberbotics.com/doc/reference/rangefinder](https://cyberbotics.com/doc/reference/rangefinder).
+
+
+You can use the supervisor API to change any field of any node (including the `streamVelocity` field). See this example to change a field from a supervisor: [https://cyberbotics.com/doc/guide/supervisor-programming#setting-the-position-of-robots](https://cyberbotics.com/doc/guide/supervisor-programming#setting-the-position-of-robots)
+
+
+Turn that object into a Transform (instead of a Solid)?
+
+
+The best way is probably to study the source code the `urdf2webots` script, study the content of the URDF and PROTO files to determine how successful the conversion was. This `urdf2webots` script is constantly evolving and improving, but still has some limitations for some specific cases, you are welcome to contribute to improve it if you spot any problem.
+
+##### bingdong 05/27/2021 06:22:30
+Hi! For the LED node that is non-gradual (gradual parameter is False and multiple colours can be assumed by the Light node), can the intensity be modified from the controller? Documentation specifies it can be done for a monochromatic LED, but nothing is mentioned in case of multicolor LED.
+
+##### Olivier Michel [Cyberbotics] 05/27/2021 06:24:11
+Yes, simply setting a RGB color with less intensity (lighter or darker) should work.
+
+##### bingdong 05/27/2021 06:25:37
+But these changes would be to colour and not the intensity parameter?
+
+##### Olivier Michel [Cyberbotics] 05/27/2021 06:25:53
+Yes.
+
+##### bingdong 05/27/2021 06:26:06
+Alright, thanks!
+
+##### oroulet [Premier Service] 05/27/2021 07:00:32
+using 2021b
+
+the node is an instanciated proto.
+
+getting the relative position works fine with box\_node.getField("translation").getSFVec3f()
+
+`
+
+getPose() works also (What is getPose btw, the same as getPosition AND getOrientation()?)
+
+
+box\_node.getPosition()
+
+[nan, nan, nan]
+
+(Pdb) box\_node.getPose()
+
+[1.0, 0.0, 0.0, 1.455, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, -1.5, 0.0, 0.0, 0.0, 1.0]
+
+##### Stefania Pedrazzi [Cyberbotics] 05/27/2021 07:02:22
+Ok, could you please open an issue on the Webots GItHub posting your PROTO node? This way we will be able to inspect the issue
+
+[https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug_report.md)
+
+##### oroulet [Premier Service] 05/27/2021 07:04:26
+I will try but as usual our model is big so we need to simplify it before sending
+
+
+`@Stefania Pedrazzi` what is node.getPose() also the global position? I cannot find it in documentation
+
+##### Stefania Pedrazzi [Cyberbotics] 05/27/2021 07:06:14
+Yes, it is the global world position and orientation of the node. Here is the R2021b documentation:
+
+[https://www.cyberbotics.com/doc/reference/supervisor?version=develop#wb\_supervisor\_node\_get\_pose](https://www.cyberbotics.com/doc/reference/supervisor?version=develop#wb_supervisor_node_get_pose)
+
+##### oroulet [Premier Service] 05/27/2021 07:06:51
+ah OK this is a new one. Good
+
+##### Greemfy 05/27/2021 09:33:00
+Hi guys👋  I hope you can help me with my (probably far too easy to solve) question. I´m using python and got my Lidar sensor working. Right now I calculate the coordinates of every point with the values of getRangeImage and the angular position of the lidar. It´s painfull 😂  To my suprise there is the easy solution getting the coordinates from LidarPoint.*. But I can´t figure out how to access those values. In the WB doc theres something written about @property. Never worked with that. If I want to get one coordinate of a point it says "<property object at 0x000002990325B9A0>". Thank you so much!
+
+##### Darko Lukić [Cyberbotics] 05/27/2021 11:27:12
+Can share the part of the code in which you are accessing the point data?
+
+##### James Le Poidevin 05/27/2021 13:23:19
+OK i thought i would have to try that. Do you think it would be possible to use one elevation grid or will i have to use multiple one that i load one by one ?
+
+##### Darko Lukić [Cyberbotics] 05/27/2021 13:57:03
+It would probably be easier to have multiple elevation grids
+
+##### mclzc 05/27/2021 14:53:12
+Thanks for your answers `@Olivier Michel`
+
+##### Jhon mathew 05/27/2021 16:50:57
+hello, I have used camera recognition in webots using python. I did everything according to the resources but I have 2 major issue. 1. values is updating only 0  
+
+2.  It says the index exceeds the list....
+
+
+
+
+
+
+
+I need some basic pre-build code in *Python*  atleast to get id using camera recognition... Other things I can manage with that reference.
+
+##### Matt Estrada 05/27/2021 19:00:17
+Thank you for the very quick and helpful response! That should accomplish what I am looking for!
+
+##### AmorFati 05/27/2021 19:53:30
+I have an environment where i need to recognize an object (Wooden Box) and reach that location. I am using E-Puck for my project. I got how to recognize the object which is inbuilt. Not sure what logic should i follow once i detect it.
+
+##### Simon Steinmann [Moderator] 05/27/2021 23:07:16
+`@AmorFati` [https://cyberbotics.com/doc/reference/camera?tab-language=python#camera](https://cyberbotics.com/doc/reference/camera?tab-language=python#camera)
+
+
+you can enable recognition
+
+##### Jhon mathew 05/28/2021 02:13:25
+please someone give basic code in python..  I need to get information about recognised object.
+
+##### Simon Steinmann [Moderator] 05/28/2021 02:14:16
+recognitionObjects = camera.getRecognitionObjects()
+
+    if len(recognitionObjects) > 0:
+
+        recognitionPosition = recognitionObjects[0].get\_position()
+
+        recognitionSize = recognitionObjects[0].get\_size()
+
+
+` camera.getRecognitionObjects()` returns a list, so when there is no recognized objects, the list is empty
+
+
+objects need their recognition color field defined in order to be detected
+
+##### Jhon mathew 05/28/2021 03:07:57
+thank you. ill try that now
+
+
+Object is detecting by the camera. I have done some minor mistake.. thank you
+
+##### AmorFati 05/28/2021 04:31:44
+Thanks Simon, but I think Epuch does not has Recognition node. Because when i do camera.hasRecognition(), it gives false. Can you guide me how to add one.
+
+##### Simon Steinmann [Moderator] 05/28/2021 04:32:19
+you have to enable recognition mode
+
+
+use the api documentation
+
+
+camera = robot.getDevice('camera')
+
+camera.enable(timeStep)
+
+camera.recognitionEnable(timeStep)
+
+
+something like that
+
+##### AmorFati 05/28/2021 05:03:46
+Yeah i tried that but its giving me below error: Error: wb\_camera\_recognition\_enable() called on a Camera without Recognition node.
+
+
+I tried this
+
+
+camera = robot.getDevice("camera")
+
+    camera.enable(time\_step)
+
+    camera.recognitionEnable(time\_step)
+
+
+where robot is EPuck robot
+
+##### Simon Steinmann [Moderator] 05/28/2021 05:22:53
+you might have to check the camera node, or maybe add a recognition color to the bot and or the camera
+
+##### Cyber Police Officer 05/28/2021 10:19:58
+I've tried to search the documentation, but didn't find any information about this. Is it possible, using the propeller node, to make a propeller have a different thrust coefficient depending on the rotation direction? 
+
+
+
+I know i can workaround using two propellers, facing in opposite directions, having each the correct thrust coefficient, but was wondering if there were a cleaner way.
+
+
+
+Thank you
+
+##### Beginner26798 05/28/2021 13:06:47
+Hi.. is there any helpful tutorials to help me if i want to make a robot that follows the recognised object
+
+
+Python language
+
+
+??
+
+##### Darko Lukić [Cyberbotics] 05/28/2021 14:51:46
+If you set a negative velocity it doesn't invert the thrust?
+
+
+[https://github.com/lukicdarkoo/webots-example-visual-tracking](https://github.com/lukicdarkoo/webots-example-visual-tracking)
+
+##### Beginner26798 05/28/2021 15:10:00
+Thank you
+
+
+What's the solution of this
+%figure
+![20210528_181021.jpg](https://cdn.discordapp.com/attachments/565154703139405824/847854388370079752/20210528_181021.jpg)
+%end
+
+##### Cyber Police Officer 05/28/2021 15:20:26
+It does. But some propellers have different thrust coefficients depending on the thrust direction
+
+##### Beginner26798 05/28/2021 17:00:52
+`@Darko Lukić` ?
+
+##### AmorFati 05/28/2021 18:18:22
+Can anyone tell how to add recognition colors to the WoodenBox in webots
+
+##### Simon Steinmann [Moderator] 05/28/2021 21:36:47
+`@AmorFati` you have to convert it to Base Nodes (right click). Then you can add the colors
+
+##### AmorFati 05/28/2021 21:37:14
+Thanks simon. I will try that.
+
+
+And one more thing I have got the object recognized. And I am not able to understand what is the difference between position and position\_on\_image in the API?
+
+##### Simon Steinmann [Moderator] 05/28/2021 21:39:07
+read the text under the commands. It explains it
+
+
+are you working on the vacuum project as well?
+
+##### AmorFati 05/28/2021 21:39:44
+Yeah i read it but not able to understand what it says exactly. I am getting x and y values in that
+
+
+No I am working on my own college Project
+
+##### Simon Steinmann [Moderator] 05/28/2021 21:40:17
+> The position\_on\_image and size\_on\_image can be used to determine the bounding box of the object in the camera image, the units are pixels
+
+##### AmorFati 05/28/2021 21:40:57
+Does it give the center of the bounding box of the recognised object?
+
+##### Simon Steinmann [Moderator] 05/28/2021 21:41:06
+I would assume so
+
+##### AmorFati 05/28/2021 21:41:11
+Okay
+
+
+and what does just Position gives ?
+
+##### Simon Steinmann [Moderator] 05/28/2021 21:41:41
+it gives the relative position of the recognized object to the camera
+
+
+as a sidenote: get\_size() has a bug in the current release, where it returns a integer instead of a float. So you will get the size rounded to the next full meter. Install the the latest nightly build if that is the case for you
+
+##### AmorFati 05/28/2021 21:44:22
+Thanks Simon. This was super helpful
+
+##### notjfarhan 05/29/2021 04:05:05
+```webots/projects/default/controllers/ros/ros: error while loading shared libraries: libroscpp.so: cannot open shared object file: No such file or directory
+
+WARNING: 'ros' controller exited with status: 127.
+```
+
+All I did was create a world , get a robot in and attach the generic 'ros' controller. Is there anything else I have to do ?
+
+
+hello ?
+
+##### insaanimanav 05/29/2021 08:39:29
+How do I create sensors of my own ?
+
+
+For example I want to create a simple sensor that reads some value of a node in the world , I couldn't find anything in the docs for that
+
+##### Bitbots\_Jasper [Moderator] 05/29/2021 08:47:45
+If you have ROS installed try running webots from a terminal where ROS is sourced
+
+
+What exactly are you trying to read? If you want to know some information about some object in your simulation have a look at the supervisor API. That might already fulfill your requirements
+
+##### bingdong 05/29/2021 08:51:41
+`@Beginner26798` You'll have to install the cv2 library to your system. If you have pip installed, open command prompt on windows and type: pip install opencv-python
+
+ [https://stackoverflow.com/questions/19876079/cannot-find-module-cv2-when-using-opencv](https://stackoverflow.com/questions/19876079/cannot-find-module-cv2-when-using-opencv)
+
+##### insaanimanav 05/29/2021 08:55:45
+Also one small question how can I add a custom property to something ?
+
+
+For example I want to have solid which has the custom property of let's say Ph
+
+
+Maybe humidity too
+
+##### notjfarhan 05/29/2021 09:40:29
+Thanks I got it.
+
+##### R K gupta 05/29/2021 15:24:12
+Does there is any way to add some extra sensors like temperature and PH sensors in webots to analyse the environment around it !like how  do  we get temperature of a particular thing  like environment in  webots ?
+
+##### SHAHRRUCK 05/30/2021 05:18:01
+Is there any way to create water pump in webots for irrigation purposes ??
+
+##### viorel\_gheorghe 05/30/2021 21:36:19
+Hi guys!
+
+
+Maybe is an already answer question, but I have not found the proper response 🙂
+
+
+Is there a way to save the sensor data from a robot (position, gyro, accelerometer) and plot them in excel?
+
+##### Simon Steinmann [Moderator] 05/31/2021 01:11:46
+`@viorel_gheorghe` you should google that for the programming language that you use. This is not Webots specific
+
+##### viorel\_gheorghe 05/31/2021 05:05:44
+`@Simon Steinmann`, I'm using Python. I thought there is an in-built feature of the controller since it can print the evolution on the sensors  if selected
+
+
+But we learn and learn 🙂
+
+##### hanm 05/31/2021 10:28:46
+hi, I have met some problem about webots, a create a env which have a ur10e robot and a conveyor belt. I set the ur10e  as a supervisor and I want the ur10e controller can enable a kinect which is a child in the conveyor belt, but I failed to enable it.
+
+
+my code is :
+
+
+ur10erobot = Supervisor()
+
+
+
+\# Get the time step of the current world.
+
+timestep = int(ur10erobot.getBasicTimeStep())
+
+
+
+conveyor\_belt = ur10erobot.getFromDef("CONVEYOR\_BELT")
+
+assert(conveyor\_belt != None)
+
+conveyor\_kinectcolor = conveyor\_belt.getDevice("kinect color")
+
+conveyor\_kinectcolor.enable(int(1000/24))
+
+
+the error report is :
+
+
+conveyor\_kinectcolor = conveyor\_belt.getDevice("kinect color")
+
+  File "/usr/local/webots/lib/controller/python27/controller.py", line 1756, in <lambda>
+
+    \_\_getattr\_\_ = lambda self, name: \_swig\_getattr(self, Node, name)
+
+  File "/usr/local/webots/lib/controller/python27/controller.py", line 96, in \_swig\_getattr
+
+    raise AttributeError("'%s' object has no attribute '%s'" % (class\_type.\_\_name\_\_, name))
+
+AttributeError: 'Node' object has no attribute 'getDevice'
+
+##### Stefania Pedrazzi [Cyberbotics] 05/31/2021 10:46:11
+It is not possible to control device of another robot, i.e. in your case you cannot controller the conveyor belt devices from the ur10e controller if they are two distinct robots.
+
+Many different solutions exists depending of the specific use case.
+
+One option could to use the Emitter/Receiver mechanism to send a message from the ur10e controller to the conveyor belt controller notifying that the Kinect should be enabled.
+
+##### hanm 05/31/2021 10:55:03
+thanks, by the way, I want to know how can  I set two robot 's controller as `extern`  and control it by two progress?
+
+##### Stefania Pedrazzi [Cyberbotics] 05/31/2021 10:55:58
+here is the documentation:
+
+[https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers)
+
+##### hanm 05/31/2021 10:57:30
+thanks~
+
+##### mmoralesp 05/31/2021 17:40:44
+Does anybody know how to output in ros2 the odometry info?
+
+##### R K gupta 05/31/2021 18:28:48
+Does any one have any idea how we add some extra sensors like temperature and PH sensors in webots to analyse the environment around it !like a farm environment in  webots ?
+
+##### SHAHRRUCK 05/31/2021 20:33:17
+How to display/play videos in webots ??
+
+
+I am trying Motion class in webots
+
+
+But I am getting Unexpected end of file as error, How Should I solve this
+
+
+`from controller import Supervisor`motion = `Motion("C:/Users/Shahrruck/Downloads/water2.mp4")
+
+ video = Motion.play(motion)`
+
+## June
+
+##### Simon Steinmann [Moderator] 06/01/2021 01:38:22
+Adding "true" extra sensors is difficult, but may be achieved with physics plugins [https://cyberbotics.com/doc/reference/physics-plugin](https://cyberbotics.com/doc/reference/physics-plugin) . You can also try using existing sensors. Camera with object recognition comes to mind. You could store information such as PH and Temp in the recognition color values (RGB, so you have 3 values) [https://cyberbotics.com/doc/reference/camera?tab-language=python#camera-recognition-object](https://cyberbotics.com/doc/reference/camera?tab-language=python#camera-recognition-object)
+
+##### hanm 06/01/2021 03:06:41
+hi, I meet a problem when I get camera image in python
+
+
+the code is :
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/849121847232299008/unknown.png)
+%end
+
+
+but the image  in 23 line is None
+
+##### Simon Steinmann [Moderator] 06/01/2021 03:08:22
+you have to execute a step before. You can't get an image before you simulated the first step
+
+##### hanm 06/01/2021 03:09:43
+it work! thanks 🙂
+
+##### mclzc 06/01/2021 03:10:38
+Hi, are you planning to support the parsing of SDF tags, for example <gps>?
+
+##### Darko Lukić [Cyberbotics] 06/01/2021 07:23:41
+We plan only to parse what is specified by URDF and for the missing components we plan to introduce a `<webots />` tag:
+
+[https://github.com/cyberbotics/urdf2webots/issues/112](https://github.com/cyberbotics/urdf2webots/issues/112)
+
+##### viorel\_gheorghe 06/01/2021 07:31:50
+`@Darko Lukić` If I have a parallel robot, and I need the position and orintatio  of the moving platform (yellow one). I must use an IMU, or there is some other things that I can do
+
+
+parallel robot
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/849188543557140490/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 06/01/2021 07:33:17
+You can use `wb_supervisor_node_get_position` and `wb_supervisor_node_get_orientation`:
+
+[https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_position](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_position)
+
+##### viorel\_gheorghe 06/01/2021 07:33:59
+sexy! it's just a RTFM thing!
+
+
+thank you, it seems that the supervisor is the way! 👍
+
+##### Ayk 06/01/2021 11:35:23
+Hey there,
+
+I'm working with webots and Nao and trying to get it to move for x distance. 
+
+What do you think is the best approach to do this (im new to webots).
+
+Just using the motion file and doing the forward motion for a certain time (dependend on my distance)? Or is there a better approach ?
+
+##### Simon Steinmann [Moderator] 06/01/2021 22:18:16
+`@Ayk` you can turn the wheels an exact angle. Together with its radius, you can calculate the distance.
+
+##### Kirlin 06/02/2021 02:35:13
+Hi everyone, can you help me with a question ?
+
+I have a custom controller linked with ros, that use as "extern", and I'm trying to make a Supervisor, so it will be more simple to reset the position of the robot when it falls, but I've read all the documentation and tried a lot of things, but I had no progress.
+
+Do you guys have any suggestion ?
+
+##### Simon Steinmann [Moderator] 06/02/2021 02:35:51
+The robot has to be a supervisor (checkbox in the scene tree)
+
+
+`from controller import Supervisor` instead of Robot
+
+##### Kirlin 06/02/2021 02:36:52
+yep, I've done that
+
+
+but I capture the robot node like self.natasha = Robot()
+
+
+and then I operate self.natasha with all the functions
+
+
+when I import Supervisor
+
+
+how can I capture the Robot node ?
+
+##### Simon Steinmann [Moderator] 06/02/2021 02:37:57
+self.natasha = Supervisor()
+
+
+it has all the Robot functionality
+
+##### Kirlin 06/02/2021 02:39:10
+wow
+
+
+I have tried so many things
+
+
+I was trying self.supervisor = Supervisor and then self.natasha = supervisor.getFromDef('Natasha') or getSelf()
+
+
+so now I can just operate self.natasha with the Robot functions and the Supervisor functions ?
+
+
+thank you so much
+
+##### Simon Steinmann [Moderator] 06/02/2021 02:40:44
+you have to do that if you want a handle to the robot node, for doing supervisor manipulations
+
+
+you're welcome :)=
+
+##### Kirlin 06/02/2021 02:42:15
+like set translation or rotation ?
+
+##### Simon Steinmann [Moderator] 06/02/2021 02:43:45
+yes
+
+##### mclzc 06/02/2021 03:06:20
+Hi, Do you have a way of outputting `sensor_msgs/msg/PointCloud2` from a `RangeFinder`? I see that the `range_finder_device.py` file creates a publisher for `sensor_msgs/Image`.
+
+##### Darko Lukić [Cyberbotics] 06/02/2021 07:25:52
+No, only the Lidar publishes `sensor_msgs/msg/PointCloud2`. Can you contribute `sensor_msgs/msg/PointCloud2` for the range finder? Although I am not sure whether it is better to implement the point cloud generation in the Webots core. Please open the issue about that so we can discuss.
+
+##### AloneLeader 06/02/2021 14:18:47
+Hey, i just was looking for a tutorial and end up with this channel. I need to create a robotic simulation for my term project. Is there anyone who like to help a newbie?
 

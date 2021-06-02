@@ -1065,7 +1065,7 @@ You have to click the "Create pull request" button.
 ##### Olivier Michel [Cyberbotics] 05/13/2020 15:58:07
 Thank you. We will review it soon.
 
-##### prubhtej Singh 05/19/2020 19:10:22
+##### Prubhtej Singh 05/19/2020 19:10:22
 I just had a small query.
 
 
@@ -1074,7 +1074,7 @@ When was documentation last updated ?
 ##### David Mansolino [Cyberbotics] 05/20/2020 04:50:52
 Hi, the documentation is updated directly from our Github repository, you can see all the latest changes here: [https://github.com/cyberbotics/webots/tree/master/docs](https://github.com/cyberbotics/webots/tree/master/docs)
 
-##### prubhtej Singh 05/20/2020 05:31:12
+##### Prubhtej Singh 05/20/2020 05:31:12
 Thanks for the reply. I'll definitely check it out.
 
 ##### David Mansolino [Cyberbotics] 05/20/2020 05:37:11
@@ -2038,4 +2038,16 @@ Can anyone recommend my some good resources on how can I add grippers or somethi
 
 ##### DDaniel [Cyberbotics] 05/24/2021 15:51:22
 `@KC` Hi, the `khepera3_gripper` robot available in the sample worlds has a gripper, you can take inspiration from that I suppose
+
+##### Affonso 06/01/2021 17:47:51
+Hey, I'm working on a robot for a competition and we are using Webots to simulate that robot, as it is very important to control the speed of the robot, we want to know how to convert pwm to speed in the simulator
+
+##### Darko Lukić [Cyberbotics] 06/02/2021 07:21:46
+One approach would be to establish a relation between voltage (PWM) and torque of the motor. So, based on the real-world measurements you should get `f(voltage) -> torque`. Then you can simply control a torque of the motor using `wb_motor_set_torque`:
+
+[https://cyberbotics.com/doc/reference/motor?version=develop#wb\_motor\_set\_torque](https://cyberbotics.com/doc/reference/motor?version=develop#wb_motor_set_torque)
+
+
+
+Converting PWM to speed is probably not a good idea since a load on the motor may vary (except the PWM controls a set-point).
 

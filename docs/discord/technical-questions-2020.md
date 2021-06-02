@@ -3332,13 +3332,13 @@ I cant find it
 ##### David Mansolino [Cyberbotics] 02/11/2020 16:20:33
 You're welcome
 
-##### threeal 02/11/2020 18:18:56
+##### Hakkinein 02/11/2020 18:18:56
 hi there, in webots documentation, it said that webots use pid controller to control the motor position ([https://cyberbotics.com/doc/reference/motor#field-summary](https://cyberbotics.com/doc/reference/motor#field-summary).)
 
 but how is the exact pid system in that motor controller? like in the robotis's motor it said this specification fo the controller system ([http://emanual.robotis.com/docs/en/dxl/mx/mx-64/#p-gain](http://emanual.robotis.com/docs/en/dxl/mx/mx-64/#p-gain)), but when i see the default pid controller in robotis darwin op demo it use (8 0 0), is it the right value in webots?
 
 ##### David Mansolino [Cyberbotics] 02/12/2020 06:23:10
-HI `@threeal`, by default Webots uses (10, 0, 0). Note also that there is a difference between Webots and the robotis motors, Webots does a control in speed regulation whereas robotis motors do a control on torque regulation.
+HI `@Hakkinein`, by default Webots uses (10, 0, 0). Note also that there is a difference between Webots and the robotis motors, Webots does a control in speed regulation whereas robotis motors do a control on torque regulation.
 
 ##### elkelkmuh 02/12/2020 06:28:32
 Hi `@David Mansolino`  , I tried the framework at this address (  [https://sourceforge.net/p/darwinop/code/HEAD/tree/trunk/darwin/](https://sourceforge.net/p/darwinop/code/HEAD/tree/trunk/darwin/) )
@@ -3349,14 +3349,14 @@ Hi `@David Mansolino`  , I tried the framework at this address (  [https://sourc
 Errors
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/677038707663962112/message.txt)
 
-##### threeal 02/12/2020 07:12:01
+##### Hakkinein 02/12/2020 07:12:01
 I see, but how pid gain in webots affects  the calculation of the target motor position?  `@David Mansolino`
 
 ##### Nocturnal Warfare 02/12/2020 07:47:25
 So I am making a robot and have been doing simulation in Webots using python, but I wanted to implement it using a Pixhawk 4 mini through Dronekit. I was wondering if anyone has any experience porting over the Webots simulation to the Pixhawk running ArduPilot over Dronekit and if they had any advice on the matter.
 
 ##### David Mansolino [Cyberbotics] 02/12/2020 07:52:42
-`@threeal`, here is the exact worflow to update the motor position: 
+`@Hakkinein`, here is the exact worflow to update the motor position: 
 
 [https://cyberbotics.com/doc/reference/motor#position-control](https://cyberbotics.com/doc/reference/motor#position-control)
 
@@ -24087,7 +24087,7 @@ Thank you so much. It worked in this version.
 ##### David Mansolino [Cyberbotics] 07/06/2020 12:53:20
 You're welcome .-)
 
-##### Gowtham 07/06/2020 17:16:20
+##### Jhon mathew 07/06/2020 17:16:20
 Guys I have made a 4 wheeled mobile robot I have added a camera. I am planning to make robot can track the object like robotis soccer robot. But I am facing lots of error in library. I have sorted out but I can't use tge camera. ,! does anyone have custom object tracking library ?
 
 ##### Sanket Khadse 07/06/2020 17:16:47
@@ -24108,9 +24108,9 @@ you will need to specify the ImmersionProperties of the kite
 ##### David Mansolino [Cyberbotics] 07/07/2020 05:51:16
 > Guys I have made a 4 wheeled mobile robot I have added a camera. I am planning to make robot can track the object like robotis soccer robot. But I am facing lots of error in library. I have sorted out but I can't use tge camera. ,! does anyone have custom object tracking library ?
 
-`@Gowtham` hi, what is not working exactly with the camera, can you share th eproblematic part of your code?
+`@Jhon mathew` hi, what is not working exactly with the camera, can you share th eproblematic part of your code?
 
-##### Gowtham 07/07/2020 06:10:34
+##### Jhon mathew 07/07/2020 06:10:34
 [https://photos.app.goo.gl/PhVTEAd6dYFYo2yG9](https://photos.app.goo.gl/PhVTEAd6dYFYo2yG9)
 
 
@@ -24121,7 +24121,7 @@ What do you mean exactly by 'fixed frame'.
 
 Since you can now the resolution and field of views of the camera, if you know the position and orientation of your camera (which you can get using a gps and inertial unit for example) you have everything you need to compute the object position (except the distance).
 
-##### Gowtham 07/07/2020 06:22:39
+##### Jhon mathew 07/07/2020 06:22:39
 if its possible can you help me to get atleast co-ordinates of the object. ( I  am asking similar function of vision library of robotis-op soccer robot)
 
 ##### David Mansolino [Cyberbotics] 07/07/2020 06:24:46
@@ -24129,7 +24129,7 @@ I would recommend to check the code of the soccer-op, a very similar algorithm c
 
 If you want, Cyberbotics provide professional consulting and can write it for you: [https://www.cyberbotics.com/#plans](https://www.cyberbotics.com/#plans)
 
-##### Gowtham 07/07/2020 06:31:19
+##### Jhon mathew 07/07/2020 06:31:19
 thank you ♥️
 
 ##### David Mansolino [Cyberbotics] 07/07/2020 06:31:28
@@ -30682,7 +30682,7 @@ No I do not
 ##### Olivier Michel [Cyberbotics] 08/11/2020 16:13:58
 Sorry, we can't better help you.
 
-##### Gowtham 08/11/2020 16:52:42
+##### Jhon mathew 08/11/2020 16:52:42
 
 %figure
 ![Screenshot_2020-08-11-22-21-54-819_com.android.chrome.jpg](https://cdn.discordapp.com/attachments/565154703139405824/742787592059355196/Screenshot_2020-08-11-22-21-54-819_com.android.chrome.jpg)
@@ -30701,9 +30701,9 @@ Atleast anyone tell me. how to print X,Y,height, width of the recognised object.
 %end
 
 ##### David Mansolino [Cyberbotics] 08/12/2020 05:59:47
-`@Gowtham` here is an example controller showing how to do this: [https://github.com/cyberbotics/webots/blob/master/projects/samples/devices/controllers/camera\_recognition/camera\_recognition.c#L54](https://github.com/cyberbotics/webots/blob/master/projects/samples/devices/controllers/camera_recognition/camera_recognition.c#L54)
+`@Jhon mathew` here is an example controller showing how to do this: [https://github.com/cyberbotics/webots/blob/master/projects/samples/devices/controllers/camera\_recognition/camera\_recognition.c#L54](https://github.com/cyberbotics/webots/blob/master/projects/samples/devices/controllers/camera_recognition/camera_recognition.c#L54)
 
-##### Gowtham 08/12/2020 06:21:40
+##### Jhon mathew 08/12/2020 06:21:40
 thank you soo much this is what I am searching for 🤩
 
 ##### David Mansolino [Cyberbotics] 08/12/2020 06:21:49
@@ -30785,7 +30785,7 @@ yes
 ##### David Mansolino [Cyberbotics] 08/12/2020 09:44:46
 I would recommend following this tutorial to understand how appearances work: [https://cyberbotics.com/doc/guide/tutorial-3-appearance](https://cyberbotics.com/doc/guide/tutorial-3-appearance)
 
-##### Gowtham 08/12/2020 13:06:24
+##### Jhon mathew 08/12/2020 13:06:24
 guys I have used texture quality medium but my webots is always crashing. other apps are running fine only webots is crashing like this..
 
 
@@ -30803,7 +30803,7 @@ Did you try the safe mode?
 
 [https://www.cyberbotics.com/doc/guide/starting-webots#safe-mode](https://www.cyberbotics.com/doc/guide/starting-webots#safe-mode)
 
-##### Gowtham 08/12/2020 13:09:03
+##### Jhon mathew 08/12/2020 13:09:03
 
 %figure
 ![InShot_20200812_183640018.jpg](https://cdn.discordapp.com/attachments/565154703139405824/743093696396001419/InShot_20200812_183640018.jpg)
@@ -30824,7 +30824,7 @@ will it work ?  for my problem
 ##### Olivier Michel [Cyberbotics] 08/12/2020 13:09:51
 Maybe.
 
-##### Gowtham 08/12/2020 13:10:25
+##### Jhon mathew 08/12/2020 13:10:25
 CPU usage 100% is it normal on webots ? 😢
 
 ##### Olivier Michel [Cyberbotics] 08/12/2020 13:10:58
@@ -30845,7 +30845,7 @@ check out this link
 
 for your bluescreen
 
-##### Gowtham 08/12/2020 13:14:38
+##### Jhon mathew 08/12/2020 13:14:38
 > you probably have a laptop dual or quad core. So it may very well be at 100%
 
 `@Simon Steinmann` 
@@ -30857,7 +30857,7 @@ yeah I have done its upto date. 💯 anyway thanks for the help guys 😊
 ##### Simon Steinmann [Moderator] 08/12/2020 13:15:10
 check the link and go through the troubleshooting steps. Especially the poweroptions might help
 
-##### Gowtham 08/12/2020 13:16:24
+##### Jhon mathew 08/12/2020 13:16:24
 `@Simon Steinmann` thanks dude
 
 ##### Kormit 08/12/2020 14:22:24
