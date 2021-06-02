@@ -492,8 +492,7 @@ def distance3(v1, v2):
 def rotate_along_z(axis_and_angle):
     q = transforms3d.quaternions.axangle2quat([axis_and_angle[0], axis_and_angle[1], axis_and_angle[2]], axis_and_angle[3])
     rz = [0, 0, 0, 1]
-    # rz = [0, 0, 0.7071068, 0.7071068]
-    r = transforms3d.quaternions.qmult(q, rz)
+    r = transforms3d.quaternions.qmult(rz, q)
     v, a = transforms3d.quaternions.quat2axangle(r)
     return [v[0], v[1], v[2], a]
 
