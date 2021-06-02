@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # Simple shape displaying the detection area of a distance sensor with 2 rays
+# template language: javascript
 
 PROTO DistanceSensorVisualization [
   field SFVec3f    translation  0 0.4 0
@@ -15,9 +16,9 @@ PROTO DistanceSensorVisualization [
 ]
 {
   %{
-    local aperture = fields.aperture.value
-    local range = fields.range.value
-    local subdivision = fields.subdivision.value
+    const aperture = fields.aperture.value;
+    const range = fields.range.value;
+    const subdivision = fields.subdivision.value;
   }%
   Transform {
     translation IS translation
@@ -34,22 +35,22 @@ PROTO DistanceSensorVisualization [
           coord Coordinate {
             point [
               0 0 0
-              %{ for i = 0, subdivision - 1 do }%
-                %{ local angle = aperture / 2 - i * aperture / (subdivision - 1) }%
-                %{= range * math.cos(angle) }% 0 %{= range * math.sin(angle) }%
-              %{ end }%
+              %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
+                %{ let angle = aperture * 0.5 - i * aperture / (subdivision - 1); }%
+                %{= range * Math.cos(angle) }% 0 %{= range * Math.sin(angle) }%
+              %{ } }%
             ]
           }
           coordIndex [
-            %{ for i = 0, subdivision do }%
+            %{ for (let i = 0; i <= subdivision; ++i) { }%
               %{= i }%
-            %{ end }%
+            %{ } }%
             -1
 
             0
-            %{ for i = 0, subdivision - 1 do }%
+            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
               %{= subdivision - i }%
-            %{ end }%
+            %{ } }%
             -1
           ]
         }
