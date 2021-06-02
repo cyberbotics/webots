@@ -2121,3 +2121,72 @@ Is anyone else having issues downloading SUMO when building webots from source? 
 
 I am setting up a CI/CD pipeline for our controller for robocup, which requires me to build webots from source on several computers. All of them are having issues downloading SUMO for linux64. When they get to the step where they decompress the tar archive, there is an unexpected EOF character - basically the tar archive hasn't downloaded properly. I have downloaded it manually, and decompressed it myself successfully, but that's really painful when it takes an hour to download sumo at 8 KB/s
 
+##### Simon Steinmann [Moderator] 05/28/2021 21:38:37
+<@&568329906048598039> Working with object recognition, I think it could be very useful to expose the "recognitionColors" field in all objects provided by Webots. What do you think? I can create a PR if you agree.
+
+##### AmorFati 05/28/2021 21:39:12
+Yeah totally agree.
+
+##### Bitbots\_Jasper [Moderator] 05/29/2021 08:51:23
+I think it's a good idea as well.
+
+##### Olivier Michel [Cyberbotics] 05/29/2021 11:19:56
+Yes, good idea. Please go ahead.
+
+##### Simon Steinmann [Moderator] 05/29/2021 23:34:26
+[https://github.com/cyberbotics/webots/pull/3108](https://github.com/cyberbotics/webots/pull/3108)
+
+
+created the PR and did all the changes.
+
+##### mmoralesp 05/31/2021 17:06:26
+Does anybody know how to output in ros2 the odometry info?
+
+##### mclzc 05/31/2021 20:31:30
+Hi, regarding the urdf2proto conversion:
+
+[https://github.com/cyberbotics/urdf2webots/blob/0136988774e7dde8d7d476c1b5e584a92d8f76df/urdf2webots/parserURDF.py#L991](https://github.com/cyberbotics/urdf2webots/blob/0136988774e7dde8d7d476c1b5e584a92d8f76df/urdf2webots/parserURDF.py#L991)
+
+
+
+You are looking for something that starts with `libgazebo_ros_imu` which would match the `GazeboRosImu` based on the `ModelPlugin` but would as well match a `libgazebo_ros_imu_sensor`, based on the `SensorPlugin`. Is that intentional? Or did you only mean to match the first one. I don't really know the difference between both.
+
+## June
+
+##### Darko Lukić [Cyberbotics] 06/01/2021 07:15:43
+You can get odometry data if you inherit the `WebotsDifferentialDriveNode` class. Check the e-puck example:
+
+[https://github.com/cyberbotics/webots\_ros2/blob/55043633c37b6afb5b2c80b768ceb0aaa8b7afe7/webots\_ros2\_epuck/webots\_ros2\_epuck/driver.py#L64](https://github.com/cyberbotics/webots_ros2/blob/55043633c37b6afb5b2c80b768ceb0aaa8b7afe7/webots_ros2_epuck/webots_ros2_epuck/driver.py#L64)
+
+
+
+We have recently released an alpha version of `ros2_control` integration, so you can use `DiffDriverController` or any other off-the-shelf controller that can output odometry. Check the TurtleBot3 Burger example:
+
+[https://github.com/cyberbotics/webots\_ros2/blob/55043633c37b6afb5b2c80b768ceb0aaa8b7afe7/webots\_ros2\_turtlebot/resource/ros2control.yml#L11-L20](https://github.com/cyberbotics/webots_ros2/blob/55043633c37b6afb5b2c80b768ceb0aaa8b7afe7/webots_ros2_turtlebot/resource/ros2control.yml#L11-L20)
+
+[https://github.com/cyberbotics/webots\_ros2/blob/55043633c37b6afb5b2c80b768ceb0aaa8b7afe7/webots\_ros2\_turtlebot/resource/turtlebot\_webots.urdf#L25](https://github.com/cyberbotics/webots_ros2/blob/55043633c37b6afb5b2c80b768ceb0aaa8b7afe7/webots_ros2_turtlebot/resource/turtlebot_webots.urdf#L25)
+
+
+For GPS we use `libgazebo_ros_p3d`:
+
+[https://github.com/cyberbotics/urdf2webots/blob/0136988774e7dde8d7d476c1b5e584a92d8f76df/urdf2webots/parserURDF.py#L1006-L1015](https://github.com/cyberbotics/urdf2webots/blob/0136988774e7dde8d7d476c1b5e584a92d8f76df/urdf2webots/parserURDF.py#L1006-L1015)
+
+
+
+I couldn't find the `libgazebo_ros_gps_sensor` Gazebo plugin
+
+##### mclzc 06/01/2021 13:07:06
+`@Darko Lukić` I'm sorry, I made a typo mistake in that question. I didn't mean `libgazebo_ros_gps_sensor` but `libgazebo_ros_imu_sensor`. I've edited it.
+
+##### Darko Lukić [Cyberbotics] 06/01/2021 15:29:34
+The script looks only at `topicName` and `gaussianNoise` parameters which are common for both plugins, so I guess it is intentional. Do you experience some kind of problems?
+
+##### mclzc 06/01/2021 15:43:03
+No problems, I'm just trying to make my way through URDF, SDF and PROTO. Thanks `@Darko Lukić`
+
+##### mmoralesp 06/01/2021 19:13:27
+Hello, thanks for the response, but how i can get the position with de WebotsDifferentialDriveNode?
+
+##### Darko Lukić [Cyberbotics] 06/02/2021 07:10:45
+It will create an `odom` topic in which it publishes odometry data generated from wheels
+
