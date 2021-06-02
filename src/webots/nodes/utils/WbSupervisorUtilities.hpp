@@ -116,6 +116,7 @@ private:
   QVector<WbFieldSetRequest *> mFieldSetRequests;
   struct WbFieldGetRequest *mFieldGetRequest;
 
+  void pushSingleFieldContentToStream(QDataStream &stream, WbField *field);
   void initControllerRequests();
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);

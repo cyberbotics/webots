@@ -518,6 +518,14 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uint32(r, node_ref);
     request_write_string(r, requested_field_name);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+  } else if (field_change_tracking) {
+    request_write_uchar(r, C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE);
+    request_write_int32(r, field_change_tracking->field->node_unique_id);
+    request_write_int32(r, field_change_tracking->field->id);
+    request_write_uchar(r, field_change_tracking->field->is_proto_internal ? 1 : 0);
+    request_write_int32(r, field_change_tracking->enable);
+    if (field_change_tracking->enable)
+      request_write_int32(r, field_change_tracking->sampling_period);
   } else if (!robot_is_immediate_message() || is_field_immediate_message) {
     is_field_immediate_message = false;
     WbFieldRequest *request;
