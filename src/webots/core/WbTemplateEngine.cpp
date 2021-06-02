@@ -174,7 +174,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     if (indexOpeningToken == -1) {  // no more matches
       if (indexClosingToken < mTemplateContent.size()) {
         javaScriptBody +=
-          "result += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
+          "___vrml += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
       }
       break;
     }
@@ -189,20 +189,20 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
     if (indexOpeningToken > 0 && lastIndexClosingToken == -1) {
       // what comes before the first opening token should be treated as plain text
-      javaScriptBody += "result += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
+      javaScriptBody += "___vrml += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
     }
     if (lastIndexClosingToken != -1 && indexOpeningToken - lastIndexClosingToken > 0) {
       // what is between the previous closing token and the current opening token should be treated as plain text
       javaScriptBody +=
-        "result += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
+        "___vrml += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
     }
     // anything inbetween the tokens is either an expression or plain JavaScript
     QString statement = mTemplateContent.mid(indexOpeningToken, indexClosingToken - indexOpeningToken);
     // if it starts with '%{=' it's an expression
     if (statement.startsWith(gOpeningToken + "=")) {
       statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
-      // var because there might be multiple expressions
-      javaScriptBody += "var __tmp = " + statement + "; result += eval(\"__tmp\");";
+      // ___tmp is a local variable to the main function
+      javaScriptBody += "___tmp = " + statement + "; ___vrml += eval(\"___tmp\");";
     } else {
       // raw javascript snippet
       javaScriptBody += statement.replace(gOpeningToken, "").replace(gClosingToken, "");
@@ -262,8 +262,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     return false;
   }
 
-  QJSValue main = module.property("main");
-  QJSValue result = main.call();
+  QJSValue generateVrml = module.property("generateVrml");
+  QJSValue result = generateVrml.call();
   if (result.isError()) {
     mError = tr("failed to execute JavaScript template. On line %1").arg(result.property("message").toString());
     return false;
