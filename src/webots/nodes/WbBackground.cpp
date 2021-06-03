@@ -522,9 +522,9 @@ bool WbBackground::loadIrradianceTexture(int i) {
   int components;
   if (device) {
     if (!mDownloader[k]->error().isEmpty()) {
+      warn(tr("Cannot download %1IrradianceUrl: %2").arg(gDirections[1], mDownloader[k]->error()));
       delete mDownloader[k];
       mDownloader[k] = NULL;
-      warn(tr("Cannot download %1IrradianceUrl: %2").arg(gDirections[1], mDownloader[k]->error()));
       return false;
     }
   } else {
