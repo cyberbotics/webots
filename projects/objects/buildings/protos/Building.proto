@@ -143,14 +143,14 @@ PROTO Building [
         middlePoint1.x += corners[i].x;
         middlePoint1.y += corners[i].y;
       }
-      middlePoint1.x /= nbCorners * 2;
-      middlePoint1.y /= nbCorners * 2;
+      middlePoint1.x = middlePoint1.x / nbCorners * 2;
+      middlePoint1.y = middlePoint1.y / nbCorners * 2;
       for (let i = nbCorners * 0.5; i < nbCorners; ++i) {
         middlePoint2.x += corners[i].x;
         middlePoint2.y += corners[i].y;
       }
-      middlePoint2.x /= nbCorners * 2;
-      middlePoint2.y /= nbCorners * 2;
+      middlePoint2.x = middlePoint2.x / nbCorners * 2;
+      middlePoint2.y = middlePoint2.y / nbCorners * 2;
       // in case of hipped roof we use the middle points to calculate 2 points in the middle of the roof
       if (roofShape === 'hipped roof') {
         hippedPoint1.x = middlePoint1.x + (corners[2].x + corners[3].x - corners[0].x - corners[1].x) * 0.125;
@@ -343,7 +343,7 @@ PROTO Building [
               }
               coordIndex [
                 %{ for (let i = 0; i < nbCorners; ++i) { }%
-                  %{= (nbCorners - i) }%
+                  %{= (nbCorners - i) - 1 }%
                 %{ } }%
                 -1
               ]
