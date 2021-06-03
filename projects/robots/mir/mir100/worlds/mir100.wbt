@@ -9,6 +9,12 @@ WorldInfo {
       material1 "wheel"
       softCFM 0.0001
     }
+    ContactProperties {
+      material1 "slope"
+      coulombFriction [
+        0.5
+      ]
+    }
   ]
 }
 Viewpoint {
