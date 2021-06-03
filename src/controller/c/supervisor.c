@@ -1153,6 +1153,10 @@ static void field_operation_with_data(WbFieldStruct *f, int action, int index, u
 }
 
 static void field_operation(WbFieldStruct *f, int action, int index) {
+  // If a field tracking is used we don't have to send the request
+  if (action == GET && f->last_update == wb_robot_get_time())
+    return;
+
   union WbFieldData data;
   data.sf_string = NULL;
   field_operation_with_data(f, action, index, data);
@@ -2564,9 +2568,6 @@ const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
 const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false, false))
     return NULL;
-
-  if (field->last_update == wb_robot_get_time())
-    return ((WbFieldStruct *)field)->data.sf_vec3f;
 
   field_operation(field, GET, -1);
   return ((WbFieldStruct *)field)->data.sf_vec3f;
