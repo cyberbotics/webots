@@ -18,6 +18,7 @@
  * Description:  Basic controller for JetBot robot.
  */
 
+#include <webots/camera.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
 
