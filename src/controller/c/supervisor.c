@@ -154,11 +154,11 @@ static char *supervisor_strdup(const char *src) {
 }
 
 // find field in field_list
-static WbFieldStruct *find_field_by_name(const char *fieldName, int node_id) {
+static WbFieldStruct *find_field_by_name(const char *field_name, int node_id) {
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
-    if (field->node_unique_id == node_id && strcmp(fieldName, field->name) == 0)
+    if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0)
       return field;
     field = field->next;
   }
@@ -973,8 +973,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
           default:
             assert(0);
         }
+        f->last_update = wb_robot_get_time();
       }
-      f->last_update = wb_robot_get_time();
       if (sent_field_get_request) {
         if (sent_field_get_request->is_string)
           free(sent_field_get_request->data.sf_string);
