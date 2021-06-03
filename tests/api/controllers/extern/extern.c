@@ -35,13 +35,14 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 #endif
-    wb_robot_step(TIME_STEP);
+    while (true)
+      if (wb_robot_step(TIME_STEP) != -1)
+        break;
 #ifdef _WIN32
     WaitForSingleObject(pi.hProcess, INFINITE);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 #endif
-    wb_robot_step(TIME_STEP);
     wb_robot_cleanup();
     return EXIT_SUCCESS;
   }
