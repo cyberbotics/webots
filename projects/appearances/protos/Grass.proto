@@ -15,7 +15,7 @@ PROTO Grass [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/grass/grass_" .. fields.type.value .. "_base_color.jpg\"" }%
+        %{= "\"webots://projects/appearances/protos/textures/grass/grass_" .. fields.type.value .. "_base_color.jpg\"" }%
       ]
     }
     %{ if fields.type.value == "artificial_white" then }%
@@ -26,7 +26,7 @@ PROTO Grass [
     %{ if fields.type.value == "prickly" then }%
       roughnessMap ImageTexture {
         url [
-          %{= "\"textures/grass/grass_" .. fields.type.value .. "_roughness.jpg\"" }%
+          %{= "\"webots://projects/appearances/protos/textures/grass/grass_" .. fields.type.value .. "_roughness.jpg\"" }%
         ]
       }
     %{ end }%
@@ -35,18 +35,18 @@ PROTO Grass [
     normalMap ImageTexture {
       url [
         %{ if fields.type.value == "artificial_white" then }%
-        	%{= "\"textures/grass/grass_artificial_normal.jpg\"" }%
+               %{= "\"webots://projects/appearances/protos/textures/grass/grass_artificial_normal.jpg\"" }%
         %{ else }%
-        	%{= "\"textures/grass/grass_" .. fields.type.value .. "_normal.jpg\"" }%
+               %{= "\"webots://projects/appearances/protos/textures/grass/grass_" .. fields.type.value .. "_normal.jpg\"" }%
         %{ end }%
       ]
     }
     occlusionMap ImageTexture {
       url [
         %{ if fields.type.value == "artificial_white" then }%
-        	%{= "\"textures/grass/grass_artificial_occlusion.jpg\"" }%
+               %{= "\"webots://projects/appearances/protos/textures/grass/grass_artificial_occlusion.jpg\"" }%
         %{ else }%
-        	%{= "\"textures/grass/grass_" .. fields.type.value .. "_occlusion.jpg\"" }%
+               %{= "\"webots://projects/appearances/protos/textures/grass/grass_" .. fields.type.value .. "_occlusion.jpg\"" }%
         %{ end }%
       ]
     }

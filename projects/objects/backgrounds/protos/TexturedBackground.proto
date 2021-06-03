@@ -69,7 +69,7 @@ PROTO TexturedBackground [
     end
 
     local extension = isHDR and "png" or "jpg"
-    local path = "textures/cubic"
+    local path = "webots://projects/default/worlds/textures/cubic"
 
     if not isHDR then
       io.stderr:write("Non-HDR backgrounds are deprecated. Please select one of the following 'TexturedBackground.texture': ")

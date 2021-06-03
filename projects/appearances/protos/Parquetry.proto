@@ -20,21 +20,21 @@ PROTO Parquetry [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_base_color.jpg\"" }%
+        %{= "\"webots://projects/appearances/protos/textures/parquetry/" .. textureName .. "_parquetry_base_color.jpg\"" }%
       ]
     }
     roughness 1
     %{ if fields.type.value ~= "dark strip" then }%
     roughnessMap ImageTexture {
       url [
-        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_roughness.jpg\"" }%
+        %{= "\"webots://projects/appearances/protos/textures/parquetry/" .. textureName .. "_parquetry_roughness.jpg\"" }%
       ]
     }
     %{ end }%
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_normal.jpg\"" }%
+        %{= "\"webots://projects/appearances/protos/textures/parquetry/" .. textureName .. "_parquetry_normal.jpg\"" }%
       ]
     }
     normalMapFactor 1
@@ -42,7 +42,7 @@ PROTO Parquetry [
     %{ if fields.type.value ~= "light strip" then }%
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/parquetry/" .. textureName .. "_parquetry_occlusion.jpg\"" }%
+        %{= "\"webots://projects/appearances/protos/textures/parquetry/" .. textureName .. "_parquetry_occlusion.jpg\"" }%
       ]
     }
     %{ end }%

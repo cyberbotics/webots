@@ -709,7 +709,7 @@ Lidar {
           roughness 0.1
           baseColorMap ImageTexture {
             url [
-              "textures/velodyne_hdl-64E.jpg"
+              "webots://projects/devices/velodyne/protos/textures/velodyne_hdl-64E.jpg"
             ]
             repeatT FALSE
           }

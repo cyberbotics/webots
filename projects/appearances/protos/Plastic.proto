@@ -16,7 +16,7 @@ PROTO Plastic [
     %{ if fields.type.value == "padded" then }%
       baseColorMap ImageTexture {
         url [
-          %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_base_color.jpg\"" }%
+          %{= "\"webots://projects/appearances/protos/textures/plastic/plastic_" .. fields.type.value .. "_base_color.jpg\"" }%
         ]
       }
     %{ end }%
@@ -24,26 +24,26 @@ PROTO Plastic [
     %{ if fields.type.value == "padded" then }%
       metalnessMap ImageTexture {
         url [
-          %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_metalness.jpg\"" }%
+          %{= "\"webots://projects/appearances/protos/textures/plastic/plastic_" .. fields.type.value .. "_metalness.jpg\"" }%
         ]
       }
     %{ end }%
     roughness 1
     roughnessMap ImageTexture {
       url [
-        %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_roughness.jpg\"" }%
+        %{= "\"webots://projects/appearances/protos/textures/plastic/plastic_" .. fields.type.value .. "_roughness.jpg\"" }%
       ]
     }
     IBLStrength IS IBLStrength
     normalMap ImageTexture {
       url [
-        %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_normal.jpg\"" }%
+        %{= "\"webots://projects/appearances/protos/textures/plastic/plastic_" .. fields.type.value .. "_normal.jpg\"" }%
       ]
     }
     %{ if fields.type.value == "padded" then }%
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/plastic/plastic_" .. fields.type.value .. "_occlusion.jpg\"" }%
+        %{= "\"webots://projects/appearances/protos/textures/plastic/plastic_" .. fields.type.value .. "_occlusion.jpg\"" }%
       ]
     }
     %{ end }%

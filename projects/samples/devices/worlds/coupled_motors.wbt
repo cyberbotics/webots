@@ -30,7 +30,7 @@ DEF GRIPPER Robot {
             baseColor 0.933333 0.933333 0.92549
             baseColorMap ImageTexture {
               url [
-                "textures/roughcast.jpg"
+                "webots://projects/default/worlds/textures/roughcast.jpg"
               ]
             }
             roughness 0.5
@@ -135,7 +135,7 @@ DEF GRIPPER Robot {
                         baseColor 0.729412 0.741176 0.713725
                         baseColorMap ImageTexture {
                           url [
-                            "textures/metal.jpg"
+                            "webots://projects/default/worlds/textures/metal.jpg"
                           ]
                         }
                         roughness 0.8

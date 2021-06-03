@@ -64,7 +64,7 @@ PROTO Museum [
           roughness 1
           baseColorMap ImageTexture {
             url [
-              "textures/arcade-style_building.jpg"
+              "webots://projects/objects/buildings/protos/textures/arcade-style_building.jpg"
             ]
           }
         }
