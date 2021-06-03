@@ -186,7 +186,7 @@ class proto2mesh:
         # create a _FAILED_CONVERSIONS folder inside our output path
         failedBasePath = os.path.join(outPath, '_FAILED_CONVERSIONS')
         outFile = os.path.abspath(outPath + proto)
-        # deleta all files, which have been created for the failed conversion
+        # delete all files, which have been created for the failed conversion
         try:
             self.f.close()
             os.remove(outFile)
