@@ -105,10 +105,11 @@ int main(int argc, char **argv) {
   right_motor = wb_robot_get_device("right_wheel_hinge");
   wb_motor_set_position(left_motor, INFINITY);
   wb_motor_set_position(right_motor, INFINITY);
-  // WbDeviceTag camera = wb_robot_get_device("camera");
+  WbDeviceTag camera = wb_robot_get_device("camera");
   // WbDeviceTag display = wb_robot_get_device("display");
 
-  double timestep = wb_robot_get_basic_time_step();
+  int timestep = wb_robot_get_basic_time_step();
+  wb_camera_enable(camera, timestep);
   set_motors(0.0, 0.0);
   wb_robot_step(480);
 

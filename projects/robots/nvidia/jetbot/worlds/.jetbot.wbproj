@@ -7,6 +7,6 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/jetbot_basic_motion/jetbot_basic_motion.c"
 consoles: Console:All:All
-renderingDevicePerspectives: JetBot:camera;1;0.78125;0;0
-renderingDevicePerspectives: JetBot:display;1;1;0;0
-renderingDevicePerspectives: laptop:display;0;0.717742;0;0
+renderingDevicePerspectives: JetBot:camera;1;1;0;0
+renderingDevicePerspectives: JetBot:display;0;1;0;0
+renderingDevicePerspectives: laptop:display;0;0.5;0;0

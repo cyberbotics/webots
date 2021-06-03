@@ -89,7 +89,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mPerspective(NULL),
   mProtos(protos ? protos : new WbProtoList()),
   mLastAwakeningTime(0.0),
-  mIsLoading(false),
+  mIsLoading(true),
   mIsCleaning(false),
   mIsVideoRecording(false) {
   gInstance = this;
@@ -362,9 +362,6 @@ void WbWorld::write(WbVrmlWriter &writer) const {
     WbWrenOpenGlContext::doneWren();
   }
 
-  assert(mPerspective);
-  QMap<QString, QString> parameters = mPerspective->x3dExportParameters();
-  writer.setX3DFrustumCullingValue(parameters.value("frustumCulling"));
   writer.writeHeader(worldInfo()->title());
 
   // write nodes
