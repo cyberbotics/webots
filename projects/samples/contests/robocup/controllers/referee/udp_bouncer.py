@@ -18,6 +18,7 @@ import socket
 import queue
 import threading
 import json
+import sys
 import time
 
 
@@ -144,3 +145,7 @@ def start_bouncing_server(game_config):
     log("Server thread for Robot port started")
 
     log("Setup completed")
+
+
+if __name__ == "__main__":
+    start_bouncing_server(sys.argv[1])
