@@ -457,7 +457,7 @@ This is the API of the `webots-streaming` web component:
   * `broadcast`: boolean variable enabling or not the broadcast.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `callback`: function to be executed once the simulation is ready.
-  * `disconnectCallback`: function to be executed once the simulation is exited.
+  * `disconnectCallback`: function to be executed once the web scene is closed.
 * `disconnect()`: close the simulation web scene.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
 * `showToolbar()`: show the toolbar. Must be called after connect. The toolbar is displayed by default.
@@ -468,7 +468,7 @@ This is the API of the `webots-streaming` web component:
     *`pause`: to pause the simulation.
     *`robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named supervisor.
 
-An example of the use of this api is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
+An example of a file using this API is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
 
 ### Scene Refresh Rate
 
