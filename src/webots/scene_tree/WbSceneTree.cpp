@@ -1114,10 +1114,8 @@ void WbSceneTree::updateSelection() {
   if (item) {
     WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(item->node());
     if (baseNode && baseNode->isProtoParameterNode())
-      // select proto parameter node instance
-      // if proto parameter is used only once
-      // baseNode = NULL if none or multiple instances exists
-      baseNode = baseNode->getSingleFinalizedProtoInstance();
+      // select first proto parameter node instance
+      baseNode = baseNode->getFirstFinalizedProtoInstance();
 
     if (baseNode && !baseNode->isPostFinalizedCalled())
       // ignore not initialized nodes
