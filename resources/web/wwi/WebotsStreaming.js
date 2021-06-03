@@ -34,12 +34,12 @@ export default class WebotsStreaming extends HTMLElement {
   }
 
   /*
-   * ip : ip address of the server
+   * url : url of the server
    * mode : x3d or mjpeg
    * broadcast: boolean
    * mobileDevice: boolean
    */
-  connect(ip, mode, broadcast, mobileDevice, callback, disconnectCallback) {
+  connect(url, mode, broadcast, mobileDevice, callback, disconnectCallback) {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
@@ -51,7 +51,7 @@ export default class WebotsStreaming extends HTMLElement {
 
     this._disconnectCallback = disconnectCallback;
 
-    this._view.open(ip, mode);
+    this._view.open(url, mode);
     this._view.onquit = () => this.disconnect();
     this._view.onready = _ => {
       if (typeof callback === 'function')
@@ -89,6 +89,18 @@ export default class WebotsStreaming extends HTMLElement {
       if (toolbar.style.display !== 'block')
         toolbar.style.display = 'block';
     }
+  }
+
+  showQuit(enable) {
+    webots.showQuit = enable;
+  }
+
+  showRevert(enable) {
+    webots.showRevert = enable;
+  }
+
+  showRun(enable) {
+    webots.showRun = enable;
   }
 
   sendMessage(message) {
