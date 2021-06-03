@@ -35,11 +35,10 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 #endif
-    while (true)
-      if (wb_robot_step(TIME_STEP) != -1)
-        break;
+    wb_robot_step(TIME_STEP);
 #ifdef _WIN32
-    WaitForSingleObject(pi.hProcess, INFINITE);
+    while (WaitForSingleObject(pi.hProcess, 0.1) != 0)
+      wb_robot_step(TIME_STEP);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 #endif

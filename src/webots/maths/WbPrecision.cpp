@@ -52,7 +52,10 @@ QString WbPrecision::doubleToString(double value, Level level) {
       QString str = QString::number(value, 'f', 6);
       str.remove(QRegExp("0+$"));   // Remove any number of trailing 0's
       str.remove(QRegExp("\\.$"));  // If the last character is just a '.' then remove it
-      return str;
+      if (str == "-0")
+        return "0";
+      else
+        return str;
     }
     case GUI_LOW:
       return QString::number(value, 'g', 3);
