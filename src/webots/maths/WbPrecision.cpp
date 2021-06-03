@@ -14,6 +14,8 @@
 
 #include "WbPrecision.hpp"
 
+#include <QtCore/QRegExp>
+
 #include <cassert>
 #include <limits>
 
@@ -45,6 +47,12 @@ QString WbPrecision::doubleToString(double value, Level level) {
       }
       assert(0);
       return r;
+    }
+    case FLOAT_ROUND_6: {
+      QString str = QString::number(value, 'f', 6);
+      str.remove(QRegExp("0+$"));   // Remove any number of trailing 0's
+      str.remove(QRegExp("\\.$"));  // If the last character is just a '.' then remove it
+      return str;
     }
     case GUI_LOW:
       return QString::number(value, 'g', 3);
