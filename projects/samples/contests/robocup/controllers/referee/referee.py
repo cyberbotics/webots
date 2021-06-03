@@ -1882,7 +1882,9 @@ try:
             if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
                 command_line.append('-b')
                 command_line.append(game.host)
-                start_bouncing_server(game_config_file)
+                udp_bouncer_process = subprocess.Popen(["python3", "udp_bouncer.py", game_config_file])
+            else:
+                udp_bouncer_process = None
             game.controller_process = subprocess.Popen(command_line, cwd=os.path.join(GAME_CONTROLLER_HOME, 'build', 'jar'))
     except KeyError:
         GAME_CONTROLLER_HOME = None
@@ -2496,6 +2498,8 @@ if game.controller:
     game.controller.close()
 if game.controller_process:
     game.controller_process.terminate()
+if udp_bouncer_process:
+    udp_bouncer_process.terminate()
 
 if hasattr(game, 'record_simulation'):
     if game.record_simulation.endswith(".html"):
