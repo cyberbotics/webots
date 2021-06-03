@@ -7,7 +7,8 @@ PROTO Mir100UltrasonicSensor [
   field   SFVec3f    translation    0 0 0
   field   SFRotation rotation       0 1 0 0
   field   SFString   name           "Mir100UltrasonicSensor"
-  field   SFBool     enablePhysics  TRUE       # Defines whether the sensor should have physics.
+  field   MFVec3f    lookupTable    [0.01 1000 0, 0.35 0 0]   # Defines the `lookupTable` field of the `DistanceSensor`.
+  field   SFBool     enablePhysics  TRUE                      # Defines whether the sensor should have physics.
 ]
 {
   DistanceSensor {
@@ -113,10 +114,7 @@ PROTO Mir100UltrasonicSensor [
       mass 0.0085
     }
     %{ end }%
-    lookupTable [
-      0.01 1000 0
-      0.35 0 0
-    ]
+    lookupTable IS lookupTable
     type "sonar"
   }
 }

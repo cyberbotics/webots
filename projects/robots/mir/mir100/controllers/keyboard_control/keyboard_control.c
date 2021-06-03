@@ -57,9 +57,9 @@ int main() {
   wb_keyboard_enable(TIME_STEP);
 
   printf("To move the Mir100 with your keyboard, click first inside the simulation window and press:\n \
-    vx   : ↑/↓ \n \
-    ω    : ←/→ \n \
-    Reset: Space bar \n");
+  vx   : ↑/↓ \n \
+  ω    : ←/→ \n \
+  Reset: Space bar \n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     int key = wb_keyboard_get_key();
