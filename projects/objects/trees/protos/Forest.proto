@@ -60,7 +60,6 @@ PROTO Forest [
       'white pine': 0 };
 
     let keys = Object.keys(treeType);
-
     let treeTypeNumber = keys.length;
     let type = fields.type.value;
 
@@ -121,14 +120,8 @@ PROTO Forest [
         let z = wbrandom.real(yMin, yMax);
         let sizeFactor = wbrandom.real();
 
-        let txt = 'x ' + x + ' z ' + z + ' => ';
-        if (wbgeometry.isPoint2InPolygon({x: x, y: z}, shape)) {
-            txt += 'IN';
+        if (wbgeometry.isPoint2InPolygon({x: x, y: z}, shape))
             trees.push({x: x, y: 0, z: z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
-        } else {
-          txt += 'OUT';
-        }
-        console.log(txt);
       }
     }
     let numberOfTree = trees.length;
@@ -137,7 +130,7 @@ PROTO Forest [
     let types = [];
     if (type === 'random') {
       for (let i = 0; i < numberOfTree; ++i) {
-        let j = wbrandom.integer(treeTypeNumber - 1);
+        let j = wbrandom.integer(treeTypeNumber) - 1;
         types.push(keys[j]);
       }
     } else {
@@ -181,7 +174,7 @@ PROTO Forest [
             }
             texCoord TextureCoordinate {
               point [
-                %{ for (let i = 0; i < treeTypeNumber; ++i) { }%
+                %{ for (let i = 0; i <= treeTypeNumber; ++i) { }%
                   0 %{= i / treeTypeNumber }%
                   1 %{= i / treeTypeNumber }%
                 %{ } }%
