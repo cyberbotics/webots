@@ -308,11 +308,8 @@ void WbViewpoint::startFollowUp(WbSolid *solid, bool updateField) {
 
   // only a node instance can be followed
   WbNode *node = solid;
-  QVector<WbNode *> instances = node->protoParameterNodeInstances();
-  while (!instances.isEmpty()) {
-    node = instances[0];
-    instances = node->protoParameterNodeInstances();
-  }
+  if (node->isProtoParameterNode())
+    node = static_cast<WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
   WbSolid *solidInstance = solid;
   if (node != solid) {
     solidInstance = dynamic_cast<WbSolid *>(node);

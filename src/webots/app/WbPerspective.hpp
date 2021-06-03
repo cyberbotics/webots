@@ -75,14 +75,6 @@ public:
   void setFilesList(const QStringList &list) { mFilesList = list; }
   QStringList filesList() const { return mFilesList; }
 
-  // documentation book
-  void setDocumentationBook(const QString &book) { mDocumentationBook = book; }
-  const QString &documentationBook() const { return mDocumentationBook; }
-
-  // documentation page
-  void setDocumentationPage(const QString &page) { mDocumentationPage = page; }
-  const QString &documentationPage() const { return mDocumentationPage; }
-
   void setRobotWindowNodeNames(const QStringList &robotWindowNodeNames) { mRobotWindowNodeNames = robotWindowNodeNames; }
   const QStringList &enabledRobotWindowNodeNames() const { return mRobotWindowNodeNames; }
 
@@ -143,8 +135,6 @@ private:
   bool mCentralWidgetVisible;
   int mSelectedTab;
   QStringList mFilesList;
-  QString mDocumentationBook;
-  QString mDocumentationPage;
   double mOrthographicViewHeight;
   QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   QString mProjectionMode;

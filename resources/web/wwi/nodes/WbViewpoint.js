@@ -218,6 +218,12 @@ export default class WbViewpoint extends WbBaseNode {
   updatePosition() {
     if (this.wrenObjectsCreatedCalled)
       this._applyPositionToWren();
+
+    WbWorld.instance.billboards.forEach(id => {
+      let billboard = WbWorld.instance.nodes.get(id);
+      if (typeof billboard !== 'undefined')
+        billboard.updatePosition();
+    });
   }
 
   updatePostProcessingEffects() {
