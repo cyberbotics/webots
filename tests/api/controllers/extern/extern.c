@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 #endif
+    wb_robot_step(TIME_STEP);
     wb_robot_cleanup();
     return EXIT_SUCCESS;
   }
