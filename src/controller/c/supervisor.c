@@ -910,7 +910,12 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int node_id = request_read_int32(r);
       const int field_id = request_read_int32(r);
 
-      WbFieldStruct *f = sent_field_get_request ? sent_field_get_request->field : find_field_by_id(node_id, field_id);
+      WbFieldStruct *f =
+        (sent_field_get_request && sent_field_get_request->field && sent_field_get_request->field->node_unique_id == node_id &&
+         sent_field_get_request->field->id == field_id) ?
+          sent_field_get_request->field :
+          find_field_by_id(node_id, field_id);
+
       // field_type == 0 if node was deleted
       if (f && field_type != 0) {
         switch (f->type) {

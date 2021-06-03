@@ -72,6 +72,8 @@ struct WbTrackedFieldInfo {
 
 struct WbFieldGetRequest {
   WbField *field;
+  int fieldId;
+  int nodeId;
   int index;  // for MF fields only
 };
 
@@ -1153,6 +1155,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFieldGetRequest = new struct WbFieldGetRequest;
       mFieldGetRequest->field = field;
       mFieldGetRequest->index = index;
+      mFieldGetRequest->fieldId = fieldId;
+      mFieldGetRequest->nodeId = uniqueId;
       return;
     }
     case C_SUPERVISOR_FIELD_SET_VALUE: {
@@ -1740,8 +1744,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
       return;
     }
     stream << (int)field->type();
-    stream << (int)0; // Node ID, not relevant
-    stream << (int)0; // Field ID, not relevant
+    stream << (int)mFieldGetRequest->nodeId;
+    stream << (int)mFieldGetRequest->fieldId;
     switch (field->type()) {
       case WB_MF_BOOL: {
         const bool v = dynamic_cast<WbMFBool *>(field->value())->item(mFieldGetRequest->index);
