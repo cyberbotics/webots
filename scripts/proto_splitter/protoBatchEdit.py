@@ -207,7 +207,7 @@ class proto2mesh:
         shutil.copy(sourcePath + proto, failedBasePath + proto)
 
     def create_outputDir(self, sourcePath, outPath):
-        # Create a new directory, where the convrted files will be stored.
+        # Create a new directory, where the converted files will be stored.
         os.makedirs(outPath, exist_ok=True)
         if sourcePath == outPath:
             newDirName = os.path.basename(sourcePath) + '_multiProto_0'
