@@ -92,13 +92,13 @@
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 -0 0.115" rpy="-3.141589 0 0"/>
+      <origin xyz="0 0 0.115" rpy="-3.141589 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.06"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 -0 0.115" rpy="-3.141589 0 0"/>
+      <origin xyz="0 0 0.115" rpy="-3.141589 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.06"/>
       </geometry>
@@ -215,13 +215,13 @@
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 -0 0.1045" rpy="-3.141589 0 0"/>
+      <origin xyz="0 0 0.1045" rpy="-3.141589 0 0"/>
       <geometry>
         <cylinder radius="0.073" length="0.07"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 -0 0.1045" rpy="-3.141589 0 0"/>
+      <origin xyz="0 0 0.1045" rpy="-3.141589 0 0"/>
       <geometry>
         <cylinder radius="0.073" length="0.07"/>
       </geometry>
@@ -391,14 +391,14 @@
   <joint name="left finger_left finger sensor 3_joint" type="fixed">
     <parent link="left finger"/>
     <child link="left finger sensor 3"/>
-    <origin xyz="-0 0.017324 0.087181" rpy="0.000001 0.261799 1.570802"/>
+    <origin xyz="0 0.017324 0.087181" rpy="0.000001 0.261799 1.570802"/>
   </joint>
   <link name="left finger sensor 2">
   </link>
   <joint name="left finger_left finger sensor 2_joint" type="fixed">
     <parent link="left finger"/>
     <child link="left finger sensor 2"/>
-    <origin xyz="-0 0.021438 0.13449" rpy="-0.000003 -1.125744 -1.570795"/>
+    <origin xyz="0 0.021438 0.13449" rpy="-0.000003 -1.125744 -1.570795"/>
   </joint>
   <link name="left finger sensor 1">
   </link>
@@ -512,14 +512,14 @@
   <joint name="right finger_right finger sensor 3_joint" type="fixed">
     <parent link="right finger"/>
     <child link="right finger sensor 3"/>
-    <origin xyz="-0 0.017324 0.087181" rpy="0.000001 0.261799 1.570802"/>
+    <origin xyz="0 0.017324 0.087181" rpy="0.000001 0.261799 1.570802"/>
   </joint>
   <link name="right finger sensor 2">
   </link>
   <joint name="right finger_right finger sensor 2_joint" type="fixed">
     <parent link="right finger"/>
     <child link="right finger sensor 2"/>
-    <origin xyz="-0 0.021438 0.13449" rpy="-0.000003 -1.125744 -1.570795"/>
+    <origin xyz="0 0.021438 0.13449" rpy="-0.000003 -1.125744 -1.570795"/>
   </joint>
   <link name="right finger sensor 1">
   </link>
@@ -605,13 +605,13 @@
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0 -0.005" rpy="-0 0 0"/>
+      <origin xyz="0 0 -0.005" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.00833333" length="0.01"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.005" rpy="-0 0 0"/>
+      <origin xyz="0 0 -0.005" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.00833333" length="0.01"/>
       </geometry>
