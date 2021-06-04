@@ -53,12 +53,12 @@ Field::Type Field::getType() const {
   return Type(wb_supervisor_field_get_type(fieldRef));
 }
 
-void Field::enableTracking(int samplingPeriod) {
-  wb_supervisor_field_enable_tracking(fieldRef, samplingPeriod);
+void Field::enableSFTracking(int samplingPeriod) {
+  wb_supervisor_field_enable_sf_tracking(fieldRef, samplingPeriod);
 }
 
-void Field::disableTracking() {
-  wb_supervisor_field_disable_tracking(fieldRef);
+void Field::disableSFTracking() {
+  wb_supervisor_field_disable_sf_tracking(fieldRef);
 }
 
 std::string Field::getTypeName() const {

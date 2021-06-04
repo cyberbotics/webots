@@ -2488,7 +2488,7 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   return ((WbFieldStruct *)field)->count;
 }
 
-void wb_supervisor_field_enable_tracking(WbFieldRef field, int sampling_period) {
+void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
@@ -2504,7 +2504,7 @@ void wb_supervisor_field_enable_tracking(WbFieldRef field, int sampling_period) 
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_field_disable_tracking(WbFieldRef field) {
+void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
   robot_mutex_lock_step();
   field_change_tracking.field = field;
   field_change_tracking.enable = false;

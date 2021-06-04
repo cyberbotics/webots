@@ -426,7 +426,7 @@ int main(int argc, char **argv) {
 
   // supervisor field tracking
   field = wb_supervisor_node_get_field(proto, "translation");
-  wb_supervisor_field_enable_tracking(field, TIME_STEP);
+  wb_supervisor_field_enable_sf_tracking(field, TIME_STEP);
 
   vector3_modified = wb_supervisor_field_get_sf_vec3f(field);
   // vector3_expected[0];
@@ -435,7 +435,7 @@ int main(int argc, char **argv) {
                           vector3_expected[1], vector3_expected[2], vector3_modified[0], vector3_modified[1],
                           vector3_modified[2]);
 
-  wb_supervisor_field_disable_tracking(field);
+  wb_supervisor_field_disable_sf_tracking(field);
 
   ts_send_success();
   return EXIT_SUCCESS;
