@@ -54,8 +54,7 @@ QString WbPrecision::doubleToString(double value, Level level) {
       str.remove(r);
       if (str == "-0")
         return "0";
-      else
-        return str;
+      return str;
     }
     case GUI_LOW:
       return QString::number(value, 'g', 3);
