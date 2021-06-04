@@ -34,7 +34,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
         }
         geometry Mesh {
           url [
-            "meshes/sick_s300_black.dae"
+            "webots://projects/devices/sick/protos/meshes/sick_s300_black.dae"
           ]
         }
       }
@@ -46,7 +46,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
         }
         geometry Mesh {
           url [
-            "meshes/sick_s300_yellow.dae"
+            "webots://projects/devices/sick/protos/meshes/sick_s300_yellow.dae"
           ]
         }
       }
