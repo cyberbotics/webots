@@ -109,6 +109,7 @@ PROTO SimpleBuilding [
           sign += digits[d];
         }
       }
+
       return sign;
     }
 
@@ -122,12 +123,12 @@ PROTO SimpleBuilding [
         wallColor = fields.wallColor.defaultValue;
         let list = '';
         for (let i = 0; i < coloredWallTypes.length; ++i) {
-          list += coloredWallTypes[i];
-          
+          list += '\'' + coloredWallTypes[i] + '\'';
+
           if (i !== coloredWallTypes.length -1)
             list += ', '
         }
-      console.error('\'WallTypes\' with a \'WallColor\' must be a value in the list: ' + list + '.');
+        console.error('\'WallTypes\' with a \'WallColor\' must be a value in the list: ' + list + '.');
       } else {
         let minDifference = 3;
         let k;
@@ -145,7 +146,7 @@ PROTO SimpleBuilding [
           hue = ((wallColor[0].b - wallColor[0].r) / (maxValue - minValue) + 2) * 60;
         else if (maxValue === wallColor[0].b)
           hue = ((wallColor[0].r - wallColor[0].g) / (maxValue - minValue) + 4) * 60;
-        
+
         if (maxValue === 0)
           saturation = 0;
         else
@@ -179,6 +180,7 @@ PROTO SimpleBuilding [
       }
     }
 
+    let wallTexture;
     if (wallColorPrefix !== '') {
       wallTexture = 'colored_textures/' + wallType + wallColorPrefix + '.jpg';
     } else {
@@ -187,7 +189,7 @@ PROTO SimpleBuilding [
       else
         wallTexture = wallType + '.jpg';
     }
-    wallTexture = wallTexture.replace(' ', '_');
+    wallTexture = wallTexture.replace(/\s/g, '_');
 
     let wallTextureWidth = wallTypes[wallType].textureWidth;
     let wallTextureFloorNumber = wallTypes[wallType].textureFloorNumber;
@@ -195,44 +197,49 @@ PROTO SimpleBuilding [
 
     // determine roof texture parameters
     let roofType = fields.roofType.value;
-    -- determine roof's color
-    local roofColorPrefix = ""
-    local roofColor = fields.roofColor.value
-    if wbcore.tablelength(roofColor) > 0 then
-      if coloredRoofTypes[roofType] == nil then
-        roofColor = fields.roofColor.defaultValue
-        list = " "
-        for k, v in pairs(coloredRoofTypes) do
-          list = list .. '"' .. k .. '"' .. ", "
-        end
-        io.stderr:write("'coloredRoofTypes' must be a value in the list: " .. list .. "\n")
-      else
-        local minDifference = 3
-        local k = ""
-        -- We calculate the smallest RGB difference to define the color
-        for i, value in pairs(availableRoofColors) do
-          local difference = math.abs(roofColor[1].r - value[1]) + math.abs(roofColor[1].g - value[2]) + math.abs(roofColor[1].b - value[3])
-          if minDifference > difference then
-            minDifference = difference
-            k = toHex(value)
-          end
-        end
-        roofColorPrefix = "_" .. k
-      end
-    end
-    if fields.snowOnRoof.value then
-      roofTexture = string.gsub(roofType .. "_with_snow.jpg"," ","_")
-    elseif roofColorPrefix ~= "" then
-      roofTexture = string.gsub("colored_textures/" .. roofType .. roofColorPrefix .. ".jpg"," ","_")
-    else
-      roofTexture = string.gsub(roofType .. ".jpg"," ","_")
-    end
-    roofTextureSize = roofTypes[roofType].textureSize
+    // determine roof color
+    let roofColorPrefix = '';
+    let roofColor = fields.roofColor.value;
+    if (roofColor.length > 0) {
+      if (coloredRoofTypes[roofType] === undefined) {
+        roofColor = fields.roofColor.defaultValue;
+        let list = '';
+        for (let i = 0; i < coloredRoofTypes.length; ++i) {
+          list += '\'' + coloredRoofTypes[i] + '\'';
 
-    local model = '"'..  wallType .. '"'
-    if string.sub(wallType,-string.len("building")) ~= "building" then
-      model = '"' .. wallType .. " building" .. '"'
-    end
+          if (i !== coloredWallTypes.length -1)
+            list += ', '
+        }
+        console.error('\'coloredRoofTypes\' must be a value in the list: ' + list + '.');
+      } else {
+        let minDifference = 3;
+        let k;
+        // we calculate the smallest RGB difference to define the color
+        for (let i = 0; i < availableRoofColors.length; ++i) {
+          let difference = Math.abs(roofColor[0].r - availableRoofColors[i][0]) + Math.abs(roofColor[0].g - availableRoofColors[i][1]) + Math.abs(roofColor[0].b - availableRoofColors[i][2]);
+          if (minDifference > difference) {
+            minDifference = difference;
+            k = toHex(availableRoofColors[i]);
+          }
+        }
+        roofColorPrefix = '_' + k;
+      }
+    }
+
+    let roofTexture;
+    if (fields.snowOnRoof.value)
+      roofTexture = roofType + '_with_snow.jpg';
+    else if (roofColorPrefix !== '')
+      roofTexture = 'colored_textures/' + roofType + roofColorPrefix + '.jpg'
+    else
+      roofTexture = roofType + '.jpg';
+
+    roofTexture = roofTexture.replace(/\s/g, '_');
+    let roofTextureSize = roofTypes[roofType].textureSize;
+
+    let model = '"' +  wallType + '"';
+    if(wallType.substring(wallType.length - 'buildings'.length) !== 'buildings')
+      model = '"' + wallType + " building" + '"';
   }%
   Building {
     translation IS translation
@@ -251,13 +258,13 @@ PROTO SimpleBuilding [
     bottom IS bottom
     model %{= model }%
     recognitionColors [
-    %{ for i = 1, wbcore.tablelength(wallTypes[wallType].colors) do }%
-      %{= wallTypes[wallType].colors[i][1] }% %{= wallTypes[wallType].colors[i][2] }% %{= wallTypes[wallType].colors[i][3] }%
-    %{ end }%
+    %{ for (let i = 0; i < wallTypes[wallType].colors.length; ++i) { }%
+      %{= wallTypes[wallType].colors[i][0] }% %{= wallTypes[wallType].colors[i][1] }% %{= wallTypes[wallType].colors[i][2] }%
+    %{ } }%
     ]
     wallAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %{= '"textures/' .. wallTexture .. '"' }% ]
+        url [ %{= '"textures/' + wallTexture + '"' }% ]
       }
       metalness 0
       roughness 1
@@ -267,7 +274,7 @@ PROTO SimpleBuilding [
     }
     roofAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %{= '"textures/' .. roofTexture .. '"' }% ]
+        url [ %{= '"textures/' + roofTexture + '"' }% ]
       }
       metalness 0
       roughness 1
