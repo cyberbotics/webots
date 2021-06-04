@@ -322,6 +322,8 @@ def game_controller_receive():
             else:
                 info(f"State has succesfully changed to {game.wait_for_state}")
                 game.wait_for_state = None
+        if game.state.game_state == "STATE_FINISHED":
+            game.sent_finish = False
     new_sec_state = game.state.secondary_state
     new_sec_phase = game.state.secondary_state_info[1]
     if previous_sec_state != new_sec_state or previous_sec_phase != new_sec_phase:
@@ -1600,10 +1602,11 @@ def get_penalty_defending_team():
 
 def penalty_kicker_player():
     default = game.penalty_shootout_count % 2 == 0
-    attacking_team = red_team if game.kickoff == game.red.id and default else blue_team
+    attacking_team = red_team if (game.kickoff == game.blue.id) ^ default else blue_team
     for number in attacking_team['players']:
         if is_penalty_kicker(attacking_team, number):
             return attacking_team['players'][number]
+    return None
 
 
 def set_penalty_positions():
@@ -2117,8 +2120,9 @@ while supervisor.step(time_step) != -1 and not game.over:
                 next_penalty_shootout()
             if game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
                 kicker = penalty_kicker_player()
-                if not kicker['outside_goal_area'] and not kicker['inside_own_side']:
-                    # if the kicker is not fully outside the opponent goal area, we stop the kick and continue
+                if kicker is None or (not kicker['outside_goal_area'] and not kicker['inside_own_side']):
+                    # if no kicker is available or if the kicker is not fully outside the opponent goal area,
+                    # we stop the kick and continue
                     next_penalty_shootout()
                     if game.over:
                         break
