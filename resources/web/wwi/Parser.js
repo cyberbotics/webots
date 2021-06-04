@@ -220,8 +220,8 @@ export default class Parser {
   }
 
   _parseWorldInfo(node) {
-    const coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
-    WbWorld.instance.coordinateSystem = coordinateSystem;
+    WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
+    WbWorld.instance.version = getNodeAttribute(node, 'version', 'released');
     WbWorld.computeUpVector();
   }
 
@@ -1051,7 +1051,7 @@ export default class Parser {
 
     const image = new WbImage();
     if (url.startsWith('webots://'))
-      url = url.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/master/');
+      url = url.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + WbWorld.instance.version + '/');
     if (typeof prefix !== 'undefined' && !url.startsWith('http'))
       url = prefix + url;
     if (isHdr) {
