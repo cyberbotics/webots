@@ -41,7 +41,7 @@ export function isPoint2InPolygon(p, polygon) {
     p2x = polygon[i % n].x;
     p2y = polygon[i % n].y;
 
-    if (p.x > Math.min(p1y, p2y)) {
+    if (p.y > Math.min(p1y, p2y)) {
       if (p.y <= Math.max(p1y, p2y)) {
         if (p.x <= Math.max(p1x, p2x)) {
           if (p1y !== p2y)
