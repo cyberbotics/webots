@@ -689,28 +689,39 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
   for (int i = 0; i < 6; ++i) {
     if (mUrlFields[i]->size() == 0)
       continue;
-    const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
-    const QFileInfo &cubeInfo(url);
-    if (writer.isWritingToFile())
-      backgroundFileNames[i] =
-        WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-    else
-      backgroundFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-    writer.addTextureToList(backgroundFileNames[i], url);
+
+    if (mUrlFields[i]->value()[0].indexOf("webots://") == 0 || mUrlFields[i]->value()[0].indexOf("http") == 0)
+      backgroundFileNames[i] = mUrlFields[i]->value()[0];
+    else {
+      const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+      const QFileInfo &cubeInfo(url);
+      if (writer.isWritingToFile())
+        backgroundFileNames[i] =
+          WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+      else
+        backgroundFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
+      writer.addTextureToList(backgroundFileNames[i], url);
+    }
   }
 
   QString irradianceFileNames[6];
   for (int i = 0; i < 6; ++i) {
     if (mIrradianceUrlFields[i]->size() == 0)
       continue;
-    const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
-    const QFileInfo &cubeInfo(url);
-    if (writer.isWritingToFile())
-      irradianceFileNames[i] =
-        WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-    else
-      irradianceFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-    writer.addTextureToList(irradianceFileNames[i], url);
+
+    if (mIrradianceUrlFields[i]->value()[0].indexOf("webots://") == 0 ||
+        mIrradianceUrlFields[i]->value()[0].indexOf("http") == 0)
+      irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
+    else {
+      const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
+      const QFileInfo &cubeInfo(url);
+      if (writer.isWritingToFile())
+        irradianceFileNames[i] =
+          WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+      else
+        irradianceFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
+      writer.addTextureToList(irradianceFileNames[i], url);
+    }
   }
 
   if (writer.isX3d()) {

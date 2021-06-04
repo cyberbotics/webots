@@ -74,7 +74,6 @@ export default class Parser {
 
     if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;
-
     WbWorld.instance.viewpoint.finalize();
 
     WbWorld.instance.sceneTree.forEach(node => {
@@ -1051,7 +1050,9 @@ export default class Parser {
     const context = canvas2.getContext('2d');
 
     const image = new WbImage();
-    if (typeof prefix !== 'undefined' && !url.startsWith('https://raw.githubusercontent.com'))
+    if (url.startsWith('webots://'))
+      url = url.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/master/');
+    if (typeof prefix !== 'undefined' && !url.startsWith('http'))
       url = prefix + url;
     if (isHdr) {
       const img = await Parser.loadHDRImage(url);

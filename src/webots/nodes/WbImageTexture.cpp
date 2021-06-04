@@ -469,6 +469,8 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
+    if (mUrl->value()[i].indexOf("webots://") == 0 || mUrl->value()[i].indexOf("http") == 0)
+      continue;
     QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
     if (writer.isWritingToFile()) {
       QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
