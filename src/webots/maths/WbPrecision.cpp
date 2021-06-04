@@ -50,8 +50,8 @@ QString WbPrecision::doubleToString(double value, Level level) {
     }
     case FLOAT_ROUND_6: {
       QString str = QString::number(value, 'f', 6);
-      str.remove(QRegExp("0+$"));   // Remove any number of trailing 0's
-      str.remove(QRegExp("\\.$"));  // If the last character is just a '.' then remove it
+      static QRegExp r("0+$|\\.0+$");  // Remove any number of trailing 0's including '.' if needed
+      str.remove(r);
       if (str == "-0")
         return "0";
       else
