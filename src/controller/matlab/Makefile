@@ -22,7 +22,7 @@ endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-PYTHON_OK := $(shell which python)
+PYTHON_OK := $(shell which python3)
 release debug profile:
 	@echo "# generating matlab"
 ifeq ('$(PYTHON_OK)','')
