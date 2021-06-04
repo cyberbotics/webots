@@ -68,6 +68,7 @@ struct WbTrackedFieldInfo {
   int nodeId;
   bool internal;
   int samplingPeriod;
+  double lastUpdate;
 };
 
 struct WbFieldGetRequest {
@@ -1719,12 +1720,16 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     mImportedNodeId = -1;
   }
   for (WbTrackedFieldInfo &field : mTrackedFields) {
-    stream << (short unsigned int)0;
-    stream << (unsigned char)C_SUPERVISOR_FIELD_GET_VALUE;
-    stream << (int)field.field->type();
-    stream << (int)field.nodeId;
-    stream << (int)field.fieldId;
-    pushSingleFieldContentToStream(stream, field.field);
+    const double time = WbSimulationState::instance()->time();
+    if (time >= field.lastUpdate + field.samplingPeriod) {
+      stream << (short unsigned int)0;
+      stream << (unsigned char)C_SUPERVISOR_FIELD_GET_VALUE;
+      stream << (int)field.field->type();
+      stream << (int)field.nodeId;
+      stream << (int)field.fieldId;
+      pushSingleFieldContentToStream(stream, field.field);
+      field.lastUpdate = time;
+    }
   }
   if (mFieldGetRequest) {
     stream << (short unsigned int)0;

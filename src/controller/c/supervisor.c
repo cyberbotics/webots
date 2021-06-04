@@ -114,8 +114,8 @@ typedef struct WbFieldChangeTrackingPrivate {
 } WbFieldChangeTracking;
 
 typedef struct WbPoseChangeTrackingPrivate {
-  WbNodeRef *node;
-  WbNodeRef *from_node;
+  WbNodeRef node;
+  WbNodeRef from_node;
   int sampling_period;
   bool enable;
 } WbPoseChangeTracking;
@@ -533,8 +533,8 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (pose_change_tracking_requested) {
     request_write_uchar(r, C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE);
-    request_write_int32(r, pose_change_tracking.from_node);
-    request_write_int32(r, pose_change_tracking.node);
+    request_write_int32(r, pose_change_tracking.from_node->id);
+    request_write_int32(r, pose_change_tracking.node->id);
     request_write_uchar(r, pose_change_tracking.enable);
     if (pose_change_tracking.enable)
       request_write_int32(r, pose_change_tracking.sampling_period);
@@ -2521,7 +2521,7 @@ void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_pose_enable_tracking(WbNodeRef *node, WbNodeRef *from_node, int sampling_period) {
+void wb_supervisor_pose_enable_tracking(WbNodeRef node, WbNodeRef from_node, int sampling_period) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
@@ -2537,7 +2537,7 @@ void wb_supervisor_pose_enable_tracking(WbNodeRef *node, WbNodeRef *from_node, i
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_pose_disable_tracking(WbNodeRef *node, WbNodeRef *from_node) {
+void wb_supervisor_pose_disable_tracking(WbNodeRef node, WbNodeRef from_node) {
   robot_mutex_lock_step();
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
