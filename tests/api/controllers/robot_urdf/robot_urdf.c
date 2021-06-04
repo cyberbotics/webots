@@ -61,8 +61,8 @@ int main(int argc, char **argv) {
     if (!success_word_found) {
       rewind(f_res);
       char *buffer = malloc(file_size + 1);
-      buffer = fread(buffer, 1, file_size, f_res);
-      buffer[file_size] = '\0';
+      int n = fread(buffer, 1, file_size, f_res);
+      buffer[n] = '\0';
       ts_send_error_and_exit("URDF verification failed: %s", buffer);
     }
   }
