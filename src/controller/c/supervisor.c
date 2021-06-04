@@ -531,6 +531,13 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uint32(r, node_ref);
     request_write_string(r, requested_field_name);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+  } else if (pose_change_tracking_requested) {
+    request_write_uchar(r, C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE);
+    request_write_int32(r, pose_change_tracking.from_node);
+    request_write_int32(r, pose_change_tracking.node);
+    request_write_uchar(r, pose_change_tracking.enable);
+    if (pose_change_tracking.enable)
+      request_write_int32(r, pose_change_tracking.sampling_period);
   } else if (field_change_tracking_requested) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE);
     request_write_int32(r, field_change_tracking.field->node_unique_id);
@@ -2521,11 +2528,12 @@ void wb_supervisor_pose_enable_tracking(WbNodeRef *node, WbNodeRef *from_node, i
   }
 
   robot_mutex_lock_step();
+  pose_change_tracking_requested = true;
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
   pose_change_tracking.enable = true;
   wb_robot_flush_unlocked();
-  pose_change_tracking.node = NULL;
+  pose_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
 
