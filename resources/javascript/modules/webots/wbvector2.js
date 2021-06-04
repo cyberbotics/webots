@@ -40,12 +40,6 @@ export function norm(v) {
   return Math.sqrt(v.x * v.x + v.y * v.y);
 };
 
-export function atan2(v) {
-  wbutility.assert(wbutility.isVector2(v), 'Expected an object with keys (x, y) as parameter in wbvector2.atan2.');
-
-  return Math.atan2(v.y, v.x);
-};
-
 export function distance(vA, vB) {
   wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.distance.');
   wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.distance.');
@@ -56,8 +50,8 @@ export function distance(vA, vB) {
 export function angle(vA, vB) {
   wbutility.assert(wbutility.isVector2(vA), 'Expected an object with keys (x, y) as first parameter in wbvector2.angle.');
   wbutility.assert(wbutility.isVector2(vB), 'Expected an object with keys (x, y) as second parameter in wbvector2.angle.');
-
-  return atan2(minus(vA, vB));
+  const v = minus(vA, vB);
+  return Math.atan2(v.y, v.x);
 };
 
 export function cross(vA, vB) {
