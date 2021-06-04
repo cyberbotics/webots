@@ -104,7 +104,6 @@ PROTO TexturedBackgroundLight [
     } else
       console.error('Unknown texture identifier');
 
-    console.log(direction);
     if (context.coordinate_system === 'ENU')
       direction = [direction[2], direction[0], direction[1]];
   }%
