@@ -54,8 +54,7 @@ QString WbPrecision::doubleToString(double value, Level level) {
       str.remove(QRegExp("\\.$"));  // If the last character is just a '.' then remove it
       if (str == "-0")
         return "0";
-      else
-        return str;
+      return str;
     }
     case GUI_LOW:
       return QString::number(value, 'g', 3);
