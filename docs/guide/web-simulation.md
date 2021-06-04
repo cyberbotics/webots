@@ -466,7 +466,7 @@ This is the API of the `webots-streaming` web component:
 * `sendMessage(message)`: send a message to the streaming server through the web socket. Examples of messages could be:
     *`real-time:-1`: to play the simulation.
     *`pause`: to pause the simulation.
-    *`robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named supervisor.
+    *`robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named "supervisor".
 
 An example of a file using this API is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
 
