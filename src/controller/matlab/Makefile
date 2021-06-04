@@ -22,13 +22,13 @@ endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-PYTHON_OK := $(shell which python)
+PYTHON_OK := $(shell which python3)
 release debug profile:
 	@echo "# generating matlab"
 ifeq ('$(PYTHON_OK)','')
-	@echo "# \033[0;33mUnable to find python, skipping matlab API\033[0m"
+	@echo "# \033[0;33mUnable to find python3, skipping matlab API\033[0m"
 else
-	$(shell python mgenerate.py;)
+	$(shell python3 mgenerate.py;)
 endif 
 
 clean:
