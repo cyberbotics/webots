@@ -28,7 +28,7 @@ release debug profile:
 ifeq ('$(PYTHON_OK)','')
 	@echo "# \033[0;33mUnable to find python, skipping matlab API\033[0m"
 else
-	$(shell python mgenerate.py;)
+	$(shell python3 mgenerate.py;)
 endif 
 
 clean:
