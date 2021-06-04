@@ -80,10 +80,9 @@ int main() {
       } else if (sign < 0) {
         if (target_belt_speed < -MAX_SPEED)
           target_belt_speed = -MAX_SPEED;
-      } else {
+      } else
         target_belt_speed = 0.0;
-      }
-      printf("vbelt:%.1f[m/s]\n", target_belt_speed);
+      printf("belt speed: %.1f [m/s]\n", target_belt_speed);
 
       wb_motor_set_velocity(motor_belt, target_belt_speed);
     }
