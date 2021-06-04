@@ -50,6 +50,7 @@ REAL_TIME_BEFORE_FIRST_READY_STATE = 120  # wait 2 real minutes before sending t
 IN_PLAY_TIMEOUT = 10                      # time after which the ball is considered in play even if it was not kicked
 FALLEN_TIMEOUT = 20                       # if a robot is down (fallen) for more than this amount of time, it gets penalized
 REMOVAL_PENALTY_TIMEOUT = 30              # removal penalty lasts for 30 seconds
+DISABLE_ACTUATORS_TIMEOUT = 5             # disable the actuators of penalized robots after 5 seconds
 GOALKEEPER_BALL_HOLDING_TIMEOUT = 6       # a goalkeeper may hold the ball up to 6 seconds on the ground
 PLAYERS_BALL_HOLDING_TIMEOUT = 1          # field players may hold the ball up to 1 second
 BALL_HANDLING_TIMEOUT = 10                # a player throwing in or a goalkeeper may hold the ball up to 10 seconds in hands
@@ -1002,10 +1003,16 @@ def update_team_penalized(team):
             if n > 0:
                 player['penalized'] = n
                 if 'sent_to_penalty_position' in player:
-                    customData.setSFString('penalized')
                     del player['sent_to_penalty_position']
+                if n < REMOVAL_PENALTY_TIMEOUT - DISABLE_ACTUATORS_TIMEOUT and 'actuators_disabled' not in player:
+                    player['actuators_disabled'] = True
+                    customData.setSFString('penalized')
+                    info(f'Disabling actuators of {color} player {number}.')
             elif 'penalized' in player:
-                customData.setSFString('')
+                if 'actuators_disabled' in player:
+                    del player['actuators_disabled']
+                    customData.setSFString('')
+                    info(f'Enabling actuators of {color} player {number}.')
                 del player['penalized']
 
 
