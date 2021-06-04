@@ -15,11 +15,11 @@ PROTO RobocupSoccerField [
   %{
     // Official soccer field dimensions from RoboCup 2021 (in meters)
 
-    const LINE_WIDTH = 0.05 // Line width
-    const BRANCH_LENGTH = 0.1 // Length of one branch of the penalty/center mark (not specified in rules)
-    const N_VERTICES_CIRCLE = 36 // Number of vertices for the regular polygon approximating the central circle (not specified in rules)
+    const LINE_WIDTH = 0.05; // Line width
+    const BRANCH_LENGTH = 0.1; // Length of one branch of the penalty/center mark (not specified in rules)
+    const N_VERTICES_CIRCLE = 36; // Number of vertices for the regular polygon approximating the central circle (not specified in rules)
 
-    let A, B, C, D, E, F, G, H, I, E, F, G, H, I, J, K;
+    let A, B, C, D, E, F, G, H, I, J, K;
     if (fields.size.value === 'kid') {
       // KidSize dimensions
       A = 9;
@@ -47,12 +47,11 @@ PROTO RobocupSoccerField [
       J = 3;
       K = 6;
     }
-    if (fields.turfPhysics.value)
-      DEPTH = 0.01;
-    else
-      DEPTH = 0;
+
+    const DEPTH = fields.turfPhysics.value ? 0.01 : 0;
+
     // Points for a quarter field (except central circle)
-    pts = [];
+    let pts = [];
     pts[0]  = {x: 0,                           y: 0,                               z: DEPTH}
     pts[1]  = {x: 0,                           y: I,                               z: DEPTH}
     pts[2]  = {x: 0,                           y: I + (B / 2),                     z: DEPTH}
@@ -152,103 +151,95 @@ PROTO RobocupSoccerField [
     tl[21] = {a: 36, b: 37, c: 42};
 
     // Creation of a quarter of the central circle
-    n_vertices_quarter = math.ceil(N_VERTICES_CIRCLE / 4) + 1; // +1 because we want to have a point both at ~0 and pi/2
+    let n_vertices_quarter = Math.ceil(N_VERTICES_CIRCLE / 4) + 1; // +1 because we want to have a point both at ~0 and pi/2
 
     // Add points for the circles to the existing ones
-    function circle_add_pts (radius) {
-      let center = pts[45] // TODO: IS PTS ACCESSIBLE??????????????
-      local alpha = math.atan((LINE_WIDTH / 2) / radius) -- first point must be on the inside side of the half line
-      local alpha_increment = (math.pi / 2 - alpha) / (n_vertices_quarter - 1) -- number of parts is nb of vertices minus 1
-      local Npts = table.maxn(pts)
-      for i = 1, n_vertices_quarter do
-        pts[Npts + i] = {
-          x = center.x - radius * math.sin(alpha),
-          y = center.y - radius * math.cos(alpha),
-          z = center.z + 0
-        }
-        alpha = alpha + alpha_increment
-      end
+    function circle_add_pts (radius, pts, n_vertices_quarter, line_width) {
+      let center = pts[44];
+      let alpha = Math.atan((line_width / 2) / radius); // first point must be on the inside side of the half line
+      let alpha_increment = (Math.PI / 2 - alpha) / (n_vertices_quarter - 1); // number of parts is nb of vertices minus 1
+      let Npts = pts.length;
+      for (let i = 1; i <= n_vertices_quarter; ++i) {
+        pts.push({x: center.x - radius * Math.sin(alpha), y: center.y - radius * Math.cos(alpha), z: center.z + 0});
+        alpha = alpha + alpha_increment;
+      }
     }
 
-    circle_add_pts(H / 2) -- Inner radius of central circle
-    circle_add_pts(H / 2 + LINE_WIDTH) -- Outer radius of central circle
+    circle_add_pts(H / 2, pts, n_vertices_quarter, LINE_WIDTH); // Inner radius of central circle
+    circle_add_pts(H / 2 + LINE_WIDTH, pts, n_vertices_quarter, LINE_WIDTH); // Outer radius of central circle
 
-    --Add the triangles for the line of the central circle
-    Npts = table.maxn(pts)
-    cin_start = Npts - 2 * n_vertices_quarter -- id of the first point of the inner circle
-    cout_start = Npts - n_vertices_quarter -- id of the first point of the outer circle
-    Ntl = table.maxn(tl) -- number of triangles for lines
-    for i = 1, (n_vertices_quarter - 1) do
-      tl[Ntl + (2 * i - 1)] = {a = cout_start + (i + 1), b = cin_start + i, c = cout_start + i} --first part of one line rectangle
-      tl[Ntl + (2 * i)] = {a = cout_start + (i + 1), b = cin_start + (i + 1), c = cin_start + i} --second part of one line rectangle
-    end
+    // Add the triangles for the line of the central circle
+    let Npts = pts.length;
+    let cin_start = Npts - 2 * n_vertices_quarter; // id of the first point of the inner circle
+    let cout_start = Npts - n_vertices_quarter; // id of the first point of the outer circle
+    let Ntl = tl.length; // number of triangles for lines
+    for (let i = 1; i <= n_vertices_quarter - 1; ++i) {
+      tl.push({a: cout_start + (i + 1), b: cin_start + i, c: cout_start + i}); // first part of one line rectangle
+      tl.push({a: cout_start + (i + 1), b: cin_start + (i + 1), c: cin_start + i}); // second part of one line rectangle
+    }
 
-    -- Add the triangles for the grass boundaries of the central circle
-    Npts = table.maxn(pts)
-    cin_start = Npts - 2 * n_vertices_quarter
-    cout_start = Npts - n_vertices_quarter
+    // Add the triangles for the grass boundaries of the central circle
+    Npts = pts.length;
+    cin_start = Npts - 2 * n_vertices_quarter;
+    cout_start = Npts - n_vertices_quarter;
 
-    -- External triangles
-    Ntg = table.maxn(tg) -- number of triangles for grass already existing
-    tg[Ntg + 1] = {a = 33, b = cout_start + 1, c = 40} -- adds first triangle (boundary with half line)
-    Ntg = table.maxn(tg)
-    for i = 1, (n_vertices_quarter - 1) do
-      tg[Ntg + i] = {a = 33, b = cout_start + (i + 1), c = cout_start + i}
-    end
-    tg[Ntg + n_vertices_quarter] = {a = 33, b = 35, c = cout_start + n_vertices_quarter} -- adds last triangle (boundary with penalty area and touch line)
+    // External triangles
+    tg.push({a: 33, b: cout_start + 1, c: 40}) // adds first triangle (boundary with half line)
+    for (let i = 1; i <= n_vertices_quarter - 1; ++i)
+      tg.push({a: 33, b: cout_start + (i + 1), c: cout_start + i});
 
-    -- Internal triangles
-    -- There is a vertex junction_index of the inner circle (cin) that makes the junction between triangles
-    -- going through pt.41 (top vertex of central dash) and pt.36 (bottom vertex of central dash).
-    -- It is located at approximately two thirds of the quarter
-    junction_index = math.ceil((2 / 3) * n_vertices_quarter) -- index of the junction triangle within the inner circle
-    Ntg = table.maxn(tg)
-    for i = 1, (junction_index - 1) do
-      tg[Ntg + i] = {a = cin_start + (i + 1), b = 41, c = cin_start + i}
-    end
-    tg[Ntg + junction_index] = {a = cin_start + junction_index, b = 36, c = 41} -- adds junction triangle
-    for i = junction_index, (n_vertices_quarter - 1) do
-      tg[Ntg + i + 1] = {a = cin_start + (i + 1), b = 36, c = cin_start + i}
-    end
-    tg[Ntg + n_vertices_quarter + 1] = {a = cin_start + n_vertices_quarter, b = 37, c = 36} -- adds touch line triangle (boundary with touch line)
+    tg.push({a: 33, b: 35, c: cout_start + n_vertices_quarter}); // adds last triangle (boundary with penalty area and touch line)
 
-    -- Replication of the other 3 quarters
-    Npts = table.maxn(pts)
-    for i = 1, Npts do
-      pt_ref = pts[i] -- reference point
-      -- 2nd Quarter (which completes one team's half)
-      pts[Npts + i] = {x = pt_ref.x, y = 2 * I + B - pt_ref.y, z = pt_ref.z}
-      -- 3rd Quarter (replication on the y-axis)
-      pts[2 * Npts + i] = {x = 2 * I + A - pt_ref.x, y = pt_ref.y, z = pt_ref.z}
-      -- 4th Quarter (which completes opponent's half)
-      pts[3 * Npts + i] = {x = 2 * I + A - pt_ref.x, y = 2 * I + B - pt_ref.y, z = pt_ref.z}
-    end
+    // Internal triangles
+    // There is a vertex junction_index of the inner circle (cin) that makes the junction between triangles
+    // going through pt.41 (top vertex of central dash) and pt.36 (bottom vertex of central dash).
+    // It is located at approximately two thirds of the quarter
+    let junction_index = Math.ceil((2 / 3) * n_vertices_quarter); // index of the junction triangle within the inner circle
+    for (let i = 1; i <= junction_index - 1; ++i)
+      tg.push({a: cin_start + (i + 1), b: 41, c: cin_start + i});
 
-    Ntg = table.maxn(tg)
-    for i = 1, Ntg do -- Grass triangles
-      tg_ref = tg[i]
-      -- Due to axis reversions, we have to update the order of coords for the new corresp. triangles
-      tg[Ntg + i] = {a = tg_ref.b + Npts, b = tg_ref.a + Npts, c = tg_ref.c + Npts} -- 2nd Quarter (bac)
-      tg[2 * Ntg + i] = {a = tg_ref.c + 2 * Npts, b = tg_ref.b + 2 * Npts, c = tg_ref.a + 2 * Npts} -- 3rd Quarter (cba)
-      tg[3 * Ntg + i] = {a = tg_ref.c + 3 * Npts, b = tg_ref.a + 3 * Npts, c = tg_ref.b + 3 * Npts} -- 3rd Quarter (cab)
-    end
+    tg.push({a: cin_start + junction_index, b: 36, c: 41}); // adds junction triangle
+    for (let i = junction_index; i <= n_vertices_quarter - 1; ++i)
+      tg.push({a:cin_start + (i + 1), b: 36, c: cin_start + i});
+    tg.push({a: cin_start + n_vertices_quarter, b: 37, c: 36}); // adds touch line triangle (boundary with touch line)
 
-    Ntl = table.maxn(tl)
-    for i = 1, Ntl do -- Same for the line triangles
-      tl_ref = tl[i]
-      tl[Ntl + i] = {a = tl_ref.b + Npts, b = tl_ref.a + Npts, c = tl_ref.c + Npts}
-      tl[2 * Ntl + i] = {a = tl_ref.c + 2 * Npts, b = tl_ref.b + 2 * Npts, c = tl_ref.a + 2 * Npts}
-      tl[3 * Ntl + i] = {a = tl_ref.c + 3 * Npts, b = tl_ref.a + 3 * Npts, c = tl_ref.b + 3 * Npts}
-    end
+    // Replication of the other 3 quarters
+    Npts = pts.length;
+    for (let i = 0; i < Npts; ++i) {
+      let pt_ref = pts[i] // reference point
+      // 2nd Quarter (which completes one team's half)
+      pts[Npts + i] = {x: pt_ref.x, y: 2 * I + B - pt_ref.y, z: pt_ref.z};
+      // 3rd Quarter (replication on the y-axis)
+      pts[2 * Npts + i] = {x: 2 * I + A - pt_ref.x, y: pt_ref.y, z: pt_ref.z};
+      // 4th Quarter (which completes opponent's half)
+      pts[3 * Npts + i] = {x: 2 * I + A - pt_ref.x, y: 2 * I + B - pt_ref.y, z: pt_ref.z};
+    }
 
-    -- Offset to have origin on the center of the field
-    OFFSET_X = (2 * I + A) / 2
-    OFFSET_Y = (2 * I + B) / 2
-    Npts = table.maxn(pts)
-    for i = 1, Npts do
-      pts[i].x = pts[i].x - OFFSET_X
-      pts[i].y = pts[i].y - OFFSET_Y
-    end
+    let Ntg = tg.length;
+    for (let i = 0; i < Ntg; ++i) { // Grass triangles
+      let tg_ref = tg[i];
+      // Due to axis reversions, we have to update the order of coords for the new corresp. triangles
+      tg[Ntg + i] = {a: tg_ref.b + Npts, b: tg_ref.a + Npts, c: tg_ref.c + Npts} // 2nd Quarter (bac)
+      tg[2 * Ntg + i] = {a: tg_ref.c + 2 * Npts, b: tg_ref.b + 2 * Npts, c: tg_ref.a + 2 * Npts}; // 3rd Quarter (cba)
+      tg[3 * Ntg + i] = {a: tg_ref.c + 3 * Npts, b: tg_ref.a + 3 * Npts, c: tg_ref.b + 3 * Npts}; // 3rd Quarter (cab)
+    }
+
+    Ntl = tl.length;
+    for (let i = 0; i < Ntl; ++i) { // Same for the line triangles
+      let tl_ref = tl[i];
+      tl[Ntl + i] = {a: tl_ref.b + Npts, b: tl_ref.a + Npts, c: tl_ref.c + Npts};
+      tl[2 * Ntl + i] = {a: tl_ref.c + 2 * Npts, b: tl_ref.b + 2 * Npts, c: tl_ref.a + 2 * Npts};
+      tl[3 * Ntl + i] = {a: tl_ref.c + 3 * Npts, b: tl_ref.a + 3 * Npts, c: tl_ref.b + 3 * Npts};
+    }
+
+    // Offset to have origin on the center of the field
+    let OFFSET_X = (2 * I + A) / 2;
+    let OFFSET_Y = (2 * I + B) / 2;
+    Npts = pts.length;
+    for (let i = 0; i < Npts; ++i) {
+      pts[i].x = pts[i].x - OFFSET_X;
+      pts[i].y = pts[i].y - OFFSET_Y;
+    }
 
   }%
 
@@ -256,7 +247,7 @@ PROTO RobocupSoccerField [
     translation IS translation
     rotation IS rotation
     children [
-      %{ if fields.turfPhysics.value then }%
+      %{ if (fields.turfPhysics.value) { }%
       DEF BLADES Solid {
         contactMaterial "grass"
         translation 0 0 0.01
@@ -265,7 +256,7 @@ PROTO RobocupSoccerField [
           size %{= 2 * I + A }% %{= 2 * I + B }%
         }
       }
-      %{ end }%
+      %{ } }%
       DEF GRASS Shape {
         appearance Grass {
           colorOverride 0.6 1 0.3
@@ -277,16 +268,16 @@ PROTO RobocupSoccerField [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-             %{ for k, v in pairs(pts) do }%
-                %{= v.x }% %{= v.y }% %{= v.z }%
-             %{ end }%
+             %{ for (let i = 0; i < pts.length; ++i) { }%
+                %{= pts[i].x }% %{= pts[i].y }% %{= pts[i].z }%
+             %{ } }%
             ]
           }
           ccw FALSE
           coordIndex [ # v.X - 1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
-            %{ for k, v in pairs(tg) do }%
-               %{= v.a - 1 }% %{= v.b - 1 }% %{= v.c - 1 }% -1,
-            %{ end }%
+            %{ for (let i = 0; i < tg.length; ++i) { }%
+               %{= tg[i].a - 1 }% %{= tg[i].b - 1 }% %{= tg[i].c - 1 }% -1,
+            %{ } }%
           ]
         }
       }
@@ -302,16 +293,16 @@ PROTO RobocupSoccerField [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-             %{ for k, v in pairs(pts) do }%
-                %{= v.x }% %{= v.y }% %{= v.z }%
-             %{ end }%
+             %{ for (let i = 0; i < pts.length; ++i) { }%
+                %{= pts[i].x }% %{= pts[i].y }% %{= pts[i].z }%
+             %{ } }%
             ]
           }
           ccw FALSE
           coordIndex [ # v.X - 1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
-            %{ for k, v in pairs(tl) do }%
-               %{= v.a - 1 }% %{= v.b - 1 }% %{= v.c - 1 }% -1
-            %{ end }%
+            %{ for (let i = 0; i < tl.length; ++i) { }%
+               %{= tl[i].a - 1 }% %{= tl[i].b - 1 }% %{= tl[i].c - 1 }% -1
+            %{ } }%
           ]
         }
       }

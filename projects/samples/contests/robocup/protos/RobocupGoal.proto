@@ -16,6 +16,7 @@ PROTO RobocupGoal [
 {
   %{
     // Official soccer field dimensions from RoboCup 2021 (in meters)
+    let C, D, goal_height;
     if (fields.size.value === 'kid') {
       // KidSize dimensions
       C = 0.6;
