@@ -2117,8 +2117,9 @@ while supervisor.step(time_step) != -1 and not game.over:
                 next_penalty_shootout()
             if game.penalty_shootout_count < 10:  # detect entrance of kicker in the goal area
                 kicker = penalty_kicker_player()
-                if not kicker['outside_goal_area'] and not kicker['inside_own_side']:
-                    # if the kicker is not fully outside the opponent goal area, we stop the kick and continue
+                if kicker is None or (not kicker['outside_goal_area'] and not kicker['inside_own_side']):
+                    # if no kicker is available or if the kicker is not fully outside the opponent goal area,
+                    # we stop the kick and continue
                     next_penalty_shootout()
                     if game.over:
                         break
