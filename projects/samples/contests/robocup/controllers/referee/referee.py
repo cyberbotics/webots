@@ -1600,10 +1600,11 @@ def get_penalty_defending_team():
 
 def penalty_kicker_player():
     default = game.penalty_shootout_count % 2 == 0
-    attacking_team = red_team if game.kickoff == game.red.id and default else blue_team
+    attacking_team = red_team if (game.kickoff == game.blue.id) ^ default else blue_team
     for number in attacking_team['players']:
         if is_penalty_kicker(attacking_team, number):
             return attacking_team['players'][number]
+    return None
 
 
 def set_penalty_positions():
