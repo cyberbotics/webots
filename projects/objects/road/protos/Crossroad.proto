@@ -24,7 +24,6 @@ PROTO Crossroad [
     const nShape = fields.shape.value.length;
     const shape = fields.shape.value;
     const textureCoordinateRatio = 0.2;
-    console.log(nShape)
   }%
   Solid {
     translation IS translation
