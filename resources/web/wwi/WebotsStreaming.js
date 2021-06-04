@@ -39,7 +39,7 @@ export default class WebotsStreaming extends HTMLElement {
    * broadcast: boolean
    * mobileDevice: boolean
    * callback: function
-   * disconnectCallback: function. It need to be passed there and not in disconnect because disconnect can be called from inside the web-component
+   * disconnectCallback: function. It needs to be passed there and not in disconnect because disconnect can be called from inside the web-component
    */
   connect(ip, mode, broadcast, mobileDevice, callback, disconnectCallback) {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
