@@ -14,7 +14,12 @@
 
 # Adapted from from https://github.com/RoboCup-Humanoid-TC/GameController/blob/master/protocols/python/gamestate.py
 
-from construct import Array, Byte, Bytes, Const, Enum, Flag, Int16sl, Int16ul, PaddedString, Struct
+from construct import Array, Byte, Bytes, Const, Enum, Flag, Int16sl, Int16ul, Struct
+try:
+    from construct import PaddedString
+except ImportError:
+    # construct < 2.9.39
+    from construct import String as PaddedString
 
 Short = Int16ul
 
