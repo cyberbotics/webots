@@ -322,6 +322,8 @@ def game_controller_receive():
             else:
                 info(f"State has succesfully changed to {game.wait_for_state}")
                 game.wait_for_state = None
+        if game.state.game_state == "STATE_FINISHED":
+            game.sent_finish = False
     new_sec_state = game.state.secondary_state
     new_sec_phase = game.state.secondary_state_info[1]
     if previous_sec_state != new_sec_state or previous_sec_phase != new_sec_phase:
