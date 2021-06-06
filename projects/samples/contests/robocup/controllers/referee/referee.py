@@ -72,6 +72,7 @@ BLUE_COLOR = 0x2943d6                     # blue team color used for the display
 STATIC_SPEED_EPS = 1e-2                   # The speed below which an object is considered as static [m/s]
 DROPPED_BALL_TEAM_ID = 128                # The team id used for dropped ball
 BALL_DIST_PERIOD = 1                      # seconds. The period at which distance to the ball is checked
+BALL_HOLDING_RATIO = 1.0/3                # The ratio of the radius used to compute minimal distance to the convex hull
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -698,10 +699,11 @@ def update_team_ball_holding(team):
             points[i] = [position[0], position[1]]
             i += 1
         # check for collision between AABB of goalkeeper and ball
-        if aabb_circle_collision(aabb, game.ball_position[0], game.ball_position[1], game.ball_radius):
+        if aabb_circle_collision(aabb, game.ball_position[0], game.ball_position[1], game.ball_radius * BALL_HOLDING_RATIO):
             hull = ConvexHull(points)
             hull_vertices = np.take(points, hull.vertices, 0)
-            goalkeeper_hold_ball = polygon_circle_collision(hull_vertices, game.ball_position, game.ball_radius)
+            goalkeeper_hold_ball = polygon_circle_collision(hull_vertices, game.ball_position,
+                                                            game.ball_radius * BALL_HOLDING_RATIO)
 
     n = len(players_close_to_the_ball)
     hold_ball = False
@@ -716,10 +718,10 @@ def update_team_ball_holding(team):
                 points[i] = [position[0], position[1]]
                 i += 1
         # check for collision between AABB of players and ball
-        if aabb_circle_collision(aabb, game.ball_position[0], game.ball_position[1], game.ball_radius):
+        if aabb_circle_collision(aabb, game.ball_position[0], game.ball_position[1], game.ball_radius * BALL_HOLDING_RATIO):
             hull = ConvexHull(points)
             hull_vertices = np.take(points, hull.vertices, 0)
-            hold_ball = polygon_circle_collision(hull_vertices, game.ball_position, game.ball_radius)
+            hold_ball = polygon_circle_collision(hull_vertices, game.ball_position, game.ball_radius * BALL_HOLDING_RATIO)
     players_holding_time_window = team['players_holding_time_window']
     index = int(time_count / time_step) % len(players_holding_time_window)
     players_holding_time_window[index] = hold_ball
