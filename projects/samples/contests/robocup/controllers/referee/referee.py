@@ -15,7 +15,6 @@
 from gamestate import GameState
 from field import Field
 from forceful_contact_matrix import ForcefulContactMatrix
-from udp_bouncer import start_bouncing_server
 
 from controller import Supervisor, AnsiCodes, Node
 
@@ -540,7 +539,7 @@ def list_player_solids(player, color, number):
 
 def list_team_solids(team):
     for number in team['players']:
-        list_solids(team['players'][number], team['color'], number)
+        list_player_solids(team['players'][number], team['color'], number)
 
 
 def list_solids():
