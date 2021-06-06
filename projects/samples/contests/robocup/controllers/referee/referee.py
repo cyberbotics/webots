@@ -526,18 +526,21 @@ def append_solid(solid, solids, tagged_solids, active_tag=None):  # we list only
             append_solid(solid, solids, tagged_solids, None)  # active tag is reset after a joint
 
 
+def list_player_solids(player, color, number):
+    robot = player['robot']
+    player['solids'] = []
+    player['tagged_solids'] = {}  # Keys: name of solid, Values: name of tag
+    solids = player['solids']
+    append_solid(robot, solids, player['tagged_solids'])
+    info(f"Tagged solids: {player['tagged_solids']}\n")
+    if len(solids) != 4:
+        error(f'{color} player {number}: invalid number of [hand]+[foot], received {len(solids)}, expected 4.',
+              fatal=True)
+
+
 def list_team_solids(team):
     for number in team['players']:
-        player = team['players'][number]
-        robot = player['robot']
-        player['solids'] = []
-        player['tagged_solids'] = {}  # Keys: name of solid, Values: name of tag
-        solids = player['solids']
-        append_solid(robot, solids, player['tagged_solids'])
-        info(f"Tagged solids: {player['tagged_solids']}\n")
-        if len(solids) != 4:
-            error(f'{team["color"]} player {number}: invalid number of [hand]+[foot], received {len(solids)}, expected 4.',
-                  fatal=True)
+        list_solids(team['players'][number], team['color'], number)
 
 
 def list_solids():
@@ -984,6 +987,7 @@ def update_team_penalized(team):
             t[0] = 50
             t[1] = (10 + int(number)) * (1 if color == 'red' else -1)
             robot.loadState('__init__')
+            list_player_solids(player, color, number)
             robot.getField('translation').setSFVec3f(t)
             robot.getField('rotation').setSFRotation(player['reentryStartingPose']['rotation'])
             customData = player['robot'].getField('customData')
@@ -1502,6 +1506,7 @@ def send_team_penalties(team):
             elif t[0] < -game.field.size_x:
                 t[0] += 4 * game.field.penalty_offset
             robot.loadState('__init__')
+            list_player_solids(player, color, number)
             robot.getField('translation').setSFVec3f(t)
             robot.getField('rotation').setSFRotation(r)
             player['sent_to_penalty_position'] = True
@@ -1565,6 +1570,7 @@ def reset_player(color, number, pose):
     player = team['players'][number]
     robot = player['robot']
     robot.loadState('__init__')
+    list_player_solids(player, color, number)
     translation = robot.getField('translation')
     rotation = robot.getField('rotation')
     t = player[pose]['translation']
