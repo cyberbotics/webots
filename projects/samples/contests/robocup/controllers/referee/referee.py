@@ -1891,6 +1891,9 @@ try:
                 command_line.append('--fast')
             command_line.append('--config')
             command_line.append(game_config_file)
+            if hasattr(game, 'game_controller_extra_args'):
+                for arg in game.game_controller_extra_args:
+                    command_line.append(arg)
             if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
                 command_line.append('-b')
                 command_line.append(game.host)
