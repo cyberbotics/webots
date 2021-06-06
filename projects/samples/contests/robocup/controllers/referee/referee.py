@@ -1560,6 +1560,7 @@ def flip_sides():  # flip sides (no need to notify GameController, it does it au
     for team in [red_team, blue_team]:
         for number in team['players']:
             flip_poses(team['players'][number])
+    update_team_display()
 
 
 def reset_player(color, number, pose):
@@ -2155,7 +2156,6 @@ while supervisor.step(time_step) != -1 and not game.over:
                     flip_sides()
                     reset_teams('halfTimeStartingPose')
                     game.kickoff = game.blue.id if game.kickoff == game.red.id else game.red.id
-                    update_team_display()
                 elif game.type == 'NORMAL':
                     info('End of second half.')
                 elif game.type == 'KNOCKOUT':
