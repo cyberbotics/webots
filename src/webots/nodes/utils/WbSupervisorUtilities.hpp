@@ -25,6 +25,7 @@ class QDataStream;
 struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
 struct WbTrackedFieldInfo;
+struct WbTrackedPoseInfo;
 class WbFieldSetRequest;
 
 class WbBaseNode;
@@ -132,6 +133,7 @@ private:
 
   QList<int> mLabelIds;
   QVector<WbTrackedFieldInfo> mTrackedFields;
+  QVector<WbTrackedPoseInfo> mTrackedPoses;
 };
 
 #endif

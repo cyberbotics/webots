@@ -918,10 +918,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const WbFieldType field_type = request_read_int32(r);
       const int node_id = request_read_int32(r);
       const int field_id = request_read_int32(r);
-      const bool is_field_get_request = sent_field_get_request && 
-        sent_field_get_request->field && 
-        sent_field_get_request->field->node_unique_id == node_id &&
-        sent_field_get_request->field->id == field_id;
+      const bool is_field_get_request = sent_field_get_request && sent_field_get_request->field &&
+                                        sent_field_get_request->field->node_unique_id == node_id &&
+                                        sent_field_get_request->field->id == field_id;
 
       WbFieldStruct *f = (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(node_id, field_id);
 
@@ -2498,6 +2497,9 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return;
+
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
@@ -2514,6 +2516,9 @@ void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_perio
 }
 
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return;
+
   robot_mutex_lock_step();
   field_change_tracking.field = field;
   field_change_tracking.enable = false;
@@ -2526,6 +2531,21 @@ void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
 void wb_supervisor_pose_enable_tracking(WbNodeRef node, WbNodeRef from_node, int sampling_period) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
+    return;
+  }
+
+  if (!robot_check_supervisor(__FUNCTION__))
+    return invalid_vector;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  if (!is_node_ref_valid(from_node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
     return;
   }
 

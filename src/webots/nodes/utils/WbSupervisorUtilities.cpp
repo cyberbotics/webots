@@ -71,6 +71,13 @@ struct WbTrackedFieldInfo {
   double lastUpdate;
 };
 
+struct WbTrackedPoseInfo {
+  WbNode *fromNode;
+  WbNode *toNode;
+  int samplingPeriod;
+  double lastUpdate;
+};
+
 struct WbFieldGetRequest {
   WbField *field;
   int fieldId;
@@ -1090,6 +1097,38 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
       return;
     }
+    case C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE: {
+      unsigned int fromNodeId;
+      unsigned int toNodeId;
+      unsigned char enable;
+      unsigned int samplingPeriod;
+
+      stream >> fromNodeId;
+      stream >> toNodeId;
+      stream >> enable;
+      if (enable)
+        stream >> samplingPeriod;
+
+      WbNode *const fromNode = WbNode::findNode(fromNodeId);
+      WbNode *const toNode = WbNode::findNode(toNodeId);
+
+      if (enable) {
+        WbTrackedPoseInfo trackedPose;
+        trackedPose.fromNode = fromNode;
+        trackedPose.toNode = toNode;
+        trackedPose.samplingPeriod = samplingPeriod;
+        trackedPose.lastUpdate = -INFINITY;
+        mTrackedPoses.append(trackedPose);
+      } else {
+        for (int i = 0; i < mTrackedPoses.size(); i++)
+          if (mTrackedPoses[i].fromNode == fromNode && mTrackedPoses[i].toNode == toNode) {
+            mTrackedPoses.removeAt(i);
+            break;
+          }
+      }
+
+      return;
+    }
     case C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE: {
       unsigned int nodeId;
       unsigned int fieldId;
@@ -1114,6 +1153,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         WbTrackedFieldInfo trackedField;
         trackedField.field = field;
         trackedField.samplingPeriod = samplingPeriod;
+        trackedField.lastUpdate = -INFINITY;
         trackedField.fieldId = fieldId;
         trackedField.nodeId = nodeId;
         trackedField.internal = internal;
