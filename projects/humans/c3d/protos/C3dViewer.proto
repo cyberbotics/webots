@@ -21,7 +21,7 @@ PROTO C3dViewer [
 {
   %{
     let c3dFile = fields.c3dFile.value;
-    if (c3dFile === 'undefined' || c3dFile === '')
+    if (c3dFile === undefined || c3dFile === '')
       c3dFile = 'None';
   }%
   Robot {

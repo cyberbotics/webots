@@ -64,7 +64,7 @@ PROTO Fence [
 
     // use B-Spline interpolation if subdivision is greater than 1
     if (subdivision > 0)
-      path = wbgeometry.bSpline3(path, subdivision); // TODO.. MF => PURE ARRAY NOT OBJ ARRAY
+      path = wbgeometry.bSpline3(path, subdivision);
 
     let nbPath = path.length;
 
@@ -90,20 +90,20 @@ PROTO Fence [
     translation IS translation
     rotation IS rotation
     recognitionColors [
-      %{ if (fields.horizontalBarAppearance.value !== 'undefined') { }%
-        %{ if (fields.horizontalBarAppearance.value.fields.baseColor !== 'undefined') { }%
+      %{ if (fields.horizontalBarAppearance.value !== undefined) { }%
+        %{ if (fields.horizontalBarAppearance.value.fields.baseColor !== undefined) { }%
           %{ let color = fields.horizontalBarAppearance.value.fields.baseColor.value; }%
           %{= color.r }% %{= color.g }% %{= color.b }%
-        %{ } else if (fields.horizontalBarAppearance.value.fields.material !== 'undefined' && fields.horizontalBarAppearance.value.fields.material.value !== 'undefined') { }%
+        %{ } else if (fields.horizontalBarAppearance.value.fields.material !== undefined && fields.horizontalBarAppearance.value.fields.material.value !== undefined) { }%
           %{ let color = fields.horizontalBarAppearance.value.fields.material.value.fields.diffuseColor.value; }%
           %{= color.r }% %{= color.g }% %{= color.b }%
         %{ } }%
       %{ } }%
-      %{ if (fields.poleAppearance.value !== 'undefined') { }%
-        %{ if (fields.poleAppearance.value.fields.baseColor !== 'undefined') { }%
+      %{ if (fields.poleAppearance.value !== undefined) { }%
+        %{ if (fields.poleAppearance.value.fields.baseColor !== undefined) { }%
           %{ let color = fields.poleAppearance.value.fields.baseColor.value; }%
           %{= color.r }% %{= color.g }% %{= color.b }%
-        %{ } else if (fields.poleAppearance.value.fields.material !== 'undefined' && fields.poleAppearance.value.fields.material.value !== 'undefined') { }%
+        %{ } else if (fields.poleAppearance.value.fields.material !== undefined && fields.poleAppearance.value.fields.material.value !== undefined) { }%
           %{ let color = fields.poleAppearance.value.fields.material.value.fields.diffuseColor.value; }%
           %{= color.r }% %{= color.g }% %{= color.b }%
         %{ } }%
