@@ -11,6 +11,7 @@
 #  - resolution: 540
 #  - dimension: 0.102 x 0.152 x 0.106 [m]
 #  - weight: 1.2 [kg]
+# template language: javascript
 
 PROTO SickS300 [
 field SFVec3f    translation    0 0 0
@@ -51,7 +52,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
         }
       }
     ]
-    %{ if fields.enablePhysics.value then }%
+    %{ if (fields.enablePhysics.value) { }%
     boundingObject Group {
       children [
         Transform {
@@ -86,7 +87,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
       density -1
       mass 1.2
     }
-    %{ end }%
+    %{ } }%
     fieldOfView 3.316
     horizontalResolution IS resolution
     verticalFieldOfView %{= 3 * (3.316  / fields.resolution.value) }%
