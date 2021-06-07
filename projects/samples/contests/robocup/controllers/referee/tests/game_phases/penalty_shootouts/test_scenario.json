@@ -42,7 +42,7 @@
             {
                 "name" : "T1. BLUE goalkeeper is properly positioned",
                 "target" : "BLUE_PLAYER_1",
-                "position" : [-4.47,0,0.24]
+                "position" : [-4.46,0,0.24]
             },
             {
                 "name" : "T1. Sanity check: mode is penalty shootout",
@@ -169,7 +169,7 @@
             {
                 "name" : "T2:RED goalkeeper is properly positioned",
                 "target" : "RED_PLAYER_1",
-                "position" : [-4.47,0.2,0.24]
+                "position" : [-4.51,0.2,0.24]
             }
         ]
     },
@@ -318,7 +318,7 @@
             {
                 "name" : "T3. BLUE goalkeeper is properly positioned",
                 "target" : "BLUE_PLAYER_1",
-                "position" : [-4.47,0,0.24]
+                "position" : [-4.46,0,0.24]
             }
         ]
     },

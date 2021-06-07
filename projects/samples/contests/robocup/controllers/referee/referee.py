@@ -36,6 +36,7 @@ from scipy.spatial import ConvexHull
 from types import SimpleNamespace
 
 OUTSIDE_TURF_TIMEOUT = 20                 # a player outside the turf for more than 20 seconds gets a removal penalty
+INVALID_GOALKEEPER_TIMEOUT = 1            # 1 second
 INACTIVE_GOALKEEPER_TIMEOUT = 20          # a goalkeeper is penalized if inactive for 20 seconds while the ball is in goal area
 INACTIVE_GOALKEEPER_DIST = 0.5            # if goalkeeper is farther than this distance it can't be inactive
 INACTIVE_GOALKEEPER_PROGRESS = 0.05       # the minimal distance to move toward the ball in order to be considered active
@@ -1642,6 +1643,7 @@ def set_penalty_positions():
     for number in defending_team['players']:
         if is_goalkeeper(defending_team, number) and game.penalty_shootout_count < 10:
             reset_player(defending_color, number, 'goalKeeperStartingPose')
+            defending_team['players'][number]['invalidGoalkeeperStart'] = None
         else:
             reset_player(defending_color, number, 'halfTimeStartingPose')
     x = -game.field.penalty_mark_x if (game.side_left == game.kickoff) ^ default else game.field.penalty_mark_x
@@ -1715,17 +1717,22 @@ def check_penalty_goal_line():
     """
     Checks that the goalkeepers of both teams respect the goal line rule and apply penalties if required
     """
-    if game.in_play is not None:
-        return
     defending_team = get_penalty_defending_team()
     for number in defending_team['players']:
         player = defending_team['players'][number]
-        if player['asleep'] or already_penalized(player) or not is_goalkeeper(defending_team, number):
+        ignore_player = already_penalized(player) or not is_goalkeeper(defending_team, number)
+        if game.in_play is not None or ignore_player:
+            player['invalidGoalkeeperStart'] = None
             continue
         # If fully inside or fully outside, the robot is out of field
         if player['outside_field'] or player['inside_field'] or abs(player['position'][1]) > GOAL_WIDTH:
-            info(f'Goalkeeper of team {defending_team["color"]} is not on goal line')
-            send_penalty(player, 'INCAPABLE', "Not on goal line during penalty")
+            if player['invalidGoalkeeperStart'] is None:
+                player['invalidGoalkeeperStart'] = time_count
+            elif time_count - player['invalidGoalkeeperStart'] > INVALID_GOALKEEPER_TIMEOUT * 1000:
+                info(f'Goalkeeper of team {defending_team["color"]} is not on goal line since {INVALID_GOALKEEPER_TIMEOUT} sec')
+                send_penalty(player, 'INCAPABLE', "Not on goal line during penalty")
+        else:
+            player['invalidGoalkeeperStart'] = None
 
 
 def interruption(type, team=None):
