@@ -32,7 +32,7 @@ PROTO JetsonNano [
 ]
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/devices/nvidia/protos/JetsonNano.proto"
+> **File location**: "[WEBOTS\_HOME/projects/devices/nvidia/protos/JetsonNano.proto]({{ url.github_tree }}/projects/devices/nvidia/protos/JetsonNano.proto)"
 
 #### JetsonNano Field Summary
 
