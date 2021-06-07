@@ -3055,8 +3055,8 @@ wb_supervisor_field_disable_sf_tracking(field)
 | `/supervisor/field/get_type` | `service` | `webots_ros::field_get_type` | `uint64 node`<br/>`---`<br/>`int8 success` |
 | `/supervisor/field/get_type_name` | `service` | `webots_ros::field_get_type_name` | `uint64 field`<br/>`---`<br/>`string name` |
 | `/supervisor/field/get_count` | `service` | `webots_ros::field_get_count` | `uint64 field`<br/>`---`<br/>`int32 count` |
-| `/supervisor/field/enable_sf_tracking` | `service` | `webots_ros::field_enable_tracking` | `uint64 field`<br/>`---`<br/>`int32 sampling_period` |
-| `/supervisor/field/disable_sf_tracking` | `service` | `webots_ros::field_disable_tracking` | `uint64 field`<br/>`---`<br/>`int8 success` |
+| `/supervisor/field/enable_sf_tracking` | `service` | `webots_ros::field_enable_sf_tracking` | `uint64 field`<br/>`---`<br/>`int32 sampling_period` |
+| `/supervisor/field/disable_sf_tracking` | `service` | `webots_ros::field_disable_sf_tracking` | `uint64 field`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
