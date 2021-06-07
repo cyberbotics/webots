@@ -18,6 +18,10 @@ TOT_SUCCESS=0
 TOT_TESTS=0
 NTH_TEST=0
 
+COLOR_RED='\e[0;31m'
+COLOR_GREEN='\e[0;32m'
+COLOR_RESET='\e[0m'
+
 for test_file in "${TEST_FILES[@]}"
 do
     ((NTH_TEST+=1))
@@ -36,12 +40,12 @@ do
     RESULT_LINE=$(awk '/TEST RESULTS/ { print $3 }' ${test_log})
     NB_SUCCESS=$(echo $RESULT_LINE | awk 'BEGIN { FS = "/" } ; { print $1 }')
     NB_TESTS=$(echo $RESULT_LINE | awk 'BEGIN { FS = "/" } ; { print $2 }')
-    RESULT="PASS"
     if [ $NB_SUCCESS -lt $NB_TESTS ]
     then
-        RESULT="FAIL"
+        printf "$COLOR_RED$msg_prefix %s %2d/%2d$COLOR_RESET\n" FAIL $NB_SUCCESS $NB_TESTS
+    else
+        printf "$COLOR_GREEN$msg_prefix %s %2d/%2d$COLOR_RESET\n" PASS $NB_SUCCESS $NB_TESTS
     fi
-    printf "$msg_prefix %s %2d/%2d\n" $RESULT $NB_SUCCESS $NB_TESTS
 
     ((TOT_SUCCESS+=NB_SUCCESS))
     ((TOT_TESTS+=NB_TESTS))
