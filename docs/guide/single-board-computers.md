@@ -16,7 +16,7 @@ The `NVIDIA Jetson Nano` is a small, powerful computer to run multiple neural ne
 
 %figure "NVIDIA Jetson Nano in Webots"
 
-![nvidia_jetson_nano.png](images/sbc/nvidia_jetson_nano.png)
+![nvidia_jetson_nano.png](images/sbc/nvidia_jetson_nano.thumbnail.png)
 
 %end
 
