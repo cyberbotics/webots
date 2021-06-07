@@ -923,19 +923,19 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->node_unique_id = node_ref;
       f->name = supervisor_strdup(requested_field_name);
       f->is_proto_internal = is_proto_internal;
-      f->last_update = -INFINITY;
+      f->last_update = -DBL_MAX;
       f->data.sf_string = NULL;
       field_list = f;
     } break;
     case C_SUPERVISOR_FIELD_GET_VALUE: {
       const WbFieldType field_type = request_read_int32(r);
-      const int node_id = request_read_int32(r);
+      const int field_node_id = request_read_int32(r);
       const int field_id = request_read_int32(r);
       const bool is_field_get_request = sent_field_get_request && sent_field_get_request->field &&
-                                        sent_field_get_request->field->node_unique_id == node_id &&
+                                        sent_field_get_request->field->node_unique_id == field_node_id &&
                                         sent_field_get_request->field->id == field_id;
 
-      WbFieldStruct *f = (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(node_id, field_id);
+      WbFieldStruct *f = (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, field_id);
 
       // field_type == 0 if node was deleted
       if (f && field_type != 0) {
@@ -2597,7 +2597,7 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period
   new_pose->from_node = from_node;
   new_pose->to_node = node;
   new_pose->next = NULL;
-  new_pose->last_update = -INFINITY;
+  new_pose->last_update = -DBL_MAX;
 
   // Add the pose to the list
   if (!pose_collection)
