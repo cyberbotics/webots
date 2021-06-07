@@ -2535,7 +2535,7 @@ void wb_supervisor_pose_enable_tracking(WbNodeRef node, WbNodeRef from_node, int
   }
 
   if (!robot_check_supervisor(__FUNCTION__))
-    return invalid_vector;
+    return;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
@@ -2560,6 +2560,21 @@ void wb_supervisor_pose_enable_tracking(WbNodeRef node, WbNodeRef from_node, int
 }
 
 void wb_supervisor_pose_disable_tracking(WbNodeRef node, WbNodeRef from_node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  if (!is_node_ref_valid(from_node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
+    return;
+  }
+
   robot_mutex_lock_step();
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
