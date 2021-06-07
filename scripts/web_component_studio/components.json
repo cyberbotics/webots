@@ -162,6 +162,16 @@
       }
     },
     {
+      "name": "jetbot",
+      "proto": "JetBot",
+      "translation": "0 0 0",
+      "rotation": "0 1 0 1.3089969",
+      "viewpoint": {
+        "orientation": "-0.09699798 0.9907968 0.094409354 1.5529939",
+        "position": "0.3187557 0.09467882 0.006157184"
+      }
+    },
+    {
       "name": "khepera1",
       "proto": "Khepera1",
       "translation": "0 0.001 0",
