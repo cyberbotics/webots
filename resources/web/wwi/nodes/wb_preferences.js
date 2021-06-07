@@ -1,5 +1,3 @@
-import WbWorld from './WbWorld.js';
-
 export let GtaoLevel = 4; // [0 - 4], 0 disable it
 export const disableAntiAliasing = false;
 export let disableShadows = false;

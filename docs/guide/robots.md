@@ -36,8 +36,10 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/mavic-2-pro/icon.png)      | [Mavic 2 PRO](mavic-2-pro.md)             | DJI                  | *Quadcopter drone*                |
 | ![icon.png](images/robots/microbot/icon.png)         | [Microbot](microbot.md)                   | PICAXE               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/mindstorms/icon.png)       | [Mindstorms](mindstorms.md)               | Lego                 | *Robotics kit*                    |
+| ![icon.png](images/robots/mir100/icon.png)           | [MiR100](mir100.md)                       | MiR                  | *Six-wheeled robot*               |
 | ![icon.png](images/robots/moose/icon.png)            | [Moose](moose.md)                         | Clearpath Robotics   | *Eight-wheeled outdoor robot*     |
 | ![icon.png](images/robots/nao/icon.png)              | [Nao](nao.md)                             | SoftBankics          | *Small size humanoid*             |
+| ![icon.png](images/robots/ned/icon.png)              | [Ned](ned.md)                             | Niryo                | *Robotics arm*             |
 | ![icon.png](images/robots/pioneer2/icon.png)         | [Pioneer 2](pioneer2.md)                  | Adept                | *Two-wheeled robot*               |
 | ![icon.png](images/robots/p-rob3/icon.png)           | [P-Rob 3](p-rob3.md)                      | F&P Robotics         | *Robotics arm*                    |
 | ![icon.png](images/robots/pioneer-3at/icon.png)      | [Pioneer 3-AT](pioneer-3at.md)            | Adept                | *Four-wheeled robot*              |

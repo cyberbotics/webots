@@ -32,14 +32,8 @@ import WbVector3 from './nodes/utils/WbVector3.js';
  *   }
  */
 
-/* The following member variables should be set by the application:
+/* The following member variables can be set by the application:
 
-webots.User1Id             // ID of the main user (integer value > 0). If 0 or unset, the user is not logged in.
-webots.User1Name           // user name of the main user.
-webots.User1Authentication // password hash or authentication for the main user (empty or unset if user not authenticated).
-webots.User2Id             // ID of the secondary user (in case of a soccer match between two different users). 0 or unset if not used.
-webots.User2Name           // user name of the secondary user.
-webots.CustomData          // application specific data to be passed to the simulation server
 webots.showRevert          // defines whether the revert button should be displayed
 webots.showQuit            // defines whether the quit button should be displayed
 webots.showRun             // defines whether the run button should be displayed
@@ -218,8 +212,10 @@ webots.View = class View {
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
     } else {
-      if (typeof this._x3dDiv !== 'undefined')
+      if (typeof this._x3dDiv !== 'undefined') {
         this.view3D.appendChild(this._x3dDiv);
+        this.x3dScene.prefix = texturePathPrefix;
+      }
       if (typeof this.progress !== 'undefined')
         this.view3D.appendChild(this.progress);
     }

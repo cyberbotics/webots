@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <webots/emitter.h>
 #include <webots/position_sensor.h>
 #include <webots/robot.h>

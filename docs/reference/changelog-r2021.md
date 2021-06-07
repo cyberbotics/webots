@@ -3,15 +3,20 @@
 ## Webots R2021b
 Released on June, Xth, 2021.
 
+  - New Robots
+    - Added a model of the [MiR100](../guide/mir100.md) robot from [Mobile Industrial Robots](https://www.mobile-industrial-robots.com/en/solutions/robots/mir100/) ([#3010](https://github.com/cyberbotics/webots/pull/3010)).
   - New Features:
     - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), and [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591)).
     - Added the `wb_supervisor_node_export_string` function which returns a string from which the node is constructed ([#2743](https://github.com/cyberbotics/webots/pull/2743)).
     - Added the `wb_supervisor_node_save/load_state` functions that allow partial world reverting to a saved state ([#2740](https://github.com/cyberbotics/webots/pull/2740)).
     - Added coupled motors feature which allows to control multiple logically linked [Motors](motor.md) at once ([#2939](https://github.com/cyberbotics/webots/pull/2939)).
     - Changed the rendering engine of the streaming viewer and of the animations for WREN ([#2769](https://github.com/cyberbotics/webots/pull/2769)).
+    - Added the `redColorSensitivity` field to [DistanceSensor](distancesensor.md) that allows tuning (or even disabling) of the red color sensitivity for an infra-red distance sensor ([#3077](https://github.com/cyberbotics/webots/pull/3077)).
   - Enhancements
+    - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
     - Significantly improved the performance of the `wb_camera_get_image`, `wb_range_finder_get_range_image`, and `wb_lidar_get_range_image` functions ([#3032](https://github.com/cyberbotics/webots/pull/3032)).
     - Added a `stadium_dry` [background](../guide/object-backgrounds.md) with dry grass to allow Robocup players to distinguish the soccer field from the background ([#2874](https://github.com/cyberbotics/webots/pull/2874)).
+    - Make the external controller check more frequently (and indefinitely) for the simulation ([#2442](https://github.com/cyberbotics/webots/pull/2442)).
     - Allow the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
     - Allow the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
     - **`<webots/utils/default_robot_window.h>` C include file moved to `<webots/plugins/robot_window/default.h>` ([#2655](https://github.com/cyberbotics/webots/pull/2655)).**
@@ -50,6 +55,10 @@ Released on June, Xth, 2021.
     - Added a version of the [RobotisOp2](../guide/robotis-op2.md) modeled using [Hinge2Joint](hinge2joint.md) on the ankles, hips, and neck ([#2861](https://github.com/cyberbotics/webots/pull/2861)).
     - Made the `static` behavior the default for PROTO files and removal of the tag. Non static cases must be labeled as such using the `nonDeterministic` tag instead ([#2903](https://github.com/cyberbotics/webots/pull/2903)).
   - Bug fixes:
+    - Fixed broken multithreading in Python controllers due to Python GIL ([#3104](https://github.com/cyberbotics/webots/pull/3104)).
+    - Fixed crash visualizing node properties in Node Editor for nodes in deeply nested PROTO structures ([#3109](https://github.com/cyberbotics/webots/pull/30109)).
+    - Fixed crash when selecting velocities relative to kinematic ancestor [Solid](solid.md) node in Node Editor ([#3098](https://github.com/cyberbotics/webots/pull/3098)).
+    - Fixed instabilities in the box-cylinder collision detection ([#3105](https://github.com/cyberbotics/webots/pull/3105)).
     - Fixed crash due to [Supervisor](supervisor.md) MF field operations based on negative positions that were not translated into valid indices after resetting the simulation from the same [Supervisor](supervisor.md) controller ([#2997](https://github.com/cyberbotics/webots/pull/2997)).
     - Fixed the [`wb_supervisor_field_get_count`](supervisor.md#wb_supervisor_field_get_count) function's returned value not updated after modifying the fields from the GUI or from another [Supervisor](supervisor.md) controller ([#2812](https://github.com/cyberbotics/webots/pull/2812)).
     - Fixed the conversion from quaternions to euler angles in the [InertialUnit](inertialunit.md) for the ENU coordinate system ([#2768](https://github.com/cyberbotics/webots/pull/2768)).
@@ -61,6 +70,7 @@ Released on June, Xth, 2021.
 Released on XX Xth, 2021.
 
   - Enhancements
+    - Added a PROTO model for the [Niryo Ned](../guide/ned.md) robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
     - Added a draft Robocup Virtual Humanoid League 2021 environment ([#2783](https://github.com/cyberbotics/webots/pull/2783)).
     - Added a script to convert PROTO files to use [Mesh](mesh.md) nodes instead of [IndexedFaceSet](indexedfaceset.md) nodes to speed-up loading times, improve PROTO readability and maintenance ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
     - Converted several PROTO files to use [Mesh](mesh.md) nodes ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
@@ -70,6 +80,7 @@ Released on XX Xth, 2021.
     - Added a nice looking FIFA soccer ball proto ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
     - Added an `allowedChannels` field in the [Emitter](emitter.md) and [Receiver](receiver.md) nodes to restrict the channel usage ([#2849](https://github.com/cyberbotics/webots/pull/2849)).
   - Bug fixes
+    - Fixed triangle count for [Mesh](mesh.md) and [IndexedFaceSet](indexedfaceset.md) when there is a lot of triangles ([#3086](https://github.com/cyberbotics/webots/pull/3086)).
     - Fixed [Supervisor](supervisor.md) API operations on nodes defined in multiple nested PROTO fields ([#3036](https://github.com/cyberbotics/webots/pull/3036)).
     - Fixed crash applying [`wb_supervisor_node_add_force`](supervisor.md#wb_supervisor_node_add_force) on kinematic objects ([#3036](https://github.com/cyberbotics/webots/pull/3036)).
     - Fixed mecanum wheels [ContactProperties](contactproperties.md) in [YouBot](../guide/youbot.md) worlds ([#3025](https://github.com/cyberbotics/webots/pull/3025)).
@@ -118,6 +129,7 @@ Released on XX Xth, 2021.
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
   - Dependency Updates
     - Upgraded to Qt 5.15.2 on macOS ([#2721](https://github.com/cyberbotics/webots/pull/2721)).
+    - Upgraded to Qt 5.15.2 on Linux ([#3089](https://github.com/cyberbotics/webots/pull/3089)).
 
 ## Webots R2021a
 Released on December 15th, 2020.
