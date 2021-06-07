@@ -302,6 +302,16 @@
       }
     },
     {
+      "name": "ned",
+      "proto": "Ned",
+      "translation": "0 0 0",
+      "rotation": "-1 0 0 1.5708",
+      "viewpoint": {
+        "orientation": "0.12800822 -0.9486714 -0.28919977 4.0315228",
+        "position": "1.0172514 1.0283997 -0.7670438"
+      }
+    },
+    {
       "name": "p-rob3",
       "proto": "P-Rob3",
       "translation": "0 0 0",
