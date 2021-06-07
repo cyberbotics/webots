@@ -1,9 +1,9 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
+import {isDescendantOfBillboard} from './utils/utils.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
 import WbWrenPicker from './../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from './../wren/WbWrenRenderingContext.js';
-
 import Selector from './../Selector.js';
 
 export default class WbGeometry extends WbBaseNode {
@@ -18,7 +18,7 @@ export default class WbGeometry extends WbBaseNode {
     if (typeof this._wrenRenderable === 'undefined')
       return;
 
-    if (super.isInBoundingObject()) {
+    if (super.isInBoundingObject() || isDescendantOfBillboard(this)) {
       _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
     } else
@@ -66,10 +66,13 @@ export default class WbGeometry extends WbBaseNode {
 
     if (super.isInBoundingObject()) {
       if (selected) {
-        _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_SELECTED_OUTLINE);
+        _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
         _wr_node_set_visible(this._wrenScaleTransform, true);
       } else if (_wr_node_get_parent(this._wrenScaleTransform))
         _wr_node_set_visible(this._wrenScaleTransform, false);
+    } else if (isDescendantOfBillboard(this)) {
+      _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
+      _wr_node_set_visible(this._wrenScaleTransform, true);
     } else {
       _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VM_REGULAR);
       _wr_node_set_visible(this._wrenScaleTransform, true);
@@ -89,6 +92,9 @@ export default class WbGeometry extends WbBaseNode {
       _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
       _wr_renderable_set_drawing_mode(this._wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
+    } else if (this.isMarker) {
+      _wr_renderable_set_drawing_order(this._wrenRenderable, Enum.WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
+      _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
     }
 
     _wr_transform_attach_child(this._wrenScaleTransform, this._wrenRenderable);

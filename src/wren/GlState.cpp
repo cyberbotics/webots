@@ -49,7 +49,9 @@ namespace wren {
 
     static bool cDepthTest = false;
     static unsigned int cDepthFunc = GL_LESS;
+#ifndef __EMSCRIPTEN__
     static bool cDepthClamp = false;
+#endif
     static bool cDepthMask = true;
     static bool cStencilTest = false;
     static unsigned int cStencilFuncFunc = GL_ALWAYS;

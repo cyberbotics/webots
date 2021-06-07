@@ -1097,7 +1097,7 @@ WbVector3 WbSolid::relativeLinearVelocity(const WbSolid *parentSolid) const {
   } else if (parentSolid != NULL) {  // in case of dynamic solid, the velocity is already absolute
     while (!solid->isTopSolid() && solid != parentSolid)
       solid = solid->upperSolid();
-    l -= solid->solidMerger()->solid()->linearVelocity();
+    l -= solid->isDynamic() ? solid->solidMerger()->solid()->linearVelocity() : solid->linearVelocity();
   }
 
   assert(solid == parentSolid || parentSolid == NULL);
@@ -1120,7 +1120,7 @@ WbVector3 WbSolid::relativeAngularVelocity(const WbSolid *parentSolid) const {
   } else if (parentSolid != NULL) {  // in case of dynamic solid, the velocity is already absolute
     while (!solid->isTopSolid() && solid != parentSolid)
       solid = solid->upperSolid();
-    a -= solid->solidMerger()->solid()->angularVelocity();
+    a -= solid->isDynamic() ? solid->solidMerger()->solid()->angularVelocity() : solid->angularVelocity();
   }
 
   assert(solid == parentSolid || parentSolid == NULL);
@@ -2962,8 +2962,8 @@ void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, con
         translation = offset;
       }
       writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                  .arg(translation.toString(WbPrecision::FLOAT_MAX))
-                  .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::FLOAT_MAX));
+                  .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
+                  .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::FLOAT_ROUND_6));
     }
     writer.indent();
     writer << "<geometry>\n";

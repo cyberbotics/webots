@@ -2,6 +2,7 @@ import {M_PI_4} from './nodes/utils/constants.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
 import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
+import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCone from './nodes/WbCone.js';
@@ -32,6 +33,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
+import {getAnId} from './nodes/utils/utils.js';
 
 import DefaultUrl from './DefaultUrl.js';
 import loadHdr from './hdr_loader.js';
@@ -113,6 +115,8 @@ export default class Parser {
       result = await this._parseBackground(node);
     else if (node.tagName === 'Transform')
       result = await this._parseTransform(node, parentNode, isBoundingObject);
+    else if (node.tagName === 'Billboard')
+      result = await this._parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
       result = await this._parseGroup(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Shape')
@@ -207,11 +211,11 @@ export default class Parser {
 
   async _parseScene(node) {
     const prefix = DefaultUrl.wrenImagesUrl();
-    const smaaAreaTexture = await Parser.loadTextureData(prefix + 'smaa_area_texture.png');
+    const smaaAreaTexture = await Parser.loadTextureData(prefix, 'smaa_area_texture.png');
     smaaAreaTexture.isTranslucent = false;
-    const smaaSearchTexture = await Parser.loadTextureData(prefix + 'smaa_search_texture.png');
+    const smaaSearchTexture = await Parser.loadTextureData(prefix, 'smaa_search_texture.png');
     smaaSearchTexture.isTranslucent = false;
-    const gtaoNoiseTexture = await Parser.loadTextureData(prefix + 'gtao_noise_texture.png');
+    const gtaoNoiseTexture = await Parser.loadTextureData(prefix, 'gtao_noise_texture.png');
     gtaoNoiseTexture.isTranslucent = true;
     return new WbScene(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
   }
@@ -229,7 +233,7 @@ export default class Parser {
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold', 21));
-    const far = parseFloat(getNodeAttribute(node, 'far', '2000'));
+    const far = parseFloat(getNodeAttribute(node, 'zFar', '2000'));
     const near = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
     const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness'));
     const followedId = getNodeAttribute(node, 'followedId');
@@ -260,19 +264,19 @@ export default class Parser {
       topUrl = topUrl.slice(1, topUrl.length - 1);
 
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        cubeImages[0] = await Parser.loadTextureData(this._prefix + backUrl, false, 90);
-        cubeImages[4] = await Parser.loadTextureData(this._prefix + bottomUrl, false, -90);
-        cubeImages[1] = await Parser.loadTextureData(this._prefix + frontUrl, false, -90);
-        cubeImages[3] = await Parser.loadTextureData(this._prefix + leftUrl, false, 180);
-        cubeImages[2] = await Parser.loadTextureData(this._prefix + rightUrl);
-        cubeImages[5] = await Parser.loadTextureData(this._prefix + topUrl, false, -90);
+        cubeImages[0] = await Parser.loadTextureData(this._prefix, backUrl, false, 90);
+        cubeImages[4] = await Parser.loadTextureData(this._prefix, bottomUrl, false, -90);
+        cubeImages[1] = await Parser.loadTextureData(this._prefix, frontUrl, false, -90);
+        cubeImages[3] = await Parser.loadTextureData(this._prefix, leftUrl, false, 180);
+        cubeImages[2] = await Parser.loadTextureData(this._prefix, rightUrl);
+        cubeImages[5] = await Parser.loadTextureData(this._prefix, topUrl, false, -90);
       } else {
-        cubeImages[5] = await Parser.loadTextureData(this._prefix + backUrl);
-        cubeImages[3] = await Parser.loadTextureData(this._prefix + bottomUrl);
-        cubeImages[4] = await Parser.loadTextureData(this._prefix + frontUrl);
-        cubeImages[1] = await Parser.loadTextureData(this._prefix + leftUrl);
-        cubeImages[0] = await Parser.loadTextureData(this._prefix + rightUrl);
-        cubeImages[2] = await Parser.loadTextureData(this._prefix + topUrl);
+        cubeImages[5] = await Parser.loadTextureData(this._prefix, backUrl);
+        cubeImages[3] = await Parser.loadTextureData(this._prefix, bottomUrl);
+        cubeImages[4] = await Parser.loadTextureData(this._prefix, frontUrl);
+        cubeImages[1] = await Parser.loadTextureData(this._prefix, leftUrl);
+        cubeImages[0] = await Parser.loadTextureData(this._prefix, rightUrl);
+        cubeImages[2] = await Parser.loadTextureData(this._prefix, topUrl);
       }
     }
 
@@ -293,19 +297,19 @@ export default class Parser {
       topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length - 1);
 
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        irradianceCubeURL[0] = await Parser.loadTextureData(this._prefix + backIrradianceUrl, true, 90);
-        irradianceCubeURL[4] = await Parser.loadTextureData(this._prefix + bottomIrradianceUrl, true, -90);
-        irradianceCubeURL[1] = await Parser.loadTextureData(this._prefix + frontIrradianceUrl, true, -90);
-        irradianceCubeURL[3] = await Parser.loadTextureData(this._prefix + leftIrradianceUrl, true, 180);
-        irradianceCubeURL[2] = await Parser.loadTextureData(this._prefix + rightIrradianceUrl, true);
-        irradianceCubeURL[5] = await Parser.loadTextureData(this._prefix + topIrradianceUrl, true, -90);
+        irradianceCubeURL[0] = await Parser.loadTextureData(this._prefix, backIrradianceUrl, true, 90);
+        irradianceCubeURL[4] = await Parser.loadTextureData(this._prefix, bottomIrradianceUrl, true, -90);
+        irradianceCubeURL[1] = await Parser.loadTextureData(this._prefix, frontIrradianceUrl, true, -90);
+        irradianceCubeURL[3] = await Parser.loadTextureData(this._prefix, leftIrradianceUrl, true, 180);
+        irradianceCubeURL[2] = await Parser.loadTextureData(this._prefix, rightIrradianceUrl, true);
+        irradianceCubeURL[5] = await Parser.loadTextureData(this._prefix, topIrradianceUrl, true, -90);
       } else {
-        irradianceCubeURL[2] = await Parser.loadTextureData(this._prefix + topIrradianceUrl, true);
-        irradianceCubeURL[5] = await Parser.loadTextureData(this._prefix + backIrradianceUrl, true);
-        irradianceCubeURL[3] = await Parser.loadTextureData(this._prefix + bottomIrradianceUrl, true);
-        irradianceCubeURL[4] = await Parser.loadTextureData(this._prefix + frontIrradianceUrl, true);
-        irradianceCubeURL[1] = await Parser.loadTextureData(this._prefix + leftIrradianceUrl, true);
-        irradianceCubeURL[0] = await Parser.loadTextureData(this._prefix + rightIrradianceUrl, true);
+        irradianceCubeURL[2] = await Parser.loadTextureData(this._prefix, topIrradianceUrl, true);
+        irradianceCubeURL[5] = await Parser.loadTextureData(this._prefix, backIrradianceUrl, true);
+        irradianceCubeURL[3] = await Parser.loadTextureData(this._prefix, bottomIrradianceUrl, true);
+        irradianceCubeURL[4] = await Parser.loadTextureData(this._prefix, frontIrradianceUrl, true);
+        irradianceCubeURL[1] = await Parser.loadTextureData(this._prefix, leftIrradianceUrl, true);
+        irradianceCubeURL[0] = await Parser.loadTextureData(this._prefix, rightIrradianceUrl, true);
       }
     }
 
@@ -351,7 +355,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
     const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
@@ -378,7 +382,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     const isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
 
@@ -402,7 +406,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
@@ -461,6 +465,19 @@ export default class Parser {
     WbWorld.instance.nodes.set(shape.id, shape);
 
     return shape;
+  }
+
+  async _parseBillboard(node, parentNode) {
+    let id = getNodeAttribute(node, 'id');
+    if (typeof id === 'undefined')
+      id = getAnId();
+
+    const billboard = new WbBillboard(id);
+
+    WbWorld.instance.nodes.set(billboard.id, billboard);
+    await this._parseChildren(node, billboard);
+
+    return billboard;
   }
 
   async _parseDirectionalLight(node, parentNode) {
@@ -566,7 +583,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     let geometry;
     if (node.tagName === 'Box')
@@ -824,7 +841,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     // Get the Material tag.
     const materialNode = node.getElementsByTagName('Material')[0];
@@ -871,7 +888,7 @@ export default class Parser {
 
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
-      id = 'n' + Parser.undefinedID++;
+      id = getAnId();
 
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2'));
     const diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8'));
@@ -905,8 +922,7 @@ export default class Parser {
 
     let imageTexture;
     if (typeof url !== 'undefined' && url !== '') {
-      url = this._prefix + url;
-      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering);
+      imageTexture = new WbImageTexture(id, this._prefix, url, isTransparent, s, t, filtering);
       await imageTexture.updateUrl();
     }
 
@@ -1030,12 +1046,13 @@ export default class Parser {
     return textureTransform;
   }
 
-  static async loadTextureData(url, isHdr, rotation) {
+  static async loadTextureData(prefix, url, isHdr, rotation) {
     const canvas2 = document.createElement('canvas');
     const context = canvas2.getContext('2d');
 
     const image = new WbImage();
-
+    if (typeof prefix !== 'undefined' && !url.startsWith('https://raw.githubusercontent.com'))
+      url = prefix + url;
     if (isHdr) {
       const img = await Parser.loadHDRImage(url);
       image.bits = img.data;
@@ -1149,5 +1166,4 @@ function rotateHDR(image, rotate) {
   return rotatedbits;
 }
 
-Parser.undefinedID = 90000;
 export {convertStringToVec3, convertStringToQuaternion};
