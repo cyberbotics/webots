@@ -12,6 +12,11 @@ then
     fi
 fi
 
+script_dir=$(dirname "$(realpath -s "$0")")
+source "$script_dir/common.sh"
+
+assert_env_vars
+
 readarray -d '' TEST_FILES < <(find . -name "test_scenario.json" -print0 | sort --zero-terminated --human-numeric-sort)
 
 TOT_SUCCESS=0

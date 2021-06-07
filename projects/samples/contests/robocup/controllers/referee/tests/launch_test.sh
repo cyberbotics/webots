@@ -20,6 +20,10 @@ else
     WEBOTS_OPTIONS="${WEBOTS_OPTIONS} --no-rendering --minimize"
 fi
 
+script_dir=$(dirname "$(realpath -s "$0")")
+source "$script_dir/common.sh"
+
+assert_env_vars
 
 export PYTHONPATH="${WEBOTS_HOME}/projects/samples/contests/robocup/controllers/referee"  # this should be removed once https://github.com/cyberbotics/webots/issues/3011 is fixed
 if [ "$(expr substr $(uname -s) 1 10)" == "MSYS_NT-10" ]; then
