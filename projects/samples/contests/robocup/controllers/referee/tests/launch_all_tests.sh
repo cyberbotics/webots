@@ -16,14 +16,20 @@ readarray -d '' TEST_FILES < <(find . -name "test_scenario.json" -print0 | sort 
 
 TOT_SUCCESS=0
 TOT_TESTS=0
+NTH_TEST=0
 
 for test_file in "${TEST_FILES[@]}"
 do
+    ((NTH_TEST+=1))
+
     folder=$(dirname ${test_file})
     test_log="${folder}/test.log"
     referee_log="${folder}/referee.log"
+    msg_prefix="[$NTH_TEST/${#TEST_FILES[@]}] $folder"
+
     if [ $RUN_TESTS = true ]
     then
+        echo "$msg_prefix ..."
         ./launch_test.sh ${folder} &> ${test_log}
         cp ../log.txt ${referee_log}
     fi
@@ -35,7 +41,7 @@ do
     then
         RESULT="FAIL"
     fi
-    printf "%s %2d/%2d %s\n" $RESULT $NB_SUCCESS $NB_TESTS $folder
+    printf "$msg_prefix %s %2d/%2d\n" $RESULT $NB_SUCCESS $NB_TESTS
 
     ((TOT_SUCCESS+=NB_SUCCESS))
     ((TOT_TESTS+=NB_TESTS))
