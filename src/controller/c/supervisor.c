@@ -910,6 +910,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->node_unique_id = node_ref;
       f->name = supervisor_strdup(requested_field_name);
       f->is_proto_internal = is_proto_internal;
+      f->last_update = -INFINITY;
       f->data.sf_string = NULL;
       field_list = f;
     } break;
@@ -1156,6 +1157,11 @@ static void field_operation_with_data(WbFieldStruct *f, int action, int index, u
       return;
     }
   }
+  // If a field tracking is used we don't have to send the request
+  if (action == GET && f->count == -1 && f->last_update == wb_robot_get_time()) {
+    robot_mutex_unlock_step();
+    return;
+  }
   assert(action != GET || sent_field_get_request == NULL);  // get requests have to be processed immediately so no
                                                             // pending get request should remain
   create_and_append_field_request(f, action, index, data, true);
@@ -1166,10 +1172,6 @@ static void field_operation_with_data(WbFieldStruct *f, int action, int index, u
 }
 
 static void field_operation(WbFieldStruct *f, int action, int index) {
-  // If a field tracking is used we don't have to send the request
-  if (action == GET && f->last_update == wb_robot_get_time())
-    return;
-
   union WbFieldData data;
   data.sf_string = NULL;
   field_operation_with_data(f, action, index, data);
