@@ -299,8 +299,8 @@ void WbBaseNode::exportURDFJoint(WbVrmlWriter &writer) const {
     writer << QString("<child link=\"%1\"/>\n").arg(urdfName());
     writer.indent();
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                .arg(translation.toString(WbPrecision::FLOAT_MAX))
-                .arg(rotationEuler.toString(WbPrecision::FLOAT_MAX));
+                .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
+                .arg(rotationEuler.toString(WbPrecision::FLOAT_ROUND_6));
     writer.decreaseIndent();
 
     writer.indent();
