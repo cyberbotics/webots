@@ -13,15 +13,15 @@ PROTO RobocupSoccerField [
 ]
 {
   %{
-    // Official soccer field dimensions from RoboCup 2021 (in meters)
+    // official soccer field dimensions from RoboCup 2021 (in meters)
 
-    const LINE_WIDTH = 0.05; // Line width
-    const BRANCH_LENGTH = 0.1; // Length of one branch of the penalty/center mark (not specified in rules)
-    const N_VERTICES_CIRCLE = 36; // Number of vertices for the regular polygon approximating the central circle (not specified in rules)
+    const LINE_WIDTH = 0.05; // line width
+    const BRANCH_LENGTH = 0.1; // length of one branch of the penalty/center mark (not specified in rules)
+    const N_VERTICES_CIRCLE = 36; // number of vertices for the regular polygon approximating the central circle (not specified in rules)
 
     let A, B, C, D, E, F, G, H, I, J, K;
     if (fields.size.value === 'kid') {
-      // KidSize dimensions
+      // kid-size dimensions
       A = 9;
       B = 6;
       C = 0.6;
@@ -34,7 +34,7 @@ PROTO RobocupSoccerField [
       J = 2;
       K = 5;
     } else {
-      // AdultSize dimensions
+      // adult-size dimensions
       A = 14;
       B = 9;
       C = 0.6;
@@ -50,7 +50,7 @@ PROTO RobocupSoccerField [
 
     const DEPTH = fields.turfPhysics.value ? 0.01 : 0;
 
-    // Points for a quarter field (except central circle)
+    // points for a quarter field (except central circle)
     let pts = [];
     pts[0]  = {x: 0,                           y: 0,                               z: DEPTH}
     pts[1]  = {x: 0,                           y: I,                               z: DEPTH}
@@ -98,9 +98,8 @@ PROTO RobocupSoccerField [
     pts[43] = {x: I + (A / 2),                 y: I,                               z: DEPTH}
     pts[44] = {x: I + (A / 2),                 y: I + (B / 2),                     z: DEPTH}
 
-    // Triangles for a quarter field (except central circle)
-
-    // Triangles for Grass
+    // triangles for a quarter field (except central circle)
+    // triangles for grass
     let tg = [];
 
     tg[0]  = {a: 1,  b: 44, c: 43};
@@ -124,7 +123,7 @@ PROTO RobocupSoccerField [
     tg[18] = {a: 27, b: 28, c: 31};
     tg[19] = {a: 28, b: 32, c: 31};
 
-    // Triangles for Lines
+    // triangles for lines
     let tl = [];
 
     tl[0]  = {a: 6,  b: 39, c: 38};
@@ -150,10 +149,10 @@ PROTO RobocupSoccerField [
     tl[20] = {a: 36, b: 42, c: 41};
     tl[21] = {a: 36, b: 37, c: 42};
 
-    // Creation of a quarter of the central circle
+    // creation of a quarter of the central circle
     let n_vertices_quarter = Math.ceil(N_VERTICES_CIRCLE / 4) + 1; // +1 because we want to have a point both at ~0 and pi/2
 
-    // Add points for the circles to the existing ones
+    // add points for the circles to the existing ones
     function circle_add_pts (radius, pts, n_vertices_quarter, line_width) {
       let center = pts[44];
       let alpha = Math.atan((line_width / 2) / radius); // first point must be on the inside side of the half line
@@ -172,18 +171,16 @@ PROTO RobocupSoccerField [
     let Npts = pts.length;
     let cin_start = Npts - 2 * n_vertices_quarter; // id of the first point of the inner circle
     let cout_start = Npts - n_vertices_quarter; // id of the first point of the outer circle
-    let Ntl = tl.length; // number of triangles for lines
     for (let i = 1; i <= n_vertices_quarter - 1; ++i) {
       tl.push({a: cout_start + (i + 1), b: cin_start + i, c: cout_start + i}); // first part of one line rectangle
       tl.push({a: cout_start + (i + 1), b: cin_start + (i + 1), c: cin_start + i}); // second part of one line rectangle
     }
 
-    // Add the triangles for the grass boundaries of the central circle
-    Npts = pts.length;
+    // add the triangles for the grass boundaries of the central circle
     cin_start = Npts - 2 * n_vertices_quarter;
     cout_start = Npts - n_vertices_quarter;
 
-    // External triangles
+    // external triangles
     tg.push({a: 33, b: cout_start + 1, c: 40}) // adds first triangle (boundary with half line)
     for (let i = 1; i <= n_vertices_quarter - 1; ++i)
       tg.push({a: 33, b: cout_start + (i + 1), c: cout_start + i});
@@ -192,7 +189,7 @@ PROTO RobocupSoccerField [
 
     // Internal triangles
     // There is a vertex junction_index of the inner circle (cin) that makes the junction between triangles
-    // going through pt.41 (top vertex of central dash) and pt.36 (bottom vertex of central dash).
+    // going through pt.40 (top vertex of central dash) and pt.35 (bottom vertex of central dash).
     // It is located at approximately two thirds of the quarter
     let junction_index = Math.ceil((2 / 3) * n_vertices_quarter); // index of the junction triangle within the inner circle
     for (let i = 1; i <= junction_index - 1; ++i)
@@ -206,7 +203,7 @@ PROTO RobocupSoccerField [
     // Replication of the other 3 quarters
     Npts = pts.length;
     for (let i = 0; i < Npts; ++i) {
-      let pt_ref = pts[i] // reference point
+      let pt_ref = pts[i]; // reference point
       // 2nd Quarter (which completes one team's half)
       pts[Npts + i] = {x: pt_ref.x, y: 2 * I + B - pt_ref.y, z: pt_ref.z};
       // 3rd Quarter (replication on the y-axis)
@@ -216,23 +213,23 @@ PROTO RobocupSoccerField [
     }
 
     let Ntg = tg.length;
-    for (let i = 0; i < Ntg; ++i) { // Grass triangles
+    for (let i = 0; i < Ntg; ++i) { // grass triangles
       let tg_ref = tg[i];
-      // Due to axis reversions, we have to update the order of coords for the new corresp. triangles
+      // due to axis reversions, we have to update the order of coords for the new corresp. triangles
       tg[Ntg + i] = {a: tg_ref.b + Npts, b: tg_ref.a + Npts, c: tg_ref.c + Npts} // 2nd Quarter (bac)
       tg[2 * Ntg + i] = {a: tg_ref.c + 2 * Npts, b: tg_ref.b + 2 * Npts, c: tg_ref.a + 2 * Npts}; // 3rd Quarter (cba)
       tg[3 * Ntg + i] = {a: tg_ref.c + 3 * Npts, b: tg_ref.a + 3 * Npts, c: tg_ref.b + 3 * Npts}; // 3rd Quarter (cab)
     }
 
-    Ntl = tl.length;
-    for (let i = 0; i < Ntl; ++i) { // Same for the line triangles
+    let Ntl = tl.length;
+    for (let i = 0; i < Ntl; ++i) { // same for the line triangles
       let tl_ref = tl[i];
       tl[Ntl + i] = {a: tl_ref.b + Npts, b: tl_ref.a + Npts, c: tl_ref.c + Npts};
       tl[2 * Ntl + i] = {a: tl_ref.c + 2 * Npts, b: tl_ref.b + 2 * Npts, c: tl_ref.a + 2 * Npts};
       tl[3 * Ntl + i] = {a: tl_ref.c + 3 * Npts, b: tl_ref.a + 3 * Npts, c: tl_ref.b + 3 * Npts};
     }
 
-    // Offset to have origin on the center of the field
+    // offset to have origin on the center of the field
     let OFFSET_X = (2 * I + A) / 2;
     let OFFSET_Y = (2 * I + B) / 2;
     Npts = pts.length;
@@ -240,9 +237,7 @@ PROTO RobocupSoccerField [
       pts[i].x = pts[i].x - OFFSET_X;
       pts[i].y = pts[i].y - OFFSET_Y;
     }
-
   }%
-
   Solid {
     translation IS translation
     rotation IS rotation

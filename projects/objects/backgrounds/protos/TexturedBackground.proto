@@ -54,16 +54,18 @@ PROTO TexturedBackground [
     ];
 
     const texture = fields.texture.value;
-    let top_texture;
+    let topTexture;
     if (texture === 'stadium_dry')
-      top_texture = 'stadium';
+      topTexture = 'stadium';
     else
-      top_texture = texture;
+      topTexture = texture;
 
     let isHDR = false;
     for (let i = 0; i < hdrBackgrounds.length; ++i) {
-      if (texture === hdrBackgrounds[i])
+      if (texture === hdrBackgrounds[i]){
         isHDR = true;
+        break;
+      }
     }
 
     const extension = isHDR ? 'png' : 'jpg';
@@ -99,7 +101,7 @@ PROTO TexturedBackground [
         %{= '"' + path + '/' + texture + '_right.' + extension + '"' }%
       ]
       topUrl [
-        %{= '"' + path + '/' + texture + '_top.' + extension + '"' }%
+        %{= '"' + path + '/' + topTexture + '_top.' + extension + '"' }%
       ]
     %{ } }%
     %{ if (isHDR) { }%
@@ -119,7 +121,7 @@ PROTO TexturedBackground [
         %{= '"' + path + '/' + texture + '_right.hdr"' }%
       ]
       topIrradianceUrl [
-        %{= '"' + path + '/' + texture + '_top.hdr"' }%
+        %{= '"' + path + '/' + topTexture + '_top.hdr"' }%
       ]
     %{ } }%
     luminosity IS luminosity
