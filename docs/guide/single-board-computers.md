@@ -4,7 +4,7 @@
 
 All the commercially available single board computers models included in Webots are included here.
 Users may also add their own custom models.
-Please [contact us](https://www.cyberbotics.com/contact) if you would like to see your favorite single board computer here.
+Please [contact us](https://cyberbotics.com/#contact) if you would like to see your favorite single board computer here.
 
 | Preview | Name |  Manufacturer |
 | :---: | --- | --- | --- |
@@ -32,7 +32,7 @@ PROTO JetsonNano [
 ]
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/devices/nvidia/protos/JetsonNano.proto"
+> **File location**: "[WEBOTS\_HOME/projects/devices/nvidia/protos/JetsonNano.proto]({{ url.github_tree }}/projects/devices/nvidia/protos/JetsonNano.proto)"
 
 #### JetsonNano Field Summary
 
