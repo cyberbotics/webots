@@ -32,13 +32,13 @@ PROTO SumoInterface [
 {
   %{
     // tracks check
-    let arguments = [];
+    let controllerArguments = [];
     if (!fields.gui.value)
-      arguments.push('--no-gui');
+      controllerArguments.push('--no-gui');
     if (!fields.useNetconvert.value)
-      arguments.push('--no-netconvert');
+      controllerArguments.push('--no-netconvert');
     if (!fields.enableTrafficLights.value)
-      arguments.push('--disable-traffic-lights');
+      controllerArguments.push('--disable-traffic-lights');
 
     let enableWheelsRotation = fields.enableWheelsRotation.value;
     if (enableWheelsRotation === fields.enableWheelsRotation.defaultValue) {
@@ -50,35 +50,36 @@ PROTO SumoInterface [
     let maxVehicles = fields.maxVehicles.value;
     if (maxVehicles === fields.maxVehicles.defaultValue) {
       maxVehicles = fields.maxVehicules.value;
-      if (maxVehicles !== fields.maxVehicules.defaultValue) {
+      if (maxVehicles !== fields.maxVehicules.defaultValue)
         console.error('Field \'maxVehicules\' is deprecated, use field \'maxVehicles\' instead.');
     }
 
-    arguments.push('--max-vehicles=' + maxVehicles);
+    controllerArguments.push('--max-vehicles=' + maxVehicles);
     if (enableWheelsRotation)
-      arguments.push('--rotate-wheels');
-    if (fields.verbose.value) {
-      arguments.push("--verbose");
-    if (fields.enableHeight.value) {
-      arguments.push('--enable-height');
-    if (fields.networkFiles.value !== '') {
-      arguments.push('--directory=' + fields.networkFiles.value);
-    if (fields.sumoArguments.value !== '') {
-      arguments.push('--sumo-arguments=' + fields.sumoArguments.value);
-    arguments.push('--port=' + fields.port.value);
-    arguments.push('--seed=' + fields.seed.value);
-    arguments.push('--step=' + fields.step.value);
-    arguments.push('--radius=' + fields.radius.value);
-    arguments.push('--maximum-lateral-speed=' + fields.maximumLateralSpeed.value);
-    arguments.push('--maximum-angular-speed=' + fields.maximumAngularSpeed.value);
-    arguments.push('--lane-change-delay=' + fields.laneChangeDelay.value);
+      controllerArguments.push('--rotate-wheels');
+    if (fields.verbose.value)
+      controllerArguments.push('--verbose');
+    if (fields.enableHeight.value)
+      controllerArguments.push('--enable-height');
+    if (fields.networkFiles.value !== '')
+      controllerArguments.push('--directory=' + fields.networkFiles.value);
+    if (fields.sumoArguments.value !== '')
+      controllerArguments.push('--sumo-arguments=' + fields.sumoArguments.value);
+
+    controllerArguments.push('--port=' + fields.port.value);
+    controllerArguments.push('--seed=' + fields.seed.value);
+    controllerArguments.push('--step=' + fields.step.value);
+    controllerArguments.push('--radius=' + fields.radius.value);
+    controllerArguments.push('--maximum-lateral-speed=' + fields.maximumLateralSpeed.value);
+    controllerArguments.push('--maximum-angular-speed=' + fields.maximumAngularSpeed.value);
+    controllerArguments.push('--lane-change-delay=' + fields.laneChangeDelay.value);
     let display = fields.display.value;
-    if (display !== 'undefined') {
-      arguments.push('--use-display');
-      arguments.push('--display-zoom=' + display.fields.zoom.value);
-      arguments.push('--display-refresh-rate=' + display.fields.refreshRate.value);
+    if (display !== undefined) {
+      controllerArguments.push('--use-display');
+      controllerArguments.push('--display-zoom=' + display.fields.zoom.value);
+      controllerArguments.push('--display-refresh-rate=' + display.fields.refreshRate.value);
       if (display.fields.fitSize.value)
-        arguments.push('--display-fit-size');
+        controllerArguments.push('--display-fit-size');
     }
   }%
 
@@ -87,8 +88,8 @@ PROTO SumoInterface [
     model "SUMO interface"
     controller "sumo_supervisor"
     controllerArgs [
-      %{ for (let i = 0; i < arguments.length; ++i) { }%
-      %{= '"' + arguments[i] + '"\n' }%
+      %{ for (let i = 0; i < controllerArguments.length; ++i) { }%
+      %{= '"' + controllerArguments[i] + '"\n' }%
       %{ } }%
     ]
     supervisor TRUE
