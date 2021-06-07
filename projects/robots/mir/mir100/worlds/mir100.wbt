@@ -28,7 +28,6 @@ TexturedBackground {
 }
 Mir100 {
   translation -6.23612 -0.936359 0
-  controller "keyboard_control"
   frontLidarSlot [
     SickS300 {
       name "front_lidar"
