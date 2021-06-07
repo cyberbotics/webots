@@ -160,7 +160,7 @@ PROTO Gear [
           %{ } }%
           # spherical contact point on each tooth
           %{ if (teethBoundingObject) { }%
-            %{ for (n = 0; n <= nbTeeth - 1; ++n) { }%
+            %{ for (let n = 0; n <= nbTeeth - 1; ++n) { }%
               %{ alpha = n * 2.0 * Math.PI / nbTeeth; }%
               %{ if (tip_size > width) { }%
                 Transform {
