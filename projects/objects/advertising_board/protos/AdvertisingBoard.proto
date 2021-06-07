@@ -54,8 +54,8 @@ PROTO AdvertisingBoard [
       console.error('\'poleHeight\' should be strictly positive. Value reset to \'', poleHeight, '\'.');
     }
 
-    const offsetFront = 0.06; // provides depth to the display plane with regards to the frame
-    const offsetBack = 0.06;
+    let offsetFront = 0.06; // provides depth to the display plane with regards to the frame
+    let offsetBack = 0.06;
 
     let poleThickness = fields.poleThickness.value;
     if (poleThickness < 0.1) {
@@ -69,6 +69,8 @@ PROTO AdvertisingBoard [
       poleThickness = fields.poleThickness.defaultValue;
       console.error('\'poleThickness\' should be smaller than the frame. Value reset to \'', poleThickness, '\'.');
     }
+    const halfPoleThickness = poleThickness * 0.5;
+
     let baseRatio = fields.baseRatio.value;
     if (baseRatio < 0.1) {
       baseRatio = fields.baseRatio.defaultValue;
@@ -77,10 +79,10 @@ PROTO AdvertisingBoard [
     let xPosition = [[0], [-displayWidth / 4, displayWidth / 4], [-displayWidth / 3, 0, displayWidth / 3],
                     [-(displayWidth / 2) + poleThickness, -displayWidth / 7, displayWidth / 7, (displayWidth / 2) - poleThickness]];
 
-   let displayElevation = 0;
-   // add an elevation parameter when there is a pole to adjust coordinate system
-   if (poleNumber !== 0)
-     displayElevation = poleHeight - 0.6 * displayHeight - 0.2;
+    let displayElevation = 0;
+    // add an elevation parameter when there is a pole to adjust coordinate system
+    if (poleNumber !== 0)
+      displayElevation = poleHeight - 0.6 * displayHeight - 0.2;
   }%
   Solid {
     translation IS translation
@@ -207,7 +209,7 @@ PROTO AdvertisingBoard [
               offsetPole = - 0.82 * frameThickness;
           }%
           DEF %{= 'POLE_' + i }% Solid {
-            translation %{= xPosition[poleNumber][i] }% %{= poleHeight / 2 }% %{= offsetPole }%
+            translation %{= xPosition[poleNumber - 1][i] }% %{= poleHeight / 2 }% %{= offsetPole }%
             name "pole %{= i }%"
             children [
               Shape {
@@ -220,7 +222,7 @@ PROTO AdvertisingBoard [
                 %{ if (poleType === 'cylinder') { }%
                     geometry DEF CYLINDRICAL_POLE Cylinder {
                       height %{= poleHeight }%
-                      radius %{= poleThickness/2 }%
+                      radius %{= halfPoleThickness }%
                     }
                 %{ } else if (poleType === 'box') { }%
                     geometry DEF SQUARE_POLE Box {
@@ -230,19 +232,19 @@ PROTO AdvertisingBoard [
                     # weird quotients (4.01 etc) here are here to avoid failures in polygon tesselation
                     geometry Extrusion {
                       crossSection [
-                        %{= poleThickness/2 }%  %{= -poleThickness/2 }%
-                        %{= poleThickness/2 }%  %{= -poleThickness/4 }%
+                        %{= halfPoleThickness }%  %{= -halfPoleThickness }%
+                        %{= halfPoleThickness }%  %{= -poleThickness/4 }%
                         %{= poleThickness/4.02 }%  %{= -poleThickness/4 }%
                         %{= poleThickness/4.01 }%  %{= poleThickness/4 }%
-                        %{= poleThickness/2 }%  %{= poleThickness/4 }%
-                        %{= poleThickness/2 }%  %{= poleThickness/2 }%
-                        %{= -poleThickness/2 }% %{= poleThickness/2 }%
-                        %{= -poleThickness/2 }% %{= poleThickness/4 }%
+                        %{= halfPoleThickness }%  %{= poleThickness/4 }%
+                        %{= halfPoleThickness }%  %{= halfPoleThickness }%
+                        %{= -halfPoleThickness }% %{= halfPoleThickness }%
+                        %{= -halfPoleThickness }% %{= poleThickness/4 }%
                         %{= -poleThickness/4.02 }% %{= poleThickness/4 }%
                         %{= -poleThickness/4.01 }% %{= -poleThickness/4 }%
-                        %{= -poleThickness/2 }% %{= -poleThickness/4 }%
-                        %{= -poleThickness/2 }% %{= -poleThickness/2 }%
-                        %{= poleThickness/2 }%  %{= -poleThickness/2 }%
+                        %{= -halfPoleThickness }% %{= -poleThickness/4 }%
+                        %{= -halfPoleThickness }% %{= -halfPoleThickness }%
+                        %{= halfPoleThickness }%  %{= -halfPoleThickness }%
                       ]
                       spine [
                         0 %{= (poleHeight / 2) }% 0
@@ -267,7 +269,7 @@ PROTO AdvertisingBoard [
           # Choose the type/geometry of the poles' bases
           %{ if (poleType === 'cylinder' && baseRatio > 1) { }%
             DEF %{= 'CYLINDER_BASE_' + i  }% Transform {
-              translation %{= xPosition[poleNumber][i] }% 0.01 0
+              translation %{= xPosition[poleNumber - 1][i] }% 0.01 0
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -285,7 +287,7 @@ PROTO AdvertisingBoard [
             }
           %{ } else if (poleType === 'box' && baseRatio > 1) { }%
             DEF %{= 'BOX_BASE' + i  }% Transform {
-              translation %{= xPosition[poleNumber][i] }% 0.01 0
+              translation %{= xPosition[poleNumber - 1 ][i] }% 0.01 0
               children [
                 Shape {
                   appearance PBRAppearance {
