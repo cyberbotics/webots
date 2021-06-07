@@ -12,12 +12,12 @@ then
     fi
 fi
 
-TEST_FILES=$(find . -name "test_scenario.json" | sort -h)
+readarray -d '' TEST_FILES < <(find . -name "test_scenario.json" -print0 | sort --zero-terminated --human-numeric-sort)
 
 TOT_SUCCESS=0
 TOT_TESTS=0
 
-for test_file in ${TEST_FILES[@]}
+for test_file in "${TEST_FILES[@]}"
 do
     folder=$(dirname ${test_file})
     test_log="${folder}/test.log"
