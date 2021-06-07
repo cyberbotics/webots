@@ -23,14 +23,8 @@ The 3D navigation in the player is possible using the mouse or the touch screen,
 
 ### How to Export a Web Scene
 
-Select the `File / Export HTML5 Model...` menu item, select the desired `X3D` parameters and choose the target `HTML` file in the pop-up dialog.
+Select the `File / Export HTML5 Model...` menu item and choose the target `HTML` file in the pop-up dialog.
 When the export is completed, Webots will ask to playback the resulting file in the default Web browser.
-
-%figure "The HTML export dialog."
-![html-export-dialog.png](images/html-export-dialog.png)
-%end
-
-The chosen `X3D` parameters are stored in the [project file](the-standard-file-hierarchy-of-a-project.md#the-project-files) and automatically proposed during the next HTML export.
 
 **Note**: The `X3D` file and the required textures are exported in the same directory as the target `HTML` file.
 
