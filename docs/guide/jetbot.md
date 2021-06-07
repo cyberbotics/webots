@@ -3,7 +3,7 @@
 %robot jetbot images/robots/jetbot/model.thumbnail.png
 
 JetBot is an open-source robot based on NVIDIA Jetson Nano.
-The robot is an affordable two-wheeled robot distributed as DIY kit.
+The robot is an affordable two-wheeled robot distributed as a DIY kit.
 
 More information on the JetBot robot can be found on this [website](https://jetbot.org/v0.4.3/).
 
@@ -87,4 +87,3 @@ An additional example using PyTorch CNN to perform collision avoidance is availa
 
 ![jetbot.wbt.png](images/robots/jetbot/jetbot.wbt.thumbnail.jpg) In this example, you can see a JetBot robot performing basic motion.
 The `jetbot` C controller replicates the basic motion provided by the official ["Basic Motion"](https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/basic_motion/basic_motion.ipynb) Jupyter notebook.
-
