@@ -70,7 +70,7 @@ typedef struct WbPoseStructPrivate {
   double last_update;
   WbNodeRef from_node;
   WbNodeRef to_node;
-  struct WbPoseStructPrivate* next;
+  struct WbPoseStructPrivate *next;
 } WbPoseStruct;
 
 typedef struct WbFieldRequestPrivate {
@@ -382,7 +382,7 @@ static void clean_field_request_garbage_collector() {
 }
 
 // Private fields
-static WbPoseStruct* pose_collection;
+static WbPoseStruct *pose_collection;
 static WbPoseStruct pose;
 static bool pose_requested = false;
 static WbFieldChangeTracking field_change_tracking;
@@ -1043,11 +1043,11 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
     case C_SUPERVISOR_NODE_GET_POSE: {
       const int from_node_id = request_read_int32(r);
       const int to_node_id = request_read_int32(r);
-      double* node_pose = NULL;
+      double *node_pose = NULL;
       if (pose_requested && pose.to_node->id == to_node_id && (!pose.from_node || pose.from_node->id == from_node_id))
         node_pose = pose.pose;
       else {
-        WbPoseStruct* tmp_pose = pose_collection;
+        WbPoseStruct *tmp_pose = pose_collection;
         while (tmp_pose) {
           if (tmp_pose->to_node->id == to_node_id && (!tmp_pose->from_node || tmp_pose->from_node->id == from_node_id)) {
             node_pose = tmp_pose->pose;
@@ -1060,7 +1060,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       for (i = 0; i < 16; i++)
         node_pose[i] = request_read_double(r);
       break;
-    } case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS:
+    }
+    case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS:
       free(center_of_mass_node_ref->center_of_mass);
       center_of_mass_node_ref->center_of_mass = malloc(3 * sizeof(double));
       for (i = 0; i < 3; i++)
@@ -1958,7 +1959,7 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
     return invalid_vector;
   }
 
-  WbPoseStruct* tmp_pose = pose_collection;
+  WbPoseStruct *tmp_pose = pose_collection;
   while (tmp_pose) {
     if (tmp_pose->from_node == from_node && tmp_pose->to_node == node)
       return tmp_pose->pose;
@@ -2564,7 +2565,7 @@ void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, WbNodeRef from_node, int sampling_period) {
+void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period, WbNodeRef from_node) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
@@ -2592,7 +2593,7 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, WbNodeRef from_node
   pose_change_tracking.enable = true;
 
   // Create a new pose item
-  WbPoseStruct* const new_pose = malloc(sizeof(WbPoseStruct));
+  WbPoseStruct *const new_pose = malloc(sizeof(WbPoseStruct));
   new_pose->from_node = from_node;
   new_pose->to_node = node;
   new_pose->next = NULL;
@@ -2602,7 +2603,7 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, WbNodeRef from_node
   if (!pose_collection)
     pose_collection = new_pose;
   else {
-    WbPoseStruct* tmp_pose = pose_collection;
+    WbPoseStruct *tmp_pose = pose_collection;
     while (tmp_pose->next)
       tmp_pose = tmp_pose->next;
     tmp_pose->next = new_pose;

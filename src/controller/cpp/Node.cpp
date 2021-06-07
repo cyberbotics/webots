@@ -114,15 +114,15 @@ const double *Node::getPose(const Node *fromNode) const {
 }
 
 void Node::enablePoseTracking(int samplingPeriod) const {
-  wb_supervisor_node_enable_pose_tracking(nodeRef, NULL, samplingPeriod);
+  wb_supervisor_node_enable_pose_tracking(nodeRef, samplingPeriod, NULL);
 }
 
 void Node::disablePoseTracking() const {
   wb_supervisor_node_disable_pose_tracking(nodeRef, NULL);
 }
 
-void Node::enablePoseTracking(const Node *fromNode, int samplingPeriod) const {
-  wb_supervisor_node_enable_pose_tracking(nodeRef, fromNode->nodeRef, samplingPeriod);
+void Node::enablePoseTracking(int samplingPeriod, const Node *fromNode) const {
+  wb_supervisor_node_enable_pose_tracking(nodeRef, samplingPeriod, fromNode->nodeRef);
 }
 
 void Node::disablePoseTracking(const Node *fromNode) const {
