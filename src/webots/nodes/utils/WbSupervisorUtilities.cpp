@@ -72,8 +72,8 @@ struct WbTrackedFieldInfo {
 };
 
 struct WbTrackedPoseInfo {
-  WbNode *fromNode;
-  WbNode *toNode;
+  WbTransform *fromNode;
+  WbTransform *toNode;
   int samplingPeriod;
   double lastUpdate;
 };
@@ -1114,8 +1114,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       if (enable) {
         WbTrackedPoseInfo trackedPose;
-        trackedPose.fromNode = fromNode;
-        trackedPose.toNode = toNode;
+        trackedPose.fromNode = dynamic_cast<WbTransform *>(fromNode);
+        trackedPose.toNode = dynamic_cast<WbTransform *>(toNode);
         trackedPose.samplingPeriod = samplingPeriod;
         trackedPose.lastUpdate = -INFINITY;
         mTrackedPoses.append(trackedPose);
@@ -1592,6 +1592,35 @@ void WbSupervisorUtilities::pushSingleFieldContentToStream(QDataStream &stream, 
   }
 }
 
+void WbSupervisorUtilities::pushRelativePoseToStream(QDataStream &stream, WbTransform* fromNode, WbTransform* toNode) {
+    WbMatrix4 m;
+
+    WbMatrix4 mTo(toNode->matrix());
+    const WbVector3 &sTo = mTo.scale();
+    mTo.scale(1.0 / sTo.x(), 1.0 / sTo.y(), 1.0 / sTo.z());
+
+    if (fromNode) {
+      WbMatrix4 mFrom(fromNode->matrix());
+      const WbVector3 &sFrom = mFrom.scale();
+      mFrom.scale(1.0 / sFrom.x(), 1.0 / sFrom.y(), 1.0 / sFrom.z());
+
+      m = mFrom.pseudoInversed() * mTo;
+    } else
+      m = mTo;
+
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_NODE_GET_POSE;
+    if (fromNode)
+      stream << (int)fromNode->uniqueId();
+    else
+      stream << 0;
+    stream << (int)toNode->uniqueId();
+    stream << (double)m(0, 0) << (double)m(0, 1) << (double)m(0, 2) << (double)m(0, 3);
+    stream << (double)m(1, 0) << (double)m(1, 1) << (double)m(1, 2) << (double)m(1, 3);
+    stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2) << (double)m(2, 3);
+    stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
+}
+
 void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   if (!mUpdatedNodeIds.isEmpty()) {
     foreach (int id, mUpdatedNodeIds) {
@@ -1678,29 +1707,15 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2);
     mNodeGetOrientation = NULL;
   }
+  for (WbTrackedPoseInfo &pose : mTrackedPoses) {
+    const double time = WbSimulationState::instance()->time();
+    if (time >= pose.lastUpdate + pose.samplingPeriod) {
+      pushRelativePoseToStream(stream, pose.fromNode, pose.toNode);
+      pose.lastUpdate = time;
+    }
+  }
   if (mNodeGetPose.second) {
-    WbMatrix4 m;
-
-    WbMatrix4 mTo(mNodeGetPose.second->matrix());
-    const WbVector3 &sTo = mTo.scale();
-    mTo.scale(1.0 / sTo.x(), 1.0 / sTo.y(), 1.0 / sTo.z());
-
-    if (mNodeGetPose.first) {
-      WbMatrix4 mFrom(mNodeGetPose.first->matrix());
-      const WbVector3 &sFrom = mFrom.scale();
-      mFrom.scale(1.0 / sFrom.x(), 1.0 / sFrom.y(), 1.0 / sFrom.z());
-
-      m = mFrom.pseudoInversed() * mTo;
-    } else
-      m = mTo;
-
-    stream << (short unsigned int)0;
-    stream << (unsigned char)C_SUPERVISOR_NODE_GET_POSE;
-    stream << (double)m(0, 0) << (double)m(0, 1) << (double)m(0, 2) << (double)m(0, 3);
-    stream << (double)m(1, 0) << (double)m(1, 1) << (double)m(1, 2) << (double)m(1, 3);
-    stream << (double)m(2, 0) << (double)m(2, 1) << (double)m(2, 2) << (double)m(2, 3);
-    stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
-
+    pushRelativePoseToStream(stream, mNodeGetPose.first, mNodeGetPose.second);
     mNodeGetPose.first = NULL;
     mNodeGetPose.second = NULL;
   }

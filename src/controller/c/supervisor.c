@@ -65,6 +65,14 @@ typedef struct WbFieldStructPrivate {
   double last_update;
 } WbFieldStruct;
 
+typedef struct WbPoseStructPrivate {
+  double pose[16];
+  double last_update;
+  WbNodeRef from_node;
+  WbNodeRef to_node;
+  struct WbPoseStructPrivate* next;
+} WbPoseStruct;
+
 typedef struct WbFieldRequestPrivate {
   enum FIELD_REQUEST_TYPE type;
   int index;
@@ -374,6 +382,9 @@ static void clean_field_request_garbage_collector() {
 }
 
 // Private fields
+static WbPoseStruct* pose_collection;
+static WbPoseStruct pose;
+static bool pose_requested = false;
 static WbFieldChangeTracking field_change_tracking;
 static bool field_change_tracking_requested = false;
 static WbPoseChangeTracking pose_change_tracking;
@@ -418,9 +429,6 @@ static WbNodeRef self_node_ref = NULL;
 static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
-static double node_pose[16];
-static WbNodeRef pose_from_node_ref = NULL;
-static WbNodeRef pose_to_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
@@ -474,6 +482,11 @@ static void supervisor_cleanup(WbDevice *d) {
       free(sent_field_get_request->data.sf_string);
     free(sent_field_get_request);
     sent_field_get_request = NULL;
+  }
+  while (pose_collection) {
+    WbPoseStruct *r = pose_collection->next;
+    free(pose_collection);
+    pose_collection = r;
   }
   while (node_list) {
     WbNodeStruct *n = node_list->next;
@@ -533,7 +546,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (pose_change_tracking_requested) {
     request_write_uchar(r, C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE);
-    request_write_int32(r, pose_change_tracking.from_node->id);
+    request_write_int32(r, pose_change_tracking.from_node ? pose_change_tracking.from_node->id : 0);
     request_write_int32(r, pose_change_tracking.node->id);
     request_write_uchar(r, pose_change_tracking.enable);
     if (pose_change_tracking.enable)
@@ -708,10 +721,10 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_ORIENTATION);
     request_write_uint32(r, orientation_node_ref->id);
   }
-  if (pose_to_node_ref) {
+  if (pose_requested) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_POSE);
-    request_write_uint32(r, pose_from_node_ref ? pose_from_node_ref->id : 0);
-    request_write_uint32(r, pose_to_node_ref->id);
+    request_write_uint32(r, pose.from_node ? pose.from_node->id : 0);
+    request_write_uint32(r, pose.to_node->id);
   }
   if (center_of_mass_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CENTER_OF_MASS);
@@ -1027,11 +1040,27 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       for (i = 0; i < 9; i++)
         orientation_node_ref->orientation[i] = request_read_double(r);
       break;
-    case C_SUPERVISOR_NODE_GET_POSE:
+    case C_SUPERVISOR_NODE_GET_POSE: {
+      const int from_node_id = request_read_int32(r);
+      const int to_node_id = request_read_int32(r);
+      double* node_pose = NULL;
+      if (pose_requested && pose.to_node->id == to_node_id && (!pose.from_node || pose.from_node->id == from_node_id))
+        node_pose = pose.pose;
+      else {
+        WbPoseStruct* tmp_pose = pose_collection;
+        while (tmp_pose) {
+          if (tmp_pose->to_node->id == to_node_id && (!tmp_pose->from_node || tmp_pose->from_node->id == from_node_id)) {
+            node_pose = tmp_pose->pose;
+            break;
+          }
+          tmp_pose = tmp_pose->next;
+        }
+      }
+      assert(node_pose != NULL);
       for (i = 0; i < 16; i++)
         node_pose[i] = request_read_double(r);
       break;
-    case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS:
+    } case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS:
       free(center_of_mass_node_ref->center_of_mass);
       center_of_mass_node_ref->center_of_mass = malloc(3 * sizeof(double));
       for (i = 0; i < 3; i++)
@@ -1929,14 +1958,21 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
     return invalid_vector;
   }
 
+  WbPoseStruct* tmp_pose = pose_collection;
+  while (tmp_pose) {
+    if (tmp_pose->from_node == from_node && tmp_pose->to_node == node)
+      return tmp_pose->pose;
+    tmp_pose = tmp_pose->next;
+  }
+
   robot_mutex_lock_step();
-  pose_from_node_ref = from_node;
-  pose_to_node_ref = node;
+  pose_requested = true;
+  pose.from_node = from_node;
+  pose.to_node = node;
   wb_robot_flush_unlocked();
-  pose_from_node_ref = NULL;
-  pose_to_node_ref = NULL;
+  pose_requested = false;
   robot_mutex_unlock_step();
-  return node_pose;
+  return pose.pose;
 }
 
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
@@ -2528,7 +2564,7 @@ void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_pose_enable_tracking(WbNodeRef node, WbNodeRef from_node, int sampling_period) {
+void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, WbNodeRef from_node, int sampling_period) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
@@ -2537,15 +2573,15 @@ void wb_supervisor_pose_enable_tracking(WbNodeRef node, WbNodeRef from_node, int
   if (!robot_check_supervisor(__FUNCTION__))
     return;
 
-  if (!is_node_ref_valid(node)) {
+  if (from_node != NULL && !is_node_ref_valid(from_node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_from' argument.\n", __FUNCTION__);
     return;
   }
 
-  if (!is_node_ref_valid(from_node)) {
+  if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return;
   }
 
@@ -2554,12 +2590,32 @@ void wb_supervisor_pose_enable_tracking(WbNodeRef node, WbNodeRef from_node, int
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
   pose_change_tracking.enable = true;
+
+  // Create a new pose item
+  WbPoseStruct* const new_pose = malloc(sizeof(WbPoseStruct));
+  new_pose->from_node = from_node;
+  new_pose->to_node = node;
+  new_pose->next = NULL;
+  new_pose->last_update = -INFINITY;
+
+  // Add the pose to the list
+  if (!pose_collection)
+    pose_collection = new_pose;
+  else {
+    WbPoseStruct* tmp_pose = pose_collection;
+    while (tmp_pose->next)
+      tmp_pose = tmp_pose->next;
+    tmp_pose->next = new_pose;
+  }
+
+  assert(pose_collection);
+
   wb_robot_flush_unlocked();
   pose_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_pose_disable_tracking(WbNodeRef node, WbNodeRef from_node) {
+void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return;
 

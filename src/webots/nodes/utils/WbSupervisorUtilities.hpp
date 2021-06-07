@@ -119,6 +119,7 @@ private:
   struct WbFieldGetRequest *mFieldGetRequest;
 
   void pushSingleFieldContentToStream(QDataStream &stream, WbField *field);
+  void pushRelativePoseToStream(QDataStream &stream, WbTransform* fromNode, WbTransform* toNode);
   void initControllerRequests();
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);
