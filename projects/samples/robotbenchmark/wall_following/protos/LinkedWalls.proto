@@ -45,11 +45,11 @@ PROTO LinkedWalls [
 
       for (let i = 0; i < NB_WALL_PARTS - 1; ++i) {
         // we select one wall part among the ones remaining
-        current_value = wbrandom.integer(NB_WALL_PARTS - i) - 1; // TODO: need a -1?
+        current_value = wbrandom.integer(NB_WALL_PARTS - i) - 1;
         shuffle[i] = remaining_indices[current_value];
 
         // updates the available wall part list
-        for (let j = current_value; j < NB_WALL_PARTS - i - 1; ++j) // TODO: I added -1
+        for (let j = current_value; j < NB_WALL_PARTS - i - 1; ++j)
           remaining_indices[j] = remaining_indices[j + 1];
       }
 

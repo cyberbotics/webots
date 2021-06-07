@@ -60,7 +60,7 @@ PROTO RandomBuilding [
       'tall house',
       'office building',
       'concrete building']
-    const wallType = wallTypes[wbrandom.integer(wallTypes.length)];
+    const wallType = wallTypes[wbrandom.integer(wallTypes.length) - 1];
   }%
   SimpleBuilding {
     translation IS translation
