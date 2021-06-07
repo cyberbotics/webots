@@ -1003,6 +1003,7 @@ def update_team_penalized(team):
             # FIXME: unfortunately, player['robot'].remove() crashes webots
             # Once this is fixed, we should remove the robot, which seems to be a better solution
             # than moving it away from the field
+            player['penalized'] = 'red_card'
             player['robot'] = None
             info(f'sending {color} player {number} tp {t}.')
             if 'penalty_stabilize' in player:
@@ -1600,10 +1601,6 @@ def is_goalkeeper(team, id):
     return game.state.teams[index].players[int(id) - 1].goalkeeper
 
 
-def is_penalty_kicker(team, id):
-    return id == '1'  # assuming kicker is player number 1
-
-
 def get_penalty_attacking_team():
     first_team = game.penalty_shootout_count % 2 == 0
     if first_team == (game.kickoff == game.red.id):
@@ -1618,12 +1615,22 @@ def get_penalty_defending_team():
     return blue_team
 
 
+def is_penalty_kicker(team, id):
+    for number in team['players']:
+        player = team['players'][number]
+        if 'penalized' in player:
+            continue
+        return id == number
+
+
 def penalty_kicker_player():
     default = game.penalty_shootout_count % 2 == 0
     attacking_team = red_team if (game.kickoff == game.blue.id) ^ default else blue_team
     for number in attacking_team['players']:
-        if is_penalty_kicker(attacking_team, number):
-            return attacking_team['players'][number]
+        player = attacking_team['players'][number]
+        if 'penalized' in player:
+            continue
+        return player
     return None
 
 
