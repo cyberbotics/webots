@@ -60,21 +60,7 @@ export default class Server {
       this.socket.send(message);
     } else { // legacy format
       const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
-      if (typeof webots.User1Id === 'undefined')
-        webots.User1Id = '';
-      if (typeof webots.User1Name === 'undefined')
-        webots.User1Name = '';
-      if (typeof webots.User1Authentication === 'undefined')
-        webots.User1Authentication = '';
-      if (typeof webots.User2Id === 'undefined')
-        webots.User2Id = '';
-      if (typeof webots.User2Name === 'undefined')
-        webots.User2Name = '';
-      if (typeof webots.CustomData === 'undefined')
-        webots.CustomData = '';
-      this.socket.send('{ "init" : [ "' + host + '", "' + this._project + '", "' + this._worldFile + '", "' +
-        webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
-        webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
+      this.socket.send('{ "init" : [ "' + host + '", "' + this._project + '", "' + this._worldFile + '" ] }');
     }
     document.getElementById('webotsProgressMessage').innerHTML = 'Starting simulation...';
   }

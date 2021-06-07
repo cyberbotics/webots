@@ -315,17 +315,6 @@ Returns the norm of the provided vector.
 
 ```
 /**
- * @param {Object.<x: number, y: number>} v
- * @returns {number}
- */
-wbvector2.atan2(v);
-```
-
-Returns the angle in the plane (in radians) between the positive x-axis and the ray from (0, 0) to the point `v`.
-It should be noted that what this function returns is `Math.atan2(v.y, v.x)`.
-
-```
-/**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
  * @returns {number}
