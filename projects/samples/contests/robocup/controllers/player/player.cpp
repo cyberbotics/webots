@@ -64,6 +64,7 @@ void usleep(__int64 usec) {
 #include <webots/Robot.hpp>
 #include <webots/TouchSensor.hpp>
 
+#include <algorithm>
 #include <chrono>
 #include <deque>
 
