@@ -1,11 +1,11 @@
 #!/bin/bash
 
-RUN_TESTS=true
+PRINT_ONLY=false
 if [ $# -gt 0 ]
 then
     if [ $1 == "--print-only" ]
     then
-        RUN_TESTS=false
+        PRINT_ONLY=true
     else
         echo "Usage: $0 [--print-only]"
         exit -1
@@ -16,6 +16,16 @@ script_dir=$(dirname "$(realpath -s "$0")")
 source "$script_dir/common.sh"
 
 assert_env_vars
+
+should_run_tests() {
+    if [ "$PRINT_ONLY" = true ]; then
+        # don't run the test
+        return 1
+    fi
+
+    # run the test, if no command line option is set
+    return 0
+}
 
 readarray -d '' TEST_FILES < <(find . -name "test_scenario.json" -print0 | sort --zero-terminated --human-numeric-sort)
 
@@ -36,7 +46,7 @@ do
     referee_log="${folder}/referee.log"
     msg_prefix="[$NTH_TEST/${#TEST_FILES[@]}] $folder"
 
-    if [ $RUN_TESTS = true ]
+    if should_run_tests
     then
         echo "$msg_prefix ..."
         ./launch_test.sh ${folder} &> ${test_log}
