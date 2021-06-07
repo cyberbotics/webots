@@ -2962,8 +2962,8 @@ void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, con
         translation = offset;
       }
       writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                  .arg(translation.toString(WbPrecision::FLOAT_MAX))
-                  .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::FLOAT_MAX));
+                  .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
+                  .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::FLOAT_ROUND_6));
     }
     writer.indent();
     writer << "<geometry>\n";
