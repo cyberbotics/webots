@@ -68,7 +68,7 @@ PROTO SimpleTree [
   }
 
   let type = fields.type.value;
-  let keys = treeType;
+  let keys = Object.keys(treeType);
   if (type !== 'random' && !treeType.hasOwnProperty(type)) {
     type = fields.type.defaultValue;
 
@@ -82,7 +82,7 @@ PROTO SimpleTree [
     candidates += ' or \'random\'';
     console.error('\'type\' must be a value in the list: ' + candidates + '. Value reset to \'' + type + '\'.');
   } else if (type === 'random') {
-    type = keys[wbrandom.integer(keys.length)];
+    type = keys[wbrandom.integer(keys.length) - 1];
   }
 
   const boundinObject = fields.enableBoundingObject.value;
@@ -97,11 +97,11 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            %{ if (fields.withSnow.value) { }%
-              %{= '"' + "textures/" + treeType[type].slice(0, treeType[type].length - 4) + "_with_snow" + treeType[type].slice(treeType[type].length - 4) + '"' }%
-            %{ } else { }%
-              %{= '"' + "textures/" + treeType[type] + '"' }%
-            %{ } }%
+          %{ if (fields.withSnow.value) { }%
+            %{= '"' + "textures/" + treeType[type].slice(0, treeType[type].length - 4) + "_with_snow" + treeType[type].slice(treeType[type].length - 4) + '"' }%
+          %{ } else { }%
+            %{= '"' + "textures/" + treeType[type] + '"' }%
+          %{ } }%
           ]
           repeatS FALSE
           repeatT FALSE
