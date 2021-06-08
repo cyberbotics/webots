@@ -113,7 +113,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   mResult.clear();
 
   QJSEngine *engine = new QJSEngine();
-  QJSValue arr = engine->newArray();
+  QJSValue arr = engine->newArray(0);
   engine->globalObject().setProperty("myarr", arr);
   // QJSValue obj = engine->newObject();
   // engine->globalObject().setProperty("myobj", obj);
