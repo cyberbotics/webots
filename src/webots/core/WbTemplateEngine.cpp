@@ -25,6 +25,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QVector>
+#include <QtQml/QJSEngine>
 
 #include <lua.hpp>
 
@@ -110,6 +111,10 @@ const QString &WbTemplateEngine::closingToken() {
 
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
   mResult.clear();
+
+  QJSEngine engine;
+  QJSValue three = engine.evaluate("1 + 2");
+  printf("result = %d\n", three.toInt());
 
   if (!gValidLuaResources) {
     mError = tr("Installation error: Lua resources are not found");
