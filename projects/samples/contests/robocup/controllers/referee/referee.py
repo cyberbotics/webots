@@ -994,13 +994,12 @@ def update_team_penalized(team):
             robot.getField('rotation').setSFRotation(player['reentryStartingPose']['rotation'])
             customData = player['robot'].getField('customData')
             customData.setSFString('red_card')  # disable all devices of the robot
+            player['penalized'] = 'red_card'
             # FIXME: unfortunately, player['robot'].remove() crashes webots
             # Once this is fixed, we should remove the robot, which seems to be a better solution
             # than moving it away from the field
             player['robot'] = None
             info(f'sending {color} player {number} tp {t}.')
-            if 'sent_to_penalty_position' in player:
-                del player['sent_to_penalty_position']
             if 'penalty_stabilize' in player:
                 del player['penalty_stabilize']
             player['outside_field'] = True
@@ -1009,10 +1008,6 @@ def update_team_penalized(team):
             customData = player['robot'].getField('customData')
             if n > 0:
                 player['penalized'] = n
-                if 'sent_to_penalty_position' in player:
-                    info(f'Disabling actuators of {color} player {number}.')
-                    customData.setSFString('penalized')
-                    del player['sent_to_penalty_position']
             elif 'penalized' in player:
                 info(f'Enabling actuators of {color} player {number}.')
                 customData.setSFString('')
@@ -1025,7 +1020,7 @@ def update_penalized():
 
 
 def already_penalized(player):
-    return 'penalized' in player or 'sent_to_penalty_position' in player
+    return 'penalized' in player
 
 
 def send_penalty(player, penalty, reason, log=None):
@@ -1511,7 +1506,10 @@ def send_team_penalties(team):
             list_player_solids(player, color, number)
             robot.getField('translation').setSFVec3f(t)
             robot.getField('rotation').setSFRotation(r)
-            player['sent_to_penalty_position'] = True
+            player['penalized'] = REMOVAL_PENALTY_TIMEOUT
+            info(f'Disabling actuators of {color} player {number}.')
+            player['robot'].getField('customData').setSFString('penalized')
+            robot.resetPhysics()
             player['penalty_stabilize'] = 5  # stabilize after 5 simulation steps
             player['penalty_translation'] = t
             player['penalty_rotation'] = r
