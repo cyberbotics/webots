@@ -112,17 +112,18 @@ const QString &WbTemplateEngine::closingToken() {
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
   mResult.clear();
 
-  QJSEngine *engine = new QJSEngine();
-  QJSValue arr = engine->newArray(0);
-  engine->globalObject().setProperty("myarr", arr);
+  // QJSEngine *engine = new QJSEngine();
+  QJSEngine engine;
+  QJSValue arr = engine.newArray(0);
+  engine.globalObject().setProperty("myarr", arr);
   // QJSValue obj = engine->newObject();
   // engine->globalObject().setProperty("myobj", obj);
-  engine->globalObject().setProperty("numb", 4);
+  engine.globalObject().setProperty("numb", 4);
 
-  QJSValue three = engine->evaluate("1 + numb");
+  QJSValue three = engine.evaluate("1 + numb");
   printf("result = %d\n", three.toInt());
 
-  delete engine;
+  // delete engine;
 
   if (!gValidLuaResources) {
     mError = tr("Installation error: Lua resources are not found");
