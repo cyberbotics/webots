@@ -113,9 +113,10 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   mResult.clear();
 
   QJSEngine *engine = new QJSEngine();
-  QJSValue test = engine->newArray();
-  engine->globalObject().setProperty("varname", test);
-  QJSValue three = engine->evaluate("1 + 2");
+  // QJSValue test = engine->newArray();
+  // engine->globalObject().setProperty("varname", test);
+  engine->globalObject().setProperty("numb", 4);
+  QJSValue three = engine->evaluate("1 + numb");
   printf("result = %d\n", three.toInt());
 
   delete engine;
