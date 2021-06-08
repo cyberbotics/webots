@@ -247,9 +247,9 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   // create engine and stream holders
   QJSEngine engine;
-  QJSValue stdout = engine.newArray();
+  QJSValue stdout = engine.newArray(0);
   engine.globalObject().setProperty("stdout", stdout);
-  QJSValue stderr = engine.newArray();
+  QJSValue stderr = engine.newArray(0);
   engine.globalObject().setProperty("stderr", stderr);
   // import filled template as module
   QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
