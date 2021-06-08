@@ -772,9 +772,9 @@ If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_
 
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
-const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef node_from);
-void wb_supervisor_node_enable_pose_tracking(int sampling_period, WbNodeRef node, WbNodeRef node_from);
-void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef node_from);
+const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
+void wb_supervisor_node_enable_pose_tracking(int sampling_period, WbNodeRef node, WbNodeRef from_node);
+void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node);
 ```
 
 %tab-end
@@ -837,9 +837,9 @@ public class Node {
 position = wb_supervisor_node_get_position(node)
 orientation = wb_supervisor_node_get_orientation(node)
 pose = wb_supervisor_node_get_pose(node)
-pose = wb_supervisor_node_get_pose(node, node_from)
-wb_supervisor_node_enable_pose_tracking(sampling_period, node, node_from)
-wb_supervisor_node_disable_pose_tracking(node, node_from)
+pose = wb_supervisor_node_get_pose(node, from_node)
+wb_supervisor_node_enable_pose_tracking(sampling_period, node, from_node)
+wb_supervisor_node_disable_pose_tracking(node, from_node)
 ```
 
 %tab-end
@@ -850,9 +850,9 @@ wb_supervisor_node_disable_pose_tracking(node, node_from)
 | --- | --- | --- | --- |
 | `/supervisor/node/get_position` | `service` | `webots_ros::node_get_position` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
 | `/supervisor/node/get_orientation` | `service` | `webots_ros::node_get_orientation` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
-| `/supervisor/node/get_pose` | `service` | `webots_ros::node_get_pose` | `uint64 node`<br/>`uint64 node_from`<br/>`---`<br/>[`geometry_msgs/Pose`](http://docs.ros.org/en/api/geometry_msgs/html/msg/Pose.html) pose |
-| `/supervisor/node/enable_pose_tracking` | `service` | `webots_ros::node_enable_pose_tracking` | `uint64 node`<br/>`uint64 sampling_period`<br/>`uint64 node_from`<br/>`---`<br/>`int8 success` |
-| `/supervisor/node/disable_pose_tracking` | `service` | `webots_ros::node_disable_pose_tracking` | `uint64 node`<br/>`uint64 node_from`<br/>`---`<br/>`int8 success` |
+| `/supervisor/node/get_pose` | `service` | `webots_ros::node_get_pose` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>[`geometry_msgs/Pose`](http://docs.ros.org/en/api/geometry_msgs/html/msg/Pose.html) pose |
+| `/supervisor/node/enable_pose_tracking` | `service` | `webots_ros::node_enable_pose_tracking` | `uint64 node`<br/>`uint64 sampling_period`<br/>`uint64 from_node`<br/>`---`<br/>`int8 success` |
+| `/supervisor/node/disable_pose_tracking` | `service` | `webots_ros::node_disable_pose_tracking` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -893,7 +893,7 @@ Where *p* is a point whose coordinates are given with respect to the local coord
 
 The `wb_supervisor_node_get_pose` function returns an array of 16 values.
 The array shall be interpreted as a 4 x 4 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix) that represents an absolute transform of the node.
-The function returns the relative pose of the node with respect to the node specified in `node_from`. If `node_from` is null, it returns the absolute pose of the node in the global coordinate system.
+The function returns the relative pose of the node with respect to the node specified in `from_node`. If `from_node` is null, it returns the absolute pose of the node in the global coordinate system.
 
 The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
 It improves performances as the controller by default uses a request-response pattern to get pose data.

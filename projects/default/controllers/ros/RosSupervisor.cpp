@@ -598,9 +598,9 @@ bool RosSupervisor::nodeGetPoseCallback(webots_ros::node_get_pose::Request &req,
   assert(this);
   if (!req.node)
     return false;
-  Node *nodeFrom = reinterpret_cast<Node *>(req.node_from);
-  Node *nodeTo = reinterpret_cast<Node *>(req.node);
-  const double *m = nodeFrom->getPose(nodeTo);
+  Node *fromNode = reinterpret_cast<Node *>(req.from_node);
+  Node *toNode = reinterpret_cast<Node *>(req.node);
+  const double *m = fromNode->getPose(toNode);
   const double rotation[9] = {m[0], m[1], m[2], m[4], m[5], m[6], m[8], m[9], m[10]};
   RosMathUtils::matrixToQuaternion(rotation, res.pose.rotation);
   res.pose.translation.x = m[3];
@@ -869,7 +869,7 @@ bool RosSupervisor::nodeEnablePoseTrackingCallback(webots_ros::node_enable_pose_
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  Node *fromNode = reinterpret_cast<Node *>(req.node_from);
+  Node *fromNode = reinterpret_cast<Node *>(req.from_node);
 
   node->enablePoseTracking(req.sampling_period, fromNode);
 
@@ -884,7 +884,7 @@ bool RosSupervisor::nodeDisablePoseTrackingCallback(webots_ros::node_disable_pos
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  Node *fromNode = reinterpret_cast<Node *>(req.node_from);
+  Node *fromNode = reinterpret_cast<Node *>(req.from_node);
   res.success = 1;
 
   node->disablePoseTracking(fromNode);

@@ -1949,7 +1949,7 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
 
   if (from_node != NULL && !is_node_ref_valid(from_node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_from' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
@@ -2576,7 +2576,7 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period
 
   if (from_node != NULL && !is_node_ref_valid(from_node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_from' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
     return;
   }
 

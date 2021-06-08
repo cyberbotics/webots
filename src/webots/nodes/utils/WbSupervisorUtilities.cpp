@@ -786,13 +786,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> idTo;
 
       if (idFrom) {
-        WbNode *const nodeFrom = getProtoParameterNodeInstance(idFrom, "wb_supervisor_node_get_pose()");
-        WbTransform *const transformFrom = dynamic_cast<WbTransform *>(nodeFrom);
+        WbNode *const fromNode = getProtoParameterNodeInstance(idFrom, "wb_supervisor_node_get_pose()");
+        WbTransform *const transformFrom = dynamic_cast<WbTransform *>(fromNode);
         mNodeGetPose.first = transformFrom;
       } else
         mNodeGetPose.first = NULL;
-      WbNode *const nodeTo = getProtoParameterNodeInstance(idTo, "wb_supervisor_node_get_pose()");
-      WbTransform *const transformTo = dynamic_cast<WbTransform *>(nodeTo);
+      WbNode *const toNode = getProtoParameterNodeInstance(idTo, "wb_supervisor_node_get_pose()");
+      WbTransform *const transformTo = dynamic_cast<WbTransform *>(toNode);
       mNodeGetPose.second = transformTo;
 
       if (!transformTo)
