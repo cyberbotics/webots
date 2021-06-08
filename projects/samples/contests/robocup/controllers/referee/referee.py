@@ -1003,7 +1003,6 @@ def update_team_penalized(team):
             # FIXME: unfortunately, player['robot'].remove() crashes webots
             # Once this is fixed, we should remove the robot, which seems to be a better solution
             # than moving it away from the field
-            player['penalized'] = 'red_card'
             player['robot'] = None
             info(f'sending {color} player {number} tp {t}.')
             if 'penalty_stabilize' in player:
