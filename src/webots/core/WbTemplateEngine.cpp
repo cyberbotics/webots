@@ -26,6 +26,7 @@
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QVector>
 #include <QtQml/QJSEngine>
+#include <QtQml/QJSValue>
 #include <lua.hpp>
 
 #include <cassert>
