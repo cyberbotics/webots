@@ -26,7 +26,6 @@
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QVector>
 #include <QtQml/QJSEngine>
-
 #include <lua.hpp>
 
 #include <cassert>
@@ -113,6 +112,8 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   mResult.clear();
 
   QJSEngine engine;
+  QJSValue stdout = engine.newArray();
+  engine.globalObject().setProperty("stdout", stdout);
   QJSValue three = engine.evaluate("1 + 2");
   printf("result = %d\n", three.toInt());
 
