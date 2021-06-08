@@ -28,7 +28,6 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QVector>
 #include <QtQml/QJSEngine>
-#include <QtQml/QJSValue>
 
 #include <lua.hpp>
 
