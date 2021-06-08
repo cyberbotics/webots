@@ -895,13 +895,15 @@ The `wb_supervisor_node_get_pose` function returns an array of 16 values.
 The array shall be interpreted as a 4 x 4 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix) that represents an absolute transform of the node.
 The function returns the relative pose of the node with respect to the node specified in `from_node`. If `from_node` is null, it returns the absolute pose of the node in the global coordinate system.
 The resulting matrix looks as following:
+
 ```
 [ M[0](R[0,0])  M[1](R[0,1])  M[2](R[0,2])  M[3](T[0]) ]
 [ M[4](R[1,0])  M[5](R[1,1])  M[6](R[1,2])  M[7](T[1]) ]
 [ M[8](R[2,0])  M[9](R[2,1])  M[10](R[2,2]) M[11](T[2])]
 [ M[12](0)      M[13](0)      M[14](0)      M[15](1)   ]
 ```
-where `M[i]` is the result of the `wb_supervisor_node_get_pose` function at index `i`.
+
+Where `M[i]` is the result of the `wb_supervisor_node_get_pose` function at index `i`.
 The matrix is composed of a rotation matrix `R` and a translation vector `T`.
 
 The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
