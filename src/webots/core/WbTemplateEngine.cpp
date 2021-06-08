@@ -114,9 +114,9 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   // QJSEngine *engine = new QJSEngine();
   QJSEngine engine;
   QJSValue a = engine.newArray(0);
-  engine.globalObject().setProperty("aa", a);
+  engine.globalObject().setProperty("stdout", a);
   QJSValue b = engine.newArray(0);
-  engine.globalObject().setProperty("bb", b);
+  engine.globalObject().setProperty("stderr", b);
   // QJSValue obj = engine->newObject();
   // engine->globalObject().setProperty("myobj", obj);
   engine.globalObject().setProperty("numb", 4);
