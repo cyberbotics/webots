@@ -81,7 +81,7 @@ int main() {
 
     // get current target pose in world coordinates
     const double *target_pose = wb_supervisor_node_get_pose(target, NULL);
-    double target_traslation[3] = {target_pose[3], target_pose[7], target_pose[11]};
+    double target_translation[3] = {target_pose[3], target_pose[7], target_pose[11]};
 
     // center point of the gripper in local (WRIST) coordinates
     const double center[3] = {0, 0.18, 0};
@@ -93,10 +93,10 @@ int main() {
     vec_add(cpos, gripper_translation);
 
     // compute distance between gripper center and target
-    const double distance = vec_dist(target_traslation, cpos);
+    const double distance = vec_dist(target_translation, cpos);
 
     // display info
-    vec_show(0, "target:  ", target_traslation);
+    vec_show(0, "target:  ", target_translation);
     vec_show(1, "gripper: ", gripper_translation);
     val_show(2, "distance:", distance);
   }
