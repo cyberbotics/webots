@@ -248,10 +248,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   // create engine and stream holders
   QJSEngine engine;
-  QJSValue stdout = engine.newArray(0);
-  engine.globalObject().setProperty("stdout", stdout);
-  QJSValue stderr = engine.newArray(0);
-  engine.globalObject().setProperty("stderr", stderr);
+  QJSValue a = engine.newArray(0);
+  engine.globalObject().setProperty("aa", a);
+  QJSValue b = engine.newArray(0);
+  engine.globalObject().setProperty("bb", b);
   // import filled template as module
   QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
   if (module.isError()) {
@@ -266,12 +266,12 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     return false;
   }
 
-  for (int i = 0; i < stdout.property("length").toInt(); ++i)
-    WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(stdout.property(i).toString()), false,
+  for (int i = 0; i < a.property("length").toInt(); ++i)
+    WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(a.property(i).toString()), false,
                             WbLog::PARSING);
 
-  for (int i = 0; i < stderr.property("length").toInt(); ++i)
-    WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(stderr.property(i).toString()), false,
+  for (int i = 0; i < b.property("length").toInt(); ++i)
+    WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(b.property(i).toString()), false,
                              WbLog::PARSING);
 
   // remove temporary file. TODO: UNCOMMENT BEFORE MERGE
