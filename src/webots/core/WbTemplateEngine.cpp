@@ -155,13 +155,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     return false;
   }
 
-  // cd to temporary directory
-  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
-  if (!success) {
-    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
-    return false;
-  }
-
   // translate mixed proto into pure JavaScript
   QString javaScriptBody = "";
   QString javaScriptImport = "";
@@ -174,35 +167,37 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     int indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
     if (indexOpeningToken == -1) {  // no more matches
       if (indexClosingToken < mTemplateContent.size()) {
+        // what comes after the last closing token is plain vrml
+        // note: ___vrml is a local variable to the generateVrml javascript function
         javaScriptBody +=
           "___vrml += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
+        break;
       }
-      break;
     }
 
     indexClosingToken = mTemplateContent.indexOf(gClosingToken, indexOpeningToken);
-    indexClosingToken = indexClosingToken + gClosingToken.size();  // point after the template token
-
     if (indexClosingToken == -1) {
       mError = tr("Expected JavaScript closing token '%1' is missing.").arg(gClosingToken);
       return false;
     }
 
-    if (indexOpeningToken > 0 && lastIndexClosingToken == -1) {
-      // what comes before the first opening token should be treated as plain text
+    indexClosingToken = indexClosingToken + gClosingToken.size();  // point after the template token
+
+    if (indexOpeningToken > 0 && lastIndexClosingToken == -1)
+      // what comes before the first opening token should be treated as plain vrml
       javaScriptBody += "___vrml += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
-    }
-    if (lastIndexClosingToken != -1 && indexOpeningToken - lastIndexClosingToken > 0) {
-      // what is between the previous closing token and the current opening token should be treated as plain text
+
+    if (lastIndexClosingToken != -1 && indexOpeningToken - lastIndexClosingToken > 0)
+      // what is between the previous closing token and the current opening token should be treated as plain vrml
       javaScriptBody +=
         "___vrml += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
-    }
+
     // anything inbetween the tokens is either an expression or plain JavaScript
     QString statement = mTemplateContent.mid(indexOpeningToken, indexClosingToken - indexOpeningToken);
     // if it starts with '%{=' it's an expression
     if (statement.startsWith(gOpeningToken + "=")) {
       statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
-      // ___tmp is a local variable to the main function
+      // note: ___tmp is a local variable to the generateVrml javascript function
       javaScriptBody += "___tmp = " + statement + "; ___vrml += eval(\"___tmp\");";
     } else {
       // raw javascript snippet
@@ -219,7 +214,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       QString statement = match.captured(0);
-      javaScriptBody.replace(statement, "");  // remove import from javaScriptBody
+      javaScriptBody.replace(statement, "");  // remove it from javaScriptBody
 
       if (statement.endsWith(";"))
         statement.append("\n");
@@ -259,14 +254,14 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   // import filled template as module
   QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
   if (module.isError()) {
-    mError = tr("failed to import JavaScript template. %1").arg(module.property("message").toString());
+    mError = tr("failed to import JavaScript template: %1").arg(module.property("message").toString());
     return false;
   }
 
   QJSValue generateVrml = module.property("generateVrml");
   QJSValue result = generateVrml.call();
   if (result.isError()) {
-    mError = tr("failed to execute JavaScript template. On line %1").arg(result.property("message").toString());
+    mError = tr("failed to execute JavaScript template: %1").arg(result.property("message").toString());
     return false;
   }
 
