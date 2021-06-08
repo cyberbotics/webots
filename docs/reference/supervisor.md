@@ -3089,7 +3089,7 @@ If a single field (SF) or NULL is passed as an argument to this function, it ret
 Hence, this function can also be used to test if a field is MF (like `WB_MF_INT32`) or SF (like `WB_SF_BOOL`).
 
 The `wb_supervisor_field_enable_sf_tracking` function forces Webots to stream field data to the controller.
-It improves performances as the controller by default uses a request-response pattern to get data from the field.
+It improves the performance as the controller by default uses a request-response pattern to get data from the field.
 The `sampling_period` argument determines how often the field data should be sent to the controller.
 The function is limited only to single fields.
 
