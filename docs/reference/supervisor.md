@@ -905,7 +905,7 @@ where `M[i]` is the result of the `wb_supervisor_node_get_pose` function at inde
 The matrix is composed of a rotation matrix `R` and a translation vector `T`.
 
 The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
-It improves performances as the controller by default uses a request-response pattern to get pose data.
+It improves the performance as the controller by default uses a request-response pattern to get pose data.
 The `sampling_period` argument determines how often the pose data should be sent to the controller.
 
 The `wb_supervisor_node_disable_pose_tracking` function disables pose data tracking.
