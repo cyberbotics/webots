@@ -10,4 +10,4 @@ function init() {
   view.setAnimation(name + '.json', 'play', true);
 }
 
-init()
+init();

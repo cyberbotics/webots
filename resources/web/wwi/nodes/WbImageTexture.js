@@ -7,8 +7,9 @@ import WbWorld from './WbWorld.js';
 import Parser from './../Parser.js';
 
 export default class WbImageTexture extends WbBaseNode {
-  constructor(id, url, isTransparent, s, t, filtering) {
+  constructor(id, prefix, url, isTransparent, s, t, filtering) {
     super(id);
+    this.prefix = prefix;
     this.url = url;
 
     this.isTransparent = isTransparent;
@@ -21,7 +22,7 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   clone(customID) {
-    const imageTexture = new WbImageTexture(customID, this.url, this.isTransparent, this.repeatS, this.repeatT, this.filtering);
+    const imageTexture = new WbImageTexture(customID, this.prefix, this.url, this.isTransparent, this.repeatS, this.repeatT, this.filtering);
     imageTexture.updateUrl();
     this.useList.push(customID);
     return imageTexture;
@@ -116,7 +117,7 @@ export default class WbImageTexture extends WbBaseNode {
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0) {
-      const image = await Parser.loadTextureData(this.url);
+      const image = await Parser.loadTextureData(this.prefix, this.url);
       texture = _wr_texture_2d_new();
       _wr_texture_set_size(texture, image.width, image.height);
       _wr_texture_set_translucent(texture, this.isTransparent);

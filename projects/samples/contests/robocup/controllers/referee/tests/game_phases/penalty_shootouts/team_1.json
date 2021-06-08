@@ -16,8 +16,8 @@
         "rotation": [0, 0, 1, 0]
       },
       "goalKeeperStartingPose": {
-        "translation": [-4.47, 0.2, 0.24],
-        "rotation": [0, 0, 1, 0]
+        "translation": [-4.51, 0.2, 0.27],
+        "rotation": [0, 1, 0, -0.05]
       }
     }
   }

@@ -8,7 +8,7 @@
   "supervisor": "test_supervisor",
   "red": {
     "id": 1,
-    "config": "tests/game_phases/penalty_shootouts/team_1.json",
+    "config": "tests/game_phases/penalty_shootouts2/team_1.json",
     "hosts": [
       "127.0.0.1",
       "192.168.123.21",
@@ -25,7 +25,7 @@
   },
   "blue": {
     "id": 4,
-    "config": "tests/game_phases/penalty_shootouts/team_2.json",
+    "config": "tests/game_phases/penalty_shootouts2/team_2.json",
     "hosts": [
       "127.0.0.1",
       "192.168.123.41",

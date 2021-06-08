@@ -1,8 +1,7 @@
 import WbAbstractAppearance from './WbAbstractAppearance.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
-
-import Parser from './../Parser.js';
+import {getAnId} from './utils/utils.js';
 
 export default class WbAppearance extends WbAbstractAppearance {
   constructor(id, material, texture, transform) {
@@ -14,19 +13,19 @@ export default class WbAppearance extends WbAbstractAppearance {
   async clone(customID) {
     let material, texture, transform;
     if (typeof this.material !== 'undefined') {
-      material = this.material.clone('n' + Parser.undefinedID++);
+      material = this.material.clone(getAnId());
       material.parent = customID;
       WbWorld.instance.nodes.set(material.id, material);
     }
 
     if (typeof this.texture !== 'undefined') {
-      texture = await this.texture.clone('n' + Parser.undefinedID++);
+      texture = await this.texture.clone(getAnId());
       texture.parent = customID;
       WbWorld.instance.nodes.set(texture.id, texture);
     }
 
     if (typeof this.textureTransform !== 'undefined') {
-      transform = this.textureTransform.clone('n' + Parser.undefinedID++);
+      transform = this.textureTransform.clone(getAnId());
       transform.parent = customID;
       WbWorld.instance.nodes.set(transform.id, transform);
     }

@@ -46,10 +46,12 @@ CONTROLLERS=\
   lego/mindstorms/controllers.Makefile \
   micromagic/mantis/controllers.Makefile \
   micromagic/scout/controllers.Makefile \
+  mir/mir100/controllers.Makefile \
   mobsya/thymio/controllers.Makefile \
   nasa/controllers.Makefile \
   neuronics/ipr/controllers.Makefile \
   nex/controllers.Makefile \
+  niryo/ned/controllers.Makefile \
   pal_robotics/tiago_base/controllers/tiago_base.Makefile \
   pal_robotics/tiago_iron/controllers/tiago_iron.Makefile \
   pal_robotics/tiago_steel/controllers/tiago_steel.Makefile \

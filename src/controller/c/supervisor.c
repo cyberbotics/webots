@@ -298,6 +298,7 @@ static void remove_internal_proto_nodes_and_fields_from_list() {
       // clean the field
       if (current_field->type == WB_SF_STRING || current_field->type == WB_MF_STRING)
         free(current_field->data.sf_string);
+      free((char *)current_field->name);
       free(current_field);
     } else {
       previous_field = field;
@@ -933,7 +934,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
           case WB_SF_STRING:
           case WB_MF_STRING:
             free(f->data.sf_string);
-            f->data.sf_string = supervisor_strdup(request_read_string(r));
+            f->data.sf_string = request_read_string(r);
             break;
           case WB_SF_NODE:
           case WB_MF_NODE:
@@ -1284,8 +1285,9 @@ void wb_supervisor_set_label(int id, const char *text, double x, double y, doubl
   struct Label *l;
   robot_mutex_lock_step();
   for (l = supervisor_label; l; l = l->next) {
-    if (l->id == id) {
-      free(l->text);  // found, delete it
+    if (l->id == id) {  // found, delete it
+      free(l->text);
+      free(l->font);
       break;
     }
   }
@@ -2174,7 +2176,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
 
   robot_mutex_lock_step();
 
-  // yb: search if field is already present in field_list
+  // search if field is already present in field_list
   WbFieldRef result = find_field(field_name, node->id);
   if (!result) {
     // otherwise: need to talk to Webots
