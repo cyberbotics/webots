@@ -1614,10 +1614,13 @@ def get_penalty_defending_team():
     return blue_team
 
 
+def player_has_red_card(player):
+    return 'penalized' in player and player['penalized'] == 'red_card'
+
+
 def is_penalty_kicker(team, id):
     for number in team['players']:
-        player = team['players'][number]
-        if 'penalized' in player:
+        if player_has_red_card(team['players'][number]):
             continue
         return id == number
 
@@ -1627,7 +1630,7 @@ def penalty_kicker_player():
     attacking_team = red_team if (game.kickoff == game.blue.id) ^ default else blue_team
     for number in attacking_team['players']:
         player = attacking_team['players'][number]
-        if 'penalized' in player:
+        if player_has_red_card(player):
             continue
         return player
     return None
