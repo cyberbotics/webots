@@ -898,7 +898,7 @@ The resulting matrix looks as following:
 ```
 [ M[0](R[0,0])  M[1](R[0,1])  M[2](R[0,2])  M[3](T[0]) ]
 [ M[4](R[1,0])  M[5](R[1,1])  M[6](R[1,2])  M[7](T[1]) ]
-[ M[8](R[2,0])  M[9](R[2,1])  M[10](R[1,2]) M[11](T[2])]
+[ M[8](R[2,0])  M[9](R[2,1])  M[10](R[2,2]) M[11](T[2])]
 [ M[12](0)      M[13](0)      M[14](0)      M[15](1)   ]
 ```
 where `M[i]` is the result of the `wb_supervisor_node_get_pose` function at index `i`.
