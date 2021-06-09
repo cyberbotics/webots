@@ -5,5 +5,4 @@ sceneTreePerspectives: 000000ff0000000100000002000001ae000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/keyboard_control/keyboard_control.c"
 consoles: Console:All:All

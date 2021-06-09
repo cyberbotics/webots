@@ -250,6 +250,32 @@ PROTO Fabtino [
           physics USE PHYSICS_WHEEL
         }
       }
+      DEF IMU Transform {
+        translation 0 0 0.25
+        children [
+          Accelerometer {
+            name "accelerometer"
+            lookupTable [
+              -100 -100 -0.002
+              100 100 0.002
+            ]
+          }
+          Gyro {
+            name "gyro"
+            lookupTable [
+              -100 -100 -0.002
+              100 100 0.002
+            ]
+          }
+          Compass {
+            name "compass"
+            lookupTable [
+              -1 -1 -0.2
+              1 1 0.2
+            ]
+          }
+        ]
+      }
       Transform {
         translation 0 0 0.145
         children IS bodySlot

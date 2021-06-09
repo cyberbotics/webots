@@ -29,6 +29,12 @@ WorldInfo {
       ]
       softCFM 0.0001
     }
+    ContactProperties {
+      material1 "slope"
+      coulombFriction [
+        0.5
+      ]
+    }
   ]
 }
 Viewpoint {
@@ -42,7 +48,6 @@ TexturedBackground {
 }
 Fabtino {
   translation -6.23612 -0.936359 0.0613
-  controller "keyboard_control"
   frontLidarSlot [
     SickS300 {
       name "front_lidar"
@@ -55,7 +60,7 @@ Fabtino {
   ]
   bodySlot [
     Robotino3Platform {
-      height 0.83279
+      height 0.604
       extension [
         ConveyorPlatform {
           rotation 0 1 0 1.5708
@@ -271,7 +276,7 @@ PlasticCrate {
   rotation 1 0 0 1.5707963267948966
 }
 PlasticCrate {
-  translation -6.187 -0.987 1.133
+  translation -6.187 -0.987 0.9
   name "Kasten(2)"
   size 0.4 0.12 0.23
   mass 0.92

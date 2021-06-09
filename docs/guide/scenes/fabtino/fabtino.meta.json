@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "back_left_wheel_joint",
       "position": 0,
-      "transformID": "n101",
+      "transformID": "n67",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": 0,
       "name": "back_right_wheel_joint",
       "position": 0,
-      "transformID": "n71",
+      "transformID": "n37",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "front_left_wheel_joint",
       "position": 0,
-      "transformID": "n86",
+      "transformID": "n52",
       "type": "RotationalMotor"
     },
     {
@@ -37,40 +37,45 @@
       "minPosition": 0,
       "name": "front_right_wheel_joint",
       "position": 0,
-      "transformID": "n56",
+      "transformID": "n22",
       "type": "RotationalMotor"
     },
     {
+      "name": "accelerometer",
+      "transformID": "n78",
+      "type": "Accelerometer"
+    },
+    {
       "name": "back_left_wheel_joint_sensor",
-      "transformID": "n101",
+      "transformID": "n67",
       "type": "PositionSensor"
     },
     {
       "name": "back_right_wheel_joint_sensor",
-      "transformID": "n71",
+      "transformID": "n37",
       "type": "PositionSensor"
     },
     {
-      "name": "backLidar",
-      "transformID": "n181",
-      "type": "Lidar"
+      "name": "compass",
+      "transformID": "n78",
+      "type": "Compass"
     },
     {
       "name": "front_left_wheel_joint_sensor",
-      "transformID": "n86",
+      "transformID": "n52",
       "type": "PositionSensor"
     },
     {
       "name": "front_right_wheel_joint_sensor",
-      "transformID": "n56",
+      "transformID": "n22",
       "type": "PositionSensor"
     },
     {
-      "name": "frontLidar",
-      "transformID": "n165",
-      "type": "Lidar"
+      "name": "gyro",
+      "transformID": "n78",
+      "type": "Gyro"
     }
   ],
   "name": "fabtino",
-  "robotID": "n44"
+  "robotID": "n10"
 }
