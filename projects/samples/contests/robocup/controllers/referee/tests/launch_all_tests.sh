@@ -44,11 +44,11 @@ do
     folder=$(dirname ${test_file})
     test_log="${folder}/test.log"
     referee_log="${folder}/referee.log"
-    msg_prefix="[$NTH_TEST/${#TEST_FILES[@]}] $folder"
+    msg_prefix="[$NTH_TEST/${#TEST_FILES[@]}] ${folder:2}"
 
     if should_run_tests
     then
-        echo "$msg_prefix ..."
+        printf "$msg_prefix ..."
         ./launch_test.sh ${folder} &> ${test_log}
         cp ../log.txt ${referee_log}
     fi
@@ -57,9 +57,9 @@ do
     NB_TESTS=$(echo $RESULT_LINE | awk 'BEGIN { FS = "/" } ; { print $2 }')
     if [ $NB_SUCCESS -lt $NB_TESTS ]
     then
-        printf "$COLOR_RED$msg_prefix %s %2d/%2d$COLOR_RESET\n" FAIL $NB_SUCCESS $NB_TESTS
+        printf "\b\b\b$COLOR_RED %s %d/%d$COLOR_RESET\n" FAIL $NB_SUCCESS $NB_TESTS
     else
-        printf "$COLOR_GREEN$msg_prefix %s %2d/%2d$COLOR_RESET\n" PASS $NB_SUCCESS $NB_TESTS
+        printf "\b\b\b$COLOR_GREEN %s %d/%d$COLOR_RESET\n" PASS $NB_SUCCESS $NB_TESTS
     fi
 
     ((TOT_SUCCESS+=NB_SUCCESS))
