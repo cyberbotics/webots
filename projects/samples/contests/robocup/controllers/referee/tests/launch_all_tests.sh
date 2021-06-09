@@ -49,7 +49,7 @@ do
     if should_run_tests
     then
         printf '%-60.60srunning...' "$msg_prefix"
-        ./launch_test.sh ${folder} &> ${test_log}
+        ./launch_test.sh ${folder} | tee ${test_log} > /dev/null
         cp ../log.txt ${referee_log}
     fi
     RESULT_LINE=$(awk '/TEST RESULTS/ { print $3 }' ${test_log})
