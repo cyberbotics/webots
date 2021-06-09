@@ -412,7 +412,7 @@ def game_controller_send(message):
             game.wait_for_state = 'PLAYING'
         elif (message[:6] == 'SCORE:' or
               message == 'DROPPEDBALL'):
-            game.wait_for_state = 'READY'
+            game.wait_for_state = 'FINISHED' if game.penalty_shootout else 'READY'
     if ':' in message:
         msg_start = message.split(':', 1)[0]
         if msg_start in GAME_INTERRUPTIONS:
@@ -464,9 +464,7 @@ def game_controller_send(message):
                 else:
                     error(f'Received unknown answer from GameController: {answer}.', fatal=True)
         except BlockingIOError:
-            if not game.game_controller_synchronization:
-                break
-            elif answered or ':CLOCK:' in message:
+            if answered or ':CLOCK:' in message:
                 break
             else:  # keep sending CLOCK messages to keep the GameController happy
                 info(f'Waiting for GameController to answer to {message.strip()}.')
@@ -475,6 +473,9 @@ def game_controller_send(message):
                 clock_message = f'{game_controller_send.id}:CLOCK:{time_count}\n'
                 game.controller.sendall(clock_message.encode('ascii'))
                 game_controller_send.unanswered[game_controller_send.id] = clock_message.strip()
+    # We are waiting for a specific update from the GC before testing anything else
+    while game.wait_for_state is not None or game.wait_for_sec_state is not None or game.wait_for_sec_phase is not None:
+        game_controller_receive()
 
     return True
 
@@ -1848,8 +1849,6 @@ if game.minimum_real_time_factor == 0:  # speed up non-real time tests
     HALF_TIME_BREAK_REAL_TIME_DURATION = 2
 if not hasattr(game, 'press_a_key_to_terminate'):
     game.press_a_key_to_terminate = False
-if not hasattr(game, 'game_controller_synchronization'):
-    game.game_controller_synchronization = True
 if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
     error(f'Unsupported game type: {game.type}.', fatal=True)
 game.penalty_shootout = game.type == 'PENALTY'
@@ -1949,48 +1948,9 @@ red_team['goalkeeper_holding_time_window'] = np.zeros(goalkeeper_ball_holding_ti
 blue_team['players_holding_time_window'] = np.zeros(players_ball_holding_time_window_size, dtype=bool)
 blue_team['goalkeeper_holding_time_window'] = np.zeros(goalkeeper_ball_holding_time_window_size, dtype=bool)
 
-if game.controller_process:
-    game.controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    retry = 0
-    while True:
-        try:
-            game.controller.connect(('localhost', 8750))
-            game.controller.setblocking(False)
-            break
-        except socket.error as msg:
-            retry += 1
-            if retry <= 10:
-                warning(f'Could not connect to GameController at localhost:8750: {msg}. Retrying ({retry}/10)...')
-                time.sleep(retry)  # give some time to allow the GameControllerSimulator to start-up
-                supervisor.step(time_step)
-            else:
-                error('Could not connect to GameController at localhost:8750.', fatal=True)
-                game.controller = None
-                break
-    info('Connected to GameControllerSimulator at localhost:8750.')
-    try:
-        game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
-            # In case we are using the bouncing server we have to select which interface is used because messages are not
-            # broadcast
-            game.udp.bind((game.host, 3838))
-        else:
-            game.udp.bind(('0.0.0.0', 3838))
-        game.udp.setblocking(False)
-    except Exception:
-        error("Failed to set up UDP socket to listen to GC messages")
-else:
-    game.controller = None
-
-update_state_display()
 
 list_solids()  # prepare lists of solids to monitor in each robot to compute the convex hulls
 
-info(f'Game type is {game.type}.')
-info(f'Red team is "{red_team["name"]}", playing on {"left" if game.side_left == game.red.id else "right"} side.')
-info(f'Blue team is "{blue_team["name"]}", playing on {"left" if game.side_left == game.blue.id else "right"} side.')
-game_controller_send(f'SIDE_LEFT:{game.side_left}')
 game.penalty_shootout_count = 0
 game.penalty_shootout_goal = False
 game.penalty_shootout_time_to_score = [None, None, None, None, None, None, None, None, None, None]
@@ -2031,6 +1991,47 @@ game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), l
 game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
 
 previous_seconds_remaining = 0
+
+if game.controller_process:
+    game.controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    retry = 0
+    while True:
+        try:
+            game.controller.connect(('localhost', 8750))
+            game.controller.setblocking(False)
+            break
+        except socket.error as msg:
+            retry += 1
+            if retry <= 10:
+                warning(f'Could not connect to GameController at localhost:8750: {msg}. Retrying ({retry}/10)...')
+                time.sleep(retry)  # give some time to allow the GameControllerSimulator to start-up
+                supervisor.step(time_step)
+            else:
+                error('Could not connect to GameController at localhost:8750.', fatal=True)
+                game.controller = None
+                break
+    info('Connected to GameControllerSimulator at localhost:8750.')
+    try:
+        game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
+            # In case we are using the bouncing server we have to select which interface is used because messages are not
+            # broadcast
+            game.udp.bind((game.host, 3838))
+        else:
+            game.udp.bind(('0.0.0.0', 3838))
+        game.udp.setblocking(False)
+    except Exception:
+        error("Failed to set up UDP socket to listen to GC messages")
+else:
+    game.controller = None
+
+update_state_display()
+info(f'Game type is {game.type}.')
+info(f'Red team is "{red_team["name"]}", playing on {"left" if game.side_left == game.red.id else "right"} side.')
+info(f'Blue team is "{blue_team["name"]}", playing on {"left" if game.side_left == game.blue.id else "right"} side.')
+game_controller_send(f'SIDE_LEFT:{game.side_left}')
+
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
     children.importMFNodeFromString(-1, f'DEF TEST_SUPERVISOR Robot {{ supervisor TRUE controller "{game.supervisor}" }}')
 
@@ -2080,10 +2081,6 @@ while supervisor.step(time_step) != -1 and not game.over:
     update_contacts()  # check for collisions with the ground and ball
     update_ball_holding()  # check for ball holding for field players and goalkeeper
     update_histories()
-    # We are waiting for a specific update from the GC before taking any other action
-    if game.wait_for_state is not None or game.wait_for_sec_state is not None or game.wait_for_sec_phase is not None:
-        time_count += time_step
-        continue
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
         check_forceful_contacts()
