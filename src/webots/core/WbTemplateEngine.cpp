@@ -41,9 +41,9 @@ static QString gJavaScriptTemplateFileContent;
 namespace {
   // Note: not the default opening/closing tokens in order to allow
   //       VRML comments to comment templates
-  const QString gOpeningToken("%{");  // default: "#{"
-  const QString gClosingToken("}%");  // default: "}#"
-};                                    // namespace
+  QString gOpeningToken("%{");  // default: "#{"
+  QString gClosingToken("}%");  // default: "}#"
+};                              // namespace
 
 void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
   QDir luaModulesPath(modulePath);
@@ -66,7 +66,6 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
 }
 
 void WbTemplateEngine::initializeJavaScript() {
-  // printf("WbTemplateEngine::initialize JavaScript\n");
   QFile templateFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.js");
   if (!templateFile.open(QIODevice::ReadOnly)) {
     gValidJavaScriptResources = false;
@@ -77,7 +76,6 @@ void WbTemplateEngine::initializeJavaScript() {
 }
 
 void WbTemplateEngine::initializeLua() {
-  // printf("WbTemplateEngine::initialize lua\n");
   QFileInfo luaSLT2Script(WbStandardPaths::resourcesPath() + "lua/liluat/liluat.lua");
   if (!luaSLT2Script.exists()) {
     gValidLuaResources = false;
@@ -110,6 +108,14 @@ void WbTemplateEngine::initializeLua() {
 WbTemplateEngine::WbTemplateEngine(const QString &templateContent) : mTemplateContent(templateContent) {
 }
 
+void WbTemplateEngine::setOpeningToken(QString token) {
+  gOpeningToken = token;
+}
+
+void WbTemplateEngine::setClosingToken(QString token) {
+  gClosingToken = token;
+}
+
 const QString &WbTemplateEngine::openingToken() {
   return gOpeningToken;
 }
@@ -129,6 +135,9 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
       firstLuaCall = false;
     }
 
+    gOpeningToken = "%{";
+    gClosingToken = "}%";
+
     result = generateLua(tags, logHeaderName);
   } else {
     static bool firstJavaScriptCall = true;
@@ -138,6 +147,9 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
       firstJavaScriptCall = true;
     }
 
+    gOpeningToken = "%<";
+    gClosingToken = ">%";
+
     result = generateJavascript(tags, logHeaderName);
   }
 
@@ -145,8 +157,6 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 }
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
-  // printf("JS: tokens are %s %s\n", gOpeningToken.toUtf8().constData(), gClosingToken.toUtf8().constData());
-
   mResult.clear();
   mError = "";
 
@@ -283,7 +293,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
   mResult.clear();
 
-  // printf("LUA: tokens are %s %s\n", gOpeningToken.toUtf8().constData(), gClosingToken.toUtf8().constData());
   if (!gValidLuaResources) {
     mError = tr("Installation error: Lua resources are not found");
     return false;

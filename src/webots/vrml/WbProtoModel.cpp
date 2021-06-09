@@ -141,6 +141,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
     QTextStream in(&file);
     bool insideTemplateStatement = false;
+    const QString &open = WbProtoTemplateEngine::openingToken();
+    const QString &close = WbProtoTemplateEngine::closingToken();
+
     while (!in.atEnd()) {
       QString line = in.readLine();
 
@@ -154,11 +157,12 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       QString lineWithoutComments;
       bool insideDoubleQuotes = false;
       QChar pc;
+
       for (int i = 0; i < line.size(); ++i) {
         const QChar c = line[i];
-        if (c == '{' && pc == '%')
+        if (c == open[0] && pc == open[1])
           insideTemplateStatement = true;
-        else if (c == '%' && pc == '}')
+        else if (c == close[0] && pc == close[1])
           insideTemplateStatement = false;
         else if (c == '"' && pc != '\\')
           insideDoubleQuotes = !insideDoubleQuotes;

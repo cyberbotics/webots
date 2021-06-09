@@ -98,7 +98,7 @@ void WbTokenizer::displayHeaderHelp(QString fileName, QString headerTag) {
     false, WbLog::PARSING);
 }
 
-bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString headerTag) {
+bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString headerTag, bool isProto) {
   // reset version
   const WbVersion &webotsVersion = WbApplicationInfo::version();
   mFileVersion = webotsVersion;
@@ -115,6 +115,24 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
       mLine--;        // one extra line was read
       mInfo.chop(1);  // remove last '\n'
       break;
+    }
+  }
+
+  // this step can be removed when Lua support is dropped, but is necessary for two different tokens to cohexist
+  if (isProto) {
+    bool isLua = true;
+    QStringList splittedInfo = mInfo.split('\n');
+    for (int i = 0; i < splittedInfo.size(); ++i) {
+      if (splittedInfo[i].toLower().startsWith("template language") && splittedInfo[i].toLower().contains("javascript"))
+        isLua = false;
+    }
+
+    if (isLua) {
+      WbProtoTemplateEngine::setOpeningToken(QString("%{"));
+      WbProtoTemplateEngine::setClosingToken(QString("}%"));
+    } else {
+      WbProtoTemplateEngine::setOpeningToken(QString("%<"));
+      WbProtoTemplateEngine::setClosingToken(QString(">%"));
     }
   }
 
@@ -191,7 +209,7 @@ bool WbTokenizer::checkFileHeader() {
     case MODEL:
       return readFileInfo(false, false, "VRML");
     case PROTO:
-      return readFileInfo(false, true, "VRML_SIM");
+      return readFileInfo(false, true, "VRML_SIM", true);
     default:
       return true;
   }
@@ -270,6 +288,7 @@ QString WbTokenizer::readWord() {
 
   const QString &open = WbProtoTemplateEngine::openingToken();
   const QString &close = WbProtoTemplateEngine::closingToken();
+
   // tokenize template code but skip comments
   if (mChar == open[0]) {
     int nOpen = open.size();

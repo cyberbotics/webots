@@ -29,6 +29,9 @@ public:
   static const QString &openingToken();
   static const QString &closingToken();
 
+  static void setOpeningToken(QString token);
+  static void setClosingToken(QString token);
+
   explicit WbTemplateEngine(const QString &templateContent);
   virtual ~WbTemplateEngine() {}
 

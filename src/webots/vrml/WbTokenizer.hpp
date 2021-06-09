@@ -140,7 +140,7 @@ private:
   QString readWord();
   void skipWhiteSpace();
   bool checkFileHeader();
-  bool readFileInfo(bool headerRequired, bool displayWarning, QString headerTag);
+  bool readFileInfo(bool headerRequired, bool displayWarning, QString headerTag, bool isProto = false);
   static void displayHeaderHelp(QString fileName, QString headerTag);
   void markTokenStart();
   static FileType fileTypeFromFileName(const QString &fileName);
