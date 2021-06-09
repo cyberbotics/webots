@@ -184,7 +184,7 @@ Here is a very nice project allowing you to program robots in Webots using Googl
 
 I would like to congratulate `@Soft_illusion` team for their achievement in the Google Season of Docs project. The successful project is described on the official Google page: [https://developers.google.com/season-of-docs/docs/participants](https://developers.google.com/season-of-docs/docs/participants) (search for Webots). A nice report is available here: [https://drive.google.com/file/d/1OWk9Ctxk4baHeFzMGUR6VktcF-maFK9s/view](https://drive.google.com/file/d/1OWk9Ctxk4baHeFzMGUR6VktcF-maFK9s/view). Finally, the playlist is here: [https://www.youtube.com/playlist?list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V](https://www.youtube.com/playlist?list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V). We are planning to apply to Google Summer of Code and to a new Google Season of Docs, so stay tuned.
 
-##### aleena 01/01/2021 07:56:16
+##### Aleena 01/01/2021 07:56:16
 Happy New Year everyone 🎉 🥳
 
 ##### Soft\_illusion 01/01/2021 07:50:51
