@@ -708,5 +708,93 @@ If the same seed is used every time or if it is not specified (i.e using the def
 ### Example
 
 ```
-TODO
+#VRML_SIM R2021b utf8
+# tags: nonDeterministic
+# template language: javascript
+
+PROTO DominoSpawner [
+  # these are the PROTO fields and define the default values
+  field SFVec2f   startPoint          0 0
+  field SFVec2f   endPoint            1 1
+  field SFInt32   numberOfDominos     10
+  field SFFloat   randomColorSeed     -1
+  field SFVec3f   dominoShape         0.02 0.16 0.06
+  field MFColor   colorSet            [1 0 0, 0 1 0, 0 0 1]
+  field SFString  playerName          "stranger"
+]
+{
+  %<
+    // use additional modules for extra functionality
+    import * as wbgeometry from 'modules/webots/wbgeometry.js';
+    import * as wbrandom from 'modules/webots/wbrandom.js';
+    import * as wbvector2 from 'modules/webots/wbvector2.js';
+
+    // print a welcoming message to the Webots console
+    let name = fields.playerName.value;
+    console.log('Hello ' + name + '!' );
+
+    let seed = fields.randomColorSeed.value;
+    if (seed === -1)
+      // use a time-based seed for the random number generator. This makes the PROTO non-deterministic
+      wbrandom.seed(Date.now());
+    else
+      // use a specific seed everytime, this makes the PROTO deterministic (will be identical everytime)
+      wbrandom.seed(seed);
+
+    // ensure field values are acceptable, otherwise overwrite them
+    let numberOfDominos = fields.numberOfDominos.value; // '.value' is the value defined when calling this PROTO
+    if (numberOfDominos < 2)
+      numberOfDominos = fields.numberOfDominos.defaultValue; // '.defaultValue' is the value defined in the PROTO header
+
+    let shape = fields.dominoShape.value;
+    if (shape.x <= 0 || shape.y <= 0 || shape.z <= 0) {
+      shape = fields.dominoShape.defaultValue;
+      console.error('The sides of the domino must be strictly positive.');
+    }
+
+    // determine distance between dominos using utility functions from the wbvector2 module
+    const startPoint = fields.startPoint.value;
+    const endPoint = fields.endPoint.value;
+
+    const distanceStep = wbvector2.norm(wbvector2.minus(endPoint, startPoint)) / (numberOfDominos - 1);
+
+    // determine the orientation of the row of dominos
+    const angle = wbvector2.angle(startPoint, endPoint);
+
+    // generate the properties of domino set
+    let dominoSet = [];
+
+    for (let i = 0; i < numberOfDominos; ++i) {
+      // determine the position of the domino
+      let coordinates = {x: startPoint.x + i * distanceStep * Math.cos(angle), y: 0, z: startPoint.y + i * distanceStep * Math.sin(angle)};
+
+      // select a random color from the colorSet
+      let colorSet = fields.colorSet.value;
+      let index = wbrandom.integer(0, colorSet.length - 1);
+      let color = colorSet[index];
+
+      dominoSet.push({coordinates: coordinates, color: color});
+    }
+  >%
+  Group {
+    children [
+      %< for (let i = 0; i < dominoSet.length; ++i) { >%
+        Transform {
+          translation %<= dominoSet[i].coordinates.x >% %<= dominoSet[i].coordinates.y >% %<= dominoSet[i].coordinates.z >%
+          rotation 0 1 0 %<= Math.PI - angle >%
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor %<= dominoSet[i].color.r >% %<= dominoSet[i].color.g >% %<= dominoSet[i].color.b >%
+              }
+              geometry Box {
+                size %<= shape.x >% %<= shape.y >% %<= shape.z >%
+              }
+            }
+          ]
+        }
+    %< } >%
+    ]
+  }
+}
 ```

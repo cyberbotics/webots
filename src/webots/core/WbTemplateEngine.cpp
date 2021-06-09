@@ -204,7 +204,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
     // anything inbetween the tokens is either an expression or plain JavaScript
     QString statement = mTemplateContent.mid(indexOpeningToken, indexClosingToken - indexOpeningToken);
-    // if it starts with '%{=' it's an expression
+    // if it starts with '%<=' it's an expression
     if (statement.startsWith(gOpeningToken + "=")) {
       statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
       // note: ___tmp is a local variable to the generateVrml javascript function
