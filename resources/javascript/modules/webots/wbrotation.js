@@ -41,16 +41,16 @@ export function fromQuaternion(q) {
 export function fromMatrix3(m) {
   wbutility.assert(wbutility.isMatrix3(m), 'Expected an object with keys (0, 1, ..., 8) as parameter in wbrotation.fromMatrix3.');
   let r = {};
-  const cosAngle = 0.5 * (m[1] + m[5] + m[9] - 1);
+  const cosAngle = 0.5 * (m[0] + m[4] + m[8] - 1);
   if (Math.abs(cosAngle) > 1) {
     r['x'] = 1;
     r['y'] = 0;
     r['z'] = 0;
     r['a'] = 0;
   } else {
-    r['x'] = m[8] - m[6];
-    r['y'] = m[3] - m[7];
-    r['z'] = m[4] - m[2];
+    r['x'] = m[7] - m[5];
+    r['y'] = m[2] - m[6];
+    r['z'] = m[3] - m[1];
     r['a'] = Math.acos(cosAngle);
   }
 

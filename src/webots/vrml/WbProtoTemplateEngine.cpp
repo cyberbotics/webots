@@ -108,8 +108,7 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->value());
     assert(multipleValue);
     // multiple values into a JavaScript array
-    QString result = "";
-    result += "[";
+    QString result = "[";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
         result += ", ";
@@ -117,7 +116,6 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
       result += convertVariantToJavaScriptStatement(variant);
     }
     result += "]";
-
     return result;
   }
 
@@ -137,8 +135,7 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(con
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->defaultValue());
     assert(multipleValue);
     // multiple values into a JavaScript array
-    QString result = "";
-    result += "[";
+    QString result = "[";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
         result += ", ";
@@ -146,7 +143,6 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(con
       result += convertVariantToJavaScriptStatement(variant);
     }
     result += "]";
-
     return result;
   }
 

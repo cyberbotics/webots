@@ -6,7 +6,7 @@ import * as wbvector2 from 'wbvector2.js';
 import * as wbvector3 from 'wbvector3.js';
 import * as wbutility from 'wbutility.js';
 
-// create an array of 'div' circle coordinates according to a circle centered at {'cx', 'cy'} and rotated by 'shift' radians
+// create an array of 'div' circle coordinates according to a circle centered at 'center' and rotated by 'shift' radians
 export function circle(radius, div, center, shift) {
   wbutility.assert(wbutility.isScalar(radius) && radius > 0, 'Expected radius to be a positive number in wbgeometry.circle.');
   wbutility.assert(wbutility.isScalar(div) && div > 0, 'Expected div to be a positive number in wbgeometry.circle.');
@@ -86,7 +86,7 @@ export function isPoint2ArrayClockwise(points) {
   const n = points.length;
   let total = 0;
 
-  for (let i = 1; i < n - 1; ++i)
+  for (let i = 0; i < n - 1; ++i)
     total = total + (points[i + 1].x - points[i].x) * (points[i + 1].y + points[i].y);
   total = total + (points[0].x - points[n - 1].x) * (points[0].y + points[n - 1].y);
 

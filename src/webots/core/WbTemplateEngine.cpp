@@ -108,11 +108,11 @@ void WbTemplateEngine::initializeLua() {
 WbTemplateEngine::WbTemplateEngine(const QString &templateContent) : mTemplateContent(templateContent) {
 }
 
-void WbTemplateEngine::setOpeningToken(QString token) {
+void WbTemplateEngine::setOpeningToken(const QString &token) {
   gOpeningToken = token;
 }
 
-void WbTemplateEngine::setClosingToken(QString token) {
+void WbTemplateEngine::setClosingToken(const QString &token) {
   gClosingToken = token;
 }
 
@@ -172,7 +172,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   int indexClosingToken = 0;
   int lastIndexClosingToken = -1;
   mTemplateContent = mTemplateContent.toUtf8();
-
+  const QString expressionToken = gOpeningToken + "=";
   while (1) {
     int indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
     if (indexOpeningToken == -1) {  // no more matches
@@ -205,12 +205,12 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     // anything inbetween the tokens is either an expression or plain JavaScript
     QString statement = mTemplateContent.mid(indexOpeningToken, indexClosingToken - indexOpeningToken);
     // if it starts with '%<=' it's an expression
-    if (statement.startsWith(gOpeningToken + "=")) {
-      statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
+    if (statement.startsWith(expressionToken)) {
+      statement = statement.replace(expressionToken, "").replace(gClosingToken, "");
       // note: ___tmp is a local variable to the generateVrml javascript function
       javaScriptBody += "___tmp = " + statement + "; ___vrml += eval(\"___tmp\");";
     } else {
-      // raw javascript snippet
+      // raw javascript snippet, remove the tokens
       javaScriptBody += statement.replace(gOpeningToken, "").replace(gClosingToken, "");
     }
 
@@ -218,7 +218,9 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   // extract imports from javaScriptBody, if any
-  QRegularExpression reImport("import(.*?)[;\n]");
+  // QRegExp explanation: any statement of the form "import ... from '...' "
+  // that ends with a new line or semi-colon
+  QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
   QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();

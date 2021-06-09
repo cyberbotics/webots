@@ -7,7 +7,7 @@ Introducing and learning JavaScript is outside the scope of this document.
 ### Template Engine
 
 What determines if a PROTO file is procedural or not, is whether template statements exist in its body, in other words if JavaScript expressions encapsulated either between the tokens `%<` and `>%` or `%<=` and `>%`.
-Webots cannot load procedural PROTO nodes directly, therefore the procedural PROTO is first translated to pure JavaScript and the resulting script is evaluated by the Template Engine, in Webot's case using QJSEngine, and the result of this process yields a VRML97 compatible PROTO file which is then loaded by Webots as any other non-procedural would.
+Webots cannot load procedural PROTO nodes directly, therefore the procedural PROTO is first translated to pure JavaScript and the resulting script is evaluated by a JavaScript Engine, in Webot's case using QJSEngine, and the result of this process yields a VRML97 compatible PROTO file which is then loaded by Webots as any other non-procedural would.
 
 ### Programming Facts
 
@@ -33,6 +33,29 @@ Table [this table](#content-of-the-context-object) shows the available informati
 - The VRML97 comment ("#") prevails over the JavaScript statements.
 - JavaScript standard output and error streams are redirected on the Webots console (written respectively in regular and in red colors).
 Developers can use `console.log`, `console.warn`, `console.debug` and `console.error` to write on these streams.
+- The resulting JavaScript script is evaluated in "strict mode", so particular care must be taken to respect it.
+
+#### Good Practices And Common Pitfalls
+
+- When using template statements (i.e `%<` and `>%`) with constructs such as `for` loops and `if` conditionals particular care must be taken with regards to the brackets.
+It is technically legitimate to forego the brackets for one-line statements, however when these are embedded in the body of a PROTO, there is no guarantee that in the evaluation process only one statement effectively exists between them.
+Consider the example below, the option on the left would technically work however if the radius is later changed to something like `radius %<= fields.radius.value >%` it no longer would because the parsing of this expression involves several steps.
+It is therefore encouraged to be verbose and provide the brackets.
+
+```
+Technically correct, but risky              Safer alternative
+
+Sphere {                                    Sphere {
+  %< if (fields.condition.value) >%           %< if (fields.condition.value) { >%
+       radius 1                                    radius 1
+  %< else >%                                  %< } else { >%
+       radius 2                                    radius 2
+                                              %< } >%
+}                                           }
+```
+- Although not mandatory, the usage of semi-colons for JavaScript statements is highly encouraged.
+- Lua and JavaScript Procedural PROTO nodes use two distinct tokens (`%{` and `}%` for Lua and `%<` and `>%` for JavaScript) and cannot be interchanged.
+Which tokens will be considered depends on whether the comment line `# template language: javascript` is present.
 
 
 #### VRML97 Type Conversion
@@ -698,26 +721,6 @@ Returns true if the provided argument is an array of `dim`-dimensional points.
 
 %end
 
-### Good Practices
-
-- When using template statements (i.e `%<` and `>%`) with constructs such as `for` loops and `if` conditionals particular care must be taken with regards to the brackets.
-It is technically legitimate to forego the brackets for one-line statements, however when these are embedded in the body of a PROTO, there is no guarantee that in the evaluation process only one statement effectively exists between them.
-Consider the example below, the option on the left would technically work however if the radius is later changed to something like `radius %<= fields.radius.value >%` it no longer would because the parsing of this expression involves several steps.
-It is therefore encouraged to be verbose and provide the brackets.
-
-```
-Technically correct, but risky              Safer alternative
-
-Sphere {                                    Sphere {
-  %< if (fields.condition.value) >%           %< if (fields.condition.value) { >%
-       radius 1                                    radius 1
-  %< else >%                                  %< } else { >%
-       radius 2                                    radius 2
-                                              %< } >%
-}                                           }
-```
-- Although not mandatory, the usage of semi-colons for JavaScript statements is highly encouraged.
-
 ### Optimization
 
 By default, PROTO files are considered to be deterministic.
@@ -740,7 +743,7 @@ If the same seed is used every time or if it is not specified (i.e using the def
 # template language: javascript
 
 PROTO DominoSpawner [
-  # these are the PROTO fields and define the default values
+  # these are the PROTO fields and define the default values. Here template statements are not allowed
   field SFVec2f   startPoint          0 0
   field SFVec2f   endPoint            1 1
   field SFInt32   numberOfDominos     10
@@ -750,6 +753,7 @@ PROTO DominoSpawner [
   field SFString  playerName          "stranger"
 ]
 {
+  # template statements can be used from here
   %<
     // use additional modules for extra functionality
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
@@ -823,5 +827,7 @@ PROTO DominoSpawner [
     %< } >%
     ]
   }
+
+  # template statements can be used up to there
 }
 ```

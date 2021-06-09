@@ -144,7 +144,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
     QTextStream in(&file);
     bool insideTemplateStatement = false;
-
     while (!in.atEnd()) {
       QString line = in.readLine();
 
@@ -158,7 +157,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       QString lineWithoutComments;
       bool insideDoubleQuotes = false;
       QChar pc;
-
       for (int i = 0; i < line.size(); ++i) {
         const QChar c = line[i];
         if (c == open[1] && pc == open[0])
