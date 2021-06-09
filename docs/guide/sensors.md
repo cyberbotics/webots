@@ -26,7 +26,7 @@ These sensors are listed by category [in the section below](#commercially-availa
 
 ### Commercially Available Sensors
 
-Please [contact us](https://www.cyberbotics.com/contact) if you would like to see your favorite sensor here.
+Please [contact us](https://cyberbotics.com/#contact) if you would like to see your favorite sensor here.
 
 #### Camera Sensors
 
