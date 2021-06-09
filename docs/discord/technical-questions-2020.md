@@ -3332,13 +3332,13 @@ I cant find it
 ##### David Mansolino [Cyberbotics] 02/11/2020 16:20:33
 You're welcome
 
-##### Hakkinein 02/11/2020 18:18:56
+##### threeal 02/11/2020 18:18:56
 hi there, in webots documentation, it said that webots use pid controller to control the motor position ([https://cyberbotics.com/doc/reference/motor#field-summary](https://cyberbotics.com/doc/reference/motor#field-summary).)
 
 but how is the exact pid system in that motor controller? like in the robotis's motor it said this specification fo the controller system ([http://emanual.robotis.com/docs/en/dxl/mx/mx-64/#p-gain](http://emanual.robotis.com/docs/en/dxl/mx/mx-64/#p-gain)), but when i see the default pid controller in robotis darwin op demo it use (8 0 0), is it the right value in webots?
 
 ##### David Mansolino [Cyberbotics] 02/12/2020 06:23:10
-HI `@Hakkinein`, by default Webots uses (10, 0, 0). Note also that there is a difference between Webots and the robotis motors, Webots does a control in speed regulation whereas robotis motors do a control on torque regulation.
+HI `@threeal`, by default Webots uses (10, 0, 0). Note also that there is a difference between Webots and the robotis motors, Webots does a control in speed regulation whereas robotis motors do a control on torque regulation.
 
 ##### elkelkmuh 02/12/2020 06:28:32
 Hi `@David Mansolino`  , I tried the framework at this address (  [https://sourceforge.net/p/darwinop/code/HEAD/tree/trunk/darwin/](https://sourceforge.net/p/darwinop/code/HEAD/tree/trunk/darwin/) )
@@ -3349,14 +3349,14 @@ Hi `@David Mansolino`  , I tried the framework at this address (  [https://sourc
 Errors
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/677038707663962112/message.txt)
 
-##### Hakkinein 02/12/2020 07:12:01
+##### threeal 02/12/2020 07:12:01
 I see, but how pid gain in webots affects  the calculation of the target motor position?  `@David Mansolino`
 
 ##### Nocturnal Warfare 02/12/2020 07:47:25
 So I am making a robot and have been doing simulation in Webots using python, but I wanted to implement it using a Pixhawk 4 mini through Dronekit. I was wondering if anyone has any experience porting over the Webots simulation to the Pixhawk running ArduPilot over Dronekit and if they had any advice on the matter.
 
 ##### David Mansolino [Cyberbotics] 02/12/2020 07:52:42
-`@Hakkinein`, here is the exact worflow to update the motor position: 
+`@threeal`, here is the exact worflow to update the motor position: 
 
 [https://cyberbotics.com/doc/reference/motor#position-control](https://cyberbotics.com/doc/reference/motor#position-control)
 

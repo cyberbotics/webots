@@ -2190,3 +2190,12 @@ Hello, thanks for the response, but how i can get the position with de WebotsDif
 ##### Darko Lukić [Cyberbotics] 06/02/2021 07:10:45
 It will create an `odom` topic in which it publishes odometry data generated from wheels
 
+##### mmoralesp 06/02/2021 17:07:42
+Thanks it works for me
+
+
+Does anybody know how to get a robot/node name using a topic?
+
+##### Darko Lukić [Cyberbotics] 06/03/2021 06:42:53
+You have to create the topic. Once you have extended the `WebotsDifferentialDriveNode` you have the `self.robot` object available which you can use with standard Webots API.
+

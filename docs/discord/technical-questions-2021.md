@@ -15327,7 +15327,7 @@ You can always use the generic Lidar node:
 
 and parameterize it so it has the same characteristics as your Lidar.
 
-##### Hamed 04/27/2021 13:27:22
+##### HamedMahmudi [MRL-HSL] 04/27/2021 13:27:22
 Hello, I want to make a matlab controller, but it doesn't work and it could not start matlab.
 
 Matlab is run correctly with the command window
@@ -17874,7 +17874,7 @@ wb_robot_step(duration_action_B)
 ##### DDaniel [Cyberbotics] 05/24/2021 15:35:02
 Why did you keep the infinite while loop? Doesn't make much sense to mix the two.
 
-##### Ilya Ryakin 05/24/2021 15:35:17
+##### Ilya Ryakin [Starkit] 05/24/2021 15:35:17
 Hello!
 
 ##### harrymcc 05/24/2021 15:37:07
@@ -18662,4 +18662,476 @@ No, only the Lidar publishes `sensor_msgs/msg/PointCloud2`. Can you contribute `
 
 ##### AloneLeader 06/02/2021 14:18:47
 Hey, i just was looking for a tutorial and end up with this channel. I need to create a robotic simulation for my term project. Is there anyone who like to help a newbie?
+
+##### mclzc 06/02/2021 15:52:46
+Alright, done `@Darko Lukić` [https://github.com/cyberbotics/webots\_ros2/issues/227](https://github.com/cyberbotics/webots_ros2/issues/227)
+
+##### Darko Lukić [Cyberbotics] 06/02/2021 16:16:59
+Thank you!
+
+##### viorel\_gheorghe 06/02/2021 22:31:27
+Start with these 🙂 [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials) as a beginner to beginner
+
+##### sk 06/02/2021 23:48:41
+hi guys
+
+
+
+so for my university's robotics team, we want to train our neural network to detect a ball and a robot. we have a webots simulation of our robot working and we would like some way to automate the process of getting images from the simulation. manual taking screenshots would be incredibly tedious so we want some way to automate getting pictures of the robot and the ball and goalpost at different angles and distances. is there any way to do this?
+
+##### Olivier Michel [Cyberbotics] 06/03/2021 06:10:53
+Sure, you can use `wb_camera_save_image` API function: [https://cyberbotics.com/doc/reference/camera#wb\_camera\_save\_image](https://cyberbotics.com/doc/reference/camera#wb_camera_save_image) combined with moving the robot to different locations/orientations using a supervisor process.
+
+##### sk 06/03/2021 06:12:20
+is there a way to automate moving the robot?
+
+##### Olivier Michel [Cyberbotics] 06/03/2021 06:12:56
+The easiest is probably to use a supervisor process that will change the translation/rotation fields of the robot.
+
+##### Rody El Hamod 06/03/2021 08:47:38
+hello
+
+what is the maximum velocity of a rotational motor?
+
+Thank you in advance
+
+##### DDaniel [Cyberbotics] 06/03/2021 10:16:13
+`@Rody El Hamod` Hi, whatever you set in the `maxVelocity` field of the motor
+
+##### Dee 06/03/2021 13:01:04
+Hi all, I'm trying to make the epuck move a certain distance, ive made the code however when i run it webots sort of does nothing for a while then the robot moves and then it just keeps going forever? i'm using time.h to make it move as i assume if i have distance and the speed of the bot and i can tell it do go for say 8 seconds to move a metre
+
+
+im using c programming
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/849996355182526484/unknown.png)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 06/03/2021 13:05:22
+It is not necessary to set the velocity at each simulation step. Once set it is applied automatically to the robot at each step. To stop the robot you have to reset the motor velocity to 0.
+
+##### Rody El Hamod 06/03/2021 13:06:00
+but it seems strange to me that there's no limitation. at the end of the day it's a physics simulator..
+
+##### Dee 06/03/2021 13:09:37
+so i should do wb\_motor\_set\_velocity(left\_motor, 0 * MAX\_SPEED); wb\_motor\_set\_velocity(right\_motor, 0 * MAX\_SPEED); after the while loop i assume?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/03/2021 13:09:54
+Yes
+
+##### Dee 06/03/2021 13:10:19
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/849998436765270056/unknown.png)
+%end
+
+
+ive added it and recompiled it, the e puck doesnt move now
+
+##### Stefania Pedrazzi [Cyberbotics] 06/03/2021 13:11:49
+Instead of sleep you should call `wb_robot_step(TIME_STEP)` and the loop condition should be based on the simulation time and not the system time
+
+##### Dee 06/03/2021 13:12:12
+how would i make it based off the simulation time?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/03/2021 13:12:52
+A simple way would be to simply count the number of times the loop body is executed (and multiply it by `TIME_STEP`).
+
+##### harrymcc 06/03/2021 13:15:28
+```int main(int argc, char **argv) {
+
+  wb_robot_init();
+ 
+  WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
+  WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
+  wb_motor_set_position(left_motor, INFINITY);
+  wb_motor_set_position(right_motor, INFINITY);
+  wb_motor_set_velocity(left_motor, 0);
+  wb_motor_set_velocity(right_motor, 0);
+
+
+  
+
+
+left_speed = MAX_SPEED;
+ right_speed = MAX_SPEED;
+
+wb_robot_step(500);
+
+ right_speed = MAX_SPEED;
+left_speed = 0;
+wb_robot_step(1000);
+                              
+
+ wb_motor_set_velocity(left_motor, left_speed);
+ wb_motor_set_velocity(right_motor, right_speed);
+
+
+
+    wb_robot_cleanup();
+
+ return 0;
+}
+``` hi, can anyone explain why these timesteps add together and instead of going in order and do  left_speed = MAX_SPEED;
+
+ right\_speed = MAX\_SPEED; and then  right\_speed = MAX\_SPEED;
+
+left\_speed = 0; just does  right\_speed = MAX\_SPEED;
+
+left\_speed = 0;
+
+##### Dee 06/03/2021 13:16:04
+ah okay i understand, Thank you very much for your help 🙂
+
+##### DDaniel [Cyberbotics] 06/03/2021 13:19:09
+`@harrymcc` Hi, because you define the variables `left_speed` and `right_speed` but don't actually set the motor speed to those values. Before each of those `wb_robot_step`  calls you should call `wb_motor_set_velocity`
+
+##### harrymcc 06/03/2021 13:22:02
+oh right thank you thats fixed
+
+##### James Le Poidevin 06/03/2021 13:29:26
+Hello, I developed a stereo camera proto (like the base node camera) with changable distance and respecting the the robotic conventions. Is there any use doing a pull request for just one file ?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/03/2021 13:39:11
+If the PROTO is not trivial and can simplify the work of users that need stereo cameras,  we will be happy to review your PR adding it. Note that simple PR are very welcome even if they contain just one file.
+
+##### James Le Poidevin 06/03/2021 13:40:12
+Ok thank you I'll try and do a PR soon
+
+##### FlamingToaster 06/03/2021 14:24:37
+Hello! I'm doing a remote controlled delivery drone and I wanted to control it through external client application. I'm trying to create a scenario where I connect to it, connection is lost, simulation goes on for a while, and after some time connection is re-established.
+
+I've seen the khepera\_tcpip example, but my problem is that whenever the socket is listening for connections, it completely stops whole simulation. Is there any way to listen for connection while the simulation is running?
+
+##### Olivier Michel [Cyberbotics] 06/03/2021 15:45:49
+You should use either non-blocking sockets or multi-threading.
+
+##### FlamingToaster 06/03/2021 15:51:19
+Thanks for answer! Also this is what I was afraid of, since I've never done either. Anyway, which approach would you suggest? From what I've gathered it's not advised to go on the multi-threading route when using webots
+
+##### Olivier Michel [Cyberbotics] 06/03/2021 15:59:07
+Yes, the non-blocking route seems simpler indeed. Are you on Linux, Windows or macOS?
+
+##### FlamingToaster 06/03/2021 15:59:31
+Windows
+
+##### Olivier Michel [Cyberbotics] 06/03/2021 16:02:13
+You may take inspiration from this one: [https://github.com/RoboCup-Humanoid-TC/webots/blob/release/projects/samples/contests/robocup/controllers/player/player.cpp](https://github.com/RoboCup-Humanoid-TC/webots/blob/release/projects/samples/contests/robocup/controllers/player/player.cpp)
+
+##### FlamingToaster 06/03/2021 16:05:10
+Thank you! I'll look into it, examples are good way to learn 😄
+
+##### James Le Poidevin 06/04/2021 09:53:41
+Hello, I've just tried to pass to the new webots\_ros2 and webots version and when tring to lanch the webots\_ros2 exemples i keep getting the same error :
+
+```
+ImportError: /opt/ros/foxy/lib/python3.8/site-packages/webots_ros2_msgs/webots_ros2_msgs_s__rosidl_typesupport_c.cpython-38-x86_64-linux-gnu.so: undefined symbol: webots_ros2_msgs__msg__wb_camera_recognition_object__convert_to_py
+```
+
+Do you know why ? (tested with mavic and abb)
+
+##### Darko Lukić [Cyberbotics] 06/04/2021 10:58:32
+You are compiling from source?
+
+##### James Le Poidevin 06/04/2021 11:02:41
+webots no, but i run colcon build for webots\_ros2
+
+
+webots works fine by itself
+
+##### Darko Lukić [Cyberbotics] 06/04/2021 11:04:07
+`webots_ros2_msgs` is coming from `/opt` which means that the compiled `webots_ros2` package and the one installed through apt are clashing. Delete the `webots_ros2` using apt.
+
+##### James Le Poidevin 06/04/2021 11:06:42
+i didn't use apt to install webots\_ros2. To install webots\_ros2 i cloned the github repo and changed branch to develop
+
+
+by using locate I can see that webots\_ros2 is present in only 2 places: where I installed it(using git clone) and in the /opt/ros/foxy/...
+
+##### Darko Lukić [Cyberbotics] 06/04/2021 12:10:34
+Run:
+
+```bash
+apt list --installed | grep webots-ros2
+```
+
+to identify whether you have `webots_ros2` installed.
+
+
+
+And this should delete everything related to `webots_ros2`:
+
+```bash
+sudo apt remove --purge ros-foxy-webots*
+```
+
+##### Rody El Hamod 06/04/2021 12:28:43
+hello i have a question about setPosition for a rotational motor.
+
+does webots choose the shortest path between 2 angles? if the start angle is pi and the target angle is -3.13 will the rotational motor do almost a full rotation or it will move just a bit as it should?
+
+##### James Le Poidevin 06/04/2021 13:44:18
+I tried it but still the same error, I've also just seen that I have this at the beginning for the launch `[mavic_driver-3] Cannot open file: /tmp/webots-154849-kTJ9Hr/WEBOTS_SERVER (retry count 8)` I don't know if there's a max number of retries
+
+##### Darko Lukić [Cyberbotics] 06/04/2021 15:45:50
+I am not sure whether it is safe to delete the folder:
+
+```
+rm -rf /opt/ros/foxy/lib/python3.8/site-packages/webots_ros2*
+```
+
+There is limit of around 60s (10 retries) if you are using Webots R2021a, or no limit if you are using Webots R2021b.
+
+##### harrymcc 06/04/2021 16:09:47
+I have a task of measuring 50cm 25cm 7cm away from an object with the e-puck however the prox sensors dont seem to have the range to measure out 50cm and 25cm is there anyway to increase the range
+
+##### DDaniel [Cyberbotics] 06/04/2021 16:20:45
+`@harrymcc` hi, the range and response of the distance sensor can be modified by changing the look-up table of the device. Here's the details: [https://cyberbotics.com/doc/reference/distancesensor#lookup-table](https://cyberbotics.com/doc/reference/distancesensor#lookup-table)
+
+##### harrymcc 06/04/2021 16:36:18
+yeah thats what I was thinking but does 0.5 seem unrealistic for a distance sensor especially when the biggest number on the lookup table seems to 0.07m
+
+##### viorel\_gheorghe 06/04/2021 16:42:37
+is not quite a technical questions, but I have to do a intro for my students regarding webots. 🙂 In this tutorial [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot) a high level representation of the robot is made
+
+
+in what software it is done, in webots the hierarchy chart? Can be do automatically or it's a manual endeavor?
+
+##### Dee 06/05/2021 12:56:09
+hi all im trying to make a function that will calculate the time needed for the motors to run to achieve a certain distance however when i added the function the controller keeps crashing as soon as i start the simulation
+
+
+(written in c)
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/850719673174458378/unknown.png)
+%end
+
+##### TerryWr1st 06/05/2021 13:01:07
+`@Dee` Put in some print statements, so you can see which line the controller is crashing at.
+
+##### Dee 06/05/2021 13:11:19
+i tried that but all i got out of the console was WARNING: my\_controller: The process crashed some time after starting successfully.
+
+WARNING: 'my\_controller' controller crashed.
+
+##### TerryWr1st 06/05/2021 13:14:57
+Does it run if you replace line 17 with int miliseconds = 1;
+
+
+
+?
+
+##### Dee 06/05/2021 13:22:30
+yeah
+
+##### TerryWr1st 06/05/2021 13:27:57
+Velocity should be a double, not an int, try that
+
+
+And rotational speed/time
+
+
+All doubles
+
+
+Any variable that will be initialised or could return as an decimal number will need to be a float or a double.
+
+##### Dee 06/05/2021 13:34:52
+alright it sorta works now its not crashing, thanks so much for your help
+
+##### TerryWr1st 06/05/2021 13:47:38
+All good. But basically for your code, try to keep all your sensor updating/kinematic updates/decision making within the loop on line 38 if you can. The other loop doesnt seem necessary?
+
+
+
+For velocity control (you are using velocity control because the kinematics is controlled by setVelocity, not setPosition) you can just check the position at each timestep. Something like below pseudo code:
+
+
+
+Update kinematic model (the position, orientation etc)
+
+if position\_achieved, update velocity to stop, turn or whatever you want
+
+else, do nothing, wait for next timestep
+
+##### Dee 06/05/2021 13:50:03
+yeah i got confused by how that loop on line 38 worked
+
+
+i see what you mean tho thanks 🙂
+
+##### TerryWr1st 06/05/2021 13:51:27
+I'll see if I can find a slide on the kinematic model of the epuck, so you can see the equations
+
+##### Dee 06/05/2021 13:53:01
+that would be great thanks 🙂
+
+##### Mahima 06/07/2021 06:39:02
+Hii
+
+
+How to import CAD model in Webots?
+
+##### Darko Lukić [Cyberbotics] 06/07/2021 06:46:03
+You have to convert it to some other format and then use `Import 3D Model... `. Check the following link for the supported formats:
+
+[https://cyberbotics.com/doc/guide/the-user-interface#file-menu](https://cyberbotics.com/doc/guide/the-user-interface#file-menu)
+
+##### Mahima 06/07/2021 09:07:08
+Ok
+
+Thanks👍
+
+##### mihir 06/07/2021 11:07:26
+I want to have a supervisor to apply a algorithm on the camera data(in Matlab) on another robot, can anyone suggest a way to do so. Thank you in advance.
+
+
+Particularly I wanted to get the depth data of the kinect.
+
+##### Darko Lukić [Cyberbotics] 06/07/2021 11:46:24
+You cannot access devices from another robot. You have to create a custom mechanism to retrieve depth data from another robot, it can be based on Emitter/Receiver or something else.
+
+##### mihir 06/07/2021 11:47:52
+Okay will try using emitter/receiver.
+
+
+I am trying the emitter and receiver, but I am not sure how I can send the kinect data as the wb\_range\_finder\_get\_range\_image() returns a pointer. Could you suggest how I should proceed as I didn't find any documentation regarding sending depth data. Currently I am receiving a null vector. Any help is appreciated.
+
+##### nap 06/07/2021 18:39:23
+Hi, I've created a 'forklift' attachment to an epuck that uses a linear motor to move the forks up and down.  However, when I place a pallet over the forks and try to lift the pallet, the forks simply pass through the pallet.  What haven't I setup?
+
+
+A reference to an example would suffice.
+
+##### Stefania Pedrazzi [Cyberbotics] 06/07/2021 18:41:48
+Hi, you should first make sure that you correctly define the boundingObject of the fork and the pallet. Physics doesn't use the graphical appearance but just geometries defined in `Solid.boundingObject` field.
+
+##### nap 06/07/2021 18:42:22
+I have bounding boxes on the forks, but not the pallet.
+
+
+Actually, the boundingObject on the pallet is set to TRUE
+
+##### Stefania Pedrazzi [Cyberbotics] 06/07/2021 18:51:20
+Here is an example sending a simple double array:
+
+[https://github.com/cyberbotics/webots/blob/master/projects/samples/devices/controllers/gps\_supervisor/gps\_supervisor.c#L44](https://github.com/cyberbotics/webots/blob/master/projects/samples/devices/controllers/gps_supervisor/gps_supervisor.c#L44)
+
+Sending the range image would be similar, but you would need to also send additional information like the image size. This is commonly called "serialization" and depending on the programming language you  use it may be available in standard libraries.
+
+
+If theboundingObject is correctly defined (you should see the outline when selecting the objects in the 3D scene), the second step is to check if both the fork and the pallet have are dynamic and thus if their `Physics` node is defined.
+
+##### nap 06/07/2021 18:53:47
+My slider joint endpoint is a solid that has three children (the backing plate (shape) and two forks (solids/shapes)).
+
+
+Ok, all the physics on the forklift are null.  The pallet has no real options for physics and dynamics, just boundingObject = TRUE.
+
+##### Stefania Pedrazzi [Cyberbotics] 06/07/2021 18:56:10
+For the pallet, if it is the default one, you can enable the physics by setting its mass.
+
+##### nap 06/07/2021 18:57:44
+Mass == 0 right now.  Is that enabled?  Or does it have to be >0?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/07/2021 18:58:10
+If mass is 0, then physics is disabled. You should set a positive mass.
+
+##### nap 06/07/2021 19:02:14
+lol.
+
+When I lift the forks, they go through the pallet.  But when I try to lower the forks back to the floor, the epuck is jacked up when the forks touch the top of the pallet.  I can't get the forks back under the pallet.
+
+
+The forks are passing through the empty gaps in the pallet, but maybe the bounding box of the pallet does not consider this?  If that's the case, then the forks are starting inside the pallet, which explains why they come out but can't go back through it.
+
+##### Stefania Pedrazzi [Cyberbotics] 06/07/2021 19:07:14
+> The forks are passing through the empty gaps in the pallet, but maybe the bounding box of the pallet does not consider this?
+
+The default PROTO models empty gaps only in one direction. But you can modify it and re-redefine the bounginObject if this doesn't fit your needs.
+
+##### nap 06/07/2021 19:09:55
+I'm going to put the pallet on top of something so it's not sitting directly on the floor.  However, I've just discovered that a box has a minimum size, that is too big for my needs.
+
+##### Stefania Pedrazzi [Cyberbotics] 06/07/2021 19:11:11
+Minimum size for boxes is anything greater than 0.
+
+##### nap 06/07/2021 19:13:39
+Not quite.  I can't make a WoodenBox that is 0.0006^3.  I tried with a SolidBox and it seems to be working.
+
+
+Is it normal to have an 'earthquake' near the start of a run?  A second or so into it but before anything dynamic has happened.
+
+I'm going to check the wbt file for big/small numbers.
+
+
+Ok, I've worked it out.  A combination of saving after running (thus having very large/small numbers) and the masses were too large for an epuck, so I needed to reduce them down to the order of 0.0007 kg.
+
+##### yash 06/08/2021 06:27:55
+Hello ! If I set the world coordinate system to “ENU”, then does the local reference frame of the robot,solids , rectangular arena set to “ENU”. ? Because if I set global frame to ENU , then the robot or rectangular arena frame doesn’t align with the global frame. So is it possible to make everything follow ENU.?
+
+##### Darko Lukić [Cyberbotics] 06/08/2021 08:12:10
+Coordinate system (e.g. ENU) and object orientation (e.g. FLU) are not related although there are often used in the same context. ENU stands for x-East, y-North, and z-Up, while FLU stands for x-Forward, y-Left, and z-Up.
+
+
+
+You have to convert objects individually to follow the FLU convention. We plan to convert all existing PROTOs to FLU after June.
+
+##### yash 06/08/2021 09:22:19
+oh okay, so should I the rotation field to convert to FLU ?
+
+##### Darko Lukić [Cyberbotics] 06/08/2021 09:33:23
+You have to open each PROTO and rotate all children inside
+
+##### yash 06/08/2021 10:07:22
+Oh okay, thanks !
+
+##### Даша 06/08/2021 11:38:06
+Hello! I have a controller for the Mavic 2 Pro robot with object recognition: camera.recognitionEnable(timestep). But the Camera does not recognize all objects, but only machines (Tesla, Lincoln), static objects. Why? You need to recognize ordinary robots, epuck, pioneer and others
+
+##### bingdong 06/08/2021 12:13:33
+Hi, can custom color values be set for for LED nodes from the controller?
+
+##### Darko Lukić [Cyberbotics] 06/08/2021 12:30:08
+Make sure that all objects have the recognition color parameter defined.
+
+
+
+> Only Solids whose `recognitionColors` field is not empty can be recognized by the camera.
+
+
+
+— [https://www.cyberbotics.com/doc/reference/recognition](https://www.cyberbotics.com/doc/reference/recognition)
+
+
+Yes, you can use change fields using the supervisor functions. Or you can change the LED type.
+
+##### Olivier Michel [Cyberbotics] 06/08/2021 12:33:05
+[https://cyberbotics.com/doc/reference/led#wb\_led\_set](https://cyberbotics.com/doc/reference/led#wb_led_set) allows you to set the RGB color of a LED if the gradual field is TRUE and the color list is empty.
+
+##### bingdong 06/08/2021 12:38:17
+Got it, thanks! `@Darko Lukić` `@Olivier Michel`
+
+##### pri-eus 06/08/2021 19:39:07
+What is the current outlook for MacOS support since Apple deprecated OpenGL?
+
+##### Lucas Waelti 06/09/2021 11:58:04
+Hi, is there a way to rotate the camera in the 3D window around its own position without clicking on the background? I have a world where there are tight spaces and no way of clicking on the background. Since the space is tight, in place rotations of the view point are required to not go through obstacles. 
+
+> **Camera rotation**: In the 3D window, click on an object with the left mouse button and drag the mouse to rotate the viewpoint around it. If you click on the background, the camera will rotate around its own position.
+
+##### Darko Lukić [Cyberbotics] 06/09/2021 12:00:10
+You can change the parameters in the `Viewpoint` node (in the scene tree). Also, since you are in the tight space you might benefit from a bigger field of view (`fieldOfView`)
+
+##### Lucas Waelti 06/09/2021 12:05:59
+Thanks for the hints, but I was thinking of a way of navigating with the mouse. For instance, `ctrl` + `left click` (or smth similar) could force a rotation in place instead of around the selected object... Editing the `Viewpoint` node directly for navigation (typically while developing a world) is not convenient.
+
+But yes, increasing the field of view already helps (although not totally sufficient), thanks 👍
+
+##### Darko Lukić [Cyberbotics] 06/09/2021 13:26:04
+You can use the Keyboard API ([https://cyberbotics.com/doc/reference/keyboard](https://cyberbotics.com/doc/reference/keyboard)) in conjunction with the Supervisor API ([https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)) to achieve the desired behavior. Once the key combination is detected you use the Supervisor to manipulate the fields inside the Viewpoint node.
+
+
+
+I am not sure whether it is a good idea to include something like that in the Webots core. You can open an issue to discuss
 
