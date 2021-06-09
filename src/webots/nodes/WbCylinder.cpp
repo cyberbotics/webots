@@ -534,7 +534,7 @@ bool WbCylinder::shallExport() const {
 ////////////////////////
 
 WbVector3 WbCylinder::computeFrictionDirection(const WbVector3 &normal) const {
-  WbVector3 localNormal = matrix().extracted3x3Matrix() * normal;
+  WbVector3 localNormal = normal * matrix().extracted3x3Matrix();
   // Find most probable face and return first friction direction
   if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))  // top or bottom face
     return WbVector3(1, 0, 0);
