@@ -5,7 +5,7 @@
 JetBot is an open-source robot based on NVIDIA Jetson Nano.
 The robot is an affordable two-wheeled robot distributed as a DIY kit.
 
-More information on the JetBot robot can be found on this [website](https://jetbot.org/v0.4.3/).
+More information on the JetBot robot can be found on this [website](https://jetbot.org).
 
 ### JetBot PROTO Nodes
 
