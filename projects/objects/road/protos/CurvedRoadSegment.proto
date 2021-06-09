@@ -45,7 +45,7 @@ PROTO CurvedRoadSegment [
   hiddenField  MFBool               dashedLine          TRUE                    # Deprecated in Webots R2018c.
 ]
 {
-  %{
+  %<
     let radius = fields.curvatureRadius.value;
     if (radius < 0) {
       radius = fields.curvatureRadius.defaultValue;
@@ -68,7 +68,7 @@ PROTO CurvedRoadSegment [
       console.error('\'subdivision\' must be greater or equal to 1. Value reset to ' + subdivision + '.');
     }
     const tilt = fields.tilt.value;
-  }%
+  >%
   Road {
     translation IS translation
     rotation IS rotation
@@ -87,16 +87,16 @@ PROTO CurvedRoadSegment [
     startLine IS startLine
     endLine IS endLine
     startingAngle 0
-    endingAngle %{= angle }%
+    endingAngle %<= angle >%
     wayPoints [
-      %{ for (let i = 0; i <= subdivision; ++i) { }%
-        %{= radius * Math.cos(i * angle / subdivision) }% 0 %{= radius * Math.sin(i * angle / subdivision) }%
-      %{ } }%
+      %< for (let i = 0; i <= subdivision; ++i) { >%
+        %<= radius * Math.cos(i * angle / subdivision) >% 0 %<= radius * Math.sin(i * angle / subdivision) >%
+      %< } >%
     ]
     roadTilt [
-      %{ for (let i = 0; i <= subdivision; ++i) { }%
-        %{= tilt * (0.5 - Math.abs((i - (subdivision * 0.5))/subdivision)) }%
-      %{ } }%
+      %< for (let i = 0; i <= subdivision; ++i) { >%
+        %<= tilt * (0.5 - Math.abs((i - (subdivision * 0.5))/subdivision)) >%
+      %< } >%
     ]
     splineSubdivision -1
     appearance IS appearance

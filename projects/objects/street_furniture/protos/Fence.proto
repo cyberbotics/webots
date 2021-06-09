@@ -29,7 +29,7 @@ PROTO Fence [
   hiddenField SFNode appearance              NULL                                                         # For backward compatibility warning.
 ]
 {
-  %{
+  %<
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
     import * as wbvector2 from 'modules/webots/wbvector2.js';
 
@@ -85,42 +85,42 @@ PROTO Fence [
       offset = distanceTotal - poleNb * poleGap;
     }
     let nbPoles = polePositions.length;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     recognitionColors [
-      %{ if (fields.horizontalBarAppearance.value !== undefined) { }%
-        %{ if (fields.horizontalBarAppearance.value.fields.baseColor !== undefined) { }%
-          %{ let color = fields.horizontalBarAppearance.value.fields.baseColor.value; }%
-          %{= color.r }% %{= color.g }% %{= color.b }%
-        %{ } else if (fields.horizontalBarAppearance.value.fields.material !== undefined && fields.horizontalBarAppearance.value.fields.material.value !== undefined) { }%
-          %{ let color = fields.horizontalBarAppearance.value.fields.material.value.fields.diffuseColor.value; }%
-          %{= color.r }% %{= color.g }% %{= color.b }%
-        %{ } }%
-      %{ } }%
-      %{ if (fields.poleAppearance.value !== undefined) { }%
-        %{ if (fields.poleAppearance.value.fields.baseColor !== undefined) { }%
-          %{ let color = fields.poleAppearance.value.fields.baseColor.value; }%
-          %{= color.r }% %{= color.g }% %{= color.b }%
-        %{ } else if (fields.poleAppearance.value.fields.material !== undefined && fields.poleAppearance.value.fields.material.value !== undefined) { }%
-          %{ let color = fields.poleAppearance.value.fields.material.value.fields.diffuseColor.value; }%
-          %{= color.r }% %{= color.g }% %{= color.b }%
-        %{ } }%
-      %{ } }%
+      %< if (fields.horizontalBarAppearance.value !== undefined) { >%
+        %< if (fields.horizontalBarAppearance.value.fields.baseColor !== undefined) { >%
+          %< let color = fields.horizontalBarAppearance.value.fields.baseColor.value; >%
+          %<= color.r >% %<= color.g >% %<= color.b >%
+        %< } else if (fields.horizontalBarAppearance.value.fields.material !== undefined && fields.horizontalBarAppearance.value.fields.material.value !== undefined) { >%
+          %< let color = fields.horizontalBarAppearance.value.fields.material.value.fields.diffuseColor.value; >%
+          %<= color.r >% %<= color.g >% %<= color.b >%
+        %< } >%
+      %< } >%
+      %< if (fields.poleAppearance.value !== undefined) { >%
+        %< if (fields.poleAppearance.value.fields.baseColor !== undefined) { >%
+          %< let color = fields.poleAppearance.value.fields.baseColor.value; >%
+          %<= color.r >% %<= color.g >% %<= color.b >%
+        %< } else if (fields.poleAppearance.value.fields.material !== undefined && fields.poleAppearance.value.fields.material.value !== undefined) { >%
+          %< let color = fields.poleAppearance.value.fields.material.value.fields.diffuseColor.value; >%
+          %<= color.r >% %<= color.g >% %<= color.b >%
+        %< } >%
+      %< } >%
     ]
     children [
       # horizontal bars
-      %{ for (let j = 0; j <= horizontalBarsNumber - 1; ++j) { }%
-        %{
+      %< for (let j = 0; j <= horizontalBarsNumber - 1; ++j) { >%
+        %<
           let horizontalBarsHeight = height * 0.5;
           if (horizontalBarsNumber > 1)
             horizontalBarsHeight = height * ((j / (horizontalBarsNumber - 1)) * 0.8 + 0.1);
-        }%
+        >%
         Transform {
-          translation 0 %{= horizontalBarsHeight }% 0
+          translation 0 %<= horizontalBarsHeight >% 0
           children [
-            %{ if (j === 0) { }%
+            %< if (j === 0) { >%
               DEF HORIZONTALE_BAR Shape {
                 appearance IS horizontalBarAppearance
                 geometry Extrusion {
@@ -130,19 +130,19 @@ PROTO Fence [
                   crossSection IS horizontalBarShape
                 }
               }
-            %{ } else { }%
+            %< } else { >%
               USE HORIZONTALE_BAR
-            %{ } }%
+            %< } >%
           ]
         }
-      %{ } }%
+      %< } >%
       # poles
       Shape {
         appearance IS poleAppearance
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %{
+              %<
                 let circleSubdivision = (poleShape === 'cylinder' || poleShape === 'H') ? 12 : 4;
                 let angleOffset = (poleShape === 'square') ? 0.7854 : 0;
                 let circle = wbgeometry.circle(poleRadius, circleSubdivision, {x: 0, y: 0}, angleOffset);
@@ -162,9 +162,9 @@ PROTO Fence [
                   circle.push({x: -poleRadius, y: 0.5 * poleRadius});
                   circle.push({x: -0.25 * poleRadius, y: 0.5 * poleRadius});
                 }
-              }%
-              %{ for (let i = 0; i < nbPoles; ++i) { }%
-                %{
+              >%
+              %< for (let i = 0; i < nbPoles; ++i) { >%
+                %<
                   let dx = 0;
                   let dy = 0;
                   if (i === 0) {
@@ -183,58 +183,58 @@ PROTO Fence [
                     dy = polePositions[i + 1].z - polePositions[i - 1].z;
                   }
                   let angle = Math.atan2(dy, dx);
-                }%
+                >%
                 # Top part
-                %{ for (let k = 0; k < circle.length; ++k) { }%
-                  %{= polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) }% %{= polePositions[i].y + 0.5 * height }% %{= polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) }%
-                %{ } }%
+                %< for (let k = 0; k < circle.length; ++k) { >%
+                  %<= polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) >% %<= polePositions[i].y + 0.5 * height >% %<= polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) >%
+                %< } >%
                 # Bottom part
-                %{ for (let k = 0; k < circle.length; ++k) { }%
-                  %{= polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) }% %{= polePositions[i].y - 0.5 * height }% %{= polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) }%
-                %{ } }%
-              %{ } }%
+                %< for (let k = 0; k < circle.length; ++k) { >%
+                  %<= polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) >% %<= polePositions[i].y - 0.5 * height >% %<= polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) >%
+                %< } >%
+              %< } >%
             ]
           }
           texCoord TextureCoordinate {
             point [
               # Top part of sides
-              %{ for (let j = 0; j < circle.length; ++j) { }%
-                %{= 2 * poleRadius * Math.PI * j / circleSubdivision }% %{= 0.5 * height }%
-              %{ } }%
+              %< for (let j = 0; j < circle.length; ++j) { >%
+                %<= 2 * poleRadius * Math.PI * j / circleSubdivision >% %<= 0.5 * height >%
+              %< } >%
               # Bottom part of sides
-              %{ for (let j = 0; j < circle.length; ++j) { }%
-                %{= 2 * poleRadius * Math.PI * j / circleSubdivision }% %{= - 0.5 * height }%
-              %{ } }%
+              %< for (let j = 0; j < circle.length; ++j) { >%
+                %<= 2 * poleRadius * Math.PI * j / circleSubdivision >% %<= - 0.5 * height >%
+              %< } >%
               # Top and bottom faces
-              %{ for (let i = 0; i <= circleSubdivision; ++i) { }%
-                %{= poleRadius * Math.cos(2 * Math.PI * i / circleSubdivision) }% %{= poleRadius * Math.sin(2 * Math.PI * i / circleSubdivision) }%
-              %{ } }%
+              %< for (let i = 0; i <= circleSubdivision; ++i) { >%
+                %<= poleRadius * Math.cos(2 * Math.PI * i / circleSubdivision) >% %<= poleRadius * Math.sin(2 * Math.PI * i / circleSubdivision) >%
+              %< } >%
             ]
           }
           coordIndex [
-            %{ let skip = 2 * (circleSubdivision + 1); }%
-            %{ for (let i = 0; i <= nbPoles - 1; ++i) { }%
+            %< let skip = 2 * (circleSubdivision + 1); >%
+            %< for (let i = 0; i <= nbPoles - 1; ++i) { >%
               # Top part
-              %{ for (let j = 0; j <= circleSubdivision; ++j) { }% %{= i * skip + circleSubdivision - j }% %{ } }% -1
+              %< for (let j = 0; j <= circleSubdivision; ++j) { >% %<= i * skip + circleSubdivision - j >% %< } >% -1
               # Bottom part
-              %{ for (let j = 0; j <= circleSubdivision; ++j) { }% %{= i * skip + j + circleSubdivision + 1 }% %{ } }% -1
+              %< for (let j = 0; j <= circleSubdivision; ++j) { >% %<= i * skip + j + circleSubdivision + 1 >% %< } >% -1
               # Sides
-              %{ for (let j = 0; j <= circleSubdivision - 1; ++j) { }%
-                %{= i * skip + j }% %{= i * skip + j + 1 }% %{= i * skip + j + circleSubdivision + 2 }% %{= i * skip + j + circleSubdivision + 1 }% -1
-              %{ } }%
-            %{ } }%
+              %< for (let j = 0; j <= circleSubdivision - 1; ++j) { >%
+                %<= i * skip + j >% %<= i * skip + j + 1 >% %<= i * skip + j + circleSubdivision + 2 >% %<= i * skip + j + circleSubdivision + 1 >% -1
+              %< } >%
+            %< } >%
           ]
           texCoordIndex [
-            %{ for (let i = 0; i <= nbPoles - 1; ++i) { }%
+            %< for (let i = 0; i <= nbPoles - 1; ++i) { >%
               # Top part
-              %{ for (let j = 0; j <= circleSubdivision; ++j) { }% %{= j + 2 * (circleSubdivision + 1) }% %{ } }% -1
+              %< for (let j = 0; j <= circleSubdivision; ++j) { >% %<= j + 2 * (circleSubdivision + 1) >% %< } >% -1
               # Bottom part
-              %{ for (let j = 0; j <= circleSubdivision; ++j) { }% %{= j + 2 * (circleSubdivision + 1) }% %{ } }% -1
+              %< for (let j = 0; j <= circleSubdivision; ++j) { >% %<= j + 2 * (circleSubdivision + 1) >% %< } >% -1
               # Sides
-              %{ for (let j = 0; j <= circleSubdivision - 1; ++j) { }%
-                %{= j }% %{= j + 1 }% %{= j + circleSubdivision + 2 }% %{= j + circleSubdivision + 1 }% -1
-              %{ } }%
-            %{ } }%
+              %< for (let j = 0; j <= circleSubdivision - 1; ++j) { >%
+                %<= j >% %<= j + 1 >% %<= j + circleSubdivision + 2 >% %<= j + circleSubdivision + 1 >% -1
+              %< } >%
+            %< } >%
           ]
           creaseAngle 0.6
         }

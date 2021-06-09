@@ -132,7 +132,7 @@ PROTO Wheelbarrow [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 8
@@ -144,6 +144,6 @@ PROTO Wheelbarrow [
         -0.4418000418771413 0.6956000753119361 37.31345641042259
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

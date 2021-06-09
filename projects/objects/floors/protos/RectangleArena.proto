@@ -24,7 +24,7 @@ PROTO RectangleArena [
   hiddenField SFVec2f    wallTileSize 0.5 0.5
 ]
 {
-  %{
+  %<
     let floorSize = fields.floorSize.value;
     if (floorSize.x <= 0.0 || floorSize.y <= 0.0) {
       floorSize = fields.floorSize.defaultValue;
@@ -56,42 +56,42 @@ PROTO RectangleArena [
       wallHeight = fields.wallHeight.defaultValue;
       console.error('\'wallHeight\' must be strictly positive. Value reset to ' + wallHeight + '.');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Floor {
-        size %{= floorSize.x }% %{= floorSize.y }%
+        size %<= floorSize.x >% %<= floorSize.y >%
         tileSize IS floorTileSize
         appearance IS floorAppearance
         contactMaterial IS contactMaterial
       }
       SolidBox {
-        translation %{= floorSize.x * 0.5 + wallThickness * 0.5 }% %{= wallHeight * 0.5 }% 0
+        translation %<= floorSize.x * 0.5 + wallThickness * 0.5 >% %<= wallHeight * 0.5 >% 0
         name "wall"
-        size %{= wallThickness }% %{= wallHeight }% %{= floorSize.y }%
+        size %<= wallThickness >% %<= wallHeight >% %<= floorSize.y >%
         appearance IS wallAppearance
         contactMaterial IS contactMaterial
       }
       SolidBox {
-        translation %{= -(floorSize.x * 0.5 + wallThickness * 0.5) }% %{= wallHeight * 0.5 }% 0
+        translation %<= -(floorSize.x * 0.5 + wallThickness * 0.5) >% %<= wallHeight * 0.5 >% 0
         name "wall#2"
-        size %{= wallThickness }% %{= wallHeight }% %{= floorSize.y }%
+        size %<= wallThickness >% %<= wallHeight >% %<= floorSize.y >%
         appearance IS wallAppearance
         contactMaterial IS contactMaterial
       }
       SolidBox {
-        translation 0 %{= wallHeight * 0.5 }% %{= floorSize.y * 0.5 + wallThickness * 0.5 }%
+        translation 0 %<= wallHeight * 0.5 >% %<= floorSize.y * 0.5 + wallThickness * 0.5 >%
         name "wall#3"
-        size %{= floorSize.x + 2 * wallThickness }% %{= wallHeight }% %{= wallThickness }%
+        size %<= floorSize.x + 2 * wallThickness >% %<= wallHeight >% %<= wallThickness >%
         appearance IS wallAppearance
         contactMaterial IS contactMaterial
       }
       SolidBox {
-        translation 0 %{= wallHeight * 0.5 }% %{= -(floorSize.y * 0.5 + wallThickness * 0.5) }%
+        translation 0 %<= wallHeight * 0.5 >% %<= -(floorSize.y * 0.5 + wallThickness * 0.5) >%
         name "wall#4"
-        size %{= floorSize.x + 2 * wallThickness }% %{= wallHeight }% %{= wallThickness }%
+        size %<= floorSize.x + 2 * wallThickness >% %<= wallHeight >% %<= wallThickness >%
         appearance IS wallAppearance
         contactMaterial IS contactMaterial
       }

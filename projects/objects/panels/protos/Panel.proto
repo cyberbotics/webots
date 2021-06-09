@@ -16,7 +16,7 @@ PROTO Panel [
   field SFNode     borderAppearance BrushedAluminium {}                                                # Defines the appearance of the panel border(s).
 ]
 {
-  %{
+  %<
     let internalWidth = fields.internalWidth.value;
     let borderHeight = fields.borderHeight.value;
     let size = fields.size.value;
@@ -51,43 +51,43 @@ PROTO Panel [
     const halfSizeY = 0.5 * size.y;
     const nSeparations = panelsCount - 1;
     const panelSizeX = (size.x - borderHeight * (1 + panelsCount)) / panelsCount;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        translation %{= halfSizeX }% %{= halfSizeY }% 0
+        translation %<= halfSizeX >% %<= halfSizeY >% 0
         children [
           Shape {
             appearance IS appearance
             geometry Box {
-              size %{= size.x - 2 * borderHeight }% %{= size.y - 2 * borderHeight }% %{= internalWidth }%
+              size %<= size.x - 2 * borderHeight >% %<= size.y - 2 * borderHeight >% %<= internalWidth >%
             }
           }
         ]
       }
-      %{ if (borderHeight > 0) { }%
+      %< if (borderHeight > 0) { >%
         Shape {
           appearance IS borderAppearance
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
                 # external frame
-                %{ for (let dz = 0.5; dz >= -0.5; dz = dz - 1) {
+                %< for (let dz = 0.5; dz >= -0.5; dz = dz - 1) {
                     let z = dz * size.z;
-                }%
-                    %{= 0 }% %{= 0 }% %{= z }%
-                    %{= size.x }% %{= 0 }% %{= z }%
-                    %{= size.x }% %{= size.y }% %{= z }%
-                    %{= 0 }% %{= size.y }% %{= z }%
-                    %{= borderHeight }% %{= borderHeight }% %{= z }%
-                    %{= size.x - borderHeight }% %{= borderHeight }% %{= z }%
-                    %{= size.x - borderHeight }% %{= size.y - borderHeight }% %{= z }%
-                    %{= borderHeight }% %{= size.y - borderHeight }% %{= z }%
-                %{ } }%
+                >%
+                    %<= 0 >% %<= 0 >% %<= z >%
+                    %<= size.x >% %<= 0 >% %<= z >%
+                    %<= size.x >% %<= size.y >% %<= z >%
+                    %<= 0 >% %<= size.y >% %<= z >%
+                    %<= borderHeight >% %<= borderHeight >% %<= z >%
+                    %<= size.x - borderHeight >% %<= borderHeight >% %<= z >%
+                    %<= size.x - borderHeight >% %<= size.y - borderHeight >% %<= z >%
+                    %<= borderHeight >% %<= size.y - borderHeight >% %<= z >%
+                %< } >%
                 # internal panel separations
-                %{
+                %<
                   if (nSeparations > 0) {
                     let offsetX = 1.5 * borderHeight + panelSizeX; // halfSizeX
                     for (let i = 1; i <= nSeparations; ++i) {
@@ -96,46 +96,46 @@ PROTO Panel [
                         for (dy = -0.5; dy <= 0.5; dy = dy + 1) {
                           let y = halfSizeY + dy * (size.y - 2 * borderHeight);
                           for (dx = -0.5; dx <= 0.5; dx = dx + 1) {
-                  }%
-                            %{= offsetX + dx * borderHeight }% %{= y }% %{= z }%
-                  %{
+                  >%
+                            %<= offsetX + dx * borderHeight >% %<= y >% %<= z >%
+                  %<
                           }
                         }
                       }
                       offsetX = offsetX + panelSizeX + borderHeight;
                     }
                   }
-                }%
+                >%
               ]
             }
             texCoord TextureCoordinate {
               point [
-              %{
+              %<
                 let borderX = borderHeight / size.x;
                 let borderY = borderHeight / size.y;
-              }%
+              >%
                 0.0 0.0
                 1.0 0.0
                 0.0 1.0
                 1.0 1.0
-                %{= borderX }% %{= borderY }%
-                %{= 1 - borderX }% %{= borderY }%
-                %{= borderX }% %{= 1 - borderY }%
-                %{= 1- borderX }% %{= 1 - borderY }%
-              %{
+                %<= borderX >% %<= borderY >%
+                %<= 1 - borderX >% %<= borderY >%
+                %<= borderX >% %<= 1 - borderY >%
+                %<= 1- borderX >% %<= 1 - borderY >%
+              %<
                 let x = panelSizeX + borderHeight;
                 for (i = 1; i <= nSeparations; i++) {
                   let texU1 = x / size.x;
                   let texU2 = (x + borderHeight) / size.x;
-              }%
-                  %{= texU1 }% %{= borderY }%
-                  %{= texU2 }% %{= borderY }%
-                  %{= texU1 }% %{= 1 - borderY }%
-                  %{= texU2 }% %{= 1 - borderY }%
-              %{
+              >%
+                  %<= texU1 >% %<= borderY >%
+                  %<= texU2 >% %<= borderY >%
+                  %<= texU1 >% %<= 1 - borderY >%
+                  %<= texU2 >% %<= 1 - borderY >%
+              %<
                   x = x + panelSizeX + borderHeight;
                 }
-              }%
+              >%
               ]
             }
             coordIndex [
@@ -157,24 +157,24 @@ PROTO Panel [
               6 15 14 -1 6 7 15 -1
               4 13 12 -1 4 5 13 -1
               # internal panel separations
-              %{
+              %<
               if (nSeparations > 0) {
                 let pointCount = 16;
                 for (i = 1; i <= nSeparations; ++i) {
-              }%
-                  %{= pointCount + 1 }% %{= pointCount + 2 }% %{= pointCount + 3 }% -1
-                  %{= pointCount + 1 }% %{= pointCount + 0 }% %{= pointCount + 2 }% -1
-                  %{= pointCount + 0 }% %{= pointCount + 6 }% %{= pointCount + 2 }% -1
-                  %{= pointCount + 0 }% %{= pointCount + 4 }% %{= pointCount + 6 }% -1
-                  %{= pointCount + 4 }% %{= pointCount + 7 }% %{= pointCount + 6 }% -1
-                  %{= pointCount + 4 }% %{= pointCount + 5 }% %{= pointCount + 7 }% -1
-                  %{= pointCount + 5 }% %{= pointCount + 3 }% %{= pointCount + 7 }% -1
-                  %{= pointCount + 5 }% %{= pointCount + 1 }% %{= pointCount + 3 }% -1
-              %{
+              >%
+                  %<= pointCount + 1 >% %<= pointCount + 2 >% %<= pointCount + 3 >% -1
+                  %<= pointCount + 1 >% %<= pointCount + 0 >% %<= pointCount + 2 >% -1
+                  %<= pointCount + 0 >% %<= pointCount + 6 >% %<= pointCount + 2 >% -1
+                  %<= pointCount + 0 >% %<= pointCount + 4 >% %<= pointCount + 6 >% -1
+                  %<= pointCount + 4 >% %<= pointCount + 7 >% %<= pointCount + 6 >% -1
+                  %<= pointCount + 4 >% %<= pointCount + 5 >% %<= pointCount + 7 >% -1
+                  %<= pointCount + 5 >% %<= pointCount + 3 >% %<= pointCount + 7 >% -1
+                  %<= pointCount + 5 >% %<= pointCount + 1 >% %<= pointCount + 3 >% -1
+              %<
                   pointCount = pointCount + 8;
                   }
                 }
-              }%
+              >%
             ]
             texCoordIndex [
               # faces (aligned with panel)
@@ -195,29 +195,29 @@ PROTO Panel [
               0 3 2 -1 0 2 3 -1
               0 3 2 -1 0 2 3 -1
               0 3 2 -1 0 2 3 -1
-              %{ if (nSeparations > 0) {
+              %< if (nSeparations > 0) {
                 let pointCount = 8;
-                for (i = 1; i <= nSeparations; ++i) { }%
-                  %{= pointCount + 1 }% %{= pointCount + 2 }% %{= pointCount + 3 }% -1
-                  %{= pointCount + 1 }% %{= pointCount + 0 }% %{= pointCount + 2 }% -1
+                for (i = 1; i <= nSeparations; ++i) { >%
+                  %<= pointCount + 1 >% %<= pointCount + 2 >% %<= pointCount + 3 >% -1
+                  %<= pointCount + 1 >% %<= pointCount + 0 >% %<= pointCount + 2 >% -1
                   0 3 2 -1 0 2 3 -1
-                  %{= pointCount + 0 }% %{= pointCount + 3 }% %{= pointCount + 2 }% -1
-                  %{= pointCount + 0 }% %{= pointCount + 1 }% %{= pointCount + 3 }% -1
+                  %<= pointCount + 0 >% %<= pointCount + 3 >% %<= pointCount + 2 >% -1
+                  %<= pointCount + 0 >% %<= pointCount + 1 >% %<= pointCount + 3 >% -1
                   0 3 2 -1 0 2 3 -1
-              %{
+              %<
                   pointCount = pointCount + 4;
                   }
                 }
-              }%
+              >%
             ]
           }
         }
-      %{ } }%
+      %< } >%
     ]
     name IS name
     model "panel"
     boundingObject Transform {
-      translation %{= halfSizeX }% %{= halfSizeY }% 0
+      translation %<= halfSizeX >% %<= halfSizeY >% 0
       children [
         Box {
           size IS size

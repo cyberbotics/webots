@@ -20,15 +20,15 @@ PROTO Crossroad [
   field SFString   contactMaterial  "default"               # Is `Solid.contactMaterial`.
 ]
 {
-  %{
+  %<
     const nShape = fields.shape.value.length;
     const shape = fields.shape.value;
     const textureCoordinateRatio = 0.2;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ if (nShape > 0) { }%
+    %< if (nShape > 0) { >%
       children [
         Shape {
           appearance IS appearance
@@ -38,27 +38,27 @@ PROTO Crossroad [
             }
             texCoord TextureCoordinate {
               point [
-                %{ for (let i = 0; i < nShape; ++i) { }%
-                  %{= shape[i].x * textureCoordinateRatio }% %{= shape[i].z * textureCoordinateRatio }%
-                %{ } }%
+                %< for (let i = 0; i < nShape; ++i) { >%
+                  %<= shape[i].x * textureCoordinateRatio >% %<= shape[i].z * textureCoordinateRatio >%
+                %< } >%
               ]
             }
             coordIndex [
-              %{ for (let i = 0; i <= nShape - 1; ++i) { }%
-                %{= i }%
-              %{ } }%
+              %< for (let i = 0; i <= nShape - 1; ++i) { >%
+                %<= i >%
+              %< } >%
               -1
             ]
             texCoordIndex [
-              %{ for (let i = 0; i <= nShape - 1; ++i) { }%
-                %{= i }%
-              %{ } }%
+              %< for (let i = 0; i <= nShape - 1; ++i) { >%
+                %<= i >%
+              %< } >%
               -1
             ]
           }
           castShadows IS castShadows
         }
-        %{ if (fields.bottom.value) { }%
+        %< if (fields.bottom.value) { >%
           Shape {
             appearance IS appearance
             geometry IndexedFaceSet {
@@ -66,24 +66,24 @@ PROTO Crossroad [
                 point IS shape
               }
               coordIndex [
-                %{ for (i = nShape - 1; i >= 0; i -= 1) { }%
-                  %{= i }%
-                %{ } }%
+                %< for (i = nShape - 1; i >= 0; i -= 1) { >%
+                  %<= i >%
+                %< } >%
                 -1
               ]
             }
             castShadows IS castShadows
           }
-        %{ } }%
+        %< } >%
       ]
-    %{ } }%
+    %< } >%
     name IS name
     model "crossroad"
     locked IS locked
     recognitionColors [ 0.2 0.2 0.2 ]
-    %{ if (fields.boundingObject.value && nShape > 0) { }%
+    %< if (fields.boundingObject.value && nShape > 0) { >%
       contactMaterial IS contactMaterial
       boundingObject USE CROSSROAD_GEOMETRY
-    %{ } }%
+    %< } >%
   }
 }

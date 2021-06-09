@@ -12,7 +12,7 @@ PROTO TruckCab [
   Group {
     children [
       Transform {
-        scale 1 1 %{= fields.sizeRatio.value }%
+        scale 1 1 %<= fields.sizeRatio.value >%
         children [
           DEF COACHWORK_REAR Shape {
             appearance GlossyPaint {
@@ -67,7 +67,7 @@ PROTO TruckCab [
         ]
       }
       Transform {
-        translation 0 0 %{= 4.177 * (fields.sizeRatio.value - 1) }%
+        translation 0 0 %<= 4.177 * (fields.sizeRatio.value - 1) >%
         children [
           DEF COACHWORK Shape {
             appearance GlossyPaint {

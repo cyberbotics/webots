@@ -13,7 +13,7 @@ PROTO SquarePavement [
   field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
 {
-  %{ console.error('\'SquarePavement\' PROTO is deprecated, please use the \'Pavement\' PROTO instead and select the right type.'.); }%
+  %< console.error('\'SquarePavement\' PROTO is deprecated, please use the \'Pavement\' PROTO instead and select the right type.'.); >%
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {

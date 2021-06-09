@@ -1046,7 +1046,7 @@ PROTO BmwX5Interior [
           creaseAngle 0.5
         }
       }
-      %{ if (fields.indicatorLevers.value) { }%
+      %< if (fields.indicatorLevers.value) { >%
       DEF RIGHT_INDICATOR_LEVER Shape {
         appearance USE PLASTIC_DETAILS_APPEARANCE
         geometry IndexedFaceSet {
@@ -1098,7 +1098,7 @@ PROTO BmwX5Interior [
           ]
         }
       }
-      %{ } }%
+      %< } >%
       DEF BOARD_TOP Shape {
         appearance DEF DARK_LEATHER Leather {
         }

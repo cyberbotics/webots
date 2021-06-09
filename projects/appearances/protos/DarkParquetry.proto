@@ -12,7 +12,7 @@ PROTO DarkParquetry [
   field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
 {
-  %{ console.error('\'DarkParquetry\' PROTO is deprecated, please use the \'Parquetry\' PROTO instead and select the right type.'); }%
+  %< console.error('\'DarkParquetry\' PROTO is deprecated, please use the \'Parquetry\' PROTO instead and select the right type.'); >%
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {

@@ -68,13 +68,13 @@ PROTO TractorFrontWheel [
       ]
       name IS name
       model "tractor front wheel"
-      %{ if (fields.boundingObject.value) { }%
+      %< if (fields.boundingObject.value) { >%
         boundingObject Cylinder {
           height IS width
           radius IS tireRadius
           subdivision IS subdivision
         }
-      %{ } }%
+      %< } >%
       physics IS physics
     }
   }

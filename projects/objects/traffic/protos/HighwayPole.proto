@@ -23,7 +23,7 @@ PROTO HighwayPole [
   field MFNode        leftVerticalSigns     [ ]                                                                                                             # Defines the vertical signs on the left side of the pole.
 ]
 {
-  %{
+  %<
     const stand = fields.stand.value;
     const type = fields.type.value;
 
@@ -52,7 +52,7 @@ PROTO HighwayPole [
       curveRadius = fields.curveRadius.defaultValue;
       console.error('\'curveRadius\' should be strictly positive. Value reset to ' + curveRadius + '.');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -66,68 +66,68 @@ PROTO HighwayPole [
               roughness 0.6
             }
             geometry Extrusion {
-              %{ if (type === 'cylinder') { }%
+              %< if (type === 'cylinder') { >%
                   crossSection [
-                    %{= halfThickness }%  %{= quarterThickness }%
-                    %{= quarterThickness }%  %{= halfThickness }%
-                    %{= -quarterThickness }% %{= halfThickness }%
-                    %{= -halfThickness }% %{= quarterThickness }%
-                    %{= -halfThickness }% %{= -quarterThickness }%
-                    %{= -quarterThickness }% %{= -halfThickness }%
-                    %{= quarterThickness }%  %{= -halfThickness }%
-                    %{= halfThickness }%  %{= -quarterThickness }%
-                    %{= halfThickness }%  %{= quarterThickness }%
+                    %<= halfThickness >%  %<= quarterThickness >%
+                    %<= quarterThickness >%  %<= halfThickness >%
+                    %<= -quarterThickness >% %<= halfThickness >%
+                    %<= -halfThickness >% %<= quarterThickness >%
+                    %<= -halfThickness >% %<= -quarterThickness >%
+                    %<= -quarterThickness >% %<= -halfThickness >%
+                    %<= quarterThickness >%  %<= -halfThickness >%
+                    %<= halfThickness >%  %<= -quarterThickness >%
+                    %<= halfThickness >%  %<= quarterThickness >%
                   ]
-              %{ } else if (type === 'box') { }%
+              %< } else if (type === 'box') { >%
                   crossSection [
-                    %{= halfThickness }%  %{= halfThickness }%
-                    %{= -halfThickness }% %{= halfThickness }%
-                    %{= -halfThickness }% %{= -halfThickness }%
-                    %{= halfThickness }%  %{= -halfThickness }%
-                    %{= halfThickness }%  %{= halfThickness }%
+                    %<= halfThickness >%  %<= halfThickness >%
+                    %<= -halfThickness >% %<= halfThickness >%
+                    %<= -halfThickness >% %<= -halfThickness >%
+                    %<= halfThickness >%  %<= -halfThickness >%
+                    %<= halfThickness >%  %<= halfThickness >%
                   ]
-              %{ } else if (type === 'H-shape') { }%
+              %< } else if (type === 'H-shape') { >%
                   # weird quotients (4.01 etc) here are here to avoid failures in polygon tesselation
                   crossSection [
-                    %{= halfThickness }%  %{= -halfThickness }%
-                    %{= halfThickness }%  %{= -quarterThickness }%
-                    %{= thickness/4.02 }%  %{= -quarterThickness }%
-                    %{= thickness/4.01 }%  %{= quarterThickness }%
-                    %{= halfThickness }%  %{= quarterThickness }%
-                    %{= halfThickness }%  %{= halfThickness }%
-                    %{= -halfThickness }% %{= halfThickness }%
-                    %{= -halfThickness }% %{= quarterThickness }%
-                    %{= -thickness/4.02 }% %{= quarterThickness }%
-                    %{= -thickness/4.01 }% %{= -quarterThickness }%
-                    %{= -halfThickness }% %{= -quarterThickness }%
-                    %{= -halfThickness }% %{= -halfThickness }%
-                    %{= halfThickness }%  %{= -halfThickness }%
+                    %<= halfThickness >%  %<= -halfThickness >%
+                    %<= halfThickness >%  %<= -quarterThickness >%
+                    %<= thickness/4.02 >%  %<= -quarterThickness >%
+                    %<= thickness/4.01 >%  %<= quarterThickness >%
+                    %<= halfThickness >%  %<= quarterThickness >%
+                    %<= halfThickness >%  %<= halfThickness >%
+                    %<= -halfThickness >% %<= halfThickness >%
+                    %<= -halfThickness >% %<= quarterThickness >%
+                    %<= -thickness/4.02 >% %<= quarterThickness >%
+                    %<= -thickness/4.01 >% %<= -quarterThickness >%
+                    %<= -halfThickness >% %<= -quarterThickness >%
+                    %<= -halfThickness >% %<= -halfThickness >%
+                    %<= halfThickness >%  %<= -halfThickness >%
                   ]
-              %{ } }%
+              %< } >%
               spine [
                 0 0                                    0
-                0 %{= 0.5 * height }%                  0
-                0 %{= 0.75 * height }%                 0
-                0 %{= height }%                        0
-                0 %{= height + 0.333 * curveRadius }%  %{= 0.33 * thickness }%
-                0 %{= height + 0.5 * curveRadius }%    %{= 0.66 * thickness }%
-                0 %{= height + 0.667 * curveRadius }%  %{= thickness }%
-                0 %{= height + 0.85 * curveRadius }%   %{= thickness + 0.33 * curveRadius }%
-                0 %{= height + 0.95 * curveRadius }%   %{= thickness + 0.66 * curveRadius }%
-                %{ if (stand === 1) { }%
-                    0 %{= height + curveRadius }%           %{= length + curveRadius }%
-                %{ } else if (stand === 2) { }%
-                    0 %{= height + curveRadius }%           %{= length }%
-                    0 %{= height + 0.95 * curveRadius }%    %{= length + 0.333 * curveRadius + thickness }%
-                    0 %{= height + 0.85 * curveRadius }%    %{= length + 0.667 * curveRadius + thickness }%
-                    0 %{= height + 0.667 * curveRadius }%   %{= length + curveRadius + thickness }%
-                    0 %{= height + 0.5 * curveRadius }%     %{= length + 1.333 * thickness + curveRadius }%
-                    0 %{= height + 0.333 * curveRadius }%   %{= length + 1.667 * thickness + curveRadius }%
-                    0 %{= height }%                         %{= length + 2 * thickness + curveRadius }%
-                    0 %{= 0.75 * height }%                  %{= length + 2 * thickness + curveRadius }%
-                    0 %{= 0.5 * height }%                   %{= length + 2 * thickness + curveRadius }%
-                    0 0                                     %{= length + 2 * thickness + curveRadius }%
-                %{ } }%
+                0 %<= 0.5 * height >%                  0
+                0 %<= 0.75 * height >%                 0
+                0 %<= height >%                        0
+                0 %<= height + 0.333 * curveRadius >%  %<= 0.33 * thickness >%
+                0 %<= height + 0.5 * curveRadius >%    %<= 0.66 * thickness >%
+                0 %<= height + 0.667 * curveRadius >%  %<= thickness >%
+                0 %<= height + 0.85 * curveRadius >%   %<= thickness + 0.33 * curveRadius >%
+                0 %<= height + 0.95 * curveRadius >%   %<= thickness + 0.66 * curveRadius >%
+                %< if (stand === 1) { >%
+                    0 %<= height + curveRadius >%           %<= length + curveRadius >%
+                %< } else if (stand === 2) { >%
+                    0 %<= height + curveRadius >%           %<= length >%
+                    0 %<= height + 0.95 * curveRadius >%    %<= length + 0.333 * curveRadius + thickness >%
+                    0 %<= height + 0.85 * curveRadius >%    %<= length + 0.667 * curveRadius + thickness >%
+                    0 %<= height + 0.667 * curveRadius >%   %<= length + curveRadius + thickness >%
+                    0 %<= height + 0.5 * curveRadius >%     %<= length + 1.333 * thickness + curveRadius >%
+                    0 %<= height + 0.333 * curveRadius >%   %<= length + 1.667 * thickness + curveRadius >%
+                    0 %<= height >%                         %<= length + 2 * thickness + curveRadius >%
+                    0 %<= 0.75 * height >%                  %<= length + 2 * thickness + curveRadius >%
+                    0 %<= 0.5 * height >%                   %<= length + 2 * thickness + curveRadius >%
+                    0 0                                     %<= length + 2 * thickness + curveRadius >%
+                %< } >%
               ]
               ccw FALSE
               splineSubdivision 0
@@ -136,57 +136,57 @@ PROTO HighwayPole [
         ]
         boundingObject Extrusion {
           crossSection [
-            %{= halfThickness }%  %{= halfThickness }%
-            %{= -halfThickness }% %{= halfThickness }%
-            %{= -halfThickness }% %{= -halfThickness }%
-            %{= halfThickness }%  %{= -halfThickness }%
-            %{= halfThickness }%  %{= halfThickness }%
+            %<= halfThickness >%  %<= halfThickness >%
+            %<= -halfThickness >% %<= halfThickness >%
+            %<= -halfThickness >% %<= -halfThickness >%
+            %<= halfThickness >%  %<= -halfThickness >%
+            %<= halfThickness >%  %<= halfThickness >%
           ]
           spine [
             0 0                                    0
-            0 %{= 0.5 * height }%                  0
-            0 %{= 0.75 * height }%                 0
-            0 %{= height }%                        0
-            0 %{= height + 0.333 * curveRadius }%  %{= 0.33 * thickness }%
-            0 %{= height + 0.5 * curveRadius }%    %{= 0.66 * thickness }%
-            0 %{= height + 0.667 * curveRadius }%  %{= thickness }%
-            0 %{= height + 0.85 * curveRadius }%   %{= thickness + 0.33 * curveRadius }%
-            0 %{= height + 0.95 * curveRadius }%   %{= thickness + 0.66 * curveRadius }%
-            %{ if (stand === 1) { }%
-                0 %{= height + curveRadius }%           %{= length + curveRadius }%
-            %{ } else if (stand === 2) { }%
-                0 %{= height + curveRadius }%           %{= length }%
-                0 %{= height + 0.95 * curveRadius }%    %{= length + 0.333 * curveRadius + thickness }%
-                0 %{= height + 0.85 * curveRadius }%    %{= length + 0.667 * curveRadius + thickness }%
-                0 %{= height + 0.667 * curveRadius }%   %{= length + curveRadius + thickness }%
-                0 %{= height + 0.5 * curveRadius }%     %{= length + 1.333 * thickness + curveRadius }%
-                0 %{= height + 0.333 * curveRadius }%   %{= length + 1.667 * thickness + curveRadius }%
-                0 %{= height }%                         %{= length + 2 * thickness + curveRadius }%
-                0 %{= 0.75 * height }%                  %{= length + 2 * thickness + curveRadius }%
-                0 %{= 0.5 * height }%                   %{= length + 2 * thickness + curveRadius }%
-                0 0                                     %{= length + 2 * thickness + curveRadius }%
-            %{ } }%
+            0 %<= 0.5 * height >%                  0
+            0 %<= 0.75 * height >%                 0
+            0 %<= height >%                        0
+            0 %<= height + 0.333 * curveRadius >%  %<= 0.33 * thickness >%
+            0 %<= height + 0.5 * curveRadius >%    %<= 0.66 * thickness >%
+            0 %<= height + 0.667 * curveRadius >%  %<= thickness >%
+            0 %<= height + 0.85 * curveRadius >%   %<= thickness + 0.33 * curveRadius >%
+            0 %<= height + 0.95 * curveRadius >%   %<= thickness + 0.66 * curveRadius >%
+            %< if (stand === 1) { >%
+                0 %<= height + curveRadius >%           %<= length + curveRadius >%
+            %< } else if (stand === 2) { >%
+                0 %<= height + curveRadius >%           %<= length >%
+                0 %<= height + 0.95 * curveRadius >%    %<= length + 0.333 * curveRadius + thickness >%
+                0 %<= height + 0.85 * curveRadius >%    %<= length + 0.667 * curveRadius + thickness >%
+                0 %<= height + 0.667 * curveRadius >%   %<= length + curveRadius + thickness >%
+                0 %<= height + 0.5 * curveRadius >%     %<= length + 1.333 * thickness + curveRadius >%
+                0 %<= height + 0.333 * curveRadius >%   %<= length + 1.667 * thickness + curveRadius >%
+                0 %<= height >%                         %<= length + 2 * thickness + curveRadius >%
+                0 %<= 0.75 * height >%                  %<= length + 2 * thickness + curveRadius >%
+                0 %<= 0.5 * height >%                   %<= length + 2 * thickness + curveRadius >%
+                0 0                                     %<= length + 2 * thickness + curveRadius >%
+            %< } >%
           ]
           ccw FALSE
           splineSubdivision 0
         }
       }
       DEF RIGHT_HORIZONTAL_SIGNS Transform {
-        translation %{= 0.95 * halfThickness }% %{= height + curveRadius }% 3
+        translation %<= 0.95 * halfThickness >% %<= height + curveRadius >% 3
         children IS rightHorizontalSigns
       }
       DEF RIGHT_VERTICAL_SIGNS Transform {
-        translation %{= 0.95 * halfThickness }% 3 0
+        translation %<= 0.95 * halfThickness >% 3 0
         children IS rightVerticalSigns
       }
       DEF LEFT_HORIZONTAL_SIGNS Transform {
         rotation 0 1 0 3.14159
-        translation %{= - 0.95 * halfThickness }% %{= height + curveRadius }% 6
+        translation %<= - 0.95 * halfThickness >% %<= height + curveRadius >% 6
         children IS leftHorizontalSigns
       }
       DEF LEFT_VERTICAL_SIGNS Transform {
         rotation 0 1 0 3.14159
-        translation %{= - 0.95 * halfThickness }% 3 %{= length + 2 * thickness + curveRadius }%
+        translation %<= - 0.95 * halfThickness >% 3 %<= length + 2 * thickness + curveRadius >%
         children IS leftVerticalSigns
       }
     ]

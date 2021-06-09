@@ -19,7 +19,7 @@ PROTO Extrusion [
   field SFInt32    splineSubdivision         4                               # If bigger than 1, defines the B-Spline subdivion of the extrusion along it's path.
 ]
 {
-  %{
+  %<
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
     import * as wbvector2 from 'modules/webots/wbvector2.js';
     import * as wbvector3 from 'modules/webots/wbvector3.js';
@@ -179,13 +179,13 @@ PROTO Extrusion [
     let crossSectionDistance = [0];
     for (let i = 1; i < nbCrossSectionPoint; ++i)
       crossSectionDistance.push(crossSectionDistance[i-1] + wbvector2.distance(crossSection[i-1], crossSection[i]));
-  }%
+  >%
   IndexedFaceSet {
     coord Coordinate {
       point [
-        %{ for (let i = 0; i < nbSpinePoints; ++i) { }%
-          %{ for (let j = 0; j < nbCrossSectionPoint; ++j) { }%
-            %{
+        %< for (let i = 0; i < nbSpinePoints; ++i) { >%
+          %< for (let j = 0; j < nbCrossSectionPoint; ++j) { >%
+            %<
               let point = wbvector3.add(wbvector3.multiply(X[i], crossSection[j].x * scale[i].x), (wbvector3.multiply(Z[i], -crossSection[j].y * scale[i].y)));
               if (orientation[i] !== undefined)
                 point = wbrotation.rotateVector3ByRotation(orientation[i], point);
@@ -193,68 +193,68 @@ PROTO Extrusion [
               let x = point.x;
               let y = point.y;
               let z = point.z;
-            }%
-            %{= x + spine[i].x }% %{= y + spine[i].y }% %{= z + spine[i].z }%
-          %{ } }%
-        %{ } }%
+            >%
+            %<= x + spine[i].x >% %<= y + spine[i].y >% %<= z + spine[i].z >%
+          %< } >%
+        %< } >%
       ]
     }
     texCoord TextureCoordinate {
       point [
-        %{ for (let i = 0; i < nbSpinePoints; ++i) { }%
-          %{ for (let j = 0; j < nbCrossSectionPoint; ++j) { }%
-            %{= spineDistance[i] / spineDistance[nbSpinePoints-1] }% %{= crossSectionDistance[j] / crossSectionDistance[nbCrossSectionPoint-1] }%
-          %{ } }%
-        %{ } }%
+        %< for (let i = 0; i < nbSpinePoints; ++i) { >%
+          %< for (let j = 0; j < nbCrossSectionPoint; ++j) { >%
+            %<= spineDistance[i] / spineDistance[nbSpinePoints-1] >% %<= crossSectionDistance[j] / crossSectionDistance[nbCrossSectionPoint-1] >%
+          %< } >%
+        %< } >%
         # Begin-End
-        %{ for (let j = 0; j < nbCrossSectionPoint; ++j) { }%
-          %{= crossSection[j].x + 0.5 }% %{= crossSection[j].y + 0.5 }%
-        %{ } }%
+        %< for (let j = 0; j < nbCrossSectionPoint; ++j) { >%
+          %<= crossSection[j].x + 0.5 >% %<= crossSection[j].y + 0.5 >%
+        %< } >%
       ]
     }
     coordIndex [
       # Begin
-      %{ if (fields.beginCap.value) { }%
-        %{ for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { }%
-          %{= j }%
-        %{ } }%
+      %< if (fields.beginCap.value) { >%
+        %< for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { >%
+          %<= j >%
+        %< } >%
         -1
-      %{ } }%
+      %< } >%
       # Sides
-      %{ for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { }%
-        %{ for (let i = 0; i <= nbSpinePoints - 2; ++i) { }%
-          %{= j + i * nbCrossSectionPoint }% %{= j + (i + 1) * nbCrossSectionPoint }% %{= j + 1 + (i + 1) * nbCrossSectionPoint }% %{= j + 1 + i * nbCrossSectionPoint }% -1
-        %{ } }%
-      %{ } }%
+      %< for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { >%
+        %< for (let i = 0; i <= nbSpinePoints - 2; ++i) { >%
+          %<= j + i * nbCrossSectionPoint >% %<= j + (i + 1) * nbCrossSectionPoint >% %<= j + 1 + (i + 1) * nbCrossSectionPoint >% %<= j + 1 + i * nbCrossSectionPoint >% -1
+        %< } >%
+      %< } >%
       # End
-      %{ if (fields.endCap.value) { }%
-        %{ for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { }%
-          %{= nbSpinePoints * nbCrossSectionPoint - j - 1 }%
-        %{ } }%
+      %< if (fields.endCap.value) { >%
+        %< for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { >%
+          %<= nbSpinePoints * nbCrossSectionPoint - j - 1 >%
+        %< } >%
         -1
-      %{ } }%
+      %< } >%
     ]
     texCoordIndex [
       # Begin
-      %{ if (fields.beginCap.value) { }%
-        %{ for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { }%
-          %{= nbSpinePoints * nbCrossSectionPoint + j }%
-        %{ } }%
+      %< if (fields.beginCap.value) { >%
+        %< for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { >%
+          %<= nbSpinePoints * nbCrossSectionPoint + j >%
+        %< } >%
         -1
-      %{ } }%
+      %< } >%
       # Sides
-      %{ for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { }%
-        %{ for (let i = 0; i <= nbSpinePoints - 2; ++i) { }%
-          %{= j + i * nbCrossSectionPoint }% %{= j + (i + 1) * nbCrossSectionPoint }% %{= j + 1 + (i + 1) * nbCrossSectionPoint }% %{= j + 1 + i * nbCrossSectionPoint }% -1
-        %{ } }%
-      %{ } }%
+      %< for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { >%
+        %< for (let i = 0; i <= nbSpinePoints - 2; ++i) { >%
+          %<= j + i * nbCrossSectionPoint >% %<= j + (i + 1) * nbCrossSectionPoint >% %<= j + 1 + (i + 1) * nbCrossSectionPoint >% %<= j + 1 + i * nbCrossSectionPoint >% -1
+        %< } >%
+      %< } >%
       # End
-      %{ if (fields.endCap.value) { }%
-        %{ for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { }%
-          %{= nbSpinePoints * nbCrossSectionPoint + j }%
-        %{ } }%
+      %< if (fields.endCap.value) { >%
+        %< for (let j = 0; j <= nbCrossSectionPoint - 2; ++j) { >%
+          %<= nbSpinePoints * nbCrossSectionPoint + j >%
+        %< } >%
         -1
-      %{ } }%
+      %< } >%
     ]
     solid IS solid
     convex IS convex

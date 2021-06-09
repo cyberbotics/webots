@@ -19,7 +19,7 @@ PROTO SickLdMrs [
   field SFBool     enablePhysics     TRUE
 ]
 {
-  %{
+  %<
     import * as wbrotation from 'modules/webots/wbrotation.js';
     import * as wbutility from 'modules/webots/wbutility.js';
 
@@ -36,41 +36,41 @@ PROTO SickLdMrs [
       angularResolution = angularResolution * 0.5;
     else if (fields.angularResolution.value === '0.125 [deg]')
       angularResolution = angularResolution * 0.25;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     name IS name
     children [
       Lidar {
-        %{
+        %<
           let internalRotation = wbrotation.combine({x: 0, y: 1, z: 0, a: -wbutility.degreesToRadians(7.5)}, {x: 0, y: 0, z: 1, a: Math.PI});
           let horizontalFieldOfView = wbutility.degreesToRadians(85);
-        }%
-        rotation %{= internalRotation.x }% %{= internalRotation.y }% %{= internalRotation.z }% %{= internalRotation.a }%
+        >%
+        rotation %<= internalRotation.x >% %<= internalRotation.y >% %<= internalRotation.z >% %<= internalRotation.a >%
         name IS name
-        model %{= '"Sick LD-MRS ' + fields.type.value + '"' }%
-        fieldOfView %{= horizontalFieldOfView }%
-        horizontalResolution %{= Math.round(horizontalFieldOfView / angularResolution)  }%
-        verticalFieldOfView %{= wbutility.degreesToRadians(0.8 * (measurementLayers + 1)) }%
-        numberOfLayers %{= measurementLayers }%
+        model %<= '"Sick LD-MRS ' + fields.type.value + '"' >%
+        fieldOfView %<= horizontalFieldOfView >%
+        horizontalResolution %<= Math.round(horizontalFieldOfView / angularResolution)  >%
+        verticalFieldOfView %<= wbutility.degreesToRadians(0.8 * (measurementLayers + 1)) >%
+        numberOfLayers %<= measurementLayers >%
         minRange 0.5
         maxRange 300
         noise IS noise
       }
       Lidar {
-        %{
+        %<
           internalRotation = wbrotation.combine({x: 0, y: 1, z: 0, a: -wbutility.degreesToRadians(5)}, {x: 0, y: 0, z: 1, a: Math.PI});
           horizontalFieldOfView = wbutility.degreesToRadians(110);
           measurementLayers = measurementLayers * 0.5;
-        }%
-        rotation %{= internalRotation.x }% %{= internalRotation.y }% %{= internalRotation.z }% %{= internalRotation.a }%
-        name %{= '"' + fields.name.value + ' (long range)"' }%
-        model %{= '"Sick LD-MRS ' + fields.type.value + '"' }%
-        fieldOfView %{= horizontalFieldOfView }%
-        horizontalResolution %{= Math.round(horizontalFieldOfView / angularResolution) }%
-        verticalFieldOfView %{= wbutility.degreesToRadians(0.8 * (measurementLayers + 1)) }%
-        numberOfLayers %{= measurementLayers }%
+        >%
+        rotation %<= internalRotation.x >% %<= internalRotation.y >% %<= internalRotation.z >% %<= internalRotation.a >%
+        name %<= '"' + fields.name.value + ' (long range)"' >%
+        model %<= '"Sick LD-MRS ' + fields.type.value + '"' >%
+        fieldOfView %<= horizontalFieldOfView >%
+        horizontalResolution %<= Math.round(horizontalFieldOfView / angularResolution) >%
+        verticalFieldOfView %<= wbutility.degreesToRadians(0.8 * (measurementLayers + 1)) >%
+        numberOfLayers %<= measurementLayers >%
         minRange 0.5
         maxRange 300
         noise IS noise
@@ -80,13 +80,13 @@ PROTO SickLdMrs [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              %{ if (isHD) { }%
+              %< if (isHD) { >%
                 "textures/sick_ld_mrs_hd.png"
-              %{ } else if (is8L) { }%
+              %< } else if (is8L) { >%
                 "textures/sick_ld_mrs_8l.png"
-              %{ } else { }%
+              %< } else { >%
                 "textures/sick_ld_mrs.png"
-              %{ } }%
+              %< } >%
             ]
           }
           roughnessMap ImageTexture {
@@ -115,7 +115,7 @@ PROTO SickLdMrs [
         }
       }
     ]
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
       boundingObject Transform {
         translation 0 0 0.047
         children [
@@ -128,6 +128,6 @@ PROTO SickLdMrs [
         density -1
         mass 1
       }
-    %{ } }%
+    %< } >%
   }
 }

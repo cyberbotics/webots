@@ -209,7 +209,7 @@ PROTO HouseWithGarage [
         }
       }
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -238,6 +238,6 @@ PROTO HouseWithGarage [
         }
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

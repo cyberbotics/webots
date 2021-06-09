@@ -40,27 +40,27 @@ PROTO Servo [
   field     SFFloat    staticFriction      0               # Defines the static friction of the joint.
 ]
 {
-  %{
+  %<
     let jointType = fields.type.value;
     if (jointType !== 'rotational' && jointType !== 'linear') {
       jointType = fields.type.defaultValue;
       console.error('\'type\' should be one of the following: \'rotational\' or \'linear\'. Value reset to ' + jointType + '.');
     }
     const rotation = fields.rotation.value;
-  }%
+  >%
   Transform {
     translation IS translation
     rotation IS rotation
     scale IS scale
     children [
-      %{ if (jointType === 'rotational') { }%
+      %< if (jointType === 'rotational') { >%
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis %{= rotation.x }% %{= rotation.y }% %{= rotation.z }%
-      %{ } else { }%
+          axis %<= rotation.x >% %<= rotation.y >% %<= rotation.z >%
+      %< } else { >%
       SliderJoint {
         jointParameters JointParameters {
-      %{ } }%
+      %< } >%
           position IS position
           minStop IS minStop
           maxStop IS maxStop
@@ -70,21 +70,21 @@ PROTO Servo [
         }
         device [
           PositionSensor {
-            name %{= '"' + fields.name.value + ' sensor"' }%
+            name %<= '"' + fields.name.value + ' sensor"' >%
           }
-          %{ if (jointType === 'rotational') { }%
+          %< if (jointType === 'rotational') { >%
           RotationalMotor {
             maxTorque IS maxForce
-          %{ } else { }%
+          %< } else { >%
           LinearMotor {
             maxForce IS maxForce
-          %{ } }%
+          %< } >%
             name IS name
             maxVelocity IS maxVelocity
             acceleration IS acceleration
             minPosition IS minPosition
             maxPosition IS maxPosition
-            controlPID %{= fields.controlP.value }% 0 0
+            controlPID %<= fields.controlP.value >% 0 0
           }
         ]
         endPoint Solid {

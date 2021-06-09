@@ -745,7 +745,7 @@ PROTO UR5e [
         }
       ]
     }
-    %{ if (!fields.staticBase.value) { }%
+    %< if (!fields.staticBase.value) { >%
     physics Physics {
       density -1
       mass 4
@@ -753,6 +753,6 @@ PROTO UR5e [
         0 0 0
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

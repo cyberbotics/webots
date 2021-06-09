@@ -38,7 +38,7 @@ PROTO TexturedBackground [
   field MFColor  skyColor     [0 0 0]      # Defines the background color in case the `skybox` field is `FALSE`.
 ]
 {
-  %{
+  %<
     const hdrBackgrounds = [
       'dusk',
       'empty_office',
@@ -81,49 +81,49 @@ PROTO TexturedBackground [
       }
       console.error('Non-HDR backgrounds are deprecated. Please select one of the following \'TexturedBackground.texture\': ', availableHdr);
     }
-  }%
+  >%
   Background {
     skyColor IS skyColor
-    %{ if (fields.skybox.value) { }%
+    %< if (fields.skybox.value) { >%
       backUrl [
-        %{= '"' + path + '/' + texture + '_back.' + extension + '"' }%
+        %<= '"' + path + '/' + texture + '_back.' + extension + '"' >%
       ]
       bottomUrl [
-        %{= '"' + path + '/' + texture + '_bottom.' + extension + '"' }%
+        %<= '"' + path + '/' + texture + '_bottom.' + extension + '"' >%
       ]
       frontUrl [
-        %{= '"' + path + '/' + texture + '_front.' + extension + '"' }%
+        %<= '"' + path + '/' + texture + '_front.' + extension + '"' >%
       ]
       leftUrl [
-        %{= '"' + path + '/' + texture + '_left.' + extension + '"' }%
+        %<= '"' + path + '/' + texture + '_left.' + extension + '"' >%
       ]
       rightUrl [
-        %{= '"' + path + '/' + texture + '_right.' + extension + '"' }%
+        %<= '"' + path + '/' + texture + '_right.' + extension + '"' >%
       ]
       topUrl [
-        %{= '"' + path + '/' + topTexture + '_top.' + extension + '"' }%
+        %<= '"' + path + '/' + topTexture + '_top.' + extension + '"' >%
       ]
-    %{ } }%
-    %{ if (isHDR) { }%
+    %< } >%
+    %< if (isHDR) { >%
       backIrradianceUrl [
-        %{= '"' + path + '/' + texture + '_back.hdr"' }%
+        %<= '"' + path + '/' + texture + '_back.hdr"' >%
       ]
       bottomIrradianceUrl [
-        %{= '"' + path + '/' + texture + '_bottom.hdr"' }%
+        %<= '"' + path + '/' + texture + '_bottom.hdr"' >%
       ]
       frontIrradianceUrl [
-        %{= '"' + path + '/' + texture + '_front.hdr"' }%
+        %<= '"' + path + '/' + texture + '_front.hdr"' >%
       ]
       leftIrradianceUrl [
-        %{= '"' + path + '/' + texture + '_left.hdr"' }%
+        %<= '"' + path + '/' + texture + '_left.hdr"' >%
       ]
       rightIrradianceUrl [
-        %{= '"' + path + '/' + texture + '_right.hdr"' }%
+        %<= '"' + path + '/' + texture + '_right.hdr"' >%
       ]
       topIrradianceUrl [
-        %{= '"' + path + '/' + topTexture + '_top.hdr"' }%
+        %<= '"' + path + '/' + topTexture + '_top.hdr"' >%
       ]
-    %{ } }%
+    %< } >%
     luminosity IS luminosity
   }
 }

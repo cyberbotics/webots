@@ -23,7 +23,7 @@ Solid {
   translation IS translation
   rotation IS rotation
   recognitionColors [
-    %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+    %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
   ]
   children [
     DEF SHAPE Transform {

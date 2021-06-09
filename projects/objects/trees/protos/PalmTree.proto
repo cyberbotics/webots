@@ -179,7 +179,7 @@ PROTO PalmTree [
         }
       }
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 1.125 0
       children [
@@ -189,6 +189,6 @@ PROTO PalmTree [
         }
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

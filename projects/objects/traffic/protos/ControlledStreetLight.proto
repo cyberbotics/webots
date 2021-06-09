@@ -22,7 +22,7 @@ PROTO ControlledStreetLight [
     translation IS translation
     rotation IS rotation
     recognitionColors [
-      %{= fields.color.value[0].r }% %{= fields.color.value[0].g }% %{= fields.color.value[0].b }%
+      %<= fields.color.value[0].r >% %<= fields.color.value[0].g >% %<= fields.color.value[0].b >%
     ]
     children [
       LED {

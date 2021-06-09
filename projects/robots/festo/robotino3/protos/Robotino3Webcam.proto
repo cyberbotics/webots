@@ -18,7 +18,7 @@ PROTO Robotino3Webcam [
   Solid {
     translation IS translation
     rotation IS rotation
-    name %{= '"' + fields.name.value + '_solid"' }%
+    name %<= '"' + fields.name.value + '_solid"' >%
     model IS model
     children [
       Camera {

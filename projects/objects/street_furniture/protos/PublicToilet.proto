@@ -26,7 +26,7 @@ PROTO PublicToilet [
   ]
 ]
 {
-  %{
+  %<
     let height = fields.height.value;
     if (height < 2.8) {
       height = fields.height.defaultValue;
@@ -51,7 +51,7 @@ PROTO PublicToilet [
       width = fields.width.defaultValue;
       console.error('\'width\' should be smaller than or equal to 4.5. Value reset to ' + width + '.');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -63,8 +63,8 @@ PROTO PublicToilet [
       DEF OBJECT Solid {
         children [
           Transform {
-            translation %{= - 0.113 * width }% 0 %{= 0.278 * length }%
-            scale %{= 0.33 * width }% %{= 0.2 * height }% %{= 0.2 * length }%
+            translation %<= - 0.113 * width >% 0 %<= 0.278 * length >%
+            scale %<= 0.33 * width >% %<= 0.2 * height >% %<= 0.2 * length >%
             children [
               Shape {
                 appearance PBRAppearance {
@@ -81,16 +81,16 @@ PROTO PublicToilet [
           }
         ]
         boundingObject Transform {
-          translation 0 %{= height / 2 }% 0
+          translation 0 %<= height / 2 >% 0
           children [
             Box {
-              size %{= width }% %{= height }% %{= length }%
+              size %<= width >% %<= height >% %<= length >%
             }
           ]
         }
       }
       DEF TEXT Transform {
-        translation %{= - 0.392 * width }% %{=  0.828 * height }% %{= 0.168 * length }%
+        translation %<= - 0.392 * width >% %<=  0.828 * height >% %<= 0.168 * length >%
         rotation -0.57735 0.57735 -0.57735 4.1888
         children [
           Shape {
@@ -102,34 +102,34 @@ PROTO PublicToilet [
               }
             }
             geometry Plane {
-              size %{= 0.3 * length }% %{= 0.089 * height }%
+              size %<= 0.3 * length >% %<= 0.089 * height >%
             }
           }
         ]
       }
       DEF FRONT_DISPLAY Transform {
-        translation %{= - 0.51 * width }% %{=  0.437 * height }% %{= -0.17 * length }%
+        translation %<= - 0.51 * width >% %<=  0.437 * height >% %<= -0.17 * length >%
         rotation 0 -1 0 1.5708
         children IS frontDisplay
       }
       DEF BACK_DISPLAY Transform {
-        translation %{= 0.498 * width }% %{=  0.437 * height }% %{=  0.015 * length }%
+        translation %<= 0.498 * width >% %<=  0.437 * height >% %<=  0.015 * length >%
         rotation 0.57735 0.57735 -0.57735 2.09439
         children [
           Shape {
             appearance PBRAppearance {
-              %{ if (fields.backDisplayLight.value) { }%
+              %< if (fields.backDisplayLight.value) { >%
               emissiveColorMap ImageTexture {
-              %{ } else { }%
+              %< } else { >%
               baseColorMap ImageTexture {
-              %{ } }%
+              %< } >%
               url IS backDisplayTexture
               }
               metalness 0
               roughness 0.4
             }
             geometry Plane {
-              size %{= 0.44 * length }% %{= 0.44 * height }%
+              size %<= 0.44 * length >% %<= 0.44 * height >%
             }
           }
         ]

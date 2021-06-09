@@ -15,11 +15,11 @@ PROTO DistanceSensorVisualization [
   field SFFloat    subdivision  8
 ]
 {
-  %{
+  %<
     const aperture = fields.aperture.value;
     const range = fields.range.value;
     const subdivision = fields.subdivision.value;
-  }%
+  >%
   Transform {
     translation IS translation
     rotation IS rotation
@@ -35,22 +35,22 @@ PROTO DistanceSensorVisualization [
           coord Coordinate {
             point [
               0 0 0
-              %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-                %{ let angle = aperture * 0.5 - i * aperture / (subdivision - 1); }%
-                %{= range * Math.cos(angle) }% 0 %{= range * Math.sin(angle) }%
-              %{ } }%
+              %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+                %< let angle = aperture * 0.5 - i * aperture / (subdivision - 1); >%
+                %<= range * Math.cos(angle) >% 0 %<= range * Math.sin(angle) >%
+              %< } >%
             ]
           }
           coordIndex [
-            %{ for (let i = 0; i <= subdivision; ++i) { }%
-              %{= i }%
-            %{ } }%
+            %< for (let i = 0; i <= subdivision; ++i) { >%
+              %<= i >%
+            %< } >%
             -1
 
             0
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= subdivision - i }%
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= subdivision - i >%
+            %< } >%
             -1
           ]
         }

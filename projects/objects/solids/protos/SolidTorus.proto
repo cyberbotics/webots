@@ -19,14 +19,14 @@ PROTO SolidTorus [
   field SFBool     enableBoundingObject  TRUE                                                                                                          # Defines whether the solid should have a bounding object.
 ]
 {
-  %{
+  %<
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
 
     // parameter checking
     let subdivision = fields.subdivision.value;
     if (subdivision > 200)
       console.log('High value for \'subdivision\'. This can slow down the simulation');
-    
+
     if (subdivision < 8) {
       console.error('\'subdivision\' must be greater or equal to 8. Using 8 instead.');
       subdivision = 8;
@@ -45,7 +45,7 @@ PROTO SolidTorus [
     }
 
     const referenceCircle = wbgeometry.circle(1, subdivision, {x: 0, y: 0}, 0);
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -55,19 +55,19 @@ PROTO SolidTorus [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-             %{ for (let i = 0; i < referenceCircle.length; ++i) { }%
-               %{ for (let j = 0; j < referenceCircle.length; ++j) { }%
-                 %{= (majorRadius + minorRadius * referenceCircle[j].x) * referenceCircle[i].x }% %{= minorRadius * referenceCircle[j].y }% %{= (majorRadius + minorRadius * referenceCircle[j].x) * referenceCircle[i].y }%
-               %{ } }%
-             %{ } }%
+             %< for (let i = 0; i < referenceCircle.length; ++i) { >%
+               %< for (let j = 0; j < referenceCircle.length; ++j) { >%
+                 %<= (majorRadius + minorRadius * referenceCircle[j].x) * referenceCircle[i].x >% %<= minorRadius * referenceCircle[j].y >% %<= (majorRadius + minorRadius * referenceCircle[j].x) * referenceCircle[i].y >%
+               %< } >%
+             %< } >%
             ]
           }
           coordIndex [
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{ for (let j = 0; j <= subdivision; ++j) { }%
-                %{= i + j * subdivision }% %{= (i + 1) + j * subdivision }% %{= (i + 1) + (j + 1) * subdivision }% %{= i + (j + 1) * subdivision }% -1
-              %{ } }%
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %< for (let j = 0; j <= subdivision; ++j) { >%
+                %<= i + j * subdivision >% %<= (i + 1) + j * subdivision >% %<= (i + 1) + (j + 1) * subdivision >% %<= i + (j + 1) * subdivision >% -1
+              %< } >%
+            %< } >%
           ]
           creaseAngle 1.5
         }
@@ -76,13 +76,13 @@ PROTO SolidTorus [
     name IS name
     model "torus"
     contactMaterial IS contactMaterial
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject TorusBoundingObject {
-      majorRadius %{= majorRadius }%
-      minorRadius %{= minorRadius }%
-      subdivision %{= subdivision }%
+      majorRadius %<= majorRadius >%
+      minorRadius %<= minorRadius >%
+      subdivision %<= subdivision >%
     }
-    %{ } }%
+    %< } >%
     physics IS physics
   }
 }

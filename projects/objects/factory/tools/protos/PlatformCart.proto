@@ -12,9 +12,9 @@ PROTO PlatformCart [
   field SFNode     physics     Physics {}       # Is `Solid.physics`.
 ]
 {
-  %{
+  %<
     const isDynamic = fields.physics.value !== 'undefined';
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -80,7 +80,7 @@ PROTO PlatformCart [
         physics Physics {
         }
       }
-      %{ if (isDynamic) { }%
+      %< if (isDynamic) { >%
       Hinge2Joint {
         jointParameters HingeJointParameters {
           axis 0 1 0
@@ -91,7 +91,7 @@ PROTO PlatformCart [
           axis 0 0 1
         }
         endPoint
-      %{ } }%
+      %< } >%
           Solid {
             translation -0.308 0.04 -0.201
             rotation 1 0 0 1.5708
@@ -110,12 +110,12 @@ PROTO PlatformCart [
             ]
             name "wheel 1"
             boundingObject USE WHEEL_SHAPE
-            %{ if (isDynamic) { }%
+            %< if (isDynamic) { >%
             physics DEF WHEEL_PHYSICS Physics {
             }
-            %{ } }%
+            %< } >%
           }
-      %{ if (isDynamic) { }%
+      %< if (isDynamic) { >%
       }
       Hinge2Joint {
         jointParameters HingeJointParameters {
@@ -127,7 +127,7 @@ PROTO PlatformCart [
           axis 0 0 1
         }
         endPoint
-      %{ } }%
+      %< } >%
           Solid {
             translation -0.308 0.04 0.201
             rotation 1 0 0 1.5708
@@ -136,11 +136,11 @@ PROTO PlatformCart [
             ]
             name "wheel 2"
             boundingObject USE WHEEL_SHAPE
-            %{ if (isDynamic) { }%
+            %< if (isDynamic) { >%
             physics USE WHEEL_PHYSICS
-            %{ } }%
+            %< } >%
           }
-      %{ if (isDynamic) { }%
+      %< if (isDynamic) { >%
       }
       HingeJoint {
         jointParameters HingeJointParameters {
@@ -148,7 +148,7 @@ PROTO PlatformCart [
           anchor 0.308 0.04 -0.201
         }
         endPoint
-      %{ } }%
+      %< } >%
           Solid {
             translation 0.308 0.04 -0.201
             rotation 1 0 0 1.5708
@@ -157,11 +157,11 @@ PROTO PlatformCart [
             ]
             name "wheel 3"
             boundingObject USE WHEEL_SHAPE
-            %{ if (isDynamic) { }%
+            %< if (isDynamic) { >%
             physics USE WHEEL_PHYSICS
-            %{ } }%
+            %< } >%
         }
-      %{ if (isDynamic) { }%
+      %< if (isDynamic) { >%
       }
       HingeJoint {
         jointParameters HingeJointParameters {
@@ -169,7 +169,7 @@ PROTO PlatformCart [
           anchor 0.308 0.04 0.201
         }
         endPoint
-      %{ } }%
+      %< } >%
           DEF WHEEL Solid {
             translation 0.308 0.04 0.201
             rotation 1 0 0 1.5708
@@ -178,13 +178,13 @@ PROTO PlatformCart [
             ]
             name "wheel 4"
             boundingObject USE WHEEL_SHAPE
-            %{ if (isDynamic) { }%
+            %< if (isDynamic) { >%
             physics USE WHEEL_PHYSICS
-            %{ } }%
+            %< } >%
           }
-      %{ if (isDynamic) { }%
+      %< if (isDynamic) { >%
       }
-      %{ } }%
+      %< } >%
       Group {
         children IS slot
       }

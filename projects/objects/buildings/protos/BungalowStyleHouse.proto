@@ -20,22 +20,22 @@ PROTO BungalowStyleHouse [
 ]
 {
   Solid {
-    %{ if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { }%
-      %{ let color = fields.appearance.value.fields.baseColor.value; }%
+    %< if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { >%
+      %< let color = fields.appearance.value.fields.baseColor.value; >%
       recognitionColors [
-        %{= color.r }% %{= color.g }% %{= color.b }%
+        %<= color.r >% %<= color.g >% %<= color.b >%
       ]
-    %{ } }%
+    %< } >%
     translation IS translation
     rotation IS rotation
     scale 2.5 2.5 2.5
     children [
       Solid {
-        %{ if (fields.floor.value) { }%
+        %< if (fields.floor.value) { >%
           translation 0 0.33 0
-        %{ } }%
+        %< } >%
         children [
-          %{ if (fields.chimney.value) { }%
+          %< if (fields.chimney.value) { >%
           DEF CHIMNEY Group {
             children [
               DEF BODY Shape {
@@ -83,8 +83,8 @@ PROTO BungalowStyleHouse [
               }
             ]
           }
-          %{ } }%
-          %{ if (fields.fence.value) { }%
+          %< } >%
+          %< if (fields.fence.value) { >%
           DEF FENCE Group {
             children [
               DEF FRONT Shape {
@@ -120,7 +120,7 @@ PROTO BungalowStyleHouse [
               }
             ]
           }
-          %{ } }%
+          %< } >%
           DEF WALL Shape {
             appearance IS appearance
             geometry IndexedFaceSet {
@@ -136,7 +136,7 @@ PROTO BungalowStyleHouse [
               creaseAngle 0.5
             }
           }
-          %{ if (fields.floor.value) { }%
+          %< if (fields.floor.value) { >%
           DEF FLOOR Shape {
             appearance IS floorAppearance
             geometry IndexedFaceSet {
@@ -152,7 +152,7 @@ PROTO BungalowStyleHouse [
               creaseAngle 0.5
             }
           }
-          %{ } }%
+          %< } >%
           DEF DOORS Shape {
             appearance PBRAppearance {
               baseColor 0.356863 0.141176 0.141176
@@ -272,7 +272,7 @@ PROTO BungalowStyleHouse [
             }
           }
         ]
-        %{ if (fields.enableBoundingObject.value) { }%
+        %< if (fields.enableBoundingObject.value) { >%
         boundingObject Group {
           children [
             DEF MAIN Transform {
@@ -283,7 +283,7 @@ PROTO BungalowStyleHouse [
                 }
               ]
             }
-            %{ if (fields.floor.value) { }%
+            %< if (fields.floor.value) { >%
             DEF FLOOR Transform {
               translation 0.5 -0.15 0
               children [
@@ -319,8 +319,8 @@ PROTO BungalowStyleHouse [
                 }
               ]
             }
-            %{ } }%
-            %{ if (fields.fence.value) { }%
+            %< } >%
+            %< if (fields.fence.value) { >%
             DEF FENCE1 Transform {
               translation -1.78 0.29 0
               children [
@@ -369,10 +369,10 @@ PROTO BungalowStyleHouse [
                 }
               ]
             }
-            %{ } }%
+            %< } >%
           ]
         }
-        %{ } }%
+        %< } >%
       }
     ]
     name IS name

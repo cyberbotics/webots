@@ -57,18 +57,18 @@ PROTO MercedesBenzSprinter [
       }
       MercedesBenzSprinterMesh {
         color IS color
-      %{ if (fields.interior.value) { }%
+      %< if (fields.interior.value) { >%
         windowTransparency 0.7
-      %{ } }%
+      %< } >%
       }
       MercedesBenzSprinterLights {
       }
       MercedesBenzSprinterLogos {
       }
-      %{ if (fields.interior.value) { }%
+      %< if (fields.interior.value) { >%
       MercedesBenzSprinterInterior {
       }
-      %{ } }%
+      %< } >%
     ]
     boundingObject Group {
       children [
@@ -108,7 +108,7 @@ PROTO MercedesBenzSprinter [
     }
     radarCrossSection 150
     recognitionColors [
-      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
     ]
     engineFunctionCoefficients 600 0.2 0
     brakeCoefficient 3500

@@ -12,18 +12,18 @@ PROTO RobocupSoccerBall [
   field SFInt32{1,2,3,4,5}      size 1 # Defines the ball size and mass according to FIFA standards.
 ]
 {
-  %{
+  %<
     const size = fields.size.value;
     const radius_array = {1: 0.07, 2: 0.085, 3: 0.095, 4: 0.1025, 5: 0.1125};
     const mass_array = {1: 0.205, 2: 0.250, 3: 0.310, 4: 0.370, 5: 0.430};
     const radius = radius_array[size];
     const mass = mass_array[size];
     const scale = radius * 10.4;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %{= scale }% %{= scale }% %{= scale }%
+    scale %<= scale >% %<= scale >% %<= scale >%
     children [
       Shape {
         appearance PBRAppearance {
@@ -66,11 +66,11 @@ PROTO RobocupSoccerBall [
     model "soccer ball"
     contactMaterial "robocup soccer ball"
     boundingObject Sphere {
-      radius %{= radius / scale }%
+      radius %<= radius / scale >%
       subdivision 3
     }
     physics Physics {
-      mass %{= mass }%
+      mass %<= mass >%
       density -1
       centerOfMass [ 0 0 0.0001 ]  # to introduce some randomness in motion
       damping Damping {

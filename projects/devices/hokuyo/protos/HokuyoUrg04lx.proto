@@ -2413,14 +2413,14 @@ Lidar {
       }
     ]
   }
-  %{ if (fields.enablePhysics.value) { }%
+  %< if (fields.enablePhysics.value) { >%
   physics Physics {
     density -1
     mass 0.16
   }
-  %{ } }%
+  %< } >%
   fieldOfView 4.18879
-  verticalFieldOfView %{= 4.18879 / fields.resolution.value }%
+  verticalFieldOfView %<= 4.18879 / fields.resolution.value >%
   horizontalResolution IS resolution
   numberOfLayers 1
   spherical TRUE

@@ -29,7 +29,7 @@ PROTO RandomBuilding [
   field SFBool      bottom                 FALSE                              # Defines whether the building should have a floor (visible from below) or not.
 ]
 {
-  %{
+  %<
     import * as wbrandom from 'modules/webots/wbrandom.js';
     wbrandom.seed(context.id);
 
@@ -61,7 +61,7 @@ PROTO RandomBuilding [
       'office building',
       'concrete building']
     const wallType = wallTypes[wbrandom.integer(wallTypes.length) - 1];
-  }%
+  >%
   SimpleBuilding {
     translation IS translation
     rotation IS rotation
@@ -80,6 +80,6 @@ PROTO RandomBuilding [
     roofHeight IS roofHeight
     enableBoundingObject IS enableBoundingObject
     bottom IS bottom
-    wallType %{= '"' + wallType + '"' }%
+    wallType %<= '"' + wallType + '"' >%
   }
 }

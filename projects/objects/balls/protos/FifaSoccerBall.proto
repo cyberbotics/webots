@@ -12,20 +12,20 @@ PROTO FifaSoccerBall [
   field SFInt32{1,2,3,4,5} size        5 # Defines the ball size and mass according to FIFA standards.
 ]
 {
-  %{
+  %<
     const size = fields.size.value;
     const radius_array = {1: 0.07, 2: 0.085, 3: 0.095, 4: 0.1025, 5: 0.1125};
     const mass_array = {1: 0.205, 2: 0.250, 3: 0.310, 4: 0.370, 5: 0.430};
     const radius = radius_array[size];
     const mass = mass_array[size];
     const scale = radius * 2;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        scale %{= scale }% %{= scale }% %{= scale }%
+        scale %<= scale >% %<= scale >% %<= scale >%
         translation 0 0 0
         children [
           Shape {
@@ -70,11 +70,11 @@ PROTO FifaSoccerBall [
     name IS name
     model "soccer ball"
     boundingObject Sphere {
-      radius %{= radius }%
+      radius %<= radius >%
       subdivision 3
     }
     physics Physics {
-      mass %{= mass }%
+      mass %<= mass >%
       density -1
     }
     recognitionColors [

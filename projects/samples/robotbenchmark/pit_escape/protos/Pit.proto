@@ -18,7 +18,7 @@ PROTO Pit [
   field SFFloat    pitRadius      3
 ]
 {
-  %{
+  %<
     import * as wbrandom from 'modules/webots/wbrandom.js';
 
     if (fields.randomSeed.value <= 0)
@@ -80,34 +80,34 @@ PROTO Pit [
 
       return total / fields.perlinNOctaves.value;
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       DEF PIT_ELEVATION_GRID Transform {
-        translation %{= - fields.size.value.x * 0.5 }% 0 %{= - fields.size.value.z * 0.5 }%
+        translation %<= - fields.size.value.x * 0.5 >% 0 %<= - fields.size.value.z * 0.5 >%
         children [
           Shape {
             appearance IS appearance
             geometry ElevationGrid {
-              %{ if (fields.xDimension.value > 2 && fields.zDimension.value > 2) { }%
+              %< if (fields.xDimension.value > 2 && fields.zDimension.value > 2) { >%
                 xDimension IS xDimension
-                xSpacing %{= fields.size.value.x / (fields.xDimension.value - 1) }%
+                xSpacing %<= fields.size.value.x / (fields.xDimension.value - 1) >%
                 zDimension IS zDimension
-                zSpacing %{= fields.size.value.z / (fields.zDimension.value - 1) }%
+                zSpacing %<= fields.size.value.z / (fields.zDimension.value - 1) >%
                 height [
-                  %{
+                  %<
                     const xSigma = fields.pitRadius.value / fields.size.value.x;
                     const zSigma = fields.pitRadius.value / fields.size.value.z;
                     const xMin = 0.5 - 3 * xSigma;
                     const xMax = 0.5 + 3 * xSigma;
                     const zMin = 0.5 - 3 * zSigma;
                     const zMax = 0.5 + 3 * zSigma;
-                  }%
-                  %{ for (let i = 0; i <= fields.xDimension.value - 1; ++i) { }%
-                    %{ for (let j = 0; j <= fields.zDimension.value - 1; ++j) { }%
-                      %{
+                  >%
+                  %< for (let i = 0; i <= fields.xDimension.value - 1; ++i) { >%
+                    %< for (let j = 0; j <= fields.zDimension.value - 1; ++j) { >%
+                      %<
                         let height = 1.0;
                         const x = i / fields.xDimension.value;
                         const z = j / fields.zDimension.value;
@@ -121,12 +121,12 @@ PROTO Pit [
                           height = height * fields.size.value.y;
                         } else
                           height = 0;
-                      }%
-                      %{= height }%
-                    %{ } }%
-                  %{ } }%
+                      >%
+                      %<= height >%
+                    %< } >%
+                  %< } >%
                 ]
-              %{ } }%
+              %< } >%
             }
           }
         ]

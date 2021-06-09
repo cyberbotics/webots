@@ -45,7 +45,7 @@ PROTO TinkerbotsLightSensor [
         }
         LED {
           translation 0 0.016 0.0065
-          name %{= '"' + fields.name.value + ' led"' }%
+          name %<= '"' + fields.name.value + ' led"' >%
           color []
           gradual TRUE
           children [

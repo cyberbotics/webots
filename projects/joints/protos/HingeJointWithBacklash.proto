@@ -14,7 +14,7 @@ PROTO HingeJointWithBacklash [
   field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {
-  %{
+  %<
     // parameter retrieval
     const axis = fields.jointParameters.value.fields.axis.value;
     const anchor = fields.jointParameters.value.fields.anchor.value;
@@ -35,25 +35,25 @@ PROTO HingeJointWithBacklash [
     if ((backlash === 0 && gearMass > 0) || (backlash === 0 && fields.startPoint.value !== undefined) ||
         (backlash === 0 && fields.outputSensor.value !== undefined))
       console.log('Without backlash \'HingeJointWithBacklash\' is replaced with a \'HingeJoint\'. \'gearMass\', \'startPoint\' and \'outputSensor\' are being ignored. You should consider replacing the node.');
-  }%
+  >%
   HingeJoint {
     jointParameters IS jointParameters
     device IS device
-    %{ if (backlash === 0) { }% # use a normal hinge
+    %< if (backlash === 0) { >% # use a normal hinge
       endPoint IS endPoint
-    %{ } else { }%
+    %< } else { >%
       endPoint Solid {
-        name %{= '"start_point_' + context.id + '"' }% # prevent name clashes
+        name %<= '"start_point_' + context.id + '"' >% # prevent name clashes
         children [
           Group {
             children IS startPoint
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis %{= axis.x }% %{= axis.y }% %{= axis.z }%
-              anchor %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
-              minStop %{= - backlash*0.5 }%
-              maxStop %{= backlash*0.5 }%
+              axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+              anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+              minStop %<= - backlash*0.5 >%
+              maxStop %<= backlash*0.5 >%
               stopERP 0
             }
             device IS outputSensor
@@ -62,11 +62,11 @@ PROTO HingeJointWithBacklash [
         ]
         physics Physics {
           inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
-          centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
+          centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
           density -1
           mass IS gearMass
         }
       }
-    %{ } }%
+    %< } >%
   }
 }

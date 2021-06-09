@@ -109,12 +109,12 @@ PROTO Mir100UltrasonicSensor [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 0.0085
     }
-    %{ } }%
+    %< } >%
     lookupTable IS lookupTable
     type "sonar"
   }

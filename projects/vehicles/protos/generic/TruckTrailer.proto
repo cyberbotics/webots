@@ -14,22 +14,22 @@ PROTO TruckTrailer [
   field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
 ]
 {
-  %{
+  %<
     let length = fields.length.value;
     if (length < 5.0) {
       length = 5.0;
       console.error('\'length\' should not be smaller than 5.0. Value reset to ' + length + '.');
     }
     const wheelAxlesNumber = fields.wheelAxles.value.length;
-  }%
+  >%
   Slot {
     type "truck trailer"
     endPoint Solid {
-      translation 0 0 %{= -2.48 + fields.kingPinDistance.value + 0.5 * (fields.length.defaultValue - length) }%
+      translation 0 0 %<= -2.48 + fields.kingPinDistance.value + 0.5 * (fields.length.defaultValue - length) >%
       children [
         Transform {
-          translation 0 0 %{= 2.48 - 0.5 * (fields.length.defaultValue - length) }%
-          scale 1 1 %{= length / fields.length.defaultValue }%
+          translation 0 0 %<= 2.48 - 0.5 * (fields.length.defaultValue - length) >%
+          scale 1 1 %<= length / fields.length.defaultValue >%
           children [
             DEF REAR_LIGHTS LED {
               translation 0 0 -2.48
@@ -46,10 +46,10 @@ PROTO TruckTrailer [
             }
           ]
         }
-        %{ for (let i = 0; i < wheelAxlesNumber; ++i) { }%
+        %< for (let i = 0; i < wheelAxlesNumber; ++i) { >%
         # right wheel
         Transform {
-          translation -1 0 %{= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) }%
+          translation -1 0 %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >%
           rotation 0 0 1 1.5708
           children [
             HingeJoint {
@@ -62,7 +62,7 @@ PROTO TruckTrailer [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
-                  name %{= '"right wheel(' + i + ')"' }%
+                  name %<= '"right wheel(' + i + ')"' >%
                   physics DEF WHEEL_PHYSICS Physics {
                     density -1
                     mass 100
@@ -74,7 +74,7 @@ PROTO TruckTrailer [
         }
         # left wheel
         Transform {
-          translation 1 0 %{= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) }%
+          translation 1 0 %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >%
           rotation 0 0 1 -1.5708
           children [
             HingeJoint {
@@ -87,14 +87,14 @@ PROTO TruckTrailer [
               endPoint Slot {
                 type "vehicle wheel"
                 endPoint TruckWheel {
-                  name %{= '"left wheel(' + i + ')"' }%
+                  name %<= '"left wheel(' + i + ')"' >%
                   physics USE WHEEL_PHYSICS
                 }
               }
             }
           ]
         }
-        %{ } }%
+        %< } >%
       ]
       name IS name
       model "truck trailer"
@@ -104,23 +104,23 @@ PROTO TruckTrailer [
             translation 0 2.21 -3.1
             children [
               Box {
-                size 2.5 3.05 %{= length }%
+                size 2.5 3.05 %<= length >%
               }
             ]
           }
           Transform {
-            translation 0 0.27 %{= -6.0+ 0.3 * (fields.length.defaultValue - length) }%
+            translation 0 0.27 %<= -6.0+ 0.3 * (fields.length.defaultValue - length) >%
             children [
               Box {
-                size 1 0.87 %{= 4.5 * length / fields.length.defaultValue }%
+                size 1 0.87 %<= 4.5 * length / fields.length.defaultValue >%
               }
             ]
           }
           Transform {
-            translation 0 0.52 %{= -8.38 + 0.48 * (fields.length.defaultValue - length) }%
+            translation 0 0.52 %<= -8.38 + 0.48 * (fields.length.defaultValue - length) >%
             children [
               Box {
-                size 2.5 0.43 %{= 0.4 * length / fields.length.defaultValue }%
+                size 2.5 0.43 %<= 0.4 * length / fields.length.defaultValue >%
               }
             ]
           }
@@ -130,7 +130,7 @@ PROTO TruckTrailer [
         density -1
         mass IS mass
         centerOfMass [
-          0 0.1 %{= -0.5 * length }%
+          0 0.1 %<= -0.5 * length >%
         ]
       }
     }

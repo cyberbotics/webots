@@ -12,29 +12,29 @@ PROTO Wall [
   field SFNode     appearance  Roughcast { textureTransform TextureTransform { scale 1 2.4 } }  # Defines the appearance of the wall.
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
       size = fields.size.defaultValue;
       console.error('\'size\' must be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Solid {
-        translation 0 %{= 0.5 * size.y }% 0
+        translation 0 %<= 0.5 * size.y >% 0
         children [
           Shape {
             appearance IS appearance
             geometry Box {
-              size %{= size.x }% %{= size.y }% %{= size.z }%
+              size %<= size.x >% %<= size.y >% %<= size.z >%
             }
           }
         ]
         boundingObject Box {
-          size %{= size.x }% %{= size.y }% %{= size.z }%
+          size %<= size.x >% %<= size.y >% %<= size.z >%
         }
       }
     ]

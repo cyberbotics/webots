@@ -15,9 +15,9 @@ PROTO ElectricalPlug [
   field SFBool     enableBoundingObject  TRUE                           # Defines whether the plug should have a bounding object.
 ]
 {
-  %{
+  %<
     const nbCablePathPoints = fields.cablePath.value.length;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -58,7 +58,7 @@ PROTO ElectricalPlug [
           creaseAngle 0.57
         }
       }
-      %{ if (nbCablePathPoints > 1) { }%
+      %< if (nbCablePathPoints > 1) { >%
         Solid {
           translation 0 0 0.055
           rotation 1 0 0 1.5707963220000003
@@ -79,7 +79,7 @@ PROTO ElectricalPlug [
               }
             }
           ]
-          %{ if (fields.enableBoundingObject.value) { }%
+          %< if (fields.enableBoundingObject.value) { >%
             boundingObject Extrusion {
               crossSection [
                 0.003 0.003
@@ -90,15 +90,15 @@ PROTO ElectricalPlug [
               ]
               spine IS cablePath
             }
-          %{ } }%
-          %{ if (fields.enablePhysics.value) { }%
+          %< } >%
+          %< if (fields.enablePhysics.value) { >%
             physics Physics {
             }
-          %{ } }%
+          %< } >%
         }
-      %{ } }%
+      %< } >%
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
           Transform {
@@ -152,12 +152,12 @@ PROTO ElectricalPlug [
           }
         ]
       }
-    %{ } }%
-    %{ if (fields.enablePhysics.value) { }%
+    %< } >%
+    %< if (fields.enablePhysics.value) { >%
       physics Physics {
         density -1
         mass 0.1
       }
-    %{ } }%
+    %< } >%
   }
 }

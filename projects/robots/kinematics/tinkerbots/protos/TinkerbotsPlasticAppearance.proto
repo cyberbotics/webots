@@ -11,17 +11,17 @@ PROTO TinkerbotsPlasticAppearance [
 ]
 {
   PBRAppearance {
-    %{ if (fields.color.value === 'yellow') { }%
+    %< if (fields.color.value === 'yellow') { >%
       baseColor 1 0.6 0
-    %{ } else if (fields.color.value === 'red') { }%
+    %< } else if (fields.color.value === 'red') { >%
       baseColor 1 0 0
-    %{ } else if (fields.color.value === 'blue') { }%
+    %< } else if (fields.color.value === 'blue') { >%
       baseColor 0 0.45 1
-    %{ } else if (fields.color.value === 'black') { }%
+    %< } else if (fields.color.value === 'black') { >%
       baseColor 0 0 0
-    %{ } else { }%
+    %< } else { >%
       baseColor 0.8 0.8 0.8
-    %{ } }%
+    %< } >%
     metalness 0
     roughness 0.9
     occlusionMap ImageTexture {

@@ -18,12 +18,12 @@ PROTO ModernHouse [
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { }%
-      %{ let color = fields.appearance.value.fields.baseColor.value; }%
+    %< if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { >%
+      %< let color = fields.appearance.value.fields.baseColor.value; >%
       recognitionColors [
-        %{= color.r }% %{= color.g }% %{= color.b }%
+        %<= color.r >% %<= color.g >% %<= color.b >%
       ]
-    %{ } }%
+    %< } >%
     children [
       Transform {
         translation 0 -0.76 0
@@ -469,7 +469,7 @@ PROTO ModernHouse [
     ]
     name IS name
     model "modern house"
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -538,6 +538,6 @@ PROTO ModernHouse [
         }
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

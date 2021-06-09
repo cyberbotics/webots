@@ -209,7 +209,7 @@ PROTO TrashContainer [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 250
@@ -221,6 +221,6 @@ PROTO TrashContainer [
         -0.019548505618615653 0.10799691421183599 2159.663688508241
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

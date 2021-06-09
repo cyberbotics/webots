@@ -184,7 +184,7 @@ PROTO TinkerbotsMotor [
         }
         LED {
           translation 0 0.016 0.0065
-          name %{= '"' + fields.name.value + ' led"' }%
+          name %<= '"' + fields.name.value + ' led"' >%
           color []
           gradual TRUE
           children [
@@ -259,7 +259,7 @@ PROTO TinkerbotsMotor [
               maxVelocity 22  # Calibrated.
             }
             PositionSensor {
-              name %{= '"' + fields.name.value + ' sensor"' }%
+              name %<= '"' + fields.name.value + ' sensor"' >%
             }
           ]
           endPoint Solid {

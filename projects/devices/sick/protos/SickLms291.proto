@@ -1044,7 +1044,7 @@ PROTO SickLms291 [
     model "Sick LMS291"
     fieldOfView 3.14159
     horizontalResolution IS resolution
-    verticalFieldOfView %{= 3.14159 / fields.resolution.value }%
+    verticalFieldOfView %<= 3.14159 / fields.resolution.value >%
     numberOfLayers 1
     spherical TRUE
     maxRange 80

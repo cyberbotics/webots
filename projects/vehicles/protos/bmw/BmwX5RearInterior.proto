@@ -16100,7 +16100,7 @@ PROTO BmwX5RearInterior [
           creaseAngle 0.6
         }
       }
-      %{ if (fields.shifter.value) { }%
+      %< if (fields.shifter.value) { >%
       DEF SHIFTER Shape {
         appearance USE PLASTIC_DETAILS_APPEARANCE
         geometry IndexedFaceSet {
@@ -16115,7 +16115,7 @@ PROTO BmwX5RearInterior [
           creaseAngle 0.6
         }
       }
-      %{ } }%
+      %< } >%
       DEF CENTER Shape {
         appearance DEF LIGHT_LEATHER Leather {
           tone "light"

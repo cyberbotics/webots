@@ -15,7 +15,7 @@ PROTO LinkedWalls [
   field SFString window "wall_following"
 ]
 {
-  %{
+  %<
     import * as wbrandom from 'modules/webots/wbrandom.js';
     let angles;
     let dataString = '"';
@@ -92,7 +92,7 @@ PROTO LinkedWalls [
 
       return nextWall;
     };
-  }%
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
@@ -105,25 +105,25 @@ PROTO LinkedWalls [
           DEF SHAPE_WALL_LINKED_WALL Shape {
             appearance IS appearance
             geometry Box {
-              size 0.01 %{= fields.height.value }% %{= fields.length.value }%
+              size 0.01 %<= fields.height.value >% %<= fields.length.value >%
             }
           }
         ]
         boundingObject USE SHAPE_WALL_LINKED_WALL
       }
-      %{ for (let i = 0; i < angles.length; ++i) { }%
-        %{ currentWall = computeNextWall(currentWall, angles[i]); }%
+      %< for (let i = 0; i < angles.length; ++i) { >%
+        %< currentWall = computeNextWall(currentWall, angles[i]); >%
           Solid {
-            translation %{= currentWall.x }% 0 %{= currentWall.z }%
-            rotation 0 1 0 %{= currentWall.orientation }%
-            name "wall %{=i}%"
+            translation %<= currentWall.x >% 0 %<= currentWall.z >%
+            rotation 0 1 0 %<= currentWall.orientation >%
+            name "wall %<=i>%"
             children [
               USE SHAPE_WALL_LINKED_WALL
             ]
             boundingObject USE SHAPE_WALL_LINKED_WALL
           }
-      %{ } }%
+      %< } >%
     ]
-    customData %{= dataString }%
+    customData %<= dataString >%
   }
 }

@@ -48,7 +48,7 @@ PROTO Cabinet [
   field SFNode   secondaryAppearance PaintedWood {}    # Defines the secondary appearance.
 ]
 {
-  %{
+  %<
     function computeCoordinate (elements, item, dimension) {
       let from = 0.0;
       for (let i = 0; i < (item - 1); ++i) {
@@ -130,44 +130,44 @@ PROTO Cabinet [
 
     // in order to avoid object collisions
     const objectScaleFactor = 0.995;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       SolidBox { # back of the cabinet frame
-        translation 0 %{= 0.5 * size.y }% %{= 0.5 * outerThickness }%
+        translation 0 %<= 0.5 * size.y >% %<= 0.5 * outerThickness >%
         name "back box"
-        size %{= size.x }% %{= size.y - 2.0 * outerThickness }% %{= outerThickness }%
+        size %<= size.x >% %<= size.y - 2.0 * outerThickness >% %<= outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # left side of the cabinet frame
-        translation %{= 0.5 * size.x - 0.5 * outerThickness }% %{= 0.5 * size.y }% %{= 0.5 * outerThickness + 0.5 * size.z }%
+        translation %<= 0.5 * size.x - 0.5 * outerThickness >% %<= 0.5 * size.y >% %<= 0.5 * outerThickness + 0.5 * size.z >%
         name "left box"
-        size %{= outerThickness }% %{= size.y - 2.0 * outerThickness }% %{= size.z - outerThickness }%
+        size %<= outerThickness >% %<= size.y - 2.0 * outerThickness >% %<= size.z - outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # right side of the cabinet frame
-        translation %{= -0.5 * size.x + 0.5 * outerThickness }% %{= 0.5 * size.y }% %{= 0.5 * outerThickness + 0.5 * size.z }%
+        translation %<= -0.5 * size.x + 0.5 * outerThickness >% %<= 0.5 * size.y >% %<= 0.5 * outerThickness + 0.5 * size.z >%
         name "right box"
-        size %{= outerThickness }% %{= size.y - 2.0 * outerThickness }% %{= size.z - outerThickness }%
+        size %<= outerThickness >% %<= size.y - 2.0 * outerThickness >% %<= size.z - outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # top side of the cabinet frame
-        translation 0 %{= size.y - 0.5 * outerThickness}% %{= 0.5 * size.z }%
+        translation 0 %<= size.y - 0.5 * outerThickness>% %<= 0.5 * size.z >%
         name "top box"
-        size %{= size.x }% %{= outerThickness }% %{= size.z }%
+        size %<= size.x >% %<= outerThickness >% %<= size.z >%
         appearance IS primaryAppearance
       }
       SolidBox { # bottom side of the cabinet frame
-        translation 0 %{= 0.5 * outerThickness }% %{= 0.5 * size.z }%
+        translation 0 %<= 0.5 * outerThickness >% %<= 0.5 * size.z >%
         name "bottom box"
-        size %{= size.x }% %{= outerThickness }% %{= size.z }%
+        size %<= size.x >% %<= outerThickness >% %<= size.z >%
         appearance IS primaryAppearance
       }
       # parse layout
-      %{ for (let i = 0; i < fields.layout.value.length; ++i) { }%
-        %{
+      %< for (let i = 0; i < fields.layout.value.length; ++i) { >%
+        %<
           let layout = fields.layout.value[i];
           let data = layout.match(/([^", ( ) %s"]+)/g);
           for (let j = 1; j < data.length; ++j) {
@@ -177,67 +177,67 @@ PROTO Cabinet [
               console.error('\'layout[' + i + '][' + j + ']\' must be positive. Value reset to ' + data[j] + '.');
             }
           }
-        }%
-        %{ if (data.length >= 5) { }%
-          %{ if (data[1] > 0 && data[1] <= nColumns && data[2] > 0 && data[2] <= nRows &&
+        >%
+        %< if (data.length >= 5) { >%
+          %< if (data[1] > 0 && data[1] <= nColumns && data[2] > 0 && data[2] <= nRows &&
                  data[3] >= 0 && data[1] + data[3] - 1 <= nColumns && data[4] >= 0 && data[2] + data[4] - 1 <= nRows) {
-          }%
-            %{ if (data[0] === 'RightSidedDoor' || data[0] === 'LeftSidedDoor' || data[0] === 'Drawer') { }%
-              %{ if (data[0] === 'RightSidedDoor') { }%
+          >%
+            %< if (data[0] === 'RightSidedDoor' || data[0] === 'LeftSidedDoor' || data[0] === 'Drawer') { >%
+              %< if (data[0] === 'RightSidedDoor') { >%
                  CabinetDoor {
-                   name %{= '"door ' + i + '"' }%
+                   name %<= '"door ' + i + '"' >%
                    rightSided TRUE
-              %{ } else if (data[0] === 'LeftSidedDoor') { }%
+              %< } else if (data[0] === 'LeftSidedDoor') { >%
                 CabinetDoor {
-                  name %{= '"door ' + i + '"' }%
+                  name %<= '"door ' + i + '"' >%
                   rightSided FALSE
-              %{ } else if (data[0] === 'Drawer') { }%
+              %< } else if (data[0] === 'Drawer') { >%
                 CabinetDrawer {
-                  name %{= '"drawer ' + i + '"' }%
-              %{ } }%
+                  name %<= '"drawer ' + i + '"' >%
+              %< } >%
                   translation
-                    %{= computeCoordinate(columnsWidths, data[1], data[3]) - 0.5 * size.x + outerThickness }%
-                    %{= computeCoordinate(rowsHeights,   data[2], data[4]) + outerThickness }%
-                    %{= size.z }%
+                    %<= computeCoordinate(columnsWidths, data[1], data[3]) - 0.5 * size.x + outerThickness >%
+                    %<= computeCoordinate(rowsHeights,   data[2], data[4]) + outerThickness >%
+                    %<= size.z >%
                   size
-                    %{= objectScaleFactor * computeDimension(columnsWidths, data[1], data[3]) }%
-                    %{= objectScaleFactor * computeDimension(rowsHeights,   data[2], data[4]) }%
-                    %{= objectScaleFactor * (size.z - outerThickness) }%
-                  %{ if (data[5] !== undefined && data[5] > 0.0) { }%
-                    mass %{= data[5] }%
-                  %{ } }%
+                    %<= objectScaleFactor * computeDimension(columnsWidths, data[1], data[3]) >%
+                    %<= objectScaleFactor * computeDimension(rowsHeights,   data[2], data[4]) >%
+                    %<= objectScaleFactor * (size.z - outerThickness) >%
+                  %< if (data[5] !== undefined && data[5] > 0.0) { >%
+                    mass %<= data[5] >%
+                  %< } >%
                   thickness IS innerThickness
                   handle IS handle
                   primaryAppearance IS primaryAppearance
                   secondaryAppearance IS secondaryAppearance
                 }
-            %{ } else if (data[0] === 'Shelf') { }%
-              %{
+            %< } else if (data[0] === 'Shelf') { >%
+              %<
                 let horizontalOffset = data[3] === 0 ? 1 : 0;
                 let depthFightingOffset = data[3] < data[4] ? 0.0001 : 0;
-              }%
+              >%
               SolidBox {
-                 name %{= '"box ' + i + '"' }%
+                 name %<= '"box ' + i + '"' >%
                 appearance IS primaryAppearance
                 translation
-                  %{= computeCoordinate(columnsWidths, horizontalOffset + data[1], data[3]) - 0.5 * size.x + outerThickness + depthFightingOffset }%
-                  %{= computeCoordinate(rowsHeights, data[2], data[4]) + outerThickness + depthFightingOffset }%
-                  %{= 0.5 * size.z + 0.5 * (outerThickness - innerThickness) + depthFightingOffset }%
+                  %<= computeCoordinate(columnsWidths, horizontalOffset + data[1], data[3]) - 0.5 * size.x + outerThickness + depthFightingOffset >%
+                  %<= computeCoordinate(rowsHeights, data[2], data[4]) + outerThickness + depthFightingOffset >%
+                  %<= 0.5 * size.z + 0.5 * (outerThickness - innerThickness) + depthFightingOffset >%
                 size
-                  %{= innerThickness + computeDimension(columnsWidths, data[1], data[3]) }%
-                  %{= innerThickness + computeDimension(rowsHeights,   data[2], data[4]) }%
-                  %{= objectScaleFactor * (size.z - outerThickness - innerThickness) }%
+                  %<= innerThickness + computeDimension(columnsWidths, data[1], data[3]) >%
+                  %<= innerThickness + computeDimension(rowsHeights,   data[2], data[4]) >%
+                  %<= objectScaleFactor * (size.z - outerThickness - innerThickness) >%
                }
-            %{  } else { }%
-              %{ console.error('\'layout[' + i + ']\': unknown object: ' + data[0] + '.'); }%
-            %{ } }%
-          %{ } else { }%
-            %{ console.error('\'layout[' + i + ']\': invalid position or dimension.'); }%
-          %{ } }%
-        %{ } else { }%
-          %{ console.error('\'layout[' + i + ']\': invalid layout.'); }%
-        %{ } }%
-      %{ } }%
+            %<  } else { >%
+              %< console.error('\'layout[' + i + ']\': unknown object: ' + data[0] + '.'); >%
+            %< } >%
+          %< } else { >%
+            %< console.error('\'layout[' + i + ']\': invalid position or dimension.'); >%
+          %< } >%
+        %< } else { >%
+          %< console.error('\'layout[' + i + ']\': invalid layout.'); >%
+        %< } >%
+      %< } >%
     ]
     name IS name
     model "cabinet"

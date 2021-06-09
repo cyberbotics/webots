@@ -13,7 +13,7 @@ PROTO PlasticCrate [
   field SFFloat    mass        0
 ]
 {
-  %{
+  %<
     const thicknessFactor = 0.035;
     let thickness = {x: thicknessFactor * fields.size.value.x, y: thicknessFactor * fields.size.value.y, z: thicknessFactor * fields.size.value.z};
 
@@ -22,7 +22,7 @@ PROTO PlasticCrate [
       size = fields.size.defaultValue;
       console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -52,52 +52,52 @@ PROTO PlasticCrate [
     boundingObject Group {
       children [
         Transform {
-          translation 0 %{= 0.5 * thickness.y }% 0
+          translation 0 %<= 0.5 * thickness.y >% 0
           children [
             Box {
-              size %{= fields.size.value.x }% %{= thickness.y }% %{= fields.size.value.z }%
+              size %<= fields.size.value.x >% %<= thickness.y >% %<= fields.size.value.z >%
             }
           ]
         }
         Transform {
-          translation %{= 0.5 * (fields.size.value.x - thickness.x) }% %{= 0.5 * fields.size.value.y + 0.5 * thickness.y }% 0
+          translation %<= 0.5 * (fields.size.value.x - thickness.x) >% %<= 0.5 * fields.size.value.y + 0.5 * thickness.y >% 0
           children [
             Box {
-              size %{= thickness.x }% %{= fields.size.value.y - thickness.y }% %{= fields.size.value.z - 2.0 * thickness.z }%
+              size %<= thickness.x >% %<= fields.size.value.y - thickness.y >% %<= fields.size.value.z - 2.0 * thickness.z >%
             }
           ]
         }
         Transform {
-          translation %{= -0.5 * (fields.size.value.x - thickness.x) }% %{= 0.5 * fields.size.value.y + 0.5 * thickness.y }% 0
+          translation %<= -0.5 * (fields.size.value.x - thickness.x) >% %<= 0.5 * fields.size.value.y + 0.5 * thickness.y >% 0
           children [
             Box {
-              size %{= thickness.x }% %{= fields.size.value.y - thickness.y }% %{= fields.size.value.z - 2.0 * thickness.z }%
+              size %<= thickness.x >% %<= fields.size.value.y - thickness.y >% %<= fields.size.value.z - 2.0 * thickness.z >%
             }
           ]
         }
         Transform {
-          translation 0 %{= 0.5 * fields.size.value.y + 0.5 * thickness.y }% %{= 0.5 * (fields.size.value.z - thickness.z) }%
+          translation 0 %<= 0.5 * fields.size.value.y + 0.5 * thickness.y >% %<= 0.5 * (fields.size.value.z - thickness.z) >%
           children [
             Box {
-              size %{= fields.size.value.x }% %{= fields.size.value.y - thickness.y }% %{= thickness.x }%
+              size %<= fields.size.value.x >% %<= fields.size.value.y - thickness.y >% %<= thickness.x >%
             }
           ]
         }
         Transform {
-          translation 0 %{= 0.5 * fields.size.value.y + 0.5 * thickness.y }% %{= -0.5 * (fields.size.value.z - thickness.z) }%
+          translation 0 %<= 0.5 * fields.size.value.y + 0.5 * thickness.y >% %<= -0.5 * (fields.size.value.z - thickness.z) >%
           children [
             Box {
-              size %{= fields.size.value.x }% %{= fields.size.value.y - thickness.y }% %{= thickness.x }%
+              size %<= fields.size.value.x >% %<= fields.size.value.y - thickness.y >% %<= thickness.x >%
             }
           ]
         }
       ]
     }
-    %{ if (fields.mass.value > 0) { }%
+    %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
-      mass %{= fields.mass.value }%
+      mass %<= fields.mass.value >%
     }
-    %{ } }%
+    %< } >%
   }
 }

@@ -155,11 +155,11 @@ PROTO OfficeTelephone [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 1
     }
-    %{ } }%
+    %< } >%
   }
 }

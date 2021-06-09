@@ -35,7 +35,7 @@ PROTO RoadIntersection [
   hiddenField  MFBool               startRoadsDashedLine     TRUE                                  # Deprecated in Webots R2018c.
 ]
 {
-  %{
+  %<
     // fields checks
     let roadNumber = fields.roadNumber.value;
     if (roadNumber < 3) {
@@ -100,7 +100,7 @@ PROTO RoadIntersection [
     const borderRadius = (roadsWidth + 2 * borderWidth) / (2 * Math.tan(Math.PI/roadNumber)); // radius where the border stops to intersect
     const roadMinimalLength = borderRadius - innerRadius;
     const textureCoordinateRatio = 0.2;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -113,97 +113,97 @@ PROTO RoadIntersection [
           coord Coordinate {
             point [
               0 0 0
-              %{ for (let i = 0; i <= roadNumber - 1; ++i) { }%
-                %{= outerRadius * Math.cos(2 * Math.PI * i / roadNumber) }% 0 %{= outerRadius * Math.sin(2 * Math.PI * i / roadNumber) }%
-              %{ } }%
+              %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
+                %<= outerRadius * Math.cos(2 * Math.PI * i / roadNumber) >% 0 %<= outerRadius * Math.sin(2 * Math.PI * i / roadNumber) >%
+              %< } >%
             ]
           }
           texCoord TextureCoordinate {
             point [
               0 0
-              %{ for (let i = 0; i <= roadNumber - 1; ++i) { }%
-                %{= outerRadius * Math.cos(2 * Math.PI * i / roadNumber) * textureCoordinateRatio }% %{= outerRadius * Math.sin(2 * Math.PI * i / roadNumber) * textureCoordinateRatio }%
-              %{ } }%
+              %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
+                %<= outerRadius * Math.cos(2 * Math.PI * i / roadNumber) * textureCoordinateRatio >% %<= outerRadius * Math.sin(2 * Math.PI * i / roadNumber) * textureCoordinateRatio >%
+              %< } >%
             ]
           }
           coordIndex [
-          %{ for (let i = 0; i <= roadNumber - 2; ++i) { }%
-            0 %{= i + 2 }% %{= i + 1 }% -1
-          %{ } }%
-            0 %{= 1 }% %{= roadNumber }% -1
-          %{ if (fields.bottom.value) { }%
-            %{ for (let i = 0; i <= roadNumber - 2; ++i) { }%
-              0 %{= i + 1 }% %{= i + 2 }% -1
-            %{ } }%
-              0 %{= roadNumber }% %{= 1 }% -1
-          %{ } }%
+          %< for (let i = 0; i <= roadNumber - 2; ++i) { >%
+            0 %<= i + 2 >% %<= i + 1 >% -1
+          %< } >%
+            0 %<= 1 >% %<= roadNumber >% -1
+          %< if (fields.bottom.value) { >%
+            %< for (let i = 0; i <= roadNumber - 2; ++i) { >%
+              0 %<= i + 1 >% %<= i + 2 >% -1
+            %< } >%
+              0 %<= roadNumber >% %<= 1 >% -1
+          %< } >%
           ]
           texCoordIndex [
-          %{ for (let i = 0; i <= roadNumber - 2; ++i) { }%
-            0 %{= i + 2 }% %{= i + 1 }% -1
-          %{ } }%
-            0 %{= 1 }% %{= roadNumber }% -1
-          %{ if (fields.bottom.value) { }%
-            %{ for (let i = 0; i <= roadNumber - 2; ++i) { }%
-              0 %{= i + 1 }% %{= i + 2 }% -1
-            %{ } }%
-              0 %{= roadNumber }% %{= 1 }% -1
-          %{ } }%
+          %< for (let i = 0; i <= roadNumber - 2; ++i) { >%
+            0 %<= i + 2 >% %<= i + 1 >% -1
+          %< } >%
+            0 %<= 1 >% %<= roadNumber >% -1
+          %< if (fields.bottom.value) { >%
+            %< for (let i = 0; i <= roadNumber - 2; ++i) { >%
+              0 %<= i + 1 >% %<= i + 2 >% -1
+            %< } >%
+              0 %<= roadNumber >% %<= 1 >% -1
+          %< } >%
           ]
           creaseAngle 0.2
         }
       }
-      %{ if (startRoads) { }%
-        %{ for (let i = 0; i <= roadNumber - 1; ++i) { }%
-          %{
+      %< if (startRoads) { >%
+        %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
+          %<
             let roadLength = useIndependentStartRoadLength ? startRoadsLength[i + 1] : startRoadsLength[0];
-          }%
-          %{ if (roadLength > 0) { }%
+          >%
+          %< if (roadLength > 0) { >%
             # only for borders
             Road {
-              translation %{= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) }% 0 %{= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) }%
-              rotation 0 1 0 %{= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2}%
-              name "border %{=i}%"
+              translation %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0 %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >%
+              rotation 0 1 0 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
+              name "border %<=i>%"
               wayPoints [
                 0 0 0
-                %{ if (roadMinimalLength < roadLength) { }%
-                  0 0 %{= roadMinimalLength }%
-                %{ } }%
-                0 0 %{= roadLength }%
+                %< if (roadMinimalLength < roadLength) { >%
+                  0 0 %<= roadMinimalLength >%
+                %< } >%
+                0 0 %<= roadLength >%
               ]
               leftBorderBoundingObject IS startRoadBorderboundingObject
               rightBorderBoundingObject IS startRoadBorderboundingObject
               road FALSE
-              width %{= roadsWidth }%
+              width %<= roadsWidth >%
               bottom IS bottom
               splineSubdivision -1
-              %{ if (startRoadBorder) { }%
+              %< if (startRoadBorder) { >%
                 rightBorder TRUE
                 leftBorder TRUE
-                roadBorderHeight %{= borderHeight }%
-                %{ if (roadMinimalLength < roadLength) { }%
-                  roadBorderWidth [ %{= 0 }%, %{= borderWidth }% ]
-                %{ } else { }%
-                  roadBorderWidth [ %{= 0 }%, %{= borderWidth * (roadLength / roadMinimalLength) }% ]
-                %{ } }%
-              %{ } else { }%
+                roadBorderHeight %<= borderHeight >%
+                %< if (roadMinimalLength < roadLength) { >%
+                  roadBorderWidth [ %<= 0 >%, %<= borderWidth >% ]
+                %< } else { >%
+                  roadBorderWidth [ %<= 0 >%, %<= borderWidth * (roadLength / roadMinimalLength) >% ]
+                %< } >%
+              %< } else { >%
                 rightBorder FALSE
                 leftBorder FALSE
-              %{ } }%
+              %< } >%
               castShadows IS castShadows
             }
-          %{ } }%
+          %< } >%
           # only for the road
-          %{ if (roadLength > 0) { }%
+          %< if (roadLength > 0) { >%
             Road {
-              translation %{= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) }% 0 %{= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) }%
-              rotation 0 1 0 %{= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2}%
-              name "road %{=i}%"
+              translation %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0 %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >%
+              rotation 0 1 0 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
+              name "road %<=i>%"
               wayPoints [
                 0 0 0
-                0 0 %{= roadLength }%
+                0 0 %<= roadLength >%
               ]
-              width %{= roadsWidth }%
+              width %<= roadsWidth >%
               roadBoundingObject IS boundingObject
               contactMaterial IS contactMaterial
               bottom IS bottom
@@ -218,14 +218,14 @@ PROTO RoadIntersection [
               appearance IS appearance
               castShadows IS castShadows
             }
-          %{ } }%
-        %{ } }%
-      %{ } }%
+          %< } >%
+        %< } >%
+      %< } >%
     ]
     locked IS locked
-    %{ if (boundingObject) { }%
+    %< if (boundingObject) { >%
       contactMaterial IS contactMaterial
       boundingObject USE INTERSECTION_GEOM
-    %{ } }%
+    %< } >%
   }
 }

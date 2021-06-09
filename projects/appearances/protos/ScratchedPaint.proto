@@ -24,13 +24,13 @@ PROTO ScratchedPaint [
       ]
     }
     metalness 0
-    %{ if (fields.metalScratch.value) { }%
+    %< if (fields.metalScratch.value) { >%
     metalnessMap ImageTexture {
       url [
         "textures/scratched_paint/scratched_paint_metalness.jpg"
       ]
     }
-    %{ } }%
+    %< } >%
     IBLStrength IS IBLStrength
     textureTransform IS textureTransform
   }

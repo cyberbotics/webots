@@ -494,9 +494,9 @@ PROTO Thymio2 [
         rotations [ 1 0 0 3.1415, 0.983105 0.129429 -0.12943 1.58783]
         textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
         sizes [ 0.01 0.01, 0.01 0.01 ]
-        %{ if (fields.castLight.value) { }%
+        %< if (fields.castLight.value) { >%
           lightPosition 0.022 0.03 0.073
-        %{ } }%
+        %< } >%
       }
       Thymio2LED {
         name "leds.prox.v.led1"
@@ -504,9 +504,9 @@ PROTO Thymio2 [
         rotations [ 1 0 0 3.1415, -0.983106 0.129428 -0.129429 4.69536]
         textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
         sizes [ 0.01 0.01, 0.01 0.01 ]
-        %{ if (fields.castLight.value) { }%
+        %< if (fields.castLight.value) { >%
           lightPosition -0.022 0.03 0.073
-        %{ } }%
+        %< } >%
       }
       Thymio2LED {
         name "leds.top"
@@ -551,9 +551,9 @@ PROTO Thymio2 [
         textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
         sizes [ 0.02 0.02, 0.02 0.01 ]
         level 0
-        %{ if (fields.castLight.value) { }%
+        %< if (fields.castLight.value) { >%
           lightPosition -0.04 0.03 0.05
-        %{ } }%
+        %< } >%
       }
       Thymio2LED {
         name "leds.bottom.right"
@@ -562,9 +562,9 @@ PROTO Thymio2 [
         textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
         sizes [ 0.02 0.02, 0.02 0.01 ]
         level 0
-        %{ if (fields.castLight.value) { }%
+        %< if (fields.castLight.value) { >%
           lightPosition 0.04 0.03 0.05
-        %{ } }%
+        %< } >%
       }
       Accelerometer {
         name "acc"

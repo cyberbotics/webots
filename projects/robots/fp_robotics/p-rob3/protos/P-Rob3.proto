@@ -1072,7 +1072,7 @@ PROTO P-Rob3 [
         }
       ]
     }
-    %{ if (!fields.staticBase.value) { }%
+    %< if (!fields.staticBase.value) { >%
     physics Physics {
       density -1
       mass 7.7251
@@ -1084,6 +1084,6 @@ PROTO P-Rob3 [
         0 0 0
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

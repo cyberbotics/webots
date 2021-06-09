@@ -17,7 +17,7 @@ PROTO Floor [
   hiddenField MFString   texture  "textures/checkered_parquetry.jpg"
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0.0 || size.y <= 0.0) {
       size = fields.size.defaultValue;
@@ -34,7 +34,7 @@ PROTO Floor [
       console.error('\'size\' must contain positive values. Value reset to (' + tileSize.x + ', ' + tileSize.y + ').');
     }
     let textureScale = {x: size.x / tileSize.x, y: size.y / tileSize.y};
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -44,18 +44,18 @@ PROTO Floor [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %{= -(size.x * 0.5) }% 0 %{= -(size.y * 0.5) }%
-              %{= size.x * 0.5 }% 0 %{= -(size.y * 0.5) }%
-              %{= -(size.x * 0.5) }% 0 %{= size.y * 0.5 }%
-              %{= size.x * 0.5 }% 0 %{= size.y * 0.5 }%
+              %<= -(size.x * 0.5) >% 0 %<= -(size.y * 0.5) >%
+              %<= size.x * 0.5 >% 0 %<= -(size.y * 0.5) >%
+              %<= -(size.x * 0.5) >% 0 %<= size.y * 0.5 >%
+              %<= size.x * 0.5 >% 0 %<= size.y * 0.5 >%
             ]
           }
           texCoord TextureCoordinate {
             point [
               0 0
-              %{= textureScale.x }% 0
-              0 %{= textureScale.y }%
-              %{= textureScale.x }% %{= textureScale.y }%
+              %<= textureScale.x >% 0
+              0 %<= textureScale.y >%
+              %<= textureScale.x >% %<= textureScale.y >%
             ]
           }
           coordIndex [

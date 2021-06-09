@@ -13,20 +13,20 @@ PROTO BiscuitBox [
   field SFFloat    mass        0.4                         # Defines the mass of the box in kg.
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
       size = fields.size.defaultValue;
       console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
     }
-  }%
+  >%
 Solid {
   translation IS translation
   rotation IS rotation
   recognitionColors [ 0.92 0.76 0.3 ]
   children [
     Transform {
-      scale %{= size.x / 0.24 }% %{= size.y / 0.04 }% %{= size.z / 0.08 }%
+      scale %<= size.x / 0.24 >% %<= size.y / 0.04 >% %<= size.z / 0.08 >%
       children [
         Shape {
           appearance PBRAppearance {
@@ -54,20 +54,20 @@ Solid {
   name IS name
   model "biscuit box"
   boundingObject Transform {
-    translation 0 %{= size.y * 0.5 }% 0
+    translation 0 %<= size.y * 0.5 >% 0
     children [
       Shape {
         geometry Box {
-          size %{= size.x }% %{= size.y }% %{= size.z }%
+          size %<= size.x >% %<= size.y >% %<= size.z >%
         }
       }
     ]
   }
-  %{ if (fields.mass.value > 0) { }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
       mass IS mass
     }
-  %{ } }%
+  %< } >%
 }
 }

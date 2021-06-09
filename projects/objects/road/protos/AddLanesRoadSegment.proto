@@ -43,7 +43,7 @@ PROTO AddLanesRoadSegment [
   hiddenField  MFBool               dashedLine                TRUE                                # Deprecated in Webots R2018c.
 ]
 {
-  %{
+  %<
     // fields checks
     let width = fields.width.value;
     if (width < 0) {
@@ -86,7 +86,7 @@ PROTO AddLanesRoadSegment [
     const rightBarrier = fields.rightBarrier.value;
     const leftBarrier = fields.leftBarrier.value;
     const outputAddedWidth = numberOfNewLanes * width / lanes;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -96,55 +96,55 @@ PROTO AddLanesRoadSegment [
       Group {
         children IS lines
       }
-      %{ for (let i = 0; i <= numberOfNewLanes - 1; ++i) { }%
+      %< for (let i = 0; i <= numberOfNewLanes - 1; ++i) { >%
         AddLaneRoadSegment {
-          %{ if (newLaneLeft) { }%
-            translation %{= (width / lanes) * (i * 0.5) }% 0 %{= i * length / numberOfNewLanes }%
-          %{ } else { }%
-            translation %{= -(width / lanes) * (i * 0.5) }% 0 %{= i * length / numberOfNewLanes }%
-          %{ } }%
-          name %{= '"road ' + i + '"' }%
-          width %{= width + i * width / lanes }%
-          length %{= length / numberOfNewLanes }%
-          numberOfLanes %{= lanes + i }%
+          %< if (newLaneLeft) { >%
+            translation %<= (width / lanes) * (i * 0.5) >% 0 %<= i * length / numberOfNewLanes >%
+          %< } else { >%
+            translation %<= -(width / lanes) * (i * 0.5) >% 0 %<= i * length / numberOfNewLanes >%
+          %< } >%
+          name %<= '"road ' + i + '"' >%
+          width %<= width + i * width / lanes >%
+          length %<= length / numberOfNewLanes >%
+          numberOfLanes %<= lanes + i >%
           newLaneLeft IS newLaneLeft
           dashedLine [
-            %{ for (let j = 0; j < lanes + i; ++j) { }%
-              %{ if (newLaneLeft) { }%
-                %{ if (!dashedLine[j]) { }%
+            %< for (let j = 0; j < lanes + i; ++j) { >%
+              %< if (newLaneLeft) { >%
+                %< if (!dashedLine[j]) { >%
                   FALSE
-                %{ } else { }%
+                %< } else { >%
                   TRUE
-                %{ } }%
-              %{ } else { }%
-                %{ if (!dashedLine[(lanes + i - 1) - j]) { }%
+                %< } >%
+              %< } else { >%
+                %< if (!dashedLine[(lanes + i - 1) - j]) { >%
                   FALSE
-                %{ } else { }%
+                %< } else { >%
                   TRUE
-                %{ } }%
-              %{ } }%
-          %{ } }%
+                %< } >%
+              %< } >%
+          %< } >%
           ]
           lines [
-            %{ for (let j = 0; j < lanes + i; ++j) { }%
-              %{ if (newLaneLeft) { }%
-                %{ if (roadLines[j]) { }%
+            %< for (let j = 0; j < lanes + i; ++j) { >%
+              %< if (newLaneLeft) { >%
+                %< if (roadLines[j]) { >%
                   RoadLine {
-                    color %{= roadLines[j].fields.color.value.r }% %{= roadLines[j].fields.color.value.g }% %{= roadLines[j].fields.color.value.b }%
-                    type %{= '"' + roadLines[j].fields.type.value + '"' }%
-                    width %{= roadLines[j].fields.width.value }%
+                    color %<= roadLines[j].fields.color.value.r >% %<= roadLines[j].fields.color.value.g >% %<= roadLines[j].fields.color.value.b >%
+                    type %<= '"' + roadLines[j].fields.type.value + '"' >%
+                    width %<= roadLines[j].fields.width.value >%
                  }
-                %{ } }%
-              %{ } else { }%
-                %{ if (roadLines[(lanes + i) - j - 1] !== undefined) { }%
+                %< } >%
+              %< } else { >%
+                %< if (roadLines[(lanes + i) - j - 1] !== undefined) { >%
                   RoadLine {
-                    color %{= roadLines[(lanes + i) - j - 1].fields.color.value.r }% %{= roadLines[(lanes + i) - j - 1].fields.color.value.g }% %{= roadLines[(lanes + i) - j - 1].fields.color.value.b }%
-                    type %{= '"' + roadLines[(lanes + i) - j - 1].fields.type.value + '"' }%
-                    width %{= roadLines[(lanes + i) - j - 1].fields.width.value }%
+                    color %<= roadLines[(lanes + i) - j - 1].fields.color.value.r >% %<= roadLines[(lanes + i) - j - 1].fields.color.value.g >% %<= roadLines[(lanes + i) - j - 1].fields.color.value.b >%
+                    type %<= '"' + roadLines[(lanes + i) - j - 1].fields.type.value + '"' >%
+                    width %<= roadLines[(lanes + i) - j - 1].fields.width.value >%
                  }
-                %{ } }%
-              %{ } }%
-            %{ } }%
+                %< } >%
+              %< } >%
+            %< } >%
           ]
           roadBorderHeight IS roadBorderHeight
           roadBorderWidth IS roadBorderWidth
@@ -153,12 +153,12 @@ PROTO AddLanesRoadSegment [
           rightBarrier FALSE
           leftBarrier FALSE
           bottom IS bottom
-          %{ if (i === 0) { }%
+          %< if (i === 0) { >%
             startLine IS startLine
-          %{ } }%
-          %{ if (i === (numberOfNewLanes - 1)) { }%
+          %< } >%
+          %< if (i === (numberOfNewLanes - 1)) { >%
             endLine IS endLine
-          %{ } }%
+          %< } >%
           appearance IS appearance
           pavementAppearance IS pavementAppearance
           locked IS locked
@@ -168,41 +168,41 @@ PROTO AddLanesRoadSegment [
           contactMaterial IS contactMaterial
           castShadows IS castShadows
         }
-      %{ } }%
+      %< } >%
       # new barrier left
-      %{ if (leftBarrier) { }%
+      %< if (leftBarrier) { >%
         CrashBarrier {
           name "left barrier"
           subdivision -1
           enableBoundingObject IS leftBarrierBoundingObject
           barrierOnRightSide FALSE
           path [
-            %{ if (newLaneLeft) { }%
-              %{= width * 0.5 + outputAddedWidth + barrierOffset }% %{= 0 }% %{= length }%
-            %{ } else { }%
-              %{= width * 0.5 + barrierOffset }% %{= 0 }% %{= length }%
-            %{ } }%
-            %{= width * 0.5  + barrierOffset }% 0 0
+            %< if (newLaneLeft) { >%
+              %<= width * 0.5 + outputAddedWidth + barrierOffset >% %<= 0 >% %<= length >%
+            %< } else { >%
+              %<= width * 0.5 + barrierOffset >% %<= 0 >% %<= length >%
+            %< } >%
+            %<= width * 0.5  + barrierOffset >% 0 0
           ]
         }
-      %{ } }%
+      %< } >%
       # new barrier right
-      %{ if (rightBarrier) { }%
+      %< if (rightBarrier) { >%
         CrashBarrier {
           name "right barrier"
           subdivision -1
           enableBoundingObject IS rightBarrierBoundingObject
           barrierOnRightSide TRUE
           path [
-            %{ if (!newLaneLeft) { }%
-              %{= -width * 0.5 - outputAddedWidth - barrierOffset }% %{= 0 }% %{= length }%
-            %{ } else { }%
-              %{= -width * 0.5 - barrierOffset }% %{= 0 }% %{= length }%
-            %{ } }%
-            %{= -width * 0.5 - barrierOffset }% 0 0
+            %< if (!newLaneLeft) { >%
+              %<= -width * 0.5 - outputAddedWidth - barrierOffset >% %<= 0 >% %<= length >%
+            %< } else { >%
+              %<= -width * 0.5 - barrierOffset >% %<= 0 >% %<= length >%
+            %< } >%
+            %<= -width * 0.5 - barrierOffset >% 0 0
           ]
         }
-      %{ } }%
+      %< } >%
     ]
   }
 }

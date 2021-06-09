@@ -79,7 +79,7 @@ PROTO MetallicTrash [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 8
@@ -91,6 +91,6 @@ PROTO MetallicTrash [
         0 1.7763568394002505e-15 0
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

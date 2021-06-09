@@ -68,7 +68,7 @@ PROTO UrbanFence [
         }
       }
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 0.425 0
       children [
@@ -77,6 +77,6 @@ PROTO UrbanFence [
         }
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

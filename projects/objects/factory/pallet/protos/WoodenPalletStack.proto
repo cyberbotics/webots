@@ -20,7 +20,7 @@ PROTO WoodenPalletStack [
   field SFBool     locked                   FALSE                  # Is `Solid.locked`.
 ]
 {
-%{
+%<
   import * as wbrandom from 'modules/webots/wbrandom.js';
   wbrandom.seed(context.id);
 
@@ -58,50 +58,50 @@ PROTO WoodenPalletStack [
   let maxLongitudinalMisalignment = 0;
 
   const palletMass = fields.palletMass.value;
-}%
+>%
 Solid {
   translation IS translation
   rotation IS rotation
   children [
-    %{ for (let i = 0; i <= palletNumber - 1; ++i) { }%
+    %< for (let i = 0; i <= palletNumber - 1; ++i) { >%
       WoodenPallet {
-        %{
+        %<
           let xOffset = lateralMisalignment * wbrandom.real(-0.5, 0.5);
           let yOffset = longitudinalMisalignment * wbrandom.real(-0.5, 0.5);
           if (Math.abs(xOffset) > maxLateralMisalignment)
             maxLateralMisalignment = xOffset;
           if (Math.abs(yOffset) > maxLongitudinalMisalignment)
             maxLongitudinalMisalignment = xOffset;
-        }%
-        translation %{= xOffset }% %{= i * palletSize.y }% %{= yOffset }%
-        name %{= '"wooden pallet' + i + '"' }%
-        size %{= palletSize.x }% %{= palletSize.y }% %{= palletSize.z }%
+        >%
+        translation %<= xOffset >% %<= i * palletSize.y >% %<= yOffset >%
+        name %<= '"wooden pallet' + i + '"' >%
+        size %<= palletSize.x >% %<= palletSize.y >% %<= palletSize.z >%
         lathNumber IS palletLathNumber
         lathWidth IS palletLathWidth
         mass 0
         boundingObject FALSE
       }
-    %{ } }%
+    %< } >%
   ]
   name IS name
   model "wooden pallet stack"
-  %{ if (fields.boundingObject.value) { }%
+  %< if (fields.boundingObject.value) { >%
   boundingObject Transform {
-    translation 0 %{= palletSize.y * palletNumber * 0.5 }% 0
+    translation 0 %<= palletSize.y * palletNumber * 0.5 >% 0
     children
     [
       Box {
-        size %{= palletSize.x + maxLateralMisalignment }% %{= palletSize.y * palletNumber }% %{= palletSize.z + maxLongitudinalMisalignment }%
+        size %<= palletSize.x + maxLateralMisalignment >% %<= palletSize.y * palletNumber >% %<= palletSize.z + maxLongitudinalMisalignment >%
       }
     ]
   }
-  %{ } }%
-  %{ if (palletMass > 0) { }%
+  %< } >%
+  %< if (palletMass > 0) { >%
   physics Physics {
     density -1
-    mass %{= palletMass * palletNumber }%
+    mass %<= palletMass * palletNumber >%
   }
-  %{ } }%
+  %< } >%
   locked IS locked
 }
 }

@@ -17,12 +17,12 @@ PROTO Mirror [
   field SFFloat    frameThickness  0.02              # Defines the thickness of the mirror frame.
   field SFNode     physics         NULL              # Is `Solid.physics`.
   field SFNode     frameAppearance VarnishedPine {}  # Defines the appearance of the mirror frame.
-  
+
   # Deprecated in Webots R2019a
   hiddenField MFString   frameTexture    ["textures/wood.jpg"]
 ]
 {
-  %{
+  %<
     let fieldOfView = fields.fieldOfView.value;
     if (fieldOfView <= 0.0) {
       fieldOfView = fields.fieldOfView.defaultValue;
@@ -32,7 +32,7 @@ PROTO Mirror [
       fieldOfView = fields.fieldOfView.defaultValue;
       console.error('\'fieldOfView\' should not be bigger than pi. Value reset to ' + fieldOfView + '.');
     }
-    
+
     let width = fields.width.value;
     if (width <= 0.0) {
       width = fields.width.defaultValue;
@@ -55,25 +55,25 @@ PROTO Mirror [
 
     const cameraWidth = 256;
     const cameraHeight = Math.ceil(256 * height / width);
-  }%
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
     controller IS controller
     supervisor IS supervisor
     children [
-      %{ const camera_distance = (width * 0.5) / Math.tan(fieldOfView * 0.5); }%
+      %< const camera_distance = (width * 0.5) / Math.tan(fieldOfView * 0.5); >%
       Camera {
-        translation 0 %{= height * 0.5 + frameThickness }% %{= -camera_distance }%
+        translation 0 %<= height * 0.5 + frameThickness >% %<= -camera_distance >%
         rotation 0 1 0 3.14159
         fieldOfView IS fieldOfView
-        width %{= cameraWidth }%
-        height %{= cameraHeight }%
-        near %{= (1 + 0.0001 * Math.max(width, height)) * camera_distance }%
+        width %<= cameraWidth >%
+        height %<= cameraHeight >%
+        near %<= (1 + 0.0001 * Math.max(width, height)) * camera_distance >%
         antiAliasing TRUE
       }
       DEF FRONT Display {
-        translation 0 %{= height * 0.5 + frameThickness }% 0
+        translation 0 %<= height * 0.5 + frameThickness >% 0
         rotation 1 0 0 1.5708
         children [
           Shape {
@@ -88,15 +88,15 @@ PROTO Mirror [
               roughness 1
             }
             geometry Plane {
-              size %{= width }% %{= height }%
+              size %<= width >% %<= height >%
             }
           }
         ]
-        width %{= cameraWidth }%
-        height %{= cameraHeight }%
+        width %<= cameraWidth >%
+        height %<= cameraHeight >%
       }
       DEF BACK Transform {
-        translation 0 %{= height * 0.5 + frameThickness }% 0
+        translation 0 %<= height * 0.5 + frameThickness >% 0
         rotation 0 -0.707108 0.707105 3.14159
         children [
           Shape {
@@ -106,51 +106,51 @@ PROTO Mirror [
               roughness 0.8
             }
             geometry Plane {
-              size %{= width }% %{= height }%
+              size %<= width >% %<= height >%
             }
           }
         ]
       }
       DEF UPPER_FRAME Transform {
-        translation 0 %{= height + 1.5 * frameThickness }% 0
+        translation 0 %<= height + 1.5 * frameThickness >% 0
         children [
           Shape {
             appearance IS frameAppearance
             geometry Box {
-              size %{= width }% %{= frameThickness }% %{= frameThickness }%
+              size %<= width >% %<= frameThickness >% %<= frameThickness >%
             }
           }
         ]
       }
       DEF LOWER_FRAME Transform {
-        translation 0 %{= frameThickness * 0.5 }% 0
+        translation 0 %<= frameThickness * 0.5 >% 0
         children [
           Shape {
             appearance IS frameAppearance
             geometry Box {
-              size %{= width }% %{= frameThickness }% %{= frameThickness }%
+              size %<= width >% %<= frameThickness >% %<= frameThickness >%
             }
           }
         ]
       }
       DEF RIGHT_FRAME Transform {
-        translation %{= 0.5 * (width + frameThickness) }% %{= height * 0.5 + frameThickness }% 0
+        translation %<= 0.5 * (width + frameThickness) >% %<= height * 0.5 + frameThickness >% 0
         children [
           Shape {
             appearance IS frameAppearance
             geometry Box {
-              size %{= frameThickness }% %{= height + 2 * frameThickness }% %{= frameThickness }%
+              size %<= frameThickness >% %<= height + 2 * frameThickness >% %<= frameThickness >%
             }
           }
         ]
       }
       DEF LEFT_FRAME Transform {
-        translation %{= - 0.5 * (width + frameThickness) }% %{= height * 0.5 + frameThickness }% 0
+        translation %<= - 0.5 * (width + frameThickness) >% %<= height * 0.5 + frameThickness >% 0
         children [
           Shape {
             appearance IS frameAppearance
             geometry Box {
-              size %{= frameThickness }% %{= height + 2 * frameThickness }% %{= frameThickness }%
+              size %<= frameThickness >% %<= height + 2 * frameThickness >% %<= frameThickness >%
             }
           }
         ]
@@ -159,10 +159,10 @@ PROTO Mirror [
     name IS name
     model "mirror"
     boundingObject Transform {
-      translation 0 %{= height * 0.5 + frameThickness }% 0
+      translation 0 %<= height * 0.5 + frameThickness >% 0
       children [
         Box {
-          size %{= width + 2 * frameThickness }% %{= height + 2 * frameThickness }% %{= frameThickness }%
+          size %<= width + 2 * frameThickness >% %<= height + 2 * frameThickness >% %<= frameThickness >%
         }
       ]
     }

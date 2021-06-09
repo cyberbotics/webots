@@ -41,7 +41,7 @@ PROTO HelicoidalRoadSegment [
   hiddenField  MFBool               dashedLine          TRUE                    # Deprecated in Webots R2018c.
 ]
 {
-  %{
+  %<
     let height = fields.height.value;
     if (height <= 0.0) {
       height = fields.height.defaultValue;
@@ -62,7 +62,7 @@ PROTO HelicoidalRoadSegment [
       subdivision = fields.subdivision.defaultValue
       console.error('\'subdivision\' must be greater or equal to 1. Value reset to ' + subdivision + '.');
     }
-  }%
+  >%
 
   Road {
     translation IS translation
@@ -80,14 +80,14 @@ PROTO HelicoidalRoadSegment [
     leftBorder IS leftBorder
     bottom IS bottom
     wayPoints [
-      %{
+      %<
         const turnNumber = height / heigthStep;
         const heightSubdivisionStep = height / subdivision;
         const angleSubdivisionStep = (Math.PI * turnNumber) / subdivision;
-      }%
-      %{ for (let i = 0; i <= subdivision; ++i) { }%
-        %{= radius * Math.cos(angleSubdivisionStep * i) }% %{= heightSubdivisionStep * i }% %{= radius * Math.sin(angleSubdivisionStep * i) }%
-      %{ } }%
+      >%
+      %< for (let i = 0; i <= subdivision; ++i) { >%
+        %<= radius * Math.cos(angleSubdivisionStep * i) >% %<= heightSubdivisionStep * i >% %<= radius * Math.sin(angleSubdivisionStep * i) >%
+      %< } >%
     ]
     splineSubdivision -1
     appearance IS appearance

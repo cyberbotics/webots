@@ -304,7 +304,7 @@ PROTO Warehouse [
         }
       }
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 4.6 0
       children [
@@ -313,6 +313,6 @@ PROTO Warehouse [
         }
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

@@ -127,11 +127,11 @@ Solid {
       }
     ]
   }
-  %{ if (fields.mass.value > 0) { }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       mass IS mass
       density -1
     }
-  %{ } }%
+  %< } >%
 }
 }

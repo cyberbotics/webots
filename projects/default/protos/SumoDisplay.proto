@@ -20,7 +20,7 @@ PROTO SumoDisplay [
       name "sumo"
       width IS width
       height IS height
-      description %{= '"zoom: ' + fields.zoom.value + ' refreshRate: ' + fields.refreshRate.value + '"' }%
+      description %<= '"zoom: ' + fields.zoom.value + ' refreshRate: ' + fields.refreshRate.value + '"' >%
     }
   }
 }

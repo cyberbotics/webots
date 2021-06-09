@@ -124,12 +124,12 @@ PROTO OfficeChair [
               }
             ]
           }
-          %{ if (fields.enablePhysics.value) { }%
+          %< if (fields.enablePhysics.value) { >%
           physics Physics {
             density -1
             mass 3
           }
-          %{ } }%
+          %< } >%
         }
       }
       Shape {
@@ -375,11 +375,11 @@ PROTO OfficeChair [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 6
     }
-    %{ } }%
+    %< } >%
   }
 }

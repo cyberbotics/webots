@@ -12,13 +12,13 @@ PROTO Worktop [
   field SFNode     appearance   Marble { }     # Defines the appearance.
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
       size = fields.size.defaultValue;
       console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
     }
-  }%
+  >%
   SolidBox {
     translation IS translation
     rotation IS rotation

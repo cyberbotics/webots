@@ -10,7 +10,7 @@ PROTO TorusBoundingObject [
   field SFInt32    subdivision     24  # Defines the number of polygons used to represent the torus and so its resolution.
 ]
 {
-  %{
+  %<
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
 
     // parameter checking
@@ -35,20 +35,20 @@ PROTO TorusBoundingObject [
     }
 
     const referenceCircle = wbgeometry.circle(1, subdivision, {x: 0, y: 0}, 0);
-  }%
+  >%
   Group { # set of spheres
     children [
-       %{ for (let i = 0; i < referenceCircle.length; ++i) { }%
+       %< for (let i = 0; i < referenceCircle.length; ++i) { >%
         Transform {
-          translation %{= majorRadius * referenceCircle[i].x }% 0 %{= majorRadius * referenceCircle[i].y }%
+          translation %<= majorRadius * referenceCircle[i].x >% 0 %<= majorRadius * referenceCircle[i].y >%
           children [
             Sphere {
-              radius %{= minorRadius }%
+              radius %<= minorRadius >%
               subdivision 2
             }
           ]
         }
-      %{ } }%
+      %< } >%
     ]
   }
 }

@@ -24,7 +24,7 @@ PROTO UnevenTerrain [
   deprecatedField SFVec2f    textureScale   1.0 1.0
 ]
 {
-  %{
+  %<
     // reference: https://stackoverflow.com/a/42543313/2210777
     import * as wbrandom from 'modules/webots/wbrandom.js';
 
@@ -92,27 +92,27 @@ PROTO UnevenTerrain [
       zDimension = fields.zDimension.defaultValue;
       console.error('\'zDimension\' must be bigger than 2. Value reset to ' + zDimension + '.');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       DEF UNEVEN_TERRAIN_ELEVATION_GRID Transform {
-        translation %{= - size.x * 0.5 }% 0 %{= - size.z * 0.5 }%
+        translation %<= - size.x * 0.5 >% 0 %<= - size.z * 0.5 >%
         children [
           Shape {
             appearance IS appearance
             geometry ElevationGrid {
-              %{ if (xDimension > 2 && zDimension > 2) { }%
+              %< if (xDimension > 2 && zDimension > 2) { >%
                 xDimension IS xDimension
-                xSpacing %{= size.x / (xDimension - 1) }%
+                xSpacing %<= size.x / (xDimension - 1) >%
                 zDimension IS zDimension
-                zSpacing %{= size.z / (zDimension - 1) }%
+                zSpacing %<= size.z / (zDimension - 1) >%
 
                 height [
-                  %{ for (let i = 0; i <= xDimension - 1; ++i) { }%
-                    %{ for (let j = 0; j <= zDimension - 1; ++j) { }%
-                      %{
+                  %< for (let i = 0; i <= xDimension - 1; ++i) { >%
+                    %< for (let j = 0; j <= zDimension - 1; ++j) { >%
+                      %<
                         let height = 1.0;
                         let x = i / xDimension;
                         let z = j / zDimension;
@@ -126,12 +126,12 @@ PROTO UnevenTerrain [
                           height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2);
 
                         height = height * size.y
-                      }%
-                      %{= height }%
-                    %{ } }%
-                  %{ } }%
+                      >%
+                      %<= height >%
+                    %< } >%
+                  %< } >%
                 ]
-              %{ } }%
+              %< } >%
             }
           }
         ]

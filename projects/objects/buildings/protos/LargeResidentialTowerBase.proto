@@ -58,7 +58,7 @@ PROTO LargeResidentialTowerBase [
           ]
         }
       }
-      %{ if (fields.surroundingWall.value) { }%
+      %< if (fields.surroundingWall.value) { >%
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
@@ -106,7 +106,7 @@ PROTO LargeResidentialTowerBase [
           ]
         }
       }
-      %{ } }%
+      %< } >%
     ]
   }
 }

@@ -22,7 +22,7 @@ PROTO MazeBlock [
             appearance RoughPine {
             }
             geometry Box {
-              size %{= fields.length.value }% 0.065 0.015
+              size %<= fields.length.value >% 0.065 0.015
             }
           }
         ]

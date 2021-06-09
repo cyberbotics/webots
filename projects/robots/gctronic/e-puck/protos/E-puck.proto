@@ -34,11 +34,11 @@ PROTO E-puck [
   field SFBool             kinematic                    FALSE                    # Defines whether the robot motion and its sensors are computed according to a 2D kinematics algorithm.
 ]
 {
-%{
+%<
   const v1 = fields.version.value === '1';
   const v2 = fields.version.value === '2';
   const kinematic = fields.kinematic.value;
-}%
+>%
 Robot {
   translation IS translation
   rotation IS rotation
@@ -52,11 +52,11 @@ Robot {
         RotationalMotor {
           name "left wheel motor"
           consumptionFactor -0.001 # small trick to encourage the movement (calibrated for the rat's life contest)
-          %{ if (v2) { }%
+          %< if (v2) { >%
             maxVelocity 7.536 # 1200 step/s
-          %{ } else { }%
+          %< } else { >%
             maxVelocity 6.28 # 1000 step/s
-          %{ } }%
+          %< } >%
         }
         PositionSensor {
           name "left wheel sensor"
@@ -121,11 +121,11 @@ Robot {
                 appearance PBRAppearance {
                   metalness 0
                   roughness 0.4
-                  %{ if (v1) { }%
+                  %< if (v1) { >%
                   baseColor 0.117647 0.815686 0.65098
-                  %{ } else { }%
+                  %< } else { >%
                   baseColor 0 0 0
-                  %{ } }%
+                  %< } >%
                 }
                 geometry Cylinder {
                   height 0.0015
@@ -190,12 +190,12 @@ Robot {
             }
           ]
         }
-        %{ if (!kinematic) { }%
+        %< if (!kinematic) { >%
           physics DEF EPUCK_WHEEL_PHYSICS Physics {
             density -1
             mass 0.005
           }
-        %{ } }%
+        %< } >%
       }
     }
     HingeJoint {
@@ -207,11 +207,11 @@ Robot {
         RotationalMotor {
           name "right wheel motor"
           consumptionFactor -0.001 # small trick to encourage the movement (calibrated for the rat's life contest)
-          %{ if (v2) { }%
+          %< if (v2) { >%
             maxVelocity 7.536 # 1200 step/s
-          %{ } else { }%
+          %< } else { >%
             maxVelocity 6.28 # 1000 step/s
-          %{ } }%
+          %< } >%
         }
         PositionSensor {
           name "right wheel sensor"
@@ -231,9 +231,9 @@ Robot {
         ]
         name "right wheel"
         boundingObject USE EPUCK_WHEEL_BOUNDING_OBJECT
-        %{ if (!kinematic) { }%
+        %< if (!kinematic) { >%
           physics USE EPUCK_WHEEL_PHYSICS
-        %{ } }%
+        %< } >%
       }
     }
     DEF BATTERY_CONNECTOR Transform {
@@ -398,47 +398,47 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                %{ if (v2) { }%
+                %< if (v2) { >%
                   "textures/e-puck2_plate.jpg"
-                %{ } else { }%
+                %< } else { >%
                   "textures/e-puck1_plate_base_color.jpg"
-                %{ } }%
+                %< } >%
               ]
             }
             roughnessMap ImageTexture {
               url [
-                %{ if (v2) { }%
+                %< if (v2) { >%
                   "textures/e-puck2_plate.jpg"
-                %{ } else { }%
+                %< } else { >%
                   "textures/e-puck1_plate_roughness.jpg"
-                %{ } }%
+                %< } >%
               ]
             }
             metalnessMap ImageTexture {
               url [
-                %{ if (v2) { }%
+                %< if (v2) { >%
                   "textures/e-puck2_plate.jpg"
-                %{ } else { }%
+                %< } else { >%
                   "textures/e-puck1_plate_metalness.jpg"
-                %{ } }%
+                %< } >%
               ]
             }
             normalMap ImageTexture {
               url [
-                %{ if (v2) { }%
+                %< if (v2) { >%
                   "textures/e-puck2_plate.jpg"
-                %{ } else { }%
+                %< } else { >%
                   "textures/e-puck1_plate_normal.jpg"
-                %{ } }%
+                %< } >%
               ]
             }
             occlusionMap ImageTexture {
               url [
-                %{ if (v2) { }%
+                %< if (v2) { >%
                   "textures/e-puck2_plate.jpg"
-                %{ } else { }%
+                %< } else { >%
                   "textures/e-puck1_plate_occlusion.jpg"
-                %{ } }%
+                %< } >%
               ]
             }
           }
@@ -519,7 +519,7 @@ Robot {
         }
       ]
     }
-    %{ if (v1) { }%
+    %< if (v1) { >%
       DEF EPUCK_TURRET Transform {
         translation 0 0.0466 0.004
         scale 0.0128 0.0128 0.0128
@@ -580,7 +580,7 @@ Robot {
           }
         ]
       }
-    %{ } }%
+    %< } >%
     DEF EPUCK_RIGHT_COLUMN Transform {
       translation 0.0193 0.0426 -0.0254
       children [
@@ -607,7 +607,7 @@ Robot {
         USE EPUCK_COLUMN
       ]
     }
-    %{ if (v1) { }%
+    %< if (v1) { >%
       DEF EPUCK_RIGHT_CONNECTOR Transform {
         translation 0.0033 0.0426 0.0033
         children [
@@ -638,7 +638,7 @@ Robot {
           }
         ]
       }
-    %{ } else { }%
+    %< } else { >%
       DEF EPUCK_CONNECTOR Transform {
         translation 0.012 0.0396 -0.001
         children [
@@ -654,7 +654,7 @@ Robot {
           }
         ]
       }
-    %{ } }%
+    %< } >%
     DEF EPUCK_PS0 E-puckDistanceSensor {
       translation 0.01 0.033 -0.03
       rotation 0 1 0 1.27
@@ -765,7 +765,7 @@ Robot {
         1 4095 0.01 2 0 0.01
       ]
     }
-    %{ if (v2) { }%
+    %< if (v2) { >%
       DEF EPUCK_TOF DistanceSensor {
         translation 0.0018 0.033 -0.034
         rotation 0 1 0 1.57
@@ -811,7 +811,7 @@ Robot {
           }
         ]
       }
-    %{ } }%
+    %< } >%
     DEF EPUCK_CAMERA Camera {
       translation 0 0.028 -0.03
       rotation IS camera_rotation
@@ -887,10 +887,10 @@ Robot {
         }
       ]
       name "led1"
-      %{ if (v2) { }% # RGB LED
+      %< if (v2) { >% # RGB LED
         gradual TRUE
         color []
-      %{ } }%
+      %< } >%
     }
     DEF EPUCK_LED2 LED {
       translation 0.0337 0.041 0
@@ -923,10 +923,10 @@ Robot {
         }
       ]
       name "led3"
-      %{ if (v2) { }% # RGB LED
+      %< if (v2) { >% # RGB LED
         gradual TRUE
         color []
-      %{ } }%
+      %< } >%
     }
     DEF EPUCK_LED4 LED {
       translation 0 0.041 0.033
@@ -942,16 +942,16 @@ Robot {
             coord Coordinate {
               point [
                    0.0075 0.00225 0.0013  0.0025 0.00225 0.002  0.0025 -0.00225 0.002  0.0075 -0.00225 0.0013  0.0075 0.00225 -0.0017  0.0025 0.00225 -0.001  0.0025 -0.00225 -0.001  0.0075 -0.00225 -0.0017
-                %{ if (v1) { }% # two LEDs
+                %< if (v1) { >% # two LEDs
                   -0.0075 0.00225 0.0013 -0.0025 0.00225 0.002 -0.0025 -0.00225 0.002 -0.0075 -0.00225 0.0013 -0.0075 0.00225 -0.0017 -0.0025 0.00225 -0.001 -0.0025 -0.00225 -0.001 -0.0075 -0.00225 -0.0017
-                %{ } }%
+                %< } >%
               ]
             }
             coordIndex [
                 0, 1, 2, 3, -1, 7, 6, 5, 4, -1, 4, 5, 1, 0, -1, 0, 3, 7, 4, -1, 5, 6, 2, 1, -1
-              %{ if (v1) { }% # two LEDs
+              %< if (v1) { >% # two LEDs
                 11, 10, 9, 8, -1, 12, 13, 14, 15, -1, 8, 9, 13, 12, -1, 12, 15, 11, 8, -1, 9, 10, 14, 13, -1
-              %{ } }%
+              %< } >%
             ]
           }
         }
@@ -973,10 +973,10 @@ Robot {
         }
       ]
       name "led5"
-      %{ if (v2) { }% # RGB LED
+      %< if (v2) { >% # RGB LED
         gradual TRUE
         color []
-      %{ } }%
+      %< } >%
     }
     DEF EPUCK_LED6 LED {
       translation -0.0337 0.041 0
@@ -1009,10 +1009,10 @@ Robot {
         }
       ]
       name "led7"
-      %{ if (v2) { }% # RGB LED
+      %< if (v2) { >% # RGB LED
         gradual TRUE
         color []
-      %{ } }%
+      %< } >%
     }
     DEF EPUCK_BODY_LED LED {
       rotation 0 1 0 4.712399693899575
@@ -1135,11 +1135,11 @@ Robot {
     }
   ]
   name IS name
-  %{ if (v2) { }%
+  %< if (v2) { >%
     model "GCtronic e-puck2"
-  %{ } else { }%
+  %< } else { >%
     model "GCtronic e-puck"
-  %{ } }%
+  %< } >%
   description "Educational robot designed at EPFL"
   boundingObject Group {
     children [
@@ -1163,18 +1163,18 @@ Robot {
       }
     ]
   }
-  %{ if (!kinematic) { }%
+  %< if (!kinematic) { >%
     physics Physics {
       density -1
-      %{ if (v2) { }%
+      %< if (v2) { >%
         mass 0.13
-      %{ } else { }%
+      %< } else { >%
         mass 0.15
-      %{ } }%
+      %< } >%
       centerOfMass [0 0.015 0]
       inertiaMatrix [8.74869e-05 9.78585e-05 8.64333e-05, 0 0 0]
     }
-  %{ } }%
+  %< } >%
   controller IS controller
   controllerArgs IS controllerArgs
   customData IS customData
@@ -1183,10 +1183,10 @@ Robot {
   battery IS battery
   cpuConsumption 1.11 # 100% to 0% in 90[s] (calibrated for the rat's life contest)
   window IS window
-  %{ if (v2) { }%
+  %< if (v2) { >%
     remoteControl "e-puck_wifi"
-  %{ } else { }%
+  %< } else { >%
     remoteControl "e-puck_bluetooth"
-  %{ } }%
+  %< } >%
 }
 }

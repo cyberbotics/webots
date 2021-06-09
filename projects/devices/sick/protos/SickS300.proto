@@ -52,7 +52,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
         }
       }
     ]
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -87,10 +87,10 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
       density -1
       mass 1.2
     }
-    %{ } }%
+    %< } >%
     fieldOfView 3.316
     horizontalResolution IS resolution
-    verticalFieldOfView %{= 3 * (3.316  / fields.resolution.value) }%
+    verticalFieldOfView %<= 3 * (3.316  / fields.resolution.value) >%
     numberOfLayers 3
     maxRange 30
     noise IS noise

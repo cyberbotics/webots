@@ -13,14 +13,14 @@ PROTO PicketFence [
   field SFBool     enableBoundingObject   TRUE            # Defines whether the fence should have a bounding object.
 ]
 {
-  %{
+  %<
     // parameter checking
     let numberOfSegments = fields.numberOfSegments.value;
     if (numberOfSegments <= 0) {
       numberOfSegments = fields.numberOfSegments.defaultValue;
       console.error('\'numberOfSegments\' must be strictly positive. Value reset to ' + numberOfSegments + '.');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -30,9 +30,9 @@ PROTO PicketFence [
       0.4627450980392157 0.3568627450980392 0.20784313725490197
     ]
     children [
-      %{ for (let i = 0; i <= numberOfSegments - 1; ++i) { }%
+      %< for (let i = 0; i <= numberOfSegments - 1; ++i) { >%
         Transform {
-          translation %{= 1.7 * i }% 0 0
+          translation %<= 1.7 * i >% 0 0
           children [
             Shape {
               appearance PBRAppearance {
@@ -70,17 +70,17 @@ PROTO PicketFence [
             }
           ]
         }
-      %{ } }%
+      %< } >%
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
-      translation %{= 0.85 * numberOfSegments }% 0.55 0
+      translation %<= 0.85 * numberOfSegments >% 0.55 0
       children [
         Box {
-          size %{= 1.7 * numberOfSegments }% 1.1 0.04
+          size %<= 1.7 * numberOfSegments >% 1.1 0.04
         }
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

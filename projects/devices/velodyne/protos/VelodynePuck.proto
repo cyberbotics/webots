@@ -110,23 +110,23 @@ PROTO VelodynePuck [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
-      %{ if (fields.version.value === 'Puck LITE') { }%
+      %< if (fields.version.value === 'Puck LITE') { >%
         mass 0.590
-      %{ } else { }%
+      %< } else { >%
         mass 0.830
-      %{ } }%
+      %< } >%
     }
-    %{ } }%
+    %< } >%
     horizontalResolution 3600
     fieldOfView 6.28318
-    %{ if (fields.version.value === 'Puck Hi-Res') { }%
+    %< if (fields.version.value === 'Puck Hi-Res') { >%
       verticalFieldOfView 0.3491 # 20deg
-    %{ } else { }%
+    %< } else { >%
       verticalFieldOfView 0.5236 # 30deg
-    %{ } }%
+    %< } >%
     numberOfLayers 16
     minRange 1
     maxRange 100

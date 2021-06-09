@@ -175,7 +175,7 @@ PROTO TableWithUmbrella [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 80
@@ -187,6 +187,6 @@ PROTO TableWithUmbrella [
         0 0 4.440892098500626e-16
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

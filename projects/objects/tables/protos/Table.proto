@@ -16,7 +16,7 @@ PROTO Table [
   field SFNode     legAppearance  VarnishedPine { textureTransform TextureTransform { scale 4 5 } }    # Defines the appearance of the feet.
 ]
 {
-  %{
+  %<
     // parameters check
     let size = fields.size.value;
     if (size.x <= 0.0 || size.y <= 0.0 || size.z <= 0.0) { // avoid a negative values
@@ -45,48 +45,48 @@ PROTO Table [
     const mainFrameSize = {x: size.x, y: frameThickness, z: size.z};
     const feetTextureFactor = Math.max(feetSize.x, feetSize.y);
     const feetTranslation = {x: 0.5 * size.x - feetPadding - 0.5 * feetSize.x, y: 0.5 * (size.y - frameThickness), z: 0.5 * size.z - feetPadding - 0.5 * feetSize.y};
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       # Main frame
       SolidBox {
-        translation 0 %{= size.y - 0.5 * frameThickness }% 0
+        translation 0 %<= size.y - 0.5 * frameThickness >% 0
         name "main frame"
-        size %{= mainFrameSize.x }% %{= mainFrameSize.y }% %{= mainFrameSize.z }%
+        size %<= mainFrameSize.x >% %<= mainFrameSize.y >% %<= mainFrameSize.z >%
         appearance IS trayAppearance
       }
-      %{ if (feetSize.x !== 0.0 && feetSize.y !== 0.0) { }%
+      %< if (feetSize.x !== 0.0 && feetSize.y !== 0.0) { >%
         # Foot 1
         SolidBox {
-          translation %{= feetTranslation.x }% %{= feetTranslation.y }% %{= feetTranslation.z }%
+          translation %<= feetTranslation.x >% %<= feetTranslation.y >% %<= feetTranslation.z >%
           name "foot 1"
-          size %{= feetSize.x }% %{= size.y - frameThickness }% %{= feetSize.y }%
+          size %<= feetSize.x >% %<= size.y - frameThickness >% %<= feetSize.y >%
           appearance IS legAppearance
         }
         # Foot 2
         SolidBox {
-          translation %{= -feetTranslation.x }% %{= feetTranslation.y }% %{= feetTranslation.z }%
+          translation %<= -feetTranslation.x >% %<= feetTranslation.y >% %<= feetTranslation.z >%
           name "foot 2"
-          size %{= feetSize.x }% %{= size.y - frameThickness }% %{= feetSize.y }%
+          size %<= feetSize.x >% %<= size.y - frameThickness >% %<= feetSize.y >%
           appearance IS legAppearance
         }
         # Foot 3
         SolidBox {
-          translation %{= feetTranslation.x }% %{= feetTranslation.y }% %{= -feetTranslation.z }%
+          translation %<= feetTranslation.x >% %<= feetTranslation.y >% %<= -feetTranslation.z >%
           name "foot 3"
-          size %{= feetSize.x }% %{= size.y - frameThickness }% %{= feetSize.y }%
+          size %<= feetSize.x >% %<= size.y - frameThickness >% %<= feetSize.y >%
           appearance IS legAppearance
         }
         # Foot 4
         SolidBox {
-          translation %{= -feetTranslation.x }% %{= feetTranslation.y }% %{= -feetTranslation.z }%
+          translation %<= -feetTranslation.x >% %<= feetTranslation.y >% %<= -feetTranslation.z >%
           name "foot 4"
-          size %{= feetSize.x }% %{= size.y - frameThickness }% %{= feetSize.y }%
+          size %<= feetSize.x >% %<= size.y - frameThickness >% %<= feetSize.y >%
           appearance IS legAppearance
         }
-      %{ } }%
+      %< } >%
     ]
     name IS name
     model "table"

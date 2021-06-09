@@ -41,7 +41,7 @@ PROTO Darwin-op [
   hiddenField SFString _description "Robotis' DARwIn-OP modeled by Fabien Rohrer"
 ]
 {
-  %{
+  %<
     const has_jersey = fields.jersey.value;
     const enable_backlash = fields.backlash.value;
     // tune backlash on joints
@@ -57,7 +57,7 @@ PROTO Darwin-op [
     const backlash_leg_lower = backlash;
     const backlash_ankle = backlash;
     const backlash_foot = backlash;
-  }%
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
@@ -100,11 +100,11 @@ PROTO Darwin-op [
       }
       LED {
         rotation 0.5774 0.5773 0.5773 2.0944
-        %{ if (has_jersey) { }%
+        %< if (has_jersey) { >%
           translation -0.056 -0.005 -0.01
-        %{ } else { }%
+        %< } else { >%
           translation -0.076 -0.005 -0.01
-        %{ } }%
+        %< } >%
         color [
           0 1 0
         ]
@@ -125,11 +125,11 @@ PROTO Darwin-op [
       }
       LED {
         rotation 0.5774 0.5773 0.5773 2.0944
-        %{ if (has_jersey) { }%
+        %< if (has_jersey) { >%
           translation -0.056 0 -0.01
-        %{ } else { }%
+        %< } else { >%
           translation -0.076 0 -0.01
-        %{ } }%
+        %< } >%
         color [
           0 0 1
         ]
@@ -150,11 +150,11 @@ PROTO Darwin-op [
       }
       LED {
         rotation 0.5774 0.5773 0.5773 2.0944
-        %{ if (has_jersey) { }%
+        %< if (has_jersey) { >%
           translation -0.056 0.005 -0.01
-        %{ } else { }%
+        %< } else { >%
           translation -0.076 0.005 -0.01
-        %{ } }%
+        %< } >%
         color [
           1 0 0
         ]
@@ -208,13 +208,13 @@ PROTO Darwin-op [
         channel 2
       }
       # Neck
-      %{ if (enable_backlash) { }%
+      %< if (enable_backlash) { >%
         DEF DNeck HingeJointWithBacklash {
           gearMass 0.001
-          backlash %{= backlash_neck }%
-      %{ } else { }%
+          backlash %<= backlash_neck >%
+      %< } else { >%
         DEF DNeck HingeJoint {
-      %{ } }%
+      %< } >%
           device [
             RotationalMotor {
               name "Neck"
@@ -256,13 +256,13 @@ PROTO Darwin-op [
                 }
               }
               # Head
-              %{ if (enable_backlash) { }%
+              %< if (enable_backlash) { >%
                 DEF DHead HingeJointWithBacklash {
                   gearMass 0.001
-                  backlash %{= backlash_head }%
-              %{ } else { }%
+                  backlash %<= backlash_head >%
+              %< } else { >%
                 DEF DHead HingeJoint {
-              %{ } }%
+              %< } >%
                   device [
                     RotationalMotor {
                       name "Head"
@@ -450,13 +450,13 @@ PROTO Darwin-op [
           }
         }
       # PelvYL
-      %{ if (enable_backlash) { }%
+      %< if (enable_backlash) { >%
         DEF DPelvYL HingeJointWithBacklash {
           gearMass 0.001
-          backlash %{= backlash_pelv_y }%
-      %{ } else { }%
+          backlash %<= backlash_pelv_y >%
+      %< } else { >%
         DEF DPelvYL HingeJoint {
-      %{ } }%
+      %< } >%
           device [
             RotationalMotor {
               name "PelvYL"
@@ -496,13 +496,13 @@ PROTO Darwin-op [
                 }
               }
               # PelvL
-              %{ if (enable_backlash) { }%
+              %< if (enable_backlash) { >%
                 DEF DPelvL HingeJointWithBacklash {
                   gearMass 0.001
-                  backlash %{= backlash_pelv }%
-              %{ } else { }%
+                  backlash %<= backlash_pelv >%
+              %< } else { >%
                 DEF DPelvL HingeJoint {
-              %{ } }%
+              %< } >%
                   device [
                     RotationalMotor {
                       name "PelvL"
@@ -544,13 +544,13 @@ PROTO Darwin-op [
                         }
                       }
                       # LegUpperL
-                      %{ if (enable_backlash) { }%
+                      %< if (enable_backlash) { >%
                         DEF DLegUpperL HingeJointWithBacklash {
                           gearMass 0.001
-                          backlash %{= backlash_leg_upper }%
-                      %{ } else { }%
+                          backlash %<= backlash_leg_upper >%
+                      %< } else { >%
                         DEF DLegUpperL HingeJoint {
-                      %{ } }%
+                      %< } >%
                           device [
                             RotationalMotor {
                               name "LegUpperL"
@@ -602,13 +602,13 @@ PROTO Darwin-op [
                                 ]
                               }
                               # LegLowerL
-                              %{ if (enable_backlash) { }%
+                              %< if (enable_backlash) { >%
                                 DEF DLegLowerL HingeJointWithBacklash {
                                   gearMass 0.001
-                                  backlash %{= backlash_leg_lower }%
-                              %{ } else { }%
+                                  backlash %<= backlash_leg_lower >%
+                              %< } else { >%
                                 DEF DLegLowerL HingeJoint {
-                              %{ } }%
+                              %< } >%
                                   device [
                                     RotationalMotor {
                                       name "LegLowerL"
@@ -648,13 +648,13 @@ PROTO Darwin-op [
                                         }
                                       }
                                       # AnkleL
-                                      %{ if (enable_backlash) { }%
+                                      %< if (enable_backlash) { >%
                                         DEF DAnkleL HingeJointWithBacklash {
                                           gearMass 0.001
-                                          backlash %{= backlash_ankle }%
-                                      %{ } else { }%
+                                          backlash %<= backlash_ankle >%
+                                      %< } else { >%
                                         DEF DAnkleL HingeJoint {
-                                      %{ } }%
+                                      %< } >%
                                           device [
                                             RotationalMotor {
                                               name "AnkleL"
@@ -694,13 +694,13 @@ PROTO Darwin-op [
                                                 }
                                               }
                                               # FootL
-                                              %{ if (enable_backlash) { }%
+                                              %< if (enable_backlash) { >%
                                                 DEF DFootL HingeJointWithBacklash {
                                                   gearMass 0.001
-                                                  backlash %{= backlash_foot }%
-                                              %{ } else { }%
+                                                  backlash %<= backlash_foot >%
+                                              %< } else { >%
                                                 DEF DFootL HingeJoint {
-                                              %{ } }%
+                                              %< } >%
                                                   device [
                                                     RotationalMotor {
                                                       name "FootL"
@@ -895,13 +895,13 @@ PROTO Darwin-op [
           }
         }
       # PelvYR
-      %{ if (enable_backlash) { }%
+      %< if (enable_backlash) { >%
         DEF DPelvYR HingeJointWithBacklash {
           gearMass 0.001
-          backlash %{= backlash_pelv_y }%
-      %{ } else { }%
+          backlash %<= backlash_pelv_y >%
+      %< } else { >%
         DEF DPelvYR HingeJoint {
-      %{ } }%
+      %< } >%
           device [
             RotationalMotor {
               name "PelvYR"
@@ -941,13 +941,13 @@ PROTO Darwin-op [
                 }
               }
               # PelvR
-              %{ if (enable_backlash) { }%
+              %< if (enable_backlash) { >%
                 DEF DPelvR HingeJointWithBacklash {
                   gearMass 0.001
-                  backlash %{= backlash_pelv }%
-              %{ } else { }%
+                  backlash %<= backlash_pelv >%
+              %< } else { >%
                 DEF DPelvR HingeJoint {
-              %{ } }%
+              %< } >%
                   device [
                     RotationalMotor {
                       name "PelvR"
@@ -985,13 +985,13 @@ PROTO Darwin-op [
                         }
                       }
                       # LegUpperR
-                      %{ if (enable_backlash) { }%
+                      %< if (enable_backlash) { >%
                         DEF DLegUpperR HingeJointWithBacklash {
                           gearMass 0.001
-                          backlash %{= backlash_leg_upper }%
-                      %{ } else { }%
+                          backlash %<= backlash_leg_upper >%
+                      %< } else { >%
                         DEF DLegUpperR HingeJoint {
-                      %{ } }%
+                      %< } >%
                           device [
                             RotationalMotor {
                               name "LegUpperR"
@@ -1043,13 +1043,13 @@ PROTO Darwin-op [
                                 ]
                               }
                               # LegLowerR
-                              %{ if (enable_backlash) { }%
+                              %< if (enable_backlash) { >%
                                 DEF DLegLowerR HingeJointWithBacklash {
                                   gearMass 0.001
-                                  backlash %{= backlash_leg_lower }%
-                              %{ } else { }%
+                                  backlash %<= backlash_leg_lower >%
+                              %< } else { >%
                                 DEF DLegLowerR HingeJoint {
-                              %{ } }%
+                              %< } >%
                                   device [
                                     RotationalMotor {
                                       name "LegLowerR"
@@ -1089,13 +1089,13 @@ PROTO Darwin-op [
                                         }
                                       }
                                       # AnkleR
-                                      %{ if (enable_backlash) { }%
+                                      %< if (enable_backlash) { >%
                                         DEF DAnkleR HingeJointWithBacklash {
                                           gearMass 0.001
-                                          backlash %{= backlash_ankle }%
-                                      %{ } else { }%
+                                          backlash %<= backlash_ankle >%
+                                      %< } else { >%
                                         DEF DAnkleR HingeJoint {
-                                      %{ } }%
+                                      %< } >%
                                           device [
                                             RotationalMotor {
                                               name "AnkleR"
@@ -1135,13 +1135,13 @@ PROTO Darwin-op [
                                                 }
                                               }
                                               # FootR
-                                              %{ if (enable_backlash) { }%
+                                              %< if (enable_backlash) { >%
                                                 DEF DFootR HingeJointWithBacklash {
                                                   gearMass 0.001
-                                                  backlash %{= backlash_foot }%
-                                              %{ } else { }%
+                                                  backlash %<= backlash_foot >%
+                                              %< } else { >%
                                                 DEF DFootR HingeJoint {
-                                              %{ } }%
+                                              %< } >%
                                                   device [
                                                     RotationalMotor {
                                                       name "FootR"
@@ -1336,13 +1336,13 @@ PROTO Darwin-op [
           }
         }
       # ShoulderL
-      %{ if (enable_backlash) { }%
+      %< if (enable_backlash) { >%
         DEF DShoulderL HingeJointWithBacklash {
           gearMass 0.001
-          backlash %{= backlash_shoulder }%
-      %{ } else { }%
+          backlash %<= backlash_shoulder >%
+      %< } else { >%
         DEF DShoulderL HingeJoint {
-      %{ } }%
+      %< } >%
           device [
             RotationalMotor {
               name "ShoulderL"
@@ -1382,13 +1382,13 @@ PROTO Darwin-op [
                 }
               }
               # ArmUpperL
-              %{ if (enable_backlash) { }%
+              %< if (enable_backlash) { >%
                 DEF DArmUpperL HingeJointWithBacklash {
                   gearMass 0.001
-                  backlash %{= backlash_arm_upper }%
-              %{ } else { }%
+                  backlash %<= backlash_arm_upper >%
+              %< } else { >%
                 DEF DArmUpperL HingeJoint {
-              %{ } }%
+              %< } >%
                   device [
                     RotationalMotor {
                       name "ArmUpperL"
@@ -1442,13 +1442,13 @@ PROTO Darwin-op [
                         ]
                       }
                       # ArmLowerL
-                      %{ if (enable_backlash) { }%
+                      %< if (enable_backlash) { >%
                         DEF DArmLowerL HingeJointWithBacklash {
                           gearMass 0.001
-                          backlash %{= backlash_arm_lower }%
-                      %{ } else { }%
+                          backlash %<= backlash_arm_lower >%
+                      %< } else { >%
                         DEF DArmLowerL HingeJoint {
-                      %{ } }%
+                      %< } >%
                           device [
                             RotationalMotor {
                               name "ArmLowerL"
@@ -1582,13 +1582,13 @@ PROTO Darwin-op [
           }
         }
       # ShoulderR
-      %{ if (enable_backlash) { }%
+      %< if (enable_backlash) { >%
         DEF DShoulderR HingeJointWithBacklash {
           gearMass 0.001
-          backlash %{= backlash_shoulder }%
-      %{ } else { }%
+          backlash %<= backlash_shoulder >%
+      %< } else { >%
         DEF DShoulderR HingeJoint {
-      %{ } }%
+      %< } >%
           device [
             RotationalMotor {
               name "ShoulderR"
@@ -1628,13 +1628,13 @@ PROTO Darwin-op [
                 }
               }
               # ArmUpperR
-              %{ if (enable_backlash) { }%
+              %< if (enable_backlash) { >%
                 DEF DArmUpperR HingeJointWithBacklash {
                   gearMass 0.001
-                  backlash %{= backlash_arm_upper }%
-              %{ } else { }%
+                  backlash %<= backlash_arm_upper >%
+              %< } else { >%
                 DEF DArmUpperR HingeJoint {
-              %{ } }%
+              %< } >%
                   device [
                     RotationalMotor {
                       name "ArmUpperR"
@@ -1688,13 +1688,13 @@ PROTO Darwin-op [
                         ]
                       }
                       # ArmLowerR
-                      %{ if (enable_backlash) { }%
+                      %< if (enable_backlash) { >%
                         DEF DArmLowerR HingeJointWithBacklash {
                           gearMass 0.001
-                          backlash %{= backlash_arm_lower }%
-                      %{ } else { }%
+                          backlash %<= backlash_arm_lower >%
+                      %< } else { >%
                         DEF DArmLowerR HingeJoint {
-                      %{ } }%
+                      %< } >%
                           device [
                             RotationalMotor {
                               name "ArmLowerR"
@@ -1829,11 +1829,11 @@ PROTO Darwin-op [
         }
       DEF DHeadBackLED Transform {
         rotation 0.5774 0.5773 0.5773 2.0944
-        %{ if (has_jersey) { }%
+        %< if (has_jersey) { >%
           translation -0.056 -0.01 -0.01
-        %{ } else { }%
+        %< } else { >%
           translation -0.076 -0.01 -0.01
-        %{ } }%
+        %< } >%
         children [
           Shape {
             appearance PBRAppearance {
@@ -1850,11 +1850,11 @@ PROTO Darwin-op [
       }
       DEF DEyeBackLED Transform {
         rotation 0.5774 0.5773 0.5773 2.0944
-        %{ if (has_jersey) { }%
+        %< if (has_jersey) { >%
           translation -0.056 -0.015 -0.01
-        %{ } else { }%
+        %< } else { >%
           translation -0.076 -0.015 -0.01
-        %{ } }%
+        %< } >%
         children [
           Shape {
             appearance PBRAppearance {

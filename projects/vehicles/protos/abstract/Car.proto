@@ -59,7 +59,7 @@ PROTO Car [
   hiddenField SFFloat maxWheelVelocity -1.0
 ]
 {
-  %{
+  %<
     // check validity of the value of the fields
     // tracks check
     let frontTrack = fields.trackFront.value;
@@ -245,7 +245,7 @@ PROTO Car [
     customData += engineSound + ' ';
     // close the customData string
     customData +=  '"';
-  }%
+  >%
   AckermannVehicle {
     translation IS translation
     rotation IS rotation
@@ -275,18 +275,18 @@ PROTO Car [
     wheelFrontLeft IS wheelFrontLeft
     wheelRearRight IS wheelRearRight
     wheelRearLeft IS wheelRearLeft
-    customData %{= customData }%
+    customData %<= customData >%
     window IS window
     axisDevicesFrontRight [
-    %{ if (type === 'traction' || type === '4x4') { }%
+    %< if (type === 'traction' || type === '4x4') { >%
       RotationalMotor {
         name "right_front_wheel"
-        acceleration %{= frontAcceleration }%
-        maxVelocity %{= frontMaxVelocity }%
+        acceleration %<= frontAcceleration >%
+        maxVelocity %<= frontMaxVelocity >%
         maxTorque 100000000
         sound ""
       }
-    %{ } }%
+    %< } >%
       PositionSensor {
         name "right_front_sensor"
       }
@@ -295,15 +295,15 @@ PROTO Car [
       }
     ]
     axisDevicesFrontLeft [
-    %{ if (type === 'traction' || type === '4x4') { }%
+    %< if (type === 'traction' || type === '4x4') { >%
       RotationalMotor {
         name "left_front_wheel"
-        acceleration %{= frontAcceleration }%
-        maxVelocity %{= frontMaxVelocity }%
+        acceleration %<= frontAcceleration >%
+        maxVelocity %<= frontMaxVelocity >%
         maxTorque 100000000
         sound ""
       }
-    %{ } }%
+    %< } >%
       PositionSensor {
         name "left_front_sensor"
       }
@@ -312,15 +312,15 @@ PROTO Car [
       }
     ]
     axisDevicesRearRight [
-    %{ if (type === 'propulsion' || type === '4x4') { }%
+    %< if (type === 'propulsion' || type === '4x4') { >%
       RotationalMotor {
         name "right_rear_wheel"
-        acceleration %{= rearAcceleration }%
-        maxVelocity %{= rearMaxVelocity }%
+        acceleration %<= rearAcceleration >%
+        maxVelocity %<= rearMaxVelocity >%
         maxTorque 100000000
         sound ""
       }
-    %{ } }%
+    %< } >%
       PositionSensor {
         name "right_rear_sensor"
       }
@@ -329,15 +329,15 @@ PROTO Car [
       }
     ]
     axisDevicesRearLeft [
-    %{ if (type === 'propulsion' || type === '4x4') { }%
+    %< if (type === 'propulsion' || type === '4x4') { >%
       RotationalMotor {
         name "left_rear_wheel"
-        acceleration %{= rearAcceleration }%
-        maxVelocity %{= rearMaxVelocity }%
+        acceleration %<= rearAcceleration >%
+        maxVelocity %<= rearMaxVelocity >%
         maxTorque 100000000
         sound ""
       }
-    %{ } }%
+    %< } >%
       PositionSensor {
         name "left_rear_sensor"
       }

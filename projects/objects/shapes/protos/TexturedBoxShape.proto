@@ -30,7 +30,7 @@ PROTO TexturedBoxShape [
   field SFBool   bottomFace       TRUE                           # Defines whether the bottom face is included.
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
       size = fields.size.defaultValue;
@@ -39,20 +39,20 @@ PROTO TexturedBoxShape [
 
     const avgEdge = (size.x + size.y + size.z) / 3;
     const offset = 0.002 * avgEdge;
-    
+
     const coloredFrontFace  = fields.frontFace.value ? "FALSE" : "TRUE";
     const coloredBackFace   = fields.backFace.value ? "FALSE" : "TRUE";
     const coloredRightFace  = fields.rightFace.value ? "FALSE" : "TRUE";
     const coloredLeftFace   = fields.leftFace.value ? "FALSE" : "TRUE";
     const coloredTopFace    = fields.topFace.value ? "FALSE" : "TRUE";
     const coloredBottomFace = fields.bottomFace.value ? "FALSE" : "TRUE";
-  }%
+  >%
   Group {
     children [
-      %{
-      if (fields.frontFace.value || fields.backFace.value || fields.rightFace.value || 
+      %<
+      if (fields.frontFace.value || fields.backFace.value || fields.rightFace.value ||
           fields.leftFace.value || fields.topFace.value || fields.bottomFace.value) {
-      }%
+      >%
       Shape {
         appearance PBRAppearance {
           metalness 0
@@ -74,11 +74,11 @@ PROTO TexturedBoxShape [
           bottom IS bottomFace
         }
       }
-      %{
+      %<
       }
-      if (!(fields.frontFace.value && fields.backFace.value && fields.rightFace.value && 
+      if (!(fields.frontFace.value && fields.backFace.value && fields.rightFace.value &&
           fields.leftFace.value && fields.topFace.value && fields.bottomFace.value)) {
-      }%
+      >%
         Shape {
           appearance PBRAppearance {
             baseColor IS faceColor
@@ -88,15 +88,15 @@ PROTO TexturedBoxShape [
           geometry TexturedBox {
             size IS size
             mapping "none"
-            front %{= coloredFrontFace }%
-            back %{= coloredBackFace }%
-            left %{= coloredLeftFace }%
-            right %{= coloredRightFace }%
-            top %{= coloredTopFace }%
-            bottom %{= coloredBottomFace }%
+            front %<= coloredFrontFace >%
+            back %<= coloredBackFace >%
+            left %<= coloredLeftFace >%
+            right %<= coloredRightFace >%
+            top %<= coloredTopFace >%
+            bottom %<= coloredBottomFace >%
           }
         }
-      %{ } }%
+      %< } >%
     ]
   }
 }

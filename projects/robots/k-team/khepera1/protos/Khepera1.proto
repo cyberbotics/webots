@@ -18,9 +18,9 @@ PROTO Khepera1 [
   field SFBool     kinematic       FALSE         # Defines whether the robot motion and its sensors are computed according to a 2D kinematics algorithm.
 ]
 {
-  %{
+  %<
     const kinematic = fields.kinematic.value;
-  }%
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
@@ -89,10 +89,10 @@ PROTO Khepera1 [
           ]
           name "left wheel"
           boundingObject USE WHEEL
-          %{ if (!kinematic) { }%
+          %< if (!kinematic) { >%
             physics Physics {
             }
-          %{ } }%
+          %< } >%
         }
       }
       HingeJoint {
@@ -117,10 +117,10 @@ PROTO Khepera1 [
           ]
           name "right wheel"
           boundingObject USE WHEEL
-          %{ if (!kinematic) { }%
+          %< if (!kinematic) { >%
             physics Physics {
             }
-          %{ } }%
+          %< } >%
         }
       }
       Transform {
@@ -408,12 +408,12 @@ PROTO Khepera1 [
         }
       ]
     }
-    %{ if (!kinematic) { }%
+    %< if (!kinematic) { >%
       physics Physics {
         centerOfMass [
           0 0.005 0
         ]
       }
-    %{ } }%
+    %< } >%
   }
 }

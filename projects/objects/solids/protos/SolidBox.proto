@@ -18,7 +18,7 @@ PROTO SolidBox [
   field SFBool     castShadows           TRUE                                                                                                          # Defines whether this object should cast shadows.
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
       size = fields.size.defaultValue;
@@ -78,7 +78,7 @@ PROTO SolidBox [
     ];
 
     let quad;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -88,39 +88,39 @@ PROTO SolidBox [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %{
+              %<
                 for (let i = 0; i < quads.length; ++i) {
                   quad = quads[i];
-              }%
-                %{= quad[0].x }% %{= quad[0].y }% %{= quad[0].z }%
-                %{= quad[1].x }% %{= quad[1].y }% %{= quad[1].z }%
-                %{= quad[2].x }% %{= quad[2].y }% %{= quad[2].z }%
-                %{= quad[3].x }% %{= quad[3].y }% %{= quad[3].z }%
-              %{ } }%
+              >%
+                %<= quad[0].x >% %<= quad[0].y >% %<= quad[0].z >%
+                %<= quad[1].x >% %<= quad[1].y >% %<= quad[1].z >%
+                %<= quad[2].x >% %<= quad[2].y >% %<= quad[2].z >%
+                %<= quad[3].x >% %<= quad[3].y >% %<= quad[3].z >%
+              %< } >%
             ]
           }
           texCoord TextureCoordinate {
             point [
-              %{
+              %<
                 for (let i = 0; i < quads.length; ++i) {
                   quad = quads[i];
-              }%
-                %{= quad[0].u }% %{= quad[0].v }%
-                %{= quad[1].u }% %{= quad[1].v }%
-                %{= quad[2].u }% %{= quad[2].v }%
-                %{= quad[3].u }% %{= quad[3].v }%
-              %{ } }%
+              >%
+                %<= quad[0].u >% %<= quad[0].v >%
+                %<= quad[1].u >% %<= quad[1].v >%
+                %<= quad[2].u >% %<= quad[2].v >%
+                %<= quad[3].u >% %<= quad[3].v >%
+              %< } >%
             ]
           }
           coordIndex [
-          %{
+          %<
             let offset;
             for (let i = 0; i < quads.length; ++i) {
               quad = quads[i];
               offset = 4 * i;
-          }%
-              %{= offset }% %{= offset + 1 }% %{= offset + 2 }% %{= offset + 3 }% -1
-            %{ } }%
+          >%
+              %<= offset >% %<= offset + 1 >% %<= offset + 2 >% %<= offset + 3 >% -1
+            %< } >%
           ]
           creaseAngle 1.5
         }
@@ -130,11 +130,11 @@ PROTO SolidBox [
     name IS name
     model "box"
     contactMaterial IS contactMaterial
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Box {
-      size %{= size.x }% %{= size.y }% %{= size.z }%
+      size %<= size.x >% %<= size.y >% %<= size.z >%
     }
-    %{ } }%
+    %< } >%
     physics IS physics
   }
 }

@@ -30,7 +30,7 @@ PROTO SumoInterface [
   hiddenField SFInt32 maxVehicules          100    # deprecated in Webots 2018a.
 ]
 {
-  %{
+  %<
     // tracks check
     let controllerArguments = [];
     if (!fields.gui.value)
@@ -81,16 +81,16 @@ PROTO SumoInterface [
       if (display.fields.fitSize.value)
         controllerArguments.push('--display-fit-size');
     }
-  }%
+  >%
 
   Robot {
     name IS name
     model "SUMO interface"
     controller "sumo_supervisor"
     controllerArgs [
-      %{ for (let i = 0; i < controllerArguments.length; ++i) { }%
-      %{= '"' + controllerArguments[i] + '"\n' }%
-      %{ } }%
+      %< for (let i = 0; i < controllerArguments.length; ++i) { >%
+      %<= '"' + controllerArguments[i] + '"\n' >%
+      %< } >%
     ]
     supervisor TRUE
     synchronization IS synchronization

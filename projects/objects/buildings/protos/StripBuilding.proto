@@ -14,7 +14,7 @@ PROTO StripBuilding [
   field SFBool     enableBoundingObject  TRUE             # Defines whether the buildings should have bounding objects.
 ]
 {
-  %{
+  %<
     import * as wbrandom from 'modules/webots/wbrandom.js';
 
     if (fields.randomSeed.value <= 0)
@@ -38,36 +38,36 @@ PROTO StripBuilding [
     }
 
     let currentPosition = 0;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     name IS name
     children [
-      %{
+      %<
         let i = 0;
         let j = 0;
         let building;
         while (currentPosition < fields.length.value) {
           i = wbrandom.integer(0, buildingsList.length - 1);
           building = buildings[buildingsList[i]];
-      }%
-      %{= buildingsList[i] }% {
-        translation %{= currentPosition + 0.5 * building.width + building.xOffset }% 0 %{= building.zOffset }%
-        %{ if (building.colors) { }%
-          type "%{= building.colors[wbrandom.integer(0, building.colors.length - 1)] }%"
-        %{ } }%
-        %{ if (building.maxFloor && building.minFloor) { }%
-          numberOfFloors %{= wbrandom.integer(building.minFloor, building.maxFloor) }%
-        %{ } }%
-        name "building(%{= j }%)"
+      >%
+      %<= buildingsList[i] >% {
+        translation %<= currentPosition + 0.5 * building.width + building.xOffset >% 0 %<= building.zOffset >%
+        %< if (building.colors) { >%
+          type "%<= building.colors[wbrandom.integer(0, building.colors.length - 1)] >%"
+        %< } >%
+        %< if (building.maxFloor && building.minFloor) { >%
+          numberOfFloors %<= wbrandom.integer(building.minFloor, building.maxFloor) >%
+        %< } >%
+        name "building(%<= j >%)"
         enableBoundingObject IS enableBoundingObject
       }
-      %{
+      %<
           j = j + 1;
           currentPosition = currentPosition + buildings[buildingsList[i]].width;
         }
-      }%
+      >%
     ]
   }
 }

@@ -15,7 +15,7 @@ PROTO Thymio2LED [
   field SFVec3f    lightPosition -1 -1 -1                                 # default = no light.
 ]
 {
-  %{
+  %<
     const length = fields.translations.value.length;
     const lengthTextureUrls = fields.textureUrls.value.length;
     const lengthRotations = fields.rotations.value.length;
@@ -26,14 +26,14 @@ PROTO Thymio2LED [
       length = 0;
       console.error('MF lengths of fields \'translations\', \'rotations\', \'sizes\' and \'textureUrls\' does not match.');
     }
-  }%
+  >%
 
   LED {
     name IS name
     children [
       Group {
         children [
-            %{
+            %<
               if (length > 0) {
               let translation, rotation, url, size;
               for (let i = 0; i < length; ++i) {
@@ -41,30 +41,30 @@ PROTO Thymio2LED [
                 rotation = fields.rotations.value[i];
                 url = fields.textureUrls.value[i];
                 size = fields.sizes.value[i];
-            }%
+            >%
               Transform {
-                translation %{= translation.x }% %{= translation.y }% %{= translation.z }%
-                rotation %{= rotation.x }% %{= rotation.y }% %{= rotation.z }% %{= rotation.a }%
+                translation %<= translation.x >% %<= translation.y >% %<= translation.z >%
+                rotation %<= rotation.x >% %<= rotation.y >% %<= rotation.z >% %<= rotation.a >%
                 children [
                   Shape {
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          %{= '"' + url + '"' }%
+                          %<= '"' + url + '"' >%
                         ]
                       }
                       roughness 0.1
                       metalness 0
                     }
                     geometry Plane {
-                      size %{= size.x }% %{= size.y }%
+                      size %<= size.x >% %<= size.y >%
                     }
                   }
                 ]
               }
-            %{ } }%
-          %{ } }%
-          %{ if (isLight) { }%
+            %< } >%
+          %< } >%
+          %< if (isLight) { >%
             SpotLight {
               location IS lightPosition
               direction 0 -1 0
@@ -73,27 +73,27 @@ PROTO Thymio2LED [
               beamWidth 0.01
               cutOffAngle 1
             }
-          %{ } }%
+          %< } >%
         ]
       }
     ]
-    %{ if (fields.level.value <= 0) { }%
+    %< if (fields.level.value <= 0) { >%
       gradual TRUE
       color []
-    %{ } else if (fields.level.value === 1) { }%
+    %< } else if (fields.level.value === 1) { >%
       color [
-        %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+        %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
       ]
-    %{ } else { }%
+    %< } else { >%
       color [
-        %{
+        %<
           let intensity;
           for (let i = 0; i < fields.level.value; ++i) {
             intensity = i / fields.level.value;
-        }%
-          %{= intensity * fields.color.value.r }% %{= intensity * fields.color.value.g }% %{= intensity * fields.color.value.b }%
-        %{ } }%
+        >%
+          %<= intensity * fields.color.value.r >% %<= intensity * fields.color.value.g >% %<= intensity * fields.color.value.b >%
+        %< } >%
       ]
-    %{ } }%
+    %< } >%
   }
 }

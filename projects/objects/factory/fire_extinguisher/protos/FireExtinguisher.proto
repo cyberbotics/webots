@@ -178,11 +178,11 @@ PROTO FireExtinguisher [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 12
     }
-    %{ } }%
+    %< } >%
   }
 }

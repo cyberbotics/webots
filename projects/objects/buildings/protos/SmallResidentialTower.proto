@@ -12,14 +12,14 @@ PROTO SmallResidentialTower [
   field SFBool     enableBoundingObject  TRUE                 # Defines whether the tower should have a bounding object.
 ]
 {
-  %{
+  %<
     let numberOfFloors = fields.numberOfFloors.value;
     if (numberOfFloors < 1) {
       numberOfFloors = 1;
       console.error('\'numberOfFloors\' must be greater or equal to 1.');
     }
     let addedFloors = numberOfFloors - 1;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -31,21 +31,21 @@ PROTO SmallResidentialTower [
     children [
       SmallResidentialTowerBase {
       }
-      %{ for (let i = 0; i <= addedFloors - 1; ++i) { }%
+      %< for (let i = 0; i <= addedFloors - 1; ++i) { >%
         SmallResidentialTowerFloor {
-          translation 0 %{= 2.574 * i }% 0
+          translation 0 %<= 2.574 * i >% 0
         }
-      %{ } }%
+      %< } >%
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
       boundingObject Transform {
-        translation 0 %{= 3.088 + 1.287 * addedFloors }% 0.28
+        translation 0 %<= 3.088 + 1.287 * addedFloors >% 0.28
         children [
           Box {
-            size 5.4 %{= 6.176 + 2.574 * addedFloors }% 7.2
+            size 5.4 %<= 6.176 + 2.574 * addedFloors >% 7.2
           }
         ]
       }
-    %{ } }%
+    %< } >%
   }
 }

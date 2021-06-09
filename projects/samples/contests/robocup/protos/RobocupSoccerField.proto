@@ -12,7 +12,7 @@ PROTO RobocupSoccerField [
   field SFBool                      turfPhysics TRUE
 ]
 {
-  %{
+  %<
     // official soccer field dimensions from RoboCup 2021 (in meters)
 
     const LINE_WIDTH = 0.05; // line width
@@ -237,42 +237,42 @@ PROTO RobocupSoccerField [
       pts[i].x = pts[i].x - OFFSET_X;
       pts[i].y = pts[i].y - OFFSET_Y;
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
-      %{ if (fields.turfPhysics.value) { }%
+      %< if (fields.turfPhysics.value) { >%
       DEF BLADES Solid {
         contactMaterial "grass"
         translation 0 0 0.01
         rotation 1 0 0 1.5707996938995747
         boundingObject Plane {
-          size %{= 2 * I + A }% %{= 2 * I + B }%
+          size %<= 2 * I + A >% %<= 2 * I + B >%
         }
       }
-      %{ } }%
+      %< } >%
       DEF GRASS Shape {
         appearance Grass {
           colorOverride 0.6 1 0.3
           type "artificial"
           textureTransform TextureTransform {
-            scale %{= 2 * A }% %{= 2 * A }%
+            scale %<= 2 * A >% %<= 2 * A >%
           }
         }
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-             %{ for (let i = 0; i < pts.length; ++i) { }%
-                %{= pts[i].x }% %{= pts[i].y }% %{= pts[i].z }%
-             %{ } }%
+             %< for (let i = 0; i < pts.length; ++i) { >%
+                %<= pts[i].x >% %<= pts[i].y >% %<= pts[i].z >%
+             %< } >%
             ]
           }
           ccw FALSE
           coordIndex [ # v.X - 1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
-            %{ for (let i = 0; i < tg.length; ++i) { }%
-               %{= tg[i].a - 1 }% %{= tg[i].b - 1 }% %{= tg[i].c - 1 }% -1,
-            %{ } }%
+            %< for (let i = 0; i < tg.length; ++i) { >%
+               %<= tg[i].a - 1 >% %<= tg[i].b - 1 >% %<= tg[i].c - 1 >% -1,
+            %< } >%
           ]
         }
       }
@@ -282,33 +282,33 @@ PROTO RobocupSoccerField [
           type "artificial_white"
           IBLStrength 1.5
           textureTransform TextureTransform {
-            scale %{= 2 * A }% %{= 2 * A }%
+            scale %<= 2 * A >% %<= 2 * A >%
           }
         }
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-             %{ for (let i = 0; i < pts.length; ++i) { }%
-                %{= pts[i].x }% %{= pts[i].y }% %{= pts[i].z }%
-             %{ } }%
+             %< for (let i = 0; i < pts.length; ++i) { >%
+                %<= pts[i].x >% %<= pts[i].y >% %<= pts[i].z >%
+             %< } >%
             ]
           }
           ccw FALSE
           coordIndex [ # v.X - 1 because coordIndex starts at 0, while the points (defined in Lua) start at 1
-            %{ for (let i = 0; i < tl.length; ++i) { }%
-               %{= tl[i].a - 1 }% %{= tl[i].b - 1 }% %{= tl[i].c - 1 }% -1
-            %{ } }%
+            %< for (let i = 0; i < tl.length; ++i) { >%
+               %<= tl[i].a - 1 >% %<= tl[i].b - 1 >% %<= tl[i].c - 1 >% -1
+            %< } >%
           ]
         }
       }
       RobocupGoal {
-        translation %{= I - OFFSET_X }% %{= I + (B / 2) - OFFSET_Y }% 0
+        translation %<= I - OFFSET_X >% %<= I + (B / 2) - OFFSET_Y >% 0
         rotation 0 0 1 -1.5707996938995747
         size IS size
         name "goal_home"
       }
       RobocupGoal {
-        translation %{= I + A - OFFSET_X }% %{= I + (B / 2) - OFFSET_Y }% 0
+        translation %<= I + A - OFFSET_X >% %<= I + (B / 2) - OFFSET_Y >% 0
         rotation 0 0 1 1.5707996938995747
         size IS size
         name "goal_away"
@@ -319,7 +319,7 @@ PROTO RobocupSoccerField [
       children [
         Shape {
           geometry Plane {
-            size %{= 2 * I + A }% %{= 2 * I + B }%
+            size %<= 2 * I + A >% %<= 2 * I + B >%
           }
         }
       ]

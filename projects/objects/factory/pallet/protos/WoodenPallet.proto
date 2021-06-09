@@ -16,7 +16,7 @@ PROTO WoodenPallet [
   field SFBool     locked         FALSE            # Is `Solid.locked`.
 ]
 {
-%{
+%<
   let size = fields.size.value;
   if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
     size = fields.size.defaultValue;
@@ -40,123 +40,123 @@ PROTO WoodenPallet [
   }
 
   let mass = fields.mass.value;
-}%
+>%
 Solid {
   translation IS translation
   rotation IS rotation
   children [
     # Cubes
-    %{ for (let i = -1; i <= 1; ++i) { }%
-      %{ for (let j = -1; j <= 1; ++j) { }%
+    %< for (let i = -1; i <= 1; ++i) { >%
+      %< for (let j = -1; j <= 1; ++j) { >%
         Transform {
-          translation %{= size.x * i * 0.45 }% %{= 0.45 * size.y }% %{= size.z * j * 0.45 }%
+          translation %<= size.x * i * 0.45 >% %<= 0.45 * size.y >% %<= size.z * j * 0.45 >%
           children [
             Shape {
               appearance RoughPine {
                 textureTransform TextureTransform {
-                  scale %{= 2 * size.x * 0.1 }% %{= 2 * size.z * 0.1 }%
+                  scale %<= 2 * size.x * 0.1 >% %<= 2 * size.z * 0.1 >%
                 }
               }
               geometry Box {
-                size %{= size.x * 0.1 }% %{= 0.7 * size.y }% %{= size.z * 0.1 }%
+                size %<= size.x * 0.1 >% %<= 0.7 * size.y >% %<= size.z * 0.1 >%
               }
             }
           ]
         }
-      %{ } }%
-    %{ } }%
+      %< } >%
+    %< } >%
     # Length boards
-    %{ for (let i = -1; i <= 1; ++i) { }%
+    %< for (let i = -1; i <= 1; ++i) { >%
       Transform {
-        translation %{= size.x * i * 0.45 }% %{= 0.05 * size.y }% 0
+        translation %<= size.x * i * 0.45 >% %<= 0.05 * size.y >% 0
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %{= 2 * size.z }% %{= 2 * size.y }%
+                scale %<= 2 * size.z >% %<= 2 * size.y >%
                 rotation 1.5708
               }
             }
             geometry Box {
-              size %{= size.x * 0.1 }% %{= 0.1 * size.y }% %{= size.z }%
+              size %<= size.x * 0.1 >% %<= 0.1 * size.y >% %<= size.z >%
             }
           }
         ]
       }
-    %{ } }%
+    %< } >%
     # width boards
-    %{ for (let i = -1; i <= 1; ++i) { }%
+    %< for (let i = -1; i <= 1; ++i) { >%
       Transform {
-        translation 0 %{= 0.85 * size.y }% %{= size.z * i * 0.45 }%
+        translation 0 %<= 0.85 * size.y >% %<= size.z * i * 0.45 >%
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %{= 2 * size.x }% %{= 2 * size.z * 0.1 }%
+                scale %<= 2 * size.x >% %<= 2 * size.z * 0.1 >%
                 rotation 1.5708
               }
             }
             geometry Box {
-              size %{= size.x }% %{= 0.1 * size.y }% %{= size.z * 0.1 }%
+              size %<= size.x >% %<= 0.1 * size.y >% %<= size.z * 0.1 >%
             }
           }
         ]
       }
-    %{ } }%
+    %< } >%
     # Lath lathNumber
-    %{ for (let i = 0; i <= lathNumber; ++i) { }%
+    %< for (let i = 0; i <= lathNumber; ++i) { >%
       Transform {
-        translation %{= (size.x - lathWidth) * (i / lathNumber - 0.5) }% %{= 0.95 * size.y }% %{= 0 }%
+        translation %<= (size.x - lathWidth) * (i / lathNumber - 0.5) >% %<= 0.95 * size.y >% %<= 0 >%
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %{= 2 * size.z }% %{= 2 * lathWidth }%
+                scale %<= 2 * size.z >% %<= 2 * lathWidth >%
                 rotation 1.5708
               }
             }
             geometry Box {
-              size %{= lathWidth }% %{= 0.1 * size.y }% %{= size.z }%
+              size %<= lathWidth >% %<= 0.1 * size.y >% %<= size.z >%
             }
           }
         ]
       }
-    %{ } }%
+    %< } >%
   ]
   name IS name
   model "wooden pallet"
-  %{ if (fields.boundingObject.value) { }%
+  %< if (fields.boundingObject.value) { >%
   boundingObject Group {
     children [
-      %{ for (let i = -1; i <= 1; ++i) { }%
+      %< for (let i = -1; i <= 1; ++i) { >%
         Transform {
-          translation %{= 0.45 * i * size.x }% %{= 0.4 * size.y }% 0
+          translation %<= 0.45 * i * size.x >% %<= 0.4 * size.y >% 0
           children
           [
             Box {
-              size %{= 0.1 * size.x }% %{= 0.8 * size.y }% %{= size.z }%
+              size %<= 0.1 * size.x >% %<= 0.8 * size.y >% %<= size.z >%
             }
           ]
         }
-      %{ } }%
+      %< } >%
       Transform {
-        translation 0 %{= 0.9 * size.y }% 0
+        translation 0 %<= 0.9 * size.y >% 0
         children
         [
           Box {
-            size %{= size.x }% %{= 0.2 * size.y }% %{= size.z }%
+            size %<= size.x >% %<= 0.2 * size.y >% %<= size.z >%
           }
         ]
       }
     ]
   }
-  %{ } }%
-  %{ if (mass > 0) { }%
+  %< } >%
+  %< if (mass > 0) { >%
   physics Physics {
     density -1
-    mass %{= mass }%
+    mass %<= mass >%
   }
-  %{ } }%
+  %< } >%
   locked IS locked
 }
 }

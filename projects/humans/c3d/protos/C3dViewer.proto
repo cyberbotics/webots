@@ -19,28 +19,28 @@ PROTO C3dViewer [
   field  SFString    name                             "c3d_viewer"
 ]
 {
-  %{
+  %<
     let c3dFile = fields.c3dFile.value;
     if (c3dFile === undefined || c3dFile === '')
       c3dFile = 'None';
-  }%
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
     children IS markers
     controller "c3d_viewer"
     controllerArgs [
-      "%{= c3dFile }%"
-      "%{= fields.playbackSpeed.value }%"
-      "%{= fields.leftGroundReactionForceOffset.value.x }%"
-      "%{= fields.leftGroundReactionForceOffset.value.y }%"
-      "%{= fields.leftGroundReactionForceOffset.value.z }%"
-      "%{= fields.rightGroundReactionForceOffset.value.x }%"
-      "%{= fields.rightGroundReactionForceOffset.value.y }%"
-      "%{= fields.rightGroundReactionForceOffset.value.z }%"
-      "%{= fields.bodyTransparency.value }%"
-      "%{= fields.bodyHeight.value }%"
-      "%{= fields.bodyOffset.value }%"
+      "%<= c3dFile >%"
+      "%<= fields.playbackSpeed.value >%"
+      "%<= fields.leftGroundReactionForceOffset.value.x >%"
+      "%<= fields.leftGroundReactionForceOffset.value.y >%"
+      "%<= fields.leftGroundReactionForceOffset.value.z >%"
+      "%<= fields.rightGroundReactionForceOffset.value.x >%"
+      "%<= fields.rightGroundReactionForceOffset.value.y >%"
+      "%<= fields.rightGroundReactionForceOffset.value.z >%"
+      "%<= fields.bodyTransparency.value >%"
+      "%<= fields.bodyHeight.value >%"
+      "%<= fields.bodyOffset.value >%"
     ]
     name IS name
     supervisor TRUE

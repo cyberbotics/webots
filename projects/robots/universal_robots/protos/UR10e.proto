@@ -750,7 +750,7 @@ PROTO UR10e [
         }
       ]
     }
-    %{ if (!fields.staticBase.value) { }%
+    %< if (!fields.staticBase.value) { >%
     physics Physics {
       density -1
       mass 4
@@ -758,7 +758,7 @@ PROTO UR10e [
         0 0 0
       ]
     }
-    %{ } }%
+    %< } >%
     controller IS controller
     controllerArgs IS controllerArgs
     supervisor IS supervisor

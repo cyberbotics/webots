@@ -45,7 +45,7 @@ PROTO LaneSeparation [
   hiddenField  MFBool               dashedLine                  TRUE                     # Deprecated in Webots R2018c.
 ]
 {
-  %{
+  %<
     // fields checks
     let width = fields.width.value;
     if (width <= 0.0) {
@@ -93,7 +93,7 @@ PROTO LaneSeparation [
     const centralBorder   = fields.centralBorder.value;
     const centralBorderBO = fields.centralBorderBoundingObject.value;
     const bottom          = fields.bottom.value;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -104,79 +104,79 @@ PROTO LaneSeparation [
         children IS lines
       }
       StraightRoadSegment {
-        translation %{= -sideSign * (width/2) * (1 - numberOfleavingLanes/lanes) }% 0 0
+        translation %<= -sideSign * (width/2) * (1 - numberOfleavingLanes/lanes) >% 0 0
         name "road 1"
-        width %{= width * (1 - numberOfleavingLanes/lanes) }%
-        numberOfLanes %{= lanes - numberOfleavingLanes }%
-        %{ if (newLaneLeft) { }%
+        width %<= width * (1 - numberOfleavingLanes/lanes) >%
+        numberOfLanes %<= lanes - numberOfleavingLanes >%
+        %< if (newLaneLeft) { >%
           rightBorder IS leftBorder
           rightBarrier IS leftBarrier
           rightBarrierBoundingObject IS leftBarrierBoundingObject
           leftBorder FALSE
           dashedLine [
-          %{ for (let i = 0; i < lanes - numberOfleavingLanes - 1; ++i) { }%
-            %{ if (!dashedLine[i]) { }%
+          %< for (let i = 0; i < lanes - numberOfleavingLanes - 1; ++i) { >%
+            %< if (!dashedLine[i]) { >%
               FALSE
-            %{ } else { }%
+            %< } else { >%
               TRUE
-            %{ } }%
-          %{ } }%
+            %< } >%
+          %< } >%
           ]
           lines IS lines
           startLine [
-          %{ for (let i = 0; i < lanes - numberOfleavingLanes; ++i) { }%
-            %{ if (startLine[i]) { }%
-              %{= '"' + startLine[i] + '"' }%
-            %{ } }%
-          %{ } }%
+          %< for (let i = 0; i < lanes - numberOfleavingLanes; ++i) { >%
+            %< if (startLine[i]) { >%
+              %<= '"' + startLine[i] + '"' >%
+            %< } >%
+          %< } >%
           ]
           endLine [
-          %{ for (let i = 0; i < lanes - numberOfleavingLanes; ++i) { }%
-            %{ if (endLine[i]) { }%
-              %{= '"' + endLine[i] + '"' }%
-            %{ } }%
-          %{ } }%
+          %< for (let i = 0; i < lanes - numberOfleavingLanes; ++i) { >%
+            %< if (endLine[i]) { >%
+              %<= '"' + endLine[i] + '"' >%
+            %< } >%
+          %< } >%
           ]
-        %{ } else { }%
+        %< } else { >%
           leftBorder IS rightBorder
           leftBarrier IS rightBarrier
           leftBarrierBoundingObject IS rightBarrierBoundingObject
           rightBorder FALSE
           dashedLine [
-          %{ for (let i = numberOfleavingLanes; i <= lanes; ++i) { }% # TODO VERIFY IF BREAKS HERE
-            %{ if (!dashedLine[i]) { }%
+          %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+            %< if (!dashedLine[i]) { >%
               FALSE
-            %{ } else { }%
+            %< } else { >%
               TRUE
-            %{ } }%
-          %{ } }%
+            %< } >%
+          %< } >%
           ]
           lines [
-          %{ for (let i = numberOfleavingLanes; i <= lanes; ++i) { }% # TODO VERIFY IF BREAKS HERE
-            %{ if (roadLines[i]) { }%
+          %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+            %< if (roadLines[i]) { >%
               RoadLine {
-                color %{= roadLines[i].fields.color.value.r }% %{= roadLines[i].fields.color.value.g }% %{= roadLines[i].fields.color.value.b }%
-                type %{=  '"' + roadLines[i].fields.type.value  + '"' }%
-                width %{= roadLines[i].fields.width.value }%
+                color %<= roadLines[i].fields.color.value.r >% %<= roadLines[i].fields.color.value.g >% %<= roadLines[i].fields.color.value.b >%
+                type %<=  '"' + roadLines[i].fields.type.value  + '"' >%
+                width %<= roadLines[i].fields.width.value >%
              }
-            %{ } }%
-          %{ } }%
+            %< } >%
+          %< } >%
           ]
           startLine [
-          %{ for (let i = numberOfleavingLanes + 1; i <= lanes; ++i) { }% # TODO VERIFY IF BREAKS HERE
-            %{ if (startLine[i]) { }%
-              %{= '"' + startLine[i] + '"' }%
-            %{ } }%
-          %{ } }%
+          %< for (let i = numberOfleavingLanes + 1; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+            %< if (startLine[i]) { >%
+              %<= '"' + startLine[i] + '"' >%
+            %< } >%
+          %< } >%
           ]
           endLine [
-          %{ for (let i = numberOfleavingLanes + 1; i <= lanes; ++i) { }% # TODO VERIFY IF BREAKS HERE
-            %{ if (endLine[i]) { }%
-              %{= '"' + endLine[i] + '"' }%
-            %{ } }%
-          %{ } }%
+          %< for (let i = numberOfleavingLanes + 1; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+            %< if (endLine[i]) { >%
+              %<= '"' + endLine[i] + '"' >%
+            %< } >%
+          %< } >%
           ]
-        %{ } }%
+        %< } >%
         bottom IS bottom
         roadBorderHeight IS roadBorderHeight
         startingRoadBorderWidth IS roadBorderWidth
@@ -191,93 +191,93 @@ PROTO LaneSeparation [
         castShadows IS castShadows
       }
       Road {
-        translation %{= sideSign * (width/2) * (numberOfleavingLanes/lanes) }% 0 0
+        translation %<= sideSign * (width/2) * (numberOfleavingLanes/lanes) >% 0 0
         name "road 2"
-        width %{= width * (numberOfleavingLanes/lanes) }%
+        width %<= width * (numberOfleavingLanes/lanes) >%
         numberOfLanes IS numberOfleavingLanes
-        %{ if (newLaneLeft) { }%
+        %< if (newLaneLeft) { >%
           rightBorder FALSE
           leftBorder IS leftBorder
           leftBarrier IS leftBarrier
           leftBarrierBoundingObject IS leftBarrierBoundingObject
           dashedLine [
-          %{ for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { }% # TODO VERIFY IF BREAKS HERE
-            %{ if (!dashedLine[i]) { }%
+          %< for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+            %< if (!dashedLine[i]) { >%
               FALSE
-            %{ } else { }%
+            %< } else { >%
               TRUE
-            %{ } }%
-          %{ } }%
+            %< } >%
+          %< } >%
           ]
           lines [
-          %{ for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { }% # TODO VERIFY IF BREAKS HERE
-            %{ if (roadLines[i]) { }%
+          %< for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+            %< if (roadLines[i]) { >%
               RoadLine {
-                color %{= roadLines[i].fields.color.value.r }% %{= roadLines[i].fields.color.value.g }% %{= roadLines[i].fields.color.value.b }%
-                type %{= '"' + roadLines[i].fields.type.value + '"' }%
-                width %{= roadLines[i].fields.width.value }%
+                color %<= roadLines[i].fields.color.value.r >% %<= roadLines[i].fields.color.value.g >% %<= roadLines[i].fields.color.value.b >%
+                type %<= '"' + roadLines[i].fields.type.value + '"' >%
+                width %<= roadLines[i].fields.width.value >%
              }
-            %{ } }%
-          %{ } }%
+            %< } >%
+          %< } >%
           ]
           startLine [
-          %{ for (let i = lanes - numberOfleavingLanes + 1; i <= lanes; ++i) { }% # TODO VERIFY IF BREAKS HERE
-            %{ if (startLine[i]) { }%
-              %{= '"' + startLine[i] + '"' }%
-            %{ } }%
-          %{ } }%
+          %< for (let i = lanes - numberOfleavingLanes + 1; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+            %< if (startLine[i]) { >%
+              %<= '"' + startLine[i] + '"' >%
+            %< } >%
+          %< } >%
           ]
           endLine [
-          %{ for (let i = lanes - numberOfleavingLanes + 1; i <= lanes; ++i) { }% # TODO VERIFY IF BREAKS HERE
-            %{ if (endLine[i]) { }%
-              %{= '"' + endLine[i] + '"' }%
-            %{ } }%
-          %{ } }%
+          %< for (let i = lanes - numberOfleavingLanes + 1; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+            %< if (endLine[i]) { >%
+              %<= '"' + endLine[i] + '"' >%
+            %< } >%
+          %< } >%
           ]
-        %{ } else { }%
+        %< } else { >%
           leftBorder FALSE
           rightBorder IS rightBorder
           rightBarrier IS rightBarrier
           rightBarrierBoundingObject IS rightBarrierBoundingObject
           dashedLine [
-          %{ for (let i = 0; i < numberOfleavingLanes - 1; ++i) { }%
-            %{ if (!dashedLine[i]) { }%
+          %< for (let i = 0; i < numberOfleavingLanes - 1; ++i) { >%
+            %< if (!dashedLine[i]) { >%
               FALSE
-            %{ } else { }%
+            %< } else { >%
               TRUE
-            %{ } }%
-          %{ } }%
+            %< } >%
+          %< } >%
           ]
           lines [
-          %{ for (let i = 0; i < numberOfleavingLanes - 1; ++i) { }%
-            %{ if (roadLines[i]) { }%
+          %< for (let i = 0; i < numberOfleavingLanes - 1; ++i) { >%
+            %< if (roadLines[i]) { >%
               RoadLine {
-                color %{= roadLines[i].fields.color.value.r }% %{= roadLines[i].fields.color.value.g }% %{= roadLines[i].fields.color.value.b }%
-                type %{= '"' +  roadLines[i].fields.type.value  + '"' }%
-                width %{= roadLines[i].fields.width.value }%
+                color %<= roadLines[i].fields.color.value.r >% %<= roadLines[i].fields.color.value.g >% %<= roadLines[i].fields.color.value.b >%
+                type %<= '"' +  roadLines[i].fields.type.value  + '"' >%
+                width %<= roadLines[i].fields.width.value >%
               }
-            %{ } }%
-          %{ } }%
+            %< } >%
+          %< } >%
           ]
           startLine [
-          %{ for (let i = 0; i < numberOfleavingLanes; ++i) { }%
-            %{ if (startLine[i]) { }%
-              %{= '"' + startLine[i] + '"' }%
-            %{ } }%
-          %{ } }%
+          %< for (let i = 0; i < numberOfleavingLanes; ++i) { >%
+            %< if (startLine[i]) { >%
+              %<= '"' + startLine[i] + '"' >%
+            %< } >%
+          %< } >%
           ]
           endLine [
-          %{ for (let i = 0; i < numberOfleavingLanes; ++i) { }%
-            %{ if (endLine[i]) { }%
-              %{= '"' + endLine[i] + '"' }%
-            %{ } }%
-          %{ } }%
+          %< for (let i = 0; i < numberOfleavingLanes; ++i) { >%
+            %< if (endLine[i]) { >%
+              %<= '"' + endLine[i] + '"' >%
+            %< } >%
+          %< } >%
           ]
-        %{ } }%
+        %< } >%
         bottom IS bottom
         roadBorderHeight IS roadBorderHeight
         roadBorderWidth [
-          %{= borderWidth }%
+          %<= borderWidth >%
         ]
         appearance IS appearance
         pavementAppearance IS pavementAppearance
@@ -288,7 +288,7 @@ PROTO LaneSeparation [
         castShadows IS castShadows
         wayPoints [
           0 0 0
-          %{= sideSign * borderWidth * 2 }% 0 %{= length }%
+          %<= sideSign * borderWidth * 2 >% 0 %<= length >%
         ]
         startingAngle [
           0
@@ -299,7 +299,7 @@ PROTO LaneSeparation [
         splineSubdivision 0
       }
       # Central border
-      %{ if (centralBorder) { }%
+      %< if (centralBorder) { >%
         Solid {
           children [
             Shape {
@@ -308,51 +308,51 @@ PROTO LaneSeparation [
                 coord Coordinate {
                   point [
                     0                                           0              0
-                    0                                 %{= borderHeight }%      0
-                    0                                           0         %{= length }%
-                    0                                 %{= borderHeight }% %{= length }%
-                    %{= sideSign * borderWidth * 2 }%           0         %{= length }%
-                    %{= sideSign * borderWidth * 2 }% %{= borderHeight }% %{= length }%
+                    0                                 %<= borderHeight >%      0
+                    0                                           0         %<= length >%
+                    0                                 %<= borderHeight >% %<= length >%
+                    %<= sideSign * borderWidth * 2 >%           0         %<= length >%
+                    %<= sideSign * borderWidth * 2 >% %<= borderHeight >% %<= length >%
                   ]
                 }
                 texCoord TextureCoordinate {
                   point [
                     0             0
                     0             0
-                    %{= length }% 0
-                    %{= length }% 0
-                    %{= length }% %{= 2 * borderWidth }%
-                    %{= length }% %{= 2 * borderWidth }%
+                    %<= length >% 0
+                    %<= length >% 0
+                    %<= length >% %<= 2 * borderWidth >%
+                    %<= length >% %<= 2 * borderWidth >%
                   ]
                 }
                 coordIndex [
-                %{ if (newLaneLeft) { }%
+                %< if (newLaneLeft) { >%
                   1 0 2 3 -1
                   0 1 5 4 -1
                   1 3 5 -1
-                %{ } else { }%
+                %< } else { >%
                   0 1 3 2 -1
                   1 0 4 5 -1
                   1 5 3 -1
-                %{ } }%
+                %< } >%
                 ]
                 texCoordIndex [
-                %{ if (newLaneLeft) { }%
+                %< if (newLaneLeft) { >%
                   1 0 2 3 -1
                   0 1 5 4 -1
                   1 3 5 -1
-                %{ } else { }%
+                %< } else { >%
                   0 1 3 2 -1
                   1 0 4 5 -1
                   1 5 3 -1
-                %{ } }%
+                %< } >%
                 ]
                 creaseAngle 0.2
               }
               castShadows IS castShadows
             }
             # Central bottom
-            %{ if (bottom) { }%
+            %< if (bottom) { >%
               Shape {
                 appearance PBRAppearance {
                   metalness 0
@@ -362,33 +362,33 @@ PROTO LaneSeparation [
                 coord Coordinate {
                   point [
                     0                                           0              0
-                    0                                           0         %{= length }%
-                    %{= sideSign * borderWidth * 2 }%           0         %{= length }%
+                    0                                           0         %<= length >%
+                    %<= sideSign * borderWidth * 2 >%           0         %<= length >%
                   ]
                 }
                 coordIndex [
-                %{ if (newLaneLeft) { }%
+                %< if (newLaneLeft) { >%
                   0 2 1 -1
-                %{ } else { }%
+                %< } else { >%
                   0 1 2 -1
-                %{ } }%
+                %< } >%
                 ]
                 creaseAngle 0.2
               }
               castShadows IS castShadows
             }
-            %{ } }%
+            %< } >%
           ]
-          %{ if (centralBorderBO) { }%
+          %< if (centralBorderBO) { >%
             contactMaterial IS contactMaterial
             boundingObject Shape {
               geometry USE CENTRAL_BORDER_GEOMETRY
             }
-          %{ } }%
+          %< } >%
           recognitionColors [ 0.6 0.6 0.6 ]
           model "road border"
         }
-      %{ } }%
+      %< } >%
     ]
     locked IS locked
   }

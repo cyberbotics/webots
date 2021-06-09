@@ -71,7 +71,7 @@ PROTO TeslaModel3Wheel [
           }
         }
       ]
-      %{ if (fields.boundingObject.value) { }%
+      %< if (fields.boundingObject.value) { >%
       boundingObject Transform {
         translation 0 0 -0.04
         rotation 1 0 0 1.5707963220000003
@@ -82,7 +82,7 @@ PROTO TeslaModel3Wheel [
           }
         ]
       }
-      %{ } }%
+      %< } >%
       physics IS physics
     }
   }

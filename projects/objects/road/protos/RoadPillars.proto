@@ -21,7 +21,7 @@ PROTO RoadPillars [
   field SFBool     boundingObject     TRUE                                                              # Defines whether the pillar should have a bounding object.
 ]
 {
-  %{
+  %<
     let height = fields.height.value;
     if (height < 0.0) {
       height = fields.height.defaultValue;
@@ -48,7 +48,7 @@ PROTO RoadPillars [
     const pylonsInclination = fields.pylonsInclination.value;
     const boundingObject    = fields.boundingObject.value;
     const tilt              = fields.upperTilt.value;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -59,14 +59,14 @@ PROTO RoadPillars [
           Shape {
             appearance IS appearance
             geometry DEF BOX Box {
-              size %{= width }% 0.5 %{= depth }%
+              size %<= width >% 0.5 %<= depth >%
             }
           }
         ]
       }
       DEF UPPER_PART Transform {
-        translation 0 %{= height - 0.25 }% 0
-        rotation 0 0 1 %{= tilt }%
+        translation 0 %<= height - 0.25 >% 0
+        rotation 0 0 1 %<= tilt >%
         children [
           Shape {
             appearance IS appearance
@@ -75,26 +75,26 @@ PROTO RoadPillars [
         ]
       }
       DEF CYLINDER_1 Transform {
-        translation %{= pylonsDistance * 0.5 }% %{= height * 0.5 + Math.sin(tilt) * pylonsDistance * 0.25 }% 0
-        rotation 0 0 1 %{= pylonsInclination }%
+        translation %<= pylonsDistance * 0.5 >% %<= height * 0.5 + Math.sin(tilt) * pylonsDistance * 0.25 >% 0
+        rotation 0 0 1 %<= pylonsInclination >%
         children [
           Shape {
             appearance IS appearance
             geometry Cylinder {
-              height %{= height - 0.25 + Math.sin(tilt) * pylonsDistance * 0.5 }%
+              height %<= height - 0.25 + Math.sin(tilt) * pylonsDistance * 0.5 >%
               radius IS pylonsRadius
             }
           }
         ]
       }
       DEF CYLINDER_1 Transform {
-        translation %{= -pylonsDistance * 0.5 }% %{= height * 0.5 - Math.sin(tilt) * pylonsDistance * 0.25 }% 0
-        rotation 0 0 1 %{= -pylonsInclination }%
+        translation %<= -pylonsDistance * 0.5 >% %<= height * 0.5 - Math.sin(tilt) * pylonsDistance * 0.25 >% 0
+        rotation 0 0 1 %<= -pylonsInclination >%
         children [
           Shape {
             appearance IS appearance
             geometry Cylinder {
-              height %{= height - 0.25 - Math.sin(tilt) * pylonsDistance * 0.5 }%
+              height %<= height - 0.25 - Math.sin(tilt) * pylonsDistance * 0.5 >%
               radius IS pylonsRadius
             }
           }
@@ -103,15 +103,15 @@ PROTO RoadPillars [
     ]
     name IS name
     model "road pillar"
-    %{ if (boundingObject) { }%
+    %< if (boundingObject) { >%
       boundingObject Transform {
-        translation 0 %{= height * 0.5 - width * Math.abs(Math.sin(tilt)) * 0.25 }% 0
+        translation 0 %<= height * 0.5 - width * Math.abs(Math.sin(tilt)) * 0.25 >% 0
         children [
           Box {
-            size %{= width }% %{= height - width * Math.abs(Math.sin(tilt)) * 0.5 }% %{= depth }%
+            size %<= width >% %<= height - width * Math.abs(Math.sin(tilt)) * 0.5 >% %<= depth >%
           }
         ]
       }
-    %{ } }%
+    %< } >%
   }
 }

@@ -15,7 +15,7 @@ PROTO MX430RearRotorShape [
 {
   Group {
     children [
-      %{ if (fields.screwA.value) { }%
+      %< if (fields.screwA.value) { >%
         Shape { # XM430_REAR_SCREW_A
           appearance RobotisOp3BlackPaintedMetalAppearance {
           }
@@ -39,8 +39,8 @@ PROTO MX430RearRotorShape [
             creaseAngle 1.0
           }
         }
-      %{ } }%
-      %{ if (fields.screwA.value) { }%
+      %< } >%
+      %< if (fields.screwA.value) { >%
         Shape { # XM430_REAR_SCREW_B
           appearance RobotisOp3BlackPaintedMetalAppearance {
           }
@@ -64,8 +64,8 @@ PROTO MX430RearRotorShape [
             creaseAngle 1.0
           }
         }
-      %{ } }%
-      %{ if (fields.screwC.value) { }%
+      %< } >%
+      %< if (fields.screwC.value) { >%
         Shape { # XM430_REAR_SCREW_C
           appearance RobotisOp3BlackPaintedMetalAppearance {
           }
@@ -89,8 +89,8 @@ PROTO MX430RearRotorShape [
             creaseAngle 1.0
           }
         }
-      %{ } }%
-      %{ if (fields.screwD.value) { }%
+      %< } >%
+      %< if (fields.screwD.value) { >%
         Shape { # XM430_REAR_SCREW_D
           appearance RobotisOp3BlackPaintedMetalAppearance {
           }
@@ -114,8 +114,8 @@ PROTO MX430RearRotorShape [
             creaseAngle 1.0
           }
         }
-      %{ } }%
-      %{ if (fields.screwE.value) { }%
+      %< } >%
+      %< if (fields.screwE.value) { >%
         Shape { # XM430_REAR_SCREW_E
           appearance RobotisOp3BlackPaintedMetalAppearance {
           }
@@ -139,8 +139,8 @@ PROTO MX430RearRotorShape [
             creaseAngle 1.0
           }
         }
-      %{ } }%
-      %{ if (fields.screwF.value) { }%
+      %< } >%
+      %< if (fields.screwF.value) { >%
         Shape { # XM430_REAR_SCREW_F
           appearance RobotisOp3BlackPaintedMetalAppearance {
           }
@@ -164,8 +164,8 @@ PROTO MX430RearRotorShape [
             creaseAngle 1.0
           }
         }
-      %{ } }%
-      %{ if (fields.screwG.value) { }%
+      %< } >%
+      %< if (fields.screwG.value) { >%
         Shape { # XM430_REAR_SCREW_G
           appearance RobotisOp3BlackPaintedMetalAppearance {
           }
@@ -189,8 +189,8 @@ PROTO MX430RearRotorShape [
             creaseAngle 1.0
           }
         }
-      %{ } }%
-      %{ if (fields.screwH.value) { }%
+      %< } >%
+      %< if (fields.screwH.value) { >%
         Shape { # XM430_REAR_SCREW_H
           appearance RobotisOp3BlackPaintedMetalAppearance {
           }
@@ -214,7 +214,7 @@ PROTO MX430RearRotorShape [
             creaseAngle 1.0
           }
         }
-      %{ } }%
+      %< } >%
       Shape {
         appearance RobotisOp3BrushedMetalAppearance {
         }

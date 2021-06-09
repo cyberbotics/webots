@@ -26,7 +26,7 @@ PROTO ToyotaPrius [
   field     SFString   window            "automobile"
 ]
 {
-  %{ const frontSpotLights = fields.frontSpotLights.value; }%
+  %< const frontSpotLights = fields.frontSpotLights.value; >%
   Car {
     translation IS translation
     rotation IS rotation
@@ -89,7 +89,7 @@ PROTO ToyotaPrius [
         front [
           Group {
             children [
-              %{ if (frontSpotLights) { }%
+              %< if (frontSpotLights) { >%
                 SpotLight {
                   attenuation 0 0 1
                   intensity 20
@@ -108,7 +108,7 @@ PROTO ToyotaPrius [
                   location -0.7 0.6 3.4
                   radius 20
                 }
-              %{ } }%
+              %< } >%
               ToyotaPriusFrontLight {
               }
             ]
@@ -183,7 +183,7 @@ PROTO ToyotaPrius [
     }
     radarCrossSection 100
     recognitionColors [
-      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
     ]
     physics Physics {
       density -1

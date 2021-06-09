@@ -14,24 +14,24 @@ PROTO SphereGrid [
   field SFInt32    widthAndHeight 10
 ]
 {
-  %{
+  %<
     const dimensions = fields.widthAndHeight.value;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     name IS name
     children [
-      %{ for (let i = 0; i <= dimensions - 1; ++i) { }%
-        %{ for (let j = 0; j <= dimensions - 1; ++j) { }%
+      %< for (let i = 0; i <= dimensions - 1; ++i) { >%
+        %< for (let j = 0; j <= dimensions - 1; ++j) { >%
           Solid {
-            translation %{= j / 3 }% %{= (1 - i) / 3 }% 0
+            translation %<= j / 3 >% %<= (1 - i) / 3 >% 0
             children [
               Shape {
                 appearance PBRAppearance {
                   baseColor IS color
-                  metalness %{= j / dimensions }%
-                  roughness %{= i / dimensions }%
+                  metalness %<= j / dimensions >%
+                  roughness %<= i / dimensions >%
                   normalMap IS normalMap
                   baseColorMap IS baseColorMap
                   roughnessMap IS roughnessMap
@@ -43,10 +43,10 @@ PROTO SphereGrid [
                 }
               }
             ]
-            name "%{=i*dimensions + j}%"
+            name "%<=i*dimensions + j>%"
           }
-        %{ } }%
-      %{ } }%
+        %< } >%
+      %< } >%
     ]
     rotationStep 0.001
     translationStep 0.001

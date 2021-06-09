@@ -16,7 +16,7 @@ PROTO CrashBarrier [
   field SFBool       enableBoundingObject    FALSE                                 # Defines whether the crash barrier should have a bounding object.
 ]
 {
-  %{
+  %<
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
     import * as wbvector3 from 'modules/webots/wbvector3.js';
 
@@ -46,14 +46,14 @@ PROTO CrashBarrier [
     let length = 0;
     for (let i = 1; i < nbPath; ++i)
       length = length + wbvector3.distance(path[i], path[i -1]);
-  }%
+  >%
   Fence {
     translation IS translation
     rotation IS rotation
     name IS name
-    height %{= height }%
+    height %<= height >%
     poleGap IS poleGap
-    poleRadius %{= poleRadius }%
+    poleRadius %<= poleRadius >%
     poleShape "H"
     poleAppearance IS poleAppearance
     path IS path
@@ -72,11 +72,11 @@ PROTO CrashBarrier [
         ]
       }
       textureTransform TextureTransform {
-        scale %{= 0.5 * length }% 2
+        scale %<= 0.5 * length >% 2
       }
     }
     horizontalBarShape [
-    %{
+    %<
       const barHeight = 0.4;
       const barThickness = 0.05;
       const angleOffset = -0.25 * Math.PI;
@@ -84,39 +84,39 @@ PROTO CrashBarrier [
       const angleSubdivision = 12;
       const lateralOffset = 0.01 + poleRadius;
       const side = fields.barrierOnRightSide.value ? -1 : 1;
-    }%
-      %{= side * poleRadius }% 0
-    %{ for (let j = 0; j <= angleSubdivision; ++j) { }%
-      %{= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) }% %{= barHeight * j / angleSubdivision }%
-    %{ } }%
-      %{= side * poleRadius }% %{= barHeight }%
-    %{ for (let j = angleSubdivision; j >= 0; --j) { }%
-      %{= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) }% %{= barHeight * j / angleSubdivision }%
-    %{ } }%
-      %{= side * poleRadius }% 0
+    >%
+      %<= side * poleRadius >% 0
+    %< for (let j = 0; j <= angleSubdivision; ++j) { >%
+      %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >% %<= barHeight * j / angleSubdivision >%
+    %< } >%
+      %<= side * poleRadius >% %<= barHeight >%
+    %< for (let j = angleSubdivision; j >= 0; --j) { >%
+      %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >% %<= barHeight * j / angleSubdivision >%
+    %< } >%
+      %<= side * poleRadius >% 0
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
       boundingObject Transform {
-        translation 0 %{= 0.5 * height }% 0
+        translation 0 %<= 0.5 * height >% 0
         children [
           Extrusion {
             spine [
-              %{ for (let i = 0; i < nbPath; ++i) { }%
-                %{= originalPath[i].x }% %{= originalPath[i].y }% %{= originalPath[i].z }%
-              %{ } }%
+              %< for (let i = 0; i < nbPath; ++i) { >%
+                %<= originalPath[i].x >% %<= originalPath[i].y >% %<= originalPath[i].z >%
+              %< } >%
             ]
-            splineSubdivision %{= fields.subdivision.value }%
+            splineSubdivision %<= fields.subdivision.value >%
             crossSection [
-              %{= side * lateralOffset }% %{= 0 }%
-              %{= side * lateralOffset }% %{= barHeight }%
-              %{= side * (lateralOffset + 2 * barThickness) }% %{= barHeight }%
-              %{= side * (lateralOffset + 2 * barThickness) }% %{= 0 }%
-              %{= side * lateralOffset }% %{= 0 }%
+              %<= side * lateralOffset >% %<= 0 >%
+              %<= side * lateralOffset >% %<= barHeight >%
+              %<= side * (lateralOffset + 2 * barThickness) >% %<= barHeight >%
+              %<= side * (lateralOffset + 2 * barThickness) >% %<= 0 >%
+              %<= side * lateralOffset >% %<= 0 >%
             ]
           }
         ]
       }
-    %{ } }%
+    %< } >%
     recognitionColors [ 0.65 0.65 0.65 ]
     model "crash barrier"
   }

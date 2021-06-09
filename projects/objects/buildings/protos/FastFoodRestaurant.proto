@@ -16,7 +16,7 @@ PROTO FastFoodRestaurant [
   field SFInt32{1, 2} numberOfSides 1                       # Defines whether it is a two sided restaurant.
 ]
 {
-  %{
+  %<
     let height = fields.height.value;
     if (height < 4.0) {
       height = fields.height.defaultValue;
@@ -76,21 +76,21 @@ PROTO FastFoodRestaurant [
       outerWallTexture = '"textures/subway_outer_wall.jpg"';
     else
       outerWallTexture = '"textures/KFC_outer_wall.jpg"';
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ if (brand === 'subway' || brand === 'momo') { }%
+    %< if (brand === 'subway' || brand === 'momo') { >%
       recognitionColors [ 0.81 0 0 ]
-    %{ } else { }%
+    %< } else { >%
       recognitionColors [ 0.57 0.68 0.8 ]
-    %{ } }%
+    %< } >%
     children [
     Transform {
-      translation 0 0 %{= front_transform }%
+      translation 0 0 %<= front_transform >%
       children [
         DEF LEFT_INNER_WALL Transform {
-          translation %{= halfLength - 1 }% 1.4 %{= 3.4 - plane_offset - depth_fighting_offset }%
+          translation %<= halfLength - 1 >% 1.4 %<= 3.4 - plane_offset - depth_fighting_offset >%
           rotation 0 -0.707107 0.707106 3.14159
           children [
             DEF INNER_WALL Shape {
@@ -113,24 +113,24 @@ PROTO FastFoodRestaurant [
           ]
         }
         DEF RIGHT_INNER_WALL Transform {
-          %{ if (numberOfSides === 1) { }%
-              translation %{= halfLength - 1 }% 1.4 %{= -3.4 + plane_offset + depth_fighting_offset }%
+          %< if (numberOfSides === 1) { >%
+              translation %<= halfLength - 1 >% 1.4 %<= -3.4 + plane_offset + depth_fighting_offset >%
               rotation 1 0 0 1.5708
-          %{ } else if (numberOfSides === 2) { }%
-              translation %{= halfLength - 8.8 + plane_offset + depth_fighting_offset }% 1.4 -4.4
+          %< } else if (numberOfSides === 2) { >%
+              translation %<= halfLength - 8.8 + plane_offset + depth_fighting_offset >% 1.4 -4.4
               rotation -0.57735 -0.57735 0.57735 4.18879
-          %{ } }%
+          %< } >%
           children USE INNER_WALL
         }
-        %{ for (let i = 1; i <= numberOfSides; ++i) { }%
-            DEF %{= 'BACK_' + i }% Transform {
-              %{ if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { }%
-                  translation %{= halfLength - 2 + plane_offset + depth_fighting_offset }% 1.4 0
+        %< for (let i = 1; i <= numberOfSides; ++i) { >%
+            DEF %<= 'BACK_' + i >% Transform {
+              %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
+                  translation %<= halfLength - 2 + plane_offset + depth_fighting_offset >% 1.4 0
                   rotation -0.57735 -0.577351 0.57735 4.18879
-              %{ } else { }%
-                  translation %{= halfLength - 5.4 }% 1.4 %{= -3.4 - plane_offset - depth_fighting_offset }%
+              %< } else { >%
+                  translation %<= halfLength - 5.4 >% 1.4 %<= -3.4 - plane_offset - depth_fighting_offset >%
                   rotation 0 0.707107 -0.707107 3.14159
-              %{ } }%
+              %< } >%
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -148,56 +148,56 @@ PROTO FastFoodRestaurant [
                     metalness 0
                   }
                   geometry Plane {
-                    size %{= 6.8 + 2 * plane_offset }% 2.8
+                    size %<= 6.8 + 2 * plane_offset >% 2.8
                   }
                 }
               ]
             }
-            %{
+            %<
               if (numberOfSides === 2 && i === 1) {
                 front_adjust = -0.4;
               }
-            }%
-            DEF %{= 'FRONT_' + i }% Transform {
-              %{ if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { }%
-                  translation %{= halfLength + plane_offset }% %{= front_plane_y }% %{= front_adjust - subway_front_adjust }%
+            >%
+            DEF %<= 'FRONT_' + i >% Transform {
+              %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
+                  translation %<= halfLength + plane_offset >% %<= front_plane_y >% %<= front_adjust - subway_front_adjust >%
                   rotation -0.57735 -0.577351 0.57735 4.18879
-              %{ } else { }%
-                  translation %{= halfLength - 5 + subway_front_adjust }% %{= front_plane_y }% %{= -5.4 - plane_offset }%
+              %< } else { >%
+                  translation %<= halfLength - 5 + subway_front_adjust >% %<= front_plane_y >% %<= -5.4 - plane_offset >%
                   rotation 0 0.707107 -0.707107 3.14159
-              %{ } }%
+              %< } >%
               children [
                 DEF FRONT_WALL_SHAPE Shape {
                   appearance PBRAppearance {
                     baseColorMap DEF FRONT_TEXTURE ImageTexture {
-                      %{ if (numberOfSides === 2 && (brand === 'subway' || brand === 'momo')) { }%
+                      %< if (numberOfSides === 2 && (brand === 'subway' || brand === 'momo')) { >%
                           url [
-                            %{= '"textures/' + brand + '_front.png"' }%
+                            %<= '"textures/' + brand + '_front.png"' >%
                           ]
-                      %{ } else { }%
+                      %< } else { >%
                           url [
-                            %{= '"textures/' + brand + '.png"' }%
+                            %<= '"textures/' + brand + '.png"' >%
                           ]
-                      %{ } }%
+                      %< } >%
                       filtering 0
                     }
                     roughness 1
                     metalness 0
                   }
                   geometry DEF FRONT_SIDE Plane {
-                    size %{= front_brand_size + 4 * plane_offset }% %{= front_plane_height }%
+                    size %<= front_brand_size + 4 * plane_offset >% %<= front_plane_height >%
                   }
                 }
               ]
             }
-            DEF %{= 'REVERSE_FRONT_' + i }% Transform {
-              %{ if (i === 1) { }%
-                translation %{= halfLength + plane_offset }% %{= front_plane_y }% %{= front_adjust - subway_front_adjust }%
+            DEF %<= 'REVERSE_FRONT_' + i >% Transform {
+              %< if (i === 1) { >%
+                translation %<= halfLength + plane_offset >% %<= front_plane_y >% %<= front_adjust - subway_front_adjust >%
                 rotation -0.577351 0.57735 -0.57735 4.18879
-              %{ } else if (i === 2) { }%
-                translation %{= halfLength - 5 + subway_front_adjust }% %{= front_plane_y }% %{= -5.4 - plane_offset }%
+              %< } else if (i === 2) { >%
+                translation %<= halfLength - 5 + subway_front_adjust >% %<= front_plane_y >% %<= -5.4 - plane_offset >%
                 rotation 1 0 0 1.5708
-              %{ } }%
+              %< } >%
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -212,14 +212,14 @@ PROTO FastFoodRestaurant [
                 }
               ]
             }
-            DEF %{= 'ROOF_' + i }% Transform {
-              %{ if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { }%
-                  translation %{= halfLength - 1 }% %{= 2.8 - plane_offset }% 0
+            DEF %<= 'ROOF_' + i >% Transform {
+              %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
+                  translation %<= halfLength - 1 >% %<= 2.8 - plane_offset >% 0
                   rotation 0 0 1 3.14159
-              %{ } else { }%
-                  translation %{= halfLength - 4.4 }% %{= 2.8 - plane_offset }% -4.4
+              %< } else { >%
+                  translation %<= halfLength - 4.4 >% %<= 2.8 - plane_offset >% -4.4
                   rotation -0.707107 0 -0.707107 3.14159
-              %{ } }%
+              %< } >%
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -236,22 +236,22 @@ PROTO FastFoodRestaurant [
                     }
                   }
                   geometry DEF ROOF Plane {
-                    %{ if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { }%
+                    %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                         size 2 6.8
-                    %{ } else { }%
+                    %< } else { >%
                         size 2 8.8
-                    %{ } }%
+                    %< } >%
                   }
                 }
               ]
             }
-            DEF %{= 'FLOOR_' + i }% Transform {
-              %{ if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { }%
-                  translation %{= halfLength - 1 }% %{= depth_fighting_offset }% 0
-              %{ } else { }%
-                  translation %{= halfLength - 4.4 }% %{= depth_fighting_offset }% -4.4
+            DEF %<= 'FLOOR_' + i >% Transform {
+              %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
+                  translation %<= halfLength - 1 >% %<= depth_fighting_offset >% 0
+              %< } else { >%
+                  translation %<= halfLength - 4.4 >% %<= depth_fighting_offset >% -4.4
                   rotation 0 1 0 1.5708
-              %{ } }%
+              %< } >%
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -271,62 +271,62 @@ PROTO FastFoodRestaurant [
                 }
               ]
             }
-        %{ } }%
+        %< } >%
       ]
     }
       DEF LEFT_SIDE Transform {
-        %{ if (numberOfSides === 1) { }%
-            translation 0 1.4 %{= (width * 0.25) + ( 3.4 * 0.5 ) }%
+        %< if (numberOfSides === 1) { >%
+            translation 0 1.4 %<= (width * 0.25) + ( 3.4 * 0.5 ) >%
             children [
               DEF SIDE_WALL Shape {
                 appearance PBRAppearance {
                   baseColorMap DEF SIDE_TEXTURE ImageTexture {
-                    url %{= outerWallTexture }%
+                    url %<= outerWallTexture >%
                   }
                   roughness 1
                   metalness 0
                 }
                 geometry Box {
-                  size %{= length }% 2.8 %{= (width * 0.5) - 3.4 }%
+                  size %<= length >% 2.8 %<= (width * 0.5) - 3.4 >%
                 }
               }
             ]
-        %{ } else if (numberOfSides === 2) { }%
+        %< } else if (numberOfSides === 2) { >%
             translation 0 1.4 4.4
             children [
               DEF SIDE_WALL Shape {
                 appearance DEF SIDE_APPEARANCE PBRAppearance {
                   baseColorMap DEF SIDE_TEXTURE ImageTexture {
-                    url %{= outerWallTexture }%
+                    url %<= outerWallTexture >%
                   }
                   roughness 1
                   metalness 0
                 }
                 geometry Box {
-                  size %{= length }% 2.8 %{= width - 8.8 }%
+                  size %<= length >% 2.8 %<= width - 8.8 >%
                 }
               }
             ]
-        %{ } }%
+        %< } >%
       }
       DEF RIGHT_SIDE Transform {
-        %{ if (numberOfSides === 1) { }%
-            translation 0 1.4 %{= - (width * 0.25) - ( 3.4 * 0.5 ) }%
+        %< if (numberOfSides === 1) { >%
+            translation 0 1.4 %<= - (width * 0.25) - ( 3.4 * 0.5 ) >%
             children USE SIDE_WALL
-        %{ } else if (numberOfSides === 2) { }%
-            translation -4.4 1.4 %{= - (width * 0.5) + 1 }%
+        %< } else if (numberOfSides === 2) { >%
+            translation -4.4 1.4 %<= - (width * 0.5) + 1 >%
             children [
               Shape {
                 appearance USE SIDE_APPEARANCE
                 geometry Box {
-                  size %{= length - 8.8 }% 2.8 2
+                  size %<= length - 8.8 >% 2.8 2
                 }
               }
             ]
-        %{ } }%
+        %< } >%
       }
       DEF TOP_SIDE Transform {
-        translation 0 %{= height * 0.5 + 1.4 }% 0
+        translation 0 %<= height * 0.5 + 1.4 >% 0
         children [
           Shape {
             appearance PBRAppearance {
@@ -335,12 +335,12 @@ PROTO FastFoodRestaurant [
               metalness 0
               textureTransform TextureTransform {
                 # Allows correct alignement of the texture from the SIDE to TOP
-                scale 1 %{= ( height / 2.8 ) - 1 }%
-                translation 0 %{= height }%
+                scale 1 %<= ( height / 2.8 ) - 1 >%
+                translation 0 %<= height >%
               }
             }
             geometry TexturedBox {
-              size %{= length }% %{= height - 2.8 }% %{= width }%
+              size %<= length >% %<= height - 2.8 >% %<= width >%
               mapping "default"
               top FALSE
               bottom FALSE
@@ -349,16 +349,16 @@ PROTO FastFoodRestaurant [
         ]
       }
       DEF BACK_SIDE Transform {
-        %{ if (numberOfSides === 1) { }%
+        %< if (numberOfSides === 1) { >%
             translation -1 1.4 0
-        %{ } else if (numberOfSides === 2) { }%
-            translation -1 1.4 %{= - width * 0.5 + 5.4 }%
-        %{ } }%
+        %< } else if (numberOfSides === 2) { >%
+            translation -1 1.4 %<= - width * 0.5 + 5.4 >%
+        %< } >%
         children [
           Shape {
             appearance PBRAppearance {
               baseColorMap DEF SIDE_TEXTURE ImageTexture {
-                url %{= outerWallTexture }%
+                url %<= outerWallTexture >%
               }
               roughness 1
               metalness 0
@@ -368,13 +368,13 @@ PROTO FastFoodRestaurant [
               }
             }
             geometry Box {
-              size %{= length - 2 }% 2.8 6.8
+              size %<= length - 2 >% 2.8 6.8
             }
           }
         ]
       }
       DEF TOP_WALL Transform {
-        translation 0 %{= height }% 0
+        translation 0 %<= height >% 0
         children [
           Shape {
             appearance PBRAppearance {
@@ -386,23 +386,23 @@ PROTO FastFoodRestaurant [
               roughness 1
               metalness 0
               textureTransform TextureTransform {
-                scale %{= 0.6 * length }% %{= 0.6 * width }%
+                scale %<= 0.6 * length >% %<= 0.6 * width >%
               }
             }
             geometry Plane {
-              size %{= length }% %{= width }%
+              size %<= length >% %<= width >%
             }
           }
         ]
       }
     ]
     name IS name
-    model %{= '"' + brand + '"' }%
+    model %<= '"' + brand + '"' >%
     boundingObject Transform {
-      translation 0 %{= height * 0.5 }% 0
+      translation 0 %<= height * 0.5 >% 0
       children [
         Box {
-          size %{= length }% %{= height }% %{= width }%
+          size %<= length >% %<= height >% %<= width >%
         }
       ]
     }

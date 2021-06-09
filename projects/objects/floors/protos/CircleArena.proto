@@ -25,7 +25,7 @@ PROTO CircleArena [
 
 ]
 {
-  %{
+  %<
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
 
     if (fields.floorTextureUrl.value[0] !== fields.floorTextureUrl.defaultValue[0])
@@ -70,48 +70,48 @@ PROTO CircleArena [
       floorTextureScale.y =  fields.floorTileSize.value.y;
     } else
       console.error('\'floorTextureScale\' must contain positive values.');
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       SolidPipe {
-        translation 0 %{= wallHeight / 2 }% 0
-        height %{= wallHeight }%
-        radius %{= radius + wallThickness }%
-        thickness %{= wallThickness }%
-        subdivision %{= subdivision }%
+        translation 0 %<= wallHeight / 2 >% 0
+        height %<= wallHeight >%
+        radius %<= radius + wallThickness >%
+        thickness %<= wallThickness >%
+        subdivision %<= subdivision >%
         contactMaterial IS contactMaterial
         appearance IS wallAppearance
       }
       Shape {
         appearance IS floorAppearance
         geometry IndexedFaceSet {
-          %{ const circle = wbgeometry.circle(realRadius, subdivision, {x: 0, y: 0}, 0); }%
+          %< const circle = wbgeometry.circle(realRadius, subdivision, {x: 0, y: 0}, 0); >%
           coord Coordinate {
             point [
-              %{ for (let i = 0; i < circle.length; ++i) { }%
-                %{= circle[i].x }% %{= 0 }% %{= circle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < circle.length; ++i) { >%
+                %<= circle[i].x >% %<= 0 >% %<= circle[i].y >%
+              %< } >%
             ]
           }
           texCoord TextureCoordinate {
             point [
-              %{ for (let i = 0; i < circle.length; ++i) { }%
-                %{= circle[i].x / floorTextureScale.x }% %{= circle[i].y / floorTextureScale.y}%
-              %{ } }%
+              %< for (let i = 0; i < circle.length; ++i) { >%
+                %<= circle[i].x / floorTextureScale.x >% %<= circle[i].y / floorTextureScale.y>%
+              %< } >%
             ]
           }
           coordIndex [
-            %{ for (let j = subdivision; j >= 0; --j) { }%
-              %{= j }%
-            %{ } }%
+            %< for (let j = subdivision; j >= 0; --j) { >%
+              %<= j >%
+            %< } >%
             -1
           ]
           texCoordIndex [
-            %{ for (let j = subdivision; j >= 0; --j) { }%
-              %{= j }%
-            %{ } }%
+            %< for (let j = subdivision; j >= 0; --j) { >%
+              %<= j >%
+            %< } >%
             -1
           ]
         }
@@ -120,7 +120,7 @@ PROTO CircleArena [
     name IS name
     model "circle arena"
     boundingObject Plane {
-      size %{= 2 * radius }% %{= 2 * radius }%
+      size %<= 2 * radius >% %<= 2 * radius >%
     }
     contactMaterial IS contactMaterial
     locked TRUE

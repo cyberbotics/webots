@@ -12,19 +12,19 @@ PROTO Spoon [
   field SFString    type        "table"         # Defines the type of spoon. The value should be either `table` or `tea`.
 ]
 {
-%{
+%<
   let type = fields.type.value;
   if (type !== 'table' && type !== 'tea') {
     type = fields.type.defaultValue;
     console.error('\'type\' must be either \'table\' or \'tea\'. Value reset to ' + type + '.');
   }
-}%
+>%
 Solid {
   translation IS translation
   rotation IS rotation
-  %{ if (type === 'tea') { }%
+  %< if (type === 'tea') { >%
     scale 0.6 0.6 0.6
-  %{ } }%
+  %< } >%
   children [
     Shape {
       appearance PBRAppearance {

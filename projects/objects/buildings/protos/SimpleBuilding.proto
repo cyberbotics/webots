@@ -30,7 +30,7 @@ PROTO SimpleBuilding [
   field SFBool      bottom                 FALSE                              # Defines whether the bottom face of the building should be displayed.
 ]
 {
-  %{
+  %<
     const roofTypes = {
       'tiled'       : {textureSize: 2},
       'gravel'      : {textureSize: 1},
@@ -240,7 +240,7 @@ PROTO SimpleBuilding [
     let model = '"' +  wallType + '"';
     if(wallType.substring(wallType.length - 'buildings'.length) !== 'buildings')
       model = '"' + wallType + " building" + '"';
-  }%
+  >%
   Building {
     translation IS translation
     rotation IS rotation
@@ -256,30 +256,30 @@ PROTO SimpleBuilding [
     roofHeight IS roofHeight
     enableBoundingObject IS enableBoundingObject
     bottom IS bottom
-    model %{= model }%
+    model %<= model >%
     recognitionColors [
-    %{ for (let i = 0; i < wallTypes[wallType].colors.length; ++i) { }%
-      %{= wallTypes[wallType].colors[i][0] }% %{= wallTypes[wallType].colors[i][1] }% %{= wallTypes[wallType].colors[i][2] }%
-    %{ } }%
+    %< for (let i = 0; i < wallTypes[wallType].colors.length; ++i) { >%
+      %<= wallTypes[wallType].colors[i][0] >% %<= wallTypes[wallType].colors[i][1] >% %<= wallTypes[wallType].colors[i][2] >%
+    %< } >%
     ]
     wallAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %{= '"textures/' + wallTexture + '"' }% ]
+        url [ %<= '"textures/' + wallTexture + '"' >% ]
       }
       metalness 0
       roughness 1
       textureTransform TextureTransform {
-        scale %{= 1 / wallTextureWidth }% %{= 1 / wallTextureFloorNumber }%
+        scale %<= 1 / wallTextureWidth >% %<= 1 / wallTextureFloorNumber >%
       }
     }
     roofAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %{= '"textures/' + roofTexture + '"' }% ]
+        url [ %<= '"textures/' + roofTexture + '"' >% ]
       }
       metalness 0
       roughness 1
       textureTransform TextureTransform {
-        scale %{= 1 / roofTextureSize }% %{= 1 / roofTextureSize }%
+        scale %<= 1 / roofTextureSize >% %<= 1 / roofTextureSize >%
       }
     }
   }

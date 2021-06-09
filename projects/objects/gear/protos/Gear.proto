@@ -19,7 +19,7 @@ PROTO Gear [
   field SFBool          teethBoundingObject    FALSE      # Enables a boundingObject on each tooth.
 ]
 {
-  %{
+  %<
     // parameter retrieval;
     let width = fields.width.value;
     let nbTeeth = fields.teeth.value;
@@ -72,7 +72,7 @@ PROTO Gear [
     const p5 = {x: r1 * Math.cos(2.0 * Math.PI / nbTeeth), y: r1 * Math.sin(2.0 * Math.PI / nbTeeth)};
     const p6 = {x: r0 * Math.cos(2.0 * Math.PI / nbTeeth), y: r0 * Math.sin(2.0 * Math.PI / nbTeeth)};
     const tip_size = Math.sqrt((p3.x - p2.x) * (p3.x - p2.x) + (p3.y - p2.y) * (p3.y - p2.y));
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -83,120 +83,120 @@ PROTO Gear [
         geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                %{
+                %<
                   let alpha, cosAlpha, sinAlpha;
                   for (let n = 0; n <= nbTeeth - 1; ++n) {
                     alpha = n * 2.0 * Math.PI / nbTeeth;
                     cosAlpha = Math.cos(alpha);
                     sinAlpha = Math.sin(alpha);
-                }%
+                >%
                   # base face
-                  %{= p0.x * cosAlpha - p0.y * sinAlpha }% %{= p0.x * sinAlpha + p0.y * cosAlpha }% %{= -halfWidth }% # 0
-                  %{= p1.x * cosAlpha - p1.y * sinAlpha }% %{= p1.x * sinAlpha + p1.y * cosAlpha }% %{= -halfWidth }% # 1
-                  %{= p2.x * cosAlpha - p2.y * sinAlpha }% %{= p2.x * sinAlpha + p2.y * cosAlpha }% %{= -halfWidth }% # 2
-                  %{= p3.x * cosAlpha - p3.y * sinAlpha }% %{= p3.x * sinAlpha + p3.y * cosAlpha }% %{= -halfWidth }% # 3
-                  %{= p4.x * cosAlpha - p4.y * sinAlpha }% %{= p4.x * sinAlpha + p4.y * cosAlpha }% %{= -halfWidth }% # 4
-                  %{= p5.x * cosAlpha - p5.y * sinAlpha }% %{= p5.x * sinAlpha + p5.y * cosAlpha }% %{= -halfWidth }% # 5
-                  %{= p6.x * cosAlpha - p6.y * sinAlpha }% %{= p6.x * sinAlpha + p6.y * cosAlpha }% %{= -halfWidth }% # 6
+                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% %<= -halfWidth >% # 0
+                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% %<= -halfWidth >% # 1
+                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% %<= -halfWidth >% # 2
+                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% %<= -halfWidth >% # 3
+                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% %<= -halfWidth >% # 4
+                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% %<= -halfWidth >% # 5
+                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% %<= -halfWidth >% # 6
                   # top face
-                  %{= p0.x * cosAlpha - p0.y * sinAlpha }% %{= p0.x * sinAlpha + p0.y * cosAlpha }% %{= halfWidth }% # 7
-                  %{= p1.x * cosAlpha - p1.y * sinAlpha }% %{= p1.x * sinAlpha + p1.y * cosAlpha }% %{= halfWidth }% # 8
-                  %{= p2.x * cosAlpha - p2.y * sinAlpha }% %{= p2.x * sinAlpha + p2.y * cosAlpha }% %{= halfWidth }% # 9
-                  %{= p3.x * cosAlpha - p3.y * sinAlpha }% %{= p3.x * sinAlpha + p3.y * cosAlpha }% %{= halfWidth }% # 10
-                  %{= p4.x * cosAlpha - p4.y * sinAlpha }% %{= p4.x * sinAlpha + p4.y * cosAlpha }% %{= halfWidth }% # 11
-                  %{= p5.x * cosAlpha - p5.y * sinAlpha }% %{= p5.x * sinAlpha + p5.y * cosAlpha }% %{= halfWidth }% # 12
-                  %{= p6.x * cosAlpha - p6.y * sinAlpha }% %{= p6.x * sinAlpha + p6.y * cosAlpha }% %{= halfWidth }% # 13
-                %{ } }%
+                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% %<= halfWidth >% # 7
+                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% %<= halfWidth >% # 8
+                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% %<= halfWidth >% # 9
+                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% %<= halfWidth >% # 10
+                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% %<= halfWidth >% # 11
+                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% %<= halfWidth >% # 12
+                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% %<= halfWidth >% # 13
+                %< } >%
               ]
             }
             coordIndex [
-              %{ for (let n = 0; n <= nbTeeth - 1; ++n) { }%
+              %< for (let n = 0; n <= nbTeeth - 1; ++n) { >%
                 # base face
-                %{= n*14 + 0 }%, %{= n*14 + 2 }%, %{= n*14 + 1 }%, -1,
-                %{= n*14 + 0 }%, %{= n*14 + 3 }%, %{= n*14 + 2 }%, -1,
-                %{= n*14 + 0 }%, %{= n*14 + 4 }%, %{= n*14 + 3 }%, -1,
-                %{= n*14 + 0 }%, %{= n*14 + 5 }%, %{= n*14 + 4 }%, -1,
-                %{= n*14 + 0 }%, %{= n*14 + 6 }%, %{= n*14 + 5 }%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 2 >%, %<= n*14 + 1 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 3 >%, %<= n*14 + 2 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 4 >%, %<= n*14 + 3 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 5 >%, %<= n*14 + 4 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 6 >%, %<= n*14 + 5 >%, -1,
                 # top face
-                %{= n*14 + 7 }%, %{= n*14 + 8 }%, %{= n*14 + 9 }%, -1,
-                %{= n*14 + 7 }%, %{= n*14 + 9 }%, %{= n*14 + 10 }%, -1,
-                %{= n*14 + 7 }%, %{= n*14 + 10 }%, %{= n*14 + 11 }%, -1,
-                %{= n*14 + 7 }%, %{= n*14 + 11 }%, %{= n*14 + 12 }%, -1,
-                %{= n*14 + 7 }%, %{= n*14 + 12 }%, %{= n*14 + 13 }%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 8 >%, %<= n*14 + 9 >%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 9 >%, %<= n*14 + 10 >%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 10 >%, %<= n*14 + 11 >%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 11 >%, %<= n*14 + 12 >%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 12 >%, %<= n*14 + 13 >%, -1,
                 # inner face shape
-                %{= n*14 + 0 }%, %{= n*14 + 7 }%, %{= n*14 + 13 }%, -1,
-                %{= n*14 + 0 }%, %{= n*14 + 13 }%, %{= n*14 + 6 }%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 7 >%, %<= n*14 + 13 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 13 >%, %<= n*14 + 6 >%, -1,
                 # outer face face
-                %{= n*14 + 1 }%, %{= n*14 + 2 }%, %{= n*14 + 9 }%, -1,
-                %{= n*14 + 1 }%, %{= n*14 + 9 }%, %{= n*14 + 8 }%, -1,
-                %{= n*14 + 2 }%, %{= n*14 + 3 }%, %{= n*14 + 10 }%, -1,
-                %{= n*14 + 2 }%, %{= n*14 + 10 }%, %{= n*14 + 9 }%, -1,
-                %{= n*14 + 3 }%, %{= n*14 + 4 }%, %{= n*14 + 11 }%, -1,
-                %{= n*14 + 3 }%, %{= n*14 + 11 }%, %{= n*14 + 10 }%, -1,
-                %{= n*14 + 4 }%, %{= n*14 + 5 }%, %{= n*14 + 12 }%, -1,
-                %{= n*14 + 4 }%, %{= n*14 + 12 }%, %{= n*14 + 11 }%, -1,
-              %{ } }%
+                %<= n*14 + 1 >%, %<= n*14 + 2 >%, %<= n*14 + 9 >%, -1,
+                %<= n*14 + 1 >%, %<= n*14 + 9 >%, %<= n*14 + 8 >%, -1,
+                %<= n*14 + 2 >%, %<= n*14 + 3 >%, %<= n*14 + 10 >%, -1,
+                %<= n*14 + 2 >%, %<= n*14 + 10 >%, %<= n*14 + 9 >%, -1,
+                %<= n*14 + 3 >%, %<= n*14 + 4 >%, %<= n*14 + 11 >%, -1,
+                %<= n*14 + 3 >%, %<= n*14 + 11 >%, %<= n*14 + 10 >%, -1,
+                %<= n*14 + 4 >%, %<= n*14 + 5 >%, %<= n*14 + 12 >%, -1,
+                %<= n*14 + 4 >%, %<= n*14 + 12 >%, %<= n*14 + 11 >%, -1,
+              %< } >%
             ]
           }
         }
     ]
     # boundingObject
-    %{ if (bodyBoundingObject || teethBoundingObject) { }%
+    %< if (bodyBoundingObject || teethBoundingObject) { >%
       boundingObject Group {
         children [
           # cylinder encompassing the gear
-          %{ if (bodyBoundingObject) { }%
+          %< if (bodyBoundingObject) { >%
             Transform {
               rotation 1 0 0 1.570796
               children [
                 Shape {
                   geometry Cylinder {
-                    radius %{= r2 }%
-                    height %{= width }%
+                    radius %<= r2 >%
+                    height %<= width >%
                   }
                 }
               ]
             }
-          %{ } }%
+          %< } >%
           # spherical contact point on each tooth
-          %{ if (teethBoundingObject) { }%
-            %{ for (let n = 0; n <= nbTeeth - 1; ++n) { }%
-              %{ alpha = n * 2.0 * Math.PI / nbTeeth; }%
-              %{ if (tip_size > width) { }%
+          %< if (teethBoundingObject) { >%
+            %< for (let n = 0; n <= nbTeeth - 1; ++n) { >%
+              %< alpha = n * 2.0 * Math.PI / nbTeeth; >%
+              %< if (tip_size > width) { >%
                 Transform {
-                  translation %{= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) }% %{= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) }% 0
+                  translation %<= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) >% %<= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) >% 0
                   children [
                     Shape {
                       geometry Sphere {
-                        radius %{= tip_size*0.5*1.4 }% # by default, make it 40% bigger
+                        radius %<= tip_size*0.5*1.4 >% # by default, make it 40% bigger
                       }
                     }
                   ]
                 }
-              %{ } else { }%
+              %< } else { >%
                 Transform {
-                  translation %{= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) }% %{= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) }% 0
+                  translation %<= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) >% %<= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) >% 0
                   rotation 1 0 0 -1.5708
                   children [
                     Shape {
                       geometry Capsule {
-                        radius %{= tip_size*0.5*1.4 }% # by default, make it 40% bigger
-                        height %{= width - tip_size }%
+                        radius %<= tip_size*0.5*1.4 >% # by default, make it 40% bigger
+                        height %<= width - tip_size >%
                       }
                     }
                   ]
                 }
-              %{ } }%
-            %{ } }%
-          %{ } }%
+              %< } >%
+            %< } >%
+          %< } >%
         ]
       }
-    %{ } }%
+    %< } >%
     # physics
-    %{ if (density > 0.0) { }%
+    %< if (density > 0.0) { >%
     physics Physics {
       density IS density
     }
-    %{ } }%
+    %< } >%
   }
 }

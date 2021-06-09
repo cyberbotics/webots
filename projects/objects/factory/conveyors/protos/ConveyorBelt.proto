@@ -17,7 +17,7 @@ PROTO ConveyorBelt [
   field SFFloat    timer            0.0                                                                  # Defines for how long the conveyor belt should move (it will move forever if set to 0).
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
       size = fields.size.defaultValue;
@@ -31,30 +31,30 @@ PROTO ConveyorBelt [
     }
 
     const borderHeight = fields.borderHeight.value;
-  }%
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
     name IS name
     controller "conveyor_belt"
     controllerArgs [
-      "%{= fields.speed.value }%"
-      "%{= fields.timer.value }%"
+      "%<= fields.speed.value >%"
+      "%<= fields.timer.value >%"
     ]
     children [
       Track {
-        translation 0 %{= 0.75 * size.y }% 0
+        translation 0 %<= 0.75 * size.y >% 0
         rotation -1 0 0 3.141592653589793
         children [
           Shape {
             appearance Rubber {
               type "dotted"
               textureTransform TextureTransform {
-                scale %{= 4.0 * size.x }% %{= 4.0 * size.z }%
+                scale %<= 4.0 * size.x >% %<= 4.0 * size.z >%
               }
             }
             geometry DEF BELT_BO Box {
-              size %{= size.x }% %{= 0.5 * size.y }% %{= size.z }%
+              size %<= size.x >% %<= 0.5 * size.y >% %<= size.z >%
             }
           }
         ]
@@ -67,16 +67,16 @@ PROTO ConveyorBelt [
           LinearMotor {
             name "belt_motor"
             acceleration IS acceleration
-            maxVelocity %{= Math.abs(fields.speed.value) }%
+            maxVelocity %<= Math.abs(fields.speed.value) >%
             sound ""
           }
         ]
-        textureAnimation %{= -1 / size.x }% 0
+        textureAnimation %<= -1 / size.x >% 0
       }
       Shape {
         appearance IS appearance
         geometry IndexedFaceSet {
-          %{
+          %<
             const xA = 0.5 * size.x;
             const xB = 0.5 * size.x + borderThickness;
             const yA = 0.0;
@@ -84,25 +84,25 @@ PROTO ConveyorBelt [
             const yC = size.y + borderHeight;
             const zA = 0.5 * size.z;
             const zB = 0.5 * size.z + borderThickness;
-          }%
+          >%
           coord Coordinate {
             point [
-              %{= xB }% %{= yA }% %{= zB }%
-              %{= xB }% %{= yC }% %{= zB }%
-              %{= -xB }% %{= yC }% %{= zB }%
-              %{= -xB }% %{= yA }% %{= zB }%
-              %{= xB }% %{= yA }% %{= -zB }%
-              %{= xB }% %{= yC }% %{= -zB }%
-              %{= -xB }% %{= yC }% %{= -zB }%
-              %{= -xB }% %{= yA }% %{= -zB }%
-              %{= xA }% %{= yC }% %{= zA }%
-              %{= xA }% %{= yC }% %{= -zA }%
-              %{= -xA }% %{= yC }% %{= -zA }%
-              %{= -xA }% %{= yC }% %{= zA }%
-              %{= xA }% %{= yB }% %{= zA }%
-              %{= xA }% %{= yB }% %{= -zA }%
-              %{= -xA }% %{= yB }% %{= -zA }%
-              %{= -xA }% %{= yB }% %{= zA }%
+              %<= xB >% %<= yA >% %<= zB >%
+              %<= xB >% %<= yC >% %<= zB >%
+              %<= -xB >% %<= yC >% %<= zB >%
+              %<= -xB >% %<= yA >% %<= zB >%
+              %<= xB >% %<= yA >% %<= -zB >%
+              %<= xB >% %<= yC >% %<= -zB >%
+              %<= -xB >% %<= yC >% %<= -zB >%
+              %<= -xB >% %<= yA >% %<= -zB >%
+              %<= xA >% %<= yC >% %<= zA >%
+              %<= xA >% %<= yC >% %<= -zA >%
+              %<= -xA >% %<= yC >% %<= -zA >%
+              %<= -xA >% %<= yC >% %<= zA >%
+              %<= xA >% %<= yB >% %<= zA >%
+              %<= xA >% %<= yB >% %<= -zA >%
+              %<= -xA >% %<= yB >% %<= -zA >%
+              %<= -xA >% %<= yB >% %<= zA >%
             ]
           }
           texCoord TextureCoordinate {
@@ -111,11 +111,11 @@ PROTO ConveyorBelt [
               1 0
               1 1
               0 1
-              0 %{= yC/xB }%
-              1 %{= yC/xB }%
-              0 %{= yC/xB }%
-              %{= zB/xB }% %{= yC/xB }%
-              %{= zB/xB }% 0
+              0 %<= yC/xB >%
+              1 %<= yC/xB >%
+              0 %<= yC/xB >%
+              %<= zB/xB >% %<= yC/xB >%
+              %<= zB/xB >% 0
               0 0
               0.001 0
               0.001 0.001
@@ -132,12 +132,12 @@ PROTO ConveyorBelt [
             9 10 11 12 -1
             9 10 11 12 -1
             9 10 11 12 -1
-            %{ if (borderHeight > 0.0) { }%
+            %< if (borderHeight > 0.0) { >%
               9 10 11 12 -1
               9 10 11 12 -1
               9 10 11 12 -1
               9 10 11 12 -1
-            %{ } }%
+            %< } >%
           ]
           coordIndex [
             0 1 2 3 -1
@@ -149,12 +149,12 @@ PROTO ConveyorBelt [
             6 2 11 10 -1
             2 1 8 11 -1
             0 3 7 4 -1
-            %{ if (borderHeight > 0.0) { }%
+            %< if (borderHeight > 0.0) { >%
               8 9 13 12 -1
               9 10 14 13 -1
               10 11 15 14 -1
               11 8 12 15 -1
-            %{ } }%
+            %< } >%
           ]
         }
       }
@@ -162,34 +162,34 @@ PROTO ConveyorBelt [
     boundingObject Group {
       children [
         Transform {
-          translation %{= 0.5 * (size.x + borderThickness) }% %{= 0.5 * (size.y + borderHeight) }% 0
+          translation %<= 0.5 * (size.x + borderThickness) >% %<= 0.5 * (size.y + borderHeight) >% 0
           children [
             Box {
-              size %{= borderThickness }% %{= size.y + borderHeight }% %{= size.z + 2.0 * borderThickness }%
+              size %<= borderThickness >% %<= size.y + borderHeight >% %<= size.z + 2.0 * borderThickness >%
             }
           ]
         }
         Transform {
-          translation %{= -0.5 * (size.x + borderThickness) }% %{= 0.5 * (size.y + borderHeight) }% 0
+          translation %<= -0.5 * (size.x + borderThickness) >% %<= 0.5 * (size.y + borderHeight) >% 0
           children [
             Box {
-              size %{= borderThickness }% %{= size.y + borderHeight }% %{= size.z + 2.0 * borderThickness }%
+              size %<= borderThickness >% %<= size.y + borderHeight >% %<= size.z + 2.0 * borderThickness >%
             }
           ]
         }
         Transform {
-          translation 0 %{= 0.5 * (size.y + borderHeight) }% %{= -0.5 * (size.z + borderThickness) }%
+          translation 0 %<= 0.5 * (size.y + borderHeight) >% %<= -0.5 * (size.z + borderThickness) >%
           children [
             Box {
-              size %{= size.x }% %{= size.y + borderHeight }% %{= borderThickness }%
+              size %<= size.x >% %<= size.y + borderHeight >% %<= borderThickness >%
             }
           ]
         }
         Transform {
-          translation 0 %{= 0.5 * (size.y + borderHeight) }% %{= 0.5 * (size.z + borderThickness) }%
+          translation 0 %<= 0.5 * (size.y + borderHeight) >% %<= 0.5 * (size.z + borderThickness) >%
           children [
             Box {
-              size %{= size.x }% %{= size.y + borderHeight }% %{= borderThickness }%
+              size %<= size.x >% %<= size.y + borderHeight >% %<= borderThickness >%
             }
           ]
         }

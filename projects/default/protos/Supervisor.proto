@@ -38,7 +38,7 @@ PROTO Supervisor [
   deprecatedField SFString data            ""
 ]
 {
-  %{ console.error('\'Supervisor\' node is deprecated, please use the \'Robot\' node instead and set its \'supervisor\' field to TRUE.'); }%
+  %< console.error('\'Supervisor\' node is deprecated, please use the \'Robot\' node instead and set its \'supervisor\' field to TRUE.'); >%
   Robot {
     translation IS translation
     rotation IS rotation

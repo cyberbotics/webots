@@ -11,7 +11,7 @@ PROTO ChequeredParquetry [
   field SFFloat IBLStrength      1     # Defines the strength of ambient lighting from the Background node.
 ]
 {
-  %{ console.error('\'ChequeredParquetry\' PROTO is deprecated, please use the \'Parquetry\' PROTO instead and select the right type.'); }%
+  %< console.error('\'ChequeredParquetry\' PROTO is deprecated, please use the \'Parquetry\' PROTO instead and select the right type.'); >%
   PBRAppearance {
     baseColorMap ImageTexture {
       url [

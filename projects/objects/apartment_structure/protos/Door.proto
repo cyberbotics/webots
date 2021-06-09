@@ -25,7 +25,7 @@ PROTO Door [
   field SFBool     castShadows            TRUE                      # Defines whether this object should cast shadows.
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
       size = fields.size.defaultValue;
@@ -63,91 +63,91 @@ PROTO Door [
     }
 
     let mirrorFactor = fields.jointAtLeft.value ? -1 : 1;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
-      %{
+      %<
        const topWallHeight = size.y - frameHeight;
        if (topWallHeight > 0) {
-      }%
+      >%
         Solid {
-          translation 0 %{= size.y - 0.5 * topWallHeight }% 0
+          translation 0 %<= size.y - 0.5 * topWallHeight >% 0
           children [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+                size %<= size.x >% %<= topWallHeight >% %<= size.z >%
               }
               castShadows IS castShadows
             }
           ]
           name "mobile part"
           boundingObject Box {
-            size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+            size %<= size.x >% %<= topWallHeight >% %<= size.z >%
           }
         }
-      %{ } }%
+      %< } >%
       SolidBox { # top frame
-        translation 0 %{= frameHeight - 0.5 * frameSize.y }% 0
+        translation 0 %<= frameHeight - 0.5 * frameSize.y >% 0
         name "top frame"
-        size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= 2 * frameSize.z + size.z }%
+        size %<= size.x - 2 * frameSize.x >% %<= frameSize.y >% %<= 2 * frameSize.z + size.z >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
       SolidBox { # left frame
-        translation %{= -0.5 * size.x + 0.5 * frameSize.x }% %{= 0.5 * frameHeight }% 0
+        translation %<= -0.5 * size.x + 0.5 * frameSize.x >% %<= 0.5 * frameHeight >% 0
         name "left frame"
-        size %{= frameSize.x }% %{= frameHeight }% %{= 2 * frameSize.z + size.z }%
+        size %<= frameSize.x >% %<= frameHeight >% %<= 2 * frameSize.z + size.z >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
       SolidBox { # right frame
-        translation %{= 0.5 * size.x - 0.5 * frameSize.x }% %{= 0.5 * frameHeight }% 0
+        translation %<= 0.5 * size.x - 0.5 * frameSize.x >% %<= 0.5 * frameHeight >% 0
         name "right frame"
-        size %{= frameSize.x }% %{= frameHeight }% %{= 2 * frameSize.z + size.z }%
+        size %<= frameSize.x >% %<= frameHeight >% %<= 2 * frameSize.z + size.z >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
-      %{ if (fields.canBeOpen.value) { }%
+      %< if (fields.canBeOpen.value) { >%
         HingeJoint {
           jointParameters HingeJointParameters {
             position IS position
-            anchor %{= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) }% %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z }%
+            anchor %<= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) >% %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z >%
             axis 0 1 0
-            %{ if (mirrorFactor > 0) { }%
+            %< if (mirrorFactor > 0) { >%
               minStop -0.01
               maxStop 1.57
-            %{ } else { }%
+            %< } else { >%
               minStop -1.57
               maxStop 0.01
-            %{ } }%
-            %{ if (fields.selfClosing.value) { }%
+            %< } >%
+            %< if (fields.selfClosing.value) { >%
               springConstant 5
-            %{ } }%
+            %< } >%
             dampingConstant 10
           }
           endPoint
-      %{ } }%
+      %< } >%
           Solid {
             translation 0 0 0.001 # small offset to not generates collisions
             children [
               Transform { # door
-                translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
                 rotation 0 1 0 -1.5708
                 children [
                   Shape {
                     appearance IS doorAppearance
                     geometry TexturedBox { # texture is mirrored on the back face of the door
-                      size %{= doorThickness }% %{= frameHeight - 0.5 * frameSize.y }% %{= size.x - frameSize.x }%
+                      size %<= doorThickness >% %<= frameHeight - 0.5 * frameSize.y >% %<= size.x - frameSize.x >%
                     }
                     castShadows IS castShadows
                   }
                 ]
               }
               Transform { # handle
-                translation %{= - mirrorFactor * 0.4 * size.x }% %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                translation %<= - mirrorFactor * 0.4 * size.x >% %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
                 children [
                   Slot {
                     type "door handle"
@@ -156,27 +156,27 @@ PROTO Door [
                 ]
               }
               Transform {
-                translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
                 children IS doorSlot
               }
             ]
             boundingObject Transform {
-              translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+              translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
               children [
                 Box {
-                  size %{= size.x - frameSize.x }% %{= frameHeight - 0.5 * frameSize.y }% %{= doorThickness }%
+                  size %<= size.x - frameSize.x >% %<= frameHeight - 0.5 * frameSize.y >% %<= doorThickness >%
                 }
               ]
             }
-            %{ if (fields.canBeOpen.value) { }%
+            %< if (fields.canBeOpen.value) { >%
               physics Physics {
                 density IS mainMaterialDensity
               }
-            %{ } }%
+            %< } >%
           }
-      %{ if (fields.canBeOpen.value) { }%
+      %< if (fields.canBeOpen.value) { >%
         }
-      %{ } }%
+      %< } >%
     ]
     name IS name
     model "door"

@@ -85,7 +85,7 @@ PROTO Sassafras [
         }
       }
     ]
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 5 0
       children [
@@ -95,6 +95,6 @@ PROTO Sassafras [
         }
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

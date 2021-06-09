@@ -71,21 +71,21 @@ PROTO MotorbikeSimple [
     model "MotorbikeSimple"
     radarCrossSection 10
     boundingObject Transform { # changing the bounding box to fit the driver if present
-      %{ if (fields.driver.value) { }%
+      %< if (fields.driver.value) { >%
         translation 0 0.55 0.79
         children [
           Box {
             size 1.1 1.5 2.48
           }
         ]
-      %{ } else { }%
+      %< } else { >%
         translation 0 0.39 0.79
         children [
           Box {
             size 1.1 1.15 2.48
           }
         ]
-      %{ } }%
+      %< } >%
     }
     physics NULL
   }

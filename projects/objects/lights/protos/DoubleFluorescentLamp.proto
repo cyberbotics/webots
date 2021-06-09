@@ -26,10 +26,10 @@ PROTO DoubleFluorescentLamp [
             appearance PBRAppearance {
               baseColor 0.87 0.72 0.58
               metalness 0
-              %{ if (fields.intensity.value > 0) { }%
+              %< if (fields.intensity.value > 0) { >%
                 emissiveColor 0.93 0.93 0.93
                 emissiveIntensity IS intensity
-              %{ } }%
+              %< } >%
             }
             geometry Cylinder {
               height 1

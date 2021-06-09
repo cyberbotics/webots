@@ -91,7 +91,7 @@ PROTO WorkBarrier [
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 5
@@ -103,6 +103,6 @@ PROTO WorkBarrier [
         0 0 -3.934544998251965e-6
       ]
     }
-    %{ } }%
+    %< } >%
   }
 }

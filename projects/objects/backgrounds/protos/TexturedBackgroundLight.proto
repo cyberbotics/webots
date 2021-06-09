@@ -36,7 +36,7 @@ PROTO TexturedBackgroundLight [
   field SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
 ]
 {
-  %{
+  %<
     let direction = [0.0, -1.0, 0.0];
     let color = [1.0, 1.0, 1.0];
     let intensity = 1.0;
@@ -106,17 +106,17 @@ PROTO TexturedBackgroundLight [
 
     if (context.coordinate_system === 'ENU')
       direction = [direction[2], direction[0], direction[1]];
-  }%
+  >%
   DirectionalLight {
     ambientIntensity 1
-    direction %{= direction[0] }% %{= direction[1] }% %{= direction[2] }%
-    color %{= color[0] }% %{= color[1] }% %{= color[2] }%
-    intensity %{= luminosity * intensity }%
-    %{ if (on) { }%
+    direction %<= direction[0] >% %<= direction[1] >% %<= direction[2] >%
+    color %<= color[0] >% %<= color[1] >% %<= color[2] >%
+    intensity %<= luminosity * intensity >%
+    %< if (on) { >%
       on TRUE
-    %{ } else { }%
+    %< } else { >%
       on FALSE
-    %{ } }%
+    %< } >%
     castShadows IS castShadows
   }
 }

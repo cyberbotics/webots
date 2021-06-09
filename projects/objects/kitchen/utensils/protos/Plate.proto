@@ -14,7 +14,7 @@ PROTO Plate [
   field SFFloat    mass        0.3                          # Defines the mass of the plate in kg.
 ]
 {
-%{
+%<
   let height = fields.height.value;
   if (height <= 0.0) {
     height = fields.height.defaultValue;
@@ -26,13 +26,13 @@ PROTO Plate [
     radius = fields.radius.defaultValue;
     console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
   }
-}%
+>%
 Solid {
   translation IS translation
   rotation IS rotation
   children [
     Transform {
-      scale %{= radius / 0.11 }% %{= height / 0.01 }% %{= radius / 0.11 }%
+      scale %<= radius / 0.11 >% %<= height / 0.01 >% %<= radius / 0.11 >%
       children [
         Shape {
           appearance PBRAppearance {
@@ -69,30 +69,30 @@ Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0 %{= 0.2 * height }% 0
+        translation 0 %<= 0.2 * height >% 0
         children [
           Cylinder {
-            height %{= 0.4 * height }%
-            radius %{= 0.7 * radius }%
+            height %<= 0.4 * height >%
+            radius %<= 0.7 * radius >%
           }
         ]
       }
       Transform {
-        translation 0 %{= 0.8 * height }% 0
+        translation 0 %<= 0.8 * height >% 0
         children [
           Cylinder {
-            height %{= 0.6 * height }%
-            radius %{= radius }%
+            height %<= 0.6 * height >%
+            radius %<= radius >%
           }
         ]
       }
     ]
   }
-  %{ if (fields.mass.value > 0) { }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
       mass IS mass
     }
-  %{ } }%
+  %< } >%
 }
 }

@@ -14,40 +14,40 @@ PROTO Plastic [
 {
   PBRAppearance {
     baseColor IS colorOverride
-    %{ if (fields.type.value === 'padded') { }%
+    %< if (fields.type.value === 'padded') { >%
       baseColorMap ImageTexture {
         url [
-          %{= '"textures/plastic/plastic_' + fields.type.value + '_base_color.jpg"' }%
+          %<= '"textures/plastic/plastic_' + fields.type.value + '_base_color.jpg"' >%
         ]
       }
-    %{ } }%
+    %< } >%
     metalness 0
-    %{ if (fields.type.value === 'padded') { }%
+    %< if (fields.type.value === 'padded') { >%
       metalnessMap ImageTexture {
         url [
-          %{= '"textures/plastic/plastic_' + fields.type.value + '_metalness.jpg"' }%
+          %<= '"textures/plastic/plastic_' + fields.type.value + '_metalness.jpg"' >%
         ]
       }
-    %{ } }%
+    %< } >%
     roughness 1
     roughnessMap ImageTexture {
       url [
-        %{= '"textures/plastic/plastic_' + fields.type.value + '_roughness.jpg"' }%
+        %<= '"textures/plastic/plastic_' + fields.type.value + '_roughness.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
     normalMap ImageTexture {
       url [
-        %{= '"textures/plastic/plastic_' + fields.type.value + '_normal.jpg"' }%
+        %<= '"textures/plastic/plastic_' + fields.type.value + '_normal.jpg"' >%
       ]
     }
-    %{ if (fields.type.value === 'padded') { }%
+    %< if (fields.type.value === 'padded') { >%
     occlusionMap ImageTexture {
       url [
-        %{= '"textures/plastic/plastic_' + fields.type.value + '_occlusion.jpg"' }%
+        %<= '"textures/plastic/plastic_' + fields.type.value + '_occlusion.jpg"' >%
       ]
     }
-    %{ } }%
+    %< } >%
     textureTransform IS textureTransform
   }
 }

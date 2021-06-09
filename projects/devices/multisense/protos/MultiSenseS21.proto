@@ -29,42 +29,42 @@ PROTO MultiSenseS21 [
     children [
       InertialUnit {
         rotation 0 1 0 1.5708
-        name %{= '"' + fields.name.value + ' inertial unit"' }%
+        name %<= '"' + fields.name.value + ' inertial unit"' >%
       }
-      %{ if (fields.leftCamera.value) { }%
+      %< if (fields.leftCamera.value) { >%
         Camera {
           translation 0.105 0 -0.0975
-          name %{= '"' + fields.name.value + ' left camera"' }%
+          name %<= '"' + fields.name.value + ' left camera"' >%
           fieldOfView IS cameraFieldOfView
           width IS cameraWidth
           height IS cameraHeight
           noise IS cameraNoise
         }
-      %{ } }%
-      %{ if (fields.rightCamera.value) { }%
+      %< } >%
+      %< if (fields.rightCamera.value) { >%
         Camera {
           translation -0.105 0 -0.0975
-          name %{= '"' + fields.name.value + ' right camera"' }%
+          name %<= '"' + fields.name.value + ' right camera"' >%
           fieldOfView IS cameraFieldOfView
           width IS cameraWidth
           height IS cameraHeight
           noise IS cameraNoise
         }
-      %{ } }%
-      %{ if (fields.metaCamera.value) { }%
+      %< } >%
+      %< if (fields.metaCamera.value) { >%
         Camera {
           translation 0 0 -0.05
-          name %{= '"' + fields.name.value + ' meta camera"' }%
+          name %<= '"' + fields.name.value + ' meta camera"' >%
           fieldOfView IS cameraFieldOfView
           width IS cameraWidth
           height IS cameraHeight
           noise IS cameraNoise
         }
-      %{ } }%
-      %{ if (fields.metaRangeFinder.value) { }%
+      %< } >%
+      %< if (fields.metaRangeFinder.value) { >%
         RangeFinder {
           translation 0 0 -0.05
-          name %{= '"' + fields.name.value + ' meta range finder"' }%
+          name %<= '"' + fields.name.value + ' meta range finder"' >%
           fieldOfView IS cameraFieldOfView
           minRange 1.5
           maxRange IS rangeFinderMaxRange
@@ -72,7 +72,7 @@ PROTO MultiSenseS21 [
           height IS cameraHeight
           noise IS rangeFinderNoise
         }
-      %{ } }%
+      %< } >%
       # 'glass'
       Shape {
         appearance PBRAppearance {
@@ -142,7 +142,7 @@ PROTO MultiSenseS21 [
         }
       }
     ]
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
       physics Physics {
         density -1
         mass 1.5
@@ -179,6 +179,6 @@ PROTO MultiSenseS21 [
           }
         ]
       }
-    %{ } }%
+    %< } >%
   }
 }

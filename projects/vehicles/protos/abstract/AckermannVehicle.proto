@@ -44,7 +44,7 @@ PROTO AckermannVehicle [
   field SFString   window                         ""
 ]
 {
-  %{
+  %<
     // tracks check
     let frontTrack = fields.trackFront.value;
     if (frontTrack <= 0.0) {
@@ -62,13 +62,13 @@ PROTO AckermannVehicle [
       wheelbase = fields.wheelbase.defaultValue;
       console.error('\'wheelbase\' must be strictly positive. Value reset to ' + wheelbase + '.');
     }
-  }%
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        translation %{= frontTrack * 0.5 }% 0 %{= wheelbase }%
+        translation %<= frontTrack * 0.5 >% 0 %<= wheelbase >%
         rotation 0 0 1 -1.5708
         children [
           DEF LEFT_STEER_HINGE2 Hinge2Joint {
@@ -103,7 +103,7 @@ PROTO AckermannVehicle [
         ]
       }
       Transform {
-        translation %{= -frontTrack * 0.5 }% 0 %{= wheelbase }%
+        translation %<= -frontTrack * 0.5 >% 0 %<= wheelbase >%
         rotation 0 0 1 1.5708
         children [
           DEF RIGHT_STEER_HINGE2 Hinge2Joint {
@@ -138,7 +138,7 @@ PROTO AckermannVehicle [
         ]
       }
       Transform {
-        translation %{= rearTrack * 0.5 }% 0 0
+        translation %<= rearTrack * 0.5 >% 0 0
         rotation 0 0 1 -1.5708
         children [
           DEF LEFT_REAR_WHEEL_HINGE HingeJoint {
@@ -158,7 +158,7 @@ PROTO AckermannVehicle [
         ]
       }
       Transform {
-        translation %{= -rearTrack * 0.5 }% 0 0
+        translation %<= -rearTrack * 0.5 >% 0 0
         rotation 0 0 1 1.5708
         children [
           DEF RIGHT_REAR_WHEEL_HINGE HingeJoint {
@@ -178,7 +178,7 @@ PROTO AckermannVehicle [
         ]
       }
       Speaker {
-        translation 0 0 %{= wheelbase }%
+        translation 0 0 %<= wheelbase >%
         name "engine_speaker"
       }
       Group {

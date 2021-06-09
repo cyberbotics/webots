@@ -14,7 +14,7 @@ PROTO Nut [
   field SFString   contactMaterial "default"    # Is `Solid.contactMaterial`.
 ]
 {
-  %{
+  %<
     let innerRadius = fields.innerRadius.value;
     if (innerRadius <= 0.0) {
       innerRadius = fields.innerRadius.defaultValue;
@@ -26,13 +26,13 @@ PROTO Nut [
       thickness = fields.thickness.defaultValue;
       console.error('\'thickness\' must be strictly positive. Value reset to ' + thickness + '.');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        scale %{= 50 * innerRadius }% %{= 3 * thickness / 0.07 }% %{= 50 * innerRadius }%
+        scale %<= 50 * innerRadius >% %<= 3 * thickness / 0.07 >% %<= 50 * innerRadius >%
         children [
           DEF THREAD Shape {
             appearance ScrewThread {
@@ -313,8 +313,8 @@ PROTO Nut [
     name IS name
     model "nut"
     boundingObject Cylinder {
-      height %{= thickness }%
-      radius %{= 1.98 * innerRadius }%
+      height %<= thickness >%
+      radius %<= 1.98 * innerRadius >%
       subdivision 6
     }
     physics Physics {

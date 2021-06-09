@@ -16,13 +16,13 @@ PROTO ReflectiveSurface [
 {
   PBRAppearance {
     baseColor IS colorOverride
-    %{ if (fields.useBaseColorMap.value) { }%
+    %< if (fields.useBaseColorMap.value) { >%
     baseColorMap ImageTexture {
       url [
         "textures/reflective_surface/reflective_surface_base_color.jpg"
       ]
     }
-    %{ } }%
+    %< } >%
     roughnessMap ImageTexture {
       url [
         "textures/reflective_surface/reflective_surface_roughness.jpg"

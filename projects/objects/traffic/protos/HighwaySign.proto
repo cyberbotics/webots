@@ -16,7 +16,7 @@ PROTO HighwaySign [
   field MFColor     recognitionColors  [ 0.08 0.22 0.75, 0.26 0.26 0.26 ]    # Is `Solid.recognitionColorsrecognitionColors`.
 ]
 {
-  %{
+  %<
     let height = fields.height.value;
     if (height <= 0.0) {
       height = fields.height.defaultValue;
@@ -28,23 +28,23 @@ PROTO HighwaySign [
       length = fields.length.defaultValue;
       console.error('\'length\' should be strictly positive. Value reset to ' + length + '.');
     }
-    
+
     let thickness = fields.thickness.value;
     if (thickness <= 0.0) {
       thickness = fields.thickness.defaultValue;
       console.error('\'thickness\' should be strictly positive. Value reset to ' + thickness + '.');
     }
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     recognitionColors IS recognitionColors
     children [
       DEF SIGN_BOARD Transform {
-        translation %{= thickness * 0.5 }% 0 0
+        translation %<= thickness * 0.5 >% 0 0
         children [
           TexturedBoxShape {
-            size %{= thickness }% %{= height }% %{= length }%
+            size %<= thickness >% %<= height >% %<= length >%
             textureUrl IS texture
             faceColor IS color
             frontFace FALSE
@@ -59,11 +59,11 @@ PROTO HighwaySign [
     name IS name
     model "highway sign"
     boundingObject Transform {
-      translation %{= thickness * 0.5 }% 0 0
+      translation %<= thickness * 0.5 >% 0 0
       children [
         Shape {
           geometry Box {
-            size %{= thickness }% %{= height }% %{= length }%
+            size %<= thickness >% %<= height >% %<= length >%
           }
         }
       ]

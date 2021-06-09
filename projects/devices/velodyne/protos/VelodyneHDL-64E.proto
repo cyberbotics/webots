@@ -681,12 +681,12 @@ Lidar {
       }
     ]
   }
-  %{ if (fields.enablePhysics.value) { }%
+  %< if (fields.enablePhysics.value) { >%
   physics Physics {
     density -1
     mass 15
   }
-  %{ } }%
+  %< } >%
   tiltAngle -0.19896287
   horizontalResolution 4500  # 360 / 0.08
   fieldOfView 1.570795       # 6.28318 / 4
@@ -3256,12 +3256,12 @@ Lidar {
         }
       ]
     }
-    %{ if (fields.enablePhysics.value) { }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 1
     }
-    %{ } }%
+    %< } >%
   }
 }
 }

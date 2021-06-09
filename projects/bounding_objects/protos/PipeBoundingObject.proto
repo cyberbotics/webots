@@ -12,7 +12,7 @@ PROTO PipeBoundingObject [
   field SFFloat    accuracy        0.0001  # Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
 ]
 {
-  %{
+  %<
     import * as wbrandom from 'modules/webots/wbrandom.js';
 
     // parameter checking
@@ -60,10 +60,10 @@ PROTO PipeBoundingObject [
     const sv = height;
     const sw = radius * Math.sin(alpha) * 2.0
     const boxRadius = innerRadius + su * 0.5;
-  }%
+  >%
   Group { # set of boxes
     children [
-      %{
+      %<
           let gamma, ax, ay, az, angle, offset;
           for (let i = 0; i <= subdivision - 1; ++i) {
             // position of an internal box
@@ -74,17 +74,17 @@ PROTO PipeBoundingObject [
             angle = gamma + 0.5 * Math.PI;
             // add small offset to boxes y translation to reduce constraints on the top and bottom face due to co-planarity
             offset = wbrandom.real(-1.0, 1.0) * fields.accuracy.value;
-        }%
+        >%
         Transform {
-          translation %{= ax }% %{= ay + offset }% %{= az }%
-          rotation 0 1 0 %{= angle }%
+          translation %<= ax >% %<= ay + offset >% %<= az >%
+          rotation 0 1 0 %<= angle >%
           children [
             Box {
-              size %{= su }% %{= sv }% %{= sw }%
+              size %<= su >% %<= sv >% %<= sw >%
             }
           ]
         }
-      %{ } }%
+      %< } >%
     ]
   }
 }

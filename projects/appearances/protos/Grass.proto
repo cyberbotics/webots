@@ -16,39 +16,39 @@ PROTO Grass [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= '"textures/grass/grass_' + fields.type.value + '_base_color.jpg"' }%
+        %<= '"textures/grass/grass_' + fields.type.value + '_base_color.jpg"' >%
       ]
     }
-    %{ if (fields.type.value === 'artificial_white' ) { }%
+    %< if (fields.type.value === 'artificial_white' ) { >%
 	roughness 0
-    %{ } else { }%
+    %< } else { >%
 	roughness 1
-    %{ } }%
-    %{ if (fields.type.value === 'prickly') { }%
+    %< } >%
+    %< if (fields.type.value === 'prickly') { >%
       roughnessMap ImageTexture {
         url [
-          %{= '"textures/grass/grass_' + fields.type.value + '_roughness.jpg"' }%
+          %<= '"textures/grass/grass_' + fields.type.value + '_roughness.jpg"' >%
         ]
       }
-    %{ } }%
+    %< } >%
     metalness 0
     IBLStrength IS IBLStrength
     normalMap ImageTexture {
       url [
-        %{ if (fields.type.value === 'artificial_white') { }%
-          %{= '"textures/grass/grass_artificial_normal.jpg"' }%
-        %{ } else { }%
-          %{= '"textures/grass/grass_' + fields.type.value + '_normal.jpg"' }%
-        %{ } }%
+        %< if (fields.type.value === 'artificial_white') { >%
+          %<= '"textures/grass/grass_artificial_normal.jpg"' >%
+        %< } else { >%
+          %<= '"textures/grass/grass_' + fields.type.value + '_normal.jpg"' >%
+        %< } >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %{ if (fields.type.value === 'artificial_white') { }%
-          %{= '"textures/grass/grass_artificial_occlusion.jpg"' }%
-        %{ } else { }%
-          %{= '"textures/grass/grass_' + fields.type.value + '_occlusion.jpg"' }%
-        %{ } }%
+        %< if (fields.type.value === 'artificial_white') { >%
+          %<= '"textures/grass/grass_artificial_occlusion.jpg"' >%
+        %< } else { >%
+          %<= '"textures/grass/grass_' + fields.type.value + '_occlusion.jpg"' >%
+        %< } >%
       ]
     }
     textureTransform IS textureTransform

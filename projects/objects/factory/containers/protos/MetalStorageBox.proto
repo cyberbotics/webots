@@ -45,12 +45,12 @@ PROTO MetalStorageBox [
           }
       }
     ]
-    %{ if (fields.mass.value > 0) { }%
+    %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
-      mass %{= fields.mass.value }%
+      mass %<= fields.mass.value >%
     }
-    %{ } }%
+    %< } >%
     boundingObject Group {
       children [
         Transform {

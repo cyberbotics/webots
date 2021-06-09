@@ -9,7 +9,7 @@ PROTO Rectangle [
   field SFBool  doubleSided TRUE     # Defines whether the shape has two sides or not.
 ]
 {
-  %{
+  %<
     // size verification
     let size = fields.size.value;
     if (size.x < 0 || size.y < 0) {
@@ -24,14 +24,14 @@ PROTO Rectangle [
     let s0 = -s1;
     let t1 = size.y * 0.5;
     let t0 = -t1;
-  }%
+  >%
   IndexedFaceSet {
     coord Coordinate {
       point [
-        %{= s0 }% %{= t0 }% 0
-        %{= s1 }% %{= t0 }% 0
-        %{= s1 }% %{= t1 }% 0
-        %{= s0 }% %{= t1 }% 0
+        %<= s0 >% %<= t0 >% 0
+        %<= s1 >% %<= t0 >% 0
+        %<= s1 >% %<= t1 >% 0
+        %<= s0 >% %<= t1 >% 0
       ]
     }
     texCoord TextureCoordinate {
@@ -44,15 +44,15 @@ PROTO Rectangle [
     }
     coordIndex [
       0,  1, 2, -1, 0,  2, 3, -1,
-      %{ if (fields.doubleSided.value) { }%
+      %< if (fields.doubleSided.value) { >%
         2, 1, 0, -1, 3,  2, 0, -1
-      %{ } }%
+      %< } >%
     ]
     texCoordIndex [
       0,  1, 2, -1, 0,  2, 3, -1,
-      %{ if (fields.doubleSided.value) { }%
+      %< if (fields.doubleSided.value) { >%
         3, 0, 1, -1, 2, 3, 1, -1
-      %{ } }%
+      %< } >%
     ]
   }
 }

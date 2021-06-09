@@ -13,7 +13,7 @@ PROTO Fountain [
   field SFInt32     subdivision            16          # Defines subdivision of the fountain cylinders.
 ]
 {
-  %{
+  %<
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
 
     // parameter checking
@@ -39,7 +39,7 @@ PROTO Fountain [
     let heights = [0, 0.01, 0.002, 0.15, 0.25, 0.35, 0.5, 0.501, 0.8,  0.9, 0.901,    1.05, 1.08, 1.12];
 
     const circle = wbgeometry.circle(1.0, subdivision, {x: 0, y: 0}, 0);
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -56,24 +56,24 @@ PROTO Fountain [
           metalness 0
           roughness 0.8
           textureTransform TextureTransform {
-            scale %{= 2 * height }% %{= 2 * height }%
+            scale %<= 2 * height >% %<= 2 * height >%
           }
         }
         geometry Extrusion {
           crossSection [
-            %{ for (let i = 0; i < circle.length; ++i) { }%
-              %{= circle[i].x }% %{= circle[i].y }%
-            %{ } }%
+            %< for (let i = 0; i < circle.length; ++i) { >%
+              %<= circle[i].x >% %<= circle[i].y >%
+            %< } >%
           ]
           spine [
-            %{ for (let i = 0; i < heights.length; ++i) { }%
-              0 %{= heights[i] * height }% 0
-            %{ } }%
+            %< for (let i = 0; i < heights.length; ++i) { >%
+              0 %<= heights[i] * height >% 0
+            %< } >%
           ]
           scale [
-            %{ for (let i = 0; i < scales.length; ++i) { }%
-              %{= scales[i] * radius }% %{= scales[i] * radius }%
-            %{ } }%
+            %< for (let i = 0; i < scales.length; ++i) { >%
+              %<= scales[i] * radius >% %<= scales[i] * radius >%
+            %< } >%
           ]
           splineSubdivision -1
           creaseAngle 1
@@ -82,12 +82,12 @@ PROTO Fountain [
       }
       #contour pipe
       SolidPipe {
-        translation 0 %{= 0.075 * height }% 0
+        translation 0 %<= 0.075 * height >% 0
         name "bottom pipe"
-        height %{= 0.13 * height }%
-        radius %{= radius }%
-        thickness %{= 0.05 * radius }%
-        subdivision %{= subdivision }%
+        height %<= 0.13 * height >%
+        radius %<= radius >%
+        thickness %<= 0.05 * radius >%
+        subdivision %<= subdivision >%
         appearance DEF PIPE PBRAppearance {
           baseColorMap ImageTexture {
             url [
@@ -97,30 +97,30 @@ PROTO Fountain [
           metalness 0
           roughness 0.7
           textureTransform TextureTransform {
-            scale %{= 20 * radius }% 1
+            scale %<= 20 * radius >% 1
           }
         }
       }
       SolidPipe {
-        translation 0 %{= 0.53 * height }% 0
+        translation 0 %<= 0.53 * height >% 0
         name "middle pipe"
-        height %{= 0.066 * height }%
-        radius %{= 0.6 * radius }%
-        thickness %{= 0.05 * radius }%
-        subdivision %{= subdivision }%
+        height %<= 0.066 * height >%
+        radius %<= 0.6 * radius >%
+        thickness %<= 0.05 * radius >%
+        subdivision %<= subdivision >%
         appearance USE PIPE
       }
       SolidPipe {
-        translation 0 %{= 0.91 * height }% 0
+        translation 0 %<= 0.91 * height >% 0
         name "top pipe"
-        height %{= 0.033 * height }%
-        radius %{= 0.4 * radius }%
-        thickness %{= 0.025 * radius }%
-        subdivision %{= subdivision }%
+        height %<= 0.033 * height >%
+        radius %<= 0.4 * radius >%
+        thickness %<= 0.025 * radius >%
+        subdivision %<= subdivision >%
         appearance USE PIPE
       }
       Transform {
-        translation 0 %{= 0.0385 * height }% 0
+        translation 0 %<= 0.0385 * height >% 0
         children [
           Shape {
             appearance DEF SURFACES PBRAppearance {
@@ -132,46 +132,46 @@ PROTO Fountain [
               metalness 0
               roughness 0.7
               textureTransform TextureTransform {
-                scale %{= 5 * radius }% %{= 5 * radius }%
+                scale %<= 5 * radius >% %<= 5 * radius >%
               }
             }
             geometry Cylinder {
-              height %{= 0.045 * height }%
-              radius %{= radius * 0.99 }%
+              height %<= 0.045 * height >%
+              radius %<= radius * 0.99 >%
               subdivision IS subdivision
             }
           }
         ]
       }
       Transform {
-        translation 0 %{= 0.504 * height }% 0
+        translation 0 %<= 0.504 * height >% 0
         children [
           Shape {
             appearance USE SURFACES
             geometry Cylinder {
-              height %{= 0.01 * height }%
-              radius %{= 0.56 * radius }%
+              height %<= 0.01 * height >%
+              radius %<= 0.56 * radius >%
               subdivision IS subdivision
             }
           }
         ]
       }
       Transform {
-        translation 0 %{= 0.9 * height }% 0
+        translation 0 %<= 0.9 * height >% 0
         children [
           Shape {
             appearance USE SURFACES
             geometry Cylinder {
-              height %{= 0.01 * height }%
-              radius %{= 0.38 * radius }%
+              height %<= 0.01 * height >%
+              radius %<= 0.38 * radius >%
               subdivision IS subdivision
             }
           }
         ]
-      }      
+      }
       # water
       Transform {
-        translation 0 %{= 0.066 * height }% 0
+        translation 0 %<= 0.066 * height >% 0
         children [
           Shape {
             appearance DEF WATER PBRAppearance {
@@ -182,40 +182,40 @@ PROTO Fountain [
             }
             geometry Cylinder {
               bottom FALSE
-              height %{= 0.075 * height }%
-              radius %{= 0.99 * radius }%
+              height %<= 0.075 * height >%
+              radius %<= 0.99 * radius >%
               side FALSE
-              subdivision %{= subdivision }%
+              subdivision %<= subdivision >%
             }
           }
         ]
       }
       Transform {
-        translation 0 %{= 0.52 * height }% 0
+        translation 0 %<= 0.52 * height >% 0
         children [
           Shape {
             appearance USE WATER
             geometry Cylinder {
               bottom FALSE
-              height %{= 0.075 * height }%
-              radius %{= 0.59 * radius }%
+              height %<= 0.075 * height >%
+              radius %<= 0.59 * radius >%
               side FALSE
-              subdivision %{= subdivision }%
+              subdivision %<= subdivision >%
             }
           }
         ]
       }
       Transform {
-        translation 0 %{= 0.88 * height }% 0
+        translation 0 %<= 0.88 * height >% 0
         children [
           Shape {
             appearance USE WATER
             geometry Cylinder {
               bottom FALSE
-              height %{= 0.075 * height }%
-              radius %{= 0.39 * radius }%
+              height %<= 0.075 * height >%
+              radius %<= 0.39 * radius >%
               side FALSE
-              subdivision %{= subdivision }%
+              subdivision %<= subdivision >%
             }
           }
         ]
@@ -224,12 +224,12 @@ PROTO Fountain [
     name IS name
     model "fountain"
     boundingObject Transform {
-      translation 0 %{= 0.45 * height }% 0
+      translation 0 %<= 0.45 * height >% 0
       children [
         Shape {
           geometry Cylinder {
-            height %{= 0.9 * height }%
-            radius %{= 0.4 * radius }%
+            height %<= 0.9 * height >%
+            radius %<= 0.4 * radius >%
           }
         }
       ]

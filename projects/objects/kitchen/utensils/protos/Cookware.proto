@@ -76,7 +76,7 @@ Solid {
           }
         ]
       }
-      %{
+      %<
         const subdivision = 12;
         const su = 0.002;
         const sv = 0.067;
@@ -91,24 +91,24 @@ Solid {
           ay = 0.04;
           az = boxRadius * Math.cos(gamma);
           angle = gamma + 0.5 * Math.PI;
-        }%
+        >%
           Transform {
-            translation %{= ax }% %{= ay }% %{= az }%
-            rotation 0 1 0 %{= angle }%
+            translation %<= ax >% %<= ay >% %<= az >%
+            rotation 0 1 0 %<= angle >%
             children [
               Box {
-                size %{= su }% %{= sv }% %{= sw }%
+                size %<= su >% %<= sv >% %<= sw >%
               }
             ]
           }
-        %{ } }%
+        %< } >%
     ]
   }
-  %{ if (fields.mass.value > 0) { }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
       mass IS mass
     }
-  %{ } }%
+  %< } >%
 }
 }

@@ -22,9 +22,9 @@ PROTO SolidPipe [
   field SFBool     enableBoundingObject  TRUE                                                                                                          # Defines whether the solid should have a bounding object.
 ]
 {
-  %{
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';    
-    
+  %<
+    import * as wbgeometry from 'modules/webots/wbgeometry.js';
+
     // parameter checking
     let subdivision = fields.subdivision.value;
     if (subdivision > 200)
@@ -70,7 +70,7 @@ PROTO SolidPipe [
     }
 
     let offset0, offset1, offset2, offset3, offset4, offset5;
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -80,109 +80,109 @@ PROTO SolidPipe [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %{
+              %<
                 let outerCircle = wbgeometry.circle(radius, subdivision, {x: 0, y: 0}, - Math.PI * 0.5);
                 let innerCircle = wbgeometry.circle(radius - su, subdivision, {x: 0, y: 0}, - Math.PI * 0.5);
-              }%
+              >%
               # top outer
-              %{ for (let i = 0; i < outerCircle.length; ++i) { }%
-                %{= outerCircle[i].x }% %{= height * 0.5 }% %{= outerCircle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < outerCircle.length; ++i) { >%
+                %<= outerCircle[i].x >% %<= height * 0.5 >% %<= outerCircle[i].y >%
+              %< } >%
               # top inner
-              %{ for (let i = 0; i < innerCircle.length; ++i) { }%
-                %{= innerCircle[i].x }% %{= height * 0.5 }% %{= innerCircle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < innerCircle.length; ++i) { >%
+                %<= innerCircle[i].x >% %<= height * 0.5 >% %<= innerCircle[i].y >%
+              %< } >%
               # bottom outer
-              %{ for (let i = 0; i < outerCircle.length; ++i) { }%
-                %{= outerCircle[i].x }% %{= - height * 0.5 }% %{= outerCircle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < outerCircle.length; ++i) { >%
+                %<= outerCircle[i].x >% %<= - height * 0.5 >% %<= outerCircle[i].y >%
+              %< } >%
               # bottom inner
-              %{ for (let i = 0; i < innerCircle.length; ++i) { }%
-                %{= innerCircle[i].x }% %{= - height * 0.5 }% %{= innerCircle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < innerCircle.length; ++i) { >%
+                %<= innerCircle[i].x >% %<= - height * 0.5 >% %<= innerCircle[i].y >%
+              %< } >%
             ]
           }
           texCoord TextureCoordinate {
             point [
-              %{
+              %<
                 let innerTexCircle = wbgeometry.circle(0.5 * (radius - su) / radius, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
                 let outerTexCircle = wbgeometry.circle(0.5, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
-              }%
+              >%
               # outer circle
-              %{ for (let i = 0; i < outerTexCircle.length; ++i) { }%
-                %{= outerTexCircle[i].x }% %{= outerTexCircle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < outerTexCircle.length; ++i) { >%
+                %<= outerTexCircle[i].x >% %<= outerTexCircle[i].y >%
+              %< } >%
               # inner circle
-              %{ for (let i = 0; i < innerTexCircle.length; ++i) { }%
-                %{= innerTexCircle[i].x }% %{= innerTexCircle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < innerTexCircle.length; ++i) { >%
+                %<= innerTexCircle[i].x >% %<= innerTexCircle[i].y >%
+              %< } >%
               # outer circlea # vertically inverted
-              %{ for (let i = 0; i < outerTexCircle.length; ++i) { }%
-                %{= outerTexCircle[i].x }% %{= -outerTexCircle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < outerTexCircle.length; ++i) { >%
+                %<= outerTexCircle[i].x >% %<= -outerTexCircle[i].y >%
+              %< } >%
               # inner circle # vertically inverted
-              %{ for (let i = 0; i < innerTexCircle.length; ++i) { }%
-                %{= innerTexCircle[i].x }% %{= -innerTexCircle[i].y }%
-              %{ } }%
+              %< for (let i = 0; i < innerTexCircle.length; ++i) { >%
+                %<= innerTexCircle[i].x >% %<= -innerTexCircle[i].y >%
+              %< } >%
               # top band
-              %{ for (let i = 0; i <= subdivision; ++i) { }%
-                %{= 1 - i / subdivision }% 1.0
-              %{ } }%
+              %< for (let i = 0; i <= subdivision; ++i) { >%
+                %<= 1 - i / subdivision >% 1.0
+              %< } >%
               # bottom band
-              %{ for (let i = 0; i <= subdivision; ++i) { }%
-                %{= 1 - i / subdivision }% 0.0
-              %{ } }%
+              %< for (let i = 0; i <= subdivision; ++i) { >%
+                %<= 1 - i / subdivision >% 0.0
+              %< } >%
             ]
           }
           coordIndex [
-            %{
+            %<
               offset0 = 0;
               offset1 = subdivision + 1;
               offset2 = 2 * offset1;
               offset3 = 3 * offset1;
-            }%
+            >%
             # top
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= offset0 + i }% %{= offset1 + i }% %{= offset1 + i + 1 }% %{= offset0 + i + 1 }% -1
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset0 + i >% %<= offset1 + i >% %<= offset1 + i + 1 >% %<= offset0 + i + 1 >% -1
+            %< } >%
             # bottom
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= offset2 + i }% %{= offset2 + i + 1 }% %{= offset3 + i + 1 }% %{= offset3 + i }% -1
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset2 + i >% %<= offset2 + i + 1 >% %<= offset3 + i + 1 >% %<= offset3 + i >% -1
+            %< } >%
             # inner side
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= offset1 + i }% %{= offset3 + i }% %{= offset3 + i + 1 }% %{= offset1 + i + 1 }% -1
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset1 + i >% %<= offset3 + i >% %<= offset3 + i + 1 >% %<= offset1 + i + 1 >% -1
+            %< } >%
             # outer side
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= offset0 + i }% %{= offset0 + i + 1 }% %{= offset2 + i + 1 }% %{= offset2 + i }% -1
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset0 + i >% %<= offset0 + i + 1 >% %<= offset2 + i + 1 >% %<= offset2 + i >% -1
+            %< } >%
           ]
           texCoordIndex [
-            %{
+            %<
               offset0 = 0;
               offset1 = subdivision + 1;
               offset2 = 2 * offset1;
               offset3 = 3 * offset1;
               offset4 = 4 * offset1;
               offset5 = 5 * offset1;
-            }%
+            >%
             # top
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= offset2 + i }% %{= offset3 + i }% %{= offset3 + i + 1 }% %{= offset2 + i + 1 }% -1
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset2 + i >% %<= offset3 + i >% %<= offset3 + i + 1 >% %<= offset2 + i + 1 >% -1
+            %< } >%
             # bottom
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= offset0 + i }% %{= offset0 + i + 1 }% %{= offset1 + i + 1 }% %{= offset1 + i }% -1
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset0 + i >% %<= offset0 + i + 1 >% %<= offset1 + i + 1 >% %<= offset1 + i >% -1
+            %< } >%
             # inner side
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= offset4 + i }% %{= offset5 + i }% %{= offset5 + i + 1 }% %{= offset4 + i + 1 }% -1
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset4 + i >% %<= offset5 + i >% %<= offset5 + i + 1 >% %<= offset4 + i + 1 >% -1
+            %< } >%
             # outer side
-            %{ for (let i = 0; i <= subdivision - 1; ++i) { }%
-              %{= offset4 + i }% %{= offset4 + i + 1 }% %{= offset5 + i + 1 }% %{= offset5 + i }% -1
-            %{ } }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset4 + i >% %<= offset4 + i + 1 >% %<= offset5 + i + 1 >% %<= offset5 + i >% -1
+            %< } >%
           ]
           creaseAngle 1.5
         }
@@ -191,15 +191,15 @@ PROTO SolidPipe [
     name IS name
     model "pipe"
     contactMaterial IS contactMaterial
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject PipeBoundingObject {
-      height %{= height }%
-      radius %{= radius }%
-      thickness %{= thickness }%
-      subdivision %{= subdivision }%
+      height %<= height >%
+      radius %<= radius >%
+      thickness %<= thickness >%
+      subdivision %<= subdivision >%
       accuracy IS accuracy
     }
-    %{ } }%
+    %< } >%
     physics IS physics
   }
 }

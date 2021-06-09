@@ -17,7 +17,7 @@ PROTO CabinetDoor [
   field SFNode   secondaryAppearance NULL              # Defines the secondary appearance.
 ]
 {
-  %{
+  %<
     let size = fields.size.value;
     if (size.x <= 0.0 || size.y <= 0.0 || size.z <= 0.0) { // avoid negative values
       size = fields.size.defaultValue;
@@ -37,36 +37,36 @@ PROTO CabinetDoor [
     }
 
     let rightSided = fields.rightSided.value ? -1 : 1;
-  }%
+  >%
   Solid {
     translation IS translation
     children [
       HingeJoint {
         jointParameters HingeJointParameters {
-          anchor %{= rightSided * 0.5 * size.x }% 0 0
+          anchor %<= rightSided * 0.5 * size.x >% 0 0
           axis 0 1 0
-          %{ if (rightSided > 0) { }%
+          %< if (rightSided > 0) { >%
             minStop -0.01
             maxStop 1.57
-          %{ } else { }%
+          %< } else { >%
             minStop -1.57
             maxStop 0.01
-          %{ } }%
+          %< } >%
           dampingConstant 5
         }
         endPoint Solid {
           children [
             SolidBox {
-              translation 0 0 %{= -0.5 * thickness }%
-              size %{= size.x }% %{= size.y }% %{= thickness }%
+              translation 0 0 %<= -0.5 * thickness >%
+              size %<= size.x >% %<= size.y >% %<= thickness >%
               appearance IS secondaryAppearance
               physics Physics {
                 density -1
-                mass %{= mass }%
+                mass %<= mass >%
               }
             }
             Transform {
-              translation  %{= -rightSided * 0.4 * size.x }% 0 0
+              translation  %<= -rightSided * 0.4 * size.x >% 0 0
               rotation 0 0 1 1.57
               children [
                 Slot {
@@ -80,10 +80,10 @@ PROTO CabinetDoor [
             mass 0.01
           }
           boundingObject Transform {
-            translation 0 0 %{= - 0.5 * thickness }%
+            translation 0 0 %<= - 0.5 * thickness >%
             children [
               Sphere {
-                radius %{= 0.5 * thickness }%
+                radius %<= 0.5 * thickness >%
               }
             ]
           }
@@ -97,7 +97,7 @@ PROTO CabinetDoor [
       mass 0.01
     }
     boundingObject Transform {
-      translation 0 0 %{= - size.z }%
+      translation 0 0 %<= - size.z >%
       children [
         Sphere {
           radius 0.01

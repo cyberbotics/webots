@@ -14,32 +14,32 @@ PROTO Leather [
 {
   PBRAppearance {
     baseColor IS colorOverride
-    %{ if (fields.type.value === 'dollaro') { }%
+    %< if (fields.type.value === 'dollaro') { >%
     baseColorMap ImageTexture {
       url [
-        %{= '"textures/leather/' + fields.type.value + '_' + fields.tone.value + '_leather_base_color.jpg"' }%
+        %<= '"textures/leather/' + fields.type.value + '_' + fields.tone.value + '_leather_base_color.jpg"' >%
       ]
     }
-    %{ } }%
+    %< } >%
     roughnessMap ImageTexture {
       url [
-        %{= '"textures/leather/' + fields.type.value + '_leather_roughness.jpg"' }%
+        %<= '"textures/leather/' + fields.type.value + '_leather_roughness.jpg"' >%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= '"textures/leather/' + fields.type.value + '_leather_normal.jpg"' }%
+        %<= '"textures/leather/' + fields.type.value + '_leather_normal.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
-    %{ if (fields.type.value === 'dollaro') { }%
+    %< if (fields.type.value === 'dollaro') { >%
     occlusionMap ImageTexture {
       url [
-        %{= '"textures/leather/' + fields.type.value + '_leather_occlusion.jpg"' }%
+        %<= '"textures/leather/' + fields.type.value + '_leather_occlusion.jpg"' >%
       ]
     }
-    %{ } }%
+    %< } >%
     textureTransform IS textureTransform
   }
 }

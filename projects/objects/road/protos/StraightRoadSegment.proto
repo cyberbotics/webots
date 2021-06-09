@@ -46,7 +46,7 @@ PROTO StraightRoadSegment [
   hiddenField  MFBool               dashedLine                TRUE                    # Deprecated in Webots R2018c.
 ]
 {
-  %{
+  %<
     const startingRoadTilt = fields.startingRoadTilt.value;
     const endingRoadTilt   = fields.endingRoadTilt.value;
     let length             = fields.length.value;
@@ -65,7 +65,7 @@ PROTO StraightRoadSegment [
       endingRoadBorderWidth = fields.endingRoadBorderWidth.defaultValue;
       console.error('\'endingRoadBorderWidth\' must be greater or equal to zero. Value reset to ' + endingRoadBorderWidth + '.');
     }
-  }%
+  >%
   Road {
     translation IS translation
     rotation IS rotation
@@ -75,7 +75,7 @@ PROTO StraightRoadSegment [
     dashedLine IS dashedLine
     lines IS lines
     roadBorderHeight IS roadBorderHeight
-    roadBorderWidth [ %{= startingRoadBorderWidth }%, %{= endingRoadBorderWidth }%]
+    roadBorderWidth [ %<= startingRoadBorderWidth >%, %<= endingRoadBorderWidth >%]
     rightBorder IS rightBorder
     leftBorder IS leftBorder
     rightBarrier IS rightBarrier
@@ -83,9 +83,9 @@ PROTO StraightRoadSegment [
     bottom IS bottom
     wayPoints [
       0 0 0
-      0 0 %{= length }%
+      0 0 %<= length >%
     ]
-    roadTilt [ %{= startingRoadTilt }%, %{= endingRoadTilt }%]
+    roadTilt [ %<= startingRoadTilt >%, %<= endingRoadTilt >%]
     startLine IS startLine
     endLine IS endLine
     splineSubdivision -1

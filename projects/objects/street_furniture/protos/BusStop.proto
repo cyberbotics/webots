@@ -17,16 +17,16 @@ PROTO BusStop [
   field SFBool      advertisingLightOn          TRUE                                                                  # Defines whether the advertising should have an emissive color.
 ]
 {
-%{ const bench = fields.bench.value; }%
+%< const bench = fields.bench.value; >%
 Solid {
   translation IS translation
   rotation IS rotation
-  %{ if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { }%
-    %{ const color = fields.appearance.value.fields.baseColor.value; }%
+  %< if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { >%
+    %< const color = fields.appearance.value.fields.baseColor.value; >%
     recognitionColors [
-      %{= color.r }% %{= color.g }% %{= color.b }%
+      %<= color.r >% %<= color.g >% %<= color.b >%
     ]
-  %{ } }%
+  %< } >%
   children [
     Transform {
       translation 0 1.572 0
@@ -35,22 +35,22 @@ Solid {
         BusStopMesh {
           appearance IS appearance
         }
-        %{ if (bench) { }%
+        %< if (bench) { >%
         BusStopBench {
           appearance IS appearance
         }
-        %{ } }%
-        %{ if (fields.internalAdvertisingTexture.value[0] !== 'undefined') { }%
+        %< } >%
+        %< if (fields.internalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF INTERNAL_ADVERTISING Transform {
             translation 3.7 0.33 0.02
             children [
               Shape {
                 appearance PBRAppearance {
-                  %{ if (fields.advertisingLightOn.value) { }%
+                  %< if (fields.advertisingLightOn.value) { >%
                   emissiveColorMap ImageTexture {
-                  %{ } else { }%
+                  %< } else { >%
                   baseColorMap ImageTexture {
-                  %{ } }%
+                  %< } >%
                     url IS internalAdvertisingTexture
                   }
                   metalness 0
@@ -62,18 +62,18 @@ Solid {
               }
             ]
           }
-        %{ } }%
-        %{ if (fields.externalAdvertisingTexture.value[0] !== 'undefined') { }%
+        %< } >%
+        %< if (fields.externalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF EXTERNAL_ADVERTISING Transform {
             translation 4.07 0.33 0.02
             children [
               Shape {
                 appearance PBRAppearance {
-                  %{ if (fields.advertisingLightOn.value) { }%
+                  %< if (fields.advertisingLightOn.value) { >%
                   emissiveColorMap ImageTexture {
-                  %{ } else { }%
+                  %< } else { >%
                   baseColorMap ImageTexture {
-                  %{ } }%
+                  %< } >%
                     url IS externalAdvertisingTexture
                   }
                   metalness 0
@@ -85,7 +85,7 @@ Solid {
               }
             ]
           }
-        %{ } }%
+        %< } >%
       ]
     }
   ]

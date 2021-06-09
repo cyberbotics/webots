@@ -14,7 +14,7 @@ PROTO CabinetHandle [
   field SFFloat    mass         0.3               # Defines the mass of the handle.
 ]
 {
-  %{
+  %<
     let handleLength = fields.handleLength.value;
     if (handleLength <= 0.0) {
       handleLength = fields.handleLength.defaultValue;
@@ -28,11 +28,11 @@ PROTO CabinetHandle [
     }
 
     let mass = fields.mass.value;
-    if (mass <= 0.0) { 
+    if (mass <= 0.0) {
       mass = fields.mass.defaultValue;
       console.error('\'mass\' must be positive. Value reset to ' + mass + '.');
     }
-  }%
+  >%
   Slot {
     type "handle"
     endPoint Solid {
@@ -42,7 +42,7 @@ PROTO CabinetHandle [
         DEF HANDLE Group {
           children [
             Transform { # main handle
-              translation 0 0 %{= 2.0 * handleRadius }%
+              translation 0 0 %<= 2.0 * handleRadius >%
               rotation 0 0 1 1.57
               children [
                 Shape {
@@ -51,27 +51,27 @@ PROTO CabinetHandle [
                     roughness 0.3
                   }
                   geometry Capsule {
-                    radius %{= handleRadius }%
-                    height %{= handleLength }%
+                    radius %<= handleRadius >%
+                    height %<= handleLength >%
                   }
                 }
               ]
             }
             Transform { # right handle anchorage point
-              translation %{= 0.35 * handleLength }% 0 0
+              translation %<= 0.35 * handleLength >% 0 0
               rotation 1 0 0 1.57
               children [
                 Shape {
                   appearance USE HANDLE_APPEARANCE
                   geometry DEF ANCHORAGE Capsule {
-                    radius %{= 0.7 * handleRadius }%
-                    height %{= 2.0 * handleRadius }%
+                    radius %<= 0.7 * handleRadius >%
+                    height %<= 2.0 * handleRadius >%
                   }
                 }
               ]
             }
             Transform { # left handle anchorage point
-              translation %{= - 0.35 * handleLength }% 0 0
+              translation %<= - 0.35 * handleLength >% 0 0
               rotation 1 0 0 1.57
               children [
                 Shape {
@@ -87,7 +87,7 @@ PROTO CabinetHandle [
       model "cabinet handle"
       boundingObject USE HANDLE
       physics Physics {
-        mass %{= mass }%
+        mass %<= mass >%
         density -1
       }
     }

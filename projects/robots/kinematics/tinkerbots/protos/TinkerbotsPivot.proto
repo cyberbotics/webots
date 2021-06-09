@@ -24,7 +24,7 @@ PROTO TinkerbotsPivot [
       children [
         LED {
           translation -0.016 0 0.005
-          name %{= '"' + fields.name.value + ' led"' }%
+          name %<= '"' + fields.name.value + ' led"' >%
           color []
           gradual TRUE
           children [
@@ -98,7 +98,7 @@ PROTO TinkerbotsPivot [
               maxPosition 1.57
             }
             PositionSensor {
-              name %{= '"' + fields.name.value + ' sensor"' }%
+              name %<= '"' + fields.name.value + ' sensor"' >%
             }
           ]
           endPoint Solid {

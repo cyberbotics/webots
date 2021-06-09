@@ -21,7 +21,7 @@ PROTO DoorLever [
   field SFBool     castShadows      TRUE                 # Defines whether this object should cast shadows.
 ]
 {
-  %{
+  %<
     let doorThickness = fields.doorThickness.value;
     if (doorThickness <= 0.0) {
       doorThickness = fields.doorThickness.defaultValue;
@@ -51,7 +51,7 @@ PROTO DoorLever [
     const axisHeight = distanceFromDoor * 2 + doorThickness;
     const handlePositionZ = axisHeight * 0.5;
     const handlePositionX = handleLength * 0.5;
-  }%
+  >%
   Slot {
     type "door handle"
     endPoint Solid {
@@ -64,22 +64,22 @@ PROTO DoorLever [
             Shape {
               appearance IS appearance
               geometry Cylinder {
-                radius %{= 3 * handleThickness }%
-                height %{= 0.025 + doorThickness }%
+                radius %<= 3 * handleThickness >%
+                height %<= 0.025 + doorThickness >%
               }
               castShadows IS castShadows
             }
           ]
         }
-      %{ if (fields.canTurn.value) { }%
+      %< if (fields.canTurn.value) { >%
         DEF LEVER HingeJoint {
           jointParameters HingeJointParameters {
             position 0.02
-          %{ if (mirrorFactor > 0) { }%
+          %< if (mirrorFactor > 0) { >%
             axis 0 0 -1
-          %{ } else { }%
+          %< } else { >%
             axis 0 0 1
-          %{ } }%
+          %< } >%
             minStop -0.03
             maxStop 0.6109
             springConstant 10
@@ -88,49 +88,49 @@ PROTO DoorLever [
           }
           endPoint Solid {
             children [
-      %{ } }%
+      %< } >%
               DEF HANDLE_AXIS Transform { # handle axis
                 rotation 1 0 0 1.57
                 children [
                   Shape {
                     appearance IS appearance
                     geometry Capsule {
-                      radius %{= handleThickness }%
-                      height %{= axisHeight }%
+                      radius %<= handleThickness >%
+                      height %<= axisHeight >%
                     }
                     castShadows IS castShadows
                   }
                 ]
               }
               DEF BACK_HANDLE Transform { # back handle
-                translation %{= mirrorFactor * handlePositionX }% 0 %{= -handlePositionZ }%
+                translation %<= mirrorFactor * handlePositionX >% 0 %<= -handlePositionZ >%
                 rotation 0 0 1 1.57
                 children [
                   Shape {
                     appearance IS appearance
                     geometry Capsule {
-                      radius %{= handleThickness }%
-                      height %{= handleLength }%
+                      radius %<= handleThickness >%
+                      height %<= handleLength >%
                     }
                     castShadows IS castShadows
                   }
                 ]
               }
               DEF FRONT_HANDLE Transform { # front handle
-                translation %{= mirrorFactor * handlePositionX }% 0 %{= handlePositionZ }%
+                translation %<= mirrorFactor * handlePositionX >% 0 %<= handlePositionZ >%
                 rotation 0 0 1 1.57
                 children [
                   Shape {
                     appearance IS appearance
                     geometry Capsule {
-                      radius %{= handleThickness }%
-                      height %{= handleLength }%
+                      radius %<= handleThickness >%
+                      height %<= handleLength >%
                     }
                     castShadows IS castShadows
                   }
                 ]
               }
-    %{ if (fields.canTurn.value) { }%
+    %< if (fields.canTurn.value) { >%
             ]
             boundingObject Group {
               children [
@@ -147,12 +147,12 @@ PROTO DoorLever [
           }
         }
       ]
-      %{ if (!fields.hasStaticParent.value) { }%
+      %< if (!fields.hasStaticParent.value) { >%
       boundingObject USE HANDLE_SUPPORT
       physics Physics {
       }
-      %{ } }%
-    %{ } else { }%
+      %< } >%
+    %< } else { >%
       ]
       boundingObject Group {
         children [
@@ -162,13 +162,13 @@ PROTO DoorLever [
           USE FRONT_HANDLE
         ]
       }
-      %{ if (!fields.hasStaticParent.value) { }%
+      %< if (!fields.hasStaticParent.value) { >%
       physics Physics {
         density -1
         mass IS mass
       }
-      %{ } }%
-    %{ } }%
+      %< } >%
+    %< } >%
       name IS name
       model "door lever"
     }

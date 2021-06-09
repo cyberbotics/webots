@@ -14,7 +14,7 @@ PROTO WoodenBox [
   field SFBool     locked              FALSE        # Is `Solid.locked`.
 ]
 {
-%{
+%<
   let size = fields.size.value;
   let volume = size.x * size.y * size.z;
   let mass = fields.mass.value;
@@ -57,7 +57,7 @@ PROTO WoodenBox [
     console.error('\'mass\' greater than maximal value (' + max_mass + '). Value clamped.');
     mass = max_mass;
   }
-}%
+>%
 Solid {
   translation IS translation
   rotation IS rotation
@@ -87,7 +87,7 @@ Solid {
         }
       }
       geometry Box {
-        size %{= size.x }% %{= size.y }% %{= size.z }%
+        size %<= size.x >% %<= size.y >% %<= size.z >%
       }
     }
   ]
@@ -95,14 +95,14 @@ Solid {
   model "wooden box"
   immersionProperties IS immersionProperties
   boundingObject Box {
-    size %{= size.x }% %{= size.y }% %{= size.z }%
+    size %<= size.x >% %<= size.y >% %<= size.z >%
   }
-  %{ if (mass > 0) { }%
+  %< if (mass > 0) { >%
   physics Physics {
     density -1
-    mass %{= mass}%
+    mass %<= mass>%
   }
-  %{ } }%
+  %< } >%
   locked IS locked
 }
 }

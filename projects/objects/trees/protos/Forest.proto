@@ -37,7 +37,7 @@ PROTO Forest [
   field SFFloat    minRadius            1                         # Defines the minimum radius of the trees.
 ]
 {
-  %{
+  %<
     import * as wbgeometry from 'modules/webots/wbgeometry.js';
     import * as wbrandom from 'modules/webots/wbrandom.js';
 
@@ -137,20 +137,20 @@ PROTO Forest [
       for (let i = 0; i < numberOfTree; ++i)
         types.push(type);
     }
-  }%
+  >%
   Transform {
     translation IS translation
     rotation IS rotation
     children [
-      %{ if (numberOfTree > 0) { }%
+      %< if (numberOfTree > 0) { >%
         Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
-              %{ if (fields.withSnow.value) { }%
+              %< if (fields.withSnow.value) { >%
                 url [ "textures/trees_with_snow.png" ]
-              %{ } else { }%
+              %< } else { >%
                 url [ "textures/trees.png" ]
-              %{ } }%
+              %< } >%
               repeatS FALSE
               repeatT FALSE
             }
@@ -160,48 +160,48 @@ PROTO Forest [
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                %{ for (let j = 0; j < numberOfTree; ++j) { }%
-                  %{ let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].z}, trees[j].angle); }%
-                  %{ for (let i = 0; i <= 3; ++i) { }%
-                    %{= circle[i].x }% %{= trees[j].y }% %{= circle[i].y }%
-                  %{ } }%
+                %< for (let j = 0; j < numberOfTree; ++j) { >%
+                  %< let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].z}, trees[j].angle); >%
+                  %< for (let i = 0; i <= 3; ++i) { >%
+                    %<= circle[i].x >% %<= trees[j].y >% %<= circle[i].y >%
+                  %< } >%
                   # top cylinder
-                  %{ for (let i = 0; i <= 3; ++i) { }%
-                    %{= circle[i].x }% %{= trees[j].height + trees[j].y }% %{= circle[i].y }%
-                  %{ } }%
-                %{ } }%
+                  %< for (let i = 0; i <= 3; ++i) { >%
+                    %<= circle[i].x >% %<= trees[j].height + trees[j].y >% %<= circle[i].y >%
+                  %< } >%
+                %< } >%
               ]
             }
             texCoord TextureCoordinate {
               point [
-                %{ for (let i = 0; i <= treeTypeNumber; ++i) { }%
-                  0 %{= i / treeTypeNumber }%
-                  1 %{= i / treeTypeNumber }%
-                %{ } }%
+                %< for (let i = 0; i <= treeTypeNumber; ++i) { >%
+                  0 %<= i / treeTypeNumber >%
+                  1 %<= i / treeTypeNumber >%
+                %< } >%
               ]
             }
             coordIndex [
               # each tree (4faces by tree)
-              %{ for (let i = 0; i < numberOfTree; ++i) { }%
-                %{= 4 + i * 8 }% %{= 0 + i * 8 }% %{= 2 + i * 8 }% %{= 6 + i * 8 }% -1
-                %{= 4 + i * 8 }% %{= 6 + i * 8 }% %{= 2 + i * 8 }% %{= 0 + i * 8 }% -1
-                %{= 5 + i * 8 }% %{= 1 + i * 8 }% %{= 3 + i * 8 }% %{= 7 + i * 8 }% -1
-                %{= 5 + i * 8 }% %{= 7 + i * 8 }% %{= 3 + i * 8 }% %{= 1 + i * 8 }% -1
-              %{ } }%
+              %< for (let i = 0; i < numberOfTree; ++i) { >%
+                %<= 4 + i * 8 >% %<= 0 + i * 8 >% %<= 2 + i * 8 >% %<= 6 + i * 8 >% -1
+                %<= 4 + i * 8 >% %<= 6 + i * 8 >% %<= 2 + i * 8 >% %<= 0 + i * 8 >% -1
+                %<= 5 + i * 8 >% %<= 1 + i * 8 >% %<= 3 + i * 8 >% %<= 7 + i * 8 >% -1
+                %<= 5 + i * 8 >% %<= 7 + i * 8 >% %<= 3 + i * 8 >% %<= 1 + i * 8 >% -1
+              %< } >%
             ]
             texCoordIndex [
-              %{ for (let i = 0; i < numberOfTree; ++i) { }%
-                %{ let currentIndex = treeType[types[i]]; }%
-                %{= 2 * (currentIndex + 1) }% %{= 2 * currentIndex }% %{= 2 * currentIndex + 1}% %{= 2 * (currentIndex + 1) + 1 }% -1
-                %{= 2 * (currentIndex + 1) + 1}% %{= 2 * (currentIndex + 1) }% %{= 2 * currentIndex }% %{= 2 * currentIndex + 1}% -1
-                %{= 2 * (currentIndex + 1) }% %{= 2 * currentIndex }% %{= 2 * currentIndex + 1}% %{= 2 * (currentIndex + 1) + 1 }% -1
-                %{= 2 * (currentIndex + 1) + 1}% %{= 2 * (currentIndex + 1) }% %{= 2 * currentIndex }% %{= 2 * currentIndex + 1}% -1
-              %{ } }%
+              %< for (let i = 0; i < numberOfTree; ++i) { >%
+                %< let currentIndex = treeType[types[i]]; >%
+                %<= 2 * (currentIndex + 1) >% %<= 2 * currentIndex >% %<= 2 * currentIndex + 1>% %<= 2 * (currentIndex + 1) + 1 >% -1
+                %<= 2 * (currentIndex + 1) + 1>% %<= 2 * (currentIndex + 1) >% %<= 2 * currentIndex >% %<= 2 * currentIndex + 1>% -1
+                %<= 2 * (currentIndex + 1) >% %<= 2 * currentIndex >% %<= 2 * currentIndex + 1>% %<= 2 * (currentIndex + 1) + 1 >% -1
+                %<= 2 * (currentIndex + 1) + 1>% %<= 2 * (currentIndex + 1) >% %<= 2 * currentIndex >% %<= 2 * currentIndex + 1>% -1
+              %< } >%
             ]
           }
         }
-      %{ } }%
-      %{ if (groundTexture.length > 0 && nbShapePoint > 2) { }%
+      %< } >%
+      %< if (groundTexture.length > 0 && nbShapePoint > 2) { >%
         DEF GROUND Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
@@ -213,33 +213,33 @@ PROTO Forest [
           geometry IndexedFaceSet {
               coord Coordinate {
                 point [
-                  %{ for (let i = 0; i < nbShapePoint; ++i) { }%
-                    %{= shape[i].x }% %{= 0 }% %{= shape[i].y }%
-                  %{ } }%
+                  %< for (let i = 0; i < nbShapePoint; ++i) { >%
+                    %<= shape[i].x >% %<= 0 >% %<= shape[i].y >%
+                  %< } >%
                 ]
               }
               texCoord TextureCoordinate {
                 point [
-                  %{ for (let i = 0; i < nbShapePoint; ++i) { }%
-                    %{= shape[i].x - shape[0].x }% %{= shape[i].y - shape[0].y }%
-                  %{ } }%
+                  %< for (let i = 0; i < nbShapePoint; ++i) { >%
+                    %<= shape[i].x - shape[0].x >% %<= shape[i].y - shape[0].y >%
+                  %< } >%
                 ]
               }
               coordIndex [
-                %{ for (let i = 0; i < nbShapePoint; ++i) { }%
-                  %{= (nbShapePoint - i) - 1 }%
-                %{ } }%
+                %< for (let i = 0; i < nbShapePoint; ++i) { >%
+                  %<= (nbShapePoint - i) - 1 >%
+                %< } >%
                 -1
               ]
               texCoordIndex [
-                %{ for (let i = 0; i < nbShapePoint; ++i) { }%
-                  %{= (nbShapePoint - i) - 1 }%
-                %{ } }%
+                %< for (let i = 0; i < nbShapePoint; ++i) { >%
+                  %<= (nbShapePoint - i) - 1 >%
+                %< } >%
                 -1
               ]
           }
         }
-      %{ } }%
+      %< } >%
     ]
   }
 }

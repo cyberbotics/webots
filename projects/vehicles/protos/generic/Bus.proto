@@ -98,7 +98,7 @@ Car {
   ]
   radarCrossSection 200
   recognitionColors [
-    %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+    %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
   ]
   boundingObject Transform {
     translation 0 1.35 1.4625

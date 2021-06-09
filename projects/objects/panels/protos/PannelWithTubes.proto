@@ -12,7 +12,7 @@ PROTO PannelWithTubes [
   field SFNode     appearance  BrushedAluminium { textureTransform TextureTransform { scale 3 3 } }  # Defines the appearance of the panel.
 ]
 {
-  %{ console.error('PROTO \'PannelWithTubes\' is deprecated, please use \'PanelWithTubes\'.'); }%
+  %< console.error('PROTO \'PannelWithTubes\' is deprecated, please use \'PanelWithTubes\'.'); >%
   PanelWithTubes{
     translation IS translation
     rotation IS rotation

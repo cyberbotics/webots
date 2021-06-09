@@ -18,7 +18,7 @@ PROTO SolidRoundedBox [
   field SFBool     enableBoundingObject  TRUE                                                                                                           # Defines whether the solid should have a bounding object.
 ]
 {
-  %{
+  %<
     // parameter checking
     let subdivision = fields.subdivision.value;
     if (subdivision > 200)
@@ -48,225 +48,225 @@ PROTO SolidRoundedBox [
 
     const borderDiameter = 2 * borderRadius;
     const innerSize = {x: size.x - borderDiameter, y: size.y - borderDiameter, z: size.z - borderDiameter};
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       DEF SOLID_ROUNDED_BOX_GROUP Group {
         children [
-          %{ if (innerSize.x <= 0 && innerSize.y <= 0 && innerSize.z <= 0) { }%
+          %< if (innerSize.x <= 0 && innerSize.y <= 0 && innerSize.z <= 0) { >%
             # edge case: a sphere
             Shape {
               appearance IS appearance
               geometry Sphere {
-                radius %{= 0.5 * size.x }%
+                radius %<= 0.5 * size.x >%
               }
             }
-          %{ } }%
-          %{ if (innerSize.x > 0 && innerSize.y > 0) { }%
+          %< } >%
+          %< if (innerSize.x > 0 && innerSize.y > 0) { >%
             Shape {
               appearance IS appearance
               geometry Box {
-                size %{= innerSize.x }% %{= innerSize.y }% %{= size.z }%
+                size %<= innerSize.x >% %<= innerSize.y >% %<= size.z >%
               }
             }
-          %{ } }%
-          %{ if (innerSize.x > 0 && innerSize.z > 0) { }%
+          %< } >%
+          %< if (innerSize.x > 0 && innerSize.z > 0) { >%
             Shape {
               appearance IS appearance
               geometry Box {
-                size %{= innerSize.x }% %{= size.y }% %{= innerSize.z }%
+                size %<= innerSize.x >% %<= size.y >% %<= innerSize.z >%
               }
             }
-          %{ } }%
-          %{ if (innerSize.y > 0 && innerSize.z > 0) { }%
+          %< } >%
+          %< if (innerSize.y > 0 && innerSize.z > 0) { >%
             Shape {
               appearance IS appearance
               geometry Box {
-                size %{= size.x }% %{= innerSize.y }% %{= innerSize.z }%
+                size %<= size.x >% %<= innerSize.y >% %<= innerSize.z >%
               }
             }
-          %{ } }%
-          %{ if (innerSize.z > 0) { }%
+          %< } >%
+          %< if (innerSize.z > 0) { >%
             Transform {
-              translation %{= 0.5 * innerSize.x }% %{= 0.5 * innerSize.y }% 0
+              translation %<= 0.5 * innerSize.x >% %<= 0.5 * innerSize.y >% 0
               rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %{= innerSize.z }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.z >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation %{= -0.5 * size.x + borderRadius }% %{= 0.5 * innerSize.y }% 0
+              translation %<= -0.5 * size.x + borderRadius >% %<= 0.5 * innerSize.y >% 0
               rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %{= innerSize.z }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.z >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation %{= 0.5 * innerSize.x }% %{= - 0.5 * innerSize.y }% 0
+              translation %<= 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
               rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %{= innerSize.z }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.z >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation %{= - 0.5 * innerSize.x }% %{= - 0.5 * innerSize.y }% 0
+              translation %<= - 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
               rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %{= innerSize.z }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.z >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
-          %{ } }%
-          %{ if (innerSize.y > 0) { }%
+          %< } >%
+          %< if (innerSize.y > 0) { >%
             Transform {
-              translation %{= 0.5 * innerSize.x }% 0 %{= 0.5 * innerSize.z }%
+              translation %<= 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %{= innerSize.y }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.y >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation %{= - 0.5 * innerSize.x }% 0 %{= 0.5 * innerSize.z }%
+              translation %<= - 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %{= innerSize.y }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.y >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation %{= - 0.5 * innerSize.x }% 0 %{= - 0.5 * innerSize.z }%
+              translation %<= - 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %{= innerSize.y }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.y >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation %{= 0.5 * innerSize.x }% 0 %{= - 0.5 * innerSize.z }%
+              translation %<= 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %{= innerSize.y }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.y >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
-          %{ } }%
-          %{ if (innerSize.x > 0) { }%
+          %< } >%
+          %< if (innerSize.x > 0) { >%
             Transform {
-              translation 0 %{= 0.5 * innerSize.y }% %{= 0.5 * innerSize.z }%
+              translation 0 %<= 0.5 * innerSize.y >% %<= 0.5 * innerSize.z >%
               rotation 0 0 1 1.5708
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %{= innerSize.x }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.x >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation 0 %{= - 0.5 * innerSize.y }% %{= 0.5 * innerSize.z }%
+              translation 0 %<= - 0.5 * innerSize.y >% %<= 0.5 * innerSize.z >%
               rotation 0 0 1 1.5708
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %{= innerSize.x }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.x >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation 0 %{= - 0.5 * innerSize.y }% %{= - 0.5 * innerSize.z }%
+              translation 0 %<= - 0.5 * innerSize.y >% %<= - 0.5 * innerSize.z >%
               rotation 0 0 1 1.5708
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %{= innerSize.x }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.x >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
             Transform {
-              translation 0 %{= 0.5 * innerSize.y }% %{= - 0.5 * innerSize.z }%
+              translation 0 %<= 0.5 * innerSize.y >% %<= - 0.5 * innerSize.z >%
               rotation 0 0 1 1.5708
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %{= innerSize.x }%
-                    radius %{= borderRadius }%
-                    subdivision %{= subdivision }%
+                    height %<= innerSize.x >%
+                    radius %<= borderRadius >%
+                    subdivision %<= subdivision >%
                   }
                 }
               ]
             }
-          %{ } }%
+          %< } >%
         ]
       }
     ]
     name IS name
     model "rounded box"
     contactMaterial IS contactMaterial
-    %{ if (fields.enableBoundingObject.value) { }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject USE SOLID_ROUNDED_BOX_GROUP
-    %{ } }%
+    %< } >%
     physics IS physics
   }
 }

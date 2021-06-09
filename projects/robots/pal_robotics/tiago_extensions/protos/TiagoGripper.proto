@@ -10,13 +10,13 @@ PROTO TiagoGripper [
   field  SFString{"left", "front", "right"}  name         "front"
 ]
 {
-  %{
+  %<
     let side = '';
     if (fields.name.value === 'left')
       side = 'left_hand_';
     else if (fields.name.value === 'right')
       side = 'right_hand_';
-  }%
+  >%
     Solid {
       translation IS translation
       rotation IS rotation
@@ -358,13 +358,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %{= '"' + side + 'gripper_left_finger_joint"' }%
+              name %<= '"' + side + 'gripper_left_finger_joint"' >%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %{= '"' + side + 'gripper_left_finger_joint_sensor"' }%
+              name %<= '"' + side + 'gripper_left_finger_joint_sensor"' >%
             }
           ]
           endPoint DEF LEFT_GRIPPER Solid {
@@ -468,13 +468,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %{= '"' + side + 'gripper_right_finger_joint"' }%
+              name %<= '"' + side + 'gripper_right_finger_joint"' >%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %{= '"' + side + 'gripper_right_finger_joint_sensor"' }%
+              name %<= '"' + side + 'gripper_right_finger_joint_sensor"' >%
             }
           ]
           endPoint DEF RIGHT_GRIPPER Solid {
