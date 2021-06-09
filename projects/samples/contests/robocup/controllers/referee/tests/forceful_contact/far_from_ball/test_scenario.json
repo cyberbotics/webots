@@ -165,7 +165,7 @@
     },
     {
         "timing" : {
-            "time" : [31.001, 34.8],
+            "time" : [31.001, 34.7],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
