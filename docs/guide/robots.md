@@ -3,7 +3,7 @@
 ## Robot List
 
 All the robot models included in Webots are listed here. Users may also add their own custom models.
-Please [contact us](https://www.cyberbotics.com/contact) if you would like to see your favorite robot here.
+Please [contact us](https://cyberbotics.com/#contact) if you would like to see your favorite robot here.
 
 | Preview                                              | Name                                      |  Manufacturer        | Description                       |
 | :--------------------------------------------------: | ----------------------------------------- | -------------------- | --------------------------------- |
@@ -26,6 +26,7 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/icub/icon.png)             | [iCub](icub.md)                           | RobotCup             | *Human-size humanoid*             |
 | ![icon.png](images/robots/ipr/icon.png)              | [IPR](ipr.md)                             | Neuronics            | *Robotics arm*                    |
 | ![icon.png](images/robots/irb4600-40/icon.png)       | [IRB 4600/40](irb4600-40.md)              | ABB                  | *Robotics arm*                    |
+| ![icon.png](images/robots/jetbot/icon.png)           | [JetBot](jetbot.md)                       | NVIDIA               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/khepera1/icon.png)         | [Khepera I](khepera1.md)                  | K-Team               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/khepera2/icon.png)         | [Khepera II](khepera2.md)                 | K-Team               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/khepera3/icon.png)         | [Khepera III](khepera3.md)                | K-Team               | *Two-wheeled robot*               |
@@ -37,8 +38,10 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/mavic-2-pro/icon.png)      | [Mavic 2 PRO](mavic-2-pro.md)             | DJI                  | *Quadcopter drone*                |
 | ![icon.png](images/robots/microbot/icon.png)         | [Microbot](microbot.md)                   | PICAXE               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/mindstorms/icon.png)       | [Mindstorms](mindstorms.md)               | Lego                 | *Robotics kit*                    |
+| ![icon.png](images/robots/mir100/icon.png)           | [MiR100](mir100.md)                       | MiR                  | *Six-wheeled robot*               |
 | ![icon.png](images/robots/moose/icon.png)            | [Moose](moose.md)                         | Clearpath Robotics   | *Eight-wheeled outdoor robot*     |
 | ![icon.png](images/robots/nao/icon.png)              | [Nao](nao.md)                             | SoftBankics          | *Small size humanoid*             |
+| ![icon.png](images/robots/ned/icon.png)              | [Ned](ned.md)                             | Niryo                | *Robotics arm*             |
 | ![icon.png](images/robots/pioneer2/icon.png)         | [Pioneer 2](pioneer2.md)                  | Adept                | *Two-wheeled robot*               |
 | ![icon.png](images/robots/p-rob3/icon.png)           | [P-Rob 3](p-rob3.md)                      | F&P Robotics         | *Robotics arm*                    |
 | ![icon.png](images/robots/pioneer-3at/icon.png)      | [Pioneer 3-AT](pioneer-3at.md)            | Adept                | *Four-wheeled robot*              |

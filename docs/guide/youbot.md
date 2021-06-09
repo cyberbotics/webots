@@ -74,7 +74,7 @@ You will find some samples in this folder: "WEBOTS\_HOME/projects/robots/kuka/yo
 
 ![youbot.wbt.png](images/robots/youbot/youbot.wbt.thumbnail.jpg) This simulation shows the youBot grabbing a box, releasing it on its plate, moving to a target, and leaving it on the ground.
 Once this automatic behavior is completed, you can move the robot and its arm using the computer keyboard (please refer to the instruction displayed in the Webots console).
-A small C library called "youbot_control" (and located there: "WEBOTS\_HOME/projects/robots/kuka/youbot/libraries/youbot_control") facilitate the robot control.
+A small C library called "youbot\_control" (and located there: "WEBOTS\_HOME/projects/robots/kuka/youbot/libraries/youbot\_control") facilitate the robot control.
 
 #### youbot\_matlab.wbt
 

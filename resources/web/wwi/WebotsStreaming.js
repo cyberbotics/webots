@@ -9,7 +9,7 @@ template.innerHTML = `
 export default class WebotsStreaming extends HTMLElement {
   constructor() {
     super();
-    document.getElementsByTagName('webots-streaming')[0].appendChild(template.content.cloneNode(true));
+    this.appendChild(template.content.cloneNode(true));
 
     let link = document.createElement('link');
     link.href = 'https://cyberbotics.com/wwi/R2021b/css/wwi.css';
@@ -34,24 +34,25 @@ export default class WebotsStreaming extends HTMLElement {
   }
 
   /*
-   * ip : ip address of the server
+   * url : url of the server
    * mode : x3d or mjpeg
    * broadcast: boolean
    * mobileDevice: boolean
+   * callback: function
+   * disconnectCallback: function. It needs to be passed there and not in disconnect because disconnect can be called from inside the web-component
    */
-  connect(ip, mode, broadcast, mobileDevice, callback, disconnectCallback) {
+  connect(url, mode, broadcast, mobileDevice, callback, disconnectCallback) {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
-    let playerDiv = document.getElementsByTagName('webots-streaming')[0];
     if (typeof this._view === 'undefined')
-      this._view = new webots.View(playerDiv, mobileDevice);
+      this._view = new webots.View(this, mobileDevice);
     this._view.broadcast = broadcast;
     this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
 
     this._disconnectCallback = disconnectCallback;
 
-    this._view.open(ip, mode);
+    this._view.open(url, mode);
     this._view.onquit = () => this.disconnect();
     this._view.onready = _ => {
       if (typeof callback === 'function')
@@ -65,9 +66,7 @@ export default class WebotsStreaming extends HTMLElement {
       exitFullscreen();
 
     this._view.close();
-
-    let playerDiv = document.getElementsByTagName('webots-streaming')[0];
-    playerDiv.innerHTML = null;
+    this.innerHTML = null;
     if (this._view.mode === 'mjpeg')
       this._view.multimediaClient = undefined;
 
@@ -89,6 +88,18 @@ export default class WebotsStreaming extends HTMLElement {
       if (toolbar.style.display !== 'block')
         toolbar.style.display = 'block';
     }
+  }
+
+  showQuit(enable) {
+    webots.showQuit = enable;
+  }
+
+  showRevert(enable) {
+    webots.showRevert = enable;
+  }
+
+  showRun(enable) {
+    webots.showRun = enable;
   }
 
   sendMessage(message) {
