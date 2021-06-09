@@ -9,9 +9,9 @@ PROTO TemplateRobotSlotContainer [
   field SFBool isRegenerated FALSE
 ]
 {
-  %{
+  %<
     const value = fields.isRegenerated.value;
-  }%
+  >%
   Robot {
     translation IS translation
     children IS children

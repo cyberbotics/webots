@@ -7,10 +7,10 @@ PROTO TemplateNestedSlotContainer [
   field SFBool regenerate FALSE
 ]
 {
-  %{
+  %<
     // trigger PROTO template regeneration
     const test = fields.regenerate.value;
-  }%
+  >%
   TwoSlotsContainer {
     slot1 IS slotA
     slot2 IS slotB

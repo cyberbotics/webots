@@ -12,7 +12,7 @@ PROTO FieldImport [
   field MFString    string    []
 ]
 {
-  %{
+  %<
     let size = 0.1;
 
     const boolField = fields.bool.value;
@@ -46,12 +46,12 @@ PROTO FieldImport [
     const stringField = fields.string.value;
     if (stringField.length > 0 && stringField[0] === 'Hello World!')
       size = size + 0.1;
-  }%
+  >%
   Solid {
     children [
       DEF BOX Shape {
         geometry Box {
-          size %{= size }% %{= size }% %{= size }%
+          size %<= size >% %<= size >% %<= size >%
         }
       }
     ]

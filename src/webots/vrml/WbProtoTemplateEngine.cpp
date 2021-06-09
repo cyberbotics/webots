@@ -62,37 +62,29 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["fields"].chop(2);  // remove the last ",\n" if any
 
 #ifdef _WIN32
-  tags["context"] = QString("os: \"windows\",");
+  tags["context"] = QString("os: \"windows\", ");
 #endif
 #ifdef __linux__
-  tags["context"] = QString("os: \"linux\",");
+  tags["context"] = QString("os: \"linux\", ");
 #endif
 #ifdef __APPLE__
-  tags["context"] = QString("os: \"mac\",");
+  tags["context"] = QString("os: \"mac\", ");
 #endif
   tags["context"] += QString("world: \"%1\", ").arg(worldPath);
-  tags["context"] += QString("proto: \"%1\",").arg(protoPath);
-  tags["context"] += QString("webots_home: \"%1\",").arg(WbStandardPaths::webotsHomePath());
-  tags["context"] += QString("project_path: \"%1\",").arg(WbProject::current()->path());
-  tags["context"] += QString("temporary_files_path: \"%1\",").arg(WbStandardPaths::webotsTmpPath());
-  tags["context"] += QString("id: \"%1\",").arg(id);
-  tags["context"] += QString("coordinate_system: \"%1\",").arg(gCoordinateSystem);
+  tags["context"] += QString("proto: \"%1\", ").arg(protoPath);
+  tags["context"] += QString("webots_home: \"%1\", ").arg(WbStandardPaths::webotsHomePath());
+  tags["context"] += QString("project_path: \"%1\", ").arg(WbProject::current()->path());
+  tags["context"] += QString("temporary_files_path: \"%1\", ").arg(WbStandardPaths::webotsTmpPath());
+  tags["context"] += QString("id: \"%1\", ").arg(id);
+  tags["context"] += QString("coordinate_system: \"%1\", ").arg(gCoordinateSystem);
   WbVersion version = WbApplicationInfo::version();
   // for example major = R2018a and revision = 0
   tags["context"] +=
-    QString("webots_version: { major: \"%1\", revision: \"%2\" }").arg(version.toString(false)).arg(version.revisionNumber());
-
-  printf("- WAS ----------------------------\n");
-  printf("%s\n", tags["fields"].toUtf8().constData());
-  printf("-----------------------------\n");
+    QString("webots_version: {major: \"%1\", revision: \"%2\"}").arg(version.toString(false)).arg(version.revisionNumber());
 
   if (templateLanguage == "lua") {
     tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
     tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
-
-    printf("\n- IS ----------------------------\n");
-    printf("%s\n", tags["fields"].toUtf8().constData());
-    printf("-----------------------------\n");
   }
 
   return WbTemplateEngine::generate(tags, logHeaderName, templateLanguage);
@@ -116,8 +108,7 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->value());
     assert(multipleValue);
     // multiple values into a JavaScript array
-    QString result = "";
-    result += "[";
+    QString result = "[";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
         result += ", ";
@@ -125,7 +116,6 @@ QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbFi
       result += convertVariantToJavaScriptStatement(variant);
     }
     result += "]";
-
     return result;
   }
 
@@ -145,8 +135,7 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(con
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->defaultValue());
     assert(multipleValue);
     // multiple values into a JavaScript array
-    QString result = "";
-    result += "[";
+    QString result = "[";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
         result += ", ";
@@ -154,7 +143,6 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(con
       result += convertVariantToJavaScriptStatement(variant);
     }
     result += "]";
-
     return result;
   }
 
@@ -233,10 +221,7 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
 }
 
 QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
-  // begin by converting MF entries (object with integer keys) to a Lua array (i.e remove the keys)
-  // statement = statement.replace(QRegularExpression("(?<=[{, ])(\\d+: ?)"), "");
-
-  // begin by converting MF entries (javascript array [...] to Lua array {...})
+  // begin by converting MF entries (javascript array [...] to Lua table {...})
   statement = statement.replace("[", "{");
   statement = statement.replace("]", "}");
 

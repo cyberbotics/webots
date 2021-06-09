@@ -10,7 +10,7 @@ PROTO TemplateSolidCylinder [
       Shape {
         geometry DEF GEOM Cylinder {
           radius 0.2
-          height %{= fields.height.value }%
+          height %<= fields.height.value >%
         }
       }
     ]

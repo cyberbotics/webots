@@ -13,7 +13,7 @@ PROTO FieldTypes [
   field MFNode mfNode []
 ]
 {
-  %{
+  %<
     const mfBool = fields.mfBool.value;
     const mfInt = fields.mfInt.value;
     const mfFloat = fields.mfFloat.value;
@@ -22,7 +22,7 @@ PROTO FieldTypes [
     const mfRotation = fields.mfRotation.value;
     const mfColor = fields.mfColor.value;
     const mfString = fields.mfString.value;
-  }%
+  >%
   Solid {
     children IS mfNode
     name "field types"

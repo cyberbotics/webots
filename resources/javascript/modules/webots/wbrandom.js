@@ -2,10 +2,6 @@
  * content: random number generation function
  */
 
-export function testFunction() { // TODO: to remove
-  return 'WBRANDOM WORKS';
-};
-
 import * as wbutility from 'wbutility.js';
 
 let seedValue = 0;

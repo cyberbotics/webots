@@ -7,6 +7,6 @@ PROTO TemplateBox [
 ]
 {
   Box {
-    size %{= fields.xSize.value }% %{= fields.ySize.value }% 0.1
+    size %<= fields.xSize.value >% %<= fields.ySize.value >% 0.1
   }
 }

@@ -77,7 +77,7 @@ export function normalize(v) {
     wbutility.error('The norm cannot be zero when normalizing.');
     return null;
   } else
-    return {x: v.x / n, y: v.y / n };
+    return {x: v.x / n, y: v.y / n};
 };
 
 // return the intersection point between segment 1 (p1->p2)

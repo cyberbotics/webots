@@ -10,7 +10,7 @@ PROTO TemplateHingeJoint [
       children [
         Shape {
           geometry Cylinder {
-            height %{= fields.height.value }%
+            height %<= fields.height.value >%
           }
         }
       ]

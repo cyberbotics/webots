@@ -9,17 +9,17 @@ PROTO TemplateNonDeterministic [
   field SFInt32    seed        0
 ]
 {
-  %{
+  %<
     import * as wbrandom from 'modules/webots/wbrandom.js';
     wbrandom.seed(fields.seed.value)
-  }%
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Shape {
         geometry DEF BOX Box {
-          size %{= fields.width.value }% %{= fields.width.value }% %{= wbrandom.real() + 0.001 }%
+          size %<= fields.width.value >% %<= fields.width.value >% %<= wbrandom.real() + 0.001 >%
         }
       }
     ]

@@ -1,7 +1,7 @@
 ## Procedural PROTO Nodes
 
 The expressive power of PROTO nodes can be significantly improved by extending them using a scripting language.
-In this way, the PROTO node may contain constants, mathematical expressions, loops, conditional expressions, randomness, and so on.
+In this way, the PROTO node may contain constants, mathematic expressions, loops, conditional expressions, randomness, and so on.
 
 ### Scripting Language
 
@@ -10,3 +10,5 @@ In the future, [Lua](http://www.lua.org) support will be discontinued therefore 
 
 - [Lua Scripting](lua-procedural-proto.md)
 - [JavaScript Scripting](javascript-procedural-proto.md)
+
+> **Note**: Lua support will be dropped in future releases, wherever possible [JavaScript](javascript-procedural-proto.md) should be preferred instead.

@@ -9,7 +9,7 @@ PROTO DerivedTemplateBoxShape [
 {
   TemplateBoxShape {
     translation IS translation
-    xSize %{= fields.dxSize.value }%
+    xSize %<= fields.dxSize.value >%
     ySize IS dySize
   }
 }

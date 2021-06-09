@@ -14,7 +14,7 @@ PROTO TemplateViewpoint [
 ]
 {
   Viewpoint {
-    fieldOfView %{= fields.fieldOfView.value }%
+    fieldOfView %<= fields.fieldOfView.value >%
     orientation IS orientation
     position IS position
     description IS description

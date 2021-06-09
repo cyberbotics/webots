@@ -9,7 +9,7 @@ PROTO ProceduralSolidWithPhysics [
     children [
       Shape {
         geometry DEF GEOM Sphere {
-          radius %{= fields.size.value }%
+          radius %<= fields.size.value >%
         }
       }
     ]

@@ -8,12 +8,12 @@ PROTO TemplateRobot [
   field MFNode   slot []
 ]
 {
-  %{ console.log(fields.proceduralField.value); }%
+  %< console.log(fields.proceduralField.value); >%
   Robot {
     controller IS controller
     customData IS customData
     controllerArgs [
-      "%{= context.id }%"
+      "%<= context.id >%"
     ]
     children [
       Group {

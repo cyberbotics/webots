@@ -30,7 +30,7 @@ PROTO TemplateExaustiveParameters [
       }
     ]
     controller IS controller
-    %{
+    %<
       let message = 'success';
 
       if (fields.sfb.value !== false)
@@ -69,8 +69,8 @@ PROTO TemplateExaustiveParameters [
         message = 'MFInt32 test failed';
 
       let arg = 'test --prefix in ' + fields.sfs3.value + '.';
-    }%
-    model "%{= message }%"
-    customData "%{= fields.sfs2.value }%"
+    >%
+    model "%<= message >%"
+    customData "%<= fields.sfs2.value >%"
   }
 }

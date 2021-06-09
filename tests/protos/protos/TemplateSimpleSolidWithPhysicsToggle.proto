@@ -18,9 +18,9 @@ PROTO TemplateSimpleSolidWithPhysicsToggle [
       }
     ]
     boundingObject USE BOX
-    %{ if (fields.physicsToggle.value) { }%
+    %< if (fields.physicsToggle.value) { >%
       physics Physics {
       }
-    %{ } }%
+    %< } >%
   }
 }

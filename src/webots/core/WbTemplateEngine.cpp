@@ -41,9 +41,9 @@ static QString gJavaScriptTemplateFileContent;
 namespace {
   // Note: not the default opening/closing tokens in order to allow
   //       VRML comments to comment templates
-  const QString gOpeningToken("%{");  // default: "#{"
-  const QString gClosingToken("}%");  // default: "}#"
-};                                    // namespace
+  QString gOpeningToken("%{");  // default: "#{"
+  QString gClosingToken("}%");  // default: "}#"
+};                              // namespace
 
 void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
   QDir luaModulesPath(modulePath);
@@ -66,7 +66,6 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
 }
 
 void WbTemplateEngine::initializeJavaScript() {
-  printf("WbTemplateEngine::initialize JavaScript\n");
   QFile templateFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.js");
   if (!templateFile.open(QIODevice::ReadOnly)) {
     gValidJavaScriptResources = false;
@@ -77,7 +76,6 @@ void WbTemplateEngine::initializeJavaScript() {
 }
 
 void WbTemplateEngine::initializeLua() {
-  printf("WbTemplateEngine::initialize lua\n");
   QFileInfo luaSLT2Script(WbStandardPaths::resourcesPath() + "lua/liluat/liluat.lua");
   if (!luaSLT2Script.exists()) {
     gValidLuaResources = false;
@@ -110,6 +108,14 @@ void WbTemplateEngine::initializeLua() {
 WbTemplateEngine::WbTemplateEngine(const QString &templateContent) : mTemplateContent(templateContent) {
 }
 
+void WbTemplateEngine::setOpeningToken(const QString &token) {
+  gOpeningToken = token;
+}
+
+void WbTemplateEngine::setClosingToken(const QString &token) {
+  gClosingToken = token;
+}
+
 const QString &WbTemplateEngine::openingToken() {
   return gOpeningToken;
 }
@@ -129,6 +135,9 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
       firstLuaCall = false;
     }
 
+    gOpeningToken = "%{";
+    gClosingToken = "}%";
+
     result = generateLua(tags, logHeaderName);
   } else {
     static bool firstJavaScriptCall = true;
@@ -138,6 +147,9 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
       firstJavaScriptCall = true;
     }
 
+    gOpeningToken = "%<";
+    gClosingToken = ">%";
+
     result = generateJavascript(tags, logHeaderName);
   }
 
@@ -145,20 +157,11 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 }
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
-  printf("JS: tokens are %s %s\n", gOpeningToken.toUtf8().constData(), gClosingToken.toUtf8().constData());
-
   mResult.clear();
   mError = "";
 
   if (!gValidJavaScriptResources) {
     mError = tr("Initialization error: JavaScript resources are not found.");
-    return false;
-  }
-
-  // cd to temporary directory
-  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
-  if (!success) {
-    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
     return false;
   }
 
@@ -169,43 +172,45 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   int indexClosingToken = 0;
   int lastIndexClosingToken = -1;
   mTemplateContent = mTemplateContent.toUtf8();
-
+  const QString expressionToken = gOpeningToken + "=";
   while (1) {
     int indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
     if (indexOpeningToken == -1) {  // no more matches
       if (indexClosingToken < mTemplateContent.size()) {
+        // what comes after the last closing token is plain vrml
+        // note: ___vrml is a local variable to the generateVrml javascript function
         javaScriptBody +=
           "___vrml += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
+        break;
       }
-      break;
     }
 
     indexClosingToken = mTemplateContent.indexOf(gClosingToken, indexOpeningToken);
-    indexClosingToken = indexClosingToken + gClosingToken.size();  // point after the template token
-
     if (indexClosingToken == -1) {
       mError = tr("Expected JavaScript closing token '%1' is missing.").arg(gClosingToken);
       return false;
     }
 
-    if (indexOpeningToken > 0 && lastIndexClosingToken == -1) {
-      // what comes before the first opening token should be treated as plain text
+    indexClosingToken = indexClosingToken + gClosingToken.size();  // point after the template token
+
+    if (indexOpeningToken > 0 && lastIndexClosingToken == -1)
+      // what comes before the first opening token should be treated as plain vrml
       javaScriptBody += "___vrml += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
-    }
-    if (lastIndexClosingToken != -1 && indexOpeningToken - lastIndexClosingToken > 0) {
-      // what is between the previous closing token and the current opening token should be treated as plain text
+
+    if (lastIndexClosingToken != -1 && indexOpeningToken - lastIndexClosingToken > 0)
+      // what is between the previous closing token and the current opening token should be treated as plain vrml
       javaScriptBody +=
         "___vrml += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
-    }
+
     // anything inbetween the tokens is either an expression or plain JavaScript
     QString statement = mTemplateContent.mid(indexOpeningToken, indexClosingToken - indexOpeningToken);
-    // if it starts with '%{=' it's an expression
-    if (statement.startsWith(gOpeningToken + "=")) {
-      statement = statement.replace(gOpeningToken + "=", "").replace(gClosingToken, "");
-      // ___tmp is a local variable to the main function
+    // if it starts with '%<=' it's an expression
+    if (statement.startsWith(expressionToken)) {
+      statement = statement.replace(expressionToken, "").replace(gClosingToken, "");
+      // note: ___tmp is a local variable to the generateVrml javascript function
       javaScriptBody += "___tmp = " + statement + "; ___vrml += eval(\"___tmp\");";
     } else {
-      // raw javascript snippet
+      // raw javascript snippet, remove the tokens
       javaScriptBody += statement.replace(gOpeningToken, "").replace(gClosingToken, "");
     }
 
@@ -213,13 +218,15 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   // extract imports from javaScriptBody, if any
-  QRegularExpression reImport("import(.*?)[;\n]");
+  // QRegExp explanation: any statement of the form "import ... from '...' "
+  // that ends with a new line or semi-colon
+  QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
   QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       QString statement = match.captured(0);
-      javaScriptBody.replace(statement, "");  // remove import from javaScriptBody
+      javaScriptBody.replace(statement, "");  // remove it from javaScriptBody
 
       if (statement.endsWith(";"))
         statement.append("\n");
@@ -252,34 +259,34 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   // create engine and stream holders
   QJSEngine engine;
-  QJSValue stdout = engine.newArray();
-  engine.globalObject().setProperty("stdout", stdout);
-  QJSValue stderr = engine.newArray();
-  engine.globalObject().setProperty("stderr", stderr);
+  QJSValue jsStdOut = engine.newArray();
+  engine.globalObject().setProperty("stdout", jsStdOut);
+  QJSValue jsStdErr = engine.newArray();
+  engine.globalObject().setProperty("stderr", jsStdErr);
   // import filled template as module
   QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
   if (module.isError()) {
-    mError = tr("failed to import JavaScript template. %1").arg(module.property("message").toString());
+    mError = tr("failed to import JavaScript template: %1").arg(module.property("message").toString());
     return false;
   }
 
   QJSValue generateVrml = module.property("generateVrml");
   QJSValue result = generateVrml.call();
   if (result.isError()) {
-    mError = tr("failed to execute JavaScript template. On line %1").arg(result.property("message").toString());
+    mError = tr("failed to execute JavaScript template: %1").arg(result.property("message").toString());
     return false;
   }
 
-  for (int i = 0; i < stdout.property("length").toInt(); ++i)
-    WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(stdout.property(i).toString()), false,
-                            WbLog::PARSING);
+  for (int i = 0; i < jsStdOut.property("length").toInt(); ++i)
+    WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(jsStdOut.property(i).toString()),
+                            false, WbLog::PARSING);
 
-  for (int i = 0; i < stderr.property("length").toInt(); ++i)
-    WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(stderr.property(i).toString()), false,
-                             WbLog::PARSING);
+  for (int i = 0; i < jsStdErr.property("length").toInt(); ++i)
+    WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(jsStdErr.property(i).toString()),
+                             false, WbLog::PARSING);
 
-  // remove temporary file. TODO: UNCOMMENT BEFORE MERGE
-  // QFile::remove(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
+  // remove temporary file
+  QFile::remove(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
 
   mResult = result.toString().toUtf8();
   return true;
@@ -288,7 +295,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
   mResult.clear();
 
-  printf("LUA: tokens are %s %s\n", gOpeningToken.toUtf8().constData(), gClosingToken.toUtf8().constData());
   if (!gValidLuaResources) {
     mError = tr("Installation error: Lua resources are not found");
     return false;
