@@ -57,9 +57,9 @@ do
     NB_TESTS=$(echo $RESULT_LINE | awk 'BEGIN { FS = "/" } ; { print $2 }')
     if [ $NB_SUCCESS -lt $NB_TESTS ]
     then
-        printf "\b\b\b\b\b\b\b\b\b\b$COLOR_RED%s %d/%d$COLOR_RESET\n" FAIL $NB_SUCCESS $NB_TESTS
+        printf "\b\b\b\b\b\b\b\b\b\b$COLOR_RED%s %d/%d$COLOR_RESET  \n" FAIL $NB_SUCCESS $NB_TESTS
     else
-        printf "\b\b\b\b\b\b\b\b\b\b$COLOR_GREEN%s %d/%d$COLOR_RESET\n" PASS $NB_SUCCESS $NB_TESTS
+        printf "\b\b\b\b\b\b\b\b\b\b$COLOR_GREEN%s %d/%d$COLOR_RESET  \n" PASS $NB_SUCCESS $NB_TESTS
     fi
 
     ((TOT_SUCCESS+=NB_SUCCESS))
