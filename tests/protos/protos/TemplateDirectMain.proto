@@ -5,9 +5,9 @@ PROTO TemplateDirectMain [
   field SFBool mainParameter TRUE
 ]
 {
-  %{ if (!fields.mainParameter.value) { }%
+  %< if (!fields.mainParameter.value) { >%
     TemplateNested {
       nestedParameter IS mainParameter
     }
-  %{ } }%
+  %< } >%
 }

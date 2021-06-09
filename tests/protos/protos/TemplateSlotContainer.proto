@@ -9,7 +9,7 @@ PROTO TemplateSlotContainer [
 {
   Solid {
     translation IS translation
-    rotation 0 1 0 %{= fields.rotationAngle.value }%
+    rotation 0 1 0 %<= fields.rotationAngle.value >%
     children IS children
   }
 }

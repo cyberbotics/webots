@@ -7,11 +7,11 @@ PROTO TemplateMain [
 {
   Group {
     children [
-      %{ if (!fields.mainParameter.value) { }%
+      %< if (!fields.mainParameter.value) { >%
         TemplateNested {
           nestedParameter IS mainParameter
         }
-      %{ } }%
+      %< } >%
     ]
   }
 }

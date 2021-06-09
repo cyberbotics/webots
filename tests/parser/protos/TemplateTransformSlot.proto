@@ -5,7 +5,7 @@ PROTO TemplateTransformSlot [
   field MFNode slot []
 ]
 {
-  %{ const test = fields.slot.value; }%
+  %< const test = fields.slot.value; >%
   Transform {
     children IS slot
   }

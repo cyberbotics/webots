@@ -8,9 +8,9 @@ PROTO TestRectangleArena [
   field SFNode     floorAppearance Parquetry { type "chequered" }  # Defines the appearance of the floor.
 ]
 {
-  %{
+  %<
     const myVariable = fields.floorAppearance;
-  }%
+  >%
   Solid {
     children [
       Floor {
