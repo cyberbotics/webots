@@ -86,9 +86,10 @@ void WbImageTexture::downloadAssets() {
   if (WbUrl::isWeb(url)) {
     delete mDownloader;
     mDownloader = new WbDownloader(this);
-    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
     mDownloader->download(QUrl(url));
+    emit WbWorld::instance()->worldLoadingStatusHasChanged(tr("Downloading assets"));
   }
 }
 
@@ -255,7 +256,7 @@ void WbImageTexture::updateUrl() {
   }
   if (n > 0) {
     const QString &url = mUrl->item(0);
-    if (isPostFinalizedCalled() && WbUrl::isWeb(url) && mDownloader == NULL) {
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(url) && mDownloader == NULL) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
       return;
