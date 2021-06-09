@@ -6,10 +6,10 @@ PROTO JavaScriptVrmlComment [
 {
   %<
     const myVariable = 1; # invalid VRML comment
-  }%
+  >%
   Shape {
     geometry Box {
-      size 1 1 %<= count}%
+      size 1 1 %<= count>%
     }
   }
 }
