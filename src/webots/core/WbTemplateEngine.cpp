@@ -247,10 +247,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   // create engine and stream holders
   QJSEngine engine;
-  QJSValue a = engine.newArray(0);
-  engine.globalObject().setProperty("aa", a);
-  QJSValue b = engine.newArray(0);
-  engine.globalObject().setProperty("bb", b);
+  QJSValue jsStdOut = engine.newArray();
+  engine.globalObject().setProperty("stdout", jsStdOut);
+  QJSValue jsStdErr = engine.newArray();
+  engine.globalObject().setProperty("stderr", jsStdErr);
   // import filled template as module
   QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
   if (module.isError()) {
@@ -265,16 +265,16 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     return false;
   }
 
-  for (int i = 0; i < a.property("length").toInt(); ++i)
-    WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(a.property(i).toString()), false,
-                            WbLog::PARSING);
+  for (int i = 0; i < jsStdOut.property("length").toInt(); ++i)
+    WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(jsStdOut.property(i).toString()),
+                            false, WbLog::PARSING);
 
-  for (int i = 0; i < b.property("length").toInt(); ++i)
-    WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(b.property(i).toString()), false,
-                             WbLog::PARSING);
+  for (int i = 0; i < jsStdErr.property("length").toInt(); ++i)
+    WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(jsStdErr.property(i).toString()),
+                             false, WbLog::PARSING);
 
-  // remove temporary file. TODO: UNCOMMENT BEFORE MERGE
-  // QFile::remove(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
+  // remove temporary file
+  QFile::remove(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
 
   mResult = result.toString().toUtf8();
   return true;
