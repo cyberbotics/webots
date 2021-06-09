@@ -375,6 +375,7 @@ QT_SOURCES += \
   WbProjectRelocationDialog.cpp \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
+	WbQjsFile.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
   WbRadioPlugin.cpp \

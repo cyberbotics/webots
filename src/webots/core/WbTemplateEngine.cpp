@@ -16,6 +16,7 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
+#include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
@@ -160,6 +161,17 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   mResult.clear();
   mError = "";
 
+  /*
+  QString initialDir = QDir::currentPath();
+
+  // cd to temporary directory
+  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
+  if (!success) {
+    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
+    return false;
+  }
+  */
+
   if (!gValidJavaScriptResources) {
     mError = tr("Initialization error: JavaScript resources are not found.");
     return false;
@@ -259,6 +271,26 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   // create engine and stream holders
   QJSEngine engine;
+  // create and add file manipulation module
+  WbQjsFile *jsFileObject = new WbQjsFile();
+  QJSValue jsFile = engine.newQObject(jsFileObject);
+  engine.globalObject().setProperty("wbfile", jsFile);
+
+  /*
+  JsRunFunc *oo = new JsRunFunc();
+  QJSValue aObject = engine.newQObject(oo);
+  engine.globalObject().setProperty("jsRunFuncObject", aObject);
+
+  QJSEngine *jsEngine = new QJSEngine();
+  printf("GERE\n");
+  JsRunFunc *object = new JsRunFunc();
+  QJSValue jsObject = jsEngine->newQObject(object);
+  jsEngine->globalObject().setProperty("jsRunFuncObject", jsObject);
+  QJSValue value = jsEngine->evaluate("jsRunFuncObject.callFunc(10, 20)");
+  printf(">> %d\n", value.toInt());
+  delete jsEngine;
+  */
+
   QJSValue jsStdOut = engine.newArray();
   engine.globalObject().setProperty("stdout", jsStdOut);
   QJSValue jsStdErr = engine.newArray();
@@ -287,6 +319,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   // remove temporary file
   QFile::remove(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
+
+  // QDir::setCurrent(initialDir);
 
   mResult = result.toString().toUtf8();
   return true;
