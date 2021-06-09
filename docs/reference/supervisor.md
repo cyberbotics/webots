@@ -912,7 +912,7 @@ The `sampling_period` argument determines how often the pose data should be sent
 
 The `wb_supervisor_node_disable_pose_tracking` function disables pose data tracking.
 
-The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
+The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this (see [the controller]({{ url.github_tree }}/projects/robots/neuronics/ipr/controllers/target_coordinates/target_coordinates.c)).
 
 > **Note**: The returned pointers are valid during one time step only as memory will be deallocated at the next time step.
 
