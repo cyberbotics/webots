@@ -52,6 +52,7 @@ CONTROLLERS=\
   neuronics/ipr/controllers.Makefile \
   nex/controllers.Makefile \
   niryo/ned/controllers.Makefile \
+  nvidia/jetbot/controllers.Makefile \
   pal_robotics/tiago_base/controllers/tiago_base.Makefile \
   pal_robotics/tiago_iron/controllers/tiago_iron.Makefile \
   pal_robotics/tiago_steel/controllers/tiago_steel.Makefile \
