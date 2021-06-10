@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable crossroad which can contain optionally references to its connected roads and a shape.
+# template language: javascript
 
 PROTO Crossroad [
   field SFVec3f    translation      0 0 0
@@ -19,16 +20,15 @@ PROTO Crossroad [
   field SFString   contactMaterial  "default"               # Is `Solid.contactMaterial`.
 ]
 {
-  %{
-    local wbcore = require('wbcore')
-    local nShape = wbcore.tablelength(fields.shape.value)
-    local shape = fields.shape.value
-    local textureCoordinateRatio = 0.2
-  }%
+  %<
+    const nShape = fields.shape.value.length;
+    const shape = fields.shape.value;
+    const textureCoordinateRatio = 0.2;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ if nShape > 0 then }%
+    %< if (nShape > 0) { >%
       children [
         Shape {
           appearance IS appearance
@@ -38,27 +38,27 @@ PROTO Crossroad [
             }
             texCoord TextureCoordinate {
               point [
-                %{ for i = 1, nShape do }%
-                  %{= shape[i].x * textureCoordinateRatio }% %{= shape[i].z * textureCoordinateRatio }%
-                %{ end }%
+                %< for (let i = 0; i < nShape; ++i) { >%
+                  %<= shape[i].x * textureCoordinateRatio >% %<= shape[i].z * textureCoordinateRatio >%
+                %< } >%
               ]
             }
             coordIndex [
-              %{ for i = 0, (nShape - 1) do }%
-                %{= i}%
-              %{ end }%
+              %< for (let i = 0; i <= nShape - 1; ++i) { >%
+                %<= i >%
+              %< } >%
               -1
             ]
             texCoordIndex [
-              %{ for i = 0, (nShape - 1) do }%
-                %{= i}%
-              %{ end }%
+              %< for (let i = 0; i <= nShape - 1; ++i) { >%
+                %<= i >%
+              %< } >%
               -1
             ]
           }
           castShadows IS castShadows
         }
-        %{ if fields.bottom.value then }%
+        %< if (fields.bottom.value) { >%
           Shape {
             appearance IS appearance
             geometry IndexedFaceSet {
@@ -66,24 +66,24 @@ PROTO Crossroad [
                 point IS shape
               }
               coordIndex [
-                %{ for i = (nShape - 1), 0, -1 do }%
-                  %{= i}%
-                %{ end }%
+                %< for (i = nShape - 1; i >= 0; i -= 1) { >%
+                  %<= i >%
+                %< } >%
                 -1
               ]
             }
             castShadows IS castShadows
           }
-        %{ end }%
+        %< } >%
       ]
-    %{ end }%
+    %< } >%
     name IS name
     model "crossroad"
     locked IS locked
     recognitionColors [ 0.2 0.2 0.2 ]
-    %{ if fields.boundingObject.value and nShape > 0 then }%
+    %< if (fields.boundingObject.value && nShape > 0) { >%
       contactMaterial IS contactMaterial
       boundingObject USE CROSSROAD_GEOMETRY
-    %{ end }%
+    %< } >%
   }
 }

@@ -1,5 +1,6 @@
 #VRML_SIM R2021b utf8
 # tags: hidden
+# template language: javascript
 
 PROTO NaoLeftWristH25Realistic [
   field SFString name "left wrist"
@@ -12,6 +13,9 @@ PROTO NaoLeftWristH25Realistic [
   field MFNode handSlot []
 ]
 {
+  %<
+    const version = fields.version.value;
+  >%
 Solid {
   children [
     DEF LWristYaw HingeJoint {
@@ -662,7 +666,7 @@ Solid {
         }
         physics Physics {
           density -1
-          %{ if version == "3.3" then }%
+          %< if (version === '3.3') { >%
             mass 0.16653
             centerOfMass [
               0.03180 0.00083 0.00477
@@ -670,7 +674,7 @@ Solid {
             inertiaMatrix [
               0.00006105675 0.00027947351 0.00027998803, -0.00000503640 -0.00003895369 -0.00000293076
             ]
-          %{ elseif version == "4.0" then }%
+          %< } else if (version === '4.0') { >%
             mass 0.18533
             centerOfMass [
               0.03434 -0.00088 0.00308
@@ -678,7 +682,7 @@ Solid {
             inertiaMatrix [
               7.05493e-05 0.000356062 0.000351919, 5.71599e-06 -2.24744e-05 3.17771e-06
             ]
-          %{ else }%
+          %< } else { >%
             mass 0.18533
             centerOfMass [
               0.03434 -0.00088 0.00308
@@ -686,7 +690,7 @@ Solid {
             inertiaMatrix [
               7.05493e-05 0.000356062 0.000351919, 5.71599e-06 -2.24744e-05 3.17771e-06
             ]
-          %{ end }%
+          %< } >%
         }
       }
     }
@@ -835,7 +839,7 @@ Solid {
   }
   physics Physics {
     density -1
-    %{ if version == "3.3" then }%
+    %< if (version === '3.3') { >%
       mass 0.07724
       centerOfMass [
         0.02556 0.00273 0.00096
@@ -843,7 +847,7 @@ Solid {
       inertiaMatrix [
         0.00002519483 0.00008890315 0.00008686867, -0.00000216293 -0.00000071846 -0.00000010809
       ]
-    %{ elseif version == "4.0" then }%
+    %< } else if (version === '4.0') { >%
       mass 0.07761
       centerOfMass [
         0.02556 0.00281 0.00076
@@ -851,7 +855,7 @@ Solid {
       inertiaMatrix [
         2.53322e-05 8.91322e-05 8.72873e-05, -2.34271e-06 7.459e-08 -2.655e-08
       ]
-    %{ else }%
+    %< } else { >%
       mass 0.07761
       centerOfMass [
         0.02556 0.00281 0.00076
@@ -859,7 +863,7 @@ Solid {
       inertiaMatrix [
         2.53322e-05 8.91322e-05 8.72873e-05, -2.34271e-06 7.459e-08 -2.655e-08
       ]
-    %{ end }%
+    %< } >%
   }
 }
 }

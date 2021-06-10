@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+# template language: javascript
 
 PROTO Khepera4InfraredSensor [
   field SFVec3f    translation 0 0 0
@@ -28,7 +29,7 @@ PROTO Khepera4InfraredSensor [
         }
       }
     ]
-    %{ if fields.shortRange.value then }%
+    %< if (fields.shortRange.value) { >%
     lookupTable [
       0 964 0.001
       0.002 958 0.0035
@@ -47,7 +48,7 @@ PROTO Khepera4InfraredSensor [
       0.15 33 0.305
       0.2 29 0.41
     ]
-    %{ else }%
+    %< } else { >%
     lookupTable [
       0 1023 0
       0.01 1010 0.005
@@ -63,6 +64,6 @@ PROTO Khepera4InfraredSensor [
       0.15 180 0.075
       0.2 120 0.1
     ]
-    %{ end }%
+    %< } >%
   }
 }

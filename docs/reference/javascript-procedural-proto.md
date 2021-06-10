@@ -630,7 +630,7 @@ Creates and returns a deep copy of any object provided as argument (i.e an indep
  * @param {number} angle
  * @returns {number}
  */
-wbmath.degreesToRadians(angle);
+wbutility.degreesToRadians(angle);
 ```
 
 Converts the provided number from degrees to radians.
@@ -640,7 +640,7 @@ Converts the provided number from degrees to radians.
  * @param {number} angle
  * @returns {number}
  */
-wbmath.radiansToDegrees(angle);
+wbutility.radiansToDegrees(angle);
 ```
 
 Converts the provided number from radians to degrees.

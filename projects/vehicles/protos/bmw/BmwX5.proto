@@ -6,6 +6,7 @@
 # The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # For the last 6 fields to have any effect, the 'interior' has to be enabled.
+# template language: javascript
 
 PROTO BmwX5 [
   field SFVec3f      translation              0 0.4 0
@@ -39,27 +40,26 @@ PROTO BmwX5 [
   field SFString     window                   "automobile"
 ]
 {
-  %{
-    local frontSpotLights = fields.frontSpotLights.value
-    local interior = fields.interior.value
-    local rearMirror = fields.rearMirror.value
-    local outerWindowTransparency = fields.outerWindowTransparency.value
-    local innerWindowTransparency = fields.innerWindowTransparency.value
-    local dynamicSpeedDisplay = fields.dynamicSpeedDisplay.value
-    local completeInterior = fields.completeInterior.value
-    local innerWindowDust = fields.innerWindowDust.value
-    if interior == false and rearMirror then
-      io.stderr:write("The rear mirror can only enabled if 'interior' is set to TRUE.\n")
-    end
-    if interior == false and ( outerWindowTransparency ~= fields.outerWindowTransparency.defaultValue or innerWindowTransparency ~= fields.innerWindowTransparency.defaultValue ) then
-      outerWindowTransparency = fields.outerWindowTransparency.defaultValue
-      innerWindowTransparency = fields.innerWindowTransparency.defaultValue
-      io.stderr:write("Window transparencies were reset to default values.\n")
-    end
-    if interior == false and ( dynamicSpeedDisplay or completeInterior or innerWindowDust ) then
-      io.stderr:write("In order to see the effect of the last 6 fields, the 'interior' has to be enabled.\n")
-    end
-  }%
+  %<
+    let interior = fields.interior.value;
+    let outerWindowTransparency = fields.outerWindowTransparency.value;
+    let innerWindowTransparency = fields.innerWindowTransparency.value;
+    const frontSpotLights = fields.frontSpotLights.value;
+    const rearMirror = fields.rearMirror.value;
+    const dynamicSpeedDisplay = fields.dynamicSpeedDisplay.value;
+    const completeInterior = fields.completeInterior.value;
+    const innerWindowDust = fields.innerWindowDust.value;
+    if (!interior && rearMirror)
+      console.error('The rear mirror can only enabled if \'interior\' is set to TRUE.');
+
+    if (!interior && (outerWindowTransparency !== fields.outerWindowTransparency.defaultValue || innerWindowTransparency !== fields.innerWindowTransparency.defaultValue)) {
+      outerWindowTransparency = fields.outerWindowTransparency.defaultValue;
+      innerWindowTransparency = fields.innerWindowTransparency.defaultValue;
+      console.error('Window transparencies were reset to default values.');
+    }
+    if (!interior && (dynamicSpeedDisplay || completeInterior || innerWindowDust))
+      console.error('In order to see the effect of the last 6 fields, the \'interior\' has to be enabled.');
+  >%
   Car {
     translation IS translation
     rotation IS rotation
@@ -119,7 +119,7 @@ PROTO BmwX5 [
         front [
           Group {
             children [
-              %{ if frontSpotLights then }%
+              %< if (frontSpotLights) { >%
                 SpotLight {
                   attenuation 0 0 1
                   intensity 20
@@ -140,7 +140,7 @@ PROTO BmwX5 [
                   radius 20
                   castShadows TRUE
                 }
-              %{ end }%
+              %< } >%
               BmwX5FrontLight {
               }
             ]
@@ -171,7 +171,7 @@ PROTO BmwX5 [
           }
         ]
       }
-      %{ if interior then }%
+      %< if (interior) { >%
           DEF INTERIOR_RIGHT_INDICATOR LED {
             children [
               Shape {
@@ -228,9 +228,9 @@ PROTO BmwX5 [
             name "interior_left_indicators"
             color 0 0.596078 0
           }
-      %{ end }%
+      %< } >%
       # windshield wipers
-      %{ if fields.windshieldWipers.value then }%
+      %< if (fields.windshieldWipers.value) { >%
       DEF RIGHT_WIPER HingeJoint {
         jointParameters HingeJointParameters {
           axis 0.04 -2.19 -1.7
@@ -250,9 +250,9 @@ PROTO BmwX5 [
         endPoint Solid {
           children [
             BmwX5RightWiper{
-              %{ if outerWindowTransparency ~= 0 then }%
+              %< if (outerWindowTransparency !== 0) { >%
                 castShadows TRUE
-              %{ end }%
+              %< } >%
             }
           ]
           name "right wiper"
@@ -274,59 +274,59 @@ PROTO BmwX5 [
         endPoint Solid {
           children [
             BmwX5LeftWiper {
-              %{ if outerWindowTransparency ~= 0 then }%
+              %< if (outerWindowTransparency !== 0) { >%
                 castShadows TRUE
-              %{ end }%
+              %< } >%
             }
           ]
           name "left wiper"
         }
       }
-      %{ end }%
+      %< } >%
       BmwX5Mesh {
         color IS color
-        outerWindowTransparency %{= outerWindowTransparency }%
+        outerWindowTransparency %<= outerWindowTransparency >%
       }
-      %{ if innerWindowTransparency ~= 1 then }%
+      %< if (innerWindowTransparency !== 1) { >%
           BmwX5InnerWindow {
-            innerWindowTransparency %{= innerWindowTransparency }%
+            innerWindowTransparency %<= innerWindowTransparency >%
             innerWindowDust IS innerWindowDust
           }
-      %{ end }%
-      %{ if fields.rightWingMirror.value then }%
+      %< } >%
+      %< if (fields.rightWingMirror.value) { >%
           DEF RIGHT_WING_DISPLAY Display {
             children [
-      %{ end }%
+      %< } >%
       BmwX5RightWingMirror {
       }
-      %{ if fields.rightWingMirror.value then }%
+      %< if (fields.rightWingMirror.value) { >%
             ]
             name "right_wing_display"
             width 512
             height 256
           }
-      %{ end }%
-      %{ if fields.leftWingMirror.value then }%
+      %< } >%
+      %< if (fields.leftWingMirror.value) { >%
           DEF LEFT_WING_DISPLAY Display {
             children [
-      %{ end }%
+      %< } >%
       BmwX5LeftWingMirror {
       }
-      %{ if fields.leftWingMirror.value then }%
+      %< if (fields.leftWingMirror.value) { >%
             ]
             name "left_wing_display"
             width 512
             height 256
           }
-      %{ end }%
+      %< } >%
       # vehicle interior
-      %{ if interior then }%
+      %< if (interior) { >%
               BmwX5Interior {
-                %{ if dynamicSpeedDisplay then }%
+                %< if (dynamicSpeedDisplay) { >%
                     baseColorMap "textures/bmw_interior_speedometer_without_needles.jpg"
-                %{ else }%
+                %< } else { >%
                     baseColorMap "textures/bmw_interior_speedometer.jpg"
-                %{ end }%
+                %< } >%
                 indicatorLevers IS indicatorLevers
               }
               DEF REAR_MIRROR Hinge2Joint {
@@ -358,28 +358,28 @@ PROTO BmwX5 [
                     BmwX5CentralMirrorFrame {
                     }
                     # When active, the parameter changes REAR_DISPLAY Shape to a display
-                    %{ if rearMirror then }%
+                    %< if (rearMirror) { >%
                       DEF REAR_DISPLAY Display {
                         children [
-                    %{ end }%
+                    %< } >%
                     BmwX5CentralMirror {
                     }
-                    %{ if rearMirror then }%
+                    %< if (rearMirror) { >%
                         ]
                         name "rear_display"
                         width 256
                         height 80
                       }
-                    %{ end }%
+                    %< } >%
                   ]
                   name "central mirror"
                 }
               }
-              %{ if completeInterior then }%
+              %< if (completeInterior) { >%
                   BmwX5RearInterior {
                     shifter IS shifter
                   }
-              %{ end }%
+              %< } >%
               Transform {
                 translation 0.43 0.61 2.03
                 children [
@@ -389,7 +389,7 @@ PROTO BmwX5 [
                   }
                 ]
               }
-              %{ if dynamicSpeedDisplay then }%
+              %< if (dynamicSpeedDisplay) { >%
                   DEF SPEED_NEEDLE HingeJoint {
                     jointParameters HingeJointParameters {
                       axis 0 -0.049 0.055
@@ -479,10 +479,10 @@ PROTO BmwX5 [
                       name "rpm needle"
                     }
                   }
-              %{ end }%
-      %{ end }%
+              %< } >%
+      %< } >%
       # mirror cameras
-      %{ if fields.leftWingMirror.value then }%
+      %< if (fields.leftWingMirror.value) { >%
           DEF LEFT_WING_MIRROR Hinge2Joint {
             jointParameters HingeJointParameters {
               axis 0 0.3 0
@@ -514,11 +514,11 @@ PROTO BmwX5 [
               name "left_wing_camera"
               width 512
               height 256
-              far %{= fields.mirrorFar.value }%
+              far %<= fields.mirrorFar.value >%
             }
           }
-      %{ end }%
-      %{ if fields.rightWingMirror.value then }%
+      %< } >%
+      %< if (fields.rightWingMirror.value) { >%
           DEF RIGHT_WING_MIRROR Hinge2Joint {
             jointParameters HingeJointParameters {
               axis 0 0.3 0
@@ -550,11 +550,11 @@ PROTO BmwX5 [
               name "right_wing_camera"
               width 512
               height 256
-              far %{= fields.mirrorFar.value }%
+              far %<= fields.mirrorFar.value >%
             }
           }
-      %{ end }%
-      %{ if rearMirror then }%
+      %< } >%
+      %< if (rearMirror) { >%
           DEF REAR_MIRROR Hinge2Joint {
             jointParameters HingeJointParameters {
               axis 0 0.3 0
@@ -584,10 +584,10 @@ PROTO BmwX5 [
               name "rear_camera"
               width 256
               height 80
-              far %{= fields.mirrorFar.value }%
+              far %<= fields.mirrorFar.value >%
             }
           }
-      %{ end }%
+      %< } >%
     ]
     name IS name
     model "BMW X5"
@@ -625,7 +625,7 @@ PROTO BmwX5 [
     }
     radarCrossSection 100
     recognitionColors [
-      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
     ]
     physics Physics {
       density -1

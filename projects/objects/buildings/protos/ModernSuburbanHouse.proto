@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A modern suburban house with optional boundingObject.
+# template language: javascript
 
 PROTO ModernSuburbanHouse [
   field SFVec3f    translation           0 0 0
@@ -208,7 +209,7 @@ PROTO ModernSuburbanHouse [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -239,6 +240,6 @@ PROTO ModernSuburbanHouse [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

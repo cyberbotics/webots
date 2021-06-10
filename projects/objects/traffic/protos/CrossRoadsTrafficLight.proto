@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Four roads crossing traffic light.
+# template language: javascript
 
 PROTO CrossRoadsTrafficLight [
   field SFVec3f    translation 0 0 0
@@ -12,15 +13,15 @@ PROTO CrossRoadsTrafficLight [
   field SFVec2f    size        20.8 20.8                    # Defines the size of the traffic lights.
 ]
 {
-%{
-  local size = fields.size.value
-}%
+  %<
+    const size = fields.size.value;
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
     children [
       TrafficLightBigPole {
-        translation %{= - size.x / 2 }% 0 %{= - size.y / 2 }%
+        translation %<= - size.x * 0.5 >% 0 %<= - size.y * 0.5 >%
         name "pole 1"
         slot1 [
           TrafficLight {
@@ -54,7 +55,7 @@ PROTO CrossRoadsTrafficLight [
         ]
       }
       TrafficLightBigPole {
-        translation %{= size.x / 2 }% 0 %{= - size.y / 2 }%
+        translation %<= size.x * 0.5 >% 0 %<= - size.y * 0.5 >%
         rotation 0 -1 0 1.5708
         name "pole 2"
         slot1 [
@@ -89,7 +90,7 @@ PROTO CrossRoadsTrafficLight [
         ]
       }
       TrafficLightBigPole {
-        translation %{= size.x / 2 }% 0 %{= size.y / 2 }%
+        translation %<= size.x * 0.5 >% 0 %<= size.y * 0.5 >%
         rotation 0 1 0 3.14159
         name "pole 3"
         slot1 [
@@ -124,7 +125,7 @@ PROTO CrossRoadsTrafficLight [
         ]
       }
       TrafficLightBigPole {
-        translation %{= - size.x / 2 }% 0 %{= size.y / 2 }%
+        translation %<= - size.x * 0.5 >% 0 %<= size.y * 0.5 >%
         rotation 0 1 0 1.5708
         name "pole 4"
         slot1 [
