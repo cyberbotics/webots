@@ -14,6 +14,7 @@
 
 #include "WbBackground.hpp"
 
+#include "WbApplication.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -188,8 +189,10 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
   }
   delete mDownloader[index];
   mDownloader[index] = new WbDownloader(this);
-  if (postpone)
+  if (postpone) {
+    WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
+  }
   mDownloader[index]->download(QUrl(url));
 }
 
@@ -204,6 +207,12 @@ void WbBackground::downloadAssets() {
 
 void WbBackground::downloadUpdate() {
   // we need that all downloads are complete before proceeding with the update of the cube map
+  const int progress = WbDownloader::progress();
+  if (progress == 100)
+    emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
+  else
+    emit WbApplication::instance()->setWorldLoadingProgress(progress);
+
   for (int i = 0; i < 12; i++)
     if (mDownloader[i] && !mDownloader[i]->hasFinished())
       return;
@@ -321,16 +330,13 @@ void WbBackground::updateCubemap() {
     }
     const bool hasCompleteBackground = urlCount == 6;
     if (isPostFinalizedCalled()) {
-      const WbMFString *urlField = dynamic_cast<const WbMFString *>(sender());
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
           const QString &url = mUrlFields[i]->item(0);
           if (WbUrl::isWeb(url)) {
             if (mDownloader[i] == NULL) {
-              if (urlField == mUrlFields[i]) {
-                downloadAsset(url, i, true);
-                postpone = true;
-              }
+              downloadAsset(url, i, true);
+              postpone = true;
             }
           } else {
             delete mTexture[i];
@@ -341,10 +347,8 @@ void WbBackground::updateCubemap() {
           const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
           if (WbUrl::isWeb(irradianceUrl)) {
             if (mDownloader[i + 6] == NULL) {
-              if (urlField == mIrradianceUrlFields[i]) {
-                downloadAsset(irradianceUrl, i + 6, true);
-                postpone = true;
-              }
+              downloadAsset(irradianceUrl, i + 6, true);
+              postpone = true;
             }
           } else {
             stbi_image_free(mIrradianceTexture[i]);
