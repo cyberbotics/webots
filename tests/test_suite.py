@@ -321,6 +321,13 @@ for groupName in testGroups:
                         appendToOutputFile(
                             'Cannot get the core dump file: "%s" does not exist.' % core_dump_file
                         )
+    print('-- STDOUT -----------------------------------------------------------------------------------')
+    with open(webotsStdOutFilename, 'r') as file:
+        print(file.read())
+    print('-- STDERR ------------------------------------------------------------------------------------')
+    with open(webotsStdErrFilename, 'r') as file:
+        print(file.read())
+    print('>> failures: %d' % failures)
 
 appendToOutputFile('\n' + finalMessage + '\n')
 
