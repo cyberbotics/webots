@@ -78,6 +78,13 @@ struct WbTrackedPoseInfo {
   double lastUpdate;
 };
 
+struct WbTrackedContactPointInfo {
+  WbNode *node;
+  bool includeDescendants;
+  int samplingPeriod;
+  double lastUpdate;
+};
+
 struct WbFieldGetRequest {
   WbField *field;
   int fieldId;

@@ -26,6 +26,7 @@ struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
 struct WbTrackedFieldInfo;
 struct WbTrackedPoseInfo;
+struct WbTrackedContactPointInfo;
 class WbFieldSetRequest;
 
 class WbBaseNode;
@@ -135,6 +136,7 @@ private:
   QList<int> mLabelIds;
   QVector<WbTrackedFieldInfo> mTrackedFields;
   QVector<WbTrackedPoseInfo> mTrackedPoses;
+  QVector<WbTrackedContactPointInfo> mTrackedContactPoints;
 };
 
 #endif

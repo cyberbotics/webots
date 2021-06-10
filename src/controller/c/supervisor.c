@@ -128,6 +128,14 @@ typedef struct WbPoseChangeTrackingPrivate {
   bool enable;
 } WbPoseChangeTracking;
 
+typedef struct WbContactPointChangeTrackingPrivate {
+  WbNodeRef node;
+  bool include_descendants;
+  int sampling_period;
+  bool enable;
+} WbContactPointChangeTracking;
+
+
 static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
 // These functions may be used for debugging:
@@ -430,6 +438,7 @@ static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
+static WbNodeRef tracked_contact_points_nodes = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
 static bool allows_contact_point_internal_node = false;
