@@ -15,7 +15,7 @@ PROTO StripBuilding [
 ]
 {
   %<
-    import * as wbrandom from 'modules/webots/wbrandom.js';
+    import * as wbrandom from 'wbrandom.js';
 
     if (fields.randomSeed.value <= 0)
       wbrandom.seed(Date.now());

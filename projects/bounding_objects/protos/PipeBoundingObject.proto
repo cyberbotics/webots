@@ -13,7 +13,7 @@ PROTO PipeBoundingObject [
 ]
 {
   %<
-    import * as wbrandom from 'modules/webots/wbrandom.js';
+    import * as wbrandom from 'wbrandom.js';
 
     // parameter checking
     let subdivision = fields.subdivision.value;

@@ -20,10 +20,10 @@ PROTO Extrusion [
 ]
 {
   %<
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';
-    import * as wbvector2 from 'modules/webots/wbvector2.js';
-    import * as wbvector3 from 'modules/webots/wbvector3.js';
-    import * as wbrotation from 'modules/webots/wbrotation.js';
+    import * as wbgeometry from 'wbgeometry.js';
+    import * as wbvector2 from 'wbvector2.js';
+    import * as wbvector3 from 'wbvector3.js';
+    import * as wbrotation from 'wbrotation.js';
 
     // fields checks
     let crossSection = fields.crossSection.value;

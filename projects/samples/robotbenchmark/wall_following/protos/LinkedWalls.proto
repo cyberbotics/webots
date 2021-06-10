@@ -16,7 +16,7 @@ PROTO LinkedWalls [
 ]
 {
   %<
-    import * as wbrandom from 'modules/webots/wbrandom.js';
+    import * as wbrandom from 'wbrandom.js';
     let angles;
     let dataString = '"';
 

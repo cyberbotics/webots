@@ -30,8 +30,8 @@ PROTO Fence [
 ]
 {
   %<
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';
-    import * as wbvector2 from 'modules/webots/wbvector2.js';
+    import * as wbgeometry from 'wbgeometry.js';
+    import * as wbvector2 from 'wbvector2.js';
 
     // parameter checking
     let poleGap = fields.poleGap.value;

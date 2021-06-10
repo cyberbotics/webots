@@ -21,7 +21,7 @@ PROTO WoodenPalletStack [
 ]
 {
 %<
-  import * as wbrandom from 'modules/webots/wbrandom.js';
+  import * as wbrandom from 'wbrandom.js';
   wbrandom.seed(context.id);
 
   let palletSize = fields.palletSize.value;

@@ -30,7 +30,7 @@ PROTO RandomBuilding [
 ]
 {
   %<
-    import * as wbrandom from 'modules/webots/wbrandom.js';
+    import * as wbrandom from 'wbrandom.js';
     wbrandom.seed(context.id);
 
     const wallTypes = [

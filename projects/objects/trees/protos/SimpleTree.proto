@@ -33,8 +33,8 @@ PROTO SimpleTree [
 ]
 {
 %<
-  import * as wbgeometry from 'modules/webots/wbgeometry.js';
-  import * as wbrandom from 'modules/webots/wbrandom.js';
+  import * as wbgeometry from 'wbgeometry.js';
+  import * as wbrandom from 'wbrandom.js';
   wbrandom.seed(context.id)
 
   const treeType = {

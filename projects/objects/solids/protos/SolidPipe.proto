@@ -23,7 +23,7 @@ PROTO SolidPipe [
 ]
 {
   %<
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';
+    import * as wbgeometry from 'wbgeometry.js';
 
     // parameter checking
     let subdivision = fields.subdivision.value;

@@ -20,8 +20,8 @@ PROTO SickLdMrs [
 ]
 {
   %<
-    import * as wbrotation from 'modules/webots/wbrotation.js';
-    import * as wbutility from 'modules/webots/wbutility.js';
+    import * as wbrotation from 'wbrotation.js';
+    import * as wbutility from 'wbutility.js';
 
     // get and check fields
     const type = fields.type.value;

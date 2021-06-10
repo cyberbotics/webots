@@ -53,9 +53,9 @@ PROTO Road [
 ]
 {
   %<
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';
-    import * as wbvector2 from 'modules/webots/wbvector2.js';
-    import * as wbvector3 from 'modules/webots/wbvector3.js';
+    import * as wbgeometry from 'wbgeometry.js';
+    import * as wbvector2 from 'wbvector2.js';
+    import * as wbvector3 from 'wbvector3.js';
 
     // fields checks
     let width = fields.width.value;

@@ -21,7 +21,7 @@ PROTO StraightStairs [
 ]
 {
   %<
-    import * as wbrotation from 'modules/webots/wbrotation.js';
+    import * as wbrotation from 'wbrotation.js';
 
     // check inputs
     let stepRise = fields.stepRise.value;

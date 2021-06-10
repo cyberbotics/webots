@@ -26,7 +26,7 @@ PROTO CircleArena [
 ]
 {
   %<
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';
+    import * as wbgeometry from 'wbgeometry.js';
 
     if (fields.floorTextureUrl.value[0] !== fields.floorTextureUrl.defaultValue[0])
       console.error('The \'floorTextureUrl\' field is deprecated, using the new \'floorAppearance\' field instead.');

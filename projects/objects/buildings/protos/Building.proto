@@ -27,9 +27,9 @@ PROTO Building [
 ]
 {
   %<
-    import * as wbvector2 from 'modules/webots/wbvector2.js';
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';
-    import * as wbutility from 'modules/webots/wbutility.js';
+    import * as wbvector2 from 'wbvector2.js';
+    import * as wbgeometry from 'wbgeometry.js';
+    import * as wbutility from 'wbutility.js';
 
     // compute distance for the first floors with a shift
     function distanceArray(corners, nbCorners, shift) {
