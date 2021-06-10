@@ -6,11 +6,6 @@ function error {
     echo "ERROR: $1" >&2
 }
 
-if [[ -z "${WEBOTS_HOME}"]] ; then
-    error "Environment variable 'WEBOTS_HOME' is not defined"
-    exit 1
-fi
-
 # Parsing args, see: https://stackoverflow.com/a/14203146
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -74,8 +69,8 @@ POSTURES_FILE=${ROBOT_FOLDER}/postures.json
 
 # Crafting a request message for robot clients
 ACTUATOR_REQUEST_PATH=actuator_requests.txt
-JOINT_NAME=$(grep -A 1 upright ${POSTURES_FILE} | tail -n 1 | awk 'BEGIN { FS = "\"" } ; { print $2 }')
-printf "motor_positions {\n  name: \"%s\"\n  position: 0.0\n}" $JOINT_NAME > $ACTUATOR_REQUEST_PATH
+JOINT_NAME="$(grep -A 1 upright ${POSTURES_FILE} | tail -n 1 | awk 'BEGIN { FS = "\"" } ; { print $2 }')"
+printf "motor_positions {\n  name: \"%s\"\n  position: 0.0\n}" "$JOINT_NAME" > $ACTUATOR_REQUEST_PATH
 
 # Adding robot to robocup project
 cp -r "$ROBOT_FOLDER" "${ROBOCUP_PATH}/protos"
@@ -112,3 +107,7 @@ do
         stdbuf -oL $CLIENT 127.0.0.1 $port &>$OUT &
     done
 done
+
+wait
+
+tail -n 2 ${TEAM_FOLDER}/*${SUFFIX}.txt

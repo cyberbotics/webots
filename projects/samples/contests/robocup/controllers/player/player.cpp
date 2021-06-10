@@ -264,14 +264,13 @@ public:
   }
 
   void step() {
+    controller_time += basic_time_step;
     if (client_fd == -1) {
       client_fd = accept_client(server_fd);
       if (client_fd != -1) {
         set_blocking(client_fd, false);
-        controller_time = 0;
       }
     } else {
-      controller_time += basic_time_step;
       FD_ZERO(&rfds);
       FD_SET(client_fd, &rfds);
       struct timeval tv = {0, 0};

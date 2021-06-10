@@ -61,3 +61,33 @@ https://submission.robocuphumanoid.com you can run the following command:
 
 It will check some properties of the archive, extract its content in the `robocup/protos/tmp` folder and then perform
 an automated inspection with the flag `--no-display`.
+
+## Run mock game
+
+This script is used to detect low performances for the robot and currently requires to perform some manual step.
+
+- The game file `game.json` in the `referee` controller has to be configured as follows:
+  - "minimum_real_time_factor" must be set to 1
+  - "max_duration" must be set to 120
+
+This script takes as argument the path of a folder `team_name` which has to be organized in the following way:
+
+```
+team_name
+|- team.json
+|- robot_name
+|  |- posture.json
+|  |- robot_name.proto
+|  |- ...
+```
+
+Game can then be launched with `,/run_mock_game.sh team_name` or `./run_mock_game.sh --no-rendering team_name`:
+
+This will start a game with a full team red and a full team blue, both of them will have clients
+connecting after a little while in order to ensure robots are not in asleep mode.
+
+The output of the clients will be stored in different files in folder `team_name`
+(e.g. `RED_1_with_rendering.txt`). At the end of the test, robot is closed and the
+last output from the clients are shown on screen. 
+
+The value obtained can be used to estimate the speed factor associated to the team.

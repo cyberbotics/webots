@@ -65,7 +65,6 @@ FOUL_SPEED_THRESHOLD = 0.2                # 0.2 m/s
 FOUL_DIRECTION_THRESHOLD = math.pi / 6    # 30 degrees
 FOUL_BALL_DISTANCE = 1                    # if the ball is more than 1 m away from an offense, a removal penalty is applied
 FOUL_PENALTY_IMMUNITY = 2                 # after a foul, a player is immune to penalty for a period of 2 seconds
-LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
@@ -83,7 +82,6 @@ GAME_INTERRUPTIONS = {
     'GOALKICK': 'goal kick',
     'THROWIN': 'throw in'}
 
-LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
 global supervisor, game, red_team, blue_team, log_file, time_count, time_step, game_controller_udp_filter
@@ -412,7 +410,7 @@ def game_controller_send(message):
             game.wait_for_state = 'PLAYING'
         elif (message[:6] == 'SCORE:' or
               message == 'DROPPEDBALL'):
-            game.wait_for_state = 'READY'
+            game.wait_for_state = 'FINISHED' if game.penalty_shootout else 'READY'
     if ':' in message:
         msg_start = message.split(':', 1)[0]
         if msg_start in GAME_INTERRUPTIONS:
@@ -464,9 +462,7 @@ def game_controller_send(message):
                 else:
                     error(f'Received unknown answer from GameController: {answer}.', fatal=True)
         except BlockingIOError:
-            if not game.game_controller_synchronization:
-                break
-            elif answered or ':CLOCK:' in message:
+            if answered or ':CLOCK:' in message:
                 break
             else:  # keep sending CLOCK messages to keep the GameController happy
                 info(f'Waiting for GameController to answer to {message.strip()}.')
@@ -475,6 +471,9 @@ def game_controller_send(message):
                 clock_message = f'{game_controller_send.id}:CLOCK:{time_count}\n'
                 game.controller.sendall(clock_message.encode('ascii'))
                 game_controller_send.unanswered[game_controller_send.id] = clock_message.strip()
+    # We are waiting for a specific update from the GC before testing anything else
+    while game.wait_for_state is not None or game.wait_for_sec_state is not None or game.wait_for_sec_phase is not None:
+        game_controller_receive()
 
     return True
 
@@ -770,6 +769,7 @@ def init_team(team):
         player['outside_circle'] = True
         player['outside_field'] = True
         player['inside_field'] = False
+        player['on_outer_line'] = False
         player['inside_own_side'] = False
         player['outside_goal_area'] = True
         player['outside_penalty_area'] = True
@@ -810,6 +810,7 @@ def update_team_contacts(team):
             player['outside_circle'] = True        # true if fully outside the center cicle
             player['outside_field'] = True         # true if fully outside the field
             player['inside_field'] = True          # true if fully inside the field
+            player['on_outer_line'] = False        # true if robot is partially on the line surrounding the field
             player['inside_own_side'] = True       # true if fully inside its own side (half field side)
             player['outside_goal_area'] = True     # true if fully outside of any goal area
             player['outside_penalty_area'] = True  # true if fully outside of any penalty area
@@ -876,13 +877,15 @@ def update_team_contacts(team):
                     if abs(point[0]) > game.field.size_x - game.field.goal_area_length and \
                        abs(point[1]) < game.field.goal_area_width / 2:
                         player['outside_goal_area'] = False
+                if not game.field.point_inside(point, include_turf=False, include_border_line=False):
+                    player['on_outer_line'] = True
             else:
                 player['inside_field'] = False
             if game.side_left == (game.red.id if color == 'red' else game.blue.id):
-                if point[0] > -LINE_HALF_WIDTH:
+                if point[0] > -game.field.line_half_width:
                     player['inside_own_side'] = False
             else:
-                if point[0] < LINE_HALF_WIDTH:
+                if point[0] < game.field.line_half_width:
                     player['inside_own_side'] = False
             # check if the robot has fallen
             if member == 'foot':
@@ -892,6 +895,8 @@ def update_team_contacts(team):
                 continue
             info(f'{color.capitalize()} player {number} has fallen down.')
             player['fallen'] = time_count
+        if not player['on_outer_line']:
+            player['on_outer_line'] = not (player['inside_field'] or player['outside_field'])
         if not fallen and 'fallen' in player:  # the robot has recovered
             delay = (int((time_count - player['fallen']) / 100)) / 10
             info(f'{color.capitalize()} player {number} just recovered after {delay} seconds.')
@@ -1722,8 +1727,7 @@ def check_penalty_goal_line():
         if game.in_play is not None or ignore_player:
             player['invalidGoalkeeperStart'] = None
             continue
-        # If fully inside or fully outside, the robot is out of field
-        if player['outside_field'] or player['inside_field'] or abs(player['position'][1]) > GOAL_WIDTH:
+        if not player['on_outer_line'] or abs(player['position'][1]) > GOAL_WIDTH or not player['inside_own_side']:
             if player['invalidGoalkeeperStart'] is None:
                 player['invalidGoalkeeperStart'] = time_count
             elif time_count - player['invalidGoalkeeperStart'] > INVALID_GOALKEEPER_TIMEOUT * 1000:
@@ -1763,7 +1767,7 @@ def throw_in(left_side):
     # set the ball on the touch line for throw in
     sign = -1 if left_side else 1
     game.ball_kick_translation[0] = game.ball_exit_translation[0]
-    game.ball_kick_translation[1] = sign * (game.field.size_y - LINE_HALF_WIDTH)
+    game.ball_kick_translation[1] = sign * (game.field.size_y - game.field.line_half_width)
     game.can_score = False  # disallow direct goal
     game.throw_in = True
     game.throw_in_ball_was_lifted = False
@@ -1773,9 +1777,9 @@ def throw_in(left_side):
 def corner_kick(left_side):
     # set the ball in the right corner for corner kick
     sign = -1 if left_side else 1
-    game.ball_kick_translation[0] = sign * (game.field.size_x - LINE_HALF_WIDTH)
-    game.ball_kick_translation[1] = game.field.size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
-        else -game.field.size_y + LINE_HALF_WIDTH
+    game.ball_kick_translation[0] = sign * (game.field.size_x - game.field.line_half_width)
+    game.ball_kick_translation[1] = game.field.size_y - game.field.line_half_width if game.ball_exit_translation[1] > 0 \
+        else -game.field.size_y + game.field.line_half_width
     game.can_score = True
     interruption('CORNERKICK')
 
@@ -1783,8 +1787,8 @@ def corner_kick(left_side):
 def goal_kick():
     # set the ball at intersection between the centerline and touchline
     game.ball_kick_translation[0] = 0
-    game.ball_kick_translation[1] = game.field.size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
-        else -game.field.size_y + LINE_HALF_WIDTH
+    game.ball_kick_translation[1] = game.field.size_y - game.field.line_half_width if game.ball_exit_translation[1] > 0 \
+        else -game.field.size_y + game.field.line_half_width
     game.can_score = True
     interruption('GOALKICK')
 
@@ -1848,8 +1852,6 @@ if game.minimum_real_time_factor == 0:  # speed up non-real time tests
     HALF_TIME_BREAK_REAL_TIME_DURATION = 2
 if not hasattr(game, 'press_a_key_to_terminate'):
     game.press_a_key_to_terminate = False
-if not hasattr(game, 'game_controller_synchronization'):
-    game.game_controller_synchronization = True
 if game.type not in ['NORMAL', 'KNOCKOUT', 'PENALTY']:
     error(f'Unsupported game type: {game.type}.', fatal=True)
 game.penalty_shootout = game.type == 'PENALTY'
@@ -1949,48 +1951,9 @@ red_team['goalkeeper_holding_time_window'] = np.zeros(goalkeeper_ball_holding_ti
 blue_team['players_holding_time_window'] = np.zeros(players_ball_holding_time_window_size, dtype=bool)
 blue_team['goalkeeper_holding_time_window'] = np.zeros(goalkeeper_ball_holding_time_window_size, dtype=bool)
 
-if game.controller_process:
-    game.controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    retry = 0
-    while True:
-        try:
-            game.controller.connect(('localhost', 8750))
-            game.controller.setblocking(False)
-            break
-        except socket.error as msg:
-            retry += 1
-            if retry <= 10:
-                warning(f'Could not connect to GameController at localhost:8750: {msg}. Retrying ({retry}/10)...')
-                time.sleep(retry)  # give some time to allow the GameControllerSimulator to start-up
-                supervisor.step(time_step)
-            else:
-                error('Could not connect to GameController at localhost:8750.', fatal=True)
-                game.controller = None
-                break
-    info('Connected to GameControllerSimulator at localhost:8750.')
-    try:
-        game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
-            # In case we are using the bouncing server we have to select which interface is used because messages are not
-            # broadcast
-            game.udp.bind((game.host, 3838))
-        else:
-            game.udp.bind(('0.0.0.0', 3838))
-        game.udp.setblocking(False)
-    except Exception:
-        error("Failed to set up UDP socket to listen to GC messages")
-else:
-    game.controller = None
-
-update_state_display()
 
 list_solids()  # prepare lists of solids to monitor in each robot to compute the convex hulls
 
-info(f'Game type is {game.type}.')
-info(f'Red team is "{red_team["name"]}", playing on {"left" if game.side_left == game.red.id else "right"} side.')
-info(f'Blue team is "{blue_team["name"]}", playing on {"left" if game.side_left == game.blue.id else "right"} side.')
-game_controller_send(f'SIDE_LEFT:{game.side_left}')
 game.penalty_shootout_count = 0
 game.penalty_shootout_goal = False
 game.penalty_shootout_time_to_score = [None, None, None, None, None, None, None, None, None, None]
@@ -2031,6 +1994,47 @@ game.forceful_contact_matrix = ForcefulContactMatrix(len(red_team['players']), l
 game.set_countdown = 0  # simulated time countdown before set state (used in penalty shootouts)
 
 previous_seconds_remaining = 0
+
+if game.controller_process:
+    game.controller = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    retry = 0
+    while True:
+        try:
+            game.controller.connect(('localhost', 8750))
+            game.controller.setblocking(False)
+            break
+        except socket.error as msg:
+            retry += 1
+            if retry <= 10:
+                warning(f'Could not connect to GameController at localhost:8750: {msg}. Retrying ({retry}/10)...')
+                time.sleep(retry)  # give some time to allow the GameControllerSimulator to start-up
+                supervisor.step(time_step)
+            else:
+                error('Could not connect to GameController at localhost:8750.', fatal=True)
+                game.controller = None
+                break
+    info('Connected to GameControllerSimulator at localhost:8750.')
+    try:
+        game.udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        game.udp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        if hasattr(game, 'use_bouncing_server') and game.use_bouncing_server:
+            # In case we are using the bouncing server we have to select which interface is used because messages are not
+            # broadcast
+            game.udp.bind((game.host, 3838))
+        else:
+            game.udp.bind(('0.0.0.0', 3838))
+        game.udp.setblocking(False)
+    except Exception:
+        error("Failed to set up UDP socket to listen to GC messages")
+else:
+    game.controller = None
+
+update_state_display()
+info(f'Game type is {game.type}.')
+info(f'Red team is "{red_team["name"]}", playing on {"left" if game.side_left == game.red.id else "right"} side.')
+info(f'Blue team is "{blue_team["name"]}", playing on {"left" if game.side_left == game.blue.id else "right"} side.')
+game_controller_send(f'SIDE_LEFT:{game.side_left}')
+
 if hasattr(game, 'supervisor'):  # optional supervisor used for CI tests
     children.importMFNodeFromString(-1, f'DEF TEST_SUPERVISOR Robot {{ supervisor TRUE controller "{game.supervisor}" }}')
 
@@ -2080,10 +2084,6 @@ while supervisor.step(time_step) != -1 and not game.over:
     update_contacts()  # check for collisions with the ground and ball
     update_ball_holding()  # check for ball holding for field players and goalkeeper
     update_histories()
-    # We are waiting for a specific update from the GC before taking any other action
-    if game.wait_for_state is not None or game.wait_for_sec_state is not None or game.wait_for_sec_phase is not None:
-        time_count += time_step
-        continue
     if game.state.game_state == 'STATE_PLAYING':
         check_outside_turf()
         check_forceful_contacts()
@@ -2197,7 +2197,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                 if game.penalty_shootout:
                     next_penalty_shootout()
                 else:
-                    game.ball_exit_translation[1] = game.field.size_y - LINE_HALF_WIDTH
+                    game.ball_exit_translation[1] = game.field.size_y - game.field.line_half_width
                     throw_in(left_side=False)
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field.size_y:
                 if game.penalty_shootout:

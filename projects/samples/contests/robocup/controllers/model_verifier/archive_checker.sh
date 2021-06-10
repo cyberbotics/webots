@@ -49,7 +49,7 @@ do
         then
             error "Missing file for robot $ROBOT: $EXPECTED_PROTO"
         else
-            ${MODEL_CHECKER} --no-display $EXPECTED_PROTO
+            ${MODEL_CHECKER} $EXPECTED_PROTO
         fi
     done
 done
