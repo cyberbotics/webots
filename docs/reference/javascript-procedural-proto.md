@@ -56,7 +56,7 @@ Sphere {                                    Sphere {
 - Although not mandatory, the usage of semi-colons for JavaScript statements is highly encouraged.
 - Lua and JavaScript Procedural PROTO nodes use two distinct tokens (`%{` and `}%` for Lua and `%<` and `>%` for JavaScript) and cannot be interchanged.
 Which tokens will be considered depends on whether the comment line `# template language: javascript` is present.
-
+- The `wbfile` module for file manipulation does not need to, and should not, be imported as it is added automatically to each instance of the engine.
 
 #### VRML97 Type Conversion
 
@@ -124,6 +124,13 @@ The available modules are the following.
 - `wbgeometry`: provides geometry related functions, allowing for instance to create splines.
 
 - `wbutility`: provides commonly needed functions.
+
+Additionally, the following module is automatically added to each instance of the engine and therefore does not need to be imported:
+
+- `wbfile`: provides functions for the reading and writing of files.
+
+> **Note:**: contrary to the other JavaScript modules, `wbfile` is a C++ wrapped class and therefore cannot and should not be imported manually, attempting to do so will return an error.
+The functions exported by this module are available globally.
 
 The functions exported by each module are:
 
@@ -704,6 +711,22 @@ wbutility.isMatrix3(m);
 ```
 
 Returns true if the provided argument is a three-dimensional matrix, i.e if it is a 9-dimensional object with keys (0, 1, ..., 8).
+
+```
+/**
+ * @param {[{Object<x: number, y: number, [z: number]}, {Object<x: number, y: number, [z: number]}, ...]} array
+ * @param {number} dim
+ * @returns {boolean}
+ */
+wbutility.isArrayOfPoints(array, dim);
+```
+
+Returns true if the provided argument is an array of `dim`-dimensional points.
+`dim` can either be 2 or 3.
+
+%tab-end
+
+%tab "wbfile"
 
 ```
 /**
