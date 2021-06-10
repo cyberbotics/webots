@@ -226,6 +226,8 @@ bool WbApplication::wasWorldLoadingCanceled() const {
 
 bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
+  mWorldLoadingProgressDialogCreated = false;
+
   if (deleteWorld) {
     delete mWorld;
     mWorld = NULL;
@@ -339,6 +341,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   emit postWorldLoaded(reloading, isFirstLoad);
 
   emit deleteWorldLoadingProgressDialog();
+  mWorldLoadingProgressDialogCreated = false;
 
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(true);
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());
