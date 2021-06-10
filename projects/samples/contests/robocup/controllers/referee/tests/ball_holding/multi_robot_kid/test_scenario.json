@@ -83,9 +83,9 @@
         },
         "tests" : [
             {
-                "name" : "Part A: Ball is not moved away in SET phase",
+                "name" : "Part A: Ball is moved far from robots to advantage of BLUE team in SET phase",
                 "target" : "BALL",
-                "position" : [1.0,2.06,0.08]
+                "position" : [1.5,2.06,0.08]
             }
         ]
     },
@@ -99,22 +99,18 @@
         "actions" : [
             {
                 "target" : "RED_PLAYER_1",
-                "position" : [1.0, -0.8, 0.24]
+                "position" : [1.0, -0.3, 0.24]
             },
             {
                 "target" : "BLUE_PLAYER_1",
                 "position" : [1.0, 0.3, 0.24]
-            },
-            {
-                "target" : "RED_PLAYER_2",
-                "position" : [3.7, 2.0, 0.24]
             }
         ]
     },
     {
         "description" : "Setting up part B: placing ball after freekick ended",
         "timing" : {
-            "time" : 60.0,
+            "time" : 70.0,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -133,7 +129,7 @@
     },
     {
         "timing" : {
-            "time" : [63.0, 70.0],
+            "time" : [73.0, 80.0],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -162,7 +158,7 @@
     {
         "description" : "Setting up part C: placing objects",
         "timing" : {
-            "time" : 70.0,
+            "time" : 80.0,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -187,7 +183,7 @@
     },
     {
         "timing" : {
-            "time" : [73.0, 80.0],
+            "time" : [83.0, 90.0],
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },

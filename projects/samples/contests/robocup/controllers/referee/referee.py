@@ -72,6 +72,7 @@ STATIC_SPEED_EPS = 1e-2                   # The speed below which an object is c
 DROPPED_BALL_TEAM_ID = 128                # The team id used for dropped ball
 BALL_DIST_PERIOD = 1                      # seconds. The period at which distance to the ball is checked
 BALL_HOLDING_RATIO = 1.0/3                # The ratio of the radius used to compute minimal distance to the convex hull
+GAME_INTERRUPTION_PLACEMENT_NB_STEPS = 5  # The maximal number of steps allowed when moving ball or player away
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -1467,6 +1468,45 @@ def game_interruption_touched(team, number):
     game_controller_send(f'CARD:{team_id}:{number}:WARN')
 
 
+def place_player_at_penalty(player, team, number):
+    robot = player['robot']
+    color = team['color']
+    t = copy.deepcopy(player['reentryStartingPose']['translation'])
+    r = copy.deepcopy(player['reentryStartingPose']['rotation'])
+    t[0] = game.field.penalty_mark_x if t[0] > 0 else -game.field.penalty_mark_x
+    if (game.ball_position[1] > 0 and t[1] > 0) or (game.ball_position[1] < 0 and t[1] < 0):
+        t[1] = -t[1]
+        r = rotate_along_z(r)
+    # check if position is already occupied by a penalized robot
+    while True:
+        moved = False
+        for n in team['players']:
+            other_robot = team['players'][n]['robot']
+            if other_robot is None:
+                continue
+            other_t = other_robot.getField('translation').getSFVec3f()
+            if distance3(other_t, t) < game.field.robot_radius:
+                t[0] += game.field.penalty_offset if game.ball_position[0] < t[0] else -game.field.penalty_offset
+                moved = True
+        if not moved:
+            break
+    # test if position is behind the goal line (note: it should never end up beyond the center line)
+    if t[0] > game.field.size_x:
+        t[0] -= 4 * game.field.penalty_offset
+    elif t[0] < -game.field.size_x:
+        t[0] += 4 * game.field.penalty_offset
+    robot.loadState('__init__')
+    list_player_solids(player, color, number)
+    robot.getField('translation').setSFVec3f(t)
+    robot.getField('rotation').setSFRotation(r)
+    robot.resetPhysics()
+    player['penalty_stabilize'] = 5  # stabilize after 5 simulation steps
+    player['penalty_translation'] = t
+    player['penalty_rotation'] = r
+    player['position'] = t
+    info(f'Moved {color} player {number}: translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
+
+
 def send_team_penalties(team):
     color = team['color']
     for number in team['players']:
@@ -1482,47 +1522,14 @@ def send_team_penalties(team):
             player['penalty_immunity'] = time_count + FOUL_PENALTY_IMMUNITY * 1000
             team_id = game.red.id if color == 'red' else game.blue.id
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
-            robot = player['robot']
-            t = copy.deepcopy(player['reentryStartingPose']['translation'])
-            r = copy.deepcopy(player['reentryStartingPose']['rotation'])
-            t[0] = game.field.penalty_mark_x if t[0] > 0 else -game.field.penalty_mark_x
-            if (game.ball_position[1] > 0 and t[1] > 0) or (game.ball_position[1] < 0 and t[1] < 0):
-                t[1] = -t[1]
-                r = rotate_along_z(r)
-            # check if position is already occupied by a penalized robot
-            while True:
-                moved = False
-                for n in team['players']:
-                    other_robot = team['players'][n]['robot']
-                    if other_robot is None:
-                        continue
-                    other_t = other_robot.getField('translation').getSFVec3f()
-                    if distance3(other_t, t) < game.field.robot_radius:
-                        t[0] += game.field.penalty_offset if game.ball_position[0] < t[0] else -game.field.penalty_offset
-                        moved = True
-                if not moved:
-                    break
-            # test if position is behind the goal line (note: it should never end up beyond the center line)
-            if t[0] > game.field.size_x:
-                t[0] -= 4 * game.field.penalty_offset
-            elif t[0] < -game.field.size_x:
-                t[0] += 4 * game.field.penalty_offset
-            robot.loadState('__init__')
-            list_player_solids(player, color, number)
-            robot.getField('translation').setSFVec3f(t)
-            robot.getField('rotation').setSFRotation(r)
+            place_player_at_penalty(player, team, number)
             player['penalized'] = REMOVAL_PENALTY_TIMEOUT
             info(f'Disabling actuators of {color} player {number}.')
             player['robot'].getField('customData').setSFString('penalized')
-            robot.resetPhysics()
-            player['penalty_stabilize'] = 5  # stabilize after 5 simulation steps
-            player['penalty_translation'] = t
-            player['penalty_rotation'] = r
             # Once removed from the field, the robot will be in the air, therefore its status will not be updated.
             # Thus, we need to make sure it will not be considered in the air while falling
             player['outside_field'] = True
-            info(f'{penalty} penalty for {color} player {number}: {reason}. Sent to ' +
-                 f'translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
+            info(f'{penalty} penalty for {color} player {number}: {reason}.')
 
 
 def send_penalties():
@@ -1839,6 +1846,125 @@ def dropped_ball():
     game.dropped_ball = True
     game.can_score = True
     game.can_score_own = False
+
+
+def is_robot_near(position, min_dist):
+    for team in [red_team, blue_team]:
+        for number in team['players']:
+            if distance2(position, team['players'][number]['position']) < min_dist:
+                return True
+    return False
+
+
+def reset_pos_penalized_robots_near(position, min_dist):
+    for team in [red_team, blue_team]:
+        for number in team['players']:
+            player = team['players'][number]
+            if 'penalized' in player and distance2(position, player['position']) < min_dist:
+                place_player_at_penalty(player, team, number)
+
+
+def penalize_fallen_robots_near(position, min_dist):
+    for team in [red_team, blue_team]:
+        for number in team['players']:
+            player = team['players'][number]
+            if 'fallen' in player:
+                # If we wait for the end of the tick, the rest of the game interruption procedure will ignore the penalty
+                place_player_at_penalty(player, team, number)
+                send_penalty(player, "INCAPABLE", "Fallen close to ball during GameInterruption")
+
+
+def get_alternative_ball_locations(original_pos):
+    prefered_x_dir = 1 if (game.interruption_team == game.red.id) ^ (game.side_left == game.blue.id) else -1
+    prefered_y_dir = -1 if original_pos[1] > 0 else 1
+    offset_x = prefered_x_dir * game.field.place_ball_safety_dist * np.array([1, 0, 0])
+    offset_y = prefered_y_dir * game.field.place_ball_safety_dist * np.array([0, 1, 0])
+    locations = []
+    if game.interruption in ["CORNERKICK", "GOALKICK"]:
+        other_side = np.copy(original_pos)
+        other_side[1] *= -1
+        locations.append(other_side)
+    elif game.interruption == "DIRECT_FREEKICK":
+        for dist_mult in range(1, GAME_INTERRUPTION_PLACEMENT_NB_STEPS+1):
+            locations.append(original_pos + offset_x * dist_mult)
+            locations.append(original_pos + offset_y * dist_mult)
+            locations.append(original_pos - offset_y * dist_mult)
+            locations.append(original_pos - offset_x * dist_mult)
+    elif game.interruption == "THROWIN":
+        for dist_mult in range(1, GAME_INTERRUPTION_PLACEMENT_NB_STEPS+1):
+            locations.append(original_pos + offset_x * dist_mult)
+        for dist_mult in range(1, GAME_INTERRUPTION_PLACEMENT_NB_STEPS+1):
+            locations.append(original_pos - offset_x * dist_mult)
+    return locations
+
+
+def get_obstacles_positions(team, number):
+    """Returns the list of potential obstacles in case the indicated robot is moved"""
+    # TODO: add goal posts for safety
+    obstacles = []
+    for o_team in [blue_team, red_team]:
+        for o_number in o_team['players']:
+            if team['color'] == o_team['color'] and number == o_number:
+                continue
+            obstacles.append(o_team['players'][o_number]['position'])
+    return obstacles
+
+
+def move_robots_away(target_location):
+    for team in [blue_team, red_team]:
+        for number in team['players']:
+            player = team['players'][number]
+            initial_pos = np.array(player['position'])
+            if distance2(initial_pos, target_location) < game.field.place_ball_safety_dist:
+                obstacles = get_obstacles_positions(team, number)
+                player_2_ball = initial_pos - np.array(target_location)
+                dist = np.linalg.norm(player_2_ball)
+                if dist < 0.001:
+                    player_2_ball = [1, 0, 0]
+                    dist = 1
+                offset = player_2_ball / dist * game.field.place_ball_safety_dist
+                for dist_mult in range(1, GAME_INTERRUPTION_PLACEMENT_NB_STEPS+1):
+                    allowed = True
+                    pos = target_location + offset * dist_mult
+                    for o in obstacles:
+                        if distance2(o, pos) < game.field.place_ball_safety_dist:
+                            allowed = False
+                            break
+                    if allowed:
+                        info(f"Moving {team['color']} player {number} to {pos}")
+                        # Pose of the robot is not changed
+                        player['robot'].getField('translation').setSFVec3f(pos.tolist())
+                        break
+
+
+def game_interruption_place_ball(target_location):
+    target_location[2] = 0  # Set position along z-axis to 0 for all 'game.field.point_inside' checks
+    step = 1
+    info(f"GI placing ball to {target_location}")
+    while step <= 4 and is_robot_near(target_location, game.field.place_ball_safety_dist):
+        if step == 1:
+            info('Reset of penalized robots')
+            reset_pos_penalized_robots_near(target_location, game.field.place_ball_safety_dist)
+        elif step == 2:
+            info('Penalizing fallen robots')
+            penalize_fallen_robots_near(target_location, game.field.place_ball_safety_dist)
+        elif step == 3:
+            info('Finding alternative locations')
+            for loc in get_alternative_ball_locations(target_location):
+                info(f"Testing alternative location: {loc}")
+                if game.field.point_inside(loc) and not is_robot_near(loc, game.field.place_ball_safety_dist):
+                    info(f"Set alternative location to: {loc}")
+                    target_location = loc.tolist()
+                    break
+        elif step == 4:
+            info(f"Pushing robots away from {target_location}")
+            move_robots_away(target_location)
+        step += 1
+    target_location[2] = game.ball_radius
+    game.ball.resetPhysics()
+    game.ball_translation.setSFVec3f(target_location)
+    game.ball_set_kick = False
+    info(f'Ball respawned at {target_location[0]} {target_location[1]} {target_location[2]}.')
 
 
 time_count = 0
@@ -2310,9 +2436,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                 info("Waiting for classic play")
                 game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
             if game.ball_set_kick:
-                game.ball.resetPhysics()
-                game.ball_translation.setSFVec3f(game.ball_kick_translation)
-                game.ball_set_kick = False
+                game_interruption_place_ball(game.ball_kick_translation)
         else:
             if game.penalty_shootout:
                 check_penalty_goal_line()
@@ -2385,11 +2509,7 @@ while supervisor.step(time_step) != -1 and not game.over:
         game.interruption_countdown -= 1
         if game.interruption_countdown == 0:
             if game.ball_set_kick:
-                game.ball.resetPhysics()
-                game.ball_translation.setSFVec3f(game.ball_kick_translation)
-                game.ball_set_kick = False
-                info('Ball respawned at '
-                     f'{game.ball_kick_translation[0]} {game.ball_kick_translation[1]} {game.ball_kick_translation[2]}.')
+                game_interruption_place_ball(game.ball_kick_translation)
             if game.interruption:
                 game_controller_send(f'{game.interruption}:{game.interruption_team}:READY')
 
