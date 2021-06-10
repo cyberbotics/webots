@@ -6,6 +6,11 @@ Viewpoint {
 }
 TestSuiteSupervisor {
 }
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
 Robot {
   children [
     TestSuiteEmitter {
@@ -30,6 +35,14 @@ Group {
           ]
         }
       ]
+    }
+  ]
+}
+
+DEF PARENT_NODE Transform {
+  translation 0 0 0
+  children [
+    DEF INNER_NODE Solid {
     }
   ]
 }
