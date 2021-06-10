@@ -61,7 +61,7 @@ def convert_to_enu(filename):
                 node['fields'].append({'name': 'position',
                                        'value': ['0', '-10', '0'],
                                        'type': 'SFVec3f'})
-        elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight']:
+        elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight', 'PointLight']:
             print('Rotating', node['name'])
             rotation_found = False
             for field in node['fields']:
