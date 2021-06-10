@@ -54,7 +54,8 @@
                 "name" : "Part A ends with direct freekick for BLUE",
                 "secondary_state" : "DIRECT_FREEKICK",
                 "secondary_team_id" : 8,
-                "secondary_phase" : 0
+                "secondary_phase" : 0,
+                "critical" : true
             },
             {
                 "name" : "Part A: robots are not penalized, RED1",
@@ -70,6 +71,21 @@
                 "name" : "Part A: robots are not penalized, BLUE1",
                 "target" : "BLUE_PLAYER_1",
                 "penalty" : 0
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : [1,15],
+            "clock_type" : "Simulated",
+            "secondary_state" : "DIRECT_FREEKICK",
+            "phase" : 1
+        },
+        "tests" : [
+            {
+                "name" : "Part A: Ball is not moved away in SET phase",
+                "target" : "BALL",
+                "position" : [1.0,2.06,0.08]
             }
         ]
     },
@@ -102,6 +118,12 @@
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
+        "tests" : [
+            {
+                "name" : "Part B. Freekick ended",
+                "secondary_state" : "NORMAL"
+            }
+        ],
         "actions" : [
             {
                 "target" : "BALL",
