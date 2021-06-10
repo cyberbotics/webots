@@ -42,7 +42,15 @@ def convert_to_enu(filename):
                 if field['name'] == 'coordinateSystem':
                     # remove the 'coordinateSystem ENU'
                     del node['fields'][node['fields'].index(field)]
-        elif node['name'] not in ['Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight', 'PointLight']:
+        elif node['name'] == 'Viewpoint':
+            print('Rotating', node['name'])
+            for field in node['fields']:
+                if field['name'] in ['orientation']:
+                    rotation_found = True
+                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
+                elif field['name'] in ['position']:
+                    field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
+        elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight']:
             print('Rotating', node['name'])
             rotation_found = False
             for field in node['fields']:
@@ -55,6 +63,7 @@ def convert_to_enu(filename):
                 node['fields'].append({'name': 'rotation',
                                        'value': ['1', '0', '0', str(0.5 * math.pi)],
                                        'type': 'SFRotation'})
+       
     world.save(filename)
 
 
