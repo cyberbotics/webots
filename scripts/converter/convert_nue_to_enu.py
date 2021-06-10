@@ -66,7 +66,6 @@ def convert_to_enu(filename):
        
     world.save(filename)
 
-
 if __name__ == "__main__":
     # execute only if run as a script
     for filename in sys.argv:
