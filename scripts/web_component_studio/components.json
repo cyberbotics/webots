@@ -474,7 +474,7 @@
     {
       "name": "summit-xl-steel",
       "proto": "SummitXlSteel",
-      "translation": "0 0 0",
+      "translation": "0 0 0.118",
       "rotation": "1 0 0 -1.5707953",
       "viewpoint": {
         "orientation": "-0.13428295 0.9595881 0.24730295 2.022374",
