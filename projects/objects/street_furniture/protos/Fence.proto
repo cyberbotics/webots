@@ -162,9 +162,9 @@ PROTO Fence [
                   circle.push({x: -poleRadius, y: 0.5 * poleRadius});
                   circle.push({x: -0.25 * poleRadius, y: 0.5 * poleRadius});
                 }
-              >%
-              %< for (let i = 0; i < nbPoles; ++i) { >%
-                %<
+
+                let coordBuffer = '';
+                for (let i = 0; i < nbPoles; ++i) {
                   let dx = 0;
                   let dy = 0;
                   if (i === 0) {
@@ -183,58 +183,97 @@ PROTO Fence [
                     dy = polePositions[i + 1].z - polePositions[i - 1].z;
                   }
                   let angle = Math.atan2(dy, dx);
-                >%
-                # Top part
-                %< for (let k = 0; k < circle.length; ++k) { >%
-                  %<= polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) >% %<= polePositions[i].y + 0.5 * height >% %<= polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) >%
-                %< } >%
-                # Bottom part
-                %< for (let k = 0; k < circle.length; ++k) { >%
-                  %<= polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) >% %<= polePositions[i].y - 0.5 * height >% %<= polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) >%
-                %< } >%
-              %< } >%
+
+                  // Top part
+                  for (let k = 0; k < circle.length; ++k) {
+                    coordBuffer += polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) + ' ';
+                    coordBuffer += polePositions[i].y + 0.5 * height + ' ';
+                    coordBuffer += polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) + '\n';
+                  }
+                  // Bottom part
+                  for (let k = 0; k < circle.length; ++k) {
+                    coordBuffer += polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) + ' ';
+                    coordBuffer += polePositions[i].y - 0.5 * height + ' ';
+                    coordBuffer += polePositions[i].z + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) + '\n';
+                  }
+                }
+              >%
+              %<= coordBuffer >%
             ]
           }
           texCoord TextureCoordinate {
             point [
-              # Top part of sides
-              %< for (let j = 0; j < circle.length; ++j) { >%
-                %<= 2 * poleRadius * Math.PI * j / circleSubdivision >% %<= 0.5 * height >%
-              %< } >%
-              # Bottom part of sides
-              %< for (let j = 0; j < circle.length; ++j) { >%
-                %<= 2 * poleRadius * Math.PI * j / circleSubdivision >% %<= - 0.5 * height >%
-              %< } >%
-              # Top and bottom faces
-              %< for (let i = 0; i <= circleSubdivision; ++i) { >%
-                %<= poleRadius * Math.cos(2 * Math.PI * i / circleSubdivision) >% %<= poleRadius * Math.sin(2 * Math.PI * i / circleSubdivision) >%
-              %< } >%
+              %<
+                let textCoordBuffer = '';
+                // Top part of sides
+                for (let j = 0; j < circle.length; ++j) {
+                  textCoordBuffer += 2 * poleRadius * Math.PI * j / circleSubdivision + ' ';
+                  textCoordBuffer += 0.5 * height + '\n';
+                }
+                // Bottom part of sides
+                for (let j = 0; j < circle.length; ++j) {
+                  textCoordBuffer += 2 * poleRadius * Math.PI * j / circleSubdivision + ' ';
+                  textCoordBuffer += - 0.5 * height + '\n';
+                }
+                // Top and bottom faces
+                for (let i = 0; i <= circleSubdivision; ++i) {
+                  textCoordBuffer += poleRadius * Math.cos(2 * Math.PI * i / circleSubdivision) + ' ';
+                  textCoordBuffer += poleRadius * Math.sin(2 * Math.PI * i / circleSubdivision) + '\n';
+                }
+              >%
+              %<= textCoordBuffer >%
             ]
           }
           coordIndex [
-            %< let skip = 2 * (circleSubdivision + 1); >%
-            %< for (let i = 0; i <= nbPoles - 1; ++i) { >%
-              # Top part
-              %< for (let j = 0; j <= circleSubdivision; ++j) { >% %<= i * skip + circleSubdivision - j >% %< } >% -1
-              # Bottom part
-              %< for (let j = 0; j <= circleSubdivision; ++j) { >% %<= i * skip + j + circleSubdivision + 1 >% %< } >% -1
-              # Sides
-              %< for (let j = 0; j <= circleSubdivision - 1; ++j) { >%
-                %<= i * skip + j >% %<= i * skip + j + 1 >% %<= i * skip + j + circleSubdivision + 2 >% %<= i * skip + j + circleSubdivision + 1 >% -1
-              %< } >%
-            %< } >%
+            %<
+              let skip = 2 * (circleSubdivision + 1);
+              let coordIndexBuffer = '';
+              for (let i = 0; i <= nbPoles - 1; ++i) {
+                // Top part
+                for (let j = 0; j <= circleSubdivision; ++j)
+                  coordIndexBuffer += i * skip + circleSubdivision - j + ' ';
+                coordIndexBuffer += ' -1\n';
+
+                // Bottom part
+                for (let j = 0; j <= circleSubdivision; ++j)
+                  coordIndexBuffer += i * skip + j + circleSubdivision + 1 + ' ';
+                coordIndexBuffer += ' -1\n';
+
+                // Sides
+                for (let j = 0; j <= circleSubdivision - 1; ++j) {
+                  coordIndexBuffer += i * skip + j + ' ';
+                  coordIndexBuffer += i * skip + j + 1 + ' ';
+                  coordIndexBuffer += i * skip + j + circleSubdivision + 2  + ' ';
+                  coordIndexBuffer += i * skip + j + circleSubdivision + 1 + ' -1\n';
+                }
+              }
+            >%
+            %<= coordIndexBuffer >%
           ]
           texCoordIndex [
-            %< for (let i = 0; i <= nbPoles - 1; ++i) { >%
-              # Top part
-              %< for (let j = 0; j <= circleSubdivision; ++j) { >% %<= j + 2 * (circleSubdivision + 1) >% %< } >% -1
-              # Bottom part
-              %< for (let j = 0; j <= circleSubdivision; ++j) { >% %<= j + 2 * (circleSubdivision + 1) >% %< } >% -1
-              # Sides
-              %< for (let j = 0; j <= circleSubdivision - 1; ++j) { >%
-                %<= j >% %<= j + 1 >% %<= j + circleSubdivision + 2 >% %<= j + circleSubdivision + 1 >% -1
-              %< } >%
-            %< } >%
+            %<
+              let textCoordIndexBuffer = '';
+              for (let i = 0; i <= nbPoles - 1; ++i) {
+                // Top part
+                for (let j = 0; j <= circleSubdivision; ++j)
+                  textCoordIndexBuffer += j + 2 * (circleSubdivision + 1) + ' ';
+                textCoordIndexBuffer += ' -1\n';
+
+                // Bottom part
+                for (let j = 0; j <= circleSubdivision; ++j)
+                  textCoordIndexBuffer += j + 2 * (circleSubdivision + 1) + ' ';
+                textCoordIndexBuffer += ' -1\n';
+
+                // Sides
+                for (let j = 0; j <= circleSubdivision - 1; ++j) {
+                  textCoordIndexBuffer += j + ' ';
+                  textCoordIndexBuffer += j + 1 + ' ';
+                  textCoordIndexBuffer += j + circleSubdivision + 2 + ' ';
+                  textCoordIndexBuffer += j + circleSubdivision + 1 + ' -1\n';
+                }
+              }
+            >%
+            %<= textCoordIndexBuffer >%
           ]
           creaseAngle 0.6
         }
