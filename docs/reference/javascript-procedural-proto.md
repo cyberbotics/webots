@@ -139,7 +139,7 @@ The functions exported by each module are:
 %tab "wbrandom"
 ```
 /**
- * @param {number} s
+ * @param {Number} s
  */
 wbrandom.seed(s);
 ```
@@ -150,9 +150,9 @@ To generate non-deterministic results, a time-based seed can be used `wbrandom.s
 
 ```
 /**
- * @param {number} [min]
- * @param {number} [max]
- * @returns {number}
+ * @param {Number} [min]
+ * @param {Number} [max]
+ * @returns {Number}
  */
 wbrandom.real(min, max);
 ```
@@ -163,9 +163,9 @@ If no parameters are provided, it returns a value in the range [0, 1].
 
 ```
 /**
- * @param {number} [min]
- * @param {number} [max]
- * @returns {number}
+ * @param {Number} [min]
+ * @param {Number} [max]
+ * @returns {Number}
  */
 wbrandom.integer(min, max);
 ```
@@ -181,7 +181,7 @@ If no parameters are provided, it returns a value in the range [0, 2^24 - 1].
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} rA
  * @param {Object.<x: number, y: number, z: number, a: number>} rB
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbrotation.equal(rA, rB);
 ```
@@ -232,7 +232,7 @@ Converts a rotation in axis-angle representation to matrix (3 x 3) format.
 ```
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} r
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbrotation.isIdentity(r);
 ```
@@ -300,7 +300,7 @@ Rotates the 3-dimensional vector `v` according to the rotation  `q`.
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbvector2.equal(vA, vB);
 ```
@@ -332,7 +332,7 @@ Returns the vectorial difference of the two vectors.
 ```
 /**
  * @param {Object.<x: number, y: number>} v
- * @param {number} s
+ * @param {Number} s
  * @returns {Object.<x: number, y: number>}
  */
 wbvector2.multiply(v, s);
@@ -343,7 +343,7 @@ Multiplies the vector `v` by the scalar `s` and returns the result.
 ```
 /**
  * @param {Object.<x: number, y: number>} v
- * @returns {number}
+ * @returns {Number}
  */
 wbvector2.norm(v);
 ```
@@ -354,7 +354,7 @@ Returns the norm of the provided vector.
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
- * @returns {number}
+ * @returns {Number}
  */
 wbvector2.distance(vA, vB);
 ```
@@ -365,7 +365,7 @@ Returns the shortest distance between the two vectors.
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
- * @returns {number}
+ * @returns {Number}
  */
 wbvector2.angle(vA, vB);
 ```
@@ -376,7 +376,7 @@ Returns the angle between the two vectors.
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
- * @returns {number}
+ * @returns {Number}
  */
 wbvector2.cross(vA, vB);
 ```
@@ -387,7 +387,7 @@ Returns the cross product between the two vectors.
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
- * @returns {number}
+ * @returns {Number}
  */
 wbvector2.dot(vA, vB);
 ```
@@ -425,7 +425,7 @@ Returns null if they do not intersect.
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbvector3.equal(vA, vB);
 ```
@@ -458,7 +458,7 @@ Returns the vectorial difference of the two vectors.
 ```
 /**
  * @param {Object.<x: number, y: number, z: number>} v
- * @param {number} s
+ * @param {Number} s
  * @returns {Object.<x: number, y: number, z: number>}
  */
 wbvector3.multiply(v, s);
@@ -469,7 +469,7 @@ Multiplies the vector `v` by the scalar value `s` and returns the result.
 ```
 /**
  * @param {Object.<x: number, y: number, z: number>} v
- * @returns {number}
+ * @returns {Number}
  */
 wbvector3.norm(v);
 ```
@@ -480,7 +480,7 @@ Returns the norm of the vector.
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
- * @returns {number}
+ * @returns {Number}
  */
 wbvector3.distance(vA, vB);
 ```
@@ -502,7 +502,7 @@ Returns the cross product between the two vectors.
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
- * @returns {number}
+ * @returns {Number}
  */
 wbvector3.dot(vA, vB);
 ```
@@ -524,10 +524,10 @@ Normalizes the vector and returns the result.
 %tab "wbgeometry"
 ```
 /**
- * @param {number} radius
- * @param {number} div
+ * @param {Number} radius
+ * @param {Number} div
  * @param {Object.<x: number, y: number>} center
- * @param {number} shift
+ * @param {Number} shift
  * @returns {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]}
  */
 wbgeometry.circle(radius, div, c, shift);
@@ -539,7 +539,7 @@ Creates an array of `div` circle coordinates according to a circle of radius `ra
 /**
  * @param {Object.<x: number, y: number>} p
  * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} polygon
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbgeometry.isPoint2InPolygon(p, polygon);
 ```
@@ -562,7 +562,7 @@ The array is comprised of objects with keys (x, y).
 ```
 /**
  * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} points
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbgeometry.isPoint2ArrayClockwise(points);
 ```
@@ -572,7 +572,7 @@ Returns true if an array of provided points is defined in a clockwise order.
 ```
 /**
  * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} points
- * @param {number} subdivision
+ * @param {Number} subdivision
  * @returns {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]}
  */
 wbgeometry.bSpline2(points, subdivision);
@@ -583,7 +583,7 @@ Creates a B-Spline curve of third order using the array of two-dimensional point
 ```
 /**
  * @param {[Object.<x: number, y: number, z: number>, Object.<x: number, y: number, z: number>, ... ]} points
- * @param {number} subdivision
+ * @param {Number} subdivision
  * @returns {[Object.<x: number, y: number, z: number>, Object.<x: number, y: number, z: number>, ... ]}
  */
 wbgeometry.bSpline3(points, subdivision);
@@ -596,8 +596,8 @@ Creates a B-Spline curve of third order using the array of three-dimensional poi
 %tab "wbutility"
 ```
 /**
- * @param {boolean} statement
- * @param {string} message
+ * @param {Boolean} statement
+ * @param {String} message
  */
 wbutility.assert(statement, message);
 ```
@@ -606,7 +606,7 @@ If the statement is false, it prints `message` to the standard error stream `std
 
 ```
 /**
- * @param {string} message
+ * @param {String} message
  */
 wbutility.error(message);
 ```
@@ -615,7 +615,7 @@ It writes `message` to the standard error stream `stderr`.
 
 ```
 /**
- * @param {string} message
+ * @param {String} message
  */
 wbutility.info(message);
 ```
@@ -634,8 +634,8 @@ Creates and returns a deep copy of any object provided as argument (i.e an indep
 
 ```
 /**
- * @param {number} angle
- * @returns {number}
+ * @param {Number} angle
+ * @returns {Number}
  */
 wbutility.degreesToRadians(angle);
 ```
@@ -644,8 +644,8 @@ Converts the provided number from degrees to radians.
 
 ```
 /**
- * @param {number} angle
- * @returns {number}
+ * @param {Number} angle
+ * @returns {Number}
  */
 wbutility.radiansToDegrees(angle);
 ```
@@ -654,8 +654,8 @@ Converts the provided number from radians to degrees.
 
 ```
 /**
- * @param {number} s
- * @returns {boolean}
+ * @param {Number} s
+ * @returns {Boolean}
  */
 wbutility.isScalar(s);
 ```
@@ -665,7 +665,7 @@ Returns true if the provided argument is a scalar.
 ```
 /**
  * @param {Object<x: number, y: number} v
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbutility.isVector2(v);
 ```
@@ -675,7 +675,7 @@ Returns true if the provided argument is a vector2, i.e if it is a two-dimension
 ```
 /**
  * @param {Object<x: number, y: number, z: number} v
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbutility.isVector3(v);
 ```
@@ -685,7 +685,7 @@ Returns true if the provided argument is a vector3, i.e if it is a three-dimensi
 ```
 /**
  * @param {Object<x: number, y: number, z: number, a: number} r
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbutility.isAxisAngle(r);
 ```
@@ -695,7 +695,7 @@ Returns true if the provided argument is a vector in axis-angle format, i.e if i
 ```
 /**
  * @param {Object<w: number, x: number, y: number, z: number} q
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbutility.isQuaternion(q);
 ```
@@ -705,7 +705,7 @@ Returns true if the provided argument is a quaternion, i.e if it is a four-dimen
 ```
 /**
  * @param {Object<0: number, 1: number, ... , 8: number} m
- * @returns {boolean}
+ * @returns {Boolean}
  */
 wbutility.isMatrix3(m);
 ```
@@ -715,8 +715,8 @@ Returns true if the provided argument is a three-dimensional matrix, i.e if it i
 ```
 /**
  * @param {[{Object<x: number, y: number, [z: number]}, {Object<x: number, y: number, [z: number]}, ...]} array
- * @param {number} dim
- * @returns {boolean}
+ * @param {Number} dim
+ * @returns {Boolean}
  */
 wbutility.isArrayOfPoints(array, dim);
 ```
