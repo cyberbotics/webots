@@ -172,16 +172,24 @@ PROTO Forest [
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                %< for (let j = 0; j < numberOfTree; ++j) { >%
-                  %< let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].z}, trees[j].angle); >%
-                  %< for (let i = 0; i <= 3; ++i) { >%
-                    %<= circle[i].x >% %<= trees[j].y >% %<= circle[i].y >%
-                  %< } >%
-                  # top cylinder
-                  %< for (let i = 0; i <= 3; ++i) { >%
-                    %<= circle[i].x >% %<= trees[j].height + trees[j].y >% %<= circle[i].y >%
-                  %< } >%
-                %< } >%
+                %<
+                  let coordBuffer = '';
+                  for (let j = 0; j < numberOfTree; ++j) {
+                    let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].z}, trees[j].angle);
+                    for (let i = 0; i <= 3; ++i) {
+                      coordBuffer += circle[i].x + ' ';
+                      coordBuffer += trees[j].y + ' ';
+                      coordBuffer += circle[i].y + '\n';
+                    }
+                    // top cylinder
+                    for (let i = 0; i <= 3; ++i) {
+                      coordBuffer += circle[i].x + ' ';
+                      coordBuffer += trees[j].height + trees[j].y + ' ';
+                      coordBuffer += circle[i].y + '\n';
+                    }
+                  }
+                >%
+                %<= coordBuffer >%
               ]
             }
             texCoord TextureCoordinate {
@@ -194,21 +202,29 @@ PROTO Forest [
             }
             coordIndex [
               # each tree (4faces by tree)
-              %< for (let i = 0; i < numberOfTree; ++i) { >%
-                %<= 4 + i * 8 >% %<= 0 + i * 8 >% %<= 2 + i * 8 >% %<= 6 + i * 8 >% -1
-                %<= 4 + i * 8 >% %<= 6 + i * 8 >% %<= 2 + i * 8 >% %<= 0 + i * 8 >% -1
-                %<= 5 + i * 8 >% %<= 1 + i * 8 >% %<= 3 + i * 8 >% %<= 7 + i * 8 >% -1
-                %<= 5 + i * 8 >% %<= 7 + i * 8 >% %<= 3 + i * 8 >% %<= 1 + i * 8 >% -1
-              %< } >%
+              %<
+                let coordIndexBuffer = '';
+                for (let i = 0; i < numberOfTree; ++i) {
+                  coordIndexBuffer += (4 + i * 8).toString() + ' ' + (0 + i * 8).toString() + ' ' + (2 + i * 8).toString() + ' ' + (6 + i * 8).toString() + ' -1\n';
+                  coordIndexBuffer += (4 + i * 8).toString() + ' ' + (6 + i * 8).toString() + ' ' + (2 + i * 8).toString() + ' ' + (0 + i * 8).toString() + ' -1\n';
+                  coordIndexBuffer += (5 + i * 8).toString() + ' ' + (1 + i * 8).toString() + ' ' + (3 + i * 8).toString() + ' ' + (7 + i * 8).toString() + ' -1\n';
+                  coordIndexBuffer += (5 + i * 8).toString() + ' ' + (7 + i * 8).toString() + ' ' + (3 + i * 8).toString() + ' ' + (1 + i * 8).toString() + ' -1\n';
+                }
+              >%
+              %<= coordIndexBuffer >%
             ]
             texCoordIndex [
-              %< for (let i = 0; i < numberOfTree; ++i) { >%
-                %< let currentIndex = treeType[types[i]]; >%
-                %<= 2 * (currentIndex + 1) >% %<= 2 * currentIndex >% %<= 2 * currentIndex + 1>% %<= 2 * (currentIndex + 1) + 1 >% -1
-                %<= 2 * (currentIndex + 1) + 1>% %<= 2 * (currentIndex + 1) >% %<= 2 * currentIndex >% %<= 2 * currentIndex + 1>% -1
-                %<= 2 * (currentIndex + 1) >% %<= 2 * currentIndex >% %<= 2 * currentIndex + 1>% %<= 2 * (currentIndex + 1) + 1 >% -1
-                %<= 2 * (currentIndex + 1) + 1>% %<= 2 * (currentIndex + 1) >% %<= 2 * currentIndex >% %<= 2 * currentIndex + 1>% -1
-              %< } >%
+              %<
+                let texCoordIndexBuffer = '';
+                for (let i = 0; i < numberOfTree; ++i) {
+                  let ix = treeType[types[i]];
+                  texCoordIndexBuffer += (2 * (ix + 1)).toString() + ' ' + (2 * ix).toString() + ' ' + (2 * ix + 1) + ' ' + (2 * (ix + 1) + 1).toString() + ' -1\n';
+                  texCoordIndexBuffer += (2 * (ix + 1) + 1).toString() + ' ' + (2 * (ix + 1)).toString() + ' ' + (2 * ix) + ' ' + (2 * ix + 1).toString() + ' -1\n';
+                  texCoordIndexBuffer += (2 * (ix + 1)).toString() + ' ' + (2 * ix).toString() + ' ' + (2 * ix + 1).toString() + ' ' + (2 * (ix + 1) + 1).toString() + ' -1\n';
+                  texCoordIndexBuffer += (2 * (ix + 1) + 1).toString() + ' ' + (2 * (ix + 1)).toString() + ' ' + (2 * ix) + ' ' + (2 * ix + 1).toString() + ' -1\n';
+                }
+              >%
+              %<= texCoordIndexBuffer >%
             ]
           }
         }
