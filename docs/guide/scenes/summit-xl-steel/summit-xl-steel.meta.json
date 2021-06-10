@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "back_left_wheel_joint",
       "position": 0,
-      "transformID": "n104",
+      "transformID": "n70",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": 0,
       "name": "back_right_wheel_joint",
       "position": 0,
-      "transformID": "n119",
+      "transformID": "n85",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "front_left_wheel_joint",
       "position": 0,
-      "transformID": "n89",
+      "transformID": "n55",
       "type": "RotationalMotor"
     },
     {
@@ -37,55 +37,45 @@
       "minPosition": 0,
       "name": "front_right_wheel_joint",
       "position": 0,
-      "transformID": "n74",
+      "transformID": "n40",
       "type": "RotationalMotor"
     },
     {
       "name": "back_left_wheel_joint_sensor",
-      "transformID": "n104",
+      "transformID": "n70",
       "type": "PositionSensor"
     },
     {
       "name": "back_right_wheel_joint_sensor",
-      "transformID": "n119",
+      "transformID": "n85",
       "type": "PositionSensor"
     },
     {
-      "name": "backLidar",
-      "transformID": "n205",
-      "type": "Lidar"
-    },
-    {
       "name": "front_left_wheel_joint_sensor",
-      "transformID": "n89",
+      "transformID": "n55",
       "type": "PositionSensor"
     },
     {
       "name": "front_right_wheel_joint_sensor",
-      "transformID": "n74",
+      "transformID": "n40",
       "type": "PositionSensor"
     },
     {
-      "name": "frontLidar",
-      "transformID": "n189",
-      "type": "Lidar"
-    },
-    {
       "name": "imu/data_raw accelerometer",
-      "transformID": "n130",
+      "transformID": "n96",
       "type": "Accelerometer"
     },
     {
       "name": "imu/data_raw compass",
-      "transformID": "n130",
+      "transformID": "n96",
       "type": "Compass"
     },
     {
       "name": "imu/data_raw gyro",
-      "transformID": "n130",
+      "transformID": "n96",
       "type": "Gyro"
     }
   ],
   "name": "summit-xl-steel",
-  "robotID": "n44"
+  "robotID": "n10"
 }

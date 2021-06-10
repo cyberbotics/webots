@@ -343,7 +343,7 @@ PROTO SummitXlSteel [
           }
         }
       }
-      Solid {
+      DEF IMU Transform {
         translation 0.127 -0.129 0.212
         children [
           Shape {
@@ -366,8 +366,6 @@ PROTO SummitXlSteel [
             name "imu/data_raw compass"
           }
         ]
-        name "imu_link"
-        # mass neglected (0.001kg).
       }
       Transform {
         translation 0.2865 -0.20894 0.193
