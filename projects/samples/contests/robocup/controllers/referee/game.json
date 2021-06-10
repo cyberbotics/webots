@@ -6,7 +6,6 @@
   "minimum_real_time_factor": 0,
   "side_left": "blue",
   "press_a_key_to_terminate": true,
-  "game_controller_synchronization": true,
   "use_bouncing_server": true,
   "red": {
     "id": 8,
