@@ -269,28 +269,13 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   outputStream << javaScriptTemplate;
   outputFile.close();
 
-  // create engine and stream holders
+  // create engine and define global space
   QJSEngine engine;
   // create and add file manipulation module
   WbQjsFile *jsFileObject = new WbQjsFile();
   QJSValue jsFile = engine.newQObject(jsFileObject);
   engine.globalObject().setProperty("wbfile", jsFile);
-
-  /*
-  JsRunFunc *oo = new JsRunFunc();
-  QJSValue aObject = engine.newQObject(oo);
-  engine.globalObject().setProperty("jsRunFuncObject", aObject);
-
-  QJSEngine *jsEngine = new QJSEngine();
-  printf("GERE\n");
-  JsRunFunc *object = new JsRunFunc();
-  QJSValue jsObject = jsEngine->newQObject(object);
-  jsEngine->globalObject().setProperty("jsRunFuncObject", jsObject);
-  QJSValue value = jsEngine->evaluate("jsRunFuncObject.callFunc(10, 20)");
-  printf(">> %d\n", value.toInt());
-  delete jsEngine;
-  */
-
+  // add stream holders
   QJSValue jsStdOut = engine.newArray();
   engine.globalObject().setProperty("stdout", jsStdOut);
   QJSValue jsStdErr = engine.newArray();

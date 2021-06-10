@@ -50,18 +50,5 @@ export function generateVrml() {
 
   %body%
 
-  
-  let ppath = context.project_path + "worlds/forest/a/-1999.forest"
-  console.log(ppath)
-  let cte = wbfile.readTextFile(ppath);
-  cte = cte.split('\n');
-  if(cte.length > 1) {
-    for(let i = 0; i < cte.length; ++i) {
-      console.log(cte[i])
-    }
-  } else {
-    console.log(cte)
-  }
-  
   return ___vrml;
 };
