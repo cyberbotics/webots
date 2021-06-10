@@ -53,23 +53,11 @@ def convert_to_nue(filename):
                                        'type': 'SFString'})
         elif node['name'] == 'Viewpoint':
             print('Rotating', node['name'])
-            orientation_found = False
-            position_found = False
             for field in node['fields']:
                 if field['name'] in ['orientation']:
-                    orientation_found = True
                     field['value'] = rotation(field['value'], [0, 1, 0, 0.5 * math.pi])
                 elif field['name'] in ['position']:
-                    position_found = True
                     field['value'] = [field['value'][2], field['value'][1], str(-float(field['value'][0]))]
-            if not orientation_found:
-                node['fields'].append({'name': 'orientation',
-                                       'value': ['0', '1', '0', str(0.5 * math.pi)],
-                                       'type': 'SFRotation'})
-            if not position_found:
-                node['fields'].append({'name': 'position',
-                                       'value': ['10', '0', '0'],
-                                       'type': 'SFVec3f'})
         elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight']:
             print('Rotating', node['name'])
             rotation_found = False
