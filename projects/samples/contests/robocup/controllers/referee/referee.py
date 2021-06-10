@@ -1013,7 +1013,7 @@ def update_team_penalized(team):
             customData = player['robot'].getField('customData')
             if n > 0:
                 player['penalized'] = n
-            elif 'penalized' in player:
+            elif 'penalized' in player and player['penalized'] != REMOVAL_PENALTY_TIMEOUT:
                 info(f'Enabling actuators of {color} player {number}.')
                 customData.setSFString('')
                 del player['penalized']
