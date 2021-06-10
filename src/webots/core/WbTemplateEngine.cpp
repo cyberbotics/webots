@@ -66,7 +66,21 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
 }
 
 void WbTemplateEngine::initializeJavaScript() {
-  QFile templateFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplate.js");
+  // copy JavaScript modules to the temporary directory
+  QDirIterator it(WbStandardPaths::resourcesPath() + "javascript/", QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    QDir jsModulesPath(it.next());
+
+    if (jsModulesPath.exists()) {
+      QStringList filter("*.js");
+      QFileInfoList files = jsModulesPath.entryInfoList(filter, QDir::Files | QDir::NoSymLinks);
+      foreach (const QFileInfo &file, files)
+        QFile::copy(file.absoluteFilePath(), WbStandardPaths::webotsTmpPath() + file.fileName());
+    }
+  }
+
+  // load template skeleton only once
+  QFile templateFile(WbStandardPaths::webotsTmpPath() + "jsTemplate.js");
   if (!templateFile.open(QIODevice::ReadOnly)) {
     gValidJavaScriptResources = false;
     return;
@@ -165,6 +179,15 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     return false;
   }
 
+  QString initialDir = QDir::currentPath();
+
+  // cd to temporary directory
+  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
+  if (!success) {
+    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
+    return false;
+  }
+
   // translate mixed proto into pure JavaScript
   QString javaScriptBody = "";
   QString javaScriptImport = "";
@@ -247,7 +270,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   javaScriptTemplate.replace("%body%", javaScriptBody);
 
   // write to file (note: can't evaluate directly because the evaluator doesn't support importing of modules)
-  QFile outputFile(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
+  QFile outputFile("jsTemplateFilled.js");
   if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
     mError = tr("Couldn't write jsTemplateFilled to disk.");
     return false;
@@ -264,7 +287,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QJSValue jsStdErr = engine.newArray();
   engine.globalObject().setProperty("stderr", jsStdErr);
   // import filled template as module
-  QJSValue module = engine.importModule(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
+  QJSValue module = engine.importModule("jsTemplateFilled.js");
   if (module.isError()) {
     mError = tr("failed to import JavaScript template: %1").arg(module.property("message").toString());
     return false;
@@ -277,6 +300,9 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     return false;
   }
 
+  mResult = result.toString().toUtf8();
+
+  // display stream messages
   for (int i = 0; i < jsStdOut.property("length").toInt(); ++i)
     WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(jsStdOut.property(i).toString()),
                             false, WbLog::PARSING);
@@ -285,10 +311,9 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(jsStdErr.property(i).toString()),
                              false, WbLog::PARSING);
 
-  // remove temporary file
-  QFile::remove(WbStandardPaths::resourcesPath() + "javascript/jsTemplateFilled.js");
+  // restore initial directly
+  QDir::setCurrent(initialDir);
 
-  mResult = result.toString().toUtf8();
   return true;
 }
 

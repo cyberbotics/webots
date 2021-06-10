@@ -101,13 +101,13 @@ To use these functions, the module needs to be included first:
 ```
 %{
   // to import the entire module
-  import * as wbrandom from 'modules/webots/wbrandom.js';
+  import * as wbrandom from 'wbrandom.js';
 
   // access functions
   let number = wbrandom.integer(0, 10);
 
   // to import only specific functions instead of the entire module
-  import {integer} from 'modules/webots/wbrandom.js';
+  import {integer} from 'wbrandom.js';
 }%
 ```
 
@@ -756,9 +756,9 @@ PROTO DominoSpawner [
   # template statements can be used from here
   %<
     // use additional modules for extra functionality
-    import * as wbgeometry from 'modules/webots/wbgeometry.js';
-    import * as wbrandom from 'modules/webots/wbrandom.js';
-    import * as wbvector2 from 'modules/webots/wbvector2.js';
+    import * as wbgeometry from 'wbgeometry.js';
+    import * as wbrandom from 'wbrandom.js';
+    import * as wbvector2 from 'wbvector2.js';
 
     // print a welcoming message to the Webots console
     let name = fields.playerName.value;
