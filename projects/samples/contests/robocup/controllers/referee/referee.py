@@ -65,7 +65,6 @@ FOUL_SPEED_THRESHOLD = 0.2                # 0.2 m/s
 FOUL_DIRECTION_THRESHOLD = math.pi / 6    # 30 degrees
 FOUL_BALL_DISTANCE = 1                    # if the ball is more than 1 m away from an offense, a removal penalty is applied
 FOUL_PENALTY_IMMUNITY = 2                 # after a foul, a player is immune to penalty for a period of 2 seconds
-LINE_WIDTH = 0.05                         # width of the white lines on the soccer field
 GOAL_WIDTH = 2.6                          # width of the goal
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
@@ -83,7 +82,6 @@ GAME_INTERRUPTIONS = {
     'GOALKICK': 'goal kick',
     'THROWIN': 'throw in'}
 
-LINE_HALF_WIDTH = LINE_WIDTH / 2
 GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 
 global supervisor, game, red_team, blue_team, log_file, time_count, time_step, game_controller_udp_filter
@@ -771,6 +769,7 @@ def init_team(team):
         player['outside_circle'] = True
         player['outside_field'] = True
         player['inside_field'] = False
+        player['on_outer_line'] = False
         player['inside_own_side'] = False
         player['outside_goal_area'] = True
         player['outside_penalty_area'] = True
@@ -811,6 +810,7 @@ def update_team_contacts(team):
             player['outside_circle'] = True        # true if fully outside the center cicle
             player['outside_field'] = True         # true if fully outside the field
             player['inside_field'] = True          # true if fully inside the field
+            player['on_outer_line'] = False        # true if robot is partially on the line surrounding the field
             player['inside_own_side'] = True       # true if fully inside its own side (half field side)
             player['outside_goal_area'] = True     # true if fully outside of any goal area
             player['outside_penalty_area'] = True  # true if fully outside of any penalty area
@@ -877,13 +877,15 @@ def update_team_contacts(team):
                     if abs(point[0]) > game.field.size_x - game.field.goal_area_length and \
                        abs(point[1]) < game.field.goal_area_width / 2:
                         player['outside_goal_area'] = False
+                if not game.field.point_inside(point, include_turf=False, include_border_line=False):
+                    player['on_outer_line'] = True
             else:
                 player['inside_field'] = False
             if game.side_left == (game.red.id if color == 'red' else game.blue.id):
-                if point[0] > -LINE_HALF_WIDTH:
+                if point[0] > -game.field.line_half_width:
                     player['inside_own_side'] = False
             else:
-                if point[0] < LINE_HALF_WIDTH:
+                if point[0] < game.field.line_half_width:
                     player['inside_own_side'] = False
             # check if the robot has fallen
             if member == 'foot':
@@ -893,6 +895,8 @@ def update_team_contacts(team):
                 continue
             info(f'{color.capitalize()} player {number} has fallen down.')
             player['fallen'] = time_count
+        if not player['on_outer_line']:
+            player['on_outer_line'] = not (player['inside_field'] or player['outside_field'])
         if not fallen and 'fallen' in player:  # the robot has recovered
             delay = (int((time_count - player['fallen']) / 100)) / 10
             info(f'{color.capitalize()} player {number} just recovered after {delay} seconds.')
@@ -1723,8 +1727,7 @@ def check_penalty_goal_line():
         if game.in_play is not None or ignore_player:
             player['invalidGoalkeeperStart'] = None
             continue
-        # If fully inside or fully outside, the robot is out of field
-        if player['outside_field'] or player['inside_field'] or abs(player['position'][1]) > GOAL_WIDTH:
+        if not player['on_outer_line'] or abs(player['position'][1]) > GOAL_WIDTH or not player['inside_own_side']:
             if player['invalidGoalkeeperStart'] is None:
                 player['invalidGoalkeeperStart'] = time_count
             elif time_count - player['invalidGoalkeeperStart'] > INVALID_GOALKEEPER_TIMEOUT * 1000:
@@ -1764,7 +1767,7 @@ def throw_in(left_side):
     # set the ball on the touch line for throw in
     sign = -1 if left_side else 1
     game.ball_kick_translation[0] = game.ball_exit_translation[0]
-    game.ball_kick_translation[1] = sign * (game.field.size_y - LINE_HALF_WIDTH)
+    game.ball_kick_translation[1] = sign * (game.field.size_y - game.field.line_half_width)
     game.can_score = False  # disallow direct goal
     game.throw_in = True
     game.throw_in_ball_was_lifted = False
@@ -1774,9 +1777,9 @@ def throw_in(left_side):
 def corner_kick(left_side):
     # set the ball in the right corner for corner kick
     sign = -1 if left_side else 1
-    game.ball_kick_translation[0] = sign * (game.field.size_x - LINE_HALF_WIDTH)
-    game.ball_kick_translation[1] = game.field.size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
-        else -game.field.size_y + LINE_HALF_WIDTH
+    game.ball_kick_translation[0] = sign * (game.field.size_x - game.field.line_half_width)
+    game.ball_kick_translation[1] = game.field.size_y - game.field.line_half_width if game.ball_exit_translation[1] > 0 \
+        else -game.field.size_y + game.field.line_half_width
     game.can_score = True
     interruption('CORNERKICK')
 
@@ -1784,8 +1787,8 @@ def corner_kick(left_side):
 def goal_kick():
     # set the ball at intersection between the centerline and touchline
     game.ball_kick_translation[0] = 0
-    game.ball_kick_translation[1] = game.field.size_y - LINE_HALF_WIDTH if game.ball_exit_translation[1] > 0 \
-        else -game.field.size_y + LINE_HALF_WIDTH
+    game.ball_kick_translation[1] = game.field.size_y - game.field.line_half_width if game.ball_exit_translation[1] > 0 \
+        else -game.field.size_y + game.field.line_half_width
     game.can_score = True
     interruption('GOALKICK')
 
@@ -2194,7 +2197,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                 if game.penalty_shootout:
                     next_penalty_shootout()
                 else:
-                    game.ball_exit_translation[1] = game.field.size_y - LINE_HALF_WIDTH
+                    game.ball_exit_translation[1] = game.field.size_y - game.field.line_half_width
                     throw_in(left_side=False)
             elif game.ball_exit_translation[1] + game.ball_radius < -game.field.size_y:
                 if game.penalty_shootout:
