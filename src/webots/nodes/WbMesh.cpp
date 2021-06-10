@@ -14,6 +14,7 @@
 
 #include "WbMesh.hpp"
 
+#include "WbApplication.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFString.hpp"
 #include "WbResizeManipulator.hpp"
@@ -54,13 +55,21 @@ void WbMesh::downloadAssets() {
   if (WbUrl::isWeb(url)) {
     delete mDownloader;
     mDownloader = new WbDownloader(this);
-    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+    if (isPostFinalizedCalled()) {  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
+      WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
+    }
     mDownloader->download(QUrl(url));
   }
 }
 
 void WbMesh::downloadUpdate() {
+  const int progress = WbDownloader::progress();
+  if (progress == 100)
+    emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
+  else
+    emit WbApplication::instance()->setWorldLoadingProgress(progress);
+
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
@@ -99,6 +108,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
   if (WbUrl::isWeb(filePath)) {
+    if (mDownloader == NULL)
+      return;
     const QByteArray data = mDownloader->device()->readAll();
     const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
