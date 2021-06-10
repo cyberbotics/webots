@@ -251,7 +251,6 @@ PROTO Fabtino [
         }
       }
       DEF IMU Transform {
-        translation 0 0 0.25
         children [
           Accelerometer {
             name "accelerometer"
