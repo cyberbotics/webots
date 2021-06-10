@@ -1937,29 +1937,30 @@ def move_robots_away(target_location):
                         break
 
 
-def game_interruption_place_ball(target_location):
-    target_location[2] = 0  # Set position along z-axis to 0 for all 'game.field.point_inside' checks
-    step = 1
-    info(f"GI placing ball to {target_location}")
-    while step <= 4 and is_robot_near(target_location, game.field.place_ball_safety_dist):
-        if step == 1:
-            info('Reset of penalized robots')
-            reset_pos_penalized_robots_near(target_location, game.field.place_ball_safety_dist)
-        elif step == 2:
-            info('Penalizing fallen robots')
-            penalize_fallen_robots_near(target_location, game.field.place_ball_safety_dist)
-        elif step == 3:
-            info('Finding alternative locations')
-            for loc in get_alternative_ball_locations(target_location):
-                info(f"Testing alternative location: {loc}")
-                if game.field.point_inside(loc) and not is_robot_near(loc, game.field.place_ball_safety_dist):
-                    info(f"Set alternative location to: {loc}")
-                    target_location = loc.tolist()
-                    break
-        elif step == 4:
-            info(f"Pushing robots away from {target_location}")
-            move_robots_away(target_location)
-        step += 1
+def game_interruption_place_ball(target_location, enforce_distance=True):
+    if enforce_distance:
+        target_location[2] = 0  # Set position along z-axis to 0 for all 'game.field.point_inside' checks
+        step = 1
+        info(f"GI placing ball to {target_location}")
+        while step <= 4 and is_robot_near(target_location, game.field.place_ball_safety_dist):
+            if step == 1:
+                info('Reset of penalized robots')
+                reset_pos_penalized_robots_near(target_location, game.field.place_ball_safety_dist)
+            elif step == 2:
+                info('Penalizing fallen robots')
+                penalize_fallen_robots_near(target_location, game.field.place_ball_safety_dist)
+            elif step == 3:
+                info('Finding alternative locations')
+                for loc in get_alternative_ball_locations(target_location):
+                    info(f"Testing alternative location: {loc}")
+                    if game.field.point_inside(loc) and not is_robot_near(loc, game.field.place_ball_safety_dist):
+                        info(f"Set alternative location to: {loc}")
+                        target_location = loc.tolist()
+                        break
+            elif step == 4:
+                info(f"Pushing robots away from {target_location}")
+                move_robots_away(target_location)
+            step += 1
     target_location[2] = game.ball_radius
     game.ball.resetPhysics()
     game.ball_translation.setSFVec3f(target_location)
@@ -2436,7 +2437,7 @@ while supervisor.step(time_step) != -1 and not game.over:
                 info("Waiting for classic play")
                 game.play_countdown = SIMULATED_TIME_BEFORE_PLAY_STATE
             if game.ball_set_kick:
-                game_interruption_place_ball(game.ball_kick_translation)
+                game_interruption_place_ball(game.ball_kick_translation, enforce_distance=False)
         else:
             if game.penalty_shootout:
                 check_penalty_goal_line()
@@ -2509,7 +2510,7 @@ while supervisor.step(time_step) != -1 and not game.over:
         game.interruption_countdown -= 1
         if game.interruption_countdown == 0:
             if game.ball_set_kick:
-                game_interruption_place_ball(game.ball_kick_translation)
+                game_interruption_place_ball(game.ball_kick_translation, enforce_distance=True)
             if game.interruption:
                 game_controller_send(f'{game.interruption}:{game.interruption_team}:READY')
 
