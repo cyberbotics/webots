@@ -143,7 +143,6 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 
   if (templateLanguage == "lua") {
     static bool firstLuaCall = true;
-
     if (firstLuaCall) {
       initializeLua();
       firstLuaCall = false;
@@ -155,7 +154,6 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     result = generateLua(tags, logHeaderName);
   } else {
     static bool firstJavaScriptCall = true;
-
     if (firstJavaScriptCall) {
       initializeJavaScript();
       firstJavaScriptCall = true;
@@ -241,8 +239,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   // extract imports from javaScriptBody, if any
-  // QRegExp explanation: any statement of the form "import ... from '...' "
-  // that ends with a new line or semi-colon
+  // QRegExp explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
   QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
   QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {

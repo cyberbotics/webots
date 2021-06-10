@@ -222,8 +222,7 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
 
 QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
   // begin by converting MF entries (javascript array [...] to Lua table {...})
-  statement = statement.replace("[", "{");
-  statement = statement.replace("]", "}");
+  statement = statement.replace("[", "{").replace("]", "}");
 
   statement = statement.replace("value: undefined", "value = nil");
   statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
