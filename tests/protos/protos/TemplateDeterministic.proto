@@ -8,7 +8,7 @@ PROTO TemplateDeterministic [
 ]
 {
   %<
-    import * as wbrandom from 'modules/webots/wbrandom.js';
+    import * as wbrandom from 'wbrandom.js';
   >%
   Solid {
     translation IS translation

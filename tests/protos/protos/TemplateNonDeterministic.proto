@@ -10,7 +10,7 @@ PROTO TemplateNonDeterministic [
 ]
 {
   %<
-    import * as wbrandom from 'modules/webots/wbrandom.js';
+    import * as wbrandom from 'wbrandom.js';
     wbrandom.seed(fields.seed.value)
   >%
   Solid {

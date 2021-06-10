@@ -53,7 +53,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     const QStringList info = tokenizerInfo.split("\n");  // .wrl # comments
     for (int i = 0; i < info.size(); ++i) {
       if (!info.at(i).startsWith("tags:") && !info.at(i).startsWith("license:") && !info.at(i).startsWith("license url:") &&
-          !info.at(i).startsWith("documentation url:") && !info.at(i).startsWith("template engine:"))
+          !info.at(i).startsWith("documentation url:") && !info.at(i).startsWith("template language:"))
         mInfo += info.at(i) + "\n";
     }
     mInfo.chop(1);
