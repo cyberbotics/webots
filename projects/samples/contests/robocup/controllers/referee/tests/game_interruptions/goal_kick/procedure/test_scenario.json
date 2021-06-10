@@ -202,6 +202,27 @@
                 "name" : "1st retake: ball properly respawned",
                 "target" : "BALL",
                 "position" : [0, -3, 0.08]
+            },
+            {
+                "name" : "1st retake: robot is moved 50cm away from the ball",
+                "target" : "RED_PLAYER_1",
+                "position" : [0,-3.475,0.24]
+            }
+        ]
+    },
+    {
+        "description" : "Moving robot to ball again because it has been moved away",
+        "timing" : {
+            "time" : 6,
+            "clock_type" : "Simulated",
+            "secondary_state" : "GOALKICK",
+            "phase" : 1,
+            "state_count" : 2
+        },
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [0,-3.2,0.24]
             }
         ]
     },
@@ -339,7 +360,8 @@
         "actions" : [
             {
                 "target" : "RED_PLAYER_1",
-                "position" : [0,-2.5,0.24]
+                "position" : [0,-2.5,0.24],
+                "orientation" : [0, 0, 1, 1.57]
             }
         ]
     },

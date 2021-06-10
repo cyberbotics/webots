@@ -1880,11 +1880,8 @@ def get_alternative_ball_locations(original_pos):
     offset_x = prefered_x_dir * game.field.place_ball_safety_dist * np.array([1, 0, 0])
     offset_y = prefered_y_dir * game.field.place_ball_safety_dist * np.array([0, 1, 0])
     locations = []
-    if game.interruption in ["CORNERKICK", "GOALKICK"]:
-        other_side = np.copy(original_pos)
-        other_side[1] *= -1
-        locations.append(other_side)
-    elif game.interruption == "DIRECT_FREEKICK":
+    if game.interruption == "DIRECT_FREEKICK" or game.interruption == "INDIRECT_FREEKICK":
+        # TODO If indirect free kick in opponent penalty area on line parallel to goal line, move it along this line
         for dist_mult in range(1, GAME_INTERRUPTION_PLACEMENT_NB_STEPS+1):
             locations.append(original_pos + offset_x * dist_mult)
             locations.append(original_pos + offset_y * dist_mult)
@@ -1918,7 +1915,7 @@ def move_robots_away(target_location):
             if distance2(initial_pos, target_location) < game.field.place_ball_safety_dist:
                 obstacles = get_obstacles_positions(team, number)
                 player_2_ball = initial_pos - np.array(target_location)
-                dist = np.linalg.norm(player_2_ball)
+                dist = np.linalg.norm(player_2_ball[:2])
                 if dist < 0.001:
                     player_2_ball = [1, 0, 0]
                     dist = 1
@@ -1931,9 +1928,13 @@ def move_robots_away(target_location):
                             allowed = False
                             break
                     if allowed:
-                        info(f"Moving {team['color']} player {number} to {pos}")
+                        pos[2] = initial_pos[2]
+                        diff = pos - initial_pos
+                        initial_t = np.array(player['robot'].getField('translation').getSFVec3f())
+                        dst_t = initial_t + diff
+                        info(f"Moving {team['color']} player {number} from {initial_pos} to {pos}")
                         # Pose of the robot is not changed
-                        player['robot'].getField('translation').setSFVec3f(pos.tolist())
+                        player['robot'].getField('translation').setSFVec3f(dst_t.tolist())
                         break
 
 
@@ -1953,6 +1954,7 @@ def game_interruption_place_ball(target_location, enforce_distance=True):
                 info('Finding alternative locations')
                 for loc in get_alternative_ball_locations(target_location):
                     info(f"Testing alternative location: {loc}")
+                    # TODO: ?should it only allow point outside penalty area?
                     if game.field.point_inside(loc) and not is_robot_near(loc, game.field.place_ball_safety_dist):
                         info(f"Set alternative location to: {loc}")
                         target_location = loc.tolist()
