@@ -153,7 +153,7 @@ Robot {
   }
 }
 UR5e {
-  controller "javaController"
+  controller "supervisor_node_set_joint_position"
   supervisor TRUE
   toolSlot [
     TestSuiteEmitter {
