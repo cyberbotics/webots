@@ -35,7 +35,7 @@ Table [this table](#content-of-the-context-object) shows the available informati
 Developers can use `console.log`, `console.warn`, `console.debug` and `console.error` to write on these streams.
 - The resulting JavaScript script is evaluated in "strict mode", so particular care must be taken to respect it.
 
-#### Good Practices And Common Pitfalls
+#### Good Practices and Common Pitfalls
 
 - When using template statements (i.e `%<` and `>%`) with constructs such as `for` loops and `if` conditionals particular care must be taken with regards to the brackets.
 It is technically legitimate to forego the brackets for one-line statements, however when these are embedded in the body of a PROTO, there is no guarantee that in the evaluation process only one statement effectively exists between them.
