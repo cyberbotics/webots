@@ -88,8 +88,7 @@ PROTO Forest [
         // coordinate files are assumed to be relative to the world file
         //let worldPath = wbfile.getPathWithoutFilename(context.world);
         let worldPath = context.world;
-        worldPath = worldPath.substring(worldPath.lastIndexOf('/'));
-        console.log(worldPath);
+        worldPath = worldPath.substring(0, worldPath.lastIndexOf('/') + 1);
         // read content
         let content = wbfile.readTextFile(worldPath + treesFiles[i]);
         let lines = content.split('\n');

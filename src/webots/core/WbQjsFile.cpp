@@ -30,36 +30,18 @@ QString WbQjsFile::readTextFile(const QString &filePath) {
   return file.readAll();
 }
 
-void WbQjsFile::writeTextFile(const QString &fileName, const QString &content) {
+bool WbQjsFile::writeTextFile(const QString &fileName, const QString &content) {
   QFile file(WbStandardPaths::webotsTmpPath() + fileName);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
     WbLog::instance()->error(
       QString("JavaScript error: could not write file '%1' to temporary path.").arg(fileName).arg(__FUNCTION__), false,
       WbLog::PARSING);
-    return;
+    return false;
   }
 
   QTextStream outputStream(&file);
   outputStream << content;
   file.close();
-}
 
-QString WbQjsFile::getPathWithoutFilename(const QString &filePath) {
-  if (!filePath.contains("/")) {
-    WbLog::instance()->error(QString("JavaScript error: '%1' is not a valid file path in %2.").arg(filePath).arg(__FUNCTION__),
-                             false, WbLog::PARSING);
-    return "";
-  }
-
-  return filePath.left(filePath.lastIndexOf("/") + 1);
-}
-
-QString WbQjsFile::getFilenameFromPath(const QString &filePath) {
-  if (!filePath.contains("/")) {
-    WbLog::instance()->error(QString("JavaScript error: '%1' is not a valid file path in %2.").arg(filePath).arg(__FUNCTION__),
-                             false, WbLog::PARSING);
-    return "";
-  }
-
-  return filePath.right(filePath.size() - filePath.lastIndexOf("/") - 1);
+  return true;
 }

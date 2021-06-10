@@ -125,7 +125,7 @@ The available modules are the following.
 
 - `wbutility`: provides commonly needed functions.
 
-Additionally, the following module is automatically added to each instance of the engine and therefore does not need to be imported:
+Additionally, the following module is automatically loaded to the engine and therefore does not need to be imported:
 
 - `wbfile`: provides functions for the reading and writing of files.
 
@@ -730,15 +730,26 @@ Returns true if the provided argument is an array of `dim`-dimensional points.
 
 ```
 /**
- * @param {[{Object<x: number, y: number, [z: number]}, {Object<x: number, y: number, [z: number]}, ...]} array
- * @param {number} dim
- * @returns {boolean}
+ * @param {String} filePath;
+ * @returns {String}
  */
-wbutility.isArrayOfPoints(array, dim);
+wbfile.readTextFile(filePath);
 ```
 
-Returns true if the provided argument is an array of `dim`-dimensional points.
-`dim` can either be 2 or 3.
+Opens the file available at `filePath` and returns its contents.
+
+```
+/**
+ * @param {String} fileName;
+ * @param {String} content;
+ * @returns {Boolean}
+ */
+wbfile.writeTextFile(fileName, content);
+```
+
+Writes the provided string to a file of name `fileName`.
+The file will be saved in the temporary file path.
+The location of this path can be retrieved from the `context` field object, see [this table](#content-of-the-context-object).
 
 %tab-end
 

@@ -25,9 +25,7 @@ public:
   ~WbQjsFile(){};
 
   Q_INVOKABLE QString readTextFile(const QString &filePath);
-  Q_INVOKABLE void writeTextFile(const QString &fileName, const QString &content);
-  Q_INVOKABLE QString getPathWithoutFilename(const QString &filePath);
-  Q_INVOKABLE QString getFilenameFromPath(const QString &filePath);
+  Q_INVOKABLE bool writeTextFile(const QString &fileName, const QString &content);
 };
 
 #endif
