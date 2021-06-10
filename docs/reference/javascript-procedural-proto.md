@@ -731,6 +731,16 @@ Returns true if the provided argument is an array of `dim`-dimensional points.
 ```
 /**
  * @param {String} filePath;
+ * @returns {Boolean}
+ */
+wbfile.fileExists(filePath);
+```
+
+Returns true if the file specified by the path exists, or false otherwise.
+
+```
+/**
+ * @param {String} filePath;
  * @returns {String}
  */
 wbfile.readTextFile(filePath);

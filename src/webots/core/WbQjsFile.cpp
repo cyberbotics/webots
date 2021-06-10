@@ -19,6 +19,15 @@
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 
+bool WbQjsFile::fileExists(const QString &filePath) {
+  QFile file(filePath);
+
+  if (!file.open(QIODevice::ReadOnly))
+    return false;
+
+  return true;
+}
+
 QString WbQjsFile::readTextFile(const QString &filePath) {
   QFile file(filePath);
 

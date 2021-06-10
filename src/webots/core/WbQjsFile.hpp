@@ -24,6 +24,7 @@ public:
   Q_INVOKABLE WbQjsFile(){};
   ~WbQjsFile(){};
 
+  Q_INVOKABLE bool fileExists(const QString &filePath);
   Q_INVOKABLE QString readTextFile(const QString &filePath);
   Q_INVOKABLE bool writeTextFile(const QString &fileName, const QString &content);
 };
