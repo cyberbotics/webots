@@ -147,7 +147,6 @@ It is recommended to use this function only when knowing formerly the identifier
 For example, when exporting an X3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
 
 The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
-The function returns NULL if the given device is invalid or is an internal node of a PROTO.
 Note that in the ROS API the device name has to be used to retrieve the handle to the node.
 
 The `wb_supervisor_node_get_root` function returns a handle to the root node which is actually a [Group](group.md) node containing all the nodes visible at the top level in the scene tree window of Webots.
@@ -1399,6 +1398,101 @@ The `wb_supervisor_node_reset_physics` function stops the inertia of the given n
 If the specified node is physics-enabled, i.e. it contains a [Physics](physics.md) node, then the linear and angular velocities of the corresonding body are reset to 0, hence the inertia is also zeroed.
 This function could be useful for resetting the physics of a solid after changing its translation or rotation.
 To stop the inertia of all available solids please refer to [this section](#wb_supervisor_simulation_reset_physics).
+
+
+---
+
+#### `wb_supervisor_node_set_joint_position`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int index);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Node.hpp>
+
+namespace webots {
+  class Node {
+    void setJointPosition(double position, int index = 1);
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Node
+
+class Node:
+    def setJointPosition(self, position, index):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Node;
+
+public class Node {
+  public void setJointPosition(double position, int index);
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+wb_supervisor_node_set_joint_position(node, position, index)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/supervisor/node/set_joint_position` | `service` | `webots_ros::node_set_joint_position` | `uint64 node`<br/>`float position`<br/>`int32 index`<br/>`---`<br/>`int8 success` |
+
+%tab-end
+
+%end
+
+##### Description
+
+*artificially sets the position of a joint*
+
+The `wb_supervisor_node_set_joint_position` function artificially sets the position of an active or passive joint.
+This function is particular useful to setup programmatically the initial pose of a robot from a Supervisor controller as the position is changed immediately.
+The `node` argument, that has to be of joint type, specifies which node interested by the change and the `position` specifies the new position of the joint.
+Given that this is a generic function that handles all type of joints, the `index` argument indicates the axis that should be modified. Valid indices for each type of joint are listed in [the following table](#joint_position_indices).
+
+%figure "Joint position indices"
+
+| &nbsp;                         | Valid index value | Degrees of freedom |
+| ------------------------------ | ------------------| -------------------|
+| [SliderJoint](sliderjoint.md)  | 1                 | 1                  |
+| [HingeJoint](hingejoint.md)    | 1                 | 1                  |
+| [Hinge2Joint](hinge2joint.md)  | 1 or 2            | 2                  |
+| [BallJoint](balljoint.md)      | 1, 2, or 3        | 3                  |
+
+%end
 
 ---
 

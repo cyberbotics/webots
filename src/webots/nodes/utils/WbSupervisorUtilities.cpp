@@ -20,6 +20,7 @@
 #include "WbDictionary.hpp"
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
+#include "WbJoint.hpp"
 #include "WbMFBool.hpp"
 #include "WbMFColor.hpp"
 #include "WbMFDouble.hpp"
@@ -553,6 +554,17 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       node->save(stateName);
       return;
     }
+    case C_SUPERVISOR_NODE_SET_JOINT_POSITION: {
+      unsigned int nodeId, index;
+      double position;
+      stream >> nodeId >> position >> index;
+      WbNode *const node = getProtoParameterNodeInstance(nodeId, "wb_supervisor_node_set_joint_position()");
+      WbJoint *joint = dynamic_cast<WbJoint *>(node);
+      assert(joint);
+      if (joint)
+        joint->setPosition(position, index);
+      return;
+    }
     case C_SUPERVISOR_RELOAD_WORLD:
       WbApplication::instance()->worldReload();
       return;
@@ -714,8 +726,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       assert(baseNode);
       mFoundNodeIsProtoInternal =
         baseNode->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(baseNode->parentField());
-      if (mFoundNodeIsProtoInternal)
-        return;
       mGetNodeRequest = C_SUPERVISOR_NODE_GET_FROM_TAG;
       mCurrentDefName = baseNode->defName();
       mFoundNodeUniqueId = baseNode->uniqueId();
