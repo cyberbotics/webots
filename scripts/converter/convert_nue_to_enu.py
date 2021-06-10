@@ -63,8 +63,8 @@ def convert_to_enu(filename):
                 node['fields'].append({'name': 'rotation',
                                        'value': ['1', '0', '0', str(0.5 * math.pi)],
                                        'type': 'SFRotation'})
-       
     world.save(filename)
+
 
 if __name__ == "__main__":
     # execute only if run as a script
