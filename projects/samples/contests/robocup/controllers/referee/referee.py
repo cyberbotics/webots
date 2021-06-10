@@ -1750,7 +1750,7 @@ def check_penalty_goal_line():
             player['invalidGoalkeeperStart'] = None
 
 
-def interruption(type, team=None):
+def interruption(type, team=None, location=None):
     if type == 'FREEKICK':
         if (game.field.circle_fully_inside_goal_area(game.ball_position, game.ball_radius) and
            (game.side_left == team and game.ball_position[0] > 0) or (game.side_left != team and game.ball_position[0] < 0)):
@@ -1760,6 +1760,8 @@ def interruption(type, team=None):
     game.in_play = None
     game.can_score_own = False
     game.ball_set_kick = True
+    if location is not None:
+        game.ball_kick_translation[:2] = location
     game.interruption = type
     game.phase = type
     game.ball_first_touch_time = 0
@@ -2396,7 +2398,7 @@ while supervisor.step(time_step) != -1 and not game.over:
     if game.state.game_state == 'STATE_PLAYING' and (game.interruption is None or game.interruption_seconds is not None):
         ball_holding = check_ball_holding()       # check for ball holding fouls
         if ball_holding:
-            interruption('FREEKICK', ball_holding)
+            interruption('FREEKICK', ball_holding, game.ball_position[:2])
         ball_handling = check_ball_handling()
         if ball_handling:
             interruption('FREEKICK', ball_handling)
