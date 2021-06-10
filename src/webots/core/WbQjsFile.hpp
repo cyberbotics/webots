@@ -10,10 +10,10 @@ public:
   Q_INVOKABLE WbQjsFile();
   ~WbQjsFile();
 
-  Q_INVOKABLE int callFunc(int number1, int number2);
-  Q_INVOKABLE QString readfile(QString filename);
+  // Q_INVOKABLE int callFunc(int number1, int number2);
+  // Q_INVOKABLE QString readfile(QString filename);
   Q_INVOKABLE QString readTextFile(const QString &filePath);
-  Q_INVOKABLE QString writeTextFile(const QString &filePath);
+  Q_INVOKABLE void writeTextFile(const QString &filePath);
 };
 
 #endif
