@@ -86,3 +86,7 @@ void WbNetwork::setProxy() {
   if (mNetworkAccessManager)
     mNetworkAccessManager->setProxy(proxy);
 }
+
+void WbNetwork::clearCache() {
+  mNetworkAccessManager->cache()->clear();
+}

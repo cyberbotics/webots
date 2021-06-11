@@ -37,6 +37,7 @@
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFontDialog>
 #include <QtWidgets/QFormLayout>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
@@ -56,7 +57,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mTabWidget = new QTabWidget(this);
   mTabWidget->addTab(createGeneralTab(), tr("General"));
   mTabWidget->addTab(createOpenGLTab(), tr("OpenGL"));
-  mTabWidget->addTab(createNetworkTab(), tr("Network Proxy"));
+  mTabWidget->addTab(createNetworkTab(), tr("Network"));
 
   for (int i = 0; i < mTabWidget->count(); ++i) {
     if (mTabWidget->tabText(i) == defaultTab) {
@@ -197,6 +198,11 @@ void WbPreferencesDialog::openFontDialog() {
   QFont font = QFontDialog::getFont(&ok, initial, this);
   if (ok)
     mEditorFontEdit->setText(font.toString());
+}
+
+void WbPreferencesDialog::clearCache() {
+  WbNetwork::instance()->clearCache();
+  WbMessageBox::info(tr("The cache has been cleared."), this);
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
@@ -374,34 +380,64 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
 
 QWidget *WbPreferencesDialog::createNetworkTab() {
   QWidget *widget = new QWidget(this);
-  QGridLayout *layout = new QGridLayout(widget);
+  QGridLayout *network = new QGridLayout(widget);
+  QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
+  proxy->setObjectName("networkGroupBox");
+  QGroupBox *cache = new QGroupBox(tr("Cache"), this);
+  cache->setObjectName("networkGroupBox");
+
+  network->addWidget(proxy, 0, 1);
+  network->addWidget(cache, 1, 1);
+
+  // Proxy
+  QGridLayout *layout = new QGridLayout(proxy);
+
   // row 0
   mHttpProxySocks5CheckBox = new QCheckBox(tr("SOCKS v5"), this);
   mHttpProxySocks5CheckBox->setToolTip(tr("Activate SOCK5 proxying."));
-  layout->addWidget(new QLabel(tr("Proxy type:"), this), 0, 0);
+  layout->addWidget(new QLabel(tr("Type:"), this), 0, 0);
   layout->addWidget(mHttpProxySocks5CheckBox, 0, 1);
 
   // row 1
   mHttpProxyHostName = new WbLineEdit(this);
-  layout->addWidget(new QLabel(tr("Proxy hostname:"), this), 1, 0);
+  layout->addWidget(new QLabel(tr("Hostname:"), this), 1, 0);
   layout->addWidget(mHttpProxyHostName, 1, 1);
 
   // row 2
   mHttpProxyPort = new WbLineEdit(this);
   mHttpProxyPort->setValidator(new QIntValidator(0, 65535));
-  layout->addWidget(new QLabel(tr("Proxy port:"), this), 2, 0);
+  layout->addWidget(new QLabel(tr("Port:"), this), 2, 0);
   layout->addWidget(mHttpProxyPort, 2, 1);
 
   // row 3
   mHttpProxyUsername = new WbLineEdit(this);
-  layout->addWidget(new QLabel(tr("Proxy username:"), this), 3, 0);
+  layout->addWidget(new QLabel(tr("Username:"), this), 3, 0);
   layout->addWidget(mHttpProxyUsername, 3, 1);
 
   // row 4
   mHttpProxyPassword = new WbLineEdit(this);
   mHttpProxyPassword->setEchoMode(QLineEdit::PasswordEchoOnEdit);
-  layout->addWidget(new QLabel(tr("Proxy password:"), this), 4, 0);
+  layout->addWidget(new QLabel(tr("Password:"), this), 4, 0);
   layout->addWidget(mHttpProxyPassword, 4, 1);
+
+  // Cache
+  layout = new QGridLayout(cache);
+
+  // row 0
+  mSizeOfCache = new WbLineEdit(this);
+  mSizeOfCache->setValidator(new QIntValidator(0, 65535));
+  layout->addWidget(new QLabel(tr("Size of the cache (in MB):"), this), 0, 0);
+  layout->addWidget(mSizeOfCache, 0, 1);
+
+  // row 1
+  QPushButton *clearCacheButton = new QPushButton(QString("Clear the cache"), this);
+  connect(clearCacheButton, &QPushButton::pressed, this, &WbPreferencesDialog::clearCache);
+  layout->addWidget(clearCacheButton, 1, 0);
+
+  // row 2
+  QPushButton *downloadsAllAssestsButton = new QPushButton(QString("Download all resources in the cache"), this);
+  // connect(mButtonBox, &QDialogButtonBox::accepted, this, &WbNetwork::instance,::accept);
+  layout->addWidget(downloadsAllAssestsButton, 2, 0);
 
   return widget;
 }
