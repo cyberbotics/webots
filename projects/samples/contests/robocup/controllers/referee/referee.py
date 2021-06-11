@@ -1098,7 +1098,9 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
         blue_number = number
     if game.forceful_contact_matrix.long_collision(red_number, blue_number):
         if d1 < FOUL_VINCITY_DISTANCE and d1 - d2 > FOUL_DISTANCE_THRESHOLD:
-            forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'long collision')
+            forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
+                                  f'long collision (more than {FOUL_PUSHING_TIME} second'
+                                  f' over a time window of {FOUL_PUSHING_PERIOD} seconds)')
             return True
     v1 = p1['velocity']
     v2 = p2['velocity']
