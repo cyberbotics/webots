@@ -97,7 +97,9 @@ typedef struct WbNodeContactPointStructPrivate {
 typedef struct WbNodeContactPointListStructPrivate {
   int n;
   WbNodeContactPointStruct *points;
-  double timestamp;
+  double timestamp;         // TODO: Delete with `wb_supervisor_node_get_contact_point`
+  int sampling_period;
+  double last_update;
 } WbNodeContactPointListStruct;
 
 typedef struct WbNodeStructPrivate {
@@ -111,15 +113,13 @@ typedef struct WbNodeStructPrivate {
   double *orientation;                             // double[9]
   double *center_of_mass;                          // double[3]
   WbNodeContactPointListStruct contact_points[2];  // 0 -> without descendants, 1 -> with descendants
-  bool contact_points_include_descendants;         // should be deprecated at some point
+  bool contact_points_include_descendants;         // TODO: Delete with `wb_supervisor_node_get_contact_point`
   bool static_balance;
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
   bool is_proto_internal;
   WbNodeRef parent_proto;
   int tag;
-  double last_contact_point_update;
-  int contact_point_sampling_period;
   WbNodeRef next;
 } WbNodeStruct;
 
@@ -1108,17 +1108,14 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
           contact_points_node_ref->contact_points_include_descendants == include_descendants)
         contact_point_node = contact_points_node_ref;
       else {
-        // TODO
-        /*
-        WbNodeRef *tmp_node = node_list;
+        WbNodeRef tmp_node = node_list;
         while (tmp_node) {
-          if (tmp_node->id == to_node_id && (!tmp_pose->from_node || tmp_pose->from_node->id == from_node_id)) {
-            node_pose = tmp_pose->pose;
+          if (tmp_node->id == node_id) {
+            contact_point_node = tmp_node;
             break;
           }
-          tmp_pose = tmp_pose->next;
+          tmp_node = tmp_node->next;
         }
-        */
       }
       assert(contact_point_node);
 
@@ -2048,6 +2045,8 @@ const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
 }
 
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
+  fprintf(stderr, "Warning: Deprecated 'wb_supervisor_node_get_contact_point' use 'wb_supervisor_node_get_contact_points' instead.\n");
+
   if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
@@ -2079,6 +2078,8 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
 }
 
 WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
+  fprintf(stderr, "Warning: Deprecated 'wb_supervisor_node_get_contact_point_node' use 'wb_supervisor_node_get_contact_points' instead.\n");
+
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2112,6 +2113,8 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
 }
 
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants) {
+  fprintf(stderr, "Warning: Deprecated 'wb_supervisor_node_get_number_of_contact_points' use 'wb_supervisor_node_get_contact_points' instead.\n");
+
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
@@ -2593,7 +2596,7 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   return ((WbFieldStruct *)field)->count;
 }
 
-void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period) {
+void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
@@ -2608,18 +2611,21 @@ void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampli
     return;
   }
 
+  const int descendants = include_descendants ? 1 : 0;
+
   robot_mutex_lock_step();
   contact_point_change_tracking_requested = true;
   contact_point_change_tracking.node = node;
   contact_point_change_tracking.enable = true;
-  node->last_contact_point_update = -DBL_MAX;
-  node->contact_point_sampling_period = sampling_period;
+  contact_point_change_tracking.include_descendants = include_descendants;
+  node->contact_points[descendants].last_update = -DBL_MAX;
+  node->contact_points[descendants].sampling_period = sampling_period;
   wb_robot_flush_unlocked();
   pose_change_tracking_requested = false;
   robot_mutex_unlock_step();
 }
 
-void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node) {
+void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants) {
   if (!robot_check_supervisor(__FUNCTION__))
     return;
 
@@ -2632,6 +2638,7 @@ void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node) {
   contact_point_change_tracking_requested = true;
   contact_point_change_tracking.node = node;
   contact_point_change_tracking.enable = false;
+  contact_point_change_tracking.include_descendants = include_descendants;
   wb_robot_flush_unlocked();
   pose_change_tracking_requested = false;
   robot_mutex_unlock_step();

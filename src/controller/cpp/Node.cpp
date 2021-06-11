@@ -114,11 +114,19 @@ const double *Node::getPose(const Node *fromNode) const {
 }
 
 void Node::enableContactPointsTracking(int samplingPeriod) const {
-  wb_supervisor_node_enable_contact_point_tracking(nodeRef, samplingPeriod);
+  wb_supervisor_node_enable_contact_point_tracking(nodeRef, samplingPeriod, false);
 }
 
 void Node::disableContactPointsTracking() const {
-  wb_supervisor_node_disable_contact_point_tracking(nodeRef);
+  wb_supervisor_node_disable_contact_point_tracking(nodeRef, false);
+}
+
+void Node::enableContactPointsTracking(int samplingPeriod, bool includeDescendants) const {
+  wb_supervisor_node_enable_contact_point_tracking(nodeRef, samplingPeriod, false);
+}
+
+void Node::disableContactPointsTracking(bool includeDescendants) const {
+  wb_supervisor_node_disable_contact_point_tracking(nodeRef, false);
 }
 
 void Node::enablePoseTracking(int samplingPeriod) const {

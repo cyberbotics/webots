@@ -133,8 +133,8 @@ void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_perio
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field);
 void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period, WbNodeRef from_node);
 void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node);
-void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period);
-void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node);
+void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
+void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants);
 
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field);
 int wb_supervisor_field_get_sf_int32(WbFieldRef field);
