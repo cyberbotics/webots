@@ -415,6 +415,7 @@ PROTO SummitXlSteel [
             }
           }
           Camera {
+            translation 0 0 0.015
             rotation -0.5774 0.5774 0.5774 -2.0944
             name "rgb_camera"
             fieldOfView 1.0472
@@ -422,7 +423,7 @@ PROTO SummitXlSteel [
             height 720
           }
           RangeFinder {
-            translation 0 0.025 0
+            translation 0 0 0.015
             rotation -0.5774 0.5774 0.5774 -2.0944
             name "depth_camera"
             fieldOfView 1.0472

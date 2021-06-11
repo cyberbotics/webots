@@ -63,7 +63,7 @@
     {
       "name": "depth_camera",
       "transformID": "n107",
-      "transformOffset": "0 0.025 0",
+      "transformOffset": "0 0 0.015",
       "type": "RangeFinder"
     },
     {
@@ -90,6 +90,7 @@
     {
       "name": "rgb_camera",
       "transformID": "n107",
+      "transformOffset": "0 0 0.015",
       "type": "Camera"
     }
   ],
