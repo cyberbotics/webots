@@ -8,7 +8,7 @@ template.innerHTML = `
 export default class WebotsAnimation extends HTMLElement {
   constructor() {
     super();
-    document.getElementsByTagName('webots-animation')[0].appendChild(template.content.cloneNode(true));
+    this.appendChild(template.content.cloneNode(true));
 
     let script = document.createElement('script');
     script.textContent = `var Module = [];
