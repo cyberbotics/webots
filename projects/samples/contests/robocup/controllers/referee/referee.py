@@ -1600,10 +1600,6 @@ def is_goalkeeper(team, id):
     return game.state.teams[index].players[int(id) - 1].goalkeeper
 
 
-def is_penalty_kicker(team, id):
-    return id == '1'  # assuming kicker is player number 1
-
-
 def get_penalty_attacking_team():
     first_team = game.penalty_shootout_count % 2 == 0
     if first_team == (game.kickoff == game.red.id):
@@ -1618,12 +1614,25 @@ def get_penalty_defending_team():
     return blue_team
 
 
+def player_has_red_card(player):
+    return 'penalized' in player and player['penalized'] == 'red_card'
+
+
+def is_penalty_kicker(team, id):
+    for number in team['players']:
+        if player_has_red_card(team['players'][number]):
+            continue
+        return id == number
+
+
 def penalty_kicker_player():
     default = game.penalty_shootout_count % 2 == 0
     attacking_team = red_team if (game.kickoff == game.blue.id) ^ default else blue_team
     for number in attacking_team['players']:
-        if is_penalty_kicker(attacking_team, number):
-            return attacking_team['players'][number]
+        player = attacking_team['players'][number]
+        if player_has_red_card(player):
+            continue
+        return player
     return None
 
 
@@ -1639,11 +1648,15 @@ def set_penalty_positions():
         attacking_team = blue_team
         defending_team = red_team
     for number in attacking_team['players']:
+        if player_has_red_card(attacking_team['players'][number]):
+            continue
         if is_penalty_kicker(attacking_team, number):
             reset_player(attacking_color, number, 'shootoutStartingPose')
         else:
             reset_player(attacking_color, number, 'halfTimeStartingPose')
     for number in defending_team['players']:
+        if player_has_red_card(defending_team['players'][number]):
+            continue
         if is_goalkeeper(defending_team, number) and game.penalty_shootout_count < 10:
             reset_player(defending_color, number, 'goalKeeperStartingPose')
             defending_team['players'][number]['invalidGoalkeeperStart'] = None
