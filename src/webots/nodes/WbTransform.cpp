@@ -26,6 +26,12 @@
 
 void WbTransform::init() {
   mPoseChangedSignalEnabled = false;
+
+  // store position
+  // Note: this cannot be put into the preFinalize function because
+  //       of the copy constructor last initialization
+  mSavedTranslations[stateId()] = translation();
+  mSavedRotations[stateId()] = rotation();
 }
 
 WbTransform::WbTransform(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractTransform(this) {
@@ -50,6 +56,17 @@ WbTransform::~WbTransform() {
   disconnect(childrenField(), &WbMFNode::changed, this, &WbTransform::updateConstrainedHandleMaterials);
   if (areWrenObjectsInitialized())
     wr_node_delete(WR_NODE(wrenNode()));
+}
+
+void WbTransform::reset(const QString &id) {
+  WbGroup::reset(id);
+  setTranslation(mSavedTranslations[id]);
+  setRotation(mSavedRotations[id]);
+}
+
+void WbTransform::save(const QString &id) {
+  mSavedTranslations[id] = translation();
+  mSavedRotations[id] = rotation();
 }
 
 void WbTransform::preFinalize() {

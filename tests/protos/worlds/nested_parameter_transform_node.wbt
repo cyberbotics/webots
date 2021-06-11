@@ -21,9 +21,11 @@ Robot {
   controller "nested_parameter_transform_node"
   supervisor TRUE
 }
+
+
 DEF PARENT_NODE Transform {
   children [
-    DEF INNER_NODE Solid {
+    DEF INNER_NODE Transform {
       translation 0 0 1
       children [
         Shape {
