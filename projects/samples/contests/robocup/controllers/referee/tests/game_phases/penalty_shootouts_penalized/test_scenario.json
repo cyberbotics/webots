@@ -220,7 +220,7 @@
     },
     {
         "timing" : {
-            "time" : 20,
+            "time" : 30,
             "state" : "PLAYING",
             "state_count" : 2
         },
