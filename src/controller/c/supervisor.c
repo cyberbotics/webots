@@ -1125,6 +1125,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int n_points = request_read_int32(r);
 
       free(contact_point_node->contact_points[include_descendants].points);
+      contact_point_node->contact_points[include_descendants].points = NULL;
       contact_point_node->contact_points[include_descendants].n = n_points;
       if (n_points > 0) {
         WbNodeContactPointStruct* points = malloc(n_points * sizeof(WbNodeContactPointStruct));
