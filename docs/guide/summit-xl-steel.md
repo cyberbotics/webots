@@ -2,9 +2,8 @@
 
 %robot summit-xl-steel images/robots/summit_xl_steel/model.thumbnail.png
 
-Designed by Robotnik, [Summit-XL Steel](summit-xl-steel.md) is a four-wheeled (mecanum) robot.
+Designed by Robotnik, [Summit-XL Steel](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) is a four-wheeled (mecanum) robot.
 The model is a modular mobile platform used for logistics and indoor transport. It is well-suited for industries, as its design enables it to carry a payload of up to 250 kg.
-More information on the Summit-XL Steel robot can be found on the [constructor website](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/).
 
 ### SummitXlSteel PROTO
 
