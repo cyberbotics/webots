@@ -63,6 +63,7 @@ CONTROLLERS=\
   robotis/bioloid/controllers.Makefile \
   robotis/darwin-op/controllers.Makefile \
   robotis/turtlebot/controllers.Makefile \
+  robotnik/summit_xl_steel/controllers.Makefile \
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
