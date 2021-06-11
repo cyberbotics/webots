@@ -17,6 +17,27 @@ source "$script_dir/common.sh"
 
 assert_env_vars
 
+parse_log_file() {
+    local test_log=$1
+    local -n nb_success_=$2
+    local -n nb_tests_=$3
+
+    local result_line=$(awk '/TEST RESULTS/ { print $3 }' "$test_log")
+    nb_success_=$(echo "$result_line" | awk 'BEGIN { FS = "/" } ; { print $1 }')
+    nb_tests_=$(echo "$result_line" | awk 'BEGIN { FS = "/" } ; { print $2 }')
+}
+
+# When a test is launched but its execution is aborted (e.g. via ctrl+c), the
+# log file might not contain a test result.
+log_file_contains_test_result() {
+    local test_log=$1
+    local nb_success
+    local nb_tests
+    parse_log_file "$test_log" nb_success nb_tests
+
+    [[ -f "$test_log" && "$nb_success" && "$nb_tests" ]]
+}
+
 should_run_tests() {
     if [ "$PRINT_ONLY" = true ]; then
         # don't run the test
@@ -55,10 +76,16 @@ do
         ./launch_test.sh ${folder} | tee ${test_log} > /dev/null
         cp ../log.txt ${referee_log}
     fi
-    RESULT_LINE=$(awk '/TEST RESULTS/ { print $3 }' ${test_log})
-    NB_SUCCESS=$(echo $RESULT_LINE | awk 'BEGIN { FS = "/" } ; { print $1 }')
-    NB_TESTS=$(echo $RESULT_LINE | awk 'BEGIN { FS = "/" } ; { print $2 }')
-    if [ $NB_SUCCESS -lt $NB_TESTS ]
+
+    declare NB_SUCCESS
+    declare NB_TESTS
+    parse_log_file "$test_log" NB_SUCCESS NB_TESTS
+
+    if ! log_file_contains_test_result "$test_log"
+    then
+        printf "$COLOR_RED$msg_prefix %s %s$COLOR_RESET\n" FAIL "Log contains no test result. Maybe the test was aborted?"
+        continue
+    elif [ $NB_SUCCESS -lt $NB_TESTS ]
     then
         printf "$COLOR_RED%s %d/%d$COLOR_RESET\n" FAIL $NB_SUCCESS $NB_TESTS
     else
