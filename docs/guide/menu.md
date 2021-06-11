@@ -123,6 +123,7 @@
     - [Shrimp](shrimp.md)
     - [Sojourner](sojourner.md)
     - [Spot](spot.md)
+    - [Summit-XL Steel](summit-xl-steel.md)
     - [Surveyor SRV-1](surveyor.md)
     - [TIAGo Base](tiago-base.md)
     - [TIAGo Iron](tiago-iron.md)

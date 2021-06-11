@@ -482,6 +482,16 @@
       }
     },
     {
+      "name": "summit-xl-steel",
+      "proto": "SummitXlSteel",
+      "translation": "0 0.118 0",
+      "rotation": "1 0 0 -1.5707953",
+      "viewpoint": {
+        "orientation": "-0.13428295 0.9595881 0.24730295 2.022374",
+        "position": "1.4669956 0.95782745 -0.61124736"
+      }
+    },
+    {
       "name": "surveyor",
       "proto": "SurveyorSrv1",
       "translation": "0 0 0",

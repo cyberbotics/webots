@@ -5,6 +5,7 @@ Released on June, Xth, 2021.
 
   - New Robots
     - Added a model of the [Fabtino](../guide/fabtino.md) robot from [REC](http://servicerobotics.eu/en/homepage/) ([#2999](https://github.com/cyberbotics/webots/pull/2999)).
+    - Added a model of the [Summit-XL Steel](../guide/summit-xl-steel.md) robot from [Robotnik](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) ([#3121](https://github.com/cyberbotics/webots/pull/3121)).
     - Added a model of the [JetBot](../guide/jetbot.md) robot from [NVIDIA](https://jetbot.org/v0.4.3/) ([#2951](https://github.com/cyberbotics/webots/pull/2951)).
     - Added a model of the [MiR100](../guide/mir100.md) robot from [Mobile Industrial Robots](https://www.mobile-industrial-robots.com/en/solutions/robots/mir100/) ([#3010](https://github.com/cyberbotics/webots/pull/3010)).
   - New Features:
@@ -58,6 +59,7 @@ Released on June, Xth, 2021.
     - Added a version of the [RobotisOp2](../guide/robotis-op2.md) modeled using [Hinge2Joint](hinge2joint.md) on the ankles, hips, and neck ([#2861](https://github.com/cyberbotics/webots/pull/2861)).
     - Made the `static` behavior the default for PROTO files and removal of the tag. Non static cases must be labeled as such using the `nonDeterministic` tag instead ([#2903](https://github.com/cyberbotics/webots/pull/2903)).
   - Bug fixes:
+    - Fixed wrong computation of the asymmetric friction force direction for [Cylinder](cylinder.md) and [Box](box.md) ([#3150](https://github.com/cyberbotics/webots/pull/3150)).
     - Fixed broken multithreading in Python controllers due to Python GIL ([#3104](https://github.com/cyberbotics/webots/pull/3104)).
     - Fixed crash visualizing node properties in Node Editor for nodes in deeply nested PROTO structures ([#3109](https://github.com/cyberbotics/webots/pull/30109)).
     - Fixed crash when selecting velocities relative to kinematic ancestor [Solid](solid.md) node in Node Editor ([#3098](https://github.com/cyberbotics/webots/pull/3098)).

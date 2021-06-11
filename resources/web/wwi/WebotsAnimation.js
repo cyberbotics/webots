@@ -2,13 +2,13 @@ const template = document.createElement('template');
 
 template.innerHTML = `
 <link type="text/css" href="https://cyberbotics.com/wwi/R2021b/css/animation.css" rel="stylesheet"/>
-<div id="view3d" style="height:80%"></div>
+<div id="view3d" style="height:100%; width:100%"></div>
 `;
 
 export default class WebotsAnimation extends HTMLElement {
   constructor() {
     super();
-    document.getElementsByTagName('webots-animation')[0].appendChild(template.content.cloneNode(true));
+    this.appendChild(template.content.cloneNode(true));
 
     let script = document.createElement('script');
     script.textContent = `var Module = [];

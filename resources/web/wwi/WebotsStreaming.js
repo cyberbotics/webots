@@ -1,15 +1,9 @@
 import {webots} from './webots.js';
 import {exitFullscreen} from './fullscreen_handler.js';
-const template = document.createElement('template');
-
-template.innerHTML = `
-<div id="playerDiv" ></div>
-`;
 
 export default class WebotsStreaming extends HTMLElement {
   constructor() {
     super();
-    this.appendChild(template.content.cloneNode(true));
 
     let link = document.createElement('link');
     link.href = 'https://cyberbotics.com/wwi/R2021b/css/wwi.css';
