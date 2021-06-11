@@ -79,7 +79,7 @@ struct WbTrackedPoseInfo {
 };
 
 struct WbTrackedContactPointInfo {
-  WbNode *node;
+  WbSolid *solid;
   bool includeDescendants;
   int samplingPeriod;
   double lastUpdate;
@@ -1117,22 +1117,28 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         stream >> samplingPeriod;
 
       WbNode *const node = WbNode::findNode(nodeId);
+      WbSolid *const solid = dynamic_cast<WbSolid *>(node);
+      if (!solid)
+        return;
+
+      int trackingInfoIndex = -1;
+      for (int i = 0; i < mTrackedContactPoints.size(); i++)
+        if (mTrackedContactPoints[i].solid == solid && mTrackedContactPoints[i].includeDescendants == includeDescendants) {
+          trackingInfoIndex = i;
+          break;
+        }
 
       if (enable) {
-        WbTrackedContactPointInfo trackedContactPoint;
-        trackedContactPoint.node = node;
-        trackedContactPoint.includeDescendants = includeDescendants;
-        trackedContactPoint.samplingPeriod = samplingPeriod;
-        trackedContactPoint.lastUpdate = -INFINITY;
-        mTrackedContactPoints.append(trackedContactPoint);
-      } else {
-        for (int i = 0; i < mTrackedContactPoints.size(); i++)
-          if (mTrackedContactPoints[i].node == node) {
-            mTrackedContactPoints.removeAt(i);
-            break;
-          }
-      }
-
+        if (trackingInfoIndex == -1) {
+          WbTrackedContactPointInfo trackedContactPoint;
+          trackedContactPoint.solid = solid;
+          trackedContactPoint.includeDescendants = includeDescendants;
+          trackedContactPoint.samplingPeriod = samplingPeriod;
+          trackedContactPoint.lastUpdate = -INFINITY;
+          mTrackedContactPoints.append(trackedContactPoint);
+        }
+      } else if (trackingInfoIndex != -1)
+        mTrackedContactPoints.removeAt(trackingInfoIndex);
       return;
     }
     case C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE: {
@@ -1659,6 +1665,24 @@ void WbSupervisorUtilities::pushRelativePoseToStream(QDataStream &stream, WbTran
   stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
 }
 
+void WbSupervisorUtilities::pushContactPointsToStream(QDataStream &stream, WbSolid *solid, bool includeDescendants) {
+  const QVector<WbVector3> &contactPoints = solid->computedContactPoints(includeDescendants);
+  const QVector<const WbSolid *> &solids = solid->computedSolidPerContactPoints();
+  const int size = contactPoints.size();
+  stream << (short unsigned int)0;
+  stream << (unsigned char)C_SUPERVISOR_NODE_GET_CONTACT_POINTS;
+  stream << (int)solid->uniqueId();
+  stream << (unsigned char)includeDescendants;
+  stream << (int)size;
+  for (int i = 0; i < size; ++i) {
+    const WbVector3 &v = contactPoints.at(i);
+    stream << (double)v.x();
+    stream << (double)v.y();
+    stream << (double)v.z();
+    stream << (int)(includeDescendants ? solids.at(i)->uniqueId() : solid->uniqueId());
+  }
+}
+
 void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   if (!mUpdatedNodeIds.isEmpty()) {
     foreach (int id, mUpdatedNodeIds) {
@@ -1764,20 +1788,13 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (double)com.x() << (double)com.y() << (double)com.z();
     mNodeGetCenterOfMass = NULL;
   }
+  for (WbTrackedContactPointInfo &info : mTrackedContactPoints) {
+    const double time = WbSimulationState::instance()->time();
+    if (time >= info.lastUpdate + info.samplingPeriod)
+      pushContactPointsToStream(stream, info.solid, info.includeDescendants);
+  }
   if (mNodeGetContactPoints) {
-    const QVector<WbVector3> &contactPoints = mNodeGetContactPoints->computedContactPoints(mGetContactPointsIncludeDescendants);
-    const QVector<const WbSolid *> &solids = mNodeGetContactPoints->computedSolidPerContactPoints();
-    const int size = contactPoints.size();
-    stream << (short unsigned int)0;
-    stream << (unsigned char)C_SUPERVISOR_NODE_GET_CONTACT_POINTS;
-    stream << (int)size;
-    for (int i = 0; i < size; ++i) {
-      const WbVector3 &v = contactPoints.at(i);
-      stream << (double)v.x();
-      stream << (double)v.y();
-      stream << (double)v.z();
-      stream << (int)(mGetContactPointsIncludeDescendants ? solids.at(i)->uniqueId() : mNodeGetContactPoints->uniqueId());
-    }
+    pushContactPointsToStream(stream, mNodeGetContactPoints, mGetContactPointsIncludeDescendants);
     mNodeGetContactPoints = NULL;
   }
   if (mNodeGetStaticBalance) {
