@@ -111,7 +111,7 @@ To use these functions, the module needs to be included first:
 }%
 ```
 
-The available modules are the following.
+The available modules are the following:
 
 - `wbrandom`: provides functions that allow seed-based pseudo-random number generation.
 
