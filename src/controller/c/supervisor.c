@@ -254,7 +254,6 @@ static void delete_node(WbNodeRef node) {
   free(node->position);
   free(node->orientation);
   free(node->center_of_mass);
-  free(node->contact_points);
   free(node->contact_points[0].points);
   free(node->contact_points[1].points);
   free(node->solid_velocity);
@@ -1128,7 +1127,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       free(contact_point_node->contact_points[include_descendants].points);
       contact_point_node->contact_points[include_descendants].n = n_points;
       if (n_points > 0) {
-        WbNodeContactPointStruct *const points = malloc(n_points * sizeof(WbNodeContactPointStruct));
+        WbNodeContactPointStruct* points = malloc(n_points * sizeof(WbNodeContactPointStruct));
         contact_point_node->contact_points[include_descendants].points = points;
         for (i = 0; i < n_points; i++) {
           points[i].point[0] = request_read_double(r);
