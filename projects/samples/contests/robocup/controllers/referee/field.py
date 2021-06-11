@@ -36,3 +36,8 @@ class Field:
         return (abs(point[0]) - radius > self.size_x - self.goal_area_length and
                 abs(point[0]) + radius < self.size_x and
                 abs(point[1]) + radius < self.goal_area_width / 2)
+
+    def circle_fully_inside_penalty_area(self, point, radius):
+        return (abs(point[0]) - radius > self.size_x - self.penalty_area_length and
+                abs(point[0]) + radius < self.size_x and
+                abs(point[1]) + radius < self.penalty_area_width / 2)

@@ -1759,10 +1759,12 @@ def check_penalty_goal_line():
             player['invalidGoalkeeperStart'] = None
 
 
-def interruption(type, team=None, location=None):
+def interruption(type, team=None, location=None, is_goalkeeper_ball_manipulation=False):
     if type == 'FREEKICK':
         own_side = (game.side_left == team) ^ (game.ball_position[0] < 0)
-        if game.field.circle_fully_inside_goal_area(game.ball_position, game.ball_radius) and own_side:
+        inside_penalty_area = game.field.circle_fully_inside_penalty_area(game.ball_position, game.ball_radius)
+        if is_goalkeeper_ball_manipulation and inside_penalty_area and own_side:
+            # TODO: location should be adjusted to project ball on the penalty line parallel to the goal line
             type = 'INDIRECT_FREEKICK'
         else:
             type = 'DIRECT_FREEKICK'
@@ -2526,6 +2528,7 @@ while supervisor.step(time_step) != -1 and not game.over:
             interruption('FREEKICK', ball_holding, game.ball_position)
         ball_handling = check_ball_handling()
         if ball_handling:
+            # TODO: check if ball handling is performed by goalkeeper and if it is, then use it for interruption
             interruption('FREEKICK', ball_handling, game.ball_position)
     check_penalized_in_field()                    # check for penalized robots inside the field
     if game.state.game_state != 'STATE_INITIAL':  # send penalties if needed
