@@ -423,16 +423,16 @@ bool WbBackground::loadTexture(int i) {
   QString url;
   QIODevice *device;
 
-  if (mDownloader[i]) {
+  if (mDownloader[urlFieldIndex]) {
     url = mUrlFields[urlFieldIndex]->item(0);
-    if (!mDownloader[i]->error().isEmpty()) {
-      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[i]->error()));
-      delete mDownloader[i];
-      mDownloader[i] = NULL;
+    if (!mDownloader[urlFieldIndex]->error().isEmpty()) {
+      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[urlFieldIndex]->error()));
+      delete mDownloader[urlFieldIndex];
+      mDownloader[urlFieldIndex] = NULL;
       return false;
     }
-    assert(mDownloader[i]->device());
-    device = mDownloader[i]->device();
+    assert(mDownloader[urlFieldIndex]->device());
+    device = mDownloader[urlFieldIndex]->device();
   } else {
     if (mUrlFields[urlFieldIndex]->size() == 0)
       return false;
@@ -453,7 +453,7 @@ bool WbBackground::loadTexture(int i) {
 
   if (textureSize.width() != textureSize.height()) {
     warn(tr("The %1Url '%2' is not a square image (its width doesn't equal its height).").arg(gDirections[i], url));
-    if (!mDownloader[i])
+    if (!mDownloader[urlFieldIndex])
       delete device;
     return false;
   }
@@ -463,7 +463,7 @@ bool WbBackground::loadTexture(int i) {
         break;
       else {
         warn(tr("Texture dimension mismatch between %1Url and %2Url.").arg(gDirections[i], gDirections[j]));
-        if (!mDownloader[i])
+        if (!mDownloader[urlFieldIndex])
           delete device;
         return false;
       }
@@ -472,7 +472,7 @@ bool WbBackground::loadTexture(int i) {
   mTexture[i] = new QImage;
   if (!imageReader.read(mTexture[i])) {
     warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
-    if (!mDownloader[i])
+    if (!mDownloader[urlFieldIndex])
       delete device;
     return false;
   }
@@ -484,7 +484,7 @@ bool WbBackground::loadTexture(int i) {
       warn(tr("Alpha channel mismatch with %1Url.").arg(gDirections[i]));
       delete mTexture[i];
       mTexture[i] = NULL;
-      if (!mDownloader[i])
+      if (!mDownloader[urlFieldIndex])
         delete device;
       return false;
     }
@@ -504,9 +504,9 @@ bool WbBackground::loadTexture(int i) {
     QImage tmp = mTexture[i]->transformed(matrix);
     mTexture[i]->swap(tmp);
   }
-  if (mDownloader[i]) {
-    delete mDownloader[i];
-    mDownloader[i] = NULL;
+  if (mDownloader[urlFieldIndex]) {
+    delete mDownloader[urlFieldIndex];
+    mDownloader[urlFieldIndex] = NULL;
   } else {
     device->close();
     delete device;
