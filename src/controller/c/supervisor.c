@@ -110,6 +110,8 @@ typedef struct WbNodeStructPrivate {
   bool is_proto_internal;
   WbNodeRef parent_proto;
   int tag;
+  double last_contact_point_update;
+  int contact_point_sampling_period;
   WbNodeRef next;
 } WbNodeStruct;
 
@@ -438,7 +440,8 @@ static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
-static WbNodeRef tracked_contact_points_nodes = NULL;
+static WbContactPointChangeTracking contact_point_change_tracking;
+static bool contact_point_change_tracking_requested = false;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
 static bool allows_contact_point_internal_node = false;
@@ -738,6 +741,14 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   if (center_of_mass_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CENTER_OF_MASS);
     request_write_uint32(r, center_of_mass_node_ref->id);
+  }
+  if (contact_point_change_tracking_requested) {
+    request_write_uchar(r, C_SUPERVISOR_CONTACT_POINTS_CHANGE_TRACKING_STATE);
+    request_write_uint32(r, contact_point_change_tracking.node->id);
+    request_write_uchar(r, contact_point_change_tracking.include_descendants ? 1 : 0);
+    request_write_uchar(r, contact_point_change_tracking.enable);
+    if (contact_point_change_tracking.enable)
+      request_write_int32(r, contact_point_change_tracking.sampling_period);
   }
   if (contact_points_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CONTACT_POINTS);
@@ -2542,6 +2553,50 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   }
 
   return ((WbFieldStruct *)field)->count;
+}
+
+void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period) {
+  if (sampling_period < 0) {
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
+    return;
+  }
+
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  contact_point_change_tracking_requested = true;
+  contact_point_change_tracking.node = node;
+  contact_point_change_tracking.enable = true;
+  node->last_contact_point_update = -DBL_MAX;
+  node->contact_point_sampling_period = sampling_period;
+  wb_robot_flush_unlocked();
+  pose_change_tracking_requested = false;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  contact_point_change_tracking_requested = true;
+  contact_point_change_tracking.node = node;
+  contact_point_change_tracking.enable = false;
+  wb_robot_flush_unlocked();
+  pose_change_tracking_requested = false;
+  robot_mutex_unlock_step();
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {

@@ -1104,6 +1104,37 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
       return;
     }
+    case C_SUPERVISOR_CONTACT_POINTS_CHANGE_TRACKING_STATE: {
+      unsigned int nodeId;
+      unsigned char includeDescendants;
+      unsigned char enable;
+      unsigned int samplingPeriod;
+
+      stream >> nodeId;
+      stream >> includeDescendants;
+      stream >> enable;
+      if (enable)
+        stream >> samplingPeriod;
+
+      WbNode *const node = WbNode::findNode(nodeId);
+
+      if (enable) {
+        WbTrackedContactPointInfo trackedContactPoint;
+        trackedContactPoint.node = node;
+        trackedContactPoint.includeDescendants = includeDescendants;
+        trackedContactPoint.samplingPeriod = samplingPeriod;
+        trackedContactPoint.lastUpdate = -INFINITY;
+        mTrackedContactPoints.append(trackedContactPoint);
+      } else {
+        for (int i = 0; i < mTrackedContactPoints.size(); i++)
+          if (mTrackedContactPoints[i].node == node) {
+            mTrackedContactPoints.removeAt(i);
+            break;
+          }
+      }
+
+      return;
+    }
     case C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE: {
       unsigned int fromNodeId;
       unsigned int toNodeId;
