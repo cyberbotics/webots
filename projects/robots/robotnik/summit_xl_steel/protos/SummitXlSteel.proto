@@ -77,10 +77,6 @@ PROTO SummitXlSteel [
         ]
         name "base_chapa_front"
       }
-      Transform{
-        translation 0 0 0.39062
-        children IS bodySlot
-      }
       Solid {
         translation 0 0.28931 0.29062
         children [
@@ -118,10 +114,6 @@ PROTO SummitXlSteel [
           USE LOGO
         ]
         name "base_logo_rear"
-      }
-      Solid {
-        translation 0.35 0 0.09
-        name "base_docking_contact"
       }
       HingeJoint {
         jointParameters HingeJointParameters {
@@ -357,6 +349,10 @@ PROTO SummitXlSteel [
           }
         }
       }
+      Solid {
+        translation 0.35 0 0.09
+        name "base_docking_contact"
+      }
       DEF IMU Transform {
         translation 0.127 -0.129 0.212
         children [
@@ -371,53 +367,22 @@ PROTO SummitXlSteel [
             }
           }
           Accelerometer {
-            name "imu/data_raw accelerometer"
+            name "accelerometer"
           }
           Gyro {
-            name "imu/data_raw gyro"
+            name "gyro"
           }
           Compass {
-            name "imu/data_raw compass"
+            name "compass"
           }
         ]
       }
-      Transform {
-        translation 0.2865 -0.20894 0.193
-        rotation -0.8629 -0.3574 0.3574 1.7178
-        #rotation 0.9239 -0.3827 0 3.14159 # For FLU-oriented lidars.
-        children IS frontLidarSlot
-      }
-      Transform {
-        translation -0.2865 0.20894 0.193
-        rotation 0.2811 -0.6786 0.6786 -2.5936
-        #rotation 0.3827 0.9239 0 3.14159 # For FLU-oriented lidars.
-        children IS backLidarSlot
-      }
-      Solid {
-        translation 0.3585 0 0.25062
+      DEF RGBD Solid {
+        translation 0.3585 0 0.29062
         children [
           Solid {
-            rotation -0.5774 0.5774 -0.5774 2.0944
-            name "front_rgbd_camera_rgb_optical_frame"
-          }
-          Solid {
-            #translation 0 -0.0125 -0.015
-            translation 0.007 0 0.04
+            translation 0.007 0 0
             children [
-              RangeFinder {
-                name "depth_camera"
-                fieldOfView 2.05949
-                minRange 0.18
-                maxRange 1.95
-                width 1280
-                height 720
-              }
-              Camera {
-                name "rgb_camera"
-                fieldOfView 2.05949
-                width 1280
-                height 720
-              }
               Shape {
                 appearance Plastic {
                   colorOverride 0.3 0.3 0.3
@@ -425,6 +390,16 @@ PROTO SummitXlSteel [
                 geometry Mesh {
                   url [
                     "meshes/orbbec_astra.dae"
+                  ]
+                }
+              }
+              Shape {
+                appearance Plastic {
+                  colorOverride 0 0 0
+                }
+                geometry Mesh {
+                  url [
+                    "meshes/orbbec_astra_cover.dae"
                   ]
                 }
               }
@@ -438,22 +413,47 @@ PROTO SummitXlSteel [
                 }
               ]
             }
-            # mass neglected (0.564kg).
           }
-          Solid {
+          Camera {
+            rotation -0.5774 0.5774 0.5774 -2.0944
+            name "rgb_camera"
+            fieldOfView 1.0472
+            width 1280
+            height 720
+          }
+          RangeFinder {
             translation 0 0.025 0
-            children [
-              Solid {
-                rotation -0.5774 0.5774 -0.5774 2.0944
-                name "front_rgbd_camera_depth_optical_frame"
-              }
-            ]
-            name "front_rgbd_camera_depth_frame"
+            rotation -0.5774 0.5774 0.5774 -2.0944
+            name "depth_camera"
+            fieldOfView 1.0472
+            minRange 0.6
+            maxRange 8
+            width 640
+            height 480
           }
         ]
-        name "front_rgbd_camera_rgb_base_link"
-        # mass neglected (0.001kg).
       }
+      GPS {
+        translation -0.365 -0.167 0.302
+        name "gps"
+      }
+      Transform{
+        translation 0 0 0.39062
+        children IS bodySlot
+      }
+      Transform {
+        translation 0.2865 -0.20894 0.193
+        rotation -0.8629 -0.3574 0.3574 1.7178
+        #rotation 0.9239 -0.3827 0 3.14159 # For FLU-oriented lidars.
+        children IS frontLidarSlot
+      }
+      Transform {
+        translation -0.2865 0.20894 0.193
+        rotation 0.2811 -0.6786 0.6786 -2.5936
+        #rotation 0.3827 0.9239 0 3.14159 # For FLU-oriented lidars.
+        children IS backLidarSlot
+      }
+
     ]
     boundingObject Group {
       children [

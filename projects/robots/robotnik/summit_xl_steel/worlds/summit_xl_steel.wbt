@@ -276,7 +276,7 @@ PlasticCrate {
   rotation 1 0 0 1.5707963267948966
 }
 PlasticCrate {
-  translation -6.187 -0.987 0.9
+  translation -6.187 -0.987 0.903
   name "Kasten(2)"
   size 0.4 0.12 0.23
   mass 0.92
