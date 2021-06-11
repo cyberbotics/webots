@@ -2,7 +2,7 @@
 
 %robot fabtino images/robots/fabtino/model.thumbnail.png
 
-Designed by Robotics Equipment Corporation (REC), [Fabtino](fabtino.md) is a four-wheeled (mecanum) robot.
+Designed by Robotics Equipment Corporation (REC), Fabtino is a four-wheeled (mecanum) robot.
 The model is a modular mobile platform used for logistics and indoor transport.
 
 ### Fabtino PROTO
