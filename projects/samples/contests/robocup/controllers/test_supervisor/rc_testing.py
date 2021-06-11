@@ -306,6 +306,7 @@ class Test:
         self._score = score
         self._kick_off_team = kick_off_team
         self._critical = critical
+        self._abs_tol = POS_ABS_TOL
         self._msg = []
         self._success = True
 
@@ -374,7 +375,11 @@ class Test:
         t._score = dic.get("score")
         t._kick_off_team = dic.get("kick_off_team")
         t._critical = dic.get("critical", False)
+        t._abs_tol = dic.get("abs_tol", POS_ABS_TOL)
         return t
+
+    def _getAbsTol(self):
+        return self._abs_tol
 
     def _getTargetGCData(self, status):
         splitted_target = self._target.split("_")
@@ -393,7 +398,7 @@ class Test:
             raise RuntimeError("{self._name} tests position and has no target")
         target = supervisor.getFromDef(self._target)
         received_pos = target.getField('translation').getSFVec3f()
-        if not np.allclose(self._position, received_pos, atol=POS_ABS_TOL):
+        if not np.allclose(self._position, received_pos, atol=self._getAbsTol()):
             failure_msg = f"Position Invalid at {status.getFormattedTime()}: "\
                 f"expecting {self._position}, received {received_pos}"
             print(f"Failure in test {self._name}\n\t{failure_msg}")

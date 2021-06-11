@@ -1061,7 +1061,9 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     elif area[0] == 'i':  # inside penalty area
         interruption('PENALTYKICK')
     else:
-        interruption('FREEKICK')
+        offence_location = team['players'][number]['position']
+        freekick_team_id = game.blue.id if team['color'] == "red" else game.red.id
+        interruption('FREEKICK', freekick_team_id, offence_location)
 
 
 def goalkeeper_inside_own_goal_area(team, number):
@@ -1768,7 +1770,7 @@ def interruption(type, team=None, location=None):
     game.can_score_own = False
     game.ball_set_kick = True
     if location is not None:
-        game.ball_kick_translation[:2] = location
+        game.ball_kick_translation[:2] = location[:2]
     game.interruption = type
     game.phase = type
     game.ball_first_touch_time = 0
@@ -2521,10 +2523,10 @@ while supervisor.step(time_step) != -1 and not game.over:
     if game.state.game_state == 'STATE_PLAYING' and (game.interruption is None or game.interruption_seconds is not None):
         ball_holding = check_ball_holding()       # check for ball holding fouls
         if ball_holding:
-            interruption('FREEKICK', ball_holding, game.ball_position[:2])
+            interruption('FREEKICK', ball_holding, game.ball_position)
         ball_handling = check_ball_handling()
         if ball_handling:
-            interruption('FREEKICK', ball_handling)
+            interruption('FREEKICK', ball_handling, game.ball_position)
     check_penalized_in_field()                    # check for penalized robots inside the field
     if game.state.game_state != 'STATE_INITIAL':  # send penalties if needed
         send_penalties()
