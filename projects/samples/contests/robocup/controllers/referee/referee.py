@@ -1415,7 +1415,6 @@ def check_ball_must_kick(team):
         return False  # nobody touched the ball
     if game.ball_last_touch_team == game.ball_must_kick_team:
         return False  # no foul
-    info('Ball was touched by wrong team.')
     for number in team['players']:
         if not game.ball_last_touch_player_number == int(number):
             continue
@@ -1424,7 +1423,8 @@ def check_ball_must_kick(team):
             continue
         color = team['color']
         send_penalty(player, 'INCAPABLE', 'non-kicking player touched ball not in play',
-                     f'Non-kicking {color} player {number} touched ball not in play.')
+                     f'Non-kicking {color} player {number} touched ball not in play.',
+                     'Ball was touched by wrong team.')
         break
     return True
 
