@@ -63,6 +63,20 @@ PROTO SummitXlSteel [
         ]
         name "base_chapa"
       }
+      Solid {
+        translation 0.359 0 0.30062
+        children [
+          Shape {
+            appearance USE DARKGREY
+            geometry Mesh {
+              url [
+                "meshes/summit_xls_chapas_inox_tapas_front.stl"
+              ]
+            }
+          }
+        ]
+        name "base_chapa_front"
+      }
       Transform{
         translation 0 0 0.39062
         children IS bodySlot
@@ -387,10 +401,27 @@ PROTO SummitXlSteel [
             name "front_rgbd_camera_rgb_optical_frame"
           }
           Solid {
-            translation 0 -0.0125 -0.015
+            #translation 0 -0.0125 -0.015
+            translation 0.007 0 0.04
             children [
+              RangeFinder {
+                name "depth_camera"
+                fieldOfView 2.05949
+                minRange 0.18
+                maxRange 1.95
+                width 1280
+                height 720
+              }
+              Camera {
+                name "rgb_camera"
+                fieldOfView 2.05949
+                width 1280
+                height 720
+              }
               Shape {
-                appearance USE DARKGREY
+                appearance Plastic {
+                  colorOverride 0.3 0.3 0.3
+                }
                 geometry Mesh {
                   url [
                     "meshes/orbbec_astra.dae"
