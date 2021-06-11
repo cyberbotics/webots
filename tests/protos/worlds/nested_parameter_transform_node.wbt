@@ -3,6 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
+  orientation -0.3175134183447739 -0.9113244510968445 -0.2620552880673302 1.4718498987562305
+  position -10.963961182804342 6.665918933750592 5.294694480465291
 }
 TestSuiteSupervisor {
 }
@@ -19,30 +21,17 @@ Robot {
   controller "nested_parameter_transform_node"
   supervisor TRUE
 }
-DEF PARENT NestedParameterTransformNode {
-  translation 1 0 0
-}
-Group {
-  children [
-    SolidWithExtensionSlot {
-      translation 0.2 0.5 0
-      extensionSlot [
-        TemplateSlotContainer {
-          translation 0.25 0 0.03
-          children [
-            DEF PARAMETER ProceduralSolidWithPhysics {
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-
 DEF PARENT_NODE Transform {
-  translation 0 0 0
   children [
     DEF INNER_NODE Solid {
+      translation 0 0 1
+      children [
+        Shape {
+          geometry Box {
+            size 1 1 1
+          }
+        }
+      ]
     }
   ]
 }
