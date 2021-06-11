@@ -1099,8 +1099,8 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
     if game.forceful_contact_matrix.long_collision(red_number, blue_number):
         if d1 < FOUL_VINCITY_DISTANCE and d1 - d2 > FOUL_DISTANCE_THRESHOLD:
             forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                  f'long collision (more than {FOUL_PUSHING_TIME} second'
-                                  f' over a time window of {FOUL_PUSHING_PERIOD} seconds)')
+                                  f'long collision: more than {FOUL_PUSHING_TIME} second'
+                                  f' over a time window of {FOUL_PUSHING_PERIOD} seconds')
             return True
     v1 = p1['velocity']
     v2 = p2['velocity']
@@ -1112,14 +1112,17 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
         if moves_to_ball(p2, v2, v2_squared):
             if not moves_to_ball(p1, v1, v1_squared):
                 forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                      'opponent moving towards the ball, charge')
+                                      'opponent moving towards the ball, charge: '
+                                      f'{d1} < {FOUL_VINCITY_DISTANCE}')
                 return True
             if d1 - d2 > FOUL_DISTANCE_THRESHOLD:
                 forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                      'opponent moving towards the ball, charge from behind')
+                                      'opponent moving towards the ball, charge from behind: '
+                                      f'{d1} - {d2} > {FOUL_DISTANCE_THRESHOLD}')
                 return True
     elif math.sqrt(v1_squared) - math.sqrt(v2_squared) > FOUL_SPEED_THRESHOLD:
-        forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'violent collision')
+        forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'violent collision: '
+                              f'{math.sqrt(v1_squared)} - {math.sqrt(v2_squared)} > {FOUL_SPEED_THRESHOLD}')
         return True
     return False
 
