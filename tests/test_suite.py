@@ -297,7 +297,7 @@ for groupName in testGroups:
         else:
             lines = open(webotsStdErrFilename, 'r').readlines()
             for line in lines:
-                if 'Failures' in line:
+                if 'Failure' in line:
                     # check if it should be ignored
                     if not any(item in line for item in whitelist):
                         failures += 1
