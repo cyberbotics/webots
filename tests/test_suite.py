@@ -32,7 +32,8 @@ from command import Command
 
 # monitor failures
 failures = 0
-
+systemFailures = []
+whitelist = ['ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer']
 # parse arguments
 filesArguments = []
 nomakeOption = False
@@ -294,9 +295,13 @@ for groupName in testGroups:
             appendToOutputFile('- expected number of worlds: %d\n' % (worldsCount))
             appendToOutputFile('- number of worlds actually tested: %s)\n' % (counterString))
         else:
-            with open(webotsStdErrFilename, 'r') as file:
-                if 'Failure' in file.read():
-                    failures += 1
+            lines = open(webotsStdErrFilename, 'r').readlines()
+            for line in lines:
+                if 'Failures' in line:
+                    # check if it should be ignored
+                    if not any(item in line for item in whitelist):
+                        failures += 1
+                        systemFailures.append(line)
 
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
@@ -321,15 +326,13 @@ for groupName in testGroups:
                         appendToOutputFile(
                             'Cannot get the core dump file: "%s" does not exist.' % core_dump_file
                         )
-    print('-- STDOUT -----------------------------------------------------------------------------------')
-    with open(webotsStdOutFilename, 'r') as file:
-        print(file.read())
-    print('-- STDERR ------------------------------------------------------------------------------------')
-    with open(webotsStdErrFilename, 'r') as file:
-        print(file.read())
-    print('>> failures: %d' % failures)
 
 appendToOutputFile('\n' + finalMessage + '\n')
+
+if len(systemFailures) > 0:
+    appendToOutputFile('\nSystem Failures:\n')
+    for message in systemFailures:
+        appendToOutputFile(message)
 
 time.sleep(1)
 if monitorOutputCommand.isRunning():
