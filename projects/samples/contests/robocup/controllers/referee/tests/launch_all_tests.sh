@@ -44,12 +44,15 @@ do
     folder=$(dirname ${test_file})
     test_log="${folder}/test.log"
     referee_log="${folder}/referee.log"
-    msg_prefix="[$NTH_TEST/${#TEST_FILES[@]}] $folder"
+    msg_prefix="[$NTH_TEST/${#TEST_FILES[@]}] ${folder:2}"
 
     if should_run_tests
     then
-        echo "$msg_prefix ..."
-        ./launch_test.sh ${folder} &> ${test_log}
+        printf '%-60.60s' "$msg_prefix"
+        # On Windows the "| tee" is needed to ensure the output of the
+        # launch_test.sh is flushed and fully written in the output file.
+        # Using a standard redirection ">" is unfortunately not sufficient
+        ./launch_test.sh ${folder} | tee ${test_log} > /dev/null
         cp ../log.txt ${referee_log}
     fi
     RESULT_LINE=$(awk '/TEST RESULTS/ { print $3 }' ${test_log})
@@ -57,9 +60,9 @@ do
     NB_TESTS=$(echo $RESULT_LINE | awk 'BEGIN { FS = "/" } ; { print $2 }')
     if [ $NB_SUCCESS -lt $NB_TESTS ]
     then
-        printf "$COLOR_RED$msg_prefix %s %2d/%2d$COLOR_RESET\n" FAIL $NB_SUCCESS $NB_TESTS
+        printf "$COLOR_RED%s %d/%d$COLOR_RESET\n" FAIL $NB_SUCCESS $NB_TESTS
     else
-        printf "$COLOR_GREEN$msg_prefix %s %2d/%2d$COLOR_RESET\n" PASS $NB_SUCCESS $NB_TESTS
+        printf "$COLOR_GREEN%s %d/%d$COLOR_RESET\n" PASS $NB_SUCCESS $NB_TESTS
     fi
 
     ((TOT_SUCCESS+=NB_SUCCESS))
