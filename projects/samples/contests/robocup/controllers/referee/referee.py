@@ -1761,8 +1761,8 @@ def check_penalty_goal_line():
 
 def interruption(type, team=None, location=None):
     if type == 'FREEKICK':
-        if (game.field.circle_fully_inside_goal_area(game.ball_position, game.ball_radius) and
-           (game.side_left == team and game.ball_position[0] > 0) or (game.side_left != team and game.ball_position[0] < 0)):
+        own_side = (game.side_left == team) ^ (game.ball_position[0] < 0)
+        if game.field.circle_fully_inside_goal_area(game.ball_position, game.ball_radius) and own_side:
             type = 'INDIRECT_FREEKICK'
         else:
             type = 'DIRECT_FREEKICK'
