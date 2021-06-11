@@ -97,7 +97,7 @@ typedef struct WbNodeContactPointStructPrivate {
 typedef struct WbNodeContactPointListStructPrivate {
   int n;
   WbNodeContactPointStruct *points;
-  double timestamp;         // TODO: Delete with `wb_supervisor_node_get_contact_point`
+  double timestamp;  // TODO: Delete with `wb_supervisor_node_get_contact_point`
   int sampling_period;
   double last_update;
 } WbNodeContactPointListStruct;
@@ -1125,7 +1125,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       contact_point_node->contact_points[include_descendants].points = NULL;
       contact_point_node->contact_points[include_descendants].n = n_points;
       if (n_points > 0) {
-        WbNodeContactPointStruct* points = malloc(n_points * sizeof(WbNodeContactPointStruct));
+        WbNodeContactPointStruct *points = malloc(n_points * sizeof(WbNodeContactPointStruct));
         contact_point_node->contact_points[include_descendants].points = points;
         for (i = 0; i < n_points; i++) {
           points[i].point[0] = request_read_double(r);
@@ -2045,7 +2045,8 @@ const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
 }
 
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
-  fprintf(stderr, "Warning: Deprecated 'wb_supervisor_node_get_contact_point' use 'wb_supervisor_node_get_contact_points' instead.\n");
+  fprintf(stderr,
+          "Warning: Deprecated 'wb_supervisor_node_get_contact_point' use 'wb_supervisor_node_get_contact_points' instead.\n");
 
   if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
@@ -2078,7 +2079,9 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
 }
 
 WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
-  fprintf(stderr, "Warning: Deprecated 'wb_supervisor_node_get_contact_point_node' use 'wb_supervisor_node_get_contact_points' instead.\n");
+  fprintf(
+    stderr,
+    "Warning: Deprecated 'wb_supervisor_node_get_contact_point_node' use 'wb_supervisor_node_get_contact_points' instead.\n");
 
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
@@ -2113,7 +2116,8 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
 }
 
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants) {
-  fprintf(stderr, "Warning: Deprecated 'wb_supervisor_node_get_number_of_contact_points' use 'wb_supervisor_node_get_contact_points' instead.\n");
+  fprintf(stderr, "Warning: Deprecated 'wb_supervisor_node_get_number_of_contact_points' use "
+                  "'wb_supervisor_node_get_contact_points' instead.\n");
 
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
@@ -2141,6 +2145,37 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
   robot_mutex_unlock_step();
 
   return node->contact_points[descendants].n;  // will be -1 if n is not a Solid
+}
+
+ContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return -1;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return -1;
+  }
+
+  const double t = wb_robot_get_time();
+  const int descendants = include_descendants ? 1 : 0;
+
+  if (t <= node->contact_points[descendants].timestamp && node->contact_points[descendants].points) {
+    *size = node->contact_points[descendants].n;
+    return node->contact_points[descendants].points;
+  }
+
+  node->contact_points[descendants].timestamp = t;
+
+  robot_mutex_lock_step();
+  contact_points_node_ref = node;
+  contact_points_include_descendants = include_descendants;
+  wb_robot_flush_unlocked();
+  contact_points_node_ref = NULL;
+  robot_mutex_unlock_step();
+
+  *size = node->contact_points[descendants].n;
+  return node->contact_points[descendants].points;
 }
 
 bool wb_supervisor_node_get_static_balance(WbNodeRef node) {

@@ -58,6 +58,11 @@ typedef enum {
   WB_SUPERVISOR_SIMULATION_MODE_FAST
 } WbSimulationMode;
 
+typedef struct {
+  double point[3];
+  int node_id;
+} ContactPoint;
+
 void wb_supervisor_world_load(const char *filename);
 bool wb_supervisor_world_save(const char *filename);
 void wb_supervisor_world_reload();
@@ -104,9 +109,13 @@ const char *wb_supervisor_node_get_type_name(WbNodeRef node);
 const char *wb_supervisor_node_get_base_type_name(WbNodeRef node);
 bool wb_supervisor_node_is_proto(WbNodeRef node);
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node);
+
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
 WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
+
+ContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
+
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
