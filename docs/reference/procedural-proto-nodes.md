@@ -10,5 +10,3 @@ In the future, [Lua](http://www.lua.org) support will be discontinued therefore 
 
 - [Lua Scripting](lua-procedural-proto.md)
 - [JavaScript Scripting](javascript-procedural-proto.md)
-
-> **Note**: Lua support will be dropped in future releases, wherever possible [JavaScript](javascript-procedural-proto.md) should be preferred instead.
