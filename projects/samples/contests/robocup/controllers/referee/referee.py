@@ -1682,8 +1682,16 @@ def penalty_kicker_player():
         return player
     return None
 
+def get_penalty_shootout_msg():
+    trial = game.penalty_shootout_count + 1
+    name = "penalty shoot-out"
+    if game.penalty_shootout_count >= 10:
+        name = f"extended {name}"
+        trial -= 10
+    return f"{name} {trial}/10"
 
 def set_penalty_positions():
+    info(f"Setting positions for {get_penalty_shootout_msg}")
     default = game.penalty_shootout_count % 2 == 0
     attacking_color = 'red' if (game.kickoff == game.blue.id) ^ default else 'blue'
     if attacking_color == 'red':
@@ -1725,12 +1733,8 @@ def set_penalty_positions():
 
 
 def stop_penalty_shootout():
-    if game.penalty_shootout_count > 10:
-        message = 'End of penalty shoot-out.'
-    else:
-        message = 'End of extended penalty shoot-out.'
+    info(f"End of {get_penalty_shootout_msg}")
     if game.penalty_shootout_count == 20:  # end of extended penalty shootout
-        info(message)
         return True
     diff = abs(game.state.teams[0].score - game.state.teams[1].score)
     if game.penalty_shootout_count == 10 and diff > 0:
@@ -1740,39 +1744,40 @@ def stop_penalty_shootout():
     kickoff_team_leads = kickoff_team.score >= game.state.teams[0].score and kickoff_team.score >= game.state.teams[1].score
     penalty_shootout_count = game.penalty_shootout_count % 10  # supports both regular and extended shootout kicks
     if (penalty_shootout_count == 6 and diff == 3) or (penalty_shootout_count == 8 and diff == 2):
-        info(message)
         return True  # no need to go further, score is like 3-0 after 6 shootouts or 4-2 after 8 shootouts
     if penalty_shootout_count == 7:
         if diff == 3:  # score is like 4-1
-            info(message)
             return True
         if diff == 2 and not kickoff_team_leads:  # score is like 1-3
-            info(message)
             return True
     elif penalty_shootout_count == 9:
         if diff == 2:  # score is like 5-3
-            info(message)
             return True
         if diff == 1 and not kickoff_team_leads:  # score is like 3-4
-            info(message)
             return True
     return False
 
 
 def next_penalty_shootout():
     game.penalty_shootout_count += 1
-    if not game.penalty_shootout_goal and not game.state.game_state[:6] == "FINISH":
+    if not game.penalty_shootout_goal and not game.state.game_state[:6] == "FINISHED":
         game_controller_send('STATE:FINISH')
-        game.penalty_shootout_goal
+    game.penalty_shootout_goal = False
     if stop_penalty_shootout():
         game.over = True
         return
     if game.penalty_shootout_count == 10:
         info('Starting extended penalty shootout without a goalkeeper and goal area entrance allowed.')
+    # Only prepare next penalty if team has a kicker available
     flip_sides()
     info(f'fliped sides: game.side_left = {game.side_left}')
-    set_penalty_positions()
-    game_controller_send('STATE:SET')
+    if penalty_kicker_player():
+        set_penalty_positions()
+        game_controller_send('STATE:SET')
+    else:
+        info("Skipping penalty trial because team has no kicker available")
+        game_controller_send('STATE:SET')
+        next_penalty_shootout()
     return
 
 
