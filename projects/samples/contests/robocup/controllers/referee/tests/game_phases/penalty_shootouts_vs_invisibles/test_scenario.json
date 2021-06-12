@@ -43,6 +43,11 @@
                 "name" : "T1. Sanity check: mode is penalty shootout",
                 "secondary_state" : "PENALTYSHOOT",
                 "critical" : true
+            },
+            {
+                "name" : "T1. Sanity check: BLUE has kickoff",
+                "kick_off_team" : 4,
+                "critical" : true
             }
         ]
     },
@@ -120,15 +125,15 @@
     },
     {
         "timing" : {
-            "time" : [1,14],
+            "time" : 20,
             "state" : "SET",
             "state_count" : 2
         },
         "tests" : [
             {
-                "name" : "T2: BLUE kicker is properly positioned",
-                "target" : "BLUE_PLAYER_1",
-                "position" : [4.47,0.0,0.24]
+                "name" : "T2: Automatically moves to T3 PLAYING",
+                "state" : "PLAYING",
+                "critical" : true
             }
         ]
     },
@@ -140,8 +145,8 @@
         },
         "tests" : [
             {
-                "name" : "T2: Trial should end automatically when no kicker is available",
-                "state" : "SET",
+                "name" : "T2/T3: PLAYING phase of T2 is skipped",
+                "kick_off_team" : 4,
                 "critical" : true
             }
         ]
@@ -157,21 +162,11 @@
                 "name" : "T3. BLUE kicker is properly positioned",
                 "target" : "BLUE_PLAYER_1",
                 "position" : [2.8,0.0,0.24]
-            }
-        ]
-    },
-    {
-        "timing" : {
-            "time" : 20,
-            "clock_type" : "Simulated",
-            "state" : "SET",
-            "state_count" : 3
-        },
-        "tests" : [
+            },
             {
-                "name" : "T3: automatic transition: SET -> PLAYING",
-                "state" : "PLAYING",
-                "critical" : true
+                "name" : "T3. Staying in SET for 15 seconds and trial is for BLUE",
+                "state" : "SET",
+                "kick_off_team" : 4
             }
         ]
     },
@@ -186,6 +181,34 @@
             {
                 "name" : "T3: automatically ends after 60 seconds",
                 "state" : "SET",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 20,
+            "state" : "SET",
+            "state_count" : 4
+        },
+        "tests" : [
+            {
+                "name" : "T4: Automatically moves to T5 PLAYING",
+                "state" : "PLAYING",
+                "critical" : true
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 2,
+            "state" : "PLAYING",
+            "state_count" : 4
+        },
+        "tests" : [
+            {
+                "name" : "T4/T5: PLAYING phase of T4 is skipped",
+                "kick_off_team" : 4,
                 "critical" : true
             }
         ]
