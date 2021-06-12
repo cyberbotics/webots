@@ -147,12 +147,31 @@
     },
     {
         "timing" : {
+            "time" : 1,
+            "clock_type" : "Simulated",
+            "secondary_state" : "CORNERKICK",
+            "phase" : 1
+        },
+        "tests" : [
+            {
+                "name" : "Robot to close when placing ball is moved away 50cm",
+                "target" : "RED_PLAYER_1",
+                "position" : [-4.975,-3,0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
             "time" : 2,
             "clock_type" : "Simulated",
             "secondary_state" : "CORNERKICK",
             "phase" : 1
         },
         "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [-4.8,-3,0.24]
+            },
             {
                 "target" : "BLUE_PLAYER_1",
                 "position" : [-4.5,-3.3,0.24]
