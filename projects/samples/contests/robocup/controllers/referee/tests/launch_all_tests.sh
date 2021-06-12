@@ -1,13 +1,21 @@
 #!/bin/bash
 
+# Usage:
+# --print-only: Only print the cached results
+# --lazy: Only run uncached tests or cached but unsuccessful tests
+
 PRINT_ONLY=false
+LAZY=false
 if [ $# -gt 0 ]
 then
     if [ $1 == "--print-only" ]
     then
         PRINT_ONLY=true
+    elif [ "$1" == "--lazy" ]
+    then
+        LAZY=true
     else
-        echo "Usage: $0 [--print-only]"
+        echo "Usage: $0 [--print-only] [--lazy]"
         exit -1
     fi
 fi
@@ -39,9 +47,24 @@ log_file_contains_test_result() {
 }
 
 should_run_tests() {
+    local test_log=$1
+
     if [ "$PRINT_ONLY" = true ]; then
         # don't run the test
         return 1
+    fi
+
+    if [ $LAZY = true ]; then
+      if ! log_file_contains_test_result "$test_log"; then
+          # run the test
+          return 0
+      else
+          parse_log_file "$test_log" nb_success nb_tests
+
+          # run the test if some tests were unsuccessful
+          [ "$nb_success" -lt "$nb_tests" ]
+          return
+      fi
     fi
 
     # run the test, if no command line option is set
@@ -67,9 +90,9 @@ do
     referee_log="${folder}/referee.log"
     msg_prefix="[$NTH_TEST/${#TEST_FILES[@]}] ${folder:2}"
 
-    if should_run_tests
+    printf '%-60.60s' "$msg_prefix"
+    if should_run_tests "$test_log"
     then
-        printf '%-60.60s' "$msg_prefix"
         # On Windows the "| tee" is needed to ensure the output of the
         # launch_test.sh is flushed and fully written in the output file.
         # Using a standard redirection ">" is unfortunately not sufficient
@@ -83,7 +106,7 @@ do
 
     if ! log_file_contains_test_result "$test_log"
     then
-        printf "$COLOR_RED$msg_prefix %s %s$COLOR_RESET\n" FAIL "Log contains no test result. Maybe the test was aborted?"
+        printf "$COLOR_RED %s %s$COLOR_RESET\n" FAIL "Log contains no test result. Maybe the test was aborted?"
         continue
     elif [ $NB_SUCCESS -lt $NB_TESTS ]
     then
