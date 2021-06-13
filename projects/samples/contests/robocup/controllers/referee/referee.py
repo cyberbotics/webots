@@ -1125,7 +1125,10 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     if distance_to_ball > FOUL_BALL_DISTANCE or not game.in_play:
         send_penalty(player, 'PHYSICAL_CONTACT', 'forceful contact foul')
     elif area[0] == 'i' and player['inside_own_side']:  # inside own penalty area
-        interruption('PENALTYKICK', freekick_team_id)
+        ball_reset_location = [game.field.penalty_mark_x, 0]
+        if team['players'][number]['position'][0] < 0:
+            ball_reset_location[0] *= -1
+        interruption('PENALTYKICK', freekick_team_id, ball_reset_location)
     else:
         offence_location = team['players'][number]['position']
         interruption('FREEKICK', freekick_team_id, offence_location)
