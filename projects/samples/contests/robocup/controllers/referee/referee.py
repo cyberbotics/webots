@@ -73,6 +73,7 @@ DROPPED_BALL_TEAM_ID = 128                # The team id used for dropped ball
 BALL_DIST_PERIOD = 1                      # seconds. The period at which distance to the ball is checked
 BALL_HOLDING_RATIO = 1.0/3                # The ratio of the radius used to compute minimal distance to the convex hull
 GAME_INTERRUPTION_PLACEMENT_NB_STEPS = 5  # The maximal number of steps allowed when moving ball or player away
+STATUS_PRINT_PERIOD = 20                  # Real time between two status updates in seconds
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -162,6 +163,30 @@ def error(message, fatal=False):
     log(message, 'Error')
     if fatal:
         clean_exit()
+
+
+def perform_status_update():
+    now = time.time()
+    if not hasattr(game, "last_real_time"):
+        game.last_real_time = now
+        game.last_time_count = time_count
+    elif now - game.last_real_time > STATUS_PRINT_PERIOD:
+        elapsed_real = now - game.last_real_time
+        elapsed_simulation = (time_count - game.last_time_count) / 1000
+        speed_factor = elapsed_simulation / elapsed_real
+        messages = [f"Avg speed factor: {speed_factor:.3f} (over last {elapsed_real:.2f} seconds)"]
+        if game.state is None:
+            messages.append("No messages received from GameController yet")
+        else:
+            messages.append(f"state: {game.state.game_state}, remaining time: {game.state.seconds_remaining}")
+            if game.state.secondary_state in GAME_INTERRUPTIONS:
+                messages.append(f"  sec_state: {game.state.secondary_state} phase: {game.state.secondary_state_info[1]}")
+        if game.penalty_shootout:
+            messages.append(f"{get_penalty_shootout_msg()}")
+        messages = [f"STATUS: {m}" for m in messages]
+        info(messages)
+        game.last_real_time = now
+        game.last_time_count = time_count
 
 
 def toss_a_coin_if_needed(attribute):  # attribute should be either "side_left" or "kickoff"
@@ -2298,6 +2323,7 @@ try:
         if hasattr(game, 'max_duration') and (time.time() - log.real_time) > game.max_duration:
             info(f'Interrupting game automatically after {game.max_duration} seconds')
             break
+        perform_status_update()
         game_controller_send(f'CLOCK:{time_count}')
         game_controller_receive()
         if game.state is None:
