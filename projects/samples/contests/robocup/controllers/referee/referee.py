@@ -115,13 +115,12 @@ log.real_time = time.time()
 
 def clean_exit():
     """Save logs and clean all subprocesses"""
-    if game.controller:
+    if hasattr(game, "controller") and game.controller:
         game.controller.close()
-    if game.controller_process:
+    if hasattr(game, "controller_process") and game.controller_process:
         game.controller_process.terminate()
-    if udp_bouncer_process:
+    if hasattr(game, "controller_process") and udp_bouncer_process:
         udp_bouncer_process.terminate()
-
     if hasattr(game, 'record_simulation'):
         if game.record_simulation.endswith(".html"):
             supervisor.animationStopRecording()
@@ -131,24 +130,25 @@ def clean_exit():
             while not supervisor.movieIsReady():
                 supervisor.step(time_step)
             info("Encoding finished")
-    if game.over and game.press_a_key_to_terminate:
-        print('Press a key to terminate')
-        keyboard = supervisor.getKeyboard()
-        keyboard.enable(time_step)
-        while supervisor.step(time_step) != -1:
-            if keyboard.getKey() != -1:
-                break
-    elif game.over:
-        waiting_steps = END_OF_GAME_TIMEOUT * 1000 / time_step
-        while waiting_steps > 0:
-            supervisor.step(time_step)
+    if hasattr(game, 'over'):
+        if game.over and hasattr(game, 'press_a_key_to_terminate') and game.press_a_key_to_terminate:
+            print('Press a key to terminate')
+            keyboard = supervisor.getKeyboard()
+            keyboard.enable(time_step)
+            while supervisor.step(time_step) != -1:
+                if keyboard.getKey() != -1:
+                    break
+        elif game.over:
+            waiting_steps = END_OF_GAME_TIMEOUT * 1000 / time_step
+            while waiting_steps > 0:
+                supervisor.step(time_step)
 
     if log_file:
         log_file.close()
 
+    # Note: If supervisor.step is not called before the 'simulationQuit', information is not shown
+    supervisor.step(time_step)
     supervisor.simulationQuit(0)
-    while supervisor.step(time_step) != -1:
-        pass
 
 
 def info(message):
@@ -833,8 +833,6 @@ def init_team(team):
     # the players IDs should be "1", "2", "3", "4" for four players, "1", "2", "3" for three players, etc.
     count = 1
     for number in team['players']:
-        if int(number) != count:
-            error(f'Wrong team player number: expecting "{count}", found "{number}".', fatal=True)
         count += 1
         player = team['players'][number]
         player['outside_circle'] = True
@@ -2074,6 +2072,33 @@ def game_interruption_place_ball(target_location, enforce_distance=True):
     info(f'Ball respawned at {target_location[0]} {target_location[1]} {target_location[2]}.')
 
 
+def read_team(json_path):
+    team = None
+    try:
+        with open(json_path) as json_file:
+            team = json.load(json_file)
+            for field_name in ["name", "players"]:
+                if field_name not in team:
+                    raise RuntimeError(f"Missing field {field_name}")
+            if len(team['players']) == 0:
+                warning(f"No players found for team {team['name']}")
+            count = 1
+            for p_key, p in team['players'].items():
+                if int(p_key) != count:
+                    raise RuntimeError(f'Wrong team player number: expecting "{count}", found "{p_key}".')
+                for field_name in ['proto', 'halfTimeStartingPose', 'reentryStartingPose', 'shootoutStartingPose',
+                                   'goalKeeperStartingPose']:
+                    if field_name not in p:
+                        raise RuntimeError(f"Missing field {field_name} in player {p_key}")
+                count += 1
+    except Exception:
+        error(f"Failed to read file {json_path} with the following error:\n{traceback.format_exc()}", fatal=True)
+    return team
+
+
+# start the webots supervisor
+supervisor = Supervisor()
+time_step = int(supervisor.getBasicTimeStep())
 time_count = 0
 
 log_file = open('log.txt', 'w')
@@ -2087,10 +2112,8 @@ if not os.path.isfile(game_config_file):
 # read configuration files
 with open(game_config_file) as json_file:
     game = json.loads(json_file.read(), object_hook=lambda d: SimpleNamespace(**d))
-with open(game.red.config) as json_file:
-    red_team = json.load(json_file)
-with open(game.blue.config) as json_file:
-    blue_team = json.load(json_file)
+red_team = read_team(game.red.config)
+blue_team = read_team(game.blue.config)
 
 # finalize the game object
 if not hasattr(game, 'minimum_real_time_factor'):
@@ -2111,9 +2134,6 @@ else:
 field_size = getattr(game, 'class').lower()
 game.field = Field(field_size)
 
-# start the webots supervisor
-supervisor = Supervisor()
-time_step = int(supervisor.getBasicTimeStep())
 
 red_team['color'] = 'red'
 blue_team['color'] = 'blue'
