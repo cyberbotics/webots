@@ -27,7 +27,7 @@
 
 ### Trial 2: Penalty for RED
 
-- Game moves directly from SET to finish
+- Game moves directly from SET to FINISHED
 - Game continues with Trial 3
 
 ### Trial 3: Penalty for BLUE

@@ -12,7 +12,7 @@ circle, then the goal is valid
 
 ## Description
 
-1. BLUE 2 touches the ball after PLAYING, ball moves outside the center circle
-2. BLUE 2 moves out of center circle
-3. BLUE 2 kicks the ball in the goal
+1. BLUE 1 touches the ball after PLAYING, ball moves outside the center circle
+2. BLUE 1 moves out of center circle
+3. BLUE 1 kicks the ball in the goal
 4. A goal is scored

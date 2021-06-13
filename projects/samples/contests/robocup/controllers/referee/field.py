@@ -14,6 +14,7 @@ class Field:
         self.opponent_distance_to_ball = 0.75 if size == 'kid' else 1.5
         self.ball_vincity = 0.75 if size == 'kid' else 1.5
         self.robot_radius = 0.3 if size == 'kid' else 0.5
+        self.place_ball_safety_dist = 0.5 if size == 'kid' else 1.0
         self.turf_depth = 0.01
         self.border_strip_width = 1
         self.line_width = 0.05
@@ -35,3 +36,8 @@ class Field:
         return (abs(point[0]) - radius > self.size_x - self.goal_area_length and
                 abs(point[0]) + radius < self.size_x and
                 abs(point[1]) + radius < self.goal_area_width / 2)
+
+    def circle_fully_inside_penalty_area(self, point, radius):
+        return (abs(point[0]) - radius > self.size_x - self.penalty_area_length and
+                abs(point[0]) + radius < self.size_x and
+                abs(point[1]) + radius < self.penalty_area_width / 2)

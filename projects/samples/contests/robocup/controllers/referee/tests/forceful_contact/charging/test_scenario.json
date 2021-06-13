@@ -245,6 +245,26 @@
         ]
     },
     {
+        "description" : "After collision, move robots slightly apart to avoid risk of mixing with rules",
+        "timing" : {
+            "time" : 136,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "actions" : [
+            {
+                "target" : "RED_PLAYER_1",
+                "position" : [1.1, 0.75, 0.24],
+                "orientation" : [0, 0, 1, 1.57]
+            },
+            {
+                "target" : "BLUE_PLAYER_1",
+                "position" : [0.75, 1.1, 0.24],
+                "orientation" : [0, 0, 1, 0]
+            }
+        ]
+    },
+    {
         "timing" : {
             "time" : [138.0, 140.0],
             "clock_type" : "Simulated",
@@ -253,7 +273,8 @@
         "tests" : [
             {
                 "name" : "D. Foul less than 1 meter from the ball -> direct freekick",
-                "secondary_state" : "DIRECT_FREEKICK"
+                "secondary_state" : "DIRECT_FREEKICK",
+                "secondary_team_id" : 9
             },
             {
                 "name" : "D. Player moving to the ball -> No penalty",
@@ -264,6 +285,23 @@
                 "name" : "D. Since freekick -> No penalty",
                 "target" : "BLUE_PLAYER_1",
                 "penalty" : 0
+            }
+        ]
+    },
+    {
+        "timing" :  {
+            "time" : 1,
+            "clock_type" : "Simulated",
+            "secondary_state" : "DIRECT_FREEKICK",
+            "phase" : 1
+        },
+        "tests" : [
+            {
+                "name" : "D. Ball is placed at the expected location",
+                "target" : "BALL",
+                "position" : [1.9, 1.0, 0.08],
+                "abs_tol" : 0.1,
+                "comment" : "BLUE 1 and RED 1 each covers two alternative pos"
             }
         ]
     }
