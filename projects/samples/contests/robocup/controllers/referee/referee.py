@@ -87,18 +87,25 @@ GOAL_HALF_WIDTH = GOAL_WIDTH / 2
 global supervisor, game, red_team, blue_team, log_file, time_count, time_step, game_controller_udp_filter
 
 
-def log(message, type):
-    if type == 'Warning':
+def log(message, msg_type, force_flush=True):
+    if type(message) is list:
+        for m in message:
+            log(m, msg_type, False)
+        if log_file and force_flush:
+            log_file.flush()
+        return
+    if msg_type == 'Warning':
         console_message = f'{AnsiCodes.YELLOW_FOREGROUND}{AnsiCodes.BOLD}{message}{AnsiCodes.RESET}'
-    elif type == 'Error':
+    elif msg_type == 'Error':
         console_message = f'{AnsiCodes.RED_FOREGROUND}{AnsiCodes.BOLD}{message}{AnsiCodes.RESET}'
     else:
         console_message = message
-    print(console_message, file=sys.stderr if type == 'Error' else sys.stdout)
+    print(console_message, file=sys.stderr if msg_type == 'Error' else sys.stdout)
     if log_file:
         real_time = int(1000 * (time.time() - log.real_time)) / 1000
-        log_file.write(f'[{real_time:08.3f}|{time_count / 1000:08.3f}] {type}: {message}\n')  # log real and virtual times
-        log_file.flush()
+        log_file.write(f'[{real_time:08.3f}|{time_count / 1000:08.3f}] {msg_type}: {message}\n')  # log real and virtual times
+        if force_flush:
+            log_file.flush()
 
 
 log.real_time = time.time()
@@ -1039,11 +1046,6 @@ def send_penalty(player, penalty, reason, log=None):
 
 def forceful_contact_foul(team, number, opponent_team, opponent_number, distance_to_ball, message):
     player = team['players'][number]
-    if 'penalty_immunity' in player:
-        if player['penalty_immunity'] < time_count:
-            del player['penalty_immunity']
-        else:
-            return
     if player['outside_penalty_area']:
         area = 'outside penalty area'
     else:
@@ -1082,12 +1084,28 @@ def moves_to_ball(player, velocity, velocity_squared):
     return angle < FOUL_DIRECTION_THRESHOLD
 
 
+def readable_number_list(number_list, width=5, nb_digits=2):
+    fmt = f"%{width}.{nb_digits}f"
+    return f"[{' '.join([fmt % elem for elem in number_list])}]"
+
+
 def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
     p1 = team['players'][number]
+    if 'penalty_immunity' in p1:
+        if p1['penalty_immunity'] < time_count:
+            del p1['penalty_immunity']
+        else:
+            return
     p2 = opponent_team['players'][opponent_number]
     d1 = distance2(p1['position'], game.ball_position)
     d2 = distance2(p2['position'], game.ball_position)
+    p1_str = f"{team['color']} {number}"
+    p2_str = f"{opponent_team['color']} {opponent_number}"
+    debug_messages = [f"Check if {p1_str} is performing a foul on {p2_str}",
+                      f"{p1_str:6s}: at {readable_number_list(p1['position'])}, dist to ball: {d1:.2f}",
+                      f"{p2_str:6s}: at {readable_number_list(p2['position'])}, dist to ball: {d2:.2f}"]
     if goalkeeper_inside_own_goal_area(opponent_team, opponent_number):
+        info(debug_messages)
         forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'goalkeeper')
         return True
     if team == red_team:
@@ -1098,9 +1116,11 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
         blue_number = number
     if game.forceful_contact_matrix.long_collision(red_number, blue_number):
         if d1 < FOUL_VINCITY_DISTANCE and d1 - d2 > FOUL_DISTANCE_THRESHOLD:
-            forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                  f'long collision: more than {FOUL_PUSHING_TIME} second'
-                                  f' over a time window of {FOUL_PUSHING_PERIOD} seconds')
+            collision_time = game.forceful_contact_matrix.get_collision_time(red_number, blue_number)
+            debug_messages.append(f"Pushing time: {collision_time} > {FOUL_PUSHING_TIME} over the last {FOUL_PUSHING_PERIOD}")
+            debug_messages.append(f"Difference of distance: {d1-d2} > {FOUL_DISTANCE_THRESHOLD}")
+            info(debug_messages)
+            forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'long_collision')
             return True
     v1 = p1['velocity']
     v2 = p2['velocity']
@@ -1108,19 +1128,25 @@ def check_team_forceful_contacts(team, number, opponent_team, opponent_number):
     v2_squared = v2[0] * v2[0] + v2[1] * v2[1]
     if not v1_squared > FOUL_SPEED_THRESHOLD * FOUL_SPEED_THRESHOLD:
         return False
+    debug_messages.append(f"{p1_str:6s}: velocity: {readable_number_list(v1[:3])}, speed: {math.sqrt(v1_squared):.2f}")
+    debug_messages.append(f"{p2_str:6s}: velocity: {readable_number_list(v2[:3])}, speed: {math.sqrt(v2_squared):.2f}")
     if d1 < FOUL_VINCITY_DISTANCE:
+        debug_messages.append(f"{p1_str} is close to the ball ({d1:.2f} < {FOUL_VINCITY_DISTANCE})")
         if moves_to_ball(p2, v2, v2_squared):
             if not moves_to_ball(p1, v1, v1_squared):
+                info(debug_messages)
                 forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                      'opponent moving towards the ball, charge: '
-                                      f'{d1} < {FOUL_VINCITY_DISTANCE}')
+                                      'opponent moving towards the ball, charge')
                 return True
             if d1 - d2 > FOUL_DISTANCE_THRESHOLD:
+                debug_messages.append(f"{p2_str} is significantly closer to the ball than {p1_str}: "
+                                      f"({d1-d2:.2f} < {FOUL_DISTANCE_THRESHOLD})")
+                info(debug_messages)
                 forceful_contact_foul(team, number, opponent_team, opponent_number, d1,
-                                      'opponent moving towards the ball, charge from behind: '
-                                      f'{d1} - {d2} > {FOUL_DISTANCE_THRESHOLD}')
+                                      'opponent moving towards the ball, charge from behind')
                 return True
     elif math.sqrt(v1_squared) - math.sqrt(v2_squared) > FOUL_SPEED_THRESHOLD:
+        info(debug_messages)
         forceful_contact_foul(team, number, opponent_team, opponent_number, d1, 'violent collision: '
                               f'{math.sqrt(v1_squared)} - {math.sqrt(v2_squared)} > {FOUL_SPEED_THRESHOLD}')
         return True
