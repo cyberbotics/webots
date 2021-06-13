@@ -1122,7 +1122,9 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     opponent['penalty_immunity'] = immunity_timeout
     player['penalty_immunity'] = immunity_timeout
     freekick_team_id = game.blue.id if team['color'] == "red" else game.red.id
-    if distance_to_ball > FOUL_BALL_DISTANCE or not game.in_play:
+    foul_far_from_ball = distance_to_ball > FOUL_BALL_DISTANCE
+    info(f"Ball in play: {game.in_play}, foul far from ball: {foul_far_from_ball}")
+    if foul_far_from_ball or not game.in_play:
         send_penalty(player, 'PHYSICAL_CONTACT', 'forceful contact foul')
     elif area[0] == 'i' and player['inside_own_side']:  # inside own penalty area
         ball_reset_location = [game.field.penalty_mark_x, 0]
@@ -2412,7 +2414,10 @@ try:
             if previous_seconds_remaining != game.state.seconds_remaining:
                 update_state_display()
                 previous_seconds_remaining = game.state.seconds_remaining
-                if not game.sent_finish and game.state.seconds_remaining <= 0:
+                # TODO find out why GC can send negative 'seconds_remaining' when secondary state is penaltykick
+                if not game.sent_finish and game.state.seconds_remaining <= 0 and \
+                   not game.state.secondary_state == "PENALTYKICK":
+                    info(f"Sending FINISH because seconds remaining = {game.state.seconds_remaining}")
                     game_controller_send('STATE:FINISH')
                     game.sent_finish = True
                     if game.penalty_shootout:  # penalty timeout was reached
