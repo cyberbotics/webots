@@ -1834,22 +1834,22 @@ def check_penalty_goal_line():
             player['invalidGoalkeeperStart'] = None
 
 
-def interruption(type, team=None, location=None, is_goalkeeper_ball_manipulation=False):
-    if type == 'FREEKICK':
+def interruption(interruption_type, team=None, location=None, is_goalkeeper_ball_manipulation=False):
+    if interruption_type == 'FREEKICK':
         own_side = (game.side_left == team) ^ (game.ball_position[0] < 0)
         inside_penalty_area = game.field.circle_fully_inside_penalty_area(game.ball_position, game.ball_radius)
         if is_goalkeeper_ball_manipulation and inside_penalty_area and own_side:
             # TODO: location should be adjusted to project ball on the penalty line parallel to the goal line
-            type = 'INDIRECT_FREEKICK'
+            interruption_type = 'INDIRECT_FREEKICK'
         else:
-            type = 'DIRECT_FREEKICK'
+            interruption_type = 'DIRECT_FREEKICK'
     game.in_play = None
     game.can_score_own = False
     game.ball_set_kick = True
     if location is not None:
         game.ball_kick_translation[:2] = location[:2]
-    game.interruption = type
-    game.phase = type
+    game.interruption = interruption_type
+    game.phase = interruption_type
     game.ball_first_touch_time = 0
     game.interruption_countdown = SIMULATED_TIME_INTERRUPTION_PHASE_0
     if not team:
@@ -1860,7 +1860,7 @@ def interruption(type, team=None, location=None, is_goalkeeper_ball_manipulation
     reset_ball_touched()
     info(f'Ball not in play, will be kicked by a player from the {game.ball_must_kick_team} team.')
     color = 'red' if game.interruption_team == game.red.id else 'blue'
-    info(f'{GAME_INTERRUPTIONS[type].capitalize()} awarded to {color} team.')
+    info(f'{GAME_INTERRUPTIONS[interruption_type].capitalize()} awarded to {color} team.')
     game_controller_send(f'{game.interruption}:{game.interruption_team}')
 
 
@@ -2392,8 +2392,8 @@ try:
                         if game.over:
                             break
                     elif game.state.first_half:
-                        type = 'knockout ' if game.type == 'KNOCKOUT' and game.overtime else ''
-                        info(f'End of {type}first half.')
+                        game_type = 'knockout ' if game.type == 'KNOCKOUT' and game.overtime else ''
+                        info(f'End of {game_type} first half.')
                         flip_sides()
                         reset_teams('halfTimeStartingPose')
                         game.kickoff = game.blue.id if game.kickoff == game.red.id else game.red.id
@@ -2549,12 +2549,12 @@ try:
                 #       now automatic.
                 if game.ready_real_time is None:
                     if game.overtime:
-                        type = 'knockout '
+                        game_type = 'knockout '
                         game_controller_send('STATE:OVERTIME-SECOND-HALF')
                     else:
-                        type = ''
+                        game_type = ''
                         game_controller_send('STATE:SECOND-HALF')
-                    info(f'Beginning of {type}second half.')
+                    info(f'Beginning of {game_type}second half.')
                     game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
             elif game.type == 'KNOCKOUT' and game.overtime and game.state.teams[0].score == game.state.teams[1].score:
                 if game.ready_real_time is None:
@@ -2591,7 +2591,7 @@ try:
                 game_type = ''
                 if game.overtime:
                     game_type = 'overtime '
-                info(f'Beginning of {game_type} second half.')
+                info(f'Beginning of {game_type}second half.')
                 kickoff()
                 game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
 
