@@ -1713,6 +1713,7 @@ def penalty_kicker_player():
         return player
     return None
 
+
 def get_penalty_shootout_msg():
     trial = game.penalty_shootout_count + 1
     name = "penalty shoot-out"
@@ -1720,6 +1721,7 @@ def get_penalty_shootout_msg():
         name = f"extended {name}"
         trial -= 10
     return f"{name} {trial}/10"
+
 
 def set_penalty_positions():
     info(f"Setting positions for {get_penalty_shootout_msg}")
@@ -1769,7 +1771,6 @@ def stop_penalty_shootout():
         return True
     diff = abs(game.state.teams[0].score - game.state.teams[1].score)
     if game.penalty_shootout_count == 10 and diff > 0:
-        info(message)
         return True
     kickoff_team = game.state.teams[0] if game.kickoff == game.state.teams[0].team_number else game.state.teams[1]
     kickoff_team_leads = kickoff_team.score >= game.state.teams[0].score and kickoff_team.score >= game.state.teams[1].score
