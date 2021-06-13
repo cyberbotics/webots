@@ -1520,8 +1520,7 @@ def check_ball_must_kick(team):
             continue
         color = team['color']
         send_penalty(player, 'INCAPABLE', 'non-kicking player touched ball not in play',
-                     f'Non-kicking {color} player {number} touched ball not in play.',
-                     'Ball was touched by wrong team.')
+                     f'Non-kicking {color} player {number} touched ball not in play. Ball was touched by wrong team.')
         break
     return True
 
