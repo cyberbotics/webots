@@ -27,7 +27,7 @@ class ForcefulContactMatrix:
         index = int(time_count / self.time_step) % self.time_window_size
         return self.matrix[int(red_number) - 1][int(blue_number) - 1][index]
 
-    def collision_time(self, red_number, blue_number):
+    def get_collision_time(self, red_number, blue_number):
         """Return collision time in seconds of the collision between both robots"""
         sum = 0
         for touch in self.matrix[int(red_number) - 1][int(blue_number) - 1]:
