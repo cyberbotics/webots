@@ -64,13 +64,17 @@ WbTransform::~WbTransform() {
 
 void WbTransform::reset(const QString &id) {
   WbGroup::reset(id);
-  setTranslation(mSavedTranslations[id]);
-  setRotation(mSavedRotations[id]);
+  if (nodeModelName() != "TrackWheel") {
+    setTranslation(mSavedTranslations[id]);
+    setRotation(mSavedRotations[id]);
+  }
 }
 
 void WbTransform::save(const QString &id) {
-  mSavedTranslations[id] = translation();
-  mSavedRotations[id] = rotation();
+  if (nodeModelName() != "TrackWheel") {
+    mSavedTranslations[id] = translation();
+    mSavedRotations[id] = rotation();
+  }
 }
 
 void WbTransform::preFinalize() {
