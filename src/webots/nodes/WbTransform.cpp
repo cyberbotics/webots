@@ -71,6 +71,7 @@ void WbTransform::reset(const QString &id) {
 }
 
 void WbTransform::save(const QString &id) {
+  WbGroup::save(id);
   if (nodeModelName() != "TrackWheel") {
     mSavedTranslations[id] = translation();
     mSavedRotations[id] = rotation();

@@ -8,7 +8,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 1.6068387731219969 29.469964557107986 7.553020115371061
+  position 2.3845868855393304 29.469964557107986 6.561391272038961
 }
 Background {
   skyColor [
@@ -64,6 +64,12 @@ Group {
   ]
 }
 DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
   controller "supervisor_reset_transform"
   supervisor TRUE
+}
+TestSuiteSupervisor {
 }
