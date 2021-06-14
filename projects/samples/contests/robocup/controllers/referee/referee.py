@@ -330,7 +330,7 @@ def setup_display():
     size = game.font_size
     font = game.font
     # default background
-    supervisor.setLabel(0, '█' * 7 + ' ' * 14 + '█' * 5 + 14 * ' ' + '█' * 14, x, y, size, white, transparency, font)
+    supervisor.setLabel(0, '█' * 7 + ' ' * 14 + '█' * 5 + 14 * ' ' + '█' * 22, x, y, size, white, transparency, font)
     # team name background
     supervisor.setLabel(1, ' ' * 7 + '█' * 14 + ' ' * 5 + 14 * '█', x, y, size, white, transparency * 2, font)
     supervisor.setLabel(2, ' ' * 23 + '-', x, y, size, black, transparency, font)
@@ -2185,10 +2185,10 @@ ball_size = 1 if field_size == 'kid' else 5
 children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 100 100 0.5 size {ball_size} }}')
 
 game.state = None
-game.font_size = 0.1
+game.font_size = 0.096
 game.font = 'Lucida Console'
-game.overlay_x = 0.02
-game.overlay_y = 0.01
+game.overlay_x = 0
+game.overlay_y = 0
 spawn_team(red_team, game.side_left == game.blue.id, children)
 spawn_team(blue_team, game.side_left == game.red.id, children)
 setup_display()
