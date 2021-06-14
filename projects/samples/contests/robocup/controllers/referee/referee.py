@@ -119,7 +119,7 @@ def clean_exit():
         game.controller.close()
     if hasattr(game, "controller_process") and game.controller_process:
         game.controller_process.terminate()
-    if hasattr(game, "controller_process") and udp_bouncer_process:
+    if hasattr(game, "udp_bouncer_process") and udp_bouncer_process:
         udp_bouncer_process.terminate()
     if hasattr(game, 'record_simulation'):
         if game.record_simulation.endswith(".html"):
