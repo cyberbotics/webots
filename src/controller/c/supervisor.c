@@ -1082,6 +1082,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         while (tmp_pose) {
           if (tmp_pose->to_node->id == to_node_id && (!tmp_pose->from_node || tmp_pose->from_node->id == from_node_id)) {
             node_pose = tmp_pose->pose;
+            tmp_pose->last_update = wb_robot_get_time();
             break;
           }
           tmp_pose = tmp_pose->next;
@@ -2011,10 +2012,23 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
 
   WbPoseStruct *tmp_pose = pose_collection;
   while (tmp_pose) {
-    if (tmp_pose->from_node == from_node && tmp_pose->to_node == node)
-      return tmp_pose->pose;
+      printf("%d(%d) %d(%d) %lf %lf\n", 
+    tmp_pose->from_node ? tmp_pose->from_node->id : 0, 
+    from_node ? from_node->id : 0, 
+    tmp_pose->to_node->id, 
+    node->id, 
+    wb_robot_get_time(), 
+    tmp_pose->last_update);
+    if (tmp_pose->from_node == from_node && tmp_pose->to_node == node) {
+      if (tmp_pose->last_update == wb_robot_get_time())
+        return tmp_pose->pose;
+      else
+        break;
+    }
+
     tmp_pose = tmp_pose->next;
   }
+
 
   robot_mutex_lock_step();
   pose_requested = true;

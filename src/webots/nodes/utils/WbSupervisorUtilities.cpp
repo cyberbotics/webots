@@ -394,6 +394,7 @@ void WbSupervisorUtilities::reset() {
     WbWrenLabelOverlay::removeLabel(labelId);
   mLabelIds.clear();
   mTrackedFields.clear();
+  mTrackedPoses.clear();
 
   // delete pending requests and reinitialize them
   deleteControllerRequests();
@@ -1771,7 +1772,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   }
   for (WbTrackedPoseInfo &pose : mTrackedPoses) {
     const double time = WbSimulationState::instance()->time();
-    if (time >= pose.lastUpdate + pose.samplingPeriod) {
+    if (time < pose.lastUpdate || time >= pose.lastUpdate + pose.samplingPeriod) {
       pushRelativePoseToStream(stream, pose.fromNode, pose.toNode);
       pose.lastUpdate = time;
     }
@@ -1790,7 +1791,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   }
   for (WbTrackedContactPointInfo &info : mTrackedContactPoints) {
     const double time = WbSimulationState::instance()->time();
-    if (time >= info.lastUpdate + info.samplingPeriod)
+    if (time < info.lastUpdate || time >= info.lastUpdate + info.samplingPeriod)
       pushContactPointsToStream(stream, info.solid, info.includeDescendants);
   }
   if (mNodeGetContactPoints) {
@@ -1831,7 +1832,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   }
   for (WbTrackedFieldInfo &field : mTrackedFields) {
     const double time = WbSimulationState::instance()->time();
-    if (time >= field.lastUpdate + field.samplingPeriod) {
+    if (time < field.lastUpdate || time >= field.lastUpdate + field.samplingPeriod) {
       stream << (short unsigned int)0;
       stream << (unsigned char)C_SUPERVISOR_FIELD_GET_VALUE;
       stream << (int)field.field->type();
