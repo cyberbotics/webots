@@ -8,16 +8,16 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 0.07374397273287431 17.165363851373538 3.3413140047242935
+  position 1.6068387731219969 29.469964557107986 7.553020115371061
 }
 Background {
   skyColor [
     0 0 1
   ]
 }
-DEF PARENT_NODE Transform {
+DEF OUTER_T1_NODE Transform {
   children [
-    DEF INNER_NODE Transform {
+    DEF INNER_T1_NODE Transform {
       translation 0 0 1
       children [
         Shape {
@@ -29,13 +29,41 @@ DEF PARENT_NODE Transform {
     }
   ]
 }
-DEF SUPERVISOR Robot {
+DEF OUTER_T2_NODE Transform {
+  translation 2 0 0
   children [
-    TestSuiteEmitter {
+    DEF INNER_S2_NODE Solid {
+      translation 0 0 1
+      children [
+        Shape {
+          geometry Box {
+            size 1 1 1
+          }
+        }
+      ]
     }
   ]
+}
+Group {
+  children [
+    DEF OUTER_T3_NODE Transform {
+      translation 4 0 0
+      children [
+        DEF INNER_S3_NODE Solid {
+          translation 0 0 1
+          children [
+            Shape {
+              geometry Box {
+                size 1 1 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+DEF SUPERVISOR Robot {
   controller "supervisor_reset_transform"
   supervisor TRUE
-}
-TestSuiteSupervisor {
 }

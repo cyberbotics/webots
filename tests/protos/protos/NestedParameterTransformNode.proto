@@ -4,15 +4,22 @@ PROTO NestedParameterTransformNode [
   field SFVec3f translation 0 0 0
 ]
 {
-  Transform {
+  DEF OUTER_T6_NODE Transform {
     translation IS translation
     children [
       ProtoNestedMultipleInstances {
         slot [
           ProtoNestedMultipleInstances {
             slot [
-              DEF TEST_PROTO Transform {
-                translation 1 0 1
+              DEF INNER_T6_NODE Transform {
+                translation 0 0 1
+                children [
+                  Shape {
+                    geometry Box {
+                      size 1 1 1
+                    }
+                  }
+                ]
               }
             ]
           }
