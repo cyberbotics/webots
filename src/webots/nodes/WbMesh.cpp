@@ -55,7 +55,7 @@ void WbMesh::downloadAssets() {
   if (WbUrl::isWeb(url)) {
     delete mDownloader;
     mDownloader = new WbDownloader(this);
-    if (isPostFinalizedCalled()) {  // URL changed from the scene tree or supervisor
+    if (!WbWorld::instance()->isLoading()) {  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
       WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
     }
@@ -108,8 +108,12 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
   if (WbUrl::isWeb(filePath)) {
-    if (mDownloader == NULL)
+    if (mDownloader == NULL || !mDownloader->hasFinished()) {
+      if (mDownloader == NULL)
+        downloadAssets();
       return;
+    }
+
     const QByteArray data = mDownloader->device()->readAll();
     const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
@@ -448,7 +452,7 @@ void WbMesh::updateUrl() {
     mUrl->setItem(i, item.replace("\\", "/"));
   }
 
-  if (isPostFinalizedCalled() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
+  if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
     // url was changed from the scene tree or supervisor
     downloadAssets();
     return;

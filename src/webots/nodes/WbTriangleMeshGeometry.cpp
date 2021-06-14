@@ -97,8 +97,8 @@ void WbTriangleMeshGeometry::clearTrimeshResources() {
 }
 
 void WbTriangleMeshGeometry::createWrenObjects() {
-  if (WbNodeUtilities::findContainingProto(this))
-    updateTriangleMesh(false);
+  // if (WbNodeUtilities::findContainingProto(this))
+  // updateTriangleMesh(false);
 
   foreach (QString warning, mTriangleMesh->warnings())
     parsingWarn(warning);
