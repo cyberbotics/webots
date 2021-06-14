@@ -39,9 +39,9 @@ int main(int argc, char **argv) {
     inner_initial_positions[i] = wb_supervisor_node_get_position(inner_nodes[i]);
 
     ts_assert_doubles_in_delta(3, outer_initial_positions[i], expected_initial_outer[i], TOLERANCE,
-                               "Initial 'outer' position for case %d is incorrect.", i);
+                               "Test 1: 'outer' position for case %d is incorrect.", i);
     ts_assert_doubles_in_delta(3, inner_initial_positions[i], expected_initial_inner[i], TOLERANCE,
-                               "Initial 'inner' position for case %d is incorrect.", i);
+                               "Test 1: 'inner' position for case %d is incorrect.", i);
   }
 
   // move outer node by (0 0 5)
@@ -61,9 +61,9 @@ int main(int argc, char **argv) {
     inner_later_positions[i] = wb_supervisor_node_get_position(inner_nodes[i]);
 
     ts_assert_doubles_in_delta(3, outer_later_positions[i], expected_later_outer[i], TOLERANCE,
-                               "After move, 'outer' position is incorrect for case %d.", i);
+                               "Test 2: 'outer' position is incorrect for case %d.", i);
     ts_assert_doubles_in_delta(3, inner_later_positions[i], expected_later_inner[i], TOLERANCE,
-                               "After move, 'inner' position is incorrect for case %d.", i);
+                               "Test 2: 'inner' position is incorrect for case %d.", i);
   }
 
   // reset
@@ -78,17 +78,17 @@ int main(int argc, char **argv) {
     inner_reset_positions[i] = wb_supervisor_node_get_position(inner_nodes[i]);
 
     ts_assert_doubles_in_delta(3, outer_reset_positions[i], expected_initial_outer[i], TOLERANCE,
-                               "After reset, 'outer' position does not coincide with initial one for case %d.", i);
+                               "Test 3: 'outer' position does not coincide with initial one for case %d.", i);
     ts_assert_doubles_in_delta(3, inner_reset_positions[i], expected_initial_inner[i], TOLERANCE,
-                               "After reset, 'inner' position position does not coincide with initial one for case %d.", i);
+                               "Test 3: 'inner' position position does not coincide with initial one for case %d.", i);
   }
 
   // ensure current position coincides with initial position
   for (int i = 0; i < 3; ++i) {
     ts_assert_doubles_in_delta(3, outer_reset_positions[i], outer_initial_positions[i], TOLERANCE,
-                               "Position of outer node %d did not return to initial value after reset.", i);
+                               "Test 4: 'outer' node %d did not return to initial value after reset.", i);
     ts_assert_doubles_in_delta(3, inner_reset_positions[i], inner_initial_positions[i], TOLERANCE,
-                               "Position of inner node %d did not return to initial value after reset.", i);
+                               "Test 4: 'inner' node %d did not return to initial value after reset.", i);
   }
 
   // move outer node by (0 0 5) again
@@ -119,6 +119,21 @@ int main(int argc, char **argv) {
     wb_supervisor_field_set_sf_vec3f(outer_nodes_translations[i], newer_translation[i]);
 
   wb_robot_step(TIME_STEP);
+
+  // retrieve position again and verify both inner and outer moved
+  double expected_later_outer[3][3] = {{0, 0, 10}, {2, 0, 10}, {4, 0, 10}};
+  double expected_later_inner[3][3] = {{0, 0, 11}, {2, 0, 11}, {4, 0, 11}};
+  const double *outer_later_positions[3];
+  const double *inner_later_positions[3];
+  for (int i = 0; i < 3; ++i) {
+    outer_later_positions[i] = wb_supervisor_node_get_position(outer_nodes[i]);
+    inner_later_positions[i] = wb_supervisor_node_get_position(inner_nodes[i]);
+
+    ts_assert_doubles_in_delta(3, outer_later_positions[i], expected_later_outer[i], TOLERANCE,
+                               "After move, 'outer' position is incorrect for case %d.", i);
+    ts_assert_doubles_in_delta(3, inner_later_positions[i], expected_later_inner[i], TOLERANCE,
+                               "After move, 'inner' position is incorrect for case %d.", i);
+  }
 
   ts_send_success();
   return EXIT_SUCCESS;
