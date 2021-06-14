@@ -68,6 +68,8 @@ FOUL_PENALTY_IMMUNITY = 2                 # after a foul, a player is immune to 
 GOAL_WIDTH = 2.6                          # width of the goal
 RED_COLOR = 0xd62929                      # red team color used for the display
 BLUE_COLOR = 0x2943d6                     # blue team color used for the display
+WHITE_COLOR = 0xffffff                    # white color used for the display
+BLACK_COLOR = 0x000000                    # black color used for the display
 STATIC_SPEED_EPS = 1e-2                   # The speed below which an object is considered as static [m/s]
 DROPPED_BALL_TEAM_ID = 128                # The team id used for dropped ball
 BALL_DIST_PERIOD = 1                      # seconds. The period at which distance to the ball is checked
@@ -258,10 +260,11 @@ def update_time_display():
     else:
         sign = ' '
         value = '--:--'
-    supervisor.setLabel(5, sign + value, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
+    supervisor.setLabel(6, sign + value, 0, 0, game.font_size, 0x000000, 0.2, game.font)
 
 
 def update_state_display():
+    update_details_display()
     if game.state:
         state = game.state.game_state[6:]
         if state == 'READY' or state == 'SET':  # kickoff
@@ -287,7 +290,7 @@ def update_state_display():
     else:
         state = ''
         color = 0x000000
-    supervisor.setLabel(6, ' ' * 41 + state, game.overlay_x, game.overlay_y, game.font_size, color, 0.2, game.font)
+    supervisor.setLabel(7, ' ' * 41 + state, 0, 0, game.font_size, color, 0.2, game.font)
 
 
 def update_score_display():
@@ -300,40 +303,99 @@ def update_score_display():
         red_score = '0'
         blue_score = '0'
     if game.side_left == game.blue.id:
-        red_score = ' ' * 24 + red_score
         offset = 21 if len(blue_score) == 2 else 22
-        blue_score = ' ' * offset + blue_score
+        score = ' ' * offset + blue_score + '-' + red_score
     else:
-        blue_score = ' ' * 24 + blue_score
         offset = 21 if len(red_score) == 2 else 22
-        red_score = ' ' * offset + red_score
-    supervisor.setLabel(7, red_score, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
-    supervisor.setLabel(8, blue_score, game.overlay_x, game.overlay_y, game.font_size, 0x000000, 0.2, game.font)
+        score = ' ' * offset + red_score + '-' + blue_score
+    supervisor.setLabel(5, score, 0, 0, game.font_size, BLACK_COLOR, 0.2, game.font)
+
+
+def update_team_details_display(team, side, strings):
+    for n in range(len(team['players'])):
+        robot_info = game.state.teams[side].players[n]
+        strings.background += '  █'
+        strings.yellow_card += '  '
+        strings.yellow_card += '■'
+        strings.red_card += '   '
+        strings.white += str(n + 1)
+        if robot_info.secs_till_unpenalized > 0:
+            strings.white += f'{robot_info.secs_till_unpenalized:02d}'
+        elif robot_info.secs_till_unpenalized == 0:
+            strings.white += '██'
+        else:
+            strings.white += str(robot_info.secs_till_unpenalized)
+
+
+def update_time_count_display():
+    supervisor.setLabel(15, f'{time_count: 7}', 0, 0.0465, game.font_size, BLACK_COLOR, 0.2, game.font)
+
+
+def update_details_display():
+    if not game.state:
+        return
+    red = 0 if game.state.teams[0].team_color == 'RED' else 1
+    blue = 1 if red == 0 else 0
+    if game.side_left == game.red.id:
+        left = red
+        right = blue
+        left_team = red_team
+        right_team = blue_team
+        left_color = RED_COLOR
+        right_color = BLUE_COLOR
+    else:
+        left = blue
+        right = red
+        left_team = blue_team
+        right_team = red_team
+        left_color = BLUE_COLOR
+        right_color = RED_COLOR
+
+    class StringObject:
+        pass
+
+    strings = StringObject()
+    strings.foreground = f'{time_count: 7}'
+    strings.background = ' ' * 6
+    strings.yellow_card = ' ' * 7
+    strings.red_card = ' ' * 7
+    strings.white = '█' * 8
+    update_team_details_display(left_team, left, strings)
+    strings.left_background = strings.background
+    strings.background = ' ' * 25
+    space = 19 - len(left_team['players']) * 3
+    strings.white += '█' * space
+    strings.yellow_card += ' ' * space
+    strings.red_card += ' ' * space
+    update_team_details_display(right_team, right, strings)
+    strings.right_background = strings.background
+    del strings.background
+    strings.white += '█' * (35 - (3 * len(right_team['players'])))
+    y = 0.0465  # vertical position of the second line
+    supervisor.setLabel(10, strings.left_background, 0, y, game.font_size, left_color, 0.2, game.font)
+    supervisor.setLabel(11, strings.right_background, 0, y, game.font_size, right_color, 0.2, game.font)
+    supervisor.setLabel(12, strings.white, 0, y, game.font_size, WHITE_COLOR, 0.2, game.font)
+    supervisor.setLabel(13, strings.yellow_card, 0, y, game.font_size, 0xffff00, 0.2, game.font)
+    supervisor.setLabel(14, strings.red_card, 0, y, game.font_size, 0xff0000, 0.2, game.font)
+    supervisor.setLabel(15, strings.foreground, 0, y, game.font_size, BLACK_COLOR, 0.2, game.font)
 
 
 def update_team_display():
-    n = len(red_team['name'])
-    red_team_name = ' ' * 27 + red_team['name'] if game.side_left == game.blue.id else (20 - n) * ' ' + red_team['name']
-    n = len(blue_team['name'])
-    blue_team_name = (20 - n) * ' ' + blue_team['name'] if game.side_left == game.blue.id else ' ' * 27 + blue_team['name']
-    supervisor.setLabel(3, red_team_name, game.overlay_x, game.overlay_y, game.font_size, RED_COLOR, 0.2, game.font)
-    supervisor.setLabel(4, blue_team_name, game.overlay_x, game.overlay_y, game.font_size, BLUE_COLOR, 0.2, game.font)
+    # red and blue backgrounds
+    left_color = RED_COLOR if game.side_left == game.red.id else BLUE_COLOR
+    right_color = BLUE_COLOR if game.side_left == game.red.id else RED_COLOR
+    supervisor.setLabel(2, ' ' * 7 + '█' * 14, 0, 0, game.font_size, left_color, 0.2, game.font)
+    supervisor.setLabel(3, ' ' * 26 + '█' * 14, 0, 0, game.font_size, right_color, 0.2, game.font)
+    # white background and names
+    left_team = red_team if game.side_left == game.red.id else blue_team
+    right_team = red_team if game.side_left == game.blue.id else blue_team
+    team_names = 7 * '█' + (13 - len(left_team['name'])) * ' ' + left_team['name'] + \
+        ' █████ ' + right_team['name'] + ' ' * (13 - len(right_team['name'])) + '█' * 22
+    supervisor.setLabel(4, team_names, 0, 0, game.font_size, WHITE_COLOR, 0.2, game.font)
     update_score_display()
 
 
 def setup_display():
-    black = 0x000000
-    white = 0xffffff
-    transparency = 0.2
-    x = game.overlay_x
-    y = game.overlay_y
-    size = game.font_size
-    font = game.font
-    # default background
-    supervisor.setLabel(0, '█' * 7 + ' ' * 14 + '█' * 5 + 14 * ' ' + '█' * 22, x, y, size, white, transparency, font)
-    # team name background
-    supervisor.setLabel(1, ' ' * 7 + '█' * 14 + ' ' * 5 + 14 * '█', x, y, size, white, transparency * 2, font)
-    supervisor.setLabel(2, ' ' * 23 + '-', x, y, size, black, transparency, font)
     update_team_display()
     update_time_display()
     update_state_display()
@@ -2187,8 +2249,6 @@ children.importMFNodeFromString(-1, f'DEF BALL RobocupSoccerBall {{ translation 
 game.state = None
 game.font_size = 0.096
 game.font = 'Lucida Console'
-game.overlay_x = 0
-game.overlay_y = 0
 spawn_team(red_team, game.side_left == game.blue.id, children)
 spawn_team(blue_team, game.side_left == game.red.id, children)
 setup_display()
@@ -2654,6 +2714,7 @@ try:
                 send_play_state_after_penalties = False
 
         time_count += time_step
+        update_time_count_display()
 
         if game.minimum_real_time_factor != 0:
             # slow down the simulation to guarantee a miminum amount of real time between each step
