@@ -2196,7 +2196,6 @@ void WbSolid::reset(const QString &id) {
 }
 
 void WbSolid::save(const QString &id) {
-  WbTransform::save(id);
   WbMatter::save(id);
   if (isTopSolid())
     saveHiddenFieldValues();

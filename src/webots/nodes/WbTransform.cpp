@@ -26,7 +26,8 @@
 
 void WbTransform::init() {
   mPoseChangedSignalEnabled = false;
-  printf("%s %s\n", this->usefulName().toUtf8().constData(), this->nodeModelName().toUtf8().constData());
+  printf("%s %s %d (%d / %d)\n", this->usefulName().toUtf8().constData(), this->nodeModelName().toUtf8().constData(),
+         nodeType(), WB_NODE_TRACK_WHEEL, WB_NODE_TRANSFORM);
 
   // store position
   // Note: this cannot be put into the preFinalize function because
