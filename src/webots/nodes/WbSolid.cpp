@@ -3066,6 +3066,7 @@ void WbSolid::exportNodeFooter(WbVrmlWriter &writer) const {
 
 const QString WbSolid::sanitizedName() const {
   QString name_dirty = name();
+  name_dirty.replace("\'", "&apos;", Qt::CaseInsensitive);
   name_dirty.replace("\"", "&quot;", Qt::CaseInsensitive);
   name_dirty.replace(">", "&gt;", Qt::CaseInsensitive);
   name_dirty.replace("<", "&lt;", Qt::CaseInsensitive);
