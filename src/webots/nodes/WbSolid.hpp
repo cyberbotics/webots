@@ -288,6 +288,8 @@ protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeFooter(WbVrmlWriter &writer) const override;
+  // If there is a & in the name, change it to &amp; so that it can be parsed by XML.
+  QString sanitizedName() const;
 
 protected slots:
   void updateTranslation() override;
