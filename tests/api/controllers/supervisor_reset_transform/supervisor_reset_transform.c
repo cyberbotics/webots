@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 
   WbNodeRef outer_nodes[3];
   char outer_node_names[3][15] = {"OUTER_T1_NODE", "OUTER_T2_NODE", "OUTER_T3_NODE"};
-  WbFieldRef outer_nodes_translations[6];
+  WbFieldRef outer_nodes_translations[3];
 
   WbNodeRef inner_nodes[3];
   char inner_node_names[3][15] = {"INNER_T1_NODE", "INNER_S2_NODE", "INNER_S3_NODE"};
@@ -132,6 +132,7 @@ int main(int argc, char **argv) {
     wb_supervisor_node_load_state(outer_nodes[i], "intermediary_state");
 
   wb_robot_step(TIME_STEP);
+
   double expected_outer_position_5[3][3] = {{0, 0, 5}, {2, 0, 5}, {4, 0, 5}};
   double expected_inner_position_5[3][3] = {{0, 0, 6}, {2, 0, 6}, {4, 0, 6}};
   const double *outer_position_5[3];
