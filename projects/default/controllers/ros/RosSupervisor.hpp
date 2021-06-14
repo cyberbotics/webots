@@ -176,8 +176,8 @@ public:
                                       webots_ros::node_enable_pose_tracking::Response &res);
   bool nodeDisablePoseTrackingCallback(webots_ros::node_disable_pose_tracking::Request &req,
                                        webots_ros::node_disable_pose_tracking::Response &res);
-  bool nodeSetJointPosition(webots_ros::node_set_joint_position::Request &req,
-                            webots_ros::node_set_joint_position::Response &res);
+  bool nodeSetJointPositionCallback(webots_ros::node_set_joint_position::Request &req,
+                                    webots_ros::node_set_joint_position::Response &res);
 
   bool fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res);
   bool fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req, webots_ros::field_get_type_name::Response &res);

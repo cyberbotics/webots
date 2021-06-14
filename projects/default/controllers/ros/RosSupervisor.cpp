@@ -901,7 +901,7 @@ bool RosSupervisor::nodeSetJointPositionCallback(webots_ros::node_set_joint_posi
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  node->setJointPosition(node, req.position, req.index);
+  node->setJointPosition(req.position, req.index);
   res.success = 1;
   return true;
 }
