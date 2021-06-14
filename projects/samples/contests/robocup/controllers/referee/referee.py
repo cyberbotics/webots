@@ -1821,7 +1821,7 @@ def stop_penalty_shootout():
 
 def next_penalty_shootout():
     game.penalty_shootout_count += 1
-    if not game.penalty_shootout_goal and not game.state.game_state[:6] == "FINISHED":
+    if not game.penalty_shootout_goal and game.state.game_state[:8] != "FINISHED":
         game_controller_send('STATE:FINISH')
     game.penalty_shootout_goal = False
     if stop_penalty_shootout():
