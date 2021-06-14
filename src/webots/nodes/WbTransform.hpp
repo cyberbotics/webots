@@ -48,8 +48,8 @@ public:
   void reset(const QString &id) override;
 
   // accessors to stored fields
-  const WbVector3 translationFromFile() const { return mSavedTranslations[stateId()]; }
-  const WbRotation rotationFromFile() const { return mSavedRotations[stateId()]; }
+  const WbVector3 translationFromFile(const QString &id) const { return mSavedTranslations[id]; }
+  const WbRotation rotationFromFile(const QString &id) const { return mSavedRotations[id]; }
   void setTranslationFromFile(const WbVector3 &translation) { mSavedTranslations[stateId()] = translation; }
   void setRotationFromFile(const WbRotation &rotation) { mSavedRotations[stateId()] = rotation; }
 
