@@ -26,12 +26,15 @@
 
 void WbTransform::init() {
   mPoseChangedSignalEnabled = false;
+  printf("%s %s\n", this->usefulName().toUtf8().constData(), this->nodeModelName().toUtf8().constData());
 
   // store position
   // Note: this cannot be put into the preFinalize function because
   //       of the copy constructor last initialization
-  mSavedTranslations[stateId()] = translation();
-  mSavedRotations[stateId()] = rotation();
+  if (nodeModelName() != "TrackWheel") {  // nodeType() != WB_NODE_TRACK_WHEEL
+    mSavedTranslations[stateId()] = translation();
+    mSavedRotations[stateId()] = rotation();
+  }
 }
 
 WbTransform::WbTransform(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractTransform(this) {

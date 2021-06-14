@@ -32,6 +32,7 @@ void WbAbstractTransform::init(WbBaseNode *node) {
   mBaseNode = node;
   assert(mBaseNode);
 
+  printf("%s\n", node->usefulName().toUtf8().constData());
   mTranslation = node->findSFVector3("translation");
   mRotation = node->findSFRotation("rotation");
   mScale = node->findSFVector3("scale");
