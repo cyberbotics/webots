@@ -156,7 +156,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     static bool firstJavaScriptCall = true;
     if (firstJavaScriptCall) {
       initializeJavaScript();
-      firstJavaScriptCall = true;
+      firstJavaScriptCall = false;
     }
 
     gOpeningToken = "%<";
