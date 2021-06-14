@@ -561,8 +561,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = getProtoParameterNodeInstance(nodeId, "wb_supervisor_node_set_joint_position()");
       WbJoint *joint = dynamic_cast<WbJoint *>(node);
       assert(joint);
-      if (joint)
+      if (joint) {
         joint->setPosition(position, index);
+        if ((index == 1 && !joint->parameters()) || (index == 2 && !joint->parameters2()) ||
+            (index == 3 && !joint->parameters3()))
+          // force updating the joint position (this slot is automatically triggered by WbJointParameters node)
+          joint->updatePosition();
+      }
       return;
     }
     case C_SUPERVISOR_RELOAD_WORLD:

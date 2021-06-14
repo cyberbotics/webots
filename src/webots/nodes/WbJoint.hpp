@@ -61,6 +61,9 @@ public:
 signals:
   void updateMuscleStretch(double forcePercentage, bool immediateUpdate, int motorIndex);
 
+public slots:
+  virtual void updatePosition() {}
+
 protected:
   void writeExport(WbVrmlWriter &writer) const override;
 
@@ -87,7 +90,6 @@ protected:
 
 protected slots:
   virtual void addDevice(int index);
-  virtual void updatePosition() {}
   void updateParameters() override;
   virtual void updateMinAndMaxStop(double min, double max);
   virtual void updateAxis();
