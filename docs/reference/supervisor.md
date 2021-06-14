@@ -1480,8 +1480,9 @@ wb_supervisor_node_set_joint_position(node, position, index)
 
 The `wb_supervisor_node_set_joint_position` function artificially sets the position of an active or passive joint.
 This function is particular useful to setup programmatically the initial pose of a robot from a Supervisor controller as the position is changed immediately.
-The `node` argument, that has to be of joint type, specifies which node interested by the change and the `position` specifies the new position of the joint.
-Given that this is a generic function that handles all type of joints, the `index` argument indicates the axis that should be modified. Valid indices for each type of joint are listed in [the following table](#joint-position-indices).
+The `node` argument, that has to be of [Joint](joint.md) type, specifies which node is interested by the change and the `position` argument specifies the new position of the joint.
+Given that this is a generic function that handles all type of joints, the `index` argument indicates the axis that should be modified.
+Valid indices for each type of joint are listed in [the following table](#joint-position-indices).
 
 %figure "Joint position indices"
 
