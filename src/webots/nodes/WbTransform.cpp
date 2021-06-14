@@ -26,13 +26,11 @@
 
 void WbTransform::init() {
   mPoseChangedSignalEnabled = false;
-  printf("%s %s %d (%d / %d)\n", this->usefulName().toUtf8().constData(), this->nodeModelName().toUtf8().constData(),
-         nodeType(), WB_NODE_TRACK_WHEEL, WB_NODE_TRANSFORM);
 
   // store position
-  // Note: this cannot be put into the preFinalize function because
+  // note: this cannot be put into the preFinalize function because
   //       of the copy constructor last initialization
-  if (nodeModelName() != "TrackWheel") {  // nodeType() != WB_NODE_TRACK_WHEEL
+  if (nodeModelName() != "TrackWheel") {
     mSavedTranslations[stateId()] = translation();
     mSavedRotations[stateId()] = rotation();
   }
@@ -64,7 +62,9 @@ WbTransform::~WbTransform() {
 
 void WbTransform::reset(const QString &id) {
   WbGroup::reset(id);
-  if (nodeModelName() != "TrackWheel") {
+  // note: for solids, the setting of these parameters has to occur only if mJointParents.size() == 0 and is taken care of in
+  // WbSolid::reset, otherwise it breaks the resetting of hinge based joints
+  if (nodeModelName() != "TrackWheel" && nodeModelName() != "Solid") {
     setTranslation(mSavedTranslations[id]);
     setRotation(mSavedRotations[id]);
   }

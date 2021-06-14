@@ -24,7 +24,6 @@ void WbTrackWheel::init() {
   mRadius = findSFDouble("radius");
   mInner = findSFBool("inner");
 
-  printf("%s\n", this->usefulName().toUtf8().constData());
   // define Transform fields
   mTranslation = new WbSFVector3(WbVector3());
   mRotation = new WbSFRotation(WbRotation());
