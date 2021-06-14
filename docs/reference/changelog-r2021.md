@@ -66,6 +66,7 @@ Released on June, Xth, 2021.
     - Fixed the [`wb_supervisor_field_get_count`](supervisor.md#wb_supervisor_field_get_count) function's returned value not updated after modifying the fields from the GUI or from another [Supervisor](supervisor.md) controller ([#2812](https://github.com/cyberbotics/webots/pull/2812)).
     - Fixed the conversion from quaternions to euler angles in the [InertialUnit](inertialunit.md) for the ENU coordinate system ([#2768](https://github.com/cyberbotics/webots/pull/2768)).
     - Fixed RandomBuilding proto where having different instances generated the same building ([#2897](https://github.com/cyberbotics/webots/pull/2897)).
+    - Fixed incorrect position retrieval immediately after resetting nested [Transform](transform.md) nodes ([#3051](https://github.com/cyberbotics/webots/issues/3051)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
 
