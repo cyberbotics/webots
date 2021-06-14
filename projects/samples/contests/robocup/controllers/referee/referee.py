@@ -130,15 +130,15 @@ def clean_exit():
             while not supervisor.movieIsReady():
                 supervisor.step(time_step)
             info("Encoding finished")
-    if hasattr(game, 'over'):
-        if game.over and hasattr(game, 'press_a_key_to_terminate') and game.press_a_key_to_terminate:
+    if hasattr(game, 'over') and game.over:
+        if hasattr(game, 'press_a_key_to_terminate') and game.press_a_key_to_terminate:
             print('Press a key to terminate')
             keyboard = supervisor.getKeyboard()
             keyboard.enable(time_step)
             while supervisor.step(time_step) != -1:
                 if keyboard.getKey() != -1:
                     break
-        elif game.over:
+        else:
             waiting_steps = END_OF_GAME_TIMEOUT * 1000 / time_step
             while waiting_steps > 0:
                 supervisor.step(time_step)
