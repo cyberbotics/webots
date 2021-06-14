@@ -3041,7 +3041,7 @@ void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
   WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())
-      writer << " name='" << name() << "'";
+      writer << " name='" << sanitizedName() << "'";
     writer << " solid='true'";
   }
 }
@@ -3062,4 +3062,13 @@ void WbSolid::exportNodeFooter(WbVrmlWriter &writer) const {
   }
 
   WbMatter::exportNodeFooter(writer);
+}
+
+const QString WbSolid::sanitizedName() const {
+  QString name_dirty = name();
+  name_dirty.replace("\'", "&apos;", Qt::CaseInsensitive);
+  name_dirty.replace("\"", "&quot;", Qt::CaseInsensitive);
+  name_dirty.replace(">", "&gt;", Qt::CaseInsensitive);
+  name_dirty.replace("<", "&lt;", Qt::CaseInsensitive);
+  return name_dirty.replace("&", "&amp;", Qt::CaseInsensitive);
 }
