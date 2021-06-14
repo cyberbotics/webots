@@ -129,6 +129,10 @@ void Node::disableContactPointsTracking(bool includeDescendants) const {
   wb_supervisor_node_disable_contact_point_tracking(nodeRef, false);
 }
 
+ContactPoint *Node::getContactPoints(bool includeDescendants, int *size) {
+  return wb_supervisor_node_get_contact_points(nodeRef, includeDescendants, size);
+}
+
 void Node::enablePoseTracking(int samplingPeriod) const {
   wb_supervisor_node_enable_pose_tracking(nodeRef, samplingPeriod, NULL);
 }

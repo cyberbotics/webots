@@ -24,6 +24,7 @@
 #define WB_USING_C_API
 #include "nodes.h"
 #include "types.h"
+#include "contact_point.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,11 +58,6 @@ typedef enum {
   WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME,
   WB_SUPERVISOR_SIMULATION_MODE_FAST
 } WbSimulationMode;
-
-typedef struct {
-  double point[3];
-  int node_id;
-} ContactPoint;
 
 void wb_supervisor_world_load(const char *filename);
 bool wb_supervisor_world_save(const char *filename);
@@ -114,7 +110,7 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
 WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
 
-ContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
+WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
 
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_position(WbNodeRef node);

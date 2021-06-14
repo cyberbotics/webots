@@ -89,18 +89,18 @@ static WbFieldRequest *field_requests_garbage_list = NULL;
 static WbFieldRequest *sent_field_get_request = NULL;
 static bool is_field_immediate_message = false;
 
-typedef struct WbNodeContactPointStructPrivate {
+typedef struct WbNodeWbContactPointStructPrivate {
   double point[3];
   int node_id;
-} WbNodeContactPointStruct;
+} WbNodeWbContactPointStruct;
 
-typedef struct WbNodeContactPointListStructPrivate {
+typedef struct WbNodeWbContactPointListStructPrivate {
   int n;
-  WbNodeContactPointStruct *points;
+  WbNodeWbContactPointStruct *points;
   double timestamp;  // TODO: Delete with `wb_supervisor_node_get_contact_point`
   int sampling_period;
   double last_update;
-} WbNodeContactPointListStruct;
+} WbNodeWbContactPointListStruct;
 
 typedef struct WbNodeStructPrivate {
   int id;
@@ -112,7 +112,7 @@ typedef struct WbNodeStructPrivate {
   double *position;                                // double[3]
   double *orientation;                             // double[9]
   double *center_of_mass;                          // double[3]
-  WbNodeContactPointListStruct contact_points[2];  // 0 -> without descendants, 1 -> with descendants
+  WbNodeWbContactPointListStruct contact_points[2];  // 0 -> without descendants, 1 -> with descendants
   bool contact_points_include_descendants;         // TODO: Delete with `wb_supervisor_node_get_contact_point`
   bool static_balance;
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
@@ -138,12 +138,12 @@ typedef struct WbPoseChangeTrackingPrivate {
   bool enable;
 } WbPoseChangeTracking;
 
-typedef struct WbContactPointChangeTrackingPrivate {
+typedef struct WbWbContactPointChangeTrackingPrivate {
   WbNodeRef node;
   bool include_descendants;
   int sampling_period;
   bool enable;
-} WbContactPointChangeTracking;
+} WbWbContactPointChangeTracking;
 
 static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
@@ -450,7 +450,7 @@ static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
-static WbContactPointChangeTracking contact_point_change_tracking;
+static WbWbContactPointChangeTracking contact_point_change_tracking;
 static bool contact_point_change_tracking_requested = false;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
@@ -1126,7 +1126,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       contact_point_node->contact_points[include_descendants].points = NULL;
       contact_point_node->contact_points[include_descendants].n = n_points;
       if (n_points > 0) {
-        WbNodeContactPointStruct *points = malloc(n_points * sizeof(WbNodeContactPointStruct));
+        WbNodeWbContactPointStruct *points = malloc(n_points * sizeof(WbNodeWbContactPointStruct));
         contact_point_node->contact_points[include_descendants].points = points;
         for (i = 0; i < n_points; i++) {
           points[i].point[0] = request_read_double(r);
@@ -2011,24 +2011,15 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
   }
 
   WbPoseStruct *tmp_pose = pose_collection;
-  while (tmp_pose) {
-      printf("%d(%d) %d(%d) %lf %lf\n", 
-    tmp_pose->from_node ? tmp_pose->from_node->id : 0, 
-    from_node ? from_node->id : 0, 
-    tmp_pose->to_node->id, 
-    node->id, 
-    wb_robot_get_time(), 
-    tmp_pose->last_update);
+  while (tmp_pose)
     if (tmp_pose->from_node == from_node && tmp_pose->to_node == node) {
       if (tmp_pose->last_update == wb_robot_get_time())
         return tmp_pose->pose;
       else
         break;
-    }
 
     tmp_pose = tmp_pose->next;
   }
-
 
   robot_mutex_lock_step();
   pose_requested = true;
@@ -2161,7 +2152,7 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
   return node->contact_points[descendants].n;  // will be -1 if n is not a Solid
 }
 
-ContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size) {
+WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size) {
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 

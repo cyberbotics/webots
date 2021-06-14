@@ -19,10 +19,13 @@
 #include <string>
 #include <webots/Field.hpp>
 #include "../../c/webots/types.h"
+#include "../../c/webots/contact_point.h"
 
 // Note: should match with node.h
 
 namespace webots {
+  typedef WbContactPoint ContactPoint;
+
   class Field;
   class Node {
   public:
@@ -141,6 +144,7 @@ namespace webots {
     void disablePoseTracking() const;
     void enablePoseTracking(int samplingPeriod, const Node *fromNode) const;
     void disablePoseTracking(const Node *fromNode) const;
+    ContactPoint *getContactPoints(bool includeDescendants, int *size);
     const double *getCenterOfMass() const;
     const double *getContactPoint(int index) const;
     Node *getContactPointNode(int index) const;
