@@ -6,7 +6,7 @@ Introducing and learning JavaScript is outside the scope of this document.
 
 ### Template Engine
 
-What determines if a PROTO file is procedural or not, is whether template statements exist in its body, in other words if JavaScript expressions encapsulated either between the tokens `%<` and `>%` or `%<=` and `>%`.
+What determines if a PROTO file is procedural or not, is whether template statements exist in its body, in other words if JavaScript expressions are encapsulated either between the tokens `%<` and `>%` or `%<=` and `>%`.
 Webots cannot load procedural PROTO nodes directly, therefore the procedural PROTO is first translated to pure JavaScript and the resulting script is evaluated by a JavaScript engine, in Webot's case using QJSEngine, and the result of this process yields a VRML97 compatible PROTO file which is then loaded by Webots as any other non-procedural would.
 
 ### Programming Facts
