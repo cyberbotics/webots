@@ -53,6 +53,7 @@ signals:
   void selectionHasChanged();
   void focusIn();
   void refreshRequested();
+  void beforeContextMenuShowed();
 
 protected:
   void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
