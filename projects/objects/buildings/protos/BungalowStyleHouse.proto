@@ -20,7 +20,7 @@ PROTO BungalowStyleHouse [
 ]
 {
   Solid {
-    %< if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { >%
+    %< if (fields.appearance.value !== undefined && fields.appearance.value.fields.baseColor !== undefined) { >%
       %< let color = fields.appearance.value.fields.baseColor.value; >%
       recognitionColors [
         %<= color.r >% %<= color.g >% %<= color.b >%

@@ -143,7 +143,7 @@ PROTO LaneSeparation [
           leftBarrierBoundingObject IS rightBarrierBoundingObject
           rightBorder FALSE
           dashedLine [
-          %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+          %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >%
             %< if (!dashedLine[i]) { >%
               FALSE
             %< } else { >%
@@ -152,7 +152,7 @@ PROTO LaneSeparation [
           %< } >%
           ]
           lines [
-          %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+          %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >%
             %< if (roadLines[i]) { >%
               RoadLine {
                 color %<= roadLines[i].fields.color.value.r >% %<= roadLines[i].fields.color.value.g >% %<= roadLines[i].fields.color.value.b >%
@@ -163,14 +163,14 @@ PROTO LaneSeparation [
           %< } >%
           ]
           startLine [
-          %< for (let i = numberOfleavingLanes + 1; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+          %< for (let i = numberOfleavingLanes + 1; i <= lanes; ++i) { >%
             %< if (startLine[i]) { >%
               %<= '"' + startLine[i] + '"' >%
             %< } >%
           %< } >%
           ]
           endLine [
-          %< for (let i = numberOfleavingLanes + 1; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+          %< for (let i = numberOfleavingLanes + 1; i <= lanes; ++i) { >%
             %< if (endLine[i]) { >%
               %<= '"' + endLine[i] + '"' >%
             %< } >%
@@ -201,7 +201,7 @@ PROTO LaneSeparation [
           leftBarrier IS leftBarrier
           leftBarrierBoundingObject IS leftBarrierBoundingObject
           dashedLine [
-          %< for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+          %< for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { >%
             %< if (!dashedLine[i]) { >%
               FALSE
             %< } else { >%
@@ -210,7 +210,7 @@ PROTO LaneSeparation [
           %< } >%
           ]
           lines [
-          %< for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+          %< for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { >%
             %< if (roadLines[i]) { >%
               RoadLine {
                 color %<= roadLines[i].fields.color.value.r >% %<= roadLines[i].fields.color.value.g >% %<= roadLines[i].fields.color.value.b >%
@@ -221,14 +221,14 @@ PROTO LaneSeparation [
           %< } >%
           ]
           startLine [
-          %< for (let i = lanes - numberOfleavingLanes + 1; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+          %< for (let i = lanes - numberOfleavingLanes + 1; i <= lanes; ++i) { >%
             %< if (startLine[i]) { >%
               %<= '"' + startLine[i] + '"' >%
             %< } >%
           %< } >%
           ]
           endLine [
-          %< for (let i = lanes - numberOfleavingLanes + 1; i <= lanes; ++i) { >% # TODO VERIFY IF BREAKS HERE
+          %< for (let i = lanes - numberOfleavingLanes + 1; i <= lanes; ++i) { >%
             %< if (endLine[i]) { >%
               %<= '"' + endLine[i] + '"' >%
             %< } >%

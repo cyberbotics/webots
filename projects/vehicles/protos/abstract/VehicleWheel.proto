@@ -161,7 +161,7 @@ PROTO VehicleWheel [
                 %< } >%
 
                 %< for (let i = 0; i <= edgeSubdivision; ++i) { >%
-                  %< for (let j = 0; j < circles[(edgeSubdivision - i) + 1].length; ++j) { >% # TODO: ERROR HERE?
+                  %< for (let j = 0; j < circles[(edgeSubdivision - i) + 1].length; ++j) { >%
                     %<= circles[(edgeSubdivision - i) + 1][j].x >% %<= - thickness * 0.5 * (1 - curvatureFactor * (1 - Math.sin(beta * i))) >% %<= circles[(edgeSubdivision - i) + 1][j].y >%
                   %< } >%
                 %< } >%

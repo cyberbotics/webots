@@ -18,11 +18,11 @@ PROTO IbeoLux [
 {
 %<
   const extendedFOV = fields.useExtendedFieldOfView.value;
-  let fieldOfView = 1.484 // 80deg
-  let angleOffset = 0.262 // 15deg
+  let fieldOfView = 1.484; // 80deg
+  let angleOffset = 0.262; // 15deg
   if (extendedFOV) {
-    fieldOfView = 1.92 // 110deg
-    angleOffset = 0.175 // 10deg
+    fieldOfView = 1.92; // 110deg
+    angleOffset = 0.175; // 10deg
   }
 >%
 Lidar {

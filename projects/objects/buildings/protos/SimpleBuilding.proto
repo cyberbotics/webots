@@ -103,8 +103,8 @@ PROTO SimpleBuilding [
 
       for (let i = 0; i < value.length; ++i) {
         let n = Math.ceil(value[i] * 255);
-        for (let j = 0; j <= 1; ++j) { // TODO: WAS i IN LUA !!!!
-          let d = (n % 16); // TODO: WAS + 1;
+        for (let j = 0; j <= 1; ++j) {
+          let d = (n % 16);
           n = Math.floor(n / 16);
           sign += digits[d];
         }

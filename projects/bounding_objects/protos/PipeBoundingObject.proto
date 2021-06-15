@@ -58,7 +58,7 @@ PROTO PipeBoundingObject [
       console.error('Either \'thickness\' or \'subdivision\' are too small for the box subdivision algorithm. Value reset to ' + su + '.');
     }
     const sv = height;
-    const sw = radius * Math.sin(alpha) * 2.0
+    const sw = radius * Math.sin(alpha) * 2.0;
     const boxRadius = innerRadius + su * 0.5;
   >%
   Group { # set of boxes

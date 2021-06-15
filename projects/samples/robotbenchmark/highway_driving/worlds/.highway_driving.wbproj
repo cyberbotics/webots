@@ -7,5 +7,6 @@ centralWidgetVisible: 1
 userInteractions: 3dContextMenuDisabled::objectMoveDisabled::forceAndTorqueDisabled
 orthographicViewHeight: 1
 textFiles: 0 "controllers/highway_driving/highway_driving.py"
+robotWindow: robot
 consoles: Console:All:All
 renderingDevicePerspectives: vehicle:camera;1;0.25;0;0

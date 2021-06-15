@@ -60,7 +60,7 @@ PROTO Extrusion [
         scaleOriginal[i] = scale[i];
       scaleOriginal.push(scaleOriginal[nbScale-1]);
 
-      scale = []; // TODO: CAN BE REMOVED IF MF CHANGED TO ARRAY
+      scale = [];
       for (let j = 0; j < nbSpinePoints; ++j) {
         let ratio = (j % splineSubdivision) / splineSubdivision;
         let index = Math.floor(j / splineSubdivision);

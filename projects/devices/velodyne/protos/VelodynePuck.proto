@@ -132,7 +132,7 @@ PROTO VelodynePuck [
     maxRange 100
     spherical TRUE
     type "fixed"
-    noise 0.003 # 0.03 / 100 ?????
+    noise 0.003 # 0.03 / 100
     defaultFrequency 5
     minFrequency 5
     maxFrequency 20

@@ -15,7 +15,7 @@ PROTO Parquetry [
 ]
 {
   %<
-    const textureName = (fields.type.value).replace(/\s+/g, '_'); // replace whitespace with underscores
+    const textureName = (fields.type.value).replace(/\s+/g, '_'); // replace whitespaces with underscores
   >%
   PBRAppearance {
     baseColor IS colorOverride

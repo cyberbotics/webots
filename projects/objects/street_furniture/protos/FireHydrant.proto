@@ -14,7 +14,7 @@ PROTO FireHydrant [
   Solid {
     translation IS translation
     rotation IS rotation
-    %< if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { >%
+    %< if (fields.appearance.value !== undefined && fields.appearance.value.fields.baseColor !== undefined) { >%
       %< const color = fields.appearance.value.fields.baseColor.value; >%
       recognitionColors [
         %<= color.r >% %<= color.g >% %<= color.b >%

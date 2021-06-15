@@ -79,7 +79,7 @@ PROTO TexturedBackground [
         else
           availableHdr += '"' + hdrBackgrounds[i] + '", ';
       }
-      console.error('Non-HDR backgrounds are deprecated. Please select one of the following \'TexturedBackground.texture\': ', availableHdr);
+      console.error('Non-HDR backgrounds are deprecated. Please select one of the following \'TexturedBackground.texture\': ' + availableHdr);
     }
   >%
   Background {

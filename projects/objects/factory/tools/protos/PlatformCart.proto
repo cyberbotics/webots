@@ -13,7 +13,7 @@ PROTO PlatformCart [
 ]
 {
   %<
-    const isDynamic = fields.physics.value !== 'undefined';
+    const isDynamic = fields.physics.value !== undefined;
   >%
   Solid {
     translation IS translation

@@ -30,28 +30,28 @@ PROTO AdvertisingBoard [
     let displayWidth = fields.displayWidth.value;
     if (displayWidth <= 0.0) {
       displayWidth = fields.displayWidth.defaultValue;
-      console.error('\'displayWidth\' should be strictly positive. Value reset to \'', displayWidth, '\'.');
+      console.error('\'displayWidth\' should be strictly positive. Value reset to ' + displayWidth + '.');
     }
     let displayHeight = fields.displayHeight.value;
     if (displayHeight <= 0.0) {
       displayHeight = fields.displayHeight.defaultValue;
-      console.error('\'displayHeight\' should be strictly positive. Value reset to \'', displayHeight, '\'.');
+      console.error('\'displayHeight\' should be strictly positive. Value reset to ' + displayHeight + '.');
     }
     let frameThickness = fields.frameThickness.value;
     if (frameThickness < 0.1) {
       frameThickness = fields.frameThickness.defaultValue;
-      console.error('\'frameThickness\' should be >= 0.1. Value reset to \'', frameThickness, '\'.');
+      console.error('\'frameThickness\' should be >= 0.1. Value reset to ' + frameThickness + '.');
     }
     let poleNumber = fields.poleNumber.value;
     if (poleNumber < 0 || poleNumber >= 5) {
       poleNumber = fields.poleNumber.defaultValue;
-      console.error('\'poleNumber\' should be strictly positive. Value reset to \'', poleNumber, '\'.');
+      console.error('\'poleNumber\' should be strictly positive. Value reset to ' + poleNumber + '.');
     }
     let poleType = fields.poleType.value;
     let poleHeight = fields.poleHeight.value;
     if (poleHeight <= 0.0) {
       poleHeight = fields.poleHeight.defaultValue;
-      console.error('\'poleHeight\' should be strictly positive. Value reset to \'', poleHeight, '\'.');
+      console.error('\'poleHeight\' should be strictly positive. Value reset to ' + poleHeight + '.');
     }
 
     let offsetFront = 0.06; // provides depth to the display plane with regards to the frame
@@ -60,21 +60,21 @@ PROTO AdvertisingBoard [
     let poleThickness = fields.poleThickness.value;
     if (poleThickness < 0.1) {
       poleThickness = fields.poleThickness.defaultValue;
-      console.error('\'poleThickness\' should be >= 0.1. Value reset to \'', poleThickness, '\'.');
+      console.error('\'poleThickness\' should be >= 0.1. Value reset to ' + poleThickness + '.');
     } else if (poleThickness > (frameThickness - offsetFront) && poleNumber !== 0) {
       // following test takes into account offset to prevent pole from being larger than the real display thickness
       poleThickness = fields.poleThickness.defaultValue;
-      console.error('\'poleThickness\' should be smaller than the frame. Value reset to \'', poleThickness, '\'.');
+      console.error('\'poleThickness\' should be smaller than the frame. Value reset to ' + poleThickness + '.');
     } else if (poleThickness > (frameThickness - offsetBack) && poleNumber !== 0) {
       poleThickness = fields.poleThickness.defaultValue;
-      console.error('\'poleThickness\' should be smaller than the frame. Value reset to \'', poleThickness, '\'.');
+      console.error('\'poleThickness\' should be smaller than the frame. Value reset to ' + poleThickness + '.');
     }
     const halfPoleThickness = poleThickness * 0.5;
 
     let baseRatio = fields.baseRatio.value;
     if (baseRatio < 0.1) {
       baseRatio = fields.baseRatio.defaultValue;
-      console.error('\'baseRatio\' should be strictly positive. Value reset to \'', baseRatio, '\'.');
+      console.error('\'baseRatio\' should be strictly positive. Value reset to ' + baseRatio + '.');
     }
     let xPosition = [[0], [-displayWidth / 4, displayWidth / 4], [-displayWidth / 3, 0, displayWidth / 3],
                     [-(displayWidth / 2) + poleThickness, -displayWidth / 7, displayWidth / 7, (displayWidth / 2) - poleThickness]];

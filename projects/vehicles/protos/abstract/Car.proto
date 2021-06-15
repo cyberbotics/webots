@@ -84,7 +84,7 @@ PROTO Car [
     const type = fields.type.value;
     // engineSound check
     let engineSound = fields.engineSound.value;
-    if (engineSound === 'undefined' || engineSound === '')
+    if (engineSound === undefined || engineSound === '')
       engineSound = 'none';
     // engineSoundRpmReference check
     let engineSoundRpmReference = fields.engineSoundRpmReference.value;
@@ -153,7 +153,7 @@ PROTO Car [
     // front wheels, the slot should be a proto with the 'tireRadius' fields
     let frontTireRadius = -1;
     let node = fields.wheelFrontRight.value;
-    if (node !== 'undefined') {
+    if (node !== undefined) {
       if (node.fields.tireRadius && node.fields.tireRadius.value)
         frontTireRadius = node.fields.tireRadius.value;
       else
@@ -162,7 +162,7 @@ PROTO Car [
     // rear wheels, the slot should be a proto with the 'tireRadius' fields
     let rearTireRadius = -1;
     node = fields.wheelRearRight.value;
-    if (node !== 'undefined') {
+    if (node !== undefined) {
       if (node.fields.tireRadius && node.fields.tireRadius.value)
         rearTireRadius = node.fields.tireRadius.value;
       else
@@ -233,13 +233,13 @@ PROTO Car [
     // engineSoundRpmReference
     customData += engineSoundRpmReference + ' ';
     // gears number
-    const gearNumber = fields.gearRatio.value.length; // TODO: is SAME? print out...
+    const gearNumber = fields.gearRatio.value.length;
     customData += gearNumber + ' ';
     // length of engineSound
     customData += engineSound.length + ' ';
     // gears ratio of each gear
     let gearRatio = fields.gearRatio.value;
-    for (let i = 0; i < gearNumber; ++i) // TODO: is SAME? print out ...
+    for (let i = 0; i < gearNumber; ++i)
       customData += gearRatio[i] + ' ';
     // engineSound
     customData += engineSound + ' ';

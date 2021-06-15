@@ -22,29 +22,29 @@ PROTO Panel [
     let size = fields.size.value;
 
     if (internalWidth <= 0) {
-      console.error('\'internalWidth\' should be greater than 0: reset to default value');
       internalWidth = fields.internalWidth.defaultValue;
+      console.error('\'internalWidth\' should be greater than 0. Value reset to ' + internalWidth + '.');
     }
     if (borderHeight < 0) {
-      console.error('\'borderHeight\' should be greater than 0: reset to default value');
       borderHeight = fields.borderHeight.defaultValue;
+      console.error('\'borderHeight\' should be greater than 0. Value reset to ' + borderHeight + '.');
     }
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
-      console.error('all dimensions of \'size\' should be greater than 0: reset to default value');
       size.x = fields.size.defaultValue.x;
       size.y = fields.size.defaultValue.y;
       size.z = fields.size.defaultValue.z;
+      console.error('all dimensions of \'size\' should be greater than 0. Value reset to reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
     }
 
     let panelsCount = fields.panelsCount.value;
     if (panelsCount <= 0) {
-      console.error('\'panelsCount\' should be greater than 0: reset to default value');
       panelsCount = fields.panelsCount.defaultValue;
+      console.error('\'panelsCount\' should be greater than 0. Value reset to ' + panelsCount + '.');
     }
 
     if (size.x <= borderHeight * (panelsCount + 1) {
-      console.error('cumulative size of separators exceeds total size: reset to single panel');
       panelsCount = fields.panelsCount.defaultValue;
+      console.error('cumulative size of separators exceeds total size: reset to single panel.');
     }
 
     const halfSizeX = 0.5 * size.x;

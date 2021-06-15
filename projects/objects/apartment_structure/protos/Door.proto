@@ -54,11 +54,11 @@ PROTO Door [
     }
 
     let handle = fields.doorHandle.value;
-    if (handle !== 'undefined') {
-      if (handle.fields.jointAtLeft !== 'undefined' && fields.jointAtLeft.value !== handle.fields.jointAtLeft.value)
+    if (handle !== undefined) {
+      if (handle.fields.jointAtLeft !== undefined && fields.jointAtLeft.value !== handle.fields.jointAtLeft.value)
         console.error('\'jointAtLeft\' field value of Door and doorHandle nodes does not match.');
 
-      if (handle.fields.hasStaticParent !== 'undefined' && handle.fields.hasStaticParent.value === fields.canBeOpen.value)
+      if (handle.fields.hasStaticParent !== undefined && handle.fields.hasStaticParent.value === fields.canBeOpen.value)
         console.error('\'doorHandle.hasStaticParent\' value is incorrect, the parent Door object is static.');
     }
 
