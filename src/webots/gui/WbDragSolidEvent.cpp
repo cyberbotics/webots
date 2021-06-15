@@ -236,11 +236,11 @@ void WbDragForceEvent::updateOrigin() {
 void WbDragForceEvent::applyToOde() {
   // ODE
   mSelectedSolid->awake();
-  mSelectedSolid->addForceAtPosition(mScalingFactor * mVector, mOrigin);
+  mSelectedSolid->addForceAtPosition(mScalingFactor * mVector.length2() * mVector, mOrigin);
 }
 
 QString WbDragForceEvent::magnitudeString() {
-  mMagnitude = mScalingFactor * mVector.length();
+  mMagnitude = mScalingFactor * mVector.length2() * mVector.length();
   return WbPrecision::doubleToString(mMagnitude, WbPrecision::GUI_MEDIUM) + " N";
 }
 
@@ -269,10 +269,10 @@ void WbDragTorqueEvent::updateOrigin() {
 void WbDragTorqueEvent::applyToOde() {
   // ODE
   mSelectedSolid->awake();
-  mSelectedSolid->addTorque(mScalingFactor * mVector);
+  mSelectedSolid->addTorque(mScalingFactor * mVector.length2() * mVector);
 }
 
 QString WbDragTorqueEvent::magnitudeString() {
-  mMagnitude = mScalingFactor * mVector.length();
+  mMagnitude = mScalingFactor * mVector.length2() * mVector.length();
   return WbPrecision::doubleToString(mMagnitude, WbPrecision::GUI_MEDIUM) + " Nm";
 }
