@@ -268,18 +268,8 @@ def update_state_display():
         state = game.state.game_state[6:]
         if state == 'READY' or state == 'SET':  # kickoff
             color = RED_COLOR if game.kickoff == game.red.id else BLUE_COLOR
-        elif game.interruption_team is not None:  # interruption
-            color = RED_COLOR if game.interruption_team == game.red.id else BLUE_COLOR
         else:
             color = 0x000000
-        sr = IN_PLAY_TIMEOUT - game.interruption_seconds + game.state.seconds_remaining \
-            if game.interruption_seconds is not None else 0
-        if sr > 0:
-            state += ' ' + format_time(sr)
-        if game.interruption is not None:
-            state = game.interruption
-            if game.interruption_step is not None:
-                state += ' [' + str(game.interruption_step) + ']'
     else:
         state = ''
         color = 0x000000
@@ -305,24 +295,25 @@ def update_score_display():
     supervisor.setLabel(5, score, 0, 0, game.font_size, BLACK_COLOR, 0.2, game.font)
 
 
-def update_team_details_display(team, side, strings):
-    for n in range(len(team['players'])):
-        robot_info = game.state.teams[side].players[n]
-        strings.background += '  '
-        strings.background += '█' if robot_info.number_of_red_cards == 0 and robot_info.number_of_yellow_cards == 0 else ' '
-        strings.yellow_card += '  '
-        strings.yellow_card += '█' if robot_info.number_of_yellow_cards > 0 else ' '  # ■
-        strings.red_card += '  '
-        strings.red_card += '█' if robot_info.number_of_red_cards > 0 else ' '
-        strings.white += str(n + 1)
-        strings.white += '██'
-        strings.foreground += f'{robot_info.secs_till_unpenalized:02d} ' if robot_info.secs_till_unpenalized != 0 else '   '
-
-
 def update_time_count_display():
     s = str(time_count)
     s = ' ' * int(24 - (len(s) / 2)) + s
-    supervisor.setLabel(16, s, 0, 0.0465, game.font_size, BLACK_COLOR, 0.2, game.font)
+    supervisor.setLabel(9, s, 0, 0.0465, game.font_size, BLACK_COLOR, 0.2, game.font)
+
+
+def update_team_details_display(team, side, strings):
+    for n in range(len(team['players'])):
+        robot_info = game.state.teams[side].players[n]
+        strings.background += '█  '
+        if robot_info.number_of_warnings > 0:  # a robot can have both a warning and a yellow card
+            strings.warning += '■  '
+            strings.yellow_card += ' ■ ' if robot_info.number_of_yellow_cards > 0 else '   '
+        else:
+            strings.warning += '   '
+            strings.yellow_card += '■  ' if robot_info.number_of_yellow_cards > 0 else '   '
+        strings.red_card += '■  ' if robot_info.number_of_red_cards > 0 else '   '
+        strings.white += str(n + 1) + '██'
+        strings.foreground += f'{robot_info.secs_till_unpenalized:02d} ' if robot_info.secs_till_unpenalized != 0 else '   '
 
 
 def update_details_display():
@@ -351,15 +342,17 @@ def update_details_display():
     strings = StringObject()
     strings.foreground = ' ' + format_time(game.state.secondary_seconds_remaining) + '  ' \
                          if game.state.secondary_seconds_remaining > 0 else ' ' * 8
-    strings.background = ' ' * 5
+    strings.background = ' ' * 7
+    strings.warning = strings.background
     strings.yellow_card = strings.background
     strings.red_card = strings.background
     strings.white = '█' * 7
     update_team_details_display(left_team, left, strings)
     strings.left_background = strings.background
-    strings.background = ' ' * 26
+    strings.background = ' ' * 28
     space = 21 - len(left_team['players']) * 3
     strings.white += '█' * space
+    strings.warning += ' ' * space
     strings.yellow_card += ' ' * space
     strings.red_card += ' ' * space
     strings.foreground += ' ' * space
@@ -368,14 +361,27 @@ def update_details_display():
     del strings.background
     space = 12 - 3 * len(right_team['players'])
     strings.white += '█' * (22 + space)
-    strings.foreground += ' ' * space + game.state.secondary_state[6:]
+    secondary_state = ' ' * 41 + game.state.secondary_state[6:]
+    sr = IN_PLAY_TIMEOUT - game.interruption_seconds + game.state.seconds_remaining \
+        if game.interruption_seconds is not None else 0
+    if sr > 0:
+        secondary_state += ' ' + format_time(sr)
+    if game.interruption is not None:
+        if game.interruption_step is not None:
+            secondary_state += ' [' + str(game.interruption_step) + ']'
+    if game.interruption_team is not None:  # interruption
+        secondary_state_color = RED_COLOR if game.interruption_team == game.red.id else BLUE_COLOR
+    else:
+        secondary_state_color = BLACK_COLOR
     y = 0.0465  # vertical position of the second line
     supervisor.setLabel(10, strings.left_background, 0, y, game.font_size, left_color, 0.2, game.font)
     supervisor.setLabel(11, strings.right_background, 0, y, game.font_size, right_color, 0.2, game.font)
     supervisor.setLabel(12, strings.white, 0, y, game.font_size, WHITE_COLOR, 0.2, game.font)
-    supervisor.setLabel(13, strings.yellow_card, 0, y, game.font_size, 0xffff00, 0.2, game.font)
-    supervisor.setLabel(14, strings.red_card, 0, y, game.font_size, 0xff0000, 0.2, game.font)
-    supervisor.setLabel(15, strings.foreground, 0, y, game.font_size, BLACK_COLOR, 0.2, game.font)
+    supervisor.setLabel(13, strings.warning, 0, 2 * y, game.font_size, 0x0000ff, 0.2, game.font)
+    supervisor.setLabel(14, strings.yellow_card, 0, 2 * y, game.font_size, 0xffff00, 0.2, game.font)
+    supervisor.setLabel(15, strings.red_card, 0, 2 * y, game.font_size, 0xff0000, 0.2, game.font)
+    supervisor.setLabel(16, strings.foreground, 0, y, game.font_size, BLACK_COLOR, 0.2, game.font)
+    supervisor.setLabel(17, secondary_state, 0, y, game.font_size, secondary_state_color, 0.2, game.font)
 
 
 def update_team_display():
