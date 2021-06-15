@@ -142,8 +142,6 @@ jobs:
         python-version: ${{ matrix.python }}
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_test_dependencies.sh
-      with:
-        required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: Run Test
       run: |
         export WEBOTS_HOME=$PWD/artifact/webots
