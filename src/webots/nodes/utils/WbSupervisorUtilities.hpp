@@ -24,6 +24,8 @@ class QDataStream;
 
 struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
+struct WbTrackedFieldInfo;
+struct WbTrackedPoseInfo;
 class WbFieldSetRequest;
 
 class WbBaseNode;
@@ -32,6 +34,7 @@ class WbRobot;
 class WbTransform;
 class WbSolid;
 class WbWrenLabelOverlay;
+class WbField;
 
 class WbSupervisorUtilities : public QObject {
   Q_OBJECT
@@ -117,6 +120,8 @@ private:
   QVector<WbFieldSetRequest *> mFieldSetRequests;
   struct WbFieldGetRequest *mFieldGetRequest;
 
+  void pushSingleFieldContentToStream(QDataStream &stream, WbField *field);
+  void pushRelativePoseToStream(QDataStream &stream, WbTransform *fromNode, WbTransform *toNode);
   void initControllerRequests();
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);
@@ -130,6 +135,8 @@ private:
   QString createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const;
 
   QList<int> mLabelIds;
+  QVector<WbTrackedFieldInfo> mTrackedFields;
+  QVector<WbTrackedPoseInfo> mTrackedPoses;
 };
 
 #endif
