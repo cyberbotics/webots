@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO TemplateProtoWithoutRegeneratingTemplateParameter [
   field MFNode slot TemplateSolidCylinder { }
@@ -6,7 +7,7 @@ PROTO TemplateProtoWithoutRegeneratingTemplateParameter [
 {
   Robot {
     translation -0.75 0 0
-    rotation 0 0 1 %{= 1.5708 }%
+    rotation 0 0 1 %<= 1.5708 >%
     children IS slot
   }
 }

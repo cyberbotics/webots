@@ -53,7 +53,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     const QStringList info = tokenizerInfo.split("\n");  // .wrl # comments
     for (int i = 0; i < info.size(); ++i) {
       if (!info.at(i).startsWith("tags:") && !info.at(i).startsWith("license:") && !info.at(i).startsWith("license url:") &&
-          !info.at(i).startsWith("documentation url:"))
+          !info.at(i).startsWith("documentation url:") && !info.at(i).startsWith("template language:"))
         mInfo += info.at(i) + "\n";
     }
     mInfo.chop(1);
@@ -62,6 +62,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mLicense = tokenizer->license();
   mLicenseUrl = tokenizer->licenseUrl();
   mDocumentationUrl = tokenizer->documentationUrl();
+  mTemplateLanguage = tokenizer->templateLanguage();
   mIsDeterministic = !mTags.contains("nonDeterministic");
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
@@ -130,6 +131,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mContentStartingLine = contentLine;
   int contentColumn = token->column() - 1;
 
+  const QString &open = WbProtoTemplateEngine::openingToken();
+  const QString &close = WbProtoTemplateEngine::closingToken();
+
   QFile file(fileName);
   if (file.open(QIODevice::ReadOnly)) {
     for (int i = 0; i < contentLine; i++)
@@ -155,13 +159,13 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       QChar pc;
       for (int i = 0; i < line.size(); ++i) {
         const QChar c = line[i];
-        if (c == '{' && pc == '%')
+        if (c == open[1] && pc == open[0])
           insideTemplateStatement = true;
-        else if (c == '%' && pc == '}')
+        else if (c == close[1] && pc == close[0])
           insideTemplateStatement = false;
         else if (c == '"' && pc != '\\')
           insideDoubleQuotes = !insideDoubleQuotes;
-        else if (!insideTemplateStatement && c == '#' && !insideDoubleQuotes)
+        else if (!insideTemplateStatement && c == '#' && !insideDoubleQuotes && mTemplateLanguage == "lua")
           // ignore VRML comments
           // but '#' is the lua length operator and has to be kept if found inside a template statement
           break;
@@ -276,8 +280,12 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         // "%{ a = \"fields.model->name().value.y\" }%"  => false
         // "%{= \"fields.model->name().value.y\" }%"  => false
         // "%{= fields.model->name().value.y }%"  => true
-        if (token->word().contains(QRegularExpression(
-              QString("%{(?:(?!}%|\").)*fields\\.%1(?:(?!}%|\").)*}%").arg(QRegularExpression::escape(model->name())))))
+        if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
+                                                        .arg(open)
+                                                        .arg(close)
+                                                        .arg(QRegularExpression::escape(model->name()))
+                                                        .arg(close)
+                                                        .arg(close))))
           model->setTemplateRegenerator(true);
       }
     }
@@ -337,15 +345,19 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   if (mTemplate) {
     if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
-        if (parameter->isTemplateRegenerator())
-          key += WbProtoTemplateEngine::convertFieldValueToLuaStatement(parameter);
+        if (parameter->isTemplateRegenerator()) {
+          QString statement = WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(parameter);
+          if (mTemplateLanguage == "lua")
+            statement = WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(statement);
+          key += statement;
+        }
       }
     }
 
     if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
-      if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId)) {
+      if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId, mTemplateLanguage)) {
         tokenizer.setErrorPrefix(mFileName);
         tokenizer.reportFileError(tr("Template engine error: %1").arg(te.error()));
         return NULL;
