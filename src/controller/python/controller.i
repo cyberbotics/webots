@@ -82,6 +82,7 @@ using namespace std;
 //  Miscellaneous - controller module's level
 //----------------------------------------------------------------------------------------------
 
+%nothread;
 //handling std::string
 %include "std_string.i"
 
@@ -137,6 +138,7 @@ using namespace std;
 %typemap(freearg) const int * {
   free($1);
 }
+%thread;
 //----------------------------------------------------------------------------------------------
 //  ANSI Support
 //----------------------------------------------------------------------------------------------
@@ -213,6 +215,7 @@ class AnsiCodes(object):
 
 
 %include <webots/camera_recognition_object.h>
+%nothread;
 
 %extend WbCameraRecognitionObject {
   PyObject *get_position() {
@@ -384,6 +387,7 @@ class AnsiCodes(object):
     return ret;
   }
 };
+%thread;
 
 %include <webots/Camera.hpp>
 
@@ -404,6 +408,7 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 //  Display
 //----------------------------------------------------------------------------------------------
+%nothread;
 
 %typemap(in) const void *(bool need_to_delete) {
   if (!PyList_Check($input) && !PyString_Check($input)) {
@@ -460,6 +465,7 @@ class AnsiCodes(object):
       self.__internalFillPolygon(x, y, min(len(x), len(y)))
   %}
 }
+%thread;
 
 %include <webots/ImageRef.hpp>
 %include <webots/Display.hpp>
@@ -473,6 +479,7 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 //  Emitter
 //----------------------------------------------------------------------------------------------
+%nothread;
 
 %typemap(in) (const void *data, int size) {
   $1 = PyString_AsString($input);
@@ -489,6 +496,7 @@ class AnsiCodes(object):
 
 %ignore webots::Field::findField(WbFieldRef ref);
 %ignore webots::Field::cleanup();
+%thread;
 
 %include <webots/Field.hpp>
 
@@ -535,6 +543,8 @@ class AnsiCodes(object):
 %rename WbLidarPoint LidarPoint;
 
 %include <webots/lidar_point.h>
+
+%nothread;
 
 %typemap(out) float * {
   const int width = arg1->getHorizontalResolution();
@@ -618,6 +628,8 @@ class AnsiCodes(object):
     return ret;
   }
 };
+
+%thread;
 
 %include <webots/Lidar.hpp>
 
@@ -753,6 +765,7 @@ class AnsiCodes(object):
 //  RangeFinder
 //----------------------------------------------------------------------------------------------
 
+%nothread;
 %extend webots::RangeFinder {
 
   PyObject *__getRangeImageList() {
@@ -840,6 +853,7 @@ class AnsiCodes(object):
     return value;
   }
 };
+%thread;
 
 %include <webots/RangeFinder.hpp>
 
@@ -849,9 +863,11 @@ class AnsiCodes(object):
 //  Receiver
 //----------------------------------------------------------------------------------------------
 
+%nothread;
 %typemap(out) const void * {
   $result = PyBytes_FromStringAndSize((const char*) $1, arg1->getDataSize());
 }
+%thread;
 
 %include <webots/Receiver.hpp>
 
