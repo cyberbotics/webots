@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO TemplateViewpoint [
   field     SFFloat    fieldOfView        0.785398
@@ -13,7 +14,7 @@ PROTO TemplateViewpoint [
 ]
 {
   Viewpoint {
-    fieldOfView %{= fields.fieldOfView.value }%
+    fieldOfView %<= fields.fieldOfView.value >%
     orientation IS orientation
     position IS position
     description IS description

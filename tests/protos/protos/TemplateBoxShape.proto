@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO TemplateBoxShape [
   field SFVec3f translation 0 0 0
@@ -15,7 +16,7 @@ PROTO TemplateBoxShape [
           }
         }
         geometry Box {
-          size %{= fields.xSize.value }% %{= fields.ySize.value }% 0.1
+          size %<= fields.xSize.value >% %<= fields.ySize.value >% 0.1
         }
       }
     ]
