@@ -1825,8 +1825,8 @@ def next_penalty_shootout():
     flip_sides()
     info(f'fliped sides: game.side_left = {game.side_left}')
     if penalty_kicker_player():
-        set_penalty_positions()
         game_controller_send('STATE:SET')
+        set_penalty_positions()
     else:
         info("Skipping penalty trial because team has no kicker available")
         game_controller_send('STATE:SET')
