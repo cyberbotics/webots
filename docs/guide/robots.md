@@ -18,6 +18,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/darwin-op/icon.png)        | [DARwIn-OP](darwin-op.md)                 | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/elisa3/icon.png)           | [Elisa 3](elisa3.md)                      | GCTronic             | *Two-wheeled robot*               |
 | ![icon.png](images/robots/epuck/icon.png)            | [e-puck](epuck.md)                        | GCTronic             | *Two-wheeled robot*               |
+| ![icon.png](images/robots/fabtino/icon.png)          | [Fabtino](fabtino.md)                     | REC                  | *Four-wheeled (mecanum) robot*    |
 | ![icon.png](images/robots/firebird6/icon.png)        | [FireBird 6](firebird6.md)                | NEX Robotics         | *Two-wheeled robot*               |
 | ![icon.png](images/robots/ghostdog/icon.png)         | [GhostDog](ghostdog.md)                   | EPFL / BioRob        | *Dog-like robot*                  |
 | ![icon.png](images/robots/hemisson/icon.png)         | [Hemisson](hemisson.md)                   | K-Team               | *Two-wheeled robot*               |
@@ -56,6 +57,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/shrimp/icon.png)           | [Shrimp](shrimp.md)                       | BlueBotics           | *Six-wheeled robot*               |
 | ![icon.png](images/robots/sojourner/icon.png)        | [Sojourner](sojourner.md)                 | Nasa                 | *Six-wheeled robot*               |
 | ![icon.png](images/robots/spot/icon.png)             | [Spot](spot.md)                           | Boston Dynamics      | *Dog-like robot*                  |
+| ![icon.png](images/robots/summit_xl_steel/icon.png)  | [Summit-XL Steel](summit-xl-steel.md)     | Robotnik             | *Four-wheeled (mecanum) robot*    |
 | ![icon.png](images/robots/surveyor/icon.png)         | [Surveyor SRV-1](surveyor.md)             | Surveyor Corporation | *Robot with two tracks*           |
 | ![icon.png](images/robots/tiago_base/icon.png)       | [TIAGo Base](tiago-base.md)               | PAL Robotics         | *Two-wheeled robot*               |
 | ![icon.png](images/robots/tiago_iron/icon.png)       | [TIAGo Iron](tiago-iron.md)               | PAL Robotics         | *Two-wheeled human-like robot*    |

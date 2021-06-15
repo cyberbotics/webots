@@ -60,9 +60,11 @@ CONTROLLERS=\
   pal_robotics/tiago++/controllers/tiago++.Makefile \
   parallax/boebot/controllers.Makefile \
   picaxe/microbot/controllers.Makefile \
+  rec/fabtino/controllers.Makefile \
   robotis/bioloid/controllers.Makefile \
   robotis/darwin-op/controllers.Makefile \
   robotis/turtlebot/controllers.Makefile \
+  robotnik/summit_xl_steel/controllers.Makefile \
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
