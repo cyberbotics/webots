@@ -120,6 +120,7 @@ void WbTreeView::itemInserted(const QModelIndex &index) {
 }
 
 void WbTreeView::showMenu(const QPoint &position) {
+  emit beforeContextMenuShowed();
   const QModelIndexList indexes = selectionModel()->selectedIndexes();
   if (indexes.isEmpty())
     return;
