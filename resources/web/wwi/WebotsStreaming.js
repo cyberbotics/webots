@@ -1,15 +1,9 @@
 import {webots} from './webots.js';
 import {exitFullscreen} from './fullscreen_handler.js';
-const template = document.createElement('template');
-
-template.innerHTML = `
-<div id="playerDiv" ></div>
-`;
 
 export default class WebotsStreaming extends HTMLElement {
   constructor() {
     super();
-    document.getElementsByTagName('webots-streaming')[0].appendChild(template.content.cloneNode(true));
 
     let link = document.createElement('link');
     link.href = 'https://cyberbotics.com/wwi/R2021b/css/wwi.css';
@@ -45,9 +39,8 @@ export default class WebotsStreaming extends HTMLElement {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
-    let playerDiv = document.getElementsByTagName('webots-streaming')[0];
     if (typeof this._view === 'undefined')
-      this._view = new webots.View(playerDiv, mobileDevice);
+      this._view = new webots.View(this, mobileDevice);
     this._view.broadcast = broadcast;
     this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
 
@@ -67,9 +60,7 @@ export default class WebotsStreaming extends HTMLElement {
       exitFullscreen();
 
     this._view.close();
-
-    let playerDiv = document.getElementsByTagName('webots-streaming')[0];
-    playerDiv.innerHTML = null;
+    this.innerHTML = null;
     if (this._view.mode === 'mjpeg')
       this._view.multimediaClient = undefined;
 

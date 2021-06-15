@@ -62,7 +62,16 @@ typedef struct WbFieldStructPrivate {
   bool is_proto_internal;  // internal field can't be changed
   union WbFieldData data;
   WbFieldRef next;
+  double last_update;
 } WbFieldStruct;
+
+typedef struct WbPoseStructPrivate {
+  double pose[16];
+  double last_update;
+  WbNodeRef from_node;
+  WbNodeRef to_node;
+  struct WbPoseStructPrivate *next;
+} WbPoseStruct;
 
 typedef struct WbFieldRequestPrivate {
   enum FIELD_REQUEST_TYPE type;
@@ -105,6 +114,19 @@ typedef struct WbNodeStructPrivate {
 } WbNodeStruct;
 
 static WbNodeStruct *node_list = NULL;
+
+typedef struct WbFieldChangeTrackingPrivate {
+  WbFieldStruct *field;
+  int sampling_period;
+  bool enable;
+} WbFieldChangeTracking;
+
+typedef struct WbPoseChangeTrackingPrivate {
+  WbNodeRef node;
+  WbNodeRef from_node;
+  int sampling_period;
+  bool enable;
+} WbPoseChangeTracking;
 
 static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
@@ -150,10 +172,22 @@ static WbFieldStruct *find_field_by_index(int index, int node_id) {
 }
 
 // find field in field_list
-static WbFieldStruct *find_field(const char *fieldName, int node_id) {
+static WbFieldStruct *find_field_by_name(const char *field_name, int node_id) {
+  // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
-    if (field->node_unique_id == node_id && strcmp(fieldName, field->name) == 0)
+    if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0)
+      return field;
+    field = field->next;
+  }
+  return NULL;
+}
+
+static WbFieldStruct *find_field_by_id(int node_id, int field_id) {
+  // TODO: Hash map needed
+  WbFieldStruct *field = field_list;
+  while (field) {
+    if (field->node_unique_id == node_id && field->id == field_id)
       return field;
     field = field->next;
   }
@@ -358,6 +392,13 @@ static void clean_field_request_garbage_collector() {
 }
 
 // Private fields
+static WbPoseStruct *pose_collection;
+static WbPoseStruct pose;
+static bool pose_requested = false;
+static WbFieldChangeTracking field_change_tracking;
+static bool field_change_tracking_requested = false;
+static WbPoseChangeTracking pose_change_tracking;
+static bool pose_change_tracking_requested = false;
 static char *export_image_filename = NULL;
 static int export_image_quality = 0;
 static bool simulation_quit = false;
@@ -401,9 +442,6 @@ static WbNodeRef self_node_ref = NULL;
 static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
-static double node_pose[16];
-static WbNodeRef pose_from_node_ref = NULL;
-static WbNodeRef pose_to_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
@@ -457,6 +495,11 @@ static void supervisor_cleanup(WbDevice *d) {
       free(sent_field_get_request->data.sf_string);
     free(sent_field_get_request);
     sent_field_get_request = NULL;
+  }
+  while (pose_collection) {
+    WbPoseStruct *r = pose_collection->next;
+    free(pose_collection);
+    pose_collection = r;
   }
   while (node_list) {
     WbNodeStruct *n = node_list->next;
@@ -523,6 +566,21 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_FIELD_COUNT);
     request_write_uint32(r, node_ref);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+  } else if (pose_change_tracking_requested) {
+    request_write_uchar(r, C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE);
+    request_write_int32(r, pose_change_tracking.from_node ? pose_change_tracking.from_node->id : 0);
+    request_write_int32(r, pose_change_tracking.node->id);
+    request_write_uchar(r, pose_change_tracking.enable);
+    if (pose_change_tracking.enable)
+      request_write_int32(r, pose_change_tracking.sampling_period);
+  } else if (field_change_tracking_requested) {
+    request_write_uchar(r, C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE);
+    request_write_int32(r, field_change_tracking.field->node_unique_id);
+    request_write_int32(r, field_change_tracking.field->id);
+    request_write_uchar(r, field_change_tracking.field->is_proto_internal ? 1 : 0);
+    request_write_uchar(r, field_change_tracking.enable);
+    if (field_change_tracking.enable)
+      request_write_int32(r, field_change_tracking.sampling_period);
   } else if (!robot_is_immediate_message() || is_field_immediate_message) {
     is_field_immediate_message = false;
     WbFieldRequest *request;
@@ -685,10 +743,10 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_ORIENTATION);
     request_write_uint32(r, orientation_node_ref->id);
   }
-  if (pose_to_node_ref) {
+  if (pose_requested) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_POSE);
-    request_write_uint32(r, pose_from_node_ref ? pose_from_node_ref->id : 0);
-    request_write_uint32(r, pose_to_node_ref->id);
+    request_write_uint32(r, pose.from_node ? pose.from_node->id : 0);
+    request_write_uint32(r, pose.to_node->id);
   }
   if (center_of_mass_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CENTER_OF_MASS);
@@ -889,15 +947,22 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->node_unique_id = node_ref;
       f->name = name;
       f->is_proto_internal = is_proto_internal;
+      f->last_update = -DBL_MAX;
       f->data.sf_string = NULL;
       field_list = f;
     } break;
     case C_SUPERVISOR_FIELD_GET_VALUE: {
       const WbFieldType field_type = request_read_int32(r);
-      assert(sent_field_get_request != NULL);
+      const int field_node_id = request_read_int32(r);
+      const int field_id = request_read_int32(r);
+      const bool is_field_get_request = sent_field_get_request && sent_field_get_request->field &&
+                                        sent_field_get_request->field->node_unique_id == field_node_id &&
+                                        sent_field_get_request->field->id == field_id;
+
+      WbFieldStruct *f = (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, field_id);
+
       // field_type == 0 if node was deleted
-      if (sent_field_get_request && field_type != 0) {
-        WbFieldStruct *f = sent_field_get_request->field;
+      if (f && field_type != 0) {
         switch (f->type) {
           case WB_SF_BOOL:
           case WB_MF_BOOL:
@@ -952,6 +1017,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
           default:
             assert(0);
         }
+        f->last_update = wb_robot_get_time();
       }
       if (sent_field_get_request) {
         if (sent_field_get_request->is_string)
@@ -975,7 +1041,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const char *field_name = request_read_string(r);
       const int field_count = request_read_int32(r);
       if (parent_node_id >= 0) {
-        WbFieldStruct *field = find_field(field_name, parent_node_id);
+        WbFieldStruct *field = find_field_by_name(field_name, parent_node_id);
         if (field)
           field->count = field_count;
       }
@@ -1001,10 +1067,29 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       for (i = 0; i < 9; i++)
         orientation_node_ref->orientation[i] = request_read_double(r);
       break;
-    case C_SUPERVISOR_NODE_GET_POSE:
+    case C_SUPERVISOR_NODE_GET_POSE: {
+      const int from_node_id = request_read_int32(r);
+      const int to_node_id = request_read_int32(r);
+      double *node_pose = NULL;
+      if (pose_requested && pose.to_node->id == to_node_id &&
+          ((!pose.from_node && !from_node_id) || pose.from_node->id == from_node_id))
+        node_pose = pose.pose;
+      else {
+        WbPoseStruct *tmp_pose = pose_collection;
+        while (tmp_pose) {
+          if (tmp_pose->to_node->id == to_node_id && (!tmp_pose->from_node || tmp_pose->from_node->id == from_node_id)) {
+            node_pose = tmp_pose->pose;
+            break;
+          }
+          tmp_pose = tmp_pose->next;
+        }
+      }
+      if (!node_pose)
+        node_pose = pose.pose;
       for (i = 0; i < 16; i++)
         node_pose[i] = request_read_double(r);
       break;
+    }
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS:
       free(center_of_mass_node_ref->center_of_mass);
       center_of_mass_node_ref->center_of_mass = malloc(3 * sizeof(double));
@@ -1129,6 +1214,11 @@ static void field_operation_with_data(WbFieldStruct *f, int action, int index, u
       robot_mutex_unlock_step();
       return;
     }
+  }
+  // If a field tracking is used we don't have to send the request
+  if (action == GET && f->count == -1 && f->last_update == wb_robot_get_time()) {
+    robot_mutex_unlock_step();
+    return;
   }
   assert(action != GET || sent_field_get_request == NULL);  // get requests have to be processed immediately so no
                                                             // pending get request should remain
@@ -1888,7 +1978,7 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
 
   if (from_node != NULL && !is_node_ref_valid(from_node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node_from' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
     return invalid_vector;
   }
 
@@ -1898,14 +1988,21 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
     return invalid_vector;
   }
 
+  WbPoseStruct *tmp_pose = pose_collection;
+  while (tmp_pose) {
+    if (tmp_pose->from_node == from_node && tmp_pose->to_node == node)
+      return tmp_pose->pose;
+    tmp_pose = tmp_pose->next;
+  }
+
   robot_mutex_lock_step();
-  pose_from_node_ref = from_node;
-  pose_to_node_ref = node;
+  pose_requested = true;
+  pose.from_node = from_node;
+  pose.to_node = node;
   wb_robot_flush_unlocked();
-  pose_from_node_ref = NULL;
-  pose_to_node_ref = NULL;
+  pose_requested = false;
   robot_mutex_unlock_step();
-  return node_pose;
+  return pose.pose;
 }
 
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
@@ -2176,8 +2273,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
 
   robot_mutex_lock_step();
 
-  // search if field is already present in field_list
-  WbFieldRef result = find_field(field_name, node->id);
+  WbFieldRef result = find_field_by_name(field_name, node->id);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
@@ -2246,7 +2342,7 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
   robot_mutex_lock_step();
 
   // search if field is already present in field_list
-  WbFieldRef result = find_field(field_name, node->id);
+  WbFieldRef result = find_field_by_name(field_name, node->id);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
@@ -2570,6 +2666,114 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   }
 
   return ((WbFieldStruct *)field)->count;
+}
+
+void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return;
+
+  if (sampling_period < 0) {
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  field_change_tracking.field = field;
+  field_change_tracking.sampling_period = sampling_period;
+  field_change_tracking.enable = true;
+  field_change_tracking_requested = true;
+  wb_robot_flush_unlocked();
+  field_change_tracking_requested = false;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return;
+
+  robot_mutex_lock_step();
+  field_change_tracking.field = field;
+  field_change_tracking.enable = false;
+  field_change_tracking_requested = true;
+  wb_robot_flush_unlocked();
+  field_change_tracking_requested = false;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period, WbNodeRef from_node) {
+  if (sampling_period < 0) {
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
+    return;
+  }
+
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (from_node != NULL && !is_node_ref_valid(from_node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  pose_change_tracking_requested = true;
+  pose_change_tracking.node = node;
+  pose_change_tracking.from_node = from_node;
+  pose_change_tracking.enable = true;
+
+  // Create a new pose item
+  WbPoseStruct *const new_pose = malloc(sizeof(WbPoseStruct));
+  new_pose->from_node = from_node;
+  new_pose->to_node = node;
+  new_pose->next = NULL;
+  new_pose->last_update = -DBL_MAX;
+
+  // Add the pose to the list
+  if (!pose_collection)
+    pose_collection = new_pose;
+  else {
+    WbPoseStruct *tmp_pose = pose_collection;
+    while (tmp_pose->next)
+      tmp_pose = tmp_pose->next;
+    tmp_pose->next = new_pose;
+  }
+
+  assert(pose_collection);
+
+  wb_robot_flush_unlocked();
+  pose_change_tracking_requested = false;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  if (!is_node_ref_valid(from_node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  pose_change_tracking.node = node;
+  pose_change_tracking.from_node = from_node;
+  pose_change_tracking.enable = false;
+  wb_robot_flush_unlocked();
+  pose_change_tracking.node = NULL;
+  robot_mutex_unlock_step();
 }
 
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {

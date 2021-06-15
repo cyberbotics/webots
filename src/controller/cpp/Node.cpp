@@ -131,6 +131,22 @@ const double *Node::getPose(const Node *fromNode) const {
   return wb_supervisor_node_get_pose(nodeRef, fromNode->nodeRef);
 }
 
+void Node::enablePoseTracking(int samplingPeriod) const {
+  wb_supervisor_node_enable_pose_tracking(nodeRef, samplingPeriod, NULL);
+}
+
+void Node::disablePoseTracking() const {
+  wb_supervisor_node_disable_pose_tracking(nodeRef, NULL);
+}
+
+void Node::enablePoseTracking(int samplingPeriod, const Node *fromNode) const {
+  wb_supervisor_node_enable_pose_tracking(nodeRef, samplingPeriod, fromNode->nodeRef);
+}
+
+void Node::disablePoseTracking(const Node *fromNode) const {
+  wb_supervisor_node_disable_pose_tracking(nodeRef, fromNode->nodeRef);
+}
+
 const double *Node::getCenterOfMass() const {
   return wb_supervisor_node_get_center_of_mass(nodeRef);
 }

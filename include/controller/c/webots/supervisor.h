@@ -134,6 +134,11 @@ WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
 
+void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period);
+void wb_supervisor_field_disable_sf_tracking(WbFieldRef field);
+void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period, WbNodeRef from_node);
+void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node);
+
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field);
 int wb_supervisor_field_get_sf_int32(WbFieldRef field);
 double wb_supervisor_field_get_sf_float(WbFieldRef field);
