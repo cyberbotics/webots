@@ -20,6 +20,8 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 
+#include <QtNetwork/QNetworkDiskCache>
+
 static int gCount = 0;
 static int gComplete = 0;
 
@@ -32,7 +34,7 @@ void WbDownloader::reset() {
   gComplete = 0;
 }
 
-WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mFinished(false) {
+WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mFinished(false), mOffline(false) {
   gCount++;
 }
 
@@ -49,6 +51,9 @@ void WbDownloader::download(const QUrl &url) {
   QNetworkRequest request;
   request.setUrl(url);
   mFinished = false;
+  if (mOffline)
+    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysCache);
+
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
 }
@@ -58,6 +63,13 @@ void WbDownloader::finished() {
   if (mNetworkReply->error())
     mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
   disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
+  if (!mError.isEmpty() && !mOffline) {
+    mError = QString();
+    mOffline = true;
+    download(mUrl);
+    return;
+  }
+
   gComplete++;
   mFinished = true;
   emit complete();

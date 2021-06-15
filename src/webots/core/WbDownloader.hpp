@@ -42,6 +42,7 @@ private:
   QNetworkReply *mNetworkReply;
   bool mFinished;
   QString mError;
+  bool mOffline;
 
 private slots:
   void finished();
