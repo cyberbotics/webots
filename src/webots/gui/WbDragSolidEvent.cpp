@@ -256,8 +256,7 @@ WbDragTorqueEvent::WbDragTorqueEvent(const QSize &widgetSize, WbViewpoint *viewp
   mOrigin = mSelectedSolid->matrix() * mSolidMerger->centerOfMass();
   mEnd = mOrigin;
   mDragPlane = WbAffinePlane(viewpoint->orientation()->value().direction(), mOrigin);
-  const double torque_scaling_factor = WbWorld::instance()->worldInfo()->dragTorqueScale();
-  mScalingFactor = torque_scaling_factor * selectedSolid->mass();
+  mScalingFactor = WbWorld::instance()->worldInfo()->dragTorqueScale() * selectedSolid->mass();
   init();
   mRepresentation->setScale(mViewDistanceScaling);
 }
