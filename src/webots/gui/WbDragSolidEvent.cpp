@@ -211,8 +211,6 @@ void WbDragPhysicsEvent::updateRenderingAndPhysics() {
 // Add a force by dragging the mouse  //
 ////////////////////////////////////////
 
-//const double WbDragForceEvent::FORCE_SCALING_FACTOR = 30.0;
-
 // WbDragForceEvent functions
 
 WbDragForceEvent::WbDragForceEvent(const QSize &widgetSize, WbViewpoint *viewpoint, WbSolid *selectedSolid) :
