@@ -2478,8 +2478,8 @@ try:
                         info('The ball has left the center circle after kick-off.')
 
                 ball_touched_by_opponent = game.ball_last_touch_team != game.ball_must_kick_team
-                ball_touched_by_teammate = (game.kicking_player_number is not None
-                                            and game.ball_last_touch_player_number != game.kicking_player_number)
+                ball_touched_by_teammate = (game.kicking_player_number is not None and
+                                            game.ball_last_touch_player_number != game.kicking_player_number)
                 ball_touched_in_play = game.in_play is not None and game.in_play < game.ball_last_touch_time
                 if not game.can_score:
                     if game.phase == 'KICKOFF':
