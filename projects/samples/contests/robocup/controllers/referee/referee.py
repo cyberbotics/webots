@@ -2363,7 +2363,7 @@ try:
                 if retry <= 10:
                     warning(f'Could not connect to GameController at localhost:8750: {msg}. Retrying ({retry}/10)...')
                     time.sleep(retry)  # give some time to allow the GameControllerSimulator to start-up
-                    supervisor.step(time_step)
+                    supervisor.step(0)
                 else:
                     error('Could not connect to GameController at localhost:8750.', fatal=True)
                     game.controller = None
