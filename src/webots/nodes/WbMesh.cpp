@@ -27,6 +27,8 @@
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 
+#include <QtCore/QEventLoop>
+
 void WbMesh::init() {
   mUrl = findMFString("url");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
@@ -109,9 +111,14 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
   if (WbUrl::isWeb(filePath)) {
     if (mDownloader == NULL || !mDownloader->hasFinished()) {
+      QEventLoop loop;
       if (mDownloader == NULL)
         downloadAssets();
-      return;
+
+      if (!mDownloader->hasFinished()) {
+        connect(mDownloader, &WbDownloader::complete, &loop, &QEventLoop::quit);
+        loop.exec();
+      }
     }
 
     const QByteArray data = mDownloader->device()->readAll();
