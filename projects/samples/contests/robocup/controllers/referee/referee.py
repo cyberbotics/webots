@@ -1931,6 +1931,14 @@ def goal_kick():
     interruption('GOALKICK')
 
 
+def move_ball_away():
+    """Places ball far away from field for phases where the referee is supposed to hold it in it's hand"""
+    target_location = [100, 100, game.ball_radius + 0.05]
+    game.ball.resetPhysics()
+    game.ball_translation.setSFVec3f(target_location)
+    info("Moved ball out of the field temporarily")
+
+
 def kickoff():
     color = 'red' if game.kickoff == game.red.id else 'blue'
     info(f'Kick-off is {color}.')
@@ -1946,6 +1954,7 @@ def kickoff():
     game.can_score = False        # or was touched by another player
     game.can_score_own = False
     game.kicking_player_number = None
+    move_ball_away()
     info(f'Ball not in play, will be kicked by a player from the {game.ball_must_kick_team} team.')
 
 
@@ -2610,17 +2619,7 @@ try:
                 if game.state.seconds_remaining <= 0:
                     next_penalty_shootout()
             elif game.state.first_half:
-                # NOTE: this part is probably dead code that is never used, transition from end of first Half to initial is
-                #       now automatic.
-                if game.ready_real_time is None:
-                    if game.overtime:
-                        game_type = 'knockout '
-                        game_controller_send('STATE:OVERTIME-SECOND-HALF')
-                    else:
-                        game_type = ''
-                        game_controller_send('STATE:SECOND-HALF')
-                    info(f'Beginning of {game_type}second half.')
-                    game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
+                game.ready_real_time = None
             elif game.type == 'KNOCKOUT' and game.overtime and game.state.teams[0].score == game.state.teams[1].score:
                 if game.ready_real_time is None:
                     info('Beginning of the knockout first half.')

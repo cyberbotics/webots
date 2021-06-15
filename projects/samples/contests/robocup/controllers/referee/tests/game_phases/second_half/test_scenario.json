@@ -14,6 +14,11 @@
                 "critical" : true
             },
             {
+                "name" : "1st Half: Ball is placed far from the field",
+                "target" : "BALL",
+                "position" : [100, 100, 0.08]
+            },
+            {
                 "name" : "Sanity check: RED has kick-off",
                 "kick_off_team" : 5
             }
@@ -46,6 +51,20 @@
                 "target" : "BLUE_PLAYER_2",
                 "position" : [2, 2, 0.24],
                 "orientation" : [0, 0, 1, 3.14]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 1.0,
+            "clock_type" : "Simulated",
+            "state" : "SET"
+        },
+        "tests" : [
+            {
+                "name" : "1st Half: Ball is placed at center of the field on SET",
+                "target" : "BALL",
+                "position" : [0, 0, 0.08]
             }
         ]
     },
@@ -135,7 +154,7 @@
     },
     {
         "timing" : {
-            "time" : [0,14.5],
+            "time" : [1,14.5],
             "clock_type" : "System",
             "state" : "INITIAL",
             "state_count" : 2
@@ -144,6 +163,11 @@
             {
                 "name" : "Staying in INITIAL for 15 real-time seconds",
                 "state" : "INITIAL"
+            },
+            {
+                "name" : "2nd Half: Ball is placed far from the field",
+                "target" : "BALL",
+                "position" : [100, 100, 0.08]
             }
         ]
     },
@@ -233,6 +257,22 @@
         ]
     },
     {
+        "description" : "placing robots in valid and invalid positions to check if AutoRef respects flipped position restrictions",
+        "timing" : {
+            "time" : [1.0,44.0],
+            "clock_type" : "Simulated",
+            "state" : "READY",
+            "state_count" : 2
+        },
+        "tests" : [
+            {
+                "name" : "2nd Half: Ball is placed far from the field during all READY phase",
+                "target" : "BALL",
+                "position" : [100, 100, 0.08]
+            }
+        ]
+    },
+    {
         "description" : "Checking if state changes to SET",
         "timing" : {
             "time" : 47,
@@ -276,6 +316,11 @@
                 "name" : "Blue 2 in the opponent's field -> Penalty",
                 "target" : "BLUE_PLAYER_2",
                 "penalty": 34
+            },
+            {
+                "name" : "2nd Half: Ball is placed at center of the field during start",
+                "target" : "BALL",
+                "position" : [0, 0, 0.08]
             }
         ]
     },
