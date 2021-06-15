@@ -18,8 +18,8 @@
 #define WB_USING_CPP_API
 #include <string>
 #include <webots/Field.hpp>
-#include "../../c/webots/types.h"
 #include "../../c/webots/contact_point.h"
+#include "../../c/webots/types.h"
 
 // Note: should match with node.h
 
