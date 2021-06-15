@@ -1027,8 +1027,8 @@ def update_team_contacts(team):
             # check if the robot has fallen
             if member == 'foot':
                 continue
+            fallen = True
             if 'fallen' in player:  # was already down
-                fallen = True
                 continue
             info(f'{color.capitalize()} player {number} has fallen down.')
             player['fallen'] = time_count
