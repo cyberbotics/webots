@@ -1070,8 +1070,8 @@ def update_team_penalized(team):
             # than moving it away from the field
             player['robot'] = None
             info(f'sending {color} player {number} tp {t}.')
-            if 'penalty_stabilize' in player:
-                del player['penalty_stabilize']
+            if 'stabilize' in player:
+                del player['stabilize']
             player['outside_field'] = True
         else:
             n = p.secs_till_unpenalized
@@ -1563,7 +1563,6 @@ def game_interruption_touched(team, number):
 
 
 def place_player_at_penalty(player, team, number):
-    robot = player['robot']
     color = team['color']
     t = copy.deepcopy(player['reentryStartingPose']['translation'])
     r = copy.deepcopy(player['reentryStartingPose']['rotation'])
@@ -1590,12 +1589,6 @@ def place_player_at_penalty(player, team, number):
     elif t[0] < -game.field.size_x:
         t[0] += 4 * game.field.penalty_offset
     reset_player(color, number, None, t, r)
-    robot.resetPhysics()
-    player['penalty_stabilize'] = 5  # stabilize after 5 simulation steps
-    player['penalty_translation'] = t
-    player['penalty_rotation'] = r
-    player['position'] = t
-    info(f'Moved {color} player {number}: translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
 
 
 def send_team_penalties(team):
@@ -1628,25 +1621,25 @@ def send_penalties():
     send_team_penalties(blue_team)
 
 
-def stabilize_team_penalized_robots(team):
+def stabilize_team_robots(team):
     color = team['color']
     for number in team['players']:
         player = team['players'][number]
-        if 'penalty_stabilize' in player:
+        if 'stabilize' in player:
             robot = player['robot']
-            if player['penalty_stabilize'] == 0:
+            if player['stabilize'] == 0:
                 info(f'Stabilizing {color} player {number}')
                 robot.resetPhysics()
-                robot.getField('translation').setSFVec3f(player['penalty_translation'])
-                robot.getField('rotation').setSFRotation(player['penalty_rotation'])
-                del player['penalty_stabilize']
+                robot.getField('translation').setSFVec3f(player['stabilize_translation'])
+                robot.getField('rotation').setSFRotation(player['stabilize_rotation'])
+                del player['stabilize']
             else:
-                player['penalty_stabilize'] -= 1
+                player['stabilize'] -= 1
 
 
-def stabilize_penalized_robots():
-    stabilize_team_penalized_robots(red_team)
-    stabilize_team_penalized_robots(blue_team)
+def stabilize_robots():
+    stabilize_team_robots(red_team)
+    stabilize_team_robots(blue_team)
 
 
 def flip_pose(pose):
@@ -1681,6 +1674,11 @@ def reset_player(color, number, pose, custom_t=None, custom_r=None):
     r = custom_r if custom_r else player[pose]['rotation']
     translation.setSFVec3f(t)
     rotation.setSFRotation(r)
+    robot.resetPhysics()
+    player['stabilize'] = 5  # stabilize after 5 simulation steps
+    player['stabilize_translation'] = t
+    player['stabilize_rotation'] = r
+    player['position'] = t
     info(f'{color.capitalize()} player {number} reset to {pose}: ' +
          f'translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
 
@@ -2347,7 +2345,7 @@ try:
         if game.state is None:
             time_count += time_step
             continue
-        stabilize_penalized_robots()
+        stabilize_robots()
         send_play_state_after_penalties = False
         previous_position = copy.deepcopy(game.ball_position)
         game.ball_position = game.ball_translation.getSFVec3f()
