@@ -226,8 +226,7 @@ WbDragForceEvent::WbDragForceEvent(const QSize &widgetSize, WbViewpoint *viewpoi
   mEnd = mOrigin;
   mDragPlane = WbAffinePlane(viewpoint->orientation()->value().direction(), mOrigin);
   const double force_scaling_factor = WbWorld::instance()->worldInfo()->dragForceScale();
-  mScalingFactor = force_scaling_factor * selectedSolid->mass();  //Added
-  fprintf(stderr, "F_FACTOR: %f\n", force_scaling_factor);
+  mScalingFactor = force_scaling_factor * selectedSolid->mass();
   init();
   mRepresentation->setScale(mViewDistanceScaling);
 }
@@ -235,31 +234,21 @@ WbDragForceEvent::WbDragForceEvent(const QSize &widgetSize, WbViewpoint *viewpoi
 void WbDragForceEvent::updateOrigin() {
   mOrigin = mSelectedSolid->matrix() * mRelativeOrigin;
   mVector = mEnd - mOrigin;
-  fprintf(stdout, "Update origin\n");
 }
 
 void WbDragForceEvent::applyToOde() {
-  //mScalingFactor = FORCE_SCALING_FACTOR * mVector.length2();
-  fprintf(stdout, "Apply to ODE %f\n", mScalingFactor);
   // ODE
   mSelectedSolid->awake();
   mSelectedSolid->addForceAtPosition(mScalingFactor * mVector, mOrigin);
 }
 
 QString WbDragForceEvent::magnitudeString() {
-  //const double lengthSquared = mVector.length2();
-  //mScalingFactor = FORCE_SCALING_FACTOR * lengthSquared;
-  //mMagnitude = mScalingFactor * sqrt(lengthSquared);
-  QString returnValue = WbPrecision::doubleToString(mMagnitude, WbPrecision::GUI_MEDIUM) + " N";
   mMagnitude = mScalingFactor * mVector.length();
-  fprintf(stdout, "String function sf %f\n", mScalingFactor);
-  return returnValue;
+  return WbPrecision::doubleToString(mMagnitude, WbPrecision::GUI_MEDIUM) + " N";
 }
 
 // Add a torque by dragging the mouse  //
 /////////////////////////////////////////
-
-//const double WbDragTorqueEvent::TORQUE_SCALING_FACTOR = 5.0;
 
 // WbDragTorqueEvent functions
 
@@ -272,8 +261,6 @@ WbDragTorqueEvent::WbDragTorqueEvent(const QSize &widgetSize, WbViewpoint *viewp
   mDragPlane = WbAffinePlane(viewpoint->orientation()->value().direction(), mOrigin);
   const double torque_scaling_factor = WbWorld::instance()->worldInfo()->dragTorqueScale();
   mScalingFactor = torque_scaling_factor * selectedSolid->mass();
-  fprintf(stdout, "Mass: %f\n", selectedSolid->mass());
-  fprintf(stderr, "T_FACTOR: %f\n", torque_scaling_factor);
   init();
   mRepresentation->setScale(mViewDistanceScaling);
 }
@@ -281,18 +268,15 @@ WbDragTorqueEvent::WbDragTorqueEvent(const QSize &widgetSize, WbViewpoint *viewp
 void WbDragTorqueEvent::updateOrigin() {
   mOrigin = mSelectedSolid->matrix() * mSolidMerger->centerOfMass();
   mVector = mEnd - mOrigin;
-  fprintf(stdout, "Update origin\n");
 }
 
 void WbDragTorqueEvent::applyToOde() {
   // ODE
   mSelectedSolid->awake();
   mSelectedSolid->addTorque(mScalingFactor * mVector);
-  fprintf(stdout, "Apply to ODE\n");
 }
 
 QString WbDragTorqueEvent::magnitudeString() {
   mMagnitude = mScalingFactor * mVector.length();
-  fprintf(stdout, "STRING\n");
   return WbPrecision::doubleToString(mMagnitude, WbPrecision::GUI_MEDIUM) + " Nm";
 }
