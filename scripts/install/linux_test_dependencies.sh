@@ -16,12 +16,23 @@ else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi
 
-sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-apt update -qq
-apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-controller-manager ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-class-loader ros-$ROS_DISTRO-roslib liburdfdom-tools
+if [[ $@ != *"--exclude-ros"* ]]; then
+  echo "Excluding ROS dependencies"
+  sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+  curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+  apt update -qq
 
-if [[ $1 != "--norecurse" ]]; then
-	script_full_path=$(dirname "$0")
-	$script_full_path/linux_runtime_dependencies.sh
+  apt-get install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-controller-manager ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-class-loader ros-$ROS_DISTRO-roslib ros-$ROS_DISTRO-moveit liburdfdom-tools
+
+  if [[ $UBUNTU_VERSION == "16.04"  || $UBUNTU_VERSION == "18.04" ]]; then
+         apt install -y python-rosdep
+  elif [[ $UBUNTU_VERSION == "20.04" ]]; then
+         apt install -y python3-rosdep
+  fi
+fi
+
+if [[ $@ != *"--norecurse"* ]]; then
+  echo "Exclude runtime dependencies"
+  script_full_path=$(dirname "$0")
+  $script_full_path/linux_runtime_dependencies.sh
 fi
