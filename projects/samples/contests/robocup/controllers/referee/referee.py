@@ -1057,15 +1057,11 @@ def update_team_penalized(team):
             continue
         p = game.state.teams[index].players[int(number) - 1]
         if p.number_of_red_cards > 0:
-            robot = player['robot']
             # sending red card robot far away from the field
             t = copy.deepcopy(player['reentryStartingPose']['translation'])
             t[0] = 50
             t[1] = (10 + int(number)) * (1 if color == 'red' else -1)
-            robot.loadState('__init__')
-            list_player_solids(player, color, number)
-            robot.getField('translation').setSFVec3f(t)
-            robot.getField('rotation').setSFRotation(player['reentryStartingPose']['rotation'])
+            reset_player(color, number, 'reentryStartingPose', t)
             customData = player['robot'].getField('customData')
             customData.setSFString('red_card')  # disable all devices of the robot
             player['penalized'] = 'red_card'
@@ -1593,10 +1589,7 @@ def place_player_at_penalty(player, team, number):
         t[0] -= 4 * game.field.penalty_offset
     elif t[0] < -game.field.size_x:
         t[0] += 4 * game.field.penalty_offset
-    robot.loadState('__init__')
-    list_player_solids(player, color, number)
-    robot.getField('translation').setSFVec3f(t)
-    robot.getField('rotation').setSFRotation(r)
+    reset_player(color, number, None, t, r)
     robot.resetPhysics()
     player['penalty_stabilize'] = 5  # stabilize after 5 simulation steps
     player['penalty_translation'] = t
@@ -1676,7 +1669,7 @@ def flip_sides():  # flip sides (no need to notify GameController, it does it au
     update_team_display()
 
 
-def reset_player(color, number, pose):
+def reset_player(color, number, pose, custom_t=None, custom_r=None):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
     robot = player['robot']
@@ -1684,8 +1677,8 @@ def reset_player(color, number, pose):
     list_player_solids(player, color, number)
     translation = robot.getField('translation')
     rotation = robot.getField('rotation')
-    t = player[pose]['translation']
-    r = player[pose]['rotation']
+    t = custom_t if custom_t else player[pose]['translation']
+    r = custom_r if custom_r else player[pose]['rotation']
     translation.setSFVec3f(t)
     rotation.setSFRotation(r)
     info(f'{color.capitalize()} player {number} reset to {pose}: ' +
