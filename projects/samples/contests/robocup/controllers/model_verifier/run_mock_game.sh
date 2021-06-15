@@ -82,15 +82,15 @@ do
 done
 
 rm -rf "${WEBOTS_HOME}/${LOG_PERF}"
+WEBOTS_OPT=("--batch" "--sysinfo" "--stdout" "--stderr" "--minimize" "--log-performance=$LOG_PERF")
 if [[ $NO_RENDERING == "TRUE" ]]
 then
-    $WEBOTS_HOME/webots --batch --sysinfo --no-rendering --minimize "--log-performance=$LOG_PERF" $ROBOCUP_WORLD &
-else
-    $WEBOTS_HOME/webots --batch --sysinfo --minimize "--log-performance=$LOG_PERF" $ROBOCUP_WORLD &
+    WEBOTS_OPT+=("--no-rendering")
 fi
+$WEBOTS_HOME/webots ${WEBOTS_OPT[@]} $ROBOCUP_WORLD >${TEAM_FOLDER}/${SUFFIX}.log 2>${TEAM_FOLDER}/${SUFFIX}.err &
 
 echo "Waiting warm-up before trying to connect clients"
-sleep 60
+sleep 80
 
 for team in RED BLUE
 do
@@ -110,4 +110,4 @@ done
 
 wait
 
-tail -n 2 ${TEAM_FOLDER}/*${SUFFIX}.txt
+tail -n 7 ${TEAM_FOLDER}/*${SUFFIX}.txt
