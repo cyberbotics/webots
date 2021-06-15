@@ -157,11 +157,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     static bool firstJavaScriptCall = true;
     if (firstJavaScriptCall) {
       initializeJavaScript();
-<<<<<<< HEAD
-      firstJavaScriptCall = true;
-=======
       firstJavaScriptCall = false;
->>>>>>> develop
     }
 
     gOpeningToken = "%<";
@@ -176,25 +172,6 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
   mResult.clear();
   mError = "";
-
-<<<<<<< HEAD
-  /*
-  QString initialDir = QDir::currentPath();
-
-  // cd to temporary directory
-  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
-  if (!success) {
-    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
-    return false;
-  }
-  */
-
-=======
->>>>>>> develop
-  if (!gValidJavaScriptResources) {
-    mError = tr("Initialization error: JavaScript resources are not found.");
-    return false;
-  }
 
   QString initialDir = QDir::currentPath();
 
@@ -296,7 +273,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   outputStream << javaScriptTemplate;
   outputFile.close();
 
-<<<<<<< HEAD
   // create engine and define global space
   QJSEngine engine;
   // create and add file manipulation module
@@ -304,10 +280,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QJSValue jsFile = engine.newQObject(jsFileObject);
   engine.globalObject().setProperty("wbfile", jsFile);
   // add stream holders
-=======
-  // create engine and stream holders
-  QJSEngine engine;
->>>>>>> develop
   QJSValue jsStdOut = engine.newArray();
   engine.globalObject().setProperty("stdout", jsStdOut);
   QJSValue jsStdErr = engine.newArray();
@@ -337,7 +309,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(jsStdErr.property(i).toString()),
                              false, WbLog::PARSING);
 
-  // restore initial directly
+  // restore initial directory
   QDir::setCurrent(initialDir);
 
   return true;

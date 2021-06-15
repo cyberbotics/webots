@@ -42,21 +42,79 @@ It is technically legitimate to forego the brackets for one-line statements, how
 Consider the example below, the option on the left would technically work however if the radius is later changed to something like `radius %<= fields.radius.value >%` it no longer would because the parsing of this expression involves several steps.
 It is therefore encouraged to be verbose and provide the brackets.
 
-```
-Technically correct, but risky              Safer alternative
+%tab-component "module"
 
-Sphere {                                    Sphere {
-  %< if (fields.condition.value) >%           %< if (fields.condition.value) { >%
-       radius 1                                    radius 1
-  %< else >%                                  %< } else { >%
-       radius 2                                    radius 2
-                                              %< } >%
-}                                           }
+%tab "Technically correct, but risky"
 ```
+Sphere {
+  %< if (fields.condition.value) >%
+      radius 1
+  %< else >%
+      radius 2
+}
+```
+%tab-end
+
+%tab "Safer alternative"
+```
+Sphere {
+  %< if (fields.condition.value) { >%
+      radius 1
+  %< } else { >%
+      radius 2
+  %< } >%
+}
+```
+%tab-end
+
+%end
+
 - Although not mandatory, the usage of semi-colons for JavaScript statements is highly encouraged.
 - Lua and JavaScript Procedural PROTO nodes use two distinct tokens (`%{` and `}%` for Lua and `%<` and `>%` for JavaScript) and cannot be interchanged.
 Which tokens will be considered depends on whether the comment line `# template language: javascript` is present.
 - The `wbfile` module for file manipulation does not need to, and should not, be imported as it is added automatically to each instance of the engine.
+- Performance degradation has been observed when the number of evaluations requested (i.e expressions of the form `%<= ... >%`) is large, generally in the tens of thousands.
+This is typically the case when expressions of this form are used to define the coordinates or indexes of, for instance, a [IndexedFaceSet](indexedfaceset.md).
+To greatly speed-up the generation of this sort of PROTO file, it is highly suggested to use a string buffer to which the coordinates are progressively appended and to only evaluate this buffer once at the end, as shown in the following snippet.
+
+%tab-component "module"
+
+%tab "Technically correct, but slow"
+```
+geometry IndexedFaceSet {
+  coord Coordinate {
+    point [
+      %< for (let i = 0; i < 10000; ++i) { >%
+          %<= i + 0 >% %<= i + 1 >% %<= i + 2 >%
+      %< } >%
+    ]
+  }
+
+  ...
+}
+```
+%tab-end
+
+%tab "Faster alternative"
+```
+geometry IndexedFaceSet {
+  coord Coordinate {
+    point [
+      %<
+        let pointBuffer = '';
+        for (let i = 0; i < 10000; ++i)
+          pointBuffer += (i + 0).toString() + ' ' + (i + 1).toString() + ' ' + (i + 2).toString() + '\n';
+      >%
+      %<= pointBuffer >%
+    ]
+  }
+
+  ...
+}
+```
+%tab-end
+
+%end
 
 #### VRML97 Type Conversion
 
