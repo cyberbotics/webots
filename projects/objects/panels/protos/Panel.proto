@@ -42,7 +42,7 @@ PROTO Panel [
       console.error('\'panelsCount\' should be greater than 0. Value reset to ' + panelsCount + '.');
     }
 
-    if (size.x <= borderHeight * (panelsCount + 1) {
+    if (size.x <= borderHeight * (panelsCount + 1)) {
       panelsCount = fields.panelsCount.defaultValue;
       console.error('cumulative size of separators exceeds total size: reset to single panel.');
     }
@@ -93,9 +93,9 @@ PROTO Panel [
                     for (let i = 1; i <= nSeparations; ++i) {
                       for (let dz = -0.5; dz <= 0.5; dz = dz + 1) {
                         let z = dz * size.z;
-                        for (dy = -0.5; dy <= 0.5; dy = dy + 1) {
+                        for (let dy = -0.5; dy <= 0.5; dy = dy + 1) {
                           let y = halfSizeY + dy * (size.y - 2 * borderHeight);
-                          for (dx = -0.5; dx <= 0.5; dx = dx + 1) {
+                          for (let dx = -0.5; dx <= 0.5; dx = dx + 1) {
                   >%
                             %<= offsetX + dx * borderHeight >% %<= y >% %<= z >%
                   %<
@@ -124,7 +124,7 @@ PROTO Panel [
                 %<= 1- borderX >% %<= 1 - borderY >%
               %<
                 let x = panelSizeX + borderHeight;
-                for (i = 1; i <= nSeparations; i++) {
+                for (let i = 1; i <= nSeparations; i++) {
                   let texU1 = x / size.x;
                   let texU2 = (x + borderHeight) / size.x;
               >%
@@ -160,7 +160,7 @@ PROTO Panel [
               %<
               if (nSeparations > 0) {
                 let pointCount = 16;
-                for (i = 1; i <= nSeparations; ++i) {
+                for (let i = 1; i <= nSeparations; ++i) {
               >%
                   %<= pointCount + 1 >% %<= pointCount + 2 >% %<= pointCount + 3 >% -1
                   %<= pointCount + 1 >% %<= pointCount + 0 >% %<= pointCount + 2 >% -1
@@ -197,7 +197,7 @@ PROTO Panel [
               0 3 2 -1 0 2 3 -1
               %< if (nSeparations > 0) {
                 let pointCount = 8;
-                for (i = 1; i <= nSeparations; ++i) { >%
+                for (let i = 1; i <= nSeparations; ++i) { >%
                   %<= pointCount + 1 >% %<= pointCount + 2 >% %<= pointCount + 3 >% -1
                   %<= pointCount + 1 >% %<= pointCount + 0 >% %<= pointCount + 2 >% -1
                   0 3 2 -1 0 2 3 -1

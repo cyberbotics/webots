@@ -38,8 +38,8 @@ PROTO ConveyorBelt [
     name IS name
     controller "conveyor_belt"
     controllerArgs [
-      "%<= fields.speed.value >%"
-      "%<= fields.timer.value >%"
+      %<= '"' + fields.speed.value + '"' >%
+      %<= '"' + fields.timer.value + '"' >%
     ]
     children [
       Track {

@@ -16,7 +16,7 @@ PROTO Thymio2LED [
 ]
 {
   %<
-    const length = fields.translations.value.length;
+    let length = fields.translations.value.length;
     const lengthTextureUrls = fields.textureUrls.value.length;
     const lengthRotations = fields.rotations.value.length;
     const lengthSizes = fields.sizes.value.length;
