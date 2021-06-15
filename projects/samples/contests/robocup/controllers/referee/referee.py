@@ -366,8 +366,9 @@ def update_details_display():
     update_team_details_display(right_team, right, strings)
     strings.right_background = strings.background
     del strings.background
-    strings.white += '█' * (34 - (3 * len(right_team['players'])))
-    strings.foreground += game.state.secondary_state[6:]
+    space = 12 - 3 * len(right_team['players'])
+    strings.white += '█' * (22 + space)
+    strings.foreground += ' ' * space + game.state.secondary_state[6:]
     y = 0.0465  # vertical position of the second line
     supervisor.setLabel(10, strings.left_background, 0, y, game.font_size, left_color, 0.2, game.font)
     supervisor.setLabel(11, strings.right_background, 0, y, game.font_size, right_color, 0.2, game.font)
