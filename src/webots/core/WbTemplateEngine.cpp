@@ -157,7 +157,11 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     static bool firstJavaScriptCall = true;
     if (firstJavaScriptCall) {
       initializeJavaScript();
+<<<<<<< HEAD
       firstJavaScriptCall = true;
+=======
+      firstJavaScriptCall = false;
+>>>>>>> develop
     }
 
     gOpeningToken = "%<";
@@ -173,6 +177,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   mResult.clear();
   mError = "";
 
+<<<<<<< HEAD
   /*
   QString initialDir = QDir::currentPath();
 
@@ -184,6 +189,8 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
   */
 
+=======
+>>>>>>> develop
   if (!gValidJavaScriptResources) {
     mError = tr("Initialization error: JavaScript resources are not found.");
     return false;
@@ -289,6 +296,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   outputStream << javaScriptTemplate;
   outputFile.close();
 
+<<<<<<< HEAD
   // create engine and define global space
   QJSEngine engine;
   // create and add file manipulation module
@@ -296,6 +304,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QJSValue jsFile = engine.newQObject(jsFileObject);
   engine.globalObject().setProperty("wbfile", jsFile);
   // add stream holders
+=======
+  // create engine and stream holders
+  QJSEngine engine;
+>>>>>>> develop
   QJSValue jsStdOut = engine.newArray();
   engine.globalObject().setProperty("stdout", jsStdOut);
   QJSValue jsStdErr = engine.newArray();
