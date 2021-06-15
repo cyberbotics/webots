@@ -223,8 +223,7 @@ WbDragForceEvent::WbDragForceEvent(const QSize &widgetSize, WbViewpoint *viewpoi
   mRelativeOrigin /= s;
   mEnd = mOrigin;
   mDragPlane = WbAffinePlane(viewpoint->orientation()->value().direction(), mOrigin);
-  const double force_scaling_factor = WbWorld::instance()->worldInfo()->dragForceScale();
-  mScalingFactor = force_scaling_factor * selectedSolid->mass();
+  mScalingFactor = WbWorld::instance()->worldInfo()->dragForceScale() * selectedSolid->mass();
   init();
   mRepresentation->setScale(mViewDistanceScaling);
 }
