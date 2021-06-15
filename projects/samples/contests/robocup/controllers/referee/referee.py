@@ -74,6 +74,7 @@ BALL_DIST_PERIOD = 1                      # seconds. The period at which distanc
 BALL_HOLDING_RATIO = 1.0/3                # The ratio of the radius used to compute minimal distance to the convex hull
 GAME_INTERRUPTION_PLACEMENT_NB_STEPS = 5  # The maximal number of steps allowed when moving ball or player away
 STATUS_PRINT_PERIOD = 20                  # Real time between two status updates in seconds
+DISABLE_ACTUATORS_MIN_DURATION = 1.0      # The minimal simulated time [s] until enabling actuators again after a reset
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -1058,15 +1059,11 @@ def update_team_penalized(team):
             continue
         p = game.state.teams[index].players[int(number) - 1]
         if p.number_of_red_cards > 0:
-            robot = player['robot']
             # sending red card robot far away from the field
             t = copy.deepcopy(player['reentryStartingPose']['translation'])
             t[0] = 50
             t[1] = (10 + int(number)) * (1 if color == 'red' else -1)
-            robot.loadState('__init__')
-            list_player_solids(player, color, number)
-            robot.getField('translation').setSFVec3f(t)
-            robot.getField('rotation').setSFRotation(player['reentryStartingPose']['rotation'])
+            reset_player(color, number, 'reentryStartingPose', t)
             customData = player['robot'].getField('customData')
             customData.setSFString('red_card')  # disable all devices of the robot
             player['penalized'] = 'red_card'
@@ -1075,18 +1072,19 @@ def update_team_penalized(team):
             # than moving it away from the field
             player['robot'] = None
             info(f'sending {color} player {number} tp {t}.')
-            if 'penalty_stabilize' in player:
-                del player['penalty_stabilize']
+            if 'stabilize' in player:
+                del player['stabilize']
             player['outside_field'] = True
-        else:
-            n = p.secs_till_unpenalized
-            customData = player['robot'].getField('customData')
-            if n > 0:
-                player['penalized'] = n
-            elif 'penalized' in player and player['penalized'] != REMOVAL_PENALTY_TIMEOUT:
+        elif 'enable_actuators_at' in player:
+            timing_ok = time_count >= player['enable_actuators_at']
+            penalty_ok = 'penalized' not in player or p.penalty == 0
+            if timing_ok and penalty_ok:
+                customData = player['robot'].getField('customData')
                 info(f'Enabling actuators of {color} player {number}.')
                 customData.setSFString('')
-                del player['penalized']
+                del player['enable_actuators_at']
+                if 'penalized' in player:
+                    del player['penalized']
 
 
 def update_penalized():
@@ -1583,7 +1581,6 @@ def game_interruption_touched(team, number):
 
 
 def place_player_at_penalty(player, team, number):
-    robot = player['robot']
     color = team['color']
     t = copy.deepcopy(player['reentryStartingPose']['translation'])
     r = copy.deepcopy(player['reentryStartingPose']['rotation'])
@@ -1609,16 +1606,7 @@ def place_player_at_penalty(player, team, number):
         t[0] -= 4 * game.field.penalty_offset
     elif t[0] < -game.field.size_x:
         t[0] += 4 * game.field.penalty_offset
-    robot.loadState('__init__')
-    list_player_solids(player, color, number)
-    robot.getField('translation').setSFVec3f(t)
-    robot.getField('rotation').setSFRotation(r)
-    robot.resetPhysics()
-    player['penalty_stabilize'] = 5  # stabilize after 5 simulation steps
-    player['penalty_translation'] = t
-    player['penalty_rotation'] = r
-    player['position'] = t
-    info(f'Moved {color} player {number}: translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
+    reset_player(color, number, None, t, r)
 
 
 def send_team_penalties(team):
@@ -1638,8 +1626,6 @@ def send_team_penalties(team):
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
             place_player_at_penalty(player, team, number)
             player['penalized'] = REMOVAL_PENALTY_TIMEOUT
-            info(f'Disabling actuators of {color} player {number}.')
-            player['robot'].getField('customData').setSFString('penalized')
             # Once removed from the field, the robot will be in the air, therefore its status will not be updated.
             # Thus, we need to make sure it will not be considered in the air while falling
             player['outside_field'] = True
@@ -1651,25 +1637,25 @@ def send_penalties():
     send_team_penalties(blue_team)
 
 
-def stabilize_team_penalized_robots(team):
+def stabilize_team_robots(team):
     color = team['color']
     for number in team['players']:
         player = team['players'][number]
-        if 'penalty_stabilize' in player:
+        if 'stabilize' in player:
             robot = player['robot']
-            if player['penalty_stabilize'] == 0:
+            if player['stabilize'] == 0:
                 info(f'Stabilizing {color} player {number}')
                 robot.resetPhysics()
-                robot.getField('translation').setSFVec3f(player['penalty_translation'])
-                robot.getField('rotation').setSFRotation(player['penalty_rotation'])
-                del player['penalty_stabilize']
+                robot.getField('translation').setSFVec3f(player['stabilize_translation'])
+                robot.getField('rotation').setSFRotation(player['stabilize_rotation'])
+                del player['stabilize']
             else:
-                player['penalty_stabilize'] -= 1
+                player['stabilize'] -= 1
 
 
-def stabilize_penalized_robots():
-    stabilize_team_penalized_robots(red_team)
-    stabilize_team_penalized_robots(blue_team)
+def stabilize_robots():
+    stabilize_team_robots(red_team)
+    stabilize_team_robots(blue_team)
 
 
 def flip_pose(pose):
@@ -1692,7 +1678,7 @@ def flip_sides():  # flip sides (no need to notify GameController, it does it au
     update_team_display()
 
 
-def reset_player(color, number, pose):
+def reset_player(color, number, pose, custom_t=None, custom_r=None):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
     robot = player['robot']
@@ -1700,12 +1686,20 @@ def reset_player(color, number, pose):
     list_player_solids(player, color, number)
     translation = robot.getField('translation')
     rotation = robot.getField('rotation')
-    t = player[pose]['translation']
-    r = player[pose]['rotation']
+    t = custom_t if custom_t else player[pose]['translation']
+    r = custom_r if custom_r else player[pose]['rotation']
     translation.setSFVec3f(t)
     rotation.setSFRotation(r)
+    robot.resetPhysics()
+    player['stabilize'] = 5  # stabilize after 5 simulation steps
+    player['stabilize_translation'] = t
+    player['stabilize_rotation'] = r
+    player['position'] = t
     info(f'{color.capitalize()} player {number} reset to {pose}: ' +
          f'translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
+    info(f'Disabling actuators of {color} player {number}.')
+    robot.getField('customData').setSFString('penalized')
+    player['enable_actuators_at'] = time_count + int(DISABLE_ACTUATORS_MIN_DURATION * 1000)
 
 
 def reset_teams(pose):
@@ -1847,8 +1841,8 @@ def next_penalty_shootout():
     flip_sides()
     info(f'fliped sides: game.side_left = {game.side_left}')
     if penalty_kicker_player():
-        set_penalty_positions()
         game_controller_send('STATE:SET')
+        set_penalty_positions()
     else:
         info("Skipping penalty trial because team has no kicker available")
         game_controller_send('STATE:SET')
@@ -2371,7 +2365,7 @@ try:
         if game.state is None:
             time_count += time_step
             continue
-        stabilize_penalized_robots()
+        stabilize_robots()
         send_play_state_after_penalties = False
         previous_position = copy.deepcopy(game.ball_position)
         game.ball_position = game.ball_translation.getSFVec3f()
