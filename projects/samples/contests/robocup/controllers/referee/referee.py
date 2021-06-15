@@ -529,7 +529,7 @@ def game_controller_send(message):
                 if result == 'INVALID':
                     error(f'Received invalid answer from GameController for message {answered_message}.', fatal=True)
                 elif result == 'ILLEGAL':
-                    error(f'Received illegal answer from GameController for message {answered_message}.')
+                    error(f'Received illegal answer from GameController for message {answered_message}.', fatal=True)
                 else:
                     error(f'Received unknown answer from GameController: {answer}.', fatal=True)
         except BlockingIOError:
@@ -852,6 +852,7 @@ def init_team(team):
 
 
 def update_team_contacts(team):
+    early_game_interruption = is_early_game_interruption()
     color = team['color']
     for number in team['players']:
         player = team['players'][number]
@@ -900,7 +901,7 @@ def update_team_contacts(team):
                 if name in player['tagged_solids']:
                     member = player['tagged_solids'][name]
             if point[2] > game.field.turf_depth:  # not a contact with the ground
-                if point in game.ball.contact_points:  # ball contact
+                if not early_game_interruption and point in game.ball.contact_points:  # ball contact
                     if member in ['arm', 'hand']:
                         player['ball_handling_last'] = time_count
                         if player['ball_handling_start'] is None:
@@ -1543,6 +1544,21 @@ def reset_ball_touched():
     game.ball_last_touch_player_number = None
 
 
+def is_game_interruption():
+    if not hasattr(game, "state"):
+        return False
+    return game.state.secondary_state[6:] in GAME_INTERRUPTIONS
+
+
+def is_early_game_interruption():
+    """
+    Return true if the active state is a game interruption and phase is 0.
+
+    Note: During this step, robots are allowed to commit some infringements such as touching a ball that is not in play.
+    """
+    return is_game_interruption() and game.state.secondary_state_info[1] == 0
+
+
 def game_interruption_touched(team, number):
     """
     Applies the associated actions for when a robot touches the ball during step 1 and 2 of game interruptions
@@ -2073,6 +2089,7 @@ def game_interruption_place_ball(target_location, enforce_distance=True):
     game.ball.resetPhysics()
     game.ball_translation.setSFVec3f(target_location)
     game.ball_set_kick = False
+    reset_ball_touched()
     info(f'Ball respawned at {target_location[0]} {target_location[1]} {target_location[2]}.')
 
 
@@ -2363,7 +2380,7 @@ try:
         update_contacts()  # check for collisions with the ground and ball
         update_ball_holding()  # check for ball holding for field players and goalkeeper
         update_histories()
-        if game.state.game_state == 'STATE_PLAYING':
+        if game.state.game_state == 'STATE_PLAYING' and not is_early_game_interruption():
             check_outside_turf()
             check_forceful_contacts()
             check_inactive_goalkeepers()
@@ -2382,7 +2399,7 @@ try:
                         info(f'{game.ball_kick_translation} {game.ball_position}')
                         info(f'Ball in play, can be touched by any player (moved by {d * 100:.2f} cm).')
                         game.in_play = time_count
-                    else:
+                    elif not is_game_interruption():  # The game interruption case is handled in update_team_contacts
                         team = red_team if game.ball_must_kick_team == 'blue' else blue_team
                         check_ball_must_kick(team)
             else:
