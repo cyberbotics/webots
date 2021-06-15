@@ -74,6 +74,7 @@ BALL_DIST_PERIOD = 1                      # seconds. The period at which distanc
 BALL_HOLDING_RATIO = 1.0/3                # The ratio of the radius used to compute minimal distance to the convex hull
 GAME_INTERRUPTION_PLACEMENT_NB_STEPS = 5  # The maximal number of steps allowed when moving ball or player away
 STATUS_PRINT_PERIOD = 20                  # Real time between two status updates in seconds
+DISABLE_ACTUATORS_MIN_DURATION = 1.0      # The minimal simulated time [s] until enabling actuators again after a reset
 
 # game interruptions requiring a free kick procedure
 GAME_INTERRUPTIONS = {
@@ -1073,15 +1074,16 @@ def update_team_penalized(team):
             if 'stabilize' in player:
                 del player['stabilize']
             player['outside_field'] = True
-        else:
-            n = p.secs_till_unpenalized
-            customData = player['robot'].getField('customData')
-            if n > 0:
-                player['penalized'] = n
-            elif 'penalized' in player and player['penalized'] != REMOVAL_PENALTY_TIMEOUT:
+        elif 'enable_actuators_at' in player:
+            timing_ok = time_count >= player['enable_actuators_at']
+            penalty_ok = 'penalized' not in player or p.penalty == 0
+            if timing_ok and penalty_ok:
+                customData = player['robot'].getField('customData')
                 info(f'Enabling actuators of {color} player {number}.')
                 customData.setSFString('')
-                del player['penalized']
+                del player['enable_actuators_at']
+                if 'penalized' in player:
+                    del player['penalized']
 
 
 def update_penalized():
@@ -1608,8 +1610,6 @@ def send_team_penalties(team):
             game_controller_send(f'PENALTY:{team_id}:{number}:{penalty}')
             place_player_at_penalty(player, team, number)
             player['penalized'] = REMOVAL_PENALTY_TIMEOUT
-            info(f'Disabling actuators of {color} player {number}.')
-            player['robot'].getField('customData').setSFString('penalized')
             # Once removed from the field, the robot will be in the air, therefore its status will not be updated.
             # Thus, we need to make sure it will not be considered in the air while falling
             player['outside_field'] = True
@@ -1681,6 +1681,9 @@ def reset_player(color, number, pose, custom_t=None, custom_r=None):
     player['position'] = t
     info(f'{color.capitalize()} player {number} reset to {pose}: ' +
          f'translation ({t[0]} {t[1]} {t[2]}), rotation ({r[0]} {r[1]} {r[2]} {r[3]}).')
+    info(f'Disabling actuators of {color} player {number}.')
+    robot.getField('customData').setSFString('penalized')
+    player['enable_actuators_at'] = time_count + int(DISABLE_ACTUATORS_MIN_DURATION * 1000)
 
 
 def reset_teams(pose):
