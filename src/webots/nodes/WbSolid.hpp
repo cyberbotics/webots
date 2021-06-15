@@ -288,6 +288,7 @@ protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeFooter(WbVrmlWriter &writer) const override;
+  const QString sanitizedName() const;
 
 protected slots:
   void updateTranslation() override;

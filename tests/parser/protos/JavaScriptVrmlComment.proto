@@ -1,0 +1,15 @@
+#VRML_SIM R2021b utf8
+# template language: javascript
+
+PROTO JavaScriptVrmlComment [
+]
+{
+  %<
+    const myVariable = 1; # invalid VRML comment
+  >%
+  Shape {
+    geometry Box {
+      size 1 1 %<= count>%
+    }
+  }
+}

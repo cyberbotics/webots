@@ -1,0 +1,16 @@
+#VRML_SIM R2021b utf8
+
+PROTO TemplateMainLua [
+  field SFBool mainParameter TRUE
+]
+{
+Group {
+  children [
+    %{ if not fields.mainParameter.value then }%
+      TemplateNestedLua {
+        nestedParameter IS mainParameter
+      }
+    %{ end }%
+  ]
+}
+}

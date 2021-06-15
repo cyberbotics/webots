@@ -1,16 +1,17 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO TemplateMain [
   field SFBool mainParameter TRUE
 ]
 {
-Group {
-  children [
-    %{ if not fields.mainParameter.value then }%
-      TemplateNested {
-        nestedParameter IS mainParameter
-      }
-    %{ end }%
-  ]
-}
+  Group {
+    children [
+      %< if (!fields.mainParameter.value) { >%
+        TemplateNested {
+          nestedParameter IS mainParameter
+        }
+      %< } >%
+    ]
+  }
 }

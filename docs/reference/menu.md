@@ -102,6 +102,8 @@
     - [PROTO Instantiation](proto-instantiation.md)
     - [PROTO Example](proto-example.md)
     - [Procedural PROTO Nodes](procedural-proto-nodes.md)
+      - [Lua Scripting](lua-procedural-proto.md)
+      - [JavaScript Scripting](javascript-procedural-proto.md)
     - [Using PROTO Nodes with the Scene Tree](using-proto-nodes-with-the-scene-tree.md)
     - [PROTO Scoping Rules](proto-scoping-rules.md)
     - [PROTO Hidden Fields](proto-hidden-fields.md)

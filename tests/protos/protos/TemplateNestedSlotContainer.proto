@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO TemplateNestedSlotContainer [
   field SFNode slotA NULL
@@ -6,10 +7,10 @@ PROTO TemplateNestedSlotContainer [
   field SFBool regenerate FALSE
 ]
 {
-%{
-  -- trigger PROTO template regeneration
-  local test = fields.regenerate.value
-}%
+  %<
+    // trigger PROTO template regeneration
+    const test = fields.regenerate.value;
+  >%
   TwoSlotsContainer {
     slot1 IS slotA
     slot2 IS slotB

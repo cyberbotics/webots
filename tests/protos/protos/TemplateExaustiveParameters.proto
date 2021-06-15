@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO TemplateExaustiveParameters [
 
@@ -29,75 +30,47 @@ PROTO TemplateExaustiveParameters [
       }
     ]
     controller IS controller
-    %{
-      message = "success"
+    %<
+      let message = 'success';
 
-      if fields.sfb.value ~= false then
-        message = "SFBool test failed"
+      if (fields.sfb.value !== false)
+        message = 'SFBool test failed';
+      else if (fields.sfi.value !== 1)
+        message = 'SFInt32 test failed';
+      else if (fields.sff.value !== 1.0)
+        message = 'SFFloat test failed';
+      else if (fields.sfv2.value.x !== 1.0 || fields.sfv2.value.y !== 2.0)
+        message = 'SFVec2f test failed';
+      else if (fields.sfv3.value.x !== 1.0 || fields.sfv3.value.y !== 2.0 || fields.sfv3.value.z !== 3.0)
+        message = 'SFVec3f test failed';
+      else if (fields.sfr.value.x !== 0.0 || fields.sfr.value.y !== 0.0 ||
+               fields.sfr.value.z !== 1.0 || fields.sfr.value.a !== 2.0)
+        message = 'SFRotation test failed';
+      else if (fields.sfc.value.r !== 0.0 || fields.sfc.value.g !== 0.5 || fields.sfc.value.b !== 1.0)
+        message = 'SFColor test failed';
+      else if (fields.sfs.value !== 'test')
+        message = 'SFString test failed';
+      else if (fields.sfs.value !== fields.sfs.defaultValue)
+        message = 'default value test failed';
+      else if (fields.controller.value === fields.controller.defaultValue)
+        message = 'non-default value test failed';
+      else if (fields.sfn1.value === undefined || fields.sfn1.value.fields.material.value === undefined ||
+              fields.sfn1.value.fields.material.value.fields.shininess.value !== 0.5)
+        message = 'regular SFNode test failed';
+      else if (fields.sfn1.value.node_name != 'Appearance')
+        message = 'regular SFNode.node_name test failed';
+      else if (fields.sfn2.value === undefined || fields.sfn2.value.fields.boxLengths.value === undefined ||
+               fields.sfn2.value.fields.boxLengths.value.x !== 0.2 || fields.sfn2.value.fields.boxSize !== undefined ||
+               fields.sfn2.value.fields.size !== undefined)
+        message = 'PROTO SFNode test failed';
+      else if (fields.sfn2.value.node_name != 'SecondDerivedBoxShape')
+        message = 'PROTO SFNode.node_name test failed';
+      else if (fields.mfi.value[0] !== 1 || fields.mfi.value[1] !== 2 || fields.mfi.value[2] !== 3)
+        message = 'MFInt32 test failed';
 
-      elseif fields.sfi.value ~= 1 then
-        message = "SFInt32 test failed"
-
-      elseif fields.sff.value ~= 1.0 then
-        message = "SFFloat test failed"
-
-      elseif fields.sfv2.value.x ~= 1.0 or
-             fields.sfv2.value.y ~= 2.0 then
-        message = "SFVec2f test failed"
-
-      elseif fields.sfv3.value.x ~= 1.0 or
-             fields.sfv3.value.y ~= 2.0 or
-             fields.sfv3.value.z ~= 3.0 then
-        message = "SFVec3f test failed"
-
-      elseif fields.sfr.value.x ~= 0.0 or
-             fields.sfr.value.y ~= 0.0 or
-             fields.sfr.value.z ~= 1.0 or
-             fields.sfr.value.a ~= 2.0 then
-        message = "SFRotation test failed"
-
-      elseif fields.sfc.value.r ~= 0.0 or
-             fields.sfc.value.g ~= 0.5 or
-             fields.sfc.value.b ~= 1.0 then
-        message = "SFColor test failed"
-
-      elseif fields.sfs.value ~= "test" then
-        message = "SFString test failed"
-
-      elseif fields.sfs.value ~= fields.sfs.defaultValue then
-        message = "default value test failed"
-
-      elseif fields.controller.value == fields.controller.defaultValue then
-        message = "non-default value test failed"
-
-      elseif fields.sfn1.value == none or
-             fields.sfn1.value.fields.material.value == none or
-             fields.sfn1.value.fields.material.value.fields.shininess.value ~= 0.5 then
-        message = "regular SFNode test failed"
-
-      elseif fields.sfn1.value.node_name ~= "Appearance" then
-        message = "regular SFNode.node_name test failed"
-
-      elseif fields.sfn2.value == none or
-             fields.sfn2.value.fields.boxLengths.value == none or
-             fields.sfn2.value.fields.boxLengths.value.x ~= 0.2 or
-             fields.sfn2.value.fields.boxSize ~= none or
-             fields.sfn2.value.fields.size ~= NIL then
-        message = "PROTO SFNode test failed"
-
-      elseif fields.sfn2.value.node_name ~= "SecondDerivedBoxShape" then
-        message = "PROTO SFNode.node_name test failed"
-
-      elseif fields.mfi.value[1] ~= 1 or
-             fields.mfi.value[2] ~= 2 or
-             fields.mfi.value[3] ~= 3 then
-        message = "MFInt32 test failed"
-
-      end
-      
-      local arguments = "test --prefix in " .. fields.sfs3.value .. "."
-    }%
-    model "%{= message }%"
-    customData "%{= fields.sfs2.value }%"
+      let arg = 'test --prefix in ' + fields.sfs3.value + '.';
+    >%
+    model "%<= message >%"
+    customData "%<= fields.sfs2.value >%"
   }
 }
