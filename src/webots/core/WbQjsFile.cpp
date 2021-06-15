@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbLog.hpp"
 #include "WbQjsFile.hpp"
+#include "WbLog.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QFile>
