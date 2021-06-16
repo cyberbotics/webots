@@ -376,6 +376,7 @@ public:
       motors.push_back(motor);
   }
   void enableSensor(webots::Device *device, int time_step) {
+    start_sensoring_time[device] = controller_time; // For sensor synchonisation in case of different timesteps
     switch (device->getNodeType()) {
       case webots::Node::ACCELEROMETER: {
         webots::Accelerometer *accelerometer = static_cast<webots::Accelerometer *>(device);
@@ -555,7 +556,7 @@ public:
       webots::Device *dev = entry.first;
       webots::Accelerometer *accelerometer = dynamic_cast<webots::Accelerometer *>(dev);
       if (accelerometer) {
-        if (controller_time % accelerometer->getSamplingPeriod())
+        if ( (controller_time - start_sensoring_time[dev]) % accelerometer->getSamplingPeriod())
           continue;
         AccelerometerMeasurement *measurement = sensor_measurements.add_accelerometers();
         measurement->set_name(accelerometer->getName());
@@ -568,7 +569,7 @@ public:
       }
       webots::Camera *camera = dynamic_cast<webots::Camera *>(dev);
       if (camera) {
-        if (controller_time % camera->getSamplingPeriod())
+        if ( (controller_time - start_sensoring_time[dev]) % camera->getSamplingPeriod())
           continue;
         CameraMeasurement *measurement = sensor_measurements.add_cameras();
         const int width = camera->getWidth();
@@ -601,7 +602,7 @@ public:
       }
       webots::Gyro *gyro = dynamic_cast<webots::Gyro *>(dev);
       if (gyro) {
-        if (controller_time % gyro->getSamplingPeriod())
+        if ( (controller_time - start_sensoring_time[dev]) % gyro->getSamplingPeriod())
           continue;
         GyroMeasurement *measurement = sensor_measurements.add_gyros();
         measurement->set_name(gyro->getName());
@@ -614,7 +615,7 @@ public:
       }
       webots::PositionSensor *position_sensor = dynamic_cast<webots::PositionSensor *>(dev);
       if (position_sensor) {
-        if (controller_time % position_sensor->getSamplingPeriod())
+        if ( (controller_time - start_sensoring_time[dev]) % position_sensor->getSamplingPeriod())
           continue;
         PositionSensorMeasurement *measurement = sensor_measurements.add_position_sensors();
         measurement->set_name(position_sensor->getName());
@@ -623,7 +624,7 @@ public:
       }
       webots::TouchSensor *touch_sensor = dynamic_cast<webots::TouchSensor *>(dev);
       if (touch_sensor) {
-        if (controller_time % touch_sensor->getSamplingPeriod())
+        if ( (controller_time - start_sensoring_time[dev]) % touch_sensor->getSamplingPeriod())
           continue;
         webots::TouchSensor::Type type = touch_sensor->getType();
         switch (type) {
@@ -740,6 +741,7 @@ private:
   std::map<webots::Device *, int> new_sensors;
   std::vector<webots::Motor *> motors;
   uint32_t controller_time;
+  std::map<webots::Device *, uint32_t> start_sensoring_time;
   char *recv_buffer;
   int recv_index;
   int recv_size;
