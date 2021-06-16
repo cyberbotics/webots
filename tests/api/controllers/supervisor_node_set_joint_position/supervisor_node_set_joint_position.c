@@ -39,10 +39,6 @@ int main(int argc, char **argv) {
   WbNodeRef hinge2_joint_node = wb_supervisor_node_get_from_def("HINGE2_JOINT");
   wb_supervisor_node_set_joint_position(hinge2_joint_node, 0.6, 2);
 
-  /*WbDeviceTag shoulder_lift_motor = wb_robot_get_device("shoulder_lift_joint");
-  WbNodeRef shoulder_lift_motor_node = wb_supervisor_node_get_from_device(shoulder_lift_motor);
-  WbNodeRef shoulder_lift_joint_node = wb_supervisor_node_get_parent_node(shoulder_lift_motor_node);
-  wb_supervisor_node_set_joint_position(shoulder_lift_joint_node, -1.55, 1);*/
 
   wb_robot_step(TIME_STEP);
 
