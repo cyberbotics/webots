@@ -1,3 +1,17 @@
+// Copyright 1996-2021 Cyberbotics Ltd.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include "robot_client.hpp"
 
 #ifdef _WIN32
@@ -72,7 +86,6 @@ RobotClient::RobotClient(const std::string &host, int port, int verbosity) :
 }
 
 bool RobotClient::connectClient() {
-  int return_code;
   struct hostent *server = gethostbyname(host.c_str());
   struct sockaddr_in address;
   memset(&address, 0, sizeof(struct sockaddr_in));
@@ -86,8 +99,8 @@ bool RobotClient::connectClient() {
   }
 #ifdef _WIN32
   WSADATA info;
-  return_code = WSAStartup(MAKEWORD(2, 2), &info);  // Winsock 2.2
-  if (return_code != 0) {
+  int success = WSAStartup(MAKEWORD(2, 2), &info);  // Winsock 2.2
+  if (success != 0) {
     if (verbosity > 0)
       fprintf(stderr, "Cannot initialize Winsock\n");
     return false;
@@ -102,7 +115,7 @@ bool RobotClient::connectClient() {
   int attempt = 1;
   bool connected = false;
   while (attempt <= max_attempts) {
-    return_code = connect(socket_fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
+    int return_code = connect(socket_fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
     if (return_code == 0) {
       connected = true;
       break;
@@ -208,7 +221,7 @@ SensorMeasurements RobotClient::receive() {
   return sensor_measurements;
 }
 
-bool RobotClient::isOk() {
+bool RobotClient::isOk() const {
   return socket_fd != -1;
 }
 

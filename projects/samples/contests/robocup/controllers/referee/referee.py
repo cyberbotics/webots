@@ -1354,8 +1354,8 @@ def check_team_ball_handling(team):
         if game.throw_in:
             if duration >= BALL_HANDLING_TIMEOUT:  # a player can handle the ball for 10 seconds for throw-in, no more
                 reset_ball_handling(player)
-                sentence = f'touched the ball with its hand or arm for more than {BALL_HANDLING_TIMEOUT} seconds ' + \
-                           'during throw-in'
+                sentence = f'touched the ball with its hand or arm for more than {BALL_HANDLING_TIMEOUT} '
+                + 'seconds during throw-in'
                 send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
                 continue
         # goalkeeper case
@@ -2501,8 +2501,8 @@ try:
                         info('The ball has left the center circle after kick-off.')
 
                 ball_touched_by_opponent = game.ball_last_touch_team != game.ball_must_kick_team
-                ball_touched_by_teammate = (game.kicking_player_number is not None
-                                            and game.ball_last_touch_player_number != game.kicking_player_number)
+                ball_touched_by_teammate = (game.kicking_player_number is not None and
+                                            game.ball_last_touch_player_number != game.kicking_player_number)
                 ball_touched_in_play = game.in_play is not None and game.in_play < game.ball_last_touch_time
                 if not game.can_score:
                     if game.phase == 'KICKOFF':
