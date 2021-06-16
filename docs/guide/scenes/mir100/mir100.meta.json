@@ -43,7 +43,7 @@
     {
       "name": "depth_camera",
       "transformID": "n12",
-      "transformOffset": "0.464 0 0.116",
+      "transformOffset": "0.464 0 0.18",
       "type": "RangeFinder"
     },
     {
