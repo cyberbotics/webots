@@ -12,11 +12,6 @@
 
 #define TIME_STEP 32
 
-/*
- * This is the main program.
- * The arguments of the main function can be specified by the
- * "controllerArgs" field of the Robot node
- */
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
@@ -44,6 +39,4 @@ int main(int argc, char **argv) {
 
   ts_send_success();
   return EXIT_SUCCESS;
-
-  return 0;
 }
