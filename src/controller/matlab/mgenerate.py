@@ -460,6 +460,8 @@ def main(args=None):
     gen(FUNC, "wb_supervisor_node_get_field(noderef, fieldname)", "supervisor")
     gen(FUNC, "wb_supervisor_field_enable_sf_tracking(field, sampling_period)", "supervisor")
     gen(FUNC, "wb_supervisor_field_disable_sf_tracking(field)", "supervisor")
+    gen(FUNC, "wb_supervisor_node_enable_contact_point_tracking(noderef, sampling_period, include_descendants)", "supervisor")
+    gen(FUNC, "wb_supervisor_node_disable_contact_point_tracking(noderef, include_descendants)", "supervisor")
     gen(FUNC, "wb_supervisor_node_get_proto_field(noderef, fieldname)", "supervisor")
     # gen(FUNC, "wb_supervisor_node_get_center_of_mass(noderef)", "supervisor")
     gen(FUNC, "wb_supervisor_node_get_number_of_contact_points(noderef, include_descendants)", "supervisor")
