@@ -172,7 +172,6 @@ void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bo
 void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
   // retrieve the right node
   WbNode *templateNode = dynamic_cast<WbNode *>(sender());
-  printf("field %s node %s\n", field->name().toUtf8().constData(), templateNode->usefulName().toUtf8().constData());
   assert(templateNode);
   if (templateNode)
     regenerateNodeFromField(templateNode, field, false);
@@ -207,7 +206,6 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
 }
 
 void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
-  printf("regenerating %s (%d)\n", node->usefulName().toUtf8().constData(), restarted);
   assert(node);
 
   if (mBlockRegeneration) {
@@ -423,7 +421,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     viewpoint->startFollowUp(WbSolid::findSolidFromUniqueName(followedSolidName), true);
 
   cRegeneratingNodeCount--;
-  mBlockRegeneration = true;
+  assert(cRegeneratingNodeCount >= 0);
   if (isWorldInitialized)
     emit postNodeRegeneration(newNode);
 }

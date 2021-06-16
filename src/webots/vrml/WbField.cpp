@@ -402,7 +402,6 @@ void WbField::parameterNodeRemoved(int index) {
 
 // propagate change in a node field to a proto parameter
 void WbField::fieldChanged() {
-  printf("field %s\n", name().toUtf8().constData());
   // do not propagate a node change back to the proto parameter otherwise we would loop infinitly
   // because the break condition (node == node) is not fully functional
   if (singleType() != WB_SF_NODE)
