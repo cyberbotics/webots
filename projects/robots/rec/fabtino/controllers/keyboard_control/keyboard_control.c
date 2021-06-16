@@ -38,7 +38,7 @@
 int main() {
   wb_robot_init();
 
-  int time_step = wb_robot_get_basic_time_step();
+  const int time_step = wb_robot_get_basic_time_step();
 
   WbDeviceTag motor_fl = wb_robot_get_device("front_left_wheel_joint");
   WbDeviceTag motor_fr = wb_robot_get_device("front_right_wheel_joint");
