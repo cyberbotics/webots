@@ -23,9 +23,7 @@ if [ ! -d /tmp/webots-controller ]; then
 fi
 cd /tmp/webots-controller
 
-git show-branch ${VERSION} &> /dev/null
-BRANCH_MISSING=$?
-if [ ${BRANCH_MISSING} -eq 0 ]; then
+if [ ! -z $(git branch -a | egrep "/${VERSION}$") ]; then
     echo "Checkout to the existing branch ${VERSION}"
     git checkout ${VERSION}
 else
