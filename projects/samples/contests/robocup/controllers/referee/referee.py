@@ -1027,8 +1027,8 @@ def update_team_contacts(team):
             # check if the robot has fallen
             if member == 'foot':
                 continue
+            fallen = True
             if 'fallen' in player:  # was already down
-                fallen = True
                 continue
             info(f'{color.capitalize()} player {number} has fallen down.')
             player['fallen'] = time_count
@@ -1646,6 +1646,26 @@ def game_interruption_touched(team, number):
     game_controller_send(f'CARD:{team_id}:{number}:WARN')
 
 
+def get_first_available_spot(team_color, number, reentry_pos):
+    """Return the first available spot to enter on one side of the field given the reentry_pos"""
+    if not is_other_robot_near(team_color, number, reentry_pos, game.field.robot_radius):
+        return reentry_pos
+    preferred_dir = 1 if reentry_pos[1] > game.ball_position[1] else -1
+    max_iterations = math.ceil(reentry_pos[1] / game.field.penalty_offset)
+    basic_offset = np.array([game.field.penalty_offset, 0, 0])
+    initial_pos = np.array(reentry_pos)
+    for i in range(1, max_iterations):
+        for direction in [preferred_dir, -preferred_dir]:
+            current_pos = initial_pos + direction * i * basic_offset
+            opposite_sides = current_pos[0] * initial_pos[0] < 0  # current_pos should be on the other side
+            out_of_field = abs(current_pos[0]) > game.field.size_x
+            if opposite_sides or out_of_field:
+                continue
+            if not is_other_robot_near(team_color, number, current_pos, game.field.robot_radius):
+                return current_pos.tolist()
+    return None
+
+
 def place_player_at_penalty(player, team, number):
     color = team['color']
     t = copy.deepcopy(player['reentryStartingPose']['translation'])
@@ -1655,24 +1675,16 @@ def place_player_at_penalty(player, team, number):
         t[1] = -t[1]
         r = rotate_along_z(r)
     # check if position is already occupied by a penalized robot
-    while True:
-        moved = False
-        for n in team['players']:
-            other_robot = team['players'][n]['robot']
-            if other_robot is None:
-                continue
-            other_t = other_robot.getField('translation').getSFVec3f()
-            if distance3(other_t, t) < game.field.robot_radius:
-                t[0] += game.field.penalty_offset if game.ball_position[0] < t[0] else -game.field.penalty_offset
-                moved = True
-        if not moved:
-            break
-    # test if position is behind the goal line (note: it should never end up beyond the center line)
-    if t[0] > game.field.size_x:
-        t[0] -= 4 * game.field.penalty_offset
-    elif t[0] < -game.field.size_x:
-        t[0] += 4 * game.field.penalty_offset
-    reset_player(color, number, None, t, r)
+    info(f"placing player {color} {number} at {t}")
+    pos = get_first_available_spot(color, number, t)
+    info(f"-> pos: {pos}")
+    if pos is None:
+        t[1] = -t[1]
+        r = rotate_along_z(r)
+        pos = get_first_available_spot(color, number, t)
+        if pos is None:
+            raise RuntimeError("No spot available, this should not be possible")
+    reset_player(color, number, None, pos, r)
 
 
 def send_team_penalties(team):
@@ -2042,6 +2054,17 @@ def dropped_ball():
 def is_robot_near(position, min_dist):
     for team in [red_team, blue_team]:
         for number in team['players']:
+            if distance2(position, team['players'][number]['position']) < min_dist:
+                return True
+    return False
+
+
+def is_other_robot_near(robot_color, robot_number, position, min_dist):
+    """Test if another robot than the robot defined by team_color and number is closer than min_dist from position"""
+    for team in [red_team, blue_team]:
+        for number in team['players']:
+            if team['color'] == robot_color and number == robot_number:
+                continue
             if distance2(position, team['players'][number]['position']) < min_dist:
                 return True
     return False
