@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO FieldImport [
   field MFBool      bool      []
@@ -11,55 +12,46 @@ PROTO FieldImport [
   field MFString    string    []
 ]
 {
-  %{
-    local wbcore = require('wbcore')
-    local size = 0.1
-    
-    local boolField = fields.bool.value
-    if wbcore.tablelength(boolField) > 0 and boolField[1] == true then
-      size = size + 0.1
-    end
+  %<
+    let size = 0.1;
 
-    local intField = fields.int.value
-     if wbcore.tablelength(intField) > 0 and intField[1] == 17 then
-      size = size + 0.1
-    end
+    const boolField = fields.bool.value;
+    if (boolField.length > 0 && boolField[0] === true)
+      size = size + 0.1;
 
-    local floatField = fields.float.value
-    if wbcore.tablelength(floatField) > 0 and floatField[1] == 0.54 then
-      size = size + 0.1
-    end
+    const intField = fields.int.value;
+    if (intField.length > 0 && intField[0] === 17)
+      size = size + 0.1;
 
-    local vec2Field = fields.vec2.value
-    if wbcore.tablelength(vec2Field) > 0 and vec2Field[1].x == 0.1 and vec2Field[1].y == 0.2 then
-      size = size + 0.1
-    end
+    const floatField = fields.float.value;
+    if (floatField.length > 0 && floatField[0] === 0.54)
+      size = size + 0.1;
 
-    local vec3Field = fields.vec3.value
-    if wbcore.tablelength(vec3Field) > 0 and vec3Field[1].x == 0.1 and vec3Field[1].y == 0.2 and vec3Field[1].z == 0.3 then
-      size = size + 0.1
-    end
+    const vec2Field = fields.vec2.value;
+    if (vec2Field.length > 0 && vec2Field[0].x === 0.1 && vec2Field[0].y === 0.2)
+      size = size + 0.1;
 
-    local rotField = fields.rot.value
-    if wbcore.tablelength(rotField) > 0  and rotField[1].x == 0.0 and rotField[1].y == 1.0 and rotField[1].z == 0.0 and rotField[1].a == 0.57 then
-      size = size + 0.1
-    end
+    const vec3Field = fields.vec3.value;
+    if (vec3Field.length > 0 && vec3Field[0].x === 0.1 && vec3Field[0].y === 0.2 && vec3Field[0].z === 0.3)
+      size = size + 0.1;
 
-    local colorField = fields.color.value
-    if wbcore.tablelength(colorField) > 0 and colorField[1].r == 0.1 and colorField[1].g == 0.2 and colorField[1].b == 0.3 then
-      size = size + 0.1
-    end
+    const rotField = fields.rot.value;
+    if (rotField.length > 0 && rotField[0].x === 0.0 && rotField[0].y === 1.0 && rotField[0].z === 0.0 && rotField[0].a === 0.57)
+      size = size + 0.1;
 
-    local stringField = fields.string.value
-    if wbcore.tablelength(stringField) > 0  and stringField[1] == "Hello World!" then
-      size = size + 0.1
-    end
-  }%
+    const colorField = fields.color.value;
+    if (colorField.length > 0 && colorField[0].r === 0.1 && colorField[0].g === 0.2 && colorField[0].b === 0.3)
+      size = size + 0.1;
+
+    const stringField = fields.string.value;
+    if (stringField.length > 0 && stringField[0] === 'Hello World!')
+      size = size + 0.1;
+  >%
   Solid {
     children [
       DEF BOX Shape {
         geometry Box {
-          size %{= size }% %{= size }% %{= size }%
+          size %<= size >% %<= size >% %<= size >%
         }
       }
     ]

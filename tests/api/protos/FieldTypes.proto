@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO FieldTypes [
   field MFBool mfBool [FALSE, FALSE, TRUE]
@@ -12,16 +13,16 @@ PROTO FieldTypes [
   field MFNode mfNode []
 ]
 {
-  %{
-    local mfBool = fields.mfBool.value
-    local mfInt = fields.mfInt.value
-    local mfFloat = fields.mfFloat.value
-    local mfVec2 = fields.mfVec2.value
-    local mfVec3 = fields.mfVec3.value
-    local mfRotation = fields.mfRotation.value
-    local mfColor = fields.mfColor.value
-    local mfString = fields.mfString.value
-  }%
+  %<
+    const mfBool = fields.mfBool.value;
+    const mfInt = fields.mfInt.value;
+    const mfFloat = fields.mfFloat.value;
+    const mfVec2 = fields.mfVec2.value;
+    const mfVec3 = fields.mfVec3.value;
+    const mfRotation = fields.mfRotation.value;
+    const mfColor = fields.mfColor.value;
+    const mfString = fields.mfString.value;
+  >%
   Solid {
     children IS mfNode
     name "field types"

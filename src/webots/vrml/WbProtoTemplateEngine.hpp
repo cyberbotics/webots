@@ -35,14 +35,15 @@ public:
   virtual ~WbProtoTemplateEngine() {}
 
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,
-                const QString &worldPath, int id);
-  static QString convertFieldValueToLuaStatement(const WbField *field);
+                const QString &worldPath, int id, const QString &templateLanguage);
+  static QString convertFieldValueToJavaScriptStatement(const WbField *field);
   static const QString &coordinateSystem();
   static void setCoordinateSystem(const QString &coordinateSystem);
+  static QString convertStatementFromJavaScriptToLua(QString &statement);
 
 private:
-  static QString convertFieldDefaultValueToLuaStatement(const WbField *field);
-  static QString convertVariantToLuaStatement(const WbVariant &variant);
+  static QString convertFieldDefaultValueToJavaScriptStatement(const WbField *field);
+  static QString convertVariantToJavaScriptStatement(const WbVariant &variant);
 };
 
 #endif
