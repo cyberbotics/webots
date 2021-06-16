@@ -466,8 +466,6 @@ def game_controller_receive():
             else:
                 info(f"State has succesfully changed to {game.wait_for_state}")
                 game.wait_for_state = None
-        if game.state.game_state == "STATE_FINISHED":
-            game.sent_finish = False
     new_sec_state = game.state.secondary_state
     new_sec_phase = game.state.secondary_state_info[1]
     if previous_sec_state != new_sec_state or previous_sec_phase != new_sec_phase:
@@ -2384,7 +2382,6 @@ game.play_countdown = 0
 game.in_play = None
 game.throw_in = False  # True while throwing in to allow ball handling
 game.throw_in_ball_was_lifted = False  # True if the throwing-in player lifted the ball
-game.sent_finish = False
 game.over = False
 game.wait_for_state = 'INITIAL'
 game.wait_for_sec_state = None
@@ -2564,11 +2561,10 @@ try:
                 update_state_display()
                 previous_seconds_remaining = game.state.seconds_remaining
                 # TODO find out why GC can send negative 'seconds_remaining' when secondary state is penaltykick
-                if not game.sent_finish and game.state.seconds_remaining <= 0 and \
+                if game.state.game_state != "STATE_FINISHED" and game.state.seconds_remaining <= 0 and \
                    not game.state.secondary_state == "PENALTYKICK":
                     info(f"Sending FINISH because seconds remaining = {game.state.seconds_remaining}")
                     game_controller_send('STATE:FINISH')
-                    game.sent_finish = True
                     if game.penalty_shootout:  # penalty timeout was reached
                         next_penalty_shootout()
                         if game.over:
@@ -2724,7 +2720,6 @@ try:
                     game.ready_countdown = 0
                     send_play_state_after_penalties = True
         elif game.state.game_state == 'STATE_FINISHED':
-            game.sent_finish = False
             if game.penalty_shootout:
                 if game.state.seconds_remaining <= 0:
                     next_penalty_shootout()
