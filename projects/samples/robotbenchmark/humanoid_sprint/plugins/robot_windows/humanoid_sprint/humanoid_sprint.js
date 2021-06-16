@@ -1,6 +1,4 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
-$('#infotabs').tabs();
-
 var benchmarkName = 'Humanoid Sprint';
 var humanoidSprintTimeString;
 var humanoidSprintTime;
@@ -9,15 +7,15 @@ webots.window('humanoid_sprint').receive = function(message, robot) {
   if (message.startsWith('time:')) {
     humanoidSprintTime = parseFloat(message.substr(5));
     humanoidSprintTimeString = parseSecondsIntoReadableTime(humanoidSprintTime);
-    $('#time-display').html(humanoidSprintTimeString);
+    document.getElementById('time-display').innerHTML = humanoidSprintTimeString;
   } else if (message === 'stop') {
     if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, -humanoidSprintTime, metricToString))
-      $('#time-display').css('color', 'red');
+      document.getElementById('time-display').style.color = 'red';
   } else if (message.startsWith('record:OK:')) {
-    $('#time-display').css('font-weight', 'bold');
+    document.getElementById('time-display').style.fontWeight = 'bold';
     showBenchmarkRecord(message, benchmarkName, metricToString);
   } else if (message.startsWith('record:Error:')) {
-    $('#time-display').css('color', 'red');
+    document.getElementById('time-display').style.color = 'red';
     showBenchmarkError(message, benchmarkName);
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
