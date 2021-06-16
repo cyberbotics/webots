@@ -2756,7 +2756,7 @@ try:
 
         check_fallen()                                # detect fallen robots
 
-        if game.state.game_state == 'STATE_PLAYING' and (game.interruption is None or game.interruption_seconds is not None):
+        if game.state.game_state == 'STATE_PLAYING' and game.in_play:
             ball_holding = check_ball_holding()       # check for ball holding fouls
             if ball_holding:
                 interruption('FREEKICK', ball_holding, game.ball_position)
