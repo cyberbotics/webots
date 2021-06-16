@@ -1959,10 +1959,15 @@ def interruption(interruption_type, team=None, location=None, is_goalkeeper_ball
             # move the ball on the penalty line parallel to the goal line
             dx = game.field.size_x - game.field.penalty_area_length
             dy = game.field.penalty_area_width / 2
+            moved = False
             if abs(location[0]) > dx:
-                game.ball_kick_translation[0] = dx * -1 if location[0] < 0 else 1
+                game.ball_kick_translation[0] = dx * (-1 if location[0] < 0 else 1)
+                moved = True
             if abs(location[1]) > dy:
-                game.ball_kick_translation[1] = dy * -1 if location[1] < 0 else 1
+                game.ball_kick_translation[1] = dy * (-1 if location[1] < 0 else 1)
+                moved = True
+            if moved:
+                info(f'Moved the ball on the penalty line at {game.ball_kick_translation}')
             interruption_type = 'INDIRECT_FREEKICK'
         else:
             interruption_type = 'DIRECT_FREEKICK'
