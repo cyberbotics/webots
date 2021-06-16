@@ -28,7 +28,7 @@
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
-
+#include <iostream>
 void WbMesh::init() {
   mUrl = findMFString("url");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
@@ -459,7 +459,7 @@ void WbMesh::updateUrl() {
     mUrl->setItem(i, item.replace("\\", "/"));
   }
 
-  if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
+  if (n > 0 && !WbWorld::instance()->isLoading() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
     // url was changed from the scene tree or supervisor
     downloadAssets();
     return;
