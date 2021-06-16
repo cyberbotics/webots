@@ -42,7 +42,7 @@
 int main() {
   wb_robot_init();
 
-  int time_step = wb_robot_get_basic_time_step();
+  const int time_step = wb_robot_get_basic_time_step();
 
   WbDeviceTag motor_left_wheel = wb_robot_get_device("middle_left_wheel_joint");
   WbDeviceTag motor_right_wheel = wb_robot_get_device("middle_right_wheel_joint");
