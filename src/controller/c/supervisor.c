@@ -432,7 +432,6 @@ static WbNodeRef orientation_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
-static bool allows_contact_point_internal_node = false;
 static WbNodeRef static_balance_node_ref = NULL;
 static WbNodeRef reset_physics_node_ref = NULL;
 static WbNodeRef restart_controller_node_ref = NULL;
@@ -449,6 +448,9 @@ static WbNodeRef add_torque_node_ref = NULL;
 static const double *add_force_or_torque = NULL;
 static bool add_force_or_torque_relative = false;
 static const double *add_force_offset = NULL;
+static WbNodeRef set_joint_node_ref = NULL;
+static double set_joint_position = 0.0;
+static int set_joint_index = 0;
 static bool virtual_reality_headset_is_used_request = false;
 static bool virtual_reality_headset_is_used = false;
 static bool virtual_reality_headset_position_request = false;
@@ -861,6 +863,12 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uint32(r, reset_node_state_node_ref->id);
     request_write_string(r, reset_node_state_name);
   }
+  if (set_joint_node_ref) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_SET_JOINT_POSITION);
+    request_write_uint32(r, set_joint_node_ref->id);
+    request_write_double(r, set_joint_position);
+    request_write_uint32(r, set_joint_index);
+  }
 }
 
 static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
@@ -901,7 +909,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      if (uid && (!is_proto_internal || allows_contact_point_internal_node)) {
+      if (uid && (!is_proto_internal || allow_search_in_proto)) {
         add_node_to_list(uid, type, model_name, def_name, tag, parent_uid, is_proto);
         node_id = uid;
       }
@@ -1806,6 +1814,7 @@ WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag) {
   WbNodeRef result = find_node_by_tag(tag);
   if (!result) {
     // otherwise: need to talk to Webots
+    allow_search_in_proto = true;
     node_tag = tag;
     node_id = -1;
     wb_robot_flush_unlocked();
@@ -1813,6 +1822,7 @@ WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag) {
       result = find_node_by_id(node_id);
     node_tag = -1;
     node_id = -1;
+    allow_search_in_proto = false;
   }
   robot_mutex_unlock_step();
   return result;
@@ -1887,7 +1897,10 @@ WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node) {
     return NULL;
   }
 
-  return node_get_from_id(node->parent_id);
+  allow_search_in_proto = true;
+  WbNodeRef parent_node = node_get_from_id(node->parent_id);
+  allow_search_in_proto = false;
+  return parent_node;
 }
 
 WbNodeRef wb_supervisor_node_get_selected() {
@@ -2049,9 +2062,9 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
 
   if (!node->contact_points || index >= node->number_of_contact_points)
     return NULL;
-  allows_contact_point_internal_node = true;
+  allow_search_in_proto = true;
   WbNodeRef result = node_get_from_id(node->node_id_per_contact_points[index]);
-  allows_contact_point_internal_node = false;
+  allow_search_in_proto = false;
   return result;
 }
 
@@ -2472,6 +2485,63 @@ void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool 
   wb_robot_flush_unlocked();
   add_torque_node_ref = NULL;
   add_force_or_torque = NULL;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int index) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  if (index < 1) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with an invalid 'index'. Only values greater than or equal to 1 are supported.\n",
+              __FUNCTION__);
+    return;
+  }
+  bool valid_node = false;
+  if (node->type == WB_NODE_SLIDER_JOINT || node->type == WB_NODE_HINGE_JOINT) {
+    if (index != 1) {
+      if (!robot_is_quitting())
+        fprintf(stderr, "Error: %s() called with an invalid 'index'. SliderJoint and HingeJoint only support index 1.\n",
+                __FUNCTION__);
+      return;
+    }
+    valid_node = true;
+  } else if (node->type == WB_NODE_HINGE_2_JOINT) {
+    if (index > 2) {
+      if (!robot_is_quitting())
+        fprintf(stderr, "Error: %s() called with an invalid 'index'. Hinge2Joint only supports index 1 or 2.\n", __FUNCTION__);
+      return;
+    }
+    valid_node = true;
+  } else if (node->type == WB_NODE_BALL_JOINT) {
+    if (index > 3) {
+      if (!robot_is_quitting())
+        fprintf(stderr, "Error: %s() called with an invalid 'index'. BallJoint only supports index 1, 2, or 3.\n",
+                __FUNCTION__);
+      return;
+    }
+    valid_node = true;
+  }
+
+  if (!valid_node) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a 'node' argument which is not a joint node.\n", __FUNCTION__);
+    return;
+  }
+
+  robot_mutex_lock_step();
+  set_joint_node_ref = node;
+  set_joint_position = position;
+  set_joint_index = index;
+  wb_robot_flush_unlocked();
+  set_joint_node_ref = NULL;
   robot_mutex_unlock_step();
 }
 

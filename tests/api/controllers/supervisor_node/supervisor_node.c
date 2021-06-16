@@ -304,11 +304,6 @@ int main(int argc, char **argv) {
   ts_assert_vec3_equal(sick_translation[0], sick_translation[1], sick_translation[2], 0.39, 0.1, 0.4,
                        "Invalid translation value for Sick node");
 
-  WbDeviceTag kinect_color = wb_robot_get_device("kinect color");
-  ts_assert_int_not_equal(kinect_color, 0, "Kinect color camera not found");
-  WbNodeRef kinect_node = wb_supervisor_node_get_from_device(kinect_color);
-  ts_assert_pointer_null(kinect_node, "Kinect node reference from device tag returned even if hidden");
-
   wb_supervisor_node_load_state(reset_target, "custom_state");
   doubleArray = wb_supervisor_field_get_sf_vec3f(wb_supervisor_node_get_field(reset_target, "translation"));
   ts_assert_doubles_equal(3, state_position, doubleArray,
