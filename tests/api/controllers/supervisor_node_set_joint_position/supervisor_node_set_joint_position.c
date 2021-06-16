@@ -35,10 +35,10 @@ int main(int argc, char **argv) {
 
   WbNodeRef hinge_joint_node = wb_supervisor_node_get_from_def("HINGE_JOINT");
   wb_supervisor_node_set_joint_position(hinge_joint_node, 0.6, 1);
+  // even if requested hinge position is 0.6, only 0.4 can be set due to joint minStop/maxStop
 
   WbNodeRef hinge2_joint_node = wb_supervisor_node_get_from_def("HINGE2_JOINT");
   wb_supervisor_node_set_joint_position(hinge2_joint_node, 0.6, 2);
-
 
   wb_robot_step(TIME_STEP);
 
@@ -46,7 +46,8 @@ int main(int argc, char **argv) {
   double slider_value = wb_distance_sensor_get_value(slider_sensor);
   ts_assert_double_in_delta(slider_value, 305.0, 2.0, "Slider joint position is not set correctly.");
   const double hinge_value = wb_distance_sensor_get_value(hinge_sensor);
-  ts_assert_double_in_delta(hinge_value, 421.0, 2.0, "Hinge joint position is not set correctly.");
+  printf("value %f\n", hinge_value);
+  ts_assert_double_in_delta(hinge_value, 432.0, 2.0, "Hinge joint position is not set correctly.");
   const double hinge2_value = wb_distance_sensor_get_value(hinge2_sensor);
   ts_assert_double_in_delta(hinge2_value, 150.0, 2.0, "Hinge2 joint position is not set correctly.");
   const double ball_value = wb_distance_sensor_get_value(ball_joint_sensor);

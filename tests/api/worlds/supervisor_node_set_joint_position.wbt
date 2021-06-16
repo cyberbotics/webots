@@ -50,7 +50,7 @@ DEF TEST Robot {
       ]
     }
     DistanceSensor {
-      translation 0.87 0.3 -0.78
+      translation 0.87 0.3 -0.84
       name "hinge sensor"
       lookupTable [
         0 0 0
@@ -110,6 +110,7 @@ Robot {
       children [
         DEF HINGE_JOINT HingeJoint {
           jointParameters HingeJointParameters {
+            maxStop 0.4
           }
           endPoint Solid {
             translation 0 0.4 0

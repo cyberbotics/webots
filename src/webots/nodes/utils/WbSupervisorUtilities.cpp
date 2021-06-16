@@ -21,6 +21,7 @@
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
 #include "WbJoint.hpp"
+#include "WbJointParameters.hpp"
 #include "WbMFBool.hpp"
 #include "WbMFColor.hpp"
 #include "WbMFDouble.hpp"
@@ -562,9 +563,29 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbJoint *joint = dynamic_cast<WbJoint *>(node);
       assert(joint);
       if (joint) {
+        // check if position is valid
+        const WbJointParameters *parameters;
+        if (index == 1)
+          parameters = joint->parameters();
+        else if (index == 2)
+          parameters = joint->parameters2();
+        else if (index == 3)
+          parameters = joint->parameters3();
+        else {
+          assert(false);
+          parameters = NULL;
+        }
+        if (parameters) {
+          const double userPosition = position;
+          if (parameters->clampPosition(position))
+            mRobot->warn(tr("wb_supervisor_node_set_joint_position() called with a 'position' argument %1 outside hard limits "
+                            "of the joint. Applied position is %2.")
+                           .arg(userPosition)
+                           .arg(position));
+        }
+
         joint->setPosition(position, index);
-        if ((index == 1 && !joint->parameters()) || (index == 2 && !joint->parameters2()) ||
-            (index == 3 && !joint->parameters3()))
+        if (!parameters)
           // force updating the joint position (this slot is automatically triggered by WbJointParameters node)
           joint->updatePosition();
       }
