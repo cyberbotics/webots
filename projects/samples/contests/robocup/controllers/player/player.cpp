@@ -251,6 +251,7 @@ public:
     team(team),
     client_fd(-1),
     controller_time(0),
+    recv_buffer(NULL),
     recv_index(0),
     recv_size(0),
     content_size(0),
@@ -719,7 +720,7 @@ public:
   /**
    * Returns the rendering bandwidth in MegaBytes per second for the given camera at the chosen camera_time_step (ms)
    */
-  double getRenderingBandwidth(webots::Camera *camera, int camera_time_step) {
+  static double getRenderingBandwidth(webots::Camera *camera, int camera_time_step) {
     return camera->getWidth() * camera->getHeight() * 3 * 1000.0 / camera_time_step / std::pow(2, 20);
   }
 

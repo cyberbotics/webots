@@ -55,9 +55,7 @@ int main(int argc, char *argv[]) {
         camera = argv[arg_idx + 1];
         camera_time_step = std::stoi(argv[arg_idx + 2]);
         arg_idx += 2;
-      } else if (current_arg == "-h" || current_arg == "--help")
-        usage();
-      else
+      } else  // if current_arg == "-h" or "--help" or anything else
         usage();
     } else if (host.length() == 0)
       host = current_arg;

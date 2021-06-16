@@ -47,9 +47,7 @@ int main(int argc, char *argv[]) {
           usage("Missing value for verbosity");
         verbosity = std::stoi(argv[arg_idx + 1]);
         arg_idx++;
-      } else if (current_arg == "-h" || current_arg == "--help")
-        usage();
-      else
+      } else  // current_arg == "-h" or "--help" or anything else
         usage();
     } else if (host.length() == 0)
       host = current_arg;

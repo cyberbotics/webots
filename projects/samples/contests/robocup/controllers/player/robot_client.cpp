@@ -72,7 +72,6 @@ RobotClient::RobotClient(const std::string &host, int port, int verbosity) :
 }
 
 bool RobotClient::connectClient() {
-  int return_code;
   struct hostent *server = gethostbyname(host.c_str());
   struct sockaddr_in address;
   memset(&address, 0, sizeof(struct sockaddr_in));
@@ -86,8 +85,8 @@ bool RobotClient::connectClient() {
   }
 #ifdef _WIN32
   WSADATA info;
-  return_code = WSAStartup(MAKEWORD(2, 2), &info);  // Winsock 2.2
-  if (return_code != 0) {
+  int success = WSAStartup(MAKEWORD(2, 2), &info);  // Winsock 2.2
+  if (success != 0) {
     if (verbosity > 0)
       fprintf(stderr, "Cannot initialize Winsock\n");
     return false;
@@ -102,7 +101,7 @@ bool RobotClient::connectClient() {
   int attempt = 1;
   bool connected = false;
   while (attempt <= max_attempts) {
-    return_code = connect(socket_fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
+    int return_code = connect(socket_fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
     if (return_code == 0) {
       connected = true;
       break;
@@ -208,7 +207,7 @@ SensorMeasurements RobotClient::receive() {
   return sensor_measurements;
 }
 
-bool RobotClient::isOk() {
+bool RobotClient::isOk() const {
   return socket_fd != -1;
 }
 

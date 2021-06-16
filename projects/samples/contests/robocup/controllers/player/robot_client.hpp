@@ -32,7 +32,7 @@ public:
   /**
    * Returns true if the client is connected and no error has been detected
    */
-  bool isOk();
+  bool isOk() const;
 
   static ActuatorRequests buildRequestMessage(const std::string &path);
 
