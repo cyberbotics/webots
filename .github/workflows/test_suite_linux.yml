@@ -137,13 +137,11 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_runtime_dependencies.sh
+      run: sudo scripts/install/linux_test_dependencies.sh --norecurse
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
-    - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_test_dependencies.sh --norecurse
     - name: Run Test
       run: |
         export WEBOTS_HOME=$PWD/artifact/webots
@@ -165,8 +163,6 @@ jobs:
         path: artifact
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
-    - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
