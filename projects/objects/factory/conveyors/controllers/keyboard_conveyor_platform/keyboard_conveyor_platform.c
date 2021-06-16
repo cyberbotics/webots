@@ -34,7 +34,7 @@
 int main() {
   wb_robot_init();
 
-  int time_step = wb_robot_get_basic_time_step();
+  const int time_step = wb_robot_get_basic_time_step();
 
   WbDeviceTag motor_belt = wb_robot_get_device("belt_motor");
 
