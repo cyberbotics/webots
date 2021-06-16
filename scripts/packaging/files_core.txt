@@ -253,7 +253,8 @@ resources/lua/liluat/*.lua
 resources/javascript/
 resources/javascript/jsTemplate.js
 resources/javascript/modules/
-resources/javascript/modules/*.js
+resources/javascript/modules/webots/
+resources/javascript/modules/webots/*.js
 resources/Makefile.include
 resources/Makefile.java.include
 resources/Makefile.os.include
