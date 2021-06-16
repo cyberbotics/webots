@@ -385,6 +385,7 @@ public:
       case webots::Node::CAMERA: {
         webots::Camera *camera = static_cast<webots::Camera *>(device);
         camera->enable(time_step);
+        camera_start_sensoring_time = controller_time;
         break;
       }
       case webots::Node::GYRO: {
@@ -568,7 +569,7 @@ public:
       }
       webots::Camera *camera = dynamic_cast<webots::Camera *>(dev);
       if (camera) {
-        if (controller_time % camera->getSamplingPeriod())
+        if ( (controller_time - camera_start_sensoring_time) % camera->getSamplingPeriod())
           continue;
         CameraMeasurement *measurement = sensor_measurements.add_cameras();
         const int width = camera->getWidth();
@@ -740,6 +741,7 @@ private:
   std::map<webots::Device *, int> new_sensors;
   std::vector<webots::Motor *> motors;
   uint32_t controller_time;
+  uint32_t camera_start_sensoring_time;
   char *recv_buffer;
   int recv_index;
   int recv_size;
