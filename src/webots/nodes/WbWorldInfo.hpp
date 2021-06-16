@@ -60,6 +60,8 @@ public:
   double physicsDisableAngularThreshold() const { return mPhysicsDisableAngularThreshold->value(); }
   WbDamping *defaultDamping() const;
   double lineScale() const;
+  double dragForceScale() const { return mDragForceScale->value(); };
+  double dragTorqueScale() const { return mDragTorqueScale->value(); };
   const QString &coordinateSystem() const { return mCoordinateSystem->value(); }
   const QString &gpsCoordinateSystem() const { return mGpsCoordinateSystem->value(); }
   const WbVector3 &gpsReference() const { return mGpsReference->value(); }
@@ -122,6 +124,8 @@ private:
   WbSFString *mGpsCoordinateSystem;
   WbSFVector3 *mGpsReference;
   WbSFDouble *mLineScale;
+  WbSFDouble *mDragForceScale;
+  WbSFDouble *mDragTorqueScale;
   WbSFInt *mRandomSeed;
   WbMFNode *mContactProperties;
 
@@ -150,6 +154,8 @@ private slots:
   void updateFps();
   void updateOptimalThreadCount();
   void updateLineScale();
+  void updateDragForceScale();
+  void updateDragTorqueScale();
   void updateRandomSeed();
   void updateGravity();
   void updateCfm();
