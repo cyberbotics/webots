@@ -1354,8 +1354,8 @@ def check_team_ball_handling(team):
         if game.throw_in:
             if duration >= BALL_HANDLING_TIMEOUT:  # a player can handle the ball for 10 seconds for throw-in, no more
                 reset_ball_handling(player)
-                sentence = f'touched the ball with its hand or arm for more than {BALL_HANDLING_TIMEOUT} seconds ' + \
-                           'during throw-in'
+                sentence = f'touched the ball with its hand or arm for more than {BALL_HANDLING_TIMEOUT} '
+                + 'seconds during throw-in'
                 send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
                 continue
         # goalkeeper case
