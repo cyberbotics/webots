@@ -38,7 +38,9 @@ rm -rf include
 mkdir -p include
 
 # Copy files
-cp -r ${WEBOTS_HOME}/include/controller/* include
+if [ "${OSTYPE}" != "msys" ]; then
+    cp -r ${WEBOTS_HOME}/include/controller/* include
+fi
 for filename in $DYNAMIC_LIBS
 do
     echo $filename
