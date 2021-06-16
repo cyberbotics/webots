@@ -23,6 +23,7 @@
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
+#include <webots/contact_point.h>
 #include <webots/Connector.hpp>
 #include <webots/Compass.hpp>
 #include <webots/Device.hpp>
@@ -64,6 +65,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 
 //for the conversion between array and pointer
+%include "typemaps.i"
 %include "arrays_java.i"
 
 %javamethodmodifiers getLookupTableSize "private"
@@ -607,6 +609,8 @@ namespace webots {
 //  Node
 //----------------------------------------------------------------------------------------------
 
+%rename WbContactPoint ContactPoint;
+
 %ignore webots::Node::findNode(WbNodeRef ref);
 %ignore webots::Node::cleanup();
 
@@ -619,8 +623,35 @@ namespace webots {
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
 %javamethodmodifiers getField(const std::string &fieldName) const "private"
 
+%apply int *OUTPUT { int *size };
+%rename(getContactPointsPrivate) getContactPoints;
+
+%include <webots/contact_point.h>
+%extend WbContactPoint {
+  int getNodeId() const {
+    return $self->node_id;
+  }
+};
+
+%extend webots::Node {
+  ContactPoint getContactPointFromPointer(long long points, int index) const {
+    return *((webots::ContactPoint *)(points + index));
+  }
+};
+
 %typemap(javacode) webots::Node %{
 // ----- begin hand written section ----
+  public ContactPoint[] getContactPoints(Boolean includeDescendants) {
+    int sizePointer[] = {0};
+    long result = wrapperJNI.Node_getContactPointsPrivate(swigCPtr, this, includeDescendants, sizePointer);
+    int size = sizePointer[0];
+    ContactPoint ret[] = new ContactPoint[size];
+
+    for (int i = 0; i < size; ++i)
+      ret[i] = getContactPointFromPointer(result, 0);
+    return ret;
+  }
+
   public Node getParentNode() {
     long cPtr = wrapperJNI.Node_getParentNodePrivate(swigCPtr, this);
     return Node.findNode(cPtr);
