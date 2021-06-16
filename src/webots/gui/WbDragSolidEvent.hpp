@@ -120,7 +120,7 @@ protected:
   void applyChangesToWren();
   virtual void applyToOde() = 0;
   virtual void updateOrigin() = 0;
-  virtual const QString magnitudeString() = 0;
+  virtual QString magnitudeString() const = 0;
   WbSolid *mSelectedSolid;
   WbPhysicsVectorRepresentation *mRepresentation;
   WbVector3 mOrigin;
@@ -150,7 +150,7 @@ private:
   static const double FORCE_SCALING_FACTOR;
   WbVector3 mRelativeOrigin;
   void updateOrigin() override;
-  const QString magnitudeString() override;
+  QString magnitudeString() const override;
 };
 
 // WbDragTorqueEvent class
@@ -167,7 +167,7 @@ private:
   QPointer<WbSolidMerger> mSolidMerger;
   static const double TORQUE_SCALING_FACTOR;
   void updateOrigin() override;
-  const QString magnitudeString() override;
+  QString magnitudeString() const override;
 };
 
 #endif

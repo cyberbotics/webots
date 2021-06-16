@@ -238,7 +238,7 @@ void WbDragForceEvent::applyToOde() {
   mSelectedSolid->addForceAtPosition(mScalingFactor * mVector.length2() * mVector, mOrigin);
 }
 
-const QString WbDragForceEvent::magnitudeString() {
+QString WbDragForceEvent::magnitudeString() const {
   return WbPrecision::doubleToString(mScalingFactor * mVector.length2() * mVector.length(), WbPrecision::GUI_MEDIUM) + " N";
 }
 
@@ -270,6 +270,6 @@ void WbDragTorqueEvent::applyToOde() {
   mSelectedSolid->addTorque(mScalingFactor * mVector.length2() * mVector);
 }
 
-const QString WbDragTorqueEvent::magnitudeString() {
+QString WbDragTorqueEvent::magnitudeString() const {
   return WbPrecision::doubleToString(mScalingFactor * mVector.length2() * mVector.length(), WbPrecision::GUI_MEDIUM) + " Nm";
 }
