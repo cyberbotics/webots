@@ -122,7 +122,6 @@ WbDragPhysicsEvent::WbDragPhysicsEvent(const QSize &widgetSize, WbViewpoint *vie
   mVector(),
   mMouseRay(),
   mIsLocked(false),
-  mMagnitude(0.0),
   mWidgetSize(widgetSize),
   mViewDistanceScaling(1.0f) {
   // init label
@@ -239,9 +238,8 @@ void WbDragForceEvent::applyToOde() {
   mSelectedSolid->addForceAtPosition(mScalingFactor * mVector.length2() * mVector, mOrigin);
 }
 
-QString WbDragForceEvent::magnitudeString() {
-  mMagnitude = mScalingFactor * mVector.length2() * mVector.length();
-  return WbPrecision::doubleToString(mMagnitude, WbPrecision::GUI_MEDIUM) + " N";
+const QString WbDragForceEvent::magnitudeString() {
+  return WbPrecision::doubleToString(mScalingFactor * mVector.length2() * mVector.length(), WbPrecision::GUI_MEDIUM) + " N";
 }
 
 // Add a torque by dragging the mouse  //
@@ -272,7 +270,6 @@ void WbDragTorqueEvent::applyToOde() {
   mSelectedSolid->addTorque(mScalingFactor * mVector.length2() * mVector);
 }
 
-QString WbDragTorqueEvent::magnitudeString() {
-  mMagnitude = mScalingFactor * mVector.length2() * mVector.length();
-  return WbPrecision::doubleToString(mMagnitude, WbPrecision::GUI_MEDIUM) + " Nm";
+const QString WbDragTorqueEvent::magnitudeString() {
+  return WbPrecision::doubleToString(mScalingFactor * mVector.length2() * mVector.length(), WbPrecision::GUI_MEDIUM) + " Nm";
 }
