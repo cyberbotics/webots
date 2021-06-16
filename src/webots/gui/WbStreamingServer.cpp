@@ -569,6 +569,7 @@ void WbStreamingServer::setWorldLoadingProgress(const int progress) {
 }
 
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
+  /*
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
 
@@ -582,6 +583,7 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
   const WbRobot *robot = dynamic_cast<WbRobot *>(node);
   if (robot)
     connectNewRobot(robot);
+  */
 }
 
 QString WbStreamingServer::simulationStateString(bool pauseTime) {
