@@ -37,7 +37,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04, macos-10.15, windows-2019]
-        python: [3.9]
+        python: 3.9
         include:
           - os: ubuntu-18.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10 cppcheck"
