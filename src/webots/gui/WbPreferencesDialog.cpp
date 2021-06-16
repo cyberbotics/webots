@@ -434,11 +434,6 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   connect(clearCacheButton, &QPushButton::pressed, this, &WbPreferencesDialog::clearCache);
   layout->addWidget(clearCacheButton, 1, 0);
 
-  // row 2
-  QPushButton *downloadsAllAssestsButton = new QPushButton(QString("Download all resources in the cache"), this);
-  // connect(mButtonBox, &QDialogButtonBox::accepted, this, &WbNetwork::instance,::accept);
-  layout->addWidget(downloadsAllAssestsButton, 2, 0);
-
   return widget;
 }
 
