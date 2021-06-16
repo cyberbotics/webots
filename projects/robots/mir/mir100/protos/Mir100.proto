@@ -190,7 +190,7 @@ PROTO Mir100 [
         ]
       }
       RangeFinder {
-        translation 0.464 0 0.116
+        translation 0.464 0 0.18
         rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
         name "depth_camera"
         fieldOfView 2.05949
