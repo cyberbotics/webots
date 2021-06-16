@@ -1437,7 +1437,7 @@ namespace webots {
 from controller import Node
 
 class Node:
-    def setJointPosition(self, position, index):
+    def setJointPosition(self, position, index=1):
     # ...
 ```
 
