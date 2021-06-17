@@ -211,9 +211,9 @@ PROTO RobocupSoccerField [
       pts[3 * Npts + i] = {x: 2 * I + A - pt_ref.x, y: 2 * I + B - pt_ref.y, z: pt_ref.z};
     }
 
-    let Ntg = tg.length;
+    const Ntg = tg.length;
     for (let i = 0; i < Ntg; ++i) { // Grass triangles
-      let tg_ref = tg[i];
+      const tg_ref = tg[i];
       // Due to axis reversions, we have to update the order of coords for the new corresp. triangles
       tg[Ntg + i] = {a: tg_ref.b + Npts, b: tg_ref.a + Npts, c: tg_ref.c + Npts} // 2nd Quarter (bac)
       tg[2 * Ntg + i] = {a: tg_ref.c + 2 * Npts, b: tg_ref.b + 2 * Npts, c: tg_ref.a + 2 * Npts}; // 3rd Quarter (cba)
