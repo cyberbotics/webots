@@ -73,13 +73,9 @@ PROTO SimpleTree [
     type = fields.type.defaultValue;
 
     let candidates = '';
-    for (let i = 0; i < keys.length; ++i) {
-      if (i === keys.length - 1)
-        candidates += '\'' + keys[i] + '\'';
-      else
-        candidates += '\'' + keys[i] + '\', ';
-    }
-    candidates += ' or \'random\'';
+    for (let i = 0; i < keys.length; ++i)
+      candidates += '\'' + keys[i] + '\', ';
+    candidates += '\' or \'random\'';
     console.error('\'type\' must be a value in the list: ' + candidates + '. Value reset to \'' + type + '\'.');
   } else if (type === 'random') {
     type = keys[wbrandom.integer(keys.length) - 1];
