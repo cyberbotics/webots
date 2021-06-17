@@ -16,14 +16,14 @@
 #
 # The 'random' type choose randomly a tree type each time the node is regenerated.
 # The shape of the forest can either be defined using the 'shape' and 'density' fields or the coordinate of each tree can be defined in external files ( X,Y,Z per tree, one tree per line).
-# The path to those files can either be absolute, relative to the proto, relative to the world or relative to the project.
+# The path to those files must be defined with respect to the world file.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
 PROTO Forest [
   field SFVec3f    translation          0 0 0
   field SFRotation rotation             0 1 0 0
-  field MFString   treesFiles           []                        # Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X Y Z'). The path to these files must be with respect to the world file.
+  field MFString   treesFiles           []                        # Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X, Y, Z'). The path to these files must be defined with respect to the world file.
   field MFVec2f    shape                [-20 -10, 20 -10, 0 25]   # Alternatively, the position of each trees can be defined using the shape field. This field defines the shape of the forest, in that case the position of the trees is randomly generated from this shape.
   field SFFloat    density              0.2                       # If the forest is defined using the `shape` field, this field defines the density of three to be generated (in trees per meter square).
   field SFString{"random", "oak tree", "crab apple tree", "cherry tree", "birch tree", "palm tree", "spruce", "white pine", "hackberry tree", "hazel tree"}
@@ -86,7 +86,6 @@ PROTO Forest [
     if (treesFilesNumber > 0) {
       for (let i = 0; i < treesFilesNumber; ++i) {
         // coordinate files are assumed to be relative to the world file
-        //let worldPath = wbfile.getPathWithoutFilename(context.world);
         let worldPath = context.world;
         worldPath = worldPath.substring(0, worldPath.lastIndexOf('/') + 1);
         // read content
@@ -99,7 +98,7 @@ PROTO Forest [
             let y = Number(coordinates[1]);
             let z = Number(coordinates[2]);
             let sizeFactor = wbrandom.real();
-            if (x !== undefined && y !== undefined && z !== undefined)
+            if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof z !== 'undefined')
               trees.push({x: x, y: y, z: z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
           }
         }
@@ -205,10 +204,10 @@ PROTO Forest [
               %<
                 let coordIndexBuffer = '';
                 for (let i = 0; i < numberOfTree; ++i) {
-                  coordIndexBuffer += (4 + i * 8).toString() + ' ' + (0 + i * 8).toString() + ' ' + (2 + i * 8).toString() + ' ' + (6 + i * 8).toString() + ' -1\n';
-                  coordIndexBuffer += (4 + i * 8).toString() + ' ' + (6 + i * 8).toString() + ' ' + (2 + i * 8).toString() + ' ' + (0 + i * 8).toString() + ' -1\n';
-                  coordIndexBuffer += (5 + i * 8).toString() + ' ' + (1 + i * 8).toString() + ' ' + (3 + i * 8).toString() + ' ' + (7 + i * 8).toString() + ' -1\n';
-                  coordIndexBuffer += (5 + i * 8).toString() + ' ' + (7 + i * 8).toString() + ' ' + (3 + i * 8).toString() + ' ' + (1 + i * 8).toString() + ' -1\n';
+                  coordIndexBuffer += (4 + i * 8) + ' ' + (0 + i * 8) + ' ' + (2 + i * 8) + ' ' + (6 + i * 8) + ' -1\n';
+                  coordIndexBuffer += (4 + i * 8) + ' ' + (6 + i * 8) + ' ' + (2 + i * 8) + ' ' + (0 + i * 8) + ' -1\n';
+                  coordIndexBuffer += (5 + i * 8) + ' ' + (1 + i * 8) + ' ' + (3 + i * 8) + ' ' + (7 + i * 8) + ' -1\n';
+                  coordIndexBuffer += (5 + i * 8) + ' ' + (7 + i * 8) + ' ' + (3 + i * 8) + ' ' + (1 + i * 8) + ' -1\n';
                 }
               >%
               %<= coordIndexBuffer >%
@@ -218,10 +217,10 @@ PROTO Forest [
                 let texCoordIndexBuffer = '';
                 for (let i = 0; i < numberOfTree; ++i) {
                   let ix = treeType[types[i]];
-                  texCoordIndexBuffer += (2 * (ix + 1)).toString() + ' ' + (2 * ix).toString() + ' ' + (2 * ix + 1) + ' ' + (2 * (ix + 1) + 1).toString() + ' -1\n';
-                  texCoordIndexBuffer += (2 * (ix + 1) + 1).toString() + ' ' + (2 * (ix + 1)).toString() + ' ' + (2 * ix) + ' ' + (2 * ix + 1).toString() + ' -1\n';
-                  texCoordIndexBuffer += (2 * (ix + 1)).toString() + ' ' + (2 * ix).toString() + ' ' + (2 * ix + 1).toString() + ' ' + (2 * (ix + 1) + 1).toString() + ' -1\n';
-                  texCoordIndexBuffer += (2 * (ix + 1) + 1).toString() + ' ' + (2 * (ix + 1)).toString() + ' ' + (2 * ix) + ' ' + (2 * ix + 1).toString() + ' -1\n';
+                  texCoordIndexBuffer += (2 * (ix + 1)) + ' ' + (2 * ix) + ' ' + (2 * ix + 1) + ' ' + (2 * (ix + 1) + 1) + ' -1\n';
+                  texCoordIndexBuffer += (2 * (ix + 1) + 1) + ' ' + (2 * (ix + 1)) + ' ' + (2 * ix) + ' ' + (2 * ix + 1) + ' -1\n';
+                  texCoordIndexBuffer += (2 * (ix + 1)) + ' ' + (2 * ix) + ' ' + (2 * ix + 1) + ' ' + (2 * (ix + 1) + 1) + ' -1\n';
+                  texCoordIndexBuffer += (2 * (ix + 1) + 1) + ' ' + (2 * (ix + 1)) + ' ' + (2 * ix) + ' ' + (2 * ix + 1) + ' -1\n';
                 }
               >%
               %<= texCoordIndexBuffer >%

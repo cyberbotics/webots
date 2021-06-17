@@ -136,7 +136,7 @@ PROTO AddLanesRoadSegment [
                  }
                 %< } >%
               %< } else { >%
-                %< if (roadLines[(lanes + i) - j - 1] !== undefined) { >%
+                %< if (typeof roadLines[(lanes + i) - j - 1] !== 'undefined') { >%
                   RoadLine {
                     color %<= roadLines[(lanes + i) - j - 1].fields.color.value.r >% %<= roadLines[(lanes + i) - j - 1].fields.color.value.g >% %<= roadLines[(lanes + i) - j - 1].fields.color.value.b >%
                     type %<= '"' + roadLines[(lanes + i) - j - 1].fields.type.value + '"' >%
