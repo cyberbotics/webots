@@ -89,14 +89,9 @@ static WbFieldRequest *field_requests_garbage_list = NULL;
 static WbFieldRequest *sent_field_get_request = NULL;
 static bool is_field_immediate_message = false;
 
-typedef struct WbNodeWbContactPointStructPrivate {
-  double point[3];
-  int node_id;
-} WbNodeWbContactPointStruct;
-
 typedef struct WbNodeWbContactPointListStructPrivate {
   int n;
-  WbNodeWbContactPointStruct *points;
+  WbContactPoint *points;
   double timestamp;  // TODO: Delete with `wb_supervisor_node_get_contact_point`
   int sampling_period;
   double last_update;
@@ -1126,7 +1121,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       contact_point_node->contact_points[include_descendants].points = NULL;
       contact_point_node->contact_points[include_descendants].n = n_points;
       if (n_points > 0) {
-        WbNodeWbContactPointStruct *points = malloc(n_points * sizeof(WbNodeWbContactPointStruct));
+        WbContactPoint *points = malloc(n_points * sizeof(WbContactPoint));
         contact_point_node->contact_points[include_descendants].points = points;
         for (i = 0; i < n_points; i++) {
           points[i].point[0] = request_read_double(r);
@@ -2164,12 +2159,12 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
 
 WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size) {
   if (!robot_check_supervisor(__FUNCTION__))
-    return -1;
+    return NULL;
 
   if (!is_node_ref_valid(node)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
-    return -1;
+    return NULL;
   }
 
   const double t = wb_robot_get_time();
