@@ -2090,10 +2090,7 @@ WbRobot *WbSolid::robot() const {
 
 // Returns true if all solid ancestors have no physics
 bool WbSolid::belongsToStaticBasis() const {
-  if (isDynamic())
-    return false;
-
-  const WbSolid *s = upperSolid();
+  const WbSolid *s = this;
 
   while (s) {
     if (s->isDynamic())
