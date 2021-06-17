@@ -1,5 +1,4 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
-$('#infotabs').tabs();
 
 var benchmarkName = 'Obstacle Avoidance';
 var timeString;
@@ -9,15 +8,15 @@ webots.window('obstacle_avoidance').receive = function(message, robot) {
   if (message.startsWith('time:')) {
     roomCrossingTime = parseFloat(message.substr(5));
     timeString = parseSecondsIntoReadableTime(roomCrossingTime);
-    $('#time-display').html(timeString);
+    document.getElementById('time-display').innerHTML = timeString;
   } else if (message === 'stop') {
     if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, -roomCrossingTime, metricToString))
-      $('#time-display').css('color', 'red');
+      document.getElementById('time-display').style.color = 'red';
   } else if (message.startsWith('record:OK:')) {
-    $('#time-display').css('font-weight', 'bold');
+    document.getElementById('time-display').style.fontWeight = 'bold';
     showBenchmarkRecord(message, benchmarkName, metricToString);
   } else if (message.startsWith('record:Error:')) {
-    $('#time-display').css('color', 'red');
+    document.getElementById('time-display').style.color = 'red';
     showBenchmarkError(message, benchmarkName);
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");

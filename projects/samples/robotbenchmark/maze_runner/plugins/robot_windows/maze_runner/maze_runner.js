@@ -1,5 +1,4 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
-$('#infotabs').tabs();
 
 var benchmarkName = 'Maze Runner';
 var timeString;
@@ -9,15 +8,15 @@ webots.window('maze_runner').receive = function(message, robot) {
   if (message.startsWith('time:')) {
     time = parseFloat(message.substr(5));
     timeString = parseSecondsIntoReadableTime(time);
-    $('#time-display').html(timeString);
+    document.getElementById('time-display').innerHTML = timeString;
   } else if (message === 'stop') {
     if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, -time, metricToString))
-      $('#time-display').css('color', 'red');
+      document.getElementById('time-display').style.color = 'red';
   } else if (message.startsWith('record:OK:')) {
-    $('#time-display').css('font-weight', 'bold');
+    document.getElementById('time-display').style.fontWeight = 'bold';
     showBenchmarkRecord(message, benchmarkName, metricToString);
   } else if (message.startsWith('record:Error:')) {
-    $('#time-display').css('color', 'red');
+    document.getElementById('time-display').style.color = 'red';
     showBenchmarkError(message, benchmarkName);
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");

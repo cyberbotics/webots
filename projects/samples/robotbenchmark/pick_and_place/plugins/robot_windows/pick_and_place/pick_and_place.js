@@ -1,5 +1,4 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
-$('#infotabs').tabs();
 
 var benchmarkName = 'Pick and Place';
 var timeValue = 0;
@@ -8,16 +7,15 @@ webots.window('pick_and_place').receive = function(message, robot) {
   // updates the metric
   if (message.startsWith('update:')) {
     timeValue = parseFloat(message.substr(7));
-    $('#time-display').html(parseSecondsIntoReadableTime(timeValue));
+    document.getElementById('time-display').innerHTML = parseSecondsIntoReadableTime(timeValue);
   } else if (message === 'stop') {
-    $('#performance-display').html(parseSecondsIntoReadableTime(timeValue));
     if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, -timeValue, metricToString))
-      $('#time-display').css('color', 'red');
+      document.getElementById('time-display').style.color = 'red';
   } else if (message.startsWith('record:OK:')) {
-    $('#time-display').css('color', 'bold');
+    document.getElementById('time-display').style.color = 'bold';
     showBenchmarkRecord(message, benchmarkName, metricToString);
   } else if (message.startsWith('record:Error:')) {
-    $('#time-display').css('color', 'red');
+    document.getElementById('time-display').style.color = 'red';
     showBenchmarkError(message, benchmarkName);
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
