@@ -154,10 +154,10 @@ PROTO RobocupSoccerField [
 
     // Add points for the circles to the existing ones
     function circle_add_pts (radius, pts, n_vertices_quarter, line_width) {
-      let center = pts[44];
+      const center = pts[44];
       let alpha = Math.atan((line_width / 2) / radius); // First point must be on the inside side of the half line
-      let alpha_increment = (Math.PI / 2 - alpha) / (n_vertices_quarter - 1); // Number of parts is nb of vertices minus 1
-      let Npts = pts.length;
+      const alpha_increment = (Math.PI / 2 - alpha) / (n_vertices_quarter - 1); // Number of parts is nb of vertices minus 1
+      const Npts = pts.length;
       for (let i = 1; i <= n_vertices_quarter; ++i) {
         pts.push({x: center.x - radius * Math.sin(alpha), y: center.y - radius * Math.cos(alpha), z: center.z + 0});
         alpha = alpha + alpha_increment;
