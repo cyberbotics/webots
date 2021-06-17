@@ -1107,7 +1107,7 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, inclu
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contactpoint) contact_points |
+| `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contact-point) contact_points |
 | `/supervisor/node/enable_contact_point_tracking` | `service` | `webots_ros::enable_contact_point_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
 | `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
 | `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`bool includeDescendants`<br/>`---`<br/>`int32 numberOfContactPoints` |
@@ -1220,12 +1220,16 @@ structs.WbContactPoint.members = struct(
 
 %tab "ROS"
 
-[`geometry_msgs/Point`](http://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Point.html) point
+<br/>
+[`geometry_msgs/Point`](http://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Point.html) point<br/>
 `int32` node_id
+<br/>
 
 %tab-end
 
 %end
+
+##### Description
 
 The `point` represents a position of a contact point expressed in the global (world) coordinate system.
 The `node_id` represents an ID of the node associated to a contact point.
