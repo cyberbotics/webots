@@ -150,7 +150,7 @@ PROTO RobocupSoccerField [
     tl[21] = {a: 36, b: 37, c: 42};
 
     // Creation of a quarter of the central circle
-    let n_vertices_quarter = Math.ceil(N_VERTICES_CIRCLE / 4) + 1; // +1 because we want to have a point both at ~0 and pi/2
+    const n_vertices_quarter = Math.ceil(N_VERTICES_CIRCLE / 4) + 1; // +1 because we want to have a point both at ~0 and pi/2
 
     // Add points for the circles to the existing ones
     function circle_add_pts (radius, pts, n_vertices_quarter, line_width) {
