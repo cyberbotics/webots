@@ -43,7 +43,7 @@ PROTO Panel [
     }
 
     if (size.x <= borderHeight * (panelsCount + 1)) {
-      panelsCount = fields.panelsCount.defaultValue;
+      panelsCount = 1
       console.error('cumulative size of separators exceeds total size: reset to single panel.');
     }
 
