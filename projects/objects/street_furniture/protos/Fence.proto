@@ -75,7 +75,7 @@ PROTO Fence [
       let distance = wbvector2.distance({x: path[i].x, y: path[i].z}, {x: path[i+1].x, y: path[i+1].z});
       let distanceTotal = offset + distance;
       let poleNb = Math.floor(distanceTotal / poleGap);
-      let start = (i === 1) ? 0 : 1; // make sure first pole starts at beginning
+      let start = (i === 0) ? 0 : 1; // make sure first pole starts at beginning
       for (let j = start; j <= poleNb; ++j) {
         let ratio = (poleGap * j - offset) / distance;
         let point = {x: (1 - ratio) * path[i].x + ratio * path[i+1].x, y: (1 - ratio) * path[i].y + ratio * path[i+1].y, z: (1 - ratio) * path[i].z + ratio * path[i+1].z};

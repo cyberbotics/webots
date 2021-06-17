@@ -205,7 +205,7 @@ PROTO AddLaneRoadSegment [
               %< } >%
               baseColorMap ImageTexture {
                 url [
-                %< if (!dashedLine[numberOfLanes - 1]) { >%
+                %< if (typeof dashedLine[numberOfLanes - 1] !== 'undefined' && !dashedLine[numberOfLanes - 1]) { >%
                   "textures/line_base_color.png"
                 %< } else { >%
                   "textures/line_base_color_dashed.png"
