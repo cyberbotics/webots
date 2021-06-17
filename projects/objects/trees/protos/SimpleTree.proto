@@ -80,7 +80,7 @@ PROTO SimpleTree [
   } else if (type === 'random')
     type = keys[wbrandom.integer(keys.length) - 1];
 
-  const boundinObject = fields.enableBoundingObject.value;
+  const boundingObject = fields.enableBoundingObject.value;
   const circle = wbgeometry.circle(radius, subdivision * 2, {x: 0, y: 0}, 0);
   const skip = subdivision * 2;
 >%
