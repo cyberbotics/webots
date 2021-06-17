@@ -2,57 +2,62 @@
 <html>
   <head>
     <meta charset='UTF-8'>
+    <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
   </head>
   <body>
-    <div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
-      <ul>
-        <li><a href='#infotab-overview'>Overview</a></li>
-        <li><a href='#infotab-metrics'>Metrics</a></li>
-        <li><a href='#infotab-instructions'>Instructions</a></li>
-      </ul>
-      <div id='infotab-overview'>
-        <p>
-          This benchmark aims at driving the farther as possible in one minute without colliding any other vehicles or static objects.
-        </p>
+    <div id='infotabs' class='wrapper webotsTabs webotsRobotWindowTabs'>
+      <input class="radio" id="one" name="group" type="radio" checked>
+      <input class="radio" id="two" name="group" type="radio">
+      <input class="radio" id="three" name="group" type="radio">
+      <div class="tabs">
+        <label class="tab" id="one-tab" for="one">Overview</label>
+        <label class="tab" id="two-tab" for="two">Metrics</label>
+        <label class="tab" id="three-tab" for="three">Instructions</label>
       </div>
-      <div id='infotab-metrics'>
-        <div style='text-align:center'>Time: <span id='time-display'>NaN</span></div>
-        <div style='text-align:center'>Distance: <span id='distance-display'>NaN</span></div>
-        <br>
-        <div align=center>
-          <input type="checkbox" onchange="updateSensorsVisualization()" id="sensors_visualization_checkbox" checked> Show sensors range</input>
+
+      <div class="panels">
+        <div class="panel" id="one-panel">
+          <p>This benchmark aims at driving the farther as possible in one minute without colliding any other vehicles or static objects.</p>
         </div>
-        <br>
-        <p>
-          The metric used to evaluate the vehicle controller is the distance traveled along the road after one minute.
-        </p>
-        <p>
-          If the vehicle touches any other vehicles or static objects or it goes in the emergency lane, the simulation is stopped (even before one minute) and the already traveled distance is recorded.
-        </p>
-      </div>
-      <div id='infotab-instructions'>
-        <p>
-          <h2>How to improve the performance?</h2>
-        </p>
-        <p>
-          The basic controller is a simple program that makes the vehicle go straight and decrease its speed if another vehicle is detected in front in order to keep a security distance.
-        </p>
-        <p>
-          Instead of decreasing the speed, the lateral <a target=_blank href="https://www.cyberbotics.com/doc/reference/distancesensor">DistanceSensor</a> devices can be used to check if it is possible to change lane in order to overtake (you are allowed to overtake by the right side).
-          Here are the available <a target=_blank href="https://www.cyberbotics.com/doc/reference/distancesensor">DistanceSensor</a> devices:
+        <div class="panel" id="two-panel">
+          <div style='text-align:center'>Time: <span id='time-display'>NaN</span></div>
+          <div style='text-align:center'>Distance: <span id='distance-display'>NaN</span></div>
+          <br>
           <div align=center>
-            <img width=500 src='sensors.png'>
+            <input type="checkbox" onchange="updateSensorsVisualization()" id="sensors_visualization_checkbox" checked> Show sensors range</input>
           </div>
-        </p>
-        <p>
-          Note that after a while the road becomes curvy, you will therefore need to take the direction of the road into account.
-          A simple way to do so is to use the lateral <a target=_blank href="https://www.cyberbotics.com/doc/reference/distancesensor">DistanceSensors</a> in order to know the distance to the right and left barriers.
-          A more elegant way would be to use the <a target=_blank href="https://www.cyberbotics.com/doc/reference/camera">Camera</a> in order to detect the road lines.
-        </p>
-        <p>
-          In addition to the <a target=_blank href="https://www.cyberbotics.com/doc/reference/distancesensor">DistanceSensors</a>, the vehicle is equipped with a <a target=_blank href="https://www.cyberbotics.com/doc/reference/gps">GPS</a> located in the center of the rear-wheels axes,
-          and a frontal <a target=_blank href="https://www.cyberbotics.com/doc/reference/camera">Camera</a> (with objects <a target=_blank href="https://www.cyberbotics.com/doc/reference/recognition">Recognition</a> capability).
-        </p>
+          <br>
+          <p>
+            The metric used to evaluate the vehicle controller is the distance traveled along the road after one minute.
+          </p>
+          <p>
+            If the vehicle touches any other vehicles or static objects or it goes in the emergency lane, the simulation is stopped (even before one minute) and the already traveled distance is recorded.
+          </p>
+        </div>
+        <div class="panel" id="three-panel">
+          <p>
+            <h2>How to improve the performance?</h2>
+          </p>
+          <p>
+            The basic controller is a simple program that makes the vehicle go straight and decrease its speed if another vehicle is detected in front in order to keep a security distance.
+          </p>
+          <p>
+            Instead of decreasing the speed, the lateral <a target=_blank href="https://www.cyberbotics.com/doc/reference/distancesensor">DistanceSensor</a> devices can be used to check if it is possible to change lane in order to overtake (you are allowed to overtake by the right side).
+            Here are the available <a target=_blank href="https://www.cyberbotics.com/doc/reference/distancesensor">DistanceSensor</a> devices:
+            <div align=center>
+              <img width=500 src='sensors.png'>
+            </div>
+          </p>
+          <p>
+            Note that after a while the road becomes curvy, you will therefore need to take the direction of the road into account.
+            A simple way to do so is to use the lateral <a target=_blank href="https://www.cyberbotics.com/doc/reference/distancesensor">DistanceSensors</a> in order to know the distance to the right and left barriers.
+            A more elegant way would be to use the <a target=_blank href="https://www.cyberbotics.com/doc/reference/camera">Camera</a> in order to detect the road lines.
+          </p>
+          <p>
+            In addition to the <a target=_blank href="https://www.cyberbotics.com/doc/reference/distancesensor">DistanceSensors</a>, the vehicle is equipped with a <a target=_blank href="https://www.cyberbotics.com/doc/reference/gps">GPS</a> located in the center of the rear-wheels axes,
+            and a frontal <a target=_blank href="https://www.cyberbotics.com/doc/reference/camera">Camera</a> (with objects <a target=_blank href="https://www.cyberbotics.com/doc/reference/recognition">Recognition</a> capability).
+          </p>
+        </div>
       </div>
     </div>
     <script src="highway_driving.js"></script>

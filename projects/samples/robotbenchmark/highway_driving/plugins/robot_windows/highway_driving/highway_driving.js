@@ -1,5 +1,4 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
-$('#infotabs').tabs();
 
 var benchmarkName = 'Highway Driving';
 var timeValue = 0;
@@ -20,24 +19,20 @@ webots.window('highway_driving').receive = function(message, robot) {
     var values = message.substr(7).trim().split(' ');
     timeValue = parseFloat(values[0]);
     distanceValue = parseFloat(values[1]);
-    $('#time-display').html(parseSecondsIntoReadableTime(timeValue));
-    $('#distance-display').html(distanceValue.toFixed(3) + 'm');
+    document.getElementById('time-display').innerHTML = parseSecondsIntoReadableTime(timeValue);
+    document.getElementById('distance-display').innerHTML = distanceValue.toFixed(3) + 'm';
   } else if (message === 'stop') {
-    $('#performance-display').html(distanceValue);
     if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, distanceValue, metricToString)) {
-      $('#time-display').css('color', 'red');
-      $('#distance-display').css('color', 'red');
-      $('#performance-display').css('color', 'red');
+      document.getElementById('time-display').style.color = 'red';
+      document.getElementById('distance-display').style.color = 'red';
     }
   } else if (message.startsWith('record:OK:')) {
-    $('#time-display').css('color', 'bold');
-    $('#distance-display').css('color', 'bold');
-    $('#performance-display').css('color', 'bold');
+    document.getElementById('time-display').style.color = 'bold';
+    document.getElementById('distance-display').style.color = 'bold';
     showBenchmarkRecord(message, benchmarkName, metricToString);
   } else if (message.startsWith('record:Error:')) {
-    $('#time-display').css('color', 'red');
-    $('#distance-display').css('color', 'red');
-    $('#performance-display').css('color', 'red');
+    document.getElementById('time-display').style.color = 'red';
+    document.getElementById('distance-display').style.color = 'red';
     showBenchmarkError(message, benchmarkName);
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
