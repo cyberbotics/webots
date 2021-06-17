@@ -147,7 +147,7 @@ QString WbTreeItem::data() const {
       const WbMultipleValue *const value = dynamic_cast<WbMultipleValue *>(mField->value());
       int r = row();
       if (r >= 0 && r < value->size())
-        return value->itemToString(row(), WbPrecision::GUI_LOW);
+        return value->itemToString(r, WbPrecision::GUI_LOW);
       return EMPTY_STRING;
     }
     case INVALID:
