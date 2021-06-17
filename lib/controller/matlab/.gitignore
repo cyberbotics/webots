@@ -277,6 +277,7 @@ wb_supervisor_node_is_proto.m
 wb_supervisor_node_move_viewpoint.m
 wb_supervisor_node_set_visibility.m
 wb_supervisor_node_set_velocity.m
+wb_supervisor_node_set_joint_position.m
 wb_supervisor_node_add_force.m
 wb_supervisor_node_add_force_with_offset.m
 wb_supervisor_node_add_torque.m
