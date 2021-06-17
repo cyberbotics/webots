@@ -131,7 +131,7 @@ PROTO StraightStairs [
               coord Coordinate {
                 point [
                 %<
-                  let stringerRise = stairsRise - stepRise;
+                  const stringerRise = stairsRise - stepRise;
                   let coords = [];
                   coords[0] = [0, 0];
                   coords[1] = [stepSize.x, 0];
