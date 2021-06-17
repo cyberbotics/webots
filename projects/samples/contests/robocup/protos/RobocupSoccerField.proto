@@ -229,8 +229,8 @@ PROTO RobocupSoccerField [
     }
 
     // Offset to have origin on the center of the field
-    let OFFSET_X = (2 * I + A) / 2;
-    let OFFSET_Y = (2 * I + B) / 2;
+    const OFFSET_X = (2 * I + A) / 2;
+    const OFFSET_Y = (2 * I + B) / 2;
     Npts = pts.length;
     for (let i = 0; i < Npts; ++i) {
       pts[i].x = pts[i].x - OFFSET_X;
