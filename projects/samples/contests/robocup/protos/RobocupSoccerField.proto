@@ -191,7 +191,7 @@ PROTO RobocupSoccerField [
     // There is a vertex junction_index of the inner circle (cin) that makes the junction between triangles
     // going through pt.40 (top vertex of central dash) and pt.35 (bottom vertex of central dash).
     // It is located at approximately two thirds of the quarter
-    let junction_index = Math.ceil((2 / 3) * n_vertices_quarter); // Index of the junction triangle within the inner circle
+    const junction_index = Math.ceil((2 / 3) * n_vertices_quarter); // Index of the junction triangle within the inner circle
     for (let i = 1; i <= junction_index - 1; ++i)
       tg.push({a: cin_start + (i + 1), b: 41, c: cin_start + i});
 
