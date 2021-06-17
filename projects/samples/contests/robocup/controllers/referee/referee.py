@@ -148,7 +148,7 @@ def clean_exit():
                     break
         else:
             waiting_steps = END_OF_GAME_TIMEOUT * 1000 / time_step
-            info(f"Waiting {waiting_steps} before exiting")
+            info(f"Waiting {waiting_steps} simulation steps before exiting")
             while waiting_steps > 0:
                 supervisor.step(time_step)
                 waiting_steps -= 1
@@ -2442,11 +2442,11 @@ try:
         info(f'{"Red" if game.kickoff == game.red.id else "Blue"} team will start the penalty shoot-out.')
         game.phase = 'PENALTY-SHOOTOUT'
         game.ready_real_time = None
-        info(f'Penalty start: Waiting {REAL_TIME_BEFORE_FIRST_READY_STATE} seconds before going to SET')
+        info(f'Penalty start: Waiting {REAL_TIME_BEFORE_FIRST_READY_STATE} seconds (real-time) before going to SET')
         game.set_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for set state (penalty-shootout)
         game_controller_send(f'KICKOFF:{game.kickoff}')
     else:
-        info(f'Regular start: Waiting {REAL_TIME_BEFORE_FIRST_READY_STATE} seconds before going to READY')
+        info(f'Regular start: Waiting {REAL_TIME_BEFORE_FIRST_READY_STATE} seconds (real-time) before going to READY')
         game.ready_real_time = time.time() + REAL_TIME_BEFORE_FIRST_READY_STATE  # real time for ready state (initial kick-off)
         kickoff()
         game_controller_send(f'KICKOFF:{game.kickoff}')
@@ -2730,14 +2730,14 @@ try:
                 if game.ready_real_time is None:
                     info('Beginning of the knockout first half.')
                     game_controller_send('STATE:OVERTIME-FIRST-HALF')
-                    info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION}')
+                    info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION} seconds (real-time)')
                     game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
             elif game.type == 'KNOCKOUT' and game.state.teams[0].score == game.state.teams[1].score:
                 if game.ready_real_Time is None:
                     info('Beginning of penalty shout-out.')
                     game_controller_send('STATE:PENALTY-SHOOTOUT')
                     game.penalty_shootout = True
-                    info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION}')
+                    info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION} seconds (real-time)')
                     game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
             else:
                 game.over = True
@@ -2766,7 +2766,7 @@ try:
                     game_type = 'overtime '
                 info(f'Beginning of {game_type}second half.')
                 kickoff()
-                info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION}')
+                info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION} seconds (real-time)')
                 game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
 
         if game.interruption_countdown > 0:
