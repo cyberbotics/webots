@@ -1199,7 +1199,7 @@ namespace webots {
 ```java
 import com.cyberbotics.webots.controller.ContactPoint;
 
-public class CameraRecognitionObject {
+public class ContactPoint {
   public double[] getPoint();
   public int getNodeId();
 }
