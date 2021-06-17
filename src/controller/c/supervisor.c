@@ -109,11 +109,11 @@ typedef struct WbNodeStructPrivate {
   char *def_name;
   char *content;
   int parent_id;
-  double *position;                                // double[3]
-  double *orientation;                             // double[9]
-  double *center_of_mass;                          // double[3]
+  double *position;                                  // double[3]
+  double *orientation;                               // double[9]
+  double *center_of_mass;                            // double[3]
   WbNodeWbContactPointListStruct contact_points[2];  // 0 -> without descendants, 1 -> with descendants
-  bool contact_points_include_descendants;         // TODO: Delete with `wb_supervisor_node_get_contact_point`
+  bool contact_points_include_descendants;           // TODO: Delete with `wb_supervisor_node_get_contact_point`
   bool static_balance;
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
@@ -1552,8 +1552,13 @@ bool wb_supervisor_movie_failed() {
 }
 
 int wb_supervisor_movie_get_status() {
-  fprintf(stderr, "%s() is deprecated, please use wb_supervisor_movie_is_ready() and wb_supervisor_movie_failed() instead.\n",
-          __FUNCTION__);
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr,
+            "Warning: %s() is deprecated, use wb_supervisor_movie_is_ready() and wb_supervisor_movie_failed() instead.\n",
+            __FUNCTION__);
+    deprecation_warning = false;
+  }
   return movie_status;
 }
 
@@ -2018,8 +2023,8 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
       else
         break;
 
-    tmp_pose = tmp_pose->next;
-  }
+      tmp_pose = tmp_pose->next;
+    }
 
   robot_mutex_lock_step();
   pose_requested = true;
@@ -2050,9 +2055,11 @@ const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
 }
 
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
-  fprintf(stderr,
-          "Warning: Deprecated 'wb_supervisor_node_get_contact_point' use 'wb_supervisor_node_get_contact_points' instead.\n");
-
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_get_contact_points() instead.\n", __FUNCTION__);
+    deprecation_warning = false;
+  }
   if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
@@ -2084,10 +2091,11 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
 }
 
 WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
-  fprintf(
-    stderr,
-    "Warning: Deprecated 'wb_supervisor_node_get_contact_point_node' use 'wb_supervisor_node_get_contact_points' instead.\n");
-
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_get_contact_points() instead.\n", __FUNCTION__);
+    deprecation_warning = false;
+  }
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2121,9 +2129,11 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
 }
 
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants) {
-  fprintf(stderr, "Warning: Deprecated 'wb_supervisor_node_get_number_of_contact_points' use "
-                  "'wb_supervisor_node_get_contact_points' instead.\n");
-
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_get_contact_points() instead.\n", __FUNCTION__);
+    deprecation_warning = false;
+  }
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
