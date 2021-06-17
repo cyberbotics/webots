@@ -94,7 +94,7 @@ PROTO Panel [
                       for (let dz = -0.5; dz <= 0.5; ++dz) {
                         let z = dz * size.z;
                         for (let dy = -0.5; dy <= 0.5; ++dy) {
-                          let y = halfSizeY + dy * (size.y - 2 * borderHeight);
+                          const y = halfSizeY + dy * (size.y - 2 * borderHeight);
                           for (let dx = -0.5; dx <= 0.5; ++dx) {
                   >%
                             %<= offsetX + dx * borderHeight >% %<= y >% %<= z >%
