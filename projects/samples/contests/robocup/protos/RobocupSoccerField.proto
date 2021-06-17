@@ -220,9 +220,9 @@ PROTO RobocupSoccerField [
       tg[3 * Ntg + i] = {a: tg_ref.c + 3 * Npts, b: tg_ref.a + 3 * Npts, c: tg_ref.b + 3 * Npts}; // 3rd Quarter (cab)
     }
 
-    let Ntl = tl.length;
+    const Ntl = tl.length;
     for (let i = 0; i < Ntl; ++i) { // Same for the line triangles
-      let tl_ref = tl[i];
+      const tl_ref = tl[i];
       tl[Ntl + i] = {a: tl_ref.b + Npts, b: tl_ref.a + Npts, c: tl_ref.c + Npts};
       tl[2 * Ntl + i] = {a: tl_ref.c + 2 * Npts, b: tl_ref.b + 2 * Npts, c: tl_ref.a + 2 * Npts};
       tl[3 * Ntl + i] = {a: tl_ref.c + 3 * Npts, b: tl_ref.a + 3 * Npts, c: tl_ref.b + 3 * Npts};
