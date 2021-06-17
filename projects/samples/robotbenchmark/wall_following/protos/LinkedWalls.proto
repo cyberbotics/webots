@@ -31,7 +31,7 @@ PROTO LinkedWalls [
         [ -8, 16, -8, -6, 2, 4 ]
       ];
 
-      let NB_WALL_PARTS = WALL_PARTS.length;
+      const NB_WALL_PARTS = WALL_PARTS.length;
       let remaining_indices = [];
       let current_value;
       let shuffle = [];
