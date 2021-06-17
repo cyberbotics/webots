@@ -107,7 +107,7 @@ PROTO Cabinet [
       let height = rowsHeights[i];
       if (height < 3 * innerThickness) {
         rowsHeights[i] = 3 * innerThickness; // minimum size
-        cosole.error('\'rowsHeights[' + i + ']\' must be bigger than 3 * \'innerThickness\'. Value reset to ' + rowsHeights[i] + '.');
+        console.error('\'rowsHeights[' + i + ']\' must be bigger than 3 * \'innerThickness\'. Value reset to ' + rowsHeights[i] + '.');
       }
     }
 
