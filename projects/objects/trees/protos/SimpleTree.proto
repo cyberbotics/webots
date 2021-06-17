@@ -68,24 +68,19 @@ PROTO SimpleTree [
   }
 
   let type = fields.type.value;
-  let keys = Object.keys(treeType);
+  const keys = Object.keys(treeType);
   if (type !== 'random' && !treeType.hasOwnProperty(type)) {
     type = fields.type.defaultValue;
 
     let candidates = '';
-    for (let i = 0; i < keys.length; ++i) {
-      if (i === keys.length - 1)
-        candidates += '\'' + keys[i] + '\'';
-      else
-        candidates += '\'' + keys[i] + '\', ';
-    }
-    candidates += ' or \'random\'';
+    for (let i = 0; i < keys.length; ++i)
+      candidates += '\'' + keys[i] + '\', ';
+    candidates += '\' or \'random\'';
     console.error('\'type\' must be a value in the list: ' + candidates + '. Value reset to \'' + type + '\'.');
-  } else if (type === 'random') {
+  } else if (type === 'random')
     type = keys[wbrandom.integer(keys.length) - 1];
-  }
 
-  const boundinObject = fields.enableBoundingObject.value;
+  const boundingObject = fields.enableBoundingObject.value;
   const circle = wbgeometry.circle(radius, subdivision * 2, {x: 0, y: 0}, 0);
   const skip = subdivision * 2;
 >%
@@ -159,7 +154,7 @@ Solid {
       %< } >%
     %< } >%
   ]
-  %< if (boundinObject) { >%
+  %< if (boundingObject) { >%
     boundingObject Transform {
       translation 0 %<= height * 0.5 >% 0
       children [

@@ -43,7 +43,7 @@ PROTO Panel [
     }
 
     if (size.x <= borderHeight * (panelsCount + 1)) {
-      panelsCount = fields.panelsCount.defaultValue;
+      panelsCount = 1
       console.error('cumulative size of separators exceeds total size: reset to single panel.');
     }
 
@@ -91,11 +91,11 @@ PROTO Panel [
                   if (nSeparations > 0) {
                     let offsetX = 1.5 * borderHeight + panelSizeX; // halfSizeX
                     for (let i = 1; i <= nSeparations; ++i) {
-                      for (let dz = -0.5; dz <= 0.5; dz = dz + 1) {
+                      for (let dz = -0.5; dz <= 0.5; ++dz) {
                         let z = dz * size.z;
-                        for (let dy = -0.5; dy <= 0.5; dy = dy + 1) {
-                          let y = halfSizeY + dy * (size.y - 2 * borderHeight);
-                          for (let dx = -0.5; dx <= 0.5; dx = dx + 1) {
+                        for (let dy = -0.5; dy <= 0.5; ++dy) {
+                          const y = halfSizeY + dy * (size.y - 2 * borderHeight);
+                          for (let dx = -0.5; dx <= 0.5; ++dx) {
                   >%
                             %<= offsetX + dx * borderHeight >% %<= y >% %<= z >%
                   %<
@@ -111,8 +111,8 @@ PROTO Panel [
             texCoord TextureCoordinate {
               point [
               %<
-                let borderX = borderHeight / size.x;
-                let borderY = borderHeight / size.y;
+                const borderX = borderHeight / size.x;
+                const borderY = borderHeight / size.y;
               >%
                 0.0 0.0
                 1.0 0.0
@@ -125,8 +125,8 @@ PROTO Panel [
               %<
                 let x = panelSizeX + borderHeight;
                 for (let i = 1; i <= nSeparations; i++) {
-                  let texU1 = x / size.x;
-                  let texU2 = (x + borderHeight) / size.x;
+                  const texU1 = x / size.x;
+                  const texU2 = (x + borderHeight) / size.x;
               >%
                   %<= texU1 >% %<= borderY >%
                   %<= texU2 >% %<= borderY >%

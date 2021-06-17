@@ -150,14 +150,14 @@ PROTO RobocupSoccerField [
     tl[21] = {a: 36, b: 37, c: 42};
 
     // Creation of a quarter of the central circle
-    let n_vertices_quarter = Math.ceil(N_VERTICES_CIRCLE / 4) + 1; // +1 because we want to have a point both at ~0 and pi/2
+    const n_vertices_quarter = Math.ceil(N_VERTICES_CIRCLE / 4) + 1; // +1 because we want to have a point both at ~0 and pi/2
 
     // Add points for the circles to the existing ones
     function circle_add_pts (radius, pts, n_vertices_quarter, line_width) {
-      let center = pts[44];
+      const center = pts[44];
       let alpha = Math.atan((line_width / 2) / radius); // First point must be on the inside side of the half line
-      let alpha_increment = (Math.PI / 2 - alpha) / (n_vertices_quarter - 1); // Number of parts is nb of vertices minus 1
-      let Npts = pts.length;
+      const alpha_increment = (Math.PI / 2 - alpha) / (n_vertices_quarter - 1); // Number of parts is nb of vertices minus 1
+      const Npts = pts.length;
       for (let i = 1; i <= n_vertices_quarter; ++i) {
         pts.push({x: center.x - radius * Math.sin(alpha), y: center.y - radius * Math.cos(alpha), z: center.z + 0});
         alpha = alpha + alpha_increment;
@@ -191,7 +191,7 @@ PROTO RobocupSoccerField [
     // There is a vertex junction_index of the inner circle (cin) that makes the junction between triangles
     // going through pt.40 (top vertex of central dash) and pt.35 (bottom vertex of central dash).
     // It is located at approximately two thirds of the quarter
-    let junction_index = Math.ceil((2 / 3) * n_vertices_quarter); // Index of the junction triangle within the inner circle
+    const junction_index = Math.ceil((2 / 3) * n_vertices_quarter); // Index of the junction triangle within the inner circle
     for (let i = 1; i <= junction_index - 1; ++i)
       tg.push({a: cin_start + (i + 1), b: 41, c: cin_start + i});
 
@@ -201,9 +201,8 @@ PROTO RobocupSoccerField [
     tg.push({a: cin_start + n_vertices_quarter, b: 37, c: 36}); // Adds touch line triangle (boundary with touch line)
 
     // Replication of the other 3 quarters
-    Npts = pts.length;
     for (let i = 0; i < Npts; ++i) {
-      let pt_ref = pts[i]; // Reference point
+      const pt_ref = pts[i]; // Reference point
       // 2nd Quarter (which completes one team's half)
       pts[Npts + i] = {x: pt_ref.x, y: 2 * I + B - pt_ref.y, z: pt_ref.z};
       // 3rd Quarter (replication on the y-axis)
@@ -212,26 +211,26 @@ PROTO RobocupSoccerField [
       pts[3 * Npts + i] = {x: 2 * I + A - pt_ref.x, y: 2 * I + B - pt_ref.y, z: pt_ref.z};
     }
 
-    let Ntg = tg.length;
+    const Ntg = tg.length;
     for (let i = 0; i < Ntg; ++i) { // Grass triangles
-      let tg_ref = tg[i];
+      const tg_ref = tg[i];
       // Due to axis reversions, we have to update the order of coords for the new corresp. triangles
       tg[Ntg + i] = {a: tg_ref.b + Npts, b: tg_ref.a + Npts, c: tg_ref.c + Npts} // 2nd Quarter (bac)
       tg[2 * Ntg + i] = {a: tg_ref.c + 2 * Npts, b: tg_ref.b + 2 * Npts, c: tg_ref.a + 2 * Npts}; // 3rd Quarter (cba)
       tg[3 * Ntg + i] = {a: tg_ref.c + 3 * Npts, b: tg_ref.a + 3 * Npts, c: tg_ref.b + 3 * Npts}; // 3rd Quarter (cab)
     }
 
-    let Ntl = tl.length;
+    const Ntl = tl.length;
     for (let i = 0; i < Ntl; ++i) { // Same for the line triangles
-      let tl_ref = tl[i];
+      const tl_ref = tl[i];
       tl[Ntl + i] = {a: tl_ref.b + Npts, b: tl_ref.a + Npts, c: tl_ref.c + Npts};
       tl[2 * Ntl + i] = {a: tl_ref.c + 2 * Npts, b: tl_ref.b + 2 * Npts, c: tl_ref.a + 2 * Npts};
       tl[3 * Ntl + i] = {a: tl_ref.c + 3 * Npts, b: tl_ref.a + 3 * Npts, c: tl_ref.b + 3 * Npts};
     }
 
     // Offset to have origin on the center of the field
-    let OFFSET_X = (2 * I + A) / 2;
-    let OFFSET_Y = (2 * I + B) / 2;
+    const OFFSET_X = (2 * I + A) / 2;
+    const OFFSET_Y = (2 * I + B) / 2;
     Npts = pts.length;
     for (let i = 0; i < Npts; ++i) {
       pts[i].x = pts[i].x - OFFSET_X;

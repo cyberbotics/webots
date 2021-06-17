@@ -164,7 +164,7 @@ PROTO Building [
     let groundFloorTexture = [];
     const groundFloor = fields.groundFloor.value;
     for (let i = 0; i < groundFloor.length; ++i) {
-      if(groundFloor[i] !== '')
+      if (groundFloor[i] !== '')
         groundFloorTexture.push(groundFloor[i]);
     }
     const groundFloorNumber = groundFloorTexture.length;

@@ -21,7 +21,7 @@ PROTO LinkedWalls [
     let dataString = '"';
 
     if (fields.angles.value.length === 0) {
-      let WALL_PARTS = [
+      const WALL_PARTS = [
         [ -6, -2, -12, 12, 8 ],
         [ -6, 18, -6, -6, -6, -6, 12 ],
         [ 6, 2, -2, -2, -4 ],
@@ -31,7 +31,7 @@ PROTO LinkedWalls [
         [ -8, 16, -8, -6, 2, 4 ]
       ];
 
-      let NB_WALL_PARTS = WALL_PARTS.length;
+      const NB_WALL_PARTS = WALL_PARTS.length;
       let remaining_indices = [];
       let current_value;
       let shuffle = [];
