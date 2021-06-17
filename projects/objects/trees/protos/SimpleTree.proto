@@ -68,7 +68,7 @@ PROTO SimpleTree [
   }
 
   let type = fields.type.value;
-  let keys = Object.keys(treeType);
+  const keys = Object.keys(treeType);
   if (type !== 'random' && !treeType.hasOwnProperty(type)) {
     type = fields.type.defaultValue;
 
