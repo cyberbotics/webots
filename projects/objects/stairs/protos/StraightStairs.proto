@@ -175,7 +175,7 @@ PROTO StraightStairs [
         boundingObject USE GEOM
       }
     %< } else {
-         let pAngle = Math.atan2(stairsRise, stairsRun);
+         const pAngle = Math.atan2(stairsRise, stairsRun);
     >%
       Solid {
         translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= stairsRise * 0.5 >% %<= (stepSize.z + stringerWidth) * 0.5 >%
