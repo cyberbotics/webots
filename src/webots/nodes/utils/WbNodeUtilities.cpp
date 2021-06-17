@@ -785,13 +785,7 @@ bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node) {
 }
 
 bool WbNodeUtilities::hasADefNodeAncestor(const WbNode *node) {
-  if (node == NULL)
-    return false;
-
-  if (node->isDefNode())
-    return true;
-
-  const WbNode *p = node->parentNode();
+  const WbNode *p = node;
   while (p) {
     if (p->isDefNode())
       return true;
@@ -802,13 +796,7 @@ bool WbNodeUtilities::hasADefNodeAncestor(const WbNode *node) {
 }
 
 bool WbNodeUtilities::hasAUseNodeAncestor(const WbNode *node) {
-  if (node == NULL)
-    return false;
-
-  if (node->isUseNode())
-    return true;
-
-  const WbNode *p = node->parentNode();
+  const WbNode *p = node;
   while (p) {
     if (p->isUseNode())
       return true;
