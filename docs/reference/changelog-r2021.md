@@ -54,7 +54,7 @@ Released on June, Xth, 2021.
       - Skip updates when the robot window is hidden to not affect the simulation performance.
       - Add toggle button to choose if the enabling/disabling the graph(s) will also enable/disable the robot device.
       - Add buttons to enable and disable all the devices with the same type at once.
-      - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording ata from devices when the correspomding tab is not visible.
+      - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording data from devices when the corresponding tab is not visible.
       - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible.
       - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects.
       - Speed up drawing using WebGL ([#2854](https://github.com/cyberbotics/webots/pull/2854)).
