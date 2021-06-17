@@ -2,8 +2,6 @@
 /* global showBenchmarkRecord, showBenchmarkError, saveCookies, getCookie,  */
 /* exported recordPerformance */
 
-// $('#record-button').button();
-
 const benchmarkName = 'Viewpoint Control';
 let benchmarkPerformance;
 view.ontouchmove = evaluateViewpoint;
