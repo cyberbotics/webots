@@ -38,7 +38,6 @@ PROTO WoodenPallet [
     lathWidth = size.x / lathNumber;
     console.error('\'lathWidth\' x \'lathNumber\' cannot be bigger than the first component of \'size\'. Value of \'lathWidth\' reset to ' + lathWidth + '.');
   }
-
   let mass = fields.mass.value;
 >%
 Solid {
@@ -104,9 +103,9 @@ Solid {
       }
     %< } >%
     # Lath lathNumber
-    %< for (let i = 0; i <= lathNumber; ++i) { >%
+    %< for (let i = 0; i < lathNumber; ++i) { >%
       Transform {
-        translation %<= (size.x - lathWidth) * (i / lathNumber - 0.5) >% %<= 0.95 * size.y >% %<= 0 >%
+        translation %<= (size.x - lathWidth) * (i / (lathNumber - 1) - 0.5) >% %<= 0.95 * size.y >% %<= 0 >%
         children [
           Shape {
             appearance RoughPine {

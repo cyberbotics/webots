@@ -70,6 +70,7 @@ PROTO AdvertisingBoard [
       console.error('\'poleThickness\' should be smaller than the frame. Value reset to ' + poleThickness + '.');
     }
     const halfPoleThickness = poleThickness * 0.5;
+    const quarterPoleThickness = poleThickness * 0.25;
 
     let baseRatio = fields.baseRatio.value;
     if (baseRatio < 0.1) {
@@ -229,22 +230,21 @@ PROTO AdvertisingBoard [
                       size %<= poleThickness >% %<= poleHeight >% %<= poleThickness >%
                     }
                 %< } else if (poleType === 'H-shape') { >%
-                    # weird quotients (4.01 etc) here are here to avoid failures in polygon tesselation
                     geometry Extrusion {
                       crossSection [
-                        %<= halfPoleThickness >%  %<= -halfPoleThickness >%
-                        %<= halfPoleThickness >%  %<= -poleThickness/4 >%
-                        %<= poleThickness/4.02 >%  %<= -poleThickness/4 >%
-                        %<= poleThickness/4.01 >%  %<= poleThickness/4 >%
-                        %<= halfPoleThickness >%  %<= poleThickness/4 >%
-                        %<= halfPoleThickness >%  %<= halfPoleThickness >%
                         %<= -halfPoleThickness >% %<= halfPoleThickness >%
-                        %<= -halfPoleThickness >% %<= poleThickness/4 >%
-                        %<= -poleThickness/4.02 >% %<= poleThickness/4 >%
-                        %<= -poleThickness/4.01 >% %<= -poleThickness/4 >%
-                        %<= -halfPoleThickness >% %<= -poleThickness/4 >%
+                        %<= halfPoleThickness >% %<= halfPoleThickness >%
+                        %<= halfPoleThickness >% %<= quarterPoleThickness >%
+                        %<= quarterPoleThickness >% %<= quarterPoleThickness >%
+                        %<= quarterPoleThickness >% %<= -quarterPoleThickness >%
+                        %<= halfPoleThickness >% %<= -quarterPoleThickness >%
+                        %<= halfPoleThickness >% %<= -halfPoleThickness >%
                         %<= -halfPoleThickness >% %<= -halfPoleThickness >%
-                        %<= halfPoleThickness >%  %<= -halfPoleThickness >%
+                        %<= -halfPoleThickness >% %<= -quarterPoleThickness >%
+                        %<= -quarterPoleThickness >% %<= -quarterPoleThickness >%
+                        %<= -quarterPoleThickness >% %<= quarterPoleThickness >%
+                        %<= -halfPoleThickness >% %<= quarterPoleThickness >%
+                        %<= -halfPoleThickness >% %<= halfPoleThickness >%
                       ]
                       spine [
                         0 %<= (poleHeight / 2) >% 0
