@@ -20,6 +20,7 @@ Released on June, Xth, 2021.
   - Enhancements
     - Added the `dragForceScale` and `dragTorqueScale` fields to [WorldInfo](worldinfo.md) which enable to set the order of magnitude of the force/torque to be applied in the interface ([#3175](https://github.com/cyberbotics/webots/pull/3175)).
     - Added pose and field tracking functions to improve the performance of getting pose and field data ([#2279](https://github.com/cyberbotics/webots/pull/2279)).
+    - Added contact point tracking functions to improve the performance of getting contact point data ([#3162](https://github.com/cyberbotics/webots/pull/3162)).
     - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
     - Significantly improved the performance of the `wb_camera_get_image`, `wb_range_finder_get_range_image`, and `wb_lidar_get_range_image` functions ([#3032](https://github.com/cyberbotics/webots/pull/3032)).
     - Added a `stadium_dry` [background](../guide/object-backgrounds.md) with dry grass to allow Robocup players to distinguish the soccer field from the background ([#2874](https://github.com/cyberbotics/webots/pull/2874)).
@@ -73,6 +74,7 @@ Released on June, Xth, 2021.
     - Fixed RandomBuilding proto where having different instances generated the same building ([#2897](https://github.com/cyberbotics/webots/pull/2897)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
+    - Deprecated [`wb_supervisor_node_disable_contact_point_tracking`](supervisor.md#wb_supervisor_node_disable_contact_point_tracking), [`wb_supervisor_node_get_contact_point_node`](supervisor.md#wb_supervisor_node_get_contact_point_node), and [`wb_supervisor_node_get_number_of_contact_points`](supervisor.md#wb_supervisor_node_get_number_of_contact_points) functions in favor of [`wb_supervisor_node_get_contact_points`](supervisor.md#wb_supervisor_node_get_contact_points) ([#3162](https://github.com/cyberbotics/webots/pull/3162)).
 
 ## Webots R2021a Revision 1
 Released on XX Xth, 2021.
