@@ -1,10 +1,10 @@
 /* Taken from https://codepen.io/Wendy-Ho/pen/MWWBvmd */
 body {
   font-family: sans-serif;
-  font-style: 1em;
+  font-size: 10pt;
 }
 
-p {
+p, h2 {
   padding-left: 15px;
   padding-right: 15px;
 }
