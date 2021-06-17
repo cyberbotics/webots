@@ -121,6 +121,10 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                               &RosSupervisor::nodeAddTorqueCallback, this);
   mNodeGetFieldServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field",
                                                              &RosSupervisor::nodeGetFieldCallback, this);
+  mNodeGetFieldByIndexServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field_by_index",
+                                                                    &RosSupervisor::nodeGetFieldByIndexCallback, this);
+  mNodeGetNumberOfFieldsServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_number_of_fields",
+                                                                      &RosSupervisor::nodeGetNumberOfFieldsCallback, this);
   mNodeMoveViewpointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/move_viewpoint",
                                                                   &RosSupervisor::nodeMoveViewpointCallback, this);
   mNodeSetVisibilityServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_visibility",
@@ -144,6 +148,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mNodeSetJointPositionServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_joint_position",
                                                                      &RosSupervisor::nodeSetJointPositionCallback, this);
 
+  mFieldGetNameServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_name",
+                                                             &RosSupervisor::fieldGetNameCallback, this);
   mFieldGetTypeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_type",
                                                              &RosSupervisor::fieldGetTypeCallback, this);
   mFieldGetTypeNameServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_type_name",
@@ -771,6 +777,32 @@ bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &re
   return true;
 }
 
+bool RosSupervisor::nodeGetFieldByIndexCallback(webots_ros::node_get_field::Request &req,
+                                                webots_ros::node_get_field::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  if (req.proto)
+    res.field = reinterpret_cast<uint64_t>(node->getProtoField(req.index));
+  else
+    res.field = reinterpret_cast<uint64_t>(node->getField(req.index));
+  return true;
+}
+
+bool RosSupervisor::nodeGetNumberOfFieldsCallback(webots_ros::node_get_number_of_fields::Request &req,
+                                                  webots_ros::node_get_number_of_fields::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  if (req.proto)
+    res.value = reinterpret_cast<uint64_t>(node->getProtoNumberOfFields());
+  else
+    res.value = reinterpret_cast<uint64_t>(node->getNumberOfFields());
+  return true;
+}
+
 // cppcheck-suppress constParameter
 bool RosSupervisor::nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req,
                                               webots_ros::node_move_viewpoint::Response &res) {
@@ -907,6 +939,16 @@ bool RosSupervisor::nodeSetJointPositionCallback(webots_ros::node_set_joint_posi
 }
 
 // cppcheck-suppress constParameter
+bool RosSupervisor::fieldGetNameCallback(webots_ros::field_get_name::Request &req, webots_ros::field_get_name::Response &res) {
+  assert(this);
+  if (!req.field)
+    return false;
+  Field *field = reinterpret_cast<Field *>(req.field);
+  res.name = field->getName();
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res) {
   assert(this);
   if (!req.field)
@@ -917,8 +959,8 @@ bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &re
 }
 
 // cppcheck-suppress constParameter
-bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req,
-                                             webots_ros::field_get_type_name::Response &res) {
+bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_name::Request &req,
+                                             webots_ros::field_get_name::Response &res) {
   assert(this);
   if (!req.field)
     return false;

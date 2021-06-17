@@ -661,7 +661,12 @@ A file with the equivalent content can be produced in the Webots user interface 
 ---
 
 #### `wb_supervisor_node_get_field`
+#### `wb_supervisor_node_get_field_by_index`
+#### `wb_supervisor_node_get_number_of_fields`
+#### `wb_supervisor_node_get_field`
 #### `wb_supervisor_node_get_proto_field`
+#### `wb_supervisor_node_get_proto_field_by_index`
+#### `wb_supervisor_node_get_proto_number_of_fields`
 
 %tab-component "language"
 
@@ -671,7 +676,11 @@ A file with the equivalent content can be produced in the Webots user interface 
 #include <webots/supervisor.h>
 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_fields(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, const char *field_name);
+int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node, int index);
 ```
 
 %tab-end
@@ -684,7 +693,11 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
 namespace webots {
   class Node {
     Field *getField(const std::string &fieldName) const;
+    Field *getFieldByIndex(int index) const;
+    int getNumberOfFields() const;
     Field *getProtoField(const std::string &fieldName) const;
+    Field *getProtoFieldByIndex(int index) const;
+    int getProtoNumberOfFields() const;
     // ...
   }
 }
@@ -699,7 +712,11 @@ from controller import Node
 
 class Node:
     def getField(self, fieldName):
+    def getFieldByIndex(self, index):
+    def getNumberOfFields():
     def getProtoField(self, fieldName):
+    def getProtoFieldByIndex(self, index):
+    def getProtoNumberOfFields():
     # ...
 ```
 
@@ -712,7 +729,11 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public Field getField(String fieldName);
+  public Field getFieldByIndex(int index);
+  public int getNumberOfFields();
   public Field getProtoField(String fieldName);
+  public Field getProtoFieldByIndex(int index);
+  public int getProtoNumberOfFields();
   // ...
 }
 ```
@@ -723,7 +744,11 @@ public class Node {
 
 ```MATLAB
 field = wb_supervisor_node_get_field(node, 'field_name')
+field = wb_supervisor_node_get_field_by_index(node, index)
+size = wb_supervisor_node_get_number_of_fields(node)
 field = wb_supervisor_node_get_proto_field(node, 'field_name')
+field = wb_supervisor_node_get_proto_field_by_index(node, index)
+size = wb_supervisor_node_get_proto_number_of_fields(node)
 ```
 
 %tab-end
@@ -733,6 +758,8 @@ field = wb_supervisor_node_get_proto_field(node, 'field_name')
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_field_by_index` | `service` | `webots_ros::node_get_field_by_index` | `uint64 node`<br/>`int index`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_number_of_fields` | `service` | `webots_ros::node_get_number_of_fields` | `uint64 node`<br/>`bool proto``---`<br/>`uint32 value` |
 
 %tab-end
 
@@ -752,7 +779,14 @@ Otherwise, it returns a handler to a field.
 
 If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_field` function should be used instead.
 
-> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` function are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
+Field handlers can also be retrieved by index using the `wb_supervisor_node_get_field_by_index` where the field is specified by its `index` and the the `node` it belongs to.
+Valid `index` values should be positive and lower than the number of fields returns by `wb_supervisor_node_get_number_of_fields`.
+If the node passed as argument is not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` return -1.
+To retried an internal field of a PROTO, the `wb_supervisor_node_get_proto_field_by_index` and `wb_supervisor_node_get_proto_number_of_fields` should be used instead.
+
+> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` and `wb_supervisor_node_get_proto_field_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
+
+
 
 ---
 
@@ -3044,6 +3078,7 @@ Both `wb_supervisor_animation_start_recording` and `wb_supervisor_animation_stop
 
 ---
 
+#### `wb_supervisor_field_get_name`
 #### `wb_supervisor_field_get_type`
 #### `wb_supervisor_field_get_type_name`
 #### `wb_supervisor_field_get_count`
@@ -3063,6 +3098,7 @@ typedef enum {
   WB_MF_VEC2F, WB_MF_VEC3F, WB_MF_ROTATION, WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
 } WbFieldType;
 
+const char *wb_supervisor_field_get_name(WbFieldRef field);
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
@@ -3085,6 +3121,7 @@ namespace webots {
       MF_STRING, MF_NODE
     } Type;
 
+    std::string getName() const;
     Type getType() const;
     std::string getTypeName() const;
     int getCount() const;
@@ -3107,6 +3144,7 @@ class Field:
     SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_ROTATION, MF_COLOR,
     MF_STRING, MF_NODE
 
+    def getName(self):
     def getType(self):
     def getTypeName(self):
     def getCount(self):
@@ -3127,6 +3165,7 @@ public class Field {
     SF_COLOR, SF_STRING, SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F,
     MF_ROTATION, MF_COLOR, MF_STRING, MF_NODE;
 
+  public String getName();
   public int getType();
   public String getTypeName();
   public int getCount();
@@ -3145,6 +3184,7 @@ WB_SF_BOOL, WB_SF_INT32, WB_SF_FLOAT, WB_SF_VEC2F, WB_SF_VEC3F, WB_SF_ROTATION, 
 WB_SF_STRING, WB_SF_NODE, WB_MF, WB_BOOL, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
 WB_ROTATION, WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
 
+name = wb_supervisor_field_get_name(field)
 type = wb_supervisor_field_get_type(field)
 name = wb_supervisor_field_get_type_name(field)
 count = wb_supervisor_field_get_count(field)
@@ -3158,8 +3198,9 @@ wb_supervisor_field_disable_sf_tracking(field)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
+| `/supervisor/field/get_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
 | `/supervisor/field/get_type` | `service` | `webots_ros::field_get_type` | `uint64 node`<br/>`---`<br/>`int8 success` |
-| `/supervisor/field/get_type_name` | `service` | `webots_ros::field_get_type_name` | `uint64 field`<br/>`---`<br/>`string name` |
+| `/supervisor/field/get_type_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
 | `/supervisor/field/get_count` | `service` | `webots_ros::field_get_count` | `uint64 field`<br/>`---`<br/>`int32 count` |
 | `/supervisor/field/enable_sf_tracking` | `service` | `webots_ros::field_enable_sf_tracking` | `uint64 field`<br/>`int32 sampling_period`<br/>`---`<br/>`int8 sampling_period` |
 | `/supervisor/field/disable_sf_tracking` | `service` | `webots_ros::field_disable_sf_tracking` | `uint64 field`<br/>`---`<br/>`int8 success` |
@@ -3171,6 +3212,9 @@ wb_supervisor_field_disable_sf_tracking(field)
 ##### Description
 
 *get a handler and more information on a field in a node*
+
+The `wb_supervisor_field_get_name` function returns the name of the field passed as an argument to this function.
+If the argument is NULL, the function returns the empty string.
 
 The `wb_supervisor_field_get_type` function returns the data type of a field found previously from the `wb_supervisor_node_get_field` function, as a symbolic value.
 If the argument is NULL, the function returns 0.

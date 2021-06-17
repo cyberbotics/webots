@@ -82,7 +82,9 @@ private:
   int mFoundFieldId;
   int mFoundFieldType;
   int mFoundFieldCount;
+  QString mFoundFieldName;
   bool mFoundFieldIsInternal;
+  int mNodeFieldCount;
   int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
