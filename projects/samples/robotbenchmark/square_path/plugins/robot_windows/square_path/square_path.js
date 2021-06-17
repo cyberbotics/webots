@@ -1,11 +1,10 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
-$('#infotabs').tabs();
 
 var benchmarkName = 'Square Path';
 var benchmarkPerformance = 0;
 
 // recovers the bottom canvas, used for everything but the robot
-var squareContext = $('#square-canvas')[0].getContext('2d');
+var squareContext = document.getElementById('square-canvas').getContext('2d');
 
 // draws the square
 squareContext.strokeStyle = '#BBBBBB';
@@ -22,7 +21,7 @@ squareContext.fillText('2', 100, 40);
 squareContext.fillText('4', 100, 165);
 
 // recovers robot canvas, used to draw the "robot"
-var robotContext = $('#robot-canvas')[0].getContext('2d');
+var robotContext = document.getElementById('robot-canvas').getContext('2d');
 robotContext.fillStyle = '#000000';
 robotContext.textAlign = 'center';
 robotContext.textBaseline = 'middle';
@@ -42,11 +41,11 @@ webots.window('square_path').receive = function(message, robot) {
     for (i = 0; i < 4; ++i) {
       var s = message.substr(segmentIndex, 6);
       segmentIndex += 7;
-      $('#segment' + i + '-display').html(metricToString(s));
+      document.getElementById('segment' + i + '-display').innerHTML = metricToString(s);
     }
 
     benchmarkPerformance = parseFloat(message.substr(segmentIndex));
-    $('#average-display').html(metricToString(benchmarkPerformance));
+    document.getElementById('average-display').innerHTML = metricToString(benchmarkPerformance);
 
   // adds a point to the path
   } else if (message.startsWith('point:')) {
@@ -68,19 +67,19 @@ webots.window('square_path').receive = function(message, robot) {
     }
   } else if (message === 'stop') {
     if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, benchmarkPerformance, metricToString)) {
-      $('#average-display').css('color', 'red');
+      document.getElementById('average-display').style.color = 'red';
       for (i = 0; i < 4; ++i)
-        $('#segment' + i + '-display').css('color', 'red');
+        document.getElementById('segment' + i + '-display').style.color = 'red';
     }
   } else if (message.startsWith('record:OK:')) {
-    $('#average-display').css('font-weight', 'bold');
+    document.getElementById('average-display').style.fontWeight = 'bold';
     for (i = 0; i < 4; ++i)
-      $('#segment' + i + '-display').css('font-weight', 'bold');
+      document.getElementById('segment' + i + '-display').style.fontWeight = 'bold';
     showBenchmarkRecord(message, benchmarkName, metricToString);
   } else if (message.startsWith('record:Error:')) {
-    $('#average-display').css('color', 'red');
+    document.getElementById('average-display').style.color = 'red';
     for (i = 0; i < 4; ++i)
-      $('#segment' + i + '-display').css('color', 'red');
+      document.getElementById('segment' + i + '-display').style.color = 'red';
     showBenchmarkError(message, benchmarkName);
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");

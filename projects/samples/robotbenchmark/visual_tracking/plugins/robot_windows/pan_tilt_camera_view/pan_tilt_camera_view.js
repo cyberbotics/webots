@@ -1,5 +1,4 @@
 /* global webots */
-$('#robottabs').tabs();
 
 webots.window('pan_tilt_camera_view').receive = function(message, robot) {
   // image format: image[<device name>]:<URI image data>

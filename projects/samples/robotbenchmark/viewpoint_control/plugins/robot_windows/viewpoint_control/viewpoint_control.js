@@ -2,8 +2,7 @@
 /* global showBenchmarkRecord, showBenchmarkError, saveCookies, getCookie,  */
 /* exported recordPerformance */
 
-$('#infotabs').tabs();
-$('#record-button').button();
+// $('#record-button').button();
 
 var benchmarkName = 'Viewpoint Control';
 var benchmarkPerformance;
@@ -45,19 +44,19 @@ function evaluateViewpoint(event) {
   var performanceString = "<font color='";
   if (benchmarkPerformance > 0) {
     performanceString += 'green';
-    if ($('#record-button').attr('disabled')) {
-      $('#record-button').attr('disabled', false).removeClass('ui-state-disabled');
-      $('#record-button').css('font-weight', 'bold');
+    if (document.getElementById('record-button').getAttribute('disabled')) {
+      document.getElementById('record-button').getAttribute('disabled', false).classList.remove('ui-state-disabled');
+      document.getElementById('record-button').style.fontWeight = 'bold';
     }
   } else {
     performanceString += 'red';
-    if (!$('#record-button').attr('disabled')) {
-      $('#record-button').attr('disabled', true).addClass('ui-state-disabled');
-      $('#record-button').css('font-weight', 'normal');
+    if (!document.getElementById('record-button').getAttribute('disabled')) {
+      document.getElementById('record-button').getAttribute('disabled', true).classList.add('ui-state-disabled');
+      document.getElementById('record-button').style.fontWeight = 'normal';
     }
   }
   performanceString += "'>" + benchmarkPerformance.toFixed(2) + '%</font>';
-  $('#achievement').html(performanceString);
+  document.getElementById('achievement').html(performanceString);
 }
 
 function recordPerformance() {
@@ -74,14 +73,20 @@ function recordPerformance() {
   }
   var record = benchmarkPerformance / 100;
   email = decodeURIComponent(email);
-  $.post('/record.php', {
+
+  var request = new XMLHttpRequest();
+  request.open('POST', '/record.php', true);
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.send({
     email: email,
     password: password,
     benchmark: 'viewpoint_control',
     record: record,
     key: '1'
-  }).done(function(data) {
-    if (data.startsWith('OK:')) {
+  });
+
+  request.onreadystatechange = data => function(data) {
+    if (request.readyState === 4 && request.status === 200) {
       var result = showBenchmarkRecord('record:' + data, benchmarkName, metricToString);
       if (!result['isNewRecord']) {
         // current record is worst than personal record
@@ -93,7 +98,8 @@ function recordPerformance() {
       }
     } else
       showBenchmarkError('record:' + data, benchmarkName);
-  });
+  };
+
   return true;
 }
 
