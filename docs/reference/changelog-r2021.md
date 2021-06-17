@@ -8,12 +8,12 @@ Released on June, Xth, 2021.
     - Added a model of the [MiR100](../guide/mir100.md) robot from [Mobile Industrial Robots](https://www.mobile-industrial-robots.com/en/solutions/robots/mir100/) ([#3010](https://github.com/cyberbotics/webots/pull/3010)).
     - Added a model of the [Fabtino](../guide/fabtino.md) robot from [REC](http://servicerobotics.eu/en/homepage/) ([#2999](https://github.com/cyberbotics/webots/pull/2999)).
     - Added a model of the [JetBot](../guide/jetbot.md) robot from [NVIDIA](https://jetbot.org) ([#2951](https://github.com/cyberbotics/webots/pull/2951)).
-    - Added a PROTO model for the [Niryo Ned](../guide/ned.md) robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
+    - Added a model for the [Niryo Ned](../guide/ned.md) robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
   - New Devices and Objects:
     - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
     - Added [HingeJointWithBacklash](../guide/hinge-joint-with-backlash.md) PROTO that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
     - Added [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash.md) PROTO that extends [Hinge2Joint](hinge2joint.md) to model the effect of backlash and a corresponding sample world ([#2850](https://github.com/cyberbotics/webots/pull/2850)).
-    -  Added a generic [Gear](../guide/object-gear) PROTO and a demo showing it being used in a collision-based transmission ([#2805](https://github.com/cyberbotics/webots/pull/2805)).
+    -  Added a generic [Gear](../guide/object-gear.md) PROTO and a demo showing it being used in a collision-based transmission ([#2805](https://github.com/cyberbotics/webots/pull/2805)).
     - Added a nice looking FIFA soccer ball PROTO ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
   - New Samples:
     - Added a draft Robocup Virtual Humanoid League 2021 environment ([#2783](https://github.com/cyberbotics/webots/pull/2783)).
@@ -50,15 +50,15 @@ Released on June, Xth, 2021.
     - Added conversion from PROTO to URDF from the Webots command line ([#2885](https://github.com/cyberbotics/webots/pull/2885)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
     - **`<webots/utils/default_robot_window.h>` C include file moved to `<webots/plugins/robot_window/default.h>` ([#2655](https://github.com/cyberbotics/webots/pull/2655)).**
-      - Improve generic robot window ([#2655](https://github.com/cyberbotics/webots/pull/2655)).
-        - Skip updates when the robot window is hidden to not affect the simulation performance.
-        - Add toggle button to choose if the enabling/disabling the graph(s) will also enable/disable the robot device.
-        - Add buttons to enable and disable all the devices with the same type at once.
-        - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording ata from devices when the correspomding tab is not visible.
-        - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible.
-        - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects.
-        - Speed up drawing using WebGL ([#2854](https://github.com/cyberbotics/webots/pull/2854)).
-      - Added the HTML robot window for vehicles replacing the deprecated Qt-based robot window (#[2602](https://github.com/cyberbotics/webots/pull/2602)).
+    - Improve generic robot window ([#2655](https://github.com/cyberbotics/webots/pull/2655)).
+      - Skip updates when the robot window is hidden to not affect the simulation performance.
+      - Add toggle button to choose if the enabling/disabling the graph(s) will also enable/disable the robot device.
+      - Add buttons to enable and disable all the devices with the same type at once.
+      - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording data from devices when the corresponding tab is not visible.
+      - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible.
+      - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects.
+      - Speed up drawing using WebGL ([#2854](https://github.com/cyberbotics/webots/pull/2854)).
+    - Added the HTML robot window for vehicles replacing the deprecated Qt-based robot window (#[2602](https://github.com/cyberbotics/webots/pull/2602)).
     - Support labels in animations ([#3019](https://github.com/cyberbotics/webots/pull/3019)).
     - Modernized and improved the animations' player ([#2979](https://github.com/cyberbotics/webots/pull/2979)).
     - Added support for fonts in the streaming viewer ([#2976](https://github.com/cyberbotics/webots/pull/2976)).
@@ -120,7 +120,7 @@ Released on June, Xth, 2021.
     - Fixed [`Lidar.getLayerRangeImage`](lidar.md#wb_lidar_get_layer_range_image) Python and Java functions wrongly returning the full image ([#2799](https://github.com/cyberbotics/webots/pull/2799)).
     - Fixed visual bug where the [Lidar](lidar.md) point cloud disappears when out-of-range points are present ([#2666](https://github.com/cyberbotics/webots/pull/2666)).
     - Fixed update of [PointSet](pointset.md) subnodes ([#2766](https://github.com/cyberbotics/webots/pull/2766)).
-    - Fixed [X3D export](https://www.cyberbotics.com/doc/guide/web-interface) of USE nodes linking to DEF nodes declared in PROTO exposed fields ([#2687](https://github.com/cyberbotics/webots/pull/2687)).
+    - Fixed [X3D export](../guide/web-interface.md) of USE nodes linking to DEF nodes declared in PROTO exposed fields ([#2687](https://github.com/cyberbotics/webots/pull/2687)).
     - Fixed the [robot window example](../guide/samples-howto.md#custom_robot_window-wbt) ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
     - Fixed mecanum wheels [ContactProperties](contactproperties.md) in [YouBot](../guide/youbot.md) worlds ([#3025](https://github.com/cyberbotics/webots/pull/3025)).
     - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
