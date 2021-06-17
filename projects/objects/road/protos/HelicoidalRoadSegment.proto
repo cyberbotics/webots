@@ -84,8 +84,7 @@ PROTO HelicoidalRoadSegment [
         const turnNumber = height / heigthStep;
         const heightSubdivisionStep = height / subdivision;
         const angleSubdivisionStep = (Math.PI * turnNumber) / subdivision;
-      >%
-      %< for (let i = 0; i <= subdivision; ++i) { >%
+        for (let i = 0; i <= subdivision; ++i) { >%
         %<= radius * Math.cos(angleSubdivisionStep * i) >% %<= heightSubdivisionStep * i >% %<= radius * Math.sin(angleSubdivisionStep * i) >%
       %< } >%
     ]

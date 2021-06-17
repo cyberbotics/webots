@@ -134,7 +134,7 @@ PROTO AdvertisingBoard [
           }
           %<
             if (fields.frontTexture.value.length === 0) {
-              // get size of Lua table component to decide whether an url is present or not.
+              // get length to decide whether an url is present or not.
               // if test is true, the frame indentation is deleted
               offsetFront = 0;
             }

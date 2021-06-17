@@ -26,8 +26,8 @@ PROTO WoodenPalletStack [
 
   let palletSize = fields.palletSize.value;
   if (palletSize.x <= 0 || palletSize.y <= 0 || palletSize.z <= 0) {
-    size = fields.size.defaultValue;
-    console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    palletSize = fields.palletSize.defaultValue;
+    console.error('\'palletSize\' should be strictly positive. Value reset to (' + palletSize.x + ', ' + palletSize.y + ', ' + palletSize.z + ').');
   }
 
   let palletNumber = fields.palletNumber.value;
@@ -66,8 +66,8 @@ Solid {
     %< for (let i = 0; i <= palletNumber - 1; ++i) { >%
       WoodenPallet {
         %<
-          let xOffset = lateralMisalignment * wbrandom.real(-0.5, 0.5);
-          let yOffset = longitudinalMisalignment * wbrandom.real(-0.5, 0.5);
+          const xOffset = lateralMisalignment * wbrandom.real(-0.5, 0.5);
+          const yOffset = longitudinalMisalignment * wbrandom.real(-0.5, 0.5);
           if (Math.abs(xOffset) > maxLateralMisalignment)
             maxLateralMisalignment = xOffset;
           if (Math.abs(yOffset) > maxLongitudinalMisalignment)
