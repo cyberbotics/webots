@@ -39,7 +39,7 @@ PROTO WoodenPallet [
     console.error('\'lathWidth\' x \'lathNumber\' cannot be bigger than the first component of \'size\'. Value of \'lathWidth\' reset to ' + lathWidth + '.');
   }
 
-  let mass = fields.mass.value;
+  const mass = fields.mass.value;
 >%
 Solid {
   translation IS translation
