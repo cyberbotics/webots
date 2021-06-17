@@ -104,7 +104,7 @@ PROTO Cabinet [
     let rowsHeights = fields.rowsHeights.value;
     const nRows = fields.rowsHeights.value.length;
     for (let i = 0; i < nRows; ++i) {
-      let height = rowsHeights[i];
+      const height = rowsHeights[i];
       if (height < 3 * innerThickness) {
         rowsHeights[i] = 3 * innerThickness; // minimum size
         console.error('\'rowsHeights[' + i + ']\' must be bigger than 3 * \'innerThickness\'. Value reset to ' + rowsHeights[i] + '.');
