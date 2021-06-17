@@ -110,7 +110,7 @@ Released on June, Xth, 2021.
     - Fixed [`Camera.getRecognitionObjects`](camera.md#wb_camera_recognition_get_objects) function not available and the return value of [`CameraRecognitionObject.getPositionOnImage`](camera.md#camera-recognition-object) and [`CameraRecognitionObject.getSizeOnImage`](camera.md#camera-recognition-object) in Java API ([#2923](https://github.com/cyberbotics/webots/pull/2923)).
     - Fixed return value type of [`CameraRecognitionObject.get_size`](camera.md#camera-recognition-object) Python function ([#2923](https://github.com/cyberbotics/webots/pull/2923)).
     - Fixed detection of scaled objects in the [Camera](camera.md) image using the [Recognition](recognition.md) functionality ([#2921](https://github.com/cyberbotics/webots/pull/2921)).
-    - Fixed [Lens](lens.md) distortion ([#2961](https://github.com/cyberbotics/webots/pull/2961)).
+    - Fixed [Lens](lens.md) distortion ([#2961](https://github.com/cyberbotics/webots/pull/2961), [#3191](https://github.com/cyberbotics/webots/pull/3191)).
     - Fixed memory leak in [Display](display.md) image ([#2663](https://github.com/cyberbotics/webots/issues/2663)).
     - Fixed [Display](display.md) external window not updated when the attached camera image changes ([#2589](https://github.com/cyberbotics/webots/pull/2589)).
     - Fixed erasing [Pen](pen.md) ink on simulation reset ([#2796](https://github.com/cyberbotics/webots/pull/2796)).
