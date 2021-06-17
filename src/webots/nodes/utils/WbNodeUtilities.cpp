@@ -1658,7 +1658,7 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
   const WbLogicalDevice *const logicalDevice = dynamic_cast<WbLogicalDevice *>(n);
   if (logicalDevice) {
     if (warning)
-      *warning = QObject::tr("Device nodes cannot be USEd nodes cannot be USEd.");
+      *warning = QObject::tr("Device nodes cannot be USEd.");
     return false;
   }
 
