@@ -202,7 +202,7 @@ PROTO RobocupSoccerField [
 
     // Replication of the other 3 quarters
     for (let i = 0; i < Npts; ++i) {
-      let pt_ref = pts[i]; // Reference point
+      const pt_ref = pts[i]; // Reference point
       // 2nd Quarter (which completes one team's half)
       pts[Npts + i] = {x: pt_ref.x, y: 2 * I + B - pt_ref.y, z: pt_ref.z};
       // 3rd Quarter (replication on the y-axis)
