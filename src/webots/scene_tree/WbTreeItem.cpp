@@ -401,6 +401,7 @@ void WbTreeItem::del() {
       break;
     }
     case INVALID:
+    default:
       assert(false);
   }
 }
