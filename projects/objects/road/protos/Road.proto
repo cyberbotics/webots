@@ -394,17 +394,17 @@ PROTO Road [
         %< } >%
         # lines
         %< for (let j = 0; j < numberOfLanes - 1; ++j) { >%
-          %< if (roadLines[j] === undefined || (roadLines[j].fields.type.value !== 'none' && roadLines[j].fields.width.value > 0)) { >%
+          %< if (typeof roadLines[j] === 'undefined' || (roadLines[j].fields.type.value !== 'none' && roadLines[j].fields.width.value > 0)) { >%
             DEF LINES Solid {
               children [
                 Shape {
                   appearance PBRAppearance {
-                    %< if (roadLines[j] !== undefined) { >%
+                    %< if (typeof roadLines[j] !== 'undefined') { >%
                       baseColor %<= roadLines[j].fields.color.value.r >% %<= roadLines[j].fields.color.value.g >% %<= roadLines[j].fields.color.value.b >%
                     %< } >%
                     baseColorMap ImageTexture {
                       url [
-                      %< if ((roadLines[j] !== undefined && (roadLines[j].fields.type.value === 'continuous' || roadLines[j].fields.type.value === 'double')) || dashedLine[j] === false) { >%
+                      %< if ((typeof roadLines[j] !== 'undefined' && (roadLines[j].fields.type.value === 'continuous' || roadLines[j].fields.type.value === 'double')) || dashedLine[j] === false) { >%
                           "textures/line_base_color.png"
                       %< } else { >%
                         "textures/line_base_color_dashed.png"
@@ -435,7 +435,7 @@ PROTO Road [
                       point [
                         %<
                           let lineWidth = defaultLineWidth;
-                          if (roadLines[j] !== undefined) {
+                          if (typeof roadLines[j] !== 'undefined') {
                             lineWidth = roadLines[j].fields.width.value * 0.5;
                             if (roadLines[j].fields.type.value === 'double')
                               lineWidth = lineWidth * 3;
@@ -452,7 +452,7 @@ PROTO Road [
                       point [
                         %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
                           %<= 0 >% %<= distance[i] >%
-                          %< if (roadLines[j] !== undefined && roadLines[j].fields.type.value === 'double') { >%
+                          %< if (typeof roadLines[j] !== 'undefined' && roadLines[j].fields.type.value === 'double') { >%
                             %<= 2 >% %<= distance[i] >%
                           %< } else { >%
                             %<= 1 >% %<= distance[i] >%
