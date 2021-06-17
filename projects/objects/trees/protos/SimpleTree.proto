@@ -154,7 +154,7 @@ Solid {
       %< } >%
     %< } >%
   ]
-  %< if (boundinObject) { >%
+  %< if (boundingObject) { >%
     boundingObject Transform {
       translation 0 %<= height * 0.5 >% 0
       children [
