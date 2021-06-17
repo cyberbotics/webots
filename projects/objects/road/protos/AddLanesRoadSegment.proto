@@ -79,7 +79,7 @@ PROTO AddLanesRoadSegment [
     }
 
     for (let i = 0; i < numberOfNewLanes + lanes - 1; ++i) {
-      if (dashedLine[i] === undefined)
+      if (typeof dashedLine[i] === 'undefined')
         dashedLine[i] = true;
     }
 
