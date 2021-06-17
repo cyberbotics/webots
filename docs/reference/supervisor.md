@@ -1187,7 +1187,7 @@ namespace webots {
 
 ```python
 {
-  'point': float(3)
+  'point': list[float]
   'node_id': int
 }
 ```
