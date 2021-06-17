@@ -1502,8 +1502,10 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
     }
 
     const WbGroup *const groupChild = dynamic_cast<WbGroup *>(n);
-    if (groupChild)
+    if (groupChild) {
       collectSolidChildren(groupChild, connectSignals, solidChildren, jointChildren, propellerChildren);
+      continue;
+    }
 
     const WbSlot *slot = dynamic_cast<WbSlot *>(n);
     if (slot) {
