@@ -13,7 +13,7 @@ Released on June, Xth, 2021.
     - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
     - Added [HingeJointWithBacklash](../guide/hinge-joint-with-backlash.md) PROTO that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
     - Added [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash.md) PROTO that extends [Hinge2Joint](hinge2joint.md) to model the effect of backlash and a corresponding sample world ([#2850](https://github.com/cyberbotics/webots/pull/2850)).
-    -  Added a generic [Gear](../guide/object-gear) PROTO and a demo showing it being used in a collision-based transmission ([#2805](https://github.com/cyberbotics/webots/pull/2805)).
+    -  Added a generic [Gear](../guide/object-gear.md) PROTO and a demo showing it being used in a collision-based transmission ([#2805](https://github.com/cyberbotics/webots/pull/2805)).
     - Added a nice looking FIFA soccer ball PROTO ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
   - New Samples:
     - Added a draft Robocup Virtual Humanoid League 2021 environment ([#2783](https://github.com/cyberbotics/webots/pull/2783)).
@@ -120,7 +120,7 @@ Released on June, Xth, 2021.
     - Fixed [`Lidar.getLayerRangeImage`](lidar.md#wb_lidar_get_layer_range_image) Python and Java functions wrongly returning the full image ([#2799](https://github.com/cyberbotics/webots/pull/2799)).
     - Fixed visual bug where the [Lidar](lidar.md) point cloud disappears when out-of-range points are present ([#2666](https://github.com/cyberbotics/webots/pull/2666)).
     - Fixed update of [PointSet](pointset.md) subnodes ([#2766](https://github.com/cyberbotics/webots/pull/2766)).
-    - Fixed [X3D export](https://www.cyberbotics.com/doc/guide/web-interface) of USE nodes linking to DEF nodes declared in PROTO exposed fields ([#2687](https://github.com/cyberbotics/webots/pull/2687)).
+    - Fixed [X3D export](../guide/web-interface.md) of USE nodes linking to DEF nodes declared in PROTO exposed fields ([#2687](https://github.com/cyberbotics/webots/pull/2687)).
     - Fixed the [robot window example](../guide/samples-howto.md#custom_robot_window-wbt) ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
     - Fixed mecanum wheels [ContactProperties](contactproperties.md) in [YouBot](../guide/youbot.md) worlds ([#3025](https://github.com/cyberbotics/webots/pull/3025)).
     - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
