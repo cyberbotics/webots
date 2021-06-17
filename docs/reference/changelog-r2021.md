@@ -8,7 +8,7 @@ Released on June, Xth, 2021.
     - Added a model of the [MiR100](../guide/mir100.md) robot from [Mobile Industrial Robots](https://www.mobile-industrial-robots.com/en/solutions/robots/mir100/) ([#3010](https://github.com/cyberbotics/webots/pull/3010)).
     - Added a model of the [Fabtino](../guide/fabtino.md) robot from [REC](http://servicerobotics.eu/en/homepage/) ([#2999](https://github.com/cyberbotics/webots/pull/2999)).
     - Added a model of the [JetBot](../guide/jetbot.md) robot from [NVIDIA](https://jetbot.org) ([#2951](https://github.com/cyberbotics/webots/pull/2951)).
-    - Added a PROTO model for the [Niryo Ned](../guide/ned.md) robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
+    - Added a model for the [Niryo Ned](../guide/ned.md) robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
   - New Devices and Objects:
     - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
     - Added [HingeJointWithBacklash](../guide/hinge-joint-with-backlash.md) PROTO that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
