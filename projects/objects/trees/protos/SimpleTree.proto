@@ -77,9 +77,8 @@ PROTO SimpleTree [
       candidates += '\'' + keys[i] + '\', ';
     candidates += '\' or \'random\'';
     console.error('\'type\' must be a value in the list: ' + candidates + '. Value reset to \'' + type + '\'.');
-  } else if (type === 'random') {
+  } else if (type === 'random')
     type = keys[wbrandom.integer(keys.length) - 1];
-  }
 
   const boundinObject = fields.enableBoundingObject.value;
   const circle = wbgeometry.circle(radius, subdivision * 2, {x: 0, y: 0}, 0);
