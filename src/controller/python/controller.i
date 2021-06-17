@@ -84,6 +84,7 @@ using namespace std;
 
 //handling std::string
 %include "std_string.i"
+%include "typemaps.i"
 
 %rename ("__internalGetLookupTableSize") getLookupTableSize;
 
@@ -672,9 +673,35 @@ class AnsiCodes(object):
 //  Node
 //----------------------------------------------------------------------------------------------
 
+%rename WbContactPoint ContactPoint;
+
+%include <webots/contact_point.h>
+
+%extend WbContactPoint {
+  PyObject *get_point() {
+    const double *point = $self->point;
+    PyObject *ret = PyList_New(3);
+    PyList_SetItem(ret, 0, PyFloat_FromDouble(point[0]));
+    PyList_SetItem(ret, 1, PyFloat_FromDouble(point[1]));
+    PyList_SetItem(ret, 2, PyFloat_FromDouble(point[2]));
+    return ret;
+  }
+  PyObject *get_node_id() {
+    const double orientation = $self->node_id;
+    return PyInt_FromLong(orientation);
+  }
+
+  %pythoncode %{
+  @property
+  def point(self):
+      return self.get_point()
+  %}
+};
+
 %ignore webots::Node::findNode(WbNodeRef ref);
 %ignore webots::Node::cleanup();
-%ignore webots::Node::getContactPoints(bool includeDescendants, int *size);
+%rename ("getContactPointsPrivate") webots::Node::getContactPoints;
+%apply int *OUTPUT { int *size };
 
 %extend webots::Node {
   %pythoncode %{
@@ -689,24 +716,20 @@ class AnsiCodes(object):
 
   def __ne__(self, other):
       return not self.__eq__(other)
+
+  def getContactPoints(self, includeDescendants=False):
+    point_data = self.getContactPointsPrivate(includeDescendants)
+    if not point_data:
+      return []
+    ret = []
+    points, size = point_data
+    for i in range(size):
+      ret.append(self.getContactPointFromList(points, i))
+    return ret
   %}
 
-  PyObject *getContactPoints(bool includeDescendants=false) {
-    int size;
-    PyObject *ret = Py_None;
-    webots::ContactPoint *points = $self->getContactPoints(includeDescendants, &size);
-    if (points) {
-      ret = PyList_New(size);
-      for (int i = 0; i < size; ++i) {
-        PyObject *coordinate = PyList_New(3);
-        PyList_SetItem(coordinate, 0, PyFloat_FromDouble(points[i].point[0]));
-        PyList_SetItem(coordinate, 1, PyFloat_FromDouble(points[i].point[1]));
-        PyList_SetItem(coordinate, 2, PyFloat_FromDouble(points[i].point[2]));
-        PyObject *point = Py_BuildValue("{s:O,s:i}", "point", coordinate, "node_id", points[i].node_id);
-        PyList_SetItem(ret, i, point);
-      }
-    }
-    return ret;
+  webots::ContactPoint* getContactPointFromList(ContactPoint* points, int index) const {
+    return &points[index];
   }
 };
 

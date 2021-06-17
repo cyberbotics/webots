@@ -4084,7 +4084,7 @@ namespace webots {
   typedef struct {
     double  point[3];
     int     node_id;
-  } CameraRecognitionObject;
+  } ContactPoint;
 }
 ```
 
@@ -4093,10 +4093,12 @@ namespace webots {
 %tab "Python"
 
 ```python
-{
-  'point': list[float]
-  'node_id': int
-}
+from controller import ContactPoint
+
+ContactPoint:
+    def __init__(self):
+        self.point -> list[float]
+        self.node_id -> int
 ```
 
 %tab-end
