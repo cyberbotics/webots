@@ -22,7 +22,6 @@ PROTO CircleArena [
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
   # Deprecated in R2019-rev2
   hiddenField SFVec2f    wallTileSize 0.5 0.5
-
 ]
 {
   %<
@@ -103,16 +102,14 @@ PROTO CircleArena [
             ]
           }
           coordIndex [
-            %< for (let j = subdivision; j >= 0; --j) { >%
-              %<= j >%
+            %< for (let j = 0; j < subdivision; ++j) { >%
+               0 %<= j + 1 >% %<= j >% -1
             %< } >%
-            -1
           ]
           texCoordIndex [
-            %< for (let j = subdivision; j >= 0; --j) { >%
-              %<= j >%
+            %< for (let j = 0; j < subdivision; ++j) { >%
+               0 %<= j + 1 >% %<= j >% -1
             %< } >%
-            -1
           ]
         }
       }

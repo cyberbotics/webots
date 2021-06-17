@@ -67,7 +67,7 @@ PROTO PipeBoundingObject [
           let gamma, ax, ay, az, angle, offset;
           for (let i = 0; i <= subdivision - 1; ++i) {
             // position of an internal box
-            gamma = beta * i + beta * 0.5;
+            gamma = beta * i + beta * 0.5 + (subdivision % 2) * Math.PI / subdivision;
             ax = boxRadius * Math.sin(gamma);
             ay = 0;
             az = boxRadius * Math.cos(gamma);
