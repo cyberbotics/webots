@@ -641,13 +641,13 @@ bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_m
 
 // cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetContactPointsCallback(webots_ros::node_get_contact_points::Request &req,
-                                                         webots_ros::node_get_contact_points::Response &res) {
+                                                 webots_ros::node_get_contact_points::Response &res) {
   assert(this);
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   int numberOfContactPoints;
-  ContactPoint* contactPoints = node->getContactPoints(req.include_descendants, &numberOfContactPoints);
+  ContactPoint *contactPoints = node->getContactPoints(req.include_descendants, &numberOfContactPoints);
   res.contact_points.resize(numberOfContactPoints);
   for (int i = 0; i < numberOfContactPoints; i++) {
     res.contact_points[i].node_id = contactPoints[i].node_id;
@@ -660,7 +660,7 @@ bool RosSupervisor::nodeGetContactPointsCallback(webots_ros::node_get_contact_po
 
 // cppcheck-suppress constParameter
 bool RosSupervisor::nodeEnableContactPointsTrackingCallback(webots_ros::node_enable_contact_points_tracking::Request &req,
-                                                         webots_ros::node_enable_contact_points_tracking::Response &res) {
+                                                            webots_ros::node_enable_contact_points_tracking::Response &res) {
   assert(this);
   if (!req.node)
     return false;
@@ -672,7 +672,7 @@ bool RosSupervisor::nodeEnableContactPointsTrackingCallback(webots_ros::node_ena
 
 // cppcheck-suppress constParameter
 bool RosSupervisor::nodeDisableContactPointsTrackingCallback(webots_ros::node_disable_contact_points_tracking::Request &req,
-                                                         webots_ros::node_disable_contact_points_tracking::Response &res) {
+                                                             webots_ros::node_disable_contact_points_tracking::Response &res) {
   assert(this);
   if (!req.node)
     return false;
