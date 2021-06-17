@@ -111,8 +111,8 @@ PROTO Panel [
             texCoord TextureCoordinate {
               point [
               %<
-                let borderX = borderHeight / size.x;
-                let borderY = borderHeight / size.y;
+                const borderX = borderHeight / size.x;
+                const borderY = borderHeight / size.y;
               >%
                 0.0 0.0
                 1.0 0.0
