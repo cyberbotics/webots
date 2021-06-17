@@ -112,7 +112,7 @@ PROTO Cabinet [
     }
 
     let columnsWidths = fields.columnsWidths.value;
-    let nColumns = fields.columnsWidths.value.length;
+    const nColumns = fields.columnsWidths.value.length;
     for (let i = 0; i < nColumns; ++i) {
       let width = columnsWidths[i];
       if (width < 3 * innerThickness) {
