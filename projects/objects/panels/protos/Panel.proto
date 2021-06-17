@@ -93,7 +93,7 @@ PROTO Panel [
                     for (let i = 1; i <= nSeparations; ++i) {
                       for (let dz = -0.5; dz <= 0.5; ++dz) {
                         let z = dz * size.z;
-                        for (let dy = -0.5; dy <= 0.5; dy = dy + 1) {
+                        for (let dy = -0.5; dy <= 0.5; ++dy) {
                           let y = halfSizeY + dy * (size.y - 2 * borderHeight);
                           for (let dx = -0.5; dx <= 0.5; dx = dx + 1) {
                   >%
