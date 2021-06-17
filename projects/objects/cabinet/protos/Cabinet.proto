@@ -114,7 +114,7 @@ PROTO Cabinet [
     let columnsWidths = fields.columnsWidths.value;
     const nColumns = fields.columnsWidths.value.length;
     for (let i = 0; i < nColumns; ++i) {
-      let width = columnsWidths[i];
+      const width = columnsWidths[i];
       if (width < 3 * innerThickness) {
         columnsWidths[i] = 3 * innerThickness; // minimum size;
         console.error('\'columnsWidths[' + i + ']\' must be bigger than 3 * \'innerThickness\'. Value reset to ' + columnsWidths[i] + '.');
@@ -168,7 +168,7 @@ PROTO Cabinet [
       # parse layout
       %< for (let i = 0; i < fields.layout.value.length; ++i) { >%
         %<
-          let layout = fields.layout.value[i];
+          const layout = fields.layout.value[i];
           let data = layout.match(/([^", ( ) %s"]+)/g);
           for (let j = 1; j < data.length; ++j) {
             data[j] = Number(data[j]);
@@ -213,8 +213,8 @@ PROTO Cabinet [
                 }
             %< } else if (data[0] === 'Shelf') { >%
               %<
-                let horizontalOffset = data[3] === 0 ? 1 : 0;
-                let depthFightingOffset = data[3] < data[4] ? 0.0001 : 0;
+                const horizontalOffset = data[3] === 0 ? 1 : 0;
+                const depthFightingOffset = data[3] < data[4] ? 0.0001 : 0;
               >%
               SolidBox {
                  name %<= '"box ' + i + '"' >%
