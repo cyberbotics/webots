@@ -1,7 +1,7 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
-var benchmarkName = 'Wall Following';
-var benchmarkPerformance = 0;
+const benchmarkName = 'Wall Following';
+let benchmarkPerformance = 0;
 
 webots.window('wall_following').receive = function(message, robot) {
   // updates the metric

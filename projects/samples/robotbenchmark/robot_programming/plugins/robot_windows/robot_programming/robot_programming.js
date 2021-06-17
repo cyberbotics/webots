@@ -1,7 +1,7 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
-var benchmarkName = 'Robot Programming';
-var benchmarkPerformance = 0;
+const benchmarkName = 'Robot Programming';
+let benchmarkPerformance = 0;
 
 if (window.navigator.platform.startsWith('Mac'))
   document.getElementById('saveShortcut').innerHTML = 'Cmd-S';

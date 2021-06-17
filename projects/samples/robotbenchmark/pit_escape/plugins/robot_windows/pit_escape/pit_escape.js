@@ -1,7 +1,7 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
-var benchmarkName = 'Pit Escape';
-var benchmarkPerformance = 0;
+const benchmarkName = 'Pit Escape';
+let benchmarkPerformance = 0;
 
 webots.window('pit_escape').receive = function(message, robot) {
   // updates the metric

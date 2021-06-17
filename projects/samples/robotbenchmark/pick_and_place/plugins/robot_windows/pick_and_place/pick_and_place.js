@@ -1,7 +1,7 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
-var benchmarkName = 'Pick and Place';
-var timeValue = 0;
+const benchmarkName = 'Pick and Place';
+let timeValue = 0;
 
 webots.window('pick_and_place').receive = function(message, robot) {
   // updates the metric
@@ -25,13 +25,13 @@ webots.window('pick_and_place').receive = function(message, robot) {
   }
 
   function parseSecondsIntoReadableTime(timeInSeconds) {
-    var minutes = timeInSeconds / 60;
-    var absoluteMinutes = Math.floor(minutes);
-    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
-    var seconds = (minutes - absoluteMinutes) * 60;
-    var absoluteSeconds = Math.floor(seconds);
-    var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-    var cs = Math.floor((seconds - absoluteSeconds) * 100);
+    const minutes = timeInSeconds / 60;
+    const absoluteMinutes = Math.floor(minutes);
+    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+    const seconds = (minutes - absoluteMinutes) * 60;
+    const absoluteSeconds = Math.floor(seconds);
+    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+    let cs = Math.floor((seconds - absoluteSeconds) * 100);
     if (cs < 10)
       cs = '0' + cs;
     return m + ':' + s + ':' + cs;

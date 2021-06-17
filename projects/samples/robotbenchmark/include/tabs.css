@@ -4,7 +4,7 @@ body {
   font-size: 10pt;
 }
 
-p, h2, code {
+p, h2, h3, code {
   padding-left: 15px;
   padding-right: 15px;
 }

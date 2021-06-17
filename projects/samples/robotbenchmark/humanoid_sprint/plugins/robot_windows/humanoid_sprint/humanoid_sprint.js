@@ -1,7 +1,7 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
-var benchmarkName = 'Humanoid Sprint';
-var humanoidSprintTimeString;
-var humanoidSprintTime;
+const benchmarkName = 'Humanoid Sprint';
+let humanoidSprintTimeString;
+let humanoidSprintTime;
 
 webots.window('humanoid_sprint').receive = function(message, robot) {
   if (message.startsWith('time:')) {
@@ -25,13 +25,13 @@ webots.window('humanoid_sprint').receive = function(message, robot) {
   }
 
   function parseSecondsIntoReadableTime(timeInSeconds) {
-    var minutes = timeInSeconds / 60;
-    var absoluteMinutes = Math.floor(minutes);
-    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
-    var seconds = (minutes - absoluteMinutes) * 60;
-    var absoluteSeconds = Math.floor(seconds);
-    var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-    var cs = Math.floor((Math.round(seconds * 100) / 100 - absoluteSeconds) * 100);
+    const minutes = timeInSeconds / 60;
+    const absoluteMinutes = Math.floor(minutes);
+    const m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+    const seconds = (minutes - absoluteMinutes) * 60;
+    const absoluteSeconds = Math.floor(seconds);
+    const s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+    let cs = Math.floor((Math.round(seconds * 100) / 100 - absoluteSeconds) * 100);
     if (cs < 10)
       cs = '0' + cs;
     return m + ':' + s + ':' + cs;

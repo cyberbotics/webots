@@ -1,13 +1,13 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
-var benchmarkName = 'Humanoid Marathon';
-var distance = 0.0;
+const benchmarkName = 'Humanoid Marathon';
+let distance = 0.0;
 
 webots.window('humanoid_marathon').receive = function(message, robot) {
   if (message.startsWith('run:')) {
-    var values = message.split(':');
+    const values = message.split(':');
     distance = parseFloat(values[1]);
-    var battery = parseFloat(values[2]);
+    const battery = parseFloat(values[2]);
     document.getElementById('distance-display').innerHTML = distance.toFixed(3);
     document.getElementById('battery-display').innerHTML = battery.toFixed(2);
   } else if (message === 'stop') {

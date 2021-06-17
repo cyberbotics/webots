@@ -1,21 +1,21 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
-var benchmarkName = 'Visual tracking';
-var hitRateString;
-var hitRate;
+const benchmarkName = 'Visual tracking';
+let hitRateString;
+let hitRate;
 
 webots.window('visual_tracking').receive = function(message, robot) {
   if (message.startsWith('hits:')) {
-    var rate = message.substr(5);
-    var hitValues = rate.split('/');
+    const rate = message.substr(5);
+    const hitValues = rate.split('/');
     document.getElementById('hits-display').innerHTML = zeroFilledInteger(hitValues[0], 3);
     document.getElementById('frames-display').innerHTML = zeroFilledInteger(hitValues[1], 3);
     hitRate = hitValues[0] / hitValues[1];
     hitRateString = (100 * hitRate).toFixed(2);
     document.getElementById('rate-display').innerHTML = hitRateString;
   } else if (message.startsWith('setup:')) {
-    var setup = message.substr(6);
-    var values = setup.split(';');
+    const setup = message.substr(6);
+    const values = setup.split(';');
     document.getElementById('frame-step-display').innerHTML = values[1];
   } else if (message === 'stop') {
     if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, hitRate, metricToString)) {

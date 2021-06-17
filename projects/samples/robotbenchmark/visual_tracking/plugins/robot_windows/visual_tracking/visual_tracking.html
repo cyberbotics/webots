@@ -87,6 +87,8 @@
               <mo>|</mo><mo>&lt;</mo><mi>&epsilon;</mi>
              </math>
             </div>
+          </p>
+          <p>
             where
             <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><msub><mi>T</mi><mi>o</mi></mi></msub></math> is the target objects's global position,
         	  <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><msub><mi>T</mi><mi>c</mi></mi></msub></math> is the camera's global position,
@@ -123,11 +125,11 @@
           </p>
           <h3>Improve object following</h3>
           <p>Once the target object position in the camera image is detected, you have to move the camera motors so that the object remains at the center of the image.
-          The sample controller uses the following functions to move the camera
+          The sample controller uses the following functions to move the camera</p>
           <pre style='background:#FEE'>
         panHeadMotor.setVelocity(-1.5 * dx / width)
         tiltHeadMotor.setVelocity(-1.5 * dy / height))</pre>
-          where <em>width</em> and <em>height</em> are the camera width and camera height, <em>dx</em> and <em>dy</em> are the distance in pixels between the detected object
+          <p> where <em>width</em> and <em>height</em> are the camera width and camera height, <em>dx</em> and <em>dy</em> are the distance in pixels between the detected object
           center and the camera center.
           <br>
           The speed factor values <em>1.5</em> are not optimal.
