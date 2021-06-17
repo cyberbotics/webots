@@ -46,6 +46,11 @@ PROTO Gear [
       console.error('\'density\' must be zero or positive. Value reset to ' + density + '.');
     }
 
+    if (innerRadius < 0) {
+      innerRadius = fields.innerRadius.defaultValue;
+      console.error('\innerRadius\' must be zero or positive. Value reset to ' + innerRadius + '.');
+    }
+
     if (innerRadius >= pitchRadius || pitchRadius <= innerRadius) {
       innerRadius = fields.innerRadius.defaultValue;
       pitchRadius = fields.pitchRadius.defaultValue;
@@ -56,6 +61,9 @@ PROTO Gear [
       toothDepth = fields.toothDepth.defaultValue;
       pitchRadius = fields.pitchRadius.defaultValue;
       console.error('\'toothDepth\' value must be smaller than \'pitchRadius\'. Values reset repectively to ' + toothDepth + ' and ' + pitchRadius + '.');
+    } else if (toothDepth <= 0) {
+      toothDepth = fields.toothDepth.defaultValue;
+      console.error('\'toothDepth\' value must be strictly positive. Value reset to ' + toothDepth + '.');
     }
 
     // define vertices of the repeatable unit

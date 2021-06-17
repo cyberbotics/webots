@@ -41,9 +41,9 @@ PROTO SolidRoundedBox [
       console.error('\'size\' must contain positive values. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
     }
 
-    if (2 * borderRadius > size.x || 2 * borderRadius > size.y || 2 * borderRadius > size.z) {
-      borderSize = 0.5 * Math.min(size.x, size.y, size.z);
-      console.error('\'borderSize\' must be smaller than the half of the \'size\' elements. Value reset to ' + borderSize + '.');
+    if (2 * borderRadius >= size.x || 2 * borderRadius >= size.y || 2 * borderRadius >= size.z) {
+      borderRadius = 0.5 * Math.min(size.x, size.y, size.z) * 0.9; // make 10% smaller by default or it would not look like a rounded box
+      console.error('\'borderRadius\' must be smaller than the half of the \'size\' elements. Value reset to ' + borderRadius + '.');
     }
 
     const borderDiameter = 2 * borderRadius;

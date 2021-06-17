@@ -49,7 +49,7 @@ PROTO PipeBoundingObject [
     const beta = 2.0 * Math.PI / subdivision;
     const alpha = beta * 0.5;
     const innerRadius = radius - thickness;
-    const su = radius * Math.cos(alpha) - innerRadius;
+    let su = radius * Math.cos(alpha) - innerRadius;
     if (su < 0) {
       // fixed edge case:
       //   There are 2 inner radius, depending if we measure it along the center or along the edge of the boxes.

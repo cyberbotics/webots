@@ -77,7 +77,11 @@ PROTO UnevenTerrain [
     }
 
     const perlinSize = 128;
-    const nOctave = fields.perlinNOctaves.value;
+    let nOctave = fields.perlinNOctaves.value;
+    if (nOctave < 0 || nOctave >= 10) {
+      nOctave = fields.perlinNOctaves.defaultValue;
+      console.error('\'perlinNOctaves\' must be in the range [0, 10[. Value reset to ' + nOctave + '.');
+    }
 
     const size = fields.size.value;
 
