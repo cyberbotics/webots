@@ -5,20 +5,11 @@
     <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
   </head>
   <body>
-    <div id='infotabs' class='wrapper webotsTabs webotsRobotWindowTabs'>
-      <input class="radio" id="one" name="group" type="radio" checked>
-      <input class="radio" id="two" name="group" type="radio">
-      <input class="radio" id="three" name="group" type="radio">
-      <input class="radio" id="four" name="group" type="radio">
-      <div class="tabs">
-        <label class="tab" id="one-tab" for="one">Overview</label>
-        <label class="tab" id="two-tab" for="two">Metrics</label>
-        <label class="tab" id="three-tab" for="three">Instructions</label>
-        <label class="tab" id="four-tab" for="four">Explanations</label>
-      </div>
-
-      <div class="panels">
-        <div class="panel" id="one-panel">
+    <div id='infotabs' class='wrapper webotsTabs'>
+      <div>
+        <input class="radio" id="overview" name="group" type="radio" checked>
+        <label class="tab" for="overview">Overview</label>
+        <div class="panel">
           <p>This benchmark will teach you how to program a robot and run the simulation.</p>
           <p>The tab entitled <a class='tablink' onclick='$("#infotabs").tabs({active:1});'>Metrics</a> measures your progress on an
             exercise where you have to program a robot to cover a certain distance. It also allows you to record your performance in
@@ -27,7 +18,9 @@
             open the source code editor to edit the robot controller program, save it and run the simulation with your modified code.
           </p>
         </div>
-        <div class="panel" id="two-panel">
+        <input class="radio" id="metrics" name="group" type="radio">
+        <label class="tab" for="metrics">Metrics</label>
+        <div class="panel">
           <div style='text-align:center' title='Your performance increases as you get closer to the target position.'>
             <span id='achievement'>0%</span></div>
           <br>
@@ -37,7 +30,9 @@
            The <a class='tablink' onclick='$("#infotabs").tabs({active:2});'>Instructions</a> tab explains the step-by-step
            procedure to follow.</p>
         </div>
-        <div class="panel" id="three-panel">
+        <input class="radio" id="instructions" name="group" type="radio">
+        <label class="tab" for="instructions">Instructions</label>
+        <div class="panel">
           <h2>Programming a robot in Python</h2>
            <ol>
             <li><b>Open the source code editor</b>: click on the robot with the right mouse button to pop up the robot contextual menu
@@ -62,7 +57,9 @@
              You can open the console by clicking on the toolbar button <img src='console.png' alt='console'>.
            </p>
         </div>
-        <div class="panel" id="four-panel">
+        <input class="radio" id="explanations" name="group" type="radio">
+        <label class="tab" for="explanations">Explanations</label>
+        <div class="panel">
           <h2>Thymio II position control</h2>
            <p>The provided controller program drives the Thymio II robot in position control. That is, for each motor of the robot, it
             defines a target position that the motor has to reach. This position corresponds to an angular position of the wheel and is
@@ -74,5 +71,23 @@
       </div>
     </div>
     <script src="robot_programming.js"></script>
+    <script>
+      let height;
+      function adaptPositionOfText() {
+        let tabs = document.getElementsByClassName('tab')
+        if(!tabs.length > 0)
+          return
+        let newHeight = tabs[tabs.length - 1].getBoundingClientRect().top + tabs[tabs.length - 1].getBoundingClientRect().height;
+        if(newHeight === height)
+          return;
+        height = newHeight;
+        let panels = document.getElementsByClassName('panel');
+        for (panel of panels) {
+          panel.style.top = height + 'px';
+        };
+      }
+      window.addEventListener('resize', adaptPositionOfText);
+      adaptPositionOfText();
+    </script>
   </body>
 </html>

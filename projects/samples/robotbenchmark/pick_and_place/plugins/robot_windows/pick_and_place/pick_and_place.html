@@ -5,22 +5,18 @@
     <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
   </head>
   <body>
-    <div id='infotabs' class='wrapper webotsTabs webotsRobotWindowTabs'>
-      <input class="radio" id="one" name="group" type="radio" checked>
-      <input class="radio" id="two" name="group" type="radio">
-      <input class="radio" id="three" name="group" type="radio">
-      <div class="tabs">
-        <label class="tab" id="one-tab" for="one">Overview</label>
-        <label class="tab" id="two-tab" for="two">Metrics</label>
-        <label class="tab" id="three-tab" for="three">Instructions</label>
-      </div>
-
-      <div class="panels">
-        <div class="panel" id="one-panel">
+    <div id='infotabs' class='wrapper webotsTabs'>
+      <div>
+        <input class="radio" id="overview" name="group" type="radio" checked>
+        <label class="tab" for="overview">Overview</label>
+        <div class="panel">
           <p>
             This benchmark aims at developing a program that controls a KUKA youBot robot to pick a cube and move it to a target position.
-          </p>        </div>
-        <div class="panel" id="two-panel">
+          </p>
+        </div>
+        <input class="radio" id="metrics" name="group" type="radio">
+        <label class="tab" for="metrics">Metrics</label>
+        <div class="panel">
           <div style='text-align:center'><em>t</em> = <span id='time-display'>00:00:00</span></div>
           <p>
             The benchmark metric is the time <em>t</em> spent by the robot to pick the green cube and place it in the empty slot of the box located on the cart.
@@ -32,7 +28,9 @@
             <div><small>Empty slot where the cube has to be placed.</small></div>
           </div>
         </div>
-        <div class="panel" id="three-panel">
+        <input class="radio" id="instructions" name="group" type="radio">
+        <label class="tab" for="instructions">Instructions</label>
+        <div class="panel">
           <p>
             <h2>How to improve the performance?</h2>
           </p>
@@ -71,5 +69,23 @@
       </div>
     </div>
     <script src="pick_and_place.js"></script>
+    <script>
+      let height;
+      function adaptPositionOfText() {
+        let tabs = document.getElementsByClassName('tab')
+        if(!tabs.length > 0)
+          return
+        let newHeight = tabs[tabs.length - 1].getBoundingClientRect().top + tabs[tabs.length - 1].getBoundingClientRect().height;
+        if(newHeight === height)
+          return;
+        height = newHeight;
+        let panels = document.getElementsByClassName('panel');
+        for (panel of panels) {
+          panel.style.top = height + 'px';
+        };
+      }
+      window.addEventListener('resize', adaptPositionOfText);
+      adaptPositionOfText();
+    </script>
   </body>
 </html>

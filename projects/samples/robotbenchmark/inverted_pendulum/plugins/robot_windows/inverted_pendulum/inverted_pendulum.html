@@ -5,24 +5,19 @@
     <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
   </head>
   <body>
-    <div id='infotabs' class='wrapper webotsTabs webotsRobotWindowTabs'>
-      <input class="radio" id="one" name="group" type="radio" checked>
-      <input class="radio" id="two" name="group" type="radio">
-      <input class="radio" id="three" name="group" type="radio">
-      <div class="tabs">
-        <label class="tab" id="one-tab" for="one">Overview</label>
-        <label class="tab" id="two-tab" for="two">Metrics</label>
-        <label class="tab" id="three-tab" for="three">Instructions</label>
-      </div>
-
-      <div class="panels">
-        <div class="panel" id="one-panel">
+    <div id='infotabs' class='wrapper webotsTabs'>
+      <div>
+        <input class="radio" id="overview" name="group" type="radio" checked>
+        <label class="tab" for="overview">Overview</label>
+        <div class="panel">
           <p>This benchmarks aims at developing a computer program that controls a wheeled robot to keep a pendulum in equilibrium as long as possible.
             The programming language is Python and the robot model is an e-puck robot.
             During the simulation some random perturbation force is applied to the pendulum.
           </p>
         </div>
-        <div class="panel" id="two-panel">
+        <input class="radio" id="metrics" name="group" type="radio">
+        <label class="tab" for="metrics">Metrics</label>
+        <div class="panel">
           <div style='text-align:center'><em>F</em> = <span id='force-display'>0.00</span></div>
           <br>
           <div style='text-align:center'><em>t</em> = <span id='time-display'>00:00:00</span></div>
@@ -33,7 +28,9 @@
             This force value will linearly increase with time.
           </p>
         </div>
-        <div class="panel" id="three-panel">
+        <input class="radio" id="instructions" name="group" type="radio">
+        <label class="tab" for="instructions">Instructions</label>
+        <div class="panel">
           <h2>How to improve the stability of the pendulum?</h2>
           <p>The sample Python program controlling the e-puck robot, uses a
           <a target='_blank' href="https://en.wikipedia.org/wiki/PID_controller">PID controller</a>
@@ -70,5 +67,23 @@
       </div>
     </div>
     <script src="inverted_pendulum.js"></script>
+    <script>
+      let height;
+      function adaptPositionOfText() {
+        let tabs = document.getElementsByClassName('tab')
+        if(!tabs.length > 0)
+          return
+        let newHeight = tabs[tabs.length - 1].getBoundingClientRect().top + tabs[tabs.length - 1].getBoundingClientRect().height;
+        if(newHeight === height)
+          return;
+        height = newHeight;
+        let panels = document.getElementsByClassName('panel');
+        for (panel of panels) {
+          panel.style.top = height + 'px';
+        };
+      }
+      window.addEventListener('resize', adaptPositionOfText);
+      adaptPositionOfText();
+    </script>
   </body>
 </html>

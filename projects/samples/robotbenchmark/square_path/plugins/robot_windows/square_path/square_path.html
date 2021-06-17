@@ -5,25 +5,18 @@
     <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
   </head>
   <body>
-    <div id='infotabs' class='wrapper webotsTabs webotsRobotWindowTabs'>
-      <input class="radio" id="one" name="group" type="radio" checked>
-      <input class="radio" id="two" name="group" type="radio">
-      <input class="radio" id="three" name="group" type="radio">
-      <input class="radio" id="four" name="group" type="radio">
-      <div class="tabs">
-        <label class="tab" id="one-tab" for="one">Overview</label>
-        <label class="tab" id="two-tab" for="two">Metrics</label>
-        <label class="tab" id="three-tab" for="three">Instructions</label>
-        <label class="tab" id="four-tab" for="four">Real Robot</label>
-      </div>
-
-      <div class="panels">
-        <div class="panel" id="one-panel">
+    <div id='infotabs' class='wrapper webotsTabs'>
+      <div>
+        <input class="radio" id="overview" name="group" type="radio" checked>
+        <label class="tab" for="overview">Overview</label>
+        <div class="panel">
           <p>
             This benchmark aims at developing an open-loop program that controls a Pioneer robot to follow a 2m by 2m square path.
           </p>
         </div>
-        <div class="panel" id="two-panel">
+        <input class="radio" id="metrics" name="group" type="radio">
+        <label class="tab" for="metrics">Metrics</label>
+        <div class="panel">
           <div style='text-align:center'>Segment 1: <span id='segment0-display'>0.00%</span></div>
           <div style='text-align:center'>Segment 2: <span id='segment1-display'>0.00%</span></div>
           <div style='text-align:center'>Segment 3: <span id='segment2-display'>0.00%</span></div>
@@ -66,7 +59,9 @@
           The time element has half the weight of the other two.</p>
           <br><p>The overall performance is the average of the 4 segments.</p>
         </div>
-        <div class="panel" id="three-panel">
+        <input class="radio" id="instructions" name="group" type="radio">
+        <label class="tab" for="instructions">Instructions</label>
+        <div class="panel">
           <p>
             <h2>How to improve the performance?</h2>
           </p>
@@ -96,7 +91,9 @@
             </ul>
           </p>
         </div>
-        <div class="panel" id="four-panel">
+        <input class="radio" id="real-robot" name="group" type="radio">
+        <label class="tab" for="real-robot">Real Robot</label>        
+        <div class="panel">
           <p>
             <h2>How to perform the benchmark with a real robot?</h2>
           </p>
@@ -136,5 +133,23 @@
       </div>
     </div>
     <script src="square_path.js"></script>
+    <script>
+      let height;
+      function adaptPositionOfText() {
+        let tabs = document.getElementsByClassName('tab')
+        if(!tabs.length > 0)
+          return
+        let newHeight = tabs[tabs.length - 1].getBoundingClientRect().top + tabs[tabs.length - 1].getBoundingClientRect().height;
+        if(newHeight === height)
+          return;
+        height = newHeight;
+        let panels = document.getElementsByClassName('panel');
+        for (panel of panels) {
+          panel.style.top = height + 'px';
+        };
+      }
+      window.addEventListener('resize', adaptPositionOfText);
+      adaptPositionOfText();
+    </script>
   </body>
 </html>
