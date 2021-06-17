@@ -1,5 +1,4 @@
 /* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
-$('#infotabs').tabs();
 
 var benchmarkName = 'Inverted Pendulum';
 var timeString;
@@ -9,22 +8,22 @@ webots.window('inverted_pendulum').receive = function(message, robot) {
   if (message.startsWith('time:')) {
     invertedPendulumTime = parseFloat(message.substr(5));
     timeString = parseSecondsIntoReadableTime(invertedPendulumTime);
-    $('#time-display').html(timeString);
+    document.getElementById('time-display').innerHTML = timeString;
   } else if (message.startsWith('force:')) {
     var f = parseFloat(message.substr(6));
-    $('#force-display').html(f.toFixed(2));
+    document.getElementById('force-display').innerHTML = f.toFixed(2);
   } else if (message === 'stop') {
     if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, invertedPendulumTime, metricToString)) {
-      $('#time-display').css('color', 'red');
-      $('#force-display').css('color', 'red');
+      document.getElementById('time-display').style.color = 'red';
+      document.getElementById('force-display').style.color = 'red';
     }
   } else if (message.startsWith('record:OK:')) {
-    $('#time-display').css('font-weight', 'bold');
-    $('#force-display').css('font-weight', 'bold');
+    document.getElementById('time-display').style.fontWeight = 'bold';
+    document.getElementById('force-display').style.fontWeight = 'bold';
     showBenchmarkRecord(message, benchmarkName, metricToString);
   } else if (message.startsWith('record:Error:')) {
-    $('#time-display').css('color', 'red');
-    $('#force-display').css('color', 'red');
+    document.getElementById('time-display').style.color = 'red';
+    document.getElementById('force-display').style.color = 'red';
     showBenchmarkError(message, benchmarkName);
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
