@@ -101,7 +101,7 @@ PROTO CrashBarrier [
         children [
           Extrusion {
             spine [
-              %< for (let i = 0; i < nbPath; ++i) { >%
+              %< for (let i = 0; i < originalPath.length; ++i) { >%
                 %<= originalPath[i].x >% %<= originalPath[i].y >% %<= originalPath[i].z >%
               %< } >%
             ]
