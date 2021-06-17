@@ -1149,93 +1149,6 @@ The "[WEBOTS\_HOME/projects/samples/howto/cylinder\_stack/worlds/cylinder\_stack
 
 ---
 
-### Contact Point
-
-A contact point object is defined by the following structure:
-
-%tab-component "language"
-
-%tab "C"
-
-```c
-#include <webots/contact_point.h>
-
-typedef struct {
- double   point[3];
- int      node_id;
-} WbContactPoint;
-```
-
-%tab-end
-
-%tab "C++"
-
-```cpp
-#include <webots/Camera.hpp>
-
-namespace webots {
-  typedef struct {
-    double  point[3];
-    int     node_id;
-  } CameraRecognitionObject;
-}
-```
-
-%tab-end
-
-%tab "Python"
-
-```python
-{
-  'point': list[float]
-  'node_id': int
-}
-```
-
-%tab-end
-
-%tab "Java"
-
-```java
-import com.cyberbotics.webots.controller.ContactPoint;
-
-public class ContactPoint {
-  public double[] getPoint();
-  public int getNodeId();
-}
-```
-
-%tab-end
-
-%tab "MATLAB"
-
-```MATLAB
-structs.WbContactPoint.members = struct(
-  'point', 'double#3',
-  'node_id', 'int32',
-);
-```
-
-%tab-end
-
-%tab "ROS"
-
-<br/>
-[`geometry_msgs/Point`](http://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Point.html) point<br/>
-`int32` node_id
-<br/>
-
-%tab-end
-
-%end
-
-##### Description
-
-The `point` represents a position of a contact point expressed in the global (world) coordinate system.
-The `node_id` represents an ID of the node associated to a contact point.
-
----
-
 #### `wb_supervisor_node_get_static_balance`
 
 %tab-component "language"
@@ -4140,3 +4053,90 @@ The `wb_supervisor_virtual_reality_headset_get_position` and `wb_supervisor_virt
 [ R[6] R[7] R[8] ]
 ```
 If the position or the orientation of the virtual reality headset is not tracked or no virtual reality headset is currently used, these functions will return `NaN` (Not a Number) values.
+
+---
+
+### Contact Point
+
+A contact point object is defined by the following structure:
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/contact_point.h>
+
+typedef struct {
+ double   point[3];
+ int      node_id;
+} WbContactPoint;
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Camera.hpp>
+
+namespace webots {
+  typedef struct {
+    double  point[3];
+    int     node_id;
+  } CameraRecognitionObject;
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+{
+  'point': list[float]
+  'node_id': int
+}
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.ContactPoint;
+
+public class ContactPoint {
+  public double[] getPoint();
+  public int getNodeId();
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+structs.WbContactPoint.members = struct(
+  'point', 'double#3',
+  'node_id', 'int32',
+);
+```
+
+%tab-end
+
+%tab "ROS"
+
+<br/>
+[`geometry_msgs/Point`](http://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Point.html) point<br/>
+`int32` node_id
+<br/>
+
+%tab-end
+
+%end
+
+##### Description
+
+The `point` represents a position of a contact point expressed in the global (world) coordinate system.
+The `node_id` represents an ID of the node associated to a contact point.
