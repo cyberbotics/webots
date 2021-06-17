@@ -50,15 +50,15 @@ Released on June, Xth, 2021.
     - Added conversion from PROTO to URDF from the Webots command line ([#2885](https://github.com/cyberbotics/webots/pull/2885)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
     - **`<webots/utils/default_robot_window.h>` C include file moved to `<webots/plugins/robot_window/default.h>` ([#2655](https://github.com/cyberbotics/webots/pull/2655)).**
-      - Improve generic robot window ([#2655](https://github.com/cyberbotics/webots/pull/2655)).
-        - Skip updates when the robot window is hidden to not affect the simulation performance.
-        - Add toggle button to choose if the enabling/disabling the graph(s) will also enable/disable the robot device.
-        - Add buttons to enable and disable all the devices with the same type at once.
-        - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording ata from devices when the correspomding tab is not visible.
-        - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible.
-        - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects.
-        - Speed up drawing using WebGL ([#2854](https://github.com/cyberbotics/webots/pull/2854)).
-      - Added the HTML robot window for vehicles replacing the deprecated Qt-based robot window (#[2602](https://github.com/cyberbotics/webots/pull/2602)).
+    - Improve generic robot window ([#2655](https://github.com/cyberbotics/webots/pull/2655)).
+      - Skip updates when the robot window is hidden to not affect the simulation performance.
+      - Add toggle button to choose if the enabling/disabling the graph(s) will also enable/disable the robot device.
+      - Add buttons to enable and disable all the devices with the same type at once.
+      - Add "Settings" tab to choose the refresh rate, disable all the devices (of any type), and enabling recording ata from devices when the correspomding tab is not visible.
+      - Improve motor slider visibility by moving it to the left of the graph if the plot is not completely visible.
+      - Split the generic robot window code in different libraries and JS files so that it can be easily reused for custom projects.
+      - Speed up drawing using WebGL ([#2854](https://github.com/cyberbotics/webots/pull/2854)).
+    - Added the HTML robot window for vehicles replacing the deprecated Qt-based robot window (#[2602](https://github.com/cyberbotics/webots/pull/2602)).
     - Support labels in animations ([#3019](https://github.com/cyberbotics/webots/pull/3019)).
     - Modernized and improved the animations' player ([#2979](https://github.com/cyberbotics/webots/pull/2979)).
     - Added support for fonts in the streaming viewer ([#2976](https://github.com/cyberbotics/webots/pull/2976)).
