@@ -91,7 +91,7 @@ PROTO Panel [
                   if (nSeparations > 0) {
                     let offsetX = 1.5 * borderHeight + panelSizeX; // halfSizeX
                     for (let i = 1; i <= nSeparations; ++i) {
-                      for (let dz = -0.5; dz <= 0.5; dz = dz + 1) {
+                      for (let dz = -0.5; dz <= 0.5; ++dz) {
                         let z = dz * size.z;
                         for (let dy = -0.5; dy <= 0.5; dy = dy + 1) {
                           let y = halfSizeY + dy * (size.y - 2 * borderHeight);
