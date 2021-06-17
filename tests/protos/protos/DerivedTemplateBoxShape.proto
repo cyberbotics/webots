@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO DerivedTemplateBoxShape [
   field SFVec3f translation 0 0 0
@@ -8,7 +9,7 @@ PROTO DerivedTemplateBoxShape [
 {
   TemplateBoxShape {
     translation IS translation
-    xSize %{= fields.dxSize.value }%
+    xSize %<= fields.dxSize.value >%
     ySize IS dySize
   }
 }

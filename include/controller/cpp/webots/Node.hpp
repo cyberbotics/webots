@@ -18,8 +18,8 @@
 #define WB_USING_CPP_API
 #include <string>
 #include <webots/Field.hpp>
-#include "../../c/webots/types.h"
 #include "../../c/webots/contact_point.h"
+#include "../../c/webots/types.h"
 
 // Note: should match with node.h
 
@@ -144,7 +144,7 @@ namespace webots {
     void disablePoseTracking() const;
     void enablePoseTracking(int samplingPeriod, const Node *fromNode) const;
     void disablePoseTracking(const Node *fromNode) const;
-    ContactPoint *getContactPoints(bool includeDescendants, int *size);
+    ContactPoint *getContactPoints(bool includeDescendants, int *size) const;
     const double *getCenterOfMass() const;
     const double *getContactPoint(int index) const;
     Node *getContactPointNode(int index) const;

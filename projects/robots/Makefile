@@ -60,6 +60,7 @@ CONTROLLERS=\
   pal_robotics/tiago++/controllers/tiago++.Makefile \
   parallax/boebot/controllers.Makefile \
   picaxe/microbot/controllers.Makefile \
+  rec/fabtino/controllers.Makefile \
   robotis/bioloid/controllers.Makefile \
   robotis/darwin-op/controllers.Makefile \
   robotis/turtlebot/controllers.Makefile \

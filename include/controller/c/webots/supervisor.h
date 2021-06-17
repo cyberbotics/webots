@@ -22,9 +22,9 @@
 #define WB_SUPERVISOR_H
 
 #define WB_USING_C_API
+#include "contact_point.h"
 #include "nodes.h"
 #include "types.h"
-#include "contact_point.h"
 
 #ifdef __cplusplus
 extern "C" {

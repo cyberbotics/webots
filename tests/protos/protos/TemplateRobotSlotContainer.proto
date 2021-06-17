@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO TemplateRobotSlotContainer [
   field SFVec3f translation 0 0 0
@@ -8,9 +9,9 @@ PROTO TemplateRobotSlotContainer [
   field SFBool isRegenerated FALSE
 ]
 {
-  %{
-    local value = fields.isRegenerated.value
-  }%
+  %<
+    const value = fields.isRegenerated.value;
+  >%
   Robot {
     translation IS translation
     children IS children

@@ -84,6 +84,7 @@
     - [DARwIn-OP](darwin-op.md)
     - [Elisa 3](elisa3.md)
     - [e-puck](epuck.md)
+    - [Fabtino](fabtino.md)
     - [FireBird 6](firebird6.md)
     - [GhostDog](ghostdog.md)
     - [Hemisson](hemisson.md)

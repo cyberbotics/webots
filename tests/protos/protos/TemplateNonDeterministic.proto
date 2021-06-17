@@ -1,5 +1,6 @@
 #VRML_SIM R2021b utf8
 # tags: nonDeterministic
+# template language: javascript
 
 PROTO TemplateNonDeterministic [
   field SFVec3f    translation 0 0 0
@@ -8,20 +9,20 @@ PROTO TemplateNonDeterministic [
   field SFInt32    seed        0
 ]
 {
-%{
-  local wbrandom = require('wbrandom')
-  wbrandom.seed(fields.seed.value)
-}%
-Solid {
-  translation IS translation
-  rotation IS rotation
-  children [
-    Shape {
-      geometry DEF BOX Box {
-        size %{= fields.width.value }% %{= fields.width.value }% %{= wbrandom.real() + 0.001 }%
+  %<
+    import * as wbrandom from 'wbrandom.js';
+    wbrandom.seed(fields.seed.value)
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        geometry DEF BOX Box {
+          size %<= fields.width.value >% %<= fields.width.value >% %<= wbrandom.real() + 0.001 >%
+        }
       }
-    }
-  ]
-  boundingObject USE BOX
-}
+    ]
+    boundingObject USE BOX
+  }
 }

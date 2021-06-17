@@ -1,0 +1,13 @@
+#VRML_SIM R2021b utf8
+# template language: javascript
+
+PROTO TemplateContextPrint [
+]
+{
+  %<
+    if (context.webots_home !== undefined && context.webots_version !== undefined && context.webots_version.revision !== undefined && context.project_path !== undefined && context.proto)
+      console.log(context.world);
+  >%
+  Solid {
+  }
+}

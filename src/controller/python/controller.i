@@ -674,6 +674,7 @@ class AnsiCodes(object):
 
 %ignore webots::Node::findNode(WbNodeRef ref);
 %ignore webots::Node::cleanup();
+%ignore webots::Node::getContactPoints(bool includeDescendants, int *size);
 
 %extend webots::Node {
   %pythoncode %{
@@ -689,6 +690,24 @@ class AnsiCodes(object):
   def __ne__(self, other):
       return not self.__eq__(other)
   %}
+
+  PyObject *getContactPoints(bool includeDescendants=false) {
+    int size;
+    PyObject *ret = Py_None;
+    webots::ContactPoint *points = $self->getContactPoints(includeDescendants, &size);
+    if (points) {
+      ret = PyList_New(size);
+      for (int i = 0; i < size; ++i) {
+        PyObject *coordinate = PyList_New(3);
+        PyList_SetItem(coordinate, 0, PyFloat_FromDouble(points[i].point[0]));
+        PyList_SetItem(coordinate, 1, PyFloat_FromDouble(points[i].point[1]));
+        PyList_SetItem(coordinate, 2, PyFloat_FromDouble(points[i].point[2]));
+        PyObject *point = Py_BuildValue("{s:O,s:i}", "point", coordinate, "node_id", points[i].node_id);
+        PyList_SetItem(ret, i, point);
+      }
+    }
+    return ret;
+  }
 };
 
 %include <webots/Node.hpp>
