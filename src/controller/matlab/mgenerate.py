@@ -490,6 +490,7 @@ def main(args=None):
     gen(FUNC, "wb_supervisor_node_export_string(noderef)", "supervisor")
     gen(FUNC, "wb_supervisor_node_save_state(noderef, state_name)", "supervisor")
     gen(FUNC, "wb_supervisor_node_load_state(noderef, state_name)", "supervisor")
+    gen(FUNC, "wb_supervisor_node_set_joint_position(noderef, position, index)", "supervisor")
     gen(FUNC, "wb_supervisor_field_get_type(fieldref)", "supervisor")
     gen(FUNC, "wb_supervisor_field_get_type_name(fieldref)", "supervisor")
     gen(FUNC, "wb_supervisor_field_get_count(fieldref)", "supervisor")

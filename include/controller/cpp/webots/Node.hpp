@@ -167,6 +167,8 @@ namespace webots {
     void saveState(const std::string &stateName);
     void loadState(const std::string &stateName);
 
+    void setJointPosition(double position, int index = 1);
+
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Node *findNode(WbNodeRef ref);
     static void cleanup();

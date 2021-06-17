@@ -10,6 +10,7 @@ Released on June, Xth, 2021.
     - Added a model of the [MiR100](../guide/mir100.md) robot from [Mobile Industrial Robots](https://www.mobile-industrial-robots.com/en/solutions/robots/mir100/) ([#3010](https://github.com/cyberbotics/webots/pull/3010)).
   - New Features:
     - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), and [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591)).
+    - Added the `wb_supervisor_node_set_joint_position` function to artifically set the position of active and passive joints ([#3160](https://github.com/cyberbotics/webots/pull/3160)).
     - Added the `wb_supervisor_node_export_string` function which returns a string from which the node is constructed ([#2743](https://github.com/cyberbotics/webots/pull/2743)).
     - Added the `wb_supervisor_node_save/load_state` functions that allow partial world reverting to a saved state ([#2740](https://github.com/cyberbotics/webots/pull/2740)).
     - Added coupled motors feature which allows to control multiple logically linked [Motors](motor.md) at once ([#2939](https://github.com/cyberbotics/webots/pull/2939)).
@@ -17,6 +18,7 @@ Released on June, Xth, 2021.
     - Added the `redColorSensitivity` field to [DistanceSensor](distancesensor.md) that allows tuning (or even disabling) of the red color sensitivity for an infra-red distance sensor ([#3077](https://github.com/cyberbotics/webots/pull/3077)).
     - Added JavaScript scripting support for [Procedural Proto Nodes](procedural-proto-nodes.md) ([#3087](https://github.com/cyberbotics/webots/pull/3087)).
   - Enhancements
+    - Added the `dragForceScale` and `dragTorqueScale` fields to [WorldInfo](worldinfo.md) which enable to set the order of magnitude of the force/torque to be applied in the interface ([#3175](https://github.com/cyberbotics/webots/pull/3175)).
     - Added pose and field tracking functions to improve the performance of getting pose and field data ([#2279](https://github.com/cyberbotics/webots/pull/2279)).
     - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
     - Significantly improved the performance of the `wb_camera_get_image`, `wb_range_finder_get_range_image`, and `wb_lidar_get_range_image` functions ([#3032](https://github.com/cyberbotics/webots/pull/3032)).

@@ -58,6 +58,7 @@
 #include <webots_ros/node_move_viewpoint.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
+#include <webots_ros/node_set_joint_position.h>
 #include <webots_ros/node_set_string.h>
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
@@ -175,6 +176,8 @@ public:
                                       webots_ros::node_enable_pose_tracking::Response &res);
   bool nodeDisablePoseTrackingCallback(webots_ros::node_disable_pose_tracking::Request &req,
                                        webots_ros::node_disable_pose_tracking::Response &res);
+  bool nodeSetJointPositionCallback(webots_ros::node_set_joint_position::Request &req,
+                                    webots_ros::node_set_joint_position::Response &res);
 
   bool fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res);
   bool fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req, webots_ros::field_get_type_name::Response &res);
@@ -275,6 +278,7 @@ private:
   ros::ServiceServer mNodeLoadStateServer;
   ros::ServiceServer mNodeEnablePoseTrackingServer;
   ros::ServiceServer mNodeDisablePoseTrackingServer;
+  ros::ServiceServer mNodeSetJointPositionServer;
 
   ros::ServiceServer mFieldGetTypeServer;
   ros::ServiceServer mFieldGetTypeNameServer;

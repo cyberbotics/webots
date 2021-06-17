@@ -60,6 +60,7 @@ public:
 
 public slots:
   bool setJoint() override;
+  void updatePosition() override;
 
 protected:
   WbVector3 axis2() const override;
@@ -79,7 +80,6 @@ protected slots:
   void addDevice2(int index) override;
   virtual void addDevice3(int index);
   void updateParameters() override;
-  void updatePosition() override;
   void updateJointAxisRepresentation() override;
   void checkMotorLimit();
 
