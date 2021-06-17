@@ -102,7 +102,7 @@ PROTO Cabinet [
     }
 
     let rowsHeights = fields.rowsHeights.value;
-    let nRows = fields.rowsHeights.value.length;
+    const nRows = fields.rowsHeights.value.length;
     for (let i = 0; i < nRows; ++i) {
       let height = rowsHeights[i];
       if (height < 3 * innerThickness) {
