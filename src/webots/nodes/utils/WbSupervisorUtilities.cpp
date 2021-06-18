@@ -1111,6 +1111,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = WbNode::findNode(node_id);
       if (node)
         mNodeFieldCount = allowSearchInProto == 1 ? node->fields().size() : node->numFields();
+      else
+        mNodeFieldCount = -1;
       return;
     }
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {

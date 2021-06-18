@@ -2194,11 +2194,9 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return NULL;
   }
-  const int node_fields = wb_supervisor_node_get_number_of_fields(node);
-  if (index < 0 || index > node_fields) {
+  if (index < 0) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with an invalid 'index' argument (%d while node has %d fields).\n", __FUNCTION__,
-              index, node_fields);
+      fprintf(stderr, "Error: %s() called with an invalid negative 'index' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -2232,11 +2230,9 @@ WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
     return NULL;
   }
-  const int node_fields = wb_supervisor_node_get_proto_number_of_fields(node);
-  if (index < 0 || index > node_fields) {
+  if (index < 0) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with an invalid 'index' argument (%d while node has %d fields).\n", __FUNCTION__,
-              index, node_fields);
+      fprintf(stderr, "Error: %s() called with an invalid negative 'index' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -2298,6 +2294,15 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
 }
 
 const int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return -1;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return -1;
+  }
+
   robot_mutex_lock_step();
   requested_node_number_of_fields = true;
   node_ref = node->id;
@@ -2311,6 +2316,15 @@ const int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
 }
 
 const int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return -1;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return -1;
+  }
+
   robot_mutex_lock_step();
   requested_node_number_of_fields = true;
   node_ref = node->id;
