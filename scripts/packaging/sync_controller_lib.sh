@@ -31,16 +31,17 @@ else
     git checkout -b ${VERSION}
 fi
 
-# Prepare the structure
-rm -rf lib/${OSTYPE}
-mkdir -p lib/${OSTYPE}
-rm -rf include
-mkdir -p include
-
-# Copy files
+# Copy headers
 if [ "${OSTYPE}" != "msys" ]; then
+    # don't copy the include files on Windows as they are the same as on other platforms, and they generate a huge diff due to Windows line endings which differ from Linux/macOS.
+    rm -rf include
+    mkdir -p include
     cp -r ${WEBOTS_HOME}/include/controller/* include
 fi
+
+# Copy dynamic libs
+rm -rf lib/${OSTYPE}
+mkdir -p lib/${OSTYPE}
 for filename in $DYNAMIC_LIBS
 do
     echo $filename
