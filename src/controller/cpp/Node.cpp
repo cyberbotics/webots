@@ -196,3 +196,7 @@ void Node::saveState(const std::string &stateName) {
 void Node::loadState(const std::string &stateName) {
   wb_supervisor_node_load_state(nodeRef, stateName.c_str());
 }
+
+void Node::setJointPosition(double position, int index) {
+  wb_supervisor_node_set_joint_position(nodeRef, position, index);
+}

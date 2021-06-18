@@ -250,6 +250,11 @@ resources/lua/modules/webots/
 resources/lua/modules/webots/*.lua
 resources/lua/liluat/license.txt
 resources/lua/liluat/*.lua
+resources/javascript/
+resources/javascript/jsTemplate.js
+resources/javascript/modules/
+resources/javascript/modules/webots/
+resources/javascript/modules/webots/*.js
 resources/Makefile.include
 resources/Makefile.java.include
 resources/Makefile.os.include

@@ -1,4 +1,5 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO ProceduralSolidWithPhysics [
   field SFFloat size 1.0
@@ -8,7 +9,7 @@ PROTO ProceduralSolidWithPhysics [
     children [
       Shape {
         geometry DEF GEOM Sphere {
-          radius %{= fields.size.value }%
+          radius %<= fields.size.value >%
         }
       }
     ]

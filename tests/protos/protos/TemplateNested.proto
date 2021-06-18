@@ -1,18 +1,19 @@
 #VRML_SIM R2021b utf8
+# template language: javascript
 
 PROTO TemplateNested [
   field SFBool nestedParameter TRUE
 ]
 {
-  %{ p = fields.nestedParameter.value and "TRUE" or "FALSE" }%
+  %< const p = fields.nestedParameter.value ? 'TRUE' : 'FALSE'; >%
   Shape {
     appearance Appearance {
       material Material {
       }
     }
     geometry Capsule {
-      top %{= p }%
-      bottom %{= p }%
+      top %<= p >%
+      bottom %<= p >%
     }
   }
 }

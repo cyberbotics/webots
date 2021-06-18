@@ -28,5 +28,8 @@ void main() {
   distortedUv.y = texUv.y - d2 * (d1 * relativeUv.y + 2 * tangentialDistortionCoeffs.y * relativeUv.x * relativeUv.y +
                                   tangentialDistortionCoeffs.x * (r + 2 * relativeUv.y * relativeUv.y));
 
-  fragColor = texture(inputTextures[0], distortedUv);
+  if (distortedUv.x < 0.0 || distortedUv.x > 1.0 || distortedUv.y < 0.0 || distortedUv.y > 1.0)
+    fragColor = vec4(0.0, 0.0, 0.0, 1.0);
+  else
+    fragColor = texture(inputTextures[0], distortedUv);
 }
