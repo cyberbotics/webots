@@ -11,7 +11,7 @@ PROTO ToyotaPrius [
   field     SFRotation rotation          0 1 0 0
   field     SFColor    color             0.1 0.15 0.18
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
-  field     SFString   engineSound       "webots://projects/vehicles/protos/abstract/sounds/engine.wav"
+  field     SFString   engineSound       "sounds/engine.wav"
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
   field     MFString   controllerArgs    []
