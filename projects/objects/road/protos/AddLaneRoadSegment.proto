@@ -38,8 +38,6 @@ PROTO AddLaneRoadSegment [
   field        SFBool               leftBarrierBoundingObject TRUE                               # Defines whether the left crash barrier (if any) should have a bounding object.
   field        SFBool               castShadows               FALSE                              # Defines whether the road should cast shadows.
   field        SFString             contactMaterial           "default"                          # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine                [TRUE, TRUE]                       # Deprecated in Webots R2018c.
 ]
 {
   %<
@@ -81,7 +79,6 @@ PROTO AddLaneRoadSegment [
       }
     }
 
-    const dashedLine    = fields.dashedLine.value;
     const newLaneleft   = fields.newLaneLeft.value;
     const rightBorder   = fields.rightBorder.value;
     const leftBorder    = fields.leftBorder.value;
@@ -96,7 +93,7 @@ PROTO AddLaneRoadSegment [
     const endLine       = fields.endLine.value;
 
     const barrierOffset = 0.06 + 0.05 * width;
-    const lineWidth = 0.075;
+    const defaultLineWidth = 0.075;
     const heightOffset = 0.01;
     const textureCoordinateRatio = 0.2;
 
@@ -111,7 +108,6 @@ PROTO AddLaneRoadSegment [
       StraightRoadSegment {
         width IS width
         numberOfLanes IS numberOfLanes
-        dashedLine IS dashedLine
         lines IS lines
         roadBorderHeight IS roadBorderHeight
         startingRoadBorderWidth IS roadBorderWidth
@@ -196,82 +192,97 @@ PROTO AddLaneRoadSegment [
         %< } >%
       }
       # new line
-      Solid {
-        children [
-          Shape {
-            appearance PBRAppearance {
-              %< if (roadLines[numberOfLanes - 1] !== undefined) { >%
-                baseColor %<= roadLines[numberOfLanes - 1].fields.color.value.r >% %<= roadLines[numberOfLanes - 1].fields.color.value.g >% %<= roadLines[numberOfLanes - 1].fields.color.value.b >%
-              %< } >%
-              baseColorMap ImageTexture {
-                url [
-                %< if (typeof dashedLine[numberOfLanes - 1] !== 'undefined' && !dashedLine[numberOfLanes - 1]) { >%
-                  "textures/line_base_color.png"
-                %< } else { >%
-                  "textures/line_base_color_dashed.png"
+      %< if (typeof roadLines[numberOfLanes - 1] !== 'undefined' && roadLines[numberOfLanes - 1].fields.type.value !== 'none') { >%
+        Solid {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                %< if (typeof roadLines[numberOfLanes - 1] !== 'undefined') { >%
+                  baseColor %<= roadLines[numberOfLanes - 1].fields.color.value.r >% %<= roadLines[numberOfLanes - 1].fields.color.value.g >% %<= roadLines[numberOfLanes - 1].fields.color.value.b >%
                 %< } >%
-                ]
-                filtering 5
-              }
-              roughness 0.7
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "textures/line_normal.jpg"
-                ]
-                filtering 5
-              }
-              occlusionMap ImageTexture {
-                url [
-                  "textures/line_occlusion.jpg"
-                ]
-                filtering 5
-              }
-              textureTransform TextureTransform {
-                scale 1 0.2
-              }
-            }
-            geometry DEF NEW_LANE_GEOMETRY IndexedFaceSet {
-              coord Coordinate {
-                point [
-                  %< if (newLaneleft) { >%
-                    %<= halfWidth + lineWidth >% %<= heightOffset >% 0
-                    %<= halfWidth - lineWidth >% %<= heightOffset >% 0
-                    %<= halfWidth - lineWidth >% %<= heightOffset >% %<= length >%
-                    %<= halfWidth + lineWidth >% %<= heightOffset >% %<= length >%
+                baseColorMap ImageTexture {
+                  url [
+                  %< if (typeof roadLines[numberOfLanes - 1] !== 'undefined' && roadLines[numberOfLanes - 1].fields.type.value !== 'dashed') { >%
+                    "textures/line_base_color.png"
                   %< } else { >%
-                    %<= -halfWidth + lineWidth >% %<= heightOffset >% 0
-                    %<= -halfWidth - lineWidth >% %<= heightOffset >% 0
-                    %<= -halfWidth - lineWidth >% %<= heightOffset >% %<= length >%
-                    %<= -halfWidth + lineWidth >% %<= heightOffset >% %<= length >%
+                    "textures/line_base_color_dashed.png"
                   %< } >%
-                ]
+                  ]
+                  filtering 5
+                }
+                roughness 0.7
+                metalness 0
+                normalMap ImageTexture {
+                  url [
+                    "textures/line_normal.jpg"
+                  ]
+                  filtering 5
+                }
+                occlusionMap ImageTexture {
+                  url [
+                    "textures/line_occlusion.jpg"
+                  ]
+                  filtering 5
+                }
+                textureTransform TextureTransform {
+                  scale 1 0.2
+                }
               }
-              texCoord TextureCoordinate {
-                point [
-                  0 0
-                  1 0
-                  1 %<= length >%
-                  0 %<= length >%
+              geometry DEF NEW_LANE_GEOMETRY IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    %<
+                      let lineWidth = defaultLineWidth;
+                      if (typeof roadLines[numberOfLanes - 1] !== 'undefined') {
+                        lineWidth = roadLines[numberOfLanes - 1].fields.width.value * 0.5;
+                        if (roadLines[numberOfLanes - 1].fields.type.value === 'double')
+                          lineWidth *= 3;
+                      }
+                      if (newLaneleft) {
+                    >%
+                      %<= halfWidth + lineWidth >% %<= heightOffset >% 0
+                      %<= halfWidth - lineWidth >% %<= heightOffset >% 0
+                      %<= halfWidth - lineWidth >% %<= heightOffset >% %<= length >%
+                      %<= halfWidth + lineWidth >% %<= heightOffset >% %<= length >%
+                    %< } else { >%
+                      %<= -halfWidth + lineWidth >% %<= heightOffset >% 0
+                      %<= -halfWidth - lineWidth >% %<= heightOffset >% 0
+                      %<= -halfWidth - lineWidth >% %<= heightOffset >% %<= length >%
+                      %<= -halfWidth + lineWidth >% %<= heightOffset >% %<= length >%
+                    %< } >%
+                  ]
+                }
+                texCoord TextureCoordinate {
+                  point [
+                    0 0
+                    %< if (typeof roadLines[numberOfLanes - 1] !== 'undefined' && roadLines[numberOfLanes - 1].fields.type.value === 'double') { >%
+                      2 0
+                      2 %<= length >%
+                    %< } else { >%
+                      1 0
+                      1 %<= length >%
+                    %< } >%
+                    0 %<= length >%
+                  ]
+                }
+                coordIndex [
+                  0 1 2 3 -1
                 ]
+                texCoordIndex [
+                  0 1 2 3 -1
+                ]
+                creaseAngle 0.2
               }
-              coordIndex [
-                0 1 2 3 -1
-              ]
-              texCoordIndex [
-                0 1 2 3 -1
-              ]
-              creaseAngle 0.2
+              castShadows IS castShadows
             }
-            castShadows IS castShadows
-          }
-        ]
-        name "new lane line"
-        recognitionColors [ 1 1 1 ]
-        model "road line"
-      }
+          ]
+          name "new lane line"
+          recognitionColors [ 1 1 1 ]
+          model "road line"
+        }
+      %< } >%
       # new end line
-      %< if ((newLaneleft && endLine[numberOfLanes] !== undefined) || (!newLaneleft && endLine[0])) { >%
+      %< if ((newLaneleft && typeof endLine[numberOfLanes] !== 'undefined') || (!newLaneleft && typeof endLine[0] !== 'undefined')) { >%
         Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {

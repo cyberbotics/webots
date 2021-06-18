@@ -39,8 +39,6 @@ PROTO AddLanesRoadSegment [
   field        SFBool               leftBarrierBoundingObject TRUE                                # Defines whether the left crash barrier (if any) should have a bounding object.
   field        SFBool               castShadows               FALSE                               # Defines whether the road should cast shadows.
   field        SFString             contactMaterial           "default"                           # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine                TRUE                                # Deprecated in Webots R2018c.
 ]
 {
   %<
@@ -69,18 +67,12 @@ PROTO AddLanesRoadSegment [
       console.error('\'numberOfLanes\' must be greater than 1. Value reset to ' + lanes + '.');
     }
     const newLaneLeft   = fields.newLaneLeft.value;
-    let dashedLine    = fields.dashedLine.value;
     let roadLines     = fields.lines.value;
     for (let i = 0; i < roadLines.length; ++i) {
       if (roadLines[i].node_name !== 'RoadLine') {
         roadLines[i] = undefined;
         console.error('Only \'RoadLine\' nodes should be added in the \'lines\' field.');
       }
-    }
-
-    for (let i = 0; i < numberOfNewLanes + lanes - 1; ++i) {
-      if (typeof dashedLine[i] === 'undefined')
-        dashedLine[i] = true;
     }
 
     const rightBarrier = fields.rightBarrier.value;
@@ -108,32 +100,15 @@ PROTO AddLanesRoadSegment [
           length %<= length / numberOfNewLanes >%
           numberOfLanes %<= lanes + i >%
           newLaneLeft IS newLaneLeft
-          dashedLine [
-            %< for (let j = 0; j < lanes + i; ++j) { >%
-              %< if (newLaneLeft) { >%
-                %< if (!dashedLine[j]) { >%
-                  FALSE
-                %< } else { >%
-                  TRUE
-                %< } >%
-              %< } else { >%
-                %< if (!dashedLine[(lanes + i - 1) - j]) { >%
-                  FALSE
-                %< } else { >%
-                  TRUE
-                %< } >%
-              %< } >%
-          %< } >%
-          ]
           lines [
             %< for (let j = 0; j < lanes + i; ++j) { >%
               %< if (newLaneLeft) { >%
-                %< if (roadLines[j]) { >%
+                %< if (typeof roadLines[j] !== 'undefined') { >%
                   RoadLine {
                     color %<= roadLines[j].fields.color.value.r >% %<= roadLines[j].fields.color.value.g >% %<= roadLines[j].fields.color.value.b >%
                     type %<= '"' + roadLines[j].fields.type.value + '"' >%
                     width %<= roadLines[j].fields.width.value >%
-                 }
+                  }
                 %< } >%
               %< } else { >%
                 %< if (typeof roadLines[(lanes + i) - j - 1] !== 'undefined') { >%
@@ -141,7 +116,7 @@ PROTO AddLanesRoadSegment [
                     color %<= roadLines[(lanes + i) - j - 1].fields.color.value.r >% %<= roadLines[(lanes + i) - j - 1].fields.color.value.g >% %<= roadLines[(lanes + i) - j - 1].fields.color.value.b >%
                     type %<= '"' + roadLines[(lanes + i) - j - 1].fields.type.value + '"' >%
                     width %<= roadLines[(lanes + i) - j - 1].fields.width.value >%
-                 }
+                  }
                 %< } >%
               %< } >%
             %< } >%

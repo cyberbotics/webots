@@ -48,8 +48,6 @@ PROTO Road [
   field        SFBool               leftBarrierBoundingObject TRUE                    # Defines whether the left crash barrier (if any) should have a bounding object.
   field        SFBool               castShadows               FALSE                   # Defines whether the road should cast shadows.
   field        SFString             contactMaterial           "default"               # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine          TRUE                          # Deprecated in Webots R2018c.
 ]
 {
   %<
@@ -93,7 +91,6 @@ PROTO Road [
     let textureCoordinateRatio = 0.2;
     let defaultLineWidth = 0.075;
     let heightOffset  = 0.01;
-    let dashedLine    = fields.dashedLine.value;
     let rightBorder   = fields.rightBorder.value;
     let leftBorder    = fields.leftBorder.value;
     let rightBarrier  = fields.rightBarrier.value;
@@ -404,7 +401,7 @@ PROTO Road [
                     %< } >%
                     baseColorMap ImageTexture {
                       url [
-                      %< if ((typeof roadLines[j] !== 'undefined' && (roadLines[j].fields.type.value === 'continuous' || roadLines[j].fields.type.value === 'double')) || dashedLine[j] === false) { >%
+                      %< if (typeof roadLines[j] !== 'undefined' && (roadLines[j].fields.type.value === 'continuous' || roadLines[j].fields.type.value === 'double')) { >%
                           "textures/line_base_color.png"
                       %< } else { >%
                         "textures/line_base_color_dashed.png"
