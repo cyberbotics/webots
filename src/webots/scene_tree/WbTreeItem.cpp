@@ -128,9 +128,11 @@ QString WbTreeItem::data() const {
   switch (mType) {
     case NODE: {
       QString fullName = mNode->fullName();
-      WbSFString *name = mNode->findSFString("name");
-      if (name)
-        fullName += " \"" + name->value() + "\"";
+      if (!fullName.startsWith("DEF ") && !fullName.startsWith("USE ")) {
+        WbSFString *name = mNode->findSFString("name");
+        if (name)
+          fullName += " \"" + name->value() + "\"";
+      }
       return fullName;
     }
     case FIELD: {
