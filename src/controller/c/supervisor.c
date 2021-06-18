@@ -1104,17 +1104,17 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         center_of_mass_node_ref->center_of_mass[i] = request_read_double(r);
       break;
     case C_SUPERVISOR_NODE_GET_CONTACT_POINTS: {
-      const int node_id = request_read_int32(r);
+      const int contact_point_node_id = request_read_int32(r);
       const int include_descendants = (int)request_read_uchar(r);
 
       WbNodeRef contact_point_node = NULL;
-      if (contact_points_node_ref && contact_points_node_ref->id == node_id &&
+      if (contact_points_node_ref && contact_points_node_ref->id == contact_point_node_id &&
           contact_points_node_ref->contact_points_include_descendants == include_descendants)
         contact_point_node = contact_points_node_ref;
       else {
         WbNodeRef tmp_node = node_list;
         while (tmp_node) {
-          if (tmp_node->id == node_id) {
+          if (tmp_node->id == contact_point_node_id) {
             contact_point_node = tmp_node;
             break;
           }
