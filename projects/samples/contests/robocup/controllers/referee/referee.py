@@ -303,12 +303,6 @@ def update_score_display():
     supervisor.setLabel(5, score, 0, 0, game.font_size, BLACK_COLOR, 0.2, game.font)
 
 
-def update_time_count_display():
-    s = str(time_count)
-    s = ' ' * int(24 - (len(s) / 2)) + s
-    supervisor.setLabel(9, s, 0, 0.0465, game.font_size, BLACK_COLOR, 0.2, game.font)
-
-
 def update_team_details_display(team, side, strings):
     for n in range(len(team['players'])):
         robot_info = game.state.teams[side].players[n]
@@ -2794,7 +2788,6 @@ try:
                 send_play_state_after_penalties = False
 
         time_count += time_step
-        update_time_count_display()
 
         if game.minimum_real_time_factor != 0:
             # slow down the simulation to guarantee a miminum amount of real time between each step
