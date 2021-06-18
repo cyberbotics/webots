@@ -232,8 +232,8 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
       previousParentRedirections.append(parameter->parameter());
   }
   WbNode::setRestoreUniqueIdOnClone(false);
-  int uniqueId = node->uniqueId();
-  QString stateId = node->stateId();
+  const int uniqueId = node->uniqueId();
+  const QString &stateId = node->stateId();
   const WbSolid *solid = dynamic_cast<const WbSolid *>(node);
   WbVector3 translationFromFile;
   WbRotation rotationFromFile;
