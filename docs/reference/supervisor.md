@@ -779,10 +779,10 @@ Otherwise, it returns a handler to a field.
 
 If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_field` function should be used instead.
 
-Field handlers can also be retrieved by index using the `wb_supervisor_node_get_field_by_index` where the field is specified by its `index` and the the `node` it belongs to.
-Valid `index` values should be positive and lower than the number of fields returns by `wb_supervisor_node_get_number_of_fields`.
-If the node passed as argument is not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` return -1.
-To retried an internal field of a PROTO, the `wb_supervisor_node_get_proto_field_by_index` and `wb_supervisor_node_get_proto_number_of_fields` should be used instead.
+Field handlers can also be retrieved by index using the `wb_supervisor_node_get_field_by_index` function where the field is specified by its `index` and the the `node` it belongs to.
+Valid `index` values should be positive and lower than the number of fields returned by `wb_supervisor_node_get_number_of_fields`.
+If the arguments are not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` return -1.
+To retrieved an internal field of a PROTO, the `wb_supervisor_node_get_proto_field_by_index` and `wb_supervisor_node_get_proto_number_of_fields` should be used instead.
 
 > **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` and `wb_supervisor_node_get_proto_field_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
 
