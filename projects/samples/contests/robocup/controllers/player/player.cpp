@@ -245,7 +245,7 @@ static void warn(SensorMeasurements &sensor_measurements, std::string text) {
 
 class MotorCommand {
 public:
-  MotorCommand(webots::Motor *m) {
+  explicit MotorCommand(webots::Motor *m) {
     motor = m;
     position = NAN;
     velocity = NAN;
@@ -389,7 +389,7 @@ public:
     return motor_command;
   }
 
-  void stopMotors() {
+  void stopMotors() const {
     for (size_t i = 0; i != motor_commands.size(); i++) {
       webots::Motor *motor = motor_commands[i]->motor;
       motor->setVelocity(0);
