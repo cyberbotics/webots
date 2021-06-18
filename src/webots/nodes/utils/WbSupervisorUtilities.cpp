@@ -397,6 +397,7 @@ void WbSupervisorUtilities::reset() {
   mLabelIds.clear();
   mTrackedFields.clear();
   mTrackedPoses.clear();
+  mTrackedContactPoints.clear();
 
   // delete pending requests and reinitialize them
   deleteControllerRequests();
@@ -1827,8 +1828,10 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   }
   for (WbTrackedContactPointInfo &info : mTrackedContactPoints) {
     const double time = WbSimulationState::instance()->time();
-    if (time < info.lastUpdate || time >= info.lastUpdate + info.samplingPeriod)
+    if (time < info.lastUpdate || time >= info.lastUpdate + info.samplingPeriod) {
       pushContactPointsToStream(stream, info.solid, info.includeDescendants);
+      info.lastUpdate = time;
+    }
   }
   if (mNodeGetContactPoints) {
     pushContactPointsToStream(stream, mNodeGetContactPoints, mGetContactPointsIncludeDescendants);
