@@ -777,16 +777,16 @@ bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &re
   return true;
 }
 
-bool RosSupervisor::nodeGetFieldByIndexCallback(webots_ros::node_get_field::Request &req,
-                                                webots_ros::node_get_field::Response &res) {
+bool RosSupervisor::nodeGetFieldByIndexCallback(webots_ros::node_get_field_by_index::Request &req,
+                                                webots_ros::node_get_field_by_index::Response &res) {
   assert(this);
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
   if (req.proto)
-    res.field = reinterpret_cast<uint64_t>(node->getProtoField(req.index));
+    res.field = reinterpret_cast<uint64_t>(node->getProtoFieldByIndex(req.index));
   else
-    res.field = reinterpret_cast<uint64_t>(node->getField(req.index));
+    res.field = reinterpret_cast<uint64_t>(node->getFieldByIndex(req.index));
   return true;
 }
 
@@ -796,10 +796,7 @@ bool RosSupervisor::nodeGetNumberOfFieldsCallback(webots_ros::node_get_number_of
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  if (req.proto)
-    res.value = reinterpret_cast<uint64_t>(node->getProtoNumberOfFields());
-  else
-    res.value = reinterpret_cast<uint64_t>(node->getNumberOfFields());
+  res.value = req.proto ? node->getProtoNumberOfFields() : node->getNumberOfFields();
   return true;
 }
 

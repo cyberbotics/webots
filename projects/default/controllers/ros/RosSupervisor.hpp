@@ -46,6 +46,7 @@
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
 #include <webots_ros/node_get_number_of_contact_points.h>
+#include <webots_ros/node_get_number_of_fields.h>
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_pose.h>
@@ -163,8 +164,10 @@ public:
   bool nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::Request &req,
                              webots_ros::node_add_force_or_torque::Response &res);
   bool nodeGetFieldCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res);
-  bool nodeGetFieldByIndexCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res);
-  bool nodeGetNumberOfFieldsCallback(webots_ros::node_get_field::Request &req, webots_ros::node_get_field::Response &res);
+  bool nodeGetFieldByIndexCallback(webots_ros::node_get_field_by_index::Request &req,
+                                   webots_ros::node_get_field_by_index::Response &res);
+  bool nodeGetNumberOfFieldsCallback(webots_ros::node_get_number_of_fields::Request &req,
+                                     webots_ros::node_get_number_of_fields::Response &res);
   bool nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req, webots_ros::node_move_viewpoint::Response &res);
   bool nodeSetVisibilityCallback(webots_ros::node_set_visibility::Request &req, webots_ros::node_set_visibility::Response &res);
   bool nodeRemoveCallback(webots_ros::node_remove::Request &req, webots_ros::node_remove::Response &res);
