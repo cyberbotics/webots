@@ -1,7 +1,7 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
   info [
-    "Test world to validate correct resetting of transforms"
+    "Test world to validate correct reset of transforms"
   ]
   basicTimeStep 8
   coordinateSystem "NUE"
