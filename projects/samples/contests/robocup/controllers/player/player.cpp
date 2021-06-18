@@ -298,9 +298,10 @@ public:
       else
         receiveMessages();
       std::string customData = robot->getCustomData();
-      if (customData == "")
+      if (customData == "" && actuators_enabled == FALSE) {
+        resumeMotors();
         actuators_enabled = TRUE;
-      else if (customData == "penalized" && actuators_enabled) {
+      } else if (customData == "penalized" && actuators_enabled) {
         // penalized robots gets only their actuators disabled so that they become asleep
         stopMotors();
         actuators_enabled = FALSE;
