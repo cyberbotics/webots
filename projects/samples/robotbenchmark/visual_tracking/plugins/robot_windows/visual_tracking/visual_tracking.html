@@ -5,18 +5,11 @@
     <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
   </head>
   <body>
-    <div id='infotabs' class='wrapper webotsTabs webotsRobotWindowTabs'>
-      <input class="radio" id="one" name="group" type="radio" checked>
-      <input class="radio" id="two" name="group" type="radio">
-      <input class="radio" id="three" name="group" type="radio">
-      <div class="tabs">
-        <label class="tab" id="one-tab" for="one">Overview</label>
-        <label class="tab" id="two-tab" for="two">Metrics</label>
-        <label class="tab" id="three-tab" for="three">Instructions</label>
-      </div>
-
-      <div class="panels">
-        <div class="panel" id="one-panel">
+    <div id='infotabs' class='wrapper webotsTabs'>
+      <div>
+        <input class="radio" id="overview" name="group" type="radio" checked>
+        <label class="tab" for="overview">Overview</label>
+        <div class="panel">
           <p>This benchmark aims at developing a computer program that controls a pan-tilt camera
             to track and follow a target object in a cluttered environment.
             The programming language is Python, the robot model on which the camera is mounted is a Sony Aibo ERS-7 robot,
@@ -28,7 +21,9 @@
             This device displays the camera image as well as drawings resulting from the tracking procedure.
           </p>
         </div>
-        <div class="panel" id="two-panel">
+        <input class="radio" id="metrics" name="group" type="radio">
+        <label class="tab" for="metrics">Metrics</label>
+        <div class="panel">
           <div style='text-align:center'><em>frames</em> = <span id='frames-display'>0</span></div>
           <br>
           <div style='text-align:center'><em>hits</em> = <span id='hits-display'>0</span></div>
@@ -100,7 +95,9 @@
         	  <em>&epsilon;</em> is <span id='hit-error-display'>0.1</span>.
           </p>
         </div>
-        <div class="panel" id="three-panel">
+        <input class="radio" id="instructions" name="group" type="radio">
+        <label class="tab" for="instructions">Instructions</label>
+        <div class="panel">
           <h2>How to improve the hit rate?</h2>
           <p>The benchmark goal consists of two separate tasks:
           <ol>
@@ -139,5 +136,23 @@
       </div>
     </div>
     <script src="visual_tracking.js"></script>
+    <script>
+      let height;
+      function adaptPositionOfText() {
+        let tabs = document.getElementsByClassName('tab')
+        if(!tabs.length > 0)
+          return
+        let newHeight = tabs[tabs.length - 1].getBoundingClientRect().top + tabs[tabs.length - 1].getBoundingClientRect().height;
+        if(newHeight === height)
+          return;
+        height = newHeight;
+        let panels = document.getElementsByClassName('panel');
+        for (panel of panels) {
+          panel.style.top = height + 'px';
+        };
+      }
+      window.addEventListener('resize', adaptPositionOfText);
+      adaptPositionOfText();
+    </script>
   </body>
 </html>
