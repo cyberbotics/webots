@@ -8,6 +8,10 @@ p, h2, h3, code {
   padding-left: 15px;
   padding-right: 15px;
 }
+
+img {
+  max-width: 100%;
+}
 .wrapper{
   display:flex;
   flex-direction: row;
