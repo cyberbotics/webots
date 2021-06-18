@@ -33,6 +33,7 @@ fi
 
 # Copy headers
 if [ "${OSTYPE}" != "msys" ]; then
+    # don't copy the include files on Windows as they are the same as on other platforms, and they generate a huge diff due to Windows line endings which differ from Linux/macOS.
     rm -rf include
     mkdir -p include
     cp -r ${WEBOTS_HOME}/include/controller/* include
