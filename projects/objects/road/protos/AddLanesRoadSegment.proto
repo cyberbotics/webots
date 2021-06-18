@@ -101,8 +101,8 @@ PROTO AddLanesRoadSegment [
           numberOfLanes %<= lanes + i >%
           newLaneLeft IS newLaneLeft
           lines [
-            %< for (let j = 0; j < lanes + i; ++j) { >%
-              %< if (newLaneLeft) { >%
+            %< if (newLaneLeft) { >%
+              %< for (let j = 0; j < lanes + i; ++j) { >%
                 %< if (typeof roadLines[j] !== 'undefined') { >%
                   RoadLine {
                     color %<= roadLines[j].fields.color.value.r >% %<= roadLines[j].fields.color.value.g >% %<= roadLines[j].fields.color.value.b >%
@@ -110,15 +110,31 @@ PROTO AddLanesRoadSegment [
                     width %<= roadLines[j].fields.width.value >%
                   }
                 %< } >%
-              %< } else { >%
-                %< if (typeof roadLines[(lanes + i) - j - 1] !== 'undefined') { >%
-                  RoadLine {
-                    color %<= roadLines[(lanes + i) - j - 1].fields.color.value.r >% %<= roadLines[(lanes + i) - j - 1].fields.color.value.g >% %<= roadLines[(lanes + i) - j - 1].fields.color.value.b >%
-                    type %<= '"' + roadLines[(lanes + i) - j - 1].fields.type.value + '"' >%
-                    width %<= roadLines[(lanes + i) - j - 1].fields.width.value >%
-                  }
-                %< } >%
               %< } >%
+            %< } else { >%
+              %<
+                // first provide roadlines that will fill the main trunk of the road, they must be provided in reverse order because the base PROTO Road requires it
+                for (let j = 0; j < lanes; ++j) {
+                  if (typeof roadLines[j % lanes] !== 'undefined') {
+                    console.log(i + ' ' + j % lanes);
+              >%
+                    RoadLine {
+                      color %<= roadLines[j % lanes].fields.color.value.r >% %<= roadLines[j % lanes].fields.color.value.g >% %<= roadLines[j % lanes].fields.color.value.b >%
+                      type %<= '"' + roadLines[j % lanes].fields.type.value + '"' >%
+                      width %<= roadLines[j % lanes].fields.width.value >%
+                    }
+                  %< } >%
+                %< } >%
+                %<
+                  // then provide the new line, in direct order (need to or will break backwards compatibility)
+                  if (typeof roadLines[lanes] !== 'undefined') {
+                >%
+                    RoadLine {
+                      color %<= roadLines[lanes].fields.color.value.r >% %<= roadLines[lanes].fields.color.value.g >% %<= roadLines[lanes].fields.color.value.b >%
+                      type %<= '"' + roadLines[lanes].fields.type.value + '"' >%
+                      width %<= roadLines[lanes].fields.width.value >%
+                    }
+                %< } >%
             %< } >%
           ]
           roadBorderHeight IS roadBorderHeight
