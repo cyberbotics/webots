@@ -64,7 +64,7 @@ void WbTransform::reset(const QString &id) {
   WbGroup::reset(id);
   // note: for solids, the set of these parameters has to occur only if mJointParents.size() == 0 and it is handled in
   // WbSolid::reset, otherwise it breaks the reset of hinge based joints
-  if (nodeModelName() != "TrackWheel" && nodeModelName() != "Solid") {
+  if (nodeType() != WB_NODE_TRACK_WHEEL && nodeType() != WB_NODE_SOLID) {
     setTranslation(mSavedTranslations[id]);
     setRotation(mSavedRotations[id]);
   }
@@ -72,7 +72,7 @@ void WbTransform::reset(const QString &id) {
 
 void WbTransform::save(const QString &id) {
   WbGroup::save(id);
-  if (nodeModelName() != "TrackWheel") {
+  if (nodeType() != WB_NODE_TRACK_WHEEL) {
     mSavedTranslations[id] = translation();
     mSavedRotations[id] = rotation();
   }
