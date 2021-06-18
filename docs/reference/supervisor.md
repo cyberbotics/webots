@@ -663,7 +663,6 @@ A file with the equivalent content can be produced in the Webots user interface 
 #### `wb_supervisor_node_get_field`
 #### `wb_supervisor_node_get_field_by_index`
 #### `wb_supervisor_node_get_number_of_fields`
-#### `wb_supervisor_node_get_field`
 #### `wb_supervisor_node_get_proto_field`
 #### `wb_supervisor_node_get_proto_field_by_index`
 #### `wb_supervisor_node_get_proto_number_of_fields`

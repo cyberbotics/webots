@@ -277,7 +277,6 @@ private:
   ros::ServiceServer mNodeGetFieldServer;
   ros::ServiceServer mNodeGetFieldByIndexServer;
   ros::ServiceServer mNodeGetNumberOfFieldsServer;
-  ros::ServiceServer mNodeGetProtoNumberOfFieldsServer;
   ros::ServiceServer mNodeMoveViewpointServer;
   ros::ServiceServer mNodeSetVisibilityServer;
   ros::ServiceServer mNodeRemoveServer;

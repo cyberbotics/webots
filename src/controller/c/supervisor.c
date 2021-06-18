@@ -471,6 +471,7 @@ static void supervisor_cleanup(WbDevice *d) {
     WbFieldStruct *f = field_list->next;
     if (field_list->type == WB_SF_STRING || field_list->type == WB_MF_STRING)
       free(field_list->data.sf_string);
+    free((char *)field_list->name);
     free(field_list);
     field_list = f;
   }
@@ -2196,7 +2197,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
   }
   if (index < 0) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with an invalid negative 'index' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with an negative 'index' argument: %d.\n", __FUNCTION__, index);
     return NULL;
   }
 
@@ -2232,7 +2233,7 @@ WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index
   }
   if (index < 0) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with an invalid negative 'index' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with a negative 'index' argument: %d.\n", __FUNCTION__, index);
     return NULL;
   }
 
@@ -2328,6 +2329,7 @@ const int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
   robot_mutex_lock_step();
   requested_node_number_of_fields = true;
   node_ref = node->id;
+  node_number_of_fields = -1;
   allow_search_in_proto = true;
   wb_robot_flush_unlocked();
   requested_node_number_of_fields = false;
