@@ -248,7 +248,7 @@ public:
   explicit MotorCommand(webots::Motor *m) {
     motor = m;
     position = NAN;
-    velocity = NAN;
+    velocity = m->getVelocity();
     force_or_torque = NAN;
   }
   webots::Motor *motor;
