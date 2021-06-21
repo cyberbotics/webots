@@ -368,9 +368,8 @@ def update_details_display():
         if game.interruption_seconds is not None else 0
     if sr > 0:
         secondary_state += ' ' + format_time(sr)
-    if game.interruption is not None:
-        if game.interruption_step is not None:
-            secondary_state += ' [' + str(game.interruption_step) + ']'
+    if game.state.secondary_state[6:] != 'NORMAL' or game.state.secondary_state_info[1] != 0:
+        secondary_state += ' [' + str(game.state.secondary_state_info[1]) + ']'
     if game.interruption_team is not None:  # interruption
         secondary_state_color = RED_COLOR if game.interruption_team == game.red.id else BLUE_COLOR
     else:
@@ -478,10 +477,6 @@ def game_controller_receive():
             info('Ball in play, can be touched by any player (10 seconds elapsed after kickoff).')
             game.in_play = time_count
             game.ball_last_move = time_count
-    if previous_state != game.state.game_state or \
-       previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
-       game.state.seconds_remaining <= 0:
-        update_state_display()
     if previous_seconds_remaining != game.state.seconds_remaining:
         if game.interruption_seconds is not None:
             if game.interruption_seconds - game.state.seconds_remaining > IN_PLAY_TIMEOUT:
@@ -494,7 +489,6 @@ def game_controller_receive():
                     game.interruption_step_time = 0
                     game.interruption_team = None
                     game.interruption_seconds = None
-            update_state_display()
         update_time_display()
     red = 0 if game.state.teams[0].team_color == 'RED' else 1
     blue = 1 if red == 0 else 0
@@ -530,6 +524,11 @@ def game_controller_receive():
     elif secondary_state not in ['STATE_NORMAL', 'STATE_OVERTIME', 'STATE_PENALTYSHOOT']:
         print(f'GameController {game.state.game_state}:{secondary_state}: {secondary_state_info}')
     update_penalized()
+    if previous_state != game.state.game_state or \
+       previous_sec_state != new_sec_state or previous_sec_phase != new_sec_phase or \
+       previous_secondary_seconds_remaining != game.state.secondary_seconds_remaining or \
+       game.state.seconds_remaining <= 0:
+        update_state_display()
 
 
 game_controller_receive.others = []
