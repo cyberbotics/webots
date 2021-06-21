@@ -1185,8 +1185,11 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     player['penalty_immunity'] = immunity_timeout
     freekick_team_id = game.blue.id if team['color'] == "red" else game.red.id
     foul_far_from_ball = distance_to_ball > FOUL_BALL_DISTANCE
+    if game.penalty_shootout and is_penalty_kicker(team, number):
+        info(f'Kicker {team["color"]} {number} performed forceful contact during penaltykick -> end of trial')
+        next_penalty_shootout()
     info(f"Ball in play: {game.in_play}, foul far from ball: {foul_far_from_ball}")
-    if foul_far_from_ball or not game.in_play:
+    if foul_far_from_ball or not game.in_play or game.penalty_shootout:
         send_penalty(player, 'PHYSICAL_CONTACT', 'forceful contact foul')
     elif area[0] == 'i' and player['inside_own_side']:  # inside own penalty area
         ball_reset_location = [game.field.penalty_mark_x, 0]
@@ -1347,7 +1350,10 @@ def check_team_ball_handling(team):
         if not goalkeeper and not game.throw_in:
             reset_ball_handling(player)
             sentence = 'touched the ball with its hand or arm'
-            send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
+            if game.penalty_shootout and is_penalty_kicker(team, number):
+                info("Kicker {color.capitalize()} {number} has fallen down and not recovered -> end of trial")
+            else:
+                send_penalty(player, 'BALL_MANIPULATION', sentence, f'{color.capitalize()} player {number} {sentence}.')
             continue
         ball_on_the_ground = game.ball_position[2] <= game.field.turf_depth + game.ball_radius
         if game.throw_in:
@@ -1395,8 +1401,12 @@ def check_team_fallen(team):
             continue
         if 'fallen' in player and time_count - player['fallen'] > 1000 * FALLEN_TIMEOUT:
             del player['fallen']
-            send_penalty(player, 'INCAPABLE', 'fallen down',
-                         f'{color.capitalize()} player {number} has fallen down and didn\'t recover in the last 20 seconds.')
+            if game.penalty_shootout and is_penalty_kicker(team, number):
+                info("Kicker {color.capitalize()} {number} has fallen down and not recovered -> end of trial")
+                next_penalty_shootout()
+            else:
+                send_penalty(player, 'INCAPABLE', 'fallen down',
+                             f'{color.capitalize()} player {number} has fallen down and not recovered in 20 seconds.')
             penalty = True
     return penalty
 
@@ -1526,8 +1536,12 @@ def check_team_outside_turf(team):
             continue
         if time_count - player['left_turf_time'] < OUTSIDE_TURF_TIMEOUT * 1000:
             continue
-        send_penalty(player, 'INCAPABLE', f'left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds',
-                     f'{color.capitalize()} player {number} left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds.')
+        if game.penalty_shootout and is_penalty_kicker(team, number):
+            info(f'Kicker {color.capitalize()} {number} left the field -> end of trial')
+            next_penalty_shootout()
+        else:
+            send_penalty(player, 'INCAPABLE', f'left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds',
+                         f'{color.capitalize()} player {number} left the field for more than {OUTSIDE_TURF_TIMEOUT} seconds.')
 
 
 def check_outside_turf():
@@ -1839,7 +1853,7 @@ def get_penalty_shootout_msg():
 
 
 def set_penalty_positions():
-    info(f"Setting positions for {get_penalty_shootout_msg}")
+    info(f"Setting positions for {get_penalty_shootout_msg()}")
     default = game.penalty_shootout_count % 2 == 0
     attacking_color = 'red' if (game.kickoff == game.blue.id) ^ default else 'blue'
     if attacking_color == 'red':
@@ -1881,7 +1895,7 @@ def set_penalty_positions():
 
 
 def stop_penalty_shootout():
-    info(f"End of {get_penalty_shootout_msg}")
+    info(f"End of {get_penalty_shootout_msg()}")
     if game.penalty_shootout_count == 20:  # end of extended penalty shootout
         return True
     diff = abs(game.state.teams[0].score - game.state.teams[1].score)
@@ -1939,14 +1953,16 @@ def check_penalty_goal_line():
         if game.in_play is not None or ignore_player:
             player['invalidGoalkeeperStart'] = None
             continue
-        if not player['on_outer_line'] or abs(player['position'][1]) > GOAL_WIDTH or not player['inside_own_side']:
+        on_goal_line_or_behind = (player['on_outer_line'] or player['outside_field']) and \
+            abs(player['position'][1]) <= GOAL_WIDTH
+        if on_goal_line_or_behind and player['inside_own_side']:
+            player['invalidGoalkeeperStart'] = None
+        else:
             if player['invalidGoalkeeperStart'] is None:
                 player['invalidGoalkeeperStart'] = time_count
             elif time_count - player['invalidGoalkeeperStart'] > INVALID_GOALKEEPER_TIMEOUT * 1000:
                 info(f'Goalkeeper of team {defending_team["color"]} is not on goal line since {INVALID_GOALKEEPER_TIMEOUT} sec')
                 send_penalty(player, 'INCAPABLE', "Not on goal line during penalty")
-        else:
-            player['invalidGoalkeeperStart'] = None
 
 
 def interruption(interruption_type, team=None, location=None, is_goalkeeper_ball_manipulation=False):
@@ -2480,7 +2496,8 @@ try:
         if game.ball_position != previous_position:
             game.ball_last_move = time_count
         update_contacts()  # check for collisions with the ground and ball
-        update_ball_holding()  # check for ball holding for field players and goalkeeper
+        if not game.penalty_shootout:
+            update_ball_holding()  # check for ball holding for field players and goalkeeper
         update_histories()
         if game.state.game_state == 'STATE_PLAYING' and not is_early_game_interruption():
             check_outside_turf()
@@ -2774,11 +2791,12 @@ try:
         check_fallen()                                # detect fallen robots
 
         if game.state.game_state == 'STATE_PLAYING' and game.in_play:
-            ball_holding = check_ball_holding()       # check for ball holding fouls
-            if ball_holding:
-                interruption('FREEKICK', ball_holding, game.ball_position)
+            if not game.penalty_shootout:
+                ball_holding = check_ball_holding()       # check for ball holding fouls
+                if ball_holding:
+                    interruption('FREEKICK', ball_holding, game.ball_position)
             ball_handling = check_ball_handling()  # return team id if ball handling is performed by goalkeeper
-            if ball_handling:
+            if ball_handling and not game.penalty_shootout:
                 interruption('FREEKICK', ball_handling, game.ball_position, is_goalkeeper_ball_manipulation=True)
         check_penalized_in_field()                    # check for penalized robots inside the field
         if game.state.game_state != 'STATE_INITIAL':  # send penalties if needed
