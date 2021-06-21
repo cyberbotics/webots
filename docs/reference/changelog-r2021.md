@@ -72,6 +72,7 @@ Released on June, Xth, 2021.
     - Fixed RandomBuilding proto where having different instances generated the same building ([#2897](https://github.com/cyberbotics/webots/pull/2897)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
+    - Remove the viewpoint_control benchmark that was not working in Webots ([#3192](https://github.com/cyberbotics/webots/pull/3192)).
 
 ## Webots R2021a Revision 1
 Released on XX Xth, 2021.
