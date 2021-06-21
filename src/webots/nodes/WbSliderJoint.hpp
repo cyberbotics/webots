@@ -45,6 +45,7 @@ public:
 
 public slots:
   bool setJoint() override;
+  void updatePosition() override;
 
 protected:
   WbLinearMotor *linearMotor() const;
@@ -55,7 +56,6 @@ protected:
   void writeExport(WbVrmlWriter &writer) const override;
 
 protected slots:
-  void updatePosition() override;
   void updateParameters() override;
   void updateMinAndMaxStop(double min, double max) override;
 

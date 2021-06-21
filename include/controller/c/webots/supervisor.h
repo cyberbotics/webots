@@ -98,6 +98,7 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
 void wb_supervisor_node_remove(WbNodeRef node);
 void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name);
+void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int index);
 
 const char *wb_supervisor_node_get_def(WbNodeRef node);
 const char *wb_supervisor_node_get_type_name(WbNodeRef node);

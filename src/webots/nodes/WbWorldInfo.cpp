@@ -74,6 +74,8 @@ void WbWorldInfo::init(const WbVersion *version) {
   mGpsCoordinateSystem = findSFString("gpsCoordinateSystem");
   mGpsReference = findSFVector3("gpsReference");
   mLineScale = findSFDouble("lineScale");
+  mDragForceScale = findSFDouble("dragForceScale");
+  mDragTorqueScale = findSFDouble("dragTorqueScale");
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
 
@@ -123,6 +125,8 @@ void WbWorldInfo::preFinalize() {
   updateBasicTimeStep();
   updateFps();
   updateLineScale();
+  updateDragForceScale();
+  updateDragTorqueScale();
   updateRandomSeed();
   updateDefaultDamping();
   updateGpsCoordinateSystem();
@@ -150,6 +154,8 @@ void WbWorldInfo::postFinalize() {
   connect(mOptimalThreadCount, &WbSFInt::changed, this, &WbWorldInfo::displayOptimalThreadCountWarning);
   connect(mFps, &WbSFDouble::changed, this, &WbWorldInfo::updateFps);
   connect(mLineScale, &WbSFDouble::changed, this, &WbWorldInfo::updateLineScale);
+  connect(mDragForceScale, &WbSFDouble::changed, this, &WbWorldInfo::updateDragForceScale);
+  connect(mDragTorqueScale, &WbSFDouble::changed, this, &WbWorldInfo::updateDragTorqueScale);
   connect(mRandomSeed, &WbSFInt::changed, this, &WbWorldInfo::updateRandomSeed);
   connect(mPhysicsDisableTime, &WbSFDouble::changed, this, &WbWorldInfo::physicsDisableChanged);
   connect(mPhysicsDisableLinearThreshold, &WbSFDouble::changed, this, &WbWorldInfo::physicsDisableChanged);
@@ -252,6 +258,14 @@ void WbWorldInfo::updateLineScale() {
 
 void WbWorldInfo::applyLineScaleToWren() {
   WbWrenRenderingContext::instance()->setLineScale(static_cast<float>(mLineScale->value()));
+}
+
+void WbWorldInfo::updateDragForceScale() {
+  WbFieldChecker::resetDoubleIfNonPositive(this, mDragForceScale, 30.0);
+}
+
+void WbWorldInfo::updateDragTorqueScale() {
+  WbFieldChecker::resetDoubleIfNonPositive(this, mDragTorqueScale, 5.0);
 }
 
 void WbWorldInfo::updateRandomSeed() {

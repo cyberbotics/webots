@@ -60,7 +60,6 @@ Fabtino {
   ]
   bodySlot [
     Robotino3Platform {
-      height 0.604
       extension [
         ConveyorPlatform {
           rotation 0 1 0 1.5708
@@ -68,6 +67,7 @@ Fabtino {
           speed 0.6
         }
       ]
+      height 0.604
     }
   ]
 }
@@ -84,7 +84,14 @@ ElectricalPlug {
   translation -8.68 -6.45 0.2
   rotation 0 0.707106781186548 0.707106781186547 3.141592653589793
   cablePath [
-    0 0 0    0 0.05 0    0.1 0.05 0    0.2 0.05 0.05    0.5 0.05 0.19    0.8 0.05 0.19    0.818 0.066 0.19    0.818 0.071 0.19
+    0 0 0
+    0 0.05 0
+    0.1 0.05 0
+    0.2 0.05 0.05
+    0.5 0.05 0.19
+    0.8 0.05 0.19
+    0.818 0.066 0.19
+    0.818 0.071 0.19
   ]
   enablePhysics FALSE
 }
@@ -94,14 +101,14 @@ Clock {
 }
 Panel {
   translation -9.49612 6.47029 0.0051231
-  size 1.6 1.7 0.05
   rotation 1 0 0 1.5707963267948966
+  size 1.6 1.7 0.05
 }
 Panel {
   translation -7.9 6.47029 0.0051231
+  rotation 1 0 0 1.5707963267948966
   name "panel_1"
   size 1.6 1.7 0.05
-  rotation 1 0 0 1.5707963267948966
 }
 Panel {
   translation -9.47 4.85 0
@@ -120,10 +127,10 @@ Cabinet {
   rotation 0.577348737554214 0.577351035005808 0.577351035005808 2.094397399847837
   name "cabinet(5)"
   rowsHeights [
-    0.24 0.2 0.2
+    0.24, 0.2, 0.2
   ]
   columnsWidths [
-    0.6 0.4 0.5
+    0.6, 0.4, 0.5
   ]
   layout [
     "RightSidedDoor (1, 1,  1, 3, 1.5)"
@@ -141,10 +148,10 @@ Cabinet {
   rotation 0.577350661639742 -0.577350072964468 -0.577350072964468 2.094394513718122
   name "cabinet(6)"
   rowsHeights [
-    0.24 0.2 0.2
+    0.24, 0.2, 0.2
   ]
   columnsWidths [
-    0.8 0.8
+    0.8, 0.8
   ]
   layout [
     "Drawer(1, 1, 1, 1 1.5)"
@@ -166,10 +173,10 @@ Cabinet {
   rotation 0.577350661639742 -0.577350072964468 -0.577350072964468 2.094394513718122
   name "cabinet(7)"
   rowsHeights [
-    0.24 0.2 0.2
+    0.24, 0.2, 0.2
   ]
   columnsWidths [
-    0.8 0.4 0.4
+    0.8, 0.4, 0.4
   ]
   layout [
     "RightSidedDoor (1, 1,  1, 3, 1.5)"
@@ -192,7 +199,7 @@ Cabinet {
   name "cabinet(2)"
   depth 0.7
   columnsWidths [
-    0.5 0.25 0.25
+    0.5, 0.25, 0.25
   ]
   layout [
     "RightSidedDoor (1, 1, 1, 5, 1.5)"
@@ -211,7 +218,7 @@ Cabinet {
   name "cabinet(3)"
   depth 0.7
   columnsWidths [
-    0.5 0.25 0.25
+    0.5, 0.25, 0.25
   ]
   layout [
     "RightSidedDoor (1, 1, 1, 5, 1.5)"
@@ -230,7 +237,7 @@ Cabinet {
   name "cabinet(4)"
   depth 0.7
   columnsWidths [
-    0.5 0.25 0.25
+    0.5, 0.25, 0.25
   ]
   layout [
     "RightSidedDoor (1, 1, 1, 5, 1.5)"
@@ -258,7 +265,7 @@ ConveyorBelt {
 }
 ConveyorBelt {
   translation 3.14141 -5.61763 0
-  rotation 0.000000938185669 0.707106781186236 0.707106781186236 3.141590777218456
+  rotation 9.38185669e-07 0.707106781186236 0.707106781186236 3.141590777218456
   name "conveyor belt(4)"
   size 8 0.9 0.8
   appearance CorrugatedMetal {
@@ -271,16 +278,16 @@ ConveyorBelt {
 }
 PlasticCrate {
   translation -1.39898 -5.60415 5.41788e-14
+  rotation 1 0 0 1.5707963267948966
   name "plastic crate(5)"
   size 1 0.9 1
-  rotation 1 0 0 1.5707963267948966
 }
 PlasticCrate {
   translation -6.187 -0.987 0.9
+  rotation 1 0 0 1.5707963267948966
   name "Kasten(2)"
   size 0.4 0.12 0.23
   mass 0.92
-  rotation 1 0 0 1.5707963267948966
 }
 SquareManhole {
   translation 0.560459 -1.782 -0.03
@@ -288,6 +295,7 @@ SquareManhole {
 }
 Table {
   translation 3.097723 2.013972 0
+  rotation 1 0 0 1.5707963267948966
   size 1.8 0.7 0.8
   feetSize 0.05 0.05
   trayAppearance PBRAppearance {
@@ -298,7 +306,6 @@ Table {
   legAppearance BrushedAluminium {
     colorOverride 0.333 0.341 0.325
   }
-  rotation 1 0 0 1.5707963267948966
 }
 WoodenChair {
   translation 2.921084 1.648051 0
@@ -314,7 +321,7 @@ Keyboard {
 }
 DesktopComputer {
   translation 2.331033 2.125086 0
-  rotation 0.000000122474503 -0.707106781186542 -0.707106781186542 3.141592408640787
+  rotation 1.22474503e-07 -0.707106781186542 -0.707106781186542 3.141592408640787
 }
 ComputerMouse {
   translation 2.94663 1.914183 0.7
@@ -369,6 +376,7 @@ WoodenPalletStack {
 }
 Cabinet {
   translation -0.4 2.47 0
+  rotation 1 0 0 1.5707963267948966
   name "cabinet(1)"
   layout [
     "RightSidedDoor (1, 1, 1, 5, 1.5)"
@@ -380,7 +388,6 @@ Cabinet {
   secondaryAppearance GlossyPaint {
     baseColor 0.1 0.3 0.8
   }
-  rotation 1 0 0 1.5707963267948966
 }
 CardboardBox {
   translation -1.21 2.18 0.3
@@ -393,6 +400,7 @@ CardboardBox {
   size 0.4 0.3 0.6
 }
 RectangleArena {
+  rotation 1 0 0 1.5707963267948966
   floorSize 19 13
   floorAppearance ThreadMetalPlate {
   }
@@ -403,10 +411,10 @@ RectangleArena {
       scale 2 1
     }
   }
-  rotation 1 0 0 1.5707963267948966
 }
 Transform {
   translation 1.77 6.5 1.05
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -419,22 +427,21 @@ Transform {
       }
     }
   ]
-  rotation 1 0 0 1.5707963267948966
 }
 SolidBox {
   translation -0.135 -0.0323 0.305
+  rotation 1 0 0 1.5707963267948966
   size 1.5 0.61 0.4
   appearance GalvanizedMetal {
   }
-  rotation 1 0 0 1.5707963267948966
 }
 SolidBox {
   translation 1.015 -0.0323 0.45
+  rotation 1 0 0 1.5707963267948966
   name "box(5)"
   size 0.8 0.91 0.4
   appearance GalvanizedMetal {
   }
-  rotation 1 0 0 1.5707963267948966
 }
 SolidBox {
   translation 0.8 0.329556 0.819996
@@ -479,7 +486,7 @@ SolidBox {
 }
 SolidBox {
   translation 1.77 -0.11 0.375
-  rotation 0.000000231078888 0.707106781186529 0.707106781186529 3.141592191432018
+  rotation 2.31078888e-07 0.707106781186529 0.707106781186529 3.141592191432018
   name "box(2)"
   size 0.2 0.75 0.18
   appearance CorrugatedMetal {
@@ -490,7 +497,7 @@ SolidBox {
 }
 SolidBox {
   translation 1.77 2.43 0.375
-  rotation 0.000000231078888 0.707106781186529 0.707106781186529 3.141592191432018
+  rotation 2.31078888e-07 0.707106781186529 0.707106781186529 3.141592191432018
   name "box(3)"
   size 0.2 0.75 0.18
   appearance CorrugatedMetal {
@@ -521,8 +528,8 @@ UR3e {
   ]
 }
 UR5e {
-  translation 0 -0.0 0.61
-  rotation 0.000000059116741 -0 -0.999999999999998 1.570796267678159
+  translation 0 0 0.61
+  rotation 5.9116741e-08 0 -0.999999999999998 1.570796267678159
   controller "ure_can_grasper"
   selfCollision FALSE
   toolSlot [
@@ -536,7 +543,7 @@ UR5e {
 }
 UR10e {
   translation -0.56 -0.1 0.61
-  rotation -0.000000118233471 -0 -0.999999999999993 1.570796445028382
+  rotation -1.18233471e-07 0 -0.999999999999993 1.570796445028382
   controller "ure_can_grasper"
   selfCollision FALSE
   toolSlot [
@@ -550,7 +557,7 @@ UR10e {
 }
 ConveyorBelt {
   translation 3.18 -1.05 0
-  rotation 0.000000231078887 0.707106781186529 0.707106781186529 3.141592191432018
+  rotation 2.31078887e-07 0.707106781186529 0.707106781186529 3.141592191432018
   size 8 0.6 0.7
   appearance CorrugatedMetal {
     textureTransform TextureTransform {
@@ -575,6 +582,7 @@ ConveyorBelt {
 }
 ConveyorBelt {
   translation 0 0.69 0
+  rotation 1 0 0 1.5707963267948966
   name "conveyor belt(1)"
   size 6 0.25 0.5
   appearance CorrugatedMetal {
@@ -585,109 +593,108 @@ ConveyorBelt {
   borderHeight 0
   speed 0
   timer 90
-  rotation 1 0 0 1.5707963267948966
 }
 PlasticCrate {
   translation 0.22 0.68 0.25
+  rotation 1 0 0 1.5707963267948966
   size 0.6 0.4 0.45
   mass 1
-  rotation 1 0 0 1.5707963267948966
 }
 PlasticCrate {
   translation -0.41 0.68 0.25
+  rotation 1 0 0 1.5707963267948966
   name "plastic crate(1)"
   size 0.6 0.4 0.45
   mass 1
-  rotation 1 0 0 1.5707963267948966
 }
 PlasticCrate {
   translation -1.04 0.68 0.26
+  rotation 1 0 0 1.5707963267948966
   name "plastic crate(2)"
   size 0.6 0.4 0.45
   mass 1
-  rotation 1 0 0 1.5707963267948966
 }
 PlasticCrate {
   translation -1.67 0.68 0.26
+  rotation 1 0 0 1.5707963267948966
   name "plastic crate(3)"
   size 0.6 0.4 0.45
   mass 1
-  rotation 1 0 0 1.5707963267948966
 }
 PlasticCrate {
   translation 0.84 0.68 0.26
+  rotation 1 0 0 1.5707963267948966
   name "plastic crate(4)"
   size 0.6 0.4 0.45
   mass 1
-  rotation 1 0 0 1.5707963267948966
 }
 Can {
   translation 1.77 2.67 0.96
-  name "can(14)"
   rotation 1 0 0 1.5707963267948966
+  name "can(14)"
 }
 Can {
   translation 1.77 3.8 0.96
-  name "can(15)"
   rotation 1 0 0 1.5707963267948966
+  name "can(15)"
 }
 Can {
   translation 1.77 4.7 0.96
-  name "can(16)"
   rotation 1 0 0 1.5707963267948966
+  name "can(16)"
 }
 Can {
   translation 1.77 5.6 0.96
-  name "can(17)"
   rotation 1 0 0 1.5707963267948966
+  name "can(17)"
 }
 Can {
   translation 1.77 6.5 0.96
-  name "can(18)"
   rotation 1 0 0 1.5707963267948966
+  name "can(18)"
 }
 Can {
   translation 0.7 -0.83 0.66
-  name "can(13)"
   rotation 1 0 0 1.5707963267948966
+  name "can(13)"
 }
 Can {
   translation 1.26 -1.285 0.66
-  name "can(4)"
   rotation 1 0 0 1.5707963267948966
+  name "can(4)"
 }
 Can {
   translation 2.1 -0.83 0.66
-  name "can(1)"
   rotation 1 0 0 1.5707963267948966
+  name "can(1)"
 }
 Can {
   translation 2.49 -1.285 0.66
-  name "can(5)"
   rotation 1 0 0 1.5707963267948966
+  name "can(5)"
 }
 Can {
   translation 3.5 -0.83 0.66
-  name "can(2)"
   rotation 1 0 0 1.5707963267948966
+  name "can(2)"
 }
 Can {
   translation 3.9 -1.285 0.66
-  name "can(6)"
   rotation 1 0 0 1.5707963267948966
+  name "can(6)"
 }
 Can {
   translation 4.9 -0.83 0.66
-  name "can(3)"
   rotation 1 0 0 1.5707963267948966
+  name "can(3)"
 }
 Can {
   translation 5.3 -1.285 0.66
-  name "can(7)"
   rotation 1 0 0 1.5707963267948966
+  name "can(7)"
 }
 Can {
   translation 6.3 -0.83 0.66
-  name "can(8)"
   rotation 1 0 0 1.5707963267948966
+  name "can(8)"
 }

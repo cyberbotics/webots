@@ -141,6 +141,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                        &RosSupervisor::nodeEnablePoseTrackingCallback, this);
   mNodeDisablePoseTrackingServer = mRos->nodeHandle()->advertiseService(
     (ros->name()) + "/supervisor/node/disable_pose_tracking", &RosSupervisor::nodeDisablePoseTrackingCallback, this);
+  mNodeSetJointPositionServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_joint_position",
+                                                                     &RosSupervisor::nodeSetJointPositionCallback, this);
 
   mFieldGetTypeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_type",
                                                              &RosSupervisor::fieldGetTypeCallback, this);
@@ -264,6 +266,7 @@ RosSupervisor::~RosSupervisor() {
   mNodeRestartControllerServer.shutdown();
   mNodeEnablePoseTrackingServer.shutdown();
   mNodeDisablePoseTrackingServer.shutdown();
+  mNodeSetJointPositionServer.shutdown();
 
   mFieldGetTypeServer.shutdown();
   mFieldGetTypeNameServer.shutdown();
@@ -889,6 +892,17 @@ bool RosSupervisor::nodeDisablePoseTrackingCallback(webots_ros::node_disable_pos
 
   node->disablePoseTracking(fromNode);
 
+  return true;
+}
+
+bool RosSupervisor::nodeSetJointPositionCallback(webots_ros::node_set_joint_position::Request &req,
+                                                 webots_ros::node_set_joint_position::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->setJointPosition(req.position, req.index);
+  res.success = 1;
   return true;
 }
 

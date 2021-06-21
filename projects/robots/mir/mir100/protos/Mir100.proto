@@ -128,7 +128,7 @@ PROTO Mir100 [
         rotation -0.5314699172926579 -0.816513872934121 0.22548796490956566 -1.7730453071795864
         scale 1.0003465485345713 0.92893 0.92893
         children [
-          DEF CAMERA_SHAPE Shape {
+          Shape {
             appearance Appearance {
               material Material {
                 emissiveColor 1 1 1
@@ -137,6 +137,9 @@ PROTO Mir100 [
                 url [
                   "webots://projects/robots/mir/mir100/protos/textures/camera.png"
                 ]
+              }
+              textureTransform TextureTransform {
+                rotation 3.1415926
               }
             }
             geometry Plane {
@@ -150,7 +153,21 @@ PROTO Mir100 [
         rotation 0.6425837390040647 0.41825883011730935 0.6419857392469521 -2.7903353071795864
         scale 1.0003465485345713 0.92893 0.92893
         children [
-          USE CAMERA_SHAPE
+          Shape {
+            appearance Appearance {
+              material Material {
+                emissiveColor 1 1 1
+              }
+              texture ImageTexture {
+                url [
+                  "textures/camera.png"
+                ]
+              }
+            }
+            geometry Plane {
+              size 0.08 0.015
+            }
+          }
         ]
       }
       Mir100UltrasonicSensor {
@@ -190,7 +207,7 @@ PROTO Mir100 [
         ]
       }
       RangeFinder {
-        translation 0.464 0 0.116
+        translation 0.464 0 0.18
         rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
         name "depth_camera"
         fieldOfView 2.05949
