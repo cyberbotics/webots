@@ -62,25 +62,25 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["fields"].chop(2);  // remove the last ",\n" if any
 
 #ifdef _WIN32
-  tags["context"] = QString("os: \"windows\", ");
+  tags["context"] = QString("os: 'windows', ");
 #endif
 #ifdef __linux__
-  tags["context"] = QString("os: \"linux\", ");
+  tags["context"] = QString("os: 'linux', ");
 #endif
 #ifdef __APPLE__
-  tags["context"] = QString("os: \"mac\", ");
+  tags["context"] = QString("os: 'mac', ");
 #endif
-  tags["context"] += QString("world: \"%1\", ").arg(worldPath);
-  tags["context"] += QString("proto: \"%1\", ").arg(protoPath);
-  tags["context"] += QString("webots_home: \"%1\", ").arg(WbStandardPaths::webotsHomePath());
-  tags["context"] += QString("project_path: \"%1\", ").arg(WbProject::current()->path());
-  tags["context"] += QString("temporary_files_path: \"%1\", ").arg(WbStandardPaths::webotsTmpPath());
-  tags["context"] += QString("id: \"%1\", ").arg(id);
-  tags["context"] += QString("coordinate_system: \"%1\", ").arg(gCoordinateSystem);
+  tags["context"] += QString("world: '%1', ").arg(worldPath);
+  tags["context"] += QString("proto: '%1', ").arg(protoPath);
+  tags["context"] += QString("webots_home: '%1', ").arg(WbStandardPaths::webotsHomePath());
+  tags["context"] += QString("project_path: '%1', ").arg(WbProject::current()->path());
+  tags["context"] += QString("temporary_files_path: '%1', ").arg(WbStandardPaths::webotsTmpPath());
+  tags["context"] += QString("id: '%1', ").arg(id);
+  tags["context"] += QString("coordinate_system: '%1', ").arg(gCoordinateSystem);
   WbVersion version = WbApplicationInfo::version();
   // for example major = R2018a and revision = 0
   tags["context"] +=
-    QString("webots_version: {major: \"%1\", revision: \"%2\"}").arg(version.toString(false)).arg(version.revisionNumber());
+    QString("webots_version: {major: '%1', revision: '%2'}").arg(version.toString(false)).arg(version.revisionNumber());
 
   if (templateLanguage == "lua") {
     tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
@@ -226,7 +226,7 @@ QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &stat
 
   statement = statement.replace("value: undefined", "value = nil");
   statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
-  statement = statement.replace(":", " =");
+  statement = statement.replace(": ", " = ");
   statement = statement.replace("'", "\"");
 
   return statement;

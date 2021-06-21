@@ -28,12 +28,13 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 32
 #define SPEED_INCREMENT 0.1
 #define MAX_SPEED 0.6
 
 int main() {
   wb_robot_init();
+
+  const int time_step = wb_robot_get_basic_time_step();
 
   WbDeviceTag motor_belt = wb_robot_get_device("belt_motor");
 
@@ -44,13 +45,13 @@ int main() {
   double target_belt_speed = 0.0;  // in [m/s].
   int sign;                        // sign of the increment (decrement if -1).
 
-  wb_keyboard_enable(TIME_STEP);
+  wb_keyboard_enable(time_step);
 
   printf("To move the ConveyorPlatform with your keyboard, click first inside the simulation window and press: \n \
   Belt : +/-       \n \
   Reset: Space bar \n");
 
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     int key = wb_keyboard_get_key();
     bool is_key_valid = 1;
     switch (key) {
