@@ -1496,8 +1496,10 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
     }
 
     const WbGroup *const groupChild = dynamic_cast<WbGroup *>(n);
-    if (groupChild)
+    if (groupChild) {
       collectSolidChildren(groupChild, connectSignals, solidChildren, jointChildren, propellerChildren);
+      continue;
+    }
 
     const WbSlot *slot = dynamic_cast<WbSlot *>(n);
     if (slot) {
@@ -2082,10 +2084,7 @@ WbRobot *WbSolid::robot() const {
 
 // Returns true if all solid ancestors have no physics
 bool WbSolid::belongsToStaticBasis() const {
-  if (isDynamic())
-    return false;
-
-  const WbSolid *s = upperSolid();
+  const WbSolid *s = this;
 
   while (s) {
     if (s->isDynamic())
@@ -2342,6 +2341,7 @@ void WbSolid::resetSingleSolidPhysics() {
         dJointSetBallParam(mJoint, dParamVel2, 0.0);
         dJointSetBallParam(mJoint, dParamFMax3, 0.0);
         dJointSetBallParam(mJoint, dParamVel3, 0.0);
+        break;
       default:  // only the above joint types are currently implemented in Webots
         break;
     }
@@ -2457,29 +2457,12 @@ const WbPolygon &WbSolid::supportPolygon() {
   const WbVector3 &eastVector = worldInfo->eastVector();
   const WbVector3 &northVector = worldInfo->northVector();
   // Rules out 4 trivial cases
-  if (numberOfContactPoints == 0) {
-    mSupportPolygon.setActualSize(0);
-    return mSupportPolygon;
+  for (int i = 0; i < numberOfContactPoints; ++i) {
+    const WbVector3 &v = mGlobalListOfContactPoints.at(i);
+    mSupportPolygon[i].setXy(v.dot(northVector), v.dot(eastVector));
   }
-
-  const WbVector3 &v0 = mGlobalListOfContactPoints[0];
-  mSupportPolygon[0].setXy(v0.dot(northVector), v0.dot(eastVector));
-  if (numberOfContactPoints == 1) {
-    mSupportPolygon.setActualSize(1);
-    return mSupportPolygon;
-  }
-
-  const WbVector3 &v1 = mGlobalListOfContactPoints[1];
-  mSupportPolygon[1].setXy(v1.dot(northVector), v1.dot(eastVector));
-  if (numberOfContactPoints == 2) {
-    mSupportPolygon.setActualSize(2);
-    return mSupportPolygon;
-  }
-
-  const WbVector3 &v2 = mGlobalListOfContactPoints[2];
-  mSupportPolygon[2].setXy(v2.dot(northVector), v2.dot(eastVector));
-  if (numberOfContactPoints == 3) {
-    mSupportPolygon.setActualSize(3);
+  if (numberOfContactPoints <= 3) {
+    mSupportPolygon.setActualSize(numberOfContactPoints);
     return mSupportPolygon;
   }
 
@@ -2773,8 +2756,8 @@ void WbSolid::displayWarning() {
 
     if (inertialMatrixDiagonalMin > 0.0 &&
         // inertialMatrixDiagonalMax > 0.0 && // this is ensured
-        inertialMatrixDiagonalMin < 1.0e-5 &&                         // light object : this theshold is empirical
-        inertialMatrixDiagonalMax / inertialMatrixDiagonalMin > 15.0  // oblong object : this theshold is empirical
+        inertialMatrixDiagonalMin < 1.0e-5 &&                         // light object : this threshold is empirical
+        inertialMatrixDiagonalMax / inertialMatrixDiagonalMin > 15.0  // oblong object : this threshold is empirical
     )
       parsingWarn(tr("Webots has detected that this solid is light and oblong according to its inertia matrix. "
                      "This belongs in the physics edge cases, and can imply weird physical results. "
