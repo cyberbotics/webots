@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 #include <sys/time.h>
 
@@ -242,6 +243,20 @@ static void warn(SensorMeasurements &sensor_measurements, std::string text) {
   message->set_text(text);
 }
 
+class MotorCommand {
+public:
+  explicit MotorCommand(webots::Motor *m) {
+    motor = m;
+    position = NAN;
+    velocity = m->getVelocity();
+    force_or_torque = NAN;
+  }
+  webots::Motor *motor;
+  double position;
+  double velocity;
+  double force_or_torque;
+};
+
 class PlayerServer {
 public:
   PlayerServer(const std::vector<std::string> &allowed_hosts, int port, int player_id, int team, webots::Robot *robot) :
@@ -283,9 +298,10 @@ public:
       else
         receiveMessages();
       std::string customData = robot->getCustomData();
-      if (customData == "")
+      if (customData == "" && actuators_enabled == FALSE) {
+        resumeMotors();
         actuators_enabled = TRUE;
-      else if (customData == "penalized" && actuators_enabled) {
+      } else if (customData == "penalized" && actuators_enabled) {
         // penalized robots gets only their actuators disabled so that they become asleep
         stopMotors();
         actuators_enabled = FALSE;
@@ -363,18 +379,40 @@ public:
     }
     return received;
   }
-  void stopMotors() {
-    for (size_t i = 0; i != motors.size(); i++) {
-      motors[i]->setVelocity(0);
-      if (motors[i]->getType() == webots::Motor::ROTATIONAL)
-        motors[i]->setTorque(0);
+
+  MotorCommand *getMotorCommand(webots::Motor *motor) {
+    for (size_t i = 0; i != motor_commands.size(); i++)
+      if (motor_commands[i]->motor == motor)
+        return motor_commands[i];
+    MotorCommand *motor_command = new MotorCommand(motor);
+    motor_commands.push_back(motor_command);
+    return motor_command;
+  }
+
+  void stopMotors() const {
+    for (size_t i = 0; i != motor_commands.size(); i++) {
+      webots::Motor *motor = motor_commands[i]->motor;
+      motor->setVelocity(0);
+      if (motor->getType() == webots::Motor::ROTATIONAL)
+        motor->setTorque(0);
       else
-        motors[i]->setForce(0);
+        motor->setForce(0);
     }
   }
-  void addMotorIfNeeded(webots::Motor *motor) {
-    if (std::find(motors.begin(), motors.end(), motor) == motors.end())  // motor not in motors
-      motors.push_back(motor);
+  void resumeMotors() {
+    for (size_t i = 0; i != motor_commands.size(); i++) {
+      webots::Motor *motor = motor_commands[i]->motor;
+      if (!isnan(motor_commands[i]->position))
+        motor->setPosition(motor_commands[i]->position);
+      if (!isnan(motor_commands[i]->velocity))
+        motor->setVelocity(motor_commands[i]->velocity);
+      if (!isnan(motor_commands[i]->force_or_torque)) {
+        if (motor->getType() == webots::Motor::ROTATIONAL)
+          motor->setTorque(motor_commands[i]->force_or_torque);
+        else
+          motor->setForce(motor_commands[i]->force_or_torque);
+      }
+    }
   }
   void enableSensor(webots::Device *device, int time_step) {
     start_sensoring_time[device] = controller_time;  // For sensor synchronisation in case of different timesteps
@@ -416,53 +454,55 @@ public:
     recv_index = 0;
     content_size = 0;
     delete[] recv_buffer;
-    if (actuators_enabled) {
-      // Processing actuatorRequests and adding warnings to the sensor message
-      for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
-        const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
-        webots::Motor *motor = robot->getMotor(motorPosition.name());
-        if (motor) {
+    // Processing actuatorRequests and adding warnings to the sensor message
+    for (int i = 0; i < actuatorRequests.motor_positions_size(); i++) {
+      const MotorPosition motorPosition = actuatorRequests.motor_positions(i);
+      webots::Motor *motor = robot->getMotor(motorPosition.name());
+      if (motor) {
+        getMotorCommand(motor)->position = motorPosition.position();
+        if (actuators_enabled)
           motor->setPosition(motorPosition.position());
-          addMotorIfNeeded(motor);
-        } else
-          warn(sensor_measurements, "Motor \"" + motorPosition.name() + "\" not found, position command ignored.");
-      }
-      for (int i = 0; i < actuatorRequests.motor_velocities_size(); i++) {
-        const MotorVelocity motorVelocity = actuatorRequests.motor_velocities(i);
-        webots::Motor *motor = robot->getMotor(motorVelocity.name());
-        if (motor) {
+      } else
+        warn(sensor_measurements, "Motor \"" + motorPosition.name() + "\" not found, position command ignored.");
+    }
+    for (int i = 0; i < actuatorRequests.motor_velocities_size(); i++) {
+      const MotorVelocity motorVelocity = actuatorRequests.motor_velocities(i);
+      webots::Motor *motor = robot->getMotor(motorVelocity.name());
+      if (motor) {
+        getMotorCommand(motor)->velocity = motorVelocity.velocity();
+        if (actuators_enabled)
           motor->setVelocity(motorVelocity.velocity());
-          addMotorIfNeeded(motor);
-        } else
-          warn(sensor_measurements, "Motor \"" + motorVelocity.name() + "\" not found, velocity command ignored.");
-      }
-      for (int i = 0; i < actuatorRequests.motor_forces_size(); i++) {
-        const MotorForce motorForce = actuatorRequests.motor_forces(i);
-        webots::Motor *motor = robot->getMotor(motorForce.name());
-        if (motor) {
+      } else
+        warn(sensor_measurements, "Motor \"" + motorVelocity.name() + "\" not found, velocity command ignored.");
+    }
+    for (int i = 0; i < actuatorRequests.motor_forces_size(); i++) {
+      const MotorForce motorForce = actuatorRequests.motor_forces(i);
+      webots::Motor *motor = robot->getMotor(motorForce.name());
+      if (motor) {
+        getMotorCommand(motor)->force_or_torque = motorForce.force();
+        if (actuators_enabled)
           motor->setForce(motorForce.force());
-          addMotorIfNeeded(motor);
-        } else
-          warn(sensor_measurements, "Motor \"" + motorForce.name() + "\" not found, force command ignored.");
-      }
-      for (int i = 0; i < actuatorRequests.motor_torques_size(); i++) {
-        const MotorTorque motorTorque = actuatorRequests.motor_torques(i);
-        webots::Motor *motor = robot->getMotor(motorTorque.name());
-        if (motor) {
+      } else
+        warn(sensor_measurements, "Motor \"" + motorForce.name() + "\" not found, force command ignored.");
+    }
+    for (int i = 0; i < actuatorRequests.motor_torques_size(); i++) {
+      const MotorTorque motorTorque = actuatorRequests.motor_torques(i);
+      webots::Motor *motor = robot->getMotor(motorTorque.name());
+      if (motor) {
+        getMotorCommand(motor)->force_or_torque = motorTorque.torque();
+        if (actuators_enabled)
           motor->setTorque(motorTorque.torque());
-          addMotorIfNeeded(motor);
-        } else
-          warn(sensor_measurements, "Motor \"" + motorTorque.name() + "\" not found, torque command ignored.");
-      }
-      for (int i = 0; i < actuatorRequests.motor_pids_size(); i++) {
-        const MotorPID motorPID = actuatorRequests.motor_pids(i);
-        webots::Motor *motor = robot->getMotor(motorPID.name());
-        if (motor) {
-          motor->setControlPID(motorPID.pid().x(), motorPID.pid().y(), motorPID.pid().z());
-          addMotorIfNeeded(motor);
-        } else
-          warn(sensor_measurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
-      }
+      } else
+        warn(sensor_measurements, "Motor \"" + motorTorque.name() + "\" not found, torque command ignored.");
+    }
+    for (int i = 0; i < actuatorRequests.motor_pids_size(); i++) {
+      const MotorPID motorPID = actuatorRequests.motor_pids(i);
+      webots::Motor *motor = robot->getMotor(motorPID.name());
+      if (motor) {
+        getMotorCommand(motor);
+        motor->setControlPID(motorPID.pid().x(), motorPID.pid().y(), motorPID.pid().z());
+      } else
+        warn(sensor_measurements, "Motor \"" + motorPID.name() + "\" not found, PID command ignored.");
     }
     for (int i = 0; i < actuatorRequests.camera_qualities_size(); i++) {
       const CameraQuality cameraQuality = actuatorRequests.camera_qualities(i);
@@ -740,7 +780,7 @@ private:
   // sensors that have just been added but that were previously disabled.
   // It's required to store them to avoid sending values of unitialized sensors
   std::map<webots::Device *, int> new_sensors;
-  std::vector<webots::Motor *> motors;
+  std::vector<MotorCommand *> motor_commands;
   uint32_t controller_time;
   std::map<webots::Device *, uint32_t> start_sensoring_time;
   char *recv_buffer;
