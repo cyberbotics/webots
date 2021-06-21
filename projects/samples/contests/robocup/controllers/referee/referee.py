@@ -1135,7 +1135,7 @@ def update_team_penalized(team):
             # Once this is fixed, we should remove the robot, which seems to be a better solution
             # than moving it away from the field
             player['robot'] = None
-            info(f'sending {color} player {number} tp {t}.')
+            info(f'Sending {color} player {number} to {t}.')
             if 'stabilize' in player:
                 del player['stabilize']
             player['outside_field'] = True
