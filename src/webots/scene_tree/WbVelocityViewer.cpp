@@ -42,9 +42,9 @@ WbVelocityViewer::WbVelocityViewer(QWidget *parent) :
   labelLayout->addWidget(new QLabel(tr("Linear velocity:")), 0, 0);
   labelLayout->addWidget(new QLabel(tr("Angular velocity:")), 1, 0);
 
-  mLinearVelocityLabels.resize(3);
-  mAngularVelocityLabels.resize(3);
-  for (int i = 0; i < 3; ++i) {
+  mLinearVelocityLabels.resize(4);
+  mAngularVelocityLabels.resize(4);
+  for (int i = 0; i < 4; ++i) {
     mLinearVelocityLabels[i] = new QLabel(this);
     mAngularVelocityLabels[i] = new QLabel(this);
     mLinearVelocityLabels[i]->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -107,6 +107,8 @@ void WbVelocityViewer::update() {
       mLinearVelocityLabels[i]->setText(WbPrecision::doubleToString(linearVelocity[i], WbPrecision::GUI_MEDIUM));
       mAngularVelocityLabels[i]->setText(WbPrecision::doubleToString(angularVelocity[i], WbPrecision::GUI_MEDIUM));
     }
+    mLinearVelocityLabels[3]->setText(WbPrecision::doubleToString(linearVelocity.length(), WbPrecision::GUI_MEDIUM));
+    mAngularVelocityLabels[3]->setText(WbPrecision::doubleToString(angularVelocity.length(), WbPrecision::GUI_MEDIUM));
     return;
   }
 
