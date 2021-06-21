@@ -114,25 +114,25 @@ PROTO AddLanesRoadSegment [
             %< } else { >%
               %<
                 // first provide roadlines that will fill the main trunk of the road, they must be provided in reverse order because the base PROTO Road requires it
-                for (let j = 0; j < lanes; ++j) {
-                  if (typeof roadLines[j % lanes] !== 'undefined') {
-                    console.log(i + ' ' + j % lanes);
+                for (let j = lanes + i - 2; j >= 0; j--) {
+                  if (typeof roadLines[j] !== 'undefined') {
+                    console.log(i + ' ' + j);
               >%
                     RoadLine {
-                      color %<= roadLines[j % lanes].fields.color.value.r >% %<= roadLines[j % lanes].fields.color.value.g >% %<= roadLines[j % lanes].fields.color.value.b >%
-                      type %<= '"' + roadLines[j % lanes].fields.type.value + '"' >%
-                      width %<= roadLines[j % lanes].fields.width.value >%
+                      color %<= roadLines[j].fields.color.value.r >% %<= roadLines[j].fields.color.value.g >% %<= roadLines[j].fields.color.value.b >%
+                      type %<= '"' + roadLines[j].fields.type.value + '"' >%
+                      width %<= roadLines[j].fields.width.value >%
                     }
                   %< } >%
                 %< } >%
                 %<
                   // then provide the new line, in direct order (need to or will break backwards compatibility)
-                  if (typeof roadLines[lanes] !== 'undefined') {
+                  if (typeof roadLines[lanes + i - 1] !== 'undefined') {
                 >%
                     RoadLine {
-                      color %<= roadLines[lanes].fields.color.value.r >% %<= roadLines[lanes].fields.color.value.g >% %<= roadLines[lanes].fields.color.value.b >%
-                      type %<= '"' + roadLines[lanes].fields.type.value + '"' >%
-                      width %<= roadLines[lanes].fields.width.value >%
+                      color %<= roadLines[lanes + i - 1].fields.color.value.r >% %<= roadLines[lanes + i - 1].fields.color.value.g >% %<= roadLines[lanes + i - 1].fields.color.value.b >%
+                      type %<= '"' + roadLines[lanes + i - 1].fields.type.value + '"' >%
+                      width %<= roadLines[lanes + i - 1].fields.width.value >%
                     }
                 %< } >%
             %< } >%
