@@ -2294,7 +2294,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
   return result;
 }
 
-const int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
+int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
@@ -2316,7 +2316,7 @@ const int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
   return -1;
 }
 
-const int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
+int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
