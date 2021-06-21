@@ -136,14 +136,14 @@
     },
     {
         "timing" : {
-            "time" : [1,9],
+            "time" : [1,4],
             "clock_type" : "Simulated",
             "secondary_state" : "THROWIN",
             "phase" : 0
         },
         "tests" : [
             {
-                "name" : "Throw-in stays in phase 0 for 10 seconds",
+                "name" : "Throw-in stays in phase 0 for 5 seconds",
                 "secondary_state" : "THROWIN",
                 "secondary_team_id" : 32,
                 "secondary_phase" : 0
@@ -152,7 +152,7 @@
     },
     {
         "timing" : {
-            "time" : 13.0,
+            "time" : 6,
             "clock_type" : "Simulated",
             "secondary_state" : "THROWIN",
             "phase" : 0

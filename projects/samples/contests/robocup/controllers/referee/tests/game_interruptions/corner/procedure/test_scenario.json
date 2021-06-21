@@ -116,7 +116,7 @@
     },
     {
         "timing" : {
-            "time" : [2,9],
+            "time" : [2,4],
             "clock_type" : "Simulated",
             "secondary_state" : "CORNERKICK",
             "phase" : 0
@@ -131,7 +131,7 @@
     },
     {
         "timing" : {
-            "time" : 12,
+            "time" : 6,
             "clock_type" : "Simulated",
             "secondary_state" : "CORNERKICK",
             "phase" : 0
@@ -180,7 +180,7 @@
     },
     {
         "timing" : {
-            "time" : [2,29],
+            "time" : [2,14],
             "clock_type" : "Simulated",
             "secondary_state" : "CORNERKICK",
             "phase" : 1
