@@ -368,7 +368,7 @@ def update_details_display():
         if game.interruption_seconds is not None else 0
     if sr > 0:
         secondary_state += ' ' + format_time(sr)
-    if game.state.secondary_state[6:] != 'NORMAL':
+    if game.state.secondary_state[6:] != 'NORMAL' or game.state.secondary_state_info[1] != 0:
         secondary_state += ' [' + str(game.state.secondary_state_info[1]) + ']'
     if game.interruption_team is not None:  # interruption
         secondary_state_color = RED_COLOR if game.interruption_team == game.red.id else BLUE_COLOR
