@@ -40,19 +40,32 @@ const WbVersion &WbApplicationInfo::version() {
 const QString &WbApplicationInfo::branch() {
   static QString branchName;
   static bool firstCall = true;
-
-  if (firstCall) {
-    QFile file(WbStandardPaths::webotsHomePath() + "resources/branch.txt");
-    if (file.open(QIODevice::ReadOnly)) {
-      QTextStream in(&file);
-      const QString line = in.readLine();
-      if (!line.isNull())
-        branchName = line;
-
-      file.close();
-    }
-  }
+  if (firstCall)
+    branchName = getInfoFromFile("resources/branch.txt");
   return branchName;
+}
+
+const QString &WbApplicationInfo::repo() {
+  static QString repoName;
+  static bool firstCall = true;
+  if (firstCall)
+    repoName = getInfoFromFile("resources/repo.txt");
+  return repoName;
+}
+
+const QString WbApplicationInfo::getInfoFromFile(QString name) {
+  QString result;
+  QFile file(WbStandardPaths::webotsHomePath() + name);
+  if (file.open(QIODevice::ReadOnly)) {
+    QTextStream in(&file);
+    const QString line = in.readLine();
+    if (!line.isNull())
+      result = line;
+
+    file.close();
+  }
+
+  return result;
 }
 
 unsigned int WbApplicationInfo::releaseDate() {
