@@ -24,6 +24,8 @@
 
 static int gCount = 0;
 static int gComplete = 0;
+static bool gDownloading = false;
+static QTimer *gTimer = NULL;
 
 int WbDownloader::progress() {
   return gCount == 0 ? 100 : 100 * gComplete / gCount;
@@ -47,6 +49,14 @@ QIODevice *WbDownloader::device() const {
 }
 
 void WbDownloader::download(const QUrl &url) {
+  if (!gDownloading) {
+    gDownloading = true;
+    gTimer = new QTimer(this);
+    QTimer::connect(gTimer, &QTimer::timeout, &WbDownloader::displayPopUp);
+    gTimer->setInterval(1000);
+    gTimer->setSingleShot(true);
+    QMetaObject::invokeMethod(gTimer, "start", Qt::QueuedConnection);
+  }
   mUrl = url;
   QNetworkRequest request;
   request.setUrl(url);
@@ -71,6 +81,16 @@ void WbDownloader::finished() {
   }
 
   gComplete++;
+  if (gComplete == gCount)
+    gDownloading = false;
+
   mFinished = true;
   emit complete();
+}
+
+void WbDownloader::displayPopUp() {
+  if (gDownloading)
+    delete gTimer;
+
+  // WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
 }
