@@ -34,6 +34,7 @@ public:
   const QString &error() const { return mError; }
   static int progress();
   static void reset();
+  static bool isPopUpDisplayed();
 signals:
   void complete();
   void progress(float progress);

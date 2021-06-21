@@ -14,6 +14,7 @@
 
 #include "WbDownloader.hpp"
 
+#include "WbApplication.hpp"
 #include "WbNetwork.hpp"
 
 #include <QtCore/QDir>
@@ -26,6 +27,7 @@ static int gCount = 0;
 static int gComplete = 0;
 static bool gDownloading = false;
 static QTimer *gTimer = NULL;
+static bool gDisplayPopUp = false;
 
 int WbDownloader::progress() {
   return gCount == 0 ? 100 : 100 * gComplete / gCount;
@@ -51,11 +53,11 @@ QIODevice *WbDownloader::device() const {
 void WbDownloader::download(const QUrl &url) {
   if (!gDownloading) {
     gDownloading = true;
-    gTimer = new QTimer(this);
-    QTimer::connect(gTimer, &QTimer::timeout, &WbDownloader::displayPopUp);
-    gTimer->setInterval(1000);
+    gTimer = new QTimer(0);
+    connect(gTimer, &QTimer::timeout, &WbDownloader::displayPopUp);
+    gTimer->setInterval(2000);
     gTimer->setSingleShot(true);
-    QMetaObject::invokeMethod(gTimer, "start", Qt::QueuedConnection);
+    gTimer->start();
   }
   mUrl = url;
   QNetworkRequest request;
@@ -81,16 +83,27 @@ void WbDownloader::finished() {
   }
 
   gComplete++;
-  if (gComplete == gCount)
+  if (gComplete == gCount) {
     gDownloading = false;
+    gDisplayPopUp = false;
+  }
 
   mFinished = true;
   emit complete();
 }
 
 void WbDownloader::displayPopUp() {
-  if (gDownloading)
-    delete gTimer;
+  if (gDownloading) {
+    WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
+    gDisplayPopUp = true;
+  }
 
-  // WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
+  if (gTimer) {
+    delete gTimer;
+    gTimer = NULL;
+  }
+}
+
+bool WbDownloader::isPopUpDisplayed() {
+  return gDisplayPopUp;
 }

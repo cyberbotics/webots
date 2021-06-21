@@ -189,10 +189,9 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
   }
   delete mDownloader[index];
   mDownloader[index] = new WbDownloader(this);
-  if (postpone) {
-    WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
+  if (postpone)
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
-  }
+
   mDownloader[index]->download(QUrl(url));
 }
 
@@ -210,7 +209,7 @@ void WbBackground::downloadUpdate() {
   const int progress = WbDownloader::progress();
   if (progress == 100)
     emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
-  else
+  else if (WbDownloader::isPopUpDisplayed())
     emit WbApplication::instance()->setWorldLoadingProgress(progress);
 
   for (int i = 0; i < 12; i++)

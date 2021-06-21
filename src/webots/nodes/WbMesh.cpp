@@ -57,10 +57,9 @@ void WbMesh::downloadAssets() {
   if (WbUrl::isWeb(url)) {
     delete mDownloader;
     mDownloader = new WbDownloader(this);
-    if (!WbWorld::instance()->isLoading()) {  // URL changed from the scene tree or supervisor
+    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
-      WbApplication::instance()->setWorldLoadingStatus(tr("Downloading assets"));
-    }
+
     mDownloader->download(QUrl(url));
   }
 }
@@ -69,7 +68,7 @@ void WbMesh::downloadUpdate() {
   const int progress = WbDownloader::progress();
   if (progress == 100)
     emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
-  else
+  else if (WbDownloader::isPopUpDisplayed())
     emit WbApplication::instance()->setWorldLoadingProgress(progress);
 
   updateUrl();
