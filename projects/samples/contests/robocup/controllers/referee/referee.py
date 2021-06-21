@@ -116,8 +116,20 @@ def log(message, msg_type, force_flush=True):
 log.real_time = time.time()
 
 
+def announce_final_score():
+    if not hasattr(game, "state"):
+        return
+    red_team_idx = team_index('red')
+    blue_team_idx = team_index('blue')
+    red_score = game.state.teams[red_team_idx].score
+    blue_score = game.state.teams[blue_team_idx].score
+    # TODO: store and print score before penalty shootouts
+    info(f"FINAL SCORE: {red_score}-{blue_score}")
+
+
 def clean_exit():
     """Save logs and clean all subprocesses"""
+    announce_final_score()
     if hasattr(game, "controller") and game.controller:
         info("Closing 'controller' socket")
         game.controller.close()
