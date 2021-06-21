@@ -132,33 +132,6 @@ static bool send_all(int socket, const char *buffer, size_t length) {
   return true;
 }
 
-static int accept_client(int server_fd) {
-  int cfd;
-  struct sockaddr_in client;
-  socklen_t size = sizeof(struct sockaddr_in);
-  cfd = accept(server_fd, (struct sockaddr *)&client, &size);
-  if (cfd != -1) {
-    struct hostent *client_info = gethostbyname((char *)inet_ntoa(client.sin_addr));
-    bool allowed = false;
-    for (int i = 0; i < n_allowed_hosts; i++) {
-      if (std::string(client_info->h_name) == allowed_hosts[i]) {
-        allowed = true;
-        break;
-      }
-    }
-    if (allowed) {
-      printf("Accepted connection from %s.\n", client_info->h_name);
-      send_all(cfd, "Welcome", 8);
-    } else {
-      printf("Refused connection from %s.\n", client_info->h_name);
-      send_all(cfd, "Refused", 8);
-      close_socket(cfd);
-      cfd = -1;
-    }
-  }
-  return cfd;
-}
-
 static int create_socket_server(int port) {
   int rc;
   int server_fd;
@@ -277,6 +250,33 @@ public:
     printMessage("server started on port " + std::to_string(port));
     server_fd = create_socket_server(port);
     set_blocking(server_fd, false);
+  }
+
+  int accept_client(int server_fd) {
+    int cfd;
+    struct sockaddr_in client;
+    socklen_t size = sizeof(struct sockaddr_in);
+    cfd = accept(server_fd, (struct sockaddr *)&client, &size);
+    if (cfd != -1) {
+      struct hostent *client_info = gethostbyname((char *)inet_ntoa(client.sin_addr));
+      bool allowed = false;
+      for (int i = 0; i < n_allowed_hosts; i++) {
+        if (std::string(client_info->h_name) == allowed_hosts[i]) {
+          allowed = true;
+          break;
+        }
+      }
+      if (allowed) {
+        printMessage("Accepted connection from " + std::string(client_info->h_name));
+        send_all(cfd, "Welcome", 8);
+      } else {
+        printMessage("Refused connection from " + std::string(client_info->h_name));
+        send_all(cfd, "Refused", 8);
+        close_socket(cfd);
+        cfd = -1;
+      }
+    }
+    return cfd;
   }
 
   void step() {

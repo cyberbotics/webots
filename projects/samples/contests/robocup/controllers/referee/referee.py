@@ -668,8 +668,8 @@ def list_player_solids(player, color, number):
     player['tagged_solids'] = {}  # Keys: name of solid, Values: name of tag
     solids = player['solids']
     append_solid(robot, solids, player['tagged_solids'])
-    info(f"Tagged solids: {player['tagged_solids']}\n")
     if len(solids) != 4:
+        info(f"Tagged solids: {player['tagged_solids']}")
         error(f'{color} player {number}: invalid number of [hand]+[foot], received {len(solids)}, expected 4.',
               fatal=True)
 
@@ -1135,7 +1135,7 @@ def update_team_penalized(team):
             # Once this is fixed, we should remove the robot, which seems to be a better solution
             # than moving it away from the field
             player['robot'] = None
-            info(f'sending {color} player {number} tp {t}.')
+            info(f'sending {color} player {number} tp {t}. (team_index: {index})')
             if 'stabilize' in player:
                 del player['stabilize']
             player['outside_field'] = True
