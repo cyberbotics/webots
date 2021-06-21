@@ -160,7 +160,7 @@ PROTO Mir100 [
               }
               texture ImageTexture {
                 url [
-                  "textures/camera.png"
+                  "webots://projects/robots/mir/mir100/protos/textures/camera.png"
                 ]
               }
             }
