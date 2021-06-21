@@ -110,20 +110,33 @@
     },
     {
         "timing" : {
+            "time" : 42,
+            "clock_type" : "Simulated",
+            "state" : "PLAYING"
+        },
+        "tests" : [
+            {
+                "name" : "T1: Goalkeeper moves before ball is touched -> penalized",
+                "target" : "RED_PLAYER_1",
+                "penalty" : 34
+            }
+        ]
+    },
+    {
+        "timing" : {
             "time" : 46,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
         "tests" : [
             {
-                "name" : "T1: kicker who falls for too long is penalized",
-                "target" : "BLUE_PLAYER_1",
-                "penalty" : 34
+                "name" : "T1: kicker who falls for too long -> end of trial",
+                "state" : "SET"
             },
             {
-                "name" : "T1: Goalkeeper moves before ball is touched -> penalized",
-                "target" : "RED_PLAYER_1",
-                "penalty" : 34
+                "name" : "T1: kicker who falls for too long -> no penalty",
+                "target" : "BLUE_PLAYER_1",
+                "penalty" : 0
             }
         ]
     },
