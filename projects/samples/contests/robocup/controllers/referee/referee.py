@@ -1719,8 +1719,10 @@ def stabilize_team_robots(team):
     color = team['color']
     for number in team['players']:
         player = team['players'][number]
+        robot = player['robot']
+        if robot is None:
+            continue
         if 'stabilize' in player:
-            robot = player['robot']
             if player['stabilize'] == 0:
                 info(f'Stabilizing {color} player {number}')
                 robot.resetPhysics()
@@ -1760,6 +1762,8 @@ def reset_player(color, number, pose, custom_t=None, custom_r=None):
     team = red_team if color == 'red' else blue_team
     player = team['players'][number]
     robot = player['robot']
+    if robot is None:
+        return
     robot.loadState('__init__')
     list_player_solids(player, color, number)
     translation = robot.getField('translation')
@@ -2137,6 +2141,8 @@ def move_robots_away(target_location):
     for team in [blue_team, red_team]:
         for number in team['players']:
             player = team['players'][number]
+            if player['robot'] is None:
+                continue
             initial_pos = np.array(player['position'])
             if distance2(initial_pos, target_location) < game.field.place_ball_safety_dist:
                 obstacles = get_obstacles_positions(team, number)
