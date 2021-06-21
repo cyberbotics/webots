@@ -1126,7 +1126,7 @@ The `wb_supervisor_node_get_contact_points` function returns a list of contact p
 
 The `wb_supervisor_node_enable_contact_point_tracking` function forces Webots to stream contact point data to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get data from the field.
-The `sampling_period` argument determines how often the field data should be sent to the controller.
+The `sampling_period` argument determines how often the contact point data should be sent to the controller.
 
 The `wb_supervisor_node_disable_contact_point_tracking` function disables contact point data tracking.
 
