@@ -57,20 +57,20 @@ PROTO Forest [
       'oak tree': 3,
       'palm tree': 2,
       'spruce': 1,
-      'white pine': 0 };
+      'white pine': 0};
 
-    let keys = Object.keys(treeType);
-    let treeTypeNumber = keys.length;
-    let type = fields.type.value;
+    const keys = Object.keys(treeType);
+    const treeTypeNumber = keys.length;
+    const type = fields.type.value;
 
     // fields checks
-    let shape = fields.shape.value;
-    let groundTexture = fields.groundTexture.value;
-    let nbShapePoint = shape.length;
-    let maxHeight = fields.maxHeight.value;
-    let minHeight = fields.minHeight.value;
-    let maxRadius = fields.maxRadius.value;
-    let minRadius = fields.minRadius.value;
+    const shape = fields.shape.value;
+    const groundTexture = fields.groundTexture.value;
+    const nbShapePoint = shape.length;
+    const maxHeight = fields.maxHeight.value;
+    const minHeight = fields.minHeight.value;
+    const maxRadius = fields.maxRadius.value;
+    const minRadius = fields.minRadius.value;
 
     let density = fields.density.value;
     if (density < 0) {
@@ -78,15 +78,15 @@ PROTO Forest [
       console.error('\'density\' must be greater or equal to 0. Value reset to ' + density + '.');
     }
 
-    let treesFiles = fields.treesFiles.value;
-    let treesFilesNumber = treesFiles.length;
+    const treesFiles = fields.treesFiles.value;
+    const treesFilesNumber = treesFiles.length;
 
     let trees = [];
     // generate the trees table using the treesFiles if set and the shape otherwise
     if (treesFilesNumber > 0) {
       for (let i = 0; i < treesFilesNumber; ++i) {
         // coordinate files are assumed to be relative to the world file
-        let worldPath = context.world;
+        const worldPath = context.world;
         worldPath = worldPath.substring(0, worldPath.lastIndexOf('/') + 1);
         // read content
         let content = wbfile.readTextFile(worldPath + treesFiles[i]);

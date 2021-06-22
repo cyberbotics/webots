@@ -61,7 +61,7 @@ PROTO Road [
       width = fields.width.defaultValue;
       console.error('\'width\' must be strictly positive. Value reset to ' + width + '.');
     }
-    let halfWidth = width * 0.5;
+    const halfWidth = width * 0.5;
 
     const barrierOffset = 0.06 + 0.05 * width;
     let numberOfLanes = fields.numberOfLanes.value;
@@ -71,7 +71,7 @@ PROTO Road [
     }
     let borderHeight = fields.roadBorderHeight.value;
     let borderWidth = fields.roadBorderWidth.value;
-    let nbBorderWidthPoint = borderWidth.length;
+    const nbBorderWidthPoint = borderWidth.length;
 
     for (let j = 0; j < nbBorderWidthPoint; ++j) {
       if (borderWidth[j] < 0) {
@@ -91,49 +91,44 @@ PROTO Road [
     let textureCoordinateRatio = 0.2;
     let defaultLineWidth = 0.075;
     let heightOffset  = 0.01;
-    let rightBorder   = fields.rightBorder.value;
-    let leftBorder    = fields.leftBorder.value;
-    let rightBarrier  = fields.rightBarrier.value;
-    let leftBarrier   = fields.leftBarrier.value;
-    let bottom        = fields.bottom.value;
-    let road          = fields.road.value;
-    let roadBO        = fields.roadBoundingObject.value;
-    let rightBorderBO = fields.rightBorderBoundingObject.value;
-    let leftBorderBO  = fields.leftBorderBoundingObject.value;
-    let startingAngle = fields.startingAngle.value;
-    let endingAngle   = fields.endingAngle.value;
-    let startLine     = fields.startLine.value;
-    let endLine       = fields.endLine.value;
-    let bottomTexture = fields.bottomTexture.value;
+    const rightBorder   = fields.rightBorder.value;
+    const leftBorder    = fields.leftBorder.value;
+    const rightBarrier  = fields.rightBarrier.value;
+    const leftBarrier   = fields.leftBarrier.value;
+    const bottom        = fields.bottom.value;
+    const road          = fields.road.value;
+    const roadBO        = fields.roadBoundingObject.value;
+    const rightBorderBO = fields.rightBorderBoundingObject.value;
+    const leftBorderBO  = fields.leftBorderBoundingObject.value;
+    const startingAngle = fields.startingAngle.value;
+    const endingAngle   = fields.endingAngle.value;
+    const startLine     = fields.startLine.value;
+    const endLine       = fields.endLine.value;
+    const bottomTexture = fields.bottomTexture.value;
     let useBottomTexture = false;
     if (bottomTexture.length > 0)
       useBottomTexture = true;
 
-    let nbStartLine = startLine.length;
-    let nbEndLine   = endLine.length;
-    if (nbStartLine > numberOfLanes)
-      nbStartLine = numberOfLanes;
-    if (nbEndLine > numberOfLanes)
-      nbEndLine = numberOfLanes;
+    const nbStartLine = startLine.length > numberOfLanes ? numberOfLanes : startLine.length;
+    const nbEndLine   = endLine.length > numberOfLanes ? numberOfLanes : endLine.length;
 
     let wayPoints = fields.wayPoints.value;
     let nbWayPoint = wayPoints.length;
 
     let borderWidthOriginal = [];
-    if (nbBorderWidthPoint > 0) {
+    if (nbBorderWidthPoint > 0)
       for (let j = 0; j < nbWayPoint + 1; ++j) {
         if (borderWidth[j] === undefined)
           borderWidthOriginal[j] = borderWidthOriginal[j - 1];
         else
           borderWidthOriginal[j] = borderWidth[j];
       }
-    }
 
     let originalTilt = fields.roadTilt.value;
-    for (let j = 0; j < nbWayPoint; ++j) {
+    for (let j = 0; j < nbWayPoint; ++j)
       if (originalTilt[j] === undefined)
         originalTilt[j] = 0;
-    }
+
     originalTilt[nbWayPoint] = originalTilt[nbWayPoint - 1];
 
     let splineSubdivision = fields.splineSubdivision.value;
@@ -144,7 +139,7 @@ PROTO Road [
     nbWayPoint = wayPoints.length;
 
     let tilt = [];
-    if (splineSubdivision > 1) {
+    if (splineSubdivision > 1)
       for (let j = 0; j < nbWayPoint; ++j) {
         let ratio = (j % splineSubdivision) / splineSubdivision;
         let index = Math.floor(j/splineSubdivision); // TODO: ERROR HERE?
@@ -152,7 +147,7 @@ PROTO Road [
         if (nbBorderWidthPoint > 0)
           borderWidth[j] = borderWidthOriginal[index] * (1 - ratio) + borderWidthOriginal[index + 1] * ratio;
       }
-    } else {
+    else {
       if (nbBorderWidthPoint > 0)
         borderWidth = borderWidthOriginal;
 
@@ -162,7 +157,7 @@ PROTO Road [
     let angle = []
     let distance = [0];
     for (let i = 0; i <= nbWayPoint - 1; ++i) {
-      // compute angle for each way-points
+      // compute angle for each way-point
       if ((i === nbWayPoint - 1 || i >= (nbWayPoint - 1 - splineSubdivision)) && endingAngle[0] !== undefined) {
         // last segment with ending angle set
         // we use third order Spline approximation,
@@ -262,10 +257,9 @@ PROTO Road [
           model "road"
         }
         # road signs (start)
-        %< for (let i = 0; i <= nbStartLine - 1; ++i) { >%
-          # if not same sign than previous lane
-          %< if (startLine[i+1] !== startLine[i] && startLine[i+1] !== '') { >%
-            %<
+        %<
+          for (let i = 0; i <= nbStartLine - 1; ++i) {
+            if (startLine[i+1] !== startLine[i] && startLine[i+1] !== '') {
               let size = 1;
               for (let j = i + 1; j <= nbStartLine - 1; ++j) {
                 if (startLine[i+1] === startLine[j+1])
@@ -273,7 +267,7 @@ PROTO Road [
                 else
                   break;
               }
-            >%
+        >%
             Shape {
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
@@ -326,10 +320,9 @@ PROTO Road [
           %< } >%
         %< } >%
         # road signs (end)
-        %< for (let i = 0; i <= nbEndLine - 1; ++i) { >%
-          # if not same sign than previous lane
-          %< if (endLine[i+1] !== endLine[i] && endLine[i+1] !== '') { >%
-            %<
+        %<
+          for (let i = 0; i <= nbEndLine - 1; ++i) {
+            if (endLine[i+1] !== endLine[i] && endLine[i+1] !== '') {
               let size = 1;
               for (let j = i + 1; j <= nbEndLine - 1; ++j) {
                 if (endLine[i+1] === endLine[j+1])
@@ -337,7 +330,7 @@ PROTO Road [
                 else
                   break;
               }
-            >%
+        >%
             Shape {
               appearance PBRAppearance {
                 baseColorMap ImageTexture {

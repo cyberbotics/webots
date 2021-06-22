@@ -70,12 +70,11 @@ PROTO AddLanesRoadSegment [
     }
     const newLaneLeft   = fields.newLaneLeft.value;
     let roadLines     = fields.lines.value;
-    for (let i = 0; i < roadLines.length; ++i) {
+    for (let i = 0; i < roadLines.length; ++i)
       if (roadLines[i].node_name !== 'RoadLine') {
         roadLines[i] = undefined;
         console.error('Only \'RoadLine\' nodes should be added in the \'lines\' field.');
       }
-    }
 
     // pad the unspecified lines with default lines, otherwise the continuity between segments of road is broken
     let defaultLine = wbutility.deepCopy(fields.lines.value[0]);
@@ -135,7 +134,7 @@ PROTO AddLanesRoadSegment [
                   %< } >%
                 %< } >%
                 %<
-                  // then provide the new line, in direct order (need to or will break backwards compatibility)
+                  // then provide the line of the newly added side-road
                   if (typeof roadLines[lanes + i - 1] !== 'undefined') {
                 >%
                     RoadLine {

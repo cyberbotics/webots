@@ -61,7 +61,7 @@ PROTO CircleArena [
       console.error('\'wallHeight\' must be strictly positive. Value reset to ' + wallHeight + '.');
     }
 
-    let realRadius = radius + wallThickness * 0.5;
+    const realRadius = radius + wallThickness * 0.5;
 
     let floorTextureScale = {x: 1, y: 1};
     if (fields.floorTileSize.value.x >= 0 && fields.floorTileSize.value.y >= 0.0) { // avoid a zero division and negative values

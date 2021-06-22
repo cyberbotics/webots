@@ -37,7 +37,7 @@ PROTO TexturedParallelepiped [
       front = fields.front.defaultValue;
     }
 
-    let mapping = fields.mapping.value;
+    const mapping = fields.mapping.value;
     let rows;
     let cols;
     if (mapping === 'cube') {
@@ -66,7 +66,7 @@ PROTO TexturedParallelepiped [
       halfSize.z = fields.size.value.z * 0.5;
     }
 
-    let angleThreshold = 0.001;
+    const angleThreshold = 0.001;
     let angles = fields.angles.value;
 
     // normalize angles
@@ -75,7 +75,7 @@ PROTO TexturedParallelepiped [
     while (angles.x < 0)
       angles.x = angles.x + Math.PI;
 
-    let halfPi = 0.5 * Math.PI;
+    const halfPi = 0.5 * Math.PI;
     while (angles.y > halfPi)
       angles.y = angles.y - Math.PI;
     while (angles.y < -halfPi)
@@ -142,8 +142,8 @@ PROTO TexturedParallelepiped [
         let u = [];
         let v = [];
         let ratio = {x: 1, y: 1, z: 1};
-        let maxEdge = Math.max(Math.max(halfSize.x + parallelogramHalfOffsetX, parallelogramHeight), halfSize.z);
-        let offsetRatio = parallelogramHalfOffsetX / maxEdge;
+        const maxEdge = Math.max(Math.max(halfSize.x + parallelogramHalfOffsetX, parallelogramHeight), halfSize.z);
+        const offsetRatio = parallelogramHalfOffsetX / maxEdge;
         if (mapping === 'metric') {
           ratio.x = halfSize.x / maxEdge + offsetRatio;
           ratio.y = parallelogramHeight / maxEdge;

@@ -73,8 +73,8 @@ PROTO SumoInterface [
     controllerArguments.push('--maximum-lateral-speed=' + fields.maximumLateralSpeed.value);
     controllerArguments.push('--maximum-angular-speed=' + fields.maximumAngularSpeed.value);
     controllerArguments.push('--lane-change-delay=' + fields.laneChangeDelay.value);
-    let display = fields.display.value;
-    if (display !== undefined) {
+    const display = fields.display.value;
+    if (typeof display !== 'undefined') {
       controllerArguments.push('--use-display');
       controllerArguments.push('--display-zoom=' + display.fields.zoom.value);
       controllerArguments.push('--display-refresh-rate=' + display.fields.refreshRate.value);

@@ -41,7 +41,7 @@ PROTO TexturedBackgroundLight [
     let color = [1.0, 1.0, 1.0];
     let intensity = 1.0;
     let on = true;
-    let luminosity = fields.luminosity.value > 0.0 ? fields.luminosity.value : 0.0;
+    const luminosity = fields.luminosity.value > 0.0 ? fields.luminosity.value : 0.0;
     if (fields.texture.value === 'dusk') {
       direction = [-1.2, -0.3, -0.6];
       color = [1.0, 0.95, 0.8];
