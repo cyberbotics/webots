@@ -42,6 +42,8 @@ PROTO AddLanesRoadSegment [
 ]
 {
   %<
+    import * as wbutility from 'wbutility.js';
+
     // fields checks
     let width = fields.width.value;
     if (width < 0) {
@@ -74,6 +76,14 @@ PROTO AddLanesRoadSegment [
         console.error('Only \'RoadLine\' nodes should be added in the \'lines\' field.');
       }
     }
+
+    // pad the unspecified lines with default lines, otherwise the continuity between segments of road is broken
+    let defaultLine = wbutility.deepCopy(fields.lines.value[0]);
+    defaultLine.fields.color.value = defaultLine.fields.color.defaultValue;
+    defaultLine.fields.type.value = defaultLine.fields.type.defaultValue;
+    defaultLine.fields.width.value = defaultLine.fields.width.defaultValue;
+    while (numberOfNewLanes + fields.numberOfLanes.value - 1 > roadLines.length)
+      roadLines.push(defaultLine);
 
     const rightBarrier = fields.rightBarrier.value;
     const leftBarrier = fields.leftBarrier.value;
