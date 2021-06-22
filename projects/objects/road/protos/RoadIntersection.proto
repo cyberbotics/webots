@@ -30,9 +30,6 @@ PROTO RoadIntersection [
   field        SFBool               bottom                         FALSE                                 # Defines whether the intersection bottom should be displayed (useful in case of bridge).
   field        SFBool               locked                         TRUE                                  # Is `Solid.locked`.
   field        SFNode               appearance                     Asphalt { }                           # Defines the appearance of the road.
-
-  hiddenField  SFFloat              roadsWith                7                                     # Deprecated in Webots R2018b.
-  hiddenField  MFBool               startRoadsDashedLine     TRUE                                  # Deprecated in Webots R2018c.
 ]
 {
   %<
@@ -44,12 +41,6 @@ PROTO RoadIntersection [
     }
 
     let roadsWidth = fields.roadsWidth.value;
-    if (roadsWidth === fields.roadsWidth.defaultValue) {
-      roadsWidth = fields.roadsWith.value;
-      if (roadsWidth !== fields.roadsWith.defaultValue)
-        console.error('Field \'roadsWith\' is deprecated, use field \'roadsWidth\' instead.');
-    }
-
     if (roadsWidth < 0) {
       roadsWidth = fields.roadsWidth.defaultValue;
       console.error('\'roadsWidth\' must be greater or equal to 0. Value reset to ' + roadsWidth + '.');
@@ -208,7 +199,6 @@ PROTO RoadIntersection [
               contactMaterial IS contactMaterial
               bottom IS bottom
               numberOfLanes IS startRoadsNumberOfLanes
-              dashedLine IS startRoadsDashedLine
               lines IS startRoadsLine
               startLine IS startRoadsStartLine
               endLine IS startRoadsEndLine

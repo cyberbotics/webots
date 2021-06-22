@@ -79,18 +79,18 @@ PROTO AddLaneRoadSegment [
       }
     }
 
-    const newLaneleft   = fields.newLaneLeft.value;
-    const rightBorder   = fields.rightBorder.value;
-    const leftBorder    = fields.leftBorder.value;
-    const rightBarrier  = fields.rightBarrier.value;
-    const leftBarrier   = fields.leftBarrier.value;
-    const bottom        = fields.bottom.value;
-    const roadBO        = fields.roadBoundingObject.value;
-    const rightBorderBO = fields.rightBorderBoundingObject.value;
-    const leftBorderBO  = fields.leftBorderBoundingObject.value;
-    const rightBarrierBO  = fields.rightBarrierBoundingObject.value;
-    const leftBarrierBO   = fields.leftBorderBoundingObject.value;
-    const endLine       = fields.endLine.value;
+    const newLaneleft    = fields.newLaneLeft.value;
+    const rightBorder    = fields.rightBorder.value;
+    const leftBorder     = fields.leftBorder.value;
+    const rightBarrier   = fields.rightBarrier.value;
+    const leftBarrier    = fields.leftBarrier.value;
+    const bottom         = fields.bottom.value;
+    const roadBO         = fields.roadBoundingObject.value;
+    const rightBorderBO  = fields.rightBorderBoundingObject.value;
+    const leftBorderBO   = fields.leftBorderBoundingObject.value;
+    const rightBarrierBO = fields.rightBarrierBoundingObject.value;
+    const leftBarrierBO  = fields.leftBorderBoundingObject.value;
+    const endLine        = fields.endLine.value;
 
     const barrierOffset = 0.06 + 0.05 * width;
     const defaultLineWidth = 0.075;
@@ -118,8 +118,10 @@ PROTO AddLaneRoadSegment [
           endLine IS endLine
         %< } else { >%
           endLine [
-          %< for (let i = 2; i <= numberOfLanes + 1; ++i) { >%
-            %< if (endLine[i] !== undefined) { >%
+          %<
+            for (let i = 2; i <= numberOfLanes + 1; ++i) {
+              if (typeof endLine[i] !== 'undefined') {
+          >%
               %<= '"' + endLine[i] + '"' >%
             %< } >%
           %< } >%

@@ -30,17 +30,17 @@ PROTO FastFoodRestaurant [
     }
     let length = fields.length.value;
     // allow different minimal sizes depending on the number of sides demanded
-    if (numberOfSides === 1) {
+    if (numberOfSides === 1)
       if (length < 3.0) {
         length = fields.length.defaultValue;
         console.error('\'length\' must be greater or equal to 3. Value reset to ' + length + '.');
       }
-    } else if (numberOfSides === 2) {
+    else if (numberOfSides === 2)
       if (length < 10.0) {
         length = fields.length.defaultValue;
         console.error('\'length\' should be greater or equal to 10 because of the second side. Value reset to ' + length + '.');
       }
-    }
+
     const halfLength = length * 0.5;
 
     const brand = fields.brand.value;

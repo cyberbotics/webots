@@ -26,14 +26,14 @@ PROTO Extrusion [
     import * as wbrotation from 'wbrotation.js';
 
     // fields checks
-    let crossSection = fields.crossSection.value;
-    let nbCrossSectionPoint = crossSection.length;
+    const crossSection = fields.crossSection.value;
+    const nbCrossSectionPoint = crossSection.length;
 
     let spine = fields.spine.value;
     let nbSpinePoints = spine.length;
 
-    let orientation = fields.orientation.value;
-    let nbOrientation = orientation.length;
+    const orientation = fields.orientation.value;
+    const nbOrientation = orientation.length;
 
     // check and complement the scale array
     let scale = fields.scale.value;

@@ -36,9 +36,6 @@ PROTO Roundabout [
   field        SFString             contactMaterial          "default"                             # Is `Solid.contactMaterial`.
   field        SFBool               locked                   TRUE                                  # Is `Solid.locked`.
   field        SFNode               appearance               Asphalt { }                           # Defines the appearance of the road.
-
-  hiddenField  SFFloat              startRoadsWith       7                                   # Deprecated in Webots R2018b.
-  hiddenField  MFBool               startRoadsDashedLine FALSE                               # Deprecated in Webots R2018c.
 ]
 {
   %<
@@ -99,11 +96,6 @@ PROTO Roundabout [
       console.error('\'startRoadsLength\' values should be greater or equal to 0.');
     }
     let roadsWidth = fields.startRoadsWidth.value;
-    if (roadsWidth === fields.startRoadsWidth.defaultValue) {
-      roadsWidth = fields.startRoadsWith.value;
-      if (roadsWidth !== fields.startRoadsWith.defaultValue)
-        console.error('Field \'startRoadsWith\' is deprecated, use \'startRoadsWidth\' instead.');
-    }
     if (roadsWidth < 0) {
       roadsWidth = fields.startRoadsWidth.defaultValue;
       console.error('\'startRoadsWidth\' must be strictly positive. Value reset to ' + roadsWidth + '.');
@@ -200,7 +192,6 @@ PROTO Roundabout [
           name "road border %<=i>%"
           width %<= roadsWidth >%
           numberOfLanes IS startRoadsNumberOfLanes
-          dashedLine IS startRoadsDashedLine
           lines IS startRoadsLine
           startLine IS startRoadsStartLine
           endLine IS startRoadsEndLine
