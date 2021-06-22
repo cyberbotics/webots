@@ -6,9 +6,14 @@ function contact_points = wb_supervisor_node_get_contact_points(noderef,include_
 % need to stay in memory until wb_robot_step()
 persistent pointer;
 
-size = libpointer('int32');
+size = libpointer('int32Ptr', 0);
 contact_points_ref = calllib('libController','wb_supervisor_node_get_contact_points',noderef,include_descendants,size);
-contact_points = []
-for i = 1:size.Value
-    contact_points(i) = contact_points_ref(i).Value;
+setdatatype(contact_points_ref, 'WbContactPointPtr');
+if size.value <= 0
+    contact_points = [];
+else
+    for i = 1:size.value
+        contact_points_ref_array = contact_points_ref + (i - 1);
+        contact_points(i) = contact_points_ref_array.value;
+    end
 end
