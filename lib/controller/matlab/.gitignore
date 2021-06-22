@@ -267,6 +267,8 @@ wb_supervisor_node_get_type.m
 wb_supervisor_node_get_type_name.m
 wb_supervisor_node_get_base_type_name.m
 wb_supervisor_node_get_field.m
+wb_supervisor_field_enable_sf_tracking.m
+wb_supervisor_field_disable_sf_tracking.m
 wb_supervisor_node_get_proto_field.m
 wb_supervisor_node_get_number_of_contact_points.m
 wb_supervisor_node_get_contact_point_node.m
@@ -291,8 +293,7 @@ wb_supervisor_node_disable_contact_point_tracking.m
 wb_supervisor_node_export_string.m
 wb_supervisor_node_save_state.m
 wb_supervisor_node_load_state.m
-wb_supervisor_field_disable_sf_tracking.m
-wb_supervisor_field_enable_sf_tracking.m
+wb_supervisor_node_set_joint_position.m
 wb_supervisor_field_get_type.m
 wb_supervisor_field_get_type_name.m
 wb_supervisor_field_get_count.m

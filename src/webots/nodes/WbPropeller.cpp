@@ -242,7 +242,7 @@ void WbPropeller::prePhysicsStep(double ms) {
 
     // Moves the slow helix
     const WbQuaternion q(mNormalizedAxis, mPosition);
-    const WbQuaternion iq(mHelix->rotationFromFile().toQuaternion());
+    const WbQuaternion iq(mHelix->rotationFromFile(stateId()).toQuaternion());
     WbQuaternion qp(q * iq);
     if (qp.w() != 1.0)
       qp.normalize();
@@ -250,7 +250,7 @@ void WbPropeller::prePhysicsStep(double ms) {
     if (r.angle() == 0.0)
       r = WbRotation(mNormalizedAxis.x(), mNormalizedAxis.y(), mNormalizedAxis.z(), 0.0);
     const WbVector3 &c = mCenterOfThrust->value();
-    mHelix->setTranslationAndRotation(q * (mHelix->translationFromFile() - c) + c, r);
+    mHelix->setTranslationAndRotation(q * (mHelix->translationFromFile(stateId()) - c) + c, r);
   }
 }
 
