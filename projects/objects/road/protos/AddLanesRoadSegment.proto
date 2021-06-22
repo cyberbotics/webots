@@ -116,7 +116,6 @@ PROTO AddLanesRoadSegment [
                 // first provide roadlines that will fill the main trunk of the road, they must be provided in reverse order because the base PROTO Road requires it
                 for (let j = lanes + i - 2; j >= 0; j--) {
                   if (typeof roadLines[j] !== 'undefined') {
-                    console.log(i + ' ' + j);
               >%
                     RoadLine {
                       color %<= roadLines[j].fields.color.value.r >% %<= roadLines[j].fields.color.value.g >% %<= roadLines[j].fields.color.value.b >%
