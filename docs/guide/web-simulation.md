@@ -236,7 +236,7 @@ In the `session_server.py` configuration, the `simulationServers` should be list
 Your web server should be configured to redirect `http` traffic to `https` and to rewrite ports in URLs for both `https` and `wss`.
 With the Apache web server, this can be achieved by adding the following rules in your `httpd.conf` file:
 
-%tab-component "host"
+%tab-component "generic"
 
 %tab "webserver.com"
 ```

@@ -192,7 +192,7 @@ The functions exported by this module are available globally.
 
 The functions exported by each module are:
 
-%tab-component "module"
+%tab-component "generic"
 
 %tab "wbrandom"
 ```javascript

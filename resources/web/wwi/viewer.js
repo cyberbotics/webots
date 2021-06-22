@@ -199,7 +199,7 @@ function collapseMovies(node) {
 function forgeUrl(book, page, tabs, anchor) {
   let tabOption;
   let isFirstArgument;
-  const tabsWithUrl = ['tab-language', 'tab-os', 'tab-host', 'tab-module'];
+  const tabsWithUrl = ['tab-language', 'tab-os'];
   const anchorString = (anchor && anchor.length > 0) ? ('#' + anchor) : '';
   let url = location.href;
   if (isCyberboticsUrl) {
