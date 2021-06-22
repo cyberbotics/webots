@@ -18,11 +18,14 @@
 #define WB_USING_CPP_API
 #include <string>
 #include <webots/Field.hpp>
+#include "../../c/webots/contact_point.h"
 #include "../../c/webots/types.h"
 
 // Note: should match with node.h
 
 namespace webots {
+  typedef WbContactPoint ContactPoint;
+
   class Field;
   class Node {
   public:
@@ -133,10 +136,15 @@ namespace webots {
     const double *getOrientation() const;
     const double *getPose() const;
     const double *getPose(const Node *fromNode) const;
+    void enableContactPointsTracking(int samplingPeriod) const;
+    void disableContactPointsTracking() const;
+    void enableContactPointsTracking(int samplingPeriod, bool includeDescendants) const;
+    void disableContactPointsTracking(bool includeDescendants) const;
     void enablePoseTracking(int samplingPeriod) const;
     void disablePoseTracking() const;
     void enablePoseTracking(int samplingPeriod, const Node *fromNode) const;
     void disablePoseTracking(const Node *fromNode) const;
+    ContactPoint *getContactPoints(bool includeDescendants, int *size) const;
     const double *getCenterOfMass() const;
     const double *getContactPoint(int index) const;
     Node *getContactPointNode(int index) const;
@@ -158,6 +166,8 @@ namespace webots {
 
     void saveState(const std::string &stateName);
     void loadState(const std::string &stateName);
+
+    void setJointPosition(double position, int index = 1);
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Node *findNode(WbNodeRef ref);

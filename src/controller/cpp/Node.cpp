@@ -113,6 +113,26 @@ const double *Node::getPose(const Node *fromNode) const {
   return wb_supervisor_node_get_pose(nodeRef, fromNode->nodeRef);
 }
 
+void Node::enableContactPointsTracking(int samplingPeriod) const {
+  wb_supervisor_node_enable_contact_point_tracking(nodeRef, samplingPeriod, false);
+}
+
+void Node::disableContactPointsTracking() const {
+  wb_supervisor_node_disable_contact_point_tracking(nodeRef, false);
+}
+
+void Node::enableContactPointsTracking(int samplingPeriod, bool includeDescendants) const {
+  wb_supervisor_node_enable_contact_point_tracking(nodeRef, samplingPeriod, false);
+}
+
+void Node::disableContactPointsTracking(bool includeDescendants) const {
+  wb_supervisor_node_disable_contact_point_tracking(nodeRef, false);
+}
+
+ContactPoint *Node::getContactPoints(bool includeDescendants, int *size) const {
+  return wb_supervisor_node_get_contact_points(nodeRef, includeDescendants, size);
+}
+
 void Node::enablePoseTracking(int samplingPeriod) const {
   wb_supervisor_node_enable_pose_tracking(nodeRef, samplingPeriod, NULL);
 }
@@ -195,4 +215,8 @@ void Node::saveState(const std::string &stateName) {
 
 void Node::loadState(const std::string &stateName) {
   wb_supervisor_node_load_state(nodeRef, stateName.c_str());
+}
+
+void Node::setJointPosition(double position, int index) {
+  wb_supervisor_node_set_joint_position(nodeRef, position, index);
 }

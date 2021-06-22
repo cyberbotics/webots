@@ -36,11 +36,14 @@
 
 #include <webots_ros/node_add_force_or_torque.h>
 #include <webots_ros/node_add_force_with_offset.h>
+#include <webots_ros/node_disable_contact_points_tracking.h>
 #include <webots_ros/node_disable_pose_tracking.h>
+#include <webots_ros/node_enable_contact_points_tracking.h>
 #include <webots_ros/node_enable_pose_tracking.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
 #include <webots_ros/node_get_contact_point_node.h>
+#include <webots_ros/node_get_contact_points.h>
 #include <webots_ros/node_get_field.h>
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
@@ -58,6 +61,7 @@
 #include <webots_ros/node_move_viewpoint.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
+#include <webots_ros/node_set_joint_position.h>
 #include <webots_ros/node_set_string.h>
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
@@ -150,6 +154,12 @@ public:
                                    webots_ros::node_get_contact_point::Response &res);
   bool nodeGetContactPointNodeCallback(webots_ros::node_get_contact_point_node::Request &req,
                                        webots_ros::node_get_contact_point_node::Response &res);
+  bool nodeGetContactPointsCallback(webots_ros::node_get_contact_points::Request &req,
+                                    webots_ros::node_get_contact_points::Response &res);
+  bool nodeEnableContactPointsTrackingCallback(webots_ros::node_enable_contact_points_tracking::Request &req,
+                                               webots_ros::node_enable_contact_points_tracking::Response &res);
+  bool nodeDisableContactPointsTrackingCallback(webots_ros::node_disable_contact_points_tracking::Request &req,
+                                                webots_ros::node_disable_contact_points_tracking::Response &res);
   bool nodeGetStaticBalanceCallback(webots_ros::node_get_static_balance::Request &req,
                                     webots_ros::node_get_static_balance::Response &res);
   bool nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req, webots_ros::node_get_velocity::Response &res);
@@ -175,6 +185,8 @@ public:
                                       webots_ros::node_enable_pose_tracking::Response &res);
   bool nodeDisablePoseTrackingCallback(webots_ros::node_disable_pose_tracking::Request &req,
                                        webots_ros::node_disable_pose_tracking::Response &res);
+  bool nodeSetJointPositionCallback(webots_ros::node_set_joint_position::Request &req,
+                                    webots_ros::node_set_joint_position::Response &res);
 
   bool fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res);
   bool fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req, webots_ros::field_get_type_name::Response &res);
@@ -258,6 +270,9 @@ private:
   ros::ServiceServer mNodeGetNumberOfContactPointsServer;
   ros::ServiceServer mNodeGetContactPointServer;
   ros::ServiceServer mNodeGetContactPointNodeServer;
+  ros::ServiceServer mNodeGetContactPointsServer;
+  ros::ServiceServer mNodeEnableContactPointsTrackingServer;
+  ros::ServiceServer mNodeDisableContactPointsTrackingServer;
   ros::ServiceServer mNodeGetStaticBalanceServer;
   ros::ServiceServer mNodeGetVelocityServer;
   ros::ServiceServer mNodeSetVelocityServer;
@@ -275,6 +290,7 @@ private:
   ros::ServiceServer mNodeLoadStateServer;
   ros::ServiceServer mNodeEnablePoseTrackingServer;
   ros::ServiceServer mNodeDisablePoseTrackingServer;
+  ros::ServiceServer mNodeSetJointPositionServer;
 
   ros::ServiceServer mFieldGetTypeServer;
   ros::ServiceServer mFieldGetTypeNameServer;
