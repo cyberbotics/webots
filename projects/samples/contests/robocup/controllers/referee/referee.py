@@ -116,8 +116,20 @@ def log(message, msg_type, force_flush=True):
 log.real_time = time.time()
 
 
+def announce_final_score():
+    if not hasattr(game, "state"):
+        return
+    red_team_idx = team_index('red')
+    blue_team_idx = team_index('blue')
+    red_score = game.state.teams[red_team_idx].score
+    blue_score = game.state.teams[blue_team_idx].score
+    # TODO: store and print score before penalty shootouts
+    info(f"FINAL SCORE: {red_score}-{blue_score}")
+
+
 def clean_exit():
     """Save logs and clean all subprocesses"""
+    announce_final_score()
     if hasattr(game, "controller") and game.controller:
         info("Closing 'controller' socket")
         game.controller.close()
@@ -668,8 +680,8 @@ def list_player_solids(player, color, number):
     player['tagged_solids'] = {}  # Keys: name of solid, Values: name of tag
     solids = player['solids']
     append_solid(robot, solids, player['tagged_solids'])
-    info(f"Tagged solids: {player['tagged_solids']}\n")
     if len(solids) != 4:
+        info(f"Tagged solids: {player['tagged_solids']}")
         error(f'{color} player {number}: invalid number of [hand]+[foot], received {len(solids)}, expected 4.',
               fatal=True)
 
@@ -1135,7 +1147,7 @@ def update_team_penalized(team):
             # Once this is fixed, we should remove the robot, which seems to be a better solution
             # than moving it away from the field
             player['robot'] = None
-            info(f'Sending {color} player {number} to {t}.')
+            info(f'Sending {color} player {number} to {t}. (team_index: {index})')
             if 'stabilize' in player:
                 del player['stabilize']
             player['outside_field'] = True
