@@ -16,7 +16,9 @@
 
 #include "WbApplication.hpp"
 #include "WbDownloader.hpp"
+#include "WbGroup.hpp"
 #include "WbMFString.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
@@ -28,6 +30,7 @@
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
+
 void WbMesh::init() {
   mUrl = findMFString("url");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
@@ -71,6 +74,10 @@ void WbMesh::downloadUpdate() {
     emit WbApplication::instance()->setWorldLoadingProgress(progress);
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
+  const WbNode *ancestor = WbNodeUtilities::findTopNode(this);
+  const WbGroup *group = dynamic_cast<const WbGroup *>(ancestor);
+  if (group)
+    group->recomputeBoundingSphere();
 }
 
 void WbMesh::preFinalize() {
