@@ -210,7 +210,6 @@ function forgeUrl(book, page, tabs, anchor) {
     else if (localSetup.branch !== '')
       url += '?version=' + localSetup.branch;
     isFirstArgument = localSetup.branch === '';
-
     for (tabOption in tabs) {
       if (!tabs[tabOption] || !tabsWithUrl.includes(tabOption))
         continue;
