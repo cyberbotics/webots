@@ -40,9 +40,9 @@ int main(int argc, char **argv) {
   WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
   wb_motor_set_position(left_motor, INFINITY);
   wb_motor_set_position(right_motor, INFINITY);
-  
+
   bool direction_switch = false;
-  
+
   while (wb_robot_step(time_step) != -1) {
     double altitude = wb_altimeter_get_value(altimeter);
     if (!direction_switch) {
