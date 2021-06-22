@@ -45,31 +45,31 @@ PROTO FastFoodRestaurant [
 
     const brand = fields.brand.value;
     // used to avoid depth fighting between the inner textures and the building structure.
-    let depth_fighting_offset = 0.05;
+    let depthFightingOffset = 0.05;
     // used to prevent planes from colliding with the boxes.
-    let plane_offset = 0.005;
+    let planeOffset = 0.005;
     // used to further adjust the front plane when two sides are demanded.
-    let front_adjust = 0;
+    let frontAdjust = 0;
     // another adjustment required when two sides are demanded on Subway ( or momo ).
-    let subway_front_adjust = 0;
+    let subwayFrontAdjust = 0;
     // used to adjust the front plane height.
-    let front_plane_height = 4.47;
+    let frontPlaneHeight = 4.47;
     // used to adjust the front plane position on the Y axis.
-    let front_plane_y = 2.23;
+    let frontPlaneY = 2.23;
     // used to set the size of the front plane for the four brands.
-    let front_brand_size = 10;
+    let frontBrandSize = 10;
     // provides correct alignment of the planes when two sides are demanded.
-    let front_transform = 0.0;
+    let frontTransform = 0.0;
     if (numberOfSides === 2)
-      front_transform =  5.4 - ( width * 0.5 );
+      frontTransform =  5.4 - ( width * 0.5 );
     if (brand === 'subway' || brand === 'momo') {
-      front_plane_height = 4;
-      front_plane_y = 2;
-      front_brand_size = 6.8;
+      frontPlaneHeight = 4;
+      frontPlaneY = 2;
+      frontBrandSize = 6.8;
     }
     if ((brand === 'subway' || brand === 'momo') && numberOfSides === 2) {
-      subway_front_adjust = 0.5;
-      front_brand_size = 9;
+      subwayFrontAdjust = 0.5;
+      frontBrandSize = 9;
     }
     let outerWallTexture;
     if (brand === 'subway' || brand === 'momo')
@@ -87,10 +87,10 @@ PROTO FastFoodRestaurant [
     %< } >%
     children [
     Transform {
-      translation 0 0 %<= front_transform >%
+      translation 0 0 %<= frontTransform >%
       children [
         DEF LEFT_INNER_WALL Transform {
-          translation %<= halfLength - 1 >% 1.4 %<= 3.4 - plane_offset - depth_fighting_offset >%
+          translation %<= halfLength - 1 >% 1.4 %<= 3.4 - planeOffset - depthFightingOffset >%
           rotation 0 -0.707107 0.707106 3.14159
           children [
             DEF INNER_WALL Shape {
@@ -114,10 +114,10 @@ PROTO FastFoodRestaurant [
         }
         DEF RIGHT_INNER_WALL Transform {
           %< if (numberOfSides === 1) { >%
-              translation %<= halfLength - 1 >% 1.4 %<= -3.4 + plane_offset + depth_fighting_offset >%
+              translation %<= halfLength - 1 >% 1.4 %<= -3.4 + planeOffset + depthFightingOffset >%
               rotation 1 0 0 1.5708
           %< } else if (numberOfSides === 2) { >%
-              translation %<= halfLength - 8.8 + plane_offset + depth_fighting_offset >% 1.4 -4.4
+              translation %<= halfLength - 8.8 + planeOffset + depthFightingOffset >% 1.4 -4.4
               rotation -0.57735 -0.57735 0.57735 4.18879
           %< } >%
           children USE INNER_WALL
@@ -125,10 +125,10 @@ PROTO FastFoodRestaurant [
         %< for (let i = 1; i <= numberOfSides; ++i) { >%
             DEF %<= 'BACK_' + i >% Transform {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
-                  translation %<= halfLength - 2 + plane_offset + depth_fighting_offset >% 1.4 0
+                  translation %<= halfLength - 2 + planeOffset + depthFightingOffset >% 1.4 0
                   rotation -0.57735 -0.577351 0.57735 4.18879
               %< } else { >%
-                  translation %<= halfLength - 5.4 >% 1.4 %<= -3.4 - plane_offset - depth_fighting_offset >%
+                  translation %<= halfLength - 5.4 >% 1.4 %<= -3.4 - planeOffset - depthFightingOffset >%
                   rotation 0 0.707107 -0.707107 3.14159
               %< } >%
               children [
@@ -148,22 +148,22 @@ PROTO FastFoodRestaurant [
                     metalness 0
                   }
                   geometry Plane {
-                    size %<= 6.8 + 2 * plane_offset >% 2.8
+                    size %<= 6.8 + 2 * planeOffset >% 2.8
                   }
                 }
               ]
             }
             %<
               if (numberOfSides === 2 && i === 1) {
-                front_adjust = -0.4;
+                frontAdjust = -0.4;
               }
             >%
             DEF %<= 'FRONT_' + i >% Transform {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
-                  translation %<= halfLength + plane_offset >% %<= front_plane_y >% %<= front_adjust - subway_front_adjust >%
+                  translation %<= halfLength + planeOffset >% %<= frontPlaneY >% %<= frontAdjust - subwayFrontAdjust >%
                   rotation -0.57735 -0.577351 0.57735 4.18879
               %< } else { >%
-                  translation %<= halfLength - 5 + subway_front_adjust >% %<= front_plane_y >% %<= -5.4 - plane_offset >%
+                  translation %<= halfLength - 5 + subwayFrontAdjust >% %<= frontPlaneY >% %<= -5.4 - planeOffset >%
                   rotation 0 0.707107 -0.707107 3.14159
               %< } >%
               children [
@@ -185,17 +185,17 @@ PROTO FastFoodRestaurant [
                     metalness 0
                   }
                   geometry DEF FRONT_SIDE Plane {
-                    size %<= front_brand_size + 4 * plane_offset >% %<= front_plane_height >%
+                    size %<= frontBrandSize + 4 * planeOffset >% %<= frontPlaneHeight >%
                   }
                 }
               ]
             }
             DEF %<= 'REVERSE_FRONT_' + i >% Transform {
               %< if (i === 1) { >%
-                translation %<= halfLength + plane_offset >% %<= front_plane_y >% %<= front_adjust - subway_front_adjust >%
+                translation %<= halfLength + planeOffset >% %<= frontPlaneY >% %<= frontAdjust - subwayFrontAdjust >%
                 rotation -0.577351 0.57735 -0.57735 4.18879
               %< } else if (i === 2) { >%
-                translation %<= halfLength - 5 + subway_front_adjust >% %<= front_plane_y >% %<= -5.4 - plane_offset >%
+                translation %<= halfLength - 5 + subwayFrontAdjust >% %<= frontPlaneY >% %<= -5.4 - planeOffset >%
                 rotation 1 0 0 1.5708
               %< } >%
               children [
@@ -214,10 +214,10 @@ PROTO FastFoodRestaurant [
             }
             DEF %<= 'ROOF_' + i >% Transform {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
-                  translation %<= halfLength - 1 >% %<= 2.8 - plane_offset >% 0
+                  translation %<= halfLength - 1 >% %<= 2.8 - planeOffset >% 0
                   rotation 0 0 1 3.14159
               %< } else { >%
-                  translation %<= halfLength - 4.4 >% %<= 2.8 - plane_offset >% -4.4
+                  translation %<= halfLength - 4.4 >% %<= 2.8 - planeOffset >% -4.4
                   rotation -0.707107 0 -0.707107 3.14159
               %< } >%
               children [
@@ -247,9 +247,9 @@ PROTO FastFoodRestaurant [
             }
             DEF %<= 'FLOOR_' + i >% Transform {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
-                  translation %<= halfLength - 1 >% %<= depth_fighting_offset >% 0
+                  translation %<= halfLength - 1 >% %<= depthFightingOffset >% 0
               %< } else { >%
-                  translation %<= halfLength - 4.4 >% %<= depth_fighting_offset >% -4.4
+                  translation %<= halfLength - 4.4 >% %<= depthFightingOffset >% -4.4
                   rotation 0 1 0 1.5708
               %< } >%
               children [

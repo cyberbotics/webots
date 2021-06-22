@@ -89,12 +89,11 @@ PROTO Roundabout [
         console.error('\'startRoadsLength\' should either have 1 item or \'roadNumber\' items.');
     }
     if (useIndependentStartRoadLength) {
-      for (let i = 0; i < roadNumber; ++i) {
+      for (let i = 0; i < roadNumber; ++i)
         if (startRoadsLength[i] < 0) {
           startRoadsLength[i] = 0;
           console.error('\'startRoadsLength\' values should be greater or equal to 0.');
         }
-      }
     } else if (startRoadsLength[0] < 0) {
       startRoadsLength[0] = 0;
       console.error('\'startRoadsLength\' values should be greater or equal to 0.');
@@ -163,7 +162,7 @@ PROTO Roundabout [
           %< } >%
         }
       %< } >%
-      # for each roads
+      # for each road
       %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
         %<
           let angle         = 2 * Math.PI * i / roadNumber + Math.PI / roadNumber;
@@ -180,13 +179,12 @@ PROTO Roundabout [
           let centralIndex = 0;
           let pointIndex = 0;
           let pointsNumber = outerPoints.length;
-          for (let i = 0; i < pointsNumber; ++i) {
-            if (wbvector2.equal(outerPoints[i], point)) {
+          for (let i = 0; i < pointsNumber; ++i)
+            if (wbvector2.equal(outerPoints[i], point))
               pointIndex = i;
-            } else if (wbvector2.equal(outerPoints[i], centralPoint)) {
+            else if (wbvector2.equal(outerPoints[i], centralPoint))
               centralIndex = i;
-            }
-          }
+
           let numberOfIndex = Math.abs(pointIndex - centralIndex);
         >%
         # The border of the road
