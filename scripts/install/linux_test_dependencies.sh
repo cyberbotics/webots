@@ -5,6 +5,8 @@ if [[ $EUID -ne 0 ]]; then
        exit 1
 fi
 
+apt install liburdfdom-tools -y
+
 if [[ $@ != *"--exclude-ros"* ]]; then
   UBUNTU_VERSION=$(lsb_release -rs)
   if [[ $UBUNTU_VERSION == "16.04" ]]; then
