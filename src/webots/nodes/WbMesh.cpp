@@ -458,8 +458,11 @@ void WbMesh::updateUrl() {
     return;
   }
 
-  if (areWrenObjectsInitialized())
+  if (areWrenObjectsInitialized()) {
     buildWrenMesh(true);
+    if (WbUrl::isWeb(mUrl->item(0)))
+      emit wrenObjectsCreated();  // throw signal to update pickable state
+  }
 
   if (isPostFinalizedCalled())
     emit changed();
