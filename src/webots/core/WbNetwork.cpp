@@ -48,7 +48,7 @@ QNetworkAccessManager *WbNetwork::networkAccessManager() {
     mNetworkAccessManager = new QNetworkAccessManager();
     QNetworkDiskCache *diskCache = new QNetworkDiskCache();
     diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network");
-    quint64 value = Q_UINT64_C(1024 * 1024 * 1024 * 1024);
+    int value = 1024 * 1024 * WbPreferences::instance()->value("Network/cacheSize", 1024).toInt();
     diskCache->setMaximumCacheSize(value);
     mNetworkAccessManager->setCache(diskCache);
     setProxy();

@@ -184,6 +184,7 @@ void WbPreferencesDialog::accept() {
   prefs->sync();
   if (changed)
     WbNetwork::instance()->setProxy();
+  prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
   emit changedByUser();
   QDialog::accept();
   if (willRestart)
@@ -424,10 +425,13 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   layout = new QGridLayout(cache);
 
   // row 0
-  mSizeOfCache = new WbLineEdit(this);
-  mSizeOfCache->setValidator(new QIntValidator(0, 65535));
-  layout->addWidget(new QLabel(tr("Size of the cache (in MB):"), this), 0, 0);
-  layout->addWidget(mSizeOfCache, 0, 1);
+  mCacheSize = new WbLineEdit(this);
+  mCacheSize->setValidator(new QIntValidator(0, 65535));
+  layout->addWidget(new QLabel(tr("Set the of the cache (in MB), current size: %1MB")
+                                 .arg(WbPreferences::instance()->value("Network/cacheSize", 1024).toInt()),
+                               this),
+                    0, 0);
+  layout->addWidget(mCacheSize, 0, 1);
 
   // row 1
   QPushButton *clearCacheButton = new QPushButton(QString("Clear the cache"), this);
