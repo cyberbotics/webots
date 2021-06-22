@@ -77,7 +77,7 @@ PROTO SimpleBuilding [
     ];
 
     // list of textures supporting colors
-    let coloredWallTypes = {
+    const coloredWallTypes = {
       'old house': {},
       'brick building': {},
       'factory building': {},
@@ -90,15 +90,11 @@ PROTO SimpleBuilding [
     const availableRoofColors = [[1, 0, 0], [0.75, 0.75, 0.75], [0, 0, 0]];
 
     // list of roof textures supporting colors
-    let coloredRoofTypes = {
-      'tiled': {},
-      'bitumen': {}
-    }
+    const coloredRoofTypes = {'tiled': {}, 'bitumen': {}};
 
     // convert 'availableColors' in hexadecimal
     function toHex (value) {
       const digits = '0123456789ABCDEF';
-      let t = [];
       let sign = '';
 
       for (let i = 0; i < value.length; ++i) {
@@ -114,12 +110,12 @@ PROTO SimpleBuilding [
     }
 
     // determine wall texture parameters
-    let wallType = fields.wallType.value
+    const wallType = fields.wallType.value
     // determine wall color
     let wallColorPrefix = '';
     let wallColor = fields.wallColor.value;
     if (wallColor.length > 0) {
-      if (coloredWallTypes[wallType] === undefined) {
+      if (typeof coloredWallTypes[wallType] === 'undefined') {
         wallColor = fields.wallColor.defaultValue;
         let list = '';
         for (let i = 0; i < coloredWallTypes.length; ++i) {
@@ -191,17 +187,17 @@ PROTO SimpleBuilding [
     }
     wallTexture = wallTexture.replace(/\s/g, '_');
 
-    let wallTextureWidth = wallTypes[wallType].textureWidth;
-    let wallTextureFloorNumber = wallTypes[wallType].textureFloorNumber;
-    let wallTextureLateralWindowNumber = wallTypes[wallType].textureLateralWindowNumber;
+    const wallTextureWidth = wallTypes[wallType].textureWidth;
+    const wallTextureFloorNumber = wallTypes[wallType].textureFloorNumber;
+    const wallTextureLateralWindowNumber = wallTypes[wallType].textureLateralWindowNumber;
 
     // determine roof texture parameters
-    let roofType = fields.roofType.value;
+    const roofType = fields.roofType.value;
     // determine roof color
     let roofColorPrefix = '';
     let roofColor = fields.roofColor.value;
     if (roofColor.length > 0) {
-      if (coloredRoofTypes[roofType] === undefined) {
+      if (typeof coloredRoofTypes[roofType] === 'undefined') {
         roofColor = fields.roofColor.defaultValue;
         let list = '';
         for (let i = 0; i < coloredRoofTypes.length; ++i) {

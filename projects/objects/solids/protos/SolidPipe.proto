@@ -57,9 +57,9 @@ PROTO SolidPipe [
     }
 
     // global stuff before entering in the main loop
-    let beta = 2.0 * Math.PI / subdivision;
-    let alpha = beta * 0.5;
-    let innerRadius = radius - thickness;
+    const beta = 2.0 * Math.PI / subdivision;
+    const alpha = beta * 0.5;
+    const innerRadius = radius - thickness;
     let su = radius * Math.cos(alpha) - innerRadius;
     if (su < 0) {
       // fixed edge case:
@@ -81,8 +81,8 @@ PROTO SolidPipe [
           coord Coordinate {
             point [
               %<
-                let outerCircle = wbgeometry.circle(radius, subdivision, {x: 0, y: 0}, - Math.PI * 0.5);
-                let innerCircle = wbgeometry.circle(radius - su, subdivision, {x: 0, y: 0}, - Math.PI * 0.5);
+                const outerCircle = wbgeometry.circle(radius, subdivision, {x: 0, y: 0}, - Math.PI * 0.5);
+                const innerCircle = wbgeometry.circle(radius - su, subdivision, {x: 0, y: 0}, - Math.PI * 0.5);
               >%
               # top outer
               %< for (let i = 0; i < outerCircle.length; ++i) { >%
@@ -105,8 +105,8 @@ PROTO SolidPipe [
           texCoord TextureCoordinate {
             point [
               %<
-                let innerTexCircle = wbgeometry.circle(0.5 * (radius - su) / radius, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
-                let outerTexCircle = wbgeometry.circle(0.5, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
+                const innerTexCircle = wbgeometry.circle(0.5 * (radius - su) / radius, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
+                const outerTexCircle = wbgeometry.circle(0.5, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
               >%
               # outer circle
               %< for (let i = 0; i < outerTexCircle.length; ++i) { >%

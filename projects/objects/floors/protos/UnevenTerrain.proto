@@ -52,12 +52,12 @@ PROTO UnevenTerrain [
 
     function noise (x, y, per, dirs, perm) {
       function surflet (grid_x, grid_y, dirs, perm) {
-        let dist_x = Math.abs(x - grid_x);
-        let dist_y = Math.abs(y - grid_y);
-        let poly_x = 1 - 6 * Math.pow(dist_x, 5) + 15 * Math.pow(dist_x, 4) - 10 * Math.pow(dist_x, 3);
-        let poly_y = 1 - 6 * Math.pow(dist_y, 5) + 15 * Math.pow(dist_y, 4) - 10 * Math.pow(dist_y, 3);
-        let hashed = perm[(perm[(Math.floor(grid_x) % per)] + Math.floor(grid_y) % per)];
-        let grad = (x - grid_x)  * dirs[hashed-1][0] + (y - grid_y) * dirs[hashed-1][1];
+        const dist_x = Math.abs(x - grid_x);
+        const dist_y = Math.abs(y - grid_y);
+        const poly_x = 1 - 6 * Math.pow(dist_x, 5) + 15 * Math.pow(dist_x, 4) - 10 * Math.pow(dist_x, 3);
+        const poly_y = 1 - 6 * Math.pow(dist_y, 5) + 15 * Math.pow(dist_y, 4) - 10 * Math.pow(dist_y, 3);
+        const hashed = perm[(perm[(Math.floor(grid_x) % per)] + Math.floor(grid_y) % per)];
+        const grad = (x - grid_x)  * dirs[hashed-1][0] + (y - grid_y) * dirs[hashed-1][1];
 
         return poly_x * poly_y * grad;
       }
@@ -118,8 +118,8 @@ PROTO UnevenTerrain [
                     %< for (let j = 0; j <= zDimension - 1; ++j) { >%
                       %<
                         let height = 1.0;
-                        let x = i / xDimension;
-                        let z = j / zDimension;
+                        const x = i / xDimension;
+                        const z = j / zDimension;
                         if (nOctave > 0)
                           height = 0.5 * (1.0 + fBm(x, z, perlinSize, nOctave, dirs, perm));
 
