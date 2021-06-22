@@ -42,7 +42,6 @@ PROTO LinkedWalls [
       for (let i = 0; i < NB_WALL_PARTS; ++i)
         remaining_indices.push(i);
 
-
       for (let i = 0; i < NB_WALL_PARTS - 1; ++i) {
         // we select one wall part among the ones remaining
         current_value = wbrandom.integer(NB_WALL_PARTS - i) - 1;

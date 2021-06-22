@@ -74,7 +74,7 @@ PROTO Panel [
             coord Coordinate {
               point [
                 # external frame
-                %< for (let dz = 0.5; dz >= -0.5; dz = dz - 1) {
+                %< for (let dz = 0.5; dz >= -0.5; --dz) {
                     let z = dz * size.z;
                 >%
                     %<= 0 >% %<= 0 >% %<= z >%

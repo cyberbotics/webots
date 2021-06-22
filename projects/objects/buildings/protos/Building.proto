@@ -79,7 +79,7 @@ PROTO Building [
       roofShape = fields.roofShape.defaultValue;
     }
 
-    let height = floorHeight * floorNumber;
+    const height = floorHeight * floorNumber;
 
     let corners = fields.corners.value;
     let nbCorners = corners.length;
@@ -103,14 +103,14 @@ PROTO Building [
         center.x += corners[i].x
         center.y += corners[i].y
       }
-      center.x /=  nbCorners;
+      center.x /= nbCorners;
       center.y /= nbCorners;
 
       // we check for each center(point of pyramid)->corner segment that it does not intersect
       // any upper edges, if it does => print warning and use flat roof instead
       for (let i = 0; i < nbCorners; ++i) {
         for (let j = 0; j < nbCorners - 1; ++j) {
-          let intersection = wbvector2.intersection(center, corners[i], corners[j], corners[j+1]);
+          const intersection = wbvector2.intersection(center, corners[i], corners[j], corners[j+1]);
           if (intersection !== null && Math.abs(intersection.x - center.x) > 0.01 &&
               Math.abs(intersection.x - corners[i].x) > 0.01 &&
               Math.abs(intersection.x - corners[j].x) > 0.01 &&
