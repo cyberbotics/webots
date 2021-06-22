@@ -199,7 +199,7 @@ function collapseMovies(node) {
 function forgeUrl(book, page, tabs, anchor) {
   let tabOption;
   let isFirstArgument;
-  const tabsWithUrl = ['tab-language', 'tab-os', 'tab-host'];
+  const tabsWithUrl = ['tab-language', 'tab-os', 'tab-host', 'tab-module'];
   const anchorString = (anchor && anchor.length > 0) ? ('#' + anchor) : '';
   let url = location.href;
   if (isCyberboticsUrl) {
@@ -683,7 +683,7 @@ window.onpopstate = function(event) {
 };
 
 function highlightCode(view) {
-  const supportedLanguages = ['c', 'cpp', 'java', 'python', 'matlab', 'sh', 'ini', 'tex', 'makefile', 'lua', 'xml'];
+  const supportedLanguages = ['c', 'cpp', 'java', 'python', 'matlab', 'sh', 'ini', 'tex', 'makefile', 'lua', 'xml', 'javascript'];
 
   for (let i = 0; i < supportedLanguages.length; i++) {
     const language = supportedLanguages[i];
