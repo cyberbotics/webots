@@ -37,8 +37,6 @@ PROTO HelicoidalRoadSegment [
   field        SFBool               leftBorderBoundingObject  FALSE                   # Defines whether the left sidewalk should have a bounding object.
   field        SFBool               castShadows               FALSE                   # Defines whether the road should cast shadows.
   field        SFString             contactMaterial           "default"               # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine          TRUE                    # Deprecated in Webots R2018c.
 ]
 {
   %<
@@ -70,7 +68,6 @@ PROTO HelicoidalRoadSegment [
     name IS name
     width IS width
     numberOfLanes IS numberOfLanes
-    dashedLine IS dashedLine
     lines IS lines
     startLine IS startLine
     endLine IS endLine

@@ -45,7 +45,7 @@ PROTO CrashBarrier [
 
     let length = 0;
     for (let i = 1; i < nbPath; ++i)
-      length = length + wbvector3.distance(path[i], path[i -1]);
+      length += wbvector3.distance(path[i], path[i -1]);
   >%
   Fence {
     translation IS translation

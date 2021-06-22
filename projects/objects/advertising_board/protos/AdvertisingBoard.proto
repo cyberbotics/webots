@@ -47,7 +47,7 @@ PROTO AdvertisingBoard [
       poleNumber = fields.poleNumber.defaultValue;
       console.error('\'poleNumber\' should be strictly positive. Value reset to ' + poleNumber + '.');
     }
-    let poleType = fields.poleType.value;
+    const poleType = fields.poleType.value;
     let poleHeight = fields.poleHeight.value;
     if (poleHeight <= 0.0) {
       poleHeight = fields.poleHeight.defaultValue;

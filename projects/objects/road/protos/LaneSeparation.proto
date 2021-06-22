@@ -41,8 +41,6 @@ PROTO LaneSeparation [
   field        SFBool               leftBarrierBoundingObject   TRUE                     # Defines whether the left crash barrier (if any) should have a bounding object.
   field        SFBool               castShadows                 FALSE                    # Defines whether the road should cast shadows.
   field        SFString             contactMaterial             "default"                # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine                  TRUE                     # Deprecated in Webots R2018c.
 ]
 {
   %<
@@ -78,8 +76,8 @@ PROTO LaneSeparation [
       console.error('\'roadBorderWidth\' must be greater or equal to zero. Value reset to ' + borderWidth + '.');
     }
 
-    let newLaneLeft   = fields.newLaneLeft.value;
-    let sideSign      = newLaneLeft ? 1 : -1;
+    const newLaneLeft = fields.newLaneLeft.value;
+    const sideSign    = newLaneLeft ? 1 : -1;
     let roadLines = fields.lines.value;
     for (let i = 0; i < roadLines.length; ++i) {
       if (roadLines[i].node_name !== 'RoadLine') {
@@ -87,7 +85,6 @@ PROTO LaneSeparation [
         console.error('Only \'RoadLine\' nodes should be added in the \'lines\' field.');
       }
     }
-    const dashedLine      = fields.dashedLine.value;
     const startLine       = fields.startLine.value;
     const endLine         = fields.endLine.value;
     const centralBorder   = fields.centralBorder.value;
@@ -113,15 +110,6 @@ PROTO LaneSeparation [
           rightBarrier IS leftBarrier
           rightBarrierBoundingObject IS leftBarrierBoundingObject
           leftBorder FALSE
-          dashedLine [
-          %< for (let i = 0; i < lanes - numberOfleavingLanes - 1; ++i) { >%
-            %< if (!dashedLine[i]) { >%
-              FALSE
-            %< } else { >%
-              TRUE
-            %< } >%
-          %< } >%
-          ]
           lines IS lines
           startLine [
           %< for (let i = 0; i < lanes - numberOfleavingLanes; ++i) { >%
@@ -142,15 +130,6 @@ PROTO LaneSeparation [
           leftBarrier IS rightBarrier
           leftBarrierBoundingObject IS rightBarrierBoundingObject
           rightBorder FALSE
-          dashedLine [
-          %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >%
-            %< if (!dashedLine[i]) { >%
-              FALSE
-            %< } else { >%
-              TRUE
-            %< } >%
-          %< } >%
-          ]
           lines [
           %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >%
             %< if (roadLines[i]) { >%
@@ -200,15 +179,6 @@ PROTO LaneSeparation [
           leftBorder IS leftBorder
           leftBarrier IS leftBarrier
           leftBarrierBoundingObject IS leftBarrierBoundingObject
-          dashedLine [
-          %< for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { >%
-            %< if (!dashedLine[i]) { >%
-              FALSE
-            %< } else { >%
-              TRUE
-            %< } >%
-          %< } >%
-          ]
           lines [
           %< for (let i = lanes - numberOfleavingLanes; i <= lanes; ++i) { >%
             %< if (roadLines[i]) { >%
@@ -239,15 +209,6 @@ PROTO LaneSeparation [
           rightBorder IS rightBorder
           rightBarrier IS rightBarrier
           rightBarrierBoundingObject IS rightBarrierBoundingObject
-          dashedLine [
-          %< for (let i = 0; i < numberOfleavingLanes - 1; ++i) { >%
-            %< if (!dashedLine[i]) { >%
-              FALSE
-            %< } else { >%
-              TRUE
-            %< } >%
-          %< } >%
-          ]
           lines [
           %< for (let i = 0; i < numberOfleavingLanes - 1; ++i) { >%
             %< if (roadLines[i]) { >%
