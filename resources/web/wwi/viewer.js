@@ -133,7 +133,7 @@ function computeTargetPath() {
   if (localSetup.branch)
     branch = localSetup.branch;
   if (localSetup.url.startsWith('http'))
-    targetPath = localSetup.url + branch + '/docs/';
+    targetPath = 'http://localhost:8000' + '/docs/';
 
   targetPath += localSetup.book + '/';
 
@@ -199,6 +199,7 @@ function collapseMovies(node) {
 function forgeUrl(book, page, tabs, anchor) {
   let tabOption;
   let isFirstArgument;
+  const tabsWithUrl = ['tab-language', 'tab-os', 'tab-host'];
   const anchorString = (anchor && anchor.length > 0) ? ('#' + anchor) : '';
   let url = location.href;
   if (isCyberboticsUrl) {
@@ -209,8 +210,9 @@ function forgeUrl(book, page, tabs, anchor) {
     else if (localSetup.branch !== '')
       url += '?version=' + localSetup.branch;
     isFirstArgument = localSetup.branch === '';
+
     for (tabOption in tabs) {
-      if (!tabs[tabOption])
+      if (!tabs[tabOption] || !tabsWithUrl.includes(tabOption))
         continue;
       url += (isFirstArgument ? '?' : '&') + tabOption + '=' + tabs[tabOption];
       isFirstArgument = false;
@@ -236,11 +238,13 @@ function forgeUrl(book, page, tabs, anchor) {
 
     // Add or replace the tab argument.
     for (tabOption in tabs) {
-      let tabName = tabs[tabOption] ? tabs[tabOption] : '';
-      if (url.indexOf(tabOption + '=') > -1)
-        url = url.replace(new RegExp(tabOption + '=([^&]+)(#[\\w-]+)?'), tabOption + '=' + tabName);
-      else if (tabName)
-        url += '&' + tabOption + '=' + tabName;
+      if (tabsWithUrl.includes(tabOption)) {
+        let tabName = tabs[tabOption] ? tabs[tabOption] : '';
+        if (url.indexOf(tabOption + '=') > -1)
+          url = url.replace(new RegExp(tabOption + '=([^&]+)(#[\\w-]+)?'), tabOption + '=' + tabName);
+        else if (tabName)
+          url += '&' + tabOption + '=' + tabName;
+      }
     }
 
     url += anchorString;

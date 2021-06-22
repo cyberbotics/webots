@@ -42,7 +42,7 @@ It is technically legitimate to forego the brackets for one-line statements, how
 Consider the example below, the option on the left would technically work however if the radius is later changed to something like `radius %<= fields.radius.value >%` it no longer would because the parsing of this expression involves several steps.
 It is therefore encouraged to be verbose and provide the brackets.
 
-%tab-component "module"
+%tab-component "generic"
 
 %tab "Technically correct, but risky"
 ```
@@ -77,7 +77,7 @@ Which tokens will be considered depends on whether the comment line `# template 
 This is typically the case when expressions of this form are used to define the coordinates or indexes of, for instance, a [IndexedFaceSet](indexedfaceset.md).
 To greatly speed-up the generation of this sort of PROTO file, it is highly suggested to use a string buffer to which the coordinates are progressively appended and to only evaluate this buffer once at the end, as shown in the following snippet.
 
-%tab-component "module"
+%tab-component "generic"
 
 %tab "Technically correct, but slow"
 ```
@@ -192,7 +192,7 @@ The functions exported by this module are available globally.
 
 The functions exported by each module are:
 
-%tab-component "module"
+%tab-component "generic"
 
 %tab "wbrandom"
 ```
