@@ -29,7 +29,7 @@ async function init() {
 
   await Promise.all(promises);
   script = document.createElement('script');
-  script.src = 'https://cyberbotics.com/wwi/R2021b/viewer.js';
+  script.src = 'https://cyberbotics.com/wwi/test_PR3156/viewer.js';
   script.type = 'module';
   document.head.appendChild(script);
 }
