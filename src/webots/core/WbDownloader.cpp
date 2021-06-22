@@ -59,6 +59,7 @@ void WbDownloader::download(const QUrl &url) {
     gTimer->setSingleShot(true);
     gTimer->start();
   }
+
   mUrl = url;
   QNetworkRequest request;
   request.setUrl(url);

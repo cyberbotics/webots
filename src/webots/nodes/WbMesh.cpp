@@ -103,6 +103,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
   if (mDownloader && !mDownloader->error().isEmpty()) {
     warn(mDownloader->error());
+    delete mDownloader;
+    mDownloader = NULL;
     return;
   }
 
