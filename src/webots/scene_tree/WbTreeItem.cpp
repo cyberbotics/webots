@@ -129,11 +129,9 @@ QString WbTreeItem::data() const {
     case NODE: {
       QString fullName = mNode->fullName();
       if (!fullName.startsWith("DEF ") && !fullName.startsWith("USE ")) {
-        if (WbNodeUtilities::isDeviceTypeName(mNode->nodeModelName())) {
-          WbSFString *name = mNode->findSFString("name");
-          if (name)
-            fullName += " \"" + name->value() + "\"";
-        }
+        const WbSFString *name = mNode->findSFString("name");
+        if (name)
+          fullName += " \"" + name->value() + "\"";
       }
       return fullName;
     }
