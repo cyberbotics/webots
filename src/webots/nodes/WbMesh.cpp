@@ -28,7 +28,6 @@
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
-#include <iostream>
 void WbMesh::init() {
   mUrl = findMFString("url");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
@@ -70,7 +69,6 @@ void WbMesh::downloadUpdate() {
     emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
   else if (WbDownloader::isPopUpDisplayed())
     emit WbApplication::instance()->setWorldLoadingProgress(progress);
-
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
@@ -109,22 +107,18 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
   if (WbUrl::isWeb(filePath)) {
-    if (mDownloader == NULL || !mDownloader->hasFinished()) {
-      QEventLoop loop;
-      if (mDownloader == NULL)
-        downloadAssets();
-
-      if (!mDownloader->hasFinished()) {
-        connect(mDownloader, &WbDownloader::complete, &loop, &QEventLoop::quit);
-        loop.exec();
-      }
+    if (mDownloader == NULL) {
+      downloadAssets();
     }
 
-    const QByteArray data = mDownloader->device()->readAll();
-    const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
-    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
-    delete mDownloader;
-    mDownloader = NULL;
+    if (mDownloader->hasFinished()) {
+      const QByteArray data = mDownloader->device()->readAll();
+      const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
+      scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
+      delete mDownloader;
+      mDownloader = NULL;
+    } else
+      return;
   } else
     scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
 
