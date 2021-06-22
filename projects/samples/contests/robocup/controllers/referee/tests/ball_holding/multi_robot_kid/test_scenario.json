@@ -75,26 +75,12 @@
         ]
     },
     {
+        "description" : "Setting up part B and ending robot ball_holding: moving robots",
         "timing" : {
-            "time" : [1,15],
+            "time" : 3.0,
             "clock_type" : "Simulated",
             "secondary_state" : "DIRECT_FREEKICK",
-            "phase" : 1
-        },
-        "tests" : [
-            {
-                "name" : "Part A: Ball is moved far from robots to advantage of BLUE team in SET phase",
-                "target" : "BALL",
-                "position" : [1.5,2.06,0.08]
-            }
-        ]
-    },
-    {
-        "description" : "Setting up part B: moving robots",
-        "timing" : {
-            "time" : 20.0,
-            "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "phase" : 0
         },
         "actions" : [
             {
@@ -104,6 +90,21 @@
             {
                 "target" : "BLUE_PLAYER_1",
                 "position" : [1.0, 0.3, 0.24]
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : [1,10],
+            "clock_type" : "Simulated",
+            "secondary_state" : "DIRECT_FREEKICK",
+            "phase" : 1
+        },
+        "tests" : [
+            {
+                "name" : "Part A: Ball is moved far from robots to advantage of BLUE team in SET phase",
+                "target" : "BALL",
+                "position" : [1.5,2.06,0.08]
             }
         ]
     },

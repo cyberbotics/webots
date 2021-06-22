@@ -68,7 +68,7 @@
     },
     {
         "timing" : {
-            "time" : 32,
+            "time" : 10,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -78,7 +78,17 @@
                 "secondary_state" : "THROWIN",
                 "secondary_team_id" : 1,
                 "critical" : true
-            },
+            }
+        ]
+    },
+    {
+        "timing" : {
+            "time" : 2,
+            "clock_type" : "Simulated",
+            "secondary_state" : "THROWIN",
+            "phase" : 1
+        },
+        "tests" : [
             {
                 "name" : "Respawning the ball at the appropriate location",
                 "target" : "BALL",
@@ -88,9 +98,10 @@
     },
     {
         "timing" : {
-            "time" : 33,
+            "time" : 4,
             "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "secondary_state" : "THROWIN",
+            "phase" : 1
         },
         "actions" : [
             {
@@ -103,9 +114,11 @@
     {
         "description" : "Waiting until it's safe to assume that the robot can kick",
         "timing" : {
-            "time" : 55,
+            "time" : 2,
             "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "secondary_state" : "NORMAL",
+            "phase" : 0,
+            "state_count" : 2
         },
         "actions" : [
             {
@@ -116,9 +129,11 @@
     },
     {
         "timing" : {
-            "time" : 56,
+            "time" : 4,
             "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "secondary_state" : "NORMAL",
+            "phase" : 0,
+            "state_count" : 2
         },
         "actions" : [
             {
@@ -129,9 +144,11 @@
     },
     {
         "timing" : {
-            "time" : 70.0,
+            "time" : 8,
             "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "secondary_state" : "NORMAL",
+            "phase" : 0,
+            "state_count" : 2
         },
         "tests" : [
             {

@@ -81,7 +81,7 @@
     },
     {
         "timing" : {
-            "time" : 32.0,
+            "time" : 10,
             "clock_type" : "Simulated",
             "state" : "PLAYING"
         },
@@ -91,20 +91,23 @@
                 "secondary_state" : "GOALKICK",
                 "secondary_team_id" : 8,
                 "critical" : true
-            },
-            {
-                "name" : "Respawning the ball on the corner of the touch line and goal line on side the ball left the field",
-                "target" : "BALL",
-                "position" : [0, -3, 0.08]
             }
         ]
     },
     {
         "timing" : {
-            "time" : 33.0,
+            "time" : 2,
             "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "secondary_state" : "GOALKICK",
+            "phase" : 1
         },
+        "tests" : [
+            {
+                "name" : "Respawning the ball on the corner of the touch line and goal line on side the ball left the field",
+                "target" : "BALL",
+                "position" : [0, -3, 0.08]
+            }
+        ],
         "actions" : [
             {
                 "target" : "BLUE_PLAYER_1",
@@ -116,9 +119,11 @@
     {
         "description" : "Waiting until it's safe to assume that the robot can kick",
         "timing" : {
-            "time" : 55,
+            "time" : 2,
             "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "secondary_state" : "NORMAL",
+            "phase" : 0,
+            "state_count" : 2
         },
         "actions" : [
             {
@@ -129,9 +134,11 @@
     },
     {
         "timing" : {
-            "time" : 56,
+            "time" : 3,
             "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "secondary_state" : "NORMAL",
+            "phase" : 0,
+            "state_count" : 2
         },
         "actions" : [
             {
@@ -142,9 +149,11 @@
     },
     {
         "timing" : {
-            "time" : 70.0,
+            "time" : 5,
             "clock_type" : "Simulated",
-            "state" : "PLAYING"
+            "secondary_state" : "NORMAL",
+            "phase" : 0,
+            "state_count" : 2
         },
         "tests" : [
             {
