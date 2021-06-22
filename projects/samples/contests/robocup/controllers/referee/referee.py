@@ -419,8 +419,12 @@ def setup_display():
 
 
 def team_index(color):
+    if color not in ['red', 'blue']:
+        raise RuntimeError(f'Wrong color passed to team_index(): \'{color}\'.')
     id = game.red.id if color == 'red' else game.blue.id
     index = 0 if game.state.teams[0].team_number == id else 1
+    if game.state.teams[index].team_number != id:
+        raise RuntimeError(f'Wrong team number set in team_index(): {id} != {game.state.teams[index].team_number}')
     return index
 
 
@@ -1147,7 +1151,7 @@ def update_team_penalized(team):
             # Once this is fixed, we should remove the robot, which seems to be a better solution
             # than moving it away from the field
             player['robot'] = None
-            info(f'sending {color} player {number} tp {t}. (team_index: {index})')
+            info(f'Sending {color} player {number} to {t}. (team_index: {index})')
             if 'stabilize' in player:
                 del player['stabilize']
             player['outside_field'] = True
