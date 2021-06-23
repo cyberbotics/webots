@@ -64,23 +64,10 @@ We've added many new robot models in this release.
 We just added three new models of modular mobile platform robots used for logistic and indoor transport.
 All these models have predefined fields to mount additional devices on the platform and front/back lidars.
 
-TODO show the three robot figures on a single line
-
-#### [Robotnik Summit-XL Steel](../guide/summit-xl-steel.md)
-%figure "Summit-XL Steel in Webots"
-![Summit-XL Steel in Webots](images/summit_xl_steel.wbt.thumbnail.jpg)
-%end
-
-#### [Mobile Industrial Robots MiR100](../guide/mir100.md)
-%figure "MiR100 in Webots"
-![MiR100 in Webots](images/mir100.wbt.thumbnail.jpg)
-%end
-
-#### [REC Fabtino](../guide/fabtino.md)
-
-%figure "Fabtino in Webots"
-![Fabtino in Webots](images/fabtino.wbt.thumbnail.jpg)
-%end
+| | | |
+| :---: | :---: | :---: |
+| ![Summit-XL Steel](images/summit_xl_steel.wbt.thumbnail.jpg) | ![MiR100](images/mir100.wbt.thumbnail.jpg) | ![Fabtino](images/fabtino.wbt.thumbnail.jpg) |
+| [Robotnik Summit-XL Steel](../guide/summit-xl-steel.md) | [Mobile Industrial Robots MiR100](../guide/mir100.md) | [REC Fabtino](../guide/fabtino.md) |
 
 ### Nyrio Ned
 
