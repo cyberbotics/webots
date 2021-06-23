@@ -51,10 +51,13 @@ WbVelocityViewer::WbVelocityViewer(QWidget *parent) :
     mAngularVelocityLabels[i] = new QLabel(this);
     mLinearVelocityLabels[i]->setTextInteractionFlags(Qt::TextSelectableByMouse);
     mAngularVelocityLabels[i]->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    int line_num = (i < 3) ? 0 : 1;
-    int col_num = (i < 3) ? i + 1 : 1;
-    labelLayout->addWidget(mLinearVelocityLabels[i], line_num, col_num, Qt::AlignVCenter | Qt::AlignLeft);
-    labelLayout->addWidget(mAngularVelocityLabels[i], line_num + 2, col_num, Qt::AlignVCenter | Qt::AlignLeft);
+    if (i < 3) {
+      labelLayout->addWidget(mLinearVelocityLabels[i], 0, i + 1, Qt::AlignVCenter | Qt::AlignLeft);
+      labelLayout->addWidget(mAngularVelocityLabels[i], 2, i + 1, Qt::AlignVCenter | Qt::AlignLeft);
+    } else {
+      labelLayout->addWidget(mLinearVelocityLabels[i], 1, 1, Qt::AlignVCenter | Qt::AlignLeft);
+      labelLayout->addWidget(mAngularVelocityLabels[i], 3, 1, Qt::AlignVCenter | Qt::AlignLeft);
+    }
   }
   vBoxLayout->addLayout(labelLayout);
 }
