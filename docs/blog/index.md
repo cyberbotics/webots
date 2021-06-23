@@ -4,6 +4,7 @@ Welcome to the Webots blog!
 
 Here are the latest articles:
 
+- [Webots R2021b](Webots-2021-b-release.md)
 - [Webots R2021a](Webots-2021-a-release.md)
 - [Webots R2020b](Webots-2020-b-release.md)
 - [Webots R2020a](Webots-2020-a-release.md)
