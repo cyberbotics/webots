@@ -20,6 +20,7 @@ Released on June, Xth, 2021.
     - Add an example that shows an integration of OpenAI Gym with Webots ([#2711](https://github.com/cyberbotics/webots/pull/2711)).
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
   - New Features:
+    - Display magnitude of velocity/rotational speed vectors, to help monitoring robot displacement ([#3209](https://github.com/cyberbotics/webots/pull/3209)).
     - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), and [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591)).
     - Added the `wb_supervisor_node_set_joint_position` function to artificially set the position of active and passive joints ([#3160](https://github.com/cyberbotics/webots/pull/3160)).
     - Added the `wb_supervisor_node_export_string` function which returns a string from which the node is constructed ([#2743](https://github.com/cyberbotics/webots/pull/2743)).
