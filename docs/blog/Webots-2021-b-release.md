@@ -27,7 +27,7 @@ For this release we worked hard at finding solutions to reduce the size of the W
 To this end, we removed textures, meshes and sounds from the package. These resources are now downloaded from the web only when needed and cached for subsequent use.
 Additionally, we removed the offline documentation and ..
 
-TODO (update with package size difference).
+TODO (update with package size difference and add figure showing new url system).
 
 ---
 
