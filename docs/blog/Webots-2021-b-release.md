@@ -12,7 +12,7 @@ Here we are going to present some of the main new features, but for a comprehens
 ## Improved Support for Reinforcement Learning
 
 We added a set of new functionalities to make it easier to run reinforcement learning experiments.
-Other than reducing the Webots package size to speed up installation on servers and virtual containers, some additional Supervisor API functions to better manage the reset of the simulation has been included.
+Other than reducing the Webots package size to speed-up installation on servers and virtual containers, some additional Supervisor API functions to better manage the reset of the simulation has been included.
 In particular, it is now possible to save the state of a given node and all its descendant nodes and restore it later during the simulation run or export a node definition as string to duplicate the node a later point.
 Then, it is now also possible to artificially and immediately set the position of active and passive joints without having to activate the motor.
 
