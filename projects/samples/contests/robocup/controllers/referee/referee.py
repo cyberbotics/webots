@@ -464,7 +464,11 @@ def game_controller_receive():
         previous_red_score = 0
         previous_blue_score = 0
 
-    game.state = GameState.parse(data)
+    new_game_state = GameState.parse(data)
+    if new_game_state.teams[0].team_color == new_game_state.teams[1].team_color:
+        warning("Ignoring invalid message with duplicated team color")
+        return
+    game.state = new_game_state
 
     if previous_state != game.state.game_state:
         info(f'New state received from GameController: {game.state.game_state}.')
