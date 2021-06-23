@@ -82,6 +82,12 @@ TODO show the three robot figures on a single line
 ![Fabtino in Webots](images/fabtino.wbt.thumbnail.jpg)
 %end
 
+### Nyrio Ned
+
+The Nyrio Ned is a 6-axis collaborative robot designed for teaching programming in an industrial environment.
+
+![Nyrio Ned in Webots video](https://www.youtube.com/watch?v=diBAJY1WJPQ)
+
 ### NVIDIA JetBot
 
 The NVIDIA [JetBot](../guide/jetbot.md) is an affordable two-wheeled robot based on the NVIDIA Jetson Nano board widely used in AI robotics applications.
