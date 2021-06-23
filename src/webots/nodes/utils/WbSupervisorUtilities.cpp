@@ -1817,6 +1817,8 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (unsigned char)mFoundFieldIsInternal;
     if (mFoundFieldCount != -1)
       stream << (int)mFoundFieldCount;
+    const QByteArray ba = mFoundFieldName.toUtf8();
+    stream.writeRawData(ba.constData(), ba.size() + 1);
     mFoundFieldIndex = -2;
   }
   if (mIsProtoRegenerated) {
