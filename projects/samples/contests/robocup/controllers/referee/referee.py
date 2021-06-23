@@ -422,8 +422,8 @@ def team_index(color):
     if color not in ['red', 'blue']:
         raise RuntimeError(f'Wrong color passed to team_index(): \'{color}\'.')
     id = game.red.id if color == 'red' else game.blue.id
-    index = 0 if game.state.teams[0].team_number == id else 1
-    if game.state.teams[index].team_number != id:
+    index = 0 if int(game.state.teams[0].team_number) == int(id) else 1
+    if int(game.state.teams[index].team_number) != int(id):
         raise RuntimeError(f'Wrong team number set in team_index(): {id} != {game.state.teams[index].team_number}')
     return index
 
@@ -464,11 +464,7 @@ def game_controller_receive():
         previous_red_score = 0
         previous_blue_score = 0
 
-    new_game_state = GameState.parse(data)
-    if new_game_state.teams[0].team_color == new_game_state.teams[1].team_color:
-        warning("Ignoring invalid message with duplicated team color")
-        return
-    game.state = new_game_state
+    game.state = GameState.parse(data)
 
     if previous_state != game.state.game_state:
         info(f'New state received from GameController: {game.state.game_state}.')
