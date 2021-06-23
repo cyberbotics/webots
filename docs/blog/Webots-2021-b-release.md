@@ -1,6 +1,6 @@
-# Version R2021a Released
+# Version R2021b Released
 
-<p id="publish-data">By Stefania Pedrazzi - 2nd July 2021</p>
+<p id="publish-data">By Stefania Pedrazzi - XX July 2021</p>
 
 ---
 
@@ -12,7 +12,7 @@ Here we are going to present some of the main new features, but for a comprehens
 ## Improved Support for Reinforcement Learning
 
 We added a set of new functionalities to make it easier to run reinforcement learning experiments.
-Other than reducing the Webots package size to speed up installation on TODO, some additional Supervisor API functions to better manage the reset of the simulation has been included.
+Other than reducing the Webots package size to speed up installation on servers and virtual containers, some additional Supervisor API functions to better manage the reset of the simulation has been included.
 In particular, it is now possible to save the state of a given node and all its descendant nodes and restore it later during the simulation run or export a node definition as string to duplicate the node a later point.
 Then, it is now also possible to artificially and immediately set the position of active and passive joints without having to activate the motor.
 
@@ -49,7 +49,6 @@ The [Motor](../reference/motor.md) and [Joint](../reference/joint.md) nodes have
 
 We enhanced the `Motor` node to support coupled motors specifying the linked motor in the `name` field and setting their ratio using the new `multiplier` field.
 
-
 Then, we added two new PROTO nodes [HingeJointWithBacklash](../guide/hinge-joint-with-backlash) and [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash) to easily add backlash effect and a [Gear](..//doc/guide/object-gear.md) model to simulate collision-based transmission.
 
 TODO add figure
@@ -64,6 +63,8 @@ We've added many new robot models in this release
 
 We just added three new models of modular mobile platform robots used for logistic and indoor transport.
 All these models have predefined fields to mount additional devices on the platform and front/back lidars.
+
+TODO show the three robot figures on a single line
 
 #### [Robotnik Summit-XL Steel](../guide/summit-xl-steel.md)
 %figure "Summit-XL Steel in Webots"
@@ -99,11 +100,7 @@ TODO
 
 ---
 
----
-
 ## Extra Goodies
-
-
 
 A new `Billboard` node has been introduced to display information in the main view regardless of the positoin and orientation of the viewpoint.
 
