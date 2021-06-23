@@ -57,7 +57,7 @@ TODO add figure
 
 ## New Robot Models
 
-We've added many new robot models in this release
+We've added many new robot models in this release.
 
 ### Modular Mobile Platforms
 
