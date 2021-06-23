@@ -55,7 +55,7 @@ PLAYERS_BALL_HOLDING_TIMEOUT = 1          # field players may hold the ball up t
 BALL_HANDLING_TIMEOUT = 10                # a player throwing in or a goalkeeper may hold the ball up to 10 seconds in hands
 BALL_LIFT_THRESHOLD = 0.05                # during a throw-in with the hands, the ball must be lifted by at least 5 cm
 GOALKEEPER_GROUND_BALL_HANDLING = 6       # a goalkeeper may handle the ball on the ground for up to 6 seconds
-END_OF_GAME_TIMEOUT = 10                  # Once the game is finished, let the referee run for 10 seconds before closing game
+END_OF_GAME_TIMEOUT = 5                   # Once the game is finished, let the referee run for 5 seconds before closing game
 BALL_IN_PLAY_MOVE = 0.05                  # the ball must move 5 cm after interruption or kickoff to be considered in play
 FOUL_PUSHING_TIME = 1                     # 1 second
 FOUL_PUSHING_PERIOD = 2                   # 2 seconds
@@ -139,16 +139,6 @@ def clean_exit():
     if hasattr(game, "udp_bouncer_process") and udp_bouncer_process:
         info("Terminating 'udp_bouncer' process")
         udp_bouncer_process.terminate()
-    if hasattr(game, 'record_simulation'):
-        if game.record_simulation.endswith(".html"):
-            info("Stopping animation recording")
-            supervisor.animationStopRecording()
-        elif game.record_simulation.endswith(".mp4"):
-            info("Starting encoding")
-            supervisor.movieStopRecording()
-            while not supervisor.movieIsReady():
-                supervisor.step(time_step)
-            info("Encoding finished")
     if hasattr(game, 'over') and game.over:
         info("Game is over")
         if hasattr(game, 'press_a_key_to_terminate') and game.press_a_key_to_terminate:
@@ -164,6 +154,18 @@ def clean_exit():
             while waiting_steps > 0:
                 supervisor.step(time_step)
                 waiting_steps -= 1
+            info("Finished waiting")
+    if hasattr(game, 'record_simulation'):
+        if game.record_simulation.endswith(".html"):
+            info("Stopping animation recording")
+            supervisor.animationStopRecording()
+        elif game.record_simulation.endswith(".mp4"):
+            info("Starting encoding")
+            supervisor.movieStopRecording()
+            while not supervisor.movieIsReady():
+                supervisor.step(time_step)
+            info("Encoding finished")
+    info("Exiting webots properly")
 
     if log_file:
         log_file.close()
