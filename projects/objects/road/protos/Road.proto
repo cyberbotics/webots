@@ -142,7 +142,7 @@ PROTO Road [
     if (splineSubdivision > 1)
       for (let j = 0; j < nbWayPoint; ++j) {
         let ratio = (j % splineSubdivision) / splineSubdivision;
-        let index = Math.floor(j/splineSubdivision); // TODO: ERROR HERE?
+        let index = Math.floor(j/splineSubdivision);
         tilt[j] = originalTilt[index] * (1 - ratio) + originalTilt[index + 1] * ratio;
         if (nbBorderWidthPoint > 0)
           borderWidth[j] = borderWidthOriginal[index] * (1 - ratio) + borderWidthOriginal[index + 1] * ratio;
