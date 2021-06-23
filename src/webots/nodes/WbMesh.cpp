@@ -67,11 +67,6 @@ void WbMesh::downloadAssets() {
 }
 
 void WbMesh::downloadUpdate() {
-  const int progress = WbDownloader::progress();
-  if (progress == 100)
-    emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
-  else if (WbDownloader::isPopUpDisplayed())
-    emit WbApplication::instance()->setWorldLoadingProgress(progress);
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
   const WbNode *ancestor = WbNodeUtilities::findTopNode(this);

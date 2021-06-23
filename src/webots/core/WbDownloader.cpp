@@ -115,7 +115,9 @@ void WbDownloader::finished() {
     gDownloading = false;
     gDisplayPopUp = false;
     gUrlCache.clear();
-  }
+    emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
+  } else if (gDisplayPopUp)
+    emit WbApplication::instance()->setWorldLoadingProgress(progress());
 
   mFinished = true;
   emit complete();
@@ -131,8 +133,4 @@ void WbDownloader::displayPopUp() {
     delete gTimer;
     gTimer = NULL;
   }
-}
-
-bool WbDownloader::isPopUpDisplayed() {
-  return gDisplayPopUp;
 }

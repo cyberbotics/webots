@@ -206,12 +206,6 @@ void WbBackground::downloadAssets() {
 
 void WbBackground::downloadUpdate() {
   // we need that all downloads are complete before proceeding with the update of the cube map
-  const int progress = WbDownloader::progress();
-  if (progress == 100)
-    emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
-  else if (WbDownloader::isPopUpDisplayed())
-    emit WbApplication::instance()->setWorldLoadingProgress(progress);
-
   for (int i = 0; i < 12; i++)
     if (mDownloader[i] && !mDownloader[i]->hasFinished())
       return;
