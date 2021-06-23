@@ -40,17 +40,17 @@ PROTO Hinge2JointWithBacklash [
     } else if (backlash2 > 0 && backlash2 < 0.01)
       console.log('Values of \'backlash2\' smaller than 0.01 are unlikely to be correctly modeled by the physics engine unless the timestep is very low.');
 
-      let gearMass = fields.gearMass.value;
-      if (gearMass <= 0) {
-        gearMass = fields.gearMass.defaultValue;
-        console.error('\'gearMass\' must be strictly positive. Value reset to ' + gearMass + '.');
-      }
+    let gearMass = fields.gearMass.value;
+    if (gearMass <= 0) {
+      gearMass = fields.gearMass.defaultValue;
+      console.error('\'gearMass\' must be strictly positive. Value reset to ' + gearMass + '.');
+    }
 
-      let gearMass2 = fields.gearMass2.value;
-      if (gearMass2 <= 0) {
-        gearMass2 = fields.gearMass2.defaultValue;
-        console.error('\'gearMass2\' must be strictly positive. Value reset to ' + gearMass2 + '.');
-      }
+    let gearMass2 = fields.gearMass2.value;
+    if (gearMass2 <= 0) {
+      gearMass2 = fields.gearMass2.defaultValue;
+      console.error('\'gearMass2\' must be strictly positive. Value reset to ' + gearMass2 + '.');
+    }
 
     if (backlash === 0 && backlash2 === 0)
       console.log('No backlash on either axis, \'Hinge2JointWithBacklash\' reverted to a \'Hinge2Joint\'. All other parameters are ignored.');
@@ -96,7 +96,7 @@ PROTO Hinge2JointWithBacklash [
             inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
             centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
             density -1
-            mass IS gearMass2
+            mass %<= gearMass2 >%
           }
         }
       }
@@ -147,7 +147,7 @@ PROTO Hinge2JointWithBacklash [
                   inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
                   centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
                   density -1
-                  mass IS gearMass2
+                  mass %<= gearMass2 >%
                 }
               }
             %< } >%
@@ -157,7 +157,7 @@ PROTO Hinge2JointWithBacklash [
           inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
           centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
           density -1
-          mass IS gearMass
+          mass %<= gearMass >%
         }
       }
     }

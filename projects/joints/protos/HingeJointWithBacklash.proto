@@ -64,7 +64,7 @@ PROTO HingeJointWithBacklash [
           inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
           centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
           density -1
-          mass IS gearMass
+          mass %<= gearMass >%
         }
       }
     %< } >%
