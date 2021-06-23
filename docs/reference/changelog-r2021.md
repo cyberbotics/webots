@@ -36,6 +36,7 @@ Released on June, Xth, 2021.
     - Make the external controller check more frequently (and indefinitely) for the simulation ([#2442](https://github.com/cyberbotics/webots/pull/2442)).
     - Added pose and field tracking functions to improve the performance of getting pose and field data ([#2279](https://github.com/cyberbotics/webots/pull/2279)).
     - Added contact point tracking functions to improve the performance of getting contact point data ([#3162](https://github.com/cyberbotics/webots/pull/3162)).
+    - Added [Supervisor](supervisor.md) functions to retrieve all the fields of a given node ([#3202](https://github.com/cyberbotics/webots/pull/3202)).
     - Added the `wb_supervisor_node_get_pose` function that retrieves an absolute or relative pose. Relative pose is expressed in the coordinate system of another node specified as an argument ([#2932](https://github.com/cyberbotics/webots/pull/2932)).
     - Allowed the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
     - Added the `dragForceScale` and `dragTorqueScale` fields to [WorldInfo](worldinfo.md) which enable to set the order of magnitude of the force/torque to be applied in the interface ([#3175](https://github.com/cyberbotics/webots/pull/3175)).
