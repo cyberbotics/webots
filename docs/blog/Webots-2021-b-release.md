@@ -109,6 +109,6 @@ A new `Billboard` node has been introduced to display information in the main vi
 
 The [SICK S300](../guide/lidar-sensors.md#sick-s300) lidar model is now included in our sensors library.
 
-We added JavaScript scripting support for procedural PROTO nodes.
+We added [JavaScript scripting support](../reference/javascript-procedural-proto.md) for procedural PROTO nodes in addition to LUA.
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2021b today, so you don't miss out on all these great new features!**
