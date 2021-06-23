@@ -554,9 +554,7 @@ int WbNode::numFields() const {
 WbField *WbNode::field(int index, bool internal) const {
   if (index < 0)
     return NULL;
-  if (internal)
-    return index < mFields.size() ? mFields.at(index) : NULL;
-  const QVector<WbField *> &fields = fieldsOrParameters();
+  const QVector<WbField *> &fields = internal ? mFields : fieldsOrParameters();
   return index < fields.size() ? fields.at(index) : NULL;
 }
 
