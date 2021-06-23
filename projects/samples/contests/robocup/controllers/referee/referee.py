@@ -496,7 +496,8 @@ def game_controller_receive():
             game.in_play = time_count
             game.ball_last_move = time_count
     if previous_seconds_remaining != game.state.seconds_remaining:
-        if game.state.secondary_state == "STATE_NORMAL" and game.interruption_seconds is not None:
+        allow_in_play = game.wait_for_sec_state is None and game.wait_for_sec_phase is None
+        if allow_in_play and game.state.secondary_state == "STATE_NORMAL" and game.interruption_seconds is not None:
             if game.interruption_seconds - game.state.seconds_remaining > IN_PLAY_TIMEOUT:
                 if game.in_play is None:
                     info('Ball in play, can be touched by any player (10 seconds elapsed).')
