@@ -22,7 +22,7 @@ An example showing the integration of OpenAI Gym with Webots is now available in
 
 ## Reduce Package Size
 
-For this release we work hard at finding solutions to reduce the size of the Webots installation packages.
+For this release we worked hard at finding solutions to reduce the size of the Webots installation packages.
 To this end, we removed textures, meshes and sounds from the package. These resources are now downloaded from the web only when needed and cached for subsequent use.
 Additionally, we removed the offline documentation and ..
 
