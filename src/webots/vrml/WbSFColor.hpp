@@ -44,6 +44,7 @@ public:
   double green() const { return mValue.green(); }
   double blue() const { return mValue.blue(); }
   void setValue(const WbRgb &c);
+  void setValue(double r, double g, double b);     // values between 0.0 and 1.0
   void setValue(uint8_t r, uint8_t g, uint8_t b);  // values between 0 and 255
   WbSFColor &operator=(const WbSFColor &other);
   bool operator==(const WbSFColor &other) const { return mValue == other.mValue; }

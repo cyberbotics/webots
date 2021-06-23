@@ -46,6 +46,14 @@ void WbSFColor::setValue(const WbRgb &c) {
   emit changed();
 }
 
+void WbSFColor::setValue(double r, double g, double b) {
+  if (mValue == WbRgb(r, g, b))
+    return;
+
+  mValue.setValue(r, g, b);
+  emit changed();
+}
+
 void WbSFColor::setValue(uint8_t r, uint8_t g, uint8_t b) {
   if (mValue == WbRgb(r, g, b))
     return;
