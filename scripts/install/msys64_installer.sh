@@ -20,6 +20,7 @@ declare -a BASE_PACKAGES=(
 )
 
 declare -a OPTIONAL_PACKAGES=(
+  "git"                       # Distribution script (check_submodules_update.sh)
   "pacman-contrib"            # Distribution script (pactree)
   "swig"                      # Python and Java API wrappers
   "mingw-w64-x86_64-libssh"   # Robotis OP2 robot window
