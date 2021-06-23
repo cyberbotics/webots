@@ -62,16 +62,18 @@ void WbDownloader::download(const QUrl &url) {
 
   if (gUrlCache.contains(mUrl) &&
       (mUrl.toString().endsWith(".png", Qt::CaseInsensitive) || url.toString().endsWith(".jpg", Qt::CaseInsensitive))) {
-    mCopy = true;
-    QNetworkReply *reply = gUrlCache[mUrl];
-    if (reply) {
-      if (reply->isFinished())
+    if (!(mOffline == true && mCopy == false)) {
+      mCopy = true;
+      QNetworkReply *reply = gUrlCache[mUrl];
+      if (reply) {
+        if (reply->isFinished())
+          finished();
+        else
+          connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
+      } else
         finished();
-      else
-        connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
-    } else
-      finished();
-    return;
+      return;
+    }
   }
 
   if (!gDownloading) {
