@@ -52,7 +52,10 @@ We enhanced the [Motor](../reference/motor.md) node to support coupled motors sp
 
 Then, we added three new PROTO nodes. The [HingeJointWithBacklash](../guide/hinge-joint-with-backlash.md) and [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash.md) allow users to easily add a backlash effect in hinges. The [Gear](../guide/object-gear.md) model can be used to simulate a collision-based transmission.
 
-TODO add figure
+
+%figure "Coupled Motors with Gears"
+![Coupled Motors With Gears](images/coupled_motors.gif)
+%end
 
 ---
 
