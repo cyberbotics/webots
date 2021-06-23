@@ -3332,13 +3332,13 @@ I cant find it
 ##### David Mansolino [Cyberbotics] 02/11/2020 16:20:33
 You're welcome
 
-##### laeerht 02/11/2020 18:18:56
+##### threeal 02/11/2020 18:18:56
 hi there, in webots documentation, it said that webots use pid controller to control the motor position ([https://cyberbotics.com/doc/reference/motor#field-summary](https://cyberbotics.com/doc/reference/motor#field-summary).)
 
 but how is the exact pid system in that motor controller? like in the robotis's motor it said this specification fo the controller system ([http://emanual.robotis.com/docs/en/dxl/mx/mx-64/#p-gain](http://emanual.robotis.com/docs/en/dxl/mx/mx-64/#p-gain)), but when i see the default pid controller in robotis darwin op demo it use (8 0 0), is it the right value in webots?
 
 ##### David Mansolino [Cyberbotics] 02/12/2020 06:23:10
-HI `@laeerht`, by default Webots uses (10, 0, 0). Note also that there is a difference between Webots and the robotis motors, Webots does a control in speed regulation whereas robotis motors do a control on torque regulation.
+HI `@threeal`, by default Webots uses (10, 0, 0). Note also that there is a difference between Webots and the robotis motors, Webots does a control in speed regulation whereas robotis motors do a control on torque regulation.
 
 ##### elkelkmuh 02/12/2020 06:28:32
 Hi `@David Mansolino`  , I tried the framework at this address (  [https://sourceforge.net/p/darwinop/code/HEAD/tree/trunk/darwin/](https://sourceforge.net/p/darwinop/code/HEAD/tree/trunk/darwin/) )
@@ -3349,14 +3349,14 @@ Hi `@David Mansolino`  , I tried the framework at this address (  [https://sourc
 Errors
 > **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/677038707663962112/message.txt)
 
-##### laeerht 02/12/2020 07:12:01
+##### threeal 02/12/2020 07:12:01
 I see, but how pid gain in webots affects  the calculation of the target motor position?  `@David Mansolino`
 
 ##### Nocturnal Warfare 02/12/2020 07:47:25
 So I am making a robot and have been doing simulation in Webots using python, but I wanted to implement it using a Pixhawk 4 mini through Dronekit. I was wondering if anyone has any experience porting over the Webots simulation to the Pixhawk running ArduPilot over Dronekit and if they had any advice on the matter.
 
 ##### David Mansolino [Cyberbotics] 02/12/2020 07:52:42
-`@laeerht`, here is the exact worflow to update the motor position: 
+`@threeal`, here is the exact worflow to update the motor position: 
 
 [https://cyberbotics.com/doc/reference/motor#position-control](https://cyberbotics.com/doc/reference/motor#position-control)
 
@@ -31065,7 +31065,7 @@ When you try to save it Webots will ask you if you want to relacote the simulati
 ##### MarioAndres7 08/13/2020 16:21:20
 hello do you know how can i change the speed of movement of kuka youbot in c ?
 
-##### areiban 08/13/2020 17:02:33
+##### areiban92 08/13/2020 17:02:33
 Hello 
 
 Is it normal for Webots to be slow in animations, and produce strange sound?
@@ -31073,7 +31073,7 @@ Is it normal for Webots to be slow in animations, and produce strange sound?
 ##### Luftwaffel [Moderator] 08/13/2020 17:25:59
 Not really. Is it just in your custom world, or does it happen in sample-worlds too?
 
-##### areiban 08/13/2020 17:33:00
+##### areiban92 08/13/2020 17:33:00
 I was testing it with the examples that it brings by default
 
 ##### Luftwaffel [Moderator] 08/13/2020 17:39:36
@@ -31090,7 +31090,7 @@ Hi all, I am trying out 2020b version. When I use legacy NUE coordinateSystem, e
 
 > Is it normal for Webots to be slow in animations, and produce strange sound?
 
-`@areiban` the strange sounds are contact sounds (which I have to admit are not calibrated for most of the simulation), but you can easily disable sound from the toolbar.
+`@areiban92` the strange sounds are contact sounds (which I have to admit are not calibrated for most of the simulation), but you can easily disable sound from the toolbar.
 
 
 About the animation speed, you should try reducing the advanced rendering feature from the OpenGL tab of the preferences: [https://cyberbotics.com/doc/guide/preferences#opengl](https://cyberbotics.com/doc/guide/preferences#opengl)
@@ -31287,7 +31287,7 @@ I'm not sure if you can have a motor inside of a single model. You would probabl
 
 `@Luftwaffel` Alright I will have a look. Thanks! 🙂
 
-##### areiban 08/14/2020 20:35:18
+##### areiban92 08/14/2020 20:35:18
 Hello I'm working on path planning problems using Webots, but I have thought to create more complex environment adding objects to scene procedurally; my question is, is it posible to generate procedural environments in Webots ?
 
 ##### Luftwaffel [Moderator] 08/14/2020 22:19:03
@@ -31668,7 +31668,7 @@ please ,i need help
 
 > Hello I'm working on path planning problems using Webots, but I have thought to create more complex environment adding objects to scene procedurally; my question is, is it posible to generate procedural environments in Webots ?
 
-`@areiban` as `@Luftwaffel` said, you can use a Supervisor controller to add/remove/change/move things in the environment at the first step: [https://www.cyberbotics.com/doc/reference/supervisor](https://www.cyberbotics.com/doc/reference/supervisor)
+`@areiban92` as `@Luftwaffel` said, you can use a Supervisor controller to add/remove/change/move things in the environment at the first step: [https://www.cyberbotics.com/doc/reference/supervisor](https://www.cyberbotics.com/doc/reference/supervisor)
 
 You can also write a procedural PROTO node to generate the environment: [https://cyberbotics.com/doc/reference/procedural-proto-nodes](https://cyberbotics.com/doc/reference/procedural-proto-nodes)
 
@@ -36830,7 +36830,7 @@ Depending on just how much different from a cube you need your quasi-cube to be,
 
 I guess it'd also be good to for the docs to document another oddity with keyboard (or perhaps for you to fix this oddity).  The shifted versions of ordinary letter keys (e.g., shift A) return SHIFT plus the same value they return when unshifted (the ord of the capital letter printed on the key).  In contrast, contrary to the current documentation, shifted versions of ordinary number keys (e.g., shift 1) do NOT return SHIFT + the same thing they return when unshifted (the ord of the numeral printed on the key).  Instead, they return SHIFT+ the ord of the punctuation mark printed on that key: e.g., shift 1 returns SHIFT+ord('!').  I would understand if hitting shift 1 returned SHIFT+ord('1'), and I'd also understand if it returned ord('!'), but it was surprising that it returned SHIFT+ord('!').   It's probably not terrible to have this sort of inconsistency between how letter-keys and number-keys are treated, but it would be good if it was documented, rather than leaving people like me to sort it out on my own.
 
-##### Jaunty\_Bumblebee 09/13/2020 08:44:15
+##### R\_ 09/13/2020 08:44:15
 Is it better to start coding Webots in C or C++?
 
 There seems to be more support for C, but I do not have much experience in either language......😬
@@ -36849,7 +36849,7 @@ every function is fully covered in any language
 
 the documentation is excellent, and for every function, you have the command in every programming language
 
-##### Jaunty\_Bumblebee 09/13/2020 08:48:08
+##### R\_ 09/13/2020 08:48:08
 Thank you `@Luftwaffel` I didn't find this page earlier.😊
 
 ##### Luftwaffel [Moderator] 09/13/2020 08:49:13
@@ -37332,13 +37332,13 @@ it shows all private conversations
 > `@Luftwaffel`
 
 
-`@Jaunty_Bumblebee` You should use the language you feel more confortable with.
+`@R_` You should use the language you feel more confortable with.
 
 > Simon, since you're on, do you know what sorts of inputs a controller can have access to while simulation is paused (either by putting it in mode pause, or just refusing to call robot.step with a positive timestep)?  I wrestled a little bit with this, but hadn't gotten it to work the way I wanted yet.  Do the keyboard and mouse functions require simulation time to pass in order for them to capture more user inputs?
 
 `@Justin Fisher` maybe you want to use this function: [https://cyberbotics.com/doc/reference/robot#wb\_robot\_wait\_for\_user\_input\_event](https://cyberbotics.com/doc/reference/robot#wb_robot_wait_for_user_input_event)
 
-##### Jaunty\_Bumblebee 09/14/2020 07:28:58
+##### R\_ 09/14/2020 07:28:58
 Thank you! `@David Mansolino`
 
 ##### David Mansolino [Cyberbotics] 09/14/2020 07:41:59

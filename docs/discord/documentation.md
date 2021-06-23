@@ -1326,7 +1326,7 @@ develop?
 
 "For example, type make -j12 on a CPU with six cores and hyper-threading." and not "four cores"
 
-##### Jaunty\_Bumblebee 09/21/2020 10:48:04
+##### R\_ 09/21/2020 10:48:04
 Hi! is there an example for closed loop control of a robot in the sample worlds?
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 10:59:36
@@ -1348,12 +1348,12 @@ thx 🙂
 but please include it in the documentation. Not everyone is very familiar with compiling (points at myself) 😄
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:09:11
-`@Jaunty_Bumblebee` there is an example of PID control here: [https://www.cyberbotics.com/doc/guide/samples-devices#position\_sensor-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#position_sensor-wbt)
+`@R_` there is an example of PID control here: [https://www.cyberbotics.com/doc/guide/samples-devices#position\_sensor-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#position_sensor-wbt)
 
 ##### Justin Fisher 09/21/2020 11:09:14
 > Hi! is there an example for closed loop control of a robot in the sample worlds?
 
-`@Jaunty_Bumblebee` Many of the sample controllers probably count as "closed loop control".  E.g., one that comes to mind is the Lego Mindstorms sample ([https://cyberbotics.com/doc/guide/mindstorms](https://cyberbotics.com/doc/guide/mindstorms)) that maintains a brightness reading on its sensors to follow a line on the ground.   Or is that not what you were hoping for?
+`@R_` Many of the sample controllers probably count as "closed loop control".  E.g., one that comes to mind is the Lego Mindstorms sample ([https://cyberbotics.com/doc/guide/mindstorms](https://cyberbotics.com/doc/guide/mindstorms)) that maintains a brightness reading on its sensors to follow a line on the ground.   Or is that not what you were hoping for?
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:12:01
 > but please include it in the documentation. Not everyone is very familiar with compiling (points at myself) 😄
@@ -1375,7 +1375,7 @@ this script assumes home/user/webots install
 
 it will screw things up if people install it somewhere else
 
-##### Jaunty\_Bumblebee 09/21/2020 11:14:08
+##### R\_ 09/21/2020 11:14:08
 Thank you! `@Justin Fisher` `@Stefania Pedrazzi`
 
 ##### Luftwaffel [Moderator] 09/21/2020 11:15:20
@@ -1468,7 +1468,7 @@ the e-puck has only two wheels, but you should be able to easily apply it to a 4
 ##### mø 11/04/2020 18:56:14
 Where can I find component ratings like power usage etc. for the motors/sensors I used? Most of them are standard commercialized ones, so  how can i find them?
 
-##### Jaunty\_Bumblebee 11/07/2020 19:50:42
+##### R\_ 11/07/2020 19:50:42
 Is there an opensource library to test RL on Webots example robots, perhaps similar to this: [https://gist.github.com/mikko/424018819ba3cb10f5780cb7c74cbfb7](https://gist.github.com/mikko/424018819ba3cb10f5780cb7c74cbfb7)
 
 ##### Stefania Pedrazzi [Cyberbotics] 11/09/2020 07:30:58
@@ -2050,4 +2050,42 @@ One approach would be to establish a relation between voltage (PWM) and torque o
 
 
 Converting PWM to speed is probably not a good idea since a load on the motor may vary (except the PWM controls a set-point).
+
+##### birju 06/20/2021 02:12:36
+INFO: emitter\_receiver: Starting controller: C:\Users\Administrator\AppData\Local\Programs\Webots\projects\samples\devices\controllers\emitter\_receiver\emitter\_receiver.exe
+
+INFO: emitter\_receiver: Starting controller: C:\Users\Administrator\AppData\Local\Programs\Webots\projects\samples\devices\controllers\emitter\_receiver\emitter\_receiver.exe
+
+WARNING: emitter\_receiver: The process crashed some time after starting successfully.
+
+WARNING: 'emitter\_receiver' controller crashed.
+
+WARNING: emitter\_receiver: The process crashed some time after starting successfully.
+
+WARNING: 'emitter\_receiver' controller crashed.
+
+
+
+
+
+how can i solve this error 
+
+once i clean and make then it worked for one day 
+
+but its again crashing 
+
+what should i do?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/21/2021 06:00:33
+You should debug your controller and understand what is causing the crash.
+
+If you don't change anything else on your system, then it could be  a problem due to memory management.
+
+##### Maximo Cansino Mateo 06/22/2021 19:11:41
+Hello! does anyone here knows where I can find the fields and the map for self driving cars?
+
+##### Darko Lukić [Cyberbotics] 06/23/2021 06:43:11
+You can try the sample worlds by clicking `File > Open Sample Worlds...` and selecting worlds under the `vehicles` item. Here is what you can expect:
+
+[https://www.cyberbotics.com/doc/automobile/worlds](https://www.cyberbotics.com/doc/automobile/worlds)
 
