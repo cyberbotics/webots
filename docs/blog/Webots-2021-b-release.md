@@ -119,11 +119,11 @@ We are continuing to develop and improve the support for ROS 2 in Webots with no
 
 Check out the new packages we added:
 - [`webots_ros2_tesla`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_tesla): The package demonstrates a simulation of automobiles with Webots and ROS 2. The Tesla Model 3 vehicle follows lanes using a simple OpenCV image processing.
-- [`webots_ros2_mavic`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_mavic): The package demonstrates a simulation of drones with Webots and ROS 2. The DJI' Mavic 2 PRO drone uses a simple PD controller to follow the given [`geometry_msgs/Twist`](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Twist.html) commands.
+- [`webots_ros2_mavic`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_mavic): The package demonstrates a simulation of drones with Webots and ROS 2. The DJI' Mavic 2 PRO drone uses a simple PD controller to follow the given [geometry_msgs/Twist](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Twist.html) commands.
 - [`webots_ros2_driver`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_driver): A new Webots ROS 2 interface core designed for performance, extensibility with C++ plugins, and an easy configuration through URDF files.
-- [`webots_ros2_control`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_control): A `webots_ros2` plugin that integrates the [`ros2_control`](https://ros-controls.github.io/control.ros.org/) framework. The plugin is featured in the [`webots_ros2_turtlebot`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_turtlebot) package.
+- [`webots_ros2_control`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_control): A `webots_ros2` plugin that integrates the [ros2_control](https://ros-controls.github.io/control.ros.org/) framework. The plugin is featured in the [webots_ros2_turtlebot](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_turtlebot) package.
 
-We haven't forgotten about the old good ROS 1. It now integrates the [`ros_control`](http://wiki.ros.org/ros_control) framework and you don't have to activate sensors with services anymore.
+We haven't forgotten about the old good ROS 1. It now integrates the [ros_control](http://wiki.ros.org/ros_control) framework and you don't have to activate sensors with services anymore.
 These improvements make Webots much simpler to integrate into ROS 1 applications (see [webots_ros#60](https://github.com/cyberbotics/webots_ros/pull/60/files)).
 We also included a Tiago example that features SLAM and MoveIt integration.
 
