@@ -28,6 +28,7 @@ static int gComplete = 0;
 static bool gDownloading = false;
 static QTimer *gTimer = NULL;
 static bool gDisplayPopUp = false;
+static QMap<QUrl, QNetworkReply *> gUrlCache;
 
 int WbDownloader::progress() {
   return gCount == 0 ? 100 : 100 * gComplete / gCount;
@@ -38,7 +39,12 @@ void WbDownloader::reset() {
   gComplete = 0;
 }
 
-WbDownloader::WbDownloader(QObject *parent) : QObject(parent), mNetworkReply(NULL), mFinished(false), mOffline(false) {
+WbDownloader::WbDownloader(QObject *parent) :
+  QObject(parent),
+  mNetworkReply(NULL),
+  mFinished(false),
+  mOffline(false),
+  mCopy(false) {
   gCount++;
 }
 
@@ -51,6 +57,22 @@ QIODevice *WbDownloader::device() const {
 }
 
 void WbDownloader::download(const QUrl &url) {
+  mUrl = url;
+
+  if (gUrlCache.contains(mUrl) &&
+      (mUrl.toString().endsWith(".png", Qt::CaseInsensitive) || url.toString().endsWith(".jpg", Qt::CaseInsensitive))) {
+    mCopy = true;
+    QNetworkReply *reply = gUrlCache[mUrl];
+    if (reply) {
+      if (reply->isFinished())
+        finished();
+      else
+        connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
+    } else
+      finished();
+    return;
+  }
+
   if (!gDownloading) {
     gDownloading = true;
     gTimer = new QTimer(0);
@@ -59,8 +81,6 @@ void WbDownloader::download(const QUrl &url) {
     gTimer->setSingleShot(true);
     gTimer->start();
   }
-
-  mUrl = url;
   QNetworkRequest request;
   request.setUrl(url);
   mFinished = false;
@@ -69,24 +89,29 @@ void WbDownloader::download(const QUrl &url) {
 
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
+
+  gUrlCache.insert(url, mNetworkReply);
 }
 
 void WbDownloader::finished() {
-  assert(mNetworkReply);
-  if (mNetworkReply->error())
-    mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
-  disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
-  if (!mError.isEmpty() && !mOffline) {
-    mError = QString();
-    mOffline = true;
-    download(mUrl);
-    return;
+  if (!mCopy) {
+    assert(mNetworkReply);
+    if (mNetworkReply->error())
+      mError = tr("Cannot download %1: %2").arg(mUrl.toString()).arg(mNetworkReply->errorString());
+    disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
+    if (!mError.isEmpty() && !mOffline) {
+      mError = QString();
+      mOffline = true;
+      download(mUrl);
+      return;
+    }
   }
 
   gComplete++;
   if (gComplete == gCount) {
     gDownloading = false;
     gDisplayPopUp = false;
+    gUrlCache.clear();
   }
 
   mFinished = true;

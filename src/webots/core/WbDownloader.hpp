@@ -45,6 +45,7 @@ private:
   bool mFinished;
   QString mError;
   bool mOffline;
+  bool mCopy;
 
 private slots:
   void finished();
