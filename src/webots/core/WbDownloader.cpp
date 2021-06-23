@@ -55,7 +55,7 @@ void WbDownloader::download(const QUrl &url) {
     gDownloading = true;
     gTimer = new QTimer(0);
     connect(gTimer, &QTimer::timeout, &WbDownloader::displayPopUp);
-    gTimer->setInterval(2000);
+    gTimer->setInterval(1000);
     gTimer->setSingleShot(true);
     gTimer->start();
   }
