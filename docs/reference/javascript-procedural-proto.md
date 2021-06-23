@@ -42,7 +42,7 @@ It is technically legitimate to forego the brackets for one-line statements, how
 Consider the example below, the option on the left would technically work however if the radius is later changed to something like `radius %<= fields.radius.value >%` it no longer would because the parsing of this expression involves several steps.
 It is therefore encouraged to be verbose and provide the brackets.
 
-%tab-component "module"
+%tab-component "generic"
 
 %tab "Technically correct, but risky"
 ```
@@ -77,7 +77,7 @@ Which tokens will be considered depends on whether the comment line `# template 
 This is typically the case when expressions of this form are used to define the coordinates or indexes of, for instance, a [IndexedFaceSet](indexedfaceset.md).
 To greatly speed-up the generation of this sort of PROTO file, it is highly suggested to use a string buffer to which the coordinates are progressively appended and to only evaluate this buffer once at the end, as shown in the following snippet.
 
-%tab-component "module"
+%tab-component "generic"
 
 %tab "Technically correct, but slow"
 ```
@@ -156,7 +156,7 @@ geometry IndexedFaceSet {
 A number of modules provide additional utility functions that can be useful when creating procedural PROTO files.
 To use these functions, the module needs to be included first:
 
-```
+```javascript
 %{
   // to import the entire module
   import * as wbrandom from 'wbrandom.js';
@@ -192,10 +192,10 @@ The functions exported by this module are available globally.
 
 The functions exported by each module are:
 
-%tab-component "module"
+%tab-component "generic"
 
 %tab "wbrandom"
-```
+```javascript
 /**
  * @param {Number} s
  */
@@ -206,7 +206,7 @@ Sets the random number generator seed to the specified value.
 The numbers are generated using a Linear Congruential Generator (LCG) algorithm.
 To generate non-deterministic results, a time-based seed can be used `wbrandom.seed(Date.now())`.
 
-```
+```javascript
 /**
  * @param {Number} [min]
  * @param {Number} [max]
@@ -219,7 +219,7 @@ Returns a floating point pseudo-random number in the range [min, max].
 If only one parameter is provided, the number will be between zero and that value.
 If no parameters are provided, it returns a value in the range [0, 1].
 
-```
+```javascript
 /**
  * @param {Number} [min]
  * @param {Number} [max]
@@ -235,7 +235,7 @@ If no parameters are provided, it returns a value in the range [0, 2^24 - 1].
 %tab-end
 
 %tab "wbrotation"
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} rA
  * @param {Object.<x: number, y: number, z: number, a: number>} rB
@@ -247,7 +247,7 @@ wbrotation.equal(rA, rB);
 Returns true if the two rotation vectors, in axis-angle format, are equal.
 Returns false otherwise.
 
-```
+```javascript
 /**
  * @param {Object.<w: number, x: number, y: number, z: number>} q
  * @returns {Object.<x: number, y: number, z: number, a: number>}
@@ -257,7 +257,7 @@ wbrotation.fromQuaternion(q);
 
 Converts a rotation provided as quaternion to an axis-angle representation.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} r
  * @returns {Object.<w: number, x: number, y: number, z: number>}
@@ -267,7 +267,7 @@ wbrotation.toQuaternion(r);
 
 Converts a rotation in axis-angle representation to quaternion format.
 
-```
+```javascript
 /**
  * @param {Object.<0: number, 1: number, ..., 8: number>} m
  * @returns {Object.<x: number, y: number, z: number, a: number>}
@@ -277,7 +277,7 @@ wbrotation.fromMatrix3(m);
 
 Converts a rotation in matrix form (3 x 3) to an axis-angle representation.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} r
  * @returns {Object.<0: number, 1: number, ..., 8: number>}
@@ -287,7 +287,7 @@ wbrotation.toMatrix3(r);
 
 Converts a rotation in axis-angle representation to matrix (3 x 3) format.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} r
  * @returns {Boolean}
@@ -297,7 +297,7 @@ wbrotation.isIdentity(r);
 
 Returns true if the rotation provided in axis-angle representation corresponds to the identity matrix.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} r
  * @returns {Object.<x: number, y: number, z: number, a: number>}
@@ -307,7 +307,7 @@ wbrotation.normalize(r);
 
 Normalizes both the axis and the angle of the provided rotation vector.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} rA
  * @param {Object.<x: number, y: number, z: number, a: number>} rB
@@ -318,7 +318,7 @@ wbrotation.combine(rA, rB);
 
 Combines two rotations, in axis-angle format, together.
 
-```
+```javascript
 /**
  * @param {Object.<0: number, 1: number, ..., 8: number>} m
  * @param {Object.<x: number, y: number, z: number>} v
@@ -329,7 +329,7 @@ wbrotation.rotateVector3ByMatrix3(m, v);
 
 Rotates the 3-dimensional vector `v` according to the rotation matrix `m`.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number, a: number>} r
  * @param {Object.<x: number, y: number, z: number>} v
@@ -340,7 +340,7 @@ wbrotation.rotateVector3ByRotation(r, v);
 
 Rotates the 3-dimensional vector `v` according to the rotation vector `r`.
 
-```
+```javascript
 /**
  * @param {Object.<w: number, x: number, y: number, z: number>} q
  * @param {Object.<x: number, y: number, z: number>} v
@@ -354,7 +354,7 @@ Rotates the 3-dimensional vector `v` according to the rotation  `q`.
 %tab-end
 
 %tab "wbvector2"
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
@@ -365,7 +365,7 @@ wbvector2.equal(vA, vB);
 
 Returns true if the two vectors are equal.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
@@ -376,7 +376,7 @@ wbvector2.add(vA, vB);
 
 Returns the vectorial sum of the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
@@ -387,7 +387,7 @@ wbvector2.minus(vA, vB);
 
 Returns the vectorial difference of the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} v
  * @param {Number} s
@@ -398,7 +398,7 @@ wbvector2.multiply(v, s);
 
 Multiplies the vector `v` by the scalar `s` and returns the result.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} v
  * @returns {Number}
@@ -408,7 +408,7 @@ wbvector2.norm(v);
 
 Returns the norm of the provided vector.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
@@ -419,7 +419,7 @@ wbvector2.distance(vA, vB);
 
 Returns the shortest distance between the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
@@ -430,7 +430,7 @@ wbvector2.angle(vA, vB);
 
 Returns the angle between the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
@@ -441,7 +441,7 @@ wbvector2.cross(vA, vB);
 
 Returns the cross product between the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} vA
  * @param {Object.<x: number, y: number>} vB
@@ -452,7 +452,7 @@ wbvector2.dot(vA, vB);
 
 Returns the dot product between the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} v
  * @returns {Object.<x: number, y: number>}
@@ -462,7 +462,7 @@ wbvector2.normalize(v);
 
 Normalizes the provided vector.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} p1
  * @param {Object.<x: number, y: number>} p2
@@ -479,7 +479,7 @@ Returns null if they do not intersect.
 %tab-end
 
 %tab "wbvector3"
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
@@ -490,7 +490,7 @@ wbvector3.equal(vA, vB);
 
 Returns true if the two 3-dimensional vectors are equal.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
@@ -501,7 +501,7 @@ wbvector3.add(vA, vB);
 
 Returns the vectorial sum of the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
@@ -513,7 +513,7 @@ wbvector3.minus(vA, vB);
 Returns the vectorial difference of the two vectors.
 
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} v
  * @param {Number} s
@@ -524,7 +524,7 @@ wbvector3.multiply(v, s);
 
 Multiplies the vector `v` by the scalar value `s` and returns the result.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} v
  * @returns {Number}
@@ -534,7 +534,7 @@ wbvector3.norm(v);
 
 Returns the norm of the vector.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
@@ -545,7 +545,7 @@ wbvector3.distance(vA, vB);
 
 Returns the shortest distance between the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
@@ -556,7 +556,7 @@ wbvector3.cross(vA, vB);
 
 Returns the cross product between the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} vA
  * @param {Object.<x: number, y: number, z: number>} vB
@@ -567,7 +567,7 @@ wbvector3.dot(vA, vB);
 
 Returns the dot product between the two vectors.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number, z: number>} v
  * @returns {Object.<x: number, y: number, z: number>}
@@ -580,7 +580,7 @@ Normalizes the vector and returns the result.
 %tab-end
 
 %tab "wbgeometry"
-```
+```javascript
 /**
  * @param {Number} radius
  * @param {Number} div
@@ -593,7 +593,7 @@ wbgeometry.circle(radius, div, c, shift);
 
 Creates an array of `div` circle coordinates according to a circle of radius `radius` centered at `(center.x, center.y)` and rotated by `shift` radians.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} p
  * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} polygon
@@ -605,7 +605,7 @@ wbgeometry.isPoint2InPolygon(p, polygon);
 Returns true if point `p` is inside the provided polygon.
 The polygon is defined as an array of objects with keys (x, y), each defining a vertex.
 
-```
+```javascript
 /**
  * @param {Object.<x: number, y: number>} reference
  * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} points
@@ -617,7 +617,7 @@ wbgeometry.findClosestPoint2InArray(reference, points);
 Returns the closest point in the array to the reference point.
 The array is comprised of objects with keys (x, y).
 
-```
+```javascript
 /**
  * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} points
  * @returns {Boolean}
@@ -627,7 +627,7 @@ wbgeometry.isPoint2ArrayClockwise(points);
 
 Returns true if an array of provided points is defined in a clockwise order.
 
-```
+```javascript
 /**
  * @param {[Object.<x: number, y: number>, Object.<x: number, y: number>, ... ]} points
  * @param {Number} subdivision
@@ -638,7 +638,7 @@ wbgeometry.bSpline2(points, subdivision);
 
 Creates a B-Spline curve of third order using the array of two-dimensional points, subdividing each segment by `subdivision` and returning the result.
 
-```
+```javascript
 /**
  * @param {[Object.<x: number, y: number, z: number>, Object.<x: number, y: number, z: number>, ... ]} points
  * @param {Number} subdivision
@@ -652,7 +652,7 @@ Creates a B-Spline curve of third order using the array of three-dimensional poi
 %tab-end
 
 %tab "wbutility"
-```
+```javascript
 /**
  * @param {Boolean} statement
  * @param {String} message
@@ -662,7 +662,7 @@ wbutility.assert(statement, message);
 
 If the statement is false, it prints `message` to the standard error stream `stderr`.
 
-```
+```javascript
 /**
  * @param {String} message
  */
@@ -671,7 +671,7 @@ wbutility.error(message);
 
 It writes `message` to the standard error stream `stderr`.
 
-```
+```javascript
 /**
  * @param {String} message
  */
@@ -680,7 +680,7 @@ wbutility.info(message);
 
 It writes `message` to the standard output stream `stdout`.
 
-```
+```javascript
 /**
  * @param {Object} original
  * @returns {Object}
@@ -690,7 +690,7 @@ wbutility.deepCopy(message);
 
 Creates and returns a deep copy of any object provided as argument (i.e an independent clone).
 
-```
+```javascript
 /**
  * @param {Number} angle
  * @returns {Number}
@@ -700,7 +700,7 @@ wbutility.degreesToRadians(angle);
 
 Converts the provided number from degrees to radians.
 
-```
+```javascript
 /**
  * @param {Number} angle
  * @returns {Number}
@@ -710,7 +710,7 @@ wbutility.radiansToDegrees(angle);
 
 Converts the provided number from radians to degrees.
 
-```
+```javascript
 /**
  * @param {Number} s
  * @returns {Boolean}
@@ -720,7 +720,7 @@ wbutility.isScalar(s);
 
 Returns true if the provided argument is a scalar.
 
-```
+```javascript
 /**
  * @param {Object<x: number, y: number} v
  * @returns {Boolean}
@@ -730,7 +730,7 @@ wbutility.isVector2(v);
 
 Returns true if the provided argument is a vector2, i.e if it is a two-dimensional object with keys (x and y).
 
-```
+```javascript
 /**
  * @param {Object<x: number, y: number, z: number} v
  * @returns {Boolean}
@@ -740,7 +740,7 @@ wbutility.isVector3(v);
 
 Returns true if the provided argument is a vector3, i.e if it is a three-dimensional object with keys (x, y and z).
 
-```
+```javascript
 /**
  * @param {Object<x: number, y: number, z: number, a: number} r
  * @returns {Boolean}
@@ -750,7 +750,7 @@ wbutility.isAxisAngle(r);
 
 Returns true if the provided argument is a vector in axis-angle format, i.e if it is a four-dimensional object with keys (x, y, z and a).
 
-```
+```javascript
 /**
  * @param {Object<w: number, x: number, y: number, z: number} q
  * @returns {Boolean}
@@ -760,7 +760,7 @@ wbutility.isQuaternion(q);
 
 Returns true if the provided argument is a quaternion, i.e if it is a four-dimensional object with keys (w, x, y and z).
 
-```
+```javascript
 /**
  * @param {Object<0: number, 1: number, ... , 8: number} m
  * @returns {Boolean}
@@ -770,7 +770,7 @@ wbutility.isMatrix3(m);
 
 Returns true if the provided argument is a three-dimensional matrix, i.e if it is a 9-dimensional object with keys (0, 1, ..., 8).
 
-```
+```javascript
 /**
  * @param {[{Object<x: number, y: number, [z: number]}, {Object<x: number, y: number, [z: number]}, ...]} array
  * @param {Number} dim
@@ -786,7 +786,7 @@ Returns true if the provided argument is an array of `dim`-dimensional points.
 
 %tab "wbfile"
 
-```
+```javascript
 /**
  * @param {String} filePath;
  * @returns {Boolean}
@@ -796,7 +796,7 @@ wbfile.fileExists(filePath);
 
 Returns true if the file specified by the path exists, or false otherwise.
 
-```
+```javascript
 /**
  * @param {String} filePath;
  * @returns {String}
@@ -806,7 +806,7 @@ wbfile.readTextFile(filePath);
 
 Opens the file available at `filePath` and returns its contents.
 
-```
+```javascript
 /**
  * @param {String} fileName;
  * @param {String} content;
