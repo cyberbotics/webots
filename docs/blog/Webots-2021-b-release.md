@@ -37,7 +37,7 @@ Finally, we decided to port our custom 3D renderer WREN to WebAssembly and use i
 
 During this work, we also took the time to refresh and improve the graphical user interface.
 
-%figure "New Wen Simulation Interface"
+%figure "New Web Simulation Interface"
 ![Web Simulation Interface](images/web_simulation_interface.png)
 %end
 
