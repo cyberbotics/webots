@@ -38,7 +38,7 @@ Finally, we decided to port our custom 3D renderer WREN to WebAssembly and use i
 During this work, we also took the time to refresh and improve the graphical user interface.
 
 %figure "New Web Simulation Interface"
-![Web Simulation Interface](images/web_simulation_interface.png)
+![Web Simulation Interface](images/web_simulation_interface.thumbnail.jpg)
 %end
 
 ---
@@ -100,6 +100,16 @@ A standalone model of the NVIDIA [Jetson Nano](../guide/single-board-computers.m
 
 ---
 
+## New Sensors
+
+The [SICK S300](../guide/lidar-sensors.md#sick-s300) lidar model is now included in our sensors library.
+
+%figure "SICK S300"
+![SICK S300](images/sick_s300.thumbnail.png)
+%end
+
+---
+
 ## ROS 2 & Webots
 
 TODO
@@ -108,9 +118,7 @@ TODO
 
 ## Extra Goodies
 
-A new `Billboard` node has been introduced to display information in the main view regardless of the positoin and orientation of the viewpoint.
-
-The [SICK S300](../guide/lidar-sensors.md#sick-s300) lidar model is now included in our sensors library.
+A new [Billboard](../reference/billboard.md) node has been introduced to display information in the main view regardless of the position and orientation of the viewpoint.
 
 We added [JavaScript scripting support](../reference/javascript-procedural-proto.md) for procedural PROTO nodes in addition to LUA.
 
