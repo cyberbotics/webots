@@ -612,7 +612,11 @@ def game_controller_send(message):
                 if result == 'INVALID':
                     error(f'Received invalid answer from GameController for message {answered_message}.', fatal=True)
                 elif result == 'ILLEGAL':
-                    error(f'Received illegal answer from GameController for message {answered_message}.', fatal=True)
+                    info_msg = f"Received illegal answer from GameController for message {answered_message}."
+                    if "YELLOW" in message:
+                        warning(info_msg)
+                    else:
+                        error(info_msg, fatal=True)
                 else:
                     error(f'Received unknown answer from GameController: {answer}.', fatal=True)
         except BlockingIOError:
