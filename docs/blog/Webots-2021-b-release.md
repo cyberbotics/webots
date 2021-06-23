@@ -49,7 +49,7 @@ The [Motor](../reference/motor.md) and [Joint](../reference/joint.md) nodes have
 
 We enhanced the [Motor](../reference/motor.md) node to support coupled motors specifying the linked motor in the `name` field and setting their ratio using the new `multiplier` field.
 
-Then, we added two new PROTO nodes [HingeJointWithBacklash](../guide/hinge-joint-with-backlash) and [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash) to easily add backlash effect and a [Gear](..//doc/guide/object-gear.md) model to simulate collision-based transmission.
+Then, we added three new PROTO nodes. The [HingeJointWithBacklash](../guide/hinge-joint-with-backlash) and [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash) allow users to easily add a backlash effect in hinges. The [Gear](..//doc/guide/object-gear.md) model can be used to simulate a collision-based transmission.
 
 TODO add figure
 
