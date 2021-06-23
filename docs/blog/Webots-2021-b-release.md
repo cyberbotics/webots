@@ -127,7 +127,7 @@ We haven't forgotten about the old good ROS 1. It now integrates the [ros\_contr
 These improvements make Webots much simpler to integrate into ROS 1 applications (see [webots\_ros#60](https://github.com/cyberbotics/webots_ros/pull/60/files)).
 We also included a Tiago example that features SLAM and MoveIt integration.
 
-%figure "Webots integration with ROS, ros2_control, gmapping, and MoveIt."
+%figure "Webots integration with ROS, ros_control, gmapping, and MoveIt."
 ![Webots ROS Tiago](images/webots_ros_tiago.gif)
 %end
 
