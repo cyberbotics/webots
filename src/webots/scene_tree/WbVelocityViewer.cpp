@@ -40,7 +40,9 @@ WbVelocityViewer::WbVelocityViewer(QWidget *parent) :
   // Labels
   QGridLayout *labelLayout = new QGridLayout();
   labelLayout->addWidget(new QLabel(tr("Linear velocity:")), 0, 0);
-  labelLayout->addWidget(new QLabel(tr("Angular velocity:")), 1, 0);
+  labelLayout->addWidget(new QLabel(tr("Linear velocity magnitude:")), 1, 0);
+  labelLayout->addWidget(new QLabel(tr("Angular velocity:")), 2, 0);
+  labelLayout->addWidget(new QLabel(tr("Angular velocity magnitude:")), 3, 0);
 
   mLinearVelocityLabels.resize(4);
   mAngularVelocityLabels.resize(4);
@@ -49,8 +51,10 @@ WbVelocityViewer::WbVelocityViewer(QWidget *parent) :
     mAngularVelocityLabels[i] = new QLabel(this);
     mLinearVelocityLabels[i]->setTextInteractionFlags(Qt::TextSelectableByMouse);
     mAngularVelocityLabels[i]->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    labelLayout->addWidget(mLinearVelocityLabels[i], 0, i + 1, Qt::AlignVCenter | Qt::AlignLeft);
-    labelLayout->addWidget(mAngularVelocityLabels[i], 1, i + 1, Qt::AlignVCenter | Qt::AlignLeft);
+    int line_num = (i < 3) ? 0 : 1;
+    int col_num = (i < 3) ? i + 1 : 1;
+    labelLayout->addWidget(mLinearVelocityLabels[i], line_num, col_num, Qt::AlignVCenter | Qt::AlignLeft);
+    labelLayout->addWidget(mAngularVelocityLabels[i], line_num + 2, col_num, Qt::AlignVCenter | Qt::AlignLeft);
   }
   vBoxLayout->addLayout(labelLayout);
 }
