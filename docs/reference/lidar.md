@@ -183,11 +183,10 @@ The value of this field should be smaller or equal to the value of the `maxFrequ
 - A node can be inserted in the `rotatingHead` field to define the rotating head of the lidar.
 
 > **Note**: The fields `numberOfLayers`, `verticalFieldOfView`, `horizontalResolution` and `fieldOfView` should respect the following constraint in order to be able to simulate the lidar:
-
-        numberOfLayers < verticalFieldOfView * horizontalResolution / fieldOfView
-
-    In case of 'rotating' lidar, the `fieldOfView` term in the constraint is
-    replaced by `2 * &pi;`.
+> ```
+> numberOfLayers < verticalFieldOfView * horizontalResolution / fieldOfView
+> ```
+> In case of 'rotating' lidar, the `fieldOfView` term in the constraint is replaced by 2 * &pi;.
 
 #### Rotating Lidar
 
