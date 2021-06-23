@@ -1918,6 +1918,13 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (int)mImportedNodeId;
     mImportedNodeId = -1;
   }
+  if (mNodeFieldCount >= 0) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_NODE_GET_FIELD_COUNT;
+    stream << mNodeFieldCount;
+    mNodeFieldCount = -1;
+    return;
+  }
   for (WbTrackedFieldInfo &field : mTrackedFields) {
     const double time = WbSimulationState::instance()->time();
     if (time < field.lastUpdate || time >= field.lastUpdate + field.samplingPeriod) {
