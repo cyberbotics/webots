@@ -112,7 +112,8 @@ The [SICK S300](../guide/lidar-sensors.md#sick-s300) lidar model is now included
 
 ## ROS 2 & Webots
 
-We are continuing to develop and improve the support for ROS 2 in Webots with now 16 Webots packages for ROS 2. This version of Webots is fully compatible with the two latest versions of ROS 2 and the rolling release:
+We are continuing to develop and improve the support for ROS 2 in Webots with now 16 Webots packages for ROS 2.
+This version of Webots is fully compatible with the two latest versions of ROS 2 and the rolling release:
 - [Foxy Fitzroy](https://docs.ros.org/en/foxy/Releases/Release-Foxy-Fitzroy.html)
 - [Galactic Geochelone](https://docs.ros.org/en/foxy/Releases/Release-Galactic-Geochelone.html)
 - [Rolling Ridley](https://docs.ros.org/en/foxy/Releases/Release-Rolling-Ridley.html)
