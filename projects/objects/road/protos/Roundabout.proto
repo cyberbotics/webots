@@ -189,7 +189,7 @@ PROTO Roundabout [
         Road {
           translation %<= centralPoint.x >% 0 %<= centralPoint.y >%
           rotation 0 1 0 %<= rotationAngle >%
-          name "road border %<=i>%"
+          name "road border %<= i >%"
           width %<= roadsWidth >%
           numberOfLanes IS startRoadsNumberOfLanes
           lines IS startRoadsLine
@@ -216,7 +216,7 @@ PROTO Roundabout [
         # the corresponding part of the roundabout road
         CurvedRoadSegment {
           rotation 0 1 0 %<= 2 * Math.PI * ((centralIndex + numberOfIndex) / subdivision) >%
-          name "curve road junction %<=i>%"
+          name "curve road junction %<= i >%"
           totalAngle %<= 2 * Math.PI * (2 * numberOfIndex / subdivision) >%
           subdivision %<= 2 * Math.abs(centralIndex - pointIndex) >%
           %< if (fields.center.value) { >%
@@ -240,7 +240,7 @@ PROTO Roundabout [
         # the part of the roundabout road the make the junction to the next one
         CurvedRoadSegment {
           rotation 0 1 0 %<= 2 * Math.PI * ((centralIndex - numberOfIndex) / subdivision) >%
-          name "curve road %<=i>%"
+          name "curve road %<= i >%"
           totalAngle %<= 2 * Math.PI / roadNumber - 2 * Math.PI * (2 * numberOfIndex / subdivision) >%
           subdivision %<= subdivision / roadNumber - 2 * numberOfIndex >%
           %< if (fields.center.value) { >%
@@ -299,7 +299,7 @@ PROTO Roundabout [
               castShadows IS castShadows
             }
           ]
-          name "left junction %<=i>%"
+          name "left junction %<= i >%"
           %< if (roadBO) { >%
             contactMaterial IS contactMaterial
             boundingObject USE LEFT_ROAD_GEOM
@@ -354,7 +354,7 @@ PROTO Roundabout [
               castShadows IS castShadows
             }
           ]
-          name "left junction border %<=i>%"
+          name "left junction border %<= i >%"
           %< if (borderBO) { >%
             contactMaterial IS contactMaterial
             boundingObject USE LEFT_BORDER_GEOM
@@ -399,7 +399,7 @@ PROTO Roundabout [
               castShadows IS castShadows
             }
           ]
-          name "right junction %<=i>%"
+          name "right junction %<= i >%"
           %< if (roadBO) { >%
             contactMaterial IS contactMaterial
             boundingObject USE RIGHT_ROAD_GEOM
@@ -443,7 +443,7 @@ PROTO Roundabout [
               castShadows IS castShadows
             }
           ]
-          name "right junction border %<=i>%"
+          name "right junction border %<= i >%"
           %< if (borderBO) { >%
             contactMaterial IS contactMaterial
             boundingObject USE RIGHT_BORDER_GEOM
