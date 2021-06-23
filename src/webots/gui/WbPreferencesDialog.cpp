@@ -184,7 +184,8 @@ void WbPreferencesDialog::accept() {
   prefs->sync();
   if (changed)
     WbNetwork::instance()->setProxy();
-  prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
+  if (!mCacheSize->text().isEmpty())
+    prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
   emit changedByUser();
   QDialog::accept();
   if (willRestart)
