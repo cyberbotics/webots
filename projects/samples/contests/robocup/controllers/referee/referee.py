@@ -1212,11 +1212,6 @@ def forceful_contact_foul(team, number, opponent_team, opponent_number, distance
     info(f"Ball in play: {game.in_play}, foul far from ball: {foul_far_from_ball}")
     if foul_far_from_ball or not game.in_play or game.penalty_shootout:
         send_penalty(player, 'PHYSICAL_CONTACT', 'forceful contact foul')
-    elif area[0] == 'i' and player['inside_own_side']:  # inside own penalty area
-        ball_reset_location = [game.field.penalty_mark_x, 0]
-        if team['players'][number]['position'][0] < 0:
-            ball_reset_location[0] *= -1
-        interruption('PENALTYKICK', freekick_team_id, ball_reset_location)
     else:
         offence_location = team['players'][number]['position']
         interruption('FREEKICK', freekick_team_id, offence_location)
@@ -1996,20 +1991,26 @@ def interruption(interruption_type, team=None, location=None, is_goalkeeper_ball
     if interruption_type == 'FREEKICK':
         own_side = (game.side_left == team) ^ (game.ball_position[0] < 0)
         inside_penalty_area = game.field.circle_fully_inside_penalty_area(game.ball_position, game.ball_radius)
-        if is_goalkeeper_ball_manipulation and inside_penalty_area and own_side:
-            # move the ball on the penalty line parallel to the goal line
-            dx = game.field.size_x - game.field.penalty_area_length
-            dy = game.field.penalty_area_width / 2
-            moved = False
-            if abs(location[0]) > dx:
-                game.ball_kick_translation[0] = dx * (-1 if location[0] < 0 else 1)
-                moved = True
-            if abs(location[1]) > dy:
-                game.ball_kick_translation[1] = dy * (-1 if location[1] < 0 else 1)
-                moved = True
-            if moved:
-                info(f'Moved the ball on the penalty line at {game.ball_kick_translation}')
-            interruption_type = 'INDIRECT_FREEKICK'
+        if inside_penalty_area and own_side:
+            if is_goalkeeper_ball_manipulation:
+                # move the ball on the penalty line parallel to the goal line
+                dx = game.field.size_x - game.field.penalty_area_length
+                dy = game.field.penalty_area_width / 2
+                moved = False
+                if abs(location[0]) > dx:
+                    game.ball_kick_translation[0] = dx * (-1 if location[0] < 0 else 1)
+                    moved = True
+                if abs(location[1]) > dy:
+                    game.ball_kick_translation[1] = dy * (-1 if location[1] < 0 else 1)
+                    moved = True
+                if moved:
+                    info(f'Moved the ball on the penalty line at {game.ball_kick_translation}')
+                interruption_type = 'INDIRECT_FREEKICK'
+            else:
+                interruption_type = 'PENALTYKICK'
+                ball_reset_location = [game.field.penalty_mark_x, 0]
+                if location[0] < 0:
+                    ball_reset_location[0] *= -1
         else:
             interruption_type = 'DIRECT_FREEKICK'
     game.in_play = None
