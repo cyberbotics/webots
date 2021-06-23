@@ -2312,7 +2312,7 @@ It is works 😆 thank you)
 ##### Olivier Michel [Cyberbotics] 01/15/2021 13:03:56
 Nice! Thank you for the feedback.
 
-##### Jaunty\_Bumblebee 01/15/2021 13:57:14
+##### R\_ 01/15/2021 13:57:14
 [https://stackoverflow.com/questions/64875476/reinforcement-learning-webots-simulator](https://stackoverflow.com/questions/64875476/reinforcement-learning-webots-simulator)
 
 ##### valeria 01/15/2021 14:49:49
@@ -3214,7 +3214,7 @@ in my simulation, my simulation window is drifting around in a circular shape wi
 
 [https://cyberbotics.com/doc/guide/the-user-interface](https://cyberbotics.com/doc/guide/the-user-interface)
 
-##### Jaunty\_Bumblebee 01/26/2021 06:52:22
+##### R\_ 01/26/2021 06:52:22
 Is there a method Webots to create a 'ghost' robot (pure pose transformation through space without the effects of gravity and collisions affecting it?). This is shown in the video below. The robot in the darker shade is present in the physical world, whereas the other one is a ghost [https://www.youtube.com/watch?v=aiWxIjtMMFI](https://www.youtube.com/watch?v=aiWxIjtMMFI)
 
 ##### Olivier Michel [Cyberbotics] 01/26/2021 06:56:38
@@ -6131,7 +6131,7 @@ you can also go through the webots tutorials here: [https://cyberbotics.com/doc/
 ##### Callum98 02/15/2021 18:18:25
 thank you, Ill have a look trhough
 
-##### Jaunty\_Bumblebee 02/15/2021 18:26:49
+##### R\_ 02/15/2021 18:26:49
 I have an Nvidia GPU, but I'm getting this error. Any suggestions to mitigate this error?😊
 
 I'm on Ubuntu 20.04 and installed it with `sudo snap install webots`
@@ -6150,19 +6150,19 @@ try disabling your integrated GPU in BIOS
 
 or explicitly launching webots with Nvidia gpu
 
-##### Jaunty\_Bumblebee 02/15/2021 18:42:09
+##### R\_ 02/15/2021 18:42:09
 how do I do this?
 
 ##### Luftwaffel [Moderator] 02/15/2021 18:42:40
 what operating system?
 
-##### Jaunty\_Bumblebee 02/15/2021 18:43:24
+##### R\_ 02/15/2021 18:43:24
 Ubuntu 20.04
 
 ##### Luftwaffel [Moderator] 02/15/2021 18:43:53
 disable your iGPU or google it
 
-##### Jaunty\_Bumblebee 02/15/2021 18:49:18
+##### R\_ 02/15/2021 18:49:18
 But it is showing this
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/810945854043193394/unknown.png)
@@ -6171,7 +6171,7 @@ But it is showing this
 ##### Luftwaffel [Moderator] 02/15/2021 18:51:07
 Did you install the latest nvidia drivers?
 
-##### Jaunty\_Bumblebee 02/15/2021 18:58:40
+##### R\_ 02/15/2021 18:58:40
 yes
 
 ##### Luftwaffel [Moderator] 02/15/2021 19:40:38
@@ -11211,7 +11211,7 @@ You need to add connectors for both the gripper and the box.
 
 If so, should I add the connector to the child after converting the box to convert to base node?
 
-##### rschilli[Sweaty] 03/24/2021 08:44:17
+##### Rico Schillings[Sweaty] 03/24/2021 08:44:17
 Hey guys. In robocup we are using simspark in 3d-simulation league and we have a DRL framework with stable-baseline/ppo to learn kicks/walking etc. For the virtual competition this year I've implemented a external controller and connect it to our DRL, so I am able to learn in webots as well. Now I want to paralize  this process by using multiple simulation instances, but here's the problem: either the docker approach nor native (starting multiple webots instances and define WEBOTS\_PID to select instance\_X) is working. With docker I can't connect to the running instance inside the container (extern controller running locally/outside), with native webots instances it seems that the WEBOTS\_PID is ignored/not parsed correctly, cause it is always connecting to the same instance. I've seen some posts of solutions but no documentation is working. Would be nice if someone could help me? Further details: DRL implemented in Python, Controller/Behavior logic in Java (Client-Server communication between both)
 
 ##### Olivier Michel [Cyberbotics] 03/24/2021 08:46:06
@@ -11236,7 +11236,7 @@ You can set a  `WEBOTS_TMPDIR` for each Webots instance and controller pair. See
 ##### Srivastav\_Udit 03/24/2021 14:34:26
 I'm having the same issue as this video [https://youtu.be/CDOrTKQAOqs](https://youtu.be/CDOrTKQAOqs) from 11:40 to 11:55
 
-##### rschilli[Sweaty] 03/24/2021 14:45:43
+##### Rico Schillings[Sweaty] 03/24/2021 14:45:43
 thanks for the hint, this brings me a bit closer to the solution. now I'm able to start multiple webot instances and connect to it with separated extern java controllers. But with the current approach (start ThreadPool and each thread create a new controller to specific webot instance) it crashes, since only 1 robot class should be created. So may I have to look for other controller-creation logic 🙂
 
 
@@ -11278,7 +11278,7 @@ Hi! In the Webots, is it possible for two epuck robots to communicate via Blueto
 `@Isha` Webots includes a transmitter and emitter node, which can be used for communication.
 
 
-`@rschilli[Sweaty]` I used stable baselines with parallel webots instances in the past. I'll pm you 🙂
+`@Rico Schillings[Sweaty]` I used stable baselines with parallel webots instances in the past. I'll pm you 🙂
 
 
 `@main` [https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor) if a robot controller is a supervisor controller, it has all the normal robot controller functions, but expands its capabilities to do pretty much anything. Read the documentation to get an overview of all its functions
@@ -11286,7 +11286,7 @@ Hi! In the Webots, is it possible for two epuck robots to communicate via Blueto
 ##### Olivier Michel [Cyberbotics] 03/25/2021 07:10:33
 Beware that when you start Webots on Linux, there are two process created, one is named `webots-bin` and the other one is the launcher, called `webots`. The `WEBOTS_PID` variable correspond to the first one. You can check it by listing the content of the`/tmp/` folder which should contain a sub-folder with named `webots-PID` where `PID` is the value you should set in `WEBOTS_PID`. Let me know if that helps.
 
-##### rschilli[Sweaty] 03/25/2021 07:59:20
+##### Rico Schillings[Sweaty] 03/25/2021 07:59:20
 Thanks for this additional hint. Meanwhile I can connect to multiple instances, as well with the `WEBOTS_TMPDIR` solution of `@Darko Lukić` as also by reading the `WEBOTS_PID` from the subfolders you mentioned (even if modifying env-vars is not straight forward inside a java runtime..). But as already told, I have the problem with multiple robots per thread, so its only working with separated JVMs for each robot. So currently I am looking to switch to multiprocessing instead of multithreading in java or even switch our controller logic to Python to use its multiprocessing library and re-write our communication between java-python for the learning process
 
 ##### danielvicente 03/25/2021 09:10:12
@@ -19740,4 +19740,753 @@ Slightly different behavior, but it can help. You can set the `WEBOTS_SAFE_MODE`
 
 ##### Gregory Rasputin 06/16/2021 10:32:22
 Thanks - total embarrassment here 😭
+
+##### Skyrim 06/16/2021 13:39:23
+Hey so I started in pause mode, but when I tried to run the controller externally it failed, so when I resumed simulation, I got back the same problem
+
+
+I think what I am experiencing is, when sometimes I start the controller and it crashes, webots gets blocked somehow expecting communication wit the controller
+
+
+Any ideas?
+
+##### Darko Lukić [Cyberbotics] 06/16/2021 14:26:34
+> I tried to run the controller externally it failed
+
+Since your controller is failing (and not Webots) you should debug it:
+
+[https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers](https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers)
+
+##### Skyrim 06/16/2021 15:50:54
+It failed to communicate with webots
+
+##### mclzc 06/16/2021 16:10:04
+Hi, how can I run the Turtlebot 3 example with the new plugin system?
+
+
+
+Running:
+
+```
+ros2 launch webots_ros2_turtlebot robot_launch.py
+```
+
+Does bring up the simulation, but I see in the console:
+
+```
+[driver-3] /opt/manuel/workspace/install/webots_ros2_driver/lib/webots_ros2_driver/driver: error while loading shared libraries: libCppController.so: cannot open shared object file: No such file or directory
+```
+
+##### Darko Lukić [Cyberbotics] 06/17/2021 06:33:11
+Can you pull the master branch and submodules again? It should be fixed here:
+
+[https://github.com/cyberbotics/webots\_ros2/pull/235](https://github.com/cyberbotics/webots_ros2/pull/235)
+
+##### JSK 06/17/2021 07:01:11
+Hello team! I need some help related to data saving
+
+
+i want to store all the values from gps and gyro.
+
+
+i wanna know, is there is any builtin function that can do this ?
+
+
+it is because i want to plot whole simulation results in a single plot
+
+
+but  webots plots are limited
+
+##### Darko Lukić [Cyberbotics] 06/17/2021 07:03:52
+Hello JSK, No, you have to it by yourself. However, it shouldn't be hard to write everything in a CSV file.
+
+##### JSK 06/17/2021 07:04:08
+yeah i was also thinking about it
+
+
+i think i have to make a small program for it
+
+
+that's ok not a big deal.
+
+
+how to access and save the simulation running time?
+
+##### Olivier Michel [Cyberbotics] 06/17/2021 09:00:25
+[https://cyberbotics.com/doc/reference/robot#wb\_robot\_get\_time](https://cyberbotics.com/doc/reference/robot#wb_robot_get_time)
+
+##### Dorteel 06/17/2021 11:07:27
+Hi! There is an *ikpy* Python example for the inverse kinematics (*/projects/robots/abb/irb*), where you have a line:
+
+`for i in [0, 6]:
+
+    armChain.active\_links\_mask[0] = False`
+
+Shouldn't it be *i* instead of *0* ? If not, could anyone explain what does this line do?
+
+##### chinex 06/17/2021 11:43:31
+Hi team!, Please how can I remotely control a real  khepera IV robot on webots using C?
+
+##### Darko Lukić [Cyberbotics] 06/17/2021 13:07:56
+It should disable optimization for that link (related joint). However you might be right about the `i` thing. Can you make a PR for that?
+
+##### bingdong 06/17/2021 14:05:46
+Hi, I'm using Fusion 360 for a CAD file that I want to import to Webots. I converted the .step file it to .obj and then chose the Import 3D Model option in Webots. However the imported file is not to scale. How can I ensure correct scaling in this process?
+
+##### Dorteel 06/17/2021 14:47:12
+Tried to do a PR, not sure if it's done correctly though, never done it with a forked project before.
+
+##### TheGiant 06/17/2021 14:52:09
+Hello everyone,
+
+I've been reading Webots code, and I've found it:
+
+WbMotor.cpp:308
+
+if (acc == -1.0 || acc > mMotorForceOrTorque)
+
+    acc = mMotorForceOrTorque;
+
+If I get thing right, acc is in m/s², and mMotorForceOrTorque in N or Nm (depending on the motor)
+
+That make them incompatible for comparison or affectation :/ 
+
+Did I missed something ?
+
+##### mclzc 06/17/2021 15:00:05
+Thanks `@Darko Lukić` , I don't see that error anymore.
+
+
+
+1) I however see one repetitive message hundreds of times: 
+
+`[driver-3] wb_device_init(): node not handled`
+
+
+
+2) If I follow the instructions here:
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/SLAM-with-TurtleBot3](https://github.com/cyberbotics/webots_ros2/wiki/SLAM-with-TurtleBot3)
+
+RViz opens up but throws this message forever:
+
+`[occupancy_grid_node-2] [WARN] [1623941505.604937197] [occupancy_grid_node]: submap_slices and last_frame_id is empty`
+
+And the Turtlebot doesn't really move.
+
+
+
+3) Similarly with the Navigation2 tutorial:
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/Navigate-TurtleBot3](https://github.com/cyberbotics/webots_ros2/wiki/Navigate-TurtleBot3)
+
+
+
+`[controller_server-4] [INFO] [1623941695.908499944] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to odom to become available, tf error: Invalid frame ID "odom" passed to canTransform argument target_frame - frame does not exist`
+
+
+
+4) `ros2 topic list` shows me:
+
+```
+/joint_states
+/parameter_events
+/robot_description
+/rosout
+/tf
+/tf_static
+```
+
+Which don't really echo anything.
+
+
+
+
+
+I guess something is missing?
+
+##### Darko Lukić [Cyberbotics] 06/17/2021 15:25:17
+That first message you are getting is the problem. Unfortunately I cannot reproduce it. Which Webots version do you use?
+
+
+Also, before `colcon build` run `rm -rf install log build` to be sure that something old hasn't found a way to the new binaries
+
+##### mclzc 06/17/2021 15:48:46
+I'm with 2021a. Deleting the directories doesn't change it.
+
+##### Darko Lukić [Cyberbotics] 06/17/2021 16:18:48
+Can you enter `webots_ros2_driver/webots` and do `git log`?
+
+
+I am testing it with R2021a-rev1, but they should be compatible
+
+##### mclzc 06/17/2021 16:21:56
+Sure:
+
+```
+commit f3df885f05edb4fc781931c145ce3af2c050d51e (HEAD)
+Author: lukicdarkoo <lukicdarkoo@github.com>
+Date:   Thu May 20 10:57:21 2021 +0000
+
+    Automatic update
+
+commit c17c0839c86239cc0f1d823b4fa0e039e3373dc6
+Author: lukicdarkoo <lukicdarkoo@github.com>
+Date:   Wed May 19 15:13:01 2021 +0000
+
+    Automatic update
+
+commit 6649158e03df2c4424c9f336a89109d00b87a6ee
+Author: lukicdarkoo <lukicdarkoo@github.com>
+Date:   Wed May 19 14:36:04 2021 +0000
+
+    Automatic update
+
+commit 2bf60c620c311efd42b6214a3bc4813208f49ad4
+Author: lukicdarkoo <lukicdarkoo@github.com>
+Date:   Wed May 19 14:34:00 2021 +0000
+
+...
+```
+
+##### Darko Lukić [Cyberbotics] 06/17/2021 16:23:09
+That doesn't look updated, it should point to here:
+
+[https://github.com/cyberbotics/webots-libcontroller/tree/R2021a-revision-1](https://github.com/cyberbotics/webots-libcontroller/tree/R2021a-revision-1)
+
+##### mclzc 06/17/2021 16:29:14
+My `.gitmodules` says this:
+
+```
+[submodule "webots_ros2_driver/webots"]
+        path = webots_ros2_driver/webots
+        url = https://github.com/cyberbotics/webots-libcontroller.git
+```
+
+
+
+Inside `webots_ros2_driver/webots`:
+
+```
+$ git status
+HEAD detached at f3df885
+nothing to commit, working tree clean
+```
+
+
+
+I don't really understand submodules, so this may be useless, but here it is (inside  `webots_ros2_driver/webots`):
+
+```
+$ git pull
+You are not currently on a branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details.
+
+    git pull <remote> <branch>
+```
+
+
+I see that the latest commit mentioned in my git log refers to:
+%figure
+![Kazam_screenshot_00000.png](https://cdn.discordapp.com/attachments/565154703139405824/855122923253661726/Kazam_screenshot_00000.png)
+%end
+
+
+To make that webots submodule point to the latest commit in the `r2021a-revision1` branch, I did `git checkout fdc0a9f7853ccea396c6dec045d26b0f4c2c0f98`, however, after `colcon build`, I get the those errors mentioning missing headers:
+
+
+
+```
+/opt/manuel/workspace/src/webots_ros2/webots_ros2_driver/include/webots_ros2_driver/plugins/Ros2SensorPlugin.hpp:19:10: fatal error: webots/RangeFinder.hpp: No such file or directory
+   19 | #include <webots/RangeFinder.hpp>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+... <- (many more similar messages here referring to different devices)
+```
+
+
+I have installed the latest r2021-b nightly build (webots\_2021b\_amd64.deb) and now it seems to work correctly. I pointed out the `webots_ros2_driver/webots` submodule to the latest r2021b branch commit.
+
+
+
+Rviz is showing me this though, but I don't know if its serious:
+
+```
+[occupancy_grid_node-2] [WARN] [1623950378.518803902] [occupancy_grid_node]: submap_slices and last_frame_id is empty
+```
+%figure
+![Kazam_screenshot_00001.png](https://cdn.discordapp.com/attachments/565154703139405824/855134904664064030/Kazam_screenshot_00001.png)
+%end
+
+
+I've just noticed these error messages:
+
+```
+[driver-3] Error: libgeneric_robot_window.so: cannot open shared object file: No such file or directory (dynamic library)
+[driver-3] Error: failed to load /usr/local/webots/resources/projects/plugins/robot_windows/generic/libgeneric.so library
+```
+
+##### Darko Lukić [Cyberbotics] 06/18/2021 06:22:17
+Make sure to enable the differential controller:
+
+```
+ros2 control load_start_controller diffdrive_controller
+```
+
+I missed to include the `controller_manager/spawner`  node to automatically start necessary controllers
+
+
+Those error messages concern the robot window, they shouldn't affect the ROS 2 driver
+
+##### chinex 06/18/2021 07:17:56
+Hallo Team, please how do I transfer a webots C API to a real khepera IV robot?
+
+##### bingdong 06/18/2021 09:30:29
+Hi, is there a CAD file type that maintains the hierarchy of components when being exported to Webots? Right now, in .obj, all of them get restructured as children of a single solid node.
+
+##### Luftwaffel [Moderator] 06/18/2021 22:06:41
+try .wrl
+
+##### Skyrim 06/19/2021 10:25:49
+Can someone guide me as to how can I have the human walking in webots using cpp
+
+
+Any help is appreciated
+
+##### zapata 06/20/2021 07:35:19
+Hi everyone, I haven't installed Matlab in my PC, but Octave is installed;
+
+Can I use it to run a m file in Webots controller?
+
+
+You can study this book: [https://link.springer.com/book/10.1007/978-3-642-54536-8](https://link.springer.com/book/10.1007/978-3-642-54536-8)
+
+##### mclzc 06/21/2021 03:17:27
+Hi, I'm having trouble moving a robot to the new plugin system. I'm first trying to replicate what the Turtlebot example has. I'm getting this error:
+
+```
+[driver-3] Warning: "inertial_unit" device not found.
+[driver-3] terminate called after throwing an instance of 'std::runtime_error'
+[driver-3]   what():  Cannot find InertialUnit with name inertial_unit
+[ERROR] [driver-3]: process has died [pid 423470, exit code -6, cmd '/opt/manuel/workspace/install/webots_ros2_driver/lib/webots_ros2_driver/driver --ros-args --params-file /tmp/launch_params_985fv4cq --params-file /opt/manuel/workspace/install/mbot4_webots/share/mbot4_webots/resource/ros2control.yml -r /diffdrive_controller/cmd_vel_unstamped:=/cmd_vel'].
+```
+
+
+
+- In the urdf file I have the IMU defined. 
+
+- In the PROTO file it is not, although it is in the world file, just like in the Turtlebot example. 
+
+- The `ros2control.yaml` file is as well present.
+
+##### Darko Lukić [Cyberbotics] 06/21/2021 06:29:17
+Can you check whether the IMU name matches in your world and URDF?
+
+##### bingdong 06/21/2021 11:39:58
+Hi, I'm trying to simulate a differential drive robot in Webots. It's derived from a fairly simple CAD file which has several parts assembled together for the body and wheels. 
+
+
+
+After importing it into Webots, I set HingeJoint for the two wheels (end point Solid had the children: tyre, rim, axle, gear) and Hinge2Joint for the front castor wheel (End point Solid; Spherical Shape from CAD file). The rest of the body is children nodes of a Solid, which itself is a child node of a Transform.
+
+ [Robot>Transform>Solid>(SolidPartA>ShapeA), (SolidPartB>ShapeB)...]
+
+
+
+I have activated physics for the wheels with the tyre as the bounding object and for the physics for the Robot with ShapeA as the bounding object. However, the simulation isn't performing well. The robot falls back throught the floor and keeps revolving instead of moving forward. I assume that's because I haven't structured the nodes properly and set the bounding object correctly for the Robot. Any help with be greatly appreciate.
+
+##### DDaniel [Cyberbotics] 06/21/2021 11:44:26
+`@bingdong` Hi, is it a heavy vehicle? Have you tried lowering the timestep otherwise floor penetration might be noticeably high. Can you show a video/picture of the issue? And possibly the world/proto? Might be easier to pinpoint the issue
+
+##### Jhon mathew 06/21/2021 11:56:28
+Hii guys I have used Camera recognition with ros controller.. the problem is there is 3-5 object is recognised in webots window but I am getting only 2 recognised object data in rostopic... please do  give solution how to get all the data of the 5 recognised object. ?
+
+##### bingdong 06/21/2021 12:02:13
+I haven't change any of the default physics parameters. I'll share the details and files with you, yes.
+
+##### DDaniel [Cyberbotics] 06/21/2021 12:04:44
+keep in mind the default value for density is `1000 kg/m³`, setting the mass instead to something reasonable for your application might be better (like the mass value as measured in your CAD software)
+
+##### Stefania Pedrazzi [Cyberbotics] 06/21/2021 12:08:09
+Could you please share your ROS code? This will make it faster to check the issue
+
+##### Jhon mathew 06/21/2021 12:11:56
+```def enable_cam(self):
+
+        self.service_name = overhead_cam_name+'/overhead_camera/enable'
+        rospy.wait_for_service(self.service_name)
+        try:
+            handle = rospy.ServiceProxy(name=self.service_name, 
+                                       service_class=set_int)
+            handle(1)   # 1 -> enable & 0 -> disable
+            self.img_recognition() 
+    
+        except:
+            print('Service call failed: enabling camera') 
+```
+
+
+```def img_recognition(self):
+        self.service_name = overhead_cam_name+'/overhead_camera/recognition_enable'
+        rospy.wait_for_service(self.service_name)
+        try:
+            handle = rospy.ServiceProxy(name=self.service_name, service_class=set_int)
+            handle(1)
+
+        except:
+            print('Service call failed: enabling recognition')
+```
+
+
+I just enabled the camera and enabled recognition.. when I was echoing rostopic it gives me max 2 data of the object even tried to subscribe the topic in python it gives same result. !
+
+
+max object in recognition is set -1 and all 5 objects is recognized in webots window
+
+##### bingdong 06/21/2021 12:17:13
+<@787796043987025941> noted.
+
+##### nap 06/21/2021 12:41:33
+When a C/C++ controller crashes, where can I find the reason for the crash?  I.e. the error message or log?  (MacOS/Linux)
+
+##### Darko Lukić [Cyberbotics] 06/21/2021 12:42:08
+See: [https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers#using-the-gnu-debugger-with-a-controller](https://cyberbotics.com/doc/guide/debugging-c-cpp-controllers#using-the-gnu-debugger-with-a-controller)
+
+##### Jhon mathew 06/21/2021 13:09:21
+please anyone solve this
+
+##### Stefania Pedrazzi [Cyberbotics] 06/21/2021 13:09:44
+I'm trying to reproduce the issue. but it will take some time
+
+##### Jhon mathew 06/21/2021 13:10:38
+sure ill wait thanks for the reply
+
+##### nap 06/21/2021 13:38:54
+I followed the instructions on that page but my controller runs though doesn't stop at my breakpoint.
+
+I set my robot's controller to "<extern>" (and saved it). 
+
+I ran 'gdb myController'  (I did 'info sources' to confirm debug symbols were loaded.)
+
+I used "break myContollerClass.cpp:1100" (gdb was able to do tab completion as I entered the name of the file, and showed the memory location of the breakpoint.)
+
+I then typed `run` in gdb, and gdb printed "Starting program: path/to/controller" and indicated it created a new thread for the process, but did not stop.
+
+(*my breakpoint is in a function called from the run loop*)
+
+
+
+I then went into my Webots World and pressed the "RUN" button but the time did not start advancing.
+
+(so my controller is waiting for Webots and Webots is waiting for my controller.)
+
+
+
+Any tips?
+
+##### mclzc 06/21/2021 13:39:29
+Yeah, they match:
+
+```
+<inertialUnitName>inertial_unit</inertialUnitName>
+```
+
+```
+InertialUnit {
+  rotation 0 1 0 3.14
+  name "inertial_unit"
+}
+```
+
+##### nap 06/21/2021 13:51:37
+`@Darko Lukić` 
+
+I set a BP on the 1st line of my code, before the controller is instantiated and I got an error stating "dyld: Library not loaded: @rpath/lib/controller/libController.dylib"
+
+I think I need to figure out how to set @rpath correctly.  The controller usually runs, but started crashing due to some code I added which I need to debug.
+
+##### Darko Lukić [Cyberbotics] 06/21/2021 13:52:41
+Did you set the `DYLD_LIBRARY_PATH`? See: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=macos](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=macos)
+
+##### nap 06/21/2021 13:53:10
+no, I only have `WEBOTS_HOME` set.
+
+##### Darko Lukić [Cyberbotics] 06/21/2021 13:54:11
+That should work, maybe you are not loading the latest version of the world file. It looks like some small detail is missing
+
+
+It is not enough
+
+##### mclzc 06/21/2021 13:56:04
+Alright, thanks, I'll look from the ground up.
+
+##### nap 06/21/2021 14:48:38
+`@Darko Lukić` :  Interesting.
+
+1st:  Thanks for the instructions.  Essentially they work.
+
+2nd: However, gdb is unreliable as **sometimes**, instead of stopping at the first breakpoint, it simply runs the controller and basically hangs. (Nothing happens in Webots and I have to kill the process.)  Re-running gdb again, usually causes the next run to actually stop at a breakpoint.
+
+3rd: My controller crashes on a unlikely line: `iteration++` (where iteration is defined as an int32\_t). (Seg fault )
+
+4th: Sometimes my controller runs one pass through the run loop but I can't get it to make another iteration as I get a bus error.
+
+##### Darko Lukić [Cyberbotics] 06/21/2021 14:53:23
+> 2nd: However, gdb is unreliable as sometimes
+
+Hmm, gdb is typically quite stable for me.
+
+
+
+> 3rd: My controller crashes on a unlikely line: iteration++ (where iteration is defined as an int32\_t). (Seg fault )
+
+You can do `bt` to see what caused the segmentation fault.
+
+##### nap 06/21/2021 14:57:16
+yea.  I get:
+
+(gdb) bt
+
+\#0  0x000000010001489d in fPuckWhiteboardIfaceClass::run (this=0x101808200) at fPuckWhiteboardIfaceClass.cpp:284
+
+\#1  0x00007ffeefbfe5f0 in ?? ()
+
+\#2  0x0000000101808200 in ?? ()
+
+\#3  0x010000000000001a in ?? ()
+
+\#4  0x0000000101808200 in ?? ()
+
+\#5  0x00007ffeefbfe640 in ?? ()
+
+\#6  0x000000010001cfed in main () at fPuckInterfaceContainer.cpp:16
+
+Backtrace stopped: frame did not save the PC
+
+
+
+line 284 is:   ` iteration++;` and after executing the line, it equals `1`.  Seg fault??
+
+
+I don't usually use `gdb` from the CLI.  I'm going to see if I can make use of Xcode to help me debug this.  (See you next year! 😉 )
+
+##### Darko Lukić [Cyberbotics] 06/21/2021 15:52:11
+Visual Code is well integrated with `gdb`, I have a great experience. Everything works almost out-of-the-box, you only need to configure the `launch.json`, something like this:
+
+[https://gist.github.com/lukicdarkoo/8b99429863682f0b990fb13cf7b417b4#file-launch-json](https://gist.github.com/lukicdarkoo/8b99429863682f0b990fb13cf7b417b4#file-launch-json)
+
+##### mclzc 06/21/2021 16:03:36
+I was missing something like this:
+
+```
+field MFNode     extensionSlot   [ ]
+```
+
+Created an issue:
+
+[https://github.com/cyberbotics/urdf2webots/issues/123](https://github.com/cyberbotics/urdf2webots/issues/123)
+
+##### Darko Lukić [Cyberbotics] 06/21/2021 16:13:21
+Can the `--tool-slot` argument help?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/21/2021 16:15:13
+I can reproduce the issue. Webots ROS controller is correctly publishing all the messages but sometimes the subscribers only get part of them. I'm now inspecting how to solve it.
+
+##### nap 06/21/2021 16:21:47
+Using an Xcode 12.4 External Build System, I'm able to build my controller.  However, I'm not able to debug it from Xcode because the controller can't find `libController.dylib` even though I've set WEBOTS\_HOME and DYLD\_LIBRARY\_PATH in the schema's environment.
+
+Anyone on MacOS know how to fix this issue?
+
+
+
+FIXED:
+
+Instead of defining `DYLD_LIBRARY_PATH=${WEBOTS_HOME}/lib/controller`  (where `WEBOTS_HOME` was defined in the env entry above this one) I defined it as `DYLD_LIBRARY_PATH=/Applications/Webots.app/lib/controller`. 
+
+Seems that Xcode does not do variable expansion across entries....
+
+##### Jhon mathew 06/21/2021 16:36:45
+thanks 🙂. 
+
+
+
+note : even I tried "rostopic echo" it gives same 2 object data !
+
+##### TheGiant 06/21/2021 17:51:44
+Hello, I was playing with USE/DEF, and found the hard way that I can't use it with Solid.
+
+The doc state that we could use PROTO to do that, but I still need somewhere in it a Solid node, to be able to add physic and so on.
+
+But Webots complain that even inside a PROTO node and I can't use use/def with those PROTO...
+
+I had to modify the code to allows definition of use/def on (nested) solid node, but I was wondering if there is a proper solution to that.
+
+##### mclzc 06/21/2021 18:10:28
+I've answered in the Github issue `@Darko Lukić`, thanks.
+
+
+I have a different question. My PROTO file, generated from a URDF, looks like this for the IMU-related section:
+
+```
+Robot {
+    ...
+    children [
+        ...
+        Solid {
+            translation 0.000000 0.000000 0.075000
+            rotation 0.000000 1.000000 0.000000 0.000000
+            children [
+                Shape { ... }
+                InertialUnit {
+                    name "imu inertial"
+                }
+                Accelerometer {
+                    name "imu accelerometer"
+                }
+                Gyro {
+                    name "imu gyro"
+                }
+                Compass {
+                    name "imu compass"
+                }
+            ]
+            name "imu_link"
+            boundingObject Box { ... }
+        }
+    ]
+}
+```
+
+
+
+However, the `/imu` topic gives me `nan` accelerations and zero angular velocities. Only when I manually move the IMU devices outside of that `Solid` and make them first-level children of `Robot` in the PROTO file, is that I get actual `/imu` actual values.
+
+
+The message with the default conversion looks like this:
+
+```
+header:
+  stamp:
+    sec: 1624299940
+    nanosec: 148959939
+  frame_id: imu_link
+orientation:
+  x: 0.0019437122298485167
+  y: 0.7071041087741524
+  z: 0.7071041072736537
+  w: 0.0019449458111361168
+orientation_covariance:
+- 0.0
+...
+angular_velocity:
+  x: 0.0
+...
+angular_velocity_covariance:
+- 0.0
+...
+linear_acceleration:
+  x: .nan
+...
+linear_acceleration_covariance:
+- 0.0
+...
+```
+
+##### Stefania Pedrazzi [Cyberbotics] 06/21/2021 19:04:21
+DEF/USE cannot and should not be used with Solid and joint nodes:
+
+[https://www.cyberbotics.com/doc/reference/def-and-use?tab-language=ros#use-exceptions](https://www.cyberbotics.com/doc/reference/def-and-use?tab-language=ros#use-exceptions)
+
+DEF/USE nodes represents identical nodes and different instances of Solid node would never be identical.
+
+So modifying the Webots code to support DEF/USE for Solid nodes is fundamentally wrong.
+
+Instead, as suggested you should define your Solid in a PROTO file and add different instances of this PROTO (without using DEF/USE)
+
+##### TheGiant 06/21/2021 19:20:52
+`@Stefania Pedrazzi`  Hmm... that make sense, i've just tweak the code to check if I didn't have issues anywhere else, so no worry 🙂 I will give another try to use solid in proto, but for the moment I had no luck (that why I'm here) , webots still complain :/ maybe need to sleep a bit before ! (I was thinking about def/use in different transform node, to get the solid at different position) . gonna try again, thank for the feedback !
+
+##### Jhon mathew 06/22/2021 06:49:04
+might be problem is due to queue size of publisher.. If I am not wrong .
+
+##### Darko Lukić [Cyberbotics] 06/22/2021 06:53:38
+> The parent node of an Accelerometer node should have a Physics node defined in its physics field, so that correct measurements can be performed.
+
+[https://cyberbotics.com/doc/reference/accelerometer](https://cyberbotics.com/doc/reference/accelerometer)
+
+
+
+It seems that your Solid doesn't have a Physics node
+
+##### Stefania Pedrazzi [Cyberbotics] 06/23/2021 06:41:49
+Just for info, you can find updates on this issue here: [https://github.com/cyberbotics/webots\_ros/issues/64](https://github.com/cyberbotics/webots_ros/issues/64)
+
+##### nap 06/23/2021 06:57:18
+Is there a way of rearranging nodes in the UI without editing the WBT file?  I'm getting a warning that Viewpoint should be at position 2.
+
+##### Stefania Pedrazzi [Cyberbotics] 06/23/2021 07:00:24
+You can copy and paste nodes from the UI to rearrange them, but then you have to save the changes to the WBT file otherwise you will always get the warning at load.
+
+##### nap 06/23/2021 07:02:49
+Thanks!  Bit clunky but worked.  Would be nice to drag/drop instead.
+
+##### oroulet [Premier Service] 06/23/2021 09:11:08
+Hi, We want to do external control of an axis at 100+Hz. Currently we do that by just changing the node position without motor and joints. That works fine and the moves are smooth.
+
+Now we are looking at the doing that the "normal" way using motor and joints. but the moves are hacking a lot even with really high velocity and -1 as acceleration. Is there any best practice on joint/motor setup for that? should we try to change joint position directly instead of sending position to motor?
+
+In reality we send pos, acc and vel at 100+Hz to a PLC and the PLC does what it can follow that
+
+
+also we can set velcoity to INFINITY in code but we found no way to set MAxVelcotiy for a motor than way so we get that warning: 
+
+
+
+WARNING: DEF MyRobot1 RobotGrab1 (PROTO) > SliderJoint > Forks (PROTO) > HingeJoint > DEF Axis1 Axis1 (PROTO) > SliderJoint > DEF Axis2 Axis2 (PROTO) > SliderJoint > LinearMotor: The requested velocity inf exceeds 'maxVelocity' = 1e+10.
+
+##### Olivier Michel [Cyberbotics] 06/23/2021 09:43:01
+Some hints:
+
+1. You should increase not only the maxVelocity, but also the maxTorque (or maxForce if it is a LinearMotor).
+
+2. Using a large value for the velocity (e.g., = maxVelocity) instead of INFINITY should fix the warning.
+
+3. I don't recommend changing the joint position directly as it bypasses the physics engine and will produce unstable results.
+
+##### Johan2021 06/23/2021 11:21:50
+Hi, I am controlling a robot modeled as a series of rigid segments connected by spring-damper balljoints including 3 rotational motors (.proto extract attached as file). As shown in the (good) video, the robot crawls by bending the main body, and attaches itself to the surface by exerting a force on the foot segments (via a plugin). The foot segment joints are rigid and not controlled, while the ankle joints are generally flexible (torque = 0) and only controlled when the front foot should lift itself (this happens after a force is applied (lock) to the back foot and is taken away (unlock) from the front foot). Controlling the joint positions is done via the rotational motors.
+
+
+
+The 2 videos show the intended (good) case, and an unintended (bad) one where the ankle position 'overflows' to 8.4 radians (the output from position sensors in the ankle joints). Both use exactly the same controller and plugin, but the bad video takes longer to contract and extend the body (via a controller parameter). Once this 'overflow' occurs, it also continues to show unintended behavior when lifting the feet again (i.e. when actively controlling the ankle joints). Is there anyone who may have a clue why or how this 'overflow' could happen in the ankle joints - or some clues on how to avoid this (best practices)?
+
+
+
+It seems that the simulator is simulating physics correctly as there is no error message, so I wonder what interaction / physics step could cause this?
+
+
+
+%figure
+![demo_bad.png](https://cdn.discordapp.com/attachments/565154703139405824/857218928011116544/demo_bad.png)
+%end
+
+
+
+> **Attachment**: [demo\_bad.mp4](https://cdn.discordapp.com/attachments/565154703139405824/857218928044146698/demo_bad.mp4)
+
+
+
+%figure
+![demo_good.png](https://cdn.discordapp.com/attachments/565154703139405824/857218934033612840/demo_good.png)
+%end
+
+
+
+> **Attachment**: [demo\_good.mp4](https://cdn.discordapp.com/attachments/565154703139405824/857218933891530772/demo_good.mp4)
+
+
+
+> **Attachment**: [proto\_extract.proto](https://cdn.discordapp.com/attachments/565154703139405824/857218937804685322/proto_extract.proto)
 

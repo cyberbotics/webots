@@ -2214,3 +2214,26 @@ It looks like Khepera IV doesn't have a ROS interface, so re-implementing the fu
 ##### chinex 06/14/2021 06:53:47
 Please how can I get it done, kindly help me
 
+##### Darko Lukić [Cyberbotics] 06/18/2021 13:50:24
+There are more details in this document:
+
+[https://cyberbotics.com/doc/guide/transfer-to-your-own-robot](https://cyberbotics.com/doc/guide/transfer-to-your-own-robot)
+
+##### chinex 06/21/2021 10:33:59
+I have been trying to develop the controller plugin for my khepera IV robot it's not working.
+
+##### Naga15 06/23/2021 12:49:26
+Hello! Im working on one project to transfer the gazebo ros simulation to webots. It was suggested to me to use nightly build 2021b. Problem is when I switched builds from official to 2021b the ros simulation won't start, error message-> usr/local/webots/projects/default/controllers/ros/ros: error while loading shared libraries: libboost\_system.so.1.65.1: cannot open shared object file: No such file or directory
+
+WARNING: 'ros' controller exited with status: 127.                                                                                             
+
+Is it the compatability issue, because I use ubuntu 20.04? the nightly build of 2021a works on same stuff without issues. Thanks for help!
+
+##### Darko Lukić [Cyberbotics] 06/23/2021 13:22:21
+Did you source the ROS environment before launching Webots? Something like:
+
+```bash
+source /opt/ros/noetic/setup.bash
+webots
+```
+
