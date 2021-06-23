@@ -107,8 +107,8 @@ PROTO LaneSeparation [
         numberOfLanes %<= lanes - numberOfleavingLanes >%
         %< if (newLaneLeft) { >%
           rightBorder IS leftBorder
-          rightBarrier IS leftBarrier
-          rightBarrierBoundingObject IS leftBarrierBoundingObject
+          rightBarrier IS rightBarrier
+          rightBarrierBoundingObject IS rightBarrierBoundingObject
           leftBorder FALSE
           lines IS lines
           startLine [
@@ -127,9 +127,9 @@ PROTO LaneSeparation [
           ]
         %< } else { >%
           leftBorder IS rightBorder
-          leftBarrier IS rightBarrier
-          leftBarrierBoundingObject IS rightBarrierBoundingObject
           rightBorder FALSE
+          leftBarrier IS leftBarrier
+          leftBarrierBoundingObject IS leftBarrierBoundingObject
           lines [
           %< for (let i = numberOfleavingLanes; i <= lanes; ++i) { >%
             %< if (roadLines[i]) { >%
