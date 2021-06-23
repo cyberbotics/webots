@@ -43,7 +43,6 @@ void WbSFColor::setValue(const WbRgb &c) {
     return;
 
   mValue = c;
-  assert(!mValue.clampValuesIfNeeded());
   emit changed();
 }
 
@@ -52,7 +51,6 @@ void WbSFColor::setValue(uint8_t r, uint8_t g, uint8_t b) {
     return;
 
   mValue.setValue(r, g, b);
-  assert(!mValue.clampValuesIfNeeded());
   emit changed();
 }
 

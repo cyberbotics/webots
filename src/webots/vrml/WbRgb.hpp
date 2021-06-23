@@ -86,7 +86,7 @@ public:
 private:
   double mRed, mGreen, mBlue;
 
-  bool clampValue(double &value) {
+  static bool clampValue(double &value) {
     if (value < 0.0)
       value = 0.0;
     else if (value > 1.0)
