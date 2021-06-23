@@ -35,7 +35,7 @@ TODO (update with package size difference).
 Since the introduction of the web interface for streaming simulations and playing recorded animations, we struggled finding optimal parameters for shadows and illuminations that will reproduce exactly the same rendering as in the Webots Desktop application.
 Finally, we decided to port our custom 3D renderer WREN to WebAssembly and use it for the web simulation interface in order to minimize the differences with the Desktop version and make it straightforward to run high quality simulations and animations on the web.
 
-During this work, we also took the time to refresh and improve the interface.
+During this work, we also took the time to refresh and improve the graphical user interface.
 
 %figure "New Wen Simulation Interface"
 ![Web Simulation Interface](images/web_simulation_interface.png)
