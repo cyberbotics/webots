@@ -758,7 +758,7 @@ size = wb_supervisor_node_get_proto_number_of_fields(node)
 | --- | --- | --- | --- |
 | `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
 | `/supervisor/node/get_field_by_index` | `service` | `webots_ros::node_get_field_by_index` | `uint64 node`<br/>`int index`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/node/get_number_of_fields` | `service` | `webots_ros::node_get_number_of_fields` | `uint64 node`<br/>`bool proto``---`<br/>`uint32 value` |
+| `/supervisor/node/get_number_of_fields` | `service` | `webots_ros::node_get_number_of_fields` | `uint64 node`<br/>`bool proto`<br/>`---`<br/>`uint32 value` |
 
 %tab-end
 
