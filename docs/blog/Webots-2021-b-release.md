@@ -84,7 +84,7 @@ The Nyrio Ned is a 6-axis collaborative robot designed for teaching programming 
 The NVIDIA [JetBot](../guide/jetbot.md) is an affordable two-wheeled robot based on the NVIDIA Jetson Nano board widely used in AI robotics applications.
 
 %figure "JetBot in Webots"
-![JetBot in Webots](images/jetbot.wbt.jpg)
+![JetBot in Webots](images/jetbot.wbt.png)
 %end
 
 A standalone model of the NVIDIA [Jetson Nano](../guide/single-board-computers.md#nvidia-jetson-nano) board is also available.
