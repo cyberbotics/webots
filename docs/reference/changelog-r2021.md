@@ -80,6 +80,7 @@ Released on June, Xth, 2021.
     - Fixed in the interaction between [IndexedFaceSets](indexedfaceset.md) and distance sensor rays that resulted in the wrong contact point being considered for collision ([#2610](https://github.com/cyberbotics/webots/pull/2610)), affecting TexturedBoxes.
     - Fixed crash visualizing node properties in Node Editor for nodes in deeply nested PROTO structures ([#3109](https://github.com/cyberbotics/webots/pull/30109)).
     - Fixed crash when selecting velocities relative to kinematic ancestor [Solid](solid.md) node in Node Editor ([#3098](https://github.com/cyberbotics/webots/pull/3098)).
+    - Fixed crash due to invalid SFColor values in PROTO fields by clamping the value and printing a warning in the Webots console ([#3218](https://github.com/cyberbotics/webots/pull/3218)).
     - Fixed the wireframe rendering badly affected by lighting ([#2806](https://github.com/cyberbotics/webots/pull/2806)).
     - Fixed external force/torque logic such that the closest dynamic [Solid](solid.md) ancestor is picked if the selected one lacks it ([#2635](https://github.com/cyberbotics/webots/pull/2635)).
     - Fixed a strategy used to find a MATLAB executable in the `PATH` environment variable ([#2624](https://github.com/cyberbotics/webots/pull/2624)).
