@@ -59,7 +59,7 @@ TODO add figure
 
 We've added many new robot models in this release
 
-### Modular Mobile platforms
+### Modular Mobile Platforms
 
 We just added three new models of modular mobile platform robots used for logistic and indoor transport.
 All these models have predefined fields to mount additional devices on the platform and front/back lidars.
