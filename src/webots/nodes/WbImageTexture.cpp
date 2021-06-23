@@ -85,7 +85,8 @@ void WbImageTexture::downloadAssets() {
     return;
   const QString &url(mUrl->item(0));
   if (WbUrl::isWeb(url)) {
-    delete mDownloader;
+    if (mDownloader != NULL && mDownloader->device() != NULL)
+      delete mDownloader;
     mDownloader = new WbDownloader(this);
     if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
@@ -128,7 +129,9 @@ void WbImageTexture::postFinalize() {
 
 bool WbImageTexture::loadTexture() {
   if (mDownloader) {
-    assert(mDownloader->device());
+    assert(mDownloader->device() || mDownloader->isCopy());
+    if (mDownloader->isCopy())
+      return false;  // The image should already be in the wren cache.
     if (!mDownloader->error().isEmpty()) {
       warn(mDownloader->error());
       return false;
@@ -236,7 +239,8 @@ void WbImageTexture::updateWrenTexture() {
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
 
   mWrenTexture = WR_TEXTURE(texture);
-  delete mDownloader;
+  if (mDownloader != NULL && mDownloader->device() != NULL)
+    delete mDownloader;
   mDownloader = NULL;
 }
 

@@ -30,6 +30,7 @@ public:
   void download(const QUrl &url);
   const QUrl &url() const { return mUrl; }
   QIODevice *device() const;
+  bool isCopy() const { return mCopy; }
   bool hasFinished() const { return mFinished; }
   const QString &error() const { return mError; }
   static int progress();

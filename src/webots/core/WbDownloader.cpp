@@ -49,7 +49,8 @@ WbDownloader::WbDownloader(QObject *parent) :
 }
 
 WbDownloader::~WbDownloader() {
-  mNetworkReply->deleteLater();
+  if (mNetworkReply != NULL)
+    mNetworkReply->deleteLater();
 }
 
 QIODevice *WbDownloader::device() const {
