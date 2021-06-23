@@ -75,8 +75,26 @@ public:
   }
   friend QTextStream &operator<<(QTextStream &stream, const WbRgb &c);
 
+  // clamp RGB values in range [0.0, 1.0]
+  bool clampValuesIfNeeded() {
+    const bool redReset = clampValue(mRed);
+    const bool greenReset = clampValue(mGreen);
+    const bool blueReset = clampValue(mBlue);
+    return redReset || greenReset || blueReset;
+  }
+
 private:
   double mRed, mGreen, mBlue;
+
+  bool clampValue(double &value) {
+    if (value < 0.0)
+      value = 0.0;
+    else if (value > 1.0)
+      value = 1.0;
+    else
+      return false;
+    return true;
+  }
 };
 
 inline QTextStream &operator<<(QTextStream &stream, const WbRgb &c) {
