@@ -424,8 +424,8 @@ def team_index(color):
     if color not in ['red', 'blue']:
         raise RuntimeError(f'Wrong color passed to team_index(): \'{color}\'.')
     id = game.red.id if color == 'red' else game.blue.id
-    index = 0 if int(game.state.teams[0].team_number) == int(id) else 1
-    if int(game.state.teams[index].team_number) != int(id):
+    index = 0 if game.state.teams[0].team_number == id else 1
+    if game.state.teams[index].team_number != id:
         raise RuntimeError(f'Wrong team number set in team_index(): {id} != {game.state.teams[index].team_number}')
     return index
 
@@ -2278,6 +2278,11 @@ with open(game_config_file) as json_file:
     game = json.loads(json_file.read(), object_hook=lambda d: SimpleNamespace(**d))
 red_team = read_team(game.red.config)
 blue_team = read_team(game.blue.config)
+# if the game.json file is malformed with ids defined as string instead of int, we need to convert them to int:
+if not isinstance(game.red.id, int):
+    game.red.id = int(game.red.id)
+if not isinstance(game.blue.id, int):
+    game.blue.id = int(game.blue.id)
 
 # finalize the game object
 if not hasattr(game, 'minimum_real_time_factor'):
