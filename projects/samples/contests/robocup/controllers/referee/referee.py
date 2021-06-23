@@ -2816,7 +2816,8 @@ try:
                 if game.interruption:
                     game_controller_send(f'{game.interruption}:{game.interruption_team}:READY')
 
-        check_fallen()                                # detect fallen robots
+        if game.state.game_state != 'STATE_INITIAL':
+            check_fallen()                                # detect fallen robots
 
         if game.state.game_state == 'STATE_PLAYING' and game.in_play:
             if not game.penalty_shootout:
