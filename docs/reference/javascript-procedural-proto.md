@@ -103,7 +103,7 @@ geometry IndexedFaceSet {
       %<
         let pointBuffer = '';
         for (let i = 0; i < 10000; ++i)
-          pointBuffer += (i + 0).toString() + ' ' + (i + 1).toString() + ' ' + (i + 2).toString() + '\n';
+          pointBuffer += (i + 0) + ' ' + (i + 1) + ' ' + (i + 2) + '\n';
       >%
       %<= pointBuffer >%
     ]
