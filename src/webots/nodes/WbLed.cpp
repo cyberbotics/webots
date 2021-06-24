@@ -208,18 +208,21 @@ void WbLed::setMaterialsAndLightsColor() {
     }
   }
 
+  const WbRgb color(r, g, b);
+  assert(!WbRgb(r, g, b).clampValuesIfNeeded());
+
   // update every material
   foreach (WbMaterial *material, mMaterials)
-    material->setEmissiveColor(WbRgb(r, g, b));
+    material->setEmissiveColor(color);
 
   // same for PbrAppearances
   foreach (WbPbrAppearance *pbrAppearance, mPbrAppearances)
-    pbrAppearance->setEmissiveColor(WbRgb(r, g, b));
+    pbrAppearance->setEmissiveColor(color);
 
   // update every lights
-  bool on = mValue != 0;
+  const bool on = mValue != 0;
   foreach (WbLight *light, mLights) {
-    light->setColor(WbRgb(r, g, b));
+    light->setColor(color);
     // disable WREN lights if not on
     light->toggleOn(on);
   }
