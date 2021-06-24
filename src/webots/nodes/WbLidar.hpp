@@ -137,7 +137,7 @@ private:
   bool isRotating() const { return mActualType.startsWith('r', Qt::CaseInsensitive); }
   double verticalFieldOfView() const { return actualFieldOfView() * ((double)height() / (double)width()); }
 
-  WbLidarPoint *pointArray() { return (WbLidarPoint *)(lidarImage() + width() * height()); }
+  WbLidarPoint *pointArray() { return (WbLidarPoint *)(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers()); }
 
   // WREN methods
   void createWrenCamera() override;
