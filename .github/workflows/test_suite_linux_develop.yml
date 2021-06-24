@@ -60,7 +60,7 @@ jobs:
       if: ${{ github.event_name == 'schedule' && matrix.os == 'ubuntu-18.04' }}
       run: scripts/packaging/sync_controller_lib.sh
     - name: Rename Webots Tarball Package
-      if: ${{ matrix.os == 'ubuntu-18.04' && matrix.os == 'ubuntu-18.04' }}
+      if: ${{ matrix.os == 'ubuntu-18.04' }}
       run: |
         sudo apt install --yes rename
         rename 's/\.tar.bz2$/_ubuntu-18.04.tar.bz2/' distribution/*.tar.bz2
