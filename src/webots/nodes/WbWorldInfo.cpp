@@ -394,17 +394,6 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
     writer << " basicTimeStep=\'" << mBasicTimeStep->value() << "\'";
     writer << " coordinateSystem=\'" << mCoordinateSystem->value() << "\'";
 
-    QString versionString = WbApplicationInfo::branch();
-    if (versionString.isEmpty()) {
-      versionString = WbApplicationInfo::version().toString();
-      versionString.replace(" revision ", "-rev");
-    }
-    writer << " version=\'" << versionString << "\'";
-
-    const QString &repoString = WbApplicationInfo::repo();
-    if (!repoString.isEmpty())
-      writer << " repo=\'" << repoString << "\'";
-
     if (!findField("window")->isDefault())
       writer << " window='" << mWindow->value() << "'";
   } else

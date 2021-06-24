@@ -16,6 +16,7 @@
 
 #include "WbAbstractAppearance.hpp"
 #include "WbApplication.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -475,18 +476,27 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (mUrl->value()[i].indexOf("webots://") == 0 || mUrl->value()[i].indexOf("http") == 0)
+    if (mUrl->value()[i].indexOf("webots://") == 0) {
+      if (writer.isWritingToFile()) {
+        QString newUrl = mUrl->value()[i];
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())
+          ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                                     WbApplicationInfo::branch() + "/"));
+      }
+    } else if (mUrl->value()[i].indexOf("http") == 0)
       continue;
-    QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
-    if (writer.isWritingToFile()) {
-      QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-    }
+    else {
+      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
+      if (writer.isWritingToFile()) {
+        QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, "bonjour");
+      }
 
-    const QString &url(mUrl->item(i));
-    if (cQualityChangedTexturesList.contains(texturePath))
-      texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-    writer.addTextureToList(url, texturePath);
+      const QString &url(mUrl->item(i));
+      if (cQualityChangedTexturesList.contains(texturePath))
+        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
+      writer.addTextureToList(url, texturePath);
+    }
   }
   urlFieldCopy.write(writer);
   findField("repeatS", true)->write(writer);

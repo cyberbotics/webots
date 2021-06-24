@@ -15,6 +15,7 @@
 #include "WbBackground.hpp"
 
 #include "WbApplication.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -686,9 +687,12 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
   for (int i = 0; i < 6; ++i) {
     if (mUrlFields[i]->size() == 0)
       continue;
-
-    if (mUrlFields[i]->value()[0].indexOf("webots://") == 0 || mUrlFields[i]->value()[0].indexOf("http") == 0)
-      backgroundFileNames[i] = mUrlFields[i]->value()[0];
+    QString imagePath = mUrlFields[i]->value()[0];
+    if (imagePath.indexOf("http") == 0)
+      backgroundFileNames[i] = imagePath;
+    else if (imagePath.indexOf("webots://") == 0)
+      backgroundFileNames[i] = imagePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() +
+                                                                "/" + WbApplicationInfo::branch() + "/");
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
       const QFileInfo &cubeInfo(url);
@@ -706,9 +710,13 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
     if (mIrradianceUrlFields[i]->size() == 0)
       continue;
 
-    if (mIrradianceUrlFields[i]->value()[0].indexOf("webots://") == 0 ||
-        mIrradianceUrlFields[i]->value()[0].indexOf("http") == 0)
+    QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
+    if (irradiancePath.indexOf("http") == 0 || irradiancePath.indexOf("http") == 0)
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
+    else if (irradiancePath.indexOf("webots://") == 0)
+      irradianceFileNames[i] =
+        irradiancePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                              WbApplicationInfo::branch() + "/");
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
       const QFileInfo &cubeInfo(url);
