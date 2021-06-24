@@ -37,4 +37,4 @@ private:
   Altimeter *mAltimeter;
 };
 
-#endif  // ROS_RANGE_FINDER_HPP
+#endif  // ROS_ALTIMETER_HPP
