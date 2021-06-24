@@ -23,10 +23,11 @@ void WbMFColor::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath)
   WbRgb color(r, g, b);
   if (color.clampValuesIfNeeded())
     tokenizer->reportError(
-      tr("Expected positive color values in range [0.0, 1.0], found [%1 %2 %3]. MFColor field item reset to [%4 %5 %6]")
+      tr("Expected positive color values in range [0.0, 1.0], found [%1 %2 %3]. MFColor field item %4 reset to [%5 %6 %7]")
         .arg(r)
         .arg(g)
         .arg(b)
+        .arg(mVector.size())
         .arg(color.red())
         .arg(color.green())
         .arg(color.blue()));
