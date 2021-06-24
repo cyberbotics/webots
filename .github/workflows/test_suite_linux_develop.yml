@@ -57,7 +57,7 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}
     - name: Deploy Webots Controller
-      if: ${{ github.event_name == 'schedule' && matrix.os == 'ubuntu-18.04' }}
+      if: ${{ github.event_name == 'schedule' }}
       run: scripts/packaging/sync_controller_lib.sh
     - name: Rename Webots Tarball Package
       if: ${{ matrix.os == 'ubuntu-18.04' }}
