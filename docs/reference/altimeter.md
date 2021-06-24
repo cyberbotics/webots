@@ -131,5 +131,3 @@ The `wb_altimeter_disable` function turns the altimeter off, saving computation 
 The `wb_altimeter_get_value` function returns the last value measured by the altimeter.
 
 The `wb_altimeter_get_sampling_period` function returns the period given into the `wb_altimeter_enable` function, or 0 if the device is disabled.
-
----
