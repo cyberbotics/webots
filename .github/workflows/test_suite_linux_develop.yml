@@ -52,12 +52,12 @@ jobs:
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
     - name: Prepare Webots Controller Deployment
-      if: ${{ github.event_name == 'schedule' && matrix.os == 'ubuntu-18.04' }}
-      uses: webfactory/ssh-agent@v0.5.3
+      if: ${{ github.event_name == 'schedule' }}
+      uses: webfactory/ssh-agent@v0.5.2
       with:
         ssh-private-key: ${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}
     - name: Deploy Webots Controller
-      if: ${{ github.event_name == 'schedule' && matrix.os == 'ubuntu-18.04' }}
+      if: ${{ github.event_name == 'schedule' }}
       run: scripts/packaging/sync_controller_lib.sh
     - name: Rename Webots Tarball Package
       if: ${{ matrix.os == 'ubuntu-18.04' }}
@@ -101,7 +101,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_test_dependencies.sh
+      run: sudo scripts/install/linux_test_dependencies.sh --exclude-ros
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -136,15 +136,11 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_runtime_dependencies.sh
+      run: sudo scripts/install/linux_test_dependencies.sh --norecurse
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
-    - name: Setup ROS ${{ matrix.ROS_DISTRO }} environment
-      uses: ros-tooling/setup-ros@0.1.2
-      with:
-        required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: Run Test
       run: |
         export WEBOTS_HOME=$PWD/artifact/webots
