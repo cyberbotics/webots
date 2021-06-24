@@ -11,7 +11,15 @@ fi
 # Get the name of the github repository and write it to a file if correct
 repo=$(git config --get remote.origin.url 2>&1)
 
-if [[ $branch != "" ]]
+if [[ $repo != "" ]]
 then
 	echo "$repo" | $(cut -c 20- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
+fi
+
+# Get the name of the github commit and write it to a file if correct
+commit=$(git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
+
+if [[ $commit != "" ]]
+then
+	echo "$commit" > $WEBOTS_HOME/resources/commit.txt
 fi
