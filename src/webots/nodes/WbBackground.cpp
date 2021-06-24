@@ -711,7 +711,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
       continue;
 
     QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
-    if (irradiancePath.indexOf("http") == 0 || irradiancePath.indexOf("http") == 0)
+    if (irradiancePath.indexOf("http") == 0)
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
     else if (irradiancePath.indexOf("webots://") == 0)
       irradianceFileNames[i] =

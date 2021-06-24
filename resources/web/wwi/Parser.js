@@ -221,8 +221,6 @@ export default class Parser {
 
   _parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
-    WbWorld.instance.version = getNodeAttribute(node, 'version', 'released');
-    WbWorld.instance.repo = getNodeAttribute(node, 'repo', 'cyberbotics/webots');
     WbWorld.computeUpVector();
   }
 
@@ -1051,8 +1049,13 @@ export default class Parser {
     const context = canvas2.getContext('2d');
 
     const image = new WbImage();
-    if (url.startsWith('webots://'))
-      url = url.replace('webots://', 'https://raw.githubusercontent.com/' + WbWorld.instance.repo + '/' + WbWorld.instance.version + '/');
+    if (url.startsWith('webots://')) {
+      if (typeof webots.currentView.repository === 'undefined')
+        webots.currentView.repository = 'cyberbotics';
+      if (typeof webots.currentView.branch === 'undefined')
+        webots.currentView.branch = 'released'
+      url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+    }
     if (typeof prefix !== 'undefined' && !url.startsWith('http'))
       url = prefix + url;
     if (isHdr) {
