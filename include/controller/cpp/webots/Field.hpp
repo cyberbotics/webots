@@ -51,6 +51,7 @@ namespace webots {
       MF_NODE
     } Type;
 
+    std::string getName() const;
     Type getType() const;
     std::string getTypeName() const;
     int getCount() const;

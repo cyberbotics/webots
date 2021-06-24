@@ -95,7 +95,11 @@ WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_selected();
 WbNodeType wb_supervisor_node_get_type(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, const int index);
+int wb_supervisor_node_get_number_of_fields(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index);
+int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node);
 void wb_supervisor_node_remove(WbNodeRef node);
 void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name);
@@ -131,6 +135,7 @@ void wb_supervisor_node_add_force(WbNodeRef node, const double force[3], bool re
 void wb_supervisor_node_add_force_with_offset(WbNodeRef node, const double force[3], const double offset[3], bool relative);
 void wb_supervisor_node_add_torque(WbNodeRef node, const double torque[3], bool relative);
 
+const char *wb_supervisor_field_get_name(WbFieldRef field);
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
