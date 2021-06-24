@@ -401,7 +401,7 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
     }
     writer << " version=\'" << versionString << "\'";
 
-    const QString repoString = WbApplicationInfo::repo();
+    const QString &repoString = WbApplicationInfo::repo();
     if (!repoString.isEmpty())
       writer << " repo=\'" << repoString << "\'";
 

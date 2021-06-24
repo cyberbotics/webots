@@ -40,20 +40,24 @@ const WbVersion &WbApplicationInfo::version() {
 const QString &WbApplicationInfo::branch() {
   static QString branchName;
   static bool firstCall = true;
-  if (firstCall)
-    branchName = getInfoFromFile("resources/branch.txt");
+  if (firstCall) {
+    const QString branch("resources/branch.txt");
+    branchName = getInfoFromFile(&branch);
+  }
   return branchName;
 }
 
 const QString &WbApplicationInfo::repo() {
   static QString repoName;
   static bool firstCall = true;
-  if (firstCall)
-    repoName = getInfoFromFile("resources/repo.txt");
+  if (firstCall) {
+    const QString repo("resources/repo.txt");
+    repoName = getInfoFromFile(&repo);
+  }
   return repoName;
 }
 
-const QString WbApplicationInfo::getInfoFromFile(QString name) {
+const QString WbApplicationInfo::getInfoFromFile(const QString *name) {
   QString result;
   QFile file(WbStandardPaths::webotsHomePath() + name);
   if (file.open(QIODevice::ReadOnly)) {
