@@ -22,6 +22,7 @@
 #define WB_SUPERVISOR_H
 
 #define WB_USING_C_API
+#include "contact_point.h"
 #include "nodes.h"
 #include "types.h"
 
@@ -105,9 +106,13 @@ const char *wb_supervisor_node_get_type_name(WbNodeRef node);
 const char *wb_supervisor_node_get_base_type_name(WbNodeRef node);
 bool wb_supervisor_node_is_proto(WbNodeRef node);
 const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node);
+
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
 WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
+
+WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
+
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
@@ -134,6 +139,8 @@ void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_perio
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field);
 void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period, WbNodeRef from_node);
 void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node);
+void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
+void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants);
 
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field);
 int wb_supervisor_field_get_sf_int32(WbFieldRef field);

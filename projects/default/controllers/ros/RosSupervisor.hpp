@@ -36,11 +36,14 @@
 
 #include <webots_ros/node_add_force_or_torque.h>
 #include <webots_ros/node_add_force_with_offset.h>
+#include <webots_ros/node_disable_contact_points_tracking.h>
 #include <webots_ros/node_disable_pose_tracking.h>
+#include <webots_ros/node_enable_contact_points_tracking.h>
 #include <webots_ros/node_enable_pose_tracking.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
 #include <webots_ros/node_get_contact_point_node.h>
+#include <webots_ros/node_get_contact_points.h>
 #include <webots_ros/node_get_field.h>
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
@@ -151,6 +154,12 @@ public:
                                    webots_ros::node_get_contact_point::Response &res);
   bool nodeGetContactPointNodeCallback(webots_ros::node_get_contact_point_node::Request &req,
                                        webots_ros::node_get_contact_point_node::Response &res);
+  bool nodeGetContactPointsCallback(webots_ros::node_get_contact_points::Request &req,
+                                    webots_ros::node_get_contact_points::Response &res);
+  bool nodeEnableContactPointsTrackingCallback(webots_ros::node_enable_contact_points_tracking::Request &req,
+                                               webots_ros::node_enable_contact_points_tracking::Response &res);
+  bool nodeDisableContactPointsTrackingCallback(webots_ros::node_disable_contact_points_tracking::Request &req,
+                                                webots_ros::node_disable_contact_points_tracking::Response &res);
   bool nodeGetStaticBalanceCallback(webots_ros::node_get_static_balance::Request &req,
                                     webots_ros::node_get_static_balance::Response &res);
   bool nodeGetVelocityCallback(webots_ros::node_get_velocity::Request &req, webots_ros::node_get_velocity::Response &res);
@@ -261,6 +270,9 @@ private:
   ros::ServiceServer mNodeGetNumberOfContactPointsServer;
   ros::ServiceServer mNodeGetContactPointServer;
   ros::ServiceServer mNodeGetContactPointNodeServer;
+  ros::ServiceServer mNodeGetContactPointsServer;
+  ros::ServiceServer mNodeEnableContactPointsTrackingServer;
+  ros::ServiceServer mNodeDisableContactPointsTrackingServer;
   ros::ServiceServer mNodeGetStaticBalanceServer;
   ros::ServiceServer mNodeGetVelocityServer;
   ros::ServiceServer mNodeSetVelocityServer;

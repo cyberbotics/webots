@@ -78,6 +78,15 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mVirtualRealityHeadsetIsUsedServer = mRos->nodeHandle()->advertiseService(
     (ros->name()) + "/supervisor/vitual_reality_headset_is_used", &RosSupervisor::virtualRealityHeadsetIsUsedCallback, this);
 
+  mNodeGetContactPointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_contact_points",
+                                                                    &RosSupervisor::nodeGetContactPointsCallback, this);
+  mNodeEnableContactPointsTrackingServer =
+    mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/enable_contact_point_tracking",
+                                         &RosSupervisor::nodeEnableContactPointsTrackingCallback, this);
+  mNodeDisableContactPointsTrackingServer =
+    mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/disable_contact_points_tracking",
+                                         &RosSupervisor::nodeDisableContactPointsTrackingCallback, this);
+
   mNodeGetIdServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_id", &RosSupervisor::nodeGetIdCallback, this);
   mNodeGetTypeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_type",
@@ -254,6 +263,9 @@ RosSupervisor::~RosSupervisor() {
   mNodeGetNumberOfContactPointsServer.shutdown();
   mNodeGetContactPointServer.shutdown();
   mNodeGetContactPointNodeServer.shutdown();
+  mNodeGetContactPointsServer.shutdown();
+  mNodeEnableContactPointsTrackingServer.shutdown();
+  mNodeDisableContactPointsTrackingServer.shutdown();
   mNodeGetStaticBalanceServer.shutdown();
   mNodeGetVelocityServer.shutdown();
   mNodeSetVelocityServer.shutdown();
@@ -624,6 +636,49 @@ bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_m
   res.centerOfMass.x = centerOfMass[0];
   res.centerOfMass.y = centerOfMass[1];
   res.centerOfMass.z = centerOfMass[2];
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeGetContactPointsCallback(webots_ros::node_get_contact_points::Request &req,
+                                                 webots_ros::node_get_contact_points::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  int numberOfContactPoints;
+  ContactPoint *contactPoints = node->getContactPoints(req.include_descendants, &numberOfContactPoints);
+  res.contact_points.resize(numberOfContactPoints);
+  for (int i = 0; i < numberOfContactPoints; i++) {
+    res.contact_points[i].node_id = contactPoints[i].node_id;
+    res.contact_points[i].point.x = contactPoints[i].point[0];
+    res.contact_points[i].point.y = contactPoints[i].point[1];
+    res.contact_points[i].point.z = contactPoints[i].point[2];
+  }
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeEnableContactPointsTrackingCallback(webots_ros::node_enable_contact_points_tracking::Request &req,
+                                                            webots_ros::node_enable_contact_points_tracking::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->enableContactPointsTracking(req.sampling_period, req.include_descendants);
+  res.success = true;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeDisableContactPointsTrackingCallback(webots_ros::node_disable_contact_points_tracking::Request &req,
+                                                             webots_ros::node_disable_contact_points_tracking::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->disableContactPointsTracking(req.include_descendants);
+  res.success = true;
   return true;
 }
 

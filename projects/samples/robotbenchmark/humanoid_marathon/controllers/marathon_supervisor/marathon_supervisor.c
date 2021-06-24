@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
   // Main simulation loop
   while (wb_robot_step(TIME_STEP) != -1) {
     const double *position = wb_supervisor_field_get_sf_vec3f(op2_translation_field);
-    if (position[1] < 0.2) {  // the robot has fallen down
+    if (position[2] < 0.2) {  // the robot has fallen down
       printf("The benchmark stopped because the robot is down.\n");
       break;
     }

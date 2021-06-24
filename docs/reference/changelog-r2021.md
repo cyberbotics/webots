@@ -30,10 +30,12 @@ Released on June, Xth, 2021.
     - Changed the rendering engine of the streaming viewer and of the animations for WREN ([#2769](https://github.com/cyberbotics/webots/pull/2769)).
     - Added JavaScript scripting support for [Procedural Proto Nodes](procedural-proto-nodes.md) ([#3087](https://github.com/cyberbotics/webots/pull/3087)).
   - Enhancements
+    - Ensure that any node "name" is displayed in the tree to help navigation ([#3198](https://github.com/cyberbotics/webots/pull/3198)).
     - Altered the collision detection logic for [Robot.selfCollision](robot.md) to ignore chains of joints if the intermediary joints all share the same `anchor` point ([#2868](https://github.com/cyberbotics/webots/pull/2868)).
     - Allow the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
     - Make the external controller check more frequently (and indefinitely) for the simulation ([#2442](https://github.com/cyberbotics/webots/pull/2442)).
     - Added pose and field tracking functions to improve the performance of getting pose and field data ([#2279](https://github.com/cyberbotics/webots/pull/2279)).
+    - Added contact point tracking functions to improve the performance of getting contact point data ([#3162](https://github.com/cyberbotics/webots/pull/3162)).
     - Added the `wb_supervisor_node_get_pose` function that retrieves an absolute or relative pose. Relative pose is expressed in the coordinate system of another node specified as an argument ([#2932](https://github.com/cyberbotics/webots/pull/2932)).
     - Allowed the `wb_supervisor_node_reset_physics` function to reset the physics of solid descendants of the given node ([#2742](https://github.com/cyberbotics/webots/pull/2742)).
     - Added the `dragForceScale` and `dragTorqueScale` fields to [WorldInfo](worldinfo.md) which enable to set the order of magnitude of the force/torque to be applied in the interface ([#3175](https://github.com/cyberbotics/webots/pull/3175)).
@@ -126,9 +128,12 @@ Released on June, Xth, 2021.
     - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
     - Fixed [RandomBuilding](../guide/object-buildings.md#randombuilding) PROTO where different instances generated the same building ([#2897](https://github.com/cyberbotics/webots/pull/2897)).
     - Fixed [PedestrianCrossing](../guide/object-traffic.md#pedestriancrossing) PROTO model not correctly displaying the yellow stripes ([#2857](https://github.com/cyberbotics/webots/pull/2857)).
+    - Fixed incorrect position retrieval immediately after resetting nested [Transform](transform.md) nodes ([#3051](https://github.com/cyberbotics/webots/issues/3051)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
+    - Deprecated [`wb_supervisor_node_get_contact_point`](supervisor.md#wb_supervisor_node_get_contact_point), [`wb_supervisor_node_get_contact_point_node`](supervisor.md#wb_supervisor_node_get_contact_point_node), and [`wb_supervisor_node_get_number_of_contact_points`](supervisor.md#wb_supervisor_node_get_number_of_contact_points) functions in favor of [`wb_supervisor_node_get_contact_points`](supervisor.md#wb_supervisor_node_get_contact_points) ([#3162](https://github.com/cyberbotics/webots/pull/3162)).
+    - Remove the viewpoint_control benchmark that was not working in Webots ([#3192](https://github.com/cyberbotics/webots/pull/3192)).
   - Dependency Updates
     - Upgraded to Qt 5.15.2 on macOS ([#2721](https://github.com/cyberbotics/webots/pull/2721)).
     - Upgraded to Qt 5.15.2 on Linux ([#3089](https://github.com/cyberbotics/webots/pull/3089)).
