@@ -1608,7 +1608,7 @@ def check_circle_entrance(team):
 def check_ball_must_kick(team):
     if game.ball_last_touch_team is None:
         return False  # nobody touched the ball
-    if game.ball_last_touch_team == game.ball_must_kick_team:
+    if game.dropped_ball or game.ball_last_touch_team == game.ball_must_kick_team:
         return False  # no foul
     for number in team['players']:
         if not game.ball_last_touch_player_number == int(number):
