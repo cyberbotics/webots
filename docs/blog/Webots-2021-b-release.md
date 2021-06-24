@@ -103,7 +103,26 @@ The [SICK S300](../guide/lidar-sensors.md#sick-s300) lidar model is now included
 
 ## ROS 2 & Webots
 
-TODO
+We are continuing to develop and improve the support for ROS 2 in Webots with now 16 Webots packages for ROS 2.
+This version of Webots is fully compatible with the two latest versions of ROS 2 and the rolling release:
+- [Foxy Fitzroy](https://docs.ros.org/en/foxy/Releases/Release-Foxy-Fitzroy.html)
+- [Galactic Geochelone](https://docs.ros.org/en/foxy/Releases/Release-Galactic-Geochelone.html)
+- [Rolling Ridley](https://docs.ros.org/en/foxy/Releases/Release-Rolling-Ridley.html)
+
+Check out the new packages we added:
+- [`webots_ros2_tesla`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_tesla): The package demonstrates a simulation of automobiles with Webots and ROS 2. The Tesla Model 3 vehicle follows lanes using a simple OpenCV image processing.
+- [`webots_ros2_mavic`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_mavic): The package demonstrates a simulation of drones with Webots and ROS 2. The DJI' Mavic 2 PRO drone uses a simple PD controller to follow the given [geometry\_msgs/Twist](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Twist.html) commands.
+- [`webots_ros2_driver`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_driver): A new Webots ROS 2 interface core designed for performance, extensibility with C++ plugins, and an easy configuration through URDF files.
+- [`webots_ros2_control`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_control): A `webots_ros2` plugin that integrates the [ros2\_control](https://ros-controls.github.io/control.ros.org/) framework. The plugin is featured in the [webots\_ros2\_turtlebot](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_turtlebot) package.
+
+We haven't forgotten about the old good ROS 1.
+It now integrates the [ros\_control](http://wiki.ros.org/ros_control) framework and you don't have to activate sensors with services anymore.
+These improvements make Webots much simpler to integrate into ROS 1 applications.
+We also included a Tiago example that features SLAM and MoveIt integration.
+
+%figure "Webots integration with ROS, ros_control, gmapping, and MoveIt."
+![Webots ROS Tiago](images/webots_ros_tiago.gif)
+%end
 
 ---
 
