@@ -21,7 +21,8 @@ The [Altimeter](#altimeter) node is used to model an altimeter sensor, which can
 
 - `resolution`: This field allows the user to define the resolution of the sensor. The resolution is the smallest change that it is able to measure.
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
-This field accepts any value in the interval (0.0, inf).
+Otherwise this field accepts any value in the interval [0.0, inf).
+
 
 ### Altimeter Functions
 
