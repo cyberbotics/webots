@@ -73,7 +73,7 @@ all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER) $(XVFB)
 	+@echo "# generating project files"
 	+@./generate_projects_files.py > files_projects.txt
 	+@echo "# changing URLs in world and proto files"
-	+@./update_worlds_and_protos.py $(shell cat webots_version.txt)
+	+@python3 update_worlds_and_protos.py $(shell cat webots_version.txt)
 	+@echo "# updating proto cache"
 	+@$(WEBOTS) --update-proto-cache
 ifeq ($(OSTYPE),darwin)
