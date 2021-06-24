@@ -126,7 +126,7 @@ Check out the new packages we added:
 
 We haven't forgotten about the old good ROS 1.
 It now integrates the [ros\_control](http://wiki.ros.org/ros_control) framework and you don't have to activate sensors with services anymore.
-These improvements make Webots much simpler to integrate into ROS 1 applications (see [webots\_ros#60](https://github.com/cyberbotics/webots_ros/pull/60/files)).
+These improvements make Webots much simpler to integrate into ROS 1 applications.
 We also included a Tiago example that features SLAM and MoveIt integration.
 
 %figure "Webots integration with ROS, ros_control, gmapping, and MoveIt."
