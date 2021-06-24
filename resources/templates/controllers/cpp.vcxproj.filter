@@ -26,7 +26,6 @@
     </ClCompile>
     <ClCompile Include="$WEBOTS_HOME)\src\controller\cpp\Altimeter.cpp">
       <Filter>Source Files\cpp</Filter>
-
     </ClCompile>
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Brake.cpp">
       <Filter>Source Files\cpp</Filter>
