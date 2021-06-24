@@ -19,7 +19,6 @@ import json
 import glob
 import os
 import shutil
-from lxml import etree
 from functools import cmp_to_key
 
 
@@ -90,11 +89,6 @@ with open(targetMetaFile) as f:
     with open(targetMetaFile, 'w') as f:
         json.dump(robotData, f, indent=2)
         f.write('\n')
-
-    # Corrections on the XML file.
-    tree = etree.parse(targetX3DFile)
-    tree.write(targetX3DFile, pretty_print=True,
-               xml_declaration=True, encoding="utf-8")
 
     supervisor.step(timeStep)
 
