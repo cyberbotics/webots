@@ -14,7 +14,6 @@ Altimeter {
 
 The [Altimeter](#altimeter) node is used to model an altimeter sensor, which can obtain information about its height above the global reference plane from the controller program.
 
-
 ### Field Summary
 
 -  `accuracy`: This field defines the precision of the altimeter, that is the standard deviation (expressed in meter) of the gaussian noise added to the altitude.
