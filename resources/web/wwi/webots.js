@@ -60,6 +60,14 @@ webots.View = class View {
         this.x3dScene.resize();
       else if (typeof this.multimediaClient !== 'undefined')
         this.multimediaClient.requestNewSize();
+
+      const labels = document.getElementsByClassName('webots-label');
+      for (let i = labels.length - 1; i >= 0; i--) {
+        const element = labels.item(i);
+        element.style.fontSize = this._getHeight(this._x3dDiv) * element.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
+        element.style.left = this._getWidth(this._x3dDiv) * element.x + 'px';
+        element.style.top = this._getHeight(this._x3dDiv) * element.y + 'px';
+      }
     };
 
     window.onresize = this.onresize;
@@ -288,6 +296,9 @@ webots.View = class View {
     labelElement.style.fontSize = this._getHeight(this._x3dDiv) * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
     labelElement.style.left = this._getWidth(this._x3dDiv) * properties.x + 'px';
     labelElement.style.top = this._getHeight(this._x3dDiv) * properties.y + 'px';
+    labelElement.x = properties.x;
+    labelElement.y = properties.y;
+    labelElement.size = properties.size;
 
     if (properties.text.includes('█'))
       properties.text = properties.text.replaceAll('█', '<span style="background:' + labelElement.style.color + '"> </span>');

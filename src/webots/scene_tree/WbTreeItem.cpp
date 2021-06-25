@@ -129,11 +129,9 @@ QString WbTreeItem::data() const {
     case NODE: {
       QString fullName = mNode->fullName();
       if (!fullName.startsWith("DEF ") && !fullName.startsWith("USE ")) {
-        if (WbNodeUtilities::isDeviceTypeName(mNode->nodeModelName())) {
-          WbSFString *name = mNode->findSFString("name");
-          if (name)
-            fullName += " \"" + name->value() + "\"";
-        }
+        const WbSFString *name = mNode->findSFString("name");
+        if (name)
+          fullName += " \"" + name->value() + "\"";
       }
       return fullName;
     }
@@ -147,7 +145,7 @@ QString WbTreeItem::data() const {
       const WbMultipleValue *const value = dynamic_cast<WbMultipleValue *>(mField->value());
       int r = row();
       if (r >= 0 && r < value->size())
-        return value->itemToString(row(), WbPrecision::GUI_LOW);
+        return value->itemToString(r, WbPrecision::GUI_LOW);
       return EMPTY_STRING;
     }
     case INVALID:
@@ -401,6 +399,7 @@ void WbTreeItem::del() {
       break;
     }
     case INVALID:
+    default:
       assert(false);
   }
 }

@@ -218,6 +218,7 @@ void WbSceneTree::setWorld(WbWorld *world) {
   connect(mTreeView, &WbTreeView::collapsed, this, &WbSceneTree::stopWatching);
   connect(mModel, &WbSceneTreeModel::itemInserted, mTreeView, &WbTreeView::itemInserted);
   connect(mModel, &WbSceneTreeModel::rowsAboutToBeRemovedSoon, this, &WbSceneTree::handleRowRemoval);
+  connect(mTreeView, &WbTreeView::beforeContextMenuShowed, this, &WbSceneTree::updateSelection);
 
   connect(mTreeView, &WbTreeView::selectionHasChanged, this, &WbSceneTree::updateSelection);
   connect(WbSelection::instance(), &WbSelection::selectionChangedFromSceneTree, this, &WbSceneTree::updateSelection);

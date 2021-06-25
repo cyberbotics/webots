@@ -10,7 +10,7 @@ PROTO Nao [
   field SFString                     name                  "NAO"                 # Is `Solid.name`.
   field SFString{"3.3","4.0", "5.0"} version               "5.0"                 # Defines the Nao version; either "3.3","4.0" or "5.0".
   field SFInt32{21, 25}              degreeOfFreedom       25                    # Defines the number of degrees of freedom; either "21" (fixed fingers) or "25" (articulated fingers).
-  field SFColor                      color                 -1 -1 -1              # Defines the diffuseColor of the secondary `Material`.
+  field SFColor                      color                 0.878 0 0.204         # Defines the diffuseColor of the secondary `Material`.
   field SFString                     controller            "nao_demo"            # Is `Robot.controller`.
   field MFString                     controllerArgs        []                    # Is `Robot.controllerArgs`.
   field SFString                     customData            ""                    # Is `Robot.customData`.
@@ -39,6 +39,7 @@ PROTO Nao [
   field MFNode                       rightHandSlot         []                    # Extends the robot with new nodes in the righthand slot.
 ]
 {
+<<<<<<< HEAD
   %<
     // version check
     const version = fields.version.value;
@@ -51,6 +52,12 @@ PROTO Nao [
       else
         color = {r: 0.878, g: 0, b: 0.204};
     }
+=======
+  %{
+    -- version check
+    local version = fields.version.value
+    local color = fields.color.value
+>>>>>>> develop
 
     // degreeOfFreedom check
     let realistic_hands = true;

@@ -288,7 +288,7 @@ bool WbFieldChecker::resetVector3IfNonPositive(const WbBaseNode *node, WbSFVecto
 
 bool WbFieldChecker::resetColorIfInvalid(const WbBaseNode *node, WbSFColor *value) {
   WbRgb rgb = value->value();
-  if (clampRgb(rgb)) {
+  if (rgb.clampValuesIfNeeded()) {
     const WbField *field = findField(node, value);
     node->parsingWarn(tr("Invalid '%1' changed to %2.").arg(field->name()).arg(rgb.toString(WbPrecision::GUI_MEDIUM)));
     value->setValue(rgb);
@@ -303,7 +303,7 @@ bool WbFieldChecker::resetMultipleColorIfInvalid(const WbBaseNode *node, WbMFCol
   const WbField *field = findField(node, value);
   for (int i = 0; i < size; i++) {
     WbRgb rgb = value->item(i);
-    if (clampRgb(rgb)) {
+    if (rgb.clampValuesIfNeeded()) {
       node->parsingWarn(
         tr("Invalid item %1 of '%2' changed to %3.").arg(i).arg(field->name()).arg(rgb.toString(WbPrecision::GUI_MEDIUM)));
       value->setItem(i, rgb);
@@ -318,34 +318,4 @@ const WbField *WbFieldChecker::findField(const WbBaseNode *node, WbValue *value)
     if (field->value() == value)
       return field;
   return NULL;
-}
-
-bool WbFieldChecker::clampRgb(WbRgb &rgb) {
-  bool changed = false;
-
-  if (rgb.red() < 0.0) {
-    rgb.setRed(0.0);
-    changed = true;
-  } else if (rgb.red() > 1.0) {
-    rgb.setRed(1.0);
-    changed = true;
-  }
-
-  if (rgb.green() < 0.0) {
-    rgb.setGreen(0.0);
-    changed = true;
-  } else if (rgb.green() > 1.0) {
-    rgb.setGreen(1.0);
-    changed = true;
-  }
-
-  if (rgb.blue() < 0.0) {
-    rgb.setBlue(0.0);
-    changed = true;
-  } else if (rgb.blue() > 1.0) {
-    rgb.setBlue(1.0);
-    changed = true;
-  }
-
-  return changed;
 }

@@ -1,0 +1,75 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Test world to validate correct reset of transforms"
+  ]
+  basicTimeStep 8
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 1 0 0 4.71238898038469
+  position 2.3845868855393304 29.469964557107986 6.561391272038961
+}
+Background {
+  skyColor [
+    0 0 1
+  ]
+}
+DEF OUTER_T1_NODE Transform {
+  children [
+    DEF INNER_T1_NODE Transform {
+      translation 0 0 1
+      children [
+        Shape {
+          geometry Box {
+            size 1 1 1
+          }
+        }
+      ]
+    }
+  ]
+}
+DEF OUTER_T2_NODE Transform {
+  translation 2 0 0
+  children [
+    DEF INNER_S2_NODE Solid {
+      translation 0 0 1
+      children [
+        Shape {
+          geometry Box {
+            size 1 1 1
+          }
+        }
+      ]
+    }
+  ]
+}
+Group {
+  children [
+    DEF OUTER_T3_NODE Transform {
+      translation 4 0 0
+      children [
+        DEF INNER_S3_NODE Solid {
+          translation 0 0 1
+          children [
+            Shape {
+              geometry Box {
+                size 1 1 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_reset_transform"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

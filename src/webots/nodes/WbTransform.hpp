@@ -45,6 +45,15 @@ public:
   void setScaleNeedUpdate() override;
   void setMatrixNeedUpdate() override;
   void connectGeometryField(bool dynamic);
+  void reset(const QString &id) override;
+
+  // accessors to stored fields
+  const WbVector3 translationFromFile(const QString &id) const { return mSavedTranslations[id]; }
+  const WbRotation rotationFromFile(const QString &id) const { return mSavedRotations[id]; }
+  void setTranslationFromFile(const WbVector3 &translation) { mSavedTranslations[stateId()] = translation; }
+  void setRotationFromFile(const WbRotation &rotation) { mSavedRotations[stateId()] = rotation; }
+
+  void save(const QString &id) override;
 
   // Scaling
   int constraintType() const override;
@@ -108,6 +117,10 @@ private:
   WbTransform &operator=(const WbTransform &);  // non copyable
   WbNode *clone() const override { return new WbTransform(*this); }
   void init();
+
+  // Positions and orientations storage
+  QMap<QString, WbVector3> mSavedTranslations;
+  QMap<QString, WbRotation> mSavedRotations;
 
   mutable bool mPoseChangedSignalEnabled;
 

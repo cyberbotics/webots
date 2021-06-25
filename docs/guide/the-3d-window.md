@@ -87,7 +87,7 @@ Hold the <kbd>⇧ shift</kbd> key and the <kbd>⌘ command</kbd> key down and pr
 To apply a force to an object, place the mouse pointer where the force will apply, hold down the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards) and left mouse button together while dragging the mouse.
 Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards).
 This way your are drawing a 3D-vector whose end is located on the plane parallel to the view which passes through the point of application.
-The intensity of the applied force is directly proportional to the cube of the length of this vector.
+The force is computed as follows: *F* [N] = `WorldInfo.dragForceScale` * `Solid.mass` * *d*<sup>3</sup>, where *d* corresponds to the vector created by dragging the mouse (in meters).
 
 ### Applying a Torque to a Solid Object with Physics
 
@@ -95,7 +95,7 @@ To apply a torque to an object, place the mouse pointer on it, hold down the <kb
 Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards).
 Also, macOS users with a one-button mouse should hold down the <kbd>ctrl</kbd> key to emulate the right mouse button.
 This way your are drawing a 3D-vector with origin the center of mass and whose end is located on the plane parallel to the view which passes through this center.
-The object is prompted to turn around the vector direction, the intensity of the applied torque is directly proportional to the product of the mass by the length of the 3D-vector.
+The object is prompted to turn around the vector direction, the torque is computed as follows: *T* [Nm] = `WorldInfo.dragTorqueScale` * `Solid.mass` * *d*<sup>3</sup>, where *d* corresponds to the vector created by dragging the mouse (in meters).
 
 > **Note**: In pause mode, you can simultaneously add a force and a torque to the same selected solid.
 Camera rotation can be useful when checking wether your force / torque vector has the desired direction.
