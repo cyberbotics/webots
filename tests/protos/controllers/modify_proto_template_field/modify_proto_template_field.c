@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 
   WbNodeRef node = wb_supervisor_node_get_from_def("TEST_NODE");
   WbFieldRef urlField = wb_supervisor_node_get_field(node, "url");
-  wb_supervisor_field_set_mf_string(urlField, 0, "textures/grass.jpg");
+  wb_supervisor_field_set_mf_string(urlField, 0, "webots://projects/default/worlds/textures/grass.jpg");
 
   wb_robot_step(TIME_STEP);
 

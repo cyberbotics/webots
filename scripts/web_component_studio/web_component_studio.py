@@ -16,12 +16,11 @@
 
 """Create a web component scene foreach component of the components.json file."""
 
-import sys
-assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
-
 import fileinput
 import json  # noqa
 import os  # noqa
+import sys
+assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
 from shutil import copyfile  # noqa
 from inspect import currentframe, getframeinfo  # noqa
