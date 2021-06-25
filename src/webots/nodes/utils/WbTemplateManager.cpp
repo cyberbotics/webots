@@ -170,7 +170,6 @@ void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bo
 }
 
 void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
-  printf("regenerateNodeFromFieldChange F:%s\n", field->name().toUtf8().constData());
   // retrieve the right node
   WbNode *templateNode = dynamic_cast<WbNode *>(sender());
   assert(templateNode);
@@ -179,8 +178,6 @@ void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
 }
 
 void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
-  printf("regenerateNodeFromParameterChange F:%s\n", field->name().toUtf8().constData());
-
   // retrieve the right node
   WbNode *templateNode = dynamic_cast<WbNode *>(sender());
   assert(templateNode);
@@ -191,12 +188,9 @@ void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
 // intermediate function to determine which node should be updated
 // Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
 void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
-  printf("regenerateNodeFromField N: %s F:%s\n", templateNode->usefulName().toUtf8().constData(),
-         field->name().toUtf8().constData());
-
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
   WbNode *upperTemplateNode = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
-  printf("upper: N: %s \n", upperTemplateNode->usefulName().toUtf8().constData());
+
   if (!upperTemplateNode)
     return;
 
@@ -212,8 +206,6 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
 }
 
 void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
-  printf("regenerateNode N: %s\n", node->usefulName().toUtf8().constData());
-
   assert(node);
 
   if (mBlockRegeneration) {
@@ -264,7 +256,6 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   // 2. regenerate the new node
   WbNode *upperTemplateNode = WbNodeUtilities::findUpperTemplateNeedingRegeneration(node);
   bool nested = upperTemplateNode && upperTemplateNode != node;
-  printf("nested: %d | %d\n", nested, restarted);
   cRegeneratingNodeCount++;
   if (isWorldInitialized && !restarted)
     // signal is not emitted in case a node has been regenerated twice in a row (`restart` == TRUE)
@@ -292,7 +283,6 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   subscribe(newNode);
 
   bool ancestorTemplateRegeneration = upperTemplateNode != NULL;
-  printf("%d\n", ancestorTemplateRegeneration);
   if (node->isProtoParameterNode()) {
     const QVector<WbField *> &parentFields = parent->fieldsOrParameters();
     foreach (WbField *const parentField, parentFields) {
@@ -401,12 +391,9 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   // redirect parent parameters
   if (!previousParentRedirections.isEmpty()) {
     foreach (WbField *parentParameter, previousParentRedirections) {
-      foreach (WbField *newParam, newNode->parameters()) {
-        if (parentParameter->name() == newParam->alias()) {
-          printf("redirecting %s\n", newParam->name().toUtf8().constData());
+      foreach (WbField *newParam, newNode->parameters())
+        if (parentParameter->name() == newParam->alias())
           newParam->redirectTo(parentParameter, true);
-        }
-      }
     }
   }
 

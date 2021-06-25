@@ -184,7 +184,6 @@ bool WbMFNode::equals(const WbValue *other) const {
 }
 
 void WbMFNode::copyFrom(const WbValue *other) {
-  printf("MF copyFrom\n");
   const WbMFNode *that = dynamic_cast<const WbMFNode *>(other);
   *this = *that;
 }

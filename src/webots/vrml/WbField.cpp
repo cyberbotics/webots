@@ -323,12 +323,11 @@ void WbField::redirectTo(WbField *parameter, bool isRegenerating) {
   connect(this, &QObject::destroyed, mParameter, &WbField::removeInternalField);
 
   // copy parameter value to field
-  // if (isRegenerating) {
-  //  mValue->blockSignals(true);
-  //}
+  if (isRegenerating)
+    mValue->blockSignals(true);
   mValue->copyFrom(mParameter->value());
-  // if (isRegenerating)
-  //   mValue->blockSignals(false);
+  if (isRegenerating)
+    mValue->blockSignals(false);
 
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
   if (mfnode) {
