@@ -39,7 +39,7 @@ Shape {
     }
     texture ImageTexture {
       url [
-        "webots://tests/api/worlds/textures/color_checker_chart.png"
+        "textures/color_checker_chart.png"
       ]
     }
     textureTransform TextureTransform {

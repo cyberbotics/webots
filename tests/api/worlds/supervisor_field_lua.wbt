@@ -63,7 +63,7 @@ DEF BOX Solid {
         }
         texture DEF BOX_IMAGE_TEXTURE ImageTexture {
           url [
-            "webots://tests/api/worlds/textures/white256.png"
+            "textures/white256.png"
           ]
         }
       }

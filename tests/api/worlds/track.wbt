@@ -54,7 +54,7 @@ DEF ROBOT1 Robot {
                 }
                 texture ImageTexture {
                   url [
-                    "webots://tests/api/worlds/textures/track.png"
+                    "textures/track.png"
                   ]
                 }
                 textureTransform TextureTransform {
@@ -185,7 +185,7 @@ DEF ROBOT1 Robot {
                 }
                 texture ImageTexture {
                   url [
-                    "webots://tests/api/worlds/textures/track.png"
+                    "textures/track.png"
                   ]
                 }
                 textureTransform TextureTransform {

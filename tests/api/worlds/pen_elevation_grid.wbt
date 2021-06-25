@@ -28,7 +28,7 @@ DEF BOARD Solid {
         }
         texture ImageTexture {
           url [
-            "webots://tests/api/worlds/textures/white256.png"
+            "textures/white256.png"
           ]
         }
       }

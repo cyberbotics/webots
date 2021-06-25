@@ -24,7 +24,7 @@ DEF BOARD Solid {
         baseColor 0.7 0.7 0.7
         baseColorMap ImageTexture {
           url [
-            "webots://tests/api/worlds/textures/white256.png"
+            "textures/white256.png"
           ]
         }
       }
