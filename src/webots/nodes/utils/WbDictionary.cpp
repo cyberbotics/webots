@@ -73,6 +73,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
   // Solid, Device, JointParameters and BasicJoint DEF nodes are allowed but not registered in the dictionary,
   // Solid, Device, JointParameters and BasicJoint USE nodes are prohibited
   // Charger and LED USE nodes in the first child have to link to DEF nodes in the first child
+
   if (!defName.isEmpty() && mNestedDictionaries.size() == 1)
     mSceneDictionary.append(QPair<WbNode *, QString>(node, defName));
 
