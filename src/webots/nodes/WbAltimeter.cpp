@@ -74,7 +74,7 @@ bool WbAltimeter::refreshSensorIfNeeded() {
   // compute current altitude
   double accuracy = mAccuracy->value();
 
-  WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
+  const WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
   const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
   int upIndex = coordinateSystem.indexOf('U');
   if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84")

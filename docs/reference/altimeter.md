@@ -14,14 +14,13 @@ Altimeter {
 
 The [Altimeter](#altimeter) node is used to model an altimeter sensor, which can obtain information about its height above the global reference plane from the controller program.
 
-
 ### Field Summary
 
 -  `accuracy`: This field defines the precision of the altimeter, that is the standard deviation (expressed in meter) of the gaussian noise added to the altitude.
 
 - `resolution`: This field allows the user to define the resolution of the sensor. The resolution is the smallest change that it is able to measure.
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
-Otherwise this field accepts any value in the interval [0.0, inf).
+Otherwise this field accepts any value in the interval `[0.0, inf)`.
 
 
 ### Altimeter Functions

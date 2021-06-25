@@ -847,7 +847,7 @@ namespace webots {
   }
 
   protected Altimeter createAltimeter(String name) {
-      return new Altimeter(name);
+    return new Altimeter(name);
   }
 
   public Altimeter getAltimeter(String name) {
