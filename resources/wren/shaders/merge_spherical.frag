@@ -31,7 +31,6 @@ uniform float fovX;
 uniform float fovY;
 uniform float fovYCorrectionCoefficient;
 
-
 uniform sampler2D inputTextures[6];
 
 void main() {
