@@ -761,7 +761,6 @@ void WbWrenCamera::setupSphericalSubCameras() {
 
   mSubCamerasResolutionX = qBound(1, mSubCamerasResolutionX, 2048);
   mSubCamerasResolutionY = qBound(1, mSubCamerasResolutionY, 2048);
-
 }
 
 void WbWrenCamera::setupCameraPostProcessing(int index) {
