@@ -18,8 +18,8 @@
 
 
 import os
-from pathlib import Path
 import sys
+from pathlib import Path
 
 
 def replace_url(file, tag):
