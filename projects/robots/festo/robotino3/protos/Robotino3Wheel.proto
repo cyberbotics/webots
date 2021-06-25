@@ -4,28 +4,29 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
 # tags: hidden
 # A wheel for Robotino3.proto
+# template language: javascript
 
 PROTO Robotino3Wheel [
   field SFFloat number 0
 ]
 {
 Transform {
-  rotation 0 0 1 %{= (fields.number.value * 2 / 3 + 0.5) * math.pi }%
+  rotation 0 0 1 %<= (fields.number.value * 2 / 3 + 0.5) * Math.PI >%
   children [
     Transform {
       translation 0 0.1826 0.05915
       children [
-        DEF %{= "WHEEL_"..fields.number.value }% HingeJoint {
+        DEF %<= 'WHEEL_' + fields.number.value >% HingeJoint {
           jointParameters HingeJointParameters {
             axis 0 1 0
           }
           device [
             RotationalMotor {
-              name %{= '"' .. "wheel".. fields.number.value .. '_joint"' }%
+              name %<= '"wheel' + fields.number.value + '_joint"' >%
               maxVelocity 137.46 # -> max. speed 10 m/s forwards
             }
             PositionSensor {
-              name %{= '"' .. "wheel".. fields.number.value .. '_joint_sensor"' }%
+              name %<= '"wheel' + fields.number.value + '_joint_sensor"' >%
             }
           ]
           endPoint Solid {
@@ -65,7 +66,7 @@ Transform {
                 }
               }
             ]
-            name %{= '"' .. "wheel".. fields.number.value .. '_link"' }%
+            name %<= '"wheel' + fields.number.value + '_link"' >%
             contactMaterial "WheelMat"
             boundingObject Cylinder {
               height 0.01

@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A bakelite plastic.
+# template language: javascript
 
 PROTO BakelitePlastic [
   field SFString{"red", "braun"} color            "red" # Defines the color of the plastic.
@@ -12,7 +13,7 @@ PROTO BakelitePlastic [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/bakelite_plastic/bakelite_plastic_base_color_" .. fields.color.value .. ".jpg\"" }%
+        %<= '"textures/bakelite_plastic/bakelite_plastic_base_color_' + fields.color.value + '.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {

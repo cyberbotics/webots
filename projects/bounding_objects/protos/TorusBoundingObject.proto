@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # This bounding object with a torus shape is formed by a group of spheres.
+# template language: javascript
 
 PROTO TorusBoundingObject [
   field SFFloat    majorRadius     2   # Defines the major radius of the torus.
@@ -9,45 +10,45 @@ PROTO TorusBoundingObject [
   field SFInt32    subdivision     24  # Defines the number of polygons used to represent the torus and so its resolution.
 ]
 {
-  %{
-    local wbgeometry = require('wbgeometry')
+  %<
+    import * as wbgeometry from 'wbgeometry.js';
 
-    -- parameter checking
-    local subdivision = fields.subdivision.value
-    if subdivision > 200 then
-      print "High value for 'subdivision'. This can slow down the simulation"
-    elseif subdivision < 8 then
-      io.stderr:write("'subdivision' must be greater or equal to 8\n")
-      subdivision = 8
-    end
+    // parameter checking
+    let subdivision = fields.subdivision.value;
+    if (subdivision > 200)
+      console.log('High value for \'subdivision\'. This can slow down the simulation');
+    else if (subdivision < 8) {
+      subdivision = 8;
+      console.error('\'subdivision\' must be greater or equal to 8. Value reset to ' + subdivision + '.');
+    }
 
-    local majorRadius = fields.majorRadius.value
-    if majorRadius <= 0 then
-      io.stderr:write("'majorRadius' must be strictly positive\n")
-      majorRadius = fields.majorRadius.defaultValue
-    end
+    let majorRadius = fields.majorRadius.value;
+    if (majorRadius <= 0) {
+      majorRadius = fields.majorRadius.defaultValue;
+      console.error('\'majorRadius\' must be strictly positive. Value reset to ' + majorRadius + '.');
+    }
 
-    local minorRadius = fields.minorRadius.value
-    if minorRadius <= 0 then
-      io.stderr:write("'minorRadius' must be strictly positive\n")
-      minorRadius = fields.minorRadius.defaultValue
-    end
+    let minorRadius = fields.minorRadius.value;
+    if (minorRadius <= 0) {
+      minorRadius = fields.minorRadius.defaultValue;
+      console.error('\'minorRadius\' must be strictly positive. Value reset to ' + minorRadius + '.');
+    }
 
-    local referenceCircle = wbgeometry.circle(1, subdivision, 0, 0, 0)
-  }%
+    const referenceCircle = wbgeometry.circle(1, subdivision, {x: 0, y: 0}, 0);
+  >%
   Group { # set of spheres
     children [
-      %{ for i, el in ipairs(referenceCircle) do }%
+       %< for (let i = 0; i < referenceCircle.length; ++i) { >%
         Transform {
-          translation %{= majorRadius * el.x }% 0 %{= majorRadius * el.y }%
+          translation %<= majorRadius * referenceCircle[i].x >% 0 %<= majorRadius * referenceCircle[i].y >%
           children [
             Sphere {
-              radius %{= minorRadius }%
+              radius %<= minorRadius >%
               subdivision 2
             }
           ]
         }
-      %{ end }%
+      %< } >%
     ]
   }
 }

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A cap screw with variable radius and length.
+# template language: javascript
 
 PROTO CapScrew [
   field SFVec3f    translation           0 0 0
@@ -15,19 +16,19 @@ PROTO CapScrew [
   field SFBool     enableBoundingObject  TRUE         # Defines whether the screw should have a bounding object.
 ]
 {
-  %{
-    local screwLength = fields.screwLength.value
-    if screwLength <= 0.0 then
-      screwLength = fields.screwLength.defaultValue
-      io.stderr:write("'screwLength' should be positive.\n")
-    end
+  %<
+    let screwLength = fields.screwLength.value;
+    if (screwLength <= 0.0) {
+      screwLength = fields.screwLength.defaultValue;
+      console.error('\'screwLength\' must be strictly positive. Value reset to ' + screwLength + '.');
+    }
 
-    local screwRadius = fields.screwRadius.value
-    if screwRadius <= 0.0 then
-      screwRadius = fields.screwRadius.defaultValue
-      io.stderr:write("'screwRadius' should be positive.\n")
-    end
-  }%
+    let screwRadius = fields.screwRadius.value;
+    if (screwRadius <= 0.0) {
+      screwRadius = fields.screwRadius.defaultValue;
+      console.error('\'screwRadius\' must be strictly positive. Value reset to ' + screwRadius + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -36,7 +37,7 @@ PROTO CapScrew [
     contactMaterial IS contactMaterial
     children [
       Transform {
-        scale %{= 250 * screwRadius }% %{= 250 * screwRadius }% %{= 250 * screwRadius }%
+        scale %<= 250 * screwRadius >% %<= 250 * screwRadius >% %<= 250 * screwRadius >%
         children [
           Shape {
             appearance IS appearance
@@ -63,45 +64,45 @@ PROTO CapScrew [
         ]
       }
       DEF CYLINDER Transform {
-        translation 0 0 %{= screwLength / 2 }%
+        translation 0 0 %<= screwLength * 0.5 >%
         rotation 1 0 0 1.5707963220000003
         children [
           Shape {
             appearance ScrewThread {
               textureTransform TextureTransform {
                 rotation 1.5708
-                scale %{= 40 * screwLength }% 2
+                scale %<= 40 * screwLength >% 2
               }
             }
             geometry Cylinder {
-              height %{= screwLength }%
-              radius %{= screwRadius }%
+              height %<= screwLength >%
+              radius %<= screwRadius >%
             }
           }
         ]
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         USE CYLINDER
         Transform {
-          translation 0 0 %{= -screwRadius }%
+          translation 0 0 %<= -screwRadius >%
           rotation 1 0 0 4.712388966
           children [
             Cylinder {
-              height %{= 2 * screwRadius }%
-              radius %{= 0.01 * screwRadius / 0.006 }%
+              height %<= 2 * screwRadius >%
+              radius %<= 0.01 * screwRadius / 0.006 >%
             }
           ]
         }
       ]
     }
-    %{ end }%
-    %{ if fields.enablePhysics.value then }%
+    %< } >%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density 8050
     }
-    %{ end }%
+    %< } >%
   }
 }

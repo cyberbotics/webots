@@ -6,6 +6,7 @@
 # The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
 # The contactMaterial of the wheels is "CitroenCZeroWheels"
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO CitroenCZero [
   field     SFVec3f    translation       0 0.4 0
@@ -26,7 +27,7 @@ PROTO CitroenCZero [
   field     SFString   window            "automobile"
 ]
 {
-  %{ local frontSpotLights = fields.frontSpotLights.value }%
+  %< const frontSpotLights = fields.frontSpotLights.value; >%
   Car {
     translation IS translation
     rotation IS rotation
@@ -98,7 +99,7 @@ PROTO CitroenCZero [
         front [
           Group {
             children [
-              %{ if frontSpotLights then }%
+              %< if (frontSpotLights) { >%
                 SpotLight {
                   attenuation 0 0 1
                   intensity 20
@@ -117,7 +118,7 @@ PROTO CitroenCZero [
                   location -0.52 0.6 2.8
                   radius 20
                 }
-              %{ end }%
+              %< } >%
               CitroenCZeroHeadLight {
               }
             ]
@@ -194,7 +195,7 @@ PROTO CitroenCZero [
     }
     radarCrossSection 100
     recognitionColors [
-      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
     ]
     physics Physics {
       density -1

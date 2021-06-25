@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A computer mouse.
+# template language: javascript
 
 PROTO ComputerMouse [
   field SFVec3f    translation 0 0 0
@@ -64,11 +65,11 @@ Solid {
       }
     ]
   }
-  %{ if fields.mass.value > 0 then }%
+  %< if (fields.mass.value > 0) { >%
   physics Physics {
     density -1
     mass IS mass
   }
-  %{ end }%
+  %< } >%
 }
 }

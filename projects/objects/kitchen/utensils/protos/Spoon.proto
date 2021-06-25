@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A spoon.
+# template language: javascript
 
 PROTO Spoon [
   field SFVec3f     translation 0 0 0
@@ -11,19 +12,19 @@ PROTO Spoon [
   field SFString    type        "table"         # Defines the type of spoon. The value should be either `table` or `tea`.
 ]
 {
-%{
-  local type = fields.type.value
-  if type ~= 'table' and type ~= 'tea' then
-    type = fields.type.defaultValue
-    io.stderr:write("'type' must be 'table' or 'tea'\n")
-  end
-}%
+%<
+  let type = fields.type.value;
+  if (type !== 'table' && type !== 'tea') {
+    type = fields.type.defaultValue;
+    console.error('\'type\' must be either \'table\' or \'tea\'. Value reset to ' + type + '.');
+  }
+>%
 Solid {
   translation IS translation
   rotation IS rotation
-  %{ if type == 'tea' then }%
+  %< if (type === 'tea') { >%
     scale 0.6 0.6 0.6
-  %{ end }%
+  %< } >%
   children [
     Shape {
       appearance PBRAppearance {

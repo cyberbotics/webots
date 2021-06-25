@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A rotating office chair with customizable appearance.
+# template language: javascript
 
 PROTO OfficeChair [
   field SFVec3f    translation     0 0 0
@@ -123,12 +124,12 @@ PROTO OfficeChair [
               }
             ]
           }
-          %{ if fields.enablePhysics.value then }%
+          %< if (fields.enablePhysics.value) { >%
           physics Physics {
             density -1
             mass 3
           }
-          %{ end }%
+          %< } >%
         }
       }
       Shape {
@@ -374,11 +375,11 @@ PROTO OfficeChair [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 6
     }
-    %{ end }%
+    %< } >%
   }
 }

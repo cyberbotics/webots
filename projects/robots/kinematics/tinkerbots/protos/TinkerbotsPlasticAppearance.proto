@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+# template language: javascript
 
 PROTO TinkerbotsPlasticAppearance [
   field SFString{"yellow", "red", "blue", "black", "grey"} color           "yellow"
@@ -10,17 +11,17 @@ PROTO TinkerbotsPlasticAppearance [
 ]
 {
   PBRAppearance {
-    %{ if fields.color.value == "yellow" then }%
+    %< if (fields.color.value === 'yellow') { >%
       baseColor 1 0.6 0
-    %{ elseif fields.color.value == "red" then }%
+    %< } else if (fields.color.value === 'red') { >%
       baseColor 1 0 0
-    %{ elseif fields.color.value == "blue" then }%
+    %< } else if (fields.color.value === 'blue') { >%
       baseColor 0 0.45 1
-    %{ elseif fields.color.value == "black" then }%
+    %< } else if (fields.color.value === 'black') { >%
       baseColor 0 0 0
-    %{ else }%
+    %< } else { >%
       baseColor 0.8 0.8 0.8
-    %{ end }%
+    %< } >%
     metalness 0
     roughness 0.9
     occlusionMap ImageTexture {

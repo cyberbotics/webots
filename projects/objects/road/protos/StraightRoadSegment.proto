@@ -4,6 +4,7 @@
 # A simple straight road, the number of lanes and the dimensions are configurable.
 # Furthermore, an optional border can be enabled.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO StraightRoadSegment [
   field        SFVec3f              translation               0 0 0
@@ -41,40 +42,37 @@ PROTO StraightRoadSegment [
   field        SFBool               leftBarrierBoundingObject TRUE                    # Defines whether the left crash barrier (if any) should have a bounding object.
   field        SFBool               castShadows               FALSE                   # Defines whether the road should cast shadows.
   field        SFString             contactMaterial           "default"               # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine                TRUE                    # Deprecated in Webots R2018c.
 ]
 {
-  %{
-    local startingRoadTilt = fields.startingRoadTilt.value
-    local endingRoadTilt   = fields.endingRoadTilt.value
-    local length           = fields.length.value
-    if length < 0 then
-      io.stderr:write("'length' must be be greater than 0\n")
-      length = fields.length.defaultValue
-    end
-    local startingRoadBorderWidth = fields.startingRoadBorderWidth.value
-    if startingRoadBorderWidth < 0 then
-      io.stderr:write("'startingRoadBorderWidth' must be be greater than 0\n")
-      startingRoadBorderWidth = fields.startingRoadBorderWidth.defaultValue
-    end
-    local endingRoadBorderWidth = fields.endingRoadBorderWidth.value
-    if endingRoadBorderWidth < 0 then
-      io.stderr:write("'endingRoadBorderWidth' must be be greater than 0\n")
-      endingRoadBorderWidth = fields.endingRoadBorderWidth.defaultValue
-    end
-  }%
+  %<
+    const startingRoadTilt = fields.startingRoadTilt.value;
+    const endingRoadTilt   = fields.endingRoadTilt.value;
+    let length             = fields.length.value;
+    if (length <= 0.0) {
+      length = fields.length.defaultValue;
+      console.error('\'length\' must be strictly positive. Value reset to ' + length + '.');
+    }
 
+    let startingRoadBorderWidth = fields.startingRoadBorderWidth.value;
+    if (startingRoadBorderWidth < 0) {
+      startingRoadBorderWidth = fields.startingRoadBorderWidth.defaultValue;
+      console.error('\'startingRoadBorderWidth\' must be greater or equal to zero. Value reset to ' + startingRoadBorderWidth + '.');
+    }
+    let endingRoadBorderWidth = fields.endingRoadBorderWidth.value;
+    if (endingRoadBorderWidth < 0) {
+      endingRoadBorderWidth = fields.endingRoadBorderWidth.defaultValue;
+      console.error('\'endingRoadBorderWidth\' must be greater or equal to zero. Value reset to ' + endingRoadBorderWidth + '.');
+    }
+  >%
   Road {
     translation IS translation
     rotation IS rotation
     name IS name
     width IS width
     numberOfLanes IS numberOfLanes
-    dashedLine IS dashedLine
     lines IS lines
     roadBorderHeight IS roadBorderHeight
-    roadBorderWidth [ %{= startingRoadBorderWidth }%, %{= endingRoadBorderWidth }%]
+    roadBorderWidth [ %<= startingRoadBorderWidth >%, %<= endingRoadBorderWidth >%]
     rightBorder IS rightBorder
     leftBorder IS leftBorder
     rightBarrier IS rightBarrier
@@ -82,9 +80,9 @@ PROTO StraightRoadSegment [
     bottom IS bottom
     wayPoints [
       0 0 0
-      0 0 %{= length }%
+      0 0 %<= length >%
     ]
-    roadTilt [ %{= startingRoadTilt }%, %{= endingRoadTilt }%]
+    roadTilt [ %<= startingRoadTilt >%, %<= endingRoadTilt >%]
     startLine IS startLine
     endLine IS endLine
     splineSubdivision -1
