@@ -182,7 +182,12 @@ int main(int argc, char **argv) {
   // set SFFloat on a different field type
   wb_supervisor_field_set_mf_color(field, 0, doubleArray);
   charArray = wb_supervisor_field_get_mf_string(field, 0);
-  ts_assert_string_equal(charArray, "webots://tests/api/worlds/textures/white256.png",
+  int size = strlen(charArray);
+  while (size - 21 > 0) {
+    charArray++;
+    size--;
+  }
+  ts_assert_string_equal(charArray, "textures/white256.png",
                          "Returned value for Texture url field should be \"textures/white256.png\", not \"%s\"", charArray);
 
   // get / set with wrong SF type
