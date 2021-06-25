@@ -170,7 +170,6 @@ void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bo
 }
 
 void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
-  printf("regenerateNodeFromFieldChange F:%s\n", field->name().toUtf8().constData());
   // retrieve the right node
   WbNode *templateNode = dynamic_cast<WbNode *>(sender());
   assert(templateNode);
@@ -179,8 +178,6 @@ void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
 }
 
 void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
-  printf("regenerateNodeFromParameterChange F:%s\n", field->name().toUtf8().constData());
-
   // retrieve the right node
   WbNode *templateNode = dynamic_cast<WbNode *>(sender());
   assert(templateNode);
@@ -191,9 +188,6 @@ void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
 // intermediate function to determine which node should be updated
 // Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
 void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
-  printf("regenerateNodeFromFieldChange N: %s F:%s\n", templateNode->usefulName().toUtf8().constData(),
-         field->name().toUtf8().constData());
-
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
   WbNode *upperTemplateNode = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
 
@@ -212,8 +206,6 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
 }
 
 void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
-  printf("regenerateNode N: %s\n", node->usefulName().toUtf8().constData());
-
   assert(node);
 
   if (mBlockRegeneration) {

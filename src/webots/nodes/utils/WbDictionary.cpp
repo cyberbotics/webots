@@ -57,7 +57,6 @@ WbDictionary::~WbDictionary() {
 /////////////////////////////////////////
 
 void WbDictionary::update(bool load) {
-  printf("update\n");
   mLoad = load;
   clearNestedDictionaries();
   mSceneDictionary.clear();
@@ -66,7 +65,6 @@ void WbDictionary::update(bool load) {
 }
 
 bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNode, int index) {
-  printf("updatedef %s\n", node->usefulName().toUtf8().constData());
   const QString &defName = node->defName();
   const QString &useName = node->useName();
   const bool useCase = !useName.isEmpty();
@@ -251,7 +249,6 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       }
     }
   }
-
   return true;
 }
 
