@@ -22,12 +22,15 @@ in vec2 texUv;
 out vec4 fragColor;
 
 uniform int rangeCamera;
+uniform int subCamerasResolutionX;
+uniform int subCamerasResolutionY;
 
 uniform float maxRange;
 uniform float minRange;
 uniform float fovX;
 uniform float fovY;
 uniform float fovYCorrectionCoefficient;
+
 
 uniform sampler2D inputTextures[6];
 
@@ -110,20 +113,21 @@ void main() {
     coord.y *= pi_2 / fovY;
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
+  ivec2 imageIndex = ivec2(round(faceCoord.x * subCamerasResolutionX), round(faceCoord.y * subCamerasResolutionY));
 
   fragColor = vec4(0.0, 0.0, 0.0, 1.0);
   if (face == FRONT)
-    fragColor = texture(inputTextures[0], faceCoord);
+    fragColor = texelFetch(inputTextures[0], imageIndex, 0);
   else if (face == RIGHT)
-    fragColor = texture(inputTextures[1], faceCoord);
+    fragColor = texelFetch(inputTextures[1], imageIndex, 0);
   else if (face == BACK)
-    fragColor = texture(inputTextures[2], faceCoord);
+    fragColor = texelFetch(inputTextures[2], imageIndex, 0);
   else if (face == LEFT)
-    fragColor = texture(inputTextures[3], faceCoord);
+    fragColor = texelFetch(inputTextures[3], imageIndex, 0);
   else if (face == UP)
-    fragColor = texture(inputTextures[4], faceCoord);
+    fragColor = texelFetch(inputTextures[4], imageIndex, 0);
   else if (face == DOWN)
-    fragColor = texture(inputTextures[5], faceCoord);
+    fragColor = texelFetch(inputTextures[5], imageIndex, 0);
 
   // rectify the spherical transform
   if (rangeCamera > 0) {

@@ -73,6 +73,7 @@ Released on June, Xth, 2021.
       - Exposed the `robot_description` ROS parameter (activated through the `--robot-description` flag) that contains the URDF of the robot.
     - Improved the URDF naming convention ([#2875](https://github.com/cyberbotics/webots/pull/2875)).
   - Bug fixes:
+    - Fixed bug in [Lidar](lidar.md) / [RangeFinder](../guide/range-finder-sensors.md) measurement when hitting an edge ([#3230](https://github.com/cyberbotics/webots/pull/3230)).
     - Fixed instabilities in the box-cylinder collision detection ([#3105](https://github.com/cyberbotics/webots/pull/3105)).
     - Fixed wrong computation of the asymmetric friction force direction for [Cylinder](cylinder.md) and [Box](box.md) ([#3150](https://github.com/cyberbotics/webots/pull/3150)).
     - Fixed the return value handling from the `webots_physics_collide` when the [Group](group.md) node is one of the colliding objects ([#2781](https://github.com/cyberbotics/webots/pull/2781)).
