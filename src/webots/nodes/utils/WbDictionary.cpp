@@ -57,6 +57,7 @@ WbDictionary::~WbDictionary() {
 /////////////////////////////////////////
 
 void WbDictionary::update(bool load) {
+  printf("update\n");
   mLoad = load;
   clearNestedDictionaries();
   mSceneDictionary.clear();
@@ -65,15 +66,12 @@ void WbDictionary::update(bool load) {
 }
 
 bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNode, int index) {
+  printf("updatedef %s\n", node->usefulName().toUtf8().constData());
   const QString &defName = node->defName();
   const QString &useName = node->useName();
   const bool useCase = !useName.isEmpty();
   const int useNestingDegree = mNestedDictionaries.size() - 1;
 
-  if (sfNode)
-    sfNode->blockSignals(true);
-  if (mfNode)
-    mfNode->blockSignals(true);
   // Solid, Device, JointParameters and BasicJoint DEF nodes are allowed but not registered in the dictionary,
   // Solid, Device, JointParameters and BasicJoint USE nodes are prohibited
   // Charger and LED USE nodes in the first child have to link to DEF nodes in the first child
@@ -254,10 +252,6 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
     }
   }
 
-  if (sfNode)
-    sfNode->blockSignals(false);
-  if (mfNode)
-    mfNode->blockSignals(false);
   return true;
 }
 
