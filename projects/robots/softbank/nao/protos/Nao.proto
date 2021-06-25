@@ -39,25 +39,10 @@ PROTO Nao [
   field MFNode                       rightHandSlot         []                    # Extends the robot with new nodes in the righthand slot.
 ]
 {
-<<<<<<< HEAD
   %<
     // version check
     const version = fields.version.value;
-    let color = fields.color.value;
-    if (color.r === -1 && color.g === -1 && color.b === -1) {
-      if (version === '3.3')
-        color = {r: 0.8, g: 0.8, b: 0.8};
-      else if (version === '4.0')
-        color = {r: 0.94, g: 0.41, b: 0.01};
-      else
-        color = {r: 0.878, g: 0, b: 0.204};
-    }
-=======
-  %{
-    -- version check
-    local version = fields.version.value
-    local color = fields.color.value
->>>>>>> develop
+    const color = fields.color.value;
 
     // degreeOfFreedom check
     let realistic_hands = true;
