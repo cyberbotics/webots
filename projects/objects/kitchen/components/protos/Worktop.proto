@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable worktop.
+# template language: javascript
 
 PROTO Worktop [
   field SFVec3f    translation  0 0.71 0
@@ -11,14 +12,13 @@ PROTO Worktop [
   field SFNode     appearance   Marble { }     # Defines the appearance.
 ]
 {
-  %{
-    local size = fields.size.value
-
-    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then
-      size = fields.size.defaultValue
-      io.stderr:write("'size' must contain positive values\n")
-    end
-  }%
+  %<
+    let size = fields.size.value;
+    if (size.x <= 0.0 || size.y <= 0.0 || size.z <= 0.0) {
+      size = fields.size.defaultValue;
+      console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
+  >%
   SolidBox {
     translation IS translation
     rotation IS rotation

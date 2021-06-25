@@ -5,6 +5,7 @@
 # Model of the Sphero's BB-8 robot.
 # The default dimension parameters are matching the robot as seen in the movie.
 # The mass inside the body ball can be moved along 2 DOFs (pitch and yaw motors).
+# template language: javascript
 
 PROTO BB-8 [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
@@ -27,41 +28,41 @@ PROTO BB-8 [
   field SFFloat    maxVelocity     8.72    # Defines the `RotationalMotor.maxVelocity` fields. Note: the real robot moves at 4.9 [mph].
 ]
 {
-  %{
-    local bodyRadius = fields.bodyRadius.value
-    if bodyRadius <= 0 then
-      bodyRadius = fields.bodyRadius.defaultValue
-      io.stderr:write("'bodyRadius' must contain positive values\n")
-    end
+  %<
+    let bodyRadius = fields.bodyRadius.value;
+    if (bodyRadius <= 0.0) {
+      bodyRadius = fields.bodyRadius.defaultValue;
+      console.error('\'bodyRadius\' must be strictly positive. Value reset to ' + bodyRadius + '.');
+    }
 
-   local bodyScale = 2.0 * bodyRadius
+   const bodyScale = 2.0 * bodyRadius;
 
-   local headRadius = fields.headRadius.value
-   if headRadius <= 0 then
-     headRadius = fields.headRadius.defaultValue
-     io.stderr:write("'headRadius' must contain positive values\n")
-   end
+   let headRadius = fields.headRadius.value;
+   if (headRadius <= 0.0) {
+     headRadius = fields.headRadius.defaultValue;
+     console.error('\'headRadius\' must be strictly positive. Value reset to ' + headRadius + '.');
+   }
 
-  local headScale = 2.0 * headRadius
-  }%
+  const headScale = 2.0 * headRadius;
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        translation 0 %{=bodyRadius}% 0
+        translation 0 %<= bodyRadius >% 0
         children IS bodySlot
       }
       Accelerometer {
-        translation 0 %{=bodyRadius}% 0
+        translation 0 %<= bodyRadius >% 0
         name "counterweight accelerometer"
       }
       Gyro {
-        translation 0 %{=bodyRadius}% 0
+        translation 0 %<= bodyRadius >% 0
         name "counterweight gyro"
       }
       DEF ORB_WEIGHT Transform {
-        translation 0 %{= 0.5 * bodyRadius }% 0
+        translation 0 %<= 0.5 * bodyRadius >% 0
         children [
           Shape {
             appearance PBRAppearance {
@@ -70,7 +71,7 @@ PROTO BB-8 [
               roughness 0.3
             }
             geometry Sphere {
-              radius %{= bodyRadius / 4 }%
+              radius %<= bodyRadius * 0.25 >%
               subdivision 2
             }
           }
@@ -87,7 +88,7 @@ PROTO BB-8 [
           }
         ]
         endPoint Solid {
-          translation 0 %{=bodyRadius}% 0
+          translation 0 %<= bodyRadius >% 0
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
@@ -101,7 +102,7 @@ PROTO BB-8 [
               endPoint Solid {
                 children [
                   Transform {
-                    scale %{=bodyScale}% %{=bodyScale}% %{=bodyScale}%
+                    scale %<= bodyScale >% %<= bodyScale >% %<= bodyScale >%
                     children [
                       BB-8BodyShape {
                       }
@@ -115,7 +116,7 @@ PROTO BB-8 [
                   }
                 ]
                 boundingObject Sphere {
-                  radius %{=bodyRadius }%
+                  radius %<= bodyRadius >%
                   subdivision 2
                 }
                 physics Physics {
@@ -128,11 +129,11 @@ PROTO BB-8 [
           ]
           name "body"
           boundingObject Sphere {
-            radius %{= bodyRadius / 100 }%
+            radius %<= bodyRadius * 0.01 >%
           }
           physics Physics {
             density -1
-            mass %{= fields.bodyMass.value / 100 }%
+            mass %<= fields.bodyMass.value * 0.01 >%
           }
         }
       }
@@ -147,7 +148,7 @@ PROTO BB-8 [
           }
         ]
         endPoint Solid {
-          translation 0 %{= 2 * bodyRadius + fields.headOffset.value }% 0
+          translation 0 %<= 2 * bodyRadius + fields.headOffset.value >% 0
           children [
             Group {
               children IS headSlot
@@ -159,7 +160,7 @@ PROTO BB-8 [
               name "head gyro"
             }
             Transform {
-              scale %{=headScale}% %{=headScale}% %{=headScale}%
+              scale %<= headScale >% %<= headScale >% %<= headScale >%
               children [
                 BB-8HeadShape {
                 }
@@ -169,7 +170,7 @@ PROTO BB-8 [
           name "head"
           contactMaterial IS contactMaterial
           boundingObject Sphere {
-            radius %{=headRadius}%
+            radius %<= headRadius >%
             subdivision 2
           }
           physics Physics {

@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A palm tree with optional boundingObject.
+# template language: javascript
 
 PROTO PalmTree [
   field SFVec3f    translation           0 0 0
@@ -178,16 +179,16 @@ PROTO PalmTree [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 1.125 0
       children [
         Cylinder {
           height 2.25
-          radius 0.35000000000000003
+          radius 0.35
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

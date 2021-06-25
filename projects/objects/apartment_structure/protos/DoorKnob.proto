@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A door knob.
 # This object can be used in the 'doorHandle' field of the Door object.
+# template language: javascript
 
 PROTO DoorKnob [
   field SFVec3f    translation      0 0 0
@@ -16,28 +17,28 @@ PROTO DoorKnob [
   field SFBool     castShadows      TRUE                 # Defines whether this object should cast shadows.
 ]
 {
-  %{
-    local doorThickness = fields.doorThickness.value
-    if doorThickness <= 0.0 then
-      io.stderr:write("'doorThickness' must be positive\n")
-      doorThickness = fields.doorThickness.defaultValue
-    end
+  %<
+    let doorThickness = fields.doorThickness.value;
+    if (doorThickness <= 0.0) {
+      doorThickness = fields.doorThickness.defaultValue;
+      console.error('\'doorThickness\' must be strictly positive. Value reset to ' + doorThickness + '.');
+    }
 
-    local handleRadius = fields.handleRadius.value
-    if handleRadius <= 0.0 then
-      io.stderr:write("'handleRadius' must be positive\n")
-      handleRadius = fields.handleRadius.defaultValue
-    end
+    let handleRadius = fields.handleRadius.value;
+    if (handleRadius <= 0.0) {
+      handleRadius = fields.handleRadius.defaultValue;
+      console.error('\'handleRadius\' must be strictly positive. Value reset to ' + handleRadius + '.');
+    }
 
-    local distanceFromDoor = fields.distanceFromDoor.value
-    if distanceFromDoor <= 0.0 then
-      io.stderr:write("'distanceFromDoor' must be positive\n")
-      distanceFromDoor = fields.distanceFromDoor.defaultValue
-    end
+    let distanceFromDoor = fields.distanceFromDoor.value;
+    if (distanceFromDoor <= 0.0) {
+      distanceFromDoor = fields.distanceFromDoor.defaultValue;
+      console.error('\'distanceFromDoor\' must be strictly positive. Value reset to ' + distanceFromDoor + '.');
+    }
 
-    local axisHeight = distanceFromDoor * 2 + doorThickness
-    local handlePositionZ = axisHeight * 0.5
-  }%
+    const axisHeight = distanceFromDoor * 2 + doorThickness;
+    const handlePositionZ = axisHeight * 0.5;
+  >%
   Slot {
     type "door handle"
     endPoint Solid {
@@ -51,7 +52,7 @@ PROTO DoorKnob [
               appearance IS appearance
               geometry Cylinder {
                 radius 0.03
-                height %{= 0.025 + doorThickness }%
+                height %<= 0.025 + doorThickness >%
               }
               castShadows IS castShadows
             }
@@ -63,21 +64,21 @@ PROTO DoorKnob [
             Shape {
               appearance IS appearance
               geometry Capsule {
-                radius %{= 0.4 * handleRadius }%
-                height %{= axisHeight }%
+                radius %<= 0.4 * handleRadius >%
+                height %<= axisHeight >%
               }
               castShadows IS castShadows
             }
           ]
         }
         DEF BACK_KNOB Transform { # back handle
-          translation 0 0 %{= -handlePositionZ }%
+          translation 0 0 %<= -handlePositionZ >%
           rotation 0 0 1 1.57
           children [
             Shape {
               appearance IS appearance
               geometry Sphere {
-                radius %{= handleRadius }%
+                radius %<= handleRadius >%
                 subdivision 2
               }
               castShadows IS castShadows
@@ -85,13 +86,13 @@ PROTO DoorKnob [
           ]
         }
         DEF FRONT_KNOB Transform { # front handle
-          translation 0 0 %{= handlePositionZ }%
+          translation 0 0 %<= handlePositionZ >%
           rotation 0 0 1 1.57
           children [
             Shape {
               appearance IS appearance
               geometry Sphere {
-                radius %{= handleRadius }%
+                radius %<= handleRadius >%
                 subdivision 2
               }
               castShadows IS castShadows
