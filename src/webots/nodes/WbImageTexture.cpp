@@ -42,7 +42,10 @@
 #include <wren/texture_2d.h>
 #include <wren/texture_transform.h>
 
+#include <utility>
+
 QSet<QString> WbImageTexture::cQualityChangedTexturesList;
+static QMap<QString, std::pair<QImage *, int>> gImagesMap;
 
 void WbImageTexture::init() {
   mWrenTexture = NULL;
@@ -170,7 +173,19 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
       height /= divider;
   }
 
-  delete mImage;
+  if (mUrl->size() == 0)
+    return false;
+  const QString &url(mUrl->item(0));
+  std::pair<QImage *, int> pair = gImagesMap[url];
+  if (pair.first) {
+    int number = pair.second--;
+    if (number == 0) {
+      delete mImage;
+      gImagesMap.remove(url);
+    } else
+      gImagesMap[url] = std::make_pair(pair.first, number);
+  }
+
   mImage = new QImage();
 
   if (!imageReader.read(mImage)) {
@@ -230,9 +245,23 @@ void WbImageTexture::updateWrenTexture() {
       wr_texture_setup(WR_TEXTURE(texture));
 
       WbWrenOpenGlContext::doneWren();
+      if (mUrl->size() == 0)
+        return;
+      const QString &url(mUrl->item(0));
+      gImagesMap[url] = std::make_pair(mImage, 1);
     }
-  } else
+  } else {
+    if (mUrl->size() == 0)
+      return;
+    const QString &url(mUrl->item(0));
+    std::pair<QImage *, int> pair = gImagesMap.value(url);
+    if (pair.first) {
+      mImage = pair.first;
+      int number = pair.second++;
+      gImagesMap[url] = std::make_pair(mImage, number);
+    }
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
+  }
 
   mWrenTexture = WR_TEXTURE(texture);
   if (mDownloader != NULL && mDownloader->device() != NULL)
@@ -249,7 +278,19 @@ void WbImageTexture::destroyWrenTexture() {
   mWrenTexture = NULL;
   mWrenTextureTransform = NULL;
 
-  delete mImage;
+  if (mUrl->size() == 0)
+    return;
+  const QString &url(mUrl->item(0));
+  std::pair<QImage *, int> pair = gImagesMap[url];
+  if (pair.first) {
+    int number = pair.second--;
+    if (number == 0) {
+      delete mImage;
+      gImagesMap.remove(url);
+    } else
+      gImagesMap[url] = std::make_pair(pair.first, number);
+  }
+
   mImage = NULL;
 }
 
