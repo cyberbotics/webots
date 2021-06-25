@@ -566,6 +566,8 @@ def game_controller_send(message):
         elif (message[:6] == 'SCORE:' or
               message == 'DROPPEDBALL'):
             game.wait_for_state = 'FINISHED' if game.penalty_shootout else 'READY'
+        elif message[6:] == "PENALTY-SHOOTOUT":
+            game.wait_for_state = 'INITIAL'
     if ':' in message:
         msg_start = message.split(':', 1)[0]
         if msg_start in GAME_INTERRUPTIONS:
@@ -1943,6 +1945,7 @@ def stop_penalty_shootout():
 def next_penalty_shootout():
     game.penalty_shootout_count += 1
     if not game.penalty_shootout_goal and game.state.game_state[:8] != "FINISHED":
+        info("Sending state finish to end current_penalty_shootout")
         game_controller_send('STATE:FINISH')
     game.penalty_shootout_goal = False
     if stop_penalty_shootout():
@@ -2421,6 +2424,7 @@ game.interruption_team = None
 game.interruption_seconds = None
 game.dropped_ball = False
 game.overtime = False
+game.finished_overtime = False
 game.ready_countdown = 0  # simulated time countdown before ready state (used in kick-off after goal and dropped ball)
 game.play_countdown = 0
 game.in_play = None
@@ -2631,6 +2635,7 @@ try:
                             game.overtime = True
                         else:
                             info('End of knockout second half.')
+                            game.finished_overtime = True
                     else:
                         error(f'Unsupported game type: {game.type}.', fatal=True)
             if (game.interruption_countdown == 0 and game.ready_countdown == 0 and
@@ -2771,19 +2776,22 @@ try:
             elif game.state.first_half:
                 info("Received state FINISHED: end of first half")
                 game.ready_real_time = None
-            elif game.type == 'KNOCKOUT' and game.overtime and game.state.teams[0].score == game.state.teams[1].score:
+            elif game.type == 'KNOCKOUT':
                 if game.ready_real_time is None:
-                    info('Beginning of the knockout first half.')
-                    game_controller_send('STATE:OVERTIME-FIRST-HALF')
-                    info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION} seconds (real-time)')
-                    game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
-            elif game.type == 'KNOCKOUT' and game.state.teams[0].score == game.state.teams[1].score:
-                if game.ready_real_Time is None:
-                    info('Beginning of penalty shout-out.')
-                    game_controller_send('STATE:PENALTY-SHOOTOUT')
-                    game.penalty_shootout = True
-                    info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION} seconds (real-time)')
-                    game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
+                    if game.state.teams[0].score != game.state.teams[1].score:
+                        game.over = True
+                        break
+                    elif game.finished_overtime:
+                        info('Beginning of penalty shout-out.')
+                        game_controller_send('STATE:PENALTY-SHOOTOUT')
+                        game.penalty_shootout = True
+                        info(f'Going to SET in {HALF_TIME_BREAK_REAL_TIME_DURATION} seconds (real-time)')
+                        game.set_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
+                    elif game.overtime:
+                        info('Beginning of the knockout first half.')
+                        game_controller_send('STATE:OVERTIME-FIRST-HALF')
+                        info(f'Going to READY in {HALF_TIME_BREAK_REAL_TIME_DURATION} seconds (real-time)')
+                        game.ready_real_time = time.time() + HALF_TIME_BREAK_REAL_TIME_DURATION
             else:
                 game.over = True
                 break
