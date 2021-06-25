@@ -5,7 +5,7 @@ if [[ $EUID -ne 0 ]]; then
        exit 1
 fi
 
-apt install python3-pip -y
+apt install python3-pip python3-setuptools -y
 pip3 install --upgrade pip
 pip3 install pyclibrary
 
