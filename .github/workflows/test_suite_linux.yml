@@ -112,7 +112,7 @@ jobs:
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        xvfb-run --auto-servernum python scripts/package/update_worlds_and_protos.py develop
+        xvfb-run --auto-servernum python scripts/packaging/update_worlds_and_protos.py develop
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python tests/test_suite.py
   test-ros:
