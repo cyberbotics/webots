@@ -738,9 +738,11 @@ WrShaderProgram *WbWrenShaders::mergeSphericalShader() {
     int defaultInt = 0;
     wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "rangeCamera", WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
                                             reinterpret_cast<const char *>(&defaultInt));
-    wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "subCamerasResolutionX", WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "subCamerasResolutionX",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
                                             reinterpret_cast<const char *>(&defaultInt));
-    wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "subCamerasResolutionY", WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "subCamerasResolutionY",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
                                             reinterpret_cast<const char *>(&defaultInt));
 
     float defaultFloat = 0.0f;
