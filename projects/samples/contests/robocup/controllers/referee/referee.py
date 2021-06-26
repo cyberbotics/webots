@@ -2017,6 +2017,7 @@ def interruption(interruption_type, team=None, location=None, is_goalkeeper_ball
                     ball_reset_location[0] *= -1
         else:
             interruption_type = 'DIRECT_FREEKICK'
+        game.can_score = interruption_type != 'INDIRECT_FREEKICK'
     game.in_play = None
     game.can_score_own = False
     game.ball_set_kick = True
@@ -2567,7 +2568,7 @@ try:
                         game.ball_left_circle = time_count
                         info('The ball has left the center circle after kick-off.')
 
-                ball_touched_by_opponent = game.ball_last_touch_team != game.ball_must_kick_team
+                ball_touched_by_opponent = game.ball_last_touch_team and (game.ball_last_touch_team != game.ball_must_kick_team)
                 ball_touched_by_teammate = (game.kicking_player_number is not None and
                                             game.ball_last_touch_player_number != game.kicking_player_number)
                 ball_touched_in_play = game.in_play is not None and game.in_play < game.ball_last_touch_time
