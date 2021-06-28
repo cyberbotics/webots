@@ -16,6 +16,7 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
+#include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
@@ -172,11 +173,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   mResult.clear();
   mError = "";
 
-  if (!gValidJavaScriptResources) {
-    mError = tr("Initialization error: JavaScript resources are not found.");
-    return false;
-  }
-
   QString initialDir = QDir::currentPath();
 
   // cd to temporary directory
@@ -277,8 +273,13 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   outputStream << javaScriptTemplate;
   outputFile.close();
 
-  // create engine and stream holders
+  // create engine and define global space
   QJSEngine engine;
+  // create and add file manipulation module
+  WbQjsFile *jsFileObject = new WbQjsFile();
+  QJSValue jsFile = engine.newQObject(jsFileObject);
+  engine.globalObject().setProperty("wbfile", jsFile);
+  // add stream holders
   QJSValue jsStdOut = engine.newArray();
   engine.globalObject().setProperty("stdout", jsStdOut);
   QJSValue jsStdErr = engine.newArray();
@@ -308,7 +309,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
     WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(jsStdErr.property(i).toString()),
                              false, WbLog::PARSING);
 
-  // restore initial directly
+  // restore initial directory
   QDir::setCurrent(initialDir);
 
   return true;

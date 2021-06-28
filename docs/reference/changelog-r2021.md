@@ -132,6 +132,7 @@ Released on June, Xth, 2021.
     - Fixed [RandomBuilding](../guide/object-buildings.md#randombuilding) PROTO where different instances generated the same building ([#2897](https://github.com/cyberbotics/webots/pull/2897)).
     - Fixed [PedestrianCrossing](../guide/object-traffic.md#pedestriancrossing) PROTO model not correctly displaying the yellow stripes ([#2857](https://github.com/cyberbotics/webots/pull/2857)).
     - Fixed incorrect position retrieval immediately after resetting nested [Transform](transform.md) nodes ([#3051](https://github.com/cyberbotics/webots/issues/3051)).
+    - Fixed crash triggered by a kinematic simulation involving a PROTO with template regenerable fields ([#3227](https://github.com/cyberbotics/webots/pull/3227)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).

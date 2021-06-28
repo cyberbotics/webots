@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A hexagonal nut.
+# template language: javascript
 
 PROTO Nut [
   field SFVec3f    translation     0 0.004 0
@@ -13,25 +14,25 @@ PROTO Nut [
   field SFString   contactMaterial "default"    # Is `Solid.contactMaterial`.
 ]
 {
-  %{
-    local innerRadius = fields.innerRadius.value
-    if innerRadius <= 0.0 then
-      innerRadius = fields.innerRadius.defaultValue
-      io.stderr:write("'innerRadius' should be positive.\n")
-    end
+  %<
+    let innerRadius = fields.innerRadius.value;
+    if (innerRadius <= 0.0) {
+      innerRadius = fields.innerRadius.defaultValue;
+      console.error('\'innerRadius\' must be strictly positive. Value reset to ' + innerRadius + '.');
+    }
 
-    local thickness = fields.thickness.value
-    if thickness <= 0.0 then
-      thickness = fields.thickness.defaultValue
-      io.stderr:write("'thickness' should be positive.\n")
-    end
-  }%
+    let thickness = fields.thickness.value;
+    if (thickness <= 0.0) {
+      thickness = fields.thickness.defaultValue;
+      console.error('\'thickness\' must be strictly positive. Value reset to ' + thickness + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        scale %{= 50 * innerRadius }% %{= 3 * thickness / 0.07 }% %{= 50 * innerRadius }%
+        scale %<= 50 * innerRadius >% %<= 3 * thickness / 0.07 >% %<= 50 * innerRadius >%
         children [
           DEF THREAD Shape {
             appearance ScrewThread {
@@ -312,8 +313,8 @@ PROTO Nut [
     name IS name
     model "nut"
     boundingObject Cylinder {
-      height %{= thickness }%
-      radius %{= 1.98 * innerRadius }%
+      height %<= thickness >%
+      radius %<= 1.98 * innerRadius >%
       subdivision 6
     }
     physics Physics {

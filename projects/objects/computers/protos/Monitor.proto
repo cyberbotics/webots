@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A computer monitor.
+# template language: javascript
 
 PROTO Monitor [
   field SFVec3f    translation 0 0 0
@@ -11,7 +12,6 @@ PROTO Monitor [
   field SFFloat    mass        0               # Defines the mass of the monitor in kg. A value smaller or equal to 0 removes the physics of the monitor.
 ]
 {
-%{ local mass = fields.mass.value }%
 Solid {
   translation IS translation
   rotation IS rotation
@@ -100,11 +100,11 @@ Solid {
       }
     ]
    }
-   %{ if mass > 0 then }%
+   %< if (fields.mass.value > 0) { >%
    physics Physics {
      density -1
      mass IS mass
    }
-   %{ end }%
+   %< } >%
 }
 }

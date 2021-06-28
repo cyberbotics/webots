@@ -3,9 +3,8 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
 # This is a PROTO file for Webots for the robot Robotino 3 from Festo.
-# It is the Robotino 3 robot that can be extended with different features to fullfil your requirement.
-#
 # changed by Thomas Feldmeier 2020, www.servicerobotik-ulm.de
+# template language: javascript
 
 PROTO Robotino3 [
   field  SFVec3f     translation       0 0 0
@@ -26,9 +25,9 @@ PROTO Robotino3 [
   field  SFString{"SharpGP2D120", "SharpGP2Y0A41SK0F", "SharpGP2Y0A02YK0F"}  infraredSensorModel    "SharpGP2Y0A41SK0F"      # Extends the robot with infrared sensors.
 ]
 {
-  %{
-    local IRname = fields.infraredSensorModel.value
-  }%
+  %<
+    const IRname = fields.infraredSensorModel.value;
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
@@ -84,47 +83,47 @@ PROTO Robotino3 [
       }
       Compass {
       }
-      DEF IR1 %{= IRname }% {
+      DEF IR1 %<= IRname >% {
         translation 0 -0.2264 0.0566
         rotation 0 0 -1 1.57092
         name "ir1"
       }
-      DEF IR2 %{= IRname }% {
+      DEF IR2 %<= IRname >% {
         translation 0.1454 -0.1736 0.0566
         rotation 0 0 1 -0.81451
         name "ir2"
       }
-      DEF IR3 %{= IRname }% {
+      DEF IR3 %<= IRname >% {
         translation 0.223 -0.0394 0.0566
         rotation 0 0 1 6.16681
         name "ir3"
       }
-      DEF IR4 %{= IRname }% {
+      DEF IR4 %<= IRname >% {
         translation 0.1963 0.114 0.0566
         rotation 0 0 1 0.58176
         name "ir4"
       }
-      DEF IR5 %{= IRname }% {
+      DEF IR5 %<= IRname >% {
         translation 0.0777 0.2131 0.0566
         rotation 0 0 1 1.27989
         name "ir5"
       }
-      DEF IR6 %{= IRname }% {
+      DEF IR6 %<= IRname >% {
         translation -0.0772 0.2133 0.0566
         rotation 0 0 1 1.97802
         name "ir6"
       }
-      DEF IR7 %{= IRname }% {
+      DEF IR7 %<= IRname >% {
         translation -0.196 0.1133 0.0566
         rotation 0 0 1 2.67616
         name "ir7"
       }
-      DEF IR8 %{= IRname }% {
+      DEF IR8 %<= IRname >% {
         translation -0.2229 -0.0394 0.0566
         rotation 0 0 1 3.37429
         name "ir8"
       }
-      DEF IR9 %{= IRname }% {
+      DEF IR9 %<= IRname >% {
         translation -0.1455 -0.1735 0.0566
         rotation 0 0 -1 2.21077
         name "ir9"

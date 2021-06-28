@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A lid.
+# template language: javascript
 
 PROTO Lid [
   field SFVec3f    translation 0 0.068 0
@@ -11,7 +12,8 @@ PROTO Lid [
   field SFFloat    mass        0.19         # Defines the mass of the lid in kg.
 ]
 {
-Solid {  translation IS translation
+Solid {
+  translation IS translation
   rotation IS rotation
   children [
     Shape {
@@ -76,11 +78,11 @@ Solid {  translation IS translation
       }
     ]
   }
-  %{ if fields.mass.value > 0 then }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
       mass IS mass
     }
-  %{ end }%
+  %< } >%
 }
 }

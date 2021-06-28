@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A black and white FIFA soccer ball with customizable size.
 # This object is physics-enabled so it will roll or bounce when hit.
+# template language: javascript
 
 PROTO FifaSoccerBall [
   field SFVec3f            translation 0 0 0
@@ -11,20 +12,20 @@ PROTO FifaSoccerBall [
   field SFInt32{1,2,3,4,5} size        5 # Defines the ball size and mass according to FIFA standards.
 ]
 {
-  %{
-    local size = fields.size.value
-    local radius_array = { 0.07, 0.085, 0.095, 0.1025, 0.1125 }
-    local mass_array = { 0.205, 0.250, 0.310, 0.370, 0.430 }
-    local radius = radius_array[size]
-    local mass = mass_array[size]
-    local scale = radius * 2
-  }%
+  %<
+    const size = fields.size.value;
+    const radius_array = {1: 0.07, 2: 0.085, 3: 0.095, 4: 0.1025, 5: 0.1125};
+    const mass_array = {1: 0.205, 2: 0.250, 3: 0.310, 4: 0.370, 5: 0.430};
+    const radius = radius_array[size];
+    const mass = mass_array[size];
+    const scale = radius * 2;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        scale %{=scale}% %{=scale}% %{=scale}%
+        scale %<= scale >% %<= scale >% %<= scale >%
         translation 0 0 0
         children [
           Shape {
@@ -69,11 +70,11 @@ PROTO FifaSoccerBall [
     name IS name
     model "soccer ball"
     boundingObject Sphere {
-      radius %{=radius}%
+      radius %<= radius >%
       subdivision 3
     }
     physics Physics {
-      mass %{=mass}%
+      mass %<= mass >%
       density -1
     }
     recognitionColors [

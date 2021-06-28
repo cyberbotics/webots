@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A double fluorescent lamp.
 # It does not contain any actual Light node, it only uses emissive color.
+# template language: javascript
 
 PROTO DoubleFluorescentLamp [
   field SFVec3f    translation     0 0 0
@@ -25,10 +26,10 @@ PROTO DoubleFluorescentLamp [
             appearance PBRAppearance {
               baseColor 0.87 0.72 0.58
               metalness 0
-              %{ if fields.intensity.value > 0 then }%
+              %< if (fields.intensity.value > 0) { >%
                 emissiveColor 0.93 0.93 0.93
                 emissiveIntensity IS intensity
-              %{ end }%
+              %< } >%
             }
             geometry Cylinder {
               height 1

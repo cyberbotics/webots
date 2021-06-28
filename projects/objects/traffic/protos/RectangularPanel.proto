@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple rectangular traffic pannel.
+# template language: javascript
 
 PROTO RectangularPanel [
   field SFVec3f     translation        0 0 0
@@ -42,7 +43,7 @@ PROTO RectangularPanel [
           roughness 0.6
         }
         geometry TexturedBox {
-          size %{= fields.size.value.x }% %{= fields.size.value.y }% 0.03
+          size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
           back FALSE
         }
       }
@@ -50,7 +51,7 @@ PROTO RectangularPanel [
     name IS name
     model "rectangular panel"
     boundingObject Box {
-      size %{= fields.size.value.x }% %{= fields.size.value.y }% 0.03
+      size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
     }
   }
 }

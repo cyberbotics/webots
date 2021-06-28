@@ -4,6 +4,7 @@
 # This is a PROTO file for Webots of a platform for the robot Robotino 3 from Festo.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "bodySlot" field of the Robotino 3 robot.
+# template language: javascript
 
 PROTO Robotino3Platform [
   field  SFVec3f     translation  0 0 0
@@ -14,10 +15,9 @@ PROTO Robotino3Platform [
   field  SFFloat     height       0.530447                       # Height of the platform.
 ]
 {
-  %{
-    local height = fields.height.value
-  }%
-
+  %<
+    const height = fields.height.value;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -25,7 +25,7 @@ PROTO Robotino3Platform [
     model IS model
     children [
       DEF extensionSlot Transform {
-        translation 0.05 0 %{= (0.594 - 0.530447) + height }%
+        translation 0.05 0 %<= (0.594 - 0.530447) + height >%
         rotation -0.577 0.577 0.577 -2.0944
         children IS extension
       }
@@ -41,22 +41,22 @@ PROTO Robotino3Platform [
             point [
               0.000485 0.040875 -6e-06
               0.035661 -0.020055 -6e-06
-              0.035661 -0.020055 %{= height }%
-              0.000485 0.040875 %{= height }%
+              0.035661 -0.020055 %<= height >%
+              0.000485 0.040875 %<= height >%
               -0.000512 0.040875 -6e-06
-              -0.000512 0.040875 %{= height }%
+              -0.000512 0.040875 %<= height >%
               -0.035657 -0.020037 -6e-06
-              -0.035657 -0.020037 %{= height }%
+              -0.035657 -0.020037 %<= height >%
               -0.035178 -0.020867 -6e-06
-              -0.035178 -0.020867 %{= height }%
+              -0.035178 -0.020867 %<= height >%
               0.035212 -0.020834 -6e-06
-              0.035212 -0.020834 %{= height }%
-              0.041455 -0.020055 %{= height }%
-              0.003382 0.045893 %{= height }%
-              -0.003409 0.045893 %{= height }%
-              -0.04145 -0.020037 %{= height }%
-              -0.038075 -0.025884 %{= height }%
-              0.038109 -0.025851 %{= height }%
+              0.035212 -0.020834 %<= height >%
+              0.041455 -0.020055 %<= height >%
+              0.003382 0.045893 %<= height >%
+              -0.003409 0.045893 %<= height >%
+              -0.04145 -0.020037 %<= height >%
+              -0.038075 -0.025884 %<= height >%
+              0.038109 -0.025851 %<= height >%
               0.041455 -0.020055 -6e-06
               0.003382 0.045893 -6e-06
               -0.003409 0.045893 -6e-06
@@ -80,7 +80,7 @@ PROTO Robotino3Platform [
         }
       }
       DEF TABLE Transform {
-        translation 0 0 %{= (0.537 - 0.530447) + height }%
+        translation 0 0 %<= (0.537 - 0.530447) + height >%
         rotation 1 0 0 1.5708
         children [
           Shape {

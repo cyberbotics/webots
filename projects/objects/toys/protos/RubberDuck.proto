@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
+# template language: javascript
 
 PROTO RubberDuck [
   field SFVec3f    translation         0 0 0
@@ -19,17 +20,17 @@ PROTO RubberDuck [
     ]
 ]
 {
-  %{
-    local scale = fields.scale.value
-    if scale <= 0 then
-      io.stderr:write("'scale' must be strictly positive\n")
-      scale = fields.scale.defaultValue
-    end
-  }%
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %{= scale }% %{= scale }% %{= scale }%
+    scale %<= scale >% %<= scale >% %<= scale >%
     recognitionColors [ 0.87451 0.756863 0.113725 ]
     children [
       DEF BEAK Transform {
@@ -169,7 +170,7 @@ PROTO RubberDuck [
         }
       ]
     }
-    %{ if (fields.density.value > 0) then }%
+    %< if (fields.density.value > 0) { >%
     physics Physics {
       density IS density
       centerOfMass [
@@ -180,6 +181,6 @@ PROTO RubberDuck [
         angular 0.5
       }
     }
-    %{ end }%
+    %< } >%
   }
 }
