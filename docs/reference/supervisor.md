@@ -1164,13 +1164,17 @@ The `sampling_period` argument determines how often the contact point data shoul
 The `wb_supervisor_node_disable_contact_point_tracking` function disables contact point data tracking.
 
 The `wb_supervisor_node_get_contact_point` function returns the contact point with given index in the contact point list of the given `Solid`.
+**This function is deprecated and the `wb_supervisor_node_get_contact_points` function should be used instead.**
+
 The `wb_supervisor_node_get_number_of_contact_points` function allows you to retrieve the length of this list.
 Contact points are expressed in the global (world) coordinate system.
 If the index is less than the number of contact points, then the x (resp. y, z) coordinate (expressed in the global (world) coordinate system) of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
 Otherwise the function returns a `NaN` (Not a Number) value for each of these numbers.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `NaN` values on the first 3 array components.
+**This function is deprecated and the `wb_supervisor_node_get_contact_points` function should be used instead.**
 
 The `wb_supervisor_node_get_contact_point_node` function allows you to retrieve the node associated to a contact point. This is useful when contact points of the descendants are included, to know which part the contact belongs to.
+**This function is deprecated and the `wb_supervisor_node_get_contact_points` function should be used instead.**
 
 The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
