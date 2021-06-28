@@ -1131,6 +1131,7 @@ Contact points are expressed in the global (world) coordinate system.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent.
 The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not.
 The descendant nodes are the nodes included within the node given as an argument.
+The `size` argument is an output argument and it returns a number of contact points in the list.
 
 The `wb_supervisor_node_enable_contact_point_tracking` function forces Webots to stream contact point data to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get data from the field.
