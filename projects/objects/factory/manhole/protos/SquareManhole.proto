@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple square manhole.
+# template language: javascript
 
 PROTO SquareManhole [
   field SFVec3f    translation           0 0 0
@@ -50,8 +51,8 @@ PROTO SquareManhole [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject USE MANHOLE_BOX
-    %{ end }%
+    %< } >%
   }
 }

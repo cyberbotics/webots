@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A snack stand.
+# template language: javascript
 
 PROTO SnackStand [
   field SFVec3f    translation 0 0 0
@@ -10,52 +11,51 @@ PROTO SnackStand [
   field SFString   color       "red"          # Defines the color of the stand. The value should be either `red` or `green`.
 ]
 {
-  %{
-    local color = fields.color.value
-    if color ~= "red" and color ~= "green" then
-      color = fields.color.defaultValue
-      io.stderr:write("'color' should either be 'red' or 'green'. ")
-      io.stderr:write("'color' was reset to '" .. color .. "'.")
-    end
-  }%
+  %<
+    let color = fields.color.value;
+    if (color !== 'red' && color !== 'green') {
+      color = fields.color.defaultValue;
+      console.error('\'color\' should either be \'red\' or \'green\'. Value reset to ', color, '\'.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     name IS name
     model "snack stand"
     recognitionColors [
-      %{ if color == "red" then }%
+      %< if (color === 'red') { >%
       0.7490196078431373 0.1411764705882353 0.1411764705882353
-      %{ else }%
+      %< } else { >%
       0.10196078431372549 0.12549019607843137 0.00392156862745098
-      %{ end }%
+      %< } >%
     ]
     children [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' .. color .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' .. color .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' .. color .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' .. color .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' .. color .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -82,27 +82,27 @@ PROTO SnackStand [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' .. color .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' .. color .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' .. color .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' .. color .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' .. color .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_occlusion.jpg"' >%
             ]
           }
         }

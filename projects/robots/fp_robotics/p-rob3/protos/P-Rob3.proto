@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/p-rob3
 # A P-Rob3 robotic arm from F&P Robotics.
+# template language: javascript
 
 PROTO P-Rob3 [
   field SFVec3f    translation     0 0 0            # Is `Transform.translation`.
@@ -1071,7 +1072,7 @@ PROTO P-Rob3 [
         }
       ]
     }
-    %{ if fields.staticBase.value == false then }%
+    %< if (!fields.staticBase.value) { >%
     physics Physics {
       density -1
       mass 7.7251
@@ -1083,6 +1084,6 @@ PROTO P-Rob3 [
         0 0 0
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

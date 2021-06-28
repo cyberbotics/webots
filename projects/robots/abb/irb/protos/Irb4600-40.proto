@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/irb4600-40
 # The "IRB 4600/40" is a 6 DOF arm developed by ABB: https://new.abb.com/products/robotics/industrial-robots/irb-4600
 # It has a payload of 40kg.
+# template language: javascript
 
 PROTO Irb4600-40 [
   field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.
@@ -393,11 +394,11 @@ PROTO Irb4600-40 [
         }
       ]
     }
-    %{ if fields.staticBase.value == false then }%
+    %< if (!fields.staticBase.value) { >%
     physics Physics {
       density 1500
     }
-    %{ end }%
+    %< } >%
     controller IS controller
     controllerArgs IS controllerArgs
     customData IS customData

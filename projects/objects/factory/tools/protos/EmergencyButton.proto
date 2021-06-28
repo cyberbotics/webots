@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An emergency button with an optional position sensor.
+# template language: javascript
 
 PROTO EmergencyButton [
   field SFVec3f    translation            0 0 0
@@ -45,13 +46,13 @@ PROTO EmergencyButton [
           minStop -0.013
           springConstant 1000
         }
-        %{ if fields.includePositionSensor.value then }%
+        %< if (fields.includePositionSensor.value) { >%
         device [
           PositionSensor {
             name "emergency button sensor"
           }
         ]
-        %{ end }%
+        %< } >%
         endPoint Solid {
           children [
             Shape {

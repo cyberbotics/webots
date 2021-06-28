@@ -301,10 +301,12 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundNodeParentUniqueId = -1;
   mFoundNodeIsProto = false;
   mFoundNodeIsProtoInternal = false;
-  mFoundFieldId = -2;
+  mNodeFieldCount = -1;
+  mFoundFieldIndex = -2;
   mFoundFieldType = 0;
   mFoundFieldCount = -1;
   mFoundFieldIsInternal = false;
+  mFoundFieldName.clear();
   mGetNodeRequest = 0;
   mNodeGetPosition = NULL;
   mNodeGetOrientation = NULL;
@@ -1109,6 +1111,19 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
       return;
     }
+    case C_SUPERVISOR_NODE_GET_FIELD_COUNT: {
+      int nodeId;
+      unsigned char allowSearchInProto;
+      stream >> nodeId;
+      stream >> allowSearchInProto;
+
+      WbNode *const node = WbNode::findNode(nodeId);
+      if (node)
+        mNodeFieldCount = allowSearchInProto == 1 ? node->fields().size() : node->numFields();
+      else
+        mNodeFieldCount = -1;
+      return;
+    }
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       int id;
       unsigned char allowSearchInProto;
@@ -1116,7 +1131,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const QString name = readString(stream);
       stream >> allowSearchInProto;
 
-      mFoundFieldId = -1;
+      mFoundFieldIndex = -1;
       mFoundFieldType = 0;
       mFoundFieldCount = -1;
       mFoundFieldIsInternal = false;
@@ -1129,14 +1144,46 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           if (field) {
             WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
             mFoundFieldCount = mv ? mv->size() : -1;
-            mFoundFieldId = id;
+            mFoundFieldIndex = id;
             mFoundFieldType = field->type();
             mFoundFieldIsInternal = allowSearchInProto == 1;
+            mFoundFieldName = field->name();
             if (mv) {
               mWatchedFields.append(WbUpdatedFieldInfo(node->uniqueId(), field->name(), mFoundFieldCount));
               field->listenToValueSizeChanges();
               connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
             }
+          }
+        }
+      }
+      return;
+    }
+    case C_SUPERVISOR_FIELD_GET_FROM_INDEX: {
+      int nodeId, fieldIndex;
+      unsigned char allowSearchInProto;
+      stream >> nodeId;
+      stream >> fieldIndex;
+      stream >> allowSearchInProto;
+
+      mFoundFieldIndex = -1;
+      mFoundFieldType = 0;
+      mFoundFieldCount = -1;
+      mFoundFieldIsInternal = false;
+
+      WbNode *const node = WbNode::findNode(nodeId);
+      if (node) {
+        WbField *field = node->field(fieldIndex, allowSearchInProto == 1);
+        if (field) {
+          WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
+          mFoundFieldCount = mv ? mv->size() : -1;
+          mFoundFieldIndex = fieldIndex;
+          mFoundFieldType = field->type();
+          mFoundFieldIsInternal = allowSearchInProto == 1;
+          mFoundFieldName = field->name();
+          if (mv) {
+            mWatchedFields.append(WbUpdatedFieldInfo(node->uniqueId(), field->name(), mFoundFieldCount));
+            field->listenToValueSizeChanges();
+            connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
           }
         }
       }
@@ -1762,15 +1809,17 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream.writeRawData(s.constData(), s.size() + 1);
     mFoundNodeUniqueId = -1;
   }
-  if (mFoundFieldId != -2) {  // enabled, -1 means not found
+  if (mFoundFieldIndex != -2) {  // enabled, -1 means not found
     stream << (short unsigned int)0;
     stream << (unsigned char)C_SUPERVISOR_FIELD_GET_FROM_NAME;
-    stream << (int)mFoundFieldId;
+    stream << (int)mFoundFieldIndex;
     stream << (int)mFoundFieldType;
     stream << (unsigned char)mFoundFieldIsInternal;
     if (mFoundFieldCount != -1)
       stream << (int)mFoundFieldCount;
-    mFoundFieldId = -2;
+    const QByteArray ba = mFoundFieldName.toUtf8();
+    stream.writeRawData(ba.constData(), ba.size() + 1);
+    mFoundFieldIndex = -2;
   }
   if (mIsProtoRegenerated) {
     stream << (short unsigned int)0;
@@ -1868,6 +1917,13 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
     stream << (unsigned char)C_SUPERVISOR_FIELD_INSERT_VALUE;
     stream << (int)mImportedNodeId;
     mImportedNodeId = -1;
+  }
+  if (mNodeFieldCount >= 0) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_NODE_GET_FIELD_COUNT;
+    stream << mNodeFieldCount;
+    mNodeFieldCount = -1;
+    return;
   }
   for (WbTrackedFieldInfo &field : mTrackedFields) {
     const double time = WbSimulationState::instance()->time();

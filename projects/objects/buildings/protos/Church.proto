@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A church with optional boundingObject.
+# template language: javascript
 
 PROTO Church [
   field SFVec3f    translation           0 0 0
@@ -161,7 +162,7 @@ PROTO Church [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -182,6 +183,6 @@ PROTO Church [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

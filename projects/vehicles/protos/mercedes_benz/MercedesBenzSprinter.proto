@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Mercedes-Benz Sprinter.
+# template language: javascript
 
 PROTO MercedesBenzSprinter [
   field SFVec3f      translation              0 0.4445 0
@@ -56,18 +57,18 @@ PROTO MercedesBenzSprinter [
       }
       MercedesBenzSprinterMesh {
         color IS color
-      %{ if fields.interior.value then }%
+      %< if (fields.interior.value) { >%
         windowTransparency 0.7
-      %{ end }%
+      %< } >%
       }
       MercedesBenzSprinterLights {
       }
       MercedesBenzSprinterLogos {
       }
-      %{ if fields.interior.value then }%
+      %< if (fields.interior.value) { >%
       MercedesBenzSprinterInterior {
       }
-      %{ end }%
+      %< } >%
     ]
     boundingObject Group {
       children [
@@ -107,7 +108,7 @@ PROTO MercedesBenzSprinter [
     }
     radarCrossSection 150
     recognitionColors [
-      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
     ]
     engineFunctionCoefficients 600 0.2 0
     brakeCoefficient 3500

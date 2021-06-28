@@ -4,6 +4,7 @@
 # Simple bus stop with customizable appearance and an optional bench.
 # The original blender model was made by Ringbarkis (http://www.blendswap.com/blends/view/66783).
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO BusStop [
   field SFVec3f     translation                 0 0 0
@@ -16,16 +17,16 @@ PROTO BusStop [
   field SFBool      advertisingLightOn          TRUE                                                                  # Defines whether the advertising should have an emissive color.
 ]
 {
-%{ local bench = fields.bench.value }%
+%< const bench = fields.bench.value; >%
 Solid {
   translation IS translation
   rotation IS rotation
-  %{ if fields.appearance.value ~= nil and fields.appearance.value.fields.baseColor ~= nil then}%
-    %{ local color = fields.appearance.value.fields.baseColor.value }%
+  %< if (fields.appearance.value !== 'undefined' && fields.appearance.value.fields.baseColor !== 'undefined') { >%
+    %< const color = fields.appearance.value.fields.baseColor.value; >%
     recognitionColors [
-      %{= color.r }% %{= color.g }% %{= color.b }%
+      %<= color.r >% %<= color.g >% %<= color.b >%
     ]
-  %{ end }%
+  %< } >%
   children [
     Transform {
       translation 0 1.572 0
@@ -34,22 +35,22 @@ Solid {
         BusStopMesh {
           appearance IS appearance
         }
-        %{ if bench then }%
+        %< if (bench) { >%
         BusStopBench {
           appearance IS appearance
         }
-        %{ end }%
-        %{ if fields.internalAdvertisingTexture.value[1] ~= nil then }%
+        %< } >%
+        %< if (fields.internalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF INTERNAL_ADVERTISING Transform {
             translation 3.7 0.33 0.02
             children [
               Shape {
                 appearance PBRAppearance {
-                  %{ if fields.advertisingLightOn.value then }%
+                  %< if (fields.advertisingLightOn.value) { >%
                   emissiveColorMap ImageTexture {
-                  %{else}%
+                  %< } else { >%
                   baseColorMap ImageTexture {
-                  %{ end }%
+                  %< } >%
                     url IS internalAdvertisingTexture
                   }
                   metalness 0
@@ -61,18 +62,18 @@ Solid {
               }
             ]
           }
-        %{ end }%
-        %{ if fields.externalAdvertisingTexture.value[1] ~= nil then }%
+        %< } >%
+        %< if (fields.externalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF EXTERNAL_ADVERTISING Transform {
             translation 4.07 0.33 0.02
             children [
               Shape {
                 appearance PBRAppearance {
-                  %{ if fields.advertisingLightOn.value then }%
+                  %< if (fields.advertisingLightOn.value) { >%
                   emissiveColorMap ImageTexture {
-                  %{else}%
+                  %< } else { >%
                   baseColorMap ImageTexture {
-                  %{ end }%
+                  %< } >%
                     url IS externalAdvertisingTexture
                   }
                   metalness 0
@@ -84,7 +85,7 @@ Solid {
               }
             ]
           }
-        %{ end }%
+        %< } >%
       ]
     }
   ]

@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots light sensor block.
 # https://www.tinkerbots.com
+# template language: javascript
 
 PROTO TinkerbotsLightSensor [
   field SFVec3f    translation 0 0 0             # Is `Transform.translation`.
@@ -44,7 +45,7 @@ PROTO TinkerbotsLightSensor [
         }
         LED {
           translation 0 0.016 0.0065
-          name %{= "\"" .. fields.name.value .. " led\"" }%
+          name %<= '"' + fields.name.value + ' led"' >%
           color []
           gradual TRUE
           children [

@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A work barrier with optional physics.
+# template language: javascript
 
 PROTO WorkBarrier [
   field SFVec3f    translation   0 0 0
@@ -90,7 +91,7 @@ PROTO WorkBarrier [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 5
@@ -102,6 +103,6 @@ PROTO WorkBarrier [
         0 0 -3.934544998251965e-6
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

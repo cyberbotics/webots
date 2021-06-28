@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A cookware.
+# template language: javascript
 
 PROTO Cookware [
   field SFVec3f    translation 0 0 0
@@ -75,38 +76,39 @@ Solid {
           }
         ]
       }
-      %{
-        subdivision = 12
-        su = 0.002
-        sv = 0.067
-        sw = 0.05
-        beta = 2.0 * math.pi / subdivision
-        boxRadius = 0.08
-        for i = 0, (subdivision - 1) do
-          -- position of an internal box
-          local gamma = beta * i + beta / 2
-          local ax = boxRadius * math.sin(gamma)
-          local ay = 0.04
-          local az = boxRadius * math.cos(gamma)
-          local angle = gamma + 0.5 * math.pi
-        }%
+      %<
+        const subdivision = 12;
+        const su = 0.002;
+        const sv = 0.067;
+        const sw = 0.05;
+        const beta = 2.0 * Math.PI / subdivision;
+        let gamma, ax, ay, az, angle;
+        const boxRadius = 0.08;
+        for (let i = 0; i <= subdivision - 1; ++i) {
+          // position of an internal box
+          gamma = beta * i + beta * 0.5;
+          ax = boxRadius * Math.sin(gamma);
+          ay = 0.04;
+          az = boxRadius * Math.cos(gamma);
+          angle = gamma + 0.5 * Math.PI;
+        >%
           Transform {
-            translation %{= ax}% %{= ay}% %{= az}%
-            rotation 0 1 0 %{= angle }%
+            translation %<= ax >% %<= ay >% %<= az >%
+            rotation 0 1 0 %<= angle >%
             children [
               Box {
-                size %{= su}% %{= sv}% %{= sw}%
+                size %<= su >% %<= sv >% %<= sw >%
               }
             ]
           }
-        %{ end }%
+        %< } >%
     ]
   }
-  %{ if fields.mass.value > 0 then }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
       mass IS mass
     }
-  %{ end }%
+  %< } >%
 }
 }

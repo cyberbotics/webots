@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Simple and configurable wooden pallet.
+# template language: javascript
 
 PROTO WoodenPallet [
   field SFVec3f    translation    0 0 0
@@ -15,144 +16,146 @@ PROTO WoodenPallet [
   field SFBool     locked         FALSE            # Is `Solid.locked`.
 ]
 {
-%{
-  local size = fields.size.value
-  if size.x <= 0 or size.y <= 0 or size.z <= 0 then
-    size = fields.size.defaultValue
-    io.stderr:write("'size' must be strictly positive\n")
-  end
-  lathNumber = fields.lathNumber.value
-  if lathNumber < 0 then
-    lathNumber = 0
-  end
-  lathWidth = fields.lathWidth.value
-  if lathWidth < 0 then
-    lathWidth = 0
-    io.stderr:write("'lathWidth' must be positive\n")
-  end
-  if lathWidth * lathNumber > size.x then
-    lathWidth = size.x / lathNumber
-    io.stderr:write("'lathWidth' * 'lathNumber' can't be bigger than first component of 'size'\n")
-  end
+%<
+  let size = fields.size.value;
+  if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+    size = fields.size.defaultValue;
+    console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+  }
 
-  local mass = fields.mass.value
-}%
+  let lathNumber = fields.lathNumber.value;
+  if (lathNumber < 0) {
+    lathNumber = 0;
+    console.error('\'lathNumber\' must be positive or zero. Value reset to ' + lathNumber + '.');
+  }
+
+  let lathWidth = fields.lathWidth.value;
+  if (lathWidth < 0) {
+    lathWidth = 0;
+    console.error('\'lathWidth\' must be positive or zero. Value reset to ' + lathWidth + '.');
+  }
+  if (lathWidth * lathNumber > size.x) {
+    lathWidth = size.x / lathNumber;
+    console.error('\'lathWidth\' x \'lathNumber\' cannot be bigger than the first component of \'size\'. Value of \'lathWidth\' reset to ' + lathWidth + '.');
+  }
+  const mass = fields.mass.value;
+>%
 Solid {
   translation IS translation
   rotation IS rotation
   children [
     # Cubes
-    %{ for i=-1,1 do }%
-      %{ for j=-1,1 do }%
+    %< for (let i = -1; i <= 1; ++i) { >%
+      %< for (let j = -1; j <= 1; ++j) { >%
         Transform {
-          translation %{= size.x * i * 0.45 }% %{= 0.45 * size.y }% %{= size.z * j * 0.45 }%
+          translation %<= size.x * i * 0.45 >% %<= 0.45 * size.y >% %<= size.z * j * 0.45 >%
           children [
             Shape {
               appearance RoughPine {
                 textureTransform TextureTransform {
-                  scale %{= 2 * size.x * 0.1 }% %{= 2 * size.z * 0.1 }%
+                  scale %<= 2 * size.x * 0.1 >% %<= 2 * size.z * 0.1 >%
                 }
               }
               geometry Box {
-                size %{= size.x * 0.1 }% %{= 0.7 * size.y }% %{= size.z * 0.1 }%
+                size %<= size.x * 0.1 >% %<= 0.7 * size.y >% %<= size.z * 0.1 >%
               }
             }
           ]
         }
-      %{ end }%
-    %{ end }%
+      %< } >%
+    %< } >%
     # Length boards
-    %{ for i=-1,1 do }%
+    %< for (let i = -1; i <= 1; ++i) { >%
       Transform {
-        translation %{= size.x * i * 0.45 }% %{= 0.05 * size.y }% 0
+        translation %<= size.x * i * 0.45 >% %<= 0.05 * size.y >% 0
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %{= 2 * size.z }% %{= 2 * size.y }%
+                scale %<= 2 * size.z >% %<= 2 * size.y >%
                 rotation 1.5708
               }
             }
             geometry Box {
-              size %{= size.x * 0.1 }% %{= 0.1 * size.y }% %{= size.z }%
+              size %<= size.x * 0.1 >% %<= 0.1 * size.y >% %<= size.z >%
             }
           }
         ]
       }
-    %{ end }%
+    %< } >%
     # width boards
-    %{ for i=-1,1 do }%
+    %< for (let i = -1; i <= 1; ++i) { >%
       Transform {
-        translation 0 %{= 0.85 * size.y }% %{= size.z * i * 0.45 }%
+        translation 0 %<= 0.85 * size.y >% %<= size.z * i * 0.45 >%
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %{= 2 * size.x }% %{= 2 * size.z * 0.1 }%
+                scale %<= 2 * size.x >% %<= 2 * size.z * 0.1 >%
                 rotation 1.5708
               }
             }
             geometry Box {
-              size %{= size.x }% %{= 0.1 * size.y }% %{= size.z * 0.1 }%
+              size %<= size.x >% %<= 0.1 * size.y >% %<= size.z * 0.1 >%
             }
           }
         ]
       }
-    %{ end }%
+    %< } >%
     # Lath lathNumber
-    %{ for i=0,lathNumber do }%
+    %< for (let i = 0; i < lathNumber; ++i) { >%
       Transform {
-        translation %{= (size.x - lathWidth) * (i / lathNumber - 0.5) }% %{= 0.95 * size.y }% %{= 0 }%
+        translation %<= (size.x - lathWidth) * (i / (lathNumber - 1) - 0.5) >% %<= 0.95 * size.y >% %<= 0 >%
         children [
           Shape {
             appearance RoughPine {
               textureTransform TextureTransform {
-                scale %{= 2 * size.z }% %{= 2 * lathWidth }%
+                scale %<= 2 * size.z >% %<= 2 * lathWidth >%
                 rotation 1.5708
               }
             }
             geometry Box {
-              size %{= lathWidth }% %{= 0.1 * size.y }% %{= size.z }%
+              size %<= lathWidth >% %<= 0.1 * size.y >% %<= size.z >%
             }
           }
         ]
       }
-    %{ end }%
+    %< } >%
   ]
   name IS name
   model "wooden pallet"
-  %{ if fields.boundingObject.value then }%
+  %< if (fields.boundingObject.value) { >%
   boundingObject Group {
     children [
-      %{ for i=-1,1 do }%
+      %< for (let i = -1; i <= 1; ++i) { >%
         Transform {
-          translation %{= 0.45 * i * size.x }% %{= 0.4 * size.y }% 0
+          translation %<= 0.45 * i * size.x >% %<= 0.4 * size.y >% 0
           children
           [
             Box {
-              size %{= 0.1 * size.x }% %{= 0.8 * size.y }% %{= size.z }%
+              size %<= 0.1 * size.x >% %<= 0.8 * size.y >% %<= size.z >%
             }
           ]
         }
-      %{ end }%
+      %< } >%
       Transform {
-        translation 0 %{= 0.9 * size.y }% 0
+        translation 0 %<= 0.9 * size.y >% 0
         children
         [
           Box {
-            size %{= size.x }% %{= 0.2 * size.y }% %{= size.z }%
+            size %<= size.x >% %<= 0.2 * size.y >% %<= size.z >%
           }
         ]
       }
     ]
   }
-  %{ end }%
-  %{ if mass > 0 then }%
+  %< } >%
+  %< if (mass > 0) { >%
   physics Physics {
     density -1
-    mass %{= mass}%
+    mass %<= mass >%
   }
-  %{ end }%
+  %< } >%
   locked IS locked
 }
 }

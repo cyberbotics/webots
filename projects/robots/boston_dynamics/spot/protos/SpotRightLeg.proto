@@ -1,5 +1,6 @@
 #VRML_SIM R2021b utf8
 # tags: hidden
+# template language: javascript
 
 PROTO SpotRightLeg [
   field SFVec3f     translation  0 0 0        # Is `Transform.translation`.
@@ -7,7 +8,7 @@ PROTO SpotRightLeg [
   field SFString    name         "right leg"  # Is `Solid.name`.
 ]
 {
-%{ local legName = fields.name.value }%
+  %< const legName = fields.name.value; >%
   Transform {
     translation IS translation
     rotation IS rotation
@@ -19,10 +20,10 @@ PROTO SpotRightLeg [
         }
         device [
           PositionSensor {
-            name %{= "\"" .. legName .. " shoulder abduction sensor\"" }%
+            name %<= '"' + legName + ' shoulder abduction sensor"' >%
           }
           RotationalMotor {
-            name %{= "\"" .. legName .. " shoulder abduction motor\"" }%
+            name %<= '"' + legName + ' shoulder abduction motor"' >%
             minPosition -0.6
             maxPosition 0.5
             maxTorque 50
@@ -37,10 +38,10 @@ PROTO SpotRightLeg [
               }
               device [
                 PositionSensor {
-                  name %{= "\"" .. legName .. " shoulder rotation sensor\"" }%
+                  name %<= '"' + legName + ' shoulder rotation sensor"' >%
                 }
                 RotationalMotor {
-                  name %{= "\"" .. legName .. " shoulder rotation motor\"" }%
+                  name %<= '"' + legName + ' shoulder rotation motor"' >%
                   minPosition -1.7
                   maxPosition 1.7
                   maxTorque 50
@@ -55,7 +56,7 @@ PROTO SpotRightLeg [
                     }
                     device [
                       RotationalMotor {
-                        name %{= "\"" .. legName .. " piston motor\"" }%
+                        name %<= '"' + legName + ' piston motor"' >%
                       }
                     ]
                     endPoint DEF TENDON Solid {
@@ -98,10 +99,10 @@ PROTO SpotRightLeg [
                     }
                     device [
                       PositionSensor {
-                        name %{= "\"" .. legName .. " elbow sensor\"" }%
+                        name %<= '"' + legName + ' elbow sensor"' >%
                       }
                       RotationalMotor {
-                        name %{= "\"" .. legName .. " elbow motor\"" }%
+                        name %<= '"' + legName + ' elbow motor"' >%
                         minPosition -0.45
                         maxPosition 1.6
                         maxTorque 50
@@ -194,7 +195,7 @@ PROTO SpotRightLeg [
                           ]
                         }
                       ]
-                      name %{= "\"" .. legName .. " forearm\"" }%
+                      name %<= '"' + legName + ' forearm"' >%
                       boundingObject DEF FOREARM_BO Group {
                         children [
                           Transform {
@@ -495,7 +496,7 @@ PROTO SpotRightLeg [
                     ]
                   }
                 ]
-                name %{= "\"" .. legName .. " upperarm\"" }%
+                name %<= '"' + legName + ' upperarm"' >%
                 boundingObject DEF UPPERARM_BO Group {
                   children [
                     Transform {
@@ -736,7 +737,7 @@ PROTO SpotRightLeg [
               ]
             }
           ]
-          name %{= "\"" .. legName .. " shoulder\"" }%
+          name %<= '"' + legName + ' shoulder"' >%
           boundingObject DEF SHOULDER_BO Group {
             children [
               Transform {

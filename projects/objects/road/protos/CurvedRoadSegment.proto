@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple curved road, the number of lanes, the curvature and the dimensions are configurable, an optional border can be enable.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO CurvedRoadSegment [
   field        SFVec3f              translation               0 0 0
@@ -40,40 +41,38 @@ PROTO CurvedRoadSegment [
   field        SFBool               leftBarrierBoundingObject TRUE                    # Defines whether the left crash barrier (if any) should have a bounding object.
   field        SFBool               castShadows               FALSE                   # Defines whether the road should cast shadows.
   field        SFString             contactMaterial           "default"               # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine          TRUE                    # Deprecated in Webots R2018c.
 ]
 {
-  %{
-    local radius = fields.curvatureRadius.value
-    if radius < 0 then
-      io.stderr:write("'curvatureRadius' must be greater than 0\n")
-      radius = fields.curvatureRadius.defaultValue
-    end
-    if radius < fields.width.value / 2  then
-      io.stderr:write("'radius' must be greater than 'width / 2'\n")
-      radius = fields.width.value / 2
-    end
-    local angle = fields.totalAngle.value
-    if angle < 0 then
-      io.stderr:write("'totalAngle' must be greater than 0\n")
-      angle = fields.totalAngle.defaultValue
-    end
-    local subdivision = fields.subdivision.value
-    if subdivision < 1 then
-      io.stderr:write("'subdivision' must be greater than 2\n")
-      subdivision = fields.subdivision.defaultValue
-    end
-    local tilt = fields.tilt.value
-  }%
+  %<
+    let radius = fields.curvatureRadius.value;
+    if (radius < 0) {
+      radius = fields.curvatureRadius.defaultValue;
+      console.error('\'curvatureRadius\' must be strictly positive. Value reset to ' + radius + '.');
+    }
+    if (radius < fields.width.value * 0.5) {
+      radius = fields.width.value * 0.5;
+      console.error('\'radius\' must be greater than \'width / 2\'. Value reset to ' + radius + '.');
+    }
 
+    let angle = fields.totalAngle.value;
+    if (angle < 0) {
+      angle = fields.totalAngle.defaultValue;
+      console.error('\'totalAngle\' must be greater or equal to zero. Value reset to ' + angle + '.');
+    }
+
+    let subdivision = fields.subdivision.value;
+    if (subdivision < 1) {
+      subdivision = fields.subdivision.defaultValue;
+      console.error('\'subdivision\' must be greater or equal to 1. Value reset to ' + subdivision + '.');
+    }
+    const tilt = fields.tilt.value;
+  >%
   Road {
     translation IS translation
     rotation IS rotation
     name IS name
     width IS width
     numberOfLanes IS numberOfLanes
-    dashedLine IS dashedLine
     lines IS lines
     roadBorderHeight IS roadBorderHeight
     roadBorderWidth IS roadBorderWidth
@@ -85,16 +84,16 @@ PROTO CurvedRoadSegment [
     startLine IS startLine
     endLine IS endLine
     startingAngle 0
-    endingAngle %{= angle }%
+    endingAngle %<= angle >%
     wayPoints [
-      %{ for i = 0, subdivision do }%
-        %{= radius * math.cos(i * angle / subdivision) }% 0 %{= radius * math.sin(i * angle / subdivision) }%
-      %{ end }%
+      %< for (let i = 0; i <= subdivision; ++i) { >%
+        %<= radius * Math.cos(i * angle / subdivision) >% 0 %<= radius * Math.sin(i * angle / subdivision) >%
+      %< } >%
     ]
     roadTilt [
-      %{ for i = 0, subdivision do }%
-        %{= tilt * (0.5 - math.abs((i - (subdivision/2))/subdivision)) }%
-      %{ end }%
+      %< for (let i = 0; i <= subdivision; ++i) { >%
+        %<= tilt * (0.5 - Math.abs((i - (subdivision * 0.5))/subdivision)) >%
+      %< } >%
     ]
     splineSubdivision -1
     appearance IS appearance

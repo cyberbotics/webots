@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Generic and customizable landing model for straight stairs.
+# template language: javascript
 
 PROTO StraightStairsLanding [
   field SFVec3f    translation     0 0 0
@@ -17,64 +18,62 @@ PROTO StraightStairsLanding [
   field SFNode     appearance      VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the main appearance.
   field SFNode     floorAppearance Parquetry {}                                                       # Defines the floor appearance.
   field MFNode     rail            []                                                                 # Defines the rail.
-  field SFString   contactMaterial "default"                                                          # Is `Solid.contactMaterial`.  
+  field SFString   contactMaterial "default"                                                          # Is `Solid.contactMaterial`.
 ]
 {
-  %{
-    local height = fields.height.value
-    local stringerSize = fields.stringerSize.value
-    local landingSize = fields.landingSize.value
-    local supportPoleSize = fields.supportPoleSize.value
+  %<
+    let height = fields.height.value;
+    let stringerSize = fields.stringerSize.value;
+    let landingSize = fields.landingSize.value;
+    let supportPoleSize = fields.supportPoleSize.value;
 
-    -- check inputs
-    if fields.stringerSize.value.x < 0.0 or fields.stringerSize.value.y < 0.0 then
-      io.stderr:write("'stringerSize' must contain positive values\n")
-      stringerSize = fields.stringerSize.defaultValue
-    end
-    if fields.landingSize.value.x <= 0.0 or fields.landingSize.value.y <= 0.0 or fields.landingSize.value.z <= 0.0 then
-      io.stderr:write("'landingSize' must contain positive values\n")
-      landingSize.x = fields.landingSize.defaultValue.x
-      landingSize.y = fields.landingSize.defaultValue.y
-      landingSize.z = fields.landingSize.defaultValue.z
-    end
-    if fields.supportPoleSize.value.x < 0.0 or fields.supportPoleSize.value.y < 0.0 then
-      io.stderr:write("'supportPoleSize' must contain positive values\n")
-      supportPoleSize.x = fields.supportPoleSize.defaultValue.x
-      supportPoleSize.y = fields.supportPoleSize.defaultValue.y
-    elseif fields.supportPoleSize.value.x == 0.0 or fields.supportPoleSize.value.y == 0.0 then
-      supportPoleSize.x = 0.0
-      supportPoleSize.y = 0.0
-    end
-  }%
+    // check inputs
+    if (fields.stringerSize.value.x < 0.0 || fields.stringerSize.value.y < 0.0) {
+      console.error('\'stringerSize\' must contain positive values.');
+      stringerSize = fields.stringerSize.defaultValue;
+    }
+    if (fields.landingSize.value.x <= 0.0 || fields.landingSize.value.y <= 0.0 || fields.landingSize.value.z <= 0.0) {
+      console.error('\'landingSize\' must contain positive values.');
+      landingSize.x = fields.landingSize.defaultValue.x;
+      landingSize.y = fields.landingSize.defaultValue.y;
+      landingSize.z = fields.landingSize.defaultValue.z;
+    }
+    if (fields.supportPoleSize.value.x < 0.0 || fields.supportPoleSize.value.y < 0.0) {
+      console.error('\'supportPoleSize\' must contain positive values.');
+      supportPoleSize.x = fields.supportPoleSize.defaultValue.x;
+      supportPoleSize.y = fields.supportPoleSize.defaultValue.y;
+    } else if (fields.supportPoleSize.value.x === 0.0 || fields.supportPoleSize.value.y === 0.0) {
+      supportPoleSize.x = 0.0;
+      supportPoleSize.y = 0.0;
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       DEF LANDING_SHAPE Transform {
-        translation 0 %{= height }% 0
+        translation 0 %<= height >% 0
         children [
           Shape {
             appearance IS floorAppearance
             geometry Box {
-              size %{=landingSize.x}% %{=landingSize.y}% %{=landingSize.z}%
+              size %<= landingSize.x >% %<= landingSize.y >% %<= landingSize.z >%
             }
           }
         ]
       }
       Transform {
-        translation 0 %{= height }% 0
+        translation 0 %<= height >% 0
         children IS rail
       }
-      %{
-        if fields.stringerRight.value then
-      }%
+      %< if (fields.stringerRight.value) { >%
         Solid {
-          translation 0 %{= height }% %{=(landingSize.z + stringerSize.y) * 0.5}%
+          translation 0 %<= height >% %<= (landingSize.z + stringerSize.y) * 0.5 >%
           children [
             Shape {
               appearance IS appearance
               geometry DEF STRINGER_GEOM Box {
-                size %{=landingSize.x}% %{=stringerSize.x}% %{=stringerSize.y}%
+                size %<= landingSize.x >% %<= stringerSize.x >% %<= stringerSize.y >%
               }
             }
           ]
@@ -82,19 +81,15 @@ PROTO StraightStairsLanding [
           contactMaterial IS contactMaterial
           boundingObject USE STRINGER_GEOM
         }
-      %{
-        end
-      }%
-      %{
-        if fields.stringerLeft.value then
-      }%
+      %< } >%
+      %< if (fields.stringerLeft.value) { >%
         Solid {
-          translation 0 %{= height }% %{=(-landingSize.z - stringerSize.y) * 0.5}%
+          translation 0 %<= height >% %<= (-landingSize.z - stringerSize.y) * 0.5 >%
           children [
             Shape {
               appearance IS appearance
               geometry DEF STRINGER_GEOM Box {
-                size %{=landingSize.x}% %{=stringerSize.x}% %{=stringerSize.y}%
+                size %<= landingSize.x >% %<= stringerSize.x >% %<= stringerSize.y >%
               }
             }
           ]
@@ -102,19 +97,15 @@ PROTO StraightStairsLanding [
           contactMaterial IS contactMaterial
           boundingObject USE STRINGER_GEOM
         }
-      %{
-        end
-      }%
-      %{
-        if fields.stringerBack.value then
-      }%
+      %< } >%
+      %< if (fields.stringerBack.value) { >%
         Solid {
-          translation %{=(landingSize.x + stringerSize.y) * 0.5}% %{= height }% 0
+          translation %<= (landingSize.x + stringerSize.y) * 0.5 >% %<= height >% 0
           children [
             Shape {
               appearance IS appearance
               geometry DEF STRINGER_GEOM Box {
-                size %{=stringerSize.y}% %{=stringerSize.x}% %{=landingSize.z}%
+                size %<= stringerSize.y >% %<= stringerSize.x >% %<= landingSize.z >%
               }
             }
           ]
@@ -122,19 +113,15 @@ PROTO StraightStairsLanding [
           contactMaterial IS contactMaterial
           boundingObject USE STRINGER_GEOM
         }
-      %{
-        end
-      }%
-      %{
-        if supportPoleSize.x > 0 and supportPoleSize.y then
-      }%
+      %< } >%
+      %< if (supportPoleSize.x > 0 && supportPoleSize.y) { >%
         Solid {
-          translation %{=(landingSize.x - supportPoleSize.x)* 0.5}% %{= height*0.5}% %{=(landingSize.z - supportPoleSize.y) * 0.5}%
+          translation %<= (landingSize.x - supportPoleSize.x) * 0.5 >% %<= height*0.5>% %<= (landingSize.z - supportPoleSize.y) * 0.5 >%
           children [
             DEF POLE Shape {
               appearance IS appearance
               geometry Box {
-                size %{=supportPoleSize.x}% %{=height - landingSize.y * 0.5}% %{=supportPoleSize.y}%
+                size %<= supportPoleSize.x >% %<= height - landingSize.y * 0.5 >% %<= supportPoleSize.y >%
               }
             }
           ]
@@ -143,7 +130,7 @@ PROTO StraightStairsLanding [
           boundingObject USE POLE
         }
         Solid {
-          translation %{=(-landingSize.x + supportPoleSize.x)* 0.5}% %{= height*0.5}% %{=(landingSize.z - supportPoleSize.y) * 0.5}%
+          translation %<= (-landingSize.x + supportPoleSize.x) * 0.5 >% %<= height*0.5 >% %<= (landingSize.z - supportPoleSize.y) * 0.5 >%
           children [
             USE POLE
           ]
@@ -152,7 +139,7 @@ PROTO StraightStairsLanding [
           boundingObject USE POLE
         }
         Solid {
-          translation %{=(-landingSize.x + supportPoleSize.x)* 0.5}% %{= height*0.5}% %{=(-landingSize.z + supportPoleSize.y) * 0.5}%
+          translation %<= (-landingSize.x + supportPoleSize.x) * 0.5>% %<= height*0.5 >% %<= (-landingSize.z + supportPoleSize.y) * 0.5 >%
           children [
             USE POLE
           ]
@@ -161,7 +148,7 @@ PROTO StraightStairsLanding [
           boundingObject USE POLE
         }
         Solid {
-          translation %{=(landingSize.x - supportPoleSize.x)* 0.5}% %{= height*0.5}% %{=(-landingSize.z + supportPoleSize.y) * 0.5}%
+          translation %<= (landingSize.x - supportPoleSize.x) * 0.5 >% %<= height*0.5 >% %<= (-landingSize.z + supportPoleSize.y) * 0.5 >%
           children [
             USE POLE
           ]
@@ -169,9 +156,7 @@ PROTO StraightStairsLanding [
           contactMaterial IS contactMaterial
           boundingObject USE POLE
         }
-      %{
-        end
-      }%
+      %< } >%
     ]
     name IS name
     model "straight stairs landing"

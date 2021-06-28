@@ -6,6 +6,7 @@
 # In long range mode the radar can see target at up to 174m and has a field of view of 20degrees
 # Otherwise the radar can see target at up to 60m and has a field of view of 90degrees
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO DelphiESR [
   field   SFVec3f    translation     0 0 0
@@ -22,21 +23,21 @@ Radar {
   model "Delphi ESR"
   occlusion IS occlusion
   minRange 1
-  %{ if fields.longRangeMode.value then }%
+  %< if (fields.longRangeMode.value) { >%
     maxRange 174
     horizontalFieldOfView 0.349065556  # 20 deg
     cellDistance 2.5
     rangeNoise 0.5
     angularNoise 0.00873  # 0.5 deg
     minDetectableSignal -90 # computed based on antennaGain and maxRange
-  %{ else }%
+  %< } else { >%
     maxRange 60
     horizontalFieldOfView 1.578  # 90 deg
     cellDistance 1.25
     rangeNoise 0.25
     angularNoise 0.0175  # 1 deg
     minDetectableSignal -80 # computed based on antennaGain and maxRange
-  %{ end }%
+  %< } >%
   speedNoise 0.12
   minRadialSpeed -100
   maxRadialSpeed 40

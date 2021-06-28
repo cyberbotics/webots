@@ -1245,6 +1245,13 @@ DEF ROAD_2 Road {
   numberOfLanes 3
   numberOfForwardLanes 2
   speedLimit 22.222222
+  lines [
+    RoadLine {
+    }
+    RoadLine {
+      type "continuous"
+    }
+  ]
   wayPoints [
     3 0 0
     321.114435 0 120.738573
@@ -1270,10 +1277,6 @@ DEF ROAD_2 Road {
   rightBorderBoundingObject TRUE
   leftBorderBoundingObject TRUE
   castShadows TRUE
-  dashedLine [
-    TRUE
-    FALSE
-  ]
 }
 Road {
   translation -86.052723 0.01 129.876194
@@ -1498,9 +1501,6 @@ DEF PARKING_LANE_0 Road {
   splineSubdivision -1
   rightBorderBoundingObject TRUE
   castShadows TRUE
-  dashedLine [
-    FALSE
-  ]
 }
 SolidBox {
   translation -361.8304407001711 0.007499999999102051 -294.17692321995133
@@ -1580,9 +1580,6 @@ DEF PARKING_LANE_1 Road {
   locked FALSE
   rightBorderBoundingObject TRUE
   castShadows TRUE
-  dashedLine [
-    FALSE
-  ]
 }
 SolidBox {
   translation -170.50592524534844 0.010000000000511591 361.7699319688233

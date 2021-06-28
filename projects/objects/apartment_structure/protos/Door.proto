@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A cutomizable openable door.
+# template language: javascript
 
 PROTO Door [
   field SFVec3f    translation            0 0 0
@@ -24,134 +25,129 @@ PROTO Door [
   field SFBool     castShadows            TRUE                      # Defines whether this object should cast shadows.
 ]
 {
-  %{
+  %<
+    let size = fields.size.value;
+    if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+      size = fields.size.defaultValue;
+      console.error('\'size\' must be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
 
-    local size = fields.size.value
-    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then -- avoid a negative values
-      size = fields.size.defaultValue
-      io.stderr:write("'size' must contain positive values\n")
-    end
+    let doorThickness = fields.doorThickness.value;
+    if (doorThickness <= 0.0) {
+      doorThickness = fields.doorThickness.defaultValue;
+      console.error('\'doorThickness\' must be strictly positive. Value reset to ' + doorThickness + '.');
+    }
 
-    local doorThickness = fields.doorThickness.value
-    if doorThickness <= 0.0 then
-      io.stderr:write("'doorThickness' must be positive\n")
-      doorThickness = fields.doorThickness.defaultValue
-    end
+    let frameHeight = fields.frameHeight.value;
+    if (frameHeight <= 0.0) {
+      frameHeight = fields.frameHeight.defaultValue;
+      console.error('\'frameHeight\' must be strictly positive. Value reset to ' + frameHeight + '.');
+    } else if (frameHeight > size.y) {
+      frameHeight = size.y;
+      console.error('\'frameHeight\' must be less than or equal to \'size.y\'. Value reset to ' + frameHeight + '.');
+    }
 
-    local frameHeight = fields.frameHeight.value
-    if frameHeight <= 0.0 then
-      io.stderr:write("'frameHeight' must be positive\n")
-      frameHeight = fields.frameHeight.defaultValue
-    elseif frameHeight > size.y then
-      io.stderr:write("'frameHeight' must be less than or equal to 'size.y'\n")
-      frameHeight = size.y
-    end
+    let frameSize = fields.frameSize.value;
+    if (frameSize.x <= 0 || frameSize.y <= 0 || frameSize.z <= 0) {
+      frameSize = fields.frameSize.defaultValue;
+      console.error('\'frameSize\' must be strictly positive. Value reset to (' + frameSize.x + ', ' + frameSize.y + ', ' + frameSize.z + ').');
+    }
 
-    local frameSize = fields.frameSize.value
-    if frameSize.x <= 0.0 or frameSize.y <= 0.0 or frameSize.z <= 0.0 then
-      io.stderr:write("'frameSize' must contain positive values\n")
-      frameSize = fields.frameSize.defaultValue
-    end
+    let handle = fields.doorHandle.value;
+    if (handle !== undefined) {
+      if (handle.fields.jointAtLeft !== undefined && fields.jointAtLeft.value !== handle.fields.jointAtLeft.value)
+        console.error('\'jointAtLeft\' field value of Door and doorHandle nodes does not match.');
 
-    local handle = fields.doorHandle.value
-    if handle ~= nil then
-      if handle.fields.jointAtLeft ~= nil and
-         fields.jointAtLeft.value ~= handle.fields.jointAtLeft.value then
-        io.stderr:write("'jointAtLeft' field value of Door and doorHandle nodes doesn't match\n")
-      end
+      if (handle.fields.hasStaticParent !== undefined && handle.fields.hasStaticParent.value === fields.canBeOpen.value)
+        console.error('\'doorHandle.hasStaticParent\' value is incorrect, the parent Door object is static.');
+    }
 
-      if handle.fields.hasStaticParent ~= nil and
-         handle.fields.hasStaticParent.value == fields.canBeOpen.value then
-        io.stderr:write("'doorHandle.hasStaticParent' value is incorrect, the parent Door object is static\n")
-      end
-    end
-
-    local mirrorFactor = fields.jointAtLeft.value and -1 or 1
-  }%
+    let mirrorFactor = fields.jointAtLeft.value ? -1 : 1;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
-      %{
-       local topWallHeight = size.y - frameHeight
-       if topWallHeight > 0 then
-      }%
+      %<
+       const topWallHeight = size.y - frameHeight;
+       if (topWallHeight > 0) {
+      >%
         Solid {
-          translation 0 %{= size.y - 0.5 * topWallHeight }% 0
+          translation 0 %<= size.y - 0.5 * topWallHeight >% 0
           children [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+                size %<= size.x >% %<= topWallHeight >% %<= size.z >%
               }
               castShadows IS castShadows
             }
           ]
           name "mobile part"
           boundingObject Box {
-            size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+            size %<= size.x >% %<= topWallHeight >% %<= size.z >%
           }
         }
-      %{ end }%
+      %< } >%
       SolidBox { # top frame
-        translation 0 %{= frameHeight - 0.5 * frameSize.y }% 0
+        translation 0 %<= frameHeight - 0.5 * frameSize.y >% 0
         name "top frame"
-        size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= 2 * frameSize.z + size.z }%
+        size %<= size.x - 2 * frameSize.x >% %<= frameSize.y >% %<= 2 * frameSize.z + size.z >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
       SolidBox { # left frame
-        translation %{= -0.5 * size.x + 0.5 * frameSize.x }% %{= 0.5 * frameHeight }% 0
+        translation %<= -0.5 * size.x + 0.5 * frameSize.x >% %<= 0.5 * frameHeight >% 0
         name "left frame"
-        size %{= frameSize.x }% %{= frameHeight }% %{= 2 * frameSize.z + size.z }%
+        size %<= frameSize.x >% %<= frameHeight >% %<= 2 * frameSize.z + size.z >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
       SolidBox { # right frame
-        translation %{= 0.5 * size.x - 0.5 * frameSize.x }% %{= 0.5 * frameHeight }% 0
+        translation %<= 0.5 * size.x - 0.5 * frameSize.x >% %<= 0.5 * frameHeight >% 0
         name "right frame"
-        size %{= frameSize.x }% %{= frameHeight }% %{= 2 * frameSize.z + size.z }%
+        size %<= frameSize.x >% %<= frameHeight >% %<= 2 * frameSize.z + size.z >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
-      %{ if fields.canBeOpen.value then }%
+      %< if (fields.canBeOpen.value) { >%
         HingeJoint {
           jointParameters HingeJointParameters {
             position IS position
-            anchor %{= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) }% %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z }%
+            anchor %<= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) >% %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z >%
             axis 0 1 0
-            %{ if mirrorFactor > 0 then }%
+            %< if (mirrorFactor > 0) { >%
               minStop -0.01
               maxStop 1.57
-            %{ else }%
+            %< } else { >%
               minStop -1.57
               maxStop 0.01
-            %{ end }%
-            %{ if fields.selfClosing.value then }%
+            %< } >%
+            %< if (fields.selfClosing.value) { >%
               springConstant 5
-            %{ end }%
+            %< } >%
             dampingConstant 10
           }
           endPoint
-      %{ end }%
+      %< } >%
           Solid {
             translation 0 0 0.001 # small offset to not generates collisions
             children [
               Transform { # door
-                translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
                 rotation 0 1 0 -1.5708
                 children [
                   Shape {
                     appearance IS doorAppearance
                     geometry TexturedBox { # texture is mirrored on the back face of the door
-                      size %{= doorThickness }% %{= frameHeight - 0.5 * frameSize.y }% %{= size.x - frameSize.x }%
+                      size %<= doorThickness >% %<= frameHeight - 0.5 * frameSize.y >% %<= size.x - frameSize.x >%
                     }
                     castShadows IS castShadows
                   }
                 ]
               }
               Transform { # handle
-                translation %{= - mirrorFactor * 0.4 * size.x }% %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                translation %<= - mirrorFactor * 0.4 * size.x >% %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
                 children [
                   Slot {
                     type "door handle"
@@ -160,27 +156,27 @@ PROTO Door [
                 ]
               }
               Transform {
-                translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
                 children IS doorSlot
               }
             ]
             boundingObject Transform {
-              translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+              translation 0 %<= 0.5 * frameHeight >% %<= 0.5 * size.z + frameSize.z + 0.5 * doorThickness >%
               children [
                 Box {
-                  size %{= size.x - frameSize.x }% %{= frameHeight - 0.5 * frameSize.y }% %{= doorThickness }%
+                  size %<= size.x - frameSize.x >% %<= frameHeight - 0.5 * frameSize.y >% %<= doorThickness >%
                 }
               ]
             }
-            %{ if fields.canBeOpen.value then }%
+            %< if (fields.canBeOpen.value) { >%
               physics Physics {
                 density IS mainMaterialDensity
               }
-            %{ end }%
+            %< } >%
           }
-      %{ if fields.canBeOpen.value then }%
+      %< if (fields.canBeOpen.value) { >%
         }
-      %{ end }%
+      %< } >%
     ]
     name IS name
     model "door"

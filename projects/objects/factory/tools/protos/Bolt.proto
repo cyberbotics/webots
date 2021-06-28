@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A threaded bolt with variable radius and length.
+# template language: javascript
 
 PROTO Bolt [
   field SFVec3f    translation      0 0.0131 0
@@ -13,30 +14,30 @@ PROTO Bolt [
   field SFString   contactMaterial  "default"    # Is `Solid.contactMaterial`.
 ]
 {
-  %{
-    local screwLength = fields.screwLength.value
-    if screwLength <= 0.0 then
-      screwLength = fields.screwLength.defaultValue
-      io.stderr:write("'screwLength' should be positive.\n")
-    end
+  %<
+    let screwLength = fields.screwLength.value;
+    if (screwLength <= 0.0) {
+      screwLength = fields.screwLength.defaultValue;
+      console.error('\'screwLength\' must be strictly positive. Value reset to ' + screwLength + '.');
+    }
 
-    local screwRadius = fields.screwRadius.value
-    if screwRadius <= 0.0 then
-      screwRadius = fields.screwRadius.defaultValue
-      io.stderr:write("'screwRadius' should be positive.\n")
-    end
-  }%
+    let screwRadius = fields.screwRadius.value;
+    if (screwRadius <= 0.0) {
+      screwRadius = fields.screwRadius.defaultValue;
+      console.error('\'screwRadius\' must be strictly positive. Value reset to ' + screwRadius + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        scale %{= screwRadius / 0.0042 }% %{= screwRadius / 0.0042 }% %{= screwLength / 0.027 }%
+        scale %<= screwRadius / 0.0042 >% %<= screwRadius / 0.0042 >% %<= screwLength / 0.027 >%
         children [
           DEF SCREW Shape {
             appearance ScrewThread {
               textureTransform TextureTransform {
-                scale %{= screwLength / 0.035 }% 1
+                scale %<= screwLength / 0.035 >% 1
               }
             }
             geometry IndexedFaceSet {
@@ -290,7 +291,7 @@ PROTO Bolt [
         ]
       }
       Transform {
-        scale %{= screwRadius / 0.0042 }% %{= screwRadius / 0.0042 }% %{= screwLength / 0.027 }%
+        scale %<= screwRadius / 0.0042 >% %<= screwRadius / 0.0042 >% %<= screwLength / 0.027 >%
         children [
           DEF TOP_AND_TIP Shape {
             appearance IS appearance
@@ -322,22 +323,22 @@ PROTO Bolt [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0 %{= -0.0016 * screwLength / 0.027 }%
+          translation 0 0 %<= -0.0016 * screwLength / 0.027 >%
           rotation 1 0 0 1.5708
           children [
             Cylinder {
-              height %{= screwLength }%
-              radius %{= screwRadius }%
+              height %<= screwLength >%
+              radius %<= screwRadius >%
             }
           ]
         }
         Transform {
-          translation 0 0 %{= -0.0178 * screwLength / 0.027 }%
+          translation 0 0 %<= -0.0178 * screwLength / 0.027 >%
           rotation 1 0 0 1.5708
           children [
             Cylinder {
-              height %{= 0.005 * screwLength / 0.027 }%
-              radius %{= 0.0096 * screwRadius / 0.0042 }%
+              height %<= 0.005 * screwLength / 0.027 >%
+              radius %<= 0.0096 * screwRadius / 0.0042 >%
               subdivision 6
             }
           ]
