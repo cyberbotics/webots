@@ -392,8 +392,11 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   if (!previousParentRedirections.isEmpty()) {
     foreach (WbField *parentParameter, previousParentRedirections) {
       foreach (WbField *newParam, newNode->parameters()) {
-        if (parentParameter->name() == newParam->alias())
-          newParam->redirectTo(parentParameter, true);
+        if (parentParameter->name() == newParam->alias()) {
+          newParam->blockSignals(true);
+          newParam->redirectTo(parentParameter);
+          newParam->blockSignals(false);
+        }
       }
     }
   }

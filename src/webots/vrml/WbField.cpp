@@ -306,7 +306,7 @@ bool WbField::isHiddenParameter() const {
 }
 
 // redirect this node field to a proto parameter
-void WbField::redirectTo(WbField *parameter, bool isRegenerating) {
+void WbField::redirectTo(WbField *parameter) {
   // qDebug() << "redirectTo: " << this << " " << name() << " -> " << parameter << " " << parameter->name();
 
   if (this == parameter || parameter->mInternalFields.contains(this)) {
@@ -323,11 +323,7 @@ void WbField::redirectTo(WbField *parameter, bool isRegenerating) {
   connect(this, &QObject::destroyed, mParameter, &WbField::removeInternalField);
 
   // copy parameter value to field
-  if (isRegenerating)
-    mValue->blockSignals(true);
   mValue->copyFrom(mParameter->value());
-  if (isRegenerating)
-    mValue->blockSignals(false);
 
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
   if (mfnode) {
