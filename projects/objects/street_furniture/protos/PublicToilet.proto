@@ -69,7 +69,7 @@ PROTO PublicToilet [
               Shape {
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
-                    url "textures/public_toilet_base_colors.png"
+                    url "webots://projects/objects/street_furniture/protos/textures/public_toilet_base_colors.png"
                   }
                   metalness 0
                   roughness 0.5
@@ -98,7 +98,7 @@ PROTO PublicToilet [
               metalness 0
               roughness 0.2
               baseColorMap ImageTexture {
-                url "textures/public_toilet_sign.png"
+                url "webots://projects/objects/street_furniture/protos/textures/public_toilet_sign.png"
               }
             }
             geometry Plane {

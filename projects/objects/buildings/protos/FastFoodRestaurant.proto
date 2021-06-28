@@ -86,27 +86,6 @@ PROTO FastFoodRestaurant [
       recognitionColors [ 0.57 0.68 0.8 ]
     %< } >%
     children [
-<<<<<<< HEAD
-      Transform {
-        translation 0 0 %{= front_transform }%
-        children [
-          DEF LEFT_INNER_WALL Transform {
-            translation %{= ( length / 2 ) - 1 }% 1.4 %{= 3.4 - plane_offset - depth_fighting_offset }%
-            rotation 0 -0.707107 0.707106 3.14159
-            children [
-              DEF INNER_WALL Shape {
-                appearance PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "webots://projects/objects/buildings/protos/textures/fastfood_inner_wall.jpg"
-                    ]
-                  }
-                  roughness 1
-                  metalness 0
-                  textureTransform TextureTransform {
-                    scale 1 1
-                  }
-=======
     Transform {
       translation 0 0 %<= frontTransform >%
       children [
@@ -118,9 +97,8 @@ PROTO FastFoodRestaurant [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "textures/fastfood_inner_wall.jpg"
+                    "webots://projects/objects/buildings/protos/textures/fastfood_inner_wall.jpg"
                   ]
->>>>>>> origin/develop
                 }
                 roughness 1
                 metalness 0
@@ -163,7 +141,7 @@ PROTO FastFoodRestaurant [
                     }
                     emissiveColorMap ImageTexture {
                       url [
-                        "textures/fastfood_counter.jpg"
+                        "webots://projects/objects/buildings/protos/textures/fastfood_counter.jpg"
                       ]
                     }
                     roughness 1
