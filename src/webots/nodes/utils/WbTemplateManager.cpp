@@ -336,9 +336,9 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     WbSolid *const newSolid = dynamic_cast<WbSolid *>(newNode);
     WbSolidReference *const newSolidReference = dynamic_cast<WbSolidReference *>(newNode);
 
-    if (parentSolid && isInBoundingObject) {
+    if (parentSolid && isInBoundingObject)
       parentSolid->setBoundingObject(newNode);
-    } else if (parentGroup) {
+    else if (parentGroup) {
       int i = parentGroup->nodeIndex(node);
       assert(i != -1);
 
