@@ -1,0 +1,46 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+  lineScale 1
+}
+Viewpoint {
+  orientation -0.8576898584843424 0.46519382454732994 0.21900413753200396 1.003987095929511
+  position 1.603044758625781 3.086621879750774 2.1343213407750286
+}
+Background {
+  skyColor [
+    0 0.811765 0.992157
+  ]
+}
+DirectionalLight {
+  direction 0 0.5 -1
+}
+DEF ROBOT Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject Box {
+    size 1 1 1
+  }
+  controller "bounding_object_regeneration"
+  supervisor TRUE
+}
+DEF PROBE Solid {
+  translation 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.180392 0.203922 0.211765
+      }
+      geometry DEF BOX Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+TestSuiteSupervisor {
+}
