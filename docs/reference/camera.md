@@ -1208,7 +1208,7 @@ success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality
 | `/<device_name>/has_recognition` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_enable` | `service`| `webots_ros::set_int` | |
 | `/<device_name>/recognition_get_sampling_period` | `service`| `webots_ros::get_int` | |
-| `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObjects` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 count`<br/>[`RecognitionObject`](ros-api.md#webots_messages)`[]` `objects` |
+| `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObjects` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 count`<br/>[`RecognitionObject`](ros-api.md#webots-messages)`[]` `objects` |
 | `/<device_name>/recognition_has_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_enable_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_disable_segmentation` | `service`| `webots_ros::get_bool` | |
