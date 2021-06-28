@@ -288,6 +288,7 @@ dGeomID WbMatter::createOdeGeomFromGeometry(dSpaceID space, WbGeometry *geometry
 }
 
 dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbTransform *transform) {
+  // printf("createOdeGeomFromTransform\n");
   assert(space);
 
   // Listens to insertion/deletion in the children field of the WbTransform
