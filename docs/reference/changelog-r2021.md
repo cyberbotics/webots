@@ -30,6 +30,7 @@ Released on June, Xth, 2021.
     - Changed the rendering engine of the streaming viewer and of the animations for WREN ([#2769](https://github.com/cyberbotics/webots/pull/2769)).
     - Added JavaScript scripting support for [Procedural Proto Nodes](procedural-proto-nodes.md) ([#3087](https://github.com/cyberbotics/webots/pull/3087)).
   - Enhancements
+    - Display magnitude of linear and rotational velocity vectors in the [Field Editor](../guide/the-scene-tree.md#field-editor), to help monitoring robot displacement ([#3209](https://github.com/cyberbotics/webots/pull/3209)).
     - Ensure that any node "name" is displayed in the tree to help navigation ([#3198](https://github.com/cyberbotics/webots/pull/3198)).
     - Altered the collision detection logic for [Robot.selfCollision](robot.md) to ignore chains of joints if the intermediary joints all share the same `anchor` point ([#2868](https://github.com/cyberbotics/webots/pull/2868)).
     - Allow the [Robot](robot.md) node to be added inside the [Group](group.md) node and other nodes derived from the Group node like [Transform](transform.md) and [Solid](solid.md) ([#2732](https://github.com/cyberbotics/webots/pull/2732)).
