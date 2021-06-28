@@ -642,7 +642,7 @@ wb_supervisor_node_remove(node)
 
 ##### Description
 
-*Remove a specified node*
+*remove a specified node*
 
 The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
 If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
@@ -723,10 +723,10 @@ node_string = wb_supervisor_node_export_string(node)
 
 ##### Description
 
-*Export a specified node*
+*export a specified node*
 
 The `wb_supervisor_node_export_string` function returns a string from which the node is constructed.
-In conjunction with the `wb_supervisor_field_import_sf/mf_node_from_string` functions it can be used to duplicate the node.
+In conjunction with the [`wb_supervisor_field_import_sf/mf_node_from_string`](#wb_supervisor_field_import_mf_node_from_string) functions it can be used to duplicate the node.
 A file with the equivalent content can be produced in the Webots user interface by selecting the node in the scene tree window and using the `Export` button.
 
 ---
@@ -2858,7 +2858,7 @@ wb_supervisor_world_reload()
 
 ##### Description
 
-*Load, save or reload the current world.*
+*load, save or reload the current world.*
 
 The `wb_supervisor_world_load` function sends a request to the simulator process, asking it to stop the current simulation and load the world given in argument immediately.
 As a result of changing the current world, all the supervisor and robot controller processes are terminated and the new one are restarted with the new world.
