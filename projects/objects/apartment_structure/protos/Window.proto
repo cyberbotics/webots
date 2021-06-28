@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable window including walls above and below.
+# template language: javascript
 
 PROTO Window [
   field SFVec3f    translation            0 0 0
@@ -18,109 +19,107 @@ PROTO Window [
   field SFBool     castShadows            TRUE              # Defines whether this object should cast shadows.
 ]
 {
-  %{
+  %<
+    let size = fields.size.value;
+    if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+      size = fields.size.defaultValue;
+      console.error('\'size\' must be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
 
-    local size = fields.size.value
-    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then -- avoid a negative values
-      size = fields.size.defaultValue
-      io.stderr:write("'size' must contain positive values\n")
-    end
+    let windowThickness = fields.windowThickness.value;
+    if (windowThickness <= 0.0) {
+      windowThickness = fields.windowThickness.defaultValue;
+      console.error('\'windowThickness\' must be strictly positive. Value reset to ' + windowThickness + '.');
+    }
 
-    local windowThickness = fields.windowThickness.value
-    if windowThickness <= 0.0 then
-      io.stderr:write("'windowThickness' must be positive\n")
-      windowThickness = fields.windowThickness.defaultValue
-    end
+    let bottomWallHeight = fields.bottomWallHeight.value;
+    if (bottomWallHeight < 0.0) {
+      bottomWallHeight = fields.bottomWallHeight.defaultValue;
+      console.error('\'bottomWallHeight\' must be positive. Value reset to ' + bottomWallHeight + '.');
+    }
 
-    local bottomWallHeight = fields.bottomWallHeight.value
-    if bottomWallHeight < 0.0 then
-      io.stderr:write("'bottomWallHeight' must be positive\n")
-      bottomWallHeight = fields.bottomWallHeight.defaultValue
-    end
+    let windowHeight = fields.windowHeight.value;
+    if (windowHeight <= 0.0) {
+      windowHeight = fields.windowHeight.defaultValue;
+      console.error('\'windowHeight\' must be strictly positive. Value reset to ' + windowHeight + '.');
+    }
 
-    local windowHeight = fields.windowHeight.value
-    if windowHeight <= 0.0 then
-      io.stderr:write("'windowHeight' must be positive\n")
-      windowHeight = fields.windowHeight.defaultValue
-    end
+    let frameSize = fields.frameSize.value;
+    if (frameSize.x <= 0 || frameSize.y <= 0 || frameSize.z <= 0) {
+      frameSize = fields.frameSize.defaultValue;
+      console.error('\'frameSize\' must be strictly positive. Value reset to (' + frameSize.x + ', ' + frameSize.y + ', ' + frameSize.z + ').');
+    }
 
-    local frameSize = fields.frameSize.value
-    if frameSize.x < 0.0 or frameSize.y < 0.0 or frameSize.z < 0.0 then
-      io.stderr:write("'frameSize' must contain positive or zero values\n")
-      frameSize = fields.frameSize.defaultValue
-    end
+    let windowSillSize = fields.windowSillSize.value;
+    if (windowSillSize.x < 0.0 || windowSillSize.y < 0.0) {
+      windowSillSize = fields.windowSillSize.defaultValue;
+      console.error('\'windowSillSize\' must contain positive or zero values. Value reset to (' + windowSillSize.x + ', ' + windowSillSize.y + ').');
+    }
 
-    local windowSillSize = fields.windowSillSize.value
-    if windowSillSize.x < 0.0 or windowSillSize.y < 0.0 then
-      io.stderr:write("'windowSillSize' must contain positive or zero values\n")
-      windowSillSize = fields.windowSillSize.defaultValue
-    end
-
-    local reset = true
-    if windowHeight <= 2 * frameSize.y then
-      io.stderr:write("'frameSize.y' is too big in comparison to 'windowHeight'\n")
-    elseif windowHeight + bottomWallHeight > size.y then
-      io.stderr:write("'windowHeight' and 'bottomWallHeight' are too big in comparison to 'size.y'\n")
-    elseif size.x <= 2 * frameSize.x then
-      io.stderr:write("'frameSize.x' is too big in comparison to 'size.x'\n")
+    let reset = true;
+    if (windowHeight <= 2 * frameSize.y)
+      console.error('\'frameSize.y\' is too big in comparison to \'windowHeight\'.');
+    else if (windowHeight + bottomWallHeight > size.y)
+      console.error('\'windowHeight\' and \'bottomWallHeight\' are too big in comparison to \'size.y\'.');
+    else if (size.x <= 2 * frameSize.x)
+      console.error('\'frameSize.x\' is too big in comparison to \'size.x\'.');
     else
-      reset = false
-    end
+      reset = false;
 
-    if reset == true then
-      windowHeight = fields.windowHeight.defaultValue
-      bottomWallHeight = fields.bottomWallHeight.defaultValue
-      frameSize = fields.frameSize.defaultValue
-      size = fields.size.defaultValue
-    end
+    if (reset) {
+      windowHeight = fields.windowHeight.defaultValue;
+      bottomWallHeight = fields.bottomWallHeight.defaultValue;
+      frameSize = fields.frameSize.defaultValue;
+      size = fields.size.defaultValue;
+    }
 
-    local bottomWallTextureFactor = math.max(size.x, bottomWallHeight)
-  }%
+    const bottomWallTextureFactor = Math.max(size.x, bottomWallHeight);
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
-      %{ if bottomWallHeight > 0 then }%
+      %< if (bottomWallHeight > 0) { >%
         Solid { # bottom wall
-          translation 0 %{= 0.5 * bottomWallHeight }% 0
+          translation 0 %<= 0.5 * bottomWallHeight >% 0
           children [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %{= size.x }% %{= bottomWallHeight }% %{= size.z }%
+                size %<= size.x >% %<= bottomWallHeight >% %<= size.z >%
               }
               castShadows IS castShadows
             }
           ]
           name "bottom wall"
           boundingObject Box {
-            size %{= size.x }% %{= bottomWallHeight }% %{= size.z }%
+            size %<= size.x >% %<= bottomWallHeight >% %<= size.z >%
           }
         }
-      %{ end }%
-      %{ local topWallHeight = size.y - bottomWallHeight - windowHeight }%
-      %{ if topWallHeight > 0 then }%
+      %< } >%
+      %< let topWallHeight = size.y - bottomWallHeight - windowHeight; >%
+      %< if (topWallHeight > 0) { >%
         Solid { # top wall
-          translation 0 %{= size.y - 0.5 * topWallHeight }% 0
+          translation 0 %<= size.y - 0.5 * topWallHeight >% 0
           children [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+                size %<= size.x >% %<= topWallHeight >% %<= size.z >%
               }
               castShadows IS castShadows
             }
           ]
           name "top wall"
           boundingObject Box {
-            size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+            size %<= size.x >% %<= topWallHeight >% %<= size.z >%
           }
         }
-      %{ end }%
+      %< } >%
       SolidBox { # glass
-        translation 0 %{= bottomWallHeight + 0.5 * windowHeight }% 0
+        translation 0 %<= bottomWallHeight + 0.5 * windowHeight >% 0
         name "glass"
-        size %{= size.x - 2 * frameSize.x }% %{= windowHeight - 2 * frameSize.y }% %{= windowThickness }%
+        size %<= size.x - 2 * frameSize.x >% %<= windowHeight - 2 * frameSize.y >% %<= windowThickness >%
         appearance PBRAppearance {
           baseColor 0.8 0.8 0.8
           metalness 0
@@ -128,45 +127,45 @@ PROTO Window [
         }
         castShadows IS castShadows
       }
-      %{ if windowSillSize.x > 0 and windowSillSize.y > 0 then }%
+      %< if (windowSillSize.x > 0 && windowSillSize.y > 0) { >%
         SolidBox { # window sill
-          translation 0 %{= bottomWallHeight + windowSillSize.y * 0.5 }% 0
+          translation 0 %<= bottomWallHeight + windowSillSize.y * 0.5 >% 0
           name "sill"
-          size %{= size.x }% %{= windowSillSize.y }% %{= 2 * windowSillSize.x + size.z + 2 * frameSize.z }%
+          size %<= size.x >% %<= windowSillSize.y >% %<= 2 * windowSillSize.x + size.z + 2 * frameSize.z >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
-      %{ end }%
-      %{ if frameSize.x > 0 or frameSize.y > 0 then }%
+      %< } >%
+      %< if (frameSize.x > 0 || frameSize.y > 0) { >%
         SolidBox { # bottom frame
-          translation 0 %{= bottomWallHeight + frameSize.y * 0.5 + windowSillSize.y }% 0
+          translation 0 %<= bottomWallHeight + frameSize.y * 0.5 + windowSillSize.y >% 0
           name "bottom frame"
-          size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= size.z + 2 * frameSize.z }%
+          size %<= size.x - 2 * frameSize.x >% %<= frameSize.y >% %<= size.z + 2 * frameSize.z >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
         SolidBox { # top frame
-          translation 0 %{= bottomWallHeight + windowHeight - 0.5 * frameSize.y }% 0
+          translation 0 %<= bottomWallHeight + windowHeight - 0.5 * frameSize.y >% 0
           name "top frame"
-          size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= size.z + 2 * frameSize.z }%
+          size %<= size.x - 2 * frameSize.x >% %<= frameSize.y >% %<= size.z + 2 * frameSize.z >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
         SolidBox { # right frame
-          translation %{= 0.5 * size.x - 0.5 * frameSize.x }% %{= bottomWallHeight + 0.5 * windowHeight }% 0
+          translation %<= 0.5 * size.x - 0.5 * frameSize.x >% %<= bottomWallHeight + 0.5 * windowHeight >% 0
           name "right frame"
-          size %{= frameSize.x }% %{= windowHeight }% %{= size.z + 2 * frameSize.z }%
+          size %<= frameSize.x >% %<= windowHeight >% %<= size.z + 2 * frameSize.z >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
         SolidBox { # left frame
-          translation %{= -0.5 * size.x + 0.5 * frameSize.x }% %{= bottomWallHeight + 0.5 * windowHeight }% 0
+          translation %<= -0.5 * size.x + 0.5 * frameSize.x >% %<= bottomWallHeight + 0.5 * windowHeight >% 0
           name "left frame"
-          size %{= frameSize.x }% %{= windowHeight }% %{= size.z + 2 * frameSize.z }%
+          size %<= frameSize.x >% %<= windowHeight >% %<= size.z + 2 * frameSize.z >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
-      %{ end }%
+      %< } >%
     ]
     name IS name
     model "window"

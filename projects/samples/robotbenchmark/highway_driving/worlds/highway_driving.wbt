@@ -127,8 +127,10 @@ DEF ROAD Road {
     0
   ]
   splineSubdivision 16
-  dashedLine [
-    FALSE
+  lines [
+    RoadLine {
+      type "continuous"
+    }
   ]
 }
 HighwayDrivingBenchmark {

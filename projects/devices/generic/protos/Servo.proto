@@ -6,6 +6,7 @@
 # A Servo can be used to simulate a rotational or a linear motion.
 # Spring and damping behavior can be specified.
 # For loading performance reasons, it is suggested to use the joint and motor nodes directly instead of this node.
+# template language: javascript
 
 PROTO Servo [
   field     SFVec3f    translation         0 0 0
@@ -39,28 +40,27 @@ PROTO Servo [
   field     SFFloat    staticFriction      0               # Defines the static friction of the joint.
 ]
 {
-  %{
-    local jointType = fields.type.value
-    if (jointType ~= "rotational" and jointType ~= "linear") then
-      jointType = fields.poleType.defaultValue
-      io.stderr:write("'type' should be one of the following: 'rotational' or 'linear'. ")
-      io.stderr:write("'type' was reset to '" .. jointType .. "'.")
-    end
-    local rotation = fields.rotation.value
-  }%
+  %<
+    let jointType = fields.type.value;
+    if (jointType !== 'rotational' && jointType !== 'linear') {
+      jointType = fields.type.defaultValue;
+      console.error('\'type\' should be one of the following: \'rotational\' or \'linear\'. Value reset to ' + jointType + '.');
+    }
+    const rotation = fields.rotation.value;
+  >%
   Transform {
     translation IS translation
     rotation IS rotation
     scale IS scale
     children [
-      %{ if jointType == "rotational" then }%
+      %< if (jointType === 'rotational') { >%
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis %{= rotation.x }% %{= rotation.y }% %{= rotation.z }%
-      %{ else }%
+          axis %<= rotation.x >% %<= rotation.y >% %<= rotation.z >%
+      %< } else { >%
       SliderJoint {
         jointParameters JointParameters {
-      %{ end }%
+      %< } >%
           position IS position
           minStop IS minStop
           maxStop IS maxStop
@@ -70,21 +70,21 @@ PROTO Servo [
         }
         device [
           PositionSensor {
-            name %{= '"' .. fields.name.value .. ' sensor"' }%
+            name %<= '"' + fields.name.value + ' sensor"' >%
           }
-          %{ if jointType == "rotational" then }%
+          %< if (jointType === 'rotational') { >%
           RotationalMotor {
             maxTorque IS maxForce
-          %{ else }%
+          %< } else { >%
           LinearMotor {
             maxForce IS maxForce
-          %{ end }%
+          %< } >%
             name IS name
             maxVelocity IS maxVelocity
             acceleration IS acceleration
             minPosition IS minPosition
             maxPosition IS maxPosition
-            controlPID %{= fields.controlP.value }% 0 0
+            controlPID %<= fields.controlP.value >% 0 0
           }
         ]
         endPoint Solid {

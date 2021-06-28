@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Generic model of Car using the AckermanVehicle proto.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO Car [
 #fields inherited from AckermannVehicle
@@ -58,210 +59,193 @@ PROTO Car [
   hiddenField SFFloat maxWheelVelocity -1.0
 ]
 {
-  %{
-    -- check validity of the value of the fields
-    -- tracks check
-    local frontTrack = fields.trackFront.value
-    if frontTrack <= 0.0 then
-      frontTrack = fields.trackFront.defaultValue
-      io.stderr:write("'trackFront' should be strictly positive.\n")
-      io.stderr:write("'trackFront' was reset to '" .. frontTrack .. "'.\n")
-    end
-    local rearTrack = fields.trackRear.value
-    if rearTrack <= 0.0 then
-      rearTrack = fields.rearTrack.defaultValue
-      io.stderr:write("'trackRear' should be strictly positive.\n")
-      io.stderr:write("'trackRear' was reset to '" .. rearTrack .. "'.\n")
-    end
-    -- wheelbase check
-    local wheelbase = fields.wheelbase.value
-    if wheelbase <= 0.0 then
-      wheelbase = fields.wheelbase.defaultValue
-      io.stderr:write("'wheelbase' should be strictly positive.\n")
-      io.stderr:write("'wheelbase' was reset to '" .. wheelbase .. "'.\n")
-    end
-    -- type check
-    local type = fields.type.value
-    -- engineSound check
-    local engineSound = fields.engineSound.value
-    if engineSound == nil or engineSound == "" then
-      engineSound = "none"
-    end
-    -- engineSoundRpmReference check
-    local engineSoundRpmReference = fields.engineSoundRpmReference.value
-    if engineSoundRpmReference <= 0.0 then
-      engineSoundRpmReference = fields.engineSoundRpmReference.defaultValue
-      io.stderr:write("'engineSoundRpmReference' should be strictly positive.\n")
-      io.stderr:write("'engineSoundRpmReference' was reset to '" .. engineSoundRpmReference .. "'.\n")
-    end
-    -- brakeCoefficient check
-    local brakeCoefficient = fields.brakeCoefficient.value
-    if brakeCoefficient <= 0.0 then
-      brakeCoefficient = fields.brakeCoefficient.defaultValue
-      io.stderr:write("'brakeCoefficient' should be strictly positive.\n")
-      io.stderr:write("'brakeCoefficient' was reset to '" .. brakeCoefficient .. "'.\n")
-    end
-    -- time0To100 check
-    local time0To100 = fields.time0To100.value
-    if time0To100 <= 0.0 then
-      time0To100 = fields.time0To100.defaultValue
-      io.stderr:write("'time0To100' should be strictly positive.\n")
-      io.stderr:write("'time0To100' was reset to '" .. time0To100 .. "'.\n")
-    end
-    -- wheelsDampingConstant check
-    local wheelsDampingConstant = fields.wheelsDampingConstant.value
-    if wheelsDampingConstant < 0.0 then
-      wheelsDampingConstant = fields.wheelsDampingConstant.defaultValue
-      io.stderr:write("'wheelsDampingConstant' should be positive.\n")
-      io.stderr:write("'wheelsDampingConstant' was reset to '" .. wheelsDampingConstant .. "'.\n")
-    end
-    -- maxSteeringTorque check
-    local maxSteeringTorque = fields.maxSteeringTorque.value
-    if maxSteeringTorque < 0.0 then
-      maxSteeringTorque = fields.maxSteeringTorque.defaultValue
-      io.stderr:write("'maxSteeringTorque' should be positive.\n")
-      io.stderr:write("'maxSteeringTorque' was reset to '" .. maxSteeringTorque .. "'.\n")
-    end
-    -- engineMaxTorque and engineMaxPower check
-    local engineMaxTorque = fields.engineMaxTorque.value
-    if engineMaxTorque <= 0.0 then
-      engineMaxTorque = fields.engineMaxTorque.defaultValue
-      io.stderr:write("'engineMaxTorque' should be strictly positive.\n")
-      io.stderr:write("'engineMaxTorque' was reset to '" .. engineMaxTorque .. "'.\n")
-    end
-    local engineMaxPower = fields.engineMaxPower.value
-    if engineMaxPower <= 0.0 then
-      engineMaxPower = fields.engineMaxPower.defaultValue
-      io.stderr:write("'engineMaxPower' should be strictly positive.\n")
-      io.stderr:write("'engineMaxPower' was reset to ''" .. engineMaxPower .. "'.\n")
-    end
-    -- engineMinRPM and engineMaxRPM check
-    local engineMinRPM = fields.engineMinRPM.value
-    if engineMinRPM <= 0.0 then
-      engineMinRPM = fields.engineMinRPM.defaultValue
-      io.stderr:write("'engineMinRPM' should be strictly positive.\n")
-      io.stderr:write("'engineMinRPM' was reset to '" .. engineMinRPM .. "'.\n")
-    end
-    local engineMaxRPM = fields.engineMaxRPM.value
-    if engineMaxRPM <= engineMinRPM then
-      engineMaxRPM = 5 * engineMinRPM
-      io.stderr:write("'engineMaxRPM' should be greater than 'engineMinRPM'.\n")
-      io.stderr:write("'engineMaxRPM' was reset to five times the value of 'engineMinRPM'.\n")
-    end
-    -- hybridPowerSplitRatio check
-    local hybridPowerSplitRatio = fields.hybridPowerSplitRatio.value
-    if hybridPowerSplitRatio < 0 or hybridPowerSplitRatio > 1 then
-      hybridPowerSplitRatio = fields.hybridPowerSplitRatio.defaultValue
-      io.stderr:write("'hybridPowerSplitRatio' should be in the range [0,1].\n")
-      io.stderr:write("'hybridPowerSplitRatio' was reset to '" .. hybridPowerSplitRatio .. "'.\n")
-    end
-    -- hybridPowerSplitRPM check
-    local hybridPowerSplitRPM = fields.hybridPowerSplitRPM.value
-    if hybridPowerSplitRPM < 0 then
-      hybridPowerSplitRPM = fields.hybridPowerSplitRPM.defaultValue
-      io.stderr:write("'hybridPowerSplitRPM' should be greater than 'hybridPowerSplitRPM'.\n")
-      io.stderr:write("'hybridPowerSplitRPM' was reset to ''" .. hybridPowerSplitRPM .. "'.\n")
-    end
-    -- front wheels, the slot should be a proto with the 'tireRadius' fields
-    local frontTireRadius = -1
-    local node = fields.wheelFrontRight.value
-    if node ~= nil then
-      if node.fields.tireRadius and node.fields.tireRadius.value then
-        frontTireRadius = node.fields.tireRadius.value
-      else
-        io.stderr:write("The node in the 'wheelFrontRight' field should have a 'tireRadius' field.\n")
-      end
-    end
-    -- rear wheels, the slot should be a proto with the 'tireRadius' fields
-    local rearTireRadius = -1
-    node = fields.wheelRearRight.value
-    if node ~= nil then
-      if node.fields.tireRadius and node.fields.tireRadius.value then
-        rearTireRadius = node.fields.tireRadius.value
-      else
-        io.stderr:write("The node in the 'wheelRearRight' field should have a 'tireRadius' field.\n")
-      end
-    end
+  %<
+    // check validity of the value of the fields
+    // tracks check
+    let frontTrack = fields.trackFront.value;
+    if (frontTrack <= 0.0) {
+      frontTrack = fields.trackFront.defaultValue;
+      console.error('\'trackFront\' must be strictly positive. Value reset to ' + frontTrack + '.');
+    }
 
-    -- compute the accelerations of the rotational motors from 'time0To100'
-    local frontAcceleration = 0
-    local rearAcceleration = 0
-    if frontTireRadius == -1 then -- use 0.4 if radius not found
-      -- 1000 / 36 => 100km/h => m/s
-      frontAcceleration = 1000 / 36 / time0To100 / 0.4
-    else
-      frontAcceleration = 1000 / 36 / time0To100 / frontTireRadius
-    end
-    if rearTireRadius == -1 then -- use 0.4 if radius not found
-      rearAcceleration = 1000 / 36 / time0To100 / 0.4
-    else
-      rearAcceleration = 1000 / 36 / time0To100 / rearTireRadius
-    end
-    -- compute the max velocity of the rotational motors from 'time0To100'
-    local frontMaxVelocity = 0
-    local rearMaxVelocity = 0
-    if fields.maxWheelVelocity.value ~= fields.maxWheelVelocity.defaultValue and fields.maxVelocity.value == fields.maxVelocity.defaultValue then
-      io.stderr:write("Deprecated 'maxWheelVelocity' field, use the 'maxVelocity' field instead.\n")
-      frontMaxVelocity = fields.maxWheelVelocity.value
-      rearMaxVelocity = fields.maxWheelVelocity.value
-    else
-      if frontTireRadius == -1 then
-        frontMaxVelocity = fields.maxVelocity.value / 0.4
-      else
-        frontMaxVelocity = fields.maxVelocity.value /  frontTireRadius
-      end
-      if rearTireRadius == -1 then
-        rearMaxVelocity = fields.maxVelocity.value / 0.4
-      else
-        rearMaxVelocity = fields.maxVelocity.value /  rearTireRadius
-      end
-    end
+    let rearTrack = fields.trackRear.value;
+    if (rearTrack <= 0.0) {
+      rearTrack = fields.trackRear.defaultValue;
+      console.error('\'trackRear\' must be strictly positive. Value reset to ' + rearTrack + '.');
+    }
 
-    -- compute the 'customData' string which is used to communicate configuration of the vehicle to the library
-    -- the structure is the following: "wheelbase frontTrack rearTrack frontWheelsRadius (-1 if no wheel detected) rearWheelsRadius (-1 if no wheel detected) brakeCoefficient wheelsDampingConstant engineType engineMaxTorque engineMaxPower engineMinRPM engineMaxRPM engineFunctionCoefficients[0] engineFunctionCoefficients[1] engineFunctionCoefficients[2] hybridPowerSplitRatio hybridPowerSplitRPM  engineSoundRpmReference sizeOfGearRatio length(engineSound) gearRatio0 gearRatio1 .. gearRatioN engineSound" (more will be added).
-    local customData = '"' .. wheelbase .. ' ' .. frontTrack ..' ' .. rearTrack .. ' '
-    -- front wheels tire radius if found (-1 otherwise)
-    customData = customData .. frontTireRadius .. ' '
-    -- rear wheels tire radius if found (-1 otherwise)
-    customData = customData .. rearTireRadius .. ' '
-    -- brake caracteristic
-    customData = customData .. brakeCoefficient .. ' '
-    -- wheels dampingConstant
-    customData = customData .. wheelsDampingConstant .. ' '
-    -- engine type
-    local engineType = fields.engineType.value
-    if engineType == "combustion" then
-      customData = customData .. 'C '
-    elseif engineType == "electric" then
-      customData = customData .. 'E '
-    elseif engineType == "parallel hybrid" then
-      customData = customData .. 'P '
-    else
-      customData = customData .. 'S '
-    end
-    -- engine min and max rotating speed engineMaxTorque engineMaxPower
-    customData = customData .. engineMaxTorque .. ' ' .. engineMaxPower .. ' '
-    -- engine min and max rotating speed
-    customData = customData .. engineMinRPM .. ' ' .. engineMaxRPM .. ' '
-    customData = customData .. fields.engineFunctionCoefficients.value.x .. ' ' .. fields.engineFunctionCoefficients.value.y .. ' ' .. fields.engineFunctionCoefficients.value.z .. ' '
-    -- hybrid power split caracteristics
-    customData = customData .. hybridPowerSplitRatio .. ' ' .. hybridPowerSplitRPM .. ' '
-    -- engineSoundRpmReference
-    customData = customData .. engineSoundRpmReference .. ' '
-    -- gears number
-    local gearNumber = 0
-    for key,value in ipairs(fields.gearRatio.value) do gearNumber = gearNumber + 1 end
-    customData = customData .. gearNumber .. ' '
-    -- length of engineSound
-    customData = customData .. string.len(engineSound) .. ' '
-    -- gears ratio of each gear
-    for key,value in ipairs(fields.gearRatio.value) do customData = customData .. value .. ' ' end
-    -- engineSound
-    customData = customData .. engineSound .. ' '
-    -- close the customData string
-    customData = customData .. '"'
-  }%
+    // wheelbase check
+    let wheelbase = fields.wheelbase.value;
+    if (wheelbase <= 0.0) {
+      wheelbase = fields.wheelbase.defaultValue;
+      console.error('\'wheelbase\' must be strictly positive. Value reset to ' + wheelbase + '.');
+    }
+    // type check
+    const type = fields.type.value;
+    // engineSound check
+    let engineSound = fields.engineSound.value;
+    if (engineSound === undefined || engineSound === '')
+      engineSound = 'none';
+    // engineSoundRpmReference check
+    let engineSoundRpmReference = fields.engineSoundRpmReference.value;
+    if (engineSoundRpmReference <= 0.0) {
+      engineSoundRpmReference = fields.engineSoundRpmReference.defaultValue;
+      console.error('\'engineSoundRpmReference\' must be strictly positive. Value reset to ' + engineSoundRpmReference + '.');
+    }
+    // brakeCoefficient check
+    let brakeCoefficient = fields.brakeCoefficient.value;
+    if (brakeCoefficient <= 0.0) {
+      brakeCoefficient = fields.brakeCoefficient.defaultValue;
+      console.error('\'brakeCoefficient\' must be strictly positive. Value reset to ' + brakeCoefficient + '.');
+    }
+    // time0To100 check
+    let time0To100 = fields.time0To100.value;
+    if (time0To100 <= 0.0) {
+      time0To100 = fields.time0To100.defaultValue;
+      console.error('\'time0To100\' must be strictly positive. Value reset to ' + time0To100 + '.');
+    }
+    // wheelsDampingConstant check
+    let wheelsDampingConstant = fields.wheelsDampingConstant.value;
+    if (wheelsDampingConstant <= 0.0) {
+      wheelsDampingConstant = fields.wheelsDampingConstant.defaultValue;
+      console.error('\'wheelsDampingConstant\' must be strictly positive. Value reset to ' + wheelsDampingConstant + '.');
+    }
+    // maxSteeringTorque check
+    let maxSteeringTorque = fields.maxSteeringTorque.value;
+    if (maxSteeringTorque < 0.0) {
+      maxSteeringTorque = fields.maxSteeringTorque.defaultValue;
+      console.error('\'maxSteeringTorque\' must be positive. Value reset to ' + maxSteeringTorque + '.');
+    }
+    // engineMaxTorque and engineMaxPower check
+    let engineMaxTorque = fields.engineMaxTorque.value;
+    if (engineMaxTorque <= 0.0) {
+      engineMaxTorque = fields.engineMaxTorque.defaultValue;
+      console.error('\'engineMaxTorque\' must be strictly positive. Value reset to ' + engineMaxTorque + '.');
+    }
+    let engineMaxPower = fields.engineMaxPower.value;
+    if (engineMaxPower <= 0.0) {
+      engineMaxPower = fields.engineMaxPower.defaultValue;
+      console.error('\'engineMaxPower\' must be strictly positive. Value reset to ' + engineMaxPower + '.');
+    }
+    // engineMinRPM and engineMaxRPM check
+    let engineMinRPM = fields.engineMinRPM.value;
+    if (engineMinRPM <= 0.0) {
+      engineMinRPM = fields.engineMinRPM.defaultValue;
+      console.error('\'engineMinRPM\' must be strictly positive. Value reset to ' + engineMinRPM + '.');
+    }
+    let engineMaxRPM = fields.engineMaxRPM.value;
+    if (engineMaxRPM <= 0.0) {
+      engineMaxRPM = fields.engineMaxRPM.defaultValue;
+      console.error('\'engineMaxRPM\' must be strictly positive. Value reset to ' + engineMaxRPM + '.');
+    }
+    // hybridPowerSplitRatio check
+    let hybridPowerSplitRatio = fields.hybridPowerSplitRatio.value;
+    if (hybridPowerSplitRatio < 0.0 || hybridPowerSplitRatio > 1) {
+      hybridPowerSplitRatio = fields.hybridPowerSplitRatio.defaultValue;
+      console.error('\'hybridPowerSplitRatio\' must be in the range [0,1]. Value reset to ' + hybridPowerSplitRatio + '.');
+    }
+    // hybridPowerSplitRPM check
+    let hybridPowerSplitRPM = fields.hybridPowerSplitRPM.value;
+    if (hybridPowerSplitRPM <= 0.0) {
+      hybridPowerSplitRPM = fields.hybridPowerSplitRPM.defaultValue;
+      console.error('\'hybridPowerSplitRPM\' must be strictly positive. Value reset to ' + hybridPowerSplitRPM + '.');
+    }
+    // front wheels, the slot should be a proto with the 'tireRadius' fields
+    let frontTireRadius = -1;
+    let node = fields.wheelFrontRight.value;
+    if (node !== undefined) {
+      if (node.fields.tireRadius && node.fields.tireRadius.value)
+        frontTireRadius = node.fields.tireRadius.value;
+      else
+        console.error('The node in the \'wheelFrontRight\' field should have a \'tireRadius\' field.');
+    }
+    // rear wheels, the slot should be a proto with the 'tireRadius' fields
+    let rearTireRadius = -1;
+    node = fields.wheelRearRight.value;
+    if (node !== undefined) {
+      if (node.fields.tireRadius && node.fields.tireRadius.value)
+        rearTireRadius = node.fields.tireRadius.value;
+      else
+        console.error('The node in the \'wheelRearRight\' field should have a \'tireRadius\' field.');
+    }
+    // compute the accelerations of the rotational motors from 'time0To100'
+    let frontAcceleration;
+    let rearAcceleration;
+    if (frontTireRadius === -1) { // use 0.4 if radius not found
+      // 1000 / 36 => 100km/h => m/s
+      frontAcceleration = 1000 / 36 / time0To100 / 0.4;
+    } else
+      frontAcceleration = 1000 / 36 / time0To100 / frontTireRadius;
 
+    if (rearTireRadius === -1) // use 0.4 if radius not found
+      rearAcceleration = 1000 / 36 / time0To100 / 0.4;
+    else
+      rearAcceleration = 1000 / 36 / time0To100 / rearTireRadius;
+
+    // compute the max velocity of the rotational motors from 'time0To100'
+    let frontMaxVelocity = 0;
+    let rearMaxVelocity = 0;
+    if (fields.maxWheelVelocity.value !== fields.maxWheelVelocity.defaultValue && fields.maxVelocity.value === fields.maxVelocity.defaultValue) {
+      console.error('Field \'maxWheelVelocity\' is deprecated, use the \'maxVelocity\' field instead.');
+      frontMaxVelocity = fields.maxWheelVelocity.value;
+      rearMaxVelocity = fields.maxWheelVelocity.value;
+    } else {
+      if (frontTireRadius === -1)
+        frontMaxVelocity = fields.maxVelocity.value / 0.4;
+      else
+        frontMaxVelocity = fields.maxVelocity.value / frontTireRadius;
+
+      if (rearTireRadius === -1)
+        rearMaxVelocity = fields.maxVelocity.value / 0.4;
+      else
+        rearMaxVelocity = fields.maxVelocity.value / rearTireRadius;
+    }
+
+    // compute the 'customData' string which is used to communicate configuration of the vehicle to the library
+    // the structure is the following: "wheelbase frontTrack rearTrack frontWheelsRadius (-1 if no wheel detected) rearWheelsRadius (-1 if no wheel detected) brakeCoefficient wheelsDampingConstant engineType engineMaxTorque engineMaxPower engineMinRPM engineMaxRPM engineFunctionCoefficients[0] engineFunctionCoefficients[1] engineFunctionCoefficients[2] hybridPowerSplitRatio hybridPowerSplitRPM  engineSoundRpmReference sizeOfGearRatio length(engineSound) gearRatio0 gearRatio1 .. gearRatioN engineSound" (more will be added).
+    let customData = '"' + wheelbase + ' ' + frontTrack + ' ' + rearTrack + ' ';
+    // front wheels tire radius if found (-1 otherwise)
+    customData += frontTireRadius + ' ';
+    // rear wheels tire radius if found (-1 otherwise)
+    customData += rearTireRadius + ' ';
+    // brake caracteristic
+    customData += brakeCoefficient + ' ';
+    // wheels dampingConstant
+    customData += wheelsDampingConstant + ' ';
+    // engine type
+    let engineType = fields.engineType.value;
+    if (engineType === 'combustion')
+      customData += 'C ';
+    else if (engineType === 'electric')
+      customData += 'E ';
+    else if (engineType === 'parallel hybrid')
+      customData += 'P ';
+    else
+      customData +=  'S ';
+
+    // engine min and max rotating speed engineMaxTorque engineMaxPower
+    customData += engineMaxTorque + ' ' + engineMaxPower + ' ';
+    // engine min and max rotating speed
+    customData += engineMinRPM + ' ' + engineMaxRPM + ' ';
+    customData += fields.engineFunctionCoefficients.value.x + ' ' + fields.engineFunctionCoefficients.value.y + ' ' + fields.engineFunctionCoefficients.value.z + ' ';
+    // hybrid power split caracteristics
+    customData += hybridPowerSplitRatio + ' ' + hybridPowerSplitRPM + ' ';
+    // engineSoundRpmReference
+    customData += engineSoundRpmReference + ' ';
+    // gears number
+    const gearNumber = fields.gearRatio.value.length;
+    customData += gearNumber + ' ';
+    // length of engineSound
+    customData += engineSound.length + ' ';
+    // gears ratio of each gear
+    let gearRatio = fields.gearRatio.value;
+    for (let i = 0; i < gearNumber; ++i)
+      customData += gearRatio[i] + ' ';
+    // engineSound
+    customData += engineSound + ' ';
+    // close the customData string
+    customData +=  '"';
+  >%
   AckermannVehicle {
     translation IS translation
     rotation IS rotation
@@ -291,18 +275,18 @@ PROTO Car [
     wheelFrontLeft IS wheelFrontLeft
     wheelRearRight IS wheelRearRight
     wheelRearLeft IS wheelRearLeft
-    customData %{= customData }%
+    customData %<= customData >%
     window IS window
     axisDevicesFrontRight [
-    %{ if type == "traction" or type == "4x4" then }%
+    %< if (type === 'traction' || type === '4x4') { >%
       RotationalMotor {
         name "right_front_wheel"
-        acceleration %{= frontAcceleration }%
-        maxVelocity %{= frontMaxVelocity }%
+        acceleration %<= frontAcceleration >%
+        maxVelocity %<= frontMaxVelocity >%
         maxTorque 100000000
         sound ""
       }
-    %{ end }%
+    %< } >%
       PositionSensor {
         name "right_front_sensor"
       }
@@ -311,15 +295,15 @@ PROTO Car [
       }
     ]
     axisDevicesFrontLeft [
-    %{ if type == "traction" or type == "4x4" then }%
+    %< if (type === 'traction' || type === '4x4') { >%
       RotationalMotor {
         name "left_front_wheel"
-        acceleration %{= frontAcceleration }%
-        maxVelocity %{= frontMaxVelocity }%
+        acceleration %<= frontAcceleration >%
+        maxVelocity %<= frontMaxVelocity >%
         maxTorque 100000000
         sound ""
       }
-    %{ end }%
+    %< } >%
       PositionSensor {
         name "left_front_sensor"
       }
@@ -328,15 +312,15 @@ PROTO Car [
       }
     ]
     axisDevicesRearRight [
-    %{ if type == "propulsion" or type == "4x4" then }%
+    %< if (type === 'propulsion' || type === '4x4') { >%
       RotationalMotor {
         name "right_rear_wheel"
-        acceleration %{= rearAcceleration }%
-        maxVelocity %{= rearMaxVelocity }%
+        acceleration %<= rearAcceleration >%
+        maxVelocity %<= rearMaxVelocity >%
         maxTorque 100000000
         sound ""
       }
-    %{ end }%
+    %< } >%
       PositionSensor {
         name "right_rear_sensor"
       }
@@ -345,15 +329,15 @@ PROTO Car [
       }
     ]
     axisDevicesRearLeft [
-    %{ if type == "propulsion" or type == "4x4" then }%
+    %< if (type === 'propulsion' || type === '4x4') { >%
       RotationalMotor {
         name "left_rear_wheel"
-        acceleration %{= rearAcceleration }%
-        maxVelocity %{= rearMaxVelocity }%
+        acceleration %<= rearAcceleration >%
+        maxVelocity %<= rearMaxVelocity >%
         maxTorque 100000000
         sound ""
       }
-    %{ end }%
+    %< } >%
       PositionSensor {
         name "left_rear_sensor"
       }

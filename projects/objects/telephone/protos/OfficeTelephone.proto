@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An office telephone with optional physics.
+# template language: javascript
 
 PROTO OfficeTelephone [
   field SFVec3f    translation    0 0 0
@@ -154,11 +155,11 @@ PROTO OfficeTelephone [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 1
     }
-    %{ end }%
+    %< } >%
   }
 }
