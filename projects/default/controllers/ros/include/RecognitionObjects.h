@@ -127,12 +127,12 @@ struct MD5Sum< ::webots_ros::RecognitionObjects_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "3abdb6b96f9c02b1c973ae468b2f0989";
+    return "fe3937a113785b4b0403aff5981d3503";
   }
 
   static const char* value(const ::webots_ros::RecognitionObjects_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x3abdb6b96f9c02b1ULL;
-  static const uint64_t static_value2 = 0xc973ae468b2f0989ULL;
+  static const uint64_t static_value1 = 0xfe3937a113785b4bULL;
+  static const uint64_t static_value2 = 0x0403aff5981d3503ULL;
 };
 
 template<class ContainerAllocator>
