@@ -125,9 +125,7 @@ void RosCamera::publishAuxiliaryValue() {
     webots_ros::RecognitionObjects objects;
     objects.header.stamp = ros::Time::now();
     objects.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_objects";
-    const int objectsCount = mCamera->getRecognitionNumberOfObjects();
-    objects.count = objectsCount;
-    for (int i = 0; i < objectsCount; ++i) {
+    for (int i = 0; i < mCamera->getRecognitionNumberOfObjects(); ++i) {
       webots_ros::RecognitionObject object;
       object.position.x = cameraObjects[i].position[0];
       object.position.y = cameraObjects[i].position[1];
