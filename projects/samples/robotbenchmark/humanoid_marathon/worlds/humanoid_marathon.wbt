@@ -374,7 +374,9 @@ DEF ENVIRONMENT Solid {
       rotation 0 1 0 4.71
       signBoards [
         DirectionPanel {
-          frontTextTexture "textures/panel_hbp_office_front.png"
+          frontTextTexture [
+            "textures/panel_hbp_office_front.png"
+          ]
         }
       ]
     }

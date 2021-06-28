@@ -1245,6 +1245,13 @@ DEF ROAD_2 Road {
   numberOfLanes 3
   numberOfForwardLanes 2
   speedLimit 22.222222
+  lines [
+    RoadLine {
+    }
+    RoadLine {
+      type "continuous"
+    }
+  ]
   wayPoints [
     3 0 0
     321.114435 0 120.738573
@@ -1270,14 +1277,6 @@ DEF ROAD_2 Road {
   rightBorderBoundingObject TRUE
   leftBorderBoundingObject TRUE
   castShadows TRUE
-  lines [
-    RoadLine {
-      type "dashed"
-    }
-    RoadLine {
-      type "continuous"
-    }
-  ]
 }
 Road {
   translation -86.052723 0.01 129.876194
