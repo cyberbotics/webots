@@ -1041,10 +1041,6 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 #### `wb_supervisor_node_enable_contact_point_tracking`
 #### `wb_supervisor_node_disable_contact_point_tracking`
 
-#### `wb_supervisor_node_get_contact_point`
-#### `wb_supervisor_node_get_contact_point_node`
-#### `wb_supervisor_node_get_number_of_contact_points`
-
 
 %tab-component "language"
 
@@ -1056,10 +1052,6 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
 wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
 wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants);
-
-const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
-WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
-int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
 ```
 
 %tab-end
@@ -1074,10 +1066,6 @@ namespace webots {
     ContactPoint *getContactPoints(bool includeDescendants, int *size) const;
     void enableContactPointsTracking(int samplingPeriod, bool includeDescendants = false) const;
     void disableContactPointsTracking(bool includeDescendants = false) const;
-
-    const double *getContactPoint(int index) const;
-    Node *getContactPointNode(int index) const;
-    int getNumberOfContactPoints(bool includeDescendants = false) const;
     // ...
   }
 }
@@ -1094,10 +1082,6 @@ class Node:
     def getContactPoints(includeDescendants=False):
     def enableContactPointsTracking(samplingPeriod, includeDescendants=False):
     def disableContactPointsTracking(includeDescendants=False):
-
-    def getContactPoint(self, index):
-    def getContactPointNode(self, index):
-    def getNumberOfContactPoints(self, includeDescendants=False):
     # ...
 ```
 
@@ -1112,10 +1096,6 @@ public class Node {
   public ContactPoint[] getContactPoints(boolean includeDescendants);
   public enableContactPointsTracking(int samplingPeriod, boolean includeDescendants = false);
   public disableContactPointsTracking(boolean includeDescendants = false);
-
-  public double[] getContactPoint(int index);
-  public Node getContactPointNode(int index);
-  public int getNumberOfContactPoints(boolean includeDescendants);
   // ...
 }
 ```
@@ -1128,10 +1108,6 @@ public class Node {
 contact_point = wb_supervisor_node_get_contact_points(include_descendants):
 wb_supervisor_node_enable_contact_point_tracking(sampling_period, include_descendants):
 wb_supervisor_node_disable_contact_point_tracking(include_descendants):
-
-contact_point = wb_supervisor_node_get_contact_point(node, index)
-node = wb_supervisor_node_get_contact_point_node(node, index);
-number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, include_descendants)
 ```
 
 %tab-end
@@ -1143,9 +1119,6 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, inclu
 | `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contact-point) contact_points |
 | `/supervisor/node/enable_contact_point_tracking` | `service` | `webots_ros::enable_contact_point_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
 | `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`bool includeDescendants`<br/>`---`<br/>`int32 numberOfContactPoints` |
-| `/supervisor/node/get_contact_point` | `service` | `webots_ros::node_get_contact_point` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) point |
-| `/supervisor/node/get_contact_point_node` | `service` | `webots_ros::node_get_contact_point_node` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>`uint64 node` |
 
 %tab-end
 
@@ -1153,32 +1126,17 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, inclu
 
 ##### Description
 
-*get the contact point with given index in the contact point list of the given solid.*
-
-The `wb_supervisor_node_get_contact_points` function returns a list of contact points.
+The `wb_supervisor_node_get_contact_points` function returns a list of contact points of the given `Solid`.
+Contact points are expressed in the global (world) coordinate system.
+The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent.
+The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not.
+The descendant nodes are the nodes included within the node given as an argument.
 
 The `wb_supervisor_node_enable_contact_point_tracking` function forces Webots to stream contact point data to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get data from the field.
 The `sampling_period` argument determines how often the contact point data should be sent to the controller.
 
 The `wb_supervisor_node_disable_contact_point_tracking` function disables contact point data tracking.
-
-The `wb_supervisor_node_get_contact_point` function returns the contact point with given index in the contact point list of the given `Solid`.
-**Deprecation warning:** This function is deprecated and the `wb_supervisor_node_get_contact_points` function should be used instead.
-
-The `wb_supervisor_node_get_number_of_contact_points` function allows you to retrieve the length of this list.
-Contact points are expressed in the global (world) coordinate system.
-If the index is less than the number of contact points, then the x (resp. y, z) coordinate (expressed in the global (world) coordinate system) of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
-Otherwise the function returns a `NaN` (Not a Number) value for each of these numbers.
-The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `NaN` values on the first 3 array components.
-**Deprecation warning:** This function is deprecated and the `wb_supervisor_node_get_contact_points` function should be used instead.
-
-The `wb_supervisor_node_get_contact_point_node` function allows you to retrieve the node associated to a contact point. This is useful when contact points of the descendants are included, to know which part the contact belongs to.
-**Deprecation warning:** This function is deprecated and the `wb_supervisor_node_get_contact_points` function should be used instead.
-
-The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
-The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
-The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not. The descendant nodes are the nodes included within the node given as an argument.
 
 The "[WEBOTS\_HOME/projects/samples/howto/cylinder\_stack/worlds/cylinder\_stack.wbt]({{ url.github_tree }}/projects/samples/howto/cylinder_stack/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
