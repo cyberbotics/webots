@@ -569,7 +569,6 @@ These integers can be directly compared with the output of the `Node::getType` f
 ---
 
 #### `wb_supervisor_node_remove`
-#### `wb_supervisor_node_export_string`
 
 %tab-component "language"
 
@@ -579,7 +578,6 @@ These integers can be directly compared with the output of the `Node::getType` f
 #include <webots/supervisor.h>
 
 void wb_supervisor_node_remove(WbNodeRef node);
-const char * wb_supervisor_node_export_string(WbNodeRef node);
 ```
 
 %tab-end
@@ -592,7 +590,6 @@ const char * wb_supervisor_node_export_string(WbNodeRef node);
 namespace webots {
   class Node {
     virtual void remove();
-    std::string exportString() const;
     // ...
   }
 }
@@ -607,7 +604,6 @@ from controller import Node
 
 class Node:
     def remove(self):
-    def exportString(self):
     # ...
 ```
 
@@ -620,7 +616,6 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public void remove();
-  public String exportString();
   // ...
 }
 ```
@@ -631,7 +626,6 @@ public class Node {
 
 ```MATLAB
 wb_supervisor_node_remove(node)
-node_string = wb_supervisor_node_export_string(node)
 ```
 
 %tab-end
@@ -641,7 +635,6 @@ node_string = wb_supervisor_node_export_string(node)
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/node/remove` | `service` | `webots_ros::node_remove` | `uint64 node`<br/>`---`<br/>`int8 success` |
-| `/supervisor/node/export_string` | `service` | `webots_ros::node_get_string` | `uint64 node`<br/>`---`<br/>`string value` |
 
 %tab-end
 
@@ -653,6 +646,84 @@ node_string = wb_supervisor_node_export_string(node)
 
 The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
 If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
+
+---
+
+#### `wb_supervisor_node_export_string`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+const char * wb_supervisor_node_export_string(WbNodeRef node);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Node.hpp>
+
+namespace webots {
+  class Node {
+    std::string exportString() const;
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Node
+
+class Node:
+    def exportString(self):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Node;
+
+public class Node {
+  public String exportString();
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+node_string = wb_supervisor_node_export_string(node)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/supervisor/node/export_string` | `service` | `webots_ros::node_get_string` | `uint64 node`<br/>`---`<br/>`string value` |
+
+%tab-end
+
+%end
+
+##### Description
+
+*Export a specified node*
 
 The `wb_supervisor_node_export_string` function returns a string from which the node is constructed.
 In conjunction with the `wb_supervisor_field_import_sf/mf_node_from_string` functions it can be used to duplicate the node.
