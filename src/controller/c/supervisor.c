@@ -1156,7 +1156,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
           points[i].node_id = request_read_int32(r);
         }
       }
-      contact_point_node->contact_points->last_update = wb_robot_get_time();
+      contact_point_node->contact_points[include_descendants].last_update = wb_robot_get_time();
       break;
     }
     case C_SUPERVISOR_NODE_GET_STATIC_BALANCE:
@@ -2201,7 +2201,7 @@ WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool inclu
   const double t = wb_robot_get_time();
   const int descendants = include_descendants ? 1 : 0;
 
-  if (t <= node->contact_points[descendants].last_update) {
+  if (t == node->contact_points[descendants].last_update) {
     *size = node->contact_points[descendants].n;
     return node->contact_points[descendants].points;
   }

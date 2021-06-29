@@ -103,6 +103,11 @@ DEF ROAD Road {
   width 15
   numberOfLanes 4
   numberOfForwardLanes 0
+  lines [
+    RoadLine {
+      type "continuous"
+    }
+  ]
   rightBorder FALSE
   leftBorder FALSE
   rightBarrier TRUE
@@ -127,11 +132,6 @@ DEF ROAD Road {
     0
   ]
   splineSubdivision 16
-  lines [
-    RoadLine {
-      type "continuous"
-    }
-  ]
 }
 HighwayDrivingBenchmark {
 }
