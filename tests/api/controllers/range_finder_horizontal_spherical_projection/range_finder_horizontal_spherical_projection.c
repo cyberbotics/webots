@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     float sub_cameras_junction_depth = wb_range_finder_image_get_depth(image, width, x1, height - 1);
     float sub_camera_center_depth = wb_range_finder_image_get_depth(image, width, x2, height - 1);
     ts_assert_double_in_delta(
-      sub_cameras_junction_depth, sub_camera_center_depth, 0.01,
+      sub_cameras_junction_depth, sub_camera_center_depth, 0.1,
       "Depths at the sub-camera center and sub-cameras junction are not equal (%lf (%d,%d) != %lf (%d,%d)).",
       sub_cameras_junction_depth, x1, height - 1, sub_camera_center_depth, x2, height - 1);
   }
