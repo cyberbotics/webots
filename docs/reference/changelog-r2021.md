@@ -135,6 +135,7 @@ Released on June, Xth, 2021.
     - Fixed crash triggered by a kinematic simulation involving a PROTO with template regenerable fields ([#3227](https://github.com/cyberbotics/webots/pull/3227)).
     - Fixed crash where the deletion of an item in a MF field resulted in an endless regeneration which eventually lead to a crash ([#3188](https://github.com/cyberbotics/webots/pull/3188)).
     - Fixed crash occurring when a PROTO having template regeneration fields is used as a [`boundingObject`](solid.md#field-summary) ([#3226](https://github.com/cyberbotics/webots/pull/3226)).
+    - Fixed incorrect regeneration of the [`boundingObject`](solid.md#field-summary) when using PROTO nodes as shapes [`boundingObject`](solid.md#field-summary) ([#3226](https://github.com/cyberbotics/webots/pull/3226)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).

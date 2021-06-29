@@ -217,13 +217,10 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   // 1. get stuff
   WbNode *parent = node->parentNode();
   WbProtoModel *proto = node->proto();
-  // const WbSolid *const sss = dynamic_cast<const WbSolid *>(parent);
-  // printf("%p / %p / %p\n", proto, node, sss->boundingObject());
   assert(parent && proto);
   if (!parent || !proto)
     return;
   const bool isInBoundingObject = dynamic_cast<WbBaseNode *>(node)->isInBoundingObject();
-  printf("NODE: %s isInBoundingObject %d\n", node->usefulName().toUtf8().constData(), isInBoundingObject);
   QList<WbField *> previousParentRedirections;
   WbField *parentField = node->parentField();
   QVector<WbField *> parameters;
@@ -280,7 +277,6 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   newNode->setDefName(node->defName());
   WbNode::setGlobalParentNode(NULL);
 
-  printf(">>>>>>>VALIDATING<<<<\n");
   WbNodeUtilities::validateInsertedNode(parentField, newNode, parent, isInBoundingObject);
 
   subscribe(newNode);

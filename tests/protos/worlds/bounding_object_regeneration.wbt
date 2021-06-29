@@ -5,7 +5,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.8576898584843424 0.46519382454732994 0.21900413753200396 1.003987095929511
-  position 1.603044758625781 3.086621879750774 2.1343213407750286
+  position 2.3196532359282633 4.968074565711988 4.556630326655434
 }
 Background {
   skyColor [
@@ -16,17 +16,37 @@ DirectionalLight {
   direction 0 0.5 -1
 }
 DEF ROBOT Robot {
+  translation 0 0 2
   children [
     TestSuiteEmitter {
     }
   ]
-  boundingObject Box {
-    size 1 1 1
+  boundingObject DEF REGENERABLE_BOX_IN_ROBOT RegenerableBoundingObjectBox {
   }
   controller "bounding_object_regeneration"
   supervisor TRUE
 }
-DEF PROBE Solid {
+ProtoSolidWithBoundingObject {
+  boundingObject DEF REGENERABLE_BOX_IN_PROTO RegenerableBoundingObjectBox {
+  }
+}
+DEF PROBE_ROBOT Solid {
+  translation 1 0 2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.180392 0.203922 0.211765
+      }
+      geometry DEF BOX Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+DEF PROBE_PROTO Solid {
   translation 1 0 0
   children [
     Shape {

@@ -128,8 +128,6 @@ namespace {
   bool isAllowedToInsert(const QString &fieldName, const QString &nodeName, const WbNode *node, QString &errorMessage,
                          WbNode::NodeUse nodeUse, const QString &type, bool automaticBoundingObjectCheck = true,
                          bool areSlotAllowed = true) {
-    // printf("isAllowedToInsert field %s, node %s, %d\n", fieldName.toUtf8().constData(), nodeName.toUtf8().constData(),
-    //       automaticBoundingObjectCheck);
     errorMessage = QString();
     const QString defaultErrorMessage =
       QObject::tr("Cannot insert %1 node in '%2' field of %3 node.").arg(nodeName).arg(fieldName).arg(node->nodeModelName());
@@ -186,7 +184,6 @@ namespace {
       nodeUse = WbNodeUtilities::checkNodeUse(node);
       boundingObjectCase = boundingObjectCase || (nodeUse & WbNode::BOUNDING_OBJECT_USE);
     }
-    // printf("boundingObjectCase %d\n", boundingObjectCase);
 
     const bool childrenField = fieldName == "children";
     if (childrenField) {
@@ -932,24 +929,19 @@ bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
   const WbNode *const p = node->parentNode();
   if (p) {
     const WbSolid *const s = dynamic_cast<const WbSolid *>(p);
-    if (s) {
-      /*
-      printf("isInBoundingObject %s (%p) parent is %s (%p)\n", node->usefulName().toUtf8().constData(), node,
-             p->usefulName().toUtf8().constData(), s->boundingObject());
-      printf("%d %d | %d %d | %d %d \n", node->isProtoParameterNode(), node->protoParameterNode() == NULL,
-             p->isProtoParameterNode(), p->protoParameterNode() == NULL, s->boundingObject()->isProtoParameterNode(),
-             s->boundingObject()->protoParameterNode() == NULL);
-      */
-      // const WbNode *bo = s->boundingObject();
-      // while (bo && bo->protoParameterNode() != NULL)
-      //  bo = bo->protoParameterNode();
-
-      // printf("%p == %p || %p == %p\n", s->boundingObject(), node, bo, node);
-      return s->boundingObject() == node;  // || bo == node;
-    }
     const WbFluid *const f = dynamic_cast<const WbFluid *>(p);
-    if (f)
-      return f->boundingObject() == node;
+    const WbNode *boundingObject = NULL;
+    if (s)
+      boundingObject = s->boundingObject();
+    else if (f)
+      boundingObject = f->boundingObject();
+
+    while (boundingObject) {
+      if (boundingObject == node)
+        return true;
+      else
+        boundingObject = boundingObject->protoParameterNode();
+    }
 
     return isInBoundingObject(p);
   }
@@ -1375,8 +1367,6 @@ bool WbNodeUtilities::isSlotTypeMatch(const QString &firstType, const QString &s
 
 bool WbNodeUtilities::validateInsertedNode(WbField *field, const WbNode *newNode, const WbNode *parentNode,
                                            bool isInBoundingObject) {
-  printf("VALIDATE F %s N %s PN %s isBO %d\n", field->name().toUtf8().constData(), newNode->usefulName().toUtf8().constData(),
-         parentNode->usefulName().toUtf8().constData(), isInBoundingObject);
   if (newNode == NULL || field == NULL || parentNode == NULL)
     return true;
 

@@ -8,10 +8,12 @@ PROTO RegenerableBoundingObjectBox [
   %< const size = fields.size.value; >%
   Group {
     children [
-      Shape {
-        geometry Box {
-          size %<= size >% %<= size >% %<= size >%
-        }
+      Transform {
+        children [
+          Box {
+            size %<= size >% %<= size >% %<= size >%
+          }
+        ]
       }
     ]
   }
