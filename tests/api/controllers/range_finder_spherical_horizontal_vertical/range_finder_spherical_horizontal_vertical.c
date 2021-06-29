@@ -26,7 +26,6 @@ int main(int argc, char **argv) {
 
   const float *image_horizontal = wb_range_finder_get_range_image(horizontal_range_finder);
   const float *image_vertical = wb_range_finder_get_range_image(vertical_range_finder);
-
   int i = 0;
   for (i = 0; i < width; ++i) {
     int neighbour_index = 0;
