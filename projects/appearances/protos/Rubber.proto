@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A rubber material.
 # The type of rubber can be set using the `type` field.
+# template language: javascript
 
 PROTO Rubber [
   field SFString{"flat", "dotted"} type              "flat"   # Defines the rubber type.
@@ -14,24 +15,24 @@ PROTO Rubber [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/rubber/" .. fields.type.value .. "_rubber_base_color.jpg\"" }%
+        %<= '"textures/rubber/' + fields.type.value + '_rubber_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %{= "\"textures/rubber/" .. fields.type.value .. "_rubber_roughness.jpg\"" }%
+        %<= '"textures/rubber/' + fields.type.value + '_rubber_roughness.jpg"' >%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= "\"textures/rubber/" .. fields.type.value .. "_rubber_normal.jpg\"" }%
+        %<= '"textures/rubber/' + fields.type.value + '_rubber_normal.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/rubber/" .. fields.type.value .. "_rubber_occlusion.jpg\"" }%
+        %<= '"textures/rubber/' + fields.type.value + '_rubber_occlusion.jpg"' >%
       ]
     }
     textureTransform IS textureTransform

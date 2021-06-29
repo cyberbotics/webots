@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A residential building with a rounded front face and optional boundingObject.
+# template language: javascript
 
 PROTO ResidentialBuildingWithRoundFront [
   field SFVec3f    translation           0 0 0
@@ -12,65 +13,64 @@ PROTO ResidentialBuildingWithRoundFront [
   field SFBool     enableBoundingObject  TRUE                    # Defines whether the building should have a bounding object.
 ]
 {
-  %{
-    local availableTypes = {
-      ["dark grey"] = "dark_grey",
-      ["orange"] = "orange",
-      ["green"] = "green",
-      ["dark braun"] = "dark_braun",
-      ["light grey"] = "light_grey",
-      ["light braun"] = "light_braun"
-    }
+  %<
+    const availableTypes = {
+      'dark grey': 'dark_grey',
+      'orange': 'orange',
+      'green': 'green',
+      'dark braun': 'dark_braun',
+      'light grey': 'light_grey',
+      'light braun': 'light_braun'};
 
-    local type = fields.type.value
-    local texture = availableTypes[type]
-  }%
+    const type = fields.type.value;
+    const texture = availableTypes[type];
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     name IS name
     model "building"
     recognitionColors [
-    %{ if type == 'dark grey' then }%
+    %< if (type === 'dark grey') { >%
       0.2823529411764706 0.2823529411764706 0.2823529411764706
-    %{ elseif type == 'orange' then }%
+    %< } else if (type === 'orange') { >%
       0.5098039215686274 0.16862745098039217 0
-    %{ elseif type == 'green' then }%
+    %< } else if (type === 'green') { >%
       0.5058823529411764 0.6274509803921569 0.42745098039215684
-    %{ elseif type == 'dark braun' then }%
+    %< } else if (type === 'dark braun') { >%
       0.4117647058823529 0.2980392156862745 0.20392156862745098
-    %{ elseif type == 'light grey' then }%
+    %< } else if (type === 'light grey') { >%
       0.6431372549019608 0.6431372549019608 0.6431372549019608
-    %{ elseif type == 'light braun' then }%
+    %< } else if (type === 'light braun') { >%
       0.2901960784313726 0.1450980392156863 0
-    %{ end }%
+    %< } >%
     ]
     children [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_wall_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_wall_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_wall_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_wall_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_wall_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_wall_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_wall_' ..  texture .. '_normal.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_wall_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_wall_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_wall_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -97,27 +97,27 @@ PROTO ResidentialBuildingWithRoundFront [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_door_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_door_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_door_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_door_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_door_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_door_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_door_' ..  texture .. '_normal.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_door_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_door_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_door_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -144,29 +144,29 @@ PROTO ResidentialBuildingWithRoundFront [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_frames_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_frames_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_frames_' +  texture + '_metalness.jpg"' >%
             ]
           }
-          %{ if type ~= 'dark grey' and type ~= 'dark braun' then }%
+          %< if (type !== 'dark grey' && type !== 'dark braun') { >%
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' ..  texture .. '_normal.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_frames_' +  texture + '_normal.jpg"' >%
             ]
           }
-          %{ end }%
+          %< } >%
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_frames_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -193,29 +193,29 @@ PROTO ResidentialBuildingWithRoundFront [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_windows_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_windows_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_windows_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_windows_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_windows_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_windows_' +  texture + '_metalness.jpg"' >%
             ]
           }
-          %{ if type ~= 'dark grey' and type ~= 'dark braun' then }%
+          %< if (type !== 'dark grey' && type !== 'dark braun') { >%
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_windows_' ..  texture .. '_normal.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_windows_' +  texture + '_normal.jpg"' >%
             ]
           }
-          %{ end }%
+          %< } >%
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_windows_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_windows_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -243,27 +243,27 @@ PROTO ResidentialBuildingWithRoundFront [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_railling_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_railling_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_railling_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_railling_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_railling_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_railling_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_railling_' ..  texture .. '_normal.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_railling_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_railling_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_railling_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -290,27 +290,27 @@ PROTO ResidentialBuildingWithRoundFront [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_stair_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_stair_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_stair_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_stair_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_stair_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_stair_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_stair_' ..  texture .. '_normal.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_stair_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_stair_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_stair_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -337,27 +337,27 @@ PROTO ResidentialBuildingWithRoundFront [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_edges_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_edges_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_edges_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_edges_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_edges_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_edges_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_edges_' ..  texture .. '_normal.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_edges_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_edges_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_edges_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -384,27 +384,27 @@ PROTO ResidentialBuildingWithRoundFront [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_roof_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_roof_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_roof_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_roof_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_roof_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_roof_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_roof_' ..  texture .. '_normal.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_roof_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/residential_building_with_round_front_roof_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"textures/residential_building_textures/residential_building_with_round_front_roof_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -428,7 +428,7 @@ PROTO ResidentialBuildingWithRoundFront [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation -2.170000000000001 3.9 -2.1600000000000006
       children [
@@ -437,6 +437,6 @@ PROTO ResidentialBuildingWithRoundFront [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

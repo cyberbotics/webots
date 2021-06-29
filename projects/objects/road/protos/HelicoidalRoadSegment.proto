@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple and configurable helicoidal road showing how to use the Road PROTO in order to create 3D roads.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO HelicoidalRoadSegment [
   field        SFVec3f              translation               0 0 0
@@ -36,32 +37,30 @@ PROTO HelicoidalRoadSegment [
   field        SFBool               leftBorderBoundingObject  FALSE                   # Defines whether the left sidewalk should have a bounding object.
   field        SFBool               castShadows               FALSE                   # Defines whether the road should cast shadows.
   field        SFString             contactMaterial           "default"               # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine          TRUE                    # Deprecated in Webots R2018c.
 ]
 {
-  %{
-    local height = fields.height.value
-    if height < 0 then
-      io.stderr:write("'height' must be be greater than 0\n")
-      length = fields.height.defaultValue
-    end
-    local radius = fields.radius.value
-    if radius < 0 then
-      io.stderr:write("'radius' must be be greater than 0\n")
-      radius = fields.radius.defaultValue
-    end
-    local heigthStep = fields.heigthStep.value
-    if heigthStep < 0 then
-      io.stderr:write("'heigthStep' must be be greater than 0\n")
-      length = fields.heigthStep.defaultValue
-    end
-    local subdivision = fields.subdivision.value
-    if subdivision < 0 then
-      io.stderr:write("'subdivision' must be be greater than 0\n")
-      length = fields.subdivision.defaultValue
-    end
-  }%
+  %<
+    let height = fields.height.value;
+    if (height <= 0.0) {
+      height = fields.height.defaultValue;
+      console.error('\'height\' must be strictly positive. Value reset to ' + height + '.');
+    }
+    let radius = fields.radius.value;
+    if (radius <= 0.0) {
+      radius = fields.radius.defaultValue;
+      console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
+    }
+    let heigthStep = fields.heigthStep.value;
+    if (heigthStep <= 0.0) {
+      heigthStep = fields.heigthStep.defaultValue;
+      console.error('\'heigthStep\' must be strictly positive. Value reset to ' + heigthStep + '.');
+    }
+    let subdivision = fields.subdivision.value;
+    if (subdivision < 1) {
+      subdivision = fields.subdivision.defaultValue
+      console.error('\'subdivision\' must be greater or equal to 1. Value reset to ' + subdivision + '.');
+    }
+  >%
 
   Road {
     translation IS translation
@@ -69,7 +68,6 @@ PROTO HelicoidalRoadSegment [
     name IS name
     width IS width
     numberOfLanes IS numberOfLanes
-    dashedLine IS dashedLine
     lines IS lines
     startLine IS startLine
     endLine IS endLine
@@ -79,14 +77,13 @@ PROTO HelicoidalRoadSegment [
     leftBorder IS leftBorder
     bottom IS bottom
     wayPoints [
-      %{
-        local turnNumber = height / heigthStep
-        local heightSubdivisionStep = height / subdivision
-        local angleSubdivisionStep = (math.pi * turnNumber) / subdivision
-      }%
-      %{ for i = 0, subdivision do }%
-        %{= radius * math.cos(angleSubdivisionStep * i) }% %{= heightSubdivisionStep * i }% %{= radius * math.sin(angleSubdivisionStep * i) }%
-      %{ end }%
+      %<
+        const turnNumber = height / heigthStep;
+        const heightSubdivisionStep = height / subdivision;
+        const angleSubdivisionStep = (Math.PI * turnNumber) / subdivision;
+        for (let i = 0; i <= subdivision; ++i) { >%
+        %<= radius * Math.cos(angleSubdivisionStep * i) >% %<= heightSubdivisionStep * i >% %<= radius * Math.sin(angleSubdivisionStep * i) >%
+      %< } >%
     ]
     splineSubdivision -1
     appearance IS appearance

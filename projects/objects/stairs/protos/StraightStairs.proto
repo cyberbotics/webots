@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Generic and customizable stairs model.
+# template language: javascript
 
 PROTO StraightStairs [
   field SFVec3f    translation        0 0 0
@@ -19,48 +20,46 @@ PROTO StraightStairs [
   field SFString   contactMaterial    "default"                                                          # Is `Solid.contactMaterial`.
 ]
 {
-  %{
-    local wbrotation = require('wbrotation')
+  %<
+    import * as wbrotation from 'wbrotation.js';
 
-    -- check inputs
-    local stepRise = fields.stepRise.value
-    if fields.stepRise.value <= 0.0 then
-      io.stderr:write("'stepRise' must be positive\n")
-      stepRise = fields.stepRise.defaultValue
-    end
+    // check inputs
+    let stepRise = fields.stepRise.value;
+    if (stepRise <= 0.0) {
+      stepRise = fields.stepRise.defaultValue;
+      console.error('\'stepRise\' must be strictly positive. Value reset to ' + stepRise + '.');
+    }
 
-    local stringerWidth = fields.stringerWidth.value
-    if fields.stringerWidth.value <= 0.0 then
-      io.stderr:write("'stringerWidth' must be positive\n")
-      stringerWidth = fields.stringerWidth.defaultValue
-    end
+    let stringerWidth = fields.stringerWidth.value;
+    if (stringerWidth <= 0.0) {
+      stringerWidth = fields.stringerWidth.defaultValue;
+      console.error('\'stringerWidth\' must be strictly positive. Value reset to ' + stringerWidth + '.');
+    }
 
-    local nSteps = fields.nSteps.value
-    if fields.nSteps.value <= 0.0 then
-      io.stderr:write("'nSteps' must be positive\n")
-      nSteps = fields.nSteps.defaultValue
-    end
+    let nSteps = fields.nSteps.value;
+    if (nSteps <= 0.0) {
+      nSteps = fields.nSteps.defaultValue;
+      console.error('\'nSteps\' must be strictly positive. Value reset to ' + nSteps + '.');
+    }
 
-    local stepSize = fields.stepSize.value
-    if fields.stepSize.value.x <= 0.0 or fields.stepSize.value.y <= 0.0 or fields.stepSize.value.z <= 0.0 then
-      io.stderr:write("'stepSize' must contain positive values\n")
-      stepSize.x = fields.stepSize.defaultValue.x
-      stepSize.y = fields.stepSize.defaultValue.y
-      stepSize.z = fields.stepSize.defaultValue.z
-    end
+    let stepSize = fields.stepSize.value;
+    if (stepSize.x <= 0 || stepSize.y <= 0 || stepSize.z <= 0) {
+      stepSize = fields.stepSize.defaultValue;
+      console.error('\'stepSize\' must be strictly positive. Value reset to (' + stepSize.x + ', ' + stepSize.y + ', ' + stepSize.z + ').');
+    }
 
-    local stairsRun = stepSize.x * nSteps
-    local stairsRise = stepRise * nSteps
+    const stairsRun = stepSize.x * nSteps;
+    const stairsRise = stepRise * nSteps;
 
-    local boxCoordIndex = {
+    const boxCoordIndex = [
       1, 2, 3, -1, 1, 0, 2, -1,
       0, 6, 2, -1, 0, 4, 6, -1,
       4, 7, 6, -1, 4, 5, 7, -1,
       5, 3, 7, -1, 5, 1, 3, -1,
       2, 6, 7, -1, 2, 7, 3, -1,
       1, 4, 0, -1, 1, 5, 4, -1
-    }
-  }%
+    ]
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -71,23 +70,22 @@ PROTO StraightStairs [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-            %{
-            local deltaX = 0.0
-            local deltaY = stepRise - 0.5*stepSize.y
-            for n=1,nSteps do
-              for z=-0.5*stepSize.z,0.6*stepSize.z,stepSize.z do
-                for y=-0.5*stepSize.y,0.6*stepSize.y,stepSize.y do
-                  for x=-0.5*stepSize.x,0.6*stepSize.x,stepSize.x do
-            }%
-                    %{= x + deltaX }% %{= y + deltaY }% %{= z }%
-            %{
-                  end
-                end
-              end
-              deltaX = deltaX + stepSize.x
-              deltaY = deltaY + stepRise
-            end
-            }%
+            %<
+            let delta = {x: 0.0, y: stepRise - 0.5 * stepSize.y};
+            for (let n = 1; n <= nSteps; ++n) {
+              for (let z = -0.5*stepSize.z; z <= 0.6*stepSize.z; z += stepSize.z) {
+                for (let y = -0.5*stepSize.y; y <= 0.6*stepSize.y; y += stepSize.y) {
+                  for (let x = -0.5*stepSize.x; x <= 0.6*stepSize.x; x += stepSize.x) {
+            >%
+                    %<= x + delta.x >% %<= y + delta.y >% %<= z >%
+            %<
+                  }
+                }
+              }
+              delta.x += stepSize.x;
+              delta.y += stepRise;
+            }
+            >%
             ]
           }
           texCoord TextureCoordinate {
@@ -99,61 +97,55 @@ PROTO StraightStairs [
             ]
           }
           coordIndex [
-          %{
-          local indexOffset = 0
-          for n=1,nSteps do
-            for i=1,48,4 do
-          }%
-              %{= boxCoordIndex[i] + indexOffset }% %{= boxCoordIndex[i+1] + indexOffset }% %{= boxCoordIndex[i+2] + indexOffset }% -1
-          %{
-            end
-            indexOffset = indexOffset + 8
-          end
-          }%
+          %<
+          let indexOffset = 0;
+          for (let n = 1; n <= nSteps; ++n) {
+            for (let i = 0; i < 48; i += 4) {
+          >%
+              %<= boxCoordIndex[i] + indexOffset >% %<= boxCoordIndex[i+1] + indexOffset >% %<= boxCoordIndex[i+2] + indexOffset >% -1
+          %<
+            }
+            indexOffset = indexOffset + 8;
+          }
+          >%
           ]
           texCoordIndex [
-            %{
-            for n=1,nSteps do
-            }%
+            %< for (let n = 1; n <= nSteps; ++n) { >%
               0 1 2 -1 0 2 3 -1
               3 1 0 -1 3 2 1 -1
               0 1 2 -1 0 2 3 -1
               3 1 0 -1 3 2 1 -1
               0 1 2 -1 0 2 3 -1
               3 1 0 -1 3 2 1 -1
-            %{
-            end
-            }%
+            %< } >%
           ]
         }
       }
-    %{
-    if fields.startingStairs.value then
-    }%
+    %< if (fields.startingStairs.value) { >%
       Solid {
-        translation %{=-stepSize.x * 0.5}% 0.0 %{=(stepSize.z + stringerWidth) * 0.5}%
+        translation %<= -stepSize.x * 0.5 >% 0.0 %<= (stepSize.z + stringerWidth) * 0.5 >%
         children [
           DEF GEOM Shape {
             appearance IS stringerAppearance
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
-                %{
-                  local stringerRise = stairsRise - stepRise
-                  local coords = {}
-                  coords[1] = {0, 0}
-                  coords[2] = {stepSize.x, 0}
-                  coords[3] = {stairsRun, stringerRise}
-                  coords[4] = {stairsRun, stringerRise + 2 * stepRise }
-                  coords[5] = {0, stepRise }
-                  for z=1,-1,-2 do
-                    for ci=1,5 do
-                }%
-                      %{=coords[ci][1]}% %{=coords[ci][2]}% %{= z * stringerWidth * 0.5 }%
-                %{
-                    end
-                  end
-                }%
+                %<
+                  const stringerRise = stairsRise - stepRise;
+                  let coords = [];
+                  coords[0] = [0, 0];
+                  coords[1] = [stepSize.x, 0];
+                  coords[2] = [stairsRun, stringerRise];
+                  coords[3] = [stairsRun, stringerRise + 2 * stepRise];
+                  coords[4] = [0, stepRise];
+                  for (let z = 1; z >= -1; z -= 2) {
+                    for (let ci = 0; ci < 5; ++ci) {
+                >%
+                      %<= coords[ci][0]>% %<=coords[ci][1]>% %<= z * stringerWidth * 0.5 >%
+                %<
+                    }
+                  }
+                >%
                 ]
               }
               coordIndex [
@@ -174,7 +166,7 @@ PROTO StraightStairs [
         boundingObject USE GEOM
       }
       Solid {
-        translation %{=-stepSize.x * 0.5}% 0.0 %{=(stepSize.z + stringerWidth) * -0.5}%
+        translation %<= -stepSize.x * 0.5 >% 0.0 %<= (stepSize.z + stringerWidth) * -0.5 >%
         children [
           USE GEOM
         ]
@@ -182,18 +174,18 @@ PROTO StraightStairs [
         contactMaterial IS contactMaterial
         boundingObject USE GEOM
       }
-    %{ else
-         local pAngle = math.atan2(stairsRise, stairsRun)
-    }%
+    %< } else {
+         const pAngle = Math.atan2(stairsRise, stairsRun);
+    >%
       Solid {
-        translation %{= (stairsRun - stepSize.x) * 0.5  }% %{= stairsRise * 0.5 }% %{=(stepSize.z + stringerWidth) * 0.5}%
+        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= stairsRise * 0.5 >% %<= (stepSize.z + stringerWidth) * 0.5 >%
         rotation 0 1 0 1.5708
         children [
           DEF GEOM Shape {
             appearance IS stringerAppearance
             geometry TexturedParallelepiped {
-              size %{= stringerWidth }% %{= 2 * stepRise }% %{= math.sqrt(stairsRun * stairsRun + stairsRise * stairsRise) }%
-              angles 1.5708 %{= pAngle}% 0
+              size %<= stringerWidth >% %<= 2 * stepRise >% %<= Math.sqrt(stairsRun * stairsRun + stairsRise * stairsRise) >%
+              angles 1.5708 %<= pAngle >% 0
               mapping "metric"
             }
           }
@@ -203,7 +195,7 @@ PROTO StraightStairs [
         boundingObject USE GEOM
       }
       Solid {
-        translation %{= (stairsRun - stepSize.x) * 0.5 }% %{= stairsRise * 0.5 }% %{=(stepSize.z + stringerWidth) * -0.5}%
+        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= stairsRise * 0.5 >% %<= (stepSize.z + stringerWidth) * -0.5 >%
         rotation 0 1 0 1.5708
         children [
           USE GEOM
@@ -212,14 +204,14 @@ PROTO StraightStairs [
         contactMaterial IS contactMaterial
         boundingObject USE GEOM
       }
-    %{ end }%
+    %< } >%
       Solid {
-        translation %{=-stepSize.x * 0.5}% %{=stepRise}% %{=(-stepSize.z - stringerWidth) * 0.5}%
+        translation %<= -stepSize.x * 0.5 >% %<= stepRise >% %<= (-stepSize.z - stringerWidth) * 0.5 >%
         children IS leftRail
         name "left rail"
       }
       Solid {
-        translation %{=-stepSize.x * 0.5}% %{=stepRise}% %{=(stepSize.z + stringerWidth) * 0.5}%
+        translation %<= -stepSize.x * 0.5 >% %<= stepRise >% %<= (stepSize.z + stringerWidth) * 0.5 >%
         children IS rightRail
         name "right rail"
       }
@@ -229,24 +221,23 @@ PROTO StraightStairs [
     contactMaterial IS contactMaterial
     boundingObject Group {
       children [
-      %{
-        local deltaX = 0.0
-        local deltaY = stepRise * 0.5
-        for n = 1, nSteps do
-      }%
+      %<
+        delta = {x: 0.0, y: stepRise * 0.5};
+        for (let n = 1; n <= nSteps; ++n) {
+      >%
           Transform {
-            translation %{=deltaX}% %{=deltaY + stepRise * 0.5-stepSize.y*0.5}% 0.0
+            translation %<= delta.x >% %<= delta.y + stepRise * 0.5 - stepSize.y * 0.5 >% 0.0
             children [
               Box {
-                size %{=stepSize.x}% %{=stepSize.y}% %{=stepSize.z}%
+                size %<= stepSize.x >% %<= stepSize.y >% %<= stepSize.z >%
               }
             ]
           }
-      %{
-          deltaX = deltaX + stepSize.x
-          deltaY = deltaY + stepRise
-        end
-      }%
+      %<
+          delta.x += stepSize.x;
+          delta.y += stepRise;
+        }
+      >%
       ]
     }
   }

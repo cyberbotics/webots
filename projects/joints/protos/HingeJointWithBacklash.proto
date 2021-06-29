@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # This extension of the hinge joint allows to model the effect of backlash.
+# template language: javascript
 
 PROTO HingeJointWithBacklash [
   field SFNode                                 jointParameters   HingeJointParameters {}
@@ -13,48 +14,46 @@ PROTO HingeJointWithBacklash [
   field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {
-  %{
-    -- parameter retrieval
-    local axis = fields.jointParameters.value.fields.axis.value
-    local anchor = fields.jointParameters.value.fields.anchor.value
-    -- parameter sanity check
-    local backlash = fields.backlash.value
-    if backlash < 0 then
-      io.stderr:write("'backlash' value must be greater or equal to 0. Using default value.\n")
-      backlash = fields.backlash.defaultValue
-    elseif backlash > 0 and backlash < 0.01 then
-      print("Values of 'backlash' smaller than 0.01 are unlikely to be correctly modeled by the physics engine.")
-    end
+  %<
+    // parameter retrieval
+    const axis = fields.jointParameters.value.fields.axis.value;
+    const anchor = fields.jointParameters.value.fields.anchor.value;
+    // parameter sanity check
+    let backlash = fields.backlash.value;
+    if (backlash < 0) {
+      backlash = fields.backlash.defaultValue;
+      console.error('\'backlash\' value must be greater or equal to 0. Value reset to ' + backlash + '.');
+    } else if (backlash > 0 && backlash < 0.01)
+      console.log('Values of \'backlash\' smaller than 0.01 are unlikely to be correctly modeled by the physics engine unless the timestep is very low.');
 
-    local gearMass = fields.gearMass.value
-    if gearMass <= 0 then
-      io.stderr:write("'gearMass' value must be positive. Using default value.\n")
-      gearMass = fields.gearMass.defaultValue
-    end
+    let gearMass = fields.gearMass.value;
+    if (gearMass <= 0) {
+      gearMass = fields.gearMass.defaultValue;
+      console.error('\'gearMass\' must be strictly positive. Value reset to ' + gearMass + '.');
+    }
 
-    if (backlash == 0 and gearMass > 0) or (backlash == 0 and fields.startPoint.value ~= nil) or
-       (backlash == 0 and fields.outputSensor.value ~= nil) then
-      print("'HingeJointWithBacklash' replaced with a 'HingeJoint'. 'gearMass', 'startPoint' and 'outputSensor' are being ignored. You should consider replacing the node.\n")
-    end
-  }%
+    if ((backlash === 0 && gearMass > 0) || (backlash === 0 && fields.startPoint.value !== undefined) ||
+        (backlash === 0 && fields.outputSensor.value !== undefined))
+      console.log('Without backlash \'HingeJointWithBacklash\' is replaced with a \'HingeJoint\'. \'gearMass\', \'startPoint\' and \'outputSensor\' are being ignored. You should consider replacing the node.');
+  >%
   HingeJoint {
     jointParameters IS jointParameters
     device IS device
-    %{ if backlash == 0 then }% # use a normal hinge
+    %< if (backlash === 0) { >% # use a normal hinge
       endPoint IS endPoint
-    %{ else }%
+    %< } else { >%
       endPoint Solid {
-        name %{='"start_point_' .. context.id .. '"'}% # prevent name clashes
+        name %<= '"start_point_' + context.id + '"' >% # prevent name clashes
         children [
           Group {
             children IS startPoint
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis %{= axis.x}% %{= axis.y}% %{= axis.z}%
-              anchor %{= anchor.x}% %{= anchor.y}% %{= anchor.z}%
-              minStop %{= - backlash*0.5}%
-              maxStop %{= backlash*0.5}%
+              axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+              anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+              minStop %<= - backlash*0.5 >%
+              maxStop %<= backlash*0.5 >%
               stopERP 0
             }
             device IS outputSensor
@@ -63,11 +62,11 @@ PROTO HingeJointWithBacklash [
         ]
         physics Physics {
           inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
-          centerOfMass %{= anchor.x}% %{= anchor.y}% %{= anchor.z}%
+          centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
           density -1
-          mass IS gearMass
+          mass %<= gearMass >%
         }
       }
-    %{ end }%
+    %< } >%
   }
 }

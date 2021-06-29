@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/sumo-interface
 # This PROTO is meant to be inserted in the 'display'
 # field of the 'SumoInterface' PROTO
+# template language: javascript
 
 PROTO SumoDisplay [
   field SFInt32 width       256
@@ -19,7 +20,7 @@ PROTO SumoDisplay [
       name "sumo"
       width IS width
       height IS height
-      description %{= "\"zoom: " .. fields.zoom.value .. " refreshRate: " .. fields.refreshRate.value .. "\"" }%
+      description %<= '"zoom: ' + fields.zoom.value + ' refreshRate: ' + fields.refreshRate.value + '"' >%
     }
   }
 }

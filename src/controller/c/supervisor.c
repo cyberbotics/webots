@@ -89,6 +89,14 @@ static WbFieldRequest *field_requests_garbage_list = NULL;
 static WbFieldRequest *sent_field_get_request = NULL;
 static bool is_field_immediate_message = false;
 
+typedef struct WbNodeWbContactPointListStructPrivate {
+  int n;
+  WbContactPoint *points;
+  double timestamp;  // TODO: Delete with `wb_supervisor_node_get_contact_point`
+  int sampling_period;
+  double last_update;
+} WbNodeWbContactPointListStruct;
+
 typedef struct WbNodeStructPrivate {
   int id;
   WbNodeType type;
@@ -96,14 +104,11 @@ typedef struct WbNodeStructPrivate {
   char *def_name;
   char *content;
   int parent_id;
-  double *position;        // double[3]
-  double *orientation;     // double[9]
-  double *center_of_mass;  // double[3]
-  int number_of_contact_points;
-  double *contact_points;           // double[3 * number_of_contact_points]
-  int *node_id_per_contact_points;  // int[number_of_contact_points]
-  double contact_points_time_stamp;
-  bool contact_points_include_descendants;
+  double *position;                                  // double[3]
+  double *orientation;                               // double[9]
+  double *center_of_mass;                            // double[3]
+  WbNodeWbContactPointListStruct contact_points[2];  // 0 -> without descendants, 1 -> with descendants
+  bool contact_points_include_descendants;           // TODO: Delete with `wb_supervisor_node_get_contact_point`
   bool static_balance;
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
@@ -127,6 +132,13 @@ typedef struct WbPoseChangeTrackingPrivate {
   int sampling_period;
   bool enable;
 } WbPoseChangeTracking;
+
+typedef struct WbWbContactPointChangeTrackingPrivate {
+  WbNodeRef node;
+  bool include_descendants;
+  int sampling_period;
+  bool enable;
+} WbWbContactPointChangeTracking;
 
 static const double invalid_vector[16] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN};
 
@@ -237,8 +249,8 @@ static void delete_node(WbNodeRef node) {
   free(node->position);
   free(node->orientation);
   free(node->center_of_mass);
-  free(node->contact_points);
-  free(node->node_id_per_contact_points);
+  free(node->contact_points[0].points);
+  free(node->contact_points[1].points);
   free(node->solid_velocity);
   free(node);
 }
@@ -357,9 +369,12 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->position = NULL;
   n->orientation = NULL;
   n->center_of_mass = NULL;
-  n->contact_points = NULL;
-  n->node_id_per_contact_points = NULL;
-  n->contact_points_time_stamp = -1.0;
+  n->contact_points[0].points = NULL;
+  n->contact_points[0].n = 0;
+  n->contact_points[0].timestamp = -1.0;
+  n->contact_points[1].points = NULL;
+  n->contact_points[1].timestamp = -1.0;
+  n->contact_points[1].n = 0;
   n->contact_points_include_descendants = false;
   n->static_balance = false;
   n->solid_velocity = NULL;
@@ -422,6 +437,9 @@ static bool allow_search_in_proto = false;
 static const char *node_def_name = NULL;
 static int proto_id = -1;
 static const char *requested_field_name = NULL;
+static bool requested_node_number_of_fields = false;
+static int node_number_of_fields = -1;
+static int requested_field_index = -1;
 static bool node_get_selected = false;
 static int node_ref = 0;
 static WbNodeRef root_ref = NULL;
@@ -430,6 +448,8 @@ static WbNodeRef position_node_ref = NULL;
 static WbNodeRef export_string_node_ref = NULL;
 static WbNodeRef orientation_node_ref = NULL;
 static WbNodeRef center_of_mass_node_ref = NULL;
+static WbWbContactPointChangeTracking contact_point_change_tracking;
+static bool contact_point_change_tracking_requested = false;
 static WbNodeRef contact_points_node_ref = NULL;
 static bool contact_points_include_descendants = false;
 static WbNodeRef static_balance_node_ref = NULL;
@@ -468,6 +488,7 @@ static void supervisor_cleanup(WbDevice *d) {
     WbFieldStruct *f = field_list->next;
     if (field_list->type == WB_SF_STRING || field_list->type == WB_MF_STRING)
       free(field_list->data.sf_string);
+    free((char *)field_list->name);
     free(field_list);
     field_list = f;
   }
@@ -545,6 +566,15 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_NAME);
     request_write_uint32(r, node_ref);
     request_write_string(r, requested_field_name);
+    request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+  } else if (requested_field_index >= 0) {
+    request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_INDEX);
+    request_write_uint32(r, node_ref);
+    request_write_uint32(r, requested_field_index);
+    request_write_uchar(r, allow_search_in_proto ? 1 : 0);
+  } else if (requested_node_number_of_fields) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_GET_FIELD_COUNT);
+    request_write_uint32(r, node_ref);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (pose_change_tracking_requested) {
     request_write_uchar(r, C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE);
@@ -732,6 +762,14 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CENTER_OF_MASS);
     request_write_uint32(r, center_of_mass_node_ref->id);
   }
+  if (contact_point_change_tracking_requested) {
+    request_write_uchar(r, C_SUPERVISOR_CONTACT_POINTS_CHANGE_TRACKING_STATE);
+    request_write_uint32(r, contact_point_change_tracking.node->id);
+    request_write_uchar(r, contact_point_change_tracking.include_descendants ? 1 : 0);
+    request_write_uchar(r, contact_point_change_tracking.enable);
+    if (contact_point_change_tracking.enable)
+      request_write_int32(r, contact_point_change_tracking.sampling_period);
+  }
   if (contact_points_node_ref) {
     request_write_uchar(r, C_SUPERVISOR_NODE_GET_CONTACT_POINTS);
     request_write_uint32(r, contact_points_node_ref->id);
@@ -914,11 +952,13 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         node_id = uid;
       }
     } break;
+    case C_SUPERVISOR_FIELD_GET_FROM_INDEX:
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
       const WbFieldType field_type = request_read_int32(r);
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const int field_count = ((field_type & WB_MF) == WB_MF) ? request_read_int32(r) : -1;
+      const char *name = request_read_string(r);
       if (field_ref == -1) {
         requested_field_name = NULL;
         break;
@@ -929,7 +969,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->type = field_type;
       f->count = field_count;
       f->node_unique_id = node_ref;
-      f->name = supervisor_strdup(requested_field_name);
+      f->name = name;
       f->is_proto_internal = is_proto_internal;
       f->last_update = -DBL_MAX;
       f->data.sf_string = NULL;
@@ -1011,6 +1051,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       }
       break;
     }
+    case C_SUPERVISOR_NODE_GET_FIELD_COUNT:
+      node_number_of_fields = request_read_int32(r);
+      break;
     case C_SUPERVISOR_NODE_REGENERATED:
       remove_internal_proto_nodes_and_fields_from_list();
       break;
@@ -1060,6 +1103,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         while (tmp_pose) {
           if (tmp_pose->to_node->id == to_node_id && (!tmp_pose->from_node || tmp_pose->from_node->id == from_node_id)) {
             node_pose = tmp_pose->pose;
+            tmp_pose->last_update = wb_robot_get_time();
             break;
           }
           tmp_pose = tmp_pose->next;
@@ -1077,25 +1121,44 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       for (i = 0; i < 3; i++)
         center_of_mass_node_ref->center_of_mass[i] = request_read_double(r);
       break;
-    case C_SUPERVISOR_NODE_GET_CONTACT_POINTS:
-      free(contact_points_node_ref->contact_points);
-      free(contact_points_node_ref->node_id_per_contact_points);
-      contact_points_node_ref->contact_points = NULL;
-      contact_points_node_ref->node_id_per_contact_points = NULL;
-      contact_points_node_ref->number_of_contact_points = request_read_int32(r);
-      if (contact_points_node_ref->number_of_contact_points > 0) {
-        const int three_times_size = 3 * contact_points_node_ref->number_of_contact_points;
-        contact_points_node_ref->contact_points = malloc(three_times_size * sizeof(double));
-        contact_points_node_ref->node_id_per_contact_points =
-          malloc(contact_points_node_ref->number_of_contact_points * sizeof(int));
-        for (i = 0; i < contact_points_node_ref->number_of_contact_points; i++) {
-          contact_points_node_ref->contact_points[3 * i] = request_read_double(r);
-          contact_points_node_ref->contact_points[3 * i + 1] = request_read_double(r);
-          contact_points_node_ref->contact_points[3 * i + 2] = request_read_double(r);
-          contact_points_node_ref->node_id_per_contact_points[i] = request_read_int32(r);
+    case C_SUPERVISOR_NODE_GET_CONTACT_POINTS: {
+      const int contact_point_node_id = request_read_int32(r);
+      const int include_descendants = (int)request_read_uchar(r);
+
+      WbNodeRef contact_point_node = NULL;
+      if (contact_points_node_ref && contact_points_node_ref->id == contact_point_node_id &&
+          contact_points_node_ref->contact_points_include_descendants == include_descendants)
+        contact_point_node = contact_points_node_ref;
+      else {
+        WbNodeRef tmp_node = node_list;
+        while (tmp_node) {
+          if (tmp_node->id == contact_point_node_id) {
+            contact_point_node = tmp_node;
+            break;
+          }
+          tmp_node = tmp_node->next;
         }
       }
+      assert(contact_point_node);
+
+      const int n_points = request_read_int32(r);
+
+      free(contact_point_node->contact_points[include_descendants].points);
+      contact_point_node->contact_points[include_descendants].points = NULL;
+      contact_point_node->contact_points[include_descendants].n = n_points;
+      if (n_points > 0) {
+        WbContactPoint *points = malloc(n_points * sizeof(WbContactPoint));
+        contact_point_node->contact_points[include_descendants].points = points;
+        for (i = 0; i < n_points; i++) {
+          points[i].point[0] = request_read_double(r);
+          points[i].point[1] = request_read_double(r);
+          points[i].point[2] = request_read_double(r);
+          points[i].node_id = request_read_int32(r);
+        }
+      }
+      contact_point_node->contact_points[include_descendants].last_update = wb_robot_get_time();
       break;
+    }
     case C_SUPERVISOR_NODE_GET_STATIC_BALANCE:
       static_balance_node_ref->static_balance = request_read_uchar(r) == 1;
       break;
@@ -1511,8 +1574,13 @@ bool wb_supervisor_movie_failed() {
 }
 
 int wb_supervisor_movie_get_status() {
-  fprintf(stderr, "%s() is deprecated, please use wb_supervisor_movie_is_ready() and wb_supervisor_movie_failed() instead.\n",
-          __FUNCTION__);
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr,
+            "Warning: %s() is deprecated, use wb_supervisor_movie_is_ready() and wb_supervisor_movie_failed() instead.\n",
+            __FUNCTION__);
+    deprecation_warning = false;
+  }
   return movie_status;
 }
 
@@ -1975,11 +2043,15 @@ const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node) {
   }
 
   WbPoseStruct *tmp_pose = pose_collection;
-  while (tmp_pose) {
-    if (tmp_pose->from_node == from_node && tmp_pose->to_node == node)
-      return tmp_pose->pose;
-    tmp_pose = tmp_pose->next;
-  }
+  while (tmp_pose)
+    if (tmp_pose->from_node == from_node && tmp_pose->to_node == node) {
+      if (tmp_pose->last_update == wb_robot_get_time())
+        return tmp_pose->pose;
+      else
+        break;
+
+      tmp_pose = tmp_pose->next;
+    }
 
   robot_mutex_lock_step();
   pose_requested = true;
@@ -2010,6 +2082,11 @@ const double *wb_supervisor_node_get_center_of_mass(WbNodeRef node) {
 }
 
 const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_get_contact_points() instead.\n", __FUNCTION__);
+    deprecation_warning = false;
+  }
   if (!robot_check_supervisor(__FUNCTION__))
     return invalid_vector;
 
@@ -2020,13 +2097,14 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
   }
 
   const double t = wb_robot_get_time();
-  if (t > node->contact_points_time_stamp || contact_points_include_descendants != node->contact_points_include_descendants) {
-    node->contact_points_time_stamp = t;
-    node->contact_points_include_descendants = contact_points_include_descendants;
-  } else
-    return (node->contact_points && index < node->number_of_contact_points) ?
-             node->contact_points + (3 * index) :
+  const int descendants = node->contact_points_include_descendants;
+
+  if (t <= node->contact_points[descendants].timestamp && node->contact_points[descendants].points)
+    return (node->contact_points[descendants].points && index < node->contact_points[descendants].n) ?
+             node->contact_points[descendants].points[index].point :
              invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid or if there is no contact
+
+  node->contact_points[descendants].timestamp = t;
 
   robot_mutex_lock_step();
   contact_points_node_ref = node;
@@ -2034,12 +2112,17 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
   contact_points_node_ref = NULL;
   robot_mutex_unlock_step();
 
-  return (node->contact_points && index < node->number_of_contact_points) ?
-           node->contact_points + (3 * index) :
+  return (node->contact_points[descendants].points && index < node->contact_points[descendants].n) ?
+           node->contact_points[descendants].points[index].point :
            invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid or if there is no contact
 }
 
 WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_get_contact_points() instead.\n", __FUNCTION__);
+    deprecation_warning = false;
+  }
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2050,8 +2133,11 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
   }
 
   const double t = wb_robot_get_time();
-  if (t > node->contact_points_time_stamp || contact_points_include_descendants != node->contact_points_include_descendants) {
-    node->contact_points_time_stamp = t;
+  const int descendants = node->contact_points_include_descendants;
+
+  if (t > node->contact_points[descendants].timestamp ||
+      contact_points_include_descendants != node->contact_points_include_descendants) {
+    node->contact_points[descendants].timestamp = t;
     node->contact_points_include_descendants = contact_points_include_descendants;
     robot_mutex_lock_step();
     contact_points_node_ref = node;
@@ -2060,15 +2146,20 @@ WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index) {
     robot_mutex_unlock_step();
   }
 
-  if (!node->contact_points || index >= node->number_of_contact_points)
+  if (!node->contact_points[descendants].points || index >= node->contact_points[descendants].n)
     return NULL;
   allow_search_in_proto = true;
-  WbNodeRef result = node_get_from_id(node->node_id_per_contact_points[index]);
+  WbNodeRef result = node_get_from_id(node->contact_points[descendants].points[index].node_id);
   allow_search_in_proto = false;
   return result;
 }
 
 int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants) {
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_get_contact_points() instead.\n", __FUNCTION__);
+    deprecation_warning = false;
+  }
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
@@ -2079,11 +2170,13 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
   }
 
   const double t = wb_robot_get_time();
-  if (t > node->contact_points_time_stamp || include_descendants != node->contact_points_include_descendants) {
-    node->contact_points_time_stamp = t;
-    node->contact_points_include_descendants = include_descendants;
-  } else
-    return node->number_of_contact_points;
+  const int descendants = include_descendants ? 1 : 0;
+
+  if (t <= node->contact_points[descendants].timestamp && node->contact_points[descendants].points)
+    return node->contact_points[descendants].n;
+
+  node->contact_points[descendants].timestamp = t;
+  node->contact_points_include_descendants = include_descendants;
 
   robot_mutex_lock_step();
   contact_points_node_ref = node;
@@ -2092,7 +2185,39 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
   contact_points_node_ref = NULL;
   robot_mutex_unlock_step();
 
-  return node->number_of_contact_points;  // will be -1 if n is not a Solid
+  return node->contact_points[descendants].n;  // will be -1 if n is not a Solid
+}
+
+WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  const double t = wb_robot_get_time();
+  const int descendants = include_descendants ? 1 : 0;
+
+  if (t == node->contact_points[descendants].last_update) {
+    *size = node->contact_points[descendants].n;
+    return node->contact_points[descendants].points;
+  }
+
+  // TODO: Delete with `wb_supervisor_node_get_contact_point`
+  node->contact_points[descendants].timestamp = t;
+
+  robot_mutex_lock_step();
+  contact_points_node_ref = node;
+  contact_points_include_descendants = include_descendants;
+  wb_robot_flush_unlocked();
+  contact_points_node_ref = NULL;
+  robot_mutex_unlock_step();
+
+  *size = node->contact_points[descendants].n;
+  return node->contact_points[descendants].points;
 }
 
 bool wb_supervisor_node_get_static_balance(WbNodeRef node) {
@@ -2168,6 +2293,80 @@ const char *wb_supervisor_node_get_base_type_name(WbNodeRef node) {
   return wb_node_get_name(node->type);
 }
 
+WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+  if (index < 0) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with an negative 'index' argument: %d.\n", __FUNCTION__, index);
+    return NULL;
+  }
+
+  robot_mutex_lock_step();
+  // search if field is already present in field_list
+  WbFieldRef result = find_field_by_id(index, node->id);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    WbFieldRef field_list_before = field_list;
+    requested_field_index = index;
+    node_ref = node->id;
+    wb_robot_flush_unlocked();
+    requested_field_index = -1;
+    if (field_list != field_list_before)
+      result = field_list;
+    else
+      result = find_field_by_id(index, node->id);
+    if (result && node->is_proto_internal)
+      result->is_proto_internal = true;
+  }
+  robot_mutex_unlock_step();
+  return result;
+}
+
+WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+  if (index < 0) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a negative 'index' argument: %d.\n", __FUNCTION__, index);
+    return NULL;
+  }
+
+  robot_mutex_lock_step();
+  // search if field is already present in field_list
+  WbFieldRef result = find_field_by_id(index, node->id);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    WbFieldRef field_list_before = field_list;
+    requested_field_index = index;
+    node_ref = node->id;
+    allow_search_in_proto = true;
+    wb_robot_flush_unlocked();
+    requested_field_index = -1;
+    if (field_list != field_list_before)
+      result = field_list;
+    else
+      result = find_field_by_id(index, node->id);
+    if (result)
+      result->is_proto_internal = true;
+    allow_search_in_proto = false;
+  }
+  robot_mutex_unlock_step();
+  return result;
+}
+
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
@@ -2200,6 +2399,52 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
   }
   robot_mutex_unlock_step();
   return result;
+}
+
+int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return -1;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return -1;
+  }
+
+  robot_mutex_lock_step();
+  requested_node_number_of_fields = true;
+  node_ref = node->id;
+  node_number_of_fields = -1;
+  wb_robot_flush_unlocked();
+  requested_node_number_of_fields = false;
+  robot_mutex_unlock_step();
+  if (node_number_of_fields > 0)
+    return node_number_of_fields;
+  return -1;
+}
+
+int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return -1;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return -1;
+  }
+
+  robot_mutex_lock_step();
+  requested_node_number_of_fields = true;
+  node_ref = node->id;
+  node_number_of_fields = -1;
+  allow_search_in_proto = true;
+  wb_robot_flush_unlocked();
+  requested_node_number_of_fields = false;
+  allow_search_in_proto = false;
+  robot_mutex_unlock_step();
+  if (node_number_of_fields > 0)
+    return node_number_of_fields;
+  return -1;
 }
 
 WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name) {
@@ -2585,6 +2830,10 @@ const double *wb_supervisor_virtual_reality_headset_get_orientation() {
   return virtual_reality_headset_orientation ? virtual_reality_headset_orientation : invalid_vector;
 }
 
+const char *wb_supervisor_field_get_name(WbFieldRef field) {
+  return field->name;
+}
+
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return WB_NO_FIELD;
@@ -2603,6 +2852,54 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   }
 
   return ((WbFieldStruct *)field)->count;
+}
+
+void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {
+  if (sampling_period < 0) {
+    fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
+    return;
+  }
+
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  const int descendants = include_descendants ? 1 : 0;
+
+  robot_mutex_lock_step();
+  contact_point_change_tracking_requested = true;
+  contact_point_change_tracking.node = node;
+  contact_point_change_tracking.enable = true;
+  contact_point_change_tracking.include_descendants = include_descendants;
+  node->contact_points[descendants].last_update = -DBL_MAX;
+  node->contact_points[descendants].sampling_period = sampling_period;
+  wb_robot_flush_unlocked();
+  pose_change_tracking_requested = false;
+  robot_mutex_unlock_step();
+}
+
+void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return;
+  }
+
+  contact_point_change_tracking_requested = true;
+  contact_point_change_tracking.node = node;
+  contact_point_change_tracking.enable = false;
+  contact_point_change_tracking.include_descendants = include_descendants;
+  wb_robot_flush_unlocked();
+  pose_change_tracking_requested = false;
+  robot_mutex_unlock_step();
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {

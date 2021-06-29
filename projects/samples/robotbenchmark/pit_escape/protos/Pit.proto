@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
 # Randomly generated uneven terrain based on Perlin noise.
+# template language: javascript
 
 PROTO Pit [
   field SFVec3f    translation    0 0 0
@@ -17,118 +18,115 @@ PROTO Pit [
   field SFFloat    pitRadius      3
 ]
 {
-  %{
-    local wbrandom = require('wbrandom')
-    local os = require('os')
-    if fields.randomSeed.value <= 0 then
-      wbrandom.seed(os.clock() + os.time())
+  %<
+    import * as wbrandom from 'wbrandom.js';
+
+    if (fields.randomSeed.value <= 0)
+      wbrandom.seed(Date.now());
     else
-      wbrandom.seed(fields.randomSeed.value)
-    end
+      wbrandom.seed(fields.randomSeed.value);
 
-    function gaussian2d(x, y, amp, cx, cy, sx, sy)
-      return amp * math.exp( - ( ( math.pow(x - cx, 2) / (2.0 * math.pow(sx, 2)) ) + (math.pow(y - cy, 2) / (2.0 * math.pow(sy, 2)) ) ))
-    end
+    function gaussian2d(x, y, amp, c, s) {
+      return amp * Math.exp( - ( ( Math.pow(x - c.x, 2) / (2.0 * Math.pow(s.x, 2)) ) + (Math.pow(y - c.y, 2) / (2.0 * Math.pow(s.y, 2)) ) ));
+    }
 
-    -- cosine interpolation
-    function interpolate(a, b, x)
-      local ft = x * math.pi
-      local f = (1.0 - math.cos(ft)) * 0.5
+    // cosine interpolation
+    function interpolate (a, b, x) {
+      const ft = x * Math.PI;
+      const f = (1.0 - Math.cos(ft)) * 0.5;
 
-      return  a * (1.0 - f) + b * f
-    end
+      return a * (1.0 - f) + b * f;
+    }
 
-    function noise(x, y)
-      -- could be improved by taking care of x and y
-      return wbrandom.real(-1.0, 1.0)
-    end
+    function noise (x, y) {
+      // could be improved by taking care of x and y
+      return wbrandom.real(-1.0, 1.0);
+    }
 
-    function smoothNoise(x, y)
-      local corners = ( noise(x-1, y-1) + noise(x+1, y-1) + noise(x-1, y+1) + noise(x+1, y+1) ) / 16.0
-      local sides   = ( noise(x-1, y)   + noise(x+1, y)   + noise(x, y-1)   + noise(x, y+1) ) /  8.0
-      local center  =  noise(x, y) / 4.0
-      return corners + sides + center
-    end
+    function smoothNoise (x, y) {
+      const corners = (noise(x - 1, y - 1) + noise(x + 1, y - 1) + noise(x - 1, y + 1) + noise(x + 1, y + 1)) / 16.0;
+      const sides   = (noise(x - 1, y)   + noise(x + 1, y)   + noise(x, y - 1)   + noise(x, y + 1)) /  8.0;
+      const center  =  noise(x, y) / 4.0;
 
-    function interpolatedNoise(x, y)
-      local integerX = math.floor(x)
-      local fractionalX = x - integerX
+      return corners + sides + center;
+    }
 
-      local integerY = math.floor(y)
-      local fractionalY = y - integerY
+    function interpolatedNoise (x, y) {
+      const integerX = Math.floor(x);
+      const fractionalX = x - integerX;
 
-      local v1 = smoothNoise(integerX,     integerY)
-      local v2 = smoothNoise(integerX + 1, integerY)
-      local v3 = smoothNoise(integerX,     integerY + 1)
-      local v4 = smoothNoise(integerX + 1, integerY + 1)
+      const integerY = Math.floor(y);
+      const fractionalY = y - integerY;
 
-      local i1 = interpolate(v1, v2, fractionalX)
-      local i2 = interpolate(v3, v4, fractionalX)
+      const v1 = smoothNoise(integerX,     integerY);
+      const v2 = smoothNoise(integerX + 1, integerY);
+      const v3 = smoothNoise(integerX,     integerY + 1);
+      const v4 = smoothNoise(integerX + 1, integerY + 1);
 
-      return interpolate(i1, i2, fractionalY)
-    end
+      const i1 = interpolate(v1, v2, fractionalX);
+      const i2 = interpolate(v3, v4, fractionalX);
 
-    -- cf. http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
-    function perlinNoise2d(x, y)
-      local total = 0.0
+      return interpolate(i1, i2, fractionalY);
+    }
 
-      for i = 0, fields.perlinNOctaves.value - 1 do
-        local frequency = math.pow(2.0, i)
+    // cf. http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
+    function perlinNoise2d(x, y) {
+      let total = 0.0;
 
-        total = total + interpolatedNoise(x * frequency, y * frequency)
-      end
+      for (let i = 0; i <= fields.perlinNOctaves.value - 1; ++i) {
+        let frequency = Math.pow(2.0, i);
+        total += interpolatedNoise(x * frequency, y * frequency);
+      }
 
-      return total / fields.perlinNOctaves.value
-    end
-  }%
+      return total / fields.perlinNOctaves.value;
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       DEF PIT_ELEVATION_GRID Transform {
-        translation %{= - fields.size.value.x / 2 }% 0 %{= - fields.size.value.z / 2 }%
+        translation %<= - fields.size.value.x * 0.5 >% 0 %<= - fields.size.value.z * 0.5 >%
         children [
           Shape {
             appearance IS appearance
             geometry ElevationGrid {
-              %{ if fields.xDimension.value > 2 and fields.zDimension.value > 2 then }%
+              %< if (fields.xDimension.value > 2 && fields.zDimension.value > 2) { >%
                 xDimension IS xDimension
-                xSpacing %{= fields.size.value.x / (fields.xDimension.value - 1) }%
+                xSpacing %<= fields.size.value.x / (fields.xDimension.value - 1) >%
                 zDimension IS zDimension
-                zSpacing %{= fields.size.value.z / (fields.zDimension.value - 1) }%
+                zSpacing %<= fields.size.value.z / (fields.zDimension.value - 1) >%
                 height [
-                  %{
-                    local xSigma = fields.pitRadius.value / fields.size.value.x
-                    local zSigma = fields.pitRadius.value / fields.size.value.z
-                    local xMin = 0.5 - 3 * xSigma
-                    local xMax = 0.5 + 3 * xSigma
-                    local zMin = 0.5 - 3 * zSigma
-                    local zMax = 0.5 + 3 * zSigma
-                  }%
-                  %{ for i=0, fields.xDimension.value - 1 do }%
-                    %{ for j=0, fields.zDimension.value - 1 do }%
-                      %{
-                        local height = 1.0
-                        local x = i / fields.xDimension.value
-                        local z = j / fields.zDimension.value
-                        if x > xMin and x < xMax and z > zMin and z < zMax then
-                          if fields.perlinNOctaves.value > 0 then
-                            height = (1 - fields.noiseAmplitude.value) + fields.noiseAmplitude.value * perlinNoise2d(x, z)
-                          end
+                  %<
+                    const xSigma = fields.pitRadius.value / fields.size.value.x;
+                    const zSigma = fields.pitRadius.value / fields.size.value.z;
+                    const xMin = 0.5 - 3 * xSigma;
+                    const xMax = 0.5 + 3 * xSigma;
+                    const zMin = 0.5 - 3 * zSigma;
+                    const zMax = 0.5 + 3 * zSigma;
+                  >%
+                  %< for (let i = 0; i <= fields.xDimension.value - 1; ++i) { >%
+                    %< for (let j = 0; j <= fields.zDimension.value - 1; ++j) { >%
+                      %<
+                        let height = 1.0;
+                        const x = i / fields.xDimension.value;
+                        const z = j / fields.zDimension.value;
+                        if (x > xMin && x < xMax && z > zMin && z < zMax) {
+                          if (fields.perlinNOctaves.value > 0)
+                            height = (1 - fields.noiseAmplitude.value) + fields.noiseAmplitude.value * perlinNoise2d(x, z);
 
-                          height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, xSigma, zSigma))
-                          height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, xSigma, zSigma)
+                          height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, {x: 0, y: 0}, {x: xSigma, y: zSigma}));
+                          height = height * gaussian2d(x - 0.5, z - 0.5, 1, {x: 0, y: 0}, {x: xSigma, y: zSigma});
 
-                          height = height * fields.size.value.y
-                        else
-                          height = 0
-                        end
-                      }%
-                      %{= height }%
-                    %{ end }%
-                  %{ end }%
+                          height = height * fields.size.value.y;
+                        } else
+                          height = 0;
+                      >%
+                      %<= height >%
+                    %< } >%
+                  %< } >%
                 ]
-              %{ end }%
+              %< } >%
             }
           }
         ]

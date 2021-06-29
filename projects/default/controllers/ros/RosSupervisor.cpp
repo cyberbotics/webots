@@ -78,6 +78,15 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mVirtualRealityHeadsetIsUsedServer = mRos->nodeHandle()->advertiseService(
     (ros->name()) + "/supervisor/vitual_reality_headset_is_used", &RosSupervisor::virtualRealityHeadsetIsUsedCallback, this);
 
+  mNodeGetContactPointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_contact_points",
+                                                                    &RosSupervisor::nodeGetContactPointsCallback, this);
+  mNodeEnableContactPointsTrackingServer =
+    mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/enable_contact_point_tracking",
+                                         &RosSupervisor::nodeEnableContactPointsTrackingCallback, this);
+  mNodeDisableContactPointsTrackingServer =
+    mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/disable_contact_points_tracking",
+                                         &RosSupervisor::nodeDisableContactPointsTrackingCallback, this);
+
   mNodeGetIdServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_id", &RosSupervisor::nodeGetIdCallback, this);
   mNodeGetTypeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_type",
@@ -121,6 +130,10 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                               &RosSupervisor::nodeAddTorqueCallback, this);
   mNodeGetFieldServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field",
                                                              &RosSupervisor::nodeGetFieldCallback, this);
+  mNodeGetFieldByIndexServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field_by_index",
+                                                                    &RosSupervisor::nodeGetFieldByIndexCallback, this);
+  mNodeGetNumberOfFieldsServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_number_of_fields",
+                                                                      &RosSupervisor::nodeGetNumberOfFieldsCallback, this);
   mNodeMoveViewpointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/move_viewpoint",
                                                                   &RosSupervisor::nodeMoveViewpointCallback, this);
   mNodeSetVisibilityServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_visibility",
@@ -144,6 +157,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mNodeSetJointPositionServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_joint_position",
                                                                      &RosSupervisor::nodeSetJointPositionCallback, this);
 
+  mFieldGetNameServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_name",
+                                                             &RosSupervisor::fieldGetNameCallback, this);
   mFieldGetTypeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_type",
                                                              &RosSupervisor::fieldGetTypeCallback, this);
   mFieldGetTypeNameServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_type_name",
@@ -254,6 +269,9 @@ RosSupervisor::~RosSupervisor() {
   mNodeGetNumberOfContactPointsServer.shutdown();
   mNodeGetContactPointServer.shutdown();
   mNodeGetContactPointNodeServer.shutdown();
+  mNodeGetContactPointsServer.shutdown();
+  mNodeEnableContactPointsTrackingServer.shutdown();
+  mNodeDisableContactPointsTrackingServer.shutdown();
   mNodeGetStaticBalanceServer.shutdown();
   mNodeGetVelocityServer.shutdown();
   mNodeSetVelocityServer.shutdown();
@@ -628,6 +646,49 @@ bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_m
 }
 
 // cppcheck-suppress constParameter
+bool RosSupervisor::nodeGetContactPointsCallback(webots_ros::node_get_contact_points::Request &req,
+                                                 webots_ros::node_get_contact_points::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  int numberOfContactPoints;
+  ContactPoint *contactPoints = node->getContactPoints(req.include_descendants, &numberOfContactPoints);
+  res.contact_points.resize(numberOfContactPoints);
+  for (int i = 0; i < numberOfContactPoints; i++) {
+    res.contact_points[i].node_id = contactPoints[i].node_id;
+    res.contact_points[i].point.x = contactPoints[i].point[0];
+    res.contact_points[i].point.y = contactPoints[i].point[1];
+    res.contact_points[i].point.z = contactPoints[i].point[2];
+  }
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeEnableContactPointsTrackingCallback(webots_ros::node_enable_contact_points_tracking::Request &req,
+                                                            webots_ros::node_enable_contact_points_tracking::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->enableContactPointsTracking(req.sampling_period, req.include_descendants);
+  res.success = true;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeDisableContactPointsTrackingCallback(webots_ros::node_disable_contact_points_tracking::Request &req,
+                                                             webots_ros::node_disable_contact_points_tracking::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->disableContactPointsTracking(req.include_descendants);
+  res.success = true;
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetNumberOfContactPointsCallback(webots_ros::node_get_number_of_contact_points::Request &req,
                                                          webots_ros::node_get_number_of_contact_points::Response &res) {
   assert(this);
@@ -771,6 +832,29 @@ bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &re
   return true;
 }
 
+bool RosSupervisor::nodeGetFieldByIndexCallback(webots_ros::node_get_field_by_index::Request &req,
+                                                webots_ros::node_get_field_by_index::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  if (req.proto)
+    res.field = reinterpret_cast<uint64_t>(node->getProtoFieldByIndex(req.index));
+  else
+    res.field = reinterpret_cast<uint64_t>(node->getFieldByIndex(req.index));
+  return true;
+}
+
+bool RosSupervisor::nodeGetNumberOfFieldsCallback(webots_ros::node_get_number_of_fields::Request &req,
+                                                  webots_ros::node_get_number_of_fields::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.value = req.proto ? node->getProtoNumberOfFields() : node->getNumberOfFields();
+  return true;
+}
+
 // cppcheck-suppress constParameter
 bool RosSupervisor::nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req,
                                               webots_ros::node_move_viewpoint::Response &res) {
@@ -907,6 +991,16 @@ bool RosSupervisor::nodeSetJointPositionCallback(webots_ros::node_set_joint_posi
 }
 
 // cppcheck-suppress constParameter
+bool RosSupervisor::fieldGetNameCallback(webots_ros::field_get_name::Request &req, webots_ros::field_get_name::Response &res) {
+  assert(this);
+  if (!req.field)
+    return false;
+  Field *field = reinterpret_cast<Field *>(req.field);
+  res.name = field->getName();
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res) {
   assert(this);
   if (!req.field)
@@ -917,8 +1011,8 @@ bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &re
 }
 
 // cppcheck-suppress constParameter
-bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req,
-                                             webots_ros::field_get_type_name::Response &res) {
+bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_name::Request &req,
+                                             webots_ros::field_get_name::Response &res) {
   assert(this);
   if (!req.field)
     return false;

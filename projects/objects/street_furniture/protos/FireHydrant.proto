@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A fire hydrant.
+# template language: javascript
 
 PROTO FireHydrant [
   field SFVec3f    translation 0 0 0
@@ -13,12 +14,12 @@ PROTO FireHydrant [
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ if fields.appearance.value ~= nil and fields.appearance.value.fields.baseColor ~= nil then}%
-      %{ local color = fields.appearance.value.fields.baseColor.value }%
+    %< if (fields.appearance.value !== undefined && fields.appearance.value.fields.baseColor !== undefined) { >%
+      %< const color = fields.appearance.value.fields.baseColor.value; >%
       recognitionColors [
-        %{= color.r }% %{= color.g }% %{= color.b }%
+        %<= color.r >% %<= color.g >% %<= color.b >%
       ]
-    %{ end }%
+    %< } >%
     children [
       Shape {
         appearance IS appearance

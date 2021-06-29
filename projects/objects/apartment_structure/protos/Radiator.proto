@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A radiator with a variable number of fins and optional bounding object.
+# template language: javascript
 
 PROTO Radiator [
   field SFVec3f    translation           0 0 0
@@ -13,13 +14,13 @@ PROTO Radiator [
   field SFBool     enableBoundingObject  TRUE                                                           # Defines whether the radiator should have a bounding object.
 ]
 {
-  %{
-    local numberOfFins = fields.numberOfFins.value
-    if numberOfFins <= 0 then
-      numberOfFins = fields.numberOfFins.defaultValue
-      io.stderr:write("'numberOfFins' should be strictly positive.\n")
-    end
-  }%
+  %<
+    let numberOfFins = fields.numberOfFins.value;
+    if (numberOfFins <= 0) {
+      numberOfFins = fields.numberOfFins.defaultValue;
+      console.error('\'numberOfFins\' must be strictly positive. Value reset to ' + numberOfFins + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -130,14 +131,14 @@ PROTO Radiator [
           creaseAngle 1.1
         }
       }
-      %{ for i = 1, numberOfFins - 1 do }%
+      %< for (let i = 1; i <= numberOfFins - 1; ++i) { >%
         Transform {
-          translation 0 0 %{= -0.06 * i }%
+          translation 0 0 %<= -0.06 * i >%
           children [
             USE SLIDE
           ]
         }
-      %{ end }%
+      %< } >%
       DEF LOWER_CONNECTOR Transform {
         translation 0 -0.5 0
         children [
@@ -166,7 +167,7 @@ PROTO Radiator [
         ]
       }
       DEF UPPER_END_CONNECTOR Transform {
-        translation 0 0 %{= -0.042 - 0.06 * (numberOfFins - 1) }%
+        translation 0 0 %<= -0.042 - 0.06 * (numberOfFins - 1) >%
         rotation 0 1 0 3.141592644
         children [
           DEF CONNECTOR Shape {
@@ -194,7 +195,7 @@ PROTO Radiator [
         ]
       }
       DEF LOWER_END_CONNECTOR Transform {
-        translation 0 -0.5 %{= -0.042 - 0.06 * (numberOfFins - 1) }%
+        translation 0 -0.5 %<= -0.042 - 0.06 * (numberOfFins - 1) >%
         rotation 0 1 0 3.141592644
         children [
           DEF CONNECTOR Shape {
@@ -224,15 +225,15 @@ PROTO Radiator [
     ]
     name IS name
     model "radiator"
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
-      translation -0.02 0 %{= -0.03 * (numberOfFins - 2) }%
+      translation -0.02 0 %<= -0.03 * (numberOfFins - 2) >%
       children [
         Box {
-          size 0.24 0.58 %{= 0.15 + 0.06 * numberOfFins }%
+          size 0.24 0.58 %<= 0.15 + 0.06 * numberOfFins >%
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

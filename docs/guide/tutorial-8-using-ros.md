@@ -17,7 +17,7 @@ To install the latest version of ROS on Ubuntu use the following commands:
 
 ```sh
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 sudo apt-get update
 sudo apt-get install ros-noetic-desktop-full # takes time, get a coffee :)
 sudo apt-get install python3-rosdep
@@ -32,7 +32,7 @@ sudo apt-get install ros-noetic-webots-ros
 
 ```sh
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 sudo apt-get update
 sudo apt-get install ros-melodic-desktop-full # takes time, get a coffee :)
 sudo apt-get install python-rosdep
@@ -47,7 +47,7 @@ sudo apt-get install ros-melodic-webots-ros
 
 ```sh
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 sudo apt-get update
 sudo apt-get install ros-kinetic-desktop-full # takes time, get a coffee :)
 sudo apt-get install python-rosdep

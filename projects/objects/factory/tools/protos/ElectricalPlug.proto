@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # An electrical plug with a cable of variable path.
 # The bounding object and physics are optional.
+# template language: javascript
 
 PROTO ElectricalPlug [
   field SFVec3f    translation           0 0 0
@@ -14,10 +15,9 @@ PROTO ElectricalPlug [
   field SFBool     enableBoundingObject  TRUE                           # Defines whether the plug should have a bounding object.
 ]
 {
-  %{
-    local wbcore     = require('wbcore')
-    local nbCablePathPoints = wbcore.tablelength(fields.cablePath.value)
-  }%
+  %<
+    const nbCablePathPoints = fields.cablePath.value.length;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -58,7 +58,7 @@ PROTO ElectricalPlug [
           creaseAngle 0.57
         }
       }
-      %{ if nbCablePathPoints > 1 then }%
+      %< if (nbCablePathPoints > 1) { >%
         Solid {
           translation 0 0 0.055
           rotation 1 0 0 1.5707963220000003
@@ -79,7 +79,7 @@ PROTO ElectricalPlug [
               }
             }
           ]
-          %{ if fields.enableBoundingObject.value then }%
+          %< if (fields.enableBoundingObject.value) { >%
             boundingObject Extrusion {
               crossSection [
                 0.003 0.003
@@ -90,15 +90,15 @@ PROTO ElectricalPlug [
               ]
               spine IS cablePath
             }
-          %{ end }%
-          %{ if fields.enablePhysics.value then }%
+          %< } >%
+          %< if (fields.enablePhysics.value) { >%
             physics Physics {
             }
-          %{ end }%
+          %< } >%
         }
-      %{ end }%
+      %< } >%
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
           Transform {
@@ -152,12 +152,12 @@ PROTO ElectricalPlug [
           }
         ]
       }
-    %{ end }%
-    %{ if fields.enablePhysics.value then }%
+    %< } >%
+    %< if (fields.enablePhysics.value) { >%
       physics Physics {
         density -1
         mass 0.1
       }
-    %{ end }%
+    %< } >%
   }
 }

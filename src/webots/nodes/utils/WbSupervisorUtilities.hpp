@@ -26,6 +26,7 @@ struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
 struct WbTrackedFieldInfo;
 struct WbTrackedPoseInfo;
+struct WbTrackedContactPointInfo;
 class WbFieldSetRequest;
 
 class WbBaseNode;
@@ -79,10 +80,12 @@ private:
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
   bool mFoundNodeIsProtoInternal;
-  int mFoundFieldId;
+  int mFoundFieldIndex;
   int mFoundFieldType;
   int mFoundFieldCount;
+  QString mFoundFieldName;
   bool mFoundFieldIsInternal;
+  int mNodeFieldCount;
   int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
@@ -120,6 +123,7 @@ private:
 
   void pushSingleFieldContentToStream(QDataStream &stream, WbField *field);
   void pushRelativePoseToStream(QDataStream &stream, WbTransform *fromNode, WbTransform *toNode);
+  void pushContactPointsToStream(QDataStream &stream, WbSolid *solid, bool includeDescendants);
   void initControllerRequests();
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);
@@ -135,6 +139,7 @@ private:
   QList<int> mLabelIds;
   QVector<WbTrackedFieldInfo> mTrackedFields;
   QVector<WbTrackedPoseInfo> mTrackedPoses;
+  QVector<WbTrackedContactPointInfo> mTrackedContactPoints;
 };
 
 #endif

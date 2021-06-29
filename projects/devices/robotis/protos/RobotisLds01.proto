@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#lds-01
 # Model of the Robotis LDS-01 Laser Distance Sensor
 # Reference: http://www.robotis.us/360-laser-distance-sensor-lds-01-lidar/
+# template language: javascript
 
 PROTO RobotisLds01 [
   field SFVec3f    translation       0 0.02 0
@@ -26,7 +27,7 @@ PROTO RobotisLds01 [
             }
             device [
               RotationalMotor {
-                name %{= "\"" .. fields.name.value .. "_main_motor\"" }%
+                name %<= '"' + fields.name.value + '_main_motor"' >%
                 maxVelocity 40
               }
             ]
@@ -73,7 +74,7 @@ PROTO RobotisLds01 [
             }
             device [
               RotationalMotor {
-                name %{= "\"" .. fields.name.value .. "_secondary_motor\"" }%
+                name %<= '"' + fields.name.value + '_secondary_motor"' >%
                 maxVelocity 150
               }
             ]
@@ -233,12 +234,12 @@ PROTO RobotisLds01 [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 0.125
     }
-    %{ end }%
+    %< } >%
     horizontalResolution 360
     fieldOfView 6.28318
     numberOfLayers 1
