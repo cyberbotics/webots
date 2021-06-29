@@ -221,6 +221,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   if (!parent || !proto)
     return;
   const bool isInBoundingObject = dynamic_cast<WbBaseNode *>(node)->isInBoundingObject();
+
   QList<WbField *> previousParentRedirections;
   WbField *parentField = node->parentField();
   QVector<WbField *> parameters;
