@@ -1,5 +1,9 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
+  info [
+    "Validates correct regeneration of a boundingObject."
+  ]
+  title "Test boundingObject regeneration"
   coordinateSystem "NUE"
   lineScale 1
 }

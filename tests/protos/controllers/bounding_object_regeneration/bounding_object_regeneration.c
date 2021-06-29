@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
     robot_number_contact_points, 0,
     "After regeneration, for the robot probe the first contact position should have no contact points, but does.");
 
-  // set probe position in the first zone of conflict, collision should occur
+  // set probe position in the second zone of conflict, collision should occur
   const double proto_second_contact_position[3] = {0.25, 0, 0};
   const double robot_second_contact_position[3] = {0.25, 0, 2};
 
