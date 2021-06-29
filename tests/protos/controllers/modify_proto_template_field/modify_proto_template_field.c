@@ -21,13 +21,13 @@ int main(int argc, char **argv) {
 
   WbNodeRef node = wb_supervisor_node_get_from_def("TEST_NODE");
   WbFieldRef urlField = wb_supervisor_node_get_field(node, "url");
-  wb_supervisor_field_set_mf_string(urlField, 0, "webots://projects/default/worlds/textures/grass.jpg");
+  wb_supervisor_field_set_mf_string(urlField, 0, "textures/green.jpg");
 
   wb_robot_step(TIME_STEP);
 
   // test appearance after regeneration
   const double ds_value_grass = wb_distance_sensor_get_value(ds);
-  ts_assert_double_in_delta(ds_value_grass, 405.0, 20.0, "Wrong distance sensor value with grass texture after regeneration.");
+  ts_assert_double_in_delta(ds_value_grass, 380.6, 20.0, "Wrong distance sensor value with grass texture after regeneration.");
 
   wb_robot_step(TIME_STEP);
 
