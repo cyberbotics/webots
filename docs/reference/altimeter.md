@@ -5,7 +5,6 @@ Derived from [Device](device.md) and [Solid](solid.md).
 ```
 Altimeter {
   SFFloat  accuracy         0             # [0, inf)
-  SFFloat  noiseCorrelation 0             # [0, 1]
   SFFloat  resolution       -1            # {-1, [0, inf)}
 }
 ```
