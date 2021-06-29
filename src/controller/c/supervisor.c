@@ -1095,6 +1095,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
           contact_points_node_ref->node_id_per_contact_points[i] = request_read_int32(r);
         }
       }
+      contact_point_node->contact_points[include_descendants].last_update = wb_robot_get_time();
       break;
     case C_SUPERVISOR_NODE_GET_STATIC_BALANCE:
       static_balance_node_ref->static_balance = request_read_uchar(r) == 1;
@@ -2092,7 +2093,39 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
   contact_points_node_ref = NULL;
   robot_mutex_unlock_step();
 
-  return node->number_of_contact_points;  // will be -1 if n is not a Solid
+  return node->contact_points[descendants].n;  // will be -1 if n is not a Solid
+}
+
+WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  const double t = wb_robot_get_time();
+  const int descendants = include_descendants ? 1 : 0;
+
+  if (t == node->contact_points[descendants].last_update) {
+    *size = node->contact_points[descendants].n;
+    return node->contact_points[descendants].points;
+  }
+
+  // TODO: Delete with `wb_supervisor_node_get_contact_point`
+  node->contact_points[descendants].timestamp = t;
+
+  robot_mutex_lock_step();
+  contact_points_node_ref = node;
+  contact_points_include_descendants = include_descendants;
+  wb_robot_flush_unlocked();
+  contact_points_node_ref = NULL;
+  robot_mutex_unlock_step();
+
+  *size = node->contact_points[descendants].n;
+  return node->contact_points[descendants].points;
 }
 
 bool wb_supervisor_node_get_static_balance(WbNodeRef node) {
