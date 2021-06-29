@@ -57,8 +57,6 @@ private:
   WbAltimeter *clone() const override { return new WbAltimeter(*this); }
   void init();
 
-  void addConfigureToStream(QDataStream &stream);
-
 private slots:
   void updateResolution();
 };

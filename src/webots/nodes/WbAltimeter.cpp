@@ -116,18 +116,12 @@ void WbAltimeter::writeAnswer(QDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_ALTIMETER_DATA;
-    stream << mMeasuredAltitude;
+    stream << (double)mMeasuredAltitude;
 
     mSensor->resetPendingValue();
   }
 }
 
-void WbAltimeter::addConfigureToStream(QDataStream &stream) {
-  stream << (short unsigned int)tag();
-  stream << (unsigned char)C_CONFIGURE;
-}
-
 void WbAltimeter::writeConfigure(QDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
-  addConfigureToStream(stream);
 }
