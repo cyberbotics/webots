@@ -71,6 +71,7 @@ include/services/%.h: $(WEBOTS_HOME_PATH)/resources/webots_ros/srv/%.srv include
 
 ROS_HEADERS: $(GENERATED_HEADERS)
 	+@cp -f include/RecognitionObject.h include/webots_ros/RecognitionObject.h
+	+@cp -f include/RecognitionObjects.h include/webots_ros/RecognitionObjects.h
 
 INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
 
