@@ -167,7 +167,7 @@ bool WbBaseNode::isInBoundingObject() const {
     if (areWrenObjectsInitialized())
       mBoundingObjectFirstTimeSearch = false;
   }
-  printf("BASENODE %s: isInBoundingObject %d\n", usefulName().toUtf8().constData(), mIsInBoundingObject);
+  // printf("BASENODE %s: isInBoundingObject %d\n", usefulName().toUtf8().constData(), mIsInBoundingObject);
 
   return mIsInBoundingObject;
 }

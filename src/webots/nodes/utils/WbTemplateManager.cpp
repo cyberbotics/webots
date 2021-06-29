@@ -217,8 +217,8 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   // 1. get stuff
   WbNode *parent = node->parentNode();
   WbProtoModel *proto = node->proto();
-  const WbSolid *const sss = dynamic_cast<const WbSolid *>(parent);
-  printf("%p / %p / %p\n", proto, node, sss->boundingObject());
+  // const WbSolid *const sss = dynamic_cast<const WbSolid *>(parent);
+  // printf("%p / %p / %p\n", proto, node, sss->boundingObject());
   assert(parent && proto);
   if (!parent || !proto)
     return;
