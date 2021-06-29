@@ -17,7 +17,8 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   const double ds_value_grey = wb_distance_sensor_get_value(ds);
-  ts_assert_double_in_delta(ds_value_grey, 277, 20.0, "Wrong distance sensor value with grey texture.");
+  ts_assert_double_in_delta(ds_value_grey, 277, 20.0,
+                            "Wrong distance sensor value with grey texture: expecting 277, received %g.", ds_value_grey);
 
   WbNodeRef node = wb_supervisor_node_get_from_def("TEST_NODE");
   WbFieldRef urlField = wb_supervisor_node_get_field(node, "url");
@@ -27,7 +28,9 @@ int main(int argc, char **argv) {
 
   // test appearance after regeneration
   const double ds_value_green = wb_distance_sensor_get_value(ds);
-  ts_assert_double_in_delta(ds_value_green, 381, 20.0, "Wrong distance sensor value with green texture after regeneration.");
+  ts_assert_double_in_delta(ds_value_green, 381, 20.0,
+                            "Wrong distance sensor value with green texture after regeneration: expecting 381, received %g.",
+                            ds_value_green);
 
   wb_robot_step(TIME_STEP);
 
