@@ -19,7 +19,7 @@ TestRectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap DEF TEST_NODE ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/asphalt.jpg"
+        "textures/grey.jpg"
       ]
       repeatS FALSE
       repeatT FALSE
