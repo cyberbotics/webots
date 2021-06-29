@@ -21,7 +21,6 @@ Altimeter {
   #fields specific to the Altimeter node:
 
   field     SFFloat                          accuracy            0           # defines the standard deviation of the altitude error (m)
-  field     SFFloat                          noiseCorrelation    0           # defines the noise correlation level
   field     SFFloat                          resolution         -1           # defines the altitude resolution (m)
 
   # hidden fields
