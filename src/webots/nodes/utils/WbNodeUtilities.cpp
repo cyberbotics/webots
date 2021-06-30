@@ -939,8 +939,7 @@ bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
     while (boundingObject) {
       if (boundingObject == node)
         return true;
-      else
-        boundingObject = boundingObject->protoParameterNode();
+      boundingObject = boundingObject->protoParameterNode();
     }
 
     return isInBoundingObject(p);
