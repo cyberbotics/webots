@@ -1281,6 +1281,7 @@ bool WbNodeUtilities::isDeviceTypeName(const QString &modelName) {
 
 bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
   QStringList solidDeviceTypeName = (QStringList() << "Accelerometer"
+                                                   << "Altimeter"
                                                    << "Camera"
                                                    << "Compass"
                                                    << "Connector"
