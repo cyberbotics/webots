@@ -34,7 +34,7 @@ These assets are now downloaded from the web only when needed and cached for sub
 Additionally, we removed the offline documentation and other resources achieving the following results:
 
 
-| OS | Previous Package Size | New Package Size |
+| OS | R2021a Package Size | R2021b Package Size |
 | :---: | :---: | :---: |
 | Windows | 1.65 GB | 448 MB |
 | Linux | 1.45 GB | 263 MB |
