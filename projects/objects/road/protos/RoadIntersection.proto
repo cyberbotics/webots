@@ -147,7 +147,7 @@ PROTO RoadIntersection [
       %< if (startRoads) { >%
         %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
           %<
-            let roadLength = useIndependentStartRoadLength ? startRoadsLength[i + 1] : startRoadsLength[0];
+            let roadLength = useIndependentStartRoadLength ? startRoadsLength[i] : startRoadsLength[0];
           >%
           %< if (roadLength > 0) { >%
             # only for borders
@@ -189,7 +189,7 @@ PROTO RoadIntersection [
             Road {
               translation %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0 %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >%
               rotation 0 1 0 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
-              name "road %<=i>%"
+              name "road %<= i >%"
               wayPoints [
                 0 0 0
                 0 0 %<= roadLength >%
