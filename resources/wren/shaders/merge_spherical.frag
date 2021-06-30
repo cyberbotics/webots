@@ -109,7 +109,7 @@ void main() {
   if (fovX < pi_2)
     coord.x *= pi_2 / fovX;
   if (fovY < pi_2)
-    coord.y *= pi_2 / fovY;
+    coord.y *= pi_2 / fovY * fovYCorrectionCoefficient;
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
   ivec2 imageIndex = ivec2(round(faceCoord.x * subCamerasResolutionX), round(faceCoord.y * subCamerasResolutionY));
