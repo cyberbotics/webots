@@ -46,7 +46,6 @@ def replace_url(file):
             # print('Replaced ' + url + ' with ' + found + ' in ' + file)
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
-    return
 
 
 def search(file):
