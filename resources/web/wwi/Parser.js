@@ -605,7 +605,7 @@ export default class Parser {
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
     else
-      console.log('Not a recognized geometry : ' + node.tagName);
+      console.log('Not a recognized geometry: ' + node.tagName);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
@@ -1097,7 +1097,7 @@ export default class Parser {
       img.onload = () => {
         resolve(img);
       };
-      img.onerror = () => console.log('Error in loading : ' + src);
+      img.onerror = () => console.log('Error in loading: ' + src);
       img.setAttribute('crossOrigin', '');
       img.src = src;
     });
