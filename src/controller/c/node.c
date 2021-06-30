@@ -20,6 +20,8 @@ const char *wb_node_get_name(WbNodeType t) {
   switch (t) {
     case WB_NODE_ACCELEROMETER:
       return "Accelerometer";
+    case WB_NODE_ALTIMETER:
+      return "Altimeter";
     case WB_NODE_APPEARANCE:
       return "Appearance";
     case WB_NODE_BACKGROUND:

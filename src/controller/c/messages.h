@@ -290,4 +290,7 @@
 // Microphone device
 #define C_MICROPHONE_RECEIVE 1
 
+// Altimeter device
+// ctr -> sim
+#define C_ALTIMETER_DATA 1
 #endif  // MESSAGES_H

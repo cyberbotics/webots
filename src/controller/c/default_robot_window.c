@@ -24,6 +24,7 @@
 #include <webots/plugins/robot_window/default.h>
 
 #include <webots/accelerometer.h>
+#include <webots/altimeter.h>
 #include <webots/camera.h>
 #include <webots/compass.h>
 #include <webots/distance_sensor.h>
@@ -164,6 +165,7 @@ static double update_period_by_type(WbNodeType type) {
 static double number_of_components(WbDeviceTag tag) {
   WbNodeType type = wb_device_get_node_type(tag);
   switch (type) {
+    case WB_NODE_ALTIMETER:
     case WB_NODE_DISTANCE_SENSOR:
     case WB_NODE_POSITION_SENSOR:
     case WB_NODE_LIGHT_SENSOR:
@@ -658,6 +660,13 @@ static void accelerometer_collect_value(WbDeviceTag tag, struct UpdateElement *u
   ue_append(ue, update_time, values);
 }
 
+static void altimeter_collect_value(WbDeviceTag tag, struct UpdateElement *ue, double update_time) {
+  if (wb_altimeter_get_sampling_period(tag) <= 0)
+    return;
+  const double value = wb_altimeter_get_value(tag);
+  ue_append(ue, update_time, &value);
+}
+
 static void compass_collect_value(WbDeviceTag tag, struct UpdateElement *ue, double update_time) {
   if (wb_compass_get_sampling_period(tag) <= 0)
     return;
@@ -775,6 +784,9 @@ void wbu_default_robot_window_update() {
         case WB_NODE_ACCELEROMETER:
           accelerometer_collect_value(tag, update_element, simulated_time);
           break;
+        case WB_NODE_ALTIMETER:
+          altimeter_collect_value(tag, update_element, simulated_time);
+          break;
         case WB_NODE_COMPASS:
           compass_collect_value(tag, update_element, simulated_time);
           break;
@@ -815,6 +827,7 @@ void wbu_default_robot_window_update() {
         buffer_append("\":{");
         switch (type) {
           case WB_NODE_ACCELEROMETER:
+          case WB_NODE_ALTIMETER:
           case WB_NODE_COMPASS:
           case WB_NODE_DISTANCE_SENSOR:
           case WB_NODE_GPS:

@@ -87,6 +87,12 @@ def main(args=None):
     # gen(FUNC, "wb_accelerometer_get_lookup_table(tag)", "accelerometer")
     # gen(FUNC, "wb_accelerometer_get_values(tag)", "accelerometer")
 
+    # altimeter.h
+    gen(PROC, "wb_altimeter_enable(tag, sampling_period)", "altimeter")
+    gen(PROC, "wb_altimeter_disable(tag)", "altimeter")
+    gen(FUNC, "wb_altimeter_get_sampling_period(tag)", "altimeter")
+    gen(FUNC, "wb_altimeter_get_value(tag)", "altimeter")
+
     # brake.h
     gen(FUNC, "wb_brake_get_type(tag)", "brake")
     gen(PROC, "wb_brake_set_damping_constant(tag, damping_constant)", "brake")

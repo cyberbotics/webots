@@ -148,6 +148,11 @@ void WbMatter::postFinalize() {
   updateManipulatorVisibility();
 }
 
+void WbMatter::setBoundingObject(WbNode *boundingObject) {
+  mBoundingObject->removeValue();
+  mBoundingObject->setValue(boundingObject);
+}
+
 void WbMatter::reset(const QString &id) {
   WbTransform::reset(id);
 
