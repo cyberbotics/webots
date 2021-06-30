@@ -85,6 +85,16 @@ WbSkin::~WbSkin() {
   }
 }
 
+void WbSkin::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  WbMFIterator<WbMFNode, WbNode *> it(mAppearanceField);
+  while (it.hasNext()) {
+    WbAbstractAppearance *appearance = dynamic_cast<WbAbstractAppearance *>(it.next());
+    assert(appearance);
+    appearance->downloadAssets();
+  }
+}
+
 void WbSkin::preFinalize() {
   WbBaseNode::preFinalize();
 
