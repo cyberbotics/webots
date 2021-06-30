@@ -39,6 +39,7 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 
 %{
 #include <webots/Accelerometer.hpp>
+#include <webots/Altimeter.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
@@ -181,6 +182,12 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %include <webots/Accelerometer.hpp>
+
+//----------------------------------------------------------------------------------------------
+//  Altimeter
+//----------------------------------------------------------------------------------------------
+
+%include <webots/Altimeter.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Brake
@@ -922,6 +929,7 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %ignore webots::Robot::getAccelerometer(const std::string &name);
+%ignore webots::Robot::getAltimeter(const std::string &name);
 %ignore webots::Robot::getBrake(const std::string &name);
 %ignore webots::Robot::getCamera(const std::string &name);
 %ignore webots::Robot::getCompass(const std::string &name);
@@ -973,6 +981,14 @@ class AnsiCodes(object):
       sys.stderr.write("DEPRECATION: Robot.getAccelerometer is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.ACCELEROMETER):
+        return None
+      return self.__getOrCreateDevice(tag)
+    def createAltimeter(self, name):
+      return Altimeter(name)
+    def getAltimeter(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getAltimeter is deprecated, please use Robot.getDevice instead.\n")
+      tag = self.__internalGetDeviceTagFromName(name)
+      if not Device.hasType(tag, Node.ALTIMETER):
         return None
       return self.__getOrCreateDevice(tag)
     def createBrake(self, name):
@@ -1191,6 +1207,8 @@ class AnsiCodes(object):
           nodeType = self.__internalGetDeviceTypeFromTag(otherTag)
           if nodeType == Node.ACCELEROMETER:
               Robot.__devices[otherTag] = self.createAccelerometer(name)
+          elif nodeType == Node.ALTIMETER:
+              Robot.__devices[otherTag] = self.createAltimeter(name)
           elif nodeType == Node.BRAKE:
               Robot.__devices[otherTag] = self.createBrake(name)
           elif nodeType == Node.CAMERA:
