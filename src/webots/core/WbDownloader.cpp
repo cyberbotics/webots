@@ -18,6 +18,7 @@
 #include "WbNetwork.hpp"
 
 #include <QtCore/QDir>
+#include <QtCore/QTimer>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 
