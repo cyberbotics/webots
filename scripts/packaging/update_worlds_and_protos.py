@@ -28,7 +28,6 @@ def replace_url(file, tag):
     content = content.replace('webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + tag + '/')
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
-    return
 
 
 if 'WEBOTS_HOME' in os.environ:
