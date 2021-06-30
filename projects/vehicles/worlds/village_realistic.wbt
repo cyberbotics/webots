@@ -375,24 +375,36 @@ SignPole {
   height 3
   signBoards [
     DirectionPanel {
-      frontTextTexture "textures/panel_town_center_front.png"
-      backTextTexture "textures/panel_town_center_back.png"
+      frontTextTexture [
+        "textures/panel_town_center_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_town_center_back.png"
+      ]
     }
     DirectionPanel {
       translation 0 0.4 0
       rotation 0 1 0 3.6651903
       name "direction panel(1)"
       height 0.3
-      frontTextTexture "textures/panel_lake_front.png"
-      backTextTexture "textures/panel_lake_back.png"
+      frontTextTexture [
+        "textures/panel_lake_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_lake_back.png"
+      ]
     }
     DirectionPanel {
       translation 0 0.8 0
       rotation 0 1 0 -2.6180003
       name "direction panel(2)"
       height 0.3
-      frontTextTexture "textures/panel_forest_front.png"
-      backTextTexture "textures/panel_forest_back.png"
+      frontTextTexture [
+        "textures/panel_forest_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_forest_back.png"
+      ]
     }
   ]
 }
@@ -1940,7 +1952,9 @@ YieldSign {
     DirectionPanel {
       translation 0 0.6 0
       thickness 0.09
-      frontTextTexture "textures/panel_lake_front.png"
+      frontTextTexture [
+        "textures/panel_lake_front.png"
+      ]
     }
   ]
 }
@@ -2079,22 +2093,32 @@ SignPole {
       rotation 0 1 0 0.52359969
       height 0.3
       thickness 0.08
-      frontTextTexture "textures/panel_tunnel_front.png"
-      backTextTexture "textures/panel_tunnel_back.png"
+      frontTextTexture [
+        "textures/panel_tunnel_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_tunnel_back.png"
+      ]
     }
     DirectionPanel {
       translation 0 0.4 0
       name "direction panel(1)"
       thickness 0.08
-      frontTextTexture "textures/panel_subway_front.png"
+      frontTextTexture [
+        "textures/panel_subway_front.png"
+      ]
     }
     DirectionPanel {
       translation 0 1.3 0
       rotation 0 1 0 -3.0106997
       name "direction panel(2)"
       thickness 0.08
-      frontTextTexture "textures/panel_residential_front.png"
-      backTextTexture "textures/panel_residential_back.png"
+      frontTextTexture [
+        "textures/panel_residential_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_residential_back.png"
+      ]
     }
     CautionPanel {
       translation 0 -0.3 0

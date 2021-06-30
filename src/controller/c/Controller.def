@@ -5,6 +5,10 @@ wb_accelerometer_get_sampling_period
 wb_accelerometer_get_values
 wb_accelerometer_get_lookup_table_size
 wb_accelerometer_get_lookup_table
+wb_altimeter_disable
+wb_altimeter_enable
+wb_altimeter_get_sampling_period
+wb_altimeter_get_value
 wb_brake_get_motor
 wb_brake_get_position_sensor
 wb_brake_get_type

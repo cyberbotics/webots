@@ -1,0 +1,70 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Validates correct regeneration of a boundingObject."
+  ]
+  title "Test boundingObject regeneration"
+  coordinateSystem "NUE"
+  lineScale 1
+}
+Viewpoint {
+  orientation -0.8576898584843424 0.46519382454732994 0.21900413753200396 1.003987095929511
+  position 2.3196532359282633 4.968074565711988 4.556630326655434
+}
+Background {
+  skyColor [
+    0 0.811765 0.992157
+  ]
+}
+DirectionalLight {
+  direction 0 0.5 -1
+}
+DEF ROBOT Robot {
+  translation 0 0 2
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject DEF REGENERABLE_BOX_IN_ROBOT RegenerableBoundingObjectBox {
+  }
+  controller "bounding_object_regeneration"
+  supervisor TRUE
+}
+ProtoSolidWithBoundingObject {
+  boundingObject DEF REGENERABLE_BOX_IN_PROTO RegenerableBoundingObjectBox {
+  }
+}
+DEF PROBE_ROBOT Solid {
+  translation 1 0 2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.180392 0.203922 0.211765
+      }
+      geometry DEF BOX Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+DEF PROBE_PROTO Solid {
+  translation 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.180392 0.203922 0.211765
+      }
+      geometry DEF BOX Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+TestSuiteSupervisor {
+}

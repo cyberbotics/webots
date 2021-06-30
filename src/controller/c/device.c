@@ -43,6 +43,7 @@ void wb_device_cleanup(WbDevice *d) {
 }
 
 extern void wb_accelerometer_init(WbDevice *);
+extern void wb_altimeter_init(WbDevice *);
 extern void wb_brake_init(WbDevice *);
 extern void wb_camera_init(WbDevice *);
 extern void wb_compass_init(WbDevice *);
@@ -74,6 +75,9 @@ void wb_device_init(WbDevice *d) {
   switch (d->node) {
     case WB_NODE_ACCELEROMETER:
       wb_accelerometer_init(d);
+      break;
+    case WB_NODE_ALTIMETER:
+      wb_altimeter_init(d);
       break;
     case WB_NODE_BRAKE:
       wb_brake_init(d);
