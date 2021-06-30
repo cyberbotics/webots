@@ -428,10 +428,8 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   // row 0
   mCacheSize = new WbLineEdit(this);
   mCacheSize->setValidator(new QIntValidator(0, 65535));
-  layout->addWidget(new QLabel(tr("Set the of the cache (in MB), current size: %1MB")
-                                 .arg(WbPreferences::instance()->value("Network/cacheSize", 1024).toInt()),
-                               this),
-                    0, 0);
+  mCacheSize->setText(WbPreferences::instance()->value("Network/cacheSize", 1024).toString());
+  layout->addWidget(new QLabel(tr("Set the of the cache (in MB):"), this), 0, 0);
   layout->addWidget(mCacheSize, 0, 1);
 
   // row 1
