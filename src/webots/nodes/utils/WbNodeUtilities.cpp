@@ -928,18 +928,15 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
 bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
   const WbNode *const p = node->parentNode();
   if (p) {
-    const WbSolid *const s = dynamic_cast<const WbSolid *>(p);
-    const WbFluid *const f = dynamic_cast<const WbFluid *>(p);
-    const WbNode *boundingObject = NULL;
-    if (s)
-      boundingObject = s->boundingObject();
-    else if (f)
-      boundingObject = f->boundingObject();
+    const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    if (m) {
+      const WbNode *boundingObject = m->boundingObject();
 
-    while (boundingObject) {
-      if (boundingObject == node)
-        return true;
-      boundingObject = boundingObject->protoParameterNode();
+      while (boundingObject) {
+        if (boundingObject == node)
+          return true;
+        boundingObject = boundingObject->protoParameterNode();
+      }
     }
 
     return isInBoundingObject(p);
