@@ -90,15 +90,21 @@ The default location of the cache is the following:
 %tab-component "os"
 
 %tab "Windows"
+
 `C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
+
 %tab-end
 
 %tab "Linux"
+
 `~/.cache/Cyberbotics/Webots`
+
 %tab-end
 
 %tab "macOS"
+
 `~/Library/Caches/Cyberbotics/Webots", "/Library/Caches/Cyberbotics/Webots`
+
 %tab-end
 
 %end
