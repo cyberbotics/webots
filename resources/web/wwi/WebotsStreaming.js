@@ -6,7 +6,7 @@ export default class WebotsStreaming extends HTMLElement {
     super();
 
     let link = document.createElement('link');
-    link.href = 'https://cyberbotics.com/wwi/R2021b-url-test/css/wwi.css';
+    link.href = 'https://cyberbotics.com/wwi/R2021b/css/wwi.css';
     link.type = 'text/css';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
@@ -17,7 +17,7 @@ export default class WebotsStreaming extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith(".data"))
-          return "https://cyberbotics.com/wwi/R2021b-url-test/" + path;
+          return "https://cyberbotics.com/wwi/R2021b/" + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -113,8 +113,8 @@ export default class WebotsStreaming extends HTMLElement {
   async _init() {
     let promises = [];
     promises.push(this._load('https://git.io/glm-js.min.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/R2021b-url-test/enum.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/R2021b-url-test/wrenjs.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/R2021b/enum.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/R2021b/wrenjs.js'));
 
     await Promise.all(promises);
   }
