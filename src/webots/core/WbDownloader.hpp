@@ -16,7 +16,6 @@
 #define WB_DOWNLOADER_HPP
 
 #include <QtCore/QObject>
-#include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
 class QNetworkReply;

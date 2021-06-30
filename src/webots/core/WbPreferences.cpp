@@ -28,7 +28,6 @@
 #include <QtCore/QRegularExpressionMatch>
 #include <QtCore/QStandardPaths>
 
-#include <iostream>
 static WbPreferences *gInstance = NULL;
 
 WbPreferences *WbPreferences::createInstance(const QString &companyName, const QString &applicationName,

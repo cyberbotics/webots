@@ -111,9 +111,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
   if (WbUrl::isWeb(filePath)) {
-    if (mDownloader == NULL) {
+    if (mDownloader == NULL)
       downloadAssets();
-    }
 
     if (mDownloader->hasFinished()) {
       const QByteArray data = mDownloader->device()->readAll();
