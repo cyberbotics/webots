@@ -1,7 +1,7 @@
 # Webots R2021 Change Log
 
 ## Webots R2021b
-Released on June, Xth, 2021.
+Released on July, Xth, 2021.
 
   - New Robots
     - Added a model of the [Summit-XL Steel](../guide/summit-xl-steel.md) robot from [Robotnik](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) ([#3121](https://github.com/cyberbotics/webots/pull/3121)).
@@ -10,6 +10,7 @@ Released on June, Xth, 2021.
     - Added a model of the [JetBot](../guide/jetbot.md) robot from [NVIDIA](https://jetbot.org) ([#2951](https://github.com/cyberbotics/webots/pull/2951)).
     - Added a model for the [Niryo Ned](../guide/ned.md) robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
   - New Devices and Objects:
+    - Added a new altimeter device contributed by [sishamilton](https://github.com/sishamilton) ([#3241](https://github.com/cyberbotics/webots/pull/3241)).
     - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
     - Added [HingeJointWithBacklash](../guide/hinge-joint-with-backlash.md) PROTO that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
     - Added [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash.md) PROTO that extends [Hinge2Joint](hinge2joint.md) to model the effect of backlash and a corresponding sample world ([#2850](https://github.com/cyberbotics/webots/pull/2850)).
