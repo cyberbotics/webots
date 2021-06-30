@@ -839,8 +839,8 @@ RoadIntersection {
          SFBool               startRoads                     TRUE
          MFFloat              startRoadsLength               [5]
          SFInt32              startRoadsNumberOfLanes        2
-         MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",
-                                                                        "textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine            [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_dashed.png",
+                                                               "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine              []
          MFNode               startRoadsLine                 [ RoadLine { } ]
          SFBool               startRoadBorder                TRUE
@@ -1021,14 +1021,14 @@ Roundabout {
          SFFloat              innerRadius              4
          SFFloat              outerRadius              8
          SFBool               center                   TRUE
-         MFString             centerTexture            "textures/grass.jpg"
+         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg"
          SFVec2f              centerTextureScale       4 4
          SFInt32              roadNumber               4
          MFFloat              startRoadsLength         [5]
          SFFloat              startRoadsWidth          7
          SFInt32              startRoadsNumberOfLanes  2
-         MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",
-                                                                  "textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine      [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_dashed.png",
+                                                         "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine        []
          MFNode               startRoadsLine           [ RoadLine { } ]
          SFBool               roadBoundingObject       FALSE
