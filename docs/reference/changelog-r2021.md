@@ -137,6 +137,8 @@ Released on July, Xth, 2021.
     - Fixed crash triggered by a kinematic simulation involving a PROTO with template regenerable fields ([#3227](https://github.com/cyberbotics/webots/pull/3227)).
     - **Changed ROS message type published by the [Camera Recognition Objects](camera.md#wb_camera_recognition_get_objects) node that now sends a single message including all the recognized objects ([#3234](https://github.com/cyberbotics/webots/pull/3234))**.
     - **Changed ROS data type of [`/supervisor/node/get_type_name`](supervisor.md#wb_supervisor_node_get_type_name) service that now uses `webots_ros::node_get_name` instead of `webots_ros::node_get_type_name` ([#3202](https://github.com/cyberbotics/webots/pull/3202))**.
+    - Fixed crash occurring when a PROTO having template regeneration fields is used as a [`Solid.boundingObject`](solid.md#field-summary) ([#3226](https://github.com/cyberbotics/webots/pull/3226)).
+    - Fixed incorrect regeneration of the PROTO nodes inserted in a [`Solid.boundingObject`](solid.md#field-summary) field ([#3226](https://github.com/cyberbotics/webots/pull/3226)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).

@@ -323,6 +323,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     }
   } else {
     // reassign pointer in parent
+    WbSolid *const parentSolid = dynamic_cast<WbSolid *>(parent);
     WbGroup *const parentGroup = dynamic_cast<WbGroup *>(parent);
     WbBasicJoint *const parentJoint = dynamic_cast<WbBasicJoint *>(parent);
     WbShape *const parentShape = dynamic_cast<WbShape *>(parent);
@@ -335,7 +336,9 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     WbSolid *const newSolid = dynamic_cast<WbSolid *>(newNode);
     WbSolidReference *const newSolidReference = dynamic_cast<WbSolidReference *>(newNode);
 
-    if (parentGroup) {
+    if (parentSolid && isInBoundingObject)
+      parentSolid->setBoundingObject(newNode);
+    else if (parentGroup) {
       int i = parentGroup->nodeIndex(node);
       assert(i != -1);
 
