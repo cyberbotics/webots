@@ -16,6 +16,7 @@
 #include "Ros.hpp"
 
 #include "RosAccelerometer.hpp"
+#include "RosAltimeter.hpp"
 #include "RosBatterySensor.hpp"
 #include "RosBrake.hpp"
 #include "RosCamera.hpp"
@@ -303,6 +304,10 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
     switch (tempDevice->getNodeType()) {
       case Node::ACCELEROMETER:
         mSensorList.push_back(static_cast<RosSensor *>(new RosAccelerometer(dynamic_cast<Accelerometer *>(tempDevice), this)));
+        mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
+        break;
+      case Node::ALTIMETER:
+        mSensorList.push_back(static_cast<RosSensor *>(new RosAltimeter(dynamic_cast<Altimeter *>(tempDevice), this)));
         mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
         break;
       case Node::BRAKE:

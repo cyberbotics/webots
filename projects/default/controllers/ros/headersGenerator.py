@@ -40,6 +40,7 @@ class HeadersGenerator:
         'geometry_msgs/Point': '4a842b65f413084dc2b10fb484ea7f17',
         'geometry_msgs/PointStamped': 'c63aecb41bfdfd6b7e1fac37c7cbe7bf',
         'geometry_msgs/Quaternion': 'a779879fadf0160734f906b8c19c7004',
+        'geometry_msgs/Transform': 'ac9eff44abf714214112b05d54a3cf9b',
         'geometry_msgs/Twist': '9f195f881246fdfa2798d1d3eebca84a',
         'geometry_msgs/TwistStamped': '98d34b0043a2093cf9d9345ab6eef12e',
         'geometry_msgs/Vector3': '4a842b65f413084dc2b10fb484ea7f17',

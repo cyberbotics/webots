@@ -928,13 +928,16 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
 bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
   const WbNode *const p = node->parentNode();
   if (p) {
-    const WbSolid *const s = dynamic_cast<const WbSolid *>(p);
-    if (s)
-      return s->boundingObject() == node;
+    const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    if (m) {
+      const WbNode *boundingObject = m->boundingObject();
 
-    const WbFluid *const f = dynamic_cast<const WbFluid *>(p);
-    if (f)
-      return f->boundingObject() == node;
+      while (boundingObject) {
+        if (boundingObject == node)
+          return true;
+        boundingObject = boundingObject->protoParameterNode();
+      }
+    }
 
     return isInBoundingObject(p);
   }
@@ -1278,6 +1281,7 @@ bool WbNodeUtilities::isDeviceTypeName(const QString &modelName) {
 
 bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
   QStringList solidDeviceTypeName = (QStringList() << "Accelerometer"
+                                                   << "Altimeter"
                                                    << "Camera"
                                                    << "Compass"
                                                    << "Connector"

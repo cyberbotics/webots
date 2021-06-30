@@ -42,6 +42,7 @@ vpath %.o $(OBJDIR)
 vpath %.cpp .
 
 CPPSRC = Accelerometer.cpp \
+         Altimeter.cpp \
          Brake.cpp \
          Camera.cpp \
          Compass.cpp \

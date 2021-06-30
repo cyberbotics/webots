@@ -1,0 +1,10 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoSolidWithBoundingObject [
+  field SFNode boundingObject NULL
+]
+{
+  Solid {
+    boundingObject IS boundingObject
+  }
+}
