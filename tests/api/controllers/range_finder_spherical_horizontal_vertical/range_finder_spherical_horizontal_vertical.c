@@ -29,7 +29,8 @@ int main(int argc, char **argv) {
   int i = 0;
   for (i = 0; i < width; ++i) {
     int neighbour_index = 0;
-    if (!isinf(image_vertical[i]) && isinf(image_horizontal[i])) {  // Object might appear at the previous/next pixel in the other image.
+    if (!isinf(image_vertical[i]) &&
+        isinf(image_horizontal[i])) {  // Object might appear at the previous/next pixel in the other image.
       if (i > 0 && isinf(image_vertical[i - 1]))
         neighbour_index = -1;
       else if (isinf(image_vertical[i + 1]))
@@ -37,17 +38,15 @@ int main(int argc, char **argv) {
       ts_assert_double_in_delta(image_horizontal[i], image_vertical[i + neighbour_index], 0.05,
                                 "Horizontal and vertical range-finder do not return the same value (%lf (0,%d) != %lf (%d,0)).",
                                 image_horizontal[i], i, image_vertical[i + neighbour_index], i + neighbour_index);
-    }
-    else if (!isinf(image_horizontal[i]) && isinf(image_vertical[i])) {
+    } else if (!isinf(image_horizontal[i]) && isinf(image_vertical[i])) {
       if (i > 0 && isinf(image_horizontal[i - 1]))
-        neighbour_index = - 1;
+        neighbour_index = -1;
       else if (isinf(image_horizontal[i + 1]))
         neighbour_index = 1;
       ts_assert_double_in_delta(image_horizontal[i + neighbour_index], image_vertical[i], 0.05,
                                 "Horizontal and vertical range-finder do not return the same value (%lf (0,%d) != %lf (%d,0)).",
                                 image_horizontal[i + neighbour_index], i + neighbour_index, image_vertical[i], i);
-    }
-    else
+    } else
       ts_assert_double_in_delta(image_horizontal[i], image_vertical[i], 0.05,
                                 "Horizontal and vertical range-finder do not return the same value (%lf (0,%d) != %lf (%d,0)).",
                                 image_horizontal[i], i, image_vertical[i], i);
