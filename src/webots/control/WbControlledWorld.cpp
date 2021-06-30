@@ -445,10 +445,13 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
 
   mRobotsWaitingExternController.removeAll(robot);
 
-  // There should not be any controller for `robot` in `mWaitingControllers`
+  // There should not be any controller for `robot` in `mWaitingControllers` or `mNewControllers`
   for (WbController *controller : mWaitingControllers)
     if (controller->robotId() == robotID && !mControllers.contains(controller))
       mWaitingControllers.removeOne(controller);
+  for (WbController *controller : mNewControllers)
+    if (controller->robotId() == robotID && !mControllers.contains(controller))
+      mNewControllers.removeOne(controller);
 
   // restart the controller if needed
   for (int i = 0; i < size; ++i) {

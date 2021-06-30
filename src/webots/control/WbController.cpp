@@ -126,6 +126,7 @@ WbController::~WbController() {
   // signals in order to see the latest log messages
   mProcess->disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
   mProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
+  disconnect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
 
   if (mSocket) {
     mSocket->disconnect();
