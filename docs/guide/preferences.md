@@ -85,6 +85,7 @@ If you clear the **Hostname** field, Webots will try to retrieve the default sys
 
 The **Cache** section allows you to set the maximum size of the cache used by Webots to store the assets (textures, meshes and sounds) downloaded from the Internet and to clear the cache content.
 If you change this value and the new cache size is smaller than the currently used cache size, then the cache is automatically cleaned.
+
 The default location of the cache is the following:
 
 %tab-component "os"
