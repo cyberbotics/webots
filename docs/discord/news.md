@@ -154,7 +154,7 @@ We are happy to announce the first **ROS 2 and Webots Community Meeting** to be 
 
 - Introduction to Webots and ROS 2 support [`@Olivier Michel`, Cyberbotics Ltd, Switzerland, 10 minutes]
 
-- Contributions to the URDF2Webots converter [`@Simon Steinmann`, DLR, Germany, 15 minutes + 5 minutes for questions]
+- Contributions to the URDF2Webots converter [`@Luftwaffel`, DLR, Germany, 15 minutes + 5 minutes for questions]
 
 - Roadmap for Webots and ROS 2 [`@Darko Lukić`, Cyberbotics Ltd., Switzerland, 10 minutes]
 
@@ -184,7 +184,7 @@ Here is a very nice project allowing you to program robots in Webots using Googl
 
 I would like to congratulate `@Soft_illusion` team for their achievement in the Google Season of Docs project. The successful project is described on the official Google page: [https://developers.google.com/season-of-docs/docs/participants](https://developers.google.com/season-of-docs/docs/participants) (search for Webots). A nice report is available here: [https://drive.google.com/file/d/1OWk9Ctxk4baHeFzMGUR6VktcF-maFK9s/view](https://drive.google.com/file/d/1OWk9Ctxk4baHeFzMGUR6VktcF-maFK9s/view). Finally, the playlist is here: [https://www.youtube.com/playlist?list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V](https://www.youtube.com/playlist?list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V). We are planning to apply to Google Summer of Code and to a new Google Season of Docs, so stay tuned.
 
-##### aleena 01/01/2021 07:56:16
+##### Aleena 01/01/2021 07:56:16
 Happy New Year everyone 🎉 🥳
 
 ##### Soft\_illusion 01/01/2021 07:50:51
@@ -376,7 +376,7 @@ Get it from [https://github.com/cyberbotics/webots/releases/tag/R2020b-rev1](htt
 ##### Olivier Michel [Cyberbotics] 08/17/2020 07:53:07
 Here is a new publication comparing Webots to Gazebo and V-REP, performance wise (use of system resources): [https://arxiv.org/abs/2008.04627](https://arxiv.org/abs/2008.04627).
 
-##### Simon Steinmann [Moderator] 08/14/2020 16:02:38
+##### Luftwaffel [Moderator] 08/14/2020 16:02:38
 Multiple KUKA robotic arms are now available in the Community Projects Repository!! Check them out :)
 
 [https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
@@ -560,7 +560,7 @@ You can fin the documentation about this new Webots robot model here: [https://c
 
 We are happy to share with you a simulation of the Spot robot from Boston Dynamic in Webots: [https://www.youtube.com/watch?v=b5mVe6dk0wI](https://www.youtube.com/watch?v=b5mVe6dk0wI)
 
-##### Simon Steinmann [Moderator] 04/14/2020 12:25:54
+##### Luftwaffel [Moderator] 04/14/2020 12:25:54
 This in python and with inverse kinematics would be awesome 😄
 
 ##### sh33p 04/08/2020 20:17:10
