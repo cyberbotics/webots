@@ -124,9 +124,9 @@ WbController::~WbController() {
   // that this function is the last one to be called
   // exception: don't disconnect readyReadStandard*()
   // signals in order to see the latest log messages
+  disconnect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   mProcess->disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
   mProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
-  disconnect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
 
   if (mSocket) {
     mSocket->disconnect();
