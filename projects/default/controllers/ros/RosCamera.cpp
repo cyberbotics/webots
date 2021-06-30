@@ -17,6 +17,7 @@
 #include "sensor_msgs/Image.h"
 #include "sensor_msgs/image_encodings.h"
 #include "webots_ros/RecognitionObject.h"
+#include "webots_ros/RecognitionObjects.h"
 
 RosCamera::RosCamera(Camera *camera, Ros *ros) : RosSensor(camera->getName(), camera, ros) {
   mIsRecognitionSegmentationEnabled = false;
@@ -120,36 +121,38 @@ void RosCamera::publishValue(ros::Publisher publisher) {
 
 void RosCamera::publishAuxiliaryValue() {
   if (mCamera->hasRecognition() && mCamera->getRecognitionSamplingPeriod() > 0) {
-    const CameraRecognitionObject *objects = mCamera->getRecognitionObjects();
-    webots_ros::RecognitionObject object;
-    object.header.stamp = ros::Time::now();
-    object.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_segmentation_image";
+    const CameraRecognitionObject *cameraObjects = mCamera->getRecognitionObjects();
+    webots_ros::RecognitionObjects objects;
+    objects.header.stamp = ros::Time::now();
+    objects.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_objects";
     for (int i = 0; i < mCamera->getRecognitionNumberOfObjects(); ++i) {
-      object.position.x = objects[i].position[0];
-      object.position.y = objects[i].position[1];
-      object.position.z = objects[i].position[2];
-      RosMathUtils::axisAngleToQuaternion(objects[i].orientation, object.orientation);
-      object.position_on_image.x = objects[i].position_on_image[0];
-      object.position_on_image.y = objects[i].position_on_image[1];
-      object.size_on_image.x = objects[i].size_on_image[0];
-      object.size_on_image.y = objects[i].size_on_image[1];
-      object.number_of_colors = objects[i].number_of_colors;
-      object.model = std::string(objects[i].model);
+      webots_ros::RecognitionObject object;
+      object.position.x = cameraObjects[i].position[0];
+      object.position.y = cameraObjects[i].position[1];
+      object.position.z = cameraObjects[i].position[2];
+      RosMathUtils::axisAngleToQuaternion(cameraObjects[i].orientation, object.orientation);
+      object.position_on_image.x = cameraObjects[i].position_on_image[0];
+      object.position_on_image.y = cameraObjects[i].position_on_image[1];
+      object.size_on_image.x = cameraObjects[i].size_on_image[0];
+      object.size_on_image.y = cameraObjects[i].size_on_image[1];
+      object.number_of_colors = cameraObjects[i].number_of_colors;
+      object.model = std::string(cameraObjects[i].model);
       for (int j = 0; j < object.number_of_colors; j++) {
         geometry_msgs::Vector3 color;
-        color.x = objects[i].colors[3 * j];
-        color.y = objects[i].colors[3 * j + 1];
-        color.z = objects[i].colors[3 * j + 2];
+        color.x = cameraObjects[i].colors[3 * j];
+        color.y = cameraObjects[i].colors[3 * j + 1];
+        color.z = cameraObjects[i].colors[3 * j + 2];
         object.colors.push_back(color);
       }
-      mRecognitionObjectsPublisher.publish(object);
+      objects.objects.push_back(object);
     }
+    mRecognitionObjectsPublisher.publish(objects);
 
     if (mIsRecognitionSegmentationEnabled) {
       const unsigned char *colorImage = mCamera->getRecognitionSegmentationImage();
       sensor_msgs::Image image;
       image.header.stamp = ros::Time::now();
-      image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+      image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/recognition_segmentation_image";
       image.height = mCamera->getHeight();
       image.width = mCamera->getWidth();
       image.encoding = sensor_msgs::image_encodings::BGRA8;
@@ -157,7 +160,6 @@ void RosCamera::publishAuxiliaryValue() {
       image.step = sizeof(char) * 4 * mCamera->getWidth();
       image.data.resize(4 * mCamera->getWidth() * mCamera->getHeight());
       memcpy(&image.data[0], colorImage, sizeof(char) * 4 * mCamera->getWidth() * mCamera->getHeight());
-
       mRecognitionSegmentationPublisher.publish(image);
     }
   }
@@ -231,7 +233,7 @@ bool RosCamera::recognitionEnableCallback(webots_ros::set_int::Request &req, web
     mCamera->recognitionEnable(req.value);
 
     std::string deviceNameFixed = RosDevice::fixedDeviceName();
-    webots_ros::RecognitionObject type;
+    webots_ros::RecognitionObjects type;
     type.header.frame_id = deviceNameFixed;
     mRecognitionObjectsPublisher =
       RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/recognition_objects", type);
