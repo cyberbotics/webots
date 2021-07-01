@@ -660,7 +660,7 @@ Grass {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `type`: Defines the grass type. This field accepts the following values: `"maintained"`, `"artificial"`, `"prickly"`, and `"mossy"`.
+- `type`: Defines the grass type. This field accepts the following values: `"maintained"`, `"artificial"`, `"artificial_white"`, `"prickly"`, and `"mossy"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
