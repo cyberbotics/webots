@@ -23,6 +23,13 @@ The studied devices are attached on this robot.
 ![accelerometer.png](images/samples/accelerometer.thumbnail.jpg) In this example, the robot turns on a slope.
 Its [Accelerometer](../reference/accelerometer.md) sensor is used to switch on the bottommost LED.
 
+### [altimeter.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/altimeter.wbt)
+
+**Keywords**: [Robot](../reference/robot.md), [Altimeter](../reference/altimeter.md)
+
+![altimeter.png](images/samples/altimeter.thumbnail.jpg) In this example, the robot moves on a slope.
+Its [Altimeter](../reference/altimeter.md) sensor is used to switch direction when the robot is close to the slope's border.
+
 ### [battery.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/battery.wbt)
 
 **Keywords**: [Robot](../reference/robot.md), [Charger](../reference/charger.md), battery
