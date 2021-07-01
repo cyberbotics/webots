@@ -42,7 +42,7 @@ DEF CYLINDER Transform {
         }
       }
       geometry Cylinder {
-        height 0.2
+        height 0.1
         radius 0.13
       }
     }
