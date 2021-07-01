@@ -110,6 +110,9 @@ The [SICK S300](../guide/lidar-sensors.md#sick-s300) lidar model is now included
 ![SICK S300](images/sick_s300.thumbnail.png)
 %end
 
+Additionally, Webots R2021b now provides a new [Altimeter](../reference/altimeter.md) sensor to determine the global altitude of a robot or robot part.
+A sample usage of this new device can be found [here](../guide/samples-devices#altimeter-wbt).
+
 ---
 
 ## ROS 2 & Webots
