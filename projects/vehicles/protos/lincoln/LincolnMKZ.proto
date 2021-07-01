@@ -1,15 +1,15 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Lincoln MKZ 2017
+# template language: javascript
 
 PROTO LincolnMKZ [
   field     SFVec3f    translation       0 0.4 0
   field     SFRotation rotation          0 1 0 0
   field     SFColor    color             0.541 0.541 0.541
-  field     MFString   plate             "textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       "sounds/engine.wav"
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
@@ -21,9 +21,10 @@ PROTO LincolnMKZ [
   field     MFNode     sensorsSlotTop    []
   field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
+  field     SFString   window            "automobile"
 ]
 {
-  %{ local frontSpotLights = fields.frontSpotLights.value }%
+  %< const frontSpotLights = fields.frontSpotLights.value; >%
   Car {
     translation IS translation
     rotation IS rotation
@@ -117,7 +118,7 @@ PROTO LincolnMKZ [
         front [
           Group {
             children [
-              %{ if frontSpotLights then }%
+              %< if (frontSpotLights) { >%
                 SpotLight {
                   attenuation 0 0 1
                   intensity 20
@@ -137,7 +138,7 @@ PROTO LincolnMKZ [
                   location -0.52 1 4
                   radius 20
                 }
-              %{ end }%
+              %< } >%
               Transform {
                 translation 0 -0.35 1.44
                 rotation 0 1 0 3.14159
@@ -165,22 +166,22 @@ PROTO LincolnMKZ [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_base_color.jpeg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_roughness.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_metalness.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_normal.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
                     ]
                   }
                   emissiveIntensity 30
@@ -200,22 +201,22 @@ PROTO LincolnMKZ [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_base_color.jpeg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_roughness.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_metalness.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "textures/lincoln_mkz_details_normal.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
                     ]
                   }
                   emissiveIntensity 30
@@ -260,7 +261,7 @@ PROTO LincolnMKZ [
             }
           }
         ]
-        
+
       }
       # vehicle shape
       DEF COACHWORK Shape {
@@ -282,22 +283,22 @@ PROTO LincolnMKZ [
         appearance DEF DETAILS_APP PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/lincoln_mkz_details_base_color.jpeg"
+              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/lincoln_mkz_details_roughness.jpg"
+              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/lincoln_mkz_details_metalness.jpg"
+              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/lincoln_mkz_details_normal.jpg"
+              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
             ]
           }
         }
@@ -332,12 +333,12 @@ PROTO LincolnMKZ [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/lincoln_mkz_logo_base_color.png"
+              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/lincoln_mkz_logo_normal.jpg"
+              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
             ]
           }
         }
@@ -375,7 +376,7 @@ PROTO LincolnMKZ [
     }
     radarCrossSection 100
     recognitionColors [
-      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
     ]
     physics Physics {
       density -1
@@ -384,5 +385,6 @@ PROTO LincolnMKZ [
         0 0.2 1.6 # estimated roughly
       ]
     }
+    window IS window
   }
 }

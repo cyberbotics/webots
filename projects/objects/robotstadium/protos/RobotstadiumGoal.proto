@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Robot soccer goal inspired from the RoboCup 2013-2014 Standard Platform League.
@@ -64,7 +64,7 @@ Solid {
     Shape {
       appearance DEF NET_APP PBRAppearance {
         baseColorMap ImageTexture {
-          url "textures/net.png"
+          url "webots://projects/objects/robotstadium/protos/textures/net.png"
           filtering 0
         }
         metalness 0

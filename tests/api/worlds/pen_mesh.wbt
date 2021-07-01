@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -31,7 +31,7 @@ DEF BOARD Solid {
       }
       geometry Mesh {
         url [
-          "meshes/suzanne.obj"
+          "webots://projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }

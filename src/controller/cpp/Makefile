@@ -42,12 +42,12 @@ vpath %.o $(OBJDIR)
 vpath %.cpp .
 
 CPPSRC = Accelerometer.cpp \
+         Altimeter.cpp \
          Brake.cpp \
          Camera.cpp \
          Compass.cpp \
          Connector.cpp \
          Device.cpp \
-         DifferentialWheels.cpp \
          Display.cpp \
          DistanceSensor.cpp \
          Emitter.cpp \
@@ -102,7 +102,7 @@ TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 endif
 
 ifeq ($(OSTYPE),linux)
-LDFLAGS       = -shared
+LDFLAGS       = -shared -Wl,-rpath,'$$ORIGIN'
 SHAREDLIBS    = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController
 CPPFLAGS      = -c -fpic -Wall
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp

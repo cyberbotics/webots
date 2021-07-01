@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "The model of the E-puck robot"
@@ -61,7 +61,7 @@ DEF BOX3 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/logo.jpg"
+            "webots://projects/languages/matlab/worlds/textures/logo.jpg"
           ]
         }
         roughness 0.5

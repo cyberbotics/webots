@@ -1,7 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A beer bottle.
+# template language: javascript
 
 PROTO BeerBottle [
   field SFVec3f    translation 0 0 0
@@ -17,16 +18,16 @@ Solid {
     Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
-          url "textures/heineken_base_color.png"
+          url "webots://projects/objects/drinks/protos/textures/heineken_base_color.png"
         }
         roughnessMap ImageTexture {
-          url "textures/heineken_roughness.jpg"
+          url "webots://projects/objects/drinks/protos/textures/heineken_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "textures/heineken_metalness.jpg"
+          url "webots://projects/objects/drinks/protos/textures/heineken_metalness.jpg"
         }
         normalMap ImageTexture {
-          url "textures/heineken_normal.jpg"
+          url "webots://projects/objects/drinks/protos/textures/heineken_normal.jpg"
         }
       }
       geometry IndexedFaceSet {
@@ -84,11 +85,11 @@ Solid {
       }
     ]
   }
-  %{ if fields.mass.value > 0 then }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
       mass IS mass
     }
-  %{ end }%
+  %< } >%
 }
 }

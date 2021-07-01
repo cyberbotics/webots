@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "Example use of the Hokuyo devices."
@@ -27,7 +27,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/parquetry.jpg"
+        "webots://projects/default/worlds/textures/parquetry.jpg"
       ]
     }
     roughness 1

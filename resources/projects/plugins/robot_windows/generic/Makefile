@@ -18,8 +18,15 @@
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 C_SOURCES = $(wildcard *.c)
+LIBRARIES = -lgeneric_robot_window
 
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+
+ifeq ($(OSTYPE),linux)
+ LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/lib/controller
+endif
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

@@ -1,0 +1,25 @@
+#VRML_SIM R2021b utf8
+
+PROTO TemplateRobotLua [
+  field SFString controller "void"
+  field SFString customData ""
+  field SFString proceduralField "this is a string"
+  field MFNode   slot []
+]
+{
+  %{ print(fields.proceduralField.value) }%
+  Robot {
+    controller IS controller
+    customData IS customData
+    controllerArgs [
+      "%{= context.id }%"
+    ]
+    children [
+      Group {
+        children IS slot
+      }
+      DEF INTERNAL Transform {
+      }
+    ]
+  }
+}

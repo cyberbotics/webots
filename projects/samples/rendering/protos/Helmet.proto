@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: MIT
 # license url: https://opensource.org/licenses/MIT
 # A model of an advanced sci-fi helmet, sourced from the GLTF PBR reference implementation, found at https://github.com/KhronosGroup/glTF-WebGL-PBR.
@@ -17,33 +17,33 @@ PROTO Helmet [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/helmet_base_color.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_base_color.jpg"
             ]
           }
           roughness 0.6
           roughnessMap ImageTexture {
             url [
-              "textures/helmet_roughness.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/helmet_metalness.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/helmet_normal.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/helmet_occlusion.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_occlusion.jpg"
             ]
           }
           emissiveColorMap ImageTexture {
             url [
-              "textures/helmet_emissive.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_emissive.jpg"
             ]
           }
         }

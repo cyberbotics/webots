@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A blanket fabric material.
@@ -13,23 +13,23 @@ PROTO BlanketFabric [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/blanket_fabric/blanket_fabric_base_color.jpg"
+        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/blanket_fabric/blanket_fabric_roughness.jpg"
+        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/blanket_fabric/blanket_fabric_normal.jpg"
+        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/blanket_fabric/blanket_fabric_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

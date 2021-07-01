@@ -1,0 +1,7 @@
+/********************************/
+/* Windows-specific style sheet for Webots */
+/********************************/
+
+QDialog * {
+  font-size: 13px;
+}

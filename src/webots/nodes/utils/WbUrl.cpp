@@ -73,7 +73,19 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   return searchPaths;
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index) {
+const QString WbUrl::missingTexture() {
+  return WbStandardPaths::resourcesPath() + "images/missing_texture.png";
+}
+
+const QString WbUrl::missing(const QString &url) {
+  const QString suffix = QFileInfo(url).suffix();
+  const QStringList textureSuffixes = {"png", "jpg", "jpeg"};
+  if (textureSuffixes.contains(suffix, Qt::CaseInsensitive))
+    return missingTexture();
+  return "";
+}
+
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
@@ -81,22 +93,29 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
   // get the url at specified index
   const QString &url = urlField->item(index);
 
-  return computePath(node, field, url);
+  return computePath(node, field, url, warn);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool displayWarning) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &url, bool warn) {
   // check if the first url is empty
   if (url.isEmpty()) {
     if (node)
       node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
     else
       WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::PARSING);
-    return "";
+    return missing(url);
   }
 
-  // check if the url is an absolute path
-  if (QDir::isAbsolutePath(url)) {
-    const QString path = QDir::cleanPath(url);
+  if (isWeb(url))
+    return url;
+
+  QString path;
+  if (url.startsWith("webots://"))
+    path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+  else if (QDir::isAbsolutePath(url))  // check if the url is an absolute path
+    path = QDir::cleanPath(url);
+
+  if (!path.isEmpty()) {
     if (QFileInfo(path).exists())
       return checkIsFile(node, field, path);
     const QString error = QObject::tr("'%1' not found.").arg(url);
@@ -104,7 +123,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       node->parsingWarn(error);
     else
       WbLog::warning(error, false, WbLog::PARSING);
-    return "";
+    return missing(url);
   }
 
   // check if the url is defined relatively
@@ -116,7 +135,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       return checkIsFile(node, field, QDir::cleanPath(dir.absoluteFilePath(url)));
   }
 
-  if (displayWarning) {
+  if (warn) {
     const QString warning =
       QObject::tr("'%1' not found.").arg(url) + "\n" +
       QObject::tr(
@@ -128,7 +147,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       WbLog::warning(warning, false, WbLog::PARSING);
   }
 
-  return "";
+  return missing(url);
 }
 
 QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
@@ -181,4 +200,8 @@ QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int
   // directory structure.
   return exportTexture(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
                        writer.relativeTexturesPath(), writer);
+}
+
+bool WbUrl::isWeb(const QString &url) {
+  return url.startsWith("https://") || url.startsWith("http://");
 }

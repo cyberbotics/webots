@@ -52,7 +52,8 @@ namespace WbTriangleMeshCache {
   }
 
   void useTriangleMesh(WbTriangleMeshGeometry *user) {
-    if (user->getTriangleMeshMap().count(user->getMeshKey()) == 0)
+    if (user->getTriangleMeshMap().count(user->getMeshKey()) == 0 ||
+        !user->getTriangleMeshMap()[user->getMeshKey()].mTriangleMesh->isValid())
       user->getTriangleMeshMap()[user->getMeshKey()] = user->createTriangleMesh();
     else
       ++user->getTriangleMeshMap().at(user->getMeshKey()).mNumUsers;
@@ -62,6 +63,8 @@ namespace WbTriangleMeshCache {
   }
 
   void releaseTriangleMesh(WbTriangleMeshGeometry *user) {
+    if (user->getTriangleMeshMap().find(user->getMeshKey()) == user->getTriangleMeshMap().end())
+      return;
     TriangleMeshInfo &triangleMeshInfo = user->getTriangleMeshMap().at(user->getMeshKey());
     if (--triangleMeshInfo.mNumUsers == 0) {
       delete triangleMeshInfo.mTriangleMesh;

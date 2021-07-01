@@ -31,7 +31,7 @@ extern "C" {
 
 typedef enum { OFF, RIGHT, LEFT } WbuDriverIndicatorState;
 
-typedef enum { SPEED, TORQUE } WbuDriverControlMode;
+typedef enum { UNDEFINED_CONTROL_MODE = -1, SPEED = 0, TORQUE } WbuDriverControlMode;
 
 typedef enum { DOWN, SLOW, NORMAL, FAST } WbuDriverWiperMode;
 

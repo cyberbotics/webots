@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   basicTimeStep 16
   coordinateSystem "NUE"
@@ -17,7 +17,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/arena_floor.jpg"
+        "webots://projects/samples/curriculum/worlds/textures/arena_floor.jpg"
       ]
     }
     roughness 1
@@ -27,7 +27,7 @@ RectangleArena {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/arena_wall.jpg"
+        "webots://projects/samples/curriculum/worlds/textures/arena_wall.jpg"
       ]
     }
     roughness 1

@@ -68,6 +68,10 @@ In the following table you can find the list of `ros` controller arguments.
 | `--synchronize`   | By default the `ros` controller is not blocking the simulation even if no ROS node is connected to it. In order to synchronize the simulation with the ROS node, the `--synchronize` argument can be specified, so that the simulation will not run as long as the robot `time_step` service is not called. |
 | `--clock`   | Publish the Webots time using the `clock` topic. |
 | `--use-sim-time` | Specify that the Webots time should be used as ROS time. To work correctly you should also define the `--clock` argument and set the ROS parameter `use_sim_time` to true. |
+| `--auto-publish` | Force the controller to automatically enable all devices on startup and create the corresponding topics. |
+| `--use-ros-control` | Initialize the `controller_manager` from the [`ros_control`](http://wiki.ros.org/ros_control). |
+| `--robot-description[={robot_description_prefix}]` | Expose the `robot_description` ROS parameter that contains the URDF of the robot. The `robot_description_prefix` parameter is optional and it corresponds to the `prefix` argument of the [`wb_robot_get_urdf`](../reference/robot.md#wb_robot_get_urdf) function. |
+
 
 %end
 

@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "This world shows all the base graphical geometries."
@@ -229,7 +229,7 @@ DEF MESH Transform {
       }
       geometry Mesh {
         url [
-          "meshes/suzanne.obj"
+          "webots://projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }

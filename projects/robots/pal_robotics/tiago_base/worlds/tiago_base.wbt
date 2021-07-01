@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
@@ -120,7 +120,7 @@ SolidBox {
     baseColor 0 0 0
     baseColorMap ImageTexture {
       url [
-        "textures/tagged_wall.jpg"
+        "webots://projects/default/worlds/textures/tagged_wall.jpg"
       ]
     }
     roughness 0.5
@@ -136,7 +136,7 @@ SolidBox {
     baseColor 0 0 0
     baseColorMap ImageTexture {
       url [
-        "textures/tagged_wall.jpg"
+        "webots://projects/default/worlds/textures/tagged_wall.jpg"
       ]
     }
     roughness 0.5
@@ -151,7 +151,7 @@ SolidBox {
     baseColor 0 0 0
     baseColorMap ImageTexture {
       url [
-        "textures/tagged_wall.jpg"
+        "webots://projects/default/worlds/textures/tagged_wall.jpg"
       ]
     }
     roughness 0.5

@@ -54,6 +54,15 @@ WbGroup::~WbGroup() {
   delete mBoundingSphere;
 }
 
+void WbGroup::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
+    n->downloadAssets();
+  }
+}
+
 void WbGroup::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -72,16 +81,7 @@ void WbGroup::preFinalize() {
 void WbGroup::postFinalize() {
   WbBaseNode::postFinalize();
 
-  mBoundingSphere = new WbBoundingSphere(this);
-  mBoundingSphere->empty();
-
-  WbMFNode::Iterator it(*mChildren);
-  while (it.hasNext()) {
-    WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
-    n->postFinalize();
-    if (mBoundingSphere)
-      mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
-  }
+  recomputeBoundingSphere();
 
   connect(mChildren, &WbMFNode::changed, this, &WbGroup::childrenChanged);
   connect(mChildren, &WbMFNode::itemInserted, this, &WbGroup::insertChildPrivate);
@@ -100,6 +100,19 @@ void WbGroup::postFinalize() {
     connect(this, &WbGroup::topLevelListsUpdateRequested, parent, &WbGroup::topLevelListsUpdateRequested);
   } else if (mHasNoSolidAncestor)
     connect(mChildren, &WbMFNode::changed, this, &WbGroup::topLevelListsUpdateRequested);
+}
+
+void WbGroup::recomputeBoundingSphere() const {
+  mBoundingSphere = new WbBoundingSphere(this);
+  mBoundingSphere->empty();
+
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
+    n->postFinalize();
+    if (mBoundingSphere)
+      mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
+  }
 }
 
 void WbGroup::insertChild(int index, WbNode *child) {
@@ -274,18 +287,18 @@ bool WbGroup::shallExport() const {
   return !mChildren->isEmpty();
 }
 
-void WbGroup::reset() {
-  WbBaseNode::reset();
+void WbGroup::reset(const QString &id) {
+  WbBaseNode::reset(id);
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext())
-    it.next()->reset();
+    it.next()->reset(id);
 }
 
-void WbGroup::save() {
-  WbBaseNode::save();
+void WbGroup::save(const QString &id) {
+  WbBaseNode::save(id);
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext())
-    it.next()->save();
+    it.next()->save(id);
 }
 
 void WbGroup::forwardJerk() {

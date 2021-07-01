@@ -1,7 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A picket fence with a door and optional boundingObject.
+# template language: javascript
 
 PROTO PicketFenceWithDoor [
   field SFVec3f    translation           0 0 0
@@ -23,27 +24,27 @@ PROTO PicketFenceWithDoor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/picket_fence_with_door_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/picket_fence_with_door_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/picket_fence_with_door_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/picket_fence_with_door_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/picket_fence_with_door_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_occlusion.jpg"
             ]
           }
         }
@@ -67,7 +68,7 @@ PROTO PicketFenceWithDoor [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -97,6 +98,6 @@ PROTO PicketFenceWithDoor [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

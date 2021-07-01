@@ -91,9 +91,7 @@ wb_speaker_play_sound(left, right, sound, volume, pitch, balance, loop)
 
 *plays a sound*
 
-This function allows the user to play a sound file.
-All major audio formats are supported, such as MP3, AIFF, AAC, WAV, FLAC and OGG Vorbis.
-For an exhaustive list, see [here](https://en.wikipedia.org/wiki/FFmpeg#Supported_formats).
+This function allows the user to play a WAV sound file.
 
 The function takes as arguments two speaker `WbDeviceTag` respectively for the left and right channels.
 If both channels should be played on the same speaker or the file has only one channel, it is possible to pass the same device tag for both left and right arguments.

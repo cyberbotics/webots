@@ -1,7 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
+# template language: javascript
 
 PROTO TeslaModel3Wheel [
   field       SFVec3f    translation     0 0 0
@@ -25,27 +26,27 @@ PROTO TeslaModel3Wheel [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_base_color.png"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_roughness.jpg"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_metallic.png"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_metallic.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_normal.jpg"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_occlusion.jpg"
+                "webots://projects/vehicles/protos/tesla/textures/tesla_model3_wheels_occlusion.jpg"
               ]
             }
           }
@@ -70,7 +71,7 @@ PROTO TeslaModel3Wheel [
           }
         }
       ]
-      %{ if fields.boundingObject.value then }%
+      %< if (fields.boundingObject.value) { >%
       boundingObject Transform {
         translation 0 0 -0.04
         rotation 1 0 0 1.5707963220000003
@@ -81,7 +82,7 @@ PROTO TeslaModel3Wheel [
           }
         ]
       }
-      %{ end }%
+      %< } >%
       physics IS physics
     }
   }

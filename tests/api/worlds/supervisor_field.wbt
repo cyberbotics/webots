@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -26,7 +26,7 @@ DEF FLOOR Solid {
         }
         texture ImageTexture {
           url [
-            "textures/checkered_parquetry.jpg"
+            "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
           ]
         }
       }

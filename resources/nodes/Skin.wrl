@@ -12,6 +12,6 @@ Skin {
   field MFNode     bones             []            # link to Webots physical skeleton, if not set a pure graphical skeleton is used
   field SFBool     castShadows       TRUE
   #fields specific to the AbstractTransform node:
-  field     SFFloat    translationStep 0.01        # step size used by translation manipulator
-  field     SFFloat    rotationStep    0.261799387 # step size used by rotation manipulator (PI/12)
+  field SFFloat    translationStep 0.01            # step size used by translation manipulator
+  field SFFloat    rotationStep    0.261799387     # step size used by rotation manipulator (PI/12)
 }

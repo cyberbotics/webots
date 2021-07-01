@@ -1,13 +1,12 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   title "Humanoid Marathon"
   window "humanoid_marathon"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.22959806948864758 -0.9625869278561616 -0.14391362967948082 5.2328629
-  position 2.8815727 1.2408186 1.1426191
+  orientation 0.8303043007972142 0.3030847291712353 0.46769051200644235 1.3254636763590986
+  position 1.542515003527241 -1.4403729049083505 1.0695941462660132
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -44,8 +43,8 @@ SpotLight {
   castShadows TRUE
 }
 DEF BATTERYOP2 RobotisOp2 {
-  translation -0.09 0.265 -0.59
-  rotation 0.058975477104651855 0.9961271117676255 -0.06521250111571945 1.573677
+  translation 0 0 0.277
+  rotation 0 1 0 0.09
   controller "marathon"
   selfCollision TRUE
   battery [
@@ -58,6 +57,7 @@ Fog {
   visibilityRange 600
 }
 DEF GROUND Solid {
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance DryMud {
@@ -78,12 +78,13 @@ DEF GROUND Solid {
   locked TRUE
 }
 DEF ENVIRONMENT Solid {
+  rotation 1 0 0 1.5707963267948966
   scale 0.3 0.3 0.3
   children [
     Tree {
       translation 23.79 0.07 -9
       texture [
-        "textures/birch_tree.png"
+        "webots://projects/objects/trees/protos/textures/birch_tree.png"
       ]
       isPickable FALSE
     }
@@ -91,7 +92,7 @@ DEF ENVIRONMENT Solid {
       translation 23.79 0.07 -35.302721
       name "tree(1)"
       texture [
-        "textures/birch_tree.png"
+        "webots://projects/objects/trees/protos/textures/birch_tree.png"
       ]
       isPickable FALSE
     }
@@ -99,7 +100,7 @@ DEF ENVIRONMENT Solid {
       translation 23.79 0.07 -19.790649
       name "tree(2)"
       texture [
-        "textures/birch_tree.png"
+        "webots://projects/objects/trees/protos/textures/birch_tree.png"
       ]
       isPickable FALSE
     }
@@ -160,7 +161,7 @@ DEF ENVIRONMENT Solid {
       rotation 0 1 0 1.0471975
       name "tree(3)"
       texture [
-        "textures/crab_apple_tree.png"
+        "webots://projects/objects/trees/protos/textures/crab_apple_tree.png"
       ]
       isPickable FALSE
     }
@@ -171,7 +172,7 @@ DEF ENVIRONMENT Solid {
         Tree {
           scale 0.30000000000000004 1 0.3
           texture [
-            "textures/white_pine.png"
+            "webots://projects/objects/trees/protos/textures/white_pine.png"
           ]
           isPickable FALSE
         }
@@ -180,7 +181,7 @@ DEF ENVIRONMENT Solid {
             baseColor 0.319997 0.157382 0.040528
             baseColorMap ImageTexture {
               url [
-                "textures/sand.jpg"
+                "webots://projects/default/worlds/textures/sand.jpg"
               ]
             }
             roughness 1
@@ -201,7 +202,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/rock.jpg"
+                "webots://projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -221,7 +222,7 @@ DEF ENVIRONMENT Solid {
         Tree {
           scale 0.30000000000000004 1 0.3
           texture [
-            "textures/white_pine.png"
+            "webots://projects/objects/trees/protos/textures/white_pine.png"
           ]
           isPickable FALSE
         }
@@ -232,7 +233,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/rock.jpg"
+                "webots://projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -252,7 +253,7 @@ DEF ENVIRONMENT Solid {
         Tree {
           scale 0.30000000000000004 1 0.3
           texture [
-            "textures/white_pine.png"
+            "webots://projects/objects/trees/protos/textures/white_pine.png"
           ]
           isPickable FALSE
         }
@@ -263,7 +264,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/rock.jpg"
+                "webots://projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -288,10 +289,10 @@ DEF ENVIRONMENT Solid {
     BusStop {
       translation 1.618 0 -8.171
       internalAdvertisingTexture [
-        "textures/momo_advertising_right.jpg"
+        "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/momo_advertising_right.jpg"
       ]
       externalAdvertisingTexture [
-        "textures/momo_advertising_left.jpg"
+        "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/momo_advertising_left.jpg"
       ]
       advertisingLightOn FALSE
     }
@@ -373,10 +374,9 @@ DEF ENVIRONMENT Solid {
       rotation 0 1 0 4.71
       signBoards [
         DirectionPanel {
-          textSize 0.15
-          text "HBP office "
-          right FALSE
-          left TRUE
+          frontTextTexture [
+            "textures/panel_hbp_office_front.png"
+          ]
         }
       ]
     }
@@ -483,7 +483,8 @@ DEF ENVIRONMENT Solid {
   }
 }
 DEF START Solid {
-  translation -0.01 0 -0.6
+  translation -0.01 0.6 0
+  rotation 1 0 0 1.5707963267948966
   children [
     Transform {
       translation 0 0.52 1.2
@@ -493,7 +494,7 @@ DEF START Solid {
             baseColor 0.729412 0.741176 0.713725
             baseColorMap ImageTexture {
               url [
-                "textures/wood.jpg"
+                "webots://projects/default/worlds/textures/wood.jpg"
               ]
             }
             roughness 1
@@ -535,7 +536,7 @@ DEF START Solid {
         TexturedBoxShape {
           size 0.01 0.3 2
           textureUrl [
-            "textures/start.jpg"
+            "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/start.jpg"
           ]
           textureMapping "default"
           faceColor 0.116793 0.248112 0.973327
@@ -566,7 +567,8 @@ DEF START Solid {
   name "solid(1)"
 }
 DEF FINISH Solid {
-  translation 15 0 -0.6
+  translation 15 0.6 0
+  rotation 1 0 0 1.5707963267948966
   children [
     Transform {
       translation 0 0.52 1.2
@@ -600,7 +602,7 @@ DEF FINISH Solid {
         TexturedBoxShape {
           size 0.01 0.3 2
           textureUrl [
-            "textures/finish.jpg"
+            "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/finish.jpg"
           ]
           textureMapping "default"
           faceColor 0.116793 0.248112 0.973327

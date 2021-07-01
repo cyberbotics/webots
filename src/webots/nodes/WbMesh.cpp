@@ -14,19 +14,27 @@
 
 #include "WbMesh.hpp"
 
+#include "WbApplication.hpp"
+#include "WbDownloader.hpp"
+#include "WbGroup.hpp"
 #include "WbMFString.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
+#include "WbViewpoint.hpp"
+#include "WbWorld.hpp"
 
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 
+#include <QtCore/QEventLoop>
+
 void WbMesh::init() {
   mUrl = findMFString("url");
-
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
+  mDownloader = NULL;
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -42,6 +50,29 @@ WbMesh::WbMesh(const WbNode &other) : WbTriangleMeshGeometry(other) {
 }
 
 WbMesh::~WbMesh() {
+}
+
+void WbMesh::downloadAssets() {
+  if (mUrl->size() == 0)
+    return;
+  const QString &url(mUrl->item(0));
+  if (WbUrl::isWeb(url)) {
+    delete mDownloader;
+    mDownloader = new WbDownloader(this);
+    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
+
+    mDownloader->download(QUrl(url));
+  }
+}
+
+void WbMesh::downloadUpdate() {
+  updateUrl();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
+  const WbNode *ancestor = WbNodeUtilities::findTopNode(this);
+  const WbGroup *group = dynamic_cast<const WbGroup *>(ancestor);
+  if (group)
+    group->recomputeBoundingSphere();
 }
 
 void WbMesh::preFinalize() {
@@ -65,13 +96,34 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   if (filePath.isEmpty())
     return;
 
+  if (mDownloader && !mDownloader->error().isEmpty()) {
+    warn(mDownloader->error());
+    delete mDownloader;
+    mDownloader = NULL;
+    return;
+  }
+
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS |
                                                         aiComponent_MATERIALS);
-  const aiScene *scene = importer.ReadFile(
-    filePath.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                                      aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent);
+  const aiScene *scene;
+  unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
+  if (WbUrl::isWeb(filePath)) {
+    if (mDownloader == NULL)
+      downloadAssets();
+
+    if (mDownloader->hasFinished()) {
+      const QByteArray data = mDownloader->device()->readAll();
+      const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
+      scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
+      delete mDownloader;
+      mDownloader = NULL;
+    } else
+      return;
+  } else
+    scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
 
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
@@ -403,8 +455,17 @@ void WbMesh::updateUrl() {
     mUrl->setItem(i, item.replace("\\", "/"));
   }
 
-  if (areWrenObjectsInitialized())
+  if (n > 0 && !WbWorld::instance()->isLoading() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
+    // url was changed from the scene tree or supervisor
+    downloadAssets();
+    return;
+  }
+
+  if (areWrenObjectsInitialized()) {
     buildWrenMesh(true);
+    if (n > 0 && WbUrl::isWeb(mUrl->item(0)))
+      emit wrenObjectsCreated();  // throw signal to update pickable state
+  }
 
   if (isPostFinalizedCalled())
     emit changed();

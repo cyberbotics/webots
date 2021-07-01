@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A table with a central umbrella and optional physics.
+# template language: javascript
 
 PROTO TableWithUmbrella [
   field SFVec3f    translation   0 0 0
@@ -25,27 +25,27 @@ PROTO TableWithUmbrella [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/table_with_umbrella_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/table_with_umbrella_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/table_with_umbrella_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/table_with_umbrella_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/table_with_umbrella_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_occlusion.jpg"
             ]
           }
         }
@@ -73,27 +73,27 @@ PROTO TableWithUmbrella [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/table_with_umbrella_umbrella_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/table_with_umbrella_umbrella_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/table_with_umbrella_umbrella_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/table_with_umbrella_umbrella_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/table_with_umbrella_umbrella_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_occlusion.jpg"
             ]
           }
         }
@@ -175,7 +175,7 @@ PROTO TableWithUmbrella [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 80
@@ -187,6 +187,6 @@ PROTO TableWithUmbrella [
         0 0 4.440892098500626e-16
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

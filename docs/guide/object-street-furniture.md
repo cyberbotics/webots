@@ -80,8 +80,8 @@ BusStop {
   SFString    name                        "bus stop"
   SFBool      bench                       TRUE
   SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }
-  MFString    internalAdvertisingTexture  ["textures/cocacola_advertising.jpg"]
-  MFString    externalAdvertisingTexture  ["textures/cocacola_advertising.jpg"]
+  MFString    internalAdvertisingTexture  ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"]
+  MFString    externalAdvertisingTexture  ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"]
   SFBool      advertisingLightOn          TRUE
 }
 ```
@@ -597,19 +597,12 @@ PublicToilet {
   SFFloat     height              3.2
   SFFloat     length              3.5
   SFFloat     width               2.1
-  SFColor     mainColor           0.4 0.4 0.4
-  SFColor     secondaryColor      0.5 0.5 0.5
-  SFColor     mainTopColor        0.22 0.22 0.22
-  SFColor     secondaryTopColor   1 0.95 0.33
-  SFColor     windowColor         0.8 1 0.93
-  SFString    text                "TOILET"
-  SFFloat     textScale           80
-  MFString    backDisplayTexture  "textures/webots_billboard.jpg"
+  MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/webots_billboard.jpg"
   SFBool      backDisplayLight    FALSE
   MFNode      frontDisplay        [
     AdvertisingBoard {
       translation 0 0.1 0
-      frontTexture ["textures/webots_billboard.jpg"]
+      frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE
       displayWidth 0.9
@@ -632,20 +625,6 @@ PublicToilet {
 - `length`: Defines the lenght of the toilet.
 
 - `width`: Defines the wdith of the toilet.
-
-- `mainColor`: Defines the primary color of the toilet.
-
-- `secondaryColor`: Defines the secondary color of the toilet.
-
-- `mainTopColor`: Defines the primary color of the top part of the toilet.
-
-- `secondaryTopColor`: Defines the secondary color of the top part of the toilet.
-
-- `windowColor`: Defines the color of the windows of the toilet.
-
-- `text`: Defines the text displayed on the toilet.
-
-- `textScale`: Defines the scale of the text displayed on the toilet.
 
 - `backDisplayTexture`: Defines the texture used on the back display.
 

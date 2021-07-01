@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # A viewer to visualize C3D (www.c3d.org) files.
+# template language: javascript
 
 PROTO C3dViewer [
   field  SFVec3f     translation                      0 0 0
@@ -19,29 +19,28 @@ PROTO C3dViewer [
   field  SFString    name                             "c3d_viewer"
 ]
 {
-  %{
-    local c3dFile = fields.c3dFile.value
-    if c3dFile == nil or c3dFile == '' then
-      c3dFile = "None"
-    end
-  }%
+  %<
+    let c3dFile = fields.c3dFile.value;
+    if (c3dFile === undefined || c3dFile === '')
+      c3dFile = 'None';
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
     children IS markers
     controller "c3d_viewer"
     controllerArgs [
-      "%{= c3dFile }%"
-      "%{= fields.playbackSpeed.value }%"
-      "%{= fields.leftGroundReactionForceOffset.value.x }%"
-      "%{= fields.leftGroundReactionForceOffset.value.y }%"
-      "%{= fields.leftGroundReactionForceOffset.value.z }%"
-      "%{= fields.rightGroundReactionForceOffset.value.x }%"
-      "%{= fields.rightGroundReactionForceOffset.value.y }%"
-      "%{= fields.rightGroundReactionForceOffset.value.z }%"
-      "%{= fields.bodyTransparency.value }%"
-      "%{= fields.bodyHeight.value }%"
-      "%{= fields.bodyOffset.value }%"
+      "%<= c3dFile >%"
+      "%<= fields.playbackSpeed.value >%"
+      "%<= fields.leftGroundReactionForceOffset.value.x >%"
+      "%<= fields.leftGroundReactionForceOffset.value.y >%"
+      "%<= fields.leftGroundReactionForceOffset.value.z >%"
+      "%<= fields.rightGroundReactionForceOffset.value.x >%"
+      "%<= fields.rightGroundReactionForceOffset.value.y >%"
+      "%<= fields.rightGroundReactionForceOffset.value.z >%"
+      "%<= fields.bodyTransparency.value >%"
+      "%<= fields.bodyHeight.value >%"
+      "%<= fields.bodyOffset.value >%"
     ]
     name IS name
     supervisor TRUE

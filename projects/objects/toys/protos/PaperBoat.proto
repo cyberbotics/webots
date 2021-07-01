@@ -1,17 +1,17 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # A paper boat (42.8 x 14.2 x 10.6 cm).
+# template language: javascript
 
 PROTO PaperBoat [
   field SFVec3f    translation         0 0 0
   field SFRotation rotation            0 1 0 0
   field SFString   name                "paper boat"
-  field SFFloat    scale               1                         # Defines the global scaling factor.
-  field MFString   textureUrl          "PaperBoat/newspaper.jpg" # Defines the texture used for the paper boat.
-  field SFFloat    mass                0.25                      # Defines the mass of the paper boat in kg.
-  field MFNode     immersionProperties [                         # Is `Solid.immersionProperties`.
+  field SFFloat    scale               1            # Defines the global scaling factor.
+  field MFString   textureUrl          "webots://projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg" # Defines the texture used for the paper boat.
+  field SFFloat    mass                0.25         # Defines the mass of the paper boat in kg.
+  field MFNode     immersionProperties [            # Is `Solid.immersionProperties`.
       ImmersionProperties {
         fluidName "water"
         dragForceCoefficients 0.05 0 0
@@ -20,17 +20,17 @@ PROTO PaperBoat [
     ]
 ]
 {
-  %{
-    local scale = fields.scale.value
-    if scale <= 0 then
-      io.stderr:write("'scale' must be strictly positive\n")
-      scale = fields.scale.defaultValue
-    end
-  }%
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %{= scale }% %{= scale }% %{= scale }%
+    scale %<= scale >% %<= scale >% %<= scale >%
     children [
       DEF GEOM Shape {
         appearance PBRAppearance {
@@ -41,7 +41,7 @@ PROTO PaperBoat [
           roughness 1
         }
         geometry Mesh {
-          url "PaperBoat/geom.obj"
+          url "webots://projects/objects/toys/protos/PaperBoat/meshes/geom.obj"
         }
       }
     ]

@@ -52,6 +52,12 @@ void WbSlot::validateProtoNode() {
     solid->validateProtoNode();
 }
 
+void WbSlot::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (hasEndpoint())
+    static_cast<WbBaseNode *>(endPoint())->downloadAssets();
+}
+
 void WbSlot::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -176,20 +182,20 @@ void WbSlot::endPointChanged() {
   }
 }
 
-void WbSlot::reset() {
-  WbBaseNode::reset();
+void WbSlot::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const e = mEndPoint->value();
   if (e)
-    e->reset();
+    e->reset(id);
 }
 
-void WbSlot::save() {
-  WbBaseNode::save();
+void WbSlot::save(const QString &id) {
+  WbBaseNode::save(id);
 
   WbNode *const e = mEndPoint->value();
   if (e)
-    e->save();
+    e->save(id);
 }
 
 //////////////////////////////////////////////////////////////

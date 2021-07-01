@@ -1,10 +1,10 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # A simple modern house.
 # The original blender model was made by andreschneider (http://www.blendswap.com/blends/view/65734).
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO ModernHouse [
   field SFVec3f    translation          0 0 0
@@ -18,12 +18,12 @@ PROTO ModernHouse [
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ if fields.appearance.value ~= nil and fields.appearance.value.fields.baseColor ~= nil then}%
-      %{ local color = fields.appearance.value.fields.baseColor.value }%
+    %< if (fields.appearance.value !== undefined && fields.appearance.value.fields.baseColor !== undefined) { >%
+      %< let color = fields.appearance.value.fields.baseColor.value; >%
       recognitionColors [
-        %{= color.r }% %{= color.g }% %{= color.b }%
+        %<= color.r >% %<= color.g >% %<= color.b >%
       ]
-    %{ end }%
+    %< } >%
     children [
       Transform {
         translation 0 -0.76 0
@@ -95,7 +95,7 @@ PROTO ModernHouse [
                 appearance DEF ROOF_APP PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/gravel.jpg"
+                      "webots://projects/objects/buildings/protos/textures/gravel.jpg"
                     ]
                   }
                   metalness 0
@@ -469,7 +469,7 @@ PROTO ModernHouse [
     ]
     name IS name
     model "modern house"
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -538,6 +538,6 @@ PROTO ModernHouse [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

@@ -50,7 +50,7 @@ This can be visualized with the `View / Optional Rendering / Show Center of Mass
 
 **Keywords**: custom robot window, [controller plugin](controller-plugin.md), HTML, JavaScript
 
-![custom_robot_window_simple.png](images/samples/custom_robot_window_simple.thumbnail.jpg) This example shows a minimal two way communication between a simple robot window and a robot controller.
+![custom_robot_window_simple.png](images/samples/custom_robot_window_simple.png) This example shows a minimal two way communication between a simple robot window and a robot controller.
 The JavaScript and Python files deal with the interactions between the page and the robot, using the WWI API to exchange string messages.
 
 
@@ -91,6 +91,14 @@ In the second layout, the four motorized wheels are oriented in the same directi
 In the third layout, a simple [Ackermann steering geometry](https://en.wikipedia.org/wiki/Ackermann_steering_geometry) is shown.
 Note that more completed Ackermann steering geometry can be achieved using the [`AckermannVehicle` PROTO](../automobile/ackermannvehicle.md), and the [`car` library](../automobile/car-library.md).
 
+### [gears.wbt]({{ url.github_tree }}/projects/samples/howto/gears/worlds/gears.wbt)
+
+**Keywords**: gears, self-collision
+
+![gears.png](images/samples/gears.thumbnail.jpg) This example shows the transfer of power between two gears through physical interaction.
+The red gear is motorized whereas the blue one is passive, and when the `boundingObject` at the tip of the teeth collides the second wheel begins to turn.
+Using this sort of approach as general purpose transmission is not generally advised but does work with some tuning of the `dampingConstant` of the [HingeJoint](../reference/hingejoint.md), and the `ERP` and `CFM` values in the [WorldInfo](../reference/worldinfo.md) node.
+
 ### [inverted\_pendulum.wbt]({{ url.github_tree }}/projects/samples/howto/inverted_pendulum/worlds/inverted_pendulum.wbt)
 
 **Keywords**: Inverted pendulum, PID, [LinearMotor](../reference/linearmotor.md)
@@ -120,9 +128,9 @@ Faster omnidirectional wheels implementations could be achieved using asymmetric
 
 **Keywords**: Reinforcement learning, OpenAI Gym
 
-![openai_gym.png](images/samples/openai_gym.thumbnail.jpg) This example shows an integration of [OpenAI Gym](https://gym.openai.com/) with Webots.
+![openai_gym.png](images/samples/openai_gym.png) This example shows an integration of [OpenAI Gym](https://gym.openai.com/) with Webots.
 In this example, the robot tries to keep an inverted pendulum up as long as possible.
-The OpenAI Gym interface is utilized by [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) to train the robot to keep the inverted pendulum up. 
+The OpenAI Gym interface is utilized by [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) to train the robot to keep the inverted pendulum up.
 
 ### [passive\_dynamic\_walker.wbt]({{ url.github_tree }}/projects/samples/howto/passive_dynamic_walker/worlds/passive_dynamic_walker.wbt)
 
@@ -190,6 +198,16 @@ Then at each simulation step, it uses the target node position to update the `In
 ![texture_change.png](images/samples/texture_change.thumbnail.jpg) In this example, a robot moves forward and backward in front of a large textured panel.
 The robot watches the panel with its [Camera](../reference/camera.md).
 Meanwhile a [Supervisor](../reference/supervisor.md) controller switches the image displayed on the panel.
+
+### [url.wbt]({{ url.github_tree }}/projects/samples/howto/url/worlds/url.wbt)
+
+**Keywords**: url, asset, download, [Background](../reference/background.md), [Camera](../reference/camera.md), [ContactProperties](../reference/contactproperties.md), [ImageTexture](../reference/imagetexture.md), [Mesh](../reference/mesh.md), [Motor](../reference/motor.md)
+
+![url.png](images/samples/url.thumbnail.jpg) This example shows how to specify textures, meshes and sounds using URLs instead of local files.
+Nodes supporting asset download are the [Background](../reference/background.md), [Camera](../reference/camera.md), [ContactProperties](../reference/contactproperties.md), [ImageTexture](../reference/imagetexture.md), [Mesh](../reference/mesh.md) and [Motor](../reference/motor.md).
+The URL for the asset is defined in the world file using either the `https://` or `http://` protocol.
+It can be changed from the graphical user interface in the scene tree and also from a [supervisor](../reference/supervisor.md) process as demonstrated in this example.
+If a texture is not found, it is replaced with a default image as shown on the picture.
 
 ### [vision.wbt]({{ url.github_tree }}/projects/samples/howto/vision/worlds/vision.wbt)
 

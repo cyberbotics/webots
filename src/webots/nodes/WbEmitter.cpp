@@ -233,8 +233,8 @@ void WbEmitter::prePhysicsStep(double ms) {
   }
 }
 
-void WbEmitter::reset() {
-  WbSolidDevice::reset();
+void WbEmitter::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   qDeleteAll(mQueue);
   mQueue.clear();
 }

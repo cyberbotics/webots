@@ -49,7 +49,6 @@ WbApplication::WbApplication() {
   mWorld = NULL;
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
-  mWorldLoadTimer = NULL;
 
   // create the Webots temporary path early in the process
   // in order to be sure that the Qt internal files will be stored
@@ -125,6 +124,8 @@ void WbApplication::setup() {
   connect(this, &WbApplication::animationCaptureStarted, recorder, &WbAnimationRecorder::start);
   connect(this, &WbApplication::animationCaptureStopped, recorder, &WbAnimationRecorder::stop);
   connect(nodeOperations, &WbNodeOperations::nodeAdded, recorder, &WbAnimationRecorder::propagateNodeAddition);
+  connect(this, &WbApplication::deleteWorldLoadingProgressDialog, this,
+          &WbApplication::setWorldLoadingProgressDialogCreatedtoFalse);
 }
 
 void WbApplication::removeOldLibraries() {
@@ -199,7 +200,7 @@ void WbApplication::linkLibraries(QString projectLibrariesPath) {
 }
 
 void WbApplication::setWorldLoadingProgress(const int progress) {
-  if (!mWorldLoadingProgressDialogCreated && mWorldLoadTimer && (mWorldLoadTimer->elapsed() / 1000) > 2) {
+  if (!mWorldLoadingProgressDialogCreated) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
     mWorldLoadingProgressDialogCreated = true;
@@ -208,7 +209,7 @@ void WbApplication::setWorldLoadingProgress(const int progress) {
 }
 
 void WbApplication::setWorldLoadingStatus(const QString &status) {
-  if (!mWorldLoadingProgressDialogCreated && mWorldLoadTimer && (mWorldLoadTimer->elapsed() / 1000) > 2) {
+  if (!mWorldLoadingProgressDialogCreated) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
     mWorldLoadingProgressDialogCreated = true;
@@ -221,14 +222,17 @@ void WbApplication::setWorldLoadingCanceled() {
   emit worldLoadingWasCanceled();
 }
 
+void WbApplication::setWorldLoadingProgressDialogCreatedtoFalse() {
+  mWorldLoadingProgressDialogCreated = false;
+}
+
 bool WbApplication::wasWorldLoadingCanceled() const {
   return mWorldLoadingCanceled;
 }
 
 bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
-  delete mWorldLoadTimer;
-  mWorldLoadTimer = NULL;
+
   if (deleteWorld) {
     delete mWorld;
     mWorld = NULL;
@@ -252,12 +256,6 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 }
 
 bool WbApplication::loadWorld(QString worldName, bool reloading) {
-  delete mWorldLoadTimer;
-  mWorldLoadTimer = NULL;
-  if (qgetenv("WEBOTS_DISABLE_WORLD_LOADING_DIALOG").isEmpty()) {
-    mWorldLoadTimer = new QElapsedTimer();
-    mWorldLoadTimer->start();
-  }
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
 
@@ -348,8 +346,6 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   emit postWorldLoaded(reloading, isFirstLoad);
 
   emit deleteWorldLoadingProgressDialog();
-  delete mWorldLoadTimer;
-  mWorldLoadTimer = NULL;
 
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(true);
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());

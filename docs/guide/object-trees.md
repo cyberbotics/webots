@@ -76,7 +76,7 @@ Tree types are:
 
 The 'random' type choose randomly a tree type each time the node is regenerated.
 The shape of the forest can either be defined using the 'shape' and 'density' fields or the coordinate of each tree can be defined in external files ( X,Y,Z per tree, one tree per line).
-The path to those files can either be absolute, relative to the proto, relative to the world or relative to the project.
+The path to those files must be defined with respect to the world file.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
@@ -96,7 +96,7 @@ Forest {
   SFFloat    density              0.2
   SFString   type                 "random"
   SFInt32    randomSeed           0
-  MFString   groundTexture        ["textures/dry_leaf.jpg"]
+  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/trees/protos/textures/dry_leaf.jpg"]
   SFBool     withSnow             FALSE
   SFFloat    maxHeight            6
   SFFloat    minHeight            2
@@ -112,7 +112,7 @@ Forest {
 
 ### Forest Field Summary
 
-- `treesFiles`: Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X Y Z').
+- `treesFiles`: Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X, Y, Z'). The path to these files must be defined with respect to the world file.
 
 - `shape`: Alternatively, the position of each trees can be defined using the shape field. This field defines the shape of the forest, in that case the position of the trees is randomly generated from this shape.
 
@@ -334,7 +334,7 @@ Tree {
   SFRotation rotation             0 1 0 0
   SFString   name                 "tree"
   SFVec3f    scale                1 4 1
-  MFString   texture              "textures/cherry_tree.png"
+  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/trees/protos/textures/cherry_tree.png"
   SFNode     boundingObject       NULL
   SFBool     locked               TRUE
   SFBool     isPickable           TRUE

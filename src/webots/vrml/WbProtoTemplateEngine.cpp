@@ -17,6 +17,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbStandardPaths.hpp"
 
+#include <QtCore/QRegularExpression>
 #include "WbField.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNode.hpp"
@@ -41,7 +42,8 @@ WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : W
 }
 
 bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector<WbField *> &parameters,
-                                     const QString &protoPath, const QString &worldPath, int id) {
+                                     const QString &protoPath, const QString &worldPath, int id,
+                                     const QString &templateLanguage) {
   // generate the final script file from the template script file
   QHash<QString, QString> tags;
 
@@ -49,37 +51,43 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   foreach (const WbField *parameter, parameters) {
     if (!parameter->isTemplateRegenerator())  // keep only regenerator fields
       continue;
-    const QString &valueLuaString = convertFieldValueToLuaStatement(parameter);
-    if (!valueLuaString.isEmpty()) {
-      tags["fields"] += QString("%1 = {").arg(parameter->name());
-      tags["fields"] += QString("value = %1, ").arg(valueLuaString);
-      tags["fields"] += QString("defaultValue = %1").arg(convertFieldDefaultValueToLuaStatement(parameter));
+    const QString &valueString = convertFieldValueToJavaScriptStatement(parameter);
+    if (!valueString.isEmpty()) {
+      tags["fields"] += QString("%1: {").arg(parameter->name());
+      tags["fields"] += QString("value: %1, ").arg(valueString);
+      tags["fields"] += QString("defaultValue: %1").arg(convertFieldDefaultValueToJavaScriptStatement(parameter));
     }
     tags["fields"] += "},\n";
   }
   tags["fields"].chop(2);  // remove the last ",\n" if any
+
 #ifdef _WIN32
-  tags["context"] = QString("os = \"windows\",");
+  tags["context"] = QString("os: 'windows', ");
 #endif
 #ifdef __linux__
-  tags["context"] = QString("os = \"linux\",");
+  tags["context"] = QString("os: 'linux', ");
 #endif
 #ifdef __APPLE__
-  tags["context"] = QString("os = \"mac\",");
+  tags["context"] = QString("os: 'mac', ");
 #endif
-  tags["context"] += QString("world = \"%1\", ").arg(worldPath);
-  tags["context"] += QString("proto = \"%1\",").arg(protoPath);
-  tags["context"] += QString("webots_home = \"%1\",").arg(WbStandardPaths::webotsHomePath());
-  tags["context"] += QString("project_path = \"%1\",").arg(WbProject::current()->path());
-  tags["context"] += QString("temporary_files_path = \"%1\",").arg(WbStandardPaths::webotsTmpPath());
-  tags["context"] += QString("id = \"%1\",").arg(id);
-  tags["context"] += QString("coordinate_system = \"%1\",").arg(gCoordinateSystem);
+  tags["context"] += QString("world: '%1', ").arg(worldPath);
+  tags["context"] += QString("proto: '%1', ").arg(protoPath);
+  tags["context"] += QString("webots_home: '%1', ").arg(WbStandardPaths::webotsHomePath());
+  tags["context"] += QString("project_path: '%1', ").arg(WbProject::current()->path());
+  tags["context"] += QString("temporary_files_path: '%1', ").arg(WbStandardPaths::webotsTmpPath());
+  tags["context"] += QString("id: '%1', ").arg(id);
+  tags["context"] += QString("coordinate_system: '%1', ").arg(gCoordinateSystem);
   WbVersion version = WbApplicationInfo::version();
   // for example major = R2018a and revision = 0
-  tags["context"] += QString("webots_version = { major = \"%1\", revision = \"%2\" }")
-                       .arg(version.toString(false))
-                       .arg(version.revisionNumber());
-  return WbTemplateEngine::generate(tags, logHeaderName);
+  tags["context"] +=
+    QString("webots_version: {major: '%1', revision: '%2'}").arg(version.toString(false)).arg(version.revisionNumber());
+
+  if (templateLanguage == "lua") {
+    tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
+    tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
+  }
+
+  return WbTemplateEngine::generate(tags, logHeaderName, templateLanguage);
 }
 
 void WbProtoTemplateEngine::setCoordinateSystem(const QString &coordinateSystem) {
@@ -90,24 +98,24 @@ const QString &WbProtoTemplateEngine::coordinateSystem() {
   return gCoordinateSystem;
 }
 
-QString WbProtoTemplateEngine::convertFieldValueToLuaStatement(const WbField *field) {
+QString WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(const WbField *field) {
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->value());
     assert(singleValue);
     const WbVariant &variant = singleValue->variantValue();
-    return convertVariantToLuaStatement(variant);
+    return convertVariantToJavaScriptStatement(variant);
   } else if (field->isMultiple()) {
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->value());
     assert(multipleValue);
-    // multiple values into a lua array
-    QString result = "{";
+    // multiple values into a JavaScript array
+    QString result = "[";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
         result += ", ";
       const WbVariant &variant = multipleValue->variantValue(i);
-      result += convertVariantToLuaStatement(variant);
+      result += convertVariantToJavaScriptStatement(variant);
     }
-    result += "}";
+    result += "]";
     return result;
   }
 
@@ -115,26 +123,26 @@ QString WbProtoTemplateEngine::convertFieldValueToLuaStatement(const WbField *fi
   return "";
 }
 
-QString WbProtoTemplateEngine::convertFieldDefaultValueToLuaStatement(const WbField *field) {
+QString WbProtoTemplateEngine::convertFieldDefaultValueToJavaScriptStatement(const WbField *field) {
   if (field->isSingle()) {
     const WbSingleValue *singleValue = dynamic_cast<const WbSingleValue *>(field->defaultValue());
     assert(singleValue);
     const WbVariant &variant = singleValue->variantValue();
-    return convertVariantToLuaStatement(variant);
+    return convertVariantToJavaScriptStatement(variant);
   }
 
   else if (field->isMultiple()) {
     const WbMultipleValue *multipleValue = dynamic_cast<const WbMultipleValue *>(field->defaultValue());
     assert(multipleValue);
-    // multiple values into a lua array
-    QString result = "{";
+    // multiple values into a JavaScript array
+    QString result = "[";
     for (int i = 0; i < multipleValue->size(); ++i) {
       if (i != 0)
         result += ", ";
       const WbVariant &variant = multipleValue->variantValue(i);
-      result += convertVariantToLuaStatement(variant);
+      result += convertVariantToJavaScriptStatement(variant);
     }
-    result += "}";
+    result += "]";
     return result;
   }
 
@@ -142,7 +150,7 @@ QString WbProtoTemplateEngine::convertFieldDefaultValueToLuaStatement(const WbFi
   return "";
 }
 
-QString WbProtoTemplateEngine::convertVariantToLuaStatement(const WbVariant &variant) {
+QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVariant &variant) {
   switch (variant.type()) {
     case WB_SF_BOOL:
       return QString("%1").arg(variant.toBool() ? "true" : "false");
@@ -151,22 +159,20 @@ QString WbProtoTemplateEngine::convertVariantToLuaStatement(const WbVariant &var
     case WB_SF_FLOAT:
       return QString("%1").arg(variant.toDouble());
     case WB_SF_VEC2F:
-      return QString("{x = %1, y = %2}")  // lua dictionary
-        .arg(variant.toVector2().x())
-        .arg(variant.toVector2().y());
+      return QString("{x: %1, y: %2}").arg(variant.toVector2().x()).arg(variant.toVector2().y());
     case WB_SF_VEC3F:
-      return QString("{x = %1, y = %2, z = %3}")  // lua dictionary
+      return QString("{x: %1, y: %2, z: %3}")
         .arg(variant.toVector3().x())
         .arg(variant.toVector3().y())
         .arg(variant.toVector3().z());
     case WB_SF_ROTATION:
-      return QString("{x = %1, y = %2, z = %3, a = %4}")  // lua dictionary
+      return QString("{x: %1, y: %2, z: %3, a: %4}")
         .arg(variant.toRotation().x())
         .arg(variant.toRotation().y())
         .arg(variant.toRotation().z())
         .arg(variant.toRotation().angle());
     case WB_SF_COLOR:
-      return QString("{r = %1, g = %2, b = %3}")  // lua dictionary
+      return QString("{r: %1, g: %2, b: %3}")
         .arg(variant.toColor().red())
         .arg(variant.toColor().green())
         .arg(variant.toColor().blue());
@@ -175,25 +181,25 @@ QString WbProtoTemplateEngine::convertVariantToLuaStatement(const WbVariant &var
       string.replace("\\\"", "\"");  // make sure that if a double
       // quote is already protected we don't 'break' this potection
       string.replace("\"", "\\\"");
-      return QString("\"%1\"").arg(string);
+      return QString("'%1'").arg(string);
     }
     case WB_SF_NODE: {
       WbNode *node = variant.toNode();
       if (node) {
-        // lua dictionary
+        // javascript object
         QString nodeString = "{";
 
         // node_name key
-        nodeString += QString("node_name = \"%1\"").arg(node->modelName());
+        nodeString += QString("node_name: '%1'").arg(node->modelName());
         nodeString += ", ";
 
         // fields key: fieldName = fieldValue
-        nodeString += "fields = {";
+        nodeString += "fields: {";
         foreach (const WbField *field, node->fieldsOrParameters()) {
           if (field->name() != "node_name") {
-            nodeString += QString("%1 = {").arg(field->name());
-            nodeString += QString("value = %1, ").arg(convertFieldValueToLuaStatement(field));
-            nodeString += QString("defaultValue = %1").arg(convertFieldDefaultValueToLuaStatement(field));
+            nodeString += QString("%1: {").arg(field->name());
+            nodeString += QString("value: %1, ").arg(convertFieldValueToJavaScriptStatement(field));
+            nodeString += QString("defaultValue: %1").arg(convertFieldDefaultValueToJavaScriptStatement(field));
             if (field != node->fieldsOrParameters().last())
               nodeString += "}, ";
             else
@@ -206,10 +212,22 @@ QString WbProtoTemplateEngine::convertVariantToLuaStatement(const WbVariant &var
 
         return nodeString;
       } else
-        return "nil";
+        return "undefined";
     }
     default:
       assert(false);
       return "";
   }
+}
+
+QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
+  // begin by converting MF entries (javascript array [...] to Lua table {...})
+  statement = statement.replace("[", "{").replace("]", "}");
+
+  statement = statement.replace("value: undefined", "value = nil");
+  statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
+  statement = statement.replace(": ", " = ");
+  statement = statement.replace("'", "\"");
+
+  return statement;
 }

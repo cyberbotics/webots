@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A small residential building with optional boundingObject.
+# template language: javascript
 
 PROTO SmallResidentialBuilding [
   field SFVec3f    translation           0 0 0
@@ -13,56 +13,56 @@ PROTO SmallResidentialBuilding [
   field SFBool     enableBoundingObject  TRUE                    # Defines whether the building should have a bounding object.
 ]
 {
-  %{
-    local availableTypes = {
-      ["white"] = "red",
-      ["braun black"] = "braun_black",
-      ["red"] = "white"
-    }
+  %<
+    let availableTypes = {
+      'white': 'red',
+      'braun black': 'braun_black',
+      'red': 'white'
+    };
 
-    local type = fields.type.value
-    local texture = availableTypes[type]
-  }%
+    const type = fields.type.value;
+    const texture = availableTypes[type];
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     name IS name
     model "building"
     recognitionColors [
-      %{ if type == 'white' then }%
+      %< if (type === 'white') { >%
         0.615686274509804 0.611764705882353 0.5215686274509804
-      %{ elseif type == 'braun black' then }%
+      %< } else if (type === 'braun black') { >%
         0.5215686274509804 0.5215686274509804 0.5215686274509804 0.054901960784313725 0.18823529411764706 0.01568627450980392
-      %{ elseif type == 'red' then }%
+      %< } else if (type === 'red') { >%
         0.6666666666666666 0.3137254901960784 0.3137254901960784
-      %{ end }%
+      %< } >%
     ]
     children [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_windows_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_windows_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_windows_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_windows_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_windows_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_windows_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_windows_' ..  texture .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_windows_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_windows_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_windows_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -89,27 +89,27 @@ PROTO SmallResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_front_wall_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_front_wall_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_front_wall_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_front_wall_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_front_wall_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_front_wall_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_front_wall_' ..  texture .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_front_wall_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_front_wall_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_front_wall_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -136,27 +136,27 @@ PROTO SmallResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_frames_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_frames_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_frames_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_frames_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_frames_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_frames_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_frames_' ..  texture .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_frames_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_frames_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_frames_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -183,27 +183,27 @@ PROTO SmallResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_borders_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_borders_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_borders_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_borders_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_borders_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_borders_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_borders_' ..  texture .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_borders_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_borders_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_borders_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -230,27 +230,27 @@ PROTO SmallResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_top_frames_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_top_frames_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_top_frames_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_top_frames_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_top_frames_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_top_frames_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_top_frames_' ..  texture .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_top_frames_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_top_frames_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_top_frames_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -277,7 +277,7 @@ PROTO SmallResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/rock.jpg"
+              "webots://projects/default/worlds/textures/rock.jpg"
             ]
           }
           metalness 0
@@ -301,27 +301,27 @@ PROTO SmallResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_wall_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_wall_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_wall_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_wall_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_wall_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_wall_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_wall_' ..  texture .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_wall_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_wall_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_wall_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -348,27 +348,27 @@ PROTO SmallResidentialBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_door_' ..  texture .. '_base_color.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_door_' +  texture + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_door_' ..  texture .. '_roughness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_door_' +  texture + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_door_' ..  texture .. '_metalness.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_door_' +  texture + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_door_' ..  texture .. '_normal.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_door_' +  texture + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %{= '"textures/residential_building_textures/old_residential_building_door_' ..  texture .. '_occlusion.jpg"' }%
+              %<= '"webots://projects/objects/buildings/protos/textures/residential_building_textures/old_residential_building_door_' +  texture + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -392,7 +392,7 @@ PROTO SmallResidentialBuilding [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation -0.030000000000000693 4.25 0.22999999999999968
       children [
@@ -401,6 +401,6 @@ PROTO SmallResidentialBuilding [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

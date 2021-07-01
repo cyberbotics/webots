@@ -122,11 +122,11 @@ namespace ros {
     struct HasHeader<::webots_ros::RecognitionObject_<ContainerAllocator> const> : TrueType {};
 
     template<class ContainerAllocator> struct MD5Sum<::webots_ros::RecognitionObject_<ContainerAllocator>> {
-      static const char *value() { return "642183f1eab2edbfa9c2ae808be707c2"; }
+      static const char *value() { return "d1a091cfdf9ce6628a657e03f119442a"; }
 
       static const char *value(const ::webots_ros::RecognitionObject_<ContainerAllocator> &) { return value(); }
-      static const uint64_t static_value1 = 0x642183f1eab2edbfULL;
-      static const uint64_t static_value2 = 0xa9c2ae808be707c2ULL;
+      static const uint64_t static_value1 = 0xd1a091cfdf9ce662ULL;
+      static const uint64_t static_value2 = 0x8a657e03f119442aULL;
     };
 
     template<class ContainerAllocator> struct DataType<::webots_ros::RecognitionObject_<ContainerAllocator>> {

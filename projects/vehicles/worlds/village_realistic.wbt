@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"
@@ -90,7 +90,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/ground.jpg"
+        "webots://projects/vehicles/worlds/textures/ground.jpg"
       ]
     }
     roughness 1
@@ -104,7 +104,7 @@ DEF GRASS Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/grass.jpg"
+            "webots://projects/default/worlds/textures/grass.jpg"
           ]
         }
         roughness 1
@@ -182,7 +182,7 @@ DEF FLOWERS Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/flowers_purple.jpg"
+            "webots://projects/vehicles/worlds/textures/flowers_purple.jpg"
           ]
         }
         roughness 1
@@ -230,7 +230,7 @@ DEF FLOWERS Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/flowers_purple.jpg"
+            "webots://projects/vehicles/worlds/textures/flowers_purple.jpg"
           ]
         }
         roughness 1
@@ -297,7 +297,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_70.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_70.jpg"
       ]
     }
   ]
@@ -310,7 +310,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_70.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_70.jpg"
       ]
     }
   ]
@@ -338,7 +338,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_35.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_35.jpg"
       ]
     }
   ]
@@ -351,7 +351,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_35.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_35.jpg"
       ]
     }
   ]
@@ -364,7 +364,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_35.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_35.jpg"
       ]
     }
   ]
@@ -375,26 +375,36 @@ SignPole {
   height 3
   signBoards [
     DirectionPanel {
-      text "    TOWN\\n  CENTER"
-      left TRUE
+      frontTextTexture [
+        "textures/panel_town_center_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_town_center_back.png"
+      ]
     }
     DirectionPanel {
       translation 0 0.4 0
       rotation 0 1 0 3.6651903
       name "direction panel(1)"
       height 0.3
-      backgroundColor 0.666667 1 1
-      text "LAKE"
-      left TRUE
+      frontTextTexture [
+        "textures/panel_lake_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_lake_back.png"
+      ]
     }
     DirectionPanel {
       translation 0 0.8 0
       rotation 0 1 0 -2.6180003
       name "direction panel(2)"
       height 0.3
-      backgroundColor 0.666667 1 0.498039
-      text "FOREST"
-      left TRUE
+      frontTextTexture [
+        "textures/panel_forest_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_forest_back.png"
+      ]
     }
   ]
 }
@@ -419,7 +429,7 @@ HighwayPole {
       translation 0 0 2.5
       rotation 0 1 0 1.5708
       frontTexture [
-        "textures/dead_end_road.jpg"
+        "webots://projects/vehicles/worlds/textures/dead_end_road.jpg"
       ]
       backTexture []
       displayWidth 3
@@ -442,7 +452,7 @@ HighwayPole {
       translation 0 0 2.5
       rotation 0 1 0 1.5708
       frontTexture [
-        "textures/dead_end_road.jpg"
+        "webots://projects/vehicles/worlds/textures/dead_end_road.jpg"
       ]
       backTexture []
       displayWidth 3
@@ -458,7 +468,7 @@ AdvertisingBoard {
   rotation 0 1 0 4.4505896
   frontTexture []
   backTexture [
-    "textures/fanta_billboard.jpg"
+    "webots://projects/objects/advertising_board/protos/textures/fanta_billboard.jpg"
   ]
   displayBackLight TRUE
   displayWidth 4.3
@@ -469,7 +479,7 @@ AdvertisingBoard {
   rotation 0 -1 0 1.1084074
   name "advertising board(1)"
   frontTexture [
-    "textures/fanta_billboard.jpg"
+    "webots://projects/objects/advertising_board/protos/textures/fanta_billboard.jpg"
   ]
   backTexture []
   displayBackLight TRUE
@@ -483,7 +493,7 @@ AdvertisingBoard {
   rotation 0 -1 0 4.9741884
   name "advertising board(2)"
   frontTexture [
-    "textures/coca-cola_billboard.jpg"
+    "webots://projects/objects/advertising_board/protos/textures/coca-cola_billboard.jpg"
   ]
   backTexture []
   displayBackLight TRUE
@@ -498,7 +508,7 @@ AdvertisingBoard {
   rotation 0 1 0 3.1415926
   name "advertising board(3)"
   frontTexture [
-    "textures/cyberbotics_billboard.jpg"
+    "webots://projects/objects/advertising_board/protos/textures/cyberbotics_billboard.jpg"
   ]
   backTexture []
   displayBackLight TRUE
@@ -761,7 +771,7 @@ DEF FLOWERS Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/flowers_purple.jpg"
+            "webots://projects/vehicles/worlds/textures/flowers_purple.jpg"
           ]
         }
         roughness 1
@@ -810,7 +820,7 @@ DEF FLOWERS Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/flowers_yellow.jpg"
+            "webots://projects/vehicles/worlds/textures/flowers_yellow.jpg"
           ]
         }
         roughness 1
@@ -865,7 +875,7 @@ DEF GRASS2 Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/grass.jpg"
+            "webots://projects/default/worlds/textures/grass.jpg"
           ]
         }
         roughness 1
@@ -913,7 +923,7 @@ DEF GRASS3 Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/grass.jpg"
+            "webots://projects/default/worlds/textures/grass.jpg"
           ]
         }
         roughness 1
@@ -986,7 +996,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1023,7 +1033,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1061,7 +1071,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1248,7 +1258,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1281,7 +1291,7 @@ DEF BRIDGE Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1470,7 +1480,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/old_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/old_brick_wall.jpg"
       ]
     }
     roughness 0.8
@@ -1674,8 +1684,8 @@ Road {
     -0.301
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/vehicles/worlds/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
   rightBorderBoundingObject TRUE
@@ -1781,8 +1791,8 @@ Road {
     -2.63
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/vehicles/worlds/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
   rightBorderBoundingObject TRUE
@@ -1942,8 +1952,9 @@ YieldSign {
     DirectionPanel {
       translation 0 0.6 0
       thickness 0.09
-      backgroundColor 0.666667 1 1
-      text "LAKE"
+      frontTextTexture [
+        "textures/panel_lake_front.png"
+      ]
     }
   ]
 }
@@ -2053,7 +2064,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -2066,7 +2077,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -2082,29 +2093,37 @@ SignPole {
       rotation 0 1 0 0.52359969
       height 0.3
       thickness 0.08
-      backgroundColor 0.521569 0.8 0.458824
-      text "TUNNEL"
-      left TRUE
+      frontTextTexture [
+        "textures/panel_tunnel_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_tunnel_back.png"
+      ]
     }
     DirectionPanel {
       translation 0 0.4 0
       name "direction panel(1)"
       thickness 0.08
-      text "  SUBWAY\\n  RESTAURANT"
+      frontTextTexture [
+        "textures/panel_subway_front.png"
+      ]
     }
     DirectionPanel {
       translation 0 1.3 0
       rotation 0 1 0 -3.0106997
       name "direction panel(2)"
       thickness 0.08
-      text " RESIDENTIAL\\n       AREA "
-      right FALSE
-      left TRUE
+      frontTextTexture [
+        "textures/panel_residential_front.png"
+      ]
+      backTextTexture [
+        "textures/panel_residential_back.png"
+      ]
     }
     CautionPanel {
       translation 0 -0.3 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -2171,7 +2190,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -2202,7 +2221,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -2228,7 +2247,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -2260,7 +2279,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -2285,7 +2304,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -2310,7 +2329,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -2335,7 +2354,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -2360,7 +2379,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/bus_lines.png"
+            "webots://projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -4096,7 +4115,7 @@ DEF MONTAIN Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/ground.jpg"
+            "webots://projects/vehicles/worlds/textures/ground.jpg"
           ]
         }
         roughness 1
@@ -4131,7 +4150,7 @@ DEF MOUNTAIN_TUNNEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/rock.jpg"
+            "webots://projects/default/worlds/textures/rock.jpg"
           ]
         }
         textureTransform TextureTransform {

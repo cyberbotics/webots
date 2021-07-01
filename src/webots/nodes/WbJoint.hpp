@@ -32,17 +32,18 @@ class WbJoint : public WbBasicJoint {
 public:
   virtual ~WbJoint();
 
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
-  void reset() override;
+  void reset(const QString &id) override;
   virtual void resetPhysics();
-  void save() override;
+  void save(const QString &id) override;
   virtual QVector<WbLogicalDevice *> devices() const;
 
   WbJointParameters *parameters() const;
   virtual double position(int index = 1) const { return (index == 1) ? mPosition : NAN; }
-  virtual double initialPosition(int index = 1) const { return (index == 1) ? mInitialPosition : NAN; }
+  virtual double initialPosition(int index = 1) const { return (index == 1) ? mSavedPositions[stateId()] : NAN; }
   virtual void setPosition(double position, int index = 1);
   bool resetJointPositions() override;
   virtual WbJointParameters *parameters2() const { return NULL; }
@@ -60,6 +61,9 @@ public:
 signals:
   void updateMuscleStretch(double forcePercentage, bool immediateUpdate, int motorIndex);
 
+public slots:
+  virtual void updatePosition() {}
+
 protected:
   void writeExport(WbVrmlWriter &writer) const override;
 
@@ -72,9 +76,9 @@ protected:
     const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to z-axis
   virtual void updatePosition(double position) = 0;  // position change caused by the jerk of a statically based robot
 
-  WbMFNode *mDevice;        // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
-  double mPosition;         // Keeps track of the joint position if JointParameters doesn't exist.
-  double mInitialPosition;  // position loaded from a .wbt file
+  WbMFNode *mDevice;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
+  double mPosition;   // Keeps track of the joint position if JointParameters doesn't exist.
+  QMap<QString, double> mSavedPositions;  // position loaded from a .wbt file
   double mTimeStep;  // keep track of the argument of the last call of 'prePhysicsStep' (wich is then used in 'postPhysicsStep'
                      // to update the mPosition
 
@@ -86,7 +90,6 @@ protected:
 
 protected slots:
   virtual void addDevice(int index);
-  virtual void updatePosition() {}
   void updateParameters() override;
   virtual void updateMinAndMaxStop(double min, double max);
   virtual void updateAxis();

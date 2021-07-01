@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "The Pioneer Robot has to perform a square shaped loop."
@@ -42,7 +42,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/floor.jpg"
+        "webots://projects/samples/robotbenchmark/square_path/worlds/textures/floor.jpg"
       ]
     }
     roughness 1

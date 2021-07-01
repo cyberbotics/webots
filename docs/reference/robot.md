@@ -61,7 +61,9 @@ This is useful for complex articulated robots for which the controller doesn't p
 Enabling self collision is, however, likely to decrease the simulation speed, as more collisions will be generated during the simulation.
 Note that only collisions between non-consecutive solids will be detected.
 For consecutive solids, e.g., two solids attached to each other with a joint, no collision detection is performed, even if the self collision is enabled.
-The reason is that this type of collision detection is usually not wanted by the user, because a very accurate design of the bounding objects of the solids would be required.
+Collision detection is also ignored for longer chains of consecutive solids in the event that all intermediary joints connecting the two colliding bodies all share the same `anchor` point.
+If even just one of them is different, standard rules apply.
+The reason for these exceptions is that these types of collision detections are usually not wanted by the user, because a very accurate design of the bounding objects of the solids would be required.
 To prevent two consecutive solid nodes from penetrating each other, the `minStop` and `maxStop` fields of the corresponding joint node should be adjusted accordingly.
 Here is an example of a robot leg with self collision enabled:
 
@@ -501,30 +503,6 @@ class Robot:
     def getJoystick(self):
     def getKeyboard(self):
     def getMouse(self):
-
-    # deprecated methods (replaced by getDevice):
-    def getAccelerometer(self, name):
-    def getBrake(self, name):
-    def getCamera(self, name):
-    def getCompass(self, name):
-    def getConnector(self, name):
-    def getDisplay(self, name):
-    def getDistanceSensor(self, name):
-    def getEmitter(self, name):
-    def getGPS(self, name):
-    def getGyro(self, name):
-    def getInertialUnit(self, name):
-    def getLED(self, name):
-    def getLidar(self, name):
-    def getLightSensor(self, name):
-    def getMotor(self, name):
-    def getPen(self, name):
-    def getPositionSensor(self, name):
-    def getRadar(self, name):
-    def getRangeFinder(self, name):
-    def getReceiver(self, name):
-    def getSpeaker(self, name):
-    def getTouchSensor(self, name):
     # ...
 ```
 
@@ -577,7 +555,7 @@ tag = wb_robot_get_device('name')
 
 %tab "ROS"
 
-> Note: this function has no equivalent for ROS.
+> **Note**: this function has no equivalent for ROS.
 Devices are available through their services.
 
 %tab-end
@@ -1227,7 +1205,7 @@ name = wb_robot_get_name()
 
 *return the name defined in the robot node*
 
-This function returns the name as it is defined in the name field of the robot node (Robot, DifferentialWheels, Supervisor, etc.) in the current world file.
+This function returns the name as it is defined in the name field of the robot node (Robot, Supervisor, etc.) in the current world file.
 The string returned should not be deallocated, as it was allocated by the "libController" shared library and will be deallocated when the controller terminates.
 This function is very useful to pass some arbitrary parameter from a world file to a controller program.
 For example, you can have the same controller code behave differently depending on the name of the robot.
@@ -1312,7 +1290,7 @@ model = wb_robot_get_model()
 
 *return the model defined in the robot node*
 
-This function returns the model string as it is defined in the model field of the robot node (Robot, DifferentialWheels, Supervisor, etc.) in the current world file.
+This function returns the model string as it is defined in the model field of the robot node (Robot, Supervisor, etc.) in the current world file.
 The string returned should not be deallocated, as it was allocated by the "libController" shared library and will be deallocated when the controller terminates.
 
 ---
@@ -1485,7 +1463,7 @@ type = wb_robot_get_type()
 
 *return the type of the robot node*
 
-This function returns the type of the current mode (WB\_NODE\_ROBOT, WB\_NODE\_SUPERVISOR or WB\_NODE\_DIFFERENTIAL\_WHEELS).
+This function returns the type of the current mode (WB\_NODE\_ROBOT or WB\_NODE\_SUPERVISOR).
 
 ---
 
@@ -2069,7 +2047,7 @@ The URDF joints are named according to the [Joint](joint.md) [Motor](motor.md) n
 %tab "C"
 
 ```c
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 const char *wb_robot_wwi_receive(int *size);
 const char *wb_robot_wwi_receive_text();

@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   basicTimeStep 8
   contactProperties [
@@ -96,7 +96,7 @@ DEF ROBOT1 Robot {
                     }
                     texture ImageTexture {
                       url [
-                        "textures/chessboard.jpg"
+                        "webots://projects/default/worlds/textures/chessboard.jpg"
                       ]
                     }
                   }
@@ -122,7 +122,7 @@ DEF ROBOT1 Robot {
                     }
                     texture ImageTexture {
                       url [
-                        "textures/chessboard.jpg"
+                        "webots://projects/default/worlds/textures/chessboard.jpg"
                       ]
                     }
                   }

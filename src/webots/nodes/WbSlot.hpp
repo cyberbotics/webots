@@ -34,6 +34,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SLOT; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void createOdeObjects() override;
@@ -45,8 +46,8 @@ public:
   void setScaleNeedUpdate() override;
   void attachResizeManipulator() override;
   void detachResizeManipulator() const override;
-  void reset() override;
-  void save() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // field accessors
   bool hasEndpoint() const { return mEndPoint->value() != NULL; }
