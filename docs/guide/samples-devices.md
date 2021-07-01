@@ -102,7 +102,7 @@ The camera recognizes [Solid](../reference/solid.md) nodes whose `recognitionCol
 
 **Keywords**: [Camera](../reference/camera.md), pattern recognition, image segmentation, smart camera
 
-![camera_segmentation.png](images/samples/camera_segmentation.thumbnail.jpg) In this example, `MyBot` demonstrates image segmentation capabilities based on the [Camera Recognition](../reference/camera#camera-recognition-object) functionality.
+![camera_segmentation.png](images/samples/camera_segmentation.thumbnail.jpg) In this example, `MyBot` demonstrates image segmentation capabilities based on the [Camera](../reference/camera.md) recognition functionality.
 The computed segmented image is shown in the [Display](../reference/display.md) overlay (cyan border) in the 3D scene.
 The [Camera](../reference/camera.md) overlay (magenta border) in the 3D scene depicts the original camera image on the back and the recognized objects with segmentation color and yellow bounding box on the front.
 
