@@ -79,6 +79,7 @@ Released on July, Xth, 2021.
     - Fixed wrong computation of the asymmetric friction force direction for [Cylinder](cylinder.md) and [Box](box.md) ([#3150](https://github.com/cyberbotics/webots/pull/3150)).
     - Fixed the return value handling from the `webots_physics_collide` when the [Group](group.md) node is one of the colliding objects ([#2781](https://github.com/cyberbotics/webots/pull/2781)).
     - Fixed the conversion from quaternions to Euler angles in the [InertialUnit](inertialunit.md) for the ENU coordinate system ([#2768](https://github.com/cyberbotics/webots/pull/2768)).
+    - Fixed a controller crashing after resetting the simulation and changing the `controller` field value ([#3237](https://github.com/cyberbotics/webots/pull/3237)).
     - Fixed triangle count for [Mesh](mesh.md) and [IndexedFaceSet](indexedfaceset.md) when there is a lot of triangles ([#3086](https://github.com/cyberbotics/webots/pull/3086)).
     - Fixed in the interaction between [IndexedFaceSets](indexedfaceset.md) and distance sensor rays that resulted in the wrong contact point being considered for collision ([#2610](https://github.com/cyberbotics/webots/pull/2610)), affecting TexturedBoxes.
     - Fixed crash visualizing node properties in Node Editor for nodes in deeply nested PROTO structures ([#3109](https://github.com/cyberbotics/webots/pull/30109)).
