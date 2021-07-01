@@ -323,9 +323,9 @@ PROTO BmwX5 [
       %< if (interior) { >%
               BmwX5Interior {
                 %< if (dynamicSpeedDisplay) { >%
-                    baseColorMap "textures/bmw_interior_speedometer_without_needles.jpg"
+                    baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
                 %< } else { >%
-                    baseColorMap "textures/bmw_interior_speedometer.jpg"
+                    baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
                 %< } >%
                 indicatorLevers IS indicatorLevers
               }

@@ -13,23 +13,23 @@ PROTO BlanketFabric [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/blanket_fabric/blanket_fabric_base_color.jpg"
+        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/blanket_fabric/blanket_fabric_roughness.jpg"
+        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/blanket_fabric/blanket_fabric_normal.jpg"
+        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/blanket_fabric/blanket_fabric_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

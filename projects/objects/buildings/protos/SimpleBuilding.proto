@@ -260,7 +260,7 @@ PROTO SimpleBuilding [
     ]
     wallAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %<= '"textures/' + wallTexture + '"' >% ]
+        url [ %<= '"webots://projects/objects/buildings/protos/textures/' + wallTexture + '"' >% ]
       }
       metalness 0
       roughness 1
@@ -270,7 +270,7 @@ PROTO SimpleBuilding [
     }
     roofAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %<= '"textures/' + roofTexture + '"' >% ]
+        url [ %<= '"webots://projects/objects/buildings/protos/textures/' + roofTexture + '"' >% ]
       }
       metalness 0
       roughness 1

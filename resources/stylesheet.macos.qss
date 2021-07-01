@@ -12,3 +12,7 @@ QTabBar::close-button:!selected {
 QTabBar::close-button:hover {
   image: url(enabledIcons:macos_hover_tab_close_button.png);
 }
+
+QDialog * {
+  font-size: 13px;
+}

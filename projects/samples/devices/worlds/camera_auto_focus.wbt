@@ -20,7 +20,7 @@ RectangleArena {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/red_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/red_brick_wall.jpg"
       ]
     }
     roughness 1

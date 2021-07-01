@@ -18,7 +18,7 @@ DEF COMPACT Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/compact_mapping.jpg"
+            "webots://projects/samples/geometries/worlds/textures/compact_mapping.jpg"
           ]
         }
         roughness 0.5
@@ -39,7 +39,7 @@ DEF CUBE Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/cube_mapping.jpg"
+            "webots://projects/samples/geometries/worlds/textures/cube_mapping.jpg"
           ]
         }
         roughness 0.5
@@ -59,7 +59,7 @@ DEF FLAT Solid {
       appearance DEF APP PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/tagged_wall.jpg"
+            "webots://projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         roughness 0.5

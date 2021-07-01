@@ -16,7 +16,7 @@ DEF FLOOR Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/c_line.png"
+            "webots://projects/samples/curriculum/worlds/textures/c_line.png"
           ]
         }
         roughness 1

@@ -44,7 +44,7 @@ Can {
   SFRotation rotation 0 1 0 0
   SFString name "can"
   SFColor color 1 1 1
-  MFString textureUrl "textures/can_base_color.jpg"
+  MFString textureUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/drinks/protos/textures/can_base_color.jpg"
   SFFloat mass 0.35
 }
 ```
@@ -71,7 +71,7 @@ WaterBottle {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "water bottle"
-  MFString   textureUrl  "textures/evian.png"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/drinks/protos/textures/evian.png"
   SFFloat    mass        1
 }
 ```

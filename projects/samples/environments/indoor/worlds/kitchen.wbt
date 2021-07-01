@@ -484,7 +484,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/roughcast.jpg"
+            "webots://projects/default/worlds/textures/roughcast.jpg"
           ]
         }
         roughness 0.5
@@ -506,7 +506,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/wood.jpg"
+            "webots://projects/default/worlds/textures/wood.jpg"
           ]
         }
         roughness 0.5
@@ -530,7 +530,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/exhaust_hood.jpg"
+            "webots://projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
           ]
         }
         roughness 0.5
@@ -747,7 +747,7 @@ JamJar {
   rotation 0 1 0 2.62768
   name "jam jar(1)"
   textureLidUrl [
-    "textures/red_jar_lid.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/red_jar_lid.jpg"
   ]
 }
 JamJar {
@@ -764,14 +764,14 @@ CerealBox {
   rotation 0 1 0 1.30836
   name "cereal box(2)"
   textureUrl [
-    "textures/cereal_box_1.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/cereal_box_1.jpg"
   ]
 }
 CerealBox {
   translation 0.607243 0.889608 -1.85996
   rotation 0 -1 0 -1.30892
   textureUrl [
-    "textures/cracotte_box.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/cracotte_box.jpg"
   ]
 }
 BiscuitBox {
