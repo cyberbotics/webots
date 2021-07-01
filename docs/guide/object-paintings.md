@@ -18,7 +18,7 @@ LandscapePainting {
   SFRotation rotation    0 1 0 0
   SFString   name        "landscape painting"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/landscape_painting.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/paintings/protos/textures/landscape_painting.jpg"
 }
 ```
 
@@ -51,7 +51,7 @@ PortraitPainting {
   SFRotation rotation    0 1 0 0
   SFString   name        "portrait painting"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/portrait_painting.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/paintings/protos/textures/portrait_painting.jpg"
 }
 ```
 

@@ -236,7 +236,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
 # Initialize the Supervisor.
 controller = Supervisor()
 timeStep = int(controller.getBasicTimeStep())
-camera = controller.getCamera('camera')
+camera = controller.getDevice('camera')
 camera.enable(timeStep)
 options = get_options()
 

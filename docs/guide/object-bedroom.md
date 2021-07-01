@@ -20,7 +20,7 @@ Bed {
   SFNode     frameAppearance    PaintedWood { colorOverride 0.11 0.11 0.11 }
   SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }
   SFNode     pillowAppearance   PBRAppearance { roughness 1 metalness 0 }
-  SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "textures/duvet.jpg" } roughness 1 metalness 0 }
+  SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }
 }
 ```
 
