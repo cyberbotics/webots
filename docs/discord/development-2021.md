@@ -548,11 +548,11 @@ I'd argue that besides the incorrect handling of the greek characters (and possi
 ##### Olivier Michel [Cyberbotics] 02/11/2021 06:36:27
 Can you please open a bug report about it? [https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug_report.md)
 
-##### AJ121 02/12/2021 21:32:21
+##### Adyasha 02/12/2021 21:32:21
 Can't I set a motor speed more than 10 in webots? It shows error ! My bot is too slow
 
 ##### Stefania Pedrazzi [Cyberbotics] 02/15/2021 07:11:58
-`@AJ121` the maximum speed for a robot is defined in the `Motor.maxVelocity` field. You should check the value for your robot model and adjust it:
+`@Adyasha` the maximum speed for a robot is defined in the `Motor.maxVelocity` field. You should check the value for your robot model and adjust it:
 
 [https://www.cyberbotics.com/doc/reference/motor#field-summary](https://www.cyberbotics.com/doc/reference/motor#field-summary)
 
@@ -2236,4 +2236,67 @@ Did you source the ROS environment before launching Webots? Something like:
 source /opt/ros/noetic/setup.bash
 webots
 ```
+
+##### Naga15 06/25/2021 13:02:02
+Yes of course, that's sourced and saved in .bashrc. I done all tutorials and I saw webots\_ros samples. Im starting my ros node directly from the launch file as in examples. Like I said the error shows only on nightly builds of 2021b. sorry for the late answer.
+
+##### Darko Lukić [Cyberbotics] 06/25/2021 14:02:14
+The `webots_ros` package for R2021b hasn't been released yet. Did you install the `webots_ros` from apt or from source. When installing from source please use the develop branch.
+
+
+
+- The `develop` branch matches the nightly builds (R2021b)
+
+- The `master` branch matches the latest release (R2021a)
+
+##### michal.mlaticek 06/26/2021 17:38:41
+Hi guys I'm new to Webots. Wanted to ask... is there/does someone have a space environment?
+
+##### Darko Lukić [Cyberbotics] 06/27/2021 14:44:01
+Setting the gravity to 0 allows the space simulation
+
+##### michal.mlaticek 06/28/2021 09:25:43
+Ok, thanks
+
+##### Naga15 06/29/2021 12:20:18
+Hello, I removed webots\_ros from apt and I followed this [http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros) from 2.2.2,   after cloning the git I switched the branch to develop and after rosdep i typed catkin\_make. There were no errors at compiling. It havent work. in webots console is still this error message when I launch the tutorial nodes like catch\_the\_bird.launch or my written stuff-> usr/local/webots/projects/default/controllers/ros/ros: error while loading shared libraries: libboost\_system.so.1.65.1: cannot open shared object file: No such file or directory
+
+WARNING: 'ros' controller exited with status: 127.                                              I installed the webots from the .deb file. Sorry for the incovenience.
+
+##### Darko Lukić [Cyberbotics] 06/29/2021 12:24:40
+Do you have the Boost library installed (`sudo apt install libboost-dev`)?
+
+##### Naga15 06/29/2021 12:26:38
+yes "libboost-dev is already the newest version"
+
+##### Darko Lukić [Cyberbotics] 06/29/2021 12:39:09
+This will take many questions as I cannot reproduce the problem and I haven't noticed users having similar problems. Can you run:
+
+```bash
+ldd ${WEBOTS_HOME}/projects/default/controllers/ros/ros
+```
+
+##### Naga15 06/29/2021 12:46:02
+I run it and i got this
+> **Attachment**: [console\_output.txt](https://cdn.discordapp.com/attachments/565155651395780609/859414411403198464/console_output.txt)
+
+##### Darko Lukić [Cyberbotics] 06/29/2021 14:40:55
+I don't understand why it is trying to link `libboost_system` and why `1.65.1`. The oldest Boost version for Ubuntu 20.04 is 1.67:
+
+```
+$ apt-cache search libboost-system
+libboost-system-dev - Operating system (e.g. diagnostics support) library (default version)
+libboost-system1.71-dev - Operating system (e.g. diagnostics support) library
+libboost-system1.71.0 - Operating system (e.g. diagnostics support) library
+libboost-system1.67-dev - Operating system (e.g. diagnostics support) library
+libboost-system1.67.0 - Operating system (e.g. diagnostics support) library
+```
+
+
+
+Did you upgrade your system recently, `sudo apt update; sudo apt upgrade`?
+> **Attachment**: [ldd.log](https://cdn.discordapp.com/attachments/565155651395780609/859443319775428628/ldd.log)
+
+##### Naga15 06/30/2021 07:43:33
+I did that before writting to you, I will try it again. I have no problems with official release and nigthly builds of 2021a. Only with  nightly builds of 2021b. But thanks for your help! 🙂 If I find the solution or my mistake I will post it here.
 
