@@ -15,10 +15,12 @@
 #include "WbConcreteNodeFactory.hpp"
 
 #include "WbAccelerometer.hpp"
+#include "WbAltimeter.hpp"
 #include "WbAppearance.hpp"
 #include "WbBackground.hpp"
 #include "WbBallJoint.hpp"
 #include "WbBallJointParameters.hpp"
+#include "WbBillboard.hpp"
 #include "WbBox.hpp"
 #include "WbBrake.hpp"
 #include "WbCamera.hpp"
@@ -32,7 +34,6 @@
 #include "WbCoordinate.hpp"
 #include "WbCylinder.hpp"
 #include "WbDamping.hpp"
-#include "WbDifferentialWheels.hpp"
 #include "WbDirectionalLight.hpp"
 #include "WbDisplay.hpp"
 #include "WbDistanceSensor.hpp"
@@ -112,6 +113,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
                                           const QString *protoFilePath) {
   if (modelName == "Accelerometer")
     return new WbAccelerometer(tokenizer);
+  if (modelName == "Altimeter")
+    return new WbAltimeter(tokenizer);
   if (modelName == "Appearance")
     return new WbAppearance(tokenizer);
   if (modelName == "Background")
@@ -120,6 +123,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbBallJoint(tokenizer);
   if (modelName == "BallJointParameters")
     return new WbBallJointParameters(tokenizer);
+  if (modelName == "Billboard")
+    return new WbBillboard(tokenizer);
   if (modelName == "Box")
     return new WbBox(tokenizer);
   if (modelName == "Brake")
@@ -146,8 +151,6 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbCylinder(tokenizer);
   if (modelName == "Damping")
     return new WbDamping(tokenizer);
-  if (modelName == "DifferentialWheels")
-    return new WbDifferentialWheels(tokenizer);
   if (modelName == "DirectionalLight")
     return new WbDirectionalLight(tokenizer);
   if (modelName == "Display")
@@ -302,6 +305,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
 
   if (modelName == "Accelerometer")
     return new WbAccelerometer(original);
+  if (modelName == "Altimeter")
+    return new WbAltimeter(original);
   if (modelName == "Appearance")
     return new WbAppearance(original);
   if (modelName == "Background")
@@ -310,6 +315,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbBallJoint(original);
   if (modelName == "BallJointParameters")
     return new WbBallJointParameters(original);
+  if (modelName == "Billboard")
+    return new WbBillboard(original);
   if (modelName == "Box")
     return new WbBox(original);
   if (modelName == "Brake")
@@ -336,8 +343,6 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbCylinder(original);
   if (modelName == "Damping")
     return new WbDamping(original);
-  if (modelName == "DifferentialWheels")
-    return new WbDifferentialWheels(original);
   if (modelName == "DirectionalLight")
     return new WbDirectionalLight(original);
   if (modelName == "Display")

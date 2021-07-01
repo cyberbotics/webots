@@ -52,7 +52,7 @@ void WbCharger::init() {
   mDone = true;
   mElementsUpdateRequired = true;
   if (mBattery->size() > CURRENT_ENERGY)
-    mInitialEnergy = mBattery->item(CURRENT_ENERGY);
+    mSavedEnergies[stateId()] = mBattery->item(CURRENT_ENERGY);
 }
 
 WbCharger::WbCharger(WbTokenizer *tokenizer) : WbSolid("Charger", tokenizer) {
@@ -103,12 +103,14 @@ void WbCharger::updateMaterialsAndLights(double batteryRatio) {
     WbMaterial *material = dynamic_cast<WbMaterial *>(visualElement->node);
     WbPbrAppearance *appearance = dynamic_cast<WbPbrAppearance *>(visualElement->node);
     WbLight *light = dynamic_cast<WbLight *>(visualElement->node);
+    const WbRgb color(cr, cg, cb);
+    assert(!WbRgb(cr, cg, cb).clampValuesIfNeeded());
     if (material)
-      material->setEmissiveColor(WbRgb(cr, cg, cb));
+      material->setEmissiveColor(color);
     else if (appearance)
-      appearance->setEmissiveColor(WbRgb(cr, cg, cb));
+      appearance->setEmissiveColor(color);
     else if (light)
-      light->setColor(WbRgb(cr, cg, cb));
+      light->setColor(color);
   }
 }
 
@@ -252,18 +254,18 @@ void WbCharger::checkContact(WbRobot *const r) {
   // printf("found one robot %p\n", (void *)robot);
 }
 
-void WbCharger::reset() {
-  WbSolid::reset();
+void WbCharger::reset(const QString &id) {
+  WbSolid::reset(id);
   mRobot = NULL;
   mDone = true;
   if (mBattery->size() > CURRENT_ENERGY)
-    mBattery->setItem(CURRENT_ENERGY, mInitialEnergy);
+    mBattery->setItem(CURRENT_ENERGY, mSavedEnergies[id]);
   if (mBattery->size() > MAX_ENERGY)
     updateMaterialsAndLights(mBattery->item(CURRENT_ENERGY) / mBattery->item(MAX_ENERGY));
 }
 
-void WbCharger::save() {
-  WbSolid::save();
+void WbCharger::save(const QString &id) {
+  WbSolid::save(id);
   if (mBattery->size() > CURRENT_ENERGY)
-    mInitialEnergy = mBattery->item(CURRENT_ENERGY);
+    mSavedEnergies[id] = mBattery->item(CURRENT_ENERGY);
 }

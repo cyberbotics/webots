@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A gnome with optional physics.
+# template language: javascript
 
 PROTO Gnome [
   field SFVec3f    translation    0 0 0
@@ -81,7 +81,7 @@ PROTO Gnome [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 1
@@ -93,6 +93,6 @@ PROTO Gnome [
         0 0 0
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

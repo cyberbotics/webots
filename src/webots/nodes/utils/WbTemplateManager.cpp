@@ -189,9 +189,9 @@ void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
 // Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
 void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
-  templateNode = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
+  WbNode *upperTemplateNode = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
 
-  if (!templateNode)
+  if (!upperTemplateNode)
     return;
 
   // 2. check it's not a parameter managed by ODE
@@ -202,7 +202,7 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
     return;
 
   // 3. regenerate template where the modification appeared in a template regenerator field
-  regenerateNode(templateNode);
+  regenerateNode(upperTemplateNode);
 }
 
 void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
@@ -232,13 +232,14 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
       previousParentRedirections.append(parameter->parameter());
   }
   WbNode::setRestoreUniqueIdOnClone(false);
-  int uniqueId = node->uniqueId();
+  const int uniqueId = node->uniqueId();
+  const QString &stateId = node->stateId();
   const WbSolid *solid = dynamic_cast<const WbSolid *>(node);
   WbVector3 translationFromFile;
   WbRotation rotationFromFile;
   if (solid) {
-    translationFromFile = solid->translationFromFile();
-    rotationFromFile = solid->rotationFromFile();
+    translationFromFile = solid->translationFromFile(stateId);
+    rotationFromFile = solid->rotationFromFile(stateId);
   }
 
   WbWorld *world = WbWorld::instance();
@@ -322,6 +323,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     }
   } else {
     // reassign pointer in parent
+    WbSolid *const parentSolid = dynamic_cast<WbSolid *>(parent);
     WbGroup *const parentGroup = dynamic_cast<WbGroup *>(parent);
     WbBasicJoint *const parentJoint = dynamic_cast<WbBasicJoint *>(parent);
     WbShape *const parentShape = dynamic_cast<WbShape *>(parent);
@@ -334,7 +336,9 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     WbSolid *const newSolid = dynamic_cast<WbSolid *>(newNode);
     WbSolidReference *const newSolidReference = dynamic_cast<WbSolidReference *>(newNode);
 
-    if (parentGroup) {
+    if (parentSolid && isInBoundingObject)
+      parentSolid->setBoundingObject(newNode);
+    else if (parentGroup) {
       int i = parentGroup->nodeIndex(node);
       assert(i != -1);
 
@@ -391,8 +395,11 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   if (!previousParentRedirections.isEmpty()) {
     foreach (WbField *parentParameter, previousParentRedirections) {
       foreach (WbField *newParam, newNode->parameters()) {
-        if (parentParameter->name() == newParam->alias())
+        if (parentParameter->name() == newParam->alias()) {
+          newParam->blockSignals(true);
           newParam->redirectTo(parentParameter);
+          newParam->blockSignals(false);
+        }
       }
     }
   }

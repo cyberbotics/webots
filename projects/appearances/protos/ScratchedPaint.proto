@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: static
 # A scratched paint material.
+# template language: javascript
 
 PROTO ScratchedPaint [
   field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
@@ -24,13 +24,13 @@ PROTO ScratchedPaint [
       ]
     }
     metalness 0
-    %{ if fields.metalScratch.value then }%
+    %< if (fields.metalScratch.value) { >%
     metalnessMap ImageTexture {
       url [
         "textures/scratched_paint/scratched_paint_metalness.jpg"
       ]
     }
-    %{ end }%
+    %< } >%
     IBLStrength IS IBLStrength
     textureTransform IS textureTransform
   }

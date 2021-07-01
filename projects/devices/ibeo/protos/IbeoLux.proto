@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#ibeo-lux
@@ -6,6 +6,7 @@
 # If 'fastModel' is set to TRUE then the sensor simulation should run faster but
 # the noise, resolution and spherical correction is not enabled.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO IbeoLux [
   field   SFVec3f    translation             0 0 0
@@ -15,15 +16,15 @@ PROTO IbeoLux [
   field   SFBool     fastModel               FALSE
 ]
 {
-%{
-  local extendedFOV = fields.useExtendedFieldOfView.value
-  local fieldOfView = 1.484 -- 80deg
-  local angleOffset = 0.262 -- 15deg
-  if extendedFOV then
-    fieldOfView = 1.92 -- 110deg
-    angleOffset = 0.175 -- 10deg
-  end
-}%
+%<
+  const extendedFOV = fields.useExtendedFieldOfView.value;
+  let fieldOfView = 1.484; // 80deg
+  let angleOffset = 0.262; // 15deg
+  if (extendedFOV) {
+    fieldOfView = 1.92; // 110deg
+    angleOffset = 0.175; // 10deg
+  }
+>%
 Lidar {
   translation IS translation
   rotation IS rotation
@@ -31,26 +32,26 @@ Lidar {
   model "Ibeo Lux"
   minRange 0.8
   maxRange 200
-  %{ if fields.fastModel.value then }%
+  %< if (fields.fastModel.value) { >%
     spherical FALSE
     resolution -1
     noise 0.0
-  %{ else }%
+  %< } else { >%
     spherical TRUE
     resolution 0.04
     noise 0.0005  # 0.1 / 200
-  %{ end }%
+  %< } >%
   type "fixed"
   numberOfLayers 4
   defaultFrequency 12.5
   minFrequency 12.5
   maxFrequency 50
   horizontalResolution 680
-  fieldOfView %{= fieldOfView }%
+  fieldOfView %<= fieldOfView >%
   verticalFieldOfView 0.056
   boundingObject Transform {
     translation 0.0 0.004 0.024
-    rotation 0 1 0 %{= -angleOffset }%
+    rotation 0 1 0 %<= -angleOffset >%
     children [
       Box {
         size 0.16 0.09 0.095
@@ -64,7 +65,7 @@ Lidar {
   children [
     Transform {
       translation 0.07 0.014 0.023
-      rotation 0 1 0 %{= -angleOffset }%
+      rotation 0 1 0 %<= -angleOffset >%
       children [
         Shape {
           appearance PBRAppearance {

@@ -48,7 +48,7 @@ public:
   int nodeType() const override { return WB_NODE_PHYSICS; }
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // field accessors
   double density() const { return mDensity->value(); }

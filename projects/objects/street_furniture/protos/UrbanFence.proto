@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # An urban fence with optional boundingObject.
+# template language: javascript
 
 PROTO UrbanFence [
   field SFVec3f    translation           0 0 0
@@ -68,7 +68,7 @@ PROTO UrbanFence [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 0.425 0
       children [
@@ -77,6 +77,6 @@ PROTO UrbanFence [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

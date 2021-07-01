@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "The highway driving benchmark aims at programing an autonomous Lincoln MKZ in Python. "
@@ -103,6 +103,11 @@ DEF ROAD Road {
   width 15
   numberOfLanes 4
   numberOfForwardLanes 0
+  lines [
+    RoadLine {
+      type "continuous"
+    }
+  ]
   rightBorder FALSE
   leftBorder FALSE
   rightBarrier TRUE
@@ -127,9 +132,6 @@ DEF ROAD Road {
     0
   ]
   splineSubdivision 16
-  dashedLine [
-    FALSE
-  ]
 }
 HighwayDrivingBenchmark {
 }

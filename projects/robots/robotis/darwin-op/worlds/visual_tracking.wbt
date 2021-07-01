@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -6,11 +6,10 @@ WorldInfo {
   ]
   title "ROBOTIS OP2"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.16290496645257643 0.9377938068777967 0.3066019368607031 2.21925
-  position 1.02479 1.62057 -0.53216
+  orientation 0.721203630868859 -0.37089491527532287 -0.5850660515228051 1.442180176485598
+  position -2.2895994491808125 -2.0698252339282166 2.3153557412827475
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -20,10 +19,11 @@ TexturedBackgroundLight {
   texture "noon_cloudy_countryside"
 }
 Table {
+  rotation 1 0 0 1.5707963267948966
 }
 RobotisOp2 {
-  translation 0 0.976 0
-  rotation -0.05930240737917794 -0.9964411241724841 0.05990250860281376 4.699825326290915
+  translation 0 0 0.976
+  rotation 0 1 0 0.09
   controller "visual_tracking"
   selfCollision TRUE
   plasticColor 0.27450980392156865 0.27450980392156865 0.27450980392156865
@@ -31,6 +31,7 @@ RobotisOp2 {
   cameraHeight 240
 }
 Floor {
+  rotation 1 0 0 1.5707963267948966
   tileSize 1 1
   appearance PBRAppearance {
     baseColorMap ImageTexture {
@@ -43,6 +44,7 @@ Floor {
   }
 }
 DEF BALL Ball {
-  translation 0.5 0.773 0
+  translation 0.5 0 0.773
+  rotation 1 0 0 1.5707963267948966
   color 1 0 0
 }

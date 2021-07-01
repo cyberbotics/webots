@@ -1,7 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static, hidden
+# tags: hidden
+# template language: javascript
 
 PROTO LargeResidentialTowerBase [
   field SFBool  surroundingWall  TRUE
@@ -57,7 +58,7 @@ PROTO LargeResidentialTowerBase [
           ]
         }
       }
-      %{ if fields.surroundingWall.value then }%
+      %< if (fields.surroundingWall.value) { >%
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
@@ -105,7 +106,7 @@ PROTO LargeResidentialTowerBase [
           ]
         }
       }
-      %{ end }%
+      %< } >%
     ]
   }
 }

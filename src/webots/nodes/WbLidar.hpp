@@ -40,7 +40,8 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void writeAnswer(QDataStream &stream) override;
+  void reset(const QString &id) override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
   void setScaleNeedUpdate() override;
@@ -130,7 +131,7 @@ private:
   void initializeImageSharedMemory() override;
 
   int size() const override {
-    return (sizeof(float) + sizeof(WbLidarPoint)) * actualHorizontalResolution() * actualNumberOfLayers();
+    return sizeof(float) * width() * height() + sizeof(WbLidarPoint) * actualHorizontalResolution() * actualNumberOfLayers();
   }
   double minRange() const override { return mMinRange->value(); }
   bool isRotating() const { return mActualType.startsWith('r', Qt::CaseInsensitive); }

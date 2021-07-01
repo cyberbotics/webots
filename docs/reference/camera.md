@@ -86,8 +86,9 @@ A value of 0.0 corresponds to remove the noise and thus saving computation time.
 A value of 1.0 corresponds to a gaussian noise having a standard derivation of 255 in the channel representation.
 More information on noise in the corresponding subsection below.
 
-- The `noiseMaskUrl` field specifies the file path of a user-defined noise mask, usually a transparent PNG image The file should be specified with a relative path (cf.
-[this section](imagetexture.md#search-rule-of-the-texture-path)).
+- The `noiseMaskUrl` field specifies a user-defined noise mask as a transparent PNG image.
+If the `noiseMaskUrl` value starts with `http://` or `https://`, Webots will get the file from the web.
+Otherwise the file should be specified with a relative path (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
 Absolute paths work as well, but they are not recommended because they are not portable across different systems.
 Ideally, the texture file should lie next to the world file, possibly inside a "textures" subfolder.
 It is suggested to use textures with power of 2 resolution (e.g. 8x8, 2048x64, etc.) and bigger than the camera resolution to avoid internal scaling that could cause the loss of pixel precision.
@@ -292,6 +293,8 @@ period = wb_camera_get_sampling_period(tag)
 *enable and disable camera updates*
 
 The `wb_camera_enable` function allows the user to enable a camera.
+Once the camera is enabled, it will copy images from GPU memory to CPU memory at each time step, regardless of `wb_camera_get_image` calls.
+
 The `sampling_period` argument specifies the sampling period of the sensor and is expressed in milliseconds.
 Note that the first measurement will be available only after the first sampling period elapsed.
 
@@ -1205,7 +1208,7 @@ success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality
 | `/<device_name>/has_recognition` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_enable` | `service`| `webots_ros::set_int` | |
 | `/<device_name>/recognition_get_sampling_period` | `service`| `webots_ros::get_int` | |
-| `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObject` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `relative_position`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `relative_orientation`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `position_on_image`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `size_on_image`<br/>`int32 numberofcolors`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html)`[]` `colors`<br/>`String model`<br/><br/>Note: the z value of `position_on_image` and `size_on_image` should be ignored |
+| `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObjects` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`RecognitionObject`](ros-api.md#webots-messages)`[]` `objects` |
 | `/<device_name>/recognition_has_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_enable_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_disable_segmentation` | `service`| `webots_ros::get_bool` | |
@@ -1246,6 +1249,7 @@ If the [Recognition](recognition.md) node is not defined, the function returns F
 
 The `wb_camera_recognition_enable_segmentation` and `wb_camera_recognition_disable_segmentation` functions toggle the generation of the segmented image.
 Note that the generation of the segmented image can only be enabled if the recognition functionality is enabled (see [`wb_camera_has_recognition`](#wb_camera_has_recognition) and [`wb_camera_recognition_enable`](#wb_camera_recognition_enable)).
+Once the camera segmentation is enabled, it will copy images from GPU memory to CPU memory at each time step, regardless of `wb_camera_recognition_get_segmentation_image` calls.
 
 The `wb_camera_recognition_is_segmentation_enabled` function returns TRUE if the generation of the segmented image is enabled and FALSE otherwise.
 If the recognition functionality is disabled, the segmentation functionality will be disabled as well.

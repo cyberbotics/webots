@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A windmill with optional boundingObject.
+# template language: javascript
 
 PROTO Windmill [
   field SFVec3f    translation           0 0 0
@@ -68,7 +68,7 @@ PROTO Windmill [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -114,6 +114,6 @@ PROTO Windmill [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

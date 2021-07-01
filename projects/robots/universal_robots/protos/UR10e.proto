@@ -1,9 +1,9 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
-# tags: static
 # An Universal Robots UR10e robotic arm.
+# template language: javascript
 
 PROTO UR10e [
   field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
@@ -750,7 +750,7 @@ PROTO UR10e [
         }
       ]
     }
-    %{ if fields.staticBase.value == false then }%
+    %< if (!fields.staticBase.value) { >%
     physics Physics {
       density -1
       mass 4
@@ -758,7 +758,7 @@ PROTO UR10e [
         0 0 0
       ]
     }
-    %{ end }%
+    %< } >%
     controller IS controller
     controllerArgs IS controllerArgs
     supervisor IS supervisor

@@ -1,0 +1,79 @@
+#menu {
+  z-index: 3;
+}
+.overview-content {
+  position: relative;
+  overflow: visible;
+}
+#overview-canvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+}
+#overview-labels {
+  z-index: 2;
+  font-family: arial;
+  font-size: 14px;
+}
+.green-label {
+  color: darkgreen;
+  position: absolute;
+  z-index: 2;
+  width:120px;
+}
+.black-label {
+  position: absolute;
+  z-index: 2;
+  width:150px;
+  text-align: left;
+}
+.black-long-label {
+  position: absolute;
+  z-index: 2;
+  width:200px;
+  text-align: left;
+}
+.red-label {
+  color: red;
+  position: absolute;
+  z-index: 2;
+  width:200px;
+  text-align: left;
+  font-size: 16px;
+}
+.rotated-label {
+  transform: rotate(90deg);
+  transform-origin: bottom left;
+  height: 20px;
+  width: 150px;
+}
+.alignleft {
+  float: left;
+}
+.alignright {
+  float: right;
+}
+.vehicle-device {
+  width: 450px;
+  height: 450px;
+}
+.vehicle-device-content {
+  width: 450px;
+  height: 430px;
+}
+.vehicle-plot-canvas {
+  width: 420px;
+  height: 400px;
+}
+.vehicle-plot-axis-label-x,
+.vehicle-plot-axis-label-x-min,
+.vehicle-plot-axis-label-x-max {
+  top: 400px;
+  width: 420px;
+}
+.vehicle-plot-axis-label-y,
+.vehicle-plot-axis-label-y-min,
+.vehicle-plot-axis-label-y-max {
+  height: 402px;
+}

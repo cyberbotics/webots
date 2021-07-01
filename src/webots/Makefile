@@ -134,7 +134,7 @@ ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE) -lpthread
 else
-LIBS += -lode
+LIBS += -lode -lpthread
 endif
 
 else ifeq ($(OSTYPE),windows)
@@ -237,6 +237,7 @@ QT_SOURCES += \
   WbActionManager.cpp \
   WbAddInertiaMatrixDialog.cpp \
   WbAddNodeDialog.cpp \
+  WbAltimeter.cpp \
   WbAnimationRecorder.cpp \
   WbAppearance.cpp \
   WbApplication.cpp \
@@ -245,6 +246,7 @@ QT_SOURCES += \
   WbBallJointParameters.cpp \
   WbBaseNode.cpp \
   WbBasicJoint.cpp \
+  WbBillboard.cpp \
   WbBoolEditor.cpp \
   WbBox.cpp \
   WbBrake.cpp \
@@ -266,15 +268,14 @@ QT_SOURCES += \
   WbCoordinateSystem.cpp \
   WbCylinder.cpp \
   WbDamping.cpp \
-  WbDifferentialWheels.cpp \
   WbDirectionalLight.cpp \
   WbDistanceSensor.cpp \
   WbDisplay.cpp \
   WbDockTitleBar.cpp \
   WbDockWidget.cpp \
-  WbDocumentation.cpp \
   WbDoubleEditor.cpp \
   WbDoubleSpinBox.cpp \
+  WbDownloader.cpp \
   WbDragResizeEvent.cpp \
   WbDragScaleEvent.cpp \
   WbDragSolidEvent.cpp \
@@ -302,7 +303,6 @@ QT_SOURCES += \
   WbHingeJoint.cpp \
   WbHingeJointParameters.cpp \
   WbHinge2Joint.cpp \
-  WbHtmlExportDialog.cpp \
   WbImageTexture.cpp \
   WbImportWizard.cpp \
   WbImmersionProperties.cpp \
@@ -376,6 +376,7 @@ QT_SOURCES += \
   WbProjectRelocationDialog.cpp \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
+  WbQjsFile.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
   WbRadioPlugin.cpp \

@@ -58,7 +58,13 @@ int main(int argc, char **argv) {
     while (fgets(result_string, MAX_LINE_LENGTH, f_res))
       if (strstr(result_string, "Successfully Parsed XML"))
         success_word_found = true;
-    ts_assert_boolean_equal(success_word_found, "URDF verification failed");
+    if (!success_word_found) {
+      rewind(f_res);
+      char *buffer = malloc(file_size + 1);
+      int n = fread(buffer, 1, file_size, f_res);
+      buffer[n] = '\0';
+      ts_send_error_and_exit("URDF verification failed: %s", buffer);
+    }
   }
 #endif
 
@@ -66,7 +72,18 @@ int main(int argc, char **argv) {
   f_urdf = fopen(generated_filename, "r");
   FILE *f_urdf_ref = fopen(reference_filename, "r");
   int line = compare_files(f_urdf_ref, f_urdf);
-  ts_assert_int_equal(line, 0, "Reference file and exported file differ at line %d", line);
+
+  // If the files are different then print the generated file
+  if (line != 0) {
+    int unused __attribute__((unused));
+    char *file_contents;
+    fseek(f_urdf, 0, SEEK_END);
+    const long input_file_size = ftell(f_urdf);
+    rewind(f_urdf);
+    file_contents = malloc(input_file_size * (sizeof(char)));
+    unused = fread(file_contents, sizeof(char), input_file_size, f_urdf);
+    ts_send_error_and_exit("Reference file and exported file differ at line %d: %s", line, file_contents);
+  }
   fclose(f_urdf);
   fclose(f_urdf_ref);
 

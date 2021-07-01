@@ -16,6 +16,7 @@
 
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
+#include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbFocus.hpp"
 #include "WbLensFlare.hpp"
@@ -125,10 +126,10 @@ void WbCamera::init() {
   mSegmentationCamera = NULL;
   mSegmentationEnabled = false;
   mSegmentationShm = NULL;
-  mSegmentationImageReady = false;
   mSegmentationImageChanged = false;
   mHasSegmentationSharedMemoryChanged = false;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
+  mDownloader = NULL;
 }
 
 WbCamera::WbCamera(WbTokenizer *tokenizer) : WbAbstractCamera("Camera", tokenizer) {
@@ -150,6 +151,17 @@ WbCamera::~WbCamera() {
 
   delete mSegmentationCamera;
   delete mSegmentationShm;
+}
+
+void WbCamera::downloadAssets() {
+  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
+  if (WbUrl::isWeb(noiseMaskUrl)) {
+    delete mDownloader;
+    mDownloader = new WbDownloader(this);
+    if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
+    mDownloader->download(QUrl(noiseMaskUrl));
+  }
 }
 
 void WbCamera::preFinalize() {
@@ -424,21 +436,21 @@ void WbCamera::postPhysicsStep() {
   mInvalidRecognizedObjects.clear();
 }
 
-void WbCamera::reset() {
-  WbAbstractCamera::reset();
+void WbCamera::reset(const QString &id) {
+  WbAbstractCamera::reset(id);
 
   WbNode *const focus = mFocus->value();
   if (focus)
-    focus->reset();
+    focus->reset(id);
   WbNode *const zoom = mZoom->value();
   if (zoom)
-    zoom->reset();
+    zoom->reset(id);
   WbNode *const recognition = mRecognition->value();
   if (recognition)
-    recognition->reset();
+    recognition->reset(id);
   WbNode *const lensFlare = mLensFlare->value();
   if (lensFlare)
-    lensFlare->reset();
+    lensFlare->reset(id);
 }
 
 void WbCamera::updateRaysSetupIfNeeded() {
@@ -520,6 +532,12 @@ void WbCamera::writeConfigure(QDataStream &stream) {
 
 void WbCamera::writeAnswer(QDataStream &stream) {
   WbAbstractCamera::writeAnswer(stream);
+
+  if (mSegmentationImageChanged) {
+    copyImageToSharedMemory(mSegmentationCamera, (unsigned char *)mSegmentationShm->data());
+    mSegmentationImageChanged = false;
+  }
+
   if (recognition()) {
     if (refreshRecognitionSensorIfNeeded() || mRecognitionSensor->hasPendingValue()) {
       stream << tag();
@@ -585,12 +603,6 @@ void WbCamera::writeAnswer(QDataStream &stream) {
           stream << (int)(0);
         mHasSegmentationSharedMemoryChanged = false;
       }
-
-      if (mSegmentationImageReady) {
-        stream << (short unsigned int)tag();
-        stream << (unsigned char)C_CAMERA_GET_SEGMENTATION_IMAGE;
-        mSegmentationImageReady = false;
-      }
     }
   }
 }
@@ -655,13 +667,6 @@ void WbCamera::handleMessage(QDataStream &stream) {
       else
         updateOverlayMaskTexture();
       emit enabled(this, isEnabled());
-      break;
-    case C_CAMERA_GET_SEGMENTATION_IMAGE:
-      if (mSegmentationImageChanged) {
-        copyImageToSharedMemory(mSegmentationCamera, (unsigned char *)mSegmentationShm->data());
-        mSegmentationImageChanged = false;
-      }
-      mSegmentationImageReady = true;
       break;
     default:
       assert(0);
@@ -1064,15 +1069,33 @@ void WbCamera::updateNoiseMaskUrl() {
   if (!hasBeenSetup())
     return;
 
-  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {
-    // use custom noise mask
-    const QString fileName(WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl));
-    if (!fileName.isEmpty()) {
-      const QString error = mWrenCamera->setNoiseMask(fileName.toUtf8().constData());
-      if (!error.isEmpty())
-        parsingWarn(error);
+  QString noiseMaskUrl = mNoiseMaskUrl->value();
+  if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
+    QIODevice *device;
+    if (WbUrl::isWeb(noiseMaskUrl)) {
+      if (isPostFinalizedCalled() && mDownloader == NULL) {
+        // url was changed from the scene tree or supervisor
+        downloadAssets();
+        return;
+      }
+      assert(mDownloader);
+      if (!mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+      device = mDownloader->device();
+      assert(device);
+    } else {
+      noiseMaskUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
+      device = NULL;
     }
+    const QString error = mWrenCamera->setNoiseMask(noiseMaskUrl.toUtf8().constData(), device);
+    if (!error.isEmpty())
+      parsingWarn(error);
+    delete mDownloader;
+    mDownloader = NULL;
   }
 }
 

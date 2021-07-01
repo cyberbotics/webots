@@ -41,7 +41,7 @@ public:
   int nodeType() const override { return WB_NODE_LED; }
   void preFinalize() override;
   void postFinalize() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // field accessors
   int colorsCount() const { return mColor->size(); }

@@ -60,6 +60,13 @@ WbShape::~WbShape() {
     wr_material_delete(mWrenMaterial);
 }
 
+void WbShape::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (abstractAppearance())
+    abstractAppearance()->downloadAssets();
+  if (geometry())
+    geometry()->downloadAssets();
+}
 void WbShape::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -100,17 +107,17 @@ void WbShape::postFinalize() {
   connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbShape::updateAppearance);
 }
 
-void WbShape::reset() {
-  WbBaseNode::reset();
+void WbShape::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   // handle both kinds of appearance nodes
   WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(mAppearance->value());
   if (baseNode)
-    baseNode->reset();
+    baseNode->reset(id);
 
   WbNode *const geometry = mGeometry->value();
   if (geometry)
-    geometry->reset();
+    geometry->reset(id);
 }
 
 WbAppearance *WbShape::appearance() const {

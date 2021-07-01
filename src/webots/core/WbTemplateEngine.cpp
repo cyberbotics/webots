@@ -16,29 +16,35 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
+#include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QTextStream>
 #include <QtCore/QVector>
+#include <QtQml/QJSEngine>
 
 #include <lua.hpp>
 
 #include <cassert>
 
 static bool gValidLuaResources = true;
-static QString gTemplateFileContent;
+static bool gValidJavaScriptResources = true;
+static QString gLuaTemplateFileContent;
+static QString gJavaScriptTemplateFileContent;
 
 namespace {
   // Note: not the default opening/closing tokens in order to allow
   //       VRML comments to comment templates
-  const QString gOpeningToken("%{");  // default: "#{"
-  const QString gClosingToken("}%");  // default: "}#"
-};                                    // namespace
+  QString gOpeningToken("%{");  // default: "#{"
+  QString gClosingToken("}%");  // default: "}#"
+};                              // namespace
 
 void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
   QDir luaModulesPath(modulePath);
@@ -60,7 +66,31 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
   }
 }
 
-void WbTemplateEngine::initialize() {
+void WbTemplateEngine::initializeJavaScript() {
+  // copy JavaScript modules to the temporary directory
+  QDirIterator it(WbStandardPaths::resourcesPath() + "javascript/", QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    QDir jsModulesPath(it.next());
+
+    if (jsModulesPath.exists()) {
+      QStringList filter("*.js");
+      QFileInfoList files = jsModulesPath.entryInfoList(filter, QDir::Files | QDir::NoSymLinks);
+      foreach (const QFileInfo &file, files)
+        QFile::copy(file.absoluteFilePath(), WbStandardPaths::webotsTmpPath() + file.fileName());
+    }
+  }
+
+  // load template skeleton only once
+  QFile templateFile(WbStandardPaths::webotsTmpPath() + "jsTemplate.js");
+  if (!templateFile.open(QIODevice::ReadOnly)) {
+    gValidJavaScriptResources = false;
+    return;
+  }
+
+  gJavaScriptTemplateFileContent = templateFile.readAll();
+}
+
+void WbTemplateEngine::initializeLua() {
   QFileInfo luaSLT2Script(WbStandardPaths::resourcesPath() + "lua/liluat/liluat.lua");
   if (!luaSLT2Script.exists()) {
     gValidLuaResources = false;
@@ -86,18 +116,19 @@ void WbTemplateEngine::initialize() {
     gValidLuaResources = false;
     return;
   }
-  gTemplateFileContent = templateFile.readAll();
+  gLuaTemplateFileContent = templateFile.readAll();
   templateFile.close();
 }
 
-WbTemplateEngine::WbTemplateEngine(const QString &templateContent) {
-  static bool firstCall = true;
-  if (firstCall) {
-    initialize();
-    firstCall = false;
-  }
+WbTemplateEngine::WbTemplateEngine(const QString &templateContent) : mTemplateContent(templateContent) {
+}
 
-  mTemplateContent = templateContent;
+void WbTemplateEngine::setOpeningToken(const QString &token) {
+  gOpeningToken = token;
+}
+
+void WbTemplateEngine::setClosingToken(const QString &token) {
+  gClosingToken = token;
 }
 
 const QString &WbTemplateEngine::openingToken() {
@@ -108,7 +139,183 @@ const QString &WbTemplateEngine::closingToken() {
   return gClosingToken;
 }
 
-bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
+bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage) {
+  bool result;
+
+  if (templateLanguage == "lua") {
+    static bool firstLuaCall = true;
+    if (firstLuaCall) {
+      initializeLua();
+      firstLuaCall = false;
+    }
+
+    gOpeningToken = "%{";
+    gClosingToken = "}%";
+
+    result = generateLua(tags, logHeaderName);
+  } else {
+    static bool firstJavaScriptCall = true;
+    if (firstJavaScriptCall) {
+      initializeJavaScript();
+      firstJavaScriptCall = false;
+    }
+
+    gOpeningToken = "%<";
+    gClosingToken = ">%";
+
+    result = generateJavascript(tags, logHeaderName);
+  }
+
+  return result;
+}
+
+bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
+  mResult.clear();
+  mError = "";
+
+  QString initialDir = QDir::currentPath();
+
+  // cd to temporary directory
+  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
+  if (!success) {
+    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
+    return false;
+  }
+
+  // translate mixed proto into pure JavaScript
+  QString javaScriptBody = "";
+  QString javaScriptImport = "";
+
+  int indexClosingToken = 0;
+  int lastIndexClosingToken = -1;
+  mTemplateContent = mTemplateContent.toUtf8();
+  const QString expressionToken = gOpeningToken + "=";
+  while (1) {
+    int indexOpeningToken = mTemplateContent.indexOf(gOpeningToken, indexClosingToken);
+    if (indexOpeningToken == -1) {  // no more matches
+      if (indexClosingToken < mTemplateContent.size()) {
+        // what comes after the last closing token is plain vrml
+        // note: ___vrml is a local variable to the generateVrml javascript function
+        javaScriptBody +=
+          "___vrml += render(`" + mTemplateContent.mid(indexClosingToken, mTemplateContent.size() - indexClosingToken) + "`);";
+        break;
+      }
+    }
+
+    indexClosingToken = mTemplateContent.indexOf(gClosingToken, indexOpeningToken);
+    if (indexClosingToken == -1) {
+      mError = tr("Expected JavaScript closing token '%1' is missing.").arg(gClosingToken);
+      return false;
+    }
+
+    indexClosingToken = indexClosingToken + gClosingToken.size();  // point after the template token
+
+    if (indexOpeningToken > 0 && lastIndexClosingToken == -1)
+      // what comes before the first opening token should be treated as plain vrml
+      javaScriptBody += "___vrml += render(`" + mTemplateContent.left(indexOpeningToken) + "`);";
+
+    if (lastIndexClosingToken != -1 && indexOpeningToken - lastIndexClosingToken > 0)
+      // what is between the previous closing token and the current opening token should be treated as plain vrml
+      javaScriptBody +=
+        "___vrml += render(`" + mTemplateContent.mid(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + "`);";
+
+    // anything inbetween the tokens is either an expression or plain JavaScript
+    QString statement = mTemplateContent.mid(indexOpeningToken, indexClosingToken - indexOpeningToken);
+    // if it starts with '%<=' it's an expression
+    if (statement.startsWith(expressionToken)) {
+      statement = statement.replace(expressionToken, "").replace(gClosingToken, "");
+      // note: ___tmp is a local variable to the generateVrml javascript function
+      javaScriptBody += "___tmp = " + statement + "; ___vrml += eval(\"___tmp\");";
+    } else {
+      // raw javascript snippet, remove the tokens
+      javaScriptBody += statement.replace(gOpeningToken, "").replace(gClosingToken, "");
+    }
+
+    lastIndexClosingToken = indexClosingToken;
+  }
+
+  // extract imports from javaScriptBody, if any
+  // QRegExp explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
+  QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
+  QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
+  while (it.hasNext()) {
+    QRegularExpressionMatch match = it.next();
+    if (match.hasMatch()) {
+      QString statement = match.captured(0);
+      javaScriptBody.replace(statement, "");  // remove it from javaScriptBody
+
+      if (statement.endsWith(";"))
+        statement.append("\n");
+      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != ";")
+        statement.insert(statement.size() - 2, ";");
+      else
+        statement.append(";\n");
+
+      javaScriptImport += statement;
+    }
+  }
+
+  // fill template skeleton
+  QString javaScriptTemplate = gJavaScriptTemplateFileContent;
+  javaScriptTemplate.replace("%import%", javaScriptImport);
+  javaScriptTemplate.replace("%context%", tags["context"]);
+  javaScriptTemplate.replace("%fields%", tags["fields"]);
+  javaScriptTemplate.replace("%body%", javaScriptBody);
+
+  // write to file (note: can't evaluate directly because the evaluator doesn't support importing of modules)
+  QFile outputFile("jsTemplateFilled.js");
+  if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+    mError = tr("Couldn't write jsTemplateFilled to disk.");
+    return false;
+  }
+
+  QTextStream outputStream(&outputFile);
+  outputStream << javaScriptTemplate;
+  outputFile.close();
+
+  // create engine and define global space
+  QJSEngine engine;
+  // create and add file manipulation module
+  WbQjsFile *jsFileObject = new WbQjsFile();
+  QJSValue jsFile = engine.newQObject(jsFileObject);
+  engine.globalObject().setProperty("wbfile", jsFile);
+  // add stream holders
+  QJSValue jsStdOut = engine.newArray();
+  engine.globalObject().setProperty("stdout", jsStdOut);
+  QJSValue jsStdErr = engine.newArray();
+  engine.globalObject().setProperty("stderr", jsStdErr);
+  // import filled template as module
+  QJSValue module = engine.importModule("jsTemplateFilled.js");
+  if (module.isError()) {
+    mError = tr("failed to import JavaScript template: %1").arg(module.property("message").toString());
+    return false;
+  }
+
+  QJSValue generateVrml = module.property("generateVrml");
+  QJSValue result = generateVrml.call();
+  if (result.isError()) {
+    mError = tr("failed to execute JavaScript template: %1").arg(result.property("message").toString());
+    return false;
+  }
+
+  mResult = result.toString().toUtf8();
+
+  // display stream messages
+  for (int i = 0; i < jsStdOut.property("length").toInt(); ++i)
+    WbLog::instance()->info(QString("'%1': JavaScript output: %2").arg(logHeaderName).arg(jsStdOut.property(i).toString()),
+                            false, WbLog::PARSING);
+
+  for (int i = 0; i < jsStdErr.property("length").toInt(); ++i)
+    WbLog::instance()->error(QString("'%1': JavaScript error: %2").arg(logHeaderName).arg(jsStdErr.property(i).toString()),
+                             false, WbLog::PARSING);
+
+  // restore initial directory
+  QDir::setCurrent(initialDir);
+
+  return true;
+}
+
+bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
   mResult.clear();
 
   if (!gValidLuaResources) {
@@ -153,7 +360,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
   tags["closingToken"] = gClosingToken;
   tags["templateFileName"] = logHeaderName;
 
-  QString scriptContent = gTemplateFileContent;
+  QString scriptContent = gLuaTemplateFileContent;
   QHashIterator<QString, QString> i(tags);
   while (i.hasNext()) {
     i.next();

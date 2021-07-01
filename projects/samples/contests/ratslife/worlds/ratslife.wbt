@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "Rat's life pattern"
@@ -1019,7 +1019,7 @@ DEF R1 E-puck {
   turretSlot [
     DEF EPUCK_FLAG E-puckFlag {
       image [
-        "flags/rat1.jpg"
+        "textures/rat1.jpg"
       ]
     }
   ]

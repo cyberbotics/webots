@@ -1,5 +1,6 @@
 /* global webots */
-/* global PlotWidget, TimeplotWidget */
+/* global Canvas, PlotWidget, TimeplotWidget */
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
 var robotWindow = null;
 var basicTimeStep = 0.032;
@@ -16,11 +17,20 @@ function menuTabCallback(category) {
   document.getElementById(category + '-tab').style.display = 'block';
   document.getElementById(category + '-menu-button').className += ' menu-button-selected';
 
-  // force widgets graphs when they are shown.
+  const canvas = new Canvas();
+  canvas.clearCanvas();
+  updateTabCallback();
+}
+
+function updateTabCallback() {
+  const canvas = new Canvas();
+  canvas.resizeCanvas();
   Object.keys(graphs).forEach(function(name) {
     graphs[name].forEach(function(widget) {
-      if (widget.shown)
-        widget.refresh();
+      if (widget.shown) {
+        widget.resize();
+        widget.refresh(true);
+      }
     });
   });
 }
@@ -74,7 +84,7 @@ function changeRadius(virtual, radius) {
   robotWindow.send(message, 'c3d_viewer');
 }
 
-webots.window('c3d_viewer_window').receive = function(message, robot) {
+webots.window('c3d_viewer_window').receive = function(message, _robot) {
   if (message.startsWith('configure:')) {
     var values = message.split(':');
     basicTimeStep = 0.001 * values[1];
@@ -126,19 +136,19 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
           '</select>' +
           '</h3>' +
           '<div id="' + name + '-graph" class="marker-plot-content"/></div>' +
+          '<div class="plot-background"/>' +
           '</div>';
         tmp.innerHTML = div;
         document.getElementById('graphs-' + type).appendChild(tmp.firstChild);
 
-        let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype
-          .AutoRangeType.STRETCH, {
+        let widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.AutoRangeType.STRETCH, {
           'min': -1,
           'max': 1
         }, {
           'x': 'Time [s]',
           'y': '[' + unit + ']'
         }, null);
-        let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
+        let widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.AutoRangeType.STRETCH, {
           'x': 0,
           'y': 1
         }, {
@@ -151,7 +161,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
           'x': 'x [' + unit + ']',
           'y': 'y [' + unit + ']'
         }, null);
-        let widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
+        let widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.AutoRangeType.STRETCH, {
           'x': 1,
           'y': 2
         }, {
@@ -164,7 +174,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
           'x': 'y [' + unit + ']',
           'y': 'z [' + unit + ']'
         }, null);
-        let widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {
+        let widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.AutoRangeType.STRETCH, {
           'x': 0,
           'y': 2
         }, {
@@ -208,7 +218,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       }
     }
   } else if (message === 'reset') {
-    Array.from(document.getElementsByClassName('marker-plot')).forEach(function(element, index, array) {
+    Array.from(document.getElementsByClassName('marker-plot')).forEach(function(element, _index, _array) {
       element.parentNode.removeChild(element);
     });
   } else
@@ -217,12 +227,14 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
 
 webots.window('c3d_viewer_window').init(function() {
   robotWindow = webots.window('c3d_viewer_window');
+  PlotWidget.recordDataInBackground = true;
+  TimeplotWidget.recordDataInBackground = true;
 
   document.getElementById('upload_file').addEventListener('change', function(event) {
     let files = event.target.files;
     let f = files[0];
     let reader = new FileReader();
-    reader.onload = (function(theFile) {
+    reader.onload = (function(_theFile) {
       return function(e) {
         const message = 'c3dfile:' + e.target.result.slice(e.target.result.indexOf(';base64,') + 8); // remove the "*;base64," header
         robotWindow.send(message, 'c3d_viewer');
@@ -308,4 +320,7 @@ webots.window('c3d_viewer_window').init(function() {
     menuTabCallback('powers');
   });
   menuTabCallback('config');
+
+  window.addEventListener('resize', updateTabCallback);
+  window.addEventListener('scroll', updateTabCallback);
 });

@@ -1727,7 +1727,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert the identity matrix 
+        <source>Insert the identity matrix
  [ 1 1 1, 0 0 0]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2445,37 +2445,6 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>&apos;angular&apos; must be less than or equal to one.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WbDifferentialWheels</name>
-    <message>
-        <source>A Solid children named &quot;right wheel&quot; is missing.</source>
-        <translation>Un fils Solid appelé &quot;right wheel&quot; est manquant.</translation>
-    </message>
-    <message>
-        <source>A Solid children named &quot;left wheel&quot; is missing.</source>
-        <translation>Un fils Solid appelé &quot;left wheel&quot; est manquant.</translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;right wheel&quot; has no &apos;boundingObject&apos;.</source>
-        <translation>Le fils Solid appelé &quot;right wheel&quot; n&apos;a pas de &apos;boundingObject&apos;.</translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;left wheel&quot; has no &apos;boundingObject&apos;.</source>
-        <translation>Le fils Solid appelé &quot;left wheel&quot; n&apos;a pas de &apos;boundingObject&apos;.</translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;right wheel&quot; has no &apos;physics&apos;.</source>
-        <translation>Le fils Solid appelé &quot;right wheel&quot; n&apos;a pas de &apos;physics&apos;.</translation>
-    </message>
-    <message>
-        <source>The Solid children named &quot;left wheel&quot; has no &apos;physics&apos;.</source>
-        <translation>Le fils Solid appelé &quot;left wheel&quot; n&apos;a pas de &apos;physics&apos;.</translation>
-    </message>
-    <message>
-        <source>The DifferentialWheels node is deprecated. Please use the Robot node instead with two HingeJoint, RotationalMotor and PositionSensor nodes. You can open a support ticket from the Help menu to get assistance on converting your DifferentialWheels robot.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3720,10 +3689,6 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Offline documentation</source>
-        <translation>Documentation hors-ligne</translation>
-    </message>
-    <message>
         <source>Open the Webots user guide in the documentation tool.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4401,7 +4366,7 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>

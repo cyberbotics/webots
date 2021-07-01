@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"
@@ -10788,7 +10788,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1021.8648 0.01 -450.03534
@@ -10818,7 +10817,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1004.3541 0.015 -336.80876
@@ -10848,7 +10846,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 1
-  dashedLine []
 }
 Road {
   translation 804.37296 0.01 -73.863226
@@ -10919,7 +10916,6 @@ Road {
   ]
   splineSubdivision 0
   roadBoundingObject TRUE
-  dashedLine []
 }
 Road {
   translation 499.31889 0.01 601.07478
@@ -10945,7 +10941,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 714.49211 0.01 -90.201047
@@ -10994,7 +10989,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 802.16198 0.01 -66.172846
@@ -11079,7 +11073,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 966.18635 0.01 -490.69905
@@ -11130,7 +11123,6 @@ Road {
     0.816745
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1008.5821 0.01 -340.0877
@@ -11191,7 +11183,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 880.13722 0.01 -516.14298
@@ -11222,7 +11213,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 772.86907 0.01 -333.29778
@@ -11253,7 +11243,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 760.34561 0.01 -90.818108
@@ -11276,7 +11265,6 @@ Road {
     -4.30895
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 702.1649 0.01 -140.63029
@@ -11311,7 +11299,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 837.47466 0.01 75.068483
@@ -11338,7 +11325,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 771.86366 0.01 3.738314
@@ -11371,7 +11357,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 812.84829 0.01 -56.667073
@@ -11432,7 +11417,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1098.6644 0.01 -99.964439
@@ -11459,7 +11443,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 913.41801 0.01 -470.39854
@@ -11489,7 +11472,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 588.46753 0.01 150.37374
@@ -11585,7 +11567,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 796.90286 0.01 -450.09342
@@ -11615,7 +11596,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -220.46317 0.01 914.91709
@@ -11639,7 +11619,6 @@ Road {
   ]
   splineSubdivision 0
   roadBoundingObject TRUE
-  dashedLine []
 }
 Road {
   translation 648.87602 0.01 209.71733
@@ -11669,7 +11648,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 723.41074 0.01 451.07991
@@ -11692,7 +11670,6 @@ Road {
     -2.2216
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1037.3594 5.01 138.02075
@@ -11757,7 +11734,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 946.38787 0.01 524.40012
@@ -11788,7 +11764,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 903.89552 0.01 541.40872
@@ -11818,7 +11793,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -539.9629 0.01 798.28907
@@ -11842,7 +11816,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -373.05385 0.01 821.56355
@@ -11867,7 +11840,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -290.25685 0.01 864.40183
@@ -11885,7 +11857,6 @@ Road {
     2.84809
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 170.45569 0.01 751.18052
@@ -11913,7 +11884,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1248.1573 0.01 792.89139
@@ -11943,7 +11913,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 934.57579 0.01 450.68941
@@ -11966,7 +11935,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 606.59781 0.01 497.2633
@@ -11990,7 +11958,6 @@ Road {
     0.333738
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1069.8915 0.01 760.50266
@@ -12014,7 +11981,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 882.21683 0.01 607.36614
@@ -12038,7 +12004,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 747.7513 0.01 842.06309
@@ -12072,7 +12037,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 517.31699 0.01 488.00812
@@ -12097,7 +12061,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1102.0075 0.01 679.07372
@@ -12123,7 +12086,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 721.73101 0.01 -94.544023
@@ -12180,7 +12142,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 943.71169 0.01 370.19994
@@ -12206,7 +12167,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1106.7968 0.01 -195.19553
@@ -12239,7 +12199,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 961.64926 0.01 -59.088593
@@ -12263,7 +12222,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -383.17794 0.01 600.68057
@@ -12292,7 +12250,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 415.28169 0.01 330.97577
@@ -12328,7 +12285,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -459.73439 0.01 631.14639
@@ -12352,7 +12308,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 534.80611 5.01 436.39821
@@ -12609,7 +12564,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1083.4847 0.01 -465.62548
@@ -12730,7 +12684,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 892.02888 0.01 400.08909
@@ -12752,7 +12705,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1025.1078 0.01 -178.39768
@@ -12768,7 +12720,6 @@ Road {
     -27.941101 0 25.317716
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1008.2973 0.01 -314.89443
@@ -12798,7 +12749,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1103.3839 0.01 633.01932
@@ -12841,7 +12791,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1002.339 0.01 790.33529
@@ -12862,7 +12811,6 @@ Road {
     -2.14216
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 947.27593 0.01 742.57508
@@ -12888,7 +12836,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 895.43381 0.01 740.66369
@@ -12912,7 +12859,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 743.59613 0.01 771.65261
@@ -12938,7 +12884,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 136.51776 0.01 528.36423
@@ -12962,7 +12907,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 858.49936 0.01 -12.62059
@@ -12986,7 +12930,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 604.84506 0.01 656.44564
@@ -13018,7 +12961,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 706.96 0.01 -122.28378
@@ -13066,7 +13008,6 @@ Road {
     1.12162
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 580.84795 0.01 400.67222
@@ -13098,7 +13039,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 864.89786 0.01 439.47057
@@ -13125,7 +13065,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 556.39166 0.01 484.11763
@@ -13176,7 +13115,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 573.52853 0.01 595.21568
@@ -13200,7 +13138,6 @@ Road {
     0.894214
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 828.9013 0.01 363.1981
@@ -13226,7 +13163,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 965.78754 0.01 317.34408
@@ -13250,7 +13186,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1029.3514 0.01 526.04723
@@ -13282,7 +13217,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1057.6862 0.01 744.69965
@@ -13310,7 +13244,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 965.03658 0.01 410.48084
@@ -13336,7 +13269,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 802.05218 0.01 663.00526
@@ -13363,7 +13295,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 937.77275 0.01 285.02375
@@ -13387,7 +13318,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 864.74291 0.01 691.34165
@@ -13414,7 +13344,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 897.7735 0.01 564.97184
@@ -13436,7 +13365,6 @@ Road {
     0.87909
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 599.10272 0.01 518.88126
@@ -13461,7 +13389,6 @@ Road {
     0.340422
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 784.39309 0.01 674.37973
@@ -13485,7 +13412,6 @@ Road {
     -4.24563
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1104.6404 0.01 412.15036
@@ -13520,7 +13446,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 565.97318 0.01 601.2828
@@ -13548,7 +13473,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 798.02967 0.01 382.96261
@@ -13568,7 +13492,6 @@ Road {
     -2.17693
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 582.60128 0.01 568.14211
@@ -13592,7 +13515,6 @@ Road {
     0.894214
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 792.69889 0.01 403.85929
@@ -13621,7 +13543,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 747.90204 0.01 434.19375
@@ -13645,7 +13566,6 @@ Road {
     4.1273
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 784.57864 0.01 345.36553
@@ -13667,7 +13587,6 @@ Road {
     2.44755
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 806.64964 0.01 371.72731
@@ -13693,7 +13612,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 899.88205 0.01 144.01455
@@ -13719,7 +13637,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1114.3793 0.01 -105.88319
@@ -13741,7 +13658,6 @@ Road {
     0.735474
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1149.4501 0.01 -143.39767
@@ -13759,7 +13675,6 @@ Road {
     0.75347
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1108.3629 0.01 -99.233942
@@ -13782,7 +13697,6 @@ Road {
     2.16036
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1004.611 0.01 -5.999209
@@ -13817,7 +13731,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1016.7214 0.01 44.049577
@@ -13841,7 +13754,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1013.3399 0.01 16.907143
@@ -13865,7 +13777,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1044.9203 0.01 -26.946838
@@ -13897,7 +13808,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1064.5782 0.01 -54.359422
@@ -13929,7 +13839,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 939.57599 0.01 105.18858
@@ -13963,7 +13872,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1054.9537 0.01 -40.940372
@@ -13995,7 +13903,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1014.1701 0.01 -340.67347
@@ -14024,7 +13931,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1003.3668 0.01 -317.74862
@@ -14080,7 +13986,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 992.31056 0.01 -452.92473
@@ -14108,7 +14013,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 972.56666 0.01 -456.16036
@@ -14140,7 +14044,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 600.65778 0.01 295.41707
@@ -14162,7 +14065,6 @@ Road {
     0.490249
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 648.54056 0.01 -280.26901
@@ -14193,7 +14095,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1040.998 0.01 -131.09932
@@ -14220,7 +14121,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 946.27496 0.01 -617.48068
@@ -14244,7 +14144,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1024.6767 0.01 -550.87544
@@ -14268,7 +14167,6 @@ Road {
     -2.32482
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 992.79378 0.01 -667.298
@@ -14304,7 +14202,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1061.9664 0.01 -585.89546
@@ -14328,7 +14225,6 @@ Road {
     3.95834
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1008.0713 0.01 -461.23365
@@ -14367,7 +14263,6 @@ Road {
     -5.221653 0 1.680582
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 62.777896 0.01 588.54121
@@ -14400,7 +14295,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 712.0403 0.01 -135.05189
@@ -14427,7 +14321,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 722.13943 0.01 -112.52694
@@ -14454,7 +14347,6 @@ Road {
     2.20671
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 707.50169 0.01 -65.932245
@@ -14547,7 +14439,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1136.0339 0.01 -129.09765
@@ -14569,7 +14460,6 @@ Road {
     0.750648
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1142.2969 0.01 -135.77241
@@ -14591,7 +14481,6 @@ Road {
     0.750648
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1085.5728 0.01 -237.30592
@@ -14622,7 +14511,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1065.0487 0.01 -458.96212
@@ -14650,7 +14538,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1065.8616 0.01 -454.05027
@@ -14674,7 +14561,6 @@ Road {
     -0.1761
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 869.90649 0.01 669.1829
@@ -14699,7 +14585,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 532.29013 0.01 322.54881
@@ -14727,7 +14612,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 857.84515 0.01 -71.022428
@@ -14756,7 +14640,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1070.8668 0.01 778.3961
@@ -14780,7 +14663,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1027.226 0.01 -326.38454
@@ -14807,7 +14689,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1019.7401 0.01 742.4343
@@ -14833,7 +14714,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 665.64636 0.01 832.51762
@@ -14870,7 +14750,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1105.0181 0.01 848.82748
@@ -14897,7 +14776,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1102.0208 0.01 854.41654
@@ -14917,7 +14795,6 @@ Road {
     0.555871
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 929.20155 0.01 530.99798
@@ -14944,7 +14821,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1111.2881 0.01 733.69615
@@ -14978,7 +14854,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 956.14161 0.01 529.42999
@@ -15004,7 +14879,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 144.92316 0.01 782.65058
@@ -15024,7 +14898,6 @@ Road {
     -1.135
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 851.23402 0.01 423.60563
@@ -15056,7 +14929,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -242.03914 0.01 555.48501
@@ -15177,7 +15049,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -141.17238 0.01 541.0921
@@ -15240,7 +15111,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -263.64295 0.01 758.21463
@@ -15274,7 +15144,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 375.93582 0.01 626.02791
@@ -15304,7 +15173,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 816.28008 0.01 382.99611
@@ -15330,7 +15198,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 818.38235 0.01 385.4241
@@ -15356,7 +15223,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 667.06739 0.01 211.80745
@@ -15407,7 +15273,6 @@ Road {
     -0.704836
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 704.47607 0.01 -31.15992
@@ -15566,7 +15431,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 804.80349 0.01 -44.763807
@@ -15626,7 +15490,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 398.7326 0.01 550.84799
@@ -15654,7 +15517,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 684.53788 0.01 180.01044
@@ -15739,7 +15601,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 706.65098 0.01 -163.67959
@@ -15788,7 +15649,6 @@ Road {
     2.2
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 956.48767 0.01 -200.39716
@@ -15880,7 +15740,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 985.38225 0.01 -470.69947
@@ -15931,7 +15790,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 848.55274 0.02 -80.048901
@@ -15985,7 +15843,6 @@ Road {
     1.08437
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 861.18183 0.01 -73.472034
@@ -16014,7 +15871,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1046.8837 0.01 120.27146
@@ -16038,7 +15894,6 @@ Road {
     -1.49464
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 761.79653 0.01 317.99449
@@ -16065,7 +15920,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1087.8422 0.01 119.05777
@@ -16091,7 +15945,6 @@ Road {
     0.737376
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 738.70895 0.01 296.90541
@@ -16124,7 +15977,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1102.2546 0.01 -477.76484
@@ -16168,7 +16020,6 @@ Road {
     0.334333
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1024.6767 0.01 -550.87544
@@ -16196,7 +16047,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1288.208 0.01 -517.71759
@@ -16242,7 +16092,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1106.1511 0.01 -454.87378
@@ -16260,7 +16109,6 @@ Road {
     26.277697 0 82.538689
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1020.0151 0.01 -273.95538
@@ -16284,7 +16132,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 594.81826 0.01 369.69843
@@ -16338,7 +16185,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -443.36607 0.01 556.57608
@@ -16363,7 +16209,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -522.52591 0.01 564.61629
@@ -16388,7 +16233,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1081.6216 0.01 -479.62197
@@ -16411,7 +16255,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1051.4405 0.01 749.92372
@@ -16452,7 +16295,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1085.5278 0.01 723.894
@@ -16478,7 +16320,6 @@ Road {
     -2.30539
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 425.88496 0.01 296.02526
@@ -16505,7 +16346,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 28.747076 0.01 473.18691
@@ -16532,7 +16372,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -42.093312 0.01 615.16511
@@ -16566,7 +16405,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 156.90773 0.01 465.75619
@@ -16592,7 +16430,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 91.084849 0.01 494.86384
@@ -16619,7 +16456,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 599.13068 0.01 664.51572
@@ -16657,7 +16493,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 639.31921 0.01 690.57062
@@ -16682,7 +16517,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 221.09924 0.01 717.87927
@@ -16706,7 +16540,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 258.72248 0.01 802.10721
@@ -16730,7 +16563,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 298.79434 0.01 354.23517
@@ -16760,7 +16592,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1043.9911 0.01 -407.84143
@@ -16784,7 +16615,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -30.080567 0.01 784.97658
@@ -16812,7 +16642,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1100.4841 0.01 684.28543
@@ -16838,7 +16667,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 619.74113 5.01 387.72458
@@ -16905,7 +16733,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1059.5461 0.01 -358.12048
@@ -16931,7 +16758,6 @@ Road {
     -3.27095
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1061.2808 0.01 -344.78539
@@ -16951,7 +16777,6 @@ Road {
     -3.27095
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1088.6536 0.01 -393.17943
@@ -16975,7 +16800,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1068.4033 0.01 -439.76642
@@ -17003,7 +16827,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 728.76972 0.01 108.22092
@@ -17030,7 +16853,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 988.11858 0.01 -200.21419
@@ -17050,7 +16872,6 @@ Road {
     2.19142
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 969.66644 0.01 -213.31211
@@ -17078,7 +16899,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 986.40369 0.01 -201.34746
@@ -17102,7 +16922,6 @@ Road {
     2.06643
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1071.9902 0.01 -268.45784
@@ -17130,7 +16949,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1087.0381 0.01 -284.56366
@@ -17151,7 +16969,6 @@ Road {
     4.04876
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1087.0381 0.01 -284.56366
@@ -17175,7 +16992,6 @@ Road {
     0.751454
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1012.9316 0.01 -367.84972
@@ -17199,7 +17015,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 908.0326 0.01 9.515091
@@ -17223,7 +17038,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 948.76995 0.01 -229.00112
@@ -17247,7 +17061,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -758.56438 0.01 600.42364
@@ -17271,7 +17084,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 930.50136 0.01 570.42544
@@ -17295,7 +17107,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 952.78625 0.01 618.98062
@@ -17319,7 +17130,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 307.37442 0.01 431.24193
@@ -17352,7 +17162,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 383.28967 0.01 396.88886
@@ -17379,7 +17188,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 837.47466 0.01 75.068483
@@ -17408,7 +17216,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 910.52279 0.01 -548.05604
@@ -17434,7 +17241,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1117.1274 0.01 277.80695
@@ -17461,7 +17267,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1035.035 0.01 305.31926
@@ -17495,7 +17300,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1170.4103 0.01 394.17394
@@ -17517,7 +17321,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 668.06467 0.01 673.62986
@@ -17543,7 +17346,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1076.5176 0.01 678.99883
@@ -17571,7 +17373,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -747.5397 0.01 592.80212
@@ -17596,7 +17397,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -912.71472 0.01 640.71091
@@ -17621,7 +17421,6 @@ Road {
     1.29005
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1027.025 0.01 -120.42142
@@ -17643,7 +17442,6 @@ Road {
     0.602799
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -443.64141 0.01 682.82633
@@ -17670,7 +17468,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -496.14837 0.01 639.36464
@@ -17694,7 +17491,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 201.26727 0.01 767.93337
@@ -17721,7 +17517,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 560.89181 0.01 620.89948
@@ -17752,7 +17547,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 903.24666 0.01 -40.064214
@@ -17776,7 +17570,6 @@ Road {
     -2.42405
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 913.94828 0.01 -52.326437
@@ -17799,7 +17592,6 @@ Road {
     -2.42405
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1479.7614 5.01 -273.66937
@@ -17862,7 +17654,6 @@ Road {
     -4.45595
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1103.0959 0.01 277.00805
@@ -17889,7 +17680,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1129.8053 0.01 246.6179
@@ -17913,7 +17703,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 987.67138 0.01 354.3025
@@ -17938,7 +17727,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1012.1401 0.01 339.82039
@@ -17965,7 +17753,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 404.53014 0.01 552.35572
@@ -17989,7 +17776,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 456.44229 0.01 614.27324
@@ -18013,7 +17799,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 330.17983 0.01 637.30962
@@ -18043,7 +17828,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 57.290209 0.01 817.22034
@@ -18067,7 +17851,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 27.445152 0.01 872.87865
@@ -18094,7 +17877,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 37.448086 0.01 794.04513
@@ -18118,7 +17900,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -114.42358 0.01 697.79183
@@ -18142,7 +17923,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -121.05242 0.01 654.94469
@@ -18167,7 +17947,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -284.47349 0.01 565.93596
@@ -18208,7 +17987,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -114.43811 0.01 645.44685
@@ -18232,7 +18010,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 52.154497 0.01 539.86621
@@ -18268,7 +18045,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 123.73918 0.01 562.32168
@@ -18292,7 +18068,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 57.744782 0.01 617.46796
@@ -18334,7 +18109,6 @@ Road {
     1.38573
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 331.4316 0.01 479.35372
@@ -18358,7 +18132,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 329.67548 0.01 484.93318
@@ -18382,7 +18155,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 318.15294 0.01 470.75743
@@ -18406,7 +18178,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 245.49613 0.01 444.42567
@@ -18430,7 +18201,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 387.28229 0.01 394.44854
@@ -18457,7 +18227,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 784.6174 0.01 191.77203
@@ -18488,7 +18257,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 946.70675 0.01 -503.26899
@@ -18549,7 +18317,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1112.6438 0.01 476.87464
@@ -18573,7 +18340,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1129.137 0.01 393.00337
@@ -18597,7 +18363,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1058.5577 0.01 309.82594
@@ -18621,7 +18386,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1089.8339 0.01 178.34274
@@ -18645,7 +18409,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 685.66937 0.01 744.05628
@@ -18669,7 +18432,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 751.86285 0.01 692.78759
@@ -18693,7 +18455,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 790.32787 0.01 681.48147
@@ -18717,7 +18478,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 473.16231 0.01 678.12183
@@ -18741,7 +18501,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 486.34146 0.01 648.45001
@@ -18765,7 +18524,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 275.34815 0.01 630.38838
@@ -18797,7 +18555,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 308.20826 0.01 793.85196
@@ -18823,7 +18580,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 339.11038 0.01 772.09989
@@ -18847,7 +18603,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 320.06921 0.01 792.99623
@@ -18871,7 +18626,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 364.13703 0.01 825.98278
@@ -18895,7 +18649,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 266.63741 0.01 733.64412
@@ -18911,7 +18664,6 @@ Road {
     6.225485 0 10.240201
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 351.65195 0.01 746.50756
@@ -18935,7 +18687,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 432.99689 0.01 763.43784
@@ -18959,7 +18710,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 592.75023 0.01 743.88658
@@ -18983,7 +18733,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 565.90685 0.01 864.27147
@@ -19007,7 +18756,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 428.85946 0.01 621.34659
@@ -19031,7 +18779,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 264.90126 0.01 654.84064
@@ -19057,7 +18804,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 191.84978 0.01 681.67191
@@ -19083,7 +18829,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 97.4344 0.01 751.03922
@@ -19107,7 +18852,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 64.346904 0.01 780.82778
@@ -19134,7 +18878,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -26.796755 0.01 817.15261
@@ -19158,7 +18901,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -49.313283 0.01 869.70944
@@ -19185,7 +18927,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -110.73027 0.01 541.19157
@@ -19209,7 +18950,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1127.4535 0.01 364.41748
@@ -19236,7 +18976,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1063.7207 0.01 497.63642
@@ -19262,7 +19001,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1102.2608 0.01 825.06588
@@ -19286,7 +19024,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1102.2272 0.01 845.29539
@@ -19310,7 +19047,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1090.5015 0.01 696.47182
@@ -19334,7 +19070,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 846.86881 0.01 776.52541
@@ -19358,7 +19093,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 471.60929 0.01 859.85812
@@ -19382,7 +19116,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 487.9824 0.01 854.03148
@@ -19406,7 +19139,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 518.73256 0.01 818.15346
@@ -19434,7 +19166,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 485.6966 0.01 817.17671
@@ -19458,7 +19189,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 489.72223 0.01 780.36429
@@ -19482,7 +19212,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 433.28968 0.01 781.43827
@@ -19506,7 +19235,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 424.63223 0.01 780.81579
@@ -19531,7 +19259,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 413.66536 0.01 803.54948
@@ -19555,7 +19282,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 409.64927 0.01 811.88139
@@ -19579,7 +19305,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 438.60105 0.01 730.11517
@@ -19603,7 +19328,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 398.03701 0.01 707.08814
@@ -19627,7 +19351,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 383.05265 0.01 712.20528
@@ -19651,7 +19374,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 284.37798 0.01 830.60723
@@ -19675,7 +19397,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 232.23091 0.01 803.23265
@@ -19699,7 +19420,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 228.01682 0.01 796.87906
@@ -19723,7 +19443,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 238.09957 0.01 679.15533
@@ -19747,7 +19466,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 203.23264 0.01 668.6463
@@ -19771,7 +19489,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 179.19345 0.01 677.85673
@@ -19795,7 +19512,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 117.71675 0.01 712.32208
@@ -19819,7 +19535,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 101.28474 0.01 736.99973
@@ -19849,7 +19564,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 69.911816 0.01 775.81813
@@ -19873,7 +19587,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 511.45809 0.01 776.13499
@@ -19897,7 +19610,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 389.07254 0.01 637.79515
@@ -19921,7 +19633,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 364.73809 0.01 563.84557
@@ -19953,7 +19664,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 509.57064 0.01 540.87667
@@ -19981,7 +19691,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 418.26729 0.01 575.5359
@@ -20005,7 +19714,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 466.0692 0.01 604.4097
@@ -20030,7 +19738,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 684.55823 0.01 833.15783
@@ -20059,7 +19766,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 702.45173 0.01 841.58091
@@ -20083,7 +19789,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1028.9452 0.01 776.32419
@@ -20107,7 +19812,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1100.824 0.01 470.39062
@@ -20131,7 +19835,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1116.8318 0.01 393.09907
@@ -20156,7 +19859,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1084.1277 0.01 417.91211
@@ -20180,7 +19882,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1038.2127 0.01 323.90833
@@ -20204,7 +19905,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 790.14684 0.01 261.62642
@@ -20228,7 +19928,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 516.46263 0.01 227.86423
@@ -20252,7 +19951,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 354.15255 0.01 386.16141
@@ -20279,7 +19977,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -161.36044 0.01 759.11265
@@ -20295,7 +19992,6 @@ Road {
     27.009579 0 -17.01028
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -160.1838 0.01 669.7161
@@ -20311,7 +20007,6 @@ Road {
     -11.214348 0 2.337871
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -234.09409 0.01 611.95748
@@ -20337,7 +20032,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -245.94822 0.01 678.34074
@@ -20361,7 +20055,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -294.23832 0.01 693.56551
@@ -20397,7 +20090,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -352.71808 0.01 638.50856
@@ -20424,7 +20116,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -395.45562 0.01 580.67802
@@ -20451,7 +20142,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -269.03642 0.01 759.84773
@@ -20478,7 +20168,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 981.31319 0.01 -262.36167
@@ -20545,7 +20234,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 803.75295 0.01 378.9954
@@ -20573,7 +20261,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 632.13701 0.01 -116.01143
@@ -20600,7 +20287,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 960.66096 0.01 -496.53781
@@ -20654,7 +20340,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1039.2789 0.01 -302.09544
@@ -20684,7 +20369,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1507.8714 5.01 1103.6757
@@ -20807,7 +20491,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 557.76783 0.01 392.91077
@@ -20841,7 +20524,6 @@ Road {
   ]
   splineSubdivision 0
   roadBoundingObject TRUE
-  dashedLine []
 }
 Road {
   translation 905.49917 0.01 -538.40027
@@ -20870,7 +20552,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 874.29006 0.01 -516.66923
@@ -20896,7 +20577,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 705.96295 0.01 -154.83013
@@ -20979,7 +20659,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 661.94382 0.01 -173.9577
@@ -21008,7 +20687,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 530.1896 5.01 425.54133
@@ -21160,7 +20838,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 791.14793 0.01 -450.52209
@@ -21192,7 +20869,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 907.60417 0.01 -470.30509
@@ -21285,7 +20961,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 929.99391 0.01 523.04764
@@ -21317,7 +20992,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 915.52207 0.01 498.23074
@@ -21343,7 +21017,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 460.87417 0.01 714.27657
@@ -21406,7 +21079,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 438.49399 0.01 724.30096
@@ -21436,7 +21108,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 404.8999 0.01 688.1507
@@ -21466,7 +21137,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 383.66488 0.01 634.95939
@@ -21496,7 +21166,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 403.69107 0.01 694.86292
@@ -21526,7 +21195,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -912.71472 0.01 640.71091
@@ -21557,7 +21225,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -810.68296 0.01 721.02134
@@ -21593,7 +21260,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -917.33322 0.01 843.37308
@@ -21623,7 +21289,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -921.95899 0.01 840.08935
@@ -21660,7 +21325,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1055.5405 0.01 749.74957
@@ -21690,7 +21354,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -599.7911 0.01 684.14376
@@ -21723,7 +21386,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -563.51412 0.01 754.70998
@@ -21747,7 +21409,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -307.6064 0.01 829.26494
@@ -21773,7 +21434,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -310.69995 0.01 805.15664
@@ -21802,7 +21462,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -387.83901 0.01 719.64445
@@ -21832,7 +21491,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -117.68978 0.01 752.31544
@@ -21859,7 +21517,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 39.212484 0.01 522.36147
@@ -21893,7 +21550,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 52.510647 0.01 553.86725
@@ -21927,7 +21583,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 515.84989 0.01 839.43822
@@ -21955,7 +21610,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 674.73541 0.01 932.02315
@@ -21981,7 +21635,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 635.41724 0.01 831.16983
@@ -22007,7 +21660,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 632.6469 0.01 836.28826
@@ -22039,7 +21691,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 560.69279 0.01 861.8965
@@ -22071,7 +21722,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 937.39162 0.01 378.42641
@@ -22101,7 +21751,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 875.92471 0.01 102.47546
@@ -22132,7 +21781,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 933.19047 0.01 20.574963
@@ -22162,7 +21810,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1399.1212 0.01 181.56761
@@ -22194,7 +21841,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1107.4401 0.01 753.47236
@@ -22224,7 +21870,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 825.14109 0.01 628.57958
@@ -22250,7 +21895,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 870.24773 0.01 587.63884
@@ -22276,7 +21920,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 569.67816 0.01 777.93304
@@ -22299,7 +21942,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 598.29147 0.01 765.12239
@@ -22329,7 +21971,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 816.8588 0.01 690.99125
@@ -22353,7 +21994,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 786.83706 0.01 675.63088
@@ -22381,7 +22021,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 762.68884 0.01 839.54769
@@ -22403,7 +22042,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 542.12842 0.01 523.21291
@@ -22544,7 +22182,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 975.65809 0.01 -44.66464
@@ -22569,7 +22206,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 326.12633 0.01 477.72016
@@ -22601,7 +22237,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -387.83901 0.01 719.64445
@@ -22630,7 +22265,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -434.43243 0.01 617.90746
@@ -22660,7 +22294,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1170.0899 0.01 599.26486
@@ -22688,7 +22321,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1164.9288 0.01 597.6829
@@ -22722,7 +22354,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 420.40939 0.01 330.85738
@@ -22808,7 +22439,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1050.7872 0.01 -236.5412
@@ -22838,7 +22468,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 137.0095 0.01 710.02699
@@ -22868,7 +22497,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1064.7419 0.01 660.65394
@@ -22898,7 +22526,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1108.5483 0.01 634.66625
@@ -22930,7 +22557,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1059.197 0.01 659.27503
@@ -22961,7 +22587,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1030.4272 0.01 620.80253
@@ -22994,7 +22619,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1020.2908 0.01 749.95831
@@ -23026,7 +22650,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 841.55408 0.01 811.00546
@@ -23048,7 +22671,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 843.01028 0.01 772.37278
@@ -23078,7 +22700,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 844.57844 0.01 727.34777
@@ -23109,7 +22730,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 632.10212 0.01 703.65542
@@ -23136,7 +22756,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 663.64523 0.01 750.65142
@@ -23161,7 +22780,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1093.1054 0.01 587.14344
@@ -23256,7 +22874,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1581.467 0.01 1026.9609
@@ -23470,7 +23087,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -239.72543 0.01 667.71661
@@ -23500,7 +23116,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -242.77267 0.01 682.95701
@@ -23532,7 +23147,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 571.93743 0.01 440.788
@@ -23619,7 +23233,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1064.7801 0.01 504.52657
@@ -23643,7 +23256,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1028.5915 0.01 531.63806
@@ -23675,7 +23287,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 864.89786 0.01 439.47057
@@ -23701,7 +23312,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 885.01883 0.01 462.75473
@@ -23727,7 +23337,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 891.12504 0.01 405.1884
@@ -23757,7 +23366,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 869.12118 0.01 417.90028
@@ -23788,7 +23396,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 952.23261 0.01 520.74179
@@ -23815,7 +23422,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 608.03379 0.01 682.98427
@@ -23841,7 +23447,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 602.1212 0.01 660.68156
@@ -23871,7 +23476,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 945.65162 0.01 252.56292
@@ -23897,7 +23501,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 922.17821 0.01 264.97997
@@ -23925,7 +23528,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 983.24173 0.01 -26.871893
@@ -23949,7 +23551,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1033.2428 0.01 -10.988741
@@ -23981,7 +23582,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1044.9439 0.01 4.03989
@@ -24005,7 +23605,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 939.57599 0.01 105.18858
@@ -24034,7 +23633,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1001.6418 0.01 26.49491
@@ -24066,7 +23664,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1033.176 0.01 -17.47206
@@ -24098,7 +23695,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1058.3197 0.01 -12.852917
@@ -24131,7 +23727,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1063.6191 0.01 -59.916459
@@ -24168,7 +23763,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1043.9653 0.01 -32.512925
@@ -24200,7 +23794,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1054.001 0.01 -46.508536
@@ -24232,7 +23825,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1084.6967 0.01 -35.66419
@@ -24264,7 +23856,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1071.7407 0.01 -24.46305
@@ -24296,7 +23887,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 600.73954 0.01 -199.04221
@@ -24327,7 +23917,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1020.9887 0.01 -328.01872
@@ -24355,7 +23944,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1026.0521 0.01 -321.05498
@@ -24383,7 +23971,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 715.79116 0.01 -384.36511
@@ -24416,7 +24003,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 643.07994 0.01 -278.58381
@@ -24445,7 +24031,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 763.46364 0.01 -313.79907
@@ -24556,7 +24141,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 941.60958 0.01 -616.70241
@@ -24583,7 +24167,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 993.67977 0.01 -673.559
@@ -24605,7 +24188,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 986.94002 0.01 -667.36607
@@ -24631,7 +24213,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -252.77946 0.01 557.20925
@@ -24717,7 +24298,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 910.92389 0.01 554.21804
@@ -24743,7 +24323,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 468.83751 0.01 276.12272
@@ -24875,7 +24454,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 663.42143 0.01 763.66726
@@ -24907,7 +24485,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 264.61951 0.01 734.8149
@@ -24932,7 +24509,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 232.54618 0.01 677.44411
@@ -24964,7 +24540,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 467.66215 0.01 714.1257
@@ -24996,7 +24571,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 498.9355 0.01 762.01187
@@ -25028,7 +24602,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 573.50191 0.01 726.15763
@@ -25060,7 +24633,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1106.5121 0.01 792.6459
@@ -25090,7 +24662,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1107.3476 0.01 771.29648
@@ -25120,7 +24691,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 55.626292 0.01 807.10184
@@ -25144,7 +24714,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 62.929059 0.01 818.61086
@@ -25176,7 +24745,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 616.47619 0.01 752.67025
@@ -25207,7 +24775,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 661.4923 0.01 836.32997
@@ -25238,7 +24805,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1105.8533 0.01 729.56083
@@ -25270,7 +24836,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1083.6809 0.01 695.92488
@@ -25302,7 +24867,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 995.77183 0.01 577.79749
@@ -25332,7 +24896,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 982.17402 0.01 561.39831
@@ -25358,7 +24921,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 510.58924 0.01 605.83578
@@ -25417,7 +24979,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 144.92316 0.01 782.65058
@@ -25446,7 +25007,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -238.33403 0.01 659.70091
@@ -25477,7 +25037,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 3.966704 0.01 523.1442
@@ -25597,7 +25156,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 785.7363 0.01 186.38521
@@ -25623,7 +25181,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 359.98035 0.01 623.80149
@@ -25655,7 +25212,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 403.00685 0.01 557.65331
@@ -25687,7 +25243,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 309.06104 0.01 637.13175
@@ -25713,7 +25268,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 333.08644 0.01 632.70003
@@ -25744,7 +25298,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 499.31889 0.01 601.07478
@@ -25771,7 +25324,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -494.10746 0.01 586.24039
@@ -25804,7 +25356,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 159.2013 0.01 693.54538
@@ -25831,7 +25382,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 849.67543 0.01 215.57407
@@ -25858,7 +25408,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 949.16073 0.01 -293.86516
@@ -25883,7 +25432,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 974.19159 0.01 -273.75542
@@ -25912,7 +25460,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1102.2695 0.01 165.77352
@@ -25938,7 +25485,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1084.6256 0.01 176.89794
@@ -25965,7 +25511,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -460.27254 0.01 522.01237
@@ -25996,7 +25541,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -625.49773 0.01 530.04448
@@ -26021,7 +25565,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -650.34933 0.01 587.44956
@@ -26053,7 +25596,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -23.214627 0.01 505.41383
@@ -26078,7 +25620,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 23.06211 0.01 508.50055
@@ -26110,7 +25651,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -30.440826 0.01 652.85453
@@ -26136,7 +25676,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -34.208841 0.01 613.59652
@@ -26170,7 +25709,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -121.18681 0.01 627.97089
@@ -26203,7 +25741,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 371.41556 0.01 379.74022
@@ -26263,7 +25800,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 41.430797 0.01 517.89289
@@ -26329,7 +25865,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 608.23745 0.01 685.64369
@@ -26355,7 +25890,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 273.69527 0.01 836.96486
@@ -26383,7 +25917,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -695.54523 0.01 467.58121
@@ -26412,7 +25945,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1128.1691 0.01 584.64314
@@ -26473,7 +26005,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1060.1539 0.01 498.59371
@@ -26497,7 +26028,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -111.42921 0.01 691.92609
@@ -26529,7 +26059,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1073.4007 0.01 -435.09877
@@ -26561,7 +26090,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1083.5148 0.01 -396.4818
@@ -26598,7 +26126,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 631.5849 0.01 815.49596
@@ -26625,7 +26152,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 622.85919 0.01 780.85553
@@ -26655,7 +26181,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 961.54673 0.01 -213.1656
@@ -26721,7 +26246,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1005.651 0.01 -402.42152
@@ -26812,7 +26336,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -756.2784 0.01 604.12026
@@ -26843,7 +26366,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 319.9801 0.01 465.42591
@@ -26875,7 +26397,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 301.93416 0.01 429.58123
@@ -26907,7 +26428,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 326.91256 0.01 407.29173
@@ -26972,7 +26492,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1132.1374 0.01 365.82261
@@ -27002,7 +26521,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1149.7247 0.01 412.21747
@@ -27037,7 +26555,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 771.88577 0.01 668.07735
@@ -27063,7 +26580,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 945.69764 0.01 -4.479712
@@ -27094,7 +26610,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 898.18814 0.01 -39.909814
@@ -27124,7 +26639,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 926.51485 0.01 -159.8866
@@ -27218,7 +26732,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1135.349 0.01 247.45199
@@ -27240,7 +26753,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 949.78313 0.01 371.29241
@@ -27270,7 +26782,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 993.11222 0.01 346.19681
@@ -27300,7 +26811,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 465.12171 0.01 608.14729
@@ -27330,7 +26840,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 65.857388 0.01 830.7244
@@ -27362,7 +26871,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 55.545158 0.01 836.87261
@@ -27387,7 +26895,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -112.64776 0.01 683.54313
@@ -27420,7 +26927,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -268.72614 0.01 559.42839
@@ -27518,7 +27024,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -238.05982 0.01 577.4477
@@ -27550,7 +27055,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -117.76021 0.01 650.1221
@@ -27582,7 +27086,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -118.9857 0.01 642.14329
@@ -27614,7 +27117,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 59.577533 0.01 515.24221
@@ -27686,7 +27188,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 128.74083 0.01 500.90038
@@ -27759,7 +27260,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 394.23494 0.01 385.12857
@@ -27789,7 +27289,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1001.441 0.01 483.34543
@@ -27819,7 +27318,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1130.7858 0.01 386.93361
@@ -27842,7 +27340,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1059.4798 0.01 304.23386
@@ -27873,7 +27370,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 741.90088 0.01 696.03439
@@ -27908,7 +27404,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 490.22699 0.01 653.31316
@@ -27999,7 +27494,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 277.30621 0.01 641.96789
@@ -28031,7 +27525,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 267.66815 0.01 632.35279
@@ -28055,7 +27548,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 314.14975 0.01 793.41383
@@ -28085,7 +27577,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 385.24955 0.01 852.30114
@@ -28117,7 +27608,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 358.46344 0.01 826.05044
@@ -28141,7 +27631,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 351.10547 0.01 752.88092
@@ -28171,7 +27660,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 448.77079 0.01 740.06599
@@ -28235,7 +27723,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 587.91276 0.01 741.2662
@@ -28259,7 +27746,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 424.46471 0.01 618.02446
@@ -28289,7 +27775,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 267.43368 0.01 649.68085
@@ -28319,7 +27804,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 184.45391 0.01 680.19127
@@ -28349,7 +27833,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 58.734854 0.01 780.43122
@@ -28379,7 +27862,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 33.14961 0.01 802.88866
@@ -28410,7 +27892,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -7.937872 0.01 834.24832
@@ -28442,7 +27923,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -26.109019 0.01 811.58593
@@ -28466,7 +27946,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -8.627298 0.01 839.8119
@@ -28497,7 +27976,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -49.726106 0.01 875.50681
@@ -28532,7 +28010,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -48.468351 0.01 529.02996
@@ -28630,7 +28107,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1106.2787 0.01 820.76885
@@ -28660,7 +28136,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 482.90198 0.01 851.57357
@@ -28688,7 +28163,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 466.34598 0.01 857.46557
@@ -28718,7 +28192,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 515.41998 0.01 825.37824
@@ -28748,7 +28221,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 512.34251 0.01 816.10704
@@ -28778,7 +28250,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 507.29504 0.01 813.65633
@@ -28810,7 +28281,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 483.26625 0.01 822.33021
@@ -28838,7 +28308,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 494.22792 0.01 771.86937
@@ -28870,7 +28339,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 484.96901 0.01 779.1629
@@ -28894,7 +28362,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 434.23607 0.01 770.18135
@@ -29053,7 +28520,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 381.9169 0.01 718.88696
@@ -29084,7 +28550,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 308.10715 0.01 799.77535
@@ -29114,7 +28579,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 278.76681 0.01 830.67776
@@ -29144,7 +28608,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 333.34009 0.01 772.4831
@@ -29174,7 +28637,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 323.21358 0.01 783.65219
@@ -29204,7 +28666,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 230.61469 0.01 808.30814
@@ -29234,7 +28695,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 201.62301 0.01 773.46591
@@ -29267,7 +28727,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 199.80334 0.01 674.24365
@@ -29297,7 +28756,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 125.5417 0.01 715.38076
@@ -29329,7 +28787,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 125.27157 0.01 721.18811
@@ -29361,7 +28818,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 100.69652 0.01 742.84366
@@ -29391,7 +28847,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 91.788592 0.01 750.63529
@@ -29422,7 +28877,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 501.12992 0.01 779.41088
@@ -29453,7 +28907,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 503.65371 0.01 774.39516
@@ -29485,7 +28938,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 513.95375 0.01 771.13019
@@ -29509,7 +28961,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 361.48893 0.01 616.27463
@@ -29545,7 +28996,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 366.36725 0.01 559.0987
@@ -29572,7 +29022,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 355.56381 0.01 613.96786
@@ -29604,7 +29053,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 328.55078 0.01 576.56375
@@ -29628,7 +29076,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 514.35553 0.01 595.46107
@@ -29725,7 +29172,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 506.71995 0.01 545.29959
@@ -29750,7 +29196,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 410.27208 0.01 569.90767
@@ -29782,7 +29227,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 416.73129 0.01 580.81076
@@ -29814,7 +29258,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 679.64522 0.01 836.95694
@@ -29844,7 +29287,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 743.90341 0.01 838.91937
@@ -29875,7 +29317,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 698.44047 0.01 837.45919
@@ -29906,7 +29347,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1027.5606 0.01 785.98609
@@ -29934,7 +29374,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1023.8784 0.01 773.0018
@@ -29967,7 +29406,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1102.3275 0.01 464.34291
@@ -29997,7 +29435,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1106.1785 0.01 406.0005
@@ -30027,7 +29464,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1123.62 0.01 392.37532
@@ -30057,7 +29493,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1089.8048 0.01 418.61975
@@ -30087,7 +29522,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1013.269 0.01 334.43365
@@ -30117,7 +29551,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1039.2082 0.01 318.61546
@@ -30148,7 +29581,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 345.28568 0.01 396.19504
@@ -30248,7 +29680,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -347.51368 0.01 652.27137
@@ -30280,7 +29711,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -296.80809 0.01 648.16874
@@ -30310,7 +29740,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -289.58648 0.01 696.91497
@@ -30342,7 +29771,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -357.17874 0.01 635.15179
@@ -30373,7 +29801,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -446.70121 0.01 583.94675
@@ -30475,7 +29902,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -604.23888 0.01 677.44854
@@ -30509,7 +29935,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 520.97943 0.01 841.82655
@@ -30539,7 +29964,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 534.28086 0.01 878.66083
@@ -30568,7 +29992,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 373.49689 0.01 378.02986
@@ -30663,7 +30086,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1010.1768 0.01 -6.874147
@@ -30695,7 +30117,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1022.8923 0.01 3.593413
@@ -30719,7 +30140,6 @@ Road {
     "textures/road_line_triangle.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1013.0331 0.01 10.617011
@@ -30751,7 +30171,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1022.5699 0.01 -2.682968
@@ -30783,7 +30202,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 208.4993 0.01 670.95079
@@ -30813,7 +30231,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 229.15336 0.01 663.23034
@@ -30843,7 +30260,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -1235.6817 0.01 570.68058
@@ -31062,7 +30478,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 433.27959 0.01 616.23596
@@ -31092,7 +30507,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation 1066.2853 0.01 435.04465
@@ -31122,7 +30536,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -355.39585 0.01 649.46786
@@ -31152,7 +30565,6 @@ Road {
     "textures/road_line_dashed.png"
   ]
   splineSubdivision 0
-  dashedLine []
 }
 Road {
   translation -652.81793 0.01 611.55848

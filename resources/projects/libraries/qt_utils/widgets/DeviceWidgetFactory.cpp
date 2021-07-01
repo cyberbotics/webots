@@ -6,7 +6,6 @@
 #include "AccelerometerWidget.hpp"
 #include "CameraWidget.hpp"
 #include "CompassWidget.hpp"
-#include "DifferentialWheelsWidget.hpp"
 #include "DistanceSensorWidget.hpp"
 #include "GPSWidget.hpp"
 #include "GyroWidget.hpp"
@@ -35,9 +34,6 @@ DeviceWidget *DeviceWidgetFactory::createDeviceWidget(Device *device, QWidget *p
       break;
     case WB_NODE_COMPASS:
       widget = new CompassWidget(device, parent);
-      break;
-    case WB_NODE_DIFFERENTIAL_WHEELS:
-      widget = new DifferentialWheelsWidget(device, parent);
       break;
     case WB_NODE_DISTANCE_SENSOR:
       widget = new DistanceSensorWidget(device, parent);

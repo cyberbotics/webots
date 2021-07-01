@@ -36,6 +36,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbOdeContact.hpp"
 #include "WbPbrAppearance.hpp"
+#include "WbPerformanceLog.hpp"
 #include "WbPerspective.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
@@ -88,7 +89,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mPerspective(NULL),
   mProtos(protos ? protos : new WbProtoList()),
   mLastAwakeningTime(0.0),
-  mIsLoading(false),
+  mIsLoading(true),
   mIsCleaning(false),
   mIsVideoRecording(false) {
   gInstance = this;
@@ -99,6 +100,10 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   WbNode::setGlobalParentNode(mRoot);
   mRadarTargets.clear();
   mCameraRecognitionObjects.clear();
+
+  WbPerformanceLog *log = WbPerformanceLog::instance();
+  if (log)
+    log->startMeasure(WbPerformanceLog::LOADING);
 
   if (tokenizer) {
     mFileName = tokenizer->fileName();
@@ -163,12 +168,14 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   // world loading stuff
   connect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   connect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
+  connect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
 }
 
 void WbWorld::finalize() {
   disconnect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
   disconnect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
+  disconnect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   disconnect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(),
              &WbApplication::setWorldLoadingProgress);
   if (WbApplication::instance()->wasWorldLoadingCanceled())
@@ -261,7 +268,7 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   storeLastSaveTime();
 
-  mRoot->save();
+  mRoot->save("__init__");
   return true;
 }
 
@@ -355,9 +362,6 @@ void WbWorld::write(WbVrmlWriter &writer) const {
     WbWrenOpenGlContext::doneWren();
   }
 
-  assert(mPerspective);
-  QMap<QString, QString> parameters = mPerspective->x3dExportParameters();
-  writer.setX3DFrustumCullingValue(parameters.value("frustumCulling"));
   writer.writeHeader(worldInfo()->title());
 
   // write nodes

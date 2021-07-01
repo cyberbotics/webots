@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A trash container with optional physics.
+# template language: javascript
 
 PROTO TrashContainer [
   field SFVec3f    translation    0 0 0
@@ -209,7 +209,7 @@ PROTO TrashContainer [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 250
@@ -221,6 +221,6 @@ PROTO TrashContainer [
         -0.019548505618615653 0.10799691421183599 2159.663688508241
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

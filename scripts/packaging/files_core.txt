@@ -4,6 +4,9 @@ bin/qt/lrelease [mac,linux,exe] # allow users to create translations in their ow
 bin/qt/lupdate [mac,linux,exe]
 bin/qt/moc [mac,linux,exe]
 
+docs/
+docs/list.txt
+
 include/
 include/ode/
 include/ode/ode/
@@ -12,6 +15,11 @@ include/controller/
 include/controller/c/
 include/controller/c/webots/
 include/controller/c/webots/*.h
+include/controller/c/webots/plugins/
+include/controller/c/webots/plugins/robot_window/
+include/controller/c/webots/plugins/robot_window/*.h
+include/controller/c/webots/plugins/robot_window/generic_robot_window/
+include/controller/c/webots/plugins/robot_window/generic_robot_window/*.h
 include/controller/c/webots/utils/
 include/controller/c/webots/utils/*.h
 include/controller/c/webots/vehicle/
@@ -88,6 +96,8 @@ lib/controller/CppDriver [dll]
 lib/controller/driver [dll]
 lib/controller/car.lib [windows]
 lib/controller/driver.lib [windows]
+
+lib/controller/generic_robot_window [dll]
 
 lib/controller/python27/
 lib/controller/python27/*.py
@@ -240,6 +250,11 @@ resources/lua/modules/webots/
 resources/lua/modules/webots/*.lua
 resources/lua/liluat/license.txt
 resources/lua/liluat/*.lua
+resources/javascript/
+resources/javascript/jsTemplate.js
+resources/javascript/modules/
+resources/javascript/modules/webots/
+resources/javascript/modules/webots/*.js
 resources/Makefile.include
 resources/Makefile.java.include
 resources/Makefile.os.include
@@ -265,6 +280,9 @@ resources/projects/controllers/void/Makefile
 resources/projects/controllers/void/void [exe]
 resources/projects/controllers/void/void.c
 resources/projects/libraries/
+resources/projects/libraries/generic_robot_window/
+resources/projects/libraries/generic_robot_window/Makefile
+resources/projects/libraries/generic_robot_window/*.c
 resources/projects/libraries/qt_utils/
 resources/projects/libraries/qt_utils/qt_utils [dll]
 resources/projects/libraries/qt_utils/icons/
@@ -337,15 +355,6 @@ resources/web/streaming_viewer/setup_viewer.js
 resources/web/streaming_viewer/style.css
 resources/web/templates/
 resources/web/templates/x3d_playback.html
-resources/web/wwi/
-resources/web/wwi/request_methods.js
-resources/web/wwi/webots.min.js
-resources/web/wwi/wwi.css
-resources/web/wwi/images/
-resources/web/wwi/images/*.gif
-resources/web/wwi/images/*.png
-resources/web/wwi/images/documentation/
-resources/web/wwi/images/documentation/*.png
 resources/wren/
 resources/wren/meshes/
 resources/wren/meshes/*.obj
