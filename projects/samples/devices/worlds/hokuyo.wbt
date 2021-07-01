@@ -27,7 +27,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/parquetry.jpg"
+        "webots://projects/default/worlds/textures/parquetry.jpg"
       ]
     }
     roughness 1

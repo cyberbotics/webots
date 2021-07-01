@@ -19,11 +19,11 @@ Solid {
     Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
-          url [ "textures/computer_base_color.jpg"
+          url [ "webots://projects/objects/computers/protos/textures/computer_base_color.jpg"
           ]
         }
         metalnessMap ImageTexture {
-          url "textures/computer_metalness.jpg"
+          url "webots://projects/objects/computers/protos/textures/computer_metalness.jpg"
         }
         roughness 0.4
       }

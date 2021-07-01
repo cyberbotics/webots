@@ -36,22 +36,22 @@ PROTO BmwX5Wheel [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "textures/bmw_logo_base_color.jpg"
+              "webots://projects/vehicles/protos/bmw/textures/bmw_logo_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/bmw_logo_roughness.jpg"
+              "webots://projects/vehicles/protos/bmw/textures/bmw_logo_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/bmw_logo_metalness.jpg"
+              "webots://projects/vehicles/protos/bmw/textures/bmw_logo_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/bmw_logo_normal.jpg"
+              "webots://projects/vehicles/protos/bmw/textures/bmw_logo_normal.jpg"
             ]
           }
         }

@@ -30,7 +30,7 @@ DEF FLOOR Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 1

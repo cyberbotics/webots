@@ -199,6 +199,25 @@ def list_plugins(p):
                 sys.stderr.write("unknow plugin: " + pf + "\n")
 
 
+def list_worlds(w):
+    """List valid world files."""
+    print(w + '/')
+    for f in os.listdir(w):
+        wf = w + '/' + f
+        if omit_match(wf):
+            continue
+        if os.path.isfile(wf):
+            if is_ignored_file(f):
+                continue
+            else:
+                print(wf)
+        else:
+            if f in ['textures', 'meshes']:
+                continue
+            else:
+                list_worlds(wf)
+
+
 def proto_should_have_icon(f):
     """Check if this PROTO file should have an icon.
 
@@ -237,10 +256,11 @@ def list_protos(p):
                     if not os.path.isfile(icon):
                         sys.stderr.write("missing icon: " + icon + "\n")
                     print(icon)
+            # elif not pf.endswith(('.png', '.jpg', '.jpeg', '.hdr', '.obj')):
             else:
                 print(pf)
         else:
-            if f == "icons":
+            if f in ['icons', 'textures', 'meshes']:
                 continue
             else:
                 list_protos(pf)
@@ -264,7 +284,9 @@ def list_projects(p):
                 list_plugins(pf)
             elif f == 'protos':
                 list_protos(pf)
-            elif f == 'libraries' or f == 'worlds':
+            elif f == 'worlds':
+                list_worlds(pf)
+            elif f == 'libraries':
                 list_folder(pf)
             elif pf in recurse_in_projects:
                 print(pf + " [recurse]")

@@ -553,6 +553,11 @@ void WbGuiApplication::udpateStyleSheet() {
   QFile linuxQssFile(WbStandardPaths::resourcesPath() + "stylesheet.linux.qss");
   linuxQssFile.open(QFile::ReadOnly);
   styleSheet += QString::fromUtf8(linuxQssFile.readAll());
+
+#elif _WIN32
+  QFile windowsQssFile(WbStandardPaths::resourcesPath() + "stylesheet.windows.qss");
+  windowsQssFile.open(QFile::ReadOnly);
+  styleSheet += QString::fromUtf8(windowsQssFile.readAll());
 #endif
 
   qApp->setStyleSheet(styleSheet);

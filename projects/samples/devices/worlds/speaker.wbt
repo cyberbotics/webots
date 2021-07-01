@@ -180,7 +180,7 @@ Robot {
             baseColor 0.2 0.2 0.2
             baseColorMap ImageTexture {
               url [
-                "textures/speaker.png"
+                "webots://projects/samples/devices/worlds/textures/speaker.png"
               ]
             }
             roughness 0.5

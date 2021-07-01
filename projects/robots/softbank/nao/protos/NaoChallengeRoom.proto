@@ -153,7 +153,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/wardrobe.jpg"
+                "webots://projects/robots/softbank/nao/protos/textures/wardrobe.jpg"
               ]
             }
             metalness 0
@@ -246,7 +246,7 @@ Solid {
           rotation 0 1 0 1.5708
           dimension 0.8 1.8 0.01
           textureUrl [
-            "textures/living_room_door.jpg"
+            "webots://projects/robots/softbank/nao/protos/textures/living_room_door.jpg"
           ]
         }
         DEF SOUTH_DOOR_HANDLE Transform {
@@ -302,7 +302,7 @@ Solid {
           translation 0.5 0.9 -1
           dimension 0.8 1.8 0.01
           textureUrl [
-            "textures/entree_door.jpg"
+            "webots://projects/robots/softbank/nao/protos/textures/entree_door.jpg"
           ]
         }
         DEF WEST_DOOR_HANDLE Transform {

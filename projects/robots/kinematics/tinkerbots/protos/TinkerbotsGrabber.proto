@@ -40,27 +40,27 @@ PROTO TinkerbotsGrabber [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/grabber_base_color.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/grabber_roughness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/grabber_metalness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/grabber_normal.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/grabber_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_occlusion.jpg"
               ]
             }
           }

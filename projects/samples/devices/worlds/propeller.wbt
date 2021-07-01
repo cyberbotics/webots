@@ -26,7 +26,7 @@ DEF WATER_PLANE Transform {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/water.jpg"
+            "webots://projects/samples/devices/worlds/textures/water.jpg"
           ]
         }
         roughness 0.5
@@ -68,7 +68,7 @@ DEF PLATFORM Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/h.png"
+            "webots://projects/samples/devices/worlds/textures/h.png"
           ]
         }
         roughness 0.5
@@ -307,7 +307,7 @@ DEF RED_HELICOPTER Robot {
             appearance DEF FAST_HELIX_APPEARANCE PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/blurred_helix.png"
+                  "webots://projects/samples/devices/worlds/textures/blurred_helix.png"
                 ]
               }
               transparency 0.5

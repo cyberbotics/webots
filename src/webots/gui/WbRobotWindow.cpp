@@ -124,7 +124,7 @@ void WbRobotWindow::setupPage() {
       scriptTag(WbStandardPaths::localDocPath() + "dependencies/jquery/1.11.3/jquery.min.js") +
       scriptTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.js");
     QString content;
-    const QRegularExpression script("<script[^\"'>]*src=[\"']([^\"'>]*)[\"']");
+    const QRegularExpression script("<script[^>]*src=[\"']([^\"'>]*)[\"']");
     const QRegularExpression link("<link[^>]*href=[\"']([^\"'>]*)[\"']");
     while (!htmlInput.atEnd()) {
       QString line = htmlInput.readLine();

@@ -13,18 +13,18 @@ PROTO ElectricConduit [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/electric_conduit/electric_conduit_base_color.jpg"
+        "webots://projects/appearances/protos/textures/electric_conduit/electric_conduit_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/electric_conduit/electric_conduit_roughness.jpg"
+        "webots://projects/appearances/protos/textures/electric_conduit/electric_conduit_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/electric_conduit/electric_conduit_normal.jpg"
+        "webots://projects/appearances/protos/textures/electric_conduit/electric_conduit_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength

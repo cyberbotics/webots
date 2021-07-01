@@ -71,7 +71,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 1
@@ -328,7 +328,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/fire_exit.jpg"
+            "webots://projects/samples/environments/factory/worlds/textures/fire_exit.jpg"
           ]
         }
         roughness 0.5
@@ -353,7 +353,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/fire_exit.jpg"
+            "webots://projects/samples/environments/factory/worlds/textures/fire_exit.jpg"
           ]
         }
         roughness 0.5
@@ -378,7 +378,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/ladybug.png"
+            "webots://projects/default/worlds/textures/ladybug.png"
           ]
           filtering 5
         }
@@ -405,7 +405,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/steel_floor.jpg"
+            "webots://projects/default/worlds/textures/steel_floor.jpg"
           ]
         }
         roughness 0.5

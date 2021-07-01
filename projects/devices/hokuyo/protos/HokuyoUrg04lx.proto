@@ -1707,7 +1707,7 @@ Lidar {
             roughness 0.6
             baseColorMap ImageTexture {
               url [
-                "textures/urg-04lx.jpg"
+                "webots://projects/devices/hokuyo/protos/textures/urg-04lx.jpg"
               ]
             }
           }

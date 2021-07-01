@@ -22,27 +22,27 @@ PROTO WorkTrashContainer [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/work_trash_container_base_color.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/work_trash_container_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/work_trash_container_roughness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/work_trash_container_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/work_trash_container_metalness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/work_trash_container_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/work_trash_container_normal.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/work_trash_container_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/work_trash_container_occlusion.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/work_trash_container_occlusion.jpg"
             ]
           }
         }

@@ -26,7 +26,7 @@ DEF FLOOR Solid {
         }
         texture ImageTexture {
           url [
-            "textures/checkered_parquetry.jpg"
+            "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
           ]
         }
       }

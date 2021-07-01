@@ -598,7 +598,7 @@ DEF PLATFORM Transform {
             baseColor 0.15 0.45 0.19
             roughnessMap ImageTexture {
               url [
-                "textures/plastic_roughness.jpg"
+                "webots://projects/samples/environments/factory/worlds/textures/plastic_roughness.jpg"
               ]
             }
             metalness 0
@@ -725,7 +725,7 @@ DEF PLATFORM Transform {
             baseColor 0.663 0.381 0.0973
             roughnessMap ImageTexture {
               url [
-                "textures/plastic_roughness.jpg"
+                "webots://projects/samples/environments/factory/worlds/textures/plastic_roughness.jpg"
               ]
             }
             metalness 0
@@ -2146,7 +2146,7 @@ DEF FIRST_AID_BOX Transform {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/first_aid.jpg"
+                "webots://projects/samples/environments/factory/worlds/textures/first_aid.jpg"
               ]
             }
             roughness 1
@@ -2171,7 +2171,7 @@ DEF FIRE_EXTINGUISHER_PANEL Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/fire_extinguisher_panel.jpg"
+            "webots://projects/samples/environments/factory/worlds/textures/fire_extinguisher_panel.jpg"
           ]
         }
         metalness 0
@@ -2303,7 +2303,7 @@ Transform {
     TexturedBoxShape {
       size 0.15 0.15 0.15
       textureUrl [
-        "textures/first_aid.jpg"
+        "webots://projects/samples/environments/factory/worlds/textures/first_aid.jpg"
       ]
       textureMapping "default"
     }
@@ -2833,7 +2833,7 @@ DEF DOUBLE_DOOR Solid {
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/ears_protection_pannel.png"
+                      "webots://projects/samples/environments/factory/worlds/textures/ears_protection_pannel.png"
                     ]
                   }
                   roughness 0.2
@@ -2853,7 +2853,7 @@ DEF DOUBLE_DOOR Solid {
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/glasses_panel.png"
+                      "webots://projects/samples/environments/factory/worlds/textures/glasses_panel.png"
                     ]
                   }
                   roughness 0.2
@@ -3016,7 +3016,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         baseColor 0.813 0.781 0.753
         roughnessMap ImageTexture {
           url [
-            "textures/plastic_roughness.jpg"
+            "webots://projects/samples/environments/factory/worlds/textures/plastic_roughness.jpg"
           ]
         }
         metalness 0
@@ -3770,7 +3770,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/hedges.jpg"
+            "webots://projects/samples/environments/factory/worlds/textures/hedges.jpg"
           ]
         }
         roughness 1

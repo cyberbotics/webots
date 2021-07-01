@@ -18,16 +18,16 @@ Solid {
       appearance PBRAppearance {
         baseColor IS color
         baseColorMap ImageTexture {
-          url "textures/desk.jpg"
+          url "webots://projects/objects/tables/protos/textures/desk.jpg"
         }
         roughnessMap ImageTexture {
-          url "textures/desk_roughness.jpg"
+          url "webots://projects/objects/tables/protos/textures/desk_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "textures/desk_metalness.jpg"
+          url "webots://projects/objects/tables/protos/textures/desk_metalness.jpg"
         }
         normalMap ImageTexture {
-          url "textures/desk_normal.jpg"   
+          url "webots://projects/objects/tables/protos/textures/desk_normal.jpg"   
         }
       }
       geometry IndexedFaceSet {

@@ -47,7 +47,7 @@ DEF GROUND Solid {
         baseColor 0.659998 0.624781 0.437797
         baseColorMap ImageTexture {
           url [
-            "textures/grass.jpg"
+            "webots://projects/default/worlds/textures/grass.jpg"
           ]
         }
         roughness 1
@@ -100,7 +100,7 @@ Tree {
   name "tree(2)"
   scale 0.1 0.5 0.1
   texture [
-    "textures/crab_apple_tree.png"
+    "webots://projects/objects/trees/protos/textures/crab_apple_tree.png"
   ]
   isPickable FALSE
 }
@@ -110,7 +110,7 @@ Tree {
   name "tree(3)"
   scale 0.1 0.5 0.1
   texture [
-    "textures/spruce.png"
+    "webots://projects/objects/trees/protos/textures/spruce.png"
   ]
   isPickable FALSE
 }
@@ -120,7 +120,7 @@ Tree {
   name "tree(4)"
   scale 0.1 0.5 0.1
   texture [
-    "textures/spruce.png"
+    "webots://projects/objects/trees/protos/textures/spruce.png"
   ]
   isPickable FALSE
 }
@@ -130,7 +130,7 @@ Tree {
   name "tree(5)"
   scale 0.1 0.5 0.1
   texture [
-    "textures/crab_apple_tree.png"
+    "webots://projects/objects/trees/protos/textures/crab_apple_tree.png"
   ]
   isPickable FALSE
 }

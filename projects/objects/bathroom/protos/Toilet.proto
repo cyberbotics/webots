@@ -21,7 +21,7 @@ PROTO Toilet [
           baseColor 0.837 0.775402 0.741848
           roughnessMap ImageTexture {
             url [
-              "textures/toilet_scratches_roughness.jpg"
+              "webots://projects/objects/bathroom/protos/textures/toilet_scratches_roughness.jpg"
             ]
           }
           metalness 0

@@ -1430,6 +1430,7 @@ static void create_distributions(int m) {
   add_msys64_files();
 #endif
   add_files("files_projects.txt");
+  add_files("textures_whitelist.txt");
   create_file("Webots", m);
 }
 
