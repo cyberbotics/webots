@@ -56,7 +56,7 @@ DEF TRACKED_ROBOT Robot {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/tank_wheel.jpg"
+                        "webots://projects/samples/devices/worlds/textures/tank_wheel.jpg"
                       ]
                     }
                     roughness 1
@@ -90,7 +90,7 @@ DEF TRACKED_ROBOT Robot {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/tank_wheel.jpg"
+                        "webots://projects/samples/devices/worlds/textures/tank_wheel.jpg"
                       ]
                     }
                     roughness 1
@@ -282,7 +282,7 @@ DEF CONVEYOR_BELT Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/checkered_marble.jpg"
+                "webots://projects/default/worlds/textures/checkered_marble.jpg"
               ]
             }
             roughness 1

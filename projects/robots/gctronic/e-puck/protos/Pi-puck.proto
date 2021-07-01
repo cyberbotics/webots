@@ -74,19 +74,19 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/pi-puck_top_base_color.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_base_color.jpg"
                 ]
               }
               roughness 1
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "textures/pi-puck_top_normal.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "textures/pi-puck_top_occlusion.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_occlusion.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -104,7 +104,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/pi-puck_bottom.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_bottom.jpg"
                 ]
               }
               roughness 1
@@ -145,19 +145,19 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_top_base_color.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_base_color.jpg"
                 ]
               }
               roughness 1
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_top_normal.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_top_occlusion.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_occlusion.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -180,7 +180,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_bottom.jpg"
+                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_bottom.jpg"
                 ]
               }
               roughness 1

@@ -44,7 +44,7 @@ Transform {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/target.png"
+            "webots://projects/samples/robotbenchmark/robot_programming/worlds/textures/target.png"
           ]
         }
         roughness 0.5

@@ -278,7 +278,7 @@ PROTO Spot [
             appearance DEF LENS PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/camera_lens_base_color.jpg"
+                  "webots://projects/robots/boston_dynamics/spot/protos/textures/camera_lens_base_color.jpg"
                 ]
               }
               metalness 0
@@ -316,7 +316,7 @@ PROTO Spot [
             appearance DEF BIG_LENS PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/camera_big_lens_base_color.jpg"
+                  "webots://projects/robots/boston_dynamics/spot/protos/textures/camera_big_lens_base_color.jpg"
                 ]
               }
               metalness 0
@@ -352,7 +352,7 @@ PROTO Spot [
             appearance DEF TWO_LENS PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/camera_2_lens_base_color.jpg"
+                  "webots://projects/robots/boston_dynamics/spot/protos/textures/camera_2_lens_base_color.jpg"
                 ]
               }
               metalness 0
@@ -451,7 +451,7 @@ PROTO Spot [
             appearance DEF TWO_LENS_ROTATE PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/camera_2_lens_base_color.jpg"
+                  "webots://projects/robots/boston_dynamics/spot/protos/textures/camera_2_lens_base_color.jpg"
                 ]
               }
               metalness 0
@@ -1518,7 +1518,7 @@ PROTO Spot [
             appearance DEF POWER_UP PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/startup.png"
+                  "webots://projects/robots/boston_dynamics/spot/protos/textures/startup.png"
                 ]
               }
               textureTransform TextureTransform {

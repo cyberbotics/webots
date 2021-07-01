@@ -69,7 +69,7 @@ PROTO TexturedBackground [
     }
 
     const extension = isHDR ? 'png' : 'jpg';
-    const path = 'textures/cubic';
+    const path = 'webots://projects/default/worlds/textures/cubic';
 
     if (!isHDR) {
       let availableHdr = ''

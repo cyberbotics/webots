@@ -14,6 +14,8 @@
 
 #include "WbBackground.hpp"
 
+#include "WbApplication.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -190,6 +192,7 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
   mDownloader[index] = new WbDownloader(this);
   if (postpone)
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
+
   mDownloader[index]->download(QUrl(url));
 }
 
@@ -321,16 +324,13 @@ void WbBackground::updateCubemap() {
     }
     const bool hasCompleteBackground = urlCount == 6;
     if (isPostFinalizedCalled()) {
-      const WbMFString *urlField = dynamic_cast<const WbMFString *>(sender());
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
           const QString &url = mUrlFields[i]->item(0);
           if (WbUrl::isWeb(url)) {
             if (mDownloader[i] == NULL) {
-              if (urlField == mUrlFields[i]) {
-                downloadAsset(url, i, true);
-                postpone = true;
-              }
+              downloadAsset(url, i, true);
+              postpone = true;
             }
           } else {
             delete mTexture[i];
@@ -341,10 +341,8 @@ void WbBackground::updateCubemap() {
           const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
           if (WbUrl::isWeb(irradianceUrl)) {
             if (mDownloader[i + 6] == NULL) {
-              if (urlField == mIrradianceUrlFields[i]) {
-                downloadAsset(irradianceUrl, i + 6, true);
-                postpone = true;
-              }
+              downloadAsset(irradianceUrl, i + 6, true);
+              postpone = true;
             }
           } else {
             stbi_image_free(mIrradianceTexture[i]);
@@ -419,16 +417,16 @@ bool WbBackground::loadTexture(int i) {
   QString url;
   QIODevice *device;
 
-  if (mDownloader[i]) {
+  if (mDownloader[urlFieldIndex]) {
     url = mUrlFields[urlFieldIndex]->item(0);
-    if (!mDownloader[i]->error().isEmpty()) {
-      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[i]->error()));
-      delete mDownloader[i];
-      mDownloader[i] = NULL;
+    if (!mDownloader[urlFieldIndex]->error().isEmpty()) {
+      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[urlFieldIndex]->error()));
+      delete mDownloader[urlFieldIndex];
+      mDownloader[urlFieldIndex] = NULL;
       return false;
     }
-    assert(mDownloader[i]->device());
-    device = mDownloader[i]->device();
+    assert(mDownloader[urlFieldIndex]->device());
+    device = mDownloader[urlFieldIndex]->device();
   } else {
     if (mUrlFields[urlFieldIndex]->size() == 0)
       return false;
@@ -449,7 +447,7 @@ bool WbBackground::loadTexture(int i) {
 
   if (textureSize.width() != textureSize.height()) {
     warn(tr("The %1Url '%2' is not a square image (its width doesn't equal its height).").arg(gDirections[i], url));
-    if (!mDownloader[i])
+    if (!mDownloader[urlFieldIndex])
       delete device;
     return false;
   }
@@ -459,7 +457,7 @@ bool WbBackground::loadTexture(int i) {
         break;
       else {
         warn(tr("Texture dimension mismatch between %1Url and %2Url.").arg(gDirections[i], gDirections[j]));
-        if (!mDownloader[i])
+        if (!mDownloader[urlFieldIndex])
           delete device;
         return false;
       }
@@ -468,7 +466,7 @@ bool WbBackground::loadTexture(int i) {
   mTexture[i] = new QImage;
   if (!imageReader.read(mTexture[i])) {
     warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
-    if (!mDownloader[i])
+    if (!mDownloader[urlFieldIndex])
       delete device;
     return false;
   }
@@ -480,7 +478,7 @@ bool WbBackground::loadTexture(int i) {
       warn(tr("Alpha channel mismatch with %1Url.").arg(gDirections[i]));
       delete mTexture[i];
       mTexture[i] = NULL;
-      if (!mDownloader[i])
+      if (!mDownloader[urlFieldIndex])
         delete device;
       return false;
     }
@@ -500,9 +498,9 @@ bool WbBackground::loadTexture(int i) {
     QImage tmp = mTexture[i]->transformed(matrix);
     mTexture[i]->swap(tmp);
   }
-  if (mDownloader[i]) {
-    delete mDownloader[i];
-    mDownloader[i] = NULL;
+  if (mDownloader[urlFieldIndex]) {
+    delete mDownloader[urlFieldIndex];
+    mDownloader[urlFieldIndex] = NULL;
   } else {
     device->close();
     delete device;
@@ -522,9 +520,9 @@ bool WbBackground::loadIrradianceTexture(int i) {
   int components;
   if (device) {
     if (!mDownloader[k]->error().isEmpty()) {
+      warn(tr("Cannot download %1IrradianceUrl: %2").arg(gDirections[1], mDownloader[k]->error()));
       delete mDownloader[k];
       mDownloader[k] = NULL;
-      warn(tr("Cannot download %1IrradianceUrl: %2").arg(gDirections[1], mDownloader[k]->error()));
       return false;
     }
   } else {
@@ -689,28 +687,46 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
   for (int i = 0; i < 6; ++i) {
     if (mUrlFields[i]->size() == 0)
       continue;
-    const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
-    const QFileInfo &cubeInfo(url);
-    if (writer.isWritingToFile())
-      backgroundFileNames[i] =
-        WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-    else
-      backgroundFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-    writer.addTextureToList(backgroundFileNames[i], url);
+    QString imagePath = mUrlFields[i]->value()[0];
+    if (imagePath.indexOf("http") == 0)
+      backgroundFileNames[i] = imagePath;
+    else if (imagePath.indexOf("webots://") == 0)
+      backgroundFileNames[i] = imagePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() +
+                                                                "/" + WbApplicationInfo::branch() + "/");
+    else {
+      const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+      const QFileInfo &cubeInfo(url);
+      if (writer.isWritingToFile())
+        backgroundFileNames[i] =
+          WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+      else
+        backgroundFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
+      writer.addTextureToList(backgroundFileNames[i], url);
+    }
   }
 
   QString irradianceFileNames[6];
   for (int i = 0; i < 6; ++i) {
     if (mIrradianceUrlFields[i]->size() == 0)
       continue;
-    const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
-    const QFileInfo &cubeInfo(url);
-    if (writer.isWritingToFile())
+
+    QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
+    if (irradiancePath.indexOf("http") == 0)
+      irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
+    else if (irradiancePath.indexOf("webots://") == 0)
       irradianceFileNames[i] =
-        WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-    else
-      irradianceFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-    writer.addTextureToList(irradianceFileNames[i], url);
+        irradiancePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                              WbApplicationInfo::branch() + "/");
+    else {
+      const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
+      const QFileInfo &cubeInfo(url);
+      if (writer.isWritingToFile())
+        irradianceFileNames[i] =
+          WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+      else
+        irradianceFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
+      writer.addTextureToList(irradianceFileNames[i], url);
+    }
   }
 
   if (writer.isX3d()) {

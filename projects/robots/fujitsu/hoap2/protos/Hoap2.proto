@@ -2190,7 +2190,7 @@ PROTO Hoap2 [
               roughness 0.5
               baseColorMap ImageTexture {
                 url [
-                  "textures/fujitsu_transparent.png"
+                  "webots://projects/robots/fujitsu/hoap2/protos/textures/fujitsu_transparent.png"
                 ]
                 repeatT FALSE
               }
@@ -2210,7 +2210,7 @@ PROTO Hoap2 [
               roughness 0.5
               baseColorMap ImageTexture {
                 url [
-                  "textures/birg.png"
+                  "webots://projects/robots/fujitsu/hoap2/protos/textures/birg.png"
                 ]
               }
               textureTransform TextureTransform {

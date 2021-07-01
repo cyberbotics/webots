@@ -14,27 +14,27 @@ PROTO LargeResidentialTowerRoof [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/large_residential_tower_roof_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/large_residential_tower_roof_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/large_residential_tower_roof_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/large_residential_tower_roof_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/large_residential_tower_roof_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_occlusion.jpg"
             ]
           }
         }

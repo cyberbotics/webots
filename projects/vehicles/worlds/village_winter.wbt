@@ -181,7 +181,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -217,7 +217,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -255,7 +255,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -291,7 +291,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -329,7 +329,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -369,7 +369,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -405,7 +405,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -442,7 +442,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -462,7 +462,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -498,7 +498,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -534,7 +534,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -570,7 +570,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -589,7 +589,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -608,7 +608,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -648,7 +648,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -687,7 +687,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -706,7 +706,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -744,7 +744,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -782,7 +782,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -820,7 +820,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -858,7 +858,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -894,7 +894,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -931,7 +931,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -968,7 +968,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -987,7 +987,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -1006,7 +1006,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -1046,7 +1046,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -1082,7 +1082,7 @@ Crossroad {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snow.jpg"
+        "webots://projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -1120,23 +1120,23 @@ Road {
   appearance DEF ROAD_WITH_SNOW PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/snowy_road/snowy_road_base_color.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/snowy_road/snowy_road_roughness.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/snowy_road/snowy_road_normal.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/snowy_road/snowy_road_occlusion.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -1742,7 +1742,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -1785,7 +1785,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -4488,7 +4488,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4523,7 +4523,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4558,7 +4558,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4593,7 +4593,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4628,7 +4628,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -5147,7 +5147,7 @@ OrderSign {
     OrderPanel {
       translation 0 -0.175 -0.026
       signImage [
-        "textures/signs/stop.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/stop.jpg"
       ]
     }
   ]
@@ -5169,7 +5169,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5182,7 +5182,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5195,7 +5195,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5208,7 +5208,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/right_cross_road.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/right_cross_road.jpg"
       ]
     }
   ]
@@ -5221,7 +5221,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/right_cross_road.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/right_cross_road.jpg"
       ]
     }
   ]
@@ -5234,7 +5234,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/left_cross_road.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/left_cross_road.jpg"
       ]
     }
   ]
@@ -5247,7 +5247,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5260,7 +5260,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5273,7 +5273,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5286,7 +5286,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5299,7 +5299,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5312,7 +5312,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5324,7 +5324,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5337,7 +5337,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5350,7 +5350,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5363,7 +5363,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5376,7 +5376,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5389,7 +5389,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5402,7 +5402,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5415,7 +5415,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5428,7 +5428,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5441,7 +5441,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5454,7 +5454,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5467,7 +5467,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5480,7 +5480,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5493,7 +5493,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5506,7 +5506,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5519,7 +5519,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5532,7 +5532,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5545,7 +5545,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5558,7 +5558,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5571,7 +5571,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5584,7 +5584,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5597,7 +5597,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5610,7 +5610,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5623,7 +5623,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5636,7 +5636,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5649,7 +5649,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5671,7 +5671,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_80.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_80.jpg"
       ]
     }
   ]
@@ -5684,7 +5684,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_80.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_80.jpg"
       ]
     }
   ]
@@ -5697,7 +5697,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_60.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_60.jpg"
       ]
     }
   ]
@@ -5710,7 +5710,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_30.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]
@@ -5723,7 +5723,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_40.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
       ]
     }
   ]
@@ -5736,7 +5736,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_20.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_20.jpg"
       ]
     }
   ]
@@ -5749,7 +5749,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_20.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_20.jpg"
       ]
     }
   ]
@@ -5762,7 +5762,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_30.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]
@@ -5775,7 +5775,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_30.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]

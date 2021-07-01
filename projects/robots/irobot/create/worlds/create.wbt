@@ -118,7 +118,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/dirty.jpg"
+                "webots://projects/robots/irobot/create/worlds/textures/dirty.jpg"
               ]
             }
             transparency 0.9

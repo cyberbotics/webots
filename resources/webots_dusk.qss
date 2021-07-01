@@ -120,6 +120,25 @@ QMenu::separator {
   height: 1px;
 }
 
+/* network tab */
+
+QGroupBox#networkGroupBox {
+  background-color: #33333f;
+  margin-top: 2em;
+  border-radius: 2px;
+  border-color: #666;
+  border-width: 1px;
+  border-style: solid;
+}
+
+QGroupBox#networkGroupBox QLabel {
+  background-color: #33333f;
+}
+
+QGroupBox#networkGroupBox QCheckBox {
+  background-color: #33333f;
+}
+
 /* 3D view tools */
 
 QFrame#simulationIndicatorFrame {

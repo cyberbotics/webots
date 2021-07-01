@@ -20,7 +20,7 @@ Floor {
   size 20 20
   tileSize 2 2
   texture [
-    "textures/parquetry.jpg"
+    "webots://projects/default/worlds/textures/parquetry.jpg"
   ]
 }
 DEF HEXAPOD Hexapod {

@@ -533,7 +533,7 @@ PROTO JetsonNano [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "textures/jetson_power_plug.jpg"
+                          "webots://projects/devices/nvidia/protos/textures/jetson_power_plug.jpg"
                         ]
                       }
                       roughness 0.5
@@ -566,17 +566,17 @@ PROTO JetsonNano [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/jetson_video_port.jpg"
+                      "webots://projects/devices/nvidia/protos/textures/jetson_video_port.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                      "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                      "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
                     ]
                   }
                   textureTransform TextureTransform {
@@ -610,18 +610,18 @@ PROTO JetsonNano [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/jetson_usb_port.jpg"
+                      "webots://projects/devices/nvidia/protos/textures/jetson_usb_port.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                      "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
                     ]
                   }
                   metalness 0.7
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                      "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
                     ]
                   }
                   textureTransform TextureTransform {
@@ -662,18 +662,18 @@ PROTO JetsonNano [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/jetson_ethernet_port.jpg"
+                      "webots://projects/devices/nvidia/protos/textures/jetson_ethernet_port.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                      "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
                     ]
                   }
                   metalness 0.7
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                      "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
                     ]
                   }
                   textureTransform TextureTransform {
@@ -707,18 +707,18 @@ PROTO JetsonNano [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/jetson_usb_mini_port.jpg"
+                      "webots://projects/devices/nvidia/protos/textures/jetson_usb_mini_port.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                      "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
                     ]
                   }
                   metalness 0.7
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                      "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
                     ]
                   }
                   textureTransform TextureTransform {
@@ -798,7 +798,7 @@ PROTO JetsonNano [
             }
             geometry Mesh {
               url [
-                "meshes/jetson_heat_sink.stl"
+                "webots://projects/devices/nvidia/protos/meshes/jetson_heat_sink.stl"
               ]
             }
           }

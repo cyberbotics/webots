@@ -65,7 +65,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/concrete.jpg"
+        "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/concrete.jpg"
       ]
     }
     roughness 1
@@ -252,7 +252,7 @@ DEF CONVEYOR_BELT Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/conveyor_belt_rubber.jpg"
+                "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/conveyor_belt_rubber.jpg"
               ]
             }
             roughness 1
@@ -507,7 +507,7 @@ DEF MACHINERY Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/factory_logo.png"
+                "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/factory_logo.png"
               ]
             }
           }
@@ -635,7 +635,7 @@ PlatformCart {
                   appearance DEF CUBE_BOX_APPEARANCE PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/cardboard.jpg"
+                        "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/cardboard.jpg"
                       ]
                     }
                     roughness 1

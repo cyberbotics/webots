@@ -103,7 +103,7 @@ DEF TABLE_WITH_PAPER_SHEET Transform {
             }
             texture ImageTexture {
               url [
-                "textures/plastic.jpg"
+                "webots://projects/default/worlds/textures/plastic.jpg"
               ]
             }
           }
@@ -128,22 +128,22 @@ DEF TARGET Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/target.png"
+            "webots://projects/robots/abb/irb/worlds/textures/target.png"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/target.png"
+            "webots://projects/robots/abb/irb/worlds/textures/target.png"
           ]
         }
         metalnessMap ImageTexture {
           url [
-            "textures/target.png"
+            "webots://projects/robots/abb/irb/worlds/textures/target.png"
           ]
         }
         emissiveColorMap ImageTexture {
           url [
-            "textures/target.png"
+            "webots://projects/robots/abb/irb/worlds/textures/target.png"
           ]
         }
         textureTransform TextureTransform {
@@ -200,7 +200,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/asphalt.jpg"
+        "webots://projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 1
@@ -403,7 +403,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/ladybug.png"
+            "webots://projects/default/worlds/textures/ladybug.png"
           ]
           filtering 5
         }
@@ -429,7 +429,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/steel_floor.jpg"
+            "webots://projects/default/worlds/textures/steel_floor.jpg"
           ]
         }
         roughness 0.5

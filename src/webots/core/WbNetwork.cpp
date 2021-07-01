@@ -46,13 +46,19 @@ WbNetwork::~WbNetwork() {
 QNetworkAccessManager *WbNetwork::networkAccessManager() {
   if (mNetworkAccessManager == NULL) {
     mNetworkAccessManager = new QNetworkAccessManager();
-    QNetworkDiskCache *diskCache = new QNetworkDiskCache();
-    diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network");
-    diskCache->setMaximumCacheSize(1024 * 1024 * 1024);
-    mNetworkAccessManager->setCache(diskCache);
+    updateCache();
+    connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbNetwork::updateCache);
     setProxy();
   }
   return mNetworkAccessManager;
+}
+
+void WbNetwork::updateCache() {
+  QNetworkDiskCache *diskCache = new QNetworkDiskCache();
+  diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network");
+  int value = 1024 * 1024 * WbPreferences::instance()->value("Network/cacheSize", 1024).toInt();
+  diskCache->setMaximumCacheSize(value);
+  mNetworkAccessManager->setCache(diskCache);
 }
 
 void WbNetwork::setProxy() {
@@ -85,4 +91,8 @@ void WbNetwork::setProxy() {
   QNetworkProxy::setApplicationProxy(proxy);
   if (mNetworkAccessManager)
     mNetworkAccessManager->setProxy(proxy);
+}
+
+void WbNetwork::clearCache() {
+  mNetworkAccessManager->cache()->clear();
 }
