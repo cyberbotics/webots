@@ -60,11 +60,13 @@ During this work, we also took the time to refresh and improve the graphical use
 The [Motor](../reference/motor.md) and [Joint](../reference/joint.md) nodes have been extended to provide more realistic simulations.
 
 We enhanced the [Motor](../reference/motor.md) node to support coupled motors specifying the linked motor in the `name` field and setting their ratio using the new `multiplier` field.
+This new functionality is particularly useful, for example, to simplify multi-fingered grippers.
+
 
 Then, we added three new PROTO nodes. The [HingeJointWithBacklash](../guide/hinge-joint-with-backlash.md) and [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash.md) allow users to easily add a backlash effect in hinges. The [Gear](../guide/object-gear.md) model can be used to simulate a collision-based transmission.
 
 
-%figure "Coupled Motors with Gears"
+%figure "Coupled Motors with Gears. In this example gears are not physically enabled."
 ![Coupled Motors With Gears](images/coupled_motors.gif)
 %end
 
