@@ -283,10 +283,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Device nodes cannot be USEd nodes cannot be USEd.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Nodes with a Solid descendant cannot be USEd.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -491,10 +487,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To run Matlab controllers, you need to install a 64-bit version of Matlab.</source>
-        <translation>Per utilizzare controllori Matlab devi installare una versione 64-bit di Matlab.</translation>
-    </message>
-    <message>
         <source>To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available from the DOS CMD.EXE console.</source>
         <translation>Per utilizzare controllori Matlab devi installare una versione 64-bit di Matlab e assicurarti che sia disponibile dalla console DOS CMD.EXE.</translation>
     </message>
@@ -549,18 +541,6 @@
     <message>
         <source>Could not open generated sound from &apos;%1&apos;: %2</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File doesn&apos;t exist</source>
-        <translation>File non esiste</translation>
-    </message>
-    <message>
-        <source>Unsupported file format</source>
-        <translation>Formato del file non supportato</translation>
-    </message>
-    <message>
-        <source>Cannot open file</source>
-        <translation>Impossibile aprire il file</translation>
     </message>
     <message>
         <source>Cannot read chunk</source>
@@ -795,6 +775,18 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Found deprecated gravity vector (%1 %2 %3) in WorldInfo, using gravity vector length: %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Billboard nodes cannot be USEd.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device nodes cannot be USEd.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;scale&apos; cannot be changed if a descendant Robot node is present.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1692,12 +1684,6 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation>Aggiungi</translation>
     </message>
     <message>
-        <source>Insert the identity matrix
- [ 1 1 1, 0 0 0]</source>
-        <translation>Inserisci la matrice identità
- [ 1 1 1, 0 0 0]</translation>
-    </message>
-    <message>
         <source>If no center of mass is currently specified, a zero 3D vector will be inserted.</source>
         <translation>Se nessun centro di massa è specificato, un vettore 3D nullo verrà inserito.</translation>
     </message>
@@ -1727,6 +1713,11 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Bounding object based</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert the identity matrix 
+ [ 1 1 1, 0 0 0]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1918,24 +1909,52 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation>Solo un nodo Background è permesso. Il nodo corrente non verrà preso in considerazione.</translation>
     </message>
     <message>
-        <source>Incomplete cubemap</source>
+        <source>Cannot load texture &apos;%1&apos;: %2.</source>
+        <translation>Impossibile caricare texture &apos;%1&apos;: %2.</translation>
+    </message>
+    <message>
+        <source>Incomplete irradiance cubemap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The texture &apos;%1&apos; is not a square image (its width doesn&apos;t equal its height).</source>
-        <translation>La texture &apos;%1&apos; non è un&apos;immagine quadrata (la larghezza non corrisponde all&apos;altezza).</translation>
+        <source>Incomplete background cubemap</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Texture dimension mismatch between &apos;%1&apos; and &apos;%2&apos;</source>
-        <translation>Le dimensioni non combaciano fra le texture &apos;%1&apos; e &apos;%2&apos;</translation>
+        <source>Cannot retrieve &apos;%1&apos;: %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alpha channel mismatch between &apos;%1&apos; and &apos;%2&apos;</source>
-        <translation>Il canale alpha non corrisponde fra &apos;%1&apos; e &apos;%2&apos;</translation>
+        <source>Texture not found: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot load texture &apos;%1&apos;: %2.</source>
-        <translation>Impossibile caricare texture &apos;%1&apos;: %2.</translation>
+        <source>Cannot open texture file: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The %1Url &apos;%2&apos; is not a square image (its width doesn&apos;t equal its height).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Texture dimension mismatch between %1Url and %2Url.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alpha channel mismatch with %1Url.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot download %1IrradianceUrl: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1IrradianceUrl not found: &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot open HDR texture file: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2282,6 +2301,10 @@ Colore %1: %2 %3 %4</translation>
         <source>Terminating controller &quot;%1&quot;.</source>
         <translation>Interruzione del controllore &quot;%1&quot;.</translation>
     </message>
+    <message>
+        <source>Closing extern controller connection for robot &quot;%1&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbController</name>
@@ -2500,6 +2523,17 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
 </context>
 <context>
+    <name>WbDownloader</name>
+    <message>
+        <source>Cannot download %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading assets</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WbElevationGrid</name>
     <message>
         <source>&apos;height&apos; contains %1 ignored extra value(s).</source>
@@ -2535,6 +2569,14 @@ Please close any running instances of the controller and reload the world.</sour
     <message>
         <source>&apos;range&apos; must be less than or equal to &apos;maxRange&apos;.</source>
         <translation>&apos;range&apos; deve essere inferiore o uguale a &apos;maxRange&apos;.</translation>
+    </message>
+    <message>
+        <source>&apos;allowedChannels&apos; does not contain current &apos;channel&apos;. Setting &apos;channel&apos; to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;channel&apos; is not included in &apos;allowedChannels&apos;. Setting &apos;channel&apos; to %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2936,11 +2978,11 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>HingeJoint &apos;minStop&apos; must be less or equal to RotationalMotor &apos;minPosition&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Il valore &apos;minStop&apos; di HingeJoint deve essere inferiore o uguale a &apos;minPosition&apos; di RotationalMotor.</translation>
     </message>
     <message>
         <source>HingeJoint &apos;maxStop&apos; must be greater or equal to RotationalMotor &apos;maxPosition&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Il valore &apos;maxStop&apos; di HingeJoint deve essere superiore o uguale a &apos;maxPosition&apos; di RotationalMotor.</translation>
     </message>
     <message>
         <source>Hinge2Joint nodes can only connect Solid nodes that have a Physics node.</source>
@@ -2984,20 +3026,13 @@ Please close any running instances of the controller and reload the world.</sour
         <source>&apos;Hinge2JointParameters&apos; is deprecated, please use &apos;HingeJointParameters&apos; instead.</source>
         <translation>&apos;Hinge2JointParameters&apos; è deprecato, per favore usa piuttosto &apos;HingeJointParameters&apos;.</translation>
     </message>
-</context>
-<context>
-    <name>WbHtmlExportDialog</name>
     <message>
-        <source>X3D Shadow Parameters</source>
-        <translation>Parametri Ombre X3D</translation>
+        <source>&apos;stopERP&apos; must be greater or equal to zero or -1. Reverting to -1 (use global ERP).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File name:</source>
-        <translation>Nome del file:</translation>
-    </message>
-    <message>
-        <source>HTML Files (*.html *.HTML)</source>
-        <translation>Files HTML (*.html *.HTML)</translation>
+        <source>&apos;stopCFM&apos; must be greater than zero or -1. Reverting to -1 (use global CFM).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3253,26 +3288,6 @@ The following file formats are supported:
         <translation>&apos;defaultFrequency&apos; deve essere superiore o uguale a &apos;maxFrequency&apos;.</translation>
     </message>
     <message>
-        <source>Impossible to have a so small &apos;horizontalResolution&apos; unsing this &apos;numberOfLayers&apos; and &apos;verticalFieldOfView&apos;. &apos;horizontalResolution&apos; should be bigger or equal to 2.0 * M_PI * numberOfLayers  / verticalFieldOfView. &apos;horizontalResolution&apos; set to %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Impossible to have a so small &apos;horizontalResolution&apos; unsing this &apos;fieldOfView&apos;, &apos;numberOfLayers&apos; and &apos;verticalFieldOfView&apos;. &apos;horizontalResolution&apos; should be bigger or equal to numberOfLayers * fieldOfView / verticalFieldOfView. &apos;horizontalResolution&apos; set to %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Impossible to have a so small &apos;verticalFieldOfView&apos; unsing this &apos;numberOfLayers&apos; and &apos;horizontalResolution&apos;. &apos;verticalFieldOfView&apos; should be bigger or equal to 2.0 * M_PI * numberOfLayers / horizontalResolution. &apos;verticalFieldOfView&apos; set to %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Impossible to have a so small &apos;verticalFieldOfView&apos; unsing this &apos;fieldOfView&apos;, &apos;numberOfLayers&apos; and &apos;horizontalResolution&apos;. &apos;verticalFieldOfView&apos; should be bigger or equal to numberOfLayers * fieldOfView / horizontalResolution. &apos;verticalFieldOfView&apos; set to %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Impossible to have a so big &apos;numberOfLayers&apos; unsing this &apos;fieldOfView&apos;, &apos;verticalFieldOfView&apos; and &apos;horizontalResolution&apos;. &apos;numberOfLayers&apos; should be smaller or equal to verticalFieldOfView * horizontalResolution / fieldOfView. &apos;numberOfLayers&apos; set to %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&apos;near&apos; is greater than to &apos;minRange&apos;. Setting &apos;near&apos; to %1.</source>
         <translation>&apos;near&apos; è superiore a &apos;minRange&apos;. &apos;near&apos; impostato a %1.</translation>
     </message>
@@ -3287,10 +3302,6 @@ The following file formats are supported:
     <message>
         <source>&apos;maxRange&apos; is less or equal to &apos;minRange&apos;. Setting &apos;maxRange&apos; to %1.</source>
         <translation>&apos;maxRange&apos; è inferiore o uguale a &apos;minRange&apos;. &apos;maxRange&apos; impostato a %1.</translation>
-    </message>
-    <message>
-        <source>Impossible to have a so big &apos;numberOfLayers&apos; unsing this &apos;verticalFieldOfView&apos; and &apos;horizontalResolution&apos;. &apos;numberOfLayers&apos; should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * M_PI). &apos;numberOfLayers&apos; set to %1.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&apos;fieldOfView&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
@@ -3308,6 +3319,34 @@ The following file formats are supported:
         <source>&apos;numberOfLayers&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
         <translation>&apos;numberOfLayers&apos; è stato modificato. Questa modifica sarà presa in considerazione dopo aver salvato e ricaricato lo scenario.</translation>
     </message>
+    <message>
+        <source>&apos;type&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to have a so small &apos;horizontalResolution&apos; using this &apos;numberOfLayers&apos; and &apos;verticalFieldOfView&apos;. &apos;horizontalResolution&apos; should be bigger or equal to 2.0 * M_PI * numberOfLayers  / verticalFieldOfView. &apos;horizontalResolution&apos; set to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to have a so small &apos;horizontalResolution&apos; using this &apos;fieldOfView&apos;, &apos;numberOfLayers&apos; and &apos;verticalFieldOfView&apos;. &apos;horizontalResolution&apos; should be bigger or equal to numberOfLayers * fieldOfView / verticalFieldOfView. &apos;horizontalResolution&apos; set to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to have a so small &apos;verticalFieldOfView&apos; using this &apos;numberOfLayers&apos; and &apos;horizontalResolution&apos;. &apos;verticalFieldOfView&apos; should be bigger or equal to 2.0 * M_PI * numberOfLayers / horizontalResolution. &apos;verticalFieldOfView&apos; set to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to have a so small &apos;verticalFieldOfView&apos; using this &apos;fieldOfView&apos;, &apos;numberOfLayers&apos; and &apos;horizontalResolution&apos;. &apos;verticalFieldOfView&apos; should be bigger or equal to numberOfLayers * fieldOfView / horizontalResolution. &apos;verticalFieldOfView&apos; set to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to have a so big &apos;numberOfLayers&apos; using this &apos;verticalFieldOfView&apos; and &apos;horizontalResolution&apos;. &apos;numberOfLayers&apos; should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * M_PI). &apos;numberOfLayers&apos; set to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to have a so big &apos;numberOfLayers&apos; using this &apos;fieldOfView&apos;, &apos;verticalFieldOfView&apos; and &apos;horizontalResolution&apos;. &apos;numberOfLayers&apos; should be smaller or equal to verticalFieldOfView * horizontalResolution / fieldOfView. &apos;numberOfLayers&apos; set to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbLinearMotor</name>
@@ -3317,6 +3356,13 @@ The following file formats are supported:
     </message>
     <message>
         <source>Force feedback is not available for a LinearMotor node inside a Track node.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WbMFColor</name>
+    <message>
+        <source>Expected positive color values in range [0.0, 1.0], found [%1 %2 %3]. MFColor field item %4 reset to [%5 %6 %7]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3651,10 +3697,6 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export as HTML5 animation</source>
-        <translation>Esporta come animazione HTML5</translation>
-    </message>
-    <message>
         <source>Stop HTML5 &amp;Animation...</source>
         <translation>Ferma &amp;Animazione HTML5...</translation>
     </message>
@@ -3697,18 +3739,6 @@ The following file formats are supported:
     <message>
         <source>Open the Webots for automobiles book online.</source>
         <translation>Apri il libro online di Webots per automobili.</translation>
-    </message>
-    <message>
-        <source>Open the Webots user guide in the documentation tool.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open the Webots reference manual in the documentation tool.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open the Webots for automobiles book in the documentation tool.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&amp;Virtual Reality Headset</source>
@@ -3927,6 +3957,10 @@ The following file formats are supported:
         <source>&amp;Scene Interactions</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>HTML Files (*.html *.HTML)</source>
+        <translation type="unfinished">Files HTML (*.html *.HTML)</translation>
+    </message>
 </context>
 <context>
     <name>WbMatter</name>
@@ -4037,6 +4071,30 @@ The following file formats are supported:
     </message>
     <message>
         <source>The requested available motor force %1 exceeds &apos;maxForce&apos; = %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Motor &apos;%1&apos; uses the coupled motor name structure but does not have any siblings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The value of &apos;multiplier&apos; cannot be 0. Value reverted to 1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For coupled motors, if one has unlimited position, its siblings must have unlimited position as well. Adjusting &apos;minPosition&apos; and &apos;maxPosition&apos; to 0 for motor &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When using coupled motors, &apos;minPosition&apos; must be consistent across devices. Adjusting &apos;minPosition&apos; from %1 to %2 for motor &apos;%3&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When using coupled motors, &apos;maxPosition&apos; must be consistent across devices. Adjusting &apos;maxPosition&apos; from %1 to %2 for motor &apos;%3&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When using coupled motors, velocity limits must be consistent across devices. Adjusted &apos;maxVelocity&apos; from %1 to %2 for motor &apos;%3&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4376,11 +4434,6 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
-Do you want to continue?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>This DEF string is already used by subsequent DEF nodes. Applying this change will turn USE nodes of the selected node into copies of subsequent DEF node.
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
@@ -4392,6 +4445,15 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Triangle count: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Triangle count: %1 (no shadow)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
+Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4584,7 +4646,7 @@ Do you want to continue?</source>
     <name>WbPointLight</name>
     <message>
         <source>&apos;ambientIntensity&apos; and &apos;attenuation&apos; cannot differ from their default values at the same time. &apos;ambientIntensity&apos; was changed to 0.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&apos;ambientIntensitiy&apos; e &apos;attenuation&apos; non possono essere entrambi diversi dai loro valori predefiniti contemporaneamente. &apos;ambientIntensity&apos; modificato a 0.</translation>
     </message>
     <message>
         <source>Maximum number of active point lights (%1) has been reached, newly added lights won&apos;t be rendered.</source>
@@ -4592,7 +4654,7 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>A quadratic &apos;attenuation&apos; should be preferred to have a realistic simulation of light. Only the third component of the &apos;attenuation&apos; field should be greater than 0.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Un &apos;attenuation&apos; quadratico è preferibile per ottenere una simulazione realistica della luce. Solo il terzo componente del campo &apos;attenuation&apos; dovrebbe essere superiore a 0.</translation>
     </message>
 </context>
 <context>
@@ -4739,10 +4801,6 @@ ad ogni avvio. Se disponibile, ne sarai informato.</translation>
         <translation>Comando Python:</translation>
     </message>
     <message>
-        <source>Network Proxy</source>
-        <translation>Proxy Rete</translation>
-    </message>
-    <message>
         <source>You have changed some settings which require Webots to be restarted. Restart Webots Now?</source>
         <translation>Hai modificato delle impostazioni che richiedono il riavvio di Webots. Riavvia Webots Ora?</translation>
     </message>
@@ -4771,26 +4829,6 @@ still display a warning if the world was modified from the scene tree.</source>
     </message>
     <message>
         <source>Activate SOCK5 proxying.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proxy type:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proxy hostname:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proxy port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proxy username:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proxy password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4856,6 +4894,46 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     </message>
     <message>
         <source>Max Texture Filtering:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The cache has been cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the size of the cache (in MB):</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5092,6 +5170,14 @@ https://cyberbotics.com/doc/guide/telemetry</source>
         <source>Unknown &apos;type&apos;: &quot;%1&quot;.</source>
         <translation>&apos;type&apos; sconosciuto: &quot;%1&quot;.</translation>
     </message>
+    <message>
+        <source>&apos;channel&apos; is not included in &apos;allowedChannels&apos;. Setting &apos;channel&apos; to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;allowedChannels&apos; does not contain current &apos;channel&apos;. Setting &apos;channel&apos; to %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbRenderingDevice</name>
@@ -5224,6 +5310,10 @@ https://cyberbotics.com/doc/guide/telemetry</source>
     <message>
         <source>Expected floating point value, found %1</source>
         <translation>Previsto valore a virgola mobile, ottenuto %1</translation>
+    </message>
+    <message>
+        <source>Expected positive color values in range [0.0, 1.0], found [%1 %2 %3]. SFColor field reset to [%4 %5 %6]</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5470,6 +5560,10 @@ Desideri aprirlo ora?</translation>
         <source>Initializing plugins (if any)</source>
         <translation>Inizializzazione plugins (se presente)</translation>
     </message>
+    <message>
+        <source>Downloading assets</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbSingleTaskApplication</name>
@@ -5607,6 +5701,36 @@ Desideri aprirlo ora?</translation>
     </message>
     <message>
         <source>Please report any bug to https://cyberbotics.com/bug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A parameter is not properly formated!
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parsing the %1 PROTO...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>  field %1 [%2] = %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot open the file!
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The %1 PROTO is written to the file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>    Disable rendering in the main 3D view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>    Convert a PROTO file to a URDF, WBO, or WRL file.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5940,10 +6064,6 @@ Please save the current world to get rid of this message.</source>
         <translation>wb_supervisor_node_set_velocity() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
     <message>
-        <source>wb_supervisor_node_reset_physics() can exclusively be used with a Solid</source>
-        <translation>wb_supervisor_node_reset_physics() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
-    </message>
-    <message>
         <source>wb_supervisor_node_restart_controller() can exclusively be used with a Robot</source>
         <translation>wb_supervisor_node_restart_controller() può essere utilizzato esclusivamente con nodi di tipo Robot</translation>
     </message>
@@ -5983,6 +6103,18 @@ Please save the current world to get rid of this message.</source>
         <source>wb_supervisor_node_add_torque() can exclusively be used with a Solid</source>
         <translation>wb_supervisor_node_add_torque() può essere utilizzato esclusivamente con nodi di tipo Solid</translation>
     </message>
+    <message>
+        <source>%1: node not found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>wb_supervisor_node_set_joint_position() called with a &apos;position&apos; argument %1 outside hard limits of the joint. Applied position is %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>wb_supervisor_node_get_pose() can exclusively be used with Transform (or derived).</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbTemplateEngine</name>
@@ -5997,6 +6129,22 @@ Please save the current world to get rid of this message.</source>
     <message>
         <source>luaL_dostring error : %1</source>
         <translation>luaL_dostring errore : %1</translation>
+    </message>
+    <message>
+        <source>Expected JavaScript closing token &apos;%1&apos; is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Couldn&apos;t write jsTemplateFilled to disk.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>failed to import JavaScript template: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>failed to execute JavaScript template: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6156,6 +6304,14 @@ Desideri salvarlo prima di chiudere?</translation>
         <source>Relative to %1</source>
         <translation>Relativo a %1</translation>
     </message>
+    <message>
+        <source>Linear velocity magnitude:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angular velocity magnitude:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbVideoRecorder</name>
@@ -6311,24 +6467,12 @@ Desideri mostrarlo?
         <translation>Webots ha rilevato che il fornitore della tua GPU è &apos;%1&apos;. Un adattore grafico NVIDIA o AMD recente è vivamente consigliato per eseguire Webots senza problemi. </translation>
     </message>
     <message>
-        <source>Webots has detected that your system features an Intel GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
-        <translation>Webots ha rilevato che il tuo sistema utilizza una GPU Intel. Un adattore grafico NVIDIA o AMD recente è vivamente cosigliato per eseguire Webots senza problemi. </translation>
-    </message>
-    <message>
-        <source>Webots has detected that you are using an old AMD GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
-        <translation>Webots ha rilevato che stai usando una GPU AMD antiquata. Un adattore grafico NVIDIA o AMD recente è vivamente consigliato per eseguire Webots senza problemi. </translation>
-    </message>
-    <message>
         <source>Main 3D view global ambient occlusion has been de-activated.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Texture quality has been reduced.</source>
         <translation>La qualità delle texture è stata ridotta.</translation>
-    </message>
-    <message>
-        <source>Webots has detected that your GPU has less than 2Gb of memory. A minimum of 2Gb of memory is recommended to use high-resolution textures. </source>
-        <translation>Webots ha rilevato che la tua GPU ha meno di 2Gb di memoria. Un minimo di 2Gb di memoria è raccomandato per utilizzare texture ad alta risoluzione. </translation>
     </message>
     <message>
         <source>Anti-aliasing has been deactivated.</source>
@@ -6338,16 +6482,32 @@ Desideri mostrarlo?
         <source>Texture maximum filtering has been reduced due to GPU limitations.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Webots has detected that your system features an old unsupported Intel GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots has detected that you are using an old unsupported AMD GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots has detected that your system features an old unsupported GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots has detected that your GPU has less than 2 GB of memory. A minimum of 2 GB of memory is recommended to use high-resolution textures. </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbViewpoint</name>
     <message>
         <source>&apos;near&apos; is greater than &apos;far&apos;. Setting &apos;near&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&apos;near&apos; è superiore a &apos;far&apos;. &apos;near&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;far&apos; is less than &apos;near&apos;. Setting &apos;far&apos; to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&apos;far&apos; è inferiore a &apos;near&apos;. &apos;far&apos; impostato a %1.</translation>
     </message>
     <message>
         <source>&apos;follow&apos; field is filled with an invalid Solid name.</source>
