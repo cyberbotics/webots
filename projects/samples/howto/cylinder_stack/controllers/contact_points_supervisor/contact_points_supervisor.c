@@ -39,14 +39,15 @@ int main(int argc, char **argv) {
   int pu = -1, pl = -1;
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    const int number_of_contacts = wb_supervisor_node_get_number_of_contact_points(red_cylinder, false);
+    int number_of_contacts;
+    WbContactPoint *contact_points = wb_supervisor_node_get_contact_points(red_cylinder, false, &number_of_contacts);
     const double *const position = wb_supervisor_node_get_position(red_cylinder);
     const double *const rotation = wb_supervisor_node_get_orientation(red_cylinder);
     int n;
     int u = 0, l = 0;  //  counter for contact points located on upper (resp. lower) cap for the current time step
     for (n = 0; n < number_of_contacts; ++n) {
       // Computing the y-coordinate of the contact point with respect to solid's frame
-      const double *const cp = wb_supervisor_node_get_contact_point(red_cylinder, n);
+      const double *cp = contact_points[n].point;
       const double delta[3] = {cp[0] - position[0], cp[1] - position[1], cp[2] - position[2]};
       const double relative_cp_y = rotation[1] * delta[0] + rotation[4] * delta[1] + rotation[7] * delta[2];
 
