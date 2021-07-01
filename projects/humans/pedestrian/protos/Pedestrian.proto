@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Simple model of a pedestrian
 # Based on the model of Paul Salvador (zxys.com)
+# template language: javascript
 
 PROTO Pedestrian [
   field       SFVec3f    translation           0 1.27 0
@@ -33,7 +34,7 @@ PROTO Pedestrian [
   hiddenField SFFloat    headAngle             0.0
 ]
 {
-%{ local static = next(fields.controllerArgs.value) == nil }%
+%< const rigid = fields.controllerArgs.value.length == 0; >%
 Robot {
   translation IS translation
   rotation IS rotation
@@ -61,16 +62,16 @@ Robot {
           geometry PedestrianNeck {
           }
         }
-        %{ if static == false then }%
+        %< if (!rigid) { >%
         DEF LEFT_ARM HingeJoint {
           jointParameters HingeJointParameters {
             position IS leftArmAngle
             anchor 0.28 0.19 -0.01
           }
           endPoint DEF LEFT_UPPER_ARM Solid {
-        %{ else }%
+        %< } else { >%
           DEF LEFT_UPPER_ARM Solid {
-        %{ end }%
+        %< } >%
             rotation 1 0 0 0
             children [
               Shape {
@@ -78,16 +79,16 @@ Robot {
                 geometry PedestrianLeftUpperArm {
                 }
               }
-              %{ if static == false then }%
+              %< if (!rigid) { >%
               HingeJoint {
                 jointParameters HingeJointParameters {
                   position IS leftLowerArmAngle
                   anchor 0.25 -0.09 -0.04
                 }
                 endPoint DEF LEFT_LOWER_ARM Solid {
-              %{ else }%
+              %< } else { >%
                 DEF LEFT_LOWER_ARM Solid {
-              %{ end }%
+              %< } >%
                   rotation 1 0 0 0
                   children [
                     Shape {
@@ -95,16 +96,16 @@ Robot {
                       geometry PedestrianLeftLowerArm {
                       }
                     }
-                    %{ if static == false then }%
+                    %< if (!rigid) { >%
                     HingeJoint {
                       jointParameters HingeJointParameters {
                         position IS leftHandAngle
                         anchor 0.25 -0.37 -0.035
                       }
                       endPoint DEF LEFT_HAND Solid {
-                    %{ else }%
+                    %< } else { >%
                       DEF LEFT_HAND Solid {
-                    %{ end }%
+                    %< } >%
                         rotation 1 0 0 0
                         children [
                           Transform {
@@ -117,7 +118,7 @@ Robot {
                             }
                           }
                         ]
-                      %{ if fields.enableBoundingObject.value then }%
+                      %< if (fields.enableBoundingObject.value) { >%
                         boundingObject Transform {
                           translation 0.253 -0.44 -0.02
                           children [
@@ -126,13 +127,13 @@ Robot {
                             }
                           ]
                         }
-                      %{ end }%
+                      %< } >%
                       }
-                    %{ if static == false then }%
+                    %< if (!rigid) { >%
                     }
-                    %{ end }%
+                    %< } >%
                   ]
-                %{ if fields.enableBoundingObject.value then }%
+                %< if (fields.enableBoundingObject.value) { >%
                   boundingObject Transform {
                     translation 0.254 -0.23 -0.04
                     children [
@@ -142,14 +143,14 @@ Robot {
                       }
                     ]
                   }
-                %{ end }%
+                %< } >%
                 }
-              %{ if static == false then }%
+              %< if (!rigid) { >%
               }
-              %{ end }%
+              %< } >%
             ]
             name "left arm"
-          %{ if fields.enableBoundingObject.value then }%
+          %< if (fields.enableBoundingObject.value) { >%
             boundingObject Group {
               children [
                 Transform {
@@ -172,9 +173,9 @@ Robot {
                 }
               ]
             }
-          %{ end }%
+          %< } >%
           }
-        %{ if static == false then }%
+        %< if (!rigid) { >%
         }
         DEF RIGHT_ARM HingeJoint {
           jointParameters HingeJointParameters {
@@ -182,9 +183,9 @@ Robot {
             anchor -0.28 0.19 -0.01
           }
           endPoint DEF RIGHT_UPPER_ARM Solid {
-        %{ else }%
+        %< } else { >%
           DEF RIGHT_UPPER_ARM Solid {
-        %{ end }%
+        %< } >%
             rotation 1 0 0 0
             children [
               Shape {
@@ -192,16 +193,16 @@ Robot {
                 geometry PedestrianRightUpperArm {
                 }
               }
-              %{ if static == false then }%
+              %< if (!rigid) { >%
               HingeJoint {
                 jointParameters HingeJointParameters {
                   position IS rightLowerArmAngle
                   anchor -0.25 -0.09 -0.04
                 }
                 endPoint DEF RIGHT_LOWER_ARM Solid {
-              %{ else }%
+              %< } else { >%
                 DEF RIGHT_LOWER_ARM Solid {
-              %{ end }%
+              %< } >%
                   rotation 1 0 0 0
                   children [
                     Shape {
@@ -209,16 +210,16 @@ Robot {
                       geometry PedestrianRightLowerArm {
                       }
                     }
-                    %{ if static == false then }%
+                    %< if (!rigid) { >%
                     HingeJoint {
                       jointParameters HingeJointParameters {
                         position IS rightHandAngle
                         anchor -0.25 -0.37 -0.035
                       }
                       endPoint DEF RIGHT_HAND Solid {
-                    %{ else }%
+                    %< } else { >%
                       DEF RIGHT_HAND Solid {
-                    %{ end }%
+                    %< } >%
                         rotation 1 0 0 0
                         children [
                           Transform {
@@ -231,7 +232,7 @@ Robot {
                             }
                           }
                         ]
-                      %{ if fields.enableBoundingObject.value then }%
+                      %< if (fields.enableBoundingObject.value) { >%
                         boundingObject Transform {
                           translation -0.253 -0.44 0.02
                           children [
@@ -240,13 +241,13 @@ Robot {
                             }
                           ]
                         }
-                      %{ end }%
+                      %< } >%
                       }
-                    %{ if static == false then }%
+                    %< if (!rigid) { >%
                     }
-                    %{ end }%
+                    %< } >%
                   ]
-                %{ if fields.enableBoundingObject.value then }%
+                %< if (fields.enableBoundingObject.value) { >%
                   boundingObject Transform {
                     translation -0.254 -0.23 -0.025
                     children [
@@ -256,14 +257,14 @@ Robot {
                       }
                     ]
                   }
-                %{ end }%
+                %< } >%
                 }
-              %{ if static == false then }%
+              %< if (!rigid) { >%
               }
-              %{ end }%
+              %< } >%
             ]
             name "right arm"
-          %{ if fields.enableBoundingObject.value then }%
+          %< if (fields.enableBoundingObject.value) { >%
             boundingObject Group {
               children [
                 Transform {
@@ -286,9 +287,9 @@ Robot {
                 }
               ]
             }
-          %{ end }%
+          %< } >%
           }
-        %{ if static == false then }%
+        %< if (!rigid) { >%
         }
         DEF LEFT_LEG HingeJoint {
           jointParameters HingeJointParameters {
@@ -296,9 +297,9 @@ Robot {
             anchor 0.17 -0.3 -0.04
           }
           endPoint DEF LEFT_UPPER_LEG Solid {
-        %{ else }%
+        %< } else { >%
           DEF LEFT_UPPER_LEG Solid {
-        %{ end }%
+        %< } >%
             children [
               Shape {
                 appearance DEF LEG_APP PBRAppearance {
@@ -309,32 +310,32 @@ Robot {
                 geometry PedestrianLeftUpperLeg {
                 }
               }
-              %{ if static == false then }%
+              %< if (!rigid) { >%
               HingeJoint {
                 jointParameters HingeJointParameters {
                   position IS leftLowerLegAngle
                   anchor 0.17 -0.76 -0.03
                 }
                 endPoint DEF LEFT_LOWER_LEG Solid {
-              %{ else }%
+              %< } else { >%
                 DEF LEFT_LOWER_LEG Solid {
-              %{ end }%
+              %< } >%
                   children [
                     Shape {
                       appearance USE LEG_APP
                       geometry PedestrianLeftLowerLeg {
                       }
                     }
-                    %{ if static == false then }%
+                    %< if (!rigid) { >%
                     HingeJoint {
                       jointParameters HingeJointParameters {
                         position IS leftFootAngle
                         anchor 0.17 -1.165 -0.092
                       }
                       endPoint DEF LEFT_FOOT Solid {
-                    %{ else }%
+                    %< } else { >%
                       DEF LEFT_FOOT Solid {
-                    %{ end }%
+                    %< } >%
                         children [
                           Shape {
                             appearance DEF SHOE_APP PBRAppearance {
@@ -346,7 +347,7 @@ Robot {
                             }
                           }
                         ]
-                      %{ if fields.enableBoundingObject.value then }%
+                      %< if (fields.enableBoundingObject.value) { >%
                         boundingObject Transform {
                           translation 0.115 -1.21 0
                           children [
@@ -355,13 +356,13 @@ Robot {
                             }
                           ]
                         }
-                      %{ end }%
+                      %< } >%
                       }
-                    %{ if static == false then }%
+                    %< if (!rigid) { >%
                     }
-                    %{ end }%
+                    %< } >%
                   ]
-                %{ if fields.enableBoundingObject.value then }%
+                %< if (fields.enableBoundingObject.value) { >%
                   boundingObject Transform {
                     translation 0.116 -0.965 -0.056
                     rotation 1 0 0 0.1
@@ -372,14 +373,14 @@ Robot {
                       }
                     ]
                   }
-                %{ end }%
+                %< } >%
                 }
-              %{ if static == false then }%
+              %< if (!rigid) { >%
               }
-              %{ end }%
+              %< } >%
             ]
             name "left leg"
-          %{ if fields.enableBoundingObject.value then }%
+          %< if (fields.enableBoundingObject.value) { >%
             boundingObject Transform {
               translation 0.116 -0.5 -0.033
               children [
@@ -388,9 +389,9 @@ Robot {
                 }
               ]
             }
-          %{ end }%
+          %< } >%
           }
-        %{ if static == false then }%
+        %< if (!rigid) { >%
         }
         DEF RIGHT_LEG HingeJoint {
           jointParameters HingeJointParameters {
@@ -398,41 +399,41 @@ Robot {
             anchor -0.17 -0.3 -0.04
           }
           endPoint DEF RIGHT_UPPER_LEG Solid {
-        %{ else }%
+        %< } else { >%
           DEF RIGHT_UPPER_LEG Solid {
-        %{ end }%
+        %< } >%
             children [
               Shape {
                 appearance USE LEG_APP
                 geometry PedestrianRightUpperLeg {
                 }
               }
-              %{ if static == false then }%
+              %< if (!rigid) { >%
               HingeJoint {
                 jointParameters HingeJointParameters {
                   position IS rightLowerLegAngle
                   anchor -0.17 -0.76 -0.03
                 }
                 endPoint DEF RIGHT_LOWER_LEG Solid {
-              %{ else }%
+              %< } else { >%
                 DEF RIGHT_LOWER_LEG Solid {
-              %{ end }%
+              %< } >%
                   children [
                     Shape {
                       appearance USE LEG_APP
                       geometry PedestrianRightLowerLeg {
                       }
                     }
-                    %{ if static == false then }%
+                    %< if (!rigid) { >%
                     HingeJoint {
                       jointParameters HingeJointParameters {
                         position IS rightFootAngle
                         anchor -0.17 -1.165 -0.092
                       }
                       endPoint DEF RIGHT_FEET Solid {
-                    %{ else }%
+                    %< } else { >%
                       DEF RIGHT_FEET Solid {
-                    %{ end }%
+                    %< } >%
                         children [
                           Shape {
                             appearance USE SHOE_APP
@@ -440,7 +441,7 @@ Robot {
                             }
                           }
                         ]
-                      %{ if fields.enableBoundingObject.value then }%
+                      %< if (fields.enableBoundingObject.value) { >%
                         boundingObject Transform {
                           translation -0.115 -1.21 0.031
                           children [
@@ -449,13 +450,13 @@ Robot {
                             }
                           ]
                         }
-                      %{ end }%
+                      %< } >%
                       }
-                    %{ if static == false then }%
+                    %< if (!rigid) { >%
                     }
-                    %{ end }%
+                    %< } >%
                   ]
-                %{ if fields.enableBoundingObject.value then }%
+                %< if (fields.enableBoundingObject.value) { >%
                   boundingObject Transform {
                     translation -0.116 -0.965 -0.044
                     rotation 1 0 0 0.1
@@ -466,14 +467,14 @@ Robot {
                       }
                     ]
                   }
-                %{ end }%
+                %< } >%
                 }
-              %{ if static == false then }%
+              %< if (!rigid) { >%
               }
-              %{ end }%
+              %< } >%
             ]
             name "right leg"
-          %{ if fields.enableBoundingObject.value then }%
+          %< if (fields.enableBoundingObject.value) { >%
             boundingObject Transform {
               translation -0.116 -0.5 -0.033
               children [
@@ -482,9 +483,9 @@ Robot {
                 }
               ]
             }
-          %{ end }%
+          %< } >%
           }
-        %{ if static == false then }%
+        %< if (!rigid) { >%
         }
         DEF HEAD HingeJoint {
           jointParameters HingeJointParameters {
@@ -492,9 +493,9 @@ Robot {
             anchor 0 0.37 0.01
           }
           endPoint DEF HEAD Solid {
-        %{ else }%
+        %< } else { >%
           DEF HEAD Solid {
-        %{ end }%
+        %< } >%
             children [
               Shape {
                 appearance USE SKIN_APP
@@ -503,7 +504,7 @@ Robot {
               }
             ]
             name "head"
-          %{ if fields.enableBoundingObject.value then }%
+          %< if (fields.enableBoundingObject.value) { >%
             boundingObject Transform {
               translation 0 0.436 0.04
               rotation 1 0 0 -0.5236
@@ -514,13 +515,13 @@ Robot {
                 }
               ]
             }
-          %{ end }%
+          %< } >%
           }
-        %{ if static == false then }%
+        %< if (!rigid) { >%
         }
-        %{ end }%
+        %< } >%
       ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
           DEF TORSO_BO Box {
@@ -537,21 +538,21 @@ Robot {
           }
         ]
       }
-    %{ end }%
+    %< } >%
     }
   ]
   name IS name
   model "pedestrian"
   radarCrossSection 1
   recognitionColors [
-    %{= fields.shirtColor.value.r }% %{= fields.shirtColor.value.g }% %{= fields.shirtColor.value.b }%
-    %{= fields.pantsColor.value.r }% %{= fields.pantsColor.value.g }% %{= fields.pantsColor.value.b }%
+    %<= fields.shirtColor.value.r >% %<= fields.shirtColor.value.g >% %<= fields.shirtColor.value.b >%
+    %<= fields.pantsColor.value.r >% %<= fields.pantsColor.value.g >% %<= fields.pantsColor.value.b >%
   ]
-  %{ if not static then }%
+  %< if (!rigid) { >%
     controller IS controller
-  %{ else }%
+  %< } else { >%
     controller ""
-  %{ end }%
+  %< } >%
   controllerArgs IS controllerArgs
   supervisor TRUE
 }

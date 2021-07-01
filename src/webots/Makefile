@@ -237,6 +237,7 @@ QT_SOURCES += \
   WbActionManager.cpp \
   WbAddInertiaMatrixDialog.cpp \
   WbAddNodeDialog.cpp \
+  WbAltimeter.cpp \
   WbAnimationRecorder.cpp \
   WbAppearance.cpp \
   WbApplication.cpp \
@@ -375,6 +376,7 @@ QT_SOURCES += \
   WbProjectRelocationDialog.cpp \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
+  WbQjsFile.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
   WbRadioPlugin.cpp \

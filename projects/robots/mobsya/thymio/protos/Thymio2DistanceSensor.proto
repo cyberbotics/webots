@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+# template language: javascript
 
 PROTO Thymio2DistanceSensor [
   field SFVec3f translation 0 0 0
@@ -16,15 +17,15 @@ PROTO Thymio2DistanceSensor [
     rotation IS rotation
     name IS name
     type "infra-red"
-    %{ if fields.isGroundSensor.value then }%
+    %< if (fields.isGroundSensor.value) { >%
     lookupTable [
       0.0 1000 0.01, 0.05 0 0.01
     ]
-    %{ else }%
+    %< } else { >%
     lookupTable [
       0.0 4235 0.01 0.00333 4308 0.01 0.00666 4298 0.01 0.01 4279 0.01 0.01333 4253 0.01 0.01666 4201 0.01 0.02 4139 0.01 0.02333 3981 0.01 0.02666 3733 0.01 0.03 3515 0.01 0.03333 3326 0.01 0.03666 3141 0.01 0.04 2965 0.01 0.04333 2860 0.01 0.04666 2696 0.01 0.05 2570 0.01 0.05333 2475 0.01 0.05666 2344 0.01 0.06 2248 0.01 0.06333 2182 0.01 0.06666 2044 0.01 0.07 1941 0.01 0.07333 1835 0.01 0.07666 1689 0.01 0.08 1597 0.01 0.08333 1473 0.01 0.08666 1345 0.01 0.09 1195 0.01 0.09333 0 0.01
     ]
-    %{ end }%
+    %< } >%
     children [
       Shape {
         appearance PBRAppearance {

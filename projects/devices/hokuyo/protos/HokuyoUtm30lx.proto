@@ -9,6 +9,7 @@
 #  - resolution : 1080 * 0.25 [deg]
 #  - dimension : 0.06 x 0.087 x 0.06 [m]
 #  - weight : 0.37 [kg]
+# template language: javascript
 
 PROTO HokuyoUtm30lx [
   field SFVec3f    translation    0 0 0
@@ -3872,14 +3873,14 @@ Lidar {
       }
     ]
   }
-  %{ if fields.enablePhysics.value then }%
+  %< if (fields.enablePhysics.value) { >%
   physics Physics {
     density -1
     mass 0.37
   }
-  %{ end }%
+  %< } >%
   fieldOfView 4.71238
-  verticalFieldOfView %{= 4.71238 / fields.resolution.value }%
+  verticalFieldOfView %<= 4.71238 / fields.resolution.value >%
   horizontalResolution IS resolution
   numberOfLayers 1
   spherical TRUE

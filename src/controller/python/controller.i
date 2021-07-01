@@ -39,6 +39,7 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 
 %{
 #include <webots/Accelerometer.hpp>
+#include <webots/Altimeter.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
@@ -84,6 +85,7 @@ using namespace std;
 
 //handling std::string
 %include "std_string.i"
+%include "typemaps.i"
 
 %rename ("__internalGetLookupTableSize") getLookupTableSize;
 
@@ -180,6 +182,12 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %include <webots/Accelerometer.hpp>
+
+//----------------------------------------------------------------------------------------------
+//  Altimeter
+//----------------------------------------------------------------------------------------------
+
+%include <webots/Altimeter.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Brake
@@ -672,8 +680,35 @@ class AnsiCodes(object):
 //  Node
 //----------------------------------------------------------------------------------------------
 
+%rename WbContactPoint ContactPoint;
+
+%include <webots/contact_point.h>
+
+%extend WbContactPoint {
+  PyObject *get_point() {
+    const double *point = $self->point;
+    PyObject *ret = PyList_New(3);
+    PyList_SetItem(ret, 0, PyFloat_FromDouble(point[0]));
+    PyList_SetItem(ret, 1, PyFloat_FromDouble(point[1]));
+    PyList_SetItem(ret, 2, PyFloat_FromDouble(point[2]));
+    return ret;
+  }
+  PyObject *get_node_id() {
+    const double orientation = $self->node_id;
+    return PyInt_FromLong(orientation);
+  }
+
+  %pythoncode %{
+  @property
+  def point(self):
+      return self.get_point()
+  %}
+};
+
 %ignore webots::Node::findNode(WbNodeRef ref);
 %ignore webots::Node::cleanup();
+%rename ("getContactPointsPrivate") webots::Node::getContactPoints;
+%apply int *OUTPUT { int *size };
 
 %extend webots::Node {
   %pythoncode %{
@@ -688,7 +723,21 @@ class AnsiCodes(object):
 
   def __ne__(self, other):
       return not self.__eq__(other)
+
+  def getContactPoints(self, includeDescendants=False):
+    point_data = self.getContactPointsPrivate(includeDescendants)
+    if not point_data:
+      return []
+    ret = []
+    points, size = point_data
+    for i in range(size):
+      ret.append(self.getContactPointFromList(points, i))
+    return ret
   %}
+
+  webots::ContactPoint* getContactPointFromList(ContactPoint* points, int index) const {
+    return &points[index];
+  }
 };
 
 %include <webots/Node.hpp>
@@ -880,6 +929,7 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %ignore webots::Robot::getAccelerometer(const std::string &name);
+%ignore webots::Robot::getAltimeter(const std::string &name);
 %ignore webots::Robot::getBrake(const std::string &name);
 %ignore webots::Robot::getCamera(const std::string &name);
 %ignore webots::Robot::getCompass(const std::string &name);
@@ -931,6 +981,14 @@ class AnsiCodes(object):
       sys.stderr.write("DEPRECATION: Robot.getAccelerometer is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.ACCELEROMETER):
+        return None
+      return self.__getOrCreateDevice(tag)
+    def createAltimeter(self, name):
+      return Altimeter(name)
+    def getAltimeter(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getAltimeter is deprecated, please use Robot.getDevice instead.\n")
+      tag = self.__internalGetDeviceTagFromName(name)
+      if not Device.hasType(tag, Node.ALTIMETER):
         return None
       return self.__getOrCreateDevice(tag)
     def createBrake(self, name):
@@ -1149,6 +1207,8 @@ class AnsiCodes(object):
           nodeType = self.__internalGetDeviceTypeFromTag(otherTag)
           if nodeType == Node.ACCELEROMETER:
               Robot.__devices[otherTag] = self.createAccelerometer(name)
+          elif nodeType == Node.ALTIMETER:
+              Robot.__devices[otherTag] = self.createAltimeter(name)
           elif nodeType == Node.BRAKE:
               Robot.__devices[otherTag] = self.createBrake(name)
           elif nodeType == Node.CAMERA:

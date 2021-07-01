@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A reflective surface material.
+# template language: javascript
 
 PROTO ReflectiveSurface [
   field SFFloat metalness         0.5
@@ -15,13 +16,13 @@ PROTO ReflectiveSurface [
 {
   PBRAppearance {
     baseColor IS colorOverride
-    %{ if fields.useBaseColorMap.value then }%
+    %< if (fields.useBaseColorMap.value) { >%
     baseColorMap ImageTexture {
       url [
         "textures/reflective_surface/reflective_surface_base_color.jpg"
       ]
     }
-    %{ end }%
+    %< } >%
     roughnessMap ImageTexture {
       url [
         "textures/reflective_surface/reflective_surface_roughness.jpg"

@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/camera-sensors#multisense-s21
 # Model of MultiSense S21 stereoscopic camera.
+# template language: javascript
 
 PROTO MultiSenseS21 [
   field SFVec3f    translation         0 0 0
@@ -26,49 +27,44 @@ PROTO MultiSenseS21 [
     rotation IS rotation
     name IS name
     children [
-
       InertialUnit {
         rotation 0 1 0 1.5708
-        name %{= '"' .. fields.name.value .. ' inertial unit"'}%
+        name %<= '"' + fields.name.value + ' inertial unit"' >%
       }
-
-      %{ if fields.leftCamera.value then }%
+      %< if (fields.leftCamera.value) { >%
         Camera {
           translation 0.105 0 -0.0975
-          name %{= '"' .. fields.name.value .. ' left camera"'}%
+          name %<= '"' + fields.name.value + ' left camera"' >%
           fieldOfView IS cameraFieldOfView
           width IS cameraWidth
           height IS cameraHeight
           noise IS cameraNoise
         }
-      %{ end }%
-
-      %{ if fields.rightCamera.value then }%
+      %< } >%
+      %< if (fields.rightCamera.value) { >%
         Camera {
           translation -0.105 0 -0.0975
-          name %{= '"' .. fields.name.value .. ' right camera"'}%
+          name %<= '"' + fields.name.value + ' right camera"' >%
           fieldOfView IS cameraFieldOfView
           width IS cameraWidth
           height IS cameraHeight
           noise IS cameraNoise
         }
-      %{ end }%
-
-      %{ if fields.metaCamera.value then }%
+      %< } >%
+      %< if (fields.metaCamera.value) { >%
         Camera {
           translation 0 0 -0.05
-          name %{= '"' .. fields.name.value .. ' meta camera"'}%
+          name %<= '"' + fields.name.value + ' meta camera"' >%
           fieldOfView IS cameraFieldOfView
           width IS cameraWidth
           height IS cameraHeight
           noise IS cameraNoise
         }
-      %{ end }%
-
-      %{ if fields.metaRangeFinder.value then }%
+      %< } >%
+      %< if (fields.metaRangeFinder.value) { >%
         RangeFinder {
           translation 0 0 -0.05
-          name %{= '"' .. fields.name.value .. ' meta range finder"'}%
+          name %<= '"' + fields.name.value + ' meta range finder"' >%
           fieldOfView IS cameraFieldOfView
           minRange 1.5
           maxRange IS rangeFinderMaxRange
@@ -76,8 +72,7 @@ PROTO MultiSenseS21 [
           height IS cameraHeight
           noise IS rangeFinderNoise
         }
-      %{ end }%
-
+      %< } >%
       # 'glass'
       Shape {
         appearance PBRAppearance {
@@ -95,7 +90,6 @@ PROTO MultiSenseS21 [
           ]
         }
       }
-
       # 'screws'
       Shape {
         appearance PBRAppearance {
@@ -113,7 +107,6 @@ PROTO MultiSenseS21 [
           ]
         }
       }
-
       # 'rear radiator'
       Shape {
         appearance DEF BLACK_MATERIAL PBRAppearance {
@@ -133,7 +126,6 @@ PROTO MultiSenseS21 [
           ]
         }
       }
-
       # 'body'
       Shape {
         appearance USE BLACK_MATERIAL
@@ -150,7 +142,7 @@ PROTO MultiSenseS21 [
         }
       }
     ]
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
       physics Physics {
         density -1
         mass 1.5
@@ -187,6 +179,6 @@ PROTO MultiSenseS21 [
           }
         ]
       }
-    %{ end }%
+    %< } >%
   }
 }

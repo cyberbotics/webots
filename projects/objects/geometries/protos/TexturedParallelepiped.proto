@@ -15,6 +15,7 @@
 # - `none` no texture mapping
 # If a boolean field (front, back, left, right, top, bottom) is FALSE, then the corresponding face is not drawn.
 # A demo of these mappings is available in projects/samples/geometries/worlds/textured_boxes.wbt.
+# template language: javascript
 
 PROTO TexturedParallelepiped [
   field SFVec3f  size    0.1 0.1 0.1     # Defines the size of the parallelepiped.
@@ -29,266 +30,250 @@ PROTO TexturedParallelepiped [
   field SFBool   bottom  TRUE            # Defines whether the bottom face should be included.
 ]
 {
-  %{
-    local front = fields.front.value
-    if (fields.front.value or fields.back.value or fields.left.value or
-        fields.right.value or fields.top.value or fields.bottom.value ) == false then
-      io.stderr:write("cannot create an object without any faces: 'front' reset to default value\n")
-      front = fields.front.defaultValue
-    end
+  %<
+    let front = fields.front.value;
+    if (!(fields.front.value || fields.back.value || fields.left.value || fields.right.value || fields.top.value || fields.bottom.value)) {
+      console.error('cannot create an object without any faces: \'front\' reset to default value.');
+      front = fields.front.defaultValue;
+    }
 
-    local mapping = fields.mapping.value
-    local rows
-    local cols
-    if mapping == "cube" then
-      rows = 3
-      cols = 4
-    elseif mapping == "compact" then
-      rows = 2
-      cols = 3
-    elseif mapping == "metric" then
-      rows = 2
-      cols = 2
-    else
-      rows = 1
-      cols = 1
-    end
+    const mapping = fields.mapping.value;
+    let rows;
+    let cols;
+    if (mapping === 'cube') {
+      rows = 3;
+      cols = 4;
+    } else if (mapping === 'compact') {
+      rows = 2;
+      cols = 3;
+    } else if (mapping === 'metric') {
+      rows = 2;
+      cols = 2;
+    } else {
+      rows = 1;
+      cols = 1;
+    }
 
-    local halfSize = { x = 0, y = 0, z = 0 }
-    if fields.size.value.x <= 0 or fields.size.value.y <= 0 or fields.size.value.z <= 0 then
-      io.stderr:write("'size' must contain positive values\n")
-      halfSize.x = fields.size.defaultValue.x * 0.5
-      halfSize.y = fields.size.defaultValue.y * 0.5
-      halfSize.z = fields.size.defaultValue.z * 0.5
-    else
-      halfSize.x = fields.size.value.x * 0.5
-      halfSize.y = fields.size.value.y * 0.5
-      halfSize.z = fields.size.value.z * 0.5
-    end
+    let halfSize = {x: 0, y: 0, z: 0};
+    if (fields.size.value.x <= 0 || fields.size.value.y <= 0 || fields.size.value.z <= 0) {
+      console.error('\'size\' must contain positive values. Using default values instead.');
+      halfSize.x = fields.size.defaultValue.x * 0.5;
+      halfSize.y = fields.size.defaultValue.y * 0.5;
+      halfSize.z = fields.size.defaultValue.z * 0.5;
+    } else {
+      halfSize.x = fields.size.value.x * 0.5;
+      halfSize.y = fields.size.value.y * 0.5;
+      halfSize.z = fields.size.value.z * 0.5;
+    }
 
+    const angleThreshold = 0.001;
+    let angles = fields.angles.value;
 
-    local angleThreshold = 0.001
-    local angles = fields.angles.value
+    // normalize angles
+    while (angles.x > Math.PI)
+      angles.x = angles.x - Math.PI;
+    while (angles.x < 0)
+      angles.x = angles.x + Math.PI;
 
+    const halfPi = 0.5 * Math.PI;
+    while (angles.y > halfPi)
+      angles.y = angles.y - Math.PI;
+    while (angles.y < -halfPi)
+      angles.y = angles.y + Math.PI;
 
-    -- normalize angles
-    while angles.x > math.pi do
-      angles.x = angles.x - math.pi
-    end
-    while angles.x < 0 do
-      angles.x = angles.x + math.pi
-    end
+    while (angles.z > halfPi)
+      angles.z = angles.z - Math.PI;
+    while (angles.z < -halfPi)
+      angles.z = angles.z + Math.PI;
 
-    local halfPi = 0.5 * math.pi
-    while angles.y > halfPi do
-      angles.y = angles.y - math.pi
-    end
-    while angles.y < -halfPi do
-      angles.y = angles.y + math.pi
-    end
-
-    while angles.z > halfPi do
-      angles.z = angles.z - math.pi
-    end
-    while angles.z < -halfPi do
-      angles.z = angles.z + math.pi
-    end
-
-    if (angles.x < angleThreshold) or (angles.x > (math.pi - angleThreshold)) then
-      io.stderr:write("'angles.x' cannot be 0\n")
+    if (angles.x < angleThreshold || angles.x > (Math.PI - angleThreshold)) {
+      angles = fields.angles.defaultValue;
+      console.error('\'angles.x\' cannot be 0. Value reset to ' + angles + '.');
+    } else if (Math.abs(angles.y) > (halfPi - angleThreshold) || Math.abs(angles.z) > (halfPi - angleThreshold)) {
       angles = fields.angles.defaultValue
-    elseif (math.abs(angles.y) > (halfPi - angleThreshold)) or (math.abs(angles.z) > (halfPi - angleThreshold)) then
-      io.stderr:write("'angles.y' and 'angles.z' cannot be PI/2 or -PI/2\n")
-      angles = fields.angles.defaultValue
-    end
+      console.error('\'angles.y\' and \'angles.z\' cannot be PI/2 or -PI/2. Using default value instead.');
+    }
 
-    local parallelogramHeight = halfSize.y * math.sin(angles.x)
-    local parallelogramHalfOffsetX = halfSize.y * math.cos(angles.x)
-    local prismHalfOffsetX = halfSize.z * math.sin(angles.z) * math.cos(angles.y)
-    local prismHalfOffsetY = halfSize.z * math.sin(angles.y)
-    local prismHalfOffsetZ = halfSize.z * math.cos(angles.z) * math.cos(angles.y)
-  }%
+    const parallelogramHeight = halfSize.y * Math.sin(angles.x);
+    const parallelogramHalfOffsetX = halfSize.y * Math.cos(angles.x);
+    const prismHalfOffsetX = halfSize.z * Math.sin(angles.z) * Math.cos(angles.y);
+    const prismHalfOffsetY = halfSize.z * Math.sin(angles.y);
+    const prismHalfOffsetZ = halfSize.z * Math.cos(angles.z) * Math.cos(angles.y);
+  >%
 
   IndexedFaceSet {
     coord Coordinate {
       point [
-      %{ for k=-1,1,2 do
-           for j=-1,1,2 do
-             for i=-1,1,2 do
-      }%
-        %{= i * halfSize.x + j * parallelogramHalfOffsetX + k * prismHalfOffsetX }% %{= j * parallelogramHeight + k * prismHalfOffsetY }% %{= k * prismHalfOffsetZ }%
-      %{     end
-           end
-         end
-      }%
+      %< for (let k = -1; k <= 1; k = k + 2) {
+           for (let j = -1; j <= 1; j = j + 2) {
+             for (let i = -1; i <= 1; i = i + 2) {
+      >%
+        %<= i * halfSize.x + j * parallelogramHalfOffsetX + k * prismHalfOffsetX >% %<= j * parallelogramHeight + k * prismHalfOffsetY >% %<= k * prismHalfOffsetZ >%
+      %<     }
+           }
+         }
+      >%
       ]
     }
     coordIndex [
-      %{ if fields.back.value then }%
+      %< if (fields.back.value) { >%
       1 0 2 3 -1 # back
-      %{ end
-         if front then }%
+      %< }
+         if (front) { >%
       4 5 7 6 -1 # front
-      %{ end
-         if fields.right.value then }%
+      %< }
+         if (fields.right.value) { >%
       5 1 3 7 -1 # right
-      %{ end
-         if fields.left.value then }%
+      %< }
+         if (fields.left.value) { >%
       0 4 6 2 -1 # left
-      %{ end
-         if fields.top.value then }%
+      %< }
+         if (fields.top.value) { >%
       7 3 2 6 -1 # top
-      %{ end
-         if fields.bottom.value then }%
+      %< }
+         if (fields.bottom.value) { >%
       4 0 1 5 -1 # bottom
-      %{ end }%
+      %< } >%
     ]
-    %{ if mapping ~= "none" then }%
+    %< if (mapping !== 'none') { >%
     texCoord TextureCoordinate {
       point [
-      %{
-        local u = {}
-        local v = {}
-        local ratio = { x = 1, y = 1, z = 1}
-        local maxEdge = math.max( math.max(halfSize.x + parallelogramHalfOffsetX, parallelogramHeight), halfSize.z)
-        local offsetRatio = parallelogramHalfOffsetX / maxEdge;
-        if mapping == "metric" then
+      %<
+        let u = [];
+        let v = [];
+        let ratio = {x: 1, y: 1, z: 1};
+        const maxEdge = Math.max(Math.max(halfSize.x + parallelogramHalfOffsetX, parallelogramHeight), halfSize.z);
+        const offsetRatio = parallelogramHalfOffsetX / maxEdge;
+        if (mapping === 'metric') {
           ratio.x = halfSize.x / maxEdge + offsetRatio;
           ratio.y = parallelogramHeight / maxEdge;
           ratio.z = halfSize.z / maxEdge;
-          u[0] = 0
-          u[1] = ratio.x
-          u[2] = ratio.z
-          u[3] = offsetRatio;
-          v[0] = 0
-          v[1] = ratio.y
-          v[2] = ratio.z
-        else
-          for j=0,rows do
-            v[j] = j/rows
-          end
-          for i=0,cols do
-            u[i] = i/cols
-          end
-        end
-        for j=0,rows do
-          for i=0,cols do
-      }%
-        %{=u[i]}% %{=v[j]}%
-      %{
-          end
-        end
-        if mapping == "flat" then
-          -- prevent using the exact same texture coordinates when mapping side faces
-       }% 0.0001 0.0001 0.9999 0.0001 0.0001 0.9999 0.9999 0.9999 %{
-        end
-        if mapping == "metric" then
-      }%
-        %{= offsetRatio }% %{= 0 }%
-        %{= halfSize.x / maxEdge }% %{= 0 }%
-        %{= halfSize.x / maxEdge }% %{= ratio.y }%
-        %{= offsetRatio }% %{= ratio.y }%
-      %{ end }%
+          u = [0, ratio.x, ratio.z, offsetRatio];
+          v = [0, ratio.y, ratio.z];
+        } else {
+          for (let j = 0; j <= rows; ++j)
+            v[j] = j/rows;
+          for (let i = 0; i <= cols; ++i)
+            u[i] = i/cols;
+        }
+        for (let j = 0; j <= rows; ++j) {
+          for (let i = 0; i <= cols; ++i) {
+      >%
+        %<= u[i] >% %<= v[j] >%
+      %<
+          }
+        }
+        if (mapping === 'flat') {
+          // prevent using the exact same texture coordinates when mapping side faces
+       >% 0.0001 0.0001 0.9999 0.0001 0.0001 0.9999 0.9999 0.9999 %<
+        }
+        if (mapping === 'metric') {
+      >%
+        %<= offsetRatio >% %<= 0 >%
+        %<= halfSize.x / maxEdge >% %<= 0 >%
+        %<= halfSize.x / maxEdge >% %<= ratio.y >%
+        %<= offsetRatio >% %<= ratio.y >%
+      %< } >%
       ]
     }
     texCoordIndex [
-      %{ if mapping == "cube" then }%
-        %{ if fields.back.value == true then }%
+      %< if (mapping === 'cube') { >%
+        %< if (fields.back.value) { >%
       8 9 14 13 -1
-        %{ end
-           if front then }%
+        %< }
+           if (front) { >%
       6 7 12 11 -1
-        %{ end
-           if fields.right.value then }%
+        %< }
+           if (fields.right.value) { >%
       7 8 13 12 -1
-        %{ end
-           if fields.left.value then }%
+        %< }
+           if (fields.left.value) { >%
       5 6 11 10 -1
-        %{ end
-           if fields.top.value then }%
+        %< }
+           if (fields.top.value) { >%
       12 17 16 11 -1
-        %{ end
-           if fields.bottom.value then }%
+        %< }
+           if (fields.bottom.value) { >%
       6 1 2 7 -1
-        %{ end }%
-      %{ elseif mapping == "compact" then }%
-        %{ if fields.back.value == true then }%
+        %< } >%
+      %< } else if (mapping === 'compact') { >%
+        %< if (fields.back.value) { >%
       6 7 11 10 -1
-        %{ end
-           if front then }%
+        %< }
+           if (front) { >%
       1 2 6 5 -1
-        %{ end
-           if fields.right.value then }%
+        %< }
+           if (fields.right.value) { >%
       2 3 7 6 -1
-        %{ end
-           if fields.left.value then }%
+        %< }
+           if (fields.left.value) { >%
       0 1 5 4 -1
-        %{ end
-           if fields.top.value then }%
+        %< }
+           if (fields.top.value) { >%
       6 10 9 5 -1
-        %{ end
-           if fields.bottom.value then }%
+        %< }
+           if (fields.bottom.value) { >%
       8 4 5 9 -1
-        %{ end }%
-      %{ elseif mapping == "flat" then }%
-        %{ if fields.back.value then }%
+        %< } >%
+      %< } else if (mapping === 'flat') { >%
+        %< if (fields.back.value) { >%
       1 0 2 3 -1
-        %{ end
-           if front then }%
+        %< }
+           if (front) { >%
       0 1 3 2 -1
-        %{ end
-           if fields.right.value then }%
+        %< }
+           if (fields.right.value) { >%
       1 5 7 3 -1
-        %{ end
-           if fields.left.value then }%
+        %< }
+           if (fields.left.value) { >%
       0 4 6 2 -1
-        %{ end
-           if fields.top.value then }%
+        %< }
+           if (fields.top.value) { >%
       7 3 2 6 -1
-        %{ end
-           if fields.bottom.value then }%
+        %< }
+           if (fields.bottom.value) { >%
       0 4 5 1 -1
-        %{ end }%
-      %{ elseif mapping == "metric" then }%
-        %{ if fields.back.value then }%
+        %< } >%
+      %< } else if (mapping === 'metric') { >%
+        %< if (fields.back.value) { >%
       9 1 11 3 -1
-        %{ end
-           if front then }%
+        %< }
+           if (front) { >%
       0 10 4 12 -1
-        %{ end
-           if fields.right.value then }%
+        %< }
+           if (fields.right.value) { >%
       0 2 5 3 -1
-        %{ end
-           if fields.left.value then }%
+        %< }
+           if (fields.left.value) { >%
       0 2 5 3 -1
-        %{ end
-           if fields.top.value then }%
+        %< }
+           if (fields.top.value) { >%
       1 7 6 0 -1
-        %{ end
-           if fields.bottom.value then }%
+        %< }
+           if (fields.bottom.value) { >%
       6 0 1 7 -1
-        %{ end }%
-      %{ elseif mapping == "default" then }%
-        %{ if fields.back.value then }%
+        %< } >%
+      %< } else if (mapping === 'default') { >%
+        %< if (fields.back.value) { >%
       0 1 3 2 -1
-        %{ end
-           if front then }%
+        %< }
+           if (front) { >%
       0 1 3 2 -1
-        %{ end
-           if fields.right.value then }%
+        %< }
+           if (fields.right.value) { >%
       0 1 3 2 -1
-        %{ end
-           if fields.left.value then }%
+        %< }
+           if (fields.left.value) { >%
       0 1 3 2 -1
-        %{ end
-           if fields.top.value then }%
+        %< }
+           if (fields.top.value) { >%
       1 3 2 0 -1
-        %{ end
-           if fields.bottom.value then }%
+        %< }
+           if (fields.bottom.value) { >%
       2 0 1 3 -1
-        %{ end }%
-      %{ end }%
+        %< } >%
+      %< } >%
     ]
-    %{ end }%
+    %< } >%
   }
 }

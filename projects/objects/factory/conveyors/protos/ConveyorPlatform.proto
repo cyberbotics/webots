@@ -4,6 +4,7 @@
 # A controllable conveyor platform.
 # The default controller makes it move at a constant speed for a configurable amount of time.
 # The conveyor contains 3 controllable LEDs.
+# template language: javascript
 
 PROTO ConveyorPlatform [
   field  SFVec3f     translation      0 0 0
@@ -24,8 +25,8 @@ PROTO ConveyorPlatform [
     model IS model
     controller IS controller
     controllerArgs [
-      "%{=fields.speed.value}%"
-      "%{=fields.timer.value}%"
+      "%<= fields.speed.value >%"
+      "%<= fields.timer.value >%"
     ]
     children [
       Track {
@@ -93,11 +94,11 @@ PROTO ConveyorPlatform [
           LinearMotor {
             name "belt_motor"
             acceleration IS acceleration
-            maxVelocity %{= math.abs(fields.speed.value) }%
+            maxVelocity %<= Math.abs(fields.speed.value) >%
             sound ""
           }
         ]
-        textureAnimation %{=-fields.textureAnimation.value}% 0
+        textureAnimation %<= - fields.textureAnimation.value >% 0
       }
       DEF emergency_button_1 Shape {
         appearance MattePaint {

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable direction panel on pole with the possibility of adding more panels.
+# template language: javascript
 
 PROTO SignPole [
   field SFVec3f     translation   0 0 0
@@ -13,20 +14,19 @@ PROTO SignPole [
   field MFNode      signBoards    [ DirectionPanel {} ]       # Defines the boards.
 ]
 {
-  %{
-    local height = fields.height.value
-    if height <= 0.0 then
-      height = fields.height.defaultValue
-      io.stderr:write("'height' should be strictly positive. ")
-      io.stderr:write("'height' was reset to '" .. height .. "'.")
-    end
-    local radius = fields.radius.value
-    if radius <= 0.0 then
-      radius = fields.radius.defaultValue
-      io.stderr:write("'radius' should be strictly positive. ")
-      io.stderr:write("'radius' was reset to '" .. radius .. "'.")
-    end
-  }%
+  %<
+    let height = fields.height.value;
+    if (height <= 0.0) {
+      height = fields.height.defaultValue;
+      console.error('\'height\' should be strictly positive. Value reset to ' + height + '.');
+    }
+
+    let radius = fields.radius.value;
+    if (radius <= 0.0) {
+      length = fields.radius.defaultValue;
+      console.error('\'radius\' should be strictly positive. Value reset to ' + radius + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -36,7 +36,7 @@ PROTO SignPole [
         children IS signBoards
       }
       DEF POLE Solid {
-        translation 0 %{= height / 2 }% 0
+        translation 0 %<= height * 0.5 >% 0
         children [
           Shape {
             appearance PBRAppearance {

@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera1
 # The "Khepera" robot is a two-wheeled robot produced by K-Team.
+# template language: javascript
 
 PROTO Khepera1 [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
@@ -17,9 +18,9 @@ PROTO Khepera1 [
   field SFBool     kinematic       FALSE         # Defines whether the robot motion and its sensors are computed according to a 2D kinematics algorithm.
 ]
 {
-  %{
-    local kinematic = fields.kinematic.value
-  }%
+  %<
+    const kinematic = fields.kinematic.value;
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
@@ -88,10 +89,10 @@ PROTO Khepera1 [
           ]
           name "left wheel"
           boundingObject USE WHEEL
-          %{ if kinematic == false then }%
+          %< if (!kinematic) { >%
             physics Physics {
             }
-          %{ end }%
+          %< } >%
         }
       }
       HingeJoint {
@@ -116,10 +117,10 @@ PROTO Khepera1 [
           ]
           name "right wheel"
           boundingObject USE WHEEL
-          %{ if kinematic == false then }%
+          %< if (!kinematic) { >%
             physics Physics {
             }
-          %{ end }%
+          %< } >%
         }
       }
       Transform {
@@ -407,12 +408,12 @@ PROTO Khepera1 [
         }
       ]
     }
-    %{ if kinematic == false then }%
+    %< if (!kinematic) { >%
       physics Physics {
         centerOfMass [
           0 0.005 0
         ]
       }
-    %{ end }%
+    %< } >%
   }
 }

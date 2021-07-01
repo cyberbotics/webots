@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An electrical wall plug with optional bounding object.
+# template language: javascript
 
 PROTO WallPlug [
   field SFVec3f    translation            0 0 0
@@ -19,7 +20,7 @@ PROTO WallPlug [
     model "wall plug"
     rotation 0 1 0 3.926990805
     children [
-      %{ if fields.enableBoundingObject.value then }%
+      %< if (fields.enableBoundingObject.value) { >%
         Solid {
           translation -0.04 0.0008 0
           rotation 0 0 1 4.712388966
@@ -30,7 +31,7 @@ PROTO WallPlug [
             thickness 0.015
           }
         }
-      %{ end }%
+      %< } >%
       Shape {
         appearance PBRAppearance {
           baseColor 0.76 0.49 0.07
@@ -85,7 +86,7 @@ PROTO WallPlug [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
           Transform {
@@ -126,6 +127,6 @@ PROTO WallPlug [
           }
         ]
       }
-    %{ end }%
+    %< } >%
   }
 }

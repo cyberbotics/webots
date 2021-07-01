@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # This extension of the hinge2joint allows to model the effect of backlash.
+# template language: javascript
 
 PROTO Hinge2JointWithBacklash [
   field SFNode                                 jointParameters   HingeJointParameters {}
@@ -19,50 +20,47 @@ PROTO Hinge2JointWithBacklash [
   field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {
-  %{
-    -- parameter retrieval
-    local axis = fields.jointParameters.value.fields.axis.value
-    local axis2 = fields.jointParameters2.value.fields.axis.value
-    local anchor = fields.jointParameters.value.fields.anchor.value
-    -- parameter sanity check
-    local backlash = fields.backlash.value
-    if backlash < 0 then
-      io.stderr:write("'backlash' value must be greater or equal to 0. Using default value.\n")
-      backlash = fields.backlash.defaultValue
-    elseif backlash > 0 and backlash < 0.01 then
-      print("Values of 'backlash' smaller than 0.01 are unlikely to be correctly enforced by the physics engine.")
-    end
+  %<
+    // parameter retrieval
+    const axis = fields.jointParameters.value.fields.axis.value
+    const axis2 = fields.jointParameters2.value.fields.axis.value
+    const anchor = fields.jointParameters.value.fields.anchor.value
+    // parameter sanity check
+    let backlash = fields.backlash.value;
+    if (backlash < 0) {
+      backlash = fields.backlash.defaultValue;
+      console.error('\'backlash\' value must be greater or equal to 0. Value reset to ' + backlash + '.');
+    } else if (backlash > 0 && backlash < 0.01)
+      console.log('Values of \'backlash\' smaller than 0.01 are unlikely to be correctly modeled by the physics engine unless the timestep is very low.');
 
-    local backlash2 = fields.backlash2.value
-    if backlash2 < 0 then
-      io.stderr:write("'backlash2' value must be greater or equal to 0. Using default value.\n")
-      backlash2 = fields.backlash2.defaultValue
-    elseif backlash2 > 0 and backlash2 < 0.01 then
-      print("Values of 'backlash2' smaller than 0.01 are unlikely to be correctly enforced by the physics engine.")
-    end
+    let backlash2 = fields.backlash2.value;
+    if (backlash2 < 0) {
+      backlash2 = fields.backlash2.defaultValue;
+      console.error('\'backlash2\' value must be greater or equal to 0. Value reset to ' + backlash2 + '.');
+    } else if (backlash2 > 0 && backlash2 < 0.01)
+      console.log('Values of \'backlash2\' smaller than 0.01 are unlikely to be correctly modeled by the physics engine unless the timestep is very low.');
 
-    local gearMass = fields.gearMass.value
-    if gearMass <= 0 then
-      io.stderr:write("'gearMass' value must be positive. Using default value.\n")
-      gearMass = fields.gearMass.defaultValue
-    end
+    let gearMass = fields.gearMass.value;
+    if (gearMass <= 0) {
+      gearMass = fields.gearMass.defaultValue;
+      console.error('\'gearMass\' must be strictly positive. Value reset to ' + gearMass + '.');
+    }
 
-    local gearMass2 = fields.gearMass2.value
-    if gearMass2 <= 0 then
-      io.stderr:write("'gearMass2' value must be positive. Using default value.\n")
-      gearMass2 = fields.gearMass2.defaultValue
-    end
+    let gearMass2 = fields.gearMass2.value;
+    if (gearMass2 <= 0) {
+      gearMass2 = fields.gearMass2.defaultValue;
+      console.error('\'gearMass2\' must be strictly positive. Value reset to ' + gearMass2 + '.');
+    }
 
-    if (backlash == 0 and backlash2 == 0) then
-      print("No backlash on either axis, 'Hinge2JointWithBacklash' reverted to a 'Hinge2Joint'. All other parameters are ignored.")
-    elseif (backlash == 0 and backlash2 ~= 0) then
-      print("No backlash on the first axis. 'outputSensor' and 'startPoint' are ignored.")
-    elseif (backlash ~= 0 and backlash2 == 0) then
-      print("No backlash on the second axis. 'outputSensor2' and 'startPoint2' are ignored.")
-    end
-  }%
-  %{ if backlash == 0 then }% # skip first limiter
-    %{ if backlash2 == 0 then }% # skip second limiter
+    if (backlash === 0 && backlash2 === 0)
+      console.log('No backlash on either axis, \'Hinge2JointWithBacklash\' reverted to a \'Hinge2Joint\'. All other parameters are ignored.');
+    else if (backlash === 0 && backlash2 > 0)
+      console.log('No backlash on the first axis. \'outputSensor\' and \'startPoint\' are ignored.');
+    else if (backlash > 0 && backlash2 === 0)
+      console.log('No backlash on the second axis. \'outputSensor2\' and \'startPoint2\' are ignored.');
+  >%
+  %< if (backlash === 0) { >% # skip first limiter
+    %< if (backlash2 === 0) { >% # skip second limiter
       Hinge2Joint { # revert PROTO to a classic Hinge2Joint
         jointParameters IS jointParameters
         jointParameters2 IS jointParameters2
@@ -70,24 +68,24 @@ PROTO Hinge2JointWithBacklash [
         device2 IS device2
         endPoint IS endPoint
       }
-    %{ else }% # only limiter2 is present
+    %< } else { >% # only limiter2 is present
       Hinge2Joint { # free to move
         jointParameters IS jointParameters
         jointParameters2 IS jointParameters2
         device IS device
         device2 IS device2
         endPoint Solid {
-          name %{= '"limiter_axis2_' .. context.id .. '"' }% # prevent name clashes
+          name %<= '"limiter_axis2_' + context.id + '"' >% # prevent name clashes
           children [
             Group {
               children IS startPoint2
             }
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis %{= axis2.x }% %{= axis2.y }% %{= axis2.z }%
-                anchor %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
-                minStop %{= - backlash2*0.5 }%
-                maxStop %{= backlash2*0.5 }%
+                axis %<= axis2.x >% %<= axis2.y >% %<= axis2.z >%
+                anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+                minStop %<= - backlash2*0.5 >%
+                maxStop %<= backlash2*0.5 >%
                 stopERP 0
               }
               device IS outputSensor2
@@ -96,49 +94,49 @@ PROTO Hinge2JointWithBacklash [
           ]
           physics Physics {
             inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
-            centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
+            centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
             density -1
-            mass IS gearMass2
+            mass %<= gearMass2 >%
           }
         }
       }
-    %{ end }%
-  %{ else }%
+    %< } >%
+  %< } else { >%
     HingeJoint { # the first HingeJoint is free to turn, the Hinge2 will be the limiter
       jointParameters IS jointParameters
       device IS device
       endPoint Solid {
-        name %{= '"limiter_axis_' .. context.id .. '"' }% # prevent name clashes
+        name %<= '"limiter_axis_' + context.id + '"' >% # prevent name clashes
         children [
           Group {
             children IS startPoint
           }
           Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis %{= axis.x }% %{= axis.y }% %{= axis.z }%
-              anchor %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
-              minStop %{= - backlash*0.5 }%
-              maxStop %{= backlash*0.5 }%
+              axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+              anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+              minStop %<= - backlash*0.5 >%
+              maxStop %<= backlash*0.5 >%
               stopERP 0
             }
             jointParameters2 IS jointParameters2
             device IS outputSensor
             device2 IS device2
-            %{ if backlash2 == 0 then }% # no need for limiter2
+            %< if (backlash2 === 0) { >% # no need for limiter2
               endPoint IS endPoint
-            %{ else }%
+            %< } else { >%
               endPoint Solid {
-                name %{= '"limiter_axis2_' .. context.id .. '"' }% # prevent name clashes
+                name %<= '"limiter_axis2_' + context.id + '"' >% # prevent name clashes
                 children [
                   Group {
                     children IS startPoint2
                   }
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis %{= axis2.x }% %{= axis2.y }% %{= axis2.z }%
-                      anchor %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
-                      minStop %{= - backlash2*0.5 }%
-                      maxStop %{= backlash2*0.5 }%
+                      axis %<= axis2.x >% %<= axis2.y >% %<= axis2.z >%
+                      anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+                      minStop %<= - backlash2*0.5 >%
+                      maxStop %<= backlash2*0.5 >%
                       stopERP 0
                     }
                     device IS outputSensor2
@@ -147,21 +145,21 @@ PROTO Hinge2JointWithBacklash [
                 ]
                 physics Physics {
                   inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
-                  centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
+                  centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
                   density -1
-                  mass IS gearMass2
+                  mass %<= gearMass2 >%
                 }
               }
-            %{ end }%
+            %< } >%
           }
         ]
         physics Physics {
           inertiaMatrix [ 4e-8 4e-8 4e-8, 0.0 0.0 0.0 ] # sphere of radius 0.01
-          centerOfMass %{= anchor.x }% %{= anchor.y }% %{= anchor.z }%
+          centerOfMass %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
           density -1
-          mass IS gearMass
+          mass %<= gearMass >%
         }
       }
     }
-  %{ end }%
+  %< } >%
 }

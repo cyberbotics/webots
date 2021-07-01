@@ -785,13 +785,7 @@ bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node) {
 }
 
 bool WbNodeUtilities::hasADefNodeAncestor(const WbNode *node) {
-  if (node == NULL)
-    return false;
-
-  if (node->isDefNode())
-    return true;
-
-  const WbNode *p = node->parentNode();
+  const WbNode *p = node;
   while (p) {
     if (p->isDefNode())
       return true;
@@ -802,13 +796,7 @@ bool WbNodeUtilities::hasADefNodeAncestor(const WbNode *node) {
 }
 
 bool WbNodeUtilities::hasAUseNodeAncestor(const WbNode *node) {
-  if (node == NULL)
-    return false;
-
-  if (node->isUseNode())
-    return true;
-
-  const WbNode *p = node->parentNode();
+  const WbNode *p = node;
   while (p) {
     if (p->isUseNode())
       return true;
@@ -940,13 +928,16 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
 bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
   const WbNode *const p = node->parentNode();
   if (p) {
-    const WbSolid *const s = dynamic_cast<const WbSolid *>(p);
-    if (s)
-      return s->boundingObject() == node;
+    const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    if (m) {
+      const WbNode *boundingObject = m->boundingObject();
 
-    const WbFluid *const f = dynamic_cast<const WbFluid *>(p);
-    if (f)
-      return f->boundingObject() == node;
+      while (boundingObject) {
+        if (boundingObject == node)
+          return true;
+        boundingObject = boundingObject->protoParameterNode();
+      }
+    }
 
     return isInBoundingObject(p);
   }
@@ -1280,60 +1271,37 @@ static bool isExperimentalDeviceTypeName(const QString &modelName) {
 bool WbNodeUtilities::isDeviceTypeName(const QString &modelName) {
   if (isSolidDeviceTypeName(modelName))
     return true;
-  if (modelName == "Brake")
-    return true;
-  if (modelName == "LinearMotor")
-    return true;
-  if (modelName == "PositionSensor")
-    return true;
-  if (modelName == "RotationalMotor")
-    return true;
-  if (modelName == "Skin")
-    return true;
-
-  return false;
+  QStringList deviceTypeName = (QStringList() << "Brake"
+                                              << "LinearMotor"
+                                              << "PositionSensor"
+                                              << "RotationalMotor"
+                                              << "Skin");
+  return deviceTypeName.contains(modelName);
 }
 
 bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
-  if (modelName == "Accelerometer")
-    return true;
-  if (modelName == "Camera")
-    return true;
-  if (modelName == "Compass")
-    return true;
-  if (modelName == "Connector")
-    return true;
-  if (modelName == "Display")
-    return true;
-  if (modelName == "DistanceSensor")
-    return true;
-  if (modelName == "Emitter")
-    return true;
-  if (modelName == "GPS")
-    return true;
-  if (modelName == "Gyro")
-    return true;
-  if (modelName == "InertialUnit")
-    return true;
-  if (modelName == "LED")
-    return true;
-  if (modelName == "Lidar")
-    return true;
-  if (modelName == "LightSensor")
-    return true;
-  if (modelName == "Pen")
-    return true;
-  if (modelName == "Radar")
-    return true;
-  if (modelName == "RangeFinder")
-    return true;
-  if (modelName == "Receiver")
-    return true;
-  if (modelName == "Speaker")
-    return true;
-  if (modelName == "TouchSensor")
-    return true;
-  if (modelName == "Track")
+  QStringList solidDeviceTypeName = (QStringList() << "Accelerometer"
+                                                   << "Altimeter"
+                                                   << "Camera"
+                                                   << "Compass"
+                                                   << "Connector"
+                                                   << "Display"
+                                                   << "DistanceSensor"
+                                                   << "Emitter"
+                                                   << "GPS"
+                                                   << "Gyro"
+                                                   << "InertialUnit"
+                                                   << "LED"
+                                                   << "Lidar"
+                                                   << "LightSensor"
+                                                   << "Pen"
+                                                   << "Radar"
+                                                   << "RangeFinder"
+                                                   << "Receiver"
+                                                   << "Speaker"
+                                                   << "TouchSensor"
+                                                   << "Track");
+  if (solidDeviceTypeName.contains(modelName))
     return true;
 
   if (WbNodeReader::current() &&
@@ -1682,7 +1650,7 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
   const WbLogicalDevice *const logicalDevice = dynamic_cast<WbLogicalDevice *>(n);
   if (logicalDevice) {
     if (warning)
-      *warning = QObject::tr("Device nodes cannot be USEd nodes cannot be USEd.");
+      *warning = QObject::tr("Device nodes cannot be USEd.");
     return false;
   }
 

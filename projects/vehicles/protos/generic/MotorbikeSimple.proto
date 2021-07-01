@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#twowheelersimple
 # Simple non-controllable model of a generic motorbike without physics properties
+# template language: javascript
 
 PROTO MotorbikeSimple [
   field       SFVec3f    translation                0 0.25 0
@@ -70,21 +71,21 @@ PROTO MotorbikeSimple [
     model "MotorbikeSimple"
     radarCrossSection 10
     boundingObject Transform { # changing the bounding box to fit the driver if present
-      %{ if fields.driver.value then }%
+      %< if (fields.driver.value) { >%
         translation 0 0.55 0.79
         children [
           Box {
             size 1.1 1.5 2.48
           }
         ]
-      %{ else }%
+      %< } else { >%
         translation 0 0.39 0.79
         children [
           Box {
             size 1.1 1.15 2.48
           }
         ]
-      %{ end }%
+      %< } >%
     }
     physics NULL
   }

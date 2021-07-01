@@ -353,10 +353,9 @@ void WbMotor::setVelocity(double velocity) {
   mTargetVelocity = velocity * multiplier();
 
   const double m = mMaxVelocity->value();
-  const bool isNegative = mTargetVelocity < 0.0;
-  if ((isNegative ? -mTargetVelocity : mTargetVelocity) > m) {
+  if (fabs(mTargetVelocity) > m) {
     warn(tr("The requested velocity %1 exceeds 'maxVelocity' = %2.").arg(mTargetVelocity).arg(m));
-    mTargetVelocity = isNegative ? -m : m;
+    mTargetVelocity = mTargetVelocity >= 0.0 ? m : -m;
   }
 
   mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl

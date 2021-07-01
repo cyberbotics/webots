@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Simple example shwoing how to inherit from AckermannVehicle to build any other vehicle.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO SimpleVehicle [
   field SFVec3f    translation                    0 0.4 0
@@ -36,7 +37,7 @@ PROTO SimpleVehicle [
         children IS sensorsSlot
       }
       Transform {
-        translation 0 0 %{= fields.wheelbase.value }%
+        translation 0 0 %<= fields.wheelbase.value >%
         rotation 0 0 1 1.5708
         children [
           Shape {
@@ -46,7 +47,7 @@ PROTO SimpleVehicle [
               roughness 0.6
             }
             geometry Cylinder {
-              height %{= fields.trackFront.value }%
+              height %<= fields.trackFront.value >%
               radius 0.04
             }
           }
@@ -62,14 +63,14 @@ PROTO SimpleVehicle [
               roughness 0.6
             }
             geometry Cylinder {
-              height %{= fields.trackRear.value }%
+              height %<= fields.trackRear.value >%
               radius 0.04
             }
           }
         ]
       }
       Transform {
-        translation 0 0 %{= fields.wheelbase.value/2 }%
+        translation 0 0 %<= fields.wheelbase.value/2 >%
         rotation 1 0 0 1.5708
         children [
           Shape {
@@ -79,14 +80,14 @@ PROTO SimpleVehicle [
               roughness 0.6
             }
             geometry Cylinder {
-              height %{= fields.wheelbase.value }%
+              height %<= fields.wheelbase.value >%
               radius 0.06
             }
           }
         ]
       }
       Transform {
-        translation 0 0 %{= fields.wheelbase.value }%
+        translation 0 0 %<= fields.wheelbase.value >%
         children [
           Shape {
             appearance PBRAppearance {

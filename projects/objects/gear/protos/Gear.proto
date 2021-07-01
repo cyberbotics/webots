@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Generic gear generator, inspired by Brian Paul's glxgears demo.
+# template language: javascript
 
 PROTO Gear [
   field SFVec3f         translation            0 0 0
@@ -18,67 +19,68 @@ PROTO Gear [
   field SFBool          teethBoundingObject    FALSE      # Enables a boundingObject on each tooth.
 ]
 {
-  %{
-    -- parameter retrieval
-    local width = fields.width.value
-    local nbTeeth = fields.teeth.value
-    local innerRadius = fields.innerRadius.value
-    local pitchRadius = fields.pitchRadius.value
-    local toothDepth = fields.toothDepth.value
-    local density = fields.density.value
-    local bodyBoundingObject = fields.bodyBoundingObject.value
-    local teethBoundingObject = fields.teethBoundingObject.value
-    -- parameter sanity check
-    if nbTeeth < 8 then
-      io.stderr:write("'teeth' value must be greater than 8. Using default value.\n")
-      nbTeeth = fields.teeth.defaultValue
-    end
+  %<
+    // parameter retrieval;
+    let width = fields.width.value;
+    let nbTeeth = fields.teeth.value;
+    let innerRadius = fields.innerRadius.value;
+    let pitchRadius = fields.pitchRadius.value;
+    let toothDepth = fields.toothDepth.value;
+    let density = fields.density.value;
+    let bodyBoundingObject = fields.bodyBoundingObject.value;
+    let teethBoundingObject = fields.teethBoundingObject.value;
+    // parameter sanity check
+    if (nbTeeth < 8) {
+      nbTeeth = fields.teeth.defaultValue;
+      console.error('\'teeth\' value must be greater than 8. Value reset to ' + nbTeeth + '.');
+    }
 
-    if width <= 0.0  then
-      io.stderr:write("'width' value must be greater than 0. Using default value.\n")
-      width = fields.width.defaultValue
-    end
+    if (width <= 0.0) {
+      width = fields.width.defaultValue;
+      console.error('\'width\' must be strictly positive. Value reset to ' + width + '.');
+    }
+    let halfWidth = width * 0.5;
 
-    if density < 0.0  then
-      io.stderr:write("'density' value must be greater or equal to 0. Using default value.\n")
-      density = fields.density.defaultValue
-    end
+    if (density < 0) {
+      density = fields.density.defaultValue;
+      console.error('\'density\' must be zero or positive. Value reset to ' + density + '.');
+    }
 
-    if innerRadius >= pitchRadius or pitchRadius <= innerRadius then
-      io.stderr:write("'innerRadius' value must be smaller than 'pitchRadius'. Using default value.\n")
-      innerRadius = fields.innerRadius.defaultValue
-      pitchRadius = fields.pitchRadius.defaultValue
-    end
+    if (innerRadius < 0) {
+      innerRadius = fields.innerRadius.defaultValue;
+      console.error('\innerRadius\' must be zero or positive. Value reset to ' + innerRadius + '.');
+    }
 
-    if toothDepth >= pitchRadius then
-      io.stderr:write("'toothDepth' value must be smaller than 'pitchRadius'. Using default value.\n")
-      toothDepth = fields.toothDepth.defaultValue
-      pitchRadius = fields.pitchRadius.defaultValue
-    end
+    if (innerRadius >= pitchRadius || pitchRadius <= innerRadius) {
+      innerRadius = fields.innerRadius.defaultValue;
+      pitchRadius = fields.pitchRadius.defaultValue;
+      console.error('\'innerRadius\' value must be smaller than \'pitchRadius\'. Values reset repectively to ' + innerRadius + ' and ' + pitchRadius + '.');
+    }
 
-    -- define vertices of the repeatable unit
-    local r0 = innerRadius
-    local r1 = pitchRadius - toothDepth * 0.5
-    local r2 = pitchRadius + toothDepth * 0.5
-    local da = (2.0 * math.pi / nbTeeth) / 4.0
+    if (toothDepth >= pitchRadius) {
+      toothDepth = fields.toothDepth.defaultValue;
+      pitchRadius = fields.pitchRadius.defaultValue;
+      console.error('\'toothDepth\' value must be smaller than \'pitchRadius\'. Values reset repectively to ' + toothDepth + ' and ' + pitchRadius + '.');
+    } else if (toothDepth <= 0) {
+      toothDepth = fields.toothDepth.defaultValue;
+      console.error('\'toothDepth\' value must be strictly positive. Value reset to ' + toothDepth + '.');
+    }
 
-    local p0x = r0
-    local p0y = 0
-    local p1x = r1
-    local p1y = 0
-    local p2x = r2 * math.cos(0 + da)
-    local p2y = r2 * math.sin(0 + da)
-    local p3x = r2 * math.cos(0 + 2*da)
-    local p3y = r2 * math.sin(0 + 2*da)
-    local p4x = r1 * math.cos(0 + 3*da)
-    local p4y = r1 * math.sin(0 + 3*da)
-    local p5x = r1 * math.cos(2.0 * math.pi / nbTeeth)
-    local p5y = r1 * math.sin(2.0 * math.pi / nbTeeth)
-    local p6x = r0 * math.cos(2.0 * math.pi / nbTeeth)
-    local p6y = r0 * math.sin(2.0 * math.pi / nbTeeth)
-    local tip_size = math.sqrt((p3x-p2x)*(p3x-p2x) + (p3y-p2y)*(p3y-p2y))
+    // define vertices of the repeatable unit
+    const r0 = innerRadius;
+    const r1 = pitchRadius - toothDepth * 0.5;
+    const r2 = pitchRadius + toothDepth * 0.5;
+    const da = (2.0 * Math.PI / nbTeeth) / 4.0;
 
-  }%
+    const p0 = {x: r0, y: 0};
+    const p1 = {x: r1, y: 0};
+    const p2 = {x: r2 * Math.cos(0 + da), y: r2 * Math.sin(0 + da)};
+    const p3 = {x: r2 * Math.cos(0 + 2*da), y: r2 * Math.sin(0 + 2*da)};
+    const p4 = {x: r1 * Math.cos(0 + 3*da), y: r1 * Math.sin(0 + 3*da)};
+    const p5 = {x: r1 * Math.cos(2.0 * Math.PI / nbTeeth), y: r1 * Math.sin(2.0 * Math.PI / nbTeeth)};
+    const p6 = {x: r0 * Math.cos(2.0 * Math.PI / nbTeeth), y: r0 * Math.sin(2.0 * Math.PI / nbTeeth)};
+    const tip_size = Math.sqrt((p3.x - p2.x) * (p3.x - p2.x) + (p3.y - p2.y) * (p3.y - p2.y));
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -89,116 +91,120 @@ PROTO Gear [
         geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                %{ for n = 0, nbTeeth-1 do }%
-                  %{ alpha = n * 2.0 * math.pi / nbTeeth }%
+                %<
+                  let alpha, cosAlpha, sinAlpha;
+                  for (let n = 0; n <= nbTeeth - 1; ++n) {
+                    alpha = n * 2.0 * Math.PI / nbTeeth;
+                    cosAlpha = Math.cos(alpha);
+                    sinAlpha = Math.sin(alpha);
+                >%
                   # base face
-                  %{=p0x * math.cos(alpha) - p0y * math.sin(alpha)}% %{= p0x * math.sin(alpha) + p0y * math.cos(alpha)}% %{= -width*0.5}% # 0
-                  %{=p1x * math.cos(alpha) - p1y * math.sin(alpha)}% %{= p1x * math.sin(alpha) + p1y * math.cos(alpha)}% %{= -width*0.5}% # 1
-                  %{=p2x * math.cos(alpha) - p2y * math.sin(alpha)}% %{= p2x * math.sin(alpha) + p2y * math.cos(alpha)}% %{= -width*0.5}% # 2
-                  %{=p3x * math.cos(alpha) - p3y * math.sin(alpha)}% %{= p3x * math.sin(alpha) + p3y * math.cos(alpha)}% %{= -width*0.5}% # 3
-                  %{=p4x * math.cos(alpha) - p4y * math.sin(alpha)}% %{= p4x * math.sin(alpha) + p4y * math.cos(alpha)}% %{= -width*0.5}% # 4
-                  %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= -width*0.5}% # 5
-                  %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= -width*0.5}% # 6
+                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% %<= -halfWidth >% # 0
+                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% %<= -halfWidth >% # 1
+                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% %<= -halfWidth >% # 2
+                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% %<= -halfWidth >% # 3
+                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% %<= -halfWidth >% # 4
+                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% %<= -halfWidth >% # 5
+                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% %<= -halfWidth >% # 6
                   # top face
-                  %{=p0x * math.cos(alpha) - p0y * math.sin(alpha)}% %{= p0x * math.sin(alpha) + p0y * math.cos(alpha)}% %{= width*0.5}% # 7
-                  %{=p1x * math.cos(alpha) - p1y * math.sin(alpha)}% %{= p1x * math.sin(alpha) + p1y * math.cos(alpha)}% %{= width*0.5}% # 8
-                  %{=p2x * math.cos(alpha) - p2y * math.sin(alpha)}% %{= p2x * math.sin(alpha) + p2y * math.cos(alpha)}% %{= width*0.5}% # 9
-                  %{=p3x * math.cos(alpha) - p3y * math.sin(alpha)}% %{= p3x * math.sin(alpha) + p3y * math.cos(alpha)}% %{= width*0.5}% # 10
-                  %{=p4x * math.cos(alpha) - p4y * math.sin(alpha)}% %{= p4x * math.sin(alpha) + p4y * math.cos(alpha)}% %{= width*0.5}% # 11
-                  %{=p5x * math.cos(alpha) - p5y * math.sin(alpha)}% %{= p5x * math.sin(alpha) + p5y * math.cos(alpha)}% %{= width*0.5}% # 12
-                  %{=p6x * math.cos(alpha) - p6y * math.sin(alpha)}% %{= p6x * math.sin(alpha) + p6y * math.cos(alpha)}% %{= width*0.5}% # 13
-                %{ end }%
-
+                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% %<= halfWidth >% # 7
+                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% %<= halfWidth >% # 8
+                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% %<= halfWidth >% # 9
+                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% %<= halfWidth >% # 10
+                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% %<= halfWidth >% # 11
+                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% %<= halfWidth >% # 12
+                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% %<= halfWidth >% # 13
+                %< } >%
               ]
             }
             coordIndex [
-              %{ for n = 0, nbTeeth-1 do }%
+              %< for (let n = 0; n <= nbTeeth - 1; ++n) { >%
                 # base face
-                %{= n*14 + 0}%, %{= n*14 + 2}%, %{= n*14 + 1}%, -1,
-                %{= n*14 + 0}%, %{= n*14 + 3}%, %{= n*14 + 2}%, -1,
-                %{= n*14 + 0}%, %{= n*14 + 4}%, %{= n*14 + 3}%, -1,
-                %{= n*14 + 0}%, %{= n*14 + 5}%, %{= n*14 + 4}%, -1,
-                %{= n*14 + 0}%, %{= n*14 + 6}%, %{= n*14 + 5}%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 2 >%, %<= n*14 + 1 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 3 >%, %<= n*14 + 2 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 4 >%, %<= n*14 + 3 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 5 >%, %<= n*14 + 4 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 6 >%, %<= n*14 + 5 >%, -1,
                 # top face
-                %{= n*14 + 7}%, %{= n*14 + 8}%, %{= n*14 + 9}%, -1,
-                %{= n*14 + 7}%, %{= n*14 + 9}%, %{= n*14 + 10}%, -1,
-                %{= n*14 + 7}%, %{= n*14 + 10}%, %{= n*14 + 11}%, -1,
-                %{= n*14 + 7}%, %{= n*14 + 11}%, %{= n*14 + 12}%, -1,
-                %{= n*14 + 7}%, %{= n*14 + 12}%, %{= n*14 + 13}%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 8 >%, %<= n*14 + 9 >%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 9 >%, %<= n*14 + 10 >%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 10 >%, %<= n*14 + 11 >%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 11 >%, %<= n*14 + 12 >%, -1,
+                %<= n*14 + 7 >%, %<= n*14 + 12 >%, %<= n*14 + 13 >%, -1,
                 # inner face shape
-                %{= n*14 + 0}%, %{= n*14 + 7}%, %{= n*14 + 13}%, -1,
-                %{= n*14 + 0}%, %{= n*14 + 13}%, %{= n*14 + 6}%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 7 >%, %<= n*14 + 13 >%, -1,
+                %<= n*14 + 0 >%, %<= n*14 + 13 >%, %<= n*14 + 6 >%, -1,
                 # outer face face
-                %{= n*14 + 1}%, %{= n*14 + 2}%, %{= n*14 + 9}%, -1,
-                %{= n*14 + 1}%, %{= n*14 + 9}%, %{= n*14 + 8}%, -1,
-                %{= n*14 + 2}%, %{= n*14 + 3}%, %{= n*14 + 10}%, -1,
-                %{= n*14 + 2}%, %{= n*14 + 10}%, %{= n*14 + 9}%, -1,
-                %{= n*14 + 3}%, %{= n*14 + 4}%, %{= n*14 + 11}%, -1,
-                %{= n*14 + 3}%, %{= n*14 + 11}%, %{= n*14 + 10}%, -1,
-                %{= n*14 + 4}%, %{= n*14 + 5}%, %{= n*14 + 12}%, -1,
-                %{= n*14 + 4}%, %{= n*14 + 12}%, %{= n*14 + 11}%, -1,
-              %{ end }%
+                %<= n*14 + 1 >%, %<= n*14 + 2 >%, %<= n*14 + 9 >%, -1,
+                %<= n*14 + 1 >%, %<= n*14 + 9 >%, %<= n*14 + 8 >%, -1,
+                %<= n*14 + 2 >%, %<= n*14 + 3 >%, %<= n*14 + 10 >%, -1,
+                %<= n*14 + 2 >%, %<= n*14 + 10 >%, %<= n*14 + 9 >%, -1,
+                %<= n*14 + 3 >%, %<= n*14 + 4 >%, %<= n*14 + 11 >%, -1,
+                %<= n*14 + 3 >%, %<= n*14 + 11 >%, %<= n*14 + 10 >%, -1,
+                %<= n*14 + 4 >%, %<= n*14 + 5 >%, %<= n*14 + 12 >%, -1,
+                %<= n*14 + 4 >%, %<= n*14 + 12 >%, %<= n*14 + 11 >%, -1,
+              %< } >%
             ]
           }
         }
     ]
     # boundingObject
-    %{ if bodyBoundingObject or teethBoundingObject then }%
+    %< if (bodyBoundingObject || teethBoundingObject) { >%
       boundingObject Group {
         children [
           # cylinder encompassing the gear
-          %{ if bodyBoundingObject then }%
+          %< if (bodyBoundingObject) { >%
             Transform {
               rotation 1 0 0 1.570796
               children [
                 Shape {
                   geometry Cylinder {
-                    radius %{= r2}%
-                    height %{= width}%
+                    radius %<= r2 >%
+                    height %<= width >%
                   }
                 }
               ]
             }
-          %{ end }%
+          %< } >%
           # spherical contact point on each tooth
-          %{ if teethBoundingObject then }%
-            %{ for n = 0, nbTeeth-1 do }%
-              %{ alpha = n * 2.0 * math.pi / nbTeeth }%
-              %{ if tip_size > width then }%
+          %< if (teethBoundingObject) { >%
+            %< for (let n = 0; n <= nbTeeth - 1; ++n) { >%
+              %< alpha = n * 2.0 * Math.PI / nbTeeth; >%
+              %< if (tip_size > width) { >%
                 Transform {
-                  translation %{= (r2-tip_size*0.5)*math.cos(alpha + 1.5*da)}% %{= (r2-tip_size*0.5)*math.sin(alpha + 1.5*da)}% 0
+                  translation %<= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) >% %<= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) >% 0
                   children [
                     Shape {
                       geometry Sphere {
-                        radius %{= tip_size*0.5*1.4}% # by default, make it 40% bigger
+                        radius %<= tip_size*0.5*1.4 >% # by default, make it 40% bigger
                       }
                     }
                   ]
                 }
-              %{ else }%
+              %< } else { >%
                 Transform {
-                  translation %{= (r2-tip_size*0.5)*math.cos(alpha + 1.5*da)}% %{= (r2-tip_size*0.5)*math.sin(alpha + 1.5*da)}% 0
+                  translation %<= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) >% %<= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) >% 0
                   rotation 1 0 0 -1.5708
                   children [
                     Shape {
                       geometry Capsule {
-                        radius %{= tip_size*0.5*1.4}% # by default, make it 40% bigger
-                        height %{= width - tip_size}%
+                        radius %<= tip_size*0.5*1.4 >% # by default, make it 40% bigger
+                        height %<= width - tip_size >%
                       }
                     }
                   ]
                 }
-              %{ end }%
-            %{ end }%
-          %{ end }%
+              %< } >%
+            %< } >%
+          %< } >%
         ]
       }
-    %{ end }%
+    %< } >%
     # physics
-    %{ if density > 0.0 then }%
+    %< if (density > 0.0) { >%
     physics Physics {
       density IS density
     }
-    %{ end }%
+    %< } >%
   }
 }
