@@ -182,8 +182,8 @@ while time < MAX_TIME and not inEmergencyLane and not collided and not sumoFailu
     if emergencyLanePath.distance(positionPoint) < 0.5 * laneWidth:
         inEmergencyLane = True
     # check for collision
-    numberOfContactPoints = vehicleNode.getNumberOfContactPoints()
-    if numberOfContactPoints > 0:
+    contactPoints = vehicleNode.getContactPoints()
+    if len(contactPoints) > 0:
         collided = True
     time = supervisor.getTime()
     distance = roadPath.project(positionPoint) - initialDistance

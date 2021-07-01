@@ -62,11 +62,10 @@ while robot.step(timestep) != -1:
         # If the robot has collided with something that isn't the ground or has
         # reached the goal or has even run out of time, record final time and
         # terminate simulation.
-        numberofContactPoints = thymio2.getNumberOfContactPoints()
-        for x in range(0, numberofContactPoints):
-            contactPoint = thymio2.getContactPoint(x)
-            if contactPoint[1] > 0.02 or thymio2.getPosition()[0] < -3.3 or time >= 80:
-                if contactPoint[1] > 0.02:
+        contactPoints = thymio2.getContactPoints()
+        for contact in contactPoints:
+            if contact.point[1] > 0.02 or thymio2.getPosition()[0] < -3.3 or time >= 80:
+                if contact.point[1] > 0.02:
                     time = 80
                 running = False
                 break

@@ -45,9 +45,9 @@ PROTO Grass [
     occlusionMap ImageTexture {
       url [
         %< if (fields.type.value === 'artificial_white') { >%
-          %<= '"https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/grass/grass_artificial_occlusion.jpg"' >%
+          %<= '"webots://projects/appearances/protos/textures/grass/grass_artificial_occlusion.jpg"' >%
         %< } else { >%
-          %<= '"https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/grass/grass_' + fields.type.value + '_occlusion.jpg"' >%
+          %<= '"webots://projects/appearances/protos/textures/grass/grass_' + fields.type.value + '_occlusion.jpg"' >%
         %< } >%
       ]
     }
