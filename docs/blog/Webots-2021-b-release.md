@@ -1,6 +1,6 @@
 # Version R2021b Released
 
-<p id="publish-data">By Stefania Pedrazzi - XX July 2021</p>
+<p id="publish-data">By Stefania Pedrazzi - 5th July 2021</p>
 
 ---
 
@@ -31,9 +31,14 @@ These assets are now downloaded from the web only when needed and cached for sub
 ![New URL Format](images/new_url_system.jpg)
 %end
 
-Additionally, we removed the offline documentation and ..
+Additionally, we removed the offline documentation and other resources achieving the following results:
 
-TODO (update with package size difference and add figure showing new url system).
+
+| OS | R2021a Package Size | R2021b Package Size |
+| :---: | :---: | :---: |
+| Windows | 1.65 GB | 448 MB |
+| Linux | 1.45 GB | 263 MB |
+| macOS | 1.42 GB | 226 MB |
 
 ---
 
@@ -104,6 +109,9 @@ The [SICK S300](../guide/lidar-sensors.md#sick-s300) lidar model is now included
 %figure "SICK S300"
 ![SICK S300](images/sick_s300.thumbnail.png)
 %end
+
+Additionally, Webots R2021b now provides a new [Altimeter](../reference/altimeter.md) sensor to determine the global altitude of a robot or robot part.
+A sample usage of this new device can be found [here](../guide/samples-devices#altimeter-wbt).
 
 ---
 
