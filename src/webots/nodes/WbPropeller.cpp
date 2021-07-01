@@ -79,6 +79,16 @@ WbPropeller::~WbPropeller() {
   }
 }
 
+void WbPropeller::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  WbSolid *const fastHelix = helix(FAST_HELIX);
+  WbSolid *const slowHelix = helix(SLOW_HELIX);
+  if (fastHelix)
+    fastHelix->downloadAssets();
+  if (slowHelix)
+    slowHelix->downloadAssets();
+}
+
 void WbPropeller::preFinalize() {
   WbBaseNode::preFinalize();
 
