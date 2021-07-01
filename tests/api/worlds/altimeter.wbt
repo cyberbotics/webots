@@ -1,0 +1,57 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.9999145421071924 0.007938046364915017 -0.010387295243325724 5.1417
+  position -0.0282472 1.54298 0.684422
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Solid {
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF ROBOT Robot {
+  translation -0.4 0.2 0.05
+  rotation 0 0 1 1.57
+  children [
+    Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    Altimeter {
+      translation 0 -0.05 0
+      rotation 1 0 0 3.1415
+      children [
+        DEF SENSOR_TRANSFROM Transform {
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              geometry Sphere {
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "altimeter"
+}
+TestSuiteSupervisor {
+}

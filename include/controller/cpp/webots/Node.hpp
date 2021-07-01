@@ -67,6 +67,7 @@ namespace webots {
       ROBOT,
       // devices
       ACCELEROMETER,
+      ALTIMETER,
       BRAKE,
       CAMERA,
       COMPASS,

@@ -1,6 +1,10 @@
 wb_accelerometer_enable.m
 wb_accelerometer_disable.m
 wb_accelerometer_get_sampling_period.m
+wb_altimeter_enable.m
+wb_altimeter_disable.m
+wb_altimeter_get_sampling_period.m
+wb_altimeter_get_value.m
 wb_brake_get_type.m
 wb_brake_set_damping_constant.m
 wb_brake_get_motor.m
