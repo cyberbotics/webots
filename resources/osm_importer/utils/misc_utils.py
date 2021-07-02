@@ -65,7 +65,7 @@ def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
         file.write("  appearance PBRAppearance {\n")
         file.write("    baseColorMap ImageTexture {\n")
         file.write("      url [\n")
-        file.write("        \"textures/grass.jpg\"\n")
+        file.write("        \"https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg\"\n")
         file.write("      ]\n")
         file.write("    }\n")
         file.write("    roughness 1\n")

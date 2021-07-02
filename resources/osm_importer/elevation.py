@@ -150,7 +150,7 @@ class Elevation(object):
         self.floorString += "      appearance PBRAppearance {\n"
         self.floorString += "        baseColorMap ImageTexture {\n"
         self.floorString += "          url [\n"
-        self.floorString += "            \"textures/grass.jpg\"\n"
+        self.floorString += "            \"https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg\"\n"
         self.floorString += "          ]\n"
         self.floorString += "        }\n"
         self.floorString += "        roughness 1\n"
