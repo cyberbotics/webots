@@ -113,7 +113,7 @@ class Barrier(WebotsObject):
                 file.write('    DEF SHAPE Shape {\n')
                 file.write('      appearance PBRAppearance {\n')
                 file.write('        baseColorMap ImageTexture {\n')
-                file.write(f'          url [ "${RED_BRICK_TEXTURE}" ]\n')
+                file.write(f'          url [ "{RED_BRICK_TEXTURE}" ]\n')
                 file.write('        }\n')
                 file.write('        roughness 1\n')
                 file.write('        metalness 0\n')

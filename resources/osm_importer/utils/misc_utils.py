@@ -69,7 +69,7 @@ def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
         file.write("  appearance PBRAppearance {\n")
         file.write("    baseColorMap ImageTexture {\n")
         file.write("      url [\n")
-        file.write(f"        \"${GRASS_TEXTURE}\"\n")
+        file.write(f"        \"{GRASS_TEXTURE}\"\n")
         file.write("      ]\n")
         file.write("    }\n")
         file.write("    roughness 1\n")

@@ -450,7 +450,7 @@ class Road(WebotsObject):
                     for l in range(road.forwardLanes):
                         f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
                     for l in range(road.backwardLanes):
-                        f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}\n')
+                        f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
                     f.write('  ]\n')
             f.write('  wayPoints [\n')
             for coord in coords:
