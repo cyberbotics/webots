@@ -64,13 +64,13 @@ const QStringList WbLanguageTools::javaArguments() {
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
   const QString advice =
-    QObject::tr("Webots requires Python version 3."
+    QObject::tr("Webots requires Python version 3.9, 3.8"
 #ifdef __linux__
-                "x"  // we support 3.6 on ubuntu 18.04 and 3.5 and 3.6 on ubuntu 16.04
+                ", 3.7 or 3.6"  // we also support 3.6 on ubuntu 18.04
 #else
-                "9, 3.8, 3.7"
+                " or 3.7"
 #endif
-                " or 2.7 (64 bit) from python.org in your current PATH.\n"
+                " from python.org in your current PATH.\n"
                 "To fix the problem, you should:\n"
                 "1. Check the Python command set in the Webots preferences.\n"
                 "2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.\n"
@@ -88,8 +88,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   const QString output = process.readAll();
   // "3.6.3 (v3.6.3:2c5fed8, Oct  3 2017, 18:11:49) [MSC v.1900 64 bit (AMD64)]\nTrue\n" or the like
   const QStringList version = output.split("\n");
-  if (!version[0].startsWith("3.9.") && !version[0].startsWith("3.8.") && !version[0].startsWith("3.7.") &&
-      !version[0].startsWith("2.7.")) {
+  if (!version[0].startsWith("3.9.") && !version[0].startsWith("3.8.") && !version[0].startsWith("3.7.")) {
     WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
     pythonCommand = "!";
   } else if (version.size() > 1 && version[1].startsWith("False")) {
@@ -104,9 +103,9 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
                                              << "import sys;print(sys.version);");
   process.waitForFinished();
   const QString output = process.readAll();
-  // "2.7.6 (default, Nov 23 2017, 15:49:48) \n[GCC 4.8.4]\n" or the like
+  // "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]" or the like
   const QStringList version = output.split(" ");
-  if (!version[0].startsWith("3.") && !version[0].startsWith("2.7.")) {
+  if (!version[0].startsWith("3.")) {
     WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
     pythonCommand = "!";
   } else
