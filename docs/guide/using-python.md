@@ -61,8 +61,8 @@ Using Python *pip*, the *NumPy* package is automatically installed with *opencv-
 Use the `pip` command to install OpenCV:
 
 ```sh
-sudo apt-get install python-pip
-sudo pip install opencv-python
+sudo apt-get install python3-pip
+sudo pip3 install opencv-python
 ```
 
 #### macOS Libraries
