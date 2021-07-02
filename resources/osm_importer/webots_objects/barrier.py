@@ -110,7 +110,7 @@ class Barrier(WebotsObject):
                 file.write('    DEF SHAPE Shape {\n')
                 file.write('      appearance PBRAppearance {\n')
                 file.write('        baseColorMap ImageTexture {\n')
-                file.write('          url [ "textures/red_brick_wall.jpg" ]\n')
+                file.write('          url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/red_brick_wall.jpg" ]\n')
                 file.write('        }\n')
                 file.write('        roughness 1\n')
                 file.write('        metalness 0\n')

@@ -437,16 +437,16 @@ class Road(WebotsObject):
                 if road.startJunction is not None and len(road.startJunction.roads) > 2:
                     f.write('  startLine [\n')
                     for l in range(road.forwardLanes):
-                        f.write('    "textures/road_line_dashed.png"\n')
+                        f.write('    "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_dashed.png"\n')
                     for l in range(road.backwardLanes):
-                        f.write('    "textures/road_line_triangle.png"\n')
+                        f.write('    "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_triangle.png"\n')
                     f.write('  ]\n')
                 if road.endJunction is not None and len(road.endJunction.roads) > 2:
                     f.write('  endLine [\n')
                     for l in range(road.forwardLanes):
-                        f.write('    "textures/road_line_triangle.png"\n')
+                        f.write('    "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_triangle.png"\n')
                     for l in range(road.backwardLanes):
-                        f.write('    "textures/road_line_dashed.png"\n')
+                        f.write('    "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_dashed.png"\n')
                     f.write('  ]\n')
             f.write('  wayPoints [\n')
             for coord in coords:
