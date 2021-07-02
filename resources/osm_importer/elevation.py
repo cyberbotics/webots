@@ -28,7 +28,7 @@ GOOGLE_ELEVATION_BASE_URL = 'https://maps.googleapis.com/maps/api/elevation/json
 GEAONAMES_ELEVATION_BASE_URI = 'http://api.geonames.org/astergdemJSON'
 
 # noqa: E501
-GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg'
+GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg'  # noqa: E501
 
 
 class Elevation(object):
