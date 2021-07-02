@@ -19,8 +19,7 @@ import re
 from projection import Projection
 
 
-# noqa: E501
-GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg'  # noqa: E501
+GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg'
 
 
 def get_world_size(minlat, minlon, maxlat, maxlon):
