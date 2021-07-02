@@ -12,7 +12,6 @@ except ImportError:
     sys.stderr.write("Error: 'shapely' module not found.\n")
     sys.exit(0)
 
-
 VEHICLE_DEF_NAME = 'WEBOTS_VEHICLE0'
 SUMO_PORTS_RANGE = [1024, 1998]
 MAX_TIME = 60.0
