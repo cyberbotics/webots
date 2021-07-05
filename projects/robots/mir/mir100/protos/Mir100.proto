@@ -296,19 +296,18 @@ PROTO Mir100 [
                   appearance CorrodedMetal {
                   }
                   geometry Cylinder {
-                      radius 0.054
+                      radius 0.0465
                       height 0.032
                   }
                 }
-                Shape {
+                SolidTorus {
+                  majorRadius 0.0465
+                  minorRadius 0.016
+                  enableBoundingObject FALSE
                   appearance PBRAppearance {
                     baseColor 0 0 0
                     roughness 1
                     metalness 0
-                  }
-                  geometry DEF WHEEL_BO Cylinder {
-                      radius 0.0625
-                      height 0.0315
                   }
                 }
               ]
@@ -316,13 +315,9 @@ PROTO Mir100 [
           ]
           name "left_wheel_link"
           contactMaterial "wheel"
-          boundingObject Transform {
-            children [
-              DEF WHEEL_BO Cylinder {
-                height 0.032
-                radius 0.0625
-              }
-            ]
+          boundingObject DEF WHEEL_BO Cylinder {
+            radius 0.0625
+            height 0.01
           }
           physics Physics {
             density -1
@@ -359,11 +354,7 @@ PROTO Mir100 [
           ]
           name "right_wheel_link"
           contactMaterial "wheel"
-          boundingObject Transform {
-            children [
-              USE WHEEL_BO
-            ]
-          }
+          boundingObject USE WHEEL_BO
           physics Physics {
             density -1
             mass 1
@@ -421,11 +412,7 @@ PROTO Mir100 [
                 ]
                 name "fl_caster_wheel_link"
                 contactMaterial "wheel"
-                boundingObject Transform {
-                  children [
-                    USE WHEEL_BO
-                  ]
-                }
+                boundingObject USE WHEEL_BO
                 physics Physics {
                   density -1
                   mass 1
@@ -497,11 +484,7 @@ PROTO Mir100 [
                 ]
                 name "fr_caster_wheel_link"
                 contactMaterial "wheel"
-                boundingObject Transform {
-                  children [
-                    USE WHEEL_BO
-                  ]
-                }
+                boundingObject USE WHEEL_BO
                 physics Physics {
                   density -1
                   mass 1
@@ -570,11 +553,7 @@ PROTO Mir100 [
                 ]
                 name "bl_caster_wheel_link"
                 contactMaterial "wheel"
-                boundingObject Transform {
-                  children [
-                    USE WHEEL_BO
-                  ]
-                }
+                boundingObject USE WHEEL_BO
                 physics Physics {
                   density -1
                   mass 1
@@ -643,11 +622,7 @@ PROTO Mir100 [
                 ]
                 name "br_caster_wheel_link"
                 contactMaterial "wheel"
-                boundingObject Transform {
-                  children [
-                    USE WHEEL_BO
-                  ]
-                }
+                boundingObject USE WHEEL_BO
                 physics Physics {
                   density -1
                   mass 1
