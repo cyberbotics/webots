@@ -24,6 +24,8 @@
 
 #include <QtNetwork/QNetworkDiskCache>
 
+#include <iostream>
+
 static int gCount = 0;
 static int gComplete = 0;
 static bool gDownloading = false;
@@ -91,6 +93,8 @@ void WbDownloader::download(const QUrl &url) {
   mFinished = false;
   if (mOffline)
     request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysCache);
+  else
+    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
 
   mNetworkReply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
@@ -124,6 +128,18 @@ void WbDownloader::finished() {
 
   mFinished = true;
   emit complete();
+  if (!mCopy) {
+    QVariant isFromCache = mNetworkReply->attribute(QNetworkRequest::SourceIsFromCacheAttribute);
+    // source is network
+    if (!(isFromCache.isValid() && isFromCache.canConvert(QMetaType::Bool) && isFromCache.convert(QMetaType::Bool))) {
+      // increase expiration date to one day
+      QNetworkCacheMetaData metaData = WbNetwork::instance()->networkAccessManager()->cache()->metaData(mUrl);
+      metaData.setExpirationDate(QDateTime::currentDateTimeUtc().addDays(1));
+      WbNetwork::instance()->networkAccessManager()->cache()->updateMetaData(metaData);
+    }
+  }
+  QNetworkCacheMetaData test = WbNetwork::instance()->networkAccessManager()->cache()->metaData(mUrl);
+  std::cout << test.expirationDate().toString().toStdString() << '\n';
 }
 
 void WbDownloader::displayPopUp() {
