@@ -390,7 +390,7 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
-  QGroupBox *cache = new QGroupBox(tr("Cache"), this);
+  QGroupBox *cache = new QGroupBox(tr("Disck cache"), this);
   cache->setObjectName("networkGroupBox");
 
   network->addWidget(proxy, 0, 1);
@@ -440,7 +440,7 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   // row 1
   QPushButton *clearCacheButton = new QPushButton(QString("Clear the cache"), this);
   connect(clearCacheButton, &QPushButton::pressed, this, &WbPreferencesDialog::clearCache);
-  layout->addWidget(new QLabel(tr("Amount of cache memory used : %1 MB.")
+  layout->addWidget(new QLabel(tr("Amount of cache used : %1 MB.")
                                  .arg(WbNetwork::instance()->networkAccessManager()->cache()->cacheSize() / (1024 * 1024)),
                                this),
                     1, 0);
