@@ -22,6 +22,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	enu_coordinate_system/controllers/four_wheels.Makefile \
 	force_control/controllers/force_control.Makefile \
 	four_wheels/controllers/four_wheels.Makefile \
+	gears/controllers/gears.Makefile \
 	inverted_pendulum/controllers/inverted_pendulum.Makefile \
 	mouse_events/controllers/mouse_events.Makefile \
 	mouse_events/controllers/mouse_events_non_blocking.Makefile \
