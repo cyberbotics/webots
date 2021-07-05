@@ -37,6 +37,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
+  void reset(const QString &id) override;
 
   // specific functions
   double computeAttenuation(double distance) const;
@@ -55,6 +56,8 @@ private:
   WbSFDouble *mRadius;
 
   WrPointLight *mWrenLight;
+
+  QMap<QString, WbVector3> mSavedLocation;
 
   // optional rendering
   WbLightRepresentation *mLightRepresentation;
