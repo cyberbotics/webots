@@ -1,9 +1,11 @@
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-controllers := $(filter-out %.py,$(shell cat controllers_with_urls.txt))
+controllers := $(filter %.c,$(shell cat controllers_with_urls.txt))
 controller_folders := $(controllers:%=$(WEBOTS_HOME_PATH)%)
 controller_binaries := $(controller_folders:%.c=%.exe)
 default: $(controller_binaries)
 %.exe: %.c
+	make -C $(dir $<) release
+%: %.c
 	make -C $(dir $<) release

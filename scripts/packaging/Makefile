@@ -80,7 +80,7 @@ all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER) $(XVFB)
 	+@echo "# changing URLs in world, proto and controller files"
 	+@python3 update_urls.py $(TARGET_URL)
 	+@echo "# recompiling controller files"
-	+@make -f Makefile.controllers
+	+@make -s -f Makefile.controllers
 	+@echo "# updating proto cache"
 	+@$(WEBOTS) --update-proto-cache
 ifeq ($(OSTYPE),darwin)
