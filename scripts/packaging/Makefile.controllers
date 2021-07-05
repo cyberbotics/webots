@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Recompile the C controllers listed in controllers_with_urls so that their
-# modified URLs are taken into account in the distribution
+# Recompile the C controllers listed in controllers_with_urls.txt (in /projects)
+# so that their modified URLs are taken into account in the distribution
 
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-controllers := $(filter %.c,$(shell cat controllers_with_urls.txt))
+controllers := $(filter /projects/%.c,$(shell cat controllers_with_urls.txt))
 controller_folders := $(controllers:%=$(WEBOTS_HOME_PATH)%)
 controller_binaries := $(controller_folders:%.c=%.exe)
 default: $(controller_binaries)
