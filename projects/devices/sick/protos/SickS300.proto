@@ -41,6 +41,18 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
       }
       Shape {
         appearance PBRAppearance {
+          baseColor 0 0 0
+          roughness 0
+          metalness 1
+        }
+        geometry Mesh {
+          url [
+            "webots://projects/devices/sick/protos/meshes/sick_s300_glass.dae"
+          ]
+        }
+      }
+      Shape {
+        appearance PBRAppearance {
           baseColor 0.969 0.8 0.016
           roughness 0.5
           metalness 0.2
