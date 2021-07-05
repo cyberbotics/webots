@@ -290,9 +290,9 @@ PROTO Mir100 [
         endPoint DEF LEFT_WHEEL_LINK Solid {
           translation 0 0.222604 0.0625
           children [
-            DEF WHEEL Group {
+            Group {
               children [
-                Shape {
+                DEF RIM Shape {
                   appearance CorrodedMetal {
                   }
                   geometry Cylinder {
@@ -304,7 +304,7 @@ PROTO Mir100 [
                   majorRadius 0.0465
                   minorRadius 0.016
                   enableBoundingObject FALSE
-                  appearance PBRAppearance {
+                  appearance DEF WHEEL_RUBBER PBRAppearance {
                     baseColor 0 0 0
                     roughness 1
                     metalness 0
@@ -350,7 +350,17 @@ PROTO Mir100 [
         endPoint DEF RIGHT_WHEEL_LINK Solid {
           translation 0 -0.222604 0.0625
           children [
-            USE WHEEL
+            Group {
+              children [
+                USE RIM
+                SolidTorus {
+                  majorRadius 0.0465
+                  minorRadius 0.016
+                  enableBoundingObject FALSE
+                  appearance USE WHEEL_RUBBER
+                }
+              ]
+            }
           ]
           name "right_wheel_link"
           contactMaterial "wheel"
@@ -408,7 +418,17 @@ PROTO Mir100 [
               endPoint DEF FL_CASTER_WHEEL_LINK Solid {
                 translation -0.0382 0 -0.094
                 children [
-                  USE WHEEL
+                  Group {
+                    children [
+                      USE RIM
+                      SolidTorus {
+                        majorRadius 0.0465
+                        minorRadius 0.016
+                        enableBoundingObject FALSE
+                        appearance USE WHEEL_RUBBER
+                      }
+                    ]
+                  }
                 ]
                 name "fl_caster_wheel_link"
                 contactMaterial "wheel"
@@ -480,7 +500,17 @@ PROTO Mir100 [
               endPoint DEF FR_CASTER_WHEEL_LINK Solid {
                 translation -0.0382 0 -0.094
                 children [
-                  USE WHEEL
+                  Group {
+                    children [
+                      USE RIM
+                      SolidTorus {
+                        majorRadius 0.0465
+                        minorRadius 0.016
+                        enableBoundingObject FALSE
+                        appearance USE WHEEL_RUBBER
+                      }
+                    ]
+                  }
                 ]
                 name "fr_caster_wheel_link"
                 contactMaterial "wheel"
@@ -549,7 +579,17 @@ PROTO Mir100 [
               endPoint DEF BL_CASTER_WHEEL_LINK Solid {
                 translation -0.0382 0 -0.094
                 children [
-                  USE WHEEL
+                  Group {
+                    children [
+                      USE RIM
+                      SolidTorus {
+                        majorRadius 0.0465
+                        minorRadius 0.016
+                        enableBoundingObject FALSE
+                        appearance USE WHEEL_RUBBER
+                      }
+                    ]
+                  }
                 ]
                 name "bl_caster_wheel_link"
                 contactMaterial "wheel"
@@ -618,7 +658,17 @@ PROTO Mir100 [
               endPoint DEF BR_CASTER_WHEEL_LINK Solid {
                 translation -0.0382 0 -0.094
                 children [
-                  USE WHEEL
+                  Group {
+                    children [
+                      USE RIM
+                      SolidTorus {
+                        majorRadius 0.0465
+                        minorRadius 0.016
+                        enableBoundingObject FALSE
+                        appearance USE WHEEL_RUBBER
+                      }
+                    ]
+                  }
                 ]
                 name "br_caster_wheel_link"
                 contactMaterial "wheel"
