@@ -28,6 +28,7 @@ projects/robots/gctronic/e-puck/worlds/e-puck_line_demo.wbt 30
 [Devices Tour]
 
 projects/samples/devices/worlds/accelerometer.wbt 20
+projects/samples/devices/worlds/altimeter.wbt 20
 projects/samples/devices/worlds/battery.wbt 20
 projects/samples/devices/worlds/brake.wbt 20
 projects/samples/devices/worlds/bumper.wbt 20
@@ -39,6 +40,7 @@ projects/samples/devices/worlds/camera_recognition.wbt 20
 projects/samples/devices/worlds/camera_segmentation.wbt 20
 projects/samples/devices/worlds/compass.wbt 20
 projects/samples/devices/worlds/connector.wbt 20
+projects/samples/devices/worlds/coupled_motors.wbt 20
 projects/samples/devices/worlds/display.wbt 20
 projects/samples/devices/worlds/distance_sensor.wbt 20
 projects/samples/devices/worlds/emitter_receiver.wbt 20
@@ -49,6 +51,8 @@ projects/samples/devices/worlds/gps.wbt 20
 projects/samples/devices/worlds/gps_lat_long.wbt 20
 projects/samples/devices/worlds/gyro.wbt 20
 projects/samples/devices/worlds/hokuyo.wbt 20
+projects/samples/devices/worlds/hinge_2_joint_with_backlash.wbt 20
+projects/samples/devices/worlds/hinge_joint_with_backlash.wbt 20
 projects/samples/devices/worlds/inertial_unit.wbt 20
 projects/samples/devices/worlds/laser_pointer.wbt 20
 projects/samples/devices/worlds/led.wbt 20
