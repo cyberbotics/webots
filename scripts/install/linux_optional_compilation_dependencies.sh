@@ -9,7 +9,7 @@ fi
 apt install --yes software-properties-common
 add-apt-repository -y ppa:deadsnakes/ppa
 apt update
-apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev irmngr execstack
+apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr execstack
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "18.04" ]]; then
