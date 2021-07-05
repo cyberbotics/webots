@@ -38,6 +38,7 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // specific functions
   double computeAttenuation(double distance) const;
