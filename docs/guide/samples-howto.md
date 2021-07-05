@@ -50,7 +50,7 @@ This can be visualized with the `View / Optional Rendering / Show Center of Mass
 
 **Keywords**: Console
 
-![console_formatting.png](images/samples/console_formatting.png) In this example is shown how to customize the formatting of the text in the console.
+![console.png](images/samples/console.png) In this example is shown how to customize the formatting of the text in the console.
 It allows to change the color, modify the style and clear the console.
 This library is only available in C.
 
