@@ -45,7 +45,8 @@ WbDownloader::WbDownloader(QObject *parent) :
   mNetworkReply(NULL),
   mFinished(false),
   mOffline(false),
-  mCopy(false) {
+  mCopy(false),
+  mIsBackground(false) {
   gCount++;
 }
 
@@ -61,7 +62,7 @@ QIODevice *WbDownloader::device() const {
 void WbDownloader::download(const QUrl &url) {
   mUrl = url;
 
-  if (gUrlCache.contains(mUrl) &&
+  if (gUrlCache.contains(mUrl) && !mIsBackground &&
       (mUrl.toString().endsWith(".png", Qt::CaseInsensitive) || url.toString().endsWith(".jpg", Qt::CaseInsensitive))) {
     if (!(mOffline == true && mCopy == false)) {
       mCopy = true;
