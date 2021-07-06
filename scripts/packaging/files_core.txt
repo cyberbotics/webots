@@ -315,6 +315,7 @@ resources/projects/worlds/
 resources/projects/worlds/empty.wbt
 resources/stylesheet.linux.qss [linux]
 resources/stylesheet.macos.qss [mac]
+resources/stylesheet.windows.qss [windows]
 resources/webots_classic.qss
 resources/webots_dusk.qss
 resources/webots_night.qss
