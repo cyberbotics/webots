@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbNetwork.hpp"
+#include "WbSimulationState.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QTimer>
@@ -60,6 +61,8 @@ QIODevice *WbDownloader::device() const {
 }
 
 void WbDownloader::download(const QUrl &url) {
+  WbSimulationState::instance()->pauseSimulation();
+
   mUrl = url;
 
   if (gUrlCache.contains(mUrl) && !mIsBackground &&
@@ -124,16 +127,17 @@ void WbDownloader::finished() {
   }
 
   gComplete++;
+  mFinished = true;
+  emit complete();
+
   if (gComplete == gCount) {
     gDownloading = false;
     gDisplayPopUp = false;
     gUrlCache.clear();
     emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
+    WbSimulationState::instance()->resumeSimulation();
   } else if (gDisplayPopUp)
     emit WbApplication::instance()->setWorldLoadingProgress(progress());
-
-  mFinished = true;
-  emit complete();
 }
 
 void WbDownloader::displayPopUp() {
