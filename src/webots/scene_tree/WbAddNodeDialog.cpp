@@ -378,6 +378,7 @@ bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) cons
 }
 
 void WbAddNodeDialog::buildTree() {
+  printf("buildTree\n");
   mTree->clear();
   mUsesItem = NULL;
   mDefNodes.clear();
@@ -403,9 +404,12 @@ void WbAddNodeDialog::buildTree() {
   foreach (const QString &basicNodeName, basicNodes) {
     QFileInfo fileInfo(basicNodeName);
     QString errorMessage;
+    // printf("checking %s / %s / %s \n", mField->name().toUtf8().constData(), fileInfo.baseName().toUtf8().constData(),
+    //       mCurrentNode->usefulName().toUtf8().constData());
     if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)) &&
         WbNodeUtilities::isAllowedToInsert(mField, fileInfo.baseName(), mCurrentNode, errorMessage, nodeUse, QString(),
                                            QStringList(fileInfo.baseName()))) {
+      // printf("> %s is allowed in %s\n", basicNodeName.toUtf8().constData(), mField->name().toUtf8().constData());
       item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
       item->setIcon(0, QIcon("enabledIcons:node.png"));
       nodesItem->addChild(item);
