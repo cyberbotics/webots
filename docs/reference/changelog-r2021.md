@@ -22,7 +22,7 @@ Released on July, 5th, 2021.
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
   - New Features:
     - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), and [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591) and [#2787](https://github.com/cyberbotics/webots/pull/2787)).
-    - Reduced installation package size by using online resources for images, meshes, etc. ([#2787](https://github.com/cyberbotics/webots/pull/2787)).
+    - Reduced installation package size by using online resources for images, meshes, etc. ([#2787](https://github.com/cyberbotics/webots/pull/2787)). **The local URLs to texture and meshes in previous worlds files should be updated to point to online resources, e.g., "textures/carpet.jpg" should be changed to "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/carpet.jpg".**
     - Added the `wb_supervisor_node_set_joint_position` function to artificially set the position of active and passive joints ([#3160](https://github.com/cyberbotics/webots/pull/3160)).
     - Added the `wb_supervisor_node_export_string` function which returns a string from which the node is constructed ([#2743](https://github.com/cyberbotics/webots/pull/2743)).
     - Added the `wb_supervisor_node_save/load_state` functions that allow partial world reverting to a saved state ([#2740](https://github.com/cyberbotics/webots/pull/2740)).
