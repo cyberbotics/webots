@@ -185,12 +185,13 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
                        .arg(webotsVersion.toString()),
                      false, WbLog::PARSING);
     else if (forwardCompatiblityFileVersion < r2021b && forwardCompatiblityWebotsVersion >= r2021b)
-      WbLog::warning(QObject::tr("'%1': This file was created with Webots %2 while you are using Webots %3. "
-                                 "You may need to adjust urls for textures and meshes.")
-                       .arg(mFileName)
-                       .arg(mFileVersion.toString())
-                       .arg(webotsVersion.toString()),
-                     false, WbLog::PARSING);
+      WbLog::warning(
+        QObject::tr("'%1': This file was created with Webots %2 while you are using Webots %3. "
+                    "You may need to adjust urls for textures and meshes, see details in the change log of Webots R2021b.")
+          .arg(mFileName)
+          .arg(mFileVersion.toString())
+          .arg(webotsVersion.toString()),
+        false, WbLog::PARSING);
 
     return true;
   } else {
