@@ -24,8 +24,6 @@
 
 #include <QtNetwork/QNetworkDiskCache>
 
-#include <iostream>
-
 static int gCount = 0;
 static int gComplete = 0;
 static bool gDownloading = false;
@@ -115,6 +113,14 @@ void WbDownloader::finished() {
       download(mUrl);
       return;
     }
+
+    QNetworkCacheMetaData metaData = WbNetwork::instance()->networkAccessManager()->cache()->metaData(mUrl);
+    // if expirationDate is in UTC format it means that it is the expirationDate sent by raw.githubusercontent.
+    if (metaData.expirationDate().toUTC().toString() == metaData.expirationDate().toString()) {
+      // increase expiration date to one day
+      metaData.setExpirationDate(QDateTime::currentDateTime().addDays(1));
+      WbNetwork::instance()->networkAccessManager()->cache()->updateMetaData(metaData);
+    }
   }
 
   gComplete++;
@@ -128,18 +134,6 @@ void WbDownloader::finished() {
 
   mFinished = true;
   emit complete();
-  if (!mCopy) {
-    QVariant isFromCache = mNetworkReply->attribute(QNetworkRequest::SourceIsFromCacheAttribute);
-    // source is network
-    if (!(isFromCache.isValid() && isFromCache.canConvert(QMetaType::Bool) && isFromCache.convert(QMetaType::Bool))) {
-      // increase expiration date to one day
-      QNetworkCacheMetaData metaData = WbNetwork::instance()->networkAccessManager()->cache()->metaData(mUrl);
-      metaData.setExpirationDate(QDateTime::currentDateTimeUtc().addDays(1));
-      WbNetwork::instance()->networkAccessManager()->cache()->updateMetaData(metaData);
-    }
-  }
-  QNetworkCacheMetaData test = WbNetwork::instance()->networkAccessManager()->cache()->metaData(mUrl);
-  std::cout << test.expirationDate().toString().toStdString() << '\n';
 }
 
 void WbDownloader::displayPopUp() {
