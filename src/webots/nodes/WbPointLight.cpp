@@ -74,7 +74,7 @@ void WbPointLight::reset(const QString &id) {
 
 void WbPointLight::save(const QString &id) {
   WbLight::save(id);
-  mSavedLocation[stateId()] = mLocation->value();
+  mSavedLocation[id] = mLocation->value();
 }
 
 void WbPointLight::preFinalize() {
