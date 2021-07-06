@@ -390,7 +390,7 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
-  QGroupBox *cache = new QGroupBox(tr("Disck cache"), this);
+  QGroupBox *cache = new QGroupBox(tr("Disk cache"), this);
   cache->setObjectName("networkGroupBox");
 
   network->addWidget(proxy, 0, 1);
