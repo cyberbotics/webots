@@ -23,7 +23,7 @@ The following table summarizes the advantages (`+`) and disadvantages (`-`) of t
 
 %figure "Screenshot of Webots streaming server"
 
-![streaming-server-screenshot.png](images/streaming-server-screenshot.thumbnail.png)
+![streaming-server-screenshot.png](images/streaming-server-screenshot.thumbnail.jpg)
 
 %end
 
