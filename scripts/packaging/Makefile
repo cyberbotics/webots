@@ -68,7 +68,7 @@ ISCC_FORMATTER = iscc_formatter.exe
 endif
 
 TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/scripts/packaging/webots_version.txt)
-TAGS = $(shell git fetch --all --tags)
+TAGS := $(shell git fetch --all --tags)
 ifeq ($(shell git tag --points-at HEAD | grep $(TARGET_URL)),)
 TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/resources/commit.txt)
 endif
