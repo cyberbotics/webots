@@ -71,6 +71,7 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot, QWidget *parent) :
 }
 
 WbRobotWindow::~WbRobotWindow() {
+  qDebug() << "deleting RobotWindow";
   if (mWebView)
     delete mWebView->page();
   delete mWebView;
@@ -80,10 +81,8 @@ void WbRobotWindow::setupPage() {
   assert(mWebView);
   mLoaded = false;
 
-#ifdef _WIN32
   if (mWebView->page())
     delete mWebView->page();
-#endif
 
   mWebView->setPage(new WbWebPage());
 
