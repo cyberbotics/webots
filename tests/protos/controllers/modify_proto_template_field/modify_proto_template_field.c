@@ -15,11 +15,12 @@ int main(int argc, char **argv) {
   wb_distance_sensor_enable(ds, TIME_STEP);
 
   wb_robot_step(TIME_STEP);
-
+  WbNodeRef n = wb_supervisor_node_get_from_def("TEST_NODE");
+  WbFieldRef field = wb_supervisor_node_get_field(n, "url");
+  const char *url = wb_supervisor_field_get_mf_string(field, 0);
   const double ds_value_grey = wb_distance_sensor_get_value(ds);
   ts_assert_double_in_delta(ds_value_grey, 277, 20.0,
-                            "Wrong distance sensor value with grey texture: expecting 277, received %g.", ds_value_grey);
-
+                            "Wrong distance sensor value with \"%s\" texture: expecting 277, received %g.", url, ds_value_grey);
   WbNodeRef node = wb_supervisor_node_get_from_def("TEST_NODE");
   WbFieldRef urlField = wb_supervisor_node_get_field(node, "url");
   wb_supervisor_field_set_mf_string(urlField, 0, "textures/green.jpg");
