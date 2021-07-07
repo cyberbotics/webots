@@ -22,7 +22,7 @@ Released on July, 5th, 2021.
     - Added a simple room with a Nao robot ([#2701](https://github.com/cyberbotics/webots/pull/2701)).
   - New Features:
     - Support `http://` and `https://` file download and cache for the URL fields of [Background](background.md), [Camera](camera.md), [ContactProperties](contactproperties.md), [ImageTexture](imagetexture.md), [Mesh](mesh.md), and [Motor](motor.md) ([#2591](https://github.com/cyberbotics/webots/pull/2591) and [#2787](https://github.com/cyberbotics/webots/pull/2787)).
-    - Reduced installation package size by using online resources for images, meshes, etc. ([#2787](https://github.com/cyberbotics/webots/pull/2787)).
+    - Reduced installation package size by using online resources for images, meshes, etc. ([#2787](https://github.com/cyberbotics/webots/pull/2787)). **The local URLs to textures and meshes in previous worlds files should be updated to point to online resources, e.g., "textures/carpet.jpg" should be changed to "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/carpet.jpg".**
     - Added the `wb_supervisor_node_set_joint_position` function to artificially set the position of active and passive joints ([#3160](https://github.com/cyberbotics/webots/pull/3160)).
     - Added the `wb_supervisor_node_export_string` function which returns a string from which the node is constructed ([#2743](https://github.com/cyberbotics/webots/pull/2743)).
     - Added the `wb_supervisor_node_save/load_state` functions that allow partial world reverting to a saved state ([#2740](https://github.com/cyberbotics/webots/pull/2740)).
@@ -77,6 +77,7 @@ Released on July, 5th, 2021.
     - Improved the URDF naming convention ([#2875](https://github.com/cyberbotics/webots/pull/2875)).
   - Bug fixes:
     - Fixed bug in [Lidar](lidar.md) / [RangeFinder](../guide/range-finder-sensors.md) measurement when hitting an edge ([#3230](https://github.com/cyberbotics/webots/pull/3230)).
+    - Fixed the restart of Webots on Windows after changing the theme or the language from the preferences ([#3367](https://github.com/cyberbotics/webots/pull/3367)).
     - Fixed instabilities in the box-cylinder collision detection ([#3105](https://github.com/cyberbotics/webots/pull/3105)).
     - Fixed wrong computation of the asymmetric friction force direction for [Cylinder](cylinder.md) and [Box](box.md) ([#3150](https://github.com/cyberbotics/webots/pull/3150)).
     - Fixed the return value handling from the `webots_physics_collide` when the [Group](group.md) node is one of the colliding objects ([#2781](https://github.com/cyberbotics/webots/pull/2781)).
