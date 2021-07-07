@@ -112,7 +112,7 @@ void main() {
     coord.y *= pi_2 / fovY * fovYCorrectionCoefficient;
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
-  ivec2 imageIndex = ivec2(round(faceCoord.x * subCamerasResolutionX), round(faceCoord.y * subCamerasResolutionY));
+  ivec2 imageIndex = ivec2(round(faceCoord.x * (subCamerasResolutionX - 1)), round(faceCoord.y * (subCamerasResolutionY - 1)));
 
   fragColor = vec4(0.0, 0.0, 0.0, 1.0);
   if (face == FRONT)
