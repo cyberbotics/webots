@@ -37,6 +37,7 @@ function menuTabCallback(deviceType) {
   // Plots will be refreshed when the animation is over
   const canvas = new Canvas();
   canvas.clearCanvas();
+  window.scrollTo(0, 0);
 }
 
 function refreshSelectedTab() {
