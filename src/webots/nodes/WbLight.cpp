@@ -59,7 +59,9 @@ WbLight::WbLight(const QString &modelName, WbTokenizer *tokenizer) : WbBaseNode(
 void WbLight::preFinalize() {
   WbBaseNode::preFinalize();
 
+  int a = cLights.size();
   cLights << this;
+  printf("ADDING %p (was %d now %d)\n", this, a, cLights.size());
 
   updateAmbientIntensity();
   updateColor();
@@ -85,7 +87,11 @@ void WbLight::postFinalize() {
 
 WbLight::~WbLight() {
   if (areWrenObjectsInitialized()) {
-    cLights.removeOne(this);
+    int a = cLights.size();
+
+    cLights.removeAll(this);
+    printf("DELETING %p (was %d now %d)\n", this, a, cLights.size());
+
     applySceneAmbientColorToWren();
     if (!WbWorld::instance()->isCleaning())
       emit WbWrenRenderingContext::instance()->numberOfOnLightsChanged();
@@ -206,7 +212,7 @@ void WbLight::computeAmbientLight() {
   float rgb[] = {0.0f, 0.0f, 0.0f};
 
   foreach (const WbLight *light, cLights) {
-    if (light->isOn()) {
+    if (light && light->isOn()) {
       rgb[0] += light->ambientIntensity() * light->color().red();
       rgb[1] += light->ambientIntensity() * light->color().green();
       rgb[2] += light->ambientIntensity() * light->color().blue();
