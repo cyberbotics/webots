@@ -11453,7 +11453,7 @@ Is this what the tree should look like? I'm unsure whether the two hinge joints 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/824780857847709786/unknown.png)
 %end
 
-##### 이 거북이 03/26/2021 02:57:58
+##### eturtle21 03/26/2021 02:57:58
 I dont understand how to make the Hoap2 robot to move can anyone help?
 
 ##### Uanuan 03/26/2021 06:35:46
@@ -15846,7 +15846,7 @@ right
 ##### Darko Lukić [Cyberbotics] 04/30/2021 06:54:46
 If a LiDAR measurement is outside the provided range then the measurement is considered invalid and thus, it is not displayed
 
-##### L'etranger 04/30/2021 11:59:04
+##### Deleted User 04/30/2021 11:59:04
 Hey everyone. I would appreciate some assistance. I'm working with the built-in "iRobot's Create" world but I've run into an issue. 
 
 
@@ -20993,4 +20993,294 @@ Then, the `getDevice` method is part of the `Robot` class and not the `Node` cla
 
 ##### James Le Poidevin 06/30/2021 12:35:11
 Thank you, It works now 👍
+
+##### AloneLeader 06/30/2021 19:01:09
+Is there anyone who knows how to make a pulley and rope system
+
+
+I cant figure it out which joint should i use
+
+## July
+
+##### Johan2021 07/01/2021 10:22:01
+if it is just a planar rope-pulley case, normal hingeJoints are simple and sufficient to connect a series of smaller rigid segments, but if you would move or exert force in multiple directions, you should use a ballJoint - for both cases, you can model cord extension/tension using the spring/damper fields of the joint nodes. For interaction with the pulley you should modify the contact properties between rope and pulley - hope that helps, but I am no expert
+
+##### Stefania Pedrazzi [Cyberbotics] 07/01/2021 11:25:38
+Axes should always remain expressed in local coordinates w.r.t to parent node.
+
+Could you provide the complete PROTO model of the robot?
+
+You are moving the joint using the motors and not directly changing the JointParameter position, is it correct?
+
+
+`@AloneLeader` additionally you can find here a simple example of rope simulation.
+
+
+`@Johan2021` I can reproduce the issue with ball joint. This is clearly a bug. We will inspect and fix it.
+
+##### Johan2021 07/01/2021 12:40:50
+That is correct
+
+##### Batrox 07/01/2021 16:27:06
+is ist normal that the simulation speed varies? because i set up a robot with a leg that is moving in constant speed most of the time (and hitting the ground) but every 10 seconds it rotates extremely fast for about half a second
+
+##### Bitbots\_Jasper [Moderator] 07/01/2021 19:56:49
+simulation speed depends on many factors such as how many collisions need to be calculated and how complex the objects colliding are. It can therefore vary quite a bit depending on whats going on
+
+##### Batrox 07/01/2021 19:57:38
+alright that's good to know, thanks
+
+##### Bitbots\_Jasper [Moderator] 07/01/2021 19:59:36
+if your simulation is too slow then there are a few things you can do to improve it: [https://cyberbotics.com/doc/guide/speed-performance](https://cyberbotics.com/doc/guide/speed-performance)
+
+##### Batrox 07/01/2021 20:00:55
+nice i'll have a look at this, thanks 👍
+
+##### GKiggz 07/02/2021 02:57:57
+hello, I keep on getting the current message on my terminal when I run my code (attached in the image). What does it mean and is it related to the fact that no matter what I do to my code, the simulation runs the same exact thing (I can delete my code and save it and the simulation will still run the same thing it has been running for hours)?
+%figure
+![Screen_Shot_2021-07-01_at_10.55.33_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/860353578287628329/Screen_Shot_2021-07-01_at_10.55.33_PM.png)
+%end
+
+##### DDaniel [Cyberbotics] 07/02/2021 06:17:06
+`@GKiggz` Hi, like the message says, you're using functions in your controller that in the future will no longer be supported and although it's still working for now, you should consider using the new ones. As for python, you might already have a higher version of it installed, if on Linux you probably already have python3 in which case you can set that as the default python command in the preferences to make the message disappear. If not, you'll need to install a newer version first and then do it.
+
+##### GKiggz 07/02/2021 12:54:02
+how do I know what the "new" functions are that I should use? I should also mention that when my friend uses the exact same code, he has no problem
+
+##### DDaniel [Cyberbotics] 07/02/2021 13:49:45
+it's written in the message 🙂 Replace the calls of `robot.getMotor` with `robot.getDevice`. He doesn't have the messages probably because he's using a older version of webots.
+
+##### GKiggz 07/02/2021 13:51:02
+Thank you! I'll make sure to try it. (I will probably come back with questions because I started using webots 2 days ago)
+
+
+hi, even when I do robot.getDevice, the same error message comes up, and the code runs the exact same thing
+
+
+I can literally delete the code and save it and press run and it will do the exact same thing
+
+##### Luftwaffel [Moderator] 07/04/2021 02:07:54
+`@GKiggz` can you share your controller? I can take a look
+
+
+Ohh.. from what you are saying, you are not actually editing the controller
+
+
+is it your own project? Did you download it?
+
+
+how are you editing the controllers?
+
+##### GKiggz 07/04/2021 02:10:42
+everything is a downloaded file except for some code I am editing
+
+##### alejoxbg 07/04/2021 02:11:04
+are you sure you added the controller to the robot?
+
+##### GKiggz 07/04/2021 02:11:14
+yes
+
+##### Luftwaffel [Moderator] 07/04/2021 02:11:35
+can you share your project?
+
+##### GKiggz 07/04/2021 02:11:45
+wait. Maybe not
+
+
+one sec
+
+##### Luftwaffel [Moderator] 07/04/2021 02:12:12
+the surest way to edit the correct controller is to click on "edit" inside Webots
+
+
+you have to save of course before running it again
+
+##### GKiggz 07/04/2021 02:12:38
+yes I did
+
+##### Luftwaffel [Moderator] 07/04/2021 02:13:25
+you can discord call me if you want, can take a look with screenshare
+
+##### GKiggz 07/04/2021 02:13:28
+at least I have some controller
+
+##### Luftwaffel [Moderator] 07/04/2021 02:13:40
+seems like some easy but fundamental mistake
+
+##### GKiggz 07/04/2021 02:14:13
+okay, thanks
+
+##### alejoxbg 07/04/2021 02:32:26
+Does anyone know how to convert the data from the getImage function in python to a Unit 8 format?
+
+##### Luftwaffel [Moderator] 07/04/2021 02:48:38
+[https://www.cyberbotics.com/doc/reference/camera#wb\_camera\_get\_image](https://www.cyberbotics.com/doc/reference/camera#wb_camera_get_image)
+
+##### alejoxbg 07/04/2021 02:50:42
+here it says that in python it returns a string, but I need to convert it to Unit 8 to publish it in a ROS Topic
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/861076526577614848/unknown.png)
+%end
+
+##### Luftwaffel [Moderator] 07/04/2021 02:51:21
+i assume you mean uint8
+
+##### alejoxbg 07/04/2021 02:51:30
+yes
+
+##### Luftwaffel [Moderator] 07/04/2021 02:51:54
+camera.getImageArray() would be the best bet probably
+
+##### alejoxbg 07/04/2021 02:52:22
+I will try, thanks
+
+##### Luftwaffel [Moderator] 07/04/2021 03:00:44
+you might want to use default roscontroller. Publishing every image using python image array will be very slow I think
+
+##### alejoxbg 07/04/2021 03:04:50
+I just want to visualize it in rviz
+
+##### Luftwaffel [Moderator] 07/04/2021 03:10:13
+[https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_core/webots\_ros2\_core/devices/camera\_device.py#L117](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_core/webots_ros2_core/devices/camera_device.py#L117)
+
+
+look at this
+
+
+it is for ROS2, but the message is the same
+
+##### alejoxbg 07/04/2021 03:14:46
+This helps me a lot, thank you
+
+
+it seems that rospy automatically interprets byte arrays as strings so it does not convert them
+
+##### Rodrigues 07/04/2021 14:55:53
+Hello, can anyone help me?
+
+
+i'm trying to reset the initial positions of objects/robots but the only function to do this is the supervisor.resetSimulation() and this do all the steps in loop
+
+
+the function resetPhysics() dont work for me
+
+
+Have another function to do this?
+
+
+when i set supervisor off i can do but the positions are note restarted
+
+
+solved with Field/getFromDef/getRotation/getTranslation/Set's in end of the Pool and (finally...) activating the Supervisor to True.
+
+##### thonk enthusiast 07/04/2021 19:12:14
+what
+
+##### Icy\_Flurry 07/04/2021 19:12:23
+wtf
+
+
+why is everyone ping enabled
+
+##### sk 07/04/2021 19:12:29
+da fuck
+
+##### Maximo Cansino Mateo 07/04/2021 19:12:36
+Its spam dont worry
+
+##### rendermite\_ 07/04/2021 19:12:53
+what
+
+##### thonk enthusiast 07/04/2021 19:13:11
+some steam scammer was on here
+
+##### charkoteow 07/04/2021 19:13:28
+but i want the knife <:lul:640814880605208616>
+
+##### rendermite\_ 07/04/2021 19:13:35
+^
+
+##### DavidF 07/05/2021 13:42:40
+Is there any good beginner tutorial for using ROS with Webots? I have only been able to find one for ROS2
+
+##### alejoxbg 07/05/2021 17:10:17
+I haven't found a good tutorial on ROS with Webots but I think the process for using ROS with Webots is very similar to using it with ROS2, you can help yourself with the ROS tutorials on how to create services, publishers, subscribers and packages and follow the ROS2 tutorial from Soft Ilution changing the ROS2 stuff for the ROS stuff.
+
+##### DavidF 07/05/2021 17:12:00
+Thanks! I have done that stuff and found the ROS2 tutorial, but I hoped that there was a good ROS one too 😅
+
+##### amruthraghav 07/05/2021 17:51:14
+Hi everyone! I am new to webots and was wondering if there are some good tutorials for webots on python. I did find a few sample codes here and there in the documentation but nothing concrete. Most of the example(sample world) code is in c or c++ as well. I was wondering If anyone could point me to a decent tutorial or GitHub repo with a few sample codes in python. Would highly appreciate! Thanks in advance.
+
+##### alejoxbg 07/05/2021 18:49:00
+I think Soft illusion has very good tutorials here is a link to them: [https://www.youtube.com/c/Softillusion/videos](https://www.youtube.com/c/Softillusion/videos)
+
+##### amruthraghav 07/05/2021 18:51:11
+`@alejoxbg` thank you so much for the fast reply! This will help a lot. Have a great day/night ahead.
+
+##### Troy 07/05/2021 20:30:22
+Hi, in the latest version, the fluid can have force on the solid node, can the force sensor measure the fluid force exerted on the sensor if I submerged the sensor into the fluid and face the sensor towards the waves? I tried with the touch sensor type "force", but the output is always 1.
+
+##### scott.nortman 07/06/2021 03:36:10
+Hi, I am unable to have any webot camera work... Even when I download the example worlds that use a camera, images are not displayed.  Has anyone see this before?
+
+##### Ashish Varma 07/06/2021 03:45:02
+Hi, i want to teleoperate my bot with keyboard using C language ,,, where  can i find the guidance to make code in    C ????
+
+##### DDaniel [Cyberbotics] 07/06/2021 05:49:29
+<@776390965967060993> Hi, Robot nodes can be controlled using the Keyboard API directly [https://www.cyberbotics.com/doc/reference/keyboard](https://www.cyberbotics.com/doc/reference/keyboard). You can search for the Kuka Youbot robot in the samples to have an idea on how to use it
+
+##### Ashish Varma 07/06/2021 06:19:17
+`@DDaniel` thank you sir
+
+##### DDaniel [Cyberbotics] 07/06/2021 06:25:51
+`@scott.nortman` Hi, if not even the pre-compiled samples (for example: `file > open sample world > samples > devices > camera` ) don't work, the problem might be on your end
+
+##### LucasW 07/06/2021 11:22:18
+Hi, I'm using the webots\_ros2\_epuck. I notice in device manager it adds an IMU, so I wanted to use it. However, when I test it by reading the published topic '/imu' the values don't seem to change, or at least, only change a minimal amount (orders of e-03). I don't have any experience using IMU's, is this the correct behaviour?
+
+##### scott.nortman 07/06/2021 12:13:26
+`@DDaniel` Thank you for the suggestion, the example cameras work, so it is somthing I am doing incorrectly.
+
+##### Víctor Ávila 07/06/2021 18:05:30
+Hey guys, how're you doing? I have a problem with cameras and ROS. I can't enable any cameras using rosservice, it says "Wrong sampling period: 1 for device: camera." and it seems that the sampling period is always set as 0. Do you have any idea on how to fix this?
+
+
+
+%figure
+![Captura_de_tela_de_2021-07-06_15-02-50.png](https://cdn.discordapp.com/attachments/565154703139405824/862031579868823582/Captura_de_tela_de_2021-07-06_15-02-50.png)
+%end
+
+##### alejoxbg 07/06/2021 18:12:15
+You can set the sample period when you enable the device
+
+
+[https://cyberbotics.com/doc/reference/camera?tab-language=python#wb\_camera\_enable](https://cyberbotics.com/doc/reference/camera?tab-language=python#wb_camera_enable)
+
+##### Víctor Ávila 07/06/2021 18:57:51
+Thanks
+
+
+It turns out it is an issue with the most recent 2021b Nightly Build
+
+
+I replaced my Webots with the 2021a apt-get package and now I am able to run the rosservice call .../camera/enable "value: 1" command
+
+##### scott.nortman 07/06/2021 22:02:04
+`@Víctor Ávila` I too am trying to get a camera working with ROS2; do you have any examples you can share?
+
+##### alejoxbg 07/06/2021 22:55:08
+I have an example that I recently made with a camera, if you want I can share it with you
+
+##### scott.nortman 07/06/2021 22:58:23
+`@alejoxbg` , yes, that will be great, can you please email me scott.nortman@gmail.com, and thank you!!!
+
+##### KC 07/07/2021 08:24:52
+Hi. I'm simulating a game of robot soccer and I'm using ROS through webots\_ros package for the robot controllers. The whole simulation is working fine, just the thing is that I can't reset the simulation once a goal is scored as it would restart the robot and camera services and break the link between ROS nodes and webots. I need to restart all my image processing nodes manually after resetting. 
+
+So, I was looking to build a python script which would detect whether the goal is scored and will just pull the robots and the ball to their initial positions without resetting the environment and the game will continue. Is there a way I can do that through a ROS node? I'm aware that it can be done using supervisor API but that would require a webots robot controller as far as I know.  Any help on this would be great
+
+##### Bitbots\_Jasper [Moderator] 07/07/2021 09:13:00
+You can simply add a "fake" robot node and make it a supervisor controller. Otherwise you could make the ball a robot node with a GPS sensor and let itself publish it a goal was scored. In the second option resetting is not really possible though
 

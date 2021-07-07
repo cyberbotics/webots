@@ -39121,7 +39121,7 @@ Sounds great, thank you very much!
 ##### aozdemir 09/24/2020 13:21:52
 Hi guys, this is a newbie question but bugging me for days. I have a copy of myBot and modifying certain properties of it (camera, body to box). Whilst sometimes I can make it actually "move forward", sometimes all of sudden it just do not move at all using the same controller. I can see the wheels are rotating but the body do not move. Any idea on why this is happening?
 
-##### jj2244/mejo/alex 09/24/2020 13:44:32
+##### jj2244/mejo 09/24/2020 13:44:32
 `@aozdemir` 
 
 It was a long time ago, i used Webots. Check if the body is rotating or only the grafics, as i recall these are seperate things.
