@@ -27,10 +27,11 @@ int main(int argc, char **argv) {
   const float *image_horizontal = wb_range_finder_get_range_image(horizontal_range_finder);
   const float *image_vertical = wb_range_finder_get_range_image(vertical_range_finder);
   int i = 0;
-  for (i = 0; i < width; ++i) {
-    fprintf(stdout, "H= %lf (0,%d), V= %lf (%d,0).\n", image_horizontal[i], i, image_vertical[i], i);
-  }
-  ts_assert_int_equal(0, 1, "Test to see values on CI");
+  for (i = 0; i < width; ++i)
+    ts_assert_double_in_delta(image_horizontal[i], image_vertical[i], 0.05,
+                              "Horizontal and vertical range-finder do not return the same value (%lf (0,%d) != %lf (%d,0)).",
+                              image_horizontal[i], i, image_vertical[i], i);
+
   ts_send_success();
   return EXIT_SUCCESS;
 }
