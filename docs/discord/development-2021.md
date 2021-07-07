@@ -2300,3 +2300,11 @@ Did you upgrade your system recently, `sudo apt update; sudo apt upgrade`?
 ##### Naga15 06/30/2021 07:43:33
 I did that before writting to you, I will try it again. I have no problems with official release and nigthly builds of 2021a. Only with  nightly builds of 2021b. But thanks for your help! 🙂 If I find the solution or my mistake I will post it here.
 
+## July
+
+##### Affonso 07/01/2021 19:59:04
+Hey, how can I use a own lib in webots?
+
+##### Olivier Michel [Cyberbotics] 07/02/2021 06:22:41
+You can simply link your controller programs with your own lib.
+
