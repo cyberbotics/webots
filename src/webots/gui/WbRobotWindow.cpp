@@ -71,7 +71,6 @@ WbRobotWindow::WbRobotWindow(WbRobot *robot, QWidget *parent) :
 }
 
 WbRobotWindow::~WbRobotWindow() {
-  qDebug() << "deleting RobotWindow";
   if (mWebView)
     delete mWebView->page();
   delete mWebView;
