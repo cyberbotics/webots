@@ -89,7 +89,7 @@ void WbLight::postFinalize() {
 
 WbLight::~WbLight() {
   int a = cLights.size();
-  cLights.removeAll(this);
+  cLights.removeOne(this);
   printf("DELETING %p (was %d now %d)\n", this, a, cLights.size());
   if (areWrenObjectsInitialized()) {
     // cLights.removeAll(this);
@@ -215,7 +215,7 @@ void WbLight::computeAmbientLight() {
   float rgb[] = {0.0f, 0.0f, 0.0f};
 
   foreach (const WbLight *light, cLights) {
-    if (light && light->isOn()) {
+    if (light->isOn()) {
       rgb[0] += light->ambientIntensity() * light->color().red();
       rgb[1] += light->ambientIntensity() * light->color().green();
       rgb[2] += light->ambientIntensity() * light->color().blue();
