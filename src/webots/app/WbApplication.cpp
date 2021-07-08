@@ -231,7 +231,6 @@ bool WbApplication::wasWorldLoadingCanceled() const {
 }
 
 bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
-  printf("cancelWorldLoading\n");
   emit deleteWorldLoadingProgressDialog();
 
   if (deleteWorld) {
@@ -239,10 +238,6 @@ bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
     mWorld = NULL;
   }
 
-  mWorldLoadingCanceled = false;
-  mWorldLoadingProgressDialogCreated = false;
-
-  printf("deleted\n");
   if (loadEmptyWorld)
     return loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName(), false);
   return false;
@@ -263,6 +258,9 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 
 bool WbApplication::loadWorld(QString worldName, bool reloading) {
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(false);
+
+  mWorldLoadingCanceled = false;
+  mWorldLoadingProgressDialogCreated = false;
 
   worldName = QDir::cleanPath(worldName);
 

@@ -1299,7 +1299,6 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
 }
 
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
-  printf("WbMainWindow::loadWorld\n");
   if (!proposeToSaveWorld(reloading))
     return true;
   if (!WbApplication::instance()->isValidWorldFileName(fileName))
@@ -1313,7 +1312,6 @@ bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
     WbLog::showPendingConsoleMessages();
   }
   // else console messages will be forwarded after world load in restorePerspective()
-  printf("done succ %d\n", success);
   return success;
 }
 
