@@ -116,7 +116,11 @@ webots.View = class View {
     this.animation = new Animation(url, this.x3dScene, this, gui, loop);
   }
 
-  open(url, mode, texturePathPrefix = '') {
+  openRaw(text) {
+    
+  };
+
+  open(url, mode, texturePathPrefix = '', raw) {
     const userAgents = navigator.userAgent;
     let chromeAgent = userAgents.indexOf('Chrome') > -1;
     let safariAgent = userAgents.indexOf('Safari') > -1;
@@ -173,8 +177,12 @@ webots.View = class View {
             this.x3dScene.prefix = httpServerUrl + '/';
           this.stream.connect();
         }
-      } else // assuming it's an URL to a .x3d file
-        this.x3dScene.loadWorldFile(this.url, finalizeWorld);
+      } else { // assuming it's an URL to a .x3d file
+        if (raw)
+          this.x3dScene.loadWorldFileRaw(this.url, finalizeWorld);
+        else
+          this.x3dScene.loadWorldFile(this.url, finalizeWorld);
+      }
     };
 
     const finalizeWorld = () => {
@@ -185,7 +193,7 @@ webots.View = class View {
           if (this.animation != null)
             this.animation.init(loadFinalize);
           else
-            loadFinalize();
+            loadFinalize(raw);
           this.onresize();
           return;
         }
@@ -208,7 +216,9 @@ webots.View = class View {
 
     if (this.broadcast)
       this.setTimeout(-1);
-    this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
+
+    if (!raw)
+      this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
     if (mode === 'mjpeg') {
       this.url = url;

@@ -99,6 +99,13 @@ export default class X3dScene {
     this.render();
   }
 
+  loadWorldFileRaw(raw) {
+    const prefix = this.prefix;
+    const renderer = this.renderer;
+    const loader = new Parser(prefix);
+    loader.parse(raw, renderer);
+  }
+
   loadWorldFile(url, onLoad) {
     const prefix = this.prefix;
     const renderer = this.renderer;

@@ -49,6 +49,7 @@ export default class Parser {
   }
 
   async parse(text, renderer, parent, callback) {
+    console.log('text is: \n' + text);
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
