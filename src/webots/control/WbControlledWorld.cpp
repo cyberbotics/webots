@@ -509,6 +509,7 @@ void WbControlledWorld::handleRobotRemoval(WbBaseNode *node) {
 
 QStringList WbControlledWorld::activeControllersNames() const {
   QStringList list;
+  printf("> %d\n", mControllers.size());
   foreach (WbController *const controller, mControllers) {
     if (controller->isRunning())
       list.append(controller->name());

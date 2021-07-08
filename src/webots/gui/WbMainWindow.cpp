@@ -1020,7 +1020,7 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
     return;
   }
 
-  logActiveControllersTermination();
+  // logActiveControllersTermination();
 
   // disconnect from file changed signal before saving the perspective
   // if the perspective file is open, a segmentation fault is generated
@@ -1299,12 +1299,13 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
 }
 
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
+  printf("WbMainWindow::loadWorld\n");
   if (!proposeToSaveWorld(reloading))
     return true;
   if (!WbApplication::instance()->isValidWorldFileName(fileName))
     return false;  // invalid filename, abort without affecting the current simulation
   mSimulationView->cancelSupervisorMovieRecording();
-  logActiveControllersTermination();
+  // logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
   const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
   if (!success) {
@@ -1312,6 +1313,7 @@ bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
     WbLog::showPendingConsoleMessages();
   }
   // else console messages will be forwarded after world load in restorePerspective()
+  printf("done succ %d\n", success);
   return success;
 }
 

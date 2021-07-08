@@ -14,6 +14,7 @@
 
 #include "WbGuidedTour.hpp"
 
+#include "WbApplication.hpp"
 #include "WbConsole.hpp"
 #include "WbMFString.hpp"
 #include "WbSFString.hpp"
@@ -185,6 +186,7 @@ static QString formatInfo(const WbMFString &info) {
 }
 
 void WbGuidedTour::updateGUI() {
+  printf("updateGUI\n");
   if (mFilenames.isEmpty()) {
     setTitleText(tr("Internal error"));
     mInfoText->setPlainText(tr("The Guided Tour is not available."));
@@ -268,6 +270,7 @@ void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
 }
 
 void WbGuidedTour::loadWorld() {
+  printf("loadWorld\n");
   if (mIndex < 0 || mIndex >= mFilenames.size())
     return;
   const QString &fn = WbStandardPaths::webotsHomePath() + mFilenames[mIndex];  // Gets filename
