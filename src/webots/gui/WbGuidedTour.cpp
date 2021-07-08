@@ -186,7 +186,6 @@ static QString formatInfo(const WbMFString &info) {
 }
 
 void WbGuidedTour::updateGUI() {
-  printf("updateGUI\n");
   if (mFilenames.isEmpty()) {
     setTitleText(tr("Internal error"));
     mInfoText->setPlainText(tr("The Guided Tour is not available."));
@@ -270,7 +269,6 @@ void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
 }
 
 void WbGuidedTour::loadWorld() {
-  printf("loadWorld\n");
   if (mIndex < 0 || mIndex >= mFilenames.size())
     return;
   const QString &fn = WbStandardPaths::webotsHomePath() + mFilenames[mIndex];  // Gets filename
@@ -280,7 +278,8 @@ void WbGuidedTour::loadWorld() {
 }
 
 void WbGuidedTour::selectWorld() {
-  if (mTree->selectedItems().size() < 1)
+  // prevent selecting a new world if in the process of canceling the previous one or if invalid
+  if (mTree->selectedItems().size() < 1 || WbApplication::instance()->wasWorldLoadingCanceled())
     return;
   QTreeWidgetItem *item = mTree->selectedItems().at(0);
   mIndex = mWorlds.indexOf(item);
