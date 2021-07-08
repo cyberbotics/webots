@@ -210,7 +210,7 @@ WbWorld::~WbWorld() {
   assert(wr_scene_compute_node_count(wr_scene_get_instance()) == 1);
   wr_scene_reset(wr_scene_get_instance());
   WbWrenOpenGlContext::doneWren();
-  WbLight::clearLights();
+  // WbLight::clearLights();
   printf("done %d\n", WbLight::numberOfLights());
 }
 
