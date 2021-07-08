@@ -47,7 +47,7 @@ Robot {
   ]
   controller "modify_proto_template_field"
   controllerArgs [
-    "modify_proto_template_field"
+    "modify_proto_template_field (lua)"
   ]
   supervisor TRUE
 }
