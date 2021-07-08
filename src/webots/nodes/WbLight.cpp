@@ -42,8 +42,6 @@ void WbLight::init() {
   mOn = findSFBool("on");
   mCastShadows = findSFBool("castShadows");
   mCastLensFlares = findSFBool("castLensFlares");
-
-  printf("done constr Light\n");
 }
 
 WbLight::WbLight(const WbLight &other) : WbBaseNode(other) {
@@ -61,9 +59,7 @@ WbLight::WbLight(const QString &modelName, WbTokenizer *tokenizer) : WbBaseNode(
 void WbLight::preFinalize() {
   WbBaseNode::preFinalize();
 
-  int a = cLights.size();
   cLights << this;
-  printf("ADDING %p (was %d now %d)\n", this, a, cLights.size());
 
   updateAmbientIntensity();
   updateColor();
@@ -88,13 +84,9 @@ void WbLight::postFinalize() {
 }
 
 WbLight::~WbLight() {
-  int a = cLights.size();
   cLights.removeOne(this);
-  printf("DELETING %p (was %d now %d)\n", this, a, cLights.size());
-  if (areWrenObjectsInitialized()) {
-    // cLights.removeAll(this);
-    // printf("DELETING %p (was %d now %d)\n", this, a, cLights.size());
 
+  if (areWrenObjectsInitialized()) {
     applySceneAmbientColorToWren();
     if (!WbWorld::instance()->isCleaning())
       emit WbWrenRenderingContext::instance()->numberOfOnLightsChanged();

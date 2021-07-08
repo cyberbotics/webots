@@ -55,8 +55,6 @@ public:
   static bool doesAtLeastOneLightCastsShadows() { return numberOfLightsCastingShadows() > 0; }
   static const QList<const WbLight *> &lights() { return cLights; }
   static int numberOfOnLights();
-  static int numberOfLights() { return cLights.size(); }
-  static void clearLights();
 
 protected:
   // all constructors are reserved for derived classes only

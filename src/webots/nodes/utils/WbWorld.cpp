@@ -27,7 +27,6 @@
 #include "WbJointDevice.hpp"
 #include "WbJointParameters.hpp"
 #include "WbLed.hpp"
-#include "WbLight.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
 #include "WbMFString.hpp"
@@ -93,7 +92,6 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mIsLoading(true),
   mIsCleaning(false),
   mIsVideoRecording(false) {
-  printf("begin World\n");
   gInstance = this;
   WbNode::setInstantiateMode(true);
   WbNode::setGlobalParentNode(NULL);
@@ -197,7 +195,6 @@ void WbWorld::finalize() {
 }
 
 WbWorld::~WbWorld() {
-  printf("delete World\n");
   delete mRoot;
   delete mProtos;
   WbNode::cleanup();
@@ -210,8 +207,6 @@ WbWorld::~WbWorld() {
   assert(wr_scene_compute_node_count(wr_scene_get_instance()) == 1);
   wr_scene_reset(wr_scene_get_instance());
   WbWrenOpenGlContext::doneWren();
-  // WbLight::clearLights();
-  printf("done %d\n", WbLight::numberOfLights());
 }
 
 bool WbWorld::needSaving() const {
