@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <webots/distance_sensor.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
@@ -15,23 +16,41 @@ int main(int argc, char **argv) {
   wb_distance_sensor_enable(ds, TIME_STEP);
 
   wb_robot_step(TIME_STEP);
-  WbNodeRef n = wb_supervisor_node_get_from_def("TEST_NODE");
-  WbFieldRef field = wb_supervisor_node_get_field(n, "url");
-  const char *url = wb_supervisor_field_get_mf_string(field, 0);
-  const double ds_value_grey = wb_distance_sensor_get_value(ds);
-  ts_assert_double_in_delta(ds_value_grey, 277, 20.0,
-                            "Wrong distance sensor value with \"%s\" texture: expecting 277, received %g.", url, ds_value_grey);
   WbNodeRef node = wb_supervisor_node_get_from_def("TEST_NODE");
   WbFieldRef urlField = wb_supervisor_node_get_field(node, "url");
+  const char *url = wb_supervisor_field_get_mf_string(urlField, 0);
+  const double ds_value_grey = wb_distance_sensor_get_value(ds);
+  char path[1024];
+  getcwd(path, sizeof(path));
+  int len = strlen(path);
+#ifdef _WIN32
+  for (int i = len - 1; i >= 0; i--)
+    if (path[i] == '\\')
+      path[i] = '/';
+#endif
+  int count = 0;
+  for (int i = len - 1; i >= 0; i--) {
+    if (path[i] == '/' && ++count == 2) {
+      path[i] = '\0';
+      break;
+    }
+  }
+  strncat(path, "/protos/", sizeof(path) - 8);
+  strncat(path, url, sizeof(path) - strlen(url));
+  ts_assert_int_equal(access(path, R_OK), 0, "File \"%s\" is not readable.", path);
+  ts_assert_double_in_delta(ds_value_grey, 277, 0.000000001,
+                            "Wrong distance sensor value with \"%s\" texture: expecting 277, received %g. WEBOTS_HOME=%s", path,
+                            ds_value_grey, getenv("WEBOTS_HOME"));
   wb_supervisor_field_set_mf_string(urlField, 0, "textures/green.jpg");
 
   wb_robot_step(TIME_STEP);
 
   // test appearance after regeneration
+  url = wb_supervisor_field_get_mf_string(urlField, 0);
   const double ds_value_green = wb_distance_sensor_get_value(ds);
   ts_assert_double_in_delta(ds_value_green, 381, 20.0,
-                            "Wrong distance sensor value with green texture after regeneration: expecting 381, received %g.",
-                            ds_value_green);
+                            "Wrong distance sensor value with \"%s\" texture after regeneration: expecting 381, received %g.",
+                            url, ds_value_green);
 
   wb_robot_step(TIME_STEP);
 
