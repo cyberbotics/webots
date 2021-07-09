@@ -364,6 +364,7 @@ resources/qt_warning_filters.conf
 
 scripts/
 scripts/preferences_cleaner [recurse]
+scripts/packaging/update_urls.py
 
 src/
 src/controller/
