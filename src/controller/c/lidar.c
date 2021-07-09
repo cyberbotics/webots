@@ -439,7 +439,7 @@ const float *wb_lidar_get_layer_range_image(WbDeviceTag tag, int layer) {
   if (image == NULL)
     return NULL;
   if (l->number_of_layers > 1)
-    return image + sizeof(float) * l->width * (int)round((l->height - 1) * layer / (l->number_of_layers - 1));
+    return image + l->width * (int)round((l->height - 1) * layer / (l->number_of_layers - 1));
   else
     return image;
 }
@@ -462,7 +462,7 @@ const WbLidarPoint *wb_lidar_get_point_cloud(WbDeviceTag tag) {
   const float *image = wb_lidar_get_range_image(tag);
   if (image == NULL)
     return NULL;
-  return (WbLidarPoint *)(image + sizeof(float) * l->height * l->width);
+  return (WbLidarPoint *)(image +  l->height * l->width);
 }
 
 const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {
@@ -491,7 +491,7 @@ const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {
   const WbLidarPoint *point_cloud = wb_lidar_get_point_cloud(tag);
   if (point_cloud == NULL)
     return NULL;
-  return point_cloud + sizeof(WbLidarPoint) * layer * l->horizontal_resolution;
+  return point_cloud + layer * l->horizontal_resolution;
 }
 
 int wb_lidar_get_number_of_points(WbDeviceTag tag) {
