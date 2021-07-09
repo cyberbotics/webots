@@ -199,8 +199,8 @@ class TrajectoryFollower(object):
     def update(self):
         if self.robot and self.trajectory:
             now = self.robot.getTime()
-            if (now - self.trajectory_t0) <= self.trajectory.points[-1].time_from_start.to_sec() and
-                self.goal_handle: # check if goal is still accepted
+            if (now - self.trajectory_t0) <= self.trajectory.points[-1].time_from_start.to_sec() and \
+               self.goal_handle:  # check if goal is still accepted
                 # Sending intermediate points
                 setpoint = sample_trajectory(self.trajectory, now - self.trajectory_t0)
                 for i in range(len(setpoint.positions)):
