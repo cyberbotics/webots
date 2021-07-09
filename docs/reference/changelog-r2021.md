@@ -76,6 +76,7 @@ Released on July, 5th, 2021.
       - Exposed the `robot_description` ROS parameter (activated through the `--robot-description` flag) that contains the URDF of the robot.
     - Improved the URDF naming convention ([#2875](https://github.com/cyberbotics/webots/pull/2875)).
   - Bug fixes:
+    - Fixed bug in [Lidar](lidar.md) / [RangeFinder](../guide/range-finder-sensors.md) measurement when hitting an edge ([#3230](https://github.com/cyberbotics/webots/pull/3230)).
     - Fixed the restart of Webots on Windows after changing the theme or the language from the preferences ([#3367](https://github.com/cyberbotics/webots/pull/3367)).
     - Fixed instabilities in the box-cylinder collision detection ([#3105](https://github.com/cyberbotics/webots/pull/3105)).
     - Fixed wrong computation of the asymmetric friction force direction for [Cylinder](cylinder.md) and [Box](box.md) ([#3150](https://github.com/cyberbotics/webots/pull/3150)).
@@ -143,6 +144,8 @@ Released on July, 5th, 2021.
     - **Changed ROS message type published by the [Camera Recognition Objects](camera.md#wb_camera_recognition_get_objects) node that now sends a single message including all the recognized objects ([#3234](https://github.com/cyberbotics/webots/pull/3234))**.
     - **Changed ROS data type of [`/supervisor/node/get_type_name`](supervisor.md#wb_supervisor_node_get_type_name) service that now uses `webots_ros::node_get_name` instead of `webots_ros::node_get_type_name` ([#3202](https://github.com/cyberbotics/webots/pull/3202))**.
     - Fixed incorrect resetting of [PointLight](pointlight.md) nodes ([#3345](https://github.com/cyberbotics/webots/pull/3345)).
+    - Fixed incorrect cleaning of [Light](light.md) node ([3374](https://github.com/cyberbotics/webots/pull/3374)).
+    - Fixed crash provoked by canceling and switching world in the Guided Tour ([#3376](https://github.com/cyberbotics/webots/pull/3376)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
