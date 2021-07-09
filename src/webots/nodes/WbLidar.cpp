@@ -178,7 +178,7 @@ void WbLidar::initializeImageSharedMemory() {
     for (int i = 0; i < size; i++)
       im[i] = 0.0f;
   }
-  mTemporaryImage = new float[actualHorizontalResolution() * height()];
+  mTemporaryImage = new float[width() * height()];
 }
 
 QString WbLidar::pixelInfo(int x, int y) const {
@@ -356,7 +356,6 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
 
   const int resolution = actualHorizontalResolution();
   const double w = width();
-  const double h = height();
   const double time = WbSimulationState::instance()->time() / 1000.0;
 
   for (int i = 0; i < actualNumberOfLayers(); ++i) {
@@ -369,19 +368,13 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
       double theta = actualFieldOfView() / 2 - j * (actualFieldOfView() / (w - 1));
       if (isRotating())
         theta = -((double)j / (double)resolution) * 2 * M_PI;
-
-      int indexImage = 0;
-      if (actualNumberOfLayers() > 1)  // to avoid division by zero
-        indexImage = w * (int)round((h - 1) * i / (actualNumberOfLayers() - 1)) + j;
-      else
-        indexImage = j;
-      const int indexPointCloud = resolution * i + j;
-      const double r = image[indexImage];
-      lidarPoints[indexPointCloud].x = -r * sin(theta) * cosPhi;
-      lidarPoints[indexPointCloud].y = r * sinPhi;
-      lidarPoints[indexPointCloud].z = -r * cos(theta) * cosPhi;
-      lidarPoints[indexPointCloud].time = (j / w) * (time - mRefreshRate / 1000.0) + (1 - (j / w)) * time;
-      lidarPoints[indexPointCloud].layer_id = i;
+      const int index = resolution * i + j;
+      const double r = image[index];
+      lidarPoints[index].x = -r * sin(theta) * cosPhi;
+      lidarPoints[index].y = r * sinPhi;
+      lidarPoints[index].z = -r * cos(theta) * cosPhi;
+      lidarPoints[index].time = (j / w) * (time - mRefreshRate / 1000.0) + (1 - (j / w)) * time;
+      lidarPoints[index].layer_id = i;
     }
   }
 }
