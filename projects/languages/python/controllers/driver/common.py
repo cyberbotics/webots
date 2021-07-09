@@ -12,5 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 def common_print(caller):
     print('This module is common to both driver and slave controllers (called from ' + caller + ').')
