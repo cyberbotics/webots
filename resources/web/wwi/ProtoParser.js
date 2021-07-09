@@ -46,7 +46,7 @@ import WbTokenizer from './WbTokenizer.js';
 export default class ProtoParser {
   constructor(prefix = '') {
     this._prefix = '../wwi/images/post_processing/';
-  }
+  };
 
   encodeProto(rawProto) {
     // tokenize proto
@@ -54,6 +54,14 @@ export default class ProtoParser {
     tokenizer.tokenize();
     console.log(tokenizer.tokens());
 
+    tokenizer.skipToken('{'); // skip proto body bracket
+    while(tokenizer.hasMoreTokens()) {
+      const token = tokenizer.nextToken();
+    }
+
+  };
+
+  encodeProtoManual(rawProto) {
     // create xml
     let xml = document.implementation.createDocument('', '', null);
     let head = xml.createElement('head');
@@ -102,7 +110,7 @@ export default class ProtoParser {
     scene.appendChild(background);
     scene.appendChild(shape);
 
-    //xml.appendChild(head);
+    // xml.appendChild(head);
     xml.appendChild(scene);
 
     console.log(new XMLSerializer().serializeToString(xml));

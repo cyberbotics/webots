@@ -60,6 +60,7 @@ class ProtoDesigner {
     // create x3d out of tokens
     const parser = new ProtoParser();
     const x3d = parser.encodeProto(protoContent);
+    // const x3d = parser.encodeProtoManual(protoContent);
 
     const view = new webots.View(document.getElementById('view3d'));
     view.open(x3d, 'x3d', '', true);

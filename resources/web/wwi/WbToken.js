@@ -23,6 +23,10 @@ export default class WbToken {
       this._type = WbToken.TYPES.PUNCTUATION;
     else
       this._type = WbToken.TYPES.INVALID;
+
+    if (WbToken.UNSUPPORTED_NODE_LIST.includes(word))
+      throw new Error('Node \'' + word + '\' encountered but is unsupported.');
+    this._isNode = WbToken.SUPPORTED_NODE_LIST.includes(word);
   };
 
   word() { return this._word; };
@@ -30,14 +34,16 @@ export default class WbToken {
   column() { return this._column; };
 
   isValid() { return this._type !== WbToken.TYPES.INVALID; };
-  isString() { return this._type === WbToken.TYPES.STRING; }
-  isIdentifier() { return this._type === WbToken.TYPES.IDENTIFIER; }
-  isKeyword() { return this._type === WbToken.TYPES.KEYWORD; }
-  isNumeric() { return this._type === WbToken.TYPES.NUMERIC; }
-  isPunctuation() { return this._type === WbToken.TYPES.PUNCTUATION; }
-  isBoolean() { return this._type === WbToken.TYPES.KEYWORD && (this._word === 'TRUE' || this._word === 'FALSE'); }
-  isTemplateStatement() { return this._type === WbToken.TYPES.TEMPLATE_STATEMENT; }
-  isEof() { return this._type === WbToken.TYPES.END; }
+  isString() { return this._type === WbToken.TYPES.STRING; };
+  isIdentifier() { return this._type === WbToken.TYPES.IDENTIFIER; };
+  isKeyword() { return this._type === WbToken.TYPES.KEYWORD; };
+  isNumeric() { return this._type === WbToken.TYPES.NUMERIC; };
+  isPunctuation() { return this._type === WbToken.TYPES.PUNCTUATION; };
+  isBoolean() { return this._type === WbToken.TYPES.KEYWORD && (this._word === 'TRUE' || this._word === 'FALSE'); };
+  isTemplateStatement() { return this._type === WbToken.TYPES.TEMPLATE_STATEMENT; };
+  isEof() { return this._type === WbToken.TYPES.END; };
+
+  isNode() { return this._isNode; };
 
   toString() {
     if (!this.isString())
@@ -148,6 +154,46 @@ WbToken.KEYWORDS = [
   'MFVec2f',
   'SFVec3f',
   'MFVec3f'
+];
+
+WbToken.SUPPORTED_NODE_LIST = [
+  'Appearance',
+  'Background',
+  'Billboard',
+  'Box',
+  'Capsule',
+  'Cone',
+  'Cylinder',
+  'DirectionalLight',
+  'ElevationGrid',
+  'Fog',
+  'Geometry',
+  'Group',
+  'Image',
+  'ImageTexture',
+  'IndexedFaceSet',
+  'IndexedLineSet',
+  'Light',
+  'Material',
+  'PBRAppearance',
+  'Plane',
+  'PointLight',
+  'PointSet',
+  'Scene',
+  'Shape',
+  'Sphere',
+  'SpotLight',
+  'TextureTransform',
+  'Transform',
+  'TriangleMeshGeometry',
+  'Viewpoint',
+  'World'
+];
+
+WbToken.UNSUPPORTED_NODE_LIST = [
+  'Robot',
+  'Solid',
+  'Physics'
 ];
 
 export {isSpace, isPunctuation};
