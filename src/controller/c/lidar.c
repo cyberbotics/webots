@@ -27,7 +27,6 @@
 
 typedef struct {
   double max_range;
-  int width;
   int height;
   int number_of_layers;
   int horizontal_resolution;
@@ -77,7 +76,6 @@ static void wb_lidar_new(WbDevice *d, unsigned int id, int w, int h, double fov,
 
   l = malloc(sizeof(Lidar));
   l->max_range = max_range;
-  l->width = w;
   l->height = h;
   l->number_of_layers = number_of_layers;
   l->horizontal_resolution = horizontal_resolution;
@@ -460,7 +458,7 @@ const WbLidarPoint *wb_lidar_get_point_cloud(WbDeviceTag tag) {
   const float *image = wb_lidar_get_range_image(tag);
   if (image == NULL)
     return NULL;
-  return (WbLidarPoint *)(image + l->height * l->width);
+  return (WbLidarPoint *)(image + l->height * l->horizontal_resolution);
 }
 
 const WbLidarPoint *wb_lidar_get_layer_point_cloud(WbDeviceTag tag, int layer) {

@@ -174,11 +174,11 @@ void WbLidar::initializeImageSharedMemory() {
   if (mImageShm) {
     // initialize the shared memory with a black image
     float *im = lidarImage();
-    const int size = width() * actualNumberOfLayers();
+    const int size = width() * height();
     for (int i = 0; i < size; i++)
       im[i] = 0.0f;
   }
-  mTemporaryImage = new float[width() * height()];
+  mTemporaryImage = new float[actualHorizontalResolution() * height()];
 }
 
 QString WbLidar::pixelInfo(int x, int y) const {
