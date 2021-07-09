@@ -2,7 +2,7 @@ name: Test Suite macOS (develop)
 
 on:
   schedule:
-    - cron:  '0 23 * * 2100'
+    - cron:  '0 23 * 12 *'
 
 jobs:
   cleanup-runs:
