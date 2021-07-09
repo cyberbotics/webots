@@ -18,8 +18,11 @@ According to the messages it receives, the robot change its
 behavior.
 """
 
+import os
+
 from controller import AnsiCodes
 from controller import Robot
+from common import common_print
 
 
 class Enumerate(object):
@@ -95,4 +98,6 @@ class Slave (Robot):
 
 
 controller = Slave()
+print(os.environ['PYTHONPATH'])
+common_print('slave')
 controller.run()
