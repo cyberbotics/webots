@@ -439,7 +439,7 @@ const float *wb_lidar_get_layer_range_image(WbDeviceTag tag, int layer) {
   if (image == NULL)
     return NULL;
   if (l->number_of_layers > 1)
-    return image + l->width * (int)round((l->height - 1) * layer / (l->number_of_layers - 1));
+    return image + (int)round((l->height - 1) * layer / (l->number_of_layers - 1)) * l->width;
   else
     return image;
 }
