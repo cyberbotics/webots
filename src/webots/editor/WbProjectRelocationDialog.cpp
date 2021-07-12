@@ -499,13 +499,11 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
 
   // change filename parameter: get relative filename with respect to previous project path
   QString absolutePath;
-  if (mExternalProtoProjectPath.isEmpty()) {
-    filename = QDir(current->path()).relativeFilePath(filename);
+  if (mExternalProtoProjectPath.isEmpty())
     absolutePath = current->path();
-  } else {
-    filename = QDir(mExternalProtoProjectPath).relativeFilePath(filename);
+  else
     absolutePath = mExternalProtoProjectPath;
-  }
+  filename = QDir(absolutePath).relativeFilePath(filename);
 
   // relocate dialog
   WbProjectRelocationDialog dialog(current, filename, absolutePath, parent);
