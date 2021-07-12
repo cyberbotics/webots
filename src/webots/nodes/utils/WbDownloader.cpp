@@ -52,8 +52,11 @@ WbDownloader::WbDownloader(QObject *parent) :
 }
 
 WbDownloader::~WbDownloader() {
-  if (mNetworkReply != NULL)
+  if (mNetworkReply != NULL) {
     mNetworkReply->deleteLater();
+    if (gUrlCache.contains(mUrl))
+      gUrlCache.remove(mUrl);
+  }
 }
 
 QIODevice *WbDownloader::device() const {
@@ -70,12 +73,9 @@ void WbDownloader::download(const QUrl &url) {
     if (!(mOffline == true && mCopy == false)) {
       mCopy = true;
       QNetworkReply *reply = gUrlCache[mUrl];
-      if (reply) {
-        if (reply->isFinished())
-          finished();
-        else
-          connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
-      } else
+      if (reply && !reply->isFinished())
+        connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
+      else
         finished();
       return;
     }
