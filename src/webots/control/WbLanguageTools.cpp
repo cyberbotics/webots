@@ -96,7 +96,43 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     pythonCommand = "!";
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
-#else  // macOS and Linux
+#elseif __APPLE__
+  if (pythonCommand == "python" || pythonCommand == "python3") {
+    pythonCommand = findRightPath("3.8", false);
+    shortVersion = "38";
+    if (pythonVersion == "!"){
+      pythonCommand = findRightPath("3.9", false);
+      shortVersion = "39";
+      if (pythonVersion == "!"){
+        pythonCommand = findRightPath("3.7", true);
+        shortVersion = "37";
+      }
+    }
+  } else if (pythonCommand == "python3.7") {
+    pythonCommand = findRightPath("3.7", true);
+    shortVersion = "37";
+  } else if (pythonCommand == "python3.8") {
+    pythonCommand = findRightPath("3.8", true);
+    shortVersion = "38";
+  } else if (pythonCommand == "python3.9") {
+    pythonCommand = findRightPath("3.9", true);
+    shortVersion = "39";
+  } else {
+    shortVersion = pythonCommandFound(pythonCommand, env, true);
+    if (shortVersion.isEmpty())
+      pythonCommand = "!";
+  }
+#else // Linux
+    shortVersion = pythonCommandFound(pythonCommand, env, true);
+    if (shortVersion.isEmpty())
+      pythonCommand = "!";
+
+#endif
+  return pythonCommand;
+}
+
+const QString WbLanguageTools::pythonCommandFound(const QString &pythonCommand, QProcessEnvironment &env, bool log) {
+  QString shortVersion;
   QProcess process;
   process.setProcessEnvironment(env);
   process.start(pythonCommand, QStringList() << "-c"
@@ -106,11 +142,33 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   // "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]" or the like
   const QStringList version = output.split(" ");
   if (!version[0].startsWith("3.")) {
-    WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
-    pythonCommand = "!";
+    if (log)
+      WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand));
+    shortVersion = QString();
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
-#endif
+  return shortVersion;
+}
+
+QString WbLanguageTools::findRightPath(const QString &pythonVersion, QProcessEnvironment &env, bool log) {
+  QString shortVersion;
+  QString pythonCommand = "/Library/Frameworks/Python.framework/Versions/" + pythonVersion + "/bin/python" + pythonVersion;
+
+  //look for python from python.org
+  shortVersion = pythonCommandFound(pythonCommand, env, false);
+  if (shortVersion.isEmpty()) {
+    //look first possible path for python from homebrew
+    pythonCommand = "/usr/local/opt/python@" + pythonVersion + " /bin/python" + pythonVersion;
+    shortVersion = pythonCommandFound(pythonCommand, env, false);
+    if (shortVersion.isEmpty()) {
+      //look a second possible path for python from homebrew
+      pythonCommand = "/usr/local/bin/python" + pythonVersion;
+      shortVersion = pythonCommandFound(pythonCommand, env, log);
+      if (shortVersion.isEmpty())
+        pythonCommand = "!";
+    }
+  }
+
   return pythonCommand;
 }
 
