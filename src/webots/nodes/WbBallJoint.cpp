@@ -160,7 +160,7 @@ WbVector3 WbBallJoint::axis() const {
 }
 
 WbVector3 WbBallJoint::axis2() const {
-  return axis().cross(axis3());
+  return axis3().cross(axis());
 }
 
 WbVector3 WbBallJoint::axis3() const {
@@ -256,7 +256,6 @@ void WbBallJoint::updatePositions(double position, double position2, double posi
 }
 
 void WbBallJoint::updatePosition(double position) {
-  mPosition = position;
   updatePositions(mPosition, mPosition2, mPosition3);
 }
 
