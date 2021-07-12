@@ -241,9 +241,8 @@ void WbLidar::writeAnswer(QDataStream &stream) {
     mSensor->resetPendingValue();
     if (!isRotating() && mSensor->isEnabled())  // in case of rotating lidar, the copy is done during the step
       copyAllLayersToSharedMemory();            // for non-rotating lidar, copy the layers needed in the shared memory
-  } else {
+  } else
     WbAbstractCamera::writeAnswer(stream);
-  }
 }
 
 void WbLidar::handleMessage(QDataStream &stream) {
