@@ -41,7 +41,13 @@ DEF BALL_JOINT_ROBOT Robot {
   name "robot"
 }
 DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
   controller "ball_joint_reset"
   name "supervisor"
   supervisor TRUE
+}
+TestSuiteSupervisor {
 }
