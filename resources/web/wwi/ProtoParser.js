@@ -39,6 +39,7 @@ import DefaultUrl from './DefaultUrl.js';
 import loadHdr from './hdr_loader.js';
 
 import WbTokenizer from './WbTokenizer.js';
+import {WbFieldModel, FIELD_TYPES} from './WbFieldModel.js';
 
 /*
   This module takes an x3d world, parse it and populate the scene.
@@ -46,24 +47,120 @@ import WbTokenizer from './WbTokenizer.js';
 export default class ProtoParser {
   constructor(prefix = '') {
     this._prefix = '../wwi/images/post_processing/';
+    this._xml = document.implementation.createDocument('', '', null);
+    this._scene = this._xml.createElement('Scene');
+
+    let worldinfo = this._xml.createElement('WorldInfo');
+    worldinfo.setAttribute('id', getAnId());
+    worldinfo.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/worldinfo');
+    worldinfo.setAttribute('basicTimeStep', '32');
+    worldinfo.setAttribute('coordinateSystem', 'NUE');
+
+    let viewpoint = this._xml.createElement('Viewpoint');
+    viewpoint.setAttribute('id', getAnId());
+    viewpoint.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/viewpoint');
+    viewpoint.setAttribute('orientation', '-0.84816706 -0.5241698 -0.07654181 0.34098753');
+    viewpoint.setAttribute('position', '-1.2506319 2.288824 7.564137');
+    viewpoint.setAttribute('exposure', '1');
+    viewpoint.setAttribute('bloomThreshold', '21');
+    viewpoint.setAttribute('zNear', '0.05');
+    viewpoint.setAttribute('zFar', '0');
+    viewpoint.setAttribute('followSmoothness', '0.5');
+    viewpoint.setAttribute('ambientOcclusionRadius', '2');
+
+    let background = this._xml.createElement('Background');
+    background.setAttribute('id', getAnId());
+    background.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/background');
+    background.setAttribute('skyColor', '0.15 0.45 1');
+
+    this._scene.appendChild(worldinfo);
+    this._scene.appendChild(viewpoint);
+    this._scene.appendChild(background);
+    this._xml.appendChild(this._scene);
   };
 
   encodeProto(rawProto) {
     // tokenize proto
-    const tokenizer = new WbTokenizer(rawProto);
-    tokenizer.tokenize();
-    console.log(tokenizer.tokens());
+    this._tokenizer = new WbTokenizer(rawProto);
+    this._tokenizer.tokenize();
+    console.log(this._tokenizer.tokens());
 
-    tokenizer.skipToken('{'); // skip proto body bracket
-    while(tokenizer.hasMoreTokens()) {
-      const token = tokenizer.nextToken();
+    this._tokenizer.skipToken('{'); // skip proto body bracket
+    while (this._tokenizer.hasMoreTokens()) {
+      const token = this._tokenizer.nextToken();
+      if (token.isNode())
+        this.encodeNode(token.word(), this._scene, 'Scene');
     }
 
+    console.log(new XMLSerializer().serializeToString(this._xml));
+    console.log(this._xml);
+    return new XMLSerializer().serializeToString(this._xml); // 'test.x3d';
+  };
+
+  encodeNode(nodeName, parentElement, parentName) {
+    console.log('Encoding node: ' + nodeName);
+    let nodeElement = this._xml.createElement(nodeName);
+    console.log('> xml.createElement(' + nodeName + ')');
+
+    //nodeElement.setAttribute('id', getAnId());
+    //console.log('> ' + nodeName + '.setAttribute(id, ...)');
+
+    this._tokenizer.skipToken('{'); // skip opening bracket
+    let ctr = 1; // bracket counter
+    while (ctr !== 0) {
+      const word = this._tokenizer.nextWord();
+      if (word === '{') {
+        ctr++;
+        continue;
+      }
+      if (word === '}') {
+        ctr--;
+        continue;
+      }
+      // otherwise, assume it's a field
+      this.encodeField(nodeName, word, nodeElement);
+    };
+
+    parentElement.appendChild(nodeElement);
+    console.log('> ' + parentName + '.appendChild(' + nodeName + ')');
+  };
+
+  encodeField(nodeName, fieldName, nodeElement) {
+    const fieldType = WbFieldModel[nodeName][fieldName];
+    console.log('Encoding field ' + fieldName + ' of type: ' + fieldType);
+
+    if (typeof nodeElement === 'undefined')
+      throw new Error('\'nodeElement\' is not defined but should be.');
+
+    // add minimal attributes
+    nodeElement.setAttribute('id', getAnId());
+    console.log('> ' + nodeName + '.setAttribute(id, ...)');
+    // TODO: add  box.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/box');
+
+    let value = '';
+    if (fieldType === FIELD_TYPES.SF_BOOL)
+      value += this._tokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
+    else if (fieldType === FIELD_TYPES.SF_VECT2F) {
+      value += this._tokenizer.nextWord() + ' ';
+      value += this._tokenizer.nextWord();
+    } else if (fieldType === FIELD_TYPES.SF_VECT3F) {
+      value += this._tokenizer.nextWord() + ' ';
+      value += this._tokenizer.nextWord() + ' ';
+      value += this._tokenizer.nextWord();
+    } else if (fieldType === FIELD_TYPES.SF_NODE)
+      this.encodeNode(this._tokenizer.nextWord(), nodeElement, nodeName);
+    else
+      throw new Error('unknown fieldName ' + fieldName + ' of node ' + nodeName);
+
+    if (fieldType !== FIELD_TYPES.SF_NODE) {
+      // add field attributes
+      console.log('> ' + nodeName + '.setAttribute(' + fieldName + ', ' + value + ')');
+      nodeElement.setAttribute(fieldName, value);
+    }
   };
 
   encodeProtoManual(rawProto) {
     // create xml
-    let xml = document.implementation.createDocument('', '', null);
     let head = xml.createElement('head');
     let meta = xml.createElement('meta');
     meta.setAttribute('name', 'generator');

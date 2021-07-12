@@ -4,8 +4,12 @@ PROTO ProtoBox [
 ]
 {
   Shape {
+    castShadow TRUE
     geometry Box {
       size 1 1 1
+    }
+    appearance PBRAppearance {
+      baseColor 1 0 0
     }
   }
 }
