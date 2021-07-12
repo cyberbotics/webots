@@ -98,6 +98,7 @@ public:
   void enableCopying(bool enable);
   WbRgb copyPixelColourValue(int x, int y);
   void copyContentsToMemory(void *data);
+  void copyContentsPartToMemory(void *data, int src, int size);
 
   void enableTextureUpdateNotifications(bool enabled) { mNotifyOnTextureUpdate = enabled; }
 

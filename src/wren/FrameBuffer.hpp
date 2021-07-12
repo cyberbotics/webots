@@ -87,6 +87,7 @@ namespace wren {
 
     void initiateCopyToPbo();
     void copyContents(size_t index, void *data);
+    void copyRow(size_t index, void *data, int src, int size);
     void copyPixel(size_t index, int x, int y, void *data, bool flipY = true);
     void copyDepthPixel(int x, int y, void *data, bool flipY = true);
 

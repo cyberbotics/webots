@@ -509,6 +509,20 @@ void WbWrenCamera::copyContentsToMemory(void *data) {
   WbWrenOpenGlContext::doneWren();
 }
 
+void WbWrenCamera::copyContentsPartToMemory(void *data, int src, int size) {
+  if (!mIsCopyingEnabled || !data || mWidth < 1 || mHeight < 1)
+    return;
+
+  if (!mIsCameraActive[CAMERA_ORIENTATION_FRONT]) {
+    memset(data, 0, mWidth * 4);
+    return;
+  }
+
+  WbWrenOpenGlContext::makeWrenCurrent();
+  wr_frame_buffer_copy_row(mResultFrameBuffer, 1, data, src, size);
+  WbWrenOpenGlContext::doneWren();
+}
+
 void WbWrenCamera::rotatePitch(float angle) {
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])

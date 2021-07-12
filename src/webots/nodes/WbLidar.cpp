@@ -296,7 +296,7 @@ void WbLidar::copyAllLayersToSharedMemory() {
   int widthOffset = 0;
 
   mWrenCamera->enableCopying(true);
-  mWrenCamera->copyContentsToMemory(mTemporaryImage);
+
   // if rotating compute which part of the image should be updated
   if (isRotating()) {
     double deltaAngle = fabs(mCurrentRotatingAngle - mPreviousRotatingAngle);
@@ -315,6 +315,9 @@ void WbLidar::copyAllLayersToSharedMemory() {
   }
 
   for (int i = 0; i < actualNumberOfLayers(); ++i) {
+    // New way:
+    //  mWrenCamera->copyContentsToMemory(data + i * resolution + minWidth + widthOffset, width() * (int)(i * skip) + minWidth,
+    //  maxWidth - minWidth);
     if ((maxWidth + widthOffset) <= resolution && (minWidth + widthOffset) >= 0)
       memcpy(data + i * resolution + minWidth + widthOffset, mTemporaryImage + width() * (int)(i * skip) + minWidth,
              sizeof(float) * (maxWidth - minWidth));
