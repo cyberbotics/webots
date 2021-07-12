@@ -2,7 +2,7 @@ name: Test Suite Linux (develop)
 
 on:
   schedule:
-    - cron:  '0 23 * 12 *'
+    - cron:  '0 23 * * *'
 
 defaults:
   run:
