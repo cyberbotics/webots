@@ -1,7 +1,7 @@
 const template = document.createElement('template');
 
 template.innerHTML = `
-<link type="text/css" href="https://cyberbotics.com/wwi/R2021b/css/animation.css" rel="stylesheet"/>
+<link type="text/css" href="https://cyberbotics.com/wwi/R2021c/css/animation.css" rel="stylesheet"/>
 <div id="view3d" style="height:100%; width:100%"></div>
 `;
 
@@ -16,7 +16,7 @@ export default class WebotsAnimation extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith(".data"))
-          return "https://cyberbotics.com/wwi/R2021b/" + path;
+          return "https://cyberbotics.com/wwi/R2021c/" + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -38,12 +38,12 @@ export default class WebotsAnimation extends HTMLElement {
   async _init() {
     let promises = [];
     promises.push(this._load('https://git.io/glm-js.min.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/R2021b/enum.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/R2021b/wrenjs.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/R2021c/enum.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/R2021c/wrenjs.js'));
 
     await Promise.all(promises);
     let script = document.createElement('script');
-    script.src = 'https://cyberbotics.com/wwi/R2021b/init_animation.js';
+    script.src = 'https://cyberbotics.com/wwi/R2021c/init_animation.js';
     script.type = 'module';
     document.head.appendChild(script);
   }
