@@ -235,11 +235,15 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
 }
 
 void WbLidar::writeAnswer(QDataStream &stream) {
-  mImageChanged = false;  // prevents the AbstractCamera from copying the whole content of the camera in the shared memory
-  WbAbstractCamera::writeAnswer(stream);
-
-  if (!isRotating() && mSensor->isEnabled())
-    copyAllLayersToSharedMemory();  // instead, we copy only the needed layers
+  if (mImageChanged) {
+    mImageChanged = false;  // prevents the AbstractCamera from copying the whole content of the camera in the shared memory
+    WbAbstractCamera::writeAnswer(stream);
+    mSensor->resetPendingValue();
+    if (!isRotating() && mSensor->isEnabled())  // in case of rotating lidar, the copy is done during the step
+      copyAllLayersToSharedMemory();            // for non-rotating lidar, copy the layers needed in the shared memory
+  } else {
+    WbAbstractCamera::writeAnswer(stream);
+  }
 }
 
 void WbLidar::handleMessage(QDataStream &stream) {
