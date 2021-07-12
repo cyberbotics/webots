@@ -73,9 +73,9 @@ void WbDownloader::download(const QUrl &url) {
     if (!(mOffline == true && mCopy == false)) {
       mCopy = true;
       QNetworkReply *reply = gUrlCache[mUrl];
-      if (reply && !reply->isFinished()) {
+      if (reply && !reply->isFinished())
         connect(reply, &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
-      } else
+      else
         finished();
       return;
     }
