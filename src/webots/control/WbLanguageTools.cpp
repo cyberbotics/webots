@@ -97,14 +97,15 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
 #elif __APPLE__
-  advice = "To fix the problem, you could try to insert the full path of your python distribution in Webots->preferences->python command.\n";
+  advice = "To fix the problem, you could try to insert the full path of your python distribution in "
+           "Webots->preferences->python command.\n";
   if (pythonCommand == "python" || pythonCommand == "python3") {
     pythonCommand = findRightPath("3.8", env, false);
     shortVersion = "38";
-    if (pythonCommand == "!"){
+    if (pythonCommand == "!") {
       pythonCommand = findRightPath("3.9", env, false);
       shortVersion = "39";
-      if (pythonCommand == "!"){
+      if (pythonCommand == "!") {
         pythonCommand = findRightPath("3.7", env, true);
         shortVersion = "37";
       }
@@ -126,10 +127,12 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
 
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
-#else // Linux
-    shortVersion = pythonCommandFound(pythonCommand, env, true);
-    if (shortVersion.isEmpty())
-      pythonCommand = "!";
+#else  // Linux
+  shortVersion = pythonCommandFound(pythonCommand, env, true);
+  if (shortVersion.isEmpty()) {
+    pythonCommand = "!";
+    WbLog::warning(QObject::tr("Python was not found.\n") + advice);
+  }
 
 #endif
   return pythonCommand;
@@ -158,14 +161,14 @@ QString WbLanguageTools::findRightPath(const QString &pythonVersion, QProcessEnv
   QString shortVersion;
   QString pythonCommand = "/Library/Frameworks/Python.framework/Versions/" + pythonVersion + "/bin/python" + pythonVersion;
 
-  //look for python from python.org
+  // look for python from python.org
   shortVersion = pythonCommandFound(pythonCommand, env, false);
   if (shortVersion.isEmpty()) {
-    //look first possible path for python from homebrew
+    // look first possible path for python from homebrew
     pythonCommand = "/usr/local/opt/python@" + pythonVersion + " /bin/python" + pythonVersion;
     shortVersion = pythonCommandFound(pythonCommand, env, false);
     if (shortVersion.isEmpty()) {
-      //look a second possible path for python from homebrew
+      // look a second possible path for python from homebrew
       pythonCommand = "/usr/local/bin/python" + pythonVersion;
       shortVersion = pythonCommandFound(pythonCommand, env, log);
       if (shortVersion.isEmpty())
