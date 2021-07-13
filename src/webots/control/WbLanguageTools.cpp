@@ -103,24 +103,24 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     shortVersion = QString(version[0][0]) + version[0][2];
 #elif __APPLE__
   if (pythonCommand == "python" || pythonCommand == "python3") {
-    pythonCommand = findWorkingPath("3.8", env, false);
+    pythonCommand = findWorkingPythonPath("3.8", env, false);
     shortVersion = "38";
     if (pythonCommand == "!") {
-      pythonCommand = findWorkingPath("3.9", env, false);
+      pythonCommand = findWorkingPythonPath("3.9", env, false);
       shortVersion = "39";
       if (pythonCommand == "!") {
-        pythonCommand = findWorkingPath("3.7", env, true);
+        pythonCommand = findWorkingPythonPath("3.7", env, true);
         shortVersion = "37";
       }
     }
   } else if (pythonCommand == "python3.7") {
-    pythonCommand = findWorkingPath("3.7", env, true);
+    pythonCommand = findWorkingPythonPath("3.7", env, true);
     shortVersion = "37";
   } else if (pythonCommand == "python3.8") {
-    pythonCommand = findWorkingPath("3.8", env, true);
+    pythonCommand = findWorkingPythonPath("3.8", env, true);
     shortVersion = "38";
   } else if (pythonCommand == "python3.9") {
-    pythonCommand = findWorkingPath("3.9", env, true);
+    pythonCommand = findWorkingPythonPath("3.9", env, true);
     shortVersion = "39";
   } else {
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
@@ -160,7 +160,8 @@ const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCo
   return shortVersion;
 }
 
-QString WbLanguageTools::findWorkingPath(const QString &pythonVersion, QProcessEnvironment &env, bool log) {
+#ifdef __APPLE__
+QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QProcessEnvironment &env, bool log) {
   QString shortVersion;
 
   // look for python from python.org
@@ -181,6 +182,7 @@ QString WbLanguageTools::findWorkingPath(const QString &pythonVersion, QProcessE
 
   return pythonCommand;
 }
+#endif
 
 const QStringList WbLanguageTools::pythonArguments() {
   return QStringList("-u");
