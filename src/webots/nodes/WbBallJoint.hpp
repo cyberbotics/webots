@@ -72,6 +72,7 @@ protected:
   WbVector3 anchor() const override;  // defaults to the center of the Solid parent, i.e. (0, 0, 0) in relative coordinates
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateOdePositionOffset() override;
+  void updatePosition(double position);
   void updatePositions(double position, double position2, double position3);
   void writeExport(WbVrmlWriter &writer) const override;
 
