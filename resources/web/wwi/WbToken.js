@@ -1,3 +1,5 @@
+import {FIELD_TYPES} from './WbFieldModel.js';
+
 export default class WbToken {
   constructor(word, line, column) {
     this._word = word;
@@ -75,6 +77,45 @@ export default class WbToken {
       throw new Error('Expected boolean KEYWORD type token but is not.');
 
     return this._word === 'TRUE';
+  };
+
+  fieldTypeFromVrml() {
+    if (this._word === 'MFBool')
+      return FIELD_TYPES.MF_BOOL;
+    else if (this._word === 'SFBool')
+      return FIELD_TYPES.SF_BOOL;
+    else if (this._word === 'MFColor')
+      return FIELD_TYPES.MF_COLOR;
+    else if (this._word === 'SFColor')
+      return FIELD_TYPES.SF_COLOR;
+    else if (this._word === 'MFFloat')
+      return FIELD_TYPES.MF_FLOAT;
+    else if (this._word === 'SFFloat')
+      return FIELD_TYPES.SF_FLOAT;
+    else if (this._word === 'MFInt32')
+      return FIELD_TYPES.MF_INT32;
+    else if (this._word === 'SFInt32')
+      return FIELD_TYPES.SF_INT32;
+    else if (this._word === 'MFNode')
+      return FIELD_TYPES.MF_NODE;
+    else if (this._word === 'SFNode')
+      return FIELD_TYPES.SF_NODE;
+    else if (this._word === 'MFRotation')
+      return FIELD_TYPES.MF_ROTATION;
+    else if (this._word === 'SFRotation')
+      return FIELD_TYPES.SF_ROTATION;
+    else if (this._word === 'MFString')
+      return FIELD_TYPES.MF_STRING;
+    else if (this._word === 'SFString')
+      return FIELD_TYPES.SF_STRING;
+    else if (this._word === 'MFVec2f')
+      return FIELD_TYPES.MF_VECT2F;
+    else if (this._word === 'SFVec2f')
+      return FIELD_TYPES.SF_VECT2F;
+    else if (this._word === 'MFVec3f')
+      return FIELD_TYPES.MF_VECT3F;
+    else if (this._word === 'SFVec3f')
+      return FIELD_TYPES.SF_VECT3F;
   };
 
   _isKeywordType(word) {

@@ -1,6 +1,12 @@
 #VRML_SIM R2021b utf8
 
 PROTO ProtoBox [
+  field SFVec3f size 2 2 2
+  field SFBool  isChecked TRUE
+  field SFVec2f old_size 5 5
+  field SFColor color 1 1 0
+  field SFRotation rotation  0 1 0 1.57
+  field SFVec3f translation 1 1 1
 ]
 {
   Shape {

@@ -69,17 +69,19 @@ class ProtoDesigner {
 
   loadScene(protoContent) {
     console.log('loading scene');
+    const parser = new ProtoParser();
 
     const indexBeginHeader = protoContent.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g);
     const indexBeginBody = protoContent.search(/(?<=\]\s*\n*\r*)({)/g);
-
-    const protoHeader = protoContent.substring(indexBeginHeader, indexBeginBody - 1);
-    this._protoParameters.showParameters(protoHeader);
+    const protoHeader = protoContent.substring(indexBeginHeader, indexBeginBody);
+    console.log('Header: \n', protoHeader);
+    const protoModel = parser.extractParameters(protoHeader);
+    console.log('ProtoModel: \n', protoModel);
+    this._protoParameters.showParameters(protoModel);
 
     const protoBody = protoContent.substring(indexBeginBody);
 
     // create x3d out of tokens
-    const parser = new ProtoParser();
     const x3d = parser.encodeProtoBody(protoBody);
     // const x3d = parser.encodeProtoManual(protoContent);
 

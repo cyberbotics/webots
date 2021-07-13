@@ -28,9 +28,11 @@ import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTransform from './nodes/WbTransform.js';
+import WbBool from './nodes/utils/WbBool.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
+import WbColor from './nodes/utils/WbColor.js';
 import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import {getAnId} from './nodes/utils/utils.js';
@@ -158,6 +160,67 @@ export default class ProtoParser {
       nodeElement.setAttribute(fieldName, value);
     }
   };
+
+  extractParameters(protoHeader) {
+    this._headerTokenizer = new WbTokenizer(protoHeader);
+    this._headerTokenizer.tokenize();
+    const tokens = this._headerTokenizer.tokens();
+    console.log('Header: \n', tokens);
+
+    let protoModel = {protoName: undefined, parameters: []};
+
+    this._headerTokenizer.skipToken('PROTO');
+    protoModel.protoName = this._headerTokenizer.nextWord();
+
+    while (!this._headerTokenizer.peekToken().isEof()) {
+      const lastToken = this._headerTokenizer.nextToken();
+      const token = this._headerTokenizer.peekToken();
+
+      if (token.isIdentifier() && lastToken.isKeyword()) {
+        let parameter = {};
+        parameter.name = token.word();
+        console.log('parameter name: ' + parameter.name);
+        parameter.type = lastToken.fieldTypeFromVrml();
+        console.log('parameter type: ' + parameter.type);
+        // consume current token (which is the parameter name)
+        this._headerTokenizer.nextToken();
+
+        parameter.value = this.parseParameterValue(parameter.type);
+        protoModel.parameters.push(parameter);
+      }
+    }
+
+    return protoModel;
+  };
+
+  parseParameterValue(parameterType) {
+    if (parameterType === FIELD_TYPES.SF_BOOL)
+      return new WbBool(this._headerTokenizer.nextToken().toBool());
+    else if (parameterType === FIELD_TYPES.SF_VECT2F) {
+      const x = this._headerTokenizer.nextToken().toFloat();
+      const y = this._headerTokenizer.nextToken().toFloat();
+      return new WbVector2(x, y);
+    } else if (parameterType === FIELD_TYPES.SF_VECT3F) {
+      const x = this._headerTokenizer.nextToken().toFloat();
+      const y = this._headerTokenizer.nextToken().toFloat();
+      const z = this._headerTokenizer.nextToken().toFloat();
+      return new WbVector3(x, y, z);
+    } else if (parameterType === FIELD_TYPES.SF_COLOR) {
+      const r = this._headerTokenizer.nextToken().toFloat();
+      const g = this._headerTokenizer.nextToken().toFloat();
+      const b = this._headerTokenizer.nextToken().toFloat();
+      return new WbColor(r, g, b);
+    } else if (parameterType === FIELD_TYPES.SF_ROTATION) {
+      const x = this._headerTokenizer.nextToken().toFloat();
+      const y = this._headerTokenizer.nextToken().toFloat();
+      const z = this._headerTokenizer.nextToken().toFloat();
+      const w = this._headerTokenizer.nextToken().toFloat();
+      return new WbVector4(x, y, z, w);
+    } else if (parameterType === FIELD_TYPES.SF_NODE)
+      console.error('TODO: implement SFNode in parseParameterValue.');
+    else
+      throw new Error('Unknown ParameterType \'' + parameterType + '\' in parseParameterValue.');
+  }
 
   encodeProtoManual(rawProto) {
     // create xml

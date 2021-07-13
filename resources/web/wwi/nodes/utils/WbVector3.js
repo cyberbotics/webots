@@ -1,5 +1,8 @@
 export default class WbVector3 {
   constructor(x = 0.0, y = 0.0, z = 0.0) {
+    if (typeof x !== 'number' || typeof y !== 'number' || typeof z !== 'number')
+      throw new Error('Expected Numbers in WbVector3 constructor');
+
     this.x = x;
     this.y = y;
     this.z = z;
