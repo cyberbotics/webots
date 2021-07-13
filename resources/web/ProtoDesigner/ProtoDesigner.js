@@ -74,11 +74,13 @@ class ProtoDesigner {
     const indexBeginBody = protoContent.search(/(?<=\]\s*\n*\r*)({)/g);
 
     const protoHeader = protoContent.substring(indexBeginHeader, indexBeginBody - 1);
+    this._protoParameters.showParameters(protoHeader);
+
     const protoBody = protoContent.substring(indexBeginBody);
 
     // create x3d out of tokens
     const parser = new ProtoParser();
-    const x3d = parser.encodeProto(protoBody);
+    const x3d = parser.encodeProtoBody(protoBody);
     // const x3d = parser.encodeProtoManual(protoContent);
 
     const view = new webots.View(document.getElementById('view3d'));

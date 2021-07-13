@@ -61,3 +61,13 @@
 .proto-designer-fas-selected {
   color: #6E6;
 }
+
+input[type=number] {
+  height: 100%;
+  width: 60px;
+}
+
+input[type=text] {
+  height: 100%;
+  width: auto;
+}

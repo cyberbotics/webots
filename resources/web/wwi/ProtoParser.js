@@ -79,7 +79,7 @@ export default class ProtoParser {
     this._xml.appendChild(this._scene);
   };
 
-  encodeProto(rawProto) {
+  encodeProtoBody(rawProto) {
     // tokenize proto
     this._tokenizer = new WbTokenizer(rawProto);
     this._tokenizer.tokenize();
