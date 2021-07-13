@@ -63,7 +63,7 @@ const QStringList WbLanguageTools::javaArguments() {
 
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
-  const QString advice =
+  QString advice =
     QObject::tr("Webots requires Python version 3.9, 3.8"
 #ifdef __linux__
                 ", 3.7 or 3.6"  // we also support 3.6 on ubuntu 18.04
@@ -96,32 +96,36 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     pythonCommand = "!";
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
-#elseif __APPLE__
+#elif __APPLE__
+  advice = "To fix the problem, you could try to insert the full path of your python distribution in Webots->preferences->python command.\n";
   if (pythonCommand == "python" || pythonCommand == "python3") {
-    pythonCommand = findRightPath("3.8", false);
+    pythonCommand = findRightPath("3.8", env, false);
     shortVersion = "38";
-    if (pythonVersion == "!"){
-      pythonCommand = findRightPath("3.9", false);
+    if (pythonCommand == "!"){
+      pythonCommand = findRightPath("3.9", env, false);
       shortVersion = "39";
-      if (pythonVersion == "!"){
-        pythonCommand = findRightPath("3.7", true);
+      if (pythonCommand == "!"){
+        pythonCommand = findRightPath("3.7", env, true);
         shortVersion = "37";
       }
     }
   } else if (pythonCommand == "python3.7") {
-    pythonCommand = findRightPath("3.7", true);
+    pythonCommand = findRightPath("3.7", env, true);
     shortVersion = "37";
   } else if (pythonCommand == "python3.8") {
-    pythonCommand = findRightPath("3.8", true);
+    pythonCommand = findRightPath("3.8", env, true);
     shortVersion = "38";
   } else if (pythonCommand == "python3.9") {
-    pythonCommand = findRightPath("3.9", true);
+    pythonCommand = findRightPath("3.9", env, true);
     shortVersion = "39";
   } else {
     shortVersion = pythonCommandFound(pythonCommand, env, true);
     if (shortVersion.isEmpty())
       pythonCommand = "!";
   }
+
+  if (pythonCommand == "!")
+    WbLog::warning(QObject::tr("Python was not found.\n") + advice);
 #else // Linux
     shortVersion = pythonCommandFound(pythonCommand, env, true);
     if (shortVersion.isEmpty())
