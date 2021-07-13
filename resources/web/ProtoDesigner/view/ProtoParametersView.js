@@ -30,16 +30,21 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
       return;
     }
 
-    let form = document.createElement('form');
-    for (let i = 0; i < parameters.length; ++i) {
-      let fieldLabel = document.createTextNode(parameters[i].name);
-      let text = document.createElement('p');
-      text.style.display = 'inline';
-      text.appendChild(fieldLabel);
-      form.appendChild(text);
-    }
+    let ol = document.createElement('ol');
+    ol.setAttribute('class', 'designer-list');
+    this._element.appendChild(ol);
 
-    this._element.appendChild(form);
+    parameters.forEach((item) => {
+      let li = document.createElement('li');
+      li.innerText = item.name;
+      li.setAttribute('class', 'item li-border');
+      li.setAttribute('onclick', 'itemSelector($(item.id))');
+      ol.appendChild(li);
+    });
+  };
+
+  itemSelector(id) {
+    console.log(id);
   };
 
   _populateDivRaw(parameters) {

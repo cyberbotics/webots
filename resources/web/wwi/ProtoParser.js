@@ -171,6 +171,7 @@ export default class ProtoParser {
 
     this._headerTokenizer.skipToken('PROTO');
     protoModel.protoName = this._headerTokenizer.nextWord();
+    let id = 0;
 
     while (!this._headerTokenizer.peekToken().isEof()) {
       const lastToken = this._headerTokenizer.nextToken();
@@ -178,6 +179,7 @@ export default class ProtoParser {
 
       if (token.isIdentifier() && lastToken.isKeyword()) {
         let parameter = {};
+        parameter.id = id++;
         parameter.name = token.word();
         console.log('parameter name: ' + parameter.name);
         parameter.type = lastToken.fieldTypeFromVrml();
