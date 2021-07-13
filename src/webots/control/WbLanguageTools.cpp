@@ -64,6 +64,10 @@ const QStringList WbLanguageTools::javaArguments() {
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
   QString advice =
+#ifdef __APPLE__
+    "To fix the problem, you could try to insert the full path of your python distribution in "
+    "Webots->preferences->python command.\n";
+#else
     QObject::tr("Webots requires Python version 3.9, 3.8"
 #ifdef __linux__
                 ", 3.7 or 3.6"  // we also support 3.6 on ubuntu 18.04
@@ -76,6 +80,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
                 "2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.\n"
                 "3. Fix your PATH environment variable to use the required Python 64 bit version (if available).\n"
                 "4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.\n");
+#endif
 #ifdef _WIN32
   if (!command.endsWith(".exe", Qt::CaseInsensitive))
     pythonCommand += ".exe";
@@ -97,9 +102,6 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
 #elif __APPLE__
-  // cppcheck-suppress redundantInitialization
-  advice = "To fix the problem, you could try to insert the full path of your python distribution in "
-           "Webots->preferences->python command.\n";
   if (pythonCommand == "python" || pythonCommand == "python3") {
     pythonCommand = findWorkingPath("3.8", env, false);
     shortVersion = "38";
@@ -129,7 +131,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
 #else  // Linux
-  shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+    shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
     pythonCommand = "!";
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
