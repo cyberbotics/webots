@@ -1,0 +1,63 @@
+.proto-designer {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  grid-template-areas:
+    'header header'
+    'sidebar main';
+  grid-template-columns: 2fr 8fr;
+  grid-template-rows: 30px auto;
+  grid-gap: 3px;
+  background-color: #333;
+  overflow: hidden;
+  font-family: 'Raleway', sans-serif;
+}
+
+.proto-designer > div {
+  color: white;
+  overflow: hidden;
+}
+
+.main {
+  grid-area: main;
+}
+
+.sidebar {
+  grid-area: sidebar;
+}
+
+.header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+}
+
+.designer-group {
+  background-color: #4c4c4c;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
+.designer-group-title {
+  color: #a5a5a5;
+  font-size: medium;
+  margin: 0;
+}
+
+.proto-designer-fas, .menu-item {
+  margin: 5px;
+}
+
+.proto-designer-fas:hover, .menu-item:hover {
+  color: #68E
+}
+
+.proto-designer-fas-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.proto-designer-fas-selected {
+  color: #6E6;
+}

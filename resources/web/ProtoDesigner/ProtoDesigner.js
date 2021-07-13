@@ -1,6 +1,10 @@
+'use strict';
+
 import {webots} from '../wwi/webots.js';
 import ProtoParser from '../wwi/ProtoParser.js';
 import WbTokenizer from '../wwi/WbTokenizer.js';
+
+import ProtoParametersView from './view/ProtoParametersView.js'; // TODO: replace by makefile?
 
 class ProtoDesigner {
   constructor() {
@@ -18,6 +22,15 @@ class ProtoDesigner {
         return prefix + path;
       }`;
     document.head.appendChild(script);
+
+    this._protoParametersElement = document.getElementById('proto-parameters');
+    if (typeof this._protoParametersElement === 'undefined') {
+      console.error('The Proto Designer cannot find the proto-parameters component.');
+      return;
+    }
+
+    this._protoParameters = new ProtoParametersView(this._protoParametersElement);
+
     this._init();
   }
 
@@ -56,7 +69,7 @@ class ProtoDesigner {
 
   loadScene(protoContent) {
     console.log('loading scene');
-    
+
     const indexBeginHeader = protoContent.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g);
     const indexBeginBody = protoContent.search(/(?<=\]\s*\n*\r*)({)/g);
 

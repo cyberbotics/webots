@@ -4,16 +4,29 @@
 <head>
   <meta charset="utf-8">
   <title>PROTO Designer</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="/resources/web/ProtoDesigner/css/style.css">
   <style>
-    html, body {
-      padding:0;
-      height: 100%;
+    body {
+      margin: 0px;
+      padding: 0px;
     }
   </style>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <script type="module" src="ProtoDesigner.js" defer></script>
 </head>
-  <body>
-    <div id="view3d" style="height:100%; width:100%; display:block;"></div>
-  </body>
+
+<body>
+  <div class="proto-designer" id="proto-designer">
+    <div class="header">
+      <span>PROTO editor</span>
+      <i class="proto-designer-fas fas fa-robot"></i>
+      <span class="menu-item">File</span>
+      <span class="menu-item">Help</span>
+    </div>
+    <div class="sidebar designer-group"><p class="designer-group-title">Proto Header</p><div id="proto-parameters"></div></div>
+    <div class="main" id="view3d"></div>
+  </div>
+</body>
+
 </html>
