@@ -117,7 +117,7 @@ Released on July, 5th, 2021.
       - Fixed incorrect position retrieval immediately after resetting nested [Transform](transform.md) nodes ([#3051](https://github.com/cyberbotics/webots/issues/3051)).
       - Fixed reset of [Charger](charger.md) energy when the recharging [Robot](robot.md) battery is full ([#2879](https://github.com/cyberbotics/webots/pull/2879)).
       - Fixed [Camera](camera.md) image update in controllers after simulation reset ([#2725](https://github.com/cyberbotics/webots/pull/2725)).
-      - Fixed reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)).
+      - Fixed reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)) and ([#3394](https://github.com/cyberbotics/webots/pull/3394)).
       - Fixed step button status if simulation is reset from UI when the step button is disabled ([#2741](https://github.com/cyberbotics/webots/pull/2741)).
     - Fixed bug in the C++, Python and Java API where the [Robot.getDevice()](robot.md#wb_robot_get_device) methods were returning different objects when passing the same string argument for the device name ([#2957](https://github.com/cyberbotics/webots/pull/2957)).
     - Fixed the `robot_get_urdf` function to include leaf nodes in URDF ([#2803](https://github.com/cyberbotics/webots/pull/2803)).
