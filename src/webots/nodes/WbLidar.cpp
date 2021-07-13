@@ -14,6 +14,10 @@
 
 #include "WbLidar.hpp"
 
+#include <unistd.h>
+#include <chrono>
+#include <iostream>
+#include "../../controller/c/messages.h"
 #include "WbBoundingSphere.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbPerspective.hpp"
@@ -24,8 +28,6 @@
 #include "WbWrenCamera.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
-
-#include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
 
@@ -38,6 +40,7 @@
 #include <wren/transform.h>
 
 #define POINT_CLOUD_RAY_REPRESENTATION_THRESHOLD 2500
+using namespace std;
 
 void WbLidar::init() {
   mCharType = 'l';
@@ -277,6 +280,8 @@ void WbLidar::handleMessage(QDataStream &stream) {
 }
 
 void WbLidar::copyAllLayersToSharedMemory() {
+  static int counter = 0;
+  static int sum = 0;
   if (!hasBeenSetup() || !mImageShm)
     return;
 
@@ -308,6 +313,7 @@ void WbLidar::copyAllLayersToSharedMemory() {
     widthOffset = resolution * (tmpAngle / (2.0 * M_PI));
     widthOffset -= w / 2;
   }
+  auto start = chrono::steady_clock::now();
 
   for (int i = 0; i < actualNumberOfLayers(); ++i) {
     if ((maxWidth + widthOffset) <= resolution && (minWidth + widthOffset) >= 0)
@@ -327,6 +333,11 @@ void WbLidar::copyAllLayersToSharedMemory() {
       }
     }
   }
+  auto end = chrono::steady_clock::now();
+  counter++;
+  sum += chrono::duration_cast<chrono::microseconds>(end - start).count();
+  cout << "Elapsed time in microseconds: " << chrono::duration_cast<chrono::microseconds>(end - start).count() << " µs"
+       << "total" << sum / counter << "\n";
 
   if (mIsPointCloudEnabled) {
     if (WbWorld::instance()->perspective()->isGlobalOptionalRenderingEnabled("LidarPointClouds"))
