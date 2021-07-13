@@ -256,8 +256,7 @@ void WbBallJoint::updatePositions(double position, double position2, double posi
 }
 
 void WbBallJoint::updatePosition(double position) {
-  // updatePosition method is defined only for the base classes, BallJoint uses updatePositions instead
-  assert(false);
+  updatePositions(mPosition, mPosition2, mPosition3);
 }
 
 void WbBallJoint::updateParameters() {

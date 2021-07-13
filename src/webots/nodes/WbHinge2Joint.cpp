@@ -557,8 +557,7 @@ void WbHinge2Joint::updatePositions(double position, double position2) {
 }
 
 void WbHinge2Joint::updatePosition(double position) {
-  // updatePosition method is defined only for the base classes, Hinge2Joint uses updatePositions instead
-  assert(false);
+  updatePositions(mPosition, mPosition2);
 }
 
 void WbHinge2Joint::updateMinAndMaxStop(double min, double max) {
