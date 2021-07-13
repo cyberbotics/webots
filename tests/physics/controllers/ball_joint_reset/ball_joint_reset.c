@@ -7,7 +7,7 @@
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
-  int time_step = wb_robot_get_basic_time_step();
+  const int time_step = wb_robot_get_basic_time_step();
 
   WbNodeRef end_point_node = wb_supervisor_node_get_from_def("SOLID_ENDPOINT");
   WbFieldRef translation_field = wb_supervisor_node_get_field(end_point_node, "translation");
