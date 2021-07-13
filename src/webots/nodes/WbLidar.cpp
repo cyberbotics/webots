@@ -45,7 +45,6 @@ void WbLidar::init() {
   mCurrentRotatingAngle = 0;
   mPreviousRotatingAngle = 0;
   mCurrentTiltAngle = 0;
-  mTemporaryImage = NULL;
 
   mTiltAngle = findSFDouble("tiltAngle");
   mHorizontalResolution = findSFInt("horizontalResolution");
@@ -92,7 +91,6 @@ WbLidar::WbLidar(const WbNode &other) : WbAbstractCamera(other) {
 }
 
 WbLidar::~WbLidar() {
-  delete mTemporaryImage;
   if (areWrenObjectsInitialized())
     deleteWren();
 }
@@ -152,8 +150,6 @@ void WbLidar::reset(const QString &id) {
   mIsPointCloudEnabled = false;
   mCurrentRotatingAngle = 0;
   mPreviousRotatingAngle = 0;
-  if (mTemporaryImage)
-    memset(mTemporaryImage, 0, actualHorizontalResolution() * height() * sizeof(float));
   hidePointCloud();
 }
 
@@ -178,7 +174,6 @@ void WbLidar::initializeImageSharedMemory() {
     for (int i = 0; i < size; i++)
       im[i] = 0.0f;
   }
-  mTemporaryImage = new float[actualHorizontalResolution() * height()];
 }
 
 QString WbLidar::pixelInfo(int x, int y) const {
@@ -318,28 +313,17 @@ void WbLidar::copyAllLayersToSharedMemory() {
     if ((maxWidth + widthOffset) <= resolution && (minWidth + widthOffset) >= 0)
       mWrenCamera->copyContentsPartToMemory(data + i * resolution + minWidth + widthOffset,
                                             width() * (int)(i * skip) + minWidth, maxWidth - minWidth);
-    /*memcpy(data + i * resolution + minWidth + widthOffset, mTemporaryImage + width() * (int)(i * skip) + minWidth,
-           sizeof(float) * (maxWidth - minWidth));*/
     else {  // we need two split into two because the current image is 'across' the lidar image (avoid overflow)
       if ((maxWidth + widthOffset) > resolution) {
         mWrenCamera->copyContentsPartToMemory(data + i * resolution + minWidth + widthOffset,
                                               width() * (int)(i * skip) + minWidth, resolution - minWidth - widthOffset);
         mWrenCamera->copyContentsPartToMemory(data + i * resolution, width() * (int)(i * skip) + resolution - widthOffset,
                                               maxWidth + widthOffset - resolution);
-
-        /*memcpy(data + i * resolution + minWidth + widthOffset, mTemporaryImage + width() * (int)(i * skip) + minWidth,
-               sizeof(float) * (resolution - minWidth - widthOffset));
-        memcpy(data + i * resolution, mTemporaryImage + width() * (int)(i * skip) + resolution - widthOffset,
-               sizeof(float) * (maxWidth + widthOffset - resolution));*/
       } else {  // (minWidth + widthOffset) < 0
         mWrenCamera->copyContentsPartToMemory(data + (i + 1) * resolution + minWidth + widthOffset,
                                               width() * (int)(i * skip) + minWidth, abs(minWidth + widthOffset));
         mWrenCamera->copyContentsPartToMemory(data + i * resolution, width() * (int)(i * skip) - widthOffset,
                                               maxWidth + widthOffset);
-        /*memcpy(data + (i + 1) * resolution + minWidth + widthOffset, mTemporaryImage + width() * (int)(i * skip) + minWidth,
-               sizeof(float) * abs(minWidth + widthOffset));
-        memcpy(data + i * resolution, mTemporaryImage + width() * (int)(i * skip) - widthOffset,
-               sizeof(float) * (maxWidth + widthOffset));*/
       }
     }
   }
