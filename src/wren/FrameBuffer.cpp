@@ -191,11 +191,7 @@ namespace wren {
     const int sizeInBytes = params.mPixelSize * size;
     const int srcInBytes = params.mPixelSize * src;
 
-    void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, srcInBytes, sizeInBytes, GL_MAP_READ_BIT);
-    assert(start);
-    memcpy(data, start, sizeInBytes);
-
-    glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
+    glGetBufferSubData(GL_PIXEL_PACK_BUFFER, srcInBytes, sizeInBytes, data);
 
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
   }
