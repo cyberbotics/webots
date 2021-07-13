@@ -189,8 +189,9 @@ namespace wren {
 
     const Texture::GlFormatParams &params = drawBufferFormat(index);
     const int sizeInBytes = params.mPixelSize * size;
+    const int srcInBytes = params.mPixelSize * src;
 
-    void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, src, sizeInBytes, GL_MAP_READ_BIT);
+    void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, srcInBytes, sizeInBytes, GL_MAP_READ_BIT);
     assert(start);
     memcpy(data, start, sizeInBytes);
 
