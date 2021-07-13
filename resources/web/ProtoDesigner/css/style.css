@@ -62,6 +62,11 @@
   color: #6E6;
 }
 
+.proto-name-label {
+  font-family: monospace;
+  font-size: large;
+}
+
 input[type=number] {
   height: 100%;
   width: 60px;

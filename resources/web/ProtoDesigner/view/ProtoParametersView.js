@@ -10,11 +10,36 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
     if (protoModel === null)
       this._cleanupDiv('No loaded PROTO');
     else
-      this._populateDivRaw(protoModel);
+      this._populateDiv(protoModel);
   }
 
-  _populateDiv(parameters) {
+  _populateDiv(protoModel) {
     this._element.innerHTML = '';
+    // add PROTO name label
+    let nameLabel = document.createElement('p');
+    nameLabel.innerHTML = '<span class="proto-name-label">' + protoModel.protoName + '</span>';
+    this._element.appendChild(nameLabel);
+
+    // display parameters
+    const parameters = protoModel.parameters;
+
+    if (parameters.length === 0) {
+      let text = document.createElement('p');
+      text.innerHTML = '<i>No parameters<i>';
+      this._element.appendChild(text);
+      return;
+    }
+
+    let form = document.createElement('form');
+    for (let i = 0; i < parameters.length; ++i) {
+      let fieldLabel = document.createTextNode(parameters[i].name);
+      let text = document.createElement('p');
+      text.style.display = 'inline';
+      text.appendChild(fieldLabel);
+      form.appendChild(text);
+    }
+
+    this._element.appendChild(form);
   };
 
   _populateDivRaw(parameters) {
