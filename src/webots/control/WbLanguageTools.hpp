@@ -35,8 +35,8 @@ public:
 private:
   WbLanguageTools() {}
   ~WbLanguageTools() {}
-  static const QString pythonCommandFound(const QString &pythonCommand, QProcessEnvironment &env, bool log);
-  static QString findRightPath(const QString &pythonVersion, QProcessEnvironment &env, bool log);
+  static const QString checkIfPythonCommandExist(const QString &pythonCommand, QProcessEnvironment &env, bool log);
+  static QString findWorkingPath(const QString &pythonVersion, QProcessEnvironment &env, bool log);
 };
 
 #endif
