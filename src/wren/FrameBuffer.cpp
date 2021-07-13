@@ -162,7 +162,7 @@ namespace wren {
   void FrameBuffer::copyContents(size_t index, void *data, int offset, int size) {
     assert(index < mOutputDrawBuffers.size());
     assert(mOutputDrawBuffers[index].mGlNamePbo);
-    assert(src + size < mWidth * mHeight);
+    assert(offset + size < mWidth * mHeight);
 
     const unsigned int currentPixelPackBuffer = glstate::boundPixelPackBuffer();
     glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
