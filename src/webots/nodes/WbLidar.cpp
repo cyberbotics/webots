@@ -315,9 +315,6 @@ void WbLidar::copyAllLayersToSharedMemory() {
   }
 
   for (int i = 0; i < actualNumberOfLayers(); ++i) {
-    // New way:
-    //  mWrenCamera->copyContentsToMemory(data + i * resolution + minWidth + widthOffset, width() * (int)(i * skip) + minWidth,
-    //  maxWidth - minWidth);
     if ((maxWidth + widthOffset) <= resolution && (minWidth + widthOffset) >= 0)
       mWrenCamera->copyContentsPartToMemory(data + i * resolution + minWidth + widthOffset,
                                             width() * (int)(i * skip) + minWidth, maxWidth - minWidth);
