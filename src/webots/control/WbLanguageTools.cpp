@@ -97,6 +97,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
 #elif __APPLE__
+  // cppcheck-suppress redundantInitialization
   advice = "To fix the problem, you could try to insert the full path of your python distribution in "
            "Webots->preferences->python command.\n";
   if (pythonCommand == "python" || pythonCommand == "python3") {
