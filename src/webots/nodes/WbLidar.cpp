@@ -311,19 +311,19 @@ void WbLidar::copyAllLayersToSharedMemory() {
 
   for (int i = 0; i < actualNumberOfLayers(); ++i) {
     if ((maxWidth + widthOffset) <= resolution && (minWidth + widthOffset) >= 0)
-      mWrenCamera->copyContentsPartToMemory(data + i * resolution + minWidth + widthOffset,
-                                            width() * (int)(i * skip) + minWidth, maxWidth - minWidth);
+      mWrenCamera->copyContentsToMemory(data + i * resolution + minWidth + widthOffset, width() * (int)(i * skip) + minWidth,
+                                        maxWidth - minWidth);
     else {  // we need two split into two because the current image is 'across' the lidar image (avoid overflow)
       if ((maxWidth + widthOffset) > resolution) {
-        mWrenCamera->copyContentsPartToMemory(data + i * resolution + minWidth + widthOffset,
-                                              width() * (int)(i * skip) + minWidth, resolution - minWidth - widthOffset);
-        mWrenCamera->copyContentsPartToMemory(data + i * resolution, width() * (int)(i * skip) + resolution - widthOffset,
-                                              maxWidth + widthOffset - resolution);
+        mWrenCamera->copyContentsToMemory(data + i * resolution + minWidth + widthOffset, width() * (int)(i * skip) + minWidth,
+                                          resolution - minWidth - widthOffset);
+        mWrenCamera->copyContentsToMemory(data + i * resolution, width() * (int)(i * skip) + resolution - widthOffset,
+                                          maxWidth + widthOffset - resolution);
       } else {  // (minWidth + widthOffset) < 0
-        mWrenCamera->copyContentsPartToMemory(data + (i + 1) * resolution + minWidth + widthOffset,
-                                              width() * (int)(i * skip) + minWidth, abs(minWidth + widthOffset));
-        mWrenCamera->copyContentsPartToMemory(data + i * resolution, width() * (int)(i * skip) - widthOffset,
-                                              maxWidth + widthOffset);
+        mWrenCamera->copyContentsToMemory(data + (i + 1) * resolution + minWidth + widthOffset,
+                                          width() * (int)(i * skip) + minWidth, abs(minWidth + widthOffset));
+        mWrenCamera->copyContentsToMemory(data + i * resolution, width() * (int)(i * skip) - widthOffset,
+                                          maxWidth + widthOffset);
       }
     }
   }
