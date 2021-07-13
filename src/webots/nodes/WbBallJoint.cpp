@@ -255,10 +255,6 @@ void WbBallJoint::updatePositions(double position, double position2, double posi
   }
 }
 
-void WbBallJoint::updatePosition(double position) {
-  updatePositions(mPosition, mPosition2, mPosition3);
-}
-
 void WbBallJoint::updateParameters() {
   WbHinge2Joint::updateParameters();
   updateParameters3();

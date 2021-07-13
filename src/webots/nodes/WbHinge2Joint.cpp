@@ -557,7 +557,8 @@ void WbHinge2Joint::updatePositions(double position, double position2) {
 }
 
 void WbHinge2Joint::updatePosition(double position) {
-  updatePositions(mPosition, mPosition2);
+  // updatePosition method is defined only for the base classes, BallJoint and Hinge2Joint use updatePositions instead
+  assert(false);
 }
 
 void WbHinge2Joint::updateMinAndMaxStop(double min, double max) {
