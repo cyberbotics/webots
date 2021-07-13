@@ -28,11 +28,13 @@ import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTransform from './nodes/WbTransform.js';
-import WbBool from './nodes/utils/WbBool.js';
+import WbSFBool from './nodes/utils/WbSFBool.js';
+import WbSFDouble from './nodes/utils/WbSFDouble.js';
+import WbSFInt32 from './nodes/utils/WbSFInt32.js';
+import WbSFColor from './nodes/utils/WbSFColor.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
-import WbColor from './nodes/utils/WbColor.js';
 import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import {getAnId} from './nodes/utils/utils.js';
@@ -142,6 +144,10 @@ export default class ProtoParser {
     let value = '';
     if (fieldType === FIELD_TYPES.SF_BOOL)
       value += this._tokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
+    else if (fieldType === FIELD_TYPES.SF_FLOAT)
+      value += this._tokenizer.nextWord();
+    else if (fieldType === FIELD_TYPES.SF_INT32)
+      value += this._tokenizer.nextWord();
     else if (fieldType === FIELD_TYPES.SF_VECT2F) {
       value += this._tokenizer.nextWord() + ' ';
       value += this._tokenizer.nextWord();
@@ -149,10 +155,19 @@ export default class ProtoParser {
       value += this._tokenizer.nextWord() + ' ';
       value += this._tokenizer.nextWord() + ' ';
       value += this._tokenizer.nextWord();
+    } else if (fieldType === FIELD_TYPES.SF_COLOR) {
+      value += this._tokenizer.nextWord() + ' ';
+      value += this._tokenizer.nextWord() + ' ';
+      value += this._tokenizer.nextWord();
+    } else if (fieldType === FIELD_TYPES.SF_ROTATION) {
+      value += this._tokenizer.nextWord() + ' ';
+      value += this._tokenizer.nextWord() + ' ';
+      value += this._tokenizer.nextWord() + ' ';
+      value += this._tokenizer.nextWord();
     } else if (fieldType === FIELD_TYPES.SF_NODE)
       this.encodeNode(this._tokenizer.nextWord(), nodeElement, nodeName);
     else
-      throw new Error('unknown fieldName ' + fieldName + ' of node ' + nodeName);
+      throw new Error('unknown fieldName \'' + fieldName + '\' of node ' + nodeName + '(fieldType: ' + fieldType + ')');
 
     if (fieldType !== FIELD_TYPES.SF_NODE) {
       // add field attributes
@@ -180,6 +195,7 @@ export default class ProtoParser {
       if (token.isIdentifier() && lastToken.isKeyword()) {
         let parameter = {};
         parameter.id = id++;
+        parameter.nodeRef = undefined; // parent node reference
         parameter.name = token.word();
         console.log('parameter name: ' + parameter.name);
         parameter.type = lastToken.fieldTypeFromVrml();
@@ -197,7 +213,11 @@ export default class ProtoParser {
 
   parseParameterValue(parameterType) {
     if (parameterType === FIELD_TYPES.SF_BOOL)
-      return new WbBool(this._headerTokenizer.nextToken().toBool());
+      return new WbSFBool(this._headerTokenizer.nextToken().toBool());
+    else if (parameterType === FIELD_TYPES.SF_FLOAT)
+      return new WbSFDouble(this._headerTokenizer.nextToken().toFloat());
+    else if (parameterType === FIELD_TYPES.SF_INT32)
+      return new WbSFInt32(this._headerTokenizer.nextToken().toInt());
     else if (parameterType === FIELD_TYPES.SF_VECT2F) {
       const x = this._headerTokenizer.nextToken().toFloat();
       const y = this._headerTokenizer.nextToken().toFloat();
@@ -211,7 +231,7 @@ export default class ProtoParser {
       const r = this._headerTokenizer.nextToken().toFloat();
       const g = this._headerTokenizer.nextToken().toFloat();
       const b = this._headerTokenizer.nextToken().toFloat();
-      return new WbColor(r, g, b);
+      return new WbSFColor(r, g, b);
     } else if (parameterType === FIELD_TYPES.SF_ROTATION) {
       const x = this._headerTokenizer.nextToken().toFloat();
       const y = this._headerTokenizer.nextToken().toFloat();

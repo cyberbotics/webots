@@ -53,6 +53,7 @@ class ProtoDesigner {
     console.log('_init done');
 
     const url = '../wwi/Protos/ProtoBox.proto';
+    // const url = '../wwi/Protos/ProtoSphere.proto';
     this.loadProto(url);
   }
 

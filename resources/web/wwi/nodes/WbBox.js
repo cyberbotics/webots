@@ -1,7 +1,8 @@
 import WbGeometry from './WbGeometry.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbBox extends WbGeometry {
-  constructor(id, size) {
+  constructor(id, size = new WbVector3(1, 1, 1)) {
     super(id);
     this.size = size;
   }
