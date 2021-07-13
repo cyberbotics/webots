@@ -514,12 +514,12 @@ void WbWrenCamera::copyContentsPartToMemory(void *data, int src, int size) {
     return;
 
   if (!mIsCameraActive[CAMERA_ORIENTATION_FRONT]) {
-    memset(data, 0, mWidth * 4);
+    memset(data, 0, size * 4);
     return;
   }
 
   WbWrenOpenGlContext::makeWrenCurrent();
-  wr_frame_buffer_copy_row(mResultFrameBuffer, 1, data, src, size);
+  wr_frame_buffer_copy_contents_part(mResultFrameBuffer, 1, data, src, size);
   WbWrenOpenGlContext::doneWren();
 }
 

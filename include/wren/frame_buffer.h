@@ -30,7 +30,7 @@ void wr_frame_buffer_blit_to_screen(WrFrameBuffer *frame_buffer);
 
 /* The data written to 'data' will be in the format of output texture number 'index' */
 void wr_frame_buffer_copy_contents(WrFrameBuffer *frame_buffer, int index, void *data);
-void wr_frame_buffer_copy_row(WrFrameBuffer *frame_buffer, int index, int line, void *data);
+void wr_frame_buffer_copy_contents_part(WrFrameBuffer *frame_buffer, int index, void *data, int src, int size);
 void wr_frame_buffer_copy_pixel(WrFrameBuffer *frame_buffer, int index, int x, int y, void *data, bool flip_y);
 void wr_frame_buffer_copy_depth_pixel(WrFrameBuffer *frame_buffer, int x, int y, void *data, bool flip_y);
 
