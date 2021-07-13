@@ -141,6 +141,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   return pythonCommand;
 }
 
+#if defined __APPLE__ || defined __linux__
 const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCommand, QProcessEnvironment &env, bool log) {
   QString shortVersion;
   QProcess process;
@@ -159,6 +160,7 @@ const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCo
     shortVersion = QString(version[0][0]) + version[0][2];
   return shortVersion;
 }
+#endif
 
 #ifdef __APPLE__
 QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QProcessEnvironment &env, bool log) {
