@@ -63,7 +63,7 @@ const QStringList WbLanguageTools::javaArguments() {
 
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
-  QString advice =
+  const QString advice =
 #ifdef __APPLE__
     "To fix the problem, you should set the full path of your python command in "
     "Webots->preferences->python command.\n";
