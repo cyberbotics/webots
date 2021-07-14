@@ -4,7 +4,13 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [Cyberbotics] 06/30/2021 06:22:21
+##### Olivier Michel [Cyberbotics] 07/14/2021 12:01:41
+Webots used in Robocup Junior Rescue: [https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/game/final/sd110](https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/game/final/sd110)
+
+
+Yet another Webots-based robot competition: [https://roboticslab-uc3m.github.io/challenge-iros2021/](https://roboticslab-uc3m.github.io/challenge-iros2021/)
+
+
 Here is the Robocup humanoid final game: [https://www.youtube.com/watch?v=\_9q26QjDluw](https://www.youtube.com/watch?v=_9q26QjDluw)
 
 ##### koyal 06/29/2021 06:45:43

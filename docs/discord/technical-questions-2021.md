@@ -2653,7 +2653,7 @@ which is increased by the timestep amount every step
 ##### yash 01/19/2021 12:11:29
 ok, thank you very much
 
-##### Ishi\_Senpai 01/19/2021 14:59:32
+##### IshiSempai 01/19/2021 14:59:32
 hello is there any tutorials on how to creat a snake like robot in webots as i know you have the yamor but i need to make an orrigonal one but its my first time using the software]
 
 ##### gaitt 01/19/2021 15:07:29
@@ -2999,7 +2999,7 @@ And for boundingObject, it is always better to approximate it with a simple geom
 
 Should fix your second issue too
 
-##### babaev1 01/23/2021 08:56:10
+##### Azer Babaev [Starkit, TC] 01/23/2021 08:56:10
 I am sorry for stupid question. Why Y axis stands for vertical direction? This I find in most of sample worlds. Conventionally Z stands for vertical. How much troubles I can encounter if I create world with Z vertical ?
 
 ##### Luftwaffel [Moderator] 01/23/2021 09:30:41
@@ -3014,7 +3014,7 @@ Thank you Simon for your responses. I am using NX for my design and I export my 
 ##### Luftwaffel [Moderator] 01/23/2021 15:36:39
 make sure the mesh is watertight
 
-##### babaev1 01/23/2021 16:15:06
+##### Azer Babaev [Starkit, TC] 01/23/2021 16:15:06
 Thank you for answer. This feature is available in latest version of Webots therefore this  pushed me to update. Still I experience some inconvenience because after changing from nue to enu all protos comes imported in wrong orientation. Saving world  and re-loading world doesn’t help. Wizard doesn’t help to set up viewpoint and background light for enu. They must be changed by hands. May be I made something wrong with consequence of steps.
 
 ##### ptrepag 01/23/2021 19:58:55
@@ -3911,13 +3911,13 @@ There is the pedestrian proto (model) and a controller for it.
 ##### ljmanso 01/31/2021 19:15:06
 Thanks! I will try to find more information about it 👍
 
-##### babaev1 01/31/2021 20:20:54
+##### Azer Babaev [Starkit, TC] 01/31/2021 20:20:54
 Hello, can’t figure out why two solids pass through each other like non-material objects during simulation running. Bounding objects are defined and physics is added for both solids. Could it be due to that dencity is -1, but mass has positive value? Could it be due to that inertia matrix is not added? Could it be due to that center of mass is not added for solids?
 
 ##### paperwave 01/31/2021 22:33:56
-`@babaev1` When you click on the boundingObject node you should see the bounding region surrounding the Solid, if you don't see it, it may be covered from your graphical view.
+`@Azer Babaev [Starkit, TC]` When you click on the boundingObject node you should see the bounding region surrounding the Solid, if you don't see it, it may be covered from your graphical view.
 
-##### babaev1 01/31/2021 22:35:44
+##### Azer Babaev [Starkit, TC] 01/31/2021 22:35:44
 Bounding region covers solid and I can see it
 
 ##### Bitbots\_Jasper [Moderator] 01/31/2021 22:37:09
@@ -3926,13 +3926,13 @@ the density field is used to calculate the mass by using the volume of the bound
 
 are the two solids that should collide part of the same proto?
 
-##### babaev1 01/31/2021 22:38:07
+##### Azer Babaev [Starkit, TC] 01/31/2021 22:38:07
 Solids are designed by myself from primitives
 
 ##### Bitbots\_Jasper [Moderator] 01/31/2021 22:39:22
 what i am trying to ask is if the two solids are defined in the same file?
 
-##### babaev1 01/31/2021 22:39:41
+##### Azer Babaev [Starkit, TC] 01/31/2021 22:39:41
 Yes
 
 ##### Bitbots\_Jasper [Moderator] 01/31/2021 22:40:09
@@ -3941,7 +3941,7 @@ in the robot node, there is a parameter selfCollision, you might need to enable 
 
 [https://cyberbotics.com/doc/reference/robot](https://cyberbotics.com/doc/reference/robot)
 
-##### babaev1 01/31/2021 22:43:06
+##### Azer Babaev [Starkit, TC] 01/31/2021 22:43:06
 It works!
 
 
@@ -3950,7 +3950,7 @@ Thank you!
 ##### Bitbots\_Jasper [Moderator] 01/31/2021 22:43:39
 you're welcome 👍
 
-##### babaev1 01/31/2021 22:44:11
+##### Azer Babaev [Starkit, TC] 01/31/2021 22:44:11
 👏
 
 ##### paperwave 01/31/2021 22:49:14
@@ -4710,7 +4710,7 @@ if they do not come as a tile, you can create your own tile using single wheat p
 ##### John520 02/05/2021 21:18:25
 Thank you `@Bitbots_Jasper` for your detailed instruction! I will give it a try.
 
-##### babaev1 02/05/2021 21:42:20
+##### Azer Babaev [Starkit, TC] 02/05/2021 21:42:20
 Is there anybody familiar with backlashes in joints of robot?  Is there any method to define value of backlash in HinjeJoint or in RotationalMotor?
 
 ##### Bitbots\_Jasper [Moderator] 02/05/2021 22:29:52
@@ -21283,4 +21283,265 @@ So, I was looking to build a python script which would detect whether the goal i
 
 ##### Bitbots\_Jasper [Moderator] 07/07/2021 09:13:00
 You can simply add a "fake" robot node and make it a supervisor controller. Otherwise you could make the ball a robot node with a GPS sensor and let itself publish it a goal was scored. In the second option resetting is not really possible though
+
+##### KC 07/07/2021 15:00:15
+Thanks. I implemented the supervisor controller finally and it works as expected.
+
+##### TheGiant 07/07/2021 15:06:40
+Hello,
+
+Is there any way to "lock" a Joint temporary using controller ? Because sometime two parts can't and shouldn't move on relatively to the other, whatever the force on the Joint. I've succeed to do this with Connectors on each part linked by the Joint, but it's not a very elegant solution, nor very practical, when the number of Joint increase....
+
+##### akshayvnayak 07/07/2021 15:06:42
+Hello everyone,
+
+I am just a beginner in webots and ros. I am trying to integrate SLAM for iRobot Create. I have gone through the [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations#Simulation\_Pionneer\_3\_AT](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations#Simulation_Pionneer_3_AT) 
+
+But I am not able to get how to integrate the same slam package with iRobot Create.
+
+Could anyone please give me the steps to do so?
+
+
+
+Thank you.
+
+
+Do the ros controller automatically publish all the sensor nodes?
+
+##### Bitbots\_Jasper [Moderator] 07/07/2021 15:27:25
+You could try adding a break to the joints [https://cyberbotics.com/doc/reference/brake](https://cyberbotics.com/doc/reference/brake)
+
+##### TheGiant 07/07/2021 15:31:53
+Yes, but afaik, it will only add damping to the Joint (or Could I specify and "infinite" damping ?). And that not enough, because it will not forbid the part to slowly drift away... (at low speed, F = -Bv, which is too small to keep part in place, when speed is very low) Furthermore, It would be nice to help out the physic solver by removing this Joint from the simulation, and basically "stuck" the two part one onto each other.
+
+##### yanan 07/07/2021 21:49:18
+Hi ,  it seems like in the webots document, we can change the appearance of objects, such as road  [https://cyberbotics.com/doc/guide/object-road](https://cyberbotics.com/doc/guide/object-road)  , however, it seems there is no such option to change the road appearance  .  and appearance asphalt dose not work here
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/862450229181808700/unknown.png)
+%end
+
+##### scott.nortman 07/08/2021 03:03:19
+Hi, I think there is a possible bug with the Webots / ROS2 camera interface; please see video:  [https://youtu.be/8u2jWI1ZFpg](https://youtu.be/8u2jWI1ZFpg)
+
+##### mihir 07/08/2021 04:58:11
+I want to transform the pointcloud coordinates to robot frame for pick and place, how do I go about it?
+
+##### Olivier Michel [Cyberbotics] 07/08/2021 07:10:26
+Please open a bug report about it on GitHub: [https://github.com/cyberbotics/webots\_ros2](https://github.com/cyberbotics/webots_ros2)
+
+##### Darko Lukić [Cyberbotics] 07/08/2021 09:11:15
+Try adding the `"always_publish": True` parameter to the `SENSOR_DICT` for both cameras
+
+##### DDaniel [Cyberbotics] 07/08/2021 09:13:29
+Hi, it should be possible to change the road appearance, do you get an error or something when deleting the `Asphalt` node? What version of webots are you using?
+
+##### yanan 07/08/2021 10:02:31
+Hi Daniel, I am using the Webots R2021a. actually, there is no option to change the appearance of the road within the appearance Asphalt
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/862634750769102848/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 07/08/2021 10:08:55
+The asphalt appearance is predefined. If you want a custom appearance, right-click and delete it. In its place you can add a new appearance which you can customise.
+%figure
+![road.png](https://cdn.discordapp.com/attachments/565154703139405824/862636361849110538/road.png)
+%end
+
+##### yanan 07/08/2021 10:25:00
+thanks, Daniel.
+
+##### amruthraghav 07/08/2021 12:26:47
+Hey everyone, I was wondering if anyone had problem to import a config file for a bot,. While importing Config it says "No module named Config". However I did install Config using Pip earlier and its shows that the package has installed. Thanks in advance
+%figure
+![Screenshot_2021-07-08_at_8.25.36_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/862671056052944935/Screenshot_2021-07-08_at_8.25.36_PM.png)
+%end
+
+##### scott.nortman 07/08/2021 13:17:40
+`@Darko Lukić` `@Olivier Michel` Thank you, that fixed the issue!  Where is this documented?
+
+##### Darko Lukić [Cyberbotics] 07/08/2021 14:21:07
+Here:
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/API-Devices#class-webots\_ros2\_coredevicessensor\_devicesensordevicenode-device\_key-wb\_device-paramsnone](https://github.com/cyberbotics/webots_ros2/wiki/API-Devices#class-webots_ros2_coredevicessensor_devicesensordevicenode-device_key-wb_device-paramsnone)
+
+
+
+But it should work without the parameter as well. The cameras are disabled by default (an optimization technique). The cameras are enabled only if the number of subscribers is greater than 0 or the `always_publish` parameter is set to true.
+
+
+
+For some reason, your camera subscribers are not counted in the ROS 2 API. QoS may affected it. Have you tried subscribing to cameras from RViz2 (there you can control QoS)?
+
+##### Troy 07/08/2021 20:13:20
+Hi! Does anybody know hoe to add such terrains?
+
+
+
+%figure
+![terrainSS.jpg](https://cdn.discordapp.com/attachments/565154703139405824/862788495792930846/terrainSS.jpg)
+%end
+
+##### DDaniel [Cyberbotics] 07/08/2021 20:24:10
+`@Troy` Hi, they're just rocks added to an arena. Click the plus button and search for rocks. [https://www.cyberbotics.com/doc/guide/object-rocks](https://www.cyberbotics.com/doc/guide/object-rocks)
+
+
+
+If you don't want to use the arena, something more fitting might be "UnevenTerrain", you can add it the same way.
+
+##### Troy 07/08/2021 20:24:32
+Thank you!
+
+##### scott.nortman 07/08/2021 21:09:26
+`@Darko Lukic` Woukd you know how to prevent these error messages in the terminal: Error: wb\_camera\_recognition\_disable() called on a Camera without Recognition node.
+
+##### Olivier Michel [Cyberbotics] 07/09/2021 07:18:46
+You should simply add a Recognition node ([https://cyberbotics.com/doc/reference/recognition](https://cyberbotics.com/doc/reference/recognition)) to your Camera ([https://cyberbotics.com/doc/reference/camera](https://cyberbotics.com/doc/reference/camera)) device, in the `recognition` field.
+
+##### FunkyPants 07/09/2021 09:55:03
+Hey, I'm pretty new to Webots, in my robot, when I use a Ball Joint with an initial position, when I reset the simulation the endpoints positions and rotations reset to weird values
+
+##### scott.nortman 07/09/2021 12:29:33
+`@Olivier Michel` Thank you, will do.  Even if I do not need to use the built-in recongnition, it is suggested tht I add the node?
+
+##### Affonso 07/09/2021 12:31:19
+Hey, have any API to apply to use ESP32 libraries like esp now?
+
+##### Olivier Michel [Cyberbotics] 07/09/2021 12:32:11
+No, if you don't use it, no need to add the node.
+
+##### DDaniel [Cyberbotics] 07/09/2021 14:08:47
+`@FunkyPants` did you change the initial position through the interface before saving or did you manually set it by editing the world file?
+
+##### FunkyPants 07/09/2021 14:10:46
+I changed it through the interface, right now I found that by setting it to default and changing manually in the controller seems to work
+
+
+However when I try to set the initial position of the hinge nodes on the interface the children nodes end up in weird positions after I reset
+
+
+It only happens when I have more than one hinge set to non zero on the ball joint
+
+##### DDaniel [Cyberbotics] 07/09/2021 14:16:49
+can you provide the world file you're using? (ideally, remove everything except what is causing the issue)
+
+##### FunkyPants 07/09/2021 14:29:37
+
+> **Attachment**: [test.wbt](https://cdn.discordapp.com/attachments/565154703139405824/863064354223816745/test.wbt)
+
+##### DDaniel [Cyberbotics] 07/09/2021 15:03:03
+Yes you're right, I can reproduce it as well. The resetting of the `BallJoint` is buggy. We'll look into it, thank you
+
+##### FunkyPants 07/09/2021 23:47:06
+Thanks for looking into it, any suggestions on what I should do in the meantime or is the controller thing the best thing I could do
+
+##### scott.nortman 07/10/2021 03:45:36
+`@Darko Lukić` As you suggested, I tried viewing the images in Rviz without success.  Do you happen to know the needed QoS settings to allow Rviz to display the images?
+
+
+`@Darko Lukić` Figured it out, I needed to set the frame\_id, all working, thank you
+
+##### Batrox 07/11/2021 08:19:31
+is it possible to use a class from another script in the main controller, like for example i have a leg script with a class called "leg", is it possible to instantiate an object of this leg class in the main controller script even if the leg class is not directly written in the controller scirpt?
+
+##### chinex 07/11/2021 15:22:47
+Good day all, I have been having problems on transferring my webots C API to my real robot (khepera iv) please can I get a guide here!
+
+
+I have tried the webots guide and it's not working
+
+##### Stefania Pedrazzi [Cyberbotics] 07/12/2021 06:15:20
+What is not working from the Webots Guide?
+
+Please do no duplicate questions on multiple the channels.
+
+##### chinex 07/12/2021 08:11:08
+I am sorry for duplicating my questions  as I am seriously in of the solution.
+
+
+
+I followed the guide on how to setup the transfer of my webots simulation to a real robot and wasn't getting it .
+
+My robot is a khepera IV with gumstix overo board (Linux built in) and according to the webots guide, the transfer system for khepera TM has been setup on webots
+
+
+
+%figure
+![20210712_101240.jpg](https://cdn.discordapp.com/attachments/565154703139405824/864056706047410206/20210712_101240.jpg)
+%end
+
+
+Here is the robot node
+%figure
+![20210712_101509.jpg](https://cdn.discordapp.com/attachments/565154703139405824/864057339341570048/20210712_101509.jpg)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 07/12/2021 08:15:33
+The transfer to the real robot was implemented for the Khepera I robot and not Khepera IV. So currently Webots doesn't provide out of the box transfer system for the Khepera IV robot.
+
+
+But you can write your own remote control plugin to communicate with the real robot:
+
+[https://www.cyberbotics.com/doc/guide/controller-plugin#remote-control-plugin](https://www.cyberbotics.com/doc/guide/controller-plugin#remote-control-plugin)
+
+##### aa-234 07/12/2021 12:10:04
+Hi,
+
+I am trying to make a tic-tac-toe game in Webots.
+
+
+
+I have 2 robot one that draw circle and the others draw crosses using the device "pen".
+
+
+
+I need them to recognise when the other robot draws something, but the camera recognition seems to work only on solid.
+
+
+
+Is there a way to make the camera recognise drawings ?
+
+##### Stefania Pedrazzi [Cyberbotics] 07/12/2021 12:13:43
+Hi, not with the Camera Recognition functionality.
+
+In this case you should implement a vision algorithm that analyzes the camera image and extracts the drawings.
+
+##### aa-234 07/12/2021 12:17:26
+Thanks I will try that method
+
+##### iiiiiian 07/12/2021 13:15:10
+Recently, I met a problem. I ran webots 2019b in Ubuntu1604, and it often blocks. I have to close it forced. And I can't reopen it again. When I saw top, I found Xorg uses 100% cpu. When I kill Xorg, I can reopen Xorg. How can I solve this problem.
+
+##### Julius 07/12/2021 17:26:38
+Hi!
+
+I have a robot containing a hingejoint (y-axis) -> solid endpoint -> sliderjoint (y-axis) -> solid endpoint -> sliderjoint (x-axis) -> solid endpoint. Physics is enabled on all solids. Im running into a problem where turning the hingejoint at 2π max velocity that the last solid endpoint (the one on the sliderjoint across the x-axis) shoots out. it seems out it is affected by a centrifugal force which results in this movement. I have observed that increasing the mass or the distance between the endpoint and the hingejoint worsens this problem, which build in to that this is a result of a centrifugal force as well.
+
+Do somebody have an idea what could help in this situation?
+
+##### Luftwaffel [Moderator] 07/12/2021 22:57:35
+`@Julius` to test your hypothesis, you could set the mass of the last solid to 0. Also you can try to increase the maxForce
+
+
+max force of theslider joint that is
+
+
+`@iiiiiian` update to the newest version of webots. You are using a very old version
+
+
+and it sounds like you dont have gpu drivers installed. Xorg doing the graphics on cpu, which is bad
+
+##### scott.nortman 07/13/2021 00:45:14
+Is there a way to programmatically control the position and orientation of a camera sensor?  For example, is there a .setRotation() or a setTranslation() method?
+
+##### Luftwaffel [Moderator] 07/13/2021 00:45:50
+there is, but it can mess with physics
+
+
+what exactly do you want to do?
+
+
+Do you just want to have a "standalone" camera recording a scene, or is it actually attached to a real robot? If it is the latter, I would strongly advice against it
+
+
+But if you just want to move a camera around, add an empty Robot node to the scene and add the camera as its child. Then use the supervisor functionality to move the robot's base coordinates and orientation [https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)
 
