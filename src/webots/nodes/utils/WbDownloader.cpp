@@ -57,6 +57,9 @@ WbDownloader::~WbDownloader() {
     if (gUrlCache.contains(mUrl))
       gUrlCache.remove(mUrl);
   }
+
+  if (!mFinished)
+    gCount--;
 }
 
 QIODevice *WbDownloader::device() const {
