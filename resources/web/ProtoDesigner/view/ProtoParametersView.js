@@ -54,23 +54,24 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
   };
 
   itemSelector(event) {
+    this._editorElement.innerHTML = ''; // remove current
+
     console.log('Clicked item id=' + event.target.id);
     const parameterName = this._protoModel.parameters[event.target.id].name;
     const parameterType = this._protoModel.parameters[event.target.id].type;
     const parameterValue = this._protoModel.parameters[event.target.id].value;
-
-    this._editorElement.innerHTML = '<p><i><center>selection</i> : ' + parameterName + '</center></p>';
-    // TODO: remove current
-
+    // adapt selection
+    this._editorElement.innerHTML = '<p><i>selection</i> : ' + parameterName + '</p>';
     // adapt editor
     this._populateEditor(parameterType, parameterValue);
   };
 
   _populateEditor(parameterType, parameterValue) {
     if (parameterType === FIELD_TYPES.SF_STRING) {
-      let textInput = document.createElement('p');
-      textInput.innerHTML = '<input type="text" value=' + parameterValue + '>';
-      this._editorElement.appendChild(textInput);
+      let inputText = document.createElement('input');
+      inputText.setAttribute('type', 'text');
+      inputText.setAttribute('value', parameterValue);
+      this._editorElement.appendChild(inputText);
     }
   }
 
