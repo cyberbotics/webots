@@ -13,7 +13,7 @@ PROTO ProtoSphere [
     castShadow TRUE
     geometry Sphere {
       radius 1
-      subdivision 12
+      ico TRUE
     }
     appearance PBRAppearance {
       baseColor 1 0 0

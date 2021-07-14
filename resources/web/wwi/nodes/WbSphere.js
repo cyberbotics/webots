@@ -1,7 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 
 export default class WbSphere extends WbGeometry {
-  constructor(id, radius = 0.1, ico = true, subdivision = 1) {
+  constructor(id, radius = 0.1, ico = false, subdivision = 1) {
     super(id);
     this.radius = radius;
     this.ico = ico;
