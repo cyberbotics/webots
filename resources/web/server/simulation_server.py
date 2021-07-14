@@ -308,7 +308,7 @@ class Client:
             message = 'webots:' + protocol + '//' + hostname + separator + str(port)
             client.client_websocket.write_message(message)
             for line in iter(client.webots_process.stdout.readline, b''):
-                if client.webots_process == None:
+                if client.webots_process is None:
                     break
                 line = line.rstrip()
                 if line == 'pause':
