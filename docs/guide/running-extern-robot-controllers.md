@@ -118,6 +118,9 @@ Here is an example of what you should enter in the MATLAB console:
 
 %end
 
+Also, the [runtime.ini](controller-programming.md#environment-variables) file located in the controller folder (if any) is ignored while starting an extern controller.
+Therefore it may be needed to setup manually some extra environment variables which are defined in this file, like for example adding more paths in `PYTHONPATH`.
+
 ## Setup
 
 Different use cases are detailed here from the most simple to the most complex:
