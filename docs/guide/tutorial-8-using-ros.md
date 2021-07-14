@@ -24,6 +24,8 @@ sudo apt-get install python3-rosdep
 sudo rosdep init
 rosdep update
 sudo apt-get install ros-noetic-webots-ros
+sudo apt-get install ros-noetic-webots-ros
+sudo apt-get install ros-noetic-moveit-ros-planning-interface # install webots-ros package dependency
 ```
 
 %tab-end
@@ -39,6 +41,7 @@ sudo apt-get install python-rosdep
 sudo rosdep init
 rosdep update
 sudo apt-get install ros-melodic-webots-ros
+sudo apt-get install ros-melodic-moveit-ros-planning-interface # install webots-ros package dependency
 ```
 
 %tab-end
