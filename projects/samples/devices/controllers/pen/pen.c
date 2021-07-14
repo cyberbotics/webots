@@ -49,7 +49,7 @@ int main() {
 
   wb_robot_init();
 
-  srand(123456789); // arbitrary value that results in a pretty looking trail
+  srand(123456789);  // arbitrary value that results in a pretty looking trail
 
   /* get a handler to the distance sensors. */
   ds0 = wb_robot_get_device("ds0");
