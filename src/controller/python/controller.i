@@ -25,6 +25,19 @@
 %pythonbegin %{
 import sys
 import os
+import platform
+if 'WEBOTS_HOME' in os.environ:
+    new_path = os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller')
+    variable_names = {
+      'Windows': 'PATH',
+      'Linux': 'LD_LIBRARY_PATH',
+      'Darwin': 'DYLD_LIBRARY_PATH'
+    }
+    variable_name = variable_names[platform.system()]
+    if variable_name in os.environ:
+        os.environ[variable_name] += os.pathsep + new_path
+    else:
+        os.environ[variable_name] = new_path
 if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list the folders containing the DLLs
     webots_home = os.environ['WEBOTS_HOME']
     os.add_dll_directory(os.path.join(webots_home, 'lib', 'controller'))
