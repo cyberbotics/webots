@@ -333,11 +333,6 @@ void WbLidar::copyAllLayersToSharedMemory() {
       }
     }
   }
-  auto end = chrono::steady_clock::now();
-  counter++;
-  sum += chrono::duration_cast<chrono::microseconds>(end - start).count();
-  cout << "Elapsed time in microseconds: " << chrono::duration_cast<chrono::microseconds>(end - start).count() << " µs"
-       << "total" << sum / counter << "\n";
 
   if (mIsPointCloudEnabled) {
     if (WbWorld::instance()->perspective()->isGlobalOptionalRenderingEnabled("LidarPointClouds"))
@@ -355,6 +350,12 @@ void WbLidar::copyAllLayersToSharedMemory() {
       }
     }
   }
+
+  auto end = chrono::steady_clock::now();
+  counter++;
+  sum += chrono::duration_cast<chrono::microseconds>(end - start).count();
+  cout << "Elapsed time in microseconds: " << chrono::duration_cast<chrono::microseconds>(end - start).count() << " µs"
+       << "avg" << sum / counter << "(" << counter << ")\n";
 }
 
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
