@@ -65,4 +65,8 @@ export default class WbVector2 {
   sub(vector) {
     return new WbVector2(this.x - vector.x, this.y - vector.y);
   }
+
+  asX3d() {
+    return this.x + ' ' + this.y;
+  };
 }

@@ -1,10 +1,10 @@
 #VRML_SIM R2021b utf8
 
 PROTO ProtoBox [
-  field SFVec3f size 2 2 2
+  field SFVec3f size 2 1 1
   field SFBool  isChecked TRUE
   field SFVec2f old_size 5 5
-  field SFColor color 1 1 0
+  field SFColor color 0 1 0
   field SFRotation rotation  0 1 0 1.57
   field SFVec3f translation 1 1 1
   field SFString url "webots://projects/objects/file.png"
@@ -13,10 +13,10 @@ PROTO ProtoBox [
   Shape {
     castShadow TRUE
     geometry Box {
-      size 1 1 1
+      size IS size
     }
     appearance PBRAppearance {
-      baseColor 1 0 0
+      baseColor IS color
     }
   }
 }

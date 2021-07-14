@@ -5,4 +5,8 @@ export default class WbSFInt32 {
 
     this.value = value;
   }
+
+  asX3d() {
+    return this.value.toString();
+  };
 };

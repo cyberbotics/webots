@@ -8,5 +8,9 @@ export default class WbSFColor {
     this.r = r;
     this.g = g;
     this.b = b;
-  }
+  };
+
+  asX3d() {
+    return this.r + ' ' + this.g + ' ' + this.b;
+  };
 };

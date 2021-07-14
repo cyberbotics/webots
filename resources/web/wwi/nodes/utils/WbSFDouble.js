@@ -4,5 +4,9 @@ export default class WbSFDouble {
       throw new Error('Expected number in WbSFDouble constructor.');
 
     this.value = value;
-  }
+  };
+
+  asX3d() {
+    return this.value.toString();
+  };
 };

@@ -51,6 +51,10 @@ import {WbFieldModel, FIELD_TYPES} from './WbFieldModel.js';
 export default class ProtoParser {
   constructor(prefix = '') {
     this._prefix = '../wwi/images/post_processing/';
+
+    this.protoModel = {protoName: undefined, parameters: []};
+
+    // define default scene
     this._xml = document.implementation.createDocument('', '', null);
     this._scene = this._xml.createElement('Scene');
 
@@ -121,8 +125,18 @@ export default class ProtoParser {
         ctr--;
         continue;
       }
-      // otherwise, assume it's a field
-      this.encodeField(nodeName, word, nodeElement);
+
+      // add minimal attribute, this is needed regardless of what follows
+      nodeElement.setAttribute('id', getAnId());
+
+      if (this._tokenizer.peekWord() === 'IS')
+        this.parseIS(nodeName, word, nodeElement);
+      else if (this._tokenizer.peekWord() === 'DEF')
+        this.parseDEF();
+      else if (this._tokenizer.peekWord() === 'USE')
+        this.parseUSE();
+      else // otherwise, assume it's a field
+        this.encodeField(nodeName, word, nodeElement);
     };
 
     parentElement.appendChild(nodeElement);
@@ -136,8 +150,6 @@ export default class ProtoParser {
     if (typeof nodeElement === 'undefined')
       throw new Error('\'nodeElement\' is not defined but should be.');
 
-    // add minimal attributes
-    nodeElement.setAttribute('id', getAnId());
     console.log('> ' + nodeName + '.setAttribute(id, ...)');
     // TODO: add  box.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/box');
 
@@ -182,10 +194,8 @@ export default class ProtoParser {
     const tokens = this._headerTokenizer.tokens();
     console.log('Header: \n', tokens);
 
-    let protoModel = {protoName: undefined, parameters: []};
-
     this._headerTokenizer.skipToken('PROTO');
-    protoModel.protoName = this._headerTokenizer.nextWord();
+    this.protoModel.protoName = this._headerTokenizer.nextWord();
     let id = 0;
 
     while (!this._headerTokenizer.peekToken().isEof()) {
@@ -204,11 +214,11 @@ export default class ProtoParser {
         this._headerTokenizer.nextToken();
 
         parameter.value = this.parseParameterValue(parameter.type);
-        protoModel.parameters.push(parameter);
+        this.protoModel.parameters.push(parameter);
       }
     }
 
-    return protoModel;
+    return this.protoModel;
   };
 
   parseParameterValue(parameterType) {
@@ -245,6 +255,41 @@ export default class ProtoParser {
     else
       throw new Error('Unknown ParameterType \'' + parameterType + '\' in parseParameterValue.');
   }
+
+  parseIS(nodeName, fieldName, nodeElement) {
+    this._tokenizer.skipToken('IS'); // consume IS token
+    const alias = this._tokenizer.nextToken(); // actual proto parameter
+
+    // ensure it is a proto parameter
+    const ix = this.findProtoParameter(alias.word());
+    if (ix === -1)
+      throw new Error('Cannot parse IS keyword because parameter \'' + alias.word() + '\' is not in the proto header.');
+
+    if (this.protoModel.parameters[ix].type === FIELD_TYPES.SF_NODE)
+      throw new Error('TODO: parseIS for SF_NODES not yet implemented');
+
+    nodeElement.setAttribute(fieldName, this.protoModel.parameters[ix].value.asX3d());
+
+    // make the header parameter point to this field's parent
+    this.protoModel.parameters[ix].nodeRef = nodeElement.getAttribute('id');
+  };
+
+  parseDEF() {
+    console.error('TODO: parseDEF not yet implemented');
+  };
+
+  parseUSE() {
+    console.error('TODO: parseUSE not yet implemented');
+  };
+
+  findProtoParameter(parameterName) {
+    const parameters = this.protoModel.parameters;
+    for (let i = 0; i < parameters.length; ++i) {
+      if (parameters[i].name === parameterName)
+        return i;
+    }
+    return -1;
+  };
 
   encodeProtoManual(rawProto) {
     // create xml
