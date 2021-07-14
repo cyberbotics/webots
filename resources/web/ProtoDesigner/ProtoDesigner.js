@@ -30,7 +30,6 @@ class ProtoDesigner {
     }
 
     this._protoParameters = new ProtoParametersView(this._protoParametersElement);
-
     this._init();
   }
 

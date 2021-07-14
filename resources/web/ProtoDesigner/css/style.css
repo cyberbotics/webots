@@ -29,7 +29,8 @@
 
 .editor {
   grid-area: editor;
-  background-color: #111;
+  background-color: #4c4c4c;
+  padding: 5px;
 }
 
 .header {
@@ -47,15 +48,19 @@
 }
 
 .li-border {
-   border: 2px solid #333;
-   border-radius: 4px;
-   padding:8px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.li {
+  cursor: pointer;
 }
 
 .designer-group {
   background-color: #4c4c4c;
   border-radius: 5px;
-  padding-left: 5px;
+  padding: 5px;
 }
 
 .designer-group-title {
@@ -93,5 +98,6 @@ input[type=number] {
 
 input[type=text] {
   height: 100%;
-  width: auto;
+  width: 100%;
+  padding: 1px;
 }

@@ -7,6 +7,7 @@ PROTO ProtoBox [
   field SFColor color 1 1 0
   field SFRotation rotation  0 1 0 1.57
   field SFVec3f translation 1 1 1
+  field SFString url "webots://projects/objects/file.png"
 ]
 {
   Shape {

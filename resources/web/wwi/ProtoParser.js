@@ -218,6 +218,8 @@ export default class ProtoParser {
       return new WbSFDouble(this._headerTokenizer.nextToken().toFloat());
     else if (parameterType === FIELD_TYPES.SF_INT32)
       return new WbSFInt32(this._headerTokenizer.nextToken().toInt());
+    else if (parameterType === FIELD_TYPES.SF_STRING)
+      return this._headerTokenizer.nextWord();
     else if (parameterType === FIELD_TYPES.SF_VECT2F) {
       const x = this._headerTokenizer.nextToken().toFloat();
       const y = this._headerTokenizer.nextToken().toFloat();
