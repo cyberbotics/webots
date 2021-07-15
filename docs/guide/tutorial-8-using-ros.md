@@ -82,7 +82,7 @@ This launch file will launch Webots (the `WEBOTS_HOME` environment variable shou
 
 If Webots is installed as a snap package you need to append the `${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros` path to the `LD_LIBRARY_PATH` environment variable (`export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros`).
 
-```bash
+```sh
 export WEBOTS_HOME=/snap/webots/x1/usr/share/webots/
 source /opt/ros/noetic/local_setup.bash
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros
