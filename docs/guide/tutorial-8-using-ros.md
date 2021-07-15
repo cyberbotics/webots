@@ -80,7 +80,7 @@ This launch file will launch Webots (the `WEBOTS_HOME` environment variable shou
 <details>
 <summary>If Webots is installed as a snap package the LD\_LIBRARY\_PATH has to be modified</summary>
 
-If Webots is installed as a snap package you need to append the `${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros` path to the `LD_LIBRARY_PATH` environment variable (`export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros`).
+If Webots is installed as a snap package you need to append the `${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros` path to the `LD_LIBRARY_PATH` environment variable:
 
 ```sh
 export WEBOTS_HOME=/snap/webots/x1/usr/share/webots/
