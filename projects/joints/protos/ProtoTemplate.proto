@@ -1,0 +1,21 @@
+#VRML_SIM R2021b utf8
+# template language: javascript
+
+PROTO ProtoTemplate [
+  field SFVec3f size 2 1 1
+  field SFColor color 0 1 1
+]
+{
+  %<
+    let a = fields.size.value;
+  >%
+  Shape {
+    castShadow TRUE
+    geometry Box {
+      size %<= a.x >% 1 1
+    }
+    appearance PBRAppearance {
+      baseColor IS color
+    }
+  }
+}

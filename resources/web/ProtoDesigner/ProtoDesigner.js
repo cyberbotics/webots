@@ -3,6 +3,7 @@
 import {webots} from '../wwi/webots.js';
 import ProtoParser from '../wwi/ProtoParser.js';
 import WbTokenizer from '../wwi/WbTokenizer.js';
+import WbProtoTemplateEngine from '../wwi/WbProtoTemplateEngine.js';
 import WbWorld from '../wwi/nodes/WbWorld.js';
 
 import WrenRenderer from '../wwi/WrenRenderer.js';
@@ -47,9 +48,11 @@ class ProtoDesigner {
 
   _launch() {
     console.log('launching proto');
-    const url = '../wwi/Protos/ProtoTest.proto';
+
+    //const url = '../wwi/Protos/ProtoTest.proto';
     //const url = '../wwi/Protos/ProtoBox.proto';
     // const url = '../wwi/Protos/ProtoSphere.proto';
+    const url = '../wwi/Protos/ProtoTemplate.proto';
     this.loadProto(url);
   }
 
@@ -93,20 +96,48 @@ class ProtoDesigner {
   loadScene(protoContent) {
     console.log('loading scene');
     const parser = new ProtoParser();
+    let rawProto;
+    // check if template
+    if(protoContent.search('# template language: javascript') !== -1) {
+      console.log('PROTO is a template!');
 
-    const indexBeginHeader = protoContent.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g);
-    const indexBeginBody = protoContent.search(/(?<=\]\s*\n*\r*)({)/g);
-    const protoHeader = protoContent.substring(indexBeginHeader, indexBeginBody);
+      const indexBeginHeader = protoContent.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g);
+      const indexBeginBody = protoContent.search(/(?<=\]\s*\n*\r*)({)/g);
+      const protoHeader = protoContent.substring(indexBeginHeader, indexBeginBody);
+      const protoModel = parser.extractParameters(protoHeader);
+
+      const protoBody = protoContent.substring(indexBeginBody);
+
+      // evaluate template
+      const templateEngine = new WbProtoTemplateEngine();
+      const fields = templateEngine.encodeFields(protoModel.parameters);
+      const body = templateEngine.encodeBody(protoBody);
+      console.log(fields);
+      // rawProto = templateEngine.evaluateTemplate('../../javascript/jsTemplate.js', fields, body);
+
+      const template = templateEngine.minimalTemplate();
+      const result = templateEngine.fillTemplate(template, fields, body);
+
+      return;
+
+    } else {
+      console.log('PROTO is NOT a template!');
+      rawProto = protoContent;
+    }
+
+    const indexBeginHeader = rawProto.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g);
+    const indexBeginBody = rawProto.search(/(?<=\]\s*\n*\r*)({)/g);
+    const protoHeader = rawProto.substring(indexBeginHeader, indexBeginBody);
     console.log('Header: \n', protoHeader);
     const protoModel = parser.extractParameters(protoHeader);
     console.log('ProtoModel: \n', protoModel);
     this._protoParameters.showParameters(protoModel);
 
-    const protoBody = protoContent.substring(indexBeginBody);
+    const protoBody = rawProto.substring(indexBeginBody);
 
     // create x3d out of tokens
     const x3d = parser.encodeProtoBody(protoBody);
-    // const x3d = parser.encodeProtoManual(protoContent);
+    // const x3d = parser.encodeProtoManual(rawProto);
 
     const view = new webots.View(document.getElementById('view3d'));
     view.open(x3d, 'x3d', '', true, this.renderer);

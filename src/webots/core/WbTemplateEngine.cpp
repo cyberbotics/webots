@@ -261,7 +261,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   javaScriptTemplate.replace("%context%", tags["context"]);
   javaScriptTemplate.replace("%fields%", tags["fields"]);
   javaScriptTemplate.replace("%body%", javaScriptBody);
-
+  printf("%s\n", javaScriptBody.toUtf8().constData());
   // write to file (note: can't evaluate directly because the evaluator doesn't support importing of modules)
   QFile outputFile("jsTemplateFilled.js");
   if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
