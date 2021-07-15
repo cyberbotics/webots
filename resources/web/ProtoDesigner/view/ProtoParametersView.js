@@ -2,7 +2,7 @@
 
 import WbWorld from '../../wwi/nodes/WbWorld.js';
 
-import {FIELD_TYPES} from '../../wwi/WbFieldModel.js';
+import {FIELD_TYPES} from '../classes/FieldModel.js';
 
 export default class ProtoParametersView { // eslint-disable-line no-unused-vars
   constructor(element, renderer) {

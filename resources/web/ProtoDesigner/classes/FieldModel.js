@@ -19,7 +19,7 @@ export const FIELD_TYPES = {
   SF_VECT3F: 17
 };
 
-export const WbFieldModel = {
+export const FieldModel = {
   'Box': {'size': FIELD_TYPES.SF_VECT3F},
   'Sphere': {'radius': FIELD_TYPES.SF_FLOAT, 'ico': FIELD_TYPES.SF_BOOL, 'subdivision': FIELD_TYPES.SF_INT32},
   'Shape': {'castShadow': FIELD_TYPES.SF_BOOL, 'isPickable': FIELD_TYPES.SF_BOOL, 'geometry': FIELD_TYPES.SF_NODE, 'appearance': FIELD_TYPES.SF_NODE},

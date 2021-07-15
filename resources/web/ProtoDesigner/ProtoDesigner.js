@@ -1,13 +1,10 @@
 'use strict';
 
 import {webots} from '../wwi/webots.js';
-import ProtoParser from '../wwi/ProtoParser.js';
-import WbTokenizer from '../wwi/WbTokenizer.js';
-import WbProtoTemplateEngine from '../wwi/WbProtoTemplateEngine.js';
 import WbWorld from '../wwi/nodes/WbWorld.js';
-
 import WrenRenderer from '../wwi/WrenRenderer.js';
 
+import Proto from './classes/Proto.js';
 import ProtoParametersView from './view/ProtoParametersView.js'; // TODO: replace by makefile?
 
 /*
@@ -22,7 +19,7 @@ renderer.render();
 
 class ProtoDesigner {
   constructor() {
-    console.log('constructor ProtoDesigner');
+    console.log('Constructor ProtoDesigner');
 
     let script = document.createElement('script');
     script.textContent = `var Module = [];
@@ -44,26 +41,7 @@ class ProtoDesigner {
     }
 
     this._init();
-  }
-
-  _launch() {
-    console.log('launching proto');
-
-    //const url = '../wwi/Protos/ProtoTest.proto';
-    //const url = '../wwi/Protos/ProtoBox.proto';
-    // const url = '../wwi/Protos/ProtoSphere.proto';
-    const url = '../wwi/Protos/ProtoTemplate.proto';
-    this.loadProto(url);
-  }
-
-  _load(scriptUrl) {
-    return new Promise(function(resolve, reject) {
-      let script = document.createElement('script');
-      script.onload = resolve;
-      script.src = scriptUrl;
-      document.head.appendChild(script);
-    });
-  }
+  };
 
   async _init() {
     let promises = [];
@@ -74,13 +52,25 @@ class ProtoDesigner {
     await Promise.all(promises);
 
     WbWorld.init();
-
     this.renderer = new WrenRenderer();
-    this._protoParameters = new ProtoParametersView(this._protoParametersElement, this.renderer);
-    console.log('_init done');
 
-    this._launch();
-  }
+    // const url = '../wwi/Protos/ProtoTest.proto';
+    // const url = '../wwi/Protos/ProtoBox.proto';
+    // const url = '../wwi/Protos/ProtoSphere.proto';
+    const url = '../wwi/Protos/ProtoTemplate.proto';
+
+    console.log('Loading PROTO: ' + url);
+    this.loadProto(url);
+  };
+
+  _load(scriptUrl) {
+    return new Promise(function(resolve, reject) {
+      let script = document.createElement('script');
+      script.onload = resolve;
+      script.src = scriptUrl;
+      document.head.appendChild(script);
+    });
+  };
 
   loadProto(url) {
     const xmlhttp = new XMLHttpRequest();
@@ -88,12 +78,41 @@ class ProtoDesigner {
     xmlhttp.overrideMimeType('plain/text');
     xmlhttp.onreadystatechange = async() => {
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-        await this.loadScene(xmlhttp.responseText);
+        await this.generateX3d(xmlhttp.responseText);
     };
     xmlhttp.send();
   };
 
-  loadScene(protoContent) {
+  generateX3d() {
+
+  };
+
+  async _initOld() {
+    /*
+    let promises = [];
+    promises.push(this._load('https://git.io/glm-js.min.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/R2021b/enum.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/R2021b/wrenjs.js'));
+
+    await Promise.all(promises);
+
+    WbWorld.init();
+    this.renderer = new WrenRenderer();
+    this._protoParameters = new ProtoParametersView(this._protoParametersElement, this.renderer);
+    console.log('_init done');
+
+    // const url = '../wwi/Protos/ProtoTest.proto';
+    // const url = '../wwi/Protos/ProtoBox.proto';
+    // const url = '../wwi/Protos/ProtoSphere.proto';
+    const url = '../wwi/Protos/ProtoTemplate.proto';
+
+    console.log('Loading PROTO: ' + url);
+    this.loadProto(url);
+    */
+  };
+
+  loadSceneOld(protoContent) {
+    /*
     console.log('loading scene');
     const parser = new ProtoParser();
     let rawProto;
@@ -141,6 +160,7 @@ class ProtoDesigner {
 
     const view = new webots.View(document.getElementById('view3d'));
     view.open(x3d, 'x3d', '', true, this.renderer);
+    */
   };
 };
 

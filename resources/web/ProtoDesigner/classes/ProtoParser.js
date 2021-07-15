@@ -1,50 +1,15 @@
-import {M_PI_4} from './nodes/utils/constants.js';
-import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
-import WbAppearance from './nodes/WbAppearance.js';
-import WbBackground from './nodes/WbBackground.js';
-import WbBillboard from './nodes/WbBillboard.js';
-import WbBox from './nodes/WbBox.js';
-import WbCapsule from './nodes/WbCapsule.js';
-import WbCone from './nodes/WbCone.js';
-import WbCylinder from './nodes/WbCylinder.js';
-import WbDirectionalLight from './nodes/WbDirectionalLight.js';
-import WbElevationGrid from './nodes/WbElevationGrid.js';
-import WbFog from './nodes/WbFog.js';
-import WbGeometry from './nodes/WbGeometry.js';
-import WbGroup from './nodes/WbGroup.js';
-import WbImage from './nodes/WbImage.js';
-import WbImageTexture from './nodes/WbImageTexture.js';
-import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
-import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
-import WbLight from './nodes/WbLight.js';
-import WbMaterial from './nodes/WbMaterial.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
-import WbPlane from './nodes/WbPlane.js';
-import WbPointLight from './nodes/WbPointLight.js';
-import WbPointSet from './nodes/WbPointSet.js';
-import WbScene from './nodes/WbScene.js';
-import WbShape from './nodes/WbShape.js';
-import WbSphere from './nodes/WbSphere.js';
-import WbSpotLight from './nodes/WbSpotLight.js';
-import WbTextureTransform from './nodes/WbTextureTransform.js';
-import WbTransform from './nodes/WbTransform.js';
-import WbSFBool from './nodes/utils/WbSFBool.js';
-import WbSFDouble from './nodes/utils/WbSFDouble.js';
-import WbSFInt32 from './nodes/utils/WbSFInt32.js';
-import WbSFString from './nodes/utils/WbSFString.js';
-import WbSFColor from './nodes/utils/WbSFColor.js';
-import WbVector2 from './nodes/utils/WbVector2.js';
-import WbVector3 from './nodes/utils/WbVector3.js';
-import WbVector4 from './nodes/utils/WbVector4.js';
-import WbViewpoint from './nodes/WbViewpoint.js';
-import WbWorld from './nodes/WbWorld.js';
-import {getAnId} from './nodes/utils/utils.js';
+import WbSFBool from '../../wwi/nodes/utils/WbSFBool.js';
+import WbSFDouble from '../../wwi/nodes/utils/WbSFDouble.js';
+import WbSFInt32 from '../../wwi/nodes/utils/WbSFInt32.js';
+import WbSFString from '../../wwi/nodes/utils/WbSFString.js';
+import WbSFColor from '../../wwi/nodes/utils/WbSFColor.js';
+import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
+import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
+import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
+import {getAnId} from '../../wwi/nodes/utils/utils.js';
 
-import DefaultUrl from './DefaultUrl.js';
-import loadHdr from './hdr_loader.js';
-
-import WbTokenizer from './WbTokenizer.js';
-import {WbFieldModel, FIELD_TYPES} from './WbFieldModel.js';
+import Tokenizer from './Tokenizer.js';
+import {FieldModel, FIELD_TYPES} from './FieldModel.js';
 
 /*
   This module takes an x3d world, parse it and populate the scene.

@@ -1,6 +1,6 @@
-import {FIELD_TYPES} from './WbFieldModel.js';
+import {FIELD_TYPES} from './FieldModel.js';
 
-export default class WbToken {
+export default class Token {
   constructor(word, line, column) {
     this._word = word;
     this._line = line;
@@ -10,40 +10,40 @@ export default class WbToken {
     const NUMERIC_CHARS = '+-0123456789.';
 
     if (word === 'end of file')
-      this._type = WbToken.TYPES.END;
+      this._type = Token.TYPES.END;
     else if (word.startsWith('"') && word.endsWith('"'))
-      this._type = WbToken.TYPES.STRING;
+      this._type = Token.TYPES.STRING;
     else if (word.startsWith('%<') && word.endsWith('>%'))
-      this._type = WbToken.TYPES.TEMPLATE_STATEMENT;
+      this._type = Token.TYPES.TEMPLATE_STATEMENT;
     else if (NUMERIC_CHARS.includes(w0))
-      this._type = isNaN(Number(word)) ? WbToken.TYPES.INVALID : WbToken.TYPES.NUMERIC;
+      this._type = isNaN(Number(word)) ? Token.TYPES.INVALID : Token.TYPES.NUMERIC;
     else if (this._isKeywordType(word))
-      this._type = WbToken.TYPES.KEYWORD;
+      this._type = Token.TYPES.KEYWORD;
     else if (this._isValidIdentifier(word))
-      this._type = WbToken.TYPES.IDENTIFIER;
+      this._type = Token.TYPES.IDENTIFIER;
     else if (word.length === 1 && isPunctuation(w0))
-      this._type = WbToken.TYPES.PUNCTUATION;
+      this._type = Token.TYPES.PUNCTUATION;
     else
-      this._type = WbToken.TYPES.INVALID;
+      this._type = Token.TYPES.INVALID;
 
-    if (WbToken.UNSUPPORTED_NODE_LIST.includes(word))
+    if (Token.UNSUPPORTED_NODE_LIST.includes(word))
       throw new Error('Node \'' + word + '\' encountered but is unsupported.');
-    this._isNode = WbToken.SUPPORTED_NODE_LIST.includes(word);
+    this._isNode = Token.SUPPORTED_NODE_LIST.includes(word);
   };
 
   word() { return this._word; };
   line() { return this._line; };
   column() { return this._column; };
 
-  isValid() { return this._type !== WbToken.TYPES.INVALID; };
-  isString() { return this._type === WbToken.TYPES.STRING; };
-  isIdentifier() { return this._type === WbToken.TYPES.IDENTIFIER; };
-  isKeyword() { return this._type === WbToken.TYPES.KEYWORD; };
-  isNumeric() { return this._type === WbToken.TYPES.NUMERIC; };
-  isPunctuation() { return this._type === WbToken.TYPES.PUNCTUATION; };
-  isBoolean() { return this._type === WbToken.TYPES.KEYWORD && (this._word === 'TRUE' || this._word === 'FALSE'); };
-  isTemplateStatement() { return this._type === WbToken.TYPES.TEMPLATE_STATEMENT; };
-  isEof() { return this._type === WbToken.TYPES.END; };
+  isValid() { return this._type !== Token.TYPES.INVALID; };
+  isString() { return this._type === Token.TYPES.STRING; };
+  isIdentifier() { return this._type === Token.TYPES.IDENTIFIER; };
+  isKeyword() { return this._type === Token.TYPES.KEYWORD; };
+  isNumeric() { return this._type === Token.TYPES.NUMERIC; };
+  isPunctuation() { return this._type === Token.TYPES.PUNCTUATION; };
+  isBoolean() { return this._type === Token.TYPES.KEYWORD && (this._word === 'TRUE' || this._word === 'FALSE'); };
+  isTemplateStatement() { return this._type === Token.TYPES.TEMPLATE_STATEMENT; };
+  isEof() { return this._type === Token.TYPES.END; };
 
   isNode() { return this._isNode; };
 
@@ -119,7 +119,7 @@ export default class WbToken {
   };
 
   _isKeywordType(word) {
-    return WbToken.KEYWORDS.includes(word);
+    return Token.KEYWORDS.includes(word);
   };
 
   _isValidIdentifierChar(c, pos) {
@@ -154,7 +154,7 @@ function isPunctuation(c) {
   return '{}[]'.includes(c);
 };
 
-WbToken.TYPES = {
+Token.TYPES = {
   INVALID: 0,
   STRING: 1,
   IDENTIFIER: 2,
@@ -165,7 +165,7 @@ WbToken.TYPES = {
   END: 7
 };
 
-WbToken.KEYWORDS = [
+Token.KEYWORDS = [
   'field',
   'vrmlField',
   'hiddenField',
@@ -197,7 +197,7 @@ WbToken.KEYWORDS = [
   'MFVec3f'
 ];
 
-WbToken.SUPPORTED_NODE_LIST = [
+Token.SUPPORTED_NODE_LIST = [
   'Appearance',
   'Background',
   'Billboard',
@@ -231,7 +231,7 @@ WbToken.SUPPORTED_NODE_LIST = [
   'World'
 ];
 
-WbToken.UNSUPPORTED_NODE_LIST = [
+Token.UNSUPPORTED_NODE_LIST = [
   'Robot',
   'Solid',
   'Physics'

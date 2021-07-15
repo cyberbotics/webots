@@ -1,6 +1,6 @@
-import WbToken, {isSpace, isPunctuation} from './WbToken.js';
+import Token, {isSpace, isPunctuation} from './Token.js';
 
-export default class WbTokenizer {
+export default class Tokenizer {
   constructor(stream) {
     this._char = '';
     this._vector = [];
@@ -19,14 +19,14 @@ export default class WbTokenizer {
     try {
       while (1) {
         const word = this.readWord();
-        const token = new WbToken(word, this._tokenLine, this._tokenColumn);
+        const token = new Token(word, this._tokenLine, this._tokenColumn);
         this._vector.push(token);
       }
     } catch (e) {
     }
 
     // add EOF token
-    this._vector.push(new WbToken('end of file', this._tokenLine, this._tokenColumn));
+    this._vector.push(new Token('end of file', this._tokenLine, this._tokenColumn));
   };
 
   tokens() {

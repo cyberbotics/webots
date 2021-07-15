@@ -1,4 +1,4 @@
-export default class WbProtoTemplateEngine {
+export default class ProtoTemplateEngine {
   constructor() {
 
   };
