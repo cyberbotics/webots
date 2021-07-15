@@ -1,4 +1,4 @@
-import {FIELD_TYPES} from './FieldModel.js';
+import {VRML_TYPE} from './FieldModel.js';
 
 export default class Token {
   constructor(word, line, column) {
@@ -81,41 +81,41 @@ export default class Token {
 
   fieldTypeFromVrml() {
     if (this._word === 'MFBool')
-      return FIELD_TYPES.MF_BOOL;
+      return VRML_TYPE.MF_BOOL;
     else if (this._word === 'SFBool')
-      return FIELD_TYPES.SF_BOOL;
+      return VRML_TYPE.SF_BOOL;
     else if (this._word === 'MFColor')
-      return FIELD_TYPES.MF_COLOR;
+      return VRML_TYPE.MF_COLOR;
     else if (this._word === 'SFColor')
-      return FIELD_TYPES.SF_COLOR;
+      return VRML_TYPE.SF_COLOR;
     else if (this._word === 'MFFloat')
-      return FIELD_TYPES.MF_FLOAT;
+      return VRML_TYPE.MF_FLOAT;
     else if (this._word === 'SFFloat')
-      return FIELD_TYPES.SF_FLOAT;
+      return VRML_TYPE.SF_FLOAT;
     else if (this._word === 'MFInt32')
-      return FIELD_TYPES.MF_INT32;
+      return VRML_TYPE.MF_INT32;
     else if (this._word === 'SFInt32')
-      return FIELD_TYPES.SF_INT32;
+      return VRML_TYPE.SF_INT32;
     else if (this._word === 'MFNode')
-      return FIELD_TYPES.MF_NODE;
+      return VRML_TYPE.MF_NODE;
     else if (this._word === 'SFNode')
-      return FIELD_TYPES.SF_NODE;
+      return VRML_TYPE.SF_NODE;
     else if (this._word === 'MFRotation')
-      return FIELD_TYPES.MF_ROTATION;
+      return VRML_TYPE.MF_ROTATION;
     else if (this._word === 'SFRotation')
-      return FIELD_TYPES.SF_ROTATION;
+      return VRML_TYPE.SF_ROTATION;
     else if (this._word === 'MFString')
-      return FIELD_TYPES.MF_STRING;
+      return VRML_TYPE.MF_STRING;
     else if (this._word === 'SFString')
-      return FIELD_TYPES.SF_STRING;
+      return VRML_TYPE.SF_STRING;
     else if (this._word === 'MFVec2f')
-      return FIELD_TYPES.MF_VECT2F;
+      return VRML_TYPE.MF_VECT2F;
     else if (this._word === 'SFVec2f')
-      return FIELD_TYPES.SF_VECT2F;
+      return VRML_TYPE.SF_VECT2F;
     else if (this._word === 'MFVec3f')
-      return FIELD_TYPES.MF_VECT3F;
+      return VRML_TYPE.MF_VECT3F;
     else if (this._word === 'SFVec3f')
-      return FIELD_TYPES.SF_VECT3F;
+      return VRML_TYPE.SF_VECT3F;
   };
 
   _isKeywordType(word) {

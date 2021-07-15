@@ -6,6 +6,10 @@ export default class WbSFBool {
     this.value = value;
   }
 
+  clone() {
+    return new WbSFBool(this.value);
+  };
+
   asX3d() {
     return this.value.toString();
   };

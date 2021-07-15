@@ -9,6 +9,10 @@ export default class WbSFString {
       this.value = value;
   }
 
+  clone() {
+    return new WbSFString(this.value);
+  };
+
   asX3d() {
     return this.value;
   };

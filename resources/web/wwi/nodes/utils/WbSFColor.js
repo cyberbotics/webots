@@ -10,6 +10,10 @@ export default class WbSFColor {
     this.b = b;
   };
 
+  clone() {
+    return new WbSFColor(this.r, this.g, this.b);
+  }
+
   asX3d() {
     return this.r + ' ' + this.g + ' ' + this.b;
   };

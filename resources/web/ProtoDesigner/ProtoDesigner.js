@@ -54,10 +54,10 @@ class ProtoDesigner {
     WbWorld.init();
     this.renderer = new WrenRenderer();
 
-    // const url = '../wwi/Protos/ProtoTest.proto';
+    const url = '../wwi/Protos/ProtoTest.proto';
     // const url = '../wwi/Protos/ProtoBox.proto';
     // const url = '../wwi/Protos/ProtoSphere.proto';
-    const url = '../wwi/Protos/ProtoTemplate.proto';
+    // const url = '../wwi/Protos/ProtoTemplate.proto';
 
     console.log('Loading PROTO: ' + url);
     this.loadProto(url);
@@ -83,8 +83,8 @@ class ProtoDesigner {
     xmlhttp.send();
   };
 
-  generateX3d() {
-
+  generateX3d(protoText) {
+    this.proto = new Proto(protoText);
   };
 
   async _initOld() {

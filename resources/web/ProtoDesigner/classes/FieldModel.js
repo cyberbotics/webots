@@ -1,4 +1,4 @@
-export const FIELD_TYPES = {
+export const VRML_TYPE = {
   MF_BOOL: 0,
   SF_BOOL: 1,
   MF_COLOR: 2,
@@ -20,8 +20,8 @@ export const FIELD_TYPES = {
 };
 
 export const FieldModel = {
-  'Box': {'size': FIELD_TYPES.SF_VECT3F},
-  'Sphere': {'radius': FIELD_TYPES.SF_FLOAT, 'ico': FIELD_TYPES.SF_BOOL, 'subdivision': FIELD_TYPES.SF_INT32},
-  'Shape': {'castShadow': FIELD_TYPES.SF_BOOL, 'isPickable': FIELD_TYPES.SF_BOOL, 'geometry': FIELD_TYPES.SF_NODE, 'appearance': FIELD_TYPES.SF_NODE},
-  'PBRAppearance': {'baseColor': FIELD_TYPES.SF_VECT3F}
+  'Box': {'size': VRML_TYPE.SF_VECT3F},
+  'Sphere': {'radius': VRML_TYPE.SF_FLOAT, 'ico': VRML_TYPE.SF_BOOL, 'subdivision': VRML_TYPE.SF_INT32},
+  'Shape': {'castShadow': VRML_TYPE.SF_BOOL, 'isPickable': VRML_TYPE.SF_BOOL, 'geometry': VRML_TYPE.SF_NODE, 'appearance': VRML_TYPE.SF_NODE},
+  'PBRAppearance': {'baseColor': VRML_TYPE.SF_VECT3F}
 };

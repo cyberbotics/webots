@@ -6,6 +6,10 @@ export default class WbSFDouble {
     this.value = value;
   };
 
+  clone() {
+    return new WbSFDouble(this.value);
+  };
+
   asX3d() {
     return this.value.toString();
   };

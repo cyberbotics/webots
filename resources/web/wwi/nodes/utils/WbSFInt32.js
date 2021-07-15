@@ -10,6 +10,10 @@ export default class WbSFInt32 {
     return this.value;
   };
 
+  clone() {
+    return new WbSFInt32(this.value);
+  };
+
   asX3d() {
     return this.value.toString();
   };

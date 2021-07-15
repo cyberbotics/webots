@@ -66,6 +66,10 @@ export default class WbVector2 {
     return new WbVector2(this.x - vector.x, this.y - vector.y);
   }
 
+  clone() {
+    return new WbVector2(this.x, this.y);
+  };
+
   asX3d() {
     return this.x + ' ' + this.y;
   };

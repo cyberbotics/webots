@@ -2,7 +2,7 @@
 
 import WbWorld from '../../wwi/nodes/WbWorld.js';
 
-import {FIELD_TYPES} from '../classes/FieldModel.js';
+import {VRML_TYPE} from '../classes/FieldModel.js';
 
 export default class ProtoParametersView { // eslint-disable-line no-unused-vars
   constructor(element, renderer) {
@@ -73,16 +73,16 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
     let div = document.createElement('div');
     div.style.textAlign = 'center';
 
-    if (parameterType === FIELD_TYPES.SF_BOOL)
+    if (parameterType === VRML_TYPE.SF_BOOL)
       div.appendChild(this._createInput('checkbox', parameterValue.value));
-    else if (parameterType === FIELD_TYPES.SF_STRING) {
+    else if (parameterType === VRML_TYPE.SF_STRING) {
       // TODO: if parameterName is 'texture', add 'select' button
       div.appendChild(this._createInput('text', parameterValue.value));
-    } else if (parameterType === FIELD_TYPES.SF_INT32)
+    } else if (parameterType === VRML_TYPE.SF_INT32)
       div.appendChild(this._createInput('number', '1', parameterValue.value));
-    else if (parameterType === FIELD_TYPES.SF_FLOAT)
+    else if (parameterType === VRML_TYPE.SF_FLOAT)
       div.appendChild(this._createInput('number', '0.1', parameterValue.value));
-    else if (parameterType === FIELD_TYPES.SF_VECT2F) {
+    else if (parameterType === VRML_TYPE.SF_VECT2F) {
       let form = document.createElement('form');
       form.setAttribute('id', 'inputForm');
       form.setAttribute('parameterRef', id.toString());
@@ -112,21 +112,21 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
       div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.y));
       */
-    } else if (parameterType === FIELD_TYPES.SF_VECT3F) {
+    } else if (parameterType === VRML_TYPE.SF_VECT3F) {
       div.appendChild(document.createTextNode('x '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.x));
       div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.y));
       div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0z '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.z));
-    } else if (parameterType === FIELD_TYPES.SF_COLOR) {
+    } else if (parameterType === VRML_TYPE.SF_COLOR) {
       div.appendChild(document.createTextNode('r '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.r));
       div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0g '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.g));
       div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0b '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.b));
-    } else if (parameterType === FIELD_TYPES.SF_ROTATION) {
+    } else if (parameterType === VRML_TYPE.SF_ROTATION) {
       div.appendChild(document.createTextNode('x '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.x));
       div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
