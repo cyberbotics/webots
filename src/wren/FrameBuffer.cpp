@@ -167,14 +167,8 @@ namespace wren {
     glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
 
     const Texture::GlFormatParams &params = drawBufferFormat(index);
-    const int rowSizeInBytes = params.mPixelSize * mWidth;
-    const int totalSizeInBytes = rowSizeInBytes * mHeight;
 
-    void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, GL_MAP_READ_BIT);
-    assert(start);
-    memcpy(data, start, totalSizeInBytes);
-
-    glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
+    glGetBufferSubData(GL_PIXEL_PACK_BUFFER, 0, params.mPixelSize * mWidth * mHeight, data);
 
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
   }
