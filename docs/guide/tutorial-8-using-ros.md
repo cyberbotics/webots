@@ -26,6 +26,12 @@ rosdep update
 sudo apt-get install ros-noetic-webots-ros
 ```
 
+If you installed Webots from the snap, you also need to setup the `LD_LIBARAY_PATH` variable:
+```sh
+export WEBOTS_HOME=/snap/webots/current/usr/share/webots
+export LD_LIBRARY_PATH=${WEBOTS_HOME}/lib/controller:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros
+```
+
 %tab-end
 
 %tab "melodic"
