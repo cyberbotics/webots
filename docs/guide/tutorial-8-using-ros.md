@@ -78,7 +78,7 @@ roslaunch webots_ros e_puck_line.launch
 This launch file will launch Webots (the `WEBOTS_HOME` environment variable should be set) and start the corresponding node.
 
 <details>
-<summary>If Webots is installed as a snap package the LD\_LIBRARY\_PATH has to be modified</summary>
+<summary>Webots snap and ROS Noetic notice</summary>
 
 If Webots is installed as a snap package you need to append the `${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros` path to the `LD_LIBRARY_PATH` environment variable:
 
@@ -87,6 +87,8 @@ export WEBOTS_HOME=/snap/webots/current/usr/share/webots
 source /opt/ros/noetic/local_setup.bash
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros
 ```
+  
+This is specific to the Webots snap package and ROS Noetic.
   
 </details>
 
