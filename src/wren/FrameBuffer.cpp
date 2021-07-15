@@ -24,6 +24,7 @@
 #ifdef __EMSCRIPTEN__
 #include <GL/gl.h>
 #include <GLES3/gl3.h>
+
 #include <emscripten.h>
 #else
 #include <glad/glad.h>
@@ -31,6 +32,12 @@
 
 #include <algorithm>
 #include <numeric>
+
+#include <unistd.h>
+#include <chrono>
+#include <iostream>
+
+using namespace std;
 
 namespace wren {
 
@@ -80,7 +87,9 @@ namespace wren {
       const Texture::GlFormatParams &params = drawBufferFormat(index);
       glGenBuffers(1, &mOutputDrawBuffers[index].mGlNamePbo);
       glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
-      glBufferData(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, GL_STREAM_READ);
+      // glBufferData(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, GL_STREAM_READ);
+      int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+      glBufferStorage(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, flags);
       glstate::releasePixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
       initiateCopyToPbo();
     } else {
@@ -160,21 +169,35 @@ namespace wren {
   }
 
   void FrameBuffer::copyContents(size_t index, void *data) {
-    assert(index < mOutputDrawBuffers.size());
+    static bool isMappingDone = false;
+    const assert(index < mOutputDrawBuffers.size());
     assert(mOutputDrawBuffers[index].mGlNamePbo);
 
     const unsigned int currentPixelPackBuffer = glstate::boundPixelPackBuffer();
     glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
 
     const Texture::GlFormatParams &params = drawBufferFormat(index);
-    const int rowSizeInBytes = params.mPixelSize * mWidth;
-    const int totalSizeInBytes = rowSizeInBytes * mHeight;
+    const int totalSizeInBytes = params.mPixelSize * mWidth * mHeight;
+    static int counter = 0;
+    static int sum = 0;
 
-    void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, GL_MAP_READ_BIT);
-    assert(start);
-    memcpy(data, start, totalSizeInBytes);
+    auto start_time = chrono::steady_clock::now();
+    // glGetBufferSubData(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, data);
+    if (!isMappingDone) {
+      int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+      mReadBufferPointer = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, flags);
+      isMappingDone = true;
+    }
 
-    glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
+    memcpy(data, mReadBufferPointer, totalSizeInBytes);
+    auto end_time = chrono::steady_clock::now();
+    // glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
+
+    counter++;
+    sum += chrono::duration_cast<chrono::microseconds>(end_time - start_time).count();
+    cout << "Elapsed time in microseconds: " << chrono::duration_cast<chrono::microseconds>(end_time - start_time).count()
+         << " µs"
+         << "avg" << sum / counter << "(" << counter << ")\n";
 
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
   }
