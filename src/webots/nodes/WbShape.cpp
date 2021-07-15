@@ -269,8 +269,8 @@ void WbShape::applyMaterialToGeometry() {
           g->setTransparent(false);
       } else {
         mWrenMaterial = WbAppearance::fillWrenDefaultMaterial(mWrenMaterial);
-        // We need to setTransparent for default appearance in the case a previous transparent appearance was existing and
-        // replaced by the default
+        // We need to call setTransparent for default appearance in case a previous transparent appearance was existing and
+        // replaced by the default one.
         g->setTransparent(false);
       }
     } else if (pbrAppearance() && g->nodeType() != WB_NODE_POINT_SET) {
@@ -284,8 +284,8 @@ void WbShape::applyMaterialToGeometry() {
       }
     } else {
       mWrenMaterial = WbAppearance::fillWrenDefaultMaterial(mWrenMaterial);
-      // We need to setTransparent for default appearance in the case a previous transparent appearance was existing and
-      // replaced by the default
+      // We need to call setTransparent for default appearance in case a previous transparent appearance was existing and
+      // replaced by the default one.
       g->setTransparent(false);
     }
 
