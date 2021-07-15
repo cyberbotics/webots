@@ -31,6 +31,7 @@ import WbTransform from './nodes/WbTransform.js';
 import WbSFBool from './nodes/utils/WbSFBool.js';
 import WbSFDouble from './nodes/utils/WbSFDouble.js';
 import WbSFInt32 from './nodes/utils/WbSFInt32.js';
+import WbSFString from './nodes/utils/WbSFString.js';
 import WbSFColor from './nodes/utils/WbSFColor.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
@@ -229,7 +230,7 @@ export default class ProtoParser {
     else if (parameterType === FIELD_TYPES.SF_INT32)
       return new WbSFInt32(this._headerTokenizer.nextToken().toInt());
     else if (parameterType === FIELD_TYPES.SF_STRING)
-      return this._headerTokenizer.nextWord();
+      return new WbSFString(this._headerTokenizer.nextWord());
     else if (parameterType === FIELD_TYPES.SF_VECT2F) {
       const x = this._headerTokenizer.nextToken().toFloat();
       const y = this._headerTokenizer.nextToken().toFloat();

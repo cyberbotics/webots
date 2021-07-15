@@ -93,11 +93,10 @@
 
 input[type=number] {
   height: 100%;
-  width: 60px;
+  width: 50px;
 }
 
 input[type=text] {
   height: 100%;
-  width: 100%;
-  padding: 1px;
+  width: 90%;
 }

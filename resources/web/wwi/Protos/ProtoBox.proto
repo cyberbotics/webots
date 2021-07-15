@@ -2,12 +2,7 @@
 
 PROTO ProtoBox [
   field SFVec3f size 2 1 1
-  field SFBool  isChecked TRUE
-  field SFVec2f old_size 5 5
-  field SFColor color 0 1 0
-  field SFRotation rotation  0 1 0 1.57
-  field SFVec3f translation 1 1 1
-  field SFString url "webots://projects/objects/file.png"
+  field SFColor color 0 1 1
 ]
 {
   Shape {

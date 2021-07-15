@@ -67,13 +67,69 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
   };
 
   _populateEditor(parameterType, parameterValue) {
-    if (parameterType === FIELD_TYPES.SF_STRING) {
-      let inputText = document.createElement('input');
-      inputText.setAttribute('type', 'text');
-      inputText.setAttribute('value', parameterValue);
-      this._editorElement.appendChild(inputText);
+    let div = document.createElement('div');
+    div.style.textAlign = 'center';
+
+    if (parameterType === FIELD_TYPES.SF_BOOL)
+      div.appendChild(this._createInput('checkbox', parameterValue.value));
+    else if (parameterType === FIELD_TYPES.SF_STRING) {
+      // TODO: if parameterName is 'texture', add 'select' button
+      div.appendChild(this._createInput('text', parameterValue.value));
+    } else if (parameterType === FIELD_TYPES.SF_INT32)
+      div.appendChild(this._createInput('number', '1', parameterValue.value));
+    else if (parameterType === FIELD_TYPES.SF_FLOAT)
+      div.appendChild(this._createInput('number', '0.1', parameterValue.value));
+    else if (parameterType === FIELD_TYPES.SF_VECT2F) {
+      div.appendChild(document.createTextNode('x '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.x));
+      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.y));
+    } else if (parameterType === FIELD_TYPES.SF_VECT3F) {
+      div.appendChild(document.createTextNode('x '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.x));
+      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.y));
+      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0z '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.z));
+    } else if (parameterType === FIELD_TYPES.SF_COLOR) {
+      div.appendChild(document.createTextNode('r '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.r));
+      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0g '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.g));
+      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0b '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.b));
+    } else if (parameterType === FIELD_TYPES.SF_ROTATION) {
+      div.appendChild(document.createTextNode('x '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.x));
+      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.y));
+      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0z '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.z));
+      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0a '));
+      div.appendChild(this._createInput('number', '0.1', parameterValue.w));
     }
+
+    this._editorElement.appendChild(div);
   }
+
+  _createInput(type, value, step) {
+    let input = document.createElement('input');
+    input.addEventListener('input', this._updateValue);
+
+    input.setAttribute('type', type);
+    if (type === 'checkbox' && typeof value !== 'undefined')
+      input.checked = value;
+    if ((type === 'number' || type === 'text') && typeof value !== 'undefined')
+      input.setAttribute('value', value);
+
+    if (typeof step !== 'undefined')
+      input.setAttribute('step', step);
+    return input;
+  };
+
+  _updateValue(e) {
+    console.log(e.target.type);
+  };
 
   _populateDivRaw(parameters) {
     this._element.innerHTML = '';

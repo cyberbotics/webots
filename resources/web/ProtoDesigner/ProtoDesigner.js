@@ -6,6 +6,16 @@ import WbTokenizer from '../wwi/WbTokenizer.js';
 
 import ProtoParametersView from './view/ProtoParametersView.js'; // TODO: replace by makefile?
 
+/*
+
+console.log(WbWorld.instance.nodes);
+const n = WbWorld.instance.nodes.get('n-6');
+n.size.x = 3;
+WbWorld.instance.nodes.get('n-6').updateSize();
+renderer.render();
+
+*/
+
 class ProtoDesigner {
   constructor() {
     console.log('constructor ProtoDesigner');
@@ -51,7 +61,8 @@ class ProtoDesigner {
     await Promise.all(promises);
     console.log('_init done');
 
-    const url = '../wwi/Protos/ProtoBox.proto';
+    const url = '../wwi/Protos/ProtoTest.proto';
+    //const url = '../wwi/Protos/ProtoBox.proto';
     // const url = '../wwi/Protos/ProtoSphere.proto';
     this.loadProto(url);
   }
