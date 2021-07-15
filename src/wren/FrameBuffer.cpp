@@ -42,7 +42,6 @@ using namespace std;
 namespace wren {
 
   void FrameBuffer::deleteFrameBuffer(FrameBuffer *frameBuffer) {
-    fprintf(stdout, "DELETED FRAME BUFFEEEEEEEEEEEEEEEEER\n");
     if (!frameBuffer)
       return;
 
