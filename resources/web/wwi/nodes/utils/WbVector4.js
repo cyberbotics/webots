@@ -20,4 +20,8 @@ export default class WbVector4 {
   asX3d() {
     return this.x + ' ' + this.y + ' ' + this.z + ' ' + this.w;
   };
+
+  jsify() {
+    return '{x: ' + this.x + ', y: ' + this.y + ', z: ' + this.z + ', w: ' + this.w + '}';
+  };
 }

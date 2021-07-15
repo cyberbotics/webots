@@ -38,7 +38,9 @@ export default class Proto {
     
     console.log('Parameters:');
     for (const [key, value] of this.parameters.entries())
-      console.log(value)
+      console.log(value);
+
+    parseBody();
   };
   
   parseHead(rawHead) {
@@ -108,7 +110,19 @@ export default class Proto {
     else
       throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');
   }
-  
+
+  encodeParametersForTemplateEngine() {
+    this.encodedParameters = '';
+    
+    for (const [key, value] of this.parameters.entries())
+      // size: {value: {x: 2, y: 1, z: 1}, defaultValue: {x: 2, y: 1, z: 1}}, color: {value: {r: 0, g: 1, b: 1}, defaultValue: {r: 0, g: 1, b: 1}}';
+      this.encodedParameters += value.name + ': {value: ' + value.value.jsify() + ', defaultValue: ' + value.defaultValue.jsify() + '}, ';
+
+    this.encodedParameters = this.encodedParameters.slice(0, -2); // remove last comma and space
+    
+    console.log('Encoded Parameters:\n' + this.encodedParameters);
+  }
+
   parseBody() {
     
   };

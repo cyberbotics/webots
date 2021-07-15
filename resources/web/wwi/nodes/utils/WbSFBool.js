@@ -13,4 +13,8 @@ export default class WbSFBool {
   asX3d() {
     return this.value.toString();
   };
+
+  jsify() {
+    return this.value;
+  };
 };

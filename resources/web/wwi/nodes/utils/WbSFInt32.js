@@ -17,4 +17,8 @@ export default class WbSFInt32 {
   asX3d() {
     return this.value.toString();
   };
+
+  jsify() {
+    return this.value;
+  };
 };

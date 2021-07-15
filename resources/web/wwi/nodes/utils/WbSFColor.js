@@ -17,4 +17,8 @@ export default class WbSFColor {
   asX3d() {
     return this.r + ' ' + this.g + ' ' + this.b;
   };
+
+  jsify() {
+    return '{r: ' + this.r + ', g: ' + this.g + ', b: ' + this.b + '}';
+  };
 };

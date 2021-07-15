@@ -16,4 +16,8 @@ export default class WbSFString {
   asX3d() {
     return this.value;
   };
+
+  jsify() {
+    return '\'' + this.value + '\'';
+  };
 };

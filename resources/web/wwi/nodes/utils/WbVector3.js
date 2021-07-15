@@ -91,4 +91,8 @@ export default class WbVector3 {
   asX3d() {
     return this.x + ' ' + this.y + ' ' + this.z;
   };
+
+  jsify() {
+    return '{x: ' + this.x + ', y: ' + this.y + ', z: ' + this.z + '}';
+  };
 }
