@@ -66,10 +66,10 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
     // adapt selection
     this._editorElement.innerHTML = '<p><i>selection</i> : ' + parameterName + '</p>';
     // adapt editor
-    this._populateEditor(parameterType, parameterValue);
+    this._populateEditor(parameterType, parameterValue, event.target.id);
   };
 
-  _populateEditor(parameterType, parameterValue) {
+  _populateEditor(parameterType, parameterValue, id) {
     let div = document.createElement('div');
     div.style.textAlign = 'center';
 
@@ -83,10 +83,35 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
     else if (parameterType === FIELD_TYPES.SF_FLOAT)
       div.appendChild(this._createInput('number', '0.1', parameterValue.value));
     else if (parameterType === FIELD_TYPES.SF_VECT2F) {
+      let form = document.createElement('form');
+      form.setAttribute('id', 'inputForm');
+      form.setAttribute('parameterRef', id.toString());
+
+      let input1 = document.createElement('input');
+      input1.setAttribute('type', 'number');
+      input1.setAttribute('value', '1');
+      input1.setAttribute('id', '111');
+      let input2 = document.createElement('input');
+      input2.setAttribute('type', 'number');
+      input2.setAttribute('value', '2');
+      input1.setAttribute('id', '222');
+
+      input1.addEventListener('input', this._updateValue.bind(this));
+      input2.addEventListener('input', this._updateValue.bind(this));
+
+      form.appendChild(input1);
+      form.appendChild(input2);
+
+      this._editorElement.appendChild(form);
+      return;
+
+
+      /*
       div.appendChild(document.createTextNode('x '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.x));
       div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.y));
+      */
     } else if (parameterType === FIELD_TYPES.SF_VECT3F) {
       div.appendChild(document.createTextNode('x '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.x));
@@ -131,11 +156,33 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
   };
 
   _updateValue(e) {
+    // get parent form of the input
+    let vals = [];
+    const elements = e.target.form.elements;
+    for (let i = 0; i < elements.length; ++i) {
+      if (elements[i].type === 'number') {
+        vals.push(elements[i].value);
+        console.log(i + '  >  ' + elements[i].value + ' :: ');
+      }
+    }
+
+    const ref = parseInt(e.target.form.attributes['parameterRef'].value);
+    console.log('ref: ' + ref)
+
+    const nodeid = this._protoModel.parameters[ref];
+    console.log(nodeid);
     console.log(e.target.type);
     console.log(WbWorld.instance.nodes);
-    const n = WbWorld.instance.nodes.get('n-6');
-    n.size.x = 3;
-    WbWorld.instance.nodes.get('n-6').updateSize();
+    const n = WbWorld.instance.nodes.get('n-6'); // nodeid should allow me to get this n-6
+
+    // change parameter
+    //this._protoModel.parameters[..something..].value.x = vals[0];
+    //this._protoModel.parameters[..something..].value.y = vals[1];
+    // change node
+    n.size.x = vals[0];
+    n.size.y = vals[1];
+
+    n.updateSize();
     this.renderer.render();
   };
 
