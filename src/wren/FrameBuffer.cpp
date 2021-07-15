@@ -42,6 +42,7 @@ using namespace std;
 namespace wren {
 
   void FrameBuffer::deleteFrameBuffer(FrameBuffer *frameBuffer) {
+    fprintf(stdout, "DELETED FRAME BUFFEEEEEEEEEEEEEEEEER\n");
     if (!frameBuffer)
       return;
 
@@ -88,7 +89,7 @@ namespace wren {
       glGenBuffers(1, &mOutputDrawBuffers[index].mGlNamePbo);
       glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
       // glBufferData(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, GL_STREAM_READ);
-      int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+      const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
       glBufferStorage(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, flags);
       glstate::releasePixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
       initiateCopyToPbo();
@@ -169,8 +170,7 @@ namespace wren {
   }
 
   void FrameBuffer::copyContents(size_t index, void *data) {
-    static bool isMappingDone = false;
-    const assert(index < mOutputDrawBuffers.size());
+    assert(index < mOutputDrawBuffers.size());
     assert(mOutputDrawBuffers[index].mGlNamePbo);
 
     const unsigned int currentPixelPackBuffer = glstate::boundPixelPackBuffer();
@@ -180,18 +180,21 @@ namespace wren {
     const int totalSizeInBytes = params.mPixelSize * mWidth * mHeight;
     static int counter = 0;
     static int sum = 0;
+    //  // glGetBufferSubData(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, data);
 
     auto start_time = chrono::steady_clock::now();
-    // glGetBufferSubData(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, data);
-    if (!isMappingDone) {
-      int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
-      mReadBufferPointer = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, flags);
-      isMappingDone = true;
-    }
 
+    /*void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, GL_MAP_READ_BIT);
+    memcpy(data, start, totalSizeInBytes);
+    glUnmapBuffer(GL_PIXEL_PACK_BUFFER);*/
+
+    if (!mReadBufferPointer) {
+      const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+      mReadBufferPointer = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, flags);
+    }
     memcpy(data, mReadBufferPointer, totalSizeInBytes);
+
     auto end_time = chrono::steady_clock::now();
-    // glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
 
     counter++;
     sum += chrono::duration_cast<chrono::microseconds>(end_time - start_time).count();
@@ -355,6 +358,10 @@ namespace wren {
   void FrameBuffer::cleanupGl() {
     if (mGlName) {
       release();
+
+      if (mReadBufferPointer) {
+        mReadBufferPointer = nullptr;
+      }
 
       for (size_t i = 0; i < mOutputDrawBuffers.size(); ++i) {
         if (mOutputDrawBuffers[i].mGlNamePbo)
