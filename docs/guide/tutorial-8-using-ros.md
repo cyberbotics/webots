@@ -77,6 +77,8 @@ roslaunch webots_ros e_puck_line.launch
 ```
 This launch file will launch Webots (the `WEBOTS_HOME` environment variable should be set) and start the corresponding node.
 
+> If Webots is installed as a snap package you need to append the `${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros` path to the `LD_LIBRARY_PATH` environment variable (`export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros`).
+
 The seed of Webots' random number generator is initialized at the beginning of the simulation and not when the ROS nodes connect.
 Webots has to be running for the ROS nodes to connect.
 However, we cannot guarantee how long it will run before the ROS nodes connect.
