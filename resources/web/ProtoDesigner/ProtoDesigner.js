@@ -3,6 +3,9 @@
 import {webots} from '../wwi/webots.js';
 import ProtoParser from '../wwi/ProtoParser.js';
 import WbTokenizer from '../wwi/WbTokenizer.js';
+import WbWorld from '../wwi/nodes/WbWorld.js';
+
+import WrenRenderer from '../wwi/WrenRenderer.js';
 
 import ProtoParametersView from './view/ProtoParametersView.js'; // TODO: replace by makefile?
 
@@ -39,8 +42,15 @@ class ProtoDesigner {
       return;
     }
 
-    this._protoParameters = new ProtoParametersView(this._protoParametersElement);
     this._init();
+  }
+
+  _launch() {
+    console.log('launching proto');
+    const url = '../wwi/Protos/ProtoTest.proto';
+    //const url = '../wwi/Protos/ProtoBox.proto';
+    // const url = '../wwi/Protos/ProtoSphere.proto';
+    this.loadProto(url);
   }
 
   _load(scriptUrl) {
@@ -59,12 +69,14 @@ class ProtoDesigner {
     promises.push(this._load('https://cyberbotics.com/wwi/R2021b/wrenjs.js'));
 
     await Promise.all(promises);
+
+    WbWorld.init();
+
+    this.renderer = new WrenRenderer();
+    this._protoParameters = new ProtoParametersView(this._protoParametersElement, this.renderer);
     console.log('_init done');
 
-    const url = '../wwi/Protos/ProtoTest.proto';
-    //const url = '../wwi/Protos/ProtoBox.proto';
-    // const url = '../wwi/Protos/ProtoSphere.proto';
-    this.loadProto(url);
+    this._launch();
   }
 
   loadProto(url) {
@@ -97,7 +109,7 @@ class ProtoDesigner {
     // const x3d = parser.encodeProtoManual(protoContent);
 
     const view = new webots.View(document.getElementById('view3d'));
-    view.open(x3d, 'x3d', '', true);
+    view.open(x3d, 'x3d', '', true, this.renderer);
   };
 };
 

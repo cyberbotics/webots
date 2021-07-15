@@ -45,7 +45,6 @@ import {webots} from './webots.js';
 export default class Parser {
   constructor(prefix = '') {
     this._prefix = prefix;
-    WbWorld.init();
   }
 
   async parse(text, renderer, parent, callback) {

@@ -16,10 +16,16 @@ export default class X3dScene {
     this._loader = new Parser(this.prefix);
   }
 
-  init(texturePathPrefix = '') {
+  init(texturePathPrefix = '', renderer) {
     this.prefix = texturePathPrefix;
-    this.renderer = new WrenRenderer();
 
+    if (typeof renderer === 'undefined') {
+      console.log('Renderer not provided, creating a new one.');
+      this.renderer = new WrenRenderer();
+    } else {
+      console.log('Using provided renderer.');
+      this.renderer = renderer;
+    }
     this.resize();
 
     this.destroyWorld();

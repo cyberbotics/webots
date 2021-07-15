@@ -1,12 +1,15 @@
 'use strict';
 
+import WbWorld from '../../wwi/nodes/WbWorld.js';
+
 import {FIELD_TYPES} from '../../wwi/WbFieldModel.js';
 
 export default class ProtoParametersView { // eslint-disable-line no-unused-vars
-  constructor(element) {
+  constructor(element, renderer) {
     // setup parameter list view
     this._element = element;
     this._cleanupDiv('No loaded PROTO');
+    this.renderer = renderer;
     // setup parameter editor view
     this._editorElement = document.getElementById('parameter-editor');
     if (typeof this._editorElement === 'undefined')
@@ -48,7 +51,7 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
       li.innerText = parameters[i].name;
       li.setAttribute('class', 'item li-border li');
       li.setAttribute('id', i); // id of the list items is their position in the list, not the parameter id
-      li.addEventListener('click', () => this.itemSelector(event));//this.itemSelector);
+      li.addEventListener('click', () => this.itemSelector(event));
       ol.appendChild(li);
     }
   };
@@ -114,7 +117,7 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
 
   _createInput(type, value, step) {
     let input = document.createElement('input');
-    input.addEventListener('input', this._updateValue);
+    input.addEventListener('input', this._updateValue.bind(this));
 
     input.setAttribute('type', type);
     if (type === 'checkbox' && typeof value !== 'undefined')
@@ -129,6 +132,11 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
 
   _updateValue(e) {
     console.log(e.target.type);
+    console.log(WbWorld.instance.nodes);
+    const n = WbWorld.instance.nodes.get('n-6');
+    n.size.x = 3;
+    WbWorld.instance.nodes.get('n-6').updateSize();
+    this.renderer.render();
   };
 
   _populateDivRaw(parameters) {

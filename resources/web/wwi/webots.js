@@ -116,11 +116,7 @@ webots.View = class View {
     this.animation = new Animation(url, this.x3dScene, this, gui, loop);
   }
 
-  openRaw(text) {
-    
-  };
-
-  open(url, mode, texturePathPrefix = '', raw) {
+  open(url, mode, texturePathPrefix = '', raw, renderer) {
     const userAgents = navigator.userAgent;
     let chromeAgent = userAgents.indexOf('Chrome') > -1;
     let safariAgent = userAgents.indexOf('Safari') > -1;
@@ -233,7 +229,7 @@ webots.View = class View {
 
       this._x3dDiv.className = 'webots3DView';
       this.x3dScene = new X3dScene(this._x3dDiv);
-      this.x3dScene.init(texturePathPrefix);
+      this.x3dScene.init(texturePathPrefix, renderer);
       let param = document.createElement('param');
       param.name = 'showProgress';
       param.value = false;
