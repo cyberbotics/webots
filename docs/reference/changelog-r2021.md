@@ -1,7 +1,7 @@
 # Webots R2021 Change Log
 
 ## Webots R2021b
-Released on July, 5th, 2021.
+Released on July, 16th, 2021.
 
   - New Robots
     - Added a model of the [Summit-XL Steel](../guide/summit-xl-steel.md) robot from [Robotnik](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) ([#3121](https://github.com/cyberbotics/webots/pull/3121)).
