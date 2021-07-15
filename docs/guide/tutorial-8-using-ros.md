@@ -29,7 +29,7 @@ sudo apt-get install ros-noetic-webots-ros
 If you installed Webots from the snap, you also need to setup the `LD_LIBRARY_PATH` variable:
 ```sh
 export WEBOTS_HOME=/snap/webots/current/usr/share/webots
-export LD_LIBRARY_PATH=${WEBOTS_HOME}/lib/controller:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros
+export LD_LIBRARY_PATH=${WEBOTS_HOME}/lib/controller:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros:${LD_LIBRARY_PATH}
 ```
 
 %tab-end
