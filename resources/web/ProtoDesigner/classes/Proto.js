@@ -26,23 +26,28 @@ export default class Proto {
     // raw proto body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     this.rawBody = protoText.substring(indexBeginBody);
-    
+    if (!this.isTemplate)
+      this.protoBody = this.rawBody; // body already VRML compliant
+
     // head only needs to be parsed once and persists through regenerations
     const indexBeginHead = protoText.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g); // proto header
     const rawHead = protoText.substring(indexBeginHead, indexBeginBody);
 
     // parse header and map each entry
     this.id = 0; // id of the parameter
-    this.parameters = new Map(); 
+    this.parameters = new Map();
     this.parseHead(rawHead);
-    
+
     console.log('Parameters:');
     for (const [key, value] of this.parameters.entries())
       console.log(value);
 
-    parseBody();
+    if (this.isTemplate)
+      this.regenerate(); // generate VRML compliant proto body
+
+    this.parseBody();
   };
-  
+
   parseHead(rawHead) {
     const headTokenizer = new Tokenizer(rawHead);
     headTokenizer.tokenize();
@@ -57,19 +62,19 @@ export default class Proto {
     while (!headTokenizer.peekToken().isEof()) {
       const token = headTokenizer.nextToken();
       const nextToken = headTokenizer.peekToken();
-  
+
       // TODO: skip curly brackets inbetween 'field' keyword and parameter name (i.e restricted nodes)
 
       if (nextToken.isIdentifier() && token.isKeyword()) {
         const name = nextToken.word();
         const type = token.fieldTypeFromVrml();
-        const isRegenerator = this.isTemplate ? isTemplateRegenerator(name) : false;
-        
+        const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(name) : false;
+
         headTokenizer.nextToken(); // consume current token (i.e the parameter name)
-        
+
         const defaultValue = this.parseParameterValue(type, headTokenizer);
         const value = defaultValue.clone();
-        
+
         const parameter = new Parameter(name, type, isRegenerator, defaultValue, value)
         this.parameters.set(this.uniqueId(), parameter);
       }
@@ -111,20 +116,25 @@ export default class Proto {
       throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');
   }
 
-  encodeParametersForTemplateEngine() {
-    this.encodedParameters = '';
-    
+  encodeFieldsForTemplateEngine() {
+    this.encodedFields = '';
+
     for (const [key, value] of this.parameters.entries())
       // size: {value: {x: 2, y: 1, z: 1}, defaultValue: {x: 2, y: 1, z: 1}}, color: {value: {r: 0, g: 1, b: 1}, defaultValue: {r: 0, g: 1, b: 1}}';
-      this.encodedParameters += value.name + ': {value: ' + value.value.jsify() + ', defaultValue: ' + value.defaultValue.jsify() + '}, ';
+      this.encodedFields += value.name + ': {value: ' + value.value.jsify() + ', defaultValue: ' + value.defaultValue.jsify() + '}, ';
 
-    this.encodedParameters = this.encodedParameters.slice(0, -2); // remove last comma and space
-    
-    console.log('Encoded Parameters:\n' + this.encodedParameters);
+    this.encodedFields = this.encodedFields.slice(0, -2); // remove last comma and space
+
+    console.log('Encoded Fields:\n' + this.encodedFields);
   }
 
   parseBody() {
-    
+    this.bodyTokenizer = new Tokenizer(this.protoBody);
+    this.bodyTokenizer.tokenize();
+    console.log('Body Tokens:\n', this.bodyTokenizer.tokens());
+
+    // x3d of the body of the proto
+    this.x3d = 1;
   };
 
   isTemplateRegenerator(parameterName) {
@@ -132,14 +142,22 @@ export default class Proto {
   };
 
   regenerate() {
-    this.bodyTokenizer = new Tokenizer(this.rawBody);
-    
-    // template engine stuff
-    
-    // x3d of the body of the proto
-    this.x3d = 1;
+    console.log('ProtoBody:\n' + this.protoBody);
+
+    this.encodeFieldsForTemplateEngine(); // make current proto parameters in a format compliant to templating rules
+    const templateEngine = new ProtoTemplateEngine(this.encodedFields, this.tmpBody());
+
+    this.protoBody = templateEngine.generateVrml();
+    console.log('Regenerated Proto Body:\n' + this.protoBody);
+
+    this.parseBody();
   };
-  
+
+  tmpBody() {
+    const a = 'let a = fields.size.value; ___vrml += render(` Shape { castShadow TRUE geometry Box { size `); ___tmp =  a.x ; ___vrml += eval("___tmp"); ___vrml += render(` 1 1 } appearance PBRAppearance { baseColor IS color } } `);';
+    return a;
+  };
+
   uniqueId() {
     return this.id++;
   };

@@ -24,7 +24,6 @@ export default class Tokenizer {
       }
     } catch (e) {
     }
-
     // add EOF token
     this._vector.push(new Token('end of file', this._tokenLine, this._tokenColumn));
   };
