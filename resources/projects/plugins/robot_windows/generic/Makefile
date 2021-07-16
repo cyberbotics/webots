@@ -28,8 +28,5 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 ifeq ($(OSTYPE),linux)
  LIBRARIES += -Wl,-rpath,'$$ORIGIN'/../../../../../lib/controller
 endif
-ifeq ($(OSTYPE),darwin)
- LIBRARIES += -Wl,-rpath,@loader_path/../../../../../lib/controller
-endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
