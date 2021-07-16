@@ -78,14 +78,18 @@ class ProtoDesigner {
     xmlhttp.overrideMimeType('plain/text');
     xmlhttp.onreadystatechange = async() => {
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-        await this.generateX3d(xmlhttp.responseText);
+        await this.loadScene(xmlhttp.responseText);
     };
     xmlhttp.send();
   };
 
-  generateX3d(protoText) {
-    this.proto = new Proto(protoText);
-  };
+  loadScene(proto) {
+    this.proto = new Proto(proto);
+    this.proto.generateX3d();
+
+    const view = new webots.View(document.getElementById('view3d'));
+    view.open(this.proto.x3d, 'x3d', '', true, this.renderer);
+  }
 
   async _initOld() {
     /*

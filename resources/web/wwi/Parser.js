@@ -48,7 +48,7 @@ export default class Parser {
   }
 
   async parse(text, renderer, parent, callback) {
-    console.log('text is: \n' + text);
+    console.log('Text x3d to parse:\n' + text);
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();

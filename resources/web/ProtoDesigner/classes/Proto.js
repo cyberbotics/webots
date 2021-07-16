@@ -132,10 +132,13 @@ export default class Proto {
     this.bodyTokenizer = new Tokenizer(this.protoBody);
     this.bodyTokenizer.tokenize();
     console.log('Body Tokens:\n', this.bodyTokenizer.tokens());
-
-    // x3d of the body of the proto
-    this.x3d = 1;
   };
+
+  generateX3d() {
+    // x3d of the body of the proto
+    const parser = new ProtoParser(this.bodyTokenizer, this.parameters);
+    this.x3d = parser.generateX3d();
+  }
 
   isTemplateRegenerator(parameterName) {
     return this.rawBody.search('fields.' + parameterName + '.') !== -1;

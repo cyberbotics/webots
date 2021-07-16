@@ -15,22 +15,24 @@ import {FieldModel, VRML_TYPE} from './FieldModel.js';
   Generates an x3d from VRML
 */
 export default class ProtoParser {
-  constructor(prefix = '') {
-    this._prefix = '../wwi/images/post_processing/';
-
-    this.protoModel = {protoName: undefined, parameters: []};
+  constructor(bodyTokenizer, parameters, prefix = '../../wwi/images/post_processing/') {
+    this.prefix = prefix;
+    this.bodyTokenizer = bodyTokenizer;
+    this.parameters = parameters;
 
     // define default scene
-    this._xml = document.implementation.createDocument('', '', null);
-    this._scene = this._xml.createElement('Scene');
+    this.xml = document.implementation.createDocument('', '', null);
+    this.scene = this.xml.createElement('Scene');
 
-    let worldinfo = this._xml.createElement('WorldInfo');
+    // TODO: move elsewhere, unnecessary to build background and viewpoint for each proto
+
+    let worldinfo = this.xml.createElement('WorldInfo');
     worldinfo.setAttribute('id', getAnId());
     worldinfo.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/worldinfo');
     worldinfo.setAttribute('basicTimeStep', '32');
     worldinfo.setAttribute('coordinateSystem', 'NUE');
 
-    let viewpoint = this._xml.createElement('Viewpoint');
+    let viewpoint = this.xml.createElement('Viewpoint');
     viewpoint.setAttribute('id', getAnId());
     viewpoint.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/viewpoint');
     viewpoint.setAttribute('orientation', '-0.84816706 -0.5241698 -0.07654181 0.34098753');
@@ -42,47 +44,46 @@ export default class ProtoParser {
     viewpoint.setAttribute('followSmoothness', '0.5');
     viewpoint.setAttribute('ambientOcclusionRadius', '2');
 
-    let background = this._xml.createElement('Background');
+    let background = this.xml.createElement('Background');
     background.setAttribute('id', getAnId());
     background.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/background');
     background.setAttribute('skyColor', '0.15 0.45 1');
 
-    this._scene.appendChild(worldinfo);
-    this._scene.appendChild(viewpoint);
-    this._scene.appendChild(background);
-    this._xml.appendChild(this._scene);
+    this.scene.appendChild(worldinfo);
+    this.scene.appendChild(viewpoint);
+    this.scene.appendChild(background);
+    this.xml.appendChild(this.scene);
   };
 
-  encodeProtoBody(rawProto) {
-    // tokenize proto
-    this._tokenizer = new WbTokenizer(rawProto);
-    this._tokenizer.tokenize();
-    console.log(this._tokenizer.tokens());
+  generateX3d() {
+    if (typeof this.bodyTokenizer === 'undefined')
+      throw new Error('Cannot generate x3d because body tokenizer was not provided to ProtoParser.');
 
-    this._tokenizer.skipToken('{'); // skip proto body bracket
-    while (this._tokenizer.hasMoreTokens()) {
-      const token = this._tokenizer.nextToken();
+    if (this.bodyTokenizer.peekWord() === '{')
+      this.bodyTokenizer.skipToken('{'); // skip proto body bracket
+
+    console.log('x3d encoding process:');
+
+    while (this.bodyTokenizer.hasMoreTokens()) {
+      const token = this.bodyTokenizer.nextToken();
       if (token.isNode())
-        this.encodeNode(token.word(), this._scene, 'Scene');
+        this.encodeNodeAsX3d(token.word(), this.scene, 'Scene');
     }
 
-    console.log(new XMLSerializer().serializeToString(this._xml));
-    console.log(this._xml);
-    return new XMLSerializer().serializeToString(this._xml); // 'test.x3d';
+    this.xml = new XMLSerializer().serializeToString(this.xml); // store the raw x3d data only
+    console.log('Generated x3d:\n', this.xml);
+    return this.xml;
   };
 
-  encodeNode(nodeName, parentElement, parentName) {
-    console.log('Encoding node: ' + nodeName);
-    let nodeElement = this._xml.createElement(nodeName);
-    console.log('> xml.createElement(' + nodeName + ')');
+  encodeNodeAsX3d(nodeName, parentElement, parentName) {
+    let nodeElement = this.xml.createElement(nodeName);
+    console.log('> nodeElement = xml.createElement(' + nodeName + ')');
 
-    //nodeElement.setAttribute('id', getAnId());
-    //console.log('> ' + nodeName + '.setAttribute(id, ...)');
+    this.bodyTokenizer.skipToken('{'); // skip opening bracket following node token
 
-    this._tokenizer.skipToken('{'); // skip opening bracket
     let ctr = 1; // bracket counter
     while (ctr !== 0) {
-      const word = this._tokenizer.nextWord();
+      const word = this.bodyTokenizer.nextWord();
       if (word === '{') {
         ctr++;
         continue;
@@ -92,137 +93,108 @@ export default class ProtoParser {
         continue;
       }
 
-      // add minimal attribute, this is needed regardless of what follows
+      // each node needs an id, at the very least, no matter what follows
       nodeElement.setAttribute('id', getAnId());
+      console.log('> nodeElement.setAttribute(\'id\', \'' + nodeElement.getAttribute('id') + '\')');
 
-      if (this._tokenizer.peekWord() === 'IS')
+      if (this.bodyTokenizer.peekWord() === 'IS')
         this.parseIS(nodeName, word, nodeElement);
-      else if (this._tokenizer.peekWord() === 'DEF')
+      else if (this.bodyTokenizer.peekWord() === 'DEF')
         this.parseDEF();
-      else if (this._tokenizer.peekWord() === 'USE')
+      else if (this.bodyTokenizer.peekWord() === 'USE')
         this.parseUSE();
-      else // otherwise, assume it's a field
-        this.encodeField(nodeName, word, nodeElement);
+      else // otherwise, assume it's a normal field
+        this.encodeFieldAsX3d(nodeName, word, nodeElement);
     };
 
     parentElement.appendChild(nodeElement);
-    console.log('> ' + parentName + '.appendChild(' + nodeName + ')');
+    console.log('> ' + parentName + '.appendChild(nodeElement)');
   };
 
-  encodeField(nodeName, fieldName, nodeElement) {
-    const fieldType = WbFieldModel[nodeName][fieldName];
-    console.log('Encoding field ' + fieldName + ' of type: ' + fieldType);
+  encodeFieldAsX3d(nodeName, fieldName, nodeElement) {
+    const fieldType = FieldModel[nodeName][fieldName];
+    console.log('>> field \'' + fieldName + '\' is of type \'' + fieldType + '\'');
 
     if (typeof nodeElement === 'undefined')
-      throw new Error('\'nodeElement\' is not defined but should be.');
+      throw new Error('Cannot assign field to node because \'nodeElement\' is not defined.');
 
-    console.log('> ' + nodeName + '.setAttribute(id, ...)');
     // TODO: add  box.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/box');
 
     let value = '';
     if (fieldType === VRML_TYPE.SF_BOOL)
-      value += this._tokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
+      value += this.bodyTokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
     else if (fieldType === VRML_TYPE.SF_FLOAT)
-      value += this._tokenizer.nextWord();
+      value += this.bodyTokenizer.nextWord();
     else if (fieldType === VRML_TYPE.SF_INT32)
-      value += this._tokenizer.nextWord();
+      value += this.bodyTokenizer.nextWord();
     else if (fieldType === VRML_TYPE.SF_VECT2F) {
-      value += this._tokenizer.nextWord() + ' ';
-      value += this._tokenizer.nextWord();
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord();
     } else if (fieldType === VRML_TYPE.SF_VECT3F) {
-      value += this._tokenizer.nextWord() + ' ';
-      value += this._tokenizer.nextWord() + ' ';
-      value += this._tokenizer.nextWord();
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord();
     } else if (fieldType === VRML_TYPE.SF_COLOR) {
-      value += this._tokenizer.nextWord() + ' ';
-      value += this._tokenizer.nextWord() + ' ';
-      value += this._tokenizer.nextWord();
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord();
     } else if (fieldType === VRML_TYPE.SF_ROTATION) {
-      value += this._tokenizer.nextWord() + ' ';
-      value += this._tokenizer.nextWord() + ' ';
-      value += this._tokenizer.nextWord() + ' ';
-      value += this._tokenizer.nextWord();
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord();
     } else if (fieldType === VRML_TYPE.SF_NODE)
-      this.encodeNode(this._tokenizer.nextWord(), nodeElement, nodeName);
+      this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName);
     else
-      throw new Error('unknown fieldName \'' + fieldName + '\' of node ' + nodeName + '(fieldType: ' + fieldType + ')');
+      throw new Error('Could not encode field \'' + fieldName + '\' (type: ' + fieldType + ') as x3d. Type not handled.');
 
     if (fieldType !== VRML_TYPE.SF_NODE) {
-      // add field attributes
-      console.log('> ' + nodeName + '.setAttribute(' + fieldName + ', ' + value + ')');
       nodeElement.setAttribute(fieldName, value);
+      console.log('> nodeElement.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
     }
-  };
-
-  extractParameters(protoHeader) {
-    this._headerTokenizer = new WbTokenizer(protoHeader);
-    this._headerTokenizer.tokenize();
-    const tokens = this._headerTokenizer.tokens();
-    console.log('Header: \n', tokens);
-
-    this._headerTokenizer.skipToken('PROTO');
-    this.protoModel.protoName = this._headerTokenizer.nextWord();
-    let id = 0;
-
-    while (!this._headerTokenizer.peekToken().isEof()) {
-      const lastToken = this._headerTokenizer.nextToken();
-      const token = this._headerTokenizer.peekToken();
-
-      if (token.isIdentifier() && lastToken.isKeyword()) {
-        let parameter = {};
-        parameter.id = id++;
-        parameter.nodeRef = undefined; // parent node reference
-        parameter.name = token.word();
-        console.log('parameter name: ' + parameter.name);
-        parameter.type = lastToken.fieldTypeFromVrml();
-        console.log('parameter type: ' + parameter.type);
-        // consume current token (which is the parameter name)
-        this._headerTokenizer.nextToken();
-
-        //parameter.value = this.parseParameterValue(parameter.type);
-        this.protoModel.parameters.push(parameter);
-      }
-    }
-
-    return this.protoModel;
   };
 
   parseIS(nodeName, fieldName, nodeElement) {
-    this._tokenizer.skipToken('IS'); // consume IS token
-    const alias = this._tokenizer.nextToken(); // actual proto parameter
+    this.bodyTokenizer.skipToken('IS'); // consume IS token
+    const alias = this.bodyTokenizer.nextWord(); // actual proto parameter
 
     // ensure it is a proto parameter
-    const ix = this.findProtoParameter(alias.word());
-    if (ix === -1)
-      throw new Error('Cannot parse IS keyword because parameter \'' + alias.word() + '\' is not in the proto header.');
+    const parameter = this.getParameterByName(alias);
+    if (typeof parameter === 'undefined')
+      throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
 
-    if (this.protoModel.parameters[ix].type === VRML_TYPE.SF_NODE)
+    if (parameter.type === VRML_TYPE.SF_NODE)
       throw new Error('TODO: parseIS for SF_NODES not yet implemented');
 
-    nodeElement.setAttribute(fieldName, this.protoModel.parameters[ix].value.asX3d());
+    const value = parameter.value.asX3d();
+    nodeElement.setAttribute(fieldName, value);
+    console.log('> nodeElement.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 
     // make the header parameter point to this field's parent
-    this.protoModel.parameters[ix].nodeRef = nodeElement.getAttribute('id');
+    if (typeof parameter.nodeRef !== 'undefined' && parameter.nodeRef !== nodeElement.getAttribute('id'))
+      throw new Error('Cannot parse IS keyword because \'' + alias + '\' is already referencing another node');
+
+    parameter.nodeRef = nodeElement.getAttribute('id');
+    console.log('>> added nodeRef ' + parameter.nodeRef + ' to parameter \'' + parameter.name + '\'');
   };
 
   parseDEF() {
-    console.error('TODO: parseDEF not yet implemented');
+    throw new Error('TODO: parseDEF not yet implemented');
   };
 
   parseUSE() {
-    console.error('TODO: parseUSE not yet implemented');
+    throw new Error('TODO: parseUSE not yet implemented');
   };
 
-  findProtoParameter(parameterName) {
-    const parameters = this.protoModel.parameters;
-    for (let i = 0; i < parameters.length; ++i) {
-      if (parameters[i].name === parameterName)
-        return i;
+  getParameterByName(parameterName) {
+    for (const value of this.parameters.values()) {
+      if (value.name === parameterName)
+        return value;
     }
-    return -1;
   };
 
   encodeProtoManual(rawProto) {
+    /*
     // create xml
     let head = xml.createElement('head');
     let meta = xml.createElement('meta');
@@ -276,5 +248,6 @@ export default class ProtoParser {
     console.log(new XMLSerializer().serializeToString(xml));
     console.log(xml);
     return new XMLSerializer().serializeToString(xml); // 'test.x3d';
+    */
   };
 }
