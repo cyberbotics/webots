@@ -65,7 +65,7 @@ The minimum requirement is to follow these instructions (taken from the [ROS tut
 5. To make sure your workspace is properly set-up by the setup script, make sure `ROS_PACKAGE_PATH` environment variable includes the directory you are in. The `echo $ROS_PACKAGE_PATH` command should return `/home/youruser/catkin_ws/src:/opt/ros/noetic/share`.
 6. The last step is to set the [`WEBOTS_HOME`](https://cyberbotics.com/doc/guide/compiling-controllers-in-a-terminal) environment variable: `export WEBOTS_HOME=/usr/local/webots`. If you installed Webots in a different place, adapt the variable. This line can be added to your `.bashrc` file.
 
-** Remember**: Each time you open a terminal, you have to source the environment with this command: `source opt/ros/noetic/setup.bash` or you can add this line in your `.bashrc` file.
+** Remember**: Each time you open a terminal, you have to source the environment with this command: `source /opt/ros/noetic/setup.bash` or you can add this line in your `.bashrc` file.
 
 ### Running the Nodes
 
