@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -85,7 +85,6 @@ void WbAbstractCamera::init() {
   mNoise = findSFDouble("noise");
   mLens = findSFNode("lens");
   mImageChanged = false;
-  mImageReady = false;
 }
 
 WbAbstractCamera::WbAbstractCamera(const QString &modelName, WbTokenizer *tokenizer) : WbRenderingDevice(modelName, tokenizer) {
@@ -279,13 +278,13 @@ void WbAbstractCamera::copyImageToSharedMemory(WbWrenCamera *camera, unsigned ch
   }
 }
 
-void WbAbstractCamera::reset() {
-  WbRenderingDevice::reset();
+void WbAbstractCamera::reset(const QString &id) {
+  WbRenderingDevice::reset(id);
 
   if (mLens) {
     WbNode *const l = mLens->value();
     if (l)
-      l->reset();
+      l->reset(id);
   }
 
   for (int i = 0; i < mInvisibleNodes.size(); ++i)
@@ -308,6 +307,12 @@ void WbAbstractCamera::writeConfigure(QDataStream &stream) {
 }
 
 void WbAbstractCamera::writeAnswer(QDataStream &stream) {
+  if (mImageChanged) {
+    copyImageToSharedMemory(mWrenCamera, image());
+    mSensor->resetPendingValue();
+    mImageChanged = false;
+  }
+
   if (mNeedToConfigure)
     addConfigureToStream(stream, true);
 
@@ -321,13 +326,6 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
     } else
       stream << (int)(0);
     mHasSharedMemoryChanged = false;
-  }
-
-  if (mImageReady) {
-    stream << (short unsigned int)tag();
-    stream << (unsigned char)C_CAMERA_GET_IMAGE;
-    mImageReady = false;
-    mSensor->resetPendingValue();
   }
 }
 
@@ -362,19 +360,12 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       applyMotionBlurToWren();
 
       emit enabled(this, isEnabled());
+      copyImageToSharedMemory(mWrenCamera, image());
 
       if (!hasBeenSetup()) {
         setup();
         mHasSharedMemoryChanged = true;
       }
-
-      break;
-    case C_CAMERA_GET_IMAGE:
-      if (mImageChanged) {
-        copyImageToSharedMemory(mWrenCamera, image());
-        mImageChanged = false;
-      }
-      mImageReady = true;
       break;
     default:
       commandHandled = false;
@@ -466,7 +457,7 @@ void WbAbstractCamera::createWrenCamera() {
   applyNoiseToWren();
 
   if (mExternalWindowEnabled)
-    updateTextureUpdateNotifications();
+    updateTextureUpdateNotifications(mExternalWindowEnabled);
 }
 
 void WbAbstractCamera::updateBackground() {
@@ -848,18 +839,24 @@ void WbAbstractCamera::updateFrustumDisplay() {
   wr_node_set_visible(WR_NODE(mFrustumDisplayTransform), true);
 }
 
-void WbAbstractCamera::updateTextureUpdateNotifications() {
+void WbAbstractCamera::updateTextureUpdateNotifications(bool enabled) {
   assert(mWrenCamera);
-  if (mExternalWindowEnabled)
+  if (enabled)
     connect(mWrenCamera, &WbWrenCamera::textureUpdated, this, &WbRenderingDevice::textureUpdated, Qt::UniqueConnection);
   else
     disconnect(mWrenCamera, &WbWrenCamera::textureUpdated, this, &WbRenderingDevice::textureUpdated);
-  mWrenCamera->enableTextureUpdateNotifications(mExternalWindowEnabled);
+  mWrenCamera->enableTextureUpdateNotifications(enabled);
+}
+
+void WbAbstractCamera::enableExternalWindowForAttachedCamera(bool enabled) {
+  if (mExternalWindowEnabled)
+    return;
+  updateTextureUpdateNotifications(enabled);
 }
 
 void WbAbstractCamera::enableExternalWindow(bool enabled) {
   WbRenderingDevice::enableExternalWindow(enabled);
   mExternalWindowEnabled = enabled;
   if (mWrenCamera)
-    updateTextureUpdateNotifications();
+    updateTextureUpdateNotifications(mExternalWindowEnabled);
 }

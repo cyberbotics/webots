@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,6 +50,12 @@ void WbSlot::validateProtoNode() {
   WbSolid *solid = solidEndPoint();
   if (solid)
     solid->validateProtoNode();
+}
+
+void WbSlot::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (hasEndpoint())
+    static_cast<WbBaseNode *>(endPoint())->downloadAssets();
 }
 
 void WbSlot::preFinalize() {
@@ -176,20 +182,20 @@ void WbSlot::endPointChanged() {
   }
 }
 
-void WbSlot::reset() {
-  WbBaseNode::reset();
+void WbSlot::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const e = mEndPoint->value();
   if (e)
-    e->reset();
+    e->reset(id);
 }
 
-void WbSlot::save() {
-  WbBaseNode::save();
+void WbSlot::save(const QString &id) {
+  WbBaseNode::save(id);
 
   WbNode *const e = mEndPoint->value();
   if (e)
-    e->save();
+    e->save(id);
 }
 
 //////////////////////////////////////////////////////////////

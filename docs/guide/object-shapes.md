@@ -25,7 +25,7 @@ Derived from [Group](../reference/group.md).
 ```
 TexturedBoxShape {
   SFVec3f  size             0.1 0.1 0.1
-  MFString textureUrl       "textures/old_brick_wall.jpg"
+  MFString textureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/old_brick_wall.jpg"
   SFInt32  textureFiltering 4
   SFNode   textureTransform NULL
   SFString textureMapping   "flat"
@@ -39,7 +39,7 @@ TexturedBoxShape {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/shapes/protos/TexturedBoxShape.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/shapes/protos/TexturedBoxShape.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/shapes/protos/TexturedBoxShape.proto]({{ url.github_tree }}/projects/objects/shapes/protos/TexturedBoxShape.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -54,7 +54,7 @@ TexturedBoxShape {
 
 - `textureTransform`: Defines the texture transform for the texture used for the box.
 
-- `textureMapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, `"compact"`, `"flat"`, `"metric"`, `"default"` and `"none"`.
+- `textureMapping`: Defines the texture mapping. This field accepts the following values: `"cube"`, `"compact"`, `"flat"`, `"metric"`, `"default"`, and `"none"`.
 
 - `faceColor`: Defines the color of the faces of the box.
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -78,6 +78,15 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mVirtualRealityHeadsetIsUsedServer = mRos->nodeHandle()->advertiseService(
     (ros->name()) + "/supervisor/vitual_reality_headset_is_used", &RosSupervisor::virtualRealityHeadsetIsUsedCallback, this);
 
+  mNodeGetContactPointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_contact_points",
+                                                                    &RosSupervisor::nodeGetContactPointsCallback, this);
+  mNodeEnableContactPointsTrackingServer =
+    mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/enable_contact_point_tracking",
+                                         &RosSupervisor::nodeEnableContactPointsTrackingCallback, this);
+  mNodeDisableContactPointsTrackingServer =
+    mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/disable_contact_points_tracking",
+                                         &RosSupervisor::nodeDisableContactPointsTrackingCallback, this);
+
   mNodeGetIdServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_id", &RosSupervisor::nodeGetIdCallback, this);
   mNodeGetTypeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_type",
@@ -96,6 +105,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                 &RosSupervisor::nodeGetPositionCallback, this);
   mNodeGetOrientationServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_orientation",
                                                                    &RosSupervisor::nodeGetOrientationCallback, this);
+  mNodeGetPoseServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_pose",
+                                                            &RosSupervisor::nodeGetPoseCallback, this);
   mNodeGetCenterOfMassServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_center_of_mass",
                                                                     &RosSupervisor::nodeGetCenterOfMassCallback, this);
   mNodeGetNumberOfContactPointsServer =
@@ -119,17 +130,35 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                               &RosSupervisor::nodeAddTorqueCallback, this);
   mNodeGetFieldServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field",
                                                              &RosSupervisor::nodeGetFieldCallback, this);
+  mNodeGetFieldByIndexServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_field_by_index",
+                                                                    &RosSupervisor::nodeGetFieldByIndexCallback, this);
+  mNodeGetNumberOfFieldsServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/get_number_of_fields",
+                                                                      &RosSupervisor::nodeGetNumberOfFieldsCallback, this);
   mNodeMoveViewpointServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/move_viewpoint",
                                                                   &RosSupervisor::nodeMoveViewpointCallback, this);
   mNodeSetVisibilityServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_visibility",
                                                                   &RosSupervisor::nodeSetVisibilityCallback, this);
   mNodeRemoveServer =
     mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/remove", &RosSupervisor::nodeRemoveCallback, this);
+  mNodeExportStringServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/export_string",
+                                                                 &RosSupervisor::nodeExportStringCallback, this);
   mNodeResetPhysicsServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/reset_physics",
                                                                  &RosSupervisor::nodeResetPhysicsCallback, this);
+  mNodeSaveStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/save_state",
+                                                              &RosSupervisor::nodeSaveStateCallback, this);
+  mNodeLoadStateServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/load_state",
+                                                              &RosSupervisor::nodeLoadStateCallback, this);
   mNodeRestartControllerServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/restart_controller",
                                                                       &RosSupervisor::nodeRestartControllerCallback, this);
+  mNodeEnablePoseTrackingServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/enable_pose_tracking",
+                                                                       &RosSupervisor::nodeEnablePoseTrackingCallback, this);
+  mNodeDisablePoseTrackingServer = mRos->nodeHandle()->advertiseService(
+    (ros->name()) + "/supervisor/node/disable_pose_tracking", &RosSupervisor::nodeDisablePoseTrackingCallback, this);
+  mNodeSetJointPositionServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/node/set_joint_position",
+                                                                     &RosSupervisor::nodeSetJointPositionCallback, this);
 
+  mFieldGetNameServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_name",
+                                                             &RosSupervisor::fieldGetNameCallback, this);
   mFieldGetTypeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_type",
                                                              &RosSupervisor::fieldGetTypeCallback, this);
   mFieldGetTypeNameServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/get_type_name",
@@ -194,6 +223,11 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     (ros->name()) + "/supervisor/field/import_node_from_string", &RosSupervisor::fieldImportNodeFromStringCallback, this);
   mFieldRemoveNodeServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/remove_node",
                                                                 &RosSupervisor::fieldRemoveNodeCallback, this);
+
+  mFieldEnableSFTrackingServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/enable_sf_tracking",
+                                                                      &RosSupervisor::fieldEnableSFTrackingCallback, this);
+  mFieldDisableSFTrackingServer = mRos->nodeHandle()->advertiseService((ros->name()) + "/supervisor/field/disable_sf_tracking",
+                                                                       &RosSupervisor::fieldDisableSFTrackingCallback, this);
 }
 
 RosSupervisor::~RosSupervisor() {
@@ -230,10 +264,14 @@ RosSupervisor::~RosSupervisor() {
   mNodeGetParentNodeServer.shutdown();
   mNodeGetPositionServer.shutdown();
   mNodeGetOrientationServer.shutdown();
+  mNodeGetPoseServer.shutdown();
   mNodeGetCenterOfMassServer.shutdown();
   mNodeGetNumberOfContactPointsServer.shutdown();
   mNodeGetContactPointServer.shutdown();
   mNodeGetContactPointNodeServer.shutdown();
+  mNodeGetContactPointsServer.shutdown();
+  mNodeEnableContactPointsTrackingServer.shutdown();
+  mNodeDisableContactPointsTrackingServer.shutdown();
   mNodeGetStaticBalanceServer.shutdown();
   mNodeGetVelocityServer.shutdown();
   mNodeSetVelocityServer.shutdown();
@@ -241,8 +279,12 @@ RosSupervisor::~RosSupervisor() {
   mNodeMoveViewpointServer.shutdown();
   mNodeSetVisibilityServer.shutdown();
   mNodeRemoveServer.shutdown();
+  mNodeExportStringServer.shutdown();
   mNodeResetPhysicsServer.shutdown();
   mNodeRestartControllerServer.shutdown();
+  mNodeEnablePoseTrackingServer.shutdown();
+  mNodeDisablePoseTrackingServer.shutdown();
+  mNodeSetJointPositionServer.shutdown();
 
   mFieldGetTypeServer.shutdown();
   mFieldGetTypeNameServer.shutdown();
@@ -276,6 +318,8 @@ RosSupervisor::~RosSupervisor() {
   mFieldImportNodeServer.shutdown();
   mFieldImportNodeFromStringServer.shutdown();
   mFieldRemoveNodeServer.shutdown();
+  mFieldEnableSFTrackingServer.shutdown();
+  mFieldDisableSFTrackingServer.shutdown();
 }
 
 bool RosSupervisor::simulationQuitCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res) {
@@ -571,6 +615,22 @@ bool RosSupervisor::nodeGetOrientationCallback(webots_ros::node_get_orientation:
 }
 
 // cppcheck-suppress constParameter
+bool RosSupervisor::nodeGetPoseCallback(webots_ros::node_get_pose::Request &req, webots_ros::node_get_pose::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *fromNode = reinterpret_cast<Node *>(req.from_node);
+  Node *toNode = reinterpret_cast<Node *>(req.node);
+  const double *m = fromNode->getPose(toNode);
+  const double rotation[9] = {m[0], m[1], m[2], m[4], m[5], m[6], m[8], m[9], m[10]};
+  RosMathUtils::matrixToQuaternion(rotation, res.pose.rotation);
+  res.pose.translation.x = m[3];
+  res.pose.translation.y = m[7];
+  res.pose.translation.z = m[11];
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_mass::Request &req,
                                                 webots_ros::node_get_center_of_mass::Response &res) {
   assert(this);
@@ -582,6 +642,49 @@ bool RosSupervisor::nodeGetCenterOfMassCallback(webots_ros::node_get_center_of_m
   res.centerOfMass.x = centerOfMass[0];
   res.centerOfMass.y = centerOfMass[1];
   res.centerOfMass.z = centerOfMass[2];
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeGetContactPointsCallback(webots_ros::node_get_contact_points::Request &req,
+                                                 webots_ros::node_get_contact_points::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  int numberOfContactPoints;
+  ContactPoint *contactPoints = node->getContactPoints(req.include_descendants, &numberOfContactPoints);
+  res.contact_points.resize(numberOfContactPoints);
+  for (int i = 0; i < numberOfContactPoints; i++) {
+    res.contact_points[i].node_id = contactPoints[i].node_id;
+    res.contact_points[i].point.x = contactPoints[i].point[0];
+    res.contact_points[i].point.y = contactPoints[i].point[1];
+    res.contact_points[i].point.z = contactPoints[i].point[2];
+  }
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeEnableContactPointsTrackingCallback(webots_ros::node_enable_contact_points_tracking::Request &req,
+                                                            webots_ros::node_enable_contact_points_tracking::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->enableContactPointsTracking(req.sampling_period, req.include_descendants);
+  res.success = true;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeDisableContactPointsTrackingCallback(webots_ros::node_disable_contact_points_tracking::Request &req,
+                                                             webots_ros::node_disable_contact_points_tracking::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->disableContactPointsTracking(req.include_descendants);
+  res.success = true;
   return true;
 }
 
@@ -729,6 +832,29 @@ bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &re
   return true;
 }
 
+bool RosSupervisor::nodeGetFieldByIndexCallback(webots_ros::node_get_field_by_index::Request &req,
+                                                webots_ros::node_get_field_by_index::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  if (req.proto)
+    res.field = reinterpret_cast<uint64_t>(node->getProtoFieldByIndex(req.index));
+  else
+    res.field = reinterpret_cast<uint64_t>(node->getFieldByIndex(req.index));
+  return true;
+}
+
+bool RosSupervisor::nodeGetNumberOfFieldsCallback(webots_ros::node_get_number_of_fields::Request &req,
+                                                  webots_ros::node_get_number_of_fields::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.value = req.proto ? node->getProtoNumberOfFields() : node->getNumberOfFields();
+  return true;
+}
+
 // cppcheck-suppress constParameter
 bool RosSupervisor::nodeMoveViewpointCallback(webots_ros::node_move_viewpoint::Request &req,
                                               webots_ros::node_move_viewpoint::Response &res) {
@@ -765,6 +891,17 @@ bool RosSupervisor::nodeRemoveCallback(webots_ros::node_remove::Request &req, we
 }
 
 // cppcheck-suppress constParameter
+bool RosSupervisor::nodeExportStringCallback(webots_ros::node_get_string::Request &req,
+                                             webots_ros::node_get_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.value = node->exportString();
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::nodeResetPhysicsCallback(webots_ros::node_reset_functions::Request &req,
                                              webots_ros::node_reset_functions::Response &res) {
   assert(this);
@@ -789,6 +926,81 @@ bool RosSupervisor::nodeRestartControllerCallback(webots_ros::node_reset_functio
 }
 
 // cppcheck-suppress constParameter
+bool RosSupervisor::nodeSaveStateCallback(webots_ros::node_set_string::Request &req,
+                                          webots_ros::node_set_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->saveState(req.state_name);
+  res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeLoadStateCallback(webots_ros::node_set_string::Request &req,
+                                          webots_ros::node_set_string::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->loadState(req.state_name);
+  res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeEnablePoseTrackingCallback(webots_ros::node_enable_pose_tracking::Request &req,
+                                                   webots_ros::node_enable_pose_tracking::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  Node *fromNode = reinterpret_cast<Node *>(req.from_node);
+
+  node->enablePoseTracking(req.sampling_period, fromNode);
+
+  res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::nodeDisablePoseTrackingCallback(webots_ros::node_disable_pose_tracking::Request &req,
+                                                    webots_ros::node_disable_pose_tracking::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  Node *fromNode = reinterpret_cast<Node *>(req.from_node);
+  res.success = 1;
+
+  node->disablePoseTracking(fromNode);
+
+  return true;
+}
+
+bool RosSupervisor::nodeSetJointPositionCallback(webots_ros::node_set_joint_position::Request &req,
+                                                 webots_ros::node_set_joint_position::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  node->setJointPosition(req.position, req.index);
+  res.success = 1;
+  return true;
+}
+
+// cppcheck-suppress constParameter
+bool RosSupervisor::fieldGetNameCallback(webots_ros::field_get_name::Request &req, webots_ros::field_get_name::Response &res) {
+  assert(this);
+  if (!req.field)
+    return false;
+  Field *field = reinterpret_cast<Field *>(req.field);
+  res.name = field->getName();
+  return true;
+}
+
+// cppcheck-suppress constParameter
 bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res) {
   assert(this);
   if (!req.field)
@@ -799,8 +1011,8 @@ bool RosSupervisor::fieldGetTypeCallback(webots_ros::field_get_type::Request &re
 }
 
 // cppcheck-suppress constParameter
-bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_type_name::Request &req,
-                                             webots_ros::field_get_type_name::Response &res) {
+bool RosSupervisor::fieldGetTypeNameCallback(webots_ros::field_get_name::Request &req,
+                                             webots_ros::field_get_name::Response &res) {
   assert(this);
   if (!req.field)
     return false;
@@ -1255,5 +1467,29 @@ bool RosSupervisor::fieldRemoveNodeCallback(webots_ros::field_remove_node::Reque
   Field *field = reinterpret_cast<Field *>(req.field);
   field->removeMF(req.position);
   res.success = 1;
+  return true;
+}
+
+bool RosSupervisor::fieldEnableSFTrackingCallback(webots_ros::field_enable_sf_tracking::Request &req,
+                                                  webots_ros::field_enable_sf_tracking::Response &res) {
+  assert(this);
+  if (!req.field)
+    return false;
+  Field *field = reinterpret_cast<Field *>(req.field);
+  field->enableSFTracking(req.sampling_period);
+  res.success = 1;
+
+  return true;
+}
+
+bool RosSupervisor::fieldDisableSFTrackingCallback(webots_ros::field_disable_sf_tracking::Request &req,
+                                                   webots_ros::field_disable_sf_tracking::Response &res) {
+  assert(this);
+  if (!req.field)
+    return false;
+  Field *field = reinterpret_cast<Field *>(req.field);
+  res.success = 1;
+  field->disableSFTracking();
+
   return true;
 }

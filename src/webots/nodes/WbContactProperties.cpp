@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbContactProperties.hpp"
 
+#include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbUrl.hpp"
@@ -36,6 +37,8 @@ void WbContactProperties::init() {
   mBumpSoundClip = NULL;
   mRollSoundClip = NULL;
   mSlideSoundClip = NULL;
+  for (size_t i = 0; i < sizeof(mDownloader) / sizeof(mDownloader[0]); i++)
+    mDownloader[i] = NULL;
 }
 
 WbContactProperties::WbContactProperties(WbTokenizer *tokenizer) : WbBaseNode("ContactProperties", tokenizer) {
@@ -52,6 +55,20 @@ WbContactProperties::WbContactProperties(const WbNode &other) : WbBaseNode(other
 
 WbContactProperties::~WbContactProperties() {
 }
+
+void WbContactProperties::downloadAsset(const QString &url, int index) {
+  if (!WbUrl::isWeb(url))
+    return;
+  mDownloader[index] = new WbDownloader(this);
+  mDownloader[index]->download(QUrl(url));
+}
+
+void WbContactProperties::downloadAssets() {
+  downloadAsset(mBumpSound->value(), 0);
+  downloadAsset(mRollSound->value(), 1);
+  downloadAsset(mSlideSound->value(), 2);
+}
+
 void WbContactProperties::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -164,31 +181,38 @@ void WbContactProperties::updateSoftErp() {
   emit needToEnableBodies();
 }
 
-void WbContactProperties::updateBumpSound() {
-  const QString &sound = mBumpSound->value();
-  if (sound.isEmpty())
-    mBumpSoundClip = NULL;
-  else
-    mBumpSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "bumpSound", sound));
+void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
+  if (isPostFinalizedCalled() && WbUrl::isWeb(name) && mDownloader[index] == NULL) {
+    downloadAsset(name, index);
+    return;
+  }
   WbSoundEngine::clearAllContactSoundSources();
+  if (sound.isEmpty()) {
+    *clip = NULL;
+    return;
+  }
+  if (!mDownloader[index]) {
+    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, sound));
+    return;
+  }
+  if (!mDownloader[index]->error().isEmpty())
+    warn(mDownloader[index]->error());
+  else
+    *clip = WbSoundEngine::sound(sound, mDownloader[index]->device());
+  delete mDownloader[index];
+  mDownloader[index] = NULL;
+}
+
+void WbContactProperties::updateBumpSound() {
+  loadSound(0, mBumpSound->value(), "bumpSound", &mBumpSoundClip);
 }
 
 void WbContactProperties::updateRollSound() {
-  const QString &sound = mRollSound->value();
-  if (sound.isEmpty())
-    mRollSoundClip = NULL;
-  else
-    mRollSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "rollSound", sound));
-  WbSoundEngine::clearAllContactSoundSources();
+  loadSound(1, mRollSound->value(), "rollSound", &mRollSoundClip);
 }
 
 void WbContactProperties::updateSlideSound() {
-  const QString &sound = mSlideSound->value();
-  if (sound.isEmpty())
-    mSlideSoundClip = NULL;
-  else
-    mSlideSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "slideSound", sound));
-  WbSoundEngine::clearAllContactSoundSources();
+  loadSound(2, mSlideSound->value(), "slideSound", &mSlideSoundClip);
 }
 
 void WbContactProperties::enableBodies() {

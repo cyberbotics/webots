@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -76,6 +76,7 @@ void WbLidar::init() {
   mActualHorizontalResolution = mHorizontalResolution->value();
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
+  mActualType = mType->value();
 }
 
 WbLidar::WbLidar(WbTokenizer *tokenizer) : WbAbstractCamera("Lidar", tokenizer) {
@@ -138,12 +139,12 @@ void WbLidar::postFinalize() {
   connect(mRotatingHead, &WbSFNode::changed, this, &WbLidar::updateRotatingHead);
 }
 
-void WbLidar::reset() {
-  WbAbstractCamera::reset();
+void WbLidar::reset(const QString &id) {
+  WbAbstractCamera::reset(id);
 
   WbNode *const r = mRotatingHead->value();
   if (r)
-    r->reset();
+    r->reset(id);
 
   if (mWrenCamera)
     mWrenCamera->rotateYaw(-mCurrentRotatingAngle);
@@ -173,7 +174,7 @@ void WbLidar::initializeImageSharedMemory() {
   if (mImageShm) {
     // initialize the shared memory with a black image
     float *im = lidarImage();
-    const int size = width() * actualNumberOfLayers();
+    const int size = actualHorizontalResolution() * actualNumberOfLayers();
     for (int i = 0; i < size; i++)
       im[i] = 0.0f;
   }
@@ -233,6 +234,17 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
   stream << (double)actualHorizontalResolution();
 }
 
+void WbLidar::writeAnswer(QDataStream &stream) {
+  if (mImageChanged) {
+    mImageChanged = false;  // prevents the AbstractCamera from copying the whole content of the camera in the shared memory
+    WbAbstractCamera::writeAnswer(stream);
+    mSensor->resetPendingValue();
+    if (!isRotating() && mSensor->isEnabled())  // in case of rotating lidar, the copy is done during the step
+      copyAllLayersToSharedMemory();            // for non-rotating lidar, copy the layers needed in the shared memory
+  } else
+    WbAbstractCamera::writeAnswer(stream);
+}
+
 void WbLidar::handleMessage(QDataStream &stream) {
   unsigned char command;
   stream >> command;
@@ -263,13 +275,6 @@ void WbLidar::handleMessage(QDataStream &stream) {
     stream >> frequency;
     mDefaultFrequency->setValue(frequency);
     return;
-  } else if (command == C_CAMERA_GET_IMAGE) {
-    if (mImageChanged && !isRotating()) {
-      // in case of rotating lidar the copy is done during the step
-      copyAllLayersToSharedMemory();
-    }
-    mImageReady = true;
-    return;
   } else if (WbAbstractCamera::handleCommand(stream, command))
     return;
 
@@ -280,7 +285,6 @@ void WbLidar::copyAllLayersToSharedMemory() {
   if (!hasBeenSetup() || !mImageShm)
     return;
 
-  mImageChanged = false;
   float *data = lidarImage();
   double skip = 1.0;
   if (height() != actualNumberOfLayers() && actualNumberOfLayers() != 1)
@@ -350,6 +354,7 @@ void WbLidar::copyAllLayersToSharedMemory() {
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   WbLidarPoint *lidarPoints = pointArray();
   const float *image = lidarImage();
+
   const int resolution = actualHorizontalResolution();
   const double w = width();
   const double time = WbSimulationState::instance()->time() / 1000.0;
@@ -384,6 +389,7 @@ void WbLidar::createWrenCamera() {
   mActualHorizontalResolution = mHorizontalResolution->value();
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
+  mActualType = mType->value();
 
   WbAbstractCamera::createWrenCamera();
   applyMaxRangeToWren();
@@ -440,9 +446,14 @@ void WbLidar::displayPointCloud() {
         color[2] = 1.0f - color[0];
       }
       for (int l = 0; l < resolution; ++l) {
-        const float *vertex = &pointArray()[k * resolution + l].x;
+        const float *vertex_x = &pointArray()[k * resolution + l].x;
+        const float *vertex_y = &pointArray()[k * resolution + l].y;
+        const float *vertex_z = &pointArray()[k * resolution + l].z;
 
-        wr_dynamic_mesh_add_vertex(mLidarPointsMesh, vertex);
+        if (isinf(*vertex_x) || isinf(*vertex_y) || isinf(*vertex_z))
+          continue;
+
+        wr_dynamic_mesh_add_vertex(mLidarPointsMesh, vertex_x);
         wr_dynamic_mesh_add_color(mLidarPointsMesh, color);
         wr_dynamic_mesh_add_index(mLidarPointsMesh, pointsIndex++);
         // Ray
@@ -451,7 +462,7 @@ void WbLidar::displayPointCloud() {
           wr_dynamic_mesh_add_color(mLidarRaysMesh, color);
           wr_dynamic_mesh_add_index(mLidarRaysMesh, raysIndex++);
 
-          wr_dynamic_mesh_add_vertex(mLidarRaysMesh, vertex);
+          wr_dynamic_mesh_add_vertex(mLidarRaysMesh, vertex_x);
           wr_dynamic_mesh_add_color(mLidarRaysMesh, color);
           wr_dynamic_mesh_add_index(mLidarRaysMesh, raysIndex++);
         }
@@ -674,7 +685,9 @@ void WbLidar::updateType() {
     parsingWarn(tr("'type' should either be 'fixed' or 'rotating', reset to 'fixed'"));
     mType->setValue("fixed");
   }
-  if (areWrenObjectsInitialized())
+  if (hasBeenSetup())
+    warn(tr("'type' has been modified. This modification will be taken into account after saving and reloading the world."));
+  else if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
 
@@ -720,13 +733,13 @@ void WbLidar::updateHorizontalResolution() {
     if (isRotating()) {
       requiredResolution *= 2.0 * M_PI / actualFieldOfView();
       parsingWarn(
-        tr("Impossible to have a so small 'horizontalResolution' unsing this 'numberOfLayers' and 'verticalFieldOfView'. "
+        tr("Impossible to have a so small 'horizontalResolution' using this 'numberOfLayers' and 'verticalFieldOfView'. "
            "'horizontalResolution' should be bigger or equal to 2.0 * M_PI * numberOfLayers  / verticalFieldOfView. "
            "'horizontalResolution' set to %1.")
           .arg(requiredResolution));
     } else
       parsingWarn(
-        tr("Impossible to have a so small 'horizontalResolution' unsing this 'fieldOfView', 'numberOfLayers' and "
+        tr("Impossible to have a so small 'horizontalResolution' using this 'fieldOfView', 'numberOfLayers' and "
            "'verticalFieldOfView'. 'horizontalResolution' should be bigger or equal to numberOfLayers * fieldOfView / "
            "verticalFieldOfView. 'horizontalResolution' set to %1.")
           .arg(requiredResolution));
@@ -748,13 +761,13 @@ void WbLidar::updateVerticalFieldOfView() {
     double requiredVerticalFieldOfView = (actualNumberOfLayers() * actualFieldOfView()) / width();
     if (isRotating())
       parsingWarn(
-        tr("Impossible to have a so small 'verticalFieldOfView' unsing this 'numberOfLayers' and 'horizontalResolution'. "
+        tr("Impossible to have a so small 'verticalFieldOfView' using this 'numberOfLayers' and 'horizontalResolution'. "
            "'verticalFieldOfView' should be bigger or equal to 2.0 * M_PI * numberOfLayers / horizontalResolution. "
            "'verticalFieldOfView' set to %1.")
           .arg(requiredVerticalFieldOfView));
     else
       parsingWarn(
-        tr("Impossible to have a so small 'verticalFieldOfView' unsing this 'fieldOfView', 'numberOfLayers' and "
+        tr("Impossible to have a so small 'verticalFieldOfView' using this 'fieldOfView', 'numberOfLayers' and "
            "'horizontalResolution'. 'verticalFieldOfView' should be bigger or equal to numberOfLayers * fieldOfView / "
            "horizontalResolution. 'verticalFieldOfView' set to %1.")
           .arg(requiredVerticalFieldOfView));
@@ -777,12 +790,12 @@ void WbLidar::updateNumberOfLayers() {
     int requiredNumberOfLayers = height();
     if (isRotating())
       parsingWarn(
-        tr("Impossible to have a so big 'numberOfLayers' unsing this 'verticalFieldOfView' and 'horizontalResolution'. "
+        tr("Impossible to have a so big 'numberOfLayers' using this 'verticalFieldOfView' and 'horizontalResolution'. "
            "'numberOfLayers' should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * "
            "M_PI). 'numberOfLayers' set to %1.")
           .arg(requiredNumberOfLayers));
     else
-      parsingWarn(tr("Impossible to have a so big 'numberOfLayers' unsing this 'fieldOfView', 'verticalFieldOfView' and "
+      parsingWarn(tr("Impossible to have a so big 'numberOfLayers' using this 'fieldOfView', 'verticalFieldOfView' and "
                      "'horizontalResolution'. 'numberOfLayers' should be smaller or equal to verticalFieldOfView * "
                      "horizontalResolution / fieldOfView. 'numberOfLayers' set to %1.")
                     .arg(requiredNumberOfLayers));

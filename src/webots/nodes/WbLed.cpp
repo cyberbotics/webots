@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -65,8 +65,8 @@ void WbLed::postFinalize() {
     light->toggleOn(on);
 }
 
-void WbLed::reset() {
-  WbSolidDevice::reset();
+void WbLed::reset(const QString &id) {
+  WbSolidDevice::reset(id);
   mValue = 0;
   foreach (WbLight *light, mLights)
     light->toggleOn(false);
@@ -107,8 +107,8 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
 
   for (int i = 0; i < size; ++i) {
     WbBaseNode *const n = group->child(i);
-    WbLight *light = dynamic_cast<WbLight *>(n);
-    WbGroup *group = dynamic_cast<WbGroup *>(n);
+    WbLight *lightChild = dynamic_cast<WbLight *>(n);
+    WbGroup *groupChild = dynamic_cast<WbGroup *>(n);
 
     if (n->nodeType() == WB_NODE_SHAPE) {
       WbAppearance *appearance = dynamic_cast<WbShape *>(n)->appearance();
@@ -128,11 +128,11 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
           connect(pbrAppearance->parentNode(), &WbShape::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
         }
       }
-    } else if (light)
-      mLights.append(light);
-    else if (group) {
-      findMaterialsAndLights(group);
-      connect(group, &WbGroup::childrenChanged, this, &WbLed::updateChildren, Qt::UniqueConnection);
+    } else if (lightChild)
+      mLights.append(lightChild);
+    else if (groupChild) {
+      findMaterialsAndLights(groupChild);
+      connect(groupChild, &WbGroup::childrenChanged, this, &WbLed::updateChildren, Qt::UniqueConnection);
     }
   }
 
@@ -208,18 +208,21 @@ void WbLed::setMaterialsAndLightsColor() {
     }
   }
 
+  const WbRgb color(r, g, b);
+  assert(!WbRgb(r, g, b).clampValuesIfNeeded());
+
   // update every material
   foreach (WbMaterial *material, mMaterials)
-    material->setEmissiveColor(WbRgb(r, g, b));
+    material->setEmissiveColor(color);
 
   // same for PbrAppearances
   foreach (WbPbrAppearance *pbrAppearance, mPbrAppearances)
-    pbrAppearance->setEmissiveColor(WbRgb(r, g, b));
+    pbrAppearance->setEmissiveColor(color);
 
   // update every lights
-  bool on = mValue != 0;
+  const bool on = mValue != 0;
   foreach (WbLight *light, mLights) {
-    light->setColor(WbRgb(r, g, b));
+    light->setColor(color);
     // disable WREN lights if not on
     light->toggleOn(on);
   }

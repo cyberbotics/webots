@@ -1,7 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static, hidden
+# tags: hidden
+# template language: javascript
 
 PROTO LargeResidentialTowerBase [
   field SFBool  surroundingWall  TRUE
@@ -14,27 +15,27 @@ PROTO LargeResidentialTowerBase [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/large_residential_tower_parking_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_parking_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/large_residential_tower_parking_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_parking_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/large_residential_tower_parking_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_parking_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/large_residential_tower_parking_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_parking_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/large_residential_tower_parking_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_parking_occlusion.jpg"
             ]
           }
         }
@@ -57,32 +58,32 @@ PROTO LargeResidentialTowerBase [
           ]
         }
       }
-      %{ if fields.surroundingWall.value then }%
+      %< if (fields.surroundingWall.value) { >%
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/large_residential_tower_outerwall_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_outerwall_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/large_residential_tower_outerwall_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_outerwall_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/large_residential_tower_outerwall_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_outerwall_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/large_residential_tower_outerwall_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_outerwall_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/large_residential_tower_outerwall_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/large_residential_tower_outerwall_occlusion.jpg"
             ]
           }
         }
@@ -105,7 +106,7 @@ PROTO LargeResidentialTowerBase [
           ]
         }
       }
-      %{ end }%
+      %< } >%
     ]
   }
 }

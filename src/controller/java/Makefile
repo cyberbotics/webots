@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,13 +42,13 @@ WRAPPER         = $(addprefix $(SWIG_OUTPUT_PATH)/,$(INTERFACE:.i=_wrap.cpp))
 WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 JAR_FILE        = $(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar
 JAVA_FILES      = Accelerometer.java \
+                  Altimeter.java \
                   AnsiCodes.java \
                   Brake.java \
                   Camera.java \
                   Compass.java \
                   Connector.java \
                   Device.java \
-                  DifferentialWheels.java \
                   Display.java \
                   DistanceSensor.java \
                   Emitter.java \

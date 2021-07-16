@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ void WbTrack::init() {
   // texture animation
   mShape = NULL;
   mTextureTransform = NULL;
-  mInitialTextureTransformTranslation = WbVector2();
+  mSavedTextureTransformTranslations[stateId()] = WbVector2();
 
   // geometries animation
   mPathLength = 0.0;
@@ -167,35 +167,35 @@ void WbTrack::addDevice(int index) {
   r->descendantNodeInserted(decendant);
 }
 
-void WbTrack::reset() {
-  WbSolid::reset();
+void WbTrack::reset(const QString &id) {
+  WbSolid::reset(id);
 
   WbNode *const g = mGeometryField->value();
   if (g)
-    g->reset();
+    g->reset(id);
   for (int i = 0; i < mDeviceField->size(); ++i)
-    mDeviceField->item(i)->reset();
+    mDeviceField->item(i)->reset(id);
 
   mMotorPosition = 0.0;
   mSurfaceVelocity = 0.0;
   if (mTextureTransform)
-    mTextureTransform->setTransaltion(mInitialTextureTransformTranslation);
+    mTextureTransform->setTransaltion(mSavedTextureTransformTranslations[id]);
 }
 
-void WbTrack::save() {
-  WbSolid::save();
+void WbTrack::save(const QString &id) {
+  WbSolid::save(id);
 
   WbNode *const g = mGeometryField->value();
   if (g)
-    g->save();
+    g->save(id);
   for (int i = 0; i < mDeviceField->size(); ++i)
-    mDeviceField->item(i)->save();
+    mDeviceField->item(i)->save(id);
 
-  mInitialTextureTransformTranslation = WbVector2();
+  mSavedTextureTransformTranslations[id] = WbVector2();
   if (mShape && mShape->abstractAppearance()) {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform)
-      mInitialTextureTransformTranslation = mTextureTransform->translation();
+      mSavedTextureTransformTranslations[id] = mTextureTransform->translation();
   }
 }
 
@@ -315,7 +315,7 @@ void WbTrack::updateTextureTransform() {
   if (mShape && mShape->abstractAppearance()) {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform) {
-      mInitialTextureTransformTranslation = mTextureTransform->translation();
+      mSavedTextureTransformTranslations[stateId()] = mTextureTransform->translation();
       mTextureTransform->enableX3DTranslationUpdate(true);
       QList<WbNode *> useNodesList = WbNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {

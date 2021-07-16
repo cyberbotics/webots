@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -196,7 +196,8 @@ class Vehicle:
                 vehicleString += "  trailer " + trailerModel + "{\n"
                 if trailerModel == 'TruckTrailerSimple':
                     vehicleString += "    appearance PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { "
-                    vehicleString += "url [ \"textures/" + random.choice(TRAILER_TEXTURES) + "\" ] } }"
+                    vehicleString += "url [ \"webots://projects/vehicles/protos/generic/textures/" + \
+                        random.choice(TRAILER_TEXTURES) + "\" ] } }"
                 else:
                     vehicleString += "    color " + random.choice(TRAILER_COLORS) + "\n"
                 vehicleString += "  }\n"

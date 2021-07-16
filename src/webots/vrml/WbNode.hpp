@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -271,8 +271,9 @@ public:
   virtual void exportBoundingObjectToX3D(WbVrmlWriter &writer) const {}
   virtual QStringList fieldsToSynchronizeWithX3D() const { return QStringList(); }
 
-  virtual void reset();
-  virtual void save() {}
+  virtual void reset(const QString &id);
+  virtual void save(const QString &id) {}
+  virtual const QString &stateId() const { return mCurrentStateId; };
 
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);
@@ -333,6 +334,7 @@ private:
   WbNode &operator=(const WbNode &);  // non copyable
 
   QString mUrdfPrefix;
+  QString mCurrentStateId;
 
   // for all nodes
   WbNode *mParentNode;

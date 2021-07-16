@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "This example shows a Shrimp III robot (BlueBotics SA)."
@@ -25,7 +25,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/rock.jpg"
+        "webots://projects/default/worlds/textures/rock.jpg"
       ]
     }
     roughness 1

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // specific functions
   double computeAttenuation(double distance) const;
@@ -55,6 +57,8 @@ private:
   WbSFDouble *mRadius;
 
   WrPointLight *mWrenLight;
+
+  QMap<QString, WbVector3> mSavedLocation;
 
   // optional rendering
   WbLightRepresentation *mLightRepresentation;

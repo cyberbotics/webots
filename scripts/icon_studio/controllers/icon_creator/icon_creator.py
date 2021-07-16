@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -236,7 +236,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
 # Initialize the Supervisor.
 controller = Supervisor()
 timeStep = int(controller.getBasicTimeStep())
-camera = controller.getCamera('camera')
+camera = controller.getDevice('camera')
 camera.enable(timeStep)
 options = get_options()
 

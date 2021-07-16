@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +20,9 @@ from webots_objects.road import Road
 from settings import Settings
 from osm_objects import OSMCoord
 from utils.misc_utils import extract_float_from_string, length2D
+
+
+RED_BRICK_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/red_brick_wall.jpg'  # noqa: E501
 
 
 class Barrier(WebotsObject):
@@ -110,7 +113,7 @@ class Barrier(WebotsObject):
                 file.write('    DEF SHAPE Shape {\n')
                 file.write('      appearance PBRAppearance {\n')
                 file.write('        baseColorMap ImageTexture {\n')
-                file.write('          url [ "textures/red_brick_wall.jpg" ]\n')
+                file.write(f'          url [ "{RED_BRICK_TEXTURE}" ]\n')
                 file.write('        }\n')
                 file.write('        roughness 1\n')
                 file.write('        metalness 0\n')

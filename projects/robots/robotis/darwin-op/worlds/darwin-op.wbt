@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "DARwIn-OP robot."
@@ -9,11 +9,10 @@ WorldInfo {
   ]
   title "DARwIn-OP"
   basicTimeStep 16
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.16290496645257643 0.9377938068777967 0.3066019368607031 2.21925
-  position 1.02479 1.62057 -0.53216
+  orientation 0.8684331933270932 0.25915156917013055 0.42268694435050463 1.2294696887362797
+  position 2.6603209399698855 -3.9263719188845227 3.33003540108488
   follow "DARwIn-OP"
 }
 TexturedBackground {
@@ -21,21 +20,22 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Table {
+  rotation 1 0 0 1.5707963267948966
 }
 Darwin-op {
-  translation 0 0.976 0
-  rotation 0.05930240739403188 0.9964411242397698 -0.059902507468854456 1.58336
+  translation 0 0 0.976
   controller "visual_tracking"
   selfCollision TRUE
   cameraWidth 320
   cameraHeight 240
 }
 Floor {
+  rotation 1 0 0 1.5707963267948966
   tileSize 1 1
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/carpet.jpg"
+        "webots://projects/default/worlds/textures/carpet.jpg"
       ]
     }
     roughness 1
@@ -43,6 +43,7 @@ Floor {
   }
 }
 DEF BALL Ball {
-  translation 0.5 0.773 0
+  translation 0.5 0 0.773
+  rotation 1 0 0 1.5707963267948966
   color 1 0 0
 }

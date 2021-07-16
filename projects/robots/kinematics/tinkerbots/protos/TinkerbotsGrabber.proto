@@ -1,9 +1,9 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # Tinkerbots grabber block.
 # https://www.tinkerbots.com
+# template language: javascript
 
 PROTO TinkerbotsGrabber [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
@@ -22,7 +22,7 @@ PROTO TinkerbotsGrabber [
       children [
         LED {
           translation 0 0.016 0.0045
-          name %{= "\"" .. fields.name.value .. " led\"" }%
+          name %<= '"' + fields.name.value + ' led"' >%
           color []
           gradual TRUE
           children [
@@ -40,27 +40,27 @@ PROTO TinkerbotsGrabber [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/grabber_base_color.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/grabber_roughness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/grabber_metalness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/grabber_normal.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/grabber_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_occlusion.jpg"
               ]
             }
           }
@@ -91,17 +91,17 @@ PROTO TinkerbotsGrabber [
           }
           device [
             RotationalMotor {
-              name %{= "\"" .. fields.name.value .. " finger A\"" }%
+              name %<= '"' + fields.name.value + ' finger A"' >%
               maxTorque 0.5  # rough estimation.
               minPosition 0  # Calibrated.
               maxPosition 1.31  # Calibrated.
             }
             PositionSensor {
-              name %{= "\"" .. fields.name.value .. " finger A sensor\"" }%
+              name %<= '"' + fields.name.value + ' finger A sensor"' >%
             }
           ]
           endPoint Solid {
-            name %{= "\"" .. fields.name.value .. " finger A\"" }%
+            name %<= '"' + fields.name.value + ' finger A"' >%
             children [
               Transform {
                 translation 0 0.0156 0.0354
@@ -152,17 +152,17 @@ PROTO TinkerbotsGrabber [
           }
           device [
             RotationalMotor {
-              name %{= "\"" .. fields.name.value .. " finger B\"" }%
+              name %<= '"' + fields.name.value + ' finger B"' >%
               maxTorque 0.5  # rough estimation.
               minPosition 0  # Calibrated.
               maxPosition 1.31  # Calibrated.
             }
             PositionSensor {
-              name %{= "\"" .. fields.name.value .. " finger B sensor\"" }%
+              name %<= '"' + fields.name.value + ' finger B sensor"' >%
             }
           ]
           endPoint Solid {
-            name %{= "\"" .. fields.name.value .. " finger B\"" }%
+            name %<= '"' + fields.name.value + ' finger B"' >%
             children [
               Transform {
                 translation -0.01351 -0.0078 0.0354
@@ -213,17 +213,17 @@ PROTO TinkerbotsGrabber [
           }
           device [
             RotationalMotor {
-              name %{= "\"" .. fields.name.value .. " finger C\"" }%
+              name %<= '"' + fields.name.value + ' finger C"' >%
               maxTorque 0.5  # rough estimation.
               minPosition 0  # Calibrated.
               maxPosition 1.31  # Calibrated.
             }
             PositionSensor {
-              name %{= "\"" .. fields.name.value .. " finger C sensor\"" }%
+              name %<= '"' + fields.name.value + ' finger C sensor"' >%
             }
           ]
           endPoint Solid {
-            name %{= "\"" .. fields.name.value .. " finger C\"" }%
+            name %<= '"' + fields.name.value + ' finger C"' >%
             children [
               Transform {
                 translation 0.01351 -0.0078 0.0354

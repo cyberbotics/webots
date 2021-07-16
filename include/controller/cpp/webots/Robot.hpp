@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 namespace webots {
   class Accelerometer;
+  class Altimeter;
   class Brake;
   class Camera;
   class Compass;
@@ -91,6 +92,7 @@ namespace webots {
     double batterySensorGetValue() const;
 
     Accelerometer *getAccelerometer(const std::string &name);
+    Altimeter *getAltimeter(const std::string &name);
     Brake *getBrake(const std::string &name);
     Camera *getCamera(const std::string &name);
     Compass *getCompass(const std::string &name);
@@ -136,6 +138,7 @@ namespace webots {
 
   protected:
     virtual Accelerometer *createAccelerometer(const std::string &name) const;
+    virtual Altimeter *createAltimeter(const std::string &name) const;
     virtual Brake *createBrake(const std::string &name) const;
     virtual Camera *createCamera(const std::string &name) const;
     virtual Compass *createCompass(const std::string &name) const;

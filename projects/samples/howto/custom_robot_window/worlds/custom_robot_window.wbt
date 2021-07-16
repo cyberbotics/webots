@@ -1,0 +1,51 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.06843890411750676 -0.9501006423302677 -0.3043433683305873 2.7206161861520175
+  position -0.5996156765077636 0.9473618991935043 -1.3063834681103563
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+E-puck {
+  window "custom_robot_window"
+  turretSlot [
+    DEF TARGET Transform {
+      translation 0 0.005 0
+    }
+  ]
+}
+WoodenBox {
+  translation -0.42 0.05 -0.38
+  rotation 0 1 0 2.9
+  size 0.1 0.1 0.2
+}
+WoodenBox {
+  translation 0.1 0.05 0.44
+  rotation 0 -1 0 4.7
+  name "wooden box(1)"
+  size 0.1 0.1 0.2
+}
+WoodenBox {
+  translation -0.37723942229885016 0.05 0.011614879025737768
+  rotation 0 -1 0 4.713185326359174
+  name "wooden box(2)"
+  size 0.1 0.1 0.2
+}
+WoodenBox {
+  translation 0.18 0.05 0.05
+  rotation 0 -1 0 3.4033947133591735
+  name "wooden box(3)"
+  size 0.1 0.1 0.2
+}
+WoodenBox {
+  translation 0.24 0.05 -0.29
+  rotation 0 1 0 1.3
+  name "wooden box(4)"
+  size 0.1 0.1 0.2
+}
+RectangleArena {
+}

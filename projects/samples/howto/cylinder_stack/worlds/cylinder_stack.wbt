@@ -1,0 +1,162 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "The model of the Khepera III robot"
+  ]
+  title "Khepera III"
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      forceDependentSlip [
+        0.007
+      ]
+      softCFM 0.0004
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.4017040785490224 0.8742441709492849 0.2726370533113183 4.95319
+  position -2.80575 2.02392 0.955991
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+DEF RED_CYLINDER Solid {
+  translation 0 0.273205 0
+  rotation 0 0 1 1.5708
+  children [
+    DEF CYLINDER_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1.1102230246251565e-16
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.5
+        radius 0.1
+        subdivision 24
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.273205 -0.2
+  rotation 0 0 1 1.5708
+  children [
+    DEF CYLINDER_SHAPE Shape {
+      appearance PBRAppearance {
+        roughness 0.09966656699999998
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.5
+        radius 0.1
+        subdivision 24
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.273205 0.2
+  rotation 0 0 1 1.5708
+  children [
+    USE CYLINDER_SHAPE
+  ]
+  name "solid(3)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.44641 0.1
+  rotation 0 0 1 1.5708
+  children [
+    USE CYLINDER_SHAPE
+  ]
+  name "solid(4)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.44641 -0.1
+  rotation 0 0 1 1.5708
+  children [
+    USE CYLINDER_SHAPE
+  ]
+  name "solid(5)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.619615 0
+  rotation 0 0 1 1.5708
+  children [
+    USE CYLINDER_SHAPE
+  ]
+  name "solid(6)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.1 0.1
+  rotation 0 0 1 1.5708
+  children [
+    USE CYLINDER_SHAPE
+  ]
+  name "solid(7)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.1 -0.1
+  rotation 0 0 1 1.5708
+  children [
+    USE CYLINDER_SHAPE
+  ]
+  name "solid(8)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.1 0.3
+  rotation 0 0 1 1.5708
+  children [
+    USE CYLINDER_SHAPE
+  ]
+  name "solid(9)"
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.1 -0.3
+  rotation 0 0 1 1.5708
+  children [
+    USE CYLINDER_SHAPE
+  ]
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}
+Robot {
+  controller "contact_points_supervisor"
+  supervisor TRUE
+}

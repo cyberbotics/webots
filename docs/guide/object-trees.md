@@ -21,7 +21,7 @@ BigSassafras {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/BigSassafras.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/BigSassafras.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/BigSassafras.proto]({{ url.github_tree }}/projects/objects/trees/protos/BigSassafras.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -51,7 +51,7 @@ Cypress {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Cypress.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/Cypress.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Cypress.proto]({{ url.github_tree }}/projects/objects/trees/protos/Cypress.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -76,7 +76,7 @@ Tree types are:
 
 The 'random' type choose randomly a tree type each time the node is regenerated.
 The shape of the forest can either be defined using the 'shape' and 'density' fields or the coordinate of each tree can be defined in external files ( X,Y,Z per tree, one tree per line).
-The path to those files can either be absolute, relative to the proto, relative to the world or relative to the project.
+The path to those files must be defined with respect to the world file.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
@@ -96,7 +96,7 @@ Forest {
   SFFloat    density              0.2
   SFString   type                 "random"
   SFInt32    randomSeed           0
-  MFString   groundTexture        ["textures/dry_leaf.jpg"]
+  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/trees/protos/textures/dry_leaf.jpg"]
   SFBool     withSnow             FALSE
   SFFloat    maxHeight            6
   SFFloat    minHeight            2
@@ -105,20 +105,20 @@ Forest {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Forest.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/Forest.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Forest.proto]({{ url.github_tree }}/projects/objects/trees/protos/Forest.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 ### Forest Field Summary
 
-- `treesFiles`: Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X Y Z').
+- `treesFiles`: Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X, Y, Z'). The path to these files must be defined with respect to the world file.
 
 - `shape`: Alternatively, the position of each trees can be defined using the shape field. This field defines the shape of the forest, in that case the position of the trees is randomly generated from this shape.
 
 - `density`: If the forest is defined using the `shape` field, this field defines the density of three to be generated (in trees per meter square).
 
-- `type`: Defines the type of threes, in case of `random` type, the forest will be mixed. This field accepts the following values: `"random"`, `"oak tree"`, `"crab apple tree"`, `"cherry tree"`, `"birch tree"`, `"palm tree"`, `"spruce"`, `"white pine"`, `"hackberry tree"` and `"hazel tree"`.
+- `type`: Defines the type of threes, in case of `random` type, the forest will be mixed. This field accepts the following values: `"random"`, `"oak tree"`, `"crab apple tree"`, `"cherry tree"`, `"birch tree"`, `"palm tree"`, `"spruce"`, `"white pine"`, `"hackberry tree"`, and `"hazel tree"`.
 
 - `randomSeed`: Defines the seed of the random number generator. A value of 0 sets the seed to the node id and a value smaller than 0 sets a time based random seed.
 
@@ -155,7 +155,7 @@ Oak {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Oak.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/Oak.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Oak.proto]({{ url.github_tree }}/projects/objects/trees/protos/Oak.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -185,7 +185,7 @@ PalmTree {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/PalmTree.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/PalmTree.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/PalmTree.proto]({{ url.github_tree }}/projects/objects/trees/protos/PalmTree.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -215,7 +215,7 @@ Pine {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Pine.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/Pine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Pine.proto]({{ url.github_tree }}/projects/objects/trees/protos/Pine.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -245,7 +245,7 @@ Sassafras {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Sassafras.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/Sassafras.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Sassafras.proto]({{ url.github_tree }}/projects/objects/trees/protos/Sassafras.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -294,7 +294,7 @@ SimpleTree {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/SimpleTree.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/SimpleTree.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/SimpleTree.proto]({{ url.github_tree }}/projects/objects/trees/protos/SimpleTree.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -303,7 +303,7 @@ SimpleTree {
 
 - `name`: Defines the name of the tree.
 
-- `type`: Defines the texture to be used. If set to `random`, a type will be randomly selected in the list. This field accepts the following values: `"random"`, `"oak tree"`, `"crab apple tree"`, `"cherry tree"`, `"birch tree"`, `"palm tree"`, `"spruce"`, `"white pine"`, `"hackberry tree"` and `"hazel tree"`.
+- `type`: Defines the texture to be used. If set to `random`, a type will be randomly selected in the list. This field accepts the following values: `"random"`, `"oak tree"`, `"crab apple tree"`, `"cherry tree"`, `"birch tree"`, `"palm tree"`, `"spruce"`, `"white pine"`, `"hackberry tree"`, and `"hazel tree"`.
 
 - `withSnow`: Defines if the texture used should have snow on top.
 
@@ -334,14 +334,14 @@ Tree {
   SFRotation rotation             0 1 0 0
   SFString   name                 "tree"
   SFVec3f    scale                1 4 1
-  MFString   texture              "textures/cherry_tree.png"
+  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/trees/protos/textures/cherry_tree.png"
   SFNode     boundingObject       NULL
   SFBool     locked               TRUE
   SFBool     isPickable           TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Tree.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/trees/protos/Tree.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Tree.proto]({{ url.github_tree }}/projects/objects/trees/protos/Tree.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

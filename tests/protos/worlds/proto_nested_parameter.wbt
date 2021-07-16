@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -34,6 +34,9 @@ Robot {
     }
   ]
   controller "proto_nested_parameter"
+  controllerArgs [
+    "proto_nested_parameter"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

@@ -3,7 +3,7 @@
 To use the package you need to copy it in your catkin workspace, install the dependencies and compile it:
 ```shell
 cd /path/to/catkin_ws/src
-cp $WEBOTS_HOME/projects/robots/universal_robots/resources/ros_package/ur_e_webots .
+cp -r $WEBOTS_HOME/projects/robots/universal_robots/resources/ros_package/ur_e_webots .
 cd ..
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO

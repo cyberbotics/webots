@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ class Building(WebotsObject):
     nameList = []
     wallTypes = ["glass building", "classic building", "orange building", "gray glass building", "blue glass building",
                  "arcade-style building", "transparent highrise", "windowed building", "old brick building",
-                 "red and white building", "construction building", "red brick wall", "old brick wall", "stone brick",
+                 "red and white building", "construction building", "stone brick",
                  "stone wall", "glass highrise", "old house", "old building", "highrise", "brick building",
                  "residential building", "old office building", "factory building", "tall house", "office building",
                  "concrete building"]

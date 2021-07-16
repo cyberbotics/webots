@@ -1,10 +1,10 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-lms-291
 # Model of Sick LMS291 (Lidar device).
 # 'resolution' should be typically 180, 360 or 720 in order to have a precision of respectively 1°, 0.5° and 0.25°
+# template language: javascript
 
 PROTO SickLms291 [
   field SFVec3f    translation 0 0 0
@@ -23,12 +23,12 @@ PROTO SickLms291 [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "textures/sick_lms291.png"
+              "webots://projects/devices/sick/protos/textures/sick_lms291.png"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/sick_lms291_roughness.jpg"
+              "webots://projects/devices/sick/protos/textures/sick_lms291_roughness.jpg"
             ]
           }
         }
@@ -1044,7 +1044,7 @@ PROTO SickLms291 [
     model "Sick LMS291"
     fieldOfView 3.14159
     horizontalResolution IS resolution
-    verticalFieldOfView %{= 3.14159 / fields.resolution.value }%
+    verticalFieldOfView %<= 3.14159 / fields.resolution.value >%
     numberOfLayers 1
     spherical TRUE
     maxRange 80

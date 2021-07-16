@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,8 +55,6 @@ public:
   static bool doesAtLeastOneLightCastsShadows() { return numberOfLightsCastingShadows() > 0; }
   static const QList<const WbLight *> &lights() { return cLights; }
   static int numberOfOnLights();
-
-  static QString defaultX3dShadowsParameter(const QString &parameterName);
 
 protected:
   // all constructors are reserved for derived classes only

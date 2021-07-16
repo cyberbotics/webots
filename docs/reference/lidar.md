@@ -183,11 +183,10 @@ The value of this field should be smaller or equal to the value of the `maxFrequ
 - A node can be inserted in the `rotatingHead` field to define the rotating head of the lidar.
 
 > **Note**: The fields `numberOfLayers`, `verticalFieldOfView`, `horizontalResolution` and `fieldOfView` should respect the following constraint in order to be able to simulate the lidar:
-
-        numberOfLayers < verticalFieldOfView * horizontalResolution / fieldOfView
-
-    In case of 'rotating' lidar, the `fieldOfView` term in the constraint is
-    replaced by `2 * &pi;`.
+> ```
+> numberOfLayers < verticalFieldOfView * horizontalResolution / fieldOfView
+> ```
+> In case of 'rotating' lidar, the `fieldOfView` term in the constraint is replaced by 2 * &pi;.
 
 #### Rotating Lidar
 
@@ -292,6 +291,8 @@ period = wb_lidar_get_sampling_period(tag)
 *enable and disable lidar updates*
 
 The `wb_lidar_enable` function allows the user to enable lidar updates.
+Once the lidar is enabled, it will copy range images from GPU memory to CPU memory at each time step, regardless of `wb_lidar_get_range_image` calls.
+
 The `sampling_period` argument specifies the sampling period of the sensor and is expressed in milliseconds.
 Note that the first measurement will be available only after the first sampling period elapsed.
 
@@ -547,7 +548,7 @@ from controller import Lidar
 
 class Lidar (Device):
     def getPointCloud(self, data_type='list'):
-    def getLayerPointCloud(self, layer):
+    def getLayerPointCloud(self, layer, data_type='list'):
     def getNumberOfPoints(self):
     # ...
 ```
@@ -609,7 +610,7 @@ The `wb_lidar_get_layer_point_cloud` function is a convenient way of getting dir
 
 The `wb_lidar_get_number_of_points` function returns the total number of points contained in the point cloud (each layer is assumed to have the same number of points associated to).
 
-> **Note** [Python]: The `getPointCloud` method has `data_type` parameter which can be `list` (default) or `buffer`.
+> **Note** [Python]: The `getPointCloud` and `getLayerPointCloud` methods have `data_type` parameter which can be `list` (default) or `buffer`.
 If `data_type` is equal to `list` then the function returns a list of points, but it is slow as it has to create a list of objects.
 If `data_type` is equal to `buffer` then the function returns `bytearray` and it is fast as there is no memory copying.
 

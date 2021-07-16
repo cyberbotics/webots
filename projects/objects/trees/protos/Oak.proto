@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A oak tree with optional boundingObject.
+# template language: javascript
 
 PROTO Oak [
   field SFVec3f    translation           0 0 0
@@ -25,7 +25,7 @@ PROTO Oak [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/oak_leaf.png"
+              "webots://projects/objects/trees/protos/textures/oak_leaf.png"
             ]
           }
           metalness 0
@@ -54,7 +54,7 @@ PROTO Oak [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/oak_trunk.jpg"
+              "webots://projects/objects/trees/protos/textures/oak_trunk.jpg"
             ]
           }
           metalness 0
@@ -83,7 +83,7 @@ PROTO Oak [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/oak_trunk.jpg"
+              "webots://projects/objects/trees/protos/textures/oak_trunk.jpg"
             ]
           }
           metalness 0
@@ -109,7 +109,7 @@ PROTO Oak [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 2.25 0
       children [
@@ -119,6 +119,6 @@ PROTO Oak [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

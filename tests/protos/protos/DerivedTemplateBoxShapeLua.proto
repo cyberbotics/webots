@@ -1,0 +1,14 @@
+#VRML_SIM R2021b utf8
+
+PROTO DerivedTemplateBoxShapeLua [
+  field SFVec3f translation 0 0 0
+  field SFFloat dxSize 0.2
+  field SFFloat dySize 0.2
+]
+{
+  TemplateBoxShape {
+    translation IS translation
+    xSize %{= fields.dxSize.value }%
+    ySize IS dySize
+  }
+}

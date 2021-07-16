@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@
 #include "WbWrenGtao.hpp"
 #include "WbWrenHdr.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWrenShaders.hpp"
 #include "WbWrenSmaa.hpp"
 
 #ifdef _WIN32
@@ -49,6 +50,7 @@
 #include <wren/camera.h>
 #include <wren/node.h>
 #include <wren/scene.h>
+#include <wren/shader_program.h>
 #include <wren/transform.h>
 #include <wren/viewport.h>
 
@@ -85,10 +87,10 @@ void WbViewpoint::init() {
   mRotateAnimation = NULL;
   mOrbitAnimation = NULL;
   mOrbitRadius = 0.0;
-  mInitialFieldOfView = 0.0;
-  mInitialFar = 0.0;
-  mInitialOrthographicHeight = 0.0;
-  mInitialNear = 0.0;
+  mSavedFieldOfView[stateId()] = 0.0;
+  mSavedFar[stateId()] = 0.0;
+  mSavedOrthographicHeight[stateId()] = 0.0;
+  mSavedNear[stateId()] = 0.0;
   mInitialOrientationQuaternion = WbQuaternion();
   mInitialOrbitQuaternion = WbQuaternion();
   mFinalOrientationQuaternion = WbQuaternion();
@@ -197,7 +199,7 @@ void WbViewpoint::postFinalize() {
   connect(mBloomThreshold, &WbSFDouble::changed, this, &WbViewpoint::updateBloomThreshold);
   connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbViewpoint::updatePostProcessingEffects);
 
-  save();
+  save(stateId());
 
   if (lensFlare())
     lensFlare()->postFinalize();
@@ -217,15 +219,15 @@ void WbViewpoint::deleteWrenObjects() {
   clearCoordinateSystem();
 }
 
-void WbViewpoint::reset() {
-  WbBaseNode::reset();
+void WbViewpoint::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   WbNode *const l = mLensFlare->value();
   if (l)
-    l->reset();
+    l->reset(id);
 
-  mOrientation->setValue(mInitialOrientation);
-  mPosition->setValue(mInitialPosition);
+  mOrientation->setValue(mSavedOrientation[id]);
+  mPosition->setValue(mSavedPosition[id]);
   resetAnimations();
   // we can't call 'updateFollowSolidState' here because the followed solid will probably moved
   mNeedToUpdateFollowSolidState = true;
@@ -306,11 +308,8 @@ void WbViewpoint::startFollowUp(WbSolid *solid, bool updateField) {
 
   // only a node instance can be followed
   WbNode *node = solid;
-  QVector<WbNode *> instances = node->protoParameterNodeInstances();
-  while (!instances.isEmpty()) {
-    node = instances[0];
-    instances = node->protoParameterNodeInstances();
-  }
+  if (node->isProtoParameterNode())
+    node = static_cast<WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
   WbSolid *solidInstance = solid;
   if (node != solid) {
     solidInstance = dynamic_cast<WbSolid *>(node);
@@ -397,7 +396,7 @@ void WbViewpoint::synchronizeFollowWithSolidName() {
 
 void WbViewpoint::setOrthographicViewHeight(double ovh) {
   mOrthographicViewHeight = ovh;
-  mInitialOrthographicHeight = ovh;
+  mSavedOrthographicHeight[stateId()] = ovh;
   updateOrthographicViewHeight();
 }
 
@@ -438,15 +437,15 @@ void WbViewpoint::enableNodeVisibility(bool enabled) {
   mNodeVisibilityEnabled = enabled;
 }
 
-void WbViewpoint::save() {
-  WbBaseNode::save();
-  mInitialNear = mNear->value();
-  mInitialFar = mFar->value();
-  mInitialFieldOfView = mFieldOfView->value();
-  mInitialPosition = mPosition->value();
-  mInitialOrientation = mOrientation->value();
-  mInitialDescription = mDescription->value();
-  mInitialFollow = mFollow->value();
+void WbViewpoint::save(const QString &id) {
+  WbBaseNode::save(id);
+  mSavedNear[id] = mNear->value();
+  mSavedFar[id] = mFar->value();
+  mSavedFieldOfView[id] = mFieldOfView->value();
+  mSavedPosition[id] = mPosition->value();
+  mSavedOrientation[id] = mOrientation->value();
+  mSavedDescription[id] = mDescription->value();
+  mSavedFollow[id] = mFollow->value();
   recomputeFollowField();
 }
 
@@ -456,17 +455,17 @@ void WbViewpoint::setPosition(const WbVector3 &position) {
 }
 
 void WbViewpoint::restore() {
-  mNear->setValue(mInitialNear);
-  mFar->setValue(mInitialFar);
-  mFieldOfView->setValue(mInitialFieldOfView);
-  mDescription->setValue(mInitialDescription);
-  mFollow->setValue(mInitialFollow);
+  mNear->setValue(mSavedNear[stateId()]);
+  mFar->setValue(mSavedFar[stateId()]);
+  mFieldOfView->setValue(mSavedFieldOfView[stateId()]);
+  mDescription->setValue(mSavedDescription[stateId()]);
+  mFollow->setValue(mSavedFollow[stateId()]);
 
   if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
-    mOrthographicViewHeight = mInitialOrthographicHeight;
+    mOrthographicViewHeight = mSavedOrthographicHeight[stateId()];
     updateOrthographicViewHeight();
   }
-  moveTo(mInitialPosition, mInitialOrientation);
+  moveTo(mSavedPosition[stateId()], mSavedOrientation[stateId()]);
 }
 
 void WbViewpoint::lookAt(const WbVector3 &target, const WbVector3 &upVector) {
@@ -922,10 +921,17 @@ void WbViewpoint::applyOptionalRenderingToWren() {
 }
 
 void WbViewpoint::applyRenderingModeToWren() {
-  if (WbWrenRenderingContext::instance()->renderingMode() == WbWrenRenderingContext::RM_WIREFRAME)
+  int wireframeRendering;
+  if (WbWrenRenderingContext::instance()->renderingMode() == WbWrenRenderingContext::RM_WIREFRAME) {
     wr_viewport_set_polygon_mode(mWrenViewport, WR_VIEWPORT_POLYGON_MODE_LINE);
-  else
+    wireframeRendering = 1;
+  } else {
     wr_viewport_set_polygon_mode(mWrenViewport, WR_VIEWPORT_POLYGON_MODE_FILL);
+    wireframeRendering = 0;
+  }
+  wr_shader_program_set_custom_uniform_value(WbWrenShaders::pbrStencilAmbientEmissiveShader(), "wireframeRendering",
+                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                             reinterpret_cast<const char *>(&wireframeRendering));
 
   wr_viewport_set_visibility_mask(mWrenViewport, WbWrenRenderingContext::instance()->visibilityMask());
 }
@@ -1527,7 +1533,7 @@ void WbViewpoint::exportNodeFields(WbVrmlWriter &writer) const {
     writer << " exposure=\'" << mExposure->value() << "\'";
     writer << " bloomThreshold=\'" << mBloomThreshold->value() << "\'";
     writer << " zNear=\'" << mNear->value() << "\'";
-    writer << " far=\'" << mFar->value() << "\'";
+    writer << " zFar=\'" << mFar->value() << "\'";
     writer << " followSmoothness=\'" << mFollowSmoothness->value() << "\'";
     writer << " ambientOcclusionRadius=\'" << mAmbientOcclusionRadius->value() << "\'";
     if (mFollowedSolid)

@@ -68,11 +68,23 @@ Robot windows are implemented in HTML and provide the following features:
 The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
 3. They are web-ready and could be used to display robot windows on web pages.
 
-A simple example of an HTML robot window is provided in the `robots/thymio/thymio2.wbt` sample simulation and demonstrates:
+A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto.md#custom_robot_window_simple-wbt) and it demonstrates how to establish a two-way communication between a robot window and Python controller.
+To create a similar robot window for your project follow these steps:
+1. In your project's root create a file in the following path `plugins/robot_windows/<robot window name>/<robot window name>.html`.
+2. The file is a typical HTML document that can contain JavaScript and CSS.
+However, in addition to the standard JavaScript library, a `webots` object is injected that exposes an interface to allow communication with a robot controller.
+Therefore, you can check usage examples of `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`]({{ url.github_tree }}/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
+3. The robot window needs to be registered in the robot's node.
+Find your robot in the scene tree, select a `window` field, click select and choose `<robot window name>`.
+If you double click on the robot, your `<robot window name>` will open.
+4. To send and receive data inside the controller you have to use `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
+A very simple Python example is given in [`projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py`]({{ url.github_tree }}/projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py).
 
-- How to display sensor information in the robot window.
-- How to send user interface events (like mouse clicks) from the robot window to the controller program.
-- How to change the title of the robot window from the controller program.
+An example of a reusable HTML robot window is given in [`projects/samples/howto/custom_robot_window`](samples-howto.md#custom_robot_window-wbt).
+While in the previous example the HTML robot window interacts directly with the controller, in this example the robot window exchanges data with a controller implemented in [`plugins/robot_windows/custom_robot_window/custom_robot_window.c`]({{ url.github_tree }}/projects/samples/howto/custom_robot_window/plugins/robot_windows/custom_robot_window/custom_robot_window.c).
+Therefore, the robot window in this case can be reused in different simulations.
+
+<br />
 
 The HTML robot windows can communicate with controller programs written using any of the supported programming languages, i.e. C, C++, Python, Java, MATLAB and ROS.
 If a [Robot](../reference/robot.md)'s controller is changed or restarted during the simulation run, the robot window associated to the same [Robot](../reference/robot.md) node will be restarted as well.

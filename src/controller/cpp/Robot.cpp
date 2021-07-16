@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
 #define WB_ALLOW_MIXING_C_AND_CPP_API
 
 #include <webots/device.h>
+#include <webots/plugins/robot_window/robot_window.h>
+#include <webots/plugins/robot_window/robot_wwi.h>
 #include <webots/robot.h>
-#include <webots/robot_window.h>
-#include <webots/robot_wwi.h>
 #include <webots/Device.hpp>
 #include <webots/Robot.hpp>
 
 #include <webots/Accelerometer.hpp>
+#include <webots/Altimeter.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/Compass.hpp>
@@ -195,6 +196,17 @@ Accelerometer *Robot::getAccelerometer(const string &name) {
 
 Accelerometer *Robot::createAccelerometer(const string &name) const {
   return new Accelerometer(name);
+}
+
+Altimeter *Robot::getAltimeter(const string &name) {
+  WbDeviceTag tag = wb_robot_get_device(name.c_str());
+  if (!Device::hasType(tag, WB_NODE_ALTIMETER))
+    return NULL;
+  return dynamic_cast<Altimeter *>(getOrCreateDevice(tag));
+}
+
+Altimeter *Robot::createAltimeter(const string &name) const {
+  return new Altimeter(name);
 }
 
 Brake *Robot::getBrake(const string &name) {
@@ -457,7 +469,7 @@ Device *Robot::getOrCreateDevice(int tag) {
   const int size = (int)deviceList.size();
   // if new devices have been added, then count is greater than devices.length
   // deleted devices are not removed from the C API list and don't affect the number of devices
-  if (size == count && size > 0 && tag < size)
+  if (size == count + 1 && size > 0 && tag < size)
     return deviceList[tag];
 
   // (re-)initialize deviceList
@@ -472,6 +484,9 @@ Device *Robot::getOrCreateDevice(int tag) {
     switch (wb_device_get_node_type(otherTag)) {
       case WB_NODE_ACCELEROMETER:
         deviceList[otherTag] = createAccelerometer(name);
+        break;
+      case WB_NODE_ALTIMETER:
+        deviceList[otherTag] = createAltimeter(name);
         break;
       case WB_NODE_BRAKE:
         deviceList[otherTag] = createBrake(name);

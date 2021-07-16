@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -172,12 +172,23 @@ void WbStreamingServer::onNewTcpData() {
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
     const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
-    if (!requestedUrl.isEmpty())  // "/" is reserved for the websocket.
-      sendTcpRequestReply(requestedUrl, socket);
+    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
+      bool hasEtag = false;
+      QString etag;
+      for (const auto &i : tokens) {
+        if (i == "If-None-Match:")
+          hasEtag = true;
+        else if (hasEtag) {
+          etag = i;
+          break;
+        }
+      }
+      sendTcpRequestReply(requestedUrl, etag, socket);
+    }
   }
 }
 
-void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSocket *socket) {
+void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
   if (!requestedUrl.startsWith("robot_windows/")) {
     WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
     socket->write(WbHttpReply::forge404Reply());
@@ -190,7 +201,7 @@ void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, QTcpSoc
     return;
   }
   WbLog::info(tr("Received request for %1").arg(fileName));
-  socket->write(WbHttpReply::forgeFileReply(fileName));
+  socket->write(WbHttpReply::forgeFileReply(fileName, etag));
 }
 
 void WbStreamingServer::onNewWebSocketConnection() {
@@ -269,9 +280,11 @@ void WbStreamingServer::processTextMessage(QString message) {
     if (realTime) {
       printf("real-time\n");
       WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
+      client->sendTextMessage("real-time");
     } else {
       printf("fast\n");
       WbSimulationState::instance()->setMode(WbSimulationState::FAST);
+      client->sendTextMessage("fast");
     }
     connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
             &WbStreamingServer::propagateSimulationStateChange);
@@ -575,8 +588,6 @@ QString WbStreamingServer::simulationStateString(bool pauseTime) {
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
       return pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
-    case WbSimulationState::STEP:
-      return "step";
     case WbSimulationState::REALTIME:
       return "real-time";
     case WbSimulationState::FAST:

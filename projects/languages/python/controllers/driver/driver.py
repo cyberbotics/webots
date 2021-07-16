@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ message through an emitter or handle the position of Robot1.
 """
 
 from controller import Supervisor
+from common import common_print
 
 
 class Driver (Supervisor):
@@ -86,4 +87,5 @@ class Driver (Supervisor):
 
 
 controller = Driver()
+common_print('driver')
 controller.run()

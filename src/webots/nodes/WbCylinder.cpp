@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -534,8 +534,8 @@ bool WbCylinder::shallExport() const {
 ////////////////////////
 
 WbVector3 WbCylinder::computeFrictionDirection(const WbVector3 &normal) const {
-  WbVector3 localNormal = matrix().extracted3x3Matrix() * normal;
-  // Find most probable face and return first friction direction
+  WbVector3 localNormal = normal * matrix().extracted3x3Matrix();
+  // Find most probable face and return first friction direction in the local coordinate system
   if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))  // top or bottom face
     return WbVector3(1, 0, 0);
   else  // side

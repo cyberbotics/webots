@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -24,7 +24,7 @@ DEF ROBOT TemplateRobot {
       appearance PBRAppearance {
         baseColorMap DEF TEXTURE ImageTexture {
           url [
-            "textures/water.jpg"
+            "webots://projects/default/worlds/textures/water.jpg"
           ]
         }
       }
@@ -41,6 +41,9 @@ Robot {
   ]
   name "supervisor"
   controller "template_node_id"
+  controllerArgs [
+    "template_node_id"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

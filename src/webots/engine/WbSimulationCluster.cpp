@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 #include "WbDistanceSensor.hpp"
 #include "WbFluid.hpp"
 #include "WbGeometry.hpp"
+#include "WbHingeJoint.hpp"
 #include "WbImmersionProperties.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
 #include "WbLightSensor.hpp"
@@ -149,7 +150,7 @@ dJointGroupID WbSimulationCluster::bodyContactJointGroup(dBodyID b) {
 }
 
 void WbSimulationCluster::handleKinematicsCollisions() {
-  // handle DifferentialWheels robots without physics
+  // handle differential robots without physics
   foreach (WbKinematicDifferentialWheels *robot, mCollisionedRobots)
     robot->applyKinematicDisplacement();
   mCollisionedRobots.clear();
@@ -238,38 +239,38 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
     }
   }
 
-  WbVector3 localFdirS1, localFdirS2;
+  WbVector3 globalFdirS1, globalFdirS2;
   if ((frictionSize > 1) || (fdsSize > 1)) {  // asymetric contact
     // Compute first friction direction
     WbVector3 contactNormal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
     if (inversed) {  // respect the order: material1 -> material2
-      localFdirS1 = wg2->matrix().extracted3x3Matrix() * wg2->computeFrictionDirection(contactNormal);
-      localFdirS2 = wg1->matrix().extracted3x3Matrix() * wg1->computeFrictionDirection(contactNormal);
+      globalFdirS1 = wg2->matrix().extracted3x3Matrix() * wg2->computeFrictionDirection(contactNormal);
+      globalFdirS2 = wg1->matrix().extracted3x3Matrix() * wg1->computeFrictionDirection(contactNormal);
     } else {
-      localFdirS1 = wg1->matrix().extracted3x3Matrix() * wg1->computeFrictionDirection(contactNormal);
-      localFdirS2 = wg2->matrix().extracted3x3Matrix() * wg2->computeFrictionDirection(contactNormal);
+      globalFdirS1 = wg1->matrix().extracted3x3Matrix() * wg1->computeFrictionDirection(contactNormal);
+      globalFdirS2 = wg2->matrix().extracted3x3Matrix() * wg2->computeFrictionDirection(contactNormal);
     }
 
     // check if both geometries support asymmetric friction
-    if (localFdirS1.isNull() || localFdirS2.isNull()) {
+    if (globalFdirS1.isNull() || globalFdirS2.isNull()) {
       contact->surface.mode = (bounce != 0.0 ? dContactBounce : 0) | dContactApprox1 | dContactSoftCFM | dContactSoftERP;
       frictionSize = 1;
       fdsSize = 1;
     } else {
       // Apply friction direction rotation if set
       if (!frictionRotation.isNull()) {
-        localFdirS1 =
-          WbRotation(contactNormal[0], contactNormal[1], contactNormal[2], -frictionRotation[0]).toMatrix3() * localFdirS1;
-        localFdirS2 =
-          WbRotation(contactNormal[0], contactNormal[1], contactNormal[2], -frictionRotation[1]).toMatrix3() * localFdirS2;
+        globalFdirS1 =
+          WbRotation(contactNormal[0], contactNormal[1], contactNormal[2], -frictionRotation[0]).toMatrix3() * globalFdirS1;
+        globalFdirS2 =
+          WbRotation(contactNormal[0], contactNormal[1], contactNormal[2], -frictionRotation[1]).toMatrix3() * globalFdirS2;
       }
 
       // Apply friction direction to the contact joint parameters
       contact->surface.mode =
         dContactFDir1 | (bounce != 0.0 ? dContactBounce : 0) | dContactApprox1 | dContactSoftCFM | dContactSoftERP;
-      contact->fdir1[0] = localFdirS1[0];
-      contact->fdir1[1] = localFdirS1[1];
-      contact->fdir1[2] = localFdirS1[2];
+      contact->fdir1[0] = globalFdirS1[0];
+      contact->fdir1[1] = globalFdirS1[1];
+      contact->fdir1[2] = globalFdirS1[2];
     }
   } else  // fully symetric contact (slip and friction)
     contact->surface.mode = (bounce != 0.0 ? dContactBounce : 0) | dContactApprox1 | dContactSoftCFM | dContactSoftERP;
@@ -278,8 +279,8 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
   if (frictionSize <= 1)  // symetric friction
     contact->surface.mu = mu[0];
   else {  // asymetric friction
-    // compute mu1 and mu2 (length of localFdirS1 and localFdirS2 is assumed to be 1)
-    double vectorAngle = localFdirS1.angle(localFdirS2);
+    // compute mu1 and mu2 (length of globalFdirS1 and globalFdirS2 is assumed to be 1)
+    double vectorAngle = globalFdirS1.angle(globalFdirS2);
     double ratio1 = fabs(cos(vectorAngle));
     double ratio2 = fabs(sin(vectorAngle));
     double mu1, mu2;
@@ -306,8 +307,8 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
     contact->surface.slip2 = fds[0];
     contact->surface.mode = contact->surface.mode | (fds[0] != 0.0 ? dContactSlip1 | dContactSlip2 : 0);
   } else {  // asymetric slip
-    // compute slip1 and slip2 (length of localFdirS1 and localFdirS2 is assumed to be 1)
-    double vectorAngle = localFdirS1.angle(localFdirS2);
+    // compute slip1 and slip2 (length of globalFdirS1 and globalFdirS2 is assumed to be 1)
+    double vectorAngle = globalFdirS1.angle(globalFdirS2);
     double ratio1 = fabs(cos(vectorAngle));
     double ratio2 = fabs(sin(vectorAngle));
     double slip1 = 0, slip2 = 0;
@@ -418,7 +419,6 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
       if (isOtherRayGeom)
         return false;
     case WB_NODE_CAMERA:
-    case WB_NODE_DIFFERENTIAL_WHEELS:
     case WB_NODE_DISTANCE_SENSOR:
     case WB_NODE_LIGHT_SENSOR:
     case WB_NODE_RADAR:
@@ -430,7 +430,7 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
-void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
+void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2) {
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
     // colliding a mContext->space() with something
     dSpaceCollide2(o1, o2, data, odeNearCallback);
@@ -440,7 +440,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     if (dGeomIsSpace(o2))
       dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
   }
+}
 
+void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   // retrieve data
   WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
   WbOdeGeomData *const odeGeomData2 = static_cast<WbOdeGeomData *>(dGeomGetData(o2));
@@ -456,6 +458,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
     const int pluginContacts = physicsPlugin->collide(o1, o2);
 
+    if (pluginContacts == 0)
+      handleCollisionIfSpace(data, o1, o2);
     if (pluginContacts == 2) {  // Webots will change the boundingObject color to notify collision
       if (webotsGeom1) {
         s1 = odeGeomData1->solid();
@@ -472,7 +476,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       return;
     } else if (pluginContacts == 1 || !webotsGeom1 || !webotsGeom2)  // Webots won't attempt to manipulate user-defined dGeoms
       return;
-  }
+  } else
+    handleCollisionIfSpace(data, o1, o2);
 
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2))
     return;
@@ -579,6 +584,35 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
         (b2 && dAreConnectedExcluding(b2, b1, dJointTypeContact)))))
     return;
 
+  // ignore collision if bodies are connected by a chain of HingeJoint (or derivatives) sharing a same anchor
+  if (b1 && b2) {
+    WbNode *n;  // climb up the chain from the lowest level
+    dBodyID b;  // stop when we reach this body
+    if (s1->level() > s2->level()) {
+      n = dynamic_cast<WbNode *>(s1);
+      b = b2;
+    } else {
+      n = dynamic_cast<WbNode *>(s2);
+      b = b1;
+    }
+
+    WbVector3 firstAnchor(NAN, NAN, NAN);
+    while (n && n->level() >= 1) {
+      const WbSolid *s = dynamic_cast<WbSolid *>(n);
+      if (s && s->body() == b && !firstAnchor.isNan())
+        return;  // one intermediary joint is mandatory to ignore collisions at this level, otherwise it's taken care elsewhere
+
+      const WbHingeJoint *joint = dynamic_cast<WbHingeJoint *>(n);
+      if (joint) {
+        if (firstAnchor.isNan())
+          firstAnchor = joint->anchor();
+        else if (!firstAnchor.almostEquals(joint->anchor()))
+          break;
+      }
+      n = n->parentNode();
+    }
+  }
+
   dContact contact[10];
   const int n = dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
   if (n == 0)
@@ -592,43 +626,18 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (ts2 && !isRayGeom1)
     ts2->setTouching(true);
 
-  const WbPhysics *const p1 = s1->physics();
-  const WbPhysics *const p2 = s2->physics();
-
-  // kinematic mode
-  if (!p1 || !p2) {
-    WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
-    WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
-    if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
-      wg1->setColliding();
-      cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
-      if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
-        dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));  // we want only one contact point
-        wg2->setColliding();
-        cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
-        collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
-        collideKinematicRobots(robot2->kinematicDifferentialWheels(), true, contact, false);
-      } else
-        collideKinematicRobots(robot1->kinematicDifferentialWheels(), false, contact, true);
-      return;
-    }
-    if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
-      dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
-      wg2->setColliding();
-      cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
-      collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
-      return;
-    }
-  }
-
   // Handles the case of ray geometry against a non-ray geometry, i.e. at least one body is null
   if (isRayGeom1) {
     WbDistanceSensor *const ds = dynamic_cast<WbDistanceSensor *>(s1);
     if (ds) {
-      // Luc : contact[0].geom.g1 and contact[0].geom.g2 may not coincide with o1 and o2 in an oddly defined dCollide call-back
-      // function of ODE. Should we be worried?
-      assert(o1 == contact[0].geom.g1 && o2 == contact[0].geom.g2);
-      ds->rayCollisionCallback(odeGeomData2->geometry(), o1, &contact[0].geom);
+      int ix = 0;  // index of the closest contact
+      for (int i = 1; i < n; ++i)
+        if (contact[i].geom.depth < contact[ix].geom.depth)
+          ix = i;
+      // Luc : contact[0].geom.g1 and contact[0].geom.g2 may not coincide with o1 and o2 in an oddly defined dCollide
+      // call-back function of ODE. Should we be worried?
+      assert(o1 == contact[ix].geom.g1 && o2 == contact[ix].geom.g2);
+      ds->rayCollisionCallback(odeGeomData2->geometry(), o1, &contact[ix].geom);
       return;
     }
 

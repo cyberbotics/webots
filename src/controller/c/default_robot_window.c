@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,10 @@
 // This module is not yet complete: only a few devices are implemented.
 
 #include <webots/device.h>
-#include <webots/utils/default_robot_window.h>
+#include <webots/plugins/robot_window/default.h>
 
 #include <webots/accelerometer.h>
+#include <webots/altimeter.h>
 #include <webots/camera.h>
 #include <webots/compass.h>
 #include <webots/distance_sensor.h>
@@ -164,6 +165,7 @@ static double update_period_by_type(WbNodeType type) {
 static double number_of_components(WbDeviceTag tag) {
   WbNodeType type = wb_device_get_node_type(tag);
   switch (type) {
+    case WB_NODE_ALTIMETER:
     case WB_NODE_DISTANCE_SENSOR:
     case WB_NODE_POSITION_SENSOR:
     case WB_NODE_LIGHT_SENSOR:
@@ -206,6 +208,7 @@ static void ue_append(struct UpdateElement *ue, double update_time, const double
   if (value == NULL)
     return;
 
+  const int last_index = ue->n_values;
   ue->n_values++;
   if (ue->values == NULL)
     ue->values = (double **)malloc(sizeof(double *));
@@ -215,11 +218,11 @@ static void ue_append(struct UpdateElement *ue, double update_time, const double
     ue->times = (double *)malloc(sizeof(double));
   else
     ue->times = (double *)realloc(ue->times, ue->n_values * sizeof(double));
-  int last_index = ue->n_values - 1;
   ue->values[last_index] = malloc(ue->n_components * sizeof(double *));
   ue->times[last_index] = update_time;
   int v;
   for (v = 0; v < ue->n_components; ++v)
+    // cppcheck-suppress objectIndex
     ue->values[last_index][v] = value[v];
 }
 
@@ -657,6 +660,13 @@ static void accelerometer_collect_value(WbDeviceTag tag, struct UpdateElement *u
   ue_append(ue, update_time, values);
 }
 
+static void altimeter_collect_value(WbDeviceTag tag, struct UpdateElement *ue, double update_time) {
+  if (wb_altimeter_get_sampling_period(tag) <= 0)
+    return;
+  const double value = wb_altimeter_get_value(tag);
+  ue_append(ue, update_time, &value);
+}
+
 static void compass_collect_value(WbDeviceTag tag, struct UpdateElement *ue, double update_time) {
   if (wb_compass_get_sampling_period(tag) <= 0)
     return;
@@ -774,6 +784,9 @@ void wbu_default_robot_window_update() {
         case WB_NODE_ACCELEROMETER:
           accelerometer_collect_value(tag, update_element, simulated_time);
           break;
+        case WB_NODE_ALTIMETER:
+          altimeter_collect_value(tag, update_element, simulated_time);
+          break;
         case WB_NODE_COMPASS:
           compass_collect_value(tag, update_element, simulated_time);
           break;
@@ -814,6 +827,7 @@ void wbu_default_robot_window_update() {
         buffer_append("\":{");
         switch (type) {
           case WB_NODE_ACCELEROMETER:
+          case WB_NODE_ALTIMETER:
           case WB_NODE_COMPASS:
           case WB_NODE_DISTANCE_SENSOR:
           case WB_NODE_GPS:

@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,17 +29,10 @@ release debug profile clean:
 	@echo "# Java controller library ("$@")"
 	@echo "#"
 	@+make -s -C java $@
+	@echo "# Matlab controller library ("$@")"
+	@echo "#"
+	@+make -s -C matlab $@
 ifeq ($(OSTYPE),linux)
-	@echo "#"
-	@echo "# Python 2.7 controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=python2.7 make -s -C python $@
-ifeq ($(UBUNTU_VERSION), 16.04)
-	@echo "#"
-	@echo "# Python 3.5 controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=python3.5 make -s -C python $@
-endif
 	@echo "#"
 	@echo "# Python 3.6 controller library ("$@")"
 	@echo "#"
@@ -59,27 +52,19 @@ endif
 endif
 ifeq ($(OSTYPE),windows)
 	@echo "#"
-	@echo "# Python 3.9 controller library ("$@")"
+	@echo "# Python 3.7 controller library ("$@")"
 	@echo "#"
-	@+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $@
+	@+PATH="$(PYTHON37_HOME):$(PATH)" make -s -C python $@
 	@echo "#"
 	@echo "# Python 3.8 controller library ("$@")"
 	@echo "#"
 	@+PATH="$(PYTHON38_HOME):$(PATH)" make -s -C python $@
 	@echo "#"
-	@echo "# Python 3.7 controller library ("$@")"
+	@echo "# Python 3.9 controller library ("$@")"
 	@echo "#"
-	@+PATH="$(PYTHON37_HOME):$(PATH)" make -s -C python $@
-	@echo "#"
-	@echo "# Python 2.7 controller library ("$@")"
-	@echo "#"
-	@+PATH="$(PYTHON27_HOME):$(PATH)" make -s -C python $@
+	@+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $@
 endif
 ifeq ($(OSTYPE),darwin)
-	@echo "#"
-	@echo "# Python 2.7 controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=/usr/bin/python2.7 make -s -C python $@
 	@echo "#"
 	@echo "# Python 3.7 controller library ("$@")"
 	@echo "#"

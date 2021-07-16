@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #include <QtCore/QList>
 #include <QtCore/QObject>
+#include <QtCore/QSet>
 
 #include "WbRotation.hpp"
 #include "WbVector3.hpp"
@@ -92,6 +93,7 @@ private slots:
   void update();
   void updateCommandsAfterNodeDeletion(QObject *);
   void addChangedCommandToList(WbAnimationCommand *command);
+  void addChangedLabelToList(const QString &label);
   void handleNodeVisibilityChange(WbNode *node, bool visibility);
 
 private:
@@ -121,6 +123,8 @@ private:
   QList<WbAnimationCommand *> mCommands;
   QList<WbAnimationCommand *> mChangedCommands;
   QList<WbAnimationCommand *> mArtificialCommands;
+  QList<QString> mChangedLabels;
+  QSet<QString> mLabelsIds;
 };
 
 #endif

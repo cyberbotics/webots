@@ -1,0 +1,267 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "An example of how to build your own Robot and the result of the motor_set_motor_force() command"
+  ]
+  title "Biped"
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.053568198562683564 0.9979409732237222 0.035274099053542146 4.72798
+  position -0.78186 0.22511 -0.190565
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF FLOOR Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+DEF BIPED Robot {
+  translation 0.1 0.18 -0.2
+  children [
+    DEF ROBOT_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    DEF LEFT_HIP HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0 -0.0275 0.061
+      }
+      device [
+        RotationalMotor {
+          name "left hip"
+          controlPID 5 0 0
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.0275 0.061
+        rotation 0 0 1 0
+        children [
+          DEF THIGH_BB Transform {
+            translation 0 -0.025 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.05 0.1 0.02
+                }
+              }
+            ]
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0 -0.05 0.021
+            }
+            device [
+              RotationalMotor {
+                name "left knee"
+              }
+            ]
+            endPoint Solid {
+              translation 0 -0.05 0.021
+              rotation 0 0 1 0
+              children [
+                DEF KNEE_BB Transform {
+                  translation 0 -0.025 0
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 1 0.498039 0
+                        roughness 1
+                        metalness 0
+                      }
+                      geometry Box {
+                        size 0.05 0.1 0.02
+                      }
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor 0 -0.075 -0.036
+                  }
+                  device [
+                    RotationalMotor {
+                      name "left ankle"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 -0.075 -0.036
+                    rotation 0 0 1 0
+                    children [
+                      DEF ANKLE_BB Transform {
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0 0 1
+                              roughness 1
+                              metalness 0
+                            }
+                            geometry Box {
+                              size 0.2 0.05 0.05
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    boundingObject USE ANKLE_BB
+                    physics Physics {
+                      density -1
+                      mass 0.1
+                    }
+                  }
+                }
+              ]
+              boundingObject USE KNEE_BB
+              physics Physics {
+                density -1
+                mass 0.1
+              }
+            }
+          }
+        ]
+        name "left hip"
+        boundingObject USE THIGH_BB
+        physics Physics {
+          density -1
+          mass 0.1
+        }
+      }
+    }
+    DEF RIGHT_HIP HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0 -0.0275 -0.061
+      }
+      device [
+        RotationalMotor {
+          name "right hip"
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.0275 -0.061
+        rotation 0 0 1 0
+        children [
+          USE THIGH_BB
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0 -0.05 -0.021
+            }
+            device [
+              RotationalMotor {
+                name "right knee"
+              }
+            ]
+            endPoint Solid {
+              translation 0 -0.05 -0.021
+              rotation 0 0 1 0
+              children [
+                USE KNEE_BB
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor 0 -0.075 0.036
+                  }
+                  device [
+                    RotationalMotor {
+                      name "right ankle"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 -0.075 0.036
+                    rotation 0 0 1 0
+                    children [
+                      USE ANKLE_BB
+                    ]
+                    boundingObject USE ANKLE_BB
+                    physics Physics {
+                      density -1
+                      mass 0.1
+                    }
+                  }
+                }
+              ]
+              boundingObject USE KNEE_BB
+              physics Physics {
+                density -1
+                mass 0.1
+              }
+            }
+          }
+        ]
+        name "right hip"
+        boundingObject USE THIGH_BB
+        physics Physics {
+          density -1
+          mass 0.1
+        }
+      }
+    }
+    DEF HEAD HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.0775 0
+      }
+      device [
+        RotationalMotor {
+          name "head"
+          maxVelocity 2
+          maxTorque 2
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.0775 0
+        children [
+          DEF HEAD_SHAPE Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0.498039
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.05 0.05 0.05
+            }
+          }
+        ]
+        name "head"
+        boundingObject USE HEAD_SHAPE
+        physics Physics {
+          density -1
+          mass 0.02
+        }
+      }
+    }
+  ]
+  boundingObject USE ROBOT_SHAPE
+  physics Physics {
+    density -1
+    mass 0.1
+  }
+  controller "biped"
+}

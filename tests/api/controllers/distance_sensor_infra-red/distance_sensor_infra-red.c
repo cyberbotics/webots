@@ -73,17 +73,17 @@ int main(int argc, char **argv) {
 
   // check ds0
   value = wb_distance_sensor_get_value(ds0);
-  ts_assert_double_in_delta(value, 1281.5175, 0.001,
+  ts_assert_double_in_delta(value, 1283.6893, 0.001,
                             "Distance sensor 'ds0' doesn't return the right distance when hitting a object without texture "
                             "painted green (expected = %f, received = %f)",
-                            1281.5175, value);
+                            1283.6893, value);
 
   // check ds1
   value = wb_distance_sensor_get_value(ds1);
-  ts_assert_double_in_delta(value, 1448.139, 0.001,
+  ts_assert_double_in_delta(value, 1450.385, 0.001,
                             "Distance sensor 'ds1' doesn't return the right distance when hitting a object with green texture "
                             "painted green (expected = %f, received = %f)",
-                            1448.139, value);
+                            1450.385, value);
 
   wb_pen_set_ink_color(pen0, 0xCC33FF, 0.3);
   wb_pen_set_ink_color(pen1, 0xCC33FF, 0.3);
@@ -93,17 +93,17 @@ int main(int argc, char **argv) {
 
   // check ds0
   value = wb_distance_sensor_get_value(ds0);
-  ts_assert_double_in_delta(value, 1250.002, 0.001,
+  ts_assert_double_in_delta(value, 1252.266, 0.001,
                             "Distance sensor 'ds0' doesn't return the right distance when hitting an object without texture "
                             "painted in violet (expected = %f, received = %f)",
-                            1250.002, value);
+                            1252.266, value);
 
   // check ds1
   value = wb_distance_sensor_get_value(ds1);
-  ts_assert_double_in_delta(value, 1415.472520, 0.001,
+  ts_assert_double_in_delta(value, 1217.675, 0.001,
                             "Distance sensor 'ds1' doesn't return the right distance when hitting an object with green texture "
                             "painted in violet (expected = %f, received = %f)",
-                            1415.472520, value);
+                            1217.675, value);
 
   wb_pen_set_ink_color(pen0, 0xFF0000, 0.7);
   wb_pen_set_ink_color(pen1, 0xFF0000, 0.7);
@@ -113,17 +113,17 @@ int main(int argc, char **argv) {
 
   // check ds0
   value = wb_distance_sensor_get_value(ds0);
-  ts_assert_double_in_delta(value, 1079.5153, 0.001,
+  ts_assert_double_in_delta(value, 1025.485, 0.001,
                             "Distance sensor 'ds0' doesn't return the right distance when hitting an object without texture "
                             "painted in red (expected = %f, received = %f)",
-                            1079.5153, value);
+                            1025.485, value);
 
   // check ds1
   value = wb_distance_sensor_get_value(ds1);
-  ts_assert_double_in_delta(value, 1236.368597, 0.001,
+  ts_assert_double_in_delta(value, 834.98, 0.001,
                             "Distance sensor 'ds1' doesn't return the right distance when hitting an object with green texture "
                             "painted in red (expected = %f, received = %f)",
-                            1236.368597, value);
+                            834.98, value);
 
   ts_send_success();
   return EXIT_SUCCESS;

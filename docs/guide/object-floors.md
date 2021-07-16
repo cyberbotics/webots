@@ -28,7 +28,7 @@ CircleArena {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/CircleArena.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/floors/protos/CircleArena.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/CircleArena.proto]({{ url.github_tree }}/projects/objects/floors/protos/CircleArena.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -73,7 +73,7 @@ Floor {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/Floor.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/floors/protos/Floor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/Floor.proto]({{ url.github_tree }}/projects/objects/floors/protos/Floor.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -113,7 +113,7 @@ RectangleArena {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/RectangleArena.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/floors/protos/RectangleArena.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/RectangleArena.proto]({{ url.github_tree }}/projects/objects/floors/protos/RectangleArena.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -160,7 +160,7 @@ UnevenTerrain {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/UnevenTerrain.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/floors/protos/UnevenTerrain.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/floors/protos/UnevenTerrain.proto]({{ url.github_tree }}/projects/objects/floors/protos/UnevenTerrain.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

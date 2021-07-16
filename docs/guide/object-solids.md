@@ -21,14 +21,14 @@ SolidBox {
   SFString   name                  "box"
   SFVec3f    size                  2 2 2
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
   SFBool     castShadows           TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidBox.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/solids/protos/SolidBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidBox.proto]({{ url.github_tree }}/projects/objects/solids/protos/SolidBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -69,13 +69,13 @@ SolidPipe {
   SFInt32    subdivision           24
   SFFloat    accuracy              0.0001
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidPipe.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/solids/protos/SolidPipe.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidPipe.proto]({{ url.github_tree }}/projects/objects/solids/protos/SolidPipe.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -118,13 +118,13 @@ SolidRoundedBox {
   SFFloat    borderRadius          0.5
   SFInt32    subdivision           24
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidRoundedBox.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/solids/protos/SolidRoundedBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidRoundedBox.proto]({{ url.github_tree }}/projects/objects/solids/protos/SolidRoundedBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -164,13 +164,13 @@ SolidTorus {
   SFFloat    minorRadius           1
   SFInt32    subdivision           24
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidTorus.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/solids/protos/SolidTorus.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/solids/protos/SolidTorus.proto]({{ url.github_tree }}/projects/objects/solids/protos/SolidTorus.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

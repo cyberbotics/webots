@@ -1,32 +1,32 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # A customizable (size, texture, etc.) biscuit box.
+# template language: javascript
 
 PROTO BiscuitBox [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 1 0 0
   field SFString   name        "biscuit box"
   field SFVec3f    size        0.24 0.04 0.08              # Defines the size of the box.
-  field MFString   textureUrl  "textures/biscuit_box.jpg"  # Defines the texture used for the box.
+  field MFString   textureUrl  "webots://projects/objects/kitchen/breakfast/protos/textures/biscuit_box.jpg"  # Defines the texture used for the box.
   field SFFloat    mass        0.4                         # Defines the mass of the box in kg.
 ]
 {
-  %{
-    local size = fields.size.value
-    if size.x < 0 or size.y < 0 or size.z < 0 then
-      io.stderr:write("'size' must be strictly positive\n")
-      size = fields.size.defaultValue
-    end
-  }%
+  %<
+    let size = fields.size.value;
+    if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+      size = fields.size.defaultValue;
+      console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
+  >%
 Solid {
   translation IS translation
   rotation IS rotation
   recognitionColors [ 0.92 0.76 0.3 ]
   children [
     Transform {
-      scale %{= size.x / 0.24 }% %{= size.y / 0.04 }% %{= size.z / 0.08 }%
+      scale %<= size.x / 0.24 >% %<= size.y / 0.04 >% %<= size.z / 0.08 >%
       children [
         Shape {
           appearance PBRAppearance {
@@ -54,20 +54,20 @@ Solid {
   name IS name
   model "biscuit box"
   boundingObject Transform {
-    translation 0 %{= size.y / 2 }% 0
+    translation 0 %<= size.y * 0.5 >% 0
     children [
       Shape {
         geometry Box {
-          size %{= size.x }% %{= size.y }% %{= size.z }%
+          size %<= size.x >% %<= size.y >% %<= size.z >%
         }
       }
     ]
   }
-  %{ if fields.mass.value > 0 then }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
       mass IS mass
     }
-  %{ end }%
+  %< } >%
 }
 }

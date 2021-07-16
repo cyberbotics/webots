@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,11 +14,13 @@
 
 #include "WbRobotWindow.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbLog.hpp"
 #include "WbProject.hpp"
 #include "WbRobot.hpp"
 #include "WbRobotWindowTransportLayer.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbVersion.hpp"
 #include "WbWebPage.hpp"
 
 #include <QtCore/QCoreApplication>
@@ -78,10 +80,8 @@ void WbRobotWindow::setupPage() {
   assert(mWebView);
   mLoaded = false;
 
-#ifdef _WIN32
   if (mWebView->page())
     delete mWebView->page();
-#endif
 
   mWebView->setPage(new WbWebPage());
 
@@ -105,8 +105,7 @@ void WbRobotWindow::setupPage() {
   if (htmlFile.open(QFile::ReadOnly | QFile::Text)) {
     QTextStream htmlInput(&htmlFile);
 
-    QString prependToHead = linkTag(WbStandardPaths::resourcesPath() + "web/local/webots.css") +
-                            linkTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.css");
+    QString prependToHead = linkTag(WbStandardPaths::resourcesPath() + "web/local/webots.css");
 #ifdef __APPLE__
     // Chromium bug on macOS:
     // - warnings like the following one are displayed in the console: "2018-05-08 11:17:37.496
@@ -118,22 +117,27 @@ void WbRobotWindow::setupPage() {
 #ifndef _WIN32
       scriptTag(WbStandardPaths::resourcesPath() + "web/local/qwebchannel.js") +
 #endif
-      scriptTag(WbStandardPaths::resourcesPath() + "web/local/webots.js") +
-      scriptTag(WbStandardPaths::localDocPath() + "dependencies/jquery/1.11.3/jquery.min.js") +
-      scriptTag(WbStandardPaths::localDocPath() + "dependencies/jqueryui/1.11.4/jquery-ui.min.js");
+      scriptTag(WbStandardPaths::resourcesPath() + "web/local/webots.js");
     QString content;
-    const QRegExp script("<script[^\">]*src=\"([^\">]*)\"");
+    const QRegularExpression script("<script[^>]*src=[\"']([^\"'>]*)[\"']");
+    const QRegularExpression link("<link[^>]*href=[\"']([^\"'>]*)[\"']");
     while (!htmlInput.atEnd()) {
       QString line = htmlInput.readLine();
       if (line.contains("<head>"))
         line += '\n' + prependToHead;
       else if (line.contains("<body>"))
         line += '\n' + prependToBody;
-      else if (script.indexIn(line) != -1) {
-        const QString oldUrl = script.cap(1);
-        const QString newUrl = formatUrl(oldUrl) + "?" + QString::number(mRobot->uniqueId()) + QString("_%1").arg(mResetCount);
-        line.remove(script.pos(1), oldUrl.length());
-        line.insert(script.pos(1), newUrl);
+      else {
+        QRegularExpressionMatch match = script.match(line);
+        if (!match.hasMatch())
+          match = link.match(line);
+        if (match.hasMatch()) {
+          const QString oldUrl = match.captured(1);
+          const QString newUrl =
+            formatUrl(oldUrl) + "?" + QString::number(mRobot->uniqueId()) + QString("_%1").arg(mResetCount);
+          line.remove(match.capturedStart(1), oldUrl.length());
+          line.insert(match.capturedStart(1), newUrl);
+        }
       }
       content += line + '\n';
     }
@@ -169,7 +173,23 @@ void WbRobotWindow::show() {
 }
 
 QString WbRobotWindow::formatUrl(const QString &urlString) {
-  const QUrl &url(urlString);
+  static QStringList repoUrls;
+  if (repoUrls.isEmpty()) {
+    // forge the GitHub URL to the current version of Webots
+    const QString webotsVersion = WbApplicationInfo::version().toString().replace(" revision ", "-rev");
+    repoUrls << "https://raw.githubusercontent.com/cyberbotics/webots/" + webotsVersion + "/"
+             << "https://cdn.jsdelivr.net/gh/cyberbotics/webots@" + webotsVersion + "/";
+  }
+
+  QString urlStringExtented(urlString);
+  foreach (const QString url, repoUrls) {
+    if (urlString.startsWith(url)) {
+      // load local file instead of the online version for the current version of Webots
+      urlStringExtented.replace(url, WbStandardPaths::webotsHomePath());
+      break;
+    }
+  }
+  const QUrl &url(urlStringExtented);
   const QString &pathString = url.toString(QUrl::RemoveQuery);
   const QFileInfo &fileInfo(pathString);
   if (fileInfo.isAbsolute()) {
@@ -182,7 +202,8 @@ QString WbRobotWindow::formatUrl(const QString &urlString) {
   const QFileInfo &absoluteFileInfo(windowInfo.path() + "/" + pathString);
   if (absoluteFileInfo.isReadable())
     return url.toEncoded();
-  return "";
+
+  return urlString;
 }
 
 QString WbRobotWindow::linkTag(const QString &file) {

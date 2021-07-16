@@ -1,8 +1,8 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A palm tree with optional boundingObject.
+# template language: javascript
 
 PROTO PalmTree [
   field SFVec3f    translation           0 0 0
@@ -25,7 +25,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/palm_tree_branches.jpg"
+              "webots://projects/objects/trees/protos/textures/palm_tree_branches.jpg"
             ]
           }
           metalness 0
@@ -54,7 +54,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/palm_tree_trunk_auxiliary.png"
+              "webots://projects/objects/trees/protos/textures/palm_tree_trunk_auxiliary.png"
             ]
           }
           metalness 0
@@ -83,7 +83,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/palm_tree_trunk_spikes.jpg"
+              "webots://projects/objects/trees/protos/textures/palm_tree_trunk_spikes.jpg"
             ]
           }
           metalness 0
@@ -112,7 +112,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/palm_tree_trunk.jpg"
+              "webots://projects/objects/trees/protos/textures/palm_tree_trunk.jpg"
             ]
           }
           metalness 0
@@ -153,7 +153,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/palm_tree_leaf.png"
+              "webots://projects/objects/trees/protos/textures/palm_tree_leaf.png"
             ]
           }
           metalness 0
@@ -179,16 +179,16 @@ PROTO PalmTree [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 1.125 0
       children [
         Cylinder {
           height 2.25
-          radius 0.35000000000000003
+          radius 0.35
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

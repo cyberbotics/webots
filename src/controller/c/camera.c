@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -155,10 +155,6 @@ static void wb_camera_write_request(WbDevice *d, WbRequest *r) {
       c->segmentation_image = image_new();
     c->segmentation_changed = false;  // done
   }
-  if (c->segmentation_image && c->segmentation_image->requested) {
-    request_write_uchar(r, C_CAMERA_GET_SEGMENTATION_IMAGE);
-    c->segmentation_image->requested = false;
-  }
 }
 
 static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
@@ -271,12 +267,6 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
         c->segmentation_image = image_new();  // prevent controller crash
       image_cleanup_shm(c->segmentation_image);
       image_setup_shm(c->segmentation_image, r);
-      break;
-    case C_CAMERA_GET_SEGMENTATION_IMAGE:
-      c = ac->pdata;
-      assert(c->segmentation);
-      if (c->segmentation)
-        c->segmentation_image->update_time = wb_robot_get_time();
       break;
     default:
       ROBOT_ASSERT(0);
@@ -682,27 +672,26 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
 }
 
 const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
+  robot_mutex_lock_step();
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+    robot_mutex_unlock_step();
     return NULL;
   }
 
   if (ac->sampling_period <= 0) {
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_enable().\n", __FUNCTION__);
-    return NULL;
-  }
-
-  if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
-    return ac->image->data;
-
-  robot_mutex_lock_step();
-  bool success = image_request(ac->image, __FUNCTION__);
-  if (!ac->image->data || !success) {
     robot_mutex_unlock_step();
     return NULL;
   }
+
+  if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL) {
+    robot_mutex_unlock_step();
+    return ac->image->data;
+  }
+
   robot_mutex_unlock_step();
   return ac->image->data;
 }
@@ -731,8 +720,7 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
     return -1;
   }
 
-  // make sure image is up to date before saving it
-  if (!ac->image->data || !image_request(ac->image, __FUNCTION__)) {
+  if (!ac->image->data) {
     robot_mutex_unlock_step();
     return -1;
   }
@@ -862,9 +850,7 @@ const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag ta
     robot_mutex_unlock_step();
     return NULL;
   }
-
-  bool success = image_request(c->segmentation_image, __FUNCTION__);
-  if (!c->segmentation_image->data || !success) {
+  if (!c->segmentation_image->data) {
     robot_mutex_unlock_step();
     return NULL;
   }
@@ -901,11 +887,6 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
     return -1;
   }
 
-  // make sure image is up to date before saving it
-  if (!image_request(c->segmentation_image, __FUNCTION__)) {
-    robot_mutex_unlock_step();
-    return -1;
-  }
   GImage img;
   img.width = ac->width;
   img.height = ac->height;

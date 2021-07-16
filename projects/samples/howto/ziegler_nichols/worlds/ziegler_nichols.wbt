@@ -1,0 +1,132 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.33299795078140804 -0.7995588818216081 -0.4998179261246668 4.22224
+  position 0.882874 2.08463 -0.149395
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  translation 0 0.025 0
+  children [
+    DEF POSITION_ERROR_GRAPH Display {
+      width 512
+      height 256
+    }
+    HingeJoint {
+      jointParameters DEF HINGE_PARAMETERS HingeJointParameters {
+        axis 0 1 0
+      }
+      device [
+        RotationalMotor {
+          acceleration 5
+          maxVelocity 20
+          maxTorque 100
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Solid {
+        children [
+          DEF THICK_CYLINDER Transform {
+            translation 0 0.05 0
+            children [
+              Shape {
+                appearance DEF GRAY_APPEARANCE PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1.1102230246251565e-16
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.02
+                  subdivision 24
+                }
+              }
+            ]
+          }
+          DEF THIN_CYLINDER Transform {
+            translation 0 0.05 -0.1
+            rotation 1 0 0 1.5708
+            children [
+              Shape {
+                appearance USE GRAY_APPEARANCE
+                geometry Cylinder {
+                  height 0.3
+                  radius 0.005
+                  subdivision 24
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.05 -0.25
+            rotation 1 0 0 -1.5708
+            children [
+              Shape {
+                appearance USE GRAY_APPEARANCE
+                geometry Cone {
+                  bottomRadius 0.01
+                  height 0.04
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject Group {
+          children [
+            USE THIN_CYLINDER
+            USE THICK_CYLINDER
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF BASE_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.854902 0.113725 0.113725
+        roughness 0.06791751000000001
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.05
+        radius 0.05
+        subdivision 24
+      }
+    }
+  ]
+  boundingObject USE BASE_SHAPE
+  physics Physics {
+    density -1
+    mass 20
+  }
+  controller "ziegler_nichols"
+  supervisor TRUE
+}
+DEF TARGET_POSITION Transform {
+  translation -0.3 0.01 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.937255 0.0627451 0.0627451
+        transparency 0.20000000298023224
+        roughness 1
+        metalness 0
+        emissiveColor 0.921569 0.337255 0.337255
+      }
+      geometry Sphere {
+        radius 0.01
+      }
+    }
+  ]
+}

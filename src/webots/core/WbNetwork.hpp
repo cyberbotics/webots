@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,19 @@
 #ifndef WB_NETWORK_HPP
 #define WB_NETWORK_HPP
 
+#include <QtCore/QObject>
+
 class QNetworkAccessManager;
 
-class WbNetwork {
+class WbNetwork : public QObject {
 public:
   static WbNetwork *instance();
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
+  void clearCache();
+
+public slots:
+  void updateCache();
 
 private:
   static void cleanup();

@@ -1,0 +1,206 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.06939904725079878 -0.971070299644096 -0.22848686043141994 2.754925037543292
+  position -2.0283276380481268 2.5016408245438226 -4.162447135542576
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.13
+  location 0 0.3 0
+}
+DEF FLOOR Solid {
+  translation -1 0 -1
+  children [
+    Shape {
+      geometry ElevationGrid {
+        xDimension 20
+        xSpacing 0.12
+        zDimension 20
+        zSpacing 0.12
+      }
+    }
+  ]
+  boundingObject Transform {
+    translation 0.5 0 0.5
+    children [
+      Plane {
+      }
+    ]
+  }
+}
+DEF TEST Robot {
+  translation -0.39 0.005 0
+  children [
+    TestSuiteEmitter {
+    }
+    DistanceSensor {
+      translation -0.61 0.366 -0.4
+      name "slider sensor"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 0.87 0.3 -0.84
+      name "hinge sensor"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 0.69 0.29 1
+      name "hinge2 sensor"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation -0.82 0.29 0.99
+      name "ball joint sensor"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+    }
+  ]
+  name "test supervisor(1)"
+  controller "supervisor_node_set_joint_position"
+  supervisor TRUE
+}
+Robot {
+  translation -0.39 0.005 0
+  children [
+    DEF SLIDER_TRANSFORM Transform {
+      translation -0.5 0 -1
+      children [
+        DEF SLIDER_JOINT SliderJoint {
+          endPoint Solid {
+            translation 0 0.4 0
+            children [
+              DEF SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0.937255 0.160784 0.160784
+                }
+                geometry Sphere {
+                  radius 0.05
+                }
+              }
+            ]
+            name "slider solid"
+            boundingObject USE SHAPE
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+    DEF HINGE_TRANSFORM Transform {
+      translation 1 0 -1
+      children [
+        DEF HINGE_JOINT HingeJoint {
+          jointParameters HingeJointParameters {
+            maxStop 0.4
+          }
+          endPoint Solid {
+            translation 0 0.4 0
+            children [
+              DEF SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0.937255 0.160784 0.160784
+                }
+                geometry Sphere {
+                  radius 0.05
+                }
+              }
+            ]
+            name "hinge solid"
+            boundingObject USE SHAPE
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+    DEF HINGE2_TRANSFORM Transform {
+      translation 1 0 1
+      children [
+        DEF HINGE2_JOINT Hinge2Joint {
+          endPoint Solid {
+            translation 0 0.4 0
+            children [
+              DEF SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0.937255 0.160784 0.160784
+                }
+                geometry Sphere {
+                  radius 0.05
+                }
+              }
+            ]
+            name "hinge2 solid"
+            boundingObject USE SHAPE
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+    DEF BALL_JOINT_TRANSFORM Transform {
+      translation -0.5 0 1
+      children [
+        DEF BALL_JOINT BallJoint {
+          jointParameters3 JointParameters {
+          }
+          endPoint Solid {
+            translation 0 0.4 0
+            children [
+              DEF SHAPE Shape {
+                appearance PBRAppearance {
+                  baseColor 0.937255 0.160784 0.160784
+                }
+                geometry Sphere {
+                  radius 0.05
+                }
+              }
+            ]
+            name "balljoint solid"
+            boundingObject USE SHAPE
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+  ]
+  boundingObject Box {
+    size 2 0.001 2
+  }
+  physics Physics {
+    density -1
+    mass 100
+  }
+  controller ""
+}
+UR5e {
+  controller "supervisor_node_set_joint_position_ur5e"
+  supervisor TRUE
+  toolSlot [
+    TestSuiteEmitter {
+    }
+    GPS {
+    }
+  ]
+}
+TestSuiteSupervisor {
+}

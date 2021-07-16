@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ public:
 
   // template
   bool isTemplate() const { return mTemplate; }
-  bool isStatic() const { return mIsStatic; }
+  bool isDeterministic() const { return mIsDeterministic; }
 
   // proto derived from another proto
   bool isDerived() const { return mDerived; }
@@ -114,14 +114,14 @@ private:
   // cppcheck-suppress unknownMacro
   Q_DISABLE_COPY(WbProtoModel)
 
-  QMap<QString, QString> mStaticContentMap;
+  QMap<QString, QString> mDeterministicContentMap;
   QString mContent;
 
   bool mTemplate;
   WbVersion mFileVersion;
   QString mName;
   QString mInfo;
-  bool mIsStatic;  // has the 'static' tag
+  bool mIsDeterministic;  // i.e doesn't have the 'nonDeterministic' tag
   QList<WbFieldModel *> mFieldModels;
   QString mFileName;  // .proto file name
   QString mPath;      // path of .proto file
@@ -137,10 +137,12 @@ private:
   QString mLicenseUrl;
   QString mDocumentationUrl;
   QStringList mTags;
+  QString mTemplateLanguage;
 
   ~WbProtoModel();  // called from unref()
   void verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const;
   void verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters, bool &ok) const;
+  bool checkIfDocumentationPageExist(const QString &page) const;
 };
 
 #endif

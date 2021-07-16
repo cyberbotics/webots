@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,8 +44,6 @@ void RosInertialUnit::publishValue(ros::Publisher publisher) {
   // https://stackoverflow.com/questions/56074321/quaternion-calculation-in-rosinertialunit-cpp-of-webots-ros-default-controller?answertab=oldest#tab-top
   tf2::Quaternion orientation(mInertialUnit->getQuaternion()[0], mInertialUnit->getQuaternion()[1],
                               mInertialUnit->getQuaternion()[2], mInertialUnit->getQuaternion()[3]);
-  tf2::Quaternion orientationRosFix(0.5, 0.5, 0.5, 0.5);
-  orientation = orientation * orientationRosFix;
   value.orientation.x = orientation.getX();
   value.orientation.y = orientation.getY();
   value.orientation.z = orientation.getZ();

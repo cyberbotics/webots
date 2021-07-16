@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   bool refreshSensorIfNeeded() override;
-  void reset() override;
+  void reset(const QString &id) override;
 
   // other functions
   void rayCollisionCallback(WbGeometry *object, dGeomID rayGeom, const dContactGeom *);
@@ -94,6 +94,7 @@ private:
   WbSFInt *mNumberOfRays;
   WbSFDouble *mGaussianWidth;
   WbSFDouble *mResolution;
+  WbSFDouble *mRedColorSensitivity;
 
   // other fields
   WbLookupTable *mLut;

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbHttpReply.hpp"
 
+#include <QtCore/QCryptographicHash>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 
@@ -41,7 +42,7 @@ QByteArray WbHttpReply::forgeHTMLReply(const QString &htmlContent) {
   return reply;
 }
 
-QByteArray WbHttpReply::forgeFileReply(const QString &fileName) {
+QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &etag) {
   QByteArray reply;
 
   QFile file(fileName);
@@ -49,14 +50,26 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName) {
     return forge404Reply();
 
   const QByteArray data = file.readAll();
-  const QString mimeType = WbHttpReply::mimeType(fileName, true);
-  reply.append("HTTP/1.1 200 OK\r\n");
-  reply.append("Access-Control-Allow-Origin: *\r\n");
-  reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
-  reply.append(QString("Content-Type: %1\r\n").arg(mimeType).toUtf8());
-  reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
-  reply.append("\r\n");
-  reply.append(data);
+
+  const QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
+
+  if (!etag.isEmpty() && hash.toHex().compare(etag.toLocal8Bit(), Qt::CaseSensitive) == 0) {
+    reply.append("HTTP/1.1 304 Not modified\r\n");
+    reply.append("Access-Control-Allow-Origin: *\r\n");
+    reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
+    reply.append("etag: ").append(hash.toHex()).append("\r\n");
+    reply.append("\r\n");
+  } else {
+    const QString mimeType = WbHttpReply::mimeType(fileName, true);
+    reply.append("HTTP/1.1 200 OK\r\n");
+    reply.append("Access-Control-Allow-Origin: *\r\n");
+    reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
+    reply.append("etag: ").append(hash.toHex()).append("\r\n");
+    reply.append(QString("Content-Type: %1\r\n").arg(mimeType).toUtf8());
+    reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
+    reply.append("\r\n");
+    reply.append(data);
+  }
 
   return reply;
 }

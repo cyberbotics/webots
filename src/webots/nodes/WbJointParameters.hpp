@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,6 +43,8 @@ public:
 
   void setPosition(double p) { mPosition->setValue(p); }
   void setPositionFromOde(double p) { mPosition->setValueFromOde(p); }
+
+  bool clampPosition(double &p) const;
 
 signals:
   void positionChanged();

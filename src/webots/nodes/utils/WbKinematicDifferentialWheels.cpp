@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 #include "WbKinematicDifferentialWheels.hpp"
 
 #include "WbCylinder.hpp"
-#include "WbDifferentialWheels.hpp"
 #include "WbHingeJoint.hpp"
 #include "WbMotor.hpp"
 #include "WbRobot.hpp"
@@ -35,7 +34,6 @@ WbKinematicDifferentialWheels::WbKinematicDifferentialWheels(WbRobot *robot, dou
 void WbKinematicDifferentialWheels::applyKinematicMotion(double ms) {
   mKinematicDisplacementNumber = 0;
   mKinematicDisplacement.setXy(0, 0);
-  mRobot->savePreviousTransform();
 
   if (mIsWbDifferentialWheels)  // WbDifferentialWheels defines it's own motion model (because of encoders and no actual joint)
     return;
@@ -97,11 +95,6 @@ WbCylinder *WbKinematicDifferentialWheels::getRecursivelyBigestCylinder(WbBaseNo
 WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDifferentialWheelsIfNeeded(WbRobot *robot) {
   if (robot->isDynamic())
     return NULL;
-  // check if this is a WbDifferentialWheels
-  WbDifferentialWheels *differentialWheels = dynamic_cast<WbDifferentialWheels *>(robot);
-  if (differentialWheels)
-    return new WbKinematicDifferentialWheels(robot, differentialWheels->wheelRadius(), differentialWheels->axleLength(), NULL,
-                                             NULL, true);
   // check if the required joints and motors exist
   WbHingeJoint *leftJoint = NULL;
   WbHingeJoint *rightJoint = NULL;

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,6 @@ WbApplication::WbApplication() {
   mWorld = NULL;
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
-  mWorldLoadTimer = NULL;
 
   // create the Webots temporary path early in the process
   // in order to be sure that the Qt internal files will be stored
@@ -125,6 +124,8 @@ void WbApplication::setup() {
   connect(this, &WbApplication::animationCaptureStarted, recorder, &WbAnimationRecorder::start);
   connect(this, &WbApplication::animationCaptureStopped, recorder, &WbAnimationRecorder::stop);
   connect(nodeOperations, &WbNodeOperations::nodeAdded, recorder, &WbAnimationRecorder::propagateNodeAddition);
+  connect(this, &WbApplication::deleteWorldLoadingProgressDialog, this,
+          &WbApplication::setWorldLoadingProgressDialogCreatedtoFalse);
 }
 
 void WbApplication::removeOldLibraries() {
@@ -199,7 +200,7 @@ void WbApplication::linkLibraries(QString projectLibrariesPath) {
 }
 
 void WbApplication::setWorldLoadingProgress(const int progress) {
-  if (!mWorldLoadingProgressDialogCreated && mWorldLoadTimer && (mWorldLoadTimer->elapsed() / 1000) > 2) {
+  if (!mWorldLoadingProgressDialogCreated) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
     mWorldLoadingProgressDialogCreated = true;
@@ -208,7 +209,7 @@ void WbApplication::setWorldLoadingProgress(const int progress) {
 }
 
 void WbApplication::setWorldLoadingStatus(const QString &status) {
-  if (!mWorldLoadingProgressDialogCreated && mWorldLoadTimer && (mWorldLoadTimer->elapsed() / 1000) > 2) {
+  if (!mWorldLoadingProgressDialogCreated) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
     mWorldLoadingProgressDialogCreated = true;
@@ -221,14 +222,17 @@ void WbApplication::setWorldLoadingCanceled() {
   emit worldLoadingWasCanceled();
 }
 
+void WbApplication::setWorldLoadingProgressDialogCreatedtoFalse() {
+  mWorldLoadingProgressDialogCreated = false;
+}
+
 bool WbApplication::wasWorldLoadingCanceled() const {
   return mWorldLoadingCanceled;
 }
 
 bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
-  delete mWorldLoadTimer;
-  mWorldLoadTimer = NULL;
+
   if (deleteWorld) {
     delete mWorld;
     mWorld = NULL;
@@ -238,16 +242,7 @@ bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
   return false;
 }
 
-bool WbApplication::loadWorld(QString worldName, bool reloading) {
-  delete mWorldLoadTimer;
-  mWorldLoadTimer = NULL;
-  if (qgetenv("WEBOTS_DISABLE_WORLD_LOADING_DIALOG").isEmpty()) {
-    mWorldLoadTimer = new QElapsedTimer();
-    mWorldLoadTimer->start();
-  }
-  mWorldLoadingCanceled = false;
-  mWorldLoadingProgressDialogCreated = false;
-
+bool WbApplication::isValidWorldFileName(const QString &worldName) {
   QFileInfo worldNameInfo(worldName);
   if (!worldNameInfo.exists() || !worldNameInfo.isFile() || !worldNameInfo.isReadable()) {
     WbLog::error(tr("Could not open file: '%1'.").arg(worldName));
@@ -257,6 +252,12 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     WbLog::error(tr("Could not open file: '%1'. The world file extension must be '.wbt'.").arg(worldName));
     return false;
   }
+  return true;
+}
+
+bool WbApplication::loadWorld(QString worldName, bool reloading) {
+  mWorldLoadingCanceled = false;
+  mWorldLoadingProgressDialogCreated = false;
 
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(false);
 
@@ -345,8 +346,6 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   emit postWorldLoaded(reloading, isFirstLoad);
 
   emit deleteWorldLoadingProgressDialog();
-  delete mWorldLoadTimer;
-  mWorldLoadTimer = NULL;
 
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(true);
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());
@@ -370,6 +369,7 @@ void WbApplication::worldReload() {
 }
 
 void WbApplication::simulationReset(bool restartControllers) {
+  WbWorld::instance()->reset(restartControllers);
   emit simulationResetRequested(restartControllers);
 }
 

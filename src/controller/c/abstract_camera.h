@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,6 +58,5 @@ int wb_abstract_camera_get_height(WbDevice *d);
 int wb_abstract_camera_get_width(WbDevice *d);
 double wb_abstract_camera_get_fov(WbDevice *d);
 double wb_abstract_camera_get_near(WbDevice *d);
-void wb_abstract_camera_update_timestamp(WbDevice *d);
 
 #endif  // ABSTRACT_CAMERA_PRIVATE_H

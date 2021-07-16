@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         """Write the web page content."""
         self.write("<!DOCTYPE html>\n")
         self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>\n")
-        self.write("<link rel='stylesheet' type='text/css' href='css/monitor.css'></head>\n")
+        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2021b/monitor.css'></head>\n")
         self.write("<body><h1>Webots session server</h1>\n")
         nServer = len(config['simulationServers'])
         self.write("<p>Started on " + start_time + "</p>\n")
@@ -185,9 +185,7 @@ def send_email(subject, content):
 def retrieve_load(url, i):
     """Contact the i-th simulation server and retrieve its load."""
     global simulation_server_loads
-    if config['portRewrite']:
-        url = 'http://' + url.replace('/', ':', 1)
-    elif config['ssl']:
+    if config['ssl'] or config['portRewrite']:
         url = 'https://' + url
     else:
         url = 'http://' + url
@@ -324,7 +322,6 @@ def main():
     tornado_access_log.setLevel(logging.WARNING)
 
     simulation_server_loads = [0] * len(config['simulationServers'])
-    config['WEBOTS_HOME'] = os.getenv('WEBOTS_HOME', '../../..').replace('\\', '/')
     if 'administrator' in config:
         if 'mailServer' not in config:
             logging.info("No mail server defined in configuration, disabling e-mail notifications to " +
@@ -338,9 +335,6 @@ def main():
     handlers.append((r'/session', SessionHandler))
     handlers.append((r'/', ClientWebSocketHandler))
     handlers.append((r'/monitor', MonitorHandler))
-    handlers.append((r'/(.*)', tornado.web.StaticFileHandler,
-                    {'path': config['WEBOTS_HOME'] + '/resources/web/server/www',
-                     'default_filename': 'index.html'}))
     application = tornado.web.Application(handlers)
     if 'server' not in config:
         config['server'] = 'localhost'

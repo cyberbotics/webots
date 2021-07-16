@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ int wb_robot_step(int duration);  // milliseconds
 #ifdef __CYGWIN__  // In that case, we need to flush explicitly the stdout/stdin streams otherwise they are buffered
 // We cannot call fflush from the libController as libController is compiled with gcc8 and won't flush the stdout/stderr
 // of a gcc7 (cygwin) compiled binary. Therefore, we need to perform the fflush in a gcc7 compiled code, e.g., in a macro here.
-#define wb_robot_step(d) (fflush(NULL) ? wb_robot_step(d) : wb_robot_step(d))
+#define wb_robot_step(d) (fflush(NULL), wb_robot_step(d))
 #endif
 
 WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type, int timeout);  // milliseconds

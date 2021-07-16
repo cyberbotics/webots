@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -118,7 +118,9 @@ void WbGuiApplication::restart() {
   nonProgramArgs.removeFirst();
 #ifdef __linux__
   QProcess::startDetached("./webots", nonProgramArgs);
-#else
+#elif defined(_WIN32)
+  exit(3030);  // this special code tells the launcher to restart Webots, see launcher.c
+#else  // macOS
   QProcess::startDetached(qApp->arguments()[0], nonProgramArgs);
 #endif
 }
@@ -131,11 +133,7 @@ void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
   int port = 1234;
   QString mode = "x3d";
 
-#ifdef __APPLE__
-  const QStringList &options = streamArguments.split(';', QString::SkipEmptyParts);
-#else  //  Qt >= 5.15
   const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
-#endif
   foreach (QString option, options) {
     option = option.trimmed();
     const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
@@ -220,7 +218,11 @@ void WbGuiApplication::parseArguments() {
       mStartupMode = WbSimulationState::FAST;
     } else if (arg == "--no-rendering")
       mShouldDoRendering = false;
-    else if (arg == "--help")
+    else if (arg == "convert") {
+      mTask = CONVERT;
+      mTaskArguments = args.mid(i);
+      break;
+    } else if (arg == "--help")
       mTask = HELP;
     else if (arg == "--sysinfo")
       mTask = SYSINFO;
@@ -232,9 +234,9 @@ void WbGuiApplication::parseArguments() {
     } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
-        mTaskArgument = items[1];
+        mTaskArguments.append(items[1]);
       else
-        mTaskArgument.clear();
+        mTaskArguments.clear();
       mTask = UPDATE_PROTO_CACHE;
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
@@ -329,7 +331,7 @@ int WbGuiApplication::exec() {
 
   WbSingleTaskApplication *task = NULL;
   if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArgument, this);
+    task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
     if (mMainWindow)
       connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
     else
@@ -553,6 +555,11 @@ void WbGuiApplication::udpateStyleSheet() {
   QFile linuxQssFile(WbStandardPaths::resourcesPath() + "stylesheet.linux.qss");
   linuxQssFile.open(QFile::ReadOnly);
   styleSheet += QString::fromUtf8(linuxQssFile.readAll());
+
+#elif _WIN32
+  QFile windowsQssFile(WbStandardPaths::resourcesPath() + "stylesheet.windows.qss");
+  windowsQssFile.open(QFile::ReadOnly);
+  styleSheet += QString::fromUtf8(windowsQssFile.readAll());
 #endif
 
   qApp->setStyleSheet(styleSheet);

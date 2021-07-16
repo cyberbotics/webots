@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,17 @@
 #include "WbSingleTaskApplication.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbBasicJoint.hpp"
+#include "WbField.hpp"
 #include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
+#include "WbProtoModel.hpp"
 #include "WbSysInfo.hpp"
+#include "WbTokenizer.hpp"
 #include "WbVersion.hpp"
 #include "WbWorld.hpp"
 
+#include <QtCore/QCommandLineParser>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtGui/QOpenGLContext>
@@ -44,11 +49,112 @@ void WbSingleTaskApplication::run() {
   else if (mTask == WbGuiApplication::VERSION)
     cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString(true, false, true)).toUtf8().constData() << endl;
   else if (mTask == WbGuiApplication::UPDATE_PROTO_CACHE)
-    updateProtoCacheFiles(mTaskArgument);
+    updateProtoCacheFiles();
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
+  else if (mTask == WbGuiApplication::CONVERT)
+    convertProto();
 
   emit finished(mTask == WbGuiApplication::FAILURE ? EXIT_FAILURE : EXIT_SUCCESS);
+}
+
+void WbSingleTaskApplication::convertProto() const {
+  QCommandLineParser cliParser;
+  cliParser.setApplicationDescription("Convert a PROTO file to URDF, WBO, or WRL file");
+  cliParser.addHelpOption();
+  cliParser.addPositionalArgument("input", "Path to the input PROTO file.");
+  cliParser.addOption(QCommandLineOption("t", "Output type (URDF, WBO, or WRL).", "type", "URDF"));
+  cliParser.addOption(QCommandLineOption("o", "Path to the output file.", "output"));
+  cliParser.addOption(QCommandLineOption("p", "Override default PROTO parameters.", "parameter=value"));
+  cliParser.process(mTaskArguments);
+  const QStringList positionalArguments = cliParser.positionalArguments();
+  if (positionalArguments.size() != 1)
+    cliParser.showHelp(1);
+
+  const bool toStdout = cliParser.values("o").size() == 0;
+
+  QString type = cliParser.values("t")[0];
+  QString outputFile;
+  if (!toStdout) {
+    outputFile = cliParser.values("o")[0];
+    type = outputFile.mid(outputFile.lastIndexOf(".")).toLower();
+  }
+
+  // Compute absolute paths for input and output files
+  QString inputFile = positionalArguments[0];
+  if (QDir::isRelativePath(inputFile))
+    inputFile = mStartupPath + '/' + inputFile;
+  if (!toStdout && QDir::isRelativePath(outputFile))
+    outputFile = mStartupPath + '/' + outputFile;
+
+  // Get user parameters strings
+  QMap<QString, QString> userParameters;
+  for (QString param : cliParser.values("p")) {
+    QStringList pair = param.split("=");
+    if (pair.size() != 2) {
+      cerr << tr("A parameter is not properly formated!\n").toUtf8().constData();
+      cliParser.showHelp(1);
+    }
+    userParameters[pair[0]] = pair[1].replace(QRegExp("^\"*"), "").replace(QRegExp("\"*$"), "");
+  }
+
+  // Parse PROTO
+  new WbProtoList(QFileInfo(inputFile).absoluteDir().path());
+  WbNode::setInstantiateMode(false);
+  WbProtoModel *model = WbProtoList::current()->readModel(inputFile, "");
+  if (!toStdout)
+    cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
+
+  // Combine the user parameters with the default ones
+  QVector<WbField *> fields;
+  for (WbFieldModel *fieldModel : model->fieldModels()) {
+    WbField *field = new WbField(fieldModel);
+    if (userParameters.contains(field->name())) {
+      WbTokenizer tokenizer;
+      tokenizer.tokenizeString(userParameters[field->name()]);
+      field->readValue(&tokenizer, "");
+    }
+
+    if (!toStdout)
+      cout << tr("  field %1 [%2] = %3")
+                .arg(field->name())
+                .arg(field->value()->vrmlTypeName())
+                .arg(field->value()->toString())
+                .toUtf8()
+                .constData()
+           << endl;
+    fields.append(field);
+  }
+
+  // Generate a node structure
+  WbNode::setInstantiateMode(true);
+  WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
+  for (WbNode *subNode : node->subNodes(true))
+    if (dynamic_cast<WbBasicJoint *>(subNode))
+      static_cast<WbBasicJoint *>(subNode)->updateEndPointZeroTranslationAndRotation();
+
+  // Export
+  QString output;
+  WbVrmlWriter writer(&output, "robot." + type);
+  writer.writeHeader(outputFile);
+  node->write(writer);
+  writer.writeFooter();
+
+  // Output the content
+  if (toStdout)
+    cout << output.toUtf8().toStdString() << endl;
+  else {
+    QFile file(outputFile);
+    if (!file.open(QIODevice::WriteOnly)) {
+      cerr << tr("Cannot open the file!\n").toUtf8().constData();
+      cliParser.showHelp(1);
+    }
+    file.write(output.toUtf8());
+    file.close();
+  }
+
+  if (!toStdout)
+    cout << tr("The %1 PROTO is written to the file.").arg(model->name()).toUtf8().constData() << endl;
 }
 
 void WbSingleTaskApplication::showHelp() const {
@@ -62,7 +168,9 @@ void WbSingleTaskApplication::showHelp() const {
   cout << tr("    Display information about the system and exit.").toUtf8().constData() << endl << endl;
   cout << "  --mode=<mode>" << endl;
   cout << tr("    Choose the startup mode, overriding application preferences. The <mode>").toUtf8().constData() << endl;
-  cout << tr("    argument must be either pause, realtime, run or fast.").toUtf8().constData() << endl << endl;
+  cout << tr("    argument must be either pause, realtime or fast.").toUtf8().constData() << endl << endl;
+  cout << "  --no-rendering" << endl;
+  cout << tr("    Disable rendering in the main 3D view.").toUtf8().constData() << endl << endl;
   cout << "  --fullscreen" << endl;
   cout << tr("    Start Webots in fullscreen.").toUtf8().constData() << endl << endl;
   cout << "  --minimize" << endl;
@@ -85,6 +193,8 @@ void WbSingleTaskApplication::showHelp() const {
   cout << tr("    <file> argument. The optional <steps> argument is an integer value that").toUtf8().constData() << endl;
   cout << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
   cout << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
+  cout << "  convert" << endl;
+  cout << tr("    Convert a PROTO file to a URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
   cout << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
 }
 
@@ -131,7 +241,8 @@ void WbSingleTaskApplication::showSysInfo() const {
   delete context;
 }
 
-void WbSingleTaskApplication::updateProtoCacheFiles(const QString &path) const {
+void WbSingleTaskApplication::updateProtoCacheFiles() const {
+  const QString path = (mTaskArguments.size() > 0) ? mTaskArguments[0] : "";
   QFileInfo argumentInfo(path);
   if (argumentInfo.isFile()) {
     if (argumentInfo.completeSuffix() == "proto")

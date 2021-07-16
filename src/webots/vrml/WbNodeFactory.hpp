@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public:
   virtual WbNode *createNode(const QString &modelName, WbTokenizer *tokenizer = 0, WbNode *parentNode = NULL,
                              const QString *protoFilePath = NULL) = 0;
 
-  // create and return a copy of the a node
+  // create and return a copy of a node
   // the fields of the copy are initialized with the values found in the original
   // the copy will have the same model as the original
   virtual WbNode *createCopy(const WbNode &original) = 0;

@@ -18,9 +18,9 @@ CeilingLight {
   SFRotation rotation                   0 1 0 0
   SFString   name                       "ceiling light"
   SFColor    bulbColor                  1 1 1
-  MFString   bulbTextureUrl             "textures/light_bulb.jpg"
+  MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/lights/protos/textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
+  MFString   supportTextureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/lights/protos/textures/light_support_base_color.jpg"
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100
@@ -29,7 +29,7 @@ CeilingLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingLight.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/lights/protos/CeilingLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/CeilingLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -79,7 +79,7 @@ CeilingSpotLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingSpotLight.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/lights/protos/CeilingSpotLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingSpotLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/CeilingSpotLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -121,7 +121,7 @@ ConstructionLamp {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/ConstructionLamp.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/lights/protos/ConstructionLamp.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/ConstructionLamp.proto]({{ url.github_tree }}/projects/objects/lights/protos/ConstructionLamp.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -160,7 +160,7 @@ DoubleFluorescentLamp {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto]({{ url.github_tree }}/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -187,9 +187,9 @@ FloorLight {
   SFRotation rotation                   0 1 0 0
   SFString   name                       "floor light"
   SFColor    bulbColor                  1 1 1
-  MFString   bulbTextureUrl             "textures/light_bulb.jpg"
+  MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/lights/protos/textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
+  MFString   supportTextureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/lights/protos/textures/light_support_base_color.jpg"
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100
@@ -198,7 +198,7 @@ FloorLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/FloorLight.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/lights/protos/FloorLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/FloorLight.proto]({{ url.github_tree }}/projects/objects/lights/protos/FloorLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

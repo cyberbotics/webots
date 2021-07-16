@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -565,9 +565,9 @@ static void create_file(const char *name, int m) {
               "DefaultDirName={autopf}\\%s\n"
               "DefaultGroupName=Cyberbotics\n"
               "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots-bin.exe\n"
-              "PrivilegesRequired=lowest\n"
+              "PrivilegesRequired=admin\n"
               "UsePreviousPrivileges=no\n"
-              "PrivilegesRequiredOverridesAllowed=dialog\n",
+              "PrivilegesRequiredOverridesAllowed=dialog commandline\n",
               application_name, version, application_name, version, year, application_name);
       fprintf(fd, "OutputBaseFileName=%s-%s_setup\n", application_name_lowercase_and_dashes, package_version);
       fprintf(fd,
@@ -957,6 +957,10 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtQml.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtQml QtQml\n");
+      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "cd ..\n");
+      fprintf(fd, "cd QtQmlModels.framework\n");
+      fprintf(fd, "ln -fs Versions/5/QtQmlModels QtQmlModels\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtQuick.framework\n");
@@ -1425,8 +1429,8 @@ static void create_distributions(int m) {
 #ifdef _WIN32
   add_msys64_files();
 #endif
-  add_files("files_doc.txt");
   add_files("files_projects.txt");
+  add_files("textures_whitelist.txt");
   create_file("Webots", m);
 }
 

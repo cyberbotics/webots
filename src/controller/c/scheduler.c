@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,10 +47,8 @@ GPipe *scheduler_pipe = NULL;
 
 int scheduler_init(const char *pipe) {
   scheduler_pipe = g_pipe_new(pipe);
-  if (scheduler_pipe == NULL) {
-    fprintf(stderr, "Cannot connect to Webots on pipe: %s\n", pipe);
+  if (scheduler_pipe == NULL)
     return false;
-  }
   // set WEBOTS_PIPE_IN to facilitate the robot window pipe listening
   char pipe_buffer[64];
 #ifdef _WIN32

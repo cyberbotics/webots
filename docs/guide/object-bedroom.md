@@ -20,11 +20,11 @@ Bed {
   SFNode     frameAppearance    PaintedWood { colorOverride 0.11 0.11 0.11 }
   SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }
   SFNode     pillowAppearance   PBRAppearance { roughness 1 metalness 0 }
-  SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "textures/duvet.jpg" } roughness 1 metalness 0 }
+  SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/bedroom/protos/Bed.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/bedroom/protos/Bed.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/bedroom/protos/Bed.proto]({{ url.github_tree }}/projects/objects/bedroom/protos/Bed.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

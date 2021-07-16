@@ -42,7 +42,10 @@ Options:
 
   --mode=<mode>
     Choose the startup mode, overriding application preferences. The <mode>
-    argument must be either pause, realtime, run or fast.
+    argument must be either pause, realtime or fast.
+
+  --no-rendering
+    Disable rendering in the main 3D view.
 
   --fullscreen
     Start Webots in fullscreen.
@@ -72,6 +75,9 @@ Options:
     <file> argument. The optional <steps> argument is an integer value that
     specifies how many steps are logged. If the --sysinfo option is used, the
     system information is prepended into the log file.
+
+  convert
+    Convert a PROTO file to a URDF, WBO, or WRL file.
 
 Please report any bug to https://cyberbotics.com/bug
 ```
@@ -115,6 +121,14 @@ The supported options are described in [this table](#streaming-server-options).
 For example, the following command will start Webots with the streaming server enabled on the TCP port '1234' and will disable the streaming of stdout and stderr: `webots --stream="port:1234;disableTextStreams"`
 
 You can get more information about web streaming in [this section](web-streaming.md).
+
+The `convert` subcommand allows conversion of a PROTO file to a URDF, WBO, or WRL file.
+You can use a `-p` flag to override default PROTO parameters.
+Usage example:
+```
+webots convert -p extensionSlot="Box {}" ${WEBOTS_HOME}/projects/robots/adept/pioneer3/protos/Pioneer3dx.proto -o pioneer3dx.urdf
+```
+For more details use: `webots convert --help`.
 
 ### Safe Mode
 

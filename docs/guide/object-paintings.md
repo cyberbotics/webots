@@ -18,11 +18,11 @@ LandscapePainting {
   SFRotation rotation    0 1 0 0
   SFString   name        "landscape painting"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/landscape_painting.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/paintings/protos/textures/landscape_painting.jpg"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/LandscapePainting.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/paintings/protos/LandscapePainting.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/LandscapePainting.proto]({{ url.github_tree }}/projects/objects/paintings/protos/LandscapePainting.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -51,11 +51,11 @@ PortraitPainting {
   SFRotation rotation    0 1 0 0
   SFString   name        "portrait painting"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/portrait_painting.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/paintings/protos/textures/portrait_painting.jpg"
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/PortraitPainting.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/paintings/protos/PortraitPainting.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/paintings/protos/PortraitPainting.proto]({{ url.github_tree }}/projects/objects/paintings/protos/PortraitPainting.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

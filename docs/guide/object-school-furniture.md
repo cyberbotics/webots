@@ -21,7 +21,7 @@ Blackboard {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Blackboard.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/school_furniture/protos/Blackboard.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Blackboard.proto]({{ url.github_tree }}/projects/objects/school_furniture/protos/Blackboard.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -48,12 +48,12 @@ Book {
   SFRotation rotation    0 1 0 0
   SFString   name        "book"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/book.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/school_furniture/protos/textures/book.jpg"
   SFFloat    mass        0.3
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Book.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/school_furniture/protos/Book.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Book.proto]({{ url.github_tree }}/projects/objects/school_furniture/protos/Book.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -86,7 +86,7 @@ Clock {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Clock.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/school_furniture/protos/Clock.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Clock.proto]({{ url.github_tree }}/projects/objects/school_furniture/protos/Clock.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

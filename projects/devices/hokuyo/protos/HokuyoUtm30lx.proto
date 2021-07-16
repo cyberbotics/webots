@@ -1,7 +1,6 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#hokuyo-utm-30lx
 # Model of Hokuyo UTM-30LX (lidar device).
 # specs:
@@ -10,6 +9,7 @@
 #  - resolution : 1080 * 0.25 [deg]
 #  - dimension : 0.06 x 0.087 x 0.06 [m]
 #  - weight : 0.37 [kg]
+# template language: javascript
 
 PROTO HokuyoUtm30lx [
   field SFVec3f    translation    0 0 0
@@ -3873,14 +3873,14 @@ Lidar {
       }
     ]
   }
-  %{ if fields.enablePhysics.value then }%
+  %< if (fields.enablePhysics.value) { >%
   physics Physics {
     density -1
     mass 0.37
   }
-  %{ end }%
+  %< } >%
   fieldOfView 4.71238
-  verticalFieldOfView %{= 4.18879 / fields.resolution.value }%
+  verticalFieldOfView %<= 4.71238 / fields.resolution.value >%
   horizontalResolution IS resolution
   numberOfLayers 1
   spherical TRUE

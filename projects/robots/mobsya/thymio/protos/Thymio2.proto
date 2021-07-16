@@ -1,9 +1,9 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/surveyor
 # Thymio II mobile robot.
+# template language: javascript
 
 PROTO Thymio2 [
   field SFVec3f    translation     0 0 0           # Is `Transform.translation`.
@@ -64,7 +64,7 @@ PROTO Thymio2 [
               roughness 1
               baseColorMap ImageTexture {
                 url [
-                  "textures/thymio2_grid.png"
+                  "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_grid.png"
                 ]
               }
             }
@@ -84,7 +84,7 @@ PROTO Thymio2 [
               roughness 0.7
               baseColorMap ImageTexture {
                 url [
-                  "textures/thymio2_battery.png"
+                  "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_battery.png"
                 ]
               }
             }
@@ -106,7 +106,7 @@ PROTO Thymio2 [
               roughness 0.7
               baseColorMap ImageTexture {
                 url [
-                  "textures/thymio2_battery_level.png"
+                  "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_battery_level.png"
                 ]
               }
             }
@@ -314,35 +314,35 @@ PROTO Thymio2 [
         translations [ 0 0.0532 0.0582 ]
         rotations [ 0 1 0 0 ]
         name "leds.buttons.led0"
-        textureUrls [ "textures/thymio2_square_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_square_flare.png" ]
         sizes [ 0.01 0.003 ]
       }
       Thymio2LED {
         translations [ -0.0092 0.0532 0.0486 ]
         rotations [ 0 1 0 1.5708 ]
         name "leds.buttons.led1"
-        textureUrls [ "textures/thymio2_square_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_square_flare.png" ]
         sizes [ 0.01 0.003 ]
       }
       Thymio2LED {
         translations [ 0 0.0532 0.0398 ]
         rotations [ 0 1 0 0 ]
         name "leds.buttons.led2"
-        textureUrls [ "textures/thymio2_square_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_square_flare.png" ]
         sizes [ 0.01 0.003 ]
       }
       Thymio2LED {
         translations [ 0.0092 0.0532 0.0486 ]
         rotations [ 0 1 0 1.5708 ]
         name "leds.buttons.led3"
-        textureUrls [ "textures/thymio2_square_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_square_flare.png" ]
         sizes [ 0.01 0.003 ]
       }
       Thymio2LED {
         translations [ 0.00000 0.0532 0.07316 ]
         rotations [ 0 -1 0 1.570796326794896 ]
         name "leds.circle.led0"
-        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_curved_flare.png" ]
         sizes [ 0.004 0.016 ]
         color 0.5 0.25 0.125
       }
@@ -350,7 +350,7 @@ PROTO Thymio2 [
         translations [ -0.01718 0.0532 0.06604 ]
         rotations [ 0 -1 0 2.356194490192344 ]
         name "leds.circle.led1"
-        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_curved_flare.png" ]
         sizes [ 0.004 0.016 ]
         color 0.5 0.25 0.125
       }
@@ -358,7 +358,7 @@ PROTO Thymio2 [
         translations [ -0.02430 0.0532 0.04886 ]
         rotations [ 0 -1 0 3.141592653589792 ]
         name "leds.circle.led2"
-        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_curved_flare.png" ]
         sizes [ 0.004 0.016 ]
         color 0.5 0.25 0.125
       }
@@ -366,7 +366,7 @@ PROTO Thymio2 [
         translations [ -0.01718 0.0532 0.03168 ]
         rotations [ 0 -1 0 3.92699081698724 ]
         name "leds.circle.led3"
-        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_curved_flare.png" ]
         sizes [ 0.004 0.016 ]
         color 0.5 0.25 0.125
       }
@@ -374,7 +374,7 @@ PROTO Thymio2 [
         translations [ 0.00000 0.0532 0.02456 ]
         rotations [ 0 -1 0 4.712388980384688 ]
         name "leds.circle.led4"
-        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_curved_flare.png" ]
         sizes [ 0.004 0.016 ]
         color 0.5 0.25 0.125
       }
@@ -382,7 +382,7 @@ PROTO Thymio2 [
         translations [ 0.01718 0.0532 0.03168 ]
         rotations [ 0 -1 0 5.497787143782136 ]
         name "leds.circle.led5"
-        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_curved_flare.png" ]
         sizes [ 0.004 0.016 ]
         color 0.5 0.25 0.125
       }
@@ -390,7 +390,7 @@ PROTO Thymio2 [
         translations [ 0.02430 0.0532 0.04886 ]
         rotations [ 0 -1 0 0.00000 ]
         name "leds.circle.led6"
-        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_curved_flare.png" ]
         sizes [ 0.004 0.016 ]
         color 0.5 0.25 0.125
       }
@@ -398,7 +398,7 @@ PROTO Thymio2 [
         translations [ 0.01718 0.0532 0.06604 ]
         rotations [ 0 -1 0 0.785398163397448 ]
         name "leds.circle.led7"
-        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_curved_flare.png" ]
         sizes [ 0.004 0.016 ]
         color 0.5 0.25 0.125
       }
@@ -406,63 +406,63 @@ PROTO Thymio2 [
         name "leds.prox.h.led0"
         translations [ 0.0555532 0.0322 0.0588603 ]
         rotations [ 0.842253 0.38119 -0.381188 1.74164 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.prox.h.led1"
         translations [ 0.0353637 0.0322 0.0733335 ]
         rotations [ 0.951403 0.217753 -0.217752 1.6206 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.prox.h.led2"
         translations [ 0.0088706 0.0322 0.0808631 ]
         rotations [ 0.994401 0.0747202 -0.07472 1.57641 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.prox.h.led3"
         translations [ -0.0088706 0.0322 0.0808631 ]
         rotations [ 0.994401 -0.0747202 0.07472 1.57641 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.prox.h.led4"
         translations [ -0.0353637 0.0322 0.0733335 ]
         rotations [ 0.951403 -0.217753 0.217752 1.6206 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.prox.h.led5"
         translations [ -0.0557035 0.0322 0.0589923 ]
         rotations [ 0.842253 -0.38119 0.381188 1.74164 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.prox.h.led6"
         translations [ 0.0406035 0.0322 -0.0308077 ]
         rotations [ 1 0 0 4.71239 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.prox.h.led7"
         translations [ -0.0406035 0.0322 -0.0308077 ]
         rotations [ 1 0 0 4.71239 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.sound"
         translations [ -0.0587035 0.0367 0.0266923 ]
         rotations [ 0 0 1 1.5708 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
         color 0 0 1
       }
@@ -470,21 +470,21 @@ PROTO Thymio2 [
         name "leds.rc"
         translations [ -0.0587035 0.0367 0.0416923 ]
         rotations [ 0 0 1 1.5708 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.temperature.red"
         translations [ 0.0587035 0.0367 0.036 ]
         rotations [ 0 0 -1 1.5708 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
       }
       Thymio2LED {
         name "leds.temperature.blue"
         translations [ 0.0587035 0.0367 0.029 ]
         rotations [ 0 0 -1 1.5708 ]
-        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
         sizes [ 0.01 0.01 ]
         color 0 0 1
       }
@@ -492,21 +492,21 @@ PROTO Thymio2 [
         name "leds.prox.v.led0"
         translations [ 0.0222034 0.00790001 0.0732923, 0.0231072 0.0156 0.077828]
         rotations [ 1 0 0 3.1415, 0.983105 0.129429 -0.12943 1.58783]
-        textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png", "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png"]
         sizes [ 0.01 0.01, 0.01 0.01 ]
-        %{ if fields.castLight.value then }%
+        %< if (fields.castLight.value) { >%
           lightPosition 0.022 0.03 0.073
-        %{ end }%
+        %< } >%
       }
       Thymio2LED {
         name "leds.prox.v.led1"
         translations [ -0.0222034 0.00790001 0.0732923, -0.0231072 0.0156 0.077828]
         rotations [ 1 0 0 3.1415, -0.983106 0.129428 -0.129429 4.69536]
-        textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png", "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png"]
         sizes [ 0.01 0.01, 0.01 0.01 ]
-        %{ if fields.castLight.value then }%
+        %< if (fields.castLight.value) { >%
           lightPosition -0.022 0.03 0.073
-        %{ end }%
+        %< } >%
       }
       Thymio2LED {
         name "leds.top"
@@ -527,12 +527,12 @@ PROTO Thymio2 [
           -0.57735 0.57735 0.57735 2.0944
         ]
         textureUrls [
-          "textures/thymio2_radial_flare.png",
-          "textures/thymio2_square_flare.png",
-          "textures/thymio2_radial_flare.png",
-          "textures/thymio2_radial_flare.png",
-          "textures/thymio2_square_flare.png",
-          "textures/thymio2_radial_flare.png",
+          "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png",
+          "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_square_flare.png",
+          "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png",
+          "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png",
+          "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_square_flare.png",
+          "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png",
         ]
         sizes [
           0.05 0.06,
@@ -548,23 +548,23 @@ PROTO Thymio2 [
         name "leds.bottom.left"
         translations [ -0.0582 0.0213 0.0459278, -0.0513 0.0213 0.0626278]
         rotations [ 0.577388 -0.57735 0.577312 2.0944, 0.397601 0.389351 0.830854 1.77445]
-        textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png", "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png"]
         sizes [ 0.02 0.02, 0.02 0.01 ]
         level 0
-        %{ if fields.castLight.value then }%
+        %< if (fields.castLight.value) { >%
           lightPosition -0.04 0.03 0.05
-        %{ end }%
+        %< } >%
       }
       Thymio2LED {
         name "leds.bottom.right"
         translations [ 0.0582 0.0213 0.0459278, 0.0513653 0.0212996 0.0627035]
         rotations [ 0.577338 0.577375 -0.577338 2.09447, 0.669512 0.672817 0.314754 2.55802]
-        textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
+        textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png", "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png"]
         sizes [ 0.02 0.02, 0.02 0.01 ]
         level 0
-        %{ if fields.castLight.value then }%
+        %< if (fields.castLight.value) { >%
           lightPosition 0.04 0.03 0.05
-        %{ end }%
+        %< } >%
       }
       Accelerometer {
         name "acc"

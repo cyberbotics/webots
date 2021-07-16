@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,6 +41,9 @@ import re
 
 # vertical offset lifting the Roads and Crossroads in order to not be coplanar with the floor.
 vOffset = 0.01
+
+ROAD_LINE_DASHED_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_dashed.png'  # noqa: E501
+ROAD_LINE_TRIANGLE_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_triangle.png'  # noqa: E501
 
 
 class Road(WebotsObject):
@@ -437,16 +440,16 @@ class Road(WebotsObject):
                 if road.startJunction is not None and len(road.startJunction.roads) > 2:
                     f.write('  startLine [\n')
                     for l in range(road.forwardLanes):
-                        f.write('    "textures/road_line_dashed.png"\n')
+                        f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
                     for l in range(road.backwardLanes):
-                        f.write('    "textures/road_line_triangle.png"\n')
+                        f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
                     f.write('  ]\n')
                 if road.endJunction is not None and len(road.endJunction.roads) > 2:
                     f.write('  endLine [\n')
                     for l in range(road.forwardLanes):
-                        f.write('    "textures/road_line_triangle.png"\n')
+                        f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
                     for l in range(road.backwardLanes):
-                        f.write('    "textures/road_line_dashed.png"\n')
+                        f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
                     f.write('  ]\n')
             f.write('  wayPoints [\n')
             for coord in coords:

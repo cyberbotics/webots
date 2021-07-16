@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,6 +45,9 @@ PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTH
 ifeq ($(OSTYPE),windows)
 PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -Wno-maybe-uninitialized
+ifeq ($(PYTHON_SHORT_VERSION),39)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
 LD_FLAGS        = -shared
 LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
@@ -58,12 +61,20 @@ endif
 
 ifeq ($(OSTYPE),darwin)
 PYTHON_PATH = $(shell $(PYTHON_COMMAND) -u -c "import sys; print(sys.exec_prefix)")
-SKIP_PYTHON_PYMALLOC := 27 38 39
+SKIP_PYTHON_PYMALLOC := 38 39
 ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
 PYTHON_PYMALLOC = m
 endif
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-uninitialized
+ifeq ($(SUFFIX),)
+ifeq ($(PYTHON_SHORT_VERSION),38)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
+endif
+ifeq ($(PYTHON_SHORT_VERSION),39)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS        += -Wno-self-assign
 endif
@@ -77,7 +88,10 @@ endif
 
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable -Wno-maybe-uninitialized
-LD_FLAGS        = -shared
+ifeq ($(PYTHON_SHORT_VERSION),39)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
+LD_FLAGS        = -shared -Wl,-rpath,'$$ORIGIN'/../
 LIBS            = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
@@ -92,6 +106,9 @@ TARGET          = $(PYOUT) $(LIBOUT)
 ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile:
 	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
+else ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
+release debug profile:
+	@echo -e "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
 else ifeq ($(SWIG_EXISTS),)
 release debug profile:
 	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"

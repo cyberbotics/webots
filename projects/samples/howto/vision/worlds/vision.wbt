@@ -1,0 +1,279 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Example of how to use OpenCV to process the robot's camera image"
+  ]
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.737851013050371 0.651691011526459 0.17571200310781823 5.42559
+  position -2.58204 3.47428 3.00641
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 3 4
+}
+E-puck {
+  translation 0 0 1.9
+  controller "vision"
+  camera_width 240
+  camera_height 180
+  camera_antiAliasing TRUE
+  turretSlot [
+    DEF VISION Display {
+      name "proc_im_display"
+      width 240
+      height 180
+    }
+  ]
+}
+DEF RED_CONE Solid {
+  translation -0.17 0.3 -0.4
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cone {
+        bottomRadius 0.2
+        height 0.6
+        subdivision 24
+      }
+    }
+  ]
+  name "red cone"
+}
+DEF RED_SPHERE Solid {
+  translation 1 0.3 -0.7
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.3
+        subdivision 2
+      }
+    }
+  ]
+  name "red sphere"
+}
+DEF BLUE_BOX Solid {
+  translation -0.4 0.1 0.5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.02 0.1 0.87
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "blue box"
+}
+DEF BLUE_CROSS Solid {
+  translation 0.5 0.25 0
+  rotation 0 0 1 0.785398
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.02 0.1 0.87
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.15 0.5 0.01
+      }
+    }
+    Transform {
+      translation -0.1625 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.02 0.1 0.87
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.175 0.15 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1625 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.02 0.1 0.87
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.175 0.15 0.01
+          }
+        }
+      ]
+    }
+  ]
+  name "blue cross"
+}
+DEF YELLOW_CAPSULE Solid {
+  translation 0.6 0.3 -1.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Capsule {
+        bottom FALSE
+        height 0.6
+        radius 0.2
+        subdivision 24
+      }
+    }
+  ]
+  name "yellow capsule"
+}
+DEF YELLOW_WALL Solid {
+  translation 0 0.3 -1.9
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 3 0.6 0.01
+      }
+    }
+  ]
+  name "yellow wall"
+}
+DEF GREEN_CYLINDER Solid {
+  translation 0.2 0.5 -1.5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.6 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 1
+        radius 0.3
+        subdivision 24
+      }
+    }
+  ]
+  name "green cylinder"
+}
+DEF GREEN_WALL Solid {
+  translation 0 0.045 0.3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.6 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 3 0.09 0.01
+      }
+    }
+  ]
+  name "green wall"
+}
+DEF PURPLE_CONE Solid {
+  translation 0.7 0.06 0.8
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.5 0 0.5
+        roughness 1
+        metalness 0
+      }
+      geometry Cone {
+        bottomRadius 0.8
+        height 0.12
+        subdivision 36
+      }
+    }
+  ]
+  name "purple cone"
+}
+DEF PURPLE_PLUS Solid {
+  translation -0.6 0.35 -1.89
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.5 0 0.5
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.3 0.01
+      }
+    }
+    Transform {
+      translation -0.1 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.5 0 0.5
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.1 0.01
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.1 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.5 0 0.5
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.1 0.01
+          }
+        }
+      ]
+    }
+  ]
+  name "purple plus"
+}
+DEF WHITE_SPHERE Solid {
+  translation -0.85 0.15 -0.5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.35
+        subdivision 2
+      }
+    }
+  ]
+  name "white sphere"
+}

@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ public:
   bool sensorEnableCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
   bool samplingPeriodCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   void publishValues(int step);
+  bool enableSensor(int timestep);
 
 protected:
   RosSensor(std::string deviceName, Device *device, Ros *ros, bool enableDefaultServices = true);

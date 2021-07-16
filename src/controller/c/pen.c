@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ static void pen_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, pen->red);
     request_write_uchar(r, pen->green);
     request_write_uchar(r, pen->blue);
-    request_write_uchar(r, (unsigned char)(pen->density * 255));
+    request_write_double(r, pen->density);
     pen->set_color = false;
   }
 }

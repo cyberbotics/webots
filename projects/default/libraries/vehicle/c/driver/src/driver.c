@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -225,7 +225,7 @@ static void compute_rpm() {
   average_speed *= 60 / (2 * M_PI);
   // convert to engine rpm
   if (instance->gear == 0) {
-    instance->rpm = 0;  // TODO: eventually improve this in a futur version of the library
+    instance->rpm = 0;  // TODO: eventually improve this in a future version of the library
     return;
   }
 
@@ -378,7 +378,7 @@ static void update_engine_sound() {
       volume *= (1.0 - RPM_TO_VOLUME_GAIN) + RPM_TO_VOLUME_GAIN *
                                                (rpm > instance->car->engine_max_rpm ? instance->car->engine_max_rpm : rpm) /
                                                instance->car->engine_max_rpm;
-    } else {
+    } else if (instance->control_mode == SPEED) {
       // in speed mode, the rpm is estimated from the speed
       // average speed of the four wheels (rad/s)
       double average_speed =
@@ -455,7 +455,7 @@ void wbu_driver_init() {
   instance->gear = 0;
   instance->dipped_beams_state = 0;
   instance->rpm = 0.0;
-  instance->control_mode = SPEED;
+  instance->control_mode = UNDEFINED_CONTROL_MODE;
   instance->front_slip_ratio = 0.0;
   instance->rear_slip_ratio = 0.0;
   instance->central_slip_ratio = 0.0;
@@ -875,7 +875,7 @@ int wbu_driver_get_gear_number() {
 
 WbuDriverControlMode wbu_driver_get_control_mode() {
   if (!_wbu_car_check_initialisation("wbu_driver_init()", "wbu_driver_get_control_mode()"))
-    return (WbuDriverControlMode)-1;
+    return UNDEFINED_CONTROL_MODE;
   return instance->control_mode;
 }
 

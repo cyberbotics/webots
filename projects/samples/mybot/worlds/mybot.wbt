@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "The MyBot robot, the robot used in the tutorial of Webots"
@@ -243,7 +243,7 @@ Robot {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/mybot.png"
+            "webots://projects/samples/mybot/worlds/textures/mybot.png"
           ]
         }
         roughness 0.5

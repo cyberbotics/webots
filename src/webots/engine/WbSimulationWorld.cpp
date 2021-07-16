@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbSimulationWorld.hpp"
 
 #include "WbBoundingSphere.hpp"
+#include "WbDownloader.hpp"
 #include "WbMassChecker.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbOdeContact.hpp"
@@ -54,7 +55,26 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   mSimulationHasRunAfterSave(false) {
   if (mWorldLoadingCanceled)
     return;
+
+  emit worldLoadingStatusHasChanged(tr("Downloading assets"));
+  emit worldLoadingHasProgressed(0);
+  WbDownloader::reset();
+  root()->downloadAssets();
+  int progress = WbDownloader::progress();
+  while (progress < 100) {
+    QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
+    int newProgress = WbDownloader::progress();
+    if (newProgress != progress) {
+      progress = newProgress;
+      emit worldLoadingHasProgressed(progress);
+    }
+  }
+
   mSleepRealTime = basicTimeStep();
+
+  WbPerformanceLog *log = WbPerformanceLog::instance();
+  if (log)
+    log->setTimeStep(basicTimeStep());
 
   WbSimulationState::instance()->resetTime();
   // Reset random seed to ensure reproducible simulations.
@@ -103,6 +123,9 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   WbRadio::createAndSetupPluginObjects();
 
   WbSoundEngine::setWorld(this);
+
+  if (log)
+    log->stopMeasure(WbPerformanceLog::LOADING);
 
   connect(mTimer, &QTimer::timeout, this, &WbSimulationWorld::triggerStepFromTimer);
   const WbSimulationState *const s = WbSimulationState::instance();
@@ -235,6 +258,11 @@ void WbSimulationWorld::step() {
 
   emit physicsStepEnded();
 
+  if (mResetRequested) {
+    WbWorld::instance()->reset(false);
+    emit resetRequested(false);
+  }
+
   WbSimulationState::instance()->increaseTime(timeStep);
   viewpoint()->updateFollowUp();
 
@@ -266,12 +294,16 @@ void WbSimulationWorld::restartStepTimer() {
 }
 
 void WbSimulationWorld::modeChanged() {
+  WbPerformanceLog *log = WbPerformanceLog::instance();
+
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   switch (mode) {
     case WbSimulationState::PAUSE:
       mTimer->stop();
       WbSoundEngine::setPause(true);
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
+      if (log)
+        log->stopMeasure(WbPerformanceLog::SPEED_FACTOR);
       break;
     case WbSimulationState::STEP:
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
@@ -342,6 +374,7 @@ bool WbSimulationWorld::simulationHasRunAfterSave() {
 }
 
 void WbSimulationWorld::reset(bool restartControllers) {
+  WbWorld::reset(restartControllers);
   WbSimulationState::instance()->pauseSimulation();
   WbSimulationState::instance()->resetTime();
   WbTemplateManager::instance()->blockRegeneration(true);
@@ -352,7 +385,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
       WbNodeOperations::instance()->deleteNode(node, true);
   }
   mAddedNode.clear();
-  root()->reset();
+  root()->reset("__init__");
   WbTemplateManager::instance()->blockRegeneration(false);
   mImmersionGeoms.clear();
   mCluster->handleInitialCollisions();
@@ -365,7 +398,8 @@ void WbSimulationWorld::reset(bool restartControllers) {
     }
   }
   updateRandomSeed();
-  WbSimulationState::instance()->resumeSimulation();
+  if (WbDownloader::progress() == 100)
+    WbSimulationState::instance()->resumeSimulation();
   if (mPhysicsPlugin)
     mPhysicsPlugin->init();
   storeLastSaveTime();

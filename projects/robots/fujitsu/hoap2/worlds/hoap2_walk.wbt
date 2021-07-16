@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "Physics-based simulation of the Fujitsu HOAP-2 robot."
@@ -31,7 +31,7 @@ DEF TATAMI Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/fujitsu.png"
+            "webots://projects/robots/fujitsu/hoap2/worlds/textures/fujitsu.png"
           ]
         }
         roughness 0.5

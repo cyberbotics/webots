@@ -1,0 +1,33 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.07433695577634357 -0.9881596870269396 -0.13421791959618065 2.1400646
+  position -6.7820192 2.8581056 -4.7824838
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 20 20
+  wallThickness 0.2
+  wallHeight 0.8
+}
+Robot {
+  controller "mouse_events"
+  supervisor TRUE
+}
+WoodenPalletStack {
+  translation 0.20506096 0 2.655061
+  rotation 0 1 0 5.4977871
+  name "wooden pallet stack(1)"
+}
+WoodenPalletStack {
+  name "wooden pallet stack(2)"
+}
+WoodenPalletStack {
+  translation -0.97942604 0 -2.3829498
+  rotation 0 1 0 0.78539816
+}

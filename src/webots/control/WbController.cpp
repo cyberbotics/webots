@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -124,6 +124,8 @@ WbController::~WbController() {
   // that this function is the last one to be called
   // exception: don't disconnect readyReadStandard*()
   // signals in order to see the latest log messages
+  if (mRobot)
+    disconnect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   mProcess->disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
   mProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
 
@@ -830,23 +832,23 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
     return;
 
   QProcess process;
-  QString cmd;
   bool success;
 
   // get current RPATH
-  cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
+  const QString cmd = QString("otool -l %1 | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d' ' -f1").arg(filename);
   process.start("bash", QStringList() << "-c" << cmd);
   success = process.waitForFinished(500);
   if (!success || !process.readAllStandardError().isEmpty())
     return;
-  QString oldRPath = process.readAllStandardOutput().trimmed();
+  const QString oldRPath = process.readAllStandardOutput().trimmed();
 
   // change RPATH
+  QStringList args;
   if (oldRPath.isEmpty())
-    cmd = QString("install_name_tool -add_rpath %1 %2").arg(WbStandardPaths::webotsHomePath()).arg(filename);
+    args << "-add_rpath" << WbStandardPaths::webotsHomePath() << filename;
   else
-    cmd = QString("install_name_tool -rpath %1 %2 %3").arg(oldRPath).arg(WbStandardPaths::webotsHomePath()).arg(filename);
-  process.start(cmd);
+    args << "-rpath" << oldRPath << WbStandardPaths::webotsHomePath() << filename;
+  process.start("install_name_tool", args);
   process.waitForFinished(-1);
 #endif
 }
@@ -1091,16 +1093,7 @@ void WbController::readRequest() {
     if (immediateMessagesPending)
       writeAnswer(true);
 
-    if (!WbControlledWorld::instance()->needToWait()) {
-      WbSimulationState *state = WbSimulationState::instance();
-      emit state->controllerReadRequestsCompleted();
-      if (state->isPaused() || state->isStep())
-        // in order to avoid mixing immediate messages sent by Webots and the libController
-        // some Webots immediate messages could have been postponed
-        // if the simulation is running these messages will be sent within the step message
-        // otherwise we want to send them as soon as the libController request is over
-        WbControlledWorld::instance()->writePendingImmediateAnswer();
-    }
+    WbControlledWorld::instance()->checkIfReadRequestCompleted();
   }
 
   WbPerformanceLog *log = WbPerformanceLog::instance();

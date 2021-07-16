@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ endif
 include resources/Makefile.os.include
 
 ifeq ($(JAVA_HOME)$(OSTYPE),linux)
-JAVAC:=`which javac`
+JAVAC:=$(shell which javac)
 ifneq ($(JAVAC),)
 export JAVA_HOME:=$(shell dirname $(dir $(shell readlink -f $(JAVAC))))
 endif
@@ -149,11 +149,13 @@ ifneq (, $(shell which python 2> /dev/null))
 else
 	@+echo "#"; echo -e "# \033[0;33mPython not installed, skipping documentation\033[0m";
 endif
-
+	@$(WEBOTS_HOME_PATH)/scripts/get_git_info/get_git_info.sh
+	@$(shell find $(WEBOTS_HOME_PATH)/docs -name '*.md' | sed 's/.*docs[/]//' > $(WEBOTS_HOME_PATH)/docs/list.txt)
+	
 clean-docs:
 	@+echo "#"; echo "# * documentation *";
 	@rm -fr docs/index.html docs/dependencies
-
+	@-rm -f docs/list.txt 
 install:
 	@+echo "#"; echo "# * installing (snap) *";
 	@+make --silent -C scripts/packaging -f Makefile install

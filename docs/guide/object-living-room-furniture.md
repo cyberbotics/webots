@@ -18,12 +18,12 @@ Armchair {
   SFRotation rotation    0 1 0 0
   SFString   name        "armchair"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/sofa.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/living_room_furniture/protos/textures/sofa.jpg"
   SFNode     physics     NULL
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Armchair.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/living_room_furniture/protos/Armchair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Armchair.proto]({{ url.github_tree }}/projects/objects/living_room_furniture/protos/Armchair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -55,7 +55,7 @@ Carpet {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Carpet.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/living_room_furniture/protos/Carpet.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Carpet.proto]({{ url.github_tree }}/projects/objects/living_room_furniture/protos/Carpet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -82,12 +82,12 @@ Sofa {
   SFRotation rotation    0 1 0 0
   SFString   name        "sofa"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/sofa.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/living_room_furniture/protos/textures/sofa.jpg"
   SFNode     physics     NULL
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Sofa.proto](https://github.com/cyberbotics/webots/tree/released/projects/objects/living_room_furniture/protos/Sofa.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/living\_room\_furniture/protos/Sofa.proto]({{ url.github_tree }}/projects/objects/living_room_furniture/protos/Sofa.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

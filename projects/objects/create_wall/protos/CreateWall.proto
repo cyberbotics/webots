@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Virtual walls are an accessory of the IRobot Create allowing to inform the robot about areas typically for restricted access to a room.
@@ -22,22 +22,22 @@ Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/create_wall_base_color.jpg"
+            "webots://projects/objects/create_wall/protos/textures/create_wall_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/create_wall_roughness.jpg"
+            "webots://projects/objects/create_wall/protos/textures/create_wall_roughness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "textures/create_wall_normal.jpg"
+            "webots://projects/objects/create_wall/protos/textures/create_wall_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/create_wall_occlusion.jpg"
+            "webots://projects/objects/create_wall/protos/textures/create_wall_occlusion.jpg"
           ]
         }
         metalness 0

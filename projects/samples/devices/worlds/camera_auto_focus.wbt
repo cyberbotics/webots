@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "Example use of a color Camera device with auto-focusing capabilities."
@@ -20,7 +20,7 @@ RectangleArena {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/red_brick_wall.jpg"
+        "webots://projects/default/worlds/textures/red_brick_wall.jpg"
       ]
     }
     roughness 1

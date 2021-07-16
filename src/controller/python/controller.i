@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 /* Description:  Swig interface which maps the OO C++ files into a python module called "controller"   */
 /*******************************************************************************************************/
 
-%module controller
+%module(threads=1) controller
 
 %begin %{
 #define SWIG_PYTHON_2_UNICODE
@@ -39,13 +39,13 @@ if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list
 
 %{
 #include <webots/Accelerometer.hpp>
+#include <webots/Altimeter.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
 #include <webots/Compass.hpp>
 #include <webots/Connector.hpp>
 #include <webots/Device.hpp>
-#include <webots/DifferentialWheels.hpp>
 #include <webots/Display.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <webots/Emitter.hpp>
@@ -83,15 +83,19 @@ using namespace std;
 //  Miscellaneous - controller module's level
 //----------------------------------------------------------------------------------------------
 
+%thread webots::Robot::step(int duration);
+%nothreadblock;
+
 //handling std::string
 %include "std_string.i"
+%include "typemaps.i"
 
 %rename ("__internalGetLookupTableSize") getLookupTableSize;
 
 // manage double arrays
 %typemap(out) const double * {
   int len = 3;
-  string test("$name");
+  const string test("$name");
   if (test == "getSFVec2f" || test == "getMFVec2f")
     len = 2;
   else if (test == "getSFRotation" || test == "getQuaternion")
@@ -100,12 +104,14 @@ using namespace std;
     len = 6;
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     len = 9;
+  else if (test == "getPose")
+    len = 16;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
 }
 %typemap(out) const double *getLookupTable {
-  int len = arg1->getLookupTableSize()*3;
+  const int len = arg1->getLookupTableSize()*3;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
@@ -115,7 +121,7 @@ using namespace std;
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
     return NULL;
   }
-  int len = PyList_Size($input);
+  const int len = PyList_Size($input);
   $1 = (double*)malloc(len * sizeof(double));
   for (int i = 0; i < len; ++i)
     $1[i] = PyFloat_AsDouble(PyList_GetItem($input, i));
@@ -128,7 +134,7 @@ using namespace std;
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
     return NULL;
   }
-  int len = PyList_Size($input);
+  const int len = PyList_Size($input);
   $1 = (int*)malloc(len * sizeof(int));
   for (int i = 0; i < len; ++i)
     $1[i] = PyInt_AsLong(PyList_GetItem($input, i));
@@ -179,6 +185,12 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %include <webots/Accelerometer.hpp>
+
+//----------------------------------------------------------------------------------------------
+//  Altimeter
+//----------------------------------------------------------------------------------------------
+
+%include <webots/Altimeter.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Brake
@@ -234,8 +246,8 @@ class AnsiCodes(object):
   PyObject *get_size() {
     const double *size = $self->size;
     PyObject *ret = PyList_New(2);
-    PyList_SetItem(ret, 0, PyInt_FromLong(size[0]));
-    PyList_SetItem(ret, 1, PyInt_FromLong(size[1]));
+    PyList_SetItem(ret, 0, PyFloat_FromDouble(size[0]));
+    PyList_SetItem(ret, 1, PyFloat_FromDouble(size[1]));
     return ret;
   }
   PyObject *get_position_on_image() {
@@ -273,8 +285,8 @@ class AnsiCodes(object):
 
 
 %typemap(out) unsigned char * {
-  int width = arg1->getWidth();
-  int height = arg1->getHeight();
+  const int width = arg1->getWidth();
+  const int height = arg1->getHeight();
   if ($1)
     $result = PyBytes_FromStringAndSize((const char*)$1, 4 * width * height);
   else
@@ -285,8 +297,8 @@ class AnsiCodes(object):
 %extend webots::Camera {
   PyObject *getImageArray() {
     const unsigned char *im = $self->getImage();
-    int width = $self->getWidth();
-    int height = $self->getHeight();
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
       ret = PyList_New(width);
@@ -309,7 +321,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetRed', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong(s[4 * (y * width + x) + 2]);
   }
 
@@ -318,7 +330,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGreen', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong(s[4 * (y * width + x) + 1]);
   }
 
@@ -327,7 +339,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetBlue', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong(s[4 * (y * width + x)]);
   }
 
@@ -336,7 +348,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGrey', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong((s[4 * (y * width + x)] + s[4 * (y * width + x) + 1] + s[4 * (y * width + x) + 2]) / 3);
   }
 
@@ -345,7 +357,7 @@ class AnsiCodes(object):
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGrey', argument 2 of type 'PyString'\n");
       return NULL;
     }
-    unsigned char *s = (unsigned char*)PyString_AsString(im);
+    const unsigned char *s = (unsigned char*)PyString_AsString(im);
     return PyInt_FromLong((s[4 * (y * width + x)] + s[4 * (y * width + x) + 1] + s[4 * (y * width + x) + 2]) / 3);
   }
 
@@ -364,8 +376,8 @@ class AnsiCodes(object):
 
   PyObject *getRecognitionSegmentationImageArray() {
     const unsigned char *im = $self->getRecognitionSegmentationImage();
-    int width = $self->getWidth();
-    int height = $self->getHeight();
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
       ret = PyList_New(width);
@@ -410,19 +422,19 @@ class AnsiCodes(object):
     return NULL;
   }
   if (PyList_Check($input)) {
-    int len1 = PyList_Size($input);
+    const int len1 = PyList_Size($input);
     PyObject *l2 = PyList_GetItem($input, 0);
     if (!PyList_Check(l2)) {
       PyErr_SetString(PyExc_TypeError, "expected 'PyList' of 'PyList'\n");
       return NULL;
     }
-    int len2 = PyList_Size(l2);
+    const int len2 = PyList_Size(l2);
     PyObject *l3 = PyList_GetItem(l2, 0);
     if (!PyList_Check(l3)) {
       PyErr_SetString(PyExc_TypeError, "expected 'PyList' of 'PyList' of 'PyList'\n");
       return NULL;
     }
-    int len3 = PyList_Size(l3);
+    const int len3 = PyList_Size(l3);
     $1 = (void *)malloc(len1 * len2 * len3 * sizeof(unsigned char));
     need_to_delete = true;
     for (int i = 0; i < len1; ++i)
@@ -536,9 +548,14 @@ class AnsiCodes(object):
 %include <webots/lidar_point.h>
 
 %typemap(out) float * {
-  int width = arg1->getHorizontalResolution();
-  int height = arg1->getNumberOfLayers();
-  int len = width * height;
+  const int width = arg1->getHorizontalResolution();
+  const int height = arg1->getNumberOfLayers();
+  const string functionName("$name");
+  int len;
+  if (functionName == "getLayerRangeImage")
+    len = width;
+  else
+    len = width * height;
   if ($1) {
     $result = PyList_New(len);
     for (int x = 0; x < len; ++x)
@@ -552,32 +569,23 @@ class AnsiCodes(object):
 
 %extend webots::Lidar {
 
-  webots::LidarPoint getPoint(int index) const {
-    const webots::LidarPoint *point = $self->getPointCloud();
-    return point[index];
-  }
-
-  PyObject *__getPointCloudBuffer() const {
-    const char *points = (const char *)$self->getPointCloud();
-    const int size = $self->getNumberOfPoints() * sizeof(WbLidarPoint);
+  PyObject *__getPointCloudBuffer(int layer) const {
+    const char *points = layer < 0 ? (const char *)$self->getPointCloud() : (const char *)$self->getLayerPointCloud(layer);
+    const int numberOfPoints = layer < 0 ? $self->getNumberOfPoints() : $self->getHorizontalResolution();
+    const int size = numberOfPoints * sizeof(WbLidarPoint);
     return PyBytes_FromStringAndSize(points, size);
   }
 
-  PyObject* __getPointCloudList() const {
-    const WbLidarPoint *rawPoints = $self->getPointCloud();
-    const int size = $self->getNumberOfPoints();
+  PyObject* __getPointCloudList(int layer) const {
+    const WbLidarPoint *rawPoints = layer < 0 ? $self->getPointCloud() : $self->getLayerPointCloud(layer);
+    const int size = layer < 0 ? $self->getNumberOfPoints() : $self->getHorizontalResolution();
 
     PyObject *points = PyList_New(size);
     for (int i = 0; i < size; i++) {
-      PyObject *value = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint *), 0);
+      PyObject *value = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint), 0);
       PyList_SetItem(points, i, value);
     }
     return points;
-  }
-
-  webots::LidarPoint getLayerPoint(int layer, int index) const {
-    const webots::LidarPoint *point = $self->getLayerPointCloud(layer);
-    return point[index];
   }
 
   %pythoncode %{
@@ -585,24 +593,27 @@ class AnsiCodes(object):
 
   def getPointCloud(self, data_type='list'):
     if data_type == 'list':
-      return self.__getPointCloudList()
+      return self.__getPointCloudList(-1)
     elif data_type == 'buffer':
-      return self.__getPointCloudBuffer()
+      return self.__getPointCloudBuffer(-1)
     else:
       sys.stderr.write("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.\n".format(data_type))
       return None
 
-  def getLayerPointCloud(self, layer):
-     ret = []
-     for i in range(self.getHorizontalResolution()):
-       ret.append(self.getLayerPoint(layer, i))
-     return ret
+  def getLayerPointCloud(self, layer, data_type='list'):
+     if data_type == 'list':
+       return self.__getPointCloudList(layer)
+     elif data_type == 'buffer':
+       return self.__getPointCloudBuffer(layer)
+     else:
+       sys.stderr.write("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.\n".format(data_type))
+       return None
   %}
 
   PyObject *getRangeImageArray() {
     const float *im = $self->getRangeImage();
-    int width = $self->getHorizontalResolution();
-    int height = $self->getNumberOfLayers();
+    const int width = $self->getHorizontalResolution();
+    const int height = $self->getNumberOfLayers();
     PyObject *ret = Py_None;
     if (im) {
       ret = PyList_New(width);
@@ -672,8 +683,35 @@ class AnsiCodes(object):
 //  Node
 //----------------------------------------------------------------------------------------------
 
+%rename WbContactPoint ContactPoint;
+
+%include <webots/contact_point.h>
+
+%extend WbContactPoint {
+  PyObject *get_point() {
+    const double *point = $self->point;
+    PyObject *ret = PyList_New(3);
+    PyList_SetItem(ret, 0, PyFloat_FromDouble(point[0]));
+    PyList_SetItem(ret, 1, PyFloat_FromDouble(point[1]));
+    PyList_SetItem(ret, 2, PyFloat_FromDouble(point[2]));
+    return ret;
+  }
+  PyObject *get_node_id() {
+    const double orientation = $self->node_id;
+    return PyInt_FromLong(orientation);
+  }
+
+  %pythoncode %{
+  @property
+  def point(self):
+      return self.get_point()
+  %}
+};
+
 %ignore webots::Node::findNode(WbNodeRef ref);
 %ignore webots::Node::cleanup();
+%rename ("getContactPointsPrivate") webots::Node::getContactPoints;
+%apply int *OUTPUT { int *size };
 
 %extend webots::Node {
   %pythoncode %{
@@ -688,7 +726,21 @@ class AnsiCodes(object):
 
   def __ne__(self, other):
       return not self.__eq__(other)
+
+  def getContactPoints(self, includeDescendants=False):
+    point_data = self.getContactPointsPrivate(includeDescendants)
+    if not point_data:
+      return []
+    ret = []
+    points, size = point_data
+    for i in range(size):
+      ret.append(self.getContactPointFromList(points, i))
+    return ret
   %}
+
+  webots::ContactPoint* getContactPointFromList(ContactPoint* points, int index) const {
+    return &points[index];
+  }
 };
 
 %include <webots/Node.hpp>
@@ -753,24 +805,34 @@ class AnsiCodes(object):
 //  RangeFinder
 //----------------------------------------------------------------------------------------------
 
-%typemap(out) float * {
-  int width = arg1->getWidth();
-  int height = arg1->getHeight();
-  int len = width * height;
-  if ($1) {
-    $result = PyList_New(len);
-    for (int x = 0; x < len; ++x)
-      PyList_SetItem($result, x, PyFloat_FromDouble($1[x]));
-  } else
-    $result = Py_None;
-}
-
 %extend webots::RangeFinder {
+
+  PyObject *__getRangeImageList() {
+    const float *im = $self->getRangeImage();
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
+    const int len = width * height;
+    if (im) {
+      PyObject *ret = PyList_New(len);
+      for (int x = 0; x < len; ++x)
+        PyList_SetItem(ret, x, PyFloat_FromDouble(im[x]));
+      return ret;
+    } else {
+      return Py_None;
+    }
+  }
+
+  PyObject *__getRangeImageBuffer() {
+    const float *im = $self->getRangeImage();
+    const char *im_bytes = (const char *)im;
+    const int size = $self->getWidth() * $self->getHeight() * sizeof(float);
+    return PyBytes_FromStringAndSize(im_bytes, size);
+  }
 
   PyObject *getRangeImageArray() {
     const float *im = $self->getRangeImage();
-    int width = $self->getWidth();
-    int height = $self->getHeight();
+    const int width = $self->getWidth();
+    const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
       ret = PyList_New(width);
@@ -785,6 +847,17 @@ class AnsiCodes(object):
     }
     return ret;
   }
+
+  %pythoncode %{
+    def getRangeImage(self, data_type='list'):
+      if data_type == 'list':
+        return self.__getRangeImageList()
+      elif data_type == 'buffer':
+        return self.__getRangeImageBuffer()
+      else:
+        print("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.".format(data_type), file=sys.stderr)
+        return None
+  %}
 
   static PyObject *rangeImageGetValue(PyObject *im, double minRange, double maxRange, int width, int x, int y) {
     if (!PyList_Check(im)) {
@@ -859,6 +932,7 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %ignore webots::Robot::getAccelerometer(const std::string &name);
+%ignore webots::Robot::getAltimeter(const std::string &name);
 %ignore webots::Robot::getBrake(const std::string &name);
 %ignore webots::Robot::getCamera(const std::string &name);
 %ignore webots::Robot::getCompass(const std::string &name);
@@ -910,6 +984,14 @@ class AnsiCodes(object):
       sys.stderr.write("DEPRECATION: Robot.getAccelerometer is deprecated, please use Robot.getDevice instead.\n")
       tag = self.__internalGetDeviceTagFromName(name)
       if not Device.hasType(tag, Node.ACCELEROMETER):
+        return None
+      return self.__getOrCreateDevice(tag)
+    def createAltimeter(self, name):
+      return Altimeter(name)
+    def getAltimeter(self, name):
+      sys.stderr.write("DEPRECATION: Robot.getAltimeter is deprecated, please use Robot.getDevice instead.\n")
+      tag = self.__internalGetDeviceTagFromName(name)
+      if not Device.hasType(tag, Node.ALTIMETER):
         return None
       return self.__getOrCreateDevice(tag)
     def createBrake(self, name):
@@ -1115,7 +1197,7 @@ class AnsiCodes(object):
       size = len(Robot.__devices)
       # if new devices have been added, then count is greater than size
       # deleted devices are not removed from the C API list and don't affect the number of devices
-      if count == size and size > 0 and tag < size:
+      if size == count + 1 and size > 0 and tag < size:
           return Robot.__devices[tag]
 
       # (re-)initialize Robot.__devices list
@@ -1128,6 +1210,8 @@ class AnsiCodes(object):
           nodeType = self.__internalGetDeviceTypeFromTag(otherTag)
           if nodeType == Node.ACCELEROMETER:
               Robot.__devices[otherTag] = self.createAccelerometer(name)
+          elif nodeType == Node.ALTIMETER:
+              Robot.__devices[otherTag] = self.createAltimeter(name)
           elif nodeType == Node.BRAKE:
               Robot.__devices[otherTag] = self.createBrake(name)
           elif nodeType == Node.CAMERA:
@@ -1175,12 +1259,6 @@ class AnsiCodes(object):
 }
 
 %include <webots/Robot.hpp>
-
-//----------------------------------------------------------------------------------------------
-//  DifferentialWheels
-//----------------------------------------------------------------------------------------------
-
-%include <webots/DifferentialWheels.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Supervisor

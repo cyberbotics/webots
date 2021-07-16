@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ void WbJoint::init() {
   mPosition = findSFDouble("position")->value();
   mOdePositionOffset = mPosition;
   mTimeStep = 0.0;
-  mInitialPosition = mPosition;
+  mSavedPositions[stateId()] = mPosition;
 }
 
 // Constructors
@@ -57,10 +57,23 @@ WbJoint::WbJoint(const WbNode &other) : WbBasicJoint(other) {
 WbJoint::~WbJoint() {
 }
 
+void WbJoint::downloadAssets() {
+  WbBasicJoint::downloadAssets();
+  WbMotor *m = motor();
+  if (m)
+    m->downloadAssets();
+  m = motor2();
+  if (m)
+    m->downloadAssets();
+  m = motor3();
+  if (m)
+    m->downloadAssets();
+}
+
 void WbJoint::preFinalize() {
   WbBasicJoint::preFinalize();
 
-  mInitialPosition = mPosition;
+  mSavedPositions[stateId()] = mPosition;
 
   for (int i = 0; i < devicesNumber(); ++i) {
     if (device(i) && !device(i)->isPreFinalizedCalled())
@@ -81,13 +94,13 @@ void WbJoint::postFinalize() {
     connect(brake(), &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
 }
 
-void WbJoint::reset() {
-  WbBasicJoint::reset();
+void WbJoint::reset(const QString &id) {
+  WbBasicJoint::reset(id);
 
   for (int i = 0; i < mDevice->size(); ++i)
-    mDevice->item(i)->reset();
+    mDevice->item(i)->reset(id);
 
-  setPosition(mInitialPosition);
+  setPosition(mSavedPositions[id]);
 }
 
 void WbJoint::resetPhysics() {
@@ -98,22 +111,25 @@ void WbJoint::resetPhysics() {
     m->resetPhysics();
 }
 
-void WbJoint::save() {
-  WbBasicJoint::save();
+void WbJoint::save(const QString &id) {
+  WbBasicJoint::save(id);
 
   for (int i = 0; i < mDevice->size(); ++i)
-    mDevice->item(i)->save();
+    mDevice->item(i)->save(id);
 
-  mInitialPosition = mPosition;
+  mSavedPositions[id] = mPosition;
 }
 
 void WbJoint::setPosition(double position, int index) {
-  assert(index == 1);
+  if (index != 1)
+    return;
+
   mPosition = position;
   mOdePositionOffset = position;
   WbJointParameters *const p = parameters();
   if (p)
     p->setPosition(mPosition);
+
   WbMotor *const m = motor();
   if (m)
     m->setTargetPosition(position);
@@ -326,7 +342,7 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();
-    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::FLOAT_MAX));
+    writer << QString("<axis xyz=\"%1\"/>\n").arg(rotationAxis.toString(WbPrecision::FLOAT_ROUND_6));
     writer.indent();
 
     if (m) {
@@ -341,8 +357,8 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
       writer.indent();
     }
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                .arg(translation.toString(WbPrecision::FLOAT_MAX))
-                .arg(rotationEuler.toString(WbPrecision::FLOAT_MAX));
+                .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
+                .arg(rotationEuler.toString(WbPrecision::FLOAT_ROUND_6));
     writer.decreaseIndent();
 
     writer.indent();

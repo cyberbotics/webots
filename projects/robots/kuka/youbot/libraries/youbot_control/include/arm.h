@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2020 Cyberbotics Ltd.
+ * Copyright 1996-2021 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,13 +30,13 @@ void arm_init();
 void arm_reset();
 
 enum Height {
-  ARM_FRONT_FLOOR,
-  ARM_FRONT_PLATE,
-  ARM_HANOI_PREPARE,
-  ARM_FRONT_CARDBOARD_BOX,
-  ARM_RESET,
-  ARM_BACK_PLATE_HIGH,
   ARM_BACK_PLATE_LOW,
+  ARM_BACK_PLATE_HIGH,
+  ARM_RESET,
+  ARM_FRONT_CARDBOARD_BOX,
+  ARM_HANOI_PREPARE,
+  ARM_FRONT_PLATE,
+  ARM_FRONT_FLOOR,
   ARM_MAX_HEIGHT
 };
 void arm_set_height(enum Height height);
@@ -44,13 +44,13 @@ void arm_increase_height();
 void arm_decrease_height();
 
 enum Orientation {
-  ARM_BACK_LEFT,
-  ARM_LEFT,
-  ARM_FRONT_LEFT,
-  ARM_FRONT,
-  ARM_FRONT_RIGHT,
-  ARM_RIGHT,
   ARM_BACK_RIGHT,
+  ARM_RIGHT,
+  ARM_FRONT_RIGHT,
+  ARM_FRONT,
+  ARM_FRONT_LEFT,
+  ARM_LEFT,
+  ARM_BACK_LEFT,
   ARM_MAX_SIDE
 };
 void arm_set_orientation(enum Orientation orientation);

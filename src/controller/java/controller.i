@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,13 +20,14 @@
 
 %{
 #include <webots/Accelerometer.hpp>
+#include <webots/Altimeter.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
+#include <webots/contact_point.h>
 #include <webots/Connector.hpp>
 #include <webots/Compass.hpp>
 #include <webots/Device.hpp>
-#include <webots/DifferentialWheels.hpp>
 #include <webots/Display.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <webots/Emitter.hpp>
@@ -65,6 +66,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 
 //for the conversion between array and pointer
+%include "typemaps.i"
 %include "arrays_java.i"
 
 %javamethodmodifiers getLookupTableSize "private"
@@ -82,6 +84,8 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
   else if (test != "getLookupTable")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
+  else if (test != "getPose")
+    $result = SWIG_JavaArrayOutDouble(jenv, $1, 16);
 }
 %apply double[] {double *};
 
@@ -162,6 +166,12 @@ namespace webots {
 %include <webots/Accelerometer.hpp>
 
 //----------------------------------------------------------------------------------------------
+//  Altimeter
+//----------------------------------------------------------------------------------------------
+
+%include <webots/Altimeter.hpp>
+
+//----------------------------------------------------------------------------------------------
 //  Brake
 //----------------------------------------------------------------------------------------------
 
@@ -193,16 +203,25 @@ namespace webots {
 
 %rename WbCameraRecognitionObject CameraRecognitionObject;
 
+%javamethodmodifiers position_on_image "private"
+%javamethodmodifiers size_on_image "private"
+%javamethodmodifiers number_of_colors "private"
+
+%typemap(out) int [] {
+  $result = SWIG_JavaArrayOutInt(jenv, $1, 2);
+}
+%apply int[] {const int *};
+
 %include <webots/camera_recognition_object.h>
 
 %extend WbCameraRecognitionObject {
-  int * getPositionOnImage() {
+  const int *getPositionOnImage() const {
     return $self->position_on_image;
   }
-  int * getSizeOnImage() {
+  const int *getSizeOnImage() const {
     return $self->size_on_image;
   }
-  int getNumberOfColors() {
+  int getNumberOfColors() const {
     return $self->number_of_colors;
   }
 };
@@ -289,7 +308,7 @@ namespace webots {
     return pixelGetGray(pixel);
   }
 
-  public CameraRecognitionObject[] getCameraRecognitionObjects() {
+  public CameraRecognitionObject[] getRecognitionObjects() {
     int numberOfObjects = wrapperJNI.Camera_getRecognitionNumberOfObjects(swigCPtr, this);
     CameraRecognitionObject ret[] = new CameraRecognitionObject[numberOfObjects];
     for (int i = 0; i < numberOfObjects; ++i)
@@ -495,7 +514,11 @@ namespace webots {
 };
 
 %typemap(out) float [] {
-  $result = SWIG_JavaArrayOutFloat(jenv, $1, arg1->getHorizontalResolution()*arg1->getNumberOfLayers());
+  int size = arg1->getHorizontalResolution();
+  const string functionName("$name");
+  if (functionName != "getLayerRangeImage")
+    size *= arg1->getNumberOfLayers();
+  $result = SWIG_JavaArrayOutFloat(jenv, $1, size);
 }
 
 %apply float[] {const float *};
@@ -593,6 +616,8 @@ namespace webots {
 //  Node
 //----------------------------------------------------------------------------------------------
 
+%rename WbContactPoint ContactPoint;
+
 %ignore webots::Node::findNode(WbNodeRef ref);
 %ignore webots::Node::cleanup();
 
@@ -605,8 +630,35 @@ namespace webots {
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
 %javamethodmodifiers getField(const std::string &fieldName) const "private"
 
+%apply int *OUTPUT { int *size };
+%rename(getContactPointsPrivate) getContactPoints;
+
+%include <webots/contact_point.h>
+%extend WbContactPoint {
+  int getNodeId() const {
+    return $self->node_id;
+  }
+};
+
+%extend webots::Node {
+  ContactPoint getContactPointFromPointer(long long points, int index) const {
+    return *((webots::ContactPoint *)(points + index));
+  }
+};
+
 %typemap(javacode) webots::Node %{
 // ----- begin hand written section ----
+  public ContactPoint[] getContactPoints(Boolean includeDescendants) {
+    int sizePointer[] = {0};
+    long result = wrapperJNI.Node_getContactPointsPrivate(swigCPtr, this, includeDescendants, sizePointer);
+    int size = sizePointer[0];
+    ContactPoint ret[] = new ContactPoint[size];
+
+    for (int i = 0; i < size; ++i)
+      ret[i] = getContactPointFromPointer(result, 0);
+    return ret;
+  }
+
   public Node getParentNode() {
     long cPtr = wrapperJNI.Node_getParentNodePrivate(swigCPtr, this);
     return Node.findNode(cPtr);
@@ -768,6 +820,7 @@ namespace webots {
 //----------------------------------------------------------------------------------------------
 
 %ignore webots::Robot::getAccelerometer(const std::string &name);
+%ignore webots::Robot::getAltimeter(const std::string &name);
 %ignore webots::Robot::getBrake(const std::string &name);
 %ignore webots::Robot::getCamera(const std::string &name);
 %ignore webots::Robot::getCompass(const std::string &name);
@@ -822,6 +875,17 @@ namespace webots {
     if (!Device.hasType(tag, Node.ACCELEROMETER))
       return null;
     return (Accelerometer)getOrCreateDevice(tag);
+  }
+
+  protected Altimeter createAltimeter(String name) {
+    return new Altimeter(name);
+  }
+
+  public Altimeter getAltimeter(String name) {
+    int tag = getDeviceTagFromName(name);
+    if (!Device.hasType(tag, Node.ALTIMETER))
+      return null;
+    return (Altimeter)getOrCreateDevice(tag);
   }
 
   protected Brake createBrake(String name) {
@@ -1095,7 +1159,7 @@ namespace webots {
     int count = getNumberOfDevices();
     // if new devices have been added, then count is greater than devices.length
     // deleted devices are not removed from the C API list and don't affect the number of devices
-    if (devices != null && devices.length == count && tag < devices.length)
+    if (devices != null && devices.length == count + 1 && tag < devices.length)
         return devices[tag];
 
     // (re-)initialize devices list
@@ -1107,6 +1171,7 @@ namespace webots {
       String name = getDeviceNameFromTag(otherTag);
       switch(getDeviceTypeFromTag(otherTag)) {
         case Node.ACCELEROMETER:    devices[otherTag] = createAccelerometer(name); break;
+        case Node.ALTIMETER:        devices[otherTag] = createAltimeter(name); break;
         case Node.BRAKE:            devices[otherTag] = createBrake(name); break;
         case Node.CAMERA:           devices[otherTag] = createCamera(name); break;
         case Node.COMPASS:          devices[otherTag] = createCompass(name); break;
@@ -1138,12 +1203,6 @@ namespace webots {
 %}
 
 %include <webots/Robot.hpp>
-
-//----------------------------------------------------------------------------------------------
-//  DifferentialWheels
-//----------------------------------------------------------------------------------------------
-
-%include <webots/DifferentialWheels.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Supervisor

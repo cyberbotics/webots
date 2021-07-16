@@ -1,0 +1,20 @@
+#VRML_SIM R2021b utf8
+# template language: javascript
+
+PROTO RegenerableBoundingObjectBox [
+  field SFFloat size 1
+]
+{
+  %< const size = fields.size.value; >%
+  Group {
+    children [
+      Transform {
+        children [
+          Box {
+            size %<= size >% %<= size >% %<= size >%
+          }
+        ]
+      }
+    ]
+  }
+}

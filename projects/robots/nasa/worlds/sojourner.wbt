@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   info [
     "A model of the NASA Sojourner Rover on Mars."
@@ -41,7 +41,7 @@ DEF FLAG Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "sojourner/panel.jpg"
+                "webots://projects/robots/nasa/worlds/textures/panel.jpg"
               ]
             }
             roughness 1

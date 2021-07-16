@@ -1,0 +1,261 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  ERP 0.8
+  basicTimeStep 8
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.8416331264924354 0.5386570809569442 0.038758605825187115 5.72059
+  position -0.666474 1.619 1.9763
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+}
+DEF BLUE_BALL_1 Solid {
+  translation -0.302432 0.0507267 0.277321
+  children [
+    DEF OBJECT_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.568627 0.796078 0.862745
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  name "blue ball 1"
+  boundingObject USE OBJECT_SHAPE
+  physics Physics {
+  }
+}
+DEF BLUE_BALL_2 Solid {
+  translation 0.0341574 0.412037 0.00906426
+  children [
+    DEF OBJECT_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.568627 0.796078 0.862745
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  name "blue ball 2"
+  boundingObject USE OBJECT_SHAPE
+  physics Physics {
+    density 2000
+  }
+}
+DEF ROPE Solid {
+  children [
+    DEF INITIAL_BALL_JOINT BallJoint {
+      jointParameters BallJointParameters {
+        anchor 0 0.99 0
+      }
+      endPoint DEF ROPE_INITIAL_ELEMENT Solid {
+        translation 0 0.99 0
+        children [
+          DEF BALL_JOINT_1 BallJoint {
+            jointParameters BallJointParameters {
+              springConstant 1
+            }
+            endPoint DEF ROPE_ELEMENT_1 Solid {
+              translation 0 -0.1 0
+              children [
+                DEF ROPE_ELEMENT Transform {
+                  translation 0 0.05 0
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.8 0.8 0.8
+                        roughness 1
+                        metalness 0
+                      }
+                      geometry Capsule {
+                        height 0.1
+                        radius 0.005
+                      }
+                    }
+                  ]
+                }
+                DEF BALL_JOINT_2 BallJoint {
+                  jointParameters BallJointParameters {
+                    springConstant 1
+                  }
+                  endPoint DEF ROPE_ELEMENT_2 Solid {
+                    translation 0 -0.1 0
+                    children [
+                      USE ROPE_ELEMENT
+                      DEF BALL_JOINT_3 BallJoint {
+                        jointParameters BallJointParameters {
+                          springConstant 1
+                        }
+                        endPoint DEF ROPE_ELEMENT_3 Solid {
+                          translation 0 -0.1 0
+                          children [
+                            USE ROPE_ELEMENT
+                            DEF BALL_JOINT_4 BallJoint {
+                              jointParameters BallJointParameters {
+                                springConstant 1
+                              }
+                              endPoint DEF ROPE_ELEMENT_4 Solid {
+                                translation 0 -0.1 0
+                                children [
+                                  USE ROPE_ELEMENT
+                                  DEF BALL_JOINT_5 BallJoint {
+                                    jointParameters BallJointParameters {
+                                      springConstant 1
+                                    }
+                                    endPoint DEF ROPE_ELEMENT_5 Solid {
+                                      translation 0 -0.1 0
+                                      children [
+                                        USE ROPE_ELEMENT
+                                        Solid {
+                                          translation 0 -0.05 0
+                                          children [
+                                            DEF ROPE_MASS_SHAPE Shape {
+                                              appearance DEF SUPPORT_APPEARANCE PBRAppearance {
+                                                baseColor 0.564706 0.933333 0.564706
+                                                roughness 1
+                                                metalness 0
+                                              }
+                                              geometry Sphere {
+                                                radius 0.05
+                                                subdivision 2
+                                              }
+                                            }
+                                          ]
+                                          boundingObject USE ROPE_MASS_SHAPE
+                                          physics Physics {
+                                          }
+                                        }
+                                      ]
+                                      boundingObject USE ROPE_ELEMENT
+                                      physics DEF ROPE_ELEMENT_PHYSICS Physics {
+                                        density -1
+                                        mass 0.0085
+                                        centerOfMass [
+                                          0 0 0
+                                        ]
+                                        inertiaMatrix [
+                                          5.7e-05 9.5e-06 5.7e-05
+                                          0 0 0
+                                        ]
+                                        damping Damping {
+                                          linear 0.715292
+                                          angular 0.715292
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                                boundingObject USE ROPE_ELEMENT
+                                physics USE ROPE_ELEMENT_PHYSICS
+                              }
+                            }
+                          ]
+                          boundingObject USE ROPE_ELEMENT
+                          physics USE ROPE_ELEMENT_PHYSICS
+                        }
+                      }
+                    ]
+                    boundingObject USE ROPE_ELEMENT
+                    physics USE ROPE_ELEMENT_PHYSICS
+                  }
+                }
+              ]
+              boundingObject USE ROPE_ELEMENT
+              physics USE ROPE_ELEMENT_PHYSICS
+            }
+          }
+        ]
+        boundingObject Sphere {
+          radius 0.005
+        }
+        physics USE ROPE_ELEMENT_PHYSICS
+      }
+    }
+    DEF SUPPORT_GROUP Group {
+      children [
+        Transform {
+          translation -0.35 0.05 0
+          children [
+            Shape {
+              appearance DEF SUPPORT_APPEARANCE PBRAppearance {
+                baseColor 0.564706 0.933333 0.564706
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.2 0.1 0.2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.35 0.05 0
+          children [
+            Shape {
+              appearance DEF SUPPORT_APPEARANCE PBRAppearance {
+                baseColor 0.564706 0.933333 0.564706
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.2 0.1 0.2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.35 0.5 0
+          children [
+            Shape {
+              appearance DEF SUPPORT_APPEARANCE PBRAppearance {
+                baseColor 0.564706 0.933333 0.564706
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.1 1 0.1
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.35 0.5 0
+          children [
+            Shape {
+              appearance USE SUPPORT_APPEARANCE
+              geometry Box {
+                size 0.1 1 0.1
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 1.05 0
+          children [
+            Shape {
+              appearance USE SUPPORT_APPEARANCE
+              geometry Box {
+                size 0.8 0.1 0.1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject USE SUPPORT_GROUP
+  locked TRUE
+}

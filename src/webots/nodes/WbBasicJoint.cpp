@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -79,6 +79,12 @@ WbBasicJoint::~WbBasicJoint() {
     wr_node_delete(WR_NODE(mRenderable));
     wr_node_delete(WR_NODE(mTransform));
   }
+}
+
+void WbBasicJoint::downloadAssets() {
+  WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    e->downloadAssets();
 }
 
 void WbBasicJoint::preFinalize() {
@@ -178,24 +184,24 @@ void WbBasicJoint::setOdeJoint(dBodyID body, dBodyID parentBody) {
   applyToOdeSpringAndDampingConstants(body, parentBody);
 }
 
-void WbBasicJoint::reset() {
-  WbBaseNode::reset();
+void WbBasicJoint::reset(const QString &id) {
+  WbBaseNode::reset(id);
   WbNode *const p = mParameters->value();
   WbNode *const e = mEndPoint->value();
   if (p)
-    p->reset();
+    p->reset(id);
   if (e)
-    e->reset();
+    e->reset(id);
 }
 
-void WbBasicJoint::save() {
-  WbBaseNode::save();
+void WbBasicJoint::save(const QString &id) {
+  WbBaseNode::save(id);
   WbNode *const p = mParameters->value();
   WbNode *const e = mEndPoint->value();
   if (p)
-    p->save();
+    p->save(id);
   if (e)
-    e->save();
+    e->save(id);
 }
 
 // Update methods: they check validity and correct if necessary
@@ -440,7 +446,7 @@ void WbBasicJoint::write(WbVrmlWriter &writer) const {
     WbRotation computedRotation;
     const WbBasicJoint *instance = NULL;
     if (isProtoParameterNode())
-      instance = dynamic_cast<WbBasicJoint *>(protoParameterNodeInstances().at(0));
+      instance = dynamic_cast<WbBasicJoint *>(getFirstFinalizedProtoInstance());
     if (instance == NULL)
       instance = this;
     instance->computeEndPointSolidPositionFromParameters(computedTranslation, computedRotation);

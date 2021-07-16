@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2021 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -82,6 +82,16 @@ WbSkin::~WbSkin() {
 
     wr_material_delete(mBoneMaterial);
     wr_static_mesh_delete(mBoneMesh);
+  }
+}
+
+void WbSkin::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  WbMFIterator<WbMFNode, WbNode *> it(mAppearanceField);
+  while (it.hasNext()) {
+    WbAbstractAppearance *appearance = dynamic_cast<WbAbstractAppearance *>(it.next());
+    assert(appearance);
+    appearance->downloadAssets();
   }
 }
 
@@ -348,29 +358,11 @@ void WbSkin::createWrenObjects() {
           &WbSkin::updateOptionalRendering);
 
   // Create bone mesh
-  const float vertices[72] = {0.0f,  0.0f,  0.0f,  -0.1f, 0.1f,  0.25f,
-
-                              0.0f,  0.0f,  0.0f,  -0.1f, -0.1f, 0.25f,
-
-                              0.0f,  0.0f,  0.0f,  0.1f,  -0.1f, 0.25f,
-
-                              0.0f,  0.0f,  0.0f,  0.1f,  0.1f,  0.25f,
-
-                              0.0f,  0.0f,  1.0f,  -0.1f, 0.1f,  0.25f,
-
-                              0.0f,  0.0f,  1.0f,  -0.1f, -0.1f, 0.25f,
-
-                              0.0f,  0.0f,  1.0f,  0.1f,  -0.1f, 0.25f,
-
-                              0.0f,  0.0f,  1.0f,  0.1f,  0.1f,  0.25f,
-
-                              0.1f,  0.1f,  0.25f, 0.1f,  -0.1f, 0.25f,
-
-                              0.1f,  -0.1f, 0.25f, -0.1f, -0.1f, 0.25f,
-
-                              -0.1f, -0.1f, 0.25f, -0.1f, 0.1f,  0.25f,
-
-                              -0.1f, 0.1f,  0.25f, 0.1f,  0.1f,  0.25f};
+  const float vertices[72] = {
+    0.0f, 0.0f,  0.0f,  -0.1f, 0.1f,  0.25f, 0.0f,  0.0f,  0.0f,  -0.1f, -0.1f, 0.25f, 0.0f,  0.0f, 0.0f,  0.1f,  -0.1f, 0.25f,
+    0.0f, 0.0f,  0.0f,  0.1f,  0.1f,  0.25f, 0.0f,  0.0f,  1.0f,  -0.1f, 0.1f,  0.25f, 0.0f,  0.0f, 1.0f,  -0.1f, -0.1f, 0.25f,
+    0.0f, 0.0f,  1.0f,  0.1f,  -0.1f, 0.25f, 0.0f,  0.0f,  1.0f,  0.1f,  0.1f,  0.25f, 0.1f,  0.1f, 0.25f, 0.1f,  -0.1f, 0.25f,
+    0.1f, -0.1f, 0.25f, -0.1f, -0.1f, 0.25f, -0.1f, -0.1f, 0.25f, -0.1f, 0.1f,  0.25f, -0.1f, 0.1f, 0.25f, 0.1f,  0.1f,  0.25f};
 
   mBoneMesh = wr_static_mesh_line_set_new(24, vertices, NULL);
 
@@ -395,13 +387,13 @@ void WbSkin::createWrenObjects() {
     updateAppearance();
 }
 
-void WbSkin::reset() {
-  WbBaseNode::reset();
+void WbSkin::reset(const QString &id) {
+  WbBaseNode::reset(id);
 
   for (int i = 0; i < mAppearanceField->size(); ++i)
-    mAppearanceField->item(i)->reset();
+    mAppearanceField->item(i)->reset(id);
   for (int i = 0; i < mBonesField->size(); ++i)
-    mBonesField->item(i)->reset();
+    mBonesField->item(i)->reset(id);
 }
 
 void WbSkin::createWrenSkeleton() {

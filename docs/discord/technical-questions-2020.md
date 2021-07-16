@@ -30871,7 +30871,7 @@ No, it's not possible.
 
 `@David Mansolino` Can I add polygons with minimum thickness and add a appearance to them? Or will I have to design the map in some third party and add as a texture?
 
-##### Olivier Michel [Cyberbotics] 08/12/2020 14:24:06
+##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/12/2020 14:24:06
 `@Kormit`: You can however enable shadows.
 
 
