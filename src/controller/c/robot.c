@@ -592,7 +592,7 @@ void robot_abort(const char *format, ...) {
 
 WbNodeType robot_get_device_type(WbDeviceTag tag) {
   int ti = (int)tag;
-  if (ti >= 0 && ti < robot.n_device)
+  if (ti < robot.n_device)
     return robot.device[ti]->node;
   return WB_NODE_NO_NODE;
 }
