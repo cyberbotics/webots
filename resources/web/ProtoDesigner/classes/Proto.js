@@ -9,7 +9,7 @@ import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
 import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 
-import ProtoTemplateEngine  from './ProtoTemplateEngine.js';
+import TemplateEngine  from './TemplateEngine.js';
 import ProtoParser from './ProtoParser.js';
 import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
@@ -20,9 +20,8 @@ export default class Proto {
     this.isTemplate = protoText.search('template language: javascript') !== -1;
     if(this.isTemplate) {
       console.log('PROTO is a template!');
-      this.templateEngine = new ProtoTemplateEngine();
+      this.templateEngine = new TemplateEngine();
     }
-
     // raw proto body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     this.rawBody = protoText.substring(indexBeginBody);
@@ -145,12 +144,14 @@ export default class Proto {
   };
 
   regenerate() {
-    console.log('ProtoBody:\n' + this.protoBody);
+    console.log('rawBody:\n' + this.rawBody);
 
     this.encodeFieldsForTemplateEngine(); // make current proto parameters in a format compliant to templating rules
-    const templateEngine = new ProtoTemplateEngine(this.encodedFields, this.tmpBody());
 
-    this.protoBody = templateEngine.generateVrml();
+    if(typeof this.templateEngine === 'undefined')
+      throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
+
+    this.protoBody = this.templateEngine.generateVrml(this.encodedFields, this.rawBody);
     console.log('Regenerated Proto Body:\n' + this.protoBody);
 
     this.parseBody();
