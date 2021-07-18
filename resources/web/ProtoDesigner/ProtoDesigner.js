@@ -5,7 +5,7 @@ import WbWorld from '../wwi/nodes/WbWorld.js';
 import WrenRenderer from '../wwi/WrenRenderer.js';
 
 import Proto from './classes/Proto.js';
-import ProtoParametersView from './view/ProtoParametersView.js'; // TODO: replace by makefile?
+import EditorView from './view/EditorView.js'; // TODO: replace by makefile?
 
 /*
 
@@ -34,8 +34,8 @@ class ProtoDesigner {
       }`;
     document.head.appendChild(script);
 
-    this._protoParametersElement = document.getElementById('proto-parameters');
-    if (typeof this._protoParametersElement === 'undefined') {
+    this.editorElement = document.getElementById('proto-parameters');
+    if (typeof this.editorElement === 'undefined') {
       console.error('The Proto Designer cannot find the proto-parameters component.');
       return;
     }
@@ -53,6 +53,8 @@ class ProtoDesigner {
 
     WbWorld.init();
     this.renderer = new WrenRenderer();
+
+    this.editor = new EditorView(this.editorElement, this.renderer);
 
     //const url = '../wwi/Protos/ProtoTest.proto';
     // const url = '../wwi/Protos/ProtoBox.proto';
@@ -85,6 +87,7 @@ class ProtoDesigner {
 
   loadScene(proto) {
     this.proto = new Proto(proto);
+    this.editor.showParameters(this.proto);
     this.proto.generateX3d();
 
     const view = new webots.View(document.getElementById('view3d'));

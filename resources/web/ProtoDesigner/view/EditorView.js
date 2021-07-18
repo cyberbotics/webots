@@ -4,85 +4,86 @@ import WbWorld from '../../wwi/nodes/WbWorld.js';
 
 import {VRML_TYPE} from '../classes/FieldModel.js';
 
-export default class ProtoParametersView { // eslint-disable-line no-unused-vars
+export default class EditorView { // eslint-disable-line no-unused-vars
   constructor(element, renderer) {
     // setup parameter list view
-    this._element = element;
-    this._cleanupDiv('No loaded PROTO');
+    this.element = element;
+    this.cleanupDiv('No loaded PROTO');
     this.renderer = renderer;
     // setup parameter editor view
-    this._editorElement = document.getElementById('parameter-editor');
-    if (typeof this._editorElement === 'undefined')
+    this.editorElement = document.getElementById('parameter-editor');
+    if (typeof this.editorElement === 'undefined')
       throw new Error('Error, parameter-editor component not found.');
   }
 
-  showParameters(protoModel) {
-    if (protoModel === null)
-      this._cleanupDiv('No loaded PROTO');
+  showParameters(proto) {
+    if (proto === null)
+      this.cleanupDiv('No loaded PROTO');
     else {
-      this._protoModel = protoModel;
-      this._populateDiv();
+      this.proto = proto;
+      this.populateDiv();
     }
   }
 
-  _populateDiv() {
-    this._element.innerHTML = '';
+  populateDiv() {
+    this.element.innerHTML = '';
     // add PROTO name label
     let nameLabel = document.createElement('p');
-    nameLabel.innerHTML = '<span class="proto-name-label">' + this._protoModel.protoName + '</span>';
-    this._element.appendChild(nameLabel);
+    nameLabel.innerHTML = '<span class="proto-name-label">' + this.proto.protoName + '</span>';
+    this.element.appendChild(nameLabel);
 
     // display parameters
+    /*
     const parameters = this._protoModel.parameters;
 
     if (parameters.length === 0) {
       let text = document.createElement('p');
       text.innerHTML = '<i>No parameters<i>';
-      this._element.appendChild(text);
+      this.element.appendChild(text);
       return;
     }
+    */
 
     let ol = document.createElement('ol');
     ol.setAttribute('class', 'designer-list');
-    this._element.appendChild(ol);
+    this.element.appendChild(ol);
 
-    for (let i = 0; i < parameters.length; ++i) {
+    for (const [key, value] of this.proto.parameters.entries()) {
       let li = document.createElement('li');
-      li.innerText = parameters[i].name;
+      li.innerText = value.name;
       li.setAttribute('class', 'item li-border li');
-      li.setAttribute('id', i); // id of the list items is their position in the list, not the parameter id
+      li.setAttribute('ref', key);
       li.addEventListener('click', () => this.itemSelector(event));
       ol.appendChild(li);
     }
   };
 
   itemSelector(event) {
-    this._editorElement.innerHTML = ''; // remove current
-
-    console.log('Clicked item id=' + event.target.id);
-    const parameterName = this._protoModel.parameters[event.target.id].name;
-    const parameterType = this._protoModel.parameters[event.target.id].type;
-    const parameterValue = this._protoModel.parameters[event.target.id].value;
+    this.editorElement.innerHTML = ''; // remove current
+    const ref = event.target.getAttribute('ref');
+    console.log('Clicked item ref=' + ref);
+    const parameter = this.proto.parameters.get(ref);
     // adapt selection
-    this._editorElement.innerHTML = '<p><i>selection</i> : ' + parameterName + '</p>';
+    this.editorElement.innerHTML = '<p><i>selection</i> : ' + parameter.name + '</p>';
     // adapt editor
-    this._populateEditor(parameterType, parameterValue, event.target.id);
+    this.populateEditor(parameter);
   };
 
-  _populateEditor(parameterType, parameterValue, id) {
+  populateEditor(parameter) {
+    /*
     let div = document.createElement('div');
     div.style.textAlign = 'center';
 
-    if (parameterType === VRML_TYPE.SF_BOOL)
-      div.appendChild(this._createInput('checkbox', parameterValue.value));
-    else if (parameterType === VRML_TYPE.SF_STRING) {
+    if (parameter.type === VRML_TYPE.SF_BOOL)
+      div.appendChild(this._createInput('checkbox', parameter.value));
+    else if (parameter.type === VRML_TYPE.SF_STRING) {
       // TODO: if parameterName is 'texture', add 'select' button
-      div.appendChild(this._createInput('text', parameterValue.value));
-    } else if (parameterType === VRML_TYPE.SF_INT32)
-      div.appendChild(this._createInput('number', '1', parameterValue.value));
-    else if (parameterType === VRML_TYPE.SF_FLOAT)
-      div.appendChild(this._createInput('number', '0.1', parameterValue.value));
-    else if (parameterType === VRML_TYPE.SF_VECT2F) {
+      div.appendChild(this._createInput('text', parameter.value));
+    } else if (parameter.type === VRML_TYPE.SF_INT32)
+      div.appendChild(this._createInput('number', '1', parameter.value));
+    else if (parameter.type === VRML_TYPE.SF_FLOAT)
+      div.appendChild(this._createInput('number', '0.1', parameter.value));
+    else if (parameter.type === VRML_TYPE.SF_VECT2F) {
       let form = document.createElement('form');
       form.setAttribute('id', 'inputForm');
       form.setAttribute('parameterRef', id.toString());
@@ -112,6 +113,8 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
       div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.y));
       */
+
+    /*
     } else if (parameterType === VRML_TYPE.SF_VECT3F) {
       div.appendChild(document.createTextNode('x '));
       div.appendChild(this._createInput('number', '0.1', parameterValue.x));
@@ -138,6 +141,7 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
     }
 
     this._editorElement.appendChild(div);
+    */
   }
 
   _createInput(type, value, step) {
@@ -187,6 +191,7 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
   };
 
   _populateDivRaw(parameters) {
+    /*
     this._element.innerHTML = '';
 
     // TODO: use methods instead... document.createElement, document.createTextNode, etc
@@ -212,9 +217,10 @@ export default class ProtoParametersView { // eslint-disable-line no-unused-vars
     let boolInput = document.createElement('p');
     boolInput.innerHTML = '<label>Boolean Input: <input type="checkbox">TRUE</label>';
     this._element.appendChild(boolInput);
+    */
   };
 
-  _cleanupDiv(text) {
-    this._element.innerHTML = '<p><i>' + text + '</i></p>';
+  cleanupDiv(text) {
+    this.element.innerHTML = '<p><i>' + text + '</i></p>';
   }
 }
