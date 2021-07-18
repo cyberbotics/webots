@@ -2,9 +2,9 @@
  * content: utility functions for geometry based operations
  */
 
-import * as wbvector2 from 'wbvector2.js';
-import * as wbvector3 from 'wbvector3.js';
-import * as wbutility from 'wbutility.js';
+import * as wbvector2 from './wbvector2.js';
+import * as wbvector3 from './wbvector3.js';
+import * as wbutility from './wbutility.js';
 
 // create an array of 'div' circle coordinates according to a circle centered at 'center' and rotated by 'shift' radians
 export function circle(radius, div, center, shift) {

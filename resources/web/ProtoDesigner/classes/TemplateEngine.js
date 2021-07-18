@@ -1,18 +1,25 @@
+import * as wbrotation from '../../../javascript/modules/webots/wbrotation.js'
+import * as wbutility from '../../../javascript/modules/webots/wbutility.js'
+import * as wbgeometry from '../../../javascript/modules/webots/wbgeometry.js'
+import * as wbrandom from '../../../javascript/modules/webots/wbrandom.js'
+import * as wbvector2 from '../../../javascript/modules/webots/wbvector2.js'
+import * as wbvector3 from '../../../javascript/modules/webots/wbvector3.js'
+
 export default class TemplateEngine {
   constructor() {
-    this.template = `
+    this.minimalTemplate = `
     function render(text) {
-        return text;
-      };
+      return text;
+    };
 
-      let ___vrml = '';
-      let ___tmp;
+    let ___vrml = '';
+    let ___tmp;
 
-      const context = { %context% };
+    const context = { %context% };
 
-      const fields = { %fields% };
+    const fields = { %fields% };
 
-      %body%
+    %body%
     `;
 
     this.gOpeningToken = '%<';
@@ -70,15 +77,15 @@ export default class TemplateEngine {
   };
 
   generateVrml(fields, body) {
+    let template = this.minimalTemplate;
     const jsBody = this.parseBody(body);
+
     // fill template
-    this.template = this.template.replace('%import%', '');
-    this.template = this.template.replace('%context%', '');
-    this.template = this.template.replace('%fields%', fields);
-    this.template = this.template.replace('%body%', jsBody);
+    template = template.replace('%context%', '');
+    template = template.replace('%fields%', fields);
+    template = template.replace('%body%', jsBody);
 
-    console.log('Filled Template: \n' + this.template);
-
-    return eval(this.template);
+    console.log('Filled template:\n' + template);
+    return eval(template);
   };
 }
