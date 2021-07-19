@@ -13,11 +13,12 @@ import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 import {VRML_TYPE} from '../classes/FieldModel.js';
 
 export default class EditorView { // eslint-disable-line no-unused-vars
-  constructor(element, renderer) {
+  constructor(element, renderer, view) {
     // setup parameter list view
     this.element = element;
     this.cleanupDiv('No loaded PROTO');
     this.renderer = renderer;
+    this.view = view;
     // setup parameter editor view
     this.editorElement = document.getElementById('parameter-editor');
     if (typeof this.editorElement === 'undefined')
@@ -203,13 +204,22 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     else
       throw new Error('Overwriting value of type ' + typeof parameter.value + ' with value of type ' + typeof newValue);
 
+    if (parameter.isTemplateRegenerator) {
+      console.log('Regeneration triggered by parameter ' + parameter.name);
+      this.view.x3dScene.destroyWorld();
+      this.proto.regenerate();
+      this.view.x3dScene.loadWorldFileRaw(this.proto.x3d, this.view.finalizeWorld);
+      return;
+    }
+
     const nodeRef = parameter.nodeRef;
     if (typeof nodeRef !== 'undefined') {
       const node = WbWorld.instance.nodes.get(nodeRef);
       node.setParameter(parameter.vrmlName, parameter.value);
-      this.renderer.render();
     } else
       console.warn('The parameter \'' + parameter.name + '\' has no nodeRef. Is it normal?');
+
+    this.view.x3dScene.render();
   }
 
   getValuesFromForm(form) {
@@ -234,37 +244,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
         throw new Error('Unknown form in getValuesFromForm.');
     }
   }
-
-  _updateValue(e) {
-    // get parent form of the input
-    let vals = [];
-    const elements = e.target.form.elements;
-    for (let i = 0; i < elements.length; ++i) {
-      if (elements[i].type === 'number') {
-        vals.push(elements[i].value);
-        console.log(i + '  >  ' + elements[i].value + ' :: ');
-      }
-    }
-
-    const ref = parseInt(e.target.form.attributes['parameterRef'].value);
-    console.log('ref: ' + ref)
-
-    const nodeid = this._protoModel.parameters[ref];
-    console.log(nodeid);
-    console.log(e.target.type);
-    console.log(WbWorld.instance.nodes);
-    const n = WbWorld.instance.nodes.get('n-6'); // nodeid should allow me to get this n-6
-
-    // change parameter
-    //this._protoModel.parameters[..something..].value.x = vals[0];
-    //this._protoModel.parameters[..something..].value.y = vals[1];
-    // change node
-    n.size.x = vals[0];
-    n.size.y = vals[1];
-
-    n.updateSize();
-    this.renderer.render();
-  };
 
   _populateDivRaw(parameters) {
     /*

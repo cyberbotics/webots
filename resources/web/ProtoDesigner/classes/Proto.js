@@ -146,6 +146,8 @@ export default class Proto {
   regenerate() {
     console.log('rawBody:\n' + this.rawBody);
 
+    this.clearReferences(); // remove node references
+
     this.encodeFieldsForTemplateEngine(); // make current proto parameters in a format compliant to templating rules
 
     if(typeof this.templateEngine === 'undefined')
@@ -155,6 +157,13 @@ export default class Proto {
     console.log('Regenerated Proto Body:\n' + this.protoBody);
 
     this.parseBody();
+    this.generateX3d();
+  };
+
+  clearReferences() {
+    for (const parameter of this.parameters.values()) {
+      parameter.nodeRef = undefined
+    }
   };
 
   tmpBody() {

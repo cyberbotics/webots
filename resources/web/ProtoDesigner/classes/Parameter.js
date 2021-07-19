@@ -8,7 +8,7 @@ export default class Parameter {
     this.vrmlName = vrmlName;
     this.name = name;
     this.type = type;
-    this.isRegenerator = isRegenerator;
+    this.isTemplateRegenerator = isRegenerator;
     this.defaultValue = defaultValue;
     this.value = value;
   };
