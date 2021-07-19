@@ -17,12 +17,14 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     // adapt selection
     // this.editorElement.innerHTML = '<p><i>selection</i> : none</p>';
-    this.setupForms('sf_int32', 1, 'number', '0', '1', '');
-    this.setupForms('sf_float', 1, 'number', '0', '0.01', '');
-    this.setupForms('sf_vec2f', 2, 'number', '0', '0.01', '');
-    this.setupForms('sf_vec3f', 3, 'number', '0', '0.01', '');
-    this.setupForms('sf_color', 3, 'number', '0', '0.01', '');
-    this.setupForms('sf_rotation', 4, 'number', '0', '0.01', '');
+    this.forms = new Map();
+
+    this.setupForms(VRML_TYPE.SF_INT32, 1, 'number', '0', '1', '');
+    this.setupForms(VRML_TYPE.SF_FLOAT, 1, 'number', '0', '0.01', '');
+    this.setupForms(VRML_TYPE.SF_VECT2F, 2, 'number', '0', '0.01', '');
+    this.setupForms(VRML_TYPE.SF_VECT3F, 3, 'number', '0', '0.01', '');
+    this.setupForms(VRML_TYPE.SF_COLOR, 3, 'number', '0', '0.01', '');
+    this.setupForms(VRML_TYPE.SF_ROTATION, 4, 'number', '0', '0.01', '');
   }
 
   showParameters(proto) {
@@ -74,143 +76,83 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.populateEditor(ref);
   };
 
+  getForm(type) {
+    const forms = document.getElementsByTagName('form');
+    for (let form of forms) {
+      if (parseInt(form.id) === type)
+        return form;
+    }
+  }
+
   populateEditor(ref) {
     const parameter = this.proto.parameters.get(ref);
+
     // adapt selection
     // this.editorElement.innerHTML = '<p><i>selection</i> : ' + parameter.name + '</p>';
 
-    // adapt visibility
-    const forms = document.getElementsByTagName('form');
-    for (let form of forms) {
-      if (parameter.type === VRML_TYPE.SF_INT32) {
-        if (form.name === 'sf_int32')
-          form.style.display = 'block';
-        else
-          form.style.display = 'none';
-      } else if (parameter.type === VRML_TYPE.SF_FLOAT) {
-        if (form.name === 'sf_float')
-          form.style.display = 'block';
-        else
-          form.style.display = 'none';
-      } else if (parameter.type === VRML_TYPE.SF_VECT2F) {
-        if (form.name === 'sf_vec2f')
-          form.style.display = 'block';
-        else
-          form.style.display = 'none';
-      } else if (parameter.type === VRML_TYPE.SF_VECT3F) {
-        if (form.name === 'sf_vec3f')
-          form.style.display = 'block';
-        else
-          form.style.display = 'none';
-      } else if (parameter.type === VRML_TYPE.SF_COLOR) {
-        if (form.name === 'sf_color')
-          form.style.display = 'block';
-        else
-          form.style.display = 'none';
-      } else if (parameter.type === VRML_TYPE.SF_ROTATION) {
-        if (form.name === 'sf_rotation')
-          form.style.display = 'block';
-        else
-          form.style.display = 'none';
-      }
+    // change form visibility
+    for (const [key, value] of this.forms) {
+      if (key === parameter.type)
+        value.style.display = 'block';
+      else
+        value.style.display = 'none';
     }
 
     // show current value
-    for (let form of forms) {
-      if (parameter.type === VRML_TYPE.SF_INT32) {
-        const elements = form.elements;
-        if (form.name === 'sf_int32') {
-          console.log('>> ' + parameter.value.value)
-          for (let i = 0; i < elements.length; ++i) {
-            if (elements[i].type === 'number')
-                elements[i].value = parameter.value.value;
-          }
+    const form = this.forms.get(parameter.type);
+    const elements = form.elements;
+    for (let i = 0; i < elements.length; ++i) {
+      if (elements[i].type === 'number') {
+        switch (parseInt(parameter.type)) {
+          case VRML_TYPE.SF_INT32:
+          case VRML_TYPE.SF_FLOAT:
+            elements[i].value = parameter.value.value;
+            break;
+          case VRML_TYPE.SF_VECT2F:
+            if (elements[i].getAttribute('variable') === '0')
+              elements[i].value = parameter.value.x;
+            else if (elements[i].getAttribute('variable') === '1')
+              elements[i].value = parameter.value.y;
+            else
+              throw new Error('SF_VECT2F form should not have more than 2 inputs.');
+            break;
+          case VRML_TYPE.SF_VECT3F:
+          case VRML_TYPE.SF_COLOR:
+            if (elements[i].getAttribute('variable') === '0')
+              elements[i].value = parameter.type === VRML_TYPE.SF_VECT3F ? parameter.value.x : parameter.value.r;
+            else if (elements[i].getAttribute('variable') === '1')
+              elements[i].value = parameter.type === VRML_TYPE.SF_VECT3F ? parameter.value.y : parameter.value.g;
+            else if (elements[i].getAttribute('variable') === '2')
+              elements[i].value = parameter.type === VRML_TYPE.SF_VECT3F ? parameter.value.z : parameter.value.b;
+            else
+              throw new Error('SF_VECT3F/SF_COLOR forms should not have more than 3 inputs.');
+            break;
+          case VRML_TYPE.SF_ROTATION:
+            if (elements[i].getAttribute('variable') === '0')
+              elements[i].value = parameter.value.x;
+            else if (elements[i].getAttribute('variable') === '1')
+              elements[i].value = parameter.value.y;
+            else if (elements[i].getAttribute('variable') === '2')
+              elements[i].value = parameter.value.z;
+            else if (elements[i].getAttribute('variable') === '3')
+              elements[i].value = parameter.value.w;
+            else
+              throw new Error('SF_ROTATION form should not have more than 4 inputs.');
+            break;
+          default:
+            throw new Error('Cannot populate editor because parameterType \'' + parameter.type + '\' is unknown.');
         }
       }
     }
-
-
-    /*
-    let div = document.createElement('div');
-    div.style.textAlign = 'center';
-
-    if (parameter.type === VRML_TYPE.SF_BOOL)
-      div.appendChild(this._createInput('checkbox', parameter.value));
-    else if (parameter.type === VRML_TYPE.SF_STRING) {
-      // TODO: if parameterName is 'texture', add 'select' button
-      div.appendChild(this._createInput('text', parameter.value));
-    } else if (parameter.type === VRML_TYPE.SF_INT32)
-      div.appendChild(this._createInput('number', '1', parameter.value));
-    else if (parameter.type === VRML_TYPE.SF_FLOAT)
-      div.appendChild(this._createInput('number', '0.1', parameter.value));
-    else if (parameter.type === VRML_TYPE.SF_VECT2F) {
-      let form = document.createElement('form');
-      form.setAttribute('id', 'inputForm');
-      form.setAttribute('parameterRef', id.toString());
-
-      let input1 = document.createElement('input');
-      input1.setAttribute('type', 'number');
-      input1.setAttribute('value', '1');
-      input1.setAttribute('id', '111');
-      let input2 = document.createElement('input');
-      input2.setAttribute('type', 'number');
-      input2.setAttribute('value', '2');
-      input1.setAttribute('id', '222');
-
-      input1.addEventListener('input', this._updateValue.bind(this));
-      input2.addEventListener('input', this._updateValue.bind(this));
-
-      form.appendChild(input1);
-      form.appendChild(input2);
-
-      this._editorElement.appendChild(form);
-      return;
-
-
-      /*
-      div.appendChild(document.createTextNode('x '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.x));
-      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.y));
-      */
-
-    /*
-    } else if (parameterType === VRML_TYPE.SF_VECT3F) {
-      div.appendChild(document.createTextNode('x '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.x));
-      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.y));
-      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0z '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.z));
-    } else if (parameterType === VRML_TYPE.SF_COLOR) {
-      div.appendChild(document.createTextNode('r '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.r));
-      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0g '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.g));
-      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0b '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.b));
-    } else if (parameterType === VRML_TYPE.SF_ROTATION) {
-      div.appendChild(document.createTextNode('x '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.x));
-      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0y '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.y));
-      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0z '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.z));
-      div.appendChild(document.createTextNode('\u00A0\u00A0\u00A0\u00A0a '));
-      div.appendChild(this._createInput('number', '0.1', parameterValue.w));
-    }
-
-    this._editorElement.appendChild(div);
-    */
   }
 
-  setupForms(name, nbInputs, type, defaultValue, step, ref) {
+  setupForms(id, nbInputs, type, defaultValue, step, ref) {
     let form = document.createElement('form');
-    form.setAttribute('name', name);
+    form.setAttribute('id', id);
     form.setAttribute('ref', ref); // parameter reference
-
     for (let i = 0; i < nbInputs; ++i) {
       let input = document.createElement('input');
+      input.setAttribute('variable', i);
       input.setAttribute('type', type);
       input.setAttribute('step', step);
       input.setAttribute('value', defaultValue);
@@ -218,6 +160,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       form.appendChild(input);
     }
 
+    form.style.display = 'none'; // make invisible by default
+    this.forms.set(id, form); // add to map for fast retrieval
     this.editorElement.appendChild(form);
   }
 
