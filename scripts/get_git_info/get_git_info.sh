@@ -3,7 +3,10 @@
 # Get the name of the working branch and write it to a file if correct
 branch=$(git branch 2>&1)
 
-if [[ $branch == '* (HEAD'* ]]
+if [[ $branch == '* (HEAD detached at origin/'* ]]
+then
+	echo "$branch" | $(sed -n -e 's/^\* \(.*\)/\1/p' | cut -c 26- | rev | cut -c 2- | rev > $WEBOTS_HOME/resources/branch.txt)
+elif [[ $branch == '* (HEAD detached at '* ]]
 then
 	echo "$branch" | $(sed -n -e 's/^\* \(.*\)/\1/p' | cut -c 19- | rev | cut -c 2- | rev > $WEBOTS_HOME/resources/branch.txt)
 elif [[ $branch != fatal* ]]
