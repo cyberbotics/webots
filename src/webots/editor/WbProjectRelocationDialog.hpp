@@ -75,8 +75,8 @@ private:
 
   // user's chosen target directory
   const QString &targetPath() const { return mTargetPath; }
-  int copyProject();
-  int copyExternalProtoProject();
+  int copyProject(const QString &projectPath, bool copyProtoProject);
+  int copyWorldFiles();
 
   void setStatus(const QString &text, bool ok = true);
 };
