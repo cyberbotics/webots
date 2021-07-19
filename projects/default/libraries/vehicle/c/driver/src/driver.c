@@ -126,17 +126,18 @@ static double differential_ratio_central() {
 static double compute_output_torque() {
   // Compute available torque taking into acount the current gear ratio and engine model
   double gear_ratio;
-  if (instance->gear > 0) {
+  if (instance->gear > 0)
     gear_ratio = instance->car->gear_ratio[instance->gear];
-  } else if (instance->gear < 0) {  // reverse
+  else if (instance->gear < 0)  // reverse
     gear_ratio = instance->car->gear_ratio[0];
-  } else
+  else
     return 0.0;  // no gear engaged
 
   double engine_torque = 0;
   WbuCarEngineType engine = instance->car->engine_type;
 
   double real_rpm = instance->rpm;
+  // cppcheck-suppress knownConditionTrueFalse
   if (instance->gear > 0 && real_rpm < 0)
     real_rpm = 0;
   double engine_rpm = real_rpm;
