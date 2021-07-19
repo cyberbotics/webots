@@ -6,6 +6,7 @@ PROTO ProtoBox [
 ]
 {
   Transform {
+    translation 0 1 0
     children [
       Shape {
         castShadow TRUE
@@ -15,6 +16,20 @@ PROTO ProtoBox [
         appearance PBRAppearance {
           baseColor IS color
         }
+      }
+      Transform {
+        translation 0 -1 0
+        children [
+          Shape {
+            castShadow TRUE
+            geometry Box {
+              size 4 0.1 4
+            }
+            appearance PBRAppearance {
+              baseColor 1 0 0
+            }
+          }
+        ]
       }
     ]
   }

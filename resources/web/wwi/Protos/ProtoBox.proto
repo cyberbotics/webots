@@ -2,7 +2,7 @@
 
 PROTO ProtoBox [
   field SFVec3f size 2 1 1
-  field SFColor color 0 1 1
+  field SFColor color 1 0 0
 ]
 {
   Shape {
