@@ -16,15 +16,12 @@ fi
 # Get the name of the github repository and write it to a file if correct
 repo=$(git config --get remote.origin.url 2>&1)
 
-if [[ $repo != "" ]]
-then
 if [[ $repo == git@github.com* ]]
 then
 	echo "$repo" | $(cut -c 16- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
 elif [[ $repo == https://github.com* ]]
 then
 	echo "$repo" | $(cut -c 20- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
-fi
 else
 	echo "cyberbotics/webots" > $WEBOTS_HOME/resources/repo.txt
 fi
