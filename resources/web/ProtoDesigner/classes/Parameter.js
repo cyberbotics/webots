@@ -1,6 +1,6 @@
 'use strict';
 
-import {VRML_TYPE} from './FieldModel.js';
+import {VRML} from './FieldModel.js';
 
 export default class Parameter {
   constructor(vrmlName, name, type, isRegenerator, defaultValue, value) {

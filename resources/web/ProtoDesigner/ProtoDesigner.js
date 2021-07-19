@@ -56,11 +56,11 @@ class ProtoDesigner {
     this.view = new webots.View(document.getElementById('view3d'));
     this.editor = new EditorView(this.editorElement, this.renderer, this.view);
 
-    const url = '../wwi/Protos/ProtoTestParameters.proto';
+    //const url = '../wwi/Protos/ProtoTestParameters.proto';
     // const url = '../wwi/Protos/ProtoBox.proto';
     // const url = '../wwi/Protos/ProtoSphere.proto';
     // const url = '../wwi/Protos/ProtoTemplate.proto';
-
+    const url = '../wwi/Protos/ProtoTransform.proto';
     console.log('Loading PROTO: ' + url);
     this.loadProto(url);
   };

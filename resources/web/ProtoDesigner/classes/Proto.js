@@ -13,7 +13,7 @@ import TemplateEngine  from './TemplateEngine.js';
 import ProtoParser from './ProtoParser.js';
 import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
-import {VRML_TYPE} from './FieldModel.js';
+import {VRML} from './FieldModel.js';
 
 export default class Proto {
   constructor(protoText) {
@@ -83,35 +83,35 @@ export default class Proto {
   };
 
   parseParameterValue(type, tokenizer) {
-    if (type === VRML_TYPE.SF_BOOL)
+    if (type === VRML.SF_BOOL)
       return new WbSFBool(tokenizer.nextToken().toBool());
-    else if (type === VRML_TYPE.SF_FLOAT)
+    else if (type === VRML.SF_FLOAT)
       return new WbSFDouble(tokenizer.nextToken().toFloat());
-    else if (type === VRML_TYPE.SF_INT32)
+    else if (type === VRML.SF_INT32)
       return new WbSFInt32(tokenizer.nextToken().toInt());
-    else if (type === VRML_TYPE.SF_STRING)
+    else if (type === VRML.SF_STRING)
       return new WbSFString(tokenizer.nextWord());
-    else if (type === VRML_TYPE.SF_VECT2F) {
+    else if (type === VRML.SF_VECT2F) {
       const x = tokenizer.nextToken().toFloat();
       const y = tokenizer.nextToken().toFloat();
       return new WbVector2(x, y);
-    } else if (type === VRML_TYPE.SF_VECT3F) {
+    } else if (type === VRML.SF_VECT3F) {
       const x = tokenizer.nextToken().toFloat();
       const y = tokenizer.nextToken().toFloat();
       const z = tokenizer.nextToken().toFloat();
       return new WbVector3(x, y, z);
-    } else if (type === VRML_TYPE.SF_COLOR) {
+    } else if (type === VRML.SF_COLOR) {
       const r = tokenizer.nextToken().toFloat();
       const g = tokenizer.nextToken().toFloat();
       const b = tokenizer.nextToken().toFloat();
       return new WbSFColor(r, g, b);
-    } else if (type === VRML_TYPE.SF_ROTATION) {
+    } else if (type === VRML.SF_ROTATION) {
       const x = tokenizer.nextToken().toFloat();
       const y = tokenizer.nextToken().toFloat();
       const z = tokenizer.nextToken().toFloat();
       const w = tokenizer.nextToken().toFloat();
       return new WbVector4(x, y, z, w);
-    } else if (type === VRML_TYPE.SF_NODE)
+    } else if (type === VRML.SF_NODE)
       console.error('TODO: implement SFNode in parseParameterValue.');
     else
       throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');

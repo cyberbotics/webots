@@ -1,0 +1,22 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoBox [
+  field SFVec3f size 2 1 1
+  field SFColor color 0 1 1
+]
+{
+  Transform {
+    translation 1 1 1
+    children [
+      Shape {
+        castShadow TRUE
+        geometry Box {
+          size IS size
+        }
+        appearance PBRAppearance {
+          baseColor IS color
+        }
+      }
+    ]
+  }
+}

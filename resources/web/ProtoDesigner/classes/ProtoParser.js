@@ -9,7 +9,7 @@ import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 import {getAnId} from '../../wwi/nodes/utils/utils.js';
 
 import Tokenizer from './Tokenizer.js';
-import {FieldModel, VRML_TYPE} from './FieldModel.js';
+import {FieldModel, VRML} from './FieldModel.js';
 
 /*
   Generates an x3d from VRML
@@ -121,34 +121,34 @@ export default class ProtoParser {
     // TODO: add  box.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/box');
 
     let value = '';
-    if (fieldType === VRML_TYPE.SF_BOOL)
+    if (fieldType === VRML.SF_BOOL)
       value += this.bodyTokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
-    else if (fieldType === VRML_TYPE.SF_FLOAT)
+    else if (fieldType === VRML.SF_FLOAT)
       value += this.bodyTokenizer.nextWord();
-    else if (fieldType === VRML_TYPE.SF_INT32)
+    else if (fieldType === VRML.SF_INT32)
       value += this.bodyTokenizer.nextWord();
-    else if (fieldType === VRML_TYPE.SF_VECT2F) {
+    else if (fieldType === VRML.SF_VECT2F) {
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML_TYPE.SF_VECT3F) {
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML_TYPE.SF_COLOR) {
+    } else if (fieldType === VRML.SF_VECT3F) {
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML_TYPE.SF_ROTATION) {
+    } else if (fieldType === VRML.SF_COLOR) {
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord() + ' ';
+      value += this.bodyTokenizer.nextWord();
+    } else if (fieldType === VRML.SF_ROTATION) {
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML_TYPE.SF_NODE)
+    } else if (fieldType === VRML.SF_NODE)
       this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName);
     else
       throw new Error('Could not encode field \'' + fieldName + '\' (type: ' + fieldType + ') as x3d. Type not handled.');
 
-    if (fieldType !== VRML_TYPE.SF_NODE) {
+    if (fieldType !== VRML.SF_NODE) {
       nodeElement.setAttribute(fieldName, value);
       console.log('> nodeElement.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
     }
@@ -164,7 +164,7 @@ export default class ProtoParser {
     if (typeof parameter === 'undefined')
       throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
 
-    if (parameter.type === VRML_TYPE.SF_NODE)
+    if (parameter.type === VRML.SF_NODE)
       throw new Error('TODO: parseIS for SF_NODES not yet implemented');
 
     const value = parameter.value.asX3d();

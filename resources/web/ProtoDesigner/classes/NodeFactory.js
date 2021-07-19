@@ -1,6 +1,6 @@
 'use strict';
 
-import {VRML_TYPE} from './FieldModel.js';
+import {VRML} from './FieldModel.js';
 
 export default class NodeFactory {
   constructor(vrmlType) {
