@@ -424,7 +424,7 @@ void WbWrenCamera::render() {
         updatePostProcessingParameters(i);
     }
   } else
-    updatePostProcessingParameters(CAMERA_ORIENTATION_FRONT);
+    updatePostProcessingParameters(CAMERA_ORIENTATION_BACK);
 
   // Depth information needs to be conserved for post-processing shaders
   const char *materialName = NULL;
@@ -468,7 +468,7 @@ void WbWrenCamera::enableCopying(bool enable) {
 }
 
 WbRgb WbWrenCamera::copyPixelColourValue(int x, int y) {
-  if (mWidth < 1 || mHeight < 1 || !mIsCameraActive[CAMERA_ORIENTATION_FRONT])
+  if (mWidth < 1 || mHeight < 1 || !mIsCameraActive[CAMERA_ORIENTATION_BACK])
     return WbRgb();
 
   // This method is only called when the user hovers the mouse pointer over the camera overlay
@@ -499,7 +499,7 @@ void WbWrenCamera::copyContentsToMemory(void *data) {
   if (!mIsCopyingEnabled || !data || mWidth < 1 || mHeight < 1)
     return;
 
-  if (!mIsCameraActive[CAMERA_ORIENTATION_FRONT]) {
+  if (!mIsCameraActive[CAMERA_ORIENTATION_BACK]) {
     memset(data, 0, mWidth * mHeight * 4);
     return;
   }
@@ -557,9 +557,9 @@ void WbWrenCamera::init() {
   wr_frame_buffer_append_output_texture(mResultFrameBuffer, outputTexture);
   wr_frame_buffer_enable_depth_buffer(mResultFrameBuffer, true);
 
-  mIsCameraActive[CAMERA_ORIENTATION_FRONT] = true;
-  for (int i = CAMERA_ORIENTATION_FRONT + 1; i < CAMERA_ORIENTATION_COUNT; ++i)
+  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i)
     mIsCameraActive[i] = false;
+  mIsCameraActive[CAMERA_ORIENTATION_BACK] = true;
 
   if (mIsSpherical) {
     setupSphericalSubCameras();
@@ -573,8 +573,8 @@ void WbWrenCamera::init() {
 
     setupSphericalPostProcessingEffect();
   } else {
-    setupCamera(CAMERA_ORIENTATION_FRONT, mWidth, mHeight);
-    setupCameraPostProcessing(CAMERA_ORIENTATION_FRONT);
+    setupCamera(CAMERA_ORIENTATION_BACK, mWidth, mHeight);
+    setupCameraPostProcessing(CAMERA_ORIENTATION_BACK);
   }
 
   wr_frame_buffer_setup(mResultFrameBuffer);
@@ -592,7 +592,7 @@ void WbWrenCamera::init() {
 }
 
 void WbWrenCamera::cleanup() {
-  if (!mCamera[CAMERA_ORIENTATION_FRONT] || (mIsSpherical && !mSphericalPostProcessingEffect))
+  if (!mCamera[CAMERA_ORIENTATION_BACK] || (mIsSpherical && !mSphericalPostProcessingEffect))
     return;
 
   WbWrenOpenGlContext::makeWrenCurrent();

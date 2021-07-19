@@ -459,6 +459,7 @@ void WbCamera::updateRaysSetupIfNeeded() {
   // compute the camera position and rotation
   const WbVector3 cameraPosition = matrix().translation();
   const WbMatrix3 cameraRotation = rotationMatrix();
+  // const WbMatrix3 cameraRotation = WbMatrix3(1, 0, 0, M_PI) * rotationMatrix();
   const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
   const double horizontalFieldOfView = fieldOfView();
   const double verticalFieldOfView =
