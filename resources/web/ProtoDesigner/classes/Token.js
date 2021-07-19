@@ -81,41 +81,41 @@ export default class Token {
 
   fieldTypeFromVrml() {
     if (this._word === 'MFBool')
-      return VRML.MF_BOOL;
+      return VRML.MFBool;
     else if (this._word === 'SFBool')
-      return VRML.SF_BOOL;
+      return VRML.SFBool;
     else if (this._word === 'MFColor')
-      return VRML.MF_COLOR;
+      return VRML.MFColor;
     else if (this._word === 'SFColor')
-      return VRML.SF_COLOR;
+      return VRML.SFColor;
     else if (this._word === 'MFFloat')
-      return VRML.MF_FLOAT;
+      return VRML.MFFloat;
     else if (this._word === 'SFFloat')
-      return VRML.SF_FLOAT;
+      return VRML.SFFloat;
     else if (this._word === 'MFInt32')
-      return VRML.MF_INT32;
+      return VRML.MFInt32;
     else if (this._word === 'SFInt32')
-      return VRML.SF_INT32;
+      return VRML.SFInt32;
     else if (this._word === 'MFNode')
-      return VRML.MF_NODE;
+      return VRML.MFNode;
     else if (this._word === 'SFNode')
-      return VRML.SF_NODE;
+      return VRML.SFNode;
     else if (this._word === 'MFRotation')
-      return VRML.MF_ROTATION;
+      return VRML.MFRotation;
     else if (this._word === 'SFRotation')
-      return VRML.SF_ROTATION;
+      return VRML.SFRotation;
     else if (this._word === 'MFString')
-      return VRML.MF_STRING;
+      return VRML.MFString;
     else if (this._word === 'SFString')
-      return VRML.SF_STRING;
+      return VRML.SFString;
     else if (this._word === 'MFVec2f')
-      return VRML.MF_VECT2F;
+      return VRML.MFVec2f;
     else if (this._word === 'SFVec2f')
-      return VRML.SF_VECT2F;
+      return VRML.SFVec2f;
     else if (this._word === 'MFVec3f')
-      return VRML.MF_VECT3F;
+      return VRML.MFVec3f;
     else if (this._word === 'SFVec3f')
-      return VRML.SF_VECT3F;
+      return VRML.SFVec3f;
   };
 
   _isKeywordType(word) {

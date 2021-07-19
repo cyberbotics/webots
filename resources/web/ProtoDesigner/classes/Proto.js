@@ -83,35 +83,35 @@ export default class Proto {
   };
 
   parseParameterValue(type, tokenizer) {
-    if (type === VRML.SF_BOOL)
+    if (type === VRML.SFBool)
       return new WbSFBool(tokenizer.nextToken().toBool());
-    else if (type === VRML.SF_FLOAT)
+    else if (type === VRML.SFFloat)
       return new WbSFDouble(tokenizer.nextToken().toFloat());
-    else if (type === VRML.SF_INT32)
+    else if (type === VRML.SFInt32)
       return new WbSFInt32(tokenizer.nextToken().toInt());
-    else if (type === VRML.SF_STRING)
+    else if (type === VRML.SFString)
       return new WbSFString(tokenizer.nextWord());
-    else if (type === VRML.SF_VECT2F) {
+    else if (type === VRML.SFVec2f) {
       const x = tokenizer.nextToken().toFloat();
       const y = tokenizer.nextToken().toFloat();
       return new WbVector2(x, y);
-    } else if (type === VRML.SF_VECT3F) {
+    } else if (type === VRML.SFVec3f) {
       const x = tokenizer.nextToken().toFloat();
       const y = tokenizer.nextToken().toFloat();
       const z = tokenizer.nextToken().toFloat();
       return new WbVector3(x, y, z);
-    } else if (type === VRML.SF_COLOR) {
+    } else if (type === VRML.SFColor) {
       const r = tokenizer.nextToken().toFloat();
       const g = tokenizer.nextToken().toFloat();
       const b = tokenizer.nextToken().toFloat();
       return new WbSFColor(r, g, b);
-    } else if (type === VRML.SF_ROTATION) {
+    } else if (type === VRML.SFRotation) {
       const x = tokenizer.nextToken().toFloat();
       const y = tokenizer.nextToken().toFloat();
       const z = tokenizer.nextToken().toFloat();
       const w = tokenizer.nextToken().toFloat();
       return new WbVector4(x, y, z, w);
-    } else if (type === VRML.SF_NODE)
+    } else if (type === VRML.SFNode)
       console.error('TODO: implement SFNode in parseParameterValue.');
     else
       throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');

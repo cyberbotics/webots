@@ -32,14 +32,14 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     // this.editorElement.innerHTML = '<p><i>selection</i> : none</p>';
     this.forms = new Map();
 
-    this.setupInputForm(VRML.SF_BOOL, 1, 'checkbox', false);
-    this.setupInputForm(VRML.SF_STRING, 1, 'text', 'none');
-    this.setupInputForm(VRML.SF_INT32, 1, 'number', '0', '1');
-    this.setupInputForm(VRML.SF_FLOAT, 1, 'number', '0', '0.1');
-    this.setupInputForm(VRML.SF_VECT2F, 2, 'number', '0', '0.1');
-    this.setupInputForm(VRML.SF_VECT3F, 3, 'number', '0', '0.1');
-    this.setupInputForm(VRML.SF_COLOR, 3, 'number', '0', '0.1');
-    this.setupInputForm(VRML.SF_ROTATION, 4, 'number', '0', '0.1');
+    this.setupInputForm(VRML.SFBool, 1, 'checkbox', false);
+    this.setupInputForm(VRML.SFString, 1, 'text', 'none');
+    this.setupInputForm(VRML.SFInt32, 1, 'number', '0', '1');
+    this.setupInputForm(VRML.SFFloat, 1, 'number', '0', '0.1');
+    this.setupInputForm(VRML.SFVec2f, 2, 'number', '0', '0.1');
+    this.setupInputForm(VRML.SFVec3f, 3, 'number', '0', '0.1');
+    this.setupInputForm(VRML.SFColor, 3, 'number', '0', '0.1');
+    this.setupInputForm(VRML.SFRotation, 4, 'number', '0', '0.1');
   }
 
   showParameters(proto) {
@@ -120,34 +120,34 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     for (let i = 0; i < elements.length; ++i) {
       if (elements[i].type === 'number' || elements[i].type === 'text' || elements[i].type === 'checkbox') {
         switch (parseInt(parameter.type)) {
-          case VRML.SF_BOOL:
+          case VRML.SFBool:
             elements[i].checked = parameter.value.value;
             break;
-          case VRML.SF_STRING:
-          case VRML.SF_INT32:
-          case VRML.SF_FLOAT:
+          case VRML.SFString:
+          case VRML.SFInt32:
+          case VRML.SFFloat:
             elements[i].value = parameter.value.value;
             break;
-          case VRML.SF_VECT2F:
+          case VRML.SFVec2f:
             if (elements[i].getAttribute('variable') === '0')
               elements[i].value = parameter.value.x;
             else if (elements[i].getAttribute('variable') === '1')
               elements[i].value = parameter.value.y;
             else
-              throw new Error('SF_VECT2F form should not have more than 2 inputs.');
+              throw new Error('SFVec2f form should not have more than 2 inputs.');
             break;
-          case VRML.SF_VECT3F:
-          case VRML.SF_COLOR:
+          case VRML.SFVec3f:
+          case VRML.SFColor:
             if (elements[i].getAttribute('variable') === '0')
-              elements[i].value = parameter.type === VRML.SF_VECT3F ? parameter.value.x : parameter.value.r;
+              elements[i].value = parameter.type === VRML.SFVec3f ? parameter.value.x : parameter.value.r;
             else if (elements[i].getAttribute('variable') === '1')
-              elements[i].value = parameter.type === VRML.SF_VECT3F ? parameter.value.y : parameter.value.g;
+              elements[i].value = parameter.type === VRML.SFVec3f ? parameter.value.y : parameter.value.g;
             else if (elements[i].getAttribute('variable') === '2')
-              elements[i].value = parameter.type === VRML.SF_VECT3F ? parameter.value.z : parameter.value.b;
+              elements[i].value = parameter.type === VRML.SFVec3f ? parameter.value.z : parameter.value.b;
             else
-              throw new Error('SF_VECT3F/SF_COLOR forms should not have more than 3 inputs.');
+              throw new Error('SFVec3f/SFColor forms should not have more than 3 inputs.');
             break;
-          case VRML.SF_ROTATION:
+          case VRML.SFRotation:
             if (elements[i].getAttribute('variable') === '0')
               elements[i].value = parameter.value.x;
             else if (elements[i].getAttribute('variable') === '1')
@@ -157,7 +157,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
             else if (elements[i].getAttribute('variable') === '3')
               elements[i].value = parameter.value.w;
             else
-              throw new Error('SF_ROTATION form should not have more than 4 inputs.');
+              throw new Error('SFRotation form should not have more than 4 inputs.');
             break;
           default:
             throw new Error('Cannot populate editor because parameterType \'' + parameter.type + '\' is unknown.');
@@ -247,21 +247,21 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     const elements = form.elements;
     switch (parseInt(form.attributes['id'].value)) {
-      case VRML.SF_BOOL:
+      case VRML.SFBool:
         return new WbSFBool(elements[0].value === 'true');
-      case VRML.SF_STRING:
+      case VRML.SFString:
         return new WbSFString(elements[0].value);
-      case VRML.SF_INT32:
+      case VRML.SFInt32:
         return new WbSFInt32(parseInt(elements[0].value));
-      case VRML.SF_FLOAT:
+      case VRML.SFFloat:
         return new WbSFDouble(parseFloat(elements[0].value));
-      case VRML.SF_VECT2F:
+      case VRML.SFVec2f:
         return new WbVector2(parseFloat(elements[0].value), parseFloat(elements[1].value));
-      case VRML.SF_VECT3F:
+      case VRML.SFVec3f:
         return new WbVector3(parseFloat(elements[0].value), parseFloat(elements[1].value), parseFloat(elements[2].value));
-      case VRML.SF_COLOR:
+      case VRML.SFColor:
         return new WbSFColor(parseFloat(elements[0].value), parseFloat(elements[1].value), parseFloat(elements[2].value));
-      case VRML.SF_ROTATION:
+      case VRML.SFRotation:
         return new WbVector4(parseFloat(elements[0].value), parseFloat(elements[1].value), parseFloat(elements[2].value), parseFloat(elements[3].value));
       default:
         throw new Error('Unknown form in getValuesFromForm.');
