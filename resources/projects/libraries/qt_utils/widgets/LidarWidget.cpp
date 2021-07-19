@@ -114,8 +114,8 @@ void LidarWidget::readSensors() {
           mLabel[0]->setPixmap(pixmap.scaledToHeight(labelHeight));
         delete image;
       }
-      delete[] buffer;
     }
+    delete[] buffer;
   }
 }
 
