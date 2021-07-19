@@ -32,13 +32,14 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     // this.editorElement.innerHTML = '<p><i>selection</i> : none</p>';
     this.forms = new Map();
 
-    this.setupForms(VRML_TYPE.SF_STRING, 1, 'text', 'none');
-    this.setupForms(VRML_TYPE.SF_INT32, 1, 'number', '0', '1');
-    this.setupForms(VRML_TYPE.SF_FLOAT, 1, 'number', '0', '0.1');
-    this.setupForms(VRML_TYPE.SF_VECT2F, 2, 'number', '0', '0.1');
-    this.setupForms(VRML_TYPE.SF_VECT3F, 3, 'number', '0', '0.1');
-    this.setupForms(VRML_TYPE.SF_COLOR, 3, 'number', '0', '0.1');
-    this.setupForms(VRML_TYPE.SF_ROTATION, 4, 'number', '0', '0.1');
+    this.setupInputForm(VRML_TYPE.SF_BOOL, 1, 'checkbox', false);
+    this.setupInputForm(VRML_TYPE.SF_STRING, 1, 'text', 'none');
+    this.setupInputForm(VRML_TYPE.SF_INT32, 1, 'number', '0', '1');
+    this.setupInputForm(VRML_TYPE.SF_FLOAT, 1, 'number', '0', '0.1');
+    this.setupInputForm(VRML_TYPE.SF_VECT2F, 2, 'number', '0', '0.1');
+    this.setupInputForm(VRML_TYPE.SF_VECT3F, 3, 'number', '0', '0.1');
+    this.setupInputForm(VRML_TYPE.SF_COLOR, 3, 'number', '0', '0.1');
+    this.setupInputForm(VRML_TYPE.SF_ROTATION, 4, 'number', '0', '0.1');
   }
 
   showParameters(proto) {
@@ -117,8 +118,11 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     const form = this.forms.get(parameter.type);
     const elements = form.elements;
     for (let i = 0; i < elements.length; ++i) {
-      if (elements[i].type === 'number' || elements[i].type === 'text') {
+      if (elements[i].type === 'number' || elements[i].type === 'text' || elements[i].type === 'checkbox') {
         switch (parseInt(parameter.type)) {
+          case VRML_TYPE.SF_BOOL:
+            elements[i].checked = parameter.value.value;
+            break;
           case VRML_TYPE.SF_STRING:
           case VRML_TYPE.SF_INT32:
           case VRML_TYPE.SF_FLOAT:
@@ -165,16 +169,21 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     form.setAttribute('parameterReference', ref);
   }
 
-  setupForms(id, nbInputs, type, defaultValue, step) {
+  setupInputForm(id, nbInputs, type, defaultValue, step) {
     let form = document.createElement('form');
     form.setAttribute('onsubmit', 'return false;');
     form.setAttribute('id', id);
     form.setAttribute('parameterReference', ''); // parameter reference
+
     for (let i = 0; i < nbInputs; ++i) {
       let input = document.createElement('input');
-      input.setAttribute('variable', i);
+      input.setAttribute('variable', i); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
       input.setAttribute('type', type);
-      input.setAttribute('value', defaultValue);
+      if (type === 'checkbox')
+        input.checked = defaultValue;
+      else
+        input.setAttribute('value', defaultValue);
+
       if (type === 'number')
         input.setAttribute('step', step);
 
@@ -192,7 +201,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     input.addEventListener('input', this._updateValue.bind(this));
 
     input.setAttribute('type', type);
-    if (type === 'checkbox' && typeof value !== 'undefined')
+    if (type === 'checkbox' && typeof value === 'boolean')
       input.checked = value;
     if ((type === 'number' || type === 'text') && typeof value !== 'undefined')
       input.setAttribute('value', value);
@@ -238,6 +247,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     const elements = form.elements;
     switch (parseInt(form.attributes['id'].value)) {
+      case VRML_TYPE.SF_BOOL:
+        return new WbSFBool(elements[0].value === 'true');
       case VRML_TYPE.SF_STRING:
         return new WbSFString(elements[0].value);
       case VRML_TYPE.SF_INT32:

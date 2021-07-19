@@ -56,7 +56,7 @@ class ProtoDesigner {
     this.view = new webots.View(document.getElementById('view3d'));
     this.editor = new EditorView(this.editorElement, this.renderer, this.view);
 
-    const url = '../wwi/Protos/ProtoTest.proto';
+    const url = '../wwi/Protos/ProtoTestParameters.proto';
     // const url = '../wwi/Protos/ProtoBox.proto';
     // const url = '../wwi/Protos/ProtoSphere.proto';
     // const url = '../wwi/Protos/ProtoTemplate.proto';

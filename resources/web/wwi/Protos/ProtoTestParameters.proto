@@ -1,7 +1,7 @@
 #VRML_SIM R2021b utf8
 
-PROTO ProtoTest [
-  field SFBool  boolean FALSE
+PROTO ProtoTestParameters [
+  field SFBool  boolean TRUE
   field SFInt32 integer 6
   field SFFloat floating 3.14
   field SFVec2f vec2f 5 5
