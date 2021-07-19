@@ -1,5 +1,6 @@
-#include <devices/Device.hpp>
 #include "LidarWidget.hpp"
+
+#include <devices/Device.hpp>
 
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHBoxLayout>
