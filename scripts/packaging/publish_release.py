@@ -101,21 +101,27 @@ if not releaseExists:
 
     if tagExists:
         print('Tag "%s" already exists.' % (tagName))
-        repo.create_git_release(tag=tagName,
-                                name=title,
-                                message=message,
-                                draft=draft,
-                                prerelease=True,
-                                target_commitish=options.commit)
+        try:
+            repo.create_git_release(tag=tagName,
+                                    name=title,
+                                    message=message,
+                                    draft=draft,
+                                    prerelease=True,
+                                    target_commitish=options.commit)
+        except GithubException as e:
+            print('Creation of release failed: ', e.data)
     else:
-        repo.create_git_tag_and_release(tag=tagName,
-                                        tag_message=title,
-                                        release_name=title,
-                                        release_message=message,
-                                        object=options.commit,
-                                        type='commit',
-                                        draft=draft,
-                                        prerelease=True)
+        try:
+            repo.create_git_tag_and_release(tag=tagName,
+                                            tag_message=title,
+                                            release_name=title,
+                                            release_message=message,
+                                            object=options.commit,
+                                            type='commit',
+                                            draft=draft,
+                                            prerelease=True)
+        except GithubException as e:
+            print('Creation of tag and release failed: ', e.data)
 
 for release in repo.get_releases():
     if release.title == title:
