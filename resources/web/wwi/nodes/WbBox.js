@@ -7,6 +7,14 @@ export default class WbBox extends WbGeometry {
     this.size = size;
   }
 
+  setParameter(parameterName, parameterValue) {
+    if (parameterName === 'size' && typeof this.size === typeof parameterValue) {
+      this.size = parameterValue;
+      this.updateSize();
+    } else
+      throw new Error('Unknown parameter ' + parameterName + ' for node WbBox.');
+  }
+
   clone(customID) {
     this.useList.push(customID);
     return new WbBox(customID, this.size);

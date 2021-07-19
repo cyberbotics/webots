@@ -43,8 +43,8 @@ export default class Proto {
 
     if (this.isTemplate)
       this.regenerate(); // generate VRML compliant proto body
-
-    this.parseBody();
+    else
+      this.parseBody();
   };
 
   parseHead(rawHead) {
@@ -63,9 +63,9 @@ export default class Proto {
       const nextToken = headTokenizer.peekToken();
 
       // TODO: skip curly brackets inbetween 'field' keyword and parameter name (i.e restricted nodes)
-
       if (nextToken.isIdentifier() && token.isKeyword()) {
-        const name = nextToken.word();
+        const vrmlName = nextToken.word();
+        const name = vrmlName;
         const type = token.fieldTypeFromVrml();
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(name) : false;
 
@@ -74,7 +74,7 @@ export default class Proto {
         const defaultValue = this.parseParameterValue(type, headTokenizer);
         const value = defaultValue.clone();
 
-        const parameter = new Parameter(name, type, isRegenerator, defaultValue, value)
+        const parameter = new Parameter(vrmlName, name, type, isRegenerator, defaultValue, value)
         this.parameters.set(this.uniqueId(), parameter);
       }
     }

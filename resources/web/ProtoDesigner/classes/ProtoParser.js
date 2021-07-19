@@ -155,6 +155,7 @@ export default class ProtoParser {
   };
 
   parseIS(nodeName, fieldName, nodeElement) {
+    const vrmlName = this.bodyTokenizer.recallWord(); // get word before the IS token
     this.bodyTokenizer.skipToken('IS'); // consume IS token
     const alias = this.bodyTokenizer.nextWord(); // actual proto parameter
 
@@ -176,6 +177,8 @@ export default class ProtoParser {
 
     parameter.nodeRef = nodeElement.getAttribute('id');
     console.log('>> added nodeRef ' + parameter.nodeRef + ' to parameter \'' + parameter.name + '\'');
+
+    parameter.vrmlName = vrmlName;
   };
 
   parseDEF() {

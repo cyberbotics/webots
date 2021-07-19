@@ -166,6 +166,10 @@ export default class Tokenizer {
     return this.peekToken().word();
   };
 
+  recallWord() {
+    return this._vector[this._index - 1].word();
+  };
+
   hasMoreTokens() {
     return this._index < this._vector.length;
   };

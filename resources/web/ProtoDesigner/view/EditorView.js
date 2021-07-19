@@ -28,11 +28,11 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.forms = new Map();
 
     this.setupForms(VRML_TYPE.SF_INT32, 1, 'number', '0', '1', '');
-    this.setupForms(VRML_TYPE.SF_FLOAT, 1, 'number', '0', '0.01', '');
-    this.setupForms(VRML_TYPE.SF_VECT2F, 2, 'number', '0', '0.01', '');
-    this.setupForms(VRML_TYPE.SF_VECT3F, 3, 'number', '0', '0.01', '');
-    this.setupForms(VRML_TYPE.SF_COLOR, 3, 'number', '0', '0.01', '');
-    this.setupForms(VRML_TYPE.SF_ROTATION, 4, 'number', '0', '0.01', '');
+    this.setupForms(VRML_TYPE.SF_FLOAT, 1, 'number', '0', '0.1', '');
+    this.setupForms(VRML_TYPE.SF_VECT2F, 2, 'number', '0', '0.1', '');
+    this.setupForms(VRML_TYPE.SF_VECT3F, 3, 'number', '0', '0.1', '');
+    this.setupForms(VRML_TYPE.SF_COLOR, 3, 'number', '0', '0.1', '');
+    this.setupForms(VRML_TYPE.SF_ROTATION, 4, 'number', '0', '0.1', '');
   }
 
   showParameters(proto) {
@@ -203,7 +203,13 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     else
       throw new Error('Overwriting value of type ' + typeof parameter.value + ' with value of type ' + typeof newValue);
 
-    this.refresh();
+    const nodeRef = parameter.nodeRef;
+    if (typeof nodeRef !== 'undefined') {
+      const node = WbWorld.instance.nodes.get(nodeRef);
+      node.setParameter(parameter.vrmlName, parameter.value);
+      this.renderer.render();
+    } else
+      console.warn('The parameter \'' + parameter.name + '\' has no nodeRef. Is it normal?');
   }
 
   getValuesFromForm(form) {
@@ -227,10 +233,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       default:
         throw new Error('Unknown form in getValuesFromForm.');
     }
-  }
-
-  refresh() {
-
   }
 
   _updateValue(e) {
