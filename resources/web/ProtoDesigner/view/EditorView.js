@@ -2,6 +2,14 @@
 
 import WbWorld from '../../wwi/nodes/WbWorld.js';
 
+import WbSFBool from '../../wwi/nodes/utils/WbSFBool.js';
+import WbSFDouble from '../../wwi/nodes/utils/WbSFDouble.js';
+import WbSFInt32 from '../../wwi/nodes/utils/WbSFInt32.js';
+import WbSFString from '../../wwi/nodes/utils/WbSFString.js';
+import WbSFColor from '../../wwi/nodes/utils/WbSFColor.js';
+import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
+import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
+import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 import {VRML_TYPE} from '../classes/FieldModel.js';
 
 export default class EditorView { // eslint-disable-line no-unused-vars
@@ -144,12 +152,15 @@ export default class EditorView { // eslint-disable-line no-unused-vars
         }
       }
     }
+
+    // update parameter reference
+    form.setAttribute('parameterReference', ref);
   }
 
   setupForms(id, nbInputs, type, defaultValue, step, ref) {
     let form = document.createElement('form');
     form.setAttribute('id', id);
-    form.setAttribute('ref', ref); // parameter reference
+    form.setAttribute('parameterReference', ref); // parameter reference
     for (let i = 0; i < nbInputs; ++i) {
       let input = document.createElement('input');
       input.setAttribute('variable', i);
@@ -182,6 +193,44 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
   updateValue(e) {
     console.log('updateValue');
+    // keep proto.parameter value up to date
+    const parameterRef = e.target.form.attributes['parameterReference'].value;
+    const parameter = this.proto.parameters.get(parseInt(parameterRef));
+
+    const newValue = this.getValuesFromForm(e.target.form);
+    if (typeof parameter.value === typeof newValue)
+      parameter.value = newValue;
+    else
+      throw new Error('Overwriting value of type ' + typeof parameter.value + ' with value of type ' + typeof newValue);
+
+    this.refresh();
+  }
+
+  getValuesFromForm(form) {
+    if (typeof form === 'undefined')
+      throw new Error('Cannot get values from unknown form');
+
+    const elements = form.elements;
+    switch (parseInt(form.attributes['id'].value)) {
+      case VRML_TYPE.SF_INT32:
+        return new WbSFInt32(parseInt(elements[0].value));
+      case VRML_TYPE.SF_FLOAT:
+        return new WbSFDouble(parseFloat(elements[0].value));
+      case VRML_TYPE.SF_VECT2F:
+        return new WbVector2(parseFloat(elements[0].value), parseFloat(elements[1].value));
+      case VRML_TYPE.SF_VECT3F:
+        return new WbVector3(parseFloat(elements[0].value), parseFloat(elements[1].value), parseFloat(elements[2].value));
+      case VRML_TYPE.SF_COLOR:
+        return new WbSFColor(parseFloat(elements[0].value), parseFloat(elements[1].value), parseFloat(elements[2].value));
+      case VRML_TYPE.SF_ROTATION:
+        return new WbVector4(parseFloat(elements[0].value), parseFloat(elements[1].value), parseFloat(elements[2].value), parseFloat(elements[3].value));
+      default:
+        throw new Error('Unknown form in getValuesFromForm.');
+    }
+  }
+
+  refresh() {
+
   }
 
   _updateValue(e) {
