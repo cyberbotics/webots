@@ -179,6 +179,9 @@ export default class Tokenizer {
   };
 
   skipToken(expectedWord) {
+    if (typeof expectedWord !== 'string')
+      throw new Error('When using skipToken, the argument must be a string');
+
     if (!this.hasMoreTokens())
       throw new Error('Expected word ' + expectedWord + ' but reached end of file.');
 
@@ -187,6 +190,16 @@ export default class Tokenizer {
     if (token.word() !== expectedWord)
       throw new Error('Expected word ' + expectedWord + ' but found ' + token.word() + '.');
   };
+
+  skipTokens(n) {
+    if (typeof n !== 'number')
+      throw new Error('When using skipTokens, the argument must be a number');
+
+    if (this._index + n < this._vector.length)
+      this._index += n;
+    else
+      throw new Error('Cannot skip N = ' + n + ' tokens because there are not that many left.');
+  }
 
   skipField(deleteTokens) {
     if (!this.hasMoreTokens())
