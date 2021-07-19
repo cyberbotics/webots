@@ -14,6 +14,15 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.editorElement = document.getElementById('parameter-editor');
     if (typeof this.editorElement === 'undefined')
       throw new Error('Error, parameter-editor component not found.');
+
+    // adapt selection
+    // this.editorElement.innerHTML = '<p><i>selection</i> : none</p>';
+    this.setupForms('sf_int32', 1, 'number', '0', '1', '');
+    this.setupForms('sf_float', 1, 'number', '0', '0.01', '');
+    this.setupForms('sf_vec2f', 2, 'number', '0', '0.01', '');
+    this.setupForms('sf_vec3f', 3, 'number', '0', '0.01', '');
+    this.setupForms('sf_color', 3, 'number', '0', '0.01', '');
+    this.setupForms('sf_rotation', 4, 'number', '0', '0.01', '');
   }
 
   showParameters(proto) {
@@ -59,17 +68,68 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   };
 
   itemSelector(event) {
-    this.editorElement.innerHTML = ''; // remove current
-    const ref = event.target.getAttribute('ref');
+    const ref = parseInt(event.target.getAttribute('ref'));
     console.log('Clicked item ref=' + ref);
-    const parameter = this.proto.parameters.get(ref);
-    // adapt selection
-    this.editorElement.innerHTML = '<p><i>selection</i> : ' + parameter.name + '</p>';
     // adapt editor
-    this.populateEditor(parameter);
+    this.populateEditor(ref);
   };
 
-  populateEditor(parameter) {
+  populateEditor(ref) {
+    const parameter = this.proto.parameters.get(ref);
+    // adapt selection
+    // this.editorElement.innerHTML = '<p><i>selection</i> : ' + parameter.name + '</p>';
+
+    // adapt visibility
+    const forms = document.getElementsByTagName('form');
+    for (let form of forms) {
+      if (parameter.type === VRML_TYPE.SF_INT32) {
+        if (form.name === 'sf_int32')
+          form.style.display = 'block';
+        else
+          form.style.display = 'none';
+      } else if (parameter.type === VRML_TYPE.SF_FLOAT) {
+        if (form.name === 'sf_float')
+          form.style.display = 'block';
+        else
+          form.style.display = 'none';
+      } else if (parameter.type === VRML_TYPE.SF_VECT2F) {
+        if (form.name === 'sf_vec2f')
+          form.style.display = 'block';
+        else
+          form.style.display = 'none';
+      } else if (parameter.type === VRML_TYPE.SF_VECT3F) {
+        if (form.name === 'sf_vec3f')
+          form.style.display = 'block';
+        else
+          form.style.display = 'none';
+      } else if (parameter.type === VRML_TYPE.SF_COLOR) {
+        if (form.name === 'sf_color')
+          form.style.display = 'block';
+        else
+          form.style.display = 'none';
+      } else if (parameter.type === VRML_TYPE.SF_ROTATION) {
+        if (form.name === 'sf_rotation')
+          form.style.display = 'block';
+        else
+          form.style.display = 'none';
+      }
+    }
+
+    // show current value
+    for (let form of forms) {
+      if (parameter.type === VRML_TYPE.SF_INT32) {
+        const elements = form.elements;
+        if (form.name === 'sf_int32') {
+          console.log('>> ' + parameter.value.value)
+          for (let i = 0; i < elements.length; ++i) {
+            if (elements[i].type === 'number')
+                elements[i].value = parameter.value.value;
+          }
+        }
+      }
+    }
+
+
     /*
     let div = document.createElement('div');
     div.style.textAlign = 'center';
@@ -144,6 +204,23 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     */
   }
 
+  setupForms(name, nbInputs, type, defaultValue, step, ref) {
+    let form = document.createElement('form');
+    form.setAttribute('name', name);
+    form.setAttribute('ref', ref); // parameter reference
+
+    for (let i = 0; i < nbInputs; ++i) {
+      let input = document.createElement('input');
+      input.setAttribute('type', type);
+      input.setAttribute('step', step);
+      input.setAttribute('value', defaultValue);
+      input.addEventListener('input', this.updateValue.bind(this));
+      form.appendChild(input);
+    }
+
+    this.editorElement.appendChild(form);
+  }
+
   _createInput(type, value, step) {
     let input = document.createElement('input');
     input.addEventListener('input', this._updateValue.bind(this));
@@ -158,6 +235,10 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       input.setAttribute('step', step);
     return input;
   };
+
+  updateValue(e) {
+    console.log('updateValue');
+  }
 
   _updateValue(e) {
     // get parent form of the input
