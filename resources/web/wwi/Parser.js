@@ -454,7 +454,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       parentNode.children.push(shape);
-      shWbWorld.instance.nodesape.parent = parentNode.id;
+      WbWorld.instance.nodesape.parent = parentNode.id;
     }
 
     if (typeof appearance !== 'undefined')

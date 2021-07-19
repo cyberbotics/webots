@@ -77,25 +77,21 @@ export default class ProtoParser {
 
   encodeNodeAsX3d(nodeName, parentElement, parentName) {
     let nodeElement = this.xml.createElement(nodeName);
-    console.log('> nodeElement = xml.createElement(' + nodeName + ')');
+    console.log('> ' + nodeName + 'Element = xml.createElement(' + nodeName + ')' + ' [parentName=' + parentName + ']');
 
     this.bodyTokenizer.skipToken('{'); // skip opening bracket following node token
 
     let ctr = 1; // bracket counter
     while (ctr !== 0) {
       const word = this.bodyTokenizer.nextWord();
-      if (word === '{') {
-        ctr++;
-        continue;
-      }
-      if (word === '}') {
-        ctr--;
+      if (word === '{' || word === '}') {
+        ctr = word === '{' ? ++ctr : --ctr;
         continue;
       }
 
       // each node needs an id, at the very least, no matter what follows
       nodeElement.setAttribute('id', getAnId());
-      console.log('> nodeElement.setAttribute(\'id\', \'' + nodeElement.getAttribute('id') + '\')');
+      console.log('> ' + nodeName + 'Element.setAttribute(\'id\', \'' + nodeElement.getAttribute('id') + '\')');
 
       if (this.bodyTokenizer.peekWord() === 'IS')
         this.parseIS(nodeName, word, nodeElement);
@@ -103,25 +99,28 @@ export default class ProtoParser {
         this.parseDEF();
       else if (this.bodyTokenizer.peekWord() === 'USE')
         this.parseUSE();
+      else if (this.bodyTokenizer.peekWord() === '[')
+        this.parseMF(nodeElement, nodeName); // the parent of MF fields is the node currently being created
       else // otherwise, assume it's a normal field
         this.encodeFieldAsX3d(nodeName, word, nodeElement);
     };
 
     parentElement.appendChild(nodeElement);
-    console.log('> ' + parentName + '.appendChild(nodeElement)');
+    console.log('> ' + parentName + 'Element.appendChild(' + nodeName + 'Element)');
   };
 
   encodeFieldAsX3d(nodeName, fieldName, nodeElement) {
     const fieldType = FieldModel[nodeName]['supported'][fieldName];
-    if (typeof fieldType !== 'undefined')
-      console.log('>> field \'' + fieldName + '\' is of type \'' + fieldType + '\'');
-    else {
+    if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[nodeName]['unsupported'][fieldName]; // check if it's one of the unsupported ones instead
-      if (typeof fieldType !== 'undefined')
+      if (typeof fieldType !== 'undefined') {
         this.consumeTokens(fieldType);
-      else
+        return;
+      } else
         throw new Error('Cannot encode field \'' + fieldName + '\' as x3d because it is not part of the FieldModel of node \'' + nodeName + '\'.');
     }
+
+    console.log('>> field \'' + fieldName + '\' is of type \'' + fieldType + '\'');
 
     if (typeof nodeElement === 'undefined')
       throw new Error('Cannot assign field to node because \'nodeElement\' is not defined.');
@@ -158,7 +157,7 @@ export default class ProtoParser {
 
     if (fieldType !== VRML.SFNode) {
       nodeElement.setAttribute(fieldName, value);
-      console.log('> nodeElement.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
+      console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
     }
   };
 
@@ -177,7 +176,7 @@ export default class ProtoParser {
 
     const value = parameter.value.asX3d();
     nodeElement.setAttribute(fieldName, value);
-    console.log('> nodeElement.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
+    console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 
     // make the header parameter point to this field's parent
     if (typeof parameter.nodeRef !== 'undefined' && parameter.nodeRef !== nodeElement.getAttribute('id'))
@@ -197,7 +196,38 @@ export default class ProtoParser {
     throw new Error('TODO: parseUSE not yet implemented');
   };
 
+  parseMF(parentElement, parentName) {
+    const field = this.bodyTokenizer.recallWord(); // get field that triggered the parseMF
+
+    const fieldType = FieldModel[parentName]['supported'][field];
+    if (typeof fieldType === 'undefined') {
+      const fieldType = FieldModel[parentName]['unsupported'][field]; // check if it's one of the unsupported ones instead
+      if (typeof fieldType !== 'undefined') {
+        this.consumeTokens(fieldType);
+        return;
+      } else
+        throw new Error('Cannot encode field \'' + field + '\' as x3d because it is not part of the FieldModel of node \'' + parentName + '\'.');
+    }
+
+    console.log('>> field \'' + field + '\' is of type \'' + fieldType + '\'');
+    this.bodyTokenizer.skipToken('['); // consume '[' token. Must be done after asserting if the field is supported
+
+    while (this.bodyTokenizer.peekWord() !== ']') { // for nested MF nodes, each consecutive parseMF will consume a pair of '[' and ']'
+      switch (fieldType) {
+        case VRML.MFNode:
+          const childNodeName = this.bodyTokenizer.nextWord();
+          this.encodeNodeAsX3d(childNodeName, parentElement, parentName);
+          break;
+        default:
+          throw new Error('Cannot parse MF because field \'' + field + '\' (fieldType: ' + fieldType + ') is not supported.');
+      }
+    }
+
+    this.bodyTokenizer.skipToken(']'); // consume closing ']' token
+  };
+
   consumeTokens(fieldType) {
+    console.warn('CONSUMING: ', fieldType);
     let ctr;
     switch (fieldType) {
       case VRML.MFBool:
@@ -212,8 +242,8 @@ export default class ProtoParser {
         ctr = 1; // because the first '[' is preemptively skipped
         this.bodyTokenizer.skipToken('['); // skip first token, must be always present for an MF field
         while (ctr > 0) {
-          ctr = this.bodyTokenizer.peekWord() === '[' ? ctr++ : ctr;
-          ctr = this.bodyTokenizer.peekWord() === ']' ? ctr-- : ctr;
+          ctr = this.bodyTokenizer.peekWord() === '[' ? ++ctr : ctr;
+          ctr = this.bodyTokenizer.peekWord() === ']' ? --ctr : ctr;
           this.bodyTokenizer.nextToken();
         }
         break;
@@ -221,8 +251,8 @@ export default class ProtoParser {
         ctr = 1; // because the first '{' is preemptively skipped
         this.bodyTokenizer.skipToken('{'); // skip first token, must be always present for an SFNode
         while (ctr > 0) {
-          ctr = this.bodyTokenizer.peekWord() === '{' ? ctr++ : ctr;
-          ctr = this.bodyTokenizer.peekWord() === '}' ? ctr-- : ctr;
+          ctr = this.bodyTokenizer.peekWord() === '{' ? ++ctr : ctr;
+          ctr = this.bodyTokenizer.peekWord() === '}' ? --ctr : ctr;
           this.bodyTokenizer.nextToken();
         }
         break;
