@@ -43,8 +43,10 @@ export default class Proto {
 
     if (this.isTemplate)
       this.regenerate(); // generate VRML compliant proto body
-    else
+    else {
       this.parseBody();
+      this.generateX3d();
+    }
   };
 
   parseHead(rawHead) {

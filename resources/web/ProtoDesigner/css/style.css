@@ -94,9 +94,14 @@
 input[type=number] {
   height: 100%;
   width: 50px;
+  margin: 15px;
 }
 
 input[type=text] {
   height: 100%;
   width: 90%;
+}
+
+form {
+  text-align: center;
 }
