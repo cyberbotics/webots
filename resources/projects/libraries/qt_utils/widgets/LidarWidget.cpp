@@ -1,5 +1,5 @@
-#include "LidarWidget.hpp"
 #include <devices/Device.hpp>
+#include "LidarWidget.hpp"
 
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHBoxLayout>
@@ -54,10 +54,9 @@ void LidarWidget::readSensors() {
   if (wb_lidar_get_sampling_period(tag) > 0) {
     int lidarResolution = wb_lidar_get_horizontal_resolution(tag);
     double lidarRatio = (double)lidarResolution;
-    unsigned char *buffer;
 
     if (mNumberOfLayers <= MAX_LABEL) {  // one label per layer
-      buffer = new unsigned char[lidarResolution * 4];
+      unsigned char *buffer = new unsigned char[lidarResolution * 4];
       for (int i = 0; i < mNumberOfLayers; ++i) {
         const float *raw = wb_lidar_get_layer_range_image(tag, i);
         if (!raw || lidarResolution < 1)
@@ -87,9 +86,10 @@ void LidarWidget::readSensors() {
           mLabel[i]->setPixmap(pixmap.scaledToHeight(labelHeight));
         delete image;
       }
+      delete[] buffer;
     } else {  // one label for the whole image
       int size = lidarResolution * mNumberOfLayers;
-      buffer = new unsigned char[size * 4];
+      unsigned char *buffer = new unsigned char[size * 4];
       lidarRatio /= mNumberOfLayers;
       const float *raw = wb_lidar_get_range_image(tag);
       if (raw || lidarResolution > 1) {
@@ -114,8 +114,8 @@ void LidarWidget::readSensors() {
           mLabel[0]->setPixmap(pixmap.scaledToHeight(labelHeight));
         delete image;
       }
+      delete[] buffer;
     }
-    delete[] buffer;
   }
 }
 
