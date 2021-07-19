@@ -25,6 +25,10 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       throw new Error('Error, parameter-editor component not found.');
 
     // adapt selection
+    const p = document.createElement('p');
+    p.setAttribute('id', 'selection');
+    p.innerHTML = 'selection: <b>none</b>';
+    this.editorElement.appendChild(p);
     // this.editorElement.innerHTML = '<p><i>selection</i> : none</p>';
     this.forms = new Map();
 
@@ -97,7 +101,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     const parameter = this.proto.parameters.get(ref);
 
     // adapt selection
-    // this.editorElement.innerHTML = '<p><i>selection</i> : ' + parameter.name + '</p>';
+    const p = document.getElementById('selection');
+    p.innerHTML = 'selection: <b>' + parameter.name + '</b>';
 
     // change form visibility
     for (const [key, value] of this.forms) {
