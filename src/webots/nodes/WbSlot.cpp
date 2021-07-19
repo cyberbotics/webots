@@ -52,6 +52,12 @@ void WbSlot::validateProtoNode() {
     solid->validateProtoNode();
 }
 
+void WbSlot::downloadAssets() {
+  WbBaseNode::downloadAssets();
+  if (hasEndpoint())
+    static_cast<WbBaseNode *>(endPoint())->downloadAssets();
+}
+
 void WbSlot::preFinalize() {
   WbBaseNode::preFinalize();
 

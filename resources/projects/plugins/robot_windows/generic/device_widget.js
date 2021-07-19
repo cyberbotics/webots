@@ -18,9 +18,9 @@ DeviceWidget.commands = []; // Commands to be sent to the C library.
 DeviceWidget.motorCommands = []; // Motor commands to be sent to the C library.
 DeviceWidget.touchedCheckboxes = [];
 DeviceWidget.supportedDeviceTypes = [
-  'Accelerometer', 'Camera', 'Compass', 'DistanceSensor', 'GPS', 'Gyro',
-  'InertialUnit', 'Lidar', 'LightSensor', 'LinearMotor', 'PositionSensor',
-  'Radar', 'RangeFinder', 'RotationalMotor', 'TouchSensor'
+  'Accelerometer', 'Altimeter', 'Camera', 'Compass', 'DistanceSensor', 'GPS', 'Gyro',
+  'InertialUnit', 'Lidar', 'LightSensor', 'LinearMotor', 'PositionSensor', 'Radar',
+  'RangeFinder', 'RotationalMotor', 'TouchSensor'
 ];
 
 DeviceWidget.prototype.initialize = function(device) {
@@ -61,6 +61,8 @@ DeviceWidget.prototype.initialize = function(device) {
 
   if (device.type === 'Accelerometer')
     this.createGeneric3DDevice(device, TimeplotWidget.AutoRangeType.STRETCH, -20.0, 20.0, '[m/s^2]');
+  else if (device.type === 'Altimeter')
+    this.createGeneric1DDevice(device, TimeplotWidget.AutoRangeType.STRETCH, 0, 0.5, '[m]');
   else if (device.type === 'Camera')
     this.createGenericImageDevice(device);
   else if (device.type === 'Compass')

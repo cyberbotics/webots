@@ -67,11 +67,21 @@ WEBOTS = webots
 ISCC_FORMATTER = iscc_formatter.exe
 endif
 
+TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/scripts/packaging/webots_version.txt)
+TAGS := $(shell git fetch --all --tags)
+ifeq ($(shell git tag --points-at HEAD | grep $(TARGET_URL)),)
+TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/resources/commit.txt)
+endif
+
 all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER) $(XVFB)
 	+@echo "# removing files and folders not in git repository"
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd scripts/packaging
 	+@echo "# generating project files"
 	+@./generate_projects_files.py > files_projects.txt
+	+@echo "# changing URLs in world, proto and controller files"
+	+@python3 update_urls.py $(TARGET_URL)
+	+@echo "# recompiling controller files"
+	+@make -s -f Makefile.controllers
 	+@echo "# updating proto cache"
 	+@$(WEBOTS) --update-proto-cache
 ifeq ($(OSTYPE),darwin)

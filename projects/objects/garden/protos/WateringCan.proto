@@ -1,7 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A watering can with optional physics.
+# template language: javascript
 
 PROTO WateringCan [
   field SFVec3f    translation    0 0 0
@@ -23,27 +24,27 @@ PROTO WateringCan [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/watering_can_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/watering_can_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/watering_can_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/watering_can_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/watering_can_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/watering_can_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/watering_can_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/watering_can_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/watering_can_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/watering_can_occlusion.jpg"
             ]
           }
         }
@@ -136,7 +137,7 @@ PROTO WateringCan [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 1
@@ -148,6 +149,6 @@ PROTO WateringCan [
         0 0 0
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

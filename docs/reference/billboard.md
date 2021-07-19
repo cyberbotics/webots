@@ -14,4 +14,4 @@ To see the newly added nodes, they should be translated negatively along their z
 
 The objects contained in the [Billboard](#billboard) are not visible by [Cameras](camera.md).
 
-[Shapes][shape.md] that are inside a [Billboard](#billboard) cannot cast or receive shadows.
+[Shapes](shape.md) that are inside a [Billboard](#billboard) cannot cast or receive shadows.

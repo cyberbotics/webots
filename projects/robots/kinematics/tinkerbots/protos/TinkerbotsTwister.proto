@@ -1,8 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots twister block.
 # https://www.tinkerbots.com
+# template language: javascript
 
 PROTO TinkerbotsTwister [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
@@ -23,7 +24,7 @@ PROTO TinkerbotsTwister [
       children [
         LED {
           translation 0 0.016 0.0045
-          name %{= "\"" .. fields.name.value .. " led\"" }%
+          name %<= '"' + fields.name.value + ' led"' >%
           color []
           gradual TRUE
           children [
@@ -41,27 +42,27 @@ PROTO TinkerbotsTwister [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/twister_base_base_color.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/twister_base_roughness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/twister_base_metalness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/twister_base_normal.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/twister_base_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_base_occlusion.jpg"
               ]
             }
           }
@@ -97,7 +98,7 @@ PROTO TinkerbotsTwister [
               maxPosition 1.57
             }
             PositionSensor {
-              name %{= "\"" .. fields.name.value .. " sensor\"" }%
+              name %<= '"' + fields.name.value + ' sensor"' >%
             }
           ]
           endPoint Solid {
@@ -154,27 +155,27 @@ PROTO TinkerbotsTwister [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/twister_joint_base_color.jpg"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "textures/twister_joint_roughness.png"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_roughness.png"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "textures/twister_joint_metalness.png"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_metalness.png"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "textures/twister_joint_normal.jpg"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_normal.jpg"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "textures/twister_joint_occlusion.jpg"
+                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/twister_joint_occlusion.jpg"
                     ]
                   }
                 }

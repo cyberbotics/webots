@@ -18,7 +18,7 @@ Television {
   SFRotation rotation      0 1 0 0
   SFString   name          "television"
   SFColor    color         1 1 1
-  MFString   textureUrl    "textures/television.jpg"
+  MFString   textureUrl    "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/television/protos/textures/television.jpg"
   SFInt32    displayWidth  128
   SFInt32    displayHeight 64
   SFString   controller    "television_switch_on"

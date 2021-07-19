@@ -1,7 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A suburban house with optional boundingObject.
+# template language: javascript
 
 PROTO SuburbanHouse [
   field SFVec3f    translation           0 0 0
@@ -23,27 +24,27 @@ PROTO SuburbanHouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/suburban_house_roof_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_roof_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/suburban_house_roof_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_roof_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/suburban_house_roof_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_roof_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/suburban_house_roof_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_roof_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/suburban_house_roof_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_roof_occlusion.jpg"
             ]
           }
         }
@@ -70,27 +71,27 @@ PROTO SuburbanHouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/suburban_house_walls_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_walls_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/suburban_house_walls_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_walls_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/suburban_house_walls_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_walls_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/suburban_house_walls_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_walls_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/suburban_house_walls_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_walls_occlusion.jpg"
             ]
           }
         }
@@ -117,27 +118,27 @@ PROTO SuburbanHouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/suburban_house_windows_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/suburban_house_windows_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/suburban_house_windows_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/suburban_house_windows_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/suburban_house_windows_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_windows_occlusion.jpg"
             ]
           }
         }
@@ -164,27 +165,27 @@ PROTO SuburbanHouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/suburban_house_frame_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_frame_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/suburban_house_frame_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_frame_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/suburban_house_frame_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_frame_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/suburban_house_frame_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_frame_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/suburban_house_frame_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/suburban_house_frame_occlusion.jpg"
             ]
           }
         }
@@ -208,7 +209,7 @@ PROTO SuburbanHouse [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
@@ -246,6 +247,6 @@ PROTO SuburbanHouse [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

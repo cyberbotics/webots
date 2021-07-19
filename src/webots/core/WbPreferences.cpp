@@ -82,6 +82,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("View3d/hideAllCameraOverlays", false);
   setDefault("View3d/hideAllRangeFinderOverlays", false);
   setDefault("View3d/hideAllDisplayOverlays", false);
+  setDefault("Network/cacheSize", 1024);
 
 #ifdef _WIN32
   // "Monospace" isn't supported under Windows: the non-monospaced Arial font is loaded instead

@@ -19,6 +19,9 @@ import re
 from projection import Projection
 
 
+GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg'
+
+
 def get_world_size(minlat, minlon, maxlat, maxlon):
     """Return the world size in X-Z coordinates."""
     x1, z1 = Projection.project(minlon, minlat)
@@ -31,7 +34,7 @@ def get_world_size(minlat, minlon, maxlat, maxlon):
 def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
     """Print the 'WorldInfo', 'Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight' and 'Floor' nodes."""
     xSize, zSize = get_world_size(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-    file.write("#VRML_SIM R2021b utf8\n")
+    file.write("#VRML_SIM R2021c utf8\n")
     file.write("WorldInfo {\n")
     file.write("  info [\n")
     file.write("    \"World generated using the Open Street Map to Webots importer\"\n")
@@ -65,7 +68,7 @@ def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
         file.write("  appearance PBRAppearance {\n")
         file.write("    baseColorMap ImageTexture {\n")
         file.write("      url [\n")
-        file.write("        \"textures/grass.jpg\"\n")
+        file.write(f"        \"{GRASS_TEXTURE}\"\n")
         file.write("      ]\n")
         file.write("    }\n")
         file.write("    roughness 1\n")

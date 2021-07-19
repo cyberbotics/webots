@@ -108,6 +108,8 @@ for proto in prioritaryProtoList + fileList:
             line = match.group()
             if line.startswith('#VRML_SIM'):
                 continue
+            if line.startswith('# template language'):
+                continue
             elif line.startswith('# license:'):
                 license = line.replace('# license:', '').strip()
             elif line.startswith('# license url:'):

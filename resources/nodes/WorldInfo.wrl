@@ -21,6 +21,8 @@ WorldInfo {
   field       SFString{"local", "WGS84"}     gpsCoordinateSystem            "local"    # defines the world coordinate system (used by GPS node)
   field       SFVec3f                        gpsReference                   0 0 0      # defines the offset for each coordinate
   field       SFFloat                        lineScale                      0.1        # order of magnitude of the world in meters, used to display the optional rendering
+  field       SFFloat                        dragForceScale                 30.0       # order of magnitude of the force applied to an object in the interface
+  field       SFFloat                        dragTorqueScale                5.0        # order of magnitude of the torque applied to an object in the interface
   field       SFInt32                        randomSeed                     0          # defines the seed used internally by the random number generator
   field       MFNode                         contactProperties              []         # contact properties
 

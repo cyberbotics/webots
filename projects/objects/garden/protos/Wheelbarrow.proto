@@ -1,7 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A wheelbarrow with optional physics.
+# template language: javascript
 
 PROTO Wheelbarrow [
   field SFVec3f    translation    0 0 0
@@ -23,27 +24,27 @@ PROTO Wheelbarrow [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/wheelbarrow_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/wheelbarrow_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/wheelbarrow_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/wheelbarrow_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/wheelbarrow_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/wheelbarrow_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/wheelbarrow_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/wheelbarrow_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/wheelbarrow_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/wheelbarrow_occlusion.jpg"
             ]
           }
         }
@@ -131,7 +132,7 @@ PROTO Wheelbarrow [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 8
@@ -143,6 +144,6 @@ PROTO Wheelbarrow [
         -0.4418000418771413 0.6956000753119361 37.31345641042259
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Example use of a Bumper TouchSensor device."
@@ -251,7 +251,7 @@ Robot {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/mybot.png"
+            "webots://projects/samples/devices/worlds/textures/mybot.png"
           ]
         }
         roughness 0.5

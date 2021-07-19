@@ -112,12 +112,6 @@ void WbSolid::init() {
   mSolidMerger = NULL;
   mMergerIsSet = false;
 
-  // store position
-  // Note: this cannot be put into the preFinalize function because
-  //       of the copy constructor last initialization
-  mSavedTranslations[stateId()] = translation();
-  mSavedRotations[stateId()] = rotation();
-
   // Support polygon representation
   mY = numeric_limits<double>::max();
   mSupportPolygon = WbPolygon();
@@ -1097,7 +1091,7 @@ WbVector3 WbSolid::relativeLinearVelocity(const WbSolid *parentSolid) const {
   } else if (parentSolid != NULL) {  // in case of dynamic solid, the velocity is already absolute
     while (!solid->isTopSolid() && solid != parentSolid)
       solid = solid->upperSolid();
-    l -= solid->solidMerger()->solid()->linearVelocity();
+    l -= solid->isDynamic() ? solid->solidMerger()->solid()->linearVelocity() : solid->linearVelocity();
   }
 
   assert(solid == parentSolid || parentSolid == NULL);
@@ -1120,7 +1114,7 @@ WbVector3 WbSolid::relativeAngularVelocity(const WbSolid *parentSolid) const {
   } else if (parentSolid != NULL) {  // in case of dynamic solid, the velocity is already absolute
     while (!solid->isTopSolid() && solid != parentSolid)
       solid = solid->upperSolid();
-    a -= solid->solidMerger()->solid()->angularVelocity();
+    a -= solid->isDynamic() ? solid->solidMerger()->solid()->angularVelocity() : solid->angularVelocity();
   }
 
   assert(solid == parentSolid || parentSolid == NULL);
@@ -1502,8 +1496,10 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
     }
 
     const WbGroup *const groupChild = dynamic_cast<WbGroup *>(n);
-    if (groupChild)
+    if (groupChild) {
       collectSolidChildren(groupChild, connectSignals, solidChildren, jointChildren, propellerChildren);
+      continue;
+    }
 
     const WbSlot *slot = dynamic_cast<WbSlot *>(n);
     if (slot) {
@@ -2088,10 +2084,7 @@ WbRobot *WbSolid::robot() const {
 
 // Returns true if all solid ancestors have no physics
 bool WbSolid::belongsToStaticBasis() const {
-  if (isDynamic())
-    return false;
-
-  const WbSolid *s = upperSolid();
+  const WbSolid *s = this;
 
   while (s) {
     if (s->isDynamic())
@@ -2167,8 +2160,8 @@ void WbSolid::reset(const QString &id) {
     p->reset(id);
 
   if (mJointParents.size() == 0) {
-    setTranslation(mSavedTranslations[id]);
-    setRotation(mSavedRotations[id]);
+    setTranslation(translationFromFile(id));
+    setRotation(rotationFromFile(id));
   }
   resetSingleSolidPhysics();
   resetContactPointsAndSupportPolygon();
@@ -2211,9 +2204,6 @@ void WbSolid::save(const QString &id) {
   WbNode *const p = mPhysics->value();
   if (p)
     p->save(id);
-
-  mSavedTranslations[id] = translation();
-  mSavedRotations[id] = rotation();
 }
 
 // Recursive reset methods
@@ -2351,6 +2341,7 @@ void WbSolid::resetSingleSolidPhysics() {
         dJointSetBallParam(mJoint, dParamVel2, 0.0);
         dJointSetBallParam(mJoint, dParamFMax3, 0.0);
         dJointSetBallParam(mJoint, dParamVel3, 0.0);
+        break;
       default:  // only the above joint types are currently implemented in Webots
         break;
     }
@@ -2466,29 +2457,12 @@ const WbPolygon &WbSolid::supportPolygon() {
   const WbVector3 &eastVector = worldInfo->eastVector();
   const WbVector3 &northVector = worldInfo->northVector();
   // Rules out 4 trivial cases
-  if (numberOfContactPoints == 0) {
-    mSupportPolygon.setActualSize(0);
-    return mSupportPolygon;
+  for (int i = 0; i < numberOfContactPoints; ++i) {
+    const WbVector3 &v = mGlobalListOfContactPoints.at(i);
+    mSupportPolygon[i].setXy(v.dot(northVector), v.dot(eastVector));
   }
-
-  const WbVector3 &v0 = mGlobalListOfContactPoints[0];
-  mSupportPolygon[0].setXy(v0.dot(northVector), v0.dot(eastVector));
-  if (numberOfContactPoints == 1) {
-    mSupportPolygon.setActualSize(1);
-    return mSupportPolygon;
-  }
-
-  const WbVector3 &v1 = mGlobalListOfContactPoints[1];
-  mSupportPolygon[1].setXy(v1.dot(northVector), v1.dot(eastVector));
-  if (numberOfContactPoints == 2) {
-    mSupportPolygon.setActualSize(2);
-    return mSupportPolygon;
-  }
-
-  const WbVector3 &v2 = mGlobalListOfContactPoints[2];
-  mSupportPolygon[2].setXy(v2.dot(northVector), v2.dot(eastVector));
-  if (numberOfContactPoints == 3) {
-    mSupportPolygon.setActualSize(3);
+  if (numberOfContactPoints <= 3) {
+    mSupportPolygon.setActualSize(numberOfContactPoints);
     return mSupportPolygon;
   }
 
@@ -2782,8 +2756,8 @@ void WbSolid::displayWarning() {
 
     if (inertialMatrixDiagonalMin > 0.0 &&
         // inertialMatrixDiagonalMax > 0.0 && // this is ensured
-        inertialMatrixDiagonalMin < 1.0e-5 &&                         // light object : this theshold is empirical
-        inertialMatrixDiagonalMax / inertialMatrixDiagonalMin > 15.0  // oblong object : this theshold is empirical
+        inertialMatrixDiagonalMin < 1.0e-5 &&                         // light object : this threshold is empirical
+        inertialMatrixDiagonalMax / inertialMatrixDiagonalMin > 15.0  // oblong object : this threshold is empirical
     )
       parsingWarn(tr("Webots has detected that this solid is light and oblong according to its inertia matrix. "
                      "This belongs in the physics edge cases, and can imply weird physical results. "
@@ -2829,17 +2803,17 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
       //   This is an exception to the global double precision which is not sufficient here,
       //   because the accumulated error is big in computeEndPointSolidPositionFromParameters().
       //   cf. https://github.com/omichel/webots-dev/issues/6512
-      if (!translationToBeCopied.almostEquals(mSavedTranslations[stateId()],
+      if (!translationToBeCopied.almostEquals(translationFromFile(stateId()),
                                               100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isTranslationFieldVisible())
         copyTranslation = true;
-      if (!rotationToBeCopied.almostEquals(mSavedRotations[stateId()], 100000.0 * std::numeric_limits<double>::epsilon()) &&
+      if (!rotationToBeCopied.almostEquals(rotationFromFile(stateId()), 100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isRotationFieldVisible())
         copyRotation = true;
     } else {
-      if (translation() != mSavedTranslations[stateId()] && !isTranslationFieldVisible())
+      if (translation() != translationFromFile(stateId()) && !isTranslationFieldVisible())
         t = &translation();
-      if (rotation() != mSavedRotations[stateId()] && !isRotationFieldVisible())
+      if (rotation() != rotationFromFile(stateId()) && !isRotationFieldVisible())
         r = &rotation();
     }
 
@@ -2962,8 +2936,8 @@ void WbSolid::exportURDFShape(WbVrmlWriter &writer, const QString &geometry, con
         translation = offset;
       }
       writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                  .arg(translation.toString(WbPrecision::FLOAT_MAX))
-                  .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::FLOAT_MAX));
+                  .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
+                  .arg(rotation.toMatrix3().toEulerAnglesZYX().toString(WbPrecision::FLOAT_ROUND_6));
     }
     writer.indent();
     writer << "<geometry>\n";
@@ -3041,7 +3015,7 @@ void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
   WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())
-      writer << " name='" << name() << "'";
+      writer << " name='" << sanitizedName() << "'";
     writer << " solid='true'";
   }
 }
@@ -3062,4 +3036,13 @@ void WbSolid::exportNodeFooter(WbVrmlWriter &writer) const {
   }
 
   WbMatter::exportNodeFooter(writer);
+}
+
+const QString WbSolid::sanitizedName() const {
+  QString name_dirty = name();
+  name_dirty.replace("\'", "&apos;", Qt::CaseInsensitive);
+  name_dirty.replace("\"", "&quot;", Qt::CaseInsensitive);
+  name_dirty.replace(">", "&gt;", Qt::CaseInsensitive);
+  name_dirty.replace("<", "&lt;", Qt::CaseInsensitive);
+  return name_dirty.replace("&", "&amp;", Qt::CaseInsensitive);
 }

@@ -1,7 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A work barrier with optional physics.
+# template language: javascript
 
 PROTO WorkBarrier [
   field SFVec3f    translation   0 0 0
@@ -24,27 +25,27 @@ PROTO WorkBarrier [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/work_barrier_base_color.jpg"
+              "webots://projects/objects/traffic/protos/textures/work_barrier_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/work_barrier_roughness.jpg"
+              "webots://projects/objects/traffic/protos/textures/work_barrier_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/work_barrier_metalness.jpg"
+              "webots://projects/objects/traffic/protos/textures/work_barrier_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/work_barrier_normal.jpg"
+              "webots://projects/objects/traffic/protos/textures/work_barrier_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/work_barrier_occlusion.jpg"
+              "webots://projects/objects/traffic/protos/textures/work_barrier_occlusion.jpg"
             ]
           }
         }
@@ -90,7 +91,7 @@ PROTO WorkBarrier [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 5
@@ -102,6 +103,6 @@ PROTO WorkBarrier [
         0 0 -3.934544998251965e-6
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

@@ -16,6 +16,7 @@
 #include "Ros.hpp"
 
 #include "RosAccelerometer.hpp"
+#include "RosAltimeter.hpp"
 #include "RosBatterySensor.hpp"
 #include "RosBrake.hpp"
 #include "RosCamera.hpp"
@@ -305,6 +306,10 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
         mSensorList.push_back(static_cast<RosSensor *>(new RosAccelerometer(dynamic_cast<Accelerometer *>(tempDevice), this)));
         mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
         break;
+      case Node::ALTIMETER:
+        mSensorList.push_back(static_cast<RosSensor *>(new RosAltimeter(dynamic_cast<Altimeter *>(tempDevice), this)));
+        mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
+        break;
       case Node::BRAKE:
         mDeviceList.push_back(static_cast<RosDevice *>(new RosBrake(dynamic_cast<Brake *>(tempDevice), this)));
         break;
@@ -484,7 +489,7 @@ void Ros::run(int argc, char **argv) {
     for (unsigned int i = 0; i < mSensorList.size(); i++)
       mSensorList[i]->publishValues(mStep * mStepSize);
 
-    if (!mUseWebotsSimTime && (mStep != 0 || mIsSynchronized)) {
+    if (!mUseWebotsSimTime && mIsSynchronized) {
       int oldStep = mStep;
       while (mStep == oldStep && !mEnd && ros::ok()) {
         loopRate.sleep();

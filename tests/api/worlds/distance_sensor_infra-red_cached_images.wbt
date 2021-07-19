@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -16,7 +16,7 @@ Transform {
   children [
     TexturedBoxShape {
       textureUrl [
-        "textures/tagged_wall.jpg"
+        "webots://projects/default/worlds/textures/tagged_wall.jpg"
       ]
       textureMapping "compact"
     }
@@ -26,7 +26,7 @@ Transform {
   children [
     TexturedBoxShape {
       textureUrl [
-        "textures/tagged_wall.jpg"
+        "webots://projects/default/worlds/textures/tagged_wall.jpg"
       ]
       textureMapping "compact"
     }

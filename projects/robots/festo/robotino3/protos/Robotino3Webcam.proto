@@ -1,9 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of a webcam for the robot Robotino 3 from Festo.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # The model is based on the Logitech® HD Pro Webcam C920.
+# template language: javascript
 
 PROTO Robotino3Webcam [
   field  SFVec3f     translation  0 0 0
@@ -17,7 +18,7 @@ PROTO Robotino3Webcam [
   Solid {
     translation IS translation
     rotation IS rotation
-    name %{= "\"" .. fields.name.value .. "_solid\"" }%
+    name %<= '"' + fields.name.value + '_solid"' >%
     model IS model
     children [
       Camera {

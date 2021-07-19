@@ -98,7 +98,7 @@ void WbTokenizer::displayHeaderHelp(QString fileName, QString headerTag) {
     false, WbLog::PARSING);
 }
 
-bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString headerTag) {
+bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString headerTag, bool isProto) {
   // reset version
   const WbVersion &webotsVersion = WbApplicationInfo::version();
   mFileVersion = webotsVersion;
@@ -115,6 +115,25 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
       mLine--;        // one extra line was read
       mInfo.chop(1);  // remove last '\n'
       break;
+    }
+  }
+
+  // this step can be removed when Lua support is dropped, but is necessary for two different tokens to cohexist as tokenizer
+  // functions like ReadWord need to adapt the tokens to the context.
+  if (isProto) {
+    bool isLua = true;
+    QStringList splittedInfo = mInfo.split('\n');
+    for (int i = 0; i < splittedInfo.size(); ++i) {
+      if (splittedInfo[i].toLower().startsWith("template language") && splittedInfo[i].toLower().contains("javascript"))
+        isLua = false;
+    }
+
+    if (isLua) {
+      WbProtoTemplateEngine::setOpeningToken(QString("%{"));
+      WbProtoTemplateEngine::setClosingToken(QString("}%"));
+    } else {
+      WbProtoTemplateEngine::setOpeningToken(QString("%<"));
+      WbProtoTemplateEngine::setClosingToken(QString(">%"));
     }
   }
 
@@ -157,7 +176,7 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
     forwardCompatiblityFileVersion.setRevision(0);
     WbVersion forwardCompatiblityWebotsVersion = webotsVersion;
     forwardCompatiblityWebotsVersion.setRevision(0);
-
+    const WbVersion r2021b(2021, 1, 0);
     if (forwardCompatiblityFileVersion > forwardCompatiblityWebotsVersion)
       WbLog::warning(QObject::tr("'%1': This file was created by Webots %2 while you are using Webots %3. "
                                  "Forward compatibility may not work.")
@@ -165,6 +184,14 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
                        .arg(mFileVersion.toString())
                        .arg(webotsVersion.toString()),
                      false, WbLog::PARSING);
+    else if (forwardCompatiblityFileVersion < r2021b && forwardCompatiblityWebotsVersion >= r2021b)
+      WbLog::warning(
+        QObject::tr("'%1': This file was created with Webots %2 while you are using Webots %3. "
+                    "You may need to adjust urls for textures and meshes, see details in the change log of Webots R2021b.")
+          .arg(mFileName)
+          .arg(mFileVersion.toString())
+          .arg(webotsVersion.toString()),
+        false, WbLog::PARSING);
 
     return true;
   } else {
@@ -191,7 +218,7 @@ bool WbTokenizer::checkFileHeader() {
     case MODEL:
       return readFileInfo(false, false, "VRML");
     case PROTO:
-      return readFileInfo(false, true, "VRML_SIM");
+      return readFileInfo(false, true, "VRML_SIM", true);
     default:
       return true;
   }
@@ -450,6 +477,16 @@ const QStringList WbTokenizer::tags() const {
     }
   }
   return QStringList();
+}
+
+const QString WbTokenizer::templateLanguage() const {
+  const QStringList lines = mInfo.split("\n");
+  foreach (QString line, lines) {
+    if (line.startsWith("template language:") && line.toLower().contains("javascript")) {
+      return QString("javascript");
+    }
+  }
+  return QString("lua");
 }
 
 const QString WbTokenizer::license() const {

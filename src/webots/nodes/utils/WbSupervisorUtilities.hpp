@@ -24,6 +24,9 @@ class QDataStream;
 
 struct WbUpdatedFieldInfo;
 struct WbFieldGetRequest;
+struct WbTrackedFieldInfo;
+struct WbTrackedPoseInfo;
+struct WbTrackedContactPointInfo;
 class WbFieldSetRequest;
 
 class WbBaseNode;
@@ -32,6 +35,7 @@ class WbRobot;
 class WbTransform;
 class WbSolid;
 class WbWrenLabelOverlay;
+class WbField;
 
 class WbSupervisorUtilities : public QObject {
   Q_OBJECT
@@ -76,10 +80,12 @@ private:
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
   bool mFoundNodeIsProtoInternal;
-  int mFoundFieldId;
+  int mFoundFieldIndex;
   int mFoundFieldType;
   int mFoundFieldCount;
+  QString mFoundFieldName;
   bool mFoundFieldIsInternal;
+  int mNodeFieldCount;
   int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
@@ -115,12 +121,15 @@ private:
   QVector<WbFieldSetRequest *> mFieldSetRequests;
   struct WbFieldGetRequest *mFieldGetRequest;
 
+  void pushSingleFieldContentToStream(QDataStream &stream, WbField *field);
+  void pushRelativePoseToStream(QDataStream &stream, WbTransform *fromNode, WbTransform *toNode);
+  void pushContactPointsToStream(QDataStream &stream, WbSolid *solid, bool includeDescendants);
   void initControllerRequests();
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);
   const WbNode *getNodeFromDEF(const QString &defName, bool allowSearchInProto, const WbNode *fromNode = NULL);
   const WbNode *getNodeFromProtoDEF(const WbNode *fromNode, const QString &defName) const;
-  WbNode *getProtoParameterNodeInstance(WbNode *const node) const;
+  WbNode *getProtoParameterNodeInstance(int nodeId, const QString &functionName) const;
   void applyFieldSetRequest(struct field_set_request *request);
   QString readString(QDataStream &);
   void makeFilenameAbsolute(QString &filename);
@@ -128,6 +137,9 @@ private:
   QString createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const;
 
   QList<int> mLabelIds;
+  QVector<WbTrackedFieldInfo> mTrackedFields;
+  QVector<WbTrackedPoseInfo> mTrackedPoses;
+  QVector<WbTrackedContactPointInfo> mTrackedContactPoints;
 };
 
 #endif

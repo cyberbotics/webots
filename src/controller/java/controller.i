@@ -20,9 +20,11 @@
 
 %{
 #include <webots/Accelerometer.hpp>
+#include <webots/Altimeter.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/camera_recognition_object.h>
+#include <webots/contact_point.h>
 #include <webots/Connector.hpp>
 #include <webots/Compass.hpp>
 #include <webots/Device.hpp>
@@ -64,6 +66,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 
 //for the conversion between array and pointer
+%include "typemaps.i"
 %include "arrays_java.i"
 
 %javamethodmodifiers getLookupTableSize "private"
@@ -161,6 +164,12 @@ namespace webots {
 //----------------------------------------------------------------------------------------------
 
 %include <webots/Accelerometer.hpp>
+
+//----------------------------------------------------------------------------------------------
+//  Altimeter
+//----------------------------------------------------------------------------------------------
+
+%include <webots/Altimeter.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Brake
@@ -607,6 +616,8 @@ namespace webots {
 //  Node
 //----------------------------------------------------------------------------------------------
 
+%rename WbContactPoint ContactPoint;
+
 %ignore webots::Node::findNode(WbNodeRef ref);
 %ignore webots::Node::cleanup();
 
@@ -619,8 +630,35 @@ namespace webots {
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
 %javamethodmodifiers getField(const std::string &fieldName) const "private"
 
+%apply int *OUTPUT { int *size };
+%rename(getContactPointsPrivate) getContactPoints;
+
+%include <webots/contact_point.h>
+%extend WbContactPoint {
+  int getNodeId() const {
+    return $self->node_id;
+  }
+};
+
+%extend webots::Node {
+  ContactPoint getContactPointFromPointer(long long points, int index) const {
+    return *((webots::ContactPoint *)(points + index));
+  }
+};
+
 %typemap(javacode) webots::Node %{
 // ----- begin hand written section ----
+  public ContactPoint[] getContactPoints(Boolean includeDescendants) {
+    int sizePointer[] = {0};
+    long result = wrapperJNI.Node_getContactPointsPrivate(swigCPtr, this, includeDescendants, sizePointer);
+    int size = sizePointer[0];
+    ContactPoint ret[] = new ContactPoint[size];
+
+    for (int i = 0; i < size; ++i)
+      ret[i] = getContactPointFromPointer(result, 0);
+    return ret;
+  }
+
   public Node getParentNode() {
     long cPtr = wrapperJNI.Node_getParentNodePrivate(swigCPtr, this);
     return Node.findNode(cPtr);
@@ -782,6 +820,7 @@ namespace webots {
 //----------------------------------------------------------------------------------------------
 
 %ignore webots::Robot::getAccelerometer(const std::string &name);
+%ignore webots::Robot::getAltimeter(const std::string &name);
 %ignore webots::Robot::getBrake(const std::string &name);
 %ignore webots::Robot::getCamera(const std::string &name);
 %ignore webots::Robot::getCompass(const std::string &name);
@@ -836,6 +875,17 @@ namespace webots {
     if (!Device.hasType(tag, Node.ACCELEROMETER))
       return null;
     return (Accelerometer)getOrCreateDevice(tag);
+  }
+
+  protected Altimeter createAltimeter(String name) {
+    return new Altimeter(name);
+  }
+
+  public Altimeter getAltimeter(String name) {
+    int tag = getDeviceTagFromName(name);
+    if (!Device.hasType(tag, Node.ALTIMETER))
+      return null;
+    return (Altimeter)getOrCreateDevice(tag);
   }
 
   protected Brake createBrake(String name) {
@@ -1121,6 +1171,7 @@ namespace webots {
       String name = getDeviceNameFromTag(otherTag);
       switch(getDeviceTypeFromTag(otherTag)) {
         case Node.ACCELEROMETER:    devices[otherTag] = createAccelerometer(name); break;
+        case Node.ALTIMETER:        devices[otherTag] = createAltimeter(name); break;
         case Node.BRAKE:            devices[otherTag] = createBrake(name); break;
         case Node.CAMERA:           devices[otherTag] = createCamera(name); break;
         case Node.COMPASS:          devices[otherTag] = createCompass(name); break;

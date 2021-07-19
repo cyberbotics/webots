@@ -1,5 +1,4 @@
-#VRML_SIM R2021b utf8
-
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Example use of a coupled motors."
@@ -31,7 +30,7 @@ DEF GRIPPER Robot {
             baseColor 0.933333 0.933333 0.92549
             baseColorMap ImageTexture {
               url [
-                "textures/roughcast.jpg"
+                "webots://projects/default/worlds/textures/roughcast.jpg"
               ]
             }
             roughness 0.5
@@ -77,7 +76,7 @@ DEF GRIPPER Robot {
                 }
                 geometry Mesh {
                   url [
-                    "meshes/support.obj"
+                    "webots://projects/samples/devices/worlds/meshes/support.obj"
                   ]
                 }
               }
@@ -93,7 +92,7 @@ DEF GRIPPER Robot {
                 }
                 geometry Mesh {
                   url [
-                    "meshes/support.obj"
+                    "webots://projects/samples/devices/worlds/meshes/support.obj"
                   ]
                 }
               }
@@ -136,14 +135,14 @@ DEF GRIPPER Robot {
                         baseColor 0.729412 0.741176 0.713725
                         baseColorMap ImageTexture {
                           url [
-                            "textures/metal.jpg"
+                            "webots://projects/default/worlds/textures/metal.jpg"
                           ]
                         }
                         roughness 0.8
                       }
                       geometry Mesh {
                         url [
-                          "meshes/linkage.obj"
+                          "webots://projects/samples/devices/worlds/meshes/linkage.obj"
                         ]
                       }
                     }
@@ -183,7 +182,7 @@ DEF GRIPPER Robot {
                                 }
                                 geometry Mesh {
                                   url [
-                                    "meshes/right_angle.obj"
+                                    "webots://projects/samples/devices/worlds/meshes/right_angle.obj"
                                   ]
                                 }
                               }
@@ -298,7 +297,7 @@ DEF GRIPPER Robot {
                       appearance USE METAL_APPEARANCE
                       geometry Mesh {
                         url [
-                          "meshes/linkage.obj"
+                          "webots://projects/samples/devices/worlds/meshes/linkage.obj"
                         ]
                       }
                     }
@@ -333,7 +332,7 @@ DEF GRIPPER Robot {
                             appearance USE FINGER_APPEARANCE
                             geometry Mesh {
                               url [
-                                "meshes/right_angle.obj"
+                                "webots://projects/samples/devices/worlds/meshes/right_angle.obj"
                               ]
                             }
                           }

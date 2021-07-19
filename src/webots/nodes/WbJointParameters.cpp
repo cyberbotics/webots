@@ -131,6 +131,19 @@ void WbJointParameters::updateAxis() {
   emit axisChanged();
 }
 
+bool WbJointParameters::clampPosition(double &p) const {
+  if (mMinStop->value() == mMaxStop->value() && mMinStop->value() == 0)
+    return false;
+
+  if (p < mMinStop->value())
+    p = mMinStop->value();
+  else if (p > mMaxStop->value())
+    p = mMaxStop->value();
+  else
+    return false;
+  return true;
+}
+
 bool WbJointParameters::exportNodeHeader(WbVrmlWriter &writer) const {
   if (writer.isUrdf())
     return true;

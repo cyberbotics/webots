@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A building with a "U" form.
@@ -18,12 +18,12 @@ PROTO UBuilding [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/red_and_white_building.jpg"
+              "webots://projects/objects/buildings/protos/textures/red_and_white_building.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/red_and_white_building_roughness.png"
+              "webots://projects/objects/buildings/protos/textures/red_and_white_building_roughness.png"
             ]
           }
           metalness 0

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable bed with feet and one or 2 pillows.
@@ -10,7 +10,7 @@ PROTO Bed [
   field SFNode     frameAppearance    PaintedWood { colorOverride 0.11 0.11 0.11 }                                                      # Defines the appearance of the frame.
   field SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the mattress.
   field SFNode     pillowAppearance   PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the pillows.
-  field SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "textures/duvet.jpg" } roughness 1 metalness 0 }  # Defines the appearance of the blanket.
+  field SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "webots://projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }  # Defines the appearance of the blanket.
 ]
 {
   Solid {

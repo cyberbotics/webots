@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/create
@@ -29,22 +29,22 @@ Robot {
         roughness 0.2
         baseColorMap ImageTexture {
           url [
-            "textures/create_base_color.jpg"
+            "webots://projects/robots/irobot/create/protos/textures/create_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/create_roughness.jpg"
+            "webots://projects/robots/irobot/create/protos/textures/create_roughness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "textures/create_normal.jpg"
+            "webots://projects/robots/irobot/create/protos/textures/create_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/create_occlusion.jpg"
+            "webots://projects/robots/irobot/create/protos/textures/create_occlusion.jpg"
           ]
         }
         normalMapFactor 0.3

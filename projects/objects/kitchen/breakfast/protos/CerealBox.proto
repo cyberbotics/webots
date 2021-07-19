@@ -1,30 +1,31 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable (size, texture, etc.) cereal box.
+# template language: javascript
 
 PROTO CerealBox [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 1 0 0
   field SFString   name        "cereal box"
   field SFVec3f    size        0.08 0.3 0.2                 # Defines the size of the box.
-  field MFString   textureUrl  "textures/cereal_box_2.jpg"  # Defines the texture used for the box.
+  field MFString   textureUrl  "webots://projects/objects/kitchen/breakfast/protos/textures/cereal_box_2.jpg"  # Defines the texture used for the box.
   field SFFloat    mass        1                            # Defines the mass of the box in kg.
 ]
 {
-  %{
-    local size = fields.size.value
-    if size.x < 0 or size.y < 0 or size.z < 0 then
-      io.stderr:write("'size' must be strictly positive\n")
-      size = fields.size.defaultValue
-    end
-  }%
+  %<
+    let size = fields.size.value;
+    if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+      size = fields.size.defaultValue;
+      console.error('\'size\' should be strictly positive. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
+  >%
 Solid {
   translation IS translation
   rotation IS rotation
   children [
     Transform {
-      scale %{= size.x / 0.08 }% %{= size.y / 0.3 }% %{= size.z / 0.2 }%
+      scale %<= size.x / 0.08 >% %<= size.y / 0.3 >% %<= size.z / 0.2 >%
       children [
         Shape {
           appearance PBRAppearance {
@@ -109,20 +110,20 @@ Solid {
   name IS name
   model "cereal box"
   boundingObject Transform {
-    translation 0 %{= size.y / 2 }% 0
+    translation 0 %<= size.y * 0.5 >% 0
     children [
       Shape {
         geometry Box {
-          size %{= size.x }% %{= size.y }% %{= size.z }%
+          size %<= size.x >% %<= size.y >% %<= size.z >%
         }
       }
     ]
   }
-  %{ if fields.mass.value > 0 then }%
+  %< if (fields.mass.value > 0) { >%
     physics Physics {
       density -1
       mass IS mass
     }
-  %{ end }%
+  %< } >%
 }
 }

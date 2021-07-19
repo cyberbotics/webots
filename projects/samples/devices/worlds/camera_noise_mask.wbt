@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Example use of 'noiseMaskUrl' field of a color Camera device."
@@ -288,7 +288,7 @@ Robot {
       width 400
       height 300
       antiAliasing TRUE
-      noiseMaskUrl "textures/noise_mask.png"
+      noiseMaskUrl "webots://projects/samples/devices/worlds/textures/noise_mask.png"
     }
   ]
   name "MyBot"

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -38,6 +38,9 @@ Robot {
     }
   ]
   controller "template_viewpoint_proto"
+  controllerArgs [
+    "template_viewpoint_proto"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

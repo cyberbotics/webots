@@ -67,6 +67,7 @@ void WbShape::downloadAssets() {
   if (geometry())
     geometry()->downloadAssets();
 }
+
 void WbShape::preFinalize() {
   WbBaseNode::preFinalize();
 

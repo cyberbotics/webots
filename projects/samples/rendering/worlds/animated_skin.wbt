@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Model of the Salamandra Robotica amphibious robot developped at the BIOROB (http://biorob.epfl.ch) with an animated skin"
@@ -149,7 +149,7 @@ DEF TERRAIN Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/sand.jpg"
+                "webots://projects/default/worlds/textures/sand.jpg"
               ]
             }
             roughness 1
@@ -171,7 +171,7 @@ DEF TERRAIN Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/sand.jpg"
+                "webots://projects/default/worlds/textures/sand.jpg"
               ]
             }
             roughness 1
@@ -1248,24 +1248,24 @@ DEF SALAMANDER Robot {
         PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/salamander_base_color.jpg"
+              "webots://projects/samples/rendering/worlds/textures/salamander_base_color.jpg"
             ]
           }
           roughness 0.2
           roughnessMap ImageTexture {
             url [
-              "textures/salamander_roughness.jpg"
+              "webots://projects/samples/rendering/worlds/textures/salamander_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "textures/salamander_normal.jpg"
+              "webots://projects/samples/rendering/worlds/textures/salamander_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/salamander_occlusion.jpg"
+              "webots://projects/samples/rendering/worlds/textures/salamander_occlusion.jpg"
             ]
           }
           name "skin"

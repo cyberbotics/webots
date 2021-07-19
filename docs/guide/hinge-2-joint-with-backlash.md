@@ -2,7 +2,7 @@
 
 %figure
 
-![Hinge2JointWithBacklash](images/joints/Hinge2JointWithBacklash/Hinge2JointWithBacklash.png)
+![Hinge2JointWithBacklash](images/joints/Hinge2JointWithBacklash/Hinge2JointWithBacklash.thumbnail.jpg)
 
 %end
 
@@ -16,8 +16,8 @@ Hinge2JointWithBacklash [
   SFNode       jointParameters2    JointParameters {}
   SFFloat      backlash            0.01        # [0, inf)
   SFFloat      backlash2           0.01        # [0, inf)
-  SFFloat      gearMass            0.01        # (0, inf)
-  SFFloat      gearMass2           0.01        # (0, inf)
+  SFFloat      gearMass            0.1         # (0, inf)
+  SFFloat      gearMass2           0.1         # (0, inf)
   MFNode       device              [ ]         # {RotationalMotor, PositionSensor, Brake}
   MFNode       device2             [ ]         # {RotationalMotor, PositionSensor, Brake}
   MFNode       outputSensor        [ ]         # {PositionSensor}

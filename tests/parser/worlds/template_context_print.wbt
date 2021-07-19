@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
 }
 Viewpoint {
@@ -12,5 +12,5 @@ Background {
 }
 ParserTestSupervisor {
 }
-templateContextPrint {
+TemplateContextPrint {
 }

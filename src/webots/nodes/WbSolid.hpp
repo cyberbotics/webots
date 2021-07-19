@@ -117,12 +117,6 @@ public:
   const QVector<WbVector3> &computedContactPoints(bool includeDescendants = false);
   const QVector<const WbSolid *> &computedSolidPerContactPoints();
 
-  // accessors to stored fields
-  const WbVector3 translationFromFile() const { return mSavedTranslations[stateId()]; }
-  const WbRotation rotationFromFile() const { return mSavedRotations[stateId()]; }
-  void setTranslationFromFile(const WbVector3 &translation) { mSavedTranslations[stateId()] = translation; }
-  void setRotationFromFile(const WbRotation &rotation) { mSavedRotations[stateId()] = rotation; }
-
   // Solid merger
   QPointer<WbSolidMerger> solidMerger() const { return mSolidMerger; }
   void setupSolidMerger();
@@ -288,6 +282,7 @@ protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeFooter(WbVrmlWriter &writer) const override;
+  const QString sanitizedName() const;
 
 protected slots:
   void updateTranslation() override;
@@ -451,9 +446,6 @@ private:
   WrRenderable *mCenterOfBuoyancyRenderable;
   WrMaterial *mCenterOfBuoyancyMaterial;
 
-  // Positions and orientations storage
-  QMap<QString, WbVector3> mSavedTranslations;
-  QMap<QString, WbRotation> mSavedRotations;
   WbHiddenKinematicParameters::HiddenKinematicParameters *mOriginalHiddenKinematicParameters;
   bool applyHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParameters *hkp, bool backupPrevious);
   bool restoreHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParametersMap &map,

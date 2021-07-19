@@ -61,6 +61,7 @@ public:
   bool boundingObjectHasChanged() const { return mBoundingObjectHasChanged; }
   void setBoundingObjectFlag(bool changed) { mBoundingObjectHasChanged = changed; }
   bool hasAvalidBoundingObject() const { return boundingObject() && boundingObject()->isAValidBoundingObject(); }
+  void setBoundingObject(WbNode *boundingObject);
 
   // for wb_supervisor_simulation_reset_physics()
   virtual void resetPhysics(bool recursive = true) {}

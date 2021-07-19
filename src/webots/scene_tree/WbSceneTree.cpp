@@ -218,6 +218,7 @@ void WbSceneTree::setWorld(WbWorld *world) {
   connect(mTreeView, &WbTreeView::collapsed, this, &WbSceneTree::stopWatching);
   connect(mModel, &WbSceneTreeModel::itemInserted, mTreeView, &WbTreeView::itemInserted);
   connect(mModel, &WbSceneTreeModel::rowsAboutToBeRemovedSoon, this, &WbSceneTree::handleRowRemoval);
+  connect(mTreeView, &WbTreeView::beforeContextMenuShowed, this, &WbSceneTree::updateSelection);
 
   connect(mTreeView, &WbTreeView::selectionHasChanged, this, &WbSceneTree::updateSelection);
   connect(WbSelection::instance(), &WbSelection::selectionChangedFromSceneTree, this, &WbSceneTree::updateSelection);
@@ -1114,10 +1115,8 @@ void WbSceneTree::updateSelection() {
   if (item) {
     WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(item->node());
     if (baseNode && baseNode->isProtoParameterNode())
-      // select proto parameter node instance
-      // if proto parameter is used only once
-      // baseNode = NULL if none or multiple instances exists
-      baseNode = baseNode->getSingleFinalizedProtoInstance();
+      // select first proto parameter node instance
+      baseNode = baseNode->getFirstFinalizedProtoInstance();
 
     if (baseNode && !baseNode->isPostFinalizedCalled())
       // ignore not initialized nodes

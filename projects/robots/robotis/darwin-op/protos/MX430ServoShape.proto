@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 #tags: hidden
 
 PROTO MX430ServoShape [
@@ -13,7 +13,7 @@ Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/dynamixel_logo.png"
+                "webots://projects/robots/robotis/darwin-op/protos/textures/dynamixel_logo.png"
               ]
             }
             metalness 0

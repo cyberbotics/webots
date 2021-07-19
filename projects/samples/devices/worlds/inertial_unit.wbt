@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Example world for demonstrating the InertialUnit."
@@ -69,7 +69,7 @@ DEF ROBOT Robot {
                               baseColor 1 1 0
                               baseColorMap ImageTexture {
                                 url [
-                                  "textures/imu.png"
+                                  "webots://projects/samples/devices/worlds/textures/imu.png"
                                 ]
                               }
                               roughness 0.5
