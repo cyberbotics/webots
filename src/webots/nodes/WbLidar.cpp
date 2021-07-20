@@ -38,11 +38,7 @@
 #include <wren/transform.h>
 
 #define POINT_CLOUD_RAY_REPRESENTATION_THRESHOLD 2500
-#include <unistd.h>
-#include <chrono>
-#include <iostream>
 
-using namespace std;
 void WbLidar::init() {
   mCharType = 'l';
   mIsPointCloudEnabled = false;
@@ -286,9 +282,6 @@ void WbLidar::handleMessage(QDataStream &stream) {
 }
 
 void WbLidar::copyAllLayersToSharedMemory() {
-  static int counter = 0;
-  static int sum = 0;
-
   if (!hasBeenSetup() || !mImageShm)
     return;
 
@@ -320,8 +313,6 @@ void WbLidar::copyAllLayersToSharedMemory() {
     widthOffset = resolution * (tmpAngle / (2.0 * M_PI));
     widthOffset -= w / 2;
   }
-
-  auto start = chrono::steady_clock::now();
 
   for (int i = 0; i < actualNumberOfLayers(); ++i) {
     if ((maxWidth + widthOffset) <= resolution && (minWidth + widthOffset) >= 0)
@@ -358,12 +349,6 @@ void WbLidar::copyAllLayersToSharedMemory() {
       }
     }
   }
-
-  auto end = chrono::steady_clock::now();
-  counter++;
-  sum += chrono::duration_cast<chrono::microseconds>(end - start).count();
-  cout << "Elapsed time in microseconds: " << chrono::duration_cast<chrono::microseconds>(end - start).count() << " µs"
-       << "avg" << sum / counter << "(" << counter << ")\n";
 }
 
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {

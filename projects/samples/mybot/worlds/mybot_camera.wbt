@@ -301,8 +301,8 @@ Robot {
         }
       ]
       fieldOfView 1.047
-      width 80
-      height 60
+      width 3000
+      height 2000
     }
   ]
   name "MyBot"
