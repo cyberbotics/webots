@@ -91,7 +91,8 @@ class ProtoDesigner {
       this.editor.showParameters(this.proto);
     }
 
-    this.view.open(this.proto.x3d, 'x3d', '', true, this.renderer);
+    let a = '<Scene><WorldInfo id="n-1" docUrl="https://cyberbotics.com/doc/reference/worldinfo" basicTimeStep="32" coordinateSystem="NUE"/><Viewpoint id="n-2" docUrl="https://cyberbotics.com/doc/reference/viewpoint" orientation="-0.84816706 -0.5241698 -0.07654181 0.34098753" position="-1.2506319 2.288824 7.564137" exposure="1" bloomThreshold="21" zNear="0.05" zFar="0" followSmoothness="0.5" ambientOcclusionRadius="2"/><Background id="n-3" docUrl="https://cyberbotics.com/doc/reference/background" skyColor="0.15 0.45 1"/><Robot id="n-5" translation="0 1 0"><Shape id="n-9" castShadow="true"><Box id="n-8" size="2 0.5 1"/><PBRAppearance id="n-10" baseColor="0 1 1"/></Shape><Robot id="n-12" translation="0 -1 0"><Shape id="n-16" castShadow="true"><Box id="n-15" size="2 0.5 1"/><PBRAppearance id="n-17" baseColor="1 0 0"/></Shape></Robot></Robot></Scene>'
+    this.view.open(a, 'x3d', '', true, this.renderer);
   }
 
   async _initOld() {

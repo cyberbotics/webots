@@ -114,6 +114,10 @@ export default class Parser {
       result = await this._parseBackground(node);
     else if (node.tagName === 'Transform')
       result = await this._parseTransform(node, parentNode, isBoundingObject);
+    else if (node.tagName === 'Solid')
+      result = await this._parseTransform(node, parentNode, false);
+    else if (node.tagName === 'Robot')
+      result = await this._parseTransform(node, parentNode, false);
     else if (node.tagName === 'Billboard')
       result = await this._parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
