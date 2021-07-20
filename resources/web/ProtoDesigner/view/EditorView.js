@@ -184,6 +184,11 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       else
         input.setAttribute('value', defaultValue);
 
+      if (id === VRML.SFColor) {
+        input.setAttribute('max', '1');
+        input.setAttribute('min', '0');
+      }
+
       if (type === 'number')
         input.setAttribute('step', step);
 
