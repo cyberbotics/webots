@@ -1,0 +1,93 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoTestAll [
+  field SFVec3f boxSize 1 1 1
+  field SFColor boxColor 1 0 0
+  field SFFloat sphereRadius 0.5
+  field SFColor sphereColor 0 1 0
+  field SFFloat cylinderHeight 1
+  field SFFloat cylinderRadius 0.25
+  field SFColor cylinderColor 0 0 1
+  field SFFloat capsuleHeight 0.5
+  field SFFloat capsuleRadius 0.25
+  field SFColor capsuleColor 0 0 0.5
+  field SFFloat coneHeight 1
+  field SFFloat coneBottomRadius 0.5
+  field SFColor coneColor 0.5 0 0.5
+]
+{
+  Transform {
+    children [
+      Transform {
+        translation 0 0 0
+        children [
+          Shape {
+            geometry Box {
+              size IS boxSize
+            }
+            appearance PBRAppearance {
+              baseColor 1 0 0
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 2 0 0
+        children [
+          Shape {
+            geometry Sphere {
+              radius IS sphereRadius
+              ico TRUE
+              subdivision 3
+            }
+            appearance PBRAppearance {
+              baseColor IS sphereColor
+            }
+          }
+        ]
+      }
+      Transform {
+        translation -2 0 0
+        children [
+          Shape {
+            geometry Cylinder {
+              height IS cylinderHeight
+              radius IS cylinderRadius
+            }
+            appearance PBRAppearance {
+              baseColor IS cylinderColor
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 4 0 0
+        children [
+          Shape {
+            geometry Capsule {
+              height IS capsuleHeight
+              radius IS capsuleRadius
+            }
+            appearance PBRAppearance {
+              baseColor IS capsuleColor
+            }
+          }
+        ]
+      }
+      Transform {
+        translation -4 0 0
+        children [
+          Shape {
+            geometry Cone {
+              bottomRadius IS coneBottomRadius
+              height IS coneHeight
+            }
+            appearance PBRAppearance {
+              baseColor IS coneColor
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
