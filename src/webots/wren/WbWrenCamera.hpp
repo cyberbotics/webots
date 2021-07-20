@@ -59,6 +59,8 @@ public:
     CAMERA_ORIENTATION_COUNT
   };
 
+  enum CameraCoordinateSystem { CAMERA_COORDINATE_SYSTEM_LEGACY = 0, CAMERA_COORDINATE_SYSTEM_FLU };
+
   WbWrenCamera(WrTransform *node, int width, int height, float nearValue, float minRange, float maxRange, float fov, char type,
                bool hasAntiAliasing, bool isSpherical);
 
@@ -120,7 +122,7 @@ private:
   void setupSphericalSubCameras();
   void setupCameraPostProcessing(int index);
   void setupSphericalPostProcessingEffect();
-  void setCamerasOrientations();
+  void setCamerasOrientations(CameraCoordinateSystem coordinateSystem = CAMERA_COORDINATE_SYSTEM_FLU);
   void setFovy(float fov);
   void setAspectRatio(float aspectRatio);
   void updatePostProcessingParameters(int index);

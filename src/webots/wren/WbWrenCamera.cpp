@@ -843,13 +843,16 @@ void WbWrenCamera::setupSphericalPostProcessingEffect() {
   wr_post_processing_effect_setup(mSphericalPostProcessingEffect);
 }
 
-void WbWrenCamera::setCamerasOrientations() {
+void WbWrenCamera::setCamerasOrientations(CameraCoordinateSystem coordinateSystem) {
   if (mIsCameraActive[CAMERA_ORIENTATION_RIGHT])
     wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_RIGHT], -M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_FRONT]) {
-    if (WbTokenizer::isWorldFluCompatible()) {
+    if (coordinateSystem == CAMERA_COORDINATE_SYSTEM_FLU) {
       wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
       wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
+    } else {
+      wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_FRONT], 0);
+      wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_FRONT], 0);
     }
   }
   if (mIsCameraActive[CAMERA_ORIENTATION_LEFT])

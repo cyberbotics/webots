@@ -78,6 +78,7 @@ private:
   WbSFNode *mLensFlare;
   WbSFDouble *mFar;
   WbSFDouble *mExposure;
+  WbSFString *mCoordinateSystem;
 
   // private functions
   void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
@@ -138,6 +139,7 @@ private slots:
   void updateNear();
   void updateFar();
   void updateExposure();
+  void updateCoordinateSystem();
   void updateAmbientOcclusionRadius();
   void updateBloomThreshold();
   void updateNoiseMaskUrl();
