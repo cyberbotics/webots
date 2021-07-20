@@ -162,7 +162,7 @@ export default class ProtoParser {
   };
 
   parseIS(nodeName, fieldName, nodeElement) {
-    const vrmlName = this.bodyTokenizer.recallWord(); // get word before the IS token
+    const refName = this.bodyTokenizer.recallWord(); // get word before the IS token
     this.bodyTokenizer.skipToken('IS'); // consume IS token
     const alias = this.bodyTokenizer.nextWord(); // actual proto parameter
 
@@ -179,13 +179,11 @@ export default class ProtoParser {
     console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 
     // make the header parameter point to this field's parent
-    if (typeof parameter.nodeRef !== 'undefined' && parameter.nodeRef !== nodeElement.getAttribute('id'))
-      throw new Error('Cannot parse IS keyword because \'' + alias + '\' is already referencing another node');
-
-    parameter.nodeRef = nodeElement.getAttribute('id');
-    console.log('>> added nodeRef ' + parameter.nodeRef + ' to parameter \'' + parameter.name + '\'');
-
-    parameter.vrmlName = vrmlName;
+    if (!parameter.nodeRefs.includes(nodeElement.getAttribute('id'))) {
+      parameter.nodeRefs.push(nodeElement.getAttribute('id'));
+      parameter.refNames.push(refName);
+      console.log('>> added nodeRef ' + nodeElement.getAttribute('id') + ' to parameter \'' + refName + '\'');
+    }
   };
 
   parseDEF() {

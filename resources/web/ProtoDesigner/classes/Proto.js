@@ -66,8 +66,8 @@ export default class Proto {
 
       // TODO: skip curly brackets inbetween 'field' keyword and parameter name (i.e restricted nodes)
       if (nextToken.isIdentifier() && token.isKeyword()) {
-        const vrmlName = nextToken.word();
-        const name = vrmlName;
+        // note: header parameter name might be just an alias (ex: size IS myCustomSize), only alias known at this point
+        const name = nextToken.word();; // actual name used in the header (i.e value after an IS)
         const type = token.fieldTypeFromVrml();
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(name) : false;
 
@@ -76,7 +76,7 @@ export default class Proto {
         const defaultValue = this.parseParameterValue(type, headTokenizer);
         const value = defaultValue.clone();
 
-        const parameter = new Parameter(vrmlName, name, type, isRegenerator, defaultValue, value)
+        const parameter = new Parameter(name, type, isRegenerator, defaultValue, value)
         this.parameters.set(this.uniqueId(), parameter);
       }
     }
@@ -164,7 +164,8 @@ export default class Proto {
 
   clearReferences() {
     for (const parameter of this.parameters.values()) {
-      parameter.nodeRef = undefined
+      parameter.nodeRefs = [];
+      parameter.refNames = [];
     }
   };
 
