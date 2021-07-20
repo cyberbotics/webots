@@ -57,7 +57,8 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoSphere.proto';
         // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
-        const url = '../wwi/Protos/ProtoTestAll.proto';
+        //const url = '../wwi/Protos/ProtoTestAll.proto';
+        const url = '../wwi/Protos/ProtoDefUse.proto';
 
         console.log('Loading PROTO: ' + url);
         this.loadProto(url);
@@ -95,8 +96,45 @@ class ProtoDesigner {
       this.proto = new Proto(proto);
       this.editor.showParameters(this.proto);
     }
+    let b = `
+    <Scene>
+    <WorldInfo id='n1' docUrl='https://cyberbotics.com/doc/reference/worldinfo' basicTimeStep='32' coordinateSystem='NUE'></WorldInfo>
+    <Viewpoint id='n2' docUrl='https://cyberbotics.com/doc/reference/viewpoint' orientation='-0.6474242 -0.7566491 -0.09123625 0.36827004' position='-0.26666832 0.28241983 0.85613644' exposure='1' bloomThreshold='21' zNear='0.05' zFar='0' followSmoothness='0.5' ambientOcclusionRadius='2'></Viewpoint>
+    <Background id='n3' docUrl='https://cyberbotics.com/doc/reference/background' skyColor='0.15 0.45 1' ></Background>
+    <Transform id='n4'>
+    <Shape id='n6' castShadows='true'>
+    <Appearance id='n8'><Material diffuseColor="0.8 0 0" specularColor="1 1 1" shininess="1"/></Appearance>
+    <PBRAppearance id='n8' baseColor='0.8 0 0'></PBRAppearance>
+    <Box id='n7' size='0.1 0.1 0.1'></Box>
+    </Shape>
+    <Transform id='n5' translation='0 0.15 0'>
+    <Shape id='n9' castShadows='true'>
+    <Appearance id='n10'><Material diffuseColor="0.45098 0.823529 0.0862745" specularColor="1 1 1" shininess="1"/></Appearance>
+    <PBRAppearance id='n10' baseColor='0.45098 0.823529 0.0862745'></PBRAppearance>
+    <Box id='n11' USE='n7'></Box>
+    </Shape>
+    </Transform>
+    </Transform>
+    </Scene>
+    `
 
-    let a = '<Scene><WorldInfo id="n-1" docUrl="https://cyberbotics.com/doc/reference/worldinfo" basicTimeStep="32" coordinateSystem="NUE"/><Viewpoint id="n-2" docUrl="https://cyberbotics.com/doc/reference/viewpoint" orientation="-0.84816706 -0.5241698 -0.07654181 0.34098753" position="-1.2506319 2.288824 7.564137" exposure="1" bloomThreshold="21" zNear="0.05" zFar="0" followSmoothness="0.5" ambientOcclusionRadius="2"/><Background id="n-3" docUrl="https://cyberbotics.com/doc/reference/background" skyColor="0.15 0.45 1"/><Robot id="n-5" translation="0 1 0"><Shape id="n-9" castShadow="true"><Box id="n-8" size="2 0.5 1"/><PBRAppearance id="n-10" baseColor="0 1 1"/></Shape><Robot id="n-12" translation="0 -1 0"><Shape id="n-16" castShadow="true"><Box id="n-15" size="2 0.5 1"/><PBRAppearance id="n-17" baseColor="1 0 0"/></Shape></Robot></Robot></Scene>'
+    let a = `
+    <Scene>
+    <WorldInfo id="n-1" docUrl="https://cyberbotics.com/doc/reference/worldinfo" basicTimeStep="32" coordinateSystem="NUE"/>
+    <Viewpoint id="n-2" docUrl="https://cyberbotics.com/doc/reference/viewpoint" orientation="-0.84816706 -0.5241698 -0.07654181 0.34098753" position="-1.2506319 2.288824 7.564137" exposure="1" bloomThreshold="21" zNear="0.05" zFar="0" followSmoothness="0.5" ambientOcclusionRadius="2"/><Background id="n-3" docUrl="https://cyberbotics.com/doc/reference/background" skyColor="0.15 0.45 1"/>
+    <Transform id="n-4">
+    <Shape id="n-5" castShadows='true'>
+    <Appearance id='n8'><Material diffuseColor="0.8 0 0" specularColor="1 1 1" shininess="1"/></Appearance>
+    <PBRAppearance id="n-7" baseColor="1 0 0"/>
+    <Box id="n-6" size="0.5 0.5 0.5"/>
+    </Shape>
+    <Transform id="n-8" translation="0 1 0">
+    <Shape id="n-9" castShadows='true'>
+    <Appearance id='n10'><Material diffuseColor="0.45098 0.823529 0.0862745" specularColor="1 1 1" shininess="1"/></Appearance>
+    <PBRAppearance id="n-10" baseColor="0 1 0"/>
+    <Box USE="n-6"/>
+    </Shape></Transform></Transform></Scene>`;
+
     this.view.open(this.proto.x3d, 'x3d', '', true, this.renderer);
   }
 

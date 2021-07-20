@@ -20,6 +20,8 @@ export default class ProtoParser {
     this.bodyTokenizer = bodyTokenizer;
     this.parameters = parameters;
 
+    this.defList = new Map();
+
     // define default scene
     this.xml = document.implementation.createDocument('', '', null);
     this.scene = this.xml.createElement('Scene');
@@ -75,7 +77,7 @@ export default class ProtoParser {
     return this.xml;
   };
 
-  encodeNodeAsX3d(nodeName, parentElement, parentName) {
+  encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
     let nodeElement = this.xml.createElement(nodeName);
     console.log('> ' + nodeName + 'Element = xml.createElement(' + nodeName + ')' + ' [parentName=' + parentName + ']');
 
@@ -93,14 +95,21 @@ export default class ProtoParser {
       if (nodeElement.getAttribute('id') === null) { // set the id only once per node
         nodeElement.setAttribute('id', getAnId());
         console.log('> ' + nodeName + 'Element.setAttribute(\'id\', \'' + nodeElement.getAttribute('id') + '\')');
+        if (typeof alias !== 'undefined') {
+          if (this.defList.has(alias))
+            throw new Error('DEF nodes must be unique.');
+
+          console.log('>> saving node \'' + nodeName + '\' (id = ' + nodeElement.getAttribute('id') + ') as DEF ' + alias + '.');
+          this.defList.set(alias, {id: nodeElement.getAttribute('id'), typeName: nodeName});
+        }
       }
 
       if (this.bodyTokenizer.peekWord() === 'IS')
         this.parseIS(nodeName, word, nodeElement);
       else if (this.bodyTokenizer.peekWord() === 'DEF')
-        this.parseDEF();
+        this.parseDEF(nodeName, word, nodeElement, parentElement, parentName);
       else if (this.bodyTokenizer.peekWord() === 'USE')
-        this.parseUSE();
+        this.parseUSE(nodeElement, nodeName);
       else if (this.bodyTokenizer.peekWord() === '[')
         this.parseMF(nodeElement, nodeName); // the parent of MF fields is the node currently being created
       else // otherwise, assume it's a normal field
@@ -111,7 +120,7 @@ export default class ProtoParser {
     console.log('> ' + parentName + 'Element.appendChild(' + nodeName + 'Element)');
   };
 
-  encodeFieldAsX3d(nodeName, fieldName, nodeElement) {
+  encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
     const fieldType = FieldModel[nodeName]['supported'][fieldName];
     if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[nodeName]['unsupported'][fieldName]; // check if it's one of the unsupported ones instead
@@ -153,7 +162,7 @@ export default class ProtoParser {
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord();
     } else if (fieldType === VRML.SFNode)
-      this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName);
+      this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName, alias);
     else
       throw new Error('Could not encode field \'' + fieldName + '\' (type: ' + fieldType + ') as x3d. Type not handled.');
 
@@ -188,12 +197,34 @@ export default class ProtoParser {
     }
   };
 
-  parseDEF() {
-    throw new Error('TODO: parseDEF not yet implemented');
+  parseDEF(nodeName, fieldName, nodeElement, parentElement, parentName) {
+    this.bodyTokenizer.skipToken('DEF');
+    const alias = this.bodyTokenizer.nextWord(); // consume the def alias
+
+    // parse the field as if it were a normal one
+    this.encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias); // the parameters are passed through untouched
+
+    parentElement.appendChild(nodeElement);
+    console.log('> ' + parentName + 'Element.appendChild(' + nodeName + 'Element)');
   };
 
-  parseUSE() {
-    throw new Error('TODO: parseUSE not yet implemented');
+  parseUSE(parentElement, parentName) {
+    this.bodyTokenizer.skipToken('USE');
+    const alias = this.bodyTokenizer.nextWord(); // consume the reference name
+
+    if (!this.defList.has(alias))
+      throw new Error('USE node defined before DEF node.');
+
+    // create a minimal x3d clone of the DEF node
+    const aliasInfo = this.defList.get(alias);
+    let useNode = this.xml.createElement(aliasInfo.typeName);
+    useNode.setAttribute('USE', aliasInfo.id); // id of the DEF node
+
+    useNode.setAttribute('id', getAnId()); // id of this node
+    console.log('> ' + aliasInfo.typeName + 'Element.setAttribute(\'id\', \'' + useNode.getAttribute('id') + '\')');
+
+    parentElement.appendChild(useNode);
+    console.log('> ' + parentName + 'Element.appendChild(' + aliasInfo.typeName + 'Element)');
   };
 
   parseMF(parentElement, parentName) {
