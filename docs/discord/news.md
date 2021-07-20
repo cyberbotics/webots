@@ -4,7 +4,24 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [Cyberbotics] 06/02/2021 12:24:01
+##### Olivier Michel [Cyberbotics] 07/14/2021 12:01:41
+Webots used in Robocup Junior Rescue: [https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/game/final/sd110](https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/game/final/sd110)
+
+
+Yet another Webots-based robot competition: [https://roboticslab-uc3m.github.io/challenge-iros2021/](https://roboticslab-uc3m.github.io/challenge-iros2021/)
+
+
+Here is the Robocup humanoid final game: [https://www.youtube.com/watch?v=\_9q26QjDluw](https://www.youtube.com/watch?v=_9q26QjDluw)
+
+##### koyal 06/29/2021 06:45:43
+Great work by Webots team to make Webots dockerized.
+
+[https://www.youtube.com/watch?v=kFhOJDfpw3o](https://www.youtube.com/watch?v=kFhOJDfpw3o)
+
+##### Olivier Michel [Cyberbotics] 06/28/2021 08:04:17
+The Robocup 2021 is over. The humanoid league, based on Webots, was a great success with lots of fun and enthusiasm from the participants. Congratulation to the winners and thank you to the organizers and participants for such a wonderful competition. See the best moments in this video: [https://www.youtube.com/watch?v=sYTp1X3nGuE](https://www.youtube.com/watch?v=sYTp1X3nGuE)
+
+
 Cyberbotics started to work on the OPTIMA EU\_H2020/EuroHPC\_JU project together with a consortium of industrial and academic partners including T.S.I, Fraunhofer ITWM, Exapsys, ICCS, M3E, MaxelerTech, FZ Juelich, EnginSoft and Appentra. The project aims at the optimization of industrial applications for heterogeneous HPC systems. More information is available from the project website: [https://optima-hpc.eu](https://optima-hpc.eu)
 
 

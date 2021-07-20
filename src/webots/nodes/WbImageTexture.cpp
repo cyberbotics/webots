@@ -518,19 +518,18 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     if (mUrl->value()[i].indexOf("webots://") == 0) {
-      if (writer.isWritingToFile()) {
-        QString newUrl = mUrl->value()[i];
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())
-          ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
-                                                     WbApplicationInfo::branch() + "/"));
-      }
+      QString newUrl = mUrl->value()[i];
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())
+        ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                                   WbApplicationInfo::branch() + "/"));
+
     } else if (mUrl->value()[i].indexOf("http") == 0)
       continue;
     else {
       QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
       if (writer.isWritingToFile()) {
         QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, "bonjour");
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
       }
 
       const QString &url(mUrl->item(i));

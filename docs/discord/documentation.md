@@ -1164,19 +1164,19 @@ Thank you `@David Mansolino` ! In the mass tab, it seems that moment of inertia 
 
 Then you will be able to select the children Solid nodes and get their inertia matrix too.
 
-##### Kamil Kaya 08/21/2020 11:31:48
+##### Kricklobderno 08/21/2020 11:31:48
 Hi, How can I use display node? When I add it to the child node of camera controller crashes.
 
 ##### David Mansolino [Cyberbotics] 08/21/2020 11:33:36
 Hi, you should have a look at the examples provided within Webots, e.g. [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt)
 
-##### Kamil Kaya 08/21/2020 16:57:44
+##### Kricklobderno 08/21/2020 16:57:44
 But Can I put the display node to camera as child node? I want to achieve the hough circle transform by taking frames from the camera, processing it and after than showing it to display screen.
 
 ##### David Mansolino [Cyberbotics] 08/24/2020 05:51:00
 You don't need to put it in the camera as child to do this, you just need to retrieve the image of the camera, process it and then use the display functions to draw on it: [https://cyberbotics.com/doc/reference/display#display-functions](https://cyberbotics.com/doc/reference/display#display-functions)
 
-##### Kamil Kaya 08/24/2020 10:15:49
+##### Kricklobderno 08/24/2020 10:15:49
 > You don't need to put it in the camera as child to do this, you just need to retrieve the image of the camera, process it and then use the display functions to draw on it: [https://cyberbotics.com/doc/reference/display#display-functions](https://cyberbotics.com/doc/reference/display#display-functions)
 
 `@David Mansolino` Thank you. I achieved it as you refer.
@@ -2088,4 +2088,47 @@ Hello! does anyone here knows where I can find the fields and the map for self d
 You can try the sample worlds by clicking `File > Open Sample Worlds...` and selecting worlds under the `vehicles` item. Here is what you can expect:
 
 [https://www.cyberbotics.com/doc/automobile/worlds](https://www.cyberbotics.com/doc/automobile/worlds)
+
+##### Maximo Cansino Mateo 06/23/2021 13:40:15
+Thanks!!
+
+##### Johan2021 06/24/2021 12:31:55
+Hi all, when printing the position field of a jointParameters node and comparing it to the output values of a position sensor (inf accuracy, no noise) attached to a corresponding rotational motor (the position of the joint is controlled by this motor), these values are far apart. From the documentation ([https://cyberbotics.com/doc/reference/jointparameters?tab-language=python](https://cyberbotics.com/doc/reference/jointparameters?tab-language=python) and [https://cyberbotics.com/doc/reference/balljoint?tab-language=python#hidden-field-summary](https://cyberbotics.com/doc/reference/balljoint?tab-language=python#hidden-field-summary)) I understood that they should be the same, so would anyone know if there is something I am overlooking when comparing these values for the same joint?
+
+##### DDaniel [Cyberbotics] 06/24/2021 12:36:22
+`@Johan2021` Hi, you're comparing the sensor data to what? The other value you print it from the Webots code side or in a controller by accessing it through another mean like a supervisor? Could you provide a minimal example that shows this?
+
+##### Johan2021 06/24/2021 12:53:00
+I am indeed printing the jointParameters position field using a supervisor controller as shown below (Python). I also attached the relevant parts from both the world and proto file in info.proto.
+
+
+
+> `robot_node = supervisor.getFromDef("ROBOT01")`
+
+> `robot_ankle_node = robot_node.getFromProtoDef("Joint01")`
+
+> `robot_field_ankle = robot_ankle_node.getField("position")`
+
+> `print(" Ankle position %s" %robot_field_ankle.getSFFloat())`
+> **Attachment**: [info.proto](https://cdn.discordapp.com/attachments/565155720933146637/857604222727356436/info.proto)
+
+##### DDaniel [Cyberbotics] 06/24/2021 12:54:24
+and what version of webots are you using?
+
+##### Johan2021 06/24/2021 12:56:06
+Webots R2021a Revision 1
+
+##### DDaniel [Cyberbotics] 06/24/2021 13:20:10
+`@Johan2021` just to be sure, a BallJoint has 3 position fields `position`, `position2` and `position3`, are you comparing them accordingly? From what you provided it seems you get the field `position` using the supervisor but the sensor is in `devices3`
+
+
+It's likely that, I can't reproduce it otherwise in that version of webots. If the issue continues it might be better to open an issue about it with a minimal reproducible example (the bare minimum that shows the issue)
+
+##### Johan2021 06/24/2021 14:42:06
+The position field did indeed not point to the correct axis, my bad - now it corresponds to the sensor output🙂 . However, I am still wondering about the interpretation of this angle / position value. I am using the wb\_motor\_set\_position() commands to control a series of joints (never exceeding 3.14 rad), but the position sensor outputs a value of 4 rad that is not visually represented - could this be a PID issue or am I misinterpreting the position value?
+
+
+
+The value also keeps increasing after I stop controlling the joints (noted as Transition\_Bent in the video) - thanks for your help!
+> **Attachment**: [demo.mp4](https://cdn.discordapp.com/attachments/565155720933146637/857631681456766996/demo.mp4)
 

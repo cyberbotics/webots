@@ -1,7 +1,7 @@
 # Webots R2021 Change Log
 
 ## Webots R2021b
-Released on July, 5th, 2021.
+Released on July, 16th, 2021.
 
   - New Robots
     - Added a model of the [Summit-XL Steel](../guide/summit-xl-steel.md) robot from [Robotnik](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) ([#3121](https://github.com/cyberbotics/webots/pull/3121)).
@@ -76,6 +76,8 @@ Released on July, 5th, 2021.
       - Exposed the `robot_description` ROS parameter (activated through the `--robot-description` flag) that contains the URDF of the robot.
     - Improved the URDF naming convention ([#2875](https://github.com/cyberbotics/webots/pull/2875)).
   - Bug fixes:
+    - Fixed resource leak in simulation server script ([#3412](https://github.com/cyberbotics/webots/pull/3412), thanks to [Luiz Felipe Vecchietti](https://github.com/lfelipesv)).
+    - Sanitized controller name in MATLAB launcher ([#3404](https://github.com/cyberbotics/webots/pull/3404), thanks to [Bartek Łukawski](https://github.com/PeterBowman) and [Juan Victores](https://github.com/jgvictores)).
     - Fixed bug in [Lidar](lidar.md) / [RangeFinder](../guide/range-finder-sensors.md) measurement when hitting an edge ([#3230](https://github.com/cyberbotics/webots/pull/3230)).
     - Fixed the restart of Webots on Windows after changing the theme or the language from the preferences ([#3367](https://github.com/cyberbotics/webots/pull/3367)).
     - Fixed instabilities in the box-cylinder collision detection ([#3105](https://github.com/cyberbotics/webots/pull/3105)).
@@ -116,7 +118,7 @@ Released on July, 5th, 2021.
       - Fixed incorrect position retrieval immediately after resetting nested [Transform](transform.md) nodes ([#3051](https://github.com/cyberbotics/webots/issues/3051)).
       - Fixed reset of [Charger](charger.md) energy when the recharging [Robot](robot.md) battery is full ([#2879](https://github.com/cyberbotics/webots/pull/2879)).
       - Fixed [Camera](camera.md) image update in controllers after simulation reset ([#2725](https://github.com/cyberbotics/webots/pull/2725)).
-      - Fixed reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)).
+      - Fixed reset of simulations including [BallJoint](balljoint.md) nodes like the [Stewart Platform](https://github.com/cyberbotics/webots/blob/master/projects/samples/demos/worlds/stewart_platform.wbt) ([#2593](https://github.com/cyberbotics/webots/pull/2593)) and ([#3394](https://github.com/cyberbotics/webots/pull/3394)).
       - Fixed step button status if simulation is reset from UI when the step button is disabled ([#2741](https://github.com/cyberbotics/webots/pull/2741)).
     - Fixed bug in the C++, Python and Java API where the [Robot.getDevice()](robot.md#wb_robot_get_device) methods were returning different objects when passing the same string argument for the device name ([#2957](https://github.com/cyberbotics/webots/pull/2957)).
     - Fixed the `robot_get_urdf` function to include leaf nodes in URDF ([#2803](https://github.com/cyberbotics/webots/pull/2803)).
@@ -147,6 +149,8 @@ Released on July, 5th, 2021.
     - Fixed incorrect cleaning of [Light](light.md) node ([3374](https://github.com/cyberbotics/webots/pull/3374)).
     - Fixed crash provoked by canceling and switching world in the Guided Tour ([#3376](https://github.com/cyberbotics/webots/pull/3376)).
     - Fixed the path to the python command on macOS ([#3402](https://github.com/cyberbotics/webots/pull/3402)).
+    - Fixed [HighwaySign](../guide/object-traffic.md#highwaysign) PROTO not displaying the texture ([#3407](https://github.com/cyberbotics/webots/pull/3407)).
+    - Fixed the transparency of [Material](material.md) and [PBRAppearance](pbrappearance.md) such that the object are no longer visible to cameras when completely transparent ([#3436](https://github.com/cyberbotics/webots/pull/3436)). 
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
