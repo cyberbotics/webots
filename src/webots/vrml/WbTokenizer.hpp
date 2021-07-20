@@ -67,6 +67,9 @@ public:
   // static method returning the current world file version
   static const WbVersion &worldFileVersion();
 
+  // static method returns whether the world is ENU/FLU compatible
+  static bool isWorldFluCompatible() { return WbTokenizer::worldFileVersion() >= WbVersion(2021, 2, 0); }
+
   // returns true if peekToken() or nextToken() would be valid
   bool hasMoreTokens() const { return mIndex < mVector.size(); }
 

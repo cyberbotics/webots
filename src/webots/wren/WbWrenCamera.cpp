@@ -18,6 +18,7 @@
 #include "WbPreferences.hpp"
 #include "WbRandom.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTokenizer.hpp"
 #include "WbVector2.hpp"
 #include "WbVector4.hpp"
 #include "WbWrenBloom.hpp"
@@ -846,8 +847,10 @@ void WbWrenCamera::setCamerasOrientations() {
   if (mIsCameraActive[CAMERA_ORIENTATION_RIGHT])
     wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_RIGHT], -M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_FRONT]) {
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
-    wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
+    if (WbTokenizer::isWorldFluCompatible()) {
+      wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
+      wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
+    }
   }
   if (mIsCameraActive[CAMERA_ORIENTATION_LEFT])
     wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_LEFT], M_PI_2);
