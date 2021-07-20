@@ -1,6 +1,6 @@
 #VRML_SIM R2021b utf8
 
-PROTO ProtoBox [
+PROTO ProtoTransform [
   field SFVec3f size 2 0.5 1
   field SFColor color 0 1 1
 ]
