@@ -264,11 +264,11 @@ Robot {
       ]
     }
     Camera {
-      translation 0 0.0915 -0.04
-      rotation 0 0 -1 0
+      translation 2.06647e-15 0.0915 -0.04
+      rotation 1 4.7949e-09 1.32679e-06 3.14159
       children [
         Transform {
-          translation 0 0 0.015
+          translation 0 -2.38898e-05 -0.015
           rotation 1 0 0 1.57
           children [
             Shape {
