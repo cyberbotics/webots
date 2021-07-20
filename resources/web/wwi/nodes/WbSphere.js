@@ -8,6 +8,15 @@ export default class WbSphere extends WbGeometry {
     this.subdivision = subdivision;
   }
 
+  setParameter(parameterName, parameterValue) {
+    console.log('setting parameter ' + parameterName + ' with value ', parameterValue);
+    if (parameterName === 'radius') {
+      this.radius = parameterValue.value;
+      this.updateRadius();
+    } else
+      throw new Error('Unknown parameter ' + parameterName + ' for node WbSphere.');
+  }
+
   clone(customID) {
     this.useList.push(customID);
     return new WbSphere(customID, this.radius, this.ico, this.subdivision);
@@ -37,6 +46,13 @@ export default class WbSphere extends WbGeometry {
     const scaledRadius = this.radius;
 
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
+  }
+
+  updateRadius() {
+    if (super.isInBoundingObject())
+      this.updateLineScale();
+    else
+      this.updateScale();
   }
 
   // Private functions

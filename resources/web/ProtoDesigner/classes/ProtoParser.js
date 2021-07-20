@@ -90,8 +90,10 @@ export default class ProtoParser {
       }
 
       // each node needs an id, at the very least, no matter what follows
-      nodeElement.setAttribute('id', getAnId());
-      console.log('> ' + nodeName + 'Element.setAttribute(\'id\', \'' + nodeElement.getAttribute('id') + '\')');
+      if (nodeElement.getAttribute('id') === null) { // set the id only once per node
+        nodeElement.setAttribute('id', getAnId());
+        console.log('> ' + nodeName + 'Element.setAttribute(\'id\', \'' + nodeElement.getAttribute('id') + '\')');
+      }
 
       if (this.bodyTokenizer.peekWord() === 'IS')
         this.parseIS(nodeName, word, nodeElement);
@@ -182,7 +184,7 @@ export default class ProtoParser {
     if (!parameter.nodeRefs.includes(nodeElement.getAttribute('id'))) {
       parameter.nodeRefs.push(nodeElement.getAttribute('id'));
       parameter.refNames.push(refName);
-      console.log('>> added nodeRef ' + nodeElement.getAttribute('id') + ' to parameter \'' + refName + '\'');
+      console.log('>> added nodeRef ' + nodeElement.getAttribute('id') + ' to parameter \'' + refName + '\' (' + alias + ').');
     }
   };
 
