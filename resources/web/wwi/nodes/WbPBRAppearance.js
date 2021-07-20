@@ -3,6 +3,7 @@ import {textureQuality} from './wb_preferences.js';
 import WbAbstractAppearance from './WbAbstractAppearance.js';
 import WbBackground from './WbBackground.js';
 import WbVector3 from './utils/WbVector3.js';
+import WbSFColor from './utils/WbSFColor.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
 import {getAnId} from './utils/utils.js';
@@ -27,6 +28,22 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
     this.emissiveColor = emissiveColor;
     this.emissiveColorMap = emissiveColorMap;
     this.emissiveIntensity = emissiveIntensity;
+  }
+
+  setParameter(parameterName, parameterValue) {
+    if (!WbWorld.instance.readyForUpdates)
+      return;
+
+    if (parameterName === 'baseColor') {
+      this.baseColor = {x: parameterValue.r, y: parameterValue.g, z: parameterValue.b};
+      this.updateAppearance();
+    } else
+      throw new Error('Unknown parameter ' + parameterName + ' for node WbPBRAppearance.');
+  }
+
+  updateAppearance() {
+    const parent = WbWorld.instance.nodes.get(this.parent);
+    parent.updateAppearance();
   }
 
   clone(customID) {

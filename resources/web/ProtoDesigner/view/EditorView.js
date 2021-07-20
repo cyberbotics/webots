@@ -233,15 +233,16 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     const nodeRefs = parameter.nodeRefs;
     const refNames = parameter.refNames;
+
+    if (nodeRefs.length === 0 || (nodeRefs.length !== refNames.length))
+      console.warn('No nodeRefs links are present for the selected paramter. Was it supposed to?');
+
     for (let i = 0; i < nodeRefs.length; ++i) {
       if (typeof nodeRefs[i] !== 'undefined' && typeof refNames[i] !== 'undefined') {
         const node = WbWorld.instance.nodes.get(nodeRefs[i]);
         node.setParameter(refNames[i], parameter.value);
       }
     }
-
-    if (nodeRefs.length === 0 || (nodeRefs.length !== refNames.length))
-      console.warn('No nodeRefs links are present for the selected paramter. Was it supposed to?');
 
     this.view.x3dScene.render();
   }
