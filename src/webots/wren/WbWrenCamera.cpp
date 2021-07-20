@@ -84,7 +84,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mLensDistortionTangentialCoeffs(0.0, 0.0),
   mMotionBlurIntensity(0.0f),
   mNoiseMaskTexture(NULL) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     mWrenBloom[i] = new WbWrenBloom();
     mWrenColorNoise[i] = new WbWrenColorNoise();
     mWrenDepthOfField[i] = new WbWrenDepthOfField();
@@ -104,7 +104,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
 WbWrenCamera::~WbWrenCamera() {
   cleanup();
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     delete mWrenBloom[i];
     delete mWrenColorNoise[i];
     delete mWrenDepthOfField[i];
@@ -140,13 +140,13 @@ void WbWrenCamera::setSize(int width, int height) {
 
 void WbWrenCamera::setNear(float nearValue) {
   mNear = nearValue;
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i)
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i)
     if (mIsCameraActive[i])
       wr_camera_set_near(mCamera[i], mNear);
 }
 
 void WbWrenCamera::setFar(float farValue) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i)
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i)
     if (mIsCameraActive[i])
       wr_camera_set_far(mCamera[i], farValue);
 }
@@ -165,7 +165,7 @@ void WbWrenCamera::setMaxRange(float maxRange) {
   if (mIsColor)
     return;
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_set_far(mCamera[i], mMaxRange);
   }
@@ -392,7 +392,7 @@ void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
   const float backgroundColor[] = {static_cast<float>(mBackgroundColor.red()), static_cast<float>(mBackgroundColor.green()),
                                    static_cast<float>(mBackgroundColor.blue())};
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_viewport_set_clear_color_rgb(mCameraViewport[i], backgroundColor);
   }
@@ -400,7 +400,7 @@ void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
 
 void WbWrenCamera::render() {
   int numActiveViewports = 0;
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       mViewportsToRender[numActiveViewports++] = mCameraViewport[i];
   }
@@ -419,12 +419,12 @@ void WbWrenCamera::render() {
 
   WbWrenOpenGlContext::makeWrenCurrent();
   if (mIsSpherical) {
-    for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
       if (mIsCameraActive[i])
         updatePostProcessingParameters(i);
     }
   } else
-    updatePostProcessingParameters(CAMERA_ORIENTATION_BACK);
+    updatePostProcessingParameters(CAMERA_ORIENTATION_FRONT);
 
   // Depth information needs to be conserved for post-processing shaders
   const char *materialName = NULL;
@@ -468,7 +468,7 @@ void WbWrenCamera::enableCopying(bool enable) {
 }
 
 WbRgb WbWrenCamera::copyPixelColourValue(int x, int y) {
-  if (mWidth < 1 || mHeight < 1 || !mIsCameraActive[CAMERA_ORIENTATION_BACK])
+  if (mWidth < 1 || mHeight < 1 || !mIsCameraActive[CAMERA_ORIENTATION_FRONT])
     return WbRgb();
 
   // This method is only called when the user hovers the mouse pointer over the camera overlay
@@ -499,7 +499,7 @@ void WbWrenCamera::copyContentsToMemory(void *data) {
   if (!mIsCopyingEnabled || !data || mWidth < 1 || mHeight < 1)
     return;
 
-  if (!mIsCameraActive[CAMERA_ORIENTATION_BACK]) {
+  if (!mIsCameraActive[CAMERA_ORIENTATION_FRONT]) {
     memset(data, 0, mWidth * mHeight * 4);
     return;
   }
@@ -510,14 +510,14 @@ void WbWrenCamera::copyContentsToMemory(void *data) {
 }
 
 void WbWrenCamera::rotatePitch(float angle) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_apply_pitch(mCamera[i], angle);
   }
 }
 
 void WbWrenCamera::rotateYaw(float angle) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_apply_yaw(mCamera[i], angle);
   }
@@ -557,14 +557,14 @@ void WbWrenCamera::init() {
   wr_frame_buffer_append_output_texture(mResultFrameBuffer, outputTexture);
   wr_frame_buffer_enable_depth_buffer(mResultFrameBuffer, true);
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i)
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i)
     mIsCameraActive[i] = false;
-  mIsCameraActive[CAMERA_ORIENTATION_BACK] = true;
+  mIsCameraActive[CAMERA_ORIENTATION_FRONT] = true;
 
   if (mIsSpherical) {
     setupSphericalSubCameras();
 
-    for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
       if (mIsCameraActive[i]) {
         setupCamera(i, mSubCamerasResolutionX, mSubCamerasResolutionY);
         setupCameraPostProcessing(i);
@@ -573,8 +573,8 @@ void WbWrenCamera::init() {
 
     setupSphericalPostProcessingEffect();
   } else {
-    setupCamera(CAMERA_ORIENTATION_BACK, mWidth, mHeight);
-    setupCameraPostProcessing(CAMERA_ORIENTATION_BACK);
+    setupCamera(CAMERA_ORIENTATION_FRONT, mWidth, mHeight);
+    setupCameraPostProcessing(CAMERA_ORIENTATION_FRONT);
   }
 
   wr_frame_buffer_setup(mResultFrameBuffer);
@@ -592,7 +592,7 @@ void WbWrenCamera::init() {
 }
 
 void WbWrenCamera::cleanup() {
-  if (!mCamera[CAMERA_ORIENTATION_BACK] || (mIsSpherical && !mSphericalPostProcessingEffect))
+  if (!mCamera[CAMERA_ORIENTATION_FRONT] || (mIsSpherical && !mSphericalPostProcessingEffect))
     return;
 
   WbWrenOpenGlContext::makeWrenCurrent();
@@ -608,7 +608,7 @@ void WbWrenCamera::cleanup() {
     mUpdateTextureFormatEffect = NULL;
   }
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i]) {
       mWrenBloom[i]->detachFromViewport();
       mWrenColorNoise[i]->detachFromViewport();
@@ -845,8 +845,8 @@ void WbWrenCamera::setupSphericalPostProcessingEffect() {
 void WbWrenCamera::setCamerasOrientations() {
   if (mIsCameraActive[CAMERA_ORIENTATION_RIGHT])
     wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_RIGHT], -M_PI_2);
-  if (mIsCameraActive[CAMERA_ORIENTATION_BACK])
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_BACK], M_PI);
+  if (mIsCameraActive[CAMERA_ORIENTATION_FRONT])
+    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
   if (mIsCameraActive[CAMERA_ORIENTATION_LEFT])
     wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_LEFT], M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_UP])
@@ -856,14 +856,14 @@ void WbWrenCamera::setCamerasOrientations() {
 }
 
 void WbWrenCamera::setFovy(float fov) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_set_fovy(mCamera[i], fov);
   }
 }
 
 void WbWrenCamera::setAspectRatio(float aspectRatio) {
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_camera_set_aspect_ratio(mCamera[i], aspectRatio);
   }
@@ -969,7 +969,7 @@ void WbWrenCamera::applySphericalPostProcessingEffect() {
   WrPostProcessingEffectPass *mergeSphericalPass =
     wr_post_processing_effect_get_pass(mSphericalPostProcessingEffect, "MergeSpherical");
 
-  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
       wr_post_processing_effect_pass_set_input_texture(
         mergeSphericalPass, i, WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 0)));

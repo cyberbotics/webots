@@ -50,7 +50,7 @@ class WbWrenCamera : public QObject {
 
 public:
   enum CameraOrientation {
-    CAMERA_ORIENTATION_FRONT,
+    CAMERA_ORIENTATION_FRONT = 0,
     CAMERA_ORIENTATION_RIGHT,
     CAMERA_ORIENTATION_BACK,
     CAMERA_ORIENTATION_LEFT,
