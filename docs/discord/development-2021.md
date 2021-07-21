@@ -2328,3 +2328,57 @@ in revision before I didn't had this problem,  even example complete\_test gives
 ##### Olivier Michel [Cyberbotics] 07/14/2021 08:29:21
 I would recommend you to try from the current master branch into which we merged the develop branch recently and which is more stable than develop now and contains all its new features.
 
+##### Chinwei.Chang 07/19/2021 08:21:36
+The VR view worked fine in version 2019a. However, after 2019a, the VR version didn't worked. How could I use VR in 2021b?
+
+
+Is it possible to interactive with robot in webots through VR
+
+##### Darko Lukić [Cyberbotics] 07/19/2021 08:27:22
+Unfortunately no, there is an issue about that:
+
+[https://github.com/cyberbotics/webots/issues/747](https://github.com/cyberbotics/webots/issues/747)
+
+##### Nummer\_42O 07/19/2021 12:03:59
+since updating to R2021b I can't seem to get the robot node via supervisor.getFromDef anymore? It just spits out None
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/866651585580630086/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/866651712882081813/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 07/19/2021 12:07:52
+Did you set your robot to be a supervisor?
+
+[https://cyberbotics.com/doc/reference/robot#robot](https://cyberbotics.com/doc/reference/robot#robot) (the `supervisor` field should be `TRUE`)
+
+##### Nummer\_42O 07/19/2021 12:11:05
+ah perfect - thx. That wasn't an issue before. ^^
+
+##### Darko Lukić [Cyberbotics] 07/19/2021 12:11:42
+Then it was a bug before 🙂
+
+##### Nummer\_42O 07/19/2021 12:32:07
+Another thing: How do I disable those? I found and updated the texture URLs in Spots .proto file (No textures were to be found in the left and right leg) but it still shows that to me.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/866658664274591775/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 07/19/2021 12:34:05
+If you haven't changed the PROTOs then probably the easiest way is to copy the PROTOs from the new Webots distribution:
+
+[https://github.com/cyberbotics/webots/tree/master/projects/robots/boston\_dynamics/spot/protos](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/protos)
+
+##### Nummer\_42O 07/19/2021 12:38:23
+hm ok
+
+##### Benjamin Délèze [Cyberbotics] 07/19/2021 12:40:01
+Otherwise, you can update the headers of the protos to R2021b
+
+##### Nummer\_42O 07/19/2021 12:41:16
+That works better for me. Thanks :)
+

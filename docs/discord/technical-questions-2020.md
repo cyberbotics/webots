@@ -12070,7 +12070,7 @@ So can anyone guide how can I do that in webots
 
 I mean what can be the procedure
 
-##### PymZoR [Premier Service] 04/28/2020 09:55:24
+##### Axel M 04/28/2020 09:55:24
 I'm currently dealing with python versions issues as well `@adaptive` . What i'm trying to do right now il to install a virtualenv using a Pipfile (for dealing both with dependencies and python version at the same time, see [https://realpython.com/pipenv-guide/](https://realpython.com/pipenv-guide/))
 
 
@@ -12279,7 +12279,7 @@ thank's
 ##### David Mansolino [Cyberbotics] 04/28/2020 13:18:19
 You're welcome.
 
-##### PymZoR [Premier Service] 04/28/2020 13:53:30
+##### Axel M 04/28/2020 13:53:30
 Is there a way to dynamically set the "python command" in the preferences ? (using a cli argument for instance)
 
 
@@ -12296,7 +12296,7 @@ Or you might define it in a runtime.ini file next to the controller (which can b
 
 Would this suit your needs?
 
-##### PymZoR [Premier Service] 04/28/2020 13:57:12
+##### Axel M 04/28/2020 13:57:12
 I guess the second option would be the best to plug into a CMake workflow, executing the command to get the venv path (like `pipenv --venv`), and piping the output in a runtime.ini
 
 
@@ -12305,7 +12305,7 @@ Gonna give it a try. Thanks !
 ##### David Mansolino [Cyberbotics] 04/28/2020 13:57:53
 > I guess the second option would be the best to plug into a CMake workflow, executing the command to get the venv path (like `pipenv --venv`), and piping the output in a runtime.ini
 
-`@PymZoR` that sounds good indeed!
+`@Axel M` that sounds good indeed!
 
 
 You're welcome.
@@ -26357,7 +26357,7 @@ I would recommend you to have a supervisor process sending some signal to your s
 
 I remember reading something here about anaconda having issues. But python2 with conda works no problem
 
-##### PymZoR [Premier Service] 07/22/2020 22:42:38
+##### Axel M 07/22/2020 22:42:38
 > I'm sure this has been asked before, but running external controller under python3 doesnt work for me. I get this error:
 
 `@Luftwaffel` could this be the PYTHONPATH that must be exported to python3X ?
@@ -26737,13 +26737,13 @@ Yes, `@David Mansolino` proposed this here: [https://github.com/cyberbotics/webo
 ##### Luftwaffel [Moderator] 07/24/2020 10:25:28
 yes!
 
-##### mbusy 07/24/2020 12:47:26
+##### maxomāros 07/24/2020 12:47:26
 Hello, I was looking at the conditions to make the simulation deterministic ([https://cyberbotics.com/doc/guide/modeling#how-to-make-replicabledeterministic-simulations](https://cyberbotics.com/doc/guide/modeling#how-to-make-replicabledeterministic-simulations)), regarding the first item (Each simulation must be restarted either by pushing the Reload button, or by using the wb\_supervisor\_world\_reload function, or by restarting Webots), can `wb_supervisor_simulation_reset` be used?
 
 ##### David Mansolino [Cyberbotics] 07/24/2020 13:00:10
 Hi, it is safer to use the `wb_supervisor_world_reload` as this completely recreates the world from scratch, however, in most of the cases the ``wb\_supervisor\_simulation\_reset``function will be enough.
 
-##### mbusy 07/24/2020 13:07:13
+##### maxomāros 07/24/2020 13:07:13
 `@David Mansolino` Thanks!
 
 ##### David Mansolino [Cyberbotics] 07/24/2020 13:16:53
@@ -30871,7 +30871,7 @@ No, it's not possible.
 
 `@David Mansolino` Can I add polygons with minimum thickness and add a appearance to them? Or will I have to design the map in some third party and add as a texture?
 
-##### Olivier Michel [ROS 2 Meeting-Cyberbotics] 08/12/2020 14:24:06
+##### Olivier Michel [Cyberbotics] 08/12/2020 14:24:06
 `@Kormit`: You can however enable shadows.
 
 
