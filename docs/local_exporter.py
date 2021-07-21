@@ -47,7 +47,6 @@ def download(url, target_file_path):
             request = Request(url, headers={'User-Agent': 'Mozilla'})
             if platform.system() == 'Linux' and \
                hasattr(ssl, 'create_default_context'):
-                # On Ubuntu 16.04 there are issues with the certificates.
                 ctx = ssl.create_default_context()
                 ctx.check_hostname = False
                 ctx.verify_mode = ssl.CERT_NONE
