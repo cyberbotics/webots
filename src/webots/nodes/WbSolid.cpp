@@ -1291,7 +1291,7 @@ void WbSolid::updatePhysics() {
     delete mSolidMerger.data();
   }
 
-  if (mPhysics->value())
+  if (mOdeMass && mPhysics->value())
     dMassSetZero(mOdeMass);  // force recomputing the ODE mass
   setupSolidMergers();
   setBodiesAndJointsToParents();
