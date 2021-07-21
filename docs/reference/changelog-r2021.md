@@ -1,6 +1,12 @@
 # Webots R2021 Change Log
 
 ## Webots R2021b
+Released on XX, XXth, 2021.
+
+- Bug fixes:
+  - Fixed mass computation after inserting a [Physics](physics.md) node in case the [Solid.boundingObject](solid.md)  was alrady defined ([#3240](https://github.com/cyberbotics/webots/pull/3240).
+
+## Webots R2021b
 Released on July, 16th, 2021.
 
   - New Robots
