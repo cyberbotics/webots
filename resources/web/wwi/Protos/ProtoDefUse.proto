@@ -2,7 +2,7 @@
 
 PROTO ProtoDefUse [
   field SFColor colorA 1 0 0
-  field SFColor colorB 0 1 0
+  field SFColor{PBRAppearance{}} colorB 0 1 0
 ]
 {
   Transform {

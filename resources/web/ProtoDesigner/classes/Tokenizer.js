@@ -1,5 +1,7 @@
 import Token, {isSpace, isPunctuation} from './Token.js';
 
+import {VRML} from '../classes/FieldModel.js';
+
 export default class Tokenizer {
   constructor(stream) {
     this._char = '';
@@ -200,6 +202,58 @@ export default class Tokenizer {
     else
       throw new Error('Cannot skip N = ' + n + ' tokens because there are not that many left.');
   }
+
+  consumeTokensByType(type) {
+    console.warn('CONSUMING TOKENS OF TYPE: ', type);
+    switch (type) {
+      case VRML.MFBool:
+      case VRML.MFColor:
+      case VRML.MFFloat:
+      case VRML.MFInt32:
+      case VRML.MFNode:
+      case VRML.MFRotation:
+      case VRML.MFString:
+      case VRML.MFVec2f:
+      case VRML.MFVec3f: {
+        let ctr = 1; // because the first '[' is preemptively skipped
+        this.skipToken('['); // skip first token, must be always present for an MF field
+        while (ctr > 0) {
+          ctr = this.peekWord() === '[' ? ++ctr : ctr;
+          ctr = this.peekWord() === ']' ? --ctr : ctr;
+          this.nextToken();
+        }
+        break;
+      }
+      case VRML.SFNode: {
+        let ctr = 1; // because the first '{' is preemptively skipped
+        this.skipToken('{'); // skip first token, must be always present for an SFNode
+        while (ctr > 0) {
+          ctr = this.peekWord() === '{' ? ++ctr : ctr;
+          ctr = this.peekWord() === '}' ? --ctr : ctr;
+          this.nextToken();
+        }
+        break;
+      }
+      case VRML.SFBool:
+      case VRML.SFInt32:
+      case VRML.SFFloat:
+      case VRML.SFString:
+        this.nextToken();
+        break;
+      case VRML.SFVec2f:
+        this.skipTokens(2);
+        break;
+      case VRML.SFVec3f:
+      case VRML.SFColor:
+        this.skipTokens(3);
+        break;
+      case VRML.SFRotation:
+        this.skipTokens(4);
+        break;
+      default:
+        throw new Error('Cannot consume tokens for type \'' + type + '\'.');
+    }
+  };
 
   skipField(deleteTokens) {
     if (!this.hasMoreTokens())

@@ -57,10 +57,17 @@ export default class Proto {
 
     while (!headTokenizer.peekToken().isEof()) {
       const token = headTokenizer.nextToken();
-      const nextToken = headTokenizer.peekToken();
+      let nextToken = headTokenizer.peekToken();
 
-      // TODO: skip curly brackets inbetween 'field' keyword and parameter name (i.e restricted nodes)
-      if (nextToken.isIdentifier() && token.isKeyword()) {
+      if (token.isKeyword() && nextToken.isPunctuation()) {
+        if (nextToken.word() === '{'){
+          // field restrictions are not supported yet, consume the tokens
+          headTokenizer.consumeTokensByType(VRML.SFNode);
+          nextToken = headTokenizer.peekToken(); // update upcoming token reference after consumption
+        }
+      }
+
+      if (token.isKeyword() && nextToken.isIdentifier()) {
         // note: header parameter name might be just an alias (ex: size IS myCustomSize), only alias known at this point
         const name = nextToken.word();; // actual name used in the header (i.e value after an IS)
         const type = token.fieldTypeFromVrml();

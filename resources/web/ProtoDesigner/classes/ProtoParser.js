@@ -120,7 +120,7 @@ export default class ProtoParser {
     if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[nodeName]['unsupported'][fieldName]; // check if it's one of the unsupported ones instead
       if (typeof fieldType !== 'undefined') {
-        this.consumeTokens(fieldType);
+        this.bodyTokenizer.consumeTokensByType(fieldType);
         return;
       } else
         throw new Error('Cannot encode field \'' + fieldName + '\' as x3d because it is not part of the FieldModel of node \'' + nodeName + '\'.');
@@ -229,7 +229,7 @@ export default class ProtoParser {
     if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[parentName]['unsupported'][field]; // check if it's one of the unsupported ones instead
       if (typeof fieldType !== 'undefined') {
-        this.consumeTokens(fieldType);
+        this.bodyTokenizer.consumeTokensByType(fieldType);
         return;
       } else
         throw new Error('Cannot encode field \'' + field + '\' as x3d because it is not part of the FieldModel of node \'' + parentName + '\'.');
@@ -250,57 +250,6 @@ export default class ProtoParser {
     }
 
     this.bodyTokenizer.skipToken(']'); // consume closing ']' token
-  };
-
-  consumeTokens(fieldType) {
-    console.warn('CONSUMING: ', fieldType);
-    let ctr;
-    switch (fieldType) {
-      case VRML.MFBool:
-      case VRML.MFColor:
-      case VRML.MFFloat:
-      case VRML.MFInt32:
-      case VRML.MFNode:
-      case VRML.MFRotation:
-      case VRML.MFString:
-      case VRML.MFVec2f:
-      case VRML.MFVec3f:
-        ctr = 1; // because the first '[' is preemptively skipped
-        this.bodyTokenizer.skipToken('['); // skip first token, must be always present for an MF field
-        while (ctr > 0) {
-          ctr = this.bodyTokenizer.peekWord() === '[' ? ++ctr : ctr;
-          ctr = this.bodyTokenizer.peekWord() === ']' ? --ctr : ctr;
-          this.bodyTokenizer.nextToken();
-        }
-        break;
-      case VRML.SFNode:
-        ctr = 1; // because the first '{' is preemptively skipped
-        this.bodyTokenizer.skipToken('{'); // skip first token, must be always present for an SFNode
-        while (ctr > 0) {
-          ctr = this.bodyTokenizer.peekWord() === '{' ? ++ctr : ctr;
-          ctr = this.bodyTokenizer.peekWord() === '}' ? --ctr : ctr;
-          this.bodyTokenizer.nextToken();
-        }
-        break;
-      case VRML.SFBool:
-      case VRML.SFInt32:
-      case VRML.SFFloat:
-      case VRML.SFString:
-        this.bodyTokenizer.nextToken();
-        break;
-      case VRML.SFVec2f:
-        this.bodyTokenizer.skipTokens(2);
-        break;
-      case VRML.SFVec3f:
-      case VRML.SFColor:
-        this.bodyTokenizer.skipTokens(3);
-        break;
-      case VRML.SFRotation:
-        this.bodyTokenizer.skipTokens(4);
-        break;
-      default:
-        throw new Error('Cannot consume tokens for type \'' + fieldType + '\'.');
-    }
   };
 
   getParameterByName(parameterName) {
