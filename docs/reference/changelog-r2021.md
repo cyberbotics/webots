@@ -1,6 +1,6 @@
 # Webots R2021 Change Log
 
-## Webots R2021b
+## Webots R2021b Revision 1
 Released on XX, XXth, 2021.
 
 - Bug fixes:
