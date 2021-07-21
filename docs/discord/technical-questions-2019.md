@@ -2340,13 +2340,13 @@ In this case, please send an e-mail to info@cyberbotics.com with your license ID
 ##### 之之 05/07/2019 14:58:02
 thank you very much!
 
-##### ༺Yatori༻ 05/07/2019 15:49:20
+##### Marija's Simp 05/07/2019 15:49:20
 hey ! which sensor is the most fitting to get the value of  the position of a starting point A and the position of a target point B (so that i can tell my robot to go for example straight from A to B or things like that).
 
 ##### Fabien Rohrer [Moderator] 05/07/2019 15:50:04
 Certainly the GPS which can retrieve an absolute position.
 
-##### ༺Yatori༻ 05/07/2019 15:50:14
+##### Marija's Simp 05/07/2019 15:50:14
 i see thank you !
 
 ##### Fabi 05/07/2019 19:28:35
@@ -2357,7 +2357,7 @@ I  am trying to run the python example  in (webots/projects/languages/python/wor
 ##### Olivier Michel [Cyberbotics] 05/08/2019 06:17:19
 Hi Fabi, you need to click in the 3D view so that keyboard events can reach out the robot controller program.
 
-##### ༺Yatori༻ 05/08/2019 07:00:41
+##### Marija's Simp 05/08/2019 07:00:41
 Hey , does the epuck contain ultra sonic sensors ?
 
 ##### David Mansolino [Cyberbotics] 05/08/2019 07:02:21
@@ -2366,7 +2366,7 @@ Hi
 
 No the epuck only contains 'infra-red' distance sensors.
 
-##### ༺Yatori༻ 05/08/2019 07:20:54
+##### Marija's Simp 05/08/2019 07:20:54
 I see thank you ,is it  possible to add it through a node or something like that?
 
 ##### CH\_KIM 05/08/2019 07:42:29
@@ -2376,7 +2376,7 @@ HI! I want to check sensor data by 2khz. but "duration" of "wb\_robot\_step" is 
 How to get sensor data by high frequency.
 
 ##### David Mansolino [Cyberbotics] 05/08/2019 08:43:41
-`@༺Yatori༻` yes you can add new node (e.g. DistanceSensor nodes) in the 'turretSlot' field of the E-puck node.
+`@Marija's Simp` yes you can add new node (e.g. DistanceSensor nodes) in the 'turretSlot' field of the E-puck node.
 
 
 `@CH_KIM` the duration is in millisecond which means the biggest frequency you can have is 1khz (which is already quite high for a control loop).

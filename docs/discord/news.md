@@ -4,7 +4,29 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [Cyberbotics] 07/14/2021 12:01:41
+##### Soft\_illusion 07/19/2021 06:58:01
+New video series with tutorials on Webots with ROS with a lot of Robotics concepts : 
+
+
+
+[https://www.youtube.com/watch?v=Y8A5YaJXLSc](https://www.youtube.com/watch?v=Y8A5YaJXLSc)
+
+##### Olivier Michel [Cyberbotics] 07/16/2021 14:33:06
+**Webots R2021b released!**
+
+
+
+We are happy to announce this new release of our #opensource #robot #simulator with many improvements including new models, better support of #AI and #ML applications and a new Web Rendering Engine.
+
+
+
+See official announcement at [https://cyberbotics.com/doc/blog/Webots-2021-b-release](https://cyberbotics.com/doc/blog/Webots-2021-b-release)
+
+
+
+Get it from [https://cyberbotics.com/](https://cyberbotics.com/) or [https://github.com/cyberbotics/webots/releases/tag/R2021b](https://github.com/cyberbotics/webots/releases/tag/R2021b)
+
+
 Webots used in Robocup Junior Rescue: [https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/game/final/sd110](https://rescue.rcj.cloud/events/2021/robocup2021/newsimulation/game/final/sd110)
 
 

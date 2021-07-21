@@ -795,7 +795,7 @@ Thank you so much 😊
 ##### David Mansolino [Cyberbotics] 04/21/2020 10:03:37
 You're welcome
 
-##### PymZoR [Premier Service] 04/21/2020 15:59:54
+##### Axel M 04/21/2020 15:59:54
 Hi ! Documentation content seems off since a few minutes
 
 ##### Olivier Michel [Cyberbotics] 04/21/2020 16:01:39
