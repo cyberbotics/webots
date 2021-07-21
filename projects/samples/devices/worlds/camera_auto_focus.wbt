@@ -145,10 +145,10 @@ Robot {
     }
     Camera {
       translation 0 0.0915 -0.04
-      rotation 0 0 -1 0
+      rotation 1 0 0 3.14159
       children [
         Transform {
-          translation 0 0 0.015
+          translation 0 0 -0.015
           rotation 1 0 0 1.57
           children [
             Shape {
@@ -168,7 +168,7 @@ Robot {
       width 400
       height 300
       focus Focus {
-        focalDistance 0.516532689268457
+        focalDistance 0.4623355950533638
         focalLength 0.25
         maxFocalDistance 1
         minFocalDistance 0.1
