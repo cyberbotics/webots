@@ -39,7 +39,7 @@ export default class WbCapsule extends WbGeometry {
         this.updateMesh();
         break;
       default:
-        throw new Error('Unknown parameter ' + parameterName + ' for node WbCylinder.');
+        throw new Error('Unknown parameter ' + parameterName + ' for node WbCapsule.');
     }
   };
 

@@ -1,0 +1,24 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoTestCone [
+  field SFFloat height 1
+  field SFFloat bottomRadius 1
+  field SFColor color 0 0 1
+  field SFInt32 subdivision 30
+  field SFBool side TRUE
+  field SFBool bottom TRUE
+]
+{
+  Shape {
+    geometry Cone {
+      height IS height
+      bottomRadius IS bottomRadius
+      subdivision IS subdivision
+      side IS side
+      bottom IS bottom
+    }
+    appearance PBRAppearance {
+      baseColor IS color
+    }
+  }
+}

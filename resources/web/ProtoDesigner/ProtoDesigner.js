@@ -60,10 +60,11 @@ class ProtoDesigner {
         //const url = '../wwi/Protos/ProtoDefUse.proto';
 
         // base geometries
-        //const url = '../wwi/Protos/ProtoTestBox.proto';
+        // const url = '../wwi/Protos/ProtoTestBox.proto';
         // const url = '../wwi/Protos/ProtoTestCylinder.proto';
-        //const url = '../wwi/Protos/ProtoTestSphere.proto';
-        const url = '../wwi/Protos/ProtoTestCapsule.proto';
+        // const url = '../wwi/Protos/ProtoTestSphere.proto';
+        // const url = '../wwi/Protos/ProtoTestCapsule.proto';
+        const url = '../wwi/Protos/ProtoTestCone.proto';
 
         console.log('Loading PROTO: ' + url);
         this.loadProto(url);
