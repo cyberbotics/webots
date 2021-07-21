@@ -91,7 +91,7 @@ public:
 
   // bounding sphere
   WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
-
+  void recomputeBoundingSphere() const;
   // For a group in a boundingObject
   dSpaceID odeSpace() const { return mOdeSpace; }
   void setOdeData(dSpaceID s) { mOdeSpace = s; }

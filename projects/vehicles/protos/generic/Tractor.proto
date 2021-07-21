@@ -1046,7 +1046,7 @@ Car {
                     roughness 0.3
                     baseColorMap ImageTexture {
                       url [
-                        "textures/steering_wheel.png"
+                        "webots://projects/vehicles/protos/generic/textures/steering_wheel.png"
                       ]
                     }
                   }

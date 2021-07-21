@@ -124,6 +124,8 @@ void WbApplication::setup() {
   connect(this, &WbApplication::animationCaptureStarted, recorder, &WbAnimationRecorder::start);
   connect(this, &WbApplication::animationCaptureStopped, recorder, &WbAnimationRecorder::stop);
   connect(nodeOperations, &WbNodeOperations::nodeAdded, recorder, &WbAnimationRecorder::propagateNodeAddition);
+  connect(this, &WbApplication::deleteWorldLoadingProgressDialog, this,
+          &WbApplication::setWorldLoadingProgressDialogCreatedtoFalse);
 }
 
 void WbApplication::removeOldLibraries() {
@@ -220,12 +222,17 @@ void WbApplication::setWorldLoadingCanceled() {
   emit worldLoadingWasCanceled();
 }
 
+void WbApplication::setWorldLoadingProgressDialogCreatedtoFalse() {
+  mWorldLoadingProgressDialogCreated = false;
+}
+
 bool WbApplication::wasWorldLoadingCanceled() const {
   return mWorldLoadingCanceled;
 }
 
 bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
+
   if (deleteWorld) {
     delete mWorld;
     mWorld = NULL;

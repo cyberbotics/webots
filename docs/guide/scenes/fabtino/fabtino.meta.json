@@ -66,14 +66,14 @@
       "type": "PositionSensor"
     },
     {
-      "name": "front_right_wheel_joint_sensor",
-      "transformID": "n22",
-      "type": "PositionSensor"
-    },
-    {
       "name": "gyro",
       "transformID": "n78",
       "type": "Gyro"
+    },
+    {
+      "name": "front_right_wheel_joint_sensor",
+      "transformID": "n22",
+      "type": "PositionSensor"
     }
   ],
   "name": "fabtino",

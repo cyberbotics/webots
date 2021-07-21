@@ -41,6 +41,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SKIN; }
+  void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;

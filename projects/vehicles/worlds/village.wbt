@@ -89,7 +89,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/grass.jpg"
+        "webots://projects/default/worlds/textures/grass.jpg"
       ]
     }
     roughness 1
@@ -779,12 +779,12 @@ Road {
     0.878056
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 2
 }
@@ -826,12 +826,12 @@ Road {
     1.38133
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -877,12 +877,12 @@ Road {
     2.94475
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -914,8 +914,8 @@ Road {
     2.90857
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 0
 }
@@ -948,12 +948,12 @@ Road {
     4.97274
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 2
 }
@@ -996,8 +996,8 @@ Road {
     3.01611
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 2
   roadBoundingObject TRUE
@@ -1041,12 +1041,12 @@ Road {
     5.93882
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1076,8 +1076,8 @@ Road {
     5.94458
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1103,8 +1103,8 @@ Road {
     6.23485
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 0
 }
@@ -1139,8 +1139,8 @@ Road {
     -0.351714
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 1
   roadBoundingObject TRUE
@@ -1184,12 +1184,12 @@ Road {
     2.76986
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 2
 }
@@ -1221,12 +1221,12 @@ Road {
     4.79467
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1276,12 +1276,12 @@ Road {
     1.62245
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 2
 }
@@ -1311,8 +1311,8 @@ Road {
     4.24193
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 0
 }
@@ -1344,8 +1344,8 @@ Road {
     -0.858875
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 2
   roadBoundingObject TRUE
@@ -1381,12 +1381,12 @@ Road {
     1.0473
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1418,8 +1418,8 @@ Road {
     4.38599
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
   roadBoundingObject TRUE
@@ -1552,8 +1552,8 @@ Road {
     1.28476
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 0
 }
@@ -1590,8 +1590,8 @@ Road {
     0.393703
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1623,12 +1623,12 @@ Road {
     0.113084
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1658,12 +1658,12 @@ Road {
     1.27995
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1693,12 +1693,12 @@ Road {
     1.19843
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1761,12 +1761,12 @@ Road {
     4.39026
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 2
 }
@@ -1799,12 +1799,12 @@ Road {
     5.55864
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1864,12 +1864,12 @@ Road {
     4.06561
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -1902,12 +1902,12 @@ Road {
     2.91027
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -2058,8 +2058,8 @@ Road {
     1.1117
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -2097,12 +2097,12 @@ Road {
     0.136395
   ]
   startLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "textures/road_line_triangle.png"
-    "textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 0
 }
@@ -4078,7 +4078,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4113,7 +4113,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4148,7 +4148,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4183,7 +4183,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4218,7 +4218,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "textures/dry_grass.jpg"
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4812,7 +4812,7 @@ OrderSign {
     OrderPanel {
       translation 0 -0.175 -0.026
       signImage [
-        "textures/signs/stop.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/stop.jpg"
       ]
     }
   ]
@@ -4834,7 +4834,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -4847,7 +4847,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -4860,7 +4860,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -4873,7 +4873,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/right_cross_road.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/right_cross_road.jpg"
       ]
     }
   ]
@@ -4886,7 +4886,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/right_cross_road.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/right_cross_road.jpg"
       ]
     }
   ]
@@ -4899,7 +4899,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/left_cross_road.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/left_cross_road.jpg"
       ]
     }
   ]
@@ -4912,7 +4912,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -4925,7 +4925,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -4938,7 +4938,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -4951,7 +4951,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -4964,7 +4964,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -4977,7 +4977,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -4989,7 +4989,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5002,7 +5002,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5015,7 +5015,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5028,7 +5028,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5041,7 +5041,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5054,7 +5054,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5067,7 +5067,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5080,7 +5080,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5093,7 +5093,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5106,7 +5106,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5119,7 +5119,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5132,7 +5132,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5145,7 +5145,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5158,7 +5158,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5171,7 +5171,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5184,7 +5184,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5197,7 +5197,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5210,7 +5210,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5223,7 +5223,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5236,7 +5236,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5249,7 +5249,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5262,7 +5262,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5275,7 +5275,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5288,7 +5288,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5301,7 +5301,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5314,7 +5314,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/roundabout.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5336,7 +5336,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_80.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_80.jpg"
       ]
     }
   ]
@@ -5349,7 +5349,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_80.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_80.jpg"
       ]
     }
   ]
@@ -5362,7 +5362,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_60.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_60.jpg"
       ]
     }
   ]
@@ -5375,7 +5375,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_30.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]
@@ -5388,7 +5388,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_40.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
       ]
     }
   ]
@@ -5401,7 +5401,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_20.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_20.jpg"
       ]
     }
   ]
@@ -5414,7 +5414,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_20.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_20.jpg"
       ]
     }
   ]
@@ -5427,7 +5427,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_30.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]
@@ -5440,7 +5440,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_30.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]

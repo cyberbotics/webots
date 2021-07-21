@@ -17,22 +17,22 @@ PROTO LegoWheel [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/lego_wheel.jpg"
+              "webots://projects/objects/lego/protos/textures/lego_wheel.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/lego_wheel_roughness.jpg"
+              "webots://projects/objects/lego/protos/textures/lego_wheel_roughness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/lego_wheel_normal.jpg"
+              "webots://projects/objects/lego/protos/textures/lego_wheel_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/lego_wheel_occlusion.jpg"
+              "webots://projects/objects/lego/protos/textures/lego_wheel_occlusion.jpg"
             ]
           }
           metalness 0

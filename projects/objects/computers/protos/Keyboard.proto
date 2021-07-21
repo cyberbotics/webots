@@ -20,7 +20,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/keyboard.jpg"
+            "webots://projects/objects/computers/protos/textures/keyboard.jpg"
           ]
         }
         metalness 0

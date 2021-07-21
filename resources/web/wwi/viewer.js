@@ -961,9 +961,11 @@ function createRobotComponent(view) {
     const webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
     const robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
 
-    if (typeof webotsView === 'undefined')
+    if (typeof webotsView === 'undefined') {
       webotsView = new webots.View(webotsViewElement);
-    else {
+      webotsView.branch = localSetup.branch;
+      webotsView.repository = localSetup.repository;
+    } else {
       webotsView.x3dScene.destroyWorld();
       sizeOfMarker = undefined;
       pointer = undefined;

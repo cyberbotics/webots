@@ -17,7 +17,6 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 0.98 0.98
   wallHeight 0.02
-  wallTextureUrl []
 }
 DEF BOX Solid {
   translation -0.2 0.02 0.4
@@ -107,7 +106,7 @@ DEF PANEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/strips.png"
+            "webots://projects/robots/k-team/khepera1/worlds/textures/strips.png"
           ]
         }
         roughness 0.5
@@ -148,7 +147,7 @@ DEF PANEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/strips.png"
+            "webots://projects/robots/k-team/khepera1/worlds/textures/strips.png"
           ]
         }
         roughness 0.5
@@ -190,7 +189,7 @@ DEF PANEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/strips.png"
+            "webots://projects/robots/k-team/khepera1/worlds/textures/strips.png"
           ]
         }
         roughness 0.5
@@ -232,7 +231,7 @@ DEF PANEL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/strips.png"
+            "webots://projects/robots/k-team/khepera1/worlds/textures/strips.png"
           ]
         }
         roughness 0.5

@@ -49,7 +49,7 @@ DEF BODY Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/lines.jpg"
+                "webots://projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
               ]
             }
             roughness 1

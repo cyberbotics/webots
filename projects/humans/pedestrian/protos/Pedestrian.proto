@@ -34,7 +34,7 @@ PROTO Pedestrian [
   hiddenField SFFloat    headAngle             0.0
 ]
 {
-%< const rigid = fields.controllerArgs.value.length; >%
+%< const rigid = fields.controllerArgs.value.length == 0; >%
 Robot {
   translation IS translation
   rotation IS rotation

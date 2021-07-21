@@ -95,7 +95,7 @@ DEF GROUND Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/ground.jpg"
+            "webots://projects/vehicles/worlds/textures/ground.jpg"
           ]
         }
         roughness 0.5
@@ -246,10 +246,10 @@ RoadIntersection {
   ]
   startRoadsNumberOfLanes 4
   startRoadsStartLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   startRoadsLine [
     RoadLine {
@@ -350,10 +350,10 @@ RoadIntersection {
   ]
   startRoadsNumberOfLanes 4
   startRoadsStartLine [
-    "textures/road_line_dashed.png"
-    "textures/road_line_dashed.png"
-    "textures/road_line_triangle.png"
-    "textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   startRoadsLine [
     RoadLine {
@@ -893,7 +893,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/turn_left.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/turn_left.jpg"
       ]
     }
   ]
@@ -910,7 +910,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/bump.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/bump.jpg"
       ]
     }
   ]
@@ -923,7 +923,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/cross_roads.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -936,7 +936,7 @@ CautionSign {
     CautionPanel {
       translation 0 -0.17 0
       signImage [
-        "textures/signs/us/turn_right.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
       ]
     }
   ]
@@ -958,7 +958,7 @@ OrderSign {
     OrderPanel {
       translation 0 -0.175 -0.026
       signImage [
-        "textures/signs/no_right_turn.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/no_right_turn.jpg"
       ]
     }
   ]
@@ -971,7 +971,7 @@ OrderSign {
     OrderPanel {
       translation 0 -0.175 -0.026
       signImage [
-        "textures/signs/no_pedestrian_crossing.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/no_pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -1000,7 +1000,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_55.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_55.jpg"
       ]
     }
   ]
@@ -1013,7 +1013,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_55.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_55.jpg"
       ]
     }
   ]
@@ -1026,7 +1026,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_65.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_65.jpg"
       ]
     }
   ]
@@ -1039,7 +1039,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/speed_limit_65.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_65.jpg"
       ]
     }
   ]
@@ -1051,7 +1051,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0 0 -0.023
       signImage [
-        "textures/signs/us/one_way_sign_left.jpg"
+        "webots://projects/objects/traffic/protos/textures/signs/us/one_way_sign_left.jpg"
       ]
     }
   ]
@@ -1234,7 +1234,7 @@ HighwayPole {
       height 4
       length 5.5
       texture [
-        "textures/highway_sign_bayonne.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
     }
   ]
@@ -1244,7 +1244,7 @@ HighwayPole {
       height 2.5
       length 3
       texture [
-        "textures/highway_sign_sebastian.jpg"
+        "webots://projects/objects/traffic/protos/textures/highway_sign_sebastian.jpg"
       ]
     }
   ]

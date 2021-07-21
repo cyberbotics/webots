@@ -19,12 +19,12 @@ PROTO Hotel [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "textures/windowed_building_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/windowed_building_base_color.jpg"
             ]
           }
         roughnessMap ImageTexture {
             url [
-              "textures/windowed_building_roughness.png"
+              "webots://projects/objects/buildings/protos/textures/windowed_building_roughness.png"
             ]
           }
         }

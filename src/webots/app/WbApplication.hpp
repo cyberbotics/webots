@@ -108,6 +108,7 @@ public slots:
   void setWorldLoadingCanceled();
   void setWorldLoadingProgress(const int progress);
   void setWorldLoadingStatus(const QString &status);
+  void setWorldLoadingProgressDialogCreatedtoFalse();
 
 private:
   static WbApplication *cInstance;

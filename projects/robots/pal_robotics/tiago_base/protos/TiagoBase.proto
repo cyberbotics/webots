@@ -319,12 +319,12 @@ PROTO TiagoBase [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/metal_stainless_clean_base_color.jpg"
+                        "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_base_color.jpg"
                       ]
                     }
                     roughnessMap ImageTexture {
                       url [
-                        "textures/metal_stainless_clean_roughness.jpg"
+                        "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_roughness.jpg"
                       ]
                     }
                     metalness 0.9
@@ -447,12 +447,12 @@ PROTO TiagoBase [
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "textures/metal_stainless_clean_base_color.jpg"
+                            "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_base_color.jpg"
                           ]
                         }
                         roughnessMap ImageTexture {
                           url [
-                            "textures/metal_stainless_clean_roughness.jpg"
+                            "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_roughness.jpg"
                           ]
                         }
                         metalness 0.9

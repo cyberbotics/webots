@@ -74,7 +74,6 @@ export default class Parser {
 
     if (typeof WbWorld.instance.viewpoint === 'undefined')
       return;
-
     WbWorld.instance.viewpoint.finalize();
 
     WbWorld.instance.sceneTree.forEach(node => {
@@ -221,8 +220,7 @@ export default class Parser {
   }
 
   _parseWorldInfo(node) {
-    const coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
-    WbWorld.instance.coordinateSystem = coordinateSystem;
+    WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
     WbWorld.computeUpVector();
   }
 
@@ -607,7 +605,7 @@ export default class Parser {
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
     else
-      console.log('Not a recognized geometry : ' + node.tagName);
+      console.log('Not a recognized geometry: ' + node.tagName);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
@@ -1051,7 +1049,14 @@ export default class Parser {
     const context = canvas2.getContext('2d');
 
     const image = new WbImage();
-    if (typeof prefix !== 'undefined' && !url.startsWith('https://raw.githubusercontent.com'))
+    if (url.startsWith('webots://')) {
+      if (typeof webots.currentView.repository === 'undefined')
+        webots.currentView.repository = 'cyberbotics';
+      if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
+        webots.currentView.branch = 'released'
+      url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+    }
+    if (typeof prefix !== 'undefined' && !url.startsWith('http'))
       url = prefix + url;
     if (isHdr) {
       const img = await Parser.loadHDRImage(url);
@@ -1092,7 +1097,7 @@ export default class Parser {
       img.onload = () => {
         resolve(img);
       };
-      img.onerror = () => console.log('Error in loading : ' + src);
+      img.onerror = () => console.log('Error in loading: ' + src);
       img.setAttribute('crossOrigin', '');
       img.src = src;
     });

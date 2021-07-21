@@ -95,6 +95,7 @@
     "fields": [
       "type \"maintained\" textureTransform TextureTransform { scale 2 1 }",
       "type \"artificial\" textureTransform TextureTransform { scale 2 1 }",
+      "type \"artificial_white\" textureTransform TextureTransform { scale 2 1 }",
       "type \"prickly\" textureTransform TextureTransform { scale 3 2 } IBLStrength 0.4",
       "type \"mossy\" textureTransform TextureTransform { scale 2 1 }"
     ]

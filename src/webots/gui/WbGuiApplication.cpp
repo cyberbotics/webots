@@ -118,7 +118,9 @@ void WbGuiApplication::restart() {
   nonProgramArgs.removeFirst();
 #ifdef __linux__
   QProcess::startDetached("./webots", nonProgramArgs);
-#else
+#elif defined(_WIN32)
+  exit(3030);  // this special code tells the launcher to restart Webots, see launcher.c
+#else  // macOS
   QProcess::startDetached(qApp->arguments()[0], nonProgramArgs);
 #endif
 }
@@ -553,6 +555,11 @@ void WbGuiApplication::udpateStyleSheet() {
   QFile linuxQssFile(WbStandardPaths::resourcesPath() + "stylesheet.linux.qss");
   linuxQssFile.open(QFile::ReadOnly);
   styleSheet += QString::fromUtf8(linuxQssFile.readAll());
+
+#elif _WIN32
+  QFile windowsQssFile(WbStandardPaths::resourcesPath() + "stylesheet.windows.qss");
+  windowsQssFile.open(QFile::ReadOnly);
+  styleSheet += QString::fromUtf8(windowsQssFile.readAll());
 #endif
 
   qApp->setStyleSheet(styleSheet);

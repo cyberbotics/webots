@@ -16,11 +16,11 @@
 
 """Create a web component scene foreach component of the components.json file."""
 
-import sys
-assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
-
+import fileinput
 import json  # noqa
 import os  # noqa
+import sys
+assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
 from shutil import copyfile  # noqa
 from inspect import currentframe, getframeinfo  # noqa
@@ -69,3 +69,16 @@ with open(ROBOTS) as f:
         search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%', component['viewpoint']['orientation'])
 
         run_webots()
+
+        branch = ''
+        with open(WEBOTS_HOME + '/resources/branch.txt', 'r') as file:
+            branch = file.read()
+
+        repo = ''
+        with open(WEBOTS_HOME + '/resources/repo.txt', 'r') as file:
+            repo = file.read()
+
+        for line in fileinput.FileInput(WEBOTS_HOME + '/docs/guide/scenes/' + component['name'] + '/' + component['name'] +
+                                        '.x3d', inplace=True):
+            line = line.replace('https://raw.githubusercontent.com/' + repo.strip() + '/' + branch.strip(), 'webots:/')
+            sys.stdout.write(line)

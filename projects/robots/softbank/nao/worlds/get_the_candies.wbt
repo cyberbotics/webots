@@ -24,22 +24,22 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   bottomUrl [
-    "textures/cubic/brown_floor_bottom.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_bottom.png"
   ]
   frontUrl [
-    "textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   leftUrl [
-    "textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   rightUrl [
-    "textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   topUrl [
-    "textures/cubic/brown_floor_top.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_top.png"
   ]
 }
 Solid {
@@ -48,9 +48,13 @@ Solid {
   children [
     DEF Candies_Area Floor {
       size 1 2.6
-      texture [
-        "textures/parquetry.jpg"
-      ]
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/default/worlds/textures/parquetry.jpg"
+          ]
+        }
+      }
     }
     Shelves {
       translation -0.36 0 0

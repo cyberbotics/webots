@@ -745,7 +745,7 @@ Lidar {
                 roughness 0.5
                 baseColorMap ImageTexture {
                   url [
-                    "textures/ibeo_logo.png"
+                    "webots://projects/devices/ibeo/protos/textures/ibeo_logo.png"
                   ]
                 }
                 textureTransform TextureTransform {

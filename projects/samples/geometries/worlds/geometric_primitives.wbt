@@ -229,7 +229,7 @@ DEF MESH Transform {
       }
       geometry Mesh {
         url [
-          "meshes/suzanne.obj"
+          "webots://projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }

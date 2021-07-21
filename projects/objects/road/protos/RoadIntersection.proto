@@ -16,8 +16,8 @@ PROTO RoadIntersection [
   field        SFBool               startRoads                     TRUE                                  # Defines if the beginning of each roads should be included or not.
   field        MFFloat              startRoadsLength               [5]                                   # Defines the length of the intersecting roads. The same length is used for all the roads if this field has only one item.
   field        SFInt32              startRoadsNumberOfLanes        2                                     # Defines the number of lanes of the roads(used for the texture mapping).
-  field        MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",    # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
-                                                                        "textures/road_line_triangle.png" ]
+  field        MFString             startRoadsStartLine            [ "webots://projects/objects/road/protos/textures/road_line_dashed.png", # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
+                                                               "webots://projects/objects/road/protos/textures/road_line_triangle.png" ]
   field        MFString             startRoadsEndLine              []                                    # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
   field        MFNode{RoadLine {}}  startRoadsLine                 [ RoadLine { } ]                      # Defines the property of each line separating two lanes.
   field        SFBool               startRoadBorder                TRUE                                  # Defines whether the intersecting road should have a sidewalks.
@@ -147,7 +147,7 @@ PROTO RoadIntersection [
       %< if (startRoads) { >%
         %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
           %<
-            let roadLength = useIndependentStartRoadLength ? startRoadsLength[i + 1] : startRoadsLength[0];
+            let roadLength = useIndependentStartRoadLength ? startRoadsLength[i] : startRoadsLength[0];
           >%
           %< if (roadLength > 0) { >%
             # only for borders
@@ -189,7 +189,7 @@ PROTO RoadIntersection [
             Road {
               translation %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0 %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >%
               rotation 0 1 0 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
-              name "road %<=i>%"
+              name "road %<= i >%"
               wayPoints [
                 0 0 0
                 0 0 %<= roadLength >%

@@ -23,6 +23,13 @@ The studied devices are attached on this robot.
 ![accelerometer.png](images/samples/accelerometer.thumbnail.jpg) In this example, the robot turns on a slope.
 Its [Accelerometer](../reference/accelerometer.md) sensor is used to switch on the bottommost LED.
 
+### [altimeter.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/altimeter.wbt)
+
+**Keywords**: [Robot](../reference/robot.md), [Altimeter](../reference/altimeter.md)
+
+![altimeter.png](images/samples/altimeter.thumbnail.jpg) In this example, the robot moves on a slope.
+Its [Altimeter](../reference/altimeter.md) sensor is used to switch direction when the robot is close to the slope's border.
+
 ### [battery.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/battery.wbt)
 
 **Keywords**: [Robot](../reference/robot.md), [Charger](../reference/charger.md), battery
@@ -49,14 +56,6 @@ The red blocks graphically represent the braking system, but the wheel is actual
 ![bumper.png](images/samples/bumper.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
 Its "bumper" [TouchSensor](../reference/touchsensor.md) (represented by a black box) detects collisions.
 `MyBot` moves back and turns a little each time a collision is detected.
-
-### [compass.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/compass.wbt)
-
-**Keywords**: [Compass](../reference/compass.md)
-
-![compass.png](images/samples/compass.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
-The robot is equipped with a yellow motorized needle which always indicates towards the north.
-The north direction is computed using a [Compass](../reference/compass.md) node.
 
 ### [camera.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/camera.wbt)
 
@@ -98,6 +97,22 @@ The noise mask is determined by the `Camera.noiseMaskUrl` field.
 The robot camera displays yellow rectangles around the recognized objects.
 Information about the objects currently recognized are displayed in the `Console`.
 The camera recognizes [Solid](../reference/solid.md) nodes whose `recognitionColors` field is not empty.
+
+### [camera\_segmentation.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/camera_segmentation.wbt)
+
+**Keywords**: [Camera](../reference/camera.md), pattern recognition, image segmentation, smart camera
+
+![camera_segmentation.png](images/samples/camera_segmentation.thumbnail.jpg) In this example, `MyBot` demonstrates image segmentation capabilities based on the [Camera](../reference/camera.md) recognition functionality.
+The computed segmented image is shown in the [Display](../reference/display.md) overlay (cyan border) in the 3D scene.
+The [Camera](../reference/camera.md) overlay (magenta border) in the 3D scene depicts the original camera image on the back and the recognized objects with segmentation color and yellow bounding box on the front.
+
+### [compass.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/compass.wbt)
+
+**Keywords**: [Compass](../reference/compass.md)
+
+![compass.png](images/samples/compass.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
+The robot is equipped with a yellow motorized needle which always indicates towards the north.
+The north direction is computed using a [Compass](../reference/compass.md) node.
 
 ### [connector.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/connector.wbt)
 

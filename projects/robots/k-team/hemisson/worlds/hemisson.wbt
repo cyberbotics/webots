@@ -20,13 +20,12 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/roughcast.jpg"
+        "webots://projects/default/worlds/textures/roughcast.jpg"
       ]
     }
     roughness 1
     metalness 0
   }
-  wallTextureUrl []
 }
 DEF RED_BRICK Solid {
   translation -0.3 0.03 0.15

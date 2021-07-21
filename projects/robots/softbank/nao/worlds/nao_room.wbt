@@ -33,22 +33,22 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   bottomUrl [
-    "textures/cubic/brown_floor_bottom.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_bottom.png"
   ]
   frontUrl [
-    "textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   leftUrl [
-    "textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   rightUrl [
-    "textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   topUrl [
-    "textures/cubic/brown_floor_top.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_top.png"
   ]
 }
 CeilingLight {
@@ -72,7 +72,7 @@ DEF PAINTING_BIG VisualArmature {
   translation -0.6 1.3 -2
   dimension 0.6 0.4 0.02
   textureUrl [
-    "textures/nao_poster_5.jpg"
+    "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_5.jpg"
   ]
 }
 DEF PAINTING_TOP VisualArmature {
@@ -80,7 +80,7 @@ DEF PAINTING_TOP VisualArmature {
   rotation 0 1 0 1.5708
   dimension 0.6 0.4 0.02
   textureUrl [
-    "textures/nao_poster_1.jpg"
+    "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_1.jpg"
   ]
 }
 DEF PAINTING_MIDDLE VisualArmature {
@@ -88,7 +88,7 @@ DEF PAINTING_MIDDLE VisualArmature {
   rotation 0 1 0 1.5708
   dimension 0.6 0.4 0.02
   textureUrl [
-    "textures/nao_poster_3.jpg"
+    "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_3.jpg"
   ]
 }
 DEF PAINTING_VERTICAL VisualArmature {
@@ -96,7 +96,7 @@ DEF PAINTING_VERTICAL VisualArmature {
   rotation 0 1 0 -1.5708
   dimension 0.675 0.9 0.02
   textureUrl [
-    "textures/nao_poster_2.jpg"
+    "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_2.jpg"
   ]
 }
 Key {
@@ -139,7 +139,6 @@ WoodenChair {
 Nao {
   translation 0.997971 0.34 -1.74563
   rotation 0.57735126918836 0.57735126918836 0.5773482691869614 -2.094395307179586
-  controller "nao_demo_python"
   cameraWidth 320
   cameraHeight 240
 }

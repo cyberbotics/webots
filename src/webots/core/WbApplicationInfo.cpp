@@ -28,7 +28,7 @@ const WbVersion &WbApplicationInfo::version() {
   static bool firstCall = true;
 
   if (firstCall) {
-    static QString webotsVersionString = "R2021b";  // updated by script
+    static QString webotsVersionString = "R2021b revision 1";  // updated by script
     bool success = webotsVersion.fromString(webotsVersionString);
     if (!success)
       WbLog::fatal(QObject::tr("Internal error: the Webots version is not computable."));
@@ -40,19 +40,36 @@ const WbVersion &WbApplicationInfo::version() {
 const QString &WbApplicationInfo::branch() {
   static QString branchName;
   static bool firstCall = true;
-
   if (firstCall) {
-    QFile file(WbStandardPaths::webotsHomePath() + "resources/branch.txt");
-    if (file.open(QIODevice::ReadOnly)) {
-      QTextStream in(&file);
-      const QString line = in.readLine();
-      if (!line.isNull())
-        branchName = line;
-
-      file.close();
-    }
+    const QString branch("resources/branch.txt");
+    branchName = getInfoFromFile(&branch);
   }
   return branchName;
+}
+
+const QString &WbApplicationInfo::repo() {
+  static QString repoName;
+  static bool firstCall = true;
+  if (firstCall) {
+    const QString repo("resources/repo.txt");
+    repoName = getInfoFromFile(&repo);
+  }
+  return repoName;
+}
+
+const QString WbApplicationInfo::getInfoFromFile(const QString *name) {
+  QString result;
+  QFile file(WbStandardPaths::webotsHomePath() + name);
+  if (file.open(QIODevice::ReadOnly)) {
+    QTextStream in(&file);
+    const QString line = in.readLine();
+    if (!line.isNull())
+      result = line;
+
+    file.close();
+  }
+
+  return result;
 }
 
 unsigned int WbApplicationInfo::releaseDate() {

@@ -60,6 +60,7 @@ graph LR
     Transform --> Solid[[Solid](solid.md)]
       Solid --> SolidDevice
         SolidDevice --> Accelerometer[[Accelerometer](accelerometer.md)]
+        SolidDevice --> Altimeter[[Altimeter](altimeter.md)]
         SolidDevice --> Camera[[Camera](camera.md)]
         SolidDevice --> Compass[[Compass](compass.md)]
         SolidDevice --> Connector[[Connector](connector.md)]

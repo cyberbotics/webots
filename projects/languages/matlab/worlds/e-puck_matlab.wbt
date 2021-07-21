@@ -61,7 +61,7 @@ DEF BOX3 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/logo.jpg"
+            "webots://projects/languages/matlab/worlds/textures/logo.jpg"
           ]
         }
         roughness 0.5

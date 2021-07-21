@@ -25,7 +25,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/paper.jpg"
+        "webots://projects/robots/mobsya/thymio/worlds/textures/paper.jpg"
       ]
     }
     roughness 1
@@ -33,6 +33,7 @@ RectangleArena {
   }
 }
 Thymio2 {
+  controller "thymio2_demo"
   window "thymio2"
   bodySlot [
     Thymio2Pen {

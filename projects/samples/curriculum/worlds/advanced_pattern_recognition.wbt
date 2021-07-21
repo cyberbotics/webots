@@ -16,7 +16,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/arena_floor.jpg"
+        "webots://projects/samples/curriculum/worlds/textures/arena_floor.jpg"
       ]
     }
     roughness 1
@@ -26,7 +26,7 @@ RectangleArena {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/arena_wall.jpg"
+        "webots://projects/samples/curriculum/worlds/textures/arena_wall.jpg"
       ]
     }
     roughness 1
@@ -187,7 +187,7 @@ DEF LANDMARK1 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l1.png"
+            "webots://projects/samples/curriculum/worlds/textures/l1.png"
           ]
           filtering 0
         }
@@ -231,7 +231,7 @@ DEF LANDMARK2 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l2.png"
+            "webots://projects/samples/curriculum/worlds/textures/l2.png"
           ]
           filtering 0
         }
@@ -253,7 +253,7 @@ DEF LANDMARK3 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l3.png"
+            "webots://projects/samples/curriculum/worlds/textures/l3.png"
           ]
           filtering 0
         }
@@ -275,7 +275,7 @@ DEF LANDMARK4 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }
@@ -297,7 +297,7 @@ DEF LANDMARK5 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l1.png"
+            "webots://projects/samples/curriculum/worlds/textures/l1.png"
           ]
           filtering 0
         }
@@ -319,7 +319,7 @@ DEF LANDMARK6 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l2.png"
+            "webots://projects/samples/curriculum/worlds/textures/l2.png"
           ]
           filtering 0
         }
@@ -341,7 +341,7 @@ DEF LANDMARK7 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l3.png"
+            "webots://projects/samples/curriculum/worlds/textures/l3.png"
           ]
           filtering 0
         }
@@ -363,7 +363,7 @@ DEF LANDMARK8 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }
@@ -385,7 +385,7 @@ DEF LANDMARK9 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l3.png"
+            "webots://projects/samples/curriculum/worlds/textures/l3.png"
           ]
           filtering 0
         }
@@ -407,7 +407,7 @@ DEF LANDMARK10 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l2.png"
+            "webots://projects/samples/curriculum/worlds/textures/l2.png"
           ]
           filtering 0
         }
@@ -428,7 +428,7 @@ DEF LANDMARK11 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l1.png"
+            "webots://projects/samples/curriculum/worlds/textures/l1.png"
           ]
           filtering 0
         }
@@ -449,7 +449,7 @@ DEF LANDMARK12 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }
@@ -470,7 +470,7 @@ DEF LANDMARK13 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l2.png"
+            "webots://projects/samples/curriculum/worlds/textures/l2.png"
           ]
           filtering 0
         }
@@ -492,7 +492,7 @@ DEF LANDMARK14 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l1.png"
+            "webots://projects/samples/curriculum/worlds/textures/l1.png"
           ]
           filtering 0
         }
@@ -514,7 +514,7 @@ DEF LANDMARK15 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }
@@ -536,7 +536,7 @@ DEF LANDMARK16 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l2.png"
+            "webots://projects/samples/curriculum/worlds/textures/l2.png"
           ]
           filtering 0
         }
@@ -558,7 +558,7 @@ DEF LANDMARK17 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l2.png"
+            "webots://projects/samples/curriculum/worlds/textures/l2.png"
           ]
           filtering 0
         }
@@ -580,7 +580,7 @@ DEF LANDMARK18 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l1.png"
+            "webots://projects/samples/curriculum/worlds/textures/l1.png"
           ]
           filtering 0
         }
@@ -602,7 +602,7 @@ DEF LANDMARK19 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }
@@ -624,7 +624,7 @@ DEF LANDMARK20 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l3.png"
+            "webots://projects/samples/curriculum/worlds/textures/l3.png"
           ]
           filtering 0
         }
@@ -645,7 +645,7 @@ DEF LANDMARK21 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }
@@ -666,7 +666,7 @@ DEF LANDMARK22 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }
@@ -688,7 +688,7 @@ DEF LANDMARK23 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }
@@ -710,7 +710,7 @@ DEF LANDMARK24 Solid {
         baseColor 0.9 0.9 0.9
         baseColorMap ImageTexture {
           url [
-            "textures/l4.png"
+            "webots://projects/samples/curriculum/worlds/textures/l4.png"
           ]
           filtering 0
         }

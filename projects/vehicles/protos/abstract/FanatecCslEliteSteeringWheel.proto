@@ -63,7 +63,7 @@ PROTO FanatecCslEliteSteeringWheel [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/fanatec_csl_elite_steering_wheel.jpg"
+                      "webots://projects/vehicles/protos/abstract/textures/fanatec_csl_elite_steering_wheel.jpg"
                     ]
                   }
                   metalness 0
