@@ -208,7 +208,10 @@ void WbProjectRelocationDialog::copy() {
   int copiedFilesCount = 0;
   if (mIsCompleteRelocation) {
     copiedFilesCount += copyWorldFiles();
-    copiedFilesCount += copyProject(QDir(mProject->path()).absolutePath(), false);
+    QString currentProjectPath(QDir(mProject->path()).absolutePath());
+    if (!currentProjectPath.endsWith("/"))
+      currentProjectPath += "/";
+    copiedFilesCount += copyProject(currentProjectPath, false);
   }
   if (!mExternalProtoProjectPath.isEmpty())
     copiedFilesCount += copyProject(mExternalProtoProjectPath, mIsProtoModified);
@@ -263,8 +266,8 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
 
   if (copyProtoProject) {
     // copy all PROTO textures
-    result += WbFileUtil::copyDir(projectPath + "/protos/textures", mTargetPath + "/protos/textures", true, true, true);
-    result += WbFileUtil::copyDir(projectPath + "/protos/meshes", mTargetPath + "/protos/meshes", true, true, true);
+    result += WbFileUtil::copyDir(projectPath + "protos/textures", mTargetPath + "/protos/textures", true, true, true);
+    result += WbFileUtil::copyDir(projectPath + "protos/meshes", mTargetPath + "/protos/meshes", true, true, true);
   }
 
   bool copyLibraries = false;
@@ -311,16 +314,17 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
       copyLibraries = true;
   }
 
-  // copy the current controller (if not already done)
-  QString relativeControllerDirPath = mRelativeFilename;
-  if (QFileInfo(relativeControllerDirPath).isFile())
-    // if it's not a directory, but a file, get the containing controller directory from after the "controllers/" part of the
-    // string
-    relativeControllerDirPath = mRelativeFilename.left(mRelativeFilename.indexOf("/", 12));
-  const QString dstControllerPath = mTargetPath + "/" + relativeControllerDirPath;
-  if (!QDir(dstControllerPath).exists()) {
-    result += WbFileUtil::copyDir(projectPath + relativeControllerDirPath, dstControllerPath, true, true, true);
-    result += WbFileUtil::copyDir(projectPath + "motions", mTargetPath + "/motions", true, true, true);
+  // copy the current source folder
+  QString relativeDirPath = mRelativeFilename;
+  if (QFileInfo(projectPath + relativeDirPath).isFile())
+    // if it's not a directory, but a file, get the containing controller directory from after the "controllers/", "libraries/",
+    // "protos/", etc. part of the string
+    relativeDirPath = mRelativeFilename.left(mRelativeFilename.indexOf("/", mRelativeFilename.indexOf("/") + 1));
+  const QString dstPath = mTargetPath + "/" + relativeDirPath;
+  if (!QDir(dstPath).exists()) {
+    result += WbFileUtil::copyDir(projectPath + relativeDirPath, dstPath, true, true, true);
+    if (relativeDirPath.startsWith("controllers"))
+      result += WbFileUtil::copyDir(projectPath + "motions", mTargetPath + "/motions", true, true, true);
   }
 
   if (mProtoCheckBox && mProtoCheckBox->isChecked())
