@@ -1,0 +1,26 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoTestCylinder [
+  field SFFloat height 1
+  field SFFloat radius 1
+  field SFColor color 0 0 1
+  field SFInt32 subdivision 30
+  field SFBool side TRUE
+  field SFBool top TRUE
+  field SFBool bottom TRUE
+]
+{
+  Shape {
+    geometry Cylinder {
+      height IS height
+      radius IS radius
+      subdivision IS subdivision
+      side IS side
+      top IS top
+      bottom IS bottom
+    }
+    appearance PBRAppearance {
+      baseColor IS color
+    }
+  }
+}

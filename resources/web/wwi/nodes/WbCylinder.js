@@ -11,6 +11,38 @@ export default class WbCylinder extends WbGeometry {
     this.top = top;
   }
 
+  setParameter(parameterName, parameterValue) {
+    console.log(parameterName, parameterValue)
+    switch (parameterName) {
+      case 'radius':
+        this.radius = parameterValue;
+        this.updateRadius();
+        break;
+      case 'height':
+        this.height = parameterValue;
+        this.updateHeight();
+        break;
+      case 'subdivision':
+        this.subdivision = parameterValue;
+        this.updateSubdivision();
+        break;
+      case 'top':
+        this.top = parameterValue;
+        this._buildWrenMesh();
+        break;
+      case 'bottom':
+        this.bottom = parameterValue;
+        this._buildWrenMesh();
+        break;
+      case 'side':
+        this.side = parameterValue;
+        this._buildWrenMesh();
+        break;
+      default:
+        throw new Error('Unknown parameter ' + parameterName + ' for node WbCylinder.');
+    }
+  }
+
   clone(customID) {
     this.useList.push(customID);
     return new WbCylinder(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top);
@@ -26,6 +58,52 @@ export default class WbCylinder extends WbGeometry {
       return;
 
     this._computeWrenRenderable();
+
+    this._wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, false);
+
+    _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
+
+    const scale = _wrjs_array3(this.radius, this.height, this.radius);
+    _wr_transform_set_scale(this.wrenNode, scale);
+  }
+
+  updateLineScale() {
+    if (!this._isAValidBoundingObject())
+      return;
+
+    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
+    const scale =  _wrjs_array3(this.radius * (1 + offset), this.height * (1 + offset), this.radius * (1 + offset))
+
+    wr_transform_set_scale(wrenNode(), scale);
+  }
+
+  updateRadius() {
+    if (super._isAValidBoundingObject())
+      this.updateLineScale();
+    else
+      _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.radius, this.height, this.radius));
+  }
+
+  updateHeight() {
+    if (super._isAValidBoundingObject())
+      this.updateLineScale();
+    else
+      _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.radius, this.height, this.radius));
+  }
+
+  updateFaces() {
+    _buildWrenMesh();
+  }
+
+  updateSubdivision() {
+    _buildWrenMesh();
+  }
+
+  _buildWrenMesh() {
+    if (typeof this._wrenMesh !== 'undefined') {
+      _wr_static_mesh_delete(this._wrenMesh);
+      this._wrenMesh = undefined;
+    }
 
     this._wrenMesh = _wr_static_mesh_unit_cylinder_new(this.subdivision, this.side, this.top, this.bottom, false);
 

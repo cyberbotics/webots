@@ -57,8 +57,11 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoSphere.proto';
         // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
-        const url = '../wwi/Protos/ProtoTestAll.proto';
+        //const url = '../wwi/Protos/ProtoTestAll.proto';
         //const url = '../wwi/Protos/ProtoDefUse.proto';
+
+        // base geometries
+        const url = '../wwi/Protos/ProtoTestCylinder.proto';
 
         console.log('Loading PROTO: ' + url);
         this.loadProto(url);

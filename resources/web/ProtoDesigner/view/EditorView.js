@@ -243,7 +243,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     const elements = form.elements;
     switch (parseInt(form.attributes['id'].value)) {
       case VRML.SFBool:
-        return elements[0].value === 'true';
+        return elements[0].checked;
       case VRML.SFString:
         return elements[0].value;
       case VRML.SFInt32:
