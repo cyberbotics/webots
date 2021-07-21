@@ -16,12 +16,4 @@ export default class WbVector4 {
   clone() {
     return new WbVector4(this.x, this.y, this.z, this.w);
   };
-
-  asX3d() {
-    return this.x + ' ' + this.y + ' ' + this.z + ' ' + this.w;
-  };
-
-  jsify() {
-    return '{x: ' + this.x + ', y: ' + this.y + ', z: ' + this.z + ', w: ' + this.w + '}';
-  };
 }

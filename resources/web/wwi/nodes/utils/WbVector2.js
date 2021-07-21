@@ -73,8 +73,4 @@ export default class WbVector2 {
   asX3d() {
     return this.x + ' ' + this.y;
   };
-
-  jsify() {
-    return '{x: ' + this.x + ', y: ' + this.y + '}';
-  };
 }

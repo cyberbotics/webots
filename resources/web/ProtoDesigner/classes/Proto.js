@@ -1,10 +1,5 @@
 'use strict';
 
-import WbSFBool from '../../wwi/nodes/utils/WbSFBool.js';
-import WbSFDouble from '../../wwi/nodes/utils/WbSFDouble.js';
-import WbSFInt32 from '../../wwi/nodes/utils/WbSFInt32.js';
-import WbSFString from '../../wwi/nodes/utils/WbSFString.js';
-import WbSFColor from '../../wwi/nodes/utils/WbSFColor.js';
 import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
 import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
@@ -74,7 +69,11 @@ export default class Proto {
         headTokenizer.nextToken(); // consume current token (i.e the parameter name)
 
         const defaultValue = this.parseParameterValue(type, headTokenizer);
-        const value = defaultValue.clone();
+        let value;
+        if (defaultValue instanceof WbVector2 || defaultValue instanceof WbVector3 || defaultValue instanceof WbVector4)
+          value = defaultValue.clone();
+        else
+          value = defaultValue.valueOf();
 
         const parameter = new Parameter(name, type, isRegenerator, defaultValue, value)
         this.parameters.set(this.uniqueId(), parameter);
@@ -83,46 +82,46 @@ export default class Proto {
   };
 
   parseParameterValue(type, tokenizer) {
-    if (type === VRML.SFBool)
-      return new WbSFBool(tokenizer.nextToken().toBool());
-    else if (type === VRML.SFFloat)
-      return new WbSFDouble(tokenizer.nextToken().toFloat());
-    else if (type === VRML.SFInt32)
-      return new WbSFInt32(tokenizer.nextToken().toInt());
-    else if (type === VRML.SFString)
-      return new WbSFString(tokenizer.nextWord());
-    else if (type === VRML.SFVec2f) {
-      const x = tokenizer.nextToken().toFloat();
-      const y = tokenizer.nextToken().toFloat();
-      return new WbVector2(x, y);
-    } else if (type === VRML.SFVec3f) {
-      const x = tokenizer.nextToken().toFloat();
-      const y = tokenizer.nextToken().toFloat();
-      const z = tokenizer.nextToken().toFloat();
-      return new WbVector3(x, y, z);
-    } else if (type === VRML.SFColor) {
-      const r = tokenizer.nextToken().toFloat();
-      const g = tokenizer.nextToken().toFloat();
-      const b = tokenizer.nextToken().toFloat();
-      return new WbSFColor(r, g, b);
-    } else if (type === VRML.SFRotation) {
-      const x = tokenizer.nextToken().toFloat();
-      const y = tokenizer.nextToken().toFloat();
-      const z = tokenizer.nextToken().toFloat();
-      const w = tokenizer.nextToken().toFloat();
-      return new WbVector4(x, y, z, w);
-    } else if (type === VRML.SFNode)
-      console.error('TODO: implement SFNode in parseParameterValue.');
-    else
-      throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');
+    switch (type) {
+      case VRML.SFBool:
+        return tokenizer.nextToken().toBool();
+      case VRML.SFFloat:
+        return tokenizer.nextToken().toFloat();
+      case VRML.SFInt32:
+        return tokenizer.nextToken().toInt();
+      case VRML.SFString:
+        return tokenizer.nextWord();
+      case VRML.SFVec2f:
+        const x = tokenizer.nextToken().toFloat();
+        const y = tokenizer.nextToken().toFloat();
+        return new WbVector2(x, y);
+      case VRML.SFVec3f:
+      case VRML.SFColor: {
+        const x = tokenizer.nextToken().toFloat();
+        const y = tokenizer.nextToken().toFloat();
+        const z = tokenizer.nextToken().toFloat();
+        return new WbVector3(x, y, z);
+      }
+      case VRML.SFRotation: {
+        const x = tokenizer.nextToken().toFloat();
+        const y = tokenizer.nextToken().toFloat();
+        const z = tokenizer.nextToken().toFloat();
+        const w = tokenizer.nextToken().toFloat();
+        return new WbVector4(x, y, z, w);
+      }
+      case VRML.SFNode:
+        console.error('TODO: implement SFNode in parseParameterValue.');
+      default:
+        throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');
+    }
   }
 
   encodeFieldsForTemplateEngine() {
-    this.encodedFields = '';
+    this.encodedFields = ''; // ex: 'size: {value: {x: 2, y: 1, z: 1}, defaultValue: {x: 2, y: 1, z: 1}}'
 
-    for (const [key, value] of this.parameters.entries())
-      // size: {value: {x: 2, y: 1, z: 1}, defaultValue: {x: 2, y: 1, z: 1}}, color: {value: {r: 0, g: 1, b: 1}, defaultValue: {r: 0, g: 1, b: 1}}';
-      this.encodedFields += value.name + ': {value: ' + value.value.jsify() + ', defaultValue: ' + value.defaultValue.jsify() + '}, ';
+    for (const [key, parameter] of this.parameters.entries())
+      this.encodedFields += parameter.name + ': ' + parameter.jsify() + ', ';
+
 
     this.encodedFields = this.encodedFields.slice(0, -2); // remove last comma and space
 

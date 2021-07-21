@@ -1,8 +1,3 @@
-import WbSFBool from '../../wwi/nodes/utils/WbSFBool.js';
-import WbSFDouble from '../../wwi/nodes/utils/WbSFDouble.js';
-import WbSFInt32 from '../../wwi/nodes/utils/WbSFInt32.js';
-import WbSFString from '../../wwi/nodes/utils/WbSFString.js';
-import WbSFColor from '../../wwi/nodes/utils/WbSFColor.js';
 import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
 import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
@@ -185,7 +180,7 @@ export default class ProtoParser {
     if (parameter.type === VRML.SFNode)
       throw new Error('TODO: parseIS for SFNode not yet implemented');
 
-    const value = parameter.value.asX3d();
+    const value = parameter.x3dify();
     nodeElement.setAttribute(fieldName, value);
     console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 

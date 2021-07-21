@@ -11,7 +11,7 @@ export default class WbSphere extends WbGeometry {
   setParameter(parameterName, parameterValue) {
     console.log('setting parameter ' + parameterName + ' with value ', parameterValue);
     if (parameterName === 'radius') {
-      this.radius = parameterValue.value;
+      this.radius = parameterValue;
       this.updateRadius();
     } else
       throw new Error('Unknown parameter ' + parameterName + ' for node WbSphere.');
