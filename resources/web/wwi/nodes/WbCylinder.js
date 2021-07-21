@@ -12,7 +12,6 @@ export default class WbCylinder extends WbGeometry {
   }
 
   setParameter(parameterName, parameterValue) {
-    console.log(parameterName, parameterValue)
     switch (parameterName) {
       case 'radius':
         this.radius = parameterValue;
@@ -92,11 +91,11 @@ export default class WbCylinder extends WbGeometry {
   }
 
   updateFaces() {
-    _buildWrenMesh();
+    this._buildWrenMesh();
   }
 
   updateSubdivision() {
-    _buildWrenMesh();
+    this._buildWrenMesh();
   }
 
   _buildWrenMesh() {

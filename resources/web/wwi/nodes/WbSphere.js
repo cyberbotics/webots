@@ -1,4 +1,5 @@
 import WbGeometry from './WbGeometry.js';
+import WbWorld from './WbWorld.js';
 
 export default class WbSphere extends WbGeometry {
   constructor(id, radius = 0.1, ico = false, subdivision = 1) {
@@ -16,9 +17,11 @@ export default class WbSphere extends WbGeometry {
         break;
       case 'ico':
         this.ico = parameterValue;
+        this.updateMesh();
         break;
       case 'subdivision':
         this.subdivision = parameterValue;
+        this.updateMesh();
         break;
       default:
         throw new Error('Unknown parameter ' + parameterName + ' for node WbSphere.');
@@ -32,6 +35,7 @@ export default class WbSphere extends WbGeometry {
 
   createWrenObjects() {
     super.createWrenObjects();
+    this.sanitizeFields();
     this._buildWrenMesh();
   }
 
@@ -61,6 +65,23 @@ export default class WbSphere extends WbGeometry {
       this.updateLineScale();
     else
       this.updateScale();
+  }
+
+  updateMesh() {
+    this.sanitizeFields();
+    this._buildWrenMesh();
+    const parent = WbWorld.instance.nodes.get(this.parent); // needed otherwise it is no longer visible
+    parent.updateAppearance();
+  }
+
+  sanitizeFields() {
+    if (this.ico) {
+      this.subdivision = this.subdivision > 5 ? 5 : this.subdivision;
+      this.subdivision = this.subdivision < 1 ? 1 : this.subdivision;
+    } else {
+      this.subdivision = this.subdivision > 32 ? 32 : this.subdivision;
+      this.subdivision = this.subdivision < 3 ? 3 : this.subdivision;
+    }
   }
 
   // Private functions
