@@ -97,7 +97,6 @@ void WbCamera::init() {
   mRecognition = findSFNode("recognition");
   mNoiseMaskUrl = findSFString("noiseMaskUrl");
   mAntiAliasing = findSFBool("antiAliasing");
-  mCoordinateSystem = findSFString("coordinateSystem");
   mAmbientOcclusionRadius = findSFDouble("ambientOcclusionRadius");
   mBloomThreshold = findSFDouble("bloomThreshold");
   mLensFlare = findSFNode("lensFlare");
@@ -210,7 +209,6 @@ void WbCamera::postFinalize() {
   connect(mNear, &WbSFDouble::changed, this, &WbCamera::updateNear);
   connect(mFar, &WbSFDouble::changed, this, &WbCamera::updateFar);
   connect(mExposure, &WbSFDouble::changed, this, &WbCamera::updateExposure);
-  connect(mCoordinateSystem, &WbSFString::changed, this, &WbCamera::updateCoordinateSystem);
   connect(mAmbientOcclusionRadius, &WbSFDouble::changed, this, &WbCamera::updateAmbientOcclusionRadius);
   connect(mBloomThreshold, &WbSFDouble::changed, this, &WbCamera::updateBloomThreshold);
   connect(mAntiAliasing, &WbSFBool::changed, this, &WbAbstractCamera::updateAntiAliasing);
@@ -461,7 +459,6 @@ void WbCamera::updateRaysSetupIfNeeded() {
   // compute the camera position and rotation
   const WbVector3 cameraPosition = matrix().translation();
   const WbMatrix3 cameraRotation = rotationMatrix();
-  // const WbMatrix3 cameraRotation = WbMatrix3(1, 0, 0, M_PI) * rotationMatrix();
   const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
   const double horizontalFieldOfView = fieldOfView();
   const double verticalFieldOfView =
@@ -1045,10 +1042,6 @@ void WbCamera::updateFar() {
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
-
-void WbCamera::updateCoordinateSystem() {
-  mWrenCamera->setCamerasOrientations(mCoordinateSystem->value() == "FLU" ? WbWrenCamera::CAMERA_COORDINATE_SYSTEM_FLU : WbWrenCamera::CAMERA_COORDINATE_SYSTEM_LEGACY);
-} 
 
 void WbCamera::updateExposure() {
   if (WbFieldChecker::resetDoubleIfNegative(this, mExposure, 1.0))

@@ -25,7 +25,6 @@
 #include "WbRgb.hpp"
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTokenizer.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenCamera.hpp"
@@ -733,16 +732,16 @@ void WbAbstractCamera::applyFrustumToWren() {
   const float t = tanf(fovX / 2.0f);
   const float dw1 = n * t;
   const float dh1 = dw1 * h / w;
-  const float n1 = WbTokenizer::isWorldFluCompatible() ? n : -n;
+  const float n1 = n;
   const float dw2 = f * t;
   const float dh2 = dw2 * h / w;
-  const float n2 = WbTokenizer::isWorldFluCompatible() ? f : -f;
+  const float n2 = f;
 
   QVector<float> vertices;
   QVector<float> colors;
   float vertex[3] = {0.0f, 0.0f, 0.0f};
   addVertex(vertices, colors, vertex, frustumColor);
-  vertex[2] = WbTokenizer::isWorldFluCompatible() ? n : -n;
+  vertex[2] = n;
   addVertex(vertices, colors, vertex, frustumColor);
 
   // creation of the near plane
@@ -829,8 +828,8 @@ void WbAbstractCamera::updateFrustumDisplay() {
 
   const float n = minRange();
   const float quadWidth = 2.0f * n * tanf(mFieldOfView->value() / 2.0f);
-  const float translation[3] = {0.0f, 0.0f, WbTokenizer::isWorldFluCompatible() ? n : -n};
-  const float orientation[4] = {WbTokenizer::isWorldFluCompatible() ? -(float)M_PI_2 : (float)M_PI_2, 1.0f, 0.0f, 0.0f};
+  const float translation[3] = {0.0f, 0.0f, n};
+  const float orientation[4] = {-M_PI_2, 1.0f, 0.0f, 0.0f};
   const float scale[3] = {quadWidth, 1.0f, (quadWidth * height()) / width()};
 
   wr_transform_set_position(mFrustumDisplayTransform, translation);

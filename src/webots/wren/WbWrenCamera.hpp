@@ -122,7 +122,7 @@ private:
   void setupSphericalSubCameras();
   void setupCameraPostProcessing(int index);
   void setupSphericalPostProcessingEffect();
-  void setCamerasOrientations(CameraCoordinateSystem coordinateSystem = CAMERA_COORDINATE_SYSTEM_FLU);
+  void setCamerasOrientations();
   void setFovy(float fov);
   void setAspectRatio(float aspectRatio);
   void updatePostProcessingParameters(int index);

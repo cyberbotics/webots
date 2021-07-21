@@ -118,7 +118,6 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
   // (translucent objects are sorted by distance with the camera)
   const float offset[3][3] = {{0.0001f, 0.0f, 0.0f}, {0.0f, 0.0001f, 0.0f}, {0.0f, 0.0f, 0.0001f}};
 
-  // const float rotation[3][4] = { {-1.570796327f, 1.0f, 0.0f, 0.0f}, {1.570796327f, 0.0f, 0.0f, 1.0f}, {1.570796327f, 0.0f, 1.0f, 0.0f}};
   const float rotation[3][4] = {{1.570796327f, 0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, 0.0f, 0.0f}, {1.570796327f, 1.0f, 0.0f, 0.0f}};
 
   if (mHasTranslationHandles) {
