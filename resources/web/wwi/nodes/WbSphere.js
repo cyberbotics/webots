@@ -7,7 +7,7 @@ export default class WbSphere extends WbGeometry {
     this.radius = radius;
     this.ico = ico;
     this.subdivision = subdivision;
-  }
+  };
 
   setParameter(parameterName, parameterValue) {
     switch (parameterName) {
@@ -26,24 +26,24 @@ export default class WbSphere extends WbGeometry {
       default:
         throw new Error('Unknown parameter ' + parameterName + ' for node WbSphere.');
     }
-  }
+  };
 
   clone(customID) {
     this.useList.push(customID);
     return new WbSphere(customID, this.radius, this.ico, this.subdivision);
-  }
+  };
 
   createWrenObjects() {
     super.createWrenObjects();
-    this.sanitizeFields();
+    this._sanitizeFields();
     this._buildWrenMesh();
-  }
+  };
 
   delete() {
     _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
-  }
+  };
 
   updateLineScale() {
     if (!this._isAValidBoundingObject())
@@ -52,29 +52,34 @@ export default class WbSphere extends WbGeometry {
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
     const scaledRadius = this.radius * (1.0 + offset);
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
-  }
+  };
 
   updateScale() {
     const scaledRadius = this.radius;
 
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
-  }
+  };
 
   updateRadius() {
+    this._sanitizeFields();
+
     if (super.isInBoundingObject())
       this.updateLineScale();
     else
       this.updateScale();
-  }
+  };
 
   updateMesh() {
-    this.sanitizeFields();
+    this._sanitizeFields();
+
     this._buildWrenMesh();
     const parent = WbWorld.instance.nodes.get(this.parent); // needed otherwise it is no longer visible
     parent.updateAppearance();
-  }
+  };
 
-  sanitizeFields() {
+  // Private functions
+
+  _sanitizeFields() {
     if (this.ico) {
       this.subdivision = this.subdivision > 5 ? 5 : this.subdivision;
       this.subdivision = this.subdivision < 1 ? 1 : this.subdivision;
@@ -82,13 +87,14 @@ export default class WbSphere extends WbGeometry {
       this.subdivision = this.subdivision > 32 ? 32 : this.subdivision;
       this.subdivision = this.subdivision < 3 ? 3 : this.subdivision;
     }
-  }
 
-  // Private functions
+    if (this.radius < 0)
+      this.radius = 1
+  };
 
   _isAValidBoundingObject() {
     return super._isAValidBoundingObject() && this.radius > 0;
-  }
+  };
 
   _buildWrenMesh() {
     super._deleteWrenRenderable();
@@ -112,5 +118,5 @@ export default class WbSphere extends WbGeometry {
       this.updateLineScale();
     else
       this.updateScale();
-  }
+  };
 }

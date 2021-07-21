@@ -5,7 +5,7 @@ export default class WbBox extends WbGeometry {
   constructor(id, size = new WbVector3(2, 2, 2)) {
     super(id);
     this.size = size;
-  }
+  };
 
   setParameter(parameterName, parameterValue) {
     if (parameterName === 'size' && typeof this.size === typeof parameterValue) {
@@ -13,16 +13,18 @@ export default class WbBox extends WbGeometry {
       this.updateSize();
     } else
       throw new Error('Unknown parameter ' + parameterName + ' for node WbBox.');
-  }
+  };
 
   clone(customID) {
     this.useList.push(customID);
     return new WbBox(customID, this.size);
-  }
+  };
 
   createWrenObjects() {
     super.createWrenObjects();
     super._computeWrenRenderable();
+
+    this._sanitizeFields();
 
     const createOutlineMesh = super.isInBoundingObject();
     this._wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
@@ -30,13 +32,13 @@ export default class WbBox extends WbGeometry {
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
 
     this.updateSize();
-  }
+  };
 
   delete() {
     _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
-  }
+  };
 
   updateLineScale() {
     if (!this._isAValidBoundingObject())
@@ -44,14 +46,21 @@ export default class WbBox extends WbGeometry {
 
     const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x + offset, this.size.y + offset, this.size.z + offset));
-  }
+  };
 
   updateSize() {
+    this._sanitizeFields();
+
     if (super.isInBoundingObject())
       this.updateLineScale();
     else
       _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));
-  }
+  };
+
+  _sanitizeFields() {
+    if (this.size.x < 0 || this.size.y < 0 || this.size.z < 0)
+      this.size = new WbVector3(1, 1, 1);
+  };
 }
 
 WbBox.IntersectedFace = {
