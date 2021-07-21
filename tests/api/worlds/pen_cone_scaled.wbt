@@ -96,7 +96,7 @@ DEF WRITER Robot {
       children [
         Camera {
           translation 0.03 0.03 0.04
-          rotation 0.267039949718385 0.7071068668570928 0.6547438767166501 0.6545
+          rotation 0.950437653019037 0.21124092288123414 -0.22813491671366046 -2.969705307179586
           children [
             Shape {
               geometry Cylinder {

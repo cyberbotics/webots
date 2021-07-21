@@ -89,7 +89,7 @@ DEF ROBOT Robot {
     }
     DEF CAM0 Camera {
       translation 0 -0.008 0.08
-      rotation 1 0 0 -1.5708
+      rotation 1 0 0 1.57079
       children [
         Shape {
           geometry Cylinder {
@@ -103,7 +103,7 @@ DEF ROBOT Robot {
     }
     DEF CAM1 Camera {
       translation 0 -0.008 -0.08
-      rotation 1 0 0 -1.5708
+      rotation 1 0 0 1.57079
       children [
         Shape {
           geometry Cylinder {

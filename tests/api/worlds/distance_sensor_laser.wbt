@@ -30,7 +30,7 @@ Robot {
       aperture 0.01
     }
     Camera {
-      rotation 0 1 0 -1.5708
+      rotation 0.70710528118436 0 0.707108281185553 3.14159
       fieldOfView 0.01
       width 1
       height 1

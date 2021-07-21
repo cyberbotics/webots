@@ -37,6 +37,7 @@ Transform {
 Robot {
   children [
     Camera {
+      rotation 1 0 0 3.14159
       zoom Zoom {
         maxFieldOfView 1.58
         minFieldOfView 1.56

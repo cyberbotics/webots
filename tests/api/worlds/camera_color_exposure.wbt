@@ -37,6 +37,7 @@ Transform {
 Robot {
   children [
     Camera {
+      rotation 1 0 0 3.14159
       exposure 0.5
     }
     TestSuiteEmitter {
