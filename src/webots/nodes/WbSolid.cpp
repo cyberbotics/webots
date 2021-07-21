@@ -1291,12 +1291,12 @@ void WbSolid::updatePhysics() {
     delete mSolidMerger.data();
   }
 
+  if (mPhysics->value())
+    dMassSetZero(mOdeMass);  // force recomputing the ODE mass
   setupSolidMergers();
   setBodiesAndJointsToParents();
   setJointChildrenWithReferencedEndpoint();
 
-  if (mPhysics->value())
-    createOdeMass(true);
   adjustOdeMass();
   applyMassCenterToWren();
   refreshPhysicsRepresentation();
