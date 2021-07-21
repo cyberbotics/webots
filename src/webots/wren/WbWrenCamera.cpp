@@ -509,6 +509,13 @@ void WbWrenCamera::copyContentsToMemory(void *data) {
   WbWrenOpenGlContext::doneWren();
 }
 
+void WbWrenCamera::rotateRoll(float angle) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    if (mIsCameraActive[i])
+      wr_camera_apply_roll(mCamera[i], angle);
+  }
+}
+
 void WbWrenCamera::rotatePitch(float angle) {
   for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
@@ -847,10 +854,6 @@ void WbWrenCamera::setCamerasOrientations() {
     wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_RIGHT], -M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_BACK])
     wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_BACK], M_PI);
-  if (mIsCameraActive[CAMERA_ORIENTATION_FRONT]) {
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
-    wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_FRONT], M_PI);
-  }
   if (mIsCameraActive[CAMERA_ORIENTATION_LEFT])
     wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_LEFT], M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_UP])

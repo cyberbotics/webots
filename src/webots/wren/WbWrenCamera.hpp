@@ -101,6 +101,7 @@ public:
 
   void enableTextureUpdateNotifications(bool enabled) { mNotifyOnTextureUpdate = enabled; }
 
+  void rotateRoll(float angle);
   void rotateYaw(float angle);
   void rotatePitch(float angle);
 

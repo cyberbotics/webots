@@ -856,6 +856,10 @@ void WbCamera::createWrenCamera() {
   updateBloomThreshold();
   updateAmbientOcclusionRadius();
 
+  // OpenCV camera axis orientation
+  mWrenCamera->rotateYaw(M_PI);
+  mWrenCamera->rotateRoll(M_PI);
+
   updateLensFlare();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);
 }
