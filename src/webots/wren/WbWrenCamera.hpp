@@ -59,8 +59,6 @@ public:
     CAMERA_ORIENTATION_COUNT
   };
 
-  enum CameraCoordinateSystem { CAMERA_COORDINATE_SYSTEM_LEGACY = 0, CAMERA_COORDINATE_SYSTEM_FLU };
-
   WbWrenCamera(WrTransform *node, int width, int height, float nearValue, float minRange, float maxRange, float fov, char type,
                bool hasAntiAliasing, bool isSpherical);
 
