@@ -1,0 +1,20 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoTestSphere [
+  field SFFloat radius 0.5
+  field SFBool ico FALSE
+  field SFInt32 subdivision 12
+  field SFColor color 1 0 0
+]
+{
+  Shape {
+    geometry Sphere {
+      radius IS radius
+      ico IS ico
+      subdivision IS subdivision
+    }
+    appearance PBRAppearance {
+      baseColor IS color
+    }
+  }
+}

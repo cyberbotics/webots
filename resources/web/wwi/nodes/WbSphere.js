@@ -9,12 +9,20 @@ export default class WbSphere extends WbGeometry {
   }
 
   setParameter(parameterName, parameterValue) {
-    console.log('setting parameter ' + parameterName + ' with value ', parameterValue);
-    if (parameterName === 'radius') {
-      this.radius = parameterValue;
-      this.updateRadius();
-    } else
-      throw new Error('Unknown parameter ' + parameterName + ' for node WbSphere.');
+    switch (parameterName) {
+      case 'radius':
+        this.radius = parameterValue;
+        this.updateRadius();
+        break;
+      case 'ico':
+        this.ico = parameterValue;
+        break;
+      case 'subdivision':
+        this.subdivision = parameterValue;
+        break;
+      default:
+        throw new Error('Unknown parameter ' + parameterName + ' for node WbSphere.');
+    }
   }
 
   clone(customID) {
