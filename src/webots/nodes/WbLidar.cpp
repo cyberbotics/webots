@@ -76,7 +76,7 @@ void WbLidar::init() {
   mActualHorizontalResolution = mHorizontalResolution->value();
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
-  mActualType = mType->value();
+  mIsActuallyRotating = mType->value().startsWith('r', Qt::CaseInsensitive);
 }
 
 WbLidar::WbLidar(WbTokenizer *tokenizer) : WbAbstractCamera("Lidar", tokenizer) {
@@ -192,7 +192,7 @@ QString WbLidar::pixelInfo(int x, int y) const {
 void WbLidar::prePhysicsStep(double ms) {
   WbSolid::prePhysicsStep(ms);
   WbSolid *s = solidEndPoint();
-  if (isRotating() && mSensor->isEnabled()) {
+  if (mIsActuallyRotating && mSensor->isEnabled()) {
     double angle = -(ms * 2 * M_PI * mDefaultFrequency->value()) / 1000;
     if (s)
       s->rotate(WbVector3(0.0, angle, 0.0));
@@ -208,7 +208,7 @@ void WbLidar::prePhysicsStep(double ms) {
 
 void WbLidar::postPhysicsStep() {
   WbSolid::postPhysicsStep();
-  if (isRotating() && mSensor->isEnabled())
+  if (mIsActuallyRotating && mSensor->isEnabled())
     copyAllLayersToSharedMemory();
 }
 
@@ -239,8 +239,8 @@ void WbLidar::writeAnswer(QDataStream &stream) {
     mImageChanged = false;  // prevents the AbstractCamera from copying the whole content of the camera in the shared memory
     WbAbstractCamera::writeAnswer(stream);
     mSensor->resetPendingValue();
-    if (!isRotating() && mSensor->isEnabled())  // in case of rotating lidar, the copy is done during the step
-      copyAllLayersToSharedMemory();            // for non-rotating lidar, copy the layers needed in the shared memory
+    if (!mIsActuallyRotating && mSensor->isEnabled())  // in case of rotating lidar, the copy is done during the step
+      copyAllLayersToSharedMemory();                   // for non-rotating lidar, copy the layers needed in the shared memory
   } else
     WbAbstractCamera::writeAnswer(stream);
 }
@@ -250,7 +250,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
   stream >> command;
   if (command == C_SET_SAMPLING_PERIOD) {
     stream >> mRefreshRate;
-    if (isRotating())
+    if (mIsActuallyRotating)
       mRefreshRate = WbWorld::instance()->basicTimeStep();
 
     mSensor->setRefreshRate(mRefreshRate);
@@ -298,7 +298,7 @@ void WbLidar::copyAllLayersToSharedMemory() {
   mWrenCamera->enableCopying(true);
   mWrenCamera->copyContentsToMemory(mTemporaryImage);
   // if rotating compute which part of the image should be updated
-  if (isRotating()) {
+  if (mIsActuallyRotating) {
     double deltaAngle = fabs(mCurrentRotatingAngle - mPreviousRotatingAngle);
     double ratio = deltaAngle / actualFieldOfView();
     if (ratio > 1.0)
@@ -367,7 +367,7 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
     const double cosPhi = cos(phi + mCurrentTiltAngle);
     for (int j = minWidth; j < maxWidth; ++j) {
       double theta = actualFieldOfView() / 2 - j * (actualFieldOfView() / (w - 1));
-      if (isRotating())
+      if (mIsActuallyRotating)
         theta = -((double)j / (double)resolution) * 2 * M_PI;
       const int index = resolution * i + j;
       const double r = image[index];
@@ -389,7 +389,7 @@ void WbLidar::createWrenCamera() {
   mActualHorizontalResolution = mHorizontalResolution->value();
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
-  mActualType = mType->value();
+  mIsActuallyRotating = mType->value().startsWith('r', Qt::CaseInsensitive);
 
   WbAbstractCamera::createWrenCamera();
   applyMaxRangeToWren();
@@ -508,7 +508,7 @@ void WbLidar::applyFrustumToWren() {
   const double f = maxRange();
   const double fovV = verticalFieldOfView();
   double fovH = fieldOfView();
-  if (isRotating())
+  if (mIsActuallyRotating)
     fovH = 2 * M_PI;
 
   const int intermediatePointsNumber = floor(fovH / 0.2);
@@ -561,7 +561,7 @@ int WbLidar::height() const {
 }
 
 int WbLidar::width() const {
-  if (isRotating())
+  if (mIsActuallyRotating)
     return ceil(actualHorizontalResolution() * (actualFieldOfView() / (2.0 * M_PI)));
   return actualHorizontalResolution();
 }
@@ -730,7 +730,7 @@ void WbLidar::updateHorizontalResolution() {
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {
     int requiredResolution = ceil((actualNumberOfLayers() * actualFieldOfView()) / verticalFieldOfView());
-    if (isRotating()) {
+    if (mIsActuallyRotating) {
       requiredResolution *= 2.0 * M_PI / actualFieldOfView();
       parsingWarn(
         tr("Impossible to have a so small 'horizontalResolution' using this 'numberOfLayers' and 'verticalFieldOfView'. "
@@ -759,7 +759,7 @@ void WbLidar::updateVerticalFieldOfView() {
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {
     double requiredVerticalFieldOfView = (actualNumberOfLayers() * actualFieldOfView()) / width();
-    if (isRotating())
+    if (mIsActuallyRotating)
       parsingWarn(
         tr("Impossible to have a so small 'verticalFieldOfView' using this 'numberOfLayers' and 'horizontalResolution'. "
            "'verticalFieldOfView' should be bigger or equal to 2.0 * M_PI * numberOfLayers / horizontalResolution. "
@@ -788,7 +788,7 @@ void WbLidar::updateNumberOfLayers() {
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {
     int requiredNumberOfLayers = height();
-    if (isRotating())
+    if (mIsActuallyRotating)
       parsingWarn(
         tr("Impossible to have a so big 'numberOfLayers' using this 'verticalFieldOfView' and 'horizontalResolution'. "
            "'numberOfLayers' should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * "
