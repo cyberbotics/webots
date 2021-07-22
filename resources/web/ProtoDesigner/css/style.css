@@ -33,6 +33,12 @@
   padding: 5px;
 }
 
+.library {
+  grid-area: library;
+  background-color: #4c4c4c;
+  padding: 5px;
+}
+
 .header {
   grid-area: header;
   display: flex;

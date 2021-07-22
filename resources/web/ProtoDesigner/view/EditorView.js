@@ -10,13 +10,13 @@ import {VRML} from '../classes/FieldModel.js';
 import Proto from '../classes/Proto.js';
 
 export default class EditorView { // eslint-disable-line no-unused-vars
-  constructor(element, renderer, view, designer) {
+  constructor(element, view, designer) {
     // setup parameter list view
     this.element = element;
-    this.cleanupDiv('No loaded PROTO');
-    this.renderer = renderer;
     this.view = view;
     this.designer = designer;
+
+    this.cleanupDiv('No loaded PROTO');
 
     this.parameter = undefined; // currently selected parameter in the UI
     this.proto = undefined; // currently referenced proto (based on the active parameter)

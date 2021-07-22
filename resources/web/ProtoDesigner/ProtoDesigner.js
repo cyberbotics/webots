@@ -5,7 +5,9 @@ import WbWorld from '../wwi/nodes/WbWorld.js';
 import WrenRenderer from '../wwi/WrenRenderer.js';
 
 import Proto from './classes/Proto.js';
-import EditorView from './view/EditorView.js'; // TODO: replace by makefile?
+
+import EditorView from './view/EditorView.js';
+import LibraryView from './view/LibraryView.js';
 
 import {getAnId} from '../wwi/nodes/utils/utils.js';
 
@@ -32,6 +34,12 @@ class ProtoDesigner {
       return;
     }
 
+    this.libraryElement = document.getElementById('proto-library');
+    if (typeof this.libraryElement === 'undefined') {
+      console.error('The Proto Designer cannot find the proto-library component.');
+      return;
+    }
+
     this._init();
   };
 
@@ -42,12 +50,14 @@ class ProtoDesigner {
 
         this.renderer = new WrenRenderer();
         this.view = new webots.View(document.getElementById('view3d'));
-        this.editor = new EditorView(this.editorElement, this.renderer, this.view, this);
+        this.editor = new EditorView(this.editorElement, this.view, this);
+        this.library = new LibraryView(this.libraryElement);
+        this.loadLibrary('./library/library.json');
 
-        this.activeProtos = new Map();
+        this.activeProtos = new Map(); // currently loaded protos
 
         // load default scene
-        this.loadMinimalScene();
+        this.loadMinimalScene(); // setup background, viewpoint and worldinfo
 
         // const url = '../wwi/Protos/ProtoTestParameters.proto';
         // const url = '../wwi/Protos/ProtoBox.proto';
@@ -110,6 +120,18 @@ class ProtoDesigner {
     xmlhttp.onreadystatechange = async() => {
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
         await this.addProtoToScene(xmlhttp.responseText, parentId, parameter);
+    };
+    xmlhttp.send();
+  };
+
+  loadLibrary(url) {
+    console.log('Loading library file: ' + url);
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', url, true);
+    xmlhttp.overrideMimeType('json');
+    xmlhttp.onreadystatechange = async() => {
+      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+        await this.library.parseLibrary(xmlhttp.responseText);
     };
     xmlhttp.send();
   };
