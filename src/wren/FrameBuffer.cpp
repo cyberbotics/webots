@@ -87,6 +87,8 @@ namespace wren {
       const Texture::GlFormatParams &params = drawBufferFormat(index);
       glGenBuffers(1, &mOutputDrawBuffers[index].mGlNamePbo);
       glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
+      // const string openGLVersionNumber(glstate::version(), 3);
+      // fprintf(stderr, "ver: %f", stod(openGLVersionNumber));
       // glBufferData(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, GL_STREAM_READ);
       const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
       glBufferStorage(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, flags);
@@ -357,10 +359,6 @@ namespace wren {
   void FrameBuffer::cleanupGl() {
     if (mGlName) {
       release();
-
-      if (mReadBufferPointer) {
-        mReadBufferPointer = nullptr;
-      }
 
       for (size_t i = 0; i < mOutputDrawBuffers.size(); ++i) {
         if (mOutputDrawBuffers[i].mGlNamePbo)

@@ -111,7 +111,7 @@ namespace wren {
     bool mIsCopyingEnabled;
     int mWidth;
     int mHeight;
-    void *mReadBufferPointer;
+    void *mReadBufferPointer = nullptr;
     TextureRtt *mDepthTexture;
     std::vector<TextureRtt *> mOutputTextures;
     std::vector<RenderBuffer> mOutputRenderBuffers;
