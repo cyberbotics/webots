@@ -95,7 +95,7 @@ if not releaseExists:
     draft = False if tagName.startswith('nightly_') else True
     tagExists = False
     for tag in repo.get_tags():
-        if tag.title == tagName:
+        if tag.name == tagName:
             tagExists = True
             break
 
