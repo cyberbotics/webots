@@ -857,8 +857,7 @@ void WbCamera::createWrenCamera() {
   updateAmbientOcclusionRadius();
 
   // OpenCV camera axis orientation
-  mWrenCamera->rotateYaw(M_PI);
-  mWrenCamera->rotateRoll(M_PI);
+  mWrenCamera->rotatePitch(M_PI);
 
   updateLensFlare();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);

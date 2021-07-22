@@ -20,6 +20,7 @@ Robot {
     TestSuiteEmitter {
     }
     Camera {
+      rotation 1 0 0 3.14159
       fieldOfView 6.2832
       width 256
       height 128

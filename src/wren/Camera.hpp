@@ -87,6 +87,9 @@ namespace wren {
     }
 
     void setDirection(const glm::vec3 &direction);
+
+    // I have no idea which convention is this, it should be: Roll(x), Pitch(y), and Yaw(z)
+    // This doesn't even follow the VRML convention: Roll(x), Pitch(z), and Yaw(y)
     void applyYaw(float angle) { applyRotation(angle, gVec3UnitY); }
     void applyPitch(float angle) { applyRotation(angle, gVec3UnitX); }
     void applyRoll(float angle) { applyRotation(angle, gVec3UnitZ); }

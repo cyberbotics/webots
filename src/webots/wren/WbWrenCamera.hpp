@@ -66,7 +66,6 @@ public:
 
   bool isSpherical() { return mIsSpherical; }
   bool isSubCameraActive(int cameraIndex) { return mIsCameraActive[cameraIndex]; }
-  WrCamera *getSubCamera(int cameraIndex) { return mCamera[cameraIndex]; }
   WrViewport *getSubViewport(int cameraIndex) { return mCameraViewport[cameraIndex]; }
 
   WrTexture *getWrenTexture() const;

@@ -89,11 +89,11 @@ DEF WRITER Robot {
       }
     }
     Solid {
-      rotation -0.9254835532596828 -0.08950655679427535 0.36806082233330034 2.643
+      rotation 0.5578327925294718 0.8064497000632672 0.19611592706008768 7.19948
       children [
         Camera {
           translation 0.025 0.099 -0.048
-          rotation 1 0 0 -0.7854
+          rotation 1 0 0 -0.7854053071795866
           children [
             Shape {
               geometry Cylinder {
