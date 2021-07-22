@@ -168,8 +168,7 @@ protected:
 
   // ODE objects for a WbGeometry lying into a boundingObject
   // Scaling
-  dGeomID mOdeGeom;          // stores a pointer on the ODE dGeom object when the WbGeometry lies into a boundingObject
-  bool mIs90DegreesRotated;  // rotate Capsule and Cylinder by 90 degrees: ODE to VRML rotation
+  dGeomID mOdeGeom;  // stores a pointer on the ODE dGeom object when the WbGeometry lies into a boundingObject
   WbVector3 mLocalOdeGeomOffsetPosition;
   dMass *mOdeMass;        // needed to correct the WbSolid parent mass after the destruction of a bounding WbGeometry
   void applyToOdeMass();  // modifies the ODE dMass when the dimensions change

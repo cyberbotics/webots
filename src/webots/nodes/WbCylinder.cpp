@@ -40,10 +40,6 @@
 #include <limits>
 
 void WbCylinder::init() {
-  // rotate cylinder by 90 degrees around the x-axis because ODE cylinders
-  // are z-aligned but Webots needs the Cylinders to be y-aligned
-  mIs90DegreesRotated = true;
-
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
   mHeight = findSFDouble("height");

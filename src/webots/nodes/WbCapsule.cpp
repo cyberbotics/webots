@@ -37,10 +37,6 @@
 #include <cmath>
 
 void WbCapsule::init() {
-  // rotate capsule by 90 degrees around the x-axis because ODE capsules
-  // are z-aligned but Webots needs the Caspules to be y-aligned
-  mIs90DegreesRotated = true;
-
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
   mHeight = findSFDouble("height");

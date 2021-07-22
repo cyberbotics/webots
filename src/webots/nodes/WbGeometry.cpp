@@ -60,7 +60,6 @@ void WbGeometry::init() {
   mCollisionTime = -std::numeric_limits<float>::infinity();
   mPreviousCollisionTime = -std::numeric_limits<float>::infinity();
   mOdeGeom = NULL;
-  mIs90DegreesRotated = false;
   mOdeMass = NULL;
   mResizeManipulator = NULL;
   mResizeManipulatorInitialized = false;
@@ -530,12 +529,6 @@ void WbGeometry::setOdeRotation(const WbMatrix3 &rotation) {
   if (!mLocalOdeGeomOffsetPosition.isNull())
     // the position should be recomputed because the local offset is influenced by the global rotation
     setOdePosition(mOdePositionSet);
-
-  if (mIs90DegreesRotated) {
-    // append 90 deg rotation
-    static const WbMatrix3 localRotation = WbRotation(1.0, 0.0, 0.0, M_PI_2).toMatrix3();
-    mOdeOffsetRotation *= localRotation;
-  }
 
   if (mOdeGeom == NULL)
     return;
