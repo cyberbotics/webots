@@ -50,14 +50,14 @@ class ProtoDesigner {
 
         this.renderer = new WrenRenderer();
         this.view = new webots.View(document.getElementById('view3d'));
-        this.editor = new EditorView(this.editorElement, this.renderer, this.view);
+        this.editor = new EditorView(this.editorElement, this.renderer, this.view, this);
 
         // const url = '../wwi/Protos/ProtoTestParameters.proto';
         // const url = '../wwi/Protos/ProtoBox.proto';
         // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
-        const url = '../wwi/Protos/ProtoTestAll.proto';
-        //const url = '../wwi/Protos/ProtoDefUse.proto';
+        // const url = '../wwi/Protos/ProtoTestAll.proto';
+        // const url = '../wwi/Protos/ProtoDefUse.proto';
 
         // base geometries
         // const url = '../wwi/Protos/ProtoTestBox.proto';
@@ -65,6 +65,8 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoTestSphere.proto';
         // const url = '../wwi/Protos/ProtoTestCapsule.proto';
         // const url = '../wwi/Protos/ProtoTestCone.proto';
+
+        const url = '../wwi/Protos/ProtoTestSFNode.proto';
 
         console.log('Loading PROTO: ' + url);
         this.loadProto(url);
@@ -85,6 +87,31 @@ class ProtoDesigner {
       document.head.appendChild(script);
     });
   };
+
+  addProto(url) {
+    console.log('Adding new node');
+    this.loadAnotherProto('../wwi/Protos/ProtoTestBox.proto')
+  }
+
+  loadAnotherProto(url) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', url, true);
+    xmlhttp.overrideMimeType('plain/text');
+    xmlhttp.onreadystatechange = async() => {
+      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+        await this.yetAnotherLoad(xmlhttp.responseText);
+    };
+    xmlhttp.send();
+  }
+
+  yetAnotherLoad(txt) {
+    const newProto = new Proto(txt);
+    console.log(newProto.x3d);
+
+    //const x3d = '<nodes><Box id="n-5" size="1 1 1"></Box></nodes>';
+
+    this.view.x3dScene._loadObject(newProto.x3d, -4);
+  }
 
   loadProto(url) {
     const xmlhttp = new XMLHttpRequest();

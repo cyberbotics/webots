@@ -134,7 +134,7 @@ export default class X3dScene {
 
   _loadObject(x3dObject, parentId, callback) {
     let parentNode;
-    if (typeof parentId !== 'undefined' && parentId > 0) {
+    if (typeof parentId === 'number') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
       const ancestor = getAncestor(parentNode);
       ancestor.isPreFinalizeCalled = false;

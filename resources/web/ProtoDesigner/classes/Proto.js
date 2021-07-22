@@ -79,6 +79,8 @@ export default class Proto {
         let value;
         if (defaultValue instanceof WbVector2 || defaultValue instanceof WbVector3 || defaultValue instanceof WbVector4)
           value = defaultValue.clone();
+        else if (typeof defaultValue === 'undefined')
+          value = undefined;
         else
           value = defaultValue.valueOf();
 
@@ -117,7 +119,11 @@ export default class Proto {
         return new WbVector4(x, y, z, w);
       }
       case VRML.SFNode:
-        console.error('TODO: implement SFNode in parseParameterValue.');
+        if(tokenizer.peekWord() === 'NULL') {
+          tokenizer.skipToken('NULL');
+          return;
+        } else
+          console.error('TODO: implement handling of pre-provided SFNode in proto header.');
       default:
         throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');
     }

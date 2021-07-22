@@ -174,13 +174,17 @@ export default class ProtoParser {
 
     // ensure it is a proto parameter
     const parameter = this.getParameterByName(alias);
+
     if (typeof parameter === 'undefined')
       throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
 
-    if (parameter.type === VRML.SFNode)
+    if (parameter.type === VRML.SFNode && typeof parameter.value !== 'undefined')
       throw new Error('TODO: parseIS for SFNode not yet implemented');
 
     const value = parameter.x3dify();
+    if (parameter.type === VRML.SFNode && typeof value !== 'undefined')
+      console.error('Case of SFNodes defined in the header not handled yet.');
+
     nodeElement.setAttribute(fieldName, value);
     console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 

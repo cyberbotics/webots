@@ -28,8 +28,9 @@ export default class Parameter {
       case VRML.SFRotation:
         return this.value.x + ' ' + this.value.y + ' ' + this.value.z + ' ' + this.value.w;
       case VRML.SFNode:
-        console.error('TODO: implement SFNode in x3dify.');
-        break;
+        if (typeof this.value !== 'undefined')
+          console.error('TODO: implement SFNode in x3dify.');
+        return;
       default:
         throw new Error('Unknown type \'' + this.type + '\' in x3dify.');
     }
@@ -57,8 +58,9 @@ export default class Parameter {
       case VRML.SFRotation:
         return '{x: ' + variable.x + ', y: ' + variable.y + ', z: ' + variable.z + ', w: ' + variable.w + '}';
       case VRML.SFNode:
-        console.error('TODO: implement SFNode in _jsifyVariable.');
-        break;
+        if (typeof variable !== 'undefined')
+          console.error('TODO: implement SFNode in _jsifyVariable.');
+        return;
       default:
         throw new Error('Unknown type \'' + this.type + '\' in _jsifyVariable.');
     }

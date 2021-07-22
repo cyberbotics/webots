@@ -7,13 +7,16 @@ import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 import {VRML} from '../classes/FieldModel.js';
 
+import Proto from '../classes/Proto.js';
+
 export default class EditorView { // eslint-disable-line no-unused-vars
-  constructor(element, renderer, view) {
+  constructor(element, renderer, view, designer) {
     // setup parameter list view
     this.element = element;
     this.cleanupDiv('No loaded PROTO');
     this.renderer = renderer;
     this.view = view;
+    this.designer = designer;
     // setup parameter editor view
     this.editorElement = document.getElementById('parameter-editor');
     if (typeof this.editorElement === 'undefined')
@@ -35,6 +38,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.setupInputForm(VRML.SFVec3f, 3, 'number', '0', '0.1');
     this.setupInputForm(VRML.SFColor, 3, 'number', '0', '0.1');
     this.setupInputForm(VRML.SFRotation, 4, 'number', '0', '0.1');
+    this.setupInputForm(VRML.SFNode, 1, 'checkbox', false);
+
   }
 
   showParameters(proto) {
@@ -143,6 +148,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
             else
               throw new Error('SFRotation form should not have more than 4 inputs.');
             break;
+          case VRML.SFNode:
+            break;  // TODO: just bypass for now
           default:
             throw new Error('Cannot populate editor because parameterType \'' + parameter.type + '\' is unknown.');
         }
@@ -185,26 +192,16 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.editorElement.appendChild(form);
   }
 
-  _createInput(type, value, step) {
-    let input = document.createElement('input');
-    input.addEventListener('input', this._updateValue.bind(this));
-
-    input.setAttribute('type', type);
-    if (type === 'checkbox' && typeof value === 'boolean')
-      input.checked = value;
-    if ((type === 'number' || type === 'text') && typeof value !== 'undefined')
-      input.setAttribute('value', value);
-
-    if (typeof step !== 'undefined')
-      input.setAttribute('step', step);
-    return input;
-  };
-
   updateValue(e) {
     console.log('updateValue');
     // keep proto.parameter value up to date
     const parameterRef = e.target.form.attributes['parameterReference'].value;
     const parameter = this.proto.parameters.get(parseInt(parameterRef));
+
+    if (parameter.type === VRML.SFNode) {
+      this.designer.addProto('proto url');
+      return;
+    }
 
     const newValue = this.getValuesFromForm(e.target.form);
     if (typeof parameter.value === typeof newValue)
@@ -257,6 +254,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
         return new WbVector3(parseFloat(elements[0].value), parseFloat(elements[1].value), parseFloat(elements[2].value));
       case VRML.SFRotation:
         return new WbVector4(parseFloat(elements[0].value), parseFloat(elements[1].value), parseFloat(elements[2].value), parseFloat(elements[3].value));
+      case VRML.SFNode:
+        return; // TODO: just bypass for now
       default:
         throw new Error('Unknown form in getValuesFromForm.');
     }
