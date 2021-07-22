@@ -17,6 +17,10 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.renderer = renderer;
     this.view = view;
     this.designer = designer;
+
+    this.parameter = undefined; // currently selected parameter in the UI
+    this.proto = undefined; // currently referenced proto (based on the active parameter)
+
     // setup parameter editor view
     this.editorElement = document.getElementById('parameter-editor');
     if (typeof this.editorElement === 'undefined')
@@ -44,11 +48,10 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   refreshParameters() {
     this.element.innerHTML = ''; // clean HTML
 
-    if (this.designer.activeProtos.length === 0)
+    if (this.designer.activeProtos.size === 0)
       this.cleanupDiv('No loaded PROTO');
     else {
-      const proto = this.designer.activeProtos[0];
-      this.proto = proto; // remove this dependency if possible
+      const proto = this.designer.activeProtos.get(0);
       this.populateDiv(proto);
     }
   };
@@ -74,11 +77,11 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       this.element.appendChild(ul);
 
     for (const [key, parameter] of proto.parameters.entries()) {
-      console.log(parameter.name)
       let li = document.createElement('li');
       li.innerText = parameter.name;
       li.setAttribute('class', 'item li-border li');
-      li.setAttribute('ref', key);
+      li.setAttribute('parameterId', key);
+      li.setAttribute('protoId', proto.id);
       li.addEventListener('click', () => this.itemSelector(event));
       ul.appendChild(li);
       if (typeof parameter.linkedProto !== 'undefined')
@@ -86,36 +89,16 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
   };
 
-  /*
-  populateDiv() {
-    this.element.innerHTML = '';
-
-    // add PROTO name label
-    let nameLabel = document.createElement('p');
-    nameLabel.innerHTML = '<span class="proto-name-label">' + this.proto.protoName + '</span>';
-    this.element.appendChild(nameLabel);
-
-    // display parameters
-    let ol = document.createElement('ol');
-    ol.setAttribute('class', 'designer-list');
-    this.element.appendChild(ol);
-
-    for (const [key, value] of this.proto.parameters.entries()) {
-      let li = document.createElement('li');
-      li.innerText = value.name;
-      li.setAttribute('class', 'item li-border li');
-      li.setAttribute('ref', key);
-      li.addEventListener('click', () => this.itemSelector(event));
-      ol.appendChild(li);
-    }
-  };
-  */
-
   itemSelector(event) {
-    const ref = event.target.getAttribute('ref');
-    console.log('Clicked item ref=' + ref);
+    const parameterId = event.target.getAttribute('parameterId');
+    const protoId = parseInt(event.target.getAttribute('protoId'));
+    console.log('Clicked item parameterId = ' + parameterId + ' (protoId = ' + protoId + ')');
+
+    this.proto = this.designer.activeProtos.get(protoId);
+    this.parameter = this.proto.parameters.get(parameterId);
+
     // adapt editor
-    this.populateEditor(ref);
+    this.populateEditor();
   };
 
   getForm(type) {
@@ -126,83 +109,77 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
   };
 
-  populateEditor(ref) {
-    const parameter = this.proto.parameters.get(ref);
-
+  populateEditor() {
     // adapt selection
     const p = document.getElementById('selection');
-    p.innerHTML = 'selection: <b>' + parameter.name + '</b>';
+    p.innerHTML = 'selection: <b>' + this.parameter.name + '</b>';
 
     // change form visibility
     for (const [key, value] of this.forms) {
-      if (key === parameter.type)
+      if (key === this.parameter.type)
         value.style.display = 'block';
       else
         value.style.display = 'none';
     }
 
     // show current value
-    const form = this.forms.get(parameter.type);
+    const form = this.forms.get(this.parameter.type);
     const elements = form.elements;
     for (let i = 0; i < elements.length; ++i) {
       if (elements[i].type === 'number' || elements[i].type === 'text' || elements[i].type === 'checkbox') {
-        switch (parseInt(parameter.type)) {
+        switch (parseInt(this.parameter.type)) {
           case VRML.SFBool:
-            elements[i].checked = parameter.value;
+            elements[i].checked = this.parameter.value;
             break;
           case VRML.SFString:
           case VRML.SFInt32:
           case VRML.SFFloat:
-            elements[i].value = parameter.value;
+            elements[i].value = this.parameter.value;
             break;
           case VRML.SFVec2f:
             if (elements[i].getAttribute('variable') === '0')
-              elements[i].value = parameter.value.x;
+              elements[i].value = this.parameter.value.x;
             else if (elements[i].getAttribute('variable') === '1')
-              elements[i].value = parameter.value.y;
+              elements[i].value = this.parameter.value.y;
             else
               throw new Error('SFVec2f form should not have more than 2 inputs.');
             break;
           case VRML.SFVec3f:
           case VRML.SFColor:
             if (elements[i].getAttribute('variable') === '0')
-              elements[i].value = parameter.value.x;
+              elements[i].value = this.parameter.value.x;
             else if (elements[i].getAttribute('variable') === '1')
-              elements[i].value = parameter.value.y;
+              elements[i].value = this.parameter.value.y;
             else if (elements[i].getAttribute('variable') === '2')
-              elements[i].value = parameter.value.z;
+              elements[i].value = this.parameter.value.z;
             else
               throw new Error('SFVec3f/SFColor forms should not have more than 3 inputs.');
             break;
           case VRML.SFRotation:
             if (elements[i].getAttribute('variable') === '0')
-              elements[i].value = parameter.value.x;
+              elements[i].value = this.parameter.value.x;
             else if (elements[i].getAttribute('variable') === '1')
-              elements[i].value = parameter.value.y;
+              elements[i].value = this.parameter.value.y;
             else if (elements[i].getAttribute('variable') === '2')
-              elements[i].value = parameter.value.z;
+              elements[i].value = this.parameter.value.z;
             else if (elements[i].getAttribute('variable') === '3')
-              elements[i].value = parameter.value.w;
+              elements[i].value = this.parameter.value.w;
             else
               throw new Error('SFRotation form should not have more than 4 inputs.');
             break;
           case VRML.SFNode:
             break;  // TODO: just bypass for now
           default:
-            throw new Error('Cannot populate editor because parameterType \'' + parameter.type + '\' is unknown.');
+            throw new Error('Cannot populate editor because parameterType \'' + this.parameter.type + '\' is unknown.');
         }
       }
     }
-
-    // update parameter reference
-    form.setAttribute('parameterReference', ref);
   };
 
   setupInputForm(id, nbInputs, type, defaultValue, step) {
     let form = document.createElement('form');
     form.setAttribute('onsubmit', 'return false;');
     form.setAttribute('id', id);
-    form.setAttribute('parameterReference', ''); // parameter reference
 
     for (let i = 0; i < nbInputs; ++i) {
       let input = document.createElement('input');
@@ -231,34 +208,30 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   };
 
   updateValue(e) {
-    // keep proto.parameter value up to date
-    const parameterRef = e.target.form.attributes['parameterReference'].value;
-    const parameter = this.proto.parameters.get(parameterRef);
-
-    if (parameter.type === VRML.SFNode) { // TMP
-      const nodeRefs = parameter.nodeRefs;
+    if (this.parameter.type === VRML.SFNode) { // TMP
+      const nodeRefs = this.parameter.nodeRefs;
       const node = WbWorld.instance.nodes.get(nodeRefs[0]);
       const nodeId = parseInt(node.id.slice(1));
-      this.designer.loadProto('../wwi/Protos/ProtoSphere.proto', nodeId, parameter);
+      this.designer.loadProto('../wwi/Protos/ProtoSphere.proto', nodeId, this.parameter);
       return;
     };
 
     const newValue = this.getValuesFromForm(e.target.form);
-    if (typeof parameter.value === typeof newValue)
-      parameter.value = newValue;
+    if (typeof this.parameter.value === typeof newValue)
+      this.parameter.value = newValue;
     else
-      throw new Error('Overwriting value of type ' + typeof parameter.value + ' with value of type ' + typeof newValue);
+      throw new Error('Overwriting value of type ' + typeof this.parameter.value + ' with value of type ' + typeof newValue);
 
-    if (parameter.isTemplateRegenerator) {
-      console.log('Regeneration triggered by parameter ' + parameter.name);
+    if (this.parameter.isTemplateRegenerator) {
+      console.log('Regeneration triggered by parameter ' + this.parameter.name);
       this.view.x3dScene.destroyWorld();
       this.proto.regenerate();
       this.view.x3dScene.loadWorldFileRaw(this.proto.x3d, this.view.finalizeWorld);
       return;
     }
 
-    const nodeRefs = parameter.nodeRefs;
-    const refNames = parameter.refNames;
+    const nodeRefs = this.parameter.nodeRefs;
+    const refNames = this.parameter.refNames;
 
     if (nodeRefs.length === 0 || (nodeRefs.length !== refNames.length))
       console.warn('No nodeRefs links are present for the selected paramter. Was it supposed to?');
@@ -266,13 +239,13 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     for (let i = 0; i < nodeRefs.length; ++i) {
       if (typeof nodeRefs[i] !== 'undefined' && typeof refNames[i] !== 'undefined') {
         const node = WbWorld.instance.nodes.get(nodeRefs[i]);
-        console.log('> setting parameter \'' + refNames[i] + '\' to ', parameter.value);
-        node.setParameter(refNames[i], parameter.value);
+        console.log('> setting parameter \'' + refNames[i] + '\' to ', this.parameter.value);
+        node.setParameter(refNames[i], this.parameter.value);
         // propagate to USE nodes, if any
         for (let j = 0; j < node.useList.length; ++j) {
-          console.log('>> setting (through DEF) parameter \'' + refNames[i] + '\' to ', parameter.value);
+          console.log('>> setting (through DEF) parameter \'' + refNames[i] + '\' to ', this.parameter.value);
           const useNode = WbWorld.instance.nodes.get(node.useList[j]);
-          useNode.setParameter(refNames[i], parameter.value);
+          useNode.setParameter(refNames[i], this.parameter.value);
         }
       }
     }

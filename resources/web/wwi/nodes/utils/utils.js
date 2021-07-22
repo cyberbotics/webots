@@ -6,6 +6,7 @@ import WbWorld from '../WbWorld.js';
 
 let undefinedID = -1; // Negative IDs are assigned to nodes provided by Webots without IDs.
 let parameterId = 0; // used to uniquely keep track of proto parameters
+let protoId = 0; // used to uniquely keep track of proto parameters
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);

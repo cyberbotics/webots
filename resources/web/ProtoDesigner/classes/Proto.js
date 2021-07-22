@@ -1,6 +1,6 @@
 'use strict';
 
-import {generateParameterId} from '../../wwi/nodes/utils/utils.js';
+import {generateParameterId, generateProtoId} from './utility/utility.js';
 
 import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
 import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
@@ -14,6 +14,7 @@ import {VRML} from './FieldModel.js';
 
 export default class Proto {
   constructor(protoText) {
+    this.id = generateProtoId();
     this.isTemplate = protoText.search('template language: javascript') !== -1;
     if(this.isTemplate) {
       console.log('PROTO is a template!');
@@ -30,7 +31,6 @@ export default class Proto {
     const rawHead = protoText.substring(indexBeginHead, indexBeginBody);
 
     // parse header and map each entry
-    this.id = 0; // id of the parameter
     this.parameters = new Map();
     this.parseHead(rawHead);
 
@@ -187,9 +187,5 @@ export default class Proto {
   tmpBody() {
     const a = 'let a = fields.size.value; ___vrml += render(` Shape { castShadow TRUE geometry Box { size `); ___tmp =  a.x ; ___vrml += eval("___tmp"); ___vrml += render(` 1 1 } appearance PBRAppearance { baseColor IS color } } `);';
     return a;
-  };
-
-  uniqueId() {
-    return this.id++;
   };
 };

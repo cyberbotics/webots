@@ -44,7 +44,7 @@ class ProtoDesigner {
         this.view = new webots.View(document.getElementById('view3d'));
         this.editor = new EditorView(this.editorElement, this.renderer, this.view, this);
 
-        this.activeProtos = [];
+        this.activeProtos = new Map();
 
         // load default scene
         this.loadMinimalScene();
@@ -90,7 +90,7 @@ class ProtoDesigner {
   addProtoToScene(rawProto, parentId, parameter) {
     console.log('Raw Proto:\n' + rawProto);
     const newProto = new Proto(rawProto);
-    this.activeProtos.push(newProto);
+    this.activeProtos.set(newProto.id, newProto);
 
     // when adding another Proto as SFNode, link the parameter to it
     if (typeof parameter !== 'undefined' && parameter.isSFNode()) // only SFNodes can be linked to other protos
