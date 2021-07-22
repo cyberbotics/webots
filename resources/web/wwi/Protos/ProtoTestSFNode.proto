@@ -2,12 +2,15 @@
 
 PROTO ProtoTestSFNode [
   field SFNode geometry NULL
+  field SFColor color 1 0 0
+  field SFColor color2 1 0 0
+
 ]
 {
   Shape {
     geometry IS geometry
     appearance PBRAppearance {
-      baseColor 1 0 0
+      baseColor IS color
     }
   }
 }

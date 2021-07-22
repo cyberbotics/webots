@@ -39,20 +39,57 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.setupInputForm(VRML.SFColor, 3, 'number', '0', '0.1');
     this.setupInputForm(VRML.SFRotation, 4, 'number', '0', '0.1');
     this.setupInputForm(VRML.SFNode, 1, 'checkbox', false);
+  };
 
-  }
+  refreshParameters() {
+    this.element.innerHTML = ''; // clean HTML
 
-  updateParameters(proto) {
-    if (proto === null)
+    if (this.designer.activeProtos.length === 0)
       this.cleanupDiv('No loaded PROTO');
     else {
-      this.proto = proto;
-      this.populateDiv();
+      const proto = this.designer.activeProtos[0];
+      this.proto = proto; // remove this dependency if possible
+      this.populateDiv(proto);
     }
-  }
+  };
 
+  populateDiv(proto, depth = 0, parent) {
+    console.log('DEPTH ' + depth, proto);
+    // add PROTO name label
+    let nameLabel = document.createElement('p');
+    nameLabel.innerHTML = '<span class="proto-name-label">' + proto.protoName + '</span>';
+
+    if (typeof parent !== 'undefined')
+      parent.appendChild(nameLabel);
+    else
+      this.element.appendChild(nameLabel);
+
+    // display parameters
+    let ul = document.createElement('ul');
+    ul.setAttribute('class', 'designer-list');
+
+    if (typeof parent !== 'undefined')
+      parent.appendChild(ul);
+    else
+      this.element.appendChild(ul);
+
+    for (const [key, parameter] of proto.parameters.entries()) {
+      console.log(parameter.name)
+      let li = document.createElement('li');
+      li.innerText = parameter.name;
+      li.setAttribute('class', 'item li-border li');
+      li.setAttribute('ref', key);
+      li.addEventListener('click', () => this.itemSelector(event));
+      ul.appendChild(li);
+      if (typeof parameter.linkedProto !== 'undefined')
+        this.populateDiv(parameter.linkedProto, depth + 1, li);
+    }
+  };
+
+  /*
   populateDiv() {
     this.element.innerHTML = '';
+
     // add PROTO name label
     let nameLabel = document.createElement('p');
     nameLabel.innerHTML = '<span class="proto-name-label">' + this.proto.protoName + '</span>';
@@ -72,6 +109,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       ol.appendChild(li);
     }
   };
+  */
 
   itemSelector(event) {
     const ref = parseInt(event.target.getAttribute('ref'));
@@ -86,7 +124,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       if (parseInt(form.id) === type)
         return form;
     }
-  }
+  };
 
   populateEditor(ref) {
     const parameter = this.proto.parameters.get(ref);
@@ -158,7 +196,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     // update parameter reference
     form.setAttribute('parameterReference', ref);
-  }
+  };
 
   setupInputForm(id, nbInputs, type, defaultValue, step) {
     let form = document.createElement('form');
@@ -190,7 +228,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     form.style.display = 'none'; // make invisible by default
     this.forms.set(id, form); // add to map for fast retrieval
     this.editorElement.appendChild(form);
-  }
+  };
 
   updateValue(e) {
     console.log('updateValue');
@@ -202,9 +240,9 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       const nodeRefs = parameter.nodeRefs;
       const node = WbWorld.instance.nodes.get(nodeRefs[0]);
       const nodeId = parseInt(node.id.slice(1));
-      this.designer.loadProto('../wwi/Protos/ProtoSphere.proto', nodeId);
+      this.designer.loadProto('../wwi/Protos/ProtoSphere.proto', nodeId, parameter);
       return;
-    }
+    };
 
     const newValue = this.getValuesFromForm(e.target.form);
     if (typeof parameter.value === typeof newValue)
@@ -234,7 +272,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
 
     this.view.x3dScene.render();
-  }
+  };
 
   getValuesFromForm(form) {
     if (typeof form === 'undefined')
@@ -262,39 +300,9 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       default:
         throw new Error('Unknown form in getValuesFromForm.');
     }
-  }
-
-  _populateDivRaw(parameters) {
-    /*
-    this._element.innerHTML = '';
-
-    // TODO: use methods instead... document.createElement, document.createTextNode, etc
-    let model = {};
-    model.name = 'label';
-
-    let nameLabel = document.createElement('p');
-    nameLabel.innerHTML = 'Name: <span class="part-name-label">' + model.name + '</span>';
-    this._element.appendChild(nameLabel);
-
-    let integerInput = document.createElement('p');
-    integerInput.innerHTML = '<label>Integer Input: <input type="number" step="1" value="10"></label>';
-    this._element.appendChild(integerInput);
-
-    let floatInput = document.createElement('p');
-    floatInput.innerHTML = '<label>Floating Input: <input type="number" step="0.01" value="3.14"></label>';
-    this._element.appendChild(floatInput);
-
-    let textInput = document.createElement('p');
-    textInput.innerHTML = '<label>String Input: <input type="text" value="this is a string"></label>';
-    this._element.appendChild(textInput);
-
-    let boolInput = document.createElement('p');
-    boolInput.innerHTML = '<label>Boolean Input: <input type="checkbox">TRUE</label>';
-    this._element.appendChild(boolInput);
-    */
   };
 
   cleanupDiv(text) {
     this.element.innerHTML = '<p><i>' + text + '</i></p>';
-  }
+  };
 }

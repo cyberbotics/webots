@@ -11,6 +11,11 @@ export default class Parameter {
     this.isTemplateRegenerator = isRegenerator;
     this.defaultValue = defaultValue;
     this.value = value;
+    this.linkedProto = undefined;
+  };
+
+  isSFNode() {
+    return this.type === VRML.SFNode;
   };
 
   x3dify() { // encodes field values in a format compliant for regeneration

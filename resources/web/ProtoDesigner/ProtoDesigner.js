@@ -44,7 +44,7 @@ class ProtoDesigner {
         this.view = new webots.View(document.getElementById('view3d'));
         this.editor = new EditorView(this.editorElement, this.renderer, this.view, this);
 
-        this.protos = new Map();
+        this.activeProtos = [];
 
         // load default scene
         this.loadMinimalScene();
@@ -87,26 +87,29 @@ class ProtoDesigner {
     });
   };
 
-  addProtoToScene(rawProto, parentId) {
+  addProtoToScene(rawProto, parentId, parameter) {
     console.log('Raw Proto:\n' + rawProto);
     const newProto = new Proto(rawProto);
-    this.protos.set(newProto.name, newProto);
+    this.activeProtos.push(newProto);
 
-    if (typeof parentId === 'undefined')
-      this.editor.updateParameters(newProto);
+    // when adding another Proto as SFNode, link the parameter to it
+    if (typeof parameter !== 'undefined' && parameter.isSFNode()) // only SFNodes can be linked to other protos
+      parameter.linkedProto = newProto;
+
+    this.editor.refreshParameters();
 
     console.log(newProto.x3d);
     this.view.x3dScene._loadObject(newProto.x3d, parentId);
   }
 
-  loadProto(url, parentId) {
+  loadProto(url, parentId, parameter) {
     console.log('Requesting proto: ' + url);
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
     xmlhttp.onreadystatechange = async() => {
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-        await this.addProtoToScene(xmlhttp.responseText, parentId);
+        await this.addProtoToScene(xmlhttp.responseText, parentId, parameter);
     };
     xmlhttp.send();
   };
