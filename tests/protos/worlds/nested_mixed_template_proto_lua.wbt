@@ -25,6 +25,7 @@ Robot {
   children [
     Camera {
       translation 0.2 0 0.15
+      rotation 1 0 0 3.14159
       name "cameraX"
       fieldOfView 0.01
       width 1
@@ -32,6 +33,7 @@ Robot {
     }
     Camera {
       translation 0 0.2 0.15
+      rotation 1 0 0 3.14159
       name "cameraY"
       fieldOfView 0.01
       width 1
