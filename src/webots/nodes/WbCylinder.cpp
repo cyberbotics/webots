@@ -296,14 +296,14 @@ void WbCylinder::updateLineScale() {
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
 
   float scale[] = {static_cast<float>(mRadius->value() * (1.0f + offset)),
-                   static_cast<float>(mHeight->value() * (1.0f + offset)),
-                   static_cast<float>(mRadius->value() * (1.0f + offset))};
+                   static_cast<float>(mRadius->value() * (1.0f + offset)),
+                   static_cast<float>(mHeight->value() * (1.0f + offset))};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
 void WbCylinder::updateScale() {
-  float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mHeight->value()),
-                   static_cast<float>(mRadius->value())};
+  float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mRadius->value()),
+                   static_cast<float>(mHeight->value())};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
