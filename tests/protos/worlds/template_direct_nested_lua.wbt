@@ -19,10 +19,10 @@ TemplateDirectMainLua {
   mainParameter FALSE
 }
 Robot {
-  rotation 1 0 0 3.14159
   children [
     Camera {
       translation 0 0 2
+      rotation 1 0 0 3.14159
       name "side camera"
       fieldOfView 0.01
       width 1
