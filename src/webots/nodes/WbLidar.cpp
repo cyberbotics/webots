@@ -351,33 +351,70 @@ void WbLidar::copyAllLayersToSharedMemory() {
   }
 }
 
+/* To be removed */
+#include <sys/timeb.h>
+uint64_t Time_uclock(void) {
+  struct timespec tv;
+
+  if (clock_gettime(CLOCK_REALTIME, &tv) != 0)
+    return 0;
+
+  return tv.tv_sec  * 1000000 + (tv.tv_nsec / 1000.0);
+}
+
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
+  uint64_t t0_chrono = Time_uclock(); /* To be removed */
   WbLidarPoint *lidarPoints = pointArray();
   const float *image = lidarImage();
-
   const int resolution = actualHorizontalResolution();
+  const int numberOfLayer = actualNumberOfLayers();
   const double w = width();
-  const double time = WbSimulationState::instance()->time() / 1000.0;
 
-  for (int i = 0; i < actualNumberOfLayers(); ++i) {
-    double phi = 0;
-    if (actualNumberOfLayers() > 1)  // to avoid division by zero
-      phi = verticalFieldOfView() / 2 - i * (verticalFieldOfView() / (actualNumberOfLayers() - 1));
-    const double sinPhi = sin(phi + mCurrentTiltAngle);
-    const double cosPhi = cos(phi + mCurrentTiltAngle);
-    for (int j = minWidth; j < maxWidth; ++j) {
-      double theta = actualFieldOfView() / 2 - j * (actualFieldOfView() / (w - 1));
-      if (mIsActuallyRotating)
-        theta = -((double)j / (double)resolution) * 2 * M_PI;
-      const int index = resolution * i + j;
+  const double dt = -((double)mRefreshRate / 1000.0) / w;
+  const double t0 = WbSimulationState::instance()->time() / 1000.0 + minWidth * dt;
+
+  const double dphi = (numberOfLayer > 1) ? (-verticalFieldOfView() / (numberOfLayer - 1)) : 0.0;
+  const double cosdPhi = cos(dphi), sindPhi = sin(dphi);
+  const double phi0 = ((numberOfLayer > 1) ? (verticalFieldOfView() / 2) : 0.0) + mCurrentTiltAngle;
+  const double cosPhi0 = cos(phi0), sinPhi0 = sin(phi0);
+
+  const double dtheta = mIsActuallyRotating ? (-2 * M_PI / (double)resolution) : (-actualFieldOfView() / (w - 1.0));
+  const double cosdTheta = cos(dtheta), sindTheta = sin(dtheta);
+  const double theta0 = mIsActuallyRotating ? (minWidth * dtheta) : (actualFieldOfView() / 2 + minWidth * dtheta);
+  const double cosTheta0 = cos(theta0), sinTheta0 = sin(theta0);
+
+  // cos(x+dx) = cos(x)cos(dx)-sin(x)sin(dx)
+  // sin(x+dx) = sin(x)cos(dx)+cos(x)sin(dx)
+
+  double cosPhi = cosPhi0;
+  double sinPhi = sinPhi0;
+  for (int i = 0; i < numberOfLayer; ++i) {
+    double t = t0;
+    double cosTheta = cosTheta0;
+    double sinTheta = sinTheta0;
+    const int indexStart = resolution * i + minWidth;
+    const int indexEnd = resolution * i + maxWidth;
+    for (int index = indexStart; index < indexEnd; ++index) {
       const double r = image[index];
-      lidarPoints[index].x = -r * sin(theta) * cosPhi;
+      lidarPoints[index].x = -r * sinTheta * cosPhi;
       lidarPoints[index].y = r * sinPhi;
-      lidarPoints[index].z = -r * cos(theta) * cosPhi;
-      lidarPoints[index].time = (j / w) * (time - mRefreshRate / 1000.0) + (1 - (j / w)) * time;
+      lidarPoints[index].z = -r * cosTheta * cosPhi;
+      lidarPoints[index].time = t;
       lidarPoints[index].layer_id = i;
+      t += dt;
+
+      double cosTheta_tmp = cosTheta * cosdTheta - sinTheta * sindTheta;
+      double sinTheta_tmp = sinTheta * cosdTheta + cosTheta * sindTheta;
+      cosTheta = cosTheta_tmp;
+      sinTheta = sinTheta_tmp;
     }
+    double cosPhi_tmp = cosPhi * cosdPhi - sinPhi * sindPhi;
+    double sinPhi_tmp = sinPhi * cosdPhi + cosPhi * sindPhi;
+    cosPhi = cosPhi_tmp;
+    sinPhi = sinPhi_tmp;
   }
+  uint64_t run_time = Time_uclock() - t0_chrono;/* To be removed */
+  printf("%ld %lf\n", run_time, (double)run_time*1000.0/(numberOfLayer*(maxWidth-minWidth)));
 }
 
 float *WbLidar::lidarImage() const {
