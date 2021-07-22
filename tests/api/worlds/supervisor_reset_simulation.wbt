@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.3011392881427894 -0.8944857953945254 -0.3304698034227591 4.845225060401701
-  position 8.056890161252701 5.15602094221405 0.024334960209242112
+  orientation -0.029387128972668656 -0.9971126503988496 -0.07001970483603427 4.869623397246134
+  position 9.58318845053874 0.08776530553786292 -0.41569692383912993
 }
 Background {
   skyColor [
@@ -106,14 +106,14 @@ NonDeterministicSupervisor {
     }
     DEF CAMERA0 Camera {
       translation 0 0.3 0
-      rotation 1 0 0 4.71239
+      rotation -1 0 0 -1.5707953071795862
       name "camera0"
       width 1
       height 1
     }
     DEF CAMERA1 Camera {
       translation 1.3 0.3 0
-      rotation 1 0 0 4.71239
+      rotation -1 0 0 -1.5707953071795862
       name "camera1"
       width 1
       height 1

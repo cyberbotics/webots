@@ -856,11 +856,10 @@ void WbCamera::createWrenCamera() {
   updateBloomThreshold();
   updateAmbientOcclusionRadius();
 
-  // OpenCV camera axis orientation
-  mWrenCamera->rotatePitch(M_PI);
-
   updateLensFlare();
+  updateCameraOrientation();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateCameraOrientation);
 }
 
 void WbCamera::createWrenOverlay() {
@@ -1005,6 +1004,13 @@ void WbCamera::updateLensFlare() {
     }
     WrViewport *viewport = mWrenCamera->getSubViewport(WbWrenCamera::CAMERA_ORIENTATION_FRONT);
     lensFlare()->setup(viewport);
+  }
+}
+
+void WbCamera::updateCameraOrientation() {
+  if (hasBeenSetup()) {
+    // OpenCV camera axis orientation
+    mWrenCamera->rotatePitch(M_PI);
   }
 }
 

@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.2721358568916974 0.9608204947325514 0.05259327234273345 0.183172
-  position 0.097933 0.164145 0.933943
+  orientation -0.08151390962251907 0.9735016585342613 0.2136586140765083 2.364190715788692
+  position 0.5603307336744201 0.6194427035424537 -0.7777177703514054
 }
 Background {
   skyColor [
@@ -83,9 +83,10 @@ DEF WRITER Robot {
             ]
           }
         ]
-        inkColor 0.980392 0.541176 0.0392157
+        inkColor 0.9803921580314636 0.5411764979362488 0.03921568766236305
         inkDensity 1
         leadSize 0.004
+        write FALSE
       }
     }
     Solid {
@@ -93,7 +94,7 @@ DEF WRITER Robot {
       children [
         Camera {
           translation 0.025 0.099 -0.048
-          rotation 1 0 0 -0.7854053071795866
+          rotation 1 0 0 2.35619
           children [
             Shape {
               geometry Cylinder {
