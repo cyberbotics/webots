@@ -231,7 +231,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   };
 
   updateValue(e) {
-    console.log('updateValue');
     // keep proto.parameter value up to date
     const parameterRef = e.target.form.attributes['parameterReference'].value;
     const parameter = this.proto.parameters.get(parseInt(parameterRef));
@@ -267,7 +266,14 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     for (let i = 0; i < nodeRefs.length; ++i) {
       if (typeof nodeRefs[i] !== 'undefined' && typeof refNames[i] !== 'undefined') {
         const node = WbWorld.instance.nodes.get(nodeRefs[i]);
+        console.log('> setting parameter \'' + refNames[i] + '\' to ', parameter.value);
         node.setParameter(refNames[i], parameter.value);
+        // propagate to USE nodes, if any
+        for (let j = 0; j < node.useList.length; ++j) {
+          console.log('>> setting (through DEF) parameter \'' + refNames[i] + '\' to ', parameter.value);
+          const useNode = WbWorld.instance.nodes.get(node.useList[j]);
+          useNode.setParameter(refNames[i], parameter.value);
+        }
       }
     }
 

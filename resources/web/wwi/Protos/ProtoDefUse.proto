@@ -1,6 +1,7 @@
 #VRML_SIM R2021b utf8
 
 PROTO ProtoDefUse [
+  field SFVec3f size 0.5 0.5 0.5
   field SFColor colorA 1 0 0
   field SFColor{PBRAppearance{}} colorB 0 1 0
 ]
@@ -9,7 +10,7 @@ PROTO ProtoDefUse [
     children [
       Shape {
         geometry DEF MYBOX Box {
-          size 0.5 0.5 0.5
+          size IS size
         }
         appearance PBRAppearance {
           baseColor IS colorA

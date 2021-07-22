@@ -178,6 +178,7 @@ export default class Proto {
     for (const parameter of this.parameters.values()) {
       parameter.nodeRefs = [];
       parameter.refNames = [];
+      parameter.linkedProto = undefined;
     }
   };
 
