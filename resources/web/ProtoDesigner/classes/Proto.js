@@ -1,5 +1,7 @@
 'use strict';
 
+import {generateParameterId} from '../../wwi/nodes/utils/utils.js';
+
 import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
 import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
@@ -85,7 +87,7 @@ export default class Proto {
           value = defaultValue.valueOf();
 
         const parameter = new Parameter(name, type, isRegenerator, defaultValue, value)
-        this.parameters.set(this.uniqueId(), parameter);
+        this.parameters.set(generateParameterId(), parameter);
       }
     }
   };

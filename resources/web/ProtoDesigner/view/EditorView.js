@@ -112,7 +112,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   */
 
   itemSelector(event) {
-    const ref = parseInt(event.target.getAttribute('ref'));
+    const ref = event.target.getAttribute('ref');
     console.log('Clicked item ref=' + ref);
     // adapt editor
     this.populateEditor(ref);
@@ -233,7 +233,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   updateValue(e) {
     // keep proto.parameter value up to date
     const parameterRef = e.target.form.attributes['parameterReference'].value;
-    const parameter = this.proto.parameters.get(parseInt(parameterRef));
+    const parameter = this.proto.parameters.get(parameterRef);
 
     if (parameter.type === VRML.SFNode) { // TMP
       const nodeRefs = parameter.nodeRefs;

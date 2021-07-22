@@ -5,6 +5,7 @@ import WbTransform from '../WbTransform.js';
 import WbWorld from '../WbWorld.js';
 
 let undefinedID = -1; // Negative IDs are assigned to nodes provided by Webots without IDs.
+let parameterId = 0; // used to uniquely keep track of proto parameters
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);
@@ -121,6 +122,10 @@ function nodeIsInBoundingObject(node) {
   return false;
 }
 
+function generateParameterId() {
+  return 'p' + parameterId++;
+};
+
 function isDescendantOfBillboard(node) {
   while (typeof node !== 'undefined') {
     if (node instanceof WbBillboard)
@@ -187,4 +192,4 @@ function vec4ToQuaternion(vec4) {
   return glm.quat(cosinusHalfAngle, vec4.x * sinusHalfAngle, vec4.y * sinusHalfAngle, vec4.z * sinusHalfAngle);
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard, getAncestor, getAnId};
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard, getAncestor, getAnId, generateParameterId};

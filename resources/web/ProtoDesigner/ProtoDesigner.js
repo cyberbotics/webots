@@ -54,7 +54,7 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
         // const url = '../wwi/Protos/ProtoTestAll.proto';
-         const url = '../wwi/Protos/ProtoDefUse.proto';
+        // const url = '../wwi/Protos/ProtoDefUse.proto';
 
         // base geometries
         // const url = '../wwi/Protos/ProtoTestBox.proto';
@@ -63,7 +63,7 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoTestCapsule.proto';
         // const url = '../wwi/Protos/ProtoTestCone.proto';
 
-        //const url = '../wwi/Protos/ProtoTestSFNode.proto';
+        const url = '../wwi/Protos/ProtoTestSFNode.proto';
 
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');
