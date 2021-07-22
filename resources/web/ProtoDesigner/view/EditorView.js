@@ -42,7 +42,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
   }
 
-  showParameters(proto) {
+  updateParameters(proto) {
     if (proto === null)
       this.cleanupDiv('No loaded PROTO');
     else {
@@ -198,8 +198,11 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     const parameterRef = e.target.form.attributes['parameterReference'].value;
     const parameter = this.proto.parameters.get(parseInt(parameterRef));
 
-    if (parameter.type === VRML.SFNode) {
-      this.designer.addProto('proto url');
+    if (parameter.type === VRML.SFNode) { // TMP
+      const nodeRefs = parameter.nodeRefs;
+      const node = WbWorld.instance.nodes.get(nodeRefs[0]);
+      const nodeId = parseInt(node.id.slice(1));
+      this.designer.loadProto('../wwi/Protos/ProtoSphere.proto', nodeId);
       return;
     }
 

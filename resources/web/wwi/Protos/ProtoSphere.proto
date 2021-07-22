@@ -3,7 +3,7 @@
 PROTO ProtoSphere [
   field SFFloat radius 0.5
   field SFBool ico FALSE
-  field SFInt32 subdivision 4
+  field SFInt32 subdivision 20
 ]
 {
   Sphere {

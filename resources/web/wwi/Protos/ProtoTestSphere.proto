@@ -3,7 +3,7 @@
 PROTO ProtoTestSphere [
   field SFFloat radius 0.5
   field SFBool ico FALSE
-  field SFInt32 subdivision 12
+  field SFInt32 subdivision 20
   field SFColor color 1 0 0
 ]
 {

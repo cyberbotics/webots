@@ -17,39 +17,9 @@ export default class ProtoParser {
 
     this.defList = new Map();
 
-    // define default scene
     this.xml = document.implementation.createDocument('', '', null);
-    this.scene = this.xml.createElement('Scene');
-
-    // TODO: move elsewhere, unnecessary to build background and viewpoint for each proto
-
-    let worldinfo = this.xml.createElement('WorldInfo');
-    worldinfo.setAttribute('id', getAnId());
-    worldinfo.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/worldinfo');
-    worldinfo.setAttribute('basicTimeStep', '32');
-    worldinfo.setAttribute('coordinateSystem', 'NUE');
-
-    let viewpoint = this.xml.createElement('Viewpoint');
-    viewpoint.setAttribute('id', getAnId());
-    viewpoint.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/viewpoint');
-    viewpoint.setAttribute('orientation', '-0.84816706 -0.5241698 -0.07654181 0.34098753');
-    viewpoint.setAttribute('position', '-1.2506319 2.288824 7.564137');
-    viewpoint.setAttribute('exposure', '1');
-    viewpoint.setAttribute('bloomThreshold', '21');
-    viewpoint.setAttribute('zNear', '0.05');
-    viewpoint.setAttribute('zFar', '0');
-    viewpoint.setAttribute('followSmoothness', '0.5');
-    viewpoint.setAttribute('ambientOcclusionRadius', '2');
-
-    let background = this.xml.createElement('Background');
-    background.setAttribute('id', getAnId());
-    background.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/background');
-    background.setAttribute('skyColor', '0.15 0.45 1');
-
-    this.scene.appendChild(worldinfo);
-    this.scene.appendChild(viewpoint);
-    this.scene.appendChild(background);
-    this.xml.appendChild(this.scene);
+    this.nodes = this.xml.createElement('nodes');
+    this.xml.appendChild(this.nodes);
   };
 
   generateX3d() {
@@ -64,7 +34,7 @@ export default class ProtoParser {
     while (this.bodyTokenizer.hasMoreTokens()) {
       const token = this.bodyTokenizer.nextToken();
       if (token.isNode())
-        this.encodeNodeAsX3d(token.word(), this.scene, 'Scene');
+        this.encodeNodeAsX3d(token.word(), this.nodes, 'nodes');
     }
 
     this.xml = new XMLSerializer().serializeToString(this.xml); // store the raw x3d data only
@@ -111,8 +81,10 @@ export default class ProtoParser {
         this.encodeFieldAsX3d(nodeName, word, nodeElement);
     };
 
-    parentElement.appendChild(nodeElement);
-    console.log('> ' + parentName + 'Element.appendChild(' + nodeName + 'Element)');
+    if (parentElement) {
+      parentElement.appendChild(nodeElement);
+      console.log('> ' + parentName + 'Element.appendChild(' + nodeName + 'Element)');
+    }
   };
 
   encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
@@ -261,63 +233,5 @@ export default class ProtoParser {
       if (value.name === parameterName)
         return value;
     }
-  };
-
-  encodeProtoManual(rawProto) {
-    /*
-    // create xml
-    let head = xml.createElement('head');
-    let meta = xml.createElement('meta');
-    meta.setAttribute('name', 'generator');
-    meta.setAttribute('content', 'Webots');
-
-    let scene = xml.createElement('Scene');
-    let worldinfo = xml.createElement('WorldInfo');
-    worldinfo.setAttribute('id', 'n1');
-    worldinfo.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/worldinfo');
-    worldinfo.setAttribute('basicTimeStep', '32');
-    worldinfo.setAttribute('coordinateSystem', 'NUE');
-
-    let viewpoint = xml.createElement('Viewpoint');
-    viewpoint.setAttribute('id', 'n2');
-    viewpoint.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/viewpoint');
-    viewpoint.setAttribute('orientation', '-0.84816706 -0.5241698 -0.07654181 0.34098753');
-    viewpoint.setAttribute('position', '-1.2506319 2.288824 7.564137');
-    viewpoint.setAttribute('exposure', '1');
-    viewpoint.setAttribute('bloomThreshold', '21');
-    viewpoint.setAttribute('zNear', '0.05');
-    viewpoint.setAttribute('zFar', '0');
-    viewpoint.setAttribute('followSmoothness', '0.5');
-    viewpoint.setAttribute('ambientOcclusionRadius', '2');
-
-    let background = xml.createElement('Background');
-    background.setAttribute('id', 'n3');
-    background.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/background');
-    background.setAttribute('skyColor', '0.15 0.45 1');
-
-    let shape = xml.createElement('Shape');
-    shape.setAttribute('id', 'n5');
-
-    let box = xml.createElement('Box');
-    box.setAttribute('id', 'n6');
-    box.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/box');
-    box.setAttribute('size', '1 1 1');
-
-    // define structure
-    head.appendChild(meta);
-
-    shape.appendChild(box);
-    scene.appendChild(worldinfo);
-    scene.appendChild(viewpoint);
-    scene.appendChild(background);
-    scene.appendChild(shape);
-
-    // xml.appendChild(head);
-    xml.appendChild(scene);
-
-    console.log(new XMLSerializer().serializeToString(xml));
-    console.log(xml);
-    return new XMLSerializer().serializeToString(xml); // 'test.x3d';
-    */
   };
 }
