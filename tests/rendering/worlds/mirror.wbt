@@ -47,6 +47,7 @@ Robot {
   children [
     DEF ROBOT_CAMERA Camera {
       translation 0 0.4700000000000002 -1.6100000000000012
+      rotation 1 0 0 3.14159
     }
     Shape {
       appearance Appearance {

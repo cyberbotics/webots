@@ -19,6 +19,7 @@ TemplateDirectMainLua {
   mainParameter FALSE
 }
 Robot {
+  rotation 1 0 0 3.14159
   children [
     Camera {
       translation 0 0 2

@@ -18,12 +18,10 @@ DirectionalLight {
 SlotContainer {
   slot [
     DEF TEST_PROTO TemplateBoxShape {
-      xSize 0.5
     }
   ]
 }
 Robot {
-  rotation 1 0 0 3.14159
   children [
     Camera {
       translation 0.2 0 0.15

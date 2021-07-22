@@ -49,6 +49,7 @@ Robot {
   translation 0 0 4.8
   children [
     Camera {
+      rotation 1 0 0 3.14159
       width 256
       height 128
     }
