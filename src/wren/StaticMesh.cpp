@@ -1218,31 +1218,31 @@ namespace wren {
         for (int i = 0; i < sub1; ++i) {
           const float rx = radius * x[i];
           const float ry = radius * y[i];
-          mesh->addCoord(glm::vec3(rx, -halfHeight, ry));
-          mesh->addCoord(glm::vec3(rx, halfHeight, ry));
+          mesh->addCoord(glm::vec3(rx, ry, -halfHeight));
+          mesh->addCoord(glm::vec3(rx, ry, halfHeight));
         }
 
         for (int i = 0; i < sub1; ++i) {
-          mesh->addNormal(glm::vec3(x[i], 0.0f, y[i]));
-          mesh->addNormal(glm::vec3(x[i], 0.0f, y[i]));
+          mesh->addNormal(glm::vec3(x[i], y[i], 0.0f));
+          mesh->addNormal(glm::vec3(x[i], y[i], 0.0f));
         }
 
         for (int i = 0; i < sub1; ++i) {
           const float d = (float)(subdivision - i) / subdivision;
-          mesh->addTexCoord(glm::vec2(d, top));
-          mesh->addTexCoord(glm::vec2(d, bottom));
+          mesh->addTexCoord(glm::vec2(-d + 0.5f, top));
+          mesh->addTexCoord(glm::vec2(-d + 0.5f, bottom));
           mesh->addUnwrappedTexCoord(glm::vec2(d, top));
           mesh->addUnwrappedTexCoord(glm::vec2(d, bottom));
         }
 
         for (int i = 0, start = 0; i < subdivision; ++i, start += 2) {
-          mesh->addIndex(start);
+          mesh->addIndex(start + 3);
           mesh->addIndex(start + 1);
-          mesh->addIndex(start + 3);
-
           mesh->addIndex(start);
-          mesh->addIndex(start + 3);
+
           mesh->addIndex(start + 2);
+          mesh->addIndex(start + 3);
+          mesh->addIndex(start);
         }
       }
 
@@ -1278,13 +1278,13 @@ namespace wren {
             // compute vertices
             float *cv = new float[3];
             cv[0] = ar[j] * glm::sin(beta);
-            cv[1] = ay[j];
-            cv[2] = ar[j] * glm::cos(beta);
+            cv[1] = ar[j] * glm::cos(beta);
+            cv[2] = ay[j];
             v[i][j] = cv;
 
             // compute normals
             float *cn = new float[3];
-            glm::vec3 cnvec3 = glm::normalize(glm::vec3(cv[0], cv[1] - halfHeight, cv[2]));
+            glm::vec3 cnvec3 = glm::normalize(glm::vec3(cv[0], cv[1], cv[2] - halfHeight));
             cn[0] = cnvec3[0];
             cn[1] = cnvec3[1];
             cn[2] = cnvec3[2];
@@ -1317,7 +1317,7 @@ namespace wren {
           for (int i = 0; i < sub1; ++i) {
             for (int j = 0; j < sub5; ++j) {
               float *ct = t[i][j];
-              mesh->addTexCoord(glm::vec2(ct[0], ct[1]));
+              mesh->addTexCoord(glm::vec2(-ct[0] + 0.5f, ct[1]));
               mesh->addUnwrappedTexCoord(glm::vec2(ct[0], ct[1]));
             }
           }
@@ -1333,18 +1333,18 @@ namespace wren {
           for (int i = 0; i < subdivision; ++i) {  // horizontally
             for (int j = 0; j < sub4; ++j) {       // vertically
               if (j < sub4 - 1) {
-                mesh->addIndex(idx[i][j]);
+                mesh->addIndex(idx[i + 1][j + 1]);
                 mesh->addIndex(idx[i + 1][j]);
-                mesh->addIndex(idx[i + 1][j + 1]);
-
                 mesh->addIndex(idx[i][j]);
-                mesh->addIndex(idx[i + 1][j + 1]);
+
                 mesh->addIndex(idx[i][j + 1]);
+                mesh->addIndex(idx[i + 1][j + 1]);
+                mesh->addIndex(idx[i][j]);
               } else {
                 // top row needs triangles not quads
-                mesh->addIndex(idx[i][j]);
-                mesh->addIndex(idx[i + 1][j]);
                 mesh->addIndex(idx[i][j + 1]);
+                mesh->addIndex(idx[i + 1][j]);
+                mesh->addIndex(idx[i][j]);
               }
             }
           }
@@ -1361,21 +1361,21 @@ namespace wren {
           for (int i = 0; i < sub1; ++i) {
             for (int j = 0; j < sub5; ++j) {
               float *cv = v[i][j];
-              mesh->addCoord(glm::vec3(cv[0], -cv[1], cv[2]));
+              mesh->addCoord(glm::vec3(cv[0], cv[1], -cv[2]));
             }
           }
 
           for (int i = 0; i < sub1; ++i) {
             for (int j = 0; j < sub5; ++j) {
               float *cn = n[i][j];
-              mesh->addNormal(glm::vec3(cn[0], -cn[1], cn[2]));
+              mesh->addNormal(glm::vec3(cn[0], cn[1], -cn[2]));
             }
           }
 
           for (int i = 0; i < sub1; ++i) {
             for (int j = 0; j < sub5; ++j) {
               float *ct = t[i][j];
-              mesh->addTexCoord(glm::vec2(ct[0], 1.0 - ct[1]));
+              mesh->addTexCoord(glm::vec2(-ct[0] + 0.5f, 1.0 - ct[1]));
               mesh->addUnwrappedTexCoord(glm::vec2(ct[0], 1.0 - ct[1]));
             }
           }
@@ -1390,18 +1390,18 @@ namespace wren {
           for (int i = 0; i < subdivision; ++i) {  // horizontally
             for (int j = 0; j < sub4; ++j) {       // vertically
               if (j < sub4 - 1) {
-                mesh->addIndex(idx[i][j + 1]);
+                mesh->addIndex(idx[i + 1][j]);
                 mesh->addIndex(idx[i + 1][j + 1]);
-                mesh->addIndex(idx[i + 1][j]);
+                mesh->addIndex(idx[i][j + 1]);
 
-                mesh->addIndex(idx[i][j + 1]);
-                mesh->addIndex(idx[i + 1][j]);
                 mesh->addIndex(idx[i][j]);
+                mesh->addIndex(idx[i + 1][j]);
+                mesh->addIndex(idx[i][j + 1]);
               } else {
-                // bottow row needs triangles not quads
-                mesh->addIndex(idx[i][j + 1]);
-                mesh->addIndex(idx[i + 1][j]);
+                // bottom row needs triangles not quads
                 mesh->addIndex(idx[i][j]);
+                mesh->addIndex(idx[i + 1][j]);
+                mesh->addIndex(idx[i][j + 1]);
               }
             }
           }
