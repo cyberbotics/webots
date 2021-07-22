@@ -240,8 +240,8 @@ void WbCone::updateSubdivision() {
 }
 
 void WbCone::updateScale() {
-  float scale[] = {static_cast<float>(mBottomRadius->value()), static_cast<float>(mHeight->value()),
-                   static_cast<float>(mBottomRadius->value())};
+  float scale[] = {static_cast<float>(mBottomRadius->value()), static_cast<float>(mBottomRadius->value()),
+                   static_cast<float>(mHeight->value())};
   wr_transform_set_scale(wrenNode(), scale);
 }
 

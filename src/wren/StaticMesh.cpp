@@ -299,36 +299,36 @@ namespace wren {
         const float yM = -glm::cos(beta);
 
         // bottom point
-        mesh->addCoord(glm::vec3(x, -h, y));
+        mesh->addCoord(glm::vec3(x, y, -h));
         // apex
-        mesh->addCoord(glm::vec3(0.0f, h, 0.0f));
+        mesh->addCoord(glm::vec3(0.0f, 0.0f, h));
 
         const float invRr = 1.0f / rr;
-        mesh->addNormal(glm::vec3(x * invRr, hh, y * invRr));
-        mesh->addNormal(glm::vec3(xM * invRr, hh, yM * invRr));
+        mesh->addNormal(glm::vec3(x * invRr, y * invRr, hh));
+        mesh->addNormal(glm::vec3(xM * invRr, yM * invRr, hh));
 
         const float d1 = (subdivision - i - 1) * invSub;
         const float d2 = (subdivision - i) * invSub;
         const float d = d1 + d2;
-        mesh->addTexCoord(glm::vec2(d1, 1.0f));
-        mesh->addTexCoord(glm::vec2(d * 0.5f, 0.0f));
+        mesh->addTexCoord(glm::vec2(-d1 + 0.5f, 1.0f));
+        mesh->addTexCoord(glm::vec2(-d * 0.5f + 0.5f, 0.0f));
 
         mesh->addUnwrappedTexCoord(glm::vec2(d1 * 0.5f, 1.0f));
         mesh->addUnwrappedTexCoord(glm::vec2(d * 0.25f, 0.0f));
       }
 
       for (int i = 0, start = mesh->indices().size(); i < subdivision; ++i, start += 2) {
-        mesh->addIndex(start);
-        mesh->addIndex(start + 1);
         mesh->addIndex(start + 2);
+        mesh->addIndex(start + 1);
+        mesh->addIndex(start);
       }
     }
 
     if (hasBottom) {
       // define bottom center point
       const int center = mesh->coords().size();
-      mesh->addCoord(glm::vec3(0.0f, -h, 0.0f));
-      mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
+      mesh->addCoord(glm::vec3(0.0f, 0.0f, -h));
+      mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
       mesh->addTexCoord(glm::vec2(0.5f, 0.5f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.75f, 0.5f));
 
@@ -337,16 +337,16 @@ namespace wren {
         const float alpha = k * i;
         const float x = glm::sin(alpha);
         const float y = -glm::cos(alpha);
-        mesh->addCoord(glm::vec3(x, -h, y));
-        mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
-        mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, -0.5f * y + 0.5f));
+        mesh->addCoord(glm::vec3(x, y, -h));
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
+        mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, 0.5f * y + 0.5f));
         mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.75f, -0.5f * y + 0.5f));
       }
 
       // create triangles to center
       for (int i = 0, start = center + 1; i < subdivision; ++i, ++start) {
-        mesh->addIndex(start);
         mesh->addIndex(start + 1);
+        mesh->addIndex(start);
         mesh->addIndex(center);
       }
     }
