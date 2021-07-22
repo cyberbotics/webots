@@ -88,6 +88,7 @@ export default class WbCylinder extends WbGeometry {
     this._buildWrenMesh();
     const parent = WbWorld.instance.nodes.get(this.parent); // needed otherwise it is no longer visible
     parent.updateAppearance();
+    parent.updateIsPickable();
   };
 
   _sanitizeFields() {
