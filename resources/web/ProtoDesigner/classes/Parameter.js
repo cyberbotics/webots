@@ -1,6 +1,6 @@
 'use strict';
 
-import {VRML} from './FieldModel.js';
+import {VRML, vrmlTypeAsString} from './utility/utility.js';
 
 export default class Parameter {
   constructor(name, type, isRegenerator, defaultValue, value) {
@@ -17,6 +17,35 @@ export default class Parameter {
   isSFNode() {
     return this.type === VRML.SFNode;
   };
+
+  exportVrml() {
+    return 'field ' + vrmlTypeAsString(this.type) + ' ' + this.name + ' ' + this.vrmlify();
+  };
+
+  vrmlify() {
+    switch (this.type) {
+      case VRML.SFBool:
+        return this.value.toString().toUpperCase();
+      case VRML.SFFloat:
+      case VRML.SFInt32:
+        return this.value.toString();
+      case VRML.SFString:
+        return '"' + this.value + '"';
+      case VRML.SFVec2f:
+        return this.value.x + ' ' + this.value.y;
+      case VRML.SFVec3f:
+      case VRML.SFColor:
+        return this.value.x + ' ' + this.value.y + ' ' + this.value.z;
+      case VRML.SFRotation:
+        return this.value.x + ' ' + this.value.y + ' ' + this.value.z + ' ' + this.value.w;
+      case VRML.SFNode:
+        if (typeof this.value !== 'undefined')
+          console.error('TODO: implement SFNode in vrmlify.');
+        return 'NULL';
+      default:
+        throw new Error('Unknown type \'' + this.type + '\' in x3dify.');
+    }
+  }
 
   x3dify() { // encodes field values in a format compliant for regeneration
     switch (this.type) {

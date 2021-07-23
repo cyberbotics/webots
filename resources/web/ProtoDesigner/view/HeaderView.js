@@ -1,9 +1,9 @@
 'use strict';
 
 export default class HeaderView {
-  constructor(element) {
-    this.element = element;
-
+  constructor(element, designer) {
+    this.headerElement = element;
+    this.designer = designer;
     this.createMenu();
   };
 
@@ -39,23 +39,27 @@ export default class HeaderView {
     div.appendChild(button);
     div.appendChild(dropdownDiv);
 
-    this.element.appendChild(div);
-    console.log(this.element.innerHTML)
+    this.headerElement.appendChild(div);
+    console.log(this.headerElement.innerHTML)
   };
 
   menuHandler(e) {
     console.log('menu pressed');
     document.getElementById('file-menu').classList.toggle('show');
+    this.export();
   };
-};
 
-/*
-<div class="dropdown">
-  <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-  <div id="myDropdown" class="dropdown-content">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </div>
-</div>
-*/
+  export() {
+    const data = this.designer.exportProto();
+    const filename = 'CustomProto.proto';
+    const mimeType = 'text/txt';
+    let blob = new Blob([data], {type: mimeType});
+    let e = document.createEvent('MouseEvents');
+    let a = document.createElement('a');
+    a.download = filename;
+    a.href = window.URL.createObjectURL(blob);
+    a.dataset.downloadurl = [mimeType, a.download, a.href].join(':');
+    e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    a.dispatchEvent(e);
+  }
+};

@@ -59,7 +59,7 @@ class ProtoDesigner {
         this.renderer = new WrenRenderer();
         this.view = new webots.View(document.getElementById('view3d'));
 
-        this.header = new HeaderView(this.headerElement);
+        this.header = new HeaderView(this.headerElement, this);
         this.editor = new EditorView(this.editorElement, this.view, this);
         this.assetLibrary = new AssetLibrary();
         this.partBrowser = new PartBrowser(this.assetLibraryElement, this.assetLibrary);
@@ -182,6 +182,31 @@ class ProtoDesigner {
     const x3d = new XMLSerializer().serializeToString(xml);
     this.view.open(x3d, 'x3d', '', true, this.renderer);
   }
+
+  exportProto() {
+    let s = '';
+    s += '#VRML_SIM R2021b utf8\n\n';
+    s += 'PROTO CustomProto [\n';
+
+    s += this.exportParameters(this.activeProtos.get(0), '  ');
+
+    s += ']\n';
+    s += this.activeProtos.get(0).rawBody;
+
+    console.log(s);
+    return s;
+  };
+
+  exportParameters(proto, indent = '') {
+    let t = '';
+    const parameters = proto.parameters;
+    for (const parameter of parameters.values()) {
+      t += indent + parameter.exportVrml() + '\n';
+      if (typeof parameter.linkedProto !== 'undefined')
+        t += this.exportParameters(parameter.linkedProto, indent);
+    }
+    return t;
+  };
 };
 
 let designer = new ProtoDesigner( // eslint-disable-line no-new

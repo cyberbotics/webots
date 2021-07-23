@@ -5,9 +5,9 @@ import WbWorld from '../../wwi/nodes/WbWorld.js';
 import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
 import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
-import {VRML} from '../classes/FieldModel.js';
 
 import Proto from '../classes/Proto.js';
+import {VRML} from '../classes/utility/utility.js';
 
 export default class EditorView { // eslint-disable-line no-unused-vars
   constructor(element, view, designer) {

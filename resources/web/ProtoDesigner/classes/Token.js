@@ -1,4 +1,4 @@
-import {VRML} from './FieldModel.js';
+import {VRML} from './utility/utility.js';
 
 export default class Token {
   constructor(word, line, column) {

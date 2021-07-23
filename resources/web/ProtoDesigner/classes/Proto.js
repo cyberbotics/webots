@@ -1,6 +1,6 @@
 'use strict';
 
-import {generateParameterId, generateProtoId} from './utility/utility.js';
+import {VRML, generateParameterId, generateProtoId} from './utility/utility.js';
 
 import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
 import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
@@ -10,7 +10,6 @@ import TemplateEngine  from './TemplateEngine.js';
 import ProtoParser from './ProtoParser.js';
 import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
-import {VRML} from './FieldModel.js';
 
 export default class Proto {
   constructor(protoText) {

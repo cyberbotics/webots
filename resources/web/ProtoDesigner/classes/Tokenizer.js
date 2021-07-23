@@ -1,6 +1,6 @@
 import Token, {isSpace, isPunctuation} from './Token.js';
 
-import {VRML} from '../classes/FieldModel.js';
+import {VRML} from './utility/utility.js';
 
 export default class Tokenizer {
   constructor(stream) {

@@ -4,7 +4,8 @@ import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 import {getAnId} from '../../wwi/nodes/utils/utils.js';
 
 import Tokenizer from './Tokenizer.js';
-import {FieldModel, VRML} from './FieldModel.js';
+import {FieldModel} from './FieldModel.js';
+import {VRML} from './utility/utility.js';
 
 /*
   Generates an x3d from VRML
