@@ -7,7 +7,7 @@
     'sidebar main'
     'editor library';
   grid-template-columns: 2fr 8fr;
-  grid-template-rows: 30px auto 200px;
+  grid-template-rows: 30px auto 160px;
   grid-gap: 3px;
   background-color: #333;
   overflow: hidden;
@@ -25,6 +25,11 @@
 
 .sidebar {
   grid-area: sidebar;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow-y: scroll !important;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .editor {
@@ -36,7 +41,11 @@
 .library {
   grid-area: library;
   background-color: #4c4c4c;
-  padding: 5px;
+  //padding: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  overflow-x: scroll !important;
 }
 
 .header {

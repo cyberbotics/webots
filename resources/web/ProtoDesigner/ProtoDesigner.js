@@ -5,9 +5,10 @@ import WbWorld from '../wwi/nodes/WbWorld.js';
 import WrenRenderer from '../wwi/WrenRenderer.js';
 
 import Proto from './classes/Proto.js';
+import AssetLibrary from './classes/AssetLibrary.js';
 
 import EditorView from './view/EditorView.js';
-import LibraryView from './view/LibraryView.js';
+import PartBrowser from './view/PartBrowser.js';
 
 import {getAnId} from '../wwi/nodes/utils/utils.js';
 
@@ -34,8 +35,8 @@ class ProtoDesigner {
       return;
     }
 
-    this.libraryElement = document.getElementById('proto-library');
-    if (typeof this.libraryElement === 'undefined') {
+    this.assetLibraryElement = document.getElementById('proto-library');
+    if (typeof this.assetLibraryElement === 'undefined') {
       console.error('The Proto Designer cannot find the proto-library component.');
       return;
     }
@@ -51,8 +52,13 @@ class ProtoDesigner {
         this.renderer = new WrenRenderer();
         this.view = new webots.View(document.getElementById('view3d'));
         this.editor = new EditorView(this.editorElement, this.view, this);
-        this.library = new LibraryView(this.libraryElement);
-        this.loadLibrary('./library/library.json');
+
+        this.assetLibrary = new AssetLibrary();
+        this.partBrowser = new PartBrowser(this.assetLibraryElement, this.assetLibrary);
+        this.assetLibrary.addObserver('loaded', () => { this.partBrowser.loadAssets(); });
+
+        //this.library = new LibraryView(this.libraryElement);
+        //this.loadLibrary('./library/library.json');
 
         this.activeProtos = new Map(); // currently loaded protos
 
