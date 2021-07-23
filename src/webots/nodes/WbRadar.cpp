@@ -407,8 +407,8 @@ void WbRadar::computeTargets(bool finalSetup, bool needCollisionDetection) {
   const WbVector3 radarPosition = matrix().translation();
   WbMatrix3 radarRotation = rotationMatrix();
   WbMatrix3 radarInverseRotation = radarRotation.transposed();
-  WbVector3 radarAxis = radarRotation * WbVector3(0.0, 0.0, -1.0);
-  WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 1.0, 0.0), radarAxis);
+  WbVector3 radarAxis = radarRotation * WbVector3(1.0, 0.0, 0.0);
+  WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 0.0, 1.0), radarAxis);
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(radarPosition, radarRotation, verticalFieldOfView(),
                                                                          horizontalFieldOfView(), maxRange());
 
@@ -645,9 +645,9 @@ void WbRadar::applyFrustumToWren() {
   const float cosH = cosf(horizontalFieldOfView() / 2.0f);
   const float sinV = sinf(verticalFieldOfView() / 2.0f);
   const float cosV = cosf(verticalFieldOfView() / 2.0f);
-  const float factorX = cosV * sinH;
-  const float factorZ = cosV * cosH;
-  const float factorY = sinV;
+  const float factorX = cosV * cosH;
+  const float factorY = cosV * sinH;
+  const float factorZ = sinV;
   const float maxX = maxRange() * factorX;
   const float maxZ = maxRange() * factorZ;
   const float maxY = maxRange() * factorY;
@@ -661,15 +661,15 @@ void WbRadar::applyFrustumToWren() {
   vertices.reserve(3 * (10 + 16 * steps));
 
   addVertex(vertices, 0, 0, 0);
-  addVertex(vertices, 0, 0, -minRange());
+  addVertex(vertices, minRange(), 0, 0);
   addVertex(vertices, minX, minY, -minZ);
   addVertex(vertices, maxX, maxY, -maxZ);
-  addVertex(vertices, -minX, minY, -minZ);
-  addVertex(vertices, -maxX, maxY, -maxZ);
   addVertex(vertices, minX, -minY, -minZ);
   addVertex(vertices, maxX, -maxY, -maxZ);
-  addVertex(vertices, -minX, -minY, -minZ);
-  addVertex(vertices, -maxX, -maxY, -maxZ);
+  addVertex(vertices, minX, minY, minZ);
+  addVertex(vertices, maxX, maxY, maxZ);
+  addVertex(vertices, minX, -minY, minZ);
+  addVertex(vertices, maxX, -maxY, maxZ);
 
   // create top and bottom margin
   const float ranges[2] = {static_cast<float>(minRange()), static_cast<float>(maxRange())};
@@ -677,24 +677,24 @@ void WbRadar::applyFrustumToWren() {
   for (int j = 0; j < steps; ++j) {
     const float angle1 = horizontalFieldOfView() / 2.0f - j * horizontalFieldOfView() / steps;
     const float angle2 = horizontalFieldOfView() / 2.0f - (j + 1) * horizontalFieldOfView() / steps;
-    const float factorX1 = cosV * sinf(angle1);
-    const float factorX2 = cosV * sinf(angle2);
-    const float factorZ1 = cosV * cosf(angle1);
-    const float factorZ2 = cosV * cosf(angle2);
+    const float factorX1 = cosV * cosf(angle1);
+    const float factorX2 = cosV * cosf(angle2);
+    const float factorY1 = cosV * sinf(angle1);
+    const float factorY2 = cosV * sinf(angle2);
     for (int k = 0; k < 2; ++k) {
       const float range = ranges[k];
       x1 = range * factorX1;
-      z1 = range * factorZ1;
-      y1 = range * sinV;
+      y1 = range * factorY1;
+      z1 = range * sinV;
       x2 = range * factorX2;
-      z2 = range * factorZ2;
-      y2 = range * sinV;
+      y2 = range * factorY2;
+      z2 = range * sinV;
       // top
+      addVertex(vertices, x1, y1, z1);
+      addVertex(vertices, x2, y2, z2);
+      // bottom
       addVertex(vertices, x1, y1, -z1);
       addVertex(vertices, x2, y2, -z2);
-      // bottom
-      addVertex(vertices, x1, -y1, -z1);
-      addVertex(vertices, x2, -y2, -z2);
     }
   }
 
@@ -702,12 +702,12 @@ void WbRadar::applyFrustumToWren() {
   for (int j = 0; j < steps; ++j) {
     const float angle1 = verticalFieldOfView() / 2.0f - j * verticalFieldOfView() / steps;
     const float angle2 = verticalFieldOfView() / 2.0f - (j + 1) * verticalFieldOfView() / steps;
-    const float factorX1 = cosf(angle1) * sinH;
-    const float factorX2 = cosf(angle2) * sinH;
-    const float factorZ1 = cosf(angle1) * cosH;
-    const float factorZ2 = cosf(angle2) * cosH;
-    const float factorY1 = sinf(angle1);
-    const float factorY2 = sinf(angle2);
+    const float factorX1 = cosf(angle1) * cosH;
+    const float factorX2 = cosf(angle2) * cosH;
+    const float factorY1 = cosf(angle1) * sinH;
+    const float factorY2 = cosf(angle2) * sinH;
+    const float factorZ1 = sinf(angle1);
+    const float factorZ2 = sinf(angle2);
     for (int k = 0; k < 2; ++k) {
       const float range = ranges[k];
       x1 = range * factorX1;
@@ -717,11 +717,11 @@ void WbRadar::applyFrustumToWren() {
       z2 = range * factorZ2;
       y2 = range * factorY2;
       // right
-      addVertex(vertices, x1, y1, -z1);
-      addVertex(vertices, x2, y2, -z2);
+      addVertex(vertices, x1, -y1, z1);
+      addVertex(vertices, x2, -y2, z2);
       // left
-      addVertex(vertices, -x1, y1, -z1);
-      addVertex(vertices, -x2, y2, -z2);
+      addVertex(vertices, x1, y1, z1);
+      addVertex(vertices, x2, y2, z2);
     }
   }
 
