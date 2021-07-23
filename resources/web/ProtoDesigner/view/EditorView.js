@@ -70,7 +70,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     // display parameters
     let ul = document.createElement('ul');
-    ul.setAttribute('class', 'designer-list');
+    ul.classList.add('designer-list');
 
     if (typeof parent !== 'undefined')
       parent.appendChild(ul);
@@ -80,7 +80,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     for (const [key, parameter] of proto.parameters.entries()) {
       let li = document.createElement('li');
       li.innerText = parameter.name;
-      li.setAttribute('class', 'item li-border li');
+      li.classList.add('item', 'li-border', 'li');
       li.setAttribute('parameterId', key);
       li.setAttribute('protoId', proto.id);
       li.addEventListener('click', () => this.itemSelector(event));

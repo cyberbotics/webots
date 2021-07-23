@@ -9,7 +9,7 @@ import AssetLibrary from './classes/AssetLibrary.js';
 
 import EditorView from './view/EditorView.js';
 import HeaderView from './view/HeaderView.js';
-import PartBrowser from './view/PartBrowser.js';
+import LibraryView from './view/LibraryView.js';
 
 import {getAnId} from '../wwi/nodes/utils/utils.js';
 
@@ -42,8 +42,8 @@ class ProtoDesigner {
       return;
     }
 
-    this.assetLibraryElement = document.getElementById('proto-library');
-    if (typeof this.assetLibraryElement === 'undefined') {
+    this.libraryElement = document.getElementById('proto-library');
+    if (typeof this.libraryElement === 'undefined') {
       console.error('The Proto Designer cannot find the proto-library component.');
       return;
     }
@@ -62,7 +62,7 @@ class ProtoDesigner {
         this.header = new HeaderView(this.headerElement, this);
         this.editor = new EditorView(this.editorElement, this.view, this);
         this.assetLibrary = new AssetLibrary();
-        this.partBrowser = new PartBrowser(this.assetLibraryElement, this.assetLibrary);
+        this.partBrowser = new LibraryView(this.libraryElement, this.assetLibrary);
         this.assetLibrary.addObserver('loaded', () => { this.partBrowser.loadAssets(); });
 
         //this.library = new LibraryView(this.libraryElement);

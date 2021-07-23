@@ -1,19 +1,33 @@
 'use strict';
 
-export default class LibraryView { // eslint-disable-line no-unused-vars
-  constructor(element) {
-    this.element = element;
-    this.cleanupDiv('Library is empty');
+export default class LibraryView {
+  constructor(libraryElement, assetLibrary) {
+    this.libraryElement = libraryElement;
+    this.assetLibrary = assetLibrary;
+    this.partIconDivs = [];
   };
 
-  parseLibrary(library) {
-    this.protoList = JSON.parse(library);
-    for (let i = 0; i < this.protoList.length; ++i) {
-      console.log(this.protoList[i])
-    }
-  }
-
-  cleanupDiv(text) {
-    this.element.innerHTML = '<p><i>' + text + '</i></p>';
+  dragStart(e) {
+    console.log('Drag start: ' + e.target.getAttribute('proto'));
   };
-}
+
+  loadAssets() {
+    this.assetLibrary.assets.forEach((asset) => {
+      let div = document.createElement('div');
+      // div.innerHTML = '<div class="part-icon" draggable="true" proto="' + asset.name + '" >' + '<img draggable="false" src="' + asset.icon + '" />' + '</div>';
+      div.setAttribute('proto', asset.name);
+      div.setAttribute('class', 'part-icon');
+
+      let img = document.createElement('img');
+      img.setAttribute('draggable', true);
+      img.setAttribute('src', asset.icon);
+      img.setAttribute('proto', asset.name);
+      img.addEventListener('dragstart', this.dragStart);
+
+      div.appendChild(img);
+
+      this.partIconDivs.push(div.firstChild);
+      this.libraryElement.appendChild(div.firstChild);
+    });
+  };
+};
