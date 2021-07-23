@@ -8,6 +8,7 @@ import Proto from './classes/Proto.js';
 import AssetLibrary from './classes/AssetLibrary.js';
 
 import EditorView from './view/EditorView.js';
+import HeaderView from './view/HeaderView.js';
 import PartBrowser from './view/PartBrowser.js';
 
 import {getAnId} from '../wwi/nodes/utils/utils.js';
@@ -35,6 +36,12 @@ class ProtoDesigner {
       return;
     }
 
+    this.headerElement = document.getElementById('header-menu');
+    if (typeof this.editorElement === 'undefined') {
+      console.error('The Proto Designer cannot find the header-menu component.');
+      return;
+    }
+
     this.assetLibraryElement = document.getElementById('proto-library');
     if (typeof this.assetLibraryElement === 'undefined') {
       console.error('The Proto Designer cannot find the proto-library component.');
@@ -51,8 +58,9 @@ class ProtoDesigner {
 
         this.renderer = new WrenRenderer();
         this.view = new webots.View(document.getElementById('view3d'));
-        this.editor = new EditorView(this.editorElement, this.view, this);
 
+        this.header = new HeaderView(this.headerElement);
+        this.editor = new EditorView(this.editorElement, this.view, this);
         this.assetLibrary = new AssetLibrary();
         this.partBrowser = new PartBrowser(this.assetLibraryElement, this.assetLibrary);
         this.assetLibrary.addObserver('loaded', () => { this.partBrowser.loadAssets(); });
