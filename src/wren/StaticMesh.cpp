@@ -1075,8 +1075,8 @@ namespace wren {
       for (int i = 0; i < sub1; ++i) {
         const float rx = radius * x[i];
         const float ry = radius * y[i];
-        mesh->addCoord(glm::vec3(rx, -halfHeight, ry));
-        mesh->addCoord(glm::vec3(rx, halfHeight, ry));
+        mesh->addCoord(glm::vec3(rx, ry, -halfHeight));
+        mesh->addCoord(glm::vec3(rx, ry, halfHeight));
       }
 
       for (int i = 0, start = 0; i < subdivision; ++i, start += 2) {
@@ -1109,8 +1109,8 @@ namespace wren {
           // compute vertices
           float *cv = new float[3];
           cv[0] = ar[j] * glm::sin(beta);
-          cv[1] = ay[j];
-          cv[2] = ar[j] * glm::cos(beta);
+          cv[1] = ar[j] * glm::cos(beta);
+          cv[2] = ay[j];
           v[i][j] = cv;
         }
       }
@@ -1146,7 +1146,7 @@ namespace wren {
       for (int i = 0; i < sub1; ++i) {
         for (int j = 0; j < sub5; ++j) {
           float *cv = v[i][j];
-          mesh->addCoord(glm::vec3(cv[0], -cv[1], cv[2]));
+          mesh->addCoord(glm::vec3(cv[0], cv[1], -cv[2]));
         }
       }
 
