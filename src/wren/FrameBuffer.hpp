@@ -122,7 +122,7 @@ namespace wren {
     bool mIsCopyingEnabled;
     int mWidth;
     int mHeight;
-    void *mReadCopyContentsPointer[MAX_BUFFER_INDEX] = {};
+    void *mCopyContentsPointer[MAX_BUFFER_INDEX] = {};
     GLsync mSync;
     TextureRtt *mDepthTexture;
     std::vector<TextureRtt *> mOutputTextures;

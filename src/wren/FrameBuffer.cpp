@@ -90,8 +90,8 @@ namespace wren {
       // const string openGLVersionNumber(glstate::version(), 3);
       // fprintf(stderr, "ver: %f", stod(openGLVersionNumber));
       // glBufferData(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, GL_STREAM_READ);
-      // const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
-      const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT;
+      const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+      // const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT;
       glBufferStorage(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, flags);
       glstate::releasePixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
       initiateCopyToPbo();
@@ -166,8 +166,8 @@ namespace wren {
         glstate::releasePixelPackBuffer(mOutputDrawBuffers[i].mGlNamePbo);
       }
     }
-    glMemoryBarrier(GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT);
-    mSync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+    //  glMemoryBarrier(GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT);
+    //  mSync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
 
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
     glstate::bindReadFrameBuffer(currentReadFrameBuffer);
@@ -186,28 +186,28 @@ namespace wren {
     static int sum = 0;
     //  // glGetBufferSubData(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, data);
 
-    //  auto start_time = chrono::steady_clock::now();
+    auto start_time = chrono::steady_clock::now();
 
     /*void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, GL_MAP_READ_BIT);
     memcpy(data, start, totalSizeInBytes);
     glUnmapBuffer(GL_PIXEL_PACK_BUFFER);*/
 
-    if (!mReadCopyContentsPointer[index]) {
-      // const int flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
-      const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT;
-      mReadCopyContentsPointer[index] = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, flags);
+    if (!mCopyContentsPointer[index]) {
+      const int flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+      // const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT;
+      mCopyContentsPointer[index] = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, flags);
     }
 
-    memcpy(data, mReadCopyContentsPointer[index], totalSizeInBytes);
-    glClientWaitSync(mSync, 0, 0);
+    memcpy(data, mCopyContentsPointer[index], totalSizeInBytes);
+    // glClientWaitSync(mSync, 0, 0);
 
-    // auto end_time = chrono::steady_clock::now();
+    auto end_time = chrono::steady_clock::now();
 
-    // counter++;
-    /*sum += chrono::duration_cast<chrono::microseconds>(end_time - start_time).count();
+    counter++;
+    sum += chrono::duration_cast<chrono::microseconds>(end_time - start_time).count();
     cout << "Elapsed time in microseconds: " << chrono::duration_cast<chrono::microseconds>(end_time - start_time).count()
          << " µs"
-         << "avg" << sum / counter << "(" << counter << ")\n";*/
+         << "avg" << sum / counter << "(" << counter << ")\n";
 
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
   }
