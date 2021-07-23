@@ -7,7 +7,7 @@
     'sidebar main'
     'editor library';
   grid-template-columns: 2fr 8fr;
-  grid-template-rows: 30px auto 160px;
+  grid-template-rows: 30px auto 200px;
   grid-gap: 3px;
   background-color: #333;
   overflow: hidden;
@@ -47,6 +47,14 @@
   align-items: center;
   overflow-x: scroll !important;
 }
+
+.drop-zone {
+  border: 3px solid #333;
+  border-radius: 6px;
+  width:  90%;
+  height: 100px;
+}
+
 
 .header {
   grid-area: header;

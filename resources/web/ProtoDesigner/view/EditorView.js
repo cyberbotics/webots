@@ -42,7 +42,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.setupInputForm(VRML.SFVec3f, 3, 'number', '0', '0.1');
     this.setupInputForm(VRML.SFColor, 3, 'number', '0', '0.1');
     this.setupInputForm(VRML.SFRotation, 4, 'number', '0', '0.1');
-    this.setupInputForm(VRML.SFNode, 1, 'checkbox', false);
+    this.setupDragAndDrop(VRML.SFNode);
+    //this.setupInputForm(VRML.SFNode, 1, 'checkbox', false);
   };
 
   refreshParameters() {
@@ -89,9 +90,9 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
   };
 
-  itemSelector(event) {
-    const parameterId = event.target.getAttribute('parameterId');
-    const protoId = parseInt(event.target.getAttribute('protoId'));
+  itemSelector(e) {
+    const parameterId = e.target.getAttribute('parameterId');
+    const protoId = parseInt(e.target.getAttribute('protoId'));
     console.log('Clicked item parameterId = ' + parameterId + ' (protoId = ' + protoId + ')');
 
     this.proto = this.designer.activeProtos.get(protoId);
@@ -174,6 +175,72 @@ export default class EditorView { // eslint-disable-line no-unused-vars
         }
       }
     }
+  };
+
+  dragOver(e) {
+    console.log('Dragged Over');
+    e.preventDefault();
+  };
+
+  dragEnter(e) {
+    console.log('Entered Drop Zone');
+    if (e.target.className === 'drop-zone') {
+      e.target.style.background = 'gray';
+
+      const p = e.target.getElementsByTagName('p')[0];
+      if (typeof p !== 'undefined')
+        p.innerText = 'drop it';
+    }
+  };
+
+  dragLeave(e) {
+    console.log('Left Drop Zone');
+    if (e.target.className === 'drop-zone') {
+      e.target.style.background = '#4c4c4c';
+
+      const p = e.target.getElementsByTagName('p')[0];
+      if (typeof p !== 'undefined')
+        p.innerText = 'select and drag a node';
+    }
+  };
+
+  drop(e) {
+    console.log('> Dropped <');
+
+    e.preventDefault();
+    if (e.target.className === 'drop-zone') {
+      e.target.style.background = '#4c4c4c';
+
+      const p = e.target.getElementsByTagName('p')[0];
+      if (typeof p !== 'undefined')
+        p.innerText = 'select and drag a node';
+
+      this.updateValue(undefined);
+    }
+  };
+
+  setupDragAndDrop(id) {
+    let form = document.createElement('form');
+    form.setAttribute('onsubmit', 'return false;');
+    form.setAttribute('id', id);
+
+    let div = document.createElement('div');
+    div.classList.add('drop-zone');
+
+    let p = document.createElement('p');
+    p.innerText = 'select and drag a node';
+
+    div.appendChild(p);
+
+    div.addEventListener('dragover', this.dragOver);
+    div.addEventListener('dragenter', this.dragEnter);
+    div.addEventListener('dragleave', this.dragLeave);
+    div.addEventListener('drop', this.drop.bind(this));
+
+    form.style.display = 'none'; // make invisible by default
+    form.appendChild(div);
+    this.forms.set(id, form); // add to map for fast retrieval
+    this.editorElement.appendChild(form);
   };
 
   setupInputForm(id, nbInputs, type, defaultValue, step) {
