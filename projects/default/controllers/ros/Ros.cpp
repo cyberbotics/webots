@@ -466,7 +466,7 @@ void Ros::publishClockIfNeeded() {
 
 void Ros::run(int argc, char **argv) {
   launchRos(argc, argv);
-  ros::Rate loopRate(1000);  // Hz
+  ros::WallRate loopRate(1000);  // Hz
   ros::AsyncSpinner spinner(2);
   spinner.start();
 
