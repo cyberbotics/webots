@@ -65,6 +65,7 @@ DEF GROUND Transform {
 Robot {
   children [
     DEF FIXED_LIDAR Lidar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       horizontalResolution 256
       fieldOfView 1.57075
       verticalFieldOfView 0.1
@@ -72,7 +73,7 @@ Robot {
       maxRange 5
     }
     DEF ROTATING_LIDAR Lidar {
-      rotation 0 1 0 0.78539816
+      rotation -0.28108510281603044 0.6785992482197749 0.6785972482190434 2.59357
       name "rotating lidar"
       horizontalResolution 1024
       fieldOfView 1.57075
