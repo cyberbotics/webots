@@ -15,9 +15,20 @@
 #ifndef FRAME_BUFFER_HPP
 #define FRAME_BUFFER_HPP
 
+#define MAX_BUFFER_INDEX 2
+
 #include "Constants.hpp"
 #include "GlUser.hpp"
 #include "Texture.hpp"
+
+#ifdef __EMSCRIPTEN__
+#include <GL/gl.h>
+#include <GLES3/gl3.h>
+
+#include <emscripten.h>
+#else
+#include <glad/glad.h>
+#endif
 
 #include <vector>
 
@@ -111,7 +122,8 @@ namespace wren {
     bool mIsCopyingEnabled;
     int mWidth;
     int mHeight;
-    void *mReadBufferPointer = nullptr;
+    void *mReadCopyContentsPointer[MAX_BUFFER_INDEX] = {};
+    GLsync mSync;
     TextureRtt *mDepthTexture;
     std::vector<TextureRtt *> mOutputTextures;
     std::vector<RenderBuffer> mOutputRenderBuffers;
