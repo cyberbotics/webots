@@ -4,49 +4,40 @@ export default class HeaderView {
   constructor(element, designer) {
     this.headerElement = element;
     this.designer = designer;
-    this.createMenu();
+    this.createTopBar();
   };
 
-  createMenu() {
-    //this.element.innerHTML = '<p><i>' + text + '</i></p>';
-
-    const menuItems = ['File', 'Help'];
+  createTopBar() {
+    const menuItems = ['Export', 'Settings', 'Help'];
 
     const div = document.createElement('div');
-    div.className = 'dropdown';
-
-    const button = document.createElement('button');
-    button.innerHTML = 'File'
-    button.className = 'dropdown-button';
-    button.addEventListener('click', this.menuHandler.bind(this));
-
-    const dropdownDiv = document.createElement('div');
-    dropdownDiv.setAttribute('id', 'file-menu');
-    dropdownDiv.className = 'dropdown-content';
-
-    const a = document.createElement('a');
-    const aText = document.createTextNode('Export');
-    a.setAttribute('href', '#export');
-    a.appendChild(aText);
-
-    const b = document.createElement('a');
-    const bText = document.createTextNode('Quit');
-    b.setAttribute('href', '#quit');
-    b.appendChild(bText);
-
-    dropdownDiv.appendChild(a);
-    dropdownDiv.appendChild(b);
-    div.appendChild(button);
-    div.appendChild(dropdownDiv);
-
+    div.classList.add('menu');
+    for (let i = 0; i < menuItems.length; ++i) {
+      const button = document.createElement('button');
+      button.classList.add('menu-button');
+      button.innerHTML = menuItems[i];
+      button.setAttribute('id', menuItems[i]);
+      button.addEventListener('click', this.menuHandler.bind(this));
+      div.appendChild(button);
+    }
     this.headerElement.appendChild(div);
-    console.log(this.headerElement.innerHTML)
   };
 
   menuHandler(e) {
-    console.log('menu pressed');
-    document.getElementById('file-menu').classList.toggle('show');
-    this.export();
+    console.log('Menu item pressed: ', e.target.id);
+    switch (e.target.id) {
+      case 'Export':
+        this.export();
+        break;
+      case 'Settings':
+        this.settings();
+        break;
+      case 'Help':
+        this.help();
+        break;
+      default:
+        throw new Error('Unknown menu button: ', e.target.id);
+    }
   };
 
   export() {
