@@ -11,70 +11,22 @@
     "url": "./library/ProtoBox/ProtoBox.proto",
     "icon": "./library/ProtoBox/icon.png"
   },
-  "ProtoSphere2": {
-    "proto": "ProtoSphere.proto",
+  "ProtoCone": {
+    "proto": "ProtoCone.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere/ProtoSphere.proto",
-    "icon": "./library/ProtoSphere/icon.png"
+    "url": "./library/ProtoCone/ProtoCone.proto",
+    "icon": "./library/ProtoCone/icon.png"
   },
-  "ProtoBox2": {
-    "proto": "ProtoBox.proto",
+  "ProtoCapsule": {
+    "proto": "ProtoCapsule.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoBox/ProtoBox.proto",
-    "icon": "./library/ProtoBox/icon.png"
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png"
   },
-  "ProtoSphere3": {
-    "proto": "ProtoSphere.proto",
+  "ProtoCylinder": {
+    "proto": "ProtoCylinder.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere/ProtoSphere.proto",
-    "icon": "./library/ProtoSphere/icon.png"
-  },
-  "ProtoBox3": {
-    "proto": "ProtoBox.proto",
-    "baseNode": "WbGeometry",
-    "url": "./library/ProtoBox/ProtoBox.proto",
-    "icon": "./library/ProtoBox/icon.png"
-  },
-  "ProtoSphere4": {
-    "proto": "ProtoSphere.proto",
-    "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere/ProtoSphere.proto",
-    "icon": "./library/ProtoSphere/icon.png"
-  },
-  "ProtoSphere5": {
-    "proto": "ProtoSphere.proto",
-    "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere/ProtoSphere.proto",
-    "icon": "./library/ProtoSphere/icon.png"
-  },
-  "ProtoBox6": {
-    "proto": "ProtoBox.proto",
-    "baseNode": "WbGeometry",
-    "url": "./library/ProtoBox/ProtoBox.proto",
-    "icon": "./library/ProtoBox/icon.png"
-  },
-  "ProtoSphere7": {
-    "proto": "ProtoSphere.proto",
-    "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere/ProtoSphere.proto",
-    "icon": "./library/ProtoSphere/icon.png"
-  },
-  "ProtoBox8": {
-    "proto": "ProtoBox.proto",
-    "baseNode": "WbGeometry",
-    "url": "./library/ProtoBox/ProtoBox.proto",
-    "icon": "./library/ProtoBox/icon.png"
-  },
-  "ProtoSphere9": {
-    "proto": "ProtoSphere.proto",
-    "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere/ProtoSphere.proto",
-    "icon": "./library/ProtoSphere/icon.png"
-  },
-  "ProtoBox10": {
-    "proto": "ProtoBox.proto",
-    "baseNode": "WbGeometry",
-    "url": "./library/ProtoBox/ProtoBox.proto",
-    "icon": "./library/ProtoBox/icon.png"
+    "url": "./library/ProtoCylinder/ProtoCylinder.proto",
+    "icon": "./library/ProtoCylinder/icon.png"
   }
 }

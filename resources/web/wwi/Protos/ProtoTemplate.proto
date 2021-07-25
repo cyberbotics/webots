@@ -3,7 +3,7 @@
 
 PROTO ProtoTemplate [
   field SFVec3f size 2 1 1
-  field SFColor color 0 1 1
+  field SFColor color 0 0 1
 ]
 {
   %<
@@ -13,7 +13,7 @@ PROTO ProtoTemplate [
   Shape {
     castShadow TRUE
     geometry Box {
-      size %<= a.x >% %<= 1 + wbrandom.real(0, 2)>% 1
+      size %<= 1 + wbrandom.real(0, 2)>% %<= 1 + wbrandom.real(0, 2)>% %<= 1 + wbrandom.real(0, 2)>%
     }
     appearance PBRAppearance {
       baseColor IS color
