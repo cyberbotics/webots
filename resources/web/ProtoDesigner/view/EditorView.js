@@ -183,16 +183,16 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   dragOver(e) {
     console.log('Dragged Over');
     e.preventDefault();
+
+    //return false;
   };
 
   dragEnter(e) {
     console.log('Entered Drop Zone');
+    e.preventDefault();
     if (e.target.className === 'drop-zone') {
       e.target.style.background = 'gray';
-
-      const p = e.target.getElementsByTagName('p')[0];
-      if (typeof p !== 'undefined')
-        p.innerText = 'drop it';
+      //e.target.innerText = 'let go';
     }
   };
 
@@ -200,25 +200,20 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     console.log('Left Drop Zone');
     if (e.target.className === 'drop-zone') {
       e.target.style.background = '#4c4c4c';
-
-      const p = e.target.getElementsByTagName('p')[0];
-      if (typeof p !== 'undefined')
-        p.innerText = 'select and drag a node';
+      //e.target.innerText = 'select and drag a node';
     }
   };
 
   drop(e) {
-    console.log('> Dropped <');
-
+    let asset = JSON.parse(e.dataTransfer.getData('text/plain'));
+    console.log('> Dropped < ' + asset.name + ' url: ' + asset.url);
     e.preventDefault();
+
     if (e.target.className === 'drop-zone') {
       e.target.style.background = '#4c4c4c';
+      //e.target.innerText = 'select and drag a node';
 
-      const p = e.target.getElementsByTagName('p')[0];
-      if (typeof p !== 'undefined')
-        p.innerText = 'select and drag a node';
-
-      this.updateValue(undefined);
+      this.insertNode(asset.url);
     }
   };
 
@@ -229,16 +224,12 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     let div = document.createElement('div');
     div.classList.add('drop-zone');
+    div.innerText = 'select and drag a node';
 
-    let p = document.createElement('p');
-    p.innerText = 'select and drag a node';
-
-    div.appendChild(p);
-
-    div.addEventListener('dragover', this.dragOver);
-    div.addEventListener('dragenter', this.dragEnter);
-    div.addEventListener('dragleave', this.dragLeave);
-    div.addEventListener('drop', this.drop.bind(this));
+    div.addEventListener('dragover', this.dragOver, false);
+    div.addEventListener('dragenter', this.dragEnter, false);
+    div.addEventListener('dragleave', this.dragLeave, false);
+    div.addEventListener('drop', this.drop.bind(this), false);
 
     form.style.display = 'none'; // make invisible by default
     form.appendChild(div);
@@ -277,15 +268,18 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.editorElement.appendChild(form);
   };
 
-  updateValue(e) {
-    if (this.parameter.type === VRML.SFNode) { // TMP
+  insertNode(protoUrl) {
+    if (this.parameter.type === VRML.SFNode) {
+      // get parent
       const nodeRefs = this.parameter.nodeRefs;
       const node = WbWorld.instance.nodes.get(nodeRefs[0]);
       const nodeId = parseInt(node.id.slice(1));
-      this.designer.loadProto('../wwi/Protos/ProtoSphere.proto', nodeId, this.parameter);
-      return;
-    };
 
+      this.designer.loadProto(protoUrl, nodeId, this.parameter);
+    };
+  };
+
+  updateValue(e) {
     const newValue = this.getValuesFromForm(e.target.form);
     if (typeof this.parameter.value === typeof newValue)
       this.parameter.value = newValue;

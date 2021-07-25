@@ -8,26 +8,25 @@ export default class LibraryView {
   };
 
   dragStart(e) {
-    console.log('Drag start: ' + e.target.getAttribute('proto'));
+    console.log('Drag start: ' + e.target.getAttribute('assetKey'));
+    const key = e.target.getAttribute('assetKey');
+    e.dataTransfer.setData('text/plain', JSON.stringify(this.assetLibrary.assets.get(key)));
   };
 
   loadAssets() {
-    this.assetLibrary.assets.forEach((asset) => {
+    for (const [key, asset] of this.assetLibrary.assets.entries()) {
       let div = document.createElement('div');
-      // div.innerHTML = '<div class="part-icon" draggable="true" proto="' + asset.name + '" >' + '<img draggable="false" src="' + asset.icon + '" />' + '</div>';
-      div.setAttribute('proto', asset.name);
       div.setAttribute('class', 'part-icon');
-
       let img = document.createElement('img');
       img.setAttribute('draggable', true);
       img.setAttribute('src', asset.icon);
-      img.setAttribute('proto', asset.name);
-      img.addEventListener('dragstart', this.dragStart);
+      img.setAttribute('assetKey', key);
+      img.addEventListener('dragstart', this.dragStart.bind(this), false);
 
       div.appendChild(img);
 
       this.partIconDivs.push(div.firstChild);
       this.libraryElement.appendChild(div.firstChild);
-    });
+    }
   };
 };

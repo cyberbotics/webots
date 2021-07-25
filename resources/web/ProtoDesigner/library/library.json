@@ -2,7 +2,7 @@
   "ProtoSphere": {
     "proto": "ProtoSphere.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere.proto",
+    "url": "./library/ProtoSphere/ProtoSphere.proto",
     "icon": "./library/ProtoSphere/icon.png"
   },
   "ProtoBox": {
@@ -14,7 +14,7 @@
   "ProtoSphere2": {
     "proto": "ProtoSphere.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere.proto",
+    "url": "./library/ProtoSphere/ProtoSphere.proto",
     "icon": "./library/ProtoSphere/icon.png"
   },
   "ProtoBox2": {
@@ -26,7 +26,7 @@
   "ProtoSphere3": {
     "proto": "ProtoSphere.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere.proto",
+    "url": "./library/ProtoSphere/ProtoSphere.proto",
     "icon": "./library/ProtoSphere/icon.png"
   },
   "ProtoBox3": {
@@ -38,13 +38,13 @@
   "ProtoSphere4": {
     "proto": "ProtoSphere.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere.proto",
+    "url": "./library/ProtoSphere/ProtoSphere.proto",
     "icon": "./library/ProtoSphere/icon.png"
   },
   "ProtoSphere5": {
     "proto": "ProtoSphere.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere.proto",
+    "url": "./library/ProtoSphere/ProtoSphere.proto",
     "icon": "./library/ProtoSphere/icon.png"
   },
   "ProtoBox6": {
@@ -56,7 +56,7 @@
   "ProtoSphere7": {
     "proto": "ProtoSphere.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere.proto",
+    "url": "./library/ProtoSphere/ProtoSphere.proto",
     "icon": "./library/ProtoSphere/icon.png"
   },
   "ProtoBox8": {
@@ -68,7 +68,7 @@
   "ProtoSphere9": {
     "proto": "ProtoSphere.proto",
     "baseNode": "WbGeometry",
-    "url": "./library/ProtoSphere.proto",
+    "url": "./library/ProtoSphere/ProtoSphere.proto",
     "icon": "./library/ProtoSphere/icon.png"
   },
   "ProtoBox10": {

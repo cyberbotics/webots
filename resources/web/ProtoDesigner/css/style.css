@@ -51,8 +51,13 @@
 .drop-zone {
   border: 3px solid #333;
   border-radius: 6px;
-  width:  90%;
-  height: 100px;
+  display: flex;
+  height: 110px;
+  margin: 10px;
+  line-height: 110px; // the same as div height
+  text-align: center;
+  vertical-align: middle;
+  justify-content: center;
 }
 
 .header {

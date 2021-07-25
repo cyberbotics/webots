@@ -62,8 +62,8 @@ class ProtoDesigner {
         this.header = new HeaderView(this.headerElement, this);
         this.editor = new EditorView(this.editorElement, this.view, this);
         this.assetLibrary = new AssetLibrary();
-        this.partBrowser = new LibraryView(this.libraryElement, this.assetLibrary);
-        this.assetLibrary.addObserver('loaded', () => { this.partBrowser.loadAssets(); });
+        this.LibraryView = new LibraryView(this.libraryElement, this.assetLibrary);
+        this.assetLibrary.addObserver('loaded', () => { this.LibraryView.loadAssets(); });
 
         //this.library = new LibraryView(this.libraryElement);
         //this.loadLibrary('./library/library.json');
