@@ -60,14 +60,15 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   populateDiv(proto, depth = 0, parent) {
     console.log('DEPTH ' + depth, proto);
     // add PROTO name label
-    let nameLabel = document.createElement('p');
-    nameLabel.innerHTML = '<span class="proto-name-label">' + proto.protoName + '</span>';
+    if (depth === 0) {
+      let nameLabel = document.createElement('p');
+      nameLabel.innerHTML = '<span class="proto-name-label">' + proto.protoName + '</span>';
 
-    if (typeof parent !== 'undefined')
-      parent.appendChild(nameLabel);
-    else
-      this.element.appendChild(nameLabel);
-
+      if (typeof parent !== 'undefined')
+        parent.appendChild(nameLabel);
+      else
+        this.element.appendChild(nameLabel);
+    }
     // display parameters
     let ul = document.createElement('ul');
     ul.classList.add('designer-list');
@@ -85,8 +86,10 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       li.setAttribute('protoId', proto.id);
       li.addEventListener('click', () => this.itemSelector(event));
       ul.appendChild(li);
-      if (typeof parameter.linkedProto !== 'undefined')
+      if (typeof parameter.linkedProto !== 'undefined') {
+        li.innerHTML = parameter.name + ' (<span class="proto-name-label">' + parameter.linkedProto.protoName + '</span>)';
         this.populateDiv(parameter.linkedProto, depth + 1, li);
+      }
     }
   };
 

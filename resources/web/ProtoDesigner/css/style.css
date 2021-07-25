@@ -65,6 +65,7 @@
 .designer-list {
   list-style-type: none;
   padding: 0;
+  margin-top: 10px;
   line-height: 100%
 }
 
