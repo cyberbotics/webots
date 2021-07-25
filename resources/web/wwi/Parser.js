@@ -49,6 +49,8 @@ export default class Parser {
 
   async parse(text, renderer, parent, callback) {
     console.log('Text x3d to parse:\n' + text);
+    this.addedNodes = [];
+
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
@@ -318,6 +320,7 @@ export default class Parser {
     WbBackground.instance = background;
 
     WbWorld.instance.nodes.set(background.id, background);
+    this.addedNodes.push(background.id);
 
     return background;
   }
@@ -346,6 +349,7 @@ export default class Parser {
     }
 
     WbWorld.instance.nodes.set(id, useNode);
+    this.addedNodes.push(id);
     return useNode;
   }
 
@@ -365,6 +369,7 @@ export default class Parser {
     const transform = new WbTransform(id, isSolid, translation, scale, rotation);
 
     WbWorld.instance.nodes.set(transform.id, transform);
+    this.addedNodes.push(transform.id);
 
     await this._parseChildren(node, transform, isBoundingObject);
 
@@ -390,6 +395,7 @@ export default class Parser {
     const group = new WbGroup(id, isPropeller);
 
     WbWorld.instance.nodes.set(group.id, group);
+    this.addedNodes.push(group.id);
     await this._parseChildren(node, group, isBoundingObject);
 
     if (typeof parentNode !== 'undefined') {
@@ -464,6 +470,7 @@ export default class Parser {
       appearance.parent = shape.id;
 
     WbWorld.instance.nodes.set(shape.id, shape);
+    this.addedNodes.push(shape.id);
 
     return shape;
   }
@@ -476,6 +483,7 @@ export default class Parser {
     const billboard = new WbBillboard(id);
 
     WbWorld.instance.nodes.set(billboard.id, billboard);
+    this.addedNodes.push(billboard.id);
     await this._parseChildren(node, billboard);
 
     return billboard;
@@ -502,6 +510,7 @@ export default class Parser {
     }
 
     WbWorld.instance.nodes.set(dirLight.id, dirLight);
+    this.addedNodes.push(dirLight.id);
 
     return dirLight;
   }
@@ -527,6 +536,7 @@ export default class Parser {
       parentNode.children.push(pointLight);
 
     WbWorld.instance.nodes.set(pointLight.id, pointLight);
+    this.addedNodes.push(pointLight.id);
 
     return pointLight;
   }
@@ -555,6 +565,7 @@ export default class Parser {
       parentNode.children.push(spotLight);
 
     WbWorld.instance.nodes.set(spotLight.id, spotLight);
+    this.addedNodes.push(spotLight.id);
 
     return spotLight;
   }
@@ -568,6 +579,7 @@ export default class Parser {
     const fog = new WbFog(id, color, visibilityRange, fogType);
 
     WbWorld.instance.nodes.set(fog.id, fog);
+    this.addedNodes.push(fog.id);
 
     if (typeof fog !== 'undefined')
       WbWorld.instance.hasFog = true;
@@ -621,6 +633,7 @@ export default class Parser {
 
     const box = new WbBox(id, size);
     WbWorld.instance.nodes.set(box.id, box);
+    this.addedNodes.push(box.id);
     return box;
   }
 
@@ -632,6 +645,7 @@ export default class Parser {
     const sphere = new WbSphere(id, radius, ico, subdivision);
 
     WbWorld.instance.nodes.set(sphere.id, sphere);
+    this.addedNodes.push(sphere.id);
 
     return sphere;
   }
@@ -646,6 +660,7 @@ export default class Parser {
     const cone = new WbCone(id, bottomRadius, height, subdivision, side, bottom);
 
     WbWorld.instance.nodes.set(cone.id, cone);
+    this.addedNodes.push(cone.id);
 
     return cone;
   }
@@ -661,6 +676,7 @@ export default class Parser {
     const cylinder = new WbCylinder(id, radius, height, subdivision, bottom, side, top);
 
     WbWorld.instance.nodes.set(cylinder.id, cylinder);
+    this.addedNodes.push(cylinder.id);
 
     return cylinder;
   }
@@ -671,6 +687,7 @@ export default class Parser {
     const plane = new WbPlane(id, size);
 
     WbWorld.instance.nodes.set(plane.id, plane);
+    this.addedNodes.push(plane.id);
 
     return plane;
   }
@@ -686,6 +703,7 @@ export default class Parser {
     const capsule = new WbCapsule(id, radius, height, subdivision, bottom, side, top);
 
     WbWorld.instance.nodes.set(capsule.id, capsule);
+    this.addedNodes.push(capsule.id);
 
     return capsule;
   }
@@ -731,6 +749,7 @@ export default class Parser {
 
     const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
     WbWorld.instance.nodes.set(ifs.id, ifs);
+    this.addedNodes.push(ifs.id);
 
     return ifs;
   }
@@ -753,6 +772,7 @@ export default class Parser {
 
     const ils = new WbIndexedLineSet(id, coord, coordIndex);
     WbWorld.instance.nodes.set(ils.id, ils);
+    this.addedNodes.push(ils.id);
 
     return ils;
   }
@@ -772,6 +792,7 @@ export default class Parser {
 
     const eg = new WbElevationGrid(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness);
     WbWorld.instance.nodes.set(eg.id, eg);
+    this.addedNodes.push(eg.id);
 
     return eg;
   }
@@ -806,6 +827,7 @@ export default class Parser {
 
     const ps = new WbPointSet(id, coord, color);
     WbWorld.instance.nodes.set(ps.id, ps);
+    this.addedNodes.push(ps.id);
 
     return ps;
   }
@@ -877,6 +899,7 @@ export default class Parser {
         appearance.parent = parentId;
 
       WbWorld.instance.nodes.set(appearance.id, appearance);
+      this.addedNodes.push(appearance.id);
     }
 
     return appearance;
@@ -904,6 +927,7 @@ export default class Parser {
       material.parent = parentId;
 
     WbWorld.instance.nodes.set(material.id, material);
+    this.addedNodes.push(material.id);
 
     return material;
   }
@@ -932,6 +956,7 @@ export default class Parser {
         imageTexture.parent = parentId;
 
       WbWorld.instance.nodes.set(imageTexture.id, imageTexture);
+      this.addedNodes.push(imageTexture.id);
     }
 
     return imageTexture;
@@ -1021,6 +1046,7 @@ export default class Parser {
         pbrAppearance.parent = parentId;
 
       WbWorld.instance.nodes.set(pbrAppearance.id, pbrAppearance);
+      this.addedNodes.push(pbrAppearance.id);
     }
 
     return pbrAppearance;
@@ -1043,6 +1069,7 @@ export default class Parser {
       textureTransform.parent = parentId;
 
     WbWorld.instance.nodes.set(textureTransform.id, textureTransform);
+    this.addedNodes.push(textureTransform.id);
 
     return textureTransform;
   }

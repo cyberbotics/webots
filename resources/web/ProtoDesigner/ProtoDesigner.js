@@ -75,7 +75,7 @@ class ProtoDesigner {
 
         // const url = '../wwi/Protos/ProtoTestParameters.proto';
         // const url = '../wwi/Protos/ProtoBox.proto';
-         const url = '../wwi/Protos/ProtoTemplate.proto';
+        // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
         // const url = '../wwi/Protos/ProtoTestAll.proto';
         // const url = '../wwi/Protos/ProtoDefUse.proto';
@@ -87,7 +87,7 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoTestCapsule.proto';
         // const url = '../wwi/Protos/ProtoTestCone.proto';
 
-        //const url = '../wwi/Protos/ProtoTestSFNode.proto';
+        const url = '../wwi/Protos/ProtoTestSFNode.proto';
 
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');

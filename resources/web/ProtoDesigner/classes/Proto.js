@@ -182,9 +182,4 @@ export default class Proto {
       parameter.linkedProto = undefined;
     }
   };
-
-  tmpBody() {
-    const a = 'let a = fields.size.value; ___vrml += render(` Shape { castShadow TRUE geometry Box { size `); ___tmp =  a.x ; ___vrml += eval("___tmp"); ___vrml += render(` 1 1 } appearance PBRAppearance { baseColor IS color } } `);';
-    return a;
-  };
 };

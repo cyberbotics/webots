@@ -288,9 +288,15 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     if (this.parameter.isTemplateRegenerator) {
       console.log('Regeneration triggered by parameter ' + this.parameter.name);
-      this.view.x3dScene.destroyWorld();
+      for (const key of WbWorld.instance.nodes.keys()) {
+        if (parseInt(key.slice(1)) < -4)
+          this.view.x3dScene._deleteObject(key.slice(1));
+      }
+      console.log(WbWorld.instance.nodes)
       this.proto.regenerate();
-      this.view.x3dScene.loadWorldFileRaw(this.proto.x3d, this.view.finalizeWorld);
+      this.view.x3dScene._loadObject(this.proto.x3d, '-4');
+      // this.view.x3dScene.loadWorldFileRaw(this.proto.x3d, this.view.finalizeWorld);
+      this.view.x3dScene.render();
       return;
     }
 

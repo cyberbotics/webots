@@ -73,10 +73,6 @@ export default class X3dScene {
     this.render();
   }
 
-  destroySceneTree() {
-
-  };
-
   destroyWorld() {
     if (typeof WbWorld.instance !== 'undefined') {
       let index = WbWorld.instance.sceneTree.length - 1;

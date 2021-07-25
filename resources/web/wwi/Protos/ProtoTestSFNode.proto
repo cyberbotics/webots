@@ -1,31 +1,16 @@
 #VRML_SIM R2021b utf8
-# template language: javascript
 
 PROTO ProtoTestSFNode [
   field SFNode geometry NULL
   field SFColor color 1 0 0
-  field SFInt32 amount 1
+  field SFInt32 randomField 1
 
 ]
 {
-  Group {
-    children [
-      %<
-        let n = fields.amount.value
-        for (let i = 0; i < n; ++i) {
-      >%
-      Transform {
-        translation %<= i >% 0 0
-        children [
-          Shape {
-            geometry IS geometry
-            appearance PBRAppearance {
-              baseColor IS color
-            }
-          }
-        ]
-      }
-      %< } >%
-    ]
+  Shape {
+    geometry IS geometry
+    appearance PBRAppearance {
+      baseColor IS color
+    }
   }
 }
