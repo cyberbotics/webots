@@ -1,7 +1,7 @@
 ## How To
 
 This section gives various examples of complex behaviors and/or functionalities.
-The examples are located in "[WEBOTS\_HOME/projects/samples/howto/]({{ url.github_tree }}/projects/samples/howto/)". Each example has his own controllers and worlds directory.
+The examples are located in "[WEBOTS\_HOME/projects/samples/howto/]({{ url.github_tree }}/projects/samples/howto/)". Each example has its own controllers and worlds directories
 For each, the world file and its corresponding controller are named according to the behavior they exemplify.
 
 ### [asymmetric\_friction1.wbt]({{ url.github_tree }}/projects/samples/howto/asymmetric_friction/worlds/asymmetric_friction1.wbt)
