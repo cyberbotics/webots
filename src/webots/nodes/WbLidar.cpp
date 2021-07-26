@@ -367,7 +367,7 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   WbLidarPoint *lidarPoints = pointArray();
   const float *image = lidarImage();
   const int resolution = actualHorizontalResolution();
-  const int numberOfLayer = actualNumberOfLayers();
+  const int numberOfLayers = actualNumberOfLayers();
   const double w = width();
 
   const double dt = -((double)mRefreshRate / 1000.0) / w;
