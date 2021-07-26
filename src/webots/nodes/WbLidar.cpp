@@ -373,7 +373,7 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   const double dt = -((double)mRefreshRate / 1000.0) / w;
   const double t0 = WbSimulationState::instance()->time() / 1000.0 + minWidth * dt;
 
-  const double dphi = (numberOfLayer > 1) ? (-verticalFieldOfView() / (numberOfLayer - 1)) : 0.0;
+  const double dphi = (numberOfLayers > 1) ? (-verticalFieldOfView() / (numberOfLayers - 1)) : 0.0;
   const double cosdPhi = cos(dphi), sindPhi = sin(dphi);
   const double phi0 = ((numberOfLayers > 1) ? (verticalFieldOfView() / 2) : 0.0) + mCurrentTiltAngle;
   const double cosPhi0 = cos(phi0), sinPhi0 = sin(phi0);
