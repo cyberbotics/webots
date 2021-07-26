@@ -87,8 +87,8 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoTestCapsule.proto';
         // const url = '../wwi/Protos/ProtoTestCone.proto';
 
-        const url = './examples/protos/ProtoSolid.proto';
-
+        //const url = './examples/protos/ProtoSolid.proto';
+        const url = './examples/protos/ProtoIndexedFaceSet.proto';
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');
 

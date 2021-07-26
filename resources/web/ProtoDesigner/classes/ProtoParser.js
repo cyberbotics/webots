@@ -131,7 +131,20 @@ export default class ProtoParser {
       value += this.bodyTokenizer.nextWord();
     } else if (fieldType === VRML.SFNode)
       this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName, alias);
-    else
+    else if (fieldType === VRML.MFVec3f) {
+      let ctr = 1;
+      while (this.bodyTokenizer.peekWord() !== ']') {
+        value += this.bodyTokenizer.nextWord();
+        value += (!(ctr % 3) ? ', ' : ' ');
+        ctr = ctr > 2 ? 1 : ++ctr;
+      }
+      value = value.slice(0, -2);
+    } else if (fieldType === VRML.MFInt32) {
+      while (this.bodyTokenizer.peekWord() !== ']')
+        value += this.bodyTokenizer.nextWord() + ' ';
+      value = value.slice(0, -1);
+      console.log(value);
+    } else
       throw new Error('Could not encode field \'' + fieldName + '\' (type: ' + fieldType + ') as x3d. Type not handled.');
 
     if (fieldType !== VRML.SFNode) {
@@ -221,6 +234,10 @@ export default class ProtoParser {
           const childNodeName = this.bodyTokenizer.nextWord();
           this.encodeNodeAsX3d(childNodeName, parentElement, parentName);
           break;
+        case VRML.MFVec3f:
+        case VRML.MFInt32:
+          this.encodeFieldAsX3d(parentName, field, parentElement);
+          break;
         default:
           throw new Error('Cannot parse MF because field \'' + field + '\' (fieldType: ' + fieldType + ') is not supported.');
       }
@@ -228,6 +245,10 @@ export default class ProtoParser {
 
     this.bodyTokenizer.skipToken(']'); // consume closing ']' token
   };
+
+  encodeMFFieldAsX3d(parentElement, parentName) {
+    console.log(parentName);
+  }
 
   getParameterByName(parameterName) {
     for (const value of this.parameters.values()) {

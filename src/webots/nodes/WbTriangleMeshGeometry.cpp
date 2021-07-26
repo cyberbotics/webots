@@ -684,13 +684,19 @@ void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
 
   writer << " coordIndex=\'";
 
+  // printf("coordIndex:\n");
+
   for (int i = 0; i < indexCount; ++i) {
     if (i != 0) {
       writer << " ";
-      if (i % 3 == 0)
+      // printf(" ");
+      if (i % 3 == 0) {
         writer << "-1 ";
+        // printf("-1 ");
+      }
     }
     writer << coordIndex[i];
+    // printf("%f", coordIndex[i]);
   }
 
   writer << " -1\'";
