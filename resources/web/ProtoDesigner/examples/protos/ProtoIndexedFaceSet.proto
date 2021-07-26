@@ -1,0 +1,31 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoIndexedFaceSet [
+  field SFVec3f translation 0.1 0 0
+  field SFColor color 1 0 0
+]
+{
+  Solid {
+    translation IS translation
+    children [
+      Shape {
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              0 0 0
+              1 0 0
+              1 1 0
+              0 1 0
+            ]
+          }
+          coordIndex [
+            0 1 2 3 -1
+          ]
+        }
+        appearance PBRAppearance {
+          baseColor IS color
+        }
+      }
+    ]
+  }
+}

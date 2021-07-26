@@ -25,6 +25,10 @@ export const FieldModel = {
     'supported': {'bottomRadius': VRML.SFFloat, 'height': VRML.SFFloat, 'side': VRML.SFBool, 'bottom': VRML.SFBool, 'subdivision': VRML.SFInt32},
     'unsupported': {}
   },
+  'Coordinate': {
+    'supported': {'point': VRML.MFVec3f},
+    'unsupported': {}
+  },
   'Cylinder': {
     'supported': {'bottom': VRML.SFBool, 'height': VRML.SFFloat, 'radius': VRML.SFFloat, 'side': VRML.SFBool, 'top': VRML.SFBool, 'subdivision': VRML.SFInt32},
     'unsupported': {'castLensFlares': VRML.SFBool}
