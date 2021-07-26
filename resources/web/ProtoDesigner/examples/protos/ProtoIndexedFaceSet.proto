@@ -34,7 +34,11 @@ PROTO ProtoIndexedFaceSet [
           creaseAngle 0.5585
         }
         appearance PBRAppearance {
-          baseColor IS color
+          baseColorMap ImageTexture {
+            url [
+              "textures/chessboard.jpg"
+            ]
+          }
         }
       }
     ]
