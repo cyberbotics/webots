@@ -16,7 +16,7 @@
     </ImageTexture>
   </Appearance>
   <PBRAppearance id='n5'>
-    <ImageTexture id='n6' docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='"textures/chessboard.jpg" "textures/carpet.jpg"' containerField='' origChannelCount='3' isTransparent='false' type='baseColor'>
+    <ImageTexture id='n6' docUrl='https://cyberbotics.com/doc/reference/imagetexture' url='"textures/chessboard.jpg"' containerField='' origChannelCount='3' isTransparent='false' type='baseColor'>
       <TextureProperties anisotropicDegree="8" generateMipMaps="true" minificationFilter="AVG_PIXEL" magnificationFilter="AVG_PIXEL"/>
     </ImageTexture>
   </PBRAppearance>

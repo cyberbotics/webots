@@ -129,10 +129,31 @@ export default class ProtoParser {
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord() + ' ';
       value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML.SFNode)
+    } else if (fieldType === VRML.SFNode) {
+      let imageTextureType;
+      if (this.bodyTokenizer.peekWord() === 'ImageTexture')
+        imageTextureType = this.bodyTokenizer.recallWord(); // remember the type: baseColorMap, roughnessMap, etc
+
       this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName, alias);
-    else if (fieldType === VRML.MFString) {
-      console.log(this.bodyTokenizer.peekToken())
+      // exceptions to the rule. TODO: find a better solution (on webots side)
+      if (typeof imageTextureType !== 'undefined') {
+        const imageTextureElement = nodeElement.lastChild;
+        if (imageTextureType === 'baseColorMap')
+          imageTextureElement.setAttribute('type', 'baseColor');
+        else if (imageTextureType === 'roughnessMap')
+          imageTextureElement.setAttribute('type', 'roughness');
+        else if (imageTextureType === 'metalnessMap')
+          imageTextureElement.setAttribute('type', 'metalness');
+        else if (imageTextureType === 'normalMap')
+          imageTextureElement.setAttribute('type', 'normal');
+        else if (imageTextureType === 'occlusionMap')
+          imageTextureElement.setAttribute('type', 'occlusion');
+        else if (imageTextureType === 'emissiveColorMap')
+          imageTextureElement.setAttribute('type', 'emissiveColor');
+        else
+          throw new Error('Encountered ImageTexture exception but type \'' + imageTextureType + '\' not handled.')
+      }
+    } else if (fieldType === VRML.MFString) {
       while (this.bodyTokenizer.peekWord() !== ']')
         value += this.bodyTokenizer.nextWord() + ' ';
       value = value.slice(0, -1);
@@ -227,7 +248,6 @@ export default class ProtoParser {
 
   parseMF(parentElement, parentName) {
     const field = this.bodyTokenizer.recallWord(); // get field that triggered the parseMF
-
     const fieldType = FieldModel[parentName]['supported'][field];
     if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[parentName]['unsupported'][field]; // check if it's one of the unsupported ones instead

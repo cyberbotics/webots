@@ -12,31 +12,55 @@ PROTO ProtoIndexedFaceSet [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              0 0 0
-              1 0 0
-              1 1 0
-              0 1 0
+              1.0000 1.0000 0.0000, 0.0000 0.0000 0.0000, 1.0000 0.0000 0.0000, 0.0000 1.0000 0.0000
             ]
           }
           coordIndex [
-            0, 1, 2, -1,
-            0, 2, 3, -1
+            0 1 2 -1
+            0 3 1 -1
           ]
           texCoord TextureCoordinate {
             point [
-              0 0 0 1 0 0 1 1 0 0 1 0
+              1.0000 1.0000, 0.0000 0.0000, 1.0000 0.0000, 0.0000 1.0000
             ]
           }
           texCoordIndex [
-            0 1 2 -1,
-            0 2 3 -1
+            0 1 2 -1 0 3 1 -1
+          ]
+          normal Normal {
+            vector [
+              0 0 1
+            ]
+          }
+          normalIndex [
+            0 0 0 -1 0 0 0 -1
           ]
           creaseAngle 0.5585
         }
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/chessboard.jpg"
+              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_base_color.jpg"
+            ]
+          }
+          roughnessMap ImageTexture {
+            url [
+              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_roughness.png"
+            ]
+          }
+          metalnessMap ImageTexture {
+            url [
+              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_metalness.jpg"
+            ]
+          }
+          normalMap ImageTexture {
+            url [
+              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_normal.jpg"
+            ]
+          }
+          occlusionMap ImageTexture {
+            url [
+              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_occlusion.jpg"
             ]
           }
         }

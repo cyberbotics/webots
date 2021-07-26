@@ -69,6 +69,10 @@ export const FieldModel = {
     'supported': {},
     'unsupported': {'url': VRML.MFString}
   },
+  'Normal': {
+    'supported': {'vector': VRML.MFVec3f},
+    'unsupported': {}
+  },
   'PBRAppearance': {
     'supported': {'baseColor': VRML.SFColor, 'baseColorMap': VRML.SFNode, 'transparency': VRML.SFFloat, 'roughness': VRML.SFFloat, 'roughnessMap': VRML.SFNode, 'metalness': VRML.SFFloat, 'metalnessMap': VRML.SFNode, 'IBLStrength': VRML.SFFloat, 'normalMap': VRML.SFNode, 'normalMapFactor': VRML.SFFloat, 'occlusionMap': VRML.SFNode, 'occlusionMapStrength': VRML.SFFloat, 'emissiveColor': VRML.SFColor, 'emissiveColorMap': VRML.SFNode, 'emissiveIntensity': VRML.SFFloat, 'textureTransform': VRML.SFNode},
     'unsupported': {'name': VRML.SFString}
