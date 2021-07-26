@@ -265,7 +265,7 @@ After a few tests it seems you are correct. The same issue presents when the rob
 ##### Olivier Michel [Cyberbotics] 01/18/2021 07:58:52
 In Webots images are read from the GPU memory directly into a shared memory segment which is readable by both Webots and the local robot controller to optimize efficiency and avoid unnecessary image copy. In the context of RoboCup (and other frameworks, like ROS or ROS2), the local robot controller acts as a relay between the simulator and the actual robot controller which may run on a different machine over the network. Therefore, while implementing this relay controller, it is very easy to add JPEG compression to the camera image to be sent to the actual controller over the network. This is indeed exactly what happens when you use a ROS 2 controller with Webots to publish a camera image, it gets automatically compressed in JPEG (and you can even choose the compression ratio) before being sent to the controller.
 
-##### babaev1 01/18/2021 09:23:07
+##### Azer Babaev [Starkit, TC] 01/18/2021 09:23:07
 Thank you for prompt reply. For me it is clear. I shall share your answer with Robocup community for possible definitions.
 
 ##### Moha 01/19/2021 09:49:08
@@ -364,13 +364,13 @@ oh wow, already created.
 ##### mayank.kishore 01/25/2021 15:55:58
 Does anyone have experience creating an overhead map with a camera? And potentially stitching multiple images together to create an encompassing overhead map?
 
-##### babaev1 01/25/2021 16:04:06
+##### Azer Babaev [Starkit, TC] 01/25/2021 16:04:06
 There is good feature in Coppelia which I couldn’t find in Webots: position and orientation of each node can be measured and modified from GUI.
 
 ##### Luftwaffel [Moderator] 01/25/2021 17:13:51
 you can do the same in Webots in the scene tree
 
-##### babaev1 01/25/2021 17:34:59
+##### Azer Babaev [Starkit, TC] 01/25/2021 17:34:59
 Yes, it is possible to read absolute position in scene tree, but modification of absolute position or orientation is not accessible there.
 
 ##### Luftwaffel [Moderator] 01/25/2021 17:38:12
@@ -382,7 +382,7 @@ just change the values
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/803317976853905448/unknown.png)
 %end
 
-##### babaev1 01/25/2021 17:43:41
+##### Azer Babaev [Starkit, TC] 01/25/2021 17:43:41
 In case if in children of parent Solid child Solid is added direct change of values of child Solid appears complex especially in case if in parent Solid rotation is not zero.
 
 
@@ -394,23 +394,23 @@ that is the nature of kinematic chains
 
 that is where you need inverse kinematics
 
-##### babaev1 01/25/2021 17:56:54
+##### Azer Babaev [Starkit, TC] 01/25/2021 17:56:54
 In case if I select node in scene tree I can see absolute position and rotation of node, but values are not editable. Possibility of modification of absolute position and orientation through editing values could be helpful.
 
 
 In Coppelia it is possible
 
 ##### Luftwaffel [Moderator] 01/26/2021 09:11:26
-`@babaev1` If I understand you correctly, you want to position a child node using absolute coordinates, which would automatically calculate the relative coordinates to the parent?
+`@Azer Babaev [Starkit, TC]` If I understand you correctly, you want to position a child node using absolute coordinates, which would automatically calculate the relative coordinates to the parent?
 
-##### babaev1 01/26/2021 13:51:17
+##### Azer Babaev [Starkit, TC] 01/26/2021 13:51:17
 I am using Coppelia for teaching robotics in school since 2 years. There is functionally which I consider useful and I use it often. It is possible to call pop-up widow for reading and editing absolute coordinate of any node which you select on scene tree or directly on 3D rendering window. After giving new coordinate and position old link to parent node is replaced by new link. Position and orientation of parent node remain unchanged. Position and orientation of all child nodes changes together with selected node new position and orientation. In case if you want to protect complex structures from being destroyed by this action node can be protected from being selected in node properties. I started to study Webots 2 weeks ago and I didn’t find similar useful functionality.
 
 
 window (not widow)
 
 ##### Luftwaffel [Moderator] 01/27/2021 10:35:31
-`@babaev1` So you want the reference frame selected here (in this case 'Absolute') to change the axis in the 3D view and the translation + rotation field in the scene tree. So they can be edited in the chosen frame. However, the saved definition is still the relative position to its parent.
+`@Azer Babaev [Starkit, TC]` So you want the reference frame selected here (in this case 'Absolute') to change the axis in the 3D view and the translation + rotation field in the scene tree. So they can be edited in the chosen frame. However, the saved definition is still the relative position to its parent.
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/803936219175452702/unknown.png)
 %end
@@ -421,7 +421,7 @@ window (not widow)
 ##### Olivier Michel [Cyberbotics] 01/27/2021 10:41:53
 Yes, I believe changing these position and rotation fields from read-only to read/write should be fairly easy to implement. However, I am not sure to understand why it seems useful. In general objects can be moved from the root-level translation/rotation. Moving an object inside its parent is not something we want to do from the global coordinate system. So, I am not sure to understand the use case for this...
 
-##### babaev1 01/27/2021 10:43:34
+##### Azer Babaev [Starkit, TC] 01/27/2021 10:43:34
 This is useful during building new robot
 
 
@@ -430,21 +430,21 @@ In order to build 23 DOF robot from primitives I spent 2 days in Coppelia and ab
 ##### Olivier Michel [Cyberbotics] 01/27/2021 10:54:57
 Ok, thank you for the explanation. Then, you should probably open an issue about this (or implement it by yourself if you want).
 
-##### babaev1 01/27/2021 11:01:24
+##### Azer Babaev [Starkit, TC] 01/27/2021 11:01:24
 First variant is more realistic for my statement of amateur programmer.
 
 ##### Olivier Michel [Cyberbotics] 01/27/2021 11:09:23
 I believe this really not so difficult to implement...
 
-##### babaev1 01/28/2021 22:07:31
+##### Azer Babaev [Starkit, TC] 01/28/2021 22:07:31
 Dear Webots developers, do you have plan to add Russian language to variety of GUI languages in 2021? Together with pandemic and moving robotic lessons and competitions to virtual format there is higher interest to use simulation software in education. Unfortunately not many teachers and students are fluent with English in Russian schools.  Adding optional Russian language to GUI can give good advantage to Webots to be widely used in Russian schools.
 
 ##### Darko Lukić [Cyberbotics] 01/28/2021 22:15:23
-Hello `@babaev1`, feel free to add translations, we will be happy to review your PR:
+Hello `@Azer Babaev [Starkit, TC]`, feel free to add translations, we will be happy to review your PR:
 
 [https://github.com/cyberbotics/webots/tree/master/resources/translations](https://github.com/cyberbotics/webots/tree/master/resources/translations)
 
-##### babaev1 01/28/2021 22:19:39
+##### Azer Babaev [Starkit, TC] 01/28/2021 22:19:39
 Thank you. Good to know that it is so easy. I shall arrange people at my side to add Russian translation.
 
 ##### Professor Felix 01/29/2021 04:31:27
@@ -477,22 +477,22 @@ Hello, everyone! I've just recently pick up WeBots as I have an university proje
 ##### Bitbots\_Jasper [Moderator] 01/29/2021 12:49:47
 `@Ginzo1` this question has been asked a while back, maybe there is something useful for you there [https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16](https://cyberbotics.com/doc/discord/development-2020#lukulus-11132020-10-48-16)
 
-##### babaev1 01/30/2021 10:34:05
+##### Azer Babaev [Starkit, TC] 01/30/2021 10:34:05
 Dear Webots developers, it is more or less clear how to translate GUI to Russian language. Students in our University started to undertake this work. Separate story is how to translate and publish User Guide and Reference Manual which  is located in website of Cyberbotics. There are 2 variants: 1. Russian translation will be published in Cyberbotics site along with English. 2. In Russian GUI link to User Guide will be different, then we can undertake providing space on web for translated User Guide.
 
 ##### Luftwaffel [Moderator] 01/30/2021 14:18:53
-`@babaev1` Awesome! Thank you for the contribution. I'm sure the devs will do everything they can to support your effort!
+`@Azer Babaev [Starkit, TC]` Awesome! Thank you for the contribution. I'm sure the devs will do everything they can to support your effort!
 
 
 [https://github.com/cyberbotics/webots/tree/master/docs](https://github.com/cyberbotics/webots/tree/master/docs) this is the documentation location of Webots. "guide" and "reference" are the 2 big documentation directories. I'm sure you can make a fork and start translating these. `@Olivier Michel` Perhaps we should slightly change the structure to accommodate any new translations.
 
-##### babaev1 01/31/2021 11:10:23
+##### Azer Babaev [Starkit, TC] 01/31/2021 11:10:23
 Thank you, I shall look for opportunity to make this part to be translated too.
 
 ## February
 
 ##### Olivier Michel [Cyberbotics] 02/01/2021 10:52:38
-`@babaev1`: thank you for undertaking this translation effort.
+`@Azer Babaev [Starkit, TC]`: thank you for undertaking this translation effort.
 
 For translating the GUI, please follow the procedure at [https://github.com/cyberbotics/webots/tree/released/resources/translations](https://github.com/cyberbotics/webots/tree/released/resources/translations)
 
@@ -548,11 +548,11 @@ I'd argue that besides the incorrect handling of the greek characters (and possi
 ##### Olivier Michel [Cyberbotics] 02/11/2021 06:36:27
 Can you please open a bug report about it? [https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug\_report.md](https://github.com/cyberbotics/webots/issues/new?assignees=&labels=&template=bug_report.md)
 
-##### AJ121 02/12/2021 21:32:21
+##### Adyasha 02/12/2021 21:32:21
 Can't I set a motor speed more than 10 in webots? It shows error ! My bot is too slow
 
 ##### Stefania Pedrazzi [Cyberbotics] 02/15/2021 07:11:58
-`@AJ121` the maximum speed for a robot is defined in the `Motor.maxVelocity` field. You should check the value for your robot model and adjust it:
+`@Adyasha` the maximum speed for a robot is defined in the `Motor.maxVelocity` field. You should check the value for your robot model and adjust it:
 
 [https://www.cyberbotics.com/doc/reference/motor#field-summary](https://www.cyberbotics.com/doc/reference/motor#field-summary)
 
@@ -2236,4 +2236,95 @@ Did you source the ROS environment before launching Webots? Something like:
 source /opt/ros/noetic/setup.bash
 webots
 ```
+
+##### Naga15 06/25/2021 13:02:02
+Yes of course, that's sourced and saved in .bashrc. I done all tutorials and I saw webots\_ros samples. Im starting my ros node directly from the launch file as in examples. Like I said the error shows only on nightly builds of 2021b. sorry for the late answer.
+
+##### Darko Lukić [Cyberbotics] 06/25/2021 14:02:14
+The `webots_ros` package for R2021b hasn't been released yet. Did you install the `webots_ros` from apt or from source. When installing from source please use the develop branch.
+
+
+
+- The `develop` branch matches the nightly builds (R2021b)
+
+- The `master` branch matches the latest release (R2021a)
+
+##### michal.mlaticek 06/26/2021 17:38:41
+Hi guys I'm new to Webots. Wanted to ask... is there/does someone have a space environment?
+
+##### Darko Lukić [Cyberbotics] 06/27/2021 14:44:01
+Setting the gravity to 0 allows the space simulation
+
+##### michal.mlaticek 06/28/2021 09:25:43
+Ok, thanks
+
+##### Naga15 06/29/2021 12:20:18
+Hello, I removed webots\_ros from apt and I followed this [http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros) from 2.2.2,   after cloning the git I switched the branch to develop and after rosdep i typed catkin\_make. There were no errors at compiling. It havent work. in webots console is still this error message when I launch the tutorial nodes like catch\_the\_bird.launch or my written stuff-> usr/local/webots/projects/default/controllers/ros/ros: error while loading shared libraries: libboost\_system.so.1.65.1: cannot open shared object file: No such file or directory
+
+WARNING: 'ros' controller exited with status: 127.                                              I installed the webots from the .deb file. Sorry for the incovenience.
+
+##### Darko Lukić [Cyberbotics] 06/29/2021 12:24:40
+Do you have the Boost library installed (`sudo apt install libboost-dev`)?
+
+##### Naga15 06/29/2021 12:26:38
+yes "libboost-dev is already the newest version"
+
+##### Darko Lukić [Cyberbotics] 06/29/2021 12:39:09
+This will take many questions as I cannot reproduce the problem and I haven't noticed users having similar problems. Can you run:
+
+```bash
+ldd ${WEBOTS_HOME}/projects/default/controllers/ros/ros
+```
+
+##### Naga15 06/29/2021 12:46:02
+I run it and i got this
+> **Attachment**: [console\_output.txt](https://cdn.discordapp.com/attachments/565155651395780609/859414411403198464/console_output.txt)
+
+##### Darko Lukić [Cyberbotics] 06/29/2021 14:40:55
+I don't understand why it is trying to link `libboost_system` and why `1.65.1`. The oldest Boost version for Ubuntu 20.04 is 1.67:
+
+```
+$ apt-cache search libboost-system
+libboost-system-dev - Operating system (e.g. diagnostics support) library (default version)
+libboost-system1.71-dev - Operating system (e.g. diagnostics support) library
+libboost-system1.71.0 - Operating system (e.g. diagnostics support) library
+libboost-system1.67-dev - Operating system (e.g. diagnostics support) library
+libboost-system1.67.0 - Operating system (e.g. diagnostics support) library
+```
+
+
+
+Did you upgrade your system recently, `sudo apt update; sudo apt upgrade`?
+> **Attachment**: [ldd.log](https://cdn.discordapp.com/attachments/565155651395780609/859443319775428628/ldd.log)
+
+##### Naga15 06/30/2021 07:43:33
+I did that before writting to you, I will try it again. I have no problems with official release and nigthly builds of 2021a. Only with  nightly builds of 2021b. But thanks for your help! 🙂 If I find the solution or my mistake I will post it here.
+
+## July
+
+##### Affonso 07/01/2021 19:59:04
+Hey, how can I use a own lib in webots?
+
+##### Olivier Michel [Cyberbotics] 07/02/2021 06:22:41
+You can simply link your controller programs with your own lib.
+
+##### Naga15 07/14/2021 08:18:13
+Hello! I followed [https://github.com/cyberbotics/webots/wiki/Linux-installation](https://github.com/cyberbotics/webots/wiki/Linux-installation) but I pulled develop branch(source) of webots. It starts 2021b and doesn't lokoing for this libboost anymore and its connected to ros :). I have next Problem.  In my robot there are devices and after the activation of everyone I got ros crash. Webots console shows me this: wb\_lidar\_get\_layer\_range\_image() called for a disabled device! Please use: wb\_lidar\_enable().   
+
+
+
+Then I tried to back track the error and I found this trough terminal 
+
+
+
+rosservice call /<lidar\_name>/enable 32
+
+ERROR: transport error completing service call: unable to receive data from sender, check sender's logs for details
+
+
+
+in revision before I didn't had this problem,  even example complete\_test gives errors. I hope that is webots correctly installed.
+
+##### Olivier Michel [Cyberbotics] 07/14/2021 08:29:21
+I would recommend you to try from the current master branch into which we merged the develop branch recently and which is more stable than develop now and contains all its new features.
 

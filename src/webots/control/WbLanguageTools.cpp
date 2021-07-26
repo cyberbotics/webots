@@ -64,6 +64,10 @@ const QStringList WbLanguageTools::javaArguments() {
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
   const QString advice =
+#ifdef __APPLE__
+    "To fix the problem, you should set the full path of your python command in "
+    "Webots->preferences->python command.\n";
+#else
     QObject::tr("Webots requires Python version 3.9, 3.8"
 #ifdef __linux__
                 ", 3.7 or 3.6"  // we also support 3.6 on ubuntu 18.04
@@ -76,6 +80,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
                 "2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.\n"
                 "3. Fix your PATH environment variable to use the required Python 64 bit version (if available).\n"
                 "4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.\n");
+#endif
 #ifdef _WIN32
   if (!command.endsWith(".exe", Qt::CaseInsensitive))
     pythonCommand += ".exe";
@@ -96,7 +101,49 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     pythonCommand = "!";
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
-#else  // macOS and Linux
+#elif __APPLE__
+  if (pythonCommand == "python" || pythonCommand == "python3") {
+    pythonCommand = findWorkingPythonPath("3.8", env, false);
+    shortVersion = "38";
+    if (pythonCommand == "!") {
+      pythonCommand = findWorkingPythonPath("3.9", env, false);
+      shortVersion = "39";
+      if (pythonCommand == "!") {
+        pythonCommand = findWorkingPythonPath("3.7", env, true);
+        shortVersion = "37";
+      }
+    }
+  } else if (pythonCommand == "python3.7") {
+    pythonCommand = findWorkingPythonPath("3.7", env, true);
+    shortVersion = "37";
+  } else if (pythonCommand == "python3.8") {
+    pythonCommand = findWorkingPythonPath("3.8", env, true);
+    shortVersion = "38";
+  } else if (pythonCommand == "python3.9") {
+    pythonCommand = findWorkingPythonPath("3.9", env, true);
+    shortVersion = "39";
+  } else {
+    shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+    if (shortVersion.isEmpty())
+      pythonCommand = "!";
+  }
+
+  if (pythonCommand == "!")
+    WbLog::warning(QObject::tr("Python was not found.\n") + advice);
+#else  // Linux
+    shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+  if (shortVersion.isEmpty()) {
+    pythonCommand = "!";
+    WbLog::warning(QObject::tr("Python was not found.\n") + advice);
+  }
+
+#endif
+  return pythonCommand;
+}
+
+#if defined __APPLE__ || defined __linux__
+const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCommand, QProcessEnvironment &env, bool log) {
+  QString shortVersion;
   QProcess process;
   process.setProcessEnvironment(env);
   process.start(pythonCommand, QStringList() << "-c"
@@ -106,13 +153,38 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   // "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]" or the like
   const QStringList version = output.split(" ");
   if (!version[0].startsWith("3.")) {
-    WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
-    pythonCommand = "!";
+    if (log)
+      WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand));
+    shortVersion = QString();
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
+  return shortVersion;
+}
 #endif
+
+#ifdef __APPLE__
+QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QProcessEnvironment &env, bool log) {
+  QString shortVersion;
+
+  // look for python from python.org
+  QString pythonCommand = "/Library/Frameworks/Python.framework/Versions/" + pythonVersion + "/bin/python" + pythonVersion;
+  shortVersion = checkIfPythonCommandExist(pythonCommand, env, false);
+  if (shortVersion.isEmpty()) {
+    // look first possible path for python from homebrew
+    pythonCommand = "/usr/local/opt/python@" + pythonVersion + " /bin/python" + pythonVersion;
+    shortVersion = checkIfPythonCommandExist(pythonCommand, env, false);
+    if (shortVersion.isEmpty()) {
+      // look a second possible path for python from homebrew
+      pythonCommand = "/usr/local/bin/python" + pythonVersion;
+      shortVersion = checkIfPythonCommandExist(pythonCommand, env, log);
+      if (shortVersion.isEmpty())
+        pythonCommand = "!";
+    }
+  }
+
   return pythonCommand;
 }
+#endif
 
 const QStringList WbLanguageTools::pythonArguments() {
   return QStringList("-u");

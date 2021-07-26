@@ -83,6 +83,9 @@ using namespace std;
 //  Miscellaneous - controller module's level
 //----------------------------------------------------------------------------------------------
 
+%thread webots::Robot::step(int duration);
+%nothreadblock;
+
 //handling std::string
 %include "std_string.i"
 %include "typemaps.i"

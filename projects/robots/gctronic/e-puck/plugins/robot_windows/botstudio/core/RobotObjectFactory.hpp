@@ -48,7 +48,7 @@ public:
   const QString &name() const { return mRobotName; }
 
 protected:
-  RobotObjectFactory(const QString &robotName);
+  explicit RobotObjectFactory(const QString &robotName);
   virtual ~RobotObjectFactory() {}
 
 private:

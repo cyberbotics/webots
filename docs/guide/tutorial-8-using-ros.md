@@ -19,7 +19,7 @@ To install the latest version of ROS on Ubuntu use the following commands:
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 sudo apt-get update
-sudo apt-get install ros-noetic-desktop-full # takes time, get a coffee :)
+sudo apt-get install ros-noetic-desktop-full ros-noetic-moveit # takes time, get a coffee :)
 sudo apt-get install python3-rosdep
 sudo rosdep init
 rosdep update
@@ -34,7 +34,7 @@ sudo apt-get install ros-noetic-webots-ros
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 sudo apt-get update
-sudo apt-get install ros-melodic-desktop-full # takes time, get a coffee :)
+sudo apt-get install ros-melodic-desktop-full ros-melodic-moveit # takes time, get a coffee :)
 sudo apt-get install python-rosdep
 sudo rosdep init
 rosdep update
@@ -65,7 +65,7 @@ The minimum requirement is to follow these instructions (taken from the [ROS tut
 5. To make sure your workspace is properly set-up by the setup script, make sure `ROS_PACKAGE_PATH` environment variable includes the directory you are in. The `echo $ROS_PACKAGE_PATH` command should return `/home/youruser/catkin_ws/src:/opt/ros/noetic/share`.
 6. The last step is to set the [`WEBOTS_HOME`](https://cyberbotics.com/doc/guide/compiling-controllers-in-a-terminal) environment variable: `export WEBOTS_HOME=/usr/local/webots`. If you installed Webots in a different place, adapt the variable. This line can be added to your `.bashrc` file.
 
-** Remember**: Each time you open a terminal, you have to source the environment with this command: `source opt/ros/noetic/setup.bash` or you can add this line in your `.bashrc` file.
+** Remember**: Each time you open a terminal, you have to source the environment with this command: `source /opt/ros/noetic/setup.bash` or you can add this line in your `.bashrc` file.
 
 ### Running the Nodes
 
@@ -76,6 +76,21 @@ source /opt/ros/noetic/setup.bash
 roslaunch webots_ros e_puck_line.launch
 ```
 This launch file will launch Webots (the `WEBOTS_HOME` environment variable should be set) and start the corresponding node.
+
+<details>
+<summary>Webots snap and ROS Noetic notice</summary>
+
+If Webots is installed as a snap package you need to append the `${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros` path to the `LD_LIBRARY_PATH` environment variable:
+
+```sh
+export WEBOTS_HOME=/snap/webots/current/usr/share/webots
+source /opt/ros/noetic/local_setup.bash
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/projects/default/controllers/ros/lib/ros
+```
+  
+This is specific to the Webots snap package and ROS Noetic.
+  
+</details>
 
 The seed of Webots' random number generator is initialized at the beginning of the simulation and not when the ROS nodes connect.
 Webots has to be running for the ROS nodes to connect.

@@ -38,7 +38,7 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 
-QString WbProjectRelocationDialog::mExternalProjectPath = QString();
+QString WbProjectRelocationDialog::mExternalProtoProjectPath = QString();
 
 WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const QString &relativeFilename,
                                                      const QString &absoluteFilePath, QWidget *parent) :
@@ -64,9 +64,9 @@ WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const Q
   mProtoCheckBox->setChecked(mIsProtoModified);
   mPluginsCheckBox = new QCheckBox(tr("Include all plugins files"), this);
   const QString &absoluteFilename = mAbsoluteFilePath + mRelativeFilename;
-  const bool isPluginModified =
-    WbFileUtil::isLocatedInDirectory(absoluteFilename, mProject->path() + "plugins") ||
-    (!mExternalProjectPath.isEmpty() && WbFileUtil::isLocatedInDirectory(absoluteFilename, mExternalProjectPath + "plugins"));
+  const bool isPluginModified = WbFileUtil::isLocatedInDirectory(absoluteFilename, mProject->path() + "plugins") ||
+                                (!mExternalProtoProjectPath.isEmpty() &&
+                                 WbFileUtil::isLocatedInDirectory(absoluteFilename, mExternalProtoProjectPath + "plugins"));
   mPluginsCheckBox->setChecked(mIsProtoModified || isPluginModified);
 
   mButtonBox = new QDialogButtonBox(this);
@@ -206,10 +206,15 @@ void WbProjectRelocationDialog::copy() {
   }
 
   int copiedFilesCount = 0;
-  if (mIsCompleteRelocation)
-    copiedFilesCount = copyProject();
-  if (!mExternalProjectPath.isEmpty())
-    copiedFilesCount += copyExternalProject();
+  if (mIsCompleteRelocation) {
+    copiedFilesCount += copyWorldFiles();
+    QString currentProjectPath(QDir(mProject->path()).absolutePath());
+    if (!currentProjectPath.endsWith("/"))
+      currentProjectPath += "/";
+    copiedFilesCount += copyProject(currentProjectPath, false);
+  }
+  if (!mExternalProtoProjectPath.isEmpty())
+    copiedFilesCount += copyProject(mExternalProtoProjectPath, mIsProtoModified);
 
   if (copiedFilesCount == 0) {
     setStatus(tr("Project relocation failed.") + "\n" + tr("Some files or directories could not be copied."));
@@ -241,78 +246,109 @@ void WbProjectRelocationDialog::copy() {
   setStatus(tr("Project successfully relocated.") + "\n" + tr("%1 file(s) copied.").arg(copiedFilesCount));
 }
 
-int WbProjectRelocationDialog::copyExternalProject() {
+int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copyProtoProject) {
+  // Copy modified project resources:
+  // current project folder or project folder of an external PROTO model used in the current project.
+  // When modifying any resource (world file, PROTO file, controller, plugins, etc.) all the other resources stored in
+  // the current project path have to also be copied. Only non-modified PROTO related files stored in the standard paths can be
+  // skipped.
+  //
   // Here we should copy only the files that may be edited / changed by the user, that is:
-  // 1) textures and meshes in protos folders if PROTO file was modified
-  // 2) controller that was modified or used by modified PROTO
-  // 3) possibly the current controller file
+  // 1) textures and meshes in `protos` folders if PROTO file was modified
+  // 2) all the controllers (folders) and related libraries that was modified or used by this world and which are not located in
+  //    the current project folder. Skip controllers used by PROTO models that have not been modified.
+  // 3) possibly the current controller file (even if corresponding to a PROTO robot)
   // 4) project libraries if a controller or plugin is copied
   // 5) project motions folder if a controller is copied
+  // 6) skins folder if it exists
+
   int result = 0;
 
-  if (mIsProtoModified) {
+  if (copyProtoProject) {
     // copy all PROTO textures
-    result +=
-      WbFileUtil::copyDir(mExternalProjectPath + "/protos/textures", mTargetPath + "/protos/textures", true, true, true);
-    result += WbFileUtil::copyDir(mExternalProjectPath + "/protos/meshes", mTargetPath + "/protos/meshes", true, true, true);
+    result += WbFileUtil::copyDir(projectPath + "protos/textures", mTargetPath + "/protos/textures", true, true, true);
+    result += WbFileUtil::copyDir(projectPath + "protos/meshes", mTargetPath + "/protos/meshes", true, true, true);
   }
 
-  // copy PROTO controller
+  bool copyLibraries = false;
   bool projectLibrariesCopied = false;
+
+  // copy only the needed robot controllers
+  QStringList copiedControllers;
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (WbRobot *robot, robots) {
-    WbProtoModel *proto = robot->proto();
-    if (!proto)
+    const WbProtoModel *proto = robot->proto();
+    if (copyProtoProject && !proto)
       continue;
+
     const QString &controllerName = robot->controllerName();
     const QString &controllerPath = robot->controllerDir();
-    const QString &projectControllerPath = mExternalProjectPath + "controllers/" + controllerName + "/";
-    QDir protoControllerDir(QFileInfo(proto->fileName()).path());
-    protoControllerDir.cdUp();
-    const QString &protoControllerPath = protoControllerDir.path() + "/controllers/" + controllerName + "/";
-    if ((mIsProtoModified && proto->fileName() == (mExternalProjectPath + mRelativeFilename)) ||
-        protoControllerPath == projectControllerPath) {
-      // copy controller if modified or if the PROTO was modified
-      result += WbFileUtil::copyDir(controllerPath, mTargetPath + "/controllers/" + controllerName, true, false, true);
-      result += WbFileUtil::copyDir(protoControllerDir.path() + "/libraries", mTargetPath + "/libraries", true, false, true);
-      if (!projectLibrariesCopied && protoControllerDir.path() + '/' == mExternalProjectPath)
-        projectLibrariesCopied = true;
+    const QString &projectControllerPath = projectPath + "controllers/" + controllerName + "/";
+    bool isThisProtoModified = false;
+    QDir protoProjectDir;
+    if (proto) {
+      protoProjectDir.setPath(QFileInfo(proto->fileName()).path());
+      protoProjectDir.cdUp();
+      const QString &protoControllerPath = protoProjectDir.path() + "/controllers/" + controllerName + "/";
+      if (mIsProtoModified && proto->fileName() == (projectPath + mRelativeFilename))
+        isThisProtoModified = true;
+      else if ((mProtoCheckBox == NULL || !mProtoCheckBox->isChecked()) && protoControllerPath == projectControllerPath)
+        // this controller is associated with a PROTO file that has not been modified
+        // no need to copy it
+        continue;
     }
+    if (!isThisProtoModified && controllerPath != projectControllerPath)
+      // the controller is not included in the project
+      // maybe a default controller or a PROTO controller
+      continue;
+
+    if (copyProtoProject || !copiedControllers.contains(controllerName)) {
+      result += WbFileUtil::copyDir(controllerPath, mTargetPath + "/controllers/" + controllerName, true, false, true);
+      result += WbFileUtil::copyDir(controllerPath + "../motions", mTargetPath + "/motions", true, true, true);
+      copiedControllers << controllerName;
+    }
+    if (proto) {
+      result += WbFileUtil::copyDir(protoProjectDir.path() + "/libraries/", mTargetPath + "/libraries/", true, false, true);
+      projectLibrariesCopied = projectLibrariesCopied || protoProjectDir.path() + '/' == projectPath;
+    } else
+      copyLibraries = true;
   }
 
   // copy the current source folder
   QString relativeDirPath = mRelativeFilename;
-  if (QFileInfo(mRelativeFilename).isFile()) {
-    // from after the "controllers/" part of the string
-    relativeDirPath = mRelativeFilename.left(mRelativeFilename.indexOf("/", 12));
+  if (QFileInfo(projectPath + relativeDirPath).isFile())
+    // if it's not a directory, but a file, get the containing controller directory from after the "controllers/", "libraries/",
+    // "protos/", etc. part of the string
+    relativeDirPath = mRelativeFilename.left(mRelativeFilename.indexOf("/", mRelativeFilename.indexOf("/") + 1));
+  const QString dstPath = mTargetPath + "/" + relativeDirPath;
+  if (!QDir(dstPath).exists()) {
+    result += WbFileUtil::copyDir(projectPath + relativeDirPath, dstPath, true, true, true);
+    if (relativeDirPath.startsWith("controllers"))
+      result += WbFileUtil::copyDir(projectPath + "motions", mTargetPath + "/motions", true, true, true);
   }
 
-  const QString &currentController = mTargetPath + "/" + relativeDirPath;
-  if (!QDir(currentController).exists()) {
-    result += WbFileUtil::copyDir(mExternalProjectPath + relativeDirPath, currentController, true, true, true);
-    result += WbFileUtil::copyDir(mExternalProjectPath + "motions", mTargetPath + "/motions", true, true, true);
-  }
   if (mProtoCheckBox && mProtoCheckBox->isChecked())
-    result += WbFileUtil::copyDir(mExternalProjectPath + "protos", mTargetPath + "/protos", true, true, true);
+    result += WbFileUtil::copyDir(projectPath + "protos", mTargetPath + "/protos", true, true, true);
   if (mPluginsCheckBox && mPluginsCheckBox->isChecked()) {
-    result += WbFileUtil::copyDir(mExternalProjectPath + "plugins", mTargetPath + "/plugins", true, false, true);
-    if (!projectLibrariesCopied)
-      result += WbFileUtil::copyDir(mExternalProjectPath + "libraries", mTargetPath + "/libraries", true, false, true);
+    result += WbFileUtil::copyDir(projectPath + "plugins", mTargetPath + "/plugins", true, false, true);
+    copyLibraries = true;
   }
+
+  if (copyLibraries && !projectLibrariesCopied)
+    result += WbFileUtil::copyDir(projectPath + "libraries", mTargetPath + "/libraries", true, false, true);
+
+  const QString skinsPath = WbProject::current()->path() + "skins/";
+  if (QDir(skinsPath).exists())
+    result += WbFileUtil::copyDir(skinsPath, mTargetPath + "/skins", true, true, true);
+
   return result;
 }
 
-int WbProjectRelocationDialog::copyProject() {
-  // Here we should copy only the files that may be edited / changed by the user, that is:
+int WbProjectRelocationDialog::copyWorldFiles() {
+  // Files to be copied:
   // 1) the current world file and associated wbproj file
   // 2) all the textures used explicitly by this world file and present in the local worlds
   //    folder (but not the ones used implicitly by PROTOs).
-  // 3) all the controllers (folders) of the project used by non-PROTO robots from this world file
-  // 4) all the controllers (folders) and related libraries used by PROTO robots which are not located in the
-  //    controllers folder at the same level as the protos folder of the PROTO robot
-  // 5) possibly the current controller file (even if corresponding to a PROTO robot)
-  // 6) project libraries if a project controller or plugin is copied
-  // 7) copy skins folder if it exists
 
   const WbWorld *world = WbWorld::instance();
   const QString &worldFileBaseName = QFileInfo(world->fileName()).baseName();
@@ -343,75 +379,6 @@ int WbProjectRelocationDialog::copyProject() {
       result++;
   }
 
-  bool copyLibraries = false;
-  bool projectLibrariesCopied = false;
-
-  // copy only the needed robot controllers
-  const QList<WbRobot *> &robots = world->robots();
-  QStringList copiedControllers;
-  foreach (WbRobot *robot, robots) {
-    const QString &controllerName = robot->controllerName();
-    if (copiedControllers.contains(controllerName))
-      continue;
-    copiedControllers << controllerName;
-    const QString &controllerPath = robot->controllerDir();
-    const QString &projectControllerPath = mProject->path() + "controllers/" + controllerName + "/";
-    const WbProtoModel *proto = robot->proto();
-    bool isThisProtoModified = false;
-    QString protoLibrariesPath;
-    QDir protoControllerDir;
-    if (proto) {
-      protoControllerDir.setPath(QFileInfo(proto->fileName()).path());
-      protoControllerDir.cdUp();
-      const QString &protoControllerPath = protoControllerDir.path() + "/controllers/" + controllerName + "/";
-      protoLibrariesPath = protoControllerDir.path() + "/libraries/";
-      if (mIsProtoModified && proto->fileName() == (mAbsoluteFilePath + mRelativeFilename))
-        isThisProtoModified = true;
-      else if ((mProtoCheckBox == NULL || !mProtoCheckBox->isChecked()) && protoControllerPath == projectControllerPath)
-        // this controller is associated with a proto file that has not been modified
-        // no need to copy it
-        continue;
-    }
-    if (!isThisProtoModified && controllerPath != projectControllerPath)  // the controller is not included in the project
-      continue;                                                           // maybe a default controller or a proto controller
-    result += WbFileUtil::copyDir(controllerPath, mTargetPath + "/controllers/" + controllerName, true, false, true);
-    result += WbFileUtil::copyDir(mProject->path() + "motions", mTargetPath + "/motions", true, true, true);
-    if (proto) {
-      result += WbFileUtil::copyDir(protoLibrariesPath, mTargetPath + "/libraries/", true, false, true);
-      if (!projectLibrariesCopied && protoControllerDir.path() + '/' == mProject->path())
-        projectLibrariesCopied = true;
-    } else
-      copyLibraries = true;
-  }
-
-  // copy the current controller (if not already done)
-  QString source = mProject->path() + mRelativeFilename;
-  QString destination = mTargetPath + "/" + mRelativeFilename;
-  if (QFileInfo(source).isFile()) {
-    // if it's not a directory, but a file, get the containing controller directory from after the "controllers/" part of the
-    // string
-    QString dir = mRelativeFilename.left(mRelativeFilename.indexOf("/", 12));
-    source = mProject->path() + dir;
-    destination = mTargetPath + "/" + dir;
-  }
-
-  if (!QDir(destination).exists())
-    result += WbFileUtil::copyDir(source, destination, true, true, true);
-
-  if (mProtoCheckBox && mProtoCheckBox->isChecked())
-    result += WbFileUtil::copyDir(mProject->path() + "protos", mTargetPath + "/protos", true, true, true);
-  if (mPluginsCheckBox && mPluginsCheckBox->isChecked()) {
-    result += WbFileUtil::copyDir(mProject->path() + "plugins", mTargetPath + "/plugins", true, false, true);
-    copyLibraries = true;
-  }
-
-  if (copyLibraries && !projectLibrariesCopied)
-    result += WbFileUtil::copyDir(mProject->path() + "libraries", mTargetPath + "/libraries", true, false, true);
-
-  const QString skinsPath = WbProject::current()->path() + "skins/";
-  if (QDir(skinsPath).exists())
-    result += WbFileUtil::copyDir(skinsPath, mTargetPath + "/skins", true, true, true);
-
   return result;
 }
 
@@ -427,7 +394,7 @@ void WbProjectRelocationDialog::selectDirectory() {
 }
 
 bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename, bool isImportingVrml) {
-  mExternalProjectPath.clear();
+  mExternalProtoProjectPath.clear();
 
   // if file is not in installation directory: it's ok
   if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
@@ -451,14 +418,14 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
       QDir protoProjectDir(QFileInfo(proto->fileName()).path());
       protoProjectDir.cdUp();
       if (WbFileUtil::isLocatedInDirectory(filename, protoProjectDir.absolutePath())) {
-        mExternalProjectPath = protoProjectDir.absolutePath();
-        if (!mExternalProjectPath.endsWith("/"))
-          mExternalProjectPath = mExternalProjectPath + "/";
+        mExternalProtoProjectPath = protoProjectDir.absolutePath();
+        if (!mExternalProtoProjectPath.endsWith("/"))
+          mExternalProtoProjectPath = mExternalProtoProjectPath + "/";
         break;
       }
     }
 
-    if (mExternalProjectPath.isEmpty()) {
+    if (mExternalProtoProjectPath.isEmpty()) {
       // file is not in current project
       WbMessageBox::warning(tr("You are trying to modify a file located in Webots installation directory:") + "\n\n'" +
                               nativeFilename + "'\n\n" + tr("This operation is not permitted."),
@@ -483,13 +450,11 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
 
   // change filename parameter: get relative filename with respect to previous project path
   QString absolutePath;
-  if (mExternalProjectPath.isEmpty()) {
-    filename = QDir(current->path()).relativeFilePath(filename);
+  if (mExternalProtoProjectPath.isEmpty())
     absolutePath = current->path();
-  } else {
-    filename = QDir(mExternalProjectPath).relativeFilePath(filename);
-    absolutePath = mExternalProjectPath;
-  }
+  else
+    absolutePath = mExternalProtoProjectPath;
+  filename = QDir(absolutePath).relativeFilePath(filename);
 
   // relocate dialog
   WbProjectRelocationDialog dialog(current, filename, absolutePath, parent);
