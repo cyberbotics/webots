@@ -198,7 +198,7 @@ namespace wren {
 
     glClientWaitSync(
       mSync, 0,
-      100000000);  // CPU waits for GPU actions that were requested before the creation of the fence (timeout of 100us).
+      100000000);  // CPU waits for GPU actions that were requested before the creation of the fence (timeout of 100ms).
     memcpy(data, mCopyContentsPointer[index], totalSizeInBytes);
 
     auto end_time = chrono::steady_clock::now();
