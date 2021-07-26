@@ -388,7 +388,7 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
 
   double cosPhi = cosPhi0;
   double sinPhi = sinPhi0;
-  for (int i = 0; i < numberOfLayer; ++i) {
+  for (int i = 0; i < numberOfLayers; ++i) {
     double t = t0;
     double cosTheta = cosTheta0;
     double sinTheta = sinTheta0;
