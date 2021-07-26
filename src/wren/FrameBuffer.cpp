@@ -87,11 +87,12 @@ namespace wren {
       const Texture::GlFormatParams &params = drawBufferFormat(index);
       glGenBuffers(1, &mOutputDrawBuffers[index].mGlNamePbo);
       glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
+      // Might be useful to test OpenGL version
       // const string openGLVersionNumber(glstate::version(), 3);
       // fprintf(stderr, "ver: %f", stod(openGLVersionNumber));
-      // glBufferData(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, GL_STREAM_READ);
-      const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
-      // const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT;
+      const int flags =
+        GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;  // GL_MAP_COHERENT_BIT ensures the CPU will see the
+                                                                        // writes after the sync (using a fence) is complete.
       glBufferStorage(GL_PIXEL_PACK_BUFFER, mWidth * mHeight * params.mPixelSize, NULL, flags);
       glstate::releasePixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
       initiateCopyToPbo();
@@ -166,8 +167,9 @@ namespace wren {
         glstate::releasePixelPackBuffer(mOutputDrawBuffers[i].mGlNamePbo);
       }
     }
-    //  glMemoryBarrier(GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT);
-    //  mSync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+
+    mSync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);  // Create a fence which enables to signal when the GPU has completed
+                                                            // all OpenGL commands issued before the fence was created.
 
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
     glstate::bindReadFrameBuffer(currentReadFrameBuffer);
@@ -184,22 +186,20 @@ namespace wren {
     const int totalSizeInBytes = params.mPixelSize * mWidth * mHeight;
     static int counter = 0;
     static int sum = 0;
-    //  // glGetBufferSubData(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, data);
 
     auto start_time = chrono::steady_clock::now();
 
-    /*void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, GL_MAP_READ_BIT);
-    memcpy(data, start, totalSizeInBytes);
-    glUnmapBuffer(GL_PIXEL_PACK_BUFFER);*/
-
     if (!mCopyContentsPointer[index]) {
-      const int flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
-      // const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT;
-      mCopyContentsPointer[index] = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, flags);
+      const int flags = GL_MAP_READ_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+      mCopyContentsPointer[index] = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes,
+                                                     flags);  // Get a pointer to the buffer that is permanent. Should be used
+                                                              // only after the sync (using a fence) is complete.
     }
 
+    glClientWaitSync(
+      mSync, 0,
+      100000000);  // CPU waits for GPU actions that were requested before the creation of the fence (timeout of 100us).
     memcpy(data, mCopyContentsPointer[index], totalSizeInBytes);
-    // glClientWaitSync(mSync, 0, 0);
 
     auto end_time = chrono::steady_clock::now();
 
