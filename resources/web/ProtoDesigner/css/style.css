@@ -5,8 +5,8 @@
   grid-template-areas:
     'header header'
     'sidebar main'
-    'editor library';
-  grid-template-columns: 2fr 8fr;
+    'sidebar library';
+  grid-template-columns: 2fr 7fr;
   grid-template-rows: 30px auto 200px;
   grid-gap: 3px;
   background-color: #333;
@@ -49,15 +49,15 @@
 }
 
 .drop-zone {
-  border: 3px solid #333;
-  border-radius: 6px;
   display: flex;
-  height: 110px;
-  margin: 10px;
-  line-height: 110px; // the same as div height
-  text-align: center;
-  vertical-align: middle;
-  justify-content: center;
+  //display: flex;
+  //height: 110px;
+  //margin: 10px;
+  //line-height: 110px; // the same as div height
+  //text-align: center;
+  //vertical-align: middle;
+  //justify-content: center;
+
 }
 
 .header {
@@ -92,16 +92,6 @@
 
 .menu-button:hover, .menu-button:focus {
   background-color: gray;
-}
-
-.li-border {
-  border: 2px solid #333;
-  border-radius: 4px;
-  padding: 8px;
-}
-
-.li {
-  cursor: pointer;
 }
 
 .designer-group {
@@ -142,17 +132,25 @@
   font-size: large;
 }
 
+.parameter-div {
+  border: 2px solid #333;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.parameter-label {
+  width: 40%;
+  text-align: left;
+  float: left;
+  padding-right: 5px;
+}
+
 input[type=number] {
-  height: 100%;
-  width: 50px;
-  margin: 15px;
+  width: 45px;
 }
 
 input[type=text] {
-  height: 100%;
-  width: 90%;
-}
-
-form {
-  text-align: center;
+  //height: 100%;
+  //width: 90%;
+  width: 55%;
 }

@@ -21,19 +21,22 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.parameter = undefined; // currently selected parameter in the UI
     this.proto = undefined; // currently referenced proto (based on the active parameter)
 
+    /*
     // setup parameter editor view
     this.editorElement = document.getElementById('parameter-editor');
     if (typeof this.editorElement === 'undefined')
       throw new Error('Error, parameter-editor component not found.');
 
     // adapt selection
+
     const p = document.createElement('p');
     p.setAttribute('id', 'selection');
     p.innerHTML = 'selection: <b>none</b>';
     this.editorElement.appendChild(p);
+    */
     // this.editorElement.innerHTML = '<p><i>selection</i> : none</p>';
     this.forms = new Map();
-
+    /*
     this.setupInputForm(VRML.SFBool, 1, 'checkbox', false);
     this.setupInputForm(VRML.SFString, 1, 'text', 'none');
     this.setupInputForm(VRML.SFInt32, 1, 'number', '0', '1');
@@ -43,6 +46,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.setupInputForm(VRML.SFColor, 3, 'number', '0', '0.1');
     this.setupInputForm(VRML.SFRotation, 4, 'number', '0', '0.1');
     this.setupDragAndDrop(VRML.SFNode);
+    */
     //this.setupInputForm(VRML.SFNode, 1, 'checkbox', false);
   };
 
@@ -64,36 +68,161 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       let nameLabel = document.createElement('p');
       nameLabel.innerHTML = '<span class="proto-name-label">' + proto.protoName + '</span>';
 
-      if (typeof parent !== 'undefined')
-        parent.appendChild(nameLabel);
-      else
-        this.element.appendChild(nameLabel);
+      this.element.appendChild(nameLabel);
     }
     // display parameters
-    let ul = document.createElement('ul');
-    ul.classList.add('designer-list');
-
-    if (typeof parent !== 'undefined')
-      parent.appendChild(ul);
-    else
-      this.element.appendChild(ul);
-
     for (const [key, parameter] of proto.parameters.entries()) {
-      let li = document.createElement('li');
-      li.innerText = parameter.name;
-      li.classList.add('item', 'li-border', 'li');
-      li.setAttribute('parameterId', key);
-      li.setAttribute('protoId', proto.id);
-      li.addEventListener('click', () => this.itemSelector(event));
-      ul.appendChild(li);
-      if (typeof parameter.linkedProto !== 'undefined') {
-        li.innerHTML = parameter.name + ' (<span class="proto-name-label">' + parameter.linkedProto.protoName + '</span>)';
-        this.populateDiv(parameter.linkedProto, depth + 1, li);
-      }
+      this.setupParameter(proto, parameter, key);
+      if (typeof proto.linkedProto !== 'undefined')
+        this.populateDiv(proto.linkedProto, depth + 1);
     }
   };
 
+  setupParameter(proto, parameter, parameterId) {
+    let form = document.createElement('form');
+    form.setAttribute('onsubmit', 'return false;');
+    form.setAttribute('parameterType', parameter.type);
+    form.setAttribute('protoId', proto.id);
+    form.setAttribute('parameterId', parameterId);
+
+    let div = document.createElement('div');
+    div.classList.add('parameter-div');
+
+    let label = document.createElement('label');
+    label.classList.add('parameter-label');
+    label.innerText = parameter.name;
+    label.addEventListener('click', () => this.itemSelector(event)); // needed?
+    div.appendChild(label);
+
+    const value = parameter.value;
+
+    switch (parameter.type) {
+      case VRML.SFString: {
+        let input = document.createElement('input');
+        //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
+        input.setAttribute('type', 'text');
+        input.setAttribute('value', value);
+        input.addEventListener('input', this.updateValue.bind(this));
+        div.appendChild(input);
+        break;
+      }
+      case VRML.SFBool: {
+        let input = document.createElement('input');
+        //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
+        input.setAttribute('type', 'checkbox');
+        input.checked = value.value;
+        input.addEventListener('input', this.updateValue.bind(this));
+        div.appendChild(input);
+        break;
+      }
+      case VRML.SFInt32: {
+        let input = document.createElement('input');
+        //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
+        input.setAttribute('type', 'number');
+        input.setAttribute('step', '1');
+        input.setAttribute('value', value);
+        input.addEventListener('input', this.updateValue.bind(this));
+        div.appendChild(input);
+        break;
+      }
+      case VRML.SFFloat: {
+        let input = document.createElement('input');
+        //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
+        input.setAttribute('type', 'number');
+        input.setAttribute('step', '0.1');
+        input.setAttribute('value', value);
+        input.addEventListener('input', this.updateValue.bind(this));
+        div.appendChild(input);
+        break;
+      }
+      case VRML.SFVec2f:
+        for (let i = 0; i < 2; ++i) {
+          let input = document.createElement('input');
+          //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
+          input.setAttribute('type', 'number');
+          input.setAttribute('step', '0.1');
+          input.setAttribute('value', i === 0 ? value.x : value.y);
+          input.addEventListener('input', this.updateValue.bind(this));
+          div.appendChild(input);
+        }
+        break;
+      case VRML.SFVec3f:
+      case VRML.SFColor:
+        for (let i = 0; i < 3; ++i) {
+          let input = document.createElement('input');
+          //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
+          input.setAttribute('type', 'number');
+          input.setAttribute('step', '0.1');
+          if (parameter.type === VRML.SFColor) {
+            input.setAttribute('max', '1');
+            input.setAttribute('min', '0');
+          }
+          input.setAttribute('value', i === 0 ? value.x : i === 1 ? value.y : value.z);
+          input.addEventListener('input', this.updateValue.bind(this));
+          div.appendChild(input);
+        }
+        break;
+      case VRML.SFRotation:
+        for (let i = 0; i < 4; ++i) {
+          let input = document.createElement('input');
+          //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
+          input.setAttribute('type', 'number');
+          input.setAttribute('step', '0.1');
+          input.setAttribute('value', i === 0 ? value.x : i === 1 ? value.y : i === 2 ? value.z : value.w);
+          input.addEventListener('input', this.updateValue.bind(this));
+          div.appendChild(input);
+        }
+        break;
+      case VRML.SFNode:
+        let dropZone = document.createElement('div');
+        dropZone.classList.add('drop-zone');
+        dropZone.innerText = 'SFNode';
+        dropZone.addEventListener('dragover', this.dragOver, false);
+        dropZone.addEventListener('dragenter', this.dragEnter, false);
+        dropZone.addEventListener('dragleave', this.dragLeave, false);
+        dropZone.addEventListener('drop', this.drop.bind(this), false);
+        div.appendChild(dropZone);
+        break;
+      default:
+        throw new Error('Cannot setup div because parameter type \'' + parameter.type + '\' is unknown.');
+    }
+
+    form.appendChild(div);
+    this.element.appendChild(form);
+  };
+  /*
+  setupInputForm(id, nbInputs, type, defaultValue, step) {
+    form.setAttribute('id', id);
+
+    for (let i = 0; i < nbInputs; ++i) {
+      let input = document.createElement('input');
+      input.setAttribute('variable', i); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
+      input.setAttribute('type', type);
+      if (type === 'checkbox')
+        input.checked = defaultValue;
+      else
+        input.setAttribute('value', defaultValue);
+
+      if (id === VRML.SFColor) {
+        input.setAttribute('max', '1');
+        input.setAttribute('min', '0');
+      }
+
+      if (type === 'number')
+        input.setAttribute('step', step);
+
+      input.addEventListener('input', this.updateValue.bind(this));
+      form.appendChild(input);
+    }
+
+    form.style.display = 'none'; // make invisible by default
+    this.forms.set(id, form); // add to map for fast retrieval
+    this.editorElement.appendChild(form);
+  };
+
   itemSelector(e) {
+    return;
+
     const parameterId = e.target.getAttribute('parameterId');
     const protoId = parseInt(e.target.getAttribute('protoId'));
     console.log('Clicked item parameterId = ' + parameterId + ' (protoId = ' + protoId + ')');
@@ -102,8 +231,9 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.parameter = this.proto.parameters.get(parameterId);
 
     // adapt editor
-    this.populateEditor();
+    //this.populateEditor();
   };
+
 
   getForm(type) {
     const forms = document.getElementsByTagName('form');
@@ -179,6 +309,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       }
     }
   };
+  */
 
   dragOver(e) {
     console.log('Dragged Over');
@@ -280,6 +411,13 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   };
 
   updateValue(e) {
+    const protoId = parseInt(e.target.form.attributes['protoId'].value);
+    const parameterId = e.target.form.attributes['parameterId'].value;
+    console.log('Clicked item parameterId = ' + parameterId + ' (protoId = ' + protoId + ')');
+
+    this.proto = this.designer.activeProtos.get(protoId);
+    this.parameter = this.proto.parameters.get(parameterId);
+
     const newValue = this.getValuesFromForm(e.target.form);
     if (typeof this.parameter.value === typeof newValue)
       this.parameter.value = newValue;
@@ -328,7 +466,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       throw new Error('Cannot get values from unknown form');
 
     const elements = form.elements;
-    switch (parseInt(form.attributes['id'].value)) {
+    switch (parseInt(form.attributes['parameterType'].value)) {
       case VRML.SFBool:
         return elements[0].checked;
       case VRML.SFString:
