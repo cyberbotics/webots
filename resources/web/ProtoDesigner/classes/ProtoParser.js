@@ -109,6 +109,8 @@ export default class ProtoParser {
     let value = '';
     if (fieldType === VRML.SFBool)
       value += this.bodyTokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
+    else if (fieldType === VRML.SFString)
+      value += this.bodyTokenizer.nextWord();
     else if (fieldType === VRML.SFFloat)
       value += this.bodyTokenizer.nextWord();
     else if (fieldType === VRML.SFInt32)

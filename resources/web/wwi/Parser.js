@@ -24,6 +24,7 @@ import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
 import WbScene from './nodes/WbScene.js';
 import WbShape from './nodes/WbShape.js';
+import WbSlot from './nodes/WbSlot.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
@@ -83,6 +84,7 @@ export default class Parser {
     });
 
     WbWorld.instance.readyForUpdates = true;
+    console.log(WbWorld.instance.nodes)
     webots.currentView.x3dScene.resize();
     renderer.render();
     if (document.getElementById('webotsProgress'))
@@ -119,6 +121,8 @@ export default class Parser {
       result = await this._parseTransform(node, parentNode, false);
     else if (node.tagName === 'Robot')
       result = await this._parseTransform(node, parentNode, false);
+    else if (node.tagName === 'Slot')
+      result = await this._parseSlot(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Billboard')
       result = await this._parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
@@ -361,6 +365,7 @@ export default class Parser {
     let id = getNodeAttribute(node, 'id');
     if (typeof id === 'undefined')
       id = getAnId();
+
     const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
@@ -379,6 +384,37 @@ export default class Parser {
     }
 
     return transform;
+  }
+
+  async _parseSlot(node, parentNode, isBoundingObject) {
+    let id = getNodeAttribute(node, 'id');
+    if (typeof id === 'undefined')
+      id = getAnId();
+
+    const type = getNodeAttribute(node, 'type', '');
+    let endPoint;
+
+    for (let i = 0; i < node.childNodes.length; i++) {
+      const child = node.childNodes[i];
+      if (typeof child.tagName === 'undefined')
+        continue;
+      endPoint = await this._parseNode(child);
+    }
+
+    const slot = new WbSlot(id, type, endPoint);
+
+    if (typeof endPoint !== 'undefined')
+      endPoint.parentNode = slot.id;
+
+    WbWorld.instance.nodes.set(slot.id, slot);
+    this.addedNodes.push(slot.id);
+
+    if (typeof parentNode !== 'undefined') {
+      slot.parent = parentNode.id;
+      parentNode.children.push(slot);
+    }
+
+    return slot;
   }
 
   async _parseGroup(node, parentNode, isBoundingObject) {
