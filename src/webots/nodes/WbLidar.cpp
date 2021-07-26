@@ -379,7 +379,8 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   const double cosPhi0 = cos(phi0), sinPhi0 = sin(phi0);
 
   const double dtheta = mIsActuallyRotating ? (-2 * M_PI / (double)resolution) : (-actualFieldOfView() / (w - 1.0));
-  const double cosdTheta = cos(dtheta), sindTheta = sin(dtheta);
+  const double cosdTheta = cos(dtheta);
+  const double sindTheta = sin(dtheta);
   const double theta0 = mIsActuallyRotating ? (minWidth * dtheta) : (actualFieldOfView() / 2 + minWidth * dtheta);
   const double cosTheta0 = cos(theta0), sinTheta0 = sin(theta0);
 
