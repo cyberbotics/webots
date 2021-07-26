@@ -295,14 +295,12 @@ class AnsiCodes(object):
     return ret;
   }
   PyObject *get_id() {
-    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyInt_FromLong($self->id);
-    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_number_of_colors() {
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
-    PyObject *ret = PyLong_FromLong($self->number_of_colors);
+    PyObject *ret = PyInt_FromLong($self->number_of_colors);
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
@@ -773,7 +771,7 @@ class AnsiCodes(object):
   PyObject *get_node_id() {
     const double orientation = $self->node_id;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
-    PyObject *ret = PyLong_FromLong(orientation);
+    PyObject *ret = PyInt_FromLong(orientation);
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
