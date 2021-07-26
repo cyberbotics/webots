@@ -450,7 +450,7 @@ bool WbRadar::computeTarget(const WbVector3 &radarPosition, const WbMatrix3 &rad
   double distance = radarTarget->objectRelativePosition().length() + mRangeNoise->value() * WbRandom::nextGaussian();
 
   // check that target is not too close
-  if (distance < (minRange() - radarTarget->objectSize().z() / 2.0))
+  if (distance < (minRange() - radarTarget->objectSize().x() / 2.0))
     return false;
 
   if (distance > maxRange())
