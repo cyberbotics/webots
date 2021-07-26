@@ -1,4 +1,5 @@
 import {VRML} from './utility/utility.js';
+import {FieldModel} from './FieldModel.js';
 
 export default class Token {
   constructor(word, line, column) {
@@ -26,9 +27,7 @@ export default class Token {
     else
       this._type = Token.TYPES.INVALID;
 
-    if (Token.UNSUPPORTED_NODE_LIST.includes(word))
-      throw new Error('Node \'' + word + '\' encountered but is unsupported.');
-    this._isNode = Token.SUPPORTED_NODE_LIST.includes(word);
+    this._isNode = Object.keys(FieldModel).includes(word);
   };
 
   word() { return this._word; };
@@ -196,7 +195,7 @@ Token.KEYWORDS = [
   'SFVec3f',
   'MFVec3f'
 ];
-
+/*
 Token.SUPPORTED_NODE_LIST = [
   'Appearance',
   'Background',
@@ -230,11 +229,5 @@ Token.SUPPORTED_NODE_LIST = [
   'Viewpoint',
   'World'
 ];
-
-Token.UNSUPPORTED_NODE_LIST = [
-  'Robot',
-  'Solid',
-  'Physics'
-];
-
+*/
 export {isSpace, isPunctuation};
