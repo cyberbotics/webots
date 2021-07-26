@@ -351,19 +351,7 @@ void WbLidar::copyAllLayersToSharedMemory() {
   }
 }
 
-/* To be removed */
-#include <sys/timeb.h>
-uint64_t Time_uclock(void) {
-  struct timespec tv;
-
-  if (clock_gettime(CLOCK_REALTIME, &tv) != 0)
-    return 0;
-
-  return tv.tv_sec  * 1000000 + (tv.tv_nsec / 1000.0);
-}
-
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
-  uint64_t t0_chrono = Time_uclock(); /* To be removed */
   WbLidarPoint *lidarPoints = pointArray();
   const float *image = lidarImage();
   const int resolution = actualHorizontalResolution();
@@ -387,6 +375,7 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   const double cosTheta0 = cos(theta0);
   const double sinTheta0 = sin(theta0);
 
+  // We use addition law on cos and sin to recursively compute them, avoiding the costly computation.
   // cos(x+dx) = cos(x)cos(dx)-sin(x)sin(dx)
   // sin(x+dx) = sin(x)cos(dx)+cos(x)sin(dx)
 
@@ -417,8 +406,6 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
     cosPhi = cosPhi_tmp;
     sinPhi = sinPhi_tmp;
   }
-  uint64_t run_time = Time_uclock() - t0_chrono;/* To be removed */
-  printf("%ld %lf\n", run_time, (double)run_time*1000.0/(numberOfLayer*(maxWidth-minWidth)));
 }
 
 float *WbLidar::lidarImage() const {
