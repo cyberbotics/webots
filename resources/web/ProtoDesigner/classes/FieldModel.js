@@ -105,6 +105,10 @@ export const FieldModel = {
     'supported': {'ambientIntensity': VRML.SFFloat, 'attenuation': VRML.SFVec3f, 'beamWidth': VRML.SFFloat, 'color': VRML.SFColor, 'cutOffAngle': VRML.SFFloat, 'direction': VRML.SFVec3f, 'intensity': VRML.SFFloat, 'location': VRML.SFVec3f, 'on': VRML.SFBool, 'radius': VRML.SFFloat, 'castShadows': VRML.SFBool},
     'unsupported': {}
   },
+  'TextureCoordinate': {
+    'supported': {'point': VRML.MFVec2f},
+    'unsupported': {}
+  },
   'TextureTransform': {
     'supported': {'center': VRML.SFVec2f, 'rotation': VRML.SFFloat, 'scale': VRML.SFVec2f, 'translation': VRML.SFVec2f},
     'unsupported': {}

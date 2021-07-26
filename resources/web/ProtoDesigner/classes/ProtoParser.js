@@ -131,7 +131,15 @@ export default class ProtoParser {
       value += this.bodyTokenizer.nextWord();
     } else if (fieldType === VRML.SFNode)
       this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName, alias);
-    else if (fieldType === VRML.MFVec3f) {
+    else if (fieldType === VRML.MFVec2f) {
+      let ctr = 1;
+      while (this.bodyTokenizer.peekWord() !== ']') {
+        value += this.bodyTokenizer.nextWord();
+        value += (!(ctr % 2) ? ', ' : ' ');
+        ctr = ctr > 1 ? 1 : ++ctr;
+      }
+      value = value.slice(0, -2);
+    } else if (fieldType === VRML.MFVec3f) {
       let ctr = 1;
       while (this.bodyTokenizer.peekWord() !== ']') {
         value += this.bodyTokenizer.nextWord();
@@ -234,6 +242,7 @@ export default class ProtoParser {
           const childNodeName = this.bodyTokenizer.nextWord();
           this.encodeNodeAsX3d(childNodeName, parentElement, parentName);
           break;
+        case VRML.MFVec2f:
         case VRML.MFVec3f:
         case VRML.MFInt32:
           this.encodeFieldAsX3d(parentName, field, parentElement);

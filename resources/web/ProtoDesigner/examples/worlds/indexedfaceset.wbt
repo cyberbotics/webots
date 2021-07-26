@@ -10,6 +10,13 @@ Background {
   ]
 }
 Shape {
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/chessboard.jpg"
+      ]
+    }
+  }
   geometry IndexedFaceSet {
     coord Coordinate {
       point [
@@ -20,8 +27,7 @@ Shape {
       ]
     }
     coordIndex [
-      0, 1, 2, -1,
-      0, 2, 3, -1
+      0, 1, 2, -1, 0, 2, 3, -1
     ]
   }
 }
