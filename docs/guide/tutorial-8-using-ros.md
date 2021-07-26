@@ -5,6 +5,16 @@ This tutorial explains how to use the nodes from the `webots_ros` package provid
 These examples were tested with ROS `noetic` and `melodic` on Linux.
 There is no warranty they will work if you use a different platform or an ancient distribution of ROS.
 
+### Check compatibility of Webots ROS API
+
+The Webots packages contain a precompiled ROS API built using the latest ROS distribution: ROS `noetic` for the Debian and Ubuntu 20.04 tarball packages, ROS `melodic` for the snap and Ubuntu 18.04 tarball packages.
+If you plan to use a different ROS distribution then it is recommended to install the tarball package and recompile the ROS API:
+```sh
+export ROS_DISTRO=noetic  # or ROS_DISTRO=melodic, etc.
+cd ${WEBOTS_HOME}/projects/default/controllers/ros
+make
+```
+
 ### Installing ROS and "webots\_ros" Package
 
 In order to use these nodes, you will first need to install the ROS framework.
