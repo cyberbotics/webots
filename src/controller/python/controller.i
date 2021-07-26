@@ -106,38 +106,48 @@ using namespace std;
     len = 9;
   else if (test == "getPose")
     len = 16;
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 %typemap(out) const double *getLookupTable {
   const int len = arg1->getLookupTableSize()*3;
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   $result = PyList_New(len);
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 %typemap(in) const double [ANY] {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   if (!PyList_Check($input)) {
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return NULL;
   }
   const int len = PyList_Size($input);
   $1 = (double*)malloc(len * sizeof(double));
   for (int i = 0; i < len; ++i)
     $1[i] = PyFloat_AsDouble(PyList_GetItem($input, i));
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 %typemap(freearg) const double [ANY] {
   free($1);
 }
 %typemap(in) const int * {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   if (!PyList_Check($input)) {
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return NULL;
   }
   const int len = PyList_Size($input);
   $1 = (int*)malloc(len * sizeof(int));
   for (int i = 0; i < len; ++i)
     $1[i] = PyInt_AsLong(PyList_GetItem($input, i));
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 %typemap(freearg) const int * {
   free($1);
@@ -228,58 +238,79 @@ class AnsiCodes(object):
 %extend WbCameraRecognitionObject {
   PyObject *get_position() {
     const double *position = $self->position;
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(3);
     PyList_SetItem(ret, 0, PyFloat_FromDouble(position[0]));
     PyList_SetItem(ret, 1, PyFloat_FromDouble(position[1]));
     PyList_SetItem(ret, 2, PyFloat_FromDouble(position[2]));
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_orientation() {
     const double *orientation = $self->orientation;
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(4);
     PyList_SetItem(ret, 0, PyFloat_FromDouble(orientation[0]));
     PyList_SetItem(ret, 1, PyFloat_FromDouble(orientation[1]));
     PyList_SetItem(ret, 2, PyFloat_FromDouble(orientation[2]));
     PyList_SetItem(ret, 3, PyFloat_FromDouble(orientation[3]));
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_size() {
     const double *size = $self->size;
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
     PyList_SetItem(ret, 0, PyFloat_FromDouble(size[0]));
     PyList_SetItem(ret, 1, PyFloat_FromDouble(size[1]));
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_position_on_image() {
     const int *position_on_image = $self->position_on_image;
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
     PyList_SetItem(ret, 0, PyInt_FromLong(position_on_image[0]));
     PyList_SetItem(ret, 1, PyInt_FromLong(position_on_image[1]));
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_size_on_image() {
     const int *size_on_image = $self->size_on_image;
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
     PyList_SetItem(ret, 0, PyInt_FromLong(size_on_image[0]));
     PyList_SetItem(ret, 1, PyInt_FromLong(size_on_image[1]));
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_colors() {
     const double *colors = $self->colors;
     const int number_of_color = $self->number_of_colors;
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(3 * number_of_color);
     for (int i = 0; i < 3 * number_of_color; ++i)
       PyList_SetItem(ret, i, PyFloat_FromDouble(colors[i]));
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_id() {
-    return PyInt_FromLong($self->id);
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+    PyObject *ret = PyInt_FromLong($self->id);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
   PyObject *get_number_of_colors() {
-    return PyInt_FromLong($self->number_of_colors);
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+    PyObject *ret = PyLong_FromLong($self->number_of_colors);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
   PyObject *get_model() {
-    return PyBytes_FromStringAndSize($self->model, strlen($self->model));
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+    PyObject *ret = PyBytes_FromStringAndSize($self->model, strlen($self->model));
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 };
 
@@ -287,11 +318,12 @@ class AnsiCodes(object):
 %typemap(out) unsigned char * {
   const int width = arg1->getWidth();
   const int height = arg1->getHeight();
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   if ($1)
     $result = PyBytes_FromStringAndSize((const char*)$1, 4 * width * height);
   else
     $result = Py_None;
-
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 
 %extend webots::Camera {
@@ -301,6 +333,7 @@ class AnsiCodes(object):
     const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
       ret = PyList_New(width);
       for (int x = 0; x < width; ++x) {
         PyObject *dim2 = PyList_New(height);
@@ -312,53 +345,74 @@ class AnsiCodes(object):
             PyList_SetItem(dim3, ch, PyInt_FromLong((unsigned int)(im[4 * (x + y * width) + 2 - ch])));
         }
       }
+      SWIG_PYTHON_THREAD_END_BLOCK;
     }
     return ret;
   }
 
   static PyObject *imageGetRed(PyObject *im, int width, int x, int y) {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     if (!PyString_Check(im)) {
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetRed', argument 2 of type 'PyString'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     const unsigned char *s = (unsigned char*)PyString_AsString(im);
-    return PyInt_FromLong(s[4 * (y * width + x) + 2]);
+    PyObject *ret = PyInt_FromLong(s[4 * (y * width + x) + 2]);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 
   static PyObject *imageGetGreen(PyObject *im, int width, int x, int y) {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     if (!PyString_Check(im)) {
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGreen', argument 2 of type 'PyString'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     const unsigned char *s = (unsigned char*)PyString_AsString(im);
-    return PyInt_FromLong(s[4 * (y * width + x) + 1]);
+    PyObject *ret = PyInt_FromLong(s[4 * (y * width + x) + 1]);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 
   static PyObject *imageGetBlue(PyObject *im, int width, int x, int y) {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     if (!PyString_Check(im)) {
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetBlue', argument 2 of type 'PyString'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     const unsigned char *s = (unsigned char*)PyString_AsString(im);
-    return PyInt_FromLong(s[4 * (y * width + x)]);
+    PyObject *ret = PyInt_FromLong(s[4 * (y * width + x)]);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 
   static PyObject *imageGetGray(PyObject *im, int width, int x, int y) {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     if (!PyString_Check(im)) {
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGrey', argument 2 of type 'PyString'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     const unsigned char *s = (unsigned char*)PyString_AsString(im);
-    return PyInt_FromLong((s[4 * (y * width + x)] + s[4 * (y * width + x) + 1] + s[4 * (y * width + x) + 2]) / 3);
+    PyObject *ret = PyInt_FromLong((s[4 * (y * width + x)] + s[4 * (y * width + x) + 1] + s[4 * (y * width + x) + 2]) / 3);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 
   static PyObject *imageGetGrey(PyObject *im, int width, int x, int y) {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     if (!PyString_Check(im)) {
       PyErr_SetString(PyExc_TypeError, "in method 'Camera_imageGetGrey', argument 2 of type 'PyString'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     const unsigned char *s = (unsigned char*)PyString_AsString(im);
-    return PyInt_FromLong((s[4 * (y * width + x)] + s[4 * (y * width + x) + 1] + s[4 * (y * width + x) + 2]) / 3);
+    PyObject *ret = PyInt_FromLong((s[4 * (y * width + x)] + s[4 * (y * width + x) + 1] + s[4 * (y * width + x) + 2]) / 3);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 
   webots::CameraRecognitionObject getRecognitionObject(int index) const {
@@ -380,6 +434,7 @@ class AnsiCodes(object):
     const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
       ret = PyList_New(width);
       for (int x = 0; x < width; ++x) {
         PyObject *dim2 = PyList_New(height);
@@ -391,6 +446,7 @@ class AnsiCodes(object):
             PyList_SetItem(dim3, ch, PyInt_FromLong((unsigned int)(im[4 * (x + y * width) + 2 - ch])));
         }
       }
+      SWIG_PYTHON_THREAD_END_BLOCK;
     }
     return ret;
   }
@@ -417,8 +473,10 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %typemap(in) const void *(bool need_to_delete) {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   if (!PyList_Check($input) && !PyString_Check($input)) {
     PyErr_SetString(PyExc_TypeError, "expected 'PyList' or 'PyString'\n");
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return NULL;
   }
   if (PyList_Check($input)) {
@@ -426,12 +484,14 @@ class AnsiCodes(object):
     PyObject *l2 = PyList_GetItem($input, 0);
     if (!PyList_Check(l2)) {
       PyErr_SetString(PyExc_TypeError, "expected 'PyList' of 'PyList'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     const int len2 = PyList_Size(l2);
     PyObject *l3 = PyList_GetItem(l2, 0);
     if (!PyList_Check(l3)) {
       PyErr_SetString(PyExc_TypeError, "expected 'PyList' of 'PyList' of 'PyList'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     const int len3 = PyList_Size(l3);
@@ -445,6 +505,7 @@ class AnsiCodes(object):
     $1 = PyString_AsString($input);
     need_to_delete = false;
   }
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 
 %typemap(freearg) const void * {
@@ -486,8 +547,10 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %typemap(in) (const void *data, int size) {
+  SWIG_PYTHON_THREAD_BEGIN_BLOCK;
   $1 = PyString_AsString($input);
   $2 = PyString_Size($input);
+  SWIG_PYTHON_THREAD_END_BLOCK;
 }
 
 %include <webots/Emitter.hpp>
@@ -557,9 +620,11 @@ class AnsiCodes(object):
   else
     len = width * height;
   if ($1) {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     $result = PyList_New(len);
     for (int x = 0; x < len; ++x)
       PyList_SetItem($result, x, PyFloat_FromDouble($1[x]));
+    SWIG_PYTHON_THREAD_END_BLOCK;
   } else
     $result = Py_None;
 }
@@ -573,18 +638,23 @@ class AnsiCodes(object):
     const char *points = layer < 0 ? (const char *)$self->getPointCloud() : (const char *)$self->getLayerPointCloud(layer);
     const int numberOfPoints = layer < 0 ? $self->getNumberOfPoints() : $self->getHorizontalResolution();
     const int size = numberOfPoints * sizeof(WbLidarPoint);
-    return PyBytes_FromStringAndSize(points, size);
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+    PyObject *ret = PyBytes_FromStringAndSize(points, size);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 
   PyObject* __getPointCloudList(int layer) const {
     const WbLidarPoint *rawPoints = layer < 0 ? $self->getPointCloud() : $self->getLayerPointCloud(layer);
     const int size = layer < 0 ? $self->getNumberOfPoints() : $self->getHorizontalResolution();
 
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *points = PyList_New(size);
     for (int i = 0; i < size; i++) {
       PyObject *value = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint), 0);
       PyList_SetItem(points, i, value);
     }
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return points;
   }
 
@@ -616,6 +686,7 @@ class AnsiCodes(object):
     const int height = $self->getNumberOfLayers();
     PyObject *ret = Py_None;
     if (im) {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
       ret = PyList_New(width);
       for (int x = 0; x < width; ++x) {
         PyObject *dim2 = PyList_New(height);
@@ -625,6 +696,7 @@ class AnsiCodes(object):
           PyList_SetItem(dim2, y, v);
         }
       }
+      SWIG_PYTHON_THREAD_END_BLOCK;
     }
     return ret;
   }
@@ -690,15 +762,20 @@ class AnsiCodes(object):
 %extend WbContactPoint {
   PyObject *get_point() {
     const double *point = $self->point;
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(3);
     PyList_SetItem(ret, 0, PyFloat_FromDouble(point[0]));
     PyList_SetItem(ret, 1, PyFloat_FromDouble(point[1]));
     PyList_SetItem(ret, 2, PyFloat_FromDouble(point[2]));
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_node_id() {
     const double orientation = $self->node_id;
-    return PyInt_FromLong(orientation);
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+    PyObject *ret = PyLong_FromLong(orientation);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 
   %pythoncode %{
@@ -813,9 +890,11 @@ class AnsiCodes(object):
     const int height = $self->getHeight();
     const int len = width * height;
     if (im) {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
       PyObject *ret = PyList_New(len);
       for (int x = 0; x < len; ++x)
         PyList_SetItem(ret, x, PyFloat_FromDouble(im[x]));
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return ret;
     } else {
       return Py_None;
@@ -826,7 +905,10 @@ class AnsiCodes(object):
     const float *im = $self->getRangeImage();
     const char *im_bytes = (const char *)im;
     const int size = $self->getWidth() * $self->getHeight() * sizeof(float);
-    return PyBytes_FromStringAndSize(im_bytes, size);
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+    PyObject *ret = PyBytes_FromStringAndSize(im_bytes, size);
+    SWIG_PYTHON_THREAD_END_BLOCK;
+    return ret;
   }
 
   PyObject *getRangeImageArray() {
@@ -835,6 +917,7 @@ class AnsiCodes(object):
     const int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
       ret = PyList_New(width);
       for (int x = 0; x < width; ++x) {
         PyObject *dim2 = PyList_New(height);
@@ -844,6 +927,7 @@ class AnsiCodes(object):
           PyList_SetItem(dim2, y, v);
         }
       }
+      SWIG_PYTHON_THREAD_END_BLOCK;
     }
     return ret;
   }
@@ -860,35 +944,43 @@ class AnsiCodes(object):
   %}
 
   static PyObject *rangeImageGetValue(PyObject *im, double minRange, double maxRange, int width, int x, int y) {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     if (!PyList_Check(im)) {
       PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetValue', argument 2 of type 'PyList'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     PyObject *value = PyList_GetItem(im, y * width + x);
     if (!PyFloat_Check(value)) {
       PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetValue', argument 2 of type 'PyList' of 'PyFloat'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     fprintf(stderr, "Warning: RangeFinder.rangeImageGetValue is deprecated, please use RangeFinder.rangeImageGetDepth instead\n");
     // inform Python runtime that the object is used somewhere else
     // this prevents crashes when updating the range image internal list
     Py_INCREF(value);
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return value;
   }
 
   static PyObject *rangeImageGetDepth(PyObject *im, int width, int x, int y) {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     if (!PyList_Check(im)) {
       PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     PyObject *value = PyList_GetItem(im, y * width + x);
     if (!PyFloat_Check(value)) {
       PyErr_SetString(PyExc_TypeError, "in method 'RangeFinder_rangeImageGetDepth', argument 2 of type 'PyList' of 'PyFloat'\n");
+      SWIG_PYTHON_THREAD_END_BLOCK;
       return NULL;
     }
     // inform Python runtime that the object is used somewhere else
     // this prevents crashes when updating the range image internal list
     Py_INCREF(value);
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return value;
   }
 };
