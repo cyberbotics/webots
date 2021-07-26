@@ -295,7 +295,9 @@ class AnsiCodes(object):
     return ret;
   }
   PyObject *get_id() {
+    SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyInt_FromLong($self->id);
+    SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
   PyObject *get_number_of_colors() {
