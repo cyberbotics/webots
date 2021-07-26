@@ -308,8 +308,8 @@ void WbRadar::updateRaysSetupIfNeeded() {
   const WbVector3 radarPosition = matrix().translation();
   WbMatrix3 radarRotation = rotationMatrix();
   WbMatrix3 radarInverseRotation = radarRotation.transposed();
-  WbVector3 radarAxis = radarRotation * WbVector3(0.0, 0.0, -1.0);
-  WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 1.0, 0.0), radarAxis);
+  WbVector3 radarAxis = radarRotation * WbVector3(1.0, 0.0, 0.0);
+  WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 0.0, 1.0), radarAxis);
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(radarPosition, radarRotation, verticalFieldOfView(),
                                                                          horizontalFieldOfView(), maxRange());
   foreach (WbRadarTarget *target, mRadarTargets) {

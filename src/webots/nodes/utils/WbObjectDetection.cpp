@@ -368,19 +368,19 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePo
                                                        const double verticalFieldOfView, const double horizontalFieldOfView,
                                                        const double maxRange) {
   // construct the 4 planes defining the sides of the frustrum
-  double x = maxRange * tan(horizontalFieldOfView / 2.0);
-  double z = -maxRange;
-  double y = maxRange * tan(verticalFieldOfView / 2.0);
-  const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
-  const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(-x, y, z);
-  const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
-  const WbVector3 bottomLeftCorner = devicePosition + deviceRotation * WbVector3(-x, -y, z);
+  double x = maxRange * tan(verticalFieldOfView / 2.0);
+  double y = maxRange * tan(horizontalFieldOfView / 2.0);
+  double z = maxRange;
+  const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
+  const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
+  const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, -z);
+  const WbVector3 bottomLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, -z);
   WbAffinePlane *planes = new WbAffinePlane[PLANE_NUMBER];
   planes[RIGHT] = WbAffinePlane(devicePosition, topRightCorner, bottomRightCorner);       // right plane
   planes[BOTTOM] = WbAffinePlane(devicePosition, bottomRightCorner, bottomLeftCorner);    // bottom plane
   planes[LEFT] = WbAffinePlane(devicePosition, bottomLeftCorner, topLeftCorner);          // left plane
   planes[TOP] = WbAffinePlane(devicePosition, topLeftCorner, topRightCorner);             // top plane
-  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(0, 0, z), devicePosition);  // device plane
+  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(x, 0, 0), devicePosition);  // device plane
   for (int i = 0; i < PLANE_NUMBER; ++i)
     planes[i].normalize();
   return planes;
