@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9296556266487678 -0.1926158231732715 -0.31406935619950205 5.738448209537412
-  position 0.38072084802820794 1.3642578961640008 2.615444742973089
+  orientation 0.8155772452921317 0.5766291734263675 0.04829651452560756 5.39295
+  position -1.43563 2.12234 2.25558
 }
 TexturedBackground {
 }
@@ -242,6 +242,18 @@ DEF MyBot1 Robot {
     Radar {
       translation 0 0.1 0
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.403922 0.403922 0.403922
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BOX Box {
+            size 0.04 0.04 0.04
+          }
+        }
+      ]
       radarCrossSection 1
       minRange 0.01
       maxRange 1.5
