@@ -380,7 +380,7 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePo
   planes[BOTTOM] = WbAffinePlane(devicePosition, bottomRightCorner, bottomLeftCorner);    // bottom plane
   planes[LEFT] = WbAffinePlane(devicePosition, bottomLeftCorner, topLeftCorner);          // left plane
   planes[TOP] = WbAffinePlane(devicePosition, topLeftCorner, topRightCorner);             // top plane
-  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(x, 0, 0), devicePosition);  // device plane
+  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(-x, 0, 0), devicePosition);  // device plane
   for (int i = 0; i < PLANE_NUMBER; ++i)
     planes[i].normalize();
   return planes;
