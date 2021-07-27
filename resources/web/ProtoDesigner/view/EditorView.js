@@ -188,11 +188,11 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     let div = document.createElement('div');
     div.className = 'modal';
     div.setAttribute('id', 'modalWindow');
-    let button = document.createElement('button');
-    button.classList.add('modal-close-button');
-    button.innerText = 'X';
-    button.addEventListener('click', () => this.closeModalWindow(event));
-    div.appendChild(button);
+    // let button = document.createElement('button');
+    // button.classList.add('modal-close-button');
+    // button.innerText = 'X';
+    // button.addEventListener('click', () => this.closeModalWindow(event));
+    // div.appendChild(button);
 
     this.element.appendChild(div);
   }
