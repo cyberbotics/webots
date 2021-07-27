@@ -567,7 +567,7 @@ namespace wren {
       for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
           const float h = heightData[dimensionX * yi + xi];
-          mesh->addCoord(glm::vec3(spacingX * xi, h, spacingY * yi));
+          mesh->addCoord(glm::vec3(spacingX * xi, -spacingY * yi, h));
 
           const int index = yi * dimensionX + xi;
           if (xi < dimensionX - 1) {
@@ -593,14 +593,14 @@ namespace wren {
         const float xMax = (dimensionX - 1) * spacingX;
         const float yMax = (dimensionY - 1) * spacingY;
 
-        mesh->addCoord(glm::vec3(0, bottom, 0));
-        mesh->addCoord(glm::vec3(0, heightData[0], 0));
-        mesh->addCoord(glm::vec3(xMax, bottom, 0));
-        mesh->addCoord(glm::vec3(xMax, heightData[dimensionX - 1], 0));
-        mesh->addCoord(glm::vec3(xMax, bottom, yMax));
-        mesh->addCoord(glm::vec3(xMax, heightData[(dimensionY - 1) * dimensionX + (dimensionX - 1)], yMax));
-        mesh->addCoord(glm::vec3(0, bottom, yMax));
-        mesh->addCoord(glm::vec3(0, heightData[(dimensionY - 1) * dimensionX], yMax));
+        mesh->addCoord(glm::vec3(0, 0, bottom));
+        mesh->addCoord(glm::vec3(0, 0, heightData[0]));
+        mesh->addCoord(glm::vec3(xMax, 0, bottom));
+        mesh->addCoord(glm::vec3(xMax, 0, heightData[dimensionX - 1]));
+        mesh->addCoord(glm::vec3(xMax, -yMax, bottom));
+        mesh->addCoord(glm::vec3(xMax, -yMax, heightData[(dimensionY - 1) * dimensionX + (dimensionX - 1)]));
+        mesh->addCoord(glm::vec3(0, -yMax, bottom));
+        mesh->addCoord(glm::vec3(0, -yMax, heightData[(dimensionY - 1) * dimensionX]));
 
         const int index = (dimensionX * dimensionY);
         mesh->addIndex(index);
