@@ -71,7 +71,7 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoBox.proto';
         // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
-        // const url = '../wwi/Protos/ProtoTestAll.proto';
+        const url = '../wwi/Protos/ProtoTestAll.proto';
         // const url = '../wwi/Protos/ProtoDefUse.proto';
 
         // base geometries
@@ -85,7 +85,7 @@ class ProtoDesigner {
         //const url = './examples/protos/ProtoSolid.proto';
         //const url = './examples/protos/ProtoIndexedFaceSet.proto';
         //const url = './examples/protos/ProtoSlot.proto';
-        const url = './examples/protos/ProtoSlotContainer.proto';
+        //const url = './examples/protos/ProtoSlotContainer.proto';
 
         //const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
 
@@ -113,7 +113,9 @@ class ProtoDesigner {
 
   insertProto(rawProto, parentId, parameter) {
     console.log('Raw Proto:\n' + rawProto);
-    const newProto = new Proto(rawProto);
+    const newProto = new Proto(rawProto); // note: only the header is parsed in the constructor
+    newProto.parseBody();
+
     this.activeProtos.set(newProto.id, newProto);
 
     this.editor.refreshParameters();

@@ -36,13 +36,6 @@ export default class Proto {
     console.log('Parameters:');
     for (const [key, value] of this.parameters.entries())
       console.log(value);
-
-    if (this.isTemplate)
-      this.regenerate(); // generate VRML compliant proto body
-    else {
-      this.parseBody();
-      this.generateX3d();
-    }
   };
 
   parseHead(rawHead) {
@@ -143,13 +136,22 @@ export default class Proto {
   }
 
   parseBody() {
+    this.clearReferences();
+
+    // note: if not a template, the body is already pure VRML
+    if (this.isTemplate)
+      this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
+
+    // tokenize body
     this.bodyTokenizer = new Tokenizer(this.protoBody);
     this.bodyTokenizer.tokenize();
     console.log('Body Tokens:\n', this.bodyTokenizer.tokens());
+
+    // generate x3d from VRML
+    this.generateX3d();
   };
 
   generateX3d() {
-    // x3d of the body of the proto
     const parser = new ProtoParser(this.bodyTokenizer, this.parameters);
     this.x3d = parser.generateX3d();
   }
@@ -158,10 +160,8 @@ export default class Proto {
     return this.rawBody.search('fields.' + parameterName + '.') !== -1;
   };
 
-  regenerate() {
+  regenerateBodyVrml() {
     console.log('rawBody:\n' + this.rawBody);
-
-    this.clearReferences(); // remove node references
 
     this.encodeFieldsForTemplateEngine(); // make current proto parameters in a format compliant to templating rules
 
@@ -171,8 +171,6 @@ export default class Proto {
     this.protoBody = this.templateEngine.generateVrml(this.encodedFields, this.rawBody);
     console.log('Regenerated Proto Body:\n' + this.protoBody);
 
-    this.parseBody();
-    this.generateX3d();
   };
 
   clearReferences() {
