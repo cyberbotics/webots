@@ -40,12 +40,17 @@ else
     git checkout -b ${VERSION}
 fi
 
-# Copy headers
+# Copy headers and C++ source code
 if [ "${OSTYPE}" != "msys" ]; then
     # don't copy the include files on Windows as they are the same as on other platforms, and they generate a huge diff due to Windows line endings which differ from Linux/macOS.
     rm -rf include
     mkdir -p include
     cp -r ${WEBOTS_HOME}/include/controller/* include
+    cp include/plugins/robot_window/{robot_window.h,robot_wwi.h} include
+    
+    rm -rf source/cpp
+    mkdir -p source/cpp
+    cp -r ${WEBOTS_HOME}/src/controller/cpp/* source/cpp
 fi
 
 # Copy dynamic libs
