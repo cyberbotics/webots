@@ -3,30 +3,147 @@
     "proto": "ProtoSphere.proto",
     "baseNode": "WbGeometry",
     "url": "./library/ProtoSphere/ProtoSphere.proto",
-    "icon": "./library/ProtoSphere/icon.png"
+    "icon": "./library/ProtoSphere/icon.png",
+    "slotType": "a"
   },
   "ProtoBox": {
     "proto": "ProtoBox.proto",
     "baseNode": "WbGeometry",
     "url": "./library/ProtoBox/ProtoBox.proto",
-    "icon": "./library/ProtoBox/icon.png"
+    "icon": "./library/ProtoBox/icon.png",
+    "slotType": "b"
   },
   "ProtoCone": {
     "proto": "ProtoCone.proto",
     "baseNode": "WbGeometry",
     "url": "./library/ProtoCone/ProtoCone.proto",
-    "icon": "./library/ProtoCone/icon.png"
+    "icon": "./library/ProtoCone/icon.png",
+    "slotType": "c"
   },
   "ProtoCapsule": {
     "proto": "ProtoCapsule.proto",
     "baseNode": "WbGeometry",
     "url": "./library/ProtoCapsule/ProtoCapsule.proto",
-    "icon": "./library/ProtoCapsule/icon.png"
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
   },
-  "ProtoCylinder": {
+  "ProtoSphere2": {
+    "proto": "ProtoSphere.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoSphere/ProtoSphere.proto",
+    "icon": "./library/ProtoSphere/icon.png",
+    "slotType": "a"
+  },
+  "ProtoBox2": {
+    "proto": "ProtoBox.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoBox/ProtoBox.proto",
+    "icon": "./library/ProtoBox/icon.png",
+    "slotType": "b"
+  },
+  "ProtoCone": {
+    "proto": "ProtoCone.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCone/ProtoCone.proto",
+    "icon": "./library/ProtoCone/icon.png",
+    "slotType": "c"
+  },
+  "ProtoCapsule2": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2j": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2n": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2fsd": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2fzzsd": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2fsttd": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2jzz": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2nt": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2hh": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2gg": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2s": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2sss": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCapsule2ss": {
+    "proto": "ProtoCapsule.proto",
+    "baseNode": "WbGeometry",
+    "url": "./library/ProtoCapsule/ProtoCapsule.proto",
+    "icon": "./library/ProtoCapsule/icon.png",
+    "slotType": "d"
+  },
+  "ProtoCylinder2": {
     "proto": "ProtoCylinder.proto",
     "baseNode": "WbGeometry",
     "url": "./library/ProtoCylinder/ProtoCylinder.proto",
-    "icon": "./library/ProtoCylinder/icon.png"
+    "icon": "./library/ProtoCylinder/icon.png",
+    "slotType": "e"
   }
 }

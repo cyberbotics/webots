@@ -84,7 +84,6 @@ export default class Parser {
     });
 
     WbWorld.instance.readyForUpdates = true;
-    console.log(WbWorld.instance.nodes)
     webots.currentView.x3dScene.resize();
     renderer.render();
     if (document.getElementById('webotsProgress'))

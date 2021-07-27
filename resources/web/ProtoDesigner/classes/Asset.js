@@ -7,5 +7,6 @@ export default class Asset { // eslint-disable-line no-unused-vars
     this.baseNode = assetData.baseNode;
     this.icon = assetData.icon;
     this.url = assetData.url;
+    this.slotType = assetData.slotType;
   }
 }

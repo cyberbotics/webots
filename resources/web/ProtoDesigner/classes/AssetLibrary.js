@@ -18,8 +18,9 @@ export default class AssetLibrary extends Observable { // eslint-disable-line no
 
   _loadAssets(assetsData) {
     Object.keys(assetsData).forEach((assetName) => {
-      var assetData = assetsData[assetName];
-      var asset = new Asset(assetName, assetData);
+      console.log('Loading library asset: ' + assetName)
+      let assetData = assetsData[assetName];
+      let asset = new Asset(assetName, assetData);
       this.assets.set(assetName, asset);
     });
     this.notify('loaded', null);

@@ -203,6 +203,14 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.proto = this.designer.activeProtos.get(protoId);
     this.parameter = this.proto.parameters.get(parameterId);
 
+    // determine filtering condition
+    const nodeRefs = this.parameter.nodeRefs;
+    let filter;
+    if (typeof nodeRefs !== 'undefined') {
+      const slot = WbWorld.instance.nodes.get(nodeRefs[0]);
+      filter = slot.type;
+    }
+
     // button position
     const position = e.target.getBoundingClientRect();
     // get the modal
@@ -210,7 +218,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     modal.style.display = 'block';
     modal.style.top = position.y + 'px';
     modal.style.left = (position.x + position.width) + 'px';
-    this.library.loadAssets(modal);
+    this.library.loadAssets(modal, filter);
   };
 
   setupModalWindow() {
