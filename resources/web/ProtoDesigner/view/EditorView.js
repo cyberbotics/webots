@@ -147,6 +147,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
         break;
       case VRML.SFNode:
         let button = document.createElement('button');
+        button.classList.add('sfnode-button');
         button.innerText = 'NULL';
         button.addEventListener('click', () => this.itemSelector(event));
         div.appendChild(button);

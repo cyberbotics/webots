@@ -162,6 +162,16 @@ input[type=text] {
   background-color: #68E;
 }
 
+.sfnode-button {
+  border: none;
+  border-radius: 6px;
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+  font-family: monospace;
+  width: 55%;
+}
+
 .modal {
   display: none;
   position: fixed;
