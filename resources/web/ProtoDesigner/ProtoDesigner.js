@@ -42,14 +42,6 @@ class ProtoDesigner {
       return;
     }
 
-    /*
-    this.libraryElement = document.getElementById('proto-library');
-    if (typeof this.libraryElement === 'undefined') {
-      console.error('The Proto Designer cannot find the proto-library component.');
-      return;
-    }
-    */
-
     this._init();
   };
 
