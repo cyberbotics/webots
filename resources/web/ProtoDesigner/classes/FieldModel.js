@@ -98,8 +98,8 @@ export const FieldModel = {
     'unsupported': {}
   },
   'Slot': {
-    'supported': {'endPoint': VRML.SFNode},
-    'unsupported': {'type': VRML.SFString}
+    'supported': {'type': VRML.SFString, 'endPoint': VRML.SFNode},
+    'unsupported': {}
   },
   'Solid': {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode},

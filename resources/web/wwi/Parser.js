@@ -380,7 +380,10 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       transform.parent = parentNode.id;
-      parentNode.children.push(transform);
+      if (typeof parentNode.endPoint !== 'undefined')
+        parentNode.endPoint = transform;
+      else
+        parentNode.children.push(transform);
     }
 
     return transform;
@@ -392,26 +395,22 @@ export default class Parser {
       id = getAnId();
 
     const type = getNodeAttribute(node, 'type', '');
-    let endPoint;
 
-    for (let i = 0; i < node.childNodes.length; i++) {
-      const child = node.childNodes[i];
-      if (typeof child.tagName === 'undefined')
-        continue;
-      endPoint = await this._parseNode(child);
-    }
-
-    const slot = new WbSlot(id, type, endPoint);
-
-    if (typeof endPoint !== 'undefined')
-      endPoint.parentNode = slot.id;
+    const slot = new WbSlot(id, type);
 
     WbWorld.instance.nodes.set(slot.id, slot);
     this.addedNodes.push(slot.id);
 
+    const child = node.childNodes[0];
+    if (typeof child !== 'undefined')
+      await this._parseNode(child, slot, isBoundingObject);
+
     if (typeof parentNode !== 'undefined') {
       slot.parent = parentNode.id;
-      parentNode.children.push(slot);
+      if (typeof parentNode.endPoint !== 'undefined')
+        parentNode.endPoint = slot;
+      else
+        parentNode.children.push(slot);
     }
 
     return slot;
