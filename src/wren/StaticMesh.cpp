@@ -627,7 +627,7 @@ namespace wren {
 
       for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
-          mesh->addCoord(glm::vec3(spacingX * xi, heightData[dimensionX * yi + xi], spacingY * yi));
+          mesh->addCoord(glm::vec3(spacingX * xi, -spacingY * yi, heightData[dimensionX * yi + xi]));
           mesh->addTexCoord(glm::vec2(du * xi, dv * yi));
           mesh->addUnwrappedTexCoord(glm::vec2(du * xi, dv * yi));
         }

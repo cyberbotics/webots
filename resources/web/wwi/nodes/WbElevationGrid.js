@@ -34,13 +34,13 @@ export default class WbElevationGrid extends WbGeometry {
 
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
 
-    const scalePointer = _wrjs_array3(this.xSpacing, 1.0 + offset, this.ySpacing);
+    const scalePointer = _wrjs_array3(this.xSpacing, this.ySpacing, 1.0 + offset);
 
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
   updateScale() {
-    const scalePointer = _wrjs_array3(this.xSpacing, 1.0, this.ySpacing);
+    const scalePointer = _wrjs_array3(this.xSpacing, this.ySpacing, 1.0);
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 

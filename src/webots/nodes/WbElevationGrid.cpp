@@ -176,13 +176,13 @@ void WbElevationGrid::rescale(const WbVector3 &scale) {
   }
 
   if (scale.y() != 0.0) {
-    // rescale height
-    setHeightScaleFactor(scale.y());
+    // rescale y spacing
+    setYspacing(ySpacing() * scale.y());
   }
 
   if (scale.z() != 0.0) {
-    // rescale z spacing
-    setYspacing(ySpacing() * scale.z());
+    // rescale height
+    setHeightScaleFactor(scale.z());
   }
 }
 
@@ -350,13 +350,13 @@ void WbElevationGrid::updateLineScale() {
 
   const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
 
-  float scale[] = {static_cast<float>(xSpacing()), 1.0f + offset, static_cast<float>(ySpacing())};
+  float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(ySpacing()), 1.0f + offset};
 
   wr_transform_set_scale(wrenNode(), scale);
 }
 
 void WbElevationGrid::updateScale() {
-  float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(1.0f), static_cast<float>(ySpacing())};
+  float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(ySpacing()), 1.0f};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -366,13 +366,13 @@ void WbElevationGrid::createResizeManipulator() {
 }
 
 void WbElevationGrid::setResizeManipulatorDimensions() {
-  WbVector3 scale(xSpacing(), 1.0f, ySpacing());
+  WbVector3 scale(xSpacing(), ySpacing(), 1.0f);
   WbTransform *transform = upperTransform();
   if (transform)
     scale *= transform->matrix().scale();
 
   if (isAValidBoundingObject())
-    scale *= WbVector3(1.0f, 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR), 1.0f);
+    scale *= WbVector3(1.0f, 1.0f, 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR));
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
