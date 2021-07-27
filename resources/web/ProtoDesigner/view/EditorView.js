@@ -52,6 +52,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
   refreshParameters() {
     this.element.innerHTML = ''; // clean HTML
+    console.log('Cleared EditorView innnerHTML');
+    this.setupModalWindow();
 
     if (this.designer.activeProtos.size === 0)
       this.cleanupDiv('No loaded PROTO');
@@ -91,7 +93,9 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     let label = document.createElement('label');
     label.classList.add('parameter-label');
     label.innerText = parameter.name;
-    label.addEventListener('click', () => this.itemSelector(event)); // needed?
+    //if (parameter.type === VRML.SFNode)
+    //  label.addEventListener('click', () => this.itemSelector(event));
+
     div.appendChild(label);
 
     const value = parameter.value;
@@ -99,7 +103,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     switch (parameter.type) {
       case VRML.SFString: {
         let input = document.createElement('input');
-        //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
         input.setAttribute('type', 'text');
         input.setAttribute('value', value);
         input.addEventListener('input', this.updateValue.bind(this));
@@ -108,7 +111,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       }
       case VRML.SFBool: {
         let input = document.createElement('input');
-        //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
         input.setAttribute('type', 'checkbox');
         input.checked = value.value;
         input.addEventListener('input', this.updateValue.bind(this));
@@ -117,7 +119,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       }
       case VRML.SFInt32: {
         let input = document.createElement('input');
-        //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
         input.setAttribute('type', 'number');
         input.setAttribute('step', '1');
         input.setAttribute('value', value);
@@ -127,7 +128,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       }
       case VRML.SFFloat: {
         let input = document.createElement('input');
-        //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
         input.setAttribute('type', 'number');
         input.setAttribute('step', '0.1');
         input.setAttribute('value', value);
@@ -138,7 +138,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       case VRML.SFVec2f:
         for (let i = 0; i < 2; ++i) {
           let input = document.createElement('input');
-          //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
           input.setAttribute('type', 'number');
           input.setAttribute('step', '0.1');
           input.setAttribute('value', i === 0 ? value.x : value.y);
@@ -150,7 +149,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       case VRML.SFColor:
         for (let i = 0; i < 3; ++i) {
           let input = document.createElement('input');
-          //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
           input.setAttribute('type', 'number');
           input.setAttribute('step', '0.1');
           if (parameter.type === VRML.SFColor) {
@@ -165,7 +163,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       case VRML.SFRotation:
         for (let i = 0; i < 4; ++i) {
           let input = document.createElement('input');
-          //input.setAttribute('variable', parameter.type); // tracks which input it corresponds to: 0 -> x, 1 -> y, etc
           input.setAttribute('type', 'number');
           input.setAttribute('step', '0.1');
           input.setAttribute('value', i === 0 ? value.x : i === 1 ? value.y : i === 2 ? value.z : value.w);
@@ -174,14 +171,20 @@ export default class EditorView { // eslint-disable-line no-unused-vars
         }
         break;
       case VRML.SFNode:
+        let button = document.createElement('button');
+        button.innerText = 'NULL';
+        button.addEventListener('click', () => this.itemSelector(event));
+        div.appendChild(button);
+        /*
         let dropZone = document.createElement('div');
         dropZone.classList.add('drop-zone');
-        dropZone.innerText = 'SFNode';
+        dropZone.innerText = 'NULL';
         dropZone.addEventListener('dragover', this.dragOver, false);
         dropZone.addEventListener('dragenter', this.dragEnter, false);
         dropZone.addEventListener('dragleave', this.dragLeave, false);
         dropZone.addEventListener('drop', this.drop.bind(this), false);
         div.appendChild(dropZone);
+        */
         break;
       default:
         throw new Error('Cannot setup div because parameter type \'' + parameter.type + '\' is unknown.');
@@ -190,6 +193,43 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     form.appendChild(div);
     this.element.appendChild(form);
   };
+
+  itemSelector(e) {
+    const protoId = parseInt(e.target.form.attributes['protoId'].value);
+    const parameterId = e.target.form.attributes['parameterId'].value;
+    console.log('Clicked item parameterId = ' + parameterId + ' (protoId = ' + protoId + ')');
+
+    this.proto = this.designer.activeProtos.get(protoId);
+    this.parameter = this.proto.parameters.get(parameterId);
+
+    // button position
+    const position = e.target.getBoundingClientRect();
+    // get the modal
+    let modal = document.getElementById('modalWindow');
+    modal.style.display = 'block';
+    modal.style.top = position.y + 'px';
+    modal.style.left = (position.x + position.width) + 'px';
+  };
+
+  setupModalWindow() {
+    // create modal window
+    let div = document.createElement('div');
+    div.className = 'modal';
+    div.setAttribute('id', 'modalWindow');
+    let button = document.createElement('button');
+    button.classList.add('modal-close-button');
+    button.innerText = 'X';
+    button.addEventListener('click', () => this.closeModalWindow(event));
+    div.appendChild(button);
+
+    this.element.appendChild(div);
+  }
+
+  closeModalWindow() {
+    let modal = document.getElementById('modalWindow');
+    modal.style.display = 'none';
+  }
+
   /*
   setupInputForm(id, nbInputs, type, defaultValue, step) {
     form.setAttribute('id', id);
@@ -233,7 +273,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     // adapt editor
     //this.populateEditor();
   };
-
 
   getForm(type) {
     const forms = document.getElementsByTagName('form');
