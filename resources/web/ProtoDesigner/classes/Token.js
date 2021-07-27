@@ -12,10 +12,9 @@ export default class Token {
 
     if (word === 'end of file')
       this._type = Token.TYPES.END;
-    else if (word.startsWith('"') && word.endsWith('"')) {
+    else if (word.startsWith('"') && word.endsWith('"'))
       this._type = Token.TYPES.STRING;
-      this._word = this._word.slice(1, -1);
-    } else if (word.startsWith('%<') && word.endsWith('>%'))
+    else if (word.startsWith('%<') && word.endsWith('>%'))
       this._type = Token.TYPES.TEMPLATE_STATEMENT;
     else if (NUMERIC_CHARS.includes(w0))
       this._type = isNaN(Number(word)) ? Token.TYPES.INVALID : Token.TYPES.NUMERIC;

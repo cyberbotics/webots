@@ -30,7 +30,7 @@ export default class Parameter {
       case VRML.SFInt32:
         return this.value.toString();
       case VRML.SFString:
-        return '"' + this.value + '"';
+        return this.value;
       case VRML.SFVec2f:
         return this.value.x + ' ' + this.value.y;
       case VRML.SFVec3f:
@@ -47,7 +47,7 @@ export default class Parameter {
     }
   }
 
-  x3dify() { // encodes field values in a format compliant for regeneration
+  x3dify() {
     switch (this.type) {
       case VRML.SFBool:
       case VRML.SFFloat:
