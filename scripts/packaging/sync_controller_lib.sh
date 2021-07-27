@@ -51,7 +51,7 @@ if [ "${OSTYPE}" != "msys" ]; then
     
     rm -rf source/cpp
     mkdir -p source/cpp
-    cp -r ${WEBOTS_HOME}/src/controller/cpp/* source/cpp
+    cp ${WEBOTS_HOME}/src/controller/cpp/*.cpp source/cpp
 fi
 
 # Copy dynamic libs
