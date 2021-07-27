@@ -53,7 +53,6 @@ static int fail(const char *function, const char *info) {
 
 int main(int argc, char *argv[]) {
   // We retrieve the command line in wchar_t from the Windows system.
-  const wchar_t *arguments = PathGetArgsW(GetCommandLineW());
   const int LENGTH = 4096;
   wchar_t *module_path = malloc(LENGTH * sizeof(wchar_t));
   if (!GetModuleFileNameW(NULL, module_path, LENGTH))
@@ -65,18 +64,13 @@ int main(int argc, char *argv[]) {
     ;
   wchar_t *command_line = malloc(LENGTH * sizeof(wchar_t));
   // In order to launch Webots, we simply need to replace 'webotsw.exe'/'webots.exe' with 'webots-bin.exe'
-  int index = l - 4;  // don't copy the ".exe"
+  const int index = l - 4;  // don't copy the ".exe"
   wcsncpy(command_line, module_path, index);
-  command_line[index++] = L'-';
-  command_line[index++] = L'b';
-  command_line[index++] = L'i';
-  command_line[index++] = L'n';
-  command_line[index++] = L'.';
-  command_line[index++] = L'e';
-  command_line[index++] = L'x';
-  command_line[index++] = L'e';
+  command_line[index] = L'\0';
+  wcscat(command_line, L"-bin.exe");
+  const wchar_t *arguments = PathGetArgsW(GetCommandLineW());
   if (arguments && arguments[0] != L'\0') {
-    command_line[index++] = L' ';
+    wcscat(command_line, L" ");
     wcscat(command_line, arguments);
   }
   // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
