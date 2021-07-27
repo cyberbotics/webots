@@ -90,9 +90,11 @@ export default class ProtoParser {
 
   encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
     const fieldType = FieldModel[nodeName]['supported'][fieldName];
+    console.log('## ' + nodeName + ' ' + fieldName + ' ' + this.bodyTokenizer.peekWord() + ' ' + fieldType)
     if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[nodeName]['unsupported'][fieldName]; // check if it's one of the unsupported ones instead
       if (typeof fieldType !== 'undefined') {
+        console.log('## ' + nodeName + ' ' + fieldName + ' ' + this.bodyTokenizer.peekWord() + ' ' + fieldType)
         this.bodyTokenizer.consumeTokensByType(fieldType);
         return;
       } else

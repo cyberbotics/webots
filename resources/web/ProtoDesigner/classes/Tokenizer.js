@@ -225,6 +225,8 @@ export default class Tokenizer {
         break;
       }
       case VRML.SFNode: {
+        if (this.peekWord() !== '{')
+          this.nextWord(); // skip node name
         let ctr = 1; // because the first '{' is preemptively skipped
         this.skipToken('{'); // skip first token, must be always present for an SFNode
         while (ctr > 0) {
