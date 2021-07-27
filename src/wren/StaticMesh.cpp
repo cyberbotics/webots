@@ -530,19 +530,19 @@ namespace wren {
     return mesh;
   }
 
-  StaticMesh *StaticMesh::createUnitElevationGrid(int dimensionX, int dimensionZ, const float *heightData, float thickness,
+  StaticMesh *StaticMesh::createUnitElevationGrid(int dimensionX, int dimensionY, const float *heightData, float thickness,
                                                   bool outline) {
     // thickness only important for outline mesh
     float thickness2 = thickness;
     if (!outline)
       thickness2 = 0.0f;
 
-    const std::array<float, 3> params = {{static_cast<float>(dimensionX), static_cast<float>(dimensionZ), thickness2}};
+    const std::array<float, 3> params = {{static_cast<float>(dimensionX), static_cast<float>(dimensionY), thickness2}};
 
     uint64_t meshHash = cache::sipHash13c(reinterpret_cast<const char *>(&params[0]), params.size() * sizeof(float));
     // cppcheck-suppress uninitvar
     meshHash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(heightData)),
-                                  sizeof(float) * dimensionX * dimensionZ);
+                                  sizeof(float) * dimensionX * dimensionY);
     const cache::Key key(meshHash);
 
     StaticMesh *mesh;
@@ -550,32 +550,32 @@ namespace wren {
       return mesh;
 
     const float spacingX = 1.0f;
-    const float spacingZ = 1.0f;
+    const float spacingY = 1.0f;
     const int stepsX = dimensionX - 1;
-    const int stepsZ = dimensionZ - 1;
+    const int stepsY = dimensionY - 1;
     const float du = 1.0f / stepsX;
-    const float dv = 1.0f / stepsZ;
+    const float dv = 1.0f / stepsY;
 
-    mesh->estimateVertexCount(dimensionX * dimensionZ);
+    mesh->estimateVertexCount(dimensionX * dimensionY);
 
     if (outline) {
       float minHeight = std::numeric_limits<float>::infinity();
       float maxHeight = -std::numeric_limits<float>::infinity();
 
-      mesh->estimateIndexCount(stepsX * stepsZ * 4);
+      mesh->estimateIndexCount(stepsX * stepsY * 4);
 
-      for (int zi = 0; zi < dimensionZ; ++zi) {
+      for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
-          const float h = heightData[dimensionX * zi + xi];
-          mesh->addCoord(glm::vec3(spacingX * xi, h, spacingZ * zi));
+          const float h = heightData[dimensionX * yi + xi];
+          mesh->addCoord(glm::vec3(spacingX * xi, h, spacingY * yi));
 
-          const int index = zi * dimensionX + xi;
+          const int index = yi * dimensionX + xi;
           if (xi < dimensionX - 1) {
             mesh->addIndex(index);
             mesh->addIndex(index + 1);
           }
 
-          if (zi < dimensionZ - 1) {
+          if (yi < dimensionY - 1) {
             mesh->addIndex(index);
             mesh->addIndex(index + dimensionX);
           }
@@ -591,18 +591,18 @@ namespace wren {
       if (minHeight != maxHeight) {
         const float bottom = minHeight - thickness;
         const float xMax = (dimensionX - 1) * spacingX;
-        const float zMax = (dimensionZ - 1) * spacingZ;
+        const float yMax = (dimensionY - 1) * spacingY;
 
         mesh->addCoord(glm::vec3(0, bottom, 0));
         mesh->addCoord(glm::vec3(0, heightData[0], 0));
         mesh->addCoord(glm::vec3(xMax, bottom, 0));
         mesh->addCoord(glm::vec3(xMax, heightData[dimensionX - 1], 0));
-        mesh->addCoord(glm::vec3(xMax, bottom, zMax));
-        mesh->addCoord(glm::vec3(xMax, heightData[(dimensionZ - 1) * dimensionX + (dimensionX - 1)], zMax));
-        mesh->addCoord(glm::vec3(0, bottom, zMax));
-        mesh->addCoord(glm::vec3(0, heightData[(dimensionZ - 1) * dimensionX], zMax));
+        mesh->addCoord(glm::vec3(xMax, bottom, yMax));
+        mesh->addCoord(glm::vec3(xMax, heightData[(dimensionY - 1) * dimensionX + (dimensionX - 1)], yMax));
+        mesh->addCoord(glm::vec3(0, bottom, yMax));
+        mesh->addCoord(glm::vec3(0, heightData[(dimensionY - 1) * dimensionX], yMax));
 
-        const int index = (dimensionX * dimensionZ);
+        const int index = (dimensionX * dimensionY);
         mesh->addIndex(index);
         mesh->addIndex(index + 1);
         mesh->addIndex(index + 2);
@@ -623,41 +623,41 @@ namespace wren {
       }
 
     } else {
-      mesh->estimateIndexCount(stepsX * stepsZ * 6);
+      mesh->estimateIndexCount(stepsX * stepsY * 6);
 
-      for (int zi = 0; zi < dimensionZ; ++zi) {
+      for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
-          mesh->addCoord(glm::vec3(spacingX * xi, heightData[dimensionX * zi + xi], spacingZ * zi));
-          mesh->addTexCoord(glm::vec2(du * xi, dv * zi));
-          mesh->addUnwrappedTexCoord(glm::vec2(du * xi, dv * zi));
+          mesh->addCoord(glm::vec3(spacingX * xi, heightData[dimensionX * yi + xi], spacingY * yi));
+          mesh->addTexCoord(glm::vec2(du * xi, dv * yi));
+          mesh->addUnwrappedTexCoord(glm::vec2(du * xi, dv * yi));
         }
       }
 
-      for (int zi = 0; zi < dimensionZ; ++zi) {
+      for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
           glm::vec3 normal, v0, v1, v2;
           // Average the normals of the 4 neighbouring triangles,
           // ignore triangles outside of the ElevationGrid
           normal = glm::vec3(0.0f);
-          v0 = mesh->coords()[dimensionX * zi + xi];
-          if (zi > 0 && xi > 0) {
-            v1 = mesh->coords()[dimensionX * (zi - 1) + xi] - v0;
-            v2 = mesh->coords()[dimensionX * zi + (xi - 1)] - v0;
+          v0 = mesh->coords()[dimensionX * yi + xi];
+          if (yi > 0 && xi > 0) {
+            v1 = mesh->coords()[dimensionX * (yi - 1) + xi] - v0;
+            v2 = mesh->coords()[dimensionX * yi + (xi - 1)] - v0;
             normal += glm::cross(v1, v2);
           }
-          if (zi > 0 && xi < stepsX) {
-            v1 = mesh->coords()[dimensionX * zi + (xi + 1)] - v0;
-            v2 = mesh->coords()[dimensionX * (zi - 1) + xi] - v0;
+          if (yi > 0 && xi < stepsX) {
+            v1 = mesh->coords()[dimensionX * yi + (xi + 1)] - v0;
+            v2 = mesh->coords()[dimensionX * (yi - 1) + xi] - v0;
             normal += glm::cross(v1, v2);
           }
-          if (zi < stepsZ && xi > 0) {
-            v1 = mesh->coords()[dimensionX * zi + (xi - 1)] - v0;
-            v2 = mesh->coords()[dimensionX * (zi + 1) + xi] - v0;
+          if (yi < stepsY && xi > 0) {
+            v1 = mesh->coords()[dimensionX * yi + (xi - 1)] - v0;
+            v2 = mesh->coords()[dimensionX * (yi + 1) + xi] - v0;
             normal += glm::cross(v1, v2);
           }
-          if (zi < stepsZ && xi < stepsX) {
-            v1 = mesh->coords()[dimensionX * (zi + 1) + xi] - v0;
-            v2 = mesh->coords()[dimensionX * zi + (xi + 1)] - v0;
+          if (yi < stepsY && xi < stepsX) {
+            v1 = mesh->coords()[dimensionX * (yi + 1) + xi] - v0;
+            v2 = mesh->coords()[dimensionX * yi + (xi + 1)] - v0;
             normal += glm::cross(v1, v2);
           }
 
@@ -665,16 +665,16 @@ namespace wren {
         }
       }
 
-      for (int zi = 0; zi < stepsZ; ++zi) {
+      for (int yi = 0; yi < stepsY; ++yi) {
         for (int xi = 0; xi < stepsX; ++xi) {
           // first triangle
-          mesh->addIndex(dimensionX * zi + xi);
-          mesh->addIndex(dimensionX * (zi + 1) + xi);
-          mesh->addIndex(dimensionX * zi + (xi + 1));
+          mesh->addIndex(dimensionX * yi + xi);
+          mesh->addIndex(dimensionX * (yi + 1) + xi);
+          mesh->addIndex(dimensionX * yi + (xi + 1));
           // second triangle
-          mesh->addIndex(dimensionX * zi + (xi + 1));
-          mesh->addIndex(dimensionX * (zi + 1) + xi);
-          mesh->addIndex(dimensionX * (zi + 1) + (xi + 1));
+          mesh->addIndex(dimensionX * yi + (xi + 1));
+          mesh->addIndex(dimensionX * (yi + 1) + xi);
+          mesh->addIndex(dimensionX * (yi + 1) + (xi + 1));
         }
       }
     }
@@ -2019,10 +2019,10 @@ WrStaticMesh *wr_static_mesh_unit_cylinder_new(int subdivision, bool has_side, b
     wren::StaticMesh::createUnitCylinder(subdivision, has_side, has_top, has_bottom, outline));
 }
 
-WrStaticMesh *wr_static_mesh_unit_elevation_grid_new(int dimension_x, int dimension_z, const float *height_data,
+WrStaticMesh *wr_static_mesh_unit_elevation_grid_new(int dimension_x, int dimension_y, const float *height_data,
                                                      float thickness, bool outline) {
   return reinterpret_cast<WrStaticMesh *>(
-    wren::StaticMesh::createUnitElevationGrid(dimension_x, dimension_z, height_data, thickness, outline));
+    wren::StaticMesh::createUnitElevationGrid(dimension_x, dimension_y, height_data, thickness, outline));
 }
 
 WrStaticMesh *wr_static_mesh_unit_rectangle_new(bool outline) {

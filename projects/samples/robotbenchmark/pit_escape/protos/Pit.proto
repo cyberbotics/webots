@@ -102,8 +102,8 @@ PROTO Pit [
                     const zSigma = fields.pitRadius.value / fields.size.value.z;
                     const xMin = 0.5 - 3 * xSigma;
                     const xMax = 0.5 + 3 * xSigma;
-                    const zMin = 0.5 - 3 * zSigma;
-                    const zMax = 0.5 + 3 * zSigma;
+                    const yMin = 0.5 - 3 * zSigma;
+                    const yMax = 0.5 + 3 * zSigma;
                   >%
                   %< for (let i = 0; i <= fields.xDimension.value - 1; ++i) { >%
                     %< for (let j = 0; j <= fields.yDimension.value - 1; ++j) { >%
@@ -111,7 +111,7 @@ PROTO Pit [
                         let height = 1.0;
                         const x = i / fields.xDimension.value;
                         const z = j / fields.yDimension.value;
-                        if (x > xMin && x < xMax && z > zMin && z < zMax) {
+                        if (x > xMin && x < xMax && z > yMin && z < yMax) {
                           if (fields.perlinNOctaves.value > 0)
                             height = (1 - fields.noiseAmplitude.value) + fields.noiseAmplitude.value * perlinNoise2d(x, z);
 
