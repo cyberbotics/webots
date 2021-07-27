@@ -154,6 +154,14 @@ input[type=text] {
   width: 55%;
 }
 
+.proto-icon {
+  height: 100%;
+}
+
+.proto-icon:hover {
+  background-color: #68E;
+}
+
 .modal {
   display: none;
   position: fixed;

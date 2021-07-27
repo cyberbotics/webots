@@ -15,6 +15,13 @@ export default class LibraryView {
   };
   */
 
+  assetSelection(e) {
+    console.log('Selected asset: ' + e.target.attributes['assetKey'].value);
+
+    let modal = document.getElementById('modalWindow');
+    modal.style.display = 'none';
+  }
+
   loadAssets(modalElement, filter) {
     if (typeof modalElement === 'undefined')
       throw new Error('Cannot load assets because modal element is undefined.');
@@ -30,12 +37,13 @@ export default class LibraryView {
         continue;
 
       let div = document.createElement('div');
-      div.setAttribute('class', 'part-icon');
       let img = document.createElement('img');
+      img.classList.add('proto-icon');
       img.setAttribute('draggable', false);
       img.setAttribute('src', asset.icon);
       img.setAttribute('assetKey', key);
-      // img.addEventListener('dragstart', this.dragStart.bind(this), false);
+      //img.addEventListener('dragstart', this.dragStart.bind(this), false);
+      img.addEventListener('click', this.assetSelection.bind(this), false);
       img.setAttribute('title', asset.name);
       div.appendChild(img);
 
