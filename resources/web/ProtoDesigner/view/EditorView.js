@@ -6,7 +6,6 @@ import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
 import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 
-import Proto from '../classes/Proto.js';
 import {VRML} from '../classes/utility/utility.js';
 
 export default class EditorView { // eslint-disable-line no-unused-vars
@@ -50,8 +49,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     // display parameters
     for (const [key, parameter] of proto.parameters.entries()) {
       this.setupParameter(proto, parameter, key);
-      if (typeof proto.linkedProto !== 'undefined')
-        this.populateDiv(proto.linkedProto, depth + 1);
     }
   };
 

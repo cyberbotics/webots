@@ -67,7 +67,7 @@ class ProtoDesigner {
         // load default scene
         this.loadMinimalScene(); // setup background, viewpoint and worldinfo
 
-        // const url = '../wwi/Protos/ProtoTestParameters.proto';
+        //const url = '../wwi/Protos/ProtoTestParameters.proto';
         // const url = '../wwi/Protos/ProtoBox.proto';
         // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
@@ -111,14 +111,10 @@ class ProtoDesigner {
     });
   };
 
-  addProtoToScene(rawProto, parentId, parameter) {
+  insertProto(rawProto, parentId, parameter) {
     console.log('Raw Proto:\n' + rawProto);
     const newProto = new Proto(rawProto);
     this.activeProtos.set(newProto.id, newProto);
-
-    // when adding another Proto as SFNode, link the parameter to it
-    if (typeof parameter !== 'undefined' && parameter.isSFNode()) // only SFNodes can be linked to other protos
-      parameter.linkedProto = newProto;
 
     this.editor.refreshParameters();
 
@@ -133,7 +129,7 @@ class ProtoDesigner {
     xmlhttp.overrideMimeType('plain/text');
     xmlhttp.onreadystatechange = async() => {
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-        await this.addProtoToScene(xmlhttp.responseText, parentId, parameter);
+        await this.insertProto(xmlhttp.responseText, parentId, parameter);
     };
     xmlhttp.send();
   };
@@ -202,8 +198,6 @@ class ProtoDesigner {
     const parameters = proto.parameters;
     for (const parameter of parameters.values()) {
       t += indent + parameter.exportVrml() + '\n';
-      if (typeof parameter.linkedProto !== 'undefined')
-        t += this.exportParameters(parameter.linkedProto, indent);
     }
     return t;
   };
