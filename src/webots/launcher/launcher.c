@@ -25,6 +25,7 @@
 //               Starting webots.exe from the icon is fine, but will open a DOS command prompt in the background.
 //               (a similar naming convention is used for python.exe / pythonw.exe, java.exe / javaw.exe, etc.)
 
+#include <shlwapi.h>
 #include <stdio.h>
 #include <windows.h>
 
@@ -52,13 +53,7 @@ static int fail(const char *function, const char *info) {
 
 int main(int argc, char *argv[]) {
   // We retrieve the command line in wchar_t from the Windows system.
-  const wchar_t *original_command_line = GetCommandLineW();
-  // It should look like:
-  // '"C:\Program Files\Webots\msys64\mingw64\bin\webotsw.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"',
-  // '"C:\Program Files\Webots\msys64\mingw64\bin\webots.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"',
-  // 'webots', 'webots.exe', 'webotsw' or 'webotsw.exe'
-  // (notice: webots.exe instead of webotsw.exe)
-  // compute the full command line with absolute path for webots-bin.exe, options and arguments
+  const wchar_t *arguments = PathGetArgsW(GetCommandLineW());
   const int LENGTH = 4096;
   wchar_t *module_path = malloc(LENGTH * sizeof(wchar_t));
   if (!GetModuleFileNameW(NULL, module_path, LENGTH))
@@ -80,27 +75,10 @@ int main(int argc, char *argv[]) {
   command_line[index++] = L'e';
   command_line[index++] = L'x';
   command_line[index++] = L'e';
-  int original_index = 0;
-  int inside_quote = FALSE;
-  for (int i = 0; i < wcslen(original_command_line); i++) {
-    if (original_command_line[i] == L'"')
-      inside_quote = !inside_quote;
-    if (!inside_quote && original_command_line[i] == L' ') {
-      original_index = i;
-      // if started from a DOS console, one useless extra space is added between the command and the arguments
-      // we want to skip them if any.
-      while (original_command_line[original_index + 1] == L' ')
-        original_index++;
-      break;
-    }
+  if (arguments && arguments[0] != L'\0') {
+    command_line[index++] = L' ';
+    wcscat(command_line, arguments);
   }
-
-  if (original_index == 0)
-    command_line[index] = L'\0';
-  else
-    while (original_command_line[original_index - 1])
-      command_line[index++] = original_command_line[original_index++];
-
   // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
   // environment variable
   wchar_t *old_path = malloc(LENGTH * sizeof(wchar_t));
