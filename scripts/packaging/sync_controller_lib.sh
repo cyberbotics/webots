@@ -16,7 +16,7 @@ LAST_COMMIT_YESTERDAY=$(git rev-parse --before='${YESTERDAY_DATE}' --short HEAD 
 INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} -- include)
 SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} -- src/controller)
 if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ]; then
-    exit 0
+    # exit 0
 fi
 
 # Get the repo
