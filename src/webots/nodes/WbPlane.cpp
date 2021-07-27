@@ -86,7 +86,7 @@ void WbPlane::setY(double y) {
 const WbVector2 WbPlane::scaledSize() const {
   const WbVector2 &size = mSize->value();
   const WbVector3 &scale = absoluteScale();
-  return WbVector2(fabs(scale.x() * size.x()), fabs(scale.z() * size.y()));
+  return WbVector2(fabs(scale.x() * size.x()), fabs(scale.y() * size.y()));
 }
 
 void WbPlane::write(WbVrmlWriter &writer) const {
@@ -195,8 +195,8 @@ void WbPlane::rescale(const WbVector3 &scale) {
   WbVector2 resizedSize = size();
   if (scale.x() != 1.0)
     resizedSize[0] *= scale.x();
-  if (scale.z() != 1.0)
-    resizedSize[1] *= scale.z();
+  if (scale.y() != 1.0)
+    resizedSize[1] *= scale.y();
   setSize(resizedSize);
 }
 
@@ -225,18 +225,18 @@ void WbPlane::updateLineScale() {
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
 
   // allow the bounding sphere to scale down
-  float scaleY = 0.1f * std::min(mSize->value().x(), mSize->value().y());
+  float scaleZ = 0.1f * std::min(mSize->value().x(), mSize->value().y());
 
-  float scale[] = {static_cast<float>(mSize->value().x() * (1.0f + offset)), scaleY,
-                   static_cast<float>(mSize->value().y() * (1.0f + offset))};
+  float scale[] = {static_cast<float>(mSize->value().x() * (1.0f + offset)),
+                   static_cast<float>(mSize->value().y() * (1.0f + offset)), scaleZ};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
 void WbPlane::updateScale() {
   // allow the bounding sphere to scale down
-  float scaleY = 0.1f * std::min(mSize->value().x(), mSize->value().y());
+  float scaleZ = 0.1f * std::min(mSize->value().x(), mSize->value().y());
 
-  float scale[] = {static_cast<float>(mSize->value().x()), scaleY, static_cast<float>(mSize->value().y())};
+  float scale[] = {static_cast<float>(mSize->value().x()), static_cast<float>(mSize->value().y()), scaleZ};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -283,7 +283,7 @@ void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
   WbTransform *transform = upperTransform();
 
   // initial values with identity matrices
-  n.setXyz(0.0, 1.0, 0.0);  // plane normal
+  n.setXyz(0.0, 0.0, 1.0);  // plane normal
 
   if (transform) {
     const WbMatrix3 &m3 = transform->rotationMatrix();

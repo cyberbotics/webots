@@ -699,10 +699,10 @@ namespace wren {
       mesh->estimateVertexCount(4);
       mesh->estimateIndexCount(8);
 
-      mesh->addCoord(glm::vec3(-0.5f, 0.0f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.0f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.0f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.0f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.0f));
 
       mesh->addIndex(0);
       mesh->addIndex(1);
@@ -721,23 +721,23 @@ namespace wren {
       mesh->estimateVertexCount(4);
       mesh->estimateIndexCount(6);
 
-      mesh->addCoord(glm::vec3(-0.5f, 0.0f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.0f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.0f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.0f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.0f));
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.0f));
 
       for (int j = 0; j < 4; ++j)
-        mesh->addNormal(glm::vec3(0.0f, 1.0f, 0.0f));
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
 
-      mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 1.0f));
       mesh->addTexCoord(glm::vec2(1.0f, 1.0f));
       mesh->addTexCoord(glm::vec2(1.0f, 0.0f));
+      mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
 
-      mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 1.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(1.0f, 1.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(1.0f, 0.0f));
+      mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.0f));
 
       mesh->addIndex(0);
       mesh->addIndex(1);
@@ -751,7 +751,7 @@ namespace wren {
     const primitive::Box box;
     mesh->mCacheData->mBoundingSphere = box.computeBoundingSphere();
     mesh->mCacheData->mAabb =
-      primitive::Aabb(glm::vec3(-0.5f, -glm::epsilon<float>(), -0.5f), glm::vec3(0.5f, glm::epsilon<float>(), 0.5f));
+      primitive::Aabb(glm::vec3(-0.5f, -0.5f, -glm::epsilon<float>()), glm::vec3(0.5f, 0.5f, glm::epsilon<float>()));
 
     mesh->setup();
 
