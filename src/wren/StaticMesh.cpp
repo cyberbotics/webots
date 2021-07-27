@@ -310,8 +310,8 @@ namespace wren {
         const float d1 = (subdivision - i - 1) * invSub;
         const float d2 = (subdivision - i) * invSub;
         const float d = d1 + d2;
-        mesh->addTexCoord(glm::vec2(-d1 + 0.5f, 1.0f));
-        mesh->addTexCoord(glm::vec2(-d * 0.5f + 0.5f, 0.0f));
+        mesh->addTexCoord(glm::vec2(-d * 0.5 + 0.5f, 1.0f));
+        mesh->addTexCoord(glm::vec2(-d1 + 0.5f, 0.0f));
 
         mesh->addUnwrappedTexCoord(glm::vec2(d1 * 0.5f, 1.0f));
         mesh->addUnwrappedTexCoord(glm::vec2(d * 0.25f, 0.0f));
@@ -437,15 +437,15 @@ namespace wren {
         for (int i = 0; i < sub1; ++i) {
           const float alpha = (glm::pi<float>() * 2.0f * static_cast<float>(i)) / subdivision;
           const float x = glm::sin(alpha);
-          const float y = -glm::cos(alpha);
+          const float y = glm::cos(alpha);
           const float d = (subdivision - static_cast<float>(i)) / subdivision;
 
           mesh->addCoord(glm::vec3(x, y, -h));
           mesh->addCoord(glm::vec3(x, y, h));
           mesh->addNormal(glm::vec3(x, y, 0.0f));
           mesh->addNormal(glm::vec3(x, y, 0.0f));
-          mesh->addTexCoord(glm::vec2(-d + 0.5f, 1.0f));
-          mesh->addTexCoord(glm::vec2(-d + 0.5f, 0.0f));
+          mesh->addTexCoord(glm::vec2(d, 1.0f));
+          mesh->addTexCoord(glm::vec2(d, 0.0f));
           mesh->addUnwrappedTexCoord(glm::vec2(d * 0.5f, 0.5f));
           mesh->addUnwrappedTexCoord(glm::vec2(d * 0.5f, 0.0f));
         }
@@ -453,13 +453,13 @@ namespace wren {
         // connect points around cylinder
         int index = 0;
         for (int i = 0; i < subdivision; ++i) {
-          mesh->addIndex(index + 3);
+          mesh->addIndex(index);
           mesh->addIndex(index + 1);
-          mesh->addIndex(index);
-
-          mesh->addIndex(index + 2);
           mesh->addIndex(index + 3);
+
           mesh->addIndex(index);
+          mesh->addIndex(index + 3);
+          mesh->addIndex(index + 2);
           index += 2;
         }
       }
@@ -478,17 +478,17 @@ namespace wren {
           const float x = glm::sin(alpha);
           const float y = -glm::cos(alpha);
 
-          mesh->addCoord(glm::vec3(x, y, h));
+          mesh->addCoord(glm::vec3(x, -y, h));
           mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
-          mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, -0.5f * y + 0.5f));
+          mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, 0.5f * y + 0.5f));
           mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.75f, 0.25f * y + 0.25f));
         }
 
         // connect top circle points
         for (int i = 0, start = center + 1; i < subdivision; ++i, ++start) {
-          mesh->addIndex(center);
-          mesh->addIndex(start);
           mesh->addIndex(start + 1);
+          mesh->addIndex(start);
+          mesh->addIndex(center);
         }
       }
 
@@ -505,17 +505,17 @@ namespace wren {
           float alpha = (glm::pi<float>() * 2.0f * static_cast<float>(i)) / subdivision;
           float x = glm::sin(alpha);
           float y = -glm::cos(alpha);
-          mesh->addCoord(glm::vec3(x, y, -h));
+          mesh->addCoord(glm::vec3(x, -y, -h));
           mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
-          mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, 0.5f * y + 0.5f));
+          mesh->addTexCoord(glm::vec2(0.5f * x + 0.5f, -0.5f * y + 0.5f));
           mesh->addUnwrappedTexCoord(glm::vec2(0.25f * x + 0.25f, -0.25f * y + 0.75f));
         }
 
         // connect bottom circle points
         for (int i = 0, start = center + 1; i < subdivision; ++i, ++start) {
-          mesh->addIndex(start + 1);
-          mesh->addIndex(start);
           mesh->addIndex(center);
+          mesh->addIndex(start);
+          mesh->addIndex(start + 1);
         }
       }
     }
