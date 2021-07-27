@@ -1,4 +1,5 @@
 #include "LidarWidget.hpp"
+
 #include <devices/Device.hpp>
 
 #include <QtWidgets/QCheckBox>
@@ -54,7 +55,7 @@ void LidarWidget::readSensors() {
   if (wb_lidar_get_sampling_period(tag) > 0) {
     int lidarResolution = wb_lidar_get_horizontal_resolution(tag);
     double lidarRatio = (double)lidarResolution;
-    unsigned char *buffer;
+    unsigned char *buffer = NULL;
 
     if (mNumberOfLayers <= MAX_LABEL) {  // one label per layer
       buffer = new unsigned char[lidarResolution * 4];
