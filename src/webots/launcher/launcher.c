@@ -54,27 +54,10 @@ int main(int argc, char *argv[]) {
   // We retrieve the command line in wchar_t from the Windows system.
   const wchar_t *original_command_line = GetCommandLineW();
   // It should look like:
-  // '"C:\Program Files\Webots\msys64\mingw64\bin\webotsw.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"' or
-  // '"C:\Program Files\Webots\msys64\mingw64\bin\webots.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"'
+  // '"C:\Program Files\Webots\msys64\mingw64\bin\webotsw.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"',
+  // '"C:\Program Files\Webots\msys64\mingw64\bin\webots.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"',
+  // 'webots', 'webots.exe', 'webotsw' or 'webotsw.exe'
   // (notice: webots.exe instead of webotsw.exe)
-  wchar_t command_line[wcslen(original_command_line)];
-  // In order to launch Webots, we simply need to replace 'webotsw.exe'/'webots.exe' with 'webots-bin.exe'
-  const wchar_t *find = wcsstr(original_command_line, L"\\msys64\\mingw64\\bin\\webots");
-  int index = find - original_command_line;
-  index += 26;
-  wcsncpy(command_line, original_command_line, index);
-  command_line[index++] = '-';
-  command_line[index++] = 'b';
-  command_line[index++] = 'i';
-  command_line[index++] = 'n';
-#ifdef WEBOTSW
-  const int offset = 3;  // strlen("webots-bin") - strlen("webotsw")
-#else
-  const int offset = 4;  // strlen("webots-bin") - strlen("webots")
-#endif
-  for (; original_command_line[index - offset - 1]; index++)  // we use (index - offset - 1) to include the final '\0'
-    command_line[index] = original_command_line[index - offset];
-
   // compute the full command line with absolute path for webots-bin.exe, options and arguments
   const int LENGTH = 4096;
   wchar_t *module_path = malloc(LENGTH * sizeof(wchar_t));
@@ -85,6 +68,39 @@ int main(int argc, char *argv[]) {
                 - 1  // webotsw.exe (we need to remove the final 'w')
 #endif
     ;
+  wchar_t *command_line = malloc(LENGTH * sizeof(wchar_t));
+  // In order to launch Webots, we simply need to replace 'webotsw.exe'/'webots.exe' with 'webots-bin.exe'
+  int index = l - 4;  // don't copy the ".exe"
+  wcsncpy(command_line, module_path, index);
+  command_line[index++] = L'-';
+  command_line[index++] = L'b';
+  command_line[index++] = L'i';
+  command_line[index++] = L'n';
+  command_line[index++] = L'.';
+  command_line[index++] = L'e';
+  command_line[index++] = L'x';
+  command_line[index++] = L'e';
+  int original_index = 0;
+  int inside_quote = FALSE;
+  for (int i = 0; i < wcslen(original_command_line); i++) {
+    if (original_command_line[i] == L'"')
+      inside_quote = !inside_quote;
+    if (!inside_quote && original_command_line[i] == L' ') {
+      original_index = i;
+      // if started from a DOS console, one useless extra space is added between the command and the arguments
+      // we want to skip them if any.
+      while (original_command_line[original_index + 1] == L' ')
+        original_index++;
+      break;
+    }
+  }
+
+  if (original_index == 0)
+    command_line[index] = L'\0';
+  else
+    while (original_command_line[original_index - 1])
+      command_line[index++] = original_command_line[original_index++];
+
   // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
   // environment variable
   wchar_t *old_path = malloc(LENGTH * sizeof(wchar_t));
@@ -138,5 +154,6 @@ int main(int argc, char *argv[]) {
     if (exit_code != 3030)  // special return code to restart Webots, see WbGuiApplication.cpp
       return exit_code;
   }
+  free(command_line);
   return 0;
 }
