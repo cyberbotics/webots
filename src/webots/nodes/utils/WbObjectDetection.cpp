@@ -200,12 +200,12 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       case WB_NODE_ELEVATION_GRID: {
         const WbElevationGrid *elevationGrid = static_cast<const WbElevationGrid *>(boundingObject);
         double xSpacing = elevationGrid->xSpacing();
-        double zSpacing = elevationGrid->zSpacing();
+        double ySpacing = elevationGrid->ySpacing();
         int xDimension = elevationGrid->xDimension();
-        int zDimension = elevationGrid->zDimension();
+        int yDimension = elevationGrid->yDimension();
         for (int i = 0; i < xDimension; ++i) {
-          for (int j = 0; j < zDimension; ++j)
-            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), zSpacing * j) *
+          for (int j = 0; j < yDimension; ++j)
+            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), ySpacing * j) *
                                             mObject->absoluteScale()) +
                           objectPosition);
         }

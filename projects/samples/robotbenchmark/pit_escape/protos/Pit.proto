@@ -10,7 +10,7 @@ PROTO Pit [
   field SFRotation rotation       0 1 0 0
   field SFVec3f    size           20 5 20
   field SFInt32    xDimension     50
-  field SFInt32    zDimension     50
+  field SFInt32    yDimension     50
   field SFNode     appearance     SandyGround {}
   field SFInt32    randomSeed     1               # Defines the random seed, if seed <= 0 then set a random seed.
   field SFInt32    perlinNOctaves 3
@@ -91,11 +91,11 @@ PROTO Pit [
           Shape {
             appearance IS appearance
             geometry ElevationGrid {
-              %< if (fields.xDimension.value > 2 && fields.zDimension.value > 2) { >%
+              %< if (fields.xDimension.value > 2 && fields.yDimension.value > 2) { >%
                 xDimension IS xDimension
                 xSpacing %<= fields.size.value.x / (fields.xDimension.value - 1) >%
-                zDimension IS zDimension
-                zSpacing %<= fields.size.value.z / (fields.zDimension.value - 1) >%
+                yDimension IS yDimension
+                ySpacing %<= fields.size.value.z / (fields.yDimension.value - 1) >%
                 height [
                   %<
                     const xSigma = fields.pitRadius.value / fields.size.value.x;
@@ -106,11 +106,11 @@ PROTO Pit [
                     const zMax = 0.5 + 3 * zSigma;
                   >%
                   %< for (let i = 0; i <= fields.xDimension.value - 1; ++i) { >%
-                    %< for (let j = 0; j <= fields.zDimension.value - 1; ++j) { >%
+                    %< for (let j = 0; j <= fields.yDimension.value - 1; ++j) { >%
                       %<
                         let height = 1.0;
                         const x = i / fields.xDimension.value;
-                        const z = j / fields.zDimension.value;
+                        const z = j / fields.yDimension.value;
                         if (x > xMin && x < xMax && z > zMin && z < zMax) {
                           if (fields.perlinNOctaves.value > 0)
                             height = (1 - fields.noiseAmplitude.value) + fields.noiseAmplitude.value * perlinNoise2d(x, z);

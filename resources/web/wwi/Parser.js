@@ -761,13 +761,13 @@ export default class Parser {
 
     const xDimension = parseInt(getNodeAttribute(node, 'xDimension', '0'));
     const xSpacing = parseFloat(getNodeAttribute(node, 'xSpacing', '1'));
-    const zDimension = parseInt(getNodeAttribute(node, 'zDimension', '0'));
-    const zSpacing = parseFloat(getNodeAttribute(node, 'zSpacing', '1'));
+    const yDimension = parseInt(getNodeAttribute(node, 'yDimension', '0'));
+    const ySpacing = parseFloat(getNodeAttribute(node, 'ySpacing', '1'));
     const thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
 
     const height = heightStr.split(' ').map(Number);
 
-    const eg = new WbElevationGrid(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness);
+    const eg = new WbElevationGrid(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness);
     WbWorld.instance.nodes.set(eg.id, eg);
 
     return eg;

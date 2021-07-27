@@ -50,8 +50,8 @@ void WbElevationGrid::init() {
   mHeight = findMFDouble("height");
   mXDimension = findSFInt("xDimension");
   mXSpacing = findSFDouble("xSpacing");
-  mZDimension = findSFInt("zDimension");
-  mZSpacing = findSFDouble("zSpacing");
+  mYDimension = findSFInt("yDimension");
+  mYSpacing = findSFDouble("ySpacing");
   mThickness = findSFDouble("thickness");
 }
 
@@ -60,7 +60,7 @@ WbElevationGrid::WbElevationGrid(WbTokenizer *tokenizer) : WbGeometry("Elevation
 
   if (tokenizer == NULL) {
     mXDimension->setValueNoSignal(2);
-    mZDimension->setValueNoSignal(2);
+    mYDimension->setValueNoSignal(2);
   }
 }
 
@@ -100,8 +100,8 @@ void WbElevationGrid::postFinalize() {
   connect(mHeight, &WbMFDouble::changed, this, &WbElevationGrid::updateHeight);
   connect(mXDimension, &WbSFInt::changed, this, &WbElevationGrid::updateXDimension);
   connect(mXSpacing, &WbSFDouble::changed, this, &WbElevationGrid::updateXSpacing);
-  connect(mZDimension, &WbSFInt::changed, this, &WbElevationGrid::updateZDimension);
-  connect(mZSpacing, &WbSFDouble::changed, this, &WbElevationGrid::updateZSpacing);
+  connect(mYDimension, &WbSFInt::changed, this, &WbElevationGrid::updateYDimension);
+  connect(mYSpacing, &WbSFDouble::changed, this, &WbElevationGrid::updateYSpacing);
   connect(mThickness, &WbSFDouble::changed, this, &WbElevationGrid::updateThickness);
 }
 
@@ -123,10 +123,10 @@ void WbElevationGrid::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (xDimension() < 2 || zDimension() < 2)
+  if (xDimension() < 2 || yDimension() < 2)
     return;
 
-  if (xSpacing() == 0.0 || zSpacing() == 0.0)
+  if (xSpacing() == 0.0 || ySpacing() == 0.0)
     return;
 
   WbGeometry::computeWrenRenderable();
@@ -142,7 +142,7 @@ void WbElevationGrid::buildWrenMesh() {
   setPickable(isPickable());
 
   // convert height values to float, pad with zeroes if necessary
-  int numValues = xDimension() * zDimension();
+  int numValues = xDimension() * yDimension();
   float *heightData = new float[numValues];
 
   int availableValues = std::min(numValues, mHeight->size());
@@ -155,7 +155,7 @@ void WbElevationGrid::buildWrenMesh() {
   const bool createOutlineMesh = isInBoundingObject();
 
   mWrenMesh =
-    wr_static_mesh_unit_elevation_grid_new(xDimension(), zDimension(), heightData, mThickness->value(), createOutlineMesh);
+    wr_static_mesh_unit_elevation_grid_new(xDimension(), yDimension(), heightData, mThickness->value(), createOutlineMesh);
 
   delete[] heightData;
 
@@ -182,7 +182,7 @@ void WbElevationGrid::rescale(const WbVector3 &scale) {
 
   if (scale.z() != 0.0) {
     // rescale z spacing
-    setZspacing(zSpacing() * scale.z());
+    setYspacing(ySpacing() * scale.z());
   }
 }
 
@@ -196,10 +196,10 @@ bool WbElevationGrid::sanitizeFields() {
   if (WbFieldChecker::resetDoubleIfNonPositive(this, mXSpacing, 1.0))
     return false;
 
-  if (WbFieldChecker::resetIntIfNegative(this, mZDimension, 0))
+  if (WbFieldChecker::resetIntIfNegative(this, mYDimension, 0))
     return false;
 
-  if (WbFieldChecker::resetDoubleIfNonPositive(this, mZSpacing, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mYSpacing, 1.0))
     return false;
 
   checkHeight();
@@ -209,7 +209,7 @@ bool WbElevationGrid::sanitizeFields() {
 
 void WbElevationGrid::checkHeight() {
   const int xd = mXDimension->value();
-  const int zd = mZDimension->value();
+  const int zd = mYDimension->value();
   const int xdzd = xd * zd;
 
   const int extra = mHeight->size() - xdzd;
@@ -305,7 +305,7 @@ void WbElevationGrid::updateXSpacing() {
   emit changed();
 }
 
-void WbElevationGrid::updateZDimension() {
+void WbElevationGrid::updateYDimension() {
   if (!sanitizeFields())
     return;
 
@@ -323,7 +323,7 @@ void WbElevationGrid::updateZDimension() {
   emit changed();
 }
 
-void WbElevationGrid::updateZSpacing() {
+void WbElevationGrid::updateYSpacing() {
   if (!sanitizeFields())
     return;
 
@@ -350,13 +350,13 @@ void WbElevationGrid::updateLineScale() {
 
   const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
 
-  float scale[] = {static_cast<float>(xSpacing()), 1.0f + offset, static_cast<float>(zSpacing())};
+  float scale[] = {static_cast<float>(xSpacing()), 1.0f + offset, static_cast<float>(ySpacing())};
 
   wr_transform_set_scale(wrenNode(), scale);
 }
 
 void WbElevationGrid::updateScale() {
-  float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(1.0f), static_cast<float>(zSpacing())};
+  float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(1.0f), static_cast<float>(ySpacing())};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -366,7 +366,7 @@ void WbElevationGrid::createResizeManipulator() {
 }
 
 void WbElevationGrid::setResizeManipulatorDimensions() {
-  WbVector3 scale(xSpacing(), 1.0f, zSpacing());
+  WbVector3 scale(xSpacing(), 1.0f, ySpacing());
   WbTransform *transform = upperTransform();
   if (transform)
     scale *= transform->matrix().scale();
@@ -380,9 +380,9 @@ void WbElevationGrid::setResizeManipulatorDimensions() {
 
 bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const xSpacing = findField("xSpacing", true);
-  const WbField *const zSpacing = findField("zSpacing", true);
-  return WbNodeUtilities::isVisible(xSpacing) && WbNodeUtilities::isVisible(zSpacing) &&
-         !WbNodeUtilities::isTemplateRegeneratorField(xSpacing) && !WbNodeUtilities::isTemplateRegeneratorField(zSpacing);
+  const WbField *const ySpacing = findField("ySpacing", true);
+  return WbNodeUtilities::isVisible(xSpacing) && WbNodeUtilities::isVisible(ySpacing) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(xSpacing) && !WbNodeUtilities::isTemplateRegeneratorField(ySpacing);
 }
 
 /////////////////
@@ -405,7 +405,7 @@ bool WbElevationGrid::setOdeHeightfieldData() {
     return false;
 
   const int xd = mXDimension->value();
-  const int zd = mZDimension->value();
+  const int zd = mYDimension->value();
   const int xdzd = xd * zd;
   // Creates height field data
   delete[] mData;
@@ -450,16 +450,16 @@ double WbElevationGrid::scaledDepth() const {
 }
 
 bool WbElevationGrid::isSuitableForInsertionInBoundingObject(bool warning) const {
-  const bool invalidDimensions = mXDimension->value() < 2 || mZDimension->value() < 2;
-  const bool invalidSpacings = mXSpacing->value() <= 0.0 || mZSpacing->value() < 0.0;
+  const bool invalidDimensions = mXDimension->value() < 2 || mYDimension->value() < 2;
+  const bool invalidSpacings = mXSpacing->value() <= 0.0 || mYSpacing->value() < 0.0;
   const bool invalid = invalidDimensions || invalidSpacings;
 
   if (warning) {
     if (mXDimension->value() < 2)
       parsingWarn(tr("Invalid 'xDimension' (should be greater than 1) for use in boundingObject."));
 
-    if (mZDimension->value() < 2)
-      parsingWarn(tr("Invalid 'zDimension' (should be greater than 1) for use in boundingObject."));
+    if (mYDimension->value() < 2)
+      parsingWarn(tr("Invalid 'yDimension' (should be greater than 1) for use in boundingObject."));
 
     if (invalidSpacings)
       parsingWarn(tr("'height' must be positive when used in a 'boundingObject'."));
@@ -504,9 +504,9 @@ double WbElevationGrid::computeDistance(const WbRay &ray) const {
 
 double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &localCollisionPoint) const {
   double dx = mXSpacing->value() * absoluteScale().x();
-  double dz = mZSpacing->value() * absoluteScale().z();
+  double dz = mYSpacing->value() * absoluteScale().z();
   int numX = mXDimension->value();
-  int numZ = mZDimension->value();
+  int numZ = mYDimension->value();
   double minDistance = std::numeric_limits<double>::infinity();
 
   int size = numX * numZ;
@@ -576,9 +576,9 @@ void WbElevationGrid::recomputeBoundingSphere() const {
 
   // create list of vertices
   const int xd = mXDimension->value();
-  const int zd = mZDimension->value();
+  const int zd = mYDimension->value();
   const double xs = mXSpacing->value();
-  const double zs = mZSpacing->value();
+  const double zs = mYSpacing->value();
   const int size = zd * xd;
   double *h = new double[size];
   memset(h, 0, size * sizeof(double));
@@ -626,13 +626,13 @@ void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
   }
 
   findField("xDimension", true)->write(writer);
-  findField("zDimension", true)->write(writer);
+  findField("yDimension", true)->write(writer);
   findField("xSpacing", true)->write(writer);
-  findField("zSpacing", true)->write(writer);
+  findField("ySpacing", true)->write(writer);
   if (!mHeight->isEmpty())
     findField("height", true)->write(writer);
   else {
-    int total = mXDimension->value() * mZDimension->value();
+    int total = mXDimension->value() * mYDimension->value();
     if (writer.isX3d())
       writer << " height=\'";
     else {

@@ -5,8 +5,8 @@ ElevationGrid {
   MFFloat height         [ ]    # (-inf, inf)
   SFInt32 xDimension     0      # [0, inf)
   SFFloat xSpacing       1      # [0, inf)
-  SFInt32 zDimension     0      # [0, inf)
-  SFFloat zSpacing       1      # [0, inf)
+  SFInt32 yDimension     0      # [0, inf)
+  SFFloat ySpacing       1      # [0, inf)
   SFFloat thickness      1      # [0, inf)
 }
 ```
@@ -19,14 +19,14 @@ The [ElevationGrid](#elevationgrid) node is the most appropriate to model an une
 
 ### Field Summary
 
-The `xDimension` and `zDimension` fields indicate the number of points in the grid height array in the *x* and *z* directions.
-Both `xDimension` and `zDimension` shall be greater than or equal to zero.
-If either the `xDimension` or the `zDimension` is less than two, the [ElevationGrid](#elevationgrid) contains no quadrilaterals.
-The vertex locations for the quadrilaterals are defined by the `height` field and the `xSpacing` and `zSpacing` fields:
+The `xDimension` and `yDimension` fields indicate the number of points in the grid height array in the *x* and *z* directions.
+Both `xDimension` and `yDimension` shall be greater than or equal to zero.
+If either the `xDimension` or the `yDimension` is less than two, the [ElevationGrid](#elevationgrid) contains no quadrilaterals.
+The vertex locations for the quadrilaterals are defined by the `height` field and the `xSpacing` and `ySpacing` fields:
 
-- The `height` field is an `xDimension` by `zDimension` array of scalar values representing the height above the grid for each vertex.
+- The `height` field is an `xDimension` by `yDimension` array of scalar values representing the height above the grid for each vertex.
 
-- The `xSpacing` and `zSpacing` fields indicate the distance between vertices in the *x* and *z* directions respectively, and shall be greater than zero.
+- The `xSpacing` and `ySpacing` fields indicate the distance between vertices in the *x* and *z* directions respectively, and shall be greater than zero.
 
 %figure "ElevationGrid node"
 
@@ -39,9 +39,9 @@ Thus, the vertex corresponding to the point P[i,j] on the grid is placed at:
 ```
 P[i,j].x = xSpacing * i
 P[i,j].y = height[ i + j * xDimension]
-P[i,j].z = zSpacing * j
+P[i,j].z = ySpacing * j
 
-where 0 <= i < xDimension and 0 <= j < zDimension,
+where 0 <= i < xDimension and 0 <= j < yDimension,
 and P[0,0] is height[0] units above/below the origin of the local
 coordinate system
 ```

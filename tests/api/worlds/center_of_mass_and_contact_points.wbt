@@ -21,8 +21,8 @@ DEF FLOOR Solid {
       geometry ElevationGrid {
         xDimension 11
         xSpacing 0.1
-        zDimension 11
-        zSpacing 0.1
+        yDimension 11
+        ySpacing 0.1
       }
     }
   ]

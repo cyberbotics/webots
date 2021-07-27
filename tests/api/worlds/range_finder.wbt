@@ -50,7 +50,7 @@ Transform {
           0, 0, 0, 0
         ]
         xDimension 2
-        zDimension 2
+        yDimension 2
       }
     }
   ]
