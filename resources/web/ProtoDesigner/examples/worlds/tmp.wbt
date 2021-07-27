@@ -1,0 +1,10 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+}
+TinkerbotsUniversal {
+  minusSlot TinkerbotsCubieTriangle {
+  }
+}

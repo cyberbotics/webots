@@ -92,7 +92,10 @@ class ProtoDesigner {
         //const url = '../wwi/Protos/ProtoTestSFNode.proto';
         //const url = './examples/protos/ProtoSolid.proto';
         //const url = './examples/protos/ProtoIndexedFaceSet.proto';
-        const url = './examples/protos/ProtoSlot.proto';
+        //const url = './examples/protos/ProtoSlot.proto';
+
+        const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
+
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');
 
