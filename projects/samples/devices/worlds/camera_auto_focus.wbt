@@ -168,7 +168,7 @@ Robot {
       width 400
       height 300
       focus Focus {
-        focalDistance 0.4623355950533638
+        focalDistance 0.516532689268457
         focalLength 0.25
         maxFocalDistance 1
         minFocalDistance 0.1
