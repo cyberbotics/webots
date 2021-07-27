@@ -10,13 +10,17 @@ PROTO ProtoTemplate [
     wbrandom.seed(Date.now())
     let a = fields.size.value;
   >%
-  Shape {
-    castShadow TRUE
-    geometry Box {
-      size %<= 1 + wbrandom.real(0, 2)>% %<= 1 + wbrandom.real(0, 2)>% %<= 1 + wbrandom.real(0, 2)>%
-    }
-    appearance PBRAppearance {
-      baseColor IS color
-    }
+  Transform {
+    children [
+      Shape {
+        castShadow TRUE
+        geometry Box {
+          size %<= 1 + wbrandom.real(0, 2)>% %<= 1 + wbrandom.real(0, 2)>% %<= 1 + wbrandom.real(0, 2)>%
+        }
+        appearance PBRAppearance {
+          baseColor IS color
+        }
+      }
+    ]
   }
 }

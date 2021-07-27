@@ -14,6 +14,10 @@ import Tokenizer from './Tokenizer.js';
 export default class Proto {
   constructor(protoText) {
     this.id = generateProtoId();
+    this.nestedList = []; // list of protos that appear in the body
+    this.linkedList = []; // list of protos inserted through the Proto header
+    this.x3dnodes = [];
+
     this.isTemplate = protoText.search('template language: javascript') !== -1;
     if(this.isTemplate) {
       console.log('PROTO is a template!');
@@ -137,7 +141,6 @@ export default class Proto {
 
   parseBody() {
     this.clearReferences();
-
     // note: if not a template, the body is already pure VRML
     if (this.isTemplate)
       this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
@@ -154,6 +157,8 @@ export default class Proto {
   generateX3d() {
     const parser = new ProtoParser(this.bodyTokenizer, this.parameters);
     this.x3d = parser.generateX3d();
+    this.x3dNodes = parser.x3dNodes;
+    console.log('New x3d nodes: ', this.x3dNodes)
   }
 
   isTemplateRegenerator(parameterName) {
@@ -174,6 +179,9 @@ export default class Proto {
   };
 
   clearReferences() {
+    this.nestedList = [];
+    this.linkedList = [];
+    this.x3dNodes = [];
     for (const parameter of this.parameters.values()) {
       parameter.nodeRefs = [];
       parameter.refNames = [];

@@ -15,7 +15,7 @@ export default class ProtoParser {
     this.prefix = prefix;
     this.bodyTokenizer = bodyTokenizer;
     this.parameters = parameters;
-
+    this.x3dNodes = []; // keep track of the x3d nodes
     this.defList = new Map();
 
     this.xml = document.implementation.createDocument('', '', null);
@@ -60,6 +60,7 @@ export default class ProtoParser {
       // each node needs an id, at the very least, no matter what follows
       if (nodeElement.getAttribute('id') === null) { // set the id only once per node
         nodeElement.setAttribute('id', getAnId());
+        this.x3dNodes.push(nodeElement.getAttribute('id'));
         console.log('> ' + nodeName + 'Element.setAttribute(\'id\', \'' + nodeElement.getAttribute('id') + '\')');
         if (typeof alias !== 'undefined') {
           if (this.defList.has(alias))

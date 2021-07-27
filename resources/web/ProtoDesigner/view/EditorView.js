@@ -229,13 +229,20 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     if (this.parameter.isTemplateRegenerator) {
       console.log('Regeneration triggered by parameter ' + this.parameter.name);
-      for (const key of WbWorld.instance.nodes.keys()) {
-        if (parseInt(key.slice(1)) < -4)
-          this.view.x3dScene._deleteObject(key.slice(1));
+      // save parent reference
+      const parentId = this.proto.x3dNodes[0];
+      const parentNode = WbWorld.instance.nodes.get(parentId).parent;
+      console.log(parentId, parentNode, WbWorld.instance.nodes.get(parentId))
+      // delete proto nodes
+      for (let i = 0; i < this.proto.x3dNodes.length; ++i) {
+        const node = this.proto.x3dNodes[i];
+        console.log('Deleting node: ' + node);
+        this.view.x3dScene._deleteObject(parseInt(node.slice(1))); // remove 'n' prefix
       }
-      console.log(WbWorld.instance.nodes)
-      this.proto.regenerate();
-      this.view.x3dScene._loadObject(this.proto.x3d, '-4');
+      // regenerate VRML and parse x3d
+      this.proto.parseBody();
+      const insertPoint = typeof parentNode !== 'undefined' ? parentNode.slice(1) : undefined;
+      this.view.x3dScene._loadObject(this.proto.x3d, insertPoint);
       // this.view.x3dScene.loadWorldFileRaw(this.proto.x3d, this.view.finalizeWorld);
       this.view.x3dScene.render();
       return;
