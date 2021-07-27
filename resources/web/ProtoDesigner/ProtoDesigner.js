@@ -42,11 +42,13 @@ class ProtoDesigner {
       return;
     }
 
+    /*
     this.libraryElement = document.getElementById('proto-library');
     if (typeof this.libraryElement === 'undefined') {
       console.error('The Proto Designer cannot find the proto-library component.');
       return;
     }
+    */
 
     this._init();
   };
@@ -60,10 +62,10 @@ class ProtoDesigner {
         this.view = new webots.View(document.getElementById('view3d'));
 
         this.header = new HeaderView(this.headerElement, this);
-        this.editor = new EditorView(this.editorElement, this.view, this);
         this.assetLibrary = new AssetLibrary();
-        this.LibraryView = new LibraryView(this.libraryElement, this.assetLibrary);
-        this.assetLibrary.addObserver('loaded', () => { this.LibraryView.loadAssets(); });
+        this.libraryView = new LibraryView(this.libraryElement, this.assetLibrary);
+        this.editor = new EditorView(this.editorElement, this.view, this, this.libraryView);
+        //this.assetLibrary.addObserver('loaded', () => { this.libraryView.loadAssets(); });
 
         //this.library = new LibraryView(this.libraryElement);
         //this.loadLibrary('./library/library.json');

@@ -13,7 +13,10 @@ export default class LibraryView {
     e.dataTransfer.setData('text/plain', JSON.stringify(this.assetLibrary.assets.get(key)));
   };
 
-  loadAssets() {
+  loadAssets(modalElement) {
+    if (typeof modalElement === 'undefined')
+      throw new Error('Cannot load assets because modal element is undefined.');
+
     for (const [key, asset] of this.assetLibrary.assets.entries()) {
       let div = document.createElement('div');
       div.setAttribute('class', 'part-icon');
@@ -22,11 +25,11 @@ export default class LibraryView {
       img.setAttribute('src', asset.icon);
       img.setAttribute('assetKey', key);
       img.addEventListener('dragstart', this.dragStart.bind(this), false);
-
+      img.setAttribute('title', asset.name);
       div.appendChild(img);
 
       this.partIconDivs.push(div.firstChild);
-      this.libraryElement.appendChild(div.firstChild);
+      modalElement.appendChild(div.firstChild);
     }
   };
 };

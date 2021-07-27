@@ -10,11 +10,12 @@ import Proto from '../classes/Proto.js';
 import {VRML} from '../classes/utility/utility.js';
 
 export default class EditorView { // eslint-disable-line no-unused-vars
-  constructor(element, view, designer) {
+  constructor(element, view, designer, library) {
     // setup parameter list view
     this.element = element;
     this.view = view;
     this.designer = designer;
+    this.library = library;
 
     this.cleanupDiv('No loaded PROTO');
 
@@ -209,6 +210,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     modal.style.display = 'block';
     modal.style.top = position.y + 'px';
     modal.style.left = (position.x + position.width) + 'px';
+    this.library.loadAssets(modal);
   };
 
   setupModalWindow() {

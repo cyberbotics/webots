@@ -4,10 +4,9 @@
   height: 100vh;
   grid-template-areas:
     'header header'
-    'sidebar main'
-    'sidebar library';
+    'sidebar main';
   grid-template-columns: 2fr 7fr;
-  grid-template-rows: 30px auto 200px;
+  grid-template-rows: 30px auto;
   grid-gap: 3px;
   background-color: #333;
   overflow: hidden;
@@ -166,6 +165,7 @@ input[type=text] {
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  border-radius: 6px;
 }
 
 .modal-content {
@@ -182,10 +182,17 @@ input[type=text] {
 }
 
 .modal-close-button {
-  color: #aaa;
   float: right;
   font-size: 14px;
   font-weight: bold;
+}
+
+.modal-library {
+  background-color: #4c4c4c;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  overflow-x: scroll !important;
 }
 
 .modal-close-button:hover,
