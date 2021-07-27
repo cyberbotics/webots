@@ -170,7 +170,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     let filter;
     if (typeof nodeRefs !== 'undefined') {
       const slot = WbWorld.instance.nodes.get(nodeRefs[0]);
-      filter = slot.type;
+      filter = slot.type.slice(1, -1); // remove quotations
     }
 
     // button position
