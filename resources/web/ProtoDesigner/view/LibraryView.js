@@ -7,14 +7,6 @@ export default class LibraryView {
     this.partIconDivs = [];
   };
 
-  /*
-  dragStart(e) {
-    console.log('Drag start: ' + e.target.getAttribute('assetKey'));
-    const key = e.target.getAttribute('assetKey');
-    e.dataTransfer.setData('text/plain', JSON.stringify(this.assetLibrary.assets.get(key)));
-  };
-  */
-
   assetSelection(e) {
     console.log('Selected asset: ' + e.target.attributes['assetKey'].value);
 

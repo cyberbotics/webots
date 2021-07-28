@@ -10,17 +10,17 @@ import Proto from './Proto.js';
   Generates an x3d from VRML
 */
 export default class ProtoParser {
-  constructor(bodyTokenizer, parameters, prefix = '../../wwi/images/post_processing/') {
+  constructor(bodyTokenizer, parameters, proto, prefix = '../../wwi/images/post_processing/') {
     this.prefix = prefix;
     this.bodyTokenizer = bodyTokenizer;
-    this.parameters = parameters;
+    this.parameters = parameters; // TODO: if proto ref is passed, can skip passing parameters
+    this.proto = proto;
+
     this.x3dNodes = []; // keep track of the x3d nodes
     this.nestedProtos = []; // keep track of internal nested protos
     this.defList = new Map();
 
     this.x3dFragments = new Map();
-
-    this.aliasLinks = new Map(); // temporary map that keeps track of non-direct IS chains
 
     this.protoDirectory = './library/Tinkerbots/';
 
@@ -271,19 +271,18 @@ export default class ProtoParser {
       // check if the value is provided directly or by IS reference
       if (this.bodyTokenizer.peekWord() === 'IS') {
         this.bodyTokenizer.skipToken('IS');
-        // get current value from proto header
+        // search parameter in proto header and get current value
         const alias = this.bodyTokenizer.nextWord();
-        let found = false;
-        for (const parameter of this.parameters.values()) {
-          if (alias === parameter.name) {
-            const value = parameter.value;
-            nested.setParameterValue(field, value); // field here refers to the word before the IS token
-            found = true;
-            this.aliasLinks.set(alias, field);
-            break;
-          }
-        }
-        if (!found)
+        const parameter = this.proto.getParameterByName(alias); // header parameter, value after the IS
+        if (typeof parameter !== 'undefined') {
+          nested.setParameterValue(field, parameter.value); // field here refers to the word before the IS token
+          // get parameter reference on the nested side
+          const targetParameter = nested.getParameterByName(field); // value before the IS (in the parent proto)
+          const link = {'origin': parameter, 'target': targetParameter};
+          console.log('aaab ', link)
+          if (!this.proto.aliasLinks.includes(link))
+            this.proto.aliasLinks.push(link);
+        } else
           throw new Error('Cannot overwrite the value of parameter ' + alias + ' because it is not in the list of parameters.');
       } else { // field value is provided directly (i.e read it from the tokenizer)
         const value = this.stringifyTokenizedValuesByType(fieldType);
@@ -309,7 +308,7 @@ export default class ProtoParser {
     const alias = this.bodyTokenizer.nextWord(); // actual proto parameter
 
     // ensure it is a proto parameter
-    const parameter = this.getParameterByName(alias);
+    const parameter = this.proto.getParameterByName(alias);
 
     if (typeof parameter === 'undefined')
       throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
@@ -324,12 +323,18 @@ export default class ProtoParser {
     nodeElement.setAttribute(fieldName, value);
     console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 
-    // make the header parameter point to this field's parent
+    // make the header parameter point to this field's parent (i.e the node)
+    const link = {'origin': parameter, 'target': {'nodeRef': nodeElement.getAttribute('id'), 'fieldName': refName}}
+    console.log('aaa ', link)
+    if (!this.proto.aliasLinks.includes(link))
+      this.proto.aliasLinks.push(link);
+    /*
     if (!parameter.nodeRefs.includes(nodeElement.getAttribute('id'))) {
       parameter.nodeRefs.push(nodeElement.getAttribute('id'));
       parameter.refNames.push(refName);
       console.log('>> added nodeRef ' + nodeElement.getAttribute('id') + ' to parameter \'' + refName + '\' (' + alias + ').');
     }
+    */
   };
 
   parseDEF(nodeName, fieldName, nodeElement, parentElement, parentName) {
@@ -483,12 +488,5 @@ export default class ProtoParser {
     }
 
     return value;
-  };
-
-  getParameterByName(parameterName) {
-    for (const value of this.parameters.values()) {
-      if (value.name === parameterName)
-        return value;
-    }
   };
 }

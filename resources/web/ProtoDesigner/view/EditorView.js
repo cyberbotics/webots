@@ -84,7 +84,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       case VRML.SFBool: {
         let input = document.createElement('input');
         input.setAttribute('type', 'checkbox');
-        input.checked = value.value;
+        input.checked = value;
         input.addEventListener('input', this.updateValue.bind(this));
         div.appendChild(input);
         break;
@@ -232,7 +232,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       // save parent reference
       const parentId = this.proto.x3dNodes[0];
       const parentNode = WbWorld.instance.nodes.get(parentId).parent;
-      console.log(parentId, parentNode, WbWorld.instance.nodes.get(parentId))
       // delete proto nodes
       for (let i = 0; i < this.proto.x3dNodes.length; ++i) {
         const node = this.proto.x3dNodes[i];
@@ -248,24 +247,19 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       return;
     }
 
-    const nodeRefs = this.parameter.nodeRefs;
-    const refNames = this.parameter.refNames;
-
-    if (nodeRefs.length === 0 || (nodeRefs.length !== refNames.length))
-      console.warn('No nodeRefs links are present for the selected parameter. Was it supposed to?');
-
-    // propagate IS references
-    for (let i = 0; i < nodeRefs.length; ++i) {
-      if (typeof nodeRefs[i] !== 'undefined' && typeof refNames[i] !== 'undefined') {
-        const node = WbWorld.instance.nodes.get(nodeRefs[i]);
-        console.log('> setting parameter \'' + refNames[i] + '\' to ', this.parameter.value);
-        node.setParameter(refNames[i], this.parameter.value);
-        // propagate to USE nodes, if any
-        for (let j = 0; j < node.useList.length; ++j) {
-          console.log('>> setting (through DEF) parameter \'' + refNames[i] + '\' to ', this.parameter.value);
-          const useNode = WbWorld.instance.nodes.get(node.useList[j]);
-          useNode.setParameter(refNames[i], this.parameter.value);
-        }
+    // propagate change to IS references
+    const triggered = this.proto.getTriggeredFields(this.parameter);
+    for (let i = 0; i < triggered.length; ++i) {
+      const nodeRef = triggered[i].nodeRef;
+      const fieldName = triggered[i].fieldName;
+      console.log('> setting parameter \'' + fieldName + '\' to ', this.parameter.value);
+      const node = WbWorld.instance.nodes.get(nodeRef);
+      node.setParameter(fieldName, this.parameter.value);
+      // if the node has any USE references, propagate change further
+      for (let j = 0; j < node.useList.length; ++j) {
+        console.log('>> setting (through DEF) parameter \'' + fieldName + '\' to ', this.parameter.value);
+        const useNode = WbWorld.instance.nodes.get(node.useList[j]);
+        useNode.setParameter(fieldName, this.parameter.value);
       }
     }
 

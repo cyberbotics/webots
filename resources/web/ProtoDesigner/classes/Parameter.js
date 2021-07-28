@@ -7,9 +7,8 @@ import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 
 export default class Parameter {
-  constructor(name, type, isRegenerator, defaultValue, value) {
-    this.nodeRefs = []; // a parameter can reference one or more nodes (ex: multiple IS)
-    this.refNames = []; // name as defined in the body of the proto (i.e value before an IS)
+  constructor(protoRef, name, type, isRegenerator, defaultValue, value) {
+    this.protoRef = protoRef; // proto this parameter belongs to
     this.name = name; // name as defined in the proto header (i.e value after an IS)
     this.type = type;
     this.isTemplateRegenerator = isRegenerator;

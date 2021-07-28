@@ -14,9 +14,11 @@ import Tokenizer from './Tokenizer.js';
 export default class Proto {
   constructor(protoText) {
     this.id = generateProtoId();
-    this.nestedList = []; // list of protos that appear in the body
+    this.nestedList = []; // list of internal protos
     this.linkedList = []; // list of protos inserted through the Proto header
     this.x3dnodes = [];
+
+    this.aliasLinks = []; // list of IS references, encoded as mappings between parameters and {node, fieldname} pairs
 
     this.isTemplate = protoText.search('template language: javascript') !== -1;
     if(this.isTemplate) {
@@ -82,7 +84,7 @@ export default class Proto {
         else
           value = defaultValue.valueOf();
 
-        const parameter = new Parameter(name, type, isRegenerator, defaultValue, value)
+        const parameter = new Parameter(this, name, type, isRegenerator, defaultValue, value)
         this.parameters.set(generateParameterId(), parameter);
       }
     }
@@ -162,30 +164,12 @@ export default class Proto {
   };
 
   generateX3d() {
-    const parser = new ProtoParser(this.bodyTokenizer, this.parameters);
+    const parser = new ProtoParser(this.bodyTokenizer, this.parameters, this);
     this.x3d = parser.generateX3d();
     this.x3dNodes = parser.x3dNodes;
     console.log('New x3d nodes: ', this.x3dNodes)
     this.nestedList = this.nestedList.concat(parser.nestedProtos);
     console.log('Nested protos: ', this.nestedList);
-
-    // now that the IS references are known for the nested, link them to the main proto
-    for (const parameter of this.parameters.values()) {
-      const alias = parser.aliasLinks.get(parameter.name);
-      if (typeof alias !== 'undefined') {
-        // find parameter among the nested protos that has this alias in the header
-        for (let i = 0; i < this.nestedList.length; ++i) {
-          const nestedProto = this.nestedList[i];
-          for (const nestedParameter of nestedProto.parameters.values()) {
-            if(nestedParameter.name === alias) {
-              // TODO: only add if they dont exist yet
-              parameter.nodeRefs = parameter.nodeRefs.concat(nestedParameter.nodeRefs);
-              parameter.refNames = parameter.refNames.concat(nestedParameter.refNames);
-            }
-          }
-        }
-      }
-    }
   };
 
   isTemplateRegenerator(parameterName) {
@@ -229,6 +213,31 @@ export default class Proto {
     }
 
     throw new Error('Cannot set parameter ' + parameterName + ' (value =' + value + ') because it is not a parameter of proto ' + this.protoName);
+  }
+
+  getParameterByName(parameterName) {
+    for (const value of this.parameters.values()) {
+      if (value.name === parameterName)
+        return value;
+    }
+  };
+
+  getTriggeredFields(triggerParameter) {
+    const links = triggerParameter.protoRef.aliasLinks;
+    let triggered = [];
+
+    for (let i = 0; i < links.length; ++i) {
+      if (links[i].origin === triggerParameter) {
+        if (links[i].origin instanceof Parameter && links[i].target instanceof Parameter) // nested IS reference
+          triggered = triggered.concat(this.getTriggeredFields(links[i].target)); // recursively follow parameter chain
+        else if (links[i].origin instanceof Parameter && typeof links[i].target === 'object') { // found chain end
+          triggered.push(links[i].target);
+        } else
+          throw new Error('Cannot retrieve fields triggered by paramter change because chain is malformed.');
+      }
+    }
+
+    return triggered;
   }
 
   clearReferences() {
