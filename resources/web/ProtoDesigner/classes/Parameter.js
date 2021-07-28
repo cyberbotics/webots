@@ -56,6 +56,10 @@ export default class Parameter {
       case VRML.SFNode:
         console.error('Attempting to set SFNode from string, but not yet implemented.');
         break;
+      case VRML.MFString:
+        this.value = value.split(' ');
+        console.log('VV', this.value)
+        break;
       default:
         throw new Error('Unknown type \'' + this.type + '\' in setValueFromString.');
     }
@@ -104,6 +108,14 @@ export default class Parameter {
         if (typeof this.value !== 'undefined')
           console.error('TODO: implement SFNode in x3dify.');
         return;
+      case VRML.MFString:
+        if (!Array.isArray(this.value))
+          console.error('Expected an array, but value is not. Is it normal?');
+        let s = '';
+        for (let i = 0; i < this.value.length; ++i)
+          s += this.value[i] + ' ';
+        s = s.slice(0, -1);
+        return s;
       default:
         throw new Error('Unknown type \'' + this.type + '\' in x3dify.');
     }
@@ -118,9 +130,8 @@ export default class Parameter {
       case VRML.SFBool:
       case VRML.SFFloat:
       case VRML.SFInt32:
+      case VRML.SFString: // note: when parsing SFStrings the quotation marks are kept, so no need to add it here
         return variable;
-      case VRML.SFString:
-        return '\'' + variable + '\'';
       case VRML.SFVec2f:
         return '{x: ' + variable.x + ', y: ' + variable.y + '}';
       case VRML.SFVec3f:
@@ -134,6 +145,14 @@ export default class Parameter {
         if (typeof variable !== 'undefined')
           console.error('TODO: implement SFNode in _jsifyVariable.');
         return;
+      case VRML.MFString:
+        let a = '[';
+        for (let i = 0; i < variable.length; ++i)
+          a += '\'' + variable[i] + '\', ';
+        if (a.length > 2)
+          a = a.slice(0, -2);
+        a += ']';
+        return a;
       default:
         throw new Error('Unknown type \'' + this.type + '\' in _jsifyVariable.');
     }

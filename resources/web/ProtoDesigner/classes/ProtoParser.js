@@ -19,7 +19,7 @@ export default class ProtoParser {
 
     this.x3dFragments = new Map();
 
-    this.protoDirectory = './examples/protos/';
+    this.protoDirectory = './library/Tinkerbots/';
 
     this.xml = document.implementation.createDocument('', '', null);
     this.nodes = this.xml.createElement('nodes');
@@ -247,7 +247,6 @@ export default class ProtoParser {
     console.log('Raw test of nested proto ' + protoName + ':\n', rawProto);
 
     const nested = new Proto(rawProto); // only parse the header
-
     // add link to nested proto into main proto
 
     // overwrite default nested parameters by consuming parent proto tokens
@@ -441,6 +440,16 @@ export default class ProtoParser {
         value += this.bodyTokenizer.nextWord();
         break;
       case VRML.MFString:
+        if (this.bodyTokenizer.peekWord() !== '[')
+          value = this.bodyTokenizer.nextWord(); // field is MFString, but only 1 element is given
+        else {
+          this.bodyTokenizer.skipToken('[');
+          while (this.bodyTokenizer.peekWord() !== ']')
+            value += this.bodyTokenizer.nextWord() + ' ';
+          value = value.slice(0, -1);
+          this.bodyTokenizer.skipToken(']');
+        }
+        break;
       case VRML.MFInt32:
         while (this.bodyTokenizer.peekWord() !== ']')
           value += this.bodyTokenizer.nextWord() + ' ';

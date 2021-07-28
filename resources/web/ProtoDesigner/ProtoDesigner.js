@@ -86,7 +86,7 @@ class ProtoDesigner {
         //const url = './examples/protos/ProtoIndexedFaceSet.proto';
         //const url = './examples/protos/ProtoSlot.proto';
         //const url = './examples/protos/ProtoSlotContainer.proto';
-        const url = './examples/protos/ProtoWithNested.proto';
+        const url = './library/Tinkerbots/ProtoWithNested.proto';
 
         //const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
 

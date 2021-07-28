@@ -122,6 +122,13 @@ export default class Proto {
           return;
         } else
           console.error('TODO: implement handling of pre-provided SFNode in proto header.');
+      case VRML.MFString:
+        const vector = [];
+        tokenizer.skipToken('[');
+        while(tokenizer.peekWord() !== ']')
+          vector.push(tokenizer.nextWord());
+        tokenizer.skipToken(']');
+        return vector;
       default:
         throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');
     }

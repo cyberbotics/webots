@@ -87,6 +87,8 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
     tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
   }
 
+  printf("%s\n", tags["fields"].toUtf8().constData());
+
   return WbTemplateEngine::generate(tags, logHeaderName, templateLanguage);
 }
 
