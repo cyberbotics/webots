@@ -1,11 +1,10 @@
-import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
-import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
-import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 import {getAnId} from '../../wwi/nodes/utils/utils.js';
 
-import Tokenizer from './Tokenizer.js';
 import {FieldModel} from './FieldModel.js';
+import {ProtoModel} from './ProtoModel.js';
 import {VRML} from './utility/utility.js';
+
+import Proto from './Proto.js';
 
 /*
   Generates an x3d from VRML
@@ -17,6 +16,8 @@ export default class ProtoParser {
     this.parameters = parameters;
     this.x3dNodes = []; // keep track of the x3d nodes
     this.defList = new Map();
+
+    this.protoDirectory = './examples/protos/';
 
     this.xml = document.implementation.createDocument('', '', null);
     this.nodes = this.xml.createElement('nodes');
@@ -44,6 +45,12 @@ export default class ProtoParser {
   };
 
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
+    // check if it's a nested Proto
+    if (typeof ProtoModel[nodeName] !== 'undefined') {
+      this.getRawProto(nodeName, this.encodeNestedProtoAsX3d);
+      return;
+    }
+
     let nodeElement = this.xml.createElement(nodeName);
     console.log('> ' + nodeName + 'Element = xml.createElement(' + nodeName + ')' + ' [parentName=' + parentName + ']');
 
@@ -90,6 +97,13 @@ export default class ProtoParser {
   };
 
   encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
+    // determine if the field references a nested proto
+    if (typeof ProtoModel[nodeName] !== 'undefined') {
+      this.getRawProto(nodeName, this.encodeNestedProtoAsX3d);
+      return;
+    }
+
+    // determine if the field is a VRML node of if it should be consumed
     const fieldType = FieldModel[nodeName]['supported'][fieldName];
     if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[nodeName]['unsupported'][fieldName]; // check if it's one of the unsupported ones instead
@@ -106,7 +120,7 @@ export default class ProtoParser {
       throw new Error('Cannot assign field to node because \'nodeElement\' is not defined.');
 
     // TODO: add  box.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/box');
-
+    /*
     let value = '';
     if (fieldType === VRML.SFBool)
       value += this.bodyTokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
@@ -184,11 +198,94 @@ export default class ProtoParser {
     } else
       throw new Error('Could not encode field \'' + fieldName + '\' (type: ' + fieldType + ') as x3d. Type not handled.');
 
-    if (fieldType !== VRML.SFNode) {
-      nodeElement.setAttribute(fieldName, value);
-      console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
+    */
+
+    if (fieldType === VRML.SFNode) {
+      let imageTextureType;
+      if (this.bodyTokenizer.peekWord() === 'ImageTexture')
+        imageTextureType = this.bodyTokenizer.recallWord(); // remember the type: baseColorMap, roughnessMap, etc
+
+      this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName, alias);
+      // exceptions to the rule. TODO: find a better solution (on webots side)
+      if (typeof imageTextureType !== 'undefined') {
+        const imageTextureElement = nodeElement.lastChild;
+        if (imageTextureType === 'baseColorMap')
+          imageTextureElement.setAttribute('type', 'baseColor');
+        else if (imageTextureType === 'roughnessMap')
+          imageTextureElement.setAttribute('type', 'roughness');
+        else if (imageTextureType === 'metalnessMap')
+          imageTextureElement.setAttribute('type', 'metalness');
+        else if (imageTextureType === 'normalMap')
+          imageTextureElement.setAttribute('type', 'normal');
+        else if (imageTextureType === 'occlusionMap')
+          imageTextureElement.setAttribute('type', 'occlusion');
+        else if (imageTextureType === 'emissiveColorMap')
+          imageTextureElement.setAttribute('type', 'emissiveColor');
+        else
+          throw new Error('Encountered ImageTexture exception but type \'' + imageTextureType + '\' not handled.');
+      }
+    } else {
+      const stringifiedValue = this.stringifyTokenizedValuesByType(fieldType);
+      nodeElement.setAttribute(fieldName, stringifiedValue);
+      console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + stringifiedValue + '\')');
     }
   };
+
+  encodeNestedProtoAsX3d(rawProto, protoName) {
+    console.log('Raw test of nested proto ' + protoName + ':\n', rawProto);
+
+    const nested = new Proto(rawProto); // only parse the header
+
+    // add link to nested proto into main proto
+
+    // overwrite default nested parameters by consuming parent proto tokens
+    this.bodyTokenizer.skipToken('{'); // skip opening bracket
+    while (this.bodyTokenizer.peekWord() !== '}') {
+      const fieldName = this.bodyTokenizer.nextWord();
+
+      // check if the field belongs to the proto and if it's supported retrieve its type
+      const fieldType = ProtoModel[protoName]['supported'][fieldName]; // check if its supported
+      if (typeof fieldType === 'undefined') { // check if its unsupported
+        const fieldType = ProtoModel[protoName]['unsupported'][fieldName]; // check if its unsupported
+        if (typeof fieldType !== 'undefined') {
+          this.bodyTokenizer.consumeTokensByType(fieldType); // if unsupported, just consume the tokens
+          continue;
+        }
+        throw new Error('Cannot encode nested proto ' + protoName + ' because field ' + fieldName + ' is not supported.');
+      }
+
+      // check if the value is provided directly or by IS reference
+      if (this.bodyTokenizer.peekWord() === 'IS') {
+
+      } else {
+        nested.setParameterValueByString()
+      }
+
+
+      //radius IS myRadius
+      //height 2
+
+      const parameter = this.getParameterByName(alias);
+
+      if (typeof parameter === 'undefined')
+        throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
+
+      if (parameter.type === VRML.SFNode && typeof parameter.value !== 'undefined')
+        throw new Error('TODO: parseIS for SFNode not yet implemented');
+
+      const value = parameter.x3dify();
+      if (parameter.type === VRML.SFNode && typeof value !== 'undefined')
+        console.error('Case of SFNodes defined in the header not handled yet.');
+
+      nodeElement.setAttribute(fieldName, value);
+
+
+    }
+
+
+    nested.parseBody();
+
+  }
 
   parseIS(nodeName, fieldName, nodeElement) {
     const refName = this.bodyTokenizer.recallWord(); // get word before the IS token
@@ -287,6 +384,80 @@ export default class ProtoParser {
   encodeMFFieldAsX3d(parentElement, parentName) {
     console.log(parentName);
   }
+
+  getRawProto(protoName, callback) {
+    const file = this.protoDirectory + protoName + '.proto';
+    console.log('Requesting proto: ' + file);
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', file, false);
+    xmlhttp.overrideMimeType('plain/text');
+    xmlhttp.onreadystatechange = async() => {
+      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+        await callback(xmlhttp.responseText, protoName);
+    };
+    xmlhttp.send();
+  };
+
+  stringifyTokenizedValuesByType(type) {
+    let value = '';
+
+    switch (type) {
+      case VRML.SFBool:
+        value += this.bodyTokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
+        break;
+      case VRML.SFString:
+      case VRML.SFFloat:
+      case VRML.SFInt32:
+        value += this.bodyTokenizer.nextWord();
+        break;
+      case VRML.SFVec2f:
+        value += this.bodyTokenizer.nextWord() + ' ';
+        value += this.bodyTokenizer.nextWord();
+        break;
+      case VRML.SFVec3f:
+      case VRML.SFColor:
+        value += this.bodyTokenizer.nextWord() + ' ';
+        value += this.bodyTokenizer.nextWord() + ' ';
+        value += this.bodyTokenizer.nextWord();
+        break;
+      case VRML.SFRotation:
+        value += this.bodyTokenizer.nextWord() + ' ';
+        value += this.bodyTokenizer.nextWord() + ' ';
+        value += this.bodyTokenizer.nextWord() + ' ';
+        value += this.bodyTokenizer.nextWord();
+        break;
+      case VRML.MFString:
+      case VRML.MFInt32:
+        while (this.bodyTokenizer.peekWord() !== ']')
+          value += this.bodyTokenizer.nextWord() + ' ';
+        value = value.slice(0, -1);
+        break;
+      case VRML.MFVec2f: {
+        let ctr = 1;
+        while (this.bodyTokenizer.peekWord() !== ']') {
+          value += this.bodyTokenizer.nextWord();
+          value += (!(ctr % 2) ? ', ' : ' ');
+          ctr = ctr > 1 ? 1 : ++ctr;
+        }
+        value = value.slice(0, -2);
+        break;
+      }
+      case VRML.MFVec3f: {
+        let ctr = 1;
+        while (this.bodyTokenizer.peekWord() !== ']') {
+          value += this.bodyTokenizer.nextWord();
+          value += (!(ctr % 3) ? ', ' : ' ');
+          ctr = ctr > 2 ? 1 : ++ctr;
+        }
+        value = value.slice(0, -2);
+        break;
+      }
+      default:
+        throw new Error('Field type \'' + type + '\' is either unsupported or should not be stringified.')
+    }
+
+    return value;
+  };
 
   getParameterByName(parameterName) {
     for (const value of this.parameters.values()) {

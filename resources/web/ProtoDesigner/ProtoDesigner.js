@@ -69,7 +69,7 @@ class ProtoDesigner {
 
         //const url = '../wwi/Protos/ProtoTestParameters.proto';
         // const url = '../wwi/Protos/ProtoBox.proto';
-        const url = '../wwi/Protos/ProtoTemplate.proto';
+        // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
         //const url = '../wwi/Protos/ProtoTestAll.proto';
         // const url = '../wwi/Protos/ProtoDefUse.proto';
@@ -86,6 +86,7 @@ class ProtoDesigner {
         //const url = './examples/protos/ProtoIndexedFaceSet.proto';
         //const url = './examples/protos/ProtoSlot.proto';
         //const url = './examples/protos/ProtoSlotContainer.proto';
+        const url = './examples/protos/ProtoWithNested.proto';
 
         //const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
 
