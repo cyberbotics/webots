@@ -254,6 +254,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     if (nodeRefs.length === 0 || (nodeRefs.length !== refNames.length))
       console.warn('No nodeRefs links are present for the selected parameter. Was it supposed to?');
 
+    // propagate IS references
     for (let i = 0; i < nodeRefs.length; ++i) {
       if (typeof nodeRefs[i] !== 'undefined' && typeof refNames[i] !== 'undefined') {
         const node = WbWorld.instance.nodes.get(nodeRefs[i]);

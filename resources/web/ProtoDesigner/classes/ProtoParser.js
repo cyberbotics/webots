@@ -15,9 +15,12 @@ export default class ProtoParser {
     this.bodyTokenizer = bodyTokenizer;
     this.parameters = parameters;
     this.x3dNodes = []; // keep track of the x3d nodes
+    this.nestedProtos = []; // keep track of internal nested protos
     this.defList = new Map();
 
     this.x3dFragments = new Map();
+
+    this.aliasLinks = new Map(); // temporary map that keeps track of non-direct IS chains
 
     this.protoDirectory = './library/Tinkerbots/';
 
@@ -43,12 +46,12 @@ export default class ProtoParser {
 
     this.xml = new XMLSerializer().serializeToString(this.xml); // store the raw x3d data only
 
-    console.log(this.xml);
-    // if there were nested protos, include their x3d fragments
+    // if nested protos were present, innest their x3d fragments
+    // TODO: find a way that allows to append the XML directly instead of after the fact
     if (this.x3dFragments.size !== 0) {
       for (const [key, fragment] of this.x3dFragments.entries()) {
-        console.log('Adding fragment (key = ' + key +  '): ' + fragment);
-        this.xml = this.xml.replace('<' + key + '/>', fragment)
+        console.log('Adding fragment (key = ' + key + '): ' + fragment);
+        this.xml = this.xml.replace('<' + key + '/>', fragment);
       }
     }
 
@@ -248,7 +251,7 @@ export default class ProtoParser {
 
     const nested = new Proto(rawProto); // only parse the header
     // add link to nested proto into main proto
-
+    this.nestedProtos.push(nested);
     // overwrite default nested parameters by consuming parent proto tokens
     this.bodyTokenizer.skipToken('{'); // skip opening bracket
     while (this.bodyTokenizer.peekWord() !== '}') {
@@ -276,6 +279,7 @@ export default class ProtoParser {
             const value = parameter.value;
             nested.setParameterValue(field, value); // field here refers to the word before the IS token
             found = true;
+            this.aliasLinks.set(alias, field);
             break;
           }
         }
@@ -289,14 +293,13 @@ export default class ProtoParser {
     // as the header is now updated, the body can be parsed
     nested.parseBody();
 
-    const fragmentId = 'fragment' + protoName;
+    const fragmentId = 'fragment' + protoName + Date.now();
     const fragmentElement = this.xml.createElement(fragmentId);
     parentElement.appendChild(fragmentElement);
 
     const fragment = nested.x3d.replace('<nodes>', '').replace('</nodes>', '');
     this.x3dFragments.set(fragmentId, fragment);
-    this.x3dNodes.concat(nested.x3dNodes);
-
+    this.x3dNodes = this.x3dNodes.concat(nested.x3dNodes);
     this.bodyTokenizer.skipToken('}'); // closing bracket
   }
 

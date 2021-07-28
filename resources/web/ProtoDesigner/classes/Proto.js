@@ -166,7 +166,27 @@ export default class Proto {
     this.x3d = parser.generateX3d();
     this.x3dNodes = parser.x3dNodes;
     console.log('New x3d nodes: ', this.x3dNodes)
-  }
+    this.nestedList = this.nestedList.concat(parser.nestedProtos);
+    console.log('Nested protos: ', this.nestedList);
+
+    // now that the IS references are known for the nested, link them to the main proto
+    for (const parameter of this.parameters.values()) {
+      const alias = parser.aliasLinks.get(parameter.name);
+      if (typeof alias !== 'undefined') {
+        // find parameter among the nested protos that has this alias in the header
+        for (let i = 0; i < this.nestedList.length; ++i) {
+          const nestedProto = this.nestedList[i];
+          for (const nestedParameter of nestedProto.parameters.values()) {
+            if(nestedParameter.name === alias) {
+              // TODO: only add if they dont exist yet
+              parameter.nodeRefs = parameter.nodeRefs.concat(nestedParameter.nodeRefs);
+              parameter.refNames = parameter.refNames.concat(nestedParameter.refNames);
+            }
+          }
+        }
+      }
+    }
+  };
 
   isTemplateRegenerator(parameterName) {
     return this.rawBody.search('fields.' + parameterName + '.') !== -1;
