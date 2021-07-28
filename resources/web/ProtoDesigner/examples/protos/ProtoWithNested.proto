@@ -10,8 +10,8 @@ PROTO ProtoWithNested [
     translation IS translation
     children [
       ProtoCylinder {
-        radius IS myRadius
-        height 2
+        myHeightHeight 2
+        myRadiusRadius IS myRadius
       }
     ]
   }

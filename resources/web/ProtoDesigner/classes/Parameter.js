@@ -2,6 +2,10 @@
 
 import {VRML, vrmlTypeAsString} from './utility/utility.js';
 
+import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
+import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
+import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
+
 export default class Parameter {
   constructor(name, type, isRegenerator, defaultValue, value) {
     this.nodeRefs = []; // a parameter can reference one or more nodes (ex: multiple IS)
@@ -21,6 +25,41 @@ export default class Parameter {
   exportVrml() {
     return 'field ' + vrmlTypeAsString(this.type) + ' ' + this.name + ' ' + this.vrmlify();
   };
+
+  setValueFromString(value) {
+    switch (this.type) {
+      case VRML.SFBool:
+        this.value = value === 'true';
+        break;
+      case VRML.SFFloat:
+        this.value = parseFloat(value);
+        break;
+      case VRML.SFInt32:
+        this.value = parseInt(value);
+        break;
+      case VRML.SFString:
+        this.value = value;
+        break;
+      case VRML.SFVec2f:
+        const v2 = value.split(/\s/);
+        this.value = new WbVector2(parseFloat(v2[0]), parseFloat(v2[1]));
+        break;
+      case VRML.SFVec3f:
+      case VRML.SFColor:
+        const v3 = value.split(/\s/);
+        this.value = new WbVector3(parseFloat(v3[0]), parseFloat(v3[1]), parseFloat(v3[2]));
+        break;
+      case VRML.SFRotation:
+        const v4 = value.split(/\s/);
+        this.value = new WbVector4(parseFloat(v4[0]), parseFloat(v4[1]), parseFloat(v4[2]), parseFloat(v4[3]));
+        break;
+      case VRML.SFNode:
+        console.error('Attempting to set SFNode from string, but not yet implemented.');
+        break;
+      default:
+        throw new Error('Unknown type \'' + this.type + '\' in setValueFromString.');
+    }
+  }
 
   vrmlify() {
     switch (this.type) {

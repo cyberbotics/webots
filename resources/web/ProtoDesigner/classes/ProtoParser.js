@@ -47,7 +47,7 @@ export default class ProtoParser {
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
     // check if it's a nested Proto
     if (typeof ProtoModel[nodeName] !== 'undefined') {
-      this.getRawProto(nodeName, this.encodeNestedProtoAsX3d);
+      this.getRawProto(nodeName, this.encodeNestedProtoAsX3d.bind(this));
       return;
     }
 
@@ -241,50 +241,42 @@ export default class ProtoParser {
     // overwrite default nested parameters by consuming parent proto tokens
     this.bodyTokenizer.skipToken('{'); // skip opening bracket
     while (this.bodyTokenizer.peekWord() !== '}') {
-      const fieldName = this.bodyTokenizer.nextWord();
+      const field = this.bodyTokenizer.nextWord();
 
       // check if the field belongs to the proto and if it's supported retrieve its type
-      const fieldType = ProtoModel[protoName]['supported'][fieldName]; // check if its supported
+      const fieldType = ProtoModel[protoName]['supported'][field]; // check if its supported
       if (typeof fieldType === 'undefined') { // check if its unsupported
-        const fieldType = ProtoModel[protoName]['unsupported'][fieldName]; // check if its unsupported
+        const fieldType = ProtoModel[protoName]['unsupported'][field]; // check if its unsupported
         if (typeof fieldType !== 'undefined') {
           this.bodyTokenizer.consumeTokensByType(fieldType); // if unsupported, just consume the tokens
           continue;
         }
-        throw new Error('Cannot encode nested proto ' + protoName + ' because field ' + fieldName + ' is not supported.');
+        throw new Error('Cannot encode nested proto ' + protoName + ' because field ' + field + ' is not supported.');
       }
 
       // check if the value is provided directly or by IS reference
       if (this.bodyTokenizer.peekWord() === 'IS') {
-
-      } else {
-        nested.setParameterValueByString()
+        this.bodyTokenizer.skipToken('IS');
+        // get current value from proto header
+        const alias = this.bodyTokenizer.nextWord();
+        let found = false;
+        for (const parameter of this.parameters.values()) {
+          if (alias === parameter.name) {
+            const value = parameter.value;
+            nested.setParameterValue(field, value); // field here refers to the word before the IS token
+            found = true;
+            break;
+          }
+        }
+        if (!found)
+          throw new Error('Cannot overwrite the value of parameter ' + alias + ' because it is not in the list of parameters.');
+      } else { // field value is provided directly (i.e read it from the tokenizer)
+        const value = this.stringifyTokenizedValuesByType(fieldType);
+        nested.setParameterValueFromString(field, value);
       }
 
-
-      //radius IS myRadius
-      //height 2
-
-      const parameter = this.getParameterByName(alias);
-
-      if (typeof parameter === 'undefined')
-        throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
-
-      if (parameter.type === VRML.SFNode && typeof parameter.value !== 'undefined')
-        throw new Error('TODO: parseIS for SFNode not yet implemented');
-
-      const value = parameter.x3dify();
-      if (parameter.type === VRML.SFNode && typeof value !== 'undefined')
-        console.error('Case of SFNodes defined in the header not handled yet.');
-
-      nodeElement.setAttribute(fieldName, value);
-
-
-    }
-
-
-    nested.parseBody();
-
+      // as the header is now updated, the body can be parsed
+      nested.parseBody();
   }
 
   parseIS(nodeName, fieldName, nodeElement) {

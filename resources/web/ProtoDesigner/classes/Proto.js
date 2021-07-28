@@ -178,6 +178,32 @@ export default class Proto {
 
   };
 
+  setParameterValue(parameterName, value) {
+    // ensure parameter exists
+    for (const [key, parameter] of this.parameters.entries()) {
+      if(parameter.name === parameterName) {
+        parameter.value = value;
+        console.log('overwriting value of parameter ' + parameterName + ' with ', value);
+        return;
+      }
+    }
+
+    throw new Error('Cannot set parameter ' + parameterName + ' (value = ', value, ') because it is not a parameter of proto ' + this.protoName);
+  }
+
+  setParameterValueFromString(parameterName, value) {
+    // ensure parameter exists
+    for (const [key, parameter] of this.parameters.entries()) {
+      if(parameter.name === parameterName) {
+        parameter.setValueFromString(value);
+        console.log('overwriting value of parameter ' + parameterName + ' with ' + value);
+        return;
+      }
+    }
+
+    throw new Error('Cannot set parameter ' + parameterName + ' (value =' + value + ') because it is not a parameter of proto ' + this.protoName);
+  }
+
   clearReferences() {
     this.nestedList = [];
     this.linkedList = [];
