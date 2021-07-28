@@ -98,8 +98,8 @@ if not releaseExists:
                                     release_name=title,
                                     release_message=message,
                                     object=options.commit,
-                                    draft=draft,
                                     type='commit',
+                                    draft=draft,
                                     prerelease=True)
 
 for release in repo.get_releases():
