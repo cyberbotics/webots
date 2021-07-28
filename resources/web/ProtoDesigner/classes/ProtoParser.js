@@ -17,6 +17,8 @@ export default class ProtoParser {
     this.x3dNodes = []; // keep track of the x3d nodes
     this.defList = new Map();
 
+    this.x3dFragments = new Map();
+
     this.protoDirectory = './examples/protos/';
 
     this.xml = document.implementation.createDocument('', '', null);
@@ -40,6 +42,16 @@ export default class ProtoParser {
     }
 
     this.xml = new XMLSerializer().serializeToString(this.xml); // store the raw x3d data only
+
+    console.log(this.xml);
+    // if there were nested protos, include their x3d fragments
+    if (this.x3dFragments.size !== 0) {
+      for (const [key, fragment] of this.x3dFragments.entries()) {
+        console.log('Adding fragment (key = ' + key +  '): ' + fragment);
+        this.xml = this.xml.replace('<' + key + '/>', fragment)
+      }
+    }
+
     console.log('Generated x3d:\n', this.xml);
     return this.xml;
   };
@@ -47,7 +59,7 @@ export default class ProtoParser {
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
     // check if it's a nested Proto
     if (typeof ProtoModel[nodeName] !== 'undefined') {
-      this.getRawProto(nodeName, this.encodeNestedProtoAsX3d.bind(this));
+      this.getRawProto(nodeName, parentElement, this.encodeNestedProtoAsX3d.bind(this));
       return;
     }
 
@@ -99,7 +111,7 @@ export default class ProtoParser {
   encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
     // determine if the field references a nested proto
     if (typeof ProtoModel[nodeName] !== 'undefined') {
-      this.getRawProto(nodeName, this.encodeNestedProtoAsX3d);
+      this.getRawProto(nodeName, this.encodeNestedProtoAsX3d, nodeElement);
       return;
     }
 
@@ -231,7 +243,7 @@ export default class ProtoParser {
     }
   };
 
-  encodeNestedProtoAsX3d(rawProto, protoName) {
+  encodeNestedProtoAsX3d(rawProto, protoName, parentElement) {
     console.log('Raw test of nested proto ' + protoName + ':\n', rawProto);
 
     const nested = new Proto(rawProto); // only parse the header
@@ -274,9 +286,19 @@ export default class ProtoParser {
         const value = this.stringifyTokenizedValuesByType(fieldType);
         nested.setParameterValueFromString(field, value);
       }
+    }
+    // as the header is now updated, the body can be parsed
+    nested.parseBody();
 
-      // as the header is now updated, the body can be parsed
-      nested.parseBody();
+    const fragmentId = 'fragment' + protoName;
+    const fragmentElement = this.xml.createElement(fragmentId);
+    parentElement.appendChild(fragmentElement);
+
+    const fragment = nested.x3d.replace('<nodes>', '').replace('</nodes>', '');
+    this.x3dFragments.set(fragmentId, fragment);
+    this.x3dNodes.concat(nested.x3dNodes);
+
+    this.bodyTokenizer.skipToken('}'); // closing bracket
   }
 
   parseIS(nodeName, fieldName, nodeElement) {
@@ -377,7 +399,7 @@ export default class ProtoParser {
     console.log(parentName);
   }
 
-  getRawProto(protoName, callback) {
+  getRawProto(protoName, parentElement, callback) {
     const file = this.protoDirectory + protoName + '.proto';
     console.log('Requesting proto: ' + file);
     const xmlhttp = new XMLHttpRequest();
@@ -385,7 +407,7 @@ export default class ProtoParser {
     xmlhttp.overrideMimeType('plain/text');
     xmlhttp.onreadystatechange = async() => {
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-        await callback(xmlhttp.responseText, protoName);
+        await callback(xmlhttp.responseText, protoName, parentElement);
     };
     xmlhttp.send();
   };

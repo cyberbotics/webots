@@ -252,7 +252,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     const refNames = this.parameter.refNames;
 
     if (nodeRefs.length === 0 || (nodeRefs.length !== refNames.length))
-      console.warn('No nodeRefs links are present for the selected paramter. Was it supposed to?');
+      console.warn('No nodeRefs links are present for the selected parameter. Was it supposed to?');
 
     for (let i = 0; i < nodeRefs.length; ++i) {
       if (typeof nodeRefs[i] !== 'undefined' && typeof refNames[i] !== 'undefined') {
