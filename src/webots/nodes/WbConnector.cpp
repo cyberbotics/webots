@@ -959,9 +959,9 @@ void WbConnector::createWrenObjects() {
     wr_material_set_default_program(mMaterial[i], WbWrenShaders::lineSetShader());
   }
 
-  const float axesCoordinates[2][6] = {{0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f}};
+  const float axesCoordinates[2][6] = {{0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f}};
 
-  // Axes (Y & Z only) //TODO
+  // Axes (X & Z only)
   for (int i = 0; i < 2; ++i) {
     mAxisMesh[i] = wr_static_mesh_line_set_new(2, axesCoordinates[i], NULL);
 
