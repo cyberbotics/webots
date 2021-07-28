@@ -95,8 +95,8 @@ namespace wren {
     if (!mIsViewDirty)
       return;
 
-    mUp = orientation() * gVec3UnitY;
-    mForward = orientation() * -gVec3UnitZ;
+    mUp = orientation() * gVec3UnitZ;
+    mForward = orientation() * gVec3UnitX;
     mRight = glm::cross(mForward, mUp);
 
     mMatrices.mView = glm::lookAt(position(), position() + mForward, mUp);
