@@ -25,7 +25,11 @@
 class WbWebPage : public QWebPage {
   Q_OBJECT
 public:
-  explicit WbWebPage(QObject *parent = NULL) : QWebPage(parent) {}
+  explicit WbWebPage(QObject *parent = NULL) : QWebPage(parent) {
+#ifndef _WIN32
+    connect(this, &WbWebPage::linkHovered, this, &WbWebPage::externalLinkHovered);
+#endif
+  }
   virtual ~WbWebPage() {}
 
 protected:
@@ -34,6 +38,14 @@ protected:
 #else
   void javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level, const QString &message, int lineNumber,
                                 const QString &sourceID) override;
+  WbWebPage *createWindow(QWebEnginePage::WebWindowType type) override;
+  bool acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame) override;
+
+protected slots:
+  void externalLinkHovered(const QString &url);
+
+private:
+  QString mHoveredLink;
 #endif
 };
 

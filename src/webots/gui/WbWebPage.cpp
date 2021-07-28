@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "WbDesktopServices.hpp"
 #include "WbWebPage.hpp"
 
 #include "WbLog.hpp"
@@ -26,5 +27,24 @@ void WbWebPage::javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level, co
   if (sourceID.endsWith("qwebchannel.js"))
     return;  // Do not display qwebchannel.js logs because it contains pointless logs, and issues in this files are bugs.
   WbLog::javascriptLogToConsole(message, lineNumber, sourceID);
+}
+
+void WbWebPage::externalLinkHovered(const QString &url) {
+  mHoveredLink = url;
+}
+
+WbWebPage *WbWebPage::createWindow(QWebEnginePage::WebWindowType type) {
+  // Reimplement to not create a new window when clicking on links but open it with the system default URL handler
+  WbDesktopServices::openUrl(mHoveredLink);
+  return NULL;
+}
+
+bool WbWebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame) {
+  if (type == QWebEnginePage::NavigationTypeLinkClicked && !url.isRelative()) {
+    // Send the URL to the system default URL handler
+    WbDesktopServices::openUrl(url.toString());
+    return false;
+  }
+  return QWebEnginePage::acceptNavigationRequest(url, type, isMainFrame);
 }
 #endif
