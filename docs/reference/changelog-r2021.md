@@ -1,7 +1,7 @@
 # Webots R2021 Change Log
 
 ## Webots R2021c
-Released on September, 30th, 2021.
+Released on XX, XXth, 2021.
 
   - Dependency Updates
     - **Stopped support for Ubuntu 16.04 ([#3480](https://github.com/cyberbotics/webots/pull/3480)).**
