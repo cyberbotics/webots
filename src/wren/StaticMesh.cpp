@@ -31,6 +31,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <iostream>
+
 namespace wren {
 
   std::unordered_map<cache::Key, cache::MeshData> StaticMesh::cCache;
@@ -567,7 +569,7 @@ namespace wren {
       for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
           const float h = heightData[dimensionX * yi + xi];
-          mesh->addCoord(glm::vec3(spacingX * xi, -spacingY * yi, h));
+          mesh->addCoord(glm::vec3(spacingX * xi, spacingY * yi, h));
 
           const int index = yi * dimensionX + xi;
           if (xi < dimensionX - 1) {
@@ -597,10 +599,10 @@ namespace wren {
         mesh->addCoord(glm::vec3(0, 0, heightData[0]));
         mesh->addCoord(glm::vec3(xMax, 0, bottom));
         mesh->addCoord(glm::vec3(xMax, 0, heightData[dimensionX - 1]));
-        mesh->addCoord(glm::vec3(xMax, -yMax, bottom));
-        mesh->addCoord(glm::vec3(xMax, -yMax, heightData[(dimensionY - 1) * dimensionX + (dimensionX - 1)]));
-        mesh->addCoord(glm::vec3(0, -yMax, bottom));
-        mesh->addCoord(glm::vec3(0, -yMax, heightData[(dimensionY - 1) * dimensionX]));
+        mesh->addCoord(glm::vec3(xMax, yMax, bottom));
+        mesh->addCoord(glm::vec3(xMax, yMax, heightData[(dimensionY - 1) * dimensionX + (dimensionX - 1)]));
+        mesh->addCoord(glm::vec3(0, yMax, bottom));
+        mesh->addCoord(glm::vec3(0, yMax, heightData[(dimensionY - 1) * dimensionX]));
 
         const int index = (dimensionX * dimensionY);
         mesh->addIndex(index);
@@ -627,7 +629,8 @@ namespace wren {
 
       for (int yi = 0; yi < dimensionY; ++yi) {
         for (int xi = 0; xi < dimensionX; ++xi) {
-          mesh->addCoord(glm::vec3(spacingX * xi, -spacingY * yi, heightData[dimensionX * yi + xi]));
+          mesh->addCoord(
+            glm::vec3(spacingX * xi, spacingY * (dimensionY - 1 - yi), heightData[dimensionX * (dimensionY - 1 - yi) + xi]));
           mesh->addTexCoord(glm::vec2(du * xi, dv * yi));
           mesh->addUnwrappedTexCoord(glm::vec2(du * xi, dv * yi));
         }
