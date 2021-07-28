@@ -117,7 +117,7 @@ private:
   double findClosestRotationalAlignment(double alpha) const;
   void snapXAxes(WbConnector *other, dQuaternion q);
   void snapOrigins(WbConnector *other);
-  void snapRotation(WbConnector *other, const WbVector3 &y1, const WbVector3 &y2);
+  void snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2);
   void rotateBodies(WbConnector *other, const dQuaternion q);
   void getOriginInWorldCoordinates(double out[3]) const;
   void snapNow(WbConnector *other);
