@@ -104,13 +104,9 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
 #elif __APPLE__
-  if (std::getenv("PWD")) {
+  if (std::getenv("PWD"))
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
-    if (shortVersion.isEmpty()) {
-      pythonCommand = "!";
-      WbLog::warning(QObject::tr("Python was not found.\n") + advice);
-    }
-  } else {
+  else {
     if (pythonCommand == "python" || pythonCommand == "python3") {
       pythonCommand = findWorkingPythonPath("3.8", env, false);
       shortVersion = "38";
@@ -131,15 +127,14 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     } else if (pythonCommand == "python3.9") {
       pythonCommand = findWorkingPythonPath("3.9", env, true);
       shortVersion = "39";
-    } else {
+    } else
       shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
-      if (shortVersion.isEmpty())
-        pythonCommand = "!";
-    }
-
-    if (pythonCommand == "!")
-      WbLog::warning(QObject::tr("Python was not found.\n") + advice);
   }
+  if (shortVersion.isEmpty())
+    pythonCommand = "!";
+
+  if (pythonCommand == "!")
+    WbLog::warning(QObject::tr("Python was not found.\n") + advice);
 #else  // Linux
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
