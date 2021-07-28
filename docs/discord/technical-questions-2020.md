@@ -35174,7 +35174,7 @@ Please have a look at our tutorials to better understand how to build models usi
 
 The same structure applies also for obstacles and not only for robots
 
-##### Dendrik Rendar 09/02/2020 18:59:24
+##### Kel Guerin 09/02/2020 18:59:24
 Hi All, I'm having trouble importing a VRML2.0 file into my simulation. Its a fairly large (120Mb) file of a CNC machine tool, and I am getting this error several times when it imports: `ERROR: '~/Desktop/Haas Lathe ST10-15_1.wrl':3166555:1: error: Skipped unknown 'Separator' node or PROTO.` Any help would be much appreciated!
 
 
@@ -40296,7 +40296,7 @@ and change softCFM to 0
 
 `@Justin Fisher` We are quite busy at the moment so we don't have time to look at this issue right now given that it is not a blocking issue. But you should definitevely report it on GitHub.
 
-##### Dendrik Rendar 10/01/2020 16:18:55
+##### Kel Guerin 10/01/2020 16:18:55
 Hi All,
 
 I have a question about setting the position of an object. I have a robot with a gripper attached, which I create as an object in python with 
@@ -40322,7 +40322,7 @@ obj\_pos.setSFRotation(self.gripper.getOrientation())
 From what I understand, this should work, and **setting the position works fine**. The orientation doesn't throw an error, but doesn't do anything - well, the part does not change its orientation, but it changes position differently, almost as if it is being rotated around a different center. Am I missing something? Thanks!
 
 ##### Darko Lukić [Cyberbotics] 10/01/2020 16:29:41
-`@Dendrik Rendar` `self.gripper.getOrientation()` returns rotation matrix (3x3) while `obj_pos.setSFRotation` expects axis-angle (vector of size 4)
+`@Kel Guerin` `self.gripper.getOrientation()` returns rotation matrix (3x3) while `obj_pos.setSFRotation` expects axis-angle (vector of size 4)
 
 ##### Luftwaffel [Moderator] 10/01/2020 16:30:41
 [https://matthew-brett.github.io/transforms3d/](https://matthew-brett.github.io/transforms3d/) this can help a lot
@@ -40330,7 +40330,7 @@ From what I understand, this should work, and **setting the position works fine*
 
 or you retrieve the rotation field of the gripper, to get the axis angle
 
-##### Dendrik Rendar 10/01/2020 16:32:47
+##### Kel Guerin 10/01/2020 16:32:47
 Thanks `@Darko Lukić` , thats what I assumed. But it doesn't throw an error, so I figured it was overloaded to accept a rotation matrix as well. `@Luftwaffel` I'll take a look!
 
 
@@ -40339,7 +40339,7 @@ Thanks `@Darko Lukić` , thats what I assumed. But it doesn't throw an error, so
 ##### Luftwaffel [Moderator] 10/01/2020 16:36:00
 webots basically does not use quaternion. it's axis angles and rotation matrices
 
-##### Dendrik Rendar 10/01/2020 16:36:19
+##### Kel Guerin 10/01/2020 16:36:19
 So `@Luftwaffel` from what you said, I could do:
 
 ```field = gripper.getField('rotation')
@@ -40349,21 +40349,21 @@ obj\_ori.setSFRotation(field.getSFRotation())
 ?
 
 ##### Darko Lukić [Cyberbotics] 10/01/2020 16:36:34
-`@Dendrik Rendar` You can use `wb_supervisor_field_get_sf_rotation` ([https://cyberbotics.com/doc/reference/supervisor?tab-language=c#wb\_supervisor\_field\_get\_sf\_rotation](https://cyberbotics.com/doc/reference/supervisor?tab-language=c#wb_supervisor_field_get_sf_rotation)) to set axis-angle.
+`@Kel Guerin` You can use `wb_supervisor_field_get_sf_rotation` ([https://cyberbotics.com/doc/reference/supervisor?tab-language=c#wb\_supervisor\_field\_get\_sf\_rotation](https://cyberbotics.com/doc/reference/supervisor?tab-language=c#wb_supervisor_field_get_sf_rotation)) to set axis-angle.
 
-##### Dendrik Rendar 10/01/2020 16:40:59
+##### Kel Guerin 10/01/2020 16:40:59
 `@Darko Lukić` so I tried using the gripper's rotation field in that manner, but it returns a different rotation, like it's rotation in robot end effector coordinates (so basically [1.0, 0.0, 0.0, -1.5707], which never changes ) instead of its global coordination rotation.
 
 ##### Luftwaffel [Moderator] 10/01/2020 16:41:35
 the easiest will be to just use transforms3d
 
-##### Dendrik Rendar 10/01/2020 16:42:05
+##### Kel Guerin 10/01/2020 16:42:05
 `@Luftwaffel` and convert the rotation matrix to the axis angle
 
 ##### Luftwaffel [Moderator] 10/01/2020 16:42:10
 yes
 
-##### Dendrik Rendar 10/01/2020 16:42:29
+##### Kel Guerin 10/01/2020 16:42:29
 `@Luftwaffel` ok, I will do that, and get back to you. Thanks so much!
 
 ##### Darko Lukić [Cyberbotics] 10/01/2020 16:59:35
@@ -40389,7 +40389,7 @@ obj_pos.setSFRotation(rotation)
 
 might have to reshape the getOrientation though
 
-##### Dendrik Rendar 10/01/2020 17:17:54
+##### Kel Guerin 10/01/2020 17:17:54
 `@Luftwaffel` You also have to reshape the output from the axangles call. This works, although it sets the part to exactly 90 deg off from where it should be, but then follows the orientation of the gripper.
 
 ```            ori = self.gripper.getOrientation()
@@ -40408,7 +40408,7 @@ However this still causes the part to move around. Do I need to multiply my tran
 ##### Luftwaffel [Moderator] 10/01/2020 17:18:41
 dont use EULER!!!!
 
-##### Dendrik Rendar 10/01/2020 17:18:42
+##### Kel Guerin 10/01/2020 17:18:42
 Sorry for `self.object_rot_interfaces[self.current_part].setSFRotation(axang)` I have an array of parts I am moving
 
 ##### Luftwaffel [Moderator] 10/01/2020 17:18:50
@@ -40420,7 +40420,7 @@ in general you should avoid euler angles. they can have singularities and your c
 
 what exactly is it, that you are trying to do?
 
-##### Dendrik Rendar 10/01/2020 17:20:38
+##### Kel Guerin 10/01/2020 17:20:38
 Sorry, this is what I ment to paste in:
 
 ```ori = self.gripper.getOrientation()
@@ -40442,13 +40442,13 @@ There are multiple parts, hence the array of orientation fields in that last lin
 ##### Luftwaffel [Moderator] 10/01/2020 17:24:02
 why not attach the gripper to the robot?
 
-##### Dendrik Rendar 10/01/2020 17:24:22
+##### Kel Guerin 10/01/2020 17:24:22
 It is attached, its a child of the tool slot
 
 ##### Luftwaffel [Moderator] 10/01/2020 17:24:24
 oh you wanna 'virtually' grap the object
 
-##### Dendrik Rendar 10/01/2020 17:24:27
+##### Kel Guerin 10/01/2020 17:24:27
 yup
 
 
@@ -40475,13 +40475,13 @@ that global offset you can add to the position of the gripper
 
 v\_o here would be 0.2 m offset in z-axis direction
 
-##### Dendrik Rendar 10/01/2020 17:29:02
+##### Kel Guerin 10/01/2020 17:29:02
 That makes perfect sense. Ok, will do
 
 ##### Justin Fisher 10/01/2020 17:35:14
 Something else you might consider to simulate gripping by using supervisor functions to spawn a new part of your robot to be the "gripped" object, while removing the node from the scenetree that got gripped.  That way you can have your gripped object just be translated relative to your gripper, and you won't have to translate/rotate it in global coordinates.  (If you do the reverse operation to release the object though, then you may need to decide what rotation to have it be at when you release it.)
 
-##### Dendrik Rendar 10/01/2020 17:39:32
+##### Kel Guerin 10/01/2020 17:39:32
 Thats an awesome idea `@Justin Fisher` , do you mind pointing me to the code for spawning and removing objects?
 
 ##### Justin Fisher 10/01/2020 17:49:57
@@ -40510,7 +40510,7 @@ This spawns a new instance of a GoldCoin proto that I created separately, and se
 Thank you for the support with the 3D LiDAR. I will implement it and report the results!
 
 ##### Justin Fisher 10/01/2020 18:03:27
-`@Dendrik Rendar` If you don't need to dynamically change any properties of the object you're spawning (you might not if you always want it to appear with a fixed translation and rotation with respect to your gripper), then you could just build a copy of that object as a child of your gripper, hit export to save that as a file, and then use gripper\_children\_field.importMFNode(-1, "exported\_filename.wbo") to spawn it.  Importing from string (as in the example I pasted in above) is often better if you do want to dynamically change some properties of the thing you're spawning.
+`@Kel Guerin` If you don't need to dynamically change any properties of the object you're spawning (you might not if you always want it to appear with a fixed translation and rotation with respect to your gripper), then you could just build a copy of that object as a child of your gripper, hit export to save that as a file, and then use gripper\_children\_field.importMFNode(-1, "exported\_filename.wbo") to spawn it.  Importing from string (as in the example I pasted in above) is often better if you do want to dynamically change some properties of the thing you're spawning.
 
 
 (In case you're curious, when my students' robots accomplish some objectives, I use the code I pasted in above to flip a spinning celebratory gold coin up in the air, sort of like in Super Mario Brothers.  The coin looks quite a lot like my discord avatar picture, which is also a sort of depiction of their robots.)
@@ -40552,7 +40552,7 @@ It's possible that someone here will know an answer, but my guess is that you'd 
 
 > From what I understand, this should work, and **setting the position works fine**. The orientation doesn't throw an error, but doesn't do anything - well, the part does not change its orientation, but it changes position differently, almost as if it is being rotated around a different center. Am I missing something? Thanks!
 
-`@Dendrik Rendar`: note that `getOrientation()` returns the global orientation expressed as a 3x3 rotation matrix whereas the rotation field is a local orientation expressed as an axis angle representation.
+`@Kel Guerin`: note that `getOrientation()` returns the global orientation expressed as a 3x3 rotation matrix whereas the rotation field is a local orientation expressed as an axis angle representation.
 
 ##### eeeloisee 10/02/2020 09:38:31
 Hi everyone. Quick question, is there a specific screen display resolution that Webots prefers? I can't seem to see the simulation timer at the top. Perhaps is there a setting for this? 
@@ -40859,14 +40859,14 @@ Yes, you should offset the `boundingObject` with a `Transform` node and manually
 ##### Hanuman 10/05/2020 19:27:25
 `@Olivier Michel`  how to import Blender file into webots as a world?
 
-##### Dendrik Rendar 10/05/2020 23:34:53
+##### Kel Guerin 10/05/2020 23:34:53
 `@Olivier Michel` `@Justin Fisher` `@Luftwaffel` `@Darko Lukić` thanks all for the help, it's working now!
 
 
 Another question... I am trying to get my external controller (python) to start when the simulation is loaded or restarted. I have read this: [https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=linux](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=linux) which doesn't explicitely discribe this, but I feel like its possible, because in the ABB demo you see a command line call to python to load a "valve\_turner" controller in the Webots console output. Right now I am starting the controller from a seperate terminal, and of course it gets killed when the simulation is reset or reloaded. It would be amazing if it was started again when the sim is started.
 
 ##### Olivier Michel [Cyberbotics] 10/06/2020 06:25:05
-`@Dendrik Rendar`: In that case, you should a normal controller, not an extern controller and it will be restarted automatically when the simulation restarts. Another option is to have a script that launches repeatedly your extern controller in a loop: as soon as it quits (because of Webots reload), it gets restarted again. Would that suit your need?
+`@Kel Guerin`: In that case, you should a normal controller, not an extern controller and it will be restarted automatically when the simulation restarts. Another option is to have a script that launches repeatedly your extern controller in a loop: as soon as it quits (because of Webots reload), it gets restarted again. Would that suit your need?
 
 
 `@Hanuman`: you should export it as VRML97 and import it in Webots. See also this: [https://github.com/cyberbotics/blender-webots-exporter](https://github.com/cyberbotics/blender-webots-exporter). Another option is to export the 3D model in another 3D format and import it in Webots as a Mesh node, see [https://cyberbotics.com/doc/reference/mesh](https://cyberbotics.com/doc/reference/mesh) for the supported formats.
