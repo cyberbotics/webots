@@ -111,11 +111,11 @@ private:
   bool isCompatibleWith(const WbConnector *other) const;
   double getDistance2(const WbConnector *other) const;
   bool isAlignedWith(const WbConnector *other) const;
+  bool isXAlignedWith(const WbConnector *other) const;
   bool isZAlignedWith(const WbConnector *other) const;
-  bool isYAlignedWith(const WbConnector *other) const;
   void detachIfForceExceedStrength();
   double findClosestRotationalAlignment(double alpha) const;
-  void snapZAxes(WbConnector *other, dQuaternion q);
+  void snapXAxes(WbConnector *other, dQuaternion q);
   void snapOrigins(WbConnector *other);
   void snapRotation(WbConnector *other, const WbVector3 &y1, const WbVector3 &y2);
   void rotateBodies(WbConnector *other, const dQuaternion q);
