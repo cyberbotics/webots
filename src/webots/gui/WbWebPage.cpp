@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbDesktopServices.hpp"
 #include "WbWebPage.hpp"
 
+#include "WbDesktopServices.hpp"
 #include "WbLog.hpp"
 
 #ifdef _WIN32
