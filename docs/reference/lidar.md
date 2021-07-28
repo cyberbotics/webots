@@ -25,7 +25,7 @@ Lidar {
 
 ### Description
 
-%figure "Lidar"
+%figure "Lidar Image"
 
 ![lidar.png](images/lidar.thumbnail.png)
 
