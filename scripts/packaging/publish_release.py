@@ -98,6 +98,7 @@ if not releaseExists:
                                     release_name=title,
                                     release_message=message,
                                     object=options.commit,
+                                    draft=draft,
                                     type='commit',
                                     prerelease=True)
 
