@@ -93,35 +93,13 @@ for release in repo.get_releases():
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tagName, options.commit))
     draft = False if tagName.startswith('nightly_') else True
-    tagExists = False
-    for tag in repo.get_tags():
-        if tag.title == tagName:
-            tagExists = True
-            break
-
-    if tagExists:
-        print('Tag "%s" already exists.' % (tagName))
-        try:
-            repo.create_git_release(tag=tagName,
-                                    name=title,
-                                    message=message,
-                                    draft=draft,
-                                    prerelease=True,
-                                    target_commitish=options.commit)
-        except GithubException as e:
-            print('Creation of release failed: ', e.data)
-    else:
-        try:
-            repo.create_git_tag_and_release(tag=tagName,
-                                            tag_message=title,
-                                            release_name=title,
-                                            release_message=message,
-                                            object=options.commit,
-                                            type='commit',
-                                            draft=draft,
-                                            prerelease=True)
-        except GithubException as e:
-            print('Creation of tag and release failed: ', e.data)
+    repo.create_git_tag_and_release(tag=tagName,
+                                    tag_message=title,
+                                    release_name=title,
+                                    release_message=message,
+                                    object=options.commit,
+                                    type='commit',
+                                    prerelease=True)
 
 for release in repo.get_releases():
     if release.title == title:
