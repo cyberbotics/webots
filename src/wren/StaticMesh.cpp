@@ -31,8 +31,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include <iostream>
-
 namespace wren {
 
   std::unordered_map<cache::Key, cache::MeshData> StaticMesh::cCache;

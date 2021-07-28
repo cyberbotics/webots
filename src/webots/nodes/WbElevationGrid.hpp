@@ -45,7 +45,7 @@ public:
   double heightRange() const { return mMaxHeight - mMinHeight; }
   // setters
   void setXspacing(double x) { mXSpacing->setValue(x); }
-  void setYspacing(double z) { mYSpacing->setValue(z); }
+  void setYspacing(double y) { mYSpacing->setValue(y); }
   void setHeightScaleFactor(double ratio) { mHeight->multiplyAllItems(ratio); }
 
   // reimplemented public functions

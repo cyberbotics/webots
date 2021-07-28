@@ -209,10 +209,10 @@ bool WbElevationGrid::sanitizeFields() {
 
 void WbElevationGrid::checkHeight() {
   const int xd = mXDimension->value();
-  const int zd = mYDimension->value();
-  const int xdzd = xd * zd;
+  const int yd = mYDimension->value();
+  const int xdyd = xd * yd;
 
-  const int extra = mHeight->size() - xdzd;
+  const int extra = mHeight->size() - xdyd;
   if (extra > 0)
     parsingWarn(tr("'height' contains %1 ignored extra value(s).").arg(extra));
 
@@ -222,7 +222,7 @@ void WbElevationGrid::checkHeight() {
   mHeight->findMinMax(&mMinHeight, &mMaxHeight);
 
   // adjust min/max height if height field is not complete
-  if (mHeight->size() < xdzd) {
+  if (mHeight->size() < xdyd) {
     if (mMinHeight > 0.0)
       mMinHeight = 0.0;
     if (mMaxHeight < 0.0)
@@ -405,16 +405,16 @@ bool WbElevationGrid::setOdeHeightfieldData() {
     return false;
 
   const int xd = mXDimension->value();
-  const int zd = mYDimension->value();
-  const int xdzd = xd * zd;
+  const int yd = mYDimension->value();
+  const int xdyd = xd * yd;
   // Creates height field data
   delete[] mData;
-  mData = new double[xdzd];
-  memset(mData, 0, xdzd * sizeof(double));
-  mHeight->copyItemsTo(mData, xdzd);
+  mData = new double[xdyd];
+  memset(mData, 0, xdyd * sizeof(double));
+  mHeight->copyItemsTo(mData, xdyd);
   if (mHeightfieldData == NULL)
     mHeightfieldData = dGeomHeightfieldDataCreate();
-  dGeomHeightfieldDataBuildDouble(mHeightfieldData, mData, false, scaledWidth(), scaledDepth(), xd, zd, heightScaleFactor(),
+  dGeomHeightfieldDataBuildDouble(mHeightfieldData, mData, false, scaledWidth(), scaledDepth(), xd, yd, heightScaleFactor(),
                                   0.0, mThickness->value(), false);
 
   // This should improve performance and allow the heightmap to be rotated
@@ -446,7 +446,7 @@ double WbElevationGrid::scaledWidth() const {
 }
 
 double WbElevationGrid::scaledDepth() const {
-  return fabs(absoluteScale().z() * depth());
+  return fabs(absoluteScale().y() * depth());
 }
 
 bool WbElevationGrid::isSuitableForInsertionInBoundingObject(bool warning) const {
@@ -487,10 +487,10 @@ bool WbElevationGrid::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int text
     return false;
 
   const double sizeX = scaledWidth();
-  const double sizeZ = scaledDepth();
+  const double sizeY = scaledDepth();
 
   const double u = (double)localCollisionPoint.x() / sizeX;
-  const double v = (double)localCollisionPoint.z() / sizeZ;
+  const double v = (double)localCollisionPoint.y() / sizeY;
 
   // result
   uv.setXy(u, v);
@@ -504,12 +504,12 @@ double WbElevationGrid::computeDistance(const WbRay &ray) const {
 
 double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &localCollisionPoint) const {
   double dx = mXSpacing->value() * absoluteScale().x();
-  double dz = mYSpacing->value() * absoluteScale().z();
+  double dy = mYSpacing->value() * absoluteScale().y();
   int numX = mXDimension->value();
-  int numZ = mYDimension->value();
+  int numY = mYDimension->value();
   double minDistance = std::numeric_limits<double>::infinity();
 
-  int size = numX * numZ;
+  int size = numX * numY;
   double *data = new double[size];
   memset(data, 0, size * sizeof(double));
   mHeight->copyItemsTo(data, size);
@@ -524,12 +524,12 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
     localRay.normalize();
   }
 
-  for (int z = 0; z < (numZ - 1); z++) {
+  for (int y = 0; y < (numY - 1); y++) {
     for (int x = 0; x < (numX - 1); x++) {
-      WbVector3 vertexA(x * dx, data[z * numX + x] * absoluteScale().y(), z * dz);
-      WbVector3 vertexB(x * dx, data[(z + 1) * numX + x] * absoluteScale().y(), (z + 1) * dz);
-      WbVector3 vertexC((x + 1) * dx, data[z * numX + x + 1] * absoluteScale().y(), z * dz);
-      WbVector3 vertexD((x + 1) * dx, data[(z + 1) * numX + x + 1] * absoluteScale().y(), (z + 1) * dz);
+      WbVector3 vertexA(x * dx, y * dy, data[y * numX + x] * absoluteScale().z());
+      WbVector3 vertexB(x * dx, (y + 1) * dy, data[(y + 1) * numX + x] * absoluteScale().z());
+      WbVector3 vertexC((x + 1) * dx, y * dy, data[y * numX + x + 1] * absoluteScale().z());
+      WbVector3 vertexD((x + 1) * dx, (y + 1) * dy, data[(y + 1) * numX + x + 1] * absoluteScale().z());
 
       // first triangle: ABC
       WbAffinePlane plane(vertexA, vertexB, vertexC);
@@ -538,7 +538,7 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexA.x() && p.x() <= vertexC.x() && p.z() >= vertexA.z() && p.z() <= vertexB.z()) {
+        if (p.x() >= vertexA.x() && p.x() <= vertexC.x() && p.y() >= vertexA.y() && p.y() <= vertexB.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
@@ -552,7 +552,7 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.z() >= vertexC.z() && p.z() <= vertexD.z()) {
+        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.y() >= vertexC.y() && p.y() <= vertexD.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
@@ -576,20 +576,20 @@ void WbElevationGrid::recomputeBoundingSphere() const {
 
   // create list of vertices
   const int xd = mXDimension->value();
-  const int zd = mYDimension->value();
+  const int yd = mYDimension->value();
   const double xs = mXSpacing->value();
-  const double zs = mYSpacing->value();
-  const int size = zd * xd;
+  const double ys = mYSpacing->value();
+  const int size = yd * xd;
   double *h = new double[size];
   memset(h, 0, size * sizeof(double));
   mHeight->copyItemsTo(h, size);
   WbVector3 *vertices = new WbVector3[size];
   int index = 0;
-  double posZ = 0.0;
-  for (int z = 0; z < xd; z++, posZ += zs) {
+  double posY = 0.0;
+  for (int y = 0; y < xd; y++, posY += ys) {
     double posX = 0.0;
-    for (int x = 0; x < zd; x++, posX += xs) {
-      vertices[index] = WbVector3(posX, h[index], posZ);
+    for (int x = 0; x < yd; x++, posX += xs) {
+      vertices[index] = WbVector3(posX, posY, h[index]);
       ++index;
     }
   }
