@@ -2124,7 +2124,7 @@ I am setting up a CI/CD pipeline for our controller for robocup, which requires 
 ##### Luftwaffel [Moderator] 05/28/2021 21:38:37
 <@&568329906048598039> Working with object recognition, I think it could be very useful to expose the "recognitionColors" field in all objects provided by Webots. What do you think? I can create a PR if you agree.
 
-##### AmorFati 05/28/2021 21:39:12
+##### Robot 05/28/2021 21:39:12
 Yeah totally agree.
 
 ##### Bitbots\_Jasper [Moderator] 05/29/2021 08:51:23
@@ -2381,4 +2381,24 @@ Otherwise, you can update the headers of the protos to R2021b
 
 ##### Nummer\_42O 07/19/2021 12:41:16
 That works better for me. Thanks :)
+
+##### mcitir 07/24/2021 16:49:51
+Hello everybody, do you know how I can find proper material to learn the usage of Webots for Automobiles? I could not find enough source to grab the usage as quickly as possible. Also, I tried to use Visual Studio for controller design. However, I could not be successful to compile from VS. Appreciated for any source or idea. Thanks.
+
+##### TheGiant 07/24/2021 20:36:13
+`@mcitir` did you checkout [https://cyberbotics.com/doc/automobile/index](https://cyberbotics.com/doc/automobile/index) ? 
+
+Regarding VS, Have you you read thought [https://cyberbotics.com/doc/guide/using-your-ide#visual-studio](https://cyberbotics.com/doc/guide/using-your-ide#visual-studio) ?
+
+##### mcitir 07/27/2021 10:47:08
+Yes, I checked both. I could not find solution. VS did not compile the controller even I applied everything step-by-step.
+
+
+Also, unfortunately, documentation for automobiles is little bit short for me. I did not use wbeots in advance. It is first time to use for me. I started directly with automobiles, so the documentation was short to learn how the simulation works.
+
+##### DDaniel [Cyberbotics] 07/27/2021 11:34:46
+`@mcitir` Hi, there's also several samples involving vehicles, you can find them in `file > open sample world > vehicles`, the world `city.wbt` for instance can help you understand how it works
+
+##### mcitir 07/27/2021 13:35:32
+`@DDaniel` Thank you very much.
 

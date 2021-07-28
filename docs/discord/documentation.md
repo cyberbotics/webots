@@ -2132,3 +2132,12 @@ The position field did indeed not point to the correct axis, my bad - now it cor
 The value also keeps increasing after I stop controlling the joints (noted as Transition\_Bent in the video) - thanks for your help!
 > **Attachment**: [demo.mp4](https://cdn.discordapp.com/attachments/565155720933146637/857631681456766996/demo.mp4)
 
+##### Joro 07/27/2021 20:20:04
+Hi, i'm trying to visualice a rangefinder's image on rviz from webots but it looks like this, i want it in its black/white original colors, but the bgra8 format is the only one who works.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/869675531988262912/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 07/28/2021 07:34:44
+It is ROS 1?
+
