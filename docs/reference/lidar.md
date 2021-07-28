@@ -27,7 +27,7 @@ Lidar {
 
 %figure "Hinge joint"
 
-![lidar.png](images/lidar.png)
+![lidar.png](images/lidar.thumbnail.png)
 
 %end
 
