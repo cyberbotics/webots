@@ -548,9 +548,9 @@ void WbLidar::applyFrustumToWren() {
     // max range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
       const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-      const double x = f * sin(tmpHAngle) * cosV;
-      const double y = f * sinV;
-      const double z = f * -cos(tmpHAngle) * cosV;
+      const double x = f * cos(tmpHAngle) * cosV;
+      const double y = f * sin(tmpHAngle) * cosV;
+      const double z = f * sinV;
       pushVertex(vertices, i++, x, y, z);
       pushVertex(vertices, i++, x, y, z);
     }
