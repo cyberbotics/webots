@@ -6,6 +6,7 @@ Released on XX, XXth, 2021.
 - Bug fixes:
   - Fixed various Python API functions crashing with Python 3.9 ([#3502](https://github.com/cyberbotics/webots/pull/3502).
   - Fixed mass computation after inserting a [Physics](physics.md) node in case the [Solid.boundingObject](solid.md) was already defined ([#3240](https://github.com/cyberbotics/webots/pull/3240).
+  - Fixed a crash caused when getting contact points of a PROTO ([#3522](https://github.com/cyberbotics/webots/pull/3522).
 
 ## Webots R2021b
 Released on July, 16th, 2021.
