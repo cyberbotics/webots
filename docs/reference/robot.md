@@ -484,6 +484,7 @@ namespace webots {
     Radar *getRadar(const std::string &name);
     RangeFinder *getRangeFinder(const std::string &name);
     Receiver *getReceiver(const std::string &name);
+    Skin *getSkin(const std::string &name);
     Speaker *getSpeaker(const std::string &name);
     TouchSensor *getTouchSensor(const std::string &name);
     // ...
@@ -538,6 +539,7 @@ public class Robot {
   public RangeFinder getRangeFinder(String name);
   public Receiver getReceiver(String name);
   public Speaker getSpeaker(String name);
+  public Skin *getSkin(String name);
   public TouchSensor getTouchSensor(String name);
   // ...
 }

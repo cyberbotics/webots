@@ -130,7 +130,7 @@ import com.cyberbotics.webots.controller.Skin;
 
 public class Skin extends Device {
   public int getBoneCount();
-  public void getBoneName(int index);
+  public String getBoneName(int index);
   // ...
 }
 ```
