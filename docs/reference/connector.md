@@ -129,7 +129,7 @@ The default value -1 indicates an infinitely strong docking mechanism that does 
 
 A [Connector](#connector)'s axis system is displayed by Webots when the corresponding robot is selected or when *Display Axes* is checked in Webots *Preferences*.
 The x-axis is drawn as a 5 cm red line, the z-axis (a potential docking rotation) is drawn as a 5 cm blue line, and each additional potential docking rotation is displayed as a 4 cm black line.
-The bounding objects and graphical objects of a [Connector](#connector) should normally be designed such that the docking surface corresponds exactly to *yz*-plane of the local coordinate system.
+The bounding objects and graphical objects of a [Connector](#connector) should normally be designed such that the docking surface corresponds exactly to the *yz*-plane of the local coordinate system.
 Furthermore, the [Connector](#connector)'s x-axis should be perpendicular to the docking surface and point outward from the robot body.
 Finally, the bounding objects should allow the superposition of the origin of the coordinate systems.
 If these design criteria are not met, the [Connector](#connector) nodes will not work properly and may be unable to connect.
