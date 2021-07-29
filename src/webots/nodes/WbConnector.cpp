@@ -1024,17 +1024,19 @@ void WbConnector::applyOptionalRenderingToWren() {
     const float angleStep = 2.0f * M_PI / n;
     for (int i = 1; i < n; ++i) {
       const float angle = angleStep * i;
-      const float x = 0.4f * sin(angle);
-      const float y = 0.4f * cos(angle);
+      const float y = 0.4f * sin(angle);
+      const float z = 0.4f * cos(angle);
 
       const int idx = (i - 1) * 6;
+      // Segment origin
       vertices[idx] = 0.0f;
       vertices[idx + 1] = 0.0f;
       vertices[idx + 2] = 0.0f;
 
-      vertices[idx + 3] = x;
+      // Segment orientation
+      vertices[idx + 3] = 0.0f;
       vertices[idx + 4] = y;
-      vertices[idx + 5] = 0.0f;
+      vertices[idx + 5] = z;
     }
 
     mRotationsMesh = wr_static_mesh_line_set_new((n - 1) * 2, vertices, NULL);
