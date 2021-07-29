@@ -102,6 +102,7 @@ void WbRotateViewpointEvent::applyToViewpoint(const QPoint &delta, const WbVecto
   const WbQuaternion yawRotation(cos(halfYawAngle), sinusYaw * worldUpVector.x(), sinusYaw * worldUpVector.y(),
                                  sinusYaw * worldUpVector.z());
   // Updates camera's position and orientation
+  // TODO: There is something wrong with rotation, I believe the `rotationCenter` is not correct
   const WbQuaternion deltaRotation(yawRotation * pitchRotation);
   const WbVector3 currentPosition(deltaRotation * (position->value() - rotationCenter) + rotationCenter);
   const WbQuaternion currentOrientation(deltaRotation * orientationValue.toQuaternion());
