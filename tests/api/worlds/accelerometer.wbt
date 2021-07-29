@@ -1,9 +1,10 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.959811548770045 0.182641547702704 0.213081805653155 5.311320258501333
-  position -0.32 -1.12 0.72
+  orientation 0.9202761242621326 0.3901170526763388 0.03000900405202606 5.6
+  position -0.32 0.72 1.12
 }
 Background {
   skyColor [
@@ -11,7 +12,6 @@ Background {
   ]
 }
 DirectionalLight {
-  direction 0 1 0
 }
 Robot {
   children [
@@ -19,7 +19,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 1
+        axis 0 1 0
       }
       device [
         RotationalMotor {
@@ -40,15 +40,15 @@ Robot {
             name "tX"
           }
           Accelerometer {
-            translation 0 0 0.1
+            translation 0 0.1 0
             name "tY"
           }
           Accelerometer {
-            translation 0 -0.1 0
+            translation 0 0 0.1
             name "tZ"
           }
           Solid {
-            translation 0.1 0 0.05
+            translation 0.1 0.05 0
             children [
               Shape {
                 appearance RustyMetal {
@@ -66,11 +66,11 @@ Robot {
                 name "tX offset"
               }
               Accelerometer {
-                translation 0 0 0.1
+                translation 0 0.1 0
                 name "tY offset"
               }
               Accelerometer {
-                translation 0 -0.1 0
+                translation 0 0 0.1
                 name "tZ offset"
               }
             ]
@@ -84,7 +84,7 @@ Robot {
           DEF AXIS Group {
             children [
               Transform {
-                translation 0 0 0.063
+                translation 0 0.063 0
                 children [
                   Shape {
                     appearance Plastic {
@@ -99,7 +99,7 @@ Robot {
                 ]
               }
               Transform {
-                translation 0 0 0.063
+                translation 0 0.063 0
                 children [
                   Shape {
                     appearance Plastic {
@@ -124,7 +124,7 @@ Robot {
     DEF BASIS_GROUP Group {
       children [
         Transform {
-          translation 0 0 0.02
+          translation 0 0.02 0
           children [
             Shape {
               appearance Plastic {
@@ -139,7 +139,7 @@ Robot {
           ]
         }
         Transform {
-          translation 0 0 0.04
+          translation 0 0.04 0
           children [
             Shape {
               appearance Plastic {
