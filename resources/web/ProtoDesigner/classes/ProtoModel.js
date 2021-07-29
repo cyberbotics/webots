@@ -33,8 +33,8 @@ export const ProtoModel = {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'upSlot': VRML.SFNode, 'frontSlot': VRML.SFNode, 'backSlot': VRML.SFNode, 'axisSlot': VRML.SFNode},
     'unsupported': {}
   },
-  'Name': {
-    'supported': {},
+  'TinkerbotsCubieFemaleCube': {
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'upSlot': VRML.SFNode, 'frontSlot': VRML.SFNode, 'backSlot': VRML.SFNode, 'leftSlot': VRML.SFNode, 'rightSlot': VRML.SFNode},
     'unsupported': {}
   },
   'Name': {
