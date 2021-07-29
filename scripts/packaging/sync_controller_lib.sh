@@ -13,8 +13,9 @@ DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
 # Don't publish the libcontroller if it hasn't changed since yesterday
 YESTERDAY_DATE=$(date --date='yesterday' +'%Y-%m-%d %H:%M:%S')
 LAST_COMMIT_YESTERDAY=$(git rev-parse --before='${YESTERDAY_DATE}' --short HEAD | awk '$1 !~ /^--/')
-INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} -- include)
-SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} -- src/controller)
+LAST_COMMIT=$(git rev-parse --short HEAD | awk '$1 !~ /^--/')
+INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include)
+SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- src/controller)
 if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ]; then
     exit 0
 fi
