@@ -198,6 +198,12 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
   nodeInsertion(e) {
     const assetKey = e.target.attributes['assetKey'].value;
+
+    if (assetKey === 'remove') {
+      console.log('Slot will be removed');
+      return;
+    }
+
     console.log('Selected asset: ' + assetKey);
 
     const modal = document.getElementById('modalWindow');

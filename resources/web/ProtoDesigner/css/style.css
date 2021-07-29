@@ -182,7 +182,7 @@ input[type=text] {
   max-height: 150px;
   overflow: auto;
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+  background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
   border-radius: 6px;
 }
 

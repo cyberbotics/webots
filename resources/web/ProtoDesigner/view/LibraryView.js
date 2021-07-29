@@ -35,6 +35,8 @@ export default class LibraryView {
     else
       compatibleSlots = filter;
 
+    this.loadRemoveNode(modalElement, callback);
+
     for (const [key, asset] of this.assetLibrary.assets.entries()) {
       if (asset.slotType !== compatibleSlots)
         continue;
@@ -54,4 +56,18 @@ export default class LibraryView {
       modalElement.appendChild(div.firstChild);
     }
   };
+
+  loadRemoveNode(modalElement, callback) {
+    let div = document.createElement('div');
+    let img = document.createElement('img');
+    img.classList.add('proto-icon');
+    img.setAttribute('draggable', false);
+    img.setAttribute('src', './view/assets/remove_node.png');
+    img.setAttribute('assetKey', 'remove');
+    img.addEventListener('click', callback, false);
+    div.appendChild(img);
+
+    this.partIconDivs.push(div.firstChild);
+    modalElement.appendChild(div.firstChild);
+  }
 };
