@@ -50,23 +50,29 @@ DEF ROBOT0 Robot {
     }
     Emitter {
       translation 0 0.11 0
+      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
       children [
         Transform {
-          translation 0 -0.035 0
+          rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
-            }
             Transform {
-              translation 0 0.03 0
+              translation 0 -0.035 0
               children [
                 Shape {
-                  geometry Sphere {
-                    radius 0.01
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
                   }
+                }
+                Transform {
+                  translation 0 0.03 0
+                  children [
+                    Shape {
+                      geometry Sphere {
+                        radius 0.01
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -98,23 +104,29 @@ DEF ROBOT1 Robot {
     }
     Emitter {
       translation 0 0.11 0
+      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
       children [
         Transform {
-          translation 0 -0.035 0
+          rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
-            }
             Transform {
-              translation 0 0.03 0
+              translation 0 -0.035 0
               children [
                 Shape {
-                  geometry Sphere {
-                    radius 0.01
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
                   }
+                }
+                Transform {
+                  translation 0 0.03 0
+                  children [
+                    Shape {
+                      geometry Sphere {
+                        radius 0.01
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -147,23 +159,29 @@ DEF ROBOT2 Robot {
     }
     Receiver {
       translation 0 0.11 0
+      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
       children [
         Transform {
-          translation 0 -0.035 0
+          rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
-            }
             Transform {
-              translation 0 0.03 0
+              translation 0 -0.035 0
               children [
                 Shape {
-                  geometry Sphere {
-                    radius 0.01
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
                   }
+                }
+                Transform {
+                  translation 0 0.03 0
+                  children [
+                    Shape {
+                      geometry Sphere {
+                        radius 0.01
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -195,24 +213,29 @@ DEF ROBOT3 Robot {
     }
     Receiver {
       translation 0 0.11 0
-      rotation 0 1 0 1.5708
+      rotation 0.9999999999929585 -2.653589999981315e-06 -2.653589999981315e-06 -1.5707953071795862
       children [
         Transform {
-          translation 0 -0.035 0
+          rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
-            }
             Transform {
-              translation 0 0.03 0
+              translation 0 -0.035 0
               children [
                 Shape {
-                  geometry Sphere {
-                    radius 0.01
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
                   }
+                }
+                Transform {
+                  translation 0 0.03 0
+                  children [
+                    Shape {
+                      geometry Sphere {
+                        radius 0.01
+                      }
+                    }
+                  ]
                 }
               ]
             }
