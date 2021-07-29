@@ -97,7 +97,8 @@ class ProtoDesigner {
         // const url = './library/Tinkerbots/TinkerbotsCubieBoxWithCrossSlots.proto';
 // const url = './library/Tinkerbots/TinkerbotsCubieBoxWithRoundSlots.proto';
         // const url = './library/Tinkerbots/TinkerbotsCubieFemaleCube.proto';
-        const url = './library/Tinkerbots/TinkerbotsCubieMaleCube.proto';
+        // const url = './library/Tinkerbots/TinkerbotsCubieMaleCube.proto';
+        const url = './library/Tinkerbots/TinkerbotsCubiePyramid.proto';
 
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');
