@@ -23,6 +23,7 @@ from transforms3d import quaternions
 
 from webots_parser import WebotsParser
 
+coordinateSystem = 'ENU'
 
 def rotation(value, r):
     q0 = quaternions.axangle2quat([float(value[0]), float(value[1]), float(value[2])], float(value[3]))
@@ -31,56 +32,102 @@ def rotation(value, r):
     v, theta = quaternions.quat2axangle(qr)
     return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
 
+def convert_children(node, parent):
+    if node['name'] in 'Shape':
+        for field in node['fields']:
+            if field['name'] in ['geometry'] and field['value']['name'] in ['Cylinder', 'Cone', 'Capsule', 'ElevationGrid',
+                                                                            'Plane']:
+                newTransform = {'fields': [{'name': 'Geometrics_conversion', 'value': 'Geometrics_conversion', 'type': 'SFString'},
+                                           {'name': 'rotation', 'value': ['1', '0', '0', '-1.57'], 'type': 'SFRotation'},
+                                           {'name': 'children', 'type': 'MFNode', 'value': []}],
+                                'type': 'node', 'name': 'Transform'}
+                for param in newTransform['fields']:
+                    if param['name'] in 'children':
+                        param['value'] = [node]
+                        parent.remove(node)
+
+                parent.append(newTransform)
+    else:
+        for field in node['fields']:
+            if field['name'] in 'Geometrics_conversion':
+                break
+            elif field['name'] in 'children':
+                for child in field['value']:
+                    convert_children(child, field['value'])
+            elif field['name'] in ['endPoint']:
+                convert_children(field['value'], field['value'])
+
+
+def cleanTransform(node):
+    for field in node['fields']:
+        if field['name'] in 'Geometrics_conversion':
+            node['fields'].remove(field)
+            break
+        elif field['name'] in 'children':
+            for child in field['value']:
+                cleanTransform(child)
+        elif field['name'] in ['endPoint']:
+            cleanTransform(field['value'])
+
+def squashUniqueTransform(node):
+    if node['name'] in 'Transform':
+        for field in node['fields']:
+            if field['name'] in 'children':
+                if len(field['value']) == 1 and field['value'][0]['name'] in 'Transform':
+                    childT = field['value'][0]
+                    for fieldC in childT['fields']:
+                        if fieldC['name'] == 'Geometrics_conversion':
+                            mergeTransform(node, childT)
+
+    for field in node['fields']:
+        if field['name'] in 'children':
+            for child in field['value']:
+                squashUniqueTransform(child)
+        elif field['name'] in ['endPoint']:
+            squashUniqueTransform(field['value'])
+
+def mergeTransform(parent, child):
+    rotation_found = False
+    print("MERGE")
+    # for field in parent['fields']:
+    #     if field['name'] in ['rotation']:
+    #         rotation_found = True
+    #         field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
+    #     elif field['name'] in ['translation']:
+    #         field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
+    # if not rotation_found:
+    #     parent['fields'].append({'name': 'rotation',
+    #                            'value': ['1', '0', '0', str(0.5 * math.pi)],
+    #                            'type': 'SFRotation'})
+
 
 def convert_to_enu(filename):
     world = WebotsParser()
     world.load(filename)
-
+    global coordinateSystem
     for node in world.content['root']:
         if node['name'] == 'WorldInfo':
             for field in node['fields']:
-                if field['name'] == 'coordinateSystem':
-                    # remove the 'coordinateSystem ENU'
-                    del node['fields'][node['fields'].index(field)]
-        elif node['name'] == 'Viewpoint':
-            print('Rotating', node['name'])
-            orientation_found = False
-            position_found = False
-            for field in node['fields']:
-                if field['name'] in ['orientation']:
-                    orientation_found = True
-                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
-                elif field['name'] in ['position']:
-                    position_found = True
-                    field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
-            if not orientation_found:
-                node['fields'].append({'name': 'orientation',
-                                       'value': ['1', '0', '0', str(0.5 * math.pi)],
-                                       'type': 'SFRotation'})
-            if not position_found:
-                node['fields'].append({'name': 'position',
-                                       'value': ['0', '-10', '0'],
-                                       'type': 'SFVec3f'})
-        elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight', 'PointLight']:
-            print('Rotating', node['name'])
-            rotation_found = False
-            for field in node['fields']:
-                if field['name'] in ['rotation']:
-                    rotation_found = True
-                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
-                elif field['name'] in ['translation']:
-                    field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
-            if not rotation_found:
-                node['fields'].append({'name': 'rotation',
-                                       'value': ['1', '0', '0', str(0.5 * math.pi)],
-                                       'type': 'SFRotation'})
+                if field['name'] in 'coordinateSystem':
+                    coordinateSystem = field['value']
+        else:
+            convert_children(node, world.content['root'])
+            # if not rotation_found:
+            #     node['fields'].append({'name': 'rotation',
+            #                            'value': ['1', '0', '0', str(0.5 * math.pi)],
+            #                            'type': 'SFRotation'})
+    for node in world.content['root']:
+        squashUniqueTransform(node)
+        cleanTransform(node)
+
     world.save(filename)
 
 
 if __name__ == "__main__":
     # execute only if run as a script
-    for filename in sys.argv:
-        if not filename.endswith('.wbt'):
-            continue
-        print(filename)
-        convert_to_enu(filename)
+    # for filename in sys.argv:
+    #     if not filename.endswith('.wbt'):
+    #         continue
+    filename = "tests/api/worlds/accelerometer.wbt"
+    print(filename)
+    convert_to_enu(filename)
