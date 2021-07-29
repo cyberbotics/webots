@@ -57,10 +57,10 @@ class ProtoDesigner {
         this.assetLibrary = new AssetLibrary();
         this.libraryView = new LibraryView(this.libraryElement, this.assetLibrary);
         this.editor = new EditorView(this.editorElement, this.view, this, this.libraryView);
-        //this.assetLibrary.addObserver('loaded', () => { this.libraryView.loadAssets(); });
+        // this.assetLibrary.addObserver('loaded', () => { this.libraryView.loadAssets(); });
 
-        //this.library = new LibraryView(this.libraryElement);
-        //this.loadLibrary('./library/library.json');
+        //  this.library = new LibraryView(this.libraryElement);
+        //  this.loadLibrary('./library/library.json');
 
         this.activeProtos = new Map(); // currently loaded protos
 
@@ -90,9 +90,10 @@ class ProtoDesigner {
 
         // Tinkerbots
         // const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
-    // const url = './library/Tinkerbots/TinkerbotsAxle.proto';
+// const url = './library/Tinkerbots/TinkerbotsAxle.proto';
         // const url = './library/Tinkerbots/TinkerbotsBase.proto';
-        const url = './library/Tinkerbots/TinkerbotsBrickAdapter.proto';
+        // const url = './library/Tinkerbots/TinkerbotsBrickAdapter.proto';
+        const url = './library/Tinkerbots/TinkerbotsCube.proto';
 
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');

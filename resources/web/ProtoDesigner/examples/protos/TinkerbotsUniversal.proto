@@ -1,6 +1,8 @@
 PROTO TinkerbotsUniversal [
   field SFNode     minusSlot  NULL
   field SFNode     plusSlot  NULL
+  field SFNode     upSlot  NULL
+  field SFNode     downSlot  NULL
 ]
 {
   Robot {
@@ -12,6 +14,14 @@ PROTO TinkerbotsUniversal [
       Slot {
         type "lego cross+"
         endPoint IS plusSlot
+      }
+      Slot {
+        type "tinkerbots-"
+        endPoint IS upSlot
+      }
+      Slot {
+        type "tinkerbots+"
+        endPoint IS downSlot
       }
     ]
   }
