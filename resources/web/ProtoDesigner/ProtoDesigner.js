@@ -99,7 +99,8 @@ class ProtoDesigner {
         // const url = './library/Tinkerbots/TinkerbotsCubieMaleCube.proto';
         // const url = './library/Tinkerbots/TinkerbotsCubiePyramid.proto';
         // const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
-        const url = './library/Tinkerbots/TinkerbotsDistanceSensor.proto';
+// const url = './library/Tinkerbots/TinkerbotsDistanceSensor.proto';
+        const url = './library/Tinkerbots/TinkerbotsFinger.proto';
 
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');
