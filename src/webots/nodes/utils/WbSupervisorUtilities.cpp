@@ -1753,7 +1753,8 @@ void WbSupervisorUtilities::pushRelativePoseToStream(QDataStream &stream, WbTran
   stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
 }
 
-void WbSupervisorUtilities::pushContactPointsToStream(QDataStream &stream, WbSolid *solid, int solidId, bool includeDescendants) {
+void WbSupervisorUtilities::pushContactPointsToStream(QDataStream &stream, WbSolid *solid, int solidId,
+                                                      bool includeDescendants) {
   const QVector<WbVector3> &contactPoints = solid->computedContactPoints(includeDescendants);
   const QVector<const WbSolid *> &solids = solid->computedSolidPerContactPoints();
   const int size = contactPoints.size();
