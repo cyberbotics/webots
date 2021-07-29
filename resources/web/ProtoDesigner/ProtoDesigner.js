@@ -84,8 +84,8 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoTestSFNode.proto';
         // const url = './examples/protos/ProtoSolid.proto';
         // const url = './examples/protos/ProtoIndexedFaceSet.proto';
-        // const url = './examples/protos/ProtoSlot.proto';
-        // const url = './examples/protos/ProtoSlotContainer.proto';
+        const url = './examples/protos/ProtoSlot.proto';
+        //const url = './examples/protos/ProtoSlotContainer.proto';
         // const url = './library/Tinkerbots/ProtoWithNested.proto';
 
         // Tinkerbots

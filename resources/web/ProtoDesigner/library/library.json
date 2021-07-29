@@ -11,7 +11,7 @@
     "baseNode": "WbGeometry",
     "url": "./library/ProtoBox/ProtoBox.proto",
     "icon": "./library/ProtoBox/icon.png",
-    "slotType": "b"
+    "slotType": "e"
   },
   "ProtoCone": {
     "proto": "ProtoCone.proto",

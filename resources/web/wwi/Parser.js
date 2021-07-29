@@ -82,7 +82,7 @@ export default class Parser {
     WbWorld.instance.sceneTree.forEach(node => {
       node.finalize();
     });
-
+    console.log(WbWorld.instance.nodes)
     WbWorld.instance.readyForUpdates = true;
     webots.currentView.x3dScene.resize();
     renderer.render();
@@ -347,8 +347,12 @@ export default class Parser {
     const useNode = await result.clone(id);
     if (typeof parentNode !== 'undefined') {
       useNode.parent = parentNode.id;
-      if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
-        parentNode.children.push(useNode);
+      if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight) {
+        if (typeof parentNode.endPoint !== 'undefined')
+          parentNode.endPoint = useNode;
+        else
+          parentNode.children.push(useNode);
+      }
     }
 
     WbWorld.instance.nodes.set(id, useNode);
@@ -394,18 +398,18 @@ export default class Parser {
       id = getAnId();
 
     const type = getNodeAttribute(node, 'type', '');
+    let endPoint;
+    if (node.firstChild)
+      endPoint = await this._parseNode(node.firstChild, parentNode);
 
-    const slot = new WbSlot(id, type);
+    const slot = new WbSlot(id, type, endPoint);
 
     WbWorld.instance.nodes.set(slot.id, slot);
     this.addedNodes.push(slot.id);
 
-    const child = node.childNodes[0];
-    if (typeof child !== 'undefined')
-      await this._parseNode(child, slot, isBoundingObject);
-
     if (typeof parentNode !== 'undefined') {
       slot.parent = parentNode.id;
+
       if (typeof parentNode.endPoint !== 'undefined')
         parentNode.endPoint = slot;
       else
@@ -434,7 +438,10 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       group.parent = parentNode.id;
-      parentNode.children.push(group);
+      if (typeof parentNode.endPoint !== 'undefined')
+        parentNode.endPoint = group;
+      else
+        parentNode.children.push(group);
     }
 
     return group;
@@ -496,7 +503,10 @@ export default class Parser {
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
     if (typeof parentNode !== 'undefined') {
-      parentNode.children.push(shape);
+      if (typeof parentNode.endPoint !== 'undefined')
+        parentNode.endPoint = shape;
+      else
+        parentNode.children.push(shape);
       shape.parent = parentNode.id;
     }
 
@@ -539,7 +549,10 @@ export default class Parser {
     const dirLight = new WbDirectionalLight(id, on, color, direction, intensity, castShadows, ambientIntensity);
 
     if (typeof parentNode !== 'undefined' && typeof dirLight !== 'undefined') {
-      parentNode.children.push(dirLight);
+      if (typeof parentNode.endPoint !== 'undefined')
+        parentNode.endPoint = dirLight;
+      else
+        parentNode.children.push(dirLight);
       dirLight.parent = parentNode.id;
     }
 
@@ -566,8 +579,12 @@ export default class Parser {
 
     const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows, parentNode);
 
-    if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined')
-      parentNode.children.push(pointLight);
+    if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined') {
+      if (typeof parentNode.endPoint !== 'undefined')
+        parentNode.endPoint = pointLight;
+      else
+        parentNode.children.push(pointLight);
+    }
 
     WbWorld.instance.nodes.set(pointLight.id, pointLight);
     this.addedNodes.push(pointLight.id);
@@ -595,8 +612,12 @@ export default class Parser {
 
     const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, parentNode);
 
-    if (typeof parentNode !== 'undefined' && typeof spotLight !== 'undefined')
-      parentNode.children.push(spotLight);
+    if (typeof parentNode !== 'undefined' && typeof spotLight !== 'undefined') {
+      if (typeof parentNode.endPoint !== 'undefined')
+        parentNode.endPoint = spotLight;
+      else
+        parentNode.children.push(spotLight);
+    }
 
     WbWorld.instance.nodes.set(spotLight.id, spotLight);
     this.addedNodes.push(spotLight.id);
