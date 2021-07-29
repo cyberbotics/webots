@@ -166,12 +166,12 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.parameter = this.proto.parameters.get(parameterId);
 
     // determine filtering condition
-    const nodeRefs = this.parameter.nodeRefs;
+    const triggered = this.proto.getTriggeredFields(this.parameter);
+    if (triggered.length > 1)
+      console.warn('A parameter selection triggered multiple nodes for insertion, is it normal?');
     let filter;
-    if (typeof nodeRefs !== 'undefined') {
-      const slot = WbWorld.instance.nodes.get(nodeRefs[0]);
-      filter = slot.type.slice(1, -1); // remove quotations
-    }
+    const slot = WbWorld.instance.nodes.get(triggered[0].nodeRef);
+    filter = slot.type.slice(1, -1); // remove quotations
 
     // button position
     const position = e.target.getBoundingClientRect();
