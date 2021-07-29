@@ -53,8 +53,8 @@ export const ProtoModel = {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString},
     'unsupported': {}
   },
-  'Name': {
-    'supported': {},
+  'TinkerbotsGrabber': {
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'fingerASlot': VRML.SFNode, 'fingerBSlot': VRML.SFNode, 'fingerCSlot': VRML.SFNode},
     'unsupported': {}
   },
   'Name': {
