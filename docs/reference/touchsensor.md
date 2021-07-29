@@ -99,9 +99,9 @@ Therefore, it is necessary that the sensor's `boundingObject` extend below any o
 
 It is easy to check the orientation of the coordinate system of a [TouchSensor](#touchsensor): if you select the [TouchSensor](#touchsensor) object in the Scene Tree, then only the bounding object of this [TouchSensor](#touchsensor) should be shown in the 3D window.
 If you zoom in on this bounding object, you should see the red/green/blue depiction of the [TouchSensor](#touchsensor)'s coordinate system (the color coding is: *x/y/z* = red/green/blue).
-For a "force" sensor, the red (*x*) component should point in the direction where the collision is expected.
+For a "force" sensor, the red (*x*) component should point in the direction where the collision is expected (see below).
 
-%figure "Coordinate system of a TouchSensor. In case of a \"force\" sensor, the force is measured only along the x-axis in red."
+%figure "Coordinate system of a TouchSensor."
 
 ![touchsensor_force.png](images/touchsensor_force.png)
 
