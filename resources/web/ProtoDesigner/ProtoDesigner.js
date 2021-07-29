@@ -84,13 +84,14 @@ class ProtoDesigner {
         //const url = '../wwi/Protos/ProtoTestSFNode.proto';
         //const url = './examples/protos/ProtoSolid.proto';
         //const url = './examples/protos/ProtoIndexedFaceSet.proto';
-        const url = './examples/protos/ProtoSlot.proto';
+        //const url = './examples/protos/ProtoSlot.proto';
         //const url = './examples/protos/ProtoSlotContainer.proto';
         //const url = './library/Tinkerbots/ProtoWithNested.proto';
 
+        // Tinkerbots
         //const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
-        //const url = './library/Tinkerbots/TinkerbotsAxle.proto';
-
+    //const url = './library/Tinkerbots/TinkerbotsAxle.proto';
+        const url = './library/Tinkerbots/TinkerbotsBase.proto';
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');
 

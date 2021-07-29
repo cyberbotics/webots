@@ -58,7 +58,6 @@ export default class Parameter {
         break;
       case VRML.MFString:
         this.value = value.split(' ');
-        console.log('VV', this.value)
         break;
       default:
         throw new Error('Unknown type \'' + this.type + '\' in setValueFromString.');
@@ -109,6 +108,7 @@ export default class Parameter {
           console.error('TODO: implement SFNode in x3dify.');
         return;
       case VRML.MFString:
+      case VRML.MFNode:
         if (!Array.isArray(this.value))
           console.error('Expected an array, but value is not. Is it normal?');
         let s = '';
