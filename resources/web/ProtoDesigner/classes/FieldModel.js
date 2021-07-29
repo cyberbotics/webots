@@ -49,6 +49,14 @@ export const FieldModel = {
     'supported': {'children': VRML.MFNode},
     'unsupported': {}
   },
+  'HingeJoint': {
+    'supported': {},
+    'unsupported': {'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'endPoint': VRML.SFNode, 'position': VRML.SFFloat}
+  },
+  'HingeJointParameters': {
+    'supported': {},
+    'unsupported': {'position': VRML.SFFloat, 'axis': VRML.SFVec3f, 'anchor': VRML.SFVec3f, 'minStop': VRML.SFFloat, 'maxStop': VRML.SFFloat, 'springConstant': VRML.SFFloat, 'dampingConstant': VRML.SFFloat, 'staticFriction': VRML.SFFloat, 'suspensionSpringConstant': VRML.SFFloat, 'suspensionDampingConstant': VRML.SFFloat, 'suspensionAxis': VRML.SFVec3f, 'stopCFM': VRML.SFFloat, 'stopERP': VRML.SFFloat}
+  },
   'ImageTexture': {
     'supported': {'url': VRML.MFString, 'repeatS': VRML.SFBool, 'repeatT': VRML.SFBool, 'filtering': VRML.SFInt32},
     'unsupported': {}
