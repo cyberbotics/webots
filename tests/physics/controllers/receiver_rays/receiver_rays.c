@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
   if (dynamic)
     checkLastEmitterDirection(ris, "static infra-red", 0.98, -0.18, 0.02, nCheck);
   else
-    checkLastEmitterDirection(ris, "static infra-red", 1.00 0.00, 0.00, nCheck);
+    checkLastEmitterDirection(ris, "static infra-red", 1.00, 0.00, 0.00, nCheck);
 
   // dynamic
   checkQueueLength(rid, "dynamic infra-red", 1, nCheck);
