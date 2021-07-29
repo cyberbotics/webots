@@ -37,6 +37,10 @@ export const FieldModel = {
     'supported': {'ambientIntensity': VRML.SFFloat, 'color': VRML.SFColor, 'direction': VRML.SFVec3f, 'intensity': VRML.SFFloat, 'on': VRML.SFBool, 'castShadows': VRML.SFBool},
     'unsupported': {}
   },
+  'DistanceSensor': {
+    'supported': {},
+    'unsupported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'boundingObject': VRML.SFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'lookupTable': VRML.MFVec3f, 'type': VRML.SFString, 'numberOfRays': VRML.SFInt32, 'aperture': VRML.SFFloat, 'gaussianWidth': VRML.SFFloat, 'resolution': VRML.SFFloat, 'redColorSensitivity': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f}
+  },
   'ElevationGrid': {
     'supported': {'height': VRML.MFFloat, 'xDimension': VRML.SFInt32, 'xSpacing': VRML.SFFloat, 'zDimension': VRML.SFInt32, 'zSpacing': VRML.SFFloat, 'thickness': VRML.SFFloat},
     'unsupported': {}
@@ -68,6 +72,10 @@ export const FieldModel = {
   'IndexedLineSet': {
     'supported': {'coord': VRML.SFNode, 'coordIndex': VRML.MFInt32},
     'unsupported': {}
+  },
+  'LED': {
+    'supported': {},
+    'unsupported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'boundingObject': VRML.SFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'color': VRML.MFColor, 'gradual': VRML.SFBool, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f}
   },
   'Material': {
     'supported': {'ambientIntensity': VRML.SFFloat, 'diffuseColor': VRML.SFColor, 'emissiveColor': VRML.SFColor, 'shininess': VRML.SFFloat, 'specularColor': VRML.SFColor, 'transparency': VRML.SFFloat},

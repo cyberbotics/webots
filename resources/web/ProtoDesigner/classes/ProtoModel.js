@@ -45,8 +45,8 @@ export const ProtoModel = {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'color': VRML.SFString, 'frontSlot': VRML.SFNode, 'backSlot': VRML.SFNode},
     'unsupported': {}
   },
-  'Name': {
-    'supported': {},
+  'TinkerbotsDistanceSensor': {
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'numberOfRays': VRML.SFInt32, 'aperture': VRML.SFFloat, 'upSlot': VRML.SFNode, 'upASlot': VRML.SFNode, 'upBSlot': VRML.SFNode, 'upCSlot': VRML.SFNode, 'upDSlot': VRML.SFNode, 'leftSlot': VRML.SFNode, 'leftASlot': VRML.SFNode, 'leftBSlot': VRML.SFNode, 'leftCSlot': VRML.SFNode, 'leftDSlot': VRML.SFNode, 'rightSlot': VRML.SFNode, 'rightASlot': VRML.SFNode, 'rightBSlot': VRML.SFNode, 'rightCSlot': VRML.SFNode, 'rightDSlot': VRML.SFNode, 'backSlot': VRML.SFNode, 'backASlot': VRML.SFNode, 'backBSlot': VRML.SFNode, 'backCSlot': VRML.SFNode, 'backDSlot': VRML.SFNode},
     'unsupported': {}
   },
   'Name': {

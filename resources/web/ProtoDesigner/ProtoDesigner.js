@@ -89,7 +89,6 @@ class ProtoDesigner {
         // const url = './library/Tinkerbots/ProtoWithNested.proto';
 
         // Tinkerbots
-        // const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
 // const url = './library/Tinkerbots/TinkerbotsAxle.proto';
         // const url = './library/Tinkerbots/TinkerbotsBase.proto';
         // const url = './library/Tinkerbots/TinkerbotsBrickAdapter.proto';
@@ -98,7 +97,9 @@ class ProtoDesigner {
 // const url = './library/Tinkerbots/TinkerbotsCubieBoxWithRoundSlots.proto';
         // const url = './library/Tinkerbots/TinkerbotsCubieFemaleCube.proto';
         // const url = './library/Tinkerbots/TinkerbotsCubieMaleCube.proto';
-        const url = './library/Tinkerbots/TinkerbotsCubiePyramid.proto';
+        // const url = './library/Tinkerbots/TinkerbotsCubiePyramid.proto';
+        // const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
+        const url = './library/Tinkerbots/TinkerbotsDistanceSensor.proto';
 
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');
