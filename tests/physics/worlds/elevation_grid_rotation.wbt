@@ -49,8 +49,8 @@ DEF ELEVATION_GRID Solid {
         ]
         xDimension 65
         xSpacing 0.78125
-        yDimension 65
-        ySpacing 0.78125
+        zDimension 65
+        zSpacing 0.78125
       }
     }
   ]
