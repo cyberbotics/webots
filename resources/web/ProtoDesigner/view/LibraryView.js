@@ -7,14 +7,14 @@ export default class LibraryView {
     this.partIconDivs = [];
   };
 
-  assetSelection(e) {
-    console.log('Selected asset: ' + e.target.attributes['assetKey'].value);
+  getAsset(assetKey) {
+    if (!this.assetLibrary.assets.has(assetKey))
+      throw new Error('Asset ' + assetKey + ' does not exist in the library.');
 
-    let modal = document.getElementById('modalWindow');
-    modal.style.display = 'none';
-  }
+    return this.assetLibrary.assets.get(assetKey);
+  };
 
-  loadAssets(modalElement, filter) {
+  loadAssets(modalElement, filter, callback, parameterRef) {
     if (typeof modalElement === 'undefined')
       throw new Error('Cannot load assets because modal element is undefined.');
 
@@ -35,7 +35,7 @@ export default class LibraryView {
       img.setAttribute('src', asset.icon);
       img.setAttribute('assetKey', key);
       //img.addEventListener('dragstart', this.dragStart.bind(this), false);
-      img.addEventListener('click', this.assetSelection.bind(this), false);
+      img.addEventListener('click', callback, false);
       img.setAttribute('title', asset.name);
       div.appendChild(img);
 

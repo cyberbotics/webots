@@ -279,7 +279,6 @@ export default class ProtoParser {
           // get parameter reference on the nested side
           const targetParameter = nested.getParameterByName(field); // value before the IS (in the parent proto)
           const link = {'origin': parameter, 'target': targetParameter};
-          console.log('aaab ', link)
           if (!this.proto.aliasLinks.includes(link))
             this.proto.aliasLinks.push(link);
         } else
@@ -324,8 +323,7 @@ export default class ProtoParser {
     console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 
     // make the header parameter point to this field's parent (i.e the node)
-    const link = {'origin': parameter, 'target': {'nodeRef': nodeElement.getAttribute('id'), 'fieldName': refName}}
-    console.log('aaa ', link)
+    const link = {'origin': parameter, 'target': {'nodeRef': nodeElement.getAttribute('id'), 'fieldName': refName}};
     if (!this.proto.aliasLinks.includes(link))
       this.proto.aliasLinks.push(link);
     /*

@@ -84,8 +84,9 @@ export default class Proto {
         else
           value = defaultValue.valueOf();
 
-        const parameter = new Parameter(this, name, type, isRegenerator, defaultValue, value)
-        this.parameters.set(generateParameterId(), parameter);
+        const parameterId = generateParameterId();
+        const parameter = new Parameter(this, parameterId, name, type, isRegenerator, defaultValue, value)
+        this.parameters.set(parameterId, parameter);
       }
     }
   };

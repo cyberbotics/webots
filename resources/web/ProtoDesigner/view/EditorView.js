@@ -145,7 +145,10 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       case VRML.SFNode:
         let button = document.createElement('button');
         button.classList.add('sfnode-button');
-        button.innerText = 'NULL';
+        if (typeof parameter.value === 'undefined')
+          button.innerText = 'NULL';
+        else
+          button.innerText = parameter.value.protoName;
         button.addEventListener('click', () => this.itemSelector(event));
         div.appendChild(button);
         break;
@@ -180,8 +183,35 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     modal.style.display = 'block';
     modal.style.top = position.y + 'px';
     modal.style.left = (position.x + position.width) + 'px';
-    this.library.loadAssets(modal, filter);
+    this.library.loadAssets(modal, filter, this.nodeInsertion.bind(this));
   };
+
+  nodeInsertion(e) {
+    const assetKey = e.target.attributes['assetKey'].value;
+    console.log('Selected asset: ' + assetKey);
+
+    const modal = document.getElementById('modalWindow');
+    modal.style.display = 'none';
+
+    /*
+    const form = this.getFormByParameterId(this.parameter.id);
+    if (typeof form === 'undefined')
+      throw new Error('No form linked to parameter id: ' + this.parameter.id + ' exists.');
+
+    const button = form.elements[0]; // because SFNode
+    button.innerText = assetKey;
+    */
+
+    // get nodeRef (i.e the parent of the node that will be created now)
+    const triggered = this.proto.getTriggeredFields(this.parameter);
+    for (let i = 0; i < triggered.length; ++i) {
+      const nodeRef = triggered[i].nodeRef;
+      const node = WbWorld.instance.nodes.get(nodeRef);
+      const nodeId = parseInt(node.id.slice(1));
+      const asset = this.library.getAsset(assetKey);
+      this.designer.loadProto(asset.url, nodeId, this.parameter);
+    }
+  }
 
   setupModalWindow() {
     // create modal window
@@ -202,6 +232,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     modal.style.display = 'none';
   }
 
+  /*
   insertNode(protoUrl) {
     if (this.parameter.type === VRML.SFNode) {
       // get parent
@@ -212,6 +243,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       this.designer.loadProto(protoUrl, nodeId, this.parameter);
     };
   };
+  */
 
   updateValue(e) {
     const protoId = parseInt(e.target.form.attributes['protoId'].value);
@@ -264,6 +296,14 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
 
     this.view.x3dScene.render();
+  };
+
+  getFormByParameterId(id) {
+    let forms = document.getElementsByTagName('form');
+    for (let i = 0; i < forms.length; i++) {
+      if (forms[i].attributes['parameterId'].value === id)
+        return forms[i];
+    }
   };
 
   getValuesFromForm(form) {

@@ -7,8 +7,9 @@ import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 
 export default class Parameter {
-  constructor(protoRef, name, type, isRegenerator, defaultValue, value) {
+  constructor(protoRef, id, name, type, isRegenerator, defaultValue, value) {
     this.protoRef = protoRef; // proto this parameter belongs to
+    this.id = id;
     this.name = name; // name as defined in the proto header (i.e value after an IS)
     this.type = type;
     this.isTemplateRegenerator = isRegenerator;
