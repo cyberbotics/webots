@@ -46,7 +46,7 @@ if [ "${OSTYPE}" != "msys" ]; then
     rm -rf include
     mkdir -p include
     cp -r ${WEBOTS_HOME}/include/controller/* include
-    cp include/plugins/robot_window/{robot_window.h,robot_wwi.h} include
+    cp ${WEBOTS_HOME}/include/controller/c/webots/plugins/robot_window/{robot_window.h,robot_wwi.h} include
     
     rm -rf source/cpp
     mkdir -p source/cpp
