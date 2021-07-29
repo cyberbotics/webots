@@ -67,11 +67,11 @@ class ProtoDesigner {
         // load default scene
         this.loadMinimalScene(); // setup background, viewpoint and worldinfo
 
-        //const url = '../wwi/Protos/ProtoTestParameters.proto';
+        // const url = '../wwi/Protos/ProtoTestParameters.proto';
         // const url = '../wwi/Protos/ProtoBox.proto';
         // const url = '../wwi/Protos/ProtoTemplate.proto';
         // const url = '../wwi/Protos/ProtoTransform.proto';
-        //const url = '../wwi/Protos/ProtoTestAll.proto';
+        // const url = '../wwi/Protos/ProtoTestAll.proto';
         // const url = '../wwi/Protos/ProtoDefUse.proto';
 
         // base geometries
@@ -81,17 +81,19 @@ class ProtoDesigner {
         // const url = '../wwi/Protos/ProtoTestCapsule.proto';
         // const url = '../wwi/Protos/ProtoTestCone.proto';
 
-        //const url = '../wwi/Protos/ProtoTestSFNode.proto';
-        //const url = './examples/protos/ProtoSolid.proto';
-        //const url = './examples/protos/ProtoIndexedFaceSet.proto';
-        //const url = './examples/protos/ProtoSlot.proto';
-        //const url = './examples/protos/ProtoSlotContainer.proto';
-        //const url = './library/Tinkerbots/ProtoWithNested.proto';
+        // const url = '../wwi/Protos/ProtoTestSFNode.proto';
+        // const url = './examples/protos/ProtoSolid.proto';
+        // const url = './examples/protos/ProtoIndexedFaceSet.proto';
+        // const url = './examples/protos/ProtoSlot.proto';
+        // const url = './examples/protos/ProtoSlotContainer.proto';
+        // const url = './library/Tinkerbots/ProtoWithNested.proto';
 
         // Tinkerbots
-        //const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
-    //const url = './library/Tinkerbots/TinkerbotsAxle.proto';
-        const url = './library/Tinkerbots/TinkerbotsBase.proto';
+        // const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
+    // const url = './library/Tinkerbots/TinkerbotsAxle.proto';
+        // const url = './library/Tinkerbots/TinkerbotsBase.proto';
+        const url = './library/Tinkerbots/TinkerbotsBrickAdapter.proto';
+
         if (typeof this.scene === 'undefined')
           throw new Error('Scene not ready yet');
 

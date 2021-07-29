@@ -3,8 +3,12 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
+  position 0 0 5.91395435183319
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
 }
 TinkerbotsUniversal {
-  minusSlot TinkerbotsCubieTriangle {
-  }
 }
