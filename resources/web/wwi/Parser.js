@@ -12,6 +12,7 @@ import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbFog from './nodes/WbFog.js';
 import WbGeometry from './nodes/WbGeometry.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbImage from './nodes/WbImage.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
@@ -126,6 +127,8 @@ export default class Parser {
       result = await this._parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
       result = await this._parseGroup(node, parentNode, isBoundingObject);
+    else if (node.tagName === 'HingeJoint')
+      result = await this._parseHingeJoint(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Shape')
       result = await this._parseShape(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Switch')
@@ -445,6 +448,32 @@ export default class Parser {
     }
 
     return group;
+  }
+
+  async _parseHingeJoint(node, parentNode, isBoundingObject) {
+    let id = getNodeAttribute(node, 'id');
+    if (typeof id === 'undefined')
+      id = getAnId();
+
+    let endPoint;
+    if (node.firstChild)
+      endPoint = await this._parseNode(node.firstChild, parentNode);
+
+    const hingeJoint = new WbHingeJoint(id, endPoint);
+
+    WbWorld.instance.nodes.set(hingeJoint.id, hingeJoint);
+    this.addedNodes.push(hingeJoint.id);
+
+    if (typeof parentNode !== 'undefined') {
+      hingeJoint.parent = parentNode.id;
+
+      if (typeof parentNode.endPoint !== 'undefined')
+        parentNode.endPoint = hingeJoint;
+      else
+        parentNode.children.push(hingeJoint);
+    }
+
+    return hingeJoint;
   }
 
   async _parseShape(node, parentNode, isBoundingObject) {

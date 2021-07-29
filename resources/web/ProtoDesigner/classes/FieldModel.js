@@ -54,8 +54,8 @@ export const FieldModel = {
     'unsupported': {}
   },
   'HingeJoint': {
-    'supported': {},
-    'unsupported': {'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'endPoint': VRML.SFNode, 'position': VRML.SFFloat}
+    'supported': {'endPoint': VRML.SFNode},
+    'unsupported': {'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'position': VRML.SFFloat}
   },
   'HingeJointParameters': {
     'supported': {},
