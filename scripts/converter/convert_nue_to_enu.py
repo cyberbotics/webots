@@ -96,13 +96,13 @@ def convert_to_enu(filename):
         elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight', 'PointLight']:
             print('Rotating', node['name'])
             rotation_found = False
-            for field in node['fields']:
-                if field['name'] in ['rotation']:
-                    rotation_found = True
-                    field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
-                if field['name'] in ['translation']:
-                    field['value'] = [field['value'][0], str(0 if field['value'][2] == '0' else -float(field['value'][2])),
-                                      field['value'][1]]
+            # for field in node['fields']:
+                # if field['name'] in ['rotation']:
+                #     rotation_found = True
+                #     field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
+                # if field['name'] in ['translation']:
+                #     field['value'] = [field['value'][0], str(0 if field['value'][2] == '0' else -float(field['value'][2])),
+                #                       field['value'][1]]
             convertChildren(node)
             # if not rotation_found:
             #     node['fields'].append({'name': 'rotation',
@@ -113,6 +113,6 @@ def convert_to_enu(filename):
 
 if __name__ == "__main__":
     # execute only if run as a script
-    filename = "tests/api/worlds/accelerometer.wbt"
+    filename = "tests/api/worlds/altimeter.wbt"
     print(filename)
     convert_to_enu(filename)
