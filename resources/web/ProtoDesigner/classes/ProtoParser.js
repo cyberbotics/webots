@@ -258,14 +258,10 @@ export default class ProtoParser {
       const field = this.bodyTokenizer.nextWord();
 
       // check if the field belongs to the proto and if it's supported retrieve its type
-      const fieldType = ProtoModel[protoName]['supported'][field]; // check if its supported
-      if (typeof fieldType === 'undefined') { // check if its unsupported
-        const fieldType = ProtoModel[protoName]['unsupported'][field]; // check if its unsupported
-        if (typeof fieldType !== 'undefined') {
-          this.bodyTokenizer.consumeTokensByType(fieldType); // if unsupported, just consume the tokens
-          continue;
-        }
-        throw new Error('Cannot encode nested proto ' + protoName + ' because field ' + field + ' is not supported.');
+      const fieldType = ProtoModel[protoName][field]; // check if its supported
+      if (typeof fieldType === 'undefined') { // check if its known
+        this.bodyTokenizer.consumeTokensByType(fieldType); // if unknown, just consume the tokens
+        continue;
       }
 
       // check if the value is provided directly or by IS reference

@@ -153,10 +153,15 @@ export default class EditorView { // eslint-disable-line no-unused-vars
         div.appendChild(button);
         break;
       case VRML.MFNode:
-      case VRML.MFString:
-        // TODO: add support, skip for now
-        console.warn('UI component for parameter type ' + parameter.type + ' not yet defined.')
+      case VRML.MFString: {
+        let button = document.createElement('button');
+        button.classList.add('sfnode-button');
+        button.innerText = 'NOT IMPLEMENTED';
+        button.addEventListener('click', () => this.itemSelector(event));
+        div.appendChild(button);
+        console.warn('UI component for parameter type ' + parameter.type + ' not yet defined.');
         break;
+      }
       default:
         throw new Error('Cannot setup div because parameter type \'' + parameter.type + '\' is unknown.');
     }
