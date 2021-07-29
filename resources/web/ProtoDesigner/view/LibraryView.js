@@ -23,9 +23,20 @@ export default class LibraryView {
     this.partIconDivs = [];
 
     // populate
+    if (typeof filter === 'undefined')
+      return;
+
     console.log('Filtering assets except: ', filter);
+    let compatibleSlots;
+    if (filter.endsWith('+'))
+      compatibleSlots = filter.slice(0, -1) + '-';
+    else if (filter.endsWith('-'))
+      compatibleSlots = filter.slice(0, -1) + '+';
+    else
+      compatibleSlots = filter;
+
     for (const [key, asset] of this.assetLibrary.assets.entries()) {
-      if (typeof filter !== 'undefined' && asset.slotType !== filter)
+      if (asset.slotType !== compatibleSlots)
         continue;
 
       let div = document.createElement('div');

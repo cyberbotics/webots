@@ -176,8 +176,7 @@ class ProtoDesigner {
 
     let viewpoint = xml.createElement('Viewpoint');
     viewpoint.setAttribute('id', getAnId());
-    viewpoint.setAttribute('orientation', '-0.84816706 -0.5241698 -0.07654181 0.34098753');
-    viewpoint.setAttribute('position', '-1.2506319 2.288824 7.564137');
+    viewpoint.setAttribute('position', '0 0 0.7686199');
     viewpoint.setAttribute('exposure', '1');
     viewpoint.setAttribute('bloomThreshold', '21');
     viewpoint.setAttribute('zNear', '0.05');

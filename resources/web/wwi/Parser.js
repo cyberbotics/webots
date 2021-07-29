@@ -83,7 +83,7 @@ export default class Parser {
     WbWorld.instance.sceneTree.forEach(node => {
       node.finalize();
     });
-    console.log(WbWorld.instance.nodes)
+
     WbWorld.instance.readyForUpdates = true;
     webots.currentView.x3dScene.resize();
     renderer.render();
