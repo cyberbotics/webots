@@ -73,6 +73,18 @@ export const ProtoModel = {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'slot': VRML.SFNode, 'ASlot': VRML.SFNode, 'BSlot': VRML.SFNode, 'CSlot': VRML.SFNode, 'DSlot': VRML.SFNode},
     'unsupported': {}
   },
+  'TinkerbotsTwister': {
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'slot': VRML.SFNode, 'ASlot': VRML.SFNode, 'BSlot': VRML.SFNode, 'CSlot': VRML.SFNode, 'DSlot': VRML.SFNode},
+    'unsupported': {}
+  },
+  'Name': {
+    'supported': {},
+    'unsupported': {}
+  },
+  'Name': {
+    'supported': {},
+    'unsupported': {}
+  },
   'Name': {
     'supported': {},
     'unsupported': {}

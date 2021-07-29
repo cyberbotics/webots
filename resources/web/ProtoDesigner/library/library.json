@@ -94,5 +94,11 @@
     "url": "./library/Tinkerbots/TinkerbotsPivot.proto",
     "icon": "./library/Tinkerbots/icons/TinkerbotsPivot.png",
     "slotType": "tinkerbots+"
+  },
+  "TinkerbotsTwister": {
+    "proto": "TinkerbotsTwister.proto",
+    "url": "./library/Tinkerbots/TinkerbotsTwister.proto",
+    "icon": "./library/Tinkerbots/icons/TinkerbotsTwister.png",
+    "slotType": "tinkerbots+"
   }
 }
