@@ -65,8 +65,8 @@ export const ProtoModel = {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'upSlot': VRML.SFNode, 'upASlot': VRML.SFNode, 'upBSlot': VRML.SFNode, 'upCSlot': VRML.SFNode, 'upDSlot': VRML.SFNode, 'leftSlot': VRML.SFNode, 'leftASlot': VRML.SFNode, 'leftBSlot': VRML.SFNode, 'leftCSlot': VRML.SFNode, 'leftDSlot': VRML.SFNode, 'rightSlot': VRML.SFNode, 'rightASlot': VRML.SFNode, 'rightBSlot': VRML.SFNode, 'rightCSlot': VRML.SFNode, 'rightDSlot': VRML.SFNode, 'backSlot': VRML.SFNode, 'backASlot': VRML.SFNode, 'backBSlot': VRML.SFNode, 'backCSlot': VRML.SFNode, 'backDSlot': VRML.SFNode},
     'unsupported': {}
   },
-  'Name': {
-    'supported': {},
+  'TinkerbotsMotor': {
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'name': VRML.SFString, 'upSlot': VRML.SFNode, 'upASlot': VRML.SFNode, 'upBSlot': VRML.SFNode, 'upCSlot': VRML.SFNode, 'upDSlot': VRML.SFNode, 'leftSlot': VRML.SFNode, 'leftASlot': VRML.SFNode, 'leftBSlot': VRML.SFNode, 'leftCSlot': VRML.SFNode, 'leftDSlot': VRML.SFNode, 'rightSlot': VRML.SFNode, 'rightASlot': VRML.SFNode, 'rightBSlot': VRML.SFNode, 'rightCSlot': VRML.SFNode, 'rightDSlot': VRML.SFNode, 'frontSlot': VRML.SFNode, 'backSlot': VRML.SFNode},
     'unsupported': {}
   },
   'Name': {
