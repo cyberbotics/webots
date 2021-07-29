@@ -147,7 +147,6 @@ It is recommended to use this function only when knowing formerly the identifier
 For example, when exporting an X3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
 
 The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
-The function returns NULL if the given device is invalid or is an internal node of a PROTO.
 Note that in the ROS API the device name has to be used to retrieve the handle to the node.
 
 The `wb_supervisor_node_get_root` function returns a handle to the root node which is actually a [Group](group.md) node containing all the nodes visible at the top level in the scene tree window of Webots.
@@ -352,6 +351,7 @@ typedef enum {
   WB_NODE_RANGE_FINDER,
   WB_NODE_RECEIVER,
   WB_NODE_ROTATIONAL_MOTOR,
+  WB_NODE_SKIN,
   WB_NODE_SPEAKER,
   WB_NODE_TOUCH_SENSOR,
   /* misc */
@@ -409,7 +409,7 @@ namespace webots {
       ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
       DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
       LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-      RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+      RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
       // misc
       BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
       DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -446,7 +446,7 @@ class Node:
     ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
     LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
     # misc
     BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
     DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -481,7 +481,7 @@ public class Node {
     ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
     LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
     // misc
     BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
     DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -519,7 +519,7 @@ WB_NODE_GPS, WB_NODE_GYRO, WB_NODE_INERTIAL_UNIT, WB_NODE_LED, WB_NODE_LIDAR,
 WB_NODE_LIGHT_SENSOR, WB_NODE_LINEAR_MOTOR, WB_NODE_PEN,
 WB_NODE_POSITION_SENSOR, WB_NODE_PROPELLER, WB_NODE_RADAR,
 WB_NODE_RANGE_FINDER, WB_NODE_RECEIVER, WB_NODE_ROTATIONAL_MOTOR,
-WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
+WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
 % misc
 WB_NODE_BALL_JOINT, WB_NODE_BALL_JOINT_PARAMETERS, WB_NODE_CHARGER,
 WB_NODE_CONTACT_PROPERTIES, WB_NODE_DAMPING, WB_NODE_FLUID,
@@ -728,7 +728,7 @@ node_string = wb_supervisor_node_export_string(node)
 *export a specified node*
 
 The `wb_supervisor_node_export_string` function returns a string from which the node is constructed.
-In conjunction with the `wb_supervisor_field_import_sf/mf_node_from_string` functions it can be used to duplicate the node.
+In conjunction with the [`wb_supervisor_field_import_sf/mf_node_from_string`](#wb_supervisor_field_import_mf_node_from_string) functions it can be used to duplicate the node.
 A file with the equivalent content can be produced in the Webots user interface by selecting the node in the scene tree window and using the `Export` button.
 
 ---

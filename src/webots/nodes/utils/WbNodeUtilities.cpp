@@ -477,8 +477,8 @@ namespace {
           return true;
         if (nodeName == "Connector")
           return true;
-        if (nodeName == "Skin" && WbNodeUtilities::isRobotTypeName(node->nodeModelName()) && WbNodeReader::current())
-          return true;  // this node is still experimental
+        if (nodeName == "Skin" && WbNodeUtilities::isRobotTypeName(node->nodeModelName()))
+          return true;
         if (nodeName == "TrackWheel")
           return node->nodeModelName() == "Track";
 
