@@ -44,6 +44,8 @@ public:
   void setPosition(double p) { mPosition->setValue(p); }
   void setPositionFromOde(double p) { mPosition->setValueFromOde(p); }
 
+  bool clampPosition(double &p) const;
+
 signals:
   void positionChanged();
   void minAndMaxStopChanged(double min, double max);

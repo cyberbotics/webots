@@ -1,5 +1,6 @@
-#VRML_SIM R2021b utf8
-# tags: hidden, static
+#VRML_SIM R2021c utf8
+# tags: hidden
+# template language: javascript
 
 PROTO NaoLeftWristH21 [
   field SFString name "left wrist"
@@ -624,7 +625,7 @@ Solid {
   }
   physics Physics {
     density -1
-    %{ if version == "3.3" then }%
+    %< if (version === '3.3') { >%
       mass 0.185
       centerOfMass [
         0.06536 0.00034 -2e-05
@@ -632,7 +633,7 @@ Solid {
       inertiaMatrix [
         0.00007831052 0.00112996801 0.00112695518, 0.00001006758 0.00000756942 -0.00000013237
       ]
-    %{ else }%
+    %< } else { >%
       mass 0.18405
       centerOfMass [
         0.0653 0.00114 0.00051
@@ -640,7 +641,7 @@ Solid {
       inertiaMatrix [
         0.00007810423 0.00112084378 0.00112214306, -0.00001233383 0.00000744169 -0.00000054551
       ]
-    %{ end }%
+    %< } >%
   }
 }
 }

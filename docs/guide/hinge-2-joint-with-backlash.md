@@ -2,7 +2,7 @@
 
 %figure
 
-![Hinge2JointWithBacklash](images/joints/Hinge2JointWithBacklash/Hinge2JointWithBacklash.png)
+![Hinge2JointWithBacklash](images/joints/Hinge2JointWithBacklash/Hinge2JointWithBacklash.thumbnail.jpg)
 
 %end
 
@@ -16,20 +16,23 @@ Hinge2JointWithBacklash [
   SFNode       jointParameters2    JointParameters {}
   SFFloat      backlash            0.01        # [0, inf)
   SFFloat      backlash2           0.01        # [0, inf)
-  SFFloat      gearMass            0.01        # (0, inf)
-  SFFloat      gearMass2           0.01        # (0, inf)
+  SFFloat      gearMass            0.1         # (0, inf)
+  SFFloat      gearMass2           0.1         # (0, inf)
   MFNode       device              [ ]         # {RotationalMotor, PositionSensor, Brake}
   MFNode       device2             [ ]         # {RotationalMotor, PositionSensor, Brake}
   MFNode       outputSensor        [ ]         # {PositionSensor}
   MFNode       outputSensor2       [ ]         # {PositionSensor}
   MFNode       startPoint          NULL        # {Group, Transform, or Shape}
+  MFNode       startPoint2         NULL        # {Group, Transform, or Shape}
   SFNode       endPoint            NULL        # {Solid, SolidReference, or Slot}
 ]
 ```
 
-The backlash effect is modeled by concatenating two [HingeJoint](../reference/hingejoint.md), one perpendicular to the other, to a classic [Hinge2Joint](../reference/hinge2joint.md).
-The axes of the [Hinge2Joint](../reference/hinge2joint.md) can freely turn whereas the range of movement of the two [HingeJoint](../reference/hingejoint.md) is limited by setting the values of `minStop` and `maxStop` according to the desired `backlash` in each direction.
-By doing so, the `endPoint` will begin to move only when either limit is reached.
+The backlash effect is modeled by having a [HingeJoint](../reference/hingejoint.md), followed by a [Hinge2Joint](../reference/hinge2joint.md) which in turn is followed by a second [HingeJoint](../reference/hingejoint.md).
+The first axis of the [Hinge2Joint](../reference/hinge2joint.md) will act as limiter (in the `axis`  direction) and the last [HingeJoint](../reference/hingejoint.md) will act as limiter for `axis2`.
+This is necessary because the physics engine does not support limiting of `axis2` in a [Hinge2Joint](../reference/hinge2joint.md) directly.
+The first [HingeJoint](../reference/hingejoint.md) and `axis2` of the [Hinge2Joint](../reference/hinge2joint.md) can freely turn whereas the motion of the others is limited by setting the values of `minStop` and `maxStop` according to the desired `backlash` in each direction.
+By doing so, the `endPoint` will begin to move only when either limit is reached hence modeling the clearance present in a transmission.
 
 Given the nature of the implementation, this [PROTO](../reference/proto.md) won't achieve the desired effect if used in kinematic mode and therefore it requires the `endPoint` to have physics enabled.
 
@@ -59,7 +62,12 @@ If no motor is specified, the joint is a passive joint.
 
 > **Note**: what these sensors return is the current position of the output axes in the range [-backlash/2, backlash/2] and [-backlash2/2, backlash2/2] respectively. When either limit is reached, the `endPoint` will begin to move.
 
-- `startPoint`: this field optionally specifies the shape of the object attached to the axes at the input side of the joint. It must be either a [Transform](../reference/transform.md), a [Group](../reference/group.md) or a [Shape](../reference/shape.md).
+- `startPoint`: this field optionally specifies the shape of the object attached to the first [HingeJoint](../reference/hingejoint.md) before the backlash in the `axis` direction takes place.
+It must be either a [Transform](../reference/transform.md), a [Group](../reference/group.md) or a [Shape](../reference/shape.md).
+This object doesn't affect the joint in any way but can be useful in order to better visualize the effect of the backlash.
+
+- `startPoint2`: this field optionally specifies the shape of the object attached to the [Hinge2Joint](../reference/hinge2joint.md) before the backlash in the `axis2` direction takes place.
+It must be either a [Transform](../reference/transform.md), a [Group](../reference/group.md) or a [Shape](../reference/shape.md).
 This object doesn't affect the joint in any way but can be useful in order to better visualize the effect of the backlash.
 
 - `endPoint`: this field specifies which [Solid](../reference/solid.md) is subject to the joint constraints. It must be either a [Solid](../reference/solid.md) child, or a reference to an existing [Solid](../reference/solid.md), i.e. a [SolidReference](../reference/solidreference.md).

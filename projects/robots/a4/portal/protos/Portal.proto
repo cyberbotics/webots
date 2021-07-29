@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/portal
@@ -535,7 +535,7 @@ PROTO Portal [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/pcb.jpg"
+                      "webots://projects/robots/a4/portal/protos/textures/pcb.jpg"
                     ]
                   }
                   metalness 0

@@ -1,5 +1,5 @@
-#VRML_SIM R2021b utf8
-# tags: static, hidden
+#VRML_SIM R2021c utf8
+# tags: hidden
 
 PROTO C3dGroundReactionForce [
   field SFVec3f     translation          0 0 0

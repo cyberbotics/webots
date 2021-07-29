@@ -1,9 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Mercedes-Benz Sprinter.
+# template language: javascript
 
 PROTO MercedesBenzSprinter [
   field SFVec3f      translation              0 0.4445 0
@@ -19,6 +19,7 @@ PROTO MercedesBenzSprinter [
   field MFNode       sensorsSlotTop           [ ]
   field MFNode       sensorsSlotCenter        [ ]
   field SFBool       interior                 FALSE
+  field SFString     window                   "automobile"
 ]
 {
   Car {
@@ -56,18 +57,18 @@ PROTO MercedesBenzSprinter [
       }
       MercedesBenzSprinterMesh {
         color IS color
-      %{ if fields.interior.value then }%
+      %< if (fields.interior.value) { >%
         windowTransparency 0.7
-      %{ end }%
+      %< } >%
       }
       MercedesBenzSprinterLights {
       }
       MercedesBenzSprinterLogos {
       }
-      %{ if fields.interior.value then }%
+      %< if (fields.interior.value) { >%
       MercedesBenzSprinterInterior {
       }
-      %{ end }%
+      %< } >%
     ]
     boundingObject Group {
       children [
@@ -107,7 +108,7 @@ PROTO MercedesBenzSprinter [
     }
     radarCrossSection 150
     recognitionColors [
-      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
     ]
     engineFunctionCoefficients 600 0.2 0
     brakeCoefficient 3500
@@ -115,5 +116,6 @@ PROTO MercedesBenzSprinter [
     maxVelocity 29.18
     engineMinRPM 800
     engineMaxRPM 4000
+    window IS window
   }
 }

@@ -81,16 +81,7 @@ void WbGroup::preFinalize() {
 void WbGroup::postFinalize() {
   WbBaseNode::postFinalize();
 
-  mBoundingSphere = new WbBoundingSphere(this);
-  mBoundingSphere->empty();
-
-  WbMFNode::Iterator it(*mChildren);
-  while (it.hasNext()) {
-    WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
-    n->postFinalize();
-    if (mBoundingSphere)
-      mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
-  }
+  recomputeBoundingSphere();
 
   connect(mChildren, &WbMFNode::changed, this, &WbGroup::childrenChanged);
   connect(mChildren, &WbMFNode::itemInserted, this, &WbGroup::insertChildPrivate);
@@ -109,6 +100,19 @@ void WbGroup::postFinalize() {
     connect(this, &WbGroup::topLevelListsUpdateRequested, parent, &WbGroup::topLevelListsUpdateRequested);
   } else if (mHasNoSolidAncestor)
     connect(mChildren, &WbMFNode::changed, this, &WbGroup::topLevelListsUpdateRequested);
+}
+
+void WbGroup::recomputeBoundingSphere() const {
+  mBoundingSphere = new WbBoundingSphere(this);
+  mBoundingSphere->empty();
+
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
+    n->postFinalize();
+    if (mBoundingSphere)
+      mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
+  }
 }
 
 void WbGroup::insertChild(int index, WbNode *child) {
@@ -375,7 +379,7 @@ void WbGroup::writeParameters(WbVrmlWriter &writer) const {
           const WbVector3 *const p = it.value();
           assert(p);
           const int jointIndex = it.key();
-          for (int j = 0; j < 2; ++j) {
+          for (int j = 0; j < 3; ++j) {
             const double pj = (*p)[j];
             if (!std::isnan(pj)) {
               QString axisIndex;

@@ -1,16 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # Model of a Tesla model 3 car using the Car proto as a base.
 # The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
 # Weight, transmission and motor properties are calibrated according to the 'Long Range Battery AWD Performance' version.
+# template language: javascript
 
 PROTO TeslaModel3 [
   field     SFVec3f    translation       0 0.4 0
   field     SFRotation rotation          0 1 0 0
   field     SFColor    color             1 1 1
-  field     MFString   plate             "textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       ""
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"
@@ -22,9 +22,10 @@ PROTO TeslaModel3 [
   field     MFNode     sensorsSlotTop    []
   field     MFNode     sensorsSlotCenter []
   field     SFBool     frontSpotLights   FALSE
+  field     SFString   window            "automobile"
 ]
 {
-  %{ local frontSpotLights = fields.frontSpotLights.value }%
+  %< const frontSpotLights = fields.frontSpotLights.value; >%
   Car {
     translation IS translation
     rotation IS rotation
@@ -77,7 +78,7 @@ PROTO TeslaModel3 [
           front [
               Group {
                 children [
-                  %{ if frontSpotLights then }%
+                  %< if (frontSpotLights) { >%
                   SpotLight {
                     attenuation 0 0 1
                     beamWidth 0.3
@@ -96,7 +97,7 @@ PROTO TeslaModel3 [
                     location -2.03 0.72 0.72
                     radius 40
                   }
-                  %{ end }%
+                  %< } >%
                   TeslaModel3FrontLights {
                   }
                 ]
@@ -204,7 +205,7 @@ PROTO TeslaModel3 [
     }
     radarCrossSection 100
     recognitionColors [
-      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
     ]
     physics Physics {
       density -1
@@ -217,5 +218,6 @@ PROTO TeslaModel3 [
         2.33023e-5 0.000158947 -3204.91
       ]
     }
+    window IS window
   }
 }

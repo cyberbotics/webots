@@ -56,9 +56,11 @@ public:
   virtual int devices3Number() const;
 
   WbVector3 axis() const override;
+  void updateEndPointZeroTranslationAndRotation() override;
 
 public slots:
   bool setJoint() override;
+  void updatePosition() override;
 
 protected:
   WbVector3 axis2() const override;
@@ -70,7 +72,6 @@ protected:
   WbVector3 anchor() const override;  // defaults to the center of the Solid parent, i.e. (0, 0, 0) in relative coordinates
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateOdePositionOffset() override;
-  void updateEndPointZeroTranslationAndRotation() override;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2, double position3);
   void writeExport(WbVrmlWriter &writer) const override;
@@ -79,7 +80,6 @@ protected slots:
   void addDevice2(int index) override;
   virtual void addDevice3(int index);
   void updateParameters() override;
-  void updatePosition() override;
   void updateJointAxisRepresentation() override;
   void checkMotorLimit();
 

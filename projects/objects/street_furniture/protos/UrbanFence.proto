@@ -1,8 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # An urban fence with optional boundingObject.
+# template language: javascript
 
 PROTO UrbanFence [
   field SFVec3f    translation           0 0 0
@@ -24,27 +24,27 @@ PROTO UrbanFence [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/urban_fence_base_color.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/urban_fence_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/urban_fence_roughness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/urban_fence_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/urban_fence_metalness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/urban_fence_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/urban_fence_normal.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/urban_fence_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/urban_fence_occlusion.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/urban_fence_occlusion.jpg"
             ]
           }
         }
@@ -68,7 +68,7 @@ PROTO UrbanFence [
         }
       }
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 0.425 0
       children [
@@ -77,6 +77,6 @@ PROTO UrbanFence [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

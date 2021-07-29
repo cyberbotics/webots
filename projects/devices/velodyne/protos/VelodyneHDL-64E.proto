@@ -1,9 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#velodyne-hdl-64e
 # Velodyne HDL-64E sensor model based on the Lidar PROTO.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO VelodyneHDL-64E [
   field   SFVec3f    translation    0 0 0
@@ -644,7 +645,7 @@ Lidar {
             roughness 0.6
             baseColorMap ImageTexture {
               url [
-                "textures/velodyne.png"
+                "webots://projects/devices/velodyne/protos/textures/velodyne.png"
               ]
               repeatS FALSE
               repeatT FALSE
@@ -680,12 +681,12 @@ Lidar {
       }
     ]
   }
-  %{ if fields.enablePhysics.value then }%
+  %< if (fields.enablePhysics.value) { >%
   physics Physics {
     density -1
     mass 15
   }
-  %{ end }%
+  %< } >%
   tiltAngle -0.19896287
   horizontalResolution 4500  # 360 / 0.08
   fieldOfView 1.570795       # 6.28318 / 4
@@ -709,7 +710,7 @@ Lidar {
           roughness 0.1
           baseColorMap ImageTexture {
             url [
-              "textures/velodyne_hdl-64E.jpg"
+              "webots://projects/devices/velodyne/protos/textures/velodyne_hdl-64E.jpg"
             ]
             repeatT FALSE
           }
@@ -3255,12 +3256,12 @@ Lidar {
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 1
     }
-    %{ end }%
+    %< } >%
   }
 }
 }

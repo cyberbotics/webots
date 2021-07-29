@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A hollow building.
@@ -36,22 +36,22 @@ PROTO HollowBuilding [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "textures/classic_building_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/classic_building_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/classic_building_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/classic_building_roughness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/classic_building_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/classic_building_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/classic_building_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/classic_building_occlusion.jpg"
             ]
           }
         }

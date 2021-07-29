@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -36,7 +36,7 @@ DEF ELEVATION_GRID Solid {
         }
         texture ImageTexture {
           url [
-            "textures/grass.jpg"
+            "webots://projects/default/worlds/textures/grass.jpg"
           ]
         }
         textureTransform TextureTransform {

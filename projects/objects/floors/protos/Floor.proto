@@ -1,8 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # Configurable standard flat floor.
+# template language: javascript
 
 PROTO Floor [
   field SFVec3f    translation     0 0 0
@@ -14,30 +14,27 @@ PROTO Floor [
   field SFNode     appearance      Parquetry { type "chequered" }  # Defines the appearance of the floor.
 
   # Deprecated in R2019a
-  hiddenField MFString   texture  "textures/checkered_parquetry.jpg"
+  hiddenField MFString   texture  "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
 ]
 {
-  %{
-    local wbmath = require('wbmath')
+  %<
+    let size = fields.size.value;
+    if (size.x <= 0.0 || size.y <= 0.0) {
+      size = fields.size.defaultValue;
+      console.error('\'size\' must contain positive values. Value reset to (' + size.x + ', ' + size.y + ').');
+    }
 
-    local size = fields.size.value
-    if size.x <= 0 or size.y <= 0 then
-      size = fields.size.defaultValue
-      io.stderr:write("'size' must contain positive values\n")
-    end
+    let texture = fields.texture.value[0];
+    if (texture !== fields.texture.defaultValue[0])
+      console.error('The \'texture\' field is deprecated, using the new \'appearance\' field instead.');
 
-    local texture = fields.texture.value[0]
-    if texture ~= fields.texture.defaultValue[0] then
-      io.stderr:write("The 'texture' field is deprecated, using the new 'appearance' field instead.\n")
-    end
-
-    local tileSize = fields.tileSize.value
-    if tileSize.x <= 0 or tileSize.y <= 0 then -- avoid a zero division and negative values
-      tileSize = fields.tileSize.defaultValue
-      io.stderr:write("'tileScale' must contain positive values\n")
-    end
-    local textureScale = { x = size.x / tileSize.x, y = size.y / tileSize.y }
-  }%
+    let tileSize = fields.tileSize.value;
+    if (tileSize.x <= 0 || tileSize.y <= 0) { // avoid a zero division and negative values
+      tileSize = fields.tileSize.defaultValue;
+      console.error('\'size\' must contain positive values. Value reset to (' + tileSize.x + ', ' + tileSize.y + ').');
+    }
+    let textureScale = {x: size.x / tileSize.x, y: size.y / tileSize.y};
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -47,18 +44,18 @@ PROTO Floor [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %{= -(size.x / 2) }% 0 %{= -(size.y / 2) }%
-              %{= size.x / 2 }% 0 %{= -(size.y / 2) }%
-              %{= -(size.x / 2) }% 0 %{= size.y / 2 }%
-              %{= size.x / 2 }% 0 %{= size.y / 2 }%
+              %<= -(size.x * 0.5) >% 0 %<= -(size.y * 0.5) >%
+              %<= size.x * 0.5 >% 0 %<= -(size.y * 0.5) >%
+              %<= -(size.x * 0.5) >% 0 %<= size.y * 0.5 >%
+              %<= size.x * 0.5 >% 0 %<= size.y * 0.5 >%
             ]
           }
           texCoord TextureCoordinate {
             point [
               0 0
-              %{= textureScale.x }% 0
-              0 %{= textureScale.y }%
-              %{= textureScale.x }% %{= textureScale.y }%
+              %<= textureScale.x >% 0
+              0 %<= textureScale.y >%
+              %<= textureScale.x >% %<= textureScale.y >%
             ]
           }
           coordIndex [

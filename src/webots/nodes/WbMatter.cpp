@@ -148,6 +148,11 @@ void WbMatter::postFinalize() {
   updateManipulatorVisibility();
 }
 
+void WbMatter::setBoundingObject(WbNode *boundingObject) {
+  mBoundingObject->removeValue();
+  mBoundingObject->setValue(boundingObject);
+}
+
 void WbMatter::reset(const QString &id) {
   WbTransform::reset(id);
 
@@ -193,7 +198,7 @@ void WbMatter::createWrenObjects() {
   wr_renderable_set_mesh(mMatterCenterRenderable, WR_MESH(mMatterCenterMesh));
   wr_renderable_set_material(mMatterCenterRenderable, mMatterCenterMaterial, NULL);
   wr_renderable_set_drawing_mode(mMatterCenterRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-  wr_renderable_set_visibility_flags(mMatterCenterRenderable, WbWrenRenderingContext::VF_SELECTED_OUTLINE);
+  wr_renderable_set_visibility_flags(mMatterCenterRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
   wr_renderable_set_drawing_order(mMatterCenterRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
   wr_renderable_set_cast_shadows(mMatterCenterRenderable, false);
   wr_renderable_set_receive_shadows(mMatterCenterRenderable, false);

@@ -1,7 +1,6 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#hokuyo-urg-04lx
 # Model of Hokuyo URG-04LX (lidar device).
 # specs:
@@ -10,6 +9,7 @@
 #  - resolution: 667 * 0.36 [deg]
 #  - dimension: 0.05 x 0.07 x 0.05 [m]
 #  - weight: 0.16 [kg]
+# template language: javascript
 
 PROTO HokuyoUrg04lx [
   field SFVec3f    translation    0 0 0
@@ -1707,7 +1707,7 @@ Lidar {
             roughness 0.6
             baseColorMap ImageTexture {
               url [
-                "textures/urg-04lx.jpg"
+                "webots://projects/devices/hokuyo/protos/textures/urg-04lx.jpg"
               ]
             }
           }
@@ -2413,14 +2413,14 @@ Lidar {
       }
     ]
   }
-  %{ if fields.enablePhysics.value then }%
+  %< if (fields.enablePhysics.value) { >%
   physics Physics {
     density -1
     mass 0.16
   }
-  %{ end }%
+  %< } >%
   fieldOfView 4.18879
-  verticalFieldOfView %{= 4.18879 / fields.resolution.value }%
+  verticalFieldOfView %<= 4.18879 / fields.resolution.value >%
   horizontalResolution IS resolution
   numberOfLayers 1
   spherical TRUE

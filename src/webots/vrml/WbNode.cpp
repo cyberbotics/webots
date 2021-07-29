@@ -84,7 +84,8 @@ const QStringList WbNode::cHiddenParameterNames = QStringList() << "translation"
                                                                 << "linearVelocity"
                                                                 << "angularVelocity"
                                                                 << "position"
-                                                                << "position2";
+                                                                << "position2"
+                                                                << "position3";
 
 void WbNode::setInstantiateMode(bool mode) {
   gInstantiateMode = mode;
@@ -551,9 +552,10 @@ int WbNode::numFields() const {
 }
 
 WbField *WbNode::field(int index, bool internal) const {
-  if (internal)
-    return mFields[index];
-  return fieldsOrParameters().at(index);
+  if (index < 0)
+    return NULL;
+  const QVector<WbField *> &fields = internal ? mFields : fieldsOrParameters();
+  return index < fields.size() ? fields.at(index) : NULL;
 }
 
 WbField *WbNode::findField(const QString &fieldName, bool internal) const {
@@ -1846,8 +1848,8 @@ void WbNode::setCreationCompleted() {
 
 void WbNode::reset(const QString &id) {
   mCurrentStateId = id;
-  if (isTemplate() && !mProto->isStatic())
-    // make sure non-static procedural PROTO are regenerated
+  if (isTemplate() && !mProto->isDeterministic())
+    // nonDeterministic procedural PROTO must be regenerated on reset
     setRegenerationRequired(true);
 }
 
@@ -2217,14 +2219,15 @@ QString WbNode::getUrdfPrefix() const {
 }
 
 /*
+#include <QtCore/QDebug>
 void WbNode::printDebugNodeStructure(int level) {
   QString indent;
   for (int i = 0; i < level; ++i)
     indent += "  ";
 
   QString line;
-  line.sprintf("%sNode %s %p parameterNode %p", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
-               protoParameterNode());
+  line.sprintf("%sNode %s %p id %d parameterNode %p", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
+               uniqueId(), protoParameterNode());
   qDebug() << line;
   printDebugNodeFields(level, true);
   printDebugNodeFields(level, false);

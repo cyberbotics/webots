@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Example world demonstrating the use of a simple Motor device."
@@ -162,7 +162,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/compass.jpg"
+            "webots://projects/samples/devices/worlds/textures/compass.jpg"
           ]
         }
         roughness 1
@@ -204,7 +204,7 @@ SolidBox {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/wood.jpg"
+        "webots://projects/default/worlds/textures/wood.jpg"
       ]
     }
     roughness 1

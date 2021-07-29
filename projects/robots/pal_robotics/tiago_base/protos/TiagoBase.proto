@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago-base
@@ -45,6 +45,10 @@ PROTO TiagoBase [
       InertialUnit {
       }
       Gyro {
+      }
+      Solid {
+        name "base_footprint"
+        translation 0 0 -0.095
       }
       DEF BASE_MOBILE_SHAPE Group {
         children [
@@ -315,12 +319,12 @@ PROTO TiagoBase [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/metal_stainless_clean_base_color.jpg"
+                        "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_base_color.jpg"
                       ]
                     }
                     roughnessMap ImageTexture {
                       url [
-                        "textures/metal_stainless_clean_roughness.jpg"
+                        "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_roughness.jpg"
                       ]
                     }
                     metalness 0.9
@@ -443,12 +447,12 @@ PROTO TiagoBase [
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "textures/metal_stainless_clean_base_color.jpg"
+                            "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_base_color.jpg"
                           ]
                         }
                         roughnessMap ImageTexture {
                           url [
-                            "textures/metal_stainless_clean_roughness.jpg"
+                            "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_roughness.jpg"
                           ]
                         }
                         metalness 0.9

@@ -18,9 +18,9 @@ DeviceWidget.commands = []; // Commands to be sent to the C library.
 DeviceWidget.motorCommands = []; // Motor commands to be sent to the C library.
 DeviceWidget.touchedCheckboxes = [];
 DeviceWidget.supportedDeviceTypes = [
-  'Accelerometer', 'Camera', 'Compass', 'DistanceSensor', 'GPS', 'Gyro',
-  'InertialUnit', 'Lidar', 'LightSensor', 'LinearMotor', 'PositionSensor',
-  'Radar', 'RangeFinder', 'RotationalMotor', 'TouchSensor'
+  'Accelerometer', 'Altimeter', 'Camera', 'Compass', 'DistanceSensor', 'GPS', 'Gyro',
+  'InertialUnit', 'Lidar', 'LightSensor', 'LinearMotor', 'PositionSensor', 'Radar',
+  'RangeFinder', 'RotationalMotor', 'TouchSensor'
 ];
 
 DeviceWidget.prototype.initialize = function(device) {
@@ -61,6 +61,8 @@ DeviceWidget.prototype.initialize = function(device) {
 
   if (device.type === 'Accelerometer')
     this.createGeneric3DDevice(device, TimeplotWidget.AutoRangeType.STRETCH, -20.0, 20.0, '[m/s^2]');
+  else if (device.type === 'Altimeter')
+    this.createGeneric1DDevice(device, TimeplotWidget.AutoRangeType.STRETCH, 0, 0.5, '[m]');
   else if (device.type === 'Camera')
     this.createGenericImageDevice(device);
   else if (device.type === 'Compass')
@@ -142,7 +144,7 @@ DeviceWidget.prototype.createGeneric1DDevice = function(device, autoRange, minY,
 
 DeviceWidget.prototype.createGeneric3DDevice = function(device, autoRange, minRange, maxRange, units) {
   appendNewElement(device.name,
-    '<select onChange="DeviceWidget.comboboxCallback(this)" class="view-selector" deviceName="' + device.htmlName + ' deviceType=' + device.type + '">' +
+    '<select onChange="DeviceWidget.comboboxCallback(this)" class="view-selector" deviceName="' + device.htmlName + '" deviceType="' + device.type + '">' +
     '  <option>Time</option>' +
     '  <option>XY</option>' +
     '  <option>YZ</option>' +
@@ -175,16 +177,26 @@ DeviceWidget.prototype.enable = function(enabled) {
 DeviceWidget.prototype.refresh = function() {
   if (this.plots) {
     this.plots.forEach(function(plot) {
-      plot.refresh();
+      if (typeof plot.refresh === 'function')
+        plot.refresh();
+    });
+  }
+};
+
+DeviceWidget.prototype.refreshLabels = function() {
+  if (this.plots) {
+    this.plots.forEach(function(plot) {
+      if (typeof plot.refreshLabels === 'function')
+        plot.refreshLabels();
     });
   }
 };
 
 DeviceWidget.prototype.resize = function() {
   if (this.plots) {
-    this.plots.forEach(function(widget) {
-      if (typeof widget.resize === 'function')
-        widget.resize();
+    this.plots.forEach(function(plot) {
+      if (typeof plot.resize === 'function')
+        plot.resize();
     });
   }
 };
@@ -248,6 +260,7 @@ DeviceWidget.comboboxCallback = function(combobox) {
     widget.show(false);
   });
   devicePlots[combobox.selectedIndex].show(true);
+  devicePlots[combobox.selectedIndex].refresh();
 };
 
 DeviceWidget.motorSetPosition = function(deviceType, deviceName, value) {
@@ -264,9 +277,10 @@ DeviceWidget.motorUnsetPosition = function(deviceType, deviceName) {
   delete DeviceWidget.motorCommands[deviceName];
 };
 
-DeviceWidget.updateDeviceWidgets = function(data) {
+DeviceWidget.updateDeviceWidgets = function(data, selectedDeviceType) {
   if (data.devices == null)
     return;
+  let resquestTabUpdate = false;
   Object.keys(data.devices).forEach(function(deviceName) {
     const value = data.devices[deviceName];
     deviceName = deviceName.replace(/&quot;/g, '"');
@@ -276,9 +290,11 @@ DeviceWidget.updateDeviceWidgets = function(data) {
 
     const checkbox = document.getElementById(deviceName + '-enable-checkbox');
     const widget = DeviceWidget.widgets[deviceType][deviceName];
-    if (!widget || !(widget.firstUpdate || checkbox.checked))
+    if (!checkbox || !widget || !(widget.firstUpdate || checkbox.checked))
       return;
 
+    if (!resquestTabUpdate && selectedDeviceType === deviceType)
+      resquestTabUpdate = true;
     widget.firstUpdate = false;
 
     if (value.update !== undefined && widget.plots) {
@@ -314,6 +330,7 @@ DeviceWidget.updateDeviceWidgets = function(data) {
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
     }
   });
+  return resquestTabUpdate;
 };
 
 DeviceWidget.applyToUntouchedCheckbox = function(checkbox, state) {

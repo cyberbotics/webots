@@ -23,6 +23,13 @@ The studied devices are attached on this robot.
 ![accelerometer.png](images/samples/accelerometer.thumbnail.jpg) In this example, the robot turns on a slope.
 Its [Accelerometer](../reference/accelerometer.md) sensor is used to switch on the bottommost LED.
 
+### [altimeter.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/altimeter.wbt)
+
+**Keywords**: [Robot](../reference/robot.md), [Altimeter](../reference/altimeter.md)
+
+![altimeter.png](images/samples/altimeter.thumbnail.jpg) In this example, the robot moves on a slope.
+Its [Altimeter](../reference/altimeter.md) sensor is used to switch direction when the robot is close to the slope's border.
+
 ### [battery.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/battery.wbt)
 
 **Keywords**: [Robot](../reference/robot.md), [Charger](../reference/charger.md), battery
@@ -49,14 +56,6 @@ The red blocks graphically represent the braking system, but the wheel is actual
 ![bumper.png](images/samples/bumper.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
 Its "bumper" [TouchSensor](../reference/touchsensor.md) (represented by a black box) detects collisions.
 `MyBot` moves back and turns a little each time a collision is detected.
-
-### [compass.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/compass.wbt)
-
-**Keywords**: [Compass](../reference/compass.md)
-
-![compass.png](images/samples/compass.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
-The robot is equipped with a yellow motorized needle which always indicates towards the north.
-The north direction is computed using a [Compass](../reference/compass.md) node.
 
 ### [camera.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/camera.wbt)
 
@@ -99,6 +98,22 @@ The robot camera displays yellow rectangles around the recognized objects.
 Information about the objects currently recognized are displayed in the `Console`.
 The camera recognizes [Solid](../reference/solid.md) nodes whose `recognitionColors` field is not empty.
 
+### [camera\_segmentation.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/camera_segmentation.wbt)
+
+**Keywords**: [Camera](../reference/camera.md), pattern recognition, image segmentation, smart camera
+
+![camera_segmentation.png](images/samples/camera_segmentation.thumbnail.jpg) In this example, `MyBot` demonstrates image segmentation capabilities based on the [Camera](../reference/camera.md) recognition functionality.
+The computed segmented image is shown in the [Display](../reference/display.md) overlay (cyan border) in the 3D scene.
+The [Camera](../reference/camera.md) overlay (magenta border) in the 3D scene depicts the original camera image on the back and the recognized objects with segmentation color and yellow bounding box on the front.
+
+### [compass.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/compass.wbt)
+
+**Keywords**: [Compass](../reference/compass.md)
+
+![compass.png](images/samples/compass.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
+The robot is equipped with a yellow motorized needle which always indicates towards the north.
+The north direction is computed using a [Compass](../reference/compass.md) node.
+
 ### [connector.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/connector.wbt)
 
 **Keywords**: [Connector](../reference/connector.md), [RotationalMotor](../reference/rotationalmotor.md), [IndexedLineSet](../reference/indexedlineset.md)
@@ -110,6 +125,16 @@ When the simulation starts, the light robot approaches the first heavy robot and
 Then both robots rotate their handles simultaneously, hence the light robot gets lifted over the heavy one.
 Then the light robot gets passed over another time by the second heavy robot and so on...
 All the robots in this simulation use the same controller; the different behaviors are selected according to the robot's name.
+
+### [coupled\_motor.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/coupled_motor.wbt)
+
+**Keywords**: [Motor](../reference/motor.md), coupled motor, multiplier
+
+![coupled_motor.png](images/samples/coupled_motor.thumbnail.jpg) In this example is showcased the usage of coupled motors in a gripper.
+Although the gripper itself is comprised of two actuators (one for each finger), in practice only one of them is commanded in the controller.
+Coupled motors are obtained when two or more motors belonging to the same robot share the same name structure.
+By attributing a `multiplier` of -1 to the second motor, the motion is reversed.
+Additional information concerning coupled motors and the rules surrounding it are available in the [Motor](../reference/motor.md#coupled-motors) reference page.
 
 ### [display.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/display.wbt)
 

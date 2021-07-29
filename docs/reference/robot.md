@@ -503,30 +503,6 @@ class Robot:
     def getJoystick(self):
     def getKeyboard(self):
     def getMouse(self):
-
-    # deprecated methods (replaced by getDevice):
-    def getAccelerometer(self, name):
-    def getBrake(self, name):
-    def getCamera(self, name):
-    def getCompass(self, name):
-    def getConnector(self, name):
-    def getDisplay(self, name):
-    def getDistanceSensor(self, name):
-    def getEmitter(self, name):
-    def getGPS(self, name):
-    def getGyro(self, name):
-    def getInertialUnit(self, name):
-    def getLED(self, name):
-    def getLidar(self, name):
-    def getLightSensor(self, name):
-    def getMotor(self, name):
-    def getPen(self, name):
-    def getPositionSensor(self, name):
-    def getRadar(self, name):
-    def getRangeFinder(self, name):
-    def getReceiver(self, name):
-    def getSpeaker(self, name):
-    def getTouchSensor(self, name):
     # ...
 ```
 
@@ -579,7 +555,7 @@ tag = wb_robot_get_device('name')
 
 %tab "ROS"
 
-> Note: this function has no equivalent for ROS.
+> **Note**: this function has no equivalent for ROS.
 Devices are available through their services.
 
 %tab-end

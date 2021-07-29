@@ -764,7 +764,7 @@ void WbWrenCamera::setupSphericalSubCameras() {
 }
 
 void WbWrenCamera::setupCameraPostProcessing(int index) {
-  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+  assert(index >= 0 && index < CAMERA_ORIENTATION_COUNT && mIsCameraActive[index]);
 
   if (mBloomThreshold != -1.0f && mType == 'c')
     mWrenBloom[index]->setup(mCameraViewport[index]);
@@ -870,7 +870,7 @@ void WbWrenCamera::setAspectRatio(float aspectRatio) {
 }
 
 void WbWrenCamera::updatePostProcessingParameters(int index) {
-  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+  assert(index >= 0 && index < CAMERA_ORIENTATION_COUNT && mIsCameraActive[index]);
 
   if (mWrenHdr[index]->hasBeenSetup())
     mWrenHdr[index]->setExposure(mExposure);
@@ -939,6 +939,14 @@ void WbWrenCamera::applySphericalPostProcessingEffect() {
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "rangeCamera",
                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
                                              reinterpret_cast<const char *>(&isRangeFinderOrLidar));
+
+  wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "subCamerasResolutionX",
+                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                             reinterpret_cast<const char *>(&mSubCamerasResolutionX));
+
+  wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "subCamerasResolutionY",
+                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                             reinterpret_cast<const char *>(&mSubCamerasResolutionY));
 
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "minRange",
                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT, reinterpret_cast<const char *>(&mMinRange));

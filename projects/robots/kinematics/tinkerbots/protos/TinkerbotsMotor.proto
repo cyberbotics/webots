@@ -1,9 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # Tinkerbots motor block.
 # https://www.tinkerbots.com
+# template language: javascript
 
 PROTO TinkerbotsMotor [
   field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
@@ -184,7 +184,7 @@ PROTO TinkerbotsMotor [
         }
         LED {
           translation 0 0.016 0.0065
-          name %{= "\"" .. fields.name.value .. " led\"" }%
+          name %<= '"' + fields.name.value + ' led"' >%
           color []
           gradual TRUE
           children [
@@ -202,27 +202,27 @@ PROTO TinkerbotsMotor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/motor_base_color.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/motor_roughness.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/motor_metalness.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/motor_normal.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/motor_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_occlusion.jpg"
               ]
             }
           }
@@ -259,7 +259,7 @@ PROTO TinkerbotsMotor [
               maxVelocity 22  # Calibrated.
             }
             PositionSensor {
-              name %{= "\"" .. fields.name.value .. " sensor\"" }%
+              name %<= '"' + fields.name.value + ' sensor"' >%
             }
           ]
           endPoint Solid {

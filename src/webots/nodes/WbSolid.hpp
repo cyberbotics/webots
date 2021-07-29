@@ -117,12 +117,6 @@ public:
   const QVector<WbVector3> &computedContactPoints(bool includeDescendants = false);
   const QVector<const WbSolid *> &computedSolidPerContactPoints();
 
-  // accessors to stored fields
-  const WbVector3 translationFromFile() const { return mSavedTranslations[stateId()]; }
-  const WbRotation rotationFromFile() const { return mSavedRotations[stateId()]; }
-  void setTranslationFromFile(const WbVector3 &translation) { mSavedTranslations[stateId()] = translation; }
-  void setRotationFromFile(const WbRotation &rotation) { mSavedRotations[stateId()] = rotation; }
-
   // Solid merger
   QPointer<WbSolidMerger> solidMerger() const { return mSolidMerger; }
   void setupSolidMerger();
@@ -153,7 +147,7 @@ public:
 
   void resetPhysics(bool recursive = true) override;
   // pause/resume physics computation on the current solid and its descandants
-  void pausePhysics() override;
+  void pausePhysics(bool resumeAutomatically = false) override;
   void resumePhysics() override;
 
   // handle artifical moves triggered by the user or a Supervisor
@@ -288,6 +282,7 @@ protected:
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeFooter(WbVrmlWriter &writer) const override;
+  const QString sanitizedName() const;
 
 protected slots:
   void updateTranslation() override;
@@ -330,7 +325,8 @@ private:
 
   // ODE
   dJointID mJoint;
-  bool mUpdatedInStep;  // used to update Transform coordinated to setup ray collisions (based on pre-physics step values)
+  bool mUpdatedInStep;       // used to update Transform coordinated to setup ray collisions (based on pre-physics step values)
+  bool mResetPhysicsInStep;  // used to completely reset physics when the solid is also moved in the same step
   void setGeomAndBodyPositions();
   void applyPhysicsTransform();
   void computePlaneParams(WbTransform *transform, WbVector3 &n, double &d) const;
@@ -450,9 +446,6 @@ private:
   WrRenderable *mCenterOfBuoyancyRenderable;
   WrMaterial *mCenterOfBuoyancyMaterial;
 
-  // Positions and orientations storage
-  QMap<QString, WbVector3> mSavedTranslations;
-  QMap<QString, WbRotation> mSavedRotations;
   WbHiddenKinematicParameters::HiddenKinematicParameters *mOriginalHiddenKinematicParameters;
   bool applyHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParameters *hkp, bool backupPrevious);
   bool restoreHiddenKinematicParameters(const WbHiddenKinematicParameters::HiddenKinematicParametersMap &map,

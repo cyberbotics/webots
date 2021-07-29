@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -18,7 +18,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/webots_box.png"
+            "webots://projects/samples/geometries/worlds/textures/webots_box.png"
           ]
         }
         roughness 0.5

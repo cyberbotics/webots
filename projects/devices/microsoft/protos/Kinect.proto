@@ -1,10 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/range-finder-sensors#microsoft-kinect
 # Microsoft Kinect.
 # It contains a RangeFinder device called "<cameraName> + ' range'" and a Camera device called "<cameraName> + ' color'".
+# template language: javascript
 
 PROTO Kinect [
   field SFVec3f    translation   0 0 0
@@ -20,13 +20,11 @@ PROTO Kinect [
   field SFBool     foot          TRUE         # Defines whether the articulated foot is present.
 ]
 {
-%{
-  local foot = fields.foot.value
-}%
+  %< const foot = fields.foot.value; >%
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ if foot then }%
+    %< if (foot) { >%
     children [
       Transform {
         translation 0 0.025 0
@@ -51,7 +49,7 @@ PROTO Kinect [
           roughness 0.2
           baseColorMap ImageTexture {
             url [
-              "textures/kinect_tilt_motor.jpg"
+              "webots://projects/devices/microsoft/protos/textures/kinect_tilt_motor.jpg"
             ]
           }
         }
@@ -361,7 +359,7 @@ PROTO Kinect [
         endPoint Solid {
           translation 0 0.05 0
           rotation 1 0 0 0
-          %{ end }%
+          %< } >%
           children [
             Shape {
               appearance PBRAppearance {
@@ -369,12 +367,12 @@ PROTO Kinect [
                 roughness 0.1
                 baseColorMap ImageTexture {
                   url [
-                    "textures/kinect.jpg"
+                    "webots://projects/devices/microsoft/protos/textures/kinect.jpg"
                   ]
                 }
                 roughnessMap ImageTexture {
                   url [
-                    "textures/kinect_roughness.jpg"
+                    "webots://projects/devices/microsoft/protos/textures/kinect_roughness.jpg"
                   ]
                 }
               }
@@ -512,7 +510,7 @@ PROTO Kinect [
             }
             Camera {
               translation 0.0127 0 0
-              name %{= '"' .. fields.cameraName.value .. " color" .. '"' }%
+              name %<= '"' + fields.cameraName.value + ' color"' >%
               fieldOfView 1.0
               width IS width
               height IS height
@@ -520,7 +518,7 @@ PROTO Kinect [
             }
             RangeFinder {
               translation -0.0127 0 0
-              name %{= '"' .. fields.cameraName.value .. " range" .. '"' }%
+              name %<= '"' + fields.cameraName.value + ' range"' >%
               fieldOfView 1.0
               width IS width
               height IS height
@@ -535,7 +533,7 @@ PROTO Kinect [
             density -1
             mass 0.1
           }
-          %{ if foot then }%
+          %< if (foot) { >%
         }
       }
     ]
@@ -553,6 +551,6 @@ PROTO Kinect [
       density -1
       mass 0.4
     }
-    %{ end }%
+    %< } >%
   }
 }

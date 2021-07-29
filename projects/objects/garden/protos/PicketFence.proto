@@ -1,9 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A picket fence made of several segments with optional boundingObject.
 # Each segment is made of 11 pickets.
+# template language: javascript
 
 PROTO PicketFence [
   field SFVec3f    translation            0 0 0
@@ -13,14 +13,14 @@ PROTO PicketFence [
   field SFBool     enableBoundingObject   TRUE            # Defines whether the fence should have a bounding object.
 ]
 {
-  %{
-    -- parameter checking
-    local numberOfSegments = fields.numberOfSegments.value
-    if numberOfSegments <= 0 then
-      io.stderr:write("'numberOfSegments' must be greater than 0\n")
-      numberOfSegments = fields.numberOfSegments.defaultValue
-    end
-  }%
+  %<
+    // parameter checking
+    let numberOfSegments = fields.numberOfSegments.value;
+    if (numberOfSegments <= 0) {
+      numberOfSegments = fields.numberOfSegments.defaultValue;
+      console.error('\'numberOfSegments\' must be strictly positive. Value reset to ' + numberOfSegments + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -30,22 +30,22 @@ PROTO PicketFence [
       0.4627450980392157 0.3568627450980392 0.20784313725490197
     ]
     children [
-      %{ for i = 0, numberOfSegments - 1 do }%
+      %< for (let i = 0; i <= numberOfSegments - 1; ++i) { >%
         Transform {
-          translation %{= 1.7 * i }% 0 0
+          translation %<= 1.7 * i >% 0 0
           children [
             Shape {
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "textures/picket_fence_base_color.jpg"
+                    "webots://projects/objects/garden/protos/textures/picket_fence_base_color.jpg"
                   ]
                 }
                 roughness 1
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "textures/picket_fence_normal.jpg"
+                    "webots://projects/objects/garden/protos/textures/picket_fence_normal.jpg"
                   ]
                 }
               }
@@ -70,17 +70,17 @@ PROTO PicketFence [
             }
           ]
         }
-      %{ end }%
+      %< } >%
     ]
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
-      translation %{= 0.85 * numberOfSegments }% 0.55 0
+      translation %<= 0.85 * numberOfSegments >% 0.55 0
       children [
         Box {
-          size %{= 1.7 * numberOfSegments }% 1.1 0.04
+          size %<= 1.7 * numberOfSegments >% 1.1 0.04
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

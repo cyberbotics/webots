@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Description: official soccer simulation for the 2021 Robocup Virtual Humanoid League (adult size)"
@@ -14,7 +14,7 @@ WorldInfo {
     ContactProperties {
       material1 "grass"
       coulombFriction [
-        0.1
+        0.5
       ]
       softCFM 0.03
     }
@@ -71,7 +71,7 @@ DEF RED_2 Darwin-opHinge2 {
   cameraHeight 480
   jersey RobotisJersey {
     jerseyTexture [
-      "textures/robotis-op2_2_red.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_red.png"
     ]
   }
   backlash TRUE
@@ -86,7 +86,7 @@ DEF BLUE_1 Darwin-opHinge2 {
   cameraHeight 480
   jersey RobotisJersey {
     jerseyTexture [
-      "textures/robotis-op2_1_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_blue.png"
     ]
   }
   backlash TRUE
@@ -101,7 +101,7 @@ DEF BLUE_2 Darwin-opHinge2 {
   cameraHeight 480
   jersey RobotisJersey {
     jerseyTexture [
-      "textures/robotis-op2_2_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_blue.png"
     ]
   }
   backlash TRUE

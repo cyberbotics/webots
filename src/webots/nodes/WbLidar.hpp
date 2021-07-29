@@ -40,6 +40,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
+  void writeAnswer(QDataStream &stream) override;
   void reset(const QString &id) override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
@@ -103,6 +104,7 @@ private:
   int mActualHorizontalResolution;
   double mActualVerticalFieldOfView;
   double mActualFieldOfView;
+  QString mActualType;
 
   WrRenderable *mFrustumRenderable;
   WrMaterial *mFrustumMaterial;
@@ -132,7 +134,7 @@ private:
     return (sizeof(float) + sizeof(WbLidarPoint)) * actualHorizontalResolution() * actualNumberOfLayers();
   }
   double minRange() const override { return mMinRange->value(); }
-  bool isRotating() const { return mType->value().startsWith('r', Qt::CaseInsensitive); }
+  bool isRotating() const { return mActualType.startsWith('r', Qt::CaseInsensitive); }
   double verticalFieldOfView() const { return actualFieldOfView() * ((double)height() / (double)width()); }
 
   WbLidarPoint *pointArray() { return (WbLidarPoint *)(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers()); }

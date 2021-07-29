@@ -51,7 +51,6 @@ protected:
   WbDevice(const WbDevice &other);
 
   void *mWindow;  // robot window
-  unsigned int mRefreshRate;
 
 private:
   WbDeviceTag mTag;

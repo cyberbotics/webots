@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Huge IndexedFaceSet representing a monkey"
@@ -21,7 +21,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/marble.jpg"
+            "webots://projects/default/worlds/textures/marble.jpg"
           ]
         }
         roughness 0.5

@@ -15,13 +15,19 @@
 #ifndef WB_NETWORK_HPP
 #define WB_NETWORK_HPP
 
+#include <QtCore/QObject>
+
 class QNetworkAccessManager;
 
-class WbNetwork {
+class WbNetwork : public QObject {
 public:
   static WbNetwork *instance();
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
+  void clearCache();
+
+public slots:
+  void updateCache();
 
 private:
   static void cleanup();

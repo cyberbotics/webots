@@ -1,8 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
-# tags: static
 # A barbecue with optional physics.
+# template language: javascript
 
 PROTO Barbecue [
   field SFVec3f    translation     0 0 0
@@ -25,27 +25,27 @@ PROTO Barbecue [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/barbecue_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "textures/barbecue_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "textures/barbecue_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "textures/barbecue_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "textures/barbecue_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_occlusion.jpg"
             ]
           }
           IBLStrength 0.3
@@ -123,7 +123,7 @@ PROTO Barbecue [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 8
@@ -135,6 +135,6 @@ PROTO Barbecue [
         0.008012952073916418 -0.0013574011793570095 2.726369199164106
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

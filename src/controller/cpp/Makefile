@@ -42,6 +42,7 @@ vpath %.o $(OBJDIR)
 vpath %.cpp .
 
 CPPSRC = Accelerometer.cpp \
+         Altimeter.cpp \
          Brake.cpp \
          Camera.cpp \
          Compass.cpp \
@@ -82,7 +83,7 @@ ifneq (,$(filter $(MAKECMDGOALS),debug release profile)) # if $(MAKECMDGOALS) is
 endif
 
 ifeq ($(OSTYPE),windows)
-LDFLAGS       = -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a
+LDFLAGS       = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a
 LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
@@ -101,7 +102,7 @@ TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 endif
 
 ifeq ($(OSTYPE),linux)
-LDFLAGS       = -shared
+LDFLAGS       = -shared -Wl,-rpath,'$$ORIGIN'
 SHAREDLIBS    = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController
 CPPFLAGS      = -c -fpic -Wall
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp

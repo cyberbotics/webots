@@ -565,9 +565,9 @@ static void create_file(const char *name, int m) {
               "DefaultDirName={autopf}\\%s\n"
               "DefaultGroupName=Cyberbotics\n"
               "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots-bin.exe\n"
-              "PrivilegesRequired=lowest\n"
+              "PrivilegesRequired=admin\n"
               "UsePreviousPrivileges=no\n"
-              "PrivilegesRequiredOverridesAllowed=dialog\n",
+              "PrivilegesRequiredOverridesAllowed=dialog commandline\n",
               application_name, version, application_name, version, year, application_name);
       fprintf(fd, "OutputBaseFileName=%s-%s_setup\n", application_name_lowercase_and_dashes, package_version);
       fprintf(fd,
@@ -1429,8 +1429,8 @@ static void create_distributions(int m) {
 #ifdef _WIN32
   add_msys64_files();
 #endif
-  add_files("files_doc.txt");
   add_files("files_projects.txt");
+  add_files("textures_whitelist.txt");
   create_file("Webots", m);
 }
 

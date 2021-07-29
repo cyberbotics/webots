@@ -53,15 +53,17 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     const QStringList info = tokenizerInfo.split("\n");  // .wrl # comments
     for (int i = 0; i < info.size(); ++i) {
       if (!info.at(i).startsWith("tags:") && !info.at(i).startsWith("license:") && !info.at(i).startsWith("license url:") &&
-          !info.at(i).startsWith("documentation url:"))
+          !info.at(i).startsWith("documentation url:") && !info.at(i).startsWith("template language:"))
         mInfo += info.at(i) + "\n";
     }
+    mInfo.chop(1);
   }
   mTags = tokenizer->tags();
   mLicense = tokenizer->license();
   mLicenseUrl = tokenizer->licenseUrl();
   mDocumentationUrl = tokenizer->documentationUrl();
-  mIsStatic = mTags.contains("static");
+  mTemplateLanguage = tokenizer->templateLanguage();
+  mIsDeterministic = !mTags.contains("nonDeterministic");
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
   // check recursive definition
@@ -129,6 +131,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mContentStartingLine = contentLine;
   int contentColumn = token->column() - 1;
 
+  const QString &open = WbProtoTemplateEngine::openingToken();
+  const QString &close = WbProtoTemplateEngine::closingToken();
+
   QFile file(fileName);
   if (file.open(QIODevice::ReadOnly)) {
     for (int i = 0; i < contentLine; i++)
@@ -154,13 +159,13 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       QChar pc;
       for (int i = 0; i < line.size(); ++i) {
         const QChar c = line[i];
-        if (c == '{' && pc == '%')
+        if (c == open[1] && pc == open[0])
           insideTemplateStatement = true;
-        else if (c == '%' && pc == '}')
+        else if (c == close[1] && pc == close[0])
           insideTemplateStatement = false;
         else if (c == '"' && pc != '\\')
           insideDoubleQuotes = !insideDoubleQuotes;
-        else if (!insideTemplateStatement && c == '#' && !insideDoubleQuotes)
+        else if (!insideTemplateStatement && c == '#' && !insideDoubleQuotes && mTemplateLanguage == "lua")
           // ignore VRML comments
           // but '#' is the lua length operator and has to be kept if found inside a template statement
           break;
@@ -275,8 +280,12 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         // "%{ a = \"fields.model->name().value.y\" }%"  => false
         // "%{= \"fields.model->name().value.y\" }%"  => false
         // "%{= fields.model->name().value.y }%"  => true
-        if (token->word().contains(QRegularExpression(
-              QString("%{(?:(?!}%|\").)*fields\\.%1(?:(?!}%|\").)*}%").arg(QRegularExpression::escape(model->name())))))
+        if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
+                                                        .arg(open)
+                                                        .arg(close)
+                                                        .arg(QRegularExpression::escape(model->name()))
+                                                        .arg(close)
+                                                        .arg(close))))
           model->setTemplateRegenerator(true);
       }
     }
@@ -318,7 +327,7 @@ WbProtoModel::~WbProtoModel() {
   foreach (WbFieldModel *model, mFieldModels)
     model->unref();
   mFieldModels.clear();
-  mStaticContentMap.clear();
+  mDeterministicContentMap.clear();
 }
 
 WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const QString &worldPath, int uniqueId) {
@@ -334,28 +343,32 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   QString content = mContent;
   QString key;
   if (mTemplate) {
-    if (mIsStatic) {
+    if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
-        if (parameter->isTemplateRegenerator())
-          key += WbProtoTemplateEngine::convertFieldValueToLuaStatement(parameter);
+        if (parameter->isTemplateRegenerator()) {
+          QString statement = WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(parameter);
+          if (mTemplateLanguage == "lua")
+            statement = WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(statement);
+          key += statement;
+        }
       }
     }
 
-    if (!mIsStatic || (!mStaticContentMap.contains(key) || mStaticContentMap.value(key).isEmpty())) {
+    if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
-      if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId)) {
+      if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId, mTemplateLanguage)) {
         tokenizer.setErrorPrefix(mFileName);
         tokenizer.reportFileError(tr("Template engine error: %1").arg(te.error()));
         return NULL;
       }
       content = te.result();
-      if (mIsStatic)
-        mStaticContentMap.insert(key, content);
+      if (mIsDeterministic)
+        mDeterministicContentMap.insert(key, content);
     } else
-      content = mStaticContentMap.value(key);
+      content = mDeterministicContentMap.value(key);
   } else
-    mIsStatic = true;
+    mIsDeterministic = true;
 
   tokenizer.setErrorPrefix(mFileName);
   if (tokenizer.tokenizeString(content) > 0) {
@@ -451,8 +464,8 @@ QStringList WbProtoModel::parameterNames() const {
 
 void WbProtoModel::setIsTemplate(bool value) {
   mTemplate = value;
-  if (mTemplate && mIsStatic) {  // if ancestor is not static this proto can't be eihter
-    mIsStatic = mAncestorProtoModel->isStatic();
+  if (mTemplate && mIsDeterministic) {  // if ancestor is nonDeterministic this proto can't be either
+    mIsDeterministic = mAncestorProtoModel->isDeterministic();
   }
 }
 
@@ -507,7 +520,9 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
   if (isRobot) {
     // check for robot doc
     const QString &name = mName.toLower();
-    if (QFile::exists(WbStandardPaths::localDocPath() + "guide/" + name + ".md")) {
+
+    const QString page("guide/" + name + ".md");
+    if (checkIfDocumentationPageExist(page)) {
       bookAndPage << "guide" << name;
       return bookAndPage;
     }
@@ -518,7 +533,8 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
     QString name = dir.dirName().replace('_', '-');
     while (!dir.isRoot()) {
       if (dir == objectsDir) {
-        if (QFile::exists(WbStandardPaths::localDocPath() + "guide/object-" + name + ".md")) {
+        const QString page("guide/object-" + name + ".md");
+        if (checkIfDocumentationPageExist(page)) {
           bookAndPage << "guide"
                       << "object-" + name;
           return bookAndPage;
@@ -536,7 +552,8 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
       const QStringList &splittedPath = documentationUrl.split("doc/");
       if (splittedPath.size() == 2) {
         const QString file(splittedPath[1].split('#')[0]);
-        if (QFile::exists(WbStandardPaths::localDocPath() + file + ".md")) {
+        const QString page(file + ".md");
+        if (checkIfDocumentationPageExist(page)) {
           bookAndPage = file.split('/');
           if (splittedPath[1].contains('#'))
             bookAndPage[1] += '#' + splittedPath[1].split('#')[1];
@@ -547,4 +564,24 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
   }
 
   return bookAndPage;  // return empty
+}
+
+bool WbProtoModel::checkIfDocumentationPageExist(const QString &page) const {
+  bool exist = false;
+  QFile file(WbStandardPaths::webotsHomePath() + "docs/list.txt");
+  if (!file.open(QIODevice::ReadOnly))
+    return false;
+  QTextStream in(&file);
+  QString line = in.readLine();
+  while (!line.isNull()) {
+    if (line.contains(page, Qt::CaseSensitive)) {
+      exist = true;
+      break;
+    }
+    line = in.readLine();
+  }
+
+  file.close();
+
+  return exist;
 }

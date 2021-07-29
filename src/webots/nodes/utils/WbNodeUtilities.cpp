@@ -19,6 +19,7 @@
 #include "WbBallJoint.hpp"
 #include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
+#include "WbBillboard.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbBrake.hpp"
 #include "WbDevice.hpp"
@@ -189,7 +190,7 @@ namespace {
       const bool isInsertingTopLevel = node->isWorldRoot();
 
       // A robot cannot be a bounding object
-      if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName))
+      if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName) && !WbNodeUtilities::isDescendantOfBillboard(node))
         return true;
 
       // top level nodes
@@ -233,6 +234,8 @@ namespace {
           return true;
         if (nodeName == "Transform")
           return true;
+        if (nodeName == "Billboard")
+          return true;
         if (nodeName == "Shape")
           return true;
         if (nodeName == "PointLight")
@@ -243,8 +246,11 @@ namespace {
         errorMessage = QObject::tr("%1 node cannot be inserted at the top level of the node hierarchy.").arg(nodeName);
         return false;
       }
-      if (nodeName == "Slot")
+      if (nodeName == "Slot") {
+        if (WbNodeUtilities::isDescendantOfBillboard(node))
+          return false;
         return true;
+      }
     }
 
     static QStringList *fields = NULL;
@@ -445,6 +451,11 @@ namespace {
           return true;
         if (nodeName == "Shape")
           return true;
+
+        if (WbNodeUtilities::isDescendantOfBillboard(node))
+          // only Group, Transform and Shape allowed
+          return false;
+
         if (nodeName == "Solid")
           return true;
 
@@ -659,7 +670,21 @@ WbMatter *WbNodeUtilities::findUppermostMatter(WbNode *node) {
 }
 
 WbSolid *WbNodeUtilities::findTopSolid(const WbNode *node) {
-  return dynamic_cast<WbSolid *>(const_cast<WbNode *>(findTopNode(node)));
+  if (node == NULL)
+    return NULL;
+
+  const WbNode *n = node;
+  const WbNode *parent = n->parentNode();
+  WbSolid *topSolid = NULL;
+  while (parent) {
+    WbSolid *currentSolid = dynamic_cast<WbSolid *>(const_cast<WbNode *>(n));
+    if (currentSolid)
+      topSolid = currentSolid;
+
+    n = parent;
+    parent = n->parentNode();
+  }
+  return topSolid;
 }
 
 WbTransform *WbNodeUtilities::findUpperTransform(const WbNode *node) {
@@ -760,13 +785,7 @@ bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node) {
 }
 
 bool WbNodeUtilities::hasADefNodeAncestor(const WbNode *node) {
-  if (node == NULL)
-    return false;
-
-  if (node->isDefNode())
-    return true;
-
-  const WbNode *p = node->parentNode();
+  const WbNode *p = node;
   while (p) {
     if (p->isDefNode())
       return true;
@@ -777,13 +796,7 @@ bool WbNodeUtilities::hasADefNodeAncestor(const WbNode *node) {
 }
 
 bool WbNodeUtilities::hasAUseNodeAncestor(const WbNode *node) {
-  if (node == NULL)
-    return false;
-
-  if (node->isUseNode())
-    return true;
-
-  const WbNode *p = node->parentNode();
+  const WbNode *p = node;
   while (p) {
     if (p->isUseNode())
       return true;
@@ -819,7 +832,7 @@ WbRobot *WbNodeUtilities::findRobotAncestor(const WbNode *node) {
   if (!node)
     return NULL;
 
-  while (node->parentNode()) {
+  while (node) {
     if (isRobotTypeName(node->nodeModelName())) {
       const WbRobot *robot = reinterpret_cast<const WbRobot *>(node);
       return const_cast<WbRobot *>(robot);
@@ -838,6 +851,36 @@ bool WbNodeUtilities::isFieldDescendant(const WbNode *node, const QString &field
   WbField *field = node->parentField(true);
   while (n && !n->isWorldRoot() && field) {
     if (field->name() == fieldName)
+      return true;
+
+    field = n->parentField(true);
+    n = n->parentNode();
+  }
+
+  return false;
+}
+
+bool WbNodeUtilities::isDescendantOfBillboard(const WbNode *node) {
+  if (node == NULL)
+    return false;
+
+  const WbBaseNode *initialNode = dynamic_cast<const WbBaseNode *>(node);
+
+  if (!initialNode)
+    return false;
+
+  if (initialNode->nodeType() == WB_NODE_BILLBOARD)
+    return true;
+
+  WbNode *n = node->parentNode();
+  WbField *field = node->parentField(true);
+  while (n && !n->isWorldRoot() && field) {
+    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(field->parentNode());
+
+    if (!baseNode)
+      return false;
+
+    if (baseNode->nodeType() == WB_NODE_BILLBOARD)
       return true;
 
     field = n->parentField(true);
@@ -885,13 +928,16 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
 bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
   const WbNode *const p = node->parentNode();
   if (p) {
-    const WbSolid *const s = dynamic_cast<const WbSolid *>(p);
-    if (s)
-      return s->boundingObject() == node;
+    const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    if (m) {
+      const WbNode *boundingObject = m->boundingObject();
 
-    const WbFluid *const f = dynamic_cast<const WbFluid *>(p);
-    if (f)
-      return f->boundingObject() == node;
+      while (boundingObject) {
+        if (boundingObject == node)
+          return true;
+        boundingObject = boundingObject->protoParameterNode();
+      }
+    }
 
     return isInBoundingObject(p);
   }
@@ -1021,7 +1067,7 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
     WbMatter *matter = dynamic_cast<WbMatter *>(n);
     if (matter) {
       if (matter->isProtoParameterNode()) {
-        WbBaseNode *finalizedInstance = matter->getSingleFinalizedProtoInstance();
+        WbBaseNode *finalizedInstance = matter->getFirstFinalizedProtoInstance();
         if (finalizedInstance)
           visibleMatter = dynamic_cast<WbMatter *>(finalizedInstance);
       } else
@@ -1106,6 +1152,10 @@ WbAbstractTransform *WbNodeUtilities::abstractTransformCast(WbBaseNode *node) {
 bool WbNodeUtilities::isNodeOrAncestorLocked(WbNode *node) {
   WbNode *n = node;
   while (n && !n->isWorldRoot()) {
+    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
+    if (baseNode && baseNode->nodeType() == WB_NODE_BILLBOARD)
+      return true;
+
     WbMatter *matter = dynamic_cast<WbMatter *>(n);
     if (matter && matter->isLocked())
       return true;
@@ -1221,60 +1271,37 @@ static bool isExperimentalDeviceTypeName(const QString &modelName) {
 bool WbNodeUtilities::isDeviceTypeName(const QString &modelName) {
   if (isSolidDeviceTypeName(modelName))
     return true;
-  if (modelName == "Brake")
-    return true;
-  if (modelName == "LinearMotor")
-    return true;
-  if (modelName == "PositionSensor")
-    return true;
-  if (modelName == "RotationalMotor")
-    return true;
-  if (modelName == "Skin")
-    return true;
-
-  return false;
+  QStringList deviceTypeName = (QStringList() << "Brake"
+                                              << "LinearMotor"
+                                              << "PositionSensor"
+                                              << "RotationalMotor"
+                                              << "Skin");
+  return deviceTypeName.contains(modelName);
 }
 
 bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
-  if (modelName == "Accelerometer")
-    return true;
-  if (modelName == "Camera")
-    return true;
-  if (modelName == "Compass")
-    return true;
-  if (modelName == "Connector")
-    return true;
-  if (modelName == "Display")
-    return true;
-  if (modelName == "DistanceSensor")
-    return true;
-  if (modelName == "Emitter")
-    return true;
-  if (modelName == "GPS")
-    return true;
-  if (modelName == "Gyro")
-    return true;
-  if (modelName == "InertialUnit")
-    return true;
-  if (modelName == "LED")
-    return true;
-  if (modelName == "Lidar")
-    return true;
-  if (modelName == "LightSensor")
-    return true;
-  if (modelName == "Pen")
-    return true;
-  if (modelName == "Radar")
-    return true;
-  if (modelName == "RangeFinder")
-    return true;
-  if (modelName == "Receiver")
-    return true;
-  if (modelName == "Speaker")
-    return true;
-  if (modelName == "TouchSensor")
-    return true;
-  if (modelName == "Track")
+  QStringList solidDeviceTypeName = (QStringList() << "Accelerometer"
+                                                   << "Altimeter"
+                                                   << "Camera"
+                                                   << "Compass"
+                                                   << "Connector"
+                                                   << "Display"
+                                                   << "DistanceSensor"
+                                                   << "Emitter"
+                                                   << "GPS"
+                                                   << "Gyro"
+                                                   << "InertialUnit"
+                                                   << "LED"
+                                                   << "Lidar"
+                                                   << "LightSensor"
+                                                   << "Pen"
+                                                   << "Radar"
+                                                   << "RangeFinder"
+                                                   << "Receiver"
+                                                   << "Speaker"
+                                                   << "TouchSensor"
+                                                   << "Track");
+  if (solidDeviceTypeName.contains(modelName))
     return true;
 
   if (WbNodeReader::current() &&
@@ -1592,6 +1619,13 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
     return false;
   }
 
+  const WbBillboard *const billboard = dynamic_cast<WbBillboard *>(n);
+  if (billboard) {
+    if (warning)
+      *warning = QObject::tr("Billboard nodes cannot be USEd.");
+    return false;
+  }
+
   const WbBasicJoint *const joint = dynamic_cast<WbBasicJoint *>(n);
   if (joint) {
     if (warning)
@@ -1616,7 +1650,7 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
   const WbLogicalDevice *const logicalDevice = dynamic_cast<WbLogicalDevice *>(n);
   if (logicalDevice) {
     if (warning)
-      *warning = QObject::tr("Device nodes cannot be USEd nodes cannot be USEd.");
+      *warning = QObject::tr("Device nodes cannot be USEd.");
     return false;
   }
 

@@ -103,12 +103,14 @@ void WbCharger::updateMaterialsAndLights(double batteryRatio) {
     WbMaterial *material = dynamic_cast<WbMaterial *>(visualElement->node);
     WbPbrAppearance *appearance = dynamic_cast<WbPbrAppearance *>(visualElement->node);
     WbLight *light = dynamic_cast<WbLight *>(visualElement->node);
+    const WbRgb color(cr, cg, cb);
+    assert(!WbRgb(cr, cg, cb).clampValuesIfNeeded());
     if (material)
-      material->setEmissiveColor(WbRgb(cr, cg, cb));
+      material->setEmissiveColor(color);
     else if (appearance)
-      appearance->setEmissiveColor(WbRgb(cr, cg, cb));
+      appearance->setEmissiveColor(color);
     else if (light)
-      light->setColor(WbRgb(cr, cg, cb));
+      light->setColor(color);
   }
 }
 
@@ -202,16 +204,12 @@ void WbCharger::prePhysicsStep(double ms) {
       // special case:
       //   if the current energy of the robot is already bigger that its max energy
       //   the robot battery cannot be filled (useful for ratslife)
-      if (robotCurrentEnergy > mRobot->maxEnergy()) {
-        // emtpy the Charger - the energy is lost
-        currentEnergy = 0.0;
+      if (robotCurrentEnergy > mRobot->maxEnergy())
         mDone = true;
-      } else {
+      else {
         robotCurrentEnergy += e;
         if (robotCurrentEnergy > mRobot->maxEnergy()) {
-          // emtpy the Charger - some energy is lost
           robotCurrentEnergy = mRobot->maxEnergy();
-          currentEnergy = 0.0;
           mDone = true;
         }
       }

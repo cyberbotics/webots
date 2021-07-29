@@ -32,7 +32,8 @@ from command import Command
 
 # monitor failures
 failures = 0
-
+systemFailures = []
+whitelist = ['ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer']
 # parse arguments
 filesArguments = []
 nomakeOption = False
@@ -49,6 +50,9 @@ if len(sys.argv) > 1:
             raise RuntimeError('Unknown option "' + arg + '"')
 
 testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering']
+
+if sys.platform == 'win32':
+    testGroups.remove('parser')  # this one doesn't work on Windows
 
 # global files
 testsFolderPath = os.path.dirname(os.path.abspath(__file__)) + os.sep
@@ -294,9 +298,13 @@ for groupName in testGroups:
             appendToOutputFile('- expected number of worlds: %d\n' % (worldsCount))
             appendToOutputFile('- number of worlds actually tested: %s)\n' % (counterString))
         else:
-            with open(webotsStdErrFilename, 'r') as file:
-                if 'Failure' in file.read():
-                    failures += 1
+            lines = open(webotsStdErrFilename, 'r').readlines()
+            for line in lines:
+                if 'Failure' in line:
+                    # check if it should be ignored
+                    if not any(item in line for item in whitelist):
+                        failures += 1
+                        systemFailures.append(line)
 
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
@@ -308,8 +316,8 @@ for groupName in testGroups:
             for line in f:
                 appendToOutputFile(line)
                 if '(core dumped)' in line:
-                    l = line[0:line.find(' Segmentation fault')]
-                    pid = int(l[l.rfind(' ') + 1:])
+                    seg_fault_line = line[0:line.find(' Segmentation fault')]
+                    pid = int(seg_fault_line[seg_fault_line.rfind(' ') + 1:])
                     core_dump_file = '/tmp/core_webots-bin.' + str(pid)
                     if os.path.exists(core_dump_file):
                         appendToOutputFile(subprocess.check_output([
@@ -323,6 +331,11 @@ for groupName in testGroups:
                         )
 
 appendToOutputFile('\n' + finalMessage + '\n')
+
+if len(systemFailures) > 0:
+    appendToOutputFile('\nSystem Failures:\n')
+    for message in systemFailures:
+        appendToOutputFile(message)
 
 time.sleep(1)
 if monitorOutputCommand.isRunning():
