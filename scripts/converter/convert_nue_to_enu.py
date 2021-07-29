@@ -32,6 +32,25 @@ def rotation(value, r):
     return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
 
 
+def convertChildren(node):
+    if 'fields' in node:
+        for field in node['fields']:
+            if field['name'] in ['translation']:
+                field['value'] = [field['value'][0], str(0 if field['value'][2] == '0' else -float(field['value'][2])),
+                                  field['value'][1]]
+            if field['name'] in ['jointParameters']:
+                joint = field['value']
+                for param in joint['fields']:
+                    if param['name'] in ['axis']:
+                        param['value'] = [param['value'][0], str(0 if param['value'][2] == '0' else -float(param['value'][2])),
+                                          param['value'][1]]
+            if field['name'] in ['children']:
+                for child in field['value']:
+                    convertChildren(child)
+            if field['name'] in ['endPoint']:
+                convertChildren(field['value'])
+
+
 def convert_to_enu(filename):
     world = WebotsParser()
     world.load(filename)
@@ -52,7 +71,8 @@ def convert_to_enu(filename):
                     field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
                 elif field['name'] in ['position']:
                     position_found = True
-                    field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
+                    field['value'] = [field['value'][0], str(0 if field['value'][2] == '0' else -float(field['value'][2])),
+                                      field['value'][1]]
             if not orientation_found:
                 node['fields'].append({'name': 'orientation',
                                        'value': ['1', '0', '0', str(0.5 * math.pi)],
@@ -61,6 +81,18 @@ def convert_to_enu(filename):
                 node['fields'].append({'name': 'position',
                                        'value': ['0', '-10', '0'],
                                        'type': 'SFVec3f'})
+        elif node['name'] == 'DirectionalLight':
+            direction_found = False
+            for field in node['fields']:
+                if field['name'] in ['direction']:
+                    field['value'] = [field['value'][0], str(0 if field['value'][2] == '0' else -float(field['value'][2])),
+                                      field['value'][1]]
+                    direction_found = True
+
+            if not direction_found:
+                node['fields'].append({'name': 'direction',
+                                       'value': ['0', '1', '0'],
+                                       'type': 'SFVec3f'})
         elif node['name'] not in ['TexturedBackground', 'TexturedBackgroundLight', 'PointLight']:
             print('Rotating', node['name'])
             rotation_found = False
@@ -68,19 +100,19 @@ def convert_to_enu(filename):
                 if field['name'] in ['rotation']:
                     rotation_found = True
                     field['value'] = rotation(field['value'], [1, 0, 0, 0.5 * math.pi])
-                elif field['name'] in ['translation']:
-                    field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
-            if not rotation_found:
-                node['fields'].append({'name': 'rotation',
-                                       'value': ['1', '0', '0', str(0.5 * math.pi)],
-                                       'type': 'SFRotation'})
+                if field['name'] in ['translation']:
+                    field['value'] = [field['value'][0], str(0 if field['value'][2] == '0' else -float(field['value'][2])),
+                                      field['value'][1]]
+            convertChildren(node)
+            # if not rotation_found:
+            #     node['fields'].append({'name': 'rotation',
+            #                            'value': ['1', '0', '0', str(0.5 * math.pi)],
+            #                            'type': 'SFRotation'})
     world.save(filename)
 
 
 if __name__ == "__main__":
     # execute only if run as a script
-    for filename in sys.argv:
-        if not filename.endswith('.wbt'):
-            continue
-        print(filename)
-        convert_to_enu(filename)
+    filename = "tests/api/worlds/accelerometer.wbt"
+    print(filename)
+    convert_to_enu(filename)
