@@ -100,5 +100,11 @@
     "url": "./library/Tinkerbots/TinkerbotsTwister.proto",
     "icon": "./library/Tinkerbots/icons/TinkerbotsTwister.png",
     "slotType": "tinkerbots+"
+  }  ,
+  "TinkerbotsWheel": {
+    "proto": "TinkerbotsWheel.proto",
+    "url": "./library/Tinkerbots/TinkerbotsWheel.proto",
+    "icon": "./library/Tinkerbots/icons/TinkerbotsWheel.png",
+    "slotType": "lego cross-"
   }
 }
