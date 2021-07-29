@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
 
@@ -18,20 +20,31 @@ export default class WbTransform extends WbGroup {
     this.children = [];
   }
 
+  setParameter(parameterName, parameterValue) {
+    if (parameterName === 'translation') {
+      this.translation = parameterValue;
+      this.applyTranslationToWren();
+    } else if (parameterName === 'rotation') {
+      this.rotation = parameterValue;
+      this.applyRotationToWren();
+    } else
+      throw new Error('Unknown parameter ' + parameterName + ' for node WbTransform.');
+  };
+
   applyRotationToWren() {
     const rotation = _wrjs_array4(this.rotation.w, this.rotation.x, this.rotation.y, this.rotation.z);
     _wr_transform_set_orientation(this.wrenNode, rotation);
-  }
+  };
 
   applyScaleToWren() {
     const scale = _wrjs_array3(this.scale.x, this.scale.y, this.scale.z);
     _wr_transform_set_scale(this.wrenNode, scale);
-  }
+  };
 
   applyTranslationToWren() {
     const translation = _wrjs_array3(this.translation.x, this.translation.y, this.translation.z);
     _wr_transform_set_position(this.wrenNode, translation);
-  }
+  };
 
   async clone(customID) {
     const transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation);
@@ -64,7 +77,7 @@ export default class WbTransform extends WbGroup {
     this.applyTranslationToWren();
     this.applyRotationToWren();
     this.applyScaleToWren();
-  }
+  };
 
   delete(isBoundingObject) {
     if (this.wrenObjectsCreatedCalled)
@@ -74,26 +87,26 @@ export default class WbTransform extends WbGroup {
       this.boundingObject.delete(true);
 
     super.delete(isBoundingObject);
-  }
+  };
 
   preFinalize() {
     super.preFinalize();
 
     if (typeof this.boundingObject !== 'undefined')
       this.boundingObject.preFinalize();
-  }
+  };
 
   postFinalize() {
     super.postFinalize();
 
     if (typeof this.boundingObject !== 'undefined')
       this.boundingObject.postFinalize();
-  }
+  };
 
   updateBoundingObjectVisibility() {
     super.updateBoundingObjectVisibility();
 
     if (typeof this.boundingObject !== 'undefined')
       this.boundingObject.updateBoundingObjectVisibility();
-  }
+  };
 }

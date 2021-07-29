@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import WbGeometry from './WbGeometry.js';
 import WbVector3 from './utils/WbVector3.js';
 
