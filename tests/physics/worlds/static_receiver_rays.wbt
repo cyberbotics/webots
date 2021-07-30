@@ -229,7 +229,7 @@ DEF STATIC_ROBOT Robot {
     }
     DEF DYNAMIC Receiver {
       translation 0.02 0 0
-      rotation 0.9999999999929585 -2.653589999981315e-06 -2.653589999981315e-06 -1.5707953071795862
+      rotation 1 0 0 -1.5707953071795862
       children [
         Transform {
           rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
