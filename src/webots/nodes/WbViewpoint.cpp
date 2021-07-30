@@ -486,7 +486,7 @@ void WbViewpoint::lookAt(const WbVector3 &target, const WbVector3 &upVector) {
 
   // recompute the orthonormal up vector
   WbVector3 up = forward.cross(right);
-  WbQuaternion newLookAtQuaternion = WbQuaternion(right, up, forward);
+  WbQuaternion newLookAtQuaternion = WbQuaternion(forward, right, up);
   newLookAtQuaternion.normalize();
   WbRotation newOrientation = WbRotation(newLookAtQuaternion);
   mOrientation->setValue(newOrientation);
@@ -1283,7 +1283,7 @@ void WbViewpoint::rightView() {
 }
 
 void WbViewpoint::topView() {
-  orbitTo(WbVector3(0, 1, 0), WbRotation(1, 0, 0, -M_PI / 2));
+  orbitTo(WbVector3(0, 0, 1), WbRotation(0, 1, 0, M_PI / 2));
 }
 
 void WbViewpoint::bottomView() {
@@ -1297,7 +1297,7 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   WbWorld::instance()->setModified();
 
   // first, we need to calculate the orientation of the world as this will be applied to all orbits
-  const WbVector3 &defaultUpVector = WbVector3(0, 1, 0);
+  const WbVector3 &defaultUpVector = WbVector3(0, 0, 1);
   const WbVector3 &gravityUpVector = -WbWorld::instance()->worldInfo()->gravityUnitVector();
   if (gravityUpVector.dot(defaultUpVector) > 0.9999)
     // In the case of the gravity vector being the default create the identity quaternion
