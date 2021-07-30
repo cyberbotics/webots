@@ -190,6 +190,7 @@ input[type=text] {
 
 .proto-icon {
   height: 100%;
+  margin: 10px;
 }
 
 .proto-icon:hover {
@@ -227,7 +228,7 @@ input[type=text] {
   z-index: 1;
   left: 0;
   top: 0;
-  max-width: 50%;
+  max-width: 650px;
   max-height: 150px;
   overflow: auto;
   background-color: rgb(0,0,0); /* Fallback color */

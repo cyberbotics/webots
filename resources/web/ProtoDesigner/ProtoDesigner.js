@@ -173,11 +173,11 @@ class ProtoDesigner {
     let s = '';
     s += '#VRML_SIM R2021b utf8\n\n';
     s += 'PROTO MyTinkerbotsBase [\n';
-    s += this.exportProtoHeader(this.activeProtos.get(0), 2);
+    s += this.exportProtoHeader(this.baseRobot, 2);
     s += ']\n';
     s += '{\n';
-    s += '  TinkerbotsBase {\n'
-    s += this.exportProtoBody(this.activeProtos.get(0), 4);
+    s += '  TinkerbotsBase {\n';
+    s += this.exportProtoBody(this.baseRobot, 4);
     s += '  }\n';
     s += '}\n';
 
