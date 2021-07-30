@@ -46,7 +46,7 @@ A "force" [TouchSensor](#touchsensor) computes the (scalar) amount of force curr
 The sensor uses this equation: *r=|f|*cos(α)*, where *r* is the return value, *f* is the cumulative force currently exerted on the sensor's body, and *α* is the angle between *f* and the sensor's x-axis.
 So the "force" sensor returns the projection of the force on its x-axis; a force perpendicular to the x-axis yields zero.
 For this reason, a "force" sensor must be oriented such that its positive x-axis points outside of the robot, in the direction where the force needs to me measured.
-For example, if the [TouchSensor](#touchsensor) is used as foot sensor, then the x-axis should be oriented downwards.
+For example, if the [TouchSensor](#touchsensor) is used as a foot sensor then the x-axis should be oriented downwards.
 The scalar force value must be read using the `wb_touch_sensor_get_value` function.
 
 #### "force-3d" Sensors
