@@ -1,0 +1,24 @@
+#VRML_SIM R2021b utf8
+
+PROTO TestHingeInSlot [
+]
+{
+  Slot {
+    type "tinkerbots+"
+    endPoint Solid {
+      children [
+        HingeJoint {
+          endPoint Solid {
+            children [
+              Shape {
+                geometry Box {
+                  size 0.1 0.1 0.1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -10,4 +10,9 @@ export default class WbSolid extends WbTransform {
   constructor(id, isSolid = false, translation, scale, rotation) {
     super(id, false, translation, scale, rotation);
   }
+
+  delete(isBoundingObject) {
+    console.log('deleting solid ' + this.id)
+    super.delete(isBoundingObject);
+  }
 }

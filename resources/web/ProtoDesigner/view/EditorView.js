@@ -206,7 +206,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
   nodeRemoval() {
     if (this.parameter.value instanceof Proto) {
       const x3dNodes = this.parameter.value.x3dNodes;
-      console.log('Node removal for nodes: ', x3dNodes);
+      console.log('Removing node: ' + x3dNodes[0]);
       this.view.x3dScene._deleteObject(parseInt(x3dNodes[0].slice(1)));
       this.view.x3dScene.render();
 

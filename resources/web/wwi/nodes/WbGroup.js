@@ -39,6 +39,7 @@ export default class WbGroup extends WbBaseNode {
   }
 
   delete(isBoundingObject) {
+    console.log('deleting group ' + this.id)
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
@@ -56,6 +57,7 @@ export default class WbGroup extends WbBaseNode {
       }
     }
 
+    console.log('asd', this, this.children, this.children.length)
     let index = this.children.length - 1;
     while (index >= 0) {
       this.children[index].delete();

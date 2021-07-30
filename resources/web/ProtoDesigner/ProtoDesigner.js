@@ -88,9 +88,10 @@ class ProtoDesigner {
         //const url = './examples/protos/ProtoSlotContainer.proto';
         // const url = './library/Tinkerbots/ProtoWithNested.proto';
 
+        //const url = './library/Tinkerbots/TinkerbotsUniversal.proto';
         // Tinkerbots
 // const url = './library/Tinkerbots/TinkerbotsAxle.proto';
-        const url = './library/Tinkerbots/TinkerbotsBase.proto';
+         const url = './library/Tinkerbots/TinkerbotsBase.proto';
         // const url = './library/Tinkerbots/TinkerbotsBrickAdapter.proto';
         // const url = './library/Tinkerbots/TinkerbotsCube.proto';
         // const url = './library/Tinkerbots/TinkerbotsCubieBoxWithCrossSlots.proto';

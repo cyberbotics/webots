@@ -1,4 +1,10 @@
 {
+  "TestHingeInSlot": {
+    "proto": "TestHingeInSlot.proto",
+    "url": "./library/Tinkerbots/TestHingeInSlot.proto",
+    "icon": "./library/Tinkerbots/icons/TinkerbotsAxle.png",
+    "slotType": "lego cross+"
+  },
   "TinkerbotsAxle": {
     "proto": "TinkerbotsAxle.proto",
     "url": "./library/Tinkerbots/TinkerbotsAxle.proto",

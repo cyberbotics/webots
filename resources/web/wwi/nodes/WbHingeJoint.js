@@ -29,6 +29,7 @@ export default class WbHingeJoint extends WbBaseNode {
   }
 
   delete(isBoundingObject) {
+    console.log('deleting HJ ' + this.id)
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
@@ -47,7 +48,7 @@ export default class WbHingeJoint extends WbBaseNode {
     }
 
     if (typeof this.endPoint !== 'undefined' && this.endPoint !== null)
-      this.endPoint.delete();
+      this.endPoint.delete(isBoundingObject);
 
     super.delete();
   }

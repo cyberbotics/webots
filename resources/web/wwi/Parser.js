@@ -457,7 +457,7 @@ export default class Parser {
 
     let endPoint;
     if (node.firstChild)
-      endPoint = await this._parseNode(node.firstChild, parentNode);
+      endPoint = await this._parseNode(node.firstChild); // do not pass the parentNode or the node is added in two spots
 
     const hingeJoint = new WbHingeJoint(id, endPoint);
 

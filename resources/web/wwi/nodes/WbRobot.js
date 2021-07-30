@@ -10,4 +10,9 @@ export default class WbRobot extends WbSolid {
   constructor(id, isSolid = false, translation = new WbVector3(0, 0, 0), scale = new WbVector3(1, 1, 1), rotation = new WbVector4(0, 1, 0, 0)) {
     super(id, false, translation, scale, rotation);
   }
+
+  delete(isBoundingObject) {
+    console.log('deleting robot ' + this.id)
+    super.delete(isBoundingObject);
+  }
 }
