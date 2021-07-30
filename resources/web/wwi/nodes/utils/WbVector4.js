@@ -13,6 +13,10 @@ export default class WbVector4 {
     return new WbVector4(this.x / number, this.y / number, this.z / number, this.w / number);
   }
 
+  equal(vector) {
+    return this.x === vector.x && this.y === vector.y && this.z === vector.z && this.w === vector.w;
+  }
+
   clone() {
     return new WbVector4(this.x, this.y, this.z, this.w);
   };

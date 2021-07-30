@@ -15,16 +15,64 @@ export default class Parameter {
     this.isTemplateRegenerator = isRegenerator;
     this.defaultValue = defaultValue;
     this.value = value;
-    this.linkedProto = undefined; // SFNode fields can reference other proto files
-  };
+  }
 
   isSFNode() {
     return this.type === VRML.SFNode;
-  };
+  }
 
-  exportVrml() {
-    return 'field ' + vrmlTypeAsString(this.type) + ' ' + this.name + ' ' + this.vrmlify();
-  };
+  exportVrmlHeader() {
+    return 'field ' + vrmlTypeAsString(this.type) + ' ' + this.name + ' ' + this.vrmlify() + '\n';
+  }
+
+  isDefaultValue() {
+    switch (this.type) {
+      case VRML.SFBool:
+      case VRML.SFFloat:
+      case VRML.SFInt32:
+      case VRML.SFString:
+        return this.value.valueOf() === this.defaultValue.valueOf();
+      case VRML.SFVec2f:
+      case VRML.SFVec3f:
+      case VRML.SFColor:
+      case VRML.SFRotation:
+        return this.value.equal(this.defaultValue);
+      case VRML.SFNode:
+        return JSON.stringify(this.value) === JSON.stringify(this.defaultValue);
+      case VRML.MFBool:
+      case VRML.MFFloat:
+      case VRML.MFInt32:
+      case VRML.MFString:
+        if (this.value.length !== this.defaultValue.length)
+          return false;
+        for (let i = 0; i < this.value.length; ++i) {
+          if (this.value.valueOf() !== this.defaultValue.valueOf())
+            return false;
+        }
+        return true;
+      case VRML.MFVec2f:
+      case VRML.MFVec3f:
+      case VRML.MFColor:
+      case VRML.MFRotation:
+        if (this.value.length !== this.defaultValue.length)
+          return false;
+        for (let i = 0; i < this.value.length; ++i) {
+          if (!this.value.equal(this.defaultValue))
+            return false;
+        }
+        return true;
+      case VRML.MFNode:
+        if (this.value.length !== this.defaultValue.length)
+          return false;
+        for (let i = 0; i < this.value.length; ++i) {
+          if (JSON.stringify(this.value) !== JSON.stringify(this.defaultValue))
+            return false;
+        }
+        return true;
+      default:
+        throw new Error('Cannot determine if parameter value was change, unknown type ' + this.type);
+    }
+  }
 
   setValueFromString(value) {
     switch (this.type) {
@@ -81,11 +129,34 @@ export default class Parameter {
       case VRML.SFRotation:
         return this.value.x + ' ' + this.value.y + ' ' + this.value.z + ' ' + this.value.w;
       case VRML.SFNode:
-        if (typeof this.value !== 'undefined')
-          console.error('TODO: implement SFNode in vrmlify.');
-        return 'NULL';
+        if (typeof this.value === 'undefined')
+          return 'NULL';
+        else
+          console.warning('Pre-defined SFNodes should not be exported using vrmlify.');
+        break;
+      case VRML.MFBool:
+        let mfb = '[';
+        for (let i = 0; i < this.value.length; ++i)
+          mfb += this.value[i].toString().toUpperCase() + ', ';
+        if (mfb.length > 1)
+          mfb = mfb.slice(0, -2);
+        return mfb + ']';
+      case VRML.MFString:
+        let mfs = '[';
+        for (let i = 0; i < this.value.length; ++i)
+          mfs += this.value[i] + ', ';
+        if (mfs.length > 1)
+          mfs = mfs.slice(0, -2);
+        return mfs + ']';
+      case VRML.MFNode:
+        console.log(this.value)
+        if (this.value.length === 0)
+          return '[]';
+        else
+          console.warn('Pre-defined MFNodes should not be exported using vrmlify.');
+        break;
       default:
-        throw new Error('Unknown type \'' + this.type + '\' in x3dify.');
+        throw new Error('Unknown type \'' + this.type + '\' in vrmlify.');
     }
   }
 
@@ -123,7 +194,7 @@ export default class Parameter {
 
   jsify(isColor = false) { // encodes field values in a format compliant for the template engine VRLM generation
     return '{value: ' + this._jsifyVariable(this.value, isColor) + ', defaultValue: ' + this._jsifyVariable(this.defaultValue, isColor) + '}';
-  };
+  }
 
   _jsifyVariable(variable, isColor) {
     switch (this.type) {

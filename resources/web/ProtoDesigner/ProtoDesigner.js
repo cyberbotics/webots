@@ -43,7 +43,7 @@ class ProtoDesigner {
     }
 
     this._init();
-  };
+  }
 
   async _init() {
     Module.onRuntimeInitialized = () => {
@@ -120,7 +120,7 @@ class ProtoDesigner {
     promises.push(this._load('https://git.io/glm-js.min.js'));
     promises.push(this._load('https://cyberbotics.com/wwi/R2021b/enum.js'));
     promises.push(this._load('https://cyberbotics.com/wwi/R2021b/wrenjs.js'));
-  };
+  }
 
   _load(scriptUrl) {
     return new Promise(function(resolve, reject) {
@@ -129,7 +129,7 @@ class ProtoDesigner {
       script.src = scriptUrl;
       document.head.appendChild(script);
     });
-  };
+  }
 
   insertProto(rawProto, parentId, parameter) {
     console.log('Raw Proto:\n' + rawProto);
@@ -157,7 +157,7 @@ class ProtoDesigner {
         await this.insertProto(xmlhttp.responseText, parentId, parameter);
     };
     xmlhttp.send();
-  };
+  }
 
   loadLibrary(url) {
     console.log('Loading library file: ' + url);
@@ -169,7 +169,7 @@ class ProtoDesigner {
         await this.library.parseLibrary(xmlhttp.responseText);
     };
     xmlhttp.send();
-  };
+  }
 
   async loadMinimalScene() {
     const xml = document.implementation.createDocument('', '', null);
@@ -206,25 +206,67 @@ class ProtoDesigner {
   exportProto() {
     let s = '';
     s += '#VRML_SIM R2021b utf8\n\n';
-    s += 'PROTO CustomProto [\n';
-
-    s += this.exportParameters(this.activeProtos.get(0), '  ');
-
+    s += 'PROTO MyTinkerbotsBase [\n';
+    s += this.exportProtoHeader(this.activeProtos.get(0), 2);
     s += ']\n';
-    s += this.activeProtos.get(0).rawBody;
+    s += '{\n';
+    s += '  TinkerbotsBase {\n'
+    s += this.exportProtoBody(this.activeProtos.get(0), 4);
+    s += '  }\n';
+    s += '}\n';
 
     console.log(s);
     return s;
-  };
+  }
 
-  exportParameters(proto, indent = '') {
-    let t = '';
+  exportParameters(proto, depth) {
+    let p = '';
+    const indent = ' '.repeat(depth);
+
     const parameters = proto.parameters;
+
     for (const parameter of parameters.values()) {
-      t += indent + parameter.exportVrml() + '\n';
+      if (parameter.value instanceof Proto)
+        p += this.exportProtoBody(proto, depth);
+      else {
+        if (!parameter.isDefaultValue())
+          p += indent + parameter.name + ' ' + parameter.vrmlify() + '\n';
+      }
     }
+
+    return p;
+  }
+
+  exportProtoHeader(proto, depth) {
+    let h = '';
+    const indent = ' '.repeat(depth);
+
+    const protoParameters = proto.parameters;
+    for (const parameter of protoParameters.values()) {
+      if (!(parameter.value instanceof Proto)) {
+        h += indent + parameter.exportVrmlHeader();
+      }
+    }
+
+    return h;
+  }
+
+  exportProtoBody(proto, depth) {
+    let t = '';
+    const indent = ' '.repeat(depth);
+
+    const protoParameters = proto.parameters;
+    for (const parameter of protoParameters.values()) {
+      if (parameter.value instanceof Proto) {
+        t += indent + parameter.name + ' ' + parameter.value.protoName + ' {\n';
+        t += this.exportParameters(parameter.value, depth + 2);
+        t += indent + '}\n';
+      } else
+        t += indent + parameter.name + ' IS ' + parameter.name + '\n';
+    }
+
     return t;
-  };
+  }
 };
 
 let designer = new ProtoDesigner( // eslint-disable-line no-new

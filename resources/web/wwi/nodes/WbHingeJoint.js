@@ -29,7 +29,6 @@ export default class WbHingeJoint extends WbBaseNode {
   }
 
   delete(isBoundingObject) {
-    console.log('deleting HJ ' + this.id)
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
