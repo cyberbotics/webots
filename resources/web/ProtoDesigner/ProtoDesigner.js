@@ -62,57 +62,11 @@ class ProtoDesigner {
         //  this.library = new LibraryView(this.libraryElement);
         //  this.loadLibrary('./library/library.json');
 
-        this.activeProtos = new Map(); // currently loaded protos
+        this.baseRobot = undefined; // robot base
+        this.protoMap = new Map();
 
         // load default scene
         this.loadMinimalScene(); // setup background, viewpoint and worldinfo
-
-        // const url = '../wwi/Protos/ProtoTestParameters.proto';
-        // const url = '../wwi/Protos/ProtoBox.proto';
-        // const url = '../wwi/Protos/ProtoTemplate.proto';
-        // const url = '../wwi/Protos/ProtoTransform.proto';
-        // const url = '../wwi/Protos/ProtoTestAll.proto';
-        // const url = '../wwi/Protos/ProtoDefUse.proto';
-
-        // base geometries
-        // const url = '../wwi/Protos/ProtoTestBox.proto';
-        // const url = '../wwi/Protos/ProtoTestCylinder.proto';
-        // const url = '../wwi/Protos/ProtoTestSphere.proto';
-        // const url = '../wwi/Protos/ProtoTestCapsule.proto';
-        // const url = '../wwi/Protos/ProtoTestCone.proto';
-
-        // const url = '../wwi/Protos/ProtoTestSFNode.proto';
-        // const url = './examples/protos/ProtoSolid.proto';
-        // const url = './examples/protos/ProtoIndexedFaceSet.proto';
-        // const url = './examples/protos/ProtoSlot.proto';
-        //const url = './examples/protos/ProtoSlotContainer.proto';
-        // const url = './library/Tinkerbots/ProtoWithNested.proto';
-
-        //const url = './library/Tinkerbots/TinkerbotsUniversal.proto';
-        // Tinkerbots
-// const url = './library/Tinkerbots/TinkerbotsAxle.proto';
-         const url = './library/Tinkerbots/TinkerbotsBase.proto';
-        // const url = './library/Tinkerbots/TinkerbotsBrickAdapter.proto';
-        // const url = './library/Tinkerbots/TinkerbotsCube.proto';
-        // const url = './library/Tinkerbots/TinkerbotsCubieBoxWithCrossSlots.proto';
-// const url = './library/Tinkerbots/TinkerbotsCubieBoxWithRoundSlots.proto';
-        // const url = './library/Tinkerbots/TinkerbotsCubieFemaleCube.proto';
-        // const url = './library/Tinkerbots/TinkerbotsCubieMaleCube.proto';
-        // const url = './library/Tinkerbots/TinkerbotsCubiePyramid.proto';
-        // const url = './library/Tinkerbots/TinkerbotsCubieTriangle.proto';
-// const url = './library/Tinkerbots/TinkerbotsDistanceSensor.proto';
-        // const url = './library/Tinkerbots/TinkerbotsFinger.proto';
-        // const url = './library/Tinkerbots/TinkerbotsGrabber.proto';
-        // const url = './library/Tinkerbots/TinkerbotsLightSensor.proto';
-        // const url = './library/Tinkerbots/TinkerbotsMotor.proto';
-        // const url = './library/Tinkerbots/TinkerbotsPivot.proto';
-        // const url = './library/Tinkerbots/TinkerbotsTwister.proto';
-        // const url = './library/Tinkerbots/TinkerbotsWheel.proto';
-
-        if (typeof this.scene === 'undefined')
-          throw new Error('Scene not ready yet');
-
-        this.loadProto(url);
       });
     };
 
@@ -139,7 +93,10 @@ class ProtoDesigner {
     if (typeof parameter !== 'undefined')
       parameter.value = newProto;
 
-    this.activeProtos.set(newProto.id, newProto);
+    if (typeof this.baseRobot === 'undefined')
+      this.baseRobot = newProto;
+
+    this.protoMap.set(newProto.id, newProto);
 
     this.editor.refreshParameters();
 
@@ -203,6 +160,15 @@ class ProtoDesigner {
     this.view.open(x3d, 'x3d', '', true, this.renderer);
   }
 
+  cleanup() {
+    this.view.x3dScene._deleteObject(parseInt(this.baseRobot.x3dNodes[0].slice(1)));
+    this.view.x3dScene.render();
+    this.baseRobot = undefined;
+    this.protoMap.clear();
+
+    this.editor.refreshParameters();
+  }
+
   exportProto() {
     let s = '';
     s += '#VRML_SIM R2021b utf8\n\n';
@@ -243,9 +209,8 @@ class ProtoDesigner {
 
     const protoParameters = proto.parameters;
     for (const parameter of protoParameters.values()) {
-      if (!(parameter.value instanceof Proto)) {
+      if (!(parameter.value instanceof Proto))
         h += indent + parameter.exportVrmlHeader();
-      }
     }
 
     return h;

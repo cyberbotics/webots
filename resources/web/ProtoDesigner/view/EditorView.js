@@ -17,8 +17,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.designer = designer;
     this.library = library;
 
-    this.cleanupDiv('No loaded PROTO');
-
     this.parameter = undefined; // currently selected parameter in the UI
     this.proto = undefined; // currently referenced proto (based on the active parameter)
 
@@ -30,12 +28,8 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     console.log('Cleared EditorView innnerHTML');
     this.setupModalWindow();
 
-    if (this.designer.activeProtos.size === 0)
-      this.cleanupDiv('No loaded PROTO');
-    else {
-      const proto = this.designer.activeProtos.get(0);
-      this.populateDiv(proto);
-    }
+    if (typeof this.designer.baseRobot !== 'undefined')
+      this.populateDiv(this.designer.baseRobot);
   }
 
   populateDiv(proto, depth = 0, parent = this.element) {
@@ -182,7 +176,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     const parameterId = e.target.form.attributes['parameterId'].value;
     console.log('Clicked item parameterId = ' + parameterId + ' (protoId = ' + protoId + ')');
 
-    this.proto = this.designer.activeProtos.get(protoId);
+    this.proto = this.designer.protoMap.get(protoId);
     this.parameter = this.proto.parameters.get(parameterId);
 
     // determine filtering condition
@@ -252,11 +246,6 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     let div = document.createElement('div');
     div.className = 'modal';
     div.setAttribute('id', 'modalWindow');
-    // let button = document.createElement('button');
-    // button.classList.add('modal-close-button');
-    // button.innerText = 'X';
-    // button.addEventListener('click', () => this.closeModalWindow(event));
-    // div.appendChild(button);
 
     this.element.appendChild(div);
   }
@@ -284,7 +273,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     const parameterId = e.target.form.attributes['parameterId'].value;
     console.log('Clicked item parameterId = ' + parameterId + ' (protoId = ' + protoId + ')');
 
-    this.proto = this.designer.activeProtos.get(protoId);
+    this.proto = this.designer.protoMap.get(protoId);
     this.parameter = this.proto.parameters.get(parameterId);
 
     const newValue = this.getValuesFromForm(e.target.form);
@@ -366,9 +355,5 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       default:
         throw new Error('Unknown form in getValuesFromForm.');
     }
-  }
-
-  cleanupDiv(text) {
-    this.element.innerHTML = '<p><i>' + text + '</i></p>';
   }
 }

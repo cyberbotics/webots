@@ -155,6 +155,39 @@ input[type=text] {
   width: 55%;
 }
 
+/* The Modal (background) */
+.new-project-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,1); /* Black w/ opacity */
+}
+
+.new-project-modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 400px;
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
 .proto-icon {
   height: 100%;
 }
@@ -173,6 +206,19 @@ input[type=text] {
   width: 60%;
   white-space:normal !important;
   word-wrap:break-word;
+}
+
+.new-project-modal {
+  //display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
 }
 
 .modal {
