@@ -16,7 +16,7 @@ PointLight {
   location 0 0 0.3
 }
 Solid {
-  rotation 1 0 0 1.5707996938995747
+  rotation 1 0 0 1.5708
   children [
     Shape {
       appearance PBRAppearance {
@@ -39,8 +39,8 @@ DEF DYNAMIC_EMITTER Robot {
           rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
           children [
             Transform {
-              translation 0 3.67321e-08 0.05
-              rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+              translation 0 0 0.05
+              rotation 0 -0.707108281185553 0.70710528118436 3.14159
               children [
                 Shape {
                   appearance BrushedSteel {
@@ -67,8 +67,8 @@ DEF DYNAMIC_EMITTER Robot {
           rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
           children [
             Transform {
-              translation 0 3.67321e-08 0.05
-              rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+              translation 0 0 0.05
+              rotation 0 -0.707108281185553 0.70710528118436 3.14159
               children [
                 Shape {
                   appearance BrushedSteel {
@@ -112,8 +112,8 @@ DEF STATIC_EMITTER Robot {
           rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
           children [
             Transform {
-              translation 0 3.67321e-08 0.05
-              rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+              translation 0 0 0.05
+              rotation 0 -0.707108281185553 0.70710528118436 3.14159
               children [
                 Shape {
                   appearance BrushedSteel {
@@ -140,8 +140,8 @@ DEF STATIC_EMITTER Robot {
           rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
           children [
             Transform {
-              translation 0 3.67321e-08 0.05
-              rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+              translation 0 0 0.05
+              rotation 0 -0.707108281185553 0.70710528118436 3.14159
               children [
                 Shape {
                   appearance BrushedSteel {
@@ -264,7 +264,7 @@ DEF DYNAMIC_ROBOT Robot {
     }
     DEF STATIC Receiver {
       translation 0 0.02 0
-      rotation -9.770659999962178e-07 2.605269999989915e-06 -0.9999999999961291 -1.5707953071795862
+      rotation 0 0 -1 -1.5708
       children [
         Transform {
           rotation 0.5773509358560258 0.577349935856137 0.577349935856137 2.09439
@@ -293,7 +293,7 @@ DEF DYNAMIC_ROBOT Robot {
     }
     DEF DYNAMIC Receiver {
       translation 0 -0.02 0
-      rotation -6.88391e-07 -1.73924e-06 1 -1.5707953071795862
+      rotation 0 0 1 -1.5708
       children [
         Transform {
           rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
@@ -322,7 +322,7 @@ DEF DYNAMIC_ROBOT Robot {
     }
     DEF STATIC Receiver {
       translation 0 0.02 0
-      rotation 4.66309e-07 1.73924e-06 -1 -1.5707953071795862
+      rotation 0 0 -1 -1.5708
       children [
         Transform {
           rotation 0.5773509358560258 0.577349935856137 0.577349935856137 2.09439
@@ -352,7 +352,7 @@ DEF DYNAMIC_ROBOT Robot {
     }
     DEF DYNAMIC Receiver {
       translation 0 -0.02 0
-      rotation 0 0 1 -1.5707953071795862
+      rotation 0 0 1 -1.5708
       children [
         Transform {
           rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
