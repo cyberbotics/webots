@@ -378,5 +378,5 @@ void WbPlane::recomputeBoundingSphere() const {
 ////////////////////////
 
 WbVector3 WbPlane::computeFrictionDirection(const WbVector3 &normal) const {
-  return WbVector3(0, 0, 1);
+  return WbVector3(0, -1, 0);
 }

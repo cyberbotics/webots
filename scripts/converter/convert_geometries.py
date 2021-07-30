@@ -37,13 +37,13 @@ def rotation(value, r):
 def createNewTransform():
     if coordinateSystem == 'ENU':
         return {'fields': [{'name': 'Geometrics_conversion', 'value': 'Geometrics_conversion',
-                                    'type': 'SFString'}, {'name': 'rotation', 'value': ['1', '0', '0', '1.57'],
+                                    'type': 'SFString'}, {'name': 'rotation', 'value': ['1', '0', '0', '1.57079632679'],
                                                           'type': 'SFRotation'},
                            {'name': 'children', 'type': 'MFNode', 'value': []}],
                 'type': 'node', 'name': 'Transform'}
     else:
         return {'fields': [{'name': 'Geometrics_conversion', 'value': 'Geometrics_conversion',
-                                    'type': 'SFString'}, {'name': 'rotation', 'value': ['1', '0', '0', '-1.57'],
+                                    'type': 'SFString'}, {'name': 'rotation', 'value': ['1', '0', '0', '-1.57079632679'],
                                                           'type': 'SFRotation'},
                            {'name': 'children', 'type': 'MFNode', 'value': []}],
                 'type': 'node', 'name': 'Transform'}
@@ -56,11 +56,22 @@ def convert_children(node, parent):
         for field in node['fields']:
             if field['name'] in ['geometry'] and field['value']['name'] in ['Cylinder', 'Cone', 'Capsule', 'ElevationGrid',
                                                                             'Plane']:
+                isDef = False
+                defName = None
+                #  We need to transfer the def to the transform
+                if 'DEF' in field['value']:
+                    defName = field['value']['DEF']
+                    isDef = True
+                    field['value'].pop('DEF')
+
                 newTransform = createNewTransform()
                 for param in newTransform['fields']:
                     if param['name'] in 'children':
                         param['value'] = [node]
                         parent.remove(node)
+
+                if isDef:
+                    newTransform['DEF'] = defName
 
                 parent.append(newTransform)
     #  Case of boundingObject
@@ -170,6 +181,6 @@ if __name__ == "__main__":
     # for filename in sys.argv:
     #     if not filename.endswith('.wbt'):
     #         continue
-    filename = "tests/api/worlds/accelerometer.wbt"
+    filename = "tests/api/worlds/asymmetric_friction.wbt"
     print(filename)
     convert_to_enu(filename)
