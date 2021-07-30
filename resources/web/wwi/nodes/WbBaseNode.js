@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import {findUpperTransform, nodeIsInBoundingObject} from './utils/utils.js';
 import WbWorld from './WbWorld.js';
 

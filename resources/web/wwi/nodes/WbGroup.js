@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import WbBaseNode from './WbBaseNode.js';
 import WbLight from './WbLight.js';
 import WbWorld from './WbWorld.js';
@@ -45,6 +47,8 @@ export default class WbGroup extends WbBaseNode {
       if (typeof parent !== 'undefined') {
         if (isBoundingObject)
           parent.isBoundingObject = null;
+        else if (typeof parent.endPoint !== 'undefined')
+          parent.endPoint = null;
         else {
           const index = parent.children.indexOf(this);
           parent.children.splice(index, 1);
@@ -60,6 +64,7 @@ export default class WbGroup extends WbBaseNode {
 
     super.delete();
   }
+
   preFinalize() {
     super.preFinalize();
 

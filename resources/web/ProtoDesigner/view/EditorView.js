@@ -23,7 +23,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     this.proto = undefined; // currently referenced proto (based on the active parameter)
 
     this.forms = new Map();
-  };
+  }
 
   refreshParameters() {
     this.element.innerHTML = ''; // clean HTML
@@ -36,7 +36,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       const proto = this.designer.activeProtos.get(0);
       this.populateDiv(proto);
     }
-  };
+  }
 
   populateDiv(proto, depth = 0, parent = this.element) {
     console.log('DEPTH ' + depth, proto);
@@ -55,7 +55,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       if (parameter.type === VRML.SFNode && parameter.value instanceof Proto)
         this.populateDiv(parameter.value, depth + 1, div);
     }
-  };
+  }
 
   setupParameter(proto, parameter, parameterId, parent) {
     let form = document.createElement('form');
@@ -175,7 +175,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     parent.appendChild(form);
 
     return div;
-  };
+  }
 
   itemSelector(e) {
     const protoId = parseInt(e.target.form.attributes['protoId'].value);
@@ -201,29 +201,40 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     modal.style.top = position.y + 'px';
     modal.style.left = (position.x + position.width) + 'px';
     this.library.loadAssets(modal, filter, this.nodeInsertion.bind(this));
-  };
+  }
+
+  nodeRemoval() {
+    if (this.parameter.value instanceof Proto) {
+      const x3dNodes = this.parameter.value.x3dNodes;
+      console.log('Node removal for nodes: ', x3dNodes);
+      this.view.x3dScene._deleteObject(parseInt(x3dNodes[0].slice(1)));
+      this.view.x3dScene.render();
+
+      let value;
+      if (this.parameter.defaultValue instanceof WbVector2 || this.parameter.defaultValue instanceof WbVector3 ||
+          this.parameter.defaultValue instanceof WbVector4)
+        value = this.parameter.defaultValue.clone();
+      else if (typeof defaultValue === 'undefined')
+        value = undefined;
+      else
+        value = this.parameter.defaultValue.valueOf();
+
+      this.parameter.value = value;
+      this.refreshParameters();
+    }
+  }
 
   nodeInsertion(e) {
-    const assetKey = e.target.attributes['assetKey'].value;
-
-    if (assetKey === 'remove') {
-      console.log('Slot will be removed');
-      return;
-    }
-
-    console.log('Selected asset: ' + assetKey);
-
     const modal = document.getElementById('modalWindow');
     modal.style.display = 'none';
 
-    /*
-    const form = this.getFormByParameterId(this.parameter.id);
-    if (typeof form === 'undefined')
-      throw new Error('No form linked to parameter id: ' + this.parameter.id + ' exists.');
+    const assetKey = e.target.attributes['assetKey'].value;
+    console.log('Selected asset: ' + assetKey);
 
-    const button = form.elements[0]; // because SFNode
-    button.innerText = assetKey;
-    */
+    if (assetKey === 'remove') {
+      this.nodeRemoval();
+      return;
+    }
 
     // get nodeRef (i.e the parent of the node that will be created now)
     const triggered = this.proto.getTriggeredFields(this.parameter);
@@ -319,7 +330,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
 
     this.view.x3dScene.render();
-  };
+  }
 
   getFormByParameterId(id) {
     let forms = document.getElementsByTagName('form');
@@ -327,7 +338,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       if (forms[i].attributes['parameterId'].value === id)
         return forms[i];
     }
-  };
+  }
 
   getValuesFromForm(form) {
     if (typeof form === 'undefined')
@@ -355,9 +366,9 @@ export default class EditorView { // eslint-disable-line no-unused-vars
       default:
         throw new Error('Unknown form in getValuesFromForm.');
     }
-  };
+  }
 
   cleanupDiv(text) {
     this.element.innerHTML = '<p><i>' + text + '</i></p>';
-  };
+  }
 }
