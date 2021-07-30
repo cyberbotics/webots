@@ -162,6 +162,8 @@ DEF STATIC_EMITTER Robot {
       range 0.1
       aperture 0.4
     }
+    TestSuiteEmitter {
+    }
   ]
   name "static"
   boundingObject DEF BOX0 Box {
