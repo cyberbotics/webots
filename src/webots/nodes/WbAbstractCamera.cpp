@@ -829,11 +829,9 @@ void WbAbstractCamera::updateFrustumDisplay() {
   const float n = minRange();
   const float quadWidth = 2.0f * n * tanf(mFieldOfView->value() / 2.0f);
   const float translation[3] = {0.0f, 0.0f, -n};
-  const float orientation[4] = {M_PI / 2.0f, 1.0f, 0.0f, 0.0f};
-  const float scale[3] = {quadWidth, 1.0f, (quadWidth * height()) / width()};
+  const float scale[3] = {quadWidth, (quadWidth * height()) / width(), 1.0f};
 
   wr_transform_set_position(mFrustumDisplayTransform, translation);
-  wr_transform_set_orientation(mFrustumDisplayTransform, orientation);
   wr_transform_set_scale(mFrustumDisplayTransform, scale);
   wr_material_set_texture(mFrustumDisplayMaterial, mWrenCamera->getWrenTexture(), 0);
   wr_node_set_visible(WR_NODE(mFrustumDisplayTransform), true);

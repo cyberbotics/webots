@@ -1070,7 +1070,7 @@ namespace wren {
       for (int i = 0; i < sub1; ++i) {
         const float alpha = factor * i;
         x[i] = glm::sin(alpha);
-        y[i] = -glm::cos(alpha);
+        y[i] = glm::cos(alpha);
       }
 
       for (int i = 0; i < sub1; ++i) {
@@ -1110,7 +1110,7 @@ namespace wren {
           // compute vertices
           float *cv = new float[3];
           cv[0] = ar[j] * glm::sin(beta);
-          cv[1] = ar[j] * glm::cos(beta);
+          cv[1] = ar[j] * -glm::cos(beta);
           cv[2] = ay[j];
           v[i][j] = cv;
         }

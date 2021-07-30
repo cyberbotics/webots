@@ -16,7 +16,7 @@ PointLight {
 }
 Transform {
   translation 0 0 -1
-  rotation 1 0 0 1.57
+  rotation -1 0 0 0.000796326789306
   children [
     Shape {
       appearance PBRAppearance {

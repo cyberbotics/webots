@@ -187,6 +187,6 @@ if __name__ == "__main__":
     # for filename in sys.argv:
     #     if not filename.endswith('.wbt'):
     #         continue
-    filename = "tests/api/worlds/battery.wbt"
+    filename = "tests/api/worlds/camera_recognition.wbt"
     print(filename)
     convert_to_enu(filename)
