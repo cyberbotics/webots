@@ -135,6 +135,9 @@ class ProtoDesigner {
     const newProto = new Proto(rawProto); // note: only the header is parsed in the constructor
     newProto.parseBody();
 
+    if (typeof parameter !== 'undefined')
+      parameter.value = newProto;
+
     this.activeProtos.set(newProto.id, newProto);
 
     this.editor.refreshParameters();

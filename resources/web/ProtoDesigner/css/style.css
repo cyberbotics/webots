@@ -5,7 +5,7 @@
   grid-template-areas:
     'header header'
     'sidebar main';
-  grid-template-columns: 2fr 7fr;
+  grid-template-columns: 3fr 7fr;
   grid-template-rows: 30px auto;
   grid-gap: 3px;
   background-color: #333;
@@ -134,11 +134,11 @@
 .parameter-div {
   border: 2px solid #333;
   border-radius: 4px;
-  padding: 12px;
+  padding: 8px;
 }
 
 .parameter-label {
-  width: 40%;
+  width: 35%;
   text-align: left;
   float: left;
   padding-right: 5px;
@@ -167,9 +167,11 @@ input[type=text] {
   border-radius: 6px;
   background-color: #333;
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   font-family: monospace;
-  width: 55%;
+  width: 60%;
+  white-space:normal !important;
+  word-wrap:break-word;
 }
 
 .modal {

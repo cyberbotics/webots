@@ -7,6 +7,7 @@ import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
 import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
 
 import {VRML} from '../classes/utility/utility.js';
+import Proto from '../classes/Proto.js';
 
 export default class EditorView { // eslint-disable-line no-unused-vars
   constructor(element, view, designer, library) {
@@ -37,7 +38,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
   };
 
-  populateDiv(proto, depth = 0, parent) {
+  populateDiv(proto, depth = 0) {
     console.log('DEPTH ' + depth, proto);
     // add PROTO name label
     if (depth === 0) {
@@ -46,18 +47,23 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
       this.element.appendChild(nameLabel);
     }
+
     // display parameters
     for (const [key, parameter] of proto.parameters.entries()) {
-      this.setupParameter(proto, parameter, key);
+      this.setupParameter(proto, parameter, key, depth);
+
+      if (parameter.type === VRML.SFNode && parameter.value instanceof Proto)
+        this.populateDiv(parameter.value, depth + 1);
     }
   };
 
-  setupParameter(proto, parameter, parameterId) {
+  setupParameter(proto, parameter, parameterId, depth) {
     let form = document.createElement('form');
     form.setAttribute('onsubmit', 'return false;');
     form.setAttribute('parameterType', parameter.type);
     form.setAttribute('protoId', proto.id);
     form.setAttribute('parameterId', parameterId);
+    form.style.paddingLeft = 10 * depth + 'px';
 
     let div = document.createElement('div');
     div.classList.add('parameter-div');
