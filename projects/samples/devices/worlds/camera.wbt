@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9993654048920518 0.030316333863728808 -0.018700465395494855 5.290980871550239
-  position -0.04245159999999998 1.17179 0.823619
+  orientation 0 0 1 -1.57
+  position 0 3 0
 }
 TexturedBackground {
 }
@@ -265,7 +265,7 @@ Robot {
     }
     Camera {
       translation 0 0.0915 -0.04
-      rotation 0 0 -1 0
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       children [
         Transform {
           translation 0 0 0.015

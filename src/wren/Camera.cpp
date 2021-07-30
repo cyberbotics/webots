@@ -99,7 +99,7 @@ namespace wren {
     mForward = orientation() * gVec3UnitX;
     mRight = glm::cross(mForward, mUp);
 
-    mMatrices.mView = glm::lookAt(position() + mForward, position(), mUp);
+    mMatrices.mView = glm::lookAt(position(), position() + mForward, mUp);
 
     mIsViewDirty = false;
   }

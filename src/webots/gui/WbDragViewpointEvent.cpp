@@ -48,7 +48,7 @@ void WbTranslateViewpointEvent::apply(const QPoint &currentMousePosition) {
   if (mViewpoint->isLocked())
     return;
   mDifference = currentMousePosition - mInitialMousePosition;
-  const double targetRight = -mScaleFactor * mDifference.x();
+  const double targetRight = mScaleFactor * mDifference.x();
   const double targetUp = mScaleFactor * mDifference.y();
   const WbRotation &orientation = mViewpoint->orientation()->value();
   const WbVector3 target = targetRight * orientation.right() + targetUp * orientation.up();
@@ -86,7 +86,7 @@ void WbRotateViewpointEvent::apply(const QPoint &currentMousePosition) {
 
 void WbRotateViewpointEvent::applyToViewpoint(const QPoint &delta, const WbVector3 &rotationCenter,
                                               const WbVector3 &worldUpVector, bool objectPicked, WbViewpoint *viewpoint) {
-  double halfPitchAngle = -0.005 * delta.y();
+  double halfPitchAngle = 0.005 * delta.y();
   double halfYawAngle = -0.005 * delta.x();
   if (!objectPicked) {
     halfPitchAngle /= -8;
@@ -102,7 +102,6 @@ void WbRotateViewpointEvent::applyToViewpoint(const QPoint &delta, const WbVecto
   const WbQuaternion yawRotation(cos(halfYawAngle), sinusYaw * worldUpVector.x(), sinusYaw * worldUpVector.y(),
                                  sinusYaw * worldUpVector.z());
   // Updates camera's position and orientation
-  // TODO: There is something wrong with rotation, I believe the `rotationCenter` is not correct
   const WbQuaternion deltaRotation(yawRotation * pitchRotation);
   const WbVector3 currentPosition(deltaRotation * (position->value() - rotationCenter) + rotationCenter);
   const WbQuaternion currentOrientation(deltaRotation * orientationValue.toQuaternion());

@@ -1055,7 +1055,7 @@ void WbViewpoint::toWorld(const WbVector3 &pos, WbVector3 &P) const {
     projection = orthographic;
   }
 
-  WbVector3 eye = mPosition->value(), center = eye + mOrientation->value().direction(), up = mOrientation->value().up();
+  WbVector3 eye = mPosition->value(), center = eye - mOrientation->value().direction(), up = mOrientation->value().up();
 
   WbVector3 f = (center - eye).normalized(), s = f.cross(up).normalized(), u = s.cross(f);
 
