@@ -133,8 +133,9 @@
 
 .parameter-div {
   border: 2px solid #333;
-  border-radius: 4px;
-  padding: 8px;
+  //border-radius: 4px;
+  padding: 6px;
+  margin-top: 2px;
 }
 
 .parameter-label {

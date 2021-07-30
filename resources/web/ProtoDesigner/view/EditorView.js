@@ -38,7 +38,7 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
   };
 
-  populateDiv(proto, depth = 0) {
+  populateDiv(proto, depth = 0, parent = this.element) {
     console.log('DEPTH ' + depth, proto);
     // add PROTO name label
     if (depth === 0) {
@@ -50,20 +50,19 @@ export default class EditorView { // eslint-disable-line no-unused-vars
 
     // display parameters
     for (const [key, parameter] of proto.parameters.entries()) {
-      this.setupParameter(proto, parameter, key, depth);
+      const div = this.setupParameter(proto, parameter, key, parent);
 
       if (parameter.type === VRML.SFNode && parameter.value instanceof Proto)
-        this.populateDiv(parameter.value, depth + 1);
+        this.populateDiv(parameter.value, depth + 1, div);
     }
   };
 
-  setupParameter(proto, parameter, parameterId, depth) {
+  setupParameter(proto, parameter, parameterId, parent) {
     let form = document.createElement('form');
     form.setAttribute('onsubmit', 'return false;');
     form.setAttribute('parameterType', parameter.type);
     form.setAttribute('protoId', proto.id);
     form.setAttribute('parameterId', parameterId);
-    form.style.paddingLeft = 10 * depth + 'px';
 
     let div = document.createElement('div');
     div.classList.add('parameter-div');
@@ -173,7 +172,9 @@ export default class EditorView { // eslint-disable-line no-unused-vars
     }
 
     form.appendChild(div);
-    this.element.appendChild(form);
+    parent.appendChild(form);
+
+    return div;
   };
 
   itemSelector(e) {
