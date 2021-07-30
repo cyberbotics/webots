@@ -28,7 +28,7 @@ coordinateSystem = 'ENU'
 
 def rotation(value, r):
     q0 = quaternions.axangle2quat([float(value[0]), float(value[1]), float(value[2])], float(value[3]))
-    q1 = quaternions.axangle2quat([r[0], r[1], r[2]], r[3])
+    q1 = quaternions.axangle2quat([float(r[0]), float(r[1]), float(r[2])], float(r[3]))
     qr = quaternions.qmult(q1, q0)
     v, theta = quaternions.quat2axangle(qr)
     return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
@@ -58,11 +58,17 @@ def convert_children(node, parent):
                                                                             'Plane']:
                 isDef = False
                 defName = None
-                #  We need to transfer the def to the transform
+
+                #  We need to transfer the def of the geometry to the transform
                 if 'DEF' in field['value']:
                     defName = field['value']['DEF']
                     isDef = True
                     field['value'].pop('DEF')
+                #  We need to transfer the def of the shape to the transform
+                if 'DEF' in node:
+                    defName = node['DEF']
+                    isDef = True
+                    node.pop('DEF')
 
                 newTransform = createNewTransform()
                 for param in newTransform['fields']:
@@ -181,6 +187,6 @@ if __name__ == "__main__":
     # for filename in sys.argv:
     #     if not filename.endswith('.wbt'):
     #         continue
-    filename = "tests/api/worlds/asymmetric_friction.wbt"
+    filename = "tests/api/worlds/battery.wbt"
     print(filename)
     convert_to_enu(filename)

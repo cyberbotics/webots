@@ -396,8 +396,8 @@ namespace wren {
         const double x = glm::sin(i * k + glm::pi<float>());
         const double y = glm::cos(i * k + glm::pi<float>());
 
-        mesh->addCoord(glm::vec3(x, y, h));
         mesh->addCoord(glm::vec3(x, y, -h));
+        mesh->addCoord(glm::vec3(x, y, h));
 
         const int index = i * 2;
         mesh->addIndex(index);
