@@ -16,9 +16,6 @@
 
 """Convert R2020b world file from the NUE to the ENU coordinate system."""
 
-import math
-import sys
-
 from transforms3d import quaternions
 
 from webots_parser import WebotsParser
@@ -27,6 +24,9 @@ coordinateSystem = 'ENU'
 
 
 def rotation(value, r):
+    # if value == ['0', '0', '1', '1.57'] and r == ['1', '0', '0', '-1.57079632679']:
+    #     return [WebotsParser.str(0), WebotsParser.str(1), WebotsParser.str(0), WebotsParser.str(-1.57079632679)]
+
     q0 = quaternions.axangle2quat([float(value[0]), float(value[1]), float(value[2])], float(value[3]))
     q1 = quaternions.axangle2quat([float(r[0]), float(r[1]), float(r[2])], float(r[3]))
     qr = quaternions.qmult(q1, q0)
@@ -54,11 +54,12 @@ def convert_children(node, parent):
         return
     if node['name'] in 'Shape':
         for field in node['fields']:
-            if field['name'] in ['geometry'] and field['value']['name'] in ['Cylinder', 'Cone', 'Capsule', 'ElevationGrid',
-                                                                            'Plane']:
+            if field['name'] in ['geometry'] and 'USE' not in field['value'] and field['value']['name'] in ['Cylinder', 'Cone',
+                                                                                                            'Capsule',
+                                                                                                            'ElevationGrid',
+                                                                                                            'Plane']:
                 isDef = False
                 defName = None
-
                 #  We need to transfer the def of the geometry to the transform
                 if 'DEF' in field['value']:
                     defName = field['value']['DEF']
@@ -80,16 +81,22 @@ def convert_children(node, parent):
                     newTransform['DEF'] = defName
 
                 parent.append(newTransform)
-    #  Case of boundingObject
+    # Case of boundingObject
     elif node['name'] in ['Cylinder', 'Capsule', 'ElevationGrid', 'Plane']:
         newTransform = createNewTransform()
         for param in newTransform['fields']:
             if param['name'] in 'children':
                 param['value'] = [node]
+        # Case where this is a geometry directly inserted in a boundingObject
+        if 'fields' in parent:
+            for field in parent['fields']:
+                if field['name'] in 'boundingObject':
+                    field['value'] = newTransform
+        # Case where this is a geometry in a transform
+        else:
+            parent.remove(node)
+            parent.append(newTransform)
 
-        for field in parent['fields']:
-            if field['name'] in 'boundingObject':
-                field['value'] = newTransform
     else:
         for field in node['fields']:
             if field['name'] in 'Geometrics_conversion':
@@ -116,10 +123,12 @@ def cleanTransform(node):
 
 
 def squashUniqueTransform(node):
-    if node['name'] in 'Transform':
+    if 'USE' in node:
+        return
+    if node['name'] in ['Transform']:
         for field in node['fields']:
             if field['name'] in 'children':
-                if len(field['value']) == 1 and field['value'][0]['name'] in 'Transform':
+                if len(field['value']) == 1 and field['value'][0]['name'] in 'Transform' and 'DEF' not in field['value'][0]:
                     childT = field['value'][0]
                     for fieldC in childT['fields']:
                         if fieldC['name'] == 'Geometrics_conversion':
@@ -129,7 +138,7 @@ def squashUniqueTransform(node):
         if field['name'] in 'children':
             for child in field['value']:
                 squashUniqueTransform(child)
-        elif field['name'] in ['endPoint']:
+        elif field['name'] in ['endPoint', 'boundingObject']:
             squashUniqueTransform(field['value'])
 
 
@@ -143,7 +152,7 @@ def mergeTransform(parent, child):
             childRotation = childField['value']
             isChildRotation = True
         if childField['name'] in 'children':
-            if childField['value'][0]['name'] in 'Shape':
+            if childField['value'][0]['name'] in ['Shape', 'Cylinder', 'Capsule', 'ElevationGrid', 'Plane']:
                 childShape = childField['value'][0]
                 isChildShape = True
 
@@ -187,6 +196,6 @@ if __name__ == "__main__":
     # for filename in sys.argv:
     #     if not filename.endswith('.wbt'):
     #         continue
-    filename = "tests/api/worlds/camera_recognition.wbt"
+    filename = "tests/api/worlds/center_of_mass_and_contact_points.wbt"
     print(filename)
     convert_to_enu(filename)
