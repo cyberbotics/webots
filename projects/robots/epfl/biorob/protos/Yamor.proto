@@ -43,6 +43,7 @@ PROTO Yamor [
           }
           DEF CYLINDER_TRANS Transform {
             translation 0 0 -0.03
+            rotation 1 0 0 -1.5708
             children [
               Shape {
                 appearance USE PLASTIC
@@ -59,7 +60,6 @@ PROTO Yamor [
         translation 0 0 0.03
         children [
           DEF ROUND_SHAPE Transform {
-            rotation 1 0 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {

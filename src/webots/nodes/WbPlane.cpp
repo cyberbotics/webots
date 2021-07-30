@@ -113,7 +113,7 @@ void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
 
 void WbPlane::exportNodeSubNodes(WbVrmlWriter &writer) const {
   double sx = mSize->value().x() / 2.0;
-  double sz = mSize->value().y() / 2.0;
+  double sy = mSize->value().y() / 2.0;
   if (!writer.isVrml())
     WbGeometry::exportNodeSubNodes(writer);
   else {  // VRML export as IndexedFaceSet
@@ -122,10 +122,14 @@ void WbPlane::exportNodeSubNodes(WbVrmlWriter &writer) const {
     writer.increaseIndent();
     writer.indent();
     writer << "point [ ";
-    writer << -sx << " 0 " << -sz << ", ";
-    writer << -sx << " 0 " << sz << ", ";
-    writer << sx << " 0 " << sz << ", ";
-    writer << sx << " 0 " << -sz << " ]\n";
+    writer << -sx << -sy << " 0 "
+           << ", ";
+    writer << -sx << sy << " 0 "
+           << ", ";
+    writer << sx << sy << " 0 "
+           << ", ";
+    writer << sx << -sy << " 0 "
+           << " ]\n";
     writer.decreaseIndent();
     writer.indent();
     writer << "}\n";
@@ -317,10 +321,10 @@ bool WbPlane::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoord
 
   // transform point into texture coordinates in range [0..1]
   const double sx = scaledSize().x();
-  const double sz = scaledSize().y();
+  const double sy = scaledSize().y();
 
   const double u = pointOnTexture.x() / sx + 0.5;
-  const double v = pointOnTexture.z() / sz + 0.5;
+  const double v = pointOnTexture.y() / sy + 0.5;
 
   // result
   uv.setXy(u, v);
