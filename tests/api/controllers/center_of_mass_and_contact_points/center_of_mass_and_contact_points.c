@@ -7,7 +7,7 @@
 #define TIME_STEP 32
 
 static const double THRESHOLD = 1e-5;
-static const int REFERENCE_NUMBER_OF_CONTACT_POINTS = 16;
+static const int REFERENCE_NUMBER_OF_CONTACT_POINTS = 20;
 static const int ADDITIONAL_CONTACT_POINTS_NUMBER = 4;
 static const double REFERENCE_COM[3] = {-0.000000, 0.067383, 0.000000};
 static const double REFERENCE_CONTACT_POINTS[48] = {
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(wb_supervisor_field_get_type(children) == WB_MF_NODE, "Children has not the WB_MF_NODE type");
 
   const int n = wb_supervisor_field_get_count(children);
-  ts_assert_boolean_equal(n == 8, "Counting the number of root's children failed (found=%d, expected=8)", n);
+  ts_assert_boolean_equal(n == 9, "Counting the number of root's children failed (found=%d, expected=9)", n);
 
   const WbNodeRef node = wb_supervisor_field_get_mf_node(children, 6);
 
@@ -92,6 +92,12 @@ int main(int argc, char **argv) {
       wb_supervisor_node_get_from_def("SECONDARY_SOLID"),
     "Last contact point should belong to the 'SECONDARY_SOLID' node.");
   wb_supervisor_node_disable_contact_point_tracking(node, true);
+
+  // The `wb_supervisor_node_get_contact_points` should also work with Slot nodes
+  wb_supervisor_node_get_contact_points(wb_supervisor_node_get_from_def("SLOT_SOLID"), false, &number_of_contact_points);
+  ts_assert_boolean_equal(number_of_contact_points == 4,
+                          "The box mounted on the e-puck should have 4 contact points, but it has %d",
+                          number_of_contact_points);
 
   // static balance checks
   const bool stable = wb_supervisor_node_get_static_balance(node);
