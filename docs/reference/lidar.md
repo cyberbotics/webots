@@ -25,6 +25,12 @@ Lidar {
 
 ### Description
 
+%figure "Lidar Image"
+
+![lidar.png](images/lidar.thumbnail.png)
+
+%end
+
 The [Lidar](#lidar) node is used to model a robot's on-board lidar (laser-scanner).
 
 The lidar measures depth information (in meters) from an OpenGL rendering, like the [RangeFinder](rangefinder.md) node does.

@@ -64,6 +64,7 @@ DEF ROBOT Robot {
     }
     TouchSensor {
       translation 0.067 0 0.01
+      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
       children [
         Shape {
           appearance Appearance {
