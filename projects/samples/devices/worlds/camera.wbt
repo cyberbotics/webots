@@ -4,17 +4,17 @@ WorldInfo {
     "Example use of a color Camera device."
   ]
   title "Camera"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0 0 1 -1.57
-  position 0 3 0
+  orientation 0 1 0 1.5707963267948966
+  position 0.06009466880574227 0.012229961564894653 2.30423146638736
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 1 0 0 1.5707963267948966
 }
 PointLight {
   attenuation 0 0 1
@@ -22,7 +22,8 @@ PointLight {
   location 0 0.6 0
 }
 DEF GREEN_BOX Solid {
-  translation -0.05 0.05 -0.25
+  translation -0.05 0.25 0.05
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -44,8 +45,8 @@ DEF GREEN_BOX Solid {
   }
 }
 DEF BLUE_BOX Solid {
-  translation 0.2 0.05 0.27
-  rotation 0 1 0 0.31
+  translation 0.2 -0.27 0.05
+  rotation 0.976444145281632 0.152572656700379 0.152572656700379 1.594631798727937
   children [
     Shape {
       appearance PBRAppearance {
@@ -67,8 +68,8 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF WHITE_BOX Solid {
-  translation -0.2 0.05 0.15
-  rotation 0 1 0 0.4
+  translation -0.2 -0.15 0.05
+  rotation 0.961279549509357 0.194861011614802 0.194861011614802 1.6102760848569
   children [
     Shape {
       appearance PBRAppearance {
@@ -90,8 +91,8 @@ DEF WHITE_BOX Solid {
   }
 }
 DEF RED_BOX Solid {
-  translation 0.42 0.05 -0.1
-  rotation 0 1 0 1.8325996938995748
+  translation 0.42 0.1 0.05
+  rotation 0.4769036216951 0.621515460633964 0.621515460633964 2.251591904410202
   children [
     Shape {
       appearance PBRAppearance {
@@ -114,7 +115,7 @@ DEF RED_BOX Solid {
 }
 Robot {
   translation 0.15 0 0
-  rotation 0 1 0 1
+  rotation 0.791338172670054 0.432310014038086 0.432310014038086 1.802718695625475
   children [
     Transform {
       translation 0 0.0415 0
