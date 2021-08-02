@@ -25,7 +25,7 @@
 #include <wren/shader_program.h>
 #include <wren/texture.h>
 
-WbCoordinateSystem::WbCoordinateSystem(WbWrenRenderingContext *context) {
+WbCoordinateSystem::WbCoordinateSystem() {
   const float labelMeshCoords[12] = {-0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f};
 
   const unsigned int labelMeshIndices[6] = {2, 1, 0, 3, 1, 2};

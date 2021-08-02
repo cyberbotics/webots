@@ -549,7 +549,7 @@ void WbViewpoint::createCoordinateSystem() {
   if (mCoordinateSystem != NULL || mVirtualRealityHeadset)
     return;
 
-  mCoordinateSystem = new WbCoordinateSystem(WbWrenRenderingContext::instance());
+  mCoordinateSystem = new WbCoordinateSystem();
   mCoordinateSystem->setVisible(true);
   updateCoordinateSystem();
   connect(mOrientation, &WbSFRotation::changed, this, &WbViewpoint::updateCoordinateSystem);

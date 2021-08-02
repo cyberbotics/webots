@@ -31,7 +31,7 @@ class WbCoordinateSystem : public QObject {
   Q_OBJECT
 
 public:
-  explicit WbCoordinateSystem(WbWrenRenderingContext *context);
+  explicit WbCoordinateSystem();
   ~WbCoordinateSystem();
 
   void setVisible(bool b);

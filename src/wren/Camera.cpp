@@ -29,16 +29,6 @@ namespace wren {
     return primitive::Aabb(position - nearVector, position + nearVector);
   }
 
-  void Camera::setDirection(const glm::vec3 &direction) {
-    assert(glm::length(direction) > glm::epsilon<float>());
-
-    const glm::vec3 orig = orientation() * -gVec3UnitZ;
-    const glm::vec3 d = glm::normalize(direction);
-
-    glm::quat rotation = glm::rotation(orig, d);
-    applyRotation(rotation);
-  }
-
   const primitive::Aabb &Camera::aabb() {
     if (mAabbDirty) {
       mNearAabb = computeAabb(TransformNode::position(), mNear);
