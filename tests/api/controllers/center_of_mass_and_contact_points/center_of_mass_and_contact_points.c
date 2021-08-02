@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(wb_supervisor_field_get_type(children) == WB_MF_NODE, "Children has not the WB_MF_NODE type");
 
   const int n = wb_supervisor_field_get_count(children);
-  ts_assert_boolean_equal(n == 9, "Counting the number of root's children failed (found=%d, expected=8)", n);
+  ts_assert_boolean_equal(n == 9, "Counting the number of root's children failed (found=%d, expected=9)", n);
 
   const WbNodeRef node = wb_supervisor_field_get_mf_node(children, 6);
 
