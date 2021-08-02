@@ -1008,8 +1008,11 @@ void WbCamera::updateLensFlare() {
 }
 
 void WbCamera::updateCameraOrientation() {
-  if (hasBeenSetup())
-    mWrenCamera->rotatePitch(M_PI);  // OpenCV camera axis orientation
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotatePitch(M_PI_2);
+    mWrenCamera->rotateRoll(-M_PI_2);
+  }
 }
 
 void WbCamera::updateNear() {

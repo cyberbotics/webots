@@ -509,6 +509,13 @@ void WbWrenCamera::copyContentsToMemory(void *data) {
   WbWrenOpenGlContext::doneWren();
 }
 
+void WbWrenCamera::rotateRoll(float angle) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    if (mIsCameraActive[i])
+      wr_camera_apply_roll(mCamera[i], angle);
+  }
+}
+
 void WbWrenCamera::rotatePitch(float angle) {
   for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i])
