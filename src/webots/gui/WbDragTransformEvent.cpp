@@ -88,6 +88,12 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
   // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
   displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
   displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
+
+  // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
+  if (!mSelectedTransform->isTopTransform())
+    displacementFromInitialPosition =
+      WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated() * displacementFromInitialPosition;
+
   mSelectedTransform->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
   mSelectedTransform->emitTranslationOrRotationChangedByUser();
 }
