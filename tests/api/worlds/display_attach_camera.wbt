@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5503333373428821 -0.7662484696943647 -0.3316572032989631 5.11774
-  position 3.11937 3.65146 2.62953
+  orientation 0.2599008576794204 -0.8959051773164081 -0.36028524454265 4.433380525482788
+  position 6.289183988159618 6.2172780521782425 -0.6020972736827097
 }
 Background {
   skyColor [
@@ -56,13 +56,13 @@ Robot {
       height 80
     }
     Camera {
-      rotation 1 0 0 3.14159
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       fieldOfView 1.5708
       width 80
       height 80
     }
     Camera {
-      rotation 0 0 -1 3.14159
+      rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
       name "attached camera"
       fieldOfView 1.5708
       width 80

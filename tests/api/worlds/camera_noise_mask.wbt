@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.008420193468968343 -0.9999645261820985 0.0002161466084292152 4.569639759500627
-  position 4.174023763166697 0.2830043950984317 -0.7868178346641254
+  orientation 0.23804897697328556 0.9530939078062778 -0.18693498191759314 6.23431
+  position -0.585149 0.358102 2.71047
 }
 Background {
   skyColor [
@@ -40,7 +40,7 @@ Transform {
 Robot {
   children [
     DEF CAMERA Camera {
-      rotation 1 0 0 3.14159
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       fieldOfView 1.5708
       zoom Zoom {
         maxFieldOfView 1.58

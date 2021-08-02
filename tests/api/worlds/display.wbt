@@ -35,14 +35,14 @@ Robot {
       ]
     }
     Camera {
-      rotation 1 0 0 3.14159
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       fieldOfView 1.5708
       width 80
       height 80
     }
     Camera {
       translation 0 0 -1
-      rotation 0 0 -1 3.14159
+      rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
       name "mirror camera"
       width 80
       height 80

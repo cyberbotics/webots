@@ -107,7 +107,7 @@ DEF WRITER Robot {
       children [
         Camera {
           translation 0.0103622 0.270768 -0.0676753
-          rotation 0.8684399033898654 -0.06471349280090744 -0.49155294531688837 -3.106915307179586
+          rotation -0.15143645398649866 0.7228594690484919 0.674196698605776 2.6785969974991106
           children [
             Shape {
               appearance PBRAppearance {
