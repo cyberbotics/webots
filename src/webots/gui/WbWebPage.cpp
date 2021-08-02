@@ -18,9 +18,15 @@
 #include "WbLog.hpp"
 
 #ifdef _WIN32
+#include <QtNetwork/QNetworkRequest>
+#endif
+
+
+#ifdef _WIN32
 void WbWebPage::javaScriptConsoleMessage(const QString &message, int lineNumber, const QString &sourceUrl) {
   WbLog::javascriptLogToConsole(message, lineNumber, sourceUrl);
 }
+
 #else
 void WbWebPage::javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level, const QString &message, int lineNumber,
                                          const QString &sourceID) {
@@ -28,23 +34,35 @@ void WbWebPage::javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level, co
     return;  // Do not display qwebchannel.js logs because it contains pointless logs, and issues in this files are bugs.
   WbLog::javascriptLogToConsole(message, lineNumber, sourceID);
 }
+#endif
+
+bool WbWebPage::acceptNavigationRequest(
+#ifdef _WIN32
+	QWebFrame *frame, const QNetworkRequest &request, NavigationType type) {
+  const QUrl &url = request.url();
+#else
+	const QUrl &url, QWebPage::NavigationType type, bool isMainFrame) {
+#endif
+  if (type == QWebPage::NavigationTypeLinkClicked && !url.isRelative()) {
+    // Send the URL to the system default URL handler
+    WbDesktopServices::openUrl(url.toString());
+    return false;
+  }
+  return QWebPage::acceptNavigationRequest(
+#ifdef _WIN32
+    frame, request, type
+#else
+    url, type, isMainFrame
+#endif
+  );
+}
 
 void WbWebPage::externalLinkHovered(const QString &url) {
   mHoveredLink = url;
 }
 
-WbWebPage *WbWebPage::createWindow(QWebEnginePage::WebWindowType type) {
+WbWebPage *WbWebPage::createWindow(QWebPage::WebWindowType type) {
   // Reimplement to not create a new window when clicking on links but open it with the system default URL handler
   WbDesktopServices::openUrl(mHoveredLink);
   return NULL;
 }
-
-bool WbWebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame) {
-  if (type == QWebEnginePage::NavigationTypeLinkClicked && !url.isRelative()) {
-    // Send the URL to the system default URL handler
-    WbDesktopServices::openUrl(url.toString());
-    return false;
-  }
-  return QWebEnginePage::acceptNavigationRequest(url, type, isMainFrame);
-}
-#endif
