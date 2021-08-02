@@ -39,7 +39,7 @@ protected:
                                 const QString &sourceID) override;
   bool acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame) override;
 #endif
-  
+
   WbWebPage *createWindow(QWebPage::WebWindowType type) override;
 
 protected slots:

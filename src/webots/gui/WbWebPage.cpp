@@ -21,7 +21,6 @@
 #include <QtNetwork/QNetworkRequest>
 #endif
 
-
 #ifdef _WIN32
 void WbWebPage::javaScriptConsoleMessage(const QString &message, int lineNumber, const QString &sourceUrl) {
   WbLog::javascriptLogToConsole(message, lineNumber, sourceUrl);
@@ -38,10 +37,10 @@ void WbWebPage::javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level, co
 
 bool WbWebPage::acceptNavigationRequest(
 #ifdef _WIN32
-	QWebFrame *frame, const QNetworkRequest &request, NavigationType type) {
+  QWebFrame *frame, const QNetworkRequest &request, NavigationType type) {
   const QUrl &url = request.url();
 #else
-	const QUrl &url, QWebPage::NavigationType type, bool isMainFrame) {
+  const QUrl &url, QWebPage::NavigationType type, bool isMainFrame) {
 #endif
   if (type == QWebPage::NavigationTypeLinkClicked && !url.isRelative()) {
     // Send the URL to the system default URL handler
