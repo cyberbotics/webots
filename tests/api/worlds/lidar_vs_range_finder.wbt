@@ -68,6 +68,7 @@ Robot {
       maxRange 5
     }
     Lidar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       horizontalResolution 128
       fieldOfView 3.14159
       numberOfLayers 1
