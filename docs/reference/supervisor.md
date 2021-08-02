@@ -1845,7 +1845,9 @@ The `wb_supervisor_node_set_visibility` function sets the visibility of a node f
 In particular it defines if the node is visible in the image recorded by the `from` device.
 The `from` argument must be either a [Camera](camera.md), [Lidar](lidar.md), [RangeFinder](rangefinder.md) or [Viewpoint](viewpoint.md) node.
 In case of the [Viewpoint](viewpoint.md) the node is hidden or shown in the main 3D scene.
-The `node` argument is the node to hide or show, if the node has some children they all will be recursively hidden too, any type of node is allowed but it doesn't make sense to hide a node that has no visual appearance in the 3D scene.
+The `node` argument is the node to hide or show, any type of node is allowed but it doesn't make sense to hide a node that has no visual appearance in the 3D scene.
+If the node has some children they all will be recursively hidden too.
+Additionally, if the node is not a [Geometry](geometry.md), a [Transform](transform.md) node or any other node derived from [Transform](transform.md), all the siblings of the given node will also be hidden.
 The `visible` argument specifies whether the node should be hidden (false) or shown (true).
 By default, all the nodes are visible.
 It is relevant to show a node only if it was previously hidden using this function.
