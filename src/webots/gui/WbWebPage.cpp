@@ -25,7 +25,6 @@
 void WbWebPage::javaScriptConsoleMessage(const QString &message, int lineNumber, const QString &sourceUrl) {
   WbLog::javascriptLogToConsole(message, lineNumber, sourceUrl);
 }
-
 #else
 void WbWebPage::javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level, const QString &message, int lineNumber,
                                          const QString &sourceID) {
