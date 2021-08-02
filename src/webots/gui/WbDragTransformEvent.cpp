@@ -29,6 +29,8 @@
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 
+#define DRAG_HORIZONTAL_MIN_COS 0.05
+
 // WbDragTransformEvent constructor
 WbDragTransformEvent::WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
   WbDragKinematicsEvent(viewpoint),
@@ -80,22 +82,25 @@ WbDragHorizontalEvent::~WbDragHorizontalEvent() {
 }
 
 void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
-  mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
-  mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
-  mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  WbVector3 displacementFromInitialPosition =
-    mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset - mInitialPosition;
-  // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
-  displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
-  displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
+  // event occurs only if the viewpoint orientation is not completely parallel to the horizontal drag plane
+  if (abs(mViewpoint->orientation()->value().direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS) {
+    mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
+    mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
+    mIntersectionOutput = mMouseRay.intersects(mDragPlane);
+    WbVector3 displacementFromInitialPosition =
+      mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset - mInitialPosition;
+    // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
+    displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
+    displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
 
-  // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
-  if (!mSelectedTransform->isTopTransform())
-    displacementFromInitialPosition =
-      WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated() * displacementFromInitialPosition;
+    // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
+    if (!mSelectedTransform->isTopTransform())
+      displacementFromInitialPosition =
+        WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated() * displacementFromInitialPosition;
 
-  mSelectedTransform->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
-  mSelectedTransform->emitTranslationOrRotationChangedByUser();
+    mSelectedTransform->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
+    mSelectedTransform->emitTranslationOrRotationChangedByUser();
+  }
 }
 
 // WbDragVerticalEvent functions
