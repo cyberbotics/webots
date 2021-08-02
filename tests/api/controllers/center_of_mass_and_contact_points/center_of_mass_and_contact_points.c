@@ -95,7 +95,9 @@ int main(int argc, char **argv) {
 
   // The `wb_supervisor_node_get_contact_points` should also work with Slot nodes
   wb_supervisor_node_get_contact_points(wb_supervisor_node_get_from_def("SLOT_SOLID"), false, &number_of_contact_points);
-  ts_assert_boolean_equal(number_of_contact_points == 4, "The box mounted on the e-puck should have 4 contact points, but it has %d", number_of_contact_points);
+  ts_assert_boolean_equal(number_of_contact_points == 4,
+                          "The box mounted on the e-puck should have 4 contact points, but it has %d",
+                          number_of_contact_points);
 
   // static balance checks
   const bool stable = wb_supervisor_node_get_static_balance(node);
