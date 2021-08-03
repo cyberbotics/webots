@@ -65,7 +65,7 @@ PROTO Mirror [
       %< const camera_distance = (width * 0.5) / Math.tan(fieldOfView * 0.5); >%
       Camera {
         translation 0 %<= height * 0.5 + frameThickness >% %<= -camera_distance >%
-        rotation 0 1 0 3.14159
+        rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
         fieldOfView IS fieldOfView
         width %<= cameraWidth >%
         height %<= cameraHeight >%

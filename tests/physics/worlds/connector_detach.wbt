@@ -90,7 +90,7 @@ DEF ACTIVE_ROBOT Robot {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1 9.5897933e-09 9.5974328e-09 4.7131853
+            rotation 0.70710678 0.70710678 0 -3.14159
             model "magnetic"
             type "active"
             autoLock TRUE
@@ -186,7 +186,7 @@ DEF PASSIVE_ROBOT Solid {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1.0167461001954058e-08 -0.706825180135843 -0.7073882701359512 3.1415927
+            rotation 0 0 -1 -1.5708
             model "magnetic"
             type "passive"
             tensileStrength 1
