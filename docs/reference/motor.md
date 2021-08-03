@@ -226,7 +226,7 @@ The role of a differential is to change the speed of the wheel relatively to eac
 But also, it splits *equally* the motor torque to each wheel.
 This is why it's only needed to apply the same torque on multiple (coupled) motors, and the physic engine will adapt the speeds accordingly.
 It works for a regular car as well as for a 4x4 vehicle, as long as they have 3 differentials (front, rear, and central).
-Using `multiplier` here also makes sense, because some differentials don't split in half: sometimes a central differential splits 40%-60% to get more torque to the rear wheels.
+Using `multiplier` here also makes sense, because some differentials do not split in half: sometimes a central differential splits 40%-60% to get more torque to the rear wheels.
 This parameter doesn't depend on the actual speed and characteristics of the wheels, it's only a mechanical setting.
 
 > **Note**: Although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
