@@ -27,7 +27,7 @@ Camera {
 
 ### Description
 
-%figure "Camera Image"
+%figure "Camera Coordinate System"
 
 ![camera.png](images/camera.thumbnail.png)
 
