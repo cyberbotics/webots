@@ -30,7 +30,7 @@
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 
-#define DRAG_HORIZONTAL_MIN_COS 0.05
+#define DRAG_HORIZONTAL_MIN_COS 0.25  // corresponds to +/- 15deg
 
 // WbDragTransformEvent constructor
 WbDragTransformEvent::WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
@@ -86,7 +86,6 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
   if (!mIsInitializationDone) {
     WbRay normalizedMouseRay = mMouseRay;
     normalizedMouseRay.normalize();
-
     // event occurs only if the mouse ray is not parallel to the horizontal drag plane
     if (abs(normalizedMouseRay.direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS)
       mIsMouseRayValid = true;
