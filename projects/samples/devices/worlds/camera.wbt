@@ -268,8 +268,8 @@ Robot {
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       children [
         Transform {
-          translation 0 0 -0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0
+          rotation -0.5771968951617173 -0.5771968951617173 0.577656895078166 -2.093935307179586
           children [
             Shape {
               appearance PBRAppearance {
