@@ -4,7 +4,7 @@
 Released on XX, XXth, 2021.
 
 - Bug fixes:
-  - Fixed Shift + Left Button drag event on Solid that is child of Transform(s) ([#3530](https://github.com/cyberbotics/webots/pull/3530)).
+  - Fixed Shift + Left Button drag event when Solid is child of Transform(s) and when horizontal plane is not clearly visible from view ([#3530](https://github.com/cyberbotics/webots/pull/3530)).
   - Fixed various Python API functions crashing with Python 3.9 ([#3502](https://github.com/cyberbotics/webots/pull/3502)).
   - Fixed mass computation after inserting a [Physics](physics.md) node in case the [Solid.boundingObject](solid.md) was already defined ([#3240](https://github.com/cyberbotics/webots/pull/3240)).
   - Fixed starting of Webots from the Windows CMD.exe console ([#3512](https://github.com/cyberbotics/webots/pull/3512)).
