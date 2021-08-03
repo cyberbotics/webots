@@ -61,6 +61,7 @@ DEF GROUND Transform {
 Robot {
   children [
     DEF HORIZONTAL_RANGE_FINDER RangeFinder {
+      rotation 0.577349 -0.577349 -0.577349 -2.0944
       fieldOfView 3.14159
       width 128
       height 1
