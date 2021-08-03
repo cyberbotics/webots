@@ -839,6 +839,8 @@ void WbCamera::createWrenCamera() {
 
   WbAbstractCamera::createWrenCamera();
 
+  if (mSegmentationCamera)
+    delete mSegmentationCamera;
   if (recognition() && recognition()->segmentation()) {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
                                            fieldOfView(), 's', false, mSpherical->value());
