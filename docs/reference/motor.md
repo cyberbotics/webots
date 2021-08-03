@@ -230,7 +230,7 @@ Using `multiplier` here also makes sense, because some differentials don't split
 This parameter doesn't depend on the actual speed and characteristics of the wheels, it's only a mechanical setting.
 
 > **Note**: Although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
-For instance, it isn't possible to do Position Control for one motor and Velocity Control another at the same time.
+For instance, it is not possible to do Position Control for one motor and Velocity Control another at the same time.
 Whatever command is given to a motor, it is relayed to all of its siblings hence overwriting any prior settings imposed on them.
 In other words, only the last command given is the one actually being enforced across the coupling.
 
