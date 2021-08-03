@@ -40,6 +40,7 @@ Transform {
 Robot {
   children [
     DEF CAMERA Camera {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       fieldOfView 1.5708
       zoom Zoom {
         maxFieldOfView 1.58

@@ -857,7 +857,9 @@ void WbCamera::createWrenCamera() {
   updateAmbientOcclusionRadius();
 
   updateLensFlare();
+  updateCameraOrientation();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateCameraOrientation);
 }
 
 void WbCamera::createWrenOverlay() {
@@ -1002,6 +1004,14 @@ void WbCamera::updateLensFlare() {
     }
     WrViewport *viewport = mWrenCamera->getSubViewport(WbWrenCamera::CAMERA_ORIENTATION_FRONT);
     lensFlare()->setup(viewport);
+  }
+}
+
+void WbCamera::updateCameraOrientation() {
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotatePitch(M_PI_2);
+    mWrenCamera->rotateRoll(-M_PI_2);
   }
 }
 

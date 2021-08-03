@@ -142,6 +142,7 @@ private slots:
   void updateBloomThreshold();
   void updateNoiseMaskUrl();
   void updateLensFlare();
+  void updateCameraOrientation();
   void applyFocalSettingsToWren();
   void applyFarToWren();
   void applyNearToWren() override;

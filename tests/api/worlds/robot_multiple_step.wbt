@@ -51,7 +51,7 @@ DEF ROBOT Robot {
       ]
     }
     Camera {
-      rotation 0 1 0 -1.5708
+      rotation 1 0 0 -1.5708011490495657
       fieldOfView 0.1
       width 1
       height 1
