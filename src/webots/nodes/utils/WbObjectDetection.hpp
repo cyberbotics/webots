@@ -63,7 +63,8 @@ protected:
 
   // Checks whether the object is in the bounds of the `frustumPlanes` frustum.
   // \n\n
-  // TODO: `devicePosition`, `deviceRotation`, and `deviceInverseRotation` could be consolidated (probably) into a single parameter.
+  // TODO: `devicePosition`, `deviceRotation`, and `deviceInverseRotation` could be consolidated (probably) into a single
+  // parameter.
   // TODO: There is a huge mess when passing the target object. The complexity should be separated into multiple methods.
   //
   // @param[in] devicePosition Device position.
@@ -72,7 +73,8 @@ protected:
   // @param[in] frustumPlanes Frustum of the device.
   // @param[in] boundingObject Bounding object of the target object.
   // @param[out] objectSize AABB of the target object.
-  // @param[out] objectRelativePosition The object's position in respect to the device. The center of the object is calculated from AABB points.
+  // @param[out] objectRelativePosition The object's position in respect to the device. The center of the object is calculated
+  // from AABB points.
   // @param[in] rootObject If `rootObject` and `boundingObject` are not defined the method returns false.
   // @return Returns `true` if the object is inside the frustum, `false` otherwise.
   bool computeBounds(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation, const WbMatrix3 &deviceInverseRotation,
