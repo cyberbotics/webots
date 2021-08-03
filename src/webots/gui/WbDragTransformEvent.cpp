@@ -30,7 +30,7 @@
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 
-#define DRAG_HORIZONTAL_MIN_COS 0.25  // corresponds to +/- 15deg
+#define DRAG_HORIZONTAL_MIN_COS 0.25
 
 // WbDragTransformEvent constructor
 WbDragTransformEvent::WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
