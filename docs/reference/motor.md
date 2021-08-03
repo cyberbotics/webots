@@ -221,7 +221,7 @@ Although each sibling motor receives the same command, what the motors actually 
 
 > **Note**: The motors are *logically* coupled together, not *mechanically*.
 If one of the motors is physically blocked, the others are in no way affected by it.
-This provides a useful side-effect: when used in force-control mode, coupled-motor allows to easily simulate a mechanical differential.
+This provides a useful side-effect: when used in force-control mode, coupled-motors allow to easily simulate a mechanical differential.
 The role of a differential is to change the speed of the wheel relatively to each other.
 But also, it splits *equally* the motor torque to each wheel.
 This is why it's only needed to apply the same torque on multiple (coupled) motors, and the physic engine will adapt the speeds accordingly.
