@@ -46,6 +46,9 @@ public:
   bool recomputeRayDirection(WbSolid *device, const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
                              const WbMatrix3 &deviceInverseRotation, const WbAffinePlane *frustumPlanes);
 
+  // Checks whether the object is detected.
+  // \n\n
+  // TODO: Check whether the parameters are needed as they are already provided in the class constructor.
   bool computeObject(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation, const WbMatrix3 &deviceInverseRotation,
                      const WbAffinePlane *frustumPlanes);
 

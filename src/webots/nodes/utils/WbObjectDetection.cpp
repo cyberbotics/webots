@@ -308,7 +308,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
           assert(false);
       }
       if (nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE) {
-        WbMatrix3 rotation = deviceInverseRotation * objectRotation;
+        WbMatrix3 rotation = deviceRotation * objectRotation;
         double xRange = fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
         double yRange = fabs(rotation(1, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 1) * rotation(1, 1)));
         double zRange = fabs(rotation(2, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 1) * rotation(2, 1)));
@@ -325,11 +325,11 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       else if (distances[j] < objectSize[j % 2] / 2.0)  // a part of the object is outside
         outsidePart[j] = objectSize[j % 2] / 2.0 - distances[j];
     }
-    objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
-    objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);
+    objectSize.setX(objectSize.x() - outsidePart[RIGHT] - outsidePart[LEFT]);
+    objectSize.setY(objectSize.y() - outsidePart[BOTTOM] - outsidePart[TOP]);
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
     objectRelativePosition +=
-      0.5 * WbVector3(0, outsidePart[LEFT] - outsidePart[RIGHT], outsidePart[BOTTOM] - outsidePart[TOP]);
+      0.5 * WbVector3(outsidePart[LEFT] - outsidePart[RIGHT], outsidePart[BOTTOM] - outsidePart[TOP], 0);
   }
   return true;
 }
@@ -358,7 +358,7 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
   if (!recursivelyComputeBounds(mObject, false, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes))
     return false;
   // check distance
-  if (distance() > (mMaxRange + mObjectSize.x() / 2.0))
+  if (distance() > (mMaxRange + mObjectSize.z() / 2.0))
     return false;
 
   return true;
