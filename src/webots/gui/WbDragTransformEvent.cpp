@@ -16,6 +16,7 @@
 
 #include "WbAbstractTransform.hpp"
 #include "WbEditCommand.hpp"
+#include "WbLog.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
@@ -82,8 +83,26 @@ WbDragHorizontalEvent::~WbDragHorizontalEvent() {
 }
 
 void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
-  // event occurs only if the viewpoint orientation is not completely parallel to the horizontal drag plane
-  if (abs(mViewpoint->orientation()->value().direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS) {
+  if (!mIsInitializationDone) {
+    WbRay normalizedMouseRay = mMouseRay;
+    normalizedMouseRay.normalize();
+
+    // event occurs only if the mouse ray is not parallel to the horizontal drag plane
+    if (abs(normalizedMouseRay.direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS)
+      mIsMouseRayValid = true;
+    else {
+      mIsMouseRayValid = false;
+      WbLog::warning(tr("To drag this element, rotate first the view so that the horizontal plane is clearly visible."));
+    }
+
+    // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
+    if (!mSelectedTransform->isTopTransform())
+      mCoordinateTransform = WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated();
+
+    mIsInitializationDone = true;
+  }
+
+  if (mIsMouseRayValid) {
     mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
     mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
     mIntersectionOutput = mMouseRay.intersects(mDragPlane);
@@ -93,10 +112,9 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
 
-    // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
+    // express the displacement in the coordinate frame of the Solid (in case it has some parent Transform(s)).
     if (!mSelectedTransform->isTopTransform())
-      displacementFromInitialPosition =
-        WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated() * displacementFromInitialPosition;
+      displacementFromInitialPosition = mCoordinateTransform * displacementFromInitialPosition;
 
     mSelectedTransform->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
     mSelectedTransform->emitTranslationOrRotationChangedByUser();
