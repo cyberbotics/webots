@@ -221,13 +221,13 @@ Although each sibling motor receives the same command, what the motors actually 
 
 > **Note**: The motors are *logically* coupled together, not *mechanically*.
 If one of the motors is physically blocked, the others are in no way affected by it.
-This provide a useful side-effect: when used in force-control mode, coupled-motor allows to easily simulate a mechanical differential.
+This provides a useful side-effect: when used in force-control mode, coupled-motor allows to easily simulate a mechanical differential.
 The role of a differential is to change the speed of the wheel relatively to each other.
 But also, it splits *equally* the motor torque to each wheel.
-This is why, it's only needed to apply the same torque on multiple (coupled) motor and the physic engine will adapt the speeds accordingly.
-It works for regular car as well as for a 4x4 vehicule, as long as they have 3 differential (front, rear, and central).
-Using `multiplier` here also make sense, because some differentials don't split in half: sometimes a central differential splits 40%-60% to get more torque to the rear wheels.
-This parameter doesn't depend on the actual speed and characteristics of the wheels, it's only a mecanical setting.
+This is why it's only needed to apply the same torque on multiple (coupled) motors, and the physic engine will adapt the speeds accordingly.
+It works for a regular car as well as for a 4x4 vehicle, as long as they have 3 differentials (front, rear, and central).
+Using `multiplier` here also makes sense, because some differentials don't split in half: sometimes a central differential splits 40%-60% to get more torque to the rear wheels.
+This parameter doesn't depend on the actual speed and characteristics of the wheels, it's only a mechanical setting.
 
 > **Note**: Although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
 For instance, it isn't possible to do Position Control for one motor and Velocity Control another at the same time.
