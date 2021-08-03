@@ -329,7 +329,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
     objectRelativePosition +=
-      0.5 * WbVector3(outsidePart[LEFT] - outsidePart[RIGHT], outsidePart[BOTTOM] - outsidePart[TOP], 0);
+      0.5 * WbVector3(0, outsidePart[LEFT] - outsidePart[RIGHT], outsidePart[BOTTOM] - outsidePart[TOP]);
   }
   return true;
 }
