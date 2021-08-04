@@ -2141,3 +2141,12 @@ Hi, i'm trying to visualice a rangefinder's image on rviz from webots but it loo
 ##### Darko Lukić [Cyberbotics] 07/28/2021 07:34:44
 It is ROS 1?
 
+##### Joro 07/28/2021 17:30:13
+ros2
+
+##### Darko Lukić [Cyberbotics] 07/29/2021 06:55:47
+I have just tested. I put the range finder node in an arbitrary robot and the `webots_ros2` package automatically created a working topic. Do you use the `webots_ros2` package?
+
+##### Joro 07/29/2021 15:05:00
+yes, i already solved it, thanks for your help and interest
+
