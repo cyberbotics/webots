@@ -56,7 +56,7 @@ WbObjectDetection::~WbObjectDetection() {
 }
 
 bool WbObjectDetection::hasCollided() const {
-  return mCollisionDepth > 0.5 * mObjectSize.z();
+  return mCollisionDepth > 0.5 * mObjectSize.x();
 }
 
 void WbObjectDetection::deleteRay() {
@@ -308,10 +308,13 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
           assert(false);
       }
       if (nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE) {
-        WbMatrix3 rotation = deviceInverseRotation * objectRotation;
-        double xRange = fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
-        double yRange = fabs(rotation(1, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 1) * rotation(1, 1)));
-        double zRange = fabs(rotation(2, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 1) * rotation(2, 1)));
+        const WbMatrix3 rotation = deviceRotation * objectRotation;
+        const double xRange =
+          fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
+        const double yRange =
+          fabs(rotation(1, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 1) * rotation(1, 1)));
+        const double zRange =
+          fabs(rotation(2, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 1) * rotation(2, 1)));
         objectSize = WbVector3(xRange, yRange, zRange);
       }
     }
@@ -368,19 +371,19 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePo
                                                        const double verticalFieldOfView, const double horizontalFieldOfView,
                                                        const double maxRange) {
   // construct the 4 planes defining the sides of the frustrum
-  double x = maxRange * tan(horizontalFieldOfView / 2.0);
-  double z = -maxRange;
-  double y = maxRange * tan(verticalFieldOfView / 2.0);
-  const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
-  const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(-x, y, z);
-  const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
-  const WbVector3 bottomLeftCorner = devicePosition + deviceRotation * WbVector3(-x, -y, z);
+  const double z = maxRange * tan(verticalFieldOfView / 2.0);
+  const double y = maxRange * tan(horizontalFieldOfView / 2.0);
+  const double x = maxRange;
+  const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
+  const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
+  const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, -z);
+  const WbVector3 bottomLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, -z);
   WbAffinePlane *planes = new WbAffinePlane[PLANE_NUMBER];
   planes[RIGHT] = WbAffinePlane(devicePosition, topRightCorner, bottomRightCorner);       // right plane
   planes[BOTTOM] = WbAffinePlane(devicePosition, bottomRightCorner, bottomLeftCorner);    // bottom plane
   planes[LEFT] = WbAffinePlane(devicePosition, bottomLeftCorner, topLeftCorner);          // left plane
   planes[TOP] = WbAffinePlane(devicePosition, topLeftCorner, topRightCorner);             // top plane
-  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(0, 0, z), devicePosition);  // device plane
+  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(x, 0, 0), devicePosition);  // device plane
   for (int i = 0; i < PLANE_NUMBER; ++i)
     planes[i].normalize();
   return planes;

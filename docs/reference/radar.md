@@ -26,6 +26,12 @@ Radar {
 
 ### Description
 
+%figure "Radar Coordinate System"
+
+![radar.png](images/radar.thumbnail.png)
+
+%end
+
 The [Radar](#radar) node is used to model a radar sensor.
 
 The [Radar](#radar) node can be used to measure other solids distance, angle, and relative speed.

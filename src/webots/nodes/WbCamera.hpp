@@ -143,6 +143,7 @@ private slots:
   void updateNoiseMaskUrl();
   void updateLensFlare();
   void updateCameraOrientation();
+  void updateSegmentationCameraOrientation();
   void applyFocalSettingsToWren();
   void applyFarToWren();
   void applyNearToWren() override;
