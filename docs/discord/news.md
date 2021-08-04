@@ -4,7 +4,16 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Soft\_illusion 07/19/2021 06:58:01
+##### Soft\_illusion 08/02/2021 07:24:32
+Second video of Robotics Software  pico-degree .
+
+Making of URDF in ROS with webots .
+
+
+
+[https://youtu.be/0ybXPnkFFCo](https://youtu.be/0ybXPnkFFCo)
+
+
 New video series with tutorials on Webots with ROS with a lot of Robotics concepts : 
 
 
