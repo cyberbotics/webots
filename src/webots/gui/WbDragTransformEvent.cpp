@@ -91,7 +91,7 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
       mIsMouseRayValid = true;
     else {
       mIsMouseRayValid = false;
-      WbLog::warning(tr("To drag this element, rotate first the view so that the horizontal plane is clearly visible."));
+      WbLog::warning(tr("To drag this element, first rotate the view so that the horizontal plane is clearly visible."));
     }
 
     // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
