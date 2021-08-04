@@ -99,6 +99,7 @@ public:
   // lazy matrix multiplication system
   void setMatrixNeedUpdate() override;
 
+  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
   // export
   void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
 

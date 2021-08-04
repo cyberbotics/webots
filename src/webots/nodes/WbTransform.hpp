@@ -87,6 +87,8 @@ public:
   WbVector3 translationFrom(const WbNode *fromNode) const;
   WbMatrix3 rotationMatrixFrom(const WbNode *fromNode) const;
 
+  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override { return QList<const WbBaseNode *>() << this; }
+
   // export
   void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
   QStringList fieldsToSynchronizeWithX3D() const override;

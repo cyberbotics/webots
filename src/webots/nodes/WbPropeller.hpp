@@ -69,6 +69,8 @@ public:
   double currentThrust() const { return mCurrentThrust; }
   double currentTorque() const { return mCurrentTorque; }
 
+  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
+
 private:
   // Scene Tree fields
   WbSFVector3 *mShaftAxis;

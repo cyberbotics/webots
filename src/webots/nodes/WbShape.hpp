@@ -73,6 +73,8 @@ public:
   void setPbrAppearance(WbPbrAppearance *appearance);
   void setGeometry(WbGeometry *geometry);
 
+  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
+
   // export
   bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;

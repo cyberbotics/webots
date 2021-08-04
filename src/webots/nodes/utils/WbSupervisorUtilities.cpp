@@ -976,10 +976,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       assert(baseNode);
       if (camera)
         // cppcheck-suppress knownConditionTrueFalse
-        camera->setNodeVisibility(baseNode, visible == 1);
+        camera->setNodesVisibility(baseNode->childrenWithDedicatedWrenNode(), visible == 1);
       else if (viewpoint)
         // cppcheck-suppress knownConditionTrueFalse
-        viewpoint->setNodeVisibility(baseNode, visible == 1);
+        viewpoint->setNodesVisibility(baseNode->childrenWithDedicatedWrenNode(), visible == 1);
       return;
     }
     case C_SUPERVISOR_NODE_MOVE_VIEWPOINT: {

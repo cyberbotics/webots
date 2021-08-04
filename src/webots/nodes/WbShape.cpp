@@ -439,6 +439,14 @@ void WbShape::createWrenMaterial(int type) {
   }
 }
 
+QList<const WbBaseNode *> WbShape::childrenWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbGeometry *const g = geometry();
+  if (g)
+    list << g->childrenWithDedicatedWrenNode();
+  return list;
+}
+
 ///////////////////////////////////////////////////////////
 //  ODE related methods for WbShapes in boundingObjects  //
 ///////////////////////////////////////////////////////////
@@ -471,6 +479,8 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
   const WbGeometry *const g = geometry();
   return g && g->isAValidBoundingObject(checkOde, warning);
 }
+
+
 
 ////////////
 // Export //

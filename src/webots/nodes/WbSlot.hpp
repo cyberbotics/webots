@@ -70,6 +70,8 @@ public:
   // lazy matrix multiplication system
   void setMatrixNeedUpdate() override;
 
+  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
+
 signals:
   void endPointInserted(WbBaseNode *);  // called when a node is inserted in the endPoint
 

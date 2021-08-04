@@ -80,6 +80,8 @@ public:
   WrTransform *wrenNode() const { return mWrenNode; }
   void setWrenNode(WrTransform *n) { mWrenNode = n; }
 
+  virtual QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const { return QList<const WbBaseNode *>(); }
+
   // Ode functions
   virtual void createOdeObjects() { mOdeObjectsCreatedCalled = true; }
   bool areOdeObjectsCreated() const { return mOdeObjectsCreatedCalled; }
