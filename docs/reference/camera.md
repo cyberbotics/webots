@@ -33,6 +33,12 @@ Camera {
 
 %end
 
+%figure "Roll Tilt Pan Axis"
+
+![roll-tilt-pan.png](images/roll-tilt-pan.png)
+
+%end
+
 The [Camera](#camera) node is used to model a robot's on-board camera.
 The resulting image can be displayed on the 3D window.
 Depending on its setup, the Camera node can model a linear camera, a typical RGB camera or even a fish eye which is spherically distorted.
