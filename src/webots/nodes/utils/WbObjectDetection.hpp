@@ -47,8 +47,6 @@ public:
                              const WbMatrix3 &deviceInverseRotation, const WbAffinePlane *frustumPlanes);
 
   // Checks whether the object is detected.
-  // \n\n
-  // TODO: Check whether the parameters are needed as they are already provided in the class constructor.
   bool computeObject(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation, const WbMatrix3 &deviceInverseRotation,
                      const WbAffinePlane *frustumPlanes);
 
@@ -65,10 +63,6 @@ protected:
                                 const WbAffinePlane *frustumPlanes);
 
   // Checks whether the object is in the bounds of the `frustumPlanes` frustum.
-  // \n\n
-  // TODO: `devicePosition`, `deviceRotation`, and `deviceInverseRotation` could be consolidated (probably) into a single
-  // parameter.
-  // TODO: There is a huge mess when passing the target object. The complexity should be separated into multiple methods.
   //
   // @param[in] devicePosition Device position.
   // @param[in] deviceRotation Device rotation.

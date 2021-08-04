@@ -309,9 +309,12 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       }
       if (nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE) {
         const WbMatrix3 rotation = deviceRotation * objectRotation;
-        const double xRange = fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
-        const double yRange = fabs(rotation(1, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 1) * rotation(1, 1)));
-        const double zRange = fabs(rotation(2, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 1) * rotation(2, 1)));
+        const double xRange =
+          fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
+        const double yRange =
+          fabs(rotation(1, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 1) * rotation(1, 1)));
+        const double zRange =
+          fabs(rotation(2, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 1) * rotation(2, 1)));
         objectSize = WbVector3(xRange, yRange, zRange);
       }
     }
