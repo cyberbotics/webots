@@ -76,6 +76,20 @@ WbDragHorizontalEvent::WbDragHorizontalEvent(const QPoint &initialPosition, WbVi
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
   mTranslationOffset = mInitialPosition - mMouseRay.point(mIntersectionOutput.second);
   mViewpoint->lock();
+
+  // event occurs only if the mouse ray is not parallel to the horizontal drag plane
+  WbRay normalizedMouseRay = mMouseRay;
+  normalizedMouseRay.normalize();
+  if (abs(normalizedMouseRay.direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS) {
+    mIsMouseRayValid = true;
+
+    // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
+    if (!mSelectedTransform->isTopTransform())
+      mCoordinateTransform = WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated();
+  } else {
+    mIsMouseRayValid = false;
+    WbLog::warning(tr("To drag this element, first rotate the view so that the horizontal plane is clearly visible."));
+  }
 }
 
 WbDragHorizontalEvent::~WbDragHorizontalEvent() {
@@ -83,24 +97,6 @@ WbDragHorizontalEvent::~WbDragHorizontalEvent() {
 }
 
 void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
-  if (!mIsInitializationDone) {
-    WbRay normalizedMouseRay = mMouseRay;
-    normalizedMouseRay.normalize();
-    // event occurs only if the mouse ray is not parallel to the horizontal drag plane
-    if (abs(normalizedMouseRay.direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS)
-      mIsMouseRayValid = true;
-    else {
-      mIsMouseRayValid = false;
-      WbLog::warning(tr("To drag this element, first rotate the view so that the horizontal plane is clearly visible."));
-    }
-
-    // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
-    if (!mSelectedTransform->isTopTransform())
-      mCoordinateTransform = WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated();
-
-    mIsInitializationDone = true;
-  }
-
   if (mIsMouseRayValid) {
     mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
     mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());

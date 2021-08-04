@@ -74,8 +74,7 @@ public:
 private:
   WbVector3 mTranslationOffset;
   WbQuaternion mCoordinateTransform;
-  bool mIsMouseRayValid = false;
-  bool mIsInitializationDone = false;
+  bool mIsMouseRayValid;
 };
 
 // WbDragVerticalEvent class
