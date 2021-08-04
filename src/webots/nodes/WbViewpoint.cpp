@@ -845,8 +845,9 @@ void WbViewpoint::applyOrientationToWren() {
     mVirtualRealityHeadset->setOrientation(mOrientation->value());
 #endif
 
-  float angleAxis[] = {static_cast<float>(mOrientation->angle()), static_cast<float>(mOrientation->x()),
-                       static_cast<float>(mOrientation->y()), static_cast<float>(mOrientation->z())};
+  const WbRotation fluRotation(mOrientation->value().toMatrix3() * WbMatrix3(M_PI_2, -M_PI_2, 0));
+  float angleAxis[] = {static_cast<float>(fluRotation.angle()), static_cast<float>(fluRotation.x()),
+                       static_cast<float>(fluRotation.y()), static_cast<float>(fluRotation.z())};
   wr_camera_set_orientation(mWrenCamera, angleAxis);
 }
 
@@ -964,7 +965,7 @@ void WbViewpoint::viewpointRay(int x, int y, WbRay &ray) const {
     w *= mOrthographicViewHeight * mAspectRatio;
     h *= mOrthographicViewHeight;
     origin += viewpointMatrix * WbVector3(w, -h, 0.0);
-    direction = viewpointMatrix.column(2);
+    direction = viewpointMatrix.column(0);
   }
   ray.redefine(origin, direction);
 }
@@ -978,7 +979,7 @@ WbVector3 WbViewpoint::pick(int x, int y, double z0) const {
   WbVector3 rayDirection;
   const double nearValue = mNear->value();
   const WbMatrix3 &viewpointMatrix = mOrientation->value().toMatrix3();
-  const WbVector3 &cameraDirection = viewpointMatrix.column(2);
+  const WbVector3 &cameraDirection = viewpointMatrix.column(0);
   const bool &perspective = mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE;
   if (perspective) {
     const double scaleFactor = 2.0 * nearValue * mTanHalfFieldOfViewY;
@@ -1055,7 +1056,7 @@ void WbViewpoint::toWorld(const WbVector3 &pos, WbVector3 &P) const {
     projection = orthographic;
   }
 
-  WbVector3 eye = mPosition->value(), center = eye + mOrientation->value().direction(), up = mOrientation->value().up();
+  WbVector3 eye = mPosition->value(), center = eye - mOrientation->value().direction(), up = mOrientation->value().up();
 
   WbVector3 f = (center - eye).normalized(), s = f.cross(up).normalized(), u = s.cross(f);
 
