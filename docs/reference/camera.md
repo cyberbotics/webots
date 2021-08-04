@@ -33,7 +33,7 @@ Camera {
 
 %end
 
-%figure "Roll Tilt Pan Axis"
+%figure "Roll Tilt Pan Axes"
 
 ![roll-tilt-pan.png](images/roll-tilt-pan.png)
 
