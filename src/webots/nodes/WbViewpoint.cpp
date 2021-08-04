@@ -987,7 +987,7 @@ WbVector3 WbViewpoint::pick(int x, int y, double z0) const {
     w *= scaleFactor * mAspectRatio;  // right - left in openGL terms
     h *= scaleFactor;                 // top  - bottom in openGL terms
     // Origin and direction of the mouse ray intersecting with camera's screen
-    rayDirection = viewpointMatrix * WbVector3(w, -h, -nearValue);
+    rayDirection = viewpointMatrix * WbVector3(-nearValue, w, h);
     const double factor = -z0 / nearValue;
     rayDirection *= factor;
   } else {
