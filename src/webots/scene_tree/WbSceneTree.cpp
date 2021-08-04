@@ -56,8 +56,6 @@
 
 #include <cassert>
 
-#include <QtCore/QDebug>
-
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
@@ -1511,7 +1509,6 @@ void WbSceneTree::exportObject() {
     WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("Node exportation failed."));
     return;
   }
-  qDebug() << "Writing" << fileName;
   WbNode::enableDefNodeTrackInWrite(true);
   WbVrmlWriter writer(&file, fileName);
   writer.writeHeader(fileName);
