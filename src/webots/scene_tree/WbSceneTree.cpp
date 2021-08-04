@@ -1509,6 +1509,7 @@ void WbSceneTree::exportObject() {
     WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("Node exportation failed."));
     return;
   }
+
   WbNode::enableDefNodeTrackInWrite(true);
   WbVrmlWriter writer(&file, fileName);
   writer.writeHeader(fileName);
