@@ -155,6 +155,7 @@ inline void WbQuaternion::fromBasisVectors(const WbVector3 &vx, const WbVector3 
     mX = 0.0;
     mY = 0.0;
     mZ = 0.0;
+    return;
   }
   double s = 2.0;
   double invS = 1.0;
