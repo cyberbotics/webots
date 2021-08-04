@@ -154,6 +154,7 @@ protected:
   double mPreviousAngle;
   double mInitialAngle;
   static const double RAD_TO_DEG;
+  QPoint mInitialMousePosition;
 };
 
 #endif

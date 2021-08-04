@@ -289,6 +289,8 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
   mInitialMatrix(mSelectedTransform->matrix()),
   mStepSize(selectedTransform->rotationStep()),
+  mInitialMousePosition(initialMousePosition),
+  mInitialAngle(NAN),
   mPreviousAngle(0.0) {
   mManipulator->highlightAxis(mHandleNumber + 3);
   mManipulator->setActive(true);
@@ -324,7 +326,6 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   mousePosition = mInitialMatrix.pseudoInversed(mousePosition);  // local position
   double x = mousePosition.dot(mManipulator->coordinateVector(mCoordinate + 1));
   double y = mousePosition.dot(mManipulator->coordinateVector(mCoordinate + 2));
-  mInitialAngle = atan2(y, x);  // rotation angle
 
   mViewpoint->lock();
 }
@@ -348,10 +349,13 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   WbVector3 detachedHandlePosition = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye);
   detachedHandlePosition = mInitialMatrix.pseudoInversed(detachedHandlePosition);  // local position
 
-  // project point on affine plane orthogonal to the rotation axis
-  double x = detachedHandlePosition.dot(mManipulator->coordinateVector(mCoordinate + 1));
-  double y = detachedHandlePosition.dot(mManipulator->coordinateVector(mCoordinate + 2));
-  double angle = atan2(y, x) - mInitialAngle;  // rotation angle
+  if (isnan(mInitialAngle)) {
+      const double distance = sqrt(pow(mInitialMousePosition.x() - currentMousePosition.x(), 2) + pow(mInitialMousePosition.y() - currentMousePosition.y(), 2));
+      if (distance < 5)
+        return;
+      mInitialAngle = -atan2(mInitialMousePosition.y() - currentMousePosition.y(), mInitialMousePosition.x() - currentMousePosition.x());
+  }
+  double angle = -atan2(mInitialMousePosition.y() - currentMousePosition.y(), mInitialMousePosition.x() - currentMousePosition.x()) - mInitialAngle;  // rotation angle
 
   int stepCount = 0;
   if (mStepSize > 0) {
