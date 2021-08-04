@@ -22,8 +22,7 @@
 #include "WbPrecision.hpp"
 #include "WbVector3.hpp"
 
-#include <QtCore/QString>
-#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
 
 #include <cassert>
 
@@ -140,7 +139,6 @@ public:
       .arg(WbPrecision::doubleToString(mZ, level))
       .arg(WbPrecision::doubleToString(mAngle, level));
   }
-  friend QTextStream &operator<<(QTextStream &stream, const WbRotation &r);
 
 private:
   double mX, mY, mZ, mAngle;
@@ -167,11 +165,6 @@ inline void WbRotation::normalizeAngle() {
     mAngle += 2.0 * M_PI;
   while (mAngle > M_PI)
     mAngle -= 2.0 * M_PI;
-}
-
-inline QTextStream &operator<<(QTextStream &stream, const WbRotation &r) {
-  stream << r.toString(WbPrecision::DOUBLE_MAX);
-  return stream;
 }
 
 inline bool WbRotation::almostEquals(const WbRotation &r, double tolerance = WbPrecision::DOUBLE_EQUALITY_TOLERANCE) const {

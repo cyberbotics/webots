@@ -19,6 +19,9 @@
 
 #include "WbBasicJoint.hpp"
 
+#include <QtCore/QMap>
+#include <QtCore/QString>
+
 class WbBrake;
 class WbJointDevice;
 class WbJointParameters;

@@ -15,13 +15,19 @@
 #include "WbVrmlWriter.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbQuaternion.hpp"
+#include "WbRgb.hpp"
+#include "WbRotation.hpp"
+#include "WbVector2.hpp"
+#include "WbVector4.hpp"
 #include "WbVersion.hpp"
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QStringListIterator>
 
 WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) :
-  QTextStream(device),
+  mString(NULL),
+  mDevice(device),
   mFileName(fileName),
   mIndent(0),
   mRootNode(NULL),
@@ -31,7 +37,8 @@ WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) :
 }
 
 WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) :
-  QTextStream(target, QIODevice::ReadWrite),
+  mString(target),
+  mDevice(NULL),
   mFileName(fileName),
   mIndent(0),
   mRootNode(NULL),
@@ -165,4 +172,49 @@ void WbVrmlWriter::writeFooter(const QStringList *info) {
     *this << "</x3d>\n";
   } else if (isUrdf())
     *this << "</robot>\n";
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(const QString &s) {
+  if (mString)
+    *mString += s;
+  else {
+    assert(mDevice);
+    mDevice->write(s.toUtf8());
+  }
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(int i) {
+  *this << QString::number(i);
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(const WbVector2 &v) {
+  *this << v.toString(WbPrecision::DOUBLE_MAX);
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(const WbVector3 &v) {
+  *this << v.toString(WbPrecision::DOUBLE_MAX);
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(const WbVector4 &v) {
+  *this << v.toString(WbPrecision::DOUBLE_MAX);
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(const WbRotation &r) {
+  *this << r.toString(WbPrecision::DOUBLE_MAX);
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(const WbQuaternion &q) {
+  *this << q.toString(WbPrecision::DOUBLE_MAX);
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(const WbRgb &rgb) {
+  *this << rgb.toString(WbPrecision::DOUBLE_MAX);
+  return *this;
 }
