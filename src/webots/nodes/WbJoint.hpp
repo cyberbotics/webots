@@ -20,7 +20,8 @@
 #include "WbBasicJoint.hpp"
 
 #include <QtCore/QMap>
-#include <QtCore/QString>
+
+class QString;
 
 class WbBrake;
 class WbJointDevice;
