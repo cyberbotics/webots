@@ -21,11 +21,11 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QMap>
-#include <QtCore/QString>
 
 #include "WbVector3.hpp"
 
 class QIODevice;
+
 class WbNode;
 class WbVector2;
 class WbVector4;
