@@ -4,9 +4,10 @@
 Released on XX, XXth, 2021.
 
 - Bug fixes:
-  - Fixed various Python API functions crashing with Python 3.9 ([#3502](https://github.com/cyberbotics/webots/pull/3502).
-  - Fixed mass computation after inserting a [Physics](physics.md) node in case the [Solid.boundingObject](solid.md) was already defined ([#3240](https://github.com/cyberbotics/webots/pull/3240).
-  - Fixed a crash caused when getting contact points of a PROTO ([#3522](https://github.com/cyberbotics/webots/pull/3522).
+  - Fixed Shift + Left Button drag event when the picked [Solid](solid.md) is child of a [Transform](transform.md) node and the horizontal plane is not clearly visible from view ([#3530](https://github.com/cyberbotics/webots/pull/3530)).
+  - Fixed various Python API functions crashing with Python 3.9 ([#3502](https://github.com/cyberbotics/webots/pull/3502)).
+  - Fixed mass computation after inserting a [Physics](physics.md) node in case the [Solid.boundingObject](solid.md) was already defined ([#3240](https://github.com/cyberbotics/webots/pull/3240)).
+  - Fixed a crash caused when getting contact points of a PROTO ([#3522](https://github.com/cyberbotics/webots/pull/3522)).
   - Fixed starting of Webots from the Windows CMD.exe console ([#3512](https://github.com/cyberbotics/webots/pull/3512)).
 
 ## Webots R2021b
@@ -159,7 +160,7 @@ Released on July, 16th, 2021.
     - Fixed crash provoked by canceling and switching world in the Guided Tour ([#3376](https://github.com/cyberbotics/webots/pull/3376)).
     - Fixed the path to the python command on macOS ([#3402](https://github.com/cyberbotics/webots/pull/3402)).
     - Fixed [HighwaySign](../guide/object-traffic.md#highwaysign) PROTO not displaying the texture ([#3407](https://github.com/cyberbotics/webots/pull/3407)).
-    - Fixed the transparency of [Material](material.md) and [PBRAppearance](pbrappearance.md) such that the object are no longer visible to cameras when completely transparent ([#3436](https://github.com/cyberbotics/webots/pull/3436)). 
+    - Fixed the transparency of [Material](material.md) and [PBRAppearance](pbrappearance.md) such that the object are no longer visible to cameras when completely transparent ([#3436](https://github.com/cyberbotics/webots/pull/3436)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
     - Changed structure of the [projects/samples/howto]({{ url.github_tree }}/projects/samples/howto) directory, so each demonstration is in a dedicated directory ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
