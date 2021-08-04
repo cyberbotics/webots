@@ -40,11 +40,11 @@
   # At the beginning, start walking on the spot.
   # After 45 timesteps, begin taking steps forward.
   while robot.step(timestep) != -1:
-    if looptimes == 45:
-      gaitManager.setXAmplitude(gaitAmplitude)
+      if looptimes == 45:
+          gaitManager.setXAmplitude(gaitAmplitude)
 
-    gaitManager.step(basicTimeStep)
-    looptimes += 1
+      gaitManager.step(basicTimeStep)
+      looptimes += 1
         </pre>
           <p>The parameters of the gait manager are customizable and it is possible to find a setup that produces better performance.
             For example, tuning the gait amplitude or disabling the balance functionality makes the robot cover a bigger distance.
