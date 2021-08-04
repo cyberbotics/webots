@@ -368,9 +368,9 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePo
                                                        const double verticalFieldOfView, const double horizontalFieldOfView,
                                                        const double maxRange) {
   // construct the 4 planes defining the sides of the frustrum
-  double z = maxRange * tan(verticalFieldOfView / 2.0);
-  double y = maxRange * tan(horizontalFieldOfView / 2.0);
-  double x = maxRange;
+  const double z = maxRange * tan(verticalFieldOfView / 2.0);
+  const double y = maxRange * tan(horizontalFieldOfView / 2.0);
+  const double x = maxRange;
   const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
   const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
   const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, -z);
