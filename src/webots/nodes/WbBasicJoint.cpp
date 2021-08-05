@@ -498,9 +498,9 @@ WbBoundingSphere *WbBasicJoint::boundingSphere() const {
   return NULL;
 }
 
-QList<const WbBaseNode *> WbBasicJoint::childrenWithDedicatedWrenNode() const {
+QList<const WbBaseNode *> WbBasicJoint::findClosestDescendantNodesWithDedicatedWrenNode() const {
   QList<const WbBaseNode *> list;
   if (mEndPoint->value())
-    list << static_cast<WbBaseNode *>(mEndPoint->value())->childrenWithDedicatedWrenNode();
+    list << static_cast<WbBaseNode *>(mEndPoint->value())->findClosestDescendantNodesWithDedicatedWrenNode();
   return list;
 }

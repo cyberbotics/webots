@@ -48,7 +48,9 @@ public:
   int nodeType() const override { return WB_NODE_MUSCLE; }
   void createWrenObjects() override;
   void postFinalize() override;
-  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override { return QList<const WbBaseNode *>() << this; };
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
+    return QList<const WbBaseNode *>() << this;
+  };
 
   void animateMesh();
 

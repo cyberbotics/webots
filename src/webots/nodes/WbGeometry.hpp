@@ -70,7 +70,9 @@ public:
   virtual void setWrenMaterial(WrMaterial *material, bool castShadows);
   void destroyWrenObjects();
 
-  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override { return QList<const WbBaseNode *>() << this; }
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
+    return QList<const WbBaseNode *>() << this;
+  }
 
   // Create ODE dGeom (for a WbGeometry lying into a boundingObject)
   virtual dGeomID createOdeGeom(dSpaceID space);

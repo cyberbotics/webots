@@ -223,10 +223,10 @@ void WbSlot::write(WbVrmlWriter &writer) const {
   }
 }
 
-QList<const WbBaseNode *> WbSlot::childrenWithDedicatedWrenNode() const {
+QList<const WbBaseNode *> WbSlot::findClosestDescendantNodesWithDedicatedWrenNode() const {
   QList<const WbBaseNode *> list;
   const WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
   if (e)
-    list << e->childrenWithDedicatedWrenNode();;
+    list << e->findClosestDescendantNodesWithDedicatedWrenNode();
   return list;
 }

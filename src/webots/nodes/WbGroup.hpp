@@ -47,6 +47,7 @@ public:
   bool shallExport() const override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   int childCount() const { return mChildren->size(); }
@@ -99,7 +100,6 @@ public:
   // lazy matrix multiplication system
   void setMatrixNeedUpdate() override;
 
-  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
   // export
   void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
 

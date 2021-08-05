@@ -48,6 +48,7 @@ public:
   void detachResizeManipulator() const override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   bool hasEndpoint() const { return mEndPoint->value() != NULL; }
@@ -69,8 +70,6 @@ public:
 
   // lazy matrix multiplication system
   void setMatrixNeedUpdate() override;
-
-  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
 
 signals:
   void endPointInserted(WbBaseNode *);  // called when a node is inserted in the endPoint

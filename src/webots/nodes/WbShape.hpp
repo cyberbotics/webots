@@ -47,6 +47,7 @@ public:
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void propagateSelection(bool selected) override;
   void reset(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   WbAppearance *appearance() const;
@@ -72,8 +73,6 @@ public:
   void setAppearance(WbAppearance *appearance);
   void setPbrAppearance(WbPbrAppearance *appearance);
   void setGeometry(WbGeometry *geometry);
-
-  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
 
   // export
   bool exportNodeHeader(WbVrmlWriter &writer) const override;

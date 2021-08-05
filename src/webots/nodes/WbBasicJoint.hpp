@@ -73,7 +73,7 @@ public:
   void updateAfterParentPhysicsChanged();
   virtual void updateEndPointZeroTranslationAndRotation() = 0;
 
-  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
 public slots:
   void updateEndPoint();

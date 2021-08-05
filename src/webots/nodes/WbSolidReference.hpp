@@ -51,7 +51,7 @@ public:
   // check if mSolid is a parent of this SolidReference instance
   bool isClosedLoop() const;
 
-  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
 signals:
   void changed();

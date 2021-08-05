@@ -50,6 +50,7 @@ public:
   void setMatrixNeedUpdate() override;
   void write(WbVrmlWriter &writer) const override;
   void reset(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   void prePhysicsStep(double ms);
 
@@ -68,8 +69,6 @@ public:
 
   double currentThrust() const { return mCurrentThrust; }
   double currentTorque() const { return mCurrentTorque; }
-
-  QList<const WbBaseNode *> childrenWithDedicatedWrenNode() const override;
 
 private:
   // Scene Tree fields
