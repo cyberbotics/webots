@@ -409,7 +409,7 @@ void WbViewpoint::decOrthographicViewHeight() {
   updateOrthographicViewHeight();
 }
 
-void WbViewpoint::setNodesVisibility(QList<const WbBaseNode *>nodes, bool visible) {
+void WbViewpoint::setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible) {
   QListIterator<const WbBaseNode *> it(nodes);
   while (it.hasNext()) {
     const WbBaseNode *node = it.next();

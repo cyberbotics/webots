@@ -822,7 +822,7 @@ void WbMotor::resetPhysics() {
   mCurrentVelocity = 0;
 }
 
-QList<const WbBaseNode *> WbMotor::findClosestDescendantNodesWithDedicatedWrenNode() const override {
+QList<const WbBaseNode *> WbMotor::findClosestDescendantNodesWithDedicatedWrenNode() const {
   QList<const WbBaseNode *> list;
   WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
   while (it.hasNext())
