@@ -960,7 +960,7 @@ void WbViewpoint::viewpointRay(int x, int y, WbRay &ray) const {
     w *= scaleFactor * mAspectRatio;  // right - left in openGL terms
     h *= scaleFactor;                 // top  - bottom in openGL terms
     // Origin and direction of the mouse ray intersecting with camera's screen
-    direction = viewpointMatrix * WbVector3(w, -h, -nearValue);
+    direction = viewpointMatrix * WbVector3(-nearValue, w, h);
   } else {
     w *= mOrthographicViewHeight * mAspectRatio;
     h *= mOrthographicViewHeight;
