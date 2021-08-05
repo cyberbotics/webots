@@ -1268,27 +1268,27 @@ bool WbViewpoint::moveViewpointToObject(WbBaseNode *node) {
 }
 
 void WbViewpoint::frontView() {
-  orbitTo(WbVector3(-1, 0, 0), WbRotation(0, 0, 1, 0));
-}
-
-void WbViewpoint::backView() {
-  orbitTo(WbVector3(1, 0, 0), WbRotation(0, 0, 1, M_PI));
-}
-
-void WbViewpoint::leftView() {
-  orbitTo(WbVector3(0, 1, 0), WbRotation(0, 0, 1, -M_PI_2));
-}
-
-void WbViewpoint::rightView() {
   orbitTo(WbVector3(0, -1, 0), WbRotation(0, 0, 1, M_PI_2));
 }
 
+void WbViewpoint::backView() {
+  orbitTo(WbVector3(0, 1, 0), WbRotation(0, 0, 1, -M_PI_2));
+}
+
+void WbViewpoint::leftView() {
+  orbitTo(WbVector3(-1, 0, 0), WbRotation(0, 0, 1, 0));
+}
+
+void WbViewpoint::rightView() {
+  orbitTo(WbVector3(1, 0, 0), WbRotation(0, 0, 1, -M_PI));
+}
+
 void WbViewpoint::topView() {
-  orbitTo(WbVector3(0, 0, 1), WbRotation(0, 1, 0, M_PI_2));
+  orbitTo(WbVector3(0, 0, 1), WbRotation(-0.5773, 0.5773, 0.5773, 2.0944));
 }
 
 void WbViewpoint::bottomView() {
-  orbitTo(WbVector3(0, 0, -1), WbRotation(0, 1, 0, -M_PI_2));
+  orbitTo(WbVector3(0, 0, -1), WbRotation(0.5773, -0.5773, 0.5773, 2.0944));
 }
 
 void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation) {
