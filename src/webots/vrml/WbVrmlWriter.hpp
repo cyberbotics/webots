@@ -47,7 +47,6 @@ public:
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString *string() const { return mString; };
   QString path() const;
-  QString relativeTexturesPath() const { return "textures/"; }
   QHash<QString, QString> texturesList() const { return mTexturesList; }
   void addTextureToList(const QString &url, const QString &fileName) { mTexturesList[url] = fileName; }
 
@@ -87,6 +86,8 @@ public:
   WbVrmlWriter &operator<<(const WbRotation &r);
   WbVrmlWriter &operator<<(const WbQuaternion &q);
   WbVrmlWriter &operator<<(const WbRgb &rgb);
+
+  static QString relativeTexturesPath() { return "textures/"; }
 
 private:
   void setVrmlType();
