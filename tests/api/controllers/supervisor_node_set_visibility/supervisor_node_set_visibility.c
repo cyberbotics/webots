@@ -59,7 +59,8 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   quick_assert_color(camera0, 31, 31, 0x00FF00, "Camera 0 should not see the red box after it has been removed.\n");
-  quick_assert_color(camera1, 31, 31, 0x0000FF, "Camera 1 should only see the background after red box has been removed and green box has been hidden.\n");
+  quick_assert_color(camera1, 31, 31, 0x0000FF,
+                     "Camera 1 should only see the background after red box has been removed and green box has been hidden.\n");
 
   ts_send_success();
   return EXIT_SUCCESS;
