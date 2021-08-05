@@ -1288,7 +1288,7 @@ void WbViewpoint::topView() {
 }
 
 void WbViewpoint::bottomView() {
-  orbitTo(WbVector3(0, 0, -1), WbRotation(0.5773, -0.5773, 0.5773, 2.0944));
+  orbitTo(WbVector3(0, 0, -1), WbRotation(0.5773, 0.5773, 0.5773, -2.0944));
 }
 
 void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation) {
