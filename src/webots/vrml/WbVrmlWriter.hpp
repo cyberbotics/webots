@@ -77,7 +77,10 @@ public:
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
   WbVrmlWriter &operator<<(const QString &s);
+  WbVrmlWriter &operator<<(char);
   WbVrmlWriter &operator<<(int);
+  WbVrmlWriter &operator<<(unsigned int);
+  WbVrmlWriter &operator<<(double);
   WbVrmlWriter &operator<<(const WbVector2 &v);
   WbVrmlWriter &operator<<(const WbVector3 &v);
   WbVrmlWriter &operator<<(const WbVector4 &v);

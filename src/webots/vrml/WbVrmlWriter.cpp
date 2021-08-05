@@ -177,15 +177,28 @@ void WbVrmlWriter::writeFooter(const QStringList *info) {
 WbVrmlWriter &WbVrmlWriter::operator<<(const QString &s) {
   if (mString)
     *mString += s;
-  else {
-    assert(mDevice);
+  else
     mDevice->write(s.toUtf8());
-  }
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(char c) {
+  *this << QString(c);
   return *this;
 }
 
 WbVrmlWriter &WbVrmlWriter::operator<<(int i) {
   *this << QString::number(i);
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(unsigned int i) {
+  *this << QString::number(i);
+  return *this;
+}
+
+WbVrmlWriter &WbVrmlWriter::operator<<(double f) {
+  *this << WbPrecision::doubleToString(f, WbPrecision::DOUBLE_MAX);
   return *this;
 }
 
