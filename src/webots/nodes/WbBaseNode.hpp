@@ -81,7 +81,7 @@ public:
   void setWrenNode(WrTransform *n) { mWrenNode = n; }
 
   // return the closest descendant node(s) with dedicated Wren node (may be the node itself)
-  // only WbGeometry, WbTransform, and WbMuscle have a dedicated Wren node
+  // only WbBillboard, WbGeometry, WbTransform, and WbMuscle have a dedicated Wren node
   // used to properly apply Wren settings only to the current/descendant nodes and not to parent and sibling nodes
   virtual QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const {
     return QList<const WbBaseNode *>();

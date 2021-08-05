@@ -821,3 +821,11 @@ void WbMotor::addToCoupledMotors(WbMotor *motor) {
 void WbMotor::resetPhysics() {
   mCurrentVelocity = 0;
 }
+
+QList<const WbBaseNode *> WbMotor::findClosestDescendantNodesWithDedicatedWrenNode() const override {
+  QList<const WbBaseNode *> list;
+  WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
+  while (it.hasNext())
+    list << static_cast<WbBaseNode *>(it.next());
+  return list;
+}
