@@ -58,7 +58,7 @@ public:
 
   void enableExternalWindowForAttachedCamera(bool enabled);
 
-  void setNodesVisibility(QList<const WbBaseNode *>nodes, bool visible);
+  void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
 
   virtual bool isEnabled() const { return mSensor ? mSensor->isEnabled() : false; }
 

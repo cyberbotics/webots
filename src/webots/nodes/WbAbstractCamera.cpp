@@ -373,7 +373,7 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
   return commandHandled;
 }
 
-void WbAbstractCamera::setNodesVisibility(QList<const WbBaseNode *>nodes, bool visible) {
+void WbAbstractCamera::setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible) {
   QListIterator<const WbBaseNode *> it(nodes);
   while (it.hasNext()) {
     const WbBaseNode *node = it.next();
