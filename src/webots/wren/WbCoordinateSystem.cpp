@@ -167,10 +167,11 @@ void WbCoordinateSystem::setVisible(bool b) {
 
 void WbCoordinateSystem::setOrientation(const WbQuaternion &quaternion) {
   float rotation[4];
-  WbRotation(quaternion).toFloatArray(rotation);
+  WbQuaternion adaptedQuaternion(WbQuaternion(0.5, -0.5, 0.5, 0.5) * quaternion);
+  WbRotation(adaptedQuaternion).toFloatArray(rotation);
   wr_transform_set_orientation(mTransform, rotation);
 
-  WbRotation(quaternion.conjugated()).toFloatArray(rotation);
+  WbRotation(adaptedQuaternion.conjugated()).toFloatArray(rotation);
   for (int i = 0; i < 3; ++i)
     wr_transform_set_orientation(mLabelsTransform[i], rotation);
 }
