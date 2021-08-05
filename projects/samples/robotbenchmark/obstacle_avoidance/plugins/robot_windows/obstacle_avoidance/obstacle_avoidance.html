@@ -34,15 +34,17 @@
                To combat this, the Thymio II is equipped with a Compass device, although the default controller does not make use of it.
                The compass can be enabled using the following snippet:</p>
             <pre style='background:#FEE'>
-          # import Compass module
-          from controller import Compass
-          # get robot's Compass device
-          compass = robot.getCompass("compass")
-          # enable the Compass
-          compass.enable(timestep)
 
-          # to read values
-          values = compass.getValues()</pre>
+  # import Compass module
+  from controller import Compass
+  # get robot's Compass device
+  compass = robot.getCompass("compass")
+  # enable the Compass
+  compass.enable(timestep)
+
+  # to read values
+  values = compass.getValues()
+          </pre>
           <p>Full documentation on the Compass device can be found <a target="_blank" href="https://www.cyberbotics.com/doc/reference/compass">here.</a></p>
         </div>
         <input class="radio" id="explanations" name="group" type="radio">
