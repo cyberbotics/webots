@@ -20,6 +20,12 @@ Viewpoint {
 
 The [Viewpoint](#viewpoint) node defines a specific location in the local coordinate system from which the user may view the scene.
 
+%figure "Viewpoint oriented towards a robot"
+
+![viewpoint.png](images/viewpoint.thumbnail.png)
+
+%end
+
 The `position` and `orientation` fields of the [Viewpoint](#viewpoint) node specify absolute locations in the coordinate system.
 In the default position and orientation, the viewer is on the z-axis, looking down the *x*-axis toward the origin with *+x* to the right and *+y* straight up.
 
