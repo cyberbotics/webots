@@ -19,8 +19,8 @@
 // Description: class implementing the object translate manipulator
 //              objects have to be created
 //
-#include "WbVector3.hpp"
 #include "WbRotation.hpp"
+#include "WbVector3.hpp"
 #include "WbWrenAbstractManipulator.hpp"
 
 #include <wren/material.h>
@@ -47,7 +47,7 @@ public:
   void adjustHandleOrientation(int handleNumber);
 
   // Others
-  void updateRotationLine(const WbVector3 &begin, const WbVector3 &end, const WbRotation &orientation);
+  void updateRotationLine(const WbVector3 &begin, const WbVector3 &end, const WbRotation &orientation, float arrowScale);
   int coordinate(int handleNumber) const override { return handleNumber % 3; }
   int coordinateToHandleNumber(int coord) override { return coord; };
   const WbVector3 &coordinateVector(int handleNumber) const override { return STANDARD_COORDINATE_VECTORS[handleNumber % 3]; }
@@ -69,7 +69,7 @@ private:
   WrTransform *mRotationHandlesTransforms[3];
   WrTransform *mInfiniteAxesTransforms[3];
   WrTransform *mRotationLineTransform;
-  WrTransform *mRotationArrowTransform;
+  WrTransform *mRotationDoubleArrowTransform;
   WrTransform *mAxesTransform;
 };
 

@@ -191,32 +191,56 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
       mHasRotationHandles = false;
   }
   if (mHasRotationHandles) {
-    // Rotation line
-    const float tailVertices[6] = {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f};
-    WrStaticMesh *mesh = wr_static_mesh_line_set_new(2, tailVertices, NULL);
-
     WrMaterial *material = wr_phong_material_new();
     const float color[3] = {0.0f, 0.0f, 0.0f};
     wr_phong_material_set_color(material, color);
     wr_material_set_default_program(material, WbWrenShaders::simpleShader());
 
-    WrRenderable *renderable = wr_renderable_new();
-    wr_renderable_set_cast_shadows(renderable, false);
-    wr_renderable_set_receive_shadows(renderable, false);
-    wr_renderable_set_drawing_mode(renderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-    wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
-    wr_renderable_set_mesh(renderable, WR_MESH(mesh));
-    wr_renderable_set_material(renderable, material, NULL);
-    wr_renderable_set_drawing_order(renderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
+    // Rotation line
+    const float tailVertices[6] = {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f};
+    WrStaticMesh *rotationLineMesh = wr_static_mesh_line_set_new(2, tailVertices, NULL);
+    mMeshes.push_back(rotationLineMesh);
+
+    WrRenderable *rotationLineRenderable = wr_renderable_new();
+    mRenderables.push_back(rotationLineRenderable);
+    wr_renderable_set_cast_shadows(rotationLineRenderable, false);
+    wr_renderable_set_receive_shadows(rotationLineRenderable, false);
+    wr_renderable_set_drawing_mode(rotationLineRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
+    wr_renderable_set_visibility_flags(rotationLineRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
+    wr_renderable_set_mesh(rotationLineRenderable, WR_MESH(rotationLineMesh));
+    wr_renderable_set_material(rotationLineRenderable, material, NULL);
+    wr_renderable_set_drawing_order(rotationLineRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
 
     mRotationLineTransform = wr_transform_new();
-    wr_transform_attach_child(mRotationLineTransform, WR_NODE(renderable));
+    wr_transform_attach_child(mRotationLineTransform, WR_NODE(rotationLineRenderable));
 
-    // Rotation arrow
-    
+    // Double arrow (left arrow, line, right arrow)
+    const float doubleArrowVertices[30] = {-3.0f, 0.0f,  0.0f, -2.0f, 1.0f,  0.0f, -2.0f, -1.0f,  0.0f,
+
+                                           -2.0f, 0.25f, 0.0f, 2.0f,  0.25f, 0.0f, 2.0f,  -0.25f, 0.0f, -2.0f, -0.25f, 0.0f,
+
+                                           3.0f,  0.0f,  0.0f, 2.0f,  -1.0f, 0.0f, 2.0f,  1.0f,   0.0f};
+    const float doubleArrowNormals[30] = {0};
+    const unsigned int doubleArrowIndices[24] = {0, 1, 2, 2, 1, 0, 3, 4, 5, 5, 4, 3, 3, 5, 6, 6, 5, 3, 7, 8, 9, 9, 8, 7};
+    WrStaticMesh *doubleArrowMesh = wr_static_mesh_new(30, 24, doubleArrowVertices, doubleArrowNormals, doubleArrowNormals,
+                                                       doubleArrowNormals, doubleArrowIndices, false);
+    mMeshes.push_back(doubleArrowMesh);
+
+    WrRenderable *doubleArrowRenderable = wr_renderable_new();
+    mRenderables.push_back(doubleArrowRenderable);
+    wr_renderable_set_cast_shadows(doubleArrowRenderable, false);
+    wr_renderable_set_receive_shadows(doubleArrowRenderable, false);
+    wr_renderable_set_visibility_flags(doubleArrowRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
+    wr_renderable_set_mesh(doubleArrowRenderable, WR_MESH(doubleArrowMesh));
+    wr_renderable_set_material(doubleArrowRenderable, material, NULL);
+    wr_renderable_set_drawing_order(doubleArrowRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
+
+    mRotationDoubleArrowTransform = wr_transform_new();
+    wr_transform_attach_child(mRotationDoubleArrowTransform, WR_NODE(doubleArrowRenderable));
 
     WrTransform *root = wr_scene_get_root(wr_scene_get_instance());
     wr_transform_attach_child(root, WR_NODE(mRotationLineTransform));
+    wr_transform_attach_child(root, WR_NODE(mRotationDoubleArrowTransform));
   }
 }
 
@@ -293,7 +317,14 @@ void WbTranslateRotateManipulator::showNormal() {
 }
 
 void WbTranslateRotateManipulator::updateRotationLine(const WbVector3 &begin, const WbVector3 &end,
-                                                   const WbRotation &orientation) {
+                                                      const WbRotation &orientation, float arrowScale) {
+  // Scale the double arrow size
+  WrViewport *viewport = wr_scene_get_viewport(wr_scene_get_instance());
+  const float width = wr_viewport_get_width(viewport), height = wr_viewport_get_height(viewport),
+              maxDimension = height > width ? height : width, arrowScaleFactor = arrowScale * 2.0f / maxDimension;
+  const float new_scale[3] = {arrowScaleFactor, arrowScaleFactor, arrowScaleFactor};
+  wr_transform_set_scale(mRotationDoubleArrowTransform, new_scale);
+
   float tail[6];
   const double *data = begin.ptr();
   for (int i = 0; i < 6; ++i) {
@@ -306,9 +337,13 @@ void WbTranslateRotateManipulator::updateRotationLine(const WbVector3 &begin, co
   const float scaleFactor = (end - begin).length();
   const float scale[3] = {scaleFactor, scaleFactor, scaleFactor};
 
-  // Tail
+  // Line
   wr_transform_set_position(mRotationLineTransform, tail);
   wr_transform_set_scale(mRotationLineTransform, scale);
+
+  // Double arrow
+  tail[1] += scale[1];
+  wr_transform_set_position(mRotationDoubleArrowTransform, tail + 3);
 
   // Orientation
   WbVector3 baseX, baseY, baseZ;
@@ -329,6 +364,7 @@ void WbTranslateRotateManipulator::updateRotationLine(const WbVector3 &begin, co
   float rotationArray[4];
   rotation.toFloatArray(rotationArray);
   wr_transform_set_orientation(mRotationLineTransform, rotationArray);
+  wr_transform_set_orientation(mRotationDoubleArrowTransform, rotationArray);
 }
 
 WbVector3 WbTranslateRotateManipulator::relativeHandlePosition(int handleNumber) const {

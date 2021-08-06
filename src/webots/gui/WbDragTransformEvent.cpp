@@ -289,9 +289,9 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
   mInitialMatrix(mSelectedTransform->matrix()),
   mStepSize(selectedTransform->rotationStep()),
-  mInitialMousePosition(initialMousePosition),
+  mPreviousAngle(0.0),
   mInitialAngle(NAN),
-  mPreviousAngle(0.0) {
+  mInitialMousePosition(initialMousePosition) {
   mManipulator->highlightAxis(mHandleNumber + 3);
   mManipulator->setActive(true);
 
@@ -324,9 +324,6 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   // compute initial rotation offset
   WbVector3 mousePosition = mViewpoint->pick(initialMousePosition.x(), initialMousePosition.y(), mZEye);
   mousePosition = mInitialMatrix.pseudoInversed(mousePosition);  // local position
-  double x = mousePosition.dot(mManipulator->coordinateVector(mCoordinate + 1));
-  double y = mousePosition.dot(mManipulator->coordinateVector(mCoordinate + 2));
-
   mViewpoint->lock();
 }
 
@@ -350,19 +347,21 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   detachedHandlePosition = mInitialMatrix.pseudoInversed(detachedHandlePosition);  // local position
 
   if (isnan(mInitialAngle)) {
-      const double distance = sqrt(pow(mInitialMousePosition.x() - currentMousePosition.x(), 2) + pow(mInitialMousePosition.y() - currentMousePosition.y(), 2));
-      if (distance < 5)
-        return;
-      mInitialAngle = -atan2(mInitialMousePosition.y() - currentMousePosition.y(), mInitialMousePosition.x() - currentMousePosition.x());
+    const double distance = sqrt(pow(mInitialMousePosition.x() - currentMousePosition.x(), 2) +
+                                 pow(mInitialMousePosition.y() - currentMousePosition.y(), 2));
+    if (distance < 8)
+      return;
+    mInitialAngle =
+      -atan2(mInitialMousePosition.y() - currentMousePosition.y(), mInitialMousePosition.x() - currentMousePosition.x());
   }
-  double angle = -atan2(mInitialMousePosition.y() - currentMousePosition.y(), mInitialMousePosition.x() - currentMousePosition.x()) - mInitialAngle;  // rotation angle
+  double angle =
+    -atan2(mInitialMousePosition.y() - currentMousePosition.y(), mInitialMousePosition.x() - currentMousePosition.x()) -
+    mInitialAngle;  // rotation angle
 
-
-  mManipulator->updateRotationLine(
-    mViewpoint->pick(mInitialMousePosition.x(), mInitialMousePosition.y(), mZEye),
-    mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye),
-    mViewpoint->orientation()->value()
-  );
+  mManipulator->updateRotationLine(mViewpoint->pick(mInitialMousePosition.x(), mInitialMousePosition.y(), mZEye),
+                                   mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye),
+                                   mViewpoint->orientation()->value(),
+                                   mViewpoint->viewDistanceUnscaling(detachedHandlePosition) * 9);
 
   int stepCount = 0;
   if (mStepSize > 0) {
