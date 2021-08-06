@@ -2,7 +2,7 @@
 
 Viewpoint {
   vrmlField SFFloat                                                                 fieldOfView            0.785398  # (rad)
-  vrmlField SFRotation                                                              orientation            0 0 1 0
+  vrmlField SFRotation                                                              orientation            -0.5773 0.5773 0.5773 2.0944
   vrmlField SFVec3f                                                                 position               0 0 10
   vrmlField SFString                                                                description            ""
   field     SFFloat                                                                 near                   0.05      # (m) near clipping plane
