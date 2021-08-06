@@ -259,6 +259,30 @@ input[type=text] {
   font-size: 18px;
 }
 
+.settings-modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  width: 600px;
+  height: 250px;
+  background: black;
+  border-radius: 20px;
+}
+
+.settings-backgrounds {
+  display: inline-block;
+}
+
+.settings-icon {
+  //margin-top: -20px;
+  height: 200px;
+}
+
+.settings-icon:hover {
+  background-color: #68E;
+  border-radius: 20px;
+}
+
 .modal {
   display: none;
   position: fixed;

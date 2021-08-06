@@ -7,12 +7,12 @@ export default class HeaderView {
     this.createTopBar();
 
     this.setupNewProjectModalWindow();
-    // this.setupSettingsModalWindow();
+    this.setupSettingsModalWindow();
     this.setupHelpModalWindow();
   };
 
   createTopBar() {
-    const menuItems = ['New Project', 'Export', 'Settings', 'Help'];
+    const menuItems = ['New Project', 'Export', 'Help'];
 
     const div = document.createElement('div');
     div.classList.add('menu');
@@ -37,7 +37,7 @@ export default class HeaderView {
         this.export();
         break;
       case 'Settings':
-        this.settings();
+        this.settings(e);
         break;
       case 'Help':
         this.help(e);
@@ -85,7 +85,8 @@ export default class HeaderView {
   }
 
   setupSettingsModalWindow() {
-
+    let modal = document.getElementById('settingsModal');
+    modal.style.display = 'none';
   }
 
   newProject() {
@@ -96,12 +97,48 @@ export default class HeaderView {
     modal.style.display = 'block';
   }
 
-  settings() {
+  settings(e) {
+    let modal = document.getElementById('settingsModal');
 
+    if (typeof modal === 'undefined')
+      throw new Error('Error, settingsModal component is missing.');
+
+    if (modal.style.display === 'block')
+      modal.style.display = 'none';
+    else {
+      const position = e.target.getBoundingClientRect();
+
+      let backgrounds = ['blue', 'mountains'];
+      let assets = ['./view/assets/background-blue.png', './view/assets/background-blue.png'];
+
+      // get the modal
+      modal.style.top = '25px';
+      modal.style.left = position.x + 'px';
+
+      for (let i = 0; i < backgrounds.length; ++i) {
+        let figure = document.createElement('figure');
+        figure.classList.add('settings-backgrounds');
+
+        let img = document.createElement('img');
+        img.classList.add('settings-icon');
+        img.setAttribute('draggable', false);
+        img.setAttribute('id', backgrounds[i]);
+        img.setAttribute('src', assets[i]);
+        img.addEventListener('click', this.baseSelector.bind(this));
+
+        figure.appendChild(img);
+        modal.appendChild(figure);
+      }
+
+      modal.style.display = 'block';
+    }
   }
 
   help(e) {
     let modal = document.getElementById('helpModal');
+
+    if (typeof modal === 'undefined')
+      throw new Error('Error, helpModal component is missing.');
 
     if (modal.style.display === 'block')
       modal.style.display = 'none';
