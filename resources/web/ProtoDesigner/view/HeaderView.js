@@ -48,16 +48,35 @@ export default class HeaderView {
   };
 
   setupNewProjectModalWindow() {
+    let platforms = ['Tinkerbots', 'Thymio'];
+    let assets = ['./view/assets/tinkerbots.png', './view/assets/thymio.png'];
+
+    // create modal window
     let modal = document.getElementById('newProjectModal');
     modal.style.display = 'block';
+    modal.classList.add('new-project-modal');
 
-    // get the image and insert it inside the modal
-    const modalImg = document.getElementById('img01');
-    const captionText = document.getElementById('caption');
+    for (let i = 0; i < platforms.length; ++i) {
+      let figure = document.createElement('figure');
+      figure.classList.add('new-project-platform');
 
-    modalImg.src = './library/Tinkerbots/icons/TinkerbotsBase.png';
-    modalImg.addEventListener('click', this.baseSelector.bind(this));
-    captionText.innerHTML = 'TinkerbotsBase';
+      let img = document.createElement('img');
+      img.classList.add('new-project-icon');
+      img.setAttribute('draggable', false);
+      img.setAttribute('id', platforms[i]);
+      img.setAttribute('src', assets[i]);
+      img.addEventListener('click', this.baseSelector.bind(this));
+
+      let figcaption = document.createElement('figcaption');
+      figcaption.classList.add('caption');
+      figcaption.innerText = platforms[i];
+
+      figure.appendChild(img);
+      figure.appendChild(figcaption);
+      modal.appendChild(figure);
+    }
+
+    this.headerElement.appendChild(modal);
   }
 
   setupHelpModalWindow() {
@@ -84,11 +103,16 @@ export default class HeaderView {
 
   }
 
-  baseSelector() {
+  baseSelector(e) {
     if (typeof this.designer.scene === 'undefined')
       return; // minimal scene not ready yet
 
-    console.log('Selected TinkerbotsBase as base proto');
+    console.log('Selected ' + e.target.id + ' as base proto');
+    if (e.target.id === 'Thymio') {
+      alert('Platform not yet supported.');
+      return;
+    }
+
     let modal = document.getElementById('newProjectModal');
     modal.style.display = 'none';
 
