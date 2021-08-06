@@ -8,7 +8,7 @@ export default class HeaderView {
 
     this.setupNewProjectModalWindow();
     // this.setupSettingsModalWindow();
-    // this.setupHelpModalWindow();
+    this.setupHelpModalWindow();
   };
 
   createTopBar() {
@@ -40,7 +40,7 @@ export default class HeaderView {
         this.settings();
         break;
       case 'Help':
-        this.help();
+        this.help(e);
         break;
       default:
         throw new Error('Unknown menu button: ', e.target.id);
@@ -80,7 +80,8 @@ export default class HeaderView {
   }
 
   setupHelpModalWindow() {
-
+    let modal = document.getElementById('helpModal');
+    modal.style.display = 'none';
   }
 
   setupSettingsModalWindow() {
@@ -99,8 +100,19 @@ export default class HeaderView {
 
   }
 
-  help() {
+  help(e) {
+    let modal = document.getElementById('helpModal');
 
+    if (modal.style.display === 'block')
+      modal.style.display = 'none';
+    else {
+      const position = e.target.getBoundingClientRect();
+      // get the modal
+      modal.style.top = '25px';
+      modal.style.left = position.x + 'px';
+
+      modal.style.display = 'block';
+    }
   }
 
   baseSelector(e) {

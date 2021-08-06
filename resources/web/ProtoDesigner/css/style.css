@@ -210,20 +210,22 @@ input[type=text] {
 }
 
 .new-project-modal {
-  //display: none;
+  display: block;
   position: absolute;
   z-index: 1;
-  width: 100%;
-  height: 100%;
+  width: 1100px;
+  height: 500px;
+  top: 150px;
+  left: 400px;
   text-align: center;
   vertical-align: middle;
   background-color: rgba(0,0,0,0.8);
+  border-radius: 20px;
 }
 
-
 .new-project-icon {
+  margin-top: -20px;
   height: 400px;
-  vertical-align: top;
 }
 
 .new-project-icon:hover {
@@ -238,6 +240,23 @@ input[type=text] {
 .caption {
   font-family: 'Raleway';
   font-size: 30px;
+}
+
+.help-modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  width: 400px;
+  height: auto;
+  background: black;
+  border-radius: 20px;
+}
+
+.help-modal-content {
+  color: white;
+  padding: 10px;
+  font-family: 'Raleway';
+  font-size: 18px;
 }
 
 .modal {
