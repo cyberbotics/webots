@@ -329,6 +329,7 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
 
 WbDragRotateAroundAxisEvent::~WbDragRotateAroundAxisEvent() {
   mManipulator->setActive(false);
+  mManipulator->showRotationLine(false);
   mManipulator->showNormal();
 
   // add rotation in undo stack
@@ -358,6 +359,7 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
     -atan2(mInitialMousePosition.y() - currentMousePosition.y(), mInitialMousePosition.x() - currentMousePosition.x()) -
     mInitialAngle;  // rotation angle
 
+  mManipulator->showRotationLine(true);
   mManipulator->updateRotationLine(mViewpoint->pick(mInitialMousePosition.x(), mInitialMousePosition.y(), mZEye),
                                    mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye),
                                    mViewpoint->orientation()->value(),

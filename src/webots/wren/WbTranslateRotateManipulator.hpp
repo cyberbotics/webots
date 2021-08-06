@@ -39,6 +39,7 @@ public:
 
   // Setters
   void initializeHandlesEntities();
+  void showRotationLine(bool show);
 
   // Visibility
   void highlightAxis(int index) override;

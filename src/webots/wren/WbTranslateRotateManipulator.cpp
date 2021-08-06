@@ -215,11 +215,9 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     wr_transform_attach_child(mRotationLineTransform, WR_NODE(rotationLineRenderable));
 
     // Double arrow (left arrow, line, right arrow)
-    const float doubleArrowVertices[30] = {-3.0f, 0.0f,  0.0f, -2.0f, 1.0f,  0.0f, -2.0f, -1.0f,  0.0f,
-
-                                           -2.0f, 0.25f, 0.0f, 2.0f,  0.25f, 0.0f, 2.0f,  -0.25f, 0.0f, -2.0f, -0.25f, 0.0f,
-
-                                           3.0f,  0.0f,  0.0f, 2.0f,  -1.0f, 0.0f, 2.0f,  1.0f,   0.0f};
+    const float doubleArrowVertices[30] = {-3.0f, 0.0f, 0.0f, -2.0f, 1.0f, 0.0f,  -2.0f,  -1.0f, 0.0f,  -2.0f,
+                                           0.25f, 0.0f, 2.0f, 0.25f, 0.0f, 2.0f,  -0.25f, 0.0f,  -2.0f, -0.25f,
+                                           0.0f,  3.0f, 0.0f, 0.0f,  2.0f, -1.0f, 0.0f,   2.0f,  1.0f,  0.0f};
     const float doubleArrowNormals[30] = {0};
     const unsigned int doubleArrowIndices[24] = {0, 1, 2, 2, 1, 0, 3, 4, 5, 5, 4, 3, 3, 5, 6, 6, 5, 3, 7, 8, 9, 9, 8, 7};
     WrStaticMesh *doubleArrowMesh = wr_static_mesh_new(30, 24, doubleArrowVertices, doubleArrowNormals, doubleArrowNormals,
@@ -241,6 +239,9 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     WrTransform *root = wr_scene_get_root(wr_scene_get_instance());
     wr_transform_attach_child(root, WR_NODE(mRotationLineTransform));
     wr_transform_attach_child(root, WR_NODE(mRotationDoubleArrowTransform));
+
+    wr_node_set_visible(WR_NODE(mRotationLineTransform), false);
+    wr_node_set_visible(WR_NODE(mRotationDoubleArrowTransform), false);
   }
 }
 
@@ -255,6 +256,9 @@ WbTranslateRotateManipulator::~WbTranslateRotateManipulator() {
   }
 
   wr_node_delete(WR_NODE(mAxesTransform));
+
+  wr_node_delete(WR_NODE(mRotationLineTransform));
+  wr_node_delete(WR_NODE(mRotationDoubleArrowTransform));
 
   for (int i = 0; i < 3; ++i) {
     if (mHasTranslationHandles)
@@ -314,6 +318,11 @@ void WbTranslateRotateManipulator::showNormal() {
       wr_phong_material_set_transparency(mHandlesMaterials[i][1], HANDLES_TRANSPARENCY);
     }
   }
+}
+
+void WbTranslateRotateManipulator::showRotationLine(bool show) {
+  wr_node_set_visible(WR_NODE(mRotationLineTransform), show);
+  wr_node_set_visible(WR_NODE(mRotationDoubleArrowTransform), show);
 }
 
 void WbTranslateRotateManipulator::updateRotationLine(const WbVector3 &begin, const WbVector3 &end,
