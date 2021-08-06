@@ -20,6 +20,7 @@
 //              objects have to be created
 //
 #include "WbVector3.hpp"
+#include "WbRotation.hpp"
 #include "WbWrenAbstractManipulator.hpp"
 
 #include <wren/material.h>
@@ -46,6 +47,7 @@ public:
   void adjustHandleOrientation(int handleNumber);
 
   // Others
+  void updateRotationLine(const WbVector3 &begin, const WbVector3 &end, const WbRotation &orientation);
   int coordinate(int handleNumber) const override { return handleNumber % 3; }
   int coordinateToHandleNumber(int coord) override { return coord; };
   const WbVector3 &coordinateVector(int handleNumber) const override { return STANDARD_COORDINATE_VECTORS[handleNumber % 3]; }
@@ -66,6 +68,8 @@ private:
   WrTransform *mTranslationHandlesTransforms[3];
   WrTransform *mRotationHandlesTransforms[3];
   WrTransform *mInfiniteAxesTransforms[3];
+  WrTransform *mRotationLineTransform;
+  WrTransform *mRotationArrowTransform;
   WrTransform *mAxesTransform;
 };
 

@@ -357,6 +357,13 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   }
   double angle = -atan2(mInitialMousePosition.y() - currentMousePosition.y(), mInitialMousePosition.x() - currentMousePosition.x()) - mInitialAngle;  // rotation angle
 
+
+  mManipulator->updateRotationLine(
+    mViewpoint->pick(mInitialMousePosition.x(), mInitialMousePosition.y(), mZEye),
+    mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye),
+    mViewpoint->orientation()->value()
+  );
+
   int stepCount = 0;
   if (mStepSize > 0) {
     if (angle < 0)
