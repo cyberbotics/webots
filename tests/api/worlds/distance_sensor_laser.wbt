@@ -44,9 +44,14 @@ Solid {
   translation 0.05 0 0
   rotation 0 0 1 1.5708
   children [
-    Shape {
-      geometry DEF PLANE Plane {
-      }
+    DEF PLANE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   boundingObject USE PLANE
