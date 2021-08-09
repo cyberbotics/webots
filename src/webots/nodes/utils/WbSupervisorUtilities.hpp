@@ -93,6 +93,7 @@ private:
   QPair<WbTransform *, WbTransform *> mNodeGetPose;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
+  int mNodeIdGetContactPoints;
   bool mGetContactPointsIncludeDescendants;
   WbSolid *mNodeGetStaticBalance;
   WbSolid *mNodeGetVelocity;
@@ -123,7 +124,7 @@ private:
 
   void pushSingleFieldContentToStream(QDataStream &stream, WbField *field);
   void pushRelativePoseToStream(QDataStream &stream, WbTransform *fromNode, WbTransform *toNode);
-  void pushContactPointsToStream(QDataStream &stream, WbSolid *solid, bool includeDescendants);
+  void pushContactPointsToStream(QDataStream &stream, WbSolid *solid, int solidId, bool includeDescendants);
   void initControllerRequests();
   void deleteControllerRequests();
   void writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType);

@@ -25,16 +25,28 @@
 class WbWebPage : public QWebPage {
   Q_OBJECT
 public:
-  explicit WbWebPage(QObject *parent = NULL) : QWebPage(parent) {}
+  explicit WbWebPage(QObject *parent = NULL) : QWebPage(parent) {
+    connect(this, &WbWebPage::linkHovered, this, &WbWebPage::externalLinkHovered);
+  }
   virtual ~WbWebPage() {}
 
 protected:
 #ifdef _WIN32
   void javaScriptConsoleMessage(const QString &message, int lineNumber, const QString &sourceUrl) override;
+  bool acceptNavigationRequest(QWebFrame *frame, const QNetworkRequest &request, NavigationType type) override;
 #else
   void javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level, const QString &message, int lineNumber,
                                 const QString &sourceID) override;
+  bool acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame) override;
 #endif
+
+  WbWebPage *createWindow(QWebPage::WebWindowType type) override;
+
+protected slots:
+  void externalLinkHovered(const QString &url);
+
+private:
+  QString mHoveredLink;
 };
 
 #endif  // WB_WEB_PAGE
