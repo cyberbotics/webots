@@ -45,11 +45,12 @@
             the <a target=_blank href="https://www.cyberbotics.com/doc/reference/positionsensor">PositionSensor</a> values to exactly determine when the movement is completed.
             If you look at the provided Python program controlling the youBot robot, you will find a sample code to monitor one of the arm joint position:
             <pre style='background:#FEE'>
-          # Monitor the arm joint position to detect when the motion is completed.
-          while robot.step(timestep) != -1:
-            if abs(armPositionSensors[3].getValue() - (-1.2)) < 0.01:
-                # Motion completed.
-                break
+
+  # Monitor the arm joint position to detect when the motion is completed.
+  while robot.step(timestep) != -1:
+      if abs(armPositionSensors[3].getValue() - (-1.2)) < 0.01:
+          # Motion completed.
+          break
           </pre>
           </p>
           <p>
