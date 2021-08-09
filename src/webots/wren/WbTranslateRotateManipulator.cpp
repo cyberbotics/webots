@@ -358,7 +358,7 @@ void WbTranslateRotateManipulator::updateRotationLine(const WbVector3 &begin, co
   WbVector3 baseX, baseY, baseZ;
   baseY = (end - begin).normalized();
 
-  // Check if the vector is parallel to the xy-plan of the camera (dot product close to zero)
+  // Check if the vector is parallel to the xy-plane of the camera (dot product close to zero)
   if (fabs(baseY.dot(orientation.direction())) < 1e-6)
     baseX = baseY.cross(orientation.direction()).normalized();
   else {
