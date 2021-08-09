@@ -39,8 +39,7 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  quick_assert_color(camera0, 31, 31, 0x00FF00,
-                     "Camera 0 should not see the red box after it was hidden from this camera.\n");
+  quick_assert_color(camera0, 31, 31, 0x00FF00, "Camera 0 should not see the red box after it was hidden from this camera.\n");
   quick_assert_color(camera1, 31, 31, 0xFF0000, "Camera 1 should still see the red box after it was hidden from camera 0.\n");
 
   wb_supervisor_node_set_visibility(red_box_node, camera_node, true);
