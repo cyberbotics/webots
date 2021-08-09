@@ -153,7 +153,7 @@ protected:
   int mStepFractionDenominator;
   double mPreviousAngle;
   double mInitialAngle;
-  QPoint mInitialMousePosition;
+  WbVector2 mObjectScreenPosition;
   static const double RAD_TO_DEG;
 };
 
