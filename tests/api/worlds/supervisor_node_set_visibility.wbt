@@ -47,7 +47,7 @@ DEF Test Robot {
     TestSuiteEmitter {
     }
     DEF CAMERA0 Camera {
-      translation 0 0.84 5.50586e-07
+      translation 0 0.84 0
       rotation 1 0 0 4.71239
       name "camera0"
     }
