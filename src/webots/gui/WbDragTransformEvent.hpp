@@ -73,6 +73,8 @@ public:
 
 private:
   WbVector3 mTranslationOffset;
+  WbQuaternion mCoordinateTransform;
+  bool mIsMouseRayValid;
 };
 
 // WbDragVerticalEvent class

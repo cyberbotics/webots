@@ -33,15 +33,16 @@
           <p>If you look at the Python program controlling the NAO robot, you will see that this program simply plays a motion file
             called forward.motion:</p>
           <pre style='background:#FEE'>
-      def run(self):
-          walk = Motion('forward.motion')
-          walk.setLoop(True)
-          walk.play()
-          while True:
-              if walk.getTime() == 1360:
-                  walk.setTime(360)
-              if self.step(self.timeStep) == -1:
-                  break
+
+  def run(self):
+      walk = Motion('forward.motion')
+      walk.setLoop(True)
+      walk.play()
+      while True:
+          if walk.getTime() == 1360:
+              walk.setTime(360)
+          if self.step(self.timeStep) == -1:
+              break
           </pre>
           <br>
           <p>The motion lasts 1360 milliseconds (1,36 seconds) and is divided in two parts: the first part lasts 360 ms

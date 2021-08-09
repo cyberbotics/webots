@@ -127,5 +127,17 @@ Robot {
     ]
   }
 }
+DEF E_PUCK E-puck {
+  translation 5.30718e-08 0 0.09
+  rotation 0 1 0 3.14159
+  controller "void"
+  turretSlot [
+    DEF SLOT_SOLID WoodenBox {
+      translation 0 -0.01 0.03
+      size 0.01 0.01 0.01
+      mass 0.02
+    }
+  ]
+}
 TestSuiteSupervisor {
 }
