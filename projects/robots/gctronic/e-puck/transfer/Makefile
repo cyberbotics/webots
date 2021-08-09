@@ -47,7 +47,11 @@ $(XC16_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(XC16_PACKAGE) "package and copy it in this directory"; fi
 	@echo "#" downloading $(XC16_PACKAGE)
 	@$(WGET) https://www.cyberbotics.com/files/repository/dependencies/$(OS_TAG)/release/$(XC16_PACKAGE)
+ifeq ($(OSTYPE),darwin)
+	@if [ `md5 -q $(XC16_PACKAGE)` != $(XC16_MD5SUM) ]; then echo "MD5 checksum failed for $(XC16_PACKAGE)"; exit 1; fi
+else
 	@if [ "$$(md5sum $(XC16_PACKAGE) | awk '{print $$1;}')" != $(XC16_MD5SUM) ]; then echo "MD5 checksum failed for $(XC16_PACKAGE)"; exit 1; fi
+endif
 	@echo "#" removing old $(XC16_TARGET)
 	@rm -rf $(XC16_TARGET)
 	@echo "#" extracting $(XC16_PACKAGE)

@@ -60,7 +60,11 @@ $(SUMO_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(SUMO_PACKAGE) "package and copy it in this directory"; fi
 	@echo "#" downloading $(SUMO_PACKAGE)
 	@$(WGET) https://www.cyberbotics.com/files/repository/dependencies/$(OS_TAG)/release/$(SUMO_PACKAGE)
+ifeq ($(OSTYPE),darwin)
+	@if [ `md5 -q $(SUMO_PACKAGE)` != $(SUMO_MD5SUM) ]; then echo "MD5 checksum failed for $(SUMO_PACKAGE)"; exit 1; fi
+else
 	@if [ "$$(md5sum $(SUMO_PACKAGE) | awk '{print $$1;}')" != $(SUMO_MD5SUM) ]; then echo "MD5 checksum failed for $(SUMO_PACKAGE)"; exit 1; fi
+endif
 	@echo "#" extracting $(SUMO_PACKAGE)
 	@$(EXTRACT) $(SUMO_PACKAGE)
 	@echo "#" removing old $(SUMO_TARGET)
