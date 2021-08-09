@@ -17,8 +17,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.2787439164932131 0.9191017246532488 0.278484916570805 4.63136
-  position -1.89429 1.30605 -0.0459539
+  orientation -0.5406672254156394 0.7046835380572284 0.45945626837872267 2.9764987925507453
+  position 0.9853202699055409 0.5821316126746291 1.2421952801676048
 }
 TexturedBackground {
 }
@@ -43,6 +43,7 @@ DEF TRACKED_ROBOT Robot {
     }
     DEF LEFT_TRACK Track {
       translation 0 0 -0.07
+      rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       children [
         DEF WHEEL1 TrackWheel {
@@ -140,7 +141,8 @@ DEF TRACKED_ROBOT Robot {
       boundingObject DEF TRACK_BO Group {
         children [
           Transform {
-            translation 0 -0.009 0
+            translation 0.0 0.0 -0.009
+            rotation 1 0 0 1.5707963267948966
             children [
               Box {
                 size 0.39 0.248 0.03
@@ -148,8 +150,8 @@ DEF TRACKED_ROBOT Robot {
             ]
           }
           Transform {
-            translation 0.237434 -0.0691798 0
-            rotation 0 0 -1 5.85646
+            translation 0.237434 0.0 -0.0691798
+            rotation -0.9561245578940675 0.20715432627859082 -0.20715432627859096 -1.6156483647805284
             children [
               Box {
                 size 0.13 0.08 0.03
@@ -159,8 +161,8 @@ DEF TRACKED_ROBOT Robot {
             rotationStep 0.00261799
           }
           Transform {
-            translation -0.242803 -0.0708334 0
-            rotation 0 0 1 5.87479
+            translation -0.242803 0.0 -0.0708334
+            rotation -0.9596913501339254 -0.19873665046755137 0.19873665046755146 -1.6119282802823234
             children [
               Box {
                 size 0.13 0.08 0.03
@@ -170,8 +172,8 @@ DEF TRACKED_ROBOT Robot {
             rotationStep 0.00261799
           }
           Transform {
-            translation -0.302 0.017 0
-            rotation 1 0 0 1.5708
+            translation -0.302 0.0 0.017
+            rotation 1.0 0.0 0.0 -3.14158898038469
             children [
               DEF WHEEL_BO Cylinder {
                 height 0.03
@@ -181,8 +183,8 @@ DEF TRACKED_ROBOT Robot {
             ]
           }
           Transform {
-            translation 0.288 0.017 0
-            rotation 1 0 0 1.5708
+            translation 0.288 0.0 0.017
+            rotation 1.0 0.0 0.0 -3.14158898038469
             children [
               USE WHEEL_BO
             ]
@@ -229,6 +231,7 @@ DEF TRACKED_ROBOT Robot {
     }
     Track {
       translation 0 0 0.07
+      rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       children [
         USE WHEEL1
