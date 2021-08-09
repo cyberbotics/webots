@@ -61,6 +61,7 @@ DEF GROUND Transform {
 Robot {
   children [
     DEF HORIZONTAL_RANGE_FINDER RangeFinder {
+      rotation 0.577349 -0.577349 -0.577349 -2.0944
       name "horizontal_range_finder"
       fieldOfView 3.14159
       width 128
@@ -69,7 +70,7 @@ Robot {
       maxRange 5
     }
     DEF VERTICAL_RANGE_FINDER Transform {
-      rotation 0 0 1 1.5708
+      rotation 0.7071057396616216 0.0 -0.7071078227087467 -3.141591084855258
       children [
         RangeFinder {
           name "vertical_range_finder"
