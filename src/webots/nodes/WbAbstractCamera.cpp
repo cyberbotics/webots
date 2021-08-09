@@ -732,16 +732,16 @@ void WbAbstractCamera::applyFrustumToWren() {
   const float t = tanf(fovX / 2.0f);
   const float dw1 = n * t;
   const float dh1 = dw1 * h / w;
-  const float n1 = -n;
+  const float n1 = n;
   const float dw2 = f * t;
   const float dh2 = dw2 * h / w;
-  const float n2 = -f;
+  const float n2 = f;
 
   QVector<float> vertices;
   QVector<float> colors;
   float vertex[3] = {0.0f, 0.0f, 0.0f};
   addVertex(vertices, colors, vertex, frustumColor);
-  vertex[2] = -n;
+  vertex[0] = n;
   addVertex(vertices, colors, vertex, frustumColor);
 
   // creation of the near plane
@@ -750,7 +750,7 @@ void WbAbstractCamera::applyFrustumToWren() {
     drawCube(vertices, colors, n, cubeColor);
 
     const float n95 = 0.95f * n;
-    if (mWrenCamera->isSubCameraActive(WbWrenCamera::CAMERA_ORIENTATION_FRONT)) {
+    if (mWrenCamera->isSubCameraActive(WbWrenCamera::CAMERA_ORIENTATION_BACK)) {
       const float pos[4][3] = {{n95, n95, -n}, {n95, -n95, -n}, {-n95, -n95, -n}, {-n95, n95, -n}};
       drawRectangle(vertices, colors, pos, frustumColor);
     }
@@ -766,12 +766,12 @@ void WbAbstractCamera::applyFrustumToWren() {
       drawRectangle(vertices, colors, pos0, frustumColor);
       drawRectangle(vertices, colors, pos1, frustumColor);
     }
-    if (mWrenCamera->isSubCameraActive(WbWrenCamera::CAMERA_ORIENTATION_BACK)) {
+    if (mWrenCamera->isSubCameraActive(WbWrenCamera::CAMERA_ORIENTATION_FRONT)) {
       const float pos[4][3] = {{n95, n95, n}, {n95, -n95, n}, {-n95, -n95, n}, {-n95, n95, n}};
       drawRectangle(vertices, colors, pos, frustumColor);
     }
   } else {
-    const float pos[4][3] = {{dw1, dh1, n1}, {dw1, -dh1, n1}, {-dw1, -dh1, n1}, {-dw1, dh1, n1}};
+    const float pos[4][3] = {{n1, dw1, dh1}, {n1, dw1, -dh1}, {n1, -dw1, -dh1}, {n1, -dw1, dh1}};
     drawRectangle(vertices, colors, pos, frustumColor);
   }
 
@@ -779,7 +779,7 @@ void WbAbstractCamera::applyFrustumToWren() {
   // if the camera is not of the range-finder type, the far is set to infinity
   // so, the far rectangle of the colored frustum shouldn't be set
   if (drawFarPlane && !mSpherical->value()) {
-    const float pos[4][3] = {{dw2, dh2, n2}, {dw2, -dh2, n2}, {-dw2, -dh2, n2}, {-dw2, dh2, n2}};
+    const float pos[4][3] = {{n2, dw2, dh2}, {n2, dw2, -dh2}, {n2, -dw2, -dh2}, {n2, -dw2, dh2}};
     drawRectangle(vertices, colors, pos, frustumColor);
   }
 
@@ -803,8 +803,8 @@ void WbAbstractCamera::applyFrustumToWren() {
       addVertex(vertices, colors, outlineVertex, frustumColor);
     }
   } else {
-    const float frustumOutline[8][3] = {{dw1, dh1, n1},  {dw2, dh2, n2},  {-dw1, dh1, n1},  {-dw2, dh2, n2},
-                                        {dw1, -dh1, n1}, {dw2, -dh2, n2}, {-dw1, -dh1, n1}, {-dw2, -dh2, n2}};
+    const float frustumOutline[8][3] = {{n1, dw1, dh1},  {n2, dw2, dh2},  {n1, -dw1, dh1},  {n2, -dw2, dh2},
+                                        {n1, dw1, -dh1}, {n2, dw2, -dh2}, {n1, -dw1, -dh1}, {n2, -dw2, -dh2}};
     for (int i = 0; i < 8; ++i)
       addVertex(vertices, colors, frustumOutline[i], frustumColor);
   }
@@ -828,8 +828,8 @@ void WbAbstractCamera::updateFrustumDisplay() {
 
   const float n = minRange();
   const float quadWidth = 2.0f * n * tanf(mFieldOfView->value() / 2.0f);
-  const float translation[3] = {0.0f, 0.0f, -n};
-  const float scale[3] = {quadWidth, (quadWidth * height()) / width(), 1.0f};
+  const float translation[3] = {n, 0.0f, 0.0f};
+  const float scale[3] = {quadWidth, 1.0f, (quadWidth * height()) / width()};
 
   wr_transform_set_position(mFrustumDisplayTransform, translation);
   wr_transform_set_scale(mFrustumDisplayTransform, scale);

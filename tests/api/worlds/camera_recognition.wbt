@@ -288,6 +288,7 @@ Robot {
   rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Camera {
+      rotation -0.5773502691896256 0.5773502691896261 0.5773502691896256 2.09439
       width 256
       height 256
       recognition DEF RECOGNITION Recognition {

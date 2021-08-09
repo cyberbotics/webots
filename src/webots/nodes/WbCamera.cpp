@@ -715,8 +715,8 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
   const int h = height();
   const double fovX = fieldOfView();
   const double fovY = WbWrenCamera::computeFieldOfViewY(fovX, (double)w / h);
-  const double theta1 = atan2(position.x(), fabs(position.z()));
-  const double theta2 = atan2(position.y(), fabs(position.z()));
+  const double theta1 = -atan2(position.y(), fabs(position.x()));
+  const double theta2 = atan2(position.z(), fabs(position.x()));
   int u = (double)w * (0.5 * tan(theta1) / tan(0.5 * fovX) + 0.5);
   int v = (double)h * (0.5 - 0.5 * tan(theta2) / tan(0.5 * fovY));
   u = qMax(0, qMin(u, w - 1));
@@ -848,6 +848,7 @@ void WbCamera::createWrenCamera() {
   } else {
     mSegmentationCamera = NULL;
     disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
+    disconnect(mSegmentationCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateSegmentationCameraOrientation);
   }
 
   applyFocalSettingsToWren();
@@ -857,7 +858,14 @@ void WbCamera::createWrenCamera() {
   updateAmbientOcclusionRadius();
 
   updateLensFlare();
+  updateCameraOrientation();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateCameraOrientation);
+
+  if (mSegmentationCamera) {
+    updateSegmentationCameraOrientation();
+    connect(mSegmentationCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateSegmentationCameraOrientation);
+  }
 }
 
 void WbCamera::createWrenOverlay() {
@@ -988,10 +996,16 @@ void WbCamera::createSegmentationCamera() {
   } else {
     mSegmentationCamera = NULL;
     disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
+    disconnect(mSegmentationCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateSegmentationCameraOrientation);
   }
   updateOverlayMaskTexture();
   if (mExternalWindowEnabled)
     updateTextureUpdateNotifications(mExternalWindowEnabled);
+
+  if (mSegmentationCamera) {
+    updateSegmentationCameraOrientation();
+    connect(mSegmentationCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateSegmentationCameraOrientation);
+  }
 }
 
 void WbCamera::updateLensFlare() {
@@ -1003,6 +1017,20 @@ void WbCamera::updateLensFlare() {
     WrViewport *viewport = mWrenCamera->getSubViewport(WbWrenCamera::CAMERA_ORIENTATION_FRONT);
     lensFlare()->setup(viewport);
   }
+}
+
+void WbCamera::updateCameraOrientation() {
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotatePitch(M_PI_2);
+    mWrenCamera->rotateRoll(-M_PI_2);
+  }
+}
+
+void WbCamera::updateSegmentationCameraOrientation() {
+  // FLU axis orientation
+  mSegmentationCamera->rotatePitch(M_PI_2);
+  mSegmentationCamera->rotateRoll(-M_PI_2);
 }
 
 void WbCamera::updateNear() {

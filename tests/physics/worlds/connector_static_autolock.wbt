@@ -37,6 +37,7 @@ DEF ACTIVE_ROBOT Robot {
     }
     Connector {
       translation 0 0.2 -0.20000000000000007
+      rotation 0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
       autoLock TRUE
       distanceTolerance 0.1
       axisTolerance 0.4
@@ -66,7 +67,7 @@ DEF SOLID Solid {
     }
     Connector {
       translation 0.05 0 0
-      rotation 0 1 0 1.5707963220000003
+      rotation 1 0 0 -1.5708
       autoLock TRUE
       distanceTolerance 0.09999999999999999
     }

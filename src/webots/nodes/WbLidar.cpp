@@ -371,9 +371,9 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
         theta = -((double)j / (double)resolution) * 2 * M_PI;
       const int index = resolution * i + j;
       const double r = image[index];
-      lidarPoints[index].x = -r * sin(theta) * cosPhi;
-      lidarPoints[index].y = r * sinPhi;
-      lidarPoints[index].z = -r * cos(theta) * cosPhi;
+      lidarPoints[index].x = r * cos(theta) * cosPhi;
+      lidarPoints[index].y = r * sin(theta) * cosPhi;
+      lidarPoints[index].z = r * sinPhi;
       lidarPoints[index].time = (j / w) * (time - mRefreshRate / 1000.0) + (1 - (j / w)) * time;
       lidarPoints[index].layer_id = i;
     }
@@ -395,6 +395,16 @@ void WbLidar::createWrenCamera() {
   applyMaxRangeToWren();
   applyResolutionToWren();
   applyTiltAngleToWren();
+  updateOrientation();
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbLidar::updateOrientation);
+}
+
+void WbLidar::updateOrientation() {
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotatePitch(M_PI_2);
+    mWrenCamera->rotateRoll(-M_PI_2);
+  }
 }
 
 void WbLidar::deleteWren() {
@@ -525,9 +535,9 @@ void WbLidar::applyFrustumToWren() {
     // min range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
       const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-      const double x = n * sin(tmpHAngle) * cosV;
-      const double y = n * sinV;
-      const double z = n * -cos(tmpHAngle) * cosV;
+      const double x = n * cos(tmpHAngle) * cosV;
+      const double y = n * sin(tmpHAngle) * cosV;
+      const double z = n * sinV;
       pushVertex(vertices, i++, x, y, z);
       pushVertex(vertices, i++, x, y, z);
     }
@@ -538,9 +548,9 @@ void WbLidar::applyFrustumToWren() {
     // max range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
       const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-      const double x = f * sin(tmpHAngle) * cosV;
-      const double y = f * sinV;
-      const double z = f * -cos(tmpHAngle) * cosV;
+      const double x = f * cos(tmpHAngle) * cosV;
+      const double y = f * sin(tmpHAngle) * cosV;
+      const double z = f * sinV;
       pushVertex(vertices, i++, x, y, z);
       pushVertex(vertices, i++, x, y, z);
     }

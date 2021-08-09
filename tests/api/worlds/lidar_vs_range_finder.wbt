@@ -61,6 +61,7 @@ DEF GROUND Transform {
 Robot {
   children [
     DEF HORIZONTAL_RANGE_FINDER RangeFinder {
+      rotation 0.577349 -0.577349 -0.577349 -2.0944
       fieldOfView 3.14159
       width 128
       height 1
@@ -68,6 +69,7 @@ Robot {
       maxRange 5
     }
     Lidar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       horizontalResolution 128
       fieldOfView 3.14159
       numberOfLayers 1
