@@ -324,7 +324,7 @@ bool WbPlane::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoord
   const double sy = scaledSize().y();
 
   const double u = pointOnTexture.x() / sx + 0.5;
-  const double v = pointOnTexture.y() / sy + 0.5;
+  const double v = -pointOnTexture.y() / sy + 0.5;
 
   // result
   uv.setXy(u, v);
@@ -348,10 +348,10 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   const double planeWidth = size().x();
   const double planeHeight = size().y();
   const WbMatrix4 &upperMatrix = upperTransform()->matrix();
-  const WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, 0.5 * planeHeight);
-  const WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, -0.5 * planeHeight);
-  const WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, -0.5 * planeHeight);
-  const WbVector3 p4 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, 0.5 * planeHeight);
+  const WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, -0.5 * planeHeight, 0.0);
+  const WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.5 * planeHeight, 0.0);
+  const WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.5 * planeHeight, 0.0);
+  const WbVector3 p4 = upperMatrix * WbVector3(-0.5 * planeWidth, -0.5 * planeHeight, 0.0);
 
   // 2. Check if the ray intersects one of the two oriented triangle.
   // Compute the intersection point in such case.
