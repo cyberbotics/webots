@@ -1240,8 +1240,8 @@ bool WbViewpoint::moveViewpointToObject(WbBaseNode *node) {
   const WbVector3 boundingSphereCenter(absoluteCenter.x(), absoluteCenter.y(), absoluteCenter.z());
 
   // Compute direction vector where the viewpoint is looking at.
-  // For all orientation and a zero angle, the viewpoint is looking at the z-axis opposite.
-  const WbVector3 viewpointDirection = mOrientation->value().toQuaternion() * WbVector3(0, 0, -1);
+  // For all orientation and a zero angle, the viewpoint is looking at the x-axis.
+  const WbVector3 viewpointDirection = mOrientation->value().toQuaternion() * WbVector3(1, 0, 0);
 
   // Compute a distance coefficient between the object and future viewpoint.
   // The bounding sphere will be entirely contained in the 3D view.
