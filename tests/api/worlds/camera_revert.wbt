@@ -215,8 +215,8 @@ Robot {
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       children [
         Transform {
-          translation 0 0 -0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0
+          rotation 0 1 0 1.57
           children [
             Shape {
               appearance Appearance {
