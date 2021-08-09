@@ -373,12 +373,16 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
   return commandHandled;
 }
 
-void WbAbstractCamera::setNodeVisibility(WbBaseNode *node, bool visible) {
-  if (visible)
-    mInvisibleNodes.removeAll(node);
-  else if (!mInvisibleNodes.contains(node)) {
-    mInvisibleNodes.append(node);
-    connect(node, &QObject::destroyed, this, &WbAbstractCamera::removeInvisibleNodeFromList, Qt::UniqueConnection);
+void WbAbstractCamera::setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible) {
+  QListIterator<const WbBaseNode *> it(nodes);
+  while (it.hasNext()) {
+    const WbBaseNode *node = it.next();
+    if (visible)
+      mInvisibleNodes.removeAll(node);
+    else if (!mInvisibleNodes.contains(node)) {
+      mInvisibleNodes.append(node);
+      connect(node, &QObject::destroyed, this, &WbAbstractCamera::removeInvisibleNodeFromList, Qt::UniqueConnection);
+    }
   }
 }
 

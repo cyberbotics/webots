@@ -47,6 +47,7 @@ public:
   bool shallExport() const override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   int childCount() const { return mChildren->size(); }

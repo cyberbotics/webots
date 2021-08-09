@@ -77,3 +77,10 @@ bool WbSolidReference::isClosedLoop() const {
   }
   return false;
 }
+
+QList<const WbBaseNode *> WbSolidReference::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  if (mSolid)
+    list << mSolid;
+  return list;
+}

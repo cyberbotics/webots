@@ -58,7 +58,7 @@ public:
 
   void enableExternalWindowForAttachedCamera(bool enabled);
 
-  void setNodeVisibility(WbBaseNode *node, bool visible);
+  void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
 
   virtual bool isEnabled() const { return mSensor ? mSensor->isEnabled() : false; }
 
@@ -140,7 +140,7 @@ protected:
   WrStaticMesh *mFrustumDisplayMesh;
   WrMaterial *mFrustumDisplayMaterial;
 
-  QList<WbBaseNode *> mInvisibleNodes;
+  QList<const WbBaseNode *> mInvisibleNodes;
 
   // other stuff
   WbSensor *mSensor;

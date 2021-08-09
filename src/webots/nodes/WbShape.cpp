@@ -439,6 +439,14 @@ void WbShape::createWrenMaterial(int type) {
   }
 }
 
+QList<const WbBaseNode *> WbShape::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbGeometry *const g = geometry();
+  if (g)
+    list << g;
+  return list;
+}
+
 ///////////////////////////////////////////////////////////
 //  ODE related methods for WbShapes in boundingObjects  //
 ///////////////////////////////////////////////////////////
