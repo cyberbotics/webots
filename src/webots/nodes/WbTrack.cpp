@@ -603,7 +603,7 @@ void WbTrack::prePhysicsStep(double ms) {
   } else
     mSurfaceVelocity = 0.0;
 
-  double travelledDistance = mSurfaceVelocity * sec;
+  const double travelledDistance = mSurfaceVelocity * sec;
   mMotorPosition += travelledDistance;
 
   for (int i = 0; i < mWheelsList.size(); ++i)
