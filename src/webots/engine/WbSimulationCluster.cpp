@@ -361,7 +361,7 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
   if (t) {
     contactNormal.normalize();
     const WbMatrix4 m(t->matrix());
-    WbVector3 bodyYAxis(m(0, 1), m(1, 1), m(2, 1));
+    WbVector3 bodyYAxis(m(0, 2), m(1, 2), m(2, 2));
     bodyYAxis.normalize();
     double dotProduct = contactNormal.dot(bodyYAxis);
     if (dotProduct < -1)

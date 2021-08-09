@@ -5,7 +5,6 @@ WorldInfo {
   ]
   title "Track"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "track material"
@@ -17,19 +16,20 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.5406672254156394 0.7046835380572284 0.45945626837872267 2.9764987925507453
-  position 0.9853202699055409 0.5821316126746291 1.2421952801676048
+  orientation -0.359225025079045 0.192368552809517 0.913209571372821 2.231929761631315
+  position 1.705691870169238 -2.422891013219065 2.5285644485307186
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 1 0 0 1.5707963267948966
   floorSize 2 2
 }
 DEF TRACKED_ROBOT Robot {
-  translation 0.547744 0.07 0.672268
-  rotation 0 1 0 2.0944
+  translation 0.547744 -0.672268 0.07
+  rotation 0.377962640874585 0.654654199598196 0.654654199598196 2.418861612013945
   children [
     DEF GEOM Shape {
       appearance PBRAppearance {
@@ -141,7 +141,7 @@ DEF TRACKED_ROBOT Robot {
       boundingObject DEF TRACK_BO Group {
         children [
           Transform {
-            translation 0.0 0.0 -0.009
+            translation 0 0 -0.009
             rotation 1 0 0 1.5707963267948966
             children [
               Box {
@@ -150,7 +150,7 @@ DEF TRACKED_ROBOT Robot {
             ]
           }
           Transform {
-            translation 0.237434 0.0 -0.0691798
+            translation 0.237434 0 -0.0691798
             rotation -0.9561245578940675 0.20715432627859082 -0.20715432627859096 -1.6156483647805284
             children [
               Box {
@@ -161,7 +161,7 @@ DEF TRACKED_ROBOT Robot {
             rotationStep 0.00261799
           }
           Transform {
-            translation -0.242803 0.0 -0.0708334
+            translation -0.242803 0 -0.0708334
             rotation -0.9596913501339254 -0.19873665046755137 0.19873665046755146 -1.6119282802823234
             children [
               Box {
@@ -172,8 +172,8 @@ DEF TRACKED_ROBOT Robot {
             rotationStep 0.00261799
           }
           Transform {
-            translation -0.302 0.0 0.017
-            rotation 1.0 0.0 0.0 -3.14158898038469
+            translation -0.302 0 0.017
+            rotation 1 0 0 -3.14158898038469
             children [
               DEF WHEEL_BO Cylinder {
                 height 0.03
@@ -183,8 +183,8 @@ DEF TRACKED_ROBOT Robot {
             ]
           }
           Transform {
-            translation 0.288 0.0 0.017
-            rotation 1.0 0.0 0.0 -3.14158898038469
+            translation 0.288 0 0.017
+            rotation 1 0 0 -3.14158898038469
             children [
               USE WHEEL_BO
             ]
@@ -265,8 +265,8 @@ DEF TRACKED_ROBOT Robot {
   controller "track"
 }
 DEF CONVEYOR_BELT Robot {
-  translation -0.6 0.06 6.97909e-07
-  rotation 0 1 0 1.5708
+  translation -0.6 -6.97909e-07 0.06
+  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
   children [
     Shape {
       appearance DEF APP PBRAppearance {
@@ -320,7 +320,8 @@ DEF CONVEYOR_BELT Robot {
   controller "track_conveyor_belt"
 }
 DEF BOX_1 Solid {
-  translation -0.6 0.145 0.16
+  translation -0.6 -0.16 0.145
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -339,7 +340,8 @@ DEF BOX_1 Solid {
   }
 }
 DEF BOX_2 Solid {
-  translation -0.6 0.145 0.06
+  translation -0.6 -0.06 0.145
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -356,7 +358,8 @@ DEF BOX_2 Solid {
   }
 }
 DEF BOX_3 Solid {
-  translation -0.6 0.145 -0.04
+  translation -0.6 0.04 0.145
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -373,8 +376,8 @@ DEF BOX_3 Solid {
   }
 }
 DEF OBSTACLE_GREEN Solid {
-  translation 0.282729 0.025 0.23299
-  rotation -0.10917402098566134 -0.9940031910693968 -0.006220071195635248 5.49212
+  translation 0.282729 -0.23299 0.025
+  rotation -0.871997102870137 -0.343963854309947 -0.348295735710808 4.48614336027263
   children [
     Shape {
       appearance PBRAppearance {
