@@ -16,8 +16,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.359225025079045 0.192368552809517 0.913209571372821 2.231929761631315
-  position 1.705691870169238 -2.422891013219065 2.5285644485307186
+  orientation -0.26049186253770856 0.5404381105682231 0.8000441476550434 1.0844758388285622
+  position -1.6836762676731991 -2.135293984444971 1.9550392122629308
 }
 TexturedBackground {
 }
@@ -266,7 +266,7 @@ DEF TRACKED_ROBOT Robot {
 }
 DEF CONVEYOR_BELT Robot {
   translation -0.6 -6.97909e-07 0.06
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
+  rotation 0.5773488553723222 0.5773509760969793 0.5773509760969793 2.094397223120449
   children [
     Shape {
       appearance DEF APP PBRAppearance {
@@ -280,6 +280,7 @@ DEF CONVEYOR_BELT Robot {
     }
     Track {
       translation 0 0.064 0
+      rotation 1 0 0 -1.5707953071795862
       children [
         DEF BELT Shape {
           appearance PBRAppearance {
@@ -295,7 +296,7 @@ DEF CONVEYOR_BELT Robot {
             }
           }
           geometry Box {
-            size 0.54 0.004 0.04
+            size 0.54 0.04 0.004
           }
         }
       ]
