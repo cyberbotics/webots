@@ -215,9 +215,9 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     wr_transform_attach_child(mRotationLineTransform, WR_NODE(rotationLineRenderable));
 
     // Double arrow (left arrow, line, right arrow)
-    const float doubleArrowVertices[30] = {-3.0f, 0.0f, 0.0f, -2.0f, 1.0f, 0.0f,  -2.0f,  -1.0f, 0.0f,  -2.0f,
-                                           0.25f, 0.0f, 2.0f, 0.25f, 0.0f, 2.0f,  -0.25f, 0.0f,  -2.0f, -0.25f,
-                                           0.0f,  3.0f, 0.0f, 0.0f,  2.0f, -1.0f, 0.0f,   2.0f,  1.0f,  0.0f};
+    const float doubleArrowVertices[30] = {-2.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,  -1.0f,  -1.0f, 0.0f,  -1.0f,
+                                           0.25f, 0.0f, 1.0f, 0.25f, 0.0f, 1.0f,  -0.25f, 0.0f,  -1.0f, -0.25f,
+                                           0.0f,  2.0f, 0.0f, 0.0f,  1.0f, -1.0f, 0.0f,   1.0f,  1.0f,  0.0f};
     const float doubleArrowNormals[30] = {0};
     const unsigned int doubleArrowIndices[24] = {0, 1, 2, 2, 1, 0, 3, 4, 5, 5, 4, 3, 3, 5, 6, 6, 5, 3, 7, 8, 9, 9, 8, 7};
     WrStaticMesh *doubleArrowMesh = wr_static_mesh_new(30, 24, doubleArrowVertices, doubleArrowNormals, doubleArrowNormals,
@@ -277,8 +277,6 @@ WbTranslateRotateManipulator::~WbTranslateRotateManipulator() {
 
 void WbTranslateRotateManipulator::highlightAxis(int index) {
   WbWrenAbstractManipulator::highlightAxis(index);
-
-  wr_node_set_visible(WR_NODE(mAxesTransform), false);
 
   for (int i = 0; i < 3; ++i) {
     if (mHasRotationHandles)
