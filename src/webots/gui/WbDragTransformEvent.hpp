@@ -147,6 +147,7 @@ protected:
   int mCoordinate;
   const WbQuaternion mInitialQuaternionRotation;
   WbMatrix4 mInitialMatrix;
+  WbVector3 mInitialPosition;
   double mZEye;
   double mStepSize;
   int mStepFractionNumerator;

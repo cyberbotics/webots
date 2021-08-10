@@ -288,6 +288,7 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   mCoordinate(mManipulator->coordinate(handleNumber)),
   mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
   mInitialMatrix(mSelectedTransform->matrix()),
+  mInitialPosition(mSelectedTransform->position()),
   mStepSize(selectedTransform->rotationStep()),
   mPreviousAngle(0.0),
   mInitialAngle(NAN) {
@@ -348,16 +349,22 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   WbVector3 detachedHandlePosition = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye);
   detachedHandlePosition = mInitialMatrix.pseudoInversed(detachedHandlePosition);  // local position
 
+  // Depending on the rotation vector direction in respect to the pointview direction of rotation should adapted
+  const int sign = WbMatrix3(mInitialQuaternionRotation)
+                         .column(mCoordinate)
+                         .dot((mInitialPosition - mViewpoint->position()->value()).normalized()) > 0 ?
+                     1 :
+                     -1;
   if (isnan(mInitialAngle)) {
     const double distance = sqrt(pow(mObjectScreenPosition.x() - currentMousePosition.x(), 2) +
                                  pow(mObjectScreenPosition.y() - currentMousePosition.y(), 2));
     if (distance < 8)
       return;
     mInitialAngle =
-      -atan2(mObjectScreenPosition.y() - currentMousePosition.y(), mObjectScreenPosition.x() - currentMousePosition.x());
+      sign * atan2(mObjectScreenPosition.y() - currentMousePosition.y(), mObjectScreenPosition.x() - currentMousePosition.x());
   }
   double angle =
-    -atan2(mObjectScreenPosition.y() - currentMousePosition.y(), mObjectScreenPosition.x() - currentMousePosition.x()) -
+    sign * atan2(mObjectScreenPosition.y() - currentMousePosition.y(), mObjectScreenPosition.x() - currentMousePosition.x()) -
     mInitialAngle;  // rotation angle
 
   mManipulator->showRotationLine(true);
