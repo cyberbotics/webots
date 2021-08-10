@@ -61,7 +61,6 @@ Robot {
           color 0 0 0
           direction 0 -1 0
           intensity 3
-          on FALSE
         }
       ]
       name "light"

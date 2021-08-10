@@ -60,6 +60,10 @@ def convert_children(node, parent):
                                                                                                             'Plane']:
                 isDef = False
                 defName = None
+                position = -1
+                for index in range(0, len(parent)):
+                    if parent[index] == node:
+                        position = index
                 #  We need to transfer the def of the geometry to the transform
                 if 'DEF' in field['value']:
                     defName = field['value']['DEF']
@@ -75,12 +79,11 @@ def convert_children(node, parent):
                 for param in newTransform['fields']:
                     if param['name'] in 'children':
                         param['value'] = [node]
-                        parent.remove(node)
 
                 if isDef:
                     newTransform['DEF'] = defName
 
-                parent.append(newTransform)
+                parent[position] = newTransform
     # Case of boundingObject
     elif node['name'] in ['Cylinder', 'Capsule', 'ElevationGrid', 'Plane']:
         newTransform = createNewTransform()
@@ -97,17 +100,16 @@ def convert_children(node, parent):
             parent.remove(node)
             parent.append(newTransform)
 
-    else:
-        for field in node['fields']:
-            if field['name'] in 'Geometrics_conversion':
-                break
-            elif field['name'] in 'children':
-                for child in field['value']:
-                    convert_children(child, field['value'])
-            elif field['name'] in 'endPoint':
-                convert_children(field['value'], field['value'])
-            elif field['name'] in 'boundingObject':
-                convert_children(field['value'], node)
+    for field in node['fields']:
+        if field['name'] in 'Geometrics_conversion':
+            break
+        elif field['name'] in 'children':
+            for child in field['value']:
+                convert_children(child, field['value'])
+        elif field['name'] in 'endPoint':
+            convert_children(field['value'], field['value'])
+        elif field['name'] in 'boundingObject':
+            convert_children(field['value'], node)
 
 
 def cleanTransform(node):
@@ -196,6 +198,6 @@ if __name__ == "__main__":
     # for filename in sys.argv:
     #     if not filename.endswith('.wbt'):
     #         continue
-    filename = "tests/api/worlds/display_infrared.wbt"
+    filename = "tests/api/worlds/emitter_set_channel.wbt"
     print(filename)
     convert_to_enu(filename)
