@@ -625,7 +625,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *points = PyList_New(size);
     for (int i = 0; i < size; i++) {
-      PyObject *value = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint), 0);
+      PyObject *value = SWIG_NewPointerObj(SWIG_as_voidptr(&rawPoints[i]), $descriptor(WbLidarPoint *), 0);
       PyList_SetItem(points, i, value);
     }
     SWIG_PYTHON_THREAD_END_BLOCK;
