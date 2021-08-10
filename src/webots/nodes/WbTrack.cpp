@@ -40,6 +40,8 @@
 #include <wren/renderable.h>
 #include <wren/transform.h>
 
+static const WbQuaternion TRACK_PAD_TRANSFORM(WbVector3(1, 0, 0), -M_PI_2);
+
 void WbTrack::init() {
   mDeviceField = findMFNode("device");
   mTextureAnimationField = findSFVector2("textureAnimation");
@@ -517,8 +519,8 @@ void WbTrack::updateAnimatedGeometries() {
     }
     float position[3];
     float rotation[4];
-    WbVector3(beltPosition.position.x(), beltPosition.position.y(), 0.0).toFloatArray(position);
-    WbRotation(0.0, 0.0, -1.0, beltPosition.rotation).toFloatArray(rotation);
+    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(position);
+    WbRotation(WbQuaternion(WbVector3(0.0, 1.0, 0.0), beltPosition.rotation) * TRACK_PAD_TRANSFORM).toFloatArray(rotation);
 
     WrTransform *transform = wr_transform_new();
     wr_transform_set_position(transform, position);
@@ -603,7 +605,7 @@ void WbTrack::prePhysicsStep(double ms) {
   } else
     mSurfaceVelocity = 0.0;
 
-  double travelledDistance = mSurfaceVelocity * sec;
+  const double travelledDistance = mSurfaceVelocity * sec;
   mMotorPosition += travelledDistance;
 
   for (int i = 0; i < mWheelsList.size(); ++i)
@@ -645,8 +647,8 @@ void WbTrack::animateMesh() {
 
     float position[3];
     float rotation[4];
-    WbVector3(beltPosition.position.x(), beltPosition.position.y(), 0.0).toFloatArray(position);
-    WbRotation(0.0, 0.0, -1.0, beltPosition.rotation).toFloatArray(rotation);
+    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(position);
+    WbRotation(WbQuaternion(WbVector3(0.0, 1.0, 0.0), beltPosition.rotation) * TRACK_PAD_TRANSFORM).toFloatArray(rotation);
 
     wr_transform_set_position(mBeltElements[i], position);
     wr_transform_set_orientation(mBeltElements[i], rotation);
