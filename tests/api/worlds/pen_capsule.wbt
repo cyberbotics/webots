@@ -19,22 +19,27 @@ DEF BOARD Solid {
   translation -0.03 0.082 -0.15
   rotation 0.903644221406416 0.41615510196425476 0.10120302479626216 10.9956
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 1 1 1
+            }
+            texture ImageTexture {
+              url [
+                "textures/white256.png"
+              ]
+            }
+          }
+          geometry Capsule {
+            height 0.1
+            radius 0.05
+          }
         }
-        texture ImageTexture {
-          url [
-            "textures/white256.png"
-          ]
-        }
-      }
-      geometry Capsule {
-        height 0.1
-        radius 0.05
-      }
+      ]
     }
   ]
   locked TRUE
@@ -68,16 +73,21 @@ DEF WRITER Robot {
           Transform {
             translation 0 0.031 0
             children [
-              DEF BODY Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
                   }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+                ]
               }
             ]
           }
@@ -97,7 +107,7 @@ DEF WRITER Robot {
             Shape {
               geometry Cylinder {
                 height 0.01
-                radius 0.01
+                  radius 0.01
               }
             }
           ]
