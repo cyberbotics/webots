@@ -119,7 +119,7 @@ void WbPen::prePhysicsStep(double ms) {
   if (mWrite->isTrue()) {
     // find shape/texture that intersects the ray
     const WbMatrix4 &m = matrix();
-    const WbVector3 globalDirection = m.sub3x3MatrixDot(WbVector3(0, -1, 0));
+    const WbVector3 globalDirection = m.sub3x3MatrixDot(WbVector3(0, 0, -1));
     const WbRay ray(m.translation(), globalDirection);
     double distance;
     const WbShape *shape = WbNodeUtilities::findIntersectingShape(ray, maxDistance, distance);
@@ -137,7 +137,7 @@ void WbPen::prePhysicsStep(double ms) {
 void WbPen::createWrenObjects() {
   WbSolidDevice::createWrenObjects();
 
-  const float coords[6] = {0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f};
+  const float coords[6] = {0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f};
   mTransform = wr_transform_new();
   mRenderable = wr_renderable_new();
   mMaterial = wr_phong_material_new();
