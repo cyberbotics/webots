@@ -23,7 +23,7 @@ The [Skin](#skin) node can be used to simulate soft mesh animation for example o
 The skin mesh is imported from a mesh file specified by the `model` name (either Ogre or FBX format), but in order to be animated it has to be attached to a skeleton so that the rotation of the skeleton joints results in appropriate deformation of the skin mesh.
 
 This node provides two alternative ways to define a skeleton.
-The first method consists in providing the skeleton in the mesh file (in the case of Ogre, it stands in a separate skeleton file that must have the same name as the Ogre mesh file).
+The first method consists in providing the skeleton in the mesh file.
 The second method consists in listing the [Solid](#solid.md) nodes corresponding to the mesh bones using the `bones` field.
 If in the first case the resulting object animation will be purely graphical, when linking the [Skin](#skin) to an existing Webots skeleton made of [Solid](#solid.md) and [Joint](#joint.md) nodes it is possible to animate a dynamic object.
 
@@ -31,8 +31,8 @@ The XML files containing the skin mesh and skeleton can be generated using a 3D 
 For example, the [Blender2OGRE](https://bitbucket.org/iboshkov/blender2ogre) plugin can be used to export the mesh and skeleton from [Blender](https://www.blender.org/) 3D modeling tool.
 Then the exported ".mesh.xml" and ".skeleton.xml" XML files have to be converted to the corresponding ".mesh" and ".skeleton" binary files using the converter "$(WEBOTS\_HOME)/bin/ogre/OgreXMLConverter" in order to use it in Webots.
 
-Other tools can be used for generating the characters to animate, for example human characters in the provided samples are generated using [MakeHuman](http://www.makehuman.org/).
-
+Other tools can be used for generating the characters to animate, for example human characters provided ins the
+[skin_animated_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt) sample are generated using [MakeHuman](http://www.makehuman.org/).
 
 #### Physically driven skin animation
 
@@ -40,12 +40,13 @@ If you want that the skin is animated based on the movements of a dynamic object
 Each listed [Solid](#solid.md) bone have to be a child node of a [Joint](#joint.md).
 Moreover, the mesh bone structure and the [Solid](#solid.md)/[Joint](#joint.md) have to match.
 In particular, this means that the number of mesh bones have to match with the number of joints and the [Solid](#solid.md) node names must be the same as the bone names specified in the mesh file.
-
+An example of physically driver skin animation is provided in the "[animated_skin.wbt]({{ url.github_tree }}/projects/samples/rendering/worlds/animated_skin.wbt)" simulation.
 
 #### Pure graphical skin animation
 
 For a purely graphical skin animation the `bones` field doesn't have to be specified.
 In this case the skeleton needed to animate the skin is loaded either from the file named "<modelName>.skeleton", where <modelName> corresponds to the `model` field value, and located in the same folder as the mesh file, or from the mesh FBX file, depending on what is provided.
+An example of physically driver skin animation is provided in the "[skin_animated_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt)" simulation.
 
 ### Field Summary
 
@@ -63,9 +64,9 @@ Only positive values are permitted; non-positive scale values are automatically 
 For example, when using Ogre format, if the model name is "test_model", it imports the binary mesh files "test_model.mesh" and "test_model.skeleton" placed in the "skins/test_model/" subdirectory, inside the current project directory.
 The materials used by the imported mesh have to be defined in the `appearance` field.
 
-- `appearance`: list of [Appearance](#appearance.md) nodes defining the materials used by the mesh defined in the `model` field.
-In order to be correctly used, the `name` field of the child [Appearance](#appearance.md) node has to match the material name used in the mesh definition.
-If multiple [Appearance](#appearance.md) nodes have the same `name` field value, the first one is used.
+- `appearance`: list of [Appearance](#appearance.md) and [PBRAppearance](#pbrappearance.md) nodes defining the materials used by the mesh defined in the `model` field.
+In order to be correctly used, the `name` field of the child appearance node has to match the material name used in the mesh definition.
+If multiple appearance nodes have the same `name` field value, the first one is used.
 
 - The `bones` fields contains a list of [SolidReference](#solidreference.md) nodes that provide the information to attach a Webots skeleton made of [Solid](#solid.md) and [Joint](#joint.md) nodes.
 In order to setup correctly the skeleton, the solids have to have the same names as specified in the skeleton.
@@ -97,7 +98,7 @@ const char *wb_skin_get_bone_name(WbDeviceTag tag, int index);
 %tab "C++"
 
 ```cpp
-#include <webots/Skip.hpp>
+#include <webots/Skin.hpp>
 
 namespace webots {
   class Skin : public Device {
@@ -166,8 +167,8 @@ The `wb_skin_get_bone_count`function returns the total number of bones in the sk
 The `wb_skin_get_bone_name` function returns the name of the bone at the specified index.
 The bones are indexed starting from 0.
 
-This two functions are available both if using a Webots skeleton or if the the skeleton is loaded from an Ogre XML file.
-But if a Webots skeleton is used, then the bone count will correspond to the valid nodes specified in the `bones` field and the bone names will correspond to the referenced [Solid](#solid.md) names.
+These two functions are available both when using a Webots skeleton or if the skeleton is loaded from the FBX or Ogre model.
+If a Webots skeleton is used, then the bone count will correspond to the valid nodes specified in the `bones` field and the bone names will correspond to the referenced [Solid](#solid.md) names.
 
 ---
 
