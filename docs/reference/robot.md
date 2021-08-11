@@ -37,8 +37,8 @@ Setting the value of this field to `<extern>` will make this robot runnable from
 If the robot window is required it is recommended to assign the `void` controller instead of an empty string.
 
 - `controllerArgs`: list of strings containing the command line arguments to be passed to the controller program.
-Unlike in command line instructions, each `controllerArgs` item is interpreted as a single argument value, even if it contains spaces, and multiple arguments need to be specified on separate MFString items
-But it is not nexeccary to escape the spaces contained in the argument value.
+Unlike in command line instructions, each `controllerArgs` item is interpreted as a single argument value, even if it contains spaces, and multiple arguments need to be specified on separate MFString items.
+On the other hand, it is not necessary to escape the spaces contained in the argument value.
 The corresponding command line instruction will have the form: ``<controller_program_name> "controllerArgs[0]" "controllerArgs[1]" ..``.
 In case of C, C++, and Java controller programs the values will be passed as arguments of the `main` function or method.
 
