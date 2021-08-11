@@ -670,13 +670,13 @@ Any advice about how to get the epuck moves randomly in this world
 ##### David Mansolino [Cyberbotics] 04/23/2020 05:44:20
 Hi `@angelicaba23` you might simply use the braitenberg controller.
 
-##### fdvalois 04/23/2020 07:34:46
+##### Addiv 04/23/2020 07:34:46
 You just look braitenberg controller online?
 
 ##### David Mansolino [Cyberbotics] 04/23/2020 07:37:52
 A breaitenberge already compatible with many robot is distributed with Webots, here is the code:  [https://github.com/cyberbotics/webots/tree/master/projects/default/controllers/braitenberg](https://github.com/cyberbotics/webots/tree/master/projects/default/controllers/braitenberg)
 
-##### fdvalois 04/23/2020 07:38:11
+##### Addiv 04/23/2020 07:38:11
 Thank you!
 
 ##### David Mansolino [Cyberbotics] 04/23/2020 07:38:41
