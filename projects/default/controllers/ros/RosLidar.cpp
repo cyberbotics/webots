@@ -102,6 +102,8 @@ void RosLidar::publishAuxiliaryValue() {
 void RosLidar::publishLaserScan(int layer) {
   if (layer < mLidar->getNumberOfLayers()) {
     const float *rangeImageVector = mLidar->getLayerRangeImage(layer);
+    if (!rangeImageVector)
+      return;
     sensor_msgs::LaserScan laserScan;
     laserScan.header.stamp = ros::Time::now();
     laserScan.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
