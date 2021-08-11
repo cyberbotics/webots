@@ -2294,7 +2294,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
         distanceToPickPosition = 0.001;
     }
 
-    const double scaleFactor = -0.02 * (event->angleDelta().y() < 0.0 ? -1 : 1) * distanceToPickPosition;
+    const double scaleFactor = -0.1 * (event->angleDelta().y() < 0.0 ? -1 : 1) * distanceToPickPosition;
     const WbVector3 zDisplacement(scaleFactor * viewpoint->orientation()->value().direction());
     WbSFVector3 *const position = viewpoint->position();
     position->setValue(position->value() + zDisplacement);
