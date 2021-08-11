@@ -2,19 +2,19 @@
 
 ```
 Viewpoint {
-  SFFloat    fieldOfView             0.785398                       # [0, pi]
-  SFRotation orientation             -0.5773 0.5773 0.5773 2.0944   # unit axis, (-inf, inf) angle
-  SFVec3f    position                0 0 10                         # any vector
-  SFString   description             ""                             # any string
-  SFFloat    near                    0.05                           # [0, far]
-  SFFloat    far                     0.0                            # [near, inf)
-  SFFloat    exposure                1.0                            # [0, inf)
-  SFString   follow                  ""                             # any string
-  SFBool     followType              "Tracking Shot"                # {"None", "Tracking Shot", "Mounted Shot", "Pan and Tilt Shot"}
-  SFFloat    followSmoothness        0.5                            # [0, 1]
-  SFNode     lensFlare               NULL                           # {LensFlare, PROTO}
-  SFFloat    ambientOcclusionRadius  2                              # [0, inf)
-  SFFloat    bloomThreshold          10                             # [0, inf)
+  SFFloat    fieldOfView             0.785398         # [0, pi]
+  SFRotation orientation             0 0 1 0          # unit axis, (-inf, inf) angle
+  SFVec3f    position                0 0 10           # any vector
+  SFString   description             ""               # any string
+  SFFloat    near                    0.05             # [0, far]
+  SFFloat    far                     0.0              # [near, inf)
+  SFFloat    exposure                1.0              # [0, inf)
+  SFString   follow                  ""               # any string
+  SFBool     followType              "Tracking Shot"  # {"None", "Tracking Shot", "Mounted Shot", "Pan and Tilt Shot"}
+  SFFloat    followSmoothness        0.5              # [0, 1]
+  SFNode     lensFlare               NULL             # {LensFlare, PROTO}
+  SFFloat    ambientOcclusionRadius  2                # [0, inf)
+  SFFloat    bloomThreshold          10               # [0, inf)
 }
 ```
 
