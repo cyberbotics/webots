@@ -383,13 +383,13 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
   double u, v;
   if (faceIndex > 0) {
     // top face or bottom face
-    if (collisionPoint.x() * collisionPoint.x() + collisionPoint.z() * collisionPoint.z() > r * r)
+    if (collisionPoint.x() * collisionPoint.x() + collisionPoint.y() * collisionPoint.y() > r * r)
       return false;
 
     u = (collisionPoint.x() + r) / (2 * r);
-    v = (collisionPoint.z() + r) / (2 * r);
+    v = (-collisionPoint.y() + r) / (2 * r);
 
-    if (collisionPoint.y() < 0) {
+    if (collisionPoint.z() < 0) {
       v = 1 - v;
     }
 
@@ -405,12 +405,12 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
     // body
     double theta = asin(-collisionPoint.x() / r);
     assert(!std::isnan(theta));
-    if (collisionPoint.z() > 0)
+    if (-collisionPoint.y() > 0)
       theta = M_PI - theta;
 
     theta = theta - floor(theta / (2 * M_PI)) * 2 * M_PI;
     u = theta / (2 * M_PI);
-    v = 1 - (collisionPoint.y() + h / 2) / h;
+    v = 1 - (collisionPoint.z() + h / 2) / h;
 
     if (textureCoordSet == 1) {
       u = u * 0.5;
@@ -447,9 +447,9 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
 
   // distance from body
   if (mSide->value()) {
-    double a = direction.x() * direction.x() + direction.z() * direction.z();
-    double b = 2 * (origin.x() * direction.x() + origin.z() * direction.z());
-    double c = origin.x() * origin.x() + origin.z() * origin.z() - radius2;
+    double a = direction.x() * direction.x() + direction.y() * direction.y();
+    double b = 2 * (origin.x() * direction.x() + origin.y() * direction.y());
+    double c = origin.x() * origin.x() + origin.y() * origin.y() - radius2;
     double discriminant = b * b - 4 * a * c;
 
     // if c < 0: ray origin is inside cylinder body
@@ -458,12 +458,12 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
       discriminant = sqrt(discriminant);
       double t1 = (-b - discriminant) / (2 * a);
       double t2 = (-b + discriminant) / (2 * a);
-      double y1 = origin.y() + t1 * direction.y();
-      double y2 = origin.y() + t2 * direction.y();
-      if (mSide->value() && t1 > 0 && y1 >= -h / 2 && y1 <= h / 2) {
+      double z1 = origin.z() + t1 * direction.z();
+      double z2 = origin.z() + t2 * direction.z();
+      if (mSide->value() && t1 > 0 && z1 >= -h / 2 && z1 <= h / 2) {
         d = t1;
         faceIndex = 0;
-      } else if (mSide->value() && t2 > 0 && y2 >= -h / 2 && y2 <= h / 2) {
+      } else if (mSide->value() && t2 > 0 && z2 >= -h / 2 && z2 <= h / 2) {
         d = t2;
         faceIndex = 0;
       }
@@ -473,10 +473,10 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
   // distance from top face
   if (mTop->value()) {
     std::pair<bool, double> intersection =
-      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, 1, 0), WbVector3(0, h / 2, 0)), true);
+      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, 0, 1), WbVector3(0, 0, h / 2)), true);
     if (mTop->value() && intersection.first && intersection.second > 0 && intersection.second < d) {
       WbVector3 p = origin + intersection.second * direction;
-      if (p.x() * p.x() + p.z() * p.z() <= radius2) {
+      if (p.x() * p.x() + p.y() * p.y() <= radius2) {
         d = intersection.second;
         faceIndex = 1;
       }
@@ -486,10 +486,10 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
   // distance from bottom face
   if (mBottom->value()) {
     std::pair<bool, double> intersection =
-      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, -1, 0), WbVector3(0, -h / 2, 0)), true);
+      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, 0, -1), WbVector3(0, 0, -h / 2)), true);
     if (mBottom->value() && intersection.first && intersection.second > 0 && intersection.second < d) {
       WbVector3 p = origin + intersection.second * direction;
-      if (p.x() * p.x() + p.z() * p.z() <= radius2) {
+      if (p.x() * p.x() + p.y() * p.y() <= radius2) {
         d = intersection.second;
         faceIndex = 2;
       }

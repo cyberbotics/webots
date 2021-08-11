@@ -265,16 +265,16 @@ bool WbCone::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordS
     return false;
 
   const double h = scaledHeight();
-  const double r = scaledBottomRadius() * (0.5 - localCollisionPoint.y() / h);
+  const double r = scaledBottomRadius() * (0.5 - localCollisionPoint.z() / h);
 
   double u, v;
-  if (localCollisionPoint.y() == -h / 2.0) {
+  if (localCollisionPoint.z() == -h / 2.0) {
     // bottom face
-    if (localCollisionPoint.x() * localCollisionPoint.x() + localCollisionPoint.z() * localCollisionPoint.z() > r * r)
+    if (localCollisionPoint.x() * localCollisionPoint.x() + localCollisionPoint.y() * localCollisionPoint.y() > r * r)
       return false;
 
     u = (localCollisionPoint.x() + r) / (2.0 * r);
-    v = 1.0 - (localCollisionPoint.z() + r) / (2.0 * r);
+    v = 1.0 - (-localCollisionPoint.y() + r) / (2.0 * r);
 
     if (textureCoordSet == 1) {
       u = u * 0.5 + 0.5;
@@ -282,19 +282,19 @@ bool WbCone::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordS
 
   } else {
     // body
-    double theta = atan(localCollisionPoint.x() / localCollisionPoint.z());
+    double theta = atan(localCollisionPoint.x() / -localCollisionPoint.y());
     theta -= floor(theta / (2.0 * M_PI)) * 2.0 * M_PI;
-    if (theta < M_PI && localCollisionPoint.x() > 0 && localCollisionPoint.z() > 0.0) {
+    if (theta < M_PI && localCollisionPoint.x() > 0 && -localCollisionPoint.y() > 0.0) {
       theta += M_PI;
-    } else if (theta < M_PI && localCollisionPoint.x() > 0.0 && localCollisionPoint.z() < 0.0) {
+    } else if (theta < M_PI && localCollisionPoint.x() > 0.0 && -localCollisionPoint.y() < 0.0) {
       theta += M_PI;
-    } else if (theta > M_PI && localCollisionPoint.x() < 0.0 && localCollisionPoint.z() > 0.0) {
+    } else if (theta > M_PI && localCollisionPoint.x() < 0.0 && -localCollisionPoint.y() > 0.0) {
       theta -= M_PI;
-    } else if (theta > M_PI && localCollisionPoint.x() < 0.0 && localCollisionPoint.z() < 0.0) {
+    } else if (theta > M_PI && localCollisionPoint.x() < 0.0 && -localCollisionPoint.y() < 0.0) {
       theta -= M_PI;
     }
     u = theta / (2.0 * M_PI);
-    v = 1.0 - (localCollisionPoint.y() + h / 2.0) / h;
+    v = 1.0 - (localCollisionPoint.z() + h / 2.0) / h;
 
     if (textureCoordSet == 1)
       u *= 0.5;
@@ -329,10 +329,10 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
   if (mSide->value()) {
     const double k = radius2 / (h * h);
     const double halfH = h / 2.0;
-    const double o = origin.y() - halfH;
-    const double a = direction.x() * direction.x() + direction.z() * direction.z() - k * direction.y() * direction.y();
-    const double b = 2.0 * (origin.x() * direction.x() + origin.z() * direction.z() - k * o * direction.y());
-    const double c = origin.x() * origin.x() + origin.z() * origin.z() - k * o * o;
+    const double o = origin.z() - halfH;
+    const double a = direction.x() * direction.x() + direction.y() * direction.y() - k * direction.z() * direction.z();
+    const double b = 2.0 * (origin.x() * direction.x() + origin.y() * direction.y() - k * o * direction.z());
+    const double c = origin.x() * origin.x() + origin.y() * origin.y() - k * o * o;
     double discriminant = b * b - 4.0 * a * c;
 
     // if c < 0: ray origin is inside the cone body
@@ -341,11 +341,11 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
       discriminant = sqrt(discriminant);
       const double t1 = (-b - discriminant) / (2 * a);
       const double t2 = (-b + discriminant) / (2 * a);
-      const double y1 = origin.y() + t1 * direction.y();
-      const double y2 = origin.y() + t2 * direction.y();
-      if (mSide->value() && t1 > 0.0 && y1 >= -halfH && y1 <= halfH)
+      const double z1 = origin.z() + t1 * direction.z();
+      const double z2 = origin.z() + t2 * direction.z();
+      if (mSide->value() && t1 > 0.0 && z1 >= -halfH && z1 <= halfH)
         d = t1;
-      else if (mSide->value() && t2 > 0.0 && y2 >= -halfH && y2 <= halfH)
+      else if (mSide->value() && t2 > 0.0 && z2 >= -halfH && z2 <= halfH)
         d = t2;
     }
   }
@@ -353,10 +353,10 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
   // distance from bottom face
   if (mBottom->value()) {
     std::pair<bool, double> intersection =
-      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0.0, -1.0, 0.0), WbVector3(0.0, -h / 2.0, 0.0)), true);
+      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0.0, 0.0, -1.0), WbVector3(0.0, 0.0, -h / 2.0)), true);
     if (mBottom->value() && intersection.first && intersection.second > 0.0 && intersection.second < d) {
       const WbVector3 &p = origin + intersection.second * direction;
-      if (p.x() * p.x() + p.z() * p.z() <= radius2) {
+      if (p.x() * p.x() + p.y() * p.y() <= radius2) {
         d = intersection.second;
       }
     }
