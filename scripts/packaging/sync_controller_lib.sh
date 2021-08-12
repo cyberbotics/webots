@@ -14,9 +14,10 @@ DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
 YESTERDAY_DATE=$(date -d 'yesterday' +'%Y-%m-%d %H:%M:%S')
 LAST_COMMIT_YESTERDAY=$(git log -1 --pretty=format:"%H" --before='${YESTERDAY_DATE}')
 LAST_COMMIT=$(git log -1 --pretty=format:"%H")
-INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include)
+INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include/controller)
 SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- src/controller)
 if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ]; then
+    echo "There are no changes in 'include/controller' and 'src/controller' since yesterday"
     exit 0
 fi
 
@@ -57,15 +58,18 @@ fi
 # Copy dynamic libs
 rm -rf lib/${OSTYPE}
 mkdir -p lib/${OSTYPE}
-for filename in $DYNAMIC_LIBS
-do
+for filename in $DYNAMIC_LIBS; do
     echo $filename
     find ${WEBOTS_HOME}/lib/controller -maxdepth 1 -name "*${filename}*" | xargs -I{} cp {} lib/${OSTYPE}
 done
 
 # Copy Python libs
-cp -r ${WEBOTS_HOME}/lib/controller/python38 lib/${OSTYPE}
-touch ${WEBOTS_HOME}/lib/controller/python38/__init__.py
+PYTHON_DIRECTORIES=$(find ${WEBOTS_HOME}/lib/controller/python3* -maxdepth 0 -type d)
+for dirname in ${PYTHON_DIRECTORIES}; do
+    echo $dirname
+    cp -r ${dirname} lib/${OSTYPE}
+    touch ${dirname}/__init__.py
+done
 
 # Push
 git add -A
