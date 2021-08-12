@@ -79,6 +79,7 @@ public:
   WbVrmlWriter &operator<<(char);
   WbVrmlWriter &operator<<(int);
   WbVrmlWriter &operator<<(unsigned int);
+  WbVrmlWriter &operator<<(float);
   WbVrmlWriter &operator<<(double);
   WbVrmlWriter &operator<<(const WbVector2 &v);
   WbVrmlWriter &operator<<(const WbVector3 &v);

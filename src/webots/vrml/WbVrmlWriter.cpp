@@ -197,6 +197,11 @@ WbVrmlWriter &WbVrmlWriter::operator<<(unsigned int i) {
   return *this;
 }
 
+WbVrmlWriter &WbVrmlWriter::operator<<(float f) {
+  *this << WbPrecision::doubleToString(f, WbPrecision::FLOAT_MAX);
+  return *this;
+}
+
 WbVrmlWriter &WbVrmlWriter::operator<<(double f) {
   *this << WbPrecision::doubleToString(f, WbPrecision::DOUBLE_MAX);
   return *this;
@@ -228,6 +233,6 @@ WbVrmlWriter &WbVrmlWriter::operator<<(const WbQuaternion &q) {
 }
 
 WbVrmlWriter &WbVrmlWriter::operator<<(const WbRgb &rgb) {
-  *this << rgb.toString(WbPrecision::DOUBLE_MAX);
+  *this << rgb.toString(WbPrecision::FLOAT_MAX);
   return *this;
 }
