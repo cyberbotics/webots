@@ -489,7 +489,7 @@ bool WbRadar::computeTarget(const WbVector3 &radarPosition, const WbMatrix3 &rad
   WbVector3 projectedTargetToRadarVector = radarPlane.vectorProjection(targetToRadarVector);
   projectedTargetToRadarVector.normalize();
   double azimuth = radarAxis.angle(projectedTargetToRadarVector);
-  if (projectedTargetToRadarVector.dot(radarRotation * WbVector3(1.0, 0.0, 0.0)) < 0.0)
+  if (projectedTargetToRadarVector.dot(radarRotation * WbVector3(0.0, 1.0, 0.0)) > 0.0)
     azimuth = -azimuth;
 
   // checks that azimuth is not out of the detection frustum,

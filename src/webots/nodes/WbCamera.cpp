@@ -848,7 +848,6 @@ void WbCamera::createWrenCamera() {
   } else {
     mSegmentationCamera = NULL;
     disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
-    disconnect(mSegmentationCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateSegmentationCameraOrientation);
   }
 
   applyFocalSettingsToWren();
@@ -996,7 +995,6 @@ void WbCamera::createSegmentationCamera() {
   } else {
     mSegmentationCamera = NULL;
     disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
-    disconnect(mSegmentationCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateSegmentationCameraOrientation);
   }
   updateOverlayMaskTexture();
   if (mExternalWindowEnabled)
