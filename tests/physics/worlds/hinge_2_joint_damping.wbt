@@ -63,7 +63,7 @@ Robot {
         translation 0.055 0 0
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.5708
+            rotation -0.57735 -0.57735 0.57735 2.09440
             children [
               Shape {
                 appearance Appearance {
