@@ -64,7 +64,8 @@ do
 done
 
 # Copy Python libs
-cp -r ${WEBOTS_HOME}/lib/controller/python3* lib/${OSTYPE}
+cp -r ${WEBOTS_HOME}/lib/controller/python38 lib/${OSTYPE}
+touch ${WEBOTS_HOME}/lib/controller/python38/__init__.py
 
 # Push
 git add -A
