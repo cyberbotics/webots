@@ -5,6 +5,7 @@ Released on XX, XXth, 2021.
 
   - Enhancements
     - Improved performance on [Lidar](lidar.md) point cloud generation ([#3499](https://github.com/cyberbotics/webots/pull/3499)).
+    - Increased the mouse wheel speed when zooming the 3D window ([#3565](https://github.com/cyberbotics/webots/pull/3565)).
   - Dependency Updates
     - **Stopped support for Ubuntu 16.04 ([#3480](https://github.com/cyberbotics/webots/pull/3480)).**
 
