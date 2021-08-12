@@ -11,13 +11,13 @@ VERSION=$(cat ${WEBOTS_HOME}/scripts/packaging/webots_version.txt | sed 's/ /-/g
 DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
 
 # Don't publish the libcontroller if it hasn't changed since yesterday
-YESTERDAY_DATE=$(date --date='yesterday' +'%Y-%m-%d %H:%M:%S')
-LAST_COMMIT_YESTERDAY=$(git rev-parse --before='${YESTERDAY_DATE}' --short HEAD | awk '$1 !~ /^--/')
-LAST_COMMIT=$(git rev-parse --short HEAD | awk '$1 !~ /^--/')
+YESTERDAY_DATE=$(date -d 'yesterday' +'%Y-%m-%d %H:%M:%S')
+LAST_COMMIT_YESTERDAY=$(git log -1 --pretty=format:"%H" --before='${YESTERDAY_DATE}')
+LAST_COMMIT=$(git log -1 --pretty=format:"%H")
 INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include)
 SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- src/controller)
 if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ]; then
-    # exit 0
+    exit 0
 fi
 
 # Get the repo
