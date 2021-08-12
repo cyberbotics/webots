@@ -64,7 +64,7 @@ namespace webots {
     } UserInputEvent;
 
     Robot();
-    static Robot* internalGetInstance();
+    static Robot *internalGetInstance();
     virtual ~Robot();
 
     virtual int step(int duration);

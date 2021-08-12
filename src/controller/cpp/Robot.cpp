@@ -75,7 +75,7 @@ Robot::Robot() {
   mMouse = new Mouse();
 }
 
-Robot* Robot::internalGetInstance() {
+Robot *Robot::internalGetInstance() {
   if (cInstance)
     return cInstance;
   return new Robot();
