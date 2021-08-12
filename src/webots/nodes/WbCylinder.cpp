@@ -341,11 +341,11 @@ void WbCylinder::applyToOdeData(bool correctSolidMass) {
 
 double WbCylinder::scaledRadius() const {
   const WbVector3 &scale = absoluteScale();
-  return fabs(mRadius->value() * std::max(scale.x(), scale.z()));
+  return fabs(mRadius->value() * std::max(scale.x(), scale.y()));
 }
 
 double WbCylinder::scaledHeight() const {
-  return fabs(mHeight->value() * absoluteScale().y());
+  return fabs(mHeight->value() * absoluteScale().z());
 }
 
 bool WbCylinder::isSuitableForInsertionInBoundingObject(bool warning) const {

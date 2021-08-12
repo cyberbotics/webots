@@ -36,6 +36,7 @@
 #include <ode/ode.h>
 #include <cmath>
 
+#include <iostream>
 void WbCapsule::init() {
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
@@ -328,11 +329,11 @@ void WbCapsule::applyToOdeData(bool correctSolidMass) {
 
 double WbCapsule::scaledRadius() const {
   const WbVector3 &scale = absoluteScale();
-  return fabs(mRadius->value() * std::max(scale.x(), scale.z()));
+  return fabs(mRadius->value() * std::max(scale.x(), scale.y()));
 }
 
 double WbCapsule::scaledHeight() const {
-  return fabs(mHeight->value() * absoluteScale().y());
+  return fabs(mHeight->value() * absoluteScale().z());
 }
 
 bool WbCapsule::isSuitableForInsertionInBoundingObject(bool warning) const {
@@ -491,16 +492,16 @@ void WbCapsule::recomputeBoundingSphere() const {
 
   if (top + side + bottom == 1) {
     if (top || bottom)
-      mBoundingSphere->set(WbVector3(0, top ? halfHeight : -halfHeight, 0), radius);
+      mBoundingSphere->set(WbVector3(0, 0, top ? halfHeight : -halfHeight), radius);
     else  // side
-      mBoundingSphere->set(WbVector3(), WbVector3(radius, halfHeight, 0).length());
+      mBoundingSphere->set(WbVector3(), WbVector3(radius, 0, halfHeight).length());
   } else if (top != bottom) {  // we have 'top and side' or 'side and bottom'
-    const double maxY = top ? halfHeight + radius : halfHeight;
-    const double minY = bottom ? -halfHeight - radius : -halfHeight;
-    const double totalHeight = (maxY - minY);
+    const double maxZ = top ? halfHeight + radius : halfHeight;
+    const double minZ = bottom ? -halfHeight - radius : -halfHeight;
+    const double totalHeight = (maxZ - minZ);
     const double newRadius = totalHeight / 2.0 + radius * radius / (2 * totalHeight);
-    const double offsetY = top ? (maxY - newRadius) : (minY + newRadius);
-    mBoundingSphere->set(WbVector3(0, offsetY, 0), newRadius);
+    const double offsetZ = top ? (maxZ - newRadius) : (minZ + newRadius);
+    mBoundingSphere->set(WbVector3(0, 0, offsetZ), newRadius);
   } else  // complete capsule
     mBoundingSphere->set(WbVector3(), halfHeight + radius);
 }
