@@ -63,6 +63,9 @@ do
     find ${WEBOTS_HOME}/lib/controller -maxdepth 1 -name "*${filename}*" | xargs -I{} cp {} lib/${OSTYPE}
 done
 
+# Copy Python libs
+cp -r ${WEBOTS_HOME}/lib/controller/python3* lib/${OSTYPE}
+
 # Push
 git add -A
 git commit -m "Automatic update"
