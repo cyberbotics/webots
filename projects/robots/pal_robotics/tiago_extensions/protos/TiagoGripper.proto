@@ -80,7 +80,6 @@ PROTO TiagoGripper [
             }
             DEF CONNECTOR Transform {
               translation 0 0 0.0087
-              rotation 1 0 0 -1.5708
               children [
                 DEF FACE Shape {
                   appearance BrushedAluminium {
@@ -581,7 +580,6 @@ PROTO TiagoGripper [
       boundingObject Group {
         children [
           Transform {
-            rotation 1 0 0 1.57
             children [
               Cylinder {
                 height 0.028

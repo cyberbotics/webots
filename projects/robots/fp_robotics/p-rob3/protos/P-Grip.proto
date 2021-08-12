@@ -357,7 +357,6 @@ PROTO P-Grip [
         }
         Transform {
           translation 0 1.34683e-07 -0.014
-          rotation 1 0 0 1.5707996938995747
           children [
             Cylinder {
               height 0.07
