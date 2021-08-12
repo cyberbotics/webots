@@ -37,6 +37,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
+         fetch-depth: 15
     - name: Install Webots Compilation Dependencies
       run: |
         # GitHub Actions `libzip-dev` hotfix
