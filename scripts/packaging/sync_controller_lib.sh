@@ -68,8 +68,8 @@ done
 PYTHON_DIRECTORIES=$(find ${WEBOTS_HOME}/lib/controller/python3* -maxdepth 0 -type d)
 for dirname in ${PYTHON_DIRECTORIES}; do
     echo $dirname
-    cp -r ${dirname} lib/${OSTYPE}
     touch ${dirname}/__init__.py
+    cp -r ${dirname} lib/${OSTYPE}
 done
 
 # Push
