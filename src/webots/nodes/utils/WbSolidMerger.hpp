@@ -18,6 +18,9 @@
 #include "WbOdeTypes.hpp"
 #include "WbVector3.hpp"
 
+#include <QtCore/QMap>
+#include <QtCore/QObject>
+
 class WbMatrix4;
 class WbSolid;
 struct dMass;

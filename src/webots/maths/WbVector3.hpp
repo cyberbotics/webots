@@ -21,8 +21,7 @@
 
 #include "WbPrecision.hpp"
 
-#include <QtCore/QString>
-#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
 
 #include <cassert>
 #include <cfloat>
@@ -228,15 +227,9 @@ public:
       .arg(WbPrecision::doubleToString(mY, level))
       .arg(WbPrecision::doubleToString(mZ, level));
   }
-  friend QTextStream &operator<<(QTextStream &stream, const WbVector3 &v);
 
 private:
   double mX, mY, mZ;
 };
-
-inline QTextStream &operator<<(QTextStream &stream, const WbVector3 &v) {
-  stream << v.toString(WbPrecision::DOUBLE_MAX);
-  return stream;
-}
 
 #endif
