@@ -11,12 +11,14 @@ VERSION=$(cat ${WEBOTS_HOME}/scripts/packaging/webots_version.txt | sed 's/ /-/g
 DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
 
 # Don't publish the libcontroller if it hasn't changed since yesterday
-YESTERDAY_DATE=$(date --date='yesterday' +'%Y-%m-%d %H:%M:%S')
-LAST_COMMIT_YESTERDAY=$(git rev-parse --before='${YESTERDAY_DATE}' --short HEAD | awk '$1 !~ /^--/')
-LAST_COMMIT=$(git rev-parse --short HEAD | awk '$1 !~ /^--/')
-INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include)
+LAST_COMMIT_YESTERDAY=$(git log -1 --pretty=format:"%H" --before=yesterday)
+LAST_COMMIT=$(git log -1 --pretty=format:"%H")
+INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include/controller)
 SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- src/controller)
 if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ]; then
+    echo "There are no changes in 'include/controller' and 'src/controller' since yesterday"
+    echo "Last commit yesterday: ${LAST_COMMIT_YESTERDAY}"
+    echo "Last commit today: ${LAST_COMMIT}"
     exit 0
 fi
 
@@ -57,10 +59,17 @@ fi
 # Copy dynamic libs
 rm -rf lib/${OSTYPE}
 mkdir -p lib/${OSTYPE}
-for filename in $DYNAMIC_LIBS
-do
+for filename in $DYNAMIC_LIBS; do
     echo $filename
     find ${WEBOTS_HOME}/lib/controller -maxdepth 1 -name "*${filename}*" | xargs -I{} cp {} lib/${OSTYPE}
+done
+
+# Copy Python libs
+PYTHON_DIRECTORIES=$(find ${WEBOTS_HOME}/lib/controller/python3* -maxdepth 0 -type d)
+for dirname in ${PYTHON_DIRECTORIES}; do
+    echo $dirname
+    touch ${dirname}/__init__.py
+    cp -r ${dirname} lib/${OSTYPE}
 done
 
 # Push
