@@ -36,10 +36,12 @@
           <a target='_blank' href="https://en.wikipedia.org/wiki/PID_controller">PID controller</a>
           to set the speed of the wheels:</p>
           <pre style='background:#FEE'>
-        # PID control
-        integral = integral + (position + previous_position) * 0.5 / timestep
-        derivative = (position - previous_position) / timestep
-        speed = KP * position + KI * integral + KD * derivative</pre>
+
+  # PID control
+  integral = integral + (position + previous_position) * 0.5 / timestep
+  derivative = (position - previous_position) / timestep
+  speed = KP * position + KI * integral + KD * derivative
+          </pre>
           <p>The values of the PID coefficients <em>KP</em>, <em>KI</em>, and <em>KD</em> can be tuned to improve the pendulum stability and achieve a better result.</p>
           <p>Alternatively, it is also possible to improve the result by using more complex algorithm for example based on the derived equations of the motion of the inverted pendulum.</p>
           <p>Configuration of the system:</p>

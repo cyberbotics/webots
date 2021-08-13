@@ -16,6 +16,7 @@
 
 #include "WbAbstractTransform.hpp"
 #include "WbEditCommand.hpp"
+#include "WbLog.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
@@ -28,6 +29,8 @@
 
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
+
+#define DRAG_HORIZONTAL_MIN_COS 0.25
 
 // WbDragTransformEvent constructor
 WbDragTransformEvent::WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
@@ -73,6 +76,20 @@ WbDragHorizontalEvent::WbDragHorizontalEvent(const QPoint &initialPosition, WbVi
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
   mTranslationOffset = mInitialPosition - mMouseRay.point(mIntersectionOutput.second);
   mViewpoint->lock();
+
+  // event occurs only if the mouse ray is not parallel to the horizontal drag plane
+  WbRay normalizedMouseRay = mMouseRay;
+  normalizedMouseRay.normalize();
+  if (abs(normalizedMouseRay.direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS) {
+    mIsMouseRayValid = true;
+
+    // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
+    if (!mSelectedTransform->isTopTransform())
+      mCoordinateTransform = WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated();
+  } else {
+    mIsMouseRayValid = false;
+    WbLog::warning(tr("To drag this element, first rotate the view so that the horizontal plane is clearly visible."));
+  }
 }
 
 WbDragHorizontalEvent::~WbDragHorizontalEvent() {
@@ -80,16 +97,23 @@ WbDragHorizontalEvent::~WbDragHorizontalEvent() {
 }
 
 void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
-  mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
-  mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
-  mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  WbVector3 displacementFromInitialPosition =
-    mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset - mInitialPosition;
-  // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
-  displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
-  displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
-  mSelectedTransform->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
-  mSelectedTransform->emitTranslationOrRotationChangedByUser();
+  if (mIsMouseRayValid) {
+    mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
+    mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
+    mIntersectionOutput = mMouseRay.intersects(mDragPlane);
+    WbVector3 displacementFromInitialPosition =
+      mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset - mInitialPosition;
+    // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
+    displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
+    displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
+
+    // express the displacement in the coordinate frame of the Solid (in case it has some parent Transform(s)).
+    if (!mSelectedTransform->isTopTransform())
+      displacementFromInitialPosition = mCoordinateTransform * displacementFromInitialPosition;
+
+    mSelectedTransform->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
+    mSelectedTransform->emitTranslationOrRotationChangedByUser();
+  }
 }
 
 // WbDragVerticalEvent functions

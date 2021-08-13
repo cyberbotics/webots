@@ -10,6 +10,16 @@ VERSION=$(cat ${WEBOTS_HOME}/scripts/packaging/webots_version.txt | sed 's/ /-/g
 # Dynamic libraries to be copied
 DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
 
+# Don't publish the libcontroller if it hasn't changed since yesterday
+YESTERDAY_DATE=$(date --date='yesterday' +'%Y-%m-%d %H:%M:%S')
+LAST_COMMIT_YESTERDAY=$(git rev-parse --before='${YESTERDAY_DATE}' --short HEAD | awk '$1 !~ /^--/')
+LAST_COMMIT=$(git rev-parse --short HEAD | awk '$1 !~ /^--/')
+INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include)
+SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- src/controller)
+if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ]; then
+    exit 0
+fi
+
 # Get the repo
 rm -rf /tmp/webots-controller || true
 if [ ! -z "${GITHUB_ACTOR}" ]; then
@@ -31,12 +41,17 @@ else
     git checkout -b ${VERSION}
 fi
 
-# Copy headers
+# Copy headers and C++ source code
 if [ "${OSTYPE}" != "msys" ]; then
     # don't copy the include files on Windows as they are the same as on other platforms, and they generate a huge diff due to Windows line endings which differ from Linux/macOS.
     rm -rf include
     mkdir -p include
     cp -r ${WEBOTS_HOME}/include/controller/* include
+    cp ${WEBOTS_HOME}/include/controller/c/webots/plugins/robot_window/{robot_window.h,robot_wwi.h} include
+    
+    rm -rf source/cpp
+    mkdir -p source/cpp
+    cp ${WEBOTS_HOME}/src/controller/cpp/*.cpp source/cpp
 fi
 
 # Copy dynamic libs

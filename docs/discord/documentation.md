@@ -795,7 +795,7 @@ Thank you so much 😊
 ##### David Mansolino [Cyberbotics] 04/21/2020 10:03:37
 You're welcome
 
-##### PymZoR [Premier Service] 04/21/2020 15:59:54
+##### Axel M 04/21/2020 15:59:54
 Hi ! Documentation content seems off since a few minutes
 
 ##### Olivier Michel [Cyberbotics] 04/21/2020 16:01:39
@@ -2131,4 +2131,22 @@ The position field did indeed not point to the correct axis, my bad - now it cor
 
 The value also keeps increasing after I stop controlling the joints (noted as Transition\_Bent in the video) - thanks for your help!
 > **Attachment**: [demo.mp4](https://cdn.discordapp.com/attachments/565155720933146637/857631681456766996/demo.mp4)
+
+##### Joro 07/27/2021 20:20:04
+Hi, i'm trying to visualice a rangefinder's image on rviz from webots but it looks like this, i want it in its black/white original colors, but the bgra8 format is the only one who works.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/869675531988262912/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 07/28/2021 07:34:44
+It is ROS 1?
+
+##### Joro 07/28/2021 17:30:13
+ros2
+
+##### Darko Lukić [Cyberbotics] 07/29/2021 06:55:47
+I have just tested. I put the range finder node in an arbitrary robot and the `webots_ros2` package automatically created a working topic. Do you use the `webots_ros2` package?
+
+##### Joro 07/29/2021 15:05:00
+yes, i already solved it, thanks for your help and interest
 

@@ -24,6 +24,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 
+#include <cstdlib>
+
 #ifdef _WIN32
 static const QChar PATHS_SEPARATOR(';');
 #else
@@ -102,31 +104,34 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
 #elif __APPLE__
-  if (pythonCommand == "python" || pythonCommand == "python3") {
-    pythonCommand = findWorkingPythonPath("3.8", env, false);
-    shortVersion = "38";
-    if (pythonCommand == "!") {
-      pythonCommand = findWorkingPythonPath("3.9", env, false);
-      shortVersion = "39";
-      if (pythonCommand == "!") {
-        pythonCommand = findWorkingPythonPath("3.7", env, true);
-        shortVersion = "37";
-      }
-    }
-  } else if (pythonCommand == "python3.7") {
-    pythonCommand = findWorkingPythonPath("3.7", env, true);
-    shortVersion = "37";
-  } else if (pythonCommand == "python3.8") {
-    pythonCommand = findWorkingPythonPath("3.8", env, true);
-    shortVersion = "38";
-  } else if (pythonCommand == "python3.9") {
-    pythonCommand = findWorkingPythonPath("3.9", env, true);
-    shortVersion = "39";
-  } else {
+  if (std::getenv("PWD"))
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
-    if (shortVersion.isEmpty())
-      pythonCommand = "!";
+  else {
+    if (pythonCommand == "python" || pythonCommand == "python3") {
+      pythonCommand = findWorkingPythonPath("3.8", env, false);
+      shortVersion = "38";
+      if (pythonCommand == "!") {
+        pythonCommand = findWorkingPythonPath("3.9", env, false);
+        shortVersion = "39";
+        if (pythonCommand == "!") {
+          pythonCommand = findWorkingPythonPath("3.7", env, true);
+          shortVersion = "37";
+        }
+      }
+    } else if (pythonCommand == "python3.7") {
+      pythonCommand = findWorkingPythonPath("3.7", env, true);
+      shortVersion = "37";
+    } else if (pythonCommand == "python3.8") {
+      pythonCommand = findWorkingPythonPath("3.8", env, true);
+      shortVersion = "38";
+    } else if (pythonCommand == "python3.9") {
+      pythonCommand = findWorkingPythonPath("3.9", env, true);
+      shortVersion = "39";
+    } else
+      shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   }
+  if (shortVersion.isEmpty())
+    pythonCommand = "!";
 
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
