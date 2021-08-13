@@ -655,7 +655,7 @@ void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
     const WbVector3 coord = WbVector3(vertices[index], vertices[index + 1], vertices[index + 2]) * scale;
     if (i > 0)
       writer << ", ";
-    writer << (float)coord.x() << " " << (float)coord.y() << " " << (float)coord.z();
+    writer << coord.toString(WbPrecision::FLOAT_MAX);
   }
   writer << "'></Coordinate>";
 
