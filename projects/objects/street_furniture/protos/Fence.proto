@@ -139,6 +139,9 @@ PROTO Fence [
       # poles
       Shape {
         appearance IS poleAppearance
+        %< if (nbPoles > 496) { >%
+        castShadows FALSE  # cannot handle so many shadows
+        %< } >%
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
