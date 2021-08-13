@@ -44,10 +44,15 @@ Solid {
   ]
   name IS name
   model "can"
-  boundingObject Cylinder {
-    height 0.1222
-    radius 0.03175
-    subdivision 20
+  boundingObject Transform {
+    rotation 1 0 0 1.5708
+    children [
+      Cylinder {
+        height 0.1222
+        radius 0.03175
+        subdivision 20
+      }
+    ]
   }
   physics Physics {
     density -1

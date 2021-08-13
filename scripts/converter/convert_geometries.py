@@ -198,6 +198,6 @@ if __name__ == "__main__":
     # for filename in sys.argv:
     #     if not filename.endswith('.wbt'):
     #         continue
-    filename = "tests/api/worlds/emitter_set_channel.wbt"
+    filename = "tests/api/worlds/range_finder.wbt"
     print(filename)
     convert_to_enu(filename)
