@@ -308,7 +308,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
           assert(false);
       }
       if (nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE) {
-        const WbMatrix3 rotation = deviceRotation * objectRotation;
+        const WbMatrix3 rotation = deviceInverseRotation * objectRotation;
         const double xRange =
           fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
         const double yRange =
@@ -319,14 +319,13 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       }
     }
     // check distance between center and frustum planes
-    double distances[4];
-    for (int j = 0; j < 4; ++j)
-      distances[j] = frustumPlanes[j].distance(objectPosition);
     for (int j = 0; j < 4; ++j) {
-      if (distances[j] < -objectSize[j % 2] / 2.0)  // the object is completely outside
+      const double distance = frustumPlanes[j].distance(objectPosition);
+      // TODO: Something is wrong here
+      if (distance < -objectSize[j % 2] / 2.0)  // the object is completely outside
         return false;
-      else if (distances[j] < objectSize[j % 2] / 2.0)  // a part of the object is outside
-        outsidePart[j] = objectSize[j % 2] / 2.0 - distances[j];
+      else if (distance < objectSize[j % 2] / 2.0)  // a part of the object is outside
+        outsidePart[j] = objectSize[j % 2] / 2.0 - distance;
     }
     objectSize.setX(objectSize.x() - outsidePart[RIGHT] - outsidePart[LEFT]);
     objectSize.setY(objectSize.y() - outsidePart[BOTTOM] - outsidePart[TOP]);
