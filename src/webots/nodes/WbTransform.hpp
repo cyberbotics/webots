@@ -46,6 +46,9 @@ public:
   void setMatrixNeedUpdate() override;
   void connectGeometryField(bool dynamic);
   void reset(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
+    return QList<const WbBaseNode *>() << this;
+  }
 
   // accessors to stored fields
   const WbVector3 translationFromFile(const QString &id) const { return mSavedTranslations[id]; }

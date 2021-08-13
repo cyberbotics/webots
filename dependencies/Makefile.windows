@@ -81,10 +81,7 @@ $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7:
 	@echo "# downloading $(OPEN_VR_PACKAGE)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
 	@wget -qq "$(DEPENDENCIES_URL)/$(OPEN_VR_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@echo "5aa5208fdf403ab64a2ccdb7abc1f789 *$(OPEN_VR_PACKAGE)" > $(OPEN_VR_PACKAGE).md5
-	@md5sum -c --status $(OPEN_VR_PACKAGE).md5
-	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPEN_VR_PACKAGE)"; exit 1; fi
-	@rm $(OPEN_VR_PACKAGE).md5
+	@if [ "$$(md5sum $(OPEN_VR_PACKAGE) | awk '{print $$1;}')" != "5aa5208fdf403ab64a2ccdb7abc1f789" ]; then echo "MD5 checksum failed for $(OPEN_VR_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(OPEN_VR_PACKAGE)"
 	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)" -d "$(WEBOTS_DEPENDENCY_PATH)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
@@ -104,10 +101,7 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
 	@echo "# downloading $(LUA_PACKAGE)"
 	@wget -qq "https://www.lua.org/ftp/$(LUA_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@echo "dc7f94ec6ff15c985d2d6ad0f1b35654 *$(LUA_PACKAGE)" > $(LUA_PACKAGE).md5
-	@md5sum -c --status $(LUA_PACKAGE).md5
-	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
-	@rm $(LUA_PACKAGE).md5
+	@if [ "$$(md5sum $(LUA_PACKAGE) | awk '{print $$1;}')" != "dc7f94ec6ff15c985d2d6ad0f1b35654" ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(LUA_PACKAGE)"
 	@cd "$(WEBOTS_DEPENDENCY_PATH)"; tar xfm $(LUA_PACKAGE) -C "$(WEBOTS_DEPENDENCY_PATH)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
@@ -133,10 +127,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
 	@wget -qq "$(DEPENDENCIES_URL)/$(OIS_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@echo "32c0b9a81ac3a27fe313598c4f8daad1 *$(OIS_PACKAGE)" > $(OIS_PACKAGE).md5
-	@md5sum -c --status $(OIS_PACKAGE).md5
-	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
-	@rm $(OIS_PACKAGE).md5
+	@if [ "$$(md5sum $(OIS_PACKAGE) | awk '{print $$1;}')" != "32c0b9a81ac3a27fe313598c4f8daad1" ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
 	touch "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
 
 pico-clean:
@@ -155,10 +146,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
 	@wget -qq "$(DEPENDENCIES_URL)/$(PICO_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@echo "60a412e55d54bb8bf95c7cd728fb4d9a *$(PICO_PACKAGE)" > $(PICO_PACKAGE).md5
-	@md5sum -c --status $(PICO_PACKAGE).md5
-	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
-	@rm $(PICO_PACKAGE).md5
+	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "60a412e55d54bb8bf95c7cd728fb4d9a" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
 
 lua-gd-clean:
@@ -175,9 +163,6 @@ $(TARGET_PATH)/gd.dll: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	@echo "# downloading $(LUA_GD_PACKAGE)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
-	@wget -qq "$(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@echo "0a54dcc518d331a853f77fb66ebf75e9 *$(LUA_GD_PACKAGE)" > $(LUA_GD_PACKAGE).md5
-	@md5sum -c --status $(LUA_GD_PACKAGE).md5
-	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
-	@rm $(LUA_GD_PACKAGE).md5
+	@wget -qq "$(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)" 
+	@if [ "$$(md5sum $(LUA_GD_PACKAGE) | awk '{print $$1;}')" != "0a54dcc518d331a853f77fb66ebf75e9" ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"

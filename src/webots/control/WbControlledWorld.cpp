@@ -239,6 +239,8 @@ void WbControlledWorld::addControllerConnection() {
           // automatically disconnect from previous extern controller that may have failed, the slot could be immediately used
           // to restart
           WbLog::info(tr("Closing extern controller connection for robot \"%1\".").arg(robot->name()));
+          disconnect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController);
+          robot->restartController();
           updateRobotController(robot);
         } else  // this controller seems to be in active use, ignore it
           continue;

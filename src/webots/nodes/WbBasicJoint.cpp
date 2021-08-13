@@ -497,3 +497,10 @@ WbBoundingSphere *WbBasicJoint::boundingSphere() const {
     return solid->boundingSphere();
   return NULL;
 }
+
+QList<const WbBaseNode *> WbBasicJoint::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  if (mEndPoint->value())
+    list << static_cast<WbBaseNode *>(mEndPoint->value())->findClosestDescendantNodesWithDedicatedWrenNode();
+  return list;
+}

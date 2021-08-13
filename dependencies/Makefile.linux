@@ -14,15 +14,10 @@ ASSIMP_PACKAGE = libassimp.5.0.1.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
-OPENSSL_PACKAGE = libssl_1.1.tar.xz
 
 
 PACKAGES = qt open-al ois pico lua-gd lua assimp
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
-
-ifeq ($(UBUNTU_VERSION), 16.04)
-	PACKAGES += open-ssl
-endif
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
@@ -53,9 +48,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# downloading $(QT_PACKAGE)"
 	@wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "fa88e2be4491ff6b2b96de3068a0ae49  $(QT_PACKAGE)" > $(QT_PACKAGE).md5
-	@md5sum -c --status $(QT_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
-	@rm $(QT_PACKAGE).md5
+	@if [ "$$(md5sum $(QT_PACKAGE) | awk '{print $$1;}')" != "fa88e2be4491ff6b2b96de3068a0ae49" ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
@@ -71,9 +64,7 @@ $(WEBOTS_DEPENDENCY_PATH)/openal:
 	@echo "# downloading $(OPENAL_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "6c7c9a77dec67f42c51d0f035a94a090  $(OPENAL_PACKAGE)" > $(OPENAL_PACKAGE).md5
-	@md5sum -c --status $(OPENAL_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPENAL_PACKAGE)"; exit 1; fi
-	@rm $(OPENAL_PACKAGE).md5
+	@if [ "$$(md5sum $(OPENAL_PACKAGE) | awk '{print $$1;}')" != "6c7c9a77dec67f42c51d0f035a94a090" ]; then echo "MD5 checksum failed for $(OPENAL_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(OPENAL_PACKAGE)"
 	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
@@ -92,9 +83,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "d1482733dce06f6dcc1c062c5c314185  $(OIS_PACKAGE)" > $(OIS_PACKAGE).md5
-	@md5sum -c --status $(OIS_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
-	@rm $(OIS_PACKAGE).md5
+	@if [ "$$(md5sum $(OIS_PACKAGE) | awk '{print $$1;}')" != "d1482733dce06f6dcc1c062c5c314185" ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 
 assimp-clean:
@@ -110,9 +99,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE):
 	@echo "# downloading $(ASSIMP_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "bc43fbff14dd9884c01a0aea8e8ba628  $(ASSIMP_PACKAGE)" > $(ASSIMP_PACKAGE).md5
-	@md5sum -c --status $(ASSIMP_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
-	@rm $(ASSIMP_PACKAGE).md5
+	@if [ "$$(md5sum $(ASSIMP_PACKAGE) | awk '{print $$1;}')" != "bc43fbff14dd9884c01a0aea8e8ba628" ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 
 pico-clean:
@@ -128,9 +115,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "2a05b1e86e88a43756a754a69e82a20f  $(PICO_PACKAGE)" > $(PICO_PACKAGE).md5
-	@md5sum -c --status $(PICO_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
-	@rm $(PICO_PACKAGE).md5
+	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "2a05b1e86e88a43756a754a69e82a20f" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
 lua-gd-clean:
@@ -146,9 +131,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	@echo "# downloading $(LUA_GD_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "9c1a6f7904b3c52e9d8435e275f48ef6  $(LUA_GD_PACKAGE)" > $(LUA_GD_PACKAGE).md5
-	@md5sum -c --status $(LUA_GD_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
-	@rm $(LUA_GD_PACKAGE).md5
+	@if [ "$$(md5sum $(LUA_GD_PACKAGE) | awk '{print $$1;}')" != "9c1a6f7904b3c52e9d8435e275f48ef6" ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 
 
@@ -161,9 +144,7 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	@echo "# downloading $(LUA_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@wget -qq https://www.lua.org/ftp/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "dc7f94ec6ff15c985d2d6ad0f1b35654  $(LUA_PACKAGE)" > $(LUA_PACKAGE).md5
-	@md5sum -c --status $(LUA_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
-	@rm $(LUA_PACKAGE).md5
+	@if [ "$$(md5sum $(LUA_PACKAGE) | awk '{print $$1;}')" != "dc7f94ec6ff15c985d2d6ad0f1b35654" ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(LUA_PACKAGE)"
 	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
@@ -171,25 +152,3 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
 	@echo "# compiling lua"
 	+@make --silent -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux 2> /dev/null
-
-
-open-ssl-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME_LIB)/libcrypto.so* $(WEBOTS_HOME_LIB)/libssl.so*
-
-open-ssl: $(WEBOTS_HOME_LIB)/libcrypto.so
-
-$(WEBOTS_HOME_LIB)/libcrypto.so: $(WEBOTS_DEPENDENCY_PATH)/openssl
-	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl/libcrypto.so* $(WEBOTS_HOME_LIB)
-	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl/libssl.so* $(WEBOTS_HOME_LIB)
-
-$(WEBOTS_DEPENDENCY_PATH)/openssl:
-	@echo "# downloading $(OPENSSL_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "4be3d9987533fad1f4ac776be62decee  $(OPENSSL_PACKAGE)" > $(OPENSSL_PACKAGE).md5
-	@md5sum -c --status $(OPENSSL_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
-	@rm $(OPENSSL_PACKAGE).md5
-	@echo "# uncompressing $(OPENSSL_PACKAGE)"
-	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
-	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
