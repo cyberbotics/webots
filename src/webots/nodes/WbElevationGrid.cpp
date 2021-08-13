@@ -46,6 +46,7 @@ void WbElevationGrid::init() {
   mData = NULL;
   mMinHeight = 0;
   mMaxHeight = 0;
+  mIs90DegreesRotated = true;
 
   mHeight = findMFDouble("height");
   mXDimension = findSFInt("xDimension");
@@ -396,7 +397,7 @@ dGeomID WbElevationGrid::createOdeGeom(dSpaceID space) {
   // Creates a height field with without dSpace.
   // We need to translate the height field because in VRML the coordinate center is located in
   // one corner of the grid, while in ODE, it is located in the middle of the grid.
-  mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, 0.0, scaledDepth() / 2.0);
+  mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, scaledDepth() / 2.0, 0.0);
   return dCreateHeightfield(space, mHeightfieldData, true);
 }
 
@@ -412,6 +413,16 @@ bool WbElevationGrid::setOdeHeightfieldData() {
   mData = new double[xdyd];
   memset(mData, 0, xdyd * sizeof(double));
   mHeight->copyItemsTo(mData, xdyd);
+
+  // Inverse mData lines for ODE
+  for (int i = 0; i < xd / 2; i++) {  // integer division
+    for (int j = 0; j < yd; j++) {
+      double temp = mData[i * yd + j];
+      mData[i * yd + j] = mData[(xd - 1 - i) * yd + j];
+      mData[(xd - 1 - i) * yd + j] = temp;
+    }
+  }
+
   if (mHeightfieldData == NULL)
     mHeightfieldData = dGeomHeightfieldDataCreate();
   dGeomHeightfieldDataBuildDouble(mHeightfieldData, mData, false, scaledWidth(), scaledDepth(), xd, yd, heightScaleFactor(),
@@ -438,7 +449,7 @@ void WbElevationGrid::applyToOdeData(bool correctSolidMass) {
   WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
   assert(odeGeomData);
   odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
-  mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, 0.0, scaledDepth() / 2.0);
+  mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, scaledDepth() / 2.0, 0.0);
 }
 
 double WbElevationGrid::scaledWidth() const {
