@@ -79,9 +79,9 @@ void WbVrmlWriter::writeMFStart() {
 
 void WbVrmlWriter::writeMFSeparator(bool first, bool smallSeparator) {
   if (!isX3d() && !isUrdf()) {
-    if (smallSeparator && !first) {
+    if (smallSeparator && !first)
       *this << ", ";
-    } else {
+    else {
       *this << "\n";
       indent();
     }
