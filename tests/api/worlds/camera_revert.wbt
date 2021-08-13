@@ -9,6 +9,7 @@ WorldInfo {
 Viewpoint {
   orientation 0.9993654210667938 0.030315712773045487 -0.01870060787920498 5.29098
   position -0.0424516 1.17179 0.823619
+
 }
 Background {
   skyColor [
@@ -136,7 +137,7 @@ Robot {
   translation 0.15 0 0
   rotation 0 1 0 1
   children [
-    DEF BODY Transform {
+    Transform {
       translation 0 0.0415 0
       rotation 1 0 0 -1.57079632679
       children [
@@ -146,7 +147,7 @@ Robot {
               diffuseColor 0.0820075 0.364731 0.8
             }
           }
-          geometry Cylinder {
+          geometry DEF BODY Cylinder {
             height 0.08
             radius 0.045
           }
@@ -167,7 +168,7 @@ Robot {
         rotation 1 0 0 4.98467
         children [
           DEF WHEEL Transform {
-            rotation 0 1 0 1.57079632679
+            rotation 0 1 0 -1.57079632679
             children [
               Shape {
                 appearance Appearance {
@@ -215,8 +216,7 @@ Robot {
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       children [
         Transform {
-          translation -0.015 0 0
-          rotation 0 1 0 1.57
+          translation 0 0 -0.015
           children [
             Shape {
               appearance Appearance {
@@ -241,7 +241,13 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  boundingObject USE BODY
+  boundingObject Transform {
+    translation 0 0.0415 0
+    rotation 1 0 0 -1.57079632679
+    children [
+      USE BODY
+    ]
+  }
   physics Physics {
     density -1
     mass 0.5
