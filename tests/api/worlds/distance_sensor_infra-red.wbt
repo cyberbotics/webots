@@ -104,7 +104,7 @@ DEF ROBOT Robot {
     }
     DEF PEN0 Pen {
       translation 0 -0.02 0.08
-      rotation 0 0 1 0
+      rotation 1 0 0 -1.57
       name "pen0"
       inkColor 0 1 0
       inkDensity 0.298039
@@ -113,7 +113,7 @@ DEF ROBOT Robot {
     }
     DEF PEN1 Pen {
       translation 0 -0.02 -0.08
-      rotation 0 0 1 0
+      rotation 1 0 0 -1.57
       name "pen1"
       inkColor 0 1 0
       inkDensity 0.298039

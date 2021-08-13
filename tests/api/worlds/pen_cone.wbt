@@ -59,10 +59,10 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation -0.026 0.02 -0.035
-        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.66519
+        rotation -0.41681098746190887 -0.2949789911267371 -0.8597999741363574 -3.041035307179586
         children [
           Transform {
-            translation 0 0.03 0
+            translation 0 0 0.03
             children [
               Shape {
                 geometry Box {
@@ -72,7 +72,8 @@ DEF WRITER Robot {
             ]
           }
           Transform {
-            translation 0 0.031 0
+            translation 0 0 0.031
+            rotation 1 0 0 1.5708
             children [
               DEF BODY Transform {
                 rotation 1 0 0 -1.57079632679
