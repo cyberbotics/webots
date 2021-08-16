@@ -155,6 +155,7 @@ PROTO Forest [
     children [
       %< if (numberOfTree > 0) { >%
         Shape {
+          castShadows FALSE
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               %< if (fields.withSnow.value) { >%
@@ -200,7 +201,7 @@ PROTO Forest [
               ]
             }
             coordIndex [
-              # each tree (4faces by tree)
+              # each tree (4 faces by tree)
               %<
                 let coordIndexBuffer = '';
                 for (let i = 0; i < numberOfTree; ++i) {
@@ -230,6 +231,7 @@ PROTO Forest [
       %< } >%
       %< if (groundTexture.length > 0 && nbShapePoint > 2) { >%
         DEF GROUND Shape {
+          castShadows FALSE
           appearance PBRAppearance {
             baseColorMap ImageTexture {
                 url IS groundTexture
