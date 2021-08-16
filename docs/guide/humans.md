@@ -153,12 +153,6 @@ Additionally, "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/contro
 
 ### C3dViewer PROTO
 
-%figure
-
-![C3dViewer](images/humans/C3dViewer.thumbnail.png)
-
-%end
-
 A viewer to visualize C3D files.
 
 Derived from [Robot](../reference/robot.md).
@@ -196,7 +190,7 @@ C3dViewer {
 
 ## [pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/worlds/pedestrian.wbt) sample
 
-![pedestrian.png](images/humans/pedestrian.thumbnail.jpg) This example shows the simulation of simple walking rigid human models.
+![pedestrian_world.png](images/humans/pedestrian_world.thumbnail.jpg) This example shows the simulation of simple walking rigid human models.
 The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/controllers/pedestrian.py)" Python controller source code, but the trajectory, the speed and the time step can be passed as controller argument:
 - `--trajectory`: Specify the trajectory in the format ``[x1 y1, x2 y2, ...]``.
 - `--speed`: Specify walking speed in [m/s].
@@ -207,7 +201,7 @@ The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projec
 
 %figure
 
-![Pedestrian](images/humans/Pedestrian.thumbnail.png)
+![Pedestrian](images/humans/Pedestrian.png)
 
 %end
 
