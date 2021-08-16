@@ -360,7 +360,7 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
   if (!recursivelyComputeBounds(mObject, false, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes))
     return false;
   // check distance
-  if (distance() > (mMaxRange + mObjectSize.z() / 2.0))
+  if (distance() > (mMaxRange + mObjectSize.x() / 2.0))
     return false;
 
   return true;
