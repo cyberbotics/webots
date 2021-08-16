@@ -31,7 +31,7 @@
 
 enum { INTRO, DIRECTORY, WORLD, CONCLUSION };
 
-QString WbNewProjectWizard::poposeNewProjectPath() const {
+QString WbNewProjectWizard::proposeNewProjectPath() const {
   QString path;
 
   // if current project is in Webots installation dir
@@ -65,7 +65,7 @@ WbNewProjectWizard::WbNewProjectWizard(QWidget *parent) : QWizard(parent) {
   addPage(createWorldPage());
   addPage(createConclusionPage());
 
-  QString path = poposeNewProjectPath();
+  QString path = proposeNewProjectPath();
   mDirEdit->setText(QDir::toNativeSeparators(path));
   mWorldEdit->setText(WbProject::newWorldFileName());
   mBackgroundCheckBox->setChecked(true);
@@ -108,8 +108,8 @@ void WbNewProjectWizard::accept() {
 
     if (mViewPointCheckBox->isChecked())
       worldContent.replace(QByteArray("Viewpoint {"), QByteArray("Viewpoint {\n"
-                                                                 "  orientation -0.7 0.7 0.2 0.75\n"
-                                                                 "  position 1.2 1.6 2.3\n"));
+                                                                 "  orientation -0.5773 0.5773 0.5773 2.0944\n"
+                                                                 "  position 0 0 10\n"));
 
     if (mDirectionalLightCheckBox->isChecked()) {
       if (mBackgroundCheckBox->isChecked())
@@ -155,7 +155,7 @@ void WbNewProjectWizard::updateUI() {
 
 bool WbNewProjectWizard::validateCurrentPage() {
   if (currentId() == WORLD && mWorldEdit->text().isEmpty()) {
-    WbMessageBox::warning(tr("Please sepecify a world name."), this, tr("Invalid new world name"));
+    WbMessageBox::warning(tr("Please specify a world name."), this, tr("Invalid new world name"));
     return false;
   }
 
