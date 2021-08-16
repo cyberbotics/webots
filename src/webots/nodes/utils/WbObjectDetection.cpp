@@ -321,17 +321,17 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     // check distance between center and frustum planes
     for (int j = 0; j < 4; ++j) {
       const double distance = frustumPlanes[j].distance(objectPosition);
-      // TODO: Something is wrong here
-      if (distance < -objectSize[j % 2] / 2.0)  // the object is completely outside
+      const int objectAxis = j % 2 + 1;
+      if (distance < -objectSize[objectAxis] / 2.0)  // the object is completely outside
         return false;
-      else if (distance < objectSize[j % 2] / 2.0)  // a part of the object is outside
-        outsidePart[j] = objectSize[j % 2] / 2.0 - distance;
+      else if (distance < objectSize[objectAxis] / 2.0)  // a part of the object is outside
+        outsidePart[j] = objectSize[objectAxis] / 2.0 - distance;
     }
-    objectSize.setX(objectSize.x() - outsidePart[RIGHT] - outsidePart[LEFT]);
-    objectSize.setY(objectSize.y() - outsidePart[BOTTOM] - outsidePart[TOP]);
+    objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
+    objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
     objectRelativePosition +=
-      0.5 * WbVector3(outsidePart[LEFT] - outsidePart[RIGHT], outsidePart[BOTTOM] - outsidePart[TOP], 0);
+      0.5 * WbVector3(0, outsidePart[RIGHT] - outsidePart[LEFT], outsidePart[BOTTOM] - outsidePart[TOP]);
   }
   return true;
 }
@@ -369,7 +369,7 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
 WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
                                                        const double verticalFieldOfView, const double horizontalFieldOfView,
                                                        const double maxRange) {
-  // construct the 4 planes defining the sides of the frustrum
+  // construct the 4 planes defining the sides of the frustum
   const double z = maxRange * tan(verticalFieldOfView / 2.0);
   const double y = maxRange * tan(horizontalFieldOfView / 2.0);
   const double x = maxRange;
