@@ -1,0 +1,27 @@
+#VRML_SIM R2021c utf8
+WorldInfo {
+  info [
+    "Example world demonstrating the use of the Skin device."
+  ]
+  title "Skin"
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.5403161630648324 -0.8351249135423567 -0.1030767806626142 5.847871008681625
+  position 2.0353917909175667 1.99592978954429 4.573016718133436
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 3 3
+}
+DEF ROBOT Robot {
+  children [
+    SandraSkin {
+      name "Sandra skin"
+    }
+  ]
+  controller "skin"
+}
