@@ -83,6 +83,8 @@ Note that this value does not affect the rotation data.
 The `wbu_bvh_set_model_t_pose` function associates the [Skin](../../skin.md) global and local T pose rotation of a bone with the corresponding BVH joint using the Webots axis-angle format.
 For each joint both global and local T pose rotations are needed to convert the joint rotation defined in the BVH file to the Webots bone model.
 
+---
+
 #### `wbu_bvh_step`
 #### `wbu_bvh_goto_frame`
 #### `wbu_bvh_reset`
@@ -209,11 +211,13 @@ The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projec
 
 %end
 
-A simple [Pedestrian](#pedestrian) PROTO model made of 13 passive joints: three for each arm and leg and one for the head.
+A simple [Pedestrian](#pedestrian-proto) PROTO model made of 13 passive joints: three for each arm and leg and one for the head.
+Position of the [HingeJoint](../reference/joint.md) nodes can be set using the SFFloat fields of the [Pedestrian](#pedestrian-proto) PROTO  listed in the following table.
+Just note that these fields are hidden and not visible in the Webots scene tree.
 
-|           | Joint names  |
-| --------- | -------------|
-| Head      | "headAngle"  |
+| Body part | Joint position fields                                   |
+| --------- | --------------------------------------------------------|
+| Head      | "headAngle"                                             |
 | Left arm  | "leftArmAngle", "leftLowerArmAngle", "leftHandAngle",   |
 | Right arm | "rightArmAngle", "rightLowerArmAngle", "rightHandAngle" |
 | Left leg  | "leftLegAngle", "leftLowerLegAngle", "leftFootAngle"    |
