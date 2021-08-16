@@ -224,9 +224,9 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
     mScaledCoordinates.append(z);
   }
 
-  for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
-    for (int v = 0; v < 3; ++v) {          // foreach vertex
-      if (mTextureCoordinatesValid) {
+  if (mTextureCoordinatesValid) {
+    for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
+      for (int v = 0; v < 3; ++v) {          // foreach vertex
         const int currentIndex = mCoordIndices[3 * t + v];
         mTextureCoordinates.append(texCoord[2 * currentIndex]);
         mTextureCoordinates.append(texCoord[2 * currentIndex + 1]);
