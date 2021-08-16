@@ -4,23 +4,26 @@ This chapter gives an overview of different humans simulation provided with the 
 The example worlds can be tested easily; the ".wbt" files are located in various "worlds" directories of the "[WEBOTS\_HOME/projects/humans]({{ url.github_tree }}/projects/humans)" directory and can be directly opened from Webots using the `Open Sample World` item in `File` menu.
 The controller code is located in the corresponding "controllers" directory.
 
-## [skin_animated_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt)
+## [skin\_animated\_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt) sample
 
-![skin_animated_humans.png](images/humans/skin_animated_humans.thumbnail.jpg) This example shows how to use the [Skin](,,/,,/skin.md) node to animate human models and play [BVH](https://en.wikipedia.org/wiki/Biovision_Hierarchy) animations.
+![skin_animated_humans.png](images/humans/skin_animated_humans.thumbnail.jpg) This example shows how to use the [Skin](,,/reference/skin.md) node to animate human models and play [BVH](https://en.wikipedia.org/wiki/Biovision_Hierarchy) animations.
 The [FBX](https://en.wikipedia.org/wiki/FBX) models have been generated using [MakeHuman](http://makehumancommunity.org/) and BVH files are taken from open source databases.
-
-The [Skin PROTO models](({{ url.github_tree }}/projects/humans/skin_animated_humans/protos/)) contain the definition of the appearance declared in the in the FBX files.
-
+The [Skin PROTO models](({{ url.github_tree }}/projects/humans/skin_animated_humans/protos/) contain the definition of the appearance declared in the in the FBX files.
 The "[bvh_animation]({{ url.github_tree }}/projects/humans/skin_animated_humans/controllers/bvh_animation.c)" C controller loads the BVH file, associates it with the [Skin](../../skin.md) model and plays the BVH animation by applying the poses to the [Skin](../../skin.md) bones.
 
 ### [bvh_util]({{ url.github_tree }}/projects/humans/skin_animated_humans/libraries/bvh_util/)
 To load and play the BVH file a C utility library is also provided.
-The BVH file defines a skeleton in the form of hierarchy of bones, and a time series of joint angles for each joint in the skeleton.
+The BVH file defines a skeleton in the form of hierarchy of bones, and a time series of angles for each joint in the skeleton.
 Note that this skeleton is not necessarily the same as the skeleton associated with a [Skin](../reference/skin.md) node, since they come from different sources.
-This library provides functions to adapt and re-target BVH motion data to the [Skin](../reference/skin.md) model.
+For this reason, this library also provides functions to adapt and re-target the BVH motion data to the [Skin](../reference/skin.md) model.
+
+---
 
 #### `wbu_bvh_read_file`
 #### `wbu_bvh_cleanup`
+
+*obtaining and releasing a BVH file handle*
+
 %tab-component "language"
 
 %tab "C"
@@ -34,11 +37,6 @@ void wbu_bvh_cleanup(WbBvhDataRef motion);
 
 %end
 
-
-##### Description
-
-*obtaining and releasing a BVH file handle*
-
 The `wbu_bvh_read_file` function parses the hierarchical skeleton data and motion data in the specified BVH file.
 The `filename` can be specified either with an absolute path or a path relative to the controller directory.
 The function returns a `WbBvhDataRef` object, which is a reference to the data read from the BVH file.
@@ -47,11 +45,14 @@ This object is NULL if an error occurred when reading the BVH file, for example 
 The `wbu_bvh_cleanup` function frees all the memory associated with the `WbBvhDataRef` object.
 After this function is called the corresponding `WbBvhDataRef` object can no longer be used.
 
+---
 
 #### `wbu_bvh_get_joint_count`
 #### `wbu_bvh_get_joint_name`
 #### `wbu_bvh_get_frame_count`
 #### `wbu_bvh_set_scale`
+
+*query joints and frames in the BVH file and set scale for translation data*
 
 %tab-component "language"
 
@@ -68,10 +69,6 @@ void wbu_bvh_set_model_t_pose(const WbuBvhMotion motion, const double *axisAngle
 %tab-end
 
 %end
-
-##### Description
-
-*query joints and frames in the BVH file and set scale for translation data*
 
 The `wbu_bvh_get_joint_count` function returns the number of joints defined in the loaded BVH file.
 
@@ -90,6 +87,8 @@ For each joint both global and local T pose rotations are needed to convert the 
 #### `wbu_bvh_goto_frame`
 #### `wbu_bvh_reset`
 
+*go to next frame, jump to a specific frame, or jump to first frame*
+
 %tab-component "language"
 
 %tab "C"
@@ -104,10 +103,6 @@ bool wbu_bvh_reset(WbBvhDataRef ref);
 
 %end
 
-##### Description
-
-*go to next frame, jump to a specific frame, or jump to first frame*
-
 The `wbu_bvh_step` function reads the joint angles and translation data in the next frame.
 This function is typically called at the beginning of the main loop.
 If the current frame is the last frame in the BVH file, calling this function reads the first frame again.
@@ -120,8 +115,12 @@ Note that if the argument `frame_number` is greater than the number of frames in
 The function `wbu_bvh_reset` jumps to the first frame.
 Returns TRUE on success.
 
+---
+
 #### `wbu_bvh_get_joint_rotation`
 #### `wbu_bvh_get_root_translation`
+
+*get the joint rotation for a specific joint and the BVH object translation*
 
 %tab-component "language"
 
@@ -136,10 +135,6 @@ double *wbu_bvh_get_root_translation(WbBvhDataRef ref);
 
 %end
 
-##### Description
-
-*get the joint rotation for a specific joint and the BVH object translation*
-
 The `wbu_bvh_get_joint_rotation` function returns the rotation of the joint specified by `joint_index`.
 The rotation is returned as an array of double.
 
@@ -148,11 +143,11 @@ The translation is returned as an array of double.
 This is typically used to set the translation of the [Skin](../reference/skin.md) node that is being animated by this BVH file.
 The values can wither be used directly, or scaled using the `wbu_bvh_set_scale` function.
 
-## [c3d]({{ url.github_tree }}/projects/humans/c3d/worlds/c3d_viewer.wbt)
+## [c3d]({{ url.github_tree }}/projects/humans/c3d/worlds/c3d_viewer.wbt) sample
 
 ![c3d_viewer.png](images/humans/c3d_viewer.thumbnail.jpg) This example provides a basic viewer for [C3D](https://c3d.org) files containing biomechanical information and motion capture data.
-The "[c3d_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" Python controller loads the C3D file, creates a solid [Sphere](../../sphere.md), and plays the motion by updating the position of the markers.
-Additionally, "[c3d_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" also initializes the "[c3d_viewer_window]({{ url.github_tree }}/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window)" robot window from which it is possible to set the transparency of the body representation and the playback speed, to change the color of the markers, and to visualize the graphs of the data provided in the C3D file.
+The "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" Python controller loads the C3D file, creates a solid [Sphere](../../sphere.md), and plays the motion by updating the position of the markers.
+Additionally, "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" also initializes the "[c3d\_viewer\_window]({{ url.github_tree }}/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window)" robot window from which it is possible to set the transparency of the body representation and the playback speed, to change the color of the markers, and to visualize the graphs of the data provided in the C3D file.
 
 ### C3dViewer PROTO
 
@@ -162,7 +157,7 @@ Additionally, "[c3d_viewer.py]({{ url.github_tree }}/projects/humans/c3d/control
 
 %end
 
-A viewer to visualize [C3D](https://c3d.org) files.
+A viewer to visualize C3D files.
 
 Derived from [Robot](../reference/robot.md).
 
@@ -196,13 +191,12 @@ C3dViewer {
 - `bodyHeight`: Defines the height of the body representation, if set to '<0' the height defined in the C3D file is used (or 1.83m is not set in the C3D file).
 - `bodyOffset`: Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
 
-### [pedestrian]({{ url.github_tree }}/projects/humans/c3d/plugins/pedestrian.wbt)
 
-## [pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/worlds/pedestrian.wbt)
+## [pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/worlds/pedestrian.wbt) sample
 
 ![pedestrian.png](images/humans/pedestrian.thumbnail.jpg) This example shows the simulation of simple walking rigid human models.
 The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/controllers/pedestrian.py)" Python controller source code, but the trajectory, the speed and the time step can be passed as controller argument:
-- `--trajectory`: Specify the trajectory in the format ``[x1 y1, x2 y2, ...]`.
+- `--trajectory`: Specify the trajectory in the format ``[x1 y1, x2 y2, ...]``.
 - `--speed`: Specify walking speed in [m/s].
 - `--step`: Specify time step.
 
