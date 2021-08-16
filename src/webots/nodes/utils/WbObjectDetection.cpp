@@ -308,7 +308,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
           assert(false);
       }
       if (nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE) {
-        const WbMatrix3 rotation = deviceRotation * objectRotation;
+        const WbMatrix3 rotation = deviceInverseRotation * objectRotation;
         const double xRange =
           fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
         const double yRange =
@@ -319,20 +319,19 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       }
     }
     // check distance between center and frustum planes
-    double distances[4];
-    for (int j = 0; j < 4; ++j)
-      distances[j] = frustumPlanes[j].distance(objectPosition);
     for (int j = 0; j < 4; ++j) {
-      if (distances[j] < -objectSize[j % 2] / 2.0)  // the object is completely outside
+      const double distance = frustumPlanes[j].distance(objectPosition);
+      const int objectAxis = j % 2 + 1;
+      if (distance < -objectSize[objectAxis] / 2.0)  // the object is completely outside
         return false;
-      else if (distances[j] < objectSize[j % 2] / 2.0)  // a part of the object is outside
-        outsidePart[j] = objectSize[j % 2] / 2.0 - distances[j];
+      else if (distance < objectSize[objectAxis] / 2.0)  // a part of the object is outside
+        outsidePart[j] = objectSize[objectAxis] / 2.0 - distance;
     }
-    objectSize.setX(objectSize.x() - outsidePart[RIGHT] - outsidePart[LEFT]);
-    objectSize.setY(objectSize.y() - outsidePart[BOTTOM] - outsidePart[TOP]);
+    objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
+    objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
     objectRelativePosition +=
-      0.5 * WbVector3(outsidePart[LEFT] - outsidePart[RIGHT], outsidePart[BOTTOM] - outsidePart[TOP], 0);
+      0.5 * WbVector3(0, outsidePart[RIGHT] - outsidePart[LEFT], outsidePart[BOTTOM] - outsidePart[TOP]);
   }
   return true;
 }
@@ -361,7 +360,7 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
   if (!recursivelyComputeBounds(mObject, false, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes))
     return false;
   // check distance
-  if (distance() > (mMaxRange + mObjectSize.z() / 2.0))
+  if (distance() > (mMaxRange + mObjectSize.x() / 2.0))
     return false;
 
   return true;
@@ -370,7 +369,7 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
 WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
                                                        const double verticalFieldOfView, const double horizontalFieldOfView,
                                                        const double maxRange) {
-  // construct the 4 planes defining the sides of the frustrum
+  // construct the 4 planes defining the sides of the frustum
   const double z = maxRange * tan(verticalFieldOfView / 2.0);
   const double y = maxRange * tan(horizontalFieldOfView / 2.0);
   const double x = maxRange;
