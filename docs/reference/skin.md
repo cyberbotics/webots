@@ -29,8 +29,7 @@ If in the first case the resulting object animation will be purely graphical.
 In the second case, when linking the [Skin](#skin) to an existing Webots skeleton made of [Solid](#solid.md) and [Joint](#joint.md) nodes, it is possible to animate a dynamic object.
 
 The supported format for the skin mesh and skeleton models is [FBX](https://en.wikipedia.org/wiki/FBX) and the model be generated using a 3D modeling software.
-Other tools can be used for generating the characters to animate, for example human characters provided in the
-[skin_animated_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt) sample are generated using [MakeHuman](http://www.makehuman.org/).
+Other tools can be used for generating the characters to animate, for example human characters provided in the "[skin\_animated\_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt)" sample are generated using [MakeHuman](http://www.makehuman.org/).
 
 #### Physically driven skin animation
 
