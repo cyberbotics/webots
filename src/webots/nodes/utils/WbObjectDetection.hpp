@@ -26,7 +26,7 @@ class WbSolid;
 
 class WbObjectDetection {
 public:
-  enum FrustumPlane { RIGHT, BOTTOM, LEFT, TOP, PARALLEL, PLANE_NUMBER };
+  enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
 
   WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange);
   virtual ~WbObjectDetection();
