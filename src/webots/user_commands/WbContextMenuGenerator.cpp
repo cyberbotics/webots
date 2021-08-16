@@ -59,23 +59,6 @@ namespace WbContextMenuGenerator {
     return suitableModels;
   }
 
-#ifdef __linux__
-  void renameRobotOverlayActions(QMenu *menu, bool doubleUnderscoresRequired) {
-    foreach (QAction *action, menu->actions()) {
-      if (action->isSeparator())
-        continue;
-      else if (action->menu())
-        renameRobotOverlayActions(action->menu(), doubleUnderscoresRequired);
-      else {
-        if (doubleUnderscoresRequired)
-          action->setText(action->text().replace("_", "__"));
-        else
-          action->setText(action->text().replace("__", "_"));
-      }
-    }
-  }
-#endif
-
   void generateContextMenu(const QPoint &position, const WbNode *selectedNode) {
     QMenu contextMenu;
     contextMenu.setObjectName("ContextMenu");
@@ -94,16 +77,6 @@ namespace WbContextMenuGenerator {
     if (selectedNode) {
       // actions for robots
       if (gAreRobotActionsEnabled) {
-#ifdef __linux__
-        // fix for https://github.com/omichel/webots-dev/issues/7443, the context menu doesn't need the double underscore
-        // fix for menubars on Unity desktops (Ubuntu 16.04), so undo the workaround before opening the menu and redo it on menu
-        // close
-        if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
-          renameRobotOverlayActions(gRobotCameraMenu, false);
-          renameRobotOverlayActions(gRobotRangeFinderMenu, false);
-          renameRobotOverlayActions(gRobotDisplayMenu, false);
-        }
-#endif
         contextMenu.addAction(WbActionManager::instance()->action(WbAction::EDIT_CONTROLLER));
         contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_ROBOT_WINDOW));
         QMenu *subMenu = contextMenu.addMenu(QObject::tr("Overlays"));
@@ -165,14 +138,5 @@ namespace WbContextMenuGenerator {
     WbActionManager::instance()->setFocusObject(&contextMenu);
     contextMenu.exec(position);
     WbActionManager::instance()->setFocusObject(focusObject);
-
-#ifdef __linux__
-    // see above comment, rename menu items again so everything works in the Overlays menu
-    if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity" && gAreRobotActionsEnabled) {
-      renameRobotOverlayActions(gRobotCameraMenu, true);
-      renameRobotOverlayActions(gRobotRangeFinderMenu, true);
-      renameRobotOverlayActions(gRobotDisplayMenu, true);
-    }
-#endif
   }
 }  // namespace WbContextMenuGenerator

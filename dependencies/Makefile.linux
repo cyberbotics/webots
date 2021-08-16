@@ -20,10 +20,6 @@ OPENSSL_PACKAGE = libssl_1.1.tar.xz
 PACKAGES = qt open-al ois pico lua-gd lua assimp
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
-ifeq ($(UBUNTU_VERSION), 16.04)
-	PACKAGES += open-ssl
-endif
-
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
 release debug distrib profile: ../.clang-format $(PACKAGES)
