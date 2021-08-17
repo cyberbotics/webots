@@ -87,6 +87,7 @@ endif
 
 # cleanse is the ultimate cleansing (agressive cleaning)
 cleanse: clean
+	@rm -fr docs/index.html docs/dependencies
 	@rm -rf $(WEBOTS_DISTRIBUTION_PATH)/*
 ifeq ($(OSTYPE),windows)
 	@rm -rf msys64
@@ -148,7 +149,7 @@ docs:
 
 clean-docs:
 	@+echo "#"; echo "# * documentation *";
-	@-rm -f docs/list.txt 
+	@-rm -f docs/list.txt
 install:
 	@+echo "#"; echo "# * installing (snap) *";
 	@+make --silent -C scripts/packaging -f Makefile install
