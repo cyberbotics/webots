@@ -37,7 +37,7 @@ DEF DYNAMIC_EMITTER Robot {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0.00000 1.00000 0.00000 -3.14159
+          rotation 0 1 0 -3.14159
           children [
             Shape {
               appearance Appearance {
@@ -62,7 +62,7 @@ DEF DYNAMIC_EMITTER Robot {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0.00000 1.00000 0.00000 -3.14159
+          rotation 0 1 0 -3.14159
           children [
             Shape {
               appearance Appearance {
@@ -104,7 +104,7 @@ DEF STATIC_EMITTER Robot {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0.00000 1.00000 0.00000 -3.14159
+          rotation 0 1 0 -3.14159
           children [
             Shape {
               appearance Appearance {
@@ -129,7 +129,7 @@ DEF STATIC_EMITTER Robot {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0.00000 1.00000 0.00000 -3.14159
+          rotation 0 1 0 -3.14159
           children [
             Shape {
               appearance Appearance {
@@ -179,7 +179,7 @@ DEF STATIC_ROBOT Robot {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0.00000 1.00000 0.00000 -3.14159
+          rotation 0 1 0 -3.14159
           children [
             Shape {
               appearance Appearance {
@@ -205,7 +205,7 @@ DEF STATIC_ROBOT Robot {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0.00000 1.00000 0.00000 -3.14159
+          rotation 0 1 0 -3.14159
           children [
             Shape {
               appearance Appearance {
@@ -231,7 +231,7 @@ DEF STATIC_ROBOT Robot {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0.00000 1.00000 0.00000 -3.14159
+          rotation 0 1 0 -3.14159
           children [
             Shape {
               appearance Appearance {
@@ -258,7 +258,7 @@ DEF STATIC_ROBOT Robot {
       children [
         Transform {
           translation 0 0 0.05
-          rotation 0.00000 1.00000 0.00000 -3.14159
+          rotation 0 1 0 -3.14159
           children [
             Shape {
               appearance Appearance {
