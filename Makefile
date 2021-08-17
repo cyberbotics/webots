@@ -143,18 +143,11 @@ endif
 THREADS = $$(($(NUMBER_OF_PROCESSORS) * 3 / 2))
 
 docs:
-ifneq (, $(shell which python 2> /dev/null))
-	@+echo "#"; echo "# * documentation *";
-	-@+python docs/local_exporter.py --silent
-else
-	@+echo "#"; echo -e "# \033[0;33mPython not installed, skipping documentation\033[0m";
-endif
 	@$(WEBOTS_HOME_PATH)/scripts/get_git_info/get_git_info.sh
 	@$(shell find $(WEBOTS_HOME_PATH)/docs -name '*.md' | sed 's/.*docs[/]//' > $(WEBOTS_HOME_PATH)/docs/list.txt)
-	
+
 clean-docs:
 	@+echo "#"; echo "# * documentation *";
-	@rm -fr docs/index.html docs/dependencies
 	@-rm -f docs/list.txt 
 install:
 	@+echo "#"; echo "# * installing (snap) *";
