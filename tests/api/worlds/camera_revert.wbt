@@ -107,7 +107,7 @@ DEF WHITE_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.42 0.05 -0.1
+  translation 0.4 0.05 -0.1
   children [
     Shape {
       appearance Appearance {
