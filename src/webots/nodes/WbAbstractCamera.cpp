@@ -830,7 +830,7 @@ void WbAbstractCamera::updateFrustumDisplay() {
   const float quadWidth = 2.0f * n * tanf(mFieldOfView->value() / 2.0f);
   const float translation[3] = {n, 0.0f, 0.0f};
   // Axis-angle for roll(pi/2), pitch(-pi/2), and yaw(0)
-  const float orientation[4] = {M_PI * 2 / 3, sqrt(3) / 3, -sqrt(3) / 3, -sqrt(3) / 3};
+  const float orientation[4] = {M_PI * 2.0f / 3.0f, sqrt(3.0f) / 3.0f, -sqrt(3.0f) / 3.0f, -sqrt(3.0f) / 3.0f};
   const float scale[3] = {quadWidth, (quadWidth * height()) / width(), 1.0f};
 
   wr_transform_set_position(mFrustumDisplayTransform, translation);
