@@ -36,7 +36,6 @@
 #include <ode/ode.h>
 #include <cmath>
 
-#include <iostream>
 void WbCapsule::init() {
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
