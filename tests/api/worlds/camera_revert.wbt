@@ -9,7 +9,6 @@ WorldInfo {
 Viewpoint {
   orientation 0.9993654210667938 0.030315712773045487 -0.01870060787920498 5.29098
   position -0.0424516 1.17179 0.823619
-
 }
 Background {
   skyColor [
@@ -139,7 +138,7 @@ Robot {
   children [
     Transform {
       translation 0 0.0415 0
-      rotation 1 0 0 -1.57079632679
+      rotation 1 0 0 -1.5707
       children [
         Shape {
           appearance Appearance {
@@ -216,7 +215,8 @@ Robot {
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       children [
         Transform {
-          translation 0 0 -0.015
+          translation -0.015 0 0
+          rotation 0 1 0 1.5708
           children [
             Shape {
               appearance Appearance {
