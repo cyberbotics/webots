@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
   const double *positionBefore = wb_supervisor_field_get_sf_vec3f(position_field);
   const double expected_z = positionBefore[2];
 
-  wb_robot_step(4 * TIME_STEP);
+  wb_robot_step(8 * TIME_STEP);
 
   // check if viewpoint moved
   const char *message;
