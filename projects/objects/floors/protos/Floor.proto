@@ -70,8 +70,7 @@ PROTO Floor [
     name IS name
     model "floor"
     boundingObject Transform {
-      rotation 1 0 0 -1.57079632679
-
+      rotation 1 0 0 -1.5707
       children [
         Plane {
           size IS size
