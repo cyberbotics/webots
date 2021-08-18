@@ -2150,3 +2150,9 @@ I have just tested. I put the range finder node in an arbitrary robot and the `w
 ##### Joro 07/29/2021 15:05:00
 yes, i already solved it, thanks for your help and interest
 
+##### Spur 08/16/2021 10:01:40
+Hey guys, I have two e-pucks running but they seem unable to detect eachother via by distance sensors and just collide, is there a way to make them detect eachother ?
+
+##### Olivier Michel [Cyberbotics] 08/16/2021 11:56:21
+They should see each other through distance sensors.
+

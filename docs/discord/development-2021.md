@@ -2522,3 +2522,23 @@ About the other problem let me check
 ##### Naga15 08/11/2021 09:08:58
 Thanks.
 
+##### Darko Lukić [Cyberbotics] 08/11/2021 14:55:14
+`@Naga15` I believe I fixed the issue:
+
+[https://github.com/cyberbotics/webots/pull/3561](https://github.com/cyberbotics/webots/pull/3561)
+
+
+
+You can download it from here:
+
+[https://github.com/cyberbotics/webots/suites/3469232657/artifacts/82481184](https://github.com/cyberbotics/webots/suites/3469232657/artifacts/82481184)
+
+
+
+Or wait for the nightly builds (generated an evening after a merge):
+
+[https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### Naga15 08/16/2021 08:00:26
+Thanks it finally works!
+
