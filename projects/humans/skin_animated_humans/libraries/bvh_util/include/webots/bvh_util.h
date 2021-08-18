@@ -37,4 +37,4 @@ void wbu_bvh_set_model_t_pose(const WbuBvhMotion motion, const double *axisAngle
 }
 #endif
 
-#endif // WBU_BVH_UTIL_H
+#endif  // WBU_BVH_UTIL_H

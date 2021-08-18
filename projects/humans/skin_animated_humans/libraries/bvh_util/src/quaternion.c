@@ -1,3 +1,19 @@
+/*
+ * Copyright 1996-2021 Cyberbotics Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include "quaternion_private.h"
 
 #include <stdio.h>
@@ -43,12 +59,12 @@ WbuQuaternion wbu_quaternion_normalize(WbuQuaternion q) {
   return res;
 }
 
-WbuQuaternion wbu_quaternion_multiply(WbuQuaternion a, WbuQuaternion b) {
+WbuQuaternion wbu_quaternion_multiply(WbuQuaternion q1, WbuQuaternion q2) {
   WbuQuaternion res;
-  res.w = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z;
-  res.x = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
-  res.y = a.w * b.y + a.y * b.w + a.z * b.x - a.x * b.z;
-  res.z = a.w * b.z + a.z * b.w + a.x * b.y - a.y * b.x;
+  res.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
+  res.x = q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y;
+  res.y = q1.w * q2.y + q1.y * q2.w + q1.z * q2.x - q1.x * q2.z;
+  res.z = q1.w * q2.z + q1.z * q2.w + q1.x * q2.y - q1.y * q2.x;
   return res;
 }
 

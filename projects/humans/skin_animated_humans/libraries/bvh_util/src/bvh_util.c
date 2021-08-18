@@ -1,3 +1,19 @@
+/*
+ * Copyright 1996-2021 Cyberbotics Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include "webots/bvh_util.h"
 #include "quaternion_private.h"
 #include "vector3_private.h"
@@ -8,7 +24,7 @@
 #include <string.h>
 
 #define MAX_LINE 4096
-#define D2R (((double) M_PI) / 180.0)
+#define D2R (((double)M_PI) / 180.0)
 const char DELIM[] = " :,\t\r\n";
 
 typedef enum BvhChannelType {
@@ -21,20 +37,22 @@ typedef enum BvhChannelType {
 } BvhChannelType_t;
 
 typedef struct BvhMotionJointPrivate {
-  char *name;                              // name of the joint
+  char *name;  // name of the joint
 
-  struct BvhMotionJointPrivate *parent;    // pointer to parent joint. NULL for root joint.
-  int n_children;                          // number of children
-  struct BvhMotionJointPrivate **children; // list of pointers to children joints. NULL if there are no children
+  struct BvhMotionJointPrivate *parent;     // pointer to parent joint. NULL for root joint.
+  int n_children;                           // number of children
+  struct BvhMotionJointPrivate **children;  // list of pointers to children joints. NULL if there are no children
 
-  int n_channels;                   // number of channels. Typically 6 (3 rotation and 3 translation) for root joints and 3 (3 rotation) otherwise
-  int n_position_channels;          // number of translation channels. Typically 3 for root joints and 0 otherwise
-  BvhChannelType_t *channels;       // list of channels in order. We need to know in what order to apply rotations
-  WbuQuaternion *frame_rotation;    // list of rotations per frame. List size is [motion->n_frames]
-  double **frame_position;          // list of translations per frame. List size is [motion->n_frames]x[3]
+  int
+    n_channels;  // number of channels. Typically 6 (3 rotation and 3 translation) for root joints and 3 (3 rotation) otherwise
+  int n_position_channels;        // number of translation channels. Typically 3 for root joints and 0 otherwise
+  BvhChannelType_t *channels;     // list of channels in order. We need to know in what order to apply rotations
+  WbuQuaternion *frame_rotation;  // list of rotations per frame. List size is [motion->n_frames]
+  double **frame_position;        // list of translations per frame. List size is [motion->n_frames]x[3]
 
-  double offset[3];                 // offset from the parent bone
-  double bone_vector[3];            // vector relative to parent representing the "bone head" -> "bone tail" vector. In many conventions (including Webots) this vector matches the bone Y-axis
+  double offset[3];       // offset from the parent bone
+  double bone_vector[3];  // vector relative to parent representing the "bone head" -> "bone tail" vector. In many conventions
+                          // (including Webots) this vector matches the bone Y-axis
 
   WbuQuaternion bvh_t_pose;         // joint orientation relative to parent to set the BVH skeleton in T pose
   WbuQuaternion wbt_global_t_pose;  // joint absolute orientation to set the Webots skeleton in T pose
@@ -42,24 +60,24 @@ typedef struct BvhMotionJointPrivate {
 } BvhMotionJointPrivate_t;
 
 typedef struct WbuBvhMotionPrivate {
-  double frame_time;        // approximate time per frame
-  int n_frames;             // number of frames in the BVH motion file
-  int current_frame;        // index of the current frame during animation
-  int n_joints;             // number of joints
-  double scale_factor;      // scale factor for translation. Typically set according to bone lengths of BVH skeleton vs. target skeleton.
-  BvhMotionJointPrivate_t **joint_list; // list of joints
+  double frame_time;  // approximate time per frame
+  int n_frames;       // number of frames in the BVH motion file
+  int current_frame;  // index of the current frame during animation
+  int n_joints;       // number of joints
+  double
+    scale_factor;  // scale factor for translation. Typically set according to bone lengths of BVH skeleton vs. target skeleton.
+  BvhMotionJointPrivate_t **joint_list;  // list of joints
 } WbuBvhMotionPrivate_t;
 
 //***********************************//
 //        Utility functions          //
 //***********************************//
 
-static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, char *this_name, BvhMotionJointPrivate_t *parent, int *channels_count) {
-  char *token;
-
+static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, char *this_name, BvhMotionJointPrivate_t *parent,
+                                              int *channels_count) {
   // create and init new joint
   BvhMotionJointPrivate_t *new_joint = malloc(sizeof(BvhMotionJointPrivate_t));
-  new_joint->name = (char*) malloc(strlen(this_name) + 1);
+  new_joint->name = (char *)malloc(strlen(this_name) + 1);
   strcpy(new_joint->name, this_name);
   new_joint->parent = parent;
   new_joint->bvh_t_pose = wbu_quaternion_zero();
@@ -72,7 +90,8 @@ static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, c
 
   // update the motion structure
   motion->n_joints = motion->n_joints + 1;
-  motion->joint_list = (BvhMotionJointPrivate_t**) realloc(motion->joint_list, (motion->n_joints) * sizeof(BvhMotionJointPrivate_t*));
+  motion->joint_list =
+    (BvhMotionJointPrivate_t **)realloc(motion->joint_list, (motion->n_joints) * sizeof(BvhMotionJointPrivate_t *));
   motion->joint_list[motion->n_joints - 1] = new_joint;
 
   // initialize the children list
@@ -81,7 +100,7 @@ static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, c
 
   char line[MAX_LINE];
   while (fgets(line, MAX_LINE, file)) {
-    token = strtok(line, DELIM);
+    char *token = strtok(line, DELIM);
 
     // opening bracket of joint
     if (strcmp(token, "{") == 0)
@@ -103,7 +122,7 @@ static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, c
       token = strtok(NULL, DELIM);
       int n_channels = atoi(token);
       new_joint->n_channels = n_channels;
-      new_joint->channels = (BvhChannelType_t *) malloc(n_channels * sizeof(BvhChannelType_t));
+      new_joint->channels = (BvhChannelType_t *)malloc(n_channels * sizeof(BvhChannelType_t));
       int i = 0;
       for (i = 0; i < n_channels; ++i) {
         token = strtok(NULL, DELIM);
@@ -130,7 +149,8 @@ static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, c
     if (strcmp(token, "JOINT") == 0) {
       token = strtok(NULL, DELIM);
       new_joint->n_children = new_joint->n_children + 1;
-      new_joint->children = (BvhMotionJointPrivate_t**) realloc(new_joint->children, (new_joint->n_children) * sizeof(BvhMotionJointPrivate_t*));
+      new_joint->children =
+        (BvhMotionJointPrivate_t **)realloc(new_joint->children, (new_joint->n_children) * sizeof(BvhMotionJointPrivate_t *));
 
       char child_name[50];
       strcpy(child_name, token);
@@ -180,7 +200,7 @@ static void read_motion(FILE *file, WbuBvhMotion motion, int frame_channels_coun
   for (joint_index = 0; joint_index < motion->n_joints; ++joint_index) {
     BvhMotionJointPrivate_t *joint = motion->joint_list[joint_index];
     if (joint->n_position_channels > 0)
-      joint->frame_position = malloc(n_frames * sizeof(double*));
+      joint->frame_position = malloc(n_frames * sizeof(double *));
     if ((joint->n_channels - joint->n_position_channels) > 0)
       joint->frame_rotation = malloc(n_frames * sizeof(WbuQuaternion));
   }
@@ -227,12 +247,7 @@ static void read_motion(FILE *file, WbuBvhMotion motion, int frame_channels_coun
           // compute and store rotation
           double angle = motion * D2R;
           int rotation_index = joint->channels[channel_index] - X_ROTATION;
-          q = wbu_quaternion_from_axis_angle(
-            axes[rotation_index].x,
-            axes[rotation_index].y,
-            axes[rotation_index].z,
-            angle
-          );
+          q = wbu_quaternion_from_axis_angle(axes[rotation_index].x, axes[rotation_index].y, axes[rotation_index].z, angle);
           int j = 0;
           for (; j < 3; ++j) {
             if (j != rotation_index)
@@ -271,7 +286,7 @@ static void compute_bone_vectors(WbuBvhMotion motion) {
       joint->bone_vector[0] = joint->bone_vector[0] / n_children;
       joint->bone_vector[1] = joint->bone_vector[1] / n_children;
       joint->bone_vector[2] = joint->bone_vector[2] / n_children;
-    } // else already set when parsing End Site
+    }  // else already set when parsing End Site
   }
 }
 
@@ -287,12 +302,14 @@ WbuBvhMotion wbu_bvh_read_file(const char *filename) {
 
   if (!filename || !filename[0]) {
     fprintf(stderr, "Error: wbu_bvh_read_file() called with NULL or empty 'filename' argument.\n");
+    free(motion);
     return NULL;
   }
 
   FILE *file = fopen(filename, "r");
   if (!file) {
     fprintf(stderr, "Error: wbu_bvh_read_file(): could not open '%s' file.\n", filename);
+    free(motion);
     return NULL;
   }
 
@@ -329,8 +346,8 @@ WbuBvhMotion wbu_bvh_read_file(const char *filename) {
         motion->frame_time = atof(token);
         read_motion(file, motion, channels_count);
         motion->current_frame = 0;
-        //compute_frame(motion, motion->current_frame);
-        //compute_bvh_T_pose(motion);
+        // compute_frame(motion, motion->current_frame);
+        // compute_bvh_T_pose(motion);
         break;
       }
     }
@@ -377,7 +394,8 @@ const char *wbu_bvh_get_joint_name(const WbuBvhMotion motion, int joint_id) {
     if (joint_id < motion->n_joints)
       return motion->joint_list[joint_id]->name;
 
-    fprintf(stderr, "Error: wbu_bvh_get_joint_name(): 'joint_id' argument (%d) is greater than the number of joints (%d).\n", joint_id, motion->n_joints);
+    fprintf(stderr, "Error: wbu_bvh_get_joint_name(): 'joint_id' argument (%d) is greater than the number of joints (%d).\n",
+            joint_id, motion->n_joints);
     return "";
   }
 
@@ -392,7 +410,6 @@ int wbu_bvh_get_frame_count(const WbuBvhMotion motion) {
   fprintf(stderr, "Error: wbu_bvh_get_frame_count(): WbuBvhMotion argument is NULL.\n");
   return -1;
 }
-
 
 int wbu_bvh_get_frame_index(const WbuBvhMotion motion) {
   if (motion != NULL)
@@ -442,9 +459,11 @@ bool wbu_bvh_reset(WbuBvhMotion motion) {
 
 void wbu_bvh_set_model_t_pose(const WbuBvhMotion motion, const double *axisAngle, int joint_id, bool global) {
   if (global)
-    motion->joint_list[joint_id]->wbt_global_t_pose = wbu_quaternion_from_axis_angle(axisAngle[0], axisAngle[1], axisAngle[2], axisAngle[3]);
+    motion->joint_list[joint_id]->wbt_global_t_pose =
+      wbu_quaternion_from_axis_angle(axisAngle[0], axisAngle[1], axisAngle[2], axisAngle[3]);
   else
-    motion->joint_list[joint_id]->wbt_local_t_pose = wbu_quaternion_from_axis_angle(axisAngle[0], axisAngle[1], axisAngle[2], axisAngle[3]);
+    motion->joint_list[joint_id]->wbt_local_t_pose =
+      wbu_quaternion_from_axis_angle(axisAngle[0], axisAngle[1], axisAngle[2], axisAngle[3]);
 }
 
 void wbu_bvh_set_scale(WbuBvhMotion motion, double scale) {
@@ -467,7 +486,9 @@ const double *wbu_bvh_get_root_translation(const WbuBvhMotion motion) {
 const double *wbu_bvh_get_joint_rotation(const WbuBvhMotion motion, int joint_id) {
   static double result[4];
   if (joint_id >= motion->n_joints) {
-    fprintf(stderr, "Error: wbu_bvh_get_joint_rotation(): 'joint_id' argument (%d) is greater than the number of joints (%d).\n", joint_id, motion->n_joints );
+    fprintf(stderr,
+            "Error: wbu_bvh_get_joint_rotation(): 'joint_id' argument (%d) is greater than the number of joints (%d).\n",
+            joint_id, motion->n_joints);
     result[0] = 0;
     result[1] = 0;
     result[2] = 0;

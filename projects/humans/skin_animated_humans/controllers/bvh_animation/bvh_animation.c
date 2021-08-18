@@ -1,7 +1,24 @@
+/*
+ * Copyright 1996-2021 Cyberbotics Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include <webots/bvh_util.h>
 #include <webots/robot.h>
 #include <webots/skin.h>
 #include <webots/supervisor.h>
-#include <webots/bvh_util.h>
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +28,8 @@
 #define TIME_STEP 32
 
 static void print_usage(const char *command) {
-  printf("Usage: %s -d <skin_device_name> [-f <motion_file_path> | -s <start_frame_index> | -e <end_frame_index> | -l]\n", command);
+  printf("Usage: %s -d <skin_device_name> [-f <motion_file_path> | -s <start_frame_index> | -e <end_frame_index> | -l]\n",
+         command);
   printf("Options:\n");
   printf("  -d: Skin device name.\n");
   printf("  -f: path to motion file.\n");
@@ -21,7 +39,6 @@ static void print_usage(const char *command) {
 }
 
 int main(int argc, char **argv) {
-
   wb_robot_init();
 
   char *skin_device_name = NULL;
@@ -31,7 +48,7 @@ int main(int argc, char **argv) {
   bool loop = false;
   int c;
   while ((c = getopt(argc, argv, "d:f:s:e:l")) != -1) {
-    switch(c) {
+    switch (c) {
       case 'd':
         skin_device_name = optarg;
         break;
@@ -50,21 +67,21 @@ int main(int argc, char **argv) {
       case '?':
         printf("?\n");
         if (optopt == 'd' || optopt == 'f' || optopt == 's' || optopt == 'e')
-          fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+          fprintf(stderr, "Option -%c requires an argument.\n", optopt);
         else
-          fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+          fprintf(stderr, "Unknown option `-%c'.\n", optopt);
       default:
         print_usage(argv[0]);
         return 1;
     }
   }
-  
+
   if (skin_device_name == NULL || motion_file_path == NULL) {
-    fprintf (stderr, "Missing required arguments -d and -f.\n");
+    fprintf(stderr, "Missing required arguments -d and -f.\n");
     print_usage(argv[0]);
     return 1;
   }
-  
+
   WbDeviceTag skin = wb_robot_get_device(skin_device_name);
 
   // Open a BVH animation file.
@@ -77,24 +94,24 @@ int main(int argc, char **argv) {
   int i, j;
 
   // Get the number of bones in the Skin device
-  unsigned int skin_bone_count = wb_skin_get_bone_count(skin);
+  const int skin_bone_count = wb_skin_get_bone_count(skin);
   if (skin_bone_count == 0) {
     printf("The Skin model has no bones to animate.\n");
     return 0;
   }
 
   // Get the number of joints and frames in the BVH file.
-  unsigned int bvh_joint_count = wbu_bvh_get_joint_count(bvh_motion);
-  unsigned long int bvh_frame_count = wbu_bvh_get_frame_count(bvh_motion);
-  printf("The BVH file \"%s\" has %d joints, and %lu frames.\n", motion_file_path, bvh_joint_count, bvh_frame_count);
+  const int bvh_joint_count = wbu_bvh_get_joint_count(bvh_motion);
+  const int bvh_frame_count = wbu_bvh_get_frame_count(bvh_motion);
+  printf("The BVH file \"%s\" has %d joints, and %d frames.\n", motion_file_path, bvh_joint_count, bvh_frame_count);
 
   // Get the bone names in the Skin device
   char **joint_name_list;
-  joint_name_list = (char **) malloc((skin_bone_count) * sizeof(char *));
+  joint_name_list = (char **)malloc((skin_bone_count) * sizeof(char *));
   int root_bone_index = -1;
   for (i = 0; i < skin_bone_count; ++i) {
     const char *name = wb_skin_get_bone_name(skin, i);
-    joint_name_list[i] = (char*) malloc(strlen(name) + 1);
+    joint_name_list[i] = (char *)malloc(strlen(name) + 1);
     strcpy(joint_name_list[i], name);
     if (strcmp(name, "Hips") == 0)
       root_bone_index = i;
@@ -104,18 +121,17 @@ int main(int argc, char **argv) {
   printf("Human model joins:\n");
   for (i = 0; i < skin_bone_count; ++i)
     printf("  Joint %d: %s\n", i, joint_name_list[i]);
-    
+
   if (root_bone_index < 0)
     fprintf(stderr, "Root joint not found\n");
 
   // Find correspondencies between the Skin's bones and BVH's joint.
   // For example 'hip' could be bone 0 in Skin device, and joint 5 in BVH motion file
-  int *index_skin_to_bvh = (int*) malloc(skin_bone_count * sizeof(int));
+  int *index_skin_to_bvh = (int *)malloc(skin_bone_count * sizeof(int));
   for (i = 0; i < skin_bone_count; ++i) {
     index_skin_to_bvh[i] = -1;
 
-    if (i == 24 || i == 25 || i == 26 ||
-        i == 15 || i == 16 || i == 17)
+    if (i == 24 || i == 25 || i == 26 || i == 15 || i == 16 || i == 17)
       continue;
 
     const char *skin_name = joint_name_list[i];
@@ -139,10 +155,10 @@ int main(int argc, char **argv) {
   // Set factor converting from BVH skeleton scale to Webots skeleton scale.
   // Only translation values are scaled by this factor.
   wbu_bvh_set_scale(bvh_motion, scale);
-  
+
   double initial_root_position[3] = {0.0, 0.0, 0.0};
-  const double *skin_root_position = wb_skin_get_bone_position(skin, root_bone_index, false);
   double root_position_offset[3] = {0.0, 0.0, 0.0};
+  const double *skin_root_position = wb_skin_get_bone_position(skin, root_bone_index, false);
   if (root_bone_index >= 0) {
     const double *current_root_position = wbu_bvh_get_root_translation(bvh_motion);
     // Use initial Skin position as zero reference position
@@ -151,15 +167,15 @@ int main(int argc, char **argv) {
       initial_root_position[i] = current_root_position[i];
     }
   }
-    
+
   // Check end frame index
   if (end_frame_index > 0 && end_frame_index >= bvh_frame_count) {
-    fprintf (stderr, "Invalid end frame index %d. This motion has %ld frames.\n", end_frame_index, bvh_frame_count);
+    fprintf(stderr, "Invalid end frame index %d. This motion has %d frames.\n", end_frame_index, bvh_frame_count);
     end_frame_index = bvh_frame_count;
   } else
     end_frame_index = bvh_frame_count;
 
-  while (wb_robot_step(TIME_STEP) != -1){
+  while (wb_robot_step(TIME_STEP) != -1) {
     for (i = 0; i < skin_bone_count; ++i) {
       if (index_skin_to_bvh[i] < 0)
         continue;
@@ -171,11 +187,10 @@ int main(int argc, char **argv) {
     }
 
     // Offset the position by a desired value if needed.
-    double position[3];
     const double *root_position;
     if (root_bone_index >= 0) {
       root_position = wbu_bvh_get_root_translation(bvh_motion);
-      root_position = wbu_bvh_get_root_translation(bvh_motion);
+      double position[3];
       for (int i = 0; i < 3; ++i)
         position[i] = root_position[i] + root_position_offset[i];
       wb_skin_set_bone_position(skin, root_bone_index, position, false);
@@ -194,7 +209,7 @@ int main(int argc, char **argv) {
         for (int i = 0; i < 3; ++i)
           root_position_offset[i] += root_position[i] - initial_root_position[i];
       }
-      wbu_bvh_goto_frame(bvh_motion, 1); // skip initial pose
+      wbu_bvh_goto_frame(bvh_motion, 1);  // skip initial pose
     } else {
       int f = remaining_frames > 4 ? 4 : remaining_frames;
       while (f > 0) {
@@ -209,7 +224,7 @@ int main(int argc, char **argv) {
     free(joint_name_list[i]);
   free(joint_name_list);
   free(index_skin_to_bvh);
-
+  wbu_bvh_cleanup(bvh_motion);
   wb_robot_cleanup();
 
   return 0;

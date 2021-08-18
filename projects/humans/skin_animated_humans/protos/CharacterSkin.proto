@@ -19,7 +19,7 @@ PROTO CharacterSkin [
 ]
 {
   %< const character = fields.model.value.toLowerCase(); >%
-  
+
   Skin {
     translation IS translation
     rotation IS rotation
@@ -68,7 +68,8 @@ PROTO CharacterSkin [
         }
         texture ImageTexture {
           url [
-            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_eyebrow.png"' >%
+            %< const character_eyebrow = (character === "anthony") ? "robert" : character; >%
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyebrow + '_eyebrow.png"' >%
           ]
         }
         textureTransform TextureTransform {

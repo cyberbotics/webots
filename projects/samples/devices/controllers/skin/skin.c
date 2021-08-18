@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
   wb_robot_init();
   double time_step = wb_robot_get_basic_time_step();
   WbDeviceTag skin = wb_robot_get_device("skin");
-  
+
   const int bones_count = wb_skin_get_bone_count(skin);
   printf("The skin model is made by %d bones:\n", bones_count);
   int leg_bone_index = -1;
@@ -38,23 +38,23 @@ int main(int argc, char **argv) {
     if (strcmp(name, "LeftLeg") == 0)
       leg_bone_index = i;
   }
-  
+
   if (leg_bone_index == -1) {
     fprintf(stderr, "\"LeftLeg\" bone not found.");
     wb_robot_cleanup();
     return 1;
   }
-  
+
   // get root 'Hips' bone position
   const double *absolute_hips_position = wb_skin_get_bone_position(skin, 0, true);
   double hips_position[3] = {absolute_hips_position[0], absolute_hips_position[1], absolute_hips_position[2]};
-      
+
   // get initial right leg orientation
   const double *relative_leg_orientation = wb_skin_get_bone_orientation(skin, leg_bone_index, false);
-  double leg_orientation[4] = {relative_leg_orientation[0], relative_leg_orientation[1], relative_leg_orientation[2], relative_leg_orientation[3]};
-  
-  printf("Move 'LeftLeg' bone and change root 'Hips' position...\n");
+  double leg_orientation[4] = {relative_leg_orientation[0], relative_leg_orientation[1], relative_leg_orientation[2],
+                               relative_leg_orientation[3]};
 
+  printf("Move 'LeftLeg' bone and change root 'Hips' position...\n");
 
   double leg_step = 0.01;
   while (wb_robot_step(time_step) != -1) {
@@ -72,8 +72,7 @@ int main(int argc, char **argv) {
     leg_orientation[3] += leg_step;
     wb_skin_set_bone_orientation(skin, leg_bone_index, leg_orientation, false);
   };
-  
-  
+
   wb_robot_cleanup();
   return 0;
 }
