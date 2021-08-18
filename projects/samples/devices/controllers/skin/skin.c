@@ -15,7 +15,7 @@
  */
 
 /*
- * Description: simple example of skin animation
+ * Description: simple example of skin animation.
  */
 
 #include <webots/robot.h>

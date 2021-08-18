@@ -1244,7 +1244,7 @@ DEF SALAMANDER Robot {
     Skin {
       translation 0 0 0.38
       rotation 0 1 0 1.5708
-      model "salamander"
+      modelUrl "webots://projects/samples/rendering/worlds/skins/salamander.fbx"
       appearance [
         PBRAppearance {
           baseColorMap ImageTexture {
