@@ -418,8 +418,19 @@ void WbSkin::reset(const QString &id) {
 
   for (int i = 0; i < mAppearanceField->size(); ++i)
     mAppearanceField->item(i)->reset(id);
-  for (int i = 0; i < mBonesField->size(); ++i)
-    mBonesField->item(i)->reset(id);
+  if (mBonesField->size() > 0) {
+    for (int i = 0; i < mBonesField->size(); ++i)
+      mBonesField->item(i)->reset(id);
+  } else if (mSkeleton) {
+    // reset mesh skeleton
+    const int bonesCount = wr_skeleton_get_bone_count(mSkeleton);
+    for (int i = 0; i < bonesCount; ++i) {
+      const WbVector3 &p= mInitialSkeletonPosition.at(i);
+      setBonePosition(i, p.x(), p.y(), p.z(), false);
+      const WbRotation &o = mInitialSkeletonOrientation.at(i);
+      setBoneOrientation(i, o.x(), o.y(), o.z(), o.angle(), false);
+    }
+  }
 }
 
 void WbSkin::updateModel() {
@@ -516,10 +527,10 @@ void WbSkin::createWrenSkeleton() {
     for (int i = 0; i < wr_skeleton_get_bone_count(mSkeleton); ++i) {
       WrSkeletonBone *bone = wr_skeleton_get_bone_by_index(mSkeleton, i);
       WrTransform *parent = wr_node_get_parent(WR_NODE(bone));
+      float position[3];
+      wr_skeleton_bone_get_position(bone, false, position);
       if (parent) {
         // Attach bone representation
-        float position[3];
-        wr_skeleton_bone_get_position(bone, false, position);
         const float length = WbVector3(position).length();
         const float scale[3] = {length, length, length};
         const float orientation[4] = {M_PI_2, -1, 0, 0};
@@ -536,6 +547,11 @@ void WbSkin::createWrenSkeleton() {
         mBoneTransforms.push_back(boneTransform);
       } else
         wr_transform_attach_child(wrenNode(), WR_NODE(mBonesMap[WR_TRANSFORM(bone)]));
+
+      float orientation[4];
+      wr_skeleton_bone_get_orientation(bone, false, orientation);
+      mInitialSkeletonOrientation.append(WbRotation(orientation[1], orientation[2], orientation[3], orientation[0]));
+      mInitialSkeletonPosition.append(WbVector3(position));
     }
   }
 
@@ -587,6 +603,8 @@ void WbSkin::deleteWrenSkeleton() {
   mMeshes.clear();
   mBoneTransforms.clear();
   mBonesMap.clear();
+  mInitialSkeletonPosition.clear();
+  mInitialSkeletonOrientation.clear();
 }
 
 bool WbSkin::createSkeletonFromWebotsNodes() {

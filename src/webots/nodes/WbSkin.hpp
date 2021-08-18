@@ -93,6 +93,8 @@ private:
   WrSkeleton *mSkeleton;
   WrTransform *mSkeletonTransform;
   WrTransform *mRenderablesTransform;
+  QList<WbRotation> mInitialSkeletonOrientation;
+  QList<WbVector3> mInitialSkeletonPosition;
 
   QVector<WrRenderable *> mRenderables;
   QStringList mMaterialNames;
