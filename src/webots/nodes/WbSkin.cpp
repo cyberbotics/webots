@@ -194,6 +194,8 @@ void WbSkin::showResizeManipulator(bool enabled) {
 }
 
 QString WbSkin::modelPath() const {
+  if (mModelUrl->value().isEmpty())
+    return QString();
   return WbUrl::computePath(this, "modelUrl", mModelUrl->value());
 }
 
@@ -448,7 +450,7 @@ void WbSkin::updateModel() {
 void WbSkin::createWrenSkeleton() {
   deleteWrenSkeleton();
 
-  if (!mIsModelUrlValid)
+  if (!mIsModelUrlValid || mModelUrl->value().isEmpty())
     return;
 
   if (mDownloader && !mDownloader->error().isEmpty()) {
@@ -458,7 +460,6 @@ void WbSkin::createWrenSkeleton() {
   }
 
   const QString meshFilePath(modelPath());
-
   WrDynamicMesh **meshes = NULL;
   const char **materialNames = NULL;
   int count;
