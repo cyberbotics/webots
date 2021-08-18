@@ -8801,7 +8801,7 @@ I am using a camera to detect coloured objects , should the RGB values differ if
 
 And if so in my case they are not differing .!
 
-##### Rajesh Roy 04/04/2020 12:25:39
+##### devl 04/04/2020 12:25:39
 Hey, I want a webGL based Simulation of an Autonomous drone. Basically I want to run it on the Google Chrome without adding any other plugin. Is the development according to my convention possible in Webots Software? 
 
 What is the procedure basically? (If any)
@@ -8812,14 +8812,14 @@ What is the procedure basically? (If any)
 
 Sorry, that should be `@Kormit`
 
-##### Rajesh Roy 04/04/2020 13:11:53
+##### devl 04/04/2020 13:11:53
 Hey `@DrVoodoo` , can you answer my question?
 
 ##### Kormit 04/04/2020 13:14:48
 `@DrVoodoo`  Thanks for the response, does this work for RGB too then? Is there any way of having some sort of thermal camera?
 
 ##### DrVoodoo [Moderator] 04/04/2020 13:16:59
-`@Rajesh Roy` there is [https://robotbenchmark.net/](https://robotbenchmark.net/) so it does appear to be technically possible but I can't speak to how it is achieved
+`@devl` there is [https://robotbenchmark.net/](https://robotbenchmark.net/) so it does appear to be technically possible but I can't speak to how it is achieved
 
 
 `@Kormit` you can filter by colour, it doesn't offer an IR option but depending on your use case you could use some other colour instead of IR
@@ -8830,7 +8830,7 @@ I.e. use red instead of infrared
 
 `@yash` I believe that you will need to use a fog node in your environment to simulate atmospheric effects if you want objects to get fainter with distance
 
-##### Rajesh Roy 04/04/2020 13:29:53
+##### devl 04/04/2020 13:29:53
 `@DrVoodoo` could you address me with the right technical person who may have fair background of my requirements?
 
 ##### DrVoodoo [Moderator] 04/04/2020 14:19:16
@@ -8904,7 +8904,7 @@ If you have no fog node, their is indeed no reason for them to differ.
 
 > What is the procedure basically? (If any)
 
-`@Rajesh Roy` yes this is possible.
+`@devl` yes this is possible.
 
 You are lucky Webots does provide a web interface. If I where you I would create my simulation as a Webots simulation in a first step and then use the web interface of Webots to be able to share it throught a web page. As a first step I would start by playing with the mavic simulation in Webots that is probably the closest setup to what you are aiming for: [https://www.cyberbotics.com/doc/guide/mavic-2-pro](https://www.cyberbotics.com/doc/guide/mavic-2-pro) Once you're happy with the simulation in Webots you may find interesting information about how to move it to the web here: [https://www.cyberbotics.com/doc/guide/web-interface](https://www.cyberbotics.com/doc/guide/web-interface)
 
@@ -14892,7 +14892,7 @@ thx David & Luftwaffel
 
 `@Luftwaffel` I am sorry but I probably missed your submission, did you open a Github Pull-Request ?
 
-##### Rajesh Roy 05/13/2020 15:40:49
+##### devl 05/13/2020 15:40:49
 I want to create a webgl based simulation which could just run like any other webgl application - "No add-ons, just the browser"
 
 After referring to the materials provided on the documentation section, I found a paragraph saying
@@ -14930,7 +14930,7 @@ Has anyone gone through the procedure of exporting your Webots file to a webgl f
 ##### Olivier Michel [Cyberbotics] 05/13/2020 15:42:46
 The tricks for Chrome and Firefox are only if you want to open the webgl page locally (with a `file://` URL). When you publish it on the web, e.g., with a `http(s)://` URL, you don't need these tricks.
 
-##### Rajesh Roy 05/13/2020 15:55:21
+##### devl 05/13/2020 15:55:21
 Alright, and how to do that?
 
 Is there any way of doing it using GitHub?
@@ -14974,13 +14974,13 @@ Great! Thank you so much for the information
 ##### David Mansolino [Cyberbotics] 05/14/2020 07:20:18
 You're welcome
 
-##### Rajesh Roy 05/14/2020 08:16:25
+##### devl 05/14/2020 08:16:25
 What average time does it takes to create an UAV which can be manually controlled? Has anyone build it?
 
 ##### David Mansolino [Cyberbotics] 05/14/2020 09:33:48
 > What average time does it takes to create an UAV which can be manually controlled? Has anyone build it?
 
-`@Rajesh Roy` it all depends on your UAV, but you can probably take inspiration from an UAV already existing in Webots, such as this one: [https://cyberbotics.com/doc/guide/mavic-2-pro](https://cyberbotics.com/doc/guide/mavic-2-pro)
+`@devl` it all depends on your UAV, but you can probably take inspiration from an UAV already existing in Webots, such as this one: [https://cyberbotics.com/doc/guide/mavic-2-pro](https://cyberbotics.com/doc/guide/mavic-2-pro)
 
 ##### AyresAlmada 05/14/2020 09:56:30
 hi there. are there any codes can make the wheels on the rover keep moving at a stable velocity?
@@ -16457,7 +16457,7 @@ What am I doing wrong?
 ##### hrsh12 05/22/2020 21:00:47
 Hi everyone, I'm doing project related to steering controllers for Steer-By-Wire system, I'm not able to edit the steering system of Tesla3 or any other model given. Can anyone suggest how can I approach this? like I want to make changes in the steering system of the car.
 
-##### Rajesh Roy 05/23/2020 07:47:42
+##### devl 05/23/2020 07:47:42
 There used to be some interactive programming guide to Webots right? Some website which uses to let you program under webots player. Can anyone find me the link? I tried.
 
 ##### Estelle 05/23/2020 10:09:18
@@ -16540,7 +16540,7 @@ when i try to use the saveImage method on the camera my image displays weird ver
 
 > There used to be some interactive programming guide to Webots right? Some website which uses to let you program under webots player. Can anyone find me the link? I tried.
 
-`@Rajesh Roy` you are probably refeering to Robobenchmark: [https://robotbenchmark.net/](https://robotbenchmark.net/)
+`@devl` you are probably refeering to Robobenchmark: [https://robotbenchmark.net/](https://robotbenchmark.net/)
 
 ##### elkelkmuh 05/25/2020 06:42:36
 @David Mansolino  How can I find the position of the foot? I can find the position of the robot with the supervisor api.  The robot has fsr on its feet.
@@ -16637,13 +16637,13 @@ postion = FSRNode.getPosition()
 ##### David Mansolino [Cyberbotics] 05/25/2020 19:30:02
 `@elkelkmuh` and `@Benjovengo` you're welcome!
 
-##### Rajesh Roy 05/25/2020 19:44:17
+##### devl 05/25/2020 19:44:17
 Okay, I ping this one more time.
 
 Is there any hands on programming tutorial with Webots? A long ago I visited a site which had webots player and used to allow to code. Anyone can help me with the link?
 
 ##### Darko Lukić [Cyberbotics] 05/25/2020 19:47:39
-`@Rajesh Roy` Try this one:
+`@devl` Try this one:
 
 [https://robotbenchmark.net/](https://robotbenchmark.net/)
 
@@ -16765,8 +16765,8 @@ After some thought about the question I was wondering earlier:
 
 If I want to collect a bunch of data (time it took for simulation to run),  would it be possible to set an initial condition pattern for the robot to follow so that every time the robot recognizes it got stuck it could restart the simulation from the beginning with new initial conditions?
 
-##### Rajesh Roy 05/27/2020 03:34:14
-> `@Rajesh Roy` Try this one:
+##### devl 05/27/2020 03:34:14
+> `@devl` Try this one:
 
 > [https://robotbenchmark.net/](https://robotbenchmark.net/)
 
@@ -16831,7 +16831,7 @@ Oooh nice, I was expected to have more than only vrml97 to import models. Thank 
 ##### David Mansolino [Cyberbotics] 05/27/2020 13:55:26
 You're welcome
 
-##### Rajesh Roy 05/27/2020 16:02:07
+##### devl 05/27/2020 16:02:07
 Hello, I want to download a pre-release version of Webots for my Jetson Nano GPU which is sporting Linux4Tegra
 
 Linux OS  which is actually a version of Ubuntu 18.04 that's designed to run on Nvidia's hardware.
@@ -16977,7 +16977,7 @@ while supervisor.step(TIME_STEP) != -1:
 ##### Samir Hosny Mohamed 05/28/2020 15:41:03
 it worked when i saved the world and restart the program, THANKS ALOT
 
-##### Rajesh Roy 05/29/2020 03:32:13
+##### devl 05/29/2020 03:32:13
 I'm using AMD Radeon 8670M GPU. How to maximise my performance in this hardware?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/715769442260222002/unknown.png)
@@ -16994,7 +16994,7 @@ Hi, when I command the Youbot's  top left and bottom right wheels to run at the 
 
 > I'm using AMD Radeon 8670M GPU. How to maximise my performance in this hardware?
 
-`@Rajesh Roy` if you want to maximise performance you should reduce the OpenGL features enabled, you can do this from the preferences: [https://cyberbotics.com/doc/guide/preferences#opengl](https://cyberbotics.com/doc/guide/preferences#opengl)
+`@devl` if you want to maximise performance you should reduce the OpenGL features enabled, you can do this from the preferences: [https://cyberbotics.com/doc/guide/preferences#opengl](https://cyberbotics.com/doc/guide/preferences#opengl)
 
 Here are also a few tips about improving performance: [https://cyberbotics.com/doc/guide/speed-performance](https://cyberbotics.com/doc/guide/speed-performance)
 
@@ -21739,7 +21739,7 @@ also the sample world "Robots/Nao" with Matlab-Controller behaves the same with 
 
 Or using an extern controller: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=matlab&tab-os=linux](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=matlab&tab-os=linux)
 
-##### Rajesh Roy 06/23/2020 06:44:53
+##### devl 06/23/2020 06:44:53
 How can I host my webGL exported simulation project on GitHub?
 
 Is there any other free options available too?
@@ -21747,7 +21747,7 @@ Is there any other free options available too?
 ##### David Mansolino [Cyberbotics] 06/23/2020 06:45:37
 Yes this should work, using Github pages for visualizing should work.
 
-##### Rajesh Roy 06/23/2020 06:47:01
+##### devl 06/23/2020 06:47:01
 > Yes this should work, using Github pages for visualizing should work.
 
 `@David Mansolino` Certainly for mine project, it did not.
@@ -21792,7 +21792,7 @@ Maybe there is an argument when you launch it
 ##### adaptive 06/23/2020 07:07:58
 hm i tried to touch an file for an diary and the Folder is read-only.. "var/lib/snapd/snap/webots/14/usr/share/weboits/lib/controller/matlab"
 
-##### Rajesh Roy 06/23/2020 07:08:42
+##### devl 06/23/2020 07:08:42
 > which webpage ?
 
 `@David Mansolino` Here are the files which I committed to my repository and then I turned on the setting for GitHub Pages.
@@ -21817,10 +21817,10 @@ yes maybe
 
 > When I use my link, I don't see anything apart of the Readme.md file
 
-`@Rajesh Roy` you should not directly watch the pages on Github, but rather use Github pages: [https://pages.github.com/](https://pages.github.com/)
+`@devl` you should not directly watch the pages on Github, but rather use Github pages: [https://pages.github.com/](https://pages.github.com/)
 
-##### Rajesh Roy 06/23/2020 07:11:51
-> `@Rajesh Roy` you should not directly watch the pages on Github, but rather use Github pages: [https://pages.github.com/](https://pages.github.com/)
+##### devl 06/23/2020 07:11:51
+> `@devl` you should not directly watch the pages on Github, but rather use Github pages: [https://pages.github.com/](https://pages.github.com/)
 
 `@David Mansolino` I've hosted the repository according to the guidelines.
 %figure
@@ -21833,15 +21833,15 @@ yes maybe
 ##### David Mansolino [Cyberbotics] 06/23/2020 07:14:21
 > `@David Mansolino` I've hosted the repository according to the guidelines.
 
-`@Rajesh Roy` then you should use a link who looks like (not sure it is exactly this as some part are hidden on the picture): [http://rajeshroy402.github.io/main\_arena.html](http://rajeshroy402.github.io/main_arena.html)
+`@devl` then you should use a link who looks like (not sure it is exactly this as some part are hidden on the picture): [http://rajeshroy402.github.io/main\_arena.html](http://rajeshroy402.github.io/main_arena.html)
 
 
 > `@David Mansolino` which installation is recommend for Arch? I think the tar.bz2 install?
 
 `@adaptive` yes, tar.bz2 and you probably have to install a few dependencies manually
 
-##### Rajesh Roy 06/23/2020 07:20:04
-> `@Rajesh Roy` then you should use a link who looks like (not sure it is exactly this as some part are hidden on the picture): [http://rajeshroy402.github.io/main\_arena.html](http://rajeshroy402.github.io/main_arena.html)
+##### devl 06/23/2020 07:20:04
+> `@devl` then you should use a link who looks like (not sure it is exactly this as some part are hidden on the picture): [http://rajeshroy402.github.io/main\_arena.html](http://rajeshroy402.github.io/main_arena.html)
 
 `@David Mansolino` The link is of type myusername.github.io/repositoryname.github.io/
 
@@ -21852,7 +21852,7 @@ This shouldn't have happened right?
 ##### David Mansolino [Cyberbotics] 06/23/2020 07:21:26
 Usually it looks more like 'myusername.github.io/repositoryname/'
 
-##### Rajesh Roy 06/23/2020 07:23:49
+##### devl 06/23/2020 07:23:49
 > Usually it looks more like 'myusername.github.io/repositoryname/'
 
 `@David Mansolino` that's fine, I just named my repository like repositoryname.github.io by following the step 3 from the image
@@ -21875,7 +21875,7 @@ this is the output which appears from webots terminal if im starting with te run
 ##### David Mansolino [Cyberbotics] 06/23/2020 07:49:07
 The log is indeed usefull, it looks like a bug we fixed recently, can you please try with a beta version of Webots R2020a-rev2 available here: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
-##### Rajesh Roy 06/23/2020 07:49:21
+##### devl 06/23/2020 07:49:21
 > That's strange, but I am sorry, this has nothing to do with Webots, I can't help you more about this 😕 You should probably ask this directly on a Github support forum.
 
 `@David Mansolino` I missed one thing! The GitHub pages search for index.html so I just had to rename the main\_arena.html to index.html
@@ -21912,14 +21912,14 @@ Simply by removing the files (`rm -rf webots`).
 ##### adaptive 06/23/2020 08:06:45
 ok thx
 
-##### Rajesh Roy 06/23/2020 08:10:34
+##### devl 06/23/2020 08:10:34
 > `@David Mansolino` I missed one thing! The GitHub pages search for index.html so I just had to rename the main\_arena.html to index.html
 
 > 
 
 > Worked perfectly after that.
 
-`@Rajesh Roy` As a follow up to this message
+`@devl` As a follow up to this message
 
 
 
@@ -21952,7 +21952,7 @@ The SolidReference is quite simple to use actually, when you add the second join
 ##### Sanket Khadse 06/23/2020 08:20:16
 `@Olivier Michel` you are right sir. I figured that out. The console of inspect element was showing errors, saying the textures were not provided.
 
-##### Rajesh Roy 06/23/2020 08:20:55
+##### devl 06/23/2020 08:20:55
 > It looks like you are missing the textures. Are they available through the corresponding URL?
 
 `@Olivier Michel` This is the console showing errors in Google Chrome.
@@ -24166,16 +24166,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### O N I   W R L D 07/07/2020 11:47:56
+##### O N I 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Luftwaffel [Moderator] 07/07/2020 11:50:45
-`@O N I   W R L D` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@O N I` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### O N I   W R L D 07/07/2020 12:09:20
+##### O N I 07/07/2020 12:09:20
 `@Luftwaffel` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
@@ -24446,7 +24446,7 @@ then the names of the devices are documented here (not simply `MultiSenseS21`) a
 ##### David Mansolino [Cyberbotics] 07/08/2020 14:36:27
 I agree this is not 100% clear, we will tr to improve this.
 
-##### Rajesh Roy 07/09/2020 04:25:00
+##### devl 07/09/2020 04:25:00
 Hey,
 
 In Webots, one can write Python code to simulate and run the objects present inside the simulation. If I try to export my Webots project into HTML WebGL simulation how should I execute the Python script then?

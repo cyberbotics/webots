@@ -36,7 +36,14 @@ Setting the value of this field to `<extern>` will make this robot runnable from
 > **Note**: If the controller is not started the robot window will not work.
 If the robot window is required it is recommended to assign the `void` controller instead of an empty string.
 
-- `controllerArgs`: string containing the arguments (separated by space characters) to be passed to the `main` function of the C/C++ controller program or the `main` method of the Java controller program.
+- `controllerArgs`: list of strings containing the command line arguments to be passed to the controller program.
+Unlike in command line instructions, each `controllerArgs` item is interpreted as a single argument value, even if it contains spaces, and multiple arguments need to be specified on separate MFString items.
+On the other hand, it is not necessary to escape the spaces contained in the argument value.
+The corresponding command line instruction will have the form:
+
+    ``<controller_program_name> "controllerArgs[0]" "controllerArgs[1]" ...``
+
+    In case of C, C++, and Java controller programs the values are passed as arguments of the `main` function or method.
 
 - `customData`: this field may contain any user data, for example parameters corresponding to the configuration of the robot.
 It can be read from the robot controller using the `wb_robot_get_custom_data` function and can be written using the `wb_robot_set_custom_data` function.
