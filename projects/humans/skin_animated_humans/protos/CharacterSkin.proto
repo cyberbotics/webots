@@ -1,23 +1,31 @@
 #VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# Skin node representing a boy with predefined mesh and appearance.
+# Skin node representing a human with predefined mesh and appearance.
+# Four different characters are available based on the 'model' field:
+# - "Anthony": a boy,
+# - "Robert": a men,
+# - "Sandra": a woman,
+# - "Sophia": a girl.
+# template language: javascript
 
-PROTO AnthonySkin [
-  field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
-  field SFVec3f    scale       1 1 1
-  field SFString   name        "Anthony"
-  field SFString   model       "anthony"
-  field SFBool     castShadows FALSE
+PROTO CharacterSkin [
+  field SFVec3f                                           translation 0 0 0
+  field SFRotation                                        rotation    0 1 0 0
+  field SFVec3f                                           scale       1 1 1
+  field SFString                                          name        "skin"
+  field SFString{"Anthony", "Robert", "Sandra", "Sophia"} model        "Sandra"
+  field SFBool                                            castShadows FALSE
 ]
 {
+  %< const character = fields.model.value.toLowerCase(); >%
+  
   Skin {
     translation IS translation
     rotation IS rotation
     scale IS scale
     name IS name
-    model IS model
+    modelUrl %<= '"' + "webots://projects/humans/skin_animated_humans/protos/skins/" + character + '.fbx"' >%
     appearance [
       Appearance {
         material Material {
@@ -28,7 +36,7 @@ PROTO AnthonySkin [
         }
         texture ImageTexture {
           url [
-            "webots://projects/humans/skin_animated_humans/protos/textures/anthony_skin.jpg"
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_skin.jpg"' >%
           ]
         }
         textureTransform TextureTransform {
@@ -44,7 +52,7 @@ PROTO AnthonySkin [
         }
         texture ImageTexture {
           url [
-            "webots://projects/humans/skin_animated_humans/protos/textures/anthony_eyes.jpg"
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_eyes.jpg"' >%
           ]
         }
         textureTransform TextureTransform {
@@ -60,7 +68,7 @@ PROTO AnthonySkin [
         }
         texture ImageTexture {
           url [
-            "webots://projects/humans/skin_animated_humans/protos/textures/anthony_eyebrow.png"
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_eyebrow.png"' >%
           ]
         }
         textureTransform TextureTransform {
@@ -76,7 +84,7 @@ PROTO AnthonySkin [
         }
         texture ImageTexture {
           url [
-            "webots://projects/humans/skin_animated_humans/protos/textures/anthony_hair.png"
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_hair.png"' >%
           ]
         }
         textureTransform TextureTransform {
@@ -92,7 +100,7 @@ PROTO AnthonySkin [
         }
         texture ImageTexture {
           url [
-            "webots://projects/humans/skin_animated_humans/protos/textures/anthony_shoes.jpg"
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_shoes.jpg"' >%
           ]
         }
         textureTransform TextureTransform {
@@ -108,7 +116,7 @@ PROTO AnthonySkin [
         }
         texture ImageTexture {
           url [
-            "webots://projects/humans/skin_animated_humans/protos/textures/anthony_suit.jpg"
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_suit.jpg"' >%
           ]
         }
         textureTransform TextureTransform {

@@ -17,14 +17,18 @@
 #include "WbAbstractAppearance.hpp"
 #include "WbAppearance.hpp"
 #include "WbBasicJoint.hpp"
+#include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
 #include "WbProject.hpp"
+#include "WbProtoModel.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSFVector3.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSolid.hpp"
 #include "WbSolidReference.hpp"
+#include "WbUrl.hpp"
+#include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenPicker.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -53,12 +57,14 @@ void WbSkin::init() {
   mBoneOrientationRequest = NULL;
   mBonePositionRequest = NULL;
   mNeedConfigureAfterModelChanged = false;
+  mIsModelUrlValid = false;
+  mDownloader = NULL;
 
   mBoneMesh = NULL;
   mBoneMaterial = NULL;
 
   mName = findSFString("name");
-  mModelName = findSFString("model");
+  mModelUrl = findSFString("modelUrl");
   mAppearanceField = findMFNode("appearance");
   mBonesField = findMFNode("bones");
   mCastShadows = findSFBool("castShadows");
@@ -93,6 +99,19 @@ void WbSkin::downloadAssets() {
     assert(appearance);
     appearance->downloadAssets();
   }
+  if (!mModelUrl->value().isEmpty() && WbUrl::isWeb(mModelUrl->value())) {
+    delete mDownloader;
+    mDownloader = new WbDownloader(this);
+    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
+
+    mDownloader->download(QUrl(mModelUrl->value()));
+  }
+}
+
+void WbSkin::downloadUpdate() {
+  updateModel();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbSkin::preFinalize() {
@@ -125,18 +144,15 @@ void WbSkin::postFinalize() {
     appearance->postFinalize();
   }
 
-  updateAppearance();
-
   connect(mTranslation, &WbSFVector3::changed, this, &WbSkin::updateTranslation);
   connect(mRotation, &WbSFRotation::changed, this, &WbSkin::updateRotation);
   connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
-  connect(mModelName, &WbSFString::changed, this, &WbSkin::updateModel);
+  connect(mModelUrl, &WbSFString::changed, this, &WbSkin::updateModelUrl);
   connect(mAppearanceField, &WbMFNode::changed, this, &WbSkin::updateAppearance, Qt::QueuedConnection);
   connect(mBonesField, &WbMFNode::changed, this, &WbSkin::updateBones);
   connect(mCastShadows, &WbSFBool::changed, this, &WbSkin::updateCastShadows);
 
-  if (mSkeleton)
-    wr_skeleton_apply_binding_pose(mSkeleton);
+  updateModelUrl();
 }
 
 void WbSkin::updateTranslation() {
@@ -177,18 +193,42 @@ void WbSkin::showResizeManipulator(bool enabled) {
   emit visibleHandlesChanged(enabled);
 }
 
-void WbSkin::updateModel() {
+QString WbSkin::modelPath() const {
+  return WbUrl::computePath(this, "modelUrl", mModelUrl->value());
+}
+
+void WbSkin::updateModelUrl() {
   if (!isPostFinalizedCalled())
     return;
 
-  applyTranslationToWren();
-  applyRotationToWren();
-  applyScaleToWren();
+  if (!mDownloader)
+    mIsModelUrlValid = false;
 
-  createWrenSkeleton();
-  updateAppearance();
-  if (mSkeleton)
-    wr_skeleton_apply_binding_pose(mSkeleton);
+  if (!mModelUrl->value().isEmpty()) {
+    // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
+    QString value = mModelUrl->value();
+    mModelUrl->blockSignals(true);
+    mModelUrl->setValue(value.replace("\\", "/"));
+    mModelUrl->blockSignals(false);
+
+    const QFileInfo modelInfo(mModelUrl->value());
+    const QStringList supportedExtensions = {"FBX"};
+    if (!supportedExtensions.contains(modelInfo.completeSuffix(), Qt::CaseInsensitive)) {
+      warn(tr("Invalid modelUrl '%1'. Supported formats are: '%2'.")
+             .arg(mModelUrl->value())
+             .arg(supportedExtensions.join("', '")));
+      return;
+    }
+
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(mModelUrl->value()) && mDownloader == NULL) {
+      // url was changed from the scene tree or supervisor
+      downloadAssets();
+      return;
+    }
+  }
+
+  mIsModelUrlValid = true;
+  updateModel();
 }
 
 void WbSkin::updateAppearance() {
@@ -326,16 +366,8 @@ void WbSkin::updateBones() {
     }
   }
 
-  if (isPostFinalizedCalled()) {
-    applyTranslationToWren();
-    applyRotationToWren();
-    applyScaleToWren();
-
-    createWrenSkeleton();
-    updateAppearance();
-    if (mSkeleton)
-      wr_skeleton_apply_binding_pose(mSkeleton);
-  }
+  if (isPostFinalizedCalled())
+    updateModel();
 }
 
 void WbSkin::updateCastShadows() {
@@ -378,13 +410,7 @@ void WbSkin::createWrenObjects() {
   if (mBonesField->size() > 0)
     updateBones();
 
-  applyTranslationToWren();
-  applyRotationToWren();
-  applyScaleToWren();
-
-  createWrenSkeleton();
-  if (mSkeleton)
-    updateAppearance();
+  updateModel();
 }
 
 void WbSkin::reset(const QString &id) {
@@ -396,42 +422,47 @@ void WbSkin::reset(const QString &id) {
     mBonesField->item(i)->reset(id);
 }
 
+void WbSkin::updateModel() {
+  applyTranslationToWren();
+  applyRotationToWren();
+  applyScaleToWren();
+
+  createWrenSkeleton();
+  if (mSkeleton) {
+    updateAppearance();
+    wr_skeleton_apply_binding_pose(mSkeleton);
+  }
+}
+
 void WbSkin::createWrenSkeleton() {
   deleteWrenSkeleton();
 
-  if (mModelName->value().isEmpty())
+  if (!mIsModelUrlValid)
     return;
 
-  mModelPath = WbProject::current()->path() + "skins/" + mModelName->value() + "/";
-  if (!QDir(mModelPath).exists()) {
-    parsingWarn(tr("Model directory not found."));
-    return;
+  if (mDownloader && !mDownloader->error().isEmpty()) {
+    warn(mDownloader->error());
+    delete mDownloader;
+    mDownloader = NULL;
   }
 
-  QString meshFilePath = mModelPath + mModelName->value();
-  QString supportedExtensions[2] = {".fbx", ".mesh"};
-
-  for (int i = 0; i < 2; ++i) {
-    const QString fullPath = meshFilePath + supportedExtensions[i];
-    if (QFileInfo::exists(fullPath)) {
-      if (supportedExtensions[i] == ".mesh" && !QFileInfo::exists(meshFilePath + ".skeleton")) {
-        parsingWarn(tr("OGRE skeleton file not found."));
-        return;
-      }
-      meshFilePath = fullPath;
-      break;
-    }
-  }
-
-  if (!QFileInfo::exists(meshFilePath)) {
-    parsingWarn(tr("Mesh file not found: '%1'.").arg(meshFilePath));
-    return;
-  }
+  const QString meshFilePath(modelPath());
 
   WrDynamicMesh **meshes = NULL;
   const char **materialNames = NULL;
   int count;
-  const char *error = wr_import_skeleton(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
+  const char *error;
+  if (WbUrl::isWeb(meshFilePath)) {
+    if (mDownloader->hasFinished()) {
+      const QByteArray data = mDownloader->device()->readAll();
+      const char *hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8().constData();
+      error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint, &mSkeleton, &meshes, &materialNames, &count);
+      delete mDownloader;
+      mDownloader = NULL;
+    } else
+      return;
+  } else
+    error = wr_import_skeleton_from_file(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
   if (error) {
     parsingWarn(tr("Unable to read mesh file '%1': %2").arg(meshFilePath).arg(error));
     return;

@@ -8,7 +8,7 @@ Skin {
   SFRotation   rotation        0 1 0 0
   SFVec3f      scale           1 1 1
   SFString     name            "skin"
-  SFString     model           ""
+  SFString     modelUrl        ""
   MFNode       appearance      []
   MFNode       bones           []
   SFBool       castShadows     TRUE
@@ -24,48 +24,51 @@ The skin mesh is imported from a mesh file specified by the `model` name but in 
 
 The [Skin](#skin) provides two alternative ways to define a skeleton.
 The first method consists in providing the skeleton in the mesh file.
-The second method consists in listing the [Solid](#solid.md) nodes corresponding to the mesh bones using the `bones` field.
+The second method consists in listing the [Solid](solid.md) nodes corresponding to the mesh bones using the `bones` field.
 If in the first case the resulting object animation will be purely graphical.
-In the second case, when linking the [Skin](#skin) to an existing Webots skeleton made of [Solid](#solid.md) and [Joint](#joint.md) nodes, it is possible to animate a dynamic object.
+In the second case, when linking the [Skin](skin.md) to an existing Webots skeleton made of [Solid](solid.md) and [Joint](joint.md) nodes, it is possible to animate a dynamic object.
 
 The supported format for the skin mesh and skeleton models is [FBX](https://en.wikipedia.org/wiki/FBX) and the model be generated using a 3D modeling software.
 Other tools can be used for generating the characters to animate, for example human characters provided in the "[skin\_animated\_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt)" sample are generated using [MakeHuman](http://www.makehuman.org/).
 
-#### Physically driven skin animation
+#### Physically Driven Skin Animation
 
-If you want that the skin is animated based on the movements of a dynamic object, then you have to specify the skeleton by listing the [Solid](#solid.md) nodes corresponding to the skeleton bones in the `bones` field.
-Each listed [Solid](#solid.md) bone have to be a child node of a [Joint](#joint.md).
-Moreover, the mesh bone structure and the [Solid](#solid.md)/[Joint](#joint.md) have to match.
-In particular, this means that the number of mesh bones have to match with the number of joints and the [Solid](#solid.md) node names must be the same as the bone names specified in the mesh file.
-An example of physically driver skin animation is provided in the "[animated_skin.wbt]({{ url.github_tree }}/projects/samples/rendering/worlds/animated_skin.wbt)" simulation.
+If you want that the skin is animated based on the movements of a dynamic object, then you have to specify the skeleton by listing the [Solid](solid.md) nodes corresponding to the skeleton bones in the `bones` field.
+Each listed [Solid](solid.md) bone have to be a child node of a [Joint](joint.md).
+Moreover, the mesh bone structure and the [Solid](solid.md)/[Joint](joint.md) have to match.
+In particular, this means that the number of mesh bones have to match with the number of joints and the [Solid](solid.md) node names must be the same as the bone names specified in the mesh file.
+An example of physically driver skin animation is provided in the "[animated\_skin.wbt]({{ url.github_tree }}/projects/samples/rendering/worlds/animated_skin.wbt)" simulation.
 
-#### Pure graphical skin animation
+#### Pure Graphical Skin Animation
 
 For a purely graphical skin animation the `bones` field doesn't have to be specified.
 In this case the skeleton needed to animate the skin is loaded from the mesh FBX file.
-An example of purely graphical skin animation is provided in the "[skin_animated_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt)" simulation.
+An example of purely graphical skin animation is provided in the "[skin\_animated\_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt)" simulation.
 
 ### Field Summary
 
 - The `translation` field defines the translation from the parent coordinate system to the children's coordinate system.
 
 - The `rotation` field defines an arbitrary rotation of the children's coordinate system with respect to the parent coordinate system.
-Please refer to [Transform](#transform.md) `rotation` field description for more information.
+Please refer to [Transform](transform.md) `rotation` field description for more information.
 
 - The `scale` field specifies a possibly non-uniform scale of the mesh.
 Only positive values are permitted; non-positive scale values are automatically reset to 1.
 
 - `name`: name of the [Skin](skin.md) device and used by [`wb_robot_get_device()`](robot.md#wb_robot_get_device).
 
-- `model`: name of the FBX model to be imported.
-For example, if the model name is "test_model", it imports the mesh files `skins/test_model/test_model.fbx` inside the current project directory.
+- The `modelUrl` field specified the path to the 3D model.
+If the `modelUrl` value starts with `http://` or `https://`, Webots will get the file from the web.
+Otherwise, the file should be specified with a relative path.
+The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
+Absolute paths work as well, but they are not recommended because they are not portable across systems.
 The materials used by the imported mesh have to be defined in the `appearance` field.
 
-- `appearance`: list of [Appearance](#appearance.md) and [PBRAppearance](#pbrappearance.md) nodes defining the materials used by the mesh specified in the `model` field.
+- `appearance`: list of [Appearance](appearance.md) and [PBRAppearance](pbrappearance.md) nodes defining the materials used by the mesh specified in the `model` field.
 In order to be correctly linked, the `name` field of the child appearance node has to match the material name used in the mesh definition.
 If multiple appearance nodes have the same `name` field value, the first one is used.
 
-- The `bones` fields contains a list of [SolidReference](#solidreference.md) nodes that provide the information to attach a Webots skeleton made of [Solid](#solid.md) and [Joint](#joint.md) nodes.
+- The `bones` fields contains a list of [SolidReference](solidreference.md) nodes that provide the information to attach a Webots skeleton made of [Solid](solid.md) and [Joint](joint.md) nodes.
 In order to setup correctly the skeleton, the solid nodes should have the same names as specified in the skeleton defined in the FBX file.
 
 - The `castShadows` field allows the user to turn on (TRUE) or off (FALSE) shadows casted by this shape.
@@ -166,7 +169,7 @@ The `wb_skin_get_bone_name` function returns the name of the bone at the specifi
 The bones are indexed starting from 0.
 
 These two functions are available both when using a Webots skeleton or if the skeleton is loaded from the FBX model.
-If a Webots skeleton is used, then the bone count will correspond to the valid nodes specified in the `bones` field and the bone names will correspond to the referenced [Solid](#solid.md) names.
+If a Webots skeleton is used, then the bone count will correspond to the valid nodes specified in the `bones` field and the bone names will correspond to the referenced [Solid](solid.md) names.
 
 ---
 
@@ -270,7 +273,7 @@ wb_skin_set_bone_position(tag, index, position, absolute)
 These functions set or return the skin's internal skeleton bone position and orientation.
 Each bone is identified using an index value between 0 and the bones count returned by [`wb_skin_get_bone_count`](#wb_skin_get_bone_count).
 If the `absolute` argument is FALSE the orientation and position values are relative to the parent bone coordinate system.
-Otherwise, if `absolute` is TRUE, the orientation and position values are relative to the [Skin](#skin.md) node's coordinate system.
+Otherwise, if `absolute` is TRUE, the orientation and position values are relative to the [Skin](skin.md) node's coordinate system.
 
 The `wb_skin_set_bone_orientation` function sets the rotation of the skeleton bone to the specified axis-angle rotation value.
 The rotation is specified as a double array, similar to [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation).
@@ -279,7 +282,7 @@ The rotation is specified as a double array, similar to [`wb_supervisor_field_se
 
 `wb_skin_set_bone_position` function sets the position of the skeleton bone.
 
-`wb_skin_get_bone_position` function returns the position of the skeleton bone
+`wb_skin_get_bone_position` function returns the position of the skeleton bone.
 
 
 <!-- -->

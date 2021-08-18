@@ -7,7 +7,7 @@ Skin {
   field SFVec3f    scale             1 1 1
   #fields specific to the Skin node:
   field SFString   name              "skin"        # used by wb_robot_get_device()
-  field SFString   model             ""            # name of the xml model, placed in the skins/ directory
+  field SFString   modelUrl          ""            # URL of a FBX file containing the skin mesh and skeleton
   field MFNode     appearance        []            # list of Appearance node defining the materials used by the model
   field MFNode     bones             []            # link to Webots physical skeleton, if not set a pure graphical skeleton is used
   field SFBool     castShadows       TRUE

@@ -27,7 +27,7 @@
 int main(int argc, char **argv) {
   wb_robot_init();
   double time_step = wb_robot_get_basic_time_step();
-  WbDeviceTag skin = wb_robot_get_device("Sandra skin");
+  WbDeviceTag skin = wb_robot_get_device("skin");
   
   const int bones_count = wb_skin_get_bone_count(skin);
   printf("The skin model is made by %d bones:\n", bones_count);

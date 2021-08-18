@@ -19,8 +19,7 @@ RectangleArena {
 }
 DEF ROBOT Robot {
   children [
-    SandraSkin {
-      name "Sandra skin"
+    CharacterSkin {
     }
   ]
   controller "skin"

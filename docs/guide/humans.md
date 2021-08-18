@@ -6,10 +6,39 @@ The controller code is located in the corresponding "controllers" directory.
 
 ## [skin\_animated\_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt) Sample
 
-![skin_animated_humans.png](images/humans/skin_animated_humans.thumbnail.jpg) This example shows how to use the [Skin](,,/reference/skin.md) node to animate human models and play [BVH](https://en.wikipedia.org/wiki/Biovision_Hierarchy) animations.
+![skin_animated_humans.png](images/humans/skin_animated_humans.thumbnail.jpg) This example shows how to use the [Skin](../reference/skin.md) node to animate human models and play [BVH](https://en.wikipedia.org/wiki/Biovision_Hierarchy) animations.
 The [FBX](https://en.wikipedia.org/wiki/FBX) models have been generated using [MakeHuman](http://makehumancommunity.org/) and BVH files are taken from open source databases.
-The [Skin PROTO models](({{ url.github_tree }}/projects/humans/skin_animated_humans/protos/) contain the definition of the appearance declared in the in the FBX files.
+The [Skin PROTO models]({{ url.github_tree }}/projects/humans/skin_animated_humans/protos/) contain the definition of the appearance declared in the in the FBX files.
 The "[bvh\_animation]({{ url.github_tree }}/projects/humans/skin_animated_humans/controllers/bvh_animation.c)" C controller loads the BVH file, associates it with the [Skin](../reference/skin.md) model and plays the BVH animation by applying the poses to the [Skin](../reference/skin.md) bones.
+
+### CharacterSkin PROTO
+
+Skin node representing a human with predefined mesh and appearance.
+Four different characters are available based on the 'model' field:
+- "Anthony": a boy,
+- "Robert": a men,
+- "Sandra": a woman,
+- "Sophia": a girl.
+
+Derived from [Skin](../reference/skin.md).
+
+```
+CharacterSkin {
+  SFVec3f     translation 0 0 0
+  SFRotation  rotation    0 1 0 0
+  SFVec3f     scale       1 1 1
+  SFString    name        "skin"
+  SFString    model       "Sandra"
+  SFBool      castShadows FALSE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/humans/skin\_animated\_humans/protos/CharacterSkin.proto]({{ url.github_tree }}/projects/humans/skin_animated_humans/protos/CharacterSkin.proto)"
+
+#### CharacterSkin Field Summary
+
+- `model` : Defines which character should be used.
+This field accepts the following values: "Anthony", "Robert", "Sandra", and "Sophia".
 
 ### [bvh\_util]({{ url.github_tree }}/projects/humans/skin_animated_humans/libraries/bvh_util/) Library
 To load and play the BVH file a C utility library is also provided.
@@ -145,10 +174,10 @@ The translation is returned as an array of double.
 This is typically used to set the translation of the [Skin](../reference/skin.md) node that is being animated by this BVH file.
 The values can wither be used directly, or scaled using the `wbu_bvh_set_scale` function.
 
-## [c3d]({{ url.github_tree }}/projects/humans/c3d/worlds/c3d_viewer.wbt) Sample
+## [C3D]({{ url.github_tree }}/projects/humans/c3d/worlds/c3d_viewer.wbt) Sample
 
 ![c3d_viewer.png](images/humans/c3d_viewer.thumbnail.jpg) This example provides a basic viewer for [C3D](https://c3d.org) files containing biomechanical information and motion capture data.
-The "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" Python controller loads the C3D file, creates a solid [Sphere](../../sphere.md), and plays the motion by updating the position of the markers.
+The "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" Python controller loads the C3D file, creates a solid [Sphere](../reference/sphere.md), and plays the motion by updating the position of the markers.
 Additionally, "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" also initializes the "[c3d\_viewer\_window]({{ url.github_tree }}/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window)" robot window from which it is possible to set the transparency of the body representation and the playback speed, to change the color of the markers, and to visualize the graphs of the data provided in the C3D file.
 
 ### C3dViewer PROTO
@@ -188,7 +217,7 @@ C3dViewer {
 - `bodyOffset`: Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
 
 
-## [pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/worlds/pedestrian.wbt) Sample
+## [Pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/worlds/pedestrian.wbt) Sample
 
 ![pedestrian_world.png](images/humans/pedestrian_world.thumbnail.jpg) This example shows the simulation of simple walking rigid human models.
 The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/controllers/pedestrian.py)" Python controller source code, but the trajectory, the speed and the time step can be passed as controller argument:
