@@ -9873,7 +9873,7 @@ You can change it to calculate the forward kinematics:
 
 [https://ikpy.readthedocs.io/en/latest/chain.html#ikpy.chain.Chain.forward\_kinematics](https://ikpy.readthedocs.io/en/latest/chain.html#ikpy.chain.Chain.forward_kinematics)
 
-##### Matzah 03/11/2021 18:06:00
+##### steakobhead 03/11/2021 18:06:00
 hi ive been trying to use webots for school but the world doesnt play when i hit the play button, the timer just stays at 0. any ideas of what could be causing this?
 
 ##### Darko Lukić [Cyberbotics] 03/11/2021 18:06:22
@@ -9882,7 +9882,7 @@ Is there any warning in the console?
 ##### Luftwaffel [Moderator] 03/11/2021 18:06:58
 you need a running controller, which periodically calls robot.step()
 
-##### Matzah 03/11/2021 18:08:43
+##### steakobhead 03/11/2021 18:08:43
 i think i fixed it actually, nvm. thanks though!
 
 ##### Welsh\_dragon64 03/11/2021 19:48:54
@@ -12946,7 +12946,7 @@ Also,
 did you mean "Microsoft"? `@jasonc1025`
 
 ##### OwOcelot 04/09/2021 21:06:45
-`@rambutan` please dont joke around, this is a serious discord server
+`@peepaw` please dont joke around, this is a serious discord server
 
 
 I think its a documentary
@@ -12984,7 +12984,7 @@ your experience may vary though
 alright. also, could you tell more about your "project?". I'm passionate about helping elementry and JH peoples, and want to see if I can help with this is any way
 
 ##### OwOcelot 04/09/2021 21:17:43
-`@rambutan` i think you sent the wrong emojis for your reactions, you might have misclicked
+`@peepaw` i think you sent the wrong emojis for your reactions, you might have misclicked
 
 ##### thonk enthusiast 04/09/2021 21:18:25
 He called his project "Roboquest" which is the second row on that link he sent to questforspace
@@ -13041,7 +13041,7 @@ Please take a cookie as a sign of my apology 🍪
 Perhaps you should go to a doctor?
 
 ##### solzhenitsyn 04/09/2021 21:27:52
-`@rambutan` this is a serious server, please leave if you are not here to contribute to the webot community, thank you
+`@peepaw` this is a serious server, please leave if you are not here to contribute to the webot community, thank you
 
 ##### OwOcelot 04/09/2021 21:28:32
 Your*
@@ -13101,7 +13101,7 @@ not to discredit them but
 [https://cdn.discordapp.com/emojis/693723538552782888.png?size=64](https://cdn.discordapp.com/emojis/693723538552782888.png?size=64)
 
 ##### Luftwaffel [Moderator] 04/09/2021 21:38:51
-`@rambutan` This is a technical support server for Webots. Please refrain from using profane language, insulting people and try to conduct yourself in a respectful manner. Otherwise we'll have to ban you.
+`@peepaw` This is a technical support server for Webots. Please refrain from using profane language, insulting people and try to conduct yourself in a respectful manner. Otherwise we'll have to ban you.
 
 
 oh and `@solzhenitsyn` this was literally the first instance ever I have seen of a troll here, for the year I have been active here
@@ -23762,4 +23762,586 @@ Will give it try tonight! Thank you V.M.
 
 ##### Spur 08/11/2021 09:04:17
 Hey does anyone know how I can make my robots not collide with each other? At the moment i have two epucks that collide with eachother but cant detect eachother with distance sensors
+
+##### Kumar 08/11/2021 21:37:06
+As `@Spur` asks, I have the same question. Suggestions on how to address?
+
+##### chokings 08/12/2021 01:19:18
+Hi~ How can I use the getVelocity in Node? v = robot\_node.getVeloticy() is not working.
+
+##### DDaniel [Cyberbotics] 08/12/2021 06:21:44
+`@chokings` Hi, it should work. Are you getting an error?
+
+##### chokings 08/12/2021 06:24:32
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/875263467425267712/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 08/12/2021 06:25:24
+you mistype it, it's `getVelocity`
+
+##### chokings 08/12/2021 06:25:51
+oh.. let me fix it
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/875264103243993148/unknown.png)
+%end
+
+
+now i know~
+
+##### DDaniel [Cyberbotics] 08/12/2021 06:29:14
+I think you posted the same error as before, it's still mistyped. it's `getVelocity`, not `getVeloticy`
+
+##### chokings 08/12/2021 06:29:44
+thanks, now I fix it!!!!!
+
+##### Calibur 08/12/2021 08:47:30
+Hi, I am trying to use lidar sensor - Velodyne HDL 64E for retrieving point cloud. When using `lidar.getPointCloud() `with `data_type='buffer'` , the numpy array constructed from `np.frombuffer()` has shape of `(720000,)`. Shouldn't it be `(864000,)` equivalent to `(4500*64*3,)`  i.e. ((Point Cloud per layer)*(Number of layers)*(Number of dimensions),)??
+
+In short, how the buffer is organised in terms of layer and the dimension and how to use it (python) (`data_type='list'` works fine for me, but it is slow) ?
+
+Thanks
+
+##### chokings 08/12/2021 12:09:17
+Hi, I'd like to get velocity, when robot is moving. But, there is some problem. when I use Supervisor for getVelocity, there is error "Only one instance of the Robot class should be created
+
+WARNING: 'python\_test' controller exited with status: 255." like this. I think, the Robot() and Supervisor() can NOT use at the same time. Is there any other solution?😭  I attach whole code.
+
+-----------------------------------------------------------------
+
+from controller import Robot, Supervisor
+
+
+
+global L, radius, v, w, time
+
+L = 0.05
+
+radius = 0.04
+
+v = 0.1
+
+w = 0
+
+f = 0
+
+time = 0
+
+
+
+def lin\_ang\_vel\_to\_4wheel(v,w,wheels):
+
+    global L, radius
+
+    v\_r = v+L*w
+
+    v\_l = v-L*w
+
+    rad\_r = v\_r/radius
+
+    rad\_l = v\_l/radius
+
+    wheels[0].setVelocity(rad\_l) #f l
+
+    wheels[2].setVelocity(rad\_l) #r l
+
+    wheels[1].setVelocity(rad\_r) #f r
+
+    wheels[3].setVelocity(rad\_r) #r r
+
+    return
+
+def fault(f):
+
+    if f==1:
+
+        wheels[0].setVelocity(0) #f l
+
+        wheels[2].setVelocity(0) #r l
+
+    elif f==2:
+
+        wheels[1].setVelocity(0) #f r
+
+        wheels[3].setVelocity(0) #r r
+
+    else:
+
+        pass
+
+    return
+
+
+
+TIME\_STEP = 50
+
+robot = Robot()
+
+supervisor = Supervisor()
+
+robot\_node = supervisor.getFromDef("a1")
+
+
+
+\#ds = []
+
+\#dsNames = ['ds\_right', 'ds\_left']
+
+\#for i in range(2):
+
+\#    ds.append(robot.getDevice(dsNames[i]))
+
+\#    ds[i].enable(TIME\_STEP)
+
+    
+
+    
+
+wheels = []
+
+wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
+
+for i in range(4):
+
+    wheels.append(robot.getDevice(wheelsNames[i]))
+
+    wheels[i].setPosition(float('inf'))
+
+    wheels[i].setVelocity(0.0)
+
+avoidObstacleCounter = 0
+
+while robot.step(TIME\_STEP) != -1:
+
+    lin\_ang\_vel\_to\_4wheel(v,w,wheels)
+
+    fault(f)
+
+##### DDaniel [Cyberbotics] 08/12/2021 12:20:06
+`@chokings` Supervisor is just a Robot with extra stuff, you only need one of the two: `robot = Supervisor()`
+
+##### chokings 08/12/2021 12:30:05
+Thank you sir.
+
+##### Gustavo Cruz 08/12/2021 13:09:26
+Hi, I modeled a vehicle in Blender and now I'm trying to import it into Webots, but I'm having problems with wheel physics.
+
+
+
+Wheels are not behaving as they should and an error is appearing as shown in the image.
+
+
+
+I've already tried reducing WorldInfo.basicTimeStep, but the problem remains.
+
+
+
+Does anyone know how to solve this problem?
+
+
+
+My project: [https://github.com/GustavoSC1/robot](https://github.com/GustavoSC1/robot)
+
+
+
+Thank you for your attention.
+%figure
+![VeiculoBug.png](https://cdn.discordapp.com/attachments/565154703139405824/875365366572937266/VeiculoBug.png)
+%end
+
+##### DDaniel [Cyberbotics] 08/12/2021 13:13:54
+`@Gustavo Cruz` Using the meshes of the wheel as `boundingObject` is computationally expensive, and at times source of instabilities, especially if they're very complex like in this case. It's better to model the `boundingObject` using basic primitives instead (a cylinder for instance)
+
+##### Gustavo Cruz 08/12/2021 13:17:36
+I will try to do this. Thanks.
+
+##### Korall 08/12/2021 14:05:00
+Hello, is this the right place to ask for help when I have an issue with webots?
+
+##### DDaniel [Cyberbotics] 08/12/2021 14:06:06
+`@Korall` yes
+
+##### Korall 08/12/2021 14:07:00
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/875379850863591464/unknown.png)
+%end
+
+
+So this is my problem. I try to run webots with ros on an lxd container...
+
+
+My gpu seems to work but somehow the scene is blacked out and the robot is falling down...
+
+
+I have no idea why this happens..
+
+
+EDIT: I solved it by using the .deb file to install it instead of the snap package... 🙂
+
+##### Gustavo Cruz 08/12/2021 19:21:19
+Hi, I'm trying to model a wheel's boundingObject using a Cylinder, but I'm not succeeding. No contour lines appearing and no collision detection is taking place. I've tried to place the cylinder inside a Transform, but it didn't work either.
+
+
+
+Does anybody know how to solve this?
+
+
+
+Thanks.
+%figure
+![VeiculoBug.png](https://cdn.discordapp.com/attachments/565154703139405824/875458953419575297/VeiculoBug.png)
+%end
+
+##### johnnycannoli 08/12/2021 22:03:48
+you might need to populate the physics field of the solid, I notice from your screenshot that the physics is NULL
+
+##### Gustavo Cruz 08/12/2021 22:38:43
+I managed to solve the problem. Thanks.
+
+##### Kumar 08/13/2021 01:59:34
+Is there a model for the Pololu zumo robot available anywhere on Webots?
+
+##### chokings 08/13/2021 03:55:17
+Hi, now I'd like to know the wheels velocity. How can I do that? the following code is not working.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+TIME\_STEP = 50
+
+
+
+robot = Supervisor()
+
+node = robot.getFromDef("a1")
+
+motor = Motor()
+
+    
+
+wheels = []
+
+wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
+
+for i in range(4):
+
+    wheels.append(robot.getDevice(wheelsNames[i]))
+
+    wheels[i].setPosition(float('inf'))
+
+    wheels[i].setVelocity(0.0)
+
+
+
+
+
+while robot.step(TIME\_STEP) != -1:
+
+    wheels[0].setVelocity(rad\_l) #f l
+
+    wheels[2].setVelocity(rad\_l) #r l
+
+    wheels[1].setVelocity(rad\_r) #f r
+
+    wheels[3].setVelocity(rad\_r) #r r
+
+    print(motor.getVelocity)
+
+##### Darko Lukić [Cyberbotics] 08/13/2021 07:01:25
+No, but you can convert it from the URDF model:
+
+- URDF model: [https://github.com/Rastafouille/Zumo-Carto/tree/master/urdf](https://github.com/Rastafouille/Zumo-Carto/tree/master/urdf)
+
+- URDF to Webots conversion script: [https://github.com/cyberbotics/urdf2webots](https://github.com/cyberbotics/urdf2webots)
+
+##### Kumar 08/13/2021 10:25:55
+Thanks `@Darko Lukić`
+
+##### Luftwaffel [Moderator] 08/13/2021 23:03:53
+`@chokings` from your code it looks like your wheels are the motors, so you have to do call the "getVelocity()" for all 4 wheels
+
+
+dont forget the "()" of the command
+
+
+also it is better do initialize the TIME\_STEP like this:
+
+TIME\_STEP  = = int(robot.getBasicTimeStep())
+
+
+this will take the timestep setting in your world info. For your main loop you can then do multiples of that like so:
+
+`while robot.step(2 * TIME_STEP) != -1:`
+
+
+It is bad if you have a basic time step of 32 and have a loop running at 50ms
+
+##### Kumar 08/14/2021 15:15:21
+`@webots` team -> Any suggestions?
+
+##### llya 08/15/2021 07:45:10
+Hey,gus,does anyone know how many meters are there in a pixel of a photograph taken by a camera node?
+
+##### Luftwaffel [Moderator] 08/15/2021 18:40:36
+`@llya` that is not how cameras work. Closer things appear bigger than far away things. What exactly is it that you want to do?
+
+##### lucasbruzzone 08/15/2021 22:49:52
+Hello, I was wondering if anyone could help me. We are trying to use Khepera IV with the FLU system.
+
+Previously we had used this script to use Pioneer3dx with the FLU system and it had worked ([https://github.com/cyberbotics/webots/blob/master/scripts/converter/convert\_proto.py](https://github.com/cyberbotics/webots/blob/master/scripts/converter/convert_proto.py)).
+
+
+
+But it's throwing an error with Khepera IV
+
+
+
+Does anyone know how to use Khepera IV with the FLU system?
+
+
+
+Error Traceback:
+
+Traceback (most recent call last):
+
+  File "convert\_proto.py", line 219, in <module>
+
+    main()
+
+  File "convert\_proto.py", line 215, in main
+
+    proto.save(args.proto\_file)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 64, in save
+
+    self.\_write\_node\_declaration(node)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 85, in \_write\_node\_declaration
+
+    self.\_write\_node(node, 2)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 104, in \_write\_node
+
+    self.\_write\_field(field)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 143, in \_write\_field
+
+    self.\_write\_mf\_field(type, value)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 166, in \_write\_mf\_field
+
+    self.\_write\_node(value)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 104, in \_write\_node
+
+    self.\_write\_field(field)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 143, in \_write\_field
+
+    self.\_write\_mf\_field(type, value)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 166, in \_write\_mf\_field
+
+    self.\_write\_node(value)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 104, in \_write\_node
+
+    self.\_write\_field(field)
+
+  File "/home/proyecto/proyecto-grado/src/webots\_ros/protos/webots\_parser.py", line 112, in \_write\_field
+
+    type = field['type']
+
+KeyError: 'type'
+
+##### chokings 08/16/2021 00:15:09
+Thank you for answer me. But when i use TIME\_STEP == int(robot.getBasicTimeStep()) I have error
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/876620062503632916/unknown.png)
+%end
+
+
+and also.. when I use getVelocity for all wheel.
+
+wheels = []
+
+wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
+
+while robot.step(TIME\_STEP) != -1:
+
+    wheels[0].getVelocity(rad\_l) #f l
+
+    wheels[2].getVelocity(rad\_l) #r l
+
+    wheels[1].getVelocity(rad\_r) #f r
+
+    wheels[3].getVelocity(rad\_r) #r r
+
+I have error
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/876620811249782844/unknown.png)
+%end
+
+##### DrVoodoo [Moderator] 08/16/2021 10:45:21
+`@chokings` what's this rad\_l value you are supplying to the method?
+
+##### Jeff K 08/16/2021 21:24:11
+I upgraded to 2021b and this python camera code that used to work now crashes:
+
+
+for i in range(width):
+
+        for j in range(height):
+
+            red = camera.imageGetRed(image, width, i, j)/256.0
+
+            blue = camera.imageGetBlue(image, width, i, j)/256.0
+
+            green = camera.imageGetGreen(image, width, i, j)/256.0
+
+
+Any ideas?
+
+##### Luftwaffel [Moderator] 08/16/2021 21:32:03
+I accidentally posted the command wrong. Use only = NOT ==
+
+
+Two equal signs are used as a "if" check in python. It means 'is equal to?' instead of "=" which means "make equal / store in variable"
+
+
+For your second error, you have to use empty brackets when using getVelocity(). You are not setting or defining anything.
+
+
+`@Jeff K` Can you post the error message?
+
+##### Jeff K 08/16/2021 22:03:17
+INFO: action\_selection: Starting controller: /usr/local/bin/python3.9 -u action\_selection.py
+
+WARNING: action\_selection: The process crashed some time after starting successfully.
+
+WARNING: 'action\_selection' controller crashed.
+
+
+For a time I was getting a crash message on imageGetRed. But now I am only getting this brief crash message.
+
+
+Here is a more informative error message...
+
+
+
+> **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/876951297515982888/message.txt)
+
+##### Luftwaffel [Moderator] 08/16/2021 22:32:18
+Try to simply reset the controller and start again (back arrow)
+
+
+Sometimes it crashes the first time you run it
+
+##### Jeff K 08/16/2021 22:36:39
+Done that many times.  The code will run if I comment out the calls to camera.imageGetRed, camera.imageGetBlue, and camera.imageGetGreen.
+
+##### Luftwaffel [Moderator] 08/16/2021 22:37:19
+Maybe you are making a call outside of the range?
+
+
+Check the api documentation online. Make sure it is correct
+
+
+If you can't figure it out you can post your project here or pm me with it and I can take a look
+
+##### Jeff K 08/16/2021 22:58:19
+The project is on GitHub.  I appreciate the help!  [https://github.com/jkrichma/NeurorobotExamples/tree/main/ActionSelection](https://github.com/jkrichma/NeurorobotExamples/tree/main/ActionSelection)
+
+##### Luftwaffel [Moderator] 08/16/2021 23:04:43
+it runs for me without any issues.
+
+
+Perhaps something with the mac version
+
+
+I'm running Windows
+
+##### Jeff K 08/16/2021 23:30:18
+Thanks. That's good information.  I'll check my Mac Python settings.  If anyone has a Mac and tries to run this sim, let me know what you find out.
+
+##### chokings 08/16/2021 23:43:26
+Thank you sir!!
+
+##### Darko Lukić [Cyberbotics] 08/17/2021 06:42:08
+See this:
+
+[https://github.com/cyberbotics/webots/pull/3502](https://github.com/cyberbotics/webots/pull/3502)
+
+
+
+There is a known bug with R2021b and Python 3.9. Please downgrade to Python 3.8 or use a nightly build (R2021b rev1):
+
+[https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### Park Jeong Woo 08/17/2021 07:10:34
+Hi, i'm having a version issue. I don't think there is an actual problem by this but warning message appears.
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/877087113324138526/unknown.png)
+%end
+
+
+I could not find related change log so I would like to ask about how to correctly fix file locations of .proto and .wbt files
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/877087705593425940/unknown.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 08/17/2021 07:17:27
+The local URLs to textures and meshes in previous worlds files should be updated to point to online resources, e.g., "textures/carpet.jpg" should be changed to "[https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/carpet.jpg](https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/carpet.jpg)".
+
+
+The change log is here: [https://cyberbotics.com/doc/reference/changelog-r2021](https://cyberbotics.com/doc/reference/changelog-r2021)
+
+
+You may also simply edit the header of the wbt file and replace R2020a with R2021b.
+
+##### Park Jeong Woo 08/17/2021 07:19:51
+Thank you
+
+##### ph504 08/18/2021 08:06:56
+Hi,
+
+I have made a custom robot with a custom maze and want to focus on localization problems,
+
+so I was wondering if Webots provides an API for extracting the map into occupancy grid format or a binary matrix, or any other formats, without having to create the map manually and put it in the controller or having to implement a mapping algorithm controller to make the map... so does anyone have any knowledge/experience in this topic? I would highly appreciate the suggestions.
+
+##### butterygold 08/18/2021 10:14:26
+hi, I am trying to import a 3d model fbx file format, it is loading without texture. How can I fix this?
+%figure
+![laptop.png](https://cdn.discordapp.com/attachments/565154703139405824/877495651196338246/laptop.png)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 08/18/2021 11:00:48
+Hi, you have to specify the material and texture in the `Shape.appearance` node.
+
+
+Hi, no built-in API for creating occupancy maps is available in Webots. However you could use any existing library and just write a controller that interface it with Webots.
+
+##### ph504 08/18/2021 12:32:03
+Thank you so much.
+
+##### butterygold 08/18/2021 12:36:56
+When I import a model it is a solid object, how to I edit its properties as with other node objects?
+
+##### Stefania Pedrazzi [Cyberbotics] 08/18/2021 12:41:03
+Inside your  `Solid` node you will have one or more `Shape` nodes: the mesh is specified in the `Shape.geometry` node and the appearance (material, texture, etc.) in the `Shape.appearance` node.
+
+You should check all your `Shape.apperance` nodes and adjust the path to the texture that is not found.
+
+##### butterygold 08/18/2021 12:42:46
+I see, ok thanks!
 
