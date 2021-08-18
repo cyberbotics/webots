@@ -1,0 +1,74 @@
+#VRML_SIM R2021c utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.06855611022612239 0.9974080539006414 0.021845680689767267 4.671013618156624
+  position -4.996958948545466 0.6832220037692749 0.437590010872685
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 1.8 -1 0
+}
+Robot {
+  children [
+    Solid {
+      translation 2 0 0
+      children [
+        HingeJoint {
+          jointParameters DEF JOINT_PARAMETERS HingeJointParameters {
+          }
+          endPoint Solid {
+            rotation 1 0 0 0
+            name "Tail"
+          }
+        }
+      ]
+      name "Head"
+    }
+    Skin {
+      translation 2 0 0
+      name "physical skin"
+      modelUrl "skins/simple_skin.fbx"
+      appearance [
+        PBRAppearance {
+          baseColorMap ImageTexture {
+            url [
+              "textures/tagged_wall.jpg"
+            ]
+          }
+          name "skin"
+        }
+      ]
+      bones [
+        SolidReference {
+          solidName "Head"
+        }
+        SolidReference {
+          solidName "Tail"
+        }
+      ]
+    }
+    CharacterSkin {
+      name "graphical skin"
+      model "Anthony"
+    }
+    Camera {
+      translation 0 0 0.96
+      rotation 0 1 0 -1.5708
+      fieldOfView 0.2
+      width 1
+      height 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "skin"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
