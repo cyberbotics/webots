@@ -425,7 +425,7 @@ void WbSkin::reset(const QString &id) {
     // reset mesh skeleton
     const int bonesCount = wr_skeleton_get_bone_count(mSkeleton);
     for (int i = 0; i < bonesCount; ++i) {
-      const WbVector3 &p= mInitialSkeletonPosition.at(i);
+      const WbVector3 &p = mInitialSkeletonPosition.at(i);
       setBonePosition(i, p.x(), p.y(), p.z(), false);
       const WbRotation &o = mInitialSkeletonOrientation.at(i);
       setBoneOrientation(i, o.x(), o.y(), o.z(), o.angle(), false);

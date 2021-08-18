@@ -52,7 +52,8 @@ PROTO CharacterSkin [
         }
         texture ImageTexture {
           url [
-            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_eyes.jpg"' >%
+            %< const character_eyes = (character === "sophia") ? "sandra" : character; >%
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyes + '_eyes.jpg"' >%
           ]
         }
         textureTransform TextureTransform {
