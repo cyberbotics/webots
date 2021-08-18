@@ -10,8 +10,10 @@
 
 static void check_image(WbDeviceTag camera, const int *color, const char *message) {
   const unsigned char *image = wb_camera_get_image(camera);
-  ts_assert_color_in_delta(wb_camera_image_get_red(image, 1, 0, 0), wb_camera_image_get_green(image, 1, 0, 0),
-                           wb_camera_image_get_blue(image, 1, 0, 0), color[0], color[1], color[2], 5, message);
+  const int r = wb_camera_image_get_red(image, 1, 0, 0);
+  const int g = wb_camera_image_get_green(image, 1, 0, 0);
+  const int b = wb_camera_image_get_blue(image, 1, 0, 0);
+  ts_assert_color_in_delta(r, g, b, color[0], color[1], color[2], 20, message, r, g, b);
 }
 
 int main(int argc, char **argv) {
@@ -66,7 +68,7 @@ int main(int argc, char **argv) {
   const int skin_color[3] = {149, 10, 8};
   const int sky_color[3] = {102, 178, 255};
 
-  check_image(camera, skin_color, "Skin mesh is not detected at the beginning of the test.");
+  check_image(camera, skin_color, "Skin mesh is not detected at the beginning of the test: detected color [%d %d %d].");
 
   WbDeviceTag physical_skin = wb_robot_get_device("physical skin");
   const int physical_bones_count = wb_skin_get_bone_count(physical_skin);
@@ -84,14 +86,14 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  check_image(camera, skin_color, "Skin mesh is not detected after invalid change of position.");
+  check_image(camera, skin_color, "Skin mesh is not detected after invalid change of position: detected color [%d %d %d].");
 
   const double new_physical_root_orientation[4] = {0.0, 1.0, 0.0, 1.5708};
   wb_skin_set_bone_orientation(physical_skin, 0, new_physical_root_orientation, false);
 
   wb_robot_step(TIME_STEP);
 
-  check_image(camera, skin_color, "Skin mesh is not detected after invalid change of orientation.");
+  check_image(camera, skin_color, "Skin mesh is not detected after invalid change of orientation: detected color [%d %d %d].");
 
   WbNodeRef parameters_node = wb_supervisor_node_get_from_def("JOINT_PARAMETERS");
   WbFieldRef joint_position_field = wb_supervisor_node_get_field(parameters_node, "position");
@@ -99,7 +101,7 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  check_image(camera, sky_color, "Skin mesh is still detected after moving physical skeleton.");
+  check_image(camera, sky_color, "Skin mesh is still detected after moving physical skeleton: detected color [%d %d %d].");
 
   ts_send_success();
   return EXIT_SUCCESS;
