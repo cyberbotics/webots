@@ -11,9 +11,6 @@ Background {
     0.4 0.7 1
   ]
 }
-DirectionalLight {
-  direction 1.8 -1 0
-}
 Robot {
   children [
     Solid {
