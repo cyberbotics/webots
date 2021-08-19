@@ -13,6 +13,7 @@ Background {
   ]
 }
 Solid {
+  rotation 1 0 0 -1.5708
   children [
     Shape {
       appearance Appearance {
@@ -36,7 +37,8 @@ DEF DYNAMIC_EMITTER Robot {
       rotation -0.57735 -0.57735 -0.57735 2.0944
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -67,7 +69,8 @@ DEF DYNAMIC_EMITTER Robot {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -115,7 +118,8 @@ DEF STATIC_EMITTER Robot {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -146,7 +150,8 @@ DEF STATIC_EMITTER Robot {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -201,7 +206,8 @@ DEF STATIC_ROBOT Robot {
       rotation 0 -0.70711 -0.70711 3.14159
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -232,7 +238,8 @@ DEF STATIC_ROBOT Robot {
       rotation 1 0 0 -1.5708
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -263,7 +270,8 @@ DEF STATIC_ROBOT Robot {
       rotation 0 -0.70711 -0.70711 3.14159
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -295,7 +303,8 @@ DEF STATIC_ROBOT Robot {
       rotation 1 0 0 -1.5708
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05

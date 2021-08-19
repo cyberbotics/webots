@@ -385,10 +385,15 @@ PROTO VehicleWheel [
       model "vehicle wheel"
       %< if (fields.boundingObject.value) { >%
         contactMaterial IS contactMaterial
-        boundingObject Cylinder {
-          height %<= thickness >%
-          radius %<= tireRadius >%
-          subdivision %<= subdivision >%
+        boundingObject Transform {
+          rotation 1 0 0 -1.5708
+          children [
+            Cylinder {
+              height %<= thickness >%
+              radius %<= tireRadius >%
+              subdivision %<= subdivision >%
+            }
+          ]
         }
         physics IS physics
       %< } >%

@@ -10,7 +10,7 @@ PROTO LuaLengthOperator [
   }%
   Shape {
     geometry Box {
-      size 1 1 %{=count}%
+      size 1 1 %{= count }%
     }
   }
 }

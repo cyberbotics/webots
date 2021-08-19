@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
   const WbCameraRecognitionObject *objects = wb_camera_recognition_get_objects(camera);
 
   ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER,
-                      "The camera should initialy see %d objects and not %d (with occlusion).", VISIBLE_SOLID_NUMBER,
+                      "The camera should initially see %d objects and not %d (with occlusion).", VISIBLE_SOLID_NUMBER,
                       object_number);
   int sub_solid_index = 0;
   int composed_solid_index = 0;

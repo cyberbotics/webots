@@ -151,7 +151,7 @@ UnevenTerrain {
   SFString   name           "uneven terrain"
   SFVec3f    size           50 5 50
   SFInt32    xDimension     50
-  SFInt32    zDimension     50
+  SFInt32    yDimension     50
   SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }
   SFInt32    randomSeed     1
   SFBool     flatCenter     FALSE
@@ -171,7 +171,7 @@ UnevenTerrain {
 
 - `xDimension`: Defines the number of points in the grid height array in the x direction.
 
-- `zDimension`: Defines the number of points in the grid height array in the y direction.
+- `yDimension`: Defines the number of points in the grid height array in the y direction.
 
 - `appearance`: Defines the appearance of the terrain.
 

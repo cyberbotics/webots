@@ -23,22 +23,27 @@ DEF AIRPLANE Robot {
     InertialUnit {
       noise 0.000005
     }
-    Shape {
-      appearance Appearance {
-        texture ImageTexture {
-          url [
-            "textures/plane_top_view.jpg"
-          ]
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url [
+                "textures/plane_top_view.jpg"
+              ]
+            }
+            textureTransform TextureTransform {
+              rotation 1.5708
+            }
+          }
+          geometry Plane {
+          }
         }
-        textureTransform TextureTransform {
-          rotation 1.5708
-        }
-      }
-      geometry Plane {
-      }
+      ]
     }
     Transform {
-      rotation 1 0 0 3.1416
+      rotation 1 0 0 1.57080367321
       children [
         Shape {
           appearance Appearance {

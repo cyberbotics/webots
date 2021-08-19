@@ -31,7 +31,6 @@ DEF PENDULUM_ROBOT Robot {
       ]
       startPoint [
         Transform {
-          rotation 1 0 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -63,7 +62,6 @@ DEF PENDULUM_ROBOT Robot {
           }
           DEF PENDULUM_BOB Transform {
             translation 0 -0.2 0
-            rotation 1 0 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {

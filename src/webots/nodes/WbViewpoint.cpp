@@ -486,7 +486,7 @@ void WbViewpoint::lookAt(const WbVector3 &target, const WbVector3 &upVector) {
 
   // recompute the orthonormal up vector
   WbVector3 up = forward.cross(right);
-  WbQuaternion newLookAtQuaternion = WbQuaternion(right, up, forward);
+  WbQuaternion newLookAtQuaternion = WbQuaternion(-forward, -right, up);
   newLookAtQuaternion.normalize();
   WbRotation newOrientation = WbRotation(newLookAtQuaternion);
   mOrientation->setValue(newOrientation);
@@ -845,8 +845,9 @@ void WbViewpoint::applyOrientationToWren() {
     mVirtualRealityHeadset->setOrientation(mOrientation->value());
 #endif
 
-  float angleAxis[] = {static_cast<float>(mOrientation->angle()), static_cast<float>(mOrientation->x()),
-                       static_cast<float>(mOrientation->y()), static_cast<float>(mOrientation->z())};
+  const WbRotation fluRotation(mOrientation->value().toMatrix3() * WbMatrix3(M_PI_2, -M_PI_2, 0));
+  float angleAxis[] = {static_cast<float>(fluRotation.angle()), static_cast<float>(fluRotation.x()),
+                       static_cast<float>(fluRotation.y()), static_cast<float>(fluRotation.z())};
   wr_camera_set_orientation(mWrenCamera, angleAxis);
 }
 
@@ -959,12 +960,12 @@ void WbViewpoint::viewpointRay(int x, int y, WbRay &ray) const {
     w *= scaleFactor * mAspectRatio;  // right - left in openGL terms
     h *= scaleFactor;                 // top  - bottom in openGL terms
     // Origin and direction of the mouse ray intersecting with camera's screen
-    direction = viewpointMatrix * WbVector3(w, -h, -nearValue);
+    direction = viewpointMatrix * WbVector3(-nearValue, w, h);
   } else {
     w *= mOrthographicViewHeight * mAspectRatio;
     h *= mOrthographicViewHeight;
     origin += viewpointMatrix * WbVector3(w, -h, 0.0);
-    direction = viewpointMatrix.column(2);
+    direction = viewpointMatrix.column(0);
   }
   ray.redefine(origin, direction);
 }
@@ -978,7 +979,7 @@ WbVector3 WbViewpoint::pick(int x, int y, double z0) const {
   WbVector3 rayDirection;
   const double nearValue = mNear->value();
   const WbMatrix3 &viewpointMatrix = mOrientation->value().toMatrix3();
-  const WbVector3 &cameraDirection = viewpointMatrix.column(2);
+  const WbVector3 &cameraDirection = viewpointMatrix.column(0);
   const bool &perspective = mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE;
   if (perspective) {
     const double scaleFactor = 2.0 * nearValue * mTanHalfFieldOfViewY;
@@ -986,7 +987,7 @@ WbVector3 WbViewpoint::pick(int x, int y, double z0) const {
     w *= scaleFactor * mAspectRatio;  // right - left in openGL terms
     h *= scaleFactor;                 // top  - bottom in openGL terms
     // Origin and direction of the mouse ray intersecting with camera's screen
-    rayDirection = viewpointMatrix * WbVector3(w, -h, -nearValue);
+    rayDirection = viewpointMatrix * WbVector3(-nearValue, w, h);
     const double factor = -z0 / nearValue;
     rayDirection *= factor;
   } else {
@@ -1055,7 +1056,7 @@ void WbViewpoint::toWorld(const WbVector3 &pos, WbVector3 &P) const {
     projection = orthographic;
   }
 
-  WbVector3 eye = mPosition->value(), center = eye + mOrientation->value().direction(), up = mOrientation->value().up();
+  WbVector3 eye = mPosition->value(), center = eye - mOrientation->value().direction(), up = mOrientation->value().up();
 
   WbVector3 f = (center - eye).normalized(), s = f.cross(up).normalized(), u = s.cross(f);
 
@@ -1239,8 +1240,8 @@ bool WbViewpoint::moveViewpointToObject(WbBaseNode *node) {
   const WbVector3 boundingSphereCenter(absoluteCenter.x(), absoluteCenter.y(), absoluteCenter.z());
 
   // Compute direction vector where the viewpoint is looking at.
-  // For all orientation and a zero angle, the viewpoint is looking at the z-axis opposite.
-  const WbVector3 viewpointDirection = mOrientation->value().toQuaternion() * WbVector3(0, 0, -1);
+  // For all orientation and a zero angle, the viewpoint is looking at the x-axis.
+  const WbVector3 viewpointDirection = mOrientation->value().toQuaternion() * WbVector3(1, 0, 0);
 
   // Compute a distance coefficient between the object and future viewpoint.
   // The bounding sphere will be entirely contained in the 3D view.
@@ -1267,27 +1268,27 @@ bool WbViewpoint::moveViewpointToObject(WbBaseNode *node) {
 }
 
 void WbViewpoint::frontView() {
-  orbitTo(WbVector3(0, 0, 1), WbRotation(0, 1, 0, 0));
+  orbitTo(WbVector3(0, -1, 0), WbRotation(0, 0, 1, M_PI_2));
 }
 
 void WbViewpoint::backView() {
-  orbitTo(WbVector3(0, 0, -1), WbRotation(0, 1, 0, -M_PI));
+  orbitTo(WbVector3(0, 1, 0), WbRotation(0, 0, 1, -M_PI_2));
 }
 
 void WbViewpoint::leftView() {
-  orbitTo(WbVector3(-1, 0, 0), WbRotation(0, 1, 0, -M_PI / 2));
+  orbitTo(WbVector3(-1, 0, 0), WbRotation(0, 0, 1, 0));
 }
 
 void WbViewpoint::rightView() {
-  orbitTo(WbVector3(1, 0, 0), WbRotation(0, 1, 0, M_PI / 2));
+  orbitTo(WbVector3(1, 0, 0), WbRotation(0, 0, 1, -M_PI));
 }
 
 void WbViewpoint::topView() {
-  orbitTo(WbVector3(0, 1, 0), WbRotation(1, 0, 0, -M_PI / 2));
+  orbitTo(WbVector3(0, 0, 1), WbRotation(-0.5773, 0.5773, 0.5773, 2.0944));
 }
 
 void WbViewpoint::bottomView() {
-  orbitTo(WbVector3(0, -1, 0), WbRotation(0, -0.707107, 0.707107, M_PI));
+  orbitTo(WbVector3(0, 0, -1), WbRotation(0.5773, 0.5773, 0.5773, -2.0944));
 }
 
 void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation) {
@@ -1297,7 +1298,7 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   WbWorld::instance()->setModified();
 
   // first, we need to calculate the orientation of the world as this will be applied to all orbits
-  const WbVector3 &defaultUpVector = WbVector3(0, 1, 0);
+  const WbVector3 &defaultUpVector = WbVector3(0, 0, 1);
   const WbVector3 &gravityUpVector = -WbWorld::instance()->worldInfo()->gravityUnitVector();
   if (gravityUpVector.dot(defaultUpVector) > 0.9999)
     // In the case of the gravity vector being the default create the identity quaternion

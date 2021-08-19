@@ -16,7 +16,6 @@ PointLight {
   location 0 0 0.3
 }
 Solid {
-  rotation 1 0 0 1.5708
   children [
     Shape {
       appearance PBRAppearance {
@@ -36,7 +35,8 @@ DEF DYNAMIC_EMITTER Robot {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -64,7 +64,8 @@ DEF DYNAMIC_EMITTER Robot {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -109,7 +110,8 @@ DEF STATIC_EMITTER Robot {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -137,7 +139,8 @@ DEF STATIC_EMITTER Robot {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 3.67321e-08 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -192,7 +195,7 @@ DEF DYNAMIC_ROBOT Robot {
         rotation 0 0 1 -1.5708
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
                 appearance PBRAppearance {
@@ -235,7 +238,7 @@ DEF DYNAMIC_ROBOT Robot {
         rotation 0 0 1 -1.5708
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
                 appearance PBRAppearance {
@@ -267,7 +270,8 @@ DEF DYNAMIC_ROBOT Robot {
       rotation 0 0 -1 -1.5708
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -296,7 +300,8 @@ DEF DYNAMIC_ROBOT Robot {
       rotation 0 0 1 -1.5708
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -325,7 +330,8 @@ DEF DYNAMIC_ROBOT Robot {
       rotation 0 0 -1 -1.5708
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05
@@ -355,7 +361,8 @@ DEF DYNAMIC_ROBOT Robot {
       rotation 0 0 1 -1.5708
       children [
         Transform {
-          rotation 0.57735 0.57735 0.57735 2.0944
+          translation 0 0 0.05
+          rotation 0 1 0 -3.14159
           children [
             Transform {
               translation 0 0 0.05

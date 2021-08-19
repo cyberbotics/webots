@@ -71,6 +71,7 @@ private slots:
   void updateMinRange();
   void updateMaxRange();
   void updateResolution();
+  void updateOrientation();
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
 };

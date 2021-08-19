@@ -61,7 +61,7 @@ private:
   QLabel *mFilesLabel;
 
   void updateUI();
-  QString poposeNewProjectPath() const;
+  QString proposeNewProjectPath() const;
   QWizardPage *createIntroPage();
   QWizardPage *createDirectoryPage();
   QWizardPage *createWorldPage();

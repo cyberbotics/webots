@@ -81,10 +81,15 @@ PROTO ExteriorWheel [
       ]
       name IS name
       contactMaterial "ExteriorWheelMat"
-      boundingObject Cylinder {
-        height 0.072
-        radius 0.05
-        subdivision 24
+      boundingObject Transform {
+        rotation 1 0 0 -1.5708
+        children [
+          Cylinder {
+            height 0.072
+            radius 0.05
+            subdivision 24
+          }
+        ]
       }
       physics Physics {
         density -1

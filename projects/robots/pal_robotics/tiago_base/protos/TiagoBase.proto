@@ -119,7 +119,7 @@ PROTO TiagoBase [
       }
       DEF FRONT_SENSOR_1 Transform {
         translation 0.1714 -0.1110 0.002
-        rotation 0 0 1 -1.825
+        rotation 0.47980308243485 -0.620398662991083 0.620398662994121 -2.246872814929654
         children [
           Shape {
             appearance PBRAppearance {
@@ -136,7 +136,7 @@ PROTO TiagoBase [
       }
       DEF FRONT_SENSOR_2 Transform {
         translation 0.1714 0.111 0.002
-        rotation 0 0 1 1.825
+        rotation 0.47980308243485 0.620398662991083 0.620398662994121 2.246872814929654
         children [
           Shape {
             appearance PBRAppearance {
@@ -184,7 +184,6 @@ PROTO TiagoBase [
         name "base_cover_link"
         boundingObject Transform {
           translation 0 0 0.043
-          rotation 1 0 0 1.5708
           children [
             Cylinder {
               height 0.086
@@ -273,7 +272,6 @@ PROTO TiagoBase [
               children [
                 Transform {
                   translation 0 0 0.042
-                  rotation 1 0 0 1.57
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -357,7 +355,6 @@ PROTO TiagoBase [
           ]
           name "wheel_right_link"
           boundingObject Transform {
-            rotation 1 0 0 1.5708
             children [
               Cylinder {
                 height 0.04
@@ -401,7 +398,6 @@ PROTO TiagoBase [
                   children [
                     Transform {
                       translation 0 0 0.042
-                      rotation 1 0 0 1.57
                       children [
                         Shape {
                           appearance PBRAppearance {
@@ -487,7 +483,6 @@ PROTO TiagoBase [
           ]
           name "wheel_left_link"
           boundingObject Transform {
-            rotation 1 0 0 1.5708
             children [
               Cylinder {
                 height 0.04
@@ -557,7 +552,6 @@ PROTO TiagoBase [
                 ]
                 name "caster_front_right_2_link"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
-                  rotation 1 0 0 1.5708
                   children [
                     Cylinder {
                       height 0.015
@@ -670,7 +664,6 @@ PROTO TiagoBase [
                 ]
                 name "caster_front_left_2_link"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
-                  rotation 1 0 0 1.570796
                   children [
                     Cylinder {
                       height 0.015
@@ -783,7 +776,6 @@ PROTO TiagoBase [
                 ]
                 name "caster_back_right_2_link"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
-                  rotation 1 0 0 1.570796
                   children [
                     Cylinder {
                       height 0.015
@@ -896,7 +888,6 @@ PROTO TiagoBase [
                 ]
                 name "caster_back_left_2_link"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
-                  rotation 1 0 0 1.570796
                   children [
                     Cylinder {
                       height 0.015
@@ -959,7 +950,6 @@ PROTO TiagoBase [
       children [
         DEF BASE_BO Transform {
           translation 0 0 0.06
-          rotation 1 0 0 1.57
           children [
             Shape {
               geometry Cylinder {
@@ -971,7 +961,6 @@ PROTO TiagoBase [
         }
         DEF ANTENNA_LEFT_BO Transform {
           translation -0.201 0.1062 0.28
-          rotation 1 0 0 1.57
           children [
             DEF ANTENNA_BO Cylinder {
               height 0.173
@@ -981,7 +970,6 @@ PROTO TiagoBase [
         }
         DEF ANTENNA_RIGHT_BO Transform {
           translation -0.201 -0.1062 0.28
-          rotation 1 0 0 1.57
           children [
             USE ANTENNA_BO
           ]

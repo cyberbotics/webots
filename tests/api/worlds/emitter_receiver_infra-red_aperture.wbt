@@ -13,9 +13,14 @@ Background {
 }
 DEF FLOOR Solid {
   children [
-    Shape {
-      geometry Plane {
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   locked TRUE
@@ -55,6 +60,17 @@ DEF ROBOT0 Robot {
         Transform {
           rotation 0.57735 0.57735 0.57735 2.0944
           children [
+            Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
+            }
             Transform {
               translation 0 -0.035 0
               children [
@@ -110,6 +126,17 @@ DEF ROBOT1 Robot {
           rotation 0.57735 0.57735 0.57735 2.0944
           children [
             Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
+            }
+            Transform {
               translation 0 -0.035 0
               children [
                 Shape {
@@ -151,11 +178,16 @@ DEF ROBOT1 Robot {
 DEF ROBOT2 Robot {
   translation 0.3 0.05 -0.3
   children [
-    Shape {
-      geometry Cylinder {
-        height 0.1
-        radius 0.07
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.1
+            radius 0.07
+          }
+        }
+      ]
     }
     Receiver {
       translation 0 0.11 0
@@ -164,6 +196,17 @@ DEF ROBOT2 Robot {
         Transform {
           rotation 0.57735 0.57735 0.57735 2.0944
           children [
+            Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
+            }
             Transform {
               translation 0 -0.035 0
               children [
@@ -205,11 +248,16 @@ DEF ROBOT2 Robot {
 DEF ROBOT3 Robot {
   translation -0.3 0.05 -0.3
   children [
-    Shape {
-      geometry Cylinder {
-        height 0.1
-        radius 0.07
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.1
+            radius 0.07
+          }
+        }
+      ]
     }
     Receiver {
       translation 0 0.11 0
@@ -218,6 +266,17 @@ DEF ROBOT3 Robot {
         Transform {
           rotation 0.57735 0.57735 0.57735 2.0944
           children [
+            Transform {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
+            }
             Transform {
               translation 0 -0.035 0
               children [
