@@ -17,9 +17,14 @@ PointLight {
 }
 Solid {
   children [
-    Shape {
-      geometry Plane {
-      }
+    Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   locked TRUE

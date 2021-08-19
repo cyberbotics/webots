@@ -21,7 +21,7 @@ DEF BOARD Solid {
   scale 1.44 1.44 1.44
   children [
     Transform {
-      rotation 0 0 1 3.1415
+      rotation -0.000032757990828 0.707106780805423 0.707106780808886 3.141527137608161
       children [
         Shape {
           appearance Appearance {
@@ -75,16 +75,21 @@ DEF WRITER Robot {
             translation 0 0 0.031
             rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
                   }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+                ]
               }
             ]
           }

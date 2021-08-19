@@ -269,6 +269,7 @@ Robot {
                                   }
                                   Transform {
                                     translation 0 -0.024 0.003
+                                    rotation 1 0 0 -1.5708
                                     children [
                                       Cylinder {
                                         height 0.047
@@ -338,6 +339,7 @@ Robot {
             ]
             boundingObject Transform {
               translation 0.032 0.023 0.07
+              rotation 1 0 0 -1.5708
               children [
                 Cylinder {
                   height 0.046
@@ -362,7 +364,6 @@ Robot {
       name "arm"
       boundingObject Transform {
         translation 0 0 0.04
-        rotation 1 0 0 1.5708
         children [
           Cylinder {
             height 0.08
@@ -621,6 +622,7 @@ Robot {
                                   }
                                   Transform {
                                     translation 0 -0.024 0.003
+                                    rotation 1 0 0 -1.5708
                                     children [
                                       Cylinder {
                                         height 0.047
@@ -690,6 +692,7 @@ Robot {
             ]
             boundingObject Transform {
               translation 0.032 0.023 0.07
+              rotation 1 0 0 -1.5708
               children [
                 Cylinder {
                   height 0.046
@@ -714,7 +717,6 @@ Robot {
       name "front arm"
       boundingObject Transform {
         translation 0 0 0.04
-        rotation 1 0 0 1.5708
         children [
           Cylinder {
             height 0.08

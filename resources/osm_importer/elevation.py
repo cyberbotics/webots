@@ -172,8 +172,8 @@ class Elevation(object):
         self.floorString += "        ]\n"
         self.floorString += "        xDimension " + str(xDiv + 1) + "\n"
         self.floorString += "        xSpacing " + str(self.xStep) + "\n"
-        self.floorString += "        zDimension " + str(zDiv + 1) + "\n"
-        self.floorString += "        zSpacing " + str(self.zStep) + "\n"
+        self.floorString += "        yDimension " + str(zDiv + 1) + "\n"
+        self.floorString += "        ySpacing " + str(self.zStep) + "\n"
         self.floorString += "      }\n"
         self.floorString += "    }\n"
         self.floorString += "  ]\n"
@@ -192,12 +192,12 @@ class Elevation(object):
     def interpolate_height(self, X, Z):
         """Interpolate the height at a given position."""
         xMinus = -float('inf')
-        zMinus = -float('inf')
+        yMinus = -float('inf')
         xPlus = float('inf')
         zPlus = float('inf')
         heights = [0, 0, 0, 0]
         # get the 'boundary' box:
-        #        zMinus
+        #        yMinus
         #        0---1
         # xMinus | c | xPlus
         #        3---2
@@ -214,34 +214,34 @@ class Elevation(object):
                 if currentX < xPlus:
                     xPlus = currentX
             if currentZ < Z:
-                if currentZ > zMinus:
-                    zMinus = currentZ
+                if currentZ > yMinus:
+                    yMinus = currentZ
             else:
                 if currentZ < zPlus:
                     zPlus = currentZ
 
         for elevation in self.elevationArray:
-            if elevation['x'] == xMinus and elevation['z'] == zMinus:
+            if elevation['x'] == xMinus and elevation['z'] == yMinus:
                 heights[0] = elevation['height']
             elif elevation['x'] == xMinus and elevation['z'] == zPlus:
                 heights[3] = elevation['height']
-            elif elevation['x'] == xPlus and elevation['z'] == zMinus:
+            elif elevation['x'] == xPlus and elevation['z'] == yMinus:
                 heights[1] = elevation['height']
             elif elevation['x'] == xPlus and elevation['z'] == zPlus:
                 heights[2] = elevation['height']
 
         # compute the ration to determine in which of the two triangle of the box the point lies
-        ratio1 = (zPlus - zMinus) / (xPlus - xMinus)
-        ratio2 = (Z - zMinus) / (X - xMinus)
+        ratio1 = (zPlus - yMinus) / (xPlus - xMinus)
+        ratio2 = (Z - yMinus) / (X - xMinus)
 
         # use a barycentric coordinate system in order to interpolate the value in the triangle
         # http://en.wikipedia.org/wiki/Barycentric_coordinate_system
         x1 = xMinus
-        z1 = zMinus
+        z1 = yMinus
         if ratio2 < ratio1:    # use triangle 0-1-2
             x2 = xPlus
             x3 = xPlus
-            z2 = zMinus
+            z2 = yMinus
             z3 = zPlus
         else:                              # use triangle 0-2-3
             x2 = xPlus

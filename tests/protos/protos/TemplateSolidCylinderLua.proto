@@ -5,6 +5,7 @@ PROTO TemplateSolidCylinderLua [
 ]
 {
   DEF PARAMETER Solid {
+    rotation 1 0 0 -1.5708
     children [
       Shape {
         geometry DEF GEOM Cylinder {

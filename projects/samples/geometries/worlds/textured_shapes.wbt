@@ -134,8 +134,8 @@ DEF ELEVATION_GRID Solid {
       geometry ElevationGrid {
         xDimension 10
         xSpacing 0.2
-        zDimension 10
-        zSpacing 0.2
+        yDimension 10
+        ySpacing 0.2
       }
     }
   ]

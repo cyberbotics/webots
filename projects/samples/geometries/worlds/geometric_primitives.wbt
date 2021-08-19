@@ -93,8 +93,8 @@ DEF ELEVATION_GRID Transform {
         ]
         xDimension 10
         xSpacing 0.05
-        zDimension 10
-        zSpacing 0.05
+        yDimension 10
+        ySpacing 0.05
       }
     }
   ]

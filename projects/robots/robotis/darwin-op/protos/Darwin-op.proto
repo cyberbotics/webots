@@ -407,7 +407,6 @@ PROTO Darwin-op [
                     ]
                     boundingObject Transform {
                       translation 0 0.022 -0.012
-                      rotation 1 0 0 1.5708
                       children [
                         Capsule {
                           height 0.018

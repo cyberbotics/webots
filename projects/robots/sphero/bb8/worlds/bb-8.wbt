@@ -22,7 +22,7 @@ TexturedBackgroundLight {
 UnevenTerrain {
   size 500 60 500
   xDimension 100
-  zDimension 100
+  yDimension 100
   appearance SandyGround {
     textureTransform TextureTransform {
       scale 500 500

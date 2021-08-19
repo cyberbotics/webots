@@ -71,11 +71,16 @@ DEF WRITER Robot {
             translation 0 0 0.031
             rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
+                  }
+                ]
               }
             ]
           }

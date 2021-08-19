@@ -60,7 +60,6 @@ void WbGeometry::init() {
   mCollisionTime = -std::numeric_limits<float>::infinity();
   mPreviousCollisionTime = -std::numeric_limits<float>::infinity();
   mOdeGeom = NULL;
-  mIs90DegreesRotated = false;
   mOdeMass = NULL;
   mResizeManipulator = NULL;
   mResizeManipulatorInitialized = false;

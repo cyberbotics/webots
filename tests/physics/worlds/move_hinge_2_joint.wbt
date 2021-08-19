@@ -53,6 +53,7 @@ DEF VEHICLE Robot {
             }
           ]
           endPoint Solid {
+            rotation 1 0 0 -1.5708
             children [
               DEF CYLINDER Shape {
                 appearance Appearance {
@@ -90,6 +91,7 @@ DEF VEHICLE Robot {
             }
           ]
           endPoint Solid {
+            rotation 1 0 0 -1.5708
             children [
               USE CYLINDER
             ]
@@ -117,7 +119,7 @@ DEF VEHICLE Robot {
             }
           ]
           endPoint Solid {
-            rotation 0 -1 0 0
+            rotation 1 0 0 -1.5708
             children [
               USE CYLINDER
             ]

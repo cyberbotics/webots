@@ -107,7 +107,7 @@ DEF WHITE_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.42 0.05 -0.1
+  translation 0.4 0.05 -0.1
   children [
     Shape {
       appearance Appearance {
@@ -138,6 +138,7 @@ Robot {
   children [
     Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.5707
       children [
         Shape {
           appearance Appearance {
@@ -166,7 +167,7 @@ Robot {
         rotation 1 0 0 4.98467
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0 1 0 -1.57079632679
             children [
               Shape {
                 appearance Appearance {
@@ -214,8 +215,8 @@ Robot {
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       children [
         Transform {
-          translation 0 0 -0.015
-          rotation 1 0 0 1.57
+          translation -0.015 0 0
+          rotation 0 1 0 1.5708
           children [
             Shape {
               appearance Appearance {
@@ -242,6 +243,7 @@ Robot {
   ]
   boundingObject Transform {
     translation 0 0.0415 0
+    rotation 1 0 0 -1.57079632679
     children [
       USE BODY
     ]

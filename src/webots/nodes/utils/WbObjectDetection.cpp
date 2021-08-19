@@ -200,12 +200,12 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       case WB_NODE_ELEVATION_GRID: {
         const WbElevationGrid *elevationGrid = static_cast<const WbElevationGrid *>(boundingObject);
         double xSpacing = elevationGrid->xSpacing();
-        double zSpacing = elevationGrid->zSpacing();
+        double ySpacing = elevationGrid->ySpacing();
         int xDimension = elevationGrid->xDimension();
-        int zDimension = elevationGrid->zDimension();
+        int yDimension = elevationGrid->yDimension();
         for (int i = 0; i < xDimension; ++i) {
-          for (int j = 0; j < zDimension; ++j)
-            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), zSpacing * j) *
+          for (int j = 0; j < yDimension; ++j)
+            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), ySpacing * j) *
                                             mObject->absoluteScale()) +
                           objectPosition);
         }
@@ -310,11 +310,11 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       if (nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE) {
         const WbMatrix3 rotation = deviceInverseRotation * objectRotation;
         const double xRange =
-          fabs(rotation(0, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 1) * rotation(0, 1)));
+          fabs(rotation(0, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(0, 2) * rotation(0, 2)));
         const double yRange =
-          fabs(rotation(1, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 1) * rotation(1, 1)));
+          fabs(rotation(1, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(1, 2) * rotation(1, 2)));
         const double zRange =
-          fabs(rotation(2, 1) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 1) * rotation(2, 1)));
+          fabs(rotation(2, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 2) * rotation(2, 2)));
         objectSize = WbVector3(xRange, yRange, zRange);
       }
     }

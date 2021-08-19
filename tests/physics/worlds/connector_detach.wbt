@@ -25,6 +25,7 @@ DEF ACTIVE_ROBOT Robot {
     }
     DEF LIGHT_BODY Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.5708
       children [
         Shape {
           appearance Appearance {
@@ -108,6 +109,7 @@ DEF ACTIVE_ROBOT Robot {
   name "MyBot 1"
   boundingObject DEF MYBOT_BOUNDING Transform {
     translation 0 0.0415 0
+    rotation 1 0 0 -1.5708
     children [
       USE BODY
     ]
@@ -125,6 +127,7 @@ DEF PASSIVE_ROBOT Solid {
   children [
     DEF MAIN_BODY Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.5708
       children [
         Shape {
           appearance Appearance {
@@ -209,6 +212,7 @@ DEF PASSIVE_ROBOT Solid {
 }
 Solid {
   translation 0.28 0 0
+  rotation 1 0 0 -1.5708
   children [
     Shape {
       appearance Appearance {

@@ -117,8 +117,8 @@ DEF GROUND Solid {
         ]
         xDimension 65
         xSpacing 20
-        zDimension 65
-        zSpacing 25
+        yDimension 65
+        ySpacing 25
       }
     }
   ]

@@ -50,9 +50,7 @@ DEF WRITER Robot {
               volume 0.0001
               endOffset 0 0.06 0
               color [
-                0 1 0
-                1 0 0
-                0 0 1
+                0 1 0                1 0 0                0 0 1
               ]
             }
           ]
@@ -81,14 +79,19 @@ DEF WRITER Robot {
             translation 0 0 0.031
             rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 1
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 1 0 1
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -106,14 +109,18 @@ DEF WRITER Robot {
           translation -0.065 0.308 -0.033
           rotation 0.6546550822237016 -0.6546530822234504 -0.37796304747159487 -2.418865307179586
           children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0.33 0.66 1
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.01
-              }
+            Transform {
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.33 0.66 1
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.01
+                  }
+                }
+              ]
             }
           ]
           fieldOfView 0.56

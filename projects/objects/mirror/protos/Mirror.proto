@@ -74,7 +74,6 @@ PROTO Mirror [
       }
       DEF FRONT Display {
         translation 0 %<= height * 0.5 + frameThickness >% 0
-        rotation 1 0 0 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -97,7 +96,7 @@ PROTO Mirror [
       }
       DEF BACK Transform {
         translation 0 %<= height * 0.5 + frameThickness >% 0
-        rotation 0 -0.707108 0.707105 3.14159
+        rotation 0 1 0 -3.14159
         children [
           Shape {
             appearance PBRAppearance {

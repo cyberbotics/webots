@@ -37,6 +37,7 @@ Robot {
     }
     Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.57079632679
       children [
         Shape {
           appearance PBRAppearance {
@@ -73,7 +74,7 @@ Robot {
             name "left_wheel_gps"
           }
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0 0 0 -1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -144,6 +145,7 @@ Robot {
   ]
   boundingObject Transform {
     translation 0 0.0415 0
+    rotation 1 0 0 -1.57079632679
     children [
       USE BODY
     ]

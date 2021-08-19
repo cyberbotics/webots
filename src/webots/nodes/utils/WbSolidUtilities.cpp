@@ -131,7 +131,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
         cylinder->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
                               defaultValues);
     } else
-      dMassSetCylinder(&m, density, 2, radius, height);  // 2 -> y-axis
+      dMassSetCylinder(&m, density, 3, radius, height);  // 3 -> z-axis
     dMassAdd(mass, &m);
     cylinder->setOdeMass(&m);
     return;
@@ -147,7 +147,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
         capsule->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
                              defaultValues);
     } else
-      dMassSetCapsule(&m, density, 2, radius, height);  // 2 -> y-axis
+      dMassSetCapsule(&m, density, 3, radius, height);  // 3 -> z-axis
     dMassAdd(mass, &m);
     capsule->setOdeMass(&m);
     return;

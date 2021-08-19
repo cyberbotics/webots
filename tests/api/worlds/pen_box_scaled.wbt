@@ -69,16 +69,21 @@ DEF WRITER Robot {
             translation 0 0 0.031
             rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
+              DEF BODY Transform {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
                   }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+                ]
               }
             ]
           }
@@ -96,11 +101,15 @@ DEF WRITER Robot {
           translation -0.065 0.284 -0.016
           rotation 0.6215152437378164 -0.6215152437378164 -0.476904187026121 -2.2515953071795867
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.01
-                radius 0.01
-              }
+            Transform {
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.01
+                  }
+                }
+              ]
             }
           ]
           fieldOfView 0.56

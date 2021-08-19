@@ -93,18 +93,18 @@ class OSMCoord(OSMAbstractObject):
             return (0, 0, 0, 0)
         xMin = OSMCoord.coordDictionnary[refs[0]].x
         xMax = OSMCoord.coordDictionnary[refs[0]].x
-        zMin = OSMCoord.coordDictionnary[refs[0]].z
-        zMax = OSMCoord.coordDictionnary[refs[0]].z
+        yMin = OSMCoord.coordDictionnary[refs[0]].z
+        yMax = OSMCoord.coordDictionnary[refs[0]].z
         for ref in refs:
             if xMin < OSMCoord.coordDictionnary[ref].x:
                 xMin = OSMCoord.coordDictionnary[ref].x
             if xMax > OSMCoord.coordDictionnary[ref].x:
                 xMax = OSMCoord.coordDictionnary[ref].x
-            if zMin < OSMCoord.coordDictionnary[ref].z:
-                zMin = OSMCoord.coordDictionnary[ref].z
-            if zMax > OSMCoord.coordDictionnary[ref].z:
-                zMax = OSMCoord.coordDictionnary[ref].z
-        return (xMin, xMax, zMin, zMax)
+            if yMin < OSMCoord.coordDictionnary[ref].z:
+                yMin = OSMCoord.coordDictionnary[ref].z
+            if yMax > OSMCoord.coordDictionnary[ref].z:
+                yMax = OSMCoord.coordDictionnary[ref].z
+        return (xMin, xMax, yMin, yMax)
 
 
 class OSMNode(OSMCoord):

@@ -130,8 +130,8 @@ class Area(WebotsObject):
             file.write("            \"" + texture + "\"\n")
             file.write("          ]\n")
             file.write("        }\n")
-            xMin, xMax, zMin, zMax = OSMCoord.get_min_and_max_coord(refs)
-            scale = max(abs(round(xMax - xMin)), abs(round(zMax - zMin)))
+            xMin, xMax, yMin, yMax = OSMCoord.get_min_and_max_coord(refs)
+            scale = max(abs(round(xMax - xMin)), abs(round(yMax - yMin)))
             file.write("        textureTransform TextureTransform {\n")
             file.write("          scale %.2f %.2f\n" % (scale, scale))
             file.write("        }\n")
@@ -231,11 +231,11 @@ class Area(WebotsObject):
         """Generate the 'forest' file which contains the tree positions and is used by the 'Forest' PROTO."""
         treeNumber = 0
         polygon = []
-        xMin, xMax, zMin, zMax = OSMCoord.get_min_and_max_coord(self.ref)
+        xMin, xMax, yMin, yMax = OSMCoord.get_min_and_max_coord(self.ref)
         for ref in self.ref:
             polygon.append([OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].z])
 
-        numberOfTree = int(round((xMax - xMin) * (zMax - zMin)) * self.density)
+        numberOfTree = int(round((xMax - xMin) * (yMax - yMin)) * self.density)
         if not os.path.exists(folder + '/forest'):
             os.makedirs(folder + '/forest')
         forestRelativePath = 'forest/' + str(self.OSMID) + '.forest'
@@ -243,7 +243,7 @@ class Area(WebotsObject):
         with open(forestPath, 'w') as file:
             for index in range(0, numberOfTree):
                 x = random.uniform(xMin, xMax)
-                z = random.uniform(zMin, zMax)
+                z = random.uniform(yMin, yMax)
                 y = 0
                 if WebotsObject.elevation is not None:
                     y = WebotsObject.elevation.interpolate_height(-x + WebotsObject.xOffset, z + WebotsObject.zOffset)
