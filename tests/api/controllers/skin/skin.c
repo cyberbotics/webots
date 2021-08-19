@@ -13,7 +13,7 @@ static void check_image(WbDeviceTag camera, const int *color, const char *messag
   const int r = wb_camera_image_get_red(image, 1, 0, 0);
   const int g = wb_camera_image_get_green(image, 1, 0, 0);
   const int b = wb_camera_image_get_blue(image, 1, 0, 0);
-  ts_assert_color_in_delta(r, g, b, color[0], color[1], color[2], 20, message, r, g, b);
+  ts_assert_color_in_delta(r, g, b, color[0], color[1], color[2], 5, message, r, g, b);
 }
 
 int main(int argc, char **argv) {
