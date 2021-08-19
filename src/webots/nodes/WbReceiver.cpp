@@ -418,8 +418,8 @@ bool WbReceiver::checkApertureAndRange(const WbEmitter *emitter, const WbReceive
   // emission: check that receiver is within emitter's cone
   if (emitter->aperture() > 0.0) {
     const WbVector3 e2r = rTranslation - eTranslation;
-    WbVector4 eAxisX4 = emitter->matrix().column(0);
-    WbVector3 eAxisX3(eAxisX4[0], eAxisX4[1], eAxisX4[2]);
+    const WbVector4 eAxisX4 = emitter->matrix().column(0);
+    const WbVector3 eAxisX3(eAxisX4[0], eAxisX4[1], eAxisX4[2]);
     if (eAxisX3.angle(e2r) > emitter->aperture() / 2.0)
       return false;
   }
