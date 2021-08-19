@@ -143,7 +143,6 @@ signals:
   void startControllerRequest(WbRobot *robot);
   void immediateMessageAdded();
   void controllerChanged();
-  void controllerRestarted();
   void controllerExited();
   void wasReset();
   void toggleRemoteMode(bool enable);

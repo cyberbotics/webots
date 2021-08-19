@@ -2402,3 +2402,143 @@ Also, unfortunately, documentation for automobiles is little bit short for me. I
 ##### mcitir 07/27/2021 13:35:32
 `@DDaniel` Thank you very much.
 
+## August
+
+##### Miguel Torres 08/06/2021 17:34:40
+Hello community.
+
+I want to add a lidar sensor to a vehicle, but when I call the lidar.getPointCloud () function from my Python controller it shows this WARNING and  it stops.
+
+Can you help me please?
+%figure
+![Screenshot_2021-08-06_123327.png](https://cdn.discordapp.com/attachments/565155651395780609/873257784504877066/Screenshot_2021-08-06_123327.png)
+%end
+
+
+this is a video
+
+
+
+> **Attachment**: [lidar\_error.mp4](https://cdn.discordapp.com/attachments/565155651395780609/873257945226428486/lidar_error.mp4)
+
+##### DDaniel [Cyberbotics] 08/06/2021 20:22:07
+`@Miguel Torres` I can't reproduce the error, works fine for me. Can you share the entire project?
+
+##### Miguel Torres 08/06/2021 22:18:04
+`@DDaniel` thanks for your prompt response.  This is the entire project, the world in name "tutorial6\_4\_wheeled\_robot"
+
+
+
+> **Attachment**: [WebotsProject.7z](https://cdn.discordapp.com/attachments/565155651395780609/873329135022383135/WebotsProject.7z)
+
+
+I am using windows 10
+
+##### Stefania Pedrazzi [Cyberbotics] 08/09/2021 06:30:29
+Which Python version are you using? Python 3.9?
+
+In R2021b there are known issues with Python 3.9 that have already been fixed in the latest nightly build of R2021b revision 1.
+
+If you cannot switch to Python 3.8, then I would suggest to try with the latest R2021b-rev1 nightly build available here:
+
+[https://github.com/cyberbotics/webots/releases/tag/nightly\_6\_8\_2021](https://github.com/cyberbotics/webots/releases/tag/nightly_6_8_2021)
+
+##### Miguel Torres 08/09/2021 16:36:06
+`@Stefania Pedrazzi` Thanks.
+
+I have version 3.9.4. of python. So I installed "webots-R2021b-rev1\_setup.exe" and it worked fine.   😌 
+
+
+
+Now, I have a list of objects of type "WbLidarPoint" but I has not been able to print the x, y, z properties. I tried with point.x, point.getX (), point.get\_x () as well as it is written in the documentation.
+
+AttributeError: Object 'SwigPyObject' has no attribute 'getX'
+
+
+
+What is the proper way to access the x, y, x, time attributes of a WbLidarPoint from the LIDAR sensor tip cloud?
+
+##### DDaniel [Cyberbotics] 08/09/2021 18:20:15
+`@Miguel Torres` it should be accessible with `.x`. In all other languages it works fine but you're right, it doesn't for python. It appears to be a regression, I'll look into it tomorrow
+
+##### Miguel Torres 08/09/2021 18:40:38
+I really appreciate it. 
+
+It is very important to me
+
+##### DDaniel [Cyberbotics] 08/10/2021 13:52:29
+`@Miguel Torres` It should be fixed in tonight's nightly build, you can download it from here tonight/tomorrow: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### Miguel Torres 08/10/2021 13:59:55
+`@DDaniel` Great news, I'll download it tomorrow. 
+
+Thanks.
+
+##### Naga15 08/11/2021 08:44:19
+Hello Cyberbotics team i write you again. I hadn't resolved the last problem from July 14. But I have some updates about the topic. After fresh instalation of UBUNTU 20.04 i tried to install officiall release of webots 2021b. when I do it over .deb or snap I get same Problem by connecting to ros-master. Error ist about libboost I tried to install over tarball and it connects to ros master but I have a problem with this error: 
+
+
+
+INFO: ros: Starting controller: /home/denis/webots/projects/default/controllers/ros/ros --name=asterix
+
+[ INFO] [1628669963.199765104]: Robot's unique name is asterix.
+
+[ INFO] [1628669963.224707050]: The controller is now connected to the ROS master.
+
+WARNING: ros: The process crashed some time after starting successfully.
+
+Error: wb\_lidar\_get\_layer\_range\_image() called for a disabled device! Please use: wb\_lidar\_enable().
+
+WARNING: 'ros' controller crashed.
+
+
+
+I tried to enable Lidar and PointCloud on my Robot. The same code on last revision worked, here not. I looked at the example  complete\_test.cpp in webots\_ros and tried to recreate it for my project. Yes I use ROS1 .What should I do? My colleagues said that I need to work with webots R2021 but I can't resolve this over one month.  Is it maybe resolved in one of the nightly builds?
+
+
+
+
+
+I tried to install from source but I got simmilar result as over tarball but my ros instalation got rogue and tools like rviz rqt didn't want to start. I needed to install whole Ubuntu again. 
+
+
+
+Sorry for bothering you
+
+Thanks in advance for help
+
+##### Darko Lukić [Cyberbotics] 08/11/2021 08:52:13
+We discovered the issue comes from Webots. See this:
+
+[https://github.com/cyberbotics/webots/issues/3488#issuecomment-894355243](https://github.com/cyberbotics/webots/issues/3488#issuecomment-894355243)
+
+
+
+To resolve the problem please use the tarball for Ubuntu 20.04
+
+
+About the other problem let me check
+
+##### Naga15 08/11/2021 09:08:58
+Thanks.
+
+##### Darko Lukić [Cyberbotics] 08/11/2021 14:55:14
+`@Naga15` I believe I fixed the issue:
+
+[https://github.com/cyberbotics/webots/pull/3561](https://github.com/cyberbotics/webots/pull/3561)
+
+
+
+You can download it from here:
+
+[https://github.com/cyberbotics/webots/suites/3469232657/artifacts/82481184](https://github.com/cyberbotics/webots/suites/3469232657/artifacts/82481184)
+
+
+
+Or wait for the nightly builds (generated an evening after a merge):
+
+[https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### Naga15 08/16/2021 08:00:26
+Thanks it finally works!
+
