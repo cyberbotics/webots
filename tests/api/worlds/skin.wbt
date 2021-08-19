@@ -35,7 +35,7 @@ Robot {
         PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/default/worlds/textures/tagged_wall.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/tagged_wall.jpg"
             ]
           }
           name "skin"
