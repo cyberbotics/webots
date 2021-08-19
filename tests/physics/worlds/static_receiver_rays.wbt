@@ -34,22 +34,29 @@ DEF DYNAMIC_EMITTER Robot {
   translation 0 0.15 -0.1
   children [
     Emitter {
+      rotation -0.57735 -0.57735 -0.57735 2.0944
       children [
         Transform {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 1 1
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0 1 1
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.025
+                    height 0.1
+                    bottom FALSE
+                  }
                 }
-              }
-              geometry Cone {
-                bottomRadius 0.025
-                height 0.1
-                bottom FALSE
-              }
+              ]
             }
           ]
         }
@@ -59,22 +66,29 @@ DEF DYNAMIC_EMITTER Robot {
       aperture 0.4
     }
     Emitter {
+      rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 1 1
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0 1 1
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.025
+                    height 0.1
+                    bottom FALSE
+                  }
                 }
-              }
-              geometry Cone {
-                bottomRadius 0.025
-                height 0.1
-                bottom FALSE
-              }
+              ]
             }
           ]
         }
@@ -101,22 +115,29 @@ DEF STATIC_EMITTER Robot {
   rotation 0 1 0 3.14159
   children [
     Emitter {
+      rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 1 1
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0 1 1
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
                 }
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+              ]
             }
           ]
         }
@@ -126,22 +147,29 @@ DEF STATIC_EMITTER Robot {
       aperture 0.4
     }
     Emitter {
+      rotation 0.57735 0.57735 0.57735 -2.0944
       children [
         Transform {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0 1 1
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0 1 1
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
                 }
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+              ]
             }
           ]
         }
@@ -175,23 +203,29 @@ DEF STATIC_ROBOT Robot {
     }
     DEF STATIC Receiver {
       translation -0.02 0 0
-      rotation 0 1 0 -1.5708
+      rotation 0 -0.70711 -0.70711 3.14159
       children [
         Transform {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0.890196 0.615686 0.380392
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.890196 0.615686 0.380392
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
                 }
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+              ]
             }
           ]
         }
@@ -201,23 +235,29 @@ DEF STATIC_ROBOT Robot {
     }
     DEF DYNAMIC Receiver {
       translation 0.02 0 0
-      rotation 0 1 0 1.5708
+      rotation 1 0 0 -1.5708
       children [
         Transform {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0.890196 0.615686 0.380392
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.890196 0.615686 0.380392
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
                 }
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+              ]
             }
           ]
         }
@@ -227,23 +267,29 @@ DEF STATIC_ROBOT Robot {
     }
     DEF STATIC Receiver {
       translation -0.02 0 0
-      rotation 0 1 0 -1.5708
+      rotation 0 -0.70711 -0.70711 3.14159
       children [
         Transform {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0.890196 0.615686 0.380392
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.890196 0.615686 0.380392
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
                 }
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+              ]
             }
           ]
         }
@@ -254,23 +300,29 @@ DEF STATIC_ROBOT Robot {
     }
     DEF DYNAMIC Receiver {
       translation 0.02 0 0
-      rotation 0 1 0 1.5708
+      rotation 1 0 0 -1.5708
       children [
         Transform {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Shape {
-              appearance Appearance {
-                material Material {
-                  diffuseColor 0.890196 0.615686 0.380392
+            Transform {
+              translation 0 0 0.05
+              rotation 0 -0.70711 0.70711 3.14159
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.890196 0.615686 0.380392
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.02
+                    height 0.1
+                    bottom FALSE
+                  }
                 }
-              }
-              geometry Cone {
-                bottomRadius 0.02
-                height 0.1
-                bottom FALSE
-              }
+              ]
             }
           ]
         }
