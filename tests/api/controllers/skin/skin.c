@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   /* Test physical skeleton */
-  const int skin_color[3] = {149, 10, 8};
+  const int skin_color[3] = {153, 0, 0};
   const int sky_color[3] = {102, 178, 255};
 
   check_image(camera, skin_color, "Skin mesh is not detected at the beginning of the test: detected color [%d %d %d].");
