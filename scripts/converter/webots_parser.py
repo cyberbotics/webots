@@ -16,7 +16,6 @@
 
 """Parse Webots world files."""
 
-
 class WebotsParser:
     """This class reads a world file and parser its structure."""
     """It assumes the world file was saved with Webots and the indentation written by Webots was not changed."""
@@ -38,7 +37,6 @@ class WebotsParser:
                 revert_line_count = self.line_count
                 line = self.file.readline()
                 if line.startswith('#') or not line.strip():
-
                     self.line_count += 1
                     self.content['header'].append(line.strip())
                 else:
@@ -48,13 +46,13 @@ class WebotsParser:
 
             self.content['root'] = []
             for line in self.file:
-                self._check_line(line)
+                line = self._prepare_line(line)
                 self.line_count += 1
-                if line.strip():
+                if line:
                     if line.startswith('PROTO'):
-                        self.content['root'].append(self._read_node_declaration(line.strip()))
+                        self.content['root'].append(self._read_node_declaration(line))
                     else:
-                        self.content['root'].append(self._read_node(line.strip()))
+                        self.content['root'].append(self._read_node(line))
 
     def save(self, filename):
         self.indentation = 0
@@ -186,8 +184,7 @@ class WebotsParser:
         else:
             node['name'] = words[0]
         for line in self.file:
-            self._check_line(line)
-            line = line.strip()
+            line = self._prepare_line(line)
             self.line_count += 1
             if line.startswith('hidden'):
                 print('Removing hidden field: "%s".' % line)
@@ -219,8 +216,7 @@ class WebotsParser:
 
         # Read fields
         for line in self.file:
-            self._check_line(line)
-            line = line.strip()
+            line = self._prepare_line(line)
             self.line_count += 1
             if line == ']':
                 break
@@ -229,19 +225,20 @@ class WebotsParser:
         # Read subnodes
         node['root'] = []
         for line in self.file:
-            self._check_line(line)
+            line = self._prepare_line(line)
             self.line_count += 1
-            if line.strip() == '}':
+            if line == '}':
                 break
-            if line.strip() != '{':
-                node['root'].append(self._read_node(line.strip()))
+            if line != '{':
+                node['root'].append(self._read_node(line))
 
         return node
 
-    def _check_line(self, line):
+    def _prepare_line(self, line):
         if '%<' in line or '>%' in line:
             raise Exception(
                 f'JavaScript fragment found at line {self.line_count}. This script cannot handle JavaScript fragments.')
+        return line.split('#')[0].strip()
 
     def _read_field(self, line):
         field = {}
@@ -347,4 +344,6 @@ class WebotsParser:
                 type = 'MFNode'
                 node = self._read_node(line)
                 mffield.append(node)
+        if len(mffield) > 4:
+            type = 'MFFloat' if ',' in line else 'MFInt32'
         return type, mffield
