@@ -90,7 +90,7 @@ class WebotsParser:
 
         self.file.write('}\n')
 
-    def _write_node(self, node, identation=0):
+    def _write_node(self, node, indentation=0):
         if node is None:
             self.file.write('NULL\n')
             return
@@ -100,7 +100,7 @@ class WebotsParser:
             self.file.write('USE ' + node['USE'] + '\n')
             return
         else:
-            name = identation * ' '
+            name = indentation * ' '
         name += node['name']
         self.file.write(name + ' {\n')
         self.indentation += 2
@@ -153,7 +153,7 @@ class WebotsParser:
         indent = ' ' * self.indentation
         count = 0
         self.file.write(indent)
-        for value in values:
+        for index, value in enumerate(values):
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
             elif type == 'MFInt32' or type == 'MFFloat':
@@ -167,7 +167,7 @@ class WebotsParser:
             elif type == 'MFRotation':
                 self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + ' ' + value[3])
             elif type == 'MFNode':
-                self._write_node(value)
+                self._write_node(value, self.indentation if index > 0 else 0)
             count += 1
         if type in ['MFInt32', 'MFFloat', 'MFVec2f', 'MFVec3f', 'MFColor', 'MFRotation']:
             self.file.write('\n')
