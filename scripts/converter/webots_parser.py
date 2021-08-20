@@ -16,6 +16,7 @@
 
 """Parse Webots world files."""
 
+
 class WebotsParser:
     """This class reads a world file and parser its structure."""
     """It assumes the world file was saved with Webots and the indentation written by Webots was not changed."""
@@ -47,6 +48,7 @@ class WebotsParser:
 
             self.content['root'] = []
             for line in self.file:
+                self._check_line(line)
                 self.line_count += 1
                 if line.strip():
                     if line.startswith('PROTO'):
@@ -184,6 +186,7 @@ class WebotsParser:
         else:
             node['name'] = words[0]
         for line in self.file:
+            self._check_line(line)
             line = line.strip()
             self.line_count += 1
             if line.startswith('hidden'):
@@ -216,6 +219,7 @@ class WebotsParser:
 
         # Read fields
         for line in self.file:
+            self._check_line(line)
             line = line.strip()
             self.line_count += 1
             if line == ']':
@@ -225,6 +229,7 @@ class WebotsParser:
         # Read subnodes
         node['root'] = []
         for line in self.file:
+            self._check_line(line)
             self.line_count += 1
             if line.strip() == '}':
                 break
@@ -232,6 +237,11 @@ class WebotsParser:
                 node['root'].append(self._read_node(line.strip()))
 
         return node
+
+    def _check_line(self, line):
+        if '%<' in line or '>%' in line:
+            raise Exception(
+                f'JavaScript fragment found at line {self.line_count}. This script cannot handle JavaScript fragments.')
 
     def _read_field(self, line):
         field = {}
