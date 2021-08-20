@@ -32,8 +32,7 @@ PROTO MultiSenseS21 [
       }
       %< if (fields.leftCamera.value) { >%
       Camera {
-        rotation -0.5774 0.5773 0.5774 -2.0944
-        translation 0.097 -0.105 0
+        translation 0.097 0.105 0
         name %<= '"' + fields.name.value + ' left camera"' >%
         fieldOfView IS cameraFieldOfView
         width IS cameraWidth
@@ -43,8 +42,7 @@ PROTO MultiSenseS21 [
       %< } >%
       %< if (fields.rightCamera.value) { >%
       Camera {
-        rotation -0.5774 0.5773 0.5774 -2.0944
-        translation 0.098 0.105 0
+        translation 0.098 -0.105 0
         name %<= '"' + fields.name.value + ' right camera"' >%
         fieldOfView IS cameraFieldOfView
         width IS cameraWidth
@@ -54,7 +52,6 @@ PROTO MultiSenseS21 [
       %< } >%
       %< if (fields.metaCamera.value) { >%
       Camera {
-        rotation -0.5774 0.5773 0.5774 -2.0944
         translation 0.05 0 0
         name %<= '"' + fields.name.value + ' meta camera"' >%
         fieldOfView IS cameraFieldOfView
@@ -65,7 +62,6 @@ PROTO MultiSenseS21 [
       %< } >%
       %< if (fields.metaRangeFinder.value) { >%
       RangeFinder {
-        rotation -0.5774 0.5773 0.5774 -2.0944
         translation 0.05 0 0
         fieldOfView IS cameraFieldOfView
         minRange 1.5
