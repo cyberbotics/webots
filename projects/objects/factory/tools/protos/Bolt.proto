@@ -6,7 +6,7 @@
 
 PROTO Bolt [
   field SFVec3f    translation      0 0.0131 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "bolt"
   field SFNode     appearance       OldSteel {}  # Defines the appearance of the bolt.
   field SFFloat    screwRadius      0.0055       # Defines the radius of the screw.

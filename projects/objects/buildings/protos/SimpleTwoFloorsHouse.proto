@@ -8,7 +8,7 @@
 
 PROTO SimpleTwoFloorsHouse [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "simple two-storey house"
   field SFBool     enableBoundingObject  TRUE                                                                # Defines whether to enable the bounding object.
   field SFNode     appearance            PBRAppearance { baseColor 0.63 0.71 0.63 metalness 0 roughness 1 }  # Defines the house appearance.

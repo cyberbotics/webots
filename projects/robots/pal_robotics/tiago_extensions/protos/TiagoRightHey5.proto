@@ -1111,7 +1111,7 @@ PROTO TiagoRightHey5 [
                           ]
                           endPoint DEF HAND_RIGHT_RING_CONNECTOR_2 Solid {
                             translation 0.009 0 0
-                            rotation 0 1 0 0
+                            rotation 0 0 1 0
                             children [
                               USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                               DEF HAND_RIGHT_RING_PHALANX_3_JOINT HingeJoint {
@@ -1374,7 +1374,7 @@ PROTO TiagoRightHey5 [
                                             ]
                                             endPoint DEF HAND_RIGHT_LITTLE_TIP Solid {
                                               translation 0.013 0 0
-                                              rotation 0 1 0 0
+                                              rotation 0 0 1 0
                                               children [
                                                 USE HAND_RIGHT_FINGER_TIP
                                               ]

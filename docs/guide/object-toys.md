@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PaperBoat {
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "paper boat"
   SFFloat    scale               1
   MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
@@ -58,7 +58,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RubberDuck {
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "rubber duck"
   SFFloat    scale               1
   SFColor    bodyColor           0.87451 0.756863 0.113725

@@ -8,7 +8,7 @@
 
 PROTO Kinect [
   field SFVec3f    translation   0 0 0
-  field SFRotation rotation      0 1 0 0
+  field SFRotation rotation      0 0 1 0
   field SFString   name          "Kinect"
   field SFInt32    width         320          # Defines the `width` field of the `RangeFinder` and `Camera` nodes.
   field SFInt32    height        190          # Defines the `height` field of the `RangeFinder` and `Camera` nodes.

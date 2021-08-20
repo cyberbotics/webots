@@ -6,7 +6,7 @@
 
 PROTO Crossroad [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "crossroad"             # Defines the the crossroad name.
   field SFString   id               ""                      # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field SFFloat    speedLimit       -1.0                    # Optionally defines the speed limit. The recommended unit is meter per seconds.

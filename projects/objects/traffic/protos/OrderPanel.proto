@@ -5,7 +5,7 @@
 
 PROTO OrderPanel [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "order panel"
   field MFString   signImage          "webots://projects/objects/traffic/protos/textures/signs/do_not_enter.jpg"   # Defines the texture used for the sign.
   field SFColor    color              0.8 0.8 0.8                         # Defines the color of the panel.

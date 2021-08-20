@@ -6,7 +6,7 @@
 
 PROTO RubberDuck [
   field SFVec3f    translation         0 0 0
-  field SFRotation rotation            0 1 0 0
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "rubber duck"
   field SFFloat    scale               1                          # Defines the global scaling factor.
   field SFColor    bodyColor           0.87451 0.756863 0.113725  # Defines the color of the rubber duck.

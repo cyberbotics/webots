@@ -5,7 +5,7 @@
 
 PROTO Television [
   field SFVec3f    translation   0 0.3 0
-  field SFRotation rotation      0 1 0 0
+  field SFRotation rotation      0 0 1 0
   field SFString   name          "television"
   field SFColor    color         1 1 1                      # Defines the color of the television.
   field MFString   textureUrl    "webots://projects/objects/television/protos/textures/television.jpg"  # Defines the texture used for the television.

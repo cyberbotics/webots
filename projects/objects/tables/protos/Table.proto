@@ -6,7 +6,7 @@
 
 PROTO Table [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "table"
   field SFVec3f    size           1.8 0.74 1                                                           # Defines the size of the table.
   field SFVec2f    feetSize       0.1 0.1                                                              # Defines the size of the feet.

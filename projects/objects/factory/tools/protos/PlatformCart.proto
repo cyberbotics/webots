@@ -6,7 +6,7 @@
 
 PROTO PlatformCart [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "platform cart"
   field MFNode     slot        []               # Extends the cart with new nodes in the slot.
   field SFNode     physics     Physics {}       # Is `Solid.physics`.

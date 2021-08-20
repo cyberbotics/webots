@@ -6,7 +6,7 @@
 
 PROTO Gear [
   field SFVec3f         translation            0 0 0
-  field SFRotation      rotation               0 1 0 0
+  field SFRotation      rotation               0 0 1 0
   field SFNode          appearance             PBRAppearance{baseColor 0.533333, 0.541176, 0.521569, roughness 0.5}
   field SFString        name                   "gear"     # Defines the solid's name.
   field SFInt32         teeth                  8          # Defines number of teeth, [8, inf).

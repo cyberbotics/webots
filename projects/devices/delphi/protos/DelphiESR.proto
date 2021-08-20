@@ -10,7 +10,7 @@
 
 PROTO DelphiESR [
   field   SFVec3f    translation     0 0 0
-  field   SFRotation rotation        0 1 0 0
+  field   SFRotation rotation        0 0 1 0
   field   SFString   name            "Delphi ESR"
   field   SFBool     occlusion       FALSE
   field   SFBool     longRangeMode   FALSE

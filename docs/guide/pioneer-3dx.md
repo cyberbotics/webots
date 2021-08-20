@@ -79,7 +79,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Pioneer3dx {
   SFVec3f    translation     0 0.0975 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "Pioneer 3-DX"
   SFString   controller      "pioneer3dx_collision_avoidance"
   MFString   controllerArgs  []

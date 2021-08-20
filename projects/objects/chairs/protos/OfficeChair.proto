@@ -6,7 +6,7 @@
 
 PROTO OfficeChair [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "office chair"
   field SFNode     legAppearance   BrushedAluminium { textureTransform TextureTransform { scale 5 5 } }  # Defines the appearance of the legs of the chair.
   field SFNode     seatAppearance  Leather { textureTransform TextureTransform { scale 10 10 } }         # Defines the appearance of the body of the chair.

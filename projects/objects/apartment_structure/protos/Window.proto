@@ -6,7 +6,7 @@
 
 PROTO Window [
   field SFVec3f    translation            0 0 0
-  field SFRotation rotation               0 1 0 0
+  field SFRotation rotation               0 0 1 0
   field SFString   name                   "window"
   field SFVec3f    size                   0.8 2.4 0.2       # Defines the size of the window.
   field SFFloat    windowThickness        0.05              # Defines the thickness of the window.

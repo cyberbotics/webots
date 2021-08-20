@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Blackboard {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "blackboard"
   SFBool     castShadows TRUE
 }
@@ -45,7 +45,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Book {
   SFVec3f    translation 0 0.1 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "book"
   SFColor    color       1 1 1
   MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/school_furniture/protos/textures/book.jpg"
@@ -81,7 +81,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Clock {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "clock"
 }
 ```

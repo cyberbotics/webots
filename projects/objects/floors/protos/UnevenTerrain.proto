@@ -7,7 +7,7 @@
 
 PROTO UnevenTerrain [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "uneven terrain"
   field SFVec3f    size           50 5 50                                                            # Defines the size of the terrain.
   field SFInt32    xDimension     50                                                                 # Defines the number of points in the grid height array in the x direction.

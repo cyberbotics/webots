@@ -6,7 +6,7 @@
 
 PROTO Carafe [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "carafe"
   field SFFloat    mass        1         # Defines the mass of the carafe in kg.
 ]

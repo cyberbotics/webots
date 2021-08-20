@@ -7,7 +7,7 @@
 
 PROTO RobotstadiumSoccerField [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "robotstadium soccer field"
   field SFString   contactMaterial "default"                    # Is `Solid.contactMaterial`.
   field SFColor    frame1Color     1 1 1                        # Defines the color of the first goal frame.

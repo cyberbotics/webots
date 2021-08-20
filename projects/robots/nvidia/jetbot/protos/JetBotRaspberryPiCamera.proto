@@ -6,7 +6,7 @@
 
 PROTO JetBotRaspberryPiCamera [
   field SFVec3f            translation           0 0 0                    # Is `Transform.translation`.
-  field SFRotation         rotation              0 1 0 0                  # Is `Transform.rotation`.
+  field SFRotation         rotation              0 0 1 0                  # Is `Transform.rotation`.
   field SFString           name                  "camera"                 # Is `Camera.name`.
   field SFFloat            fieldOfView           2.79253                  # Is `Camera.fieldOfView`.
   field SFInt32            width                 1280                     # Is `Camera.width`.

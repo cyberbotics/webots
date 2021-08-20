@@ -73,7 +73,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Toilet {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "toilet"
   SFColor    lidColor       0.45 0.62 0.81
 }

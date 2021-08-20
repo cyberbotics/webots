@@ -5,7 +5,7 @@
 
 PROTO EmergencyPhone [
   field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFString   name                 "emergency phone"
   field SFColor    poleColor            1 0.44 0           # Defines the color of the pole.
   field MFColor    recognitionColors    [1 0.44 0]         # Is `Solid.recognitionColors`.

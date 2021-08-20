@@ -7,7 +7,7 @@
 
 PROTO StreetLight [
   field SFVec3f    translation   0 0 0
-  field SFRotation rotation      0 1 0 0
+  field SFRotation rotation      0 0 1 0
   field SFString   name          "street light"
   field SFFloat    beamWidth     1.1             # Defines the beam width of the spot light.
   field SFColor    color         1 1 1           # Defines the color of the spot light.

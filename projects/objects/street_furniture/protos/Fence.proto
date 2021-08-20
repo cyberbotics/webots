@@ -9,7 +9,7 @@
 
 PROTO Fence [
   field SFVec3f      translation             0 0 0
-  field SFRotation   rotation                0 1 0 0
+  field SFRotation   rotation                0 0 1 0
   field SFString     name                    "fence"
   field SFString     model                   "fence"
   field MFColor      recognitionColors       [0.8 0.8 0.8]

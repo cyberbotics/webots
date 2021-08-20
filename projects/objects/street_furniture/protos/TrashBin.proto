@@ -5,7 +5,7 @@
 
 PROTO TrashBin [
   field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFString   name                 "trash bin"
   field SFColor    coverColor           0.1 0.1 0.1                 # Defines the color of the top part of the bin.
   field SFColor    binColor             0.08 0.46 0                 # Defines the main color of the bin.

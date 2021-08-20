@@ -6,7 +6,7 @@
 
 PROTO TeslaModel3Wheel [
   field       SFVec3f    translation     0 0 0
-  field       SFRotation rotation        0 1 0 0
+  field       SFRotation rotation        0 0 1 0
   field       SFString   name            "wheel"
   field       SFFloat    tireRadius      0.36
   field       SFBool     boundingObject  TRUE

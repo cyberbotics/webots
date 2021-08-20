@@ -6,19 +6,19 @@ PROTO C3dBodyRepresentation [
   field SFRotation  rotation           0 1 0 -1.5708
   field SFVec3f     scale              1 1 1
   field SFFloat     transparency       0.1
-  field SFRotation  RShoulderRotation  0 1 0 0
-  field SFRotation  RElbowRotation     0 1 0 0
-  field SFRotation  RWristRotation     0 1 0 0
-  field SFRotation  LShoulderRotation  0 1 0 0
-  field SFRotation  LElbowRotation     0 1 0 0
-  field SFRotation  LWristRotation     0 1 0 0
-  field SFRotation  LHipRotation       0 1 0 0
-  field SFRotation  LKneeRotation      0 1 0 0
-  field SFRotation  LAnkleRotation     0 1 0 0
-  field SFRotation  RHipRotation       0 1 0 0
-  field SFRotation  RKneeRotation      0 1 0 0
-  field SFRotation  RAnkleRotation     0 1 0 0
-  field SFRotation  LPelvisRotation    0 1 0 0
+  field SFRotation  RShoulderRotation  0 0 1 0
+  field SFRotation  RElbowRotation     0 0 1 0
+  field SFRotation  RWristRotation     0 0 1 0
+  field SFRotation  LShoulderRotation  0 0 1 0
+  field SFRotation  LElbowRotation     0 0 1 0
+  field SFRotation  LWristRotation     0 0 1 0
+  field SFRotation  LHipRotation       0 0 1 0
+  field SFRotation  LKneeRotation      0 0 1 0
+  field SFRotation  LAnkleRotation     0 0 1 0
+  field SFRotation  RHipRotation       0 0 1 0
+  field SFRotation  RKneeRotation      0 0 1 0
+  field SFRotation  RAnkleRotation     0 0 1 0
+  field SFRotation  LPelvisRotation    0 0 1 0
 ]
 {
   Solid {

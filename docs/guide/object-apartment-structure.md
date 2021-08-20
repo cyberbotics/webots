@@ -53,7 +53,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Door {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "door"
   SFVec3f    size                   1 2.4 0.2
   SFBool     canBeOpen              TRUE
@@ -126,7 +126,7 @@ Derived from [Slot](../reference/slot.md).
 ```
 DoorKnob {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "door knob"
   SFFloat    doorThickness    0.05
   SFFloat    handleRadius     0.03
@@ -172,7 +172,7 @@ Derived from [Slot](../reference/slot.md).
 ```
 DoorLever {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "door lever"
   SFBool     canTurn          FALSE
   SFBool     jointAtLeft      TRUE
@@ -256,7 +256,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Radiator {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "radiator"
   SFInt32    numberOfFins          10
   SFNode     finAppearance         Roughcast { textureTransform TextureTransform { scale 3 3 } }
@@ -293,7 +293,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Wall {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "wall"
   SFVec3f    size        1 2.4 0.2
   SFNode     appearance  Roughcast { textureTransform TextureTransform { scale 1 2.4 } }
@@ -326,7 +326,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 WallPlug {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "wall plug"
   SFColor    mainColor              1 1 1
   SFColor    secondaryColor         0 0 0
@@ -362,7 +362,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Window {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "window"
   SFVec3f    size                   0.8 2.4 0.2
   SFFloat    windowThickness        0.05

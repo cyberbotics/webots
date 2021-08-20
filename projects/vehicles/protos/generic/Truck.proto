@@ -7,7 +7,7 @@
 
 PROTO Truck [
   field     SFVec3f    translation       0 0.5 0
-  field     SFRotation rotation          0 1 0 0
+  field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.39 0 0          # Defines the main color of the truck.
   field     SFNode     trailer           TruckTrailer { }  # Defines an optional trailer.
   field     SFFloat    wheelbase         5.25              # Defines the distance between the front and rear wheels.

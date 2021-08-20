@@ -7,7 +7,7 @@
 
 PROTO HelicoidalRoadSegment [
   field        SFVec3f              translation               0 0 0
-  field        SFRotation           rotation                  0 1 0 0
+  field        SFRotation           rotation                  0 0 1 0
   field        SFString             name                      "road"                  # Defines the road name.
   field        SFString             id                        ""                      # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        SFString             startJunction             ""                      # Optionally defines a reference to the Crossroad connected at the first Road waypoint. Setting correctly this field is required to use the SUMO exporter.

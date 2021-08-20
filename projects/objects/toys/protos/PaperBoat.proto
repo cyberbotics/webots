@@ -6,7 +6,7 @@
 
 PROTO PaperBoat [
   field SFVec3f    translation         0 0 0
-  field SFRotation rotation            0 1 0 0
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "paper boat"
   field SFFloat    scale               1            # Defines the global scaling factor.
   field MFString   textureUrl          "webots://projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg" # Defines the texture used for the paper boat.

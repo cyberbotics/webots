@@ -6,7 +6,7 @@
 
 PROTO SmallResidentialBuilding [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "residential building"
   field SFString{"white", "braun black", "red"}
                    type                  "braun black"           # Defines the type which has a direct influence on the building texture.

@@ -6,7 +6,7 @@
 
 PROTO ModernSuburbanHouse [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "suburban house"
   field SFBool     enableBoundingObject  TRUE              # Defines whether the house should have a bounding object.
 ]

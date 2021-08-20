@@ -5,7 +5,7 @@
 
 PROTO Wrench [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "wrench"
   field SFNode     appearance       OldSteel {}  # Defines the appearance of the wrench.
   field SFString   contactMaterial "default"     # Is `Solid.contactMaterial`.

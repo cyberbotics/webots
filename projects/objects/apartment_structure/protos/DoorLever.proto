@@ -7,7 +7,7 @@
 
 PROTO DoorLever [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "door lever"
   field SFBool     canTurn          FALSE                # Defines whether the lever is connected to the door using a hinge-joint.
   field SFBool     jointAtLeft      TRUE                 # Defines on which side is the lever.

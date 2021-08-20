@@ -7,7 +7,7 @@
 
 PROTO AdvertisingBoard [
   field SFVec3f     translation       0 0 0
-  field SFRotation  rotation          0 1 0 0
+  field SFRotation  rotation          0 0 1 0
   field SFString    name              "advertising board"                   # Defines the name of the advertising board.
   field MFString    frontTexture      "webots://projects/default/worlds/textures/webots_billboard.jpg"       # Defines the front display texture.
   field MFString    backTexture       "webots://projects/default/worlds/textures/webots_billboard.jpg"       # Defines the back display texture.

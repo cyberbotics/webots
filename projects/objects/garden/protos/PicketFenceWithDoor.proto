@@ -6,7 +6,7 @@
 
 PROTO PicketFenceWithDoor [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "picket fence with door"
   field SFBool     enableBoundingObject  TRUE                      # Defines whether the fence should have a bounding object.
 ]

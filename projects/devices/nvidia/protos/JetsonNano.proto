@@ -7,7 +7,7 @@
 
 PROTO JetsonNano [
   field SFVec3f            translation           0 0 0                    # Is `Robot.translation`.
-  field SFRotation         rotation              0 1 0 0                  # Is `Robot.rotation`.
+  field SFRotation         rotation              0 0 1 0                  # Is `Robot.rotation`.
   field SFString           name                  "NVIDIA Jetson Nano"     # Is `Robot.name`.
   field SFNode             physics               NULL                     # Is `Robot.physics`.
   field SFString           controller            ""                       # Is `Robot.controller`.

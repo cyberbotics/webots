@@ -10,7 +10,7 @@
 
 PROTO IbeoLux [
   field   SFVec3f    translation             0 0 0
-  field   SFRotation rotation                0 1 0 0
+  field   SFRotation rotation                0 0 1 0
   field   SFString   name                    "Ibeo Lux"
   field   SFBool     useExtendedFieldOfView  FALSE
   field   SFBool     fastModel               FALSE

@@ -5,7 +5,7 @@
 
 PROTO Pioneer3DistanceSensor [
   field SFVec3f translation 0 0.137 0
-  field SFRotation rotation 0 1 0 0
+  field SFRotation rotation 0 0 1 0
   field SFString name "so"
   field SFString type "sonar"
 ]

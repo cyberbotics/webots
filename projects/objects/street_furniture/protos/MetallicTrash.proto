@@ -6,7 +6,7 @@
 
 PROTO MetallicTrash [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "metallic trash"
   field SFBool     enablePhysics  FALSE             # Defines whether the trash should have physics.
 ]

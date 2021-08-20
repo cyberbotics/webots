@@ -6,7 +6,7 @@
 
 PROTO LargeResidentialTower [
   field SFVec3f    translation            0 0 0
-  field SFRotation rotation               0 1 0 0
+  field SFRotation rotation               0 0 1 0
   field SFString   name                   "residential tower"
   field SFInt32    numberOfFloors         4                    # Defines the number of floors of the tower.
   field SFBool     groundSurroundingWall  TRUE                 # Defines whether to include a surrounding wall at the ground floor.

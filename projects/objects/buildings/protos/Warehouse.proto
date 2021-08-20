@@ -6,7 +6,7 @@
 
 PROTO Warehouse [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "warehouse"
   field SFBool     enableBoundingObject  TRUE         # Defines whether the warehouse should have a bounding object.
 ]

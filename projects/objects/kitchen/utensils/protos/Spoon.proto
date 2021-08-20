@@ -6,7 +6,7 @@
 
 PROTO Spoon [
   field SFVec3f     translation 0 0 0
-  field SFRotation  rotation    0 1 0 0
+  field SFRotation  rotation    0 0 1 0
   field SFString    name        "spoon"
   field SFColor     color       0.75 0.75 0.75  # Defines the color of the spoon.
   field SFString    type        "table"         # Defines the type of spoon. The value should be either `table` or `tea`.

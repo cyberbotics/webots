@@ -5,7 +5,7 @@
 
 PROTO CreateWall [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFFloat    range          2.4384                     # Defines the range of the infra-red emitter.
   field SFFloat    aperture       0.157                      # Defines the aperture of the infra-red emitter.
   field SFString   controller     "create_wall_emit_signal"  # Defines the controller which is used to emit infra-red messages.

@@ -7,7 +7,7 @@
 
 PROTO HighwayPole [
   field SFVec3f       translation           0 0 0
-  field SFRotation    rotation              0 1 0 0
+  field SFRotation    rotation              0 0 1 0
   field SFString      name                  "highway pole"
   field SFString{"cylinder", "box", "H-shape"}
                       type                  "cylinder"                                                                                                      # Defines the shape of the pole.

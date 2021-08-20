@@ -8,7 +8,7 @@
 
 PROTO Robotino3Webcam [
   field  SFVec3f     translation  0 0 0
-  field  SFRotation  rotation     0 1 0 0
+  field  SFRotation  rotation     0 0 1 0
   field  SFString    name         "Webcam for Robotino 3"
   field  SFString    model        "Festo - Robotino's webcam"
   field  SFInt32     width        640

@@ -8,7 +8,7 @@
 
 PROTO Bus [
   field     SFVec3f    translation       0 0.55 0
-  field     SFRotation rotation          0 1 0 0
+  field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.03 0.12 0.42
   field     SFString   name              "vehicle"
   field     SFString   controller        "void"

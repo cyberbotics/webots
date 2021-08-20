@@ -11,7 +11,7 @@ The rest of the vehicle (Shape, Sensors, other actuators) can be added using the
 ```
 AckermannVehicle {
   SFVec3f    translation                    0 0.4 0
-  SFRotation rotation                       0 1 0 0.0
+  SFRotation rotation                       0 0 1 0.0
   SFString   name                           "vehicle"
   SFString   model                          "AckermannVehicle"
   SFString   controller                     "void"

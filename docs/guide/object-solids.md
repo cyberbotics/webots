@@ -17,7 +17,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SolidBox {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "box"
   SFVec3f    size                  2 2 2
   SFString   contactMaterial       "default"
@@ -61,7 +61,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SolidPipe {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "pipe"
   SFFloat    height                2
   SFFloat    radius                1
@@ -112,7 +112,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SolidRoundedBox {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "rounded box"
   SFVec3f    size                  2 2 2
   SFFloat    borderRadius          0.5
@@ -158,7 +158,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SolidTorus {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "torus"
   SFFloat    majorRadius           2
   SFFloat    minorRadius           1

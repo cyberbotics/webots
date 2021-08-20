@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 PROTO Shelves [
   field SFVec3f translation 0 0 0
-  field SFRotation rotation 0 1 0 0
+  field SFRotation rotation 0 0 1 0
   field SFString name "shelves"
 ]
 {

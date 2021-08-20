@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Desk {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "desk"
   SFColor    color       1 1 1
   SFNode     physics     NULL
@@ -46,7 +46,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RoundTable {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "round table"
   SFNode     appearance  VarnishedPine { textureTransform TextureTransform { scale 6 6 } }
   SFNode     physics     NULL
@@ -79,7 +79,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Table {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "table"
   SFVec3f    size           1.8 0.74 1
   SFVec2f    feetSize       0.1 0.1

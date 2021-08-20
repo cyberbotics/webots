@@ -7,7 +7,7 @@
 
 PROTO DoubleFluorescentLamp [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "double fuorescent lamp"
   field SFFloat    intensity       10                        # Defines the intensity of the emissive color.
 ]

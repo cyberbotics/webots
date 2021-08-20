@@ -6,7 +6,7 @@
 
 PROTO ControlledStreetLight [
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "street light"
   field SFString   controller   "defective_street_light"  # Defines the controller used to make the LED blink.
   field SFBool     supervisor   FALSE                     # Is `Robot.supervisor`.

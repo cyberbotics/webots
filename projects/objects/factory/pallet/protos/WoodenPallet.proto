@@ -6,7 +6,7 @@
 
 PROTO WoodenPallet [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "wooden pallet"
   field SFVec3f    size           0.8 0.14 1.2     # Defines the size of the pallet.
   field SFInt32    lathNumber     6                # Defines the number of lath of the pallet.

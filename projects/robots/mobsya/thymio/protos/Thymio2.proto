@@ -7,7 +7,7 @@
 
 PROTO Thymio2 [
   field SFVec3f    translation     0 0 0           # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0         # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0         # Is `Transform.rotation`.
   field SFString   name            "Thymio II"     # Is `Solid.name`.
   field SFString   controller      "thymio2_aseba" # Is `Robot.controller`.
   field MFString   controllerArgs  "port=33333"    # Is `Robot.controllerArgs`.
@@ -312,7 +312,7 @@ PROTO Thymio2 [
       }
       Thymio2LED {
         translations [ 0 0.0532 0.0582 ]
-        rotations [ 0 1 0 0 ]
+        rotations [ 0 0 1 0 ]
         name "leds.buttons.led0"
         textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_square_flare.png" ]
         sizes [ 0.01 0.003 ]
@@ -326,7 +326,7 @@ PROTO Thymio2 [
       }
       Thymio2LED {
         translations [ 0 0.0532 0.0398 ]
-        rotations [ 0 1 0 0 ]
+        rotations [ 0 0 1 0 ]
         name "leds.buttons.led2"
         textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_square_flare.png" ]
         sizes [ 0.01 0.003 ]

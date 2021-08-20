@@ -15,7 +15,7 @@
 
 PROTO SickS300 [
 field SFVec3f    translation    0 0 0
-field SFRotation rotation       0 1 0 0
+field SFRotation rotation       0 0 1 0
 field SFString   name           "Sick S300"  # Is `Lidar.fieldOfView`.
 field SFFloat    noise          0.0          # Is `Lidar.fieldOfView`.
 field SFInt32    resolution     540          # Is `Lidar.horizontalResolution`.

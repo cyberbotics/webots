@@ -6,7 +6,7 @@
 
 PROTO CabinetHandle [
   field SFVec3f    translation   0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "cabinet handle"
   field SFFloat    handleLength 0.065             # Defines the lenght of the handle.
   field SFFloat    handleRadius 0.0055            # Defines the radius of the handle.

@@ -6,7 +6,7 @@
 
 PROTO WoodenBox [
   field SFVec3f    translation         0 0.3 0
-  field SFRotation rotation            0 1 0 0
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "wooden box"
   field SFVec3f    size                0.6 0.6 0.6  # Defines the size of the wooden box.
   field SFFloat    mass                0            # Defines the mass of the wooden box in kg. A value smaller or equal to 0 remove the physics of the wooden box.

@@ -6,7 +6,7 @@
 
 PROTO ResidentialTower [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "residential tower"
   field SFInt32    numberOfFloors        3                    # Defines the number of floors of the tower.
   field SFBool     enableBoundingObject  TRUE                 # Defines whether the towwer should have a bounding object.

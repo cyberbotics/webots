@@ -6,7 +6,7 @@
 
 PROTO StraightStairsRail [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "straight stairs rail"
   field SFFloat    run              2.0                                                                # Defines the horizontal lenght of the rail.
   field SFFloat    rise             0.75                                                               # Defines the vertical lenght of the rail.
