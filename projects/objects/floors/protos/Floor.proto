@@ -39,7 +39,7 @@ PROTO Floor [
     translation IS translation
     rotation IS rotation
     children [
-      DEF TEST_SHAPE Shape {
+      Shape {
         appearance IS appearance
         geometry IndexedFaceSet {
           coord Coordinate {
