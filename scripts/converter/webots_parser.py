@@ -150,14 +150,14 @@ class WebotsParser:
 
     def _write_mf_field(self, type, values):
         self.indentation += 2
-        indent = ' ' * (self.indentation)
+        indent = ' ' * self.indentation
         count = 0
+        self.file.write(indent)
         for value in values:
-            self.file.write(indent)
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
             elif type == 'MFInt32' or type == 'MFFloat':
-                self.file.write(' '.join(value))
+                self.file.write(value + ' ')
             elif type == 'MFBool':
                 self.file.write('TRUE\n' if value else 'FALSE\n')
             elif type == 'MFVec2f':
@@ -342,7 +342,7 @@ class WebotsParser:
                     type = 'MFRotation'
                 else:
                     type = 'MFFloat' if ',' in line else 'MFInt32'
-                mffield.append(elements)
+                mffield.extend(elements)
             else:
                 type = 'MFNode'
                 node = self._read_node(line)

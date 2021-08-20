@@ -119,8 +119,8 @@ def convert_physics(node, z_offset, initial_orientation):
         physics_node = physics_field['value']
         center_of_mass_field = get_field(physics_node, 'centerOfMass')
         if center_of_mass_field:
-            for ceneter_of_mass_str in center_of_mass_field['value']:
-                center_of_mass = [float(value) for value in ceneter_of_mass_str]
+            for center_of_mass_str in center_of_mass_field['value']:
+                center_of_mass = [float(value) for value in center_of_mass_str]
                 new_center_of_mass = TO_FLU_FROM[initial_orientation] @ np.array(center_of_mass)
                 new_center_of_mass[2] += z_offset
                 new_center_of_mass_str = [f'{round(v, 5):.5}' for v in new_center_of_mass]
@@ -152,18 +152,14 @@ def convert_nodes(nodes, z_offset, initial_orientation):
             if children and children['type'] != 'IS':
                 convert_nodes(children['value'], z_offset, initial_orientation)
         elif node['name'] == 'Shape':
-            # TODO: It would be better to convert it pixel by pixel
-            current_node = node.copy()
-            node.clear()
-            node['name'] = 'Transform'
-            node['fields'] = [
-                {'name': 'children', 'type': 'MFNode', 'value': [current_node]}
-            ]
-            translation = get_vector3(node)
-            rotation = get_rotation(node)
-            new_rotation, new_translaton = convert_pose(rotation, translation, z_offset, initial_orientation)
-            set_rotation(node, new_rotation)
-            set_vector3(node, new_translaton)
+            geometry_node = get_field(node, 'geometry')['value']
+            geometry_cord_node = get_field(geometry_node, 'coord')['value']
+            geometry_points = get_field(geometry_cord_node, 'point')['value']
+            for i in range(0, len(geometry_points), 3):
+                point = [float(value) for value in geometry_points[i:i+3]]
+                new_point = TO_FLU_FROM[initial_orientation] @ np.array(point)
+                new_point_str = [f'{round(v, 7)}' for v in new_point]
+                geometry_points[i:i+3] = new_point_str
         elif node['name'] == 'Slot':
             # Ignore
             pass
