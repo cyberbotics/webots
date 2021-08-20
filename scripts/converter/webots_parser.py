@@ -16,15 +16,15 @@
 
 """Parse Webots world files."""
 
-import sys
-
-
 class WebotsParser:
     """This class reads a world file and parser its structure."""
     """It assumes the world file was saved with Webots and the indentation written by Webots was not changed."""
 
     def __init__(self):
         self.content = {}
+        self.line_count = 0
+        self.indentation = 0
+        self.file = None
 
     def load(self, filename):
         with open(filename, 'r') as self.file:
@@ -34,6 +34,7 @@ class WebotsParser:
             self.content['header'] = []
             while True:
                 revert_position = self.file.tell()
+                revert_line_count = self.line_count
                 line = self.file.readline()
                 if line.startswith('#') or not line.strip():
 
@@ -41,6 +42,7 @@ class WebotsParser:
                     self.content['header'].append(line.strip())
                 else:
                     self.file.seek(revert_position)
+                    self.line_count = revert_line_count
                     break
 
             self.content['root'] = []
@@ -223,6 +225,7 @@ class WebotsParser:
         # Read subnodes
         node['root'] = []
         for line in self.file:
+            self.line_count += 1
             if line.strip() == '}':
                 break
             if line.strip() != '{':
@@ -235,7 +238,7 @@ class WebotsParser:
         words = line.split(' ', 1)
         field['name'] = words[0]
         if len(words) < 2:
-            sys.exit(f'Line: {self.line_count}. Expecting more than a single word: {words}')
+            raise Exception(f'Line: {self.line_count}. Expecting more than a single word: `{words}` in line')
         character = words[1][0]
         if character == '[':
             if len(words[1]) > 1 and words[1][1] == ']':  # empty MF field
