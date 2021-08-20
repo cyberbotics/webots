@@ -13,7 +13,7 @@
 
 PROTO HokuyoUtm30lx [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "Hokuyo UTM-30LX"
   field SFFloat    noise          0.0
   field SFInt32    resolution     1080               # Defines the `horizontalResolution` field of the `Lidar`.

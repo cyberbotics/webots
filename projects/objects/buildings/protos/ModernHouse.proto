@@ -8,7 +8,7 @@
 
 PROTO ModernHouse [
   field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFString   name                 "modern house"
   field SFBool     enableBoundingObject TRUE                                                                  # Defines whether to enable the bounding object or not.
   field SFNode     appearance           PBRAppearance { baseColor 0.56 0.18 0.12 metalness 0 roughness 1 }    # Defines the wall appearance.

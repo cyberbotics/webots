@@ -8,7 +8,7 @@
 
 PROTO AddLaneRoadSegment [
   field        SFVec3f              translation               0 0 0
-  field        SFRotation           rotation                  0 1 0 0
+  field        SFRotation           rotation                  0 0 1 0
   field        SFString             name                      "road"                             # Defines the junction name.
   field        SFString             id                        ""                                 # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        MFString             connectedRoadIDs          []                                 # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.

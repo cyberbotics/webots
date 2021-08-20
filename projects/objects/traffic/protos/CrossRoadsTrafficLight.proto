@@ -6,7 +6,7 @@
 
 PROTO CrossRoadsTrafficLight [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "cross road traffic light"
   field SFString   controller  "crossroads_traffic_lights"  # Is `Robot.controller`.
   field SFBool     supervisor  FALSE                        # Is `Robot.supervisor`.

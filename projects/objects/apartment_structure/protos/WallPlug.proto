@@ -6,7 +6,7 @@
 
 PROTO WallPlug [
   field SFVec3f    translation            0 0 0
-  field SFRotation rotation               0 1 0 0
+  field SFRotation rotation               0 0 1 0
   field SFString   name                   "wall plug"
   field SFColor    mainColor              1 1 1        # Defines the main color of the plug.
   field SFColor    secondaryColor         0 0 0        # Defines the secondary color of the plug.

@@ -6,7 +6,7 @@
 
 PROTO PublicToilet [
   field SFVec3f     translation         0 0 0
-  field SFRotation  rotation            0 1 0 0
+  field SFRotation  rotation            0 0 1 0
   field SFString    name                "public toilet"
   field SFFloat     height              3.2                              # Defines the height of the toilet.
   field SFFloat     length              3.5                              # Defines the lenght of the toilet.

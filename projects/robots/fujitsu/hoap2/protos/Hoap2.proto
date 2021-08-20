@@ -7,7 +7,7 @@
 
 PROTO Hoap2 [
   field SFVec3f    translation         0 0.29 0       # Is `Transform.translation`.
-  field SFRotation rotation            0 1 0 0        # Is `Transform.rotation`.
+  field SFRotation rotation            0 0 1 0        # Is `Transform.rotation`.
   field SFString   name                "HOAP-2"       # Is `Solid.name`.
   field SFString   controller          "hoap2"        # Is `Robot.controller`.
   field MFString   controllerArgs      []             # Is `Robot.controllerArgs`.

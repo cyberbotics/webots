@@ -6,7 +6,7 @@
 
 PROTO FireHydrant [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "fire hydrant"
   field SFNode     appearance  PBRAppearance { baseColor 0.643 0 0 metalness 0 roughness 0.4 }  # Defines the appearance of the fire hydrant.
 ]

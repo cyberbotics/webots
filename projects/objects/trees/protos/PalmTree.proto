@@ -6,7 +6,7 @@
 
 PROTO PalmTree [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "palm tree"
   field SFBool     enableBoundingObject  TRUE         # Defines whether the tree should have a bounding object.
 ]

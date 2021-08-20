@@ -6,7 +6,7 @@
 
 PROTO SignPole [
   field SFVec3f     translation   0 0 0
-  field SFRotation  rotation      0 1 0 0
+  field SFRotation  rotation      0 0 1 0
   field SFString    name          "sign pole"
   field SFFloat     height        2.2                         # Defines the height of the sign.
   field SFFloat     radius        0.02                        # Defines the radius of the sign.

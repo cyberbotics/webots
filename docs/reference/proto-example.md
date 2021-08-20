@@ -20,7 +20,7 @@ This allows to store the position and orientation of the PROTO instances.
 
 PROTO TwoColorChair [
   field SFVec3f    translation       0 0.91 0
-  field SFRotation rotation          0 1 0 0
+  field SFRotation rotation          0 0 1 0
   field SFString   name              "two-color chair"
   field SFColor    legColor          1 1 0
   field SFColor    seatColor         1 0.65 0

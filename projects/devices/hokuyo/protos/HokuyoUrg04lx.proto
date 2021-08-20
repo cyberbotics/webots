@@ -13,7 +13,7 @@
 
 PROTO HokuyoUrg04lx [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "Hokuyo URG-04LX"
   field SFFloat    noise          0.0
   field SFInt32    resolution     667                # Defines the `horizontalResolution` field of the `Lidar`.

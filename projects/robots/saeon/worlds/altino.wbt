@@ -88,7 +88,7 @@ TexturedBackground {
 }
 Altino {
   translation -1.4707961 0.022 -0.5207904
-  rotation 0 1 0 0
+  rotation 0 0 1 0
   color 0 0.666667 1
 }
 CircleArena {

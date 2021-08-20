@@ -7,7 +7,7 @@
 
 PROTO IprHd6m90 [
   field SFVec3f    translation      0 0.62 0 # Is `Transform.translation`.
-  field SFRotation rotation         0 1 0 0  # Is `Transform.rotation`.
+  field SFRotation rotation         0 0 1 0  # Is `Transform.rotation`.
   field SFString   name             "IPR"    # Is `Solid.name`.
   field SFString   controller       "void"   # Is `Robot.controller`.
   field MFString   controllerArgs   []       # Is `Robot.controllerArgs`.

@@ -6,7 +6,7 @@
 
 PROTO ThreeSteps [
   field SFVec3f    translation  0 -0.5 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "three steps"
   field SFVec3f    increment    0 0.1 0        # Defines the translation between each step.
   field SFColor    color        0.5 0.5 0.5    # Deines the color of the steps.

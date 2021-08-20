@@ -6,7 +6,7 @@
 
 PROTO Glass [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "glass"
   field SFFloat    mass        0.17     # Defines the mass of the glass in kg.
 ]

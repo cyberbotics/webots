@@ -7,7 +7,7 @@
 
 PROTO DistanceSensorVisualization [
   field SFVec3f    translation  0 0.4 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFFloat    range        5
   field SFFloat    aperture     0.1
   field SFColor    diffuseColor 0 0 1

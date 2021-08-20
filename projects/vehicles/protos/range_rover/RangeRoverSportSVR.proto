@@ -7,7 +7,7 @@
 
 PROTO RangeRoverSportSVR [
   field     SFVec3f    translation       0 0.4 0
-  field     SFRotation rotation          0 1 0 0
+  field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.0 0.25 0.65
   field     SFColor    secondaryColor    0.1 0.1 0.1
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"

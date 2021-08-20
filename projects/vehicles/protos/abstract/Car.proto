@@ -9,7 +9,7 @@
 PROTO Car [
 #fields inherited from AckermannVehicle
   field SFVec3f    translation                    0 0.4 0
-  field SFRotation rotation                       0 1 0 0.0
+  field SFRotation rotation                       0 0 1 0
   field SFString   name                           "vehicle"
   field SFString   model                          "car"
   field SFString   controller                     "void"

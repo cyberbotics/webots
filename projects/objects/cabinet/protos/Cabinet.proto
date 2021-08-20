@@ -12,7 +12,7 @@
 
 PROTO Cabinet [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "cabinet"
   field SFFloat    depth          0.5                  # Defines the depth of the cabinet.
   field SFFloat    innerThickness 0.02                 # Defines the inner thickness of the cabinet frame.

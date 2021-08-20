@@ -7,7 +7,7 @@
 
 PROTO Robotino3HokuyoMountingSupport [
   field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
+  field  SFRotation  rotation       0 0 1 0
   field  SFString    name           "Hokuyo mounting support for Robotino 3"
   field  SFString    model          "Festo - Hokuyo mounting support"
   field  MFNode      extensionSlot  []  # Extends the mounting support with an object.

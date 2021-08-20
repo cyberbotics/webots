@@ -5,7 +5,7 @@
 
 PROTO TrafficLightHorizontal [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "horizontal traffic light"
   field SFString   red_light          "red light"                 # Defines the name of the red LED device.
   field SFString   orange_light       "orange light"              # Defines the name of the orange LED device.

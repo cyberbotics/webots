@@ -10,7 +10,7 @@
 
 PROTO BmwX5 [
   field SFVec3f      translation              0 0.4 0
-  field SFRotation   rotation                 0 1 0 0
+  field SFRotation   rotation                 0 0 1 0
   field SFColor      color                    0.43 0.11 0.1
   field SFString     engineSound              "sounds/engine.wav"
   field SFString     name                     "vehicle"

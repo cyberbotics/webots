@@ -5,7 +5,7 @@
 
 PROTO LargeValve [
   field SFVec3f    translation     0 0.106 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "large valve"
   field SFFloat    jointFriction   0.5              # Defines the static friction of the valve joint.
   field SFString   controller      "valve_turner"   # Defines the controller of the valve which is used to limit its rotation.

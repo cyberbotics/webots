@@ -6,7 +6,7 @@
 
 PROTO StraightStairsLanding [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "straight stairs landing"
   field SFVec3f    landingSize     0.4 0.03 1.27                                                      # Defines the size of the landing.
   field SFFloat    height          2.0                                                                # Defines the height of the landing.

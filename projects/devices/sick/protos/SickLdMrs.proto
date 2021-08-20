@@ -9,7 +9,7 @@
 
 PROTO SickLdMrs [
   field SFVec3f    translation       0 0 0
-  field SFRotation rotation          0 1 0 0
+  field SFRotation rotation          0 0 1 0
   field SFString   name              "Sick LD-MRS"
   field SFString{"400001", "400102", "400001S01", "400102S01", "800001S01"}
                    type              "400001"

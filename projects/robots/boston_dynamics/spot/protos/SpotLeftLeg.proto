@@ -4,7 +4,7 @@
 
 PROTO SpotLeftLeg [
   field SFVec3f     translation  0 0 0       # Is `Transform.translation`.
-  field SFRotation  rotation     0 1 0 0     # Is `Transform.rotation`.
+  field SFRotation  rotation     0 0 1 0     # Is `Transform.rotation`.
   field SFString    name         "left leg"  # Is `Solid.name`.
 ]
 {

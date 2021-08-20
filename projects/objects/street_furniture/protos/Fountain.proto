@@ -6,7 +6,7 @@
 
 PROTO Fountain [
   field SFVec3f     translation            0 0 0
-  field SFRotation  rotation               0 1 0 0
+  field SFRotation  rotation               0 0 1 0
   field SFString    name                   "fountain"
   field SFFloat     height                 1.5         # Defines the height of the fountain.
   field SFFloat     radius                 1           # Defines the radius of the fountain.

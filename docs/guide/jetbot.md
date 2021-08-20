@@ -16,7 +16,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 JetBot {
   SFVec3f      translation        0 0 0
-  SFRotation   rotation           0 1 0 0
+  SFRotation   rotation           0 0 1 0
   SFString     name               "JetBot"
   SFString     controller         "jetbot_basic_motion"
   MFString     controllerArgs     []
@@ -57,7 +57,7 @@ It contains a [Camera](../reference/camera.md) device.
 ```
 JetBotRaspberryPiCamera {
   SFVec3f      translation        0 0 0
-  SFRotation   rotation           0 1 0 0
+  SFRotation   rotation           0 0 1 0
   SFString     name               "camera"
   SFFloat      fieldOfView        2.79253
   SFInt32      width              1280

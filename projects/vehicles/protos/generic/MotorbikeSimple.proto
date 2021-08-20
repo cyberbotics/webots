@@ -7,7 +7,7 @@
 
 PROTO MotorbikeSimple [
   field       SFVec3f    translation                0 0.25 0
-  field       SFRotation rotation                   0 1 0 0
+  field       SFRotation rotation                   0 0 1 0
   field       SFColor    primaryColor               0.153 0.004 0.004
   field       SFColor    secondaryColor             0.647 0.647 0.647
   field       MFColor    recognitionColors          [0.153 0.004 0.004, 0.647 0.647 0.647]

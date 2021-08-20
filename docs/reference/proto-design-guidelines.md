@@ -145,7 +145,7 @@ Here is a simple example of a good PROTO declaration (the implementation is not 
 
 ColorPencil {
   SFFloat    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFBool     enablePhysics        TRUE
   SFBool     enableBoundingObject TRUE
   SFColor    color                1 0 0     # defaults to red.

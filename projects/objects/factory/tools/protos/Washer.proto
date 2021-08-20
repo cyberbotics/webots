@@ -6,7 +6,7 @@
 
 PROTO Washer [
   field SFVec3f    translation     0 0.004 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "washer"
   field SFNode     appearance       OldSteel {}  # Defines the appearance of the washer.
   field SFFloat    innerRadius      0.006        # Defines the inner radius of the washer.

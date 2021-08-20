@@ -6,7 +6,7 @@
 
 PROTO FastFoodRestaurant [
   field SFVec3f       translation   0 0 0
-  field SFRotation    rotation      0 1 0 0
+  field SFRotation    rotation      0 0 1 0
   field SFString      name          "fast food restaurant"
   field SFFloat       height        4                       # Defines the height of the building.
   field SFFloat       length        10                      # Defines the length of the building.

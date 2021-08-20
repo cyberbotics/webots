@@ -6,7 +6,7 @@
 
 PROTO TableWithUmbrella [
   field SFVec3f    translation   0 0 0
-  field SFRotation rotation      0 1 0 0
+  field SFRotation rotation      0 0 1 0
   field SFString   name          "table with umbrella"
   field SFBool     enablePhysics FALSE                  # Defines whether the table should have physics.
 ]

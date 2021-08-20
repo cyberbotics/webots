@@ -62,7 +62,7 @@ PROTO Altino [
       }
       DistanceSensor {
         translation 0.04 -0.005 0.05
-        rotation 0 1 0 0
+        rotation 0 0 1 0
         aperture 0.1
         numberOfRays 3
         name "side_left_sensor"

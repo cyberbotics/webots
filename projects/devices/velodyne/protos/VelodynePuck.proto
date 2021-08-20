@@ -11,7 +11,7 @@
 
 PROTO VelodynePuck [
   field   SFVec3f    translation    0 0 0
-  field   SFRotation rotation       0 1 0 0
+  field   SFRotation rotation       0 0 1 0
   field   SFString   name           "Velodyne Puck"
   field   SFString{"Puck", "Puck LITE", "Puck Hi-Res"}
                      version        "Puck"              # Defines the version of the velodyne puck.

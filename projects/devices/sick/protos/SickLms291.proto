@@ -8,7 +8,7 @@
 
 PROTO SickLms291 [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "Sick LMS 291"
   field SFFloat    noise       0.0
   field SFInt32    resolution  180

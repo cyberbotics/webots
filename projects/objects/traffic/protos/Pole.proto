@@ -5,7 +5,7 @@
 
 PROTO Pole [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "pole"
   field MFNode     slot        []       # Extends the pole with panels or traffic lights.
 ]

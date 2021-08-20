@@ -5,7 +5,7 @@
 
 PROTO SquarePathPioneer3dx [
   field SFVec3f    translation     0 0.0975 0                       # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0                          # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
   field SFString   name            "Pioneer 3-DX"                   # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
@@ -423,7 +423,7 @@ PROTO SquarePathPioneer3dx [
         }
         endPoint Solid {
           translation 0 -0.0011939 0.191844
-          rotation 0 1 0 0
+          rotation 0 0 1 0
           children [
             DEF casterWheelRim HingeJoint {
               jointParameters HingeJointParameters {

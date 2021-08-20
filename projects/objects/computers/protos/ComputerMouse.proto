@@ -6,7 +6,7 @@
 
 PROTO ComputerMouse [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "computer mouse"
   field SFColor    topColor    0.71 0.71 0.71     # Defines the color of the top part of the mouse.
   field SFColor    bottomColor 0.056 0.056 0.056  # Defines the color of the bottom part of the mouse.

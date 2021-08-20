@@ -22,7 +22,7 @@
 
 PROTO Forest [
   field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field MFString   treesFiles           []                        # Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X, Y, Z'). The path to these files must be defined with respect to the world file.
   field MFVec2f    shape                [-20 -10, 20 -10, 0 25]   # Alternatively, the position of each trees can be defined using the shape field. This field defines the shape of the forest, in that case the position of the trees is randomly generated from this shape.
   field SFFloat    density              0.2                       # If the forest is defined using the `shape` field, this field defines the density of three to be generated (in trees per meter square).

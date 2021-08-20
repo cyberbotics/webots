@@ -5,7 +5,7 @@
 
 PROTO Toilet [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "toilet"
   field SFColor    lidColor       0.45 0.62 0.81  # Defines the color fo the lid.
 ]

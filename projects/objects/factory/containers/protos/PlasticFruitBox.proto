@@ -7,7 +7,7 @@
 PROTO PlasticFruitBox [
   field SFString   name        "plastic fruit box"
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFColor    color       0 1 0.5
   field SFFloat    mass        0
 ] {

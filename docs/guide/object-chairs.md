@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Chair {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "chair"
   SFColor    color       1 1 1
   SFNode     physics     NULL
@@ -48,7 +48,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 OfficeChair {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "office chair"
   SFNode     legAppearance   BrushedAluminium { textureTransform TextureTransform { scale 5 5 } }
   SFNode     seatAppearance  Leather { textureTransform TextureTransform { scale 10 10 } }
@@ -85,7 +85,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SimpleChair {
   SFVec3f    translation 0 0.91 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "simple chair"
   SFColor    legColor    1 1 0
   SFColor    seatColor   1 0.65 0
@@ -121,7 +121,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 WoodenChair {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "wooden chair"
   SFColor    color       1 1 1
   SFNode     physics     NULL

@@ -7,7 +7,7 @@
 
 PROTO DoorKnob [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "door knob"
   field SFFloat    doorThickness    0.05                 # Defines the thickness of the door.
   field SFFloat    handleRadius     0.03                 # Defines the radius of the handle.

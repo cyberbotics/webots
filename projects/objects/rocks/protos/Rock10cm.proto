@@ -5,7 +5,7 @@
 
 PROTO Rock10cm [
   field SFVec3f    translation      0 0.05 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "rock 10 cm"
   field MFString   texture          "webots://projects/default/worlds/textures/rock.jpg"  # Defines the texture used for the rock.
   field SFColor    color            1 1 1                # Defines the base color of the rock.

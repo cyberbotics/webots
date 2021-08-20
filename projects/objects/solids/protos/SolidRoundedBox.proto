@@ -7,7 +7,7 @@
 
 PROTO SolidRoundedBox [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "rounded box"
   field SFVec3f    size                  2 2 2                                                                                                          # Defines the size of the box.
   field SFFloat    borderRadius          0.5                                                                                                            # Defines the radius of the box borders.

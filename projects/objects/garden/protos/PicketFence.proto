@@ -7,7 +7,7 @@
 
 PROTO PicketFence [
   field SFVec3f    translation            0 0 0
-  field SFRotation rotation               0 1 0 0
+  field SFRotation rotation               0 0 1 0
   field SFString   name                   "picket fence"
   field SFInt32    numberOfSegments       1               # Defines the number of consecutive segments, the width of one segment is 1.7 meters.
   field SFBool     enableBoundingObject   TRUE            # Defines whether the fence should have a bounding object.

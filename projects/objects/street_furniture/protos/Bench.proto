@@ -5,7 +5,7 @@
 
 PROTO Bench [
   field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFString   name                 "bench"
   field SFColor    metalColor           1 1 1                             # Defines the color of the metalic part.
   field SFColor    woodColor            0.5 0.5 0.5                       # Defines the color of the wooden part.

@@ -5,7 +5,7 @@
 
 PROTO Chair [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "chair"
   field SFColor    color       1 1 1                # Define the color of the chair.
   field SFNode     physics     NULL                 # Define the physcis of the chair.

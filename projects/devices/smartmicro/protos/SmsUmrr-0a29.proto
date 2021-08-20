@@ -7,7 +7,7 @@
 
 PROTO SmsUmrr-0a29 [
   field   SFVec3f    translation    0 0 0
-  field   SFRotation rotation       0 1 0 0
+  field   SFRotation rotation       0 0 1 0
   field   SFString   name           "Sms UMRR 0a29"
   field   SFBool     occlusion      FALSE
   field   SFFloat    cellDistance   0.0

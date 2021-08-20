@@ -5,7 +5,7 @@
 
 PROTO Fork [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "fork"
   field SFColor    color       0.75 0.75 0.75  # Defines the color of the fork.
 ]

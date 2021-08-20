@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Armchair {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "armchair"
   SFColor    color       1 1 1
   MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/living_room_furniture/protos/textures/sofa.jpg"
@@ -49,7 +49,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Carpet {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "carpet"
   SFColor    color       1 1 1
 }
@@ -79,7 +79,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Sofa {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "sofa"
   SFColor    color       1 1 1
   MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/living_room_furniture/protos/textures/sofa.jpg"

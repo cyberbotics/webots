@@ -8,7 +8,7 @@
 
 PROTO BungalowStyleHouse [
   field SFVec3f translation         0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString name               "bungalow style house"
   field SFBool fence                TRUE                                                                # Defines whether the house has a fence or not.
   field SFBool floor                TRUE                                                                # Defines whether the house is built on a wooden base layer or not.

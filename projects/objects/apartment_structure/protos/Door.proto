@@ -6,7 +6,7 @@
 
 PROTO Door [
   field SFVec3f    translation            0 0 0
-  field SFRotation rotation               0 1 0 0
+  field SFRotation rotation               0 0 1 0
   field SFString   name                   "door"
   field SFVec3f    size                   1 2.4 0.2                 # Defines the width, height and thickness of the door wall frame.
   field SFBool     canBeOpen              TRUE                      # Defines whether the door is connected to the frame throught a hinge-joint.

@@ -6,7 +6,7 @@
 PROTO TruckTankSimple [
   field SFString   name                 "truck tank"
   field SFColor    color                0.66 0.66 0.66
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFBool     wheelBoundingObject  FALSE
   hiddenField SFVec3f angularVelocity    0 0 0
   hiddenField SFVec3f frontRightWheelAngularVelocity    0 0 0

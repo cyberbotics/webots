@@ -5,7 +5,7 @@
 
 PROTO FruitBowl [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "fruit bowl"
   field SFColor    color       1 1 1                  # Defines the color of the bowl.
   field SFFloat    mass        0.5                    # Defines the mass of the bowl in kg.

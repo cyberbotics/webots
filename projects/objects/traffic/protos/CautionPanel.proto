@@ -5,7 +5,7 @@
 
 PROTO CautionPanel [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "caution panel"
   field MFString   signImage          "webots://projects/objects/traffic/protos/textures/signs/us/traffic_signals_ahead.jpg"  # Defines the texture used for the sign.
   field SFColor    color              0.8 0.8 0.8                                    # Defines the color of the panel.
@@ -19,7 +19,7 @@ PROTO CautionPanel [
     children [
       Transform {
         translation 0.008 -1.73 0
-        rotation 0 1 0 0
+        rotation 0 0 1 0
         children [
           DEF DISPLAY_PLANE Shape {
             appearance PBRAppearance {

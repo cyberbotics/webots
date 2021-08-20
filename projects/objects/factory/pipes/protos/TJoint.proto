@@ -5,7 +5,7 @@
 
 PROTO TJoint [
   field SFVec3f    translation 0 0.95 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "T joint pipe"
   field SFVec3f    scale       1 1 1
   field SFNode     appearance  OldSteel { textureTransform TextureTransform { scale 3 3 } }  # Defines the appearance of the pipe.

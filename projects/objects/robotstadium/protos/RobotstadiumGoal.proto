@@ -6,7 +6,7 @@
 
 PROTO RobotstadiumGoal [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "robotstadium goal"
   field SFFloat    postRadius  0.05                 # Defines the radius of the goal posts.
   field SFColor    frameColor  1 1 1                # Defines the color of the goal frame.

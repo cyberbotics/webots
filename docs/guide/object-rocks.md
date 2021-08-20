@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Rock10cm {
   SFVec3f    translation      0 0.05 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "rock 10 cm"
   MFString   texture          "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/rock.jpg"
   SFColor    color            1 1 1
@@ -50,7 +50,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Rock17cm {
   SFVec3f    translation       0 0 0
-  SFRotation rotation          0 1 0 0
+  SFRotation rotation          0 0 1 0
   SFString   name             "rock 17 cm"
   MFString   texture          "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/rock.jpg"
   SFColor    color            1 1 1

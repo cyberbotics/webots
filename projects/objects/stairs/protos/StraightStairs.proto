@@ -6,7 +6,7 @@
 
 PROTO StraightStairs [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "straight stairs"
   field SFVec3f    stepSize           0.4 0.03 1.27                                                      # Defines the size of one step.
   field SFFloat    stepRise           0.15                                                               # Defines the height difference between two consecutives steps.

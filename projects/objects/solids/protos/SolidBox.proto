@@ -8,7 +8,7 @@
 
 PROTO SolidBox [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "box"
   field SFVec3f    size                  2 2 2                                                                                                         # Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
   field SFString   contactMaterial       "default"                                                                                                     # Is `Solid.contactMaterial`.
