@@ -3,7 +3,7 @@
 PROTO SupervisorInternalFields [
   field       SFString   controller  ""
   field       SFVec3f    translation 0 0 0
-  hiddenField SFRotation rotation    0 1 0 0
+  hiddenField SFRotation rotation    0 0 1 0
 ]
 {
 DEF ROBOT Robot {
