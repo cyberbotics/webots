@@ -25,7 +25,7 @@ Derived from [Skin](../reference/skin.md).
 ```
 CharacterSkin {
   SFVec3f     translation 0 0 0
-  SFRotation  rotation    0 1 0 0
+  SFRotation  rotation    0 0 1 0
   SFVec3f     scale       1 1 1
   SFString    name        "skin"
   SFString    model       "Sandra"
