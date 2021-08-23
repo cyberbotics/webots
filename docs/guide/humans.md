@@ -213,7 +213,7 @@ C3dViewer {
 - `leftGroundReactionForceOffset`: Defines the offset of the left Ground Reaction Force position.
 - `rightGroundReactionForceOffset`: Defines the offset of the right Ground Reaction Force position.
 - `bodyTransparency`: Defines the transparency of the body representation (transparency to 1 disable body representation).
-- `bodyHeight`: Defines the height of the body representation, if set to '<0' the height defined in the C3D file is used (or 1.83m is not set in the C3D file).
+- `bodyHeight`: Defines the height of the body representation, if set to '<0' the height defined in the C3D file is used (or 1.83m if not set in the C3D file).
 - `bodyOffset`: Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
 
 
