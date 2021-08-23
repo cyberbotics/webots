@@ -49,6 +49,7 @@
 #include "WbTreeItem.hpp"
 #include "WbTreeView.hpp"
 #include "WbUndoStack.hpp"
+#include "WbUrl.hpp"
 #include "WbValueEditor.hpp"
 #include "WbVariant.hpp"
 #include "WbViewpoint.hpp"
@@ -728,7 +729,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     while (it.hasNext()) {
       it.next();
       const QString destination(WbProject::current()->worldsPath() + it.key());
-      if (!(destination.contains("webots://") || destination.contains("http://") || destination.contains("https://"))) {
+      if (!(WbUrl::isLocalUrl(it.key()) || WbUrl::isWeb(it.key()))) {
         const QFileInfo fileInfo(destination);
         if (!QDir(fileInfo.absolutePath()).exists())
           QDir().mkpath(fileInfo.absolutePath());
