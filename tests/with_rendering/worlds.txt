@@ -1,0 +1,1 @@
+/home/benjamin/webots2/tests/with_rendering/worlds/billboard.wbt

@@ -49,7 +49,7 @@ if len(sys.argv) > 1:
         else:
             raise RuntimeError('Unknown option "' + arg + '"')
 
-testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering']
+testGroups = ['with_rendering', 'api', 'other_api', 'physics', 'protos', 'parser', 'rendering']
 
 if sys.platform == 'win32':
     testGroups.remove('parser')  # this one doesn't work on Windows
@@ -158,6 +158,7 @@ def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
     curdir = os.getcwd()
     os.chdir(testsFolderPath)
+    print(testsFolderPath)
     command = Command('make release -j%d' % multiprocessing.cpu_count())
     command.run(silent=False)
     os.chdir(curdir)
@@ -217,8 +218,10 @@ thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
 webotsArguments = '--mode=fast --no-rendering --stdout --stderr --minimize --batch'
+webotsArgumentsRendering = '--mode=realtime --stdout --stderr --batch'
 if sys.platform != 'win32':
     webotsArguments += ' --no-sandbox'
+    webotsArgumentsRendering += ' --no-sandbox'
 
 for groupName in testGroups:
 
@@ -270,7 +273,10 @@ for groupName in testGroups:
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
 
-    command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+    if groupName == 'with_rendering':
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsRendering)
+    else:
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes
