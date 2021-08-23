@@ -37,7 +37,7 @@ If you want that the skin is animated based on the movements of a dynamic object
 Each listed [Solid](solid.md) bone have to be a child node of a [Joint](joint.md).
 Moreover, the mesh bone structure and the [Solid](solid.md)/[Joint](joint.md) have to match.
 In particular, this means that the number of mesh bones have to match with the number of joints and the [Solid](solid.md) node names must be the same as the bone names specified in the mesh file.
-An example of physically driver skin animation is provided in the "[animated\_skin.wbt]({{ url.github_tree }}/projects/samples/rendering/worlds/animated_skin.wbt)" simulation.
+An example of physically driven skin animation is provided in the "[animated\_skin.wbt]({{ url.github_tree }}/projects/samples/rendering/worlds/animated_skin.wbt)" simulation.
 
 #### Pure Graphical Skin Animation
 
