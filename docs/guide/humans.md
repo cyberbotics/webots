@@ -13,7 +13,7 @@ The "[bvh\_animation]({{ url.github_tree }}/projects/humans/skin_animated_humans
 
 ### CharacterSkin PROTO
 
-Skin node representing a human with predefined mesh and appearance.
+A skin node representing a human with predefined mesh and appearance.
 Four different characters are available based on the 'model' field:
 - "Anthony": a boy,
 - "Robert": a men,
@@ -25,7 +25,7 @@ Derived from [Skin](../reference/skin.md).
 ```
 CharacterSkin {
   SFVec3f     translation 0 0 0
-  SFRotation  rotation    0 1 0 0
+  SFRotation  rotation    0 0 1 0
   SFVec3f     scale       1 1 1
   SFString    name        "skin"
   SFString    model       "Sandra"
@@ -41,7 +41,7 @@ CharacterSkin {
 This field accepts the following values: "Anthony", "Robert", "Sandra", and "Sophia".
 
 ### [bvh\_util]({{ url.github_tree }}/projects/humans/skin_animated_humans/libraries/bvh_util/) Library
-To load and play the BVH file a C utility library is also provided.
+This C utility library allows users load and play BVH files.
 The BVH file defines a skeleton in the form of hierarchy of bones, and a time series of angles for each joint in the skeleton.
 Note that this skeleton is not necessarily the same as the skeleton associated with a [Skin](../reference/skin.md) node, since they come from different sources.
 For this reason, this library also provides functions to adapt and re-target the BVH motion data to the [Skin](../reference/skin.md) model.
@@ -51,7 +51,7 @@ For this reason, this library also provides functions to adapt and re-target the
 #### `wbu_bvh_read_file`
 #### `wbu_bvh_cleanup`
 
-*obtaining and releasing a BVH file handle*
+*obtain and release BVH file handles*
 
 %tab-component "language"
 
@@ -137,13 +137,13 @@ bool wbu_bvh_reset(WbBvhDataRef ref);
 The `wbu_bvh_step` function reads the joint angles and translation data in the next frame.
 This function is typically called at the beginning of the main loop.
 If the current frame is the last frame in the BVH file, calling this function reads the first frame again.
-Returns TRUE on success.
+It returns TRUE on success.
 
-The function `wbu_bvh_goto_frame` reads a specific frame, whose index is the argument `frame_number`.
-Returns TRUE on success.
-Note that if the argument `frame_number` is greater than the number of frames in the file, it leads to an error, and the function returns FALSE.
+The `wbu_bvh_goto_frame` function reads a specific frame, whose index is given in the `frame_number` argument.
+It returns TRUE on success.
+Note that if the `frame_number` argument is greater than the number of frames in the file, this causes an error, and the function returns FALSE.
 
-The function `wbu_bvh_reset` jumps to the first frame.
+The `wbu_bvh_reset` function jumps to the first frame.
 Returns TRUE on success.
 
 ---
@@ -189,7 +189,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 C3dViewer {
   SFVec3f     translation                      0 0 0
-  SFRotation  rotation                         0 1 0 0
+  SFRotation  rotation                         0 0 1 0
   SFString    c3dFile                          ""
   SFFloat     playbackSpeed                    1.0
   MFNode      markers                          []
@@ -212,8 +212,8 @@ C3dViewer {
 - `markers`: The markers will be automatically inserted in this field.
 - `leftGroundReactionForceOffset`: Defines the offset of the left Ground Reaction Force position.
 - `rightGroundReactionForceOffset`: Defines the offset of the right Ground Reaction Force position.
-- `bodyTransparency`: Defines the transparency of the body representation (transparency to 1 disable body representation).
-- `bodyHeight`: Defines the height of the body representation, if set to '<0' the height defined in the C3D file is used (or 1.83m if not set in the C3D file).
+- `bodyTransparency`: Defines the transparency of the body representation (transparency to 1 disables body representation).
+- `bodyHeight`: Defines the height of the body representation, if negative, the height defined in the C3D file is used (or 1.83m if not set in the C3D file).
 - `bodyOffset`: Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
 
 
@@ -252,7 +252,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Pedestrian {
   SFVec3f    translation           0 1.27 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "pedestrian"
   SFString   controller            "pedestrian"
   MFString   controllerArgs        []

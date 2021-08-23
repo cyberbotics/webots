@@ -5,7 +5,7 @@ Derived from [Group](group.md).
 ```
 Transform {
   SFVec3f    translation     0 0 0       # any vector
-  SFRotation rotation        0 1 0 0     # unit axis, (-inf, inf) angle
+  SFRotation rotation        0 0 1 0     # unit axis, (-inf, inf) angle
   SFVec3f    scale           1 1 1       # any vector
   SFFloat    translationStep 0.01
   SFFloat    rotationStep    0.261799387

@@ -5,7 +5,7 @@ Derived from [Device](device.md).
 ```
 Skin {
   SFVec3f      translation     0 0 0
-  SFRotation   rotation        0 1 0 0
+  SFRotation   rotation        0 0 1 0
   SFVec3f      scale           1 1 1
   SFString     name            "skin"
   SFString     modelUrl        ""
@@ -37,7 +37,7 @@ If you want that the skin is animated based on the movements of a dynamic object
 Each listed [Solid](solid.md) bone have to be a child node of a [Joint](joint.md).
 Moreover, the mesh bone structure and the [Solid](solid.md)/[Joint](joint.md) have to match.
 In particular, this means that the number of mesh bones have to match with the number of joints and the [Solid](solid.md) node names must be the same as the bone names specified in the mesh file.
-An example of physically driver skin animation is provided in the "[animated\_skin.wbt]({{ url.github_tree }}/projects/samples/rendering/worlds/animated_skin.wbt)" simulation.
+An example of physically driven skin animation is provided in the "[animated\_skin.wbt]({{ url.github_tree }}/projects/samples/rendering/worlds/animated_skin.wbt)" simulation.
 
 #### Pure Graphical Skin Animation
 
@@ -55,9 +55,9 @@ Please refer to [Transform](transform.md) `rotation` field description for more 
 - The `scale` field specifies a possibly non-uniform scale of the mesh.
 Only positive values are permitted; non-positive scale values are automatically reset to 1.
 
-- `name`: name of the [Skin](skin.md) device and used by [`wb_robot_get_device()`](robot.md#wb_robot_get_device).
+- `name`: name of the [Skin](skin.md) device used by [`wb_robot_get_device()`](robot.md#wb_robot_get_device).
 
-- The `modelUrl` field specified the path to the 3D model.
+- The `modelUrl` field specifies the path to the 3D model.
 If the `modelUrl` value starts with `http://` or `https://`, Webots will get the file from the web.
 Otherwise, the file should be specified with a relative path.
 The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
@@ -271,9 +271,9 @@ wb_skin_set_bone_position(tag, index, position, absolute)
 *get and set the bone orientation and position*
 
 These functions set or return the skin's internal skeleton bone position and orientation.
-Each bone is identified using an index value between 0 and the bones count returned by [`wb_skin_get_bone_count`](#wb_skin_get_bone_count).
+Each bone is identified using an index value between 0 (inclusive) and the bones count (exclusive) returned by [`wb_skin_get_bone_count`](#wb_skin_get_bone_count).
 If the `absolute` argument is FALSE the orientation and position values are relative to the parent bone coordinate system.
-Otherwise, if `absolute` is TRUE, the orientation and position values are relative to the [Skin](skin.md) node's coordinate system.
+Otherwise, the orientation and position values are relative to the [Skin](skin.md) node's coordinate system.
 
 The `wb_skin_set_bone_orientation` function sets the rotation of the skeleton bone to the specified axis-angle rotation value.
 The rotation is specified as a double array, similar to [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation).
