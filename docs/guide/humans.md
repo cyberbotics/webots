@@ -137,7 +137,7 @@ bool wbu_bvh_reset(WbBvhDataRef ref);
 The `wbu_bvh_step` function reads the joint angles and translation data in the next frame.
 This function is typically called at the beginning of the main loop.
 If the current frame is the last frame in the BVH file, calling this function reads the first frame again.
-Returns TRUE on success.
+It returns TRUE on success.
 
 The function `wbu_bvh_goto_frame` reads a specific frame, whose index is the argument `frame_number`.
 Returns TRUE on success.
