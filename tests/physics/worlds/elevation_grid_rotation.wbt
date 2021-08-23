@@ -36,7 +36,7 @@ DEF ELEVATION_GRID Solid {
         }
         texture ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/grass.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg"
           ]
         }
         textureTransform TextureTransform {
