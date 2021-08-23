@@ -211,7 +211,7 @@ int main(int argc, char **argv) {
       }
       wbu_bvh_goto_frame(bvh_motion, 1);  // skip initial pose
     } else {
-      int f = remaining_frames > 4 ? 4 : remaining_frames;
+      int f = 4;
       while (f > 0) {
         wbu_bvh_step(bvh_motion);
         --f;
