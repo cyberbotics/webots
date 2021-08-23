@@ -30,6 +30,19 @@ TO_FLU_FROM = {
 }
 
 
+def convert_orientation(rotation_angle_axis, from_system):
+    orientation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
+    new_rotation = TO_FLU_FROM[from_system] @ orientation
+    new_rotation_axis, new_rotation_angle = transforms3d.axangles.mat2axangle(new_rotation)
+    return new_rotation_axis, new_rotation_angle
+
+
+def convert_translation(translation, from_system):
+    if from_system == 'RUB':
+        return [translation[0], translation[2], translation[1]]
+    return TO_FLU_FROM[from_system] @ np.array(translation)
+
+
 def find(function, elements, default=None):
     return next((x for x in elements if function(x)), default)
 
@@ -84,13 +97,18 @@ def set_vector3(node, value, name='translation'):
     vector3_field['value'] = value
 
 
-def vector_to_string(vector, decimals):
+def vector_to_string(vector, decimals, zero_one_decimals=None):
+    if zero_one_decimals is None:
+        # Zero and one are special cases and typically it is fine to be more agressive when rounding
+        zero_one_decimals = int(0.7 * decimals)
     new_str = []
     for value in vector:
-        if abs(value) > 1 / (10**decimals):
-            new_str.append(str(round(value, decimals)))
-        else:
+        if abs(value) < 1 / (10**zero_one_decimals):
             new_str.append('0')
+        elif abs(value - 1) < 1 / (10**zero_one_decimals):
+            new_str.append('1')
+        else:
+            new_str.append(str(round(value, decimals)))
     return new_str
 
 
@@ -99,10 +117,8 @@ def convert_pose(rotation_angle_axis, translation, z_offset, initial_orientation
     assert len(translation) == 3, f'Translation {translation} is not the correct length'
 
     # Convert
-    rotation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
-    new_rotation = TO_FLU_FROM[initial_orientation] @ rotation
-    new_rotation_axis, new_rotation_angle = transforms3d.axangles.mat2axangle(new_rotation)
-    new_translation = TO_FLU_FROM[initial_orientation] @ np.array(translation)
+    new_rotation_axis, new_rotation_angle = convert_orientation(rotation_angle_axis, initial_orientation)
+    new_translation = convert_translation(translation, initial_orientation)
     new_translation[2] += z_offset
 
     # Convert to string array
@@ -120,8 +136,7 @@ def convert_physics(node, z_offset, initial_orientation):
         center_of_mass_field = get_field(physics_node, 'centerOfMass')
         if center_of_mass_field:
             for center_of_mass_str in center_of_mass_field['value']:
-                center_of_mass = [float(value) for value in center_of_mass_str]
-                new_center_of_mass = TO_FLU_FROM[initial_orientation] @ np.array(center_of_mass)
+                new_center_of_mass = convert_translation(center_of_mass_str, initial_orientation)
                 new_center_of_mass[2] += z_offset
                 new_center_of_mass_str = [f'{round(v, 5):.5}' for v in new_center_of_mass]
                 new_center_of_masses_str.append(new_center_of_mass_str)
@@ -134,7 +149,7 @@ def convert_nodes(nodes, z_offset, initial_orientation):
             joint_parameters_node = get_field(node, 'jointParameters')['value']
 
             anchor = get_vector3(joint_parameters_node, name='anchor')
-            new_anchor = TO_FLU_FROM[initial_orientation] @ np.array(anchor)
+            new_anchor = convert_translation(anchor, initial_orientation)
             new_anchor[2] += z_offset
             new_anchor_str = [f'{round(v, 5):.5}' for v in new_anchor]
             set_vector3(joint_parameters_node, new_anchor_str, name='anchor')
@@ -156,10 +171,8 @@ def convert_nodes(nodes, z_offset, initial_orientation):
             geometry_cord_node = get_field(geometry_node, 'coord')['value']
             geometry_points = get_field(geometry_cord_node, 'point')['value']
             for i in range(0, len(geometry_points), 3):
-                point = [float(value) for value in geometry_points[i:i+3]]
-                new_point = TO_FLU_FROM[initial_orientation] @ np.array(point)
-                new_point_str = [f'{round(v, 7)}' for v in new_point]
-                geometry_points[i:i+3] = new_point_str
+                new_point = convert_translation(geometry_points[i:i+3], initial_orientation)
+                geometry_points[i:i+3] = vector_to_string(new_point, 7)
         elif node['name'] == 'Slot':
             # Ignore
             pass
