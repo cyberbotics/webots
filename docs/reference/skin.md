@@ -55,7 +55,7 @@ Please refer to [Transform](transform.md) `rotation` field description for more 
 - The `scale` field specifies a possibly non-uniform scale of the mesh.
 Only positive values are permitted; non-positive scale values are automatically reset to 1.
 
-- `name`: name of the [Skin](skin.md) device and used by [`wb_robot_get_device()`](robot.md#wb_robot_get_device).
+- `name`: name of the [Skin](skin.md) device used by [`wb_robot_get_device()`](robot.md#wb_robot_get_device).
 
 - The `modelUrl` field specified the path to the 3D model.
 If the `modelUrl` value starts with `http://` or `https://`, Webots will get the file from the web.
