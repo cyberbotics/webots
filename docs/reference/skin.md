@@ -20,7 +20,7 @@ Skin {
 ### Description
 
 The [Skin](#skin) node can be used to simulate soft mesh animation for example of a human or an animal.
-The skin mesh is imported from a mesh file specified by the `model` name but in order to be animated it has to be attached to a skeleton so that the rotation of the skeleton joints results in appropriate deformation of the skin mesh.
+The skin mesh is imported from a mesh file specified by the `modelUrl` name but in order to be animated it has to be attached to a skeleton so that the rotation of the skeleton joints results in appropriate deformation of the skin mesh.
 
 The [Skin](#skin) provides two alternative ways to define a skeleton.
 The first method consists in providing the skeleton in the mesh file.
