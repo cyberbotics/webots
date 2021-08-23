@@ -220,7 +220,7 @@ C3dViewer {
 ## [Pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/worlds/pedestrian.wbt) Sample
 
 ![pedestrian_world.png](images/humans/pedestrian_world.thumbnail.jpg) This example shows the simulation of simple walking rigid human models.
-The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/controllers/pedestrian.py)" Python controller source code, but the trajectory, the speed and the time step can be passed as controller argument:
+The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/controllers/pedestrian/pedestrian.py)" Python controller source code, but the trajectory, the speed and the time step can be passed as controller argument:
 - `--trajectory`: Specify the trajectory in the format ``[x1 y1, x2 y2, ...]``.
 - `--speed`: Specify walking speed in [m/s].
 - `--step`: Specify time step.
