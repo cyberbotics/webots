@@ -13,7 +13,7 @@ The "[bvh\_animation]({{ url.github_tree }}/projects/humans/skin_animated_humans
 
 ### CharacterSkin PROTO
 
-Skin node representing a human with predefined mesh and appearance.
+A skin node representing a human with predefined mesh and appearance.
 Four different characters are available based on the 'model' field:
 - "Anthony": a boy,
 - "Robert": a men,
