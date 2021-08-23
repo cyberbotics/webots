@@ -1,6 +1,6 @@
 # Humans
 
-This chapter gives an overview of different humans simulation provided with the Webots package.
+This chapter gives an overview of different human simulations provided with the Webots package.
 The example worlds can be tested easily; the ".wbt" files are located in various "worlds" directories of the "[WEBOTS\_HOME/projects/humans]({{ url.github_tree }}/projects/humans)" directory and can be directly opened from Webots using the `Open Sample World` item in `File` menu.
 The controller code is located in the corresponding "controllers" directory.
 
