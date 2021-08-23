@@ -64,7 +64,7 @@ The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [t
 Absolute paths work as well, but they are not recommended because they are not portable across systems.
 The materials used by the imported mesh have to be defined in the `appearance` field.
 
-- `appearance`: list of [Appearance](appearance.md) and [PBRAppearance](pbrappearance.md) nodes defining the materials used by the mesh specified in the `model` field.
+- `appearance`: list of [Appearance](appearance.md) and [PBRAppearance](pbrappearance.md) nodes defining the materials used by the mesh specified in the `modelUrl` field.
 In order to be correctly linked, the `name` field of the child appearance node has to match the material name used in the mesh definition.
 If multiple appearance nodes have the same `name` field value, the first one is used.
 
