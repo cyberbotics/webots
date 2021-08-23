@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
   WbDeviceTag skin = wb_robot_get_device("skin");
 
   const int bones_count = wb_skin_get_bone_count(skin);
-  printf("The skin model is made by %d bones:\n", bones_count);
+  printf("The skin model is made of %d bones:\n", bones_count);
   int leg_bone_index = -1;
   for (int i = 0; i < bones_count; ++i) {
     const char *name = wb_skin_get_bone_name(skin, i);
