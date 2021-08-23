@@ -37,6 +37,7 @@ WbTranslateRotateManipulator::WbTranslateRotateManipulator(bool isTranslationAva
   WbWrenAbstractManipulator(3),
   mHasRotationHandles(isRotationAvailable),
   mHasTranslationHandles(isTranslationAvailable),
+  mActiveRotationHandleMaterial(NULL),
   mRotationLineTransform(NULL),
   mRotationDoubleArrowTransform(NULL) {
   initializeHandlesEntities();
@@ -193,10 +194,10 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
       mHasRotationHandles = false;
   }
   if (mHasRotationHandles) {
-    WrMaterial *material = wr_phong_material_new();
+    mActiveRotationHandleMaterial = wr_phong_material_new();
     const float color[3] = {0.0f, 0.0f, 0.0f};
-    wr_phong_material_set_color(material, color);
-    wr_material_set_default_program(material, WbWrenShaders::simpleShader());
+    wr_phong_material_set_color(mActiveRotationHandleMaterial, color);
+    wr_material_set_default_program(mActiveRotationHandleMaterial, WbWrenShaders::simpleShader());
 
     // Rotation line
     const float tailVertices[6] = {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f};
@@ -210,7 +211,7 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     wr_renderable_set_drawing_mode(rotationLineRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
     wr_renderable_set_visibility_flags(rotationLineRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
     wr_renderable_set_mesh(rotationLineRenderable, WR_MESH(rotationLineMesh));
-    wr_renderable_set_material(rotationLineRenderable, material, NULL);
+    wr_renderable_set_material(rotationLineRenderable, mActiveRotationHandleMaterial, NULL);
     wr_renderable_set_drawing_order(rotationLineRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
 
     mRotationLineTransform = wr_transform_new();
@@ -232,7 +233,7 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     wr_renderable_set_receive_shadows(doubleArrowRenderable, false);
     wr_renderable_set_visibility_flags(doubleArrowRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
     wr_renderable_set_mesh(doubleArrowRenderable, WR_MESH(doubleArrowMesh));
-    wr_renderable_set_material(doubleArrowRenderable, material, NULL);
+    wr_renderable_set_material(doubleArrowRenderable, mActiveRotationHandleMaterial, NULL);
     wr_renderable_set_drawing_order(doubleArrowRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
 
     mRotationDoubleArrowTransform = wr_transform_new();
@@ -260,6 +261,7 @@ WbTranslateRotateManipulator::~WbTranslateRotateManipulator() {
   wr_node_delete(WR_NODE(mAxesTransform));
 
   if (mHasRotationHandles) {
+    wr_material_delete(mActiveRotationHandleMaterial);
     wr_node_delete(WR_NODE(mRotationLineTransform));
     wr_node_delete(WR_NODE(mRotationDoubleArrowTransform));
   }

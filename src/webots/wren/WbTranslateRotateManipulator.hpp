@@ -65,6 +65,7 @@ private:
   std::vector<WrRenderable *> mRenderables;
 
   WrMaterial *mHandlesMaterials[3][2];
+  WrMaterial *mActiveRotationHandleMaterial;
 
   WrTransform *mTranslationHandlesTransforms[3];
   WrTransform *mRotationHandlesTransforms[3];
