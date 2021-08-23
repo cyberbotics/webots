@@ -51,7 +51,7 @@ For this reason, this library also provides functions to adapt and re-target the
 #### `wbu_bvh_read_file`
 #### `wbu_bvh_cleanup`
 
-*obtaining and releasing a BVH file handle*
+*obtain and release BVH file handles*
 
 %tab-component "language"
 
