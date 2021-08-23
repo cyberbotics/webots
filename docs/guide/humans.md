@@ -140,7 +140,7 @@ If the current frame is the last frame in the BVH file, calling this function re
 It returns TRUE on success.
 
 The `wbu_bvh_goto_frame` function reads a specific frame, whose index is given in the `frame_number` argument.
-Returns TRUE on success.
+It returns TRUE on success.
 Note that if the argument `frame_number` is greater than the number of frames in the file, it leads to an error, and the function returns FALSE.
 
 The function `wbu_bvh_reset` jumps to the first frame.
