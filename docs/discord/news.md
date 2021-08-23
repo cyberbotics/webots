@@ -4,6 +4,29 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Usman 08/12/2021 02:15:26
+nice
+
+##### Olivier Michel [Cyberbotics] 08/11/2021 09:49:35
+PAUL: disinfection robot simulated in Webots: [https://paul-bot.studio/how-it-works.html](https://paul-bot.studio/how-it-works.html)
+
+
+Here is a Master thesis detailing how to run Webots on HPC: [https://arxiv.org/pdf/2108.00485](https://arxiv.org/pdf/2108.00485)
+
+
+New paper published in Robotics and Autonomous Systems about multi-robot navigation in Webots: [https://www.sciencedirect.com/science/article/pii/S0921889021001342](https://www.sciencedirect.com/science/article/pii/S0921889021001342)
+
+
+Nice article about scene-oriented grasp estimation using Webots: [https://link.springer.com/article/10.1007/s40747-021-00459-x](https://link.springer.com/article/10.1007/s40747-021-00459-x)
+
+##### Soft\_illusion 08/09/2021 08:31:16
+Third video with ROS and webots in Robotics Software  pico-degree .
+
+[https://youtu.be/\_-MUEKbyMQI](https://youtu.be/_-MUEKbyMQI)
+
+##### Olivier Michel [Cyberbotics] 08/05/2021 12:03:47
+Nice article on Occupancy Grid Mapping with Webots and ROS2: [https://towardsdatascience.com/occupancy-grid-mapping-with-webots-and-ros2-a6162a644fab](https://towardsdatascience.com/occupancy-grid-mapping-with-webots-and-ros2-a6162a644fab)
+
 ##### Soft\_illusion 08/02/2021 07:24:32
 Second video of Robotics Software  pico-degree .
 

@@ -85,6 +85,7 @@ PROTO Fence [
       offset = distanceTotal - poleNb * poleGap;
     }
     const nbPoles = polePositions.length;
+    const disableShadows = nbPoles > 496;
   >%
   Solid {
     translation IS translation
@@ -123,6 +124,9 @@ PROTO Fence [
             %< if (j === 0) { >%
               DEF HORIZONTALE_BAR Shape {
                 appearance IS horizontalBarAppearance
+                %< if (disableShadows) { >%
+                castShadows FALSE  # cannot handle so many shadows
+                %< } >%
                 geometry Extrusion {
                   spine IS path
                   splineSubdivision IS subdivision
@@ -139,6 +143,9 @@ PROTO Fence [
       # poles
       Shape {
         appearance IS poleAppearance
+        %< if (disableShadows) { >%
+        castShadows FALSE  # cannot handle so many shadows
+        %< } >%
         geometry IndexedFaceSet {
           coord Coordinate {
             point [

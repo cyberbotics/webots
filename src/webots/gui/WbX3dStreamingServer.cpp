@@ -89,7 +89,7 @@ void WbX3dStreamingServer::processTextMessage(QString message) {
   } else if (message == "reset") {
     // reset nodes visibility
     QWebSocket *client = qobject_cast<QWebSocket *>(sender());
-    foreach (WbBaseNode *node, WbWorld::instance()->viewpoint()->getInvisibleNodes())
+    foreach (const WbBaseNode *node, WbWorld::instance()->viewpoint()->getInvisibleNodes())
       client->sendTextMessage(QString("visibility:%1:1").arg(node->uniqueId()));
     resetSimulation();
     const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);

@@ -224,21 +224,14 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
     mScaledCoordinates.append(z);
   }
 
-  for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
-    for (int v = 0; v < 3; ++v) {          // foreach vertex
-      if (mTextureCoordinatesValid) {
+  if (mTextureCoordinatesValid) {
+    for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
+      for (int v = 0; v < 3; ++v) {          // foreach vertex
         const int currentIndex = mCoordIndices[3 * t + v];
-        if (mTextureCoordinatesValid) {
-          mTextureCoordinates.append(texCoord[2 * currentIndex]);
-          mTextureCoordinates.append(texCoord[2 * currentIndex + 1]);
-          mNonRecursiveTextureCoordinates.append(texCoord[2 * currentIndex]);
-          mNonRecursiveTextureCoordinates.append(texCoord[2 * currentIndex + 1]);
-        } else {
-          mTextureCoordinates.append(0.5);
-          mTextureCoordinates.append(0.5);
-          mNonRecursiveTextureCoordinates.append(0.5);
-          mNonRecursiveTextureCoordinates.append(0.5);
-        }
+        mTextureCoordinates.append(texCoord[2 * currentIndex]);
+        mTextureCoordinates.append(texCoord[2 * currentIndex + 1]);
+        mNonRecursiveTextureCoordinates.append(texCoord[2 * currentIndex]);
+        mNonRecursiveTextureCoordinates.append(texCoord[2 * currentIndex + 1]);
         mNormals.append(normal[3 * currentIndex]);
         mNormals.append(normal[3 * currentIndex + 1]);
         mNormals.append(normal[3 * currentIndex + 2]);

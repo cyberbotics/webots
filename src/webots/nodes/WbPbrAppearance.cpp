@@ -517,9 +517,9 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   if (writer.isX3d()) {
     writer << "<Material diffuseColor=\"";
     mBaseColor->write(writer);
-    writer << "\" specularColor=\"" << 1.0 - mRoughness->value() << " " << 1.0 - mRoughness->value() << " "
-           << 1.0 - mRoughness->value() << "\" ";
-    writer << "shininess=\"" << 1.0 - mRoughness->value() << "\"";
+    writer << "\" specularColor=\"" << (float)(1.0 - mRoughness->value()) << " " << (float)(1.0 - mRoughness->value()) << " "
+           << (float)(1.0 - mRoughness->value()) << "\" ";
+    writer << "shininess=\"" << (float)(1.0 - mRoughness->value()) << "\"";
     writer << "/>";
     mBaseColorMap->write(writer);
     if (textureTransform())
@@ -534,10 +534,10 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
     mBaseColor->write(writer);
     writer << "\n";
     writer.indent();
-    writer << "specularColor " << 1.0 - mRoughness->value() << " " << 1.0 - mRoughness->value() << " "
-           << 1.0 - mRoughness->value() << "\n";
+    writer << "specularColor " << (float)(1.0 - mRoughness->value()) << " " << (float)(1.0 - mRoughness->value()) << " "
+           << (float)(1.0 - mRoughness->value()) << "\n";
     writer.indent();
-    writer << "shininess " << 1.0 - mRoughness->value() << "\n";
+    writer << "shininess " << (float)(1.0 - mRoughness->value()) << "\n";
     writer.decreaseIndent();
     writer.indent();
     writer << "}\n";

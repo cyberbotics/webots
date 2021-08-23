@@ -265,7 +265,7 @@ void WbAnimationRecorder::addChangedLabelToList(const QString &label) {
     mChangedLabels.append(label);
 }
 
-void WbAnimationRecorder::handleNodeVisibilityChange(WbNode *node, bool visibility) {
+void WbAnimationRecorder::handleNodeVisibilityChange(const WbNode *node, bool visibility) {
   WbAnimationCommand *newCommand = NULL;
   foreach (WbAnimationCommand *command, mArtificialCommands) {
     if (command->node() == node) {

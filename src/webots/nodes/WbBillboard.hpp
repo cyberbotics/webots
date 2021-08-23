@@ -31,6 +31,9 @@ public:
   int nodeType() const override { return WB_NODE_BILLBOARD; }
   void postFinalize() override;
   void createWrenObjects() override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
+    return QList<const WbBaseNode *>() << this;
+  }
 
 protected:
   void applyTranslationToWren();
