@@ -9,7 +9,7 @@ The controller code is located in the corresponding "controllers" directory.
 ![skin_animated_humans.png](images/humans/skin_animated_humans.thumbnail.jpg) This example shows how to use the [Skin](../reference/skin.md) node to animate human models and play [BVH](https://en.wikipedia.org/wiki/Biovision_Hierarchy) animations.
 The [FBX](https://en.wikipedia.org/wiki/FBX) models have been generated using [MakeHuman](http://makehumancommunity.org/) and BVH files are taken from open source databases.
 The [Skin PROTO models]({{ url.github_tree }}/projects/humans/skin_animated_humans/protos/) contain the definition of the appearance declared in the FBX files.
-The "[bvh\_animation]({{ url.github_tree }}/projects/humans/skin_animated_humans/controllers/bvh_animation.c)" C controller loads the BVH file, associates it with the [Skin](../reference/skin.md) model and plays the BVH animation by applying the poses to the [Skin](../reference/skin.md) bones.
+The "[bvh\_animation]({{ url.github_tree }}/projects/humans/skin_animated_humans/controllers/bvh_animation/bvh_animation.c)" C controller loads the BVH file, associates it with the [Skin](../reference/skin.md) model and plays the BVH animation by applying the poses to the [Skin](../reference/skin.md) bones.
 
 ### CharacterSkin PROTO
 
