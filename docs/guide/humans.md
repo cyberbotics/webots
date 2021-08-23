@@ -172,7 +172,7 @@ The rotation is returned as an array of double.
 The `wbu_bvh_get_root_translation` function returns the translation of the BVH object.
 The translation is returned as an array of double.
 This is typically used to set the translation of the [Skin](../reference/skin.md) node that is being animated by this BVH file.
-The values can wither be used directly, or scaled using the `wbu_bvh_set_scale` function.
+The values can either be used directly, or scaled using the `wbu_bvh_set_scale` function.
 
 ## [C3D]({{ url.github_tree }}/projects/humans/c3d/worlds/c3d_viewer.wbt) Sample
 
