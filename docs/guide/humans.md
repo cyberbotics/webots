@@ -177,7 +177,7 @@ The values can either be used directly, or scaled using the `wbu_bvh_set_scale` 
 ## [C3D]({{ url.github_tree }}/projects/humans/c3d/worlds/c3d_viewer.wbt) Sample
 
 ![c3d_viewer.png](images/humans/c3d_viewer.thumbnail.jpg) This example provides a basic viewer for [C3D](https://c3d.org) files containing biomechanical information and motion capture data.
-The "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" Python controller loads the C3D file, creates a solid [Sphere](../reference/sphere.md), and plays the motion by updating the position of the markers.
+The "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer/c3d_viewer.py)" Python controller loads the C3D file, creates a solid [Sphere](../reference/sphere.md), and plays the motion by updating the position of the markers.
 Additionally, "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer/c3d_viewer.py)" also initializes the "[c3d\_viewer\_window]({{ url.github_tree }}/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window)" robot window from which it is possible to set the transparency of the body representation and the playback speed, to change the color of the markers, and to visualize the graphs of the data provided in the C3D file.
 
 ### C3dViewer PROTO
