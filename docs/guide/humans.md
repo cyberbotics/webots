@@ -189,7 +189,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 C3dViewer {
   SFVec3f     translation                      0 0 0
-  SFRotation  rotation                         0 1 0 0
+  SFRotation  rotation                         0 0 1 0
   SFString    c3dFile                          ""
   SFFloat     playbackSpeed                    1.0
   MFNode      markers                          []
