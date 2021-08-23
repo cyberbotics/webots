@@ -465,7 +465,7 @@ void WbSkin::createWrenSkeleton() {
   int count;
   const char *error;
   if (WbUrl::isWeb(meshFilePath)) {
-    if (mDownloader->hasFinished()) {
+    if (mDownloader && mDownloader->hasFinished()) {
       const QByteArray data = mDownloader->device()->readAll();
       const char *hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8().constData();
       error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint, &mSkeleton, &meshes, &materialNames, &count);
