@@ -51,6 +51,7 @@ Robot {
       ]
     }
     CharacterSkin {
+      rotation 0 0 1 0
       name "graphical skin"
       model "Anthony"
     }
