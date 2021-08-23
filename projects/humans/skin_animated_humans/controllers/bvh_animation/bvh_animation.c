@@ -162,7 +162,7 @@ int main(int argc, char **argv) {
   if (root_bone_index >= 0) {
     const double *current_root_position = wbu_bvh_get_root_translation(bvh_motion);
     // Use initial Skin position as zero reference position
-    for (int i = 0; i < 3; ++i) {
+    for (i = 0; i < 3; ++i) {
       root_position_offset[i] = skin_root_position[i] - current_root_position[i];
       initial_root_position[i] = current_root_position[i];
     }
@@ -191,7 +191,7 @@ int main(int argc, char **argv) {
     if (root_bone_index >= 0) {
       root_position = wbu_bvh_get_root_translation(bvh_motion);
       double position[3];
-      for (int i = 0; i < 3; ++i)
+      for (i = 0; i < 3; ++i)
         position[i] = root_position[i] + root_position_offset[i];
       wb_skin_set_bone_position(skin, root_bone_index, position, false);
     }
@@ -206,7 +206,7 @@ int main(int argc, char **argv) {
         // based on last frame and not on loaded frame (1 over 4)
         wbu_bvh_goto_frame(bvh_motion, end_frame_index - 1);
         root_position = wbu_bvh_get_root_translation(bvh_motion);
-        for (int i = 0; i < 3; ++i)
+        for (i = 0; i < 3; ++i)
           root_position_offset[i] += root_position[i] - initial_root_position[i];
       }
       wbu_bvh_goto_frame(bvh_motion, 1);  // skip initial pose

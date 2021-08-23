@@ -237,15 +237,15 @@ static void read_motion(FILE *file, WbuBvhMotion motion, int frame_channels_coun
           token = strtok(line, DELIM);
         else
           token = strtok(NULL, DELIM);
-        double motion = atof(token);
+        double motion_value = atof(token);
         BvhChannelType_t channel_type = joint->channels[channel_index];
         if (channel_type <= Z_POSITION)
           // store position
-          joint->frame_position[frame_index][channel_type] = motion;
+          joint->frame_position[frame_index][channel_type] = motion_value;
 
-        else if (joint->channels[channel_index] <= Z_ROTATION && motion != 0.0) {
+        else if (joint->channels[channel_index] <= Z_ROTATION && motion_value != 0.0) {
           // compute and store rotation
-          double angle = motion * D2R;
+          double angle = motion_value * D2R;
           int rotation_index = joint->channels[channel_index] - X_ROTATION;
           q = wbu_quaternion_from_axis_angle(axes[rotation_index].x, axes[rotation_index].y, axes[rotation_index].z, angle);
           int j = 0;
@@ -362,7 +362,7 @@ WbuBvhMotion wbu_bvh_read_file(const char *filename) {
 
 void wbu_bvh_cleanup(WbuBvhMotion motion) {
   int n_frames = motion->n_frames;
-  int i = 0, j = 0;
+  int i, j;
   for (i = 0; i < motion->n_joints; ++i) {
     BvhMotionJointPrivate_t *joint = motion->joint_list[i];
     if (joint->n_position_channels > 0) {
