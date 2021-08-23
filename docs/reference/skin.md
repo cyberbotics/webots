@@ -273,7 +273,7 @@ wb_skin_set_bone_position(tag, index, position, absolute)
 These functions set or return the skin's internal skeleton bone position and orientation.
 Each bone is identified using an index value between 0 and the bones count returned by [`wb_skin_get_bone_count`](#wb_skin_get_bone_count).
 If the `absolute` argument is FALSE the orientation and position values are relative to the parent bone coordinate system.
-Otherwise, if `absolute` is TRUE, the orientation and position values are relative to the [Skin](skin.md) node's coordinate system.
+Otherwise, the orientation and position values are relative to the [Skin](skin.md) node's coordinate system.
 
 The `wb_skin_set_bone_orientation` function sets the rotation of the skeleton bone to the specified axis-angle rotation value.
 The rotation is specified as a double array, similar to [`wb_supervisor_field_set_sf_rotation`](supervisor.md#wb_supervisor_field_set_sf_rotation).
