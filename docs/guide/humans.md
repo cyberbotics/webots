@@ -41,7 +41,7 @@ CharacterSkin {
 This field accepts the following values: "Anthony", "Robert", "Sandra", and "Sophia".
 
 ### [bvh\_util]({{ url.github_tree }}/projects/humans/skin_animated_humans/libraries/bvh_util/) Library
-To load and play the BVH file a C utility library is also provided.
+This C utility library allows users load and play BVH files.
 The BVH file defines a skeleton in the form of hierarchy of bones, and a time series of angles for each joint in the skeleton.
 Note that this skeleton is not necessarily the same as the skeleton associated with a [Skin](../reference/skin.md) node, since they come from different sources.
 For this reason, this library also provides functions to adapt and re-target the BVH motion data to the [Skin](../reference/skin.md) model.
