@@ -141,7 +141,7 @@ It returns TRUE on success.
 
 The `wbu_bvh_goto_frame` function reads a specific frame, whose index is given in the `frame_number` argument.
 It returns TRUE on success.
-Note that if the argument `frame_number` is greater than the number of frames in the file, it leads to an error, and the function returns FALSE.
+Note that if the `frame_number` argument is greater than the number of frames in the file, this causes an error, and the function returns FALSE.
 
 The function `wbu_bvh_reset` jumps to the first frame.
 Returns TRUE on success.
