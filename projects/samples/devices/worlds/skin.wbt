@@ -18,6 +18,7 @@ RectangleArena {
   floorSize 3 3
 }
 DEF ROBOT Robot {
+  rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
   children [
     CharacterSkin {
     }
