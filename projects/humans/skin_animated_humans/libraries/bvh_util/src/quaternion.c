@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "quaternion_private.h"
+#include "quaternion.h"
 
 #include <stdio.h>
 #include <stdlib.h>

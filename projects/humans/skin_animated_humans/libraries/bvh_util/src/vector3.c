@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+#include "vector3.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "vector3_private.h"
 
 double wbu_vector3_length(WbuVector3 v) {
   return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);

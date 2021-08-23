@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef QUATERNION_PRIVATE_H
-#define QUATERNION_PRIVATE_H
+#ifndef QUATERNION_H
+#define QUATERNION_H
 
 #include <math.h>
 
@@ -35,4 +35,4 @@ WbuQuaternion wbu_quaternion_from_axis_angle(double x, double y, double z, doubl
 void wbu_quaternion_to_axis_angle(WbuQuaternion q, double *axis_angle);
 void wbu_quaternion_print(WbuQuaternion q);
 
-#endif /* QUATERNION_PRIVATE_H */
+#endif /* QUATERNION_H */

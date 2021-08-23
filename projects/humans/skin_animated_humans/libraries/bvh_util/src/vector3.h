@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#ifndef VECTOR3_PRIVATE_H
-#define VECTOR3_PRIVATE_H
+#ifndef VECTOR3_H
+#define VECTOR3_H
 
 #include <math.h>
-#include "quaternion_private.h"
+#include "quaternion.h"
 
 typedef enum { X_AXIS, Y_AXIS, Z_AXIS, ZERO } WbuVector3Type;
 
@@ -35,4 +35,4 @@ double wbu_vector3_dot(WbuVector3 v1, WbuVector3 v2);
 WbuVector3 wbu_vector3_cross(WbuVector3 v1, WbuVector3 v2);
 WbuVector3 wbu_vector3_rotate_by_quaternion(WbuVector3 v, WbuQuaternion q);
 
-#endif /* VECTOR3_PRIVATE_H */
+#endif /* VECTOR3_H */

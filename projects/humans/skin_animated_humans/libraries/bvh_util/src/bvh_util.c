@@ -15,8 +15,8 @@
  */
 
 #include "webots/bvh_util.h"
-#include "quaternion_private.h"
-#include "vector3_private.h"
+#include "quaternion.h"
+#include "vector3.h"
 
 #include <assert.h>
 #include <stdio.h>
