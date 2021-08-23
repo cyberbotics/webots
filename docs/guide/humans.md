@@ -1,6 +1,6 @@
 # Humans
 
-This chapter gives an overview of different humans simulation provided with the Webots package.
+This chapter gives an overview of different human simulations provided with the Webots package.
 The example worlds can be tested easily; the ".wbt" files are located in various "worlds" directories of the "[WEBOTS\_HOME/projects/humans]({{ url.github_tree }}/projects/humans)" directory and can be directly opened from Webots using the `Open Sample World` item in `File` menu.
 The controller code is located in the corresponding "controllers" directory.
 
@@ -8,8 +8,8 @@ The controller code is located in the corresponding "controllers" directory.
 
 ![skin_animated_humans.png](images/humans/skin_animated_humans.thumbnail.jpg) This example shows how to use the [Skin](../reference/skin.md) node to animate human models and play [BVH](https://en.wikipedia.org/wiki/Biovision_Hierarchy) animations.
 The [FBX](https://en.wikipedia.org/wiki/FBX) models have been generated using [MakeHuman](http://makehumancommunity.org/) and BVH files are taken from open source databases.
-The [Skin PROTO models]({{ url.github_tree }}/projects/humans/skin_animated_humans/protos/) contain the definition of the appearance declared in the in the FBX files.
-The "[bvh\_animation]({{ url.github_tree }}/projects/humans/skin_animated_humans/controllers/bvh_animation.c)" C controller loads the BVH file, associates it with the [Skin](../reference/skin.md) model and plays the BVH animation by applying the poses to the [Skin](../reference/skin.md) bones.
+The [Skin PROTO models]({{ url.github_tree }}/projects/humans/skin_animated_humans/protos/) contain the definition of the appearance declared in the FBX files.
+The "[bvh\_animation]({{ url.github_tree }}/projects/humans/skin_animated_humans/controllers/bvh_animation/bvh_animation.c)" C controller loads the BVH file, associates it with the [Skin](../reference/skin.md) model and plays the BVH animation by applying the poses to the [Skin](../reference/skin.md) bones.
 
 ### CharacterSkin PROTO
 
@@ -172,13 +172,13 @@ The rotation is returned as an array of double.
 The `wbu_bvh_get_root_translation` function returns the translation of the BVH object.
 The translation is returned as an array of double.
 This is typically used to set the translation of the [Skin](../reference/skin.md) node that is being animated by this BVH file.
-The values can wither be used directly, or scaled using the `wbu_bvh_set_scale` function.
+The values can either be used directly, or scaled using the `wbu_bvh_set_scale` function.
 
 ## [C3D]({{ url.github_tree }}/projects/humans/c3d/worlds/c3d_viewer.wbt) Sample
 
 ![c3d_viewer.png](images/humans/c3d_viewer.thumbnail.jpg) This example provides a basic viewer for [C3D](https://c3d.org) files containing biomechanical information and motion capture data.
 The "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" Python controller loads the C3D file, creates a solid [Sphere](../reference/sphere.md), and plays the motion by updating the position of the markers.
-Additionally, "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer.py)" also initializes the "[c3d\_viewer\_window]({{ url.github_tree }}/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window)" robot window from which it is possible to set the transparency of the body representation and the playback speed, to change the color of the markers, and to visualize the graphs of the data provided in the C3D file.
+Additionally, "[c3d\_viewer.py]({{ url.github_tree }}/projects/humans/c3d/controllers/c3d_viewer/c3d_viewer.py)" also initializes the "[c3d\_viewer\_window]({{ url.github_tree }}/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window)" robot window from which it is possible to set the transparency of the body representation and the playback speed, to change the color of the markers, and to visualize the graphs of the data provided in the C3D file.
 
 ### C3dViewer PROTO
 
@@ -213,14 +213,14 @@ C3dViewer {
 - `leftGroundReactionForceOffset`: Defines the offset of the left Ground Reaction Force position.
 - `rightGroundReactionForceOffset`: Defines the offset of the right Ground Reaction Force position.
 - `bodyTransparency`: Defines the transparency of the body representation (transparency to 1 disable body representation).
-- `bodyHeight`: Defines the height of the body representation, if set to '<0' the height defined in the C3D file is used (or 1.83m is not set in the C3D file).
+- `bodyHeight`: Defines the height of the body representation, if set to '<0' the height defined in the C3D file is used (or 1.83m if not set in the C3D file).
 - `bodyOffset`: Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
 
 
 ## [Pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/worlds/pedestrian.wbt) Sample
 
 ![pedestrian_world.png](images/humans/pedestrian_world.thumbnail.jpg) This example shows the simulation of simple walking rigid human models.
-The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/controllers/pedestrian.py)" Python controller source code, but the trajectory, the speed and the time step can be passed as controller argument:
+The walking gait is hard-coded in the "[pedestrian]({{ url.github_tree }}/projects/humans/pedestrian/controllers/pedestrian/pedestrian.py)" Python controller source code, but the trajectory, the speed and the time step can be passed as controller argument:
 - `--trajectory`: Specify the trajectory in the format ``[x1 y1, x2 y2, ...]``.
 - `--speed`: Specify walking speed in [m/s].
 - `--step`: Specify time step.

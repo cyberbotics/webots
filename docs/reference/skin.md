@@ -20,7 +20,7 @@ Skin {
 ### Description
 
 The [Skin](#skin) node can be used to simulate soft mesh animation for example of a human or an animal.
-The skin mesh is imported from a mesh file specified by the `model` name but in order to be animated it has to be attached to a skeleton so that the rotation of the skeleton joints results in appropriate deformation of the skin mesh.
+The skin mesh is imported from a mesh file specified by the `modelUrl` name but in order to be animated it has to be attached to a skeleton so that the rotation of the skeleton joints results in appropriate deformation of the skin mesh.
 
 The [Skin](#skin) provides two alternative ways to define a skeleton.
 The first method consists in providing the skeleton in the mesh file.
@@ -28,8 +28,8 @@ The second method consists in listing the [Solid](solid.md) nodes corresponding 
 If in the first case the resulting object animation will be purely graphical.
 In the second case, when linking the [Skin](skin.md) to an existing Webots skeleton made of [Solid](solid.md) and [Joint](joint.md) nodes, it is possible to animate a dynamic object.
 
-The supported format for the skin mesh and skeleton models is [FBX](https://en.wikipedia.org/wiki/FBX) and the model be generated using a 3D modeling software.
-Other tools can be used for generating the characters to animate, for example human characters provided in the "[skin\_animated\_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt)" sample are generated using [MakeHuman](http://www.makehuman.org/).
+The supported format for the skin mesh and skeleton models is [FBX](https://en.wikipedia.org/wiki/FBX) and the model can be generated using a 3D modeling software.
+Other tools can be used for generating the characters to animate, for example human characters provided in the "[skin\_animated\_humans]({{ url.github_tree }}/projects/humans/skin_animated_humans/worlds/skin_animated_humans.wbt)" sample are generated using [MakeHuman](http://www.makehumancommunity.org/).
 
 #### Physically Driven Skin Animation
 
@@ -64,7 +64,7 @@ The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [t
 Absolute paths work as well, but they are not recommended because they are not portable across systems.
 The materials used by the imported mesh have to be defined in the `appearance` field.
 
-- `appearance`: list of [Appearance](appearance.md) and [PBRAppearance](pbrappearance.md) nodes defining the materials used by the mesh specified in the `model` field.
+- `appearance`: list of [Appearance](appearance.md) and [PBRAppearance](pbrappearance.md) nodes defining the materials used by the mesh specified in the `modelUrl` field.
 In order to be correctly linked, the `name` field of the child appearance node has to match the material name used in the mesh definition.
 If multiple appearance nodes have the same `name` field value, the first one is used.
 
