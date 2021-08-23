@@ -36,7 +36,9 @@ const WbVector3 WbTranslateRotateManipulator::STANDARD_COORDINATE_VECTORS[3] = {
 WbTranslateRotateManipulator::WbTranslateRotateManipulator(bool isTranslationAvailable, bool isRotationAvailable) :
   WbWrenAbstractManipulator(3),
   mHasRotationHandles(isRotationAvailable),
-  mHasTranslationHandles(isTranslationAvailable) {
+  mHasTranslationHandles(isTranslationAvailable),
+  mRotationLineTransform(NULL),
+  mRotationDoubleArrowTransform(NULL) {
   initializeHandlesEntities();
 }
 
@@ -257,8 +259,10 @@ WbTranslateRotateManipulator::~WbTranslateRotateManipulator() {
 
   wr_node_delete(WR_NODE(mAxesTransform));
 
-  wr_node_delete(WR_NODE(mRotationLineTransform));
-  wr_node_delete(WR_NODE(mRotationDoubleArrowTransform));
+  if (mHasRotationHandles) {
+    wr_node_delete(WR_NODE(mRotationLineTransform));
+    wr_node_delete(WR_NODE(mRotationDoubleArrowTransform));
+  }
 
   for (int i = 0; i < 3; ++i) {
     if (mHasTranslationHandles)
@@ -319,6 +323,9 @@ void WbTranslateRotateManipulator::showNormal() {
 }
 
 void WbTranslateRotateManipulator::showRotationLine(bool show) {
+  assert(mRotationLineTransform && mRotationDoubleArrowTransform);
+  if (!mHasRotationHandles)
+    return;
   wr_node_set_visible(WR_NODE(mRotationLineTransform), show);
   wr_node_set_visible(WR_NODE(mRotationDoubleArrowTransform), show);
 }
