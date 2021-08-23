@@ -65,6 +65,8 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
+#include <iostream>
+
 static int gFactoryFieldEditorHeightHint = 0;
 
 struct TreeItemState {
@@ -728,10 +730,12 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     while (it.hasNext()) {
       it.next();
       const QString destination(WbProject::current()->worldsPath() + it.key());
-      const QFileInfo fileInfo(destination);
-      if (!QDir(fileInfo.absolutePath()).exists())
-        QDir().mkpath(fileInfo.absolutePath());
-      QFile::copy(it.value(), destination);
+      if (!(destination.contains("webots://") || destination.contains("http://") || destination.contains("https://"))) {
+        const QFileInfo fileInfo(destination);
+        if (!QDir(fileInfo.absolutePath()).exists())
+          QDir().mkpath(fileInfo.absolutePath());
+        QFile::copy(it.value(), destination);
+      }
     }
     // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {
