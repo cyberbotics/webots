@@ -59,6 +59,7 @@ void WbGeometry::init() {
   mWrenScaleTransform = NULL;
   mCollisionTime = -std::numeric_limits<float>::infinity();
   mPreviousCollisionTime = -std::numeric_limits<float>::infinity();
+  mIs90DegreesRotated = false;
   mOdeGeom = NULL;
   mOdeMass = NULL;
   mResizeManipulator = NULL;
