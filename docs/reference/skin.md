@@ -57,7 +57,7 @@ Only positive values are permitted; non-positive scale values are automatically 
 
 - `name`: name of the [Skin](skin.md) device used by [`wb_robot_get_device()`](robot.md#wb_robot_get_device).
 
-- The `modelUrl` field specified the path to the 3D model.
+- The `modelUrl` field specifies the path to the 3D model.
 If the `modelUrl` value starts with `http://` or `https://`, Webots will get the file from the web.
 Otherwise, the file should be specified with a relative path.
 The same search algorithm as for [ImageTexture](imagetexture.md) is used (cf. [this section](imagetexture.md#search-rule-of-the-texture-path)).
