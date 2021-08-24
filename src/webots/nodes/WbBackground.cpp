@@ -689,9 +689,9 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
     if (mUrlFields[i]->size() == 0)
       continue;
     QString imagePath = mUrlFields[i]->value()[0];
-    if (imagePath.indexOf("http") == 0)
+    if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
-    else if (imagePath.indexOf("webots://") == 0)
+    else if (WbUrl::isLocalUrl(imagePath))
       backgroundFileNames[i] = imagePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() +
                                                                 "/" + WbApplicationInfo::branch() + "/");
     else {
@@ -712,9 +712,9 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
       continue;
 
     QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
-    if (irradiancePath.indexOf("http") == 0)
+    if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
-    else if (irradiancePath.indexOf("webots://") == 0)
+    else if (WbUrl::isLocalUrl(irradiancePath))
       irradianceFileNames[i] =
         irradiancePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
                                               WbApplicationInfo::branch() + "/");
