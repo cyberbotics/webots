@@ -16,6 +16,7 @@
 
 """Parse Webots world files."""
 
+
 class WebotsParser:
     """This class reads a world file and parser its structure."""
     """It assumes the world file was saved with Webots and the indentation written by Webots was not changed."""
