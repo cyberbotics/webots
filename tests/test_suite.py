@@ -158,7 +158,6 @@ def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
     curdir = os.getcwd()
     os.chdir(testsFolderPath)
-    print(testsFolderPath)
     command = Command('make release -j%d' % multiprocessing.cpu_count())
     command.run(silent=False)
     os.chdir(curdir)
