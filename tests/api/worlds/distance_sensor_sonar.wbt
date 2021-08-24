@@ -111,6 +111,7 @@ Solid {
   boundingObject USE SHAPE
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 TestSuiteSupervisor {
 }

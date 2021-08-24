@@ -17,6 +17,7 @@ DirectionalLight {
   direction 0.2 -1 0.55
 }
 Floor {
+  rotation 1 0 0 -1.57079632679
   size 20 20
   tileSize 2 2
   texture [
