@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
   // as the test sometimes fails on Windows, probably because the system
   // needs some time to make the file available to other applications
   // after it was just created.
-  for (i = 0; i < 100; i++) {
+  for (i = 0; i < 10000; i++) {
     if (file_exists("image0.png") && file_exists("image1.png") && file_exists("image2.png"))
       break;
 
