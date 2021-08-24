@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
   WbFieldRef orientation = wb_supervisor_node_get_field(node, "orientation");
   ts_assert_pointer_not_null(node, "wb_supervisor_node_get_field(\"orientation\") failed");
 
-  int time_step = wb_robot_get_basic_time_step();
+  const int time_step = wb_robot_get_basic_time_step();
 
   remove("image0.png");
   remove("image1.png");
