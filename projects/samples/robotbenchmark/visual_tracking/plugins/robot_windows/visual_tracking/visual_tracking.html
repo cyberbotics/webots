@@ -124,8 +124,10 @@
           <p>Once the target object position in the camera image is detected, you have to move the camera motors so that the object remains at the center of the image.
           The sample controller uses the following functions to move the camera</p>
           <pre style='background:#FEE'>
-        panHeadMotor.setVelocity(-1.5 * dx / width)
-        tiltHeadMotor.setVelocity(-1.5 * dy / height))</pre>
+
+  panHeadMotor.setVelocity(-1.5 * dx / width)
+  tiltHeadMotor.setVelocity(-1.5 * dy / height))
+          </pre>
           <p> where <em>width</em> and <em>height</em> are the camera width and camera height, <em>dx</em> and <em>dy</em> are the distance in pixels between the detected object
           center and the camera center.
           <br>

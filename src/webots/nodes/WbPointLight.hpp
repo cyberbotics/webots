@@ -17,6 +17,8 @@
 
 #include "WbLight.hpp"
 
+#include <QtCore/QMap>
+
 class WbLightRepresentation;
 class WbVector3;
 

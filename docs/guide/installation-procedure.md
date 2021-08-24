@@ -18,6 +18,9 @@ Webots comes in three different package types: `.deb` (Debian package), `.tar.bz
 The Debian package is aimed at the latest LTS Ubuntu Linux distribution whereas the tarball and snap packages includes many dependency libraries and are therefore best suited for installation on other Linux distributions.
 All these packages can be installed from our [official GitHub repository](https://github.com/cyberbotics/webots/releases).
 
+The packages also contain a precompiled ROS API built with the latest recommended ROS distribution.
+For more details about the ROS version supported out of the box by each package please refer to [this section](tutorial-8-using-ros.md#check-compatibility-of-webots-ros-api).
+
 > **Note**: Webots will run much faster if you install an accelerated OpenGL drivers.
 If you have a NVIDIA or AMD graphics card, it is highly recommended that you install the Linux graphics drivers from these manufacturers to take the full advantage of the OpenGL hardware acceleration with Webots.
 Please find instructions in [this section](verifying-your-graphics-driver-installation.md).
