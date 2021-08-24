@@ -137,7 +137,7 @@ def convert_pose(rotation_angle_axis, translation, z_offset, initial_orientation
 def convert_physics(node, z_offset, initial_orientation):
     physics_field = get_field(node, 'physics')
     new_center_of_masses_str = []
-    if physics_field:
+    if physics_field and physics_field['type'] != 'IS':
         physics_node = physics_field['value']
         center_of_mass_field = get_field(physics_node, 'centerOfMass')
         if center_of_mass_field:
