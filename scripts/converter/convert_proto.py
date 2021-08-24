@@ -14,7 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Convert Webots PROTO file from the RUB (x-Right, y-Up, z-Back) or similar to FLU (x-Forward, y-Left, z-Up)."""
+"""
+Convert Webots PROTO file from the RUB (x-Right, y-Up, z-Back) or similar to FLU (x-Forward, y-Left, z-Up).
+- RUB: Common in Webots
+- LUF: Used by some robots
+- FUR: Common for distance sensors
+"""
 
 import argparse
 import numpy as np
@@ -26,7 +31,8 @@ TO_FLU_FROM = {
     'RUB': transforms3d.axangles.axangle2mat(
         [-0.5773516025189619, 0.5773476025217157, 0.5773516025189619], -2.094405307179586),
     'LUF': transforms3d.axangles.axangle2mat(
-        [0.577351, 0.57735, 0.57735], 2.0944)
+        [0.577351, 0.57735, 0.57735], 2.0944),
+    'FUR': transforms3d.euler.euler2mat(-np.pi/2, 0, 0, 'rxyz')
 }
 
 
@@ -212,7 +218,7 @@ def main():
                         help='Change z-offset to match the ground level')
     parser.add_argument('proto_file', type=str, help='Path to the PROTO file')
     parser.add_argument('--initial-orientation', dest='initial_orientation',
-                        choices=['RUB', 'LUF'], default='RUB', help='Initial PROTO orientation')
+                        choices=['RUB', 'LUF', 'FUR'], default='RUB', help='Initial PROTO orientation')
     args = parser.parse_args()
 
     proto = WebotsParser()
