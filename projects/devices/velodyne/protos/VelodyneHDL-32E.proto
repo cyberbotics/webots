@@ -94,10 +94,12 @@ PROTO VelodyneHDL-32E [
         }
       ]
     }
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
       mass 2
     }
+    %< } >%
     tiltAngle -0.349
     horizontalResolution 4500  # 360 / 0.08
     fieldOfView 1.570795       # 6.28318 / 4
@@ -162,10 +164,12 @@ PROTO VelodyneHDL-32E [
           }
         ]
       }
+      %< if (fields.enablePhysics.value) { >%
       physics Physics {
         density -1
         mass 0.2
       }
+      %< } >%
     }
   }
 }
