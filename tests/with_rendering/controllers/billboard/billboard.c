@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
 
   const double NEW_POSITION[3] = {5, -3, 0.4};
   wb_supervisor_field_set_sf_vec3f(position, NEW_POSITION);
-  
+
   // this is necessary to get the absolute position of the node updated by Webots
   wb_robot_step(time_step);
 
@@ -103,9 +103,8 @@ int main(int argc, char **argv) {
   int difference = 0;
   for (i = 0; i < size; i++) {
     if (buffer[0][i] != buffer[1][i] || buffer[0][i] != buffer[2][i]) {
-      printf("%d, %d, %d\n", buffer[0][i], buffer[1][i], buffer[2][i]);
       difference = i;
-      //break;
+      break;
     }
   }
 
@@ -113,7 +112,12 @@ int main(int argc, char **argv) {
     free(buffer[i]);
     fclose(f[i]);
   }
+
   ts_assert_int_equal(difference, 0, "Files differ at index %d", difference);
+
+  unlink("image0.png");
+  unlink("image1.png");
+  unlink("image2.png");
 
   ts_send_success();
   return EXIT_SUCCESS;
