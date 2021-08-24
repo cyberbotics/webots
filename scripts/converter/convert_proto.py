@@ -198,8 +198,9 @@ def convert_nodes(nodes, z_offset, initial_orientation):
 
 
 def convert_bounding_object(node, z_offset, initial_orientation):
-    bounding_object = get_field(node, 'boundingObject')['value']
+    bounding_object = get_field(node, 'boundingObject')
     if bounding_object:
+        bounding_object = bounding_object['value']
         convert_nodes([bounding_object], z_offset, initial_orientation)
 
 
