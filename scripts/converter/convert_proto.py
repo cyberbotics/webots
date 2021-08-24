@@ -31,6 +31,7 @@ TO_FLU_FROM = {
 
 
 def convert_orientation(rotation_angle_axis, from_system):
+    rotation_angle_axis = [float(value) for value in rotation_angle_axis]
     orientation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
     new_rotation = TO_FLU_FROM[from_system] @ orientation
     new_rotation_axis, new_rotation_angle = transforms3d.axangles.mat2axangle(new_rotation)
@@ -38,8 +39,7 @@ def convert_orientation(rotation_angle_axis, from_system):
 
 
 def convert_translation(translation, from_system):
-    if from_system == 'RUB':
-        return [translation[0], translation[2], translation[1]]
+    translation = [float(value) for value in translation]
     return TO_FLU_FROM[from_system] @ np.array(translation)
 
 
@@ -173,6 +173,16 @@ def convert_nodes(nodes, z_offset, initial_orientation):
             for i in range(0, len(geometry_points), 3):
                 new_point = convert_translation(geometry_points[i:i+3], initial_orientation)
                 geometry_points[i:i+3] = vector_to_string(new_point, 7)
+
+            if False:
+                # If we want to invert the faces.
+                geometry_indices = get_field(geometry_node, 'coordIndex')['value']
+                previous_delimiter_index = -1
+                for i in range(0, len(geometry_indices)):
+                    if geometry_indices[i] == '-1':
+                        geometry_indices[previous_delimiter_index+1:i] = \
+                            list(reversed(geometry_indices[previous_delimiter_index+1:i]))
+                        previous_delimiter_index = i
         elif node['name'] == 'Slot':
             # Ignore
             pass
