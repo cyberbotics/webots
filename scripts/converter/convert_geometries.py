@@ -201,3 +201,5 @@ if __name__ == "__main__":
     filename = "tests/api/worlds/range_finder.wbt"
     print(filename)
     convert_to_enu(filename)
+    # result = rotation(['0', '0', '1', '0.6'], ['1', '0', '0', '1.57079632679'])
+    # print(result[0] + ' ' + result[1] + ' ' + result[2] + ' ' + result[3])

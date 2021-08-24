@@ -16,15 +16,15 @@
 
 """Parse Webots world files."""
 
-import sys
-
-
 class WebotsParser:
     """This class reads a world file and parser its structure."""
     """It assumes the world file was saved with Webots and the indentation written by Webots was not changed."""
 
     def __init__(self):
         self.content = {}
+        self.line_count = 0
+        self.indentation = 0
+        self.file = None
 
     def load(self, filename):
         with open(filename, 'r') as self.file:
@@ -34,23 +34,25 @@ class WebotsParser:
             self.content['header'] = []
             while True:
                 revert_position = self.file.tell()
+                revert_line_count = self.line_count
                 line = self.file.readline()
                 if line.startswith('#') or not line.strip():
-
                     self.line_count += 1
                     self.content['header'].append(line.strip())
                 else:
                     self.file.seek(revert_position)
+                    self.line_count = revert_line_count
                     break
 
             self.content['root'] = []
             for line in self.file:
+                line = self._prepare_line(line)
                 self.line_count += 1
-                if line.strip():
+                if line:
                     if line.startswith('PROTO'):
-                        self.content['root'].append(self._read_node_declaration(line.strip()))
+                        self.content['root'].append(self._read_node_declaration(line))
                     else:
-                        self.content['root'].append(self._read_node(line.strip()))
+                        self.content['root'].append(self._read_node(line))
 
     def save(self, filename):
         self.indentation = 0
@@ -86,7 +88,7 @@ class WebotsParser:
 
         self.file.write('}\n')
 
-    def _write_node(self, node, identation=0):
+    def _write_node(self, node, indentation=0):
         if node is None:
             self.file.write('NULL\n')
             return
@@ -96,7 +98,7 @@ class WebotsParser:
             self.file.write('USE ' + node['USE'] + '\n')
             return
         else:
-            name = identation * ' '
+            name = indentation * ' '
         name += node['name']
         self.file.write(name + ' {\n')
         self.indentation += 2
@@ -146,14 +148,15 @@ class WebotsParser:
 
     def _write_mf_field(self, type, values):
         self.indentation += 2
-        indent = ' ' * (self.indentation)
+        indent = ' ' * self.indentation
         count = 0
-        for value in values:
-            self.file.write(indent)
+        self.file.write(indent)
+
+        for index, value in enumerate(values):
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
             elif type == 'MFInt32' or type == 'MFFloat':
-                self.file.write(' '.join(value))
+                self.file.write(value + ' ')
             elif type == 'MFBool':
                 self.file.write('TRUE\n' if value else 'FALSE\n')
             elif type == 'MFVec2f':
@@ -163,7 +166,7 @@ class WebotsParser:
             elif type == 'MFRotation':
                 self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + ' ' + value[3])
             elif type == 'MFNode':
-                self._write_node(value)
+                self._write_node(value, self.indentation if index > 0 else 0)
             count += 1
         if type in ['MFInt32', 'MFFloat', 'MFVec2f', 'MFVec3f', 'MFColor', 'MFRotation']:
             self.file.write('\n')
@@ -182,7 +185,7 @@ class WebotsParser:
         else:
             node['name'] = words[0]
         for line in self.file:
-            line = line.strip()
+            line = self._prepare_line(line)
             self.line_count += 1
             if line.startswith('hidden'):
                 print('Removing hidden field: "%s".' % line)
@@ -214,7 +217,7 @@ class WebotsParser:
 
         # Read fields
         for line in self.file:
-            line = line.strip()
+            line = self._prepare_line(line)
             self.line_count += 1
             if line == ']':
                 break
@@ -223,19 +226,27 @@ class WebotsParser:
         # Read subnodes
         node['root'] = []
         for line in self.file:
-            if line.strip() == '}':
+            line = self._prepare_line(line)
+            self.line_count += 1
+            if line == '}':
                 break
-            if line.strip() != '{':
-                node['root'].append(self._read_node(line.strip()))
+            if line != '{':
+                node['root'].append(self._read_node(line))
 
         return node
+
+    def _prepare_line(self, line):
+        if '%<' in line or '>%' in line:
+            raise Exception(
+                f'JavaScript fragment found at line {self.line_count}. This script cannot handle JavaScript fragments.')
+        return line.split('#')[0].strip()
 
     def _read_field(self, line):
         field = {}
         words = line.split(' ', 1)
         field['name'] = words[0]
         if len(words) < 2:
-            sys.exit(f'Line: {self.line_count}. Expecting more than a single word: {words}')
+            raise Exception(f'Line: {self.line_count}. Expecting more than a single word: `{words}` in line')
         character = words[1][0]
         if character == '[':
             if len(words[1]) > 1 and words[1][1] == ']':  # empty MF field
@@ -329,9 +340,15 @@ class WebotsParser:
                     type = 'MFRotation'
                 else:
                     type = 'MFFloat' if ',' in line else 'MFInt32'
-                mffield.append(elements)
+                mffield.extend(elements)
             else:
                 type = 'MFNode'
                 node = self._read_node(line)
                 mffield.append(node)
+        if len(mffield) > 4:
+            if isinstance(mffield[0], dict):
+                type = 'MFNode'
+            else:
+                type = 'MFFloat' if ',' in line else 'MFInt32'
+
         return type, mffield
