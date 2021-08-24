@@ -94,11 +94,11 @@ PROTO TexturedParallelepiped [
       console.error('\'angles.y\' and \'angles.z\' cannot be PI/2 or -PI/2. Using default value instead.');
     }
 
-    const parallelogramHeight = halfSize.y * Math.sin(angles.x);
-    const parallelogramHalfOffsetX = halfSize.y * Math.cos(angles.x);
-    const prismHalfOffsetX = halfSize.z * Math.sin(angles.z) * Math.cos(angles.y);
-    const prismHalfOffsetY = halfSize.z * Math.sin(angles.y);
-    const prismHalfOffsetZ = halfSize.z * Math.cos(angles.z) * Math.cos(angles.y);
+    const parallelogramHeight = halfSize.z * Math.sin(angles.x);
+    const parallelogramHalfOffsetX = halfSize.z * Math.cos(angles.x);
+    const prismHalfOffsetX = halfSize.y * Math.sin(angles.y) * Math.cos(angles.z);
+    const prismHalfOffsetY = -halfSize.y * Math.cos(angles.y) * Math.cos(angles.z);
+    const prismHalfOffsetZ = halfSize.y * Math.sin(angles.z);
   >%
 
   IndexedFaceSet {
@@ -108,7 +108,7 @@ PROTO TexturedParallelepiped [
            for (let j = -1; j <= 1; j = j + 2) {
              for (let i = -1; i <= 1; i = i + 2) {
       >%
-        %<= i * halfSize.x + j * parallelogramHalfOffsetX + k * prismHalfOffsetX >% %<= j * parallelogramHeight + k * prismHalfOffsetY >% %<= k * prismHalfOffsetZ >%
+        %<= i * halfSize.x + j * parallelogramHalfOffsetX + k * prismHalfOffsetX >% %<= k * prismHalfOffsetY >% %<= j * parallelogramHeight + k * prismHalfOffsetZ >%
       %<     }
            }
          }
