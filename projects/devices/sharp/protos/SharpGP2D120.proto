@@ -48,7 +48,7 @@ PROTO SharpGP2D120 [
           ]
         }
       }
-DEF LENS Shape {
+      DEF LENS Shape {
         appearance GlossyPaint {
           baseColor 0 0 0
         }
