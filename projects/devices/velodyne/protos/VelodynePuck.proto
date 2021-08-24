@@ -40,7 +40,7 @@ PROTO VelodynePuck [
       }
       DEF LOGO Transform {
         translation 0 0 -0.0286
-        rotation 0 0 1 1.5707
+        rotation 0 0 1 1.5708
         children [
           Shape {
             appearance PBRAppearance {
