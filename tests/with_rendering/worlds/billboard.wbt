@@ -1,0 +1,43 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+}
+DEF VIEWPOINT Viewpoint {
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "billboard"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
+Billboard {
+  children [
+    Transform {
+      translation 0 0 -2
+      children [
+        Group {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.1 0.1 0.1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
