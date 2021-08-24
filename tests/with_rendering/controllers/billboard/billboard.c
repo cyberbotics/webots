@@ -2,6 +2,8 @@
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
 
+#include <time.h>
+
 bool file_exists(const char *filename) {
   FILE *file = fopen(filename, "r");
   if (file) {
@@ -55,11 +57,16 @@ int main(int argc, char **argv) {
   // as the test sometimes fails on Windows, probably because the system
   // needs some time to make the file available to other applications
   // after it was just created.
-  for (i = 0; i < 10000; i++) {
+  wb_robot_step(time_step);
+
+  time_t start_time = time(NULL);
+  while (time(NULL) - start_time < 5) {
     if (file_exists("image0.png") && file_exists("image1.png") && file_exists("image2.png"))
       break;
-
-    wb_robot_step(time_step);
+    else {
+      sleep(0.1);
+      wb_robot_step(time_step);
+    }
   }
 
   ts_assert_boolean_equal(file_exists("image0.png"), "wb_supervisor_export_image() failed to create the "
