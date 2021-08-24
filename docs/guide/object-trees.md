@@ -241,6 +241,7 @@ Sassafras {
   SFVec3f    translation           0 0 0
   SFRotation rotation              0 1 0 0
   SFString   name                  "sassafras tree"
+  SFBool     burnt                 FALSE
   SFBool     enableBoundingObject  TRUE
 }
 ```
@@ -252,6 +253,7 @@ Sassafras {
 
 ### Sassafras Field Summary
 
+- `burnt`: Defines whether the tree is burnt (after a wildfire).
 - `enableBoundingObject`: Defines whether the tree should have a bounding object.
 
 ## SimpleTree
@@ -353,4 +355,3 @@ Tree {
 - `scale`: The first and last components of the scale define the radius of the tree and the middle one defines it's height.
 
 - `texture`: Defines the texture used for the tree.
-
