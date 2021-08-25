@@ -16,7 +16,7 @@ Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
 ```
 Extrusion {
   MFVec2f    crossSection              [1 1, 1 -1, -1 -1, -1 1, 1 1]
-  MFVec3f    spine                     [0 0 0, 0 1 0]
+  MFVec3f    spine                     [0 0 0, 0 0 1]
   MFVec2f    scale                     [1.0 1.0]
   MFRotation orientation               [0 0 1 0]
   SFBool     beginCap                  TRUE
@@ -200,4 +200,3 @@ TexturedParallelepiped {
 - `top`: Defines whether the top face should be included.
 
 - `bottom`: Defines whether the bottom face should be included.
-
