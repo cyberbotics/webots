@@ -2340,13 +2340,13 @@ In this case, please send an e-mail to info@cyberbotics.com with your license ID
 ##### 之之 05/07/2019 14:58:02
 thank you very much!
 
-##### ༺Yatori༻ 05/07/2019 15:49:20
+##### ༺Yatori ༻ 05/07/2019 15:49:20
 hey ! which sensor is the most fitting to get the value of  the position of a starting point A and the position of a target point B (so that i can tell my robot to go for example straight from A to B or things like that).
 
 ##### Fabien Rohrer [Moderator] 05/07/2019 15:50:04
 Certainly the GPS which can retrieve an absolute position.
 
-##### ༺Yatori༻ 05/07/2019 15:50:14
+##### ༺Yatori ༻ 05/07/2019 15:50:14
 i see thank you !
 
 ##### Fabi 05/07/2019 19:28:35
@@ -2357,7 +2357,7 @@ I  am trying to run the python example  in (webots/projects/languages/python/wor
 ##### Olivier Michel [Cyberbotics] 05/08/2019 06:17:19
 Hi Fabi, you need to click in the 3D view so that keyboard events can reach out the robot controller program.
 
-##### ༺Yatori༻ 05/08/2019 07:00:41
+##### ༺Yatori ༻ 05/08/2019 07:00:41
 Hey , does the epuck contain ultra sonic sensors ?
 
 ##### David Mansolino [Cyberbotics] 05/08/2019 07:02:21
@@ -2366,7 +2366,7 @@ Hi
 
 No the epuck only contains 'infra-red' distance sensors.
 
-##### ༺Yatori༻ 05/08/2019 07:20:54
+##### ༺Yatori ༻ 05/08/2019 07:20:54
 I see thank you ,is it  possible to add it through a node or something like that?
 
 ##### CH\_KIM 05/08/2019 07:42:29
@@ -2376,7 +2376,7 @@ HI! I want to check sensor data by 2khz. but "duration" of "wb\_robot\_step" is 
 How to get sensor data by high frequency.
 
 ##### David Mansolino [Cyberbotics] 05/08/2019 08:43:41
-`@༺Yatori༻` yes you can add new node (e.g. DistanceSensor nodes) in the 'turretSlot' field of the E-puck node.
+`@༺Yatori ༻` yes you can add new node (e.g. DistanceSensor nodes) in the 'turretSlot' field of the E-puck node.
 
 
 `@CH_KIM` the duration is in millisecond which means the biggest frequency you can have is 1khz (which is already quite high for a control loop).
@@ -12154,7 +12154,7 @@ Here you are. Thanks for taking the time.
 Using the struct module, you can stringify any data and extract it
 
 
-`@SamSmurfitt` i’m not in front of my computer, I’ll take a look at this tomorrow morning if you don’t mind
+<@103557508861263872> i’m not in front of my computer, I’ll take a look at this tomorrow morning if you don’t mind
 
 ##### SamSmurfitt 09/03/2019 18:13:32
 thats comepletely fine!
@@ -12233,7 +12233,7 @@ I have a issue on floor arena, how do I add wall tile?
 `@aysegulucar` David answered you through support tickets.
 
 
-`@SamSmurfitt` Here is a working solution with active connectors. I simply copied the yamor values inside your robot.
+<@103557508861263872> Here is a working solution with active connectors. I simply copied the yamor values inside your robot.
 
 
 
@@ -12374,7 +12374,7 @@ so If I write a function in normal Matlab is it possible to have a robot's contr
 If you write your controller in matlab yes it should be possible as the controller will be interpreted by Matlab.
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 15:02:10
-`@SamSmurfitt` Did you noticed the world I sent you this morning?
+<@103557508861263872> Did you noticed the world I sent you this morning?
 
 ##### SamSmurfitt 09/04/2019 15:11:25
 So in this example, After 5 seconds the motor is set to a position (Joint\_Angle) but I would like that to be calculated using a function, 'ang\_cal' from a certain input
@@ -12883,7 +12883,7 @@ Nice, I'll try this. Thanks a lot for your answers !
 Hi, Are there any example worlds which use a joystick? Im trying to use a joystick but cant seem to get it to be detected by webots, and wondered if there is an example one I could test it on
 
 ##### Fabien Rohrer [Moderator] 09/11/2019 11:41:57
-`@SamSmurfitt` Hi, there are examples, let me check..
+<@103557508861263872> Hi, there are examples, let me check..
 
 
 This one is certainly the reference:
@@ -13553,7 +13553,7 @@ You're welcome
 Hi, is there an example Virtual Reality world I can test out?
 
 ##### David Mansolino [Cyberbotics] 09/26/2019 12:03:00
-Hi  `@SamSmurfitt`, all of our worl files are compaible with virtual reality heasdsets ([https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset](https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset)). Is this what you are looking for ?
+Hi  <@103557508861263872>, all of our worl files are compaible with virtual reality heasdsets ([https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset](https://cyberbotics.com/doc/guide/computer-peripherals#virtual-reality-headset)). Is this what you are looking for ?
 
 ##### SamSmurfitt 09/26/2019 12:46:41
 I've loaded up a sample world, (boomer) but whenever I enable the headset in webots I just get a fully light blue view

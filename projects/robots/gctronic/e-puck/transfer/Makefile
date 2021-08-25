@@ -25,16 +25,19 @@ EXTRACT=unzip -q
 
 ifeq ($(OSTYPE),linux)
  OS_TAG=linux64
+ XC16_MD5SUM="01f1fbde40335014e9c60b38fd5b1bcb"
  WGET=wget --quiet
 endif
 
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
+ XC16_MD5SUM="409c5feadbe09984c6d377c8509731eb"
  WGET=LANG=en_US.UTF-8 wget --quiet
 endif
 
 ifeq ($(OSTYPE),windows)
  OS_TAG=windows
+ XC16_MD5SUM="8187594d8356b84bf852649a13380362"
  WGET=wget --quiet
 endif
 
@@ -44,6 +47,11 @@ $(XC16_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(XC16_PACKAGE) "package and copy it in this directory"; fi
 	@echo "#" downloading $(XC16_PACKAGE)
 	@$(WGET) https://www.cyberbotics.com/files/repository/dependencies/$(OS_TAG)/release/$(XC16_PACKAGE)
+ifeq ($(OSTYPE),darwin)
+	@if [ `md5 -q $(XC16_PACKAGE)` != $(XC16_MD5SUM) ]; then echo "MD5 checksum failed for $(XC16_PACKAGE)"; exit 1; fi
+else
+	@if [ "$$(md5sum $(XC16_PACKAGE) | awk '{print $$1;}')" != $(XC16_MD5SUM) ]; then echo "MD5 checksum failed for $(XC16_PACKAGE)"; exit 1; fi
+endif
 	@echo "#" removing old $(XC16_TARGET)
 	@rm -rf $(XC16_TARGET)
 	@echo "#" extracting $(XC16_PACKAGE)

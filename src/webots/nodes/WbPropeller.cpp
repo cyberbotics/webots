@@ -411,3 +411,14 @@ void WbPropeller::reset(const QString &id) {
 
   updateHelix(0.0);
 }
+
+QList<const WbBaseNode *> WbPropeller::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbBaseNode *const fastHelix = helix(FAST_HELIX);
+  if (fastHelix)
+    list << fastHelix->findClosestDescendantNodesWithDedicatedWrenNode();
+  const WbBaseNode *const slowHelix = helix(SLOW_HELIX);
+  if (slowHelix)
+    list << slowHelix->findClosestDescendantNodesWithDedicatedWrenNode();
+  return list;
+}

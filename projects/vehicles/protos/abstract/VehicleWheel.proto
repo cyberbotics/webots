@@ -206,14 +206,16 @@ PROTO VehicleWheel [
               >%
               %< for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) { >%
                 %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-                  %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% -1
+                  %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% -1
+                  %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% %<= offset[j] + i >% -1
                 %< } >%
               %< } >%
             ]
             texCoordIndex [
               %< for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) { >%
                 %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-                  %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% -1
+                  %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% -1
+                  %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% %<= offset[j] + i >% -1
                 %< } >%
               %< } >%
             ]
@@ -262,7 +264,8 @@ PROTO VehicleWheel [
                   >%
                   %< for (let j = 0; j <= 2; ++j) { >%
                     %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-                      %<= offset[j] + i + 1 >% %<= offset[j] + i>% %<= offset[j + 1] + i>% %<= offset[j + 1] + i  + 1 >% -1
+                      %<= offset[j] + i + 1 >% %<= offset[j] + i>% %<= offset[j + 1] + i>% -1
+                      %<= offset[j + 1] + i>% %<= offset[j + 1] + i  + 1 >% %<= offset[j] + i + 1 >% -1
                     %< } >%
                   %< } >%
                 ]
@@ -341,33 +344,40 @@ PROTO VehicleWheel [
                   %< } >%
                   ## Between beams
                   %< for (let i = 0; i <= rimBeamNumber; ++i) { >%
-                    %<= i >% %<= i + 1 >% %<= centralOffset[2] + i + 1 >% %<= centralOffset[1] + i >% -1
+                    %<= i >% %<= i + 1 >% %<= centralOffset[2] + i + 1 >% -1
+                    %<= centralOffset[2] + i + 1 >% %<= centralOffset[1] + i >% %<= i >% -1
                   %< } >%
                   ## Beams
                   %< for (let i = 0; i <= rimBeamNumber; ++i) { >%
-                    %<= i >% %<= centralOffset[1] + i >% %<= centralOffset[4] + i >% %<= centralOffset[3] + i >%  -1
+                    %<= i >% %<= centralOffset[1] + i >% %<= centralOffset[4] + i >% -1
+                    %<= centralOffset[4] + i >% %<= centralOffset[3] + i >% %<= i >% -1
                   %< } >%
                   %< for (let i = 0; i <= rimBeamNumber; ++i) { >%
-                    %<= i >% %<= centralOffset[3] + i >% %<= centralOffset[5] + i >% %<= centralOffset[2] + i >%  -1
+                    %<= i >% %<= centralOffset[3] + i >% %<= centralOffset[5] + i >% -1
+                    %<= centralOffset[5] + i >% %<= centralOffset[2] + i >% %<= i >% -1
                   %< } >%
 
                   # Side
                   ## Between beams
                   %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[1] + i >% %<= centralOffset[2] + i + 1 >% %<= centralOffset[7] + i + 1 >% %<= centralOffset[6] + i >% -1
+                    %<= centralOffset[1] + i >% %<= centralOffset[2] + i + 1 >% %<= centralOffset[7] + i + 1 >% -1
+                    %<= centralOffset[7] + i + 1 >% %<= centralOffset[6] + i >% %<= centralOffset[1] + i >% -1
                   %< } >%
                   ## Beams
                   %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[1] + i >% %<= centralOffset[6] + i >% %<= centralOffset[8] + i >% %<= centralOffset[4] + i >% -1
+                    %<= centralOffset[1] + i >% %<= centralOffset[6] + i >% %<= centralOffset[8] + i >% -1
+                    %<= centralOffset[8] + i >% %<= centralOffset[4] + i >% %<= centralOffset[1] + i >% -1
                   %< } >%
                   %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[2] + i >% %<= centralOffset[5] + i >% %<= centralOffset[9] + i >% %<= centralOffset[7] + i >% -1
+                    %<= centralOffset[2] + i >% %<= centralOffset[5] + i >% %<= centralOffset[9] + i >% -1
+                    %<= centralOffset[9] + i >% %<= centralOffset[7] + i >% %<= centralOffset[2] + i >% -1
                   %< } >%
 
                   # Bottom
                   ## Beams
                   %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[8] + i >% %<= centralOffset[6] + i >% %<= centralOffset[7] + i >% %<= centralOffset[9] + i >% -1
+                    %<= centralOffset[8] + i >% %<= centralOffset[6] + i >% %<= centralOffset[7] + i >% -1
+                    %<= centralOffset[7] + i >% %<= centralOffset[9] + i >% %<= centralOffset[8] + i >% -1
                   %< } >%
                   ## Center
                   %< for (let i = 1; i <= rimBeamNumber; ++i) { >%

@@ -234,8 +234,7 @@ void WbViewpoint::reset(const QString &id) {
   mEquilibriumVector.setXyz(0.0, 0.0, 0.0);
   mVelocity.setXyz(0.0, 0.0, 0.0);
 
-  foreach (WbBaseNode *const node, mInvisibleNodes)
-    setNodeVisibility(node, true);
+  setNodesVisibility(mInvisibleNodes, true);
 
   mInvisibleNodes.clear();
   updatePostProcessingEffects();
@@ -410,16 +409,20 @@ void WbViewpoint::decOrthographicViewHeight() {
   updateOrthographicViewHeight();
 }
 
-void WbViewpoint::setNodeVisibility(WbBaseNode *node, bool visible) {
-  WrNode *wrenNode = WR_NODE(node->wrenNode());
-  if (wrenNode)
-    wr_node_set_visible(wrenNode, visible);
+void WbViewpoint::setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible) {
+  QListIterator<const WbBaseNode *> it(nodes);
+  while (it.hasNext()) {
+    const WbBaseNode *node = it.next();
+    WrNode *wrenNode = WR_NODE(node->wrenNode());
+    if (wrenNode)
+      wr_node_set_visible(wrenNode, visible);
 
-  if (visible)
-    mInvisibleNodes.removeAll(node);
-  else if (!mInvisibleNodes.contains(node))
-    mInvisibleNodes.append(node);
-  emit nodeVisibilityChanged(node, visible);
+    if (visible)
+      mInvisibleNodes.removeAll(node);
+    else if (!mInvisibleNodes.contains(node))
+      mInvisibleNodes.append(node);
+    emit nodeVisibilityChanged(node, visible);
+  }
 }
 
 void WbViewpoint::enableNodeVisibility(bool enabled) {
