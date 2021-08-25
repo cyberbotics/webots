@@ -18,7 +18,6 @@ PROTO VelodyneHDL-32E [
     rotation IS rotation
     children [
       DEF LINK Transform {
-        rotation -0.577352 0.577348 0.577352 -2.094405
         translation 0 0 -0.0404
         children [
           Shape {
