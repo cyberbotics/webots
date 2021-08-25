@@ -63,10 +63,8 @@ int main(int argc, char **argv) {
   while (time(NULL) - start_time < 5) {
     if (file_exists("image0.png") && file_exists("image1.png") && file_exists("image2.png"))
       break;
-    else {
-      sleep(0.1);
-      wb_robot_step(time_step);
-    }
+    sleep(0.1);
+    wb_robot_step(time_step);
   }
 
   ts_assert_boolean_equal(file_exists("image0.png"), "wb_supervisor_export_image() failed to create the "
