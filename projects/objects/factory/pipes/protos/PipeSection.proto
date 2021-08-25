@@ -5,7 +5,7 @@
 
 PROTO PipeSection [
   field SFVec3f    translation   0 0.03 0
-  field SFRotation rotation      0 0 1 1.5708
+  field SFRotation rotation      1 0 0 1.5708
   field SFString   name          "pipe section"
   field SFFloat    height        0.5                                                                   # Defines the height of the pipe.
   field SFFloat    radius        0.03                                                                  # Defines the radius of the pipe.

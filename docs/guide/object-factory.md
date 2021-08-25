@@ -456,7 +456,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PipeSection {
   SFVec3f    translation   0 0.03 0
-  SFRotation rotation      0 0 1 1.5708
+  SFRotation rotation      1 0 0 1.5708
   SFString   name          "pipe section"
   SFFloat    height        0.5
   SFFloat    radius        0.03
@@ -1048,4 +1048,3 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
-
