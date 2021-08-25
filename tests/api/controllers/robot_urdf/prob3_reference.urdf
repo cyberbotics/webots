@@ -2,13 +2,13 @@
 <robot name="P-Rob3" xmlns:xacro="http://ros.org/wiki/xacro">
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0.173" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.173" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.09" length="0.1"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.173" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.173" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.09" length="0.1"/>
       </geometry>
@@ -47,25 +47,25 @@
   </joint>
   <link name="link_1_2">
     <visual>
-      <origin xyz="0 0 0.0555" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.0555" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.09" length="0.07"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.0555" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.0555" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.09" length="0.07"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0.05 0.1485" rpy="-0.000003 0 0"/>
+      <origin xyz="0 0.05 0.1485" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.085" length="0.09"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0.05 0.1485" rpy="-0.000003 0 0"/>
+      <origin xyz="0 0.05 0.1485" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.085" length="0.09"/>
       </geometry>
@@ -80,49 +80,49 @@
   </joint>
   <link name="link_2_3">
     <visual>
-      <origin xyz="0 -0.05 0.005" rpy="-0.000003 0 0"/>
+      <origin xyz="0 -0.05 0.005" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.09" length="0.09"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 -0.05 0.005" rpy="-0.000003 0 0"/>
+      <origin xyz="0 -0.05 0.005" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.09" length="0.09"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0 0.115" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.06"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.115" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.06"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 -0.055 0.285" rpy="-0.000003 0 0"/>
+      <origin xyz="0 -0.055 0.285" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.07" length="0.1"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 -0.055 0.285" rpy="-0.000003 0 0"/>
+      <origin xyz="0 -0.055 0.285" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.07" length="0.1"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0 0.18" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.18" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.085" length="0.07"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.18" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.18" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.085" length="0.07"/>
       </geometry>
@@ -137,25 +137,25 @@
   </joint>
   <link name="link_3_4">
     <visual>
-      <origin xyz="0 0.055 -0.0005" rpy="-0.000003 0 0"/>
+      <origin xyz="0 0.055 -0.0005" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.07" length="0.1"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0.055 -0.0005" rpy="-0.000003 0 0"/>
+      <origin xyz="0 0.055 -0.0005" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.07" length="0.1"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0 0.1225" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.1225" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.09"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.1225" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.1225" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.09"/>
       </geometry>
@@ -170,25 +170,25 @@
   </joint>
   <link name="link_4_5">
     <visual>
-      <origin xyz="0 0 0.049" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.049" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.07"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.049" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.049" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.07"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0.05 0.142" rpy="-0.000003 0 0"/>
+      <origin xyz="0 0.05 0.142" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.069" length="0.09"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0.05 0.142" rpy="-0.000003 0 0"/>
+      <origin xyz="0 0.05 0.142" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.069" length="0.09"/>
       </geometry>
@@ -203,25 +203,25 @@
   </joint>
   <link name="link_5_6">
     <visual>
-      <origin xyz="0 -0.05 -0.0055" rpy="-0.000003 0 0"/>
+      <origin xyz="0 -0.05 -0.0055" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.071" length="0.095"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 -0.05 -0.0055" rpy="-0.000003 0 0"/>
+      <origin xyz="0 -0.05 -0.0055" rpy="-1.5708 0 0"/>
       <geometry>
         <cylinder radius="0.071" length="0.095"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0 0.1045" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.1045" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.073" length="0.07"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.1045" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.1045" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.073" length="0.07"/>
       </geometry>
@@ -236,13 +236,13 @@
   </joint>
   <link name="link_6_top">
     <visual>
-      <origin xyz="0 0 0.02775" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.02775" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.0683" length="0.04"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.02775" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 0.02775" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.0683" length="0.04"/>
       </geometry>
@@ -269,13 +269,13 @@
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0 -0.014" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 -0.014" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.07"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.014" rpy="1.570796 0 0"/>
+      <origin xyz="0 0 -0.014" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.08" length="0.07"/>
       </geometry>
@@ -593,13 +593,13 @@
   </joint>
   <link name="cap screw">
     <visual>
-      <origin xyz="0 0 0.005" rpy="3.141593 0 0"/>
+      <origin xyz="0 0 0.005" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.005" length="0.01"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.005" rpy="3.141593 0 0"/>
+      <origin xyz="0 0 0.005" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.005" length="0.01"/>
       </geometry>
