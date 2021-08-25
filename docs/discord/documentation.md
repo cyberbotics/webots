@@ -795,7 +795,7 @@ Thank you so much 😊
 ##### David Mansolino [Cyberbotics] 04/21/2020 10:03:37
 You're welcome
 
-##### PymZoR [Premier Service] 04/21/2020 15:59:54
+##### Axel M 04/21/2020 15:59:54
 Hi ! Documentation content seems off since a few minutes
 
 ##### Olivier Michel [Cyberbotics] 04/21/2020 16:01:39
@@ -957,16 +957,16 @@ Thanks David 👍 I will make a PR on it soon
 ##### David Mansolino [Cyberbotics] 05/12/2020 09:04:01
 You're welcome, looking forward to see your PR!
 
-##### Chaytanya 05/12/2020 22:11:15
+##### JordanC 05/12/2020 22:11:15
 Hello everyone,My name is Chaytanya Sinha,I am an engineering student experienced in c/c++,javascript,nodejs,reactjs,html,css,python and kotlin. I am interested in contributing to webots's documentation.I have been following webots since long. I have experience of documentation as I am working on documentation of webpack v5. Please guide me how to proceed towards documentation of webots
 
 
 I am interested in How-to Guides for Webots and How-to Guides for robotbenchmark projects to contribute
 
 ##### Olivier Michel [Cyberbotics] 05/13/2020 06:37:58
-Hi `@Chaytanya`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
+Hi `@JordanC`, please send an introductory e-mail to support@cyberbotics.com along with you CV and we will answer you.
 
-##### Chaytanya 05/13/2020 06:46:52
+##### JordanC 05/13/2020 06:46:52
 Sure `@Olivier Michel`
 
 ##### 🍎小苹果🍎 05/13/2020 08:00:17
@@ -1670,7 +1670,7 @@ Hi, I am using webots for my graduation project and I am working on the Nao robo
 ##### Stefania Pedrazzi [Cyberbotics] 01/04/2021 07:12:22
 `@pnaraltnsk` your question has already been answered in the `technical-questions` channel.
 
-##### AdityaDutt 01/12/2021 15:37:04
+##### duct 01/12/2021 15:37:04
 are there any debugging tools available in webots? Like step through code, etc.
 
 ##### Olivier Michel [Cyberbotics] 01/12/2021 16:41:00
@@ -2131,4 +2131,28 @@ The position field did indeed not point to the correct axis, my bad - now it cor
 
 The value also keeps increasing after I stop controlling the joints (noted as Transition\_Bent in the video) - thanks for your help!
 > **Attachment**: [demo.mp4](https://cdn.discordapp.com/attachments/565155720933146637/857631681456766996/demo.mp4)
+
+##### Joro 07/27/2021 20:20:04
+Hi, i'm trying to visualice a rangefinder's image on rviz from webots but it looks like this, i want it in its black/white original colors, but the bgra8 format is the only one who works.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/869675531988262912/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 07/28/2021 07:34:44
+It is ROS 1?
+
+##### Joro 07/28/2021 17:30:13
+ros2
+
+##### Darko Lukić [Cyberbotics] 07/29/2021 06:55:47
+I have just tested. I put the range finder node in an arbitrary robot and the `webots_ros2` package automatically created a working topic. Do you use the `webots_ros2` package?
+
+##### Joro 07/29/2021 15:05:00
+yes, i already solved it, thanks for your help and interest
+
+##### Spur 08/16/2021 10:01:40
+Hey guys, I have two e-pucks running but they seem unable to detect eachother via by distance sensors and just collide, is there a way to make them detect eachother ?
+
+##### Olivier Michel [Cyberbotics] 08/16/2021 11:56:21
+They should see each other through distance sensors.
 

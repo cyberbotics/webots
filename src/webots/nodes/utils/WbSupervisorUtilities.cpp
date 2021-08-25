@@ -82,6 +82,7 @@ struct WbTrackedPoseInfo {
 
 struct WbTrackedContactPointInfo {
   WbSolid *solid;
+  int solidId;
   bool includeDescendants;
   int samplingPeriod;
   double lastUpdate;
@@ -868,6 +869,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_number_of_contact_points()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetContactPoints = solid;
+      mNodeIdGetContactPoints = id;
       mGetContactPointsIncludeDescendants = includeDescendants == 1;
       if (!solid)
         mRobot->warn(
@@ -974,10 +976,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       assert(baseNode);
       if (camera)
         // cppcheck-suppress knownConditionTrueFalse
-        camera->setNodeVisibility(baseNode, visible == 1);
+        camera->setNodesVisibility(baseNode->findClosestDescendantNodesWithDedicatedWrenNode(), visible == 1);
       else if (viewpoint)
         // cppcheck-suppress knownConditionTrueFalse
-        viewpoint->setNodeVisibility(baseNode, visible == 1);
+        viewpoint->setNodesVisibility(baseNode->findClosestDescendantNodesWithDedicatedWrenNode(), visible == 1);
       return;
     }
     case C_SUPERVISOR_NODE_MOVE_VIEWPOINT: {
@@ -1217,6 +1219,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         if (trackingInfoIndex == -1) {
           WbTrackedContactPointInfo trackedContactPoint;
           trackedContactPoint.solid = solid;
+          trackedContactPoint.solidId = nodeId;
           trackedContactPoint.includeDescendants = includeDescendants;
           trackedContactPoint.samplingPeriod = samplingPeriod;
           trackedContactPoint.lastUpdate = -INFINITY;
@@ -1750,13 +1753,14 @@ void WbSupervisorUtilities::pushRelativePoseToStream(QDataStream &stream, WbTran
   stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
 }
 
-void WbSupervisorUtilities::pushContactPointsToStream(QDataStream &stream, WbSolid *solid, bool includeDescendants) {
+void WbSupervisorUtilities::pushContactPointsToStream(QDataStream &stream, WbSolid *solid, int solidId,
+                                                      bool includeDescendants) {
   const QVector<WbVector3> &contactPoints = solid->computedContactPoints(includeDescendants);
   const QVector<const WbSolid *> &solids = solid->computedSolidPerContactPoints();
   const int size = contactPoints.size();
   stream << (short unsigned int)0;
   stream << (unsigned char)C_SUPERVISOR_NODE_GET_CONTACT_POINTS;
-  stream << (int)solid->uniqueId();
+  stream << (int)solidId;
   stream << (unsigned char)includeDescendants;
   stream << (int)size;
   for (int i = 0; i < size; ++i) {
@@ -1878,12 +1882,12 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   for (WbTrackedContactPointInfo &info : mTrackedContactPoints) {
     const double time = WbSimulationState::instance()->time();
     if (time < info.lastUpdate || time >= info.lastUpdate + info.samplingPeriod) {
-      pushContactPointsToStream(stream, info.solid, info.includeDescendants);
+      pushContactPointsToStream(stream, info.solid, info.solidId, info.includeDescendants);
       info.lastUpdate = time;
     }
   }
   if (mNodeGetContactPoints) {
-    pushContactPointsToStream(stream, mNodeGetContactPoints, mGetContactPointsIncludeDescendants);
+    pushContactPointsToStream(stream, mNodeGetContactPoints, mNodeIdGetContactPoints, mGetContactPointsIncludeDescendants);
     mNodeGetContactPoints = NULL;
   }
   if (mNodeGetStaticBalance) {

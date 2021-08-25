@@ -50,6 +50,7 @@ public:
   void setMatrixNeedUpdate() override;
   void write(WbVrmlWriter &writer) const override;
   void reset(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   void prePhysicsStep(double ms);
 

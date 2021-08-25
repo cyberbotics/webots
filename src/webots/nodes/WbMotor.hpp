@@ -75,6 +75,8 @@ public:
   bool refreshSensorIfNeeded() override;
   void reset(const QString &id) override;
 
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
+
   static const QList<const WbMotor *> &motors() { return cMotors; }
 
 signals:

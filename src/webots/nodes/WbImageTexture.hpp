@@ -24,6 +24,7 @@ class WbRgb;
 class WbDownloader;
 
 class QImage;
+class QIODevice;
 
 struct WrMaterial;
 struct WrTexture;

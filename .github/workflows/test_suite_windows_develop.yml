@@ -29,6 +29,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
          submodules: true
+         fetch-depth: 15
          ref: develop
     - name: Install Visual Studio 10 and OpenJDK 8
       shell: powershell

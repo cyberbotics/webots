@@ -21,6 +21,8 @@
 
 #include <GL/glu.h>
 
+#include <QtCore/QObject>
+
 #ifdef _WIN32
 #define GLU_function_pointer GLvoid(APIENTRY *)()
 #endif

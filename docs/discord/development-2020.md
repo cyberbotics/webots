@@ -670,13 +670,13 @@ Any advice about how to get the epuck moves randomly in this world
 ##### David Mansolino [Cyberbotics] 04/23/2020 05:44:20
 Hi `@angelicaba23` you might simply use the braitenberg controller.
 
-##### fdvalois 04/23/2020 07:34:46
+##### Addiv 04/23/2020 07:34:46
 You just look braitenberg controller online?
 
 ##### David Mansolino [Cyberbotics] 04/23/2020 07:37:52
 A breaitenberge already compatible with many robot is distributed with Webots, here is the code:  [https://github.com/cyberbotics/webots/tree/master/projects/default/controllers/braitenberg](https://github.com/cyberbotics/webots/tree/master/projects/default/controllers/braitenberg)
 
-##### fdvalois 04/23/2020 07:38:11
+##### Addiv 04/23/2020 07:38:11
 Thank you!
 
 ##### David Mansolino [Cyberbotics] 04/23/2020 07:38:41
@@ -960,7 +960,7 @@ Perhaps add a 'Group' base node, put all your nodes in, and copy paste that
 ##### David Mansolino [Cyberbotics] 05/14/2020 05:34:23
 `@Luftwaffel` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat](https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat)
 
-##### PymZoR [Premier Service] 05/14/2020 09:08:34
+##### Axel M 05/14/2020 09:08:34
 `@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
 
@@ -972,7 +972,7 @@ The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conv
 ##### Luftwaffel [Moderator] 05/14/2020 12:48:46
 > `@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
-`@PymZoR` 
+`@Axel M` 
 
 
 
@@ -1074,7 +1074,7 @@ Is there a way of modifying the usual steering system used in car models?
 ##### David Mansolino [Cyberbotics] 05/25/2020 06:25:16
 You can either convert your car node to base node (right click on the node in the scene-tree) and then you will be able to change the structure, either change directly the `Car.proto` file.
 
-##### PymZoR [Premier Service] 05/27/2020 16:42:51
+##### Axel M 05/27/2020 16:42:51
 I ported the Atom PROTO extension to VSCode : [https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots](https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots)
 
 
