@@ -8,6 +8,7 @@ PROTO Sassafras [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 1 0 0
   field SFString   name                  "sassafras tree"
+  field SFBool     burnt                 FALSE             # Defines whether the tree is burnt (after a wildfire).
   field SFBool     enableBoundingObject  TRUE              # Defines whether the tree should have a bounding object.
 ]
 {
@@ -23,6 +24,9 @@ PROTO Sassafras [
     children [
       Shape {
         appearance PBRAppearance {
+          %< if (fields.burnt.value) { >%
+          baseColor 0.2 0.15 0.05
+          %< } >%
           baseColorMap ImageTexture {
             url [
               "webots://projects/objects/trees/protos/textures/sassafras_trunk.jpg"
@@ -50,6 +54,7 @@ PROTO Sassafras [
           ]
         }
       }
+      %< if (!fields.burnt.value) { >%
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
@@ -84,6 +89,7 @@ PROTO Sassafras [
           ]
         }
       }
+      %< } >%
     ]
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
