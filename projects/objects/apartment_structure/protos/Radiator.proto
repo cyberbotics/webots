@@ -191,10 +191,10 @@ PROTO Radiator [
     model "radiator"
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
-      translation -0.02 0 %<= -0.03 * (numberOfFins - 2) >%
+      translation -0.02 %<= 0.03 * (numberOfFins - 2) >% 0 
       children [
         Box {
-          size 0.24 0.58 %<= 0.15 + 0.06 * numberOfFins >%
+          size 0.24 %<= 0.15 + 0.06 * numberOfFins >% 0.58 
         }
       ]
     }
