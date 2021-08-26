@@ -18,6 +18,7 @@ PointLight {
   location 0 0.345 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 DEF BLUE_ROBOT Robot {
   translation -0.25 0.025 0

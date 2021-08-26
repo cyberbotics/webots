@@ -50,6 +50,7 @@ Robot {
   controller "touch_sensor_bumper"
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 TestSuiteSupervisor {
 }

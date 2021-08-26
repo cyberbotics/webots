@@ -23,7 +23,7 @@ PROTO VelodynePuck [
     rotation IS rotation
     children [
       DEF BOTTOM Transform {
-        translation 0 -0.0286 0
+        translation 0 0 -0.0286
         children [
           Shape {
             appearance DEF COLOR PBRAppearance {
@@ -39,8 +39,8 @@ PROTO VelodynePuck [
         ]
       }
       DEF LOGO Transform {
-        translation 0 -0.0286 0
-        rotation 0 1 0 3.14159
+        translation 0 0 -0.0286
+        rotation 0 0 1 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -86,7 +86,7 @@ PROTO VelodynePuck [
         ]
       }
       DEF TOP Transform {
-        translation 0 0.0274 0
+        translation 0 0 0.0274
         children [
           Shape {
             appearance USE COLOR

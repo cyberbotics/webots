@@ -16,6 +16,7 @@ DirectionalLight {
   direction 0.2 -1 0.5
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 ProtoNestedMultipleInstances {
   slot [
