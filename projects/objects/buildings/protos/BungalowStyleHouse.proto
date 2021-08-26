@@ -34,7 +34,7 @@ PROTO BungalowStyleHouse [
         %< if (fields.floor.value) { >%
           translation 0 0 0.33
         %< } >%
-        rotation -0.577352 0.577348 0.577352 -2.094405
+        rotation -0.577351 -0.577351 -0.577349 -2.094397
         children [
           %< if (fields.chimney.value) { >%
           DEF CHIMNEY Group {
