@@ -930,16 +930,16 @@ namespace wren {
       const float uOffset = (r == 0) ? 0.5f / subdivision : ((r == subdivision) ? -0.5f / subdivision : 0.0f);
       const float theta = (float)r * latitudeUnitAngle;
       const float sinTheta = glm::sin(theta);
-      const float cosTheta = -glm::cos(theta);
+      const float cosTheta = glm::cos(theta);
       int *indicesRow = new int[rowSize];
       for (s = 0; s <= subdivision; ++s) {  // segments/longitude
         glm::vec3 vertex;
-        const float phi = ((float)s) * longitudeUnitAngle - glm::half_pi<float>();
-        vertex = glm::vec3(glm::cos(phi) * sinTheta, cosTheta, glm::sin(phi) * sinTheta);
+        const float phi = ((float)s) * longitudeUnitAngle + glm::half_pi<float>();
+        vertex = glm::vec3(glm::cos(phi) * sinTheta, glm::sin(phi) * sinTheta, cosTheta);
         mesh->addCoord(vertex);
         mesh->addNormal(vertex);
 
-        glm::vec2 uv(1.0f - (float)s / subdivision + uOffset, 1.0f - (float)r / subdivision);
+        glm::vec2 uv((float)s / subdivision + uOffset, (float)r / subdivision);
         mesh->addTexCoord(uv);
         mesh->addUnwrappedTexCoord(uv);
 
