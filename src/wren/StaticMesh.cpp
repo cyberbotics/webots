@@ -771,24 +771,24 @@ namespace wren {
                                       int level) {
     if (level == 0) {
       // get the x-axis texture coordinate of each vertex
-      float a1 = cartesianCoordinatesToPolarAngle(-v1->z, -v1->x) * 0.5f * glm::one_over_pi<float>();
-      float a2 = cartesianCoordinatesToPolarAngle(-v2->z, -v2->x) * 0.5f * glm::one_over_pi<float>();
-      float a3 = cartesianCoordinatesToPolarAngle(-v3->z, -v3->x) * 0.5f * glm::one_over_pi<float>();
+      float a1 = cartesianCoordinatesToPolarAngle(v1->y, -v1->x) * 0.5f * glm::one_over_pi<float>();
+      float a2 = cartesianCoordinatesToPolarAngle(v2->y, -v2->x) * 0.5f * glm::one_over_pi<float>();
+      float a3 = cartesianCoordinatesToPolarAngle(v3->y, -v3->x) * 0.5f * glm::one_over_pi<float>();
 
       // fix the bottom and the top of the texture coordinates
-      if (v1->x == 0.0f && v1->z == 0.0f) {  // if v1 corresponds to a summit
+      if (v1->x == 0.0f && v1->y == 0.0f) {  // if v1 corresponds to a summit
         if (a2 == 0.0f && a3 > 0.8f)
           a3 -= 1.0f;
         if (a3 == 0.0f && a2 > 0.8f)
           a2 -= 1.0f;
         a1 = (a2 + a3) / 2.0;                       // compute the mean of the two other angles
-      } else if (v2->x == 0.0f && v2->z == 0.0f) {  // if v2 corresponds to a summit
+      } else if (v2->x == 0.0f && v2->y == 0.0f) {  // if v2 corresponds to a summit
         if (a1 == 0.0f && a3 > 0.8f)
           a3 -= 1.0f;
         if (a3 == 0.0f && a1 > 0.8f)
           a1 -= 1.0f;
         a2 = (a1 + a3) / 2.0;                       // compute the mean of the two other angles
-      } else if (v3->x == 0.0f && v3->z == 0.0f) {  // if v3 corresponds to a summit
+      } else if (v3->x == 0.0f && v3->y == 0.0f) {  // if v3 corresponds to a summit
         if (a1 == 0.0f && a2 > 0.8f)
           a2 -= 1.0f;
         if (a2 == 0.0f && a1 > 0.8f)
@@ -830,9 +830,9 @@ namespace wren {
       mesh->addNormal(glm::vec3(v2->x, v2->y, v2->z));
       mesh->addNormal(glm::vec3(v1->x, v1->y, v1->z));
 
-      const glm::vec2 uv1(a1, 0.5f - glm::asin(v1->y) * glm::one_over_pi<float>());
-      const glm::vec2 uv2(a2, 0.5f - glm::asin(v2->y) * glm::one_over_pi<float>());
-      const glm::vec2 uv3(a3, 0.5f - glm::asin(v3->y) * glm::one_over_pi<float>());
+      const glm::vec2 uv1(a1, 0.5f - glm::asin(v1->z) * glm::one_over_pi<float>());
+      const glm::vec2 uv2(a2, 0.5f - glm::asin(v2->z) * glm::one_over_pi<float>());
+      const glm::vec2 uv3(a3, 0.5f - glm::asin(v3->z) * glm::one_over_pi<float>());
       mesh->addTexCoord(uv3);
       mesh->addTexCoord(uv2);
       mesh->addTexCoord(uv1);
@@ -863,10 +863,10 @@ namespace wren {
     static const float A = 0.525731112119133606f;
     static const float B = 0.850650808352039932f;
 
-    static const glm::vec3 gVertices[12] = {glm::vec3(-A, 0.0f, B), glm::vec3(A, 0.0f, B),   glm::vec3(-A, 0.0f, -B),
-                                            glm::vec3(A, 0.0f, -B), glm::vec3(0.0f, B, A),   glm::vec3(0.0f, B, -A),
-                                            glm::vec3(0.0f, -B, A), glm::vec3(0.0f, -B, -A), glm::vec3(B, A, 0.0f),
-                                            glm::vec3(-B, A, 0.0f), glm::vec3(B, -A, 0.0f),  glm::vec3(-B, -A, 0.0f)};
+    static const glm::vec3 gVertices[12] = {glm::vec3(-A, -B, 0.0f), glm::vec3(A, -B, 0.0f), glm::vec3(-A, B, 0.0f),
+                                            glm::vec3(A, B, 0.0f),   glm::vec3(0.0f, -A, B), glm::vec3(0.0f, A, B),
+                                            glm::vec3(0.0f, -A, -B), glm::vec3(0.0f, A, -B), glm::vec3(B, 0.0f, A),
+                                            glm::vec3(-B, 0.0f, A),  glm::vec3(B, 0.0f, -A), glm::vec3(-B, 0.0f, -A)};
 
     static const glm::uvec3 gIndices[20] = {
       glm::uvec3(0, 4, 1),  glm::uvec3(0, 9, 4),  glm::uvec3(9, 5, 4),  glm::uvec3(4, 5, 8),  glm::uvec3(4, 8, 1),
