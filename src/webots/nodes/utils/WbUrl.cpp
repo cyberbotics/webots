@@ -110,7 +110,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return url;
 
   QString path;
-  if (url.startsWith("webots://"))
+  if (isLocalUrl(url))
     path = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
   else if (QDir::isAbsolutePath(url))  // check if the url is an absolute path
     path = QDir::cleanPath(url);
@@ -204,4 +204,8 @@ QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int
 
 bool WbUrl::isWeb(const QString &url) {
   return url.startsWith("https://") || url.startsWith("http://");
+}
+
+bool WbUrl::isLocalUrl(const QString &url) {
+  return url.startsWith("webots://");
 }
