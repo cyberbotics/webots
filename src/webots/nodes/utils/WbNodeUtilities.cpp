@@ -35,6 +35,7 @@
 #include "WbNodeReader.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbRobot.hpp"
+#include "WbCamera.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
 #include "WbSimulationState.hpp"
@@ -996,6 +997,31 @@ WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
 
       n = n->parentNode();
     }
+  } while (n);
+  return NULL;
+}
+
+void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
+  for (WbNode* child : node->subNodes(true)) {
+    if (static_cast<WbCamera *>(child)) {
+      WbTransform* transform = new WbTransform();
+
+      dynamic_cast<WbGroup *>(child->parentNode())->removeChild(child);
+      dynamic_cast<WbGroup *>(child->parentNode())->addChild(transform);
+      transform->addChild(child);
+
+      transform->setRotation(WbRotation(-0.5773516025189619, 0.5773476025217157, 0.5773516025189619, -2.094405307179586));
+    }
+  }
+}
+
+WbNode *WbNodeUtilities::findRootProtoNode(WbNode *node) {
+  WbNode *n = node;
+  do {
+    WbProtoModel *proto = n->proto();
+    if (proto)
+      return n;
+    n = n->parentNode();
   } while (n);
   return NULL;
 }
