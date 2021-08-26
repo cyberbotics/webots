@@ -15,7 +15,7 @@ PROTO CharacterSkin [
   field SFVec3f                                           scale       1 1 1
   field SFString                                          name        "skin"
   field SFString{"Anthony", "Robert", "Sandra", "Sophia"} model        "Sandra"
-  field SFBool                                            castShadows FALSE
+  field SFBool                                            castShadows TRUE
 ]
 {
   %< const character = fields.model.value.toLowerCase(); >%
