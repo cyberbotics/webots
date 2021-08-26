@@ -113,57 +113,57 @@ namespace wren {
       mesh->estimateVertexCount(vertexCount);
       mesh->estimateIndexCount(indexCount);
 
-      // back
-      mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, -0.5f, -0.5f));
       // left
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
+      // back
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, -0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
       // bottom
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, -0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
+      // right
       mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, -0.5f));
       mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
       // front
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
+      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
+      // top
+      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
       mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
       mesh->addCoord(glm::vec3(-0.5f, -0.5f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
-      // right
-      mesh->addCoord(glm::vec3(0.5f, -0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, -0.5f, 0.5f));
-      // top
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
-      mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.5f, -0.5f));
-      mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
 
-      // back
-      for (int i = 0; i < 4; ++i)
-        mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
       // left
+      for (int i = 0; i < 4; ++i)
+        mesh->addNormal(glm::vec3(0.0f, 1.0f, 0.0f));
+      // back
       for (int i = 0; i < 4; ++i)
         mesh->addNormal(glm::vec3(-1.0f, 0.0f, 0.0f));
       // bottom
       for (int i = 0; i < 4; ++i)
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, -1.0f));
+      // right
+      for (int i = 0; i < 4; ++i)
         mesh->addNormal(glm::vec3(0.0f, -1.0f, 0.0f));
       // front
-      for (int i = 0; i < 4; ++i)
-        mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
-      // right
       for (int i = 0; i < 4; ++i)
         mesh->addNormal(glm::vec3(1.0f, 0.0f, 0.0f));
       // top
       for (int i = 0; i < 4; ++i)
-        mesh->addNormal(glm::vec3(0.0f, 1.0f, 0.0f));
+        mesh->addNormal(glm::vec3(0.0f, 0.0f, 1.0f));
 
-      // back
+      // left
       mesh->addTexCoord(glm::vec2(1.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 1.0f));
@@ -173,7 +173,7 @@ namespace wren {
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.5f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 1.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.25f, 1.0f));
-      // left
+      // back
       mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 1.0f));
       mesh->addTexCoord(glm::vec2(1.0f, 1.0f));
@@ -193,7 +193,7 @@ namespace wren {
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.0f, 0.5f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.25f, 0.5f));
-      // front
+      // right
       mesh->addTexCoord(glm::vec2(1.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 1.0f));
@@ -203,7 +203,7 @@ namespace wren {
       mesh->addUnwrappedTexCoord(glm::vec2(0.5f, 0.5f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.5f, 1.0f));
       mesh->addUnwrappedTexCoord(glm::vec2(0.75f, 1.0f));
-      // right
+      // front
       mesh->addTexCoord(glm::vec2(1.0f, 1.0f));
       mesh->addTexCoord(glm::vec2(1.0f, 0.0f));
       mesh->addTexCoord(glm::vec2(0.0f, 0.0f));
