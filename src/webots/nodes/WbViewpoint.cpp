@@ -1018,11 +1018,11 @@ void WbViewpoint::toPixels(const WbVector3 &pos, WbVector2 &P) const {
   double w, h;
   if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
     const double factor = 0.5 / (z * mTanHalfFieldOfViewY);
-    h = factor * eyePosition.z();
+    h = -factor * eyePosition.z();
     w = mAspectRatio ? -factor * eyePosition.y() / mAspectRatio : 0.0;
   } else {  // PM_ORTHOGRAPHIC
     w = eyePosition.y() / (mAspectRatio * mOrthographicViewHeight);
-    h = -eyePosition.z() / mOrthographicViewHeight;
+    h = eyePosition.z() / mOrthographicViewHeight;
   }
 
   P.setX((w + 0.5) * wr_viewport_get_width(mWrenViewport));
