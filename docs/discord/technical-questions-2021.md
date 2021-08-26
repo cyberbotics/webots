@@ -12101,7 +12101,7 @@ a\_world = R\_object * a\_object
 
 you have to use the supervisor functionality to change the color field of the solid
 
-##### Canberk Arıcı 03/31/2021 21:13:34
+##### puntigamer 03/31/2021 21:13:34
 Hello, I imported a map from OSM and added mavic drone to this map but drone cannot take off
 
 
@@ -12116,7 +12116,7 @@ Is it possible to make the recognitionColors field for a solid null after a cert
 ##### Luftwaffel [Moderator] 03/31/2021 22:07:57
 you can edit any field in the supervisor
 
-##### Canberk Arıcı 03/31/2021 22:11:58
+##### puntigamer 03/31/2021 22:11:58
 Even if I edit drone controller code, I cannot see the change in simulation. Can anybody help?
 
 ##### Srivastav\_Udit 03/31/2021 22:15:52
@@ -12144,7 +12144,7 @@ field.set....
 
 you have to set the correct data type
 
-##### Canberk Arıcı 03/31/2021 22:20:46
+##### puntigamer 03/31/2021 22:20:46
 Can't I change controller of drone?
 
 ##### Luftwaffel [Moderator] 03/31/2021 22:20:55
@@ -12159,13 +12159,13 @@ you have to reset the simulation for it to go into effect
 
 if it's c, c++ or java, you have to compile the changes first
 
-##### Canberk Arıcı 03/31/2021 22:21:53
+##### puntigamer 03/31/2021 22:21:53
 Okay, I'll try this, thank you
 
 ##### Luftwaffel [Moderator] 03/31/2021 22:22:10
 F7 in webots I believe.. check the menu
 
-##### Canberk Arıcı 03/31/2021 22:22:28
+##### puntigamer 03/31/2021 22:22:28
 Okay, thank you very much
 
 ##### Welsh\_dragon64 03/31/2021 22:55:35
@@ -24344,4 +24344,265 @@ You should check all your `Shape.apperance` nodes and adjust the path to the tex
 
 ##### butterygold 08/18/2021 12:42:46
 I see, ok thanks!
+
+##### Estox 08/19/2021 17:11:40
+I thought that there are going to be x, y, z outputs in the Lidar data:
+
+```
+data = self.getLayerRangeImage(1)
+del data[1536:] # removal of the time data
+data = [i for i in data if i != float('inf')] # list comprehension if the point is not detected I thought?
+print(data) # Should give the result len(data)%3 = 0, but it doesn't.
+
+What's incorrect there?
+```
+
+##### adeui 08/19/2021 21:48:24
+If you are using version R2021b, there is a bug and you must update to the revision version (someone confirm please)
+
+##### YCSU 08/20/2021 02:29:14
+Hi, A question about rolling simulation. When the ball is rolling in the simulation, it looks like a rolling without slipping because it keeps rolling if there is no collision. In order to simulate the stopping from accounting the effect of slipping, is it correct to adjust the parameter "forceDependentSlip" in ContactProperties?
+
+##### Olivier Michel [Cyberbotics] 08/20/2021 06:28:19
+Yes, it should work.
+
+##### akashX 08/20/2021 10:33:37
+could someone share a simple robot that can detect objects
+
+##### Max\_K 08/20/2021 11:53:57
+Hello, i have problems to create a platform moved by a linear motor in vertical directions. Horizontal is working fine, but when i enable the vertical axes, my solids fall to the ground.
+
+Does anyone have an idea why this happens?
+> **Attachment**: [vertical-axes.mp4](https://cdn.discordapp.com/attachments/565154703139405824/878245473339703336/vertical-axes.mp4)
+
+##### Estox 08/20/2021 12:17:38
+It is in R2021a
+
+##### Septal 08/20/2021 14:12:57
+hey, I have a question. I'm new to the Webots and going to make a world for testing e-puck for global localization (via MCL algorithm) with distance sensors.
+
+about this work, i don't know how to give the occupancy grid map of the word to c language controller. should i write down the entire map in matrix txt file or is there other ways?
+
+
+using 2021b
+
+##### Darko Lukić [Cyberbotics] 08/20/2021 14:46:15
+Use the `wb_lidar_get_point_cloud` function to get the point cloud:
+
+[https://cyberbotics.com/doc/reference/lidar#wb\_lidar\_get\_point\_cloud](https://cyberbotics.com/doc/reference/lidar#wb_lidar_get_point_cloud)
+
+##### Estox 08/21/2021 12:39:59
+Then what exactly is returned by these rangeimage functions?
+
+##### Luftwaffel [Moderator] 08/21/2021 20:40:58
+`@Estox` The depth image expresses the range as a integer value between 0 (min range) and 255 (max range). Black means something is at min range or closer, white at max range or further. any grey values are linearly inbetween
+
+
+hmm instead of int, it might be a float between 0 and 1. not 100% sure, but the process should be the same
+
+##### Septal 08/21/2021 21:21:35
+anyone can help me with measurements calculation in MCL using epuck + distance sensors?
+
+##### Luftwaffel [Moderator] 08/21/2021 21:36:40
+`@Septal` I have no experience with MCL algorithms, but I'm well versed in Webots. What exactly do you need or want to achieve? What data do you expect from the distance sensors?
+
+
+you are trying to accomplish something like in this paper? [https://dergipark.org.tr/en/download/article-file/1310058](https://dergipark.org.tr/en/download/article-file/1310058)
+
+##### Lawrence 08/22/2021 02:42:50
+Hey, I just installed webots_ros so i could use ROS with webots, however I keep getting this error when trying to launch some of the tutorial simulations: 
+```/usr/local/webots/projects/default/controllers/ros/ros: error while loading shared libraries: libboost_system.so.1.65.1: cannot open shared object file: No such file or directory
+WARNING: 'ros' controller exited with status: 127.
+```. Anybody have any ideas to fix this?
+
+##### Septal 08/22/2021 09:59:49
+thanks in advanced. i want to model the sensors given the map and i don't know how to code that. one more question, does rotational motors have noise in webots simulation? cause every time I set the velocity, after a specified time, with randomseed field of worldinfo node set to -1, the translation of the robot is the same in multiple execution.
+
+##### bapenas 08/22/2021 12:41:13
+hello guys, im new member in here.
+
+
+
+can i ask somethink when i got error on webots in here?
+
+##### Stefania Pedrazzi [Cyberbotics] 08/23/2021 06:15:20
+It seems that your motor doesn't have enough force to counteract the gravitational force that is also applied by default on the vertical axis.
+
+You should try to increase the `Motor.maxForce` value.
+
+
+Hi, welcome!
+
+Yes, you can also ask questions about errors.
+
+##### Darko Lukić [Cyberbotics] 08/23/2021 06:30:06
+See this:
+
+[https://github.com/cyberbotics/webots/issues/3488#issuecomment-894355243](https://github.com/cyberbotics/webots/issues/3488#issuecomment-894355243)
+
+##### n33r4j 08/23/2021 13:39:39
+Hi, can someone point me to a software that can be used to make motion files for Nao ? Or is this possible directly from Webots ? I searched some of the old answers on this channel and found some mentions of Choregraphe. Is this the way to go?
+
+##### Olivier Michel [Cyberbotics] 08/23/2021 14:15:11
+I am not sure, but Choregraphe might be the way to go. However, you will have to somehow extract the pitch/yaw/roll values of each joint of the robot to export them into the Webots motion file format (as well as the timing information).
+
+##### n33r4j 08/23/2021 14:19:12
+Ah, I see. Do you by any chance know how the existing motion files included with Webots for the Nao were made ?
+
+##### Olivier Michel [Cyberbotics] 08/23/2021 14:23:00
+I believe somebody extracted the pitch/yaw/roll/timing values from some Choregraphe generated motions, but I don't recall how this was done in detail (that was a few years ago).
+
+##### n33r4j 08/23/2021 14:26:43
+Thanks! Will look into it and post here if I find anything.
+
+##### lanzcc 08/23/2021 17:24:43
+Hello, In tutorial #2 the instructions say "to move the ball apply a force to it". When I try this, the force vector appears, but nothing I then try makes the ball move. How is the force application supposed to work?
+
+##### Darko Lukić [Cyberbotics] 08/24/2021 06:41:34
+Make sure the ball has a physics and that the simulation is running. Then, you can `ALT + click on the ball + drag` to apply the force.
+
+##### ulrikmf [Premier Service] 08/24/2021 20:18:09
+Hi quick question here. Is it not possible to have two supervisors in one python script? even as properties of different classes?
+
+##### Luftwaffel [Moderator] 08/24/2021 20:18:57
+you can only have one supervisor to my knowledge. Why would you need two?#
+
+##### ulrikmf [Premier Service] 08/24/2021 20:23:11
+two robots. Documentation says it is possible with two supervisors, but that it must be run from different controllers.
+
+##### Luftwaffel [Moderator] 08/24/2021 20:25:32
+a supervisor is the same as a robot controller (contains all the same functions). It just has "god powers" added to it
+
+
+what exactly are you trying to accomplish?
+
+##### ulrikmf [Premier Service] 08/24/2021 20:44:51
+I have a dummy robot whose task is to import other robots on request.
+
+##### Luftwaffel [Moderator] 08/24/2021 20:50:06
+do the robot controllers need supervisor powers to function?
+
+##### ulrikmf [Premier Service] 08/24/2021 20:50:31
+yes
+
+##### Luftwaffel [Moderator] 08/24/2021 20:52:04
+What doesnt work?
+
+
+oh and I think it works with multiple. I just remembered that I have a project that uses multiple supervisors
+
+##### ulrikmf [Premier Service] 08/24/2021 20:55:36
+I was just wondering if there was a quick answer on how to run multiple supervisors.
+
+
+it seems impossible to do from a simple script.
+
+##### Luftwaffel [Moderator] 08/24/2021 20:56:42
+every robot controller runs its own process
+
+
+webots starts the controller automatically
+
+##### ulrikmf [Premier Service] 08/24/2021 20:56:59
+but do i have to run multiple scripts at once then?
+
+##### Luftwaffel [Moderator] 08/24/2021 20:57:40
+only when using external controllers
+
+##### ulrikmf [Premier Service] 08/24/2021 20:57:53
+that is what i do
+
+##### Luftwaffel [Moderator] 08/24/2021 20:58:10
+perhaps with multiprocessing
+
+##### ulrikmf [Premier Service] 08/24/2021 20:58:20
+ait
+
+
+thanks
+
+##### giaco\_mz 08/25/2021 00:25:40
+I'm trying to install cyberbotics/webots\_ros2 using windows installation..
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/Build-and-Install](https://github.com/cyberbotics/webots_ros2/wiki/Build-and-Install)
+
+
+
+But i have this problem. What is happening?
+%figure
+![1.PNG](https://cdn.discordapp.com/attachments/565154703139405824/879884197618130995/1.PNG)
+%end
+
+##### Darko Lukić [Cyberbotics] 08/25/2021 07:00:57
+I have just added a `Dependencies` section:
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/Build-and-Install#dependencies](https://github.com/cyberbotics/webots_ros2/wiki/Build-and-Install#dependencies)
+
+##### giaco\_mz 08/25/2021 10:43:40
+thx
+
+##### oroulet [Premier Service] 08/25/2021 12:55:54
+Hi,
+
+Can we use an empty world, create a supervisor in an external python script, and then use the supervisor to import a robot?
+
+currently we have several worlds, one per robot. It would make sense to have a world without any robot and just instantiate a new robot using  supervisor.getRoot().importMFNodeFromString(-1, node\_string)
+
+##### Stefania Pedrazzi [Cyberbotics] 08/25/2021 13:02:19
+Hi, yes this is possible.
+
+But your "empty" world should contain at least a Supervisor node to be able to import other robots and objects.
+
+I don't have all the details of your implementation, but it is probably simpler to already add the initial manager Supervisor node to the world rather than creating a python script that edits the world and adds it given that you will probably always need it to initialize the simulation.
+
+##### oroulet [Premier Service] 08/25/2021 13:05:43
+a supervisor node in world? how does it look like in the world? curently we have only WorldInfo and texttures and a Robot in the world file
+
+##### ulrikmf [Premier Service] 08/25/2021 13:06:06
+Or do you mean have a world file with a dummy robot to import the actual robot we want??
+
+##### Stefania Pedrazzi [Cyberbotics] 08/25/2021 13:06:22
+Yes, with Supervisor node, I mean a dummy robot with the supervisor field checked
+
+##### akashX 08/25/2021 13:07:09
+need someone to help me in making a simple bot, please dm me if you are willing spend 10 minutes helping a stranger in need
+
+##### ulrikmf [Premier Service] 08/25/2021 13:07:36
+The problem we then got, is to instantiate the actual robots supervisor. How is that solved with only one controller ?
+
+##### Stefania Pedrazzi [Cyberbotics] 08/25/2021 13:09:35
+I'm not sure to understand.
+
+The controller of the dummy robot  will import the robot(s), then once imported the controller of the imported robot is automatically started by Webots (if not set to extern).
+
+##### ulrikmf [Premier Service] 08/25/2021 13:11:15
+We need a supervisor corresponding to the imported robot as well, dont we? To access devices etc in the robot?
+
+##### oroulet [Premier Service] 08/25/2021 13:11:36
+yes the imported robot uses an extern controller
+
+
+the ideas was that the script importing the robot would also become the contorller for the robot
+
+##### Stefania Pedrazzi [Cyberbotics] 08/25/2021 13:13:31
+That's not possible.
+
+
+The simple solution is that the "script" that imports the robot is the controller of the dummy supervisor robot initially available in the world.
+
+Then this "script" (or controller) can start the extern controller of the robot just after importing it
+
+##### oroulet [Premier Service] 08/25/2021 13:14:55
+OK that  explains our issue. Not sure what is best for us. We need to think a bit
+
+
+thanks
+
+##### ulrikmf [Premier Service] 08/25/2021 13:15:05
+Thank you
+
+##### Stefania Pedrazzi [Cyberbotics] 08/25/2021 13:15:23
+Here are the instructions to run multiple extern controller (if needed): 
+
+[https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers)
 
