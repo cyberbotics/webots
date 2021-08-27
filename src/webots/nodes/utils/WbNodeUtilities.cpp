@@ -1043,15 +1043,18 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // Apply rotations
   for (WbNode *candidate : candidates) {
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate)) {
+      // Rotate the device.
       if (candidate != node) {
-        WbTransform *camera = static_cast<WbTransform *>(candidate);
-        camera->setRotation(WbRotation(camera->rotation().toMatrix3() * WbMatrix3(-M_PI_2, 0, M_PI_2)));
+        WbTransform *device = static_cast<WbTransform *>(candidate);
+        device->setRotation(WbRotation(device->rotation().toMatrix3() * WbMatrix3(-M_PI_2, 0, M_PI_2)));
+        device->save("__init__");
       }
 
-      // Transform children.
+      // Rotation children of the device back.
       if (candidate->subNodes(false).size() > 0) {
         WbTransform *transform = new WbTransform();
         transform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, M_PI_2)));
+        transform->save("__init__");
         for (WbNode *child : candidate->subNodes(false)) {
           static_cast<WbGroup *>(candidate)->removeChild(child);
           transform->addChild(child);
@@ -1069,12 +1072,14 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       if (dynamic_cast<WbTransform *>(parent)) {
         WbTransform *parentTransform = dynamic_cast<WbTransform *>(parent);
         parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * WbMatrix3(M_PI_2, 0, 0)));
+        parentTransform->save("__init__");
       } else {
         WbTransform *transform = new WbTransform();
         static_cast<WbGroup *>(parent)->removeChild(nodeToRotate);
         transform->addChild(nodeToRotate);
         static_cast<WbGroup *>(parent)->addChild(transform);
         transform->setRotation(WbRotation(WbMatrix3(M_PI_2, 0, 0)));
+        transform->save("__init__");
       }
     }
   }
