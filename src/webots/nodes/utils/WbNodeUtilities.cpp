@@ -1068,13 +1068,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
       if (dynamic_cast<WbTransform *>(parent)) {
         WbTransform *parentTransform = dynamic_cast<WbTransform *>(parent);
-        parentTransform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, 0) * parentTransform->rotation().toMatrix3()));
+        parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * WbMatrix3(M_PI_2, 0, 0)));
       } else {
         WbTransform *transform = new WbTransform();
         static_cast<WbGroup *>(parent)->removeChild(nodeToRotate);
         transform->addChild(nodeToRotate);
         static_cast<WbGroup *>(parent)->addChild(transform);
-        transform->setRotation(WbRotation(WbMatrix3(0, 0, -M_PI_2)));
+        transform->setRotation(WbRotation(WbMatrix3(M_PI_2, 0, 0)));
       }
     }
   }
