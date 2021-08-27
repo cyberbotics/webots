@@ -162,9 +162,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     mRoot->addChild(mViewpoint);
   }
 
-
-  for (WbNode *child : mRoot->subNodes(true))
-    QTextStream(stdout) << child->modelName() << "\n";
+  WbNodeUtilities::fixBackwardCompatibility(mRoot);
 
   WbNode::setGlobalParentNode(NULL);
   updateTopLevelLists();

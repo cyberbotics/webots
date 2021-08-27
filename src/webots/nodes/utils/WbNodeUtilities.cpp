@@ -44,7 +44,12 @@
 #include "WbSolid.hpp"
 #include "WbTrack.hpp"
 #include "WbWorld.hpp"
+#include "WbVersion.hpp"
+#include "WbProtoModel.hpp"
+#include "WbTokenizer.hpp"
+#include "WbCylinder.hpp"
 
+#include <QtCore/QQueue>
 #include <QtCore/QStack>
 #include <QtCore/QStringList>
 #include <cassert>
@@ -1002,16 +1007,58 @@ WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
 }
 
 void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
-  for (WbNode* child : node->subNodes(true)) {
+  // We don't want to do any kind of conversion if the node is already >R2021b
+  if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 0))
+    return;
+  if (node->proto() && node->proto()->fileVersion() > WbVersion(2021, 1, 0))
+    return;
+  const WbNode* protoAncestor = findRootProtoNode(node);
+  if (!node->proto() && protoAncestor && protoAncestor->proto()->fileVersion() > WbVersion(2021, 1, 0))
+    return;
+
+  // We want to find nodes until PROTOs.
+  QList<WbNode *> candidates;
+  QQueue<WbNode *> queue;
+  queue.enqueue(node);
+  candidates.append(node);
+  while (!queue.isEmpty()) {
+    WbNode *n = queue.dequeue();
+    for (WbNode* child : n->subNodes(false, true)) {
+      if (!child->proto()) {
+        queue.append(child);
+        candidates.append(child);
+      }
+    }
+  }
+
+  // Apply rotations
+  for (WbNode* child : candidates) {
     if (dynamic_cast<WbCamera *>(child)) {
+      if (child != node) {
+        WbTransform *camera = static_cast<WbTransform *>(child);
+        camera->setRotation(WbRotation(camera->rotation().toMatrix3() * WbMatrix3(-M_PI_2, 0, M_PI_2)));
+      }
+
+      // Transform children.
       WbTransform* transform = new WbTransform();
-      WbGroup *parent = static_cast<WbGroup *>(child->parentNode());
+      transform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, M_PI_2)));
+      for (WbNode *child : node->subNodes(false)) {
+        static_cast<WbGroup *>(node)->removeChild(child);
+        transform->addChild(child);
+        static_cast<WbGroup *>(node)->addChild(transform);
+      }
+    }
+    else if (dynamic_cast<WbCylinder *>(child)) {
+      WbNode* shape = child->parentNode();
+      assert(dynamic_cast<WbShape *>(shape));
+      WbNode* shapeParent = shape->parentNode();
+      assert(dynamic_cast<WbGroup *>(shapeParent));
 
-      parent->removeChild(child);
-      transform->addChild(child);
-      parent->addChild(transform);
-
-      transform->setRotation(WbRotation(-0.5773516025189619, 0.5773476025217157, 0.5773516025189619, -2.094405307179586));
+      WbTransform* transform = new WbTransform();
+      static_cast<WbGroup *>(shapeParent)->removeChild(shape);
+      transform->addChild(shape);
+      static_cast<WbGroup *>(shapeParent)->addChild(transform);
+      transform->setRotation(WbRotation(1, 0, 0, -M_PI_2));
     }
   }
 }
