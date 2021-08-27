@@ -2124,7 +2124,7 @@ I am setting up a CI/CD pipeline for our controller for robocup, which requires 
 ##### Luftwaffel [Moderator] 05/28/2021 21:38:37
 <@&568329906048598039> Working with object recognition, I think it could be very useful to expose the "recognitionColors" field in all objects provided by Webots. What do you think? I can create a PR if you agree.
 
-##### AmorFati 05/28/2021 21:39:12
+##### Robot 05/28/2021 21:39:12
 Yeah totally agree.
 
 ##### Bitbots\_Jasper [Moderator] 05/29/2021 08:51:23
@@ -2327,4 +2327,218 @@ in revision before I didn't had this problem,  even example complete\_test gives
 
 ##### Olivier Michel [Cyberbotics] 07/14/2021 08:29:21
 I would recommend you to try from the current master branch into which we merged the develop branch recently and which is more stable than develop now and contains all its new features.
+
+##### Chinwei.Chang 07/19/2021 08:21:36
+The VR view worked fine in version 2019a. However, after 2019a, the VR version didn't worked. How could I use VR in 2021b?
+
+
+Is it possible to interactive with robot in webots through VR
+
+##### Darko Lukić [Cyberbotics] 07/19/2021 08:27:22
+Unfortunately no, there is an issue about that:
+
+[https://github.com/cyberbotics/webots/issues/747](https://github.com/cyberbotics/webots/issues/747)
+
+##### Nummer\_42O 07/19/2021 12:03:59
+since updating to R2021b I can't seem to get the robot node via supervisor.getFromDef anymore? It just spits out None
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/866651585580630086/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/866651712882081813/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 07/19/2021 12:07:52
+Did you set your robot to be a supervisor?
+
+[https://cyberbotics.com/doc/reference/robot#robot](https://cyberbotics.com/doc/reference/robot#robot) (the `supervisor` field should be `TRUE`)
+
+##### Nummer\_42O 07/19/2021 12:11:05
+ah perfect - thx. That wasn't an issue before. ^^
+
+##### Darko Lukić [Cyberbotics] 07/19/2021 12:11:42
+Then it was a bug before 🙂
+
+##### Nummer\_42O 07/19/2021 12:32:07
+Another thing: How do I disable those? I found and updated the texture URLs in Spots .proto file (No textures were to be found in the left and right leg) but it still shows that to me.
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/866658664274591775/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 07/19/2021 12:34:05
+If you haven't changed the PROTOs then probably the easiest way is to copy the PROTOs from the new Webots distribution:
+
+[https://github.com/cyberbotics/webots/tree/master/projects/robots/boston\_dynamics/spot/protos](https://github.com/cyberbotics/webots/tree/master/projects/robots/boston_dynamics/spot/protos)
+
+##### Nummer\_42O 07/19/2021 12:38:23
+hm ok
+
+##### Benjamin Délèze [Cyberbotics] 07/19/2021 12:40:01
+Otherwise, you can update the headers of the protos to R2021b
+
+##### Nummer\_42O 07/19/2021 12:41:16
+That works better for me. Thanks :)
+
+##### mcitir 07/24/2021 16:49:51
+Hello everybody, do you know how I can find proper material to learn the usage of Webots for Automobiles? I could not find enough source to grab the usage as quickly as possible. Also, I tried to use Visual Studio for controller design. However, I could not be successful to compile from VS. Appreciated for any source or idea. Thanks.
+
+##### TheGiant 07/24/2021 20:36:13
+`@mcitir` did you checkout [https://cyberbotics.com/doc/automobile/index](https://cyberbotics.com/doc/automobile/index) ? 
+
+Regarding VS, Have you you read thought [https://cyberbotics.com/doc/guide/using-your-ide#visual-studio](https://cyberbotics.com/doc/guide/using-your-ide#visual-studio) ?
+
+##### mcitir 07/27/2021 10:47:08
+Yes, I checked both. I could not find solution. VS did not compile the controller even I applied everything step-by-step.
+
+
+Also, unfortunately, documentation for automobiles is little bit short for me. I did not use wbeots in advance. It is first time to use for me. I started directly with automobiles, so the documentation was short to learn how the simulation works.
+
+##### DDaniel [Cyberbotics] 07/27/2021 11:34:46
+`@mcitir` Hi, there's also several samples involving vehicles, you can find them in `file > open sample world > vehicles`, the world `city.wbt` for instance can help you understand how it works
+
+##### mcitir 07/27/2021 13:35:32
+`@DDaniel` Thank you very much.
+
+## August
+
+##### Miguel Torres 08/06/2021 17:34:40
+Hello community.
+
+I want to add a lidar sensor to a vehicle, but when I call the lidar.getPointCloud () function from my Python controller it shows this WARNING and  it stops.
+
+Can you help me please?
+%figure
+![Screenshot_2021-08-06_123327.png](https://cdn.discordapp.com/attachments/565155651395780609/873257784504877066/Screenshot_2021-08-06_123327.png)
+%end
+
+
+this is a video
+
+
+
+> **Attachment**: [lidar\_error.mp4](https://cdn.discordapp.com/attachments/565155651395780609/873257945226428486/lidar_error.mp4)
+
+##### DDaniel [Cyberbotics] 08/06/2021 20:22:07
+`@Miguel Torres` I can't reproduce the error, works fine for me. Can you share the entire project?
+
+##### Miguel Torres 08/06/2021 22:18:04
+`@DDaniel` thanks for your prompt response.  This is the entire project, the world in name "tutorial6\_4\_wheeled\_robot"
+
+
+
+> **Attachment**: [WebotsProject.7z](https://cdn.discordapp.com/attachments/565155651395780609/873329135022383135/WebotsProject.7z)
+
+
+I am using windows 10
+
+##### Stefania Pedrazzi [Cyberbotics] 08/09/2021 06:30:29
+Which Python version are you using? Python 3.9?
+
+In R2021b there are known issues with Python 3.9 that have already been fixed in the latest nightly build of R2021b revision 1.
+
+If you cannot switch to Python 3.8, then I would suggest to try with the latest R2021b-rev1 nightly build available here:
+
+[https://github.com/cyberbotics/webots/releases/tag/nightly\_6\_8\_2021](https://github.com/cyberbotics/webots/releases/tag/nightly_6_8_2021)
+
+##### Miguel Torres 08/09/2021 16:36:06
+`@Stefania Pedrazzi` Thanks.
+
+I have version 3.9.4. of python. So I installed "webots-R2021b-rev1\_setup.exe" and it worked fine.   😌 
+
+
+
+Now, I have a list of objects of type "WbLidarPoint" but I has not been able to print the x, y, z properties. I tried with point.x, point.getX (), point.get\_x () as well as it is written in the documentation.
+
+AttributeError: Object 'SwigPyObject' has no attribute 'getX'
+
+
+
+What is the proper way to access the x, y, x, time attributes of a WbLidarPoint from the LIDAR sensor tip cloud?
+
+##### DDaniel [Cyberbotics] 08/09/2021 18:20:15
+`@Miguel Torres` it should be accessible with `.x`. In all other languages it works fine but you're right, it doesn't for python. It appears to be a regression, I'll look into it tomorrow
+
+##### Miguel Torres 08/09/2021 18:40:38
+I really appreciate it. 
+
+It is very important to me
+
+##### DDaniel [Cyberbotics] 08/10/2021 13:52:29
+`@Miguel Torres` It should be fixed in tonight's nightly build, you can download it from here tonight/tomorrow: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### Miguel Torres 08/10/2021 13:59:55
+`@DDaniel` Great news, I'll download it tomorrow. 
+
+Thanks.
+
+##### Naga15 08/11/2021 08:44:19
+Hello Cyberbotics team i write you again. I hadn't resolved the last problem from July 14. But I have some updates about the topic. After fresh instalation of UBUNTU 20.04 i tried to install officiall release of webots 2021b. when I do it over .deb or snap I get same Problem by connecting to ros-master. Error ist about libboost I tried to install over tarball and it connects to ros master but I have a problem with this error: 
+
+
+
+INFO: ros: Starting controller: /home/denis/webots/projects/default/controllers/ros/ros --name=asterix
+
+[ INFO] [1628669963.199765104]: Robot's unique name is asterix.
+
+[ INFO] [1628669963.224707050]: The controller is now connected to the ROS master.
+
+WARNING: ros: The process crashed some time after starting successfully.
+
+Error: wb\_lidar\_get\_layer\_range\_image() called for a disabled device! Please use: wb\_lidar\_enable().
+
+WARNING: 'ros' controller crashed.
+
+
+
+I tried to enable Lidar and PointCloud on my Robot. The same code on last revision worked, here not. I looked at the example  complete\_test.cpp in webots\_ros and tried to recreate it for my project. Yes I use ROS1 .What should I do? My colleagues said that I need to work with webots R2021 but I can't resolve this over one month.  Is it maybe resolved in one of the nightly builds?
+
+
+
+
+
+I tried to install from source but I got simmilar result as over tarball but my ros instalation got rogue and tools like rviz rqt didn't want to start. I needed to install whole Ubuntu again. 
+
+
+
+Sorry for bothering you
+
+Thanks in advance for help
+
+##### Darko Lukić [Cyberbotics] 08/11/2021 08:52:13
+We discovered the issue comes from Webots. See this:
+
+[https://github.com/cyberbotics/webots/issues/3488#issuecomment-894355243](https://github.com/cyberbotics/webots/issues/3488#issuecomment-894355243)
+
+
+
+To resolve the problem please use the tarball for Ubuntu 20.04
+
+
+About the other problem let me check
+
+##### Naga15 08/11/2021 09:08:58
+Thanks.
+
+##### Darko Lukić [Cyberbotics] 08/11/2021 14:55:14
+`@Naga15` I believe I fixed the issue:
+
+[https://github.com/cyberbotics/webots/pull/3561](https://github.com/cyberbotics/webots/pull/3561)
+
+
+
+You can download it from here:
+
+[https://github.com/cyberbotics/webots/suites/3469232657/artifacts/82481184](https://github.com/cyberbotics/webots/suites/3469232657/artifacts/82481184)
+
+
+
+Or wait for the nightly builds (generated an evening after a merge):
+
+[https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### Naga15 08/16/2021 08:00:26
+Thanks it finally works!
 

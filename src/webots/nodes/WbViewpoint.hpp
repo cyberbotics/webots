@@ -120,8 +120,8 @@ public:
   void updateFollowSolidState();
   void updateOrthographicViewHeight();
 
-  void setNodeVisibility(WbBaseNode *node, bool visible);
-  QList<WbBaseNode *> getInvisibleNodes() const { return mInvisibleNodes; }
+  void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
+  QList<const WbBaseNode *> getInvisibleNodes() const { return mInvisibleNodes; }
   void enableNodeVisibility(bool enabled);
 
   // Ray picking based on current projection mode
@@ -194,7 +194,7 @@ private:
   WrCamera *mWrenCamera;
   WrViewport *mWrenViewport;
 
-  QList<WbBaseNode *> mInvisibleNodes;
+  QList<const WbBaseNode *> mInvisibleNodes;
   bool mNodeVisibilityEnabled;
 
   WbCoordinateSystem *mCoordinateSystem;
@@ -320,7 +320,7 @@ signals:
   void followTypeChanged(int type);
   void cameraParametersChanged();
   void refreshRequired();
-  void nodeVisibilityChanged(WbNode *node, bool visibility);
+  void nodeVisibilityChanged(const WbNode *node, bool visibility);
   void virtualRealityHeadsetRequiresRender();
 };
 

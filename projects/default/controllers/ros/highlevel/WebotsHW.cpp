@@ -61,11 +61,13 @@ namespace highlevel {
 
   void WebotsHW::read(const ros::Duration &duration) {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
-      const double previousPosition = controlledMotor.position;
-      const double newPosition = controlledMotor.motor->getPositionSensor()->getValue();
+      if (controlledMotor.motor->getPositionSensor()) {
+        const double previousPosition = controlledMotor.position;
+        const double newPosition = controlledMotor.motor->getPositionSensor()->getValue();
 
-      controlledMotor.position = newPosition;
-      controlledMotor.velocity = (newPosition - previousPosition) / duration.toSec();
+        controlledMotor.position = newPosition;
+        controlledMotor.velocity = (newPosition - previousPosition) / duration.toSec();
+      }
     }
   }
 

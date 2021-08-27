@@ -25,6 +25,7 @@ DirectionalLight {
   direction 0 -1 0.4
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 DEF ROBOT1 Robot {
   translation 0 0.06 0

@@ -34,6 +34,7 @@
 #include "WbWrenOpenGlContext.hpp"
 
 #include <QtCore/QFileInfo>
+#include <QtCore/QIODevice>
 #include <QtGui/QImageReader>
 
 #include <wren/gl_state.h>

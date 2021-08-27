@@ -283,7 +283,7 @@ static void update_slip_ratio() {
       instance->rear_slip_ratio = 1;
   } else if (instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
     // Compute and update the central slip differential ratio (between -1 and 1)
-    double front_speed_sum = instance->car->speeds[0] + instance->car->speeds[0];
+    double front_speed_sum = instance->car->speeds[0] + instance->car->speeds[1];
     double rear_speed_sum = instance->car->speeds[2] + instance->car->speeds[3];
     double real_central_ratio = (front_speed_sum / (front_speed_sum + rear_speed_sum)) * 2 - 1;
     // for better result a PD controller can be used here

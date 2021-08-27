@@ -222,3 +222,11 @@ void WbSlot::write(WbVrmlWriter &writer) const {
       mEndPoint->value()->write(writer);
   }
 }
+
+QList<const WbBaseNode *> WbSlot::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    list << e->findClosestDescendantNodesWithDedicatedWrenNode();
+  return list;
+}

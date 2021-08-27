@@ -34,6 +34,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QTextStream>
 
 #include <cassert>
 
