@@ -47,3 +47,5 @@ coordinate system
 ```
 
 The `thickness` field specifies the thickness of the bounding box which is added below the lowest point of the `height` field, to prevent objects from falling through very thin [ElevationGrid](#elevationgrid)s.
+
+When a texture is applied to the elevation grid, the texture is mapped onto the elevation grid (seen from above) with the same orientation as if the image were displayed normally in 2D (along the *x* and *y* axis).
