@@ -24,20 +24,25 @@
 #include "WbBrake.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
+#include "WbCone.hpp"
 #include "WbCylinder.hpp"
 #include "WbDevice.hpp"
+#include "WbElevationGrid.hpp"
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
 #include "WbFluid.hpp"
 #include "WbFog.hpp"
 #include "WbHinge2Joint.hpp"
 #include "WbJointParameters.hpp"
+#include "WbLidar.hpp"
 #include "WbLinearMotor.hpp"
 #include "WbLogicalDevice.hpp"
 #include "WbMFNode.hpp"
 #include "WbNodeReader.hpp"
+#include "WbPlane.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbProtoModel.hpp"
+#include "WbRadar.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -1020,6 +1025,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // We want to find nodes until PROTOs.
   QList<WbNode *> candidates;
   QQueue<WbNode *> queue;
+  QList<WbNode *> subProtos;
   queue.enqueue(node);
   candidates.append(node);
   while (!queue.isEmpty()) {
@@ -1027,40 +1033,54 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     for (WbNode *child : n->subNodes(false, true)) {
       if (!child->proto()) {
         queue.append(child);
-        candidates.append(child);
-      }
+        if (!candidates.contains(child))
+          candidates.append(child);
+      } else
+        subProtos.append(child);
     }
   }
 
   // Apply rotations
   for (WbNode *candidate : candidates) {
-    if (dynamic_cast<WbCamera *>(candidate)) {
+    if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate)) {
       if (candidate != node) {
         WbTransform *camera = static_cast<WbTransform *>(candidate);
         camera->setRotation(WbRotation(camera->rotation().toMatrix3() * WbMatrix3(-M_PI_2, 0, M_PI_2)));
       }
 
       // Transform children.
-      WbTransform *transform = new WbTransform();
-      transform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, M_PI_2)));
-      for (WbNode *child : node->subNodes(false)) {
-        static_cast<WbGroup *>(node)->removeChild(child);
-        transform->addChild(child);
-        static_cast<WbGroup *>(node)->addChild(transform);
+      if (candidate->subNodes(false).size() > 0) {
+        WbTransform *transform = new WbTransform();
+        transform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, M_PI_2)));
+        for (WbNode *child : candidate->subNodes(false)) {
+          static_cast<WbGroup *>(candidate)->removeChild(child);
+          transform->addChild(child);
+          static_cast<WbGroup *>(candidate)->addChild(transform);
+        }
       }
-    } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate)) {
+    } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
+               dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
+               dynamic_cast<WbElevationGrid *>(candidate)) {
       WbNode *nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
 
       WbNode *parent = nodeToRotate->parentNode();
       assert(dynamic_cast<WbGroup *>(parent));
 
-      WbTransform *transform = new WbTransform();
-      static_cast<WbGroup *>(parent)->removeChild(nodeToRotate);
-      transform->addChild(nodeToRotate);
-      static_cast<WbGroup *>(parent)->addChild(transform);
-      transform->setRotation(WbRotation(1, 0, 0, -M_PI_2));
+      if (dynamic_cast<WbTransform *>(parent)) {
+        WbTransform *parentTransform = dynamic_cast<WbTransform *>(parent);
+        parentTransform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, 0) * parentTransform->rotation().toMatrix3()));
+      } else {
+        WbTransform *transform = new WbTransform();
+        static_cast<WbGroup *>(parent)->removeChild(nodeToRotate);
+        transform->addChild(nodeToRotate);
+        static_cast<WbGroup *>(parent)->addChild(transform);
+        transform->setRotation(WbRotation(WbMatrix3(0, 0, -M_PI_2)));
+      }
     }
   }
+
+  for (WbNode *subProto : subProtos)
+    fixBackwardCompatibility(subProto);
 }
 
 WbNode *WbNodeUtilities::findRootProtoNode(WbNode *node) {
