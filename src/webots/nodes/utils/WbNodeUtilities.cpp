@@ -1040,7 +1040,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     }
   }
 
-  // Apply rotations
+  // Apply rotations to the candidates.
   for (WbNode *candidate : candidates) {
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate)) {
       // Rotate the device.
@@ -1052,13 +1052,21 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
       // Rotation children of the device back.
       if (candidate->subNodes(false).size() > 0) {
-        WbTransform *transform = new WbTransform();
-        transform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, M_PI_2)));
-        transform->save("__init__");
+        continue;
         for (WbNode *child : candidate->subNodes(false)) {
-          static_cast<WbGroup *>(candidate)->removeChild(child);
-          transform->addChild(child);
-          static_cast<WbGroup *>(candidate)->addChild(transform);
+          WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
+          if (childTransform) {
+            childTransform->setRotation(WbRotation(childTransform->rotation().toMatrix3() * WbMatrix3(-M_PI_2, 0, M_PI_2)));
+            childTransform->setTranslation(WbMatrix3(-M_PI_2, 0, M_PI_2) * childTransform->translation());
+          }
+          else {
+            WbTransform *transform = new WbTransform();
+            transform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, M_PI_2)));
+            transform->save("__init__");
+            static_cast<WbGroup *>(candidate)->removeChild(child);
+            transform->addChild(child);
+            static_cast<WbGroup *>(candidate)->addChild(transform);
+          }
         }
       }
     } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
@@ -1086,6 +1094,17 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
   for (WbNode *subProto : subProtos)
     fixBackwardCompatibility(subProto);
+}
+
+WbNode *WbNodeUtilities::findRootProtoNode(WbNode *node) {
+  WbNode *n = node;
+  do {
+    WbProtoModel *proto = n->proto();
+    if (proto)
+      return n;
+    n = n->parentNode();
+  } while (n);
+  return NULL;
 }
 
 bool WbNodeUtilities::isVisible(const WbNode *node) {
