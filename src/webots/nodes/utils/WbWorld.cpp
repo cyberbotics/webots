@@ -162,6 +162,10 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     mRoot->addChild(mViewpoint);
   }
 
+
+  for (WbNode *child : mRoot->subNodes(true))
+    QTextStream(stdout) << child->modelName() << "\n";
+
   WbNode::setGlobalParentNode(NULL);
   updateTopLevelLists();
 
@@ -192,10 +196,6 @@ void WbWorld::finalize() {
   QSet<const QString> topSolidNameSet;
   foreach (WbSolid *s, mTopSolids)
     s->resolveNameClashIfNeeded(false, true, mTopSolids, &topSolidNameSet);
-
-  for (WbNode *child : mRoot->subNodes(true))
-    if (child->model())
-      WbNodeUtilities::fixBackwardCompatibility(child);
 }
 
 WbWorld::~WbWorld() {

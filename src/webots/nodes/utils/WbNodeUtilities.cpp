@@ -1003,12 +1003,13 @@ WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
 
 void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   for (WbNode* child : node->subNodes(true)) {
-    if (static_cast<WbCamera *>(child)) {
+    if (dynamic_cast<WbCamera *>(child)) {
       WbTransform* transform = new WbTransform();
+      WbGroup *parent = static_cast<WbGroup *>(child->parentNode());
 
-      dynamic_cast<WbGroup *>(child->parentNode())->removeChild(child);
-      dynamic_cast<WbGroup *>(child->parentNode())->addChild(transform);
+      parent->removeChild(child);
       transform->addChild(child);
+      parent->addChild(transform);
 
       transform->setRotation(WbRotation(-0.5773516025189619, 0.5773476025217157, 0.5773516025189619, -2.094405307179586));
     }
