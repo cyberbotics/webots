@@ -14,6 +14,7 @@ Background {
   ]
 }
 Floor {
+  rotation 1 0 0 -1.5708
   size 2 2
 }
 Yamor {

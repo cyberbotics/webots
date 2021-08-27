@@ -44,10 +44,10 @@ PROTO Floor [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %<= -(size.x * 0.5) >% 0 %<= -(size.y * 0.5) >%
-              %<= size.x * 0.5 >% 0 %<= -(size.y * 0.5) >%
-              %<= -(size.x * 0.5) >% 0 %<= size.y * 0.5 >%
-              %<= size.x * 0.5 >% 0 %<= size.y * 0.5 >%
+              %<= -(size.x * 0.5) >% %<= -(size.y * 0.5) >% 0
+              %<= size.x * 0.5 >% %<= -(size.y * 0.5) >% 0
+              %<= -(size.x * 0.5) >% %<= size.y * 0.5 >% 0
+              %<= size.x * 0.5 >% %<= size.y * 0.5 >% 0
             ]
           }
           texCoord TextureCoordinate {
@@ -59,7 +59,7 @@ PROTO Floor [
             ]
           }
           coordIndex [
-            0 2 3 1 -1
+            2 0 1 3 -1
           ]
           texCoordIndex [
             2 0 1 3 -1
@@ -69,13 +69,8 @@ PROTO Floor [
     ]
     name IS name
     model "floor"
-    boundingObject Transform {
-      rotation 1 0 0 -1.57079632679
-      children [
-        Plane {
-          size IS size
-        }
-      ]
+    boundingObject Plane {
+      size IS size
     }
     contactMaterial IS contactMaterial
     locked TRUE

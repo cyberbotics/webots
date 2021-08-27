@@ -14,6 +14,7 @@ PROTO TestRectangleArena [
   Solid {
     children [
       Floor {
+        rotation 1 0 0 -1.5708
         size 1 1
         tileSize 0.5 0.5
         appearance IS floorAppearance

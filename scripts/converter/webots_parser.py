@@ -152,7 +152,6 @@ class WebotsParser:
         indent = ' ' * self.indentation
         count = 0
         self.file.write(indent)
-
         for index, value in enumerate(values):
             if type == 'MFString':
                 self.file.write('"' + value + '"\n')
