@@ -543,7 +543,7 @@ namespace {
       } else if (childrenField) {
         if (nodeName == "Shape")
           return true;
-        if (nodeName == "Transform")
+        if ((nodeName == "Transform") && (parentModelName != "Transform"))
           return true;
         // if the node is also used outside a boundingObject geometries cannot be inserted directly in the children field
         if (!(nodeUse & WbNode::STRUCTURE_USE) && WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
@@ -563,7 +563,7 @@ namespace {
                          .arg(parentModelName);
       }
 
-      return true;
+      return false;
     }
 
     if (errorMessage.isEmpty())
