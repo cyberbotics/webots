@@ -2066,7 +2066,7 @@ Solid {
       }
     }
     Transform {
-      translation -0.131212 0 1.18112
+      translation 0 -0.131212 1.18112
       rotation 0 0 1 0.321753
       children [
         DEF PLANT_LEAVES_SHAPE Shape {
@@ -2112,56 +2112,56 @@ Solid {
       ]
     }
     Transform {
-      translation -0.151205 -0.160068 0.975073
+      translation -0.160068 -0.151205 0.975073
       rotation 0 0 1 -0.421823
       children [
         USE PLANT_LEAVES_SHAPE
       ]
     }
     Transform {
-      translation -0.090462 0.071288 0.823871
+      translation 0.071288 -0.090462 0.823871
       rotation 0 0 1 0
       children [
         USE PLANT_LEAVES_SHAPE
       ]
     }
     Transform {
-      translation 0.011308 -0.066372 0.855582
+      translation -0.066372 0.011308 0.855582
       rotation 0 0 1 -0.105207
       children [
         USE PLANT_LEAVES_SHAPE
       ]
     }
     Transform {
-      translation 0 0.17945 1.0177
+      translation 0.17945 0 1.0177
       rotation 0 0 1 -0.083928
       children [
         USE PLANT_LEAVES_SHAPE
       ]
     }
     Transform {
-      translation -0.039577 -0.01334 1.26242
+      translation -0.01334 -0.039577 1.26242
       rotation 0 0 1 0.268163
       children [
         USE PLANT_LEAVES_SHAPE
       ]
     }
     Transform {
-      translation -0.011308 -0.098329 1.12574
+      translation -0.098329 -0.011308 1.12574
       rotation 0 0 1 0.626288
       children [
         USE PLANT_LEAVES_SHAPE
       ]
     }
     Transform {
-      translation 0.03675 0.019666 0.75627
+      translation 0.019666 0.03675 0.75627
       rotation 0 0 1 0.239743
       children [
         USE PLANT_LEAVES_SHAPE
       ]
     }
     Transform {
-      translation 0 0.176991 0.79892
+      translation 0.176991 0 0.79892
       rotation 0 0 1 0.56673
       children [
         USE PLANT_LEAVES_SHAPE
