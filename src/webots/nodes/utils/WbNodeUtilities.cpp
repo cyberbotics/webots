@@ -1088,17 +1088,6 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     fixBackwardCompatibility(subProto);
 }
 
-WbNode *WbNodeUtilities::findRootProtoNode(WbNode *node) {
-  WbNode *n = node;
-  do {
-    WbProtoModel *proto = n->proto();
-    if (proto)
-      return n;
-    n = n->parentNode();
-  } while (n);
-  return NULL;
-}
-
 bool WbNodeUtilities::isVisible(const WbNode *node) {
   if (node == NULL)
     return false;

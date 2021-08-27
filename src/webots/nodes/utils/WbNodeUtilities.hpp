@@ -123,9 +123,6 @@ namespace WbNodeUtilities {
   // find (innermost) enclosing PROTO if any
   WbProtoModel *findContainingProto(const WbNode *node);
 
-  // find root PROTO node if any
-  WbNode *findRootProtoNode(WbNode *node);
-
   // find the field parent of the target field, i.e. the closest upper field in the tree hierarchy
   WbField *findFieldParent(const WbField *target, bool internal = false);
 
