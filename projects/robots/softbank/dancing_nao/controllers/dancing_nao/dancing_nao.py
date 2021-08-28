@@ -16,7 +16,7 @@
    This demonstrates how to access sensors and actuators"""
 
 from controller import Robot, Keyboard, Motion
-import time
+import time, timedelta
 
 
 class Nao(Robot):
@@ -156,87 +156,47 @@ class Nao(Robot):
         self.loadMotionFiles()
 
     def run(self):
-        self.handWave.setLoop(True)
-        self.handWave.play()
-
+        print("______________________________________")
+        # self.handWave.setLoop(True)
+        # self.handWave.play()
+        
+        # self.handWave.play()
+        
         # self.startMotion(self.backwards)
+        # self.backwards.play()
+        
+        steps = [self.forwards, self.sideStepLeft, self.handWave, self.backwards, self.sideStepRight]
+        
+        steps_two = [self.handWave, self.backwards, self.backwards]
 
-        steps = [self.forwards, self.backwards, self.sideStepLeft, self.sideStepRight]
 
-        prevStep = None
-        i = 0
-        print("H")
-
-        while i < len(steps):
-            print("Inside while loop")
-            if prevStep is None or prevStep.isOver():
-                prevStep = steps[i]
-                self.startMotion(steps[i])
-                i += 1
-
-        print("OUT OF WHILE LOOP")
 
         # until a key is pressed
         key = -1
+        step_count = 0
+        count = 0
+        
         while robot.step(self.timeStep) != -1:
 
-            print("INSIDE OTHER WHILE")
-
-            key = self.keyboard.getKey()
-            if key > 0:
-                break
-
-        while True:
-            key = self.keyboard.getKey()
-
-            if key == Keyboard.LEFT:
-                self.startMotion(self.sideStepLeft)
-            elif key == Keyboard.RIGHT:
-                self.startMotion(self.sideStepRight)
-            elif key == Keyboard.UP:
-                self.startMotion(self.forwards)
-            elif key == Keyboard.DOWN:
-                self.startMotion(self.backwards)
-            elif key == Keyboard.LEFT | Keyboard.SHIFT:
-                self.startMotion(self.turnLeft60)
-            elif key == Keyboard.RIGHT | Keyboard.SHIFT:
-                self.startMotion(self.turnRight60)
-            elif key == ord('A'):
-                self.printAcceleration()
-            elif key == ord('G'):
-                self.printGyro()
-            elif key == ord('S'):
-                self.printGps()
-            elif key == ord('I'):
-                self.printInertialUnit()
-            elif key == ord('F'):
-                self.printFootSensors()
-            elif key == ord('B'):
-                self.printFootBumpers()
-            elif key == ord('U'):
-                self.printUltrasoundSensors()
-            elif key == Keyboard.HOME:
-                self.printCameraImage(self.cameraTop)
-            elif key == Keyboard.END:
-                self.printCameraImage(self.cameraBottom)
-            elif key == Keyboard.PAGEUP:
-                self.setHandsAngle(0.96)
-            elif key == Keyboard.PAGEDOWN:
-                self.setHandsAngle(0.0)
-            elif key == ord('7'):
-                self.setAllLedsColor(0xff0000)  # red
-            elif key == ord('8'):
-                self.setAllLedsColor(0x00ff00)  # green
-            elif key == ord('9'):
-                self.setAllLedsColor(0x0000ff)  # blue
-            elif key == ord('0'):
-                self.setAllLedsColor(0x000000)  # off
-            elif key == ord('H'):
-                self.printHelp()
-
-            if robot.step(self.timeStep) == -1:
-                break
-
+            print("Starting dance number!")
+            steps_two[step_count].play()
+        
+            step_count = step_count + 1
+            count = count + 1
+            
+            print("Step count: ", step_count)
+        
+            if step_count > 2:
+              step_count = 0
+              
+        
+        
+        if steps_two[step_count].isOver():
+            print("\n\n\nDONE\n\n\n")
+              
+                  
+                
+      
 
 # create the Robot instance and run main loop
 robot = Nao()
