@@ -3,13 +3,39 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.7 0.7 0.2 0.75
-  position 1.2 1.6 2.3
-
+  orientation -0.9929600908848725 -0.11562325166927048 0.025720061884264508 0.1718639336118228
+  position -0.04060742782841073 0.518559077465497 5.157656020788127
 }
 TexturedBackground {
+  texture "dawn_cloudy_empty"
 }
 TexturedBackgroundLight {
 }
-RectangleArena {
+E-puck {
+  translation 0.249516 -7.72014e-05 3.46575
+  rotation -0.00031914508136047186 0.9999999307170618 0.00019160451111876797 2.6920535829969783
+  controller "dancing_nao"
+}
+Nao {
+  translation -0.0409534 0.334 3.04693
+  rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+}
+Floor {
+  translation 0 0 -1
+  size 1 10
+  appearance Parquetry {
+    type "light strip"
+    colorOverride 1 0 0
+    IBLStrength 6
+  }
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 1
+  cutOffAngle 1
+  direction 0 0 0
+  intensity 20
+  location 0 2 -11
+  radius 110
+  castShadows TRUE
 }
