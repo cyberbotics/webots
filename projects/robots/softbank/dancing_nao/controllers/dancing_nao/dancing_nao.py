@@ -16,9 +16,10 @@
    This demonstrates how to access sensors and actuators"""
 
 from controller import Robot, Keyboard, Motion
+import time
 
 
-class Nao (Robot):
+class Nao(Robot):
     PHALANX_MAX = 8
 
     # load motion files
@@ -39,7 +40,6 @@ class Nao (Robot):
         # start new motion
         motion.play()
         self.currentlyPlaying = motion
-
 
     def setAllLedsColor(self, rgb):
         # these leds take RGB values
@@ -64,7 +64,6 @@ class Nao (Robot):
             if len(self.lphalanx) > i and self.lphalanx[i] is not None:
                 self.lphalanx[i].setPosition(clampedAngle)
 
-    
     def findAndEnableDevices(self):
         # get the time step of the current world.
         self.timeStep = int(self.getBasicTimeStep())
@@ -160,14 +159,32 @@ class Nao (Robot):
         self.handWave.setLoop(True)
         self.handWave.play()
 
+        # self.startMotion(self.backwards)
+
+        steps = [self.forwards, self.backwards, self.sideStepLeft, self.sideStepRight]
+
+        prevStep = None
+        i = 0
+        print("H")
+
+        while i < len(steps):
+            print("Inside while loop")
+            if prevStep is None or prevStep.isOver():
+                prevStep = steps[i]
+                self.startMotion(steps[i])
+                i += 1
+
+        print("OUT OF WHILE LOOP")
+
         # until a key is pressed
         key = -1
         while robot.step(self.timeStep) != -1:
+
+            print("INSIDE OTHER WHILE")
+
             key = self.keyboard.getKey()
             if key > 0:
                 break
-
-        self.handWave.setLoop(False)
 
         while True:
             key = self.keyboard.getKey()
@@ -224,4 +241,3 @@ class Nao (Robot):
 # create the Robot instance and run main loop
 robot = Nao()
 robot.run()
-
