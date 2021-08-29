@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Example of Python controller for Nao robot.
-   This demonstrates how to access sensors and actuators"""
+"""Adapted from the Example of Python controller for Nao robot.
+
+   This is a demo of dancing nao robots created by Milindi Kodikara and Sheryl Mantik
+   Sound track - Bee Gees' Staying Alive."""
 
 from controller import Robot, Keyboard, Motion
 import time
@@ -28,17 +30,17 @@ class Nao(Robot):
     def loadMotionFiles(self):
         self.stand = (Motion('../../motions/StandUpFromFront.motion'), 4)
         self.handWave = (Motion('../../motions/HandWave.motion'), 2)
-        
+
         self.forwards = (Motion('../../motions/Forwards50.motion'), 2.6)
         self.backwards = (Motion('../../motions/Backwards.motion'), 2.6)
-        
+
         self.sideStepLeft = (Motion('../../motions/SideStepLeft.motion'), 5)
         self.sideStepRight = (Motion('../../motions/SideStepRight.motion'), 5.8)
-        
-        self.turnLeft60 = (Motion('../../motions/TurnLeft60.motion'), 4.6)
-        self.turnRight60 = (Motion('../../motions/TurnRight60.motion'), 4.6)
-        
-        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 9)
+
+        self.turnLeft60 = (Motion('../../motions/TurnLeft60.motion'), 4.8)
+        self.turnRight60 = (Motion('../../motions/TurnRight60.motion'), 4.8)
+
+        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 6)
 
     def startMotion(self, motion):
         # interrupt current motion
@@ -164,59 +166,29 @@ class Nao(Robot):
         self.loadMotionFiles()
 
     def run(self):
-        print("______________________________________")
-     
-        
-        # playsound.playsound('song.mp3', False)
-        
+        print("_________STARTING THE NAO DANCE BY GDSC-RMIT University__________")
+
+        playsound.playsound('song.mp3', False)
+
         self.handWave[0].play()
-        
-        # time.sleep(1)
-        
-        dance_steps = [self.forwards, self.handWave, self.stand,
-        self.backwards, self.turnLeft60, self.turnRight60, 
-        self.sideStepLeft, self.sideStepRight, self.turnLeft180, self.turnLeft180]
-        
+
+        dance_steps = [self.turnLeft180, self.handWave, self.turnLeft60, self.turnLeft60, self.turnLeft60,
+                       self.forwards, self.handWave, self.stand,
+                       self.backwards, self.turnLeft60, self.turnRight60,
+                       self.sideStepLeft, self.sideStepRight]
+
         dance_step_count = 0
-        
+
         for dance_step in dance_steps:
-            
+
             dance_steps[dance_step_count][0].play()
-            
-            # self.handWave.play() 
-            
-            # self.step(1000)
-            # print(self.handWave.isOver())
-            # self.step(1000)
-            # print(self.handWave.isOver())
-            # self.step(1000)
-            # print(self.handWave.isOver())
-            # self.step(1000)
-            # print(self.handWave.isOver())
-            # self.step(1000)
-            # print(self.handWave.isOver())
-            # self.step(1000)
-            # print(self.handWave.isOver())
-            # self.step(1000)
-            # print(self.handWave.isOver())
-            # self.step(1000)
-            # print(self.handWave.isOver())
-            # print("LAST")
-            # self.backwards.play()
-            # self.step(1000)
-            
             finish = datetime.now() + timedelta(seconds=dance_steps[dance_step_count][1])
             while finish > datetime.now():
-                self.step(self.timeStep) 
+                self.step(self.timeStep)
             print("Done")
-            
+
             dance_step_count = dance_step_count + 1
-        
-        # self.backwards.play()
-        # while not self.step(self.timeStep) and not self.backwards.isOver():
-            # pass 
-        # print("Done")
-                         
+
 
 # create the Robot instance and run main loop
 robot = Nao()
