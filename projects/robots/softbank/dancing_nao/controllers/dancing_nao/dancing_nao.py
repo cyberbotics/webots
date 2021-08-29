@@ -159,7 +159,6 @@ class Nao(Robot):
     def run(self):
         print("______________________________________")
         
-        
         dance_steps = [self.handWave, self.backwards, self.backwards, self.forwards]
         
         dance_step_count = 0
