@@ -11,13 +11,8 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-E-puck {
-  translation 0.383319 -7.72014e-05 2.3578
-  rotation -0.00031914508136047186 0.9999999307170618 0.00019160451111876797 2.6920535829969783
-  controller "e-puck"
-}
 Nao {
-  translation -0.0386456 0.334 3.37649
+  translation -0.0322645 0.334 2.50206
   rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
   controller "dancing_nao"
 }

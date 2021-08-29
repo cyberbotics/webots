@@ -2,7 +2,7 @@ from controller import Robot, Motor
 
 TIME_STEP = 64
 
-MAX_SPEED = 10
+MAX_SPEED = 100
 
 # create the Robot instance.
 robot = Robot()

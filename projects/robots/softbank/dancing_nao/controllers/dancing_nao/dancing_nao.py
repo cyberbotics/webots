@@ -26,13 +26,19 @@ class Nao(Robot):
 
     # load motion files
     def loadMotionFiles(self):
-        self.handWave = Motion('../../motions/HandWave.motion')
-        self.forwards = Motion('../../motions/Forwards50.motion')
-        self.backwards = Motion('../../motions/Backwards.motion')
-        self.sideStepLeft = Motion('../../motions/SideStepLeft.motion')
-        self.sideStepRight = Motion('../../motions/SideStepRight.motion')
-        self.turnLeft60 = Motion('../../motions/TurnLeft60.motion')
-        self.turnRight60 = Motion('../../motions/TurnRight60.motion')
+        self.stand = (Motion('../../motions/StandUpFromFront.motion'), 4)
+        self.handWave = (Motion('../../motions/HandWave.motion'), 2)
+        
+        self.forwards = (Motion('../../motions/Forwards50.motion'), 2.6)
+        self.backwards = (Motion('../../motions/Backwards.motion'), 2.6)
+        
+        self.sideStepLeft = (Motion('../../motions/SideStepLeft.motion'), 5)
+        self.sideStepRight = (Motion('../../motions/SideStepRight.motion'), 5.8)
+        
+        self.turnLeft60 = (Motion('../../motions/TurnLeft60.motion'), 4.6)
+        self.turnRight60 = (Motion('../../motions/TurnRight60.motion'), 4.6)
+        
+        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 9)
 
     def startMotion(self, motion):
         # interrupt current motion
@@ -159,19 +165,23 @@ class Nao(Robot):
 
     def run(self):
         print("______________________________________")
+     
         
-        playsound.playsound('song.mp3', False)
+        # playsound.playsound('song.mp3', False)
         
-        time. sleep(2)
+        self.handWave[0].play()
         
+        # time.sleep(1)
         
-        dance_steps = [self.handWave, self.backwards, self.backwards, self.forwards]
+        dance_steps = [self.forwards, self.handWave, self.stand,
+        self.backwards, self.turnLeft60, self.turnRight60, 
+        self.sideStepLeft, self.sideStepRight, self.turnLeft180, self.turnLeft180]
         
         dance_step_count = 0
         
         for dance_step in dance_steps:
             
-            dance_steps[dance_step_count].play()
+            dance_steps[dance_step_count][0].play()
             
             # self.handWave.play() 
             
@@ -195,7 +205,7 @@ class Nao(Robot):
             # self.backwards.play()
             # self.step(1000)
             
-            finish = datetime.now() + timedelta(seconds=3)
+            finish = datetime.now() + timedelta(seconds=dance_steps[dance_step_count][1])
             while finish > datetime.now():
                 self.step(self.timeStep) 
             print("Done")
