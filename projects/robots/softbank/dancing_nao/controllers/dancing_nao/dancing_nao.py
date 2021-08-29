@@ -18,6 +18,7 @@
 from controller import Robot, Keyboard, Motion
 import time
 from datetime import datetime, timedelta
+import playsound
 
 
 class Nao(Robot):
@@ -158,6 +159,11 @@ class Nao(Robot):
 
     def run(self):
         print("______________________________________")
+        
+        playsound.playsound('song.mp3', False)
+        
+        time. sleep(2)
+        
         
         dance_steps = [self.handWave, self.backwards, self.backwards, self.forwards]
         
