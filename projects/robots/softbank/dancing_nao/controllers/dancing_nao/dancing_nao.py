@@ -16,7 +16,8 @@
    This demonstrates how to access sensors and actuators"""
 
 from controller import Robot, Keyboard, Motion
-import time, timedelta
+import time
+from datetime import datetime, timedelta
 
 
 class Nao(Robot):
@@ -157,46 +158,50 @@ class Nao(Robot):
 
     def run(self):
         print("______________________________________")
-        # self.handWave.setLoop(True)
-        # self.handWave.play()
         
-        # self.handWave.play()
         
-        # self.startMotion(self.backwards)
-        # self.backwards.play()
+        dance_steps = [self.handWave, self.backwards, self.backwards, self.forwards]
         
-        steps = [self.forwards, self.sideStepLeft, self.handWave, self.backwards, self.sideStepRight]
+        dance_step_count = 0
         
-        steps_two = [self.handWave, self.backwards, self.backwards]
-
-
-
-        # until a key is pressed
-        key = -1
-        step_count = 0
-        count = 0
-        
-        while robot.step(self.timeStep) != -1:
-
-            print("Starting dance number!")
-            steps_two[step_count].play()
-        
-            step_count = step_count + 1
-            count = count + 1
+        for dance_step in dance_steps:
             
-            print("Step count: ", step_count)
+            dance_steps[dance_step_count].play()
+            
+            # self.handWave.play() 
+            
+            # self.step(1000)
+            # print(self.handWave.isOver())
+            # self.step(1000)
+            # print(self.handWave.isOver())
+            # self.step(1000)
+            # print(self.handWave.isOver())
+            # self.step(1000)
+            # print(self.handWave.isOver())
+            # self.step(1000)
+            # print(self.handWave.isOver())
+            # self.step(1000)
+            # print(self.handWave.isOver())
+            # self.step(1000)
+            # print(self.handWave.isOver())
+            # self.step(1000)
+            # print(self.handWave.isOver())
+            # print("LAST")
+            # self.backwards.play()
+            # self.step(1000)
+            
+            finish = datetime.now() + timedelta(seconds=3)
+            while finish > datetime.now():
+                self.step(self.timeStep) 
+            print("Done")
+            
+            dance_step_count = dance_step_count + 1
         
-            if step_count > 2:
-              step_count = 0
-              
-        
-        
-        if steps_two[step_count].isOver():
-            print("\n\n\nDONE\n\n\n")
-              
-                  
-                
-      
+        # self.backwards.play()
+        # while not self.step(self.timeStep) and not self.backwards.isOver():
+            # pass 
+        # print("Done")
+                         
 
 # create the Robot instance and run main loop
 robot = Nao()
