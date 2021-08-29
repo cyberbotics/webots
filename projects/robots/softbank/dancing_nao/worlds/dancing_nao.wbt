@@ -3,13 +3,14 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.9929600908848725 -0.11562325166927048 0.025720061884264508 0.1718639336118228
+  orientation -0.995536094791085 -0.09357672087683995 0.012299645444225576 0.254294364236987
   position -0.04060742782841073 0.518559077465497 5.157656020788127
 }
 TexturedBackground {
   texture "dawn_cloudy_empty"
 }
 TexturedBackgroundLight {
+  castShadows FALSE
 }
 Nao {
   translation -0.0322645 0.334 2.50206

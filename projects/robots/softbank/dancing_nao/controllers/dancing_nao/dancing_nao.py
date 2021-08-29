@@ -172,8 +172,8 @@ class Nao(Robot):
 
         self.handWave[0].play()
 
-        dance_steps = [self.turnLeft180, self.handWave, self.turnLeft60, self.turnLeft60, self.turnLeft60,
-                       self.forwards, self.handWave, self.stand,
+        dance_steps = [self.turnLeft180, self.handWave, self.turnLeft60, self.turnLeft60, 
+        self.turnLeft60, self.forwards, self.handWave, self.stand,
                        self.backwards, self.turnLeft60, self.turnRight60,
                        self.sideStepLeft, self.sideStepRight]
 
