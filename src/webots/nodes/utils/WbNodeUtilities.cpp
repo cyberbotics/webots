@@ -1077,7 +1077,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       assert(dynamic_cast<WbGroup *>(parent));
 
       WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
-      if (parentTransform) {
+      if (parentTransform && isInBoundingObject(parentTransform)) {
         parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * WbMatrix3(M_PI_2, 0, 0)));
         parentTransform->save("__init__");
       } else {
