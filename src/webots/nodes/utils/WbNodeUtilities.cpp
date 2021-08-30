@@ -28,6 +28,7 @@
 #include "WbCylinder.hpp"
 #include "WbDevice.hpp"
 #include "WbElevationGrid.hpp"
+#include "WbEmitter.hpp"
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
 #include "WbFluid.hpp"
@@ -44,6 +45,7 @@
 #include "WbPositionSensor.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRadar.hpp"
+#include "WbReceiver.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -1044,10 +1046,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // Apply rotations to the candidates.
   for (WbNode *candidate : candidates) {
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
-        dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbPen *>(candidate)) {
+        dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) ||
+        dynamic_cast<WbReceiver *>(candidate)) {
       WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, M_PI_2);
       if (dynamic_cast<WbPen *>(candidate))
         rotationFix = WbMatrix3(-M_PI_2, 0, 0);
+      if (dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate))
+        rotationFix = WbMatrix3(-M_PI_2, 0, -M_PI_2);
 
       // Rotate the device.
       if (candidate != node) {
