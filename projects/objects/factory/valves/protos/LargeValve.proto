@@ -91,7 +91,6 @@ PROTO LargeValve [
             children [
               Transform {
                 translation 0.102 0 -0.0085
-
                 rotation 1 0 0 5.4977871
                 children [
                   Box {
@@ -199,8 +198,8 @@ PROTO LargeValve [
                 ]
               }
               Transform {
-                translation 0.1155 -0.0443522655 -0.080068905
-                rotation 1 0 0 0.6853981AAAAAAQA
+                translation 0.1155 -0.043 -0.085
+                rotation 1 0 0 0.9
                 children [
                   Capsule {
                     height 0.045
@@ -210,8 +209,8 @@ PROTO LargeValve [
                 ]
               }
               Transform {
-                translation 0.1155 -0.08575768 -0.039567281
-                rotation 1 0 0 5.4
+                translation 0.1155 -0.082 -0.045
+                rotation 1 0 0 0.7
                 children [
                   Capsule {
                     height 0.05
@@ -293,8 +292,8 @@ PROTO LargeValve [
                 ]
               }
               Transform {
-                translation 0.1155 0.031 0.078824255
-                rotation 1 0 0 2.44
+                translation 0.1155 0.031 0.075
+                rotation 1 0 0 0.9
                 children [
                   Capsule {
                     height 0.045
