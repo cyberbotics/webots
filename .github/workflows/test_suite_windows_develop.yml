@@ -34,7 +34,7 @@ jobs:
     - name: Install Visual Studio 10 and OpenJDK 8
       shell: powershell
       run: |
-        choco install jdk8
+        choco install jdk16
         choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
@@ -42,7 +42,7 @@ jobs:
         export PYTHON37_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.7\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON38_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.8\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
-        echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_211' >> ~/.bash_profile
+        echo 'export JAVA_HOME=/C/Program\ Files/Java/jdk16.0.2' >> ~/.bash_profile
         echo 'export PYTHON37_HOME='$PYTHON_INSTALLATION_FOLDER'3.7.'$PYTHON37_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON38_HOME='$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON39_HOME='$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64' >> ~/.bash_profile
