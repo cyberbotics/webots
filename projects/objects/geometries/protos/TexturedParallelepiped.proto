@@ -95,7 +95,7 @@ PROTO TexturedParallelepiped [
     }
 
     const parallelogramHeight = halfSize.z * Math.sin(angles.y);
-    const parallelogramHalfOffsetX = halfSize.z * Math.cos(angles.y);
+    const parallelogramHalfOffsetY = halfSize.z * Math.cos(angles.y);
     const prismHalfOffsetX = halfSize.x * Math.cos(angles.x) * Math.cos(angles.z);
     const prismHalfOffsetY = -halfSize.x * Math.sin(angles.x) * Math.cos(angles.z);
     const prismHalfOffsetZ = halfSize.x * Math.sin(angles.z);
@@ -108,7 +108,7 @@ PROTO TexturedParallelepiped [
            for (let j = -1; j <= 1; j = j + 2) {
              for (let i = -1; i <= 1; i = i + 2) {
       >%
-        %<= k * prismHalfOffsetX >% %<= i * halfSize.y + j * parallelogramHalfOffsetX +  k * prismHalfOffsetY >% %<= j * parallelogramHeight + k * prismHalfOffsetZ>% 
+        %<= k * prismHalfOffsetX >% %<= i * halfSize.y + j * parallelogramHalfOffsetY +  k * prismHalfOffsetY >% %<= j * parallelogramHeight + k * prismHalfOffsetZ>%
       %<     }
            }
          }
@@ -142,14 +142,14 @@ PROTO TexturedParallelepiped [
         let u = [];
         let v = [];
         let ratio = {x: 1, y: 1, z: 1};
-        const maxEdge = Math.max(Math.max(halfSize.x + parallelogramHalfOffsetX, parallelogramHeight), halfSize.z);
-        const offsetRatio = parallelogramHalfOffsetX / maxEdge;
+        const maxEdge = Math.max(Math.max(halfSize.y + parallelogramHalfOffsetY, parallelogramHeight), halfSize.x);
+        const offsetRatio = parallelogramHalfOffsetY / maxEdge;
         if (mapping === 'metric') {
-          ratio.x = halfSize.x / maxEdge + offsetRatio;
-          ratio.y = parallelogramHeight / maxEdge;
-          ratio.z = halfSize.z / maxEdge;
-          u = [0, ratio.x, ratio.z, offsetRatio];
-          v = [0, ratio.y, ratio.z];
+          ratio.x = halfSize.x / maxEdge;
+          ratio.y = halfSize.y / maxEdge + offsetRatio;
+          ratio.z = parallelogramHeight / maxEdge;
+          u = [0, ratio.y, ratio.x, offsetRatio];
+          v = [0, ratio.z, ratio.x];
         } else {
           for (let j = 0; j <= rows; ++j)
             v[j] = j/rows;
@@ -170,9 +170,9 @@ PROTO TexturedParallelepiped [
         if (mapping === 'metric') {
       >%
         %<= offsetRatio >% %<= 0 >%
-        %<= halfSize.x / maxEdge >% %<= 0 >%
-        %<= halfSize.x / maxEdge >% %<= ratio.y >%
-        %<= offsetRatio >% %<= ratio.y >%
+        %<= halfSize.y / maxEdge >% %<= 0 >%
+        %<= halfSize.y / maxEdge >% %<= ratio.z >%
+        %<= offsetRatio >% %<= ratio.z >%
       %< } >%
       ]
     }
