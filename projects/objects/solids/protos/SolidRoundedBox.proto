@@ -176,7 +176,7 @@ PROTO SolidRoundedBox [
               ]
             }
             Transform {
-              translation %<= 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
+              translation %<= - 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
               rotation 0 0 1 1.5708
               children [
                 Shape {
@@ -190,7 +190,7 @@ PROTO SolidRoundedBox [
               ]
             }
             Transform {
-              translation %<= - 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
+              translation %<= - 0.5 * innerSize.x >% %<= 0.5 * innerSize.y >% 0
               rotation 0 0 1 1.5708
               children [
                 Shape {
