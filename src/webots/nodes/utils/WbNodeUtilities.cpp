@@ -1051,14 +1051,16 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
         dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) ||
         dynamic_cast<WbReceiver *>(candidate) || dynamic_cast<WbConnector *>(candidate) ||
-        dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate)) {
+        dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate) || dynamic_cast<WbTrack *>(candidate)) {
+      // Choose rotation based on the device type.
       WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, M_PI_2);
-      if (dynamic_cast<WbPen *>(candidate))
+      if (dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbTrack *>(candidate))
         rotationFix = WbMatrix3(-M_PI_2, 0, 0);
       if (dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
           dynamic_cast<WbConnector *>(candidate) || dynamic_cast<WbTouchSensor *>(candidate))
         rotationFix = WbMatrix3(-M_PI_2, 0, -M_PI_2);
 
+      // Rotate the viewpoint (exception).
       if (dynamic_cast<WbViewpoint *>(candidate)) {
         WbViewpoint *const viewpoint = static_cast<WbViewpoint *>(candidate);
         viewpoint->orientation()->setValue(WbRotation(viewpoint->orientation()->value().toMatrix3() * rotationFix));
@@ -1073,7 +1075,12 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       }
 
       // Rotate children of the device back.
-      for (WbNode *child : candidate->subNodes(false, false)) {
+      QList<WbNode *> subNodes = candidate->subNodes(false);
+      WbNode* boundingObject = static_cast<WbSolid *>(candidate)->boundingObject();
+      if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject))
+        subNodes += boundingObject->subNodes(false, false);
+
+      for (WbNode *child : subNodes) {
         WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
         if (childTransform) {
           // Squash transforms if possible.
@@ -1081,6 +1088,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
           childTransform->save("__init__");
         } else {
+          if (dynamic_cast<WbTrack *>(candidate)) continue;
           WbTransform *const transform = new WbTransform();
           transform->setRotation(WbRotation(rotationFix.transposed()));
           transform->save("__init__");
@@ -1114,6 +1122,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     }
   }
 
+  // Convert sub-protos.
   for (WbNode *subProto : subProtos)
     fixBackwardCompatibility(subProto);
 }
