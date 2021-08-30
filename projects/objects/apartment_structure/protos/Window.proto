@@ -81,20 +81,20 @@ PROTO Window [
     children [
       %< if (bottomWallHeight > 0) { >%
         Solid { # bottom wall
-          translation 0 0 %<= 0.5 * bottomWallHeight >% 
+          translation 0 0 %<= 0.5 * bottomWallHeight >%
           children [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %<= size.x >% %<= size.y >% %<= bottomWallHeight >% 
+                size %<= size.x >% %<= size.y >% %<= bottomWallHeight >%
               }
               castShadows IS castShadows
             }
           ]
           name "bottom wall"
           boundingObject Box {
-            size %<= size.x >% %<= size.y >% %<= bottomWallHeight >% 
-          } 
+            size %<= size.x >% %<= size.y >% %<= bottomWallHeight >%
+          }
         }
       %< } >%
       %< let topWallHeight = size.z - bottomWallHeight - windowHeight; >%
@@ -105,21 +105,21 @@ PROTO Window [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %<= size.x >% %<= size.y >% %<= topWallHeight >% 
+                size %<= size.x >% %<= size.y >% %<= topWallHeight >%
               }
               castShadows IS castShadows
             }
           ]
           name "top wall"
           boundingObject Box {
-            size %<= size.x >% %<= size.y >% %<= topWallHeight >% 
+            size %<= size.x >% %<= size.y >% %<= topWallHeight >%
           }
         }
       %< } >%
       SolidBox { # glass
-        translation 0 0 %<= bottomWallHeight + 0.5 * windowHeight >% 
+        translation 0 0 %<= bottomWallHeight + 0.5 * windowHeight >%
         name "glass"
-        size %<= windowThickness >% %<= size.y - 2 * frameSize.y >% %<= windowHeight - 2 * frameSize.z >% 
+        size %<= windowThickness >% %<= size.y - 2 * frameSize.y >% %<= windowHeight - 2 * frameSize.z >%
         appearance PBRAppearance {
           baseColor 0.8 0.8 0.8
           metalness 0
@@ -131,7 +131,7 @@ PROTO Window [
         SolidBox { # window sill
           translation 0 0 %<= bottomWallHeight + windowSillSize.y * 0.5 >%
           name "sill"
-          size %<= 2 * windowSillSize.x + size.x + 2 * frameSize.x >% %<= size.y >%  %<= windowSillSize.y >% 
+          size %<= 2 * windowSillSize.x + size.x + 2 * frameSize.x >% %<= size.y >%  %<= windowSillSize.y >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
@@ -154,14 +154,14 @@ PROTO Window [
         SolidBox { # right frame
           translation 0 %<= 0.5 * size.y - 0.5 * frameSize.y >% %<= bottomWallHeight + 0.5 * windowHeight >%
           name "right frame"
-          size %<= size.x + 2 * frameSize.x >% %<= frameSize.y >%  %<= windowHeight >% 
+          size %<= size.x + 2 * frameSize.x >% %<= frameSize.y >%  %<= windowHeight >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }
         SolidBox { # left frame
           translation 0 %<= -0.5 * size.y + 0.5 * frameSize.y >% %<= bottomWallHeight + 0.5 * windowHeight >%
           name "left frame"
-          size %<= size.x + 2 * frameSize.x >%  %<= frameSize.y >% %<= windowHeight >% 
+          size %<= size.x + 2 * frameSize.x >%  %<= frameSize.y >% %<= windowHeight >%
           appearance IS frameAppearance
           castShadows IS castShadows
         }

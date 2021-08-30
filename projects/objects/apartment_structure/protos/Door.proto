@@ -78,21 +78,21 @@ PROTO Door [
             Shape {
               appearance IS wallAppearance
               geometry Box {
-                size %<= size.x >% %<= size.y >% %<= topWallHeight >% 
+                size %<= size.x >% %<= size.y >% %<= topWallHeight >%
               }
               castShadows IS castShadows
             }
           ]
           name "mobile part"
           boundingObject Box {
-            size %<= size.x >% %<= size.y >% %<= topWallHeight >% 
+            size %<= size.x >% %<= size.y >% %<= topWallHeight >%
           }
         }
       %< } >%
       SolidBox { # top frame
         translation 0 0 %<= frameHeight - 0.5 * frameSize.z >%
         name "top frame"
-        size %<= 2 * frameSize.x + size.x >% %<= size.y - 2 * frameSize.y >% %<= frameSize.z >% 
+        size %<= 2 * frameSize.x + size.x >% %<= size.y - 2 * frameSize.y >% %<= frameSize.z >%
         appearance IS frameAppearance
         castShadows IS castShadows
       }
@@ -135,7 +135,6 @@ PROTO Door [
             children [
               Transform { # door
                 translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
-                rotation 0 0 1 -1.5708
                 children [
                   Shape {
                     appearance IS doorAppearance

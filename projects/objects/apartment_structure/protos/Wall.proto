@@ -24,7 +24,7 @@ PROTO Wall [
     rotation IS rotation
     children [
       Solid {
-        translation 0 0 %<= 0.5 * size.z >% 
+        translation 0 0 %<= 0.5 * size.z >%
         children [
           Shape {
             appearance IS appearance
