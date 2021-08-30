@@ -25,6 +25,7 @@
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
 #include "WbCone.hpp"
+#include "WbConnector.hpp"
 #include "WbCylinder.hpp"
 #include "WbDevice.hpp"
 #include "WbElevationGrid.hpp"
@@ -54,8 +55,10 @@
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
 #include "WbTokenizer.hpp"
+#include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
 #include "WbVersion.hpp"
+#include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QQueue>
@@ -1047,12 +1050,20 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   for (WbNode *candidate : candidates) {
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
         dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) ||
-        dynamic_cast<WbReceiver *>(candidate)) {
+        dynamic_cast<WbReceiver *>(candidate) || dynamic_cast<WbConnector *>(candidate) ||
+        dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate)) {
       WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, M_PI_2);
       if (dynamic_cast<WbPen *>(candidate))
         rotationFix = WbMatrix3(-M_PI_2, 0, 0);
-      if (dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate))
+      if (dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
+          dynamic_cast<WbConnector *>(candidate) || dynamic_cast<WbTouchSensor *>(candidate))
         rotationFix = WbMatrix3(-M_PI_2, 0, -M_PI_2);
+
+      if (dynamic_cast<WbViewpoint *>(candidate)) {
+        WbViewpoint *const viewpoint = static_cast<WbViewpoint *>(candidate);
+        viewpoint->orientation()->setValue(WbRotation(viewpoint->orientation()->value().toMatrix3() * rotationFix));
+        continue;
+      }
 
       // Rotate the device.
       if (candidate != node) {
