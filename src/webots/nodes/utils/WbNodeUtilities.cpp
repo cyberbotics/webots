@@ -57,6 +57,7 @@
 #include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
+#include "WbTrackWheel.hpp"
 #include "WbVersion.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -1051,7 +1052,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
         dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) ||
         dynamic_cast<WbReceiver *>(candidate) || dynamic_cast<WbConnector *>(candidate) ||
-        dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate) || dynamic_cast<WbTrack *>(candidate)) {
+        dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate) ||
+        dynamic_cast<WbTrack *>(candidate)) {
       // Choose rotation based on the device type.
       WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, M_PI_2);
       if (dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbTrack *>(candidate))
@@ -1075,8 +1077,16 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       }
 
       // Rotate children of the device back.
-      QList<WbNode *> subNodes = candidate->subNodes(false);
-      WbNode* boundingObject = static_cast<WbSolid *>(candidate)->boundingObject();
+      const WbGroup* const candidateGroup = static_cast<WbGroup *>(candidate);
+      QList<WbNode *> subNodes;
+      for (int i = 0; i < candidateGroup->childCount(); i++)
+        subNodes.append(candidateGroup->child(i));
+      WbNode *boundingObject = static_cast<WbSolid *>(candidate)->boundingObject();
+      for (WbNode *subNode : subNodes)
+        if (dynamic_cast<WbTrackWheel *>(subNode)) {
+          subNodes += subNode->subNodes(false, false);
+          assert(subNodes.removeAll(subNode) == 1);
+        }
       if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject))
         subNodes += boundingObject->subNodes(false, false);
 
@@ -1107,7 +1117,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       assert(dynamic_cast<WbGroup *>(parent));
 
       WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
-      if (parentTransform && parentTransform->subNodes(false).size() == 1) {
+      if (parentTransform && parentTransform->subNodes(false, false).size() == 1) {
         // Squash transforms if possible.
         parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * rotationFix));
         parentTransform->save("__init__");
