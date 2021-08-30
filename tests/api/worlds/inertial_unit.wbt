@@ -12,6 +12,7 @@ Background {
   ]
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 DirectionalLight {
   ambientIntensity 1

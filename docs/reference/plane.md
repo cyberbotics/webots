@@ -23,3 +23,5 @@ Note that a [Plane](#plane) node is in fact not really a plane: it's a half-spac
 Anything that is moving inside the half-space will be ejected out of it.
 This means that planes are only planes from the perspective of one side.
 If you want your plane to be reversed, rotate it by &pi; using a [Transform](transform.md) node.
+
+When a texture is applied to the plane, the texture is mapped onto the plane (seen from above) with the same orientation as if the image was displayed normally in 2D (along the *x* and *y* axis).

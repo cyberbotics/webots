@@ -39,4 +39,4 @@ When a texture is mapped to a capsule, the texture map is vertically divided in 
 The top part is mapped to the capsule's top.
 The middle part is mapped to the capsule's side (body).
 The bottom part is mapped to the capsule's bottom.
-On each part, the texture wraps counterclockwise (seen from above) starting from the intersection with the *z*- and negative *y*-plane.
+On each part, the texture wraps counterclockwise (seen from above) starting from the intersection with the *z*- and positive *y*-plane.

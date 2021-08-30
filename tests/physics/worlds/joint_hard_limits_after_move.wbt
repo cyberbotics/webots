@@ -15,6 +15,7 @@ DirectionalLight {
   direction 0 -1 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 Robot {
   translation 0 1.05 0

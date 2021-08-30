@@ -2,7 +2,7 @@
 
 ## Armchair
 
-An armchair (1 x 0.8 x 1.1 m).
+An armchair (1 x 1.1 x 0.8 m).
 
 %figure
 
@@ -36,7 +36,7 @@ Armchair {
 
 ## Carpet
 
-A carpet (2.4 x 0.02 x 1.6 m).
+A carpet (2.4 x 1.6 x 0.02 m).
 
 %figure
 
@@ -66,7 +66,7 @@ Carpet {
 
 ## Sofa
 
-A sofa for two people (1 x 0.8 x 1.8 m).
+A sofa for two people (1 x 1.8 x 0.8 m).
 
 %figure
 
