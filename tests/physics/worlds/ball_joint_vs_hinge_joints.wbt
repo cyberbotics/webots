@@ -11,6 +11,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 1 0 0 -1.5708
   translation 0 -3.469446951953614e-18 0
 }
 DEF BALL_JOINT_ROBOT Robot {

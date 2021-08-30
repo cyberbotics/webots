@@ -18,6 +18,7 @@ PointLight {
 TestSuiteSupervisor {
 }
 RectangleArena {
+  rotation 1 0 0 -1.5708
   floorSize 2 2
 }
 Robot {
