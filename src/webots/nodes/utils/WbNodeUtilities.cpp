@@ -1029,7 +1029,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   queue.enqueue(node);
   candidates.append(node);
   while (!queue.isEmpty()) {
-    WbNode *n = queue.dequeue();
+    const WbNode *const n = queue.dequeue();
     for (WbNode *child : n->subNodes(false, true)) {
       if (!child->proto()) {
         queue.append(child);
@@ -1060,7 +1060,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             childTransform->setRotation(WbRotation(rotationFix.transposed() * childTransform->rotation().toMatrix3()));
             childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
           } else {
-            WbTransform * const transform = new WbTransform();
+            WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
             static_cast<WbGroup *>(candidate)->removeChild(child);
