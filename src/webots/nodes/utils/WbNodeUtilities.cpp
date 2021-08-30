@@ -1018,7 +1018,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     return;
   if (node->proto() && node->proto()->fileVersion() > WbVersion(2021, 1, 1))
     return;
-  const WbNode *protoAncestor = findRootProtoNode(node);
+  const WbNode *const protoAncestor = findRootProtoNode(node);
   if (!node->proto() && protoAncestor && protoAncestor->proto()->fileVersion() > WbVersion(2021, 1, 1))
     return;
 
@@ -1045,7 +1045,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate)) {
       // Rotate the device.
       if (candidate != node) {
-        WbTransform *device = static_cast<WbTransform *>(candidate);
+        WbTransform *const device = static_cast<WbTransform *>(candidate);
         device->setRotation(WbRotation(device->rotation().toMatrix3() * WbMatrix3(-M_PI_2, 0, M_PI_2)));
         device->save("__init__");
       }
@@ -1054,13 +1054,12 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       if (candidate->subNodes(false).size() > 0) {
         continue;
         for (WbNode *child : candidate->subNodes(false)) {
-          WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
+          WbTransform *const childTransform = dynamic_cast<WbTransform *>(child);
           if (childTransform) {
             childTransform->setRotation(WbRotation(childTransform->rotation().toMatrix3() * WbMatrix3(-M_PI_2, 0, M_PI_2)));
             childTransform->setTranslation(WbMatrix3(-M_PI_2, 0, M_PI_2) * childTransform->translation());
-          }
-          else {
-            WbTransform *transform = new WbTransform();
+          } else {
+            WbTransform * const transform = new WbTransform();
             transform->setRotation(WbRotation(WbMatrix3(-M_PI_2, 0, M_PI_2)));
             transform->save("__init__");
             static_cast<WbGroup *>(candidate)->removeChild(child);
@@ -1072,17 +1071,17 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
                dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
                dynamic_cast<WbElevationGrid *>(candidate)) {
-      WbNode *nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
+      WbNode *const nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
 
-      WbNode *parent = nodeToRotate->parentNode();
+      WbNode *const parent = nodeToRotate->parentNode();
       assert(dynamic_cast<WbGroup *>(parent));
 
-      if (dynamic_cast<WbTransform *>(parent)) {
-        WbTransform *parentTransform = dynamic_cast<WbTransform *>(parent);
+      WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
+      if (parentTransform) {
         parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * WbMatrix3(M_PI_2, 0, 0)));
         parentTransform->save("__init__");
       } else {
-        WbTransform *transform = new WbTransform();
+        WbTransform *const transform = new WbTransform();
         static_cast<WbGroup *>(parent)->removeChild(nodeToRotate);
         transform->addChild(nodeToRotate);
         static_cast<WbGroup *>(parent)->addChild(transform);
@@ -1096,7 +1095,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     fixBackwardCompatibility(subProto);
 }
 
-WbNode *WbNodeUtilities::findRootProtoNode(WbNode *node) {
+WbNode *WbNodeUtilities::findRootProtoNode(WbNode *const node) {
   WbNode *n = node;
   do {
     WbProtoModel *proto = n->proto();
