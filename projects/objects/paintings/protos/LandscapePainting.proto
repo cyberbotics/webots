@@ -48,7 +48,7 @@ Solid {
   name IS name
   model "landscape painting"
   boundingObject Box {
-    size  0.05 1.5 1
+    size 0.05 1.5 1
   }
 }
 }
