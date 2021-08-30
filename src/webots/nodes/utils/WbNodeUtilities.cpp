@@ -39,6 +39,7 @@
 #include "WbLogicalDevice.hpp"
 #include "WbMFNode.hpp"
 #include "WbNodeReader.hpp"
+#include "WbPen.hpp"
 #include "WbPlane.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbProtoModel.hpp"
@@ -1043,8 +1044,10 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // Apply rotations to the candidates.
   for (WbNode *candidate : candidates) {
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
-        dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbTrack *>(candidate)) {
+        dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbPen *>(candidate)) {
       WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, M_PI_2);
+      if (dynamic_cast<WbPen *>(candidate))
+        rotationFix = WbMatrix3(-M_PI_2, 0, 0);
 
       // Rotate the device.
       if (candidate != node) {
@@ -1054,22 +1057,20 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       }
 
       // Rotate children of the device back.
-      if (candidate->subNodes(false).size() > 0) {
-        for (WbNode *child : candidate->subNodes(false)) {
-          WbTransform *const childTransform = dynamic_cast<WbTransform *>(child);
-          if (childTransform) {
-            // Squash transforms if possible.
-            childTransform->setRotation(WbRotation(rotationFix.transposed() * childTransform->rotation().toMatrix3()));
-            childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
-            childTransform->save("__init__");
-          } else {
-            WbTransform *const transform = new WbTransform();
-            transform->setRotation(WbRotation(rotationFix.transposed()));
-            transform->save("__init__");
-            static_cast<WbGroup *>(candidate)->removeChild(child);
-            transform->addChild(child);
-            static_cast<WbGroup *>(candidate)->addChild(transform);
-          }
+      for (WbNode *child : candidate->subNodes(false, false)) {
+        WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
+        if (childTransform) {
+          // Squash transforms if possible.
+          childTransform->setRotation(WbRotation(rotationFix.transposed() * childTransform->rotation().toMatrix3()));
+          childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
+          childTransform->save("__init__");
+        } else {
+          WbTransform *const transform = new WbTransform();
+          transform->setRotation(WbRotation(rotationFix.transposed()));
+          transform->save("__init__");
+          static_cast<WbGroup *>(candidate)->removeChild(child);
+          transform->addChild(child);
+          static_cast<WbGroup *>(candidate)->addChild(transform);
         }
       }
     } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
