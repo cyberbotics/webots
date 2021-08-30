@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable parallelepiped.
 # The `size` and `angles` fields specify the edges and angles of the parallelepiped:
-# - `angles.x`: angle in z direction between front and back faces of the prism
+# - `angles.x`: angle in y direction between front and back faces of the prism
 # - `angles.y`: angle between base and side edges of the parallelogram face
 # - `angles.z`: angle in x direction between front and back faces of the prism
 # Available texture mappings:
@@ -70,16 +70,16 @@ PROTO TexturedParallelepiped [
     let angles = fields.angles.value;
 
     // normalize angles
-    while (angles.x > Math.PI)
-      angles.x = angles.x - Math.PI;
-    while (angles.x < 0)
-      angles.x = angles.x + Math.PI;
+    while (angles.y > Math.PI)
+      angles.y = angles.y - Math.PI;
+    while (angles.y < 0)
+      angles.y = angles.y + Math.PI;
 
     const halfPi = 0.5 * Math.PI;
-    while (angles.y > halfPi)
-      angles.y = angles.y - Math.PI;
-    while (angles.y < -halfPi)
-      angles.y = angles.y + Math.PI;
+    while (angles.x > halfPi)
+      angles.x = angles.x - Math.PI;
+    while (angles.x < -halfPi)
+      angles.x = angles.x + Math.PI;
 
     while (angles.z > halfPi)
       angles.z = angles.z - Math.PI;

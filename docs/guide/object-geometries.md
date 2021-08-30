@@ -141,9 +141,10 @@ TexturedBox {
 
 Customizable parallelepiped.
 The `size` and `angles` fields specify the edges and angles of the parallelepiped:
-- `angles.x`: angle between base and side edges of the parallelogram face
-- `angles.y`: angle in y direction between front and back faces of the prism
+- `angles.x`: angle in y direction between front and back faces of the prism
+- `angles.y`: angle between base and side edges of the parallelogram face
 - `angles.z`: angle in x direction between front and back faces of the prism
+
 Available texture mappings:
 - `cube` mapping: see texture at projects/samples/geometries/worlds/textures/cube\_mapping.jpg
 - `compact` cube mapping: see texture at projects/samples/geometries/worlds/textures/compact\_mapping.jpg
