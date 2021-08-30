@@ -19,7 +19,7 @@
 
 PROTO TexturedParallelepiped [
   field SFVec3f  size    0.1 0.1 0.1     # Defines the size of the parallelepiped.
-  field SFVec3f  angles  0.7854 0.0 0.0  # Defines the angles of the parallelepiped.
+  field SFVec3f  angles  0.0 0.7854 0.0  # Defines the angles of the parallelepiped.
   field SFString{"cube", "compact", "flat", "metric", "default", "none"}
                  mapping "flat"          # Defines the texture mapping.
   field SFBool   front   TRUE            # Defines whether the front face should be included.
@@ -86,19 +86,19 @@ PROTO TexturedParallelepiped [
     while (angles.z < -halfPi)
       angles.z = angles.z + Math.PI;
 
-    if (angles.x < angleThreshold || angles.x > (Math.PI - angleThreshold)) {
+    if (angles.y < angleThreshold || angles.y > (Math.PI - angleThreshold)) {
       angles = fields.angles.defaultValue;
-      console.error('\'angles.x\' cannot be 0. Value reset to ' + angles + '.');
-    } else if (Math.abs(angles.y) > (halfPi - angleThreshold) || Math.abs(angles.z) > (halfPi - angleThreshold)) {
+      console.error('\'angles.y\' cannot be 0. Value reset to ' + angles + '.');
+    } else if (Math.abs(angles.x) > (halfPi - angleThreshold) || Math.abs(angles.z) > (halfPi - angleThreshold)) {
       angles = fields.angles.defaultValue
-      console.error('\'angles.y\' and \'angles.z\' cannot be PI/2 or -PI/2. Using default value instead.');
+      console.error('\'angles.x\' and \'angles.z\' cannot be PI/2 or -PI/2. Using default value instead.');
     }
 
-    const parallelogramHeight = halfSize.z * Math.sin(angles.x);
-    const parallelogramHalfOffsetX = halfSize.z * Math.cos(angles.x);
-    const prismHalfOffsetX = halfSize.y * Math.sin(angles.y) * Math.cos(angles.z);
-    const prismHalfOffsetY = -halfSize.y * Math.cos(angles.y) * Math.cos(angles.z);
-    const prismHalfOffsetZ = halfSize.y * Math.sin(angles.z);
+    const parallelogramHeight = halfSize.z * Math.sin(angles.y);
+    const parallelogramHalfOffsetX = halfSize.z * Math.cos(angles.y);
+    const prismHalfOffsetX = halfSize.x * Math.cos(angles.x) * Math.cos(angles.z);
+    const prismHalfOffsetY = -halfSize.x * Math.sin(angles.x) * Math.cos(angles.z);
+    const prismHalfOffsetZ = halfSize.x * Math.sin(angles.z);
   >%
 
   IndexedFaceSet {
@@ -108,7 +108,7 @@ PROTO TexturedParallelepiped [
            for (let j = -1; j <= 1; j = j + 2) {
              for (let i = -1; i <= 1; i = i + 2) {
       >%
-        %<= -k * prismHalfOffsetY >% %<= i * halfSize.x + j * parallelogramHalfOffsetX + k * prismHalfOffsetX >% %<= j * parallelogramHeight + k * prismHalfOffsetZ >%
+        %<= k * prismHalfOffsetX >% %<= i * halfSize.y + j * parallelogramHalfOffsetX +  k * prismHalfOffsetY >% %<= j * parallelogramHeight + k * prismHalfOffsetZ>% 
       %<     }
            }
          }
