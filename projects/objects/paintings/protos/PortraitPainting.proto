@@ -9,7 +9,8 @@ PROTO PortraitPainting [
   field SFString   name        "portrait painting"
   field SFColor    color       1 1 1                             # Defines the color of the painting.
   field MFString   textureUrl  "webots://projects/objects/paintings/protos/textures/portrait_painting.jpg"  # Defines the texure used for the painting.
-] {
+]
+{
 Solid {
   translation IS translation
   rotation IS rotation
