@@ -295,7 +295,7 @@ SquareManhole {
   SFVec3f    translation           0 0 0
   SFRotation rotation              0 0 1 0
   SFString   name                  "manhole"
-  SFVec3f    size                  1 0.1 1
+  SFVec3f    size                  1 1 0.1
   SFBool     enableBoundingObject  TRUE
 }
 ```
@@ -714,7 +714,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Hammer {
-  SFVec3f    translation     0 0.014 0
+  SFVec3f    translation     0 0 0.014
   SFRotation rotation        0 0 1 0
   SFString   name            "hammer"
   SFString   contactMaterial "default"
