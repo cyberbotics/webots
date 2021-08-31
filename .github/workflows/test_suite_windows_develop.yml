@@ -28,7 +28,7 @@ jobs:
       run: Get-PsDrive
     - uses: msys2/setup-msys2@v2
       with:
-        update: true
+        update: false
         install: >-
           git
           openssh
