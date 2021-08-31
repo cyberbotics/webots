@@ -38,16 +38,16 @@ class Nao(Robot):
         self.backwards = (Motion('../../motions/Backwards.motion'), 2)
 
         self.sideStepLeft = (Motion('../../motions/SideStepLeft.motion'), 5)
-        self.sideStepLeft4 = (Motion('../../motions/SideStepLeft.motion'), 4.2)
+        self.sideStepLeft4 = (Motion('../../motions/SideStepLeft.motion'), 3.5)
         self.sideStepRight = (Motion('../../motions/SideStepRight.motion'), 3.5)
 
         self.turnLeft60 = (Motion('../../motions/TurnLeft60.motion'), 4.6)
         self.turnRight60 = (Motion('../../motions/TurnRight60.motion'), 4.8)
         
-        self.turnRight40 = (Motion('../../motions/TurnRight40.motion'), 4.5)
-        self.turnLeft40 = (Motion('../../motions/TurnLeft40.motion'), 4.5)
+        self.turnRight40 = (Motion('../../motions/TurnRight40.motion'), 3)
+        self.turnLeft40 = (Motion('../../motions/TurnLeft40.motion'), 3)
 
-        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 8)
+        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 6.8)
         
         self.shoot = (Motion('../../motions/Shoot.motion'), 4)
 
@@ -56,7 +56,7 @@ class Nao(Robot):
         
         self.handDown = (Motion('../../motions/HandDown.motion'), 4)
         self.handsUp = (Motion('../../motions/HandsUp.motion'), 2)
-        self.handsUpNoWiggle = (Motion('../../motions/HandsUpNoWiggle.motion'), 2)
+        self.handsUpNoWiggle = (Motion('../../motions/HandsUpNoWiggle.motion'), 2.4)
         
     def startMotion(self, motion):
         # interrupt current motion
@@ -196,23 +196,21 @@ class Nao(Robot):
 
 
         self.handWave[0].play()
-        # dance_steps = [self.turnLeft180, self.handWave, self.turnLeft60, self.turnLeft60, 
-        # self.turnLeft60, self.forwards, self.handWave, self.stand,
-                       # self.backwards, self.turnLeft60, self.turnRight60,
-                       # self.sideStepLeft, self.sideStepRight]
                        
         dance_steps = [self.forwards50, self.forwards50, self.forwards50, self.forwards, 
         self.handWave,
         self.sideStepLeft, 
         self.backwards, self.backwards, self.handsUp, self.forwards50, self.forwards50,
         self.sideStepRight, self.handWave, self.sideStepLeft4, self.handWaveLeft, 
-        self.turnLeft60, self.handsUp, self.turnLeft60, 
-        self.turnLeft60, self.backwards, self.backwards, self.turnLeft180, self.handsUpNoWiggle, self.handWave,
+        self.turnLeft40, self.handsUp, self.turnLeft40, self.turnLeft40,
+        self.turnLeft60, self.backwards, self.backwards, self.turnLeft60, self.turnLeft60,
+        self.turnLeft60, self.handsUpNoWiggle,
+        self.sideStepRight,
+        self.forwards50, self.handWave, self.forwards50, self.forwards50, 
         self.forwards50]   
                  
-        fall = [self.stand, self.handsUp]
+        fall = [self.stand, self.turnLeft40, self.handsUp]
                        
-
         dance_step_count = 0
         fall_count = 0
 
@@ -237,10 +235,8 @@ class Nao(Robot):
             while finish > datetime.now():
                 self.step(self.timeStep)
 
-            fall_count = fall_count + 1
-        
-        
-        
+            fall_count = fall_count + 1        
+                
         
 # create the Robot instance and run main loop
 robot = Nao()
