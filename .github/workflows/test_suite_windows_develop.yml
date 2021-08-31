@@ -34,6 +34,7 @@ jobs:
     - name: Install Visual Studio 10 and OpenJDK 16
       shell: powershell
       run: |
+        Get-PSDrive
         choco install openjdk
         choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
