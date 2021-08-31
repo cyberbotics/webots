@@ -14,8 +14,8 @@
 
 """Adapted from the Example of Python controller for Nao robot.
 
-   This is a demo of dancing nao robots created by Milindi Kodikara
-   Sound track - Bee Gees' Staying Alive."""
+   This is a demo of dancing nao robots created by Milindi Kodikara and Sheryl Mantik
+   Sound track - Bee Gees' Staying Alive"""
 
 from controller import Robot, Keyboard, Motion
 import time
@@ -43,21 +43,21 @@ class Nao(Robot):
 
         self.turnLeft60 = (Motion('../../motions/TurnLeft60.motion'), 4.6)
         self.turnRight60 = (Motion('../../motions/TurnRight60.motion'), 4.8)
-        
+
         self.turnRight40 = (Motion('../../motions/TurnRight40.motion'), 3)
         self.turnLeft40 = (Motion('../../motions/TurnLeft40.motion'), 3)
 
         self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 6.8)
-        
+
         self.shoot = (Motion('../../motions/Shoot.motion'), 4)
 
         self.handHighRight = (Motion('../../motions/HandHighRight.motion'), 0.5)
         self.handHighLeft = (Motion('../../motions/HandHighLeft.motion'), 0.5)
-        
+
         self.handDown = (Motion('../../motions/HandDown.motion'), 4)
         self.handsUp = (Motion('../../motions/HandsUp.motion'), 2)
         self.handsUpNoWiggle = (Motion('../../motions/HandsUpNoWiggle.motion'), 2.4)
-        
+
     def startMotion(self, motion):
         # interrupt current motion
         if self.currentlyPlaying:
@@ -183,34 +183,33 @@ class Nao(Robot):
 
     def run(self):
         print("_________STARTING THE NAO DANCE BY GDSC-RMIT University__________")
-        
+
         # Play music using pygame
-        
+
         mixer.init()
 
         mixer.music.load('song.mp3')
 
-        mixer.music.play() 
+        mixer.music.play()
 
         time.sleep(1.5)
 
-
         self.handWave[0].play()
-                       
-        dance_steps = [self.forwards50, self.forwards50, self.forwards50, self.forwards, 
-        self.handWave,
-        self.sideStepLeft, 
-        self.backwards, self.backwards, self.handsUp, self.forwards50, self.forwards50,
-        self.sideStepRight, self.handWave, self.sideStepLeft4, self.handWaveLeft, 
-        self.turnLeft40, self.handsUp, self.turnLeft40, self.turnLeft40,
-        self.turnLeft60, self.backwards, self.backwards, self.turnLeft60, self.turnLeft60,
-        self.turnLeft60, self.handsUpNoWiggle,
-        self.sideStepRight,
-        self.forwards50, self.handWave, self.forwards50, self.forwards50, 
-        self.forwards50]   
-                 
+
+        dance_steps = [self.forwards50, self.forwards50, self.forwards50, self.forwards,
+                       self.handWave,
+                       self.sideStepLeft,
+                       self.backwards, self.backwards, self.handsUp, self.forwards50, self.forwards50,
+                       self.sideStepRight, self.handWave, self.sideStepLeft4, self.handWaveLeft,
+                       self.turnLeft40, self.handsUp, self.turnLeft40, self.turnLeft40,
+                       self.turnLeft60, self.backwards, self.backwards, self.turnLeft60, self.turnLeft60,
+                       self.turnLeft60, self.handsUpNoWiggle,
+                       self.sideStepRight,
+                       self.forwards50, self.handWave, self.forwards50, self.forwards50,
+                       self.forwards50]
+
         fall = [self.stand, self.turnLeft40, self.handsUp]
-                       
+
         dance_step_count = 0
         fall_count = 0
 
@@ -222,12 +221,11 @@ class Nao(Robot):
                 self.step(self.timeStep)
 
             dance_step_count = dance_step_count + 1
-              
-        
+
         mixer.music.stop()
-        
+
         playsound.playsound('tape.mp3', False)
-        
+
         for fall_step in fall:
 
             fall[fall_count][0].play()
@@ -235,9 +233,10 @@ class Nao(Robot):
             while finish > datetime.now():
                 self.step(self.timeStep)
 
-            fall_count = fall_count + 1        
-                
-        
-# create the Robot instance and run main loop
+            fall_count = fall_count + 1
+
+        # create the Robot instance and run main loop
+
+
 robot = Nao()
 robot.run()
