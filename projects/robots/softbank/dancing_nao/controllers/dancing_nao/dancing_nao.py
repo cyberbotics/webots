@@ -14,13 +14,14 @@
 
 """Adapted from the Example of Python controller for Nao robot.
 
-   This is a demo of dancing nao robots created by Milindi Kodikara and Sheryl Mantik
+   This is a demo of dancing nao robots created by Milindi Kodikara
    Sound track - Bee Gees' Staying Alive."""
 
 from controller import Robot, Keyboard, Motion
 import time
 from datetime import datetime, timedelta
 import playsound
+from pygame import mixer
 
 
 class Nao(Robot):
@@ -28,20 +29,35 @@ class Nao(Robot):
 
     # load motion files
     def loadMotionFiles(self):
-        self.stand = (Motion('../../motions/StandUpFromFront.motion'), 4)
+        self.stand = (Motion('../../motions/StandUpFromFront.motion'), 4.2)
         self.handWave = (Motion('../../motions/HandWave.motion'), 2)
+        self.handWaveLeft = (Motion('../../motions/HandWaveLeft.motion'), 2)
 
-        self.forwards = (Motion('../../motions/Forwards50.motion'), 2.6)
-        self.backwards = (Motion('../../motions/Backwards.motion'), 2.6)
+        self.forwards50 = (Motion('../../motions/Forwards50.motion'), 2.8)
+        self.forwards = (Motion('../../motions/Forwards.motion'), 2.8)
+        self.backwards = (Motion('../../motions/Backwards.motion'), 2)
 
         self.sideStepLeft = (Motion('../../motions/SideStepLeft.motion'), 5)
-        self.sideStepRight = (Motion('../../motions/SideStepRight.motion'), 5.8)
+        self.sideStepLeft4 = (Motion('../../motions/SideStepLeft.motion'), 4.2)
+        self.sideStepRight = (Motion('../../motions/SideStepRight.motion'), 3.5)
 
-        self.turnLeft60 = (Motion('../../motions/TurnLeft60.motion'), 4.8)
+        self.turnLeft60 = (Motion('../../motions/TurnLeft60.motion'), 4.6)
         self.turnRight60 = (Motion('../../motions/TurnRight60.motion'), 4.8)
+        
+        self.turnRight40 = (Motion('../../motions/TurnRight40.motion'), 4.5)
+        self.turnLeft40 = (Motion('../../motions/TurnLeft40.motion'), 4.5)
 
-        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 6)
+        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 8)
+        
+        self.shoot = (Motion('../../motions/Shoot.motion'), 4)
 
+        self.handHighRight = (Motion('../../motions/HandHighRight.motion'), 0.5)
+        self.handHighLeft = (Motion('../../motions/HandHighLeft.motion'), 0.5)
+        
+        self.handDown = (Motion('../../motions/HandDown.motion'), 4)
+        self.handsUp = (Motion('../../motions/HandsUp.motion'), 2)
+        self.handsUpNoWiggle = (Motion('../../motions/HandsUpNoWiggle.motion'), 2)
+        
     def startMotion(self, motion):
         # interrupt current motion
         if self.currentlyPlaying:
@@ -167,17 +183,38 @@ class Nao(Robot):
 
     def run(self):
         print("_________STARTING THE NAO DANCE BY GDSC-RMIT University__________")
+        
+        # Play music using pygame
+        
+        mixer.init()
 
-        playsound.playsound('song.mp3', False)
+        mixer.music.load('song.mp3')
+
+        mixer.music.play() 
+
+        time.sleep(1.5)
+
 
         self.handWave[0].play()
-
-        dance_steps = [self.turnLeft180, self.handWave, self.turnLeft60, self.turnLeft60, 
-        self.turnLeft60, self.forwards, self.handWave, self.stand,
-                       self.backwards, self.turnLeft60, self.turnRight60,
-                       self.sideStepLeft, self.sideStepRight]
+        # dance_steps = [self.turnLeft180, self.handWave, self.turnLeft60, self.turnLeft60, 
+        # self.turnLeft60, self.forwards, self.handWave, self.stand,
+                       # self.backwards, self.turnLeft60, self.turnRight60,
+                       # self.sideStepLeft, self.sideStepRight]
+                       
+        dance_steps = [self.forwards50, self.forwards50, self.forwards50, self.forwards, 
+        self.handWave,
+        self.sideStepLeft, 
+        self.backwards, self.backwards, self.handsUp, self.forwards50, self.forwards50,
+        self.sideStepRight, self.handWave, self.sideStepLeft4, self.handWaveLeft, 
+        self.turnLeft60, self.handsUp, self.turnLeft60, 
+        self.turnLeft60, self.backwards, self.backwards, self.turnLeft180, self.handsUpNoWiggle, self.handWave,
+        self.forwards50]   
+                 
+        fall = [self.stand, self.handsUp]
+                       
 
         dance_step_count = 0
+        fall_count = 0
 
         for dance_step in dance_steps:
 
@@ -185,11 +222,26 @@ class Nao(Robot):
             finish = datetime.now() + timedelta(seconds=dance_steps[dance_step_count][1])
             while finish > datetime.now():
                 self.step(self.timeStep)
-            print("Done")
 
             dance_step_count = dance_step_count + 1
+              
+        
+        mixer.music.stop()
+        
+        playsound.playsound('tape.mp3', False)
+        
+        for fall_step in fall:
 
+            fall[fall_count][0].play()
+            finish = datetime.now() + timedelta(seconds=fall[fall_count][1])
+            while finish > datetime.now():
+                self.step(self.timeStep)
 
+            fall_count = fall_count + 1
+        
+        
+        
+        
 # create the Robot instance and run main loop
 robot = Nao()
 robot.run()

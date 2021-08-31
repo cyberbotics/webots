@@ -13,7 +13,7 @@ TexturedBackgroundLight {
   castShadows FALSE
 }
 Nao {
-  translation -0.0322645 0.334 2.50206
+  translation -0.0233483 0.334 2.1586
   rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
   controller "dancing_nao"
 }
@@ -23,7 +23,6 @@ Floor {
   appearance Parquetry {
     type "light strip"
     colorOverride 1 0 0
-    IBLStrength 4
   }
 }
 SpotLight {
