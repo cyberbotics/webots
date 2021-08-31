@@ -31,6 +31,10 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         update: true
+        install: >-
+          git
+          openssh
+          mingw-w64-x86_64-qt5
     - uses: actions/checkout@v2
       with:
          submodules: true
@@ -71,7 +75,6 @@ jobs:
     - name: Deploy Webots Controller
       if: ${{ github.event_name == 'schedule' }}
       run: |
-        pacman -S --noconfirm git openssh
         export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
         mkdir ~/.ssh
         ssh-keyscan -H github.com > ~/.ssh/known_hosts
