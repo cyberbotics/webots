@@ -957,7 +957,7 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 LargeValve {
-  SFVec3f    translation     0 0.106 0
+  SFVec3f    translation     0 0 0.106
   SFRotation rotation        0 0 1 0
   SFString   name            "large valve"
   SFFloat    jointFriction   0.5
@@ -995,7 +995,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 LeverValve {
-  SFVec3f    translation   0 0.142 0
+  SFVec3f    translation   0 0 0.142
   SFRotation rotation      0 0 1 0
   SFString   name          "lever valve"
   SFFloat    jointFriction 1
@@ -1026,7 +1026,7 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 SmallValve {
-  SFVec3f    translation   0 0.077 0
+  SFVec3f    translation   0 0 0.077
   SFRotation rotation      0 0 1 0
   SFString   name          "small valve"
   SFFloat    jointFriction 0.1
