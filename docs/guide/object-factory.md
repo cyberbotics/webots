@@ -527,7 +527,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Bolt {
-  SFVec3f    translation      0 0.0131 0
+  SFVec3f    translation      0 0 0.0131
   SFRotation rotation         0 0 1 0
   SFString   name             "bolt"
   SFNode     appearance       OldSteel {}
@@ -740,7 +740,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Nut {
-  SFVec3f    translation     0 0.004 0
+  SFVec3f    translation     0 0 0.004
   SFRotation rotation        0 0 1 0
   SFString   name            "nut"
   SFNode     appearance      OldSteel {}
@@ -861,7 +861,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Screwdriver {
-  SFVec3f    translation     0 0.012 0
+  SFVec3f    translation     0 0 0.012
   SFRotation rotation        0 0 1 0
   SFString   name            "screwdriver"
   SFString   contactMaterial "default"
