@@ -28,6 +28,9 @@ jobs:
         os: [windows-2019]
     runs-on: ${{ matrix.os }}
     steps:
+    - name: Check Disk Usage 0
+      shell: powershell
+      run: Get-PsDrive
     - uses: msys2/setup-msys2@v2
       with:
         update: true
@@ -35,11 +38,14 @@ jobs:
           git
           openssh
           mingw-w64-x86_64-qt5
+    - name: Check Disk Usage 1
+      shell: powershell
+      run: Get-PsDrive
     - uses: actions/checkout@v2
       with:
          submodules: true
          fetch-depth: 15
-    - name: Check Disk Usage 1
+    - name: Check Disk Usage 2
       shell: powershell
       run: Get-PsDrive
     - name: Install Visual Studio 10 and OpenJDK 16
@@ -62,7 +68,7 @@ jobs:
         echo 'export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         ./scripts/install/msys64_installer.sh --all
-    - name: Check Disk Usage 2
+    - name: Check Disk Usage 3
       shell: powershell
       run: Get-PsDrive
     - name: Set Commit SHA in Version
