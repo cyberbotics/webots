@@ -382,7 +382,10 @@ export default class Animation {
   }
 
   _createSlider() {
-    window.customElements.define('animation-slider', AnimationSlider);
+    if (!Animation.sliderDefined) {
+      window.customElements.define('animation-slider', AnimationSlider);
+      Animation.sliderDefined = true;
+    }
     const timeSlider = document.createElement('animation-slider');
     timeSlider.id = 'time-slider';
     document.addEventListener('slider_input', _ => this._updateSlider(_));
@@ -744,3 +747,5 @@ export default class Animation {
     document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.visibility = '';
   }
 }
+
+Animation.sliderDefined = false;

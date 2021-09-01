@@ -66,7 +66,7 @@ export default class WebotsAnimation extends HTMLElement {
 
   play(mobileDevice) {
     if (typeof this._view === 'undefined')
-      this._view = this._view = new webots.View(this, mobileDevice);
+      this._view = new webots.View(this, mobileDevice);
     this._view.open(this._x3d);
     this._view.setAnimation(this._json, 'play', true);
     this._hasActiveAnimation = true;
@@ -75,7 +75,6 @@ export default class WebotsAnimation extends HTMLElement {
   close() {
     this._view.animation.pause();
     this._view.destroyWorld();
-    this.innerHTML = null;
     this._hasActiveAnimation = false;
   }
 
