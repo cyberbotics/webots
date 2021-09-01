@@ -47,6 +47,8 @@ namespace WbNodeUtilities {
 
   void fixBackwardCompatibility(WbNode *node);
 
+  QList<WbNode *> getNodeChildren(const WbNode *node);
+
   // find the closest WbTransform ancestor
   WbTransform *findUpperTransform(const WbNode *node);
 

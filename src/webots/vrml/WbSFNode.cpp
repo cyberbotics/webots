@@ -68,7 +68,8 @@ void WbSFNode::setValue(WbNode *node) {
   if (mValue)
     mValue->setInsertionCompleted();
   emit changed();
-  delete tmp;
+  if (!tmp->isUseNode())
+    delete tmp;
 }
 
 WbSFNode &WbSFNode::operator=(const WbSFNode &other) {

@@ -1019,6 +1019,16 @@ WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
   return NULL;
 }
 
+QList<WbNode *> WbNodeUtilities::getNodeChildren(const WbNode *node) {
+  QList<WbNode *> children;
+  const WbGroup *const nodeGroup = dynamic_cast<const WbGroup *>(node);
+  if (!nodeGroup)
+    return children;
+  for (int i = 0; i < nodeGroup->childCount(); i++)
+    children.append(nodeGroup->child(i));
+  return children;
+}
+
 void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // We don't want to apply the fix if the node is already >R2021b
   if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 1))
@@ -1054,7 +1064,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         dynamic_cast<WbReceiver *>(candidate) || dynamic_cast<WbConnector *>(candidate) ||
         dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate) ||
         dynamic_cast<WbTrack *>(candidate)) {
-      // Choose rotation based on the device type.
+      // Rotate devices.
+
       WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, M_PI_2);
       if (dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbTrack *>(candidate))
         rotationFix = WbMatrix3(-M_PI_2, 0, 0);
@@ -1077,20 +1088,20 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       }
 
       // Rotate children of the device back.
-      const WbGroup* const candidateGroup = static_cast<WbGroup *>(candidate);
-      QList<WbNode *> subNodes;
-      for (int i = 0; i < candidateGroup->childCount(); i++)
-        subNodes.append(candidateGroup->child(i));
+      QList<WbNode *> children = getNodeChildren(candidate);
       WbNode *boundingObject = static_cast<WbSolid *>(candidate)->boundingObject();
-      for (WbNode *subNode : subNodes)
-        if (dynamic_cast<WbTrackWheel *>(subNode)) {
-          subNodes += subNode->subNodes(false, false);
-          assert(subNodes.removeAll(subNode) == 1);
+      for (WbNode *child : children)
+        if (dynamic_cast<WbTrackWheel *>(child)) {
+          children += getNodeChildren(child);
+          children.removeOne(child);
         }
-      if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject))
-        subNodes += boundingObject->subNodes(false, false);
+      if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
+          !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
+        children += boundingObject->subNodes(false, false);
+      else
+        children.append(boundingObject);
 
-      for (WbNode *child : subNodes) {
+      for (WbNode *child : children) {
         WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
         if (childTransform) {
           // Squash transforms if possible.
@@ -1098,18 +1109,23 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
           childTransform->save("__init__");
         } else {
-          if (dynamic_cast<WbTrack *>(candidate)) continue;
           WbTransform *const transform = new WbTransform();
           transform->setRotation(WbRotation(rotationFix.transposed()));
-          transform->save("__init__");
-          static_cast<WbGroup *>(candidate)->removeChild(child);
           transform->addChild(child);
-          static_cast<WbGroup *>(candidate)->addChild(transform);
+          transform->save("__init__");
+          if (!getNodeChildren(candidate).contains(child)) {
+            candidate->findSFNode("boundingObject")->setValue(NULL);
+          } else {
+            static_cast<WbGroup *>(candidate)->removeChild(child);
+            static_cast<WbGroup *>(candidate)->addChild(transform);
+          }
         }
       }
     } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
                dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
                dynamic_cast<WbElevationGrid *>(candidate)) {
+      // Rotate geometries.
+
       const WbMatrix3 rotationFix = WbMatrix3(M_PI_2, 0, 0);
       WbNode *const nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
 
