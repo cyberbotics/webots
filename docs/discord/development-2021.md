@@ -2650,3 +2650,39 @@ But I want different line filed
 ##### Luftwaffel [Moderator] 08/24/2021 19:45:32
 `@satyar` what do you mean by "line filed". Do you want a different floor / room with a different looking line?
 
+##### satyar 08/26/2021 14:29:29
+Thank you for help but I solve my problem
+
+
+I have another question,
+
+How can I import 3D model with color to webots ? 
+
+I export my file with color from Shapr3D with .obj but when I import in webots, there is no color and Everything is gray ☹️
+
+##### Luftwaffel [Moderator] 08/27/2021 00:09:01
+.obj files do not contain color information. They can have linked materials or textures, but I think you have to import them seperately
+
+##### satyar 08/30/2021 12:43:41
+Ok thanks 
+
+I’ll test it
+
+## September
+
+##### Millimeter 09/01/2021 07:34:52
+Hello, I have built a dancing nao project and would like to know how I could go about contributing it to `cyberotics/community-projects`?
+
+##### Stefania Pedrazzi [Cyberbotics] 09/01/2021 07:35:48
+Hi, you can find all the instructions about the structure and the contribution guidelines directly on the repo:
+
+[https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
+
+##### Millimeter 09/01/2021 07:38:11
+Hi `@Stefania Pedrazzi`! I got your email :> Hence me coming here! Thank you for the info so I just create a softbank folder inside robots and add my code there or should I add it under samples?
+
+##### Stefania Pedrazzi [Cyberbotics] 09/01/2021 07:46:37
+Yes, exactly. Your project could be added both in robots or samples.
+
+But it seems better to add it in a new `/robots/softbank/nao` folder.
+
