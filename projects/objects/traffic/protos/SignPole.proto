@@ -50,7 +50,7 @@ PROTO SignPole [
             }
           }
         ]
-        boundingObject USE POLE_GEOMETRY
+        boundingObject USE POLE_GEOMETRY #abc
       }
     ]
     name IS name
