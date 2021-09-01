@@ -8,8 +8,8 @@ PROTO Monitor [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "monitor"
-  field SFColor    color       0.15 0.15 0.15
-  field SFFloat    mass        0
+  field SFColor    color       0.15 0.15 0.15  # Defines the color of the monitor.
+  field SFFloat    mass        0               # Defines the mass of the monitor in kg. A value smaller or equal to 0 removes the physics of the monitor.
 ]
 {
   Solid {
