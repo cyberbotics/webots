@@ -4,12 +4,12 @@ const template = document.createElement('template');
 
 template.innerHTML = `
 <link type="text/css" href="https://cyberbotics.com/wwi/R2021c/css/animation.css" rel="stylesheet"/>
-<div id="view3d" style="height:100%; width:100%"></div>
 `;
 
 export default class WebotsAnimation extends HTMLElement {
   constructor() {
     super();
+    this._hasActiveAnimation = false;
     this.appendChild(template.content.cloneNode(true));
 
     let script = document.createElement('script');
@@ -52,11 +52,11 @@ export default class WebotsAnimation extends HTMLElement {
   }
 
   setX3dName(name) {
-    this.x3d = name + '.x3d';
+    this._x3d = name + '.x3d';
   }
 
   setJsonName(name) {
-    this.json = name + '.json';
+    this._json = name + '.json';
   }
 
   setNames(name) {
@@ -64,11 +64,25 @@ export default class WebotsAnimation extends HTMLElement {
     this.setJsonName(name);
   }
 
-  play() {
-    const view = new webots.View(document.getElementById('view3d'));
-    view.open(this.x3d);
-    view.setAnimation(this.json, 'play', true);
+  play(mobileDevice) {
+    if (typeof this._view === 'undefined')
+      this._view = this._view = new webots.View(this, mobileDevice);
+    this._view.open(this._x3d);
+    this._view.setAnimation(this._json, 'play', true);
+    this._hasActiveAnimation = true;
   }
+
+  close() {
+    this._view.animation.pause();
+    this._view.destroyWorld();
+    this.innerHTML = null;
+    this._hasActiveAnimation = false;
+  }
+
+  active() {
+    return this._hasActiveAnimation;
+  }
+
 }
 
 window.customElements.define('webots-animation', WebotsAnimation);

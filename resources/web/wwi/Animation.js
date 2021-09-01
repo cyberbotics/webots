@@ -26,6 +26,15 @@ export default class Animation {
     xmlhttp.send();
   }
 
+  pause() {
+    this._gui = 'pause';
+    if (this._step < 0 || this._step >= this._data.frames.length) {
+      this._start = new Date().getTime();
+      this._updateAnimationState();
+    } else
+      this._start = new Date().getTime() - this._data.basicTimeStep * this._step;
+  }
+
   // private methods
   _setup(data) {
     this._data = data;
@@ -59,12 +68,7 @@ export default class Animation {
 
   _triggerPlayPauseButton() {
     if (this._gui === 'real_time') {
-      this._gui = 'pause';
-      if (this._step < 0 || this._step >= this._data.frames.length) {
-        this._start = new Date().getTime();
-        this._updateAnimationState();
-      } else
-        this._start = new Date().getTime() - this._data.basicTimeStep * this._step;
+      this.pause()
     } else {
       this._gui = 'real_time';
       this._start = new Date().getTime() - this._data.basicTimeStep * this._step / this._speed;
