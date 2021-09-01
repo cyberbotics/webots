@@ -1,3 +1,5 @@
+"""back_up_nao controller."""
+
 # Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +22,6 @@
 from controller import Robot, Keyboard, Motion
 import time
 from datetime import datetime, timedelta
-import playsound
-from pygame import mixer
 
 
 class Nao(Robot):
@@ -48,8 +48,10 @@ class Nao(Robot):
 
         self.turnRight40 = (Motion('../../motions/TurnRight40.motion'), 3)
         self.turnLeft40 = (Motion('../../motions/TurnLeft40.motion'), 3)
+        
+        self.turnLeft10 = (Motion('../../motions/TurnLeft10.motion'), 3)
 
-        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 7.2)
+        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 9)
 
         self.shoot = (Motion('../../motions/Shoot.motion'), 4)
 
@@ -184,48 +186,20 @@ class Nao(Robot):
         self.loadMotionFiles()
 
     def run(self):
-        print("_________NAO DANCE BY GDSC-RMIT University__________")
-
-        # Play music using pygame
-
-        mixer.init()
-
-        mixer.music.load('song.mp3')
-
-        mixer.music.play()
-
-        time.sleep(1.5)
 
         self.handWave[0].play()
 
-        # dance_steps = [self.forwards50, self.forwards50, self.forwards50, self.forwards,
-                       # self.handWave,
-                       # self.sideStepLeft,
-                       # self.backwards, self.backwards, self.handsUp, self.forwards50, self.forwards50,
-                       # self.sideStepRight, self.handWave, self.sideStepLeft4, self.handWaveLeft,
-                       # self.turnLeft40, self.handsUp, self.turnLeft40, self.turnLeft40,
-                       # self.turnLeft60, self.backwards, self.backwards, self.turnLeft60, self.turnLeft60, 
-                       # self.turnLeft40, self.turnLeft10, self.forwards50, 
-                       # self.sideStepRight, self.handsUpNoWiggle, 
-                       # self.forwards50, self.handWave, self.forwards50]
-                       
-                       
-        dance_steps = [self.forwards50, self.forwards50, self.forwards50, self.forwards,
-                       self.handWave,
-                       self.sideStepLeft,
-                       self.backwards, self.backwards, self.handsUp, self.forwards50, self.forwards50,
-                       self.sideStepRight, self.handWave, self.sideStepLeft4, self.handWaveLeft,
-                       self.turnLeft40, self.handsUp, self.turnLeft40, self.turnLeft40,
-                       self.turnLeft60, self.backwards, self.backwards, self.turnLeft60, self.turnLeft60,
-                       self.turnLeft60, self.handsUpNoWiggle,
-                       self.sideStepRight,
-                       self.forwards50, self.handWave, self.forwards50, self.forwards50,
-                       self.forwards50]               
-
-        fall = [self.fall, self.turnRight60, self.forwards50]
+        dance_steps = [self.forwards50, self.forwards50, self.forwards50,
+                       self.backwards, self.backwards, self.handWave, self.backwards, self.backwards,
+                       self.backwards, self.backwards, self.forwards50, self.forwards50, self.backwards,
+                       self.turnLeft180,
+                       self.backwards, self.backwards, self.turnLeft60, self.turnLeft40, 
+                       self.turnLeft40, self.turnLeft10, self.backwards, self.backwards,
+                       self.forwards50, self.handWave, self.forwards50, self.backwards, self.backwards,
+                       self.backwards, self.handsUp, self.handsUp, self.handsUp, self.shoot, 
+                       self.backwards, self.backwards, self.shoot, self.backwards, self.handsUpNoWiggle]
 
         dance_step_count = 0
-        fall_count = 0
 
         for dance_step in dance_steps:
 
@@ -236,21 +210,10 @@ class Nao(Robot):
 
             dance_step_count = dance_step_count + 1
 
-        mixer.music.stop()
-
-        playsound.playsound('tape.mp3', False)
-
-        for fall_step in fall:
-
-            fall[fall_count][0].play()
-            finish = datetime.now() + timedelta(seconds=fall[fall_count][1])
-            while finish > datetime.now():
-                self.step(self.timeStep)
-
-            fall_count = fall_count + 1
 
         # create the Robot instance and run main loop
 
 
 robot = Nao()
 robot.run()
+

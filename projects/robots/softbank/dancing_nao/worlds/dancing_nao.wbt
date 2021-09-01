@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.9945464243474242 -0.10253446605442001 0.01908122345889074 0.2067824687067282
-  position -0.04060742782841073 0.518559077465497 5.157656020788127
+  orientation -0.9966441456692745 -0.07808261002280237 0.024567313959586883 0.1912821229724772
+  position -0.028182278419153106 0.5219654929185206 5.162222058460436
 }
 TexturedBackground {
   texture "dawn_cloudy_empty"
@@ -13,7 +13,7 @@ TexturedBackgroundLight {
   castShadows FALSE
 }
 Nao {
-  translation -0.0338338 0.334 2.18669
+  translation -0.0313847 0.334 2.17049
   rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
   controller "dancing_nao"
 }
@@ -24,6 +24,20 @@ Floor {
     type "light strip"
     colorOverride 1 0 0
   }
+}
+Nao {
+  translation -0.352274 0.334 1.29291
+  rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+  name "NAO(1)"
+  color 0 0 1
+  controller "back_up_nao"
+}
+Nao {
+  translation 0.29054 0.334 1.39402
+  rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
+  name "NAO(2)"
+  color 0 0 1
+  controller "back_up_nao"
 }
 SpotLight {
   attenuation 0 0 1
