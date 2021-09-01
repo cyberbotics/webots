@@ -30,6 +30,8 @@ class Nao(Robot):
     # load motion files
     def loadMotionFiles(self):
         self.stand = (Motion('../../motions/StandUpFromFront.motion'), 4.2)
+        self.fall = (Motion('../../motions/Fall.motion'), 3)
+        
         self.handWave = (Motion('../../motions/HandWave.motion'), 2)
         self.handWaveLeft = (Motion('../../motions/HandWaveLeft.motion'), 2)
 
@@ -47,7 +49,7 @@ class Nao(Robot):
         self.turnRight40 = (Motion('../../motions/TurnRight40.motion'), 3)
         self.turnLeft40 = (Motion('../../motions/TurnLeft40.motion'), 3)
 
-        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 6.8)
+        self.turnLeft180 = (Motion('../../motions/TurnLeft180.motion'), 7.2)
 
         self.shoot = (Motion('../../motions/Shoot.motion'), 4)
 
@@ -182,7 +184,7 @@ class Nao(Robot):
         self.loadMotionFiles()
 
     def run(self):
-        print("_________STARTING THE NAO DANCE BY GDSC-RMIT University__________")
+        print("_________NAO DANCE BY GDSC-RMIT University__________")
 
         # Play music using pygame
 
@@ -203,8 +205,7 @@ class Nao(Robot):
                        self.sideStepRight, self.handWave, self.sideStepLeft4, self.handWaveLeft,
                        self.turnLeft40, self.handsUp, self.turnLeft40, self.turnLeft40,
                        self.turnLeft60, self.backwards, self.backwards, self.turnLeft60, self.turnLeft60,
-                       self.turnLeft60, self.handsUpNoWiggle,
-                       self.sideStepRight,
+                       self.turnLeft60, self.handsUpNoWiggle, self.sideStepRight,
                        self.forwards50, self.handWave, self.forwards50, self.forwards50,
                        self.forwards50]
 
