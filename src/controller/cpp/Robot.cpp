@@ -75,6 +75,12 @@ Robot::Robot() {
   mMouse = new Mouse();
 }
 
+Robot *Robot::internalGetInstance() {
+  if (cInstance)
+    return cInstance;
+  return new Robot();
+}
+
 Robot::~Robot() {
   for (size_t i = 0; i < deviceList.size(); ++i)
     delete deviceList[i];

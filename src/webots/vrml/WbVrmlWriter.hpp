@@ -19,14 +19,21 @@
 // Description: a text stream specialized for writing indented VRML or X3D
 //
 
-#include <QtCore/QTextStream>
+#include <QtCore/QHash>
+#include <QtCore/QMap>
 
 #include "WbVector3.hpp"
 
 class QIODevice;
-class WbNode;
 
-class WbVrmlWriter : public QTextStream {
+class WbNode;
+class WbVector2;
+class WbVector4;
+class WbRotation;
+class WbQuaternion;
+class WbRgb;
+
+class WbVrmlWriter {
 public:
   WbVrmlWriter(QIODevice *device, const QString &fileName);
   WbVrmlWriter(QString *target, const QString &fileName);
@@ -38,8 +45,8 @@ public:
   bool isUrdf() const { return mVrmlType == URDF; }
   bool isWebots() const { return mVrmlType == VRML_SIM || mVrmlType == VRML_OBJ || mVrmlType == PROTO; }
   bool isWritingToFile() const { return mIsWritingToFile; }
+  QString *string() const { return mString; };
   QString path() const;
-  QString relativeTexturesPath() const { return "textures/"; }
   QHash<QString, QString> texturesList() const { return mTexturesList; }
   void addTextureToList(const QString &url, const QString &fileName) { mTexturesList[url] = fileName; }
 
@@ -68,11 +75,27 @@ public:
   WbNode *rootNode() const { return mRootNode; }
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
+  WbVrmlWriter &operator<<(const QString &s);
+  WbVrmlWriter &operator<<(char);
+  WbVrmlWriter &operator<<(int);
+  WbVrmlWriter &operator<<(unsigned int);
+  WbVrmlWriter &operator<<(float);
+  WbVrmlWriter &operator<<(double);
+  WbVrmlWriter &operator<<(const WbVector2 &v);
+  WbVrmlWriter &operator<<(const WbVector3 &v);
+  WbVrmlWriter &operator<<(const WbVector4 &v);
+  WbVrmlWriter &operator<<(const WbRotation &r);
+  WbVrmlWriter &operator<<(const WbQuaternion &q);
+  WbVrmlWriter &operator<<(const WbRgb &rgb);
+
+  static QString relativeTexturesPath() { return "textures/"; }
 
 private:
   void setVrmlType();
 
   enum VrmlType { VRML, VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
+  QString *mString;
+  QIODevice *mDevice;
   QString mFileName;
   VrmlType mVrmlType;
   int mIndent;

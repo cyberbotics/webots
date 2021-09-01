@@ -23,8 +23,6 @@
 #include "WbVector3.hpp"
 #include "WbVrmlWriter.hpp"
 
-#include <QtCore/QTextStream>
-
 class WbSFVector3 : public WbSingleValue {
   Q_OBJECT
 

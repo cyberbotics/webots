@@ -639,11 +639,11 @@ launcher/launcher.o: launcher/launcher.rc
 
 $(LAUNCHERW): launcher/launcher.c launcher/launcher.o
 	@echo "# compiling webotsw.exe launcher"
-	@gcc $(CFLAGS) -mwindows -DWEBOTSW launcher/launcher.o launcher/launcher.c -o $@
+	@gcc $(CFLAGS) -mwindows -DWEBOTSW launcher/launcher.o launcher/launcher.c -lshlwapi -o $@
 
 $(LAUNCHER): launcher/launcher.c
 	@echo "# compiling webots.exe launcher"
-	@gcc $(CFLAGS) launcher/launcher.c -o $@
+	@gcc $(CFLAGS) launcher/launcher.c -lshlwapi -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
