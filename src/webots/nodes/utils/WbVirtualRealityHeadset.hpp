@@ -19,6 +19,8 @@
 #include "WbRotation.hpp"
 #include "WbVector3.hpp"
 
+#include <QtCore/QObject>
+
 namespace vr {
   struct IVRSystem;
   struct VRTextureBounds_t;

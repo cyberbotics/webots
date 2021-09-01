@@ -1850,6 +1850,9 @@ The `visible` argument specifies whether the node should be hidden (false) or sh
 By default, all the nodes are visible.
 It is relevant to show a node only if it was previously hidden using this function.
 
+Note that this function cannot hide [Fog](fog.md) and [Background][background.md] nodes.
+Additionally, the visibility of [Propeller](propeller.md) helices may be overridden internally by Webots when running the simulation or selecting them from the scene tree.
+
 ---
 
 #### `wb_supervisor_node_add_force`

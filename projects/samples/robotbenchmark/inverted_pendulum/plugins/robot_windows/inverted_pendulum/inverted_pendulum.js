@@ -45,3 +45,15 @@ webots.window('inverted_pendulum').receive = function(message, robot) {
     return m + ':' + s + ':' + cs;
   }
 };
+
+window.addEventListener('load', (event) => {
+  if (document.readyState === 'complete' && navigator.userAgent.indexOf('Chrome') > -1) {
+    // use MathJax to correctly render MathML not natively supported by Chrome
+    let script = document.createElement('script');
+    script.setAttribute('type','text/javascript');
+    script.setAttribute('id','MathJax-script');
+    script.setAttribute('async','');
+    script.setAttribute('src','https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js');
+    document.head.appendChild(script);
+  }
+});

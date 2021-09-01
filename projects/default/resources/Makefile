@@ -24,6 +24,7 @@ ifeq ($(OSTYPE),linux)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
+ SUMO_MD5SUM="c01bf4299603e965cfe2b1753ecac66c"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
@@ -34,6 +35,7 @@ endif
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-mac.tar.gz
+ SUMO_MD5SUM="c3cb346833b50487a74f7a648af5b28f"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-mac.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
@@ -44,6 +46,7 @@ endif
 ifeq ($(OSTYPE),windows)
  OS_TAG=windows
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-windows.zip
+ SUMO_MD5SUM="545904bc1d9f936f4f0f8d02e782e7cf"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-windows.zip))
  EXTRACT=unzip -q
  # remove .zip
@@ -57,6 +60,11 @@ $(SUMO_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(SUMO_PACKAGE) "package and copy it in this directory"; fi
 	@echo "#" downloading $(SUMO_PACKAGE)
 	@$(WGET) https://www.cyberbotics.com/files/repository/dependencies/$(OS_TAG)/release/$(SUMO_PACKAGE)
+ifeq ($(OSTYPE),darwin)
+	@if [ `md5 -q $(SUMO_PACKAGE)` != $(SUMO_MD5SUM) ]; then echo "MD5 checksum failed for $(SUMO_PACKAGE)"; exit 1; fi
+else
+	@if [ "$$(md5sum $(SUMO_PACKAGE) | awk '{print $$1;}')" != $(SUMO_MD5SUM) ]; then echo "MD5 checksum failed for $(SUMO_PACKAGE)"; exit 1; fi
+endif
 	@echo "#" extracting $(SUMO_PACKAGE)
 	@$(EXTRACT) $(SUMO_PACKAGE)
 	@echo "#" removing old $(SUMO_TARGET)

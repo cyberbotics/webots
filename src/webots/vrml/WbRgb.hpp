@@ -19,8 +19,7 @@
 // Description: RGB color object, to be used in WbSFColor and WbMFColor values
 //
 
-#include <QtCore/QString>
-#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
 
 #include <WbPrecision.hpp>
 
@@ -73,7 +72,6 @@ public:
       .arg(WbPrecision::doubleToString(mGreen, level))
       .arg(WbPrecision::doubleToString(mBlue, level));
   }
-  friend QTextStream &operator<<(QTextStream &stream, const WbRgb &c);
 
   // clamp RGB values in range [0.0, 1.0]
   bool clampValuesIfNeeded() {
@@ -95,11 +93,6 @@ private:
       return false;
     return true;
   }
-};
-
-inline QTextStream &operator<<(QTextStream &stream, const WbRgb &c) {
-  stream << c.mRed << " " << c.mGreen << " " << c.mBlue;
-  return stream;
 };
 
 #endif

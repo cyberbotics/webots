@@ -65,7 +65,6 @@ PROTO CapScrew [
       }
       DEF CYLINDER Transform {
         translation 0 0 %<= screwLength * 0.5 >%
-        rotation 1 0 0 1.5707963220000003
         children [
           Shape {
             appearance ScrewThread {
@@ -88,7 +87,6 @@ PROTO CapScrew [
         USE CYLINDER
         Transform {
           translation 0 0 %<= -screwRadius >%
-          rotation 1 0 0 4.712388966
           children [
             Cylinder {
               height %<= 2 * screwRadius >%

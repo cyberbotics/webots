@@ -310,6 +310,7 @@ void WbMuscle::createWrenObjects() {
   mTransform = wr_transform_new();
   wr_transform_attach_child(mTransform, WR_NODE(mRenderable));
   wr_transform_attach_child(wrenNode(), WR_NODE(mTransform));
+  setWrenNode(mTransform);
 
   WbWrenPicker::setPickable(mRenderable, uniqueId(), true);
 }

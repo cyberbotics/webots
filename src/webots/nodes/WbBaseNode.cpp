@@ -234,7 +234,7 @@ WbBaseNode *WbBaseNode::getFirstFinalizedProtoInstance() const {
 }
 
 bool WbBaseNode::isInvisibleNode() const {
-  return WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(const_cast<WbBaseNode *>(this));
+  return WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(this);
 }
 
 QString WbBaseNode::documentationUrl() const {

@@ -310,6 +310,17 @@ void WbGroup::forwardJerk() {
   }
 }
 
+QList<const WbBaseNode *> WbGroup::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    const WbBaseNode *const child = static_cast<WbBaseNode *>(it.next());
+    assert(child);
+    list << child->findClosestDescendantNodesWithDedicatedWrenNode();
+  }
+  return list;
+}
+
 ///////////////////
 // Hidden fields //
 ///////////////////
