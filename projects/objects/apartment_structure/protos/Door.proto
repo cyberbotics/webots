@@ -139,7 +139,7 @@ PROTO Door [
                   Shape {
                     appearance IS doorAppearance
                     geometry TexturedBox { # texture is mirrored on the back face of the door
-                      size %<= size.y - frameSize.y >% %<= doorThickness >% %<= frameHeight - 0.5 * frameSize.z >%
+                      size %<= doorThickness >% %<= size.y - frameSize.y >% %<= frameHeight - 0.5 * frameSize.z >%
                     }
                     castShadows IS castShadows
                   }
