@@ -1087,7 +1087,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         device->save("__init__");
       }
 
-      // Rotate children of the device back.
+      // Make a list of children to be rotated.
       QList<WbNode *> children = getNodeChildren(candidate);
       WbNode *boundingObject = static_cast<WbSolid *>(candidate)->boundingObject();
       for (WbNode *child : children)
@@ -1098,9 +1098,10 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
           !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
         children += boundingObject->subNodes(false, false);
-      else
+      else if (boundingObject)
         children.append(boundingObject);
 
+      // Rotate children of the device back.
       for (WbNode *child : children) {
         WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
         if (childTransform) {
