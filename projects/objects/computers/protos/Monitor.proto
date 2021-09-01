@@ -83,7 +83,7 @@ PROTO Monitor [
         }
         Transform {
           rotation 0.57731 -0.57741 -0.57734 2.09446
-          translation +0.013 0 0.011
+          translation 0.013 0 0.011
           children [
             Box {
               size 0.075 0.023 0.131

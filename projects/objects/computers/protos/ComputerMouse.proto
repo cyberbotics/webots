@@ -35,7 +35,7 @@ PROTO ComputerMouse [
           creaseAngle 1
         }
       }
-DEF TOPMOUSE Shape {
+      DEF TOPMOUSE Shape {
         appearance PBRAppearance {
           baseColor IS topColor
           metalness 0
