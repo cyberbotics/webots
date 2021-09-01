@@ -259,6 +259,8 @@ export default class Animation {
     if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'playback-li' || event.srcElement.id === 'gtao-settings') // avoid to close the settings when modifying the shadows or the other options
       return;
 
+    if (document.getElementById('settings-pane') === null || document.getElementById('gtao-pane') === null || document.getElementById('speed-pane') === null)
+      return;
     if (event.target.id === 'settings-button' && document.getElementById('settings-pane').style.visibility === 'hidden' && document.getElementById('gtao-pane').style.visibility === 'hidden' && document.getElementById('speed-pane').style.visibility === 'hidden') {
       document.getElementById('settings-pane').style.visibility = 'visible';
       document.getElementById('settings-button').style.transform = 'rotate(10deg)';

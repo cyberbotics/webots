@@ -1,3 +1,5 @@
+import {webots} from './webots.js';
+
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -23,6 +25,11 @@ export default class WebotsAnimation extends HTMLElement {
       }`;
     document.head.appendChild(script);
 
+    let name = document.getElementsByTagName('webots-animation')[0].title;
+    if (!name)
+      name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
+    this.setNames(name);
+
     this._init();
   }
 
@@ -42,10 +49,25 @@ export default class WebotsAnimation extends HTMLElement {
     promises.push(this._load('https://cyberbotics.com/wwi/R2021c/wrenjs.js'));
 
     await Promise.all(promises);
-    let script = document.createElement('script');
-    script.src = 'https://cyberbotics.com/wwi/R2021c/init_animation.js';
-    script.type = 'module';
-    document.head.appendChild(script);
+  }
+
+  setX3dName(name) {
+    this.x3d = name + '.x3d';
+  }
+
+  setJsonName(name) {
+    this.json = name + '.json';
+  }
+
+  setNames(name) {
+    this.setX3dName(name);
+    this.setJsonName(name);
+  }
+
+  play() {
+    const view = new webots.View(document.getElementById('view3d'));
+    view.open(this.x3d);
+    view.setAnimation(this.json, 'play', true);
   }
 }
 

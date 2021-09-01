@@ -9,7 +9,7 @@ export default class DefaultUrl {
         let src = scripts[i].src;
         if (src.indexOf('?') > 0)
           src = src.substring(0, src.indexOf('?'));
-        if (src.endsWith('init_animation.js') || src.endsWith('enum.js') || src.endsWith('wrenjs.js')) {
+        if (src.endsWith('enum.js') || src.endsWith('wrenjs.js')) {
           this._wwiUrl = src.substring(0, src.lastIndexOf('/')); // remove "wrenjs.js"
           break;
         }
