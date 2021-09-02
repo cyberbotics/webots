@@ -74,5 +74,5 @@ For more complex interaction with the web component, the following functions are
   * `name`: the name used by both file.
 * `setX3dName(name)`: set the name of the X3D file that is going to be used to load the animation.
   * `name`: the name of the X3D file (without the .x3d extension).
-* `play(mobileDevice)`: load and play the animation. If no filenames were specified, it will try to guess them from the http url or take the `title`attribute if present.
+* `play(mobileDevice)`: Load and play the animation. If no filenames were specified, it will try to guess them from the HTTP URL or take the `title` attribute if present.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device. 
