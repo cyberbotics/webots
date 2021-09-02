@@ -216,11 +216,11 @@ finalMessage = 'Test suite complete'
 thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
-webotsArguments = '--mode=fast --no-rendering --stdout --stderr --minimize --batch'
-webotsArgumentsRendering = '--mode=realtime --stdout --stderr --batch'
+webotsArguments = '--mode=fast --stdout --stderr --batch'
 if sys.platform != 'win32':
     webotsArguments += ' --no-sandbox'
-    webotsArgumentsRendering += ' --no-sandbox'
+webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
+
 
 for groupName in testGroups:
 
@@ -273,9 +273,9 @@ for groupName in testGroups:
     #  command.run(silent = False)
 
     if groupName == 'with_rendering':
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsRendering)
-    else:
         command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+    else:
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes
