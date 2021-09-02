@@ -8,8 +8,8 @@ PROTO Cookware [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name       "cookware"
-  field SFColor    color      0.7 0.7 0.7
-  field SFFloat    mass       0.7
+  field SFColor    color      0.7 0.7 0.7  # Defines the color of the cookware.
+  field SFFloat    mass       0.7          # Defines the mass of the cookware in kg.
 ]
 {
   Solid {
