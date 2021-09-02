@@ -24,7 +24,6 @@ export default class WebotsAnimation extends HTMLElement {
         return prefix + path;
       }`;
     document.head.appendChild(script);
-
     let name = document.getElementsByTagName('webots-animation')[0].title;
     if (!name)
       name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
@@ -49,6 +48,8 @@ export default class WebotsAnimation extends HTMLElement {
     promises.push(this._load('https://cyberbotics.com/wwi/R2021c/wrenjs.js'));
 
     await Promise.all(promises);
+    if (this.getAttribute('playWhenReady') && this.getAttribute('playWhenReady') === 'true')
+      this.play();
   }
 
   setX3dName(name) {
