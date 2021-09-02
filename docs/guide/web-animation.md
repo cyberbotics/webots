@@ -56,3 +56,23 @@ The actual refresh rate can be computed with the following formula:
 ### Remarks on the Used Technologies and Their Limitations
 
 Please refer to [this section](web-scene.md#remarks-on-the-used-technologies-and-their-limitations).
+
+### Functions
+
+The web animation is played by a web component from the [WebotsAnimation.js] package called `webots-animation`.
+
+To play the animation automatically, the `playWhenReady` attribute of the web component has to be set to `true` (before the loading of the page).
+
+By default, the name of the X3D and JSON files will be deduced from the http URL, but the `title` attribute of the web component can be used to define a custom name.
+
+For more complex interaction with the web component, the following functions are available:
+* `active()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
+* `close()`: close the currect animation.
+* `setJsonName(name)`: set the name of the JSON file that is going to be used to play the animation.
+  * `name`: the name of the JSON file (without the .json extension).
+* `setNames(name)`: set the name of both the JSON and X3D file for the next animation to be loaded.
+  * `name`: the name used by both file.
+* `setX3dName(name)`: set the name of the X3D file that is going to be used to load the animation.
+  * `name`: the name of the X3D file (without the .x3d extension).
+* `play(mobileDevice)`: load and play the animation. If no filename were specified, it will try to guess it from the http url or take the `title`attribute if present.
+  * `mobileDevice`: boolean variable specifying if the application is running on a mobile device. 
