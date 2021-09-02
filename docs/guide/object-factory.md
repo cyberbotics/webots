@@ -171,7 +171,7 @@ ConveyorBelt {
   SFVec3f    translation      0 0 0
   SFRotation rotation         0 0 1 0
   SFString   name             "conveyor belt"
-  SFVec3f    size             1.5 0.6 0.5
+  SFVec3f    size             1.5 0.5 0.6
   SFNode     appearance       CorrugatedMetal { textureTransform TextureTransform { scale 2 2 } }
   SFFloat    borderThickness  0.03
   SFFloat    borderHeight     0.01
