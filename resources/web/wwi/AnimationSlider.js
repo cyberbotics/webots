@@ -30,7 +30,7 @@ export default class AnimationSlider extends HTMLElement {
     const x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     document.querySelector('animation-slider').shadowRoot.getElementById('slider').style.width = x + '%';
 
-    const event = new Event('slider_input', {
+    const event = new Event('sliderchange', {
       bubbles: true,
       cancelable: true
     });
@@ -46,7 +46,7 @@ export default class AnimationSlider extends HTMLElement {
 
   _mouseUp() {
     if (this._isSelected) {
-      const event = new Event('slider_input', {
+      const event = new Event('sliderchange', {
         bubbles: true,
         cancelable: true
       });
@@ -75,7 +75,7 @@ export default class AnimationSlider extends HTMLElement {
 
       this.setFloatingTimePosition(e.clientX);
 
-      const event = new Event('slider_input', {
+      const event = new Event('sliderchange', {
         bubbles: true,
         cancelable: true
       });

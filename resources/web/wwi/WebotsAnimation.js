@@ -52,10 +52,9 @@ export default class WebotsAnimation extends HTMLElement {
       this.play();
   }
 
-
   setNames(name) {
-    this.setX3dName(name);
-    this.setJsonName(name);
+    this._x3d = name + '.x3d';
+    this._json = name + '.json';
   }
 
   play(mobileDevice) {

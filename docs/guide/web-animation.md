@@ -33,6 +33,22 @@ In this case, please refer to the [section below](#remarks-on-the-used-technolog
 
 Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-website).
 
+### Programming interface
+
+The web animation is played by a web component from the [WebotsAnimation.js] package called `webots-animation`.
+
+To play the animation automatically, the `playWhenReady` attribute of the web component has to be set to `true` before the loading of the page.
+
+By default, the name of the X3D and JSON files will be deduced from the HTTP URL, but the `title` attribute of the web component can be used to define a custom name.
+
+For more complex interaction with the web component, the following functions are available:
+* `active()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
+* `close()`: close the current animation.
+* `setNames(name)`: set the name of both the JSON and X3D file for the next animation to be loaded.
+  * `name`: the name used by both file.
+* `play(mobileDevice)`: load and play the animation. If no filenames were specified, it will try to guess them from the HTTP URL or take the `title` attribute if present.
+  * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+
 ### Limitations
 
 The animation file contains only modifications over the following fields:  - `LED.color`  - `Material.diffuseColor`  - `Material.emissiveColor`  - `TextureTransform.translation` (only for the [Track](../reference/track.md) node)  - `Transform.rotation`  - `Transform.translation` The other VRML97 fields are not recorded in the animation file.
@@ -56,23 +72,3 @@ The actual refresh rate can be computed with the following formula:
 ### Remarks on the Used Technologies and Their Limitations
 
 Please refer to [this section](web-scene.md#remarks-on-the-used-technologies-and-their-limitations).
-
-### Functions
-
-The web animation is played by a web component from the [WebotsAnimation.js] package called `webots-animation`.
-
-To play the animation automatically, the `playWhenReady` attribute of the web component has to be set to `true` (before the loading of the page).
-
-By default, the name of the X3D and JSON files will be deduced from the HTTP URL, but the `title` attribute of the web component can be used to define a custom name.
-
-For more complex interaction with the web component, the following functions are available:
-* `active()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
-* `close()`: close the current animation.
-* `setJsonName(name)`: set the name of the JSON file that is going to be used to play the animation.
-  * `name`: the name of the JSON file (without the .json extension).
-* `setNames(name)`: set the name of both the JSON and X3D file for the next animation to be loaded.
-  * `name`: the name used by both file.
-* `setX3dName(name)`: set the name of the X3D file that is going to be used to load the animation.
-  * `name`: the name of the X3D file (without the .x3d extension).
-* `play(mobileDevice)`: Load and play the animation. If no filenames were specified, it will try to guess them from the HTTP URL or take the `title` attribute if present.
-  * `mobileDevice`: boolean variable specifying if the application is running on a mobile device. 

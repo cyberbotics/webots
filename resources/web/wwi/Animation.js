@@ -43,16 +43,10 @@ export default class Animation {
     this._view.mouseEvents.showPlayBar = undefined;
     document.removeEventListener('keydown', this.keydownRef);
     this.keydownRef = undefined;
-    document.removeEventListener('slider_input', this.slider_inputRef);
-    this.slider_inputRef = undefined;
+    document.removeEventListener('sliderchange', this.sliderchangeRef);
+    this.sliderchangeRef = undefined;
     document.removeEventListener('fullscreenchange', this.fullscreenRef);
-    document.removeEventListener('webkitfullscreenchange', this.webkitfullscreenRef);
-    document.removeEventListener('mozfullscreenchange', this.mozfullscreenRef);
-    document.removeEventListener('MSFullscreenChange', this.MSfullscreenRef);
     this.fullscreenRef = undefined;
-    this.webkitfullscreenRef = undefined;
-    this.mozfullscreenRef = undefined;
-    this.MSfullscreenRef = undefined;
     document.removeEventListener('mouseup', this.settingsRef);
     this.settingsRef = undefined;
     if (document.querySelector('animation-slider')) {
@@ -435,7 +429,7 @@ export default class Animation {
     }
     const timeSlider = document.createElement('animation-slider');
     timeSlider.id = 'time-slider';
-    document.addEventListener('slider_input', this.slider_inputRef = _ => this._updateSlider(_));
+    document.addEventListener('sliderchange', this.sliderchangeRef = _ => this._updateSlider(_));
     document.getElementById('play-bar').appendChild(timeSlider);
     document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
     document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
@@ -761,9 +755,6 @@ export default class Animation {
     this._exitFullscreenButton.appendChild(fullscreenTooltip);
 
     document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
-    document.addEventListener('webkitfullscreenchange', this.webkitfullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
-    document.addEventListener('mozfullscreenchange', this.mozfullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
-    document.addEventListener('MSFullscreenChange', this.MSfullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
   }
 
   _keyboardHandler(e) {
