@@ -33,7 +33,7 @@ In this case, please refer to the [section below](#remarks-on-the-used-technolog
 
 Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-website).
 
-### Programming interface
+### Programming Interface
 
 The web animation is played by a web component from the [WebotsAnimation.js] package called `webots-animation`.
 
