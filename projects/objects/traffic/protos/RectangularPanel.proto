@@ -20,8 +20,8 @@ PROTO RectangularPanel [
     recognitionColors IS recognitionColors
     children [
       Transform {
-        translation 0 0 -0.015
-        rotation 0 0.707 -0.707 3.1415
+        translation 0.015 0 0
+        rotation 0.577366 0.577358 0.577328 2.094321
         children [
           Shape {
             appearance PBRAppearance {
@@ -37,21 +37,31 @@ PROTO RectangularPanel [
           }
         ]
       }
-      DEF PANEL_BODY Shape {
-        appearance PBRAppearance {
-          baseColor IS color
-          roughness 0.6
-        }
-        geometry TexturedBox {
-          size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
-          back FALSE
-        }
+      Transform {
+        rotation -0.577351 0.577347 0.577351 -2.094405
+        children [
+          DEF PANEL_BODY Shape {
+            appearance PBRAppearance {
+              baseColor IS color
+              roughness 0.6
+            }
+            geometry TexturedBox {
+              size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
+              back FALSE
+            }
+          }
+        ]
       }
     ]
     name IS name
     model "rectangular panel"
-    boundingObject Box {
-      size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
+    boundingObject Transform {
+      rotation -0.577351 0.577347 0.577351 -2.094405
+      children [
+        Box {
+          size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
+        }
+      ]
     }
   }
 }
