@@ -74,6 +74,8 @@ export default class WebotsAnimation extends HTMLElement {
 
   close() {
     this._view.animation.pause();
+    this._view.animation.removePlayBar();
+    this._view.removeLabels();
     this._view.destroyWorld();
     this._hasActiveAnimation = false;
   }
@@ -81,7 +83,6 @@ export default class WebotsAnimation extends HTMLElement {
   active() {
     return this._hasActiveAnimation;
   }
-
 }
 
 window.customElements.define('webots-animation', WebotsAnimation);

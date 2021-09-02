@@ -18,8 +18,8 @@ export default class AnimationSlider extends HTMLElement {
     this._shadowRoot.appendChild(template.content.cloneNode(true));
 
     this._shadowRoot.getElementById('range').addEventListener('mousedown', _ => this._mouseDown(_));
-    document.addEventListener('mousemove', _ => this._mouseMove(_));
-    document.addEventListener('mouseup', () => this._mouseUp());
+    document.addEventListener('mousemove', this.mousemoveRef = _ => this._mouseMove(_));
+    document.addEventListener('mouseup', this.mouseupRef = () => this._mouseUp());
 
     this._offset = 0; // use to center the floating time correctly
     this._isSelected = false;
@@ -114,5 +114,12 @@ export default class AnimationSlider extends HTMLElement {
 
   selected() {
     return this._isSelected;
+  }
+
+  removeEventListeners() {
+    document.removeEventListener('mousemove', this.mousemoveRef);
+    this.mousemoveRef = undefined;
+    document.removeEventListener('mouseup', this.mouseupRef);
+    this.mouseupRef = undefined;
   }
 }
