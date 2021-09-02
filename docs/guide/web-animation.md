@@ -63,7 +63,7 @@ The web animation is played by a web component from the [WebotsAnimation.js] pac
 
 To play the animation automatically, the `playWhenReady` attribute of the web component has to be set to `true` (before the loading of the page).
 
-By default, the name of the X3D and JSON files will be deduced from the http URL, but the `title` attribute of the web component can be used to define a custom name.
+By default, the name of the X3D and JSON files will be deduced from the HTTP URL, but the `title` attribute of the web component can be used to define a custom name.
 
 For more complex interaction with the web component, the following functions are available:
 * `active()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
