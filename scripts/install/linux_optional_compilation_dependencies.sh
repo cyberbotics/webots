@@ -16,7 +16,7 @@ if [[ $UBUNTU_VERSION == "18.04" ]]; then
        apt install --yes openjdk-11-jdk
        update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 elif [[ $UBUNTU_VERSION == "20.04" ]]; then
-       apt install --yes openjdk-14-jdk python-is-python3
+       apt install --yes openjdk-16-jdk python-is-python3
 else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi

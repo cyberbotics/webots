@@ -2542,3 +2542,147 @@ Or wait for the nightly builds (generated an evening after a merge):
 ##### Naga15 08/16/2021 08:00:26
 Thanks it finally works!
 
+##### satyar 08/18/2021 18:35:04
+Hi guys 
+
+I want create a line follower Field in webots . Can anyone help me because I have no idea about that ?
+
+##### DDaniel [Cyberbotics] 08/18/2021 20:30:13
+`@satyar` what do you mean by follower field? You mean the terrain? There are line follower examples in the samples (search in `file > open sample world`)
+
+##### Caio Viturino 08/21/2021 15:48:40
+Hello all, I am trying to implement two external controllers in two robots using python but the controller does not start.
+
+
+
+I set up the controller as <extern> in webots. What else can I do?
+
+
+
+The simple code I am using to test is:
+
+```python
+#!/usr/bin/python3
+import sys
+sys.path.append("/usr/local/webots/lib/controller")
+sys.path.append("/usr/local/webots/lib/controller/python38")
+from controller import Robot
+
+import os
+os.environ["WEBOTS_ROBOT_NAME"] = "Master"
+
+robot = Robot()
+
+while robot.step(32) != -1:
+    print("Hello World!")
+```
+
+
+That's that I'm trying to do but does not work:
+
+[https://cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers#single-simulation-and-multiple-extern-robot-controllers)
+
+##### DrVoodoo [Moderator] 08/21/2021 17:55:05
+What exactly doesn't work? What error or debug message (if any) are you given? Is the simulation definitely running or is it paused?
+
+##### Caio Viturino 08/21/2021 18:26:17
+The simulation does not start and does not give any message
+
+
+Is it possible to have 2 robots with <extern> controllers set?
+
+##### DrVoodoo [Moderator] 08/21/2021 18:29:10
+Well let's start from the beginning. Does it work if you have a single robot and a single extern controller?
+
+##### Caio Viturino 08/21/2021 18:30:53
+Yes
+
+##### DrVoodoo [Moderator] 08/21/2021 18:33:12
+Does it work if you have two robots, one extern and one 'normal'?
+
+##### Caio Viturino 08/21/2021 18:45:11
+tried to set one as a void but does not work as well
+
+##### DrVoodoo [Moderator] 08/21/2021 18:58:59
+So what are the names of your two robots?
+
+##### Caio Viturino 08/21/2021 19:00:04
+"Master" and "bar\_clamp"
+
+
+I set up the robot name using
+
+```python
+os.environ["WEBOTS_ROBOT_NAME"] = "Master"
+```
+
+##### DrVoodoo [Moderator] 08/21/2021 19:02:41
+Ok, what happens of you get rid of that and set the env variable using the export command before you run your extern controllers?
+
+
+And you are running both controllers?
+
+##### Caio Viturino 08/21/2021 19:15:54
+It was the problem. I need to run both controllers.
+
+
+Just forgot about it 😅
+
+
+Thank you
+
+##### DrVoodoo [Moderator] 08/21/2021 19:16:34
+Np
+
+##### satyar 08/22/2021 16:21:13
+I want to make line-follower robot in webots , like this video : 
+
+
+
+[https://www.youtube.com/watch?v=D0jhvFZJ5Ok](https://www.youtube.com/watch?v=D0jhvFZJ5Ok)
+
+
+
+
+
+But I want different line filed
+
+##### Luftwaffel [Moderator] 08/24/2021 19:45:32
+`@satyar` what do you mean by "line filed". Do you want a different floor / room with a different looking line?
+
+##### satyar 08/26/2021 14:29:29
+Thank you for help but I solve my problem
+
+
+I have another question,
+
+How can I import 3D model with color to webots ? 
+
+I export my file with color from Shapr3D with .obj but when I import in webots, there is no color and Everything is gray ☹️
+
+##### Luftwaffel [Moderator] 08/27/2021 00:09:01
+.obj files do not contain color information. They can have linked materials or textures, but I think you have to import them seperately
+
+##### satyar 08/30/2021 12:43:41
+Ok thanks 
+
+I’ll test it
+
+## September
+
+##### Millimeter 09/01/2021 07:34:52
+Hello, I have built a dancing nao project and would like to know how I could go about contributing it to `cyberotics/community-projects`?
+
+##### Stefania Pedrazzi [Cyberbotics] 09/01/2021 07:35:48
+Hi, you can find all the instructions about the structure and the contribution guidelines directly on the repo:
+
+[https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
+
+##### Millimeter 09/01/2021 07:38:11
+Hi `@Stefania Pedrazzi`! I got your email :> Hence me coming here! Thank you for the info so I just create a softbank folder inside robots and add my code there or should I add it under samples?
+
+##### Stefania Pedrazzi [Cyberbotics] 09/01/2021 07:46:37
+Yes, exactly. Your project could be added both in robots or samples.
+
+But it seems better to add it in a new `/robots/softbank/nao` folder.
+
