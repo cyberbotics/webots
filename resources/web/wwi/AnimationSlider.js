@@ -100,11 +100,12 @@ export default class AnimationSlider extends HTMLElement {
 
   setFloatingTimePosition(position) {
     let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
-    let x = (position - bounds.left);
-    if (x - this._offset < bounds.left)
-      x = bounds.left + this._offset;
-    else if (x + this._offset + 20 > bounds.right)
-      x = bounds.right - this._offset - 20;
+    let x = position - bounds.left;
+    if (x - this._offset < 0)
+      x = this._offset;
+    else if (position + this._offset + 20 > bounds.right)
+      x = bounds.right - bounds.left - this._offset - 20;
+
     document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.left = x - this._offset + 'px';
   }
 
