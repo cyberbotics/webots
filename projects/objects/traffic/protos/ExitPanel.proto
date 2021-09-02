@@ -18,8 +18,8 @@ PROTO ExitPanel [
     recognitionColors IS recognitionColors
     children [
       Transform {
-        translation 0.003 -1.85 0.003
-        rotation 0 0 1 0
+        translation -0.003 -0.003 -1.85
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF DISPLAY_PLANE Shape {
             appearance PBRAppearance {
@@ -51,8 +51,8 @@ PROTO ExitPanel [
         ]
       }
       Transform {
-        translation 0.003 0.845 0
-        rotation -0.57735 0.577349 -0.577352 2.0944
+        translation -0 -0.003 0.845
+        rotation 0.577353 0.577352 -0.577346 2.094406
         children [
           DEF PANEL_BODY Shape {
             appearance PBRAppearance {
@@ -78,7 +78,8 @@ PROTO ExitPanel [
     name IS name
     model "exit panel"
     boundingObject Transform {
-      translation 0 0 -0.065
+      translation 0.065 0 0
+      rotation -0.577352 0.577348 0.577352 -2.094405
       children [
         Box {
           size 1.05 0.87 0.11
