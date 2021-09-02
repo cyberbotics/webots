@@ -36,7 +36,7 @@ export default class Animation {
   }
 
   removePlayBar() {
-    let view3d = document.getElementById('view3d');
+    const view3d = document.getElementById('view3d');
     if (!view3d)
       return;
     this._view.mouseEvents.hidePlayBar = undefined;
@@ -63,19 +63,19 @@ export default class Animation {
       document.querySelector('animation-slider').removeEventListeners();
     }
 
-    let gtaoPane = document.getElementById('gtao-pane');
+    const gtaoPane = document.getElementById('gtao-pane');
     if (gtaoPane)
       view3d.removeChild(gtaoPane);
 
-    let speedPane = document.getElementById('speed-pane');
+    const speedPane = document.getElementById('speed-pane');
     if (speedPane)
       view3d.removeChild(speedPane);
 
-    let settingsPane = document.getElementById('settings-pane');
+    const settingsPane = document.getElementById('settings-pane');
     if (settingsPane)
       view3d.removeChild(settingsPane);
 
-    let playBar = document.getElementById('play-bar');
+    const playBar = document.getElementById('play-bar');
     if (playBar)
       view3d.removeChild(playBar);
 
