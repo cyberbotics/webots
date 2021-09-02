@@ -89,7 +89,7 @@ PROTO WallPlug [
       boundingObject Group {
         children [
           Transform {
-            translation 0.002 0 0
+            translation 0.0215 0 0
             children [
               Box {
                 size 0.046 0.072 0.072
