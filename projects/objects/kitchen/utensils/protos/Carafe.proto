@@ -70,7 +70,7 @@ PROTO Carafe [
       children [
         Transform {
           translation -0.035 0 0.148
-          rotation 0.6468671068155569 -0.6468661068153918 0.40389006669336247 -2.3738853071795862
+          rotation 0 -1 0 7.39949
           children [
             Shape {
               geometry Cylinder {
@@ -83,7 +83,7 @@ PROTO Carafe [
         }
         Transform {
           translation -0.072 0 0.137
-          rotation 0.6978389258821827 -0.6978399258820766 -0.16136998286081436 2.82161
+          rotation 0 -1 0 5.82869
           children [
             Shape {
               geometry Cylinder {
@@ -96,7 +96,7 @@ PROTO Carafe [
         }
         Transform {
           translation -0.051 0 0.066
-          rotation 0.6911800003746196 -0.6911800003746196 0.21104600011438696 -2.725605307179586
+        rotation 0 -1 0 0.5927
           children [
             Cylinder {
               height 0.116

@@ -55,7 +55,7 @@ PROTO Lid [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0 0.014
+          translation 0 0 0.0145
           children [
             Shape {
               geometry Cylinder {

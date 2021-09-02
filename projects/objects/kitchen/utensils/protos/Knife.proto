@@ -37,20 +37,20 @@ PROTO Knife [
     boundingObject Group {
       children [
         Transform {
-          translation 0.073 0 -0.0037
-          rotation 1 0 0 -1.5708
+          translation 0.073 -0.001 -0.004
+          rotation 0 0 1 0.01
           children [
             Box {
-              size 0.092 0.0005 0.017
+              size 0.092 0.017 0.0005
             }
           ]
         }
         Transform {
           translation -0.036 0 -0.003
-          rotation 1 0 0 -1.5708
+          rotation 0 1 0 0.01
           children [
             Box {
-              size 0.126 0.005 0.015
+              size 0.126 0.015 0.005 
             }
           ]
         }
@@ -60,7 +60,7 @@ PROTO Knife [
       density -1
       mass 0.07
       centerOfMass [
-         0 -0.018 0.003
+         -0.018 7.8e-05 -0.003
       ]
       inertiaMatrix [
          9.77e-05 1.43e-05 9.75e-05 2.188e-08 3.14e-06 2.47e-07 

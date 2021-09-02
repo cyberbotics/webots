@@ -55,12 +55,12 @@ PROTO Cookware [
     boundingObject Group {
       children [
         Transform {
-          translation -0.148 0 0.05
-          rotation -0.9997 -0.0175 0.0175 -1.5711
+          translation -0.1485 0 0.0495
+          rotation 0 -1 0 -0.035
           children [
             Shape {
               geometry Box {
-                size 0.133 0.009 0.021
+                size 0.133 0.021 0.009
               }
             }
           ]

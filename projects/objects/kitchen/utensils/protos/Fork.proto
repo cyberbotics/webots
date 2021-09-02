@@ -37,29 +37,29 @@ PROTO Fork [
     boundingObject Group {
       children [
         Transform {
-          translation 0.053 0 0.011
-          rotation 0.4946 0.4946 0.7147 1.9006
+          translation 0.053 0.0005 0.011 
+          rotation 0 1 0 -0.36
           children [
             Box {
-              size 0.024 0.002 0.056
+              size 0.056 0.024 0.002 
             }
           ]
         }
         Transform {
-          translation -0.0015 0 0.0035
-          rotation -0.6018 -0.6018 -0.5251 -2.1746
+          translation -0.0022 0.0005 0.004
+        rotation 0 1 0 0.136
           children [
             Box {
-              size 0.007 0.003 0.057
+              size 0.057 0.007 0.003
             }
           ]
         }
         Transform {
-          translation -0.07 0 0.0037
-          rotation 0.5603 0.5603 0.6101 2.046
+        translation  -0.07 0.0005 0.0045
+        rotation 0 1 0 -0.085
           children [
             Box {
-              size 0.013 0.003 0.08
+              size 0.08 0.013 0.003
             }
           ]
         }

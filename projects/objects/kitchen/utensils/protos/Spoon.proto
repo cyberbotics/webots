@@ -50,7 +50,7 @@ PROTO Spoon [
       children [
         Transform {
           translation 0.006 0 0.004
-          rotation 0 1 0 0.273185
+          rotation 0 -1 0 6.01
           children [
             Box {
               size 0.021 0.01 0.0012
@@ -59,7 +59,7 @@ PROTO Spoon [
         }
         Transform {
           translation 0.046 0 0.011
-          rotation 0 1 0 -0.3499953071795865
+          rotation 0 1 0 5.93319
           children [
             Box {
               size 0.062 0.036 0.0075
