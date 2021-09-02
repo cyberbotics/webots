@@ -26,11 +26,11 @@ export default class AnimationSlider extends HTMLElement {
   }
 
   _mouseDown(e) {
-    let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
-    let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
+    const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+    const x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     document.querySelector('animation-slider').shadowRoot.getElementById('slider').style.width = x + '%';
 
-    let event = new Event('slider_input', {
+    const event = new Event('slider_input', {
       bubbles: true,
       cancelable: true
     });
@@ -46,7 +46,7 @@ export default class AnimationSlider extends HTMLElement {
 
   _mouseUp() {
     if (this._isSelected) {
-      let event = new Event('slider_input', {
+      const event = new Event('slider_input', {
         bubbles: true,
         cancelable: true
       });
@@ -64,7 +64,7 @@ export default class AnimationSlider extends HTMLElement {
 
   _mouseMove(e) {
     if (this._isSelected) {
-      let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+      const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
       let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
       if (x > 100)
         x = 100;
@@ -75,7 +75,7 @@ export default class AnimationSlider extends HTMLElement {
 
       this.setFloatingTimePosition(e.clientX);
 
-      let event = new Event('slider_input', {
+      const event = new Event('slider_input', {
         bubbles: true,
         cancelable: true
       });
@@ -99,7 +99,7 @@ export default class AnimationSlider extends HTMLElement {
   }
 
   setFloatingTimePosition(position) {
-    let bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+    const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
     let x = position - bounds.left;
     if (x - this._offset < 0)
       x = this._offset;

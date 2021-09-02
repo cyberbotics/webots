@@ -12,7 +12,7 @@ export default class WebotsAnimation extends HTMLElement {
     this._hasActiveAnimation = false;
     this.appendChild(template.content.cloneNode(true));
 
-    let script = document.createElement('script');
+    const script = document.createElement('script');
     script.textContent = `var Module = [];
         Module['locateFile'] = function(path, prefix) {
 
@@ -35,7 +35,7 @@ export default class WebotsAnimation extends HTMLElement {
 
   _load(scriptUrl) {
     return new Promise(function(resolve, reject) {
-      let script = document.createElement('script');
+      const script = document.createElement('script');
       script.onload = resolve;
       script.src = scriptUrl;
       document.head.appendChild(script);
@@ -43,7 +43,7 @@ export default class WebotsAnimation extends HTMLElement {
   }
 
   async _init() {
-    let promises = [];
+    const promises = [];
     promises.push(this._load('https://git.io/glm-js.min.js'));
     promises.push(this._load('https://cyberbotics.com/wwi/R2021c/enum.js'));
     promises.push(this._load('https://cyberbotics.com/wwi/R2021c/wrenjs.js'));
