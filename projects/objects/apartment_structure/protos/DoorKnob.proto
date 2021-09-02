@@ -37,7 +37,7 @@ PROTO DoorKnob [
     }
 
     const axisHeight = distanceFromDoor * 2 + doorThickness;
-    const handlePositionZ = axisHeight * 0.5;
+    const handlePositionX = axisHeight * 0.5;
   >%
   Slot {
     type "door handle"
@@ -46,7 +46,7 @@ PROTO DoorKnob [
       rotation IS rotation
       children [
         DEF HANDLE_SUPPORT Transform { # handle support
-          rotation 1 0 0 1.57
+          rotation 0 1 0 1.57
           children [
             Shape {
               appearance IS appearance
@@ -59,7 +59,7 @@ PROTO DoorKnob [
           ]
         }
         DEF HANDLE_AXIS Transform { # handle axis
-          rotation 1 0 0 1.57
+          rotation 0 1 0 1.57
           children [
             Shape {
               appearance IS appearance
@@ -72,8 +72,7 @@ PROTO DoorKnob [
           ]
         }
         DEF BACK_KNOB Transform { # back handle
-          translation 0 0 %<= -handlePositionZ >%
-          rotation 0 0 1 1.57
+          translation %<= -handlePositionX >% 0 0
           children [
             Shape {
               appearance IS appearance
@@ -86,8 +85,7 @@ PROTO DoorKnob [
           ]
         }
         DEF FRONT_KNOB Transform { # front handle
-          translation 0 0 %<= handlePositionZ >%
-          rotation 0 0 1 1.57
+          translation %<= handlePositionX >% 0 0
           children [
             Shape {
               appearance IS appearance

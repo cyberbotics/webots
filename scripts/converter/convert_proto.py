@@ -227,6 +227,7 @@ def main():
     # Find the Robot's children field
     # root > PROTO (`[0]['root']`) > Robot (`[0]`) > fields (`['fields']`)
     robot_node = proto.content['root'][0]['root'][0]
+    # print(robot_node)
 
     # Convert robot's children
     robot_children = get_field(robot_node, 'children')['value']
@@ -237,7 +238,6 @@ def main():
 
     # Convert bounding objects
     convert_bounding_object(robot_node, args.z_offset, args.initial_orientation)
-
     proto.save(args.proto_file)
 
 
