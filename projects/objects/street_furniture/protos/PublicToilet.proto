@@ -63,8 +63,8 @@ PROTO PublicToilet [
       DEF OBJECT Solid {
         children [
           Transform {
-            translation %<= - 0.113 * width >% 0 %<= 0.278 * length >%
-            scale %<= 0.33 * width >% %<= 0.2 * height >% %<= 0.2 * length >%
+            translation %<= - 0.278 * length >% %<= 0.113 * width >% 0
+            scale %<= 0.2 * length >% %<= 0.33 * width >% %<= 0.2 * height >%
             children [
               Shape {
                 appearance PBRAppearance {
@@ -81,17 +81,17 @@ PROTO PublicToilet [
           }
         ]
         boundingObject Transform {
-          translation 0 %<= height / 2 >% 0
+          translation 0 0 %<= height / 2 >%
           children [
             Box {
-              size %<= width >% %<= height >% %<= length >%
+              size %<= length >% %<= width >% %<= height >%
             }
           ]
         }
       }
       DEF TEXT Transform {
-        translation %<= - 0.392 * width >% %<=  0.828 * height >% %<= 0.168 * length >%
-        rotation -0.57735 0.57735 -0.57735 4.1888
+        translation %<= - 0.168 * length >% %<= 0.392 * width >% %<=  0.828 * height >%
+        rotation 0 0.707107 0.707107 -3.141589
         children [
           Shape {
             appearance PBRAppearance {
@@ -108,13 +108,13 @@ PROTO PublicToilet [
         ]
       }
       DEF FRONT_DISPLAY Transform {
-        translation %<= - 0.51 * width >% %<=  0.437 * height >% %<= -0.17 * length >%
-        rotation 0 -1 0 1.5708
+        translation %<= 0.17 * length >% %<= 0.51 * width >% %<=  0.437 * height >%
+        rotation 0 -0.707107 -0.707107 -3.14159
         children IS frontDisplay
       }
       DEF BACK_DISPLAY Transform {
-        translation %<= 0.498 * width >% %<=  0.437 * height >% %<=  0.015 * length >%
-        rotation 0.57735 0.57735 -0.57735 2.09439
+        translation %<= - 0.015 * length >% %<= 0.498 * width >% %<=  0.437 * height >%
+        rotation -1 0 0 -1.570796
         children [
           Shape {
             appearance PBRAppearance {
