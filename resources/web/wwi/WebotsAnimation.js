@@ -41,15 +41,17 @@ export default class WebotsAnimation extends HTMLElement {
     });
   }
 
-  async _init() {
+  _init() {
     const promises = [];
+    Module.onRuntimeInitialized = () => {
+      Promise.all(promises).then(() => {
+        if (this.getAttribute('playWhenReady') && this.getAttribute('playWhenReady') === 'true')
+          this.play();
+      });
+    };
     promises.push(this._load('https://git.io/glm-js.min.js'));
     promises.push(this._load('https://cyberbotics.com/wwi/R2021c/enum.js'));
     promises.push(this._load('https://cyberbotics.com/wwi/R2021c/wrenjs.js'));
-
-    await Promise.all(promises);
-    if (this.getAttribute('playWhenReady') && this.getAttribute('playWhenReady') === 'true')
-      this.play();
   }
 
   setNames(name) {
