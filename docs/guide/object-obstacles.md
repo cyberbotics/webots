@@ -14,7 +14,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 OilBarrel {
-  SFVec3f    translation         0 0.44 0
+  SFVec3f    translation         0 0 0.44
   SFRotation rotation            0 0 1 0
   SFString   name                "oil barrel"
   SFFloat    height              0.88
@@ -81,10 +81,10 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 ThreeSteps {
-  SFVec3f    translation  0 -0.5 0
+  SFVec3f    translation  0 0 -0.5
   SFRotation rotation     0 0 1 0
   SFString   name         "three steps"
-  SFVec3f    increment    0 0.1 0
+  SFVec3f    increment    0 0 0.1
   SFColor    color        0.5 0.5 0.5
 }
 ```

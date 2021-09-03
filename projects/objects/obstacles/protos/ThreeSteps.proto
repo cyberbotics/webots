@@ -5,10 +5,10 @@
 # This is not a physics-enabled object so it will not move when hit.
 
 PROTO ThreeSteps [
-  field SFVec3f    translation  0 -0.5 0
+  field SFVec3f    translation  0 0 -0.5
   field SFRotation rotation     0 0 1 0
   field SFString   name         "three steps"
-  field SFVec3f    increment    0 0.1 0        # Defines the translation between each step.
+  field SFVec3f    increment    0 0 0.1        # Defines the translation between each step.
   field SFColor    color        0.5 0.5 0.5    # Deines the color of the steps.
 ]
 {
@@ -26,7 +26,7 @@ PROTO ThreeSteps [
               metalness 0
             }
             geometry DEF BOX1 Box {
-              size 3 1 6
+              size 6 3 1
             }
           }
           Solid {
@@ -35,7 +35,7 @@ PROTO ThreeSteps [
               Shape {
                 appearance USE APPEARANCE
                 geometry DEF BOX2 Box {
-                  size 2.99 1 4
+                  size 4 2.99 1
                 }
               }
               Solid {
@@ -44,7 +44,7 @@ PROTO ThreeSteps [
                   Shape {
                     appearance USE APPEARANCE
                     geometry DEF BOX3 Box {
-                      size 2.98 1 2
+                      size 2 2.98 1
                     }
                   }
                 ]
