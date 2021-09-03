@@ -26,6 +26,56 @@ export default class Animation {
     xmlhttp.send();
   }
 
+  pause() {
+    this._gui = 'pause';
+    if (this._step < 0 || this._step >= this._data.frames.length) {
+      this._start = new Date().getTime();
+      this._updateAnimationState();
+    } else
+      this._start = new Date().getTime() - this._data.basicTimeStep * this._step;
+  }
+
+  removePlayBar() {
+    const view3d = document.getElementById('view3d');
+    if (!view3d)
+      return;
+    this._view.mouseEvents.hidePlayBar = undefined;
+    this._view.mouseEvents.showPlayBar = undefined;
+    document.removeEventListener('keydown', this.keydownRef);
+    this.keydownRef = undefined;
+    document.removeEventListener('sliderchange', this.sliderchangeRef);
+    this.sliderchangeRef = undefined;
+    document.removeEventListener('fullscreenchange', this.fullscreenRef);
+    this.fullscreenRef = undefined;
+    document.removeEventListener('mouseup', this.settingsRef);
+    this.settingsRef = undefined;
+    if (document.querySelector('animation-slider')) {
+      document.querySelector('animation-slider').shadowRoot.getElementById('range').removeEventListener('mousemove', this.updateFloatingTimeRef);
+      this.updateFloatingTimeRef = undefined;
+      document.querySelector('animation-slider').shadowRoot.getElementById('range').removeEventListener('mouseleave', this.hideFloatingTimeRef);
+      this.hideFloatingTimeRef = undefined;
+      document.querySelector('animation-slider').removeEventListeners();
+    }
+
+    const gtaoPane = document.getElementById('gtao-pane');
+    if (gtaoPane)
+      view3d.removeChild(gtaoPane);
+
+    const speedPane = document.getElementById('speed-pane');
+    if (speedPane)
+      view3d.removeChild(speedPane);
+
+    const settingsPane = document.getElementById('settings-pane');
+    if (settingsPane)
+      view3d.removeChild(settingsPane);
+
+    const playBar = document.getElementById('play-bar');
+    if (playBar)
+      view3d.removeChild(playBar);
+
+    this._fullscreenButton = undefined;
+    this._exitFullscreenButton = undefined;
+  }
   // private methods
   _setup(data) {
     this._data = data;
@@ -40,7 +90,7 @@ export default class Animation {
     this._createSettings();
     this._createFullscreenButton();
 
-    document.addEventListener('keydown', _ => this._keyboardHandler(_));
+    document.addEventListener('keydown', this.keydownRef = _ => this._keyboardHandler(_));
     // Initialize animation data.
     this._start = new Date().getTime();
     this._step = 0;
@@ -58,14 +108,9 @@ export default class Animation {
   }
 
   _triggerPlayPauseButton() {
-    if (this._gui === 'real_time') {
-      this._gui = 'pause';
-      if (this._step < 0 || this._step >= this._data.frames.length) {
-        this._start = new Date().getTime();
-        this._updateAnimationState();
-      } else
-        this._start = new Date().getTime() - this._data.basicTimeStep * this._step;
-    } else {
+    if (this._gui === 'real_time')
+      this.pause();
+    else {
       this._gui = 'real_time';
       this._start = new Date().getTime() - this._data.basicTimeStep * this._step / this._speed;
       window.requestAnimationFrame(() => this._updateAnimation());
@@ -259,6 +304,8 @@ export default class Animation {
     if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'playback-li' || event.srcElement.id === 'gtao-settings') // avoid to close the settings when modifying the shadows or the other options
       return;
 
+    if (document.getElementById('settings-pane') === null || document.getElementById('gtao-pane') === null || document.getElementById('speed-pane') === null)
+      return;
     if (event.target.id === 'settings-button' && document.getElementById('settings-pane').style.visibility === 'hidden' && document.getElementById('gtao-pane').style.visibility === 'hidden' && document.getElementById('speed-pane').style.visibility === 'hidden') {
       document.getElementById('settings-pane').style.visibility = 'visible';
       document.getElementById('settings-button').style.transform = 'rotate(10deg)';
@@ -356,7 +403,7 @@ export default class Animation {
   _createPlayBar() {
     const div = document.createElement('div');
     div.id = 'play-bar';
-    this._view.view3D.appendChild(div);
+    document.getElementById('view3d').appendChild(div);
 
     div.addEventListener('mouseover', () => this._showPlayBar());
     div.addEventListener('mouseleave', _ => this._onMouseLeave(_));
@@ -376,13 +423,16 @@ export default class Animation {
   }
 
   _createSlider() {
-    window.customElements.define('animation-slider', AnimationSlider);
+    if (!Animation.sliderDefined) {
+      window.customElements.define('animation-slider', AnimationSlider);
+      Animation.sliderDefined = true;
+    }
     const timeSlider = document.createElement('animation-slider');
     timeSlider.id = 'time-slider';
-    document.addEventListener('slider_input', _ => this._updateSlider(_));
+    document.addEventListener('sliderchange', this.sliderchangeRef = _ => this._updateSlider(_));
     document.getElementById('play-bar').appendChild(timeSlider);
-    document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mousemove', _ => this._updateFloatingTimePosition(_));
-    document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mouseleave', _ => this._hideFloatingTimePosition(_));
+    document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
+    document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
   }
 
   _createPlayButton() {
@@ -461,7 +511,7 @@ export default class Animation {
     settingsPane.className = 'settings-pane';
     settingsPane.id = 'settings-pane';
     settingsPane.style.visibility = 'hidden';
-    document.addEventListener('mouseup', _ => this._changeSettingsPaneVisibility(_));
+    document.addEventListener('mouseup', this.settingsRef = _ => this._changeSettingsPaneVisibility(_));
     document.getElementById('view3d').appendChild(settingsPane);
 
     const settingsList = document.createElement('ul');
@@ -692,22 +742,19 @@ export default class Animation {
     fullscreenTooltip.innerHTML = 'Full screen (f)';
     this._fullscreenButton.appendChild(fullscreenTooltip);
 
-    const exitFullscreenButton = document.createElement('button');
-    exitFullscreenButton.title = 'Exit full screen (f)';
-    exitFullscreenButton.className = 'player-btn icon-partscreen';
-    exitFullscreenButton.style.display = 'none';
-    exitFullscreenButton.onclick = () => exitFullscreen();
-    document.getElementById('right-pane').appendChild(exitFullscreenButton);
+    this._exitFullscreenButton = document.createElement('button');
+    this._exitFullscreenButton.title = 'Exit full screen (f)';
+    this._exitFullscreenButton.className = 'player-btn icon-partscreen';
+    this._exitFullscreenButton.style.display = 'none';
+    this._exitFullscreenButton.onclick = () => exitFullscreen();
+    document.getElementById('right-pane').appendChild(this._exitFullscreenButton);
 
     fullscreenTooltip = document.createElement('span');
     fullscreenTooltip.className = 'tooltip fullscreen-tooltip';
     fullscreenTooltip.innerHTML = 'Exit full screen (f)';
-    exitFullscreenButton.appendChild(fullscreenTooltip);
+    this._exitFullscreenButton.appendChild(fullscreenTooltip);
 
-    document.addEventListener('fullscreenchange', () => onFullscreenChange(this._fullscreenButton, exitFullscreenButton));
-    document.addEventListener('webkitfullscreenchange', () => onFullscreenChange(this._fullscreenButton, exitFullscreenButton));
-    document.addEventListener('mozfullscreenchange', () => onFullscreenChange(this._fullscreenButton, exitFullscreenButton));
-    document.addEventListener('MSFullscreenChange', () => onFullscreenChange(this._fullscreenButton, exitFullscreenButton));
+    document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
   }
 
   _keyboardHandler(e) {
@@ -738,3 +785,5 @@ export default class Animation {
     document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.visibility = '';
   }
 }
+
+Animation.sliderDefined = false;
