@@ -35,12 +35,10 @@ PROTO LargeResidentialTower [
       }
       LargeResidentialTowerRoof {
           translation 0 0 %<= 2.588 * (addedFloors - 1) >%
-          rotation -0.577352 0.577348 0.577352 -2.094405
       }
       %< for (let i = 0; i <= addedFloors - 1; ++i) { >%
         LargeResidentialTowerFloor {
           translation 0 0 %<= 2.768 * i - 0.18 >%
-          rotation -0.577352 0.577348 0.577352 -2.094405
         }
       %< } >%
     ]
