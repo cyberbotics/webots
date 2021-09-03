@@ -458,7 +458,7 @@ export default class Animation {
     document.getElementById('left-pane').appendChild(this._currentTime);
 
     const timeDivider = document.createElement('span');
-    timeDivider.innerHTML = '\\';
+    timeDivider.innerHTML = '/';
     timeDivider.className = 'time-divider';
     document.getElementById('left-pane').appendChild(timeDivider);
 
