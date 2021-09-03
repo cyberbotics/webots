@@ -612,7 +612,7 @@ ElectricalPlug {
   SFRotation rotation              0 0 1 0
   SFString   name                  "electrical plug"
   SFColor    color                 1 1 1
-  MFVec3f    cablePath             [0 0 0, 0 0.03 0, 0 0.03 0.1]
+  MFVec3f    cablePath             [0 0 0, 0 0 -0.03, 0.1 0 -0.03]
   SFBool     enablePhysics         TRUE
   SFBool     enableBoundingObject  TRUE
 }
