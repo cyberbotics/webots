@@ -455,7 +455,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 PipeSection {
-  SFVec3f    translation   0 0 0.03
+  SFVec3f    translation   0 0 0.25
   SFRotation rotation      1 0 0 1.5708
   SFString   name          "pipe section"
   SFFloat    height        0.5
@@ -527,7 +527,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Bolt {
-  SFVec3f    translation      0 0 0.0131
+  SFVec3f    translation      0 0 0.027
   SFRotation rotation         0 0 1 0
   SFString   name             "bolt"
   SFNode     appearance       OldSteel {}

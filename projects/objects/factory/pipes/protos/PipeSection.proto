@@ -4,7 +4,7 @@
 # A section of pipe.
 
 PROTO PipeSection [
-  field SFVec3f    translation   0 0 0.03
+  field SFVec3f    translation   0 0 0.25
   field SFRotation rotation      0 0 1 0
   field SFString   name          "pipe section"
   field SFFloat    height        0.5                                                                   # Defines the height of the pipe.
@@ -17,20 +17,15 @@ PROTO PipeSection [
     translation IS translation
     rotation IS rotation
     children [
-      DEF PIPE Transform {
-        rotation 0 1 0 1.5708
-        children [
-          Shape {
-            appearance IS appearance
-            geometry Cylinder {
-              bottom FALSE
-              height IS height
-              radius IS radius
-              top FALSE
-              subdivision IS subdivision
-            }
-          }
-        ]
+      Shape {
+        appearance IS appearance
+        geometry DEF PIPE Cylinder {
+          bottom FALSE
+          height IS height
+          radius IS radius
+          top FALSE
+          subdivision IS subdivision
+        }
       }
     ]
     name IS name
