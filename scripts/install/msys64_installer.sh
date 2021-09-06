@@ -51,6 +51,7 @@ do
   then
     echo $i
     pacman -S --noconfirm $i
+    pacman -Scc --noconfirm
   fi
 done
 
