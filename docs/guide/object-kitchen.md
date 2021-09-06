@@ -242,7 +242,7 @@ Worktop {
 
 ### Fridge PROTO
 
-A fridge with 2 doors (0.7 x 1.8 x 0.7 m).
+A fridge with 2 doors (0.7 x 0.7 x 1.8 m).
 
 %figure
 
@@ -274,7 +274,7 @@ Fridge {
 
 ### Oven PROTO
 
-An oven (0.5 x 0.68 x 0.44 m).
+An oven (0.5 x 0.44 x 0.68 m).
 
 %figure
 
@@ -286,7 +286,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Oven {
-  SFVec3f    translation    0 0.34 0
+  SFVec3f    translation    0 0 0
   SFRotation rotation       0 0 1 0
   SFString   name           "oven"
   SFColor    mainColor      1 1 1
