@@ -33,16 +33,16 @@ PROTO SmallResidentialTower [
       }
       %< for (let i = 0; i <= addedFloors - 1; ++i) { >%
         SmallResidentialTowerFloor {
-          translation 0 %<= 2.574 * i >% 0
+          translation 0 0 %<= 2.574 * i >%
         }
       %< } >%
     ]
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Transform {
-        translation 0 %<= 3.088 + 1.287 * addedFloors >% 0.28
+        translation -0.28 0 %<= 3.088 + 1.287 * addedFloors >%
         children [
           Box {
-            size 5.4 %<= 6.176 + 2.574 * addedFloors >% 7.2
+            size 7.2 5.4 %<= 6.176 + 2.574 * addedFloors >%
           }
         ]
       }
