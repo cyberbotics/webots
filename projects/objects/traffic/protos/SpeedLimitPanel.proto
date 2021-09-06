@@ -18,7 +18,7 @@ PROTO SpeedLimitPanel [
     recognitionColors IS recognitionColors
     children [
       Transform {
-        translation -0.02 0 -1.9
+        translation -0.02 0 -1.899
         rotation -0.57735 0.57735 0.57735 -2.09441
         children [
           DEF DISPLAY_PLANE Shape {

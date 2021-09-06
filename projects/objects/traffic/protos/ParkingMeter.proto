@@ -112,7 +112,6 @@ PROTO ParkingMeter [
     ]
     boundingObject Transform {
       translation 0 0.06 0.8
-      #rotation -0.577351 0.577347 0.577351 -2.094405
       children [
         Box {
           size 0.2 0.4 1.6

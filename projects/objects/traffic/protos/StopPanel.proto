@@ -18,7 +18,7 @@ PROTO StopPanel [
     recognitionColors IS recognitionColors
     children [
       Transform {
-        translation -0.00399 0.00002 -1.80100
+        translation -0.004 0 -1.801
         rotation -0.57735 0.57735 0.57735 -2.09441
         children [
           DEF DISPLAY_PLANE Shape {
@@ -51,7 +51,7 @@ PROTO StopPanel [
         ]
       }
       Transform {
-        translation 0.01600 -0.00001 0.80000
+        translation 0.016 0 0.8
         rotation 0.57735 0.57735 -0.57735 2.09441
         children [
           DEF PANEL_BODY Shape {

@@ -49,7 +49,7 @@ PROTO SignPole [
             }
           }
         ]
-        boundingObject USE POLE_GEOMETRY #abc
+        boundingObject USE POLE_GEOMETRY
       }
     ]
     name IS name
