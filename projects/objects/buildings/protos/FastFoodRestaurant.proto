@@ -87,11 +87,12 @@ PROTO FastFoodRestaurant [
     %< } >%
     children [
     Transform {
-      translation 0 0 %<= frontTransform >%
+      translation 0 %<= -frontTransform >% 0
+      rotation 1 0 0 1.570796
       children [
         DEF LEFT_INNER_WALL Transform {
           translation %<= halfLength - 1 >% 1.4 %<= 3.4 - planeOffset - depthFightingOffset >%
-          rotation 0 -0.707107 0.707106 3.14159
+          rotation 0 1 0 -3.141591
           children [
             DEF INNER_WALL Shape {
               appearance PBRAppearance {
@@ -126,10 +127,10 @@ PROTO FastFoodRestaurant [
             DEF %<= 'BACK_' + i >% Transform {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                   translation %<= halfLength - 2 + planeOffset + depthFightingOffset >% 1.4 0
-                  rotation -0.57735 -0.577351 0.57735 4.18879
+                  rotation 0 1 0 1.570797
               %< } else { >%
                   translation %<= halfLength - 5.4 >% 1.4 %<= -3.4 - planeOffset - depthFightingOffset >%
-                  rotation 0 0.707107 -0.707107 3.14159
+                  rotation 0 1 0 3.141591
               %< } >%
               children [
                 Shape {
@@ -161,10 +162,10 @@ PROTO FastFoodRestaurant [
             DEF %<= 'FRONT_' + i >% Transform {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                   translation %<= halfLength + planeOffset >% %<= frontPlaneY >% %<= frontAdjust - subwayFrontAdjust >%
-                  rotation -0.57735 -0.577351 0.57735 4.18879
+                  rotation 0 1 0 1.570797
               %< } else { >%
                   translation %<= halfLength - 5 + subwayFrontAdjust >% %<= frontPlaneY >% %<= -5.4 - planeOffset >%
-                  rotation 0 0.707107 -0.707107 3.14159
+                  rotation 0 1 0 3.141591
               %< } >%
               children [
                 DEF FRONT_WALL_SHAPE Shape {
@@ -193,10 +194,10 @@ PROTO FastFoodRestaurant [
             DEF %<= 'REVERSE_FRONT_' + i >% Transform {
               %< if (i === 1) { >%
                 translation %<= halfLength + planeOffset >% %<= frontPlaneY >% %<= frontAdjust - subwayFrontAdjust >%
-                rotation -0.577351 0.57735 -0.57735 4.18879
+                rotation 0 -1.0 0 1.570795
               %< } else if (i === 2) { >%
                 translation %<= halfLength - 5 + subwayFrontAdjust >% %<= frontPlaneY >% %<= -5.4 - planeOffset >%
-                rotation 1 0 0 1.5708
+                rotation 1 0 0 0
               %< } >%
               children [
                 Shape {
@@ -215,10 +216,10 @@ PROTO FastFoodRestaurant [
             DEF %<= 'ROOF_' + i >% Transform {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                   translation %<= halfLength - 1 >% %<= 2.8 - planeOffset >% 0
-                  rotation 0 0 1 3.14159
+                  rotation 0 0.707107 -0.707107 -3.141591
               %< } else { >%
                   translation %<= halfLength - 4.4 >% %<= 2.8 - planeOffset >% -4.4
-                  rotation -0.707107 0 -0.707107 3.14159
+                  rotation 0.577351 -0.57735 0.57735 2.094397
               %< } >%
               children [
                 Shape {
@@ -248,9 +249,10 @@ PROTO FastFoodRestaurant [
             DEF %<= 'FLOOR_' + i >% Transform {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                   translation %<= halfLength - 1 >% %<= depthFightingOffset >% 0
+                  rotation 1 0 0 -1.570796
               %< } else { >%
                   translation %<= halfLength - 4.4 >% %<= depthFightingOffset >% -4.4
-                  rotation 0 1 0 1.5708
+                  rotation -0.577349 0.577351 0.577351 2.094397
               %< } >%
               children [
                 Shape {
@@ -276,7 +278,8 @@ PROTO FastFoodRestaurant [
     }
       DEF LEFT_SIDE Transform {
         %< if (numberOfSides === 1) { >%
-            translation 0 1.4 %<= (width * 0.25) + ( 3.4 * 0.5 ) >%
+            translation 0 %<= -(width * 0.25) - ( 3.4 * 0.5 ) >% 1.4
+            rotation 1 0 0 1.570796
             children [
               DEF SIDE_WALL Shape {
                 appearance PBRAppearance {
@@ -292,7 +295,8 @@ PROTO FastFoodRestaurant [
               }
             ]
         %< } else if (numberOfSides === 2) { >%
-            translation 0 1.4 4.4
+            translation 0 -4.4 1.4
+            rotation 1 0 0 1.570796
             children [
               DEF SIDE_WALL Shape {
                 appearance DEF SIDE_APPEARANCE PBRAppearance {
@@ -311,10 +315,10 @@ PROTO FastFoodRestaurant [
       }
       DEF RIGHT_SIDE Transform {
         %< if (numberOfSides === 1) { >%
-            translation 0 1.4 %<= - (width * 0.25) - ( 3.4 * 0.5 ) >%
+            translation 0 %<= (width * 0.25) + ( 3.4 * 0.5 ) >% 1.4
             children USE SIDE_WALL
         %< } else if (numberOfSides === 2) { >%
-            translation -4.4 1.4 %<= - (width * 0.5) + 1 >%
+            translation -4.4 %<= (width * 0.5) - 1 >% 1.4
             children [
               Shape {
                 appearance USE SIDE_APPEARANCE
@@ -324,9 +328,11 @@ PROTO FastFoodRestaurant [
               }
             ]
         %< } >%
+        rotation 1 0 0 1.570796
       }
       DEF TOP_SIDE Transform {
-        translation 0 %<= height * 0.5 + 1.4 >% 0
+        translation 0 0 %<= height * 0.5 + 1.4 >%
+        rotation 1 0 0 1.570796
         children [
           Shape {
             appearance PBRAppearance {
@@ -350,10 +356,11 @@ PROTO FastFoodRestaurant [
       }
       DEF BACK_SIDE Transform {
         %< if (numberOfSides === 1) { >%
-            translation -1 1.4 0
+            translation -1 0 1.4
         %< } else if (numberOfSides === 2) { >%
-            translation -1 1.4 %<= - width * 0.5 + 5.4 >%
+            translation -1 %<= width * 0.5 - 5.4 >% 1.4
         %< } >%
+        rotation 1 0 0 1.570796
         children [
           Shape {
             appearance PBRAppearance {
@@ -374,7 +381,7 @@ PROTO FastFoodRestaurant [
         ]
       }
       DEF TOP_WALL Transform {
-        translation 0 %<= height >% 0
+        translation 0 0 %<= height >%
         children [
           Shape {
             appearance PBRAppearance {
@@ -399,10 +406,10 @@ PROTO FastFoodRestaurant [
     name IS name
     model %<= '"' + brand + '"' >%
     boundingObject Transform {
-      translation 0 %<= height * 0.5 >% 0
+      translation 0 0 %<= height * 0.5 >%
       children [
         Box {
-          size %<= length >% %<= height >% %<= width >%
+          size %<= length >% %<= width >% %<= height >%
         }
       ]
     }
