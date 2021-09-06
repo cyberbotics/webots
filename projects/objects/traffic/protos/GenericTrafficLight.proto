@@ -14,27 +14,27 @@ PROTO GenericTrafficLight [
   field SFString   state       "off"                    # Defines the current state of the traffic light, this field is automatically updated when the state change.
 ]
 {
-%<
-  let greenTime = fields.greenTime.value;
-  if (greenTime <= 0.0) {
-    greenTime = fields.greenTime.defaultValue;
-    console.error('\'greenTime\' should be strictly positive. Value reset to ' + greenTime + '.');
-  }
+  %<
+    let greenTime = fields.greenTime.value;
+    if (greenTime <= 0.0) {
+      greenTime = fields.greenTime.defaultValue;
+      console.error('\'greenTime\' should be strictly positive. Value reset to ' + greenTime + '.');
+    }
 
-  let redTime = fields.redTime.value;
-  if (redTime <= 0.0) {
-    redTime = fields.redTime.defaultValue;
-    console.error('\'redTime\' should be strictly positive. Value reset to ' + redTime + '.');
-  }
+    let redTime = fields.redTime.value;
+    if (redTime <= 0.0) {
+      redTime = fields.redTime.defaultValue;
+      console.error('\'redTime\' should be strictly positive. Value reset to ' + redTime + '.');
+    }
 
-  let controllerArgs = '[ "' + redTime + '", "' + greenTime + '", "';
-  if (fields.startGreen.value)
-    controllerArgs += 'g';
-  else
-    controllerArgs += 'r';
+    let controllerArgs = '[ "' + redTime + '", "' + greenTime + '", "';
+    if (fields.startGreen.value)
+      controllerArgs += 'g';
+    else
+      controllerArgs += 'r';
 
-  controllerArgs += '" ]';
->%
+    controllerArgs += '" ]';
+  >%
   Robot {
     translation IS translation
     rotation IS rotation
