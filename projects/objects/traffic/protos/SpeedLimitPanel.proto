@@ -18,8 +18,8 @@ PROTO SpeedLimitPanel [
     recognitionColors IS recognitionColors
     children [
       Transform {
-        translation 0 -1.899 0.02
-        rotation 0 0 1 0
+        translation -0.02 0 -1.9
+        rotation -0.57735 0.57735 0.57735 -2.09441
         children [
           DEF DISPLAY_PLANE Shape {
             appearance PBRAppearance {
@@ -51,8 +51,8 @@ PROTO SpeedLimitPanel [
         ]
       }
       Transform {
-        translation 0 0.89 0
-        rotation -0.57735 0.577349 -0.577352 2.0944
+        translation 0 0 0.89
+        rotation 0.57735 0.57735 -0.57735 2.09441
         children [
           DEF PANEL_BODY Shape {
             appearance PBRAppearance {
@@ -78,7 +78,8 @@ PROTO SpeedLimitPanel [
     name IS name
     model "speed limit panel"
     boundingObject Transform {
-      translation 0.01 0 -0.03
+      translation 0.03 -0.01 0
+      rotation -0.57735 0.57735 0.57735 -2.09441
       children [
         Box {
           size 0.50 0.63 0.06

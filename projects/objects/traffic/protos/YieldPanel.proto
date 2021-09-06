@@ -19,8 +19,8 @@ PROTO YieldPanel [
     recognitionColors IS recognitionColors
     children [
       Transform {
-        translation 0 -1.9 0
-        rotation 0 -1 0 6.28318
+        translation 0 0 -1.9
+        rotation 0.57735 -0.57735 -0.57735 2.09440
         children [
           DEF DISPLAY_PLANE Shape {
             appearance PBRAppearance {
@@ -36,7 +36,7 @@ PROTO YieldPanel [
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
-                   0.37533  2.16998 -0.083778 -0.380961 2.16988 -0.083778 -0.403772 2.16001 -0.083778 -0.419239 2.14041 -0.083778 -0.41982  2.10647 -0.083778 -0.032655 1.43688 -0.083778 -0.011377 1.42697 -0.083778 0.016973 1.42825 -0.083778 0.036702 1.44233 -0.083778 0.418939 2.10806 -0.083778 0.419573 2.13909 -0.083778 0.400965 2.16225 -0.083778
+                  0.37533  2.16998 -0.083778 -0.380961 2.16988 -0.083778 -0.403772 2.16001 -0.083778 -0.419239 2.14041 -0.083778 -0.41982  2.10647 -0.083778 -0.032655 1.43688 -0.083778 -0.011377 1.42697 -0.083778 0.016973 1.42825 -0.083778 0.036702 1.44233 -0.083778 0.418939 2.10806 -0.083778 0.419573 2.13909 -0.083778 0.400965 2.16225 -0.083778
                 ]
               }
               texCoord TextureCoordinate {
@@ -55,8 +55,8 @@ PROTO YieldPanel [
         ]
       }
       Transform {
-        translation 0 -1.9 -0.004
-        rotation 0.577349 0.577351 -0.577351 4.18879
+        translation 0.004 0 -1.9
+        rotation 0.57735 0.57735 0.57735 -2.09439
         children [
           DEF PANEL_BODY Shape {
             appearance PBRAppearance {
@@ -84,8 +84,8 @@ PROTO YieldPanel [
     boundingObject Group {
       children [
         DEF TOP Transform {
-          translation 0 0.22 -0.043
-          rotation 1 0 0 0
+          translation 0.043 0 0.22
+          rotation -0.57735 0.57735 0.57735 -2.09441
           children [
             Box {
               size 0.8 0.1 0.08
@@ -93,8 +93,8 @@ PROTO YieldPanel [
           ]
         }
         DEF LEFT Transform {
-          translation 0.18 -0.1 -0.043
-          rotation 0 0 1 1.0472
+          translation 0.043 -0.18 -0.1
+          rotation -0.25056 0.93511 0.25057 -1.63784
           children [
             Box {
               size 0.8 0.1 0.08
@@ -102,8 +102,8 @@ PROTO YieldPanel [
           ]
         }
         DEF RIGHT Transform {
-          translation -0.18 -0.1 -0.043
-          rotation 0 0 -1 1.0472
+          translation 0.043 0.18 -0.1
+          rotation 0.69475 -0.18615 -0.69475 2.77350
           children [
             Box {
               size 0.8 0.1 0.08
@@ -111,7 +111,8 @@ PROTO YieldPanel [
           ]
         }
         DEF CENTER Transform {
-          translation 0 0 -0.043
+          translation 0.043 0 0
+          rotation -0.57735 0.57735 0.57735 -2.09441
           children [
             Box {
               size 0.35 0.35 0.08
