@@ -236,10 +236,10 @@ Fence {
   SFFloat      poleRadius              0.04
   SFString     poleShape               "cylinder"
   SFNode       poleAppearance          PBRAppearance {}
-  MFVec3f      path                    [0 0 0, 5 0 0]
+  MFVec3f      path                    [0 0 0, 0 5 0]
   SFInt32      subdivision             -1
   SFInt32      horizontalBarsNumber    2
-  MFVec2f      horizontalBarShape      [0.06 0.02, 0.06 -0.02, -0.06 -0.02, -0.06 0.02, 0.06 0.02]
+  MFVec2f      horizontalBarShape      [0.02 0.06, 0.02 -0.06, -0.02 -0.06, -0.02 0.06, 0.02 0.06]
   SFNode       horizontalBarAppearance PBRAppearance {}
   SFNode       boundingObject          NULL
   SFFloat      creaseAngle             0.3
@@ -905,4 +905,3 @@ WorkTrashContainer {
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
-
