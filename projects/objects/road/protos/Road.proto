@@ -50,6 +50,7 @@ PROTO Road [
   field        SFString             contactMaterial           "default"               # Is `Solid.contactMaterial`.
 ]
 {
+  # abc
   %<
     import * as wbgeometry from 'wbgeometry.js';
     import * as wbvector2 from 'wbvector2.js';
