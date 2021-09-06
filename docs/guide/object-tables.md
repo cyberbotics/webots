@@ -2,7 +2,7 @@
 
 ## Desk
 
-A desk (1.2 x 0.72 x 0.7 m).
+A desk (1.2 x 0.7 x 0.72 m).
 
 %figure
 
@@ -33,7 +33,7 @@ Desk {
 
 ## RoundTable
 
-A round table (2 x 0.76 x 2 m).
+A round table (2 x 2 x 0.76 m).
 
 %figure
 
@@ -81,7 +81,7 @@ Table {
   SFVec3f    translation    0 0 0
   SFRotation rotation       0 0 1 0
   SFString   name           "table"
-  SFVec3f    size           1.8 0.74 1
+  SFVec3f    size           1 1.8 0.74
   SFVec2f    feetSize       0.1 0.1
   SFFloat    feetPadding    0
   SFFloat    frameThickness 0.05
@@ -108,4 +108,3 @@ Table {
 - `trayAppearance`: Defines the appearance of the tray.
 
 - `legAppearance`: Defines the appearance of the feet.
-

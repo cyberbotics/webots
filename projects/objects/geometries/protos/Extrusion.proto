@@ -7,7 +7,7 @@
 
 PROTO Extrusion [
   field MFVec2f    crossSection              [1 1, 1 -1, -1 -1, -1 1, 1 1]   # Defines the 2D cross-section of the extrusion.
-  field MFVec3f    spine                     [0 0 0, 0 1 0]                  # Defines the 3D extrusion path.
+  field MFVec3f    spine                     [0 0 0, 0 0 1]                  # Defines the 3D extrusion path.
   field MFVec2f    scale                     [1.0 1.0]                       # Defines the scale at each point of the spine.
   field MFRotation orientation               [0 0 1 0]                       # Defines the orientation of the cross-section at each point of the spine.
   field SFBool     beginCap                  TRUE                            # Defines whether the extrusion should have a cap at the begining.
@@ -87,7 +87,7 @@ PROTO Extrusion [
                           a: orientationOriginal[index].a * (1 - ratio) + orientationOriginal[index+1].a * ratio};
       }
     }
-    // compute the X, Y and Z axes at each spine point (Y = tangent)
+    // compute the X, Y and Z axes at each spine point (Z = tangent)
     let X = [];
     let Y = [];
     let Z = [];
@@ -97,18 +97,18 @@ PROTO Extrusion [
       Z.push({x: 0, y: 0, z: 0});
       if (i === 0 || i === nbSpinePoints - 1) {
         if (wbvector3.equal(spine[0], spine[nbSpinePoints - 1])) {
-          Y[i].x = spine[1].x - spine[nbSpinePoints-2].x;
-          Y[i].y = spine[1].y - spine[nbSpinePoints-2].y;
-          Y[i].z = spine[1].z - spine[nbSpinePoints-2].z;
-          Z[i] = wbvector3.cross(wbvector3.minus(spine[1], spine[0]), wbvector3.minus(spine[nbSpinePoints-2], spine[0]));
+          Z[i].x = spine[1].x - spine[nbSpinePoints-2].x;
+          Z[i].y = spine[1].y - spine[nbSpinePoints-2].y;
+          Z[i].z = spine[1].z - spine[nbSpinePoints-2].z;
+          Y[i] = wbvector3.cross(wbvector3.minus(spine[1], spine[0]), wbvector3.minus(spine[nbSpinePoints-2], spine[0]));
         } else if (i === 0) {
-          Y[i].x = spine[1].x - spine[0].x;
-          Y[i].y = spine[1].y - spine[0].y;
-          Y[i].z = spine[1].z - spine[0].z;
+          Z[i].x = spine[1].x - spine[0].x;
+          Z[i].y = spine[1].y - spine[0].y;
+          Z[i].z = spine[1].z - spine[0].z;
           if (nbSpinePoints > 2)
-            Z[i] = wbvector3.cross(wbvector3.minus(spine[2], spine[1]), wbvector3.minus(spine[0], spine[1]));
+            Y[i] = wbvector3.cross(wbvector3.minus(spine[2], spine[1]), wbvector3.minus(spine[0], spine[1]));
 
-          if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
+          if (Y[i].x === 0 && Y[i].y === 0 && Y[i].z === 0) {
             let vector = wbvector3.minus(spine[0], spine[1]);
             // find an arbitrary perpendicular vector
             let x = -1;
@@ -123,42 +123,42 @@ PROTO Extrusion [
               x = 0;
               z = 1;
             }
-            Z[i] = wbvector3.cross({x: x, y: y, z: z}, vector);
+            Y[i] = wbvector3.cross({x: x, y: y, z: z}, vector);
           }
-          if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
-            Z[i].x = 0;
-            Z[i].y = 0;
-            Z[i].z = 1;
+          if (Y[i].x === 0 && Y[i].y === 0 && Y[i].z === 0) {
+            Y[i].x = 0;
+            Y[i].y = 0;
+            Y[i].z = 1;
             console.info('Warning: orientation of the crossSection at the first spine point is undefined.');
           }
           // make sure to always select the clockwise version of the perpendicular
-          if (Z[i].x > 0 || Z[i].y > 0 || Z[i].z > 0) {
-            Z[i].x = -Z[i].x;
-            Z[i].y = -Z[i].y;
-            Z[i].z = -Z[i].z;
+          if (Y[i].x > 0 || Y[i].y > 0 || Y[i].z > 0) {
+            Y[i].x = -Y[i].x;
+            Y[i].y = -Y[i].y;
+            Y[i].z = -Y[i].z;
           }
         } else {
-          Y[i].x = spine[nbSpinePoints-1].x - spine[nbSpinePoints-2].x;
-          Y[i].y = spine[nbSpinePoints-1].y - spine[nbSpinePoints-2].y;
-          Y[i].z = spine[nbSpinePoints-1].z - spine[nbSpinePoints-2].z;
-          Z[i] = Z[i-1];
+          Z[i].x = spine[nbSpinePoints-1].x - spine[nbSpinePoints-2].x;
+          Z[i].y = spine[nbSpinePoints-1].y - spine[nbSpinePoints-2].y;
+          Z[i].z = spine[nbSpinePoints-1].z - spine[nbSpinePoints-2].z;
+          Y[i] = Y[i-1];
         }
       } else {
-        Y[i].x = spine[i+1].x - spine[i-1].x;
-        Y[i].y = spine[i+1].y - spine[i-1].y;
-        Y[i].z = spine[i+1].z - spine[i-1].z;
-        Z[i] = wbvector3.cross(wbvector3.minus(spine[i+1], spine[i]), wbvector3.minus(spine[i-1], spine[i]));
-        if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
-          Z[i].x = Z[i-1].x;
-          Z[i].y = Z[i-1].y;
-          Z[i].z = Z[i-1].z;
+        Z[i].x = spine[i+1].x - spine[i-1].x;
+        Z[i].y = spine[i+1].y - spine[i-1].y;
+        Z[i].z = spine[i+1].z - spine[i-1].z;
+        Y[i] = wbvector3.cross(wbvector3.minus(spine[i+1], spine[i]), wbvector3.minus(spine[i-1], spine[i]));
+        if (Y[i].x === 0 && Y[i].y === 0 && Y[i].z === 0) {
+          Y[i].x = Y[i-1].x;
+          Y[i].y = Y[i-1].y;
+          Y[i].z = Y[i-1].z;
         }
       }
       if (i !== 0) {
-        if (wbvector3.dot(Z[i], Z[i-1]) < 0)
-          Z[i] = wbvector3.multiply(Z[i], -1);
+        if (wbvector3.dot(Y[i], Y[i-1]) < 0)
+          Y[i] = wbvector3.multiply(Y[i], -1);
       }
-      X[i] = wbvector3.cross(Y[i], Z[i]);
+      X[i] = wbvector3.cross(Z[i], Y[i]);
       // normalize axes
       if (wbvector3.norm(X[i]) !== 0)
         X[i] = wbvector3.normalize(X[i]);
@@ -186,7 +186,7 @@ PROTO Extrusion [
         %< for (let i = 0; i < nbSpinePoints; ++i) { >%
           %< for (let j = 0; j < nbCrossSectionPoint; ++j) { >%
             %<
-              let point = wbvector3.add(wbvector3.multiply(X[i], crossSection[j].x * scale[i].x), (wbvector3.multiply(Z[i], -crossSection[j].y * scale[i].y)));
+              let point = wbvector3.add(wbvector3.multiply(X[i], crossSection[j].x * scale[i].x), (wbvector3.multiply(Y[i], -crossSection[j].y * scale[i].y)));
               if (orientation[i] !== undefined)
                 point = wbrotation.rotateVector3ByRotation(orientation[i], point);
 
