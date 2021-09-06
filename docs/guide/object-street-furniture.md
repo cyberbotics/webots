@@ -595,8 +595,8 @@ PublicToilet {
   SFRotation  rotation            0 0 1 0
   SFString    name                "public toilet"
   SFFloat     height              3.2
-  SFFloat     length              3.5
-  SFFloat     width               2.1
+  SFFloat     length              2.1
+  SFFloat     width               3.5
   MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/webots_billboard.jpg"
   SFBool      backDisplayLight    FALSE
   MFNode      frontDisplay        [
