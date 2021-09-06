@@ -68,7 +68,7 @@ PROTO PaperBoat [
             }
           ]
         }
-      Transform {
+        Transform {
           translation 0 -0.0308 0.038
           rotation -0.659864 0.659862 -0.359392 -2.45157
           children [
