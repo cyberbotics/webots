@@ -19,7 +19,7 @@ PROTO Fence [
   field SFString{"cylinder", "square", "diamond", "H"}
                      poleShape               "cylinder"                                                   # Defines the shape of the poles.
   field SFNode       poleAppearance          PBRAppearance {}                                             # Defines the appearance of the poles.
-  field MFVec3f      path                    [0 0 0, 5 0 0]                                               # Defines the 3D path of the fence.
+  field MFVec3f      path                    [0 0 0, 0 5 0]                                               # Defines the 3D path of the fence.
   field SFInt32      subdivision             -1                                                           # Defines the degree of interpolation using B-Splines (if the value is lower than 0, the interpolation is disabled).
   field SFInt32      horizontalBarsNumber    2                                                            # Defines the number of horizontal bars.
   field MFVec2f      horizontalBarShape      [0.02 0.06, 0.02 -0.06, -0.02 -0.06, -0.02 0.06, 0.02 0.06]  # Defines the shape 2D of the horizontal bars.
@@ -72,14 +72,13 @@ PROTO Fence [
     let polePositions = [];
     let offset = -poleRadius;
     for (let i = 0; i < nbPath - 1; ++i) {
-      const distance = wbvector2.distance({x: path[i].x, y: path[i].z}, {x: path[i+1].x, y: path[i+1].z});
+      const distance = wbvector2.distance({x: path[i].x, y: path[i].y}, {x: path[i+1].x, y: path[i+1].y});
       const distanceTotal = offset + distance;
       const poleNb = Math.floor(distanceTotal / poleGap);
       const start = (i === 0) ? 0 : 1; // make sure first pole starts at beginning
       for (let j = start; j <= poleNb; ++j) {
         const ratio = (poleGap * j - offset) / distance;
         let point = {x: (1 - ratio) * path[i].x + ratio * path[i+1].x, y: (1 - ratio) * path[i].y + ratio * path[i+1].y, z: (1 - ratio) * path[i].z + ratio * path[i+1].z};
-        point.y = point.y;
         polePositions.push(point);
       }
       offset = distanceTotal - poleNb * poleGap;
@@ -237,21 +236,19 @@ PROTO Fence [
               let coordIndexBuffer = '';
               for (let i = 0; i <= nbPoles - 1; ++i) {
                 // Top part
-                for (let j = 0; j <= circleSubdivision; ++j)
+                for (let j = circleSubdivision; j >= 0; --j)
                   coordIndexBuffer += i * skip + circleSubdivision - j + ' ';
                 coordIndexBuffer += ' -1\n';
 
                 // Bottom part
-                for (let j = 0; j <= circleSubdivision; ++j)
+                for (let j = circleSubdivision; j >= 0; --j)
                   coordIndexBuffer += i * skip + j + circleSubdivision + 1 + ' ';
                 coordIndexBuffer += ' -1\n';
 
                 // Sides
                 for (let j = 0; j <= circleSubdivision - 1; ++j) {
-                  coordIndexBuffer += i * skip + j + ' ';
-                  coordIndexBuffer += i * skip + j + 1 + ' ';
-                  coordIndexBuffer += i * skip + j + circleSubdivision + 2  + ' ';
-                  coordIndexBuffer += i * skip + j + circleSubdivision + 1 + ' -1\n';
+                  const start = i * skip + j;
+                  coordIndexBuffer += `${start + circleSubdivision + 1} ${start + circleSubdivision + 2} ${start + 1} ${start} -1\n`;
                 }
               }
             >%
