@@ -57,7 +57,7 @@ PROTO SolidTorus [
             point [
              %< for (let i = 0; i < referenceCircle.length; ++i) { >%
                %< for (let j = 0; j < referenceCircle.length; ++j) { >%
-                 %<= (majorRadius + minorRadius * referenceCircle[j].x) * referenceCircle[i].x >% %<= minorRadius * referenceCircle[j].y >% %<= (majorRadius + minorRadius * referenceCircle[j].x) * referenceCircle[i].y >%
+                 %<= (majorRadius + minorRadius * referenceCircle[j].x) * referenceCircle[i].y >% %<= (majorRadius + minorRadius * referenceCircle[j].x) * referenceCircle[i].x >% %<= minorRadius * referenceCircle[j].y >%
                %< } >%
              %< } >%
             ]
