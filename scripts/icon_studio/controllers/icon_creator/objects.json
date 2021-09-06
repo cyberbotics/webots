@@ -498,8 +498,6 @@
   "projects/objects/obstacles/protos/Ramp30deg": {
     "fields": "rotation 0 1 0 2.13"
   },
-  "projects/objects/obstacles/protos/ThreeSteps": {
-  },
   "projects/objects/paintings/protos/LandscapePainting": {
     "fields": "rotation 0 1 0 1.3472"
   },
