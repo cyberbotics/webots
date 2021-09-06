@@ -28,7 +28,7 @@ BeerBottle {
 
 ## Can
 
-A can (0.03175 x 0.1222 x 0.03175 m).
+A can (0.03175 x 0.03175 x 0.1222 m).
 
 %figure
 
@@ -40,7 +40,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Can {
-  SFVec3f translation 0 0.06 0
+  SFVec3f translation 0 0 0.06
   SFRotation rotation 0 0 1 0
   SFString name "can"
   SFColor color 1 1 1
