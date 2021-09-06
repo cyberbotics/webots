@@ -564,7 +564,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CapScrew {
-  SFVec3f    translation           0 0 0
+  SFVec3f    translation           0 0 0.012
   SFRotation rotation              0 0 1 0
   SFString   name                  "cap screw"
   SFNode     appearance            OldSteel {}
@@ -677,7 +677,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 EyeScrew {
-  SFVec3f    translation      0 0 0
+  SFVec3f    translation      0 0 0.036
   SFRotation rotation         0 0 1 0
   SFString   name             "eye screw"
   SFNode     appearance       OldSteel { colorOverride 0.73 0.74 0.71 }
@@ -887,7 +887,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Washer {
-  SFVec3f    translation     0 0 0.004
+  SFVec3f    translation     0 0 0.001
   SFRotation rotation        0 0 1 0
   SFString   name            "washer"
   SFNode     appearance       OldSteel {}

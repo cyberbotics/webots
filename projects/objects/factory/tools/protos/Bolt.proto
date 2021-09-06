@@ -32,7 +32,7 @@ PROTO Bolt [
     rotation IS rotation
     children [
       Transform {
-        scale %<= screwLength / 0.027 >% %<= screwRadius / 0.0042 >% %<= screwRadius / 0.0042 >%
+        scale %<= screwRadius / 0.0042 >% %<= screwRadius / 0.0042 >% %<= screwLength / 0.027 >%
         children [
           DEF SCREW Shape {
             appearance ScrewThread {
@@ -244,7 +244,7 @@ PROTO Bolt [
         ]
       }
       Transform {
-        scale %<= screwLength / 0.027 >% %<= screwRadius / 0.0042 >% %<= screwRadius / 0.0042 >%
+        scale %<= screwRadius / 0.0042 >% %<= screwRadius / 0.0042 >% %<= screwLength / 0.027 >%
         children [
           DEF TOP_AND_TIP Shape {
             appearance IS appearance
