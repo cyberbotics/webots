@@ -181,6 +181,9 @@ void WbCylinder::buildWrenMesh() {
   else
     updateScale();
 
+  // Restore pickable state
+  setPickable(isPickable());
+
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 }
 
