@@ -2,7 +2,7 @@
 
 ## PaperBoat
 
-A paper boat (42.8 x 14.2 x 10.6 cm).
+A paper boat (42.8 x 10.6 x 14.2 cm).
 
 %figure
 
@@ -45,7 +45,7 @@ PaperBoat {
 
 ## RubberDuck
 
-A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
+A rubber yellow duck (10.13 x 7.42 x 10.66 cm).
 
 %figure
 
