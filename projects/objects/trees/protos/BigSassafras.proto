@@ -83,7 +83,6 @@ PROTO BigSassafras [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 0 5
-      rotation 1 0 0 1.57
       children [
         Cylinder {
           height 10
