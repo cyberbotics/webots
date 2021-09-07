@@ -12,7 +12,7 @@ PROTO StreetLight [
   field SFFloat    beamWidth     1.1             # Defines the beam width of the spot light.
   field SFColor    color         1 1 1           # Defines the color of the spot light.
   field SFFloat    cutOffAngle   1.4             # Defines the cut-off angle of the spot light.
-  field SFVec3f    direction     0 -1 -0.1       # Defines the direction of the spot light.
+  field SFVec3f    direction     0.1 0 -1       # Defines the direction of the spot light.
   field SFBool     on            TRUE            # Defines whether the spot light is on or off.
   field SFFloat    radius        1000            # Defines the radius of the spot light.
   field SFFloat    intensity     30              # Defines the radius of the spot light.
@@ -116,7 +116,7 @@ PROTO StreetLight [
         color IS color
         cutOffAngle IS cutOffAngle
         direction IS direction
-        location 0 7.2 -3.1
+        location 3.1 0 7.2
         on IS on
         radius IS radius
         castShadows IS castShadows
