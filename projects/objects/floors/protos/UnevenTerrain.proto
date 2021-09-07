@@ -9,7 +9,7 @@ PROTO UnevenTerrain [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 0 1 0
   field SFString   name           "uneven terrain"
-  field SFVec3f    size           50 5 50                                                            # Defines the size of the terrain.
+  field SFVec3f    size           50 50 5                                                           # Defines the size of the terrain.
   field SFInt32    xDimension     50                                                                 # Defines the number of points in the grid height array in the x direction.
   field SFInt32    yDimension     50                                                                 # Defines the number of points in the grid height array in the y direction.
   field SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }  # Defines the appearance of the terrain.
@@ -102,7 +102,7 @@ PROTO UnevenTerrain [
     rotation IS rotation
     children [
       DEF UNEVEN_TERRAIN_ELEVATION_GRID Transform {
-        translation %<= - size.x * 0.5 >% 0 %<= - size.z * 0.5 >%
+        translation %<= - size.x * 0.5 >% %<= - size.y * 0.5 >% 0
         children [
           Shape {
             appearance IS appearance
@@ -111,25 +111,25 @@ PROTO UnevenTerrain [
                 xDimension IS xDimension
                 xSpacing %<= size.x / (xDimension - 1) >%
                 yDimension IS yDimension
-                ySpacing %<= size.z / (yDimension - 1) >%
+                ySpacing %<= size.y / (yDimension - 1) >%
 
                 height [
-                  %< for (let i = 0; i <= xDimension - 1; ++i) { >%
+                  %< for (let i = xDimension - 1; i >= 0; --i) { >%
                     %< for (let j = 0; j <= yDimension - 1; ++j) { >%
                       %<
                         let height = 1.0;
                         const x = i / xDimension;
-                        const z = j / yDimension;
+                        const y = j / yDimension;
                         if (nOctave > 0)
-                          height = 0.5 * (1.0 + fBm(x, z, perlinSize, nOctave, dirs, perm));
+                          height = 0.5 * (1.0 + fBm(x, y, perlinSize, nOctave, dirs, perm));
 
                         if (fields.flatCenter.value)
-                          height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2));
+                          height = height * (1.0 - gaussian2d(x - 0.5, y - 0.5, 1, 0, 0, 0.2, 0.2));
 
                         if (fields.flatBounds.value)
-                          height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2);
+                          height = height * gaussian2d(x - 0.5, y - 0.5, 1, 0, 0, 0.2, 0.2);
 
-                        height = height * size.y
+                        height = height * size.z
                       >%
                       %<= height >%
                     %< } >%

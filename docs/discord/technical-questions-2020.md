@@ -4851,11 +4851,11 @@ How I want to extract translation and rotation value while it's autonomously mov
 
        rotat = robotRotationField.getSFRotation()
 
-##### Noob Saibot 02/25/2020 22:55:23
+##### Williams Saibot 02/25/2020 22:55:23
 I have a general question. What is the most accurate value for columb friction to simulate?
 
 ##### David Mansolino [Cyberbotics] 02/26/2020 06:44:00
-`@Noob Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
+`@Williams Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
 
 
 `@coderrr`, no. You should set the aperture from the scene-tree you can't change it from the API.
@@ -11812,13 +11812,13 @@ okay, thx 🙂
 ##### David Mansolino [Cyberbotics] 04/27/2020 14:18:55
 You're welcome
 
-##### adaptive 04/27/2020 19:07:38
+##### reinforce 04/27/2020 19:07:38
 is there an Webots IRC-channel too?
 
 ##### David Mansolino [Cyberbotics] 04/28/2020 05:24:28
 > is there an Webots IRC-channel too?
 
-`@adaptive` not as I know, at least officially only Discord is available.
+`@reinforce` not as I know, at least officially only Discord is available.
 
 ##### Dorteel 04/28/2020 06:29:38
 Hi, can you help me with recording a movie with the Supervisor? I have multiple problems, my idea was to see if the motion is over and stop the video recording. However the Motion.isOver returned true in the middle of the motion. I tried to comment out the video creating lines but I keep getting the error that the "Nothing was recorded because the simulation didn´t run" even though there is no line to make a recording. I get the warning at every timestep.
@@ -11875,7 +11875,7 @@ I know, it's not very pythonic... 😒
 ##### Dorteel 04/28/2020 06:53:37
 ahh, no, that was the problem! thank you! 😅
 
-##### adaptive 04/28/2020 08:12:15
+##### reinforce 04/28/2020 08:12:15
 Hello, i have a problem getting webots running python. I have installed python 3.8 (anaconda) and started webots "Python 3.7 not found" -> installed Python 3.7 -> "No module named 'numpy'" ..
 
 ##### David Mansolino [Cyberbotics] 04/28/2020 08:13:01
@@ -11883,7 +11883,7 @@ Is the 'numpy' module installed?
 
 ``python3.7 pip-m install numpy``
 
-##### adaptive 04/28/2020 08:14:00
+##### reinforce 04/28/2020 08:14:00
 Numpy and any other lib is installed for 3.8
 
 ##### David Mansolino [Cyberbotics] 04/28/2020 08:15:22
@@ -11891,7 +11891,7 @@ But since you installed python 3.7 it seems it is using python 3.7 and therefore
 
 About python 3.8, which version of Webots are you using and on which OS ?
 
-##### adaptive 04/28/2020 08:15:43
+##### reinforce 04/28/2020 08:15:43
 im using R2020a on Win10
 
 
@@ -11900,13 +11900,13 @@ rev1
 ##### David Mansolino [Cyberbotics] 04/28/2020 08:17:18
 Ok that explains the problem, the support of Python 3.8 in Webots on Windows is not supported in R2020a-rev1, it will be in the next version of Webots. You can get a beta of the next version (R2020a-rev2) including Python 3.8 support on Windows by downloading a nightly build here: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
-##### adaptive 04/28/2020 08:18:12
+##### reinforce 04/28/2020 08:18:12
 ok, i will install the nightly build instead of installing two python distributions parallel, that seems smarter. Thanks
 
 ##### David Mansolino [Cyberbotics] 04/28/2020 08:18:21
 You're welcome
 
-##### adaptive 04/28/2020 08:42:43
+##### reinforce 04/28/2020 08:42:43
 `@David Mansolino` hm.. i installed Rev2 but the error still appears.. running python in cmd shows 3.8.2 running. [https://bpaste.net/YWLA](https://bpaste.net/YWLA) this is the output of webots running an example world
 
 ##### Olivier Michel [Cyberbotics] 04/28/2020 08:45:01
@@ -11918,7 +11918,7 @@ print("Python version")
 print (sys.version)
 ```
 
-##### adaptive 04/28/2020 08:48:06
+##### reinforce 04/28/2020 08:48:06
 I created a new project and inserted the code into an new controller, but how do I execute it?
 
 ##### Olivier Michel [Cyberbotics] 04/28/2020 08:48:26
@@ -11933,7 +11933,7 @@ Also check that the Python command is set to "python" in the Webots preferences.
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704615829291139112/unknown.png)
 %end
 
-##### adaptive 04/28/2020 08:52:07
+##### reinforce 04/28/2020 08:52:07
 I have inserted the code befode defining the class Enumerate, saved it and pressed the "run" button, but in the console there is no output
 
 
@@ -11942,7 +11942,7 @@ Yes, the command is defined
 ##### Olivier Michel [Cyberbotics] 04/28/2020 08:54:04
 Put it at the end of the `__init__` method. Before that the interface with Webots is not initialized and print commands don't land in the Webots console.
 
-##### adaptive 04/28/2020 08:56:00
+##### reinforce 04/28/2020 08:56:00
 [https://bpaste.net/GQAQ](https://bpaste.net/GQAQ) but pressing the Run button dont output the version, only this [https://bpaste.net/WVXA](https://bpaste.net/WVXA)
 
 
@@ -11978,7 +11978,7 @@ INFO: driver: Starting controller: python.exe -u "driver.py"
 
 Did you save and revert the world file?
 
-##### adaptive 04/28/2020 09:01:48
+##### reinforce 04/28/2020 09:01:48
 revert?
 
 ##### Olivier Michel [Cyberbotics] 04/28/2020 09:01:54
@@ -11987,13 +11987,13 @@ Yes.
 
 Reload.
 
-##### adaptive 04/28/2020 09:02:12
+##### reinforce 04/28/2020 09:02:12
 I think the problem is that I cant build the project, so that the new lines are ignored
 
 ##### Olivier Michel [Cyberbotics] 04/28/2020 09:02:13
 Python doesn't need to build as it's not a compiled language like C or C++.
 
-##### adaptive 04/28/2020 09:04:34
+##### reinforce 04/28/2020 09:04:34
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704619057546002463/unknown.png)
@@ -12002,7 +12002,7 @@ Python doesn't need to build as it's not a compiled language like C or C++.
 ##### Olivier Michel [Cyberbotics] 04/28/2020 09:06:49
 Yes, you should click OK and go ahead with that.
 
-##### adaptive 04/28/2020 09:07:43
+##### reinforce 04/28/2020 09:07:43
 [https://bpaste.net/3BRQ](https://bpaste.net/3BRQ)
 
 
@@ -12014,7 +12014,7 @@ but the problem is still there, if i include numpy in slave.py, it is not found
 ##### Olivier Michel [Cyberbotics] 04/28/2020 09:12:29
 Which version of Python is displayed by your controller?
 
-##### adaptive 04/28/2020 09:12:33
+##### reinforce 04/28/2020 09:12:33
 using numpy in vscode is no problem, so the package is definitely installed
 
 
@@ -12026,7 +12026,7 @@ And are you sure numpy was installed for this version?
 
 Can you also print the Python version in your working vscode example using numpy?
 
-##### adaptive 04/28/2020 09:21:52
+##### reinforce 04/28/2020 09:21:52
 oh man, what a mess, Vscode uses 3.7.6 (installed with conda), in my PATH i declared the path to python in conda dir which is the 3.7.6
 
 
@@ -12062,7 +12062,7 @@ I want to check the stability of the platform at lower as well as higher speeds 
 The desired one is the second configuration where all arms are at the front and inline to give maximum area for manipulation.
 
 ##### Olivier Michel [Cyberbotics] 04/28/2020 09:54:03
-`@adaptive`: I would recommend you get rid of anaconda version and try to install Python 3.8 cleanly.
+`@reinforce`: I would recommend you get rid of anaconda version and try to install Python 3.8 cleanly.
 
 ##### Tahir [Moderator] 04/28/2020 09:54:35
 So can anyone guide how can I do that in webots
@@ -12071,7 +12071,7 @@ So can anyone guide how can I do that in webots
 I mean what can be the procedure
 
 ##### Axel M 04/28/2020 09:55:24
-I'm currently dealing with python versions issues as well `@adaptive` . What i'm trying to do right now il to install a virtualenv using a Pipfile (for dealing both with dependencies and python version at the same time, see [https://realpython.com/pipenv-guide/](https://realpython.com/pipenv-guide/))
+I'm currently dealing with python versions issues as well `@reinforce` . What i'm trying to do right now il to install a virtualenv using a Pipfile (for dealing both with dependencies and python version at the same time, see [https://realpython.com/pipenv-guide/](https://realpython.com/pipenv-guide/))
 
 
 Then in webots preferences, I set Python command to the output of `echo $(pipenv --venv)/bin/python`
@@ -12085,13 +12085,13 @@ Can anyone help me with finding the total distance travelled by the epuck in web
 ##### Olivier Michel [Cyberbotics] 04/28/2020 09:59:07
 `@Tahir`: did you already imported / created the model in Webots?
 
-##### adaptive 04/28/2020 09:59:15
+##### reinforce 04/28/2020 09:59:15
 `@Olivier Michel` so deinstalling anaconda and all packages and installing python 3.8 clean or 3.7?
 
 ##### Olivier Michel [Cyberbotics] 04/28/2020 09:59:22
 Yes.
 
-##### adaptive 04/28/2020 09:59:42
+##### reinforce 04/28/2020 09:59:42
 ok, hopefully this helps
 
 ##### Tahir [Moderator] 04/28/2020 10:07:31
@@ -12100,7 +12100,7 @@ ok, hopefully this helps
 ##### Olivier Michel [Cyberbotics] 04/28/2020 10:08:31
 I would recommend you to export only the Warthog model and re-use the existing UR arms from Webots.
 
-##### adaptive 04/28/2020 10:08:37
+##### reinforce 04/28/2020 10:08:37
 `@Olivier Michel` shall i install 3.7 or 3.8.2?
 
 ##### Olivier Michel [Cyberbotics] 04/28/2020 10:09:09
@@ -12136,7 +12136,7 @@ No, you really need 2.79b.
 ##### Tahir [Moderator] 04/28/2020 10:16:29
 OK Thank you I will download that
 
-##### adaptive 04/28/2020 10:31:16
+##### reinforce 04/28/2020 10:31:16
 `@David Mansolino` , `@Olivier Michel` thanks! it works
 
 ##### David Mansolino [Cyberbotics] 04/28/2020 10:31:33
@@ -12144,7 +12144,7 @@ OK Thank you I will download that
 
 `@nikzzzlegrande` you simply need to add a supervisor and track the position at each step, from these positions you can compute the distance traveled at each step (and sum it to get the total distance).
 
-##### adaptive 04/28/2020 10:34:32
+##### reinforce 04/28/2020 10:34:32
 My GPU is very low budget (Intel HD520), I already have edited my preferences for OpenGL to fasten the Software like this:
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/704641696755089478/unknown.png)
@@ -12158,7 +12158,7 @@ You can find some clues about improving performance here: [https://cyberbotics.c
 
 But I am afraid that what you did is already the best you can do to use the GPU as less as possible.
 
-##### adaptive 04/28/2020 10:39:38
+##### reinforce 04/28/2020 10:39:38
 Ok, thanks
 
 ##### David Mansolino [Cyberbotics] 04/28/2020 10:39:44
@@ -13323,7 +13323,7 @@ I dont get how the const ptr is done. How do you know whether its image, values 
 
 `@elkelkmuh` no, to the 'custom\_html\_robot\_window.wbt' one.
 
-##### adaptive 05/06/2020 09:51:10
+##### reinforce 05/06/2020 09:51:10
 Am I right that I can Use the roadpicture Information drawn in the webots world with OpenCV to implement lane-detection?
 
 ##### Olivier Michel [Cyberbotics] 05/06/2020 09:55:55
@@ -13347,13 +13347,13 @@ Thank you~
 ##### David Mansolino [Cyberbotics] 05/06/2020 11:00:46
 You're welcome
 
-##### adaptive 05/06/2020 11:01:09
+##### reinforce 05/06/2020 11:01:09
 Can I use my Kinect v2 with skelleton-tracking for manipulating Robot-Aktors in Webots?
 
 ##### David Mansolino [Cyberbotics] 05/06/2020 11:01:56
 You can do whatever you want since Webots controller are regular programm, but you will have to code yourself the interface between your controller and the Kinect.
 
-##### adaptive 05/06/2020 11:02:13
+##### reinforce 05/06/2020 11:02:13
 ok that sounds fun^^
 
 ##### David Mansolino [Cyberbotics] 05/06/2020 11:02:27
@@ -21715,7 +21715,7 @@ can I create objects(obstacles) at runtime ?
 ##### Olivier Michel [Cyberbotics] 06/22/2020 15:42:51
 Yes, from a supervisor process.
 
-##### adaptive 06/22/2020 16:30:29
+##### reinforce 06/22/2020 16:30:29
 I have a Problem getting the "matlab" sample world controller running on Arch Linux with Matlab 2020a (installed and works properly) and Webots (R2020a rev 1).. Webots is installed via "snap". If i click Run nothing happens, in the output terminal prompts "Warning: matlab: MATLAB Controllers should be launched as extern controllers with the snap package of webots"
 
 
@@ -21734,7 +21734,7 @@ also the sample world "Robots/Nao" with Matlab-Controller behaves the same with 
 `@Andrei`   does anyone have an example in C++ ?
 
 ##### David Mansolino [Cyberbotics] 06/23/2020 05:07:12
-`@adaptive`, can you try from the tar.gz package?
+`@reinforce`, can you try from the tar.gz package?
 
 
 Or using an extern controller: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=matlab&tab-os=linux](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-language=matlab&tab-os=linux)
@@ -21757,7 +21757,7 @@ I uploaded the x3d and html file but the webpage is not showing anything apart f
 ##### David Mansolino [Cyberbotics] 06/23/2020 06:47:23
 which webpage ?
 
-##### adaptive 06/23/2020 06:58:47
+##### reinforce 06/23/2020 06:58:47
 `@David Mansolino` if im running the matlab-launcher matlab crashed "error in Loadlibrary"
 
 ##### David Mansolino [Cyberbotics] 06/23/2020 06:59:21
@@ -21765,7 +21765,7 @@ Which version of Webot are you using?
 
 Can you share the complete crash stack?
 
-##### adaptive 06/23/2020 06:59:29
+##### reinforce 06/23/2020 06:59:29
 R2020a Rev 1
 
 
@@ -21774,7 +21774,7 @@ how? Matlab crashes and the terminal output dissappears
 ##### David Mansolino [Cyberbotics] 06/23/2020 07:00:19
 'error in Loadlibrary' is the only error message you get?
 
-##### adaptive 06/23/2020 07:01:12
+##### reinforce 06/23/2020 07:01:12
 No 😄 but it is the only one i can read before matlab closes
 
 
@@ -21789,7 +21789,7 @@ No idea 😕
 
 Maybe there is an argument when you launch it
 
-##### adaptive 06/23/2020 07:07:58
+##### reinforce 06/23/2020 07:07:58
 hm i tried to touch an file for an diary and the Folder is read-only.. "var/lib/snapd/snap/webots/14/usr/share/weboits/lib/controller/matlab"
 
 ##### devl 06/23/2020 07:08:42
@@ -21807,7 +21807,7 @@ When I use my link, I don't see anything apart of the Readme.md file
 ##### David Mansolino [Cyberbotics] 06/23/2020 07:08:47
 Ok, maybe you should try using another way to install Webots
 
-##### adaptive 06/23/2020 07:08:57
+##### reinforce 06/23/2020 07:08:57
 yes maybe
 
 ##### David Mansolino [Cyberbotics] 06/23/2020 07:09:50
@@ -21827,7 +21827,7 @@ yes maybe
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/724884411472019476/unknown.png)
 %end
 
-##### adaptive 06/23/2020 07:13:13
+##### reinforce 06/23/2020 07:13:13
 `@David Mansolino` which installation is recommend for Arch? I think the tar.bz2 install?
 
 ##### David Mansolino [Cyberbotics] 06/23/2020 07:14:21
@@ -21838,7 +21838,7 @@ yes maybe
 
 > `@David Mansolino` which installation is recommend for Arch? I think the tar.bz2 install?
 
-`@adaptive` yes, tar.bz2 and you probably have to install a few dependencies manually
+`@reinforce` yes, tar.bz2 and you probably have to install a few dependencies manually
 
 ##### devl 06/23/2020 07:20:04
 > `@devl` then you should use a link who looks like (not sure it is exactly this as some part are hidden on the picture): [http://rajeshroy402.github.io/main\_arena.html](http://rajeshroy402.github.io/main_arena.html)
@@ -21866,7 +21866,7 @@ Even after renaming the repository from repositoryname.github.io to repositoryna
 ##### David Mansolino [Cyberbotics] 06/23/2020 07:25:17
 That's strange, but I am sorry, this has nothing to do with Webots, I can't help you more about this 😕 You should probably ask this directly on a Github support forum.
 
-##### adaptive 06/23/2020 07:46:57
+##### reinforce 06/23/2020 07:46:57
 `@David Mansolino` here is the output [https://bpa.st/M7HQ](https://bpa.st/M7HQ), installing the tarball didnt help
 
 
@@ -21903,13 +21903,13 @@ You should probably have a look at the example I sent
 ##### Jiajun Wang 06/23/2020 07:56:43
 ok. i will try it. thx~
 
-##### adaptive 06/23/2020 08:05:37
+##### reinforce 06/23/2020 08:05:37
 How can the tarball version be deinstalled if neccessary?
 
 ##### Olivier Michel [Cyberbotics] 06/23/2020 08:06:31
 Simply by removing the files (`rm -rf webots`).
 
-##### adaptive 06/23/2020 08:06:45
+##### reinforce 06/23/2020 08:06:45
 ok thx
 
 ##### devl 06/23/2020 08:10:34
@@ -33885,13 +33885,13 @@ yeah
 
 if you could figure this out and do a PR for ikpy, that would be amazing
 
-##### adaptive 08/27/2020 12:11:19
+##### reinforce 08/27/2020 12:11:19
 I have a problem getting the Matlab-Demo-World running.. [https://bpa.st/JB3A](https://bpa.st/JB3A)
 
 ##### alxy 08/27/2020 12:11:30
 I wonder why it still fails if I do it in two calls, first to get the position right and second to get the orientation
 
-##### adaptive 08/27/2020 12:11:34
+##### reinforce 08/27/2020 12:11:34
 it says "could not find allincludes.h"
 
 
@@ -33900,13 +33900,13 @@ as on [https://www.cyberbotics.com/doc/guide/using-matlab](https://www.cyberboti
 ##### David Mansolino [Cyberbotics] 08/27/2020 12:13:55
 Which version of Webots are you using?
 
-##### adaptive 08/27/2020 12:14:12
+##### reinforce 08/27/2020 12:14:12
 R2020a
 
 ##### David Mansolino [Cyberbotics] 08/27/2020 12:14:39
 Please try with R2020b, we fixed many related issues in this new version.
 
-##### adaptive 08/27/2020 12:14:59
+##### reinforce 08/27/2020 12:14:59
 ok
 
 ##### alxy 08/27/2020 12:21:07
@@ -33930,7 +33930,7 @@ you can install from source
 
 make sure you uninstall the current pip version first
 
-##### adaptive 08/27/2020 12:27:22
+##### reinforce 08/27/2020 12:27:22
 > Please try with R2020b, we fixed many related issues in this new version.
 
 `@David Mansolino` thanks it works! "/usr/local/bin/matlab: Zeile 1209: /usr/local/webots/lib/controller: is a directory" why is that error popping up in terminal when running sample-language controller?
@@ -33976,9 +33976,9 @@ it's in python so needs no compiling, which is nice
 ##### David Mansolino [Cyberbotics] 08/27/2020 12:35:08
 > `@David Mansolino` thanks it works! "/usr/local/bin/matlab: Zeile 1209: /usr/local/webots/lib/controller: is a directory" why is that error popping up in terminal when running sample-language controller?
 
-`@adaptive` because `/usr/local/webots/lib/controller` is actually a directory. In which terminal is this error popping up?
+`@reinforce` because `/usr/local/webots/lib/controller` is actually a directory. In which terminal is this error popping up?
 
-##### adaptive 08/27/2020 12:35:40
+##### reinforce 08/27/2020 12:35:40
 in the internal webots terminal which executes matlab i think
 
 
@@ -33990,7 +33990,7 @@ didnt expect this to be such a difficult problem
 ##### David Mansolino [Cyberbotics] 08/27/2020 12:37:47
 And is the controller running?
 
-##### adaptive 08/27/2020 12:37:58
+##### reinforce 08/27/2020 12:37:58
 yes
 
 ##### David Mansolino [Cyberbotics] 08/27/2020 12:38:17
@@ -34495,17 +34495,17 @@ Using external controllers can be useful. Check the Dokumentation for that
 ##### Luftwaffel [Moderator] 08/29/2020 13:57:03
 [https://cyberbotics.com/doc/guide/running-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers)
 
-##### adaptive 08/30/2020 16:10:16
+##### reinforce 08/30/2020 16:10:16
 hello, i want to implement an image-based line-following algorithm in Matlab (according to the curriculum).. since I have my image stored in "  rgb = wb\_camera\_get\_image(camera);"  I have problems getting the RGB-Code from third column extracted.. as in [https://cyberbotics.com/doc/reference/camera?tab-language=matlab#wb\_camera\_get\_image](https://cyberbotics.com/doc/reference/camera?tab-language=matlab#wb_camera_get_image) mentioned, first column in rgb should be width, second the height, and third rgb
 
 ##### alxy 08/30/2020 16:24:41
-`@adaptive` you mention the wb\_camera\_get\_height (notive the height at the end). I am not sure that is the correct function
+`@reinforce` you mention the wb\_camera\_get\_height (notive the height at the end). I am not sure that is the correct function
 
-##### adaptive 08/30/2020 16:25:19
+##### reinforce 08/30/2020 16:25:19
 I think one problem is that my "camera\_width" (640) and "camera\_height" (480) -Node in epuck is not present in the simulation..   disp(wb\_camera\_get\_width(camera))  shows "40" instead of 640..
 
 
-> `@adaptive` you mention the wb\_camera\_get\_height (notive the height at the end). I am not sure that is the correct function
+> `@reinforce` you mention the wb\_camera\_get\_height (notive the height at the end). I am not sure that is the correct function
 
 `@alxy` was an Typo, thanks
 
@@ -34521,13 +34521,13 @@ there is multiple ways to grab an image
 
 what information do you actually need?
 
-##### adaptive 08/30/2020 16:29:56
+##### reinforce 08/30/2020 16:29:56
 I want to extract the RGB-Values for some range from my image
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:30:27
 Note [MATLAB]: The wb\_camera\_get\_image function returns a 3-dimensional array of uint(8). The first two dimensions of the array are the width and the height of camera's image, the third being the RGB code: 1 for red, 2 for blue and 3 for green. The wb\_camera\_get\_range\_image function returns a 2-dimensional array of float('single'). The dimensions of the array are the width and the length of camera's image and the float values are the metric distance values deduced from the OpenGL z-buffer.
 
-##### adaptive 08/30/2020 16:30:42
+##### reinforce 08/30/2020 16:30:42
 yes i read that already
 
 
@@ -34542,19 +34542,19 @@ what is the width?
 
 I bet that is 480*640
 
-##### adaptive 08/30/2020 16:31:58
+##### reinforce 08/30/2020 16:31:58
 but reading out the height/width is showing other values
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:32:09
 what is the value for width?
 
-##### adaptive 08/30/2020 16:32:15
+##### reinforce 08/30/2020 16:32:15
 640
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:32:27
 which sensor are you using?
 
-##### adaptive 08/30/2020 16:32:38
+##### reinforce 08/30/2020 16:32:38
 epuck internal camera
 
 
@@ -34566,13 +34566,13 @@ pretty basic
 ##### Luftwaffel [Moderator] 08/30/2020 16:34:14
 can I see your world?
 
-##### adaptive 08/30/2020 16:35:41
+##### reinforce 08/30/2020 16:35:41
 [https://www.pastefile.com/mty9mh](https://www.pastefile.com/mty9mh)
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:35:43
 because in the proto model, you can define the camera depening on what you put in the properties
 
-##### adaptive 08/30/2020 16:36:28
+##### reinforce 08/30/2020 16:36:28
 its a copy of the beginner\_linear\_camera world from the curriculum
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:41:42
@@ -34581,7 +34581,7 @@ and the height realls is 1?
 
 and what curriculum?
 
-##### adaptive 08/30/2020 16:42:37
+##### reinforce 08/30/2020 16:42:37
 [https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27\_Robot\_Curriculum.pdf](https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27_Robot_Curriculum.pdf) Page 48
 
 
@@ -34590,7 +34590,7 @@ yes
 ##### Luftwaffel [Moderator] 08/30/2020 16:44:02
 where can you download the world files? dont wanna search through the manual
 
-##### adaptive 08/30/2020 16:44:49
+##### reinforce 08/30/2020 16:44:49
 File -> Open Sample World -> samples -> curriculum -> beginner\_linear\_camera.wbt
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:44:57
@@ -34599,7 +34599,7 @@ ahh found it 🙂
 
 this has a height of 1 set as default
 
-##### adaptive 08/30/2020 16:46:07
+##### reinforce 08/30/2020 16:46:07
 > Note [MATLAB]: The wb\_camera\_get\_image function returns a 3-dimensional array of uint(8). The first two dimensions of the array are the width and the height of camera's image, the third being the RGB code: 1 for red, 2 for blue and 3 for green. The wb\_camera\_get\_range\_image function returns a 2-dimensional array of float('single'). The dimensions of the array are the width and the length of camera's image and the float values are the metric distance values deduced from the OpenGL z-buffer.
 
 `@Luftwaffel` the sourcecode example in "[https://cyberbotics.com/doc/reference/camera?tab-language=matlab#wb\_camera\_get\_image](https://cyberbotics.com/doc/reference/camera?tab-language=matlab#wb_camera_get_image)" for Matlab is not running anyway.. some typos and keywords-errors
@@ -34607,7 +34607,7 @@ this has a height of 1 set as default
 ##### Luftwaffel [Moderator] 08/30/2020 16:46:49
 where exaclty do you get an error?
 
-##### adaptive 08/30/2020 16:46:50
+##### reinforce 08/30/2020 16:46:50
 > ahh found it 🙂
 
 `@Luftwaffel` yes, in the node of epuck was an 1. I wanted to increase that to get access to the matrix
@@ -34615,7 +34615,7 @@ where exaclty do you get an error?
 ##### Luftwaffel [Moderator] 08/30/2020 16:47:19
 for line following, that just creates much more data
 
-##### adaptive 08/30/2020 16:47:40
+##### reinforce 08/30/2020 16:47:40
 > where exaclty do you get an error?
 
 `@Luftwaffel` image() is an function in matlab.. no good idea to call an variable like that.. typo is "height" in the red\_middle\_point var init.
@@ -34631,7 +34631,7 @@ ohh yeah, there is a type!
 
 I would not change the default values
 
-##### adaptive 08/30/2020 16:48:57
+##### reinforce 08/30/2020 16:48:57
 that was the first idea came to my mind how I would set up the algorithm.. but anyway.. how do i access the rgb values for the matrix?
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:49:27
@@ -34658,7 +34658,7 @@ They seem to make a very good job 😄
 ##### Luftwaffel [Moderator] 08/30/2020 16:54:08
 I'm actually quite impressed too
 
-##### adaptive 08/30/2020 16:54:18
+##### reinforce 08/30/2020 16:54:18
 > if you're just following a line, it makes sense to just use one row and compare the left and right half of the row
 
 `@Luftwaffel` do you gut some lectures for so simple techniques?
@@ -34672,13 +34672,13 @@ I studied aerospace engineering, just started a year ago with python, ROS, robot
 
 So I just learned by doing and reading tutorials etc.
 
-##### adaptive 08/30/2020 16:55:56
+##### reinforce 08/30/2020 16:55:56
 nice! I applied to an Robotics Master and want to practice a little bit before it starts^^
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:56:18
 very good! This is certainly good practice
 
-##### adaptive 08/30/2020 16:56:47
+##### reinforce 08/30/2020 16:56:47
 hopefully
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:57:21
@@ -34687,13 +34687,13 @@ I'm not sure about the use of mathlab, but it might very well be, what your univ
 
 Generally, ROS, Python and cpp is where it's at
 
-##### adaptive 08/30/2020 16:57:48
+##### reinforce 08/30/2020 16:57:48
 I already asked an PhD.. faculty uses Matlab with Ros
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:58:04
 then yes, definitely get into those 2
 
-##### adaptive 08/30/2020 16:58:10
+##### reinforce 08/30/2020 16:58:10
 so i thought I can practice my Matlab skills (as you can see, I have to practice more :D)
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:58:16
@@ -34702,7 +34702,7 @@ ROS is great. Takes a while to get used to though
 
 but you only learn it by actually doing and using it
 
-##### adaptive 08/30/2020 16:59:12
+##### reinforce 08/30/2020 16:59:12
 yes sure.. i never did anything in ROS but I think of it like RTOS (which i worked with).. its just an OS providing handles and architecture to program an system
 
 ##### Luftwaffel [Moderator] 08/30/2020 16:59:53
@@ -34717,7 +34717,7 @@ it's more of a middleware
 
 think of it as a communication web, where you have individual nodes that run code and talk to one another over ROS-topics (messages)
 
-##### adaptive 08/30/2020 17:01:23
+##### reinforce 08/30/2020 17:01:23
 like networked agents?
 
 ##### Luftwaffel [Moderator] 08/30/2020 17:02:04
@@ -34726,7 +34726,7 @@ I guess. But of course there is more to it. And it includes many tools, that mak
 
 watch some youtube videos on it :p
 
-##### adaptive 08/30/2020 17:02:24
+##### reinforce 08/30/2020 17:02:24
 Yes sure.. im wondering which ROS they will teach
 
 ##### Luftwaffel [Moderator] 08/30/2020 17:02:49
@@ -34738,7 +34738,7 @@ not free, but how I learned ROS, after trying to learn it on my own, using onlin
 
 100% can recommend
 
-##### adaptive 08/30/2020 17:03:19
+##### reinforce 08/30/2020 17:03:19
 > watch some youtube videos on it :p
 
 `@Luftwaffel` I will! But first of all i want to get used to image processing and kinematics.. without knowledge about manipulating robots.. ROS dont help^^
@@ -34760,7 +34760,7 @@ Hoe do you like MATLAB programming? I mean its a quite impressive sofware in ter
 ##### Luftwaffel [Moderator] 08/30/2020 17:05:04
 I never used mathlab much. I like python 🙂
 
-##### adaptive 08/30/2020 17:05:26
+##### reinforce 08/30/2020 17:05:26
 > If you do it full time, then you can really get a good grasp and knowledge about ROS in one month. 3 weeks if you're fast
 
 `@Luftwaffel` ok!
@@ -34777,7 +34777,7 @@ not sure how mathlab handles that
 ##### alxy 08/30/2020 17:05:58
 yeah foe signal processing and modling of physical systems there is no way around matlab
 
-##### adaptive 08/30/2020 17:06:19
+##### reinforce 08/30/2020 17:06:19
 > Hoe do you like MATLAB programming? I mean its a quite impressive sofware in terms of toolboxes and algorithms included, but I really dont like this M language
 
 `@alxy` Its quite ok. I asked if Python were OK, too but some Practice are using some toolbox-specific functions for control-systems (like MPC, etc)
@@ -34791,7 +34791,7 @@ at which university did you apply if I may ask?
 ##### Luftwaffel [Moderator] 08/30/2020 17:08:05
 better ask your profs or engineers at uni, what you could learn to improve and practice. I know python and ROS 😄
 
-##### adaptive 08/30/2020 17:08:35
+##### reinforce 08/30/2020 17:08:35
 > at which university did you apply if I may ask?
 
 `@alxy` in Eastgermany
@@ -34799,13 +34799,13 @@ better ask your profs or engineers at uni, what you could learn to improve and p
 ##### Luftwaffel [Moderator] 08/30/2020 17:09:03
 lol we are Germans too :p
 
-##### adaptive 08/30/2020 17:09:29
+##### reinforce 08/30/2020 17:09:29
 Saw that on your name^^
 
 ##### Luftwaffel [Moderator] 08/30/2020 17:12:05
 little tipp: with ctrl + F9  you can show the camera's field of view
 
-##### adaptive 08/30/2020 17:14:51
+##### reinforce 08/30/2020 17:14:51
 yes thats useful!
 
 ##### David Mansolino [Cyberbotics] 08/31/2020 06:01:25

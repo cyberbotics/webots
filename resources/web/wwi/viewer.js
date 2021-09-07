@@ -751,23 +751,12 @@ function toggleDeviceComponent(robot) {
 function toggleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-lets
   // Source: https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
   let element = getRobotComponentByRobotName(robot);
-  if (
-    document.fullscreenElement ||
-    document.webkitFullscreenElement ||
-    document.mozFullScreenElement ||
-    document.msFullscreenElement
-  ) {
+  if (document.fullscreenElement) {
     document.getElementsByClassName('fullscreen-button')[0].style.display = '';
     document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
 
     if (document.exitFullscreen)
       document.exitFullscreen();
-    else if (document.mozCancelFullScreen)
-      document.mozCancelFullScreen();
-    else if (document.webkitExitFullscreen)
-      document.webkitExitFullscreen();
-    else if (document.msExitFullscreen)
-      document.msExitFullscreen();
   } else {
     document.getElementsByClassName('fullscreen-button')[0].style.display = 'none';
     document.getElementsByClassName('exit-fullscreen-button')[0].style.display = '';
@@ -775,21 +764,6 @@ function toggleRobotComponentFullScreen(robot) { // eslint-disable-line no-unuse
     if (element.requestFullscreen) {
       element.requestFullscreen();
       document.addEventListener('fullscreenchange', function() {
-        updateRobotComponentDimension(robot);
-      });
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-      document.addEventListener('mozfullscreenchange', function() {
-        updateRobotComponentDimension(robot);
-      });
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-      document.addEventListener('webkitfullscreenchange', function() {
-        updateRobotComponentDimension(robot);
-      });
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-      document.addEventListener('msfullscreenchange', function() {
         updateRobotComponentDimension(robot);
       });
     }

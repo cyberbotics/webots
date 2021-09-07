@@ -2,7 +2,7 @@
 # Uncomment / edit the following environment variables when the corresponding software is installed #
 #####################################################################################################
 
-# export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"  # Defines the path to Java home.
+# export JAVA_HOME="$(/usr/libexec/java_home -v 16)"  # Defines the path to Java home.
 
 # source $HOME/emsdk/emsdk_env.sh >/dev/null 2>&1 # Activate PATH and other environment variables needed by Emscripten
 
