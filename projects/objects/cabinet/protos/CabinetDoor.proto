@@ -42,7 +42,7 @@ PROTO CabinetDoor [
     children [
       HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 1 %<= rightSided * 0.5 * size.x >% 0
+          anchor 0 %<= rightSided * 0.5 * size.y >% 0
           axis 0 0 1
           %< if (rightSided > 0) { >%
             minStop -0.01
