@@ -38,17 +38,14 @@ PROTO PedestrianCrossing [
                 ]
                 filtering IS textureFiltering
               }
-              textureTransform TextureTransform {
-                rotation 1.5708
-              }
               metalness 0
               roughness 0.9
             }
             geometry TexturedBox {
               size 0.4 %<= size.x >% %<= size.y >%
               mapping "default"
-              front FALSE
-              back FALSE
+              left FALSE
+              right FALSE
               top FALSE
               bottom FALSE
             }
