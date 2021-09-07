@@ -178,14 +178,14 @@ PROTO Forest [
                     let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].z}, trees[j].angle);
                     for (let i = 0; i <= 3; ++i) {
                       coordBuffer += circle[i].x + ' ';
-                      coordBuffer += trees[j].y + ' ';
-                      coordBuffer += circle[i].y + '\n';
+                      coordBuffer += circle[i].y + ' ';
+                      coordBuffer += trees[j].y + '\n';
                     }
                     // top cylinder
                     for (let i = 0; i <= 3; ++i) {
                       coordBuffer += circle[i].x + ' ';
-                      coordBuffer += trees[j].height + trees[j].y + ' ';
-                      coordBuffer += circle[i].y + '\n';
+                      coordBuffer += circle[i].y + ' ';
+                      coordBuffer += trees[j].height + trees[j].y + '\n';
                     }
                   }
                 >%
@@ -243,7 +243,7 @@ PROTO Forest [
               coord Coordinate {
                 point [
                   %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                    %<= shape[i].x >% %<= 0 >% %<= shape[i].y >%
+                    %<= shape[i].x >% %<= shape[i].y >% %<= 0  >%
                   %< } >%
                 ]
               }
