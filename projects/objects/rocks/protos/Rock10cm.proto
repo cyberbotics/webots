@@ -4,7 +4,7 @@
 # A rock (10 cm).
 
 PROTO Rock10cm [
-  field SFVec3f    translation      0 0.05 0
+  field SFVec3f    translation      0 0 0.05
   field SFRotation rotation         0 0 1 0
   field SFString   name             "rock 10 cm"
   field MFString   texture          "webots://projects/default/worlds/textures/rock.jpg"  # Defines the texture used for the rock.

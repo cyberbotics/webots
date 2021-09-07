@@ -170,7 +170,7 @@ PROTO PalmTree [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 0 1.125
-      rotation 1.57 0 0 1.57
+      rotation 1 0 0 1.57
       children [
         Cylinder {
           height 2.25

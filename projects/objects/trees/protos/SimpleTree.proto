@@ -158,7 +158,7 @@ Solid {
   %< if (boundingObject) { >%
     boundingObject Transform {
       translation 0 0 %<= height * 0.5 >% 
-      rotation 1.57 0 0 1.57
+      rotation 1 0 0 1.57
       children [
         Cylinder {
           height %<= height >%

@@ -39,7 +39,7 @@ PROTO Cypress [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
--0.100485 0 0 0.051312 -0.088875 0 0.034892 0.029341 4.452566 0.04956 0.020858 4.452099 0.054597 0.094565 0 0.049545 0.037799 4.451528
+              -0.100485 0 0 0.051312 -0.088875 0 0.034892 0.029341 4.452566 0.04956 0.020858 4.452099 0.054597 0.094565 0 0.049545 0.037799 4.451528
             ]
           }
           texCoord TextureCoordinate {
@@ -109,7 +109,7 @@ PROTO Cypress [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 0 2.125
-      rotation 1.57 0 0 1.57
+      rotation 1 0 0 1.57
       children [
         Cylinder {
           height 4.25
