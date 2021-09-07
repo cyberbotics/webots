@@ -30,7 +30,7 @@ Solid {
   children [
     Transform {
       translation 0 0 1.572
-      rotation 0.57735 -0.57735 -0.57735 2.094395
+      rotation 0.57735 0.57735 0.57735 2.094395
       scale 0.8 0.6 0.8
       children [
         BusStopMesh {
@@ -97,8 +97,8 @@ Solid {
   boundingObject Group {
     children [
       DEF ROOF Transform {
-        translation 0.136 0 3.03
-        rotation 0.57735 -0.57735 -0.57735 2.094395
+        translation -0.136 0 3.03
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 7.04 0.06 3.36
@@ -106,8 +106,8 @@ Solid {
         ]
       }
       DEF RIGHT Transform {
-        translation 0.08 -3.104 1.5
-        rotation 0.57735 -0.57735 -0.57735 2.094395
+        translation -0.08 3.104 1.5
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 0.32 3 2.72
@@ -115,8 +115,8 @@ Solid {
         ]
       }
       DEF LEFT Transform {
-        translation 0.736 3.136 1.5
-        rotation 0.57735 -0.57735 -0.57735 2.094395
+        translation -0.736 -3.136 1.5
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 0.2 3 1.36
@@ -124,8 +124,8 @@ Solid {
         ]
       }
       DEF REAR Transform {
-        translation 1.256 0 1.6
-        rotation 0.57735 -0.57735 -0.57735 2.094395
+        translation -1.256 0 1.6
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 6.16 2.88 0.24
