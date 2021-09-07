@@ -44,6 +44,7 @@ Solid {
         %< if (fields.internalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF INTERNAL_ADVERTISING Transform {
             translation 3.7 0.33 0.02
+            rotation 1 0 0 -1.570796
             children [
               Shape {
                 appearance PBRAppearance {
@@ -67,6 +68,7 @@ Solid {
         %< if (fields.externalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF EXTERNAL_ADVERTISING Transform {
             translation 4.07 0.33 0.02
+            rotation 1 0 0 -1.570796
             children [
               Shape {
                 appearance PBRAppearance {
