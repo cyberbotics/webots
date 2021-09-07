@@ -236,10 +236,10 @@ Fence {
   SFFloat      poleRadius              0.04
   SFString     poleShape               "cylinder"
   SFNode       poleAppearance          PBRAppearance {}
-  MFVec3f      path                    [0 0 0, 5 0 0]
+  MFVec3f      path                    [0 0 0, 0 5 0]
   SFInt32      subdivision             -1
   SFInt32      horizontalBarsNumber    2
-  MFVec2f      horizontalBarShape      [0.06 0.02, 0.06 -0.02, -0.06 -0.02, -0.06 0.02, 0.06 0.02]
+  MFVec2f      horizontalBarShape      [0.02 0.06, 0.02 -0.06, -0.02 -0.06, -0.02 0.06, 0.02 0.06]
   SFNode       horizontalBarAppearance PBRAppearance {}
   SFNode       boundingObject          NULL
   SFFloat      creaseAngle             0.3
@@ -595,8 +595,8 @@ PublicToilet {
   SFRotation  rotation            0 0 1 0
   SFString    name                "public toilet"
   SFFloat     height              3.2
-  SFFloat     length              3.5
-  SFFloat     width               2.1
+  SFFloat     length              2.1
+  SFFloat     width               3.5
   MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/webots_billboard.jpg"
   SFBool      backDisplayLight    FALSE
   MFNode      frontDisplay        [
@@ -905,4 +905,3 @@ WorkTrashContainer {
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
-
