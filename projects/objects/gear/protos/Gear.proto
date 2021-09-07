@@ -99,21 +99,21 @@ PROTO Gear [
                     sinAlpha = Math.sin(alpha);
                 >%
                   # base face
-                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% %<= -halfWidth >% # 0
-                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% %<= -halfWidth >% # 1
-                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% %<= -halfWidth >% # 2
-                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% %<= -halfWidth >% # 3
-                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% %<= -halfWidth >% # 4
-                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% %<= -halfWidth >% # 5
-                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% %<= -halfWidth >% # 6
+                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= -halfWidth >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% # 0
+                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= -halfWidth >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% # 1
+                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= -halfWidth >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% # 2
+                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= -halfWidth >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% # 3
+                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= -halfWidth >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% # 4
+                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= -halfWidth >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% # 5
+                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= -halfWidth >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% # 6
                   # top face
-                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% %<= halfWidth >% # 7
-                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% %<= halfWidth >% # 8
-                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% %<= halfWidth >% # 9
-                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% %<= halfWidth >% # 10
-                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% %<= halfWidth >% # 11
-                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% %<= halfWidth >% # 12
-                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% %<= halfWidth >% # 13
+                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= -halfWidth >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% # 7
+                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= -halfWidth >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% # 8
+                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= -halfWidth >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% # 9
+                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= -halfWidth >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% # 10
+                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= -halfWidth >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% # 11
+                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= -halfWidth >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% # 12
+                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= -halfWidth >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% # 13
                 %< } >%
               ]
             }
