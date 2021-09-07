@@ -112,7 +112,6 @@ PROTO Oak [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Transform {
       translation 0 0 2.25
-      rotation 1 0 0 1.57
       children [
         Cylinder {
           height 4.5
