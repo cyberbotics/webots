@@ -61,10 +61,9 @@ PROTO PedestrianCrossing [
       children [
         Transform {
           translation 0 0 -0.1
-          rotation 1 0 0 1.5708
           children [
             Box {
-              size %<= size.x >% 0.4 %<= size.y >%
+              size %<= size.x >% %<= size.y >% 0.4
             }
           ]
         }
