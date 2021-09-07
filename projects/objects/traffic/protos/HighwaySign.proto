@@ -42,16 +42,15 @@ PROTO HighwaySign [
     children [
       DEF SIGN_BOARD Transform {
         translation %<= thickness * 0.5 >% 0 0
-        rotation 1 0 0 1.5708
         children [
           TexturedBoxShape {
-            size %<= thickness >% %<= height >% %<= length >%
+            size %<= thickness >% %<= length >% %<= height >%
             textureUrl IS texture
             textureMapping "default"
             faceColor IS color
-            frontFace FALSE
             backFace FALSE
             leftFace FALSE
+            rightFace FALSE
             topFace FALSE
             bottomFace FALSE
           }
@@ -62,11 +61,10 @@ PROTO HighwaySign [
     model "highway sign"
     boundingObject Transform {
       translation %<= thickness * 0.5 >% 0 0
-      rotation 1 0 0 1.5708
       children [
         Shape {
           geometry Box {
-            size %<= thickness >% %<= height >% %<= length >%
+            size %<= thickness >% %<= length >% %<= height >%
           }
         }
       ]
