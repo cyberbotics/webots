@@ -2538,7 +2538,7 @@ Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0 0.324 0
+        translation 0 0 0.324
         children [
           Cylinder {
             height 0.648
@@ -2547,7 +2547,7 @@ Solid {
         ]
       }
       Transform {
-        translation 0 0.78 0
+        translation 0 0 0.78
         children [
           Sphere {
             radius 0.17
