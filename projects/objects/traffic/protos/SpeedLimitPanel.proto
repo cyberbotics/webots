@@ -73,10 +73,9 @@ PROTO SpeedLimitPanel [
     model "speed limit panel"
     boundingObject Transform {
       translation 0.03 -0.01 0
-      rotation -0.57735 0.57735 0.57735 -2.09441
       children [
         Box {
-          size 0.50 0.63 0.06
+          size 0.06 0.50 0.63
         }
       ]
     }

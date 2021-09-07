@@ -50,13 +50,8 @@ PROTO RectangularPanel [
     ]
     name IS name
     model "rectangular panel"
-    boundingObject Transform {
-      rotation -0.577351 0.577347 0.577351 -2.094405
-      children [
-        Box {
-          size %<= fields.size.value.x >% %<= fields.size.value.y >% 0.03
-        }
-      ]
+    boundingObject Box {
+      size 0.03 %<= fields.size.value.x >% %<= fields.size.value.y >%
     }
   }
 }
