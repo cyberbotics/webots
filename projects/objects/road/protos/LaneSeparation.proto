@@ -101,15 +101,16 @@ PROTO LaneSeparation [
         children IS lines
       }
       StraightRoadSegment {
-        translation %<= -sideSign * (width/2) * (1 - numberOfleavingLanes/lanes) >% 0 0
+        translation 0 %<= -sideSign * (width/2) * (1 - numberOfleavingLanes/lanes) >% 0
         name "road 1"
         width %<= width * (1 - numberOfleavingLanes/lanes) >%
         numberOfLanes %<= lanes - numberOfleavingLanes >%
         %< if (newLaneLeft) { >%
-          rightBorder IS leftBorder
-          rightBarrier IS rightBarrier
-          rightBarrierBoundingObject IS rightBarrierBoundingObject
+          rightBorder IS rightBorder
           leftBorder FALSE
+          rightBarrier IS rightBarrier
+          leftBarrier FALSE
+          rightBarrierBoundingObject IS rightBarrierBoundingObject
           lines IS lines
           startLine [
           %< for (let i = 0; i < lanes - numberOfleavingLanes; ++i) { >%
@@ -126,8 +127,9 @@ PROTO LaneSeparation [
           %< } >%
           ]
         %< } else { >%
-          leftBorder IS rightBorder
           rightBorder FALSE
+          leftBorder IS leftBorder
+          rightBarrier FALSE
           leftBarrier IS leftBarrier
           leftBarrierBoundingObject IS leftBarrierBoundingObject
           lines [
@@ -170,13 +172,14 @@ PROTO LaneSeparation [
         castShadows IS castShadows
       }
       Road {
-        translation %<= sideSign * (width/2) * (numberOfleavingLanes/lanes) >% 0 0
+        translation 0 %<= sideSign * (width/2) * (numberOfleavingLanes/lanes) >% 0
         name "road 2"
         width %<= width * (numberOfleavingLanes/lanes) >%
         numberOfLanes IS numberOfleavingLanes
         %< if (newLaneLeft) { >%
           rightBorder FALSE
           leftBorder IS leftBorder
+          rightBarrier FALSE
           leftBarrier IS leftBarrier
           leftBarrierBoundingObject IS leftBarrierBoundingObject
           lines [
@@ -207,6 +210,7 @@ PROTO LaneSeparation [
         %< } else { >%
           leftBorder FALSE
           rightBorder IS rightBorder
+          leftBarrier FALSE
           rightBarrier IS rightBarrier
           rightBarrierBoundingObject IS rightBarrierBoundingObject
           lines [
@@ -268,12 +272,12 @@ PROTO LaneSeparation [
               geometry DEF CENTRAL_BORDER_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    0                                           0              0
-                    0                                 %<= borderHeight >%      0
-                    0                                           0         %<= length >%
-                    0                                 %<= borderHeight >% %<= length >%
-                    %<= sideSign * borderWidth * 2 >%           0         %<= length >%
-                    %<= sideSign * borderWidth * 2 >% %<= borderHeight >% %<= length >%
+                    0 0                                           0
+                    0 0                                 %<= borderHeight >%
+                    %<= length >% 0                                           0
+                    %<= length >% 0                                 %<= borderHeight >%
+                    %<= length >% %<= sideSign * borderWidth * 2 >%           0
+                    %<= length >% %<= sideSign * borderWidth * 2 >% %<= borderHeight >%
                   ]
                 }
                 texCoord TextureCoordinate {
@@ -322,9 +326,9 @@ PROTO LaneSeparation [
                 geometry DEF CENTRAL_BOTTOM_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    0                                           0              0
-                    0                                           0         %<= length >%
-                    %<= sideSign * borderWidth * 2 >%           0         %<= length >%
+                    0 0                                           0
+                    %<= length >%  0                                           0
+                    %<= length >%  %<= sideSign * borderWidth * 2 >%           0        
                   ]
                 }
                 coordIndex [
