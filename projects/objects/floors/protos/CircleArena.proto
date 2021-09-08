@@ -6,7 +6,7 @@
 
 PROTO CircleArena [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "circle arena"
   field SFFloat    radius          1.0                             # Defines the radius of the arena.
   field SFString   contactMaterial "default"                       # Is `Solid.contactMaterial`.
