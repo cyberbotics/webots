@@ -346,5 +346,9 @@ class WebotsParser:
                 node = self._read_node(line)
                 mffield.append(node)
         if len(mffield) > 4:
-            type = 'MFFloat' if ',' in line else 'MFInt32'
+            if isinstance(mffield[0], dict):
+                type = 'MFNode'
+            else:
+                type = 'MFFloat' if ',' in line else 'MFInt32'
+
         return type, mffield
