@@ -2686,3 +2686,18 @@ Yes, exactly. Your project could be added both in robots or samples.
 
 But it seems better to add it in a new `/robots/softbank/nao` folder.
 
+##### emabrey 09/06/2021 20:54:38
+Satyar,  my students developed worlds simulating the robocupjunior rescue line world. here is their github - [https://github.com/victorhu3/Webots-Line](https://github.com/victorhu3/Webots-Line).  We also had a small contest just past August - it was fun.  You will find more details here: [https://www.stormingrobots.com/prod/dev.php](https://www.stormingrobots.com/prod/dev.php) - click on Rescue Contest.
+
+
+I wonder if it is me, or Webots homesite,  [https://cyberbotics.com](https://cyberbotics.com), often was not responsive in the past few days.
+
+##### DjEdu28 09/07/2021 03:59:30
+Very good!
+
+##### Olivier Michel [Cyberbotics] 09/07/2021 06:30:30
+Yes we experience a few slowdowns of the website recently. Hopefully, this should be resolved by now.
+
+##### Fero 09/07/2021 17:47:08
+Hey!! I am building my own robot but I am not familiarized with PROTO files, if anyone want to do it for me I can pay 15 usd! Thank you for reading this! 😋
+
