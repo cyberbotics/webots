@@ -204,7 +204,7 @@ Solid {
         translation 0 -3.7 0.15
         children [
           Box {
-            size 10.4 0.02 0.3 
+            size 10.4 0.02 0.3
           }
         ]
       }
