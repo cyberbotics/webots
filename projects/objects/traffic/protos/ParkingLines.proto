@@ -22,7 +22,7 @@ PROTO ParkingLines [
     rotation IS rotation
     children [
       Transform {
-        translation %<= 0.5 * width >% 0 %<= 0.5 * length >%
+        translation %<= 0.5 * width >% %<= 0.5 * length >% 0 
         children [
           Shape {
             appearance PBRAppearance {

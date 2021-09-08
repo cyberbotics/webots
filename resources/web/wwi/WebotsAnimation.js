@@ -1,16 +1,18 @@
+import {webots} from './webots.js';
+
 const template = document.createElement('template');
 
 template.innerHTML = `
 <link type="text/css" href="https://cyberbotics.com/wwi/R2021c/css/animation.css" rel="stylesheet"/>
-<div id="view3d" style="height:100%; width:100%"></div>
 `;
 
 export default class WebotsAnimation extends HTMLElement {
   constructor() {
     super();
+    this._hasActiveAnimation = false;
     this.appendChild(template.content.cloneNode(true));
 
-    let script = document.createElement('script');
+    const script = document.createElement('script');
     script.textContent = `var Module = [];
         Module['locateFile'] = function(path, prefix) {
 
@@ -22,30 +24,59 @@ export default class WebotsAnimation extends HTMLElement {
         return prefix + path;
       }`;
     document.head.appendChild(script);
+    let name = document.getElementsByTagName('webots-animation')[0].title;
+    if (!name)
+      name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
+    this.setNames(name);
 
     this._init();
   }
 
   _load(scriptUrl) {
     return new Promise(function(resolve, reject) {
-      let script = document.createElement('script');
+      const script = document.createElement('script');
       script.onload = resolve;
       script.src = scriptUrl;
       document.head.appendChild(script);
     });
   }
 
-  async _init() {
-    let promises = [];
+  _init() {
+    const promises = [];
+    Module.onRuntimeInitialized = () => {
+      Promise.all(promises).then(() => {
+        if (this.getAttribute('playWhenReady') && this.getAttribute('playWhenReady') === 'true')
+          this.play();
+      });
+    };
     promises.push(this._load('https://git.io/glm-js.min.js'));
     promises.push(this._load('https://cyberbotics.com/wwi/R2021c/enum.js'));
     promises.push(this._load('https://cyberbotics.com/wwi/R2021c/wrenjs.js'));
+  }
 
-    await Promise.all(promises);
-    let script = document.createElement('script');
-    script.src = 'https://cyberbotics.com/wwi/R2021c/init_animation.js';
-    script.type = 'module';
-    document.head.appendChild(script);
+  setNames(name) {
+    this._x3d = name + '.x3d';
+    this._json = name + '.json';
+  }
+
+  play(mobileDevice) {
+    if (typeof this._view === 'undefined')
+      this._view = new webots.View(this, mobileDevice);
+    this._view.open(this._x3d);
+    this._view.setAnimation(this._json, 'play', true);
+    this._hasActiveAnimation = true;
+  }
+
+  close() {
+    this._view.animation.pause();
+    this._view.animation.removePlayBar();
+    this._view.removeLabels();
+    this._view.destroyWorld();
+    this._hasActiveAnimation = false;
+  }
+
+  active() {
+    return this._hasActiveAnimation;
   }
 }
 
