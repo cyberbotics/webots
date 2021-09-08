@@ -4,8 +4,8 @@
 # The Pioneer 3-DX robot (Adept MobileRobots) is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
 
 PROTO SquarePathPioneer3dx [
-  field SFVec3f    translation     0 0.0975 0                       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.0975                      # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0                          # Is `Transform.rotation`.
   field SFString   name            "Pioneer 3-DX"                   # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
@@ -417,7 +417,7 @@ PROTO SquarePathPioneer3dx [
       }
       DEF CASTER_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
+          axis 0 0 1
           anchor -0.1918 0 0
           staticFriction 0.05
         }
@@ -427,7 +427,7 @@ PROTO SquarePathPioneer3dx [
           children [
             DEF casterWheelRim HingeJoint {
               jointParameters HingeJointParameters {
-                axis 1 0 0
+                axis 0 1 0
                 anchor -0.0128 0 -0.0521
               }
               endPoint Solid {
@@ -601,7 +601,7 @@ PROTO SquarePathPioneer3dx [
           }
         ]
         jointParameters HingeJointParameters {
-          axis -1 0 0
+          axis 0 -1 0
           anchor 0 0.165 0
         }
         endPoint Solid {
@@ -861,7 +861,7 @@ PROTO SquarePathPioneer3dx [
           }
         ]
         jointParameters HingeJointParameters {
-          axis -1 0 0
+          axis 0 -1 0
           anchor 0 -0.165 0
         }
         endPoint Solid {
