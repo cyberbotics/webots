@@ -463,7 +463,7 @@ void WbMesh::updateUrl() {
 
   if (areWrenObjectsInitialized()) {
     buildWrenMesh(true);
-    if (n > 0 && WbUrl::isWeb(mUrl->item(0)))
+    if (n > 0)
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
 
