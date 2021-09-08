@@ -6,7 +6,7 @@
 
 PROTO Gear [
   field SFVec3f         translation            0 0 0
-  field SFRotation      rotation               0 0 1 0
+  field SFRotation      rotation               0 1 0 0
   field SFNode          appearance             PBRAppearance{baseColor 0.533333, 0.541176, 0.521569, roughness 0.5}
   field SFString        name                   "gear"     # Defines the solid's name.
   field SFInt32         teeth                  8          # Defines number of teeth, [8, inf).
@@ -107,13 +107,13 @@ PROTO Gear [
                   %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= -halfWidth >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% # 5
                   %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= -halfWidth >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% # 6
                   # top face
-                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= -halfWidth >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% # 7
-                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= -halfWidth >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% # 8
-                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= -halfWidth >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% # 9
-                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= -halfWidth >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% # 10
-                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= -halfWidth >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% # 11
-                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= -halfWidth >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% # 12
-                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= -halfWidth >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% # 13
+                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= halfWidth >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% # 7
+                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= halfWidth >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% # 8
+                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= halfWidth >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% # 9
+                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= halfWidth >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% # 10
+                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= halfWidth >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% # 11
+                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= halfWidth >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% # 12
+                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= halfWidth >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% # 13
                 %< } >%
               ]
             }
