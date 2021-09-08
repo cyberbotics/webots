@@ -112,7 +112,7 @@ PROTO IntermodalOfficeContainer [
       translation 0 0 1.3
       children [
         Box {
-          size 12.192 2.438 2.6 
+          size 12.192 2.438 2.6
         }
       ]
     }
