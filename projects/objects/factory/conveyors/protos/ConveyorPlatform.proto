@@ -7,7 +7,7 @@
 # template language: javascript
 
 PROTO ConveyorPlatform [
-  field  SFVec3f     translation      0 0 0
+  field  SFVec3f     translation      0 0 0.065
   field  SFRotation  rotation         0 0 1 0
   field  SFString    name             "Conveyor platform"  # Is `Solid.name`.
   field  SFString    model            "Conveyor platform"  # Is `Solid.model`.
