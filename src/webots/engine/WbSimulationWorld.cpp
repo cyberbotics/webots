@@ -22,6 +22,7 @@
 #include "WbOdeContext.hpp"
 #include "WbOdeDebugger.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbPaintTexture.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPhysicsPlugin.hpp"
@@ -137,6 +138,8 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   connect(this, &WbSimulationWorld::cameraRenderingStarted, s, &WbSimulationState::cameraRenderingStarted);
   connect(worldInfo(), &WbWorldInfo::optimalThreadCountChanged, this, &WbSimulationWorld::updateNumberOfThreads);
   connect(worldInfo(), &WbWorldInfo::randomSeedChanged, this, &WbSimulationWorld::updateRandomSeed);
+
+  WbNodeUtilities::fixBackwardCompatibility(WbWorld::instance()->root());
 }
 
 WbSimulationWorld::~WbSimulationWorld() {

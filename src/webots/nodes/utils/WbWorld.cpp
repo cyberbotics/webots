@@ -162,8 +162,6 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     mRoot->addChild(mViewpoint);
   }
 
-  WbNodeUtilities::fixBackwardCompatibility(mRoot);
-
   WbNode::setGlobalParentNode(NULL);
   updateTopLevelLists();
 

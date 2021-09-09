@@ -22,6 +22,10 @@
 #include "WbBillboard.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbBrake.hpp"
+#include "WbTemplateManager.hpp"
+#include "WbWrenOpenGlContext.hpp"
+#include "WbNodeOperations.hpp"
+#include "WbConcreteNodeFactory.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
 #include "WbCone.hpp"
@@ -1059,6 +1063,11 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
   // Apply rotations to the candidates.
   for (WbNode *candidate : candidates) {
+    // This condition is added to handle dangling pointers.
+    // TODO: It is very slow though, we may need to improve it.
+    if (!node->subNodes(true, true).contains(candidate))
+      continue;
+
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
         dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) ||
         dynamic_cast<WbReceiver *>(candidate) || dynamic_cast<WbConnector *>(candidate) ||
@@ -1112,15 +1121,19 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         } else {
           
           if (!getNodeChildren(candidate).contains(child)) {
-            QTextStream(stdout) << child->fullName() << "\n";
-            candidate->findSFNode("boundingObject")->setValue(NULL, false);
-            
-            /*
-            child->setUseName("");
             WbTransform *const transform = new WbTransform();
-            transform->addChild(child);
-            candidate->findSFNode("boundingObject")->setValue(transform, false);
-            */
+            transform->setRotation(WbRotation(rotationFix.transposed()));
+            transform->save("__init__");
+            WbNode *newNode = child->cloneAndReferenceProtoInstance(); // WbConcreteNodeFactory::instance()->createCopy(*child);
+
+            WbTemplateManager::instance()->blockRegeneration(true);
+            newNode->setDefNode(child->defNode());
+            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1, false);         
+            WbTemplateManager::instance()->blockRegeneration(false);
+
+            WbTemplateManager::instance()->blockRegeneration(true);
+            transform->addChild(newNode);
+            WbTemplateManager::instance()->blockRegeneration(false);
           } else {
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
@@ -1135,7 +1148,6 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
                dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
                dynamic_cast<WbElevationGrid *>(candidate)) {
       // Rotate geometries.
-
       const WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, 0);
       WbNode *const nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
 
