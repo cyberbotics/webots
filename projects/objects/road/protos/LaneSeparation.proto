@@ -106,10 +106,9 @@ PROTO LaneSeparation [
         width %<= width * (1 - numberOfleavingLanes/lanes) >%
         numberOfLanes %<= lanes - numberOfleavingLanes >%
         %< if (newLaneLeft) { >%
-          rightBorder IS rightBorder
+          rightBorder IS leftBorder
           leftBorder FALSE
           rightBarrier IS rightBarrier
-          leftBarrier FALSE
           rightBarrierBoundingObject IS rightBarrierBoundingObject
           lines IS lines
           startLine [
@@ -128,8 +127,7 @@ PROTO LaneSeparation [
           ]
         %< } else { >%
           rightBorder FALSE
-          leftBorder IS leftBorder
-          rightBarrier FALSE
+          leftBorder IS rightBorder
           leftBarrier IS leftBarrier
           leftBarrierBoundingObject IS leftBarrierBoundingObject
           lines [
