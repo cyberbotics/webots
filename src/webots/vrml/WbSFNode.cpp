@@ -59,7 +59,7 @@ void WbSFNode::write(WbVrmlWriter &writer) const {
     writer << "NULL";
 }
 
-void WbSFNode::setValue(WbNode *node, bool shouldRemove) {
+void WbSFNode::setValue(WbNode *node) {
   if (mValue == node)
     return;
 
@@ -68,8 +68,7 @@ void WbSFNode::setValue(WbNode *node, bool shouldRemove) {
   if (mValue)
     mValue->setInsertionCompleted();
   emit changed();
-  if (shouldRemove)
-    delete tmp;
+  delete tmp;
 }
 
 WbSFNode &WbSFNode::operator=(const WbSFNode &other) {

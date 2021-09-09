@@ -38,7 +38,7 @@ public:
   WbVariant variantValue() const override { return WbVariant(mValue); }
   WbFieldType type() const override { return WB_SF_NODE; }
   WbNode *value() const { return mValue; }
-  void setValue(WbNode *node, bool shouldRemove=true);
+  void setValue(WbNode *node);
   void removeValue() { setValue(NULL); }
   WbSFNode &operator=(const WbSFNode &other);
   bool operator==(const WbSFNode &other) const;
