@@ -86,7 +86,7 @@ PROTO ConstructionLamp [
         color IS spotLightColor
         beamWidth 0.2
         cutOffAngle 1
-        direction 0 0 1
+        direction 1 0 0
         intensity IS spotLightIntensity
         location 0.0014 0 0.001
         radius IS spotLightRadius
