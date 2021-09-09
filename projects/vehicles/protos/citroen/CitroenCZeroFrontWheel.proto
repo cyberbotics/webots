@@ -31,27 +31,33 @@ PROTO CitroenCZeroFrontWheel [
     physics IS physics
     boundingObject IS boundingObject
     logoSlot [
-      Shape {
-        appearance PBRAppearance {
-          roughness 0.1
-          baseColorMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
-            ]
+      Transform{
+        translation 0.041 0 0
+        rotation -0.707 0 0.707 -3.14
+        children [
+          Shape {
+            appearance PBRAppearance {
+              roughness 0.1
+              baseColorMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
+                ]
+              }
+            }
+            geometry Cylinder {
+              bottom FALSE
+              height 0.142
+              radius 0.05
+              side FALSE
+            }
           }
-          normalMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
-            ]
-          }
-        }
-        geometry Cylinder {
-          bottom FALSE
-          height 0.142
-          radius 0.05
-          side FALSE
-        }
+        ]
       }
-    ]
+    ]  
   }
 }

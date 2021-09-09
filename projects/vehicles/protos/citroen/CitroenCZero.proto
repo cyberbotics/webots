@@ -208,7 +208,7 @@ PROTO CitroenCZero [
         1.180 -0.002 0.248 # PSA tests
       ]
       inertiaMatrix [ # Computed using the 'sub-solids' method
-        2645 2534 200
+        200.0 2645.0 2534.0
         0 0 0
       ]
     }
