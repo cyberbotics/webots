@@ -87,7 +87,7 @@ PROTO CurvedRoadSegment [
     endingAngle %<= angle >%
     wayPoints [
       %< for (let i = 0; i <= subdivision; ++i) { >%
-        %<= radius * Math.cos(i * angle / subdivision) >% 0 %<= radius * Math.sin(i * angle / subdivision) >%
+        %<= radius * Math.sin(i * angle / subdivision) >% %<= radius * Math.cos(i * angle / subdivision) >% 0
       %< } >%
     ]
     roadTilt [
