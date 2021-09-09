@@ -158,9 +158,9 @@ PROTO RoadIntersection [
               wayPoints [
                 0 0 0
                 %< if (roadMinimalLength < roadLength) { >%
-                  0 0 %<= roadMinimalLength >%
+                  %<= roadMinimalLength >% 0 0
                 %< } >%
-                0 0 %<= roadLength >%
+                %<= roadLength >% 0 0
               ]
               leftBorderBoundingObject IS startRoadBorderboundingObject
               rightBorderBoundingObject IS startRoadBorderboundingObject
@@ -192,7 +192,7 @@ PROTO RoadIntersection [
               name "road %<= i >%"
               wayPoints [
                 0 0 0
-                0 0 %<= roadLength >%
+                %<= roadLength >% 0 0
               ]
               width %<= roadsWidth >%
               roadBoundingObject IS boundingObject

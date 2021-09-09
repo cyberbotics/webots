@@ -253,7 +253,7 @@ PROTO LaneSeparation [
         castShadows IS castShadows
         wayPoints [
           0 0 0
-          %<= sideSign * borderWidth * 2 >% 0 %<= length >%
+          %<= length >% %<= sideSign * borderWidth * 2 >% 0
         ]
         startingAngle [
           0
@@ -328,7 +328,7 @@ PROTO LaneSeparation [
                   point [
                     0 0                                           0
                     %<= length >%  0                                           0
-                    %<= length >%  %<= sideSign * borderWidth * 2 >%           0        
+                    %<= length >%  %<= sideSign * borderWidth * 2 >%           0
                   ]
                 }
                 coordIndex [
