@@ -22,12 +22,9 @@
 #include "WbBillboard.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbBrake.hpp"
-#include "WbTemplateManager.hpp"
-#include "WbWrenOpenGlContext.hpp"
-#include "WbNodeOperations.hpp"
-#include "WbConcreteNodeFactory.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
+#include "WbConcreteNodeFactory.hpp"
 #include "WbCone.hpp"
 #include "WbConnector.hpp"
 #include "WbCylinder.hpp"
@@ -44,6 +41,7 @@
 #include "WbLinearMotor.hpp"
 #include "WbLogicalDevice.hpp"
 #include "WbMFNode.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbNodeReader.hpp"
 #include "WbPen.hpp"
 #include "WbPlane.hpp"
@@ -58,6 +56,7 @@
 #include "WbSkin.hpp"
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
+#include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
@@ -65,6 +64,7 @@
 #include "WbVersion.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenOpenGlContext.hpp"
 
 #include <QtCore/QQueue>
 #include <QtCore/QStack>
@@ -1033,6 +1033,29 @@ QList<WbNode *> WbNodeUtilities::getNodeChildren(const WbNode *node) {
   return children;
 }
 
+QList<WbNode *> WbNodeUtilities::getNodeChildrenAndBounding(WbNode *node) {
+  // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
+  QList<WbNode *> children = getNodeChildren(node);
+  WbNode *boundingObject = static_cast<WbSolid *>(node)->boundingObject();
+  for (WbNode *child : children)
+    if (dynamic_cast<WbTrackWheel *>(child)) {
+      children += getNodeChildren(child);
+      children.removeOne(child);
+    }
+  if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
+      !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
+    children += boundingObject->subNodes(false, false);
+  else if (boundingObject)
+    children.append(boundingObject);
+
+  // Insert the USE nodes in the beginning.
+  std::sort(children.begin(), children.end(), [](const WbNode *a, const WbNode *b) -> bool {
+    return ((a->isUseNode() && !b->isUseNode()) || (a->isUseNode() && b->isUseNode()));
+  });
+
+  return children;
+}
+
 void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // We don't want to apply the fix if the node is already >R2021b
   if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 1))
@@ -1096,22 +1119,11 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         device->save("__init__");
       }
 
-      // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
-      QList<WbNode *> children = getNodeChildren(candidate);
-      WbNode *boundingObject = static_cast<WbSolid *>(candidate)->boundingObject();
-      for (WbNode *child : children)
-        if (dynamic_cast<WbTrackWheel *>(child)) {
-          children += getNodeChildren(child);
-          children.removeOne(child);
-        }
-      if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
-          !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
-        children += boundingObject->subNodes(false, false);
-      else if (boundingObject)
-        children.append(boundingObject);
-
-      // Rotate children of the device back.
+      QList<WbNode *> children = getNodeChildrenAndBounding(candidate);
       for (WbNode *child : children) {
+        if (!getNodeChildrenAndBounding(candidate).contains(child))
+          continue;
+
         WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
         if (childTransform) {
           // Squash transforms if possible.
@@ -1119,21 +1131,22 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
           childTransform->save("__init__");
         } else {
-          
           if (!getNodeChildren(candidate).contains(child)) {
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
-            WbNode *newNode = child->cloneAndReferenceProtoInstance(); // WbConcreteNodeFactory::instance()->createCopy(*child);
-            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1, true);         
-            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, true);      
+            WbNode *newNode =
+              child->cloneAndReferenceProtoInstance();  // WbConcreteNodeFactory::instance()->createCopy(*child);
+            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1, true);
+            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, true);
           } else {
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
-            static_cast<WbGroup *>(candidate)->addChild(transform);
-            static_cast<WbGroup *>(candidate)->removeChild(child);
-            transform->addChild(child);
+            WbNode *newNode = child->cloneAndReferenceProtoInstance();
+            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("children"), 0);
+            WbNodeOperations::instance()->deleteNode(child);
+            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
           }
         }
       }
