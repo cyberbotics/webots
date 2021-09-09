@@ -6,7 +6,7 @@
 
 PROTO Roundabout [
   field        SFVec3f              translation              0 0 0
-  field        SFRotation           rotation                 0 0 1 0
+  field        SFRotation           rotation                 0 1 0 0
   field        SFString             name                     "roundabout"                          # Defines the roundabout name.
   field        SFString             id                       ""                                    # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        MFString             connectedRoadIDs         []                                    # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
@@ -159,12 +159,12 @@ PROTO Roundabout [
         %<
           let angle         = 2 * Math.PI * i / roadNumber + Math.PI / roadNumber;
           let x             = outerRadius * Math.cos(angle);
-          let z             = outerRadius * Math.sin(angle);
+          let y             = outerRadius * Math.sin(angle);
           let rotationAngle = -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI * 0.5;
           let theta = Math.atan2(roadsWidth * 0.5, outerRadius);
           let d = roadsWidth * 0.5 - Math.sin(theta) * outerRadius;
           let theta2 = Math.atan2(roadsWidth * 0.5 + 5 * d, outerRadius);
-          let centralPoint = {x: x, y: z};
+          let centralPoint = {x: x, y: y};
           centralPoint = wbgeometry.findClosestPoint2InArray(centralPoint, outerPoints);
           let point = {x: outerRadius * Math.cos(angle+theta2), y: outerRadius * Math.sin(angle+theta2)};
           point = wbgeometry.findClosestPoint2InArray(point, outerPoints);
@@ -187,8 +187,9 @@ PROTO Roundabout [
         >%
         %< if (roadLength > 0) { >%
         Road {
-          translation %<= centralPoint.x >% 0 %<= centralPoint.y >%
-          rotation 0 1 0 %<= rotationAngle >%
+          translation %<= centralPoint.x >% %<= centralPoint.y >% 0
+          rotation 0 0 1 %<= 1.5708 - rotationAngle >%
+          %< console.log(rotationAngle); >%
           name "road border %<= i >%"
           width %<= roadsWidth >%
           numberOfLanes IS startRoadsNumberOfLanes
@@ -209,13 +210,13 @@ PROTO Roundabout [
           castShadows IS castShadows
           wayPoints [
             0 0 0
-            0 0 %<= roadLength >%
+            %<= roadLength >% 0 0
           ]
         }
         %< } >%
         # the corresponding part of the roundabout road
         CurvedRoadSegment {
-          rotation 0 1 0 %<= 2 * Math.PI * ((centralIndex + numberOfIndex) / subdivision) >%
+          rotation 0 0 1 %<= 2 * Math.PI * ((centralIndex + numberOfIndex) / subdivision) >%
           name "curve road junction %<= i >%"
           totalAngle %<= 2 * Math.PI * (2 * numberOfIndex / subdivision) >%
           subdivision %<= 2 * Math.abs(centralIndex - pointIndex) >%
@@ -239,7 +240,7 @@ PROTO Roundabout [
         }
         # the part of the roundabout road the make the junction to the next one
         CurvedRoadSegment {
-          rotation 0 1 0 %<= 2 * Math.PI * ((centralIndex - numberOfIndex) / subdivision) >%
+          rotation 0 0 1 %<= 2 * Math.PI * ((centralIndex - numberOfIndex) / subdivision) >%
           name "curve road %<= i >%"
           totalAngle %<= 2 * Math.PI / roadNumber - 2 * Math.PI * (2 * numberOfIndex / subdivision) >%
           subdivision %<= subdivision / roadNumber - 2 * numberOfIndex >%
@@ -270,9 +271,9 @@ PROTO Roundabout [
               geometry DEF LEFT_ROAD_GEOM IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %<= outerPoints[centralIndex].x - (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% 0 %<= outerPoints[centralIndex].y - (roadsWidth * 0.5) * Math.sin(-rotationAngle) >%
+                    %<= outerPoints[centralIndex].y - (roadsWidth * 0.5) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x - (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% 0
                     %< for (let i = 0; i <= numberOfIndex; ++i) { >%
-                      %<= outerPoints[centralIndex + i].x >% 0 %<= outerPoints[centralIndex + i].y >% # TODO ?
+                      %<= outerPoints[centralIndex + i].y >% %<= outerPoints[centralIndex + i].x >% 0
                     %< } >%
                   ]
                 }
@@ -280,7 +281,7 @@ PROTO Roundabout [
                   point [
                     %<= (outerPoints[centralIndex].x - (roadsWidth * 0.5) * Math.cos(-rotationAngle)) * textureCoordinateRatio >% %<= (outerPoints[centralIndex].y - (roadsWidth * 0.5) * Math.sin(-rotationAngle)) * textureCoordinateRatio >%
                     %< for (let i = 0; i <= numberOfIndex; ++i) { >%
-                      %<= outerPoints[centralIndex + i].x * textureCoordinateRatio >% %<= outerPoints[centralIndex + i].y * textureCoordinateRatio >% # TODO ?
+                      %<= outerPoints[centralIndex + i].x * textureCoordinateRatio >% %<= outerPoints[centralIndex + i].y * textureCoordinateRatio >%
                     %< } >%
                   ]
                 }
@@ -315,17 +316,17 @@ PROTO Roundabout [
               geometry DEF LEFT_BORDER_GEOM IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %<= outerPoints[centralIndex].x - (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% 0 %<= outerPoints[centralIndex].y - (roadsWidth * 0.5) * Math.sin(-rotationAngle) >%
-                    %<= outerPoints[centralIndex + numberOfIndex].x >% 0 %<= outerPoints[centralIndex + numberOfIndex].y >%
+                    %<= outerPoints[centralIndex].y - (roadsWidth * 0.5) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x - (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% 0
+                    %<= outerPoints[centralIndex + numberOfIndex].y >% %<= outerPoints[centralIndex + numberOfIndex].x >% 0
 
-                    %<= outerPoints[centralIndex].x - (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% %<= borderHeight >% %<= outerPoints[centralIndex].y - (roadsWidth * 0.5) * Math.sin(-rotationAngle) >%
-                    %<= outerPoints[centralIndex + numberOfIndex].x >% %<= borderHeight >% %<= outerPoints[centralIndex + numberOfIndex].y >%
+                    %<= outerPoints[centralIndex].y - (roadsWidth * 0.5) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x - (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% %<= borderHeight >%
+                    %<= outerPoints[centralIndex + numberOfIndex].y >% %<= outerPoints[centralIndex + numberOfIndex].x >% %<= borderHeight >%
 
-                    %<= outerPoints[centralIndex].x - (roadsWidth * 0.5 + borderWidth) * Math.cos(-rotationAngle) >% %<= borderHeight >% %<= outerPoints[centralIndex].y - (roadsWidth * 0.5 + borderWidth) * Math.sin(-rotationAngle) >%
-                    %<= borderOuterPoints[centralIndex + numberOfIndex].x >% %<= borderHeight >% %<= borderOuterPoints[centralIndex + numberOfIndex].y >%
+                    %<= outerPoints[centralIndex].y - (roadsWidth * 0.5 + borderWidth) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x - (roadsWidth * 0.5 + borderWidth) * Math.cos(-rotationAngle) >% %<= borderHeight >%
+                    %<= borderOuterPoints[centralIndex + numberOfIndex].y >% %<= borderOuterPoints[centralIndex + numberOfIndex].x >% %<= borderHeight >%
 
-                    %<= outerPoints[centralIndex].x - (roadsWidth * 0.5 + borderWidth) * Math.cos(-rotationAngle) >% 0 %<= outerPoints[centralIndex].y - (roadsWidth * 0.5 + borderWidth) * Math.sin(-rotationAngle) >%
-                    %<= borderOuterPoints[centralIndex + numberOfIndex].x >% 0 %<= borderOuterPoints[centralIndex + numberOfIndex].y >%
+                    %<= outerPoints[centralIndex].y - (roadsWidth * 0.5 + borderWidth) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x - (roadsWidth * 0.5 + borderWidth) * Math.cos(-rotationAngle) >% 0
+                    %<= borderOuterPoints[centralIndex + numberOfIndex].y >% %<= borderOuterPoints[centralIndex + numberOfIndex].x >% 0
                   ]
                 }
                 texCoord DEF BORDER_TEXCOORD TextureCoordinate {
@@ -369,9 +370,9 @@ PROTO Roundabout [
               geometry DEF RIGHT_ROAD_GEOM IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %<= outerPoints[centralIndex].x + (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% 0 %<= outerPoints[centralIndex].y + (roadsWidth * 0.5) * Math.sin(-rotationAngle) >%
+                    %<= outerPoints[centralIndex].y + (roadsWidth * 0.5) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x + (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% 0
                     %< for (let i = 0; i <= numberOfIndex; ++i) { >%
-                      %<= outerPoints[centralIndex - i].x >% 0 %<= outerPoints[centralIndex - i].y >%
+                      %<= outerPoints[centralIndex - i].y >% %<= outerPoints[centralIndex - i].x >% 0
                     %< } >%
                   ]
                 }
@@ -414,17 +415,17 @@ PROTO Roundabout [
               geometry DEF RIGHT_BORDER_GEOM IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %<= outerPoints[centralIndex].x + (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% 0 %<= outerPoints[centralIndex].y + (roadsWidth * 0.5) * Math.sin(-rotationAngle) >%
-                    %<= outerPoints[centralIndex - numberOfIndex].x >% 0 %<= outerPoints[centralIndex - numberOfIndex].y >%
+                    %<= outerPoints[centralIndex].y + (roadsWidth * 0.5) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x + (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% 0
+                    %<= outerPoints[centralIndex - numberOfIndex].y >% %<= outerPoints[centralIndex - numberOfIndex].x >% 0
 
-                    %<= outerPoints[centralIndex].x + (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% %<= borderHeight >% %<= outerPoints[centralIndex].y + (roadsWidth * 0.5) * Math.sin(-rotationAngle) >%
-                    %<= outerPoints[centralIndex - numberOfIndex].x >% %<= borderHeight >% %<= outerPoints[centralIndex - numberOfIndex].y >%
+                    %<= outerPoints[centralIndex].y + (roadsWidth * 0.5) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x + (roadsWidth * 0.5) * Math.cos(-rotationAngle) >% %<= borderHeight >%
+                    %<= outerPoints[centralIndex - numberOfIndex].y >% %<= outerPoints[centralIndex - numberOfIndex].x >% %<= borderHeight >%
 
-                    %<= outerPoints[centralIndex].x + (roadsWidth * 0.5 + borderWidth) * Math.cos(-rotationAngle) >% %<= borderHeight >% %<= outerPoints[centralIndex].y + (roadsWidth * 0.5 + borderWidth) * Math.sin(-rotationAngle) >%
-                    %<= borderOuterPoints[centralIndex - numberOfIndex].x >% %<= borderHeight >% %<= borderOuterPoints[centralIndex - numberOfIndex].y >%
+                    %<= outerPoints[centralIndex].y + (roadsWidth * 0.5 + borderWidth) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x + (roadsWidth * 0.5 + borderWidth) * Math.cos(-rotationAngle) >% %<= borderHeight >%
+                    %<= borderOuterPoints[centralIndex - numberOfIndex].y >% %<= borderOuterPoints[centralIndex - numberOfIndex].x >% %<= borderHeight >%
 
-                    %<= outerPoints[centralIndex].x + (roadsWidth * 0.5 + borderWidth) * Math.cos(-rotationAngle) >% 0 %<= outerPoints[centralIndex].y + (roadsWidth * 0.5 + borderWidth) * Math.sin(-rotationAngle) >%
-                    %<= borderOuterPoints[centralIndex - numberOfIndex].x >% 0 %<= borderOuterPoints[centralIndex - numberOfIndex].y >%
+                    %<= outerPoints[centralIndex].y + (roadsWidth * 0.5 + borderWidth) * Math.sin(-rotationAngle) >% %<= outerPoints[centralIndex].x + (roadsWidth * 0.5 + borderWidth) * Math.cos(-rotationAngle) >% 0
+                    %<= borderOuterPoints[centralIndex - numberOfIndex].y >% %<= borderOuterPoints[centralIndex - numberOfIndex].x >% 0
                   ]
                 }
                 texCoord USE BORDER_TEXCOORD
