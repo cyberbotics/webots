@@ -593,25 +593,25 @@
   </joint>
   <link name="cap screw">
     <visual>
-      <origin xyz="0 0 0.005" rpy="0 0 0"/>
+      <origin xyz="0.005 0 0" rpy="3.141593 1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.005" length="0.01"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.005" rpy="0 0 0"/>
+      <origin xyz="0.005 0 0" rpy="3.141593 1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.005" length="0.01"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+      <origin xyz="-0.005 0 0" rpy="3.141593 1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.00833333" length="0.01"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+      <origin xyz="-0.005 0 0" rpy="3.141593 1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.00833333" length="0.01"/>
       </geometry>
@@ -620,6 +620,6 @@
   <joint name="base_link_cap screw_joint" type="fixed">
     <parent link="base_link"/>
     <child link="cap screw"/>
-    <origin xyz="0.0962 0 0.099" rpy="3.141593 -1.570792 3.141593"/>
+    <origin xyz="0.0962 0 0.099" rpy="0 0 3.141593"/>
   </joint>
 </robot>
