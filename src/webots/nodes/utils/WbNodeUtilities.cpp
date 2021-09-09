@@ -1074,7 +1074,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   candidates.append(node);
   while (!queue.isEmpty()) {
     const WbNode *const n = queue.dequeue();
-    for (WbNode *child : n->subNodes(false, true)) {
+    for (WbNode *child : n->subNodes(false, true, true)) {
       if (!child->proto()) {
         queue.append(child);
         if (!candidates.contains(child))
@@ -1090,14 +1090,12 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     // TODO: It is very slow though, we may need to improve it.
     if (!node->subNodes(true, true).contains(candidate))
       continue;
-
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
         dynamic_cast<WbRadar *>(candidate) || dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) ||
         dynamic_cast<WbReceiver *>(candidate) || dynamic_cast<WbConnector *>(candidate) ||
         dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate) ||
         dynamic_cast<WbTrack *>(candidate)) {
       // Rotate devices.
-
       WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, M_PI_2);
       if (dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbTrack *>(candidate))
         rotationFix = WbMatrix3(-M_PI_2, 0, 0);
@@ -1156,13 +1154,14 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       // Rotate geometries.
       const WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, 0);
       WbNode *const nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
-
       WbNode *const parent = nodeToRotate->parentNode();
       assert(dynamic_cast<WbGroup *>(parent));
 
       WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
       if (parentTransform && parentTransform->subNodes(false, false).size() == 1) {
         // Squash transforms if possible.
+        if (dynamic_cast<WbTrackWheel *>(parentTransform->parentNode()))
+          continue;
         parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * rotationFix));
         parentTransform->save("__init__");
       } else {
