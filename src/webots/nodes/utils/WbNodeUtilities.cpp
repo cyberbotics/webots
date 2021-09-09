@@ -1135,8 +1135,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             transform->save("__init__");
             WbNode *newNode =
               child->cloneAndReferenceProtoInstance();  // WbConcreteNodeFactory::instance()->createCopy(*child);
-            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1, true);
-            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, true);
+            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1);
+            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
           } else {
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
