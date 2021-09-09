@@ -31,6 +31,7 @@ PROTO VehicleWheel [
   field SFNode     physics            Physics {}
   field SFBool     boundingObject     TRUE
   field MFNode     logoSlot           []
+  field MFNode     children           []
 ]
 {
   %<
