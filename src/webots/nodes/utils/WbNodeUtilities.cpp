@@ -1107,6 +1107,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       if (dynamic_cast<WbViewpoint *>(candidate)) {
         WbViewpoint *const viewpoint = static_cast<WbViewpoint *>(candidate);
         viewpoint->orientation()->setValue(WbRotation(viewpoint->orientation()->value().toMatrix3() * rotationFix));
+        viewpoint->save("__init__");
         continue;
       }
 
