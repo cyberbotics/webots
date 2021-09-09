@@ -29,7 +29,8 @@ PROTO ToyotaPriusWheel [
     contactMaterial "ToyotaPriusWheels"
     logoSlot [
       Transform {
-        rotation 0 1 0 0.52
+        rotation 0.654264 0.379311 -0.654264 -2.416503
+        translation 0.096 0.001 0
         children [
           Shape {
             appearance PBRAppearance {

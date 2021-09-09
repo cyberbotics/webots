@@ -7,7 +7,8 @@ PROTO ToyotaPriusAntiFogLight [
 ]
 {
   Transform {
-    translation 0 -0.3 1.435
+    translation 1.435 0 -0.3
+    rotation 0.57735 0.57735 0.57735 2.094395
     children [
       DEF ANTIFOG_LIGHT Group {
         children [
