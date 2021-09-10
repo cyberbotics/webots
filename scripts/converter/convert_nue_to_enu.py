@@ -65,7 +65,7 @@ def convert_to_enu(filename):
             print('Rotating', node['name'])
             for field in node['fields']:
                 if field['name'] in ['rotation']:
-                    field['value'] = [field['value'][0], field['value'][2], field['value'][1], field['value'][3]]
+                    field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1], field['value'][3]]
                 elif field['name'] in ['translation']:
                     field['value'] = [field['value'][0], str(-float(field['value'][2])), field['value'][1]]
     world.save(filename)
