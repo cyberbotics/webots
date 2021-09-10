@@ -23,11 +23,11 @@ import os.path
 import sys
 import tempfile
 
-transforms3dVailable = True
+transforms3dAvailable = True
 try:
     import transforms3d
 except ImportError:
-    transforms3dVailable = False
+    transforms3dAvailable = False
 
 
 angleSignAndOrder = {
@@ -374,7 +374,7 @@ while supervisor.step(timestep) != -1:
                         toSend += label + ':' + str(points[j][0]) + ',' + str(points[j][1]) + ',' + str(points[j][2]) + ':'
             # update body representation (if any)
             if label in c3dfile.bodyRotations and c3dfile.bodyTransparency < 1.0:
-                if transforms3dVailable:
+                if transforms3dAvailable:
                     rot = transforms3d.euler.euler2axangle(angleSignAndOrder[label][0][0] * points[j][0] * math.pi / 180.0,
                                                            angleSignAndOrder[label][0][1] * points[j][1] * math.pi / 180.0,
                                                            angleSignAndOrder[label][0][2] * points[j][2] * math.pi / 180.0,
