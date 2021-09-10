@@ -105,12 +105,17 @@ PROTO MercedesBenzSprinterSimple [
         ]
         name "rear left wheel"
       }
-      MercedesBenzSprinterMesh {
-        color IS color
-      }
-      MercedesBenzSprinterLights {
-      }
-      MercedesBenzSprinterLogos {
+      Transform{
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          MercedesBenzSprinterMesh {
+            color IS color
+          }
+          MercedesBenzSprinterLights {
+          }
+          MercedesBenzSprinterLogos {
+          }
+        ]
       }
     ]
     name IS name

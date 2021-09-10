@@ -56,20 +56,25 @@ PROTO MercedesBenzSprinter [
       rotation -0.57735 0.57735 0.57735 -2.094395
         children IS sensorsSlotTop
       }
-      MercedesBenzSprinterMesh {
-        color IS color
-      %< if (fields.interior.value) { >%
-        windowTransparency 0.7
-      %< } >%
+      Transform{
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          MercedesBenzSprinterMesh {
+            color IS color
+          %< if (fields.interior.value) { >%
+            windowTransparency 0.7
+          %< } >%
+          }
+          MercedesBenzSprinterLights {
+          }
+          MercedesBenzSprinterLogos {
+          }
+          %< if (fields.interior.value) { >%
+          MercedesBenzSprinterInterior {
+          }
+        %< } >%
+        ]
       }
-      MercedesBenzSprinterLights {
-      }
-      MercedesBenzSprinterLogos {
-      }
-      %< if (fields.interior.value) { >%
-      MercedesBenzSprinterInterior {
-      }
-      %< } >%
     ]
     boundingObject Group {
       children [
