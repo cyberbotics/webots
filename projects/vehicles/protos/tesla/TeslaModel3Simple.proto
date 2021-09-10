@@ -4,7 +4,7 @@
 # Simple kinematic model of the Tesla model 3 to be moved with a Supervisor.
 
 PROTO TeslaModel3Simple [
-  field       SFVec3f    translation                    0 0.4 0
+  field       SFVec3f    translation                    0 0 0.4
   field       SFRotation rotation                       0 0 1 0
   field       SFColor    color                          1 0 0
   field       MFColor    recognitionColors              [ 1 0 0 ]
