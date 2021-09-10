@@ -126,7 +126,7 @@ PROTO RangeRoverSportSVR [
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction 1 -0.2 -1
-                  location 3.4 0.52 0.6
+                  location 4 0.52 1
                   radius 20
                   on TRUE
                 }
@@ -136,7 +136,7 @@ PROTO RangeRoverSportSVR [
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction 1 0.2 -1
-                  location 3.4 -0.52 0.6
+                  location 4 -0.52 1
                   radius 20
                 }
               %< } >%
