@@ -5,7 +5,7 @@
 # template language: javascript
 
 PROTO CabinetHandle [
-  field SFVec3f    translation   0 0 0
+  field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0
   field SFString   name         "cabinet handle"
   field SFFloat    handleLength 0.065             # Defines the lenght of the handle.
@@ -58,8 +58,8 @@ PROTO CabinetHandle [
               ]
             }
             Transform { # right handle anchorage point
-              translation 0 %<= 0.35 * handleLength >% 0
               rotation 0 1 0 1.57
+              translation 0 %<= 0.35 * handleLength >% 0
               children [
                 Shape {
                   appearance USE HANDLE_APPEARANCE
@@ -71,8 +71,8 @@ PROTO CabinetHandle [
               ]
             }
             Transform { # left handle anchorage point
-              translation 0 %<= - 0.35 * handleLength >% 0
               rotation 0 1 0 1.57
+              translation 0 %<= - 0.35 * handleLength >% 0
               children [
                 Shape {
                   appearance USE HANDLE_APPEARANCE
