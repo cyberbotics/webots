@@ -136,31 +136,31 @@ PROTO Cabinet [
       SolidBox { # back of the cabinet frame
         translation %<= 0.5 * outerThickness >% 0 %<= 0.5 * size.z >%
         name "back box"
-        size  %<= outerThickness >% %<= size.y >% %<= size.z - 2.0 * outerThickness >%
+        size %<= outerThickness >% %<= size.y >% %<= size.z - 2.0 * outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # left side of the cabinet frame
-        translation %<= 0.5 * outerThickness + 0.5 * size.x >% %<= 0.5 * size.y - 0.5 * outerThickness >% %<= 0.5 * size.z >% 
+        translation %<= 0.5 * outerThickness + 0.5 * size.x >% %<= 0.5 * size.y - 0.5 * outerThickness >% %<= 0.5 * size.z >%
         name "left box"
-        size %<= size.x - outerThickness >% %<= outerThickness >% %<= size.z - 2.0 * outerThickness >% 
+        size %<= size.x - outerThickness >% %<= outerThickness >% %<= size.z - 2.0 * outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # right side of the cabinet frame
         translation %<= 0.5 * outerThickness + 0.5 * size.x >% %<= -0.5 * size.y + 0.5 * outerThickness >% %<= 0.5 * size.z >%
         name "right box"
-        size %<= size.x - outerThickness >% %<= outerThickness >% %<= size.z - 2.0 * outerThickness >% 
+        size %<= size.x - outerThickness >% %<= outerThickness >% %<= size.z - 2.0 * outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # top side of the cabinet frame
-        translation %<= 0.5 * size.x >% 0 %<= size.z - 0.5 * outerThickness>% 
+        translation %<= 0.5 * size.x >% 0 %<= size.z - 0.5 * outerThickness>%
         name "top box"
         size %<= size.x >% %<= size.y >% %<= outerThickness >%
         appearance IS primaryAppearance
       }
       SolidBox { # bottom side of the cabinet frame
-        translation %<= 0.5 * size.x >% 0 %<= 0.5 * outerThickness >% 
+        translation %<= 0.5 * size.x >% 0 %<= 0.5 * outerThickness >%
         name "bottom box"
-        size %<= size.x >% %<= size.y >% %<= outerThickness >% 
+        size %<= size.x >% %<= size.y >% %<= outerThickness >%
         appearance IS primaryAppearance
       }
       # parse layout
@@ -196,7 +196,7 @@ PROTO Cabinet [
                   translation
                     %<= size.x >%
                     %<= computeCoordinate(columnsWidths, data[1], data[3]) - 0.5 * size.y + outerThickness >%
-                    %<= computeCoordinate(rowsHeights,   data[2], data[4]) + outerThickness >%    
+                    %<= computeCoordinate(rowsHeights,   data[2], data[4]) + outerThickness >%
                   size
                     %<= objectScaleFactor * (size.x - outerThickness) >%
                     %<= objectScaleFactor * computeDimension(columnsWidths, data[1], data[3]) >%
