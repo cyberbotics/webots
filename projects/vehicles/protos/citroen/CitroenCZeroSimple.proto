@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2021b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
@@ -6,8 +6,8 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
 PROTO CitroenCZeroSimple [
-  field     SFVec3f    translation         0 0 0.4
-  field     SFRotation rotation            0 0 1 0
+  field     SFVec3f    translation         0 0.4 0
+  field     SFRotation rotation            0 1 0 0
   field     SFColor    color               0.85 0.85 0.05
   field     MFColor    recognitionColors   [ 0.85 0.85 0.05 ]
   field     MFString   plate               "webots://projects/vehicles/protos/textures/plate.jpg"
@@ -31,23 +31,23 @@ PROTO CitroenCZeroSimple [
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
       Transform {
-        translation 3.075 0 0.05
-        rotation -0.577349 0.577351 0.577351 -2.094397
+        translation 0 0.05 3.075
+        rotation 0 1 0 3.14159
         children IS sensorsSlotFront
       }
       Transform {
-        translation -0.425 0 0.3
-        rotation 0.57735 0.57735 0.57735 2.094395
+        translation 0 0.3 -0.425
+        rotation 0 1 0 0
         children IS sensorsSlotRear
       }
       Transform {
-        translation 1.075 0 1.35
-        rotation -0.577349 0.577351 0.577351 -2.094397
+        translation 0 1.35 1.075
+        rotation 0 1 0 3.14159
         children IS sensorsSlotTop
       }
       Transform {
         translation 0 0 0
-        rotation -0.577349 0.577351 0.577351 -2.094397
+        rotation 0 1 0 3.14159
         children IS sensorsSlotCenter
       }
       CitroenCZeroHeadLight {
@@ -66,7 +66,7 @@ PROTO CitroenCZeroSimple [
       }
       DEF FRONT_RIGHT_WHEEL Solid {
         angularVelocity IS frontRightWheelAngularVelocity
-        translation 2.55 -0.655 0
+        translation -0.655 0 2.55
         rotation 0 0 1 1.5708
         children [
           Slot {
@@ -80,7 +80,7 @@ PROTO CitroenCZeroSimple [
       }
       DEF FRONT_LEFT_WHEEL Solid {
         angularVelocity IS frontLeftWheelAngularVelocity
-        translation 2.55 0.655 0
+        translation 0.655 0 2.55
         rotation 0 0 1 -1.5708
         children [
           Slot {
@@ -94,7 +94,7 @@ PROTO CitroenCZeroSimple [
       }
       DEF REAR_RIGHT_WHEEL Solid {
         angularVelocity IS rearRightWheelAngularVelocity
-        translation 0 -0.635 0
+        translation -0.635 0 0
         rotation 0 0 1 1.5708
         children [
           Slot {
@@ -108,7 +108,7 @@ PROTO CitroenCZeroSimple [
       }
       DEF REAR_LEFT_WHEEL Solid {
         angularVelocity IS rearLeftWheelAngularVelocity
-        translation 0 0.635 0
+        translation 0.635 0 0
         rotation 0 0 1 -1.5708
         children [
           Slot {
@@ -126,8 +126,7 @@ PROTO CitroenCZeroSimple [
     controllerArgs IS controllerArgs
     model "Citroen C-Zero"
     boundingObject Transform {
-      translation 1.25 0 0.5
-      rotation 0.57735 0.57735 0.57735 2.094395
+      translation 0 0.5 1.25
       children [
         Box {
           size 1.4 1.5 3.3

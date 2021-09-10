@@ -94,60 +94,66 @@ PROTO CitroenCZero [
         rotation -0.577349 0.577351 0.577351 -2.094397
         children IS sensorsSlotCenter
       }
-      # lights
-      VehicleLights {
-        front [
-          Group {
-            children [
-              %< if (frontSpotLights) { >%
-                SpotLight {
-                  attenuation 0 0 1
-                  intensity 20
-                  beamWidth 0.7
-                  cutOffAngle 0.8
-                  direction 1 -0.2 -1
-                  location 2.8 0.52 0.6
-                  radius 20
-                }
-                SpotLight {
-                  attenuation 0 0 1
-                  intensity 20
-                  beamWidth 0.7
-                  cutOffAngle 0.8
-                  direction 1 0.2 -1
-                  location 2.8 -0.52 0.6
-                  radius 20
-                }
-              %< } >%
-              CitroenCZeroHeadLight {
+     
+      Transform{
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          # lights
+          VehicleLights {
+            front [
+              Group {
+                children [
+                  %< if (frontSpotLights) { >%
+                    SpotLight {
+                      attenuation 0 0 1
+                      intensity 20
+                      beamWidth 0.7
+                      cutOffAngle 0.8
+                      direction -0.2 -1 1
+                      location 0.52 0.6 2.8
+                      radius 20
+                    }
+                    SpotLight {
+                      attenuation 0 0 1
+                      intensity 20
+                      beamWidth 0.7
+                      cutOffAngle 0.8
+                      direction 0.2 -1 1
+                      location -0.52 0.6 2.8
+                      radius 20
+                    }
+                  %< } >%
+                  CitroenCZeroHeadLight {
+                  }
+                ]
+              }
+            ]
+            rightIndicator [
+              CitroenCZeroRightIndicator {
+              }
+            ]
+            leftIndicator [
+              CitroenCZeroLeftIndicator {
+              }
+            ]
+            antifog [
+              CitroenCZeroFogLight {
+              }
+            ]
+            rear [
+              CitroenCZeroTailLight {
+              }
+            ]
+            braking [
+              CitroenCZeroBrakeLight {
               }
             ]
           }
-        ]
-        rightIndicator [
-          CitroenCZeroRightIndicator {
+          CitroenCZeroMesh {
+            color IS color
+            plate IS plate
           }
         ]
-        leftIndicator [
-          CitroenCZeroLeftIndicator {
-          }
-        ]
-        antifog [
-          CitroenCZeroFogLight {
-          }
-        ]
-        rear [
-          CitroenCZeroTailLight {
-          }
-        ]
-        braking [
-          CitroenCZeroBrakeLight {
-          }
-        ]
-      }
-      CitroenCZeroMesh {
-        color IS color
-        plate IS plate
       }
     ]
     name IS name
