@@ -73,10 +73,10 @@ PROTO AckermannVehicle [
         children [
           DEF LEFT_STEER_HINGE2 Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
+              axis 1 0 0
               suspensionSpringConstant IS suspensionFrontSpringConstant
               suspensionDampingConstant IS suspensionFrontDampingConstant
-              suspensionAxis 0 1 0
+              suspensionAxis 1 0 0
             }
             jointParameters2 JointParameters {
               axis 0 0 1
@@ -108,10 +108,10 @@ PROTO AckermannVehicle [
         children [
           DEF RIGHT_STEER_HINGE2 Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis 0 -1 0
+              axis -1 0 0
               suspensionSpringConstant IS suspensionFrontSpringConstant
               suspensionDampingConstant IS suspensionFrontDampingConstant
-              suspensionAxis 0 1 0
+              suspensionAxis 1 0 0
             }
             jointParameters2 JointParameters {
               axis 0 0 -1
