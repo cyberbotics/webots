@@ -17,63 +17,79 @@ PROTO TractorFrontWheel [
     type "vehicle wheel"
     endPoint Solid {
       children [
-        Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_base_color.jpg"
+        Transform{
+          translation 0.041 0 0
+          rotation -0.707 0 0.707 -3.14
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColorMap ImageTexture {
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_base_color.jpg"
+                }
+                metalness 0
+                roughness 0.4
+                normalMap ImageTexture {
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_normal.jpg"
+                }
+                occlusionMap ImageTexture {
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_occlusion.jpg"
+                }
+                textureTransform TextureTransform {
+                  rotation 1.5708
+                  scale 1 7
+                }
+              }
+              geometry Cylinder {
+                height IS width
+                radius IS tireRadius
+                subdivision IS subdivision
+                bottom FALSE
+                top FALSE
+              }
             }
-            metalness 0
-            roughness 0.4
-            normalMap ImageTexture {
-              url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_normal.jpg"
+            Shape {
+              appearance PBRAppearance {
+                baseColorMap ImageTexture {
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_front_tire_side_base_color.jpg"
+                }
+                roughnessMap ImageTexture {
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_front_tire_side_roughness.jpg"
+                }
+                normalMap ImageTexture {
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_front_tire_side_normal.jpg"
+                }
+                occlusionMap ImageTexture {
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_front_tire_side_occlusion.jpg"
+                }
+              }
+              geometry Cylinder {
+                height IS width
+                radius IS tireRadius
+                subdivision IS subdivision
+                side FALSE
+              }
             }
-            occlusionMap ImageTexture {
-              url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_occlusion.jpg"
-            }
-            textureTransform TextureTransform {
-              rotation 1.5708
-              scale 1 7
-            }
-          }
-          geometry Cylinder {
-            height IS width
-            radius IS tireRadius
-            subdivision IS subdivision
-            bottom FALSE
-            top FALSE
-          }
-        }
-        Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url "webots://projects/vehicles/protos/generic/textures/tractor_front_tire_side_base_color.jpg"
-            }
-            roughnessMap ImageTexture {
-              url "webots://projects/vehicles/protos/generic/textures/tractor_front_tire_side_roughness.jpg"
-            }
-            normalMap ImageTexture {
-              url "webots://projects/vehicles/protos/generic/textures/tractor_front_tire_side_normal.jpg"
-            }
-            occlusionMap ImageTexture {
-              url "webots://projects/vehicles/protos/generic/textures/tractor_front_tire_side_occlusion.jpg"
-            }
-          }
-          geometry Cylinder {
-            height IS width
-            radius IS tireRadius
-            subdivision IS subdivision
-            side FALSE
-          }
+          ]
         }
       ]
       name IS name
       model "tractor front wheel"
       %< if (fields.boundingObject.value) { >%
-        boundingObject Cylinder {
-          height IS width
-          radius IS tireRadius
-          subdivision IS subdivision
-        }
+      boundingObject Group {
+        children [
+          Transform {
+            translation 0.04 0 0
+            rotation 0 1 0 1.5708
+            children [
+              Cylinder {
+                height IS width
+                radius IS tireRadius
+                subdivision IS subdivision
+              }
+            ]
+          }
+        ]
+      }
       %< } >%
       physics IS physics
     }
