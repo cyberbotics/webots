@@ -225,6 +225,7 @@ void WbSkin::updateModelUrl() {
     if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(mModelUrl->value()) && mDownloader == NULL) {
       // url was changed from the scene tree or supervisor
       downloadAssets();
+      mIsModelUrlValid = true;
       return;
     }
   }
