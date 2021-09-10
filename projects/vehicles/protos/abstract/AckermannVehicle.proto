@@ -114,7 +114,7 @@ PROTO AckermannVehicle [
               suspensionAxis 1 0 0
             }
             jointParameters2 JointParameters {
-              axis 0 0 -1
+              axis 0 -1 0
               dampingConstant IS wheelsDampingConstant
             }
             device [
@@ -143,11 +143,11 @@ PROTO AckermannVehicle [
         children [
           DEF LEFT_REAR_WHEEL_HINGE HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 1
+              axis 1 0 0
               dampingConstant IS wheelsDampingConstant
               suspensionSpringConstant IS suspensionRearSpringConstant
               suspensionDampingConstant IS suspensionRearDampingConstant
-              suspensionAxis 0 1 0
+              suspensionAxis 1 0 0
             }
             device IS axisDevicesRearLeft
             endPoint Slot {
@@ -163,11 +163,11 @@ PROTO AckermannVehicle [
         children [
           DEF RIGHT_REAR_WHEEL_HINGE HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 -1
+              axis -1 0 0
               dampingConstant IS wheelsDampingConstant
               suspensionSpringConstant IS suspensionRearSpringConstant
               suspensionDampingConstant IS suspensionRearDampingConstant
-              suspensionAxis 0 1 0
+              suspensionAxis 1 0 0
             }
             device IS axisDevicesRearRight
             endPoint Slot {

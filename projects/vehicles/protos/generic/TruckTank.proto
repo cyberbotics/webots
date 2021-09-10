@@ -25,7 +25,6 @@ PROTO TruckTank [
         }
         DEF FRONT_RIGHT_WHEEL Transform {
           translation -1 0 -5.45
-          rotation 0 0 1 1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
@@ -49,7 +48,6 @@ PROTO TruckTank [
         }
         DEF FRONT_LEFT_WHEEL Transform {
           translation 1 0 -5.45
-          rotation 0 0 1 -1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
@@ -73,7 +71,6 @@ PROTO TruckTank [
         }
         DEF CENTER_RIGHT_WHEEL Transform {
           translation -1 0 -6.55
-          rotation 0 0 1 1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
@@ -97,11 +94,10 @@ PROTO TruckTank [
         }
         DEF CENTER_LEFT_WHEEL Transform {
           translation 1 0 -6.55
-          rotation 0 0 1 -1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 1 0
+                axis 0 0 1
                 suspensionAxis 1 0 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
@@ -121,11 +117,10 @@ PROTO TruckTank [
         }
         DEF REAR_RIGHT_WHEEL Transform {
           translation -1 0 -7.65
-          rotation 0 0 1 1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 -1 0
+                axis 0 0 -1
                 suspensionAxis 1 0 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
@@ -145,11 +140,10 @@ PROTO TruckTank [
         }
         DEF REAR_LEFT_WHEEL Transform {
           translation 1 0 -7.65
-          rotation 0 0 1 -1.5708
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 1 0
+                axis 0 0 1
                 suspensionAxis 1 0 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
@@ -194,7 +188,7 @@ PROTO TruckTank [
         density -1
         mass 5000
         centerOfMass [
-          0 0.1 -3.5
+          -3.5 0 0.1
         ]
       }
     }

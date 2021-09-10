@@ -19,8 +19,8 @@ PROTO TruckTrailerSimple [
   Slot {
     type "truck trailer simple"
     endPoint Solid {
-      translation 0 0 1.35
-      rotation IS rotation # Only the rotation in Y should be used (Lua is not used for efficiency reasons)
+      translation 1.35 0 0
+      rotation 0.57735 0.57735 0.57735 2.094395 # IS rotation # Only the rotation in Z should be used (Lua is not used for efficiency reasons)
       children [
         TruckRearLight {
         }
@@ -30,7 +30,6 @@ PROTO TruckTrailerSimple [
         DEF FRONT_RIGHT_WHEEL Solid {
           angularVelocity IS frontRightWheelAngularVelocity
           translation -1 0 -5.45
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -44,7 +43,6 @@ PROTO TruckTrailerSimple [
         DEF FRONT_LEFT_WHEEL Solid {
           angularVelocity IS frontLeftWheelAngularVelocity
           translation 1 0 -5.45
-          rotation 0 0 1 -1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -58,7 +56,6 @@ PROTO TruckTrailerSimple [
         DEF CENTER_RIGHT_WHEEL Solid {
           angularVelocity IS centerRightWheelAngularVelocity
           translation -1 0 -6.55
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -72,7 +69,6 @@ PROTO TruckTrailerSimple [
         DEF CENTER_LEFT_WHEEL Solid {
           angularVelocity IS centerLeftWheelAngularVelocity
           translation 1 0 -6.55
-          rotation 0 0 1 -1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -86,7 +82,6 @@ PROTO TruckTrailerSimple [
         DEF REAR_RIGHT_WHEEL Solid {
           angularVelocity IS rearRightWheelAngularVelocity
           translation -1 0 -7.65
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -100,7 +95,6 @@ PROTO TruckTrailerSimple [
         DEF REAR_LEFT_WHEEL Solid {
           angularVelocity IS rearLeftWheelAngularVelocity
           translation 1 0 -7.65
-          rotation 0 0 1 -1.5708
           children [
             Slot {
               type "vehicle wheel"
