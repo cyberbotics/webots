@@ -7,7 +7,7 @@
 
 PROTO TiagoBase [
   field  SFVec3f     translation      0 0.095 0
-  field  SFRotation  rotation         1 0 0 -1.5708
+  field  SFRotation  rotation         0 0 1 0
   field  SFString    name             "TIAGo Base"
   field  SFString    controller       "tiago_base"
   field  MFString    controllerArgs   []
