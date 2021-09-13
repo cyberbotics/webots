@@ -216,7 +216,7 @@ PROTO Roundabout [
         %< } >%
         # the corresponding part of the roundabout road
         CurvedRoadSegment {
-          rotation 0 0 1 %<= 2 * Math.PI * ((centralIndex + numberOfIndex) / subdivision) >%
+          rotation 0 0 1 %<= 2 * Math.PI * ((centralIndex + numberOfIndex) / subdivision) - Math.PI * 0.5 >%
           name "curve road junction %<= i >%"
           totalAngle %<= 2 * Math.PI * (2 * numberOfIndex / subdivision) >%
           subdivision %<= 2 * Math.abs(centralIndex - pointIndex) >%
@@ -240,7 +240,7 @@ PROTO Roundabout [
         }
         # the part of the roundabout road the make the junction to the next one
         CurvedRoadSegment {
-          rotation 0 0 1 %<= 2 * Math.PI * ((centralIndex - numberOfIndex) / subdivision) >%
+          rotation 0 0 1 %<= 2 * Math.PI * ((centralIndex - numberOfIndex) / subdivision) - Math.PI * 0.5 >%
           name "curve road %<= i >%"
           totalAngle %<= 2 * Math.PI / roadNumber - 2 * Math.PI * (2 * numberOfIndex / subdivision) >%
           subdivision %<= subdivision / roadNumber - 2 * numberOfIndex >%
@@ -265,6 +265,7 @@ PROTO Roundabout [
         }
         # left junction (road)
         Solid {
+          rotation 0 0 1 -1.5708
           children [
             Shape {
               appearance IS appearance
@@ -309,6 +310,7 @@ PROTO Roundabout [
         # left junction (border)
         %< if (border) { >%
         Solid {
+          rotation 0 0 1 -1.5708
           children [
             Shape {
               appearance DEF BORDER_APPEARANCE Pavement {
@@ -364,6 +366,7 @@ PROTO Roundabout [
         %< } >%
         # right junction (road)
         Solid {
+          rotation 0 0 1 -1.5708
           children [
             Shape {
               appearance IS appearance
@@ -409,6 +412,7 @@ PROTO Roundabout [
         # right junction (border)
         %< if (border) { >%
         Solid {
+          rotation 0 0 1 -1.5708
           children [
             Shape {
               appearance USE BORDER_APPEARANCE
