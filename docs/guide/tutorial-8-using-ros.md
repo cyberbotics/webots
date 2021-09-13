@@ -15,6 +15,7 @@ If you plan to use a different ROS distribution then it is recommended to instal
 export ROS_DISTRO=noetic  # or ROS_DISTRO=melodic, etc.
 cd ${WEBOTS_HOME}/projects/default/controllers/ros
 make
+```
 
 ### Installing ROS and "webots\_ros" Package
 
