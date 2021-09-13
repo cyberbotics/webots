@@ -83,6 +83,7 @@ namespace webots {
 
   private:
     virtual int step(int t) { return Supervisor::step(t); }
+    static Driver *dInstance;
   };
 }  // namespace webots
 
