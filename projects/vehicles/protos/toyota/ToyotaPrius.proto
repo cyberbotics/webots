@@ -86,55 +86,60 @@ PROTO ToyotaPrius [
         children IS sensorsSlotCenter
       }
       # lights
-      VehicleLights {
-        front [
-          Group {
-            children [
-              %< if (frontSpotLights) { >%
-                SpotLight {
-                  attenuation 0 0 1
-                  intensity 20
-                  beamWidth 0.7
-                  cutOffAngle 0.8
-                  direction 1 -0.2 -1
-                  location 3.4 0.7 0.6
-                  radius 20
-                }
-                SpotLight {
-                  attenuation 0 0 1
-                  intensity 20
-                  beamWidth 0.7
-                  cutOffAngle 0.8
-                  direction 1 0.2 -1
-                  location 3.4 -0.7 0.6
-                  radius 20
-                }
-              %< } >%
-              ToyotaPriusFrontLight {
+      Transform{
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          VehicleLights {
+            front [
+              Group {
+                children [
+                  %< if (frontSpotLights) { >%
+                    SpotLight {
+                      attenuation 0 0 1
+                      intensity 20
+                      beamWidth 0.7
+                      cutOffAngle 0.8
+                      direction -0.2 -1 1
+                      location 0.7 0.6 3.4
+                      radius 20
+                    }
+                    SpotLight {
+                      attenuation 0 0 1
+                      intensity 20
+                      beamWidth 0.7
+                      cutOffAngle 0.8
+                      direction 0.2 -1 1
+                      location -0.7 0.6 3.4
+                      radius 20
+                    }
+                  %< } >%
+                  ToyotaPriusFrontLight {
+                  }
+                ]
+              }
+            ]
+            rightIndicator [
+              ToyotaPriusRightIndicator {
+              }
+            ]
+            leftIndicator [
+              ToyotaPriusLeftIndicator {
+              }
+            ]
+            antifog [
+              ToyotaPriusAntiFogLight {
+              }
+            ]
+            rear [
+              ToyotaPriusRearLight {
               }
             ]
           }
-        ]
-        rightIndicator [
-          ToyotaPriusRightIndicator {
+          ToyotaPriusMesh {
+            color IS color
+            plate IS plate
           }
         ]
-        leftIndicator [
-          ToyotaPriusLeftIndicator {
-          }
-        ]
-        antifog [
-          ToyotaPriusAntiFogLight {
-          }
-        ]
-        rear [
-          ToyotaPriusRearLight {
-          }
-        ]
-      }
-      ToyotaPriusMesh {
-        color IS color
-        plate IS plate
       }
     ]
     name IS name
