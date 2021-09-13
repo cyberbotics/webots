@@ -22,6 +22,7 @@
 #define DRIVER_HPP
 
 #include <webots/Supervisor.hpp>
+#include <webots/Driver.hpp>
 
 namespace webots {
   class Driver : public Supervisor {
@@ -36,8 +37,6 @@ namespace webots {
     virtual ~Driver();
 
     virtual int step();
-
-    static Driver *internalGetInstanceDriver();
 
     // positive: turn right, negative: turn left
     void setSteeringAngle(double steeringAngle);
@@ -83,7 +82,6 @@ namespace webots {
 
   private:
     virtual int step(int t) { return Supervisor::step(t); }
-    static Driver *dInstance;
   };
 }  // namespace webots
 
