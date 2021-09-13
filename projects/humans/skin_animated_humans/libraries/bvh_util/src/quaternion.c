@@ -48,7 +48,7 @@ WbuQuaternion wbu_quaternion_normalize(WbuQuaternion q) {
     return res;
   }
   if (fabs(1.0 - d) < 2.107342e-08)  // 2.107342e-08 magic number (> ULP/2 for IEEE doubles)
-    d = 2.0 / (1.0 + d);            // first order Padé approximant
+    d = 2.0 / (1.0 + d);             // first order Padé approximant
   else
     d = 1.0 / sqrt(d);
   res.w = q.w * d;
