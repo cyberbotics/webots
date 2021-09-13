@@ -25,6 +25,8 @@
 
 using namespace webots;
 
+Driver *Driver::dInstance = NULL;
+
 Driver::Driver() {
   wbu_driver_init();
 }
@@ -39,8 +41,8 @@ int Driver::step() {
 }
 
 Driver *Driver::internalGetInstanceDriver() {
-  if (cInstance)
-    return cInstance;
+  if (dInstance)
+    return dInstance;
   return new Driver();
 }
 
