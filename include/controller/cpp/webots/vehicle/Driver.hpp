@@ -37,6 +37,8 @@ namespace webots {
 
     virtual int step();
 
+    static Driver *internalGetInstanceDriver();
+
     // positive: turn right, negative: turn left
     void setSteeringAngle(double steeringAngle);
     double getSteeringAngle();

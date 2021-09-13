@@ -38,6 +38,12 @@ int Driver::step() {
   return wbu_driver_step();
 }
 
+Driver *Driver::internalGetInstanceDriver() {
+  if (cInstance)
+    return cInstance;
+  return new Driver();
+}
+
 void Driver::setSteeringAngle(double steeringAngle) {
   assert(this);
   wbu_driver_set_steering_angle(steeringAngle);
