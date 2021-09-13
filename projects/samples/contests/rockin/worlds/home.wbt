@@ -443,7 +443,7 @@ Cabinet {
     "Shelf (1, 1, 0, 3)"
   ]
   handle CabinetHandle {
-    translation 0.2 0 0
+    translation 0 0.2 0
     handleLength 0.09
     handleRadius 0.008
   }
