@@ -753,7 +753,6 @@ PROTO Ned [
                                           children [
                                             Transform {
                                               translation 0 0 0.011
-                                              rotation 1 0 0 1.5708
                                               children [
                                                 Cylinder {
                                                   height 0.02
@@ -763,7 +762,6 @@ PROTO Ned [
                                             }
                                             Transform {
                                               translation 0 0 -0.001
-                                              rotation 1 0 0 1.5708
                                               children [
                                                 Cylinder {
                                                   height 0.001
@@ -773,7 +771,6 @@ PROTO Ned [
                                             }
                                             Transform {
                                               translation 0 0 -0.003
-                                              rotation 1 0 0 1.5708
                                               children [
                                                 Cylinder {
                                                   height 0.002
@@ -838,7 +835,6 @@ PROTO Ned [
                               children [
                                 Transform {
                                   translation 0.000000 0.000000 0.080000
-                                  rotation 1.000000 0.000000 0.000000 1.5708
                                   children [
                                     Shape {
                                       geometry DEF ARM_CYLINDER Cylinder{
@@ -852,7 +848,7 @@ PROTO Ned [
                                 }
                                 Transform {
                                   translation 0.000000 0.000000 0.020000
-                                  rotation 0.000000 1.000000 0.000000 0.000000
+                                  rotation 0.000000 0.000000 1.000000 0.000000
                                   children [
                                     IndexedFaceSet {
                                       coord Coordinate {
@@ -982,7 +978,7 @@ PROTO Ned [
                     }
                     Transform {
                       translation 0.080000 0.000000 0.000000
-                      rotation 0.000000 0.000000 -1.000000 1.570000
+                      rotation 0 1 0 1.5708
                       children [
                         Shape {
                           geometry USE ARM_CYLINDER
@@ -1045,7 +1041,6 @@ PROTO Ned [
       children [
         Transform {
           translation 0.09 0.09 0.003
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             DEF BASE_BOTTOM_BIG_CYLINDER Cylinder {
                height 0.006
@@ -1056,28 +1051,24 @@ PROTO Ned [
         }
         Transform {
           translation -0.09 0.09 0.003
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             USE BASE_BOTTOM_BIG_CYLINDER
           ]
         }
         Transform {
           translation 0.09 -0.09 0.003
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             USE BASE_BOTTOM_BIG_CYLINDER
           ]
         }
         Transform {
           translation -0.09 -0.09 0.003
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             USE BASE_BOTTOM_BIG_CYLINDER
           ]
         }
         Transform {
           translation 0.09 0.09 0.008
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             DEF BASE_BOTTOM_SMALL_CYLINDER Cylinder {
                height 0.004
@@ -1088,21 +1079,18 @@ PROTO Ned [
         }
         Transform {
           translation -0.09 0.09 0.008
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             USE BASE_BOTTOM_SMALL_CYLINDER
           ]
         }
         Transform {
           translation 0.09 -0.09 0.008
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             USE BASE_BOTTOM_SMALL_CYLINDER
           ]
         }
         Transform {
           translation -0.09 -0.09 0.008
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             USE BASE_BOTTOM_SMALL_CYLINDER
           ]
@@ -1136,7 +1124,6 @@ PROTO Ned [
         }
         Transform {
           translation 0.0485 0.0485 0.052
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             DEF BASE_BIG_CYLINDER Cylinder {
                height 0.076
@@ -1147,14 +1134,12 @@ PROTO Ned [
         }
         Transform {
           translation -0.0485 0.0485 0.052
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             USE BASE_BIG_CYLINDER
           ]
         }
         Transform {
           translation 0.068 -0.071 0.052
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             DEF BASE_SMALL_CYLINDER Cylinder {
                height 0.076
@@ -1165,14 +1150,12 @@ PROTO Ned [
         }
         Transform {
           translation -0.068 -0.071 0.052
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             USE BASE_SMALL_CYLINDER
           ]
         }
         Transform {
           translation 0.000000 -0.0095 0.052
-          rotation 0.000000 1.000000 0.000000 0.000000
           children [
             Box {
                size 0.176 0.1195 0.076
@@ -1181,7 +1164,6 @@ PROTO Ned [
         }
         Transform {
           translation 0.000000 0.000000 0.0975
-          rotation 1.000000 0.000000 0.000000 1.5708
           children [
             Cylinder {
                height 0.015
