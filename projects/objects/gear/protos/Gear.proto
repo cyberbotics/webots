@@ -99,21 +99,21 @@ PROTO Gear [
                     sinAlpha = Math.sin(alpha);
                 >%
                   # top face
-                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% %<= halfWidth >% # 13
-                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% %<= halfWidth >% # 12
-                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% %<= halfWidth >% # 11
-                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% %<= halfWidth >% # 10
-                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% %<= halfWidth >% # 9
-                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% %<= halfWidth >% # 8
-                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% %<= halfWidth >% # 7
+                  %<= halfWidth >% %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% # 13
+                  %<= halfWidth >% %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% # 12
+                  %<= halfWidth >% %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% # 11
+                  %<= halfWidth >% %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% # 10
+                  %<= halfWidth >% %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% # 9
+                  %<= halfWidth >% %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% # 8
+                  %<= halfWidth >% %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% # 7
                   # base face
-                  %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% %<= -halfWidth >% # 6
-                  %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% %<= -halfWidth >% # 5
-                  %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% %<= -halfWidth >% # 4
-                  %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% %<= -halfWidth >% # 3
-                  %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% %<= -halfWidth >% # 2
-                  %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% %<= -halfWidth >% # 1
-                  %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% %<= -halfWidth >% # 0
+                  %<= -halfWidth >% %<= p6.x * cosAlpha - p6.y * sinAlpha >% %<= p6.x * sinAlpha + p6.y * cosAlpha >% # 6
+                  %<= -halfWidth >% %<= p5.x * cosAlpha - p5.y * sinAlpha >% %<= p5.x * sinAlpha + p5.y * cosAlpha >% # 5
+                  %<= -halfWidth >% %<= p4.x * cosAlpha - p4.y * sinAlpha >% %<= p4.x * sinAlpha + p4.y * cosAlpha >% # 4
+                  %<= -halfWidth >% %<= p3.x * cosAlpha - p3.y * sinAlpha >% %<= p3.x * sinAlpha + p3.y * cosAlpha >% # 3
+                  %<= -halfWidth >% %<= p2.x * cosAlpha - p2.y * sinAlpha >% %<= p2.x * sinAlpha + p2.y * cosAlpha >% # 2
+                  %<= -halfWidth >% %<= p1.x * cosAlpha - p1.y * sinAlpha >% %<= p1.x * sinAlpha + p1.y * cosAlpha >% # 1
+                  %<= -halfWidth >% %<= p0.x * cosAlpha - p0.y * sinAlpha >% %<= p0.x * sinAlpha + p0.y * cosAlpha >% # 0
                 %< } >%
               ]
             }
@@ -155,7 +155,7 @@ PROTO Gear [
           # cylinder encompassing the gear
           %< if (bodyBoundingObject) { >%
             Transform {
-              rotation 0.707107 0.707107 0 3.141592
+              rotation 0 1 0 -1.570797
               children [
                 Shape {
                   geometry Cylinder {
@@ -183,8 +183,8 @@ PROTO Gear [
                 }
               %< } else { >%
                 Transform {
-                  translation %<= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) >% %<= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) >% 0
-                  rotation 1 0 0 -1.5708
+                  translation 0 %<= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) >% %<= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) >%
+                  rotation -0.57735 -0.57735 0.57735 2.094395
                   children [
                     Shape {
                       geometry Capsule {
