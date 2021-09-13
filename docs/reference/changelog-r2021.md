@@ -3,6 +3,8 @@
 ## Webots R2021c
 Released on XX, XXth, 2021.
 
+  - New Features:
+    - Released [Skin](skin.md) node ([#3566](https://github.com/cyberbotics/webots/pull/3566)).
   - Enhancements
     - Improved performance on [Lidar](lidar.md) point cloud generation ([#3499](https://github.com/cyberbotics/webots/pull/3499)).
     - Improved the user experience when using the object rotation around axis feature ([#3540](https://github.com/cyberbotics/webots/pull/3540)).
