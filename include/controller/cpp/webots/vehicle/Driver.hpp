@@ -22,7 +22,6 @@
 #define DRIVER_HPP
 
 #include <webots/Supervisor.hpp>
-#include <webots/Driver.hpp>
 
 namespace webots {
   class Driver : public Supervisor {
@@ -34,6 +33,7 @@ namespace webots {
     typedef enum { DOWN, SLOW, NORMAL, FAST } WiperMode;
 
     Driver();
+    static Driver *internalGetInstanceDriver();
     virtual ~Driver();
 
     virtual int step();
@@ -82,6 +82,7 @@ namespace webots {
 
   private:
     virtual int step(int t) { return Supervisor::step(t); }
+    static Driver *dInstance;
   };
 }  // namespace webots
 
