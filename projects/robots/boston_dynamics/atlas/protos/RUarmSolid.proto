@@ -22,7 +22,7 @@ Solid {
     children [
       Transform {
         translation 0 -0.0583385 0
-        rotation 1.0 0.0 0.0 3.14079632679
+        rotation 1 0 0 1.5708
         children [
           Cylinder {
             radius 0.0449
@@ -32,7 +32,7 @@ Solid {
       }
       Transform {
         translation 0 -0.1205235 0.00912975
-        rotation 0.577196954996 0.577656775505 -0.577196954996 2.09393540394
+        rotation -0.0004 1 0.0004 1.5708
         children [
           Cylinder {
             radius 0.04504847
