@@ -405,7 +405,7 @@ PROTO Darwin-opHinge2 [
               children [
                 Transform { # Head
                   translation 0 0.07594441 0.00240339
-                  rotation 1 0 0 0.5954
+                  rotation 1 0 0 2.1662
                   children [
                     Capsule {
                       height 0.018
@@ -617,6 +617,7 @@ PROTO Darwin-opHinge2 [
                   ]
                   boundingObject Transform {
                     translation 0 0.022 -0.012
+                    rotation 1 0 0 1.5708
                     children [
                       Capsule {
                         height 0.018
