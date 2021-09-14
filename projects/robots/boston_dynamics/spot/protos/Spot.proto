@@ -6,7 +6,7 @@
 # Original model by Greg McKechnie.
 
 PROTO Spot [
-  field SFVec3f     translation      0 0.624 0                 # Is `Transform.translation`.
+  field SFVec3f     translation      0 0 0.624                 # Is `Transform.translation`.
   field SFRotation  rotation         0 0 1 0                   # Is `Transform.rotation`.
   field SFString    name             "Spot"                    # Is `Solid.name`.
   field SFString    model            "Boston Dynamics - Spot"  # Is `Robot.model`.
@@ -194,7 +194,8 @@ PROTO Spot [
         ]
       }
       DEF HEAD_SHAPES Transform {
-        translation 0 -1.65 0.46
+        translation 0.459994 0.000019 -1.650002
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         children [
           DEF HEAD_COVER Shape {
             appearance DEF YELLOW_COVER MattePaint {
@@ -491,7 +492,8 @@ PROTO Spot [
         ]
       }
       DEF BODY_SHAPES Transform {
-        translation 0 -1.65 0.46
+        translation 0.459994 0.000019 -1.650002
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         children [
           DEF FRONT_SHOULDER_COVER Shape {
             appearance DEF METAL_PART BrushedAluminium {
@@ -1349,7 +1351,8 @@ PROTO Spot [
         ]
       }
       DEF REAR_SHAPES Transform {
-        translation 0 -1.65 0.46
+        translation 0.459994 0.000019 -1.650002
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         children [
           DEF REAR_COVER Shape {
             appearance USE YELLOW_COVER
@@ -1627,19 +1630,23 @@ PROTO Spot [
         ]
       }
       DEF FRONT_LEFT_LEG SpotLeftLeg {
-        translation 0 0.0118 -0.3635
+        translation -0.3635 0 0.0118
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         name "front left"
       }
       DEF FRONT_RIGHT_LEG SpotRightLeg {
-        translation 0 0.0118 -0.3635
+        translation -0.3635 0 0.0118
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         name "front right"
       }
       DEF REAR_LEFT_LEG SpotLeftLeg {
-        translation 0 0.0117 0.3084
+        translation 0.3084 0 0.0117
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         name "rear left"
       }
       DEF REAR_RIGHT_LEG SpotRightLeg {
-        translation 0 0.0117 0.3084
+        translation 0.3084 0 0.0117
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         name "rear right"
       }
       Transform {
