@@ -34,8 +34,8 @@ PROTO Spot [
       InertialUnit {
       }
       LED {
-        translation -0.081965 0.05072 -0.505323
-        rotation 0.09948896756406488 -0.9707086835242676 0.2186929287005402 -2.309885307179586
+        translation -0.505323 -0.081967 0.050721
+        rotation -0.389352 0.703775 0.594228 -2.948349
         children [
           Shape {
             appearance GlossyPaint {
@@ -54,8 +54,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation -0.081965 0.03449 -0.497601
-        rotation 0.09948896756406488 -0.9707086835242676 0.2186929287005402 -2.309885307179586
+        translation -0.497601 -0.081967 0.034491
+        rotation -0.389352 0.703775 0.594228 -2.948349
         children [
           Shape {
             appearance GlossyPaint {
@@ -74,8 +74,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation -0.081964 0.01829 -0.489879
-        rotation 0.09948896756406488 -0.9707086835242676 0.2186929287005402 -2.309885307179586
+        translation -0.489879 -0.081966 0.018291
+        rotation -0.389352 0.703775 0.594228 -2.948349
         children [
           Shape {
             appearance GlossyPaint {
@@ -94,8 +94,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation 0.081965 0.05072 -0.505323
-        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+        translation -0.505323 0.081963 0.050723
+        rotation 0.091555 0.645632 0.758140 2.367155
         children [
           Shape {
             appearance GlossyPaint {
@@ -114,8 +114,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation 0.081965 0.03449 -0.497601
-        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+        translation -0.497601 0.081963 0.034493
+        rotation 0.091555 0.645632 0.758140 2.367155
         children [
           Shape {
             appearance GlossyPaint {
@@ -134,8 +134,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation 0.081965 0.01829 -0.489879
-        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+      translation -0.489879 0.081963 0.018293
+      rotation 0.091555 0.645632 0.758140 2.367155
         children [
           Shape {
             appearance GlossyPaint {
@@ -154,8 +154,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation 0.081965 0.00119 -0.481728
-        rotation -0.4197661711038622 0.8854393609202096 -0.19948308131271172 0.985158
+        translation -0.481728 0.081963 0.001193
+        rotation 0.091555 0.645632 0.758140 2.367155
         children [
           Shape {
             appearance GlossyPaint {
@@ -174,8 +174,8 @@ PROTO Spot [
         ]
       }
       LED {
-        translation -0.081965 0.00119 -0.481728
-        rotation 0.09948896756406488 -0.9707086835242676 0.2186929287005402 -2.309885307179586
+        translation -0.481728 -0.081967 0.001191
+        rotation -0.389352 0.703775 0.594228 -2.948349
         children [
           Shape {
             appearance GlossyPaint {
@@ -1650,15 +1650,18 @@ PROTO Spot [
         name "rear right"
       }
       Transform {
-        translation 0 0.1118 -0.256
+        translation -0.256 0 0.1118
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         children IS frontExtension
       }
       Transform {
-        translation 0 0.1118 -0.027
+        translation -0.027 0 0.1118
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         children IS middleExtension
       }
       Transform {
-        translation 0 0.1118 0.2
+        translation 0.2 0 0.1118
+        rotation -0.577352 -0.577348 -0.577352 -2.094405
         children IS rearExtension
       }
     ]
