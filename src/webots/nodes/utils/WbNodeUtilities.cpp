@@ -24,6 +24,7 @@
 #include "WbBrake.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbConcreteNodeFactory.hpp"
 #include "WbCone.hpp"
 #include "WbConnector.hpp"
@@ -1065,6 +1066,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   const WbNode *const protoAncestor = findRootProtoNode(node);
   if (!node->proto() && protoAncestor && protoAncestor->proto()->fileVersion() > WbVersion(2021, 1, 1))
     return;
+  if (node->proto()->path().contains(WbStandardPaths::webotsHomePath()))
+    return;
 
   // We want to find nodes until PROTOs.
   QList<WbNode *> candidates;
@@ -1096,7 +1099,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate) ||
         dynamic_cast<WbTrack *>(candidate)) {
       // Rotate devices.
-      WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, M_PI_2);
+      WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
       if (dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbTrack *>(candidate))
         rotationFix = WbMatrix3(-M_PI_2, 0, 0);
       if (dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
@@ -1153,7 +1156,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
                dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
                dynamic_cast<WbElevationGrid *>(candidate)) {
       // Rotate geometries.
-      const WbMatrix3 rotationFix = WbMatrix3(-M_PI_2, 0, 0);
+      const WbMatrix3 rotationFix(-M_PI_2, 0, 0);
       WbNode *const nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
       WbNode *const parent = nodeToRotate->parentNode();
       assert(dynamic_cast<WbGroup *>(parent));
@@ -1173,6 +1176,12 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         transform->setRotation(WbRotation(rotationFix));
         transform->save("__init__");
       }
+    }
+    else if (candidate->proto() && candidate->proto()->path().contains(WbStandardPaths::webotsHomePath()) && dynamic_cast<WbTransform *>(candidate)) {
+      const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
+      WbTransform *const candidateTransform = static_cast<WbTransform *>(candidate);
+      candidateTransform->setRotation(WbRotation(candidateTransform->rotation().toMatrix3() * rotationFix));
+      candidateTransform->save("__init__");
     }
   }
 
