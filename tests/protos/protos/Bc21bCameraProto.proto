@@ -1,0 +1,17 @@
+#VRML_SIM R2021b utf8
+
+PROTO Bc21bCameraProto.proto [
+]
+{
+  DEF CAMERA_DEVICE Camera {
+    children [
+      Shape {
+        geometry DEF CYLINDER_SHAPE Cylinder {
+          height 0.0188
+          radius 0.05165
+          subdivision 24
+        }
+      }
+    ]
+  }
+}
