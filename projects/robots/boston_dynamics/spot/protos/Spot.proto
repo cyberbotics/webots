@@ -546,8 +546,8 @@ PROTO Spot [
           DEF RIGHT_SIDE Group {
             children [
               Camera {
-                translation -0.110163 -1.715610 -0.324321
-                rotation -0.146594 -0.699467 0.699468 2.850474
+                translation 0.110163 1.715610 -0.324321
+                rotation -0.958773 0.200939 -0.200942 1.612883
                 name "right flank camera"
                 width 1080
                 height 720
