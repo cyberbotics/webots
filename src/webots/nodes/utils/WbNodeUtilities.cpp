@@ -24,7 +24,6 @@
 #include "WbBrake.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbConcreteNodeFactory.hpp"
 #include "WbCone.hpp"
 #include "WbConnector.hpp"
@@ -57,6 +56,7 @@
 #include "WbSkin.hpp"
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
@@ -1066,8 +1066,6 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   const WbNode *const protoAncestor = findRootProtoNode(node);
   if (!node->proto() && protoAncestor && protoAncestor->proto()->fileVersion() > WbVersion(2021, 1, 1))
     return;
-  if (node->proto()->path().contains(WbStandardPaths::webotsHomePath()))
-    return;
 
   // We want to find nodes until PROTOs.
   QList<WbNode *> candidates;
@@ -1176,9 +1174,9 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         transform->setRotation(WbRotation(rotationFix));
         transform->save("__init__");
       }
-    }
-    else if (candidate->proto() && candidate->proto()->path().contains(WbStandardPaths::webotsHomePath()) && dynamic_cast<WbTransform *>(candidate)) {
-      const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
+    } else if (candidate->proto() && candidate->proto()->path().contains(WbStandardPaths::webotsHomePath()) &&
+               dynamic_cast<WbTransform *>(candidate)) {
+      const WbMatrix3 rotationFix(M_PI_2, 0, -M_PI_2);
       WbTransform *const candidateTransform = static_cast<WbTransform *>(candidate);
       candidateTransform->setRotation(WbRotation(candidateTransform->rotation().toMatrix3() * rotationFix));
       candidateTransform->save("__init__");
