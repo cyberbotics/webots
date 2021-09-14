@@ -39,6 +39,7 @@
 #include "WbJointParameters.hpp"
 #include "WbLidar.hpp"
 #include "WbLinearMotor.hpp"
+#include "WbLog.hpp"
 #include "WbLogicalDevice.hpp"
 #include "WbMFNode.hpp"
 #include "WbNodeOperations.hpp"
@@ -1096,6 +1097,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         dynamic_cast<WbReceiver *>(candidate) || dynamic_cast<WbConnector *>(candidate) ||
         dynamic_cast<WbTouchSensor *>(candidate) || dynamic_cast<WbViewpoint *>(candidate) ||
         dynamic_cast<WbTrack *>(candidate)) {
+      candidate->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation."));
+
       // Rotate devices.
       WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
       if (dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbTrack *>(candidate))
@@ -1153,6 +1156,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
                dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
                dynamic_cast<WbElevationGrid *>(candidate)) {
+      candidate->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation."));
+
       // Rotate geometries.
       const WbMatrix3 rotationFix(-M_PI_2, 0, 0);
       WbNode *const nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
@@ -1174,18 +1179,23 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         transform->setRotation(WbRotation(rotationFix));
         transform->save("__init__");
       }
-    } else if (candidate->proto() && candidate->proto()->path().contains(WbStandardPaths::webotsHomePath()) &&
-               dynamic_cast<WbTransform *>(candidate)) {
-      const WbMatrix3 rotationFix(M_PI_2, 0, -M_PI_2);
-      WbTransform *const candidateTransform = static_cast<WbTransform *>(candidate);
-      candidateTransform->setRotation(WbRotation(candidateTransform->rotation().toMatrix3() * rotationFix));
-      candidateTransform->save("__init__");
     }
   }
 
   // Convert sub-protos.
-  for (WbNode *subProto : subProtos)
+  for (WbNode *subProto : subProtos) {
+    if (subProto->proto() && subProto->proto()->path().contains(WbStandardPaths::webotsHomePath()) &&
+        dynamic_cast<WbTransform *>(subProto)) {
+      // Since we rotated almost all Webots PROTOs we need to rotate them back.
+
+      subProto->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation."));
+      const WbMatrix3 rotationFix(M_PI_2, 0, -M_PI_2);
+      WbTransform *const subProtoTransform = static_cast<WbTransform *>(subProto);
+      subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));
+      subProtoTransform->save("__init__");
+    }
     fixBackwardCompatibility(subProto);
+  }
 }
 
 WbNode *WbNodeUtilities::findRootProtoNode(WbNode *const node) {
