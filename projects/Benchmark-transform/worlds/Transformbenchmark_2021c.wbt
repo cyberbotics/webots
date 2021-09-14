@@ -1,0 +1,27 @@
+#VRML_SIM R2021c utf8
+DEF world_info WorldInfo {
+  basicTimeStep 4
+}
+Viewpoint {
+  orientation -0.17748145988117597 -0.24150235928296035 0.9540319396431183 4.5885708818315605
+  position 1.380603311875293 20.13646559145421 11.059846414340877
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF supervisor Robot {
+  controller "TranformBenchmarkSupervisor"
+  supervisor TRUE
+}
+RectangleArena {
+  floorSize 5 5
+}
+DEF ball1 Ball {
+  translation 0 0 0.6
+  radius 0.6
+  mass 1
+}
+DEF vehicle CitroenCZero_transform {
+  translation 0 0 3
+}
