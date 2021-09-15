@@ -173,7 +173,7 @@ void RosAutomobile::setRosDevices(const char **hiddenDevices, int numberHiddenDe
   const char *automobileDevices[21] = {
     "left_steer",        "right_steer",        "left_front_wheel", "right_front_wheel", "left_rear_wheel", "right_rear_wheel",
     "left_front_sensor", "right_front_sensor", "left_rear_sensor", "right_rear_sensor", "antifog_lights",  "backwards_lights",
-    "brake_ligths",      "front_lights",       "left_front_brake", "left_indicators",   "left_rear_brake", "rear_lights",
+    "brake_lights",      "front_lights",       "left_front_brake", "left_indicators",   "left_rear_brake", "rear_lights",
     "right_front_brake", "right_indicators",   "right_rear_brake"};
   Ros::setRosDevices(automobileDevices, 21);
 }

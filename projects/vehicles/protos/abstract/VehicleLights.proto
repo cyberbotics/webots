@@ -45,7 +45,7 @@ PROTO VehicleLights [
       }
       DEF BRAKE_LIGHTS LED {
         children IS braking
-        name "brake_ligths"
+        name "brake_lights"
         color IS brakingColor
       }
       DEF REAR_LIGHTS LED {
