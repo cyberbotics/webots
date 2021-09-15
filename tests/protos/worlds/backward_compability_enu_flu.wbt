@@ -15,6 +15,10 @@ Floor {
 }
 Robot {
   controller "backward_compatibility_enu_flu"
+  children [
+    TestSuiteEmitter {
+    }
+  ]
   supervisor TRUE
 }
 WoodenBox {
