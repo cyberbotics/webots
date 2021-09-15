@@ -25,6 +25,10 @@ ignoredProtos = [
     'tests/protos/protos/Bc21bCameraProto.proto'
 ]
 
+ignoredWorlds = [
+    'tests/protos/worlds/backward_compability_enu_flu.wbt'
+]
+
 skippedDirectories = [
     'dependencies',
     'distribution',
@@ -61,7 +65,8 @@ class TestHeaderVersion(unittest.TestCase):
             dirNames[:] = [d for d in dirNames if d not in skippedDirectories]
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
-                self.files.append((world, '#VRML_SIM %s utf8' % self.version))
+                if world not in ignoredWorlds:
+                    self.files.append((world, '#VRML_SIM %s utf8' % self.version))
         # 4. Get all the .wbproj files
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
             dirNames[:] = [d for d in dirNames if d not in skippedDirectories]
