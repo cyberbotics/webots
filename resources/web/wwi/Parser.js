@@ -89,9 +89,9 @@ export default class Parser {
     if (webots.currentView.toolBar) {
       webots.currentView.toolBar.enableToolBarButtons(true);
       if (webots.currentView.runOnLoad === 'real-time')
-        webots.currentView.toolBar.realTime();
+        webots.currentView.toolBar.realTime(true);
       else if (webots.currentView.runOnLoad === 'run' || webots.currentView.runOnLoad === 'fast')
-        webots.currentView.toolBar.run();
+        webots.currentView.toolBar.run(true);
     }
 
     if (typeof callback === 'function')
@@ -1053,7 +1053,7 @@ export default class Parser {
       if (typeof webots.currentView.repository === 'undefined')
         webots.currentView.repository = 'cyberbotics';
       if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
-        webots.currentView.branch = 'released'
+        webots.currentView.branch = 'released';
       url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
     }
     if (typeof prefix !== 'undefined' && !url.startsWith('http'))
