@@ -81,7 +81,6 @@ int main(int argc, char **argv) {
 
   wb_supervisor_export_image("../../../../distribution/pen_mesh.jpg", 100);
 
-
   wb_robot_step(TIME_STEP);
 
   // 1) Test initial painted area location
