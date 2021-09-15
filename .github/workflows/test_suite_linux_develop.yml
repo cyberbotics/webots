@@ -117,6 +117,7 @@ jobs:
         xvfb-run --auto-servernum python tests/test_suite.py
         cat tests/api/worlds/skin.wbt
     - uses: actions/upload-artifact@v2
+      if: always()
       with:
         name: screenshots-${{ matrix.os }}
         path: |
