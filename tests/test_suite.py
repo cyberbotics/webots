@@ -49,7 +49,7 @@ if len(sys.argv) > 1:
         else:
             raise RuntimeError('Unknown option "' + arg + '"')
 
-testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering']
+testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
 
 if sys.platform == 'win32':
     testGroups.remove('parser')  # this one doesn't work on Windows
@@ -216,9 +216,11 @@ finalMessage = 'Test suite complete'
 thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
-webotsArguments = '--mode=fast --no-rendering --stdout --stderr --minimize --batch'
+webotsArguments = '--mode=fast --stdout --stderr --batch'
 if sys.platform != 'win32':
     webotsArguments += ' --no-sandbox'
+webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
+
 
 for groupName in testGroups:
 
@@ -270,7 +272,10 @@ for groupName in testGroups:
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
 
-    command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+    if groupName == 'with_rendering':
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+    else:
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes

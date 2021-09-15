@@ -53,6 +53,7 @@ graph LR
   Geometry -.-> Sphere[[Sphere](sphere.md)]
 
   Device([Device](device.md)) -.-> JointDevice(Joint Device)
+  Device -.-> Skin[[Skin](skin.md)]
   Device -.-> SolidDevice(Solid Device)
 
   Group[[Group](group.md)] --> Transform[[Transform](transform.md)]

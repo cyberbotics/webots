@@ -27,8 +27,8 @@ More precisely, it corresponds to the number of lines used to represent the bott
 
 %end
 
-When a texture is applied to the sides of the cone, the texture wraps counterclockwise (from above) starting at the front of the cone.
-The texture has a vertical seam at the front in the *yz* plane, from the apex (0, 0, `height`/2) to the point (0, -r, 0).
+When a texture is applied to the sides of the cone, the texture wraps counterclockwise (from above) starting on the left of the cone.
+The texture has a vertical seam on the left in the *yz* plane, from the apex (0, 0, `height`/2) to the point (0, r, 0).
 For the bottom cap, a circle is cut out of the unit texture square centered at (0, 0, -`height`/2) with dimensions (2 * `bottomRadius`) by (2 * `bottomRadius`).
 The bottom cap texture appears right side up when the top of the cone is rotated towards the positive y-axis.
 [TextureTransform](texturetransform.md) affects the texture coordinates of the Cone.

@@ -81,9 +81,6 @@ export default class Toolbar {
     }
 
     document.addEventListener('fullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
-    document.addEventListener('webkitfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
-    document.addEventListener('mozfullscreenchange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
-    document.addEventListener('MSFullscreenChange', () => { onFullscreenChange(this.fullscreenButton, this.exit_fullscreenButton); });
   }
 
   reset(revert = false) {
@@ -123,8 +120,8 @@ export default class Toolbar {
     this._view.stream.socket.send('pause');
   }
 
-  realTime() {
-    if (this._view.broadcast)
+  realTime(force) {
+    if (this._view.broadcast && !force)
       return;
     this._view.stream.socket.send('real-time:' + this._view.timeout);
     this.pauseButton.style.display = 'inline';
@@ -133,8 +130,8 @@ export default class Toolbar {
       this.runButton.style.display = 'inline';
   }
 
-  run() {
-    if (this._view.broadcast)
+  run(force) {
+    if (this._view.broadcast && !force)
       return;
     this._view.stream.socket.send('fast:' + this._view.timeout);
     this.pauseButton.style.display = 'inline';

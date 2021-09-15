@@ -14,7 +14,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Ceiling {
-  SFVec3f    translation      0 2.4 0
+  SFVec3f    translation      0 0 2.4
   SFRotation rotation         1 0 0 3.14159
   SFString   name             "ceiling"
   SFString   contactMaterial  "default"
@@ -55,7 +55,7 @@ Door {
   SFVec3f    translation            0 0 0
   SFRotation rotation               0 0 1 0
   SFString   name                   "door"
-  SFVec3f    size                   1 2.4 0.2
+  SFVec3f    size                   0.2 1 2.4
   SFBool     canBeOpen              TRUE
   SFFloat    position               0
   SFBool     jointAtLeft            TRUE
@@ -295,8 +295,8 @@ Wall {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFString   name        "wall"
-  SFVec3f    size        1 2.4 0.2
-  SFNode     appearance  Roughcast { textureTransform TextureTransform { scale 1 2.4 } }
+  SFVec3f    size        0.2 1 2.4
+  SFNode     appearance  Roughcast { textureTransform TextureTransform { scale 2.4 1 } }
 }
 ```
 
@@ -364,11 +364,11 @@ Window {
   SFVec3f    translation            0 0 0
   SFRotation rotation               0 0 1 0
   SFString   name                   "window"
-  SFVec3f    size                   0.8 2.4 0.2
+  SFVec3f    size                   0.2 0.8 2.4
   SFFloat    windowThickness        0.05
   SFFloat    bottomWallHeight       0.7
   SFFloat    windowHeight           1.4
-  SFVec3f    frameSize              0.05 0.05 0.02
+  SFVec3f    frameSize              0.05 0.02 0.05
   SFVec2f    windowSillSize         0.1 0.05
   SFNode     wallAppearance         Roughcast {}
   SFNode     frameAppearance        VarnishedPine {}
