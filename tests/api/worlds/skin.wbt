@@ -1,10 +1,9 @@
 #VRML_SIM R2021c utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.06855611022612239 0.9974080539006414 0.021845680689767267 4.671013618156624
-  position -4.996958948545466 0.6832220037692749 0.437590010872685
+  orientation -0.09206760769891277 0.049098315222385655 0.9945415582342058 2.058202306322589
+  position 4.194481528134114 -6.351519928736491 2.264067055086583
 }
 Background {
   skyColor [
@@ -14,13 +13,13 @@ Background {
 Robot {
   children [
     Solid {
-      translation 2 0 0
+      translation 0 2 0
+      rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
       children [
         HingeJoint {
           jointParameters DEF JOINT_PARAMETERS HingeJointParameters {
           }
           endPoint Solid {
-            rotation 1 0 0 0
             name "Tail"
           }
         }
@@ -28,7 +27,8 @@ Robot {
       name "Head"
     }
     Skin {
-      translation 2 0 0
+      translation 0 2 0
+      rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 2.0944
       name "physical skin"
       modelUrl "skins/simple_skin.fbx"
       appearance [
@@ -51,13 +51,13 @@ Robot {
       ]
     }
     CharacterSkin {
-      rotation 0 0 1 0
+      rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
       name "graphical skin"
       model "Anthony"
     }
     Camera {
-      translation 0 0 0.96
-      rotation 0 1 0 -1.5708
+      translation 0.96 0 0
+      rotation 0 0 1 1.5708
       fieldOfView 0.2
       width 1
       height 1
