@@ -1057,8 +1057,7 @@ QList<WbNode *> WbNodeUtilities::getNodeChildrenAndBounding(WbNode *node) {
 }
 
 void WbNodeUtilities::sortNodeList(QList<WbNode *> &children) {
-  auto getNodeWeight = [] (const WbNode *n)
-  {
+  auto getNodeWeight = [](const WbNode *n) {
     // Higher number means higher priority.
     if (dynamic_cast<const WbGeometry *>(n))
       return 3;
@@ -1068,9 +1067,8 @@ void WbNodeUtilities::sortNodeList(QList<WbNode *> &children) {
       return 0;
     return 1;
   };
-  std::sort(children.begin(), children.end(), [&getNodeWeight](const WbNode *a, const WbNode *b) -> bool {
-    return getNodeWeight(a) > getNodeWeight(b);
-  });
+  std::sort(children.begin(), children.end(),
+            [&getNodeWeight](const WbNode *a, const WbNode *b) -> bool { return getNodeWeight(a) > getNodeWeight(b); });
 }
 
 void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
