@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
 
   position_sensor = wb_robot_get_device("position sensor");
   wb_position_sensor_enable(position_sensor, TIME_STEP);
-  
+
   wb_supervisor_export_image("../../../../distribution/pen_mesh.jpg", 100);
 
 
