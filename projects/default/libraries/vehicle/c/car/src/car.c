@@ -148,7 +148,7 @@ void wbu_car_init() {
              &instance->gear_number, &engine_sound_length);
 
   if (i < 20) {
-    fprintf(stderr, "Error: Only nodes based on the 'Car' node can used the car library.\n");
+    fprintf(stderr, "Error: Only nodes based on the 'Car' node can use the car library.\n");
     exit(-1);
   }
 
