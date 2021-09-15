@@ -30,20 +30,8 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance DEF BLUE_APPEARANCE PBRAppearance {
-              baseColor 0.192157 0.643137 0.866667
-              roughness 1
-              roughnessMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
-                ]
-              }
+            appearance DEF BLUE_APPEARANCE Plastic {
+              colorOverride 0.192157 0.643137 0.866667
             }
             geometry DEF BASE_LINK_0 IndexedFaceSet {
               coord Coordinate {
@@ -63,23 +51,8 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance DEF BLACK_APPEARANCE PBRAppearance {
-              baseColor 0.25098 0.25098 0.25098
-              baseColorMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
-                ]
-              }
-              normalMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
-                ]
-              }
+            appearance DEF BLACK_APPEARANCE BrushedAluminium {
+              colorOverride 0.250980 0.250980 0.250980
             }
             geometry DEF BASE_LINK_1 IndexedFaceSet {
               coord Coordinate {
@@ -99,20 +72,8 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColor 1 0.501961 0.501961
-              roughness 1
-              roughnessMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
-                ]
-              }
+            appearance Plastic {
+              colorOverride 1.000000 0.501961 0.501961
             }
             geometry DEF BASE_LINK_2 IndexedFaceSet {
               coord Coordinate {
@@ -132,23 +93,8 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColor 0.909804 0.443137 0.031373
-              baseColorMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
-                ]
-              }
-              normalMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
-                ]
-              }
+            appearance BrushedAluminium {
+              colorOverride 0.909804 0.443137 0.031373
             }
             geometry DEF BASE_LINK_3 IndexedFaceSet {
               coord Coordinate {
@@ -168,20 +114,8 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColor 0 0 1
-              roughness 1
-              roughnessMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
-                ]
-              }
+            appearance Plastic {
+              colorOverride 0.000000 0.000000 1.000000
             }
             geometry DEF BASE_LINK_4 IndexedFaceSet {
               coord Coordinate {
@@ -201,20 +135,8 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColor 1 0 0
-              roughness 1
-              roughnessMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
-                ]
-              }
+            appearance Plastic {
+              colorOverride 1.000000 0.000000 0.000000
             }
             geometry DEF BASE_LINK_5 IndexedFaceSet {
               coord Coordinate {
@@ -272,22 +194,7 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance DEF GRAY_APPEARANCE PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
-                ]
-              }
-              normalMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
-                ]
-              }
+            appearance DEF GRAY_APPEARANCE BrushedAluminium  {
             }
             geometry DEF BASE_LINK_8 IndexedFaceSet {
               coord Coordinate {
@@ -585,23 +492,8 @@ PROTO Ned [
                                   rotation -0.000397999936955223 -0.9999998415960377 0.000397999936955223 1.570796
                                   children [
                                     Shape {
-                                      appearance PBRAppearance {
-                                        baseColor 0.501961 0.501961 0.501961
-                                        baseColorMap ImageTexture {
-                                          url [
-                                            "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
-                                          ]
-                                        }
-                                        roughnessMap ImageTexture {
-                                          url [
-                                            "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
-                                          ]
-                                        }
-                                        normalMap ImageTexture {
-                                          url [
-                                            "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
-                                          ]
-                                        }
+                                      appearance BrushedAluminium {
+                                        colorOverride 0.501961 0.501961 0.501961
                                       }
                                       geometry DEF WRIST_LINK_0 IndexedFaceSet {
                                         coord Coordinate {
@@ -682,21 +574,9 @@ PROTO Ned [
                                             rotation -0.5775032287046064 -0.5770442285228317 0.5775032287046064 2.093475
                                             children [
                                               Shape {
-                                                appearance PBRAppearance {
-                                                  baseColor 0 0 0
-                                                  roughness 1
-                                                  roughnessMap ImageTexture {
-                                                    url [
-                                                      "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
-                                                    ]
-                                                  }
-                                                  metalness 0
+                                                appearance Plastic {
+                                                  colorOverride 0 0 0
                                                   IBLStrength 0.5
-                                                  normalMap ImageTexture {
-                                                    url [
-                                                      "https://raw.githubusercontent.com/cyberbotics/webots/feature-flu-ned-microbot/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
-                                                    ]
-                                                  }
                                                 }
                                                 geometry DEF BASE_GRIPPER_1 IndexedFaceSet {
                                                   coord Coordinate {
