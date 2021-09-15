@@ -152,6 +152,7 @@ ifeq ($(VISUAL_STUDIO_PATH),)
 	@echo -e "# \033[0;33m'VISUAL_STUDIO_PATH' not set, skipping Controller.lib (32 bit)\033[0m"
 else
 	@echo "# creating "$@" (32 bit)"
+	ls "$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64"
 	@PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X86 /def:Controller.def /out:Controller32.lib > /dev/null
 	@mv Controller32.lib "$(WEBOTS_HOME_PATH)/msys64/mingw32/lib/Controller.lib"
 	@rm Controller32.exp
