@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.06855611022612239 0.9974080539006414 0.021845680689767267 4.671013618156624
-  position -6.937912250573131 0.1464552186076391 0.043854185413652116
+  orientation 0.357397919310673 0.9064825073111772 0.22484703958745642 4.875933282140158
+  position -11.907123020977952 8.001310470791632 4.2576413471933305
 }
 Background {
   skyColor [
@@ -61,6 +61,14 @@ Robot {
       fieldOfView 0.2
       width 1
       height 1
+    }
+    Camera {
+      translation -3.19 0 0.35
+      rotation 0 1 0 -1.5708
+      name "camera_debug"
+      fieldOfView 1.1
+      width 400
+      height 400
     }
     TestSuiteEmitter {
     }

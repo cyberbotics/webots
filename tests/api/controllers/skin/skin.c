@@ -21,6 +21,8 @@ int main(int argc, char **argv) {
 
   WbDeviceTag camera = wb_robot_get_device("camera");
   wb_camera_enable(camera, TIME_STEP);
+  WbDeviceTag camera_debug = wb_robot_get_device("camera_debug");
+  wb_camera_enable(camera_debug, TIME_STEP);
 
   /* Test graphical skeleton */
   WbDeviceTag graphical_skin = wb_robot_get_device("graphical skin");
@@ -54,6 +56,8 @@ int main(int argc, char **argv) {
   ts_assert_doubles_in_delta(3, spine_p_after, expected_spine_position, 0.000001, "Wrong position of spine bone after move.");
 
   wb_robot_step(TIME_STEP);
+  
+  wb_camera_save_image(camera_debug, "../../../../distribution/skin_camera.jpg", 100);
 
   double new_spine_orientation[4] = {initial_spine_orientation[0], initial_spine_orientation[1], initial_spine_orientation[2],
                                      -0.5};

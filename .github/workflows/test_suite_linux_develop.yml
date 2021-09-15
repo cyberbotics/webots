@@ -112,10 +112,10 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py ${{ github.sha }}
+        cat tests/api/worlds/skin.wbt
         echo "GITHUB SHA" ${{ github.sha }}
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python tests/test_suite.py
-        cat tests/api/worlds/skin.wbt
     - uses: actions/upload-artifact@v2
       if: always()
       with:
