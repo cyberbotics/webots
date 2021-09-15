@@ -65,7 +65,7 @@ class TestHeaderVersion(unittest.TestCase):
             dirNames[:] = [d for d in dirNames if d not in skippedDirectories]
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
-                if world not in ignoredWorlds:
+                if world.lstrip(os.environ['WEBOTS_HOME'] + os.sep).replace(os.sep, '/') not in ignoredWorlds:
                     self.files.append((world, '#VRML_SIM %s utf8' % self.version))
         # 4. Get all the .wbproj files
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
