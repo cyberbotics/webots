@@ -26,6 +26,7 @@ int main(int argc, char **argv) {
                              "The Cylinder node should be looking towards the box (%lf %lf %lf).", cylinder_pose_z_theta[0],
                              cylinder_pose_z_theta[1], cylinder_pose_z_theta[2]);
 
+  wb_robot_step(TIME_STEP);
   ts_send_success();
   return EXIT_SUCCESS;
 }
