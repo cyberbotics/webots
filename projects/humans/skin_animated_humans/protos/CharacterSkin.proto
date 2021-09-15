@@ -1,0 +1,131 @@
+#VRML_SIM R2021c utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Skin node representing a human with predefined mesh and appearance.
+# Four different characters are available based on the 'model' field:
+# - "Anthony": a boy,
+# - "Robert": a men,
+# - "Sandra": a woman,
+# - "Sophia": a girl.
+# template language: javascript
+
+PROTO CharacterSkin [
+  field SFVec3f                                           translation 0 0 0
+  field SFRotation                                        rotation    0.57735 0.57735 0.57735 2.0944
+  field SFVec3f                                           scale       1 1 1
+  field SFString                                          name        "skin"
+  field SFString{"Anthony", "Robert", "Sandra", "Sophia"} model        "Sandra"
+  field SFBool                                            castShadows TRUE
+]
+{
+  %< const character = fields.model.value.toLowerCase(); >%
+
+  Skin {
+    translation IS translation
+    rotation IS rotation
+    scale IS scale
+    name IS name
+    modelUrl %<= '"' + "webots://projects/humans/skin_animated_humans/protos/skins/" + character + '.fbx"' >%
+    appearance [
+      Appearance {
+        material Material {
+          ambientIntensity 0.30196
+          diffuseColor 1 1 1
+          shininess 0
+          specularColor 0.062745 0.05098 0.05098
+        }
+        texture ImageTexture {
+          url [
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_skin.jpg"' >%
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+        name "skin"
+      }
+      Appearance {
+        material Material {
+          ambientIntensity 0.11
+          diffuseColor 1 1 1
+          shininess 0
+          specularColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            %< const character_eyes = (character === "sophia") ? "sandra" : character; >%
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyes + '_eyes.jpg"' >%
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+        name "eyes"
+      }
+      Appearance {
+        material Material {
+          ambientIntensity 0.11
+          diffuseColor 1 1 1
+          shininess 0
+          specularColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            %< const character_eyebrow = (character === "anthony") ? "robert" : character; >%
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyebrow + '_eyebrow.png"' >%
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+        name "eyebrow"
+      }
+      Appearance {
+        material Material {
+          ambientIntensity 0.11
+          diffuseColor 1 1 1
+          shininess 0
+          specularColor 0.047059 0.047059 0.047059
+        }
+        texture ImageTexture {
+          url [
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_hair.png"' >%
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+        name "hair"
+      }
+      Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+          shininess 0
+          specularColor 0.05098 0.047059 0.047059
+        }
+        texture ImageTexture {
+          url [
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_shoes.jpg"' >%
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+        name "shoes"
+      }
+      Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+          shininess 0
+          specularColor 0.027451 0.027451 0.027451
+        }
+        texture ImageTexture {
+          url [
+            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_suit.jpg"' >%
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+        name "suit"
+      }
+    ]
+    castShadows IS castShadows
+  }
+}
