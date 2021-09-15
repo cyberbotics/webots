@@ -3,8 +3,8 @@ WorldInfo {
   title "Verifies the ENU/FLU backwards compatibility (introduced after R2021b)"
 }
 Viewpoint {
-  orientation 0.595244940144105 -0.48629409398572165 -0.6396886081426236 1.8130070897638797
-  position -0.5685110820749993 -0.15152169029527848 0.21721896130622179
+  orientation -0.1743958494851872 -0.5104736575982106 -0.8420230000306671 3.701796771523081
+  position 1.0781562618538427 1.350900277382344 1.1119610488854872
 }
 TexturedBackground {
 }
@@ -17,10 +17,16 @@ Robot {
   controller "backward_compatibility_enu_flu"
   supervisor TRUE
 }
+WoodenBox {
+  translation 0 -0.47 0.1
+  size 0.2 0.2 0.2
+}
 DEF ROBOT_NODE Robot {
-  translation 0 0 0.05
+  translation 0 0 0.13
+  rotation 0 0 1 -1.5707953071795862
   children [
-    DEF OLD_PROTO Bc21bCameraProto {
+    DEF CAMERA_DEVICE Bc21bCameraProto {
     }
   ]
+  name "user_robot"
 }

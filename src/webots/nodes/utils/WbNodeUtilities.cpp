@@ -1051,11 +1051,26 @@ QList<WbNode *> WbNodeUtilities::getNodeChildrenAndBounding(WbNode *node) {
     children.append(boundingObject);
 
   // Insert the USE nodes in the beginning.
-  std::sort(children.begin(), children.end(), [](const WbNode *a, const WbNode *b) -> bool {
-    return ((a->isUseNode() && !b->isUseNode()) || (a->isUseNode() && b->isUseNode()));
-  });
+  sortNodeList(children);
 
   return children;
+}
+
+void WbNodeUtilities::sortNodeList(QList<WbNode *> &children) {
+  auto getNodeWeight = [] (const WbNode *n)
+  {
+    // Higher number means higher priority.
+    if (dynamic_cast<const WbGeometry *>(n))
+      return 3;
+    if (n->isDefNode())
+      return 2;
+    if (n->isUseNode())
+      return 0;
+    return 1;
+  };
+  std::sort(children.begin(), children.end(), [&getNodeWeight](const WbNode *a, const WbNode *b) -> bool {
+    return getNodeWeight(a) > getNodeWeight(b);
+  });
 }
 
 void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
@@ -1085,6 +1100,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         subProtos.append(child);
     }
   }
+  sortNodeList(candidates);
 
   // Apply rotations to the candidates.
   for (WbNode *candidate : candidates) {
@@ -1096,7 +1112,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
         dynamic_cast<WbConnector *>(candidate) || dynamic_cast<WbTouchSensor *>(candidate) ||
         dynamic_cast<WbViewpoint *>(candidate) || dynamic_cast<WbTrack *>(candidate)) {
-      candidate->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation."));
+      candidate->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy A)."));
 
       // Rotate devices.
       WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
@@ -1137,8 +1153,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
-            WbNode *newNode =
-              child->cloneAndReferenceProtoInstance();  // WbConcreteNodeFactory::instance()->createCopy(*child);
+            WbNode *newNode = child->cloneAndReferenceProtoInstance();
             WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1);
             WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
           } else {
@@ -1155,7 +1170,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
                dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
                dynamic_cast<WbElevationGrid *>(candidate)) {
-      candidate->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation."));
+      candidate->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy B)."));
 
       // Rotate geometries.
       const WbMatrix3 rotationFix(-M_PI_2, 0, 0);
@@ -1187,13 +1202,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         dynamic_cast<WbTransform *>(subProto)) {
       // Since we rotated almost all Webots PROTOs we need to rotate them back.
 
-      subProto->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation."));
-      const WbMatrix3 rotationFix(M_PI_2, 0, -M_PI_2);
+      subProto->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy C)."));
+      const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
       WbTransform *const subProtoTransform = static_cast<WbTransform *>(subProto);
       subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));
       subProtoTransform->save("__init__");
-    }
-    fixBackwardCompatibility(subProto);
+    } else
+      fixBackwardCompatibility(subProto);
   }
 }
 

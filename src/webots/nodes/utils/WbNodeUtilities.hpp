@@ -47,6 +47,7 @@ namespace WbNodeUtilities {
 
   void fixBackwardCompatibility(WbNode *node);
 
+  void sortNodeList(QList<WbNode *> &children);
   QList<WbNode *> getNodeChildren(const WbNode *node);
   QList<WbNode *> getNodeChildrenAndBounding(WbNode *node);
 
