@@ -1810,7 +1810,7 @@ PROTO Spot [
       density -1
       mass 14.40973585
       centerOfMass [
-        0 0.02032 -0.022374
+        0.022374 0 0.02032
       ]
     }
     controller IS controller
