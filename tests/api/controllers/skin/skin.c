@@ -10,9 +10,9 @@
 
 static void check_image(WbDeviceTag camera, const int *color, const char *message) {
   const unsigned char *image = wb_camera_get_image(camera);
-  const int r = wb_camera_image_get_red(image, 1, 0, 0);
-  const int g = wb_camera_image_get_green(image, 1, 0, 0);
-  const int b = wb_camera_image_get_blue(image, 1, 0, 0);
+  const int r = wb_camera_image_get_red(image, 20, 10, 10);
+  const int g = wb_camera_image_get_green(image, 20, 10, 10);
+  const int b = wb_camera_image_get_blue(image, 20, 10, 10);
   ts_assert_color_in_delta(r, g, b, color[0], color[1], color[2], 5, message, r, g, b);
 }
 
@@ -28,8 +28,6 @@ int main(int argc, char **argv) {
   WbDeviceTag graphical_skin = wb_robot_get_device("graphical skin");
   const int bones_count = wb_skin_get_bone_count(graphical_skin);
   ts_assert_int_equal(bones_count, 31, "Wrong number of bones in Anthony FBX skeleton.");
-
-  wb_supervisor_export_image("../../../../distribution/skin.jpg", 100);
 
   int spine_bone_index = 7;
   ts_assert_string_equal(wb_skin_get_bone_name(graphical_skin, 0), "Hips", "Wrong name of root bone.");
@@ -57,7 +55,7 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  wb_camera_save_image(camera_debug, "../../../../distribution/skin_camera.jpg", 100);
+  wb_camera_save_image(camera, "../../../../distribution/skin_camera.jpg", 100);
 
   double new_spine_orientation[4] = {initial_spine_orientation[0], initial_spine_orientation[1], initial_spine_orientation[2],
                                      -0.5};
@@ -71,7 +69,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   /* Test physical skeleton */
-  const int skin_color[3] = {149, 10, 8};
+  const int skin_color[3] = {150, 8, 2};
   const int sky_color[3] = {102, 178, 255};
 
   check_image(camera, skin_color, "Skin mesh is not detected at the beginning of the test: detected color [%d %d %d].");

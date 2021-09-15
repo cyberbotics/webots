@@ -58,17 +58,17 @@ Robot {
     Camera {
       translation 0 0 0.96
       rotation 0 1 0 -1.5708
-      fieldOfView 0.2
-      width 1
-      height 1
+      fieldOfView 1
+      width 20
+      height 20
     }
     Camera {
-      translation -3.19 0 0.35
+      translation 0 0 0.96
       rotation 0 1 0 -1.5708
       name "camera_debug"
-      fieldOfView 1.1
-      width 400
-      height 400
+      fieldOfView 1
+      width 20
+      height 20
     }
     TestSuiteEmitter {
     }
