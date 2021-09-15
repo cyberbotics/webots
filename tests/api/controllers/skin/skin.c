@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
   ts_assert_doubles_in_delta(3, spine_p_after, expected_spine_position, 0.000001, "Wrong position of spine bone after move.");
 
   wb_robot_step(TIME_STEP);
-  
+
   wb_camera_save_image(camera_debug, "../../../../distribution/skin_camera.jpg", 100);
 
   double new_spine_orientation[4] = {initial_spine_orientation[0], initial_spine_orientation[1], initial_spine_orientation[2],
