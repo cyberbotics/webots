@@ -117,6 +117,7 @@ jobs:
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python tests/test_suite.py
     - uses: actions/upload-artifact@v2
+      if: always()
       with:
         name: screenshots-${{ matrix.os }}
         path: |
