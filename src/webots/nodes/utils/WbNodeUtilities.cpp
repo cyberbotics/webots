@@ -1106,7 +1106,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   for (WbNode *candidate : candidates) {
     // This condition is added to handle dangling pointers.
     // TODO: It is very slow though, we may need to improve it.
-    if (!node->subNodes(true, true).contains(candidate))
+    if (!node->subNodes(true, true, true).contains(candidate) && candidate != node)
       continue;
     if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
         dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
@@ -1150,6 +1150,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           childTransform->save("__init__");
         } else {
           if (!getNodeChildren(candidate).contains(child)) {
+            // Child is a bounding object.
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
@@ -1157,6 +1158,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1);
             WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
           } else {
+            // Child is under the `children` filed.
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
@@ -1207,7 +1209,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       WbTransform *const subProtoTransform = static_cast<WbTransform *>(subProto);
       subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));
       subProtoTransform->save("__init__");
-    } else
+    } else if (!node->isWorldRoot())
       fixBackwardCompatibility(subProto);
   }
 }
