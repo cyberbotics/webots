@@ -25,8 +25,10 @@ DEF ROBOT_NODE Robot {
   translation 0 0 0.13
   rotation 0 0 1 -1.5707953071795862
   children [
-    DEF CAMERA_DEVICE Bc21bCameraProto {
+    DEF OLD_PROTO Bc21bCameraProto {
     }
   ]
   name "user_robot"
+}
+TestSuiteSupervisor {
 }

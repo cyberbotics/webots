@@ -1075,12 +1075,12 @@ void WbNodeUtilities::sortNodeList(QList<WbNode *> &children) {
 
 void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // We don't want to apply the fix if the node is already >R2021b
-  if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 1))
-    return;
   if (node->proto() && node->proto()->fileVersion() > WbVersion(2021, 1, 1))
     return;
   const WbNode *const protoAncestor = findRootProtoNode(node);
   if (!node->proto() && protoAncestor && protoAncestor->proto()->fileVersion() > WbVersion(2021, 1, 1))
+    return;
+  if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 1))
     return;
 
   // We want to find nodes until PROTOs.
