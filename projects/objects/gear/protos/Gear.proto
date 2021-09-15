@@ -172,7 +172,7 @@ PROTO Gear [
               %< alpha = n * 2.0 * Math.PI / nbTeeth; >%
               %< if (tip_size > width) { >%
                 Transform {
-                  translation %<= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) >% %<= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) >% 0
+                  translation 0 %<= (r2-tip_size*0.5)*Math.cos(alpha + 1.5*da) >% %<= (r2-tip_size*0.5)*Math.sin(alpha + 1.5*da) >%
                   children [
                     Shape {
                       geometry Sphere {
