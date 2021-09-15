@@ -127,6 +127,7 @@ DEF WRITER Robot {
     }
   ]
   controller "pen_mesh_scaled"
+  supervisor TRUE
 }
 TestSuiteSupervisor {
 }

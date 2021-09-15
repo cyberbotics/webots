@@ -26,6 +26,9 @@ int main(int argc, char **argv) {
   WbDeviceTag graphical_skin = wb_robot_get_device("graphical skin");
   const int bones_count = wb_skin_get_bone_count(graphical_skin);
   ts_assert_int_equal(bones_count, 31, "Wrong number of bones in Anthony FBX skeleton.");
+  
+ 
+  wb_supervisor_export_image("../../../../distribution/skin.jpg", 100);
 
   int spine_bone_index = 7;
   ts_assert_string_equal(wb_skin_get_bone_name(graphical_skin, 0), "Hips", "Wrong name of root bone.");

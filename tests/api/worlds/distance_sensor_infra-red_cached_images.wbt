@@ -52,6 +52,7 @@ Robot {
     }
   ]
   controller "distance_sensor_infra-red_cached_images"
+  supervisor TRUE
 }
 TestSuiteSupervisor {
 }

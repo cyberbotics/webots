@@ -1,5 +1,6 @@
 #include <webots/distance_sensor.h>
 #include <webots/robot.h>
+#include <webots/supervisor.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
@@ -13,6 +14,8 @@ int main(int argc, char **argv) {
   WbDeviceTag ds_right = wb_robot_get_device("distance sensor right");
   wb_distance_sensor_enable(ds_left, TIME_STEP);
   wb_distance_sensor_enable(ds_right, TIME_STEP);
+  
+  wb_supervisor_export_image("../../../../distribution/ds_if_cached_images.jpg", 100);
 
   wb_robot_step(TIME_STEP);
 
