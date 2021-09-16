@@ -44,6 +44,6 @@ DEF OBSTACLE3 CardboardBox {
 }
 Microbot {
   translation -0.0872078 -0.134489 0.0215088
-  rotation 0.0015877995862910602 0.9999987394454426 0 0.00257075
+  rotation 0 1 0 0.00257075
   controller "microbot_pe"
 }
