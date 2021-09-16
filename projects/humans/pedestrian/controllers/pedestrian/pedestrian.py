@@ -138,7 +138,7 @@ class Pedestrian (Supervisor):
             angle = math.atan2(self.waypoints[(i + 1) % self.number_of_waypoints][0] - self.waypoints[i][0],
                                self.waypoints[(i + 1) % self.number_of_waypoints][1] - self.waypoints[i][1])
             rotation = [0, 0, 1, angle]
-
+            
             self.root_translation_field.setSFVec3f(root_translation)
             self.root_rotation_field.setSFRotation(rotation)
 

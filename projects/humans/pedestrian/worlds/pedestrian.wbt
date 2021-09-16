@@ -14,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.5172690458435438 -0.5729924119337932 -0.635698379798473 4.420470102482597
-  position -1.3347412352525 -1.4215446313302444 26.76309765296617
+  orientation 0.30689270390532825 -0.2902331601799681 -0.9064113751612043 4.648170330709373
+  position 0.005197140878764703 -22.232530148048017 16.570466173724824
   near 1
 }
 TexturedBackground {
@@ -23,6 +23,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 CircleArena {
+  rotation 0 0 1 1.5708003061004252
   radius 10
   floorAppearance Parquetry {
   }
@@ -31,28 +32,28 @@ CircleArena {
   wallHeight 1
 }
 Pedestrian {
-  translation 3 0 1.26
+  translation 0 3 1.26
   rotation 0 0 1 -1.5708
   controllerArgs [
     "--trajectory= 3 0, -3 0"
     "--speed=2.5"
   ]
-  rightLegAngle 0.25090909090909236
-  rightLowerLegAngle 0.1481818181818193
-  rightFootAngle 0.3865909090909046
-  leftLegAngle -1.1099999999999959
-  leftLowerLegAngle 1.6268181818181708
-  leftFootAngle -0.0897727272727299
-  rightArmAngle -0.3859090909090943
-  rightLowerArmAngle -0.5547727272727239
-  rightHandAngle -0.2329545454545432
-  leftArmAngle 0.5881818181818192
-  leftLowerArmAngle -0.6781818181818152
-  leftHandAngle 0.12545454545454618
-  headAngle 0.00613636363636445
+  rightLegAngle -0.9818181818181937
+  rightLowerLegAngle 1.6390909090909145
+  rightFootAngle 0.006363636363630576
+  leftLegAngle 0.1745454545454595
+  leftLowerLegAngle 0.06363636363636943
+  leftFootAngle 0.1454545454545587
+  rightArmAngle 0.18181818181821197
+  rightLowerArmAngle -0.40545454545456777
+  rightHandAngle 0.054545454545459504
+  leftArmAngle -0.0709090909091128
+  leftLowerArmAngle -0.4272727272727388
+  leftHandAngle -0.2063636363636397
+  headAngle 0.04909090909090537
 }
 Pedestrian {
-  translation 1 5 1.27
+  translation 5 1 1.27
   rotation 0 0 1 -1.5708
   name "pedestrian(1)"
   controllerArgs [
@@ -74,7 +75,7 @@ Pedestrian {
   headAngle 0.15136363636363634
 }
 Pedestrian {
-  translation 2 6 1.27
+  translation 6 2 1.27
   rotation 0 0 1 -1.5708
   name "pedestrian(2)"
   shirtColor 0.6 0.4 0.35

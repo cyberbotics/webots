@@ -67,6 +67,7 @@ Robot {
           jointParameters HingeJointParameters {
             position IS leftArmAngle
             anchor -0.01 0.28 0.19
+            axis 0 1 0
           }
           endPoint DEF LEFT_UPPER_ARM Solid {
         %< } else { >%
@@ -84,6 +85,7 @@ Robot {
                 jointParameters HingeJointParameters {
                   position IS leftLowerArmAngle
                   anchor -0.04 0.25 -0.09
+                  axis 0 1 0
                 }
                 endPoint DEF LEFT_LOWER_ARM Solid {
               %< } else { >%
@@ -101,6 +103,7 @@ Robot {
                       jointParameters HingeJointParameters {
                         position IS leftHandAngle
                         anchor -0.035 0.25 -0.37
+                        axis 0 1 0
                       }
                       endPoint DEF LEFT_HAND Solid {
                     %< } else { >%
@@ -183,6 +186,7 @@ Robot {
           jointParameters HingeJointParameters {
             position IS rightArmAngle
             anchor -0.01 -0.28 0.19
+            axis 0 1 0
           }
           endPoint DEF RIGHT_UPPER_ARM Solid {
         %< } else { >%
@@ -200,6 +204,7 @@ Robot {
                 jointParameters HingeJointParameters {
                   position IS rightLowerArmAngle
                   anchor -0.04 -0.25 -0.09
+                  axis 0 1 0
                 }
                 endPoint DEF RIGHT_LOWER_ARM Solid {
               %< } else { >%
@@ -217,6 +222,7 @@ Robot {
                       jointParameters HingeJointParameters {
                         position IS rightHandAngle
                         anchor -0.035 -0.25 -0.37
+                        axis 0 1 0
                       }
                       endPoint DEF RIGHT_HAND Solid {
                     %< } else { >%
@@ -301,6 +307,7 @@ Robot {
           jointParameters HingeJointParameters {
             position IS leftLegAngle
             anchor -0.04 0.17 -0.3
+            axis 0 1 0
           }
           endPoint DEF LEFT_UPPER_LEG Solid {
         %< } else { >%
@@ -321,6 +328,7 @@ Robot {
                 jointParameters HingeJointParameters {
                   position IS leftLowerLegAngle
                   anchor -0.03 0.17 -0.76
+                  axis 0 1 0
                 }
                 endPoint DEF LEFT_LOWER_LEG Solid {
               %< } else { >%
@@ -337,6 +345,7 @@ Robot {
                       jointParameters HingeJointParameters {
                         position IS leftFootAngle
                         anchor -0.092 0.17 -1.165
+                        axis 0 1 0
                       }
                       endPoint DEF LEFT_FOOT Solid {
                     %< } else { >%
@@ -405,6 +414,7 @@ Robot {
           jointParameters HingeJointParameters {
             position IS rightLegAngle
             anchor -0.04 -0.17 -0.3
+            axis 0 1 0
           }
           endPoint DEF RIGHT_UPPER_LEG Solid {
         %< } else { >%
@@ -421,6 +431,7 @@ Robot {
                 jointParameters HingeJointParameters {
                   position IS rightLowerLegAngle
                   anchor -0.03 -0.17 -0.76
+                  axis 0 1 0
                 }
                 endPoint DEF RIGHT_LOWER_LEG Solid {
               %< } else { >%
@@ -437,6 +448,7 @@ Robot {
                       jointParameters HingeJointParameters {
                         position IS rightFootAngle
                         anchor -0.092 -0.17 -1.165
+                        axis 0 1 0
                       }
                       endPoint DEF RIGHT_FEET Solid {
                     %< } else { >%
@@ -502,6 +514,7 @@ Robot {
           jointParameters HingeJointParameters {
             position IS headAngle
             anchor 0.01 0 0.37
+            axis 0 1 0
           }
           endPoint DEF HEAD Solid {
         %< } else { >%
