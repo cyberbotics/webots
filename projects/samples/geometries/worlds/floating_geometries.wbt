@@ -1,6 +1,5 @@
 #VRML_SIM R2021c utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.44628514781390516 0.8650902865261687 0.22901607585231254 5.08896
@@ -56,7 +55,7 @@ DEF SWIMMING_POOL_BOTTOM Transform {
 Floor {
 }
 DEF UPPER_SOLID_RAMP Solid {
-  translation 10 1.6 0
+  translation 10 0 1.6
   children [
     DEF G Group {
       children [
@@ -67,22 +66,22 @@ DEF UPPER_SOLID_RAMP Solid {
             metalness 0
           }
           geometry Box {
-            size 7 0.1 0.8
+            size 7 0.8 0.1
           }
         }
         Transform {
-          translation 0 0.1 -0.5
+          translation 0 -0.5 0.1
           children [
             DEF BORDER Shape {
               appearance USE LIGHT_BROWN
               geometry Box {
-                size 7 0.3 0.2
+                size 7 0.2 0.3
               }
             }
           ]
         }
         Transform {
-          translation 0 0.1 0.5
+          translation 0 0.5 0.1
           children [
             USE BORDER
           ]
@@ -94,29 +93,29 @@ DEF UPPER_SOLID_RAMP Solid {
   boundingObject USE G
 }
 DEF LOWER_SOLID_RAMP Solid {
-  translation 5 1 0
+  translation 5 0 1
   children [
     DEF G Group {
       children [
         DEF S Shape {
           appearance USE LIGHT_BROWN
           geometry Box {
-            size 7 0.1 0.8
+            size 7 0.8 0.1
           }
         }
         Transform {
-          translation 0 0.1 -0.5
+          translation 0 -0.5 0.1
           children [
             DEF BORDER Shape {
               appearance USE LIGHT_BROWN
               geometry Box {
-                size 7 0.3 0.2
+                size 7 0.2 0.3
               }
             }
           ]
         }
         Transform {
-          translation 0 0.1 0.5
+          translation 0 0.5 0.1
           children [
             USE BORDER
           ]
@@ -129,14 +128,13 @@ DEF LOWER_SOLID_RAMP Solid {
 }
 DEF FLOWING_WATER Fluid {
   translation 5 1.1 0
-  rotation 1 0 0 6.283185307179586
   children [
     DEF G Group {
       children [
         DEF S Shape {
           appearance USE WATER_APPEARANCE
           geometry Box {
-            size 7 0.1 0.8
+            size 7 0.8 0.1
           }
         }
         Transform {
