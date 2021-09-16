@@ -1062,9 +1062,9 @@ void WbNodeUtilities::sortNodeList(QList<WbNode *> &children) {
     if (dynamic_cast<const WbGeometry *>(n))
       return 3;
     if (n->isDefNode())
-      return 2;
-    if (n->isUseNode())
       return 0;
+    if (n->isUseNode())
+      return 2;
     return 1;
   };
   std::sort(children.begin(), children.end(),
@@ -1082,6 +1082,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     return;
   if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 1))
     return;
+
+  static const QString message(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy %1)."));
 
   // We want to find nodes until PROTOs.
   QList<WbNode *> candidates;
@@ -1112,7 +1114,6 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
         dynamic_cast<WbConnector *>(candidate) || dynamic_cast<WbTouchSensor *>(candidate) ||
         dynamic_cast<WbViewpoint *>(candidate) || dynamic_cast<WbTrack *>(candidate)) {
-      candidate->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy A)."));
 
       // Rotate devices.
       WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
@@ -1124,11 +1125,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
       // Rotate the viewpoint (exception).
       if (dynamic_cast<WbViewpoint *>(candidate)) {
+        candidate->warn(message.arg("A1"));
         WbViewpoint *const viewpoint = static_cast<WbViewpoint *>(candidate);
         viewpoint->orientation()->setValue(WbRotation(viewpoint->orientation()->value().toMatrix3() * rotationFix));
         viewpoint->save("__init__");
         continue;
       }
+      candidate->warn(message.arg("A2"));
 
       // Rotate the device.
       if (candidate != node) {
@@ -1151,6 +1154,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         } else {
           if (!getNodeChildren(candidate).contains(child)) {
             // Child is a bounding object.
+            child->warn(message.arg("A2_1"));
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
@@ -1159,6 +1163,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
           } else {
             // Child is under the `children` filed.
+            child->warn(message.arg("A2_2"));
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
@@ -1172,7 +1177,6 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
                dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
                dynamic_cast<WbElevationGrid *>(candidate)) {
-      candidate->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy B)."));
 
       // Rotate geometries.
       const WbMatrix3 rotationFix(-M_PI_2, 0, 0);
@@ -1183,11 +1187,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
       if (parentTransform && parentTransform->subNodes(false, false).size() == 1) {
         // Squash transforms if possible.
+        candidate->warn(message.arg("B1"));
         if (dynamic_cast<WbTrackWheel *>(parentTransform->parentNode()))
           continue;
         parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * rotationFix));
         parentTransform->save("__init__");
       } else {
+        candidate->warn(message.arg("B2"));
         WbTransform *const transform = new WbTransform();
         static_cast<WbGroup *>(parent)->removeChild(nodeToRotate);
         transform->addChild(nodeToRotate);
@@ -1207,7 +1213,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       // Since we rotated almost all Webots PROTOs we need to rotate them back.
       // The `Bc21bCameraProto.proto` is added for CI tests (the CI tests are not in the same directory as Webots).
 
-      subProto->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy C)."));
+      subProto->warn(message.arg("C"));
       const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
       WbTransform *const subProtoTransform = static_cast<WbTransform *>(subProto);
       subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));
