@@ -81,6 +81,7 @@ typedef enum {
   WB_NODE_RANGE_FINDER,
   WB_NODE_RECEIVER,
   WB_NODE_ROTATIONAL_MOTOR,
+  WB_NODE_SKIN,
   WB_NODE_SPEAKER,
   WB_NODE_TOUCH_SENSOR,
   // misc
@@ -110,8 +111,7 @@ typedef enum {
   WB_NODE_ZOOM,
   // experimental
   WB_NODE_MICROPHONE,
-  WB_NODE_RADIO,
-  WB_NODE_SKIN
+  WB_NODE_RADIO
 } WbNodeType;
 
 const char *wb_node_get_name(WbNodeType t);

@@ -4,6 +4,19 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Darko Lukić [Cyberbotics] 09/06/2021 09:01:38
+**Webots API binding for Rust**
+
+
+
+We are happy to share a community contributed Webots API binding for Rust:
+
+[https://github.com/acj/webots-rs](https://github.com/acj/webots-rs)
+
+
+
+Hopefully, the project will be useful to the Rust community.
+
 ##### Olivier Michel [Cyberbotics] 08/19/2021 07:19:17
 New tutorial in Webots Series: Move Your Robot to Specific Coordinates [https://levelup.gitconnected.com/webots-series-move-your-robot-to-specific-coordinates-ecf50cb4244b](https://levelup.gitconnected.com/webots-series-move-your-robot-to-specific-coordinates-ecf50cb4244b)
 
