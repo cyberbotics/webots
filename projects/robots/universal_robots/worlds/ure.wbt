@@ -19,8 +19,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.1640369459467948 0.6791727760233085 0.7154133215654017 0.6511912051080316
-  position -6.637286017984618 -2.6416602731702388 4.504946725903114
+  orientation -0.15057085537249637 0.7746188825940333 0.6142426265256801 0.6129878674589708
+  position -5.670715537973679 -2.010226364491933 4.297022314254167
   exposure 1.7
 }
 TexturedBackground {
@@ -85,15 +85,16 @@ Table {
   }
 }
 OfficeTelephone {
-  translation -1.34381 -0.209288 0.79
+  translation -1.34381 -0.209288 0.8
   rotation 0 0 1 -0.7853983071795865
+  enablePhysics FALSE
 }
 Wrench {
-  translation -1.238859 -0.5886 0.71
+  translation -1.23886 -0.5886 0.8
   rotation 0 0 1 2.094395
 }
 Hammer {
-  translation -1.60381 -0.359288 0.71
+  translation -1.60381 -0.359288 0.81
 }
 PlatformCart {
   translation 0.927687 1.793317 0
@@ -110,7 +111,7 @@ Radiator {
 }
 WoodenPalletStack {
   translation 2.8 -0.23 0
-  rotation 0 0 -1 1.5708
+  rotation 0 0 1 -1.5707953071795862
   palletNumber 5
   palletSize 0.8 1 0.11
 }
@@ -282,7 +283,7 @@ SolidBox {
 }
 FireExtinguisher {
   translation -0.75771 1.79 0
-  rotation 0 0 1 -2.8797933071795865
+  rotation 0 0 -1 1.5708
 }
 UR3e {
   translation 1.30296 0.079391 0.91
@@ -371,31 +372,31 @@ ConveyorBelt {
 }
 PlasticCrate {
   translation 0.22 0.68 0.25
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 PlasticCrate {
   translation -0.41 0.68 0.25
   name "plastic crate(1)"
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 PlasticCrate {
   translation -1.04 0.68 0.26
   name "plastic crate(2)"
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 PlasticCrate {
   translation -1.67 0.68 0.26
   name "plastic crate(3)"
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 PlasticCrate {
   translation -2.31 0.68 0.26
   name "plastic crate(4)"
-  size 0.6 0.4 0.45
+  size 0.6 0.45 0.4
   mass 1
 }
 Can {
