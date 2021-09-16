@@ -11471,14 +11471,14 @@ Good afternoon
 ##### David Mansolino [Cyberbotics] 08/22/2019 06:12:37
 Hi `@Dannte98`
 
-##### Rambo 08/23/2019 16:12:17
+##### Ranbao 08/23/2019 16:12:17
 I was applying a force which includes a 'for' loop to a vehicle's wheel in the physics plugin,(in physics step, dbodyaddforce).  the force was supposed to be calculated by integration, I simply use a for loop to add things up. If the division of the integeration is over 3(three times in for loop) and the force was applied, the webots crash. However, if the force is only displayed and calculated in webots, but not applied, the division of the integration could go as high as 1000 and still runs smoothly. And the forces calculated by normal means like adds multiflies and such works normally. I tried many methods, but none worked. I wonder if you guys have any clues to this...😫
 
 ##### TheWgang 08/24/2019 20:38:37
 Hi, the light sensor function returns a value 'E' based on the incidence of light on the sensor. How can  i detect a red light using the light sensor function
 
 ##### Olivier Michel [Cyberbotics] 08/26/2019 06:22:55
-Hi `@Rambo`: unfortunately, I have no idea about the problem you are experiencing. Did you try to apply a force of 0 on this object? Does it still crash? If so, the pointer to the object may be wrong.
+Hi `@Ranbao`: unfortunately, I have no idea about the problem you are experiencing. Did you try to apply a force of 0 on this object? Does it still crash? If so, the pointer to the object may be wrong.
 
 
 hi `@TheWgang`: light sensors don't make any different between colored lights. To detect a colored light, I would recommend to use a small white box put in front of a low resolution camera. The box will reflect the color of the light and the camera will get it.
@@ -11515,7 +11515,7 @@ To be accessible from the Supervisor, the field should be "open", i.e., defined 
 ##### Marcey 08/26/2019 09:35:30
 `@Fabien Rohrer` thank you! That worked 🙂
 
-##### Rambo 08/26/2019 14:00:06
+##### Ranbao 08/26/2019 14:00:06
 `@Olivier Michel` , Thanks for your advice! I tried apply other force(both 0 and larger than 0), and it would not crash. However, if the applied force is calculated by 'for' loops(over 3) in the physics step, webots would crash. I will continue to try to find out the solution. thank you!
 
 ##### tonyzjtong 08/26/2019 17:40:44
