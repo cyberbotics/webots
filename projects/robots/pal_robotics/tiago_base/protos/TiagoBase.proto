@@ -37,7 +37,6 @@ PROTO TiagoBase [
       }
       DEF LIDAR Transform {
         translation 0.202 0 -0.004
-        rotation 0.5774 -0.5773 -0.5774 2.0944
         children IS lidarSlot
       }
       Accelerometer {

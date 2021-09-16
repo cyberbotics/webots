@@ -6,8 +6,8 @@ WorldInfo {
   title "Simulation of PAL Robotics' TIAGo Base robot"
 }
 Viewpoint {
-  orientation 0.4159912983030103 -0.21858655147372016 -0.8827067232388132 4.010170716112446
-  position 12.97938774773065 -18.708039489881514 27.64620703388164
+  orientation 0.2573160410490516 -0.6499114813658986 -0.7151248292484507 5.2719007299888885
+  position -13.513125538997697 -11.336868950006574 15.557518701031217
   follow "TIAGo Base"
   followSmoothness 0
 }
@@ -115,22 +115,6 @@ WoodenBox {
 SolidBox {
   translation 7.49 -4 0.85
   size 0.03 1.7 1
-  appearance PBRAppearance {
-    baseColor 0 0 0
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/tagged_wall.jpg"
-      ]
-    }
-    roughness 0.5
-    metalness 0
-  }
-}
-SolidBox {
-  translation -6.9 2.48 2.5
-  rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 2.094
-  name "box(1)"
-  size 0.02 1.7 1.2
   appearance PBRAppearance {
     baseColor 0 0 0
     baseColorMap ImageTexture {
