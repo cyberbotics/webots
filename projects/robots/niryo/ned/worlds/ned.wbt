@@ -46,7 +46,7 @@ OfficeChair {
 }
 Ned {
   translation 4.40242 0.513432 0.739997
-  rotation 0 0 1 0.785
+  rotation 0 0 1 0.7854
   name "Ned"
 }
 OfficeChair {
