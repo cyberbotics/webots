@@ -17,13 +17,14 @@ int main(int argc, char **argv) {
   const double camera_pose_expected[] = {0, -1, 0};
   const double camera_pose_x_theta[] = {camera_pose[0], camera_pose[4], camera_pose[8]};
   ts_assert_doubles_in_delta(3, camera_pose_x_theta, camera_pose_expected, 0.1,
-                             "The Camera node should be looking towards the box");
+                             "The Camera node should be looking towards the box (got %lf %lf %lf).", camera_pose_x_theta[0],
+                             camera_pose_x_theta[1], camera_pose_x_theta[2]);
 
   const double *cylinder_pose = wb_supervisor_node_get_pose(cylinder_node, NULL);
   const double cylinder_pose_expected[] = {0, 1, 0};
   const double cylinder_pose_z_theta[] = {camera_pose[2], camera_pose[6], camera_pose[10]};
   ts_assert_doubles_in_delta(3, cylinder_pose_z_theta, cylinder_pose_expected, 0.1,
-                             "The Cylinder node should be looking towards the box (%lf %lf %lf).", cylinder_pose_z_theta[0],
+                             "The Cylinder node should be looking towards the box (got %lf %lf %lf).", cylinder_pose_z_theta[0],
                              cylinder_pose_z_theta[1], cylinder_pose_z_theta[2]);
 
   wb_robot_step(TIME_STEP);
