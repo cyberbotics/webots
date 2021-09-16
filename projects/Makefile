@@ -29,5 +29,7 @@ release profile debug clean:
 	@+make -s -C samples $@ $(WEBOTS_HOME_ARG)
 	@echo "#"; echo "# !!! vehicles !!!"
 	@+make -s -C vehicles $@ $(WEBOTS_HOME_ARG)
+	@echo "#"; echo "# !!! humans !!!"
+	@+make -s -C humans $@ $(WEBOTS_HOME_ARG)
 
 cleanse: clean
