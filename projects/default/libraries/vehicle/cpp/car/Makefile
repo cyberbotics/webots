@@ -23,5 +23,8 @@ CXX_SOURCES = $(wildcard src/*.cpp)
 INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c"
 LIBRARIES = -lcar
 MAIN_TARGET = $(LIB_PREFIX)CppCar$(SHARED_LIB_EXTENSION)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.so
+LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+

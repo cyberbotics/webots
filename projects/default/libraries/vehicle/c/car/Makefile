@@ -20,4 +20,9 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 WEBOTS_LIBRARY = 1
 C_SOURCES = $(wildcard src/*.c)
 
+LIBRARIES = -lController
+MAIN_TARGET = $(LIB_PREFIX)car$(SHARED_LIB_EXTENSION)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
+LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
