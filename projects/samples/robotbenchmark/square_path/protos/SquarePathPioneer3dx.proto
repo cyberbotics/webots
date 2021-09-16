@@ -418,7 +418,7 @@ PROTO SquarePathPioneer3dx [
       DEF CASTER_WHEEL HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 0 1
-          anchor -0.1918 0 0
+          anchor -0.1918 0 -0.0011939
           staticFriction 0.05
         }
         endPoint Solid {
@@ -601,8 +601,8 @@ PROTO SquarePathPioneer3dx [
           }
         ]
         jointParameters HingeJointParameters {
-          axis 0 -1 0
-          anchor 0 0.165 0
+          axis 0 1 0
+          anchor 0 0.165 -0.0001156
         }
         endPoint Solid {
           translation 0 0.165 0
@@ -861,8 +861,8 @@ PROTO SquarePathPioneer3dx [
           }
         ]
         jointParameters HingeJointParameters {
-          axis 0 -1 0
-          anchor 0 -0.165 0
+          axis 0 1 0
+          anchor 0 -0.165 -0.0001156
         }
         endPoint Solid {
           translation 0 -0.165 0
