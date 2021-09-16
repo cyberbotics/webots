@@ -7,7 +7,7 @@
 
 PROTO UR5e [
   field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 4.712388966 # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0           # Is `Transform.rotation`.
   field SFString   name            "UR5e"            # Is `Solid.name`.
   field SFString   controller      "void"            # Is `Robot.controller`.
   field MFString   controllerArgs  []                # Is `Robot.controllerArgs`.
