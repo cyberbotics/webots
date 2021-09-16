@@ -1200,9 +1200,12 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
   // Convert sub-protos.
   for (WbNode *subProto : subProtos) {
-    if (subProto->proto() && subProto->proto()->path().contains(WbStandardPaths::webotsHomePath()) &&
+    if (subProto->proto() &&
+        (subProto->proto()->path().contains(WbStandardPaths::webotsHomePath()) ||
+         subProto->proto()->fileName() == "Bc21bCameraProto.proto") &&
         dynamic_cast<WbTransform *>(subProto)) {
       // Since we rotated almost all Webots PROTOs we need to rotate them back.
+      // The `Bc21bCameraProto.proto` is added for CI tests (the CI tests are not in the same directory as Webots).
 
       subProto->warn(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy C)."));
       const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
