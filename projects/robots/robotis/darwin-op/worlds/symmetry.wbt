@@ -25,6 +25,7 @@ RobotisOp2 {
   cameraHeight 240
 }
 Floor {
+  rotation 1 0 0 1.5707963267948966
   tileSize 1 1
   appearance Parquetry {
   }
