@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 64
 }
 Viewpoint {
-  orientation 0.891413934717903 0.123236016402205 -0.436112463995311 2.64807092652159
-  position -3.8262457662235203 -2.686526734609418 -2.919826799527278
+  orientation 0.30472332270793473 0.6830874932044873 -0.6637282374778442 1.1835111768575177
+  position -1.5731172225512131 1.6462057351100228 2.506237334848655
   follow "TurtleBot3Burger"
   followType "Pan and Tilt Shot"
 }
@@ -13,75 +13,58 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 CircleArena {
-  rotation 1 0 0 3.141592653589793
   radius 3
   wallHeight 0.4
 }
 WoodenBox {
-  translation 0.467367 -0.15 -0.545426
-  rotation 1 0 0 3.141592653589793
+  translation 0.467367 -0.545426 0.15
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation 1.26618 -0.15 1.07342
-  rotation 1 0 0 3.141592653589793
+  translation 1.26618 1.07342 0.15
   name "wooden box(1)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -0.15697 -0.15 0.782967
-  rotation 1 0 0 3.141592653589793
+  translation -0.15697 0.782967 0.15
   name "wooden box(2)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -1.62271 -0.15 1.08968
-  rotation 1 0 0 3.141592653589793
+  translation -1.62271 1.08968 0.15
   name "wooden box(3)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -1.09887 -0.15 -0.301011
-  rotation 1 0 0 3.141592653589793
+  translation -1.09887 -0.301011 0.15
   name "wooden box(4)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -2.71307 -0.15 -0.22263
-  rotation 1 0 0 3.141592653589793
+  translation -2.71307 -0.22263 0.15
   name "wooden box(7)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -0.744103 -0.15 2.69736
-  rotation 1 0 0 3.141592653589793
+  translation -0.744103 2.69736 0.15
   name "wooden box(8)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation 2.30103 -0.15 0.203241
-  rotation 1 0 0 3.141592653589793
+  translation 2.30103 0.203241 0.15
   name "wooden box(9)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation 0.005323 -0.15 -1.57959
-  rotation 1 0 0 3.141592653589793
+  translation 0.005323 -1.57959 0.15
   name "wooden box(5)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation -1.0974 -0.15 -1.8598
-  rotation 1 0 0 3.141592653589793
+  translation -1.0974 -1.8598 0.15
   name "wooden box(6)"
   size 0.3 0.3 0.3
 }
 TurtleBot3Burger {
   controller "turtlebot3_ostacle_avoidance"
-  extensionSlot [
-    RobotisLds01 {
-      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
-    }
-  ]
-  rotation 1 0 0 1.5707963267948966
 }

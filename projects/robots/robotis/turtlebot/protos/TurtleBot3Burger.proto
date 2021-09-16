@@ -27,7 +27,6 @@ PROTO TurtleBot3Burger [
     synchronization IS synchronization
     children [
       Transform {
-        rotation -0.5774 0.5773 0.5774 -2.0944
         translation -0.03 0 0.153
         children IS extensionSlot
       }
@@ -62,9 +61,9 @@ PROTO TurtleBot3Burger [
                         roughness 1
                         metalness 0
                       }
-                    geometry Mesh {
-                      url "meshes/wheel.obj"
-                    }
+                      geometry Mesh {
+                        url "meshes/wheel.obj"
+                      }
                     }
                     Shape {
                       appearance PBRAppearance {
@@ -72,9 +71,9 @@ PROTO TurtleBot3Burger [
                         roughness 1
                         metalness 0
                       }
-                    geometry Mesh {
-                      url "meshes/Mesh0.obj"
-                    }
+                      geometry Mesh {
+                        url "meshes/rim.obj"
+                      }
                     }
                     Shape {
                       appearance TireRubber {
@@ -84,16 +83,16 @@ PROTO TurtleBot3Burger [
                         }
                         type "bike"
                       }
-                    geometry Mesh {
-                      url "meshes/Mesh1.obj"
-                    }
+                      geometry Mesh {
+                        url "meshes/tire.obj"
+                      }
                     }
                     Shape {
                       appearance PBRAppearance {
                       }
-                    geometry Mesh {
-                      url "meshes/Mesh2.obj"
-                    }
+                      geometry Mesh {
+                        url "meshes/axle.obj"
+                      }
                     }
                   ]
                 }
@@ -101,9 +100,14 @@ PROTO TurtleBot3Burger [
             }
           ]
           name "right wheel"
-          boundingObject Cylinder {
-            height 0.018
-            radius 0.033
+          boundingObject Transform {
+            rotation 1 0 0 -1.570796
+            children [
+              Cylinder {
+                height 0.018
+                radius 0.033
+              }
+            ]
           }
           physics Physics {
             density -1
@@ -142,9 +146,14 @@ PROTO TurtleBot3Burger [
             }
           ]
           name "left wheel"
-          boundingObject Cylinder {
-            height 0.018
-            radius 0.033
+          boundingObject Transform {
+            rotation 1 0 0 -1.570796
+            children [
+              Cylinder {
+                height 0.018
+                radius 0.033
+              }
+            ]
           }
           physics Physics {
             density -1

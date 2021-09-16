@@ -7,7 +7,7 @@
 # template language: javascript
 
 PROTO RobotisLds01 [
-  field SFVec3f    translation       0 0.02 0
+  field SFVec3f    translation       0 0 0.02
   field SFRotation rotation          0 0 1 0
   field SFString   name              "LDS-01"
   field SFFloat    noise             0.0043
