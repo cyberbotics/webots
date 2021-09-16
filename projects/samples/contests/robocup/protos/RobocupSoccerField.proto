@@ -245,7 +245,6 @@ PROTO RobocupSoccerField [
       DEF BLADES Solid {
         contactMaterial "grass"
         translation 0 0 0.01
-        rotation 1 0 0 1.5707996938995747
         boundingObject Plane {
           size %<= 2 * I + A >% %<= 2 * I + B >%
         }
@@ -314,7 +313,6 @@ PROTO RobocupSoccerField [
       }
     ]
     boundingObject Transform {
-      rotation 1 0 0 1.5707996938995747
       children [
         Shape {
           geometry Plane {

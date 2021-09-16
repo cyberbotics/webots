@@ -70,6 +70,7 @@ projects/samples/devices/worlds/range_finder.wbt 20
 projects/samples/devices/worlds/receiver_noise.wbt 20
 projects/samples/devices/worlds/sick.wbt 20
 projects/samples/devices/worlds/sick_point_cloud.wbt 20
+projects/samples/devices/worlds/skin.wbt 20
 projects/samples/devices/worlds/speaker.wbt 20
 projects/samples/devices/worlds/speaker_text_to_speech.wbt 20
 projects/samples/devices/worlds/spherical_camera.wbt 20
