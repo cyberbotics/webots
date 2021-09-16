@@ -6,7 +6,6 @@ WorldInfo {
   title "Autonomous Vehicle"
   ERP 0.6
   basicTimeStep 10
-  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {
@@ -15,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.056791464063295376 0.9659535410765772 0.25240540028131153 2.3968598
-  position 11.910063 7.2731442 -10.132491
+  orientation 0.5172690458435438 -0.5729924119337932 -0.635698379798473 4.420470102482597
+  position -1.3347412352525 -1.4215446313302444 26.76309765296617
   near 1
 }
 TexturedBackground {
@@ -32,25 +31,51 @@ CircleArena {
   wallHeight 1
 }
 Pedestrian {
-  translation 0 1.26 3
-  rotation 0 1 0 3.14159
+  translation 3 0 1.26
+  rotation 0 0 1 -1.5708
   controllerArgs [
-    "--trajectory=0 3, 0 -3"
+    "--trajectory= 3 0, -3 0"
     "--speed=2.5"
   ]
+  rightLegAngle 0.25090909090909236
+  rightLowerLegAngle 0.1481818181818193
+  rightFootAngle 0.3865909090909046
+  leftLegAngle -1.1099999999999959
+  leftLowerLegAngle 1.6268181818181708
+  leftFootAngle -0.0897727272727299
+  rightArmAngle -0.3859090909090943
+  rightLowerArmAngle -0.5547727272727239
+  rightHandAngle -0.2329545454545432
+  leftArmAngle 0.5881818181818192
+  leftLowerArmAngle -0.6781818181818152
+  leftHandAngle 0.12545454545454618
+  headAngle 0.00613636363636445
 }
 Pedestrian {
-  translation 5 1.27 1
-  rotation 0 1 0 3.14159
+  translation 1 5 1.27
+  rotation 0 0 1 -1.5708
   name "pedestrian(1)"
   controllerArgs [
-    "--trajectory=5 1, 5 -1, 1 -5, -1 -5, -5 -1, -5 1, -1 5, 1 5"
+    "--trajectory=1 5,-1 5, -5 1, -5 -1,  -1 -5, 1 -5, 5 -1, 5 1"
   ]
   shirtColor 0.466667 0.0980392 0.458824
+  rightLegAngle -0.2477272727272726
+  rightLowerLegAngle 1.0372727272727271
+  rightFootAngle 0.025454545454545435
+  leftLegAngle -0.6045454545454546
+  leftLowerLegAngle 0.7286363636363635
+  leftFootAngle -0.1145454545454546
+  rightArmAngle -0.5900000000000001
+  rightLowerArmAngle -0.06681818181818185
+  rightHandAngle 0.08181818181818179
+  leftArmAngle 0.5772727272727274
+  leftLowerArmAngle -0.44136363636363635
+  leftHandAngle 0.06363636363636367
+  headAngle 0.15136363636363634
 }
 Pedestrian {
-  translation 6 1.27 2
-  rotation 0 1 0 3.14159
+  translation 2 6 1.27
+  rotation 0 0 1 -1.5708
   name "pedestrian(2)"
   shirtColor 0.6 0.4 0.35
   pantsColor 0.18 0.18 0.23

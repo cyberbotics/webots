@@ -66,7 +66,7 @@ Robot {
         DEF LEFT_ARM HingeJoint {
           jointParameters HingeJointParameters {
             position IS leftArmAngle
-            anchor 0 0.28 0.19
+            anchor -0.01 0.28 0.19
           }
           endPoint DEF LEFT_UPPER_ARM Solid {
         %< } else { >%
