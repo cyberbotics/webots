@@ -42,7 +42,7 @@ PROTO UR3e [
               }
               DEF CYLINDER Transform {
                 translation 0 0 0.02
-                rotation 1 0 0 1.5707963220000003
+                rotation -0.707107 0.707107 0 -3.141593
                 children [
                   Shape {
                     appearance ScrewThread {
@@ -618,6 +618,7 @@ PROTO UR3e [
                           }
                           Transform {
                             translation 0 0.002 0.213
+                            rotation 1 0 0 -1.570796
                             children [
                               Cylinder {
                                 height 0.1
@@ -637,7 +638,6 @@ PROTO UR3e [
                           }
                           Transform {
                             translation 0 0 0.07
-                            rotation -1 0 0 4.712389014981909
                             children [
                               Capsule {
                                 height 0.1
@@ -755,7 +755,7 @@ PROTO UR3e [
     selfCollision IS selfCollision
     boundingObject Transform {
       translation 0 0 0.045
-      rotation 1 0 0 4.712388966
+      rotation 1 0 0 3.141593
       children [
         Cylinder {
           height 0.09
