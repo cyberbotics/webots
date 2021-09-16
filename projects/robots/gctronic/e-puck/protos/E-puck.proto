@@ -1133,8 +1133,7 @@ Robot {
     DEF EPUCK_SPEAKER Speaker {
     }
     DEF TURRET_SLOT Transform {
-      translation 0.0486 -0.0095 0
-      rotation 0.57735 -0.57735 -0.57735 -2.094395
+      translation 0 0.0486 0.0095
       children IS turretSlot
     }
     DEF GROUND_SENSOR_SLOT Transform {
