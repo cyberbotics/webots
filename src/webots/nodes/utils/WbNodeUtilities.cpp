@@ -1083,7 +1083,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 1))
     return;
 
-  static const QString message(QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy %1)."));
+  static const QString message(
+    QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy %1)."));
 
   // We want to find nodes until PROTOs.
   QList<WbNode *> candidates;
@@ -1114,7 +1115,6 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
         dynamic_cast<WbConnector *>(candidate) || dynamic_cast<WbTouchSensor *>(candidate) ||
         dynamic_cast<WbViewpoint *>(candidate) || dynamic_cast<WbTrack *>(candidate)) {
-
       // Rotate devices.
       WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
       if (dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbTrack *>(candidate))
@@ -1177,7 +1177,6 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
                dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
                dynamic_cast<WbElevationGrid *>(candidate)) {
-
       // Rotate geometries.
       const WbMatrix3 rotationFix(-M_PI_2, 0, 0);
       WbNode *const nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
