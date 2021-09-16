@@ -21,7 +21,7 @@ PROTO E-puck [
   field SFInt32            camera_width                 52                       # Is `Camera.width`.
   field SFInt32            camera_height                39                       # Is `Camera.height`.
   field SFBool             camera_antiAliasing          FALSE                    # Is `Camera.antiAliasing`.
-  field SFRotation         camera_rotation              1 0 0 0                  # Is `Camera.rotation`. Interesting setup: set `1 0 0 -0.47` in order to simulate the linear camera mode.
+  field SFRotation         camera_rotation              -0.57735 -0.57735 0.57735 -2.094395          # Is `Camera.rotation`. Interesting setup: set `1 0 0 -0.47` in order to simulate the linear camera mode.
   field SFFloat            camera_noise                 0.0                      # Is `Camera.noise`.
   field SFFloat            camera_motionBlur            0.0                      # Is `Camera.motionBlur`.
   field SFInt32            distance_sensor_numberOfRays 1                        # Is `DistanceSensor.numberOfRays`.
@@ -43,6 +43,9 @@ Robot {
   translation IS translation
   rotation IS rotation
   children [
+    Transform {
+      rotation -0.57735 0.57735 0.57735 -2.094395
+      children[
     HingeJoint {
       jointParameters HingeJointParameters {
         axis -1 0 0
@@ -137,7 +140,7 @@ Robot {
                 }
               }
               Transform {
-                translation 0 0.0035 0
+                translation 0 0 -0.0020
                 children [
                   Shape {
                     appearance USE EPUCK_TRANSPARENT_APPEARANCE
@@ -149,6 +152,7 @@ Robot {
                 ]
               }
               Transform {
+                translation 0 0 0
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -162,7 +166,7 @@ Robot {
                 ]
               }
               Transform {
-                translation 0 0.0065 0
+                translation 0 0 0.0586
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -349,7 +353,7 @@ Robot {
     }
     DEF MOTORS Transform {
       translation 0 0.02 0
-      rotation 0 0 1 1.5707996938995747
+      rotation 0 1 0 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -584,6 +588,7 @@ Robot {
     %< } >%
     DEF EPUCK_RIGHT_COLUMN Transform {
       translation 0.0193 0.0426 -0.0254
+      rotation 1 0 0 -1.570796
       children [
         DEF EPUCK_COLUMN Shape {
           appearance PBRAppearance {
@@ -598,12 +603,14 @@ Robot {
     }
     DEF EPUCK_LEFT_COLUMN Transform {
       translation -0.0193 0.0426 -0.0254
+      rotation 1 0 0 -1.570796
       children [
         USE EPUCK_COLUMN
       ]
     }
     DEF EPUCK_REAR_COLUMN Transform {
       translation 0 0.0426 0.032
+      rotation 1 0 0 -1.570796
       children [
         USE EPUCK_COLUMN
       ]
@@ -1109,6 +1116,7 @@ Robot {
     }
     DEF EPUCK_RING SolidPipe {
       translation 0 0.0393 0
+      rotation 1 0 0 -1.570796
       height 0.007
       radius 0.0356
       thickness 0.004
@@ -1125,14 +1133,16 @@ Robot {
     DEF EPUCK_SPEAKER Speaker {
     }
     DEF TURRET_SLOT Transform {
-      translation 0 0.0486 0.0095
-      rotation 0 0 1 0
+      translation 0.0486 -0.0095 0
+      rotation 0.57735 -0.57735 -0.57735 -2.094395
       children IS turretSlot
     }
     DEF GROUND_SENSOR_SLOT Transform {
       translation 0 0.0003 -0.03
-      rotation 0 0 1 -1.57
+      rotation 0.57735 -0.57735 -0.57735 -2.094395
       children IS groundSensorsSlot
+    }
+  ]
     }
   ]
   name IS name
@@ -1145,8 +1155,8 @@ Robot {
   boundingObject Group {
     children [
       Transform {
-        translation 0 0.025 0
-        rotation 1 0 0 -1.5708
+        translation 0 0 0.025
+        rotation 1 0 0 3.141589
         children [
           Cylinder {
             height 0.045
@@ -1156,7 +1166,8 @@ Robot {
         ]
       }
       Transform {
-        translation 0 0.0051 0
+        translation 0 0 0.0051
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
             size 0.04 0.01 0.05
@@ -1173,8 +1184,8 @@ Robot {
       %< } else { >%
         mass 0.15
       %< } >%
-      centerOfMass [0 0.015 0]
-      inertiaMatrix [8.74869e-05 9.78585e-05 8.64333e-05, 0 0 0]
+      centerOfMass [0 0 0.015]
+      inertiaMatrix [8.643e-05 8.749e-05 9.786e-05, 0 0 0]
     }
   %< } >%
   controller IS controller
