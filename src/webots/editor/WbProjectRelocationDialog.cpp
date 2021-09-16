@@ -254,13 +254,12 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
   // skipped.
   //
   // Here we should copy only the files that may be edited / changed by the user, that is:
-  // 1) textures and meshes in `protos` folders if PROTO file was modified
+  // 1) textures, meshes, and skins in `protos` folders if PROTO file was modified
   // 2) all the controllers (folders) and related libraries that was modified or used by this world and which are not located in
   //    the current project folder. Skip controllers used by PROTO models that have not been modified.
   // 3) possibly the current controller file (even if corresponding to a PROTO robot)
   // 4) project libraries if a controller or plugin is copied
   // 5) project motions folder if a controller is copied
-  // 6) skins folder if it exists
 
   int result = 0;
 
@@ -268,6 +267,7 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
     // copy all PROTO textures
     result += WbFileUtil::copyDir(projectPath + "protos/textures", mTargetPath + "/protos/textures", true, true, true);
     result += WbFileUtil::copyDir(projectPath + "protos/meshes", mTargetPath + "/protos/meshes", true, true, true);
+    result += WbFileUtil::copyDir(projectPath + "protos/skins", mTargetPath + "/protos/skins", true, true, true);
   }
 
   bool copyLibraries = false;
@@ -336,10 +336,6 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
 
   if (copyLibraries && !projectLibrariesCopied)
     result += WbFileUtil::copyDir(projectPath + "libraries", mTargetPath + "/libraries", true, false, true);
-
-  const QString skinsPath = WbProject::current()->path() + "skins/";
-  if (QDir(skinsPath).exists())
-    result += WbFileUtil::copyDir(skinsPath, mTargetPath + "/skins", true, true, true);
 
   return result;
 }

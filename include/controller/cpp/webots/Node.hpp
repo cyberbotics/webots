@@ -89,6 +89,7 @@ namespace webots {
       RANGE_FINDER,
       RECEIVER,
       ROTATIONAL_MOTOR,
+      SKIN,
       SPEAKER,
       TOUCH_SENSOR,
       // misc
@@ -118,8 +119,7 @@ namespace webots {
       ZOOM,
       // experimental
       MICROPHONE,
-      RADIO,
-      SKIN
+      RADIO
     } Type;
 
     virtual void remove();

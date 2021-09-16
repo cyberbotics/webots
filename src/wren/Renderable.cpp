@@ -234,8 +234,11 @@ namespace wren {
       mShadowVolumeCaster = NULL;
 
     // In case the mesh is dynamic, it needs the shadow volume to recompute the silhouette when required
-    if (mMesh && mMesh->isDynamic())
-      dynamic_cast<DynamicMesh *>(mMesh)->setShadowVolume(mShadowVolumeCaster);
+    if (mMesh && mMesh->isDynamic()) {
+      DynamicMesh *dm = dynamic_cast<DynamicMesh *>(mMesh);
+      dm->notifySkeletonDirty();
+      dm->setShadowVolume(mShadowVolumeCaster);
+    }
   }
 
 }  // namespace wren

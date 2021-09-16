@@ -10,7 +10,7 @@ PROTO SpeedLimitSign [
   field SFFloat    height       2                                               # Defines the height of the sign.
   field SFFloat    radius       0.03                                            # Defines the radius of the sign pole.
   field SFColor    color        0.576471 0.576471 0.576471                      # Defines the color of the sign.
-  field MFNode     signBoards   [ SpeedLimitPanel { translation 0 0 -0.023 } ]  # Defines the boards.
+  field MFNode     signBoards   [ SpeedLimitPanel { translation 0.023 0 0 } ]  # Defines the boards.
 ]
 {
   SignPole {

@@ -21,8 +21,10 @@ typedef struct WrDynamicMesh WrDynamicMesh;
 bool wr_import_static_mesh_from_obj(const char *fileName, WrStaticMesh **mesh);
 
 // Load skeleton and dynamic meshes from FBX/Ogre file
-const char *wr_import_skeleton(const char *fileName, WrSkeleton **skeleton, WrDynamicMesh ***meshes, const char ***materials,
-                               int *count);
+const char *wr_import_skeleton_from_file(const char *fileName, WrSkeleton **skeleton, WrDynamicMesh ***meshes,
+                                         const char ***materials, int *count);
+const char *wr_import_skeleton_from_memory(const char *data, int size, const char *hint, WrSkeleton **skeleton,
+                                           WrDynamicMesh ***meshes, const char ***materials, int *count);
 
 #ifdef __cplusplus
 }
