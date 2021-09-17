@@ -59,6 +59,9 @@ jobs:
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
     - name: Webots Package Creation
       run: |
+        printenv
+        ls /C/Program Files/OpenJDK
+        ls /C/Program Files/OpenJDK/jdk-16.0.2
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         make distrib -j4
     - name: Deploy Webots Controller
