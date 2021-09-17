@@ -60,8 +60,9 @@ jobs:
     - name: Webots Package Creation
       run: |
         printenv
-        ls /C/Program Files/OpenJDK
-        ls /C/Program Files/OpenJDK/jdk-16.0.2
+        ls "/C/Program Files/OpenJDK"
+        ls "/C/Program Files/OpenJDK/jdk-16.0.2"
+        ls /C/hostedtoolcache/windows
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         make distrib -j4
     - name: Deploy Webots Controller
