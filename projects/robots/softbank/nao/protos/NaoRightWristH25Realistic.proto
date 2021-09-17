@@ -63,7 +63,7 @@ Solid {
                 }
                 DEF PHALANX_TRANS Transform {
                   translation 0.006 0 0
-                  rotation 0 0 1 1.5708
+                  rotation -0.577350 -0.577352 0.577350 2.094399
                   children [
                     Shape {
                       appearance DEF MAIN_SKIN_APP PBRAppearance {
@@ -645,7 +645,7 @@ Solid {
           children [
             Transform {
               translation 0.057 0 0.014
-              rotation 0.994401 -0.0747202 0.07472 1.57641
+              rotation 0 1 0 -0.15
               children [
                 Cylinder {
                   height 0.02
@@ -669,7 +669,7 @@ Solid {
           %< if (version === '3.3') { >%
             mass 0.16653
             centerOfMass [
-              0.03180 -0.00083 0.00477
+              0.03180 0.00477 -0.00083
             ]
             inertiaMatrix [
               0.00006105675 0.00027947351 0.00027998803, 0.00000503640 -0.00003895369 0.00000293076
@@ -677,7 +677,7 @@ Solid {
           %< } else if (version === '4.0') { >%
             mass 0.18533
             centerOfMass [
-              0.03434 0.00088 0.00308
+              0.03434 0.00308 0.00088
             ]
             inertiaMatrix [
               7.05493e-05 0.000356062 0.000351919, 5.71599e-06 -2.24744e-05 3.17771e-06
@@ -685,7 +685,7 @@ Solid {
           %< } else { >%
             mass 0.18533
             centerOfMass [
-              0.03434 0.00088 0.00308
+              0.03434 0.00308 0.00088
             ]
             inertiaMatrix [
               7.05493e-05 0.000356062 0.000351919, 5.71599e-06 -2.24744e-05 3.17771e-06
@@ -839,7 +839,7 @@ Solid {
   contactMaterial IS contactMaterial
   boundingObject Transform {
     translation 0.03 -0.003 0.005
-    rotation 0 0 1 1.7
+    rotation -0.527663 -0.600656 0.600654 2.170531
     children [
       DEF WHIRST_BO Capsule {
         height 0.025
@@ -852,7 +852,7 @@ Solid {
     %< if (version === '3.3') { >%
       mass 0.07724
       centerOfMass [
-        0.02556 -0.00273 0.00096
+        0.02556 0.00096 -0.00273
       ]
       inertiaMatrix [
         0.00002519483 0.00008890315 0.00008686867, 0.00000216293 -0.00000071846 0.00000010809
@@ -860,7 +860,7 @@ Solid {
     %< } else if (version === '4.0') { >%
       mass 0.07761
       centerOfMass [
-        0.02556 -0.00281 0.00076
+        0.02556 0.00076 -0.00281
       ]
       inertiaMatrix [
         2.53907e-05 8.92204e-05 8.72484e-05, 2.33243e-06 -6.0117e-07 2.694e-08
@@ -868,7 +868,7 @@ Solid {
     %< } else { >%
       mass 0.07761
       centerOfMass [
-        0.02556 -0.00281 0.00076
+        0.02556 0.00076 -0.00281
       ]
       inertiaMatrix [
         2.53907e-05 8.92204e-05 8.72484e-05, 2.33243e-06 -6.0117e-07 2.694e-08
