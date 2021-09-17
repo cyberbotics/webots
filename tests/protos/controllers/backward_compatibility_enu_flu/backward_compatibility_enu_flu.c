@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 
   const double *cylinder_pose = wb_supervisor_node_get_pose(cylinder_node, NULL);
   const double cylinder_pose_expected[] = {-1, 0, 0};
-  const double cylinder_pose_z_theta[] = {camera_pose[2], camera_pose[6], camera_pose[10]};
+  const double cylinder_pose_z_theta[] = {cylinder_pose[2], cylinder_pose[6], cylinder_pose[10]};
   ts_assert_doubles_in_delta(3, cylinder_pose_z_theta, cylinder_pose_expected, 0.1,
                              "The Cylinder node should be looking towards the box (got %lf %lf %lf).", cylinder_pose_z_theta[0],
                              cylinder_pose_z_theta[1], cylinder_pose_z_theta[2]);

@@ -74,8 +74,57 @@
 #include <cassert>
 
 namespace {
+  static void sortNodeListForBackwardCompatibility(QList<WbNode *> &children);
+  static QList<WbNode *> getNodeChildrenForBackwardCompatibility(const WbNode *node);
+  static QList<WbNode *> getNodeChildrenAndBoundingForBackwardCompatibility(WbNode *node);
   bool checkForUseOrDefNode(const WbNode *node, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch);
+
+  QList<WbNode *> getNodeChildrenForBackwardCompatibility(const WbNode *node) {
+    QList<WbNode *> children;
+    const WbGroup *const nodeGroup = dynamic_cast<const WbGroup *>(node);
+    if (!nodeGroup)
+      return children;
+    for (int i = 0; i < nodeGroup->childCount(); i++)
+      children.append(nodeGroup->child(i));
+    return children;
+  }
+
+  QList<WbNode *> getNodeChildrenAndBoundingForBackwardCompatibility(WbNode *node) {
+    // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
+    QList<WbNode *> children = getNodeChildrenForBackwardCompatibility(node);
+    WbNode *boundingObject = static_cast<WbSolid *>(node)->boundingObject();
+    for (WbNode *child : children)
+      if (dynamic_cast<WbTrackWheel *>(child)) {
+        children += getNodeChildrenForBackwardCompatibility(child);
+        children.removeOne(child);
+      }
+    if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
+        !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
+      children += boundingObject->subNodes(false, false);
+    else if (boundingObject)
+      children.append(boundingObject);
+
+    // Insert the USE nodes in the beginning.
+    sortNodeListForBackwardCompatibility(children);
+
+    return children;
+  }
+
+  void sortNodeListForBackwardCompatibility(QList<WbNode *> &children) {
+    auto getNodeWeight = [](const WbNode *n) {
+      // Higher number means higher priority.
+      if (dynamic_cast<const WbGeometry *>(n))
+        return 3;
+      if (n->isDefNode())
+        return 0;
+      if (n->isUseNode())
+        return 2;
+      return 1;
+    };
+    std::sort(children.begin(), children.end(),
+              [&getNodeWeight](const WbNode *a, const WbNode *b) -> bool { return getNodeWeight(a) > getNodeWeight(b); });
+  }
 
   bool checkForUseOrDefNode(WbField *field, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch) {
@@ -1025,52 +1074,6 @@ WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
   return NULL;
 }
 
-QList<WbNode *> WbNodeUtilities::getNodeChildren(const WbNode *node) {
-  QList<WbNode *> children;
-  const WbGroup *const nodeGroup = dynamic_cast<const WbGroup *>(node);
-  if (!nodeGroup)
-    return children;
-  for (int i = 0; i < nodeGroup->childCount(); i++)
-    children.append(nodeGroup->child(i));
-  return children;
-}
-
-QList<WbNode *> WbNodeUtilities::getNodeChildrenAndBounding(WbNode *node) {
-  // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
-  QList<WbNode *> children = getNodeChildren(node);
-  WbNode *boundingObject = static_cast<WbSolid *>(node)->boundingObject();
-  for (WbNode *child : children)
-    if (dynamic_cast<WbTrackWheel *>(child)) {
-      children += getNodeChildren(child);
-      children.removeOne(child);
-    }
-  if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
-      !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
-    children += boundingObject->subNodes(false, false);
-  else if (boundingObject)
-    children.append(boundingObject);
-
-  // Insert the USE nodes in the beginning.
-  sortNodeList(children);
-
-  return children;
-}
-
-void WbNodeUtilities::sortNodeList(QList<WbNode *> &children) {
-  auto getNodeWeight = [](const WbNode *n) {
-    // Higher number means higher priority.
-    if (dynamic_cast<const WbGeometry *>(n))
-      return 3;
-    if (n->isDefNode())
-      return 0;
-    if (n->isUseNode())
-      return 2;
-    return 1;
-  };
-  std::sort(children.begin(), children.end(),
-            [&getNodeWeight](const WbNode *a, const WbNode *b) -> bool { return getNodeWeight(a) > getNodeWeight(b); });
-}
-
 void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // We don't want to apply the fix if the node is already >R2021b
   if (!node)
@@ -1103,7 +1106,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         subProtos.append(child);
     }
   }
-  sortNodeList(candidates);
+  sortNodeListForBackwardCompatibility(candidates);
 
   // Apply rotations to the candidates.
   for (WbNode *candidate : candidates) {
@@ -1140,9 +1143,9 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         device->save("__init__");
       }
 
-      QList<WbNode *> children = getNodeChildrenAndBounding(candidate);
+      QList<WbNode *> children = getNodeChildrenAndBoundingForBackwardCompatibility(candidate);
       for (WbNode *child : children) {
-        if (!getNodeChildrenAndBounding(candidate).contains(child))
+        if (!getNodeChildrenAndBoundingForBackwardCompatibility(candidate).contains(child))
           continue;
 
         WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
@@ -1152,7 +1155,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
           childTransform->save("__init__");
         } else {
-          if (!getNodeChildren(candidate).contains(child)) {
+          if (!getNodeChildrenForBackwardCompatibility(candidate).contains(child)) {
             // Child is a bounding object.
             child->warn(message.arg("A2_1"));
             WbTransform *const transform = new WbTransform();
