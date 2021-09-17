@@ -625,7 +625,7 @@ Solid {
   }
   physics Physics {
     density -1
-    %< if (version === '3.3') { >%
+    %< if (fields.version.value === '3.3') { >%
       mass 0.185
       centerOfMass [
         0.06536 0.00034 -2e-05
