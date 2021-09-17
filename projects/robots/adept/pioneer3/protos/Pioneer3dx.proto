@@ -501,7 +501,7 @@ PROTO Pioneer3dx [
                   }
                 ]
                 boundingObject Transform {
-                  rotation 0 0 1 1.5708
+                  rotation -0.577349 -0.577351 0.577351 2.094397
                   children [
                     Cylinder {
                       height 0.025
@@ -707,7 +707,7 @@ PROTO Pioneer3dx [
           boundingObject DEF BOUNDING_WHEEL Group {
             children [
               Transform {
-                rotation 0 0 1 1.5708
+                rotation -0.577349 -0.577351 0.577351 2.094397
                 children [
                   Cylinder {
                     height 0.01
@@ -717,7 +717,7 @@ PROTO Pioneer3dx [
                 ]
               }
               Transform {
-                rotation 0 0 1 1.5708
+                rotation -0.577349 -0.577351 0.577351 2.094397
                 children [
                   Cylinder {
                     height 0.048
@@ -1005,6 +1005,7 @@ PROTO Pioneer3dx [
       children [
         DEF TOP_FRONT_CYLINDER Transform {
           translation 0 0.142 0.021
+          rotation 1 0 0 -1.570796
           children [
             Cylinder {
               height 0.007
@@ -1015,6 +1016,7 @@ PROTO Pioneer3dx [
         }
         DEF TOP_BACK_CYLINDER Transform {
           translation 0 0.142 0.087
+          rotation 1 0 0 -1.570796
           children [
             Cylinder {
               height 0.007
@@ -1025,6 +1027,7 @@ PROTO Pioneer3dx [
         }
         DEF FRONT_RING Transform {
           translation 0 0.112 0.114
+          rotation 1 0 0 -1.570796
           children [
             Cylinder {
               height 0.05
@@ -1035,6 +1038,7 @@ PROTO Pioneer3dx [
         }
         DEF BACK_RING Transform {
           translation 0 0.112 -0.023
+          rotation 1 0 0 -1.570796
           children [
             Cylinder {
               height 0.05
