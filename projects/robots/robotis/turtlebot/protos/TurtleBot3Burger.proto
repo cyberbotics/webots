@@ -206,7 +206,7 @@ PROTO TurtleBot3Burger [
       }
       DEF CASTER_JOINT BallJoint {
         jointParameters BallJointParameters {
-          anchor 0 0.004 0.081
+          anchor -0.081 0 0.004
         }
         endPoint Solid {
           translation -0.081 0 0.004
@@ -527,7 +527,7 @@ PROTO TurtleBot3Burger [
       density -1
       mass 0.825735
       centerOfMass [
-        0 0.03 0.035
+        -0.035 0 0.03
       ]
     }
   }
