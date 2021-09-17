@@ -91,8 +91,8 @@ class Pedestrian (Supervisor):
         # compute waypoints distance
         self.waypoints_distance = []
         for i in range(0, self.number_of_waypoints):
-            y = self.waypoints[i][0] - self.waypoints[(i + 1) % self.number_of_waypoints][0]
-            x = self.waypoints[i][1] - self.waypoints[(i + 1) % self.number_of_waypoints][1]
+            x = self.waypoints[i][0] - self.waypoints[(i + 1) % self.number_of_waypoints][0]
+            y = self.waypoints[i][1] - self.waypoints[(i + 1) % self.number_of_waypoints][1]
             if i == 0:
                 self.waypoints_distance.append(math.sqrt(x * x + y * y))
             else:
@@ -130,15 +130,15 @@ class Pedestrian (Supervisor):
             else:
                 distance_ratio = (relative_distance - self.waypoints_distance[i - 1]) / \
                     (self.waypoints_distance[i] - self.waypoints_distance[i - 1])
-            y = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][0] + \
+            x = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][0] + \
                 (1 - distance_ratio) * self.waypoints[i][0]
-            x = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][1] + \
+            y = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][1] + \
                 (1 - distance_ratio) * self.waypoints[i][1]
             root_translation = [x, y, self.ROOT_HEIGHT + self.current_height_offset]
-            angle = math.atan2(self.waypoints[(i + 1) % self.number_of_waypoints][0] - self.waypoints[i][0],
-                               self.waypoints[(i + 1) % self.number_of_waypoints][1] - self.waypoints[i][1])
+            angle = math.atan2(self.waypoints[(i + 1) % self.number_of_waypoints][1] - self.waypoints[i][1],
+                               self.waypoints[(i + 1) % self.number_of_waypoints][0] - self.waypoints[i][0])
             rotation = [0, 0, 1, angle]
-            
+
             self.root_translation_field.setSFVec3f(root_translation)
             self.root_rotation_field.setSFRotation(rotation)
 

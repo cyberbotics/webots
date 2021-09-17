@@ -32,51 +32,22 @@ CircleArena {
   wallHeight 1
 }
 Pedestrian {
-  translation 0 3 1.26
-  rotation 0 0 1 -1.5708
+  translation -3 0 1.26
   controllerArgs [
-    "--trajectory= 3 0, -3 0"
+    "--trajectory= -3 0, 3 0"
     "--speed=2.5"
   ]
-  rightLegAngle -0.9818181818181937
-  rightLowerLegAngle 1.6390909090909145
-  rightFootAngle 0.006363636363630576
-  leftLegAngle 0.1745454545454595
-  leftLowerLegAngle 0.06363636363636943
-  leftFootAngle 0.1454545454545587
-  rightArmAngle 0.18181818181821197
-  rightLowerArmAngle -0.40545454545456777
-  rightHandAngle 0.054545454545459504
-  leftArmAngle -0.0709090909091128
-  leftLowerArmAngle -0.4272727272727388
-  leftHandAngle -0.2063636363636397
-  headAngle 0.04909090909090537
 }
 Pedestrian {
-  translation 5 1 1.27
-  rotation 0 0 1 -1.5708
+  translation -1 -5 1.27
   name "pedestrian(1)"
   controllerArgs [
-    "--trajectory=1 5,-1 5, -5 1, -5 -1,  -1 -5, 1 -5, 5 -1, 5 1"
+    "--trajectory=-1 -5, 1 -5, 5 -1, 5 1,  1 5, -1 5, -5 1, -5 -1"
   ]
   shirtColor 0.466667 0.0980392 0.458824
-  rightLegAngle -0.2477272727272726
-  rightLowerLegAngle 1.0372727272727271
-  rightFootAngle 0.025454545454545435
-  leftLegAngle -0.6045454545454546
-  leftLowerLegAngle 0.7286363636363635
-  leftFootAngle -0.1145454545454546
-  rightArmAngle -0.5900000000000001
-  rightLowerArmAngle -0.06681818181818185
-  rightHandAngle 0.08181818181818179
-  leftArmAngle 0.5772727272727274
-  leftLowerArmAngle -0.44136363636363635
-  leftHandAngle 0.06363636363636367
-  headAngle 0.15136363636363634
 }
 Pedestrian {
-  translation 6 2 1.27
-  rotation 0 0 1 -1.5708
+  translation -2 -6 1.27
   name "pedestrian(2)"
   shirtColor 0.6 0.4 0.35
   pantsColor 0.18 0.18 0.23
