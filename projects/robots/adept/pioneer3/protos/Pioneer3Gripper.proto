@@ -338,8 +338,6 @@ DEF GRIPPER_BASE Solid {
       ]
     }
   ]
-  0 0.026 -0.135
-  0.135 0 0.026
   name IS name
   model "Pioneer3 gripper"
   boundingObject Transform {
