@@ -3004,7 +3004,7 @@ PROTO AiboErs7 [
                 ]
                 description "Right rear legJ2"
                 boundingObject Transform {
-                  translation 0 0 -0.021
+                  translation 0 -0.006 -0.021
                   children [
                     DEF BXHINDLEG_J2 Box {
                       size 0.035 0.028 0.065
@@ -3926,7 +3926,7 @@ PROTO AiboErs7 [
           name "left rear leg"
           description "Left rear legJ1"
           boundingObject Transform {
-            translation 0 0.049 0
+            translation 0 -0.049 0
             rotation 1 0 0 -1.57
             children [
               USE BXHINDLEG_J1
