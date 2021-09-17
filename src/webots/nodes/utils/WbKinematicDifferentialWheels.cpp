@@ -54,8 +54,8 @@ void WbKinematicDifferentialWheels::applyKinematicMotion(double ms) {
 void WbKinematicDifferentialWheels::applyKinematicDisplacement() {
   // update position
   WbVector3 position = mRobot->translation();
-  mRobot->setTranslation(position[0] - mKinematicDisplacement[0] / mKinematicDisplacementNumber, position[1] - mKinematicDisplacement[1] / mKinematicDisplacementNumber,
-                         position[2]);
+  mRobot->setTranslation(position[0] - mKinematicDisplacement[0] / mKinematicDisplacementNumber,
+                         position[1] - mKinematicDisplacement[1] / mKinematicDisplacementNumber, position[2]);
   mRobot->updateOdeGeomPosition();
 }
 
