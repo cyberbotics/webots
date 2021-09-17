@@ -1029,7 +1029,7 @@ PROTO AiboErs7 [
                             }
                           ]
                         }
-                        DEF HEAD_CAM Camera {	
+                        DEF HEAD_CAM Camera {
                           translation 0 -0.0146 -0.08106
                           rotation -0.577351 0.577349 0.577351 2.094397
                           name "PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1"
@@ -2191,7 +2191,7 @@ PROTO AiboErs7 [
                       position 0.523619
                     }
                     endPoint Solid {
-                      translation 0 0 -0.0695
+                      translation 0.009 -0.0047 -0.0695
                       rotation 0.654656 -0.654654 -0.377959 2.418882
                       children [
                         Transform {
@@ -2690,11 +2690,11 @@ PROTO AiboErs7 [
                     ]
                     jointParameters HingeJointParameters {
                       axis 0 1 0
-                      anchor 0 0 -0.0695
+                      anchor -0.009 -0.0047 -0.0695
                       position 0.523598
                     }
                     endPoint Solid {
-                      translation 0 0 -0.0695
+                      translation -0.009 -0.0047 -0.0695
                       rotation -0.447217 0.44721 0.774597 -1.823486
                       children [
                         Transform {
