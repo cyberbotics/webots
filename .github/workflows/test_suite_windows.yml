@@ -38,10 +38,10 @@ jobs:
       with:
          submodules: true
          fetch-depth: 15
-    - name: Install Visual Studio 10 and OpenJDK 16
+    - name: Install Visual Studio 10 and OpenJDK 17
       shell: powershell
       run: |
-        choco install --force openjdk
+        choco install openjdk17
         choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
@@ -49,7 +49,7 @@ jobs:
         export PYTHON37_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.7\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON38_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.8\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
-        echo 'export JAVA_HOME=/C/Program\ Files/OpenJDK/jdk-16.0.2' >> ~/.bash_profile
+        echo 'export JAVA_HOME=/C/Program\ Files/OpenJDK/jdk-17' >> ~/.bash_profile
         echo 'export PYTHON37_HOME='$PYTHON_INSTALLATION_FOLDER'3.7.'$PYTHON37_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON38_HOME='$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON39_HOME='$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64' >> ~/.bash_profile
@@ -63,10 +63,6 @@ jobs:
       run: python scripts/packaging/set_commit_and_date_in_version.py ${{ github.sha }}
     - name: Webots Package Creation
       run: |
-        printenv
-        ls "/C/Program Files/OpenJDK"
-        ls "/C/Program Files/OpenJDK/jdk-16.0.2"
-        ls /C/hostedtoolcache/windows
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         make distrib -j4
     - name: Deploy Webots Controller
