@@ -1196,7 +1196,6 @@ PROTO AiboErs7 [
                           }
                           endPoint Solid {
                             translation -0.042 0.0145 0.011
-                            rotation 0 0 -1 0
                             children [
                               Transform {
                                 rotation 0 0 -1 0.174533
@@ -1481,7 +1480,6 @@ PROTO AiboErs7 [
                           }
                           endPoint Solid {
                             translation 0.042 0.0145 0.011
-                            rotation 0 0 1 0
                             children [
                               Transform {
                                 rotation 0 0 1 0.174533
