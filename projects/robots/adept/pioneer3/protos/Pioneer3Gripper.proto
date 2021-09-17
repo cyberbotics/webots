@@ -13,7 +13,7 @@ DEF GRIPPER_BASE Solid {
   children [
     DEF LIFT_SLIDER SliderJoint {
       jointParameters JointParameters {
-        axis 0 -1 0
+        axis 0 0 -1
       }
       device LinearMotor {
         name "lift motor"
@@ -21,7 +21,8 @@ DEF GRIPPER_BASE Solid {
         maxPosition 0.05
       }
       endPoint DEF LIFT Solid {
-        translation 0 0 -0.0425
+        translation 0.0425 0 0
+        rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
           DEF LEFT_FINGER_SLIDER SliderJoint {
             jointParameters JointParameters {
@@ -262,7 +263,8 @@ DEF GRIPPER_BASE Solid {
       }
     }
     Transform {
-      translation 0 -0.126 0.135
+      translation -0.135 0 -0.126
+      rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
         DEF BASE_SHAPE_GROUP Group {
           children [
@@ -336,13 +338,15 @@ DEF GRIPPER_BASE Solid {
       ]
     }
   ]
+  0 0.026 -0.135
+  0.135 0 0.026
   name IS name
   model "Pioneer3 gripper"
   boundingObject Transform {
-    translation 0 0 -0.019
+    translation 0.019 0 0
     children [
       Box {
-        size 0.141 0.117 0.043
+        size 0.043 0.141 0.117
       }
     ]
   }

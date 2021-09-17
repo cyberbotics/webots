@@ -9,8 +9,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.660595
-  orientation -0.24096948272076568 -0.5401703677768602 0.8063185984293666 5.272520845202753
-  position -2.287739141638163 2.932553451103987 2.502761473024977
+  orientation -0.1518423833163365 -0.19379580761370085 0.9692198283053066 4.923519947333201
+  position -0.3267083061211752 2.3740872483977755 1.0212817170396962
   follow "Pioneer 3-DX"
 }
 TexturedBackground {
@@ -25,16 +25,16 @@ RectangleArena {
 }
 DEF PIONEER_3DX Pioneer3dx {
   translation 0.48905 -0.1983 0.0975
-  rotation 0 0 -1 5.08581
+  rotation 0 0 -1 -2.768175307179586
   controller "pioneer3dx_gripper"
   extensionSlot [
     DEF GRIPPER_BASE Pioneer3Gripper {
-      translation 0 0.026 -0.135
+      translation 0.135 0 0.026
     }
   ]
 }
 Ball {
-  translation 0 0 0.082
+  translation 0 0 0.0802
   color 0.0784314 0.137255 1
 }
 DEF RED_TEE Solid {
@@ -96,7 +96,7 @@ DEF RED_TEE Solid {
   boundingObject USE PITCH_PLATE
 }
 DEF BLUE_TEE Solid {
-  rotation 1 0 0 1.5708
+  rotation 1 0 0 1.568
   children [
     Group {
       children [
@@ -134,7 +134,7 @@ DEF BLUE_TEE Solid {
         }
         Transform {
           translation 0 0.028 0
-          rotation 9.381857096790023e-07 0.7071067811862364 -0.7071067811862364 3.14159
+          rotation 0 0.7071067811862364 -0.7071067811862364 3.14159
           children [
             Shape {
               appearance USE PITCH_APPEARANCE
