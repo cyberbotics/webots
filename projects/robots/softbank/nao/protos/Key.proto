@@ -15,7 +15,6 @@ Solid {
   rotation IS rotation
   children [
     DEF KEY_GROUP Group {
-      rotation 1 0 0 -1.5708
       children [
         Shape {
           appearance DEF KEY_APPEARANCE PBRAppearance {
