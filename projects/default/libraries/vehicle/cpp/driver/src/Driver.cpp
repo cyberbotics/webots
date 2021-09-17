@@ -28,28 +28,33 @@ using namespace webots;
 Driver *Driver::dInstance = NULL;
 
 Driver::Driver() {
-  if (dInstance == NULL)
-    dInstance = this;
+  if (dInstance == NULL){
+    if (wbu_driver_init_possible()){
+      dInstance = this;
+      wbu_driver_init();
+    }
+  }
   else {
     std::cerr << "Only one instance of the Driver class should be created" << std::endl;
     exit(-1);
   }
-  wbu_driver_init();
 }
 
 Driver::~Driver() {
   wbu_driver_cleanup();
 }
 
+Driver *Driver::internalGetInstanceDriverIfFeasible() {
+  if (dInstance)
+    return dInstance;
+  if (wbu_driver_init_possible())
+    return new Driver();
+  return nullptr;
+}
+
 int Driver::step() {
   assert(this);
   return wbu_driver_step();
-}
-
-Driver *Driver::internalGetInstanceDriver() {
-  if (dInstance)
-    return dInstance;
-  return new Driver();
 }
 
 void Driver::setSteeringAngle(double steeringAngle) {

@@ -329,6 +329,33 @@ void wbu_car_cleanup() {
   wb_robot_cleanup();
 }
 
+bool wbu_car_init_possible() {
+  int i;
+  car *instance_test;
+
+  instance_test = (car *)malloc(sizeof(car));
+
+  // Parse vehicle caracteristics from the beginning of the data string
+  char engine_type;
+  int engine_sound_length;
+  char *sub_data_string = (char *)wb_robot_get_custom_data();
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d",
+             &instance_test->wheelbase, &instance_test->track_front, &instance_test->track_rear, &instance_test->front_wheel_radius,
+             &instance_test->rear_wheel_radius, &instance_test->brake_coefficient, &instance_test->defaultDampingConstant, &engine_type,
+             &instance_test->engine_max_torque, &instance_test->engine_max_power, &instance_test->engine_min_rpm, &instance_test->engine_max_rpm,
+             &instance_test->engine_coefficients[0], &instance_test->engine_coefficients[1], &instance_test->engine_coefficients[2],
+             &instance_test->hybrid_power_split_ratio, &instance_test->hybrid_power_split_rpm, &instance_test->engine_sound_rpm_reference,
+             &instance_test->gear_number, &engine_sound_length);
+
+  free(instance_test);
+
+  if (i < 20) {
+    return false;
+  }
+
+  return true;
+}
+
 WbuCarType wbu_car_get_type() {
   if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_get_type()"))
     return (WbuCarType)0;

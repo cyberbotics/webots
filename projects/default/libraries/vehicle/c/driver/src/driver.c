@@ -470,6 +470,10 @@ void wbu_driver_init() {
   }
 }
 
+bool wbu_driver_init_possible() {
+  return wbu_car_init_possible();
+}
+
 int wbu_driver_step() {
   if (!_wbu_car_check_initialisation("wbu_driver_init()", "wbu_driver_step()"))
     return 0;

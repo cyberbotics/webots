@@ -33,8 +33,9 @@ namespace webots {
     typedef enum { DOWN, SLOW, NORMAL, FAST } WiperMode;
 
     Driver();
-    static Driver *internalGetInstanceDriver();
     virtual ~Driver();
+
+    static Driver *internalGetInstanceDriverIfFeasible();
 
     virtual int step();
 
