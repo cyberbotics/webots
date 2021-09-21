@@ -22,7 +22,18 @@ C_SOURCES = $(wildcard src/*.c)
 
 LIBRARIES = -lcar
 MAIN_TARGET = $(LIB_PREFIX)driver$(SHARED_LIB_EXTENSION)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.so
 LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
+
+ifeq ($(OSTYPE),linux)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.so
+endif
+
+ifeq ($(OSTYPE),darwin)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.dylib
+endif
+
+ifeq ($(OSTYPE),windows)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/car.dll
+endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
