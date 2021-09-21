@@ -23,7 +23,18 @@ CXX_SOURCES = $(wildcard src/*.cpp)
 INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c"
 LIBRARIES = -ldriver
 MAIN_TARGET = $(LIB_PREFIX)CppDriver$(SHARED_LIB_EXTENSION)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so
 LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
+
+ifeq ($(OSTYPE),linux)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so
+endif
+
+ifeq ($(OSTYPE),darwin)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.dylib
+endif
+
+ifeq ($(OSTYPE),windows)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/driver.dll
+endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
