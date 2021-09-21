@@ -22,7 +22,19 @@ C_SOURCES = $(wildcard src/*.c)
 
 LIBRARIES = -lController
 MAIN_TARGET = $(LIB_PREFIX)car$(SHARED_LIB_EXTENSION)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
+
+ifeq ($(OSTYPE),linux)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
+endif
+
+ifeq ($(OSTYPE),darwin)
+LINK_DEPENDENCIES= $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
+endif
+
+ifeq ($(OSTYPE),windows)
+LINK_DEPENDENCIES   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
+endif
+
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

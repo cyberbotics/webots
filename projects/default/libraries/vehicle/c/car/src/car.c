@@ -331,23 +331,23 @@ void wbu_car_cleanup() {
 
 bool wbu_car_init_possible() {
   int i;
-  car *instance_test;
+  car *ins_test;
 
-  instance_test = (car *)malloc(sizeof(car));
+  ins_test = (car *)malloc(sizeof(car));
 
   // Parse vehicle caracteristics from the beginning of the data string
   char engine_type;
   int engine_sound_length;
   char *sub_data_string = (char *)wb_robot_get_custom_data();
   i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d",
-             &instance_test->wheelbase, &instance_test->track_front, &instance_test->track_rear, &instance_test->front_wheel_radius,
-             &instance_test->rear_wheel_radius, &instance_test->brake_coefficient, &instance_test->defaultDampingConstant, &engine_type,
-             &instance_test->engine_max_torque, &instance_test->engine_max_power, &instance_test->engine_min_rpm, &instance_test->engine_max_rpm,
-             &instance_test->engine_coefficients[0], &instance_test->engine_coefficients[1], &instance_test->engine_coefficients[2],
-             &instance_test->hybrid_power_split_ratio, &instance_test->hybrid_power_split_rpm, &instance_test->engine_sound_rpm_reference,
-             &instance_test->gear_number, &engine_sound_length);
+              &ins_test->wheelbase, &ins_test->track_front, &ins_test->track_rear, &ins_test->front_wheel_radius,
+              &ins_test->rear_wheel_radius, &ins_test->brake_coefficient, &ins_test->defaultDampingConstant, &engine_type,
+              &ins_test->engine_max_torque, &ins_test->engine_max_power, &ins_test->engine_min_rpm, &ins_test->engine_max_rpm,
+              &ins_test->engine_coefficients[0], &ins_test->engine_coefficients[1], &ins_test->engine_coefficients[2],
+              &ins_test->hybrid_power_split_ratio, &ins_test->hybrid_power_split_rpm, &ins_test->engine_sound_rpm_reference,
+              &ins_test->gear_number, &engine_sound_length);
 
-  free(instance_test);
+  free(ins_test);
 
   if (i < 20) {
     return false;
