@@ -5,7 +5,7 @@
 # The Pioneer 3-DX robot (Adept MobileRobots) is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
 
 PROTO Pioneer3dx [
-  field SFVec3f    translation     0 0.0975 0                       # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.0975                       # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
   field SFString   name            "Pioneer 3-DX"                   # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
