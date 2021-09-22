@@ -5,7 +5,6 @@ WorldInfo {
   ]
   title "Khepera III"
   basicTimeStep 16
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "wheel"
@@ -23,8 +22,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.010375173565955154 0.9881546100079622 0.15311049112810118 3.390766842814564
-  position -0.3619521972641332 0.35555303289553575 -1.118924537226051
+  orientation 0.16459490696375248 0.025076033093702915 -0.9860424479533715 2.843358310065648
+  position 1.2459127674453683 0.40760936277749404 0.41993049551475226
   follow "Khepera III"
 }
 TexturedBackground {
@@ -32,34 +31,35 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 0 1 0 0
   floorSize 2 2
 }
 WoodenBox {
-  translation -0.2 0.05 0.4
-  rotation 0 1 0 0.5
+  translation -0.2 -0.4 0.05
+  rotation 0.940554832051147 0.240163077829669 0.240163077829669 1.632043330248321
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.75 0.05 -0.35
-  rotation 0 1 0 4.96782
+  translation -0.75 0.35 0.05
+  rotation -0.675244449310683 0.521557731068725 0.521557731068725 4.329427817464676
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.5 0.05 0.35471
-  rotation 0 1 0 5.36782
+  translation 0.441018 0.230632 0.05
+  rotation -1.46018e-08 7.19235e-09 -1 0.915365
   name "wooden box(2)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.21 0.05 -0.41
-  rotation 0 1 0 5.636164372494129
+  translation -0.21 0.41 0.05
+  rotation -0.903567396325292 0.302957059909431 0.302957059909431 4.611157746591329
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.65 0.05 0.66
-  rotation 0 1 0 5.36782
+  translation -0.65 -0.66 0.05
+  rotation -0.820542997539208 0.404171491566001 0.404171491566001 4.515877143482041
   name "wooden box(4)"
   size 0.1 0.1 0.1
 }
@@ -73,7 +73,7 @@ Khepera3 {
   ]
 }
 DEF CYLINDER_LOAD Solid {
-  translation 0 0.05 -0.48
+  translation 0.49 0 0.05
   children [
     DEF CYLINDER_SHAPE Shape {
       appearance PBRAppearance {
