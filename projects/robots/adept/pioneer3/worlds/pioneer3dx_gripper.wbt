@@ -45,7 +45,6 @@ DEF RED_TEE Solid {
       children [
         DEF PITCH_PLATE Transform {
           translation 0 0.0465 0
-          rotation 0 1 0 0
           children [
             Shape {
               appearance PBRAppearance {
