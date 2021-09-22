@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.19951867451446156 0.06869800023199173 0.9774829324771445 2.803922842031387
-  position 5.890117817749703 -2.6446936368116845 6.577069337646073
+  orientation -0.20349005688549557 0.008788887903299807 0.9790375642426397 2.7049929694571127
+  position 7.303911233887018 -4.257904603835719 5.063266022163159
 }
 TexturedBackground {
 }
@@ -21,10 +21,10 @@ DEF SWIMMING_POOL SolidPipe {
 }
 DEF STILL_WATER Fluid {
   translation 0 0 0.2
-  rotation 1 0 0 -1.5708
+  rotation 1 0 0 1.5708
   children [
     DEF S Transform {
-      rotation 1 0 0 -1.5708
+      rotation 1 0 0 1.5708
       children [
         Shape {
           appearance DEF WATER_APPEARANCE PBRAppearance {
@@ -196,6 +196,7 @@ DEF ICO_SPHERE Solid {
       fluidName "swimming pool"
       dragForceCoefficients 0.1 0 0
       dragTorqueCoefficients 0.001 0 0
+      viscousResistanceTorqueCoefficient 0.005
     }
     DEF RIVER_IMMERSION_PROPERTIES ImmersionProperties {
       fluidName "river"
