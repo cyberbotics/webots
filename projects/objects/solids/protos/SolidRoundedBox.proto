@@ -48,7 +48,6 @@ PROTO SolidRoundedBox [
 
     const borderDiameter = 2 * borderRadius;
     const innerSize = {x: size.x - borderDiameter, y: size.y - borderDiameter, z: size.z - borderDiameter};
-    console.error('\'innerSize\'' + innerSize.x + ' '  + innerSize.y + ' '  + innerSize.z);
   >%
   Solid {
     translation IS translation
