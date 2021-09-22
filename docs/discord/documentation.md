@@ -2191,3 +2191,12 @@ Thanks brother
 ##### giaco\_mz 08/25/2021 10:48:28
 is possible to have a pdf version of the webots documentation?
 
+##### Isha 09/17/2021 15:09:36
+<@&568329906048598039>  Webots documentation site doesn't seem to work.
+
+##### Darko Lukić [Cyberbotics] 09/17/2021 15:10:11
+It works for me
+
+##### Stefania Pedrazzi [Cyberbotics] 09/20/2021 06:24:19
+No, the documentation in only available online.
+

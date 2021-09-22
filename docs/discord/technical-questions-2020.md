@@ -22770,7 +22770,7 @@ That's not normal for the maxTorque, what is not working exactly?
 
 `@Jatin Sharma` is your controller compiled?
 
-##### Akang 06/30/2020 07:06:44
+##### servant 06/30/2020 07:06:44
 my webots always not respond when make first simulation project on wizard menu
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:08:18
@@ -22780,7 +22780,7 @@ Do you have write right where you are trying to create the new project?
 
 If you create just a new world is it working?
 
-##### Akang 06/30/2020 07:10:31
+##### servant 06/30/2020 07:10:31
 could my computer running webots ?
 %figure
 ![error_graphic.png](https://cdn.discordapp.com/attachments/565154703139405824/727420791758651452/error_graphic.png)
@@ -22792,13 +22792,13 @@ my webots is lastest version on website
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:12:01
 Most probably yes, this just means that your GPU is not very powerfull and that Webots will disable advanced rendering features to save performance.
 
-##### Akang 06/30/2020 07:14:10
+##### servant 06/30/2020 07:14:10
 Oke, so i cant use webots on my computer, do you mean ?
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:14:36
 No that's not what I mean
 
-##### Akang 06/30/2020 07:16:59
+##### servant 06/30/2020 07:16:59
 thank you
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:17:05
@@ -22863,7 +22863,7 @@ And about  getAvailableTorque?
 ##### lojik 06/30/2020 09:07:42
 The same results, it changes only if I set with setAvailableTorque() function
 
-##### Akang 06/30/2020 09:08:32
+##### servant 06/30/2020 09:08:32
 my webots always stack while create directory on wizard
 %figure
 ![stack.png](https://cdn.discordapp.com/attachments/565154703139405824/727450489771524106/stack.png)
