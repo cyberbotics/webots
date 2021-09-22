@@ -25,7 +25,7 @@ jobs:
             JAVA_VERSION: "11"
             ROS_DISTRO: "melodic"
           - os: ubuntu-20.04
-            JAVA_VERSION: "14"
+            JAVA_VERSION: "16"
             ROS_DISTRO: "noetic"
     runs-on: ${{ matrix.os }}
     steps:
