@@ -89,5 +89,6 @@ car *_wbu_car_get_instance();
 void _wbu_car_set_led_state_if_exist(int index, bool state);
 bool _wbu_car_get_led_state_if_exist(int index);
 bool _wbu_car_check_initialisation(const char *init_function, const char *calling_function);
+bool _wbu_car_init_possible();
 
 #endif  // CAR_PRIVATE_HPP

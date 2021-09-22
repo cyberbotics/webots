@@ -471,7 +471,7 @@ void wbu_driver_init() {
 }
 
 bool wbu_driver_init_possible() {
-  return wbu_car_init_possible();
+  return _wbu_car_init_possible();
 }
 
 int wbu_driver_step() {

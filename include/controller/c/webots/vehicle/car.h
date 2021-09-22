@@ -48,7 +48,6 @@ typedef enum {
 
 void wbu_car_init();
 void wbu_car_cleanup();
-bool wbu_car_init_possible();
 
 WbuCarType wbu_car_get_type();
 WbuCarEngineType wbu_car_get_engine_type();

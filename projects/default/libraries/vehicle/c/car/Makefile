@@ -29,11 +29,11 @@ LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 endif
 
 ifeq ($(OSTYPE),darwin)
-LINK_DEPENDENCIES= $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
-LINK_DEPENDENCIES   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 endif
 
 
