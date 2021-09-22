@@ -2966,7 +2966,7 @@ PROTO AiboErs7 [
                           ]
                         }
                         DEF RIGHT_HINDPAW_SENSOR TouchSensor {
-                          translation 0 -0.0676 -0.014087
+                          translation 0 -0.0676 -0.01409
                           name "PRM:/r5/c1/c2/c3/c4-Sensor:54"
                           description "Right rear paw sensor"
                           boundingObject USE BXPAWSENSOR
@@ -3926,7 +3926,7 @@ PROTO AiboErs7 [
           name "left rear leg"
           description "Left rear legJ1"
           boundingObject Transform {
-            translation 0 -0.049 0
+            translation 0 0.049 0
             rotation 1 0 0 -1.57
             children [
               USE BXHINDLEG_J1
