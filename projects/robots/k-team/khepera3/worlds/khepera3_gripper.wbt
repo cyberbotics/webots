@@ -22,8 +22,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.16459490696375248 0.025076033093702915 -0.9860424479533715 2.843358310065648
-  position 1.2459127674453683 0.40760936277749404 0.41993049551475226
+  orientation 0.20022020315551092 0.3500108693031503 -0.9150979519253767 1.1173475389874992
+  position -0.9048449902243705 0.9353685043387764 0.5474274271199836
   follow "Khepera III"
 }
 TexturedBackground {
@@ -40,8 +40,8 @@ WoodenBox {
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.75 0.35 0.05
-  rotation -0.675244449310683 0.521557731068725 0.521557731068725 4.329427817464676
+  translation -0.532388 -0.0479323 0.05
+  rotation -9.3117e-09 7.19235e-09 -1 1.31537
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
@@ -53,7 +53,7 @@ WoodenBox {
 }
 WoodenBox {
   translation -0.21 0.41 0.05
-  rotation -0.903567396325292 0.302957059909431 0.302957059909431 4.611157746591329
+  rotation 1.6083e-08 -3.13665e-09 1 -0.908825307179586
   name "wooden box(3)"
   size 0.1 0.1 0.1
 }
@@ -64,6 +64,7 @@ WoodenBox {
   size 0.1 0.1 0.1
 }
 Khepera3 {
+  rotation 0 0 1 2.87979
   controller "khepera3_gripper"
   wheelMaterial "wheel"
   bodyMaterial "body"
@@ -73,7 +74,7 @@ Khepera3 {
   ]
 }
 DEF CYLINDER_LOAD Solid {
-  translation 0.49 0 0.05
+  translation -0.47 0.115 0.05
   children [
     DEF CYLINDER_SHAPE Shape {
       appearance PBRAppearance {
