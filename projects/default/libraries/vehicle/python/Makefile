@@ -38,7 +38,7 @@ LIB                = -lCppCar -lCppDriver
 
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable
-LD_FLAGS        = -shared
+LD_FLAGS        = -shared -Wl,-rpath,'$$ORIGIN'/../
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
 LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController

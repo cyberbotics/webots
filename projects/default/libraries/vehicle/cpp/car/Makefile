@@ -23,5 +23,19 @@ CXX_SOURCES = $(wildcard src/*.cpp)
 INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c"
 LIBRARIES = -lcar
 MAIN_TARGET = $(LIB_PREFIX)CppCar$(SHARED_LIB_EXTENSION)
+LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
+
+ifeq ($(OSTYPE),linux)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.so
+endif
+
+ifeq ($(OSTYPE),darwin)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.dylib
+endif
+
+ifeq ($(OSTYPE),windows)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/car.dll
+endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+

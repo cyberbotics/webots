@@ -57,7 +57,7 @@ static const char *wheelsBrakesNames[] = {"right_front_brake", "left_front_brake
 
 static const char *lightNames[NB_LIGHTS] = {
   "front_lights",     "antifog_lights", "right_indicators",          "left_indicators",         "rear_lights",
-  "backwards_lights", "brake_lights",   "interior_right_indicators", "interior_left_indicators"};
+  "backwards_lights", "brake_ligths",   "interior_right_indicators", "interior_left_indicators"};
 
 static const char *displayNames[NB_MIRRORS] = {"rear_display", "left_wing_display", "right_wing_display"};
 
@@ -148,7 +148,7 @@ void wbu_car_init() {
              &instance->gear_number, &engine_sound_length);
 
   if (i < 20) {
-    fprintf(stderr, "Error: Only nodes based on the 'Car' node can used the car library.\n");
+    fprintf(stderr, "Error: Only nodes based on the 'Car' node can use the car library.\n");
     exit(-1);
   }
 
@@ -327,6 +327,33 @@ void wbu_car_cleanup() {
   free(instance);
   instance = NULL;
   wb_robot_cleanup();
+}
+
+bool wbu_car_init_possible() {
+  int i;
+  car *ins_test;
+
+  ins_test = (car *)malloc(sizeof(car));
+
+  // Parse vehicle caracteristics from the beginning of the data string
+  char engine_type;
+  int engine_sound_length;
+  char *sub_data_string = (char *)wb_robot_get_custom_data();
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d",
+             &ins_test->wheelbase, &ins_test->track_front, &ins_test->track_rear, &ins_test->front_wheel_radius,
+             &ins_test->rear_wheel_radius, &ins_test->brake_coefficient, &ins_test->defaultDampingConstant, &engine_type,
+             &ins_test->engine_max_torque, &ins_test->engine_max_power, &ins_test->engine_min_rpm, &ins_test->engine_max_rpm,
+             &ins_test->engine_coefficients[0], &ins_test->engine_coefficients[1], &ins_test->engine_coefficients[2],
+             &ins_test->hybrid_power_split_ratio, &ins_test->hybrid_power_split_rpm, &ins_test->engine_sound_rpm_reference,
+             &ins_test->gear_number, &engine_sound_length);
+
+  free(ins_test);
+
+  if (i < 20) {
+    return false;
+  }
+
+  return true;
 }
 
 WbuCarType wbu_car_get_type() {
