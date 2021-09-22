@@ -140,7 +140,7 @@ PROTO BioloidDog [
           }
         ]
         endPoint Solid {
-          translation 0.5565 0.086 0.0135
+          translation 0.0565 0.086 0.0135
           children [
             DEF F1_FRONT_LEFT_1_TRANS Transform {
               translation 0 0 -0.0064
@@ -166,6 +166,7 @@ PROTO BioloidDog [
             DEF FRONT_LEFT_2_HINGE_JOINT HingeJoint {
               jointParameters HingeJointParameters {
                 anchor 0 0.006 -0.0145
+                axis -1 0 0
               }
               device [
                 RotationalMotor {
@@ -178,7 +179,7 @@ PROTO BioloidDog [
                 }
               ]
               endPoint Solid {
-                translation 0 0.005515 -0.014
+                translation 0 0.006 -0.014485
                 children [
                   DEF AX12_FRONT_LEFT_2_TRANS Transform {
                     translation 0 0.0135 0
@@ -441,6 +442,7 @@ PROTO BioloidDog [
             }
             DEF NECK2_HINGE_JOINT HingeJoint {
               jointParameters HingeJointParameters {
+                axis -1 0 0
                 anchor 0.047 0 0
               }
               device [
@@ -794,6 +796,7 @@ PROTO BioloidDog [
             DEF FRONT_RIGHT_2_HINGE_JOINT HingeJoint {
               jointParameters HingeJointParameters {
                 anchor 0 -0.006 -0.0145
+                axis -1 0 0
               }
               device [
                 RotationalMotor {
@@ -862,7 +865,7 @@ PROTO BioloidDog [
                         density -1
                         mass 0.032
                         centerOfMass [
-                          0 0 0.039
+                          0 0.039 0
                         ]
                       }
                     }
@@ -921,6 +924,7 @@ PROTO BioloidDog [
       DEF PELVIS_HINGE_JOINT HingeJoint {
         jointParameters HingeJointParameters {
           anchor -0.0875 0 -0.0135
+          axis -1 0 0
         }
         device [
           RotationalMotor {
@@ -1032,6 +1036,7 @@ PROTO BioloidDog [
                   DEF BACK_LEFT_2_HINGE_JOINT HingeJoint {
                     jointParameters HingeJointParameters {
                       anchor 0 0.006 -0.0145
+                      axis -1 0 0
                     }
                     device [
                       RotationalMotor {
@@ -1177,6 +1182,7 @@ PROTO BioloidDog [
                   DEF BACK_RIGHT_2_HINGE_JOINT HingeJoint {
                     jointParameters HingeJointParameters {
                       anchor 0 -0.006 -0.0145
+                      axis -1 0 0
                     }
                     device [
                       RotationalMotor {
@@ -1190,18 +1196,18 @@ PROTO BioloidDog [
                     ]
                     endPoint Solid {
                       translation 0 -0.006 -0.0145
-                      rotation 0 -0.707109 0.707104 -3.141593
+                      rotation -1 0 0 -3.14159
                       children [
                         DEF AX12_BACK_RIGHT_2_TRANS Transform {
-                          translation 0 0 0.0135
-                          rotation -0.707109 0.707104 0 -3.141593
+                          translation 0 0.0135 0
+                          rotation -0.577347 -0.577353 0.57735 -2.094402
                           children [
                             USE AX12_SHAPE
                           ]
                         }
                         DEF F3_BACK_RIGHT_3_TRANS Transform {
-                          translation 0 0 0.046
-                          rotation 1 0 0 1.5708
+                          translation 0 0.046 0
+                          rotation 0 -1.0 0 3.141591
                           children [
                             USE F3_CROSSED_GRP
                             DEF AX12_BACK_RIGHT_3_TRANS Transform {
@@ -1215,8 +1221,8 @@ PROTO BioloidDog [
                         }
                         DEF BACK_RIGHT_3_HINGE_JOINT HingeJoint {
                           jointParameters HingeJointParameters {
-                            axis 0 1 0
-                            anchor 0 0 0.083
+                            axis 0 0 1
+                            anchor 0 0.083 0
                           }
                           device [
                             RotationalMotor {
@@ -1229,8 +1235,7 @@ PROTO BioloidDog [
                             }
                           ]
                           endPoint Solid {
-                            translation 0 0 0.083
-                            rotation 0 0.707109 0.707104 3.141593
+                            translation 0 0.083 0
                             children [
                               DEF F1_TRANS Transform {
                                 translation -0.008 0.0075 0
@@ -1258,7 +1263,7 @@ PROTO BioloidDog [
                         density -1
                         mass 0.126
                         centerOfMass [
-                          -0.002 0.002 0.0415
+                          0.002 0.0415 0.002
                         ]
                       }
                     }
@@ -1304,46 +1309,44 @@ PROTO BioloidDog [
     boundingObject DEF BODY_BOUND_GRP Group {
       children [
         DEF CM5_BOUND_TRANS Transform {
-          rotation 0 1 0 1.5708
           children [
             DEF CM5_BOX Box {
-              size 0.101 0.032 0.069
+              size 0.069 0.101 0.032
             }
           ]
         }
         DEF CM5UNIT_BOUND_TRANS Transform {
-          translation 0 0.02425 0
-          rotation 0 1 0 1.5708
+          translation 0 0 0.0242
           children [
             DEF CM5_BOX Box {
-              size 0.09 0.0165 0.058
+              size 0.058 0.09 0.0165
             }
           ]
         }
         DEF AX12_FRONT_LEFT_1_BOUND_TRANS Transform {
-          translation -0.0565 0.001 0.048
-          rotation 1 0 0 0
+          translation 0.0565 0.048 0.001
+          rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             USE AX12_BOX
           ]
         }
         DEF AX12_NECK1_BOUND_TRANS Transform {
-          translation -0.0655 0 0
+          translation 0.0655 0 0
           rotation 0 0 1 1.5708
           children [
             USE AX12_BOX
           ]
         }
         DEF AX12_FRONT_RIGHT_1_BOUND_TRANS Transform {
-          translation -0.055 0.001 -0.048
-          rotation 0 1 0 3.14159
+          translation 0.055 -0.048 0.001
+          rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             USE AX12_BOX
           ]
         }
         DEF AX12_PELVIS_BOUND_TRANS Transform {
-          translation 0.0645 0 0
-          rotation 0.7071067811865477 0 0.7071067811865477 3.14159
+          translation -0.0645 0 0
+          rotation 1 0 0 1.5708
           children [
             USE AX12_BOX
           ]
@@ -1354,7 +1357,7 @@ PROTO BioloidDog [
       density -1
       mass 0.692
       centerOfMass [
-        0 0.002 0
+        0 0 0.002
       ]
     }
   }
