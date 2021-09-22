@@ -257,8 +257,7 @@ DEF JETBOT JetBot {
   rotation 0 0 1 1.5708
   supervisor TRUE
   cameraSlot JetBotRaspberryPiCamera {
-    translation 0 0.042 0.0488
-    rotation 1 0 0 0.316799
+    rotation 0 1 0 0.316799
     width 224
     height 224
   }
