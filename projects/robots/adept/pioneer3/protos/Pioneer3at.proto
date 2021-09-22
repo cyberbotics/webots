@@ -656,7 +656,7 @@ PROTO Pioneer3at [
         }
         DEF LEFT_ANTENNA_CYLINDER Transform {
           rotation 0 0 1 -1.5708
-          translation 0 0.082 0.284
+          translation -0.0167 0.0828 0.284
           children [
             Cylinder {
               height 0.016
@@ -667,7 +667,7 @@ PROTO Pioneer3at [
         }
         DEF RIGHT_ANTENNA_CYLINDER Transform {
           rotation 0 0 1 -1.5708
-          translation 0 -0.087 0.284
+          translation -0.017 -0.0855 0.284
           children [
             Cylinder {
               height 0.016
