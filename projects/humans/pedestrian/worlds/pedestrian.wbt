@@ -23,7 +23,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 CircleArena {
-  rotation 0 0 1 1.5708003061004252
   radius 10
   floorAppearance Parquetry {
   }
