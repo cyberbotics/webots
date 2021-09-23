@@ -10,7 +10,7 @@ WorldInfo {
     ContactProperties {
       material1 "InteriorWheelMat"
       coulombFriction [
-        0.2 1.8 0
+        0.2, 1.8, 0
       ]
       frictionRotation -0.9648 0
       bounce 0
@@ -21,7 +21,7 @@ WorldInfo {
     ContactProperties {
       material1 "ExteriorWheelMat"
       coulombFriction [
-        0.2 1.8 0
+        0.2, 1.8, 0
       ]
       frictionRotation 0.9648 0
       bounce 0
@@ -32,8 +32,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.31444282357870423 0.12120621887733553 0.9415066453325284 2.1308783106541407
-  position 7.899015026092686 -12.161359445916728 9.124460391743433
+  orientation -0.36333211913432445 0.2035414566474273 0.9091538080166658 1.9246172730506153
+  position 4.056617141795117 -8.145167541457786 6.51400593749021
 }
 TexturedBackground {
 }
@@ -106,7 +106,8 @@ DEF GROUND Solid {
   ]
   name "solid(1)"
   boundingObject Transform {
-    translation 0 2.5 0
+    translation 2.5 0 0
+    rotation 1 0 0 1.57
     children [
       Plane {
         size 5 7.5
