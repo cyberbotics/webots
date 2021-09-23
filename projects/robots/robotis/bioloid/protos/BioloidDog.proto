@@ -36,7 +36,6 @@ PROTO BioloidDog [
       }
       DEF CM5_TRANS Transform {
         rotation 0 0 1 1.5708
-        translation 0 0 0
         children [
           DEF CM5_SHAPE Shape {
             appearance DEF BODYPART_APPEARANCE PBRAppearance {
