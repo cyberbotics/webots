@@ -18,8 +18,8 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 WEBOTS_LIBRARY = 1
-
 CXX_SOURCES = $(wildcard src/*.cpp)
+
 INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c"
 LIBRARIES = -lcar
 MAIN_TARGET = $(LIB_PREFIX)CppCar$(SHARED_LIB_EXTENSION)
