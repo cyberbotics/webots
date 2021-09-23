@@ -317,7 +317,7 @@ PROTO Darwin-opHinge2 [
                   }
                   Camera {
                     translation 0 0.0329074 0.0359816
-                    rotation 0 -1 0 3.14159
+                    rotation 0.57735 0.57735 0.57735 -2.0944
                     children [
                       DEF DCameraShape Shape {
                         appearance DEF DCameraAppearance PBRAppearance {
