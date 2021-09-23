@@ -48,6 +48,8 @@ namespace wren {
 
     DynamicMesh *createMeshFromBones();
 
+    float *computeBoundingSphere(int &meshCount);
+
   private:
     Skeleton(){};
     virtual ~Skeleton();
