@@ -5,13 +5,12 @@ WorldInfo {
   ]
   title "RoCKIn@Work"
   basicTimeStep 20
-  coordinateSystem "NUE"
   lineScale 0.5
   contactProperties [
     ContactProperties {
       material1 "InteriorWheelMat"
       coulombFriction [
-        1.8, 0, 0.2
+        0.2 1.8 0
       ]
       frictionRotation -0.9648 0
       bounce 0
@@ -22,7 +21,7 @@ WorldInfo {
     ContactProperties {
       material1 "ExteriorWheelMat"
       coulombFriction [
-        1.8, 0, 0.2
+        0.2 1.8 0
       ]
       frictionRotation 0.9648 0
       bounce 0
@@ -33,14 +32,15 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.6590701596675975 0.7077881796430266 0.2542880598717497 1.03158
-  position 7.1780506 6.5936553 6.1739039
+  orientation -0.31444282357870423 0.12120621887733553 0.9415066453325284 2.1308783106541407
+  position 7.899015026092686 -12.161359445916728 9.124460391743433
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF GROUND Solid {
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -106,7 +106,7 @@ DEF GROUND Solid {
   ]
   name "solid(1)"
   boundingObject Transform {
-    translation 2.5 0 0
+    translation 0 2.5 0
     children [
       Plane {
         size 5 7.5
@@ -115,58 +115,60 @@ DEF GROUND Solid {
   }
 }
 Wall {
-  translation 0 0 3.125
-  rotation 0 1 0 1.5708
+  translation 0 -3.125 0
+  rotation 0 0 1 -3.1415853071795863
   name "wall(1)"
-  size 1.25 0.24 0.02
+  size 0.02 1.25 0.24
 }
 Wall {
-  translation 1.25 0 3.75
+  translation 1.25 -3.75 0
+  rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
   name "wall(2)"
-  size 2.5 0.24 0.02
+  size 0.02 2.5 0.24
 }
 Wall {
-  translation 2.5 0 2.5
-  rotation 0 1 0 -1.5708
+  translation 2.5 -2.5 0
+  rotation 0 0 -1 3.67802e-06
   name "wall(3)"
-  size 2.5 0.24 0.02
+  size 0.02 2.5 0.24
 }
 Wall {
-  translation 3.75 0 1.25
+  translation 3.75 -1.25 0
+  rotation 0 0 1 1.5708
   name "wall(4)"
-  size 2.5 0.24 0.02
+  size 0.02 2.5 0.24
 }
 Wall {
   translation 5 0 0
-  rotation 0 1 0 -1.5708
+  rotation 0 0 -1 3.67802e-06
   name "wall(5)"
-  size 2.5 0.24 0.02
+  size 0.02 2.5 0.24
 }
 Wall {
-  translation 3.75 0 -1.25
-  rotation 0 1 0 3.14159
+  translation 3.75 1.25 0
+  rotation 0 0 -1 -1.569205307179586
   name "wall(6)"
-  size 2.5 0.24 0.02
+  size 0.02 2.5 0.24
 }
 Wall {
-  translation 2.5 0 -2.5
-  rotation 0 1 0 -1.5708
+  translation 2.5 2.5 0
+  rotation 0 0 -1 3.67802e-06
   name "wall(7)"
-  size 2.5 0.24 0.02
+  size 0.02 2.5 0.24
 }
 Wall {
-  translation 1.25 0 -3.75
-  rotation 0 1 0 3.14159
+  translation 1.25 3.75 0
+  rotation 0 0 -1 -1.569205307179586
   name "wall(8)"
-  size 2.5 0.24 0.02
+  size 0.02 2.5 0.24
 }
 Wall {
-  translation 0 0 -3.125
-  rotation 0 1 0 1.5708
-  size 1.25 0.24 0.02
+  translation 0 3.125 0
+  size 0.02 1.25 0.24
 }
 DEF CONVEYOR Solid {
-  translation 0.54 0 2.32
+  translation 0.54 -2.32 0
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -191,60 +193,67 @@ DEF CONVEYOR Solid {
     translation -0.6 0.075 0
     children [
       Box {
-        size 1.2 0.15 0.22
+        size 0.22 1.2 0.15
       }
     ]
   }
 }
 RoCKInShelf {
-  translation -0.15 0 1.9
+  translation -0.15 -1.9 0
+  rotation 1 0 0 4.692820414042842e-06
   name "RoCKIn shelf(1)"
 }
 WoodenBox {
-  translation -0.15 0.075 1.28
+  translation -0.15 -1.28 0.075
+  rotation 0.5754640857776476 -0.0044172806584319565 0.8178151219020597 -5.307179586466759e-06
   name "wooden box(1)"
-  size 0.3 0.15 0.6
+  size 0.6 0.3 0.15
 }
 RoCKInShelf {
-  translation -0.3 0 0.8
-  rotation 0 1 0 1.5708
+  translation -0.3 -0.8 0
+  rotation 7.19232e-09 7.19235e-09 -1 -1.5707953071795862
   name "RoCKIn shelf(2)"
 }
 WoodenBox {
-  translation -0.15 0.075 0.33
+  translation -0.15 -0.33 0.075
+  rotation 0.5754640857776476 -0.0044172806584319565 0.8178151219020597 -5.307179586466759e-06
   name "wooden box(2)"
-  size 0.3 0.15 0.6
+  size 0.6 0.3 0.15
 }
 RoCKInShelf {
-  translation -0.3 0 -0.15
-  rotation 0 1 0 1.5708
+  translation -0.3 0.15 0
+  rotation 7.19232e-09 7.19235e-09 -1 -1.5707953071795862
   name "RoCKIn shelf(3)"
 }
 RoCKInShelf {
-  translation -0.3 0 -0.49
-  rotation 0 1 0 1.5708
+  translation -0.3 0.49 0
+  rotation 7.19232e-09 7.19235e-09 -1 -1.5707953071795862
   name "RoCKIn shelf(4)"
 }
 WoodenBox {
-  translation -0.15 0.075 -0.98
-  size 0.3 0.15 0.6
+  translation -0.15 0.98 0.075
+  rotation 0.5754640857776476 -0.0044172806584319565 0.8178151219020597 -5.307179586466759e-06
+  size 0.6 0.3 0.15
 }
 RoCKInShelf {
-  translation -0.3 0 -1.45
-  rotation 0 1 0 1.5708
+  translation -0.3 1.45 0
+  rotation 7.19232e-09 7.19235e-09 -1 -1.5707953071795862
   name "RoCKIn shelf(5)"
 }
 RoCKInShelf {
-  translation -0.15 0 -2
+  translation -0.15 2 0
+  rotation 1 0 0 4.692820414042842e-06
 }
 DEF WS1 Desk {
-  translation 1.23 0 -3.08
+  translation 1.23 3.08 0
+  rotation -2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 -1.5707953071795862
   name "desk(1)"
 }
 SolidBox {
-  translation 2.06 0.25 -3.16
+  translation 2.06 3.16 0.25
+  rotation -2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 -1.5707953071795862
   name "box(3)"
-  size 0.1 0.5 0.1
+  size 0.1 0.1 0.5
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -252,9 +261,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 0.4 0.25 -3.16
+  translation 0.4 3.16 0.25
+  rotation 2.653589999981315e-06 2.653589999981315e-06 0.9999999999929585 -1.5707953071795862
   name "box(4)"
-  size 0.1 0.5 0.1
+  size 0.1 0.1 0.5
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -262,12 +272,13 @@ SolidBox {
   }
 }
 DEF WS4 Desk {
-  translation 1.65 0 2.6
+  translation 1.65 -2.6 0
+  rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
   name "desk(2)"
 }
 DEF TURRET Solid {
-  translation 2.11 0.71 2.34
-  rotation 0 1 0 3.14159
+  translation 2.11 -2.34 0.71
+  rotation 9.38185669e-07 0.707106781186236 0.707106781186236 3.141590777218456
   children [
     Shape {
       appearance PBRAppearance {
@@ -297,14 +308,14 @@ DEF TURRET Solid {
   }
 }
 DEF WS5 Desk {
-  translation 3.9 0 0.048
-  rotation 0 1 0 1.5708
+  translation 3.9 -0.048 0
+  rotation -7.19233e-09 -1.50172e-14 1 3.14159
 }
 SolidBox {
-  translation 1.42 0.075 -0.48
-  rotation 0 1 0 4.71239
+  translation 1.42 0.48 0.075
+  rotation 7.19236e-09 5.173e-17 1 3.14159
   name "box(5)"
-  size 0.2 0.15 0.6
+  size 0.6 0.2 0.15
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -312,10 +323,10 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 1.16 0.075 -0.78
-  rotation 0 1 0 6.28319
+  translation 1.16 0.78 0.075
+  rotation 1.32198e-06 -1.32198e-06 1 1.5708
   name "box(6)"
-  size 0.08 0.15 0.4
+  size 0.4 0.08 0.15
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -323,9 +334,9 @@ SolidBox {
   }
 }
 SolidBox {
-  translation 1.68 0.075 -0.78
-  rotation 0 1 0 6.28319
-  size 0.08 0.15 0.4
+  translation 1.68 0.78 0.075
+  rotation 1.62101e-06 7.19235e-09 -1 -1.5707953071795862
+  size 0.4 0.08 0.15
   appearance PBRAppearance {
     baseColor 0.8 0.8 0.8
     roughness 0.5
@@ -333,74 +344,83 @@ SolidBox {
   }
 }
 Youbot {
-  translation 1.4 0.1 -0.9
-  rotation 0.5773509358555178 0.5773509358555178 0.5773489358555322 4.18879
+  translation 1.4 0.9 0.1
+  rotation 6.95583471e-07 1.732051795e-06 0.999999999998258 4.712390016850735
 }
 RoCKInAX06 {
-  translation -0.27 0.16 2.33
+  translation -0.27 -2.33 0.16
+  rotation 1 0 0 4.692820414042842e-06
   name "RoCKIn AX06(1)"
 }
 RoCKInAX06 {
-  translation -0.14 0.16 2.33
+  translation -0.14 -2.33 0.16
+  rotation 1 0 0 4.692820414042842e-06
   name "RoCKIn AX06(2)"
 }
 RoCKInAX06 {
-  translation -0.01 0.16 2.33
+  translation -0.01 -2.33 0.16
+  rotation 1 0 0 4.692820414042842e-06
   name "RoCKIn AX06(3)"
 }
 RoCKInAX01 {
-  translation 0.11 0.17 2.33
+  translation 0.11 -2.33 0.17
+  rotation 1 0 0 4.692820414042842e-06
   name "RoCKIn AX01(1)"
 }
 RoCKInAX01 {
-  translation 0.2 0.17 2.33
+  translation 0.2 -2.33 0.17
+  rotation 1 0 0 4.692820414042842e-06
   name "RoCKIn AX01(2)"
 }
 RoCKInAX01 {
-  translation 0.28 0.17 2.33
+  translation 0.28 -2.33 0.17
+  rotation 1 0 0 4.692820414042842e-06
   name "RoCKIn AX01(3)"
 }
 RoCKInAX01 {
-  translation 1.55 0.73 -3.08
-  rotation 0 1 0 5.75959
+  translation 1.55 3.08 0.73
+  rotation -2.68424e-08 7.19235e-09 -1 0.523595
   name "RoCKIn AX01(4)"
 }
 RoCKInAX01 {
-  translation 1.65 0.73 -3.06
-  rotation 0 1 0 1.0472
+  translation 1.65 3.06 0.73
+  rotation 1.24575e-08 7.19235e-09 -1 -1.047195307179586
   name "RoCKIn AX01(5)"
 }
 RoCKInAX01 {
-  translation 1.61 0.73 -2.95
-  rotation 0 1 0 0.785398
+  translation 1.61 2.95 0.73
+  rotation 1.73639e-08 7.19235e-09 -1 -0.785395307179586
 }
 RoCKInAX06 {
-  translation 1.55828 0.72 2.69828
-  rotation 0 1 0 5.49779
+  translation 1.55828 -2.69828 0.72
+  rotation -1.73639e-08 7.19235e-09 -1 0.785395
   name "RoCKIn AX06(4)"
 }
 RoCKInAX06 {
-  translation 2.11 0.72 2.67
+  translation 2.11 -2.67 0.72
+  rotation 1 0 0 3.14159
   name "RoCKIn AX06(5)"
 }
 RoCKInAX06 {
-  translation 1.73 0.72 2.67
-  rotation 0 1 0 0.523599
+  translation 1.73 -2.67 0.72
+  rotation 0.965925849201117 0.2588189595935754 6.205059031275568e-10 3.14159
 }
 RoCKInER02 {
-  translation 1.21 0.71 2.61
+  translation 1.21 -2.61 0.71
+  rotation 2.3463999999870816e-06 -2.3463999999870816e-06 0.9999999999944944 1.5708
   name "RoCKIn ER02(1)"
 }
 RoCKInER02 {
-  translation 1.02 -4.26742e-16 2.61
+  translation 1.02 -2.61 -4.26742e-16
+  rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
   name "RoCKIn ER02(2)"
 }
 RoCKInER02 {
-  translation 3.94 -4.21538e-16 0.63
-  rotation 0 1 0 4.71239
+  translation 3.94 -0.63 -4.21538e-16
+  rotation 7.19235e-09 5.17299e-17 1 3.14159
   name "RoCKIn ER02(3)"
 }
 RoCKInER02 {
-  translation -0.15 0.16 0.27
-  rotation 0 1 0 6.28319
+  translation -0.15 -0.27 0.16
+  rotation -0.6148620644431503 -0.003223190337819734 -0.7886280826554132 -5.307179586466759e-06
 }

@@ -100,7 +100,7 @@ Solid {
   model "wooden box"
   immersionProperties IS immersionProperties
   boundingObject Box {
-    size %<= size.x >% %<= size.y >% %<= size.z >%
+    size %<= size.y >% %<= size.x >% %<= size.z >%
   }
   %< if (mass > 0) { >%
   physics Physics {
