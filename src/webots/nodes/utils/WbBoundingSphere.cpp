@@ -350,7 +350,7 @@ WbBoundingSphere::IntersectingShape WbBoundingSphere::computeIntersection(const 
 
   // This sphere is intersected, therefore, test if one sub sphere is intersected
   if (mSubBoundingSpheres.isEmpty()) {
-    if (mGeomOwner != NULL) {  // TODO for Skin
+    if (mGeomOwner != NULL) {
       const double d = mGeomOwner->computeDistance(ray);
       if (d > 0.0) {
         res.shape = dynamic_cast<WbShape *>(mGeomOwner->parentNode());
