@@ -492,22 +492,22 @@ PROTO Thymio2 [
       }
       Thymio2LED {
         name "leds.prox.v.led0"
-        translations [ 0.0733 0.0222 0, 0.0778 0.0231 0.0156]
+        translations [ 0.0733 0.0222 0.00790001, 0.0778 0.0231 0.0156]
         rotations [ 0.707107 0.707107 0 3.141527, 0.476903 0.621515 0.621517 2.251588]
         textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png", "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png"]
         sizes [ 0.01 0.01, 0.01 0.01 ]
         %< if (fields.castLight.value) { >%
-          lightPosition 0.022 0.03 0.073
+          lightPosition 0.073 0.022 0.03
         %< } >%
       }
       Thymio2LED {
         name "leds.prox.v.led1"
-        translations [ 0.0733 -0.0222 0, 0.0778 -0.0231 0.0156]
+        translations [ 0.0733 -0.0222 0.00790001, 0.0778 -0.0231 0.0156]
         rotations [ 0.707107 0.707107 0 3.141527, -0.67766 -0.519986 -0.519992 -1.950437]
         textureUrls [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png", "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png"]
         sizes [ 0.01 0.01, 0.01 0.01 ]
         %< if (fields.castLight.value) { >%
-          lightPosition -0.022 0.03 0.073
+          lightPosition 0.073 -0.022 0.03
         %< } >%
       }
       Thymio2LED {
@@ -554,7 +554,7 @@ PROTO Thymio2 [
         sizes [ 0.02 0.02, 0.02 0.01 ]
         level 0
         %< if (fields.castLight.value) { >%
-          lightPosition -0.04 0.03 0.05
+          lightPosition 0.05 -0.04 0.03
         %< } >%
       }
       Thymio2LED {
@@ -565,7 +565,7 @@ PROTO Thymio2 [
         sizes [ 0.02 0.02, 0.02 0.01 ]
         level 0
         %< if (fields.castLight.value) { >%
-          lightPosition 0.04 0.03 0.05
+          lightPosition 0.05 0.04 0.03
         %< } >%
       }
       Accelerometer {
