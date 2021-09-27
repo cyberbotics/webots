@@ -70,7 +70,7 @@ PROTO ConveyorBelt [
             sound ""
           }
         ]
-        textureAnimation %<= -1 / size.x >% 0
+        textureAnimation %<= 1 / size.x >% 0
       }
       Shape {
         appearance IS appearance
