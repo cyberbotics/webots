@@ -6,7 +6,7 @@
 # The robot is composed by the TIAGo base and a body without arm.
 
 PROTO TiagoIron [
-  field  SFVec3f     translation      0 0.095 0
+  field  SFVec3f     translation      0 0 0.095
   field  SFRotation  rotation         0 0 1 0
   field  SFString    name             "TIAGo Iron"
   field  SFString    controller       "tiago_iron"
