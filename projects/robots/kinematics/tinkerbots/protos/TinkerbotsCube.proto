@@ -100,8 +100,8 @@ PROTO TinkerbotsCube [
           ]
         }
         Transform {
-          translation  0.01 0.015 0.03
-          rotation -0.57735 0.57735 -0.577352 -2.0944
+          translation 0.01 -0.015 0.03
+          rotation -0.57735 -0.57735 0.577352 -2.0944
           children [
             Slot {
               type "lego cross-"
@@ -110,8 +110,8 @@ PROTO TinkerbotsCube [
           ]
         }
         Transform {
-          translation 0.015 0.01 0.01
-          rotation 1 0 0 1.5708
+          translation 0.01 -0.015 0.01
+          rotation 0 -0.707105 0.707108 3.14153
           children [
             Slot {
               type "lego cross-"
@@ -120,8 +120,8 @@ PROTO TinkerbotsCube [
           ]
         }
         Transform {
-          translation  -0.01 -0.015 0.01
-          rotation 0.57735 0.57735 -0.577352 2.0944
+          translation -0.01 -0.015 0.01
+          rotation 0.57735 -0.57735 0.577352 2.0944
           children [
             Slot {
               type "lego cross-"

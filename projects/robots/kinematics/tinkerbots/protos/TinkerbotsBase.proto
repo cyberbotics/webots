@@ -154,8 +154,8 @@ PROTO TinkerbotsBase [
         ]
       }
       Transform {
-        translation 0 0.02 0
-        rotation 0 1 0 1.57
+        translation 0 -0.02 0
+        rotation 1 0 0 1.57
         children [
           Slot {
             type "tinkerbots-"

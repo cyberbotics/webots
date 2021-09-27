@@ -249,7 +249,7 @@ PROTO TinkerbotsMotor [
         HingeJoint {
           jointParameters HingeJointParameters {
             anchor 0 0 0.02
-            axis 0 -1 0
+            axis -1 0 0
           }
           device [
             RotationalMotor {
