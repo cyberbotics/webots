@@ -883,8 +883,15 @@ PROTO Pr2 [
                       Transform {
                         translation -0.21 0 -0.50
                         children [
-                          geometry Mesh {
-                            url "meshes/l_torso_lift_side_plate_link_0.obj"
+                          IndexedFaceSet {
+                            coord Coordinate {
+                              point [ 0.2 0 0, 0 0.2 0, 0 -0.2 0, 0.2 0 0.65, 0 0.2 0.65, 0 -0.2 0.65]
+                            }
+                            coordIndex [ 0 2 1 -1
+                                         1 4 3 0 -1
+                                         2 5 4 1 -1
+                                         0 3 5 2 -1
+                                         3 4 5 -1 ]
                           }
                         ]
                       }
@@ -1530,7 +1537,7 @@ PROTO Pr2 [
                                       centerOfMass [0.0 0.0 0.0]
                                     }
                                     contactMaterial "pr2_material"
-                                    geometry Mesh {
+                                    boundingObject Mesh {
                                       url "meshes/l_shoulder_lift_joint_0.obj"
                                     }
                                     children [
@@ -1956,7 +1963,7 @@ PROTO Pr2 [
                                                                                 centerOfMass [0.0 0.0 0.0]
                                                                               }
                                                                               contactMaterial "pr2_material"
-                                                                              geometry Mesh {
+                                                                              boundingObject Mesh {
                                                                                 url "meshes/l_wrist_roll_joint_0.obj"
                                                                               }
                                                                               children [
@@ -2056,8 +2063,10 @@ PROTO Pr2 [
                                                                                 translation 0.0 0.0 0.0
                                                                                 rotation 1.0 0.0 0.0 3.14159265359
                                                                                 children [
-                                                                                  geometry Mesh {
-                                                                                    url "meshes/l_gripper_motor_slider_joint_0.obj"
+                                                                                  Shape {
+                                                                                    geometry Mesh {
+                                                                                      url "meshes/l_gripper_motor_slider_joint_0.obj"
+                                                                                    }
                                                                                   }
                                                                                 ]
                                                                               }
@@ -2382,7 +2391,7 @@ PROTO Pr2 [
                                       centerOfMass [0.0 0.0 0.0]
                                     }
                                     contactMaterial "pr2_material"
-                                    geometry Mesh {
+                                    boundingObject Mesh {
                                       url "meshes/Mesh5.obj"
                                     }
                                     children [
@@ -2837,7 +2846,7 @@ PROTO Pr2 [
                                                                                 centerOfMass [0.0 0.0 0.0]
                                                                               }
                                                                               contactMaterial "pr2_material"
-                                                                              geometry Mesh {
+                                                                              boundingObject Mesh {
                                                                                 url "meshes/Mesh11.obj"
                                                                               }
                                                                               children [
@@ -2937,8 +2946,10 @@ PROTO Pr2 [
                                                                                 translation 0.0 0.0 0.0
                                                                                 rotation 1.0 0.0 0.0 3.14159265359
                                                                                 children [
-                                                                                  geometry Mesh {
-                                                                                    url "meshes/Mesh12.obj"
+                                                                                  Shape {
+                                                                                    geometry Mesh {
+                                                                                      url "meshes/Mesh12.obj"
+                                                                                    }
                                                                                   }
                                                                                 ]
                                                                               }
