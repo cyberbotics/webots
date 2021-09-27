@@ -279,7 +279,6 @@ Khepera1 {
       children [
         DEF K213_GREEN_CYLINDER Transform {
           translation 0 -0.013 0
-          rotation 0 1 0 0
           children [
             Shape {
               appearance PBRAppearance {
