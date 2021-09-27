@@ -337,7 +337,7 @@ void WbTranslateRotateManipulator::updateRotationLine(const WbVector3 &begin, co
   // Scale the double arrow size
   WrViewport *viewport = wr_scene_get_viewport(wr_scene_get_instance());
   const float width = wr_viewport_get_width(viewport), height = wr_viewport_get_height(viewport),
-              maxDimension = height > width ? height : width, arrowScaleFactor = arrowScale * 2.0f / maxDimension;
+              maxDimension = height > width ? height : width, arrowScaleFactor = (arrowScale * 2.0f / maxDimension) * 10.0f;
   const float new_scale[3] = {arrowScaleFactor, arrowScaleFactor, arrowScaleFactor};
   wr_transform_set_scale(mRotationDoubleArrowTransform, new_scale);
 

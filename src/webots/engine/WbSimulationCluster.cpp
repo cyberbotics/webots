@@ -387,9 +387,9 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       contact->surface.mode = contact->surface.mode | dContactFDir1;
       WbVector3 forceDir(m(0, 0), m(1, 0), m(2, 0));
       forceDir.normalize();
-      contact->fdir1[0] = forceDir.x();
-      contact->fdir1[1] = forceDir.y();
-      contact->fdir1[2] = forceDir.z();
+      contact->fdir1[0] = forceDir.x() * (invertedSign ? -1 : 1);
+      contact->fdir1[1] = forceDir.y() * (invertedSign ? -1 : 1);
+      contact->fdir1[2] = forceDir.z() * (invertedSign ? -1 : 1);
     }
   }
   return contactProperties;
