@@ -168,7 +168,7 @@ PROTO Pr2 [
                     rotation 0 0 1 1.57
                     children [
                       Lidar {
-                        rotation 1 0 0 -1.57
+                        rotation 0.707107 -0.707107 -0.000282 -3.14103
                         name "base_laser"
                         fieldOfView 4.5378
                         verticalFieldOfView 0.007090313
@@ -1151,7 +1151,7 @@ PROTO Pr2 [
                                                   rotation 0 1 0 1.57
                                                   children [
                                                     Camera {
-                                                      rotation 1 0 0 1.57
+                                                      rotation -0.000398 0.000398 1 1.570796
                                                       name "high_def_sensor"
                                                       fieldOfView 0.785398163397
                                                       width 1224
@@ -1225,7 +1225,7 @@ PROTO Pr2 [
                                                           rotation 0 1 0 1.57
                                                           children [
                                                             Camera {
-                                                              rotation 1 0 0 1.57
+                                                              rotation -0.000398 0.000398 1 1.570796
                                                               name "wide_stereo_l_stereo_camera_sensor"
                                                               fieldOfView 1.57079632679
                                                               width 640
@@ -1262,7 +1262,7 @@ PROTO Pr2 [
                                                               rotation 0 0 1 -1.57
                                                               children [
                                                                 Camera {
-                                                                  rotation 0 1 0 1.57
+                                                                  rotation -0.000282 0.707107 0.707107 3.14103
                                                                   name "wide_stereo_r_stereo_camera_sensor"
                                                                   fieldOfView 1.57079632679
                                                                   width 640
@@ -1359,7 +1359,7 @@ PROTO Pr2 [
                                 rotation 1 0 0 1.57
                                 children [
                                   Lidar {
-                                    rotation 0 1 0 -1.57
+                                    rotation 1 -0.000398 -0.000398 -1.570796
                                     name "laser_tilt"
                                     fieldOfView 2.7825268
                                     verticalFieldOfView 0.004347698
@@ -2201,7 +2201,7 @@ PROTO Pr2 [
                                                             }
                                                             children [
                                                               Camera {
-                                                                rotation 1 0 0 0.785
+                                                                rotation -0.357557 0.357557 0.862732 1.717914
                                                                 name "r_forearm_cam_sensor"
                                                                 type "color"
                                                                 fieldOfView 1.57079632679
@@ -3087,7 +3087,7 @@ PROTO Pr2 [
                                                                 rotation 0 0 1 3.14159265359
                                                                 children [
                                                                   Camera {
-                                                                    rotation 1 0 0 -2.355
+                                                                    rotation 0.678689 -0.678689 0.280647 2.594375
                                                                     name "l_forearm_cam_sensor"
                                                                     type "color"
                                                                     fieldOfView 1.57079632679
