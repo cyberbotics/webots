@@ -6,7 +6,7 @@
 # The robot is composed by the TIAGo base and a body with the front arm equipped with a parallel gripper.
 
 PROTO TiagoSteel [
-  field  SFVec3f     translation      0 0.095 0
+  field  SFVec3f     translation      0 0 0.095
   field  SFRotation  rotation         0 0 1 0
   field  SFString    name             "TIAGo Steel"
   field  SFString    controller       "tiago_steel"
