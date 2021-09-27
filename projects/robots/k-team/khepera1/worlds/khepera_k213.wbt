@@ -295,7 +295,6 @@ Khepera1 {
         }
         Transform {
           translation 0 -0.014 0.01
-          rotation 0 1 0 0
           children [
             Shape {
               appearance PBRAppearance {
