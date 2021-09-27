@@ -16,7 +16,7 @@ PROTO TinkerbotsWheel [
       rotation IS rotation
       children [
         Transform {
-          translation 0 0.0085 0 
+          translation 0 0.0085 0
           children [
             Shape {
               appearance PBRAppearance {
@@ -69,7 +69,7 @@ PROTO TinkerbotsWheel [
       name IS name
       contactMaterial "tinkerbots wheel"
       boundingObject Transform {
-        translation 0 0.0085 0 
+        translation 0 0.0085 0
         rotation 1 0 0 1.5708
         children [
           Cylinder {
