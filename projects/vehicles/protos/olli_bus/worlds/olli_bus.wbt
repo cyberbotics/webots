@@ -1,0 +1,15 @@
+#VRML_SIM R2021c utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.0018656958139446902 -0.9950366013663053 -0.0994921158711687 0.03768701171499651
+  position -12.161533739154438 -0.15579151240617148 0.37218071213456827
+}
+TexturedBackground {
+  texture "noon_building_overcast"
+}
+OlliBus {
+}
+TexturedBackgroundLight {
+  texture "noon_building_overcast"
+}

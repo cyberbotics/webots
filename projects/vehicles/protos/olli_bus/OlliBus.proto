@@ -1,0 +1,84 @@
+#VRML_SIM R2021c utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# Model of a Olli bus 3.
+# template language: javascript
+
+PROTO OlliBus [
+  field SFVec3f      translation              0 0 0.4445
+  field SFRotation   rotation                 0 0 1 0
+  field SFColor      color                    0.98 0 0.1
+  field SFString     name                     "Olli bus"
+  field SFString     controller               "void"
+  field MFString     controllerArgs           [ ]
+  field SFBool       supervisor               FALSE
+  field SFBool       synchronization          TRUE
+  field SFString     window                   "automobile"
+  field SFBool       frontSpotLights          FALSE
+]
+{
+  %< const frontSpotLights = fields.frontSpotLights.value; >%
+  Car {
+        translation IS translation
+        rotation IS rotation
+        name IS name
+        controller IS controller
+        controllerArgs IS controllerArgs
+        supervisor IS supervisor
+        synchronization IS synchronization
+        extensionSlot [
+            # lights
+            VehicleLights {
+                frontColor [
+                0.8 0.8 0.8
+                ]
+                front [
+                Group {
+                    children [
+                    %< if (frontSpotLights) { >%
+                        SpotLight {
+                        attenuation 0 0 1
+                        intensity 20
+                        beamWidth 0.7
+                        cutOffAngle 0.8
+                        direction -0.2 -1 1
+                        location 0.52 1 4
+                        radius 20
+                        on TRUE
+                        }
+                        SpotLight {
+                        attenuation 0 0 1
+                        intensity 20
+                        beamWidth 0.7
+                        cutOffAngle 0.8
+                        direction 0.2 -1 1
+                        location -0.52 1 4
+                        radius 20
+                        }
+                    %< } >%
+                    DEF LIGHT Shape {
+                        appearance PBRAppearance {
+                            baseColor 0.7 0.7 0.7
+                            baseColorMap ImageTexture {
+                                url [
+                                "webots://projects/vehicles/protos/olli_bus/textures/Olli_Lights_diffuse.png"
+                                ]
+                            }
+                            normalMap ImageTexture {
+                                url [
+                                "webots://projects/vehicles/protos/olli_bus/textures/Olli_Lights_Normal.png"
+                                ]
+                            }
+                        }
+                        geometry Olli_Lights {
+                            url "webots://projects/vehicles/protos/olli_bus/meshes/Olli_Lights.obj"
+                        }
+                    }
+                    ]
+                }
+                ]
+            }
+        ]
+    }
+}

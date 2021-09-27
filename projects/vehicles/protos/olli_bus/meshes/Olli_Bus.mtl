@@ -1,0 +1,83 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 07.04.2020 15:46:31
+
+newmtl Olli_Lights_mat
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Olli_Lights_Diffuse.png
+	map_Kd Olli_Lights_Diffuse.png
+	map_Ks Olli_Lights_Specular.png
+	map_bump Map__16_Normal_Bump.tga
+
+newmtl Olli_Tires_Mat
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Olli_Tires_Diffuse.png
+	map_Kd Olli_Tires_Diffuse.png
+	map_Ks Olli_Tires_Specular.png
+	map_bump Map__12_Normal_Bump.tga
+
+newmtl Olli_Body_Mat
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Olli_Body_Diffuse.png
+	map_Kd Olli_Body_Diffuse.png
+	map_Ks Olli_Body_Specular.png
+	map_bump Map__3_Normal_Bump.tga
+
+newmtl Olli_Glass_Mat
+	Ns 10.0000
+	Ni 1.5000
+	d 0.2200
+	Tr 0.7800
+	Tf 0.2200 0.2200 0.2200 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Olli_Glass_diffuse.png
+	map_Kd Olli_Glass_diffuse.png
+	map_Ks Olli_Glass_Specular.png
+	map_d Olli_Glass_Refraction.png
+	map_bump Map__8_Normal_Bump.tga
+
+newmtl Olli_Interior_Mat
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Olli_Interior_Diffuse.png
+	map_Kd Olli_Interior_Diffuse.png
+	map_Ks Olli_Interior_Specular.png
+	map_bump Map__21_Normal_Bump.tga
