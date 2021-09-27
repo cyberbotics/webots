@@ -185,7 +185,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     // The trimesh failed to build, probably because of invalid faces
     if (g == NULL) {
       if (warning)
-        tmg->parsingInfo(QObject::tr("The creation of the {} physical boundaries failed because its geometry is not "
+        tmg->parsingInfo(QObject::tr("The creation of the %1 physical boundaries failed because its geometry is not "
                                      "suitable for representing a bounded closed volume")
                            .arg(name) +
                          defaultValues);
@@ -201,7 +201,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
       setDefaultMass(&m);
       if (warning)
         tmg->parsingWarn(
-          QObject::tr("Mass properties computation failed for this {}").arg(name) + defaultValues +
+          QObject::tr("Mass properties computation failed for this %1").arg(name) + defaultValues +
           QObject::tr("Please check this geometry has no singularities and can suitably represent a bounded closed volume. "
                       "Note in particular that every triangle should appear only once with its 'outward' orientation."));
     }
