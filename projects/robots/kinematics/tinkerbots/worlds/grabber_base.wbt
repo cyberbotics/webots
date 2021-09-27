@@ -33,7 +33,7 @@ DEF GROUND Solid {
 }
 TinkerbotsBase {
   translation 0 0 0.12
-  rotation 0 1 0 -1.5707953071795862
+  rotation 0 1 0 -1.5708
   name "grabber_base"
   controller "grabber_base"
   downSlot TinkerbotsDistanceSensor {
@@ -108,7 +108,7 @@ TinkerbotsBase {
 }
 DEF OBJECT Solid {
   translation 0.21 0 0.12
-  rotation 0 1 0 -1.5707953071795862
+  rotation 0 1 0 -1.5708
   children [
     Slot {
       endPoint TinkerbotsCubieFemaleCube {
