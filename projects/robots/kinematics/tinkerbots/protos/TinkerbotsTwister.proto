@@ -23,7 +23,7 @@ PROTO TinkerbotsTwister [
       rotation IS rotation
       children [
         LED {
-          translation 0 0.016 0.0045
+          translation 0.016 0 0.0045
           name %<= '"' + fields.name.value + ' led"' >%
           color []
           gradual TRUE
