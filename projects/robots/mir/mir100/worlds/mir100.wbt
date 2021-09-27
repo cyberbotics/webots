@@ -18,8 +18,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.011360637391758294 0.3738807735104526 -0.927407193802851 0.7310477671075272
-  position -9.917993239798683 5.492720233054746 3.1057613395511443
+  orientation 0.06015310585907971 0.5643434666415417 -0.8233456476562644 0.7402068969603726
+  position -11.5294933901003 5.21214152967497 5.01138572188271
   exposure 1.7
   follow "Mir100"
 }
@@ -224,7 +224,7 @@ Cabinet {
 }
 ConveyorBelt {
   translation 6.8438 -4.16057 0
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 1.5708
   name "conveyor belt(3)"
   size 2 0.6 0.9
   appearance CorrugatedMetal {
@@ -237,7 +237,7 @@ ConveyorBelt {
 }
 ConveyorBelt {
   translation 3.14141 -5.61763 0
-  rotation 0 0 1 3.14159
+  rotation 0 0 1 -5.307179586466759e-06
   name "conveyor belt(4)"
   size 8 0.8 0.9
   appearance CorrugatedMetal {
