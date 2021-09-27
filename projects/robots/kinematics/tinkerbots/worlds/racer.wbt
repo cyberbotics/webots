@@ -34,7 +34,7 @@ DEF GROUND Solid {
 }
 TinkerbotsBase {
   translation 0 0 0.03
-  rotation 0 1 0 -1.5707953071795862
+  rotation 0 1 0 -1.5708
   name "racer"
   controller "four_wheels_vehicle"
   upSlot TinkerbotsPivot {
