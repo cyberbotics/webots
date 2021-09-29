@@ -34,7 +34,7 @@ WRAPPER_OBJECT     = $(WRAPPER:.cpp=.o)
 PYOUT              = $(PYTHON_LIB_FOLDER)/$(MODULE_NAME).py
 PYTHON_VERSION    ?= 2.7
 INCLUDES           = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-LIB                = -lcar -ldriver -lCppCar -lCppDriver
+LIB                = -lCppCar -lCppDriver
 
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable
