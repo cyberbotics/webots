@@ -244,7 +244,7 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
 }
 
 void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
-  const WbTransform *upperTransform = dynamic_cast<const WbTransform *>(mTransformOwner);
+  const WbAbstractTransform *upperTransform = dynamic_cast<const WbAbstractTransform *>(mTransformOwner);
   if (upperTransform == NULL)
     upperTransform = WbNodeUtilities::findUpperTransform(mOwner);
   if (upperTransform) {
