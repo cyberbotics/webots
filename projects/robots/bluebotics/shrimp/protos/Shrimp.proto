@@ -1186,7 +1186,7 @@ PROTO Shrimp [
       density -1
       mass 3.322
       centerOfMass [
-        -0.036 -0.0 0.1378
+        -0.03604 -0.0 0.13785
       ]
       inertiaMatrix [
         0.0261036 0.0288494 0.0342201
