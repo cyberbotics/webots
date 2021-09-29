@@ -170,14 +170,9 @@ PROTO SummitXlSteel [
           ]
           contactMaterial "InteriorWheelMat"
           name "front_right_wheel_link"
-          boundingObject Transform {
-            rotation 1 0 0 1.5708
-            children [
-              DEF WHEEL_BO Cylinder {
-                height 0.08
-                radius 0.123
-              }
-            ]
+          boundingObject DEF WHEEL_BO Cylinder {
+            height 0.08
+            radius 0.123
           }
           physics Physics {
             density -1
@@ -235,12 +230,7 @@ PROTO SummitXlSteel [
           ]
           contactMaterial "ExteriorWheelMat"
           name "front_left_wheel_link"
-          boundingObject Transform {
-            rotation 1 0 0 1.5708
-            children [
-              USE WHEEL_BO
-            ]
-          }
+          boundingObject USE WHEEL_BO
           physics Physics {
             density -1
             mass 6.5
@@ -278,12 +268,7 @@ PROTO SummitXlSteel [
           ]
           contactMaterial "InteriorWheelMat"
           name "back_left_wheel_link"
-          boundingObject Transform {
-            rotation 1 0 0 1.5708
-            children [
-              USE WHEEL_BO
-            ]
-          }
+          boundingObject USE WHEEL_BO
           physics Physics {
             density -1
             mass 6.5
@@ -321,12 +306,7 @@ PROTO SummitXlSteel [
           ]
           contactMaterial "ExteriorWheelMat"
           name "back_right_wheel_link"
-          boundingObject Transform {
-            rotation 1 0 0 1.5708
-            children [
-              USE WHEEL_BO
-            ]
-          }
+          boundingObject USE WHEEL_BO
           physics Physics {
             density -1
             mass 6.5
@@ -407,7 +387,6 @@ PROTO SummitXlSteel [
           }
           Camera {
             translation 0 0 0.015
-            rotation -0.5774 0.5774 0.5774 -2.0944
             name "rgb_camera"
             fieldOfView 1.0472
             width 1280
@@ -415,7 +394,6 @@ PROTO SummitXlSteel [
           }
           RangeFinder {
             translation 0 0 0.015
-            rotation -0.5774 0.5774 0.5774 -2.0944
             name "depth_camera"
             fieldOfView 1.0472
             minRange 0.6
