@@ -573,8 +573,9 @@ void WbDistanceSensor::rayCollisionCallback(WbGeometry *object, dGeomID rayGeom,
   if (!mSensor->isEnabled())
     return;
 
-  if (mRayType == LASER  && object->isTransparent()) {
-    return;
+  if (object->isTransparent()) {
+    if (mRayType == LASER || mRayType == INFRA_RED)
+      return;
   }
 
   for (int i = 0; i < mNRays; i++)

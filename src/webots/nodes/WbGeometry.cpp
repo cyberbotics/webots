@@ -402,11 +402,6 @@ void WbGeometry::setTransparent(bool isTransparent) {
   }
 }
 
-bool WbGeometry::isTransparent() const { 
-  return mIsTransparent; 
-}
-
-
 void WbGeometry::destroyWrenObjects() {
   if (areWrenObjectsInitialized()) {
     WbWrenOpenGlContext::makeWrenCurrent();
