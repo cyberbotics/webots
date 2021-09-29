@@ -133,16 +133,16 @@ int main(int argc, char **argv) {
     while (key > 0) {
       switch (key) {
         case WB_KEYBOARD_UP:
-          pitch_disturbance = 2.0;
-          break;
-        case WB_KEYBOARD_DOWN:
           pitch_disturbance = -2.0;
           break;
+        case WB_KEYBOARD_DOWN:
+          pitch_disturbance = 2.0;
+          break;
         case WB_KEYBOARD_RIGHT:
-          yaw_disturbance = 1.3;
+          yaw_disturbance = -1.3;
           break;
         case WB_KEYBOARD_LEFT:
-          yaw_disturbance = -1.3;
+          yaw_disturbance = 1.3;
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_RIGHT):
           roll_disturbance = -1.0;
