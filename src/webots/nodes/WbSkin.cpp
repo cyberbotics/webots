@@ -707,7 +707,7 @@ void WbSkin::setBoneOrientation(int boneIndex, double ax, double ay, double az, 
       wr_transform_set_orientation(boneRepresentation, orientation);
   }
 
-  mBoundingSphere->setOwnerMoved();
+  mBoundingSphere->setOwnerSizeChanged();
 }
 
 void WbSkin::setBonePosition(int boneIndex, double x, double y, double z, bool absolute) {
@@ -728,7 +728,7 @@ void WbSkin::setBonePosition(int boneIndex, double x, double y, double z, bool a
       wr_transform_set_position(boneRepresentation, position);
   }
 
-  mBoundingSphere->setOwnerMoved();
+  mBoundingSphere->setOwnerSizeChanged();
 }
 
 void WbSkin::handleMessage(QDataStream &stream) {
