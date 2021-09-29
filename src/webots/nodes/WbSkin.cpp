@@ -17,6 +17,7 @@
 #include "WbAbstractAppearance.hpp"
 #include "WbAppearance.hpp"
 #include "WbBasicJoint.hpp"
+#include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
 #include "WbProject.hpp"
@@ -63,6 +64,8 @@ void WbSkin::init() {
   mBoneMesh = NULL;
   mBoneMaterial = NULL;
 
+  mBoundingSphere = NULL;
+
   mName = findSFString("name");
   mModelUrl = findSFString("modelUrl");
   mAppearanceField = findMFNode("appearance");
@@ -89,6 +92,8 @@ WbSkin::~WbSkin() {
     wr_material_delete(mBoneMaterial);
     wr_static_mesh_delete(mBoneMesh);
   }
+
+  delete mBoundingSphere;
 }
 
 void WbSkin::downloadAssets() {
@@ -152,6 +157,7 @@ void WbSkin::postFinalize() {
   connect(mBonesField, &WbMFNode::changed, this, &WbSkin::updateBones);
   connect(mCastShadows, &WbSFBool::changed, this, &WbSkin::updateCastShadows);
 
+  mBoundingSphere = new WbBoundingSphere(this);
   updateModelUrl();
 }
 
@@ -559,6 +565,9 @@ void WbSkin::createWrenSkeleton() {
 
   if (isPostFinalizedCalled())
     mNeedConfigureAfterModelChanged = true;
+
+  if (mBoundingSphere)
+    recomputeBoundingSphere();
 }
 
 WrTransform *WbSkin::createBoneRepresentation(WrRenderable **renderable, const float *scale) {
@@ -697,6 +706,8 @@ void WbSkin::setBoneOrientation(int boneIndex, double ax, double ay, double az, 
     if (skinSkeletonEnabled)
       wr_transform_set_orientation(boneRepresentation, orientation);
   }
+
+  mBoundingSphere->setOwnerSizeChanged();
 }
 
 void WbSkin::setBonePosition(int boneIndex, double x, double y, double z, bool absolute) {
@@ -716,6 +727,8 @@ void WbSkin::setBonePosition(int boneIndex, double x, double y, double z, bool a
     if (skinSkeletonEnabled)
       wr_transform_set_position(boneRepresentation, position);
   }
+
+  mBoundingSphere->setOwnerSizeChanged();
 }
 
 void WbSkin::handleMessage(QDataStream &stream) {
@@ -869,4 +882,41 @@ void WbSkin::updateOptionalRendering(int option) {
     for (WrTransform *bone : mBoneTransforms)
       wr_node_set_visible(WR_NODE(bone), visible);
   }
+}
+
+/////////////////
+// Ray tracing //
+/////////////////
+
+void WbSkin::recomputeBoundingSphere() const {
+  assert(mBoundingSphere);
+  mBoundingSphere->empty();
+
+  if (!mSkeleton)
+    return;
+
+  const bool convertToLocal = mBonesField->size() > 0;
+  WbMatrix4 m;
+  if (convertToLocal)
+    // WREN resturns absolute coordinates
+    m = matrix().pseudoInversed();
+
+  int meshCount = 0;
+  // get list with format [centerX1, centerY1, centerZ1, radius1, centerX2, .. ]
+  // if spheres are world coordinate system
+  float *meshBoundingSphereList = wr_skeleton_compute_bounding_spheres(mSkeleton, meshCount);
+  int index = 0;
+  for (int c = 0; c < meshCount; ++c) {
+    WbVector3 center(meshBoundingSphereList[index], meshBoundingSphereList[index + 1], meshBoundingSphereList[index + 2]);
+    double radius = meshBoundingSphereList[index + 3];
+    if (convertToLocal) {
+      const WbVector3 &scale = absoluteScale();
+      radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
+      center = m * center;
+    }
+    const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
+    mBoundingSphere->enclose(&meshBoundingSphere);
+    index += 4;
+  }
+  delete[] meshBoundingSphereList;
 }
