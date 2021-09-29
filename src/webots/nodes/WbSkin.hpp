@@ -20,6 +20,7 @@
 #include "WbDevice.hpp"
 #include "WbSFString.hpp"
 
+class WbDownloader;
 class WbMFNode;
 
 struct WrDynamicMesh;
@@ -82,15 +83,18 @@ private:
   void init();
 
   WbSFString *mName;
-  WbSFString *mModelName;
+  WbSFString *mModelUrl;
   WbMFNode *mAppearanceField;
   WbMFNode *mBonesField;
   WbSFBool *mCastShadows;
 
-  QString mModelPath;
+  WbDownloader *mDownloader;
+  bool mIsModelUrlValid;
   WrSkeleton *mSkeleton;
   WrTransform *mSkeletonTransform;
   WrTransform *mRenderablesTransform;
+  QList<WbRotation> mInitialSkeletonOrientation;
+  QList<WbVector3> mInitialSkeletonPosition;
 
   QVector<WrRenderable *> mRenderables;
   QStringList mMaterialNames;
@@ -116,13 +120,15 @@ private:
   bool createSkeletonFromWebotsNodes();
   WrTransform *createBoneRepresentation(WrRenderable **renderable, const float *scale);
 
+  QString modelPath() const;
+  void updateModel();
   void applyToScale() override;
 
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
   virtual void updateScale(bool warning = false);
-  void updateModel();
+  void updateModelUrl();
   void updateAppearance();
   void updateMaterial();
   void updateAppearanceName(const QString &newName, const QString &prevName);
@@ -130,6 +136,7 @@ private slots:
   void updateCastShadows();
   void showResizeManipulator(bool enabled) override;
   void updateOptionalRendering(int option);
+  void downloadUpdate();
 };
 
 #endif

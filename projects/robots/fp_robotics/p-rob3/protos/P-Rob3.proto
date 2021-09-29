@@ -118,7 +118,7 @@ PROTO P-Rob3 [
       }
       CapScrew {
         translation 0.0962 0 0.099
-        rotation 0 1 0 -1.5708003061004252
+        rotation 0 0 1 3.141592653
         appearance BrushedAluminium {
         }
         screwRadius 0.005
