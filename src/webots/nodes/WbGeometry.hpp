@@ -130,7 +130,7 @@ public:
   // visibility
   void setTransparent(bool isTransparent);
   bool isTransparent() const { return mIsTransparent; }
-  
+
 signals:
   void changed();
   void wrenObjectsCreated();
