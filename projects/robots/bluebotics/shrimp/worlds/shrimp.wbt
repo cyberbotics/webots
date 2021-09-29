@@ -354,5 +354,5 @@ DEF SPHERES Solid {
   boundingObject USE BALLS
 }
 Shrimp {
-  translation -4.5 0 0.02
+  translation -4.5 -0.02 0
 }
