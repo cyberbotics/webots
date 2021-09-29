@@ -2701,3 +2701,18 @@ Yes we experience a few slowdowns of the website recently. Hopefully, this shoul
 ##### Fero 09/07/2021 17:47:08
 Hey!! I am building my own robot but I am not familiarized with PROTO files, if anyone want to do it for me I can pay 15 usd! Thank you for reading this! 😋
 
+##### Luftwaffel [Moderator] 09/11/2021 18:28:11
+I can help if you want
+
+##### Çağrı Kaymak 09/13/2021 12:28:08
+Hi, any chance I can install webots-R2021b on Ubuntu 16.04?
+
+##### Olivier Michel [Cyberbotics] 09/13/2021 12:32:47
+I you compile Webots from the source, it should be fine (and easy).
+
+##### Çağrı Kaymak 09/13/2021 12:59:09
+Ok, many thanks. I will try.
+
+
+Ok, many thanks. I will try.
+
