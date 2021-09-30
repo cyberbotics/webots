@@ -78,7 +78,7 @@ WoodenBox {
 }
 WoodenBox {
   translation -0.019 0.174 0.3
-  rotation 0 0 1 -0.2618
+  rotation 0 0 1 -0.3618
   name "wooden box(2)"
 }
 WoodenBox {
