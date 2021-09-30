@@ -973,7 +973,7 @@ PROTO SquarePathPioneer3dx [
         name "so5"
       }
       DEF SO_6 Pioneer3DistanceSensor {
-        translation 0.1123 -0.1194 0.114
+        translation 0.1124 -0.1194 0.114
         rotation 0.834817 -0.389282 -0.389282 1.750366
         name "so6"
       }
