@@ -148,7 +148,7 @@ Two different methods are used for calculating the distance from an object.
 
 %end
 
-In order for an transparent object to be ignored by the "laser" or "infra-red" distance sensors, its bounding box object must also have the transparency set to 1.0.
+A transparent object is not perceived by "laser" and "infra-red" distance sensors if its bounding object has transparency set to 1.0.
 
 ### Infra-Red Sensors
 
