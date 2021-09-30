@@ -20,6 +20,7 @@
 #include "WbRay.hpp"
 #include "WbRotation.hpp"
 #include "WbShape.hpp"
+#include "WbSkin.hpp"
 #include "WbTransform.hpp"
 
 #include <cassert>
@@ -46,6 +47,7 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner) :
   mParentBoundingSphere(NULL),
   mOwner(NULL),
   mGeomOwner(NULL),
+  mSkinOwner(NULL),
   mTransformOwner(NULL),
   mBoundSpaceDirty(false),
   mGeomSphereDirty(false),
@@ -62,6 +64,7 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &cen
   mParentBoundingSphere(NULL),
   mOwner(NULL),
   mGeomOwner(NULL),
+  mSkinOwner(NULL),
   mTransformOwner(NULL),
   mBoundSpaceDirty(true),
   mGeomSphereDirty(true),
@@ -83,6 +86,7 @@ void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
   mOwner = owner;
   mTransformOwner = dynamic_cast<const WbAbstractTransform *>(mOwner);
   mGeomOwner = dynamic_cast<const WbGeometry *>(mOwner);
+  mSkinOwner = dynamic_cast<const WbSkin *>(mOwner);
 }
 
 double WbBoundingSphere::radius() {
@@ -240,7 +244,7 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
 }
 
 void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
-  const WbTransform *upperTransform = dynamic_cast<const WbTransform *>(mTransformOwner);
+  const WbAbstractTransform *upperTransform = dynamic_cast<const WbAbstractTransform *>(mTransformOwner);
   if (upperTransform == NULL)
     upperTransform = WbNodeUtilities::findUpperTransform(mOwner);
   if (upperTransform) {
@@ -269,8 +273,11 @@ void WbBoundingSphere::recomputeIfNeededInternal(bool dirtyOnly, QSet<const WbBo
 
   if (mSubBoundingSpheres.empty()) {
     // geometry or empty bounding sphere
-    if (mGeomOwner) {
-      mGeomOwner->recomputeBoundingSphere();
+    if (mGeomOwner || mSkinOwner) {
+      if (mGeomOwner)
+        mGeomOwner->recomputeBoundingSphere();
+      else
+        mSkinOwner->recomputeBoundingSphere();
       mGeomSphereDirty = false;
     }
     mBoundSpaceDirty = false;
@@ -316,8 +323,8 @@ void WbBoundingSphere::setOwnerMoved() {
 }
 
 void WbBoundingSphere::setOwnerSizeChanged() {
-  assert(mGeomOwner || mTransformOwner);
-  if (mGeomOwner)
+  assert(mGeomOwner || mSkinOwner || mTransformOwner);
+  if (mGeomOwner || mSkinOwner)
     mGeomSphereDirty = true;
   mBoundSpaceDirty = true;
   mParentCoordinatesDirty = true;

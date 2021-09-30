@@ -96,7 +96,7 @@ PROTO SolidRoundedBox [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %<= innerSize.z >%
+                    height %<= innerSize.x >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -110,7 +110,7 @@ PROTO SolidRoundedBox [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %<= innerSize.z >%
+                    height %<= innerSize.x >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -124,7 +124,7 @@ PROTO SolidRoundedBox [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %<= innerSize.z >%
+                    height %<= innerSize.x >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -138,7 +138,7 @@ PROTO SolidRoundedBox [
                 Shape {
                   appearance IS appearance
                   geometry Capsule {
-                    height %<= innerSize.z >%
+                    height %<= innerSize.x >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -206,13 +206,13 @@ PROTO SolidRoundedBox [
           %< } >%
           %< if (innerSize.y > 0) { >%
             Transform {
-              translation %<= 0.5 * innerSize.z >% 0 %<= 0.5 * innerSize.y >%
+              translation %<= 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
               rotation 0.57735 -0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %<= innerSize.x >%
+                    height %<= innerSize.y >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -220,13 +220,13 @@ PROTO SolidRoundedBox [
               ]
             }
             Transform {
-              translation %<= 0.5 * innerSize.z >% 0 %<= - 0.5 * innerSize.y >%
+              translation %<= 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
               rotation 0.57735 -0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %<= innerSize.x >%
+                    height %<= innerSize.y >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -234,13 +234,13 @@ PROTO SolidRoundedBox [
               ]
             }
             Transform {
-              translation %<= - 0.5 * innerSize.z >% 0 %<= - 0.5 * innerSize.y >%
+              translation %<= - 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
               rotation 0.57735 -0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %<= innerSize.x >%
+                    height %<= innerSize.y >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }
@@ -248,13 +248,13 @@ PROTO SolidRoundedBox [
               ]
             }
             Transform {
-              translation %<= - 0.5 * innerSize.z >% 0 %<= 0.5 * innerSize.y >%
+              translation %<= - 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
               rotation 0.57735 -0.57735 0.57735 2.09394
               children [
                 Shape {
                   appearance IS appearance
                   geometry Cylinder {
-                    height %<= innerSize.x >%
+                    height %<= innerSize.y >%
                     radius %<= borderRadius >%
                     subdivision %<= subdivision >%
                   }

@@ -46,6 +46,7 @@
 
 class WbBoundingSphere;
 class WbShape;
+class WbSkin;
 
 class WbAbstractTransform;
 class WbBaseNode;
@@ -119,6 +120,7 @@ private:
   QList<WbBoundingSphere *> mSubBoundingSpheres;
   const WbBaseNode *mOwner;
   const WbGeometry *mGeomOwner;
+  const WbSkin *mSkinOwner;
   const WbAbstractTransform *mTransformOwner;
 
   // Cached values
