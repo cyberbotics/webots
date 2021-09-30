@@ -722,7 +722,7 @@ PROTO WallFollowingPioneer3dx [
                 ]
               }
               Transform {
-                rotation -1 0 0 -1.570796
+                rotation 1 0 0 1.570796
                 children [
                   Cylinder {
                     height 0.048
