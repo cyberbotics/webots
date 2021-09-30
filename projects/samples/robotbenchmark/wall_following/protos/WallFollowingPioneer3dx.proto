@@ -5,7 +5,7 @@
 
 PROTO WallFollowingPioneer3dx [
   field SFVec3f    translation     0 0 0.0975                       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0                         # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
   field SFString   name            "Pioneer 3-DX"                   # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
@@ -712,7 +712,7 @@ PROTO WallFollowingPioneer3dx [
           boundingObject DEF BOUNDING_WHEEL Group {
             children [
               Transform {
-                rotation -1 0 0 -1.570796
+                rotation 1 0 0 1.570796
                 children [
                   Cylinder {
                     height 0.01
@@ -722,7 +722,7 @@ PROTO WallFollowingPioneer3dx [
                 ]
               }
               Transform {
-                rotation -1 0 0 -1.570796
+                rotation 1 0 0 1.570796
                 children [
                   Cylinder {
                     height 0.048
