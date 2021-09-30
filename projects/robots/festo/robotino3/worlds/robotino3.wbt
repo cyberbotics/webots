@@ -7,6 +7,15 @@ WorldInfo {
     "The simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors."
   ]
   title "Festo's Robotino 3 robot"
+  contactProperties [
+    ContactProperties {
+      material1 "WheelMat"
+      coulombFriction [
+        0, 2, 0
+      ]
+      bounce 0
+    }
+  ]
 }
 Viewpoint {
   orientation 0.017183182357239302 0.8747795870049653 -0.484216286801157 0.08092327695810334
@@ -78,7 +87,7 @@ WoodenBox {
 }
 WoodenBox {
   translation -0.019 0.174 0.3
-  rotation 0 0 1 -0.3618
+  rotation 0 0 1 -0.2618
   name "wooden box(2)"
 }
 WoodenBox {
