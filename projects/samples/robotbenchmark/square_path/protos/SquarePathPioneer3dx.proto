@@ -711,7 +711,7 @@ PROTO SquarePathPioneer3dx [
           boundingObject DEF BOUNDING_WHEEL Group {
             children [
               Transform {
-                rotation -1 0 0 -1.570796
+                rotation 1 0 0 1.570796
                 children [
                   Cylinder {
                     height 0.01
@@ -721,7 +721,7 @@ PROTO SquarePathPioneer3dx [
                 ]
               }
               Transform {
-                rotation -1 0 0 -1.570796
+                rotation 1 0 0 1.570796
                 children [
                   Cylinder {
                     height 0.048
