@@ -37,12 +37,9 @@ public:
     mKinematicDisplacementNumber++;
   }
 
-  const WbVector2 &kinematicDisplacement() const { return mKinematicDisplacement; }  // Only used by WbDifferentialWheels
-  int kinematicDisplacementNumber() const { return mKinematicDisplacementNumber; }   // Only used by WbDifferentialWheels
-
 private:
   WbKinematicDifferentialWheels(WbRobot *robot, double wheelsRadius, double axleLength, WbHingeJoint *leftJoint,
-                                WbHingeJoint *rightJoint, bool isWbDifferentialWheels = false);
+                                WbHingeJoint *rightJoint);
   static WbCylinder *getRecursivelyBigestCylinder(WbBaseNode *node);
   // kinematic displacement (kinematic collision model)
   WbVector2 mKinematicDisplacement;
@@ -51,7 +48,6 @@ private:
   double mAxleLength;
   WbHingeJoint *mWheelJoints[2];
   WbRobot *mRobot;
-  bool mIsWbDifferentialWheels;
 };
 
 #endif  // WB_KINEMATIC_DIFFERENTIAL_WHEELS_HPP

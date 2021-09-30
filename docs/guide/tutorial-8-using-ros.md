@@ -8,8 +8,8 @@ There is no warranty they will work if you use a different platform or an ancien
 ### Check Compatibility of Webots ROS API
 
 The Webots packages contain a precompiled ROS API built using the latest ROS distributions:
-- The Debian and Ubuntu 20.04 tarball packages are compatible with ROS Noetic.
-- The snap and Ubuntu 18.04 tarball packages are compatible with ROS Melodic.
+- The Ubuntu 20.04 tarball package is compatible with ROS Noetic.
+- The snap, Debian and Ubuntu 18.04 tarball packages are compatible with ROS Melodic.
 If you plan to use a different ROS distribution then it is recommended to install the tarball package and recompile the ROS API:
 ```sh
 export ROS_DISTRO=noetic  # or ROS_DISTRO=melodic, etc.

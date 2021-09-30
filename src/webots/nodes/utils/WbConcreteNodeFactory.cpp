@@ -297,6 +297,9 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     WbNode::createProtoInstance(model, tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
   if (protoInstance)
     WbTemplateManager::instance()->subscribe(protoInstance);
+
+  WbNodeUtilities::fixBackwardCompatibility(protoInstance);
+
   return protoInstance;
 }
 
