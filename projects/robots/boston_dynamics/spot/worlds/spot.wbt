@@ -41,7 +41,7 @@ Spot {
 StraightStairs {
   translation -1.8 4.36 0
   name "straight stairs(2)"
-  stepSize 0.3 0.03 1.2
+  stepSize 0.3 1.2 0.03 
   stepRise 0.1667
   nSteps 14
   stepAppearance GalvanizedMetal {
