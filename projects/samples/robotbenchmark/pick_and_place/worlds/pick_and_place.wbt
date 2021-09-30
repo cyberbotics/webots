@@ -252,7 +252,7 @@ DEF CONVEYOR_BELT Robot {
   children [
     Track {
       translation 0 -0.6 0
-      rotation 0 1 0 -3.141592
+      rotation 0 0 1 1.5708
       children [
         DEF BELT Shape {
           appearance PBRAppearance {
@@ -264,11 +264,12 @@ DEF CONVEYOR_BELT Robot {
             roughness 1
             metalness 0
             textureTransform TextureTransform {
+              rotation 1.5708
               scale 0.5 2
             }
           }
           geometry Box {
-            size 0.5 3.7 0.05
+            size 3.7 0.5 0.05
           }
         }
       ]
@@ -280,7 +281,7 @@ DEF CONVEYOR_BELT Robot {
           name "belt motor"
         }
       ]
-      textureAnimation -0.27 0
+      textureAnimation 0.27 0
     }
     DEF CYL1 Transform {
       translation 0 1.28 0
@@ -326,7 +327,7 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF LEFT Transform {
       translation -0.26 0.31 0.01
-      rotation 0 1 0 -3.141592
+      rotation 0 1 0 6.44034e-07
       children [
         Shape {
           appearance BrushedAluminium {
@@ -339,7 +340,6 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF RIGHT Transform {
       translation 0.26 0.31 0.01
-      rotation 0 1 0 -3.141592
       children [
         Shape {
           appearance BrushedAluminium {
@@ -352,7 +352,7 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF BACK Transform {
       translation 0 1.87 0.01
-      rotation 0.7071062811861719 -0.7071072811865696 0 3.141587
+      rotation 0 0 1 1.57079
       children [
         Shape {
           appearance BrushedAluminium {
@@ -365,7 +365,7 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF BOTTOM Transform {
       translation 0 1.69 -0.01
-      rotation 0.7071067811865476 -0.7071067811865476 0 3.141592
+      rotation 0 0 1 1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -378,7 +378,7 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF FOOT1 Transform {
       translation 0.22 1.78 -0.1
-      rotation 0.7071067811865476 -0.7071067811865476 0 3.141592
+      rotation 0 0 1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -392,7 +392,7 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF FOOT2 Transform {
       translation -0.22 1.78 -0.1
-      rotation 0.70710578118615 -0.707107781185531 0 3.141588
+      rotation 0 0 1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -406,7 +406,7 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF FOOT3 Transform {
       translation -0.220005 0.159999 -0.1
-      rotation 0.70710578118615 -0.707107781185531 0 3.141588
+      rotation 0 0 1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -420,7 +420,7 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF FOOT4 Transform {
       translation 0.220005 0.159999 -0.1
-      rotation 0.70710578118615 -0.707107781185531 0 3.141588
+      rotation 0 0 1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
