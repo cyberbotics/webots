@@ -20,7 +20,6 @@ TexturedBackground {
 }
 DEF PIONEER SquarePathPioneer3dx {
   translation 0 0 0.09439
-  rotation 0 0 1 0
   controller "square_path"
   controllerArgs [
     "2"
