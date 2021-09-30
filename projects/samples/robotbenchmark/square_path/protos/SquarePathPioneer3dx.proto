@@ -923,12 +923,12 @@ PROTO SquarePathPioneer3dx [
         name "so1"
       }
       DEF SO_10 Pioneer3DistanceSensor {
-        translation -0.2392 -0.0774 0.114
+        translation -0.2402 -0.0774 0.114
         rotation -0.186156 0.694747 0.694747 -2.773494
         name "so10"
       }
       DEF SO_11 Pioneer3DistanceSensor {
-        translation -0.2578 -0.0259 0.114
+        translation -0.2579 -0.0259 0.114
         rotation -0.061747 0.705758 0.705758 -3.018255
         name "so11"
       }
@@ -963,32 +963,32 @@ PROTO SquarePathPioneer3dx [
         name "so3"
       }
       DEF SO_4 Pioneer3DistanceSensor {
-        translation 0.1642 -0.0264 0.114
+        translation 0.1643 -0.0264 0.114
         rotation -0.992432 0.086828 0.086828 -1.578393
         name "so4"
       }
       DEF SO_5 Pioneer3DistanceSensor {
-        translation 0.1455 -0.078 0.114
+        translation 0.1461 -0.078 0.114
         rotation 0.935114 -0.250562 -0.250562 1.637833
         name "so5"
       }
       DEF SO_6 Pioneer3DistanceSensor {
-        translation 0.1103 -0.1201 0.114
+        translation 0.1123 -0.1194 0.114
         rotation 0.834817 -0.389282 -0.389282 1.750366
         name "so6"
       }
       DEF SO_7 Pioneer3DistanceSensor {
-        translation 0.061 -0.1381 0.114
+        translation 0.061 -0.1391 0.114
         rotation 0.57735 -0.57735 -0.57735 2.094395
         name "so7"
       }
       DEF SO_8 Pioneer3DistanceSensor {
-        translation -0.1549 -0.1373 0.114
+        translation -0.1549 -0.1383 0.114
         rotation 0.57735 -0.57735 -0.57735 2.094395
         name "so8"
       }
       DEF SO_9 Pioneer3DistanceSensor {
-        translation -0.2041 -0.1194 0.114
+        translation -0.2041 -0.1204 0.114
         rotation -0.313146 0.671543 0.671543 -2.534647
         name "so9"
       }
