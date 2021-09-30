@@ -62,46 +62,39 @@ Solid {
   translation IS translation
   rotation IS rotation
   children [
-    Transform {
-      rotation 0 0 1 1.57
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "webots://projects/objects/factory/containers/protos/textures/wooden_box_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "webots://projects/objects/factory/containers/protos/textures/wooden_box_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "webots://projects/objects/factory/containers/protos/textures/wooden_box_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "webots://projects/objects/factory/containers/protos/textures/wooden_box_occlusion.jpg"
-              ]
-            }
-          }
-          geometry Box {
-            size %<= size.x >% %<= size.y >% %<= size.z >%
-          }
+    DEF BOX_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_base_color.jpg"
+          ]
         }
-      ]
+        roughnessMap ImageTexture {
+          url [
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_roughness.jpg"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_normal.jpg"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_occlusion.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size %<= size.x >% %<= size.y >% %<= size.z >%
+      }
     }
   ]
   name IS name
   model "wooden box"
   immersionProperties IS immersionProperties
-  boundingObject Box {
-    size %<= size.y >% %<= size.x >% %<= size.z >%
-  }
+  boundingObject USE BOX_SHAPE
   %< if (mass > 0) { >%
   physics Physics {
     density -1
