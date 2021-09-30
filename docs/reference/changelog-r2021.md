@@ -17,7 +17,7 @@ Released on XX, XXth, 2021.
     - Fixed pickable state for cone and cylinder ([#3644](https://github.com/cyberbotics/webots/pull/3644)).
     - Fixed mass calculation of Mesh nodes ([#3719](https://github.com/cyberbotics/webots/pull/3719)).
     - Fixed regression where the v3.3 (21 DoF) variant of the [Nao](../guide/nao.md) PROTO had no hands ([#3696](https://github.com/cyberbotics/webots/pull/3696)).
-	- Fixed Laser/Infra-red distance sensor hitting fully transparent objects. ([#3726] (https://github.com/cyberbotics/webots/pull/3726)).
+    - Fixed laser and infra-red distance sensors hitting fully transparent objects ([#3726](https://github.com/cyberbotics/webots/pull/3726)).
 
 ## Webots R2021b
 Released on July, 16th, 2021.
