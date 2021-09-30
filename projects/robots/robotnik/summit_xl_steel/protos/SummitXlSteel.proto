@@ -413,12 +413,12 @@ PROTO SummitXlSteel [
       }
       Transform {
         translation 0.2865 -0.20894 0.193
-        rotation 0.3827 0.9239 0 3.14159
+        rotation 0.9239 -0.3827 0 3.14159
         children IS frontLidarSlot
       }
       Transform {
         translation -0.2865 0.20894 0.193
-        rotation 0.9239 -0.3827 0 3.14159
+        rotation 0.3827 0.9239 0 3.14159
         children IS backLidarSlot
       }
 
