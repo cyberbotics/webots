@@ -394,8 +394,7 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   mManipulator->showRotationLine(true);
   mManipulator->updateRotationLine(mViewpoint->pick(mObjectScreenPosition.x(), mObjectScreenPosition.y(), mZEye),
                                    mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye),
-                                   mViewpoint->orientation()->value(),
-                                   mViewpoint->viewDistanceUnscaling(detachedHandlePosition) * 9);
+                                   mViewpoint->orientation()->value(), mViewDistanceUnscaling);
 
   int stepCount = 0;
   if (mStepSize > 0) {
