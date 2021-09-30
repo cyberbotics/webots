@@ -325,7 +325,7 @@
   <joint name="base_link_Hokuyo URG-04LX-UG01_joint" type="fixed">
     <parent link="base_link"/>
     <child link="Hokuyo URG-04LX-UG01"/>
-    <origin xyz="0.202 0 -0.004" rpy="0 0 0"/>
+    <origin xyz="0.202 0 -0.004" rpy="1.570741 0.000118 -1.570741"/>
   </joint>
   <link name="Torso">
     <visual>
