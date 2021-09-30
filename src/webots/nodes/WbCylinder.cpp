@@ -538,5 +538,5 @@ WbVector3 WbCylinder::computeFrictionDirection(const WbVector3 &normal) const {
   if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))  // top or bottom face
     return WbVector3(1, 0, 0);
   else  // side
-    return WbVector3(0, 1, 0);
+    return WbVector3(0, 0, 1);
 }
