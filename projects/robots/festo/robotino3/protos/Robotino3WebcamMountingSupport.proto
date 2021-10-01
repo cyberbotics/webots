@@ -45,7 +45,7 @@ PROTO Robotino3WebcamMountingSupport [
       }
       DEF SCREW_1 Transform {
         translation 0.0003 -0.033 0.268
-        rotation 1 0 0 -1.5708
+        rotation 0 0 1 1.570796
         children [
           CapScrew {
             name "cap screw(7)"
@@ -56,7 +56,7 @@ PROTO Robotino3WebcamMountingSupport [
       }
       DEF SCREW_2 Transform {
         translation 0.0003 -0.033 0.22
-        rotation 1 0 0 -1.5708
+        rotation 0 0 1 1.570796
         children [
           CapScrew {
             name "cap screw(8)"
