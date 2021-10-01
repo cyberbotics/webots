@@ -20,6 +20,7 @@
 #include "WbField.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbLinearMotor.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMFNode.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
@@ -792,7 +793,7 @@ void WbTrack::computeBeltPath() {
     bool isOuterTangent = isWheelInner == mWheelsList[nextIndex]->inner();
     if (isOuterTangent) {
       // outer tangent
-      double relAngle = acos((radius - nextRadius) / distanceVector.length());
+      double relAngle = WbMathsUtilities::clampedAcos((radius - nextRadius) / distanceVector.length());
       assert(!std::isnan(relAngle));
       if (isWheelInner == 0)
         relAngle = -relAngle;
@@ -801,7 +802,7 @@ void WbTrack::computeBeltPath() {
       pointB = WbVector2(cos(absAngle), sin(absAngle)) * nextRadius + nextCenter;
     } else {
       // inner tangent
-      double relAngle = acos((radius + nextRadius) / distanceVector.length());
+      double relAngle = WbMathsUtilities::clampedAcos((radius + nextRadius) / distanceVector.length());
       assert(!std::isnan(relAngle));
       if (isWheelInner == 0)
         relAngle = -relAngle;
