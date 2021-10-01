@@ -18,8 +18,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.24417634190830176 -0.07602897990674277 0.9667458343673482 3.880759987155433
-  position 2.214130 1.8881397005560985 1.4792659725751076
+  orientation -0.24417638785947632 -0.07602983516356082 0.966745755499811 3.8807643497915727
+  position 2.2141299999999995 1.8881397005560983 1.4792659725751076
   follow "hexapod"
 }
 TexturedBackground {
@@ -127,7 +127,7 @@ DEF HEXAPOD Robot {
             }
           }
         ]
-        name "r0"
+        name "l0"
         boundingObject USE KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
@@ -176,7 +176,7 @@ DEF HEXAPOD Robot {
             }
           }
         ]
-        name "r1"
+        name "l1"
         boundingObject USE KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
@@ -225,7 +225,7 @@ DEF HEXAPOD Robot {
             }
           }
         ]
-        name "r2"
+        name "l2"
         boundingObject USE KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
@@ -247,13 +247,13 @@ DEF HEXAPOD Robot {
         translation 0.2 -0.05 0
         children [
           USE HIP_SHAPE
-          DEF LEFT_FEMUR_TRANS Transform {
+          DEF RIGHT_FEMUR_TRANS Transform {
             translation 0 -0.06 0
             children [
               USE FEMUR_SHAPE
             ]
           }
-          DEF LEFT_KNEE_TRANS Transform {
+          DEF RIGHT_KNEE_TRANS Transform {
             translation 0 -0.11 0
             children [
               USE KNEE_SHAPE
@@ -284,8 +284,8 @@ DEF HEXAPOD Robot {
             }
           }
         ]
-        name "l0"
-        boundingObject USE LEFT_KNEE_TRANS
+        name "r0"
+        boundingObject USE RIGHT_KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
     }
@@ -306,8 +306,8 @@ DEF HEXAPOD Robot {
         translation 0 -0.05 0
         children [
           USE HIP_SHAPE
-          USE LEFT_FEMUR_TRANS
-          USE LEFT_KNEE_TRANS
+          USE RIGHT_FEMUR_TRANS
+          USE RIGHT_KNEE_TRANS
           DEF KNEE_SLIDER_JOINT_R1 SliderJoint {
             jointParameters JointParameters {
               axis 0 0 -1
@@ -333,8 +333,8 @@ DEF HEXAPOD Robot {
             }
           }
         ]
-        name "l1"
-        boundingObject USE LEFT_KNEE_TRANS
+        name "r1"
+        boundingObject USE RIGHT_KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
     }
@@ -355,8 +355,8 @@ DEF HEXAPOD Robot {
         translation -0.2 -0.05 0
         children [
           USE HIP_SHAPE
-          USE LEFT_FEMUR_TRANS
-          USE LEFT_KNEE_TRANS
+          USE RIGHT_FEMUR_TRANS
+          USE RIGHT_KNEE_TRANS
           DEF KNEE_SLIDER_JOINT_R2 SliderJoint {
             jointParameters JointParameters {
               axis 0 0 -1
@@ -382,8 +382,8 @@ DEF HEXAPOD Robot {
             }
           }
         ]
-        name "l2"
-        boundingObject USE LEFT_KNEE_TRANS
+        name "r2"
+        boundingObject USE RIGHT_KNEE_TRANS
         physics USE STANDARD_PHYSICS
       }
     }
