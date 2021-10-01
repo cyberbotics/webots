@@ -73,7 +73,7 @@ inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0
 inline double WbMathsUtilities::clampedAcos(double value) {
   if (value >= 1.0)
     return 0.0;
-  else if (value <= -1.0)
+  if (value <= -1.0)
     return 2.0 * M_PI;
   return acos(value);
 }
