@@ -59,8 +59,11 @@ if [ "${OSTYPE}" != "msys" ]; then
     mkdir -p source/cpp/vehicle
     cp ${WEBOTS_HOME}/projects/default/librairies/vehicle/cpp/car/src/*.cpp source/cpp/vehicle
     cp ${WEBOTS_HOME}/projects/default/librairies/vehicle/cpp/driver/src/*.cpp source/cpp/vehicle
-.cpp source/cpp
-STYPE}
+fi
+
+# Copy dynamic libs
+rm -rf lib/${OSTYPE}
+mkdir -p lib/${OSTYPE}
 for filename in $DYNAMIC_LIBS; do
     echo $filename
     find ${WEBOTS_HOME}/lib/controller -maxdepth 1 -name "*${filename}*" | xargs -I{} cp {} lib/${OSTYPE}
