@@ -1,6 +1,5 @@
 #VRML_SIM R2021c utf8
 WorldInfo {
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "passive_wheel"
@@ -11,8 +10,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.9639198109390762 0.08110248409275295 0.2535369502718696 0.225915
-  position -0.0160793 1.21297 3.52169
+  orientation 0.14249296246101342 -0.011226394895555462 -0.989732147455428 3.292247373494361
+  position 3.8695295701917294 -0.6320884461849778 1.4331723923151976
 }
 TexturedBackground {
 }
@@ -23,7 +22,7 @@ DEF GROUND Solid {
     DEF GROUND_SHAPE Group {
       children [
         Transform {
-          translation -8 0 -8
+          translation -8 -8 0
           children [
             Shape {
               appearance Grass {
@@ -59,27 +58,30 @@ DEF GROUND Solid {
   boundingObject USE GROUND_SHAPE
 }
 Rock10cm {
-  translation -1.02326 0 -0.866326
+  translation -0.866326 -1.02326 0
+  rotation 0 0 1 1.5708
 }
 Rock17cm {
-  translation 1.7806 -0.037219 -0.212539
-  rotation 0 -1 0 4.61434
+  translation -0.212539 1.7806 -0.037219
+  rotation 0 1 0 0.0980463
   name "rock 17 cm(1)"
 }
 Rock17cm {
-  translation 0.889895 0 0.814429
+  translation 0.814429 0.889895 0
+  rotation 0 0 1 1.309
   name "rock 17 cm(2)"
 }
 Rock17cm {
-  translation 2.36097 0 -2.2847
-  rotation 0 -1 0 3.40996
+  translation -2.2847 2.36097 0
+  rotation -0.1325999849101226 0.1325999849101226 0.9822598882188313 -1.5886953071795862
   name "rock 17 cm(3)"
 }
 Rock17cm {
-  translation 0.215003 0 -2.19116
+  translation -2.19116 0.215003 0
+  rotation 0 0 1 1.5708
 }
 Create {
-  translation -0.848189 0.0699514 0.818299
+  translation 0.818299 -0.848189 0.0699514
   rotation 0 -1 0 0.58136
   controller "anaglyph"
   bodySlot [
@@ -221,8 +223,8 @@ Create {
   ]
 }
 DEF KHR2HV Khr2hv {
-  translation 0.320786 0.2308 -0.618738
-  rotation 0.893566143878011 0.3174430511132557 0.3174420511130947 4.60009
+  translation -0.618738 0.320786 0.2308
+  rotation 0 0 1 -0.785395307179586
   controllerArgs [
     "0"
     "0"
