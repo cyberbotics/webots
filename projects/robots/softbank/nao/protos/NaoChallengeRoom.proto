@@ -71,7 +71,7 @@ Solid {
     }
     DEF NORTH Transform {
       translation 1 1 0.1
-      rotation 0 0 1 1.5708
+      rotation -0.577350 -0.577352 0.577350 2.094399
       children [
         Shape {
           appearance DEF WALL_APPEARANCE Roughcast {
@@ -87,7 +87,7 @@ Solid {
     }
     DEF SOUTH1 Transform {
       translation -0.25 1 0
-      rotation 0 0 1 -1.5708
+      rotation -0.577350 0.577352 -0.577350 2.094399
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -99,7 +99,7 @@ Solid {
     }
     DEF SOUTH2 Transform {
       translation -1 1 1.5
-      rotation 0 0 1 -1.5708
+      rotation -0.577350 0.577352 -0.577350 2.094399
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -111,7 +111,7 @@ Solid {
     }
     DEF EAST Transform {
       translation -0.4 1 2
-      rotation 1 0 0 -1.5708
+      rotation 1 0 0 3.141585
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -123,7 +123,6 @@ Solid {
     }
     DEF WEST1 Transform {
       translation 0.375 1 -1
-      rotation 1 0 0 1.5708
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -135,7 +134,6 @@ Solid {
     }
     DEF WEST2 Transform {
       translation -0.625 1 1
-      rotation 1 0 0 1.5708
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -147,7 +145,7 @@ Solid {
     }
     DEF WARDROBE Transform {
       translation 0.6 1 1.6
-      rotation -0.281052 0.678604 -0.678606 3.68956
+      rotation 0 1 0 -2.356284
       children [
         Shape {
           appearance PBRAppearance {
@@ -170,7 +168,7 @@ Solid {
       children [
         Transform {
           translation 0.325 0.0001 -0.83
-          rotation 0 1 0 1.57078
+          rotation -0.577357 0.577346 0.577348 2.094388
           children [
             Shape {
               appearance DEF LINE_APPEARANCE PBRAppearance {
@@ -185,6 +183,7 @@ Solid {
         }
         Transform {
           translation 0.21 0 -0.375
+          rotation 1 0 0 -1.5708
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -196,7 +195,7 @@ Solid {
         }
         Transform {
           translation 0.37 0.0001 0.08
-          rotation 0 1 0 1.57078
+          rotation -0.577357 0.577346 0.577348 2.094388
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -208,6 +207,7 @@ Solid {
         }
         Transform {
           translation 0.5275 0 0.5164
+          rotation 1 0 0 -1.5708
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -219,7 +219,7 @@ Solid {
         }
         Transform {
           translation 0.26 0.0001 1.232
-          rotation 0 1 0 -0.7854
+          rotation 0.862856 0.357406 0.357408 -1.717775
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -231,7 +231,7 @@ Solid {
         }
         Transform {
           translation -0.5 0 1.5
-          rotation 0 1 0 1.5708
+          rotation -0.577350 0.577350 0.577352 2.094399
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -244,7 +244,7 @@ Solid {
         DEF DOOR_SOUTH VisualArmature {
           translation -1 0.9 1.5
           rotation 0 1 0 1.5708
-          dimension 0.8 1.8 0.01
+          dimension 0.01 0.8 1.8
           textureUrl [
             "webots://projects/robots/softbank/nao/protos/textures/living_room_door.jpg"
           ]
@@ -257,6 +257,7 @@ Solid {
               children [
                 Transform {
                   translation 0 0.01 0
+                  rotation 1 0 0 -1.5708
                   children [
                     Shape {
                       appearance BrushedAluminium {}
@@ -270,6 +271,7 @@ Solid {
                 }
                 Transform {
                   translation 0 0.04 0
+                  rotation 1 0 0 -1.5708
                   children [
                     Shape {
                       appearance BrushedAluminium {}
@@ -283,7 +285,6 @@ Solid {
                 }
                 Transform {
                   translation 0 0.07 -0.05
-                  rotation 1 0 0 1.5708
                   children [
                     Shape {
                       appearance BrushedAluminium {}
@@ -300,7 +301,7 @@ Solid {
         }
         DEF DOOR_WEST VisualArmature {
           translation 0.5 0.9 -1
-          dimension 0.8 1.8 0.01
+          dimension 0.01 0.8 1.8
           textureUrl [
             "webots://projects/robots/softbank/nao/protos/textures/entree_door.jpg"
           ]
@@ -321,6 +322,7 @@ Solid {
     children [
       DEF FLOOR Transform {
         translation 0 0 0.5
+        rotation 1 0 0 -1.5708
         children [
           Plane {
             size 2 3
@@ -329,7 +331,7 @@ Solid {
       }
       DEF CEIL Transform {
         translation 0 2 0.5
-        rotation 1 0 0 3.1415
+        rotation 1 0 0 1.5708
         children [
           Plane {
             size 2 3
@@ -338,7 +340,7 @@ Solid {
       }
       DEF NORTH Transform {
         translation 1 1 0.1
-        rotation 0 0 1 1.5708
+        rotation -0.577350 -0.577352 0.577350 2.094399
         children [
           Plane {
             size 2 2.2
@@ -347,7 +349,7 @@ Solid {
       }
       DEF SOUTH Transform {
         translation -1 1 1.5
-        rotation 0 0 1 -1.5708
+        rotation -0.577350 0.577352 -0.577350 2.094399
         children [
           Plane {
             size 2 1
@@ -356,7 +358,7 @@ Solid {
       }
       DEF EAST Transform {
         translation -0.4 1 2
-        rotation 1 0 0 -1.5708
+        rotation 1 0 0 -3.141592
         children [
           Plane {
             size 1.2 2
@@ -365,7 +367,6 @@ Solid {
       }
       DEF WEST Transform {
         translation 0.375 1 -1
-        rotation 1 0 0 1.5708
         children [
           Plane {
             size 1.25 2
@@ -382,7 +383,7 @@ Solid {
       }
       DEF WARDROBE Transform {
         translation 0.6 1 1.6
-        rotation -0.281052 0.678604 -0.678606 3.68956
+        rotation 0 1 0 -2.356284
         children [
           Plane {
             size 1.1314 2
