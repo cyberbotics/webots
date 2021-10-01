@@ -54,6 +54,10 @@ if [ "${OSTYPE}" != "msys" ]; then
     rm -rf source/cpp
     mkdir -p source/cpp
     cp ${WEBOTS_HOME}/src/controller/cpp/*.cpp source/cpp
+
+    mkdir -p source/cpp/vehicle
+    cp ${WEBOTS_HOME}/projects/default/librairies/vehicle/cpp/car/src/*.cpp source/cpp/vehicle
+    cp ${WEBOTS_HOME}/projects/default/librairies/vehicle/cpp/driver/src/*.cpp source/cpp/vehicle
 fi
 
 # Copy dynamic libs
