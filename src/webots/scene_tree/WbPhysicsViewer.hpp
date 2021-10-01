@@ -66,7 +66,8 @@ private:
   // Values
   WbVector3 mCenterOfMass[2][2];
 
-  enum ComboBoxIndex { LOCAL, GLOBAL, RELATIVE = 0, ABSOLUTE = 1 };
+  enum CenterOfMassPosition { RELATIVE_POSITION = 0, ABSOLUTE_POSITION = 1 };
+  enum CenterOfMassCoordinateSystem { LOCAL = 0, GLOBAL = 1 };
 
   // Updates
   void updateMass();
