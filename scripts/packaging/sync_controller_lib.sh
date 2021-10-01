@@ -16,7 +16,7 @@ LAST_COMMIT=$(git log -1 --pretty=format:"%H")
 INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include/controller)
 SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- src/controller)
 VEHICLE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- projects/default/librairies/vehicle)
-if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" && [ -z "${VEHICLE_DIFF_SINCE_YESTERDAY}" ]; then
+if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${VEHICLE_DIFF_SINCE_YESTERDAY}" ]; then
     echo "There are no changes in 'include/controller', 'src/controller' and 'projects/default/librairies/vehicle' since yesterday"
     echo "Last commit yesterday: ${LAST_COMMIT_YESTERDAY}"
     echo "Last commit today: ${LAST_COMMIT}"
