@@ -19,6 +19,7 @@
 #include "WbHingeJoint.hpp"
 #include "WbJoint.hpp"
 #include "WbMFColor.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMotor.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPreferences.hpp"
@@ -260,7 +261,7 @@ void WbMuscle::computeStretchedDimensions() {
   if (fabs(1 - dotProduct) > 1e-06) {
     WbVector3 w = y.cross(t);
     w.normalize();
-    double angle = acos(dotProduct);
+    double angle = WbMathsUtilities::clampedAcos(dotProduct);
     assert(!std::isnan(angle));
     mMatrix.setRotation(w.x(), w.y(), w.z(), angle);
   }
