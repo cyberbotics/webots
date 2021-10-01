@@ -10,8 +10,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.14249296246101342 -0.011226394895555462 -0.989732147455428 3.292247373494361
-  position 3.8695295701917294 -0.6320884461849778 1.4331723923151976
+  orientation -0.11276288120348145 0.0040475082828518895 0.9936136826248869 3.0765915016347227
+  position 3.38767029618224 -0.22575575861990255 1.1083068541614987
 }
 TexturedBackground {
 }
@@ -82,12 +82,13 @@ Rock17cm {
 }
 Create {
   translation 0.818299 -0.848189 0.0699514
-  rotation 0 -1 0 0.58136
+  rotation 0 0 1 2.56023
   controller "anaglyph"
   bodySlot [
     DEF SC_MAIN_ELEMENT HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0 0.2 0.05
+        axis 0 1 0
+        anchor -0.05 0 0.2
         minStop -0.5
         maxStop 0.5
       }
@@ -99,8 +100,8 @@ Create {
         }
       ]
       endPoint Solid {
-        translation 0 0.2 0.05
-        rotation 1 0 0 0
+        translation -0.05 0 0.2
+        rotation 0 1 0 0
         children [
           Shape {
             appearance PBRAppearance {
@@ -108,13 +109,13 @@ Create {
               metalness 0
             }
             geometry Box {
-              size 0.1 0.025 0.025
+              size 0.025 0.1 0.025
             }
           }
           DEF SC_RIGHT_HINGE_JOINT HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
-              anchor 0.02 0 -0.0125
+              axis 0 0 1
+              anchor 0.0125 -0.02 0
             }
             device [
               RotationalMotor {
@@ -123,7 +124,7 @@ Create {
               }
             ]
             endPoint Solid {
-              translation 0.02 0 -0.0125
+              translation 0.0125 -0.02 0
               children [
                 DEF SC_RIGHT_CAMERA Camera {
                   name "sc_right_camera"
@@ -145,8 +146,8 @@ Create {
           }
           DEF SC_LEFT_HINGE_JOINT HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
-              anchor -0.02 0 -0.0125
+              axis 0 0 1
+              anchor 0.0125 0.02 0
             }
             device [
               RotationalMotor {
@@ -155,7 +156,7 @@ Create {
               }
             ]
             endPoint Solid {
-              translation -0.02 0 -0.0125
+              translation 0.0125 0.02 0
               children [
                 DEF SC_LEFT_CAMERA Camera {
                   name "sc_left_camera"
@@ -178,8 +179,7 @@ Create {
             }
           }
           DistanceSensor {
-            translation 0 0 -0.0125
-            rotation 0 1 0 1.5708
+            translation 0.0125 0 0
             name "sc_distance_sensor"
             lookupTable [
               0 0 0
@@ -205,7 +205,7 @@ Create {
       }
     }
     Transform {
-      translation 0 0.1 0.05
+      translation -0.05 0 0.1
       children [
         Shape {
           appearance PBRAppearance {
