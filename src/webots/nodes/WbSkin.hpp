@@ -20,6 +20,7 @@
 #include "WbDevice.hpp"
 #include "WbSFString.hpp"
 
+class WbBoundingSphere;
 class WbDownloader;
 class WbMFNode;
 
@@ -74,6 +75,10 @@ public:
 
   void emitTranslationOrRotationChangedByUser() override {}
 
+  // ray tracing
+  WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
+  void recomputeBoundingSphere() const;
+
 signals:
   void wrenMaterialChanged();
 
@@ -110,6 +115,9 @@ private:
   WbVector3 *mBonePositionRequest;
   WbRotation *mBoneOrientationRequest;
   bool mBonesWarningPrinted;
+
+  // Ray tracing
+  mutable WbBoundingSphere *mBoundingSphere;
 
   void createWrenSkeleton();
   void deleteWrenSkeleton();

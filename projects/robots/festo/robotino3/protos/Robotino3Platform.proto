@@ -81,7 +81,6 @@ PROTO Robotino3Platform [
       }
       DEF TABLE Transform {
         translation 0 0 %<= (0.537 - 0.530447) + height >%
-        rotation 1 0 0 1.5708
         children [
           Shape {
             appearance BrushedAluminium {
