@@ -83,7 +83,7 @@ inline double WbMathsUtilities::clampedAcos(double value) {
 inline double WbMathsUtilities::clampedAsin(double value) {
   if (value >= 1.0)
     return M_PI / 2;
-  else if (value <= -1.0)
+  if (value <= -1.0)
     return -M_PI / 2;
   return asin(value);
 }
