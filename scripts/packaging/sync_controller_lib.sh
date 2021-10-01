@@ -13,6 +13,16 @@ DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
 # Don't publish the libcontroller if it hasn't changed since yesterday
 LAST_COMMIT_YESTERDAY=$(git log -1 --pretty=format:"%H" --before=yesterday)
 LAST_COMMIT=$(git log -1 --pretty=format:"%H")
+
+echo "Last commit yesterday: ${LAST_COMMIT_YESTERDAY}"
+echo "Last commit today: ${LAST_COMMIT}"
+
+LAST_COMMIT=$(git log -1 --pretty=format:"%H")
+LAST_COMMIT_YESTERDAY=$(git log -1 --pretty=format:"%H" --before=yesterday)
+
+echo "Last commit today: ${LAST_COMMIT}"
+echo "Last commit yesterday: ${LAST_COMMIT_YESTERDAY}"
+
 INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include/controller)
 SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- src/controller)
 VEHICLE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- projects/default/librairies/vehicle)
@@ -59,11 +69,8 @@ if [ "${OSTYPE}" != "msys" ]; then
     mkdir -p source/cpp/vehicle
     cp ${WEBOTS_HOME}/projects/default/librairies/vehicle/cpp/car/src/*.cpp source/cpp/vehicle
     cp ${WEBOTS_HOME}/projects/default/librairies/vehicle/cpp/driver/src/*.cpp source/cpp/vehicle
-fi
-
-# Copy dynamic libs
-rm -rf lib/${OSTYPE}
-mkdir -p lib/${OSTYPE}
+.cpp source/cpp
+STYPE}
 for filename in $DYNAMIC_LIBS; do
     echo $filename
     find ${WEBOTS_HOME}/lib/controller -maxdepth 1 -name "*${filename}*" | xargs -I{} cp {} lib/${OSTYPE}
