@@ -51,7 +51,7 @@ PROTO TinkerbotsCubieMaleCube [
         }
         Transform {
           translation 0 0.01 0.015
-          rotation 1 0 0 -1.57
+          rotation 1 0 0 3.1415
           children [
             Slot {
               type "lego cross+"

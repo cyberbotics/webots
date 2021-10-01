@@ -20,9 +20,6 @@ DirectionalLight {
   direction 0 -1 0.7
 }
 DEF FLOOR Floor {
-  texture [
-    "webots://projects/default/worlds/textures/carpet.jpg"
-  ]
 }
 DEF Leg_test Robot {
   translation 0 0.28 0.05
