@@ -18,6 +18,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
@@ -406,7 +407,7 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
     }
   } else {
     // body
-    double theta = asin(-collisionPoint.x() / r);
+    double theta = WbMathsUtilities::clampedAsin(-collisionPoint.x() / r);
     assert(!std::isnan(theta));
     if (-collisionPoint.y() > 0)
       theta = M_PI - theta;
