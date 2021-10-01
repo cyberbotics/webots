@@ -14,6 +14,7 @@
 
 #include "WbRotation.hpp"
 
+#include "WbMathsUtilities.hpp"
 #include "WbMatrix3.hpp"
 #include "WbQuaternion.hpp"
 
@@ -48,7 +49,7 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
 
 void WbRotation::fromMatrix3(const WbMatrix3 &M) {
   // Reference: https://www.geometrictools.com/Documentation/RotationRepresentations.pdf
-  const double theta = acos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
+  const double theta = WbMathsUtilities::clampedAcos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
   if (theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {  // If `theta == 0`
     mX = 1;
     mY = 0;
