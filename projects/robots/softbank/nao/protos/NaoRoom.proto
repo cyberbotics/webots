@@ -54,7 +54,7 @@ Solid {
     }
     DEF NORTH Transform {
       translation 2 1 -0.375
-      rotation 0 0 1 1.5708
+      rotation -0.577350 -0.577352 0.577350 2.094399
       children [
         Shape {
           appearance DEF WALL_APPEARANCE Roughcast {
@@ -70,7 +70,7 @@ Solid {
     }
     DEF SOUTH Transform {
       translation -2 1 0
-      rotation 0 0 1 -1.5708
+      rotation -0.577350 0.577352 -0.577350 2.094399
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -82,7 +82,7 @@ Solid {
     }
     DEF EAST Transform {
       translation -0.375 1 2
-      rotation 1 0 0 -1.5708
+      rotation 1 0 0 3.141585
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -94,7 +94,6 @@ Solid {
     }
     DEF WEST Transform {
       translation 0 1 -2
-      rotation 1 0 0 1.5708
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -106,7 +105,7 @@ Solid {
     }
     DEF WARDROBE Transform {
       translation 1.625 1 1.625
-      rotation -0.281052 0.678604 -0.678606 3.68956
+      rotation 0 1 0 -2.356284
       children [
         Shape {
           appearance PBRAppearance {
@@ -140,6 +139,7 @@ Solid {
           children [
             Transform {
               translation 0 0.01 0
+              rotation 1 0 0 -1.5708
               children [
                 Shape {
                   appearance BrushedAluminium {}
@@ -153,6 +153,7 @@ Solid {
             }
             Transform {
               translation 0 0.04 0
+              rotation 1 0 0 -1.5708
               children [
                 Shape {
                   appearance BrushedAluminium {}
@@ -166,7 +167,6 @@ Solid {
             }
             Transform {
               translation 0 0.07 -0.05
-              rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance BrushedAluminium {}
@@ -202,6 +202,7 @@ Solid {
     children [
       DEF FLOOR Transform {
         translation 0 0 0
+        rotation 1 0 0 -1.5708
         children [
           Plane {
             size 4 4
@@ -210,7 +211,7 @@ Solid {
       }
       DEF CEIL Transform {
         translation 0 2 0
-        rotation 1 0 0 3.1415
+        rotation 1 0 0 1.5708
         children [
           Plane {
             size 4 4
@@ -219,7 +220,7 @@ Solid {
       }
       DEF NORTH Transform {
         translation 2 1 -0.375
-        rotation 0 0 1 1.5708
+        rotation -0.577350 -0.577352 0.577350 2.094399
         children [
           Plane {
             size 2 3.25
@@ -228,7 +229,7 @@ Solid {
       }
       DEF SOUTH Transform {
         translation -2 1 0
-        rotation 0 0 1 -1.5708
+        rotation -0.577350 0.577352 -0.577350 2.094399
         children [
           Plane {
             size 2 4
@@ -237,7 +238,7 @@ Solid {
       }
       DEF EAST Transform {
         translation -0.375 1 2
-        rotation 1 0 0 -1.5708
+        rotation 1 0 0 3.14159
         children [
           Plane {
             size 3.25 2
@@ -246,7 +247,6 @@ Solid {
       }
       DEF WEST Transform {
         translation 0 1 -2
-        rotation 1 0 0 1.5708
         children [
           Plane {
             size 4 2
@@ -255,7 +255,7 @@ Solid {
       }
       DEF WARDROBE Transform {
         translation 1.625 1 1.625
-        rotation -0.281052 0.678604 -0.678606 3.68956
+        rotation 0 1 0 -2.356284
         children [
           Plane {
             size 1.061 2
