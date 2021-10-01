@@ -125,8 +125,8 @@ Solid {
     }
     DEF DOOR_SOUTH VisualArmature {
       translation -1.99 0.9 1.5
-      rotation 0 1 0 1.5708
-      dimension 0.8 1.8 0.01
+      rotation 1 0 0 1.5708
+      dimension 0.01 0.8 1.8
       textureUrl [
         "webots://projects/robots/softbank/nao/protos/textures/living_room_door.jpg"
       ]
@@ -183,7 +183,8 @@ Solid {
     }
     DEF DOOR_WEST VisualArmature {
       translation 1 0.9 -1.99
-      dimension 0.8 1.8 0.01
+      rotation -0.577350 -0.577352 -0.577350 2.094399
+      dimension 0.01 0.8 1.8
       textureUrl [
         "webots://projects/robots/softbank/nao/protos/textures/entree_door.jpg"
       ]
