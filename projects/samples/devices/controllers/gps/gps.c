@@ -94,8 +94,7 @@ int main() {
       }
       case 'V': {
         const double *speed_vector_values = wb_gps_get_speed_vector(gps);
-        printf("GPS speed vector: %.3f %.3f %.3f\n", speed_vector_values[0], speed_vector_values[1],
-               speed_vector_values[2]);
+        printf("GPS speed vector: %.3f %.3f %.3f\n", speed_vector_values[0], speed_vector_values[1], speed_vector_values[2]);
         break;
       }
       default:
