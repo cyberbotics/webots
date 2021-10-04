@@ -16,7 +16,7 @@ Solid {
     DEF TRAY_GROUP Group {
       children [
         DEF BOX_UP Transform {
-          translation  0 0 0.005
+          translation 0 0 0.005
           children [
             Shape {
               appearance DEF TRAY_APPEARANCE PBRAppearance {

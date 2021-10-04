@@ -176,7 +176,6 @@ Solid {
     }
     DEF DOOR_WEST VisualArmature {
       translation -1.99 1 0.9
-      rotation 0.999719 0.016775 0.016772 0
       dimension 0.01 0.8 1.8
       textureUrl [
         "webots://projects/robots/softbank/nao/protos/textures/entree_door.jpg"
