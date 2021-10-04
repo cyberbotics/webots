@@ -336,8 +336,6 @@ bool WbSysInfo::isPointerSize64bits() {
   return (sizeof(void *) == 8);
 }
 
-#include <QtCore/QDebug>
-
 bool WbSysInfo::isVirtualMachine() {
   static char virtualMachine = -1;
   if (virtualMachine == 1)
