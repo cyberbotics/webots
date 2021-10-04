@@ -168,7 +168,7 @@ The `gpsReference` field of the [WorldInfo](worldinfo.md) node can be used to de
 
 The `wb_gps_get_speed` function returns the current [GPS](#gps) speed in meters per second.
 
-The `wb_gps_get_speed_vector` function returns the current [GPS](#gps) speed vector (difference between current and previous position) in centimeters.
+The `wb_gps_get_speed_vector` function returns the current [GPS](#gps) speed vector in meters per second.
 
 > **Note** [C, C++]: The returned vector is a pointer to the internal values managed by the [GPS](#gps) node, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.
