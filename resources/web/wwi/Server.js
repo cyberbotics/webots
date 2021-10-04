@@ -58,7 +58,7 @@ export default class Server {
 
   onError() {
     document.getElementById('webotsProgress').style.display = 'none';
-    this._view.onclose()
+    this._view.onquit()
   }
 
   onOpen(event) {
