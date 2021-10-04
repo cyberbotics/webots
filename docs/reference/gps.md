@@ -51,6 +51,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_gps_get_sampling_period`
 #### `wb_gps_get_values`
 #### `wb_gps_get_speed`
+#### `wb_gps_get_speed_vector`
 
 %tab-component "language"
 
@@ -64,6 +65,7 @@ void wb_gps_disable(WbDeviceTag tag);
 int wb_gps_get_sampling_period(WbDeviceTag tag);
 const double *wb_gps_get_values(WbDeviceTag tag);
 const double wb_gps_get_speed(WbDeviceTag tag);
+const double *wb_gps_get_speed_vector(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -80,6 +82,7 @@ namespace webots {
     int getSamplingPeriod() const;
     const double *getValues() const;
     const double getSpeed() const;
+    const double *getSpeedVector() const;
     // ...
   }
 }
@@ -164,6 +167,8 @@ This position can either be expressed in the cartesian coordinate system of Webo
 The `gpsReference` field of the [WorldInfo](worldinfo.md) node can be used to define the reference point of the GPS.
 
 The `wb_gps_get_speed` function returns the current [GPS](#gps) speed in meters per second.
+
+The `wb_gps_get_speed_vector` function returns the current [GPS](#gps) speed vector (difference between current and previous position) in centimeters.
 
 > **Note** [C, C++]: The returned vector is a pointer to the internal values managed by the [GPS](#gps) node, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.

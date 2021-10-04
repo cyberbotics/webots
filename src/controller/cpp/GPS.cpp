@@ -41,6 +41,10 @@ const double GPS::getSpeed() const {
   return wb_gps_get_speed(getTag());
 }
 
+const double *GPS::getSpeedVector() const {
+  return wb_gps_get_speed_vector(getTag());
+}
+
 const GPS::CoordinateSystem GPS::getCoordinateSystem() const {
   return CoordinateSystem(wb_gps_get_coordinate_system(getTag()));
 }
