@@ -368,7 +368,7 @@ bool WbSysInfo::isVirtualMachine() {
   __get_cpuid(0x1, &eax, &ebx, &ecx, &edx);
   if (!(ecx & (1 << 31))) {
     virtualMachine = 1;
-    return true;
+    return false;
   }
   const auto queryVendorIdMagic = 0x40000000;
   __get_cpuid(queryVendorIdMagic, &eax, &ebx, &ecx, &edx);
