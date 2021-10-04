@@ -309,7 +309,7 @@ bool WbGps::refreshSensorIfNeeded() {
 
   mSpeedVector = (t - mPreviousPosition);
   // compute current speed [m/s]
-  mMeasuredSpeed = mSpeedVector.length()  * 1000.0 / mSensor->elapsedTime();
+  mMeasuredSpeed = mSpeedVector.length() * 1000.0 / mSensor->elapsedTime();
   mPreviousPosition = t;
   if (mSpeedNoise->value() > 0.0)
     mMeasuredSpeed *= 1.0 + mSpeedNoise->value() * WbRandom::nextGaussian();
