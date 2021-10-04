@@ -32,7 +32,7 @@ namespace webots {
     const double *getValues() const;
     const double getSpeed() const;
     const double *getSpeedVector() const;
-    
+
     const CoordinateSystem getCoordinateSystem() const;
 
     static std::string convertToDegreesMinutesSeconds(double decimalDegree);
