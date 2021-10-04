@@ -336,6 +336,8 @@ bool WbSysInfo::isPointerSize64bits() {
   return (sizeof(void *) == 8);
 }
 
+#include <QtCore/QDebug>
+
 bool WbSysInfo::isVirtualMachine() {
   static char virtualMachine = -1;
   if (virtualMachine == 1)
@@ -364,13 +366,36 @@ bool WbSysInfo::isVirtualMachine() {
 #ifdef _WIN32
   unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
   __get_cpuid(0x1, &eax, &ebx, &ecx, &edx);
-  // cppcheck-suppress shiftTooManyBitsSigned
-  // cppcheck-suppress integerOverflow
-  if (ecx & (1 << 31)) {
+  if (!(ecx & (1 << 31))) {
     virtualMachine = 1;
     return true;
   }
-#endif
+  const auto queryVendorIdMagic = 0x40000000;
+  __get_cpuid(queryVendorIdMagic, &eax, &ebx, &ecx, &edx);
+  const int vendorIdLength = 13;
+  using VendorIdStr = char[vendorIdLength];
+  VendorIdStr hyperVendorId = {};
+  memcpy(hyperVendorId + 0, &ebx, 4);
+  memcpy(hyperVendorId + 4, &ecx, 4);
+  memcpy(hyperVendorId + 8, &edx, 4);
+  hyperVendorId[12] = '\0';
+  static const VendorIdStr vendors[]{
+    "KVMKVMKVM\0\0\0",  // KVM
+    "Microsoft Hv",     // Microsoft Hyper-V or Windows Virtual PC */
+    "VMwareVMware",     // VMware
+    "XenVMMXenVMM",     // Xen
+    "prl hyperv  ",     // Parallels
+    "VBoxVBoxVBox"      // VirtualBox
+  };
+  for (const auto &vendor : vendors) {
+    if (!memcmp(vendor, hyperVendorId, vendorIdLength)) {
+      virtualMachine = 1;
+      return true;
+    }
+  }
+  virtualMachine = 0;
+  return false;
+#else
 #ifdef __linux__
   QFile cpuinfoFile("/proc/cpuinfo");
   if (!cpuinfoFile.open(QIODevice::ReadOnly)) {
@@ -399,6 +424,7 @@ bool WbSysInfo::isVirtualMachine() {
 #endif
   virtualMachine = 0;
   return false;
+#endif  // _WIN32
 }
 
 #ifdef _WIN32
