@@ -48,6 +48,11 @@ export default class Server {
         self.socket.onerror = (event) => {
           console.error('Cannot connect to the simulation server');
         };
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById('webotsProgress').style.display = 'none';
+        alert('Could not connect to session server');
       });
   }
 
