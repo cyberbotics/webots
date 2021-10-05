@@ -25,6 +25,8 @@ class WbVector3;
 
 namespace WbMathsUtilities {
 
+  static const double EPSILON = 0.0001;
+
   enum { X, Y, Z };
 
   bool isPowerOf2(unsigned int n);
@@ -71,10 +73,7 @@ inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0
 // Make sure that the value is within the valid range before calling acos
 // If not then the behavior is similar to a clamped value.
 inline double WbMathsUtilities::clampedAcos(double value) {
-#ifndef NDEBUG
-  const double epsilon = 0.0001;
-  assert((fabs(value) < 1.0 + epsilon) && "Value passed to clampedAcos out of range.");
-#endif
+  assert((fabs(value) < 1.0 + EPSILON) && "Value passed to clampedAcos out of range.");
   if (value >= 1.0)
     return 0.0;
   if (value <= -1.0)
@@ -85,10 +84,7 @@ inline double WbMathsUtilities::clampedAcos(double value) {
 // Make sure that the value is within the valid range before calling asin
 // If not then the behavior is similar to a clamped value.
 inline double WbMathsUtilities::clampedAsin(double value) {
-#ifndef NDEBUG
-  const double epsilon = 0.0001;
-  assert((fabs(value) < 1.0 + epsilon) && "Value passed to clampedAsin out of range.");
-#endif
+  assert((fabs(value) < 1.0 + EPSILON) && "Value passed to clampedAsin out of range.");
   if (value >= 1.0)
     return M_PI / 2;
   if (value <= -1.0)
