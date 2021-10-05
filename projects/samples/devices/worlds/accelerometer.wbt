@@ -17,8 +17,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.2885707390778367 -0.24605897449626649 0.9253009832578353 4.581883497040502
-  position -0.01567541321616069 0.6279876239589378 0.4004306737883435
+  orientation -0.1532947541883355 -0.03322718315864176 0.9876217254787786 3.756478019191444
+  position 0.7390054169246648 0.5590865856999265 0.47392647092345563
 }
 TexturedBackground {
 }
@@ -51,12 +51,12 @@ DEF SLOPE Solid {
 }
 Robot {
   translation 0 0 0.165
-  rotation 1 0 0 -0.399996
+  rotation -0.19486091649802306 0.19486091649802306 0.9612795880715977 1.61028
   children [
     Accelerometer {
     }
     DEF FRONT_LED LED {
-      translation 0 -0.038 0.0825
+      translation 0.038 0 0.0825
       children [
         Shape {
           appearance PBRAppearance {
@@ -82,7 +82,7 @@ Robot {
       name "front led"
     }
     DEF RIGHT_LED LED {
-      translation 0.038 0 0.0825
+      translation 0 0.038 0.0825
       children [
         Shape {
           appearance PBRAppearance {
@@ -108,7 +108,7 @@ Robot {
       name "right led"
     }
     DEF BACK_LED LED {
-      translation 0 0.038 0.0825
+      translation -0.038 0 0.0825
       children [
         Shape {
           appearance PBRAppearance {
@@ -134,7 +134,7 @@ Robot {
       name "back led"
     }
     DEF LEFT_LED LED {
-      translation -0.038 0 0.0825
+      translation 0 -0.038 0.0825
       children [
         Shape {
           appearance PBRAppearance {
@@ -177,8 +177,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -190,8 +190,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation -1 0 0 0
+        translation 0 0.045 0.025
+        rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
         children [
           DEF WHEEL Transform {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -220,8 +220,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -233,8 +233,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation -1 0 0 0
+        translation 0 -0.045 0.025
+        rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
         children [
           USE WHEEL
         ]
@@ -243,11 +243,11 @@ Robot {
       }
     }
     DistanceSensor {
-      translation -0.02 0.063 -0.042
-      rotation 0 1 0 -2.6408
+      translation 0.042 0.02 0.063
+      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
       children [
         DEF SENSOR Transform {
-          rotation 0 0 1 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -273,8 +273,8 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.02 0.063 -0.042
-      rotation 0 1 0 2.6408
+      translation 0.042 -0.02 0.063
+      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
       children [
         USE SENSOR
       ]
@@ -288,8 +288,8 @@ Robot {
       aperture 1
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0 0 1 1.047198
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
