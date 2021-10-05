@@ -132,8 +132,7 @@ PROTO Extrusion [
             console.info('Warning: orientation of the crossSection at the first spine point is undefined.');
           }
           // make sure to always select the clockwise version of the perpendicular
-          let cy = wbvector3.cross(Z[i], Y[i]);
-          if (cy.z > 0) {
+          if (Y[i].x > 0 || Y[i].y > 0 || Y[i].z > 0) {
             Y[i].x = -Y[i].x;
             Y[i].y = -Y[i].y;
             Y[i].z = -Y[i].z;
