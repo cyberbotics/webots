@@ -6,7 +6,6 @@ WorldInfo {
   ]
   title "Accelerometer"
   basicTimeStep 8
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "body"
@@ -18,8 +17,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.022197113393683663 0.9966841134802175 0.07828196531220431 3.7970075316438625
-  position 0.44914816419424874 0.2852180850802933 -0.43614547208450727
+  orientation -0.2885707390778367 -0.24605897449626649 0.9253009832578353 4.581883497040502
+  position -0.01567541321616069 0.6279876239589378 0.4004306737883435
 }
 TexturedBackground {
 }
@@ -33,8 +32,8 @@ PointLight {
   location 0 0.6 0
 }
 DEF SLOPE Solid {
-  translation 0 0.15 0
-  rotation 1 0 0 -0.4
+  translation 0 0 0.15
+  rotation 1 0 0 -1.9707953071795865
   children [
     Shape {
       appearance OsbWood {
@@ -51,13 +50,13 @@ DEF SLOPE Solid {
   boundingObject USE BOX0
 }
 Robot {
-  translation 0 0.165 0
-  rotation 1 0 0 -0.4
+  translation 0 0 0.165
+  rotation 1 0 0 -0.399996
   children [
     Accelerometer {
     }
     DEF FRONT_LED LED {
-      translation 0 0.0825 -0.038
+      translation 0 -0.038 0.0825
       children [
         Shape {
           appearance PBRAppearance {
@@ -83,7 +82,7 @@ Robot {
       name "front led"
     }
     DEF RIGHT_LED LED {
-      translation 0.038 0.0825 0
+      translation 0.038 0 0.0825
       children [
         Shape {
           appearance PBRAppearance {
@@ -109,7 +108,7 @@ Robot {
       name "right led"
     }
     DEF BACK_LED LED {
-      translation 0 0.0825 0.038
+      translation 0 0.038 0.0825
       children [
         Shape {
           appearance PBRAppearance {
@@ -135,7 +134,7 @@ Robot {
       name "back led"
     }
     DEF LEFT_LED LED {
-      translation -0.038 0.0825 0
+      translation -0.038 0 0.0825
       children [
         Shape {
           appearance PBRAppearance {
@@ -161,7 +160,7 @@ Robot {
       name "left led"
     }
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
       children [
         Shape {
           appearance PBRAppearance {
@@ -195,7 +194,7 @@ Robot {
         rotation -1 0 0 0
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -245,7 +244,7 @@ Robot {
     }
     DistanceSensor {
       translation -0.02 0.063 -0.042
-      rotation 0 1 0 2.07
+      rotation 0 1 0 -2.6408
       children [
         DEF SENSOR Transform {
           rotation 0 0 1 1.57
@@ -275,7 +274,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.02 0.063 -0.042
-      rotation 0 1 0 1.07
+      rotation 0 1 0 2.6408
       children [
         USE SENSOR
       ]
@@ -290,7 +289,7 @@ Robot {
     }
     DEF SMILE Transform {
       translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      rotation 0 0 1 1.047198
       children [
         Shape {
           appearance PBRAppearance {
@@ -310,7 +309,8 @@ Robot {
   name "MyBot"
   contactMaterial "body"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]
