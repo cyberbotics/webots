@@ -18,15 +18,10 @@ int main(int argc, char **argv) {
                          "The speed value measured by the GPS should be NaN and not %lf before the device is enabled", speed);
 
   r = wb_gps_get_speed_vector(gps);
-  for (i = 0; i < 3; i++)
-    // clang-format off
-    // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
-    ts_assert_double_equal(r[i], NAN, "The %c value measured by the GPS should be NaN and not %g before the device is enabled",
-                           i == 0 ? 'X' :
-                           i == 1 ? 'Y' :
-                                    'Z',
-                           r[i]);
-  // clang-format on
+  ts_assert_vec3_equal(
+    r[0], r[1], r[2], NAN, NAN, NAN,
+    "The speed vector value measured by the GPS should be [NaN, NaN, NaN] not [%f, %f, %f] before the device is enabled", r[0],
+    r[1], r[2]);
 
   wb_gps_enable(gps, TIME_STEP);
 
@@ -35,17 +30,10 @@ int main(int argc, char **argv) {
     speed, NAN, "The speed value measured by the GPS should be NaN and not %lf before a wb_robot_step is performed", speed);
 
   r = wb_gps_get_speed_vector(gps);
-
-  for (i = 0; i < 3; i++)
-    // clang-format off
-    // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
-    ts_assert_double_equal(r[i], NAN,
-                           "The %c value measured by the GPS should be NaN and not %g before a wb_robot_step is performed",
-                           i == 0 ? 'X' :
-                           i == 1 ? 'Y' :
-                                    'Z',
-                           r[i]);
-  // clang-format on
+  ts_assert_vec3_equal(
+    r[0], r[1], r[2], NAN, NAN, NAN,
+    "The speed vector value measured by the GPS should be [NaN, NaN, NaN] not [%f, %f, %f] before a wb_robot_step is performed",
+    r[0], r[1], r[2]);
 
   wb_robot_step(2 * TIME_STEP);
 
@@ -54,16 +42,10 @@ int main(int argc, char **argv) {
                             speed);
 
   r = wb_gps_get_speed_vector(gps);
-  for (i = 0; i < 3; i++)
-    // clang-format off
-    // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
-    ts_assert_double_in_delta(r[i], e[i], 0.000001,
-                              "The %c value measured by the GPS should be %g and not %g after %d wb_robot_step(s)",
-                              i == 0 ? 'X' :
-                              i == 1 ? 'Y' :
-                                       'Z',
-                              e[i], r[i], 2);
-  // clang-format on
+  ts_assert_vec3_equal(
+    r[0], r[1], r[2], NAN, NAN, NAN,
+    "The speed vector value measured by the GPS should be [%f, %f, %f] not [%f, %f, %f] after %d wb_robot_step(s)", e[0], e[1],
+    e[2], r[0], r[1], r[2], 2);
 
   ts_send_success();
   return EXIT_SUCCESS;
