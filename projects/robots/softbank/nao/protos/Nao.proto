@@ -681,7 +681,7 @@ PROTO Nao [
         rotation 0.0781175 -0.443112 -0.893056 0.389797
         children [
           DEF SONAR_SHAPE Transform {
-            rotation 0 0 1 1.5708
+            rotation 0 1 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {
