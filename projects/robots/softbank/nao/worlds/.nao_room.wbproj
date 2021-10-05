@@ -7,3 +7,5 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/nao_demo_python/nao_demo_python.py"
 consoles: Console:All:All
+renderingDevicePerspectives: NAO:CameraBottom;1;1;0;0.672973
+renderingDevicePerspectives: NAO:CameraTop;1;1;0;0
