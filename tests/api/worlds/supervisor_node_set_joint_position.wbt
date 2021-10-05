@@ -195,6 +195,7 @@ Robot {
   controller ""
 }
 UR5e {
+  rotation 1 0 0 4.712388966
   controller "supervisor_node_set_joint_position_ur5e"
   supervisor TRUE
   toolSlot [

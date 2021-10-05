@@ -4,6 +4,39 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Stefania Pedrazzi [Cyberbotics] 09/20/2021 09:37:53
+We will present how to use @Webots for #AI applications at #IROS2021 "Open Deep Learning Toolkit for Robotics: Towards Democratizing Artificial Intelligence" workshop! Join us on October 1!
+
+For more information about the workshop:
+
+[https://events.pal-robotics.com/Iros2021-Workshop](https://events.pal-robotics.com/Iros2021-Workshop)
+%figure
+![tweet_image_workshop.png](https://cdn.discordapp.com/attachments/568354695513374730/889445254250524672/tweet_image_workshop.png)
+%end
+
+
+Hi, no there is no official package of Webots compiled for ARM architectures.
+
+In case, here are the instructions to compile Webots from sources:
+
+[https://github.com/cyberbotics/webots/wiki/macOS-installation](https://github.com/cyberbotics/webots/wiki/macOS-installation)
+
+##### uwe.arzt 09/19/2021 13:05:27
+Tried to compile, but fails on my M1 Mac, because it compiles for ARM, but Webots is still X86. Is there a ARM + macOS versions of Webots available somewhere? Or do i have to crosscompile?
+
+##### Darko Lukić [Cyberbotics] 09/06/2021 09:01:38
+**Webots API binding for Rust**
+
+
+
+We are happy to share a community contributed Webots API binding for Rust:
+
+[https://github.com/acj/webots-rs](https://github.com/acj/webots-rs)
+
+
+
+Hopefully, the project will be useful to the Rust community.
+
 ##### Olivier Michel [Cyberbotics] 08/19/2021 07:19:17
 New tutorial in Webots Series: Move Your Robot to Specific Coordinates [https://levelup.gitconnected.com/webots-series-move-your-robot-to-specific-coordinates-ecf50cb4244b](https://levelup.gitconnected.com/webots-series-move-your-robot-to-specific-coordinates-ecf50cb4244b)
 

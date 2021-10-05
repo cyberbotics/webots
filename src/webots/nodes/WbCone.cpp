@@ -139,6 +139,9 @@ void WbCone::buildWrenMesh() {
 
   mWrenMesh = wr_static_mesh_unit_cone_new(mSubdivision->value(), mSide->isTrue(), mBottom->isTrue());
 
+  // Restore pickable state
+  setPickable(isPickable());
+
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 
   updateScale();

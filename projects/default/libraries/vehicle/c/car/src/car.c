@@ -57,7 +57,7 @@ static const char *wheelsBrakesNames[] = {"right_front_brake", "left_front_brake
 
 static const char *lightNames[NB_LIGHTS] = {
   "front_lights",     "antifog_lights", "right_indicators",          "left_indicators",         "rear_lights",
-  "backwards_lights", "brake_ligths",   "interior_right_indicators", "interior_left_indicators"};
+  "backwards_lights", "brake_lights",   "interior_right_indicators", "interior_left_indicators"};
 
 static const char *displayNames[NB_MIRRORS] = {"rear_display", "left_wing_display", "right_wing_display"};
 
