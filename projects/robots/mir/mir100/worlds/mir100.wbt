@@ -314,7 +314,7 @@ Table {
 }
 OfficeTelephone {
   translation -1.343811 -0.209288 0.7
-  rotation 6.36081e-07 6.31868e-07 1 -2.3561953071795863
+  rotation 0 0 1 -2.3561953071795863
 }
 Wrench {
   translation -1.23886 -0.5886 0.71
