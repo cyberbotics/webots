@@ -634,7 +634,7 @@ PlatformCart {
   rotation -2.39745e-09 -1.20631e-07 -1 1.5708
   slot [
     DEF TARGET_SLOTS Solid {
-      translation 0.24 0.1 0.11
+      translation 0.1 0.14 0.11
       rotation 1 0 0 1.5708
       children [
         DEF SLOTS Group {
