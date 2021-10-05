@@ -167,11 +167,11 @@ PROTO AddLaneRoadSegment [
               coord Coordinate {
                 point [
                   %< if (newLaneleft) { >%
-                    %<= 0 >% %<= halfWidth >%                      %<= 0 >%
+                    %<= 0 >%      %<= halfWidth >%                      %<= 0 >%
                     %<= length >% %<= halfWidth >%                      %<= 0 >%
                     %<= length >% %<= halfWidth + outputAddedWidth >%   %<= 0 >%
                   %< } else { >%
-                    %<= 0 >% %<= -halfWidth >%                      %<= 0 >%
+                    %<= 0 >%      %<= -halfWidth >%                      %<= 0 >%
                     %<= length >% %<= -(halfWidth + outputAddedWidth) >% %<= 0 >%
                     %<= length >% %<= -halfWidth >%                      %<= 0 >%
                   %< } >%
@@ -313,15 +313,15 @@ PROTO AddLaneRoadSegment [
             coord Coordinate {
               point [
                 %< if (newLaneleft) { >%
-                  %<= length >% %<= halfWidth + outputAddedWidth >%   %<= 0.002 >%
-                  %<= length >% %<= halfWidth >%                      %<= 0.002 >%
-                  %<= length - 0.4 >% %<= halfWidth >%                      %<= 0.002 >%
-                  %<= length - 0.4 >% %<= halfWidth + outputAddedWidth >%   %<= 0.002 >%
+                  %<= length >%       %<= halfWidth + outputAddedWidth >% %<= 0.002 >%
+                  %<= length >%       %<= halfWidth >%                    %<= 0.002 >%
+                  %<= length - 0.4 >% %<= halfWidth >%                    %<= 0.002 >%
+                  %<= length - 0.4 >% %<= halfWidth + outputAddedWidth >% %<= 0.002 >%
                 %< } else { >%
-                  %<= length >% %<= -halfWidth - outputAddedWidth>%    %<= 0.002 >%
-                  %<= length >% %<= -halfWidth >%                      %<= 0.002 >%
-                  %<= length - 0.4 >% %<= -halfWidth >%                      %<= 0.002 >%
-                  %<= length - 0.4 >% %<= -halfWidth - outputAddedWidth >%   %<= 0.002 >%
+                  %<= length >%       %<= -halfWidth - outputAddedWidth>%  %<= 0.002 >%
+                  %<= length >%       %<= -halfWidth >%                    %<= 0.002 >%
+                  %<= length - 0.4 >% %<= -halfWidth >%                    %<= 0.002 >%
+                  %<= length - 0.4 >% %<= -halfWidth - outputAddedWidth >% %<= 0.002 >%
                 %< } >%
               ]
             }

@@ -6,7 +6,7 @@
 
 PROTO Roundabout [
   field        SFVec3f              translation              0 0 0
-  field        SFRotation           rotation                 0 1 0 0
+  field        SFRotation           rotation                 0 0 1 0
   field        SFString             name                     "roundabout"                          # Defines the roundabout name.
   field        SFString             id                       ""                                    # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        MFString             connectedRoadIDs         []                                    # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
@@ -189,7 +189,6 @@ PROTO Roundabout [
         Road {
           translation %<= centralPoint.x >% %<= centralPoint.y >% 0
           rotation 0 0 1 %<= 1.5708 - rotationAngle >%
-          %< console.log(rotationAngle); >%
           name "road border %<= i >%"
           width %<= roadsWidth >%
           numberOfLanes IS startRoadsNumberOfLanes
