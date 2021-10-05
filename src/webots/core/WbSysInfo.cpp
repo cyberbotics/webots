@@ -131,9 +131,8 @@ const QString &WbSysInfo::sysInfo() {
       QStringList list = kernel_version.split(rx, Qt::SkipEmptyParts);
       if (list.size() == 3) {
         int build_number = list[2].toInt();
-        if (build_number >= 2200) {
+        if (build_number >= 2200)
           version = "Windows 11";
-        }
       }
       sysInfo.append(version);
       break;
