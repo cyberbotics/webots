@@ -240,7 +240,7 @@ YoubotFlag {
 }
 Youbot {
   translation 0 0 0.102838
-  rotation 0 0 1 1.57
+  rotation 0 0 1 1.5708
   controller "hanoi"
   bodySlot [
     Kinect {

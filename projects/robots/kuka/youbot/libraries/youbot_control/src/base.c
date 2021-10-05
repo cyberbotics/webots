@@ -200,7 +200,7 @@ void base_goto_run() {
   const double *compass_raw_values = wb_compass_get_values(compass);
 
   // compute 2d vectors
-  Vector2 v_gps = {gps_raw_values[0], gps_raw_values[2]};
+  Vector2 v_gps = {gps_raw_values[1], gps_raw_values[0]};
   Vector2 v_front = {compass_raw_values[0], compass_raw_values[1]};
   Vector2 v_right = {-v_front.v, v_front.u};
   Vector2 v_north = {1.0, 0.0};
