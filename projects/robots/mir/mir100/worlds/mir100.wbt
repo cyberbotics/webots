@@ -42,7 +42,6 @@ Mir100 {
     Robotino3Platform {
       extension [
         ConveyorPlatform {
-          translation 0 0 0
           controller "keyboard_conveyor_platform"
           speed 0.6
         }
