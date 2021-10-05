@@ -90,48 +90,56 @@ WoodenBox {
 }
 WoodenBox {
   translation -1.75 1.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(7)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
   translation -1.75 0.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(8)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
   translation -1.75 -0.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(9)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
   translation -1.75 -1.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(10)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
   translation 1.75 1.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(11)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
   translation 1.75 0.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(12)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
   translation 1.75 -0.5 0.25
+  rotation 0 0 1 1.5708
   name "wooden box(13)"
   size 1 0.5 0.5
   locked TRUE
 }
 WoodenBox {
   translation 1.75 -1.5 0.25
+  rotation 0 0 1 1.5708
   size 1 0.5 0.5
   locked TRUE
 }
