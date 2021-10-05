@@ -123,9 +123,21 @@ const QString &WbSysInfo::sysInfo() {
     case QSysInfo::WV_WINDOWS8_1:
       sysInfo.append("Windows 8.1");
       break;
-    case QSysInfo::WV_WINDOWS10:
-      sysInfo.append("Windows 10");
+    case QSysInfo::WV_WINDOWS10:  // Or Windows 11
+    {
+      QString version("Windows 10");
+      QString kernel_version = QSysInfo::kernelVersion();
+      QRegExp rx("[.]");
+      QStringList list = kernel_version.split(rx, Qt::SkipEmptyParts);
+      if (list.size() == 3) {
+        int build_number = list[2].toInt();
+        if (build_number >= 2200) {
+          version = "Windows 11";
+        }
+      }
+      sysInfo.append(version);
       break;
+    }
     default:
       sysInfo.append("Windows");
       break;
