@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
 
   r = wb_gps_get_speed_vector(gps);
   ts_assert_vec3_in_delta(
-    r[0], r[1], r[2], e[0], e[1], e[2],
+    r[0], r[1], r[2], e[0], e[1], e[2], 0.0001,
     "The speed vector value measured by the GPS should be [%f, %f, %f] not [%f, %f, %f] after %d wb_robot_step(s)", e[0], e[1],
     e[2], r[0], r[1], r[2], 2);
 
