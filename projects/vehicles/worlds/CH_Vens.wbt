@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"
@@ -105,8 +105,8 @@ DEF FLOOR Solid {
         ]
         xDimension 52
         xSpacing 29.6396
-        zDimension 60
-        zSpacing 29.5398
+        yDimension 60
+        ySpacing 29.5398
       }
     }
   ]

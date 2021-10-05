@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # Robocup Humanoid League 2021 soccer goal.
@@ -7,7 +7,7 @@
 
 PROTO RobocupGoal [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "robotstadium goal"
   field SFColor    frameColor         1 1 1               # Defines the color of the goal frame.
   field SFColor    netColor           0.3 0.3 0.3         # Defines the color of the net.
@@ -42,7 +42,7 @@ PROTO RobocupGoal [
     children [
       DEF HORIZONTAL_POST_TRANS Transform {
         translation 0 0 %<= post_height >%
-        rotation 0 0 1 1.5708
+        rotation -0.577350 -0.577352 0.577350 2.094399
         children [
           Shape {
             appearance DEF POST_APP PBRAppearance {
@@ -59,7 +59,6 @@ PROTO RobocupGoal [
       }
       DEF RIGHT_POST_TRANS Transform {
         translation %<= -post_spacing / 2 >% 0 %<= post_height / 2 >%
-        rotation 1 0 0 1.5708
         children [
           Shape {
             appearance USE POST_APP
@@ -74,7 +73,6 @@ PROTO RobocupGoal [
       }
       DEF LEFT_POST_TRANS Transform {
         translation %<= post_spacing / 2 >% 0 %<= post_height / 2 >%
-        rotation 1 0 0 1.5708
         children [
           Shape {
             appearance USE POST_APP
@@ -148,7 +146,7 @@ PROTO RobocupGoal [
       }
       Transform {
         translation 0 %<= -C >% %<= post_height >%
-        rotation 0 0 1 1.5708
+        rotation -0.577350 -0.577352 0.577350 2.094399
         children [
           DEF SMALL_HORIZONTAL_POST_SHAPE Shape {
             appearance USE POST_APP
@@ -161,14 +159,13 @@ PROTO RobocupGoal [
       }
       Transform {
         translation 0 %<= -C >% %<= backpost_radius / 2 >%
-        rotation 0 0 1 1.5708
+        rotation -0.577350 -0.577352 0.577350 2.094399
         children [
           USE SMALL_HORIZONTAL_POST_SHAPE
         ]
       }
       Transform {
         translation %<= post_spacing / 2 >% %<= -C >% %<= post_height / 2 >%
-        rotation 1 0 0 1.5708
         children [
           DEF SMALL_POST_SHAPE Shape {
             appearance USE POST_APP
@@ -183,13 +180,13 @@ PROTO RobocupGoal [
       }
       Transform {
         translation %<= -post_spacing / 2 >% %<= -C >% %<= post_height / 2 >%
-        rotation 1 0 0 1.5708
         children [
           USE SMALL_POST_SHAPE
         ]
       }
       Transform {
         translation %<= post_spacing / 2 >% %<= -C / 2 >% %<= post_height >%
+        rotation 1 0 0 -1.5708
         children [
           DEF OTHER_SMALL_POST_SHAPE Shape {
             appearance USE POST_APP
@@ -204,18 +201,21 @@ PROTO RobocupGoal [
       }
       Transform {
         translation %<= -post_spacing / 2 >% %<= -C / 2 >% %<= post_height >%
+        rotation 1 0 0 -1.5708
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
       }
       Transform {
         translation %<= post_spacing / 2 >% %<= -C / 2 >% %<= backpost_radius / 2 >%
+        rotation 1 0 0 -1.5708
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
       }
       Transform {
         translation %<= -post_spacing / 2 >% %<= -C / 2 >% %<= backpost_radius / 2 >%
+        rotation 1 0 0 -1.5708
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]

@@ -171,7 +171,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 E-puck {
   SFVec3f    translation                  0 0 0
-  SFRotation rotation                     0 1 0 0
+  SFRotation rotation                     0 0 1 0
   SFString   name                         "e-puck"
   SFString   controller                   "e-puck_avoid_obstacles"
   MFString   controllerArgs               []

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -22,7 +22,7 @@
 
 PROTO Forest [
   field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field MFString   treesFiles           []                        # Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X, Y, Z'). The path to these files must be defined with respect to the world file.
   field MFVec2f    shape                [-20 -10, 20 -10, 0 25]   # Alternatively, the position of each trees can be defined using the shape field. This field defines the shape of the forest, in that case the position of the trees is randomly generated from this shape.
   field SFFloat    density              0.2                       # If the forest is defined using the `shape` field, this field defines the density of three to be generated (in trees per meter square).
@@ -178,14 +178,14 @@ PROTO Forest [
                     let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].z}, trees[j].angle);
                     for (let i = 0; i <= 3; ++i) {
                       coordBuffer += circle[i].x + ' ';
-                      coordBuffer += trees[j].y + ' ';
-                      coordBuffer += circle[i].y + '\n';
+                      coordBuffer += circle[i].y + ' ';
+                      coordBuffer += trees[j].y + '\n';
                     }
                     // top cylinder
                     for (let i = 0; i <= 3; ++i) {
                       coordBuffer += circle[i].x + ' ';
-                      coordBuffer += trees[j].height + trees[j].y + ' ';
-                      coordBuffer += circle[i].y + '\n';
+                      coordBuffer += circle[i].y + ' ';
+                      coordBuffer += trees[j].height + trees[j].y + '\n';
                     }
                   }
                 >%
@@ -243,7 +243,7 @@ PROTO Forest [
               coord Coordinate {
                 point [
                   %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                    %<= shape[i].x >% %<= 0 >% %<= shape[i].y >%
+                    %<= shape[i].x >% %<= shape[i].y >% %<= 0 >%
                   %< } >%
                 ]
               }
@@ -256,13 +256,13 @@ PROTO Forest [
               }
               coordIndex [
                 %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                  %<= (nbShapePoint - i) - 1 >%
+                  %<= i >%
                 %< } >%
                 -1
               ]
               texCoordIndex [
                 %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                  %<= (nbShapePoint - i) - 1 >%
+                  %<= i >%
                 %< } >%
                 -1
               ]

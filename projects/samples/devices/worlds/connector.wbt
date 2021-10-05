@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Example use of a Connector device."
@@ -361,7 +361,7 @@ DEF LIGHT_MYBOT Robot {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1 0 0 -1.57
+            rotation 0 0 1 1.57
             model "magnetic"
             autoLock TRUE
             axisTolerance 3.14
@@ -540,7 +540,7 @@ DEF HEAVY_MYBOT Robot {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1 0 0 -1.57
+            rotation 0 0 1 1.57
             model "magnetic"
             autoLock TRUE
             axisTolerance 3.14
@@ -658,7 +658,6 @@ DEF HEAVY_MYBOT Robot {
       ]
       endPoint Solid {
         translation 0 0.06 0
-        rotation 1 0 0 0
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
@@ -702,7 +701,7 @@ DEF HEAVY_MYBOT Robot {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1 0 0 -1.57
+            rotation 0 0 1 1.57
             model "magnetic"
             autoLock TRUE
             axisTolerance 3.14

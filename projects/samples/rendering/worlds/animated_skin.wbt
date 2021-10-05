@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Model of the Salamandra Robotica amphibious robot developped at the BIOROB (http://biorob.epfl.ch) with an animated skin"
@@ -1243,7 +1243,8 @@ DEF SALAMANDER Robot {
     }
     Skin {
       translation 0 0 0.38
-      model "salamander"
+      rotation 0.5773489358556708 -0.5773509358554485 -0.5773509358554485 -2.094395307179586
+      modelUrl "webots://projects/samples/rendering/worlds/skins/salamander.fbx"
       appearance [
         PBRAppearance {
           baseColorMap ImageTexture {

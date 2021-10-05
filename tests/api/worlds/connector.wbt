@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   title "Modular Robot"
   basicTimeStep 8
@@ -14,6 +14,7 @@ Background {
   ]
 }
 Floor {
+  rotation 1 0 0 -1.5708
   size 2 2
 }
 Yamor {

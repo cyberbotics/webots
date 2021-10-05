@@ -255,17 +255,17 @@ int WbBox::findIntersectedFace(const WbVector3 &minBound, const WbVector3 &maxBo
 
   // determine intersected face
   if (fabs(intersectionPoint.x() - maxBound.x()) < TOLERANCE)
-    return RIGHT_FACE;
-  else if (fabs(intersectionPoint.x() - minBound.x()) < TOLERANCE)
-    return LEFT_FACE;
-  else if (fabs(intersectionPoint.z() - minBound.z()) < TOLERANCE)
-    return BACK_FACE;
-  else if (fabs(intersectionPoint.z() - maxBound.z()) < TOLERANCE)
     return FRONT_FACE;
-  else if (fabs(intersectionPoint.y() - maxBound.y()) < TOLERANCE)
-    return TOP_FACE;
-  else if (fabs(intersectionPoint.y() - minBound.y()) < TOLERANCE)
+  else if (fabs(intersectionPoint.x() - minBound.x()) < TOLERANCE)
+    return BACK_FACE;
+  else if (fabs(intersectionPoint.z() - minBound.z()) < TOLERANCE)
     return BOTTOM_FACE;
+  else if (fabs(intersectionPoint.z() - maxBound.z()) < TOLERANCE)
+    return TOP_FACE;
+  else if (fabs(intersectionPoint.y() - maxBound.y()) < TOLERANCE)
+    return LEFT_FACE;
+  else if (fabs(intersectionPoint.y() - minBound.y()) < TOLERANCE)
+    return RIGHT_FACE;
 
   return -1;
 }
@@ -279,41 +279,9 @@ WbVector2 WbBox::computeTextureCoordinate(const WbVector3 &minBound, const WbVec
   WbVector3 vertex = point - minBound;
   WbVector3 size = maxBound - minBound;
   switch (intersectedFace) {
-    case FRONT_FACE:
-      u = vertex.x() / size.x();
-      v = 1 - vertex.y() / size.y();
-      if (nonRecursive) {
-        u = 0.25 * u + 0.50;
-        v = 0.50 * v + 0.50;
-      }
-      break;
-    case BACK_FACE:
-      u = 1 - vertex.x() / size.x();
-      v = 1 - vertex.y() / size.y();
-      if (nonRecursive) {
-        u = 0.25 * u;
-        v = 0.50 * v + 0.50;
-      }
-      break;
-    case LEFT_FACE:
-      u = vertex.z() / size.z();
-      v = 1 - vertex.y() / size.y();
-      if (nonRecursive) {
-        u = 0.25 * u + 0.25;
-        v = 0.50 * v + 0.50;
-      }
-      break;
-    case RIGHT_FACE:
-      u = 1 - vertex.z() / size.z();
-      v = 1 - vertex.y() / size.y();
-      if (nonRecursive) {
-        u = 0.25 * u + 0.75;
-        v = 0.50 * v + 0.50;
-      }
-      break;
     case TOP_FACE:
       u = vertex.x() / size.x();
-      v = vertex.z() / size.z();
+      v = 1 - vertex.y() / size.y();
       if (nonRecursive) {
         u = 0.25 * u + 0.50;
         v = 0.50 * v;
@@ -321,10 +289,42 @@ WbVector2 WbBox::computeTextureCoordinate(const WbVector3 &minBound, const WbVec
       break;
     case BOTTOM_FACE:
       u = vertex.x() / size.x();
-      v = 1 - vertex.z() / size.z();
+      v = vertex.y() / size.y();
       if (nonRecursive) {
         u = 0.25 * u;
         v = 0.50 * v;
+      }
+      break;
+    case FRONT_FACE:
+      u = vertex.y() / size.y();
+      v = 1 - vertex.z() / size.z();
+      if (nonRecursive) {
+        u = 0.25 * u + 0.75;
+        v = 0.50 * v + 0.50;
+      }
+      break;
+    case BACK_FACE:
+      u = 1 - vertex.y() / size.y();
+      v = 1 - vertex.z() / size.z();
+      if (nonRecursive) {
+        u = 0.25 * u + 0.25;
+        v = 0.50 * v + 0.50;
+      }
+      break;
+    case LEFT_FACE:
+      u = 1 - vertex.x() / size.x();
+      v = 1 - vertex.z() / size.z();
+      if (nonRecursive) {
+        u = 0.25 * u;
+        v = 0.50 * v + 0.50;
+      }
+      break;
+    case RIGHT_FACE:
+      u = vertex.x() / size.x();
+      v = 1 - vertex.z() / size.z();
+      if (nonRecursive) {
+        u = 0.25 * u + 0.50;
+        v = 0.50 * v + 0.50;
       }
       break;
     default:
@@ -393,8 +393,8 @@ void WbBox::recomputeBoundingSphere() const {
 WbVector3 WbBox::computeFrictionDirection(const WbVector3 &normal) const {
   WbVector3 localNormal = normal * matrix().extracted3x3Matrix();
   // Find most probable face and return first friction direction in the local coordinate system
-  if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))
-    return WbVector3(0, 0, 1);
+  if ((fabs(localNormal[2]) > fabs(localNormal[0])) && (fabs(localNormal[2]) > fabs(localNormal[1])))
+    return WbVector3(1, 0, 0);
   else
-    return WbVector3(0, 1, 0);
+    return WbVector3(0, 0, 1);
 }

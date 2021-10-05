@@ -35,7 +35,7 @@ The `ROBOTIQ 3F Gripper` is a 3-fingers adaptive robot gripper.
 ```
 PROTO Robotiq3fGripper [
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "ROBOTIQ 3f Gripper"
 ]
 ```

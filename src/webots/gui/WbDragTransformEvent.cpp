@@ -102,7 +102,7 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
     mIntersectionOutput = mMouseRay.intersects(mDragPlane);
     WbVector3 displacementFromInitialPosition =
-      mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset - mInitialPosition;
+      mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset - mInitialPosition;
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
     displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
@@ -312,8 +312,10 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   mCoordinate(mManipulator->coordinate(handleNumber)),
   mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
   mInitialMatrix(mSelectedTransform->matrix()),
+  mInitialPosition(mSelectedTransform->position()),
   mStepSize(selectedTransform->rotationStep()),
-  mPreviousAngle(0.0) {
+  mPreviousAngle(0.0),
+  mInitialAngle(NAN) {
   mManipulator->highlightAxis(mHandleNumber + 3);
   mManipulator->setActive(true);
 
@@ -323,6 +325,8 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   WbVector4 scaledPos(mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   WbVector4 handlePos = mInitialMatrix * scaledPos;
   mZEye = viewpoint->zEye(handlePos.toVector3());
+
+  viewpoint->toPixels(selectedTransform->position(), mObjectScreenPosition);
 
   // init translation offset label
   mTextOverlay = WbWrenLabelOverlay::createOrRetrieve(WbWrenLabelOverlay::dragCaptionOverlayId(),
@@ -346,15 +350,12 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   // compute initial rotation offset
   WbVector3 mousePosition = mViewpoint->pick(initialMousePosition.x(), initialMousePosition.y(), mZEye);
   mousePosition = mInitialMatrix.pseudoInversed(mousePosition);  // local position
-  double x = mousePosition.dot(mManipulator->coordinateVector(mCoordinate + 1));
-  double y = mousePosition.dot(mManipulator->coordinateVector(mCoordinate + 2));
-  mInitialAngle = atan2(y, x);  // rotation angle
-
   mViewpoint->lock();
 }
 
 WbDragRotateAroundAxisEvent::~WbDragRotateAroundAxisEvent() {
   mManipulator->setActive(false);
+  mManipulator->showRotationLine(false);
   mManipulator->showNormal();
 
   // add rotation in undo stack
@@ -372,10 +373,28 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   WbVector3 detachedHandlePosition = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye);
   detachedHandlePosition = mInitialMatrix.pseudoInversed(detachedHandlePosition);  // local position
 
-  // project point on affine plane orthogonal to the rotation axis
-  double x = detachedHandlePosition.dot(mManipulator->coordinateVector(mCoordinate + 1));
-  double y = detachedHandlePosition.dot(mManipulator->coordinateVector(mCoordinate + 2));
-  double angle = atan2(y, x) - mInitialAngle;  // rotation angle
+  // Depending on the rotation vector direction in respect to the pointview direction of rotation should adapted
+  const int sign = WbMatrix3(mInitialQuaternionRotation)
+                         .column(mCoordinate)
+                         .dot((mInitialPosition - mViewpoint->position()->value()).normalized()) > 0 ?
+                     1 :
+                     -1;
+  if (isnan(mInitialAngle)) {
+    const double distance = sqrt(pow(mObjectScreenPosition.x() - currentMousePosition.x(), 2) +
+                                 pow(mObjectScreenPosition.y() - currentMousePosition.y(), 2));
+    if (distance < 8)
+      return;
+    mInitialAngle =
+      sign * atan2(mObjectScreenPosition.y() - currentMousePosition.y(), mObjectScreenPosition.x() - currentMousePosition.x());
+  }
+  double angle =
+    sign * atan2(mObjectScreenPosition.y() - currentMousePosition.y(), mObjectScreenPosition.x() - currentMousePosition.x()) -
+    mInitialAngle;  // rotation angle
+
+  mManipulator->showRotationLine(true);
+  mManipulator->updateRotationLine(mViewpoint->pick(mObjectScreenPosition.x(), mObjectScreenPosition.y(), mZEye),
+                                   mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye),
+                                   mViewpoint->orientation()->value(), mViewDistanceUnscaling);
 
   int stepCount = 0;
   if (mStepSize > 0) {

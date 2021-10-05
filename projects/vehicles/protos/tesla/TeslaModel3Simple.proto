@@ -1,11 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # Simple kinematic model of the Tesla model 3 to be moved with a Supervisor.
 
 PROTO TeslaModel3Simple [
   field       SFVec3f    translation                    0 0.4 0
-  field       SFRotation rotation                       0 1 0 0
+  field       SFRotation rotation                       0 0 1 0
   field       SFColor    color                          1 0 0
   field       MFColor    recognitionColors              [ 1 0 0 ]
   field       MFString   plate                          "webots://projects/vehicles/protos/textures/plate.jpg"

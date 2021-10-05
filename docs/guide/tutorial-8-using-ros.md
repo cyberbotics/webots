@@ -2,7 +2,7 @@
 
 This tutorial explains how to use the nodes from the `webots_ros` package provided with Webots.
 
-These examples were tested with ROS `noetic` and `melodic` on Linux.
+These examples were tested with ROS Noetic Ninjemys and ROS Melodic Morenia on Linux.
 There is no warranty they will work if you use a different platform or an ancient distribution of ROS.
 
 ### Check Compatibility of Webots ROS API

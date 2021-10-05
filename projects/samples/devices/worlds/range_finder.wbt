@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Example use of a Range-Finder Camera device."
@@ -266,7 +266,7 @@ Robot {
     }
     RangeFinder {
       translation 0 0.08 -0.031
-      rotation 0 0 -1 0
+      rotation 0.577349 -0.577349 -0.577349 -2.0944
       children [
         Transform {
           rotation 1 0 0 1.57

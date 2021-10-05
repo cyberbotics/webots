@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # Left version of the Hey5 hand end-effector for the TIAGo robot from PAL Robotics.
@@ -152,7 +152,7 @@ PROTO TiagoLeftHey5 [
                     ]
                     endPoint DEF HAND_LEFT_THUMB_PHALANX Solid {
                       translation -0.013 0 0
-                      rotation 0 1 0 0
+                      rotation 0 0 1 0
                       children [
                         DEF HAND_LEFT_FINGER_PHALANX Shape {
                           appearance MattePaint {
@@ -1947,7 +1947,7 @@ PROTO TiagoLeftHey5 [
                           ]
                           endPoint DEF HAND_LEFT_LITTLE_CONNECTOR_2 Solid {
                             translation -0.009 0 0
-                            rotation 0 1 0 0
+                            rotation 0 0 1 0
                             children [
                               USE HAND_LEFT_FINGER_CONNECTOR_SHAPE
                               DEF HAND_LEFT_LITTLE_PHALANX_3_JOINT HingeJoint {

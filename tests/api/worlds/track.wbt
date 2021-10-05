@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   basicTimeStep 8
   contactProperties [
@@ -25,6 +25,7 @@ DirectionalLight {
   direction 0 -1 0.4
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 DEF ROBOT1 Robot {
   translation 0 0.06 0
@@ -41,11 +42,12 @@ DEF ROBOT1 Robot {
     }
     DEF LEFT Track {
       translation 0 0 -0.07
+      rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       children [
         Transform {
-          translation 0 0 -0.005
-          rotation 0 1 0 1.5708
+          translation 0 0.005 0
+          rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
           children [
             DEF TRACK_GEOM Shape {
               appearance Appearance {
@@ -139,8 +141,8 @@ DEF ROBOT1 Robot {
       name "left track"
       contactMaterial "wheel material"
       boundingObject Transform {
-        translation 0 0 -0.005
-        rotation 0 1 0 1.5708
+        translation 0 0.005 0
+        rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
         scale 2 1 1
         children [
           USE TRACK_GEOM
@@ -172,11 +174,12 @@ DEF ROBOT1 Robot {
     }
     DEF RIGHT Track {
       translation 0 0 0.07
+      rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       children [
         Transform {
-          translation 0 0 -0.005
-          rotation 0 1 0 1.5708
+          translation 0 0.005 0
+          rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
           children [
             DEF TRACK_GEOM Shape {
               appearance Appearance {
@@ -208,8 +211,8 @@ DEF ROBOT1 Robot {
       name "right track"
       contactMaterial "wheel material"
       boundingObject Transform {
-        translation 0 0 -0.005
-        rotation 0 1 0 1.5708
+        translation 0 0.005 0
+        rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
         scale 2 1 1
         children [
           USE TRACK_GEOM
@@ -260,10 +263,11 @@ DEF ROBOT2 Robot {
     }
     Track {
       translation 0 -0.045 0
+      rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       contactMaterial "wheel material"
       boundingObject Box {
-        size 0.6 0.1 0.2
+        size 0.6 0.2 0.1
       }
       physics Physics {
       }

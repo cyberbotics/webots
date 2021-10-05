@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "A model of the NASA Sojourner Rover on Mars."
@@ -117,8 +117,8 @@ DEF GROUND Solid {
         ]
         xDimension 65
         xSpacing 20
-        zDimension 65
-        zSpacing 25
+        yDimension 65
+        ySpacing 25
       }
     }
   ]

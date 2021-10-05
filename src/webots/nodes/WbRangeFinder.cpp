@@ -67,6 +67,14 @@ void WbRangeFinder::postFinalize() {
   connect(mResolution, &WbSFDouble::changed, this, &WbRangeFinder::updateResolution);
 }
 
+void WbRangeFinder::updateOrientation() {
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotatePitch(M_PI_2);
+    mWrenCamera->rotateRoll(-M_PI_2);
+  }
+}
+
 void WbRangeFinder::initializeImageSharedMemory() {
   WbAbstractCamera::initializeImageSharedMemory();
   if (mImageShm) {
@@ -108,6 +116,9 @@ void WbRangeFinder::createWrenCamera() {
   WbAbstractCamera::createWrenCamera();
   applyMaxRangeToWren();
   applyResolutionToWren();
+
+  updateOrientation();
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbRangeFinder::updateOrientation);
 }
 
 /////////////////////

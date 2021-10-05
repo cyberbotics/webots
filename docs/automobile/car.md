@@ -156,7 +156,7 @@ They should be used to model parked vehicles (non-moving) or vehicles moved by a
 ```
  PROTO CarSimple {
   SFVec3f    translation             0 0.4 0
-  SFRotation rotation                0 1 0 0
+  SFRotation rotation                0 0 1 0
   SFColor    color                   0.0 0.25 0.65
   MFColor    recognitionColors       [ 0.0 0.25 0.65, 0.1 0.1 0.1 ]
   MFString   plate                   "textures/plate.jpg"
@@ -202,7 +202,7 @@ Similar to CarSimple, the TwoWheelerSimple PROTO displayed bellow is just a comm
 ```
 PROTO TwoWheelerSimple {
   field       SFVec3f    translation             0 0.25 0
-  field       SFRotation rotation                0 1 0 0
+  field       SFRotation rotation                0 0 1 0
   vrmlField   SFColor    primaryColor            0.43 0.11 0.1
   vrmlField   SFColor    secondaryColor          0.69 0.43 0.43
   field       MFColor    recognitionColors       [ 0.43 0.11 0.1, 0.69 0.43 0.43 ]

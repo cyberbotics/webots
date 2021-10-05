@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
@@ -248,7 +248,7 @@ DEF KITCHEN_BLOCK Transform {
         "Shelf (1,6, 1, 0)"
       ]
       handle CabinetHandle {
-        translation -0.3 0 0
+        translation 0 -0.3 0
         handleLength 0.1
         handleRadius 0.008
         handleColor 0.427451 0.513725 0.533333
@@ -282,7 +282,7 @@ DEF KITCHEN_BLOCK Transform {
         "Shelf (1,6, 1, 0)"
       ]
       handle CabinetHandle {
-        translation -0.15 0 0
+        translation 0 -0.15 0
         handleLength 0.1
         handleRadius 0.008
         handleColor 0.427451 0.513725 0.533333
@@ -314,7 +314,7 @@ DEF KITCHEN_BLOCK Transform {
         "Shelf (2, 1, 0, 3)"
       ]
       handle CabinetHandle {
-        translation -0.2 0 0
+        translation 0 -0.2 0
         handleLength 0.1
         handleRadius 0.008
         handleColor 0.427451 0.513725 0.533333
@@ -343,7 +343,7 @@ DEF KITCHEN_BLOCK Transform {
         "Shelf (1, 3 ,1 , 0)"
       ]
       handle CabinetHandle {
-        translation -0.2 0 0
+        translation 0 -0.2 0
         handleLength 0.1
         handleRadius 0.008
         handleColor 0.427451 0.513725 0.533333
@@ -372,7 +372,7 @@ DEF KITCHEN_BLOCK Transform {
         "Shelf (1, 3 ,1 , 0)"
       ]
       handle CabinetHandle {
-        translation -0.2 0 0
+        translation 0 -0.2 0
         handleLength 0.1
         handleRadius 0.008
         handleColor 0.427451 0.513725 0.533333
@@ -405,7 +405,7 @@ DEF KITCHEN_BLOCK Transform {
         "Shelf (2, 1, 0, 3)"
       ]
       handle CabinetHandle {
-        translation 0.1 0 0
+        translation 0 0.1 0
         handleLength 0.1
         handleRadius 0.008
         handleColor 0.427451 0.513725 0.533333

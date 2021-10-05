@@ -2556,7 +2556,7 @@ Please close any running instances of the controller and reload the world.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid &apos;zDimension&apos; (should be greater than 1) for use in boundingObject.</source>
+        <source>Invalid &apos;yDimension&apos; (should be greater than 1) for use in boundingObject.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/yamor
@@ -6,7 +6,7 @@
 
 PROTO Yamor [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.
   field SFString   name            "Yamor" # Is `Solid.name`.
   field SFString   controller      "yamor" # Is `Robot.controller`.
   field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
@@ -43,6 +43,7 @@ PROTO Yamor [
           }
           DEF CYLINDER_TRANS Transform {
             translation 0 0 -0.03
+            rotation 1 0 0 -1.5708
             children [
               Shape {
                 appearance USE PLASTIC
@@ -57,9 +58,10 @@ PROTO Yamor [
       }
       DEF REAR_CONNECTOR Connector {
         translation 0 0 0.03
+        rotation 0.5773516025212714 0.5773496025226483 0.5773496025226483 -2.094395307179586
         children [
           DEF ROUND_SHAPE Transform {
-            rotation 1 0 0 1.5708
+            rotation 0 1 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -114,7 +116,7 @@ PROTO Yamor [
             }
             DEF FRONT_CONNECTOR Connector {
               translation 0 0 -0.037
-              rotation 0 1 0 3.1416
+              rotation 0.5773489 -0.5773509358554485 -0.5773509358554485 -2.094395307179586
               children [
                 USE ROUND_SHAPE
               ]

@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   basicTimeStep 8
   coordinateSystem "NUE"
@@ -88,7 +88,6 @@ TexturedBackground {
 }
 Altino {
   translation -1.4707961 0.022 -0.5207904
-  rotation 0 1 0 0
   color 0 0.666667 1
 }
 CircleArena {

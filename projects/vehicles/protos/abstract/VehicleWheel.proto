@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/vehiclewheel
@@ -395,10 +395,15 @@ PROTO VehicleWheel [
       model "vehicle wheel"
       %< if (fields.boundingObject.value) { >%
         contactMaterial IS contactMaterial
-        boundingObject Cylinder {
-          height %<= thickness >%
-          radius %<= tireRadius >%
-          subdivision %<= subdivision >%
+        boundingObject Transform {
+          rotation 1 0 0 -1.5708
+          children [
+            Cylinder {
+              height %<= thickness >%
+              radius %<= tireRadius >%
+              subdivision %<= subdivision >%
+            }
+          ]
         }
         physics IS physics
       %< } >%

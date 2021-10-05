@@ -178,14 +178,14 @@ void WbTouchSensor::computeValue() {
 
     WbVector3 f1(&mFeedback->f1[0]);  // create WbVector3 from ODE vector
 
-    // by convention, TouchSensor's z-axis is the sensitive axis
-    // the orientation of the z-axis can be read directly from the rotation matrix
-    WbVector3 zaxis = matrix().zAxis();
+    // by convention, TouchSensor's x-axis is the sensitive axis
+    // the orientation of the x-axis can be read directly from the rotation matrix
+    WbVector3 xaxis = matrix().xAxis();
 
-    // compute how much of the force is aligned with the TouchSensors's z-axis
-    // use dot product: |force| * cos(theta) = dot(zaxis, sum) / |zaxis|
-    // we know that: |zaxis| == 1.0 (approximatively), therefore it can be ignored
-    double force = zaxis.dot(f1);
+    // compute how much of the force is aligned with the TouchSensors's x-axis
+    // use dot product: |force| * cos(theta) = dot(xaxis, sum) / |xaxis|
+    // we know that: |xaxis| == 1.0 (approximatively), therefore it can be ignored
+    double force = xaxis.dot(f1);
 
     // ignore negative forces because they would represent a pull rather than a push on the sensor
     force = force < 0.0 ? -force : 0.0;

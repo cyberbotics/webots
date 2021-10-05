@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "An office break room, surrounded by office desks."
@@ -511,7 +511,7 @@ Cabinet {
     "Shelf (2, 1, 0, 3)"
   ]
   handle CabinetHandle {
-    translation 0.26 0.02 0
+    translation 0 0.26 0.02
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333
@@ -541,7 +541,7 @@ Cabinet {
     "Shelf (1, 1, 0, 3)"
   ]
   handle CabinetHandle {
-    translation 0.02 0.01 0
+    translation 0 0.02 0.01
     handleLength 0.1
     handleRadius 0.008
     handleColor 0.427451 0.513725 0.533333

@@ -1,5 +1,19 @@
 # Webots R2021 Change Log
 
+## Webots R2021c
+Released on XX, XXth, 2021.
+
+  - New Features:
+    - Released [Skin](skin.md) node ([#3566](https://github.com/cyberbotics/webots/pull/3566)).
+  - Enhancements
+    - Improved performance on [Lidar](lidar.md) point cloud generation ([#3499](https://github.com/cyberbotics/webots/pull/3499)).
+    - Improved the user experience when using the object rotation around axis feature ([#3540](https://github.com/cyberbotics/webots/pull/3540)).
+    - Increased the mouse wheel speed when zooming the 3D window ([#3565](https://github.com/cyberbotics/webots/pull/3565)).
+  - Bug fixes
+    - Fixed the force direction applied by the [Track](track.md) node ([#3693](https://github.com/cyberbotics/webots/pull/3693)).
+  - Dependency Updates
+    - **Stopped support for Ubuntu 16.04 ([#3480](https://github.com/cyberbotics/webots/pull/3480)).**
+
 ## Webots R2021b Revision 1
 Released on XX, XXth, 2021.
 

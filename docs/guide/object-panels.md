@@ -15,9 +15,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 Panel {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "panel"
-  SFVec3f    size             1.2 1.5 0.05
+  SFVec3f    size             0.05 1.2 1.5
   SFFloat    borderHeight     0.05
   SFFloat    internalWidth    0.02
   SFInt32    panelsCount      2
@@ -60,7 +60,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PanelWithTubes {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "panel with tubes"
   SFNode     appearance  BrushedAluminium { textureTransform TextureTransform { scale 3 3 } }
 }
