@@ -111,12 +111,12 @@ PROTO StraightStairs [
           ]
           texCoordIndex [
             %< for (let n = 1; n <= nSteps; ++n) { >%
-              0 1 2 -1 0 2 3 -1
-              3 1 0 -1 3 2 1 -1
-              0 1 2 -1 0 2 3 -1
-              3 1 0 -1 3 2 1 -1
-              0 1 2 -1 0 2 3 -1
-              3 1 0 -1 3 2 1 -1
+              0 2 1 -1 0 3 2 -1
+              3 0 1 -1 3 1 2 -1
+              0 2 1 -1 0 3 2 -1
+              3 0 1 -1 3 1 2 -1
+              0 2 1 -1 0 3 2 -1
+              3 0 1 -1 3 1 2 -1
             %< } >%
           ]
         }
@@ -178,7 +178,7 @@ PROTO StraightStairs [
          const pAngle = Math.atan2(stairsRise, stairsRun);
     >%
       Solid {
-        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= (stepSize.y + stringerWidth) * -0.5 >% %<= stairsRise * 0.5 >% 
+        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= (stepSize.y + stringerWidth) * -0.5 >% %<= stairsRise * 0.5 >%
         children [
           DEF GEOM Shape {
             appearance IS stringerAppearance
@@ -194,7 +194,7 @@ PROTO StraightStairs [
         boundingObject USE GEOM
       }
       Solid {
-        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= (stepSize.y + stringerWidth) * 0.5 >% %<= stairsRise * 0.5 >% 
+        translation %<= (stairsRun - stepSize.x) * 0.5 >% %<= (stepSize.y + stringerWidth) * 0.5 >% %<= stairsRise * 0.5 >%
         children [
           USE GEOM
         ]
