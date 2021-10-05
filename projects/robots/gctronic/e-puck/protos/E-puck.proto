@@ -21,7 +21,7 @@ PROTO E-puck [
   field SFInt32            camera_width                 52                       # Is `Camera.width`.
   field SFInt32            camera_height                39                       # Is `Camera.height`.
   field SFBool             camera_antiAliasing          FALSE                    # Is `Camera.antiAliasing`.
-  field SFRotation         camera_rotation              -0.57735 -0.57735 0.57735 -2.094395          # Is `Camera.rotation`. Interesting setup: set `1 0 0 -0.47` in order to simulate the linear camera mode.
+  field SFRotation         camera_rotation              -0.57735 -0.57735 0.57735 -2.094395          # Is `Camera.rotation`. Interesting setup: set `-0.463463 -0.463463 0.755252 -1.847885` in order to simulate the linear camera mode.
   field SFFloat            camera_noise                 0.0                      # Is `Camera.noise`.
   field SFFloat            camera_motionBlur            0.0                      # Is `Camera.motionBlur`.
   field SFInt32            distance_sensor_numberOfRays 1                        # Is `DistanceSensor.numberOfRays`.
@@ -828,7 +828,7 @@ Robot {
           rotation 0 0.707107 0.707107 3.14159
           children [
             Transform {
-              rotation IS camera_rotation
+              rotation -0.57735 -0.57735 0.57735 -2.094395
               children [
                 Shape {
                   appearance PBRAppearance {
