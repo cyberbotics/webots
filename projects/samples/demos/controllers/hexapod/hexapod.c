@@ -33,9 +33,9 @@
 #define LO -0.02
 
 int main() {
-  const char *MOTOR_NAMES[NUM_MOTORS] = {"hip_motor_r0",  "hip_motor_r1",  "hip_motor_r2",  "hip_motor_l0",
-                                         "hip_motor_l1",  "hip_motor_l2",  "knee_motor_r0", "knee_motor_r1",
-                                         "knee_motor_r2", "knee_motor_l0", "knee_motor_l1", "knee_motor_l2"};
+  const char *MOTOR_NAMES[NUM_MOTORS] = {"hip_motor_l0",  "hip_motor_l1",  "hip_motor_l2",  "hip_motor_r0",
+                                         "hip_motor_r1",  "hip_motor_r2",  "knee_motor_l0", "knee_motor_l1",
+                                         "knee_motor_l2", "knee_motor_r0", "knee_motor_r1", "knee_motor_r2"};
   WbDeviceTag motors[NUM_MOTORS];
   const double pos[NUM_STATES][NUM_MOTORS] = {{BACK, FRONT, BACK, -FRONT, -BACK, -FRONT, LO, HI, LO, HI, LO, HI},
                                               {BACK, FRONT, BACK, -FRONT, -BACK, -FRONT, HI, HI, HI, HI, HI, HI},
