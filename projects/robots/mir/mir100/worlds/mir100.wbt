@@ -364,7 +364,7 @@ CardboardBox {
 }
 CardboardBox {
   translation -1.198389 2.100678 0.75
-  rotation -2.880499999987201e-06 7.676969999965889e-07 -0.9999999999955567 -0.523595307179586
+  rotation 0 0 -1 -0.523595307179586
   name "cardboard box(1)"
   size 0.6 0.4 0.3
 }
