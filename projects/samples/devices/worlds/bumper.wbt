@@ -6,8 +6,8 @@ WorldInfo {
   title "Bumper"
 }
 Viewpoint {
-  orientation 0.24794326528169608 -0.18452579889616286 -0.9510385726894485 4.8142893205319
-  position -0.1395379683462935 -1.0162322040686813 0.5562309115234528
+  orientation 0.41758200321886785 -0.4244526691091079 -0.803408490292374 4.749745160696491
+  position -0.29681687499609444 -0.9865552924538142 1.340719634526745
 }
 TexturedBackground {
 }
@@ -64,7 +64,7 @@ DEF BLUE_BOX Solid {
 }
 DEF YELLOW_BOX Solid {
   translation -0.2 -0.15 0.05
-  rotation -0.424433 -0.640256 -0.640256 -2.338812
+  rotation -0.42443324138352945 -0.6402563641263829 -0.6402563641263829 -2.338812
   children [
     Shape {
       appearance PBRAppearance {
@@ -110,11 +110,12 @@ DEF PINK_BOX Solid {
   }
 }
 Robot {
-  translation 0 0.15 0
-  rotation -0.203145 -0.692363 -0.692363 -2.740758
+  translation 0.15 0 0
+  rotation 0 0 1 2.35619
   children [
     Transform {
       translation 0 0 0.0415
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -131,7 +132,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 -1 0
+        axis 0 1 0
         anchor 0 0 0.025
       }
       device [
@@ -144,11 +145,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.045 0.025
-        rotation 0.134487 0.134487 0.981747 1.589217
+        translation 0 0.045 0.025
+        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176032 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -174,7 +175,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 -1 0
+        axis 0 1 0
         anchor 0 0 0.025
       }
       device [
@@ -187,8 +188,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.045 0.025
-        rotation -0.062357 -0.062357 0.996104 1.5747
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
         children [
           USE WHEEL
         ]
@@ -198,14 +199,14 @@ Robot {
       }
     }
     Transform {
-      translation -0.0385 0.02 0.063
-      rotation -0.427195 0.639337 0.639337 -2.334137
+      translation 0.0385 -0.02 0.063
+      rotation -0.726828171413359 -0.4856551145357015 -0.48565411453546564 -1.884582
       children [
         DEF UNUSED_EYE Group {
           children [
             Transform {
-              translation 1e-05 0 0
-              rotation 0.679693 0.275742 0.679693 2.603481
+              translation 0 0 1e-05
+              rotation 0 0 1 0.8
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -214,13 +215,13 @@ Robot {
                     metalness 0
                   }
                   geometry Box {
-                    size 0.005 0.02 0.005
+                    size 0.02 0.005 0.005
                   }
                 }
               ]
             }
             Transform {
-              rotation -0.351885 -0.867383 -0.351885 -1.712593
+              rotation 0 0 1 -0.8
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -229,7 +230,7 @@ Robot {
                     metalness 0
                   }
                   geometry Box {
-                    size 0.005 0.02 0.005
+                    size 0.02 0.005 0.005
                   }
                 }
               ]
@@ -239,8 +240,8 @@ Robot {
       ]
     }
     Transform {
-      translation -0.0385 0.02 0.063
-      rotation -0.427192 -0.639338 -0.639338 -2.334141
+      translation 0.0385 0.02 0.063
+      rotation -0.7268306455324123 0.4856527631523045 0.4856527631523045 -1.884578
       children [
         USE UNUSED_EYE
       ]
@@ -259,7 +260,12 @@ Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-          -0.041 0.015 0.038 -0.041 0.015 0.023 -0.0455 0 0.023 -0.041 -0.015 0.023 -0.041 -0.015 0.038 -0.0455 0 0.038
+            0.015 0.038 -0.041
+            0.015 0.023 -0.041
+            0 0.023 -0.0455
+            -0.015 0.023 -0.041
+            -0.015 0.038 -0.041
+            0 0.038 -0.0455
           ]
         }
         texCoord TextureCoordinate {
@@ -282,8 +288,8 @@ Robot {
       }
     }
     TouchSensor {
-      translation -0.045 0 0.02
-      rotation -0.577315 0.577368 0.577368 -2.094449
+      translation 0.045 0 0.02
+      rotation 1 0 0 3.141593
       children [
         Shape {
           appearance PBRAppearance {
@@ -311,7 +317,7 @@ Robot {
   name "mybot"
   boundingObject Transform {
     translation 0 0 0.0415
-    rotation 0.57735 0.57735 0.57735 2.094395
+    rotation 0 0 1 1.570796
     children [
       USE BODY
     ]
