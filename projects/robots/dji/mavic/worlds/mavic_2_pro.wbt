@@ -31,7 +31,7 @@ Floor {
 }
 Road {
   translation -43.8 9.2 0.01
-  rotation 0.726829660175909 0.485653500496276 0.485653500496276 1.884579782580257
+  rotation 0 0 1 -0.3926996938995747
   width 3
   numberOfLanes 1
   rightBorder FALSE
