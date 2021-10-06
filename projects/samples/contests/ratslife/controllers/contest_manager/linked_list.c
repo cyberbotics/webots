@@ -18,8 +18,8 @@
  * Description:  Implementation of the linked_list.h file
  */
 
-#include "linked_list.h"
 #include <stdlib.h>
+#include "linked_list.h"
 
 LLIST *list_add(LLIST **p, void *i) {
   if (p == NULL)
@@ -53,7 +53,7 @@ void list_remove(LLIST **p) {
   }
 }
 
-LLIST **list_search(LLIST **n, void *i) {
+LLIST **list_search(LLIST **n, const void *i) {
   if (n == NULL)
     return NULL;
 
