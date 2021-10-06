@@ -354,7 +354,7 @@ LeverValve {
 }
 Radiator {
   translation 0.528902 2.341308 0.33
-  rotation -1.11041e-07 -7.19235e-09 1 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
   numberOfFins 16
 }
 WoodenPalletStack {
