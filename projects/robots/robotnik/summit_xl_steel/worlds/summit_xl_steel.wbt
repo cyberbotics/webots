@@ -342,7 +342,7 @@ Wrench {
 }
 Hammer {
   translation -1.60381 -0.359288 0.71
-  rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
+  rotation 0 0 1 1.5708
 }
 PlatformCart {
   translation 0.927687 1.793317 0
