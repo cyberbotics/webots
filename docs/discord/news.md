@@ -4,6 +4,12 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Stefania Pedrazzi [Cyberbotics] 10/05/2021 07:40:41
+No, we don't have any new yet. We are still checking if there are some restrictions on the presented material.
+
+##### giaco\_mz 10/03/2021 10:36:29
+news about it? i was really interested in the topic
+
 ##### Stefania Pedrazzi [Cyberbotics] 09/27/2021 06:28:42
 After the workshop, we will decide if we will publish it on the Webots YouTube channel.
 

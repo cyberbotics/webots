@@ -2070,13 +2070,13 @@ You can built your own, import from URDF or using some other available tools
 
 That are available on Webots github
 
-##### else { on(); } 01/29/2020 09:04:00
+##### ELL 01/29/2020 09:04:00
 hi. i have webots v7.4.0 but i can't register. is there a way to register?
 
 ##### Fabien Rohrer [Moderator] 01/29/2020 09:05:30
 Hi, there is no more regisration for Webots 7, you can simply login Webots 7 using the "webots" password as explained here: [https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
 
-##### else { on(); } 01/29/2020 09:06:35
+##### ELL 01/29/2020 09:06:35
 thank you very much
 
 ##### Daniil 01/29/2020 13:54:55
@@ -21062,7 +21062,7 @@ with robot being a Supervisor()
 
 Well I guess LEDs dont have to be set up on the fly...
 
-##### doppiooooh 06/17/2020 22:45:04
+##### mcgiorno 06/17/2020 22:45:04
 can anyone help me figure out a problemo
 
 
@@ -21086,7 +21086,7 @@ do you have enough storage on your computer? :p
 
 and what OS are you using?
 
-##### doppiooooh 06/17/2020 22:46:38
+##### mcgiorno 06/17/2020 22:46:38
 yeah i have plenty
 
 
@@ -21098,7 +21098,7 @@ you tried this link? [https://github.com/cyberbotics/webots/releases/tag/R2020a-
 
 must be a problem on your side. Perhaps try updating and restarting your pc
 
-##### doppiooooh 06/17/2020 22:49:13
+##### mcgiorno 06/17/2020 22:49:13
 ill try that link and update my computer
 
 
@@ -21107,7 +21107,7 @@ i tried it on my old pc and the same thing happened
 ##### Luftwaffel [Moderator] 06/17/2020 22:49:49
 I doubt github is down
 
-##### doppiooooh 06/17/2020 22:49:50
+##### mcgiorno 06/17/2020 22:49:50
 ill try that link though
 
 ##### David Mansolino [Cyberbotics] 06/18/2020 05:33:14
@@ -22770,7 +22770,7 @@ That's not normal for the maxTorque, what is not working exactly?
 
 `@Jatin Sharma` is your controller compiled?
 
-##### servant 06/30/2020 07:06:44
+##### litten 06/30/2020 07:06:44
 my webots always not respond when make first simulation project on wizard menu
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:08:18
@@ -22780,7 +22780,7 @@ Do you have write right where you are trying to create the new project?
 
 If you create just a new world is it working?
 
-##### servant 06/30/2020 07:10:31
+##### litten 06/30/2020 07:10:31
 could my computer running webots ?
 %figure
 ![error_graphic.png](https://cdn.discordapp.com/attachments/565154703139405824/727420791758651452/error_graphic.png)
@@ -22792,13 +22792,13 @@ my webots is lastest version on website
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:12:01
 Most probably yes, this just means that your GPU is not very powerfull and that Webots will disable advanced rendering features to save performance.
 
-##### servant 06/30/2020 07:14:10
+##### litten 06/30/2020 07:14:10
 Oke, so i cant use webots on my computer, do you mean ?
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:14:36
 No that's not what I mean
 
-##### servant 06/30/2020 07:16:59
+##### litten 06/30/2020 07:16:59
 thank you
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:17:05
@@ -22863,7 +22863,7 @@ And about  getAvailableTorque?
 ##### lojik 06/30/2020 09:07:42
 The same results, it changes only if I set with setAvailableTorque() function
 
-##### servant 06/30/2020 09:08:32
+##### litten 06/30/2020 09:08:32
 my webots always stack while create directory on wizard
 %figure
 ![stack.png](https://cdn.discordapp.com/attachments/565154703139405824/727450489771524106/stack.png)
