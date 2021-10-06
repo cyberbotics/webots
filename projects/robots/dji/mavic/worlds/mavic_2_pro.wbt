@@ -107,7 +107,7 @@ Pine {
 }
 Pine {
   translation -9.37029 14.0209 0
-  rotation 1.92716e-09 -7.19235e-09 1 -2.6179953071795863
+  rotation 0 0 1 -2.6179953071795863
   name "pine tree(2)"
 }
 Forest {
