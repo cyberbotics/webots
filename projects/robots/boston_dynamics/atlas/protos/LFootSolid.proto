@@ -22,7 +22,6 @@ Solid {
     children [
       Transform {
         translation 0.048 0 -0.076119
-        rotation 0.0 1.0 0.0 0.0
         children [
           Box {
             size 0.26 0.124887 0.01
