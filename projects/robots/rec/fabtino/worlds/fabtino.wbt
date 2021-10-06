@@ -306,7 +306,7 @@ Monitor {
 }
 Keyboard {
   translation 2.594212 1.8802 0.7
-  rotation 7.19234e-09 9.37324e-09 -1 1.309
+  rotation 0 0 -1 1.309
 }
 DesktopComputer {
   translation 2.331033 2.125086 0
