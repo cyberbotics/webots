@@ -314,7 +314,7 @@ DesktopComputer {
 }
 ComputerMouse {
   translation 2.94663 1.914183 0.7
-  rotation 7.19235e-09 -9.37326e-09 1 1.309
+  rotation 0 0 1 1.309
   mass 0
 }
 Table {
