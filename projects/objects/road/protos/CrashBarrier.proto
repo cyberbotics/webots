@@ -85,19 +85,19 @@ PROTO CrashBarrier [
       const lateralOffset = 0.01 + poleRadius;
       const side = fields.barrierOnRightSide.value ? -1 : 1;
     >%
-      %<= side * poleRadius >% 0
+      0 %<= side * poleRadius >%
     %< for (let j = 0; j <= angleSubdivision; ++j) { >%
-      %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >% %<= barHeight * j / angleSubdivision >%
+      %<= -barHeight * j / angleSubdivision >% %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >%
     %< } >%
-      %<= side * poleRadius >% %<= barHeight >%
+      %<= -barHeight >% %<= side * poleRadius >%
     %< for (let j = angleSubdivision; j >= 0; --j) { >%
-      %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >% %<= barHeight * j / angleSubdivision >%
+      %<= -barHeight * j / angleSubdivision >% %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >%
     %< } >%
-      %<= side * poleRadius >% 0
+      0 %<= side * poleRadius >%
     ]
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Transform {
-        translation 0 %<= 0.5 * height >% 0
+        translation 0 0 %<= 0.5 * height >%
         children [
           Extrusion {
             spine [
@@ -107,11 +107,11 @@ PROTO CrashBarrier [
             ]
             splineSubdivision %<= fields.subdivision.value >%
             crossSection [
-              %<= side * lateralOffset >% %<= 0 >%
-              %<= side * lateralOffset >% %<= barHeight >%
-              %<= side * (lateralOffset + 2 * barThickness) >% %<= barHeight >%
-              %<= side * (lateralOffset + 2 * barThickness) >% %<= 0 >%
-              %<= side * lateralOffset >% %<= 0 >%
+              %<= 0 >% %<= side * lateralOffset >%
+              %<= -barHeight >% %<= side * lateralOffset >%
+              %<= -barHeight >% %<= side * (lateralOffset + 2 * barThickness) >%
+              %<= 0 >% %<= side * (lateralOffset + 2 * barThickness) >%
+              %<= 0 >% %<= side * lateralOffset >%
             ]
           }
         ]

@@ -345,11 +345,11 @@ DEF SOUTH_UPPER_OUTPUT Solid {
       bottom TRUE
       wayPoints [
         0 0 0
-        0 -0.05 3
-        0 -0.5 8
-        0 -4.5 29
-        0 -4.95 35
-        0 -5 41.2
+        3 0 -0.05
+        8 0 -0.5
+        29 0 -4.5
+        35 0 -4.95
+        41.2 0 -5
       ]
       roadBoundingObject TRUE
       rightBorderBoundingObject TRUE
@@ -392,11 +392,11 @@ DEF SOUTH_UPPER_INPUT Solid {
       bottom TRUE
       wayPoints [
         0 0 0
-        0 -0.05 3
-        0 -0.5 8
-        0 -4.5 29
-        0 -4.95 35
-        0 -5 41.2
+        3 0 -0.05
+        8 0 -0.5
+        29 0 -4.5
+        35 0 -4.95
+        41.2 0 -5
       ]
       roadBoundingObject TRUE
       rightBorderBoundingObject TRUE
@@ -414,11 +414,11 @@ DEF NORTH_UPPER_OUTPUT Solid {
       bottom TRUE
       wayPoints [
         0 0 0
-        0 -0.05 3
-        0 -0.5 8
-        0 -4.5 29
-        0 -4.95 35
-        0 -5 41.2
+        3 0 -0.05
+        8 0 -0.5
+        29 0 -4.5
+        35 0 -4.95
+        41.2 0 -5
       ]
       locked FALSE
       roadBoundingObject TRUE
@@ -462,11 +462,11 @@ DEF NORTH_UPPER_INPUT Solid {
       bottom TRUE
       wayPoints [
         0 0 0
-        0 -0.05 3
-        0 -0.5 8
-        0 -4.5 29
-        0 -4.95 35
-        0 -5 41.2
+        3 0 -0.05
+        8 0 -0.5
+        29 0 -4.5
+        35 0 -4.95
+        41.2 0 -5
       ]
       roadBoundingObject TRUE
       rightBorderBoundingObject TRUE
