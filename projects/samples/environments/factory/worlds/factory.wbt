@@ -97,21 +97,21 @@ LJoint {
 }
 Wrench {
   translation -0.35779017 -4.3479161 0.74
-  rotation 2.653589999981315e-06 2.653589999981315e-06 0.9999999999929585 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
   name "wrench(1)"
 }
 Wrench {
   translation 0.8606647 -4.6966955 0.74
-  rotation 7.19237e-09 2.13049e-09 1 -2.565635307179586
+  rotation 0 0 1 -2.565635307179586
 }
 Hammer {
   translation -0.807916 -4.68048 0.754
-  rotation -7.19235e-09 -4.15251e-09 1 -2.094395307179586
+  rotation 0 0 1 -2.094395307179586
   name "hammer(1)"
 }
 Hammer {
   translation 1.5252822 -4.8882693 0.754
-  rotation -7.19236e-09 2.97918e-09 1 2.35619
+  rotation 0 0 1 2.35619
 }
 WoodenPallet {
   translation -3.05 -12.1 0.52
@@ -127,7 +127,7 @@ CardboardBox {
 }
 PaintBucket {
   translation -0.72150306 -5.1778419 0.74
-  rotation -7.19235e-09 1.24575e-08 1 1.0472
+  rotation 0 0 1 1.0472
 }
 Screwdriver {
   translation -0.054863304 -5.1915357 0.752
