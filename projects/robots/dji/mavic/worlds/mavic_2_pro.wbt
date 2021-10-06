@@ -62,7 +62,6 @@ Windmill {
 }
 Windmill {
   translation -38.75 23.4 0
-  rotation 2.9524886867359215e-08 0.014173193695777315 0.9998995552456563 1.01503e-06
   name "windmill(3)"
 }
 SmallManor {
