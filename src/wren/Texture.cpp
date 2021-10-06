@@ -179,7 +179,7 @@ namespace wren {
 
   void Texture::addMaterialUser(Material *material) {
     assert(material);
-    for (const auto &user : mMaterialsUsingThisTexture) {
+    for (const Material *user : mMaterialsUsingThisTexture) {
       if (user == material)
         return;
     }
