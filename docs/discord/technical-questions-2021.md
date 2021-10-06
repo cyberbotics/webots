@@ -876,14 +876,14 @@ Got it. Thanks!
 ##### Ragemor 01/07/2021 17:43:11
 Is there any Webots project about multi robot coordination using leader follower approach? I want to implement leader follower algorithm in my project but i cant understand how can i write code about that. Which nodes and api functions(or sensors) should i use? Do you have docs about leader follower and multi robots in webots?
 
-##### a\_babs 01/07/2021 20:15:16
+##### b\_adam 01/07/2021 20:15:16
 Hi, I am trying to rotate an epuck2 robot by 90 degrees, I tried using time but I couldn't measure exactly 90 degrees, is there a way to do it effectively not using time and angular speed?
 
 ##### adiagr 01/07/2021 21:36:03
 The most effective way to turn an epuck2 is by using time and angular speed itself. You may want to have a look at the proto file and take into account the thickness of the wheels among the other things to get a more accurate value of axle length.
 
 ##### ArjunSadananda 01/07/2021 21:41:23
-`@a_babs` If you prefer, you could use encoders (and write a closed loop controller) instead of doing it by calculating the time (open loop controller).
+`@b_adam` If you prefer, you could use encoders (and write a closed loop controller) instead of doing it by calculating the time (open loop controller).
 
 ##### Luiz Felipe 01/08/2021 06:08:10
 In line 46 in [https://github.com/cyberbotics/webots/blob/master/resources/web/streaming\_viewer/index.html#L46](https://github.com/cyberbotics/webots/blob/master/resources/web/streaming_viewer/index.html#L46) of the new 2021a version the line it is not supposed to be:  `  <script src="[https://www.cyberbotics.com/wwi/R2021a/webots.min.js](https://www.cyberbotics.com/wwi/R2021a/webots.min.js)"></script>` ?
@@ -969,7 +969,7 @@ Maybe this one can help? [http://www.diegoantognini.com/projects/dis/](http://ww
 ##### Ragemor 01/08/2021 14:00:31
 Thank you. If anyone have an idea or doc about leader follower can share with me?
 
-##### a\_babs 01/08/2021 14:23:25
+##### b\_adam 01/08/2021 14:23:25
 could someone give me a hand with rotating an EPUCK2 robot by 90 degrees? Tried absolutely everything and nothing worked, I am a complete beginner so don't know much
 
 
@@ -11453,7 +11453,7 @@ Is this what the tree should look like? I'm unsure whether the two hinge joints 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/824780857847709786/unknown.png)
 %end
 
-##### eturtle21 03/26/2021 02:57:58
+##### erico 03/26/2021 02:57:58
 I dont understand how to make the Hoap2 robot to move can anyone help?
 
 ##### Uanuan 03/26/2021 06:35:46
@@ -27785,4 +27785,326 @@ while robot.step(TIME\_STEP) != -1:
 
 
 \# Enter here exit cleanup code.
+
+##### DrakerDG 09/29/2021 14:28:40
+Hi there.  Have you tried changing the basicTimestep parameter in the WorldInfo node?
+%figure
+![unknown-1.png](https://cdn.discordapp.com/attachments/565154703139405824/892779919036272661/unknown-1.png)
+%end
+
+##### mattjarvis 09/29/2021 15:49:18
+Thanks for the response...I don't seem to be able to make this behavior work.  It doesn't matter where or what I click on, selected or not, the rotation is never centered around where I click.  The camera just looks up/down/left/right when I drag the mouse akin to looking around in a first person shooter in a video game.  Is this different from the behavior other people are seeing?
+
+##### mclzc 09/29/2021 17:17:12
+Hi, is there a way to display a Ros OccupancyGrid in the Webots display? Just like cameras' images are shown there.
+
+##### FlamingToaster 09/29/2021 18:25:31
+Hello!
+
+I'm currently testing a GPS system for my robot, and I was wondering - is there any way to set object position (in simulation) using GPS coordinates? For now I'd like to create simple markers in specific positions to check whether my GPS guidance works correctly or not.
+
+Thanks in advance
+
+##### Luftwaffel [Moderator] 09/29/2021 18:27:08
+`@FlamingToaster` you can use the supervisor api [https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor) to change the translation field of an object
+
+
+you can also use the supervisor api to get the position of the object
+
+##### FlamingToaster 09/29/2021 18:28:18
+Okay, so using the supervisor api I should be able to set such markers, yes?
+
+##### Luftwaffel [Moderator] 09/29/2021 18:29:25
+what do you mean by markers? Like spawning a green glowing sphere on a specific position?
+
+##### FlamingToaster 09/29/2021 18:30:00
+yeah, something like that
+
+
+but I'd like to use GPS coordinates rather than meters
+
+##### Luftwaffel [Moderator] 09/29/2021 18:30:23
+yeah you can use the api for that
+
+##### FlamingToaster 09/29/2021 18:30:31
+okay, many thanks!
+
+##### Luftwaffel [Moderator] 09/29/2021 18:30:31
+you would have to convert it
+
+
+what language are you using?
+
+##### FlamingToaster 09/29/2021 18:33:23
+c++
+
+##### Luftwaffel [Moderator] 09/29/2021 18:35:10
+this is an example in python on how to spawn a sphere. You should be able to translate it in cpp and make your adjustments
+> **Attachment**: [spawn\_target.py](https://cdn.discordapp.com/attachments/565154703139405824/892841954927341638/spawn_target.py)
+
+##### FlamingToaster 09/29/2021 18:36:51
+Thank you, this looks like exactly what i need!
+
+##### Mlungost 09/29/2021 19:02:57
+I have a question regarding position sensors. I was watching a "Position Sensor in Webots Tutorial", but it didn't answer my questions on obtaining the robot's translation using code.
+
+say your robot is a vehicle. 
+
+
+
+what if your robot could move up an incline? how would you get the distance covered then, particularly in the vertical direction?, and it is possible to break it down across vertical and horizontal? It seems like it should be a simple thing, getting the translation of the robot, but turns out no. so how do you get the translation of the robot using code? 
+
+Let's say I want to know the (x,y,z) position of the robot relative to the WorldInfo, how do I do that?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/892848944328089660/unknown.png)
+%end
+
+##### Luftwaffel [Moderator] 09/29/2021 19:04:33
+You have 3 general options:
+
+1. calculate odometry using the wheel position sensors (error prone and issue with inclines)
+
+2. You us a GPS sensor
+
+
+3. you "cheat" and use the supervisor api to get the positon
+
+
+If you want to do it without GPS sensors and in a real-world way, I would recommend reading up on SLAM
+
+##### Mlungost 09/29/2021 19:46:23
+thank you Simon. teaching moment and with options 👍
+
+##### Benjamin Hug [Cyberbotics] 09/30/2021 07:03:50
+You can use a ROS controller to send an image to a Display device in Webots or use RViz to show the OccupancyGrid.
+
+##### Kamil Domański 09/30/2021 07:55:44
+`@DrakerDG` `@DDaniel` i've changed the timestep and troques looks the same
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/893045120914587698/unknown.png)
+%end
+
+
+
+> **Attachment**: [10-03-15.mp4](https://cdn.discordapp.com/attachments/565154703139405824/893045462439952384/10-03-15.mp4)
+
+
+* sorry for bad quality and short video but discord accept only 8 mb
+
+
+For me, the only situation which makes sense is when the robot trying to move the wall. Two wheels touching the ground and have pretty stable torque and two are in the air and they have torque around 0.
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/893051701228093490/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/893051775760871444/unknown.png)
+%end
+
+##### kid07 09/30/2021 12:27:16
+Hi everyone, I have a designed a rover that is intended to place cylinders at various points on the arena. The arena is meant to be a rough surface and the cylinders on the robot keeps falling off. How do I prevent that from happening ?
+%figure
+![image0.png](https://cdn.discordapp.com/attachments/565154703139405824/893111755021103144/image0.png)
+%end
+
+##### DrakerDG 09/30/2021 12:30:08
+Every cylinder most be a solid and you need add a bounding object and physics nodes
+
+##### kid07 09/30/2021 12:32:57
+Thank you `@DrakerDG` , let me try it and get back to you
+
+##### DrakerDG 09/30/2021 12:36:02
+If omit add physic node, your solid will be like a infinite mass. You will don't can move with other object
+
+##### mclzc 09/30/2021 17:18:51
+Thanks, sending an image sounds like what I want. I can already see the grid in RViz. How could I send an image to the Display device? Would I have to access the supervisor api from a custom plugin? 
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/Tutorial-Creating-a-Custom-Python-Plugin](https://github.com/cyberbotics/webots_ros2/wiki/Tutorial-Creating-a-Custom-Python-Plugin)
+
+
+A related question. I'm currently using the ros2control differential\_drive\_controller plugin, which uses joint\_state\_broadcaster to publish the joints' information to /joint\_states and /dynamic\_joint\_states. 
+
+How could I get the joints' data (i.e. encoders data) myself? Should I have to write a plugin with the new pluginlib way?
+
+## October
+
+##### Benjamin Hug [Cyberbotics] 10/01/2021 09:18:00
+1) Get the device with `myDisplay = self.__robot.getDevice('name_of_display')`.
+
+2) Use `myDisplay.imagePaste()` (take a look at [https://cyberbotics.com/doc/reference/display#wb\_display\_image\_paste](https://cyberbotics.com/doc/reference/display#wb_display_image_paste), the parameters are the same).
+
+
+
+Put the code in a custom plugin should do the trick.
+
+
+If you just want the angular position of your wheel you can use a `PositionSensor` and create your publisher in a custom plugin, but can't you use directly the `/joint_states` topic ?
+
+##### vivip2231 10/01/2021 20:49:07
+Hi, everyone! I'm new here, and I want to ask for some help or advice regarding my problem with the Connector Node. I would like to solve a gripping situation with a robotic gripper. The problem that I'm facing is, that there is no physical link between the gripper and the plastic container, after locking the Connector. I tried everything, to solve this, but it seems like I'm stuck. Sooo I would very appreciate your advice.
+
+##### mclzc 10/02/2021 01:06:39
+Thank you, will try that.
+
+
+I'm doing that, but I wanted to do it from scratch as well. Thanks.
+
+##### lanzcc 10/02/2021 14:21:17
+Hello, I am still searching for information that would allow me to evaluate webots for an intro CS course using Python. I have been directed to a site that uses Python to program a Thymio II simulation, but all the Thymio documentation mentions several languages not including Python. Does anyone know if webots has eductaional consultants? As with many large companies, it appears to be impossible to contact webots directly.
+
+##### Luftwaffel [Moderator] 10/02/2021 19:53:46
+`@lanzcc` [https://cyberbotics.com/#contact](https://cyberbotics.com/#contact) here you go
+
+
+but this discord is a good general resource, as well as the documentation on cyberbotics website
+
+
+[https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials) this is also very helpful
+
+
+what type of gripper are you using? Unless it is a magnetic or vacuum gripper, you can just use the physics simulation to actually grip an object. Closing the gripper, squeezing you box should create enough friction to lift it up.  [https://cyberbotics.com/doc/reference/connector](https://cyberbotics.com/doc/reference/connector) this link could help as well
+
+##### Coisado 10/02/2021 21:16:40
+is there a way to get the information from each ray of a distance sensor?
+
+##### Luftwaffel [Moderator] 10/02/2021 21:18:28
+you would have to use a lidar for that
+
+
+multiple rays in distance sensors are just a way to approximate a real distance sensor more accurately. If you want several ray sensors, you have to add multiple sensors or use a lidar
+
+##### Coisado 10/02/2021 21:20:10
+thanks a lot, I'll read about it
+
+##### Luftwaffel [Moderator] 10/02/2021 21:22:35
+use the api reference, it is very well documented
+
+##### Coisado 10/02/2021 21:23:20
+ok, thanks!
+
+##### Justin Fisher 10/03/2021 02:43:51
+Edit:  I had pasted in a reply that I made to what I thought was another person with a similar question, in which I described my experience using Webots in a class for university students with little programming background (you can find it by searching this discord for "cognitive science").  But I think that other person was actually just you.  So I'll just point you up to that earlier reply, in case you missed it, and encourage you to ask particular questions you might have about teaching with Webots and Python.
+
+##### vivip2231 10/04/2021 13:51:01
+Thank you for your reply! I know this page of the documentation, it's not helping me at this point, unfortunately. I use the Pioneer2 mobile robot and i made a custom gripper for it in Fusion360.  The simple physics simulation is not working, I already tried that. But I assume the problem lies in the robot type, because when I attach the gripper to the extensionSlot , I cannot give physics to the Solids, and if I do it gives the following warning: Pionner2  (PROTO): This node is controlled in kinematics mode but some Solid descendant nodes have physics and won't move along with this node.
+
+
+Any advice how can I solve this? Or should i change the robot type?
+
+##### medrimonia 10/04/2021 15:36:27
+Hi,
+
+
+
+I am intending to use Webots for teaching activities, but I'm experiencing issues when trying to use it on the computers at my university (Debian buster), the webots package was installed by the system administrator directly from the debian package.
+
+
+
+I receive the following error message:
+
+
+
+```
+Info: Could not load the Qt platform plugin "xcb" in "/usr/local/webots/lib/webots/qt/plugins" even though it was found.
+Fatal: This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+Available platform plugins are: xcb.
+```
+
+
+
+By investigating a little bit further, I found that the problems comes from `libxcb-util`
+
+
+
+```
+>>> ldd /usr/local/webots/lib/webots/qt/plugins/platforms/libqxcb.so | grep -C 2 "not found"
+/usr/local/webots/lib/webots/qt/plugins/platforms/libqxcb.so: /lib/x86_64-linux-gnu/libQt5Core.so.5: version `Qt_5.15' not found (required by /usr/local/webots/lib/webots/qt/plugins/platforms/libqxcb.so)
+    linux-vdso.so.1 (0x00007ffff109a000)
+    libQt5XcbQpa.so.5 => /lib/x86_64-linux-gnu/libQt5XcbQpa.so.5 (0x00007fb96c00f000)
+--
+    libxcb-image.so.0 => /lib/x86_64-linux-gnu/libxcb-image.so.0 (0x00007fb96af08000)
+    libxcb-shm.so.0 => /lib/x86_64-linux-gnu/libxcb-shm.so.0 (0x00007fb96af03000)
+    libxcb-util.so.1 => not found
+    libxcb-keysyms.so.1 => /lib/x86_64-linux-gnu/libxcb-keysyms.so.1 (0x00007fb96ad00000)
+    libxcb-randr.so.0 => /lib/x86_64-linux-gnu/libxcb-randr.so.0 (0x00007fb96acee000)
+```
+
+
+
+I checked and the only `libxcb-util` available on Debian buster is version `0.0`, it seems that `libxcb-util1` is only available from Debian bullseye: [https://packages.debian.org/bullseye/libxcb-util1](https://packages.debian.org/bullseye/libxcb-util1)
+
+
+
+Does this mean that it's not possible to use Webots with Debian buster or is there a workaround?
+
+
+
+My understanding is that this is a consequence of a change in Qt: [https://bugreports.qt.io/browse/QTCREATORBUG-24967](https://bugreports.qt.io/browse/QTCREATORBUG-24967)
+
+
+
+In case there is no solution, I hope that my message helps other users
+
+##### Olivier Michel [Cyberbotics] 10/04/2021 15:42:25
+Webots is officially supported and tested on the two latest versions of Ubuntu. I believe that some users reported successful use on Debian. However, I am not surprised that it doesn't work out-of-the-box with the prebuild packages (.deb) file, because these packages are made on Ubuntu for Ubuntu and depend on other Ubuntu packages. Therefore, I would recommend to build Webots from the source on Debian instead of using the Ubundu .deb packages.
+
+
+You should follow these instructions: [https://github.com/cyberbotics/webots/wiki/Linux-installation](https://github.com/cyberbotics/webots/wiki/Linux-installation)
+
+##### medrimonia 10/04/2021 15:46:57
+Thanks for the answer, I tried to build it from source before posting, the build is successful, but when I attempt to launch Webots, I stumble upon exactly the same error which I believe is due to a dependency of Qt5.15 to a package that is not available on Debian buster.
+
+##### vivip2231 10/04/2021 17:24:53
+I found a sample world, it is the pioneer3dx\_gripper.wbt. It is basically the same solution like mine. I looked up the proto files of this projects and i can see that there is some phisics nodes given to the gripper Solid tree, but they are custom physics. Do anyone know some more information about this sample project, that can help me?
+
+##### Luftwaffel [Moderator] 10/04/2021 21:10:12
+`@vivip2231` perhaps you can share you project. Or you could just use the gipper from the sample world. In general you have to add a physics node and bounding object to any solid, that you want to have collision, mass and interact with the world. Nothing special, just double click the physics node and add the default one. For gripping the only thing you should really watch out for, is to use simple geometry like a box or cylinder. Using Meshes (IndexedFacesets) can really screw up the simulation.
+
+##### vivip2231 10/05/2021 08:01:15
+The gripper from the sample world is not appropriate for my project, that's why i wanted to check up how it is using the gripper with that robot in the sample codes. The problem is if I add a physics node to the Solids, then they dont move along with the robot, because the robot is in kinematics mode. Maybe somehow I can turn off this mode for the robot?
+
+
+And even if i could use the sample worlds gripper, i want to understand how does it work, how is it using the custom physics nodes.
+
+##### Luftwaffel [Moderator] 10/05/2021 17:50:23
+Well you can't have your robot in kinematics mode if you want to have physics simulation
+
+##### vivip2231 10/05/2021 18:45:21
+Yes, i know. I thought that somehow i can turn that mode off. But anyway I changed the robot for pioneer3dx and with that it works properly.
+
+##### R\_ 10/06/2021 05:37:42
+Is there an example proto file for a simple mechanical loop within webots examples?
+
+##### DDaniel [Cyberbotics] 10/06/2021 06:19:54
+`@R_` the gripper in `coupled_motors.wbt` relies on mechanical loops for the parallel link mechanism and should be fairly minimal. It isn't a PROTO, but the logic is the same whether it's defined in the world file or in a PROTO
+
+##### usermake 10/06/2021 07:23:42
+
+> **Attachment**: [world-conveyor.mp4](https://cdn.discordapp.com/attachments/565154703139405824/895209688206016562/world-conveyor.mp4)
+
+
+Hello, can anyone explain why this is happening? Why the animated geometry is going the oposite direction, that is.
+
+##### R\_ 10/06/2021 09:49:41
+thanks for the reply. I found how the solidreference node is used.
+
+
+Is there a example to create a robot from `.stl` files as nodes, by authoring a proto (similar to how a urdf is generated)? I was intending to use the mechanical loop within a custom proto
+
+##### medrimonia 10/06/2021 11:12:51
+To follow up on this topic, doing a backport of libxcb-util1 for Debian9 was sufficient to run webots. The only remaining problem I have is that some of the textures are not loading properly with `Unsupported image format`. From what I've seen in the logs of this channel, it's likely to come from the use of another `libjpeg` version.
+
+I will keep you updated if I solve it.
+
+##### Olivier Michel [Cyberbotics] 10/06/2021 12:42:34
+Yes, this is a known problem, Webots need to load a specific version of libjpeg (alias turbojpeg), it is a matter of installing this library and setting the path accordingly.
 
