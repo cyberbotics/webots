@@ -29,7 +29,7 @@ RectangleArena {
 PointLight {
   attenuation 0 0 1
   intensity 0.6
-  location 0 0.6 0
+  location -0.6 0 0
 }
 DEF SLOPE Solid {
   translation 0 0 0.15
