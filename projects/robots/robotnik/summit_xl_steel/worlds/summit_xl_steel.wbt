@@ -350,7 +350,7 @@ PlatformCart {
 }
 LeverValve {
   translation -0.73 -0.83 0.502
-  rotation 1.125079999996903e-14 -2.346409999993541e-06 0.9999999999972473 3.14159
+  rotation 0 0 1 3.14159
 }
 Radiator {
   translation 0.528902 2.341308 0.33
