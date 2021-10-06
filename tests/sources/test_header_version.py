@@ -19,12 +19,17 @@ import unittest
 import os
 import fnmatch
 
-ignoredProtos = [
+IGNORED_PROTOS = [
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
-    'projects/samples/tutorials/protos/FourWheelsRobot.proto'
+    'projects/samples/tutorials/protos/FourWheelsRobot.proto',
+    'tests/protos/protos/Bc21bCameraProto.proto'
 ]
 
-skippedDirectories = [
+IGNORED_WORLDS = [
+    'tests/protos/worlds/backward_compability_enu_flu.wbt'
+]
+
+SKIPPED_DIRECTORIES = [
     'dependencies',
     'distribution',
     '.git'
@@ -36,6 +41,8 @@ class TestHeaderVersion(unittest.TestCase):
 
     def setUp(self):
         """Get all the PROTO files to be tested."""
+        ignoredWorldsFull = [os.environ['WEBOTS_HOME'] + os.sep + file.replace('/', os.sep) for file in IGNORED_WORLDS]
+
         # 1. Get Webots version (without revision)
         self.version = None
         with open(os.environ['WEBOTS_HOME'] + os.sep + 'resources' + os.sep + 'version.txt') as file:
@@ -44,11 +51,11 @@ class TestHeaderVersion(unittest.TestCase):
         # 2. Get all the PROTO files
         self.files = []
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
-            dirNames[:] = [d for d in dirNames if d not in skippedDirectories]
+            dirNames[:] = [d for d in dirNames if d not in SKIPPED_DIRECTORIES]
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 proto = os.path.join(rootPath, fileName)
                 shouldIgnore = False
-                for ignoredProto in ignoredProtos:
+                for ignoredProto in IGNORED_PROTOS:
                     path = os.environ['WEBOTS_HOME'] + os.sep + ignoredProto.replace('/', os.sep)
                     if proto == path:
                         shouldIgnore = True
@@ -57,13 +64,14 @@ class TestHeaderVersion(unittest.TestCase):
                     self.files.append((proto, '#VRML_SIM %s utf8' % self.version))
         # 3. Get all the world files
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
-            dirNames[:] = [d for d in dirNames if d not in skippedDirectories]
+            dirNames[:] = [d for d in dirNames if d not in SKIPPED_DIRECTORIES]
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
-                self.files.append((world, '#VRML_SIM %s utf8' % self.version))
+                if world not in ignoredWorldsFull:
+                    self.files.append((world, '#VRML_SIM %s utf8' % self.version))
         # 4. Get all the .wbproj files
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
-            dirNames[:] = [d for d in dirNames if d not in skippedDirectories]
+            dirNames[:] = [d for d in dirNames if d not in SKIPPED_DIRECTORIES]
             for fileName in fnmatch.filter(fileNames, '*.wbproj'):
                 projFile = os.path.join(rootPath, fileName)
                 self.files.append((projFile, 'Webots Project File version %s' % self.version))

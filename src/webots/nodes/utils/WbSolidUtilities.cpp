@@ -19,6 +19,7 @@
 #include "WbCylinder.hpp"
 #include "WbElevationGrid.hpp"
 #include "WbIndexedFaceSet.hpp"
+#include "WbMesh.hpp"
 #include "WbSphere.hpp"
 #include "WbTransform.hpp"
 
@@ -53,6 +54,9 @@ void WbSolidUtilities::setDefaultMass(dMass *m) {
 
 // The mass is supposed to be homogeneously spread over the body boundingObject
 void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double density, bool warning) {
+  if (!node)
+    return;
+
   const WbShape *const shape = dynamic_cast<WbShape *>(node);
   if (shape) {
     if (shape->geometry() == NULL)
@@ -167,16 +171,24 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     return;
   }
 
-  WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(node);
-  if (ifs) {
-    dGeomID g = ifs->odeGeom();
+  WbTriangleMeshGeometry *const tmg = dynamic_cast<WbTriangleMeshGeometry *>(node);
+  if (tmg) {
+    QString name;
+    if (dynamic_cast<WbMesh *>(node))
+      name = "Mesh";
+    else if (dynamic_cast<WbIndexedFaceSet *>(node))
+      name = "IndexedFaceSet";
+    else
+      assert(0);
+
+    dGeomID g = tmg->odeGeom();
     // The trimesh failed to build, probably because of invalid faces
     if (g == NULL) {
       if (warning)
-        ifs->parsingInfo(
-          QObject::tr("The creation of the IndexedFaceSet physical boundaries failed because its geometry is not "
-                      "suitable for representing a bounded closed volume") +
-          defaultValues);
+        tmg->parsingInfo(QObject::tr("The creation of the %1 physical boundaries failed because its geometry is not "
+                                     "suitable for representing a bounded closed volume")
+                           .arg(name) +
+                         defaultValues);
       setDefaultMass(&m);
       return;
     }
@@ -188,13 +200,13 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     if (m.mass <= 0.0 || !dIsPositiveDefinite(m.I, 3)) {
       setDefaultMass(&m);
       if (warning)
-        ifs->parsingWarn(
-          QObject::tr("Mass properties computation failed for this IndexedFaceSet") + defaultValues +
+        tmg->parsingWarn(
+          QObject::tr("Mass properties computation failed for this %1").arg(name) + defaultValues +
           QObject::tr("Please check this geometry has no singularities and can suitably represent a bounded closed volume. "
                       "Note in particular that every triangle should appear only once with its 'outward' orientation."));
     }
     dMassAdd(mass, &m);
-    ifs->setOdeMass(&m);
+    tmg->setOdeMass(&m);
 
     return;
   }

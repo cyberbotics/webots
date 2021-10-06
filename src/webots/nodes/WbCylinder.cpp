@@ -18,6 +18,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
@@ -176,6 +177,9 @@ void WbCylinder::buildWrenMesh() {
     updateLineScale();
   else
     updateScale();
+
+  // Restore pickable state
+  setPickable(isPickable());
 
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 }
@@ -403,7 +407,7 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
     }
   } else {
     // body
-    double theta = asin(-collisionPoint.x() / r);
+    double theta = WbMathsUtilities::clampedAsin(-collisionPoint.x() / r);
     assert(!std::isnan(theta));
     if (-collisionPoint.y() > 0)
       theta = M_PI - theta;
@@ -532,7 +536,7 @@ bool WbCylinder::shallExport() const {
 WbVector3 WbCylinder::computeFrictionDirection(const WbVector3 &normal) const {
   WbVector3 localNormal = normal * matrix().extracted3x3Matrix();
   // Find most probable face and return first friction direction in the local coordinate system
-  if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))  // top or bottom face
+  if ((fabs(localNormal[2]) > fabs(localNormal[0])) && (fabs(localNormal[2]) > fabs(localNormal[1])))  // top or bottom face
     return WbVector3(1, 0, 0);
   else  // side
     return WbVector3(0, 0, 1);

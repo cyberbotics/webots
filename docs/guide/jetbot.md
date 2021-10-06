@@ -26,8 +26,7 @@ JetBot {
   SFBool       chassis            TRUE
   SFColor      chassis_color      0.571 0.817 0.479
   SFNode       cameraSlot         JetBotRasperryPiCamera  {
-                                    translation 0 0.042 0.0488
-                                    rotation -0.1628450388833288 -0.1628450388833288 0.9731202323568112 -1.5980453071795866
+                                    rotation 0 1 0 0.316799
                                   }
   MFNode       extensionSlot      []
   SFString     window             ""

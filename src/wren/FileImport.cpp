@@ -146,14 +146,30 @@ namespace wren {
         applyTransforms(node->mChildren[i], globalTransform, boneIndices, bones, matrices);
     }
 
-    const char *importRiggedMesh(const char *fileName, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
-                                 const char ***materialNames, int *count) {
+    const char *importRiggedMeshFromFile(const char *fileName, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
+                                         const char ***materialNames, int *count) {
       Assimp::Importer importer;
 
       const aiScene *scene = importer.ReadFile(
         fileName, aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices |
                     aiProcess_GenSmoothNormals | aiProcess_FindInvalidData | aiProcess_TransformUVCoords | aiProcess_FlipUVs);
+      return importRiggedMesh(scene, outputSkeleton, outputMeshes, materialNames, count);
+    }
 
+    const char *importRiggedMeshFromMemory(const char *data, int size, const char *hint, Skeleton **outputSkeleton,
+                                           DynamicMesh ***outputMeshes, const char ***materialNames, int *count) {
+      Assimp::Importer importer;
+      const aiScene *scene = importer.ReadFileFromMemory(
+        data, size,
+        aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_GenSmoothNormals |
+          aiProcess_FindInvalidData | aiProcess_TransformUVCoords | aiProcess_FlipUVs,
+        hint);
+
+      return importRiggedMesh(scene, outputSkeleton, outputMeshes, materialNames, count);
+    }
+
+    const char *importRiggedMesh(const aiScene *scene, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
+                                 const char ***materialNames, int *count) {
       if (!scene)
         return "Invalid data, please verify mesh file (bone weights, normals, ...).";
       else if (!scene->HasMeshes())
@@ -296,8 +312,14 @@ bool wr_import_static_mesh_from_obj(const char *fileName, WrStaticMesh **mesh) {
   return wren::fileImport::importStaticMeshFromObj(fileName, reinterpret_cast<wren::StaticMesh **>(mesh));
 }
 
-const char *wr_import_skeleton(const char *fileName, WrSkeleton **skeleton, WrDynamicMesh ***meshes, const char ***materials,
-                               int *count) {
-  return wren::fileImport::importRiggedMesh(fileName, reinterpret_cast<wren::Skeleton **>(skeleton),
-                                            reinterpret_cast<wren::DynamicMesh ***>(meshes), materials, count);
+const char *wr_import_skeleton_from_file(const char *fileName, WrSkeleton **skeleton, WrDynamicMesh ***meshes,
+                                         const char ***materials, int *count) {
+  return wren::fileImport::importRiggedMeshFromFile(fileName, reinterpret_cast<wren::Skeleton **>(skeleton),
+                                                    reinterpret_cast<wren::DynamicMesh ***>(meshes), materials, count);
+}
+
+const char *wr_import_skeleton_from_memory(const char *data, int size, const char *hint, WrSkeleton **skeleton,
+                                           WrDynamicMesh ***meshes, const char ***materials, int *count) {
+  return wren::fileImport::importRiggedMeshFromMemory(data, size, hint, reinterpret_cast<wren::Skeleton **>(skeleton),
+                                                      reinterpret_cast<wren::DynamicMesh ***>(meshes), materials, count);
 }

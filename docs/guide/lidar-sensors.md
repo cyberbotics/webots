@@ -137,7 +137,7 @@ The `Robotis LDS-01` is a 1 layer lidar with a range of up to 3.5 meters and a f
 
 ```
 RobotisLds01 {
-  SFVec3f    translation    0 0.02 0
+  SFVec3f    translation    0 0 0.02
   SFRotation rotation       0 0 1 0
   SFString   name           "LDS-01"
   SFFloat    noise          0.0043
