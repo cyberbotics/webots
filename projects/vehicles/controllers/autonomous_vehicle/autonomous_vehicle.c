@@ -392,7 +392,12 @@ int main(int argc, char **argv) {
         double yellow_line_angle = filter_angle(process_camera_image(camera_image));
         double obstacle_dist;
         double obstacle_angle;
-        obstacle_angle = enable_collision_avoidance ? process_sick_data(sick_data, &obstacle_dist) : UNKNOWN;
+        if (enable_collision_avoidance)
+          obstacle_angle = process_sick_data(sick_data, &obstacle_dist);
+        else {
+          obstacle_angle = UNKNOWN;
+          obstacle_dist = 0;
+        }
 
         // avoid obstacles and follow yellow line
         if (enable_collision_avoidance && obstacle_angle != UNKNOWN) {
