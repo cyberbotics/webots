@@ -10,7 +10,7 @@ PROTO Crossroad [
   field SFString   name             "crossroad"             # Defines the the crossroad name.
   field SFString   id               ""                      # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field SFFloat    speedLimit       -1.0                    # Optionally defines the speed limit. The recommended unit is meter per seconds.
-  field MFVec3f    shape            [ 0 0 0, 0 0 1, 1 0 0]  # Defines the shape of the crossroad.
+  field MFVec3f    shape            [ 0 0 0, 0 1 0, 1 0 0 ] # Defines the shape of the crossroad.
   field MFString   connectedRoadIDs []                      # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
   field SFBool     boundingObject   FALSE                   # Defines whether the road should have a bounding object.
   field SFBool     bottom           FALSE                   # Defines whether the road bottom should be displayed (useful in case of bridge).
@@ -38,13 +38,13 @@ PROTO Crossroad [
             }
             texCoord TextureCoordinate {
               point [
-                %< for (let i = 0; i < nShape; ++i) { >%
-                  %<= shape[i].x * textureCoordinateRatio >% %<= shape[i].z * textureCoordinateRatio >%
+                %< for (let i = nShape - 1; i >= 0; --i) { >%
+                  %<= shape[i].x * textureCoordinateRatio >% %<= shape[i].y * textureCoordinateRatio >%
                 %< } >%
               ]
             }
             coordIndex [
-              %< for (let i = 0; i <= nShape - 1; ++i) { >%
+              %< for (let i = nShape - 1; i >= 0; --i) { >%
                 %<= i >%
               %< } >%
               -1
@@ -66,7 +66,7 @@ PROTO Crossroad [
                 point IS shape
               }
               coordIndex [
-                %< for (i = nShape - 1; i >= 0; i -= 1) { >%
+                %< for (let i = 0; i < nShape - 1; ++i) { >%
                   %<= i >%
                 %< } >%
                 -1

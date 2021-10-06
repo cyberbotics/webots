@@ -38,8 +38,8 @@ Road {
   leftBorder FALSE
   wayPoints [
     0 0 0
-    0 0 100
-    200 0 200
+    100 0 0
+    200 200 0
   ]
   splineSubdivision 8
   appearance Pavement {

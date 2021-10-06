@@ -100,9 +100,9 @@ PROTO AddLanesRoadSegment [
       %< for (let i = 0; i <= numberOfNewLanes - 1; ++i) { >%
         AddLaneRoadSegment {
           %< if (newLaneLeft) { >%
-            translation %<= (width / lanes) * (i * 0.5) >% 0 %<= i * length / numberOfNewLanes >%
+            translation %<= i * length / numberOfNewLanes >% %<= (width / lanes) * (i * 0.5) >% 0
           %< } else { >%
-            translation %<= -(width / lanes) * (i * 0.5) >% 0 %<= i * length / numberOfNewLanes >%
+            translation %<= i * length / numberOfNewLanes >% %<= -(width / lanes) * (i * 0.5) >% 0
           %< } >%
           name %<= '"road ' + i + '"' >%
           width %<= width + i * width / lanes >%
@@ -177,11 +177,11 @@ PROTO AddLanesRoadSegment [
           barrierOnRightSide FALSE
           path [
             %< if (newLaneLeft) { >%
-              %<= width * 0.5 + outputAddedWidth + barrierOffset >% %<= 0 >% %<= length >%
+              %<= length >% %<= width * 0.5 + outputAddedWidth + barrierOffset >% %<= 0 >%
             %< } else { >%
-              %<= width * 0.5 + barrierOffset >% %<= 0 >% %<= length >%
+              %<= length >% %<= width * 0.5 + barrierOffset >% %<= 0 >%
             %< } >%
-            %<= width * 0.5  + barrierOffset >% 0 0
+            0 %<= width * 0.5  + barrierOffset >% 0
           ]
         }
       %< } >%
@@ -194,11 +194,11 @@ PROTO AddLanesRoadSegment [
           barrierOnRightSide TRUE
           path [
             %< if (!newLaneLeft) { >%
-              %<= -width * 0.5 - outputAddedWidth - barrierOffset >% %<= 0 >% %<= length >%
+              %<= length >% %<= -width * 0.5 - outputAddedWidth - barrierOffset >% %<= 0 >%
             %< } else { >%
-              %<= -width * 0.5 - barrierOffset >% %<= 0 >% %<= length >%
+              %<= length >% %<= -width * 0.5 - barrierOffset >% %<= 0 >%
             %< } >%
-            %<= -width * 0.5 - barrierOffset >% 0 0
+            0 %<= -width * 0.5 - barrierOffset >% 0
           ]
         }
       %< } >%
