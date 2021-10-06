@@ -92,8 +92,7 @@ void WbTransform::postFinalize() {
   if (!isInBoundingObject())
     connect(this, &WbTransform::translationOrRotationChangedByUser, this, &WbTransform::notifyJerk);
   connect(mRotation, &WbSFRotation::changed, this, &WbTransform::updateRotation);
-  // The following connection may be interesting to add in the future, but it is not used yet.
-  // connect(mRotation, &WbSFRotation::changedByUser, this, &WbTransform::translationOrRotationChangedByUser);
+  connect(mRotation, &WbSFRotation::changedByUser, this, &WbTransform::translationOrRotationChangedByUser);
   connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
 }
 
