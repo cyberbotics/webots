@@ -74,7 +74,7 @@ SquareManhole {
 }
 CardboardBox {
   translation -0.730157 -1.22891 0.3
-  rotation 7.19234e-09 5.5189e-09 1 -1.8325953071795862
+  rotation 0 0 1 -1.8325953071795862
 }
 TeslaModel3Simple {
   translation -41.5139 4.34169 0.31
