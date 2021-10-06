@@ -338,7 +338,7 @@ OfficeTelephone {
 }
 Wrench {
   translation -1.23886 -0.5886 0.71
-  rotation -7.19235e-09 -1.92719e-09 1 -2.6179953071795863
+  rotation 0 0 1 -2.6179953071795863
 }
 Hammer {
   translation -1.60381 -0.359288 0.71
