@@ -236,7 +236,6 @@ void WbTextEditor::tabChanged(int tab) {
     connect(mCurrentBuffer, &WbTextBuffer::modificationChanged, this, &WbTextEditor::modificationChanged);
     connect(mCurrentBuffer, &WbTextBuffer::focusIn, this, &WbTextEditor::updateEditMenu);
   }
-  // cppcheck-suppress virtualCallInConstructor
   updateGui();
 }
 
@@ -299,7 +298,6 @@ void WbTextEditor::selectTab(int tab) {
   if (tab < 0 || tab >= mTabWidget->count())
     return;
   mTabWidget->setCurrentIndex(tab);
-  // cppcheck-suppress virtualCallInConstructor
   updateGui();
 }
 
