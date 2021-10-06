@@ -319,7 +319,7 @@ ComputerMouse {
 }
 Table {
   translation -1.419911 -0.81333 0
-  rotation 7.19235e-09 -7.19235e-09 1 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
   name "table(1)"
   size 1.8 0.8 0.7
   feetSize 0.05 0.05
