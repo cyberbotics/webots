@@ -298,7 +298,7 @@ Table {
 }
 WoodenChair {
   translation 2.921084 1.648051 0
-  rotation 7.19236e-09 -5.51889e-09 1 1.83259
+  rotation 0 0 1 1.83259
 }
 Monitor {
   translation 2.520237 2.108887 0.7
