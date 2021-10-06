@@ -18,8 +18,9 @@
  * Description:  Implementation of the linked_list.h file
  */
 
-#include <stdlib.h>
 #include "linked_list.h"
+
+#include <stdlib.h>
 
 LLIST *list_add(LLIST **p, void *i) {
   if (p == NULL)
