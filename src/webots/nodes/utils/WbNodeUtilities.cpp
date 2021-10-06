@@ -930,6 +930,7 @@ bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
   const WbNode *const p = node->parentNode();
   if (p) {
     const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    // cppcheck-suppress knownConditionTrueFalse
     if (m) {
       const WbNode *boundingObject = m->boundingObject();
 
