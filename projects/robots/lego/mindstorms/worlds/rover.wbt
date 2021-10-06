@@ -29,7 +29,6 @@ RectangleArena {
 }
 Solid {
   translation -0.02 0.015 0.05
-  rotation 0 1 0 0
   children [
     Shape {
       appearance DEF SURROUNDING_WALL_APPEARANCE PBRAppearance {
