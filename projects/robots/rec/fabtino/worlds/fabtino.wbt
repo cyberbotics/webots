@@ -493,7 +493,7 @@ SolidBox {
 }
 FireExtinguisher {
   translation -0.75771 1.79 0
-  rotation 7.19234e-09 9.37324e-09 -1 1.309
+  rotation 0 0 -1 1.309
 }
 UR3e {
   translation 1.30296 0.079391 0.91
