@@ -310,7 +310,7 @@ Keyboard {
 }
 DesktopComputer {
   translation 2.331033 2.125086 0
-  rotation -7.19234e-09 -7.19234e-09 1 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
 }
 ComputerMouse {
   translation 2.94663 1.914183 0.7
