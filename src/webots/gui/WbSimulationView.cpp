@@ -1061,6 +1061,7 @@ WbRobot *WbSimulationView::selectedRobot() const {
     // cppcheck-suppress knownConditionTrueFalse
     if (!robot)
       robot = WbNodeUtilities::findRobotAncestor(selectedNode);
+    // cppcheck-suppress knownConditionTrueFalse
     if (robot)
       return robot;
   }
