@@ -67,7 +67,7 @@ Windmill {
 }
 SmallManor {
   translation -50.35 11.25 0
-  rotation 7.19227e-09 3.61873e-08 -1 0.392394
+  rotation 0 0 -1 0.392394
 }
 SquareManhole {
   translation 0 0 -0.03
