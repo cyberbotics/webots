@@ -38,8 +38,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.11283431336930393 -0.8656644505544371 0.487743248823356 5.493377577115754
-  position -9.212074312687516 0.6772843494451378 3.289149545072838
+  orientation -0.1382978830484418 -0.2447293622722037 0.9596776723390827 5.423800925320096
+  position -10.381304985530427 6.495120847225201 3.7240588519818716
   exposure 1.7
   follow "Summit-XL Steel"
 }
@@ -62,7 +62,7 @@ SummitXlSteel {
     Robotino3Platform {
       extension [
         ConveyorPlatform {
-          rotation 0 1 0 1.5708
+          translation 0 0 0
           controller "keyboard_conveyor_platform"
           speed 0.6
         }
@@ -275,7 +275,7 @@ PlasticCrate {
   size 1 1 0.9
 }
 PlasticCrate {
-  translation -6.187 -0.987 0.903
+  translation -6.187 -0.937 0.903
   name "Kasten(2)"
   size 0.4 0.23 0.12
   mass 0.92

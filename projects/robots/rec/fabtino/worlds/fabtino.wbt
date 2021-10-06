@@ -62,7 +62,7 @@ Fabtino {
     Robotino3Platform {
       extension [
         ConveyorPlatform {
-          rotation 0 1 0 1.5708
+          translation 0 0 0
           controller "keyboard_conveyor_platform"
           speed 0.6
         }
@@ -275,7 +275,7 @@ PlasticCrate {
   size 1 1 0.9
 }
 PlasticCrate {
-  translation -6.187 -0.987 0.9
+  translation -6.187 -0.937 0.9
   name "Kasten(2)"
   size 0.4 0.23 0.12
   mass 0.92
