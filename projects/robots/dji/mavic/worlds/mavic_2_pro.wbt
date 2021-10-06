@@ -125,7 +125,7 @@ Forest {
     -200 -200
     -200 200
   ]
-  density 0.1
+  density 0.01
   type "cherry tree"
   randomSeed 1
   maxHeight 12
