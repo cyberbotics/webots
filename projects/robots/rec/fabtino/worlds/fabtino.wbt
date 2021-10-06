@@ -346,7 +346,7 @@ Hammer {
 }
 PlatformCart {
   translation 0.927687 1.793317 0
-  rotation 9.4689e-10 -7.19235e-09 1 -2.8797953071795863
+  rotation 0 0 1 -2.8797953071795863
 }
 LeverValve {
   translation -0.73 -0.83 0.502
