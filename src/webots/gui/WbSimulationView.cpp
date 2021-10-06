@@ -1058,6 +1058,7 @@ WbRobot *WbSimulationView::selectedRobot() const {
   WbBaseNode *selectedNode = mSelection->selectedNode();
   if (selectedNode) {
     WbRobot *robot = dynamic_cast<WbRobot *>(selectedNode);
+    // cppcheck-supress knownConditionTrueFalse
     if (!robot)
       robot = WbNodeUtilities::findRobotAncestor(selectedNode);
     if (robot)
