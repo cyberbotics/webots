@@ -4,11 +4,10 @@ WorldInfo {
     "Example use of a color Camera device with auto-focusing capabilities."
   ]
   title "Camera With Auto-Focus"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5185539097945974 0.8041798496814592 0.2905109498849267 4.97139
-  position -0.989029 1.08587 0.403494
+  orientation -0.31201884600605123 0.2791770423143426 0.9081323795469843 1.712070408418439
+  position 0.03761810127163649 -1.1048611925112735 0.998687117170863
 }
 TexturedBackground {
 }
@@ -31,10 +30,12 @@ RectangleArena {
   }
 }
 Robot {
-  rotation 0 1 0 1
+  translation -0.00356013 0.00773978 -2.22045e-16
+  rotation -4.6250799999999905e-08 -4.2987699999999905e-08 -0.9999999999999979 2.1415953071795863
   children [
     Transform {
-      translation 0 0.0415 0
+      translation 0 0 0.0415
+      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -51,8 +52,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -64,11 +65,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.025 0
-        rotation 1 0 0 4.98467
+        translation 0 0.045 0.025
+        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176033 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -94,8 +95,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0 0.025 0
+        axis 0 1 0
+        anchor 0 0 0.025
       }
       device [
         RotationalMotor {
@@ -107,8 +108,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.025 0
-        rotation 1 0 0 4.58735
+        translation 0 -0.045 0.025
+        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
         children [
           USE WHEEL
         ]
@@ -118,16 +119,16 @@ Robot {
       }
     }
     DistanceSensor {
-      translation 0 0.0915 -0.04
-      rotation 0 1 0 1.5708
+      translation 0.042 0.02 0.063
+      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
       lookupTable [
         0 0 0
         1 1000 0
       ]
     }
     DEF SMILE Transform {
-      translation 0 0.025 -0.036
-      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      translation 0.036 0 0.025
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -144,12 +145,12 @@ Robot {
       ]
     }
     Camera {
-      translation 0 0.0915 -0.04
-      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
+      translation 0.04 0 0.0915
+      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 0
       children [
         Transform {
           translation -0.015 0 0
-          rotation 0 0 1 -1.5707953071795862
+          rotation -0.5771968951617173 -0.577656895078166 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -168,15 +169,15 @@ Robot {
       width 400
       height 300
       focus Focus {
-        focalDistance 0.516532689268457
+        focalDistance 0.6578489336875574
         focalLength 0.25
         maxFocalDistance 1
         minFocalDistance 0.1
       }
     }
     DEF RIGHT_EYE Transform {
-      translation 0.02 0.063 -0.042
-      rotation -0.9831056942421508 0.1294279605584882 -0.1294279605584882 4.69535
+      translation 0.042 0.02 0.063
+      rotation 0.3871000691202075 0.6519791164167495 0.6519791164167495 2.40292
       children [
         Shape {
           appearance PBRAppearance {
@@ -192,8 +193,8 @@ Robot {
       ]
     }
     DEF LEFT_EYE Transform {
-      translation -0.02 0.063 -0.042
-      rotation -0.9831056942421508 -0.1294279605584882 0.1294279605584882 4.69535
+      translation 0.042 -0.02 0.063
+      rotation 0.7664071928227091 0.45421311427685446 0.45421411427710606 1.83375
       children [
         Shape {
           appearance PBRAppearance {
@@ -211,7 +212,8 @@ Robot {
   ]
   name "MyBot"
   boundingObject Transform {
-    translation 0 0.0415 0
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]
@@ -223,22 +225,23 @@ Robot {
   controller "camera_auto_focus"
 }
 Can {
-  translation 0 0.06 0.28
-  rotation 0 1 0 0.261799
+  translation 0.28 0 0.06
+  rotation -1.31948e-06 5.47828e-07 1 -3.1415853071795863
 }
 Apple {
-  translation 0 0.05 -0.26
-  rotation 0 1 0 3.40339
+  translation -0.26 0 0.05
+  rotation 0 1 0 -5.307179586466759e-06
 }
 Book {
-  translation -0.29 0.1 -0.0866027
-  rotation 0 -1 0 3.92699
+  translation -0.0866027 -0.29 0.1
+  rotation -1.3180299999884483e-06 3.973859999965172e-06 0.9999999999912357 2.3562
 }
 OilBarrel {
-  translation -0.169397 0.075 0.143119
+  translation 0.143119 -0.169397 0.075
+  rotation 0 0 1 1.5708
   height 0.2
   radius 0.05
 }
 SoccerBall {
-  translation 0.29 0.11 0
+  translation 0 0.29 0.11
 }
