@@ -60,6 +60,7 @@ protected slots:
   void updateStopErp();
   void updateStopCfm();
   virtual void updateAnchor();
+  void updateJointAxisRepresentation() override;
 
 private slots:
   void updateSuspension();

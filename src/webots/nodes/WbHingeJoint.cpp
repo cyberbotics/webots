@@ -24,6 +24,12 @@
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
+#include <wren/config.h>
+#include <wren/node.h>
+#include <wren/renderable.h>
+#include <wren/static_mesh.h>
+#include <wren/transform.h>
+
 #include <cassert>
 
 // Constructors
@@ -416,6 +422,9 @@ void WbHingeJoint::updateParameters() {
 void WbHingeJoint::updateSuspension() {
   if (isEnabled())
     applyToOdeSuspension();
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    updateJointAxisRepresentation();
 }
 
 void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
@@ -489,4 +498,68 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
   applyToOdeAnchor();
   if (p)
     applyToOdeSuspensionAxis();
+}
+
+void WbHingeJoint::updateJointAxisRepresentation() {
+  if (!areWrenObjectsInitialized())
+    return;
+
+  wr_static_mesh_delete(mMesh);
+
+  const double scaling = 0.5f * wr_config_get_line_scale();
+
+  const WbVector3 &anchorVector = anchor();
+  const WbVector3 &axisVector = scaling * axis();
+
+  const int steps = 64;
+  const float coilHeight = wr_config_get_line_scale() / steps;
+  const float coilRadius = 0.01f;
+  const float revolutions = 6.0f * (2 * M_PI);
+
+  const WbHingeJointParameters *const p = hingeJointParameters();
+  bool hasSuspension = p && (p->suspensionSpringConstant() > 0 || p->suspensionDampingConstant() > 0);
+  // if (hasSuspension)
+  const WbVector3 &suspensionAxis = p->suspensionAxis();
+
+  int nbVertices = hasSuspension ? 6 + steps * 3 * 2 : 6;
+  float vertices[nbVertices];
+
+  // create mesh of joint axis
+  // WbVector3 vertex(anchorVector - axisVector);
+  // vertex.toFloatArray(vertices);
+
+  // vertex = anchorVector + axisVector;
+  // vertex.toFloatArray(vertices + 3);
+
+  // create mesh of coil
+  WbVector3 vertex;
+  for (int i = 0; i < steps; ++i) {
+    vertex =
+      WbVector3(coilRadius * sin(i * (revolutions / steps)), coilHeight * i, coilRadius * cos(i * (revolutions / steps)));
+    vertex.toFloatArray(vertices + 6 * i);
+    vertex = WbVector3(coilRadius * sin((i + 1) * (revolutions / steps)), coilHeight * (i + 1),
+                       coilRadius * cos((i + 1) * (revolutions / steps)));
+    vertex.toFloatArray(vertices + (6 * i) + 3);
+  }
+
+  mMesh = wr_static_mesh_line_set_new(hasSuspension ? steps * 2 : 2, vertices, NULL);
+
+  WbVector3 baseX, baseY, baseZ;
+  baseY = suspensionAxis.normalized();
+  baseX = fabs(baseY.dot(WbVector3(1, 0, 0))) < 1e-6 ? baseY.cross(WbVector3(1, 0, 0)) : baseY.cross(WbVector3(0, 1, 0));
+  baseZ = baseX.cross(baseY).normalized();
+
+  WbRotation rotation(baseX, baseY, baseZ);
+  rotation.normalize();
+
+  float rotationArray[4];
+  rotation.toFloatArray(rotationArray);
+
+  float tail[6];
+  anchorVector.toFloatArray(tail);
+  suspensionAxis.toFloatArray(tail + 3);
+
+  wr_transform_set_position(mTransform, tail);
+  wr_transform_set_orientation(mTransform, rotationArray);
+  wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
