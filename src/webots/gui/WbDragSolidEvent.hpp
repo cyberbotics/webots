@@ -113,14 +113,13 @@ signals:
   void aborted();  // triggers drag destruction in WbView3D
 
 public slots:
-  void updateRenderingAndPhysics();
+  virtual void updateRenderingAndPhysics();
 
 protected:
   void init();
   void applyChangesToWren();
   virtual void applyToOde() = 0;
-  // cppcheck-suppress pureVirtualCall
-  virtual void updateOrigin() = 0;  // FIXME: there may be a problem here...
+  virtual void updateOrigin() = 0;
   virtual QString magnitudeString() const = 0;
   WbSolid *mSelectedSolid;
   WbPhysicsVectorRepresentation *mRepresentation;
