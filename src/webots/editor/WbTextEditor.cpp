@@ -56,7 +56,6 @@ WbTextEditor::WbTextEditor(QWidget *parent, const QString &toolBarAlign) : WbDoc
   action->setStatusTip("Toggle the view of the text editor.");
   action->setShortcut(Qt::CTRL + Qt::Key_E);
 
-  // cppcheck-suppress virtualCallInConstructor
   connectActions();
   mToolBar = createToolBar();
 
@@ -237,7 +236,6 @@ void WbTextEditor::tabChanged(int tab) {
     connect(mCurrentBuffer, &WbTextBuffer::modificationChanged, this, &WbTextEditor::modificationChanged);
     connect(mCurrentBuffer, &WbTextBuffer::focusIn, this, &WbTextEditor::updateEditMenu);
   }
-  // cppcheck-suppress virtualCallInConstructor
   updateGui();
 }
 
@@ -300,7 +298,6 @@ void WbTextEditor::selectTab(int tab) {
   if (tab < 0 || tab >= mTabWidget->count())
     return;
   mTabWidget->setCurrentIndex(tab);
-  // cppcheck-suppress virtualCallInConstructor
   updateGui();
 }
 
