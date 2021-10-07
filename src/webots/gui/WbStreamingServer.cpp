@@ -171,7 +171,11 @@ void WbStreamingServer::onNewTcpData() {
   const QString &line(socket->peek(1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
-    const QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
+    QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
+    if (requestedUrl == "connect") {
+      // The connect keywork is used to start the streaming_viewer page.
+      requestedUrl = "streaming_viewer/index.html";
+    }
     if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
       bool hasEtag = false;
       QString etag;
@@ -189,12 +193,22 @@ void WbStreamingServer::onNewTcpData() {
 }
 
 void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
+  QString filePath = WbProject::current()->pluginsPath() + requestedUrl;
+
   if (!requestedUrl.startsWith("robot_windows/")) {
-    WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
-    socket->write(WbHttpReply::forge404Reply());
-    return;
+    // Here handle the streaming_viewer files.
+    static const QStringList streamer_files = {"setup_viewer.js", "style.css", "webots_icon.png"};
+    if (requestedUrl.startsWith("streaming_viewer/")) {  // This is done to prevent collision with other potential index.html
+      filePath = WbStandardPaths::resourcesWebPath() + requestedUrl;
+    } else if (streamer_files.contains(requestedUrl)) {
+      filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
+    } else {
+      WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
+      socket->write(WbHttpReply::forge404Reply());
+      return;
+    }
   }
-  const QString fileName(WbProject::current()->pluginsPath() + requestedUrl);
+  const QString fileName(filePath);
   if (WbHttpReply::mimeType(fileName).isEmpty()) {
     WbLog::warning(tr("Unsupported file type %1").arg(fileName));
     socket->write(WbHttpReply::forge404Reply());
