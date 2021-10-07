@@ -119,7 +119,8 @@ protected:
   void init();
   void applyChangesToWren();
   virtual void applyToOde() = 0;
-  virtual void updateOrigin() = 0;
+  // cppcheck-suppress pureVirtualCall
+  virtual void updateOrigin() = 0;  // FIXME: there may be a problem here...
   virtual QString magnitudeString() const = 0;
   WbSolid *mSelectedSolid;
   WbPhysicsVectorRepresentation *mRepresentation;
