@@ -198,11 +198,11 @@ void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const Q
   if (!requestedUrl.startsWith("robot_windows/")) {
     // Here handle the streaming_viewer files.
     static const QStringList streamer_files = {"setup_viewer.js", "style.css", "webots_icon.png"};
-    if (requestedUrl.startsWith("streaming_viewer/")) {  // This is done to prevent collision with other potential index.html
+    if (requestedUrl.startsWith("streaming_viewer/"))  // This is done to prevent collision with other potential index.html
       filePath = WbStandardPaths::resourcesWebPath() + requestedUrl;
-    } else if (streamer_files.contains(requestedUrl)) {
+    else if (streamer_files.contains(requestedUrl))
       filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
-    } else {
+    else {
       WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
       socket->write(WbHttpReply::forge404Reply());
       return;
