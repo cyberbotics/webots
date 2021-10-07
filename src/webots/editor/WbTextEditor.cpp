@@ -56,6 +56,7 @@ WbTextEditor::WbTextEditor(QWidget *parent, const QString &toolBarAlign) : WbDoc
   action->setStatusTip("Toggle the view of the text editor.");
   action->setShortcut(Qt::CTRL + Qt::Key_E);
 
+  // cppcheck-suppress virtualCallInConstructor
   connectActions();
   mToolBar = createToolBar();
 
