@@ -146,8 +146,8 @@ void check_keyboard() {
 
 void compute_gps_speed() {
   const double *coords = wb_gps_get_values(gps);
-  double vel[3] = {coords[X] - gps_coords[X], coords[Y] - gps_coords[Y], coords[Z] - gps_coords[Z]};
-  double dist = sqrt(vel[X] * vel[X] + vel[Y] * vel[Y] + vel[Z] * vel[Z]);
+  const double vel[3] = {coords[X] - gps_coords[X], coords[Y] - gps_coords[Y], coords[Z] - gps_coords[Z]};
+  const double dist = sqrt(vel[X] * vel[X] + vel[Y] * vel[Y] + vel[Z] * vel[Z]);
 
   // store into global variables
   gps_speed = dist / time_step * 3600.0;
