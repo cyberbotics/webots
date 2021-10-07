@@ -119,6 +119,7 @@ namespace wren {
       DEBUG("ShaderProgram::compileShader: compilation failed!");
       DEBUG("Shader source path: " << path.c_str());
       DEBUG("InfoLog: " << log);
+      // cppcheck-suppress danglingLifetime
       mCompilationLog.assign(log);
 
       glDeleteShader(shaderGlName);

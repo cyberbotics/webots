@@ -375,7 +375,7 @@ bool WbSysInfo::isVirtualMachine() {
 #ifdef _WIN32
   unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
   __get_cpuid(0x1, &eax, &ebx, &ecx, &edx);
-  if (!(ecx & (1 << 31))) {
+  if (!(ecx & ((unsigned int)1 << 31))) {
     virtualMachine = 0;
     return false;
   }
