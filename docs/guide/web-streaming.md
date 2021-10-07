@@ -47,7 +47,7 @@ Please refer to the [command line documentation](starting-webots.md#command-line
 Open the streaming viewer page in your Web browser by connecting to:
 
 ```
-http://IP:port/connect
+http://IP:port/index.html
 ```
 
 Use the buttons on the top of the page to connect to the Webots streaming server.
@@ -57,7 +57,7 @@ The port should not be used by another application.
 
 Connecting with the default setting from the machine were Webots is running can be done via:
 ```
-http://localhost:1234/connect
+http://localhost:1234/index.html
 ```
 
 ### Network Settings

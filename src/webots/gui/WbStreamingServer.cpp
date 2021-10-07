@@ -172,10 +172,6 @@ void WbStreamingServer::onNewTcpData() {
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
     QString &requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
-    if (requestedUrl == "connect") {
-      // The connect keywork is used to start the streaming_viewer page.
-      requestedUrl = "streaming_viewer/index.html";
-    }
     if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
       bool hasEtag = false;
       QString etag;
@@ -197,10 +193,8 @@ void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const Q
 
   if (!requestedUrl.startsWith("robot_windows/")) {
     // Here handle the streaming_viewer files.
-    static const QStringList streamer_files = {"setup_viewer.js", "style.css", "webots_icon.png"};
-    if (requestedUrl.startsWith("streaming_viewer/"))  // This is done to prevent collision with other potential index.html
-      filePath = WbStandardPaths::resourcesWebPath() + requestedUrl;
-    else if (streamer_files.contains(requestedUrl))
+    static const QStringList streamer_files = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
+    if (streamer_files.contains(requestedUrl))
       filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
     else {
       WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
