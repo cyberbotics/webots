@@ -19,7 +19,7 @@ Fluid {
 ### Description
 
 A [Fluid](#fluid) node represents a possibly unbounded fluid volume with physical properties such as density and stream velocity.
-A [Solid](solid.md) node which is partially or fully immersed in some [Fluid](#fluid)'s `boundingObject` will be subject to the static force (Archimedes'thrust) and the dynamic force (drag force) exerted by the [Fluid](#fluid) provided it has a [Physics](physics.md) node, a `boundingObject` and that its field `immersionProperties` contains an [ImmersionProperties](immersionproperties.md) node referring to the given [Fluid](#fluid).
+A [Solid](solid.md) node which is partially or fully immersed in some [Fluid](#fluid)'s `boundingObject` will be subject to the static force (Archimedes' thrust) and the dynamic force (drag force) exerted by the [Fluid](#fluid) provided it has a [Physics](physics.md) node, a `boundingObject` and that its field `immersionProperties` contains an [ImmersionProperties](immersionproperties.md) node referring to the given [Fluid](#fluid).
 
 In the 3D window, [Fluid](#fluid) nodes can be manipulated (dragged, lifted, rotated, etc) using the mouse.
 
