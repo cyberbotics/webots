@@ -7,22 +7,20 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.8139619244858666 0.3110328060963245 0.49063691159462386 1.323395155887867
-  position 1.2614701227291492 -1.5977252322374795 1.0377544723189254
+  orientation -0.27058761095325146 0.15552320321156243 0.9500499345094588 2.036068371800117
+  position 0.6488353984990919 -1.1979171148143992 1.0036208330790966
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 1 0 0 1.5707963267948966
 }
 DEF ROBOT Robot {
-  rotation 1 0 0 1.5707963267948966
   children [
     DEF YAW_HINGE_JOINT HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
+        axis 0 0 1
       }
       device [
         RotationalMotor {
@@ -33,8 +31,8 @@ DEF ROBOT Robot {
         children [
           DEF PITCH_HINGE_JOINT HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 -1
-              anchor 0 0.33 0
+              axis 0 1 0
+              anchor 0 0 0.33
             }
             device [
               RotationalMotor {
@@ -44,12 +42,13 @@ DEF ROBOT Robot {
               }
             ]
             endPoint Solid {
-              translation 0 0.33 0
-              rotation 0 0 -1 5.307156870259904e-06
+              translation 0 0 0.33
+              rotation 2.6052699999560723e-06 -5.189919999912492e-06 0.9999999999831387 1.5707853071795863
               children [
                 DEF ROLL_HINGE_JOINT HingeJoint {
                   jointParameters HingeJointParameters {
-                    anchor 0.3 0 0
+                    axis 0 -1 0
+                    anchor 0 -0.3 0
                   }
                   device [
                     RotationalMotor {
@@ -57,12 +56,12 @@ DEF ROBOT Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0.3 0 0
-                    rotation 1 0 0 0
+                    translation 0 -0.3 0
+                    rotation 0 0.7071067811865476 0.7071067811865476 3.14159
                     children [
                       InertialUnit {
-                        translation 0.08 0 0
-                        rotation 1 0 0 -1.5707953071795862
+                        translation 0 0 -0.08
+                        rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395307179586
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -84,7 +83,7 @@ DEF ROBOT Robot {
                       DEF ROLL_GROUP Group {
                         children [
                           Transform {
-                            translation 0.02 0 0
+                            translation 0 0 -0.02
                             rotation 0 0 1 1.5708
                             children [
                               Shape {
@@ -102,7 +101,8 @@ DEF ROBOT Robot {
                             ]
                           }
                           Transform {
-                            translation 0.06 0 0
+                            translation 0 0 -0.06
+                            rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
                             children [
                               Shape {
                                 appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -111,7 +111,7 @@ DEF ROBOT Robot {
                                   metalness 0
                                 }
                                 geometry Box {
-                                  size 0.06 0.02 0.02
+                                  size 0.02 0.06 0.02
                                 }
                               }
                             ]
@@ -125,7 +125,7 @@ DEF ROBOT Robot {
                 DEF PITCH_GROUP Group {
                   children [
                     Transform {
-                      rotation 1 0 0 1.5708
+                      rotation 0 1 0 1.5708
                       children [
                         Shape {
                           appearance USE PLASTIC_APPEARANCE
@@ -138,19 +138,19 @@ DEF ROBOT Robot {
                       ]
                     }
                     Transform {
-                      translation 0.15 0 0
+                      translation 0 -0.15 0
                       children [
                         Shape {
                           appearance USE METAL_APPEARANCE
                           geometry Box {
-                            size 0.3 0.04 0.03
+                            size 0.03 0.3 0.04
                           }
                         }
                       ]
                     }
                     Transform {
-                      translation 0.3 0 0
-                      rotation 0 0 1 1.5708
+                      translation 0 -0.3 0
+                      rotation -0.5773509358554485 0.5773489358556708 -0.5773509358554485 -2.094395307179586
                       children [
                         Shape {
                           appearance USE METAL_APPEARANCE
@@ -171,7 +171,8 @@ DEF ROBOT Robot {
           DEF YAW_GROUP Group {
             children [
               Transform {
-                translation 0 0.18 0
+                translation 0 0 0.18
+                rotation 0 1 0 0
                 children [
                   Shape {
                     appearance USE METAL_APPEARANCE
@@ -184,8 +185,8 @@ DEF ROBOT Robot {
                 ]
               }
               Transform {
-                translation 0 0.33 0
-                rotation 1 0 0 1.5708
+                translation 0 0 0.33
+                rotation 1 0 0 -1.5707953071795862
                 children [
                   Shape {
                     appearance USE METAL_APPEARANCE
@@ -206,7 +207,7 @@ DEF ROBOT Robot {
     DEF BASIS_GROUP Group {
       children [
         Transform {
-          translation 0 0.02 0
+          translation 0 0 0.02
           children [
             Shape {
               appearance USE METAL_APPEARANCE
@@ -219,7 +220,7 @@ DEF ROBOT Robot {
           ]
         }
         Transform {
-          translation 0 0.04 0
+          translation 0 0 0.04
           children [
             Shape {
               appearance USE PLASTIC_APPEARANCE

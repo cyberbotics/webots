@@ -4,12 +4,11 @@ WorldInfo {
     "Example world demonstrating the use of a controlled BallJoint."
   ]
   title "Motor 3"
-  coordinateSystem "NUE"
   lineScale 0.3
 }
 Viewpoint {
-  orientation 0.3768456500966819 -0.8899212316133752 -0.25695827974000546 4.982679297792563
-  position 0.4529021612176601 0.38499556206886615 0.201699738865924
+  orientation -0.35730876951780977 -0.33897606175913836 0.8703020583567143 4.346516511988484
+  position 0.10821044296103861 0.399664809576071 0.46098275588899734
 }
 TexturedBackground {
 }
@@ -25,7 +24,7 @@ RectangleArena {
 Robot {
   children [
     SolidRoundedBox {
-      size 0.2 0.01 0.2
+      size 0.2 0.2 0.01
       borderRadius 0.005
       appearance GalvanizedMetal {
       }
@@ -37,26 +36,27 @@ Robot {
       }
     }
     CapScrew {
-      translation -0.08 0.005 -0.08
-      rotation 1 0 0 1.570796
+      translation 0.08 0.08 0.005
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
     }
     CapScrew {
-      translation 0.08 0.005 -0.08
-      rotation 1 0 0 1.570796
+      translation 0.08 -0.08 0.005
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
       name "cap screw(1)"
     }
     CapScrew {
-      translation 0.08 0.005 0.08
-      rotation 1 0 0 1.570796
+      translation -0.08 -0.08 0.005
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
       name "cap screw(2)"
     }
     CapScrew {
-      translation -0.08 0.005 0.08
-      rotation 1 0 0 1.570796
-      name "cap screw(3)"
+      translation -0.08 0.08 0.005
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
+      name "cap screw(4)"
     }
     Solid {
-      translation 0 0.06 0
+      translation 0 0 0.06
+      rotation 0 0 1 -1.5708053071795867
       children [
         Shape {
           appearance BrushedAluminium {
@@ -71,7 +71,8 @@ Robot {
         }
         BallJoint {
           jointParameters BallJointParameters {
-            anchor 0 0.05 0
+            axis 0 -1 0
+            anchor 0 0 0.05
           }
           device [
             RotationalMotor {
@@ -94,7 +95,7 @@ Robot {
             }
           ]
           endPoint Solid {
-            translation 0 0.05 0
+            translation 0 0 0.05
             children [
               Shape {
                 appearance BrushedAluminium {
@@ -106,7 +107,8 @@ Robot {
                 }
               }
               Solid {
-                translation 0 0.067 0
+                translation 0 0 0.067
+                rotation 0 0 1 -1.5708053071795867
                 children [
                   Shape {
                     appearance HammeredCopper {
@@ -115,7 +117,7 @@ Robot {
                       }
                     }
                     geometry DEF BOX Box {
-                      size 0.02 0.1 0.02
+                      size 0.02 0.02 0.1
                     }
                   }
                 ]
