@@ -67,7 +67,7 @@ namespace wren {
     mTextureCubes[index].first = texture;
   }
 
-  void Material::removeDeletedTexture(Texture *texture) {
+  void Material::removeDeletedTexture(const Texture *texture) {
     for (size_t i = 0; i < mTextures.size(); ++i) {
       if (mTextures[i].first == texture)
         setTexture(NULL, i);
@@ -149,7 +149,7 @@ namespace wren {
     }
   }
 
-  int Material::countTextureInstances(Texture *texture) {
+  int Material::countTextureInstances(const Texture *texture) {
     int instances = 0;
     for (auto &textureInstance : mTextures) {
       if (textureInstance.first == texture)
