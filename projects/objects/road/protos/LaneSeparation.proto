@@ -101,7 +101,7 @@ PROTO LaneSeparation [
         children IS lines
       }
       StraightRoadSegment {
-        translation %<= -sideSign * (width/2) * (1 - numberOfleavingLanes/lanes) >% 0 0
+        translation 0 %<= -sideSign * (width/2) * (1 - numberOfleavingLanes/lanes) >% 0
         name "road 1"
         width %<= width * (1 - numberOfleavingLanes/lanes) >%
         numberOfLanes %<= lanes - numberOfleavingLanes >%
@@ -170,7 +170,7 @@ PROTO LaneSeparation [
         castShadows IS castShadows
       }
       Road {
-        translation %<= sideSign * (width/2) * (numberOfleavingLanes/lanes) >% 0 0
+        translation 0 %<= sideSign * (width/2) * (numberOfleavingLanes/lanes) >% 0
         name "road 2"
         width %<= width * (numberOfleavingLanes/lanes) >%
         numberOfLanes IS numberOfleavingLanes
@@ -249,7 +249,7 @@ PROTO LaneSeparation [
         castShadows IS castShadows
         wayPoints [
           0 0 0
-          %<= sideSign * borderWidth * 2 >% 0 %<= length >%
+          %<= length >% %<= sideSign * borderWidth * 2 >% 0
         ]
         startingAngle [
           0
@@ -268,12 +268,12 @@ PROTO LaneSeparation [
               geometry DEF CENTRAL_BORDER_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    0                                           0              0
-                    0                                 %<= borderHeight >%      0
-                    0                                           0         %<= length >%
-                    0                                 %<= borderHeight >% %<= length >%
-                    %<= sideSign * borderWidth * 2 >%           0         %<= length >%
-                    %<= sideSign * borderWidth * 2 >% %<= borderHeight >% %<= length >%
+                    0 0                                           0
+                    0 0                                 %<= borderHeight >%
+                    %<= length >% 0                                           0
+                    %<= length >% 0                                 %<= borderHeight >%
+                    %<= length >% %<= sideSign * borderWidth * 2 >%           0
+                    %<= length >% %<= sideSign * borderWidth * 2 >% %<= borderHeight >%
                   ]
                 }
                 texCoord TextureCoordinate {
@@ -322,9 +322,9 @@ PROTO LaneSeparation [
                 geometry DEF CENTRAL_BOTTOM_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    0                                           0              0
-                    0                                           0         %<= length >%
-                    %<= sideSign * borderWidth * 2 >%           0         %<= length >%
+                    0 0                                           0
+                    %<= length >%  0                                           0
+                    %<= length >%  %<= sideSign * borderWidth * 2 >%           0
                   ]
                 }
                 coordIndex [

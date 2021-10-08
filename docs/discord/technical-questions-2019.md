@@ -3785,11 +3785,11 @@ So that you can merge the two JSON files afterwards.
 ##### Mr. Scruff 06/03/2019 14:24:55
 Thank you `@Olivier Michel`
 
-##### JustDN 06/03/2019 16:40:27
+##### DamnnDaniel 06/03/2019 16:40:27
 I am trying to program an OP2 bot and I'm confused on how to call the various motion files. I'm looking at the guide, but I'm not sure how to initiate it in the code. Sorry I'm a beginner at this.
 
 ##### David Mansolino [Cyberbotics] 06/04/2019 06:50:54
-hi `@JustDN`, you need to create an instance of the motion manager:
+hi `@DamnnDaniel`, you need to create an instance of the motion manager:
 
 
 RobotisOp2MotionManager *manager = new RobotisOp2MotionManager(robot);
@@ -3893,7 +3893,7 @@ But this is a trick, a big image is loaded at startup, and the Display only chan
 ##### Fabien Rohrer [Moderator] 06/04/2019 13:36:27
 Our office is at EPFL PSE-C 😃
 
-##### JustDN 06/04/2019 15:04:44
+##### DamnnDaniel 06/04/2019 15:04:44
 For the OP2, is there a way to call each individual motor? I've tried using WbDeviceTag shoulderR = wb\_robot\_get\_device("ShoulderR"); and then setting the position using wb\_motor\_set\_position(shoulderR, 10.0); but it doesn't move at all. Am I incorrectly calling the motor? If so, what is the correct way?
 
 ##### David Mansolino [Cyberbotics] 06/04/2019 15:11:39
@@ -3923,7 +3923,7 @@ In the meantime, if you need this feature you can recompile Webots yourself from
 
 [https://github.com/omichel/webots/wiki#installation-of-the-webots-development-environment](https://github.com/omichel/webots/wiki#installation-of-the-webots-development-environment)
 
-##### JustDN 06/05/2019 14:45:48
+##### DamnnDaniel 06/05/2019 14:45:48
 I'm trying to set a motor position for my OP2 code to infinity with "shoulderl->setPosition(INFINITY);" but when running the code, I came across the error " 'INFINITY' was not declared in this scope" does that mean that the OP2 is unable to do that?
 
 ##### Fabien Rohrer [Moderator] 06/05/2019 14:46:26
@@ -3947,7 +3947,7 @@ This deserves to include: "#include <limits>" too
 
 There is a C++ note about this, in our documentation: [https://cyberbotics.com/doc/reference/motor#motor-functions](https://cyberbotics.com/doc/reference/motor#motor-functions)
 
-##### JustDN 06/05/2019 14:49:45
+##### DamnnDaniel 06/05/2019 14:49:45
 Thank you for the help! `@Fabien Rohrer`
 
 
@@ -4002,10 +4002,10 @@ while robot.step(TIME_STEP) != -1:
 ```
 
 ##### Stefania Pedrazzi [Cyberbotics] 06/06/2019 06:01:11
-`@JustDN` int the main simulation loop `while(wb_robot_ste()){}` you have to check using a PositionSensor that the first action terminated before starting the next one. You can see an example in the `robots/neuronics/ipr/worlds/ipr_collaboration.wbt` simulation. The `positionReached()` function is defined in the `robots/neuronics/ipr/libraries/ipr/IPR.cpp` source file
+`@DamnnDaniel` int the main simulation loop `while(wb_robot_ste()){}` you have to check using a PositionSensor that the first action terminated before starting the next one. You can see an example in the `robots/neuronics/ipr/worlds/ipr_collaboration.wbt` simulation. The `positionReached()` function is defined in the `robots/neuronics/ipr/libraries/ipr/IPR.cpp` source file
 
 
-`@Vinicius Aguiar` your issue is very similar to the one of `@JustDN`: after setting the first position you have to wait until the position is reached before requesting the second position.
+`@Vinicius Aguiar` your issue is very similar to the one of `@DamnnDaniel`: after setting the first position you have to wait until the position is reached before requesting the second position.
 
 To check if the position is reached you can the PositionSensor device. The  `robots/neuronics/ipr/worlds/ipr_collaboration.wbt` I mentioned in the previous comment shows a simple way to execute consecutive actions with robotic manipulators.
 
@@ -4066,7 +4066,7 @@ Ok, perfect, if you need help I would suggest to present a design (where to put 
 ##### bhsapiens91 06/06/2019 12:58:29
 definitely
 
-##### JustDN 06/06/2019 15:15:09
+##### DamnnDaniel 06/06/2019 15:15:09
 I was looking at the IPR code and I am confused on now to declare the !positionReached function. Also, would I also have to initialize my position sensors for it to work?
 
 
@@ -4533,7 +4533,7 @@ but the lines shown in the error should help you
 ##### el\_samu\_el 06/11/2019 15:05:35
 Thanks !
 
-##### JustDN 06/11/2019 15:50:34
+##### DamnnDaniel 06/11/2019 15:50:34
 Does webots come with OpenCV?
 
 ##### TH0 06/11/2019 17:04:12
@@ -4552,7 +4552,7 @@ I already used the webots Recognition-Node to draw bounding boxes around objects
 If you want we can either send you a quote for finalizing and integrating this prototype into Webots for you or you can do it by yourself directly (we can guide you if you open a pull request on our Github repository).
 
 
-`@JustDN`, yes we have an example of controller using OpenCV, please see 'projects/samples/robotbenchmark/visual\_tracking'.
+`@DamnnDaniel`, yes we have an example of controller using OpenCV, please see 'projects/samples/robotbenchmark/visual\_tracking'.
 
 But more generally speaking, you can link your controller with any third party library installed on your computer, here is an explanation for C/C++: [https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp](https://cyberbotics.com/doc/guide/using-webots-makefiles#adding-an-external-library-ccp)
 
@@ -4571,7 +4571,7 @@ I will let you know (by email) when we have some news.
 ##### nisuunn 06/12/2019 12:52:52
 Thank you very much.
 
-##### JustDN 06/12/2019 15:36:25
+##### DamnnDaniel 06/12/2019 15:36:25
 Does webots come with python.exe? I was running the visual tracking sample and the code failed because that was missing.
 
 
@@ -4986,7 +4986,7 @@ you say: "other users have been able to let it work". do you know who or where t
 ##### David Mansolino [Cyberbotics] 06/17/2019 13:29:38
 Here for example a user reported on our old forum that he successfully managed to let Webots work in WSL (he had problem with ROS but this is another topic): [https://www.cyberbotics.com/forum/forum?message=8265](https://www.cyberbotics.com/forum/forum?message=8265)
 
-##### JustDN 06/17/2019 14:26:05
+##### DamnnDaniel 06/17/2019 14:26:05
 Are there any simulations that uses reinforcement learning?
 
 ##### Olivier Michel [Cyberbotics] 06/17/2019 15:26:52
@@ -5610,7 +5610,7 @@ I want to download the application, I want to know windows requirments
 ##### Fabien Rohrer [Moderator] 06/22/2019 09:05:01
 Please refer to this link: [https://cyberbotics.com/doc/guide/system-requirements](https://cyberbotics.com/doc/guide/system-requirements)
 
-##### JustDN 06/24/2019 15:01:09
+##### DamnnDaniel 06/24/2019 15:01:09
 I'm trying to make my robot to do a motion when the spacebar is pressed, how do you do that in C? I've tried enabling the keyboard and getting the key, then doing a statement for when the key is pressed, but it is not working.
 
 ##### Fabien Rohrer [Moderator] 06/24/2019 15:02:45
@@ -5626,14 +5626,14 @@ Let me a minute to find a snippet
 Something like this. We use often this pattern.
 > **Attachment**: [keyboard\_snippet.c](https://cdn.discordapp.com/attachments/565154703139405824/592732386098413589/keyboard_snippet.c)
 
-##### JustDN 06/24/2019 15:17:52
+##### DamnnDaniel 06/24/2019 15:17:52
 Thank you! It works.
 
 
 Is there a way to check if a motor has moved to its intended location before executing the next action in C? I've been using an if statement "if(-1.31<wb\_position\_sensor\_get\_value(arms)&& wb\_position\_sensor\_get\_value(arms)<-1.299)" is there an easier way to than doing this?
 
 ##### Stefania Pedrazzi [Cyberbotics] 06/26/2019 06:13:02
-`@JustDN` using the PositionSensor as you do is the correct way to check if motor movement is completed.
+`@DamnnDaniel` using the PositionSensor as you do is the correct way to check if motor movement is completed.
 
 ##### abcde 06/26/2019 12:14:05
 hi!
@@ -15856,7 +15856,7 @@ hi,How can webots generate the .Hex profile?Can someone help?Thanks.
 ##### David Mansolino [Cyberbotics] 10/25/2019 12:55:41
 Hi `@POTATO_CHIP` you can use cross-compilation for the e-puck robot: [https://cyberbotics.com/doc/guide/epuck#cross-compilation](https://cyberbotics.com/doc/guide/epuck#cross-compilation)
 
-##### JustDN 10/25/2019 16:59:59
+##### DamnnDaniel 10/25/2019 16:59:59
 Is there any Webots documentation on cartesian control for the NAO robot? Or is there any way to program the NAO robot to move parts using [x y z] coordinates?
 
 ##### POTATO\_CHIP 10/26/2019 07:46:49
@@ -15902,7 +15902,7 @@ thank you guys
 `@POTATO_CHIP` which version of the e-puck are you using?
 
 
-`@JustDN` unfortunately no, but you might use invere kinematic to do this.
+`@DamnnDaniel` unfortunately no, but you might use invere kinematic to do this.
 
 ##### Gautier 10/28/2019 12:56:04
 Hello
@@ -21815,16 +21815,16 @@ why
 
 Please download the next release (this month) or the next `develop` nightly build (tomorrow) to test my patch: a feedback would be welcome.
 
-##### Mope 12/11/2019 15:09:54
+##### iMarc95 (30) 12/11/2019 15:09:54
 Hi everyone, I am currently working on a robot. I would like to use steps to command the robot. How do I implement this into my code? I am using C. Thank you
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:11:14
-`@Mope` Hi, I recommend you to start to do our tutorial; this will answer a lot of your questions, and come back here when it's done or if you're stuck 😉 [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
+`@iMarc95 (30)` Hi, I recommend you to start to do our tutorial; this will answer a lot of your questions, and come back here when it's done or if you're stuck 😉 [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
 
 
 `@aysegulucar` It looks like you cannot connect to the robot... Difficult to tell more.
 
-##### Mope 12/11/2019 15:14:08
+##### iMarc95 (30) 12/11/2019 15:14:08
 I've done the tutorials. I do not find anything that relates to using steps. For example, I would like it to do a specific task but if something happens, do something else. Any help would be appreciated!
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:14:29
@@ -21836,7 +21836,7 @@ Let me check, we have documentation for this...
 
 This page, and in particular this section explains this in details: [https://cyberbotics.com/doc/guide/controller-programming#the-step-and-wb\_robot\_step-functions](https://cyberbotics.com/doc/guide/controller-programming#the-step-and-wb_robot_step-functions)
 
-##### Mope 12/11/2019 15:17:03
+##### iMarc95 (30) 12/11/2019 15:17:03
 Thank you, I am reading through it now.
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:17:56
@@ -21845,13 +21845,13 @@ But very basically, when you call the wb\_robot\_step(period), the controller is
 
 All of this is in "simulated time", it's the virtual time of the simulation (which can be slower or quicker than the real true time).
 
-##### Mope 12/11/2019 15:20:06
+##### iMarc95 (30) 12/11/2019 15:20:06
 Awesome, appreciate the help! I'm gonna try and get it working now!
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:20:21
 You're welcome.
 
-##### Mope 12/11/2019 15:33:41
+##### iMarc95 (30) 12/11/2019 15:33:41
 `@Fabien Rohrer` Do you know where I can find some examples? I am struggling to fit this into my robot.
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:34:39
@@ -21899,7 +21899,7 @@ typically: "const double *gps\_value = wb\_gps\_get\_values(my\_well\_declared\_
 ##### webot123 12/11/2019 15:56:19
 thats great thanks for your help
 
-##### Mope 12/11/2019 19:42:07
+##### iMarc95 (30) 12/11/2019 19:42:07
 Hi, is anyone available to provide me with some basic functions?
 
 
@@ -21909,11 +21909,11 @@ Hi, is anyone available to provide me with some basic functions?
 me with assistance*
 
 ##### Tahir [Moderator] 12/11/2019 19:46:36
-`@Mope` Hello
+`@iMarc95 (30)` Hello
 
 Didn't got your query which type of assistance do you want?
 
-##### Mope 12/11/2019 19:59:06
+##### iMarc95 (30) 12/11/2019 19:59:06
 I would like to know how to use the step function correctly
 
 
@@ -21935,7 +21935,7 @@ The simulation step (specified in the Scene Tree: WorldInfo.basicTimeStep). It a
 
 [https://www.cyberbotics.com/doc/reference/worldinfo](https://www.cyberbotics.com/doc/reference/worldinfo)
 
-##### Mope 12/11/2019 21:57:01
+##### iMarc95 (30) 12/11/2019 21:57:01
 [https://tenor.com/view/sad-blackish-anthony-anderson-tears-upset-gif-4988274](https://tenor.com/view/sad-blackish-anthony-anderson-tears-upset-gif-4988274)
 
 ##### nap 12/12/2019 05:54:14

@@ -63,7 +63,7 @@ unsigned short width, height;
 // This function returns the position
 // of the peak contained in the array given
 // in argument
-int find_middle(int tab[], int sizeTab) {
+int find_middle(const int tab[], int sizeTab) {
   int i, j;
   int copy[sizeTab];
   int mid = 0;
@@ -127,7 +127,7 @@ int find_middle(int tab[], int sizeTab) {
 }
 
 // return the mean of the values of an array
-int mean(int array[], int size) {
+int mean(const int array[], int size) {
   if (size == 0)
     return 0;
   int sum = 0, i;
@@ -218,7 +218,7 @@ void lfm(int array[], int size) {
 int previous_mean[] = {0, 0, 0};
 int current_mean[] = {0, 0, 0};
 int is_in[] = {0, 0, 0};
-void lem(int array[], int size) {
+void lem(const int array[], int size) {
   int left[size / 10];
   int right[size / 10];
   int middle[size / 10];
@@ -297,7 +297,7 @@ static int run(void) {
   int ps_offset[NB_DIST_SENS] = {0, 0, 0, 0, 0, 0, 0, 0};
   int i, gray[width];
   unsigned char *image;
-  int speed[2] = {100, 100};  // speed without modules
+  const int speed[2] = {100, 100};  // speed without modules
   int mode = wb_robot_get_mode();
 
   // 0. Preprocessing
