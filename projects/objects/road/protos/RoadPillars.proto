@@ -54,18 +54,18 @@ PROTO RoadPillars [
     rotation IS rotation
     children [
       DEF LOWER_PART Transform {
-        translation 0 0.25 0
+        translation 0 0 0.25
         children [
           Shape {
             appearance IS appearance
             geometry DEF BOX Box {
-              size %<= width >% 0.5 %<= depth >%
+              size %<= width >% %<= depth >% 0.5
             }
           }
         ]
       }
       DEF UPPER_PART Transform {
-        translation 0 %<= height - 0.25 >% 0
+        translation 0 0 %<= height - 0.25 >%
         rotation 0 0 1 %<= tilt >%
         children [
           Shape {
@@ -75,8 +75,8 @@ PROTO RoadPillars [
         ]
       }
       DEF CYLINDER_1 Transform {
-        translation %<= pylonsDistance * 0.5 >% %<= height * 0.5 + Math.sin(tilt) * pylonsDistance * 0.25 >% 0
-        rotation 0 0 1 %<= pylonsInclination >%
+        translation %<= pylonsDistance * 0.5 >% 0 %<= height * 0.5 + Math.sin(tilt) * pylonsDistance * 0.25 >%
+        rotation 0 1 0 %<= -pylonsInclination >%
         children [
           Shape {
             appearance IS appearance
@@ -88,8 +88,8 @@ PROTO RoadPillars [
         ]
       }
       DEF CYLINDER_1 Transform {
-        translation %<= -pylonsDistance * 0.5 >% %<= height * 0.5 - Math.sin(tilt) * pylonsDistance * 0.25 >% 0
-        rotation 0 0 1 %<= -pylonsInclination >%
+        translation %<= -pylonsDistance * 0.5 >% 0 %<= height * 0.5 - Math.sin(tilt) * pylonsDistance * 0.25 >%
+        rotation 0 1 0 %<= +pylonsInclination >%
         children [
           Shape {
             appearance IS appearance
@@ -105,10 +105,10 @@ PROTO RoadPillars [
     model "road pillar"
     %< if (boundingObject) { >%
       boundingObject Transform {
-        translation 0 %<= height * 0.5 - width * Math.abs(Math.sin(tilt)) * 0.25 >% 0
+        translation 0 0 %<= height * 0.5 - width * Math.abs(Math.sin(tilt)) * 0.25 >%
         children [
           Box {
-            size %<= width >% %<= height - width * Math.abs(Math.sin(tilt)) * 0.5 >% %<= depth >%
+            size %<= width >% %<= depth >% %<= height - width * Math.abs(Math.sin(tilt)) * 0.5 >%
           }
         ]
       }

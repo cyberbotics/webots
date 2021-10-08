@@ -80,7 +80,7 @@ PROTO StraightRoadSegment [
     bottom IS bottom
     wayPoints [
       0 0 0
-      0 0 %<= length >%
+      %<= length >% 0 0
     ]
     roadTilt [ %<= startingRoadTilt >%, %<= endingRoadTilt >%]
     startLine IS startLine

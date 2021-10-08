@@ -14,7 +14,7 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Hoap2 {
-  SFVec3f    translation         0 0.29 0
+  SFVec3f    translation         0 0 0.29
   SFRotation rotation            0 0 1 0
   SFString   name                "HOAP-2"
   SFString   controller          "hoap2"
