@@ -31,8 +31,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.08737365267239655 0.020409608997914427 -0.9959665118261937 3.3803599421738215
-  position 43.12875439345048 -6.546654746141766 8.416654235796331
+  orientation -0.05387675445258595 0.28948480352702 0.9556651316525986 0.5071091613284144
+  position -6.042273862652981 -8.583035562726984 1.1889905142449035
   follow "salamander"
 }
 Fog {
@@ -264,11 +264,11 @@ WoodenPalletStack {
   rotation 0 0 1 1.0471975
   name "wooden pallet stack(1)"
   palletNumber 10
-  palletSize 2 0.3 3
+  palletSize 3 2 0.3
 }
 OilBarrel {
   translation 8.7016891 5.3991907 1.2
-  rotation -0.250563 0.935113 0.250563 1.637834
+  rotation 0.6546538347889604 -0.37796390461552926 -0.6546538347889604 -2.4188553071795864
   physics Physics {
     density 250
   }
@@ -308,7 +308,7 @@ DEF APPLE Transform {
   children [
     Apple {
       translation 0.41890544 -0.51423568 0.11474117
-      rotation -0.519988 -0.677661 -0.519988 -1.950441
+      rotation -0.5199881374825417 -0.6776611791705899 -0.5199881374825417 -1.950441
       mass 0.3
       immersionProperties [
         ImmersionProperties {
@@ -340,7 +340,7 @@ DEF ROCKS Group {
     }
     Transform {
       translation -9.19 -0.23992958 -0.11437822
-      rotation -0.54743 -0.32275 -0.772109 -2.946076
+      rotation -0.5474301436235175 -0.3227500846765619 -0.7721092025702109 -2.946076
       scale 2 2 2
       children [
         Rock17cm {
@@ -381,12 +381,12 @@ DEF ROCKS Group {
     }
     Rock10cm {
       translation 1.2034295 -8.603064 0.5768629
-      rotation 0.357407 0.357407 0.862856 1.717772
+      rotation 0.35740699927911007 0.35740699927911007 0.8628559982596194 1.717772
       locked TRUE
     }
     Transform {
       translation -30.299664 -22 1.5
-      rotation -0.357407 0.862856 -0.357407 1.717772
+      rotation -0.35740699927911007 0.8628559982596194 -0.35740699927911007 1.717772
       scale 60 60 60
       children [
         Rock10cm {
@@ -409,7 +409,7 @@ DEF ROCKS Group {
     }
     Rock10cm {
       translation 1.7850053 -8.4298435 0.66
-      rotation -0.382683 0 -0.92388 -3.141593
+      rotation -0.38268289803626016 0 -0.9238797538373538 -3.141593
       name "rock 10 cm(3)"
       locked TRUE
     }
@@ -426,7 +426,7 @@ DEF ROCKS Group {
     }
     Transform {
       translation -5.02 3.2 0.5132309
-      rotation -0.447214 -0.774597 -0.447214 -1.823477
+      rotation -0.44721372362178063 -0.7745965212991105 -0.44721372362178063 -1.823477
       scale 4 4 4
       children [
         Rock10cm {
@@ -461,11 +461,11 @@ DEF PLANTS Group {
 }
 DEF SALAMANDER Robot {
   translation -4.0927073 -7.439103 0.87
-  rotation 0.935114 -0.250561 -0.250561 1.637833
+  rotation 0.9351140830203671 -0.2505610222450591 -0.2505610222450591 1.637833
   children [
     Camera {
-      rotation 1 0 0 -1.5708
       translation 0 0 0.033
+      rotation 1 0 0 -1.5708
       width 256
       height 200
       near 0.025
