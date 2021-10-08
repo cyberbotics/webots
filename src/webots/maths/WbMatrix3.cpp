@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbMatrix3.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbQuaternion.hpp"
 #include "WbRotation.hpp"
 
@@ -80,7 +81,7 @@ WbVector3 WbMatrix3::toEulerAnglesZYX() const {
   if (mM[6] < 1) {
     if (mM[6] > -1) {
       angles.setX(atan2(mM[7], mM[8]));
-      angles.setY(asin(-mM[6]));
+      angles.setY(WbMathsUtilities::clampedAsin(-mM[6]));
       angles.setZ(atan2(mM[3], mM[0]));
     } else {
       angles.setX(0);
@@ -151,7 +152,7 @@ WbAxisAngle WbMatrix3::toAxisAngle() const {
   double s = sqrt((mM[7] - mM[5]) * (mM[7] - mM[5]) + (mM[2] - mM[6]) * (mM[2] - mM[6]) + (mM[3] - mM[1]) * (mM[3] - mM[1]));
   if (abs(s) < 0.001)
     s = 1;
-  angle = acos((mM[0] + mM[4] + mM[8] - 1) / 2);
+  angle = WbMathsUtilities::clampedAcos((mM[0] + mM[4] + mM[8] - 1) / 2);
   x = (mM[7] - mM[5]) / s;
   y = (mM[2] - mM[6]) / s;
   z = (mM[3] - mM[1]) / s;

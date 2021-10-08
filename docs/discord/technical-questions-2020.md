@@ -2070,13 +2070,13 @@ You can built your own, import from URDF or using some other available tools
 
 That are available on Webots github
 
-##### else { on(); } 01/29/2020 09:04:00
+##### ELL 01/29/2020 09:04:00
 hi. i have webots v7.4.0 but i can't register. is there a way to register?
 
 ##### Fabien Rohrer [Moderator] 01/29/2020 09:05:30
 Hi, there is no more regisration for Webots 7, you can simply login Webots 7 using the "webots" password as explained here: [https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
 
-##### else { on(); } 01/29/2020 09:06:35
+##### ELL 01/29/2020 09:06:35
 thank you very much
 
 ##### Daniil 01/29/2020 13:54:55
@@ -12831,7 +12831,7 @@ You're welcome 🙂
 
 `@David Mansolino` : I tried using `wb_supervisor_node_add_torque(target_node, torqueValues, true);` and I'm getting better results, though the path looks more like a square with rounded arcs for each side.
 
-##### phoenixash 05/03/2020 09:08:06
+##### kirito21 05/03/2020 09:08:06
 Hello everyone
 
 
@@ -12872,7 +12872,7 @@ Link: [https://youtu.be/OS0QByVv1do](https://youtu.be/OS0QByVv1do)
 %end
 
 
-`@phoenixash` : The epuck has a attachment point called `groundSensorSlot` in its interface (expand the epuck node in the LHS panel.  You need to add `E-puckGroundSensors` to this node.
+`@kirito21` : The epuck has a attachment point called `groundSensorSlot` in its interface (expand the epuck node in the LHS panel.  You need to add `E-puckGroundSensors` to this node.
 
 When you change the floor size, your texture is scaled up/down accordingly. You should set the dimensions of your arena and then create the texture with the appropriate line widths.  (floorSize and floorTileSize work together.)
 
@@ -12881,13 +12881,13 @@ You should not change the size of the E-puck.  It will simply look smaller if yo
 
 `@lshil` there could be a number of things going wrong here.  You have to explain more clearly what you are trying to do.
 
-##### phoenixash 05/04/2020 03:20:04
+##### kirito21 05/04/2020 03:20:04
 `@nap`  yup there is an attachment for groundsensor in epuck but I want to add ground sensor in some other robot which I created so how can I do that
 
 ##### nap 05/04/2020 03:21:42
-`@phoenixash` : edit the proto of your robot and add the same node that the e-puck proto has.  Then, into that node, add the E-puckGroundSensor.
+`@kirito21` : edit the proto of your robot and add the same node that the e-puck proto has.  Then, into that node, add the E-puckGroundSensor.
 
-##### phoenixash 05/04/2020 03:22:15
+##### kirito21 05/04/2020 03:22:15
 `@nap` sorry I m not getting how to do
 
 ##### nap 05/04/2020 03:22:30
@@ -12896,7 +12896,7 @@ when  you edit your robot's proto, note that there is a node in the structure un
 
 study the proto for the e-puck and experiment.   You will get it. (I don't have to the time to make an example for you.)
 
-##### phoenixash 05/04/2020 03:23:37
+##### kirito21 05/04/2020 03:23:37
 Sure I will try and let you know
 
 ##### David Mansolino [Cyberbotics] 05/04/2020 05:43:01
@@ -21062,7 +21062,7 @@ with robot being a Supervisor()
 
 Well I guess LEDs dont have to be set up on the fly...
 
-##### doppiooooh 06/17/2020 22:45:04
+##### mcgiorno 06/17/2020 22:45:04
 can anyone help me figure out a problemo
 
 
@@ -21086,7 +21086,7 @@ do you have enough storage on your computer? :p
 
 and what OS are you using?
 
-##### doppiooooh 06/17/2020 22:46:38
+##### mcgiorno 06/17/2020 22:46:38
 yeah i have plenty
 
 
@@ -21098,7 +21098,7 @@ you tried this link? [https://github.com/cyberbotics/webots/releases/tag/R2020a-
 
 must be a problem on your side. Perhaps try updating and restarting your pc
 
-##### doppiooooh 06/17/2020 22:49:13
+##### mcgiorno 06/17/2020 22:49:13
 ill try that link and update my computer
 
 
@@ -21107,7 +21107,7 @@ i tried it on my old pc and the same thing happened
 ##### Luftwaffel [Moderator] 06/17/2020 22:49:49
 I doubt github is down
 
-##### doppiooooh 06/17/2020 22:49:50
+##### mcgiorno 06/17/2020 22:49:50
 ill try that link though
 
 ##### David Mansolino [Cyberbotics] 06/18/2020 05:33:14
@@ -22770,7 +22770,7 @@ That's not normal for the maxTorque, what is not working exactly?
 
 `@Jatin Sharma` is your controller compiled?
 
-##### Akang 06/30/2020 07:06:44
+##### litten 06/30/2020 07:06:44
 my webots always not respond when make first simulation project on wizard menu
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:08:18
@@ -22780,7 +22780,7 @@ Do you have write right where you are trying to create the new project?
 
 If you create just a new world is it working?
 
-##### Akang 06/30/2020 07:10:31
+##### litten 06/30/2020 07:10:31
 could my computer running webots ?
 %figure
 ![error_graphic.png](https://cdn.discordapp.com/attachments/565154703139405824/727420791758651452/error_graphic.png)
@@ -22792,13 +22792,13 @@ my webots is lastest version on website
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:12:01
 Most probably yes, this just means that your GPU is not very powerfull and that Webots will disable advanced rendering features to save performance.
 
-##### Akang 06/30/2020 07:14:10
+##### litten 06/30/2020 07:14:10
 Oke, so i cant use webots on my computer, do you mean ?
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:14:36
 No that's not what I mean
 
-##### Akang 06/30/2020 07:16:59
+##### litten 06/30/2020 07:16:59
 thank you
 
 ##### David Mansolino [Cyberbotics] 06/30/2020 07:17:05
@@ -22863,7 +22863,7 @@ And about  getAvailableTorque?
 ##### lojik 06/30/2020 09:07:42
 The same results, it changes only if I set with setAvailableTorque() function
 
-##### Akang 06/30/2020 09:08:32
+##### litten 06/30/2020 09:08:32
 my webots always stack while create directory on wizard
 %figure
 ![stack.png](https://cdn.discordapp.com/attachments/565154703139405824/727450489771524106/stack.png)
@@ -24166,16 +24166,16 @@ Not necessarily, you can also define yourself the  `LD_LIBRARY_PATH` and `PYTHON
 ##### yash 07/07/2020 09:34:43
 Okay let me check it out
 
-##### O N I 07/07/2020 11:47:56
+##### YBN 07/07/2020 11:47:56
 Hi. I'm new to webots and i've to make a multi-robot system coordonation project using Webots. After i went through the tutorial and saw the basics i'm trying to make my own project. But when i add the pr2 robot for example to my world and project the robot does the things he do in the demo and uses the controller from demo. all i want is to use the robot but to code myself the controller. Can someone help me with some answers or to explain me what i've to do ? i know it sounds dumb ,but as i said i'm new to Webots .I tried to look up for other tutorials than the cyberbotics ones and i couldn't find  things related to my problem.
 
 ##### Luftwaffel [Moderator] 07/07/2020 11:50:45
-`@O N I` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
+`@YBN` you can change your controller here. If you want to create a new controller inside webots, use the wizard (top of the screen). If you select extern, you can have your controller running outside in your Terminal or IDE of your choice
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/730028027165147186/unknown.png)
 %end
 
-##### O N I 07/07/2020 12:09:20
+##### YBN 07/07/2020 12:09:20
 `@Luftwaffel` thank you very much .
 
 ##### EPIC 07/08/2020 08:16:07
@@ -27211,7 +27211,7 @@ Hi! I'm trying to get the bounding object to work for my PROTO, but can't get it
 ##### watchdogs132 07/27/2020 18:36:05
 Hello ,something weird is happening with my tracked robot when it climbs a staircase. In every iteration , my bot seems to stop climbing at the 14th step , before and after that particular step everything goes smoothly . This only happens during ascending .
 
-##### m0narch 07/27/2020 19:06:13
+##### UnlimitedSaberFaceWorks 07/27/2020 19:06:13
 motinan
 
 ##### chenpixx 07/27/2020 21:25:36
@@ -42011,7 +42011,7 @@ Ah, I missed the second line. Thanks.
 ##### David Mansolino [Cyberbotics] 10/16/2020 13:55:23
 You're welcome 😉
 
-##### m0narch 10/16/2020 17:41:29
+##### UnlimitedSaberFaceWorks 10/16/2020 17:41:29
 I have a function to set a robots motor positions and then play an audio file afterwards. When I run the function the audio plays first and then the robot moves. Is there a way for me to sequence it so that the robot moves and then the audio plays or to do both tasks at the same time?
 
 ##### Justin Fisher 10/17/2020 01:24:12

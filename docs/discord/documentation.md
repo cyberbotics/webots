@@ -2191,3 +2191,30 @@ Thanks brother
 ##### giaco\_mz 08/25/2021 10:48:28
 is possible to have a pdf version of the webots documentation?
 
+##### Isha 09/17/2021 15:09:36
+<@&568329906048598039>  Webots documentation site doesn't seem to work.
+
+##### Darko Lukić [Cyberbotics] 09/17/2021 15:10:11
+It works for me
+
+##### Stefania Pedrazzi [Cyberbotics] 09/20/2021 06:24:19
+No, the documentation in only available online.
+
+##### Mlungost 09/30/2021 09:02:52
+trying to download the Cyberbotics' Robot Curriculum.. does anyone have a working link or copy?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/893060315972001802/unknown.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 09/30/2021 09:04:00
+[https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum)
+
+##### Mlungost 09/30/2021 09:08:27
+thank you.  do you have a PDF version? the PDF version link on the website is broke
+
+##### Olivier Michel [Cyberbotics] 09/30/2021 09:09:33
+[https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27\_Robot\_Curriculum.pdf](https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27_Robot_Curriculum.pdf)
+
+##### Mlungost 09/30/2021 09:10:04
+thank you.
+

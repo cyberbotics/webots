@@ -7,7 +7,7 @@
 # template language: javascript
 
 PROTO RobotisLds01 [
-  field SFVec3f    translation       0 0.02 0
+  field SFVec3f    translation       0 0 0.02
   field SFRotation rotation          0 0 1 0
   field SFString   name              "LDS-01"
   field SFFloat    noise             0.0043
@@ -181,7 +181,7 @@ PROTO RobotisLds01 [
       }
       CapScrew {
         translation 0.035 0.0245 -0.0105
-        rotation 0.707106 -0.707108 0 -3.14158
+        rotation 0 -1 0 -1.570787
         name "screw0"
         screwRadius 0.0015
         screwLength 0.02
@@ -189,7 +189,7 @@ PROTO RobotisLds01 [
       }
       CapScrew {
         translation 0.035 0.0245 -0.0105
-        rotation 0.707106 -0.707108 0 -3.14158
+        rotation 0 -1 0 -1.570787
         name "screw1"
         screwRadius 0.0015
         screwLength 0.02
@@ -197,7 +197,7 @@ PROTO RobotisLds01 [
       }
       CapScrew {
         translation 0.035 0.0245 -0.0105
-        rotation 0.707106 -0.707108 0 -3.14158
+        rotation 0 -1 0 -1.570787
         name "screw2"
         screwRadius 0.0015
         screwLength 0.02
@@ -205,7 +205,7 @@ PROTO RobotisLds01 [
       }
       CapScrew {
         translation 0.035 0.0245 -0.0105
-        rotation 0.707106 -0.707108 0 -3.14158
+        rotation 0 -1 0 -1.570787
         name "screw3"
         screwRadius 0.0015
         screwLength 0.02
