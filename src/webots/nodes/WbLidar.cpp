@@ -197,7 +197,7 @@ void WbLidar::prePhysicsStep(double ms) {
     if (s)
       s->rotate(WbVector3(0.0, 0.0, angle));
     if (hasBeenSetup()) {
-      mWrenCamera->rotateYaw(angle);
+      mWrenCamera->rotateRoll(angle);
       mPreviousRotatingAngle = mCurrentRotatingAngle;
       mCurrentRotatingAngle += angle;
     }
