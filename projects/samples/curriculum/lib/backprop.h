@@ -91,7 +91,7 @@ typedef struct {
 /**
  * Input values to network
  */
-extern void InputToNetwork(network_t *n, float *values);
+extern void InputToNetwork(network_t *n, const float *values);
 
 /**
  * Activate the network.
@@ -112,7 +112,7 @@ extern void RandomizeNetwork(network_t *n);
  * Train a network for one step.  The average error between network
  * output and desired output (yd) is returned.
  */
-extern float TrainNetwork(network_t *n, float *yd);
+extern float TrainNetwork(network_t *n, const float *yd);
 
 /**********************************************************************
  * NETWORK VIEWING AND FILE I/O

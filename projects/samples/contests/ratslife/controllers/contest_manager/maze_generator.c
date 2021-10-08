@@ -53,7 +53,7 @@ static void create_link_between_two_cells(Maze *m, Cell *a, Cell *b) {
 }
 
 // get the next cell having a cell and one of its link
-static Cell *get_linked_cell(Cell *c, Link *l) {
+static Cell *get_linked_cell(const Cell *c, const Link *l) {
   if (l->cell_A == c)
     return l->cell_B;
   else if (l->cell_B == c)
