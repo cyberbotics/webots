@@ -210,6 +210,7 @@ def main(args=None):
     gen(FUNC, "wb_gps_get_coordinate_system(tag)", "gps")
     gen(FUNC, "wb_gps_get_sampling_period(tag)", "gps")
     gen(FUNC, "wb_gps_get_speed(tag)", "gps")
+    # gen(FUNC, "wb_gps_get_speed_vector(tag)", "gps")
     # gen(FUNC, "wb_gps_get_values(tag)", "gps")
 
     # gyro.h
