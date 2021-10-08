@@ -31,6 +31,7 @@ Released on XX, XXth, 2021.
     - Fixed regression where the v3.3 (21 DoF) variant of the [Nao](../guide/nao.md) PROTO had no hands ([#3696](https://github.com/cyberbotics/webots/pull/3696)).
     - Fixed laser and infra-red distance sensors hitting fully transparent objects ([#3726](https://github.com/cyberbotics/webots/pull/3726)).
     - Fixed a crash caused by acos function being called with an out-of-range value and leading to a stack overflow ([#3734](https://github.com/cyberbotics/webots/pull/3734)).
+    - Fixed propagation of rotation change from supervisor ([#3752](https://github.com/cyberbotics/webots/pull/3752)).
 
 ## Webots R2021b
 Released on July, 16th, 2021.

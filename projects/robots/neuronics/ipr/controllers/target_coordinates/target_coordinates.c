@@ -43,7 +43,7 @@ static void val_show(int label, const char *msg, double v) {
 
 // distance between 2 vectors
 static double vec_dist(const double a[3], const double b[3]) {
-  double d[3] = {a[0] - b[0], a[1] - b[1], a[2] - b[2]};
+  const double d[3] = {a[0] - b[0], a[1] - b[1], a[2] - b[2]};
   return sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
 }
 
