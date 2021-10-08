@@ -88,7 +88,7 @@ namespace wren {
 
   void TextureTransform::addMaterialUser(Material *material) {
     assert(material);
-    for (auto &user : mMaterialsUsingThisInstance) {
+    for (const Material *user : mMaterialsUsingThisInstance) {
       if (user == material)
         return;
     }
