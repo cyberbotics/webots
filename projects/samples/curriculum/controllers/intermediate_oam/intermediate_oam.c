@@ -141,7 +141,7 @@ static void reset(void) {
 static int run(void) {
   int ps_offset[NB_DIST_SENS] = {0, 0, 0, 0, 0, 0, 0, 0};
   int i;
-  int speed[2] = {150, 150};
+  const int speed[2] = {150, 150};
   int mode = wb_robot_get_mode();
 
   // 1. Get the sensors values
