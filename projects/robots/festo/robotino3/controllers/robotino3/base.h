@@ -37,7 +37,7 @@ void base_strafe_right();
 void base_apply_speeds(double vx, double vy, double omega);
 void base_accelerate();
 void base_set_speeds(double vx, double vy, double omega);
-void base_braitenberg_avoidance();
+void base_braitenberg_avoidance(const double *sensors_values);
 
 #ifdef __cplusplus
 }

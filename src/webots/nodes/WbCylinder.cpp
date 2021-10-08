@@ -464,10 +464,10 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
       double t2 = (-b + discriminant) / (2 * a);
       double z1 = origin.z() + t1 * direction.z();
       double z2 = origin.z() + t2 * direction.z();
-      if (mSide->value() && t1 > 0 && z1 >= -h / 2 && z1 <= h / 2) {
+      if (t1 > 0 && z1 >= -h / 2 && z1 <= h / 2) {
         d = t1;
         faceIndex = 0;
-      } else if (mSide->value() && t2 > 0 && z2 >= -h / 2 && z2 <= h / 2) {
+      } else if (t2 > 0 && z2 >= -h / 2 && z2 <= h / 2) {
         d = t2;
         faceIndex = 0;
       }

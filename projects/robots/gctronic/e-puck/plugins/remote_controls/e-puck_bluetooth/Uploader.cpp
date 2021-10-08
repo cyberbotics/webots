@@ -112,7 +112,7 @@ static void entrypoint_startsequence(unsigned char *v) {
 }
 
 // Sets the bootloader return address
-static void entrypoint_returnaddress(int bootloader, unsigned char *address, int robot_id) {
+static void entrypoint_returnaddress(int bootloader, const unsigned char *address, int robot_id) {
   MemoryChunk *m = get_memory_chunk(bootloader, 1);
   unsigned char *data = m->data;
   data[108] = robot_id & 0xff;

@@ -45,6 +45,7 @@ protected:
   void resetFocus() override;
 
 protected slots:
+  // cppcheck-suppress virtualCallInConstructor
   void apply() override;
 
 private:

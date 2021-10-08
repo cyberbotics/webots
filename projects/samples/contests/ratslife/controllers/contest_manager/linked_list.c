@@ -19,6 +19,7 @@
  */
 
 #include "linked_list.h"
+
 #include <stdlib.h>
 
 LLIST *list_add(LLIST **p, void *i) {
@@ -53,7 +54,7 @@ void list_remove(LLIST **p) {
   }
 }
 
-LLIST **list_search(LLIST **n, void *i) {
+LLIST **list_search(LLIST **n, const void *i) {
   if (n == NULL)
     return NULL;
 

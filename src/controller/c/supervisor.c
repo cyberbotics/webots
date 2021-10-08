@@ -207,7 +207,7 @@ static WbNodeRef find_node_by_id(int id) {
   return NULL;
 }
 
-static WbNodeRef find_node_by_def(const char *def_name, WbNodeRef parent_proto) {
+static WbNodeRef find_node_by_def(const char *def_name, const WbNodeRef parent_proto) {
   WbNodeRef node = node_list;
   while (node) {
     if (node->parent_proto == parent_proto && (parent_proto || !node->is_proto_internal) && node->def_name &&
@@ -228,7 +228,7 @@ static WbNodeRef find_node_by_tag(int tag) {
   return NULL;
 }
 
-static bool is_node_ref_valid(WbNodeRef n) {
+static bool is_node_ref_valid(const WbNodeRef n) {
   if (!n)
     return false;
 
