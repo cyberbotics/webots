@@ -5,8 +5,8 @@
 # template language: javascript
 
 PROTO Nao [
-  field SFVec3f                      translation           0 0.334 0             # Is `Transform.translation`.
-  field SFRotation                   rotation              1 0 0 -1.5708         # Is `Transform.rotation`.
+  field SFVec3f                      translation           0 0 0.334             # Is `Transform.translation`.
+  field SFRotation                   rotation              0 0 1 0               # Is `Transform.rotation`.
   field SFString                     name                  "NAO"                 # Is `Solid.name`.
   field SFString{"3.3","4.0", "5.0"} version               "5.0"                 # Defines the Nao version; either "3.3","4.0" or "5.0".
   field SFInt32{21, 25}              degreeOfFreedom       25                    # Defines the number of degrees of freedom; either "21" (fixed fingers) or "25" (articulated fingers).
@@ -681,7 +681,7 @@ PROTO Nao [
         rotation 0.0781175 -0.443112 -0.893056 0.389797
         children [
           DEF SONAR_SHAPE Transform {
-            rotation 0 0 1 1.5708
+            rotation 0 1 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -789,10 +789,10 @@ PROTO Nao [
             Camera {
               %< if (version === '3.3') { >%
                 translation 0.0539 0 0.0679
-                rotation 0.57735 -0.57735 -0.57735 2.0944
+                rotation -0.663002 0.347645 0.663001 0.000005
               %< } else { >%
                 translation 0.05871 0 0.06364
-                rotation 0.573277 -0.573277 -0.585411 2.08235
+                rotation -0.000190 1 0.000196 0.020946
               %< } >%
               name "CameraTop"
               %< if (version === '3.3') { >%
@@ -811,10 +811,10 @@ PROTO Nao [
             Camera {
               %< if (version === '3.3') { >%
                 translation 0.0488 0 0.02381
-                rotation 0.389282 -0.389282 -0.834817 1.75037
+                rotation 0 1 0 0.698134
               %< } else { >%
                 translation 0.05071 0 0.01774
-                rotation 0.391132 -0.391132 -0.833085 1.75241
+                rotation 0 1 0 0.692901
               %< } >%
               name "CameraBottom"
               fieldOfView IS cameraFieldOfView
@@ -1525,6 +1525,7 @@ PROTO Nao [
           contactMaterial IS contactMaterial
           boundingObject Transform {
             translation 0 0 0.055
+            rotation 1 0 0 -1.5708
             children [
               Capsule {
                 height 0.04
@@ -2069,7 +2070,7 @@ PROTO Nao [
           contactMaterial IS contactMaterial
           boundingObject Transform {
             translation 0.029 -0.005 0
-            rotation 0 0 1 1.45
+            rotation 0.623805 0.552662 -0.552660 -2.026117
             children [
               DEF SHOULDER_BO Capsule {
                 height 0.1
@@ -2609,7 +2610,7 @@ PROTO Nao [
           contactMaterial IS contactMaterial
           boundingObject Transform {
             translation 0.029 0.005 0
-            rotation 0 0 1 -1.45
+            rotation 0.623805 -0.552662 0.552660 -2.026117
             children [
               USE SHOULDER_BO
             ]
@@ -5783,7 +5784,6 @@ PROTO Nao [
     ]
     boundingObject Transform {
       translation 0 0 0.02
-      rotation 1 0 0 1.5708
       children [
         Capsule {
           height 0.11
