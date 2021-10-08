@@ -53,10 +53,8 @@ if [ "${OSTYPE}" != "msys" ]; then
     cp ${WEBOTS_HOME}/include/controller/c/webots/plugins/robot_window/{robot_window.h,robot_wwi.h} include
     
     rm -rf source/cpp
-    mkdir -p source/cpp
-    cp ${WEBOTS_HOME}/src/controller/cpp/*.cpp source/cpp
-
     mkdir -p source/cpp/vehicle
+    cp ${WEBOTS_HOME}/src/controller/cpp/*.cpp source/cpp
     cp ${WEBOTS_HOME}/projects/default/librairies/vehicle/cpp/car/src/Car.cpp source/cpp/vehicle
     cp ${WEBOTS_HOME}/projects/default/librairies/vehicle/cpp/driver/src/Driver.cpp source/cpp/vehicle
 fi
