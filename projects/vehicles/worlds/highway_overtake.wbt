@@ -7,7 +7,6 @@ WorldInfo {
   title "Highway overtake"
   ERP 0.6
   basicTimeStep 10
-  coordinateSystem "NUE"
   lineScale 1
   contactProperties [
     ContactProperties {
