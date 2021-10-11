@@ -70,7 +70,7 @@ int main() {
     wb_robot_cleanup();
     return 0;
   }
-
+  
   /* get a handler to the distance sensors and enable them */
   ds0 = wb_robot_get_device("ds0");
   ds1 = wb_robot_get_device("ds1");
@@ -97,7 +97,7 @@ int main() {
       const double *gpsPosition = wb_gps_get_values(gps);
       /* print real position measured from the GPS */
       ANSI_CLEAR_CONSOLE();
-      printf("GPS position:     time = %.3lf   X = %.3lf Z = %.3lf\n", wb_robot_get_time(), gpsPosition[0], gpsPosition[2]);
+      printf("GPS position:     time = %.3lf   X = %.3lf Y = %.3lf\n", wb_robot_get_time(), gpsPosition[0], gpsPosition[1]);
 
     } else {
       /* is there at least one packet in the receiver's queue ? */
@@ -107,8 +107,8 @@ int main() {
         const double *direction = wb_receiver_get_emitter_direction(communication);
         double dist = 1 / sqrt(signalStrength);
         ANSI_CLEAR_CONSOLE();
-        printf("Emitter position: time = %.3lf   X = %.3lf Z = %.3lf\n", wb_robot_get_time(), direction[0] * dist,
-               direction[2] * dist);
+        printf("Emitter position: time = %.3lf   X = %.3lf Y = %.3lf\n", wb_robot_get_time(), direction[0] * dist,
+               direction[1] * dist);
 
         wb_receiver_next_packet(communication);
       }
