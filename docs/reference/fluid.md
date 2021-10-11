@@ -49,8 +49,8 @@ The fluid linear velocity is taken into account for the drag and viscous resista
 - `boundingObject`: the bounding object specifies the geometrical primitives and their [Transform](transform.md) offset used for immersion detection.
 If the `boundingObject` field is NULL, then no immersion detection is performed and that fluid will have no effect on immersed objects.
 A [Solid](solid.md) will undergo static or dynamic forces exerted by a [Fluid](#fluid) only if its `boundingObject` collides with the [Fluid](#fluid)'s `boundingObject`.
-The intersection volume volume with an individual primitive geometry is approximated by the intersection volume of this geometry with a tangent plane of equation *y = c, c > 0* in the geometry coordinate system.
-This volume is used to generates Archimedes'thrust.
+The intersection volume with an individual primitive geometry is approximated by the intersection volume of this geometry with a tangent plane of equation *y = c, c > 0* in the geometry coordinate system.
+This volume is used to generates Archimedes' thrust.
 
     This field is subject to the same restrictions as a [Solid](solid.md)'s
     `boundingObject`.
