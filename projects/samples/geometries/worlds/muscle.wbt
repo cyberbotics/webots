@@ -199,7 +199,7 @@ DEF HINGE2 Robot {
     }
     Hinge2Joint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
+        axis 0 -1 0
         anchor 0.1 0 0
         dampingConstant 0.4
       }
@@ -256,7 +256,7 @@ DEF HINGE2 Robot {
       ]
       endPoint Solid {
         translation 0.1 0 0
-        rotation 0 1 0 4.9078177
+        rotation 0 -1 0 4.9078177
         children [
           USE JOINT
           DEF BONE2 Transform {
