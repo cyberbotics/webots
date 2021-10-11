@@ -42,7 +42,7 @@ DEF TEXTURED_BOX_SHAPE Solid {
       ]
       textureMapping "metric"
       faceColor 0.219608 0.588235 0.141176
-      leftFace FALSE
+      backFace FALSE
       topFace FALSE
       bottomFace FALSE
     }
