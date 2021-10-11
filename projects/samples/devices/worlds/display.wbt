@@ -6,8 +6,8 @@ WorldInfo {
   title "Display"
 }
 Viewpoint {
-  orientation 0.01544899805301014 -0.9997643532573202 0.01525012836439052 5.088300935049189
-  position -1.3613625004841023 0.07539105423057613 3.280478303744983
+  orientation 0.1605143253533589 -0.9492629759207835 -0.27043474980551957 5.340547054169591
+  position -1.171691463245978 -0.34540764173121474 1.4121554253629047
 }
 TexturedBackground {
   texture "empty_office"
@@ -373,6 +373,7 @@ DEF MYBOT Robot {
   controller "display"
 }
 Robot {
+  rotation 0 0 1 -1.5707953071795862
   children [
     DEF GROUND Display {
       children [
