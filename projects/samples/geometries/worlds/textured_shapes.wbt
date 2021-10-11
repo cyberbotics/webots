@@ -76,7 +76,8 @@ DEF CYLINDER Solid {
   name "solid(4)"
 }
 DEF INDEXEDFACESET Solid {
-  translation -0.1 -0.9 -0.1
+  translation -0.1 -0.7 -0.1
+  rotation 1 0 0 1.5708
   children [
     Shape {
       appearance USE APP
