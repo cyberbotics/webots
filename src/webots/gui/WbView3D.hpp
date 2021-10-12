@@ -93,6 +93,7 @@ public slots:
   void unleashAndClean();
 
 protected slots:
+  // cppcheck-suppress virtualCallInConstructor
   void renderNow(bool culling = true) override;
 
 protected:

@@ -113,7 +113,7 @@ signals:
   void aborted();  // triggers drag destruction in WbView3D
 
 public slots:
-  void updateRenderingAndPhysics();
+  virtual void updateRenderingAndPhysics();
 
 protected:
   void init();

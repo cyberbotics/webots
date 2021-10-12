@@ -62,7 +62,7 @@ void RandomizeLayer(layer_t *l) {
   }
 }
 
-void InputToLayer(layer_t *l, float *values) {
+static void InputToLayer(const layer_t *l, const float *values) {
   int i;
   float *x;
 
@@ -175,7 +175,7 @@ void LoadLayerWeights(layer_t *l, FILE *fp) {
  * Network Manipulation functions
  ************************************/
 
-void InputToNetwork(network_t *n, float *values) {
+void InputToNetwork(const network_t *n, const float *values) {
   InputToLayer(&n->layers[0], values);
 }
 

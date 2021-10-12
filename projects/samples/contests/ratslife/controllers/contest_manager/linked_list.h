@@ -43,10 +43,10 @@ typedef struct node {
   struct node *next; /* pointer to next element in list */
 } LLIST;
 
-LLIST *list_add(LLIST **p, void *i);     /* Function definition to add an element */
-void list_remove(LLIST **p);             /* Function definition to remove element (head) */
-LLIST **list_search(LLIST **n, void *i); /* Function definition to search the list - Look out: O(N)*/
-int list_size(LLIST *n);                 /* Function definition to count the list elements - Look out: O(N)*/
-LLIST *list_at(LLIST **p, int at);       /* Function definition to return the i-th element of the list - Look out: O(N)*/
+LLIST *list_add(LLIST **p, void *i);           /* Function definition to add an element */
+void list_remove(LLIST **p);                   /* Function definition to remove element (head) */
+LLIST **list_search(LLIST **n, const void *i); /* Function definition to search the list - Look out: O(N)*/
+int list_size(LLIST *n);                       /* Function definition to count the list elements - Look out: O(N)*/
+LLIST *list_at(LLIST **p, int at);             /* Function definition to return the i-th element of the list - Look out: O(N)*/
 
 #endif

@@ -40,8 +40,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Nao {
-  SFVec3f    translation           0 0.334 0
-  SFRotation rotation              1 0 0 -1.5708
+  SFVec3f    translation           0 0 0.334
+  SFRotation rotation              0 0 1 0
   SFString   name                  "NAO"
   SFString   version               "5.0"
   SFInt32    degreeOfFreedom       25
