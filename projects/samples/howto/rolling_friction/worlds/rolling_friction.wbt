@@ -1,0 +1,130 @@
+#VRML_SIM R2021c utf8
+WorldInfo {
+  coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      material2 "withRollingFriction"
+      rollingFriction [
+        0.02
+      ]
+    }
+    ContactProperties {
+      material2 "normal"
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.20969173636904911 0.9541158201404399 0.21375775414302176 4.646262162094158
+  position -18.918248245624582 11.888084844359705 -25.286306333533318
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+}
+Solid {
+  children [
+    DEF PLANE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/marble.jpg"
+          ]
+        }
+      }
+      geometry Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+Solid {
+  translation 0 1.3 -25
+  rotation 1 0 0 0.2
+  children [
+    DEF RAMP Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/varnished_wood.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 2 0.4 15
+      }
+    }
+  ]
+  name "ramp 1"
+  boundingObject USE RAMP
+}
+Solid {
+  translation 3 1.3 -25
+  rotation 1 0 0 0.2
+  children [
+    DEF RAMP Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/varnished_wood.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 2 0.4 15
+      }
+    }
+  ]
+  name "ramp 2"
+  boundingObject USE RAMP
+}
+Solid {
+  translation 0 3.35 -31.5
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 2
+      }
+    }
+  ]
+  name "normal ball"
+  contactMaterial "normal"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+Solid {
+  translation 3 3.35 -31.5
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 2
+      }
+    }
+  ]
+  name "ball with rolling friction"
+  contactMaterial "withRollingFriction"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
