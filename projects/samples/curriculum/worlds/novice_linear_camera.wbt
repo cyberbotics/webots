@@ -119,5 +119,5 @@ E-puck {
   controller "novice_linear_camera"
   camera_width 40
   camera_height 1
-  camera_rotation 0.6486731293477053 -0.648670129347107 -0.3980580793741822 -2.38393
+  camera_rotation 0 -1 0 -0.47
 }
