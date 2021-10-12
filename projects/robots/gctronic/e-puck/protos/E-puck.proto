@@ -20,8 +20,8 @@ PROTO E-puck [
   field SFFloat            camera_fieldOfView           0.84                                         # Is `Camera.fieldOfView`.
   field SFInt32            camera_width                 52                                           # Is `Camera.width`.
   field SFInt32            camera_height                39                                           # Is `Camera.height`.
-  field SFBool             camera_antiAliasing          FALSE                                        # Is `Camera.antiAliasing`.
-  field SFRotation         camera_rotation              -0.57735 -0.57735 0.57735 -2.094395          # Is `Camera.rotation`. Interesting setup: set `-0.463463 -0.463463 0.755252 -1.847885` in order to simulate the linear camera mode.
+  field SFBool             camera_antiAliasing          FALSE                                        # Is `Camera.antiAliasing`. 
+  field SFRotation         camera_rotation              0.57735 -0.57735 -0.57735 -2.094395          # Is `Camera.rotation`. Interesting setup: set `0.648673 -0.64867 -0.398058 -2.38393` in order to simulate the linear camera mode.
   field SFFloat            camera_noise                 0.0                                          # Is `Camera.noise`.
   field SFFloat            camera_motionBlur            0.0                                          # Is `Camera.motionBlur`.
   field SFInt32            distance_sensor_numberOfRays 1                                            # Is `DistanceSensor.numberOfRays`.
@@ -71,7 +71,7 @@ Robot {
             rotation 1 0 0 0
             children [
               DEF EPUCK_WHEEL Transform {
-                rotation 0 1 0 1.57
+                rotation 0 1 0 -1.570796
                 children [
                   Shape {
                     appearance DEF EPUCK_TRANSPARENT_APPEARANCE PBRAppearance {
@@ -87,8 +87,8 @@ Robot {
                     }
                   }
                   Transform {
-                    translation 0 0.0016 0
-                    rotation 1 0 0 -1.5708
+                    translation 0 0 0.0016
+                    rotation 1 0 0 1.570796
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -140,7 +140,7 @@ Robot {
                     }
                   }
                   Transform {
-                    translation 0 0 -0.0020
+                    translation 0 0 0.0035
                     children [
                       Shape {
                         appearance USE EPUCK_TRANSPARENT_APPEARANCE
@@ -152,7 +152,6 @@ Robot {
                     ]
                   }
                   Transform {
-                    translation 0 0 0
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -166,7 +165,7 @@ Robot {
                     ]
                   }
                   Transform {
-                    translation 0 0 0.0586
+                    translation 0 0 0.0065
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -186,7 +185,7 @@ Robot {
             ]
             name "left wheel"
             boundingObject DEF EPUCK_WHEEL_BOUNDING_OBJECT Transform {
-              rotation 0 1 0 1.57
+              rotation 0 1 0 1.570796
               children [
                 Cylinder {
                   height 0.005
@@ -225,7 +224,6 @@ Robot {
           ]
           endPoint DEF EPUCK_RIGHT_WHEEL Solid {
             translation 0.026 0.02 0
-            rotation 1 0 0 0
             children [
               Transform {
                 rotation 0 1 0 3.14159
@@ -828,7 +826,7 @@ Robot {
               rotation 0 0.707107 0.707107 3.14159
               children [
                 Transform {
-                  rotation -0.57735 -0.57735 0.57735 -2.094395
+                  rotation 0.57735 0.57735 0.57735 -2.094395
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -1116,7 +1114,7 @@ Robot {
         }
         DEF EPUCK_RING SolidPipe {
           translation 0 0.0393 0
-          rotation 1 0 0 -1.570796
+          rotation 1 0 0 1.570796
           height 0.007
           radius 0.0356
           thickness 0.004
@@ -1166,10 +1164,9 @@ Robot {
       }
       Transform {
         translation 0 0 0.0051
-        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
-            size 0.04 0.01 0.05
+            size 0.05 0.04 0.01
           }
         ]
       }
