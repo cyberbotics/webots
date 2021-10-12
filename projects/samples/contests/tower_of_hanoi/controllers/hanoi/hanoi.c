@@ -48,8 +48,8 @@ static void passive_wait(double sec) {
   } while (start_time + sec > wb_robot_get_time());
 }
 
-static void high_level_go_to(double y, double x, double a) {
-  base_goto_set_target(y, x, a);
+static void high_level_go_to(double x, double y, double a) {
+  base_goto_set_target(x, y, a);
   while (!base_goto_reached()) {
     base_goto_run();
     step();
@@ -64,8 +64,8 @@ static void high_level_grip_box(double y, int level, int column, bool grip) {
   static double platform_height = 0.01;
   static double offset = 0.01;  // security margin
 
-  double z = offset + platform_height + (level + 1) * box_length;
   double x = 0.5 * column * (box_gap + box_length);
+  double z = offset + platform_height + (level + 1) * box_length;
   x *= 0.9;  // This fix a small offset that I cannot explain
 
   if (!grip)
@@ -73,7 +73,7 @@ static void high_level_grip_box(double y, int level, int column, bool grip) {
 
   // prepare
   arm_set_sub_arm_rotation(ARM5, M_PI_2);
-  arm_ik(y, 0.20, x);
+  arm_ik(x, y, 0.20);
   if (grip)
     gripper_release();
   passive_wait(1.0);
@@ -81,7 +81,7 @@ static void high_level_grip_box(double y, int level, int column, bool grip) {
   // move the arm down
   double h;
   for (h = 0.2; h > z; h -= h_per_step) {
-    arm_ik(y, h, x);
+    arm_ik(x, y, h);
     step();
   }
 
@@ -96,7 +96,7 @@ static void high_level_grip_box(double y, int level, int column, bool grip) {
 
   // move the arm up
   for (h = z; h < 0.2; h += h_per_step) {
-    arm_ik(y, h, x);
+    arm_ik(x, y, h);
     step();
   }
   arm_set_orientation(ARM_FRONT);
@@ -123,9 +123,9 @@ static void automatic_behavior() {
   int GOTO_SRC = 0, GOTO_TMP = 1, GOTO_DST = 2;
 
   double delta = distance_origin_platform - distance_arm0_platform - distance_arm0_robot_center;
-  double goto_info[3][3] = {{delta * cos(angles[0]), delta * sin(angles[0]), -angles[0]},
-                            {delta * cos(angles[1]), delta * sin(angles[1]), -angles[1]},
-                            {delta * cos(angles[2]), delta * sin(angles[2]), -angles[2]}};
+  double goto_info[3][3] = {{delta * sin(angles[0]), delta * cos(angles[0]), -angles[0]},
+                            {delta * sin(angles[1]), delta * cos(angles[1]), -angles[1]},
+                            {delta * sin(angles[2]), delta * cos(angles[2]), -angles[2]}};
 
   arm_set_height(ARM_HANOI_PREPARE);
   // SRC A1 => DST
