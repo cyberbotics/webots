@@ -14,10 +14,10 @@ global SPEED_INCREMENT;
 SPEED_INCREMENT = 0.05;
 global WHEEL_RADIUS;
 WHEEL_RADIUS = 0.05;
+global LX; % longitudinal distance from robot's COM to wheel [m].
+LX= 0.228;
 global LY; % lateral distance from robot's COM to wheel [m].
 LY = 0.158;
-global LZ; % longitudinal distance from robot's COM to wheel [m].
-LZ= 0.228;
 global HEIGHTS;
 HEIGHTS = ["ARM_BACK_PLATE_LOW", "ARM_BACK_PLATE_HIGH", "ARM_RESET", "ARM_FRONT_CARDBOARD_BOX", ...
            "ARM_HANOI_PREPARE", "ARM_FRONT_PLATE", "ARM_FRONT_FLOOR"];
@@ -30,8 +30,8 @@ global ORIENTATIONS_ID;
 ORIENTATIONS_ID = containers.Map(ORIENTATIONS, [1:length(ORIENTATIONS)]);
 
 % Robot State
-global robot_vy; % forwards speed [m/s]
-global robot_vz; % lateral speed [m/s]
+global robot_vx; % forwards speed [m/s]
+global robot_vy; % lateral speed [m/s]
 global robot_omega; % angular speed [rad/s]
 global current_height;
 global current_orientation;
