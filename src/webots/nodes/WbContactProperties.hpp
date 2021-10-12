@@ -46,6 +46,8 @@ public:
   int coulombFrictionSize() const { return mCoulombFriction->size(); }
   double coulombFriction(int index) const { return mCoulombFriction->item(index); }
   WbVector2 frictionRotation() const { return mFrictionRotation->value(); }
+  int rollingFrictionSize() const { return mRollingFriction->size(); }
+  double rollingFriction(int index) const { return mRollingFriction->item(index); }
   double bounce() const { return mBounce->value(); }
   double bounceVelocity() const { return mBounceVelocity->value(); }
   int forceDependentSlipSize() const { return mForceDependentSlip->size(); }
@@ -66,6 +68,7 @@ private:
   WbSFString *mMaterial2;
   WbMFDouble *mCoulombFriction;
   WbSFVector2 *mFrictionRotation;
+  WbMFDouble *mRollingFriction;
   WbSFDouble *mBounce;
   WbSFDouble *mBounceVelocity;
   WbMFDouble *mForceDependentSlip;
@@ -87,6 +90,7 @@ private:
 private slots:
   void updateCoulombFriction();
   void updateFrictionRotation();
+  void updateRollingFriction();
   void updateBounce();
   void updateBounceVelocity();
   void updateSoftCfm();

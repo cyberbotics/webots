@@ -200,8 +200,10 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
 
   // default values
   int frictionSize = 1;
+  int rollingFrictionSize = 1;
   int fdsSize = 1;
   double mu[4] = {1.0, 0.0, 0.0, 0.0};
+  double rho[3] = {0.0, 0.0, 0.0};
   double bounce = 0.5;
   double bounce_vel = 0.01;
   double fds[4] = {0.0, 0.0, 0.0, 0.0};
@@ -220,6 +222,7 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       if (cp->material2() == s1->contactMaterial())
         inversed = true;
       frictionSize = cp->coulombFrictionSize();
+      rollingFrictionSize = cp->rollingFrictionSize();
       bounce = cp->bounce();
       bounce_vel = cp->bounceVelocity();
       fdsSize = cp->forceDependentSlipSize();
@@ -230,6 +233,8 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
         if (mu[j] == -1.0)
           mu[j] = dInfinity;
       }
+      for (j = 0; (j < rollingFrictionSize) && (j < 3); ++j)
+        rho[j] = cp->rollingFriction(j);
       for (j = 0; (j < fdsSize) && (j < 4); ++j)
         fds[j] = cp->forceDependentSlip(j);
       // get friction direction only if needed
@@ -294,11 +299,18 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       mu1 = mu[0] + mu[2] * ratio1 + mu[3] * ratio2;
       mu2 = mu[1] + mu[2] * ratio2 + mu[3] * ratio1;
     }
-
     // apply friction contact joint parameters
     contact->surface.mode = contact->surface.mode | dContactMu2;
     contact->surface.mu = mu1;
     contact->surface.mu2 = mu2;
+  }
+
+  // handle rolling friction
+  if (rho[0] > 0 || rho[1] > 0 || rho[2] > 0) {
+    contact->surface.mode = contact->surface.mode | dContactRolling;
+    contact->surface.rho = rho[0];
+    contact->surface.rho2 = rho[1];
+    contact->surface.rhoN = rho[2];
   }
 
   // handle asymetric slip
