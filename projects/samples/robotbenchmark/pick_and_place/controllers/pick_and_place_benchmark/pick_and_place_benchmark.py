@@ -53,7 +53,8 @@ while robot.step(timestep) != -1:
                                math.pow(targetPosition[1] - position[1], 2)), 4)
     time = robot.getTime()
     robot.wwiSendText("update: " + str(time) + " {0:.4f}".format(distance))
-    if time > 70: print(position)
+    if time > 70:
+        print(position)
     if boxPicked and distance < 0.036 and position[2] < 0.156:
         if distance == previousDistance:
             notMovingStepCount += 1
