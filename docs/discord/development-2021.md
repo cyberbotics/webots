@@ -2222,7 +2222,7 @@ There are more details in this document:
 ##### chinex 06/21/2021 10:33:59
 I have been trying to develop the controller plugin for my khepera IV robot it's not working.
 
-##### Naga15 06/23/2021 12:49:26
+##### Deleted User 06/23/2021 12:49:26
 Hello! Im working on one project to transfer the gazebo ros simulation to webots. It was suggested to me to use nightly build 2021b. Problem is when I switched builds from official to 2021b the ros simulation won't start, error message-> usr/local/webots/projects/default/controllers/ros/ros: error while loading shared libraries: libboost\_system.so.1.65.1: cannot open shared object file: No such file or directory
 
 WARNING: 'ros' controller exited with status: 127.                                                                                             
@@ -2237,7 +2237,7 @@ source /opt/ros/noetic/setup.bash
 webots
 ```
 
-##### Naga15 06/25/2021 13:02:02
+##### Deleted User 06/25/2021 13:02:02
 Yes of course, that's sourced and saved in .bashrc. I done all tutorials and I saw webots\_ros samples. Im starting my ros node directly from the launch file as in examples. Like I said the error shows only on nightly builds of 2021b. sorry for the late answer.
 
 ##### Darko Lukić [Cyberbotics] 06/25/2021 14:02:14
@@ -2258,7 +2258,7 @@ Setting the gravity to 0 allows the space simulation
 ##### michal.mlaticek 06/28/2021 09:25:43
 Ok, thanks
 
-##### Naga15 06/29/2021 12:20:18
+##### Deleted User 06/29/2021 12:20:18
 Hello, I removed webots\_ros from apt and I followed this [http://wiki.ros.org/webots\_ros](http://wiki.ros.org/webots_ros) from 2.2.2,   after cloning the git I switched the branch to develop and after rosdep i typed catkin\_make. There were no errors at compiling. It havent work. in webots console is still this error message when I launch the tutorial nodes like catch\_the\_bird.launch or my written stuff-> usr/local/webots/projects/default/controllers/ros/ros: error while loading shared libraries: libboost\_system.so.1.65.1: cannot open shared object file: No such file or directory
 
 WARNING: 'ros' controller exited with status: 127.                                              I installed the webots from the .deb file. Sorry for the incovenience.
@@ -2266,7 +2266,7 @@ WARNING: 'ros' controller exited with status: 127.                              
 ##### Darko Lukić [Cyberbotics] 06/29/2021 12:24:40
 Do you have the Boost library installed (`sudo apt install libboost-dev`)?
 
-##### Naga15 06/29/2021 12:26:38
+##### Deleted User 06/29/2021 12:26:38
 yes "libboost-dev is already the newest version"
 
 ##### Darko Lukić [Cyberbotics] 06/29/2021 12:39:09
@@ -2276,7 +2276,7 @@ This will take many questions as I cannot reproduce the problem and I haven't no
 ldd ${WEBOTS_HOME}/projects/default/controllers/ros/ros
 ```
 
-##### Naga15 06/29/2021 12:46:02
+##### Deleted User 06/29/2021 12:46:02
 I run it and i got this
 > **Attachment**: [console\_output.txt](https://cdn.discordapp.com/attachments/565155651395780609/859414411403198464/console_output.txt)
 
@@ -2297,7 +2297,7 @@ libboost-system1.67.0 - Operating system (e.g. diagnostics support) library
 Did you upgrade your system recently, `sudo apt update; sudo apt upgrade`?
 > **Attachment**: [ldd.log](https://cdn.discordapp.com/attachments/565155651395780609/859443319775428628/ldd.log)
 
-##### Naga15 06/30/2021 07:43:33
+##### Deleted User 06/30/2021 07:43:33
 I did that before writting to you, I will try it again. I have no problems with official release and nigthly builds of 2021a. Only with  nightly builds of 2021b. But thanks for your help! 🙂 If I find the solution or my mistake I will post it here.
 
 ## July
@@ -2308,7 +2308,7 @@ Hey, how can I use a own lib in webots?
 ##### Olivier Michel [Cyberbotics] 07/02/2021 06:22:41
 You can simply link your controller programs with your own lib.
 
-##### Naga15 07/14/2021 08:18:13
+##### Deleted User 07/14/2021 08:18:13
 Hello! I followed [https://github.com/cyberbotics/webots/wiki/Linux-installation](https://github.com/cyberbotics/webots/wiki/Linux-installation) but I pulled develop branch(source) of webots. It starts 2021b and doesn't lokoing for this libboost anymore and its connected to ros :). I have next Problem.  In my robot there are devices and after the activation of everyone I got ros crash. Webots console shows me this: wb\_lidar\_get\_layer\_range\_image() called for a disabled device! Please use: wb\_lidar\_enable().   
 
 
@@ -2474,7 +2474,7 @@ It is very important to me
 
 Thanks.
 
-##### Naga15 08/11/2021 08:44:19
+##### Deleted User 08/11/2021 08:44:19
 Hello Cyberbotics team i write you again. I hadn't resolved the last problem from July 14. But I have some updates about the topic. After fresh instalation of UBUNTU 20.04 i tried to install officiall release of webots 2021b. when I do it over .deb or snap I get same Problem by connecting to ros-master. Error ist about libboost I tried to install over tarball and it connects to ros master but I have a problem with this error: 
 
 
@@ -2519,11 +2519,11 @@ To resolve the problem please use the tarball for Ubuntu 20.04
 
 About the other problem let me check
 
-##### Naga15 08/11/2021 09:08:58
+##### Deleted User 08/11/2021 09:08:58
 Thanks.
 
 ##### Darko Lukić [Cyberbotics] 08/11/2021 14:55:14
-`@Naga15` I believe I fixed the issue:
+`@Deleted User` I believe I fixed the issue:
 
 [https://github.com/cyberbotics/webots/pull/3561](https://github.com/cyberbotics/webots/pull/3561)
 
@@ -2539,7 +2539,7 @@ Or wait for the nightly builds (generated an evening after a merge):
 
 [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
 
-##### Naga15 08/16/2021 08:00:26
+##### Deleted User 08/16/2021 08:00:26
 Thanks it finally works!
 
 ##### satyar 08/18/2021 18:35:04
@@ -2715,4 +2715,25 @@ Ok, many thanks. I will try.
 
 
 Ok, many thanks. I will try.
+
+##### Mlungost 09/22/2021 18:22:37
+hello all, when running this code in C i get no errors, but nothing displays on the console.
+
+
+
+%figure
+![C.png](https://cdn.discordapp.com/attachments/565155651395780609/890302975170461756/C.png)
+%end
+
+##### DDaniel [Cyberbotics] 09/22/2021 18:46:51
+<@837512744210661457> are you calling `wb_robot_step` at some point after this snippet?
+
+##### Mlungost 09/22/2021 18:50:53
+yes, this is within a larger feedback loop` while (wb_robot_step(TIME_STEP) != -1) `
+
+##### DDaniel [Cyberbotics] 09/22/2021 18:55:17
+Oh, it's just that it's `\n` not `/n`
+
+##### Mlungost 09/22/2021 18:59:56
+ahh man. thanks Daniel. Genius. Subtle errors like that tend to get overlooked when you been coding all day. it's displaying now
 

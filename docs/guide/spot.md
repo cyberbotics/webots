@@ -26,7 +26,7 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Spot {
-  SFVec3f     translation      0 -1.028 0.46
+  SFVec3f     translation      0 0 0.624
   SFRotation  rotation         0 0 1 0
   SFString    name             "Spot"
   SFString    model            "Boston Dynamics - Spot"
