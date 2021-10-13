@@ -99,7 +99,6 @@ endif
 ifeq ($(OSTYPE),windows)
 	+@echo "# creating webots_setup.exe (takes long)"
 	+@"$(INNO_SETUP_HOME)/iscc" -Q webots.iss
-	+@echo
 endif
 	+@echo "# done for" $(OSTYPE)
 
