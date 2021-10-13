@@ -64,7 +64,6 @@ LIBRARIES = -L$(WEBOTS_HOME_PATH)/lib -L/mingw64/bin -lcrypto
 WEBOTS_DISTRO_EXE = webots_distro.exe
 INNO_SETUP_HOME ?= /C/Program Files (x86)/Inno Setup 6
 WEBOTS = webots
-ISCC_FORMATTER = iscc_formatter.exe
 endif
 
 TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/scripts/packaging/webots_version.txt)
@@ -73,7 +72,7 @@ ifeq ($(shell git tag --points-at HEAD | grep $(TARGET_URL)),)
 TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/resources/commit.txt)
 endif
 
-all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER) $(XVFB)
+all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@echo "# removing files and folders not in git repository"
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd scripts/packaging
 	+@echo "# generating project files"
@@ -111,14 +110,10 @@ $(WEBOTS_DISTRO_EXE): webots_distro.c
 	+@echo "# compiling webots_distro.c"
 	+@$(CC) $(CFLAGS) -Wall -o $@ webots_distro.c $(LIBRARIES)
 
-iscc_formatter.exe: iscc_formatter.c
-	+@echo "# compiling iscc_formatter.c"
-	+@$(CC) -Wall -o $@ iscc_formatter.c
-
 xvfb:
 	+@echo "# starting Xvfb: X Virtual Frame Buffer"
 	+@Xvfb :99 -screen 0 1024x768x16 &
 
 clean:
-	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.deb webots.snap webots.iss webots.mac files.txt iscc_formatter.exe
+	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.deb webots.snap webots.iss webots.mac files.txt
 	+@find $(WEBOTS_HOME_PATH)/projects $(WEBOTS_HOME_PATH)/resources -name .*.cache | xargs rm -f
