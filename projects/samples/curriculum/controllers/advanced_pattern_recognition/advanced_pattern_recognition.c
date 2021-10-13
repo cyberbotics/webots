@@ -296,7 +296,7 @@ static void robot_state_manager() {
  * array on the top left of the camera image.
  */
 static void detect_blobs(void) {
-  int i, j, k, x, z;
+  int i, j, k, x, y;
   const unsigned char *image = wb_camera_get_image(cam);
   int width = wb_camera_get_width(cam);
   int height = wb_camera_get_height(cam);
@@ -344,13 +344,13 @@ static void detect_blobs(void) {
         // It should be sampled to SAMPLE_WIDTH*SAMPLE_HEIGHT and
         // be stored in the "samples" array and be displayed
         for (x = 0; x < SAMPLE_WIDTH; x++) {
-          for (z = 0; z < SAMPLE_HEIGHT; z++) {
+          for (y = 0; y < SAMPLE_HEIGHT; y++) {
             int tmp_i = sample_left + my_round((float)x * sample_width / (float)SAMPLE_WIDTH);
-            int tmp_j = sample_down + my_round((float)z * sample_height / (float)SAMPLE_HEIGHT);
+            int tmp_j = sample_down + my_round((float)y * sample_height / (float)SAMPLE_HEIGHT);
             int value = wb_camera_image_get_blue(image, width, tmp_i, tmp_j);
-            samples[sample_counter][SAMPLE_WIDTH * z + x] = 1.0f / 255.0f * value;
+            samples[sample_counter][SAMPLE_WIDTH * y + x] = 1.0f / 255.0f * value;
             wb_display_set_color(display, (value << 16) | (value << 8) | value);
-            wb_display_draw_pixel(display, x + sample_counter * (SAMPLE_WIDTH + 1), z);
+            wb_display_draw_pixel(display, x + sample_counter * (SAMPLE_WIDTH + 1), y);
           }
         }
         sample_counter++;
@@ -368,8 +368,8 @@ static void detect_blobs(void) {
   for (x = 0; x < sample_counter * (SAMPLE_WIDTH + 1); x++)
     wb_display_draw_pixel(display, x, SAMPLE_HEIGHT);
   for (k = 0; k < sample_counter; k++) {
-    for (z = 0; z < SAMPLE_HEIGHT; z++)
-      wb_display_draw_pixel(display, k + (1 + k) * SAMPLE_WIDTH, z);
+    for (y = 0; y < SAMPLE_HEIGHT; y++)
+      wb_display_draw_pixel(display, k + (1 + k) * SAMPLE_WIDTH, y);
   }
 }
 
