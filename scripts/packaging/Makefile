@@ -99,6 +99,8 @@ endif
 ifeq ($(OSTYPE),windows)
 	+@echo "# creating webots_setup.exe (takes long)"
 	ls -l /D/a/_temp/msys/msys64/mingw64/bin/
+	pacman -S mingw-w64-x86_64-libgd
+	ls -l /D/a/_temp/msys/msys64/mingw64/bin/
 	+@"$(INNO_SETUP_HOME)/iscc" -Q webots.iss
 endif
 	+@echo "# done for" $(OSTYPE)
