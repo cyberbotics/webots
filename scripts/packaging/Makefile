@@ -99,7 +99,7 @@ endif
 	+@rm files_projects.txt
 ifeq ($(OSTYPE),windows)
 	+@echo "# creating webots_setup.exe (takes long)"
-	+@"$(INNO_SETUP_HOME)/iscc" -Qp webots.iss | ./iscc_formatter.exe `tput cols`
+	+@"$(INNO_SETUP_HOME)/iscc" -Q webots.iss
 	+@echo
 endif
 	+@echo "# done for" $(OSTYPE)
