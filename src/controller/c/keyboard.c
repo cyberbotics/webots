@@ -109,7 +109,7 @@ int wb_keyboard_get_key() {
 
   int r = -1;
   robot_mutex_lock_step();
-  if (keyboard.pointer != -1){
+  if (keyboard.pointer != -1) {
     r = keyboard.key[(int)keyboard.pointer];
     if (r >= 0)
       keyboard.pointer++;
