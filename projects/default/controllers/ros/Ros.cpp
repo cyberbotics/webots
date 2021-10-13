@@ -299,7 +299,6 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
       if (hidden)
         continue;
     }
-
     const unsigned int previousDevicesCount = mDeviceList.size();
     switch (tempDevice->getNodeType()) {
       case Node::ACCELEROMETER:
