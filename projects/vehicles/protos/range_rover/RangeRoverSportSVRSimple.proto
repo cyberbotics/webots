@@ -32,21 +32,18 @@ PROTO RangeRoverSportSVRSimple [
     children [
       Transform {
         translation 3.5 0 0.5
-        rotation -0.577315 0.577368 0.577368 -2.094449
         children IS sensorsSlotFront
       }
       Transform {
         translation -1.06 0 0.33
-        rotation 0.57735 0.57735 0.57735 2.094395
+        rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
       Transform {
         translation 1.4 0 1.3
-        rotation -0.577315 0.577368 0.577368 -2.094449
         children IS sensorsSlotTop
       }
       Transform {
-        rotation -0.577315 0.577368 0.577368 -2.094449
         children IS sensorsSlotCenter
       }
       Transform{
