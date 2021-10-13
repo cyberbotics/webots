@@ -50,8 +50,8 @@ int main() {
     // move and orientate the e-puck according to the pressed key
     switch (key) {
       case '1':
-        epuck_pos[0] = 0;  // x-coordinate
-        epuck_pos[1] = -0.8;  // y-coordinate
+        epuck_pos[0] = 0;    // x-coordinate
+        epuck_pos[1] = -0.8; // y-coordinate
         epuck_rot[3] = 0.0;  // orientation angle
         wb_supervisor_field_set_sf_vec3f(pos, epuck_pos);
         wb_supervisor_field_set_sf_rotation(rot, epuck_rot);

@@ -16,6 +16,7 @@
 
 """Parse Webots world files."""
 
+
 class WebotsParser:
     """This class reads a world file and parser its structure."""
     """It assumes the world file was saved with Webots and the indentation written by Webots was not changed."""
@@ -162,7 +163,7 @@ class WebotsParser:
                 self._write_node(value, self.indentation if index > 0 else 0)
             elif type(value) is not list:
                 print("Skip {} with values {}".format(type_field, values))
-                self.file.write(str(values).replace('[','').replace("'",'').replace(']',''))
+                self.file.write(str(values).replace('[', '').replace("'", '').replace(']', ''))
                 break
             elif type_field == 'MFVec2f':
                 self.file.write(value[0] + ' ' + value[1])
