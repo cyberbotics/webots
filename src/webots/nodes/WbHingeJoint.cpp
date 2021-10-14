@@ -517,19 +517,19 @@ void WbHingeJoint::updateJointAxisRepresentation() {
 
   const WbVector3 &suspensionAxis = p->suspensionAxis();
 
-  int nbVertices = 0;
+  int nbVertices = 2;
   const int steps = 128;
-  const int sides = 20;
+  const int sides = 16;
 
   if (hasSuspensionSpring)
     nbVertices += steps * 2;
 
   if (hasSuspensionDamper)
-    nbVertices += sides * 2;
+    nbVertices += (sides * 2) + (sides * 2) + (sides * 2) + (sides * 2) + (sides * 2);  // bottom & top circle & height
 
   float vertices[nbVertices * 3];
   int offset = 0;
-  // create mesh of coil for suspension spring
+  // create vertices of the coil of the suspension spring
   if (hasSuspensionSpring) {
     const float coilHeight = wr_config_get_line_scale() / steps;
     const float coilRadius = 0.01f * (1 + wr_config_get_line_scale());
@@ -548,23 +548,71 @@ void WbHingeJoint::updateJointAxisRepresentation() {
       offset += 3;
     }
   }
-  /*
+  // create vertices of the cylinder of the suspension damper
   if (hasSuspensionDamper) {
     const float cylinderHeight = wr_config_get_line_scale();
-    const float cylinderRadius = 0.01f * (1 + wr_config_get_line_scale());
+    const float cylinderRadius = 0.01f * (1 + wr_config_get_line_scale()) * 0.75;
 
     WbVector3 vertex;
     for (int i = 0; i < sides; ++i) {
-      offset += 6 * i;
-      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), 0, cylinderRadius * cos(i * 2 * M_PI / sides));
+      // bottom circle
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), 0.33 * cylinderHeight,
+                         cylinderRadius * cos(i * 2 * M_PI / sides));
       vertex.toFloatArray(vertices + offset);
-
       offset += 3;
-      vertex = WbVector3(cylinderRadius * sin((i + 1) * 2 * M_PI / sides), 0, cylinderRadius * cos((i + 1) * 2 * M_PI / sides));
+
+      vertex = WbVector3(cylinderRadius * sin((i + 1) * 2 * M_PI / sides), 0.33 * cylinderHeight,
+                         cylinderRadius * cos((i + 1) * 2 * M_PI / sides));
       vertex.toFloatArray(vertices + offset);
+      offset += 3;
+      // top circle
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), 0.66 * cylinderHeight,
+                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+
+      vertex = WbVector3(cylinderRadius * sin((i + 1) * 2 * M_PI / sides), 0.66 * cylinderHeight,
+                         cylinderRadius * cos((i + 1) * 2 * M_PI / sides));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+      // heights
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), 0.33 * cylinderHeight,
+                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), 0.66 * cylinderHeight,
+                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+      // bottom face
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), 0.33 * cylinderHeight,
+                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides + M_PI), 0.33 * cylinderHeight,
+                         cylinderRadius * cos(i * 2 * M_PI / sides + M_PI));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+      // top face
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), 0.66 * cylinderHeight,
+                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides + M_PI), 0.66 * cylinderHeight,
+                         cylinderRadius * cos(i * 2 * M_PI / sides + M_PI));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
     }
   }
-  */
+  // create mesh for suspension axis
+  anchorVector.toFloatArray(vertices + offset);
+  offset += 3;
+  WbVector3 vertex(anchorVector + suspensionAxis);
+  vertex.toFloatArray(vertices + offset);
+
   mMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
 
   // orient mesh
@@ -579,19 +627,12 @@ void WbHingeJoint::updateJointAxisRepresentation() {
   float rotationArray[4];
   rotation.toFloatArray(rotationArray);
 
-  float tail[6];
+  float tail[3];
   anchorVector.toFloatArray(tail);
   suspensionAxis.toFloatArray(tail + 3);
 
-  wr_transform_set_position(mTransform, tail);
+  // wr_transform_set_position(mTransform, tail);
   wr_transform_set_orientation(mTransform, rotationArray);
-
-  // create mesh of joint axis
-  // WbVector3 vertex(anchorVector - axisVector);
-  // vertex.toFloatArray(vertices + steps * 3 * 2);
-
-  // vertex = anchorVector + axisVector;
-  // vertex.toFloatArray(vertices + steps * 3 * 2 + 3);
 
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
