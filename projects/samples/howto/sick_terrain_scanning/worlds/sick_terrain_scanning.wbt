@@ -8,8 +8,8 @@ WorldInfo {
   lineScale 1
 }
 Viewpoint {
-  orientation 0.2640624108079812 -0.23394693241301912 -0.9357028780616288 1.5161896017875311
-  position -21.72704498064335 -2.38672002917576 38.70791120755993
+  orientation -0.46539363580473747 0.47007181073011883 0.7499608366503911 1.8450316505996893
+  position -1.031483679267516 -97.34858123820617 195.28683579852623
   follow "Pioneer 3-AT"
 }
 TexturedBackground {
@@ -17,7 +17,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Robot {
-  rotation 1 0 0 1.5707963267948966
+  rotation 0 0 -1 1.5707963267948966
   children [
     Receiver {
       channel 1
@@ -49,7 +49,7 @@ Robot {
       ]
     }
     Display {
-      translation 0 0.1 0
+      translation 0 0 0.1
       children [
         Shape {
           appearance PBRAppearance {
@@ -77,8 +77,7 @@ Robot {
   supervisor TRUE
 }
 DEF WALL_1 Solid {
-  translation 0 30 0.8
-  rotation 1 0 0 1.5707963267948966
+  translation 30 0 0.8
   children [
     DEF WALL_SHAPE Shape {
       appearance PBRAppearance {
@@ -94,7 +93,7 @@ DEF WALL_1 Solid {
         }
       }
       geometry Box {
-        size 60 1.6 0.2
+        size 0.2 60 1.6
       }
     }
   ]
@@ -103,8 +102,8 @@ DEF WALL_1 Solid {
   locked TRUE
 }
 DEF WALL_2 Solid {
-  translation -30 0 0.8
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
+  translation 0 -30 0.8
+  rotation 0 0 1 1.5708
   children [
     USE WALL_SHAPE
   ]
@@ -113,8 +112,8 @@ DEF WALL_2 Solid {
   locked TRUE
 }
 DEF WALL_3 Solid {
-  translation 0 -30 0.8
-  rotation 1 0 0 1.5707963267948966
+  translation -30 0 0.8
+  rotation 0 1 0 0
   children [
     USE WALL_SHAPE
   ]
@@ -123,8 +122,8 @@ DEF WALL_3 Solid {
   locked TRUE
 }
 DEF WALL_4 Solid {
-  translation 30 0 0.8
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
+  translation 0 30 0.8
+  rotation 0 0 1 1.5708
   children [
     USE WALL_SHAPE
   ]
@@ -133,8 +132,8 @@ DEF WALL_4 Solid {
   locked TRUE
 }
 DEF OBSTACLE_1 Solid {
-  translation 15.7489 -12.6243 1
-  rotation 1 0 0 1.5707963267948966
+  translation -12.6243 15.7489 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     DEF OBSTACLE_SHAPE Shape {
       appearance PBRAppearance {
@@ -160,8 +159,8 @@ DEF OBSTACLE_1 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_2 Solid {
-  translation -6.11857 18.7895 1
-  rotation 1 0 0 1.5707963267948966
+  translation 18.7895 -6.11857 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -169,8 +168,8 @@ DEF OBSTACLE_2 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_3 Solid {
-  translation 21.7282 24.6243 1
-  rotation 1 0 0 1.5707963267948966
+  translation 24.6243 21.7282 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -178,8 +177,8 @@ DEF OBSTACLE_3 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_4 Solid {
-  translation 27.5208 6.81157 1
-  rotation 1 0 0 1.5707963267948966
+  translation 6.81157 27.5208 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -187,8 +186,8 @@ DEF OBSTACLE_4 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_5 Solid {
-  translation -13.0666 5.54135 1
-  rotation 1 0 0 1.5707963267948966
+  translation 5.54135 -13.0666 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -196,8 +195,8 @@ DEF OBSTACLE_5 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_6 Solid {
-  translation -26.5756 20.8546 1
-  rotation 1 0 0 1.5707963267948966
+  translation 20.8546 -26.5756 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -205,8 +204,8 @@ DEF OBSTACLE_6 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_7 Solid {
-  translation 5.65869 4.7766 1
-  rotation 1 0 0 1.5707963267948966
+  translation 4.7766 5.65869 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -214,8 +213,8 @@ DEF OBSTACLE_7 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_8 Solid {
-  translation 2.48883 -16.7941 1
-  rotation 1 0 0 1.5707963267948966
+  translation -16.7941 2.48883 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -223,8 +222,8 @@ DEF OBSTACLE_8 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_9 Solid {
-  translation -21.5071 -19.6972 1
-  rotation 1 0 0 1.5707963267948966
+  translation -19.6972 -21.5071 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -232,8 +231,8 @@ DEF OBSTACLE_9 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_10 Solid {
-  translation -11.3252 -23.9583 1
-  rotation 1 0 0 1.5707963267948966
+  translation -23.9583 -11.3252 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -241,8 +240,8 @@ DEF OBSTACLE_10 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_11 Solid {
-  translation -27.9213 27.5921 1
-  rotation 1 0 0 1.5707963267948966
+  translation 27.5921 -27.9213 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -250,8 +249,8 @@ DEF OBSTACLE_11 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_12 Solid {
-  translation -20.3505 12.0943 1
-  rotation 1 0 0 1.5707963267948966
+  translation 12.0943 -20.3505 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -259,8 +258,8 @@ DEF OBSTACLE_12 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_13 Solid {
-  translation -20.1731 -14.1931 1
-  rotation 1 0 0 1.5707963267948966
+  translation -14.1931 -20.1731 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -268,8 +267,8 @@ DEF OBSTACLE_13 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_14 Solid {
-  translation -12.5078 26.5308 1
-  rotation 1 0 0 1.5707963267948966
+  translation 26.5308 -12.5078 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -277,8 +276,8 @@ DEF OBSTACLE_14 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_15 Solid {
-  translation 23.5136 -16.3913 1
-  rotation 1 0 0 1.5707963267948966
+  translation -16.3913 23.5136 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -286,8 +285,8 @@ DEF OBSTACLE_15 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_16 Solid {
-  translation 11.2747 3.27308 1
-  rotation 1 0 0 1.5707963267948966
+  translation 3.27308 11.2747 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -295,8 +294,8 @@ DEF OBSTACLE_16 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_17 Solid {
-  translation 22.197 3.21502 1
-  rotation 1 0 0 1.5707963267948966
+  translation 3.21502 22.197 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -304,8 +303,8 @@ DEF OBSTACLE_17 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_18 Solid {
-  translation 28.4213 -6.60283 1
-  rotation 1 0 0 1.5707963267948966
+  translation -6.60283 28.4213 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -313,8 +312,8 @@ DEF OBSTACLE_18 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_19 Solid {
-  translation 19.4685 20.9128 1
-  rotation 1 0 0 1.5707963267948966
+  translation 20.9128 19.4685 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -322,8 +321,8 @@ DEF OBSTACLE_19 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_20 Solid {
-  translation 4.81033 27.563 1
-  rotation 1 0 0 1.5707963267948966
+  translation 27.563 4.81033 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -331,8 +330,8 @@ DEF OBSTACLE_20 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_21 Solid {
-  translation -2.91762 -27.7484 1
-  rotation 1 0 0 1.5707963267948966
+  translation -27.7484 -2.91762 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -340,8 +339,8 @@ DEF OBSTACLE_21 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_22 Solid {
-  translation 5.15002 -24.9015 1
-  rotation 1 0 0 1.5707963267948966
+  translation -24.9015 5.15002 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -349,8 +348,8 @@ DEF OBSTACLE_22 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_23 Solid {
-  translation -14.717 -6.97726 1
-  rotation 1 0 0 1.5707963267948966
+  translation -6.97726 -14.717 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -358,8 +357,8 @@ DEF OBSTACLE_23 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_24 Solid {
-  translation 28.6207 21.1249 1
-  rotation 1 0 0 1.5707963267948966
+  translation 21.1249 28.6207 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -367,8 +366,8 @@ DEF OBSTACLE_24 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_25 Solid {
-  translation 15.5754 12.0666 1
-  rotation 1 0 0 1.5707963267948966
+  translation 12.0666 15.5754 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -376,8 +375,8 @@ DEF OBSTACLE_25 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_26 Solid {
-  translation 9.79035 -14.8888 1
-  rotation 1 0 0 1.5707963267948966
+  translation -14.8888 9.79035 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -385,8 +384,8 @@ DEF OBSTACLE_26 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_27 Solid {
-  translation -3.93434 -16.4364 1
-  rotation 1 0 0 1.5707963267948966
+  translation -16.4364 -3.93434 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -394,8 +393,8 @@ DEF OBSTACLE_27 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_28 Solid {
-  translation -27.7733 -5.49227 1
-  rotation 1 0 0 1.5707963267948966
+  translation -5.49227 -27.7733 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -403,8 +402,8 @@ DEF OBSTACLE_28 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_29 Solid {
-  translation -2.7517 25.0956 1
-  rotation 1 0 0 1.5707963267948966
+  translation 25.0956 -2.7517 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -412,8 +411,8 @@ DEF OBSTACLE_29 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_30 Solid {
-  translation -23.7889 0.62109 1
-  rotation 1 0 0 1.5707963267948966
+  translation 0.62109 -23.7889 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -421,8 +420,8 @@ DEF OBSTACLE_30 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_31 Solid {
-  translation -1.71767 -7.68168 1
-  rotation 1 0 0 1.5707963267948966
+  translation -7.68168 -1.71767 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -430,8 +429,8 @@ DEF OBSTACLE_31 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_32 Solid {
-  translation -25.1618 -10.2537 1
-  rotation 1 0 0 1.5707963267948966
+  translation -10.2537 -25.1618 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -439,8 +438,8 @@ DEF OBSTACLE_32 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_33 Solid {
-  translation 23.4432 11.5598 1
-  rotation 1 0 0 1.5707963267948966
+  translation 11.5598 23.4432 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -448,8 +447,8 @@ DEF OBSTACLE_33 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_34 Solid {
-  translation -7.22118 5.04018 1
-  rotation 1 0 0 1.5707963267948966
+  translation 5.04018 -7.22118 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -457,8 +456,8 @@ DEF OBSTACLE_34 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_35 Solid {
-  translation 19.1942 -23.0269 1
-  rotation 1 0 0 1.5707963267948966
+  translation -23.0269 19.1942 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -466,8 +465,8 @@ DEF OBSTACLE_35 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_36 Solid {
-  translation 16.558 -2.8216 1
-  rotation 1 0 0 1.5707963267948966
+  translation -2.8216 16.558 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -475,8 +474,8 @@ DEF OBSTACLE_36 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_37 Solid {
-  translation 5.42691 15.3295 1
-  rotation 1 0 0 1.5707963267948966
+  translation 15.3295 5.42691 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -484,8 +483,8 @@ DEF OBSTACLE_37 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_38 Solid {
-  translation -16.683 24.0153 1
-  rotation 1 0 0 1.5707963267948966
+  translation 24.0153 -16.683 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -493,8 +492,8 @@ DEF OBSTACLE_38 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_39 Solid {
-  translation 7.03998 -6.59248 1
-  rotation 1 0 0 1.5707963267948966
+  translation -6.59248 7.03998 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
@@ -502,20 +501,20 @@ DEF OBSTACLE_39 Solid {
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF OBSTACLE_40 Solid {
-  translation -28.0377 9.77742 1
-  rotation 1 0 0 1.5707963267948966
+  translation 9.77742 -28.0377 1
+  rotation 0 0 -1 1.5707963267948966
   children [
     USE OBSTACLE_SHAPE
   ]
   boundingObject USE OBSTACLE_SHAPE
 }
 DEF PIONEER_3AT Pioneer3at {
-  rotation 0 0 1 0.523599
+  rotation 0 0 -1 0.523599
   controller "sick_terrain_scanning"
   extensionSlot [
     DEF SICK SickLms291 {
       translation 0.136 0 0.35
-      rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
+      rotation 0 1 0 0
     }
     Emitter {
       channel 1
