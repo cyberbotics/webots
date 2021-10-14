@@ -168,14 +168,14 @@ void webots_physics_step() {
       } else {
         flying_force = 6;
 
-        if (position[1] < 0.001)
+        if (position[2] < 0.001)
           pause_counter--;
       }
       break;
     case TAKING_OFF:
       turning = 0;
 
-      if (position[1] > 0.01) {
+      if (position[2] > 0.01) {
         /* We give an opposite impulse to stop the robot. */
         flying_force -= FLYING_INCREMENT;
         next_state = SEARCH_OBSTACLE;
@@ -220,7 +220,7 @@ void webots_physics_step() {
       }
       break;
     case MOVE_DOWN:
-      if (position[1] <= 0.01) {
+      if (position[2] <= 0.01) {
         /* We have avoided one more obstacle. */
         inversing_direction_counter--;
         if (inversing_direction_counter == 0) {
