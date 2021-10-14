@@ -14,7 +14,6 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-qtwebkit" # Webots
   "mingw-w64-x86_64-libzip"   # Webots
   "mingw-w64-x86_64-libgd"    # Webots (Lua PROTOs)
-  "mingw-w64-x86_64-lerc"     # Webots (dependency of libgd)
   "liblzma"                   # Webots
   "mingw-w64-x86_64-ffmpeg"   # Webots movies
   "mingw-w64-x86_64-dlfcn"    # dependency of ffmpeg
