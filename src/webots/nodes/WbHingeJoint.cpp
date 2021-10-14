@@ -511,39 +511,63 @@ void WbHingeJoint::updateJointAxisRepresentation() {
   const WbVector3 &anchorVector = anchor();
   const WbVector3 &axisVector = scaling * axis();
 
-  const int steps = 64;
-  const float coilHeight = wr_config_get_line_scale() / steps;
-  const float coilRadius = 0.01f;
-  const float revolutions = 6.0f * (2 * M_PI);
-
   const WbHingeJointParameters *const p = hingeJointParameters();
-  bool hasSuspension = p && (p->suspensionSpringConstant() > 0 || p->suspensionDampingConstant() > 0);
-  // if (hasSuspension)
+  const bool hasSuspensionSpring = p && p->suspensionSpringConstant() > 0;
+  const bool hasSuspensionDamper = p && p->suspensionDampingConstant() > 0;
+
   const WbVector3 &suspensionAxis = p->suspensionAxis();
 
-  int nbVertices = hasSuspension ? 6 + steps * 3 * 2 : 6;
-  float vertices[nbVertices];
+  int nbVertices = 0;
+  const int steps = 128;
+  const int sides = 20;
 
-  // create mesh of joint axis
-  // WbVector3 vertex(anchorVector - axisVector);
-  // vertex.toFloatArray(vertices);
+  if (hasSuspensionSpring)
+    nbVertices += steps * 2;
 
-  // vertex = anchorVector + axisVector;
-  // vertex.toFloatArray(vertices + 3);
+  if (hasSuspensionDamper)
+    nbVertices += sides * 2;
 
-  // create mesh of coil
-  WbVector3 vertex;
-  for (int i = 0; i < steps; ++i) {
-    vertex =
-      WbVector3(coilRadius * sin(i * (revolutions / steps)), coilHeight * i, coilRadius * cos(i * (revolutions / steps)));
-    vertex.toFloatArray(vertices + 6 * i);
-    vertex = WbVector3(coilRadius * sin((i + 1) * (revolutions / steps)), coilHeight * (i + 1),
-                       coilRadius * cos((i + 1) * (revolutions / steps)));
-    vertex.toFloatArray(vertices + (6 * i) + 3);
+  float vertices[nbVertices * 3];
+  int offset = 0;
+  // create mesh of coil for suspension spring
+  if (hasSuspensionSpring) {
+    const float coilHeight = wr_config_get_line_scale() / steps;
+    const float coilRadius = 0.01f * (1 + wr_config_get_line_scale());
+    const float revolutions = 8.0f * (2 * M_PI);
+
+    WbVector3 vertex;
+    for (int i = 0; i < steps; ++i) {
+      vertex =
+        WbVector3(coilRadius * sin(i * (revolutions / steps)), coilHeight * i, coilRadius * cos(i * (revolutions / steps)));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+
+      vertex = WbVector3(coilRadius * sin((i + 1) * (revolutions / steps)), coilHeight * (i + 1),
+                         coilRadius * cos((i + 1) * (revolutions / steps)));
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+    }
   }
+  /*
+  if (hasSuspensionDamper) {
+    const float cylinderHeight = wr_config_get_line_scale();
+    const float cylinderRadius = 0.01f * (1 + wr_config_get_line_scale());
 
-  mMesh = wr_static_mesh_line_set_new(hasSuspension ? steps * 2 : 2, vertices, NULL);
+    WbVector3 vertex;
+    for (int i = 0; i < sides; ++i) {
+      offset += 6 * i;
+      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), 0, cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex.toFloatArray(vertices + offset);
 
+      offset += 3;
+      vertex = WbVector3(cylinderRadius * sin((i + 1) * 2 * M_PI / sides), 0, cylinderRadius * cos((i + 1) * 2 * M_PI / sides));
+      vertex.toFloatArray(vertices + offset);
+    }
+  }
+  */
+  mMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
+
+  // orient mesh
   WbVector3 baseX, baseY, baseZ;
   baseY = suspensionAxis.normalized();
   baseX = fabs(baseY.dot(WbVector3(1, 0, 0))) < 1e-6 ? baseY.cross(WbVector3(1, 0, 0)) : baseY.cross(WbVector3(0, 1, 0));
@@ -561,5 +585,13 @@ void WbHingeJoint::updateJointAxisRepresentation() {
 
   wr_transform_set_position(mTransform, tail);
   wr_transform_set_orientation(mTransform, rotationArray);
+
+  // create mesh of joint axis
+  // WbVector3 vertex(anchorVector - axisVector);
+  // vertex.toFloatArray(vertices + steps * 3 * 2);
+
+  // vertex = anchorVector + axisVector;
+  // vertex.toFloatArray(vertices + steps * 3 * 2 + 3);
+
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
