@@ -127,19 +127,17 @@ PROTO Truck [
       children [
         Transform {
           translation %<= wheelbase + 0.15 >% 0 2
-          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
-              size 2.8 4.1 3.2
+              size 3.2 2.8 4.1
             }
           ]
         }
         Transform {
           translation %<= 0.5 * wheelbase - 1.075 >% 0 0.35
-          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
-              size 2.8 0.8 %<= wheelbase - 0.75 >%
+              size %<= wheelbase - 0.75 >% 2.8 0.8
             }
           ]
         }

@@ -404,19 +404,18 @@ PROTO RangeRoverSportSVR [
       children [
         DEF LOWER_BOX Transform {
           translation 1.25 0 0.35
-          rotation -0.581161 -0.581161 -0.569652 -2.10598
+          rotation 0 1 0 0.02
           children [
             Box {
-              size 1.8 0.8 4.5
+              size 4.5 1.8 0.8
             }
           ]
         }
         DEF CENTRAL_BOX Transform {
           translation 0.6 0 0.85
-          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
-              size 1.5 0.75 2.7
+              size 2.7 1.5 0.75
             }
           ]
         }

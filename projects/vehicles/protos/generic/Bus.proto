@@ -67,7 +67,7 @@ Car {
       children [
         BusShape {
           color IS color
-        } 
+        }
       ]
     }
     VehicleLights {
@@ -106,10 +106,9 @@ Car {
   ]
   boundingObject Transform {
     translation 1.4625 0 1.35
-    rotation 0.57735 0.57735 0.57735 2.094395
     children [
       Box {
-        size 2.64 2.9 9.73
+        size 9.73 2.64 2.9
       }
     ]
   }

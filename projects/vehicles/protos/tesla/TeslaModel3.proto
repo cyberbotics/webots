@@ -212,7 +212,7 @@ PROTO TeslaModel3 [
       ]
       inertiaMatrix [
         4466.54 26116.9 25854.0
-        -3204.91 0 0
+        0.000158947 -3204.91 2.33023e-5
       ]
     }
     window IS window

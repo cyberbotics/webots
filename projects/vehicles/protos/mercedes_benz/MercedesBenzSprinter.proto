@@ -78,28 +78,26 @@ PROTO MercedesBenzSprinter [
       children [
         Transform {
           translation 1.69 0 0.52
-          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
-              size 2 1 6.6
+              size 6.6 2 1
             }
           ]
         }
         Transform {
           translation 0.67 0 1.64
-          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
-              size 1.95 1.3 4.5
+              size 4.5 1.95 1.3
             }
           ]
         }
         Transform {
-          translation 3.6003 0 1.0913
-          rotation 0.657458 0.657458 0.368099 2.436179
+          translation 3.60031 0 1.09128
+          rotation 0 1 0 0.55
           children [
             Box {
-              size 1.88 1.3 2.5
+              size 2.5 1.88 1.3
             }
           ]
         }
