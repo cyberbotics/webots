@@ -1,21 +1,34 @@
 #VRML_SIM R2021c utf8
 WorldInfo {
+  physics "rolling_friction"
   coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
-      material2 "withRollingFriction"
+      material2 "normal rolling friction"
+      rollingFriction [
+        0, 0, 0.02
+      ]
+    }
+    ContactProperties {
+      material2 "high rolling friction"
+      rollingFriction [
+        0.04
+      ]
+    }
+    ContactProperties {
+      material2 "low rolling friction"
       rollingFriction [
         0.02
       ]
     }
     ContactProperties {
-      material2 "normal"
+      material2 "no rolling friction"
     }
   ]
 }
 Viewpoint {
-  orientation 0.20969173636904911 0.9541158201404399 0.21375775414302176 4.646262162094158
-  position -18.918248245624582 11.888084844359705 -25.286306333533318
+  orientation 0.06932178823560836 0.9891249742900305 0.1297161320405593 4.1141221569686195
+  position 14.685171400085995 3.31490943907673 -46.810585119810455
 }
 TexturedBackgroundLight {
 }
@@ -39,7 +52,7 @@ Solid {
   boundingObject USE PLANE
 }
 Solid {
-  translation 0 1.3 -25
+  translation 0 1.3 -35
   rotation 1 0 0 0.2
   children [
     DEF RAMP Shape {
@@ -59,7 +72,7 @@ Solid {
   boundingObject USE RAMP
 }
 Solid {
-  translation 3 1.3 -25
+  translation 3 1.3 -35
   rotation 1 0 0 0.2
   children [
     DEF RAMP Shape {
@@ -79,7 +92,47 @@ Solid {
   boundingObject USE RAMP
 }
 Solid {
-  translation 0 3.35 -31.5
+  translation 6 1.3 -35
+  rotation 1 0 0 0.2
+  children [
+    DEF RAMP Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/varnished_wood.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 2 0.4 15
+      }
+    }
+  ]
+  name "ramp 3"
+  boundingObject USE RAMP
+}
+Solid {
+  translation 12 1.3 -35
+  rotation 1 0 0 0.2
+  children [
+    DEF RAMP Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/varnished_wood.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 8 0.4 15
+      }
+    }
+  ]
+  name "ramp 4"
+  boundingObject USE RAMP
+}
+Solid {
+  translation 0 3.35 -41.5
   children [
     DEF SPHERE Shape {
       appearance PBRAppearance {
@@ -95,8 +148,8 @@ Solid {
       }
     }
   ]
-  name "normal ball"
-  contactMaterial "normal"
+  name "ball with no rolling friction"
+  contactMaterial "no rolling friction"
   boundingObject USE SPHERE
   physics Physics {
     density -1
@@ -104,7 +157,7 @@ Solid {
   }
 }
 Solid {
-  translation 3 3.35 -31.5
+  translation 3 3.35 -41.5
   children [
     DEF SPHERE Shape {
       appearance PBRAppearance {
@@ -120,8 +173,83 @@ Solid {
       }
     }
   ]
-  name "ball with rolling friction"
-  contactMaterial "withRollingFriction"
+  name "ball with low rolling friction"
+  contactMaterial "low rolling friction"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+Solid {
+  translation 6 3.35 -41.5
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 2
+      }
+    }
+  ]
+  name "ball with high rolling friction"
+  contactMaterial "high rolling friction"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF RHO_N Solid {
+  translation 22.34 0.5 -41.5
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 2
+      }
+    }
+  ]
+  name "ball with normal rolling friction"
+  contactMaterial "normal rolling friction"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF ASD Solid {
+  translation 24.44 0.5 -41.5
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 2
+      }
+    }
+  ]
+  name "asd"
+  contactMaterial "no rolling friction"
   boundingObject USE SPHERE
   physics Physics {
     density -1
