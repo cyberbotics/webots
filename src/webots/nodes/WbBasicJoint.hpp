@@ -117,7 +117,7 @@ protected:
 protected slots:
   virtual void updateParameters() = 0;
   void updateSpringAndDampingConstants();
-  void updateOptionalRendering(int option);
+  virtual void updateOptionalRendering(int option);
 
 private:
   WbBasicJoint &operator=(const WbBasicJoint &);  // non copyable

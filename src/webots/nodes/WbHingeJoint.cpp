@@ -23,8 +23,10 @@
 #include "WbSolid.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWrenShaders.hpp"
 
 #include <wren/config.h>
+#include <wren/material.h>
 #include <wren/node.h>
 #include <wren/renderable.h>
 #include <wren/static_mesh.h>
@@ -32,21 +34,38 @@
 
 #include <cassert>
 
+void WbHingeJoint::init() {
+  mTransformSuspension = NULL;
+  mRenderableSuspension = NULL;
+  mMeshSuspension = NULL;
+  mMaterialSuspension = NULL;
+}
+
 // Constructors
 
 WbHingeJoint::WbHingeJoint(const QString &modelName, WbTokenizer *tokenizer) : WbJoint(modelName, tokenizer) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(WbTokenizer *tokenizer) : WbJoint("HingeJoint", tokenizer) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(const WbHingeJoint &other) : WbJoint(other) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(const WbNode &other) : WbJoint(other) {
+  init();
 }
 
 WbHingeJoint::~WbHingeJoint() {
+  if (areWrenObjectsInitialized()) {
+    wr_static_mesh_delete(mMeshSuspension);
+    wr_material_delete(mMaterialSuspension);
+    wr_node_delete(WR_NODE(mRenderableSuspension));
+    wr_node_delete(WR_NODE(mTransformSuspension));
+  }
 }
 
 WbHingeJointParameters *WbHingeJoint::hingeJointParameters() const {
@@ -361,8 +380,8 @@ void WbHingeJoint::postPhysicsStep() {
       angle = -angle;
     mPosition = WbMathsUtilities::normalizeAngle(angle + mOdePositionOffset, mPosition);
   } else {
-    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
-    // under-estimated)
+    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback
+    // is under-estimated)
     double angleRate = dJointGetHingeAngleRate(mJoint);
     if (mIsReverseJoint)
       angleRate = -angleRate;
@@ -500,22 +519,93 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
     applyToOdeSuspensionAxis();
 }
 
+void WbHingeJoint::createWrenObjects() {
+  // ---- FROM WBJOINT
+  WbBasicJoint::createWrenObjects();
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    wr_node_set_visible(WR_NODE(mTransform), true);
+
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
+          &WbHingeJoint::updateJointAxisRepresentation);
+  // updateJointAxisRepresentation();
+
+  // create Wren objects for Muscle devices
+  for (int i = 0; i < devicesNumber(); ++i) {
+    if (device(i))
+      device(i)->createWrenObjects();
+  }
+
+  // ---- END FROM
+
+  // WbJoint::createWrenObjects();
+
+  const float color[3] = {0.0f, 0.0f, 0.0f};
+  mMaterialSuspension = wr_phong_material_new();
+  wr_phong_material_set_color(mMaterialSuspension, color);
+  wr_material_set_default_program(mMaterialSuspension, WbWrenShaders::lineSetShader());
+
+  mRenderableSuspension = wr_renderable_new();
+  wr_renderable_set_cast_shadows(mRenderableSuspension, false);
+  wr_renderable_set_receive_shadows(mRenderableSuspension, false);
+  wr_renderable_set_material(mRenderableSuspension, mMaterialSuspension, NULL);
+  wr_renderable_set_visibility_flags(mRenderableSuspension, WbWrenRenderingContext::VF_JOINT_AXES);
+  wr_renderable_set_drawing_mode(mRenderableSuspension, WR_RENDERABLE_DRAWING_MODE_LINES);
+
+  mTransformSuspension = wr_transform_new();
+  wr_node_set_visible(WR_NODE(mTransformSuspension), false);
+  wr_transform_attach_child(mTransformSuspension, WR_NODE(mRenderableSuspension));
+  wr_transform_attach_child(wrenNode(), WR_NODE(mTransformSuspension));
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    wr_node_set_visible(WR_NODE(mTransformSuspension), true);
+
+  updateJointAxisRepresentation();
+
+  /*
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
+          &WbHingeJoint::updateOptionalRendering);
+
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
+          &WbHingeJoint::updateJointAxisRepresentation);
+
+  */
+}
+
+void WbHingeJoint::updateOptionalRendering(int option) {
+  WbJoint::updateOptionalRendering(option);
+  /*
+  if (option == WbWrenRenderingContext::VF_JOINT_AXES) {
+    if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option)) {
+      updateJointAxisRepresentation();
+      wr_node_set_visible(WR_NODE(mTransformSuspension), true);
+    } else
+      wr_node_set_visible(WR_NODE(mTransformSuspension), false);
+  }
+  */
+}
+
 void WbHingeJoint::updateJointAxisRepresentation() {
+  WbJoint::updateJointAxisRepresentation();
+  updateSuspensionAxisRepresentation();
+}
+
+void WbHingeJoint::updateSuspensionAxisRepresentation() {
   if (!areWrenObjectsInitialized())
     return;
 
-  wr_static_mesh_delete(mMesh);
-
-  const double scaling = 0.5f * wr_config_get_line_scale();
-
-  const WbVector3 &anchorVector = anchor();
-  const WbVector3 &axisVector = scaling * axis();
+  wr_static_mesh_delete(mMeshSuspension);
 
   const WbHingeJointParameters *const p = hingeJointParameters();
-  const bool hasSuspensionSpring = p && p->suspensionSpringConstant() > 0;
-  const bool hasSuspensionDamper = p && p->suspensionDampingConstant() > 0;
+
+  if (!p)
+    return;
+
+  const bool hasSuspensionSpring = p->suspensionSpringConstant() > 0;
+  const bool hasSuspensionDamper = p->suspensionDampingConstant() > 0;
 
   const WbVector3 &suspensionAxis = p->suspensionAxis();
+  const WbVector3 &anchorVector = anchor();
 
   int nbVertices = 2;  // always have at least the suspension axis
   const int steps = 128;
@@ -617,16 +707,13 @@ void WbHingeJoint::updateJointAxisRepresentation() {
     }
   }
 
-  // TODO: later don't draw unless you have either
-  // if (hasSuspensionDamper || hasSuspensionSpring) {
   // create mesh for suspension axis
   anchorVector.toFloatArray(vertices + offset);
   offset += 3;
   WbVector3 vertex(0, 2 * wr_config_get_line_scale(), 0);  // we orient everything together later
   vertex.toFloatArray(vertices + offset);
-  //}
 
-  mMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
+  mMeshSuspension = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
 
   // orient mesh based on direction of suspension axis
   WbVector3 baseX, baseY, baseZ;
@@ -644,8 +731,8 @@ void WbHingeJoint::updateJointAxisRepresentation() {
   anchorVector.toFloatArray(tail);
   suspensionAxis.toFloatArray(tail + 3);
 
-  wr_transform_set_position(mTransform, tail);
-  wr_transform_set_orientation(mTransform, rotationArray);
+  wr_transform_set_position(mTransformSuspension, tail);
+  wr_transform_set_orientation(mTransformSuspension, rotationArray);
 
-  wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
+  wr_renderable_set_mesh(mRenderableSuspension, WR_MESH(mMeshSuspension));
 }

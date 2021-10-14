@@ -32,6 +32,8 @@ public:
   explicit WbHingeJoint(const WbNode &other);
   virtual ~WbHingeJoint();
 
+  void createWrenObjects() override;
+
   int nodeType() const override { return WB_NODE_HINGE_JOINT; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
@@ -54,6 +56,11 @@ protected:
   WbHingeJointParameters *hingeJointParameters() const;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
 
+  WrTransform *mTransformSuspension;
+  WrRenderable *mRenderableSuspension;
+  WrStaticMesh *mMeshSuspension;
+  WrMaterial *mMaterialSuspension;
+
 protected slots:
   void updateParameters() override;
   void updateMinAndMaxStop(double min, double max) override;
@@ -61,11 +68,14 @@ protected slots:
   void updateStopCfm();
   virtual void updateAnchor();
   void updateJointAxisRepresentation() override;
+  virtual void updateSuspensionAxisRepresentation();
+  void updateOptionalRendering(int option) override;
 
 private slots:
   void updateSuspension();
 
 private:
+  void init();
   void applyToOdeMinAndMaxStop() override;
   virtual void applyToOdeSuspension();
   void applyToOdeAxis() override;
