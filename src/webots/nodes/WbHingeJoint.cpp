@@ -507,7 +507,6 @@ void WbHingeJoint::updateJointAxisRepresentation() {
   wr_static_mesh_delete(mMesh);
 
   const double scaling = 0.5f * wr_config_get_line_scale();
-  const double centering = 0.5f * wr_config_get_line_scale();  // offset to center the mesh on the axis
 
   const WbVector3 &anchorVector = anchor();
   const WbVector3 &axisVector = scaling * axis();
@@ -537,76 +536,81 @@ void WbHingeJoint::updateJointAxisRepresentation() {
     const double coilHeight = wr_config_get_line_scale() / steps;
     const double coilRadius = 0.01f * (1 + wr_config_get_line_scale());
     const double revolutions = 8.0f * (2 * M_PI);
+    const double position_offset = 0.5f * wr_config_get_line_scale();
 
     WbVector3 vertex;
     for (int i = 0; i < steps; ++i) {
-      vertex = WbVector3(coilRadius * sin(i * (revolutions / steps)), centering + coilHeight * i,
+      vertex = WbVector3(coilRadius * sin(i * (revolutions / steps)), position_offset + coilHeight * i,
                          coilRadius * cos(i * (revolutions / steps)));
       vertex.toFloatArray(vertices + offset);
       offset += 3;
 
-      vertex = WbVector3(coilRadius * sin((i + 1) * (revolutions / steps)), centering + coilHeight * (i + 1),
+      vertex = WbVector3(coilRadius * sin((i + 1) * (revolutions / steps)), position_offset + coilHeight * (i + 1),
                          coilRadius * cos((i + 1) * (revolutions / steps)));
       vertex.toFloatArray(vertices + offset);
       offset += 3;
     }
   }
+
   // create vertices of the cylinder of the suspension damper
   if (hasSuspensionDamper) {
     const double cylinderHeight = wr_config_get_line_scale();
     const double cylinderRadius = 0.01f * (1 + wr_config_get_line_scale()) * 0.75;
 
+    const double lower_height = 0.5f * wr_config_get_line_scale() + 0.33 * cylinderHeight;
+    const double upper_height = 0.5f * wr_config_get_line_scale() + 0.66 * cylinderHeight;
+
     WbVector3 vertex;
     for (int i = 0; i < sides; ++i) {
+      const double coordinate_x = cylinderRadius * sin(i * 2 * M_PI / sides);
+      const double coordinate_z = cylinderRadius * cos(i * 2 * M_PI / sides);
+
+      const double next_coordinate_x = cylinderRadius * sin((i + 1) * 2 * M_PI / sides);
+      const double next_coordinate_z = cylinderRadius * cos((i + 1) * 2 * M_PI / sides);
+
       // bottom circle
-      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), centering + 0.33 * cylinderHeight,
-                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex = WbVector3(coordinate_x, lower_height, coordinate_z);
       vertex.toFloatArray(vertices + offset);
       offset += 3;
 
-      vertex = WbVector3(cylinderRadius * sin((i + 1) * 2 * M_PI / sides), centering + 0.33 * cylinderHeight,
-                         cylinderRadius * cos((i + 1) * 2 * M_PI / sides));
+      vertex = WbVector3(next_coordinate_x, lower_height, next_coordinate_z);
       vertex.toFloatArray(vertices + offset);
       offset += 3;
+
       // top circle
-      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), centering + 0.66 * cylinderHeight,
-                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex = WbVector3(coordinate_x, upper_height, coordinate_z);
       vertex.toFloatArray(vertices + offset);
       offset += 3;
 
-      vertex = WbVector3(cylinderRadius * sin((i + 1) * 2 * M_PI / sides), centering + 0.66 * cylinderHeight,
-                         cylinderRadius * cos((i + 1) * 2 * M_PI / sides));
-      vertex.toFloatArray(vertices + offset);
-      offset += 3;
-      // heights
-      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), centering + 0.33 * cylinderHeight,
-                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      vertex = WbVector3(next_coordinate_x, upper_height, next_coordinate_z);
       vertex.toFloatArray(vertices + offset);
       offset += 3;
 
-      vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), centering + 0.66 * cylinderHeight,
-                         cylinderRadius * cos(i * 2 * M_PI / sides));
+      // connectors between bottom and top circles
+      vertex = WbVector3(coordinate_x, lower_height, coordinate_z);
       vertex.toFloatArray(vertices + offset);
       offset += 3;
+
+      vertex = WbVector3(coordinate_x, upper_height, coordinate_z);
+      vertex.toFloatArray(vertices + offset);
+      offset += 3;
+
       if (!(i % 2)) {
         // bottom face
-        vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), centering + 0.33 * cylinderHeight,
-                           cylinderRadius * cos(i * 2 * M_PI / sides));
+        vertex = WbVector3(coordinate_x, lower_height, coordinate_z);
         vertex.toFloatArray(vertices + offset);
         offset += 3;
 
-        vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides + M_PI), centering + 0.33 * cylinderHeight,
-                           cylinderRadius * cos(i * 2 * M_PI / sides + M_PI));
+        vertex = WbVector3(-coordinate_x, lower_height, -coordinate_z);
         vertex.toFloatArray(vertices + offset);
         offset += 3;
+
         // top face
-        vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides), centering + 0.66 * cylinderHeight,
-                           cylinderRadius * cos(i * 2 * M_PI / sides));
+        vertex = WbVector3(coordinate_x, upper_height, coordinate_z);
         vertex.toFloatArray(vertices + offset);
         offset += 3;
 
-        vertex = WbVector3(cylinderRadius * sin(i * 2 * M_PI / sides + M_PI), centering + 0.66 * cylinderHeight,
-                           cylinderRadius * cos(i * 2 * M_PI / sides + M_PI));
+        vertex = WbVector3(-coordinate_x, upper_height, -coordinate_z);
         vertex.toFloatArray(vertices + offset);
         offset += 3;
       }
