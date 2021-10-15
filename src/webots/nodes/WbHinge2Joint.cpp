@@ -716,7 +716,8 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
 
   const float scaling = 0.5f * wr_config_get_line_scale();
 
-  float vertices[12];
+  int nbVertices = 20;  // 2 * 2 axis: for joint axis, (4 * 2) * 2 axis: for arrowheads
+  float vertices[nbVertices * 3];
   const WbVector3 &anchorVector = anchor();
   const WbVector3 &axisVector = scaling * axis();
 
@@ -726,14 +727,55 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
   vertex = anchorVector + axisVector;
   vertex.toFloatArray(vertices + 3);
 
+  // draw arrowhead for axis1
+  WbVector3 b1 = axis().normalized();
+  WbVector3 b2 = fabs(b1.dot(WbVector3(1, 0, 0))) < 1e-6 ? b1.cross(WbVector3(1, 0, 0)) : b1.cross(WbVector3(0, 1, 0));
+  WbVector3 b3 = b2.cross(b1);
+  const double ouverture = 0.002f;
+
+  int offset = 6;
+  WbVector3 vertexArrow;
+  for (int i = 0; i < 4; ++i) {
+    const double sign = (i % 2) ? -1.0f : 1.0f;
+    if (i < 2)
+      vertexArrow = vertex * 0.95 + sign * b2 * ouverture;
+    else
+      vertexArrow = vertex * 0.95 + sign * b3 * ouverture;
+
+    vertexArrow.toFloatArray(vertices + offset);
+    offset += 3;
+    vertex.toFloatArray(vertices + offset);
+    offset += 3;
+  }
+
   const WbVector3 &axisVector2 = scaling * axis2();
   vertex = anchorVector - axisVector2;
-  vertex.toFloatArray(vertices + 6);
+  vertex.toFloatArray(vertices + offset);
+  offset += 3;
 
   vertex = anchorVector + axisVector2;
-  vertex.toFloatArray(vertices + 9);
+  vertex.toFloatArray(vertices + offset);
+  offset += 3;
 
-  mMesh = wr_static_mesh_line_set_new(4, vertices, NULL);
+  // draw arrowhead for axis2
+  b1 = axis2().normalized();
+  b2 = fabs(b1.dot(WbVector3(1, 0, 0))) < 1e-6 ? b1.cross(WbVector3(1, 0, 0)) : b1.cross(WbVector3(0, 1, 0));
+  b3 = b2.cross(b1);
+
+  for (int i = 0; i < 4; ++i) {
+    const double sign = (i % 2) ? -1.0f : 1.0f;
+    if (i < 2)
+      vertexArrow = vertex * 0.95 + sign * b2 * ouverture;
+    else
+      vertexArrow = vertex * 0.95 + sign * b3 * ouverture;
+
+    vertexArrow.toFloatArray(vertices + offset);
+    offset += 3;
+    vertex.toFloatArray(vertices + offset);
+    offset += 3;
+  }
+
+  mMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 

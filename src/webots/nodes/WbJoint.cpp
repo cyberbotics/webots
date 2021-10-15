@@ -301,13 +301,38 @@ void WbJoint::updateJointAxisRepresentation() {
   const WbVector3 &axisVector = scaling * axis();
 
   WbVector3 vertex(anchorVector - axisVector);
-  float vertices[6];
+  const int nbVertices = 10;  // 2 for line, 4*2 for arrowhead
+
+  float vertices[nbVertices * 3];
   vertex.toFloatArray(vertices);
 
   vertex = anchorVector + axisVector;
   vertex.toFloatArray(vertices + 3);
 
-  mMesh = wr_static_mesh_line_set_new(2, vertices, NULL);
+  // define arrow head
+  const double ouverture = 0.002f;
+
+  // find perpendicular vectors
+  const WbVector3 b1 = axis().normalized();
+  const WbVector3 b2 = fabs(b1.dot(WbVector3(1, 0, 0))) < 1e-6 ? b1.cross(WbVector3(1, 0, 0)) : b1.cross(WbVector3(0, 1, 0));
+  const WbVector3 b3 = b2.cross(b1);
+
+  int offset = 6;
+  WbVector3 vertexArrow;
+  for (int i = 0; i < 4; ++i) {
+    const double sign = (i % 2) ? -1.0f : 1.0f;
+    if (i < 2)
+      vertexArrow = vertex * 0.95 + sign * b2 * ouverture;
+    else
+      vertexArrow = vertex * 0.95 + sign * b3 * ouverture;
+
+    vertexArrow.toFloatArray(vertices + offset);
+    offset += 3;
+    vertex.toFloatArray(vertices + offset);
+    offset += 3;
+  }
+
+  mMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
