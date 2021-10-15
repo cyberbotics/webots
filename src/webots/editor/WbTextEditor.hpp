@@ -72,6 +72,7 @@ protected:
   QToolBar *toolBar() const { return mToolBar; }
 
 protected slots:
+  // cppcheck-suppress virtualCallInConstructor
   virtual void updateGui();
   void tabChanged(int);
   void preview();
