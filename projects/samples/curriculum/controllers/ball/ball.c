@@ -93,7 +93,7 @@ int run(void) {
     /* change speed randomly */
     xspeed += (float)rand() / (float)RAND_MAX * 0.02 - 0.01;
     yspeed += (float)rand() / (float)RAND_MAX * 0.02 - 0.01;
-    
+
     /* respect speed limit */
     ensure_bounds(&xspeed, -RANDOM_SPEED_LIMIT, +RANDOM_SPEED_LIMIT);
     ensure_bounds(&yspeed, -RANDOM_SPEED_LIMIT, +RANDOM_SPEED_LIMIT);
