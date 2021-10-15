@@ -17,6 +17,7 @@ Released on XX, XXth, 2021.
 Released on XX, XXth, 2021.
 
   - Bug fixes:
+    - Fixed broken Lua gd on Windows ([#3769](https://github.com/cyberbotics/webots/pull/3769)).
     - Fixed [`wb_supervisor_node_set_visibility`](supervisor.md#wb_supervisor_node_set_visibility) applying visibility to parent and sibling nodes if not used with geometry or [Transform](transform.md) nodes ([#3543](https://github.com/cyberbotics/webots/pull/3543)).
     - Fixed updating the robot window after restarting an extern controller ([#3544](https://github.com/cyberbotics/webots/pull/3544)).
     - Fixed calculation of `front_speed_sum` in the Driver library so that both front wheels are considered in case of 4x4 cars ([#3546](https://github.com/cyberbotics/webots/pull/3546)).
@@ -33,6 +34,7 @@ Released on XX, XXth, 2021.
     - Fixed laser and infra-red distance sensors hitting fully transparent objects ([#3726](https://github.com/cyberbotics/webots/pull/3726)).
     - Fixed a crash caused by acos function being called with an out-of-range value and leading to a stack overflow ([#3734](https://github.com/cyberbotics/webots/pull/3734)).
     - Fixed propagation of rotation change from supervisor ([#3752](https://github.com/cyberbotics/webots/pull/3752)).
+    - Fixed incorrect update of the differential slip ratio in 4x4 vehicles ([#3770](https://github.com/cyberbotics/webots/pull/3770)).
 
 ## Webots R2021b
 Released on July, 16th, 2021.
