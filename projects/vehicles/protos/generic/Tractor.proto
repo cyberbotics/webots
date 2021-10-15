@@ -70,6 +70,26 @@ Car {
               ]
             }
             Transform {
+              translation 0.05 0 0.52
+              rotation 0 -1 0 1.5708
+              children [
+                USE FRONT_AXLE_DIR_SHAPE
+              ]
+            }
+            Transform {
+              translation 0.05 0 -0.52
+              rotation 0 -1 0 1.5708
+              children [
+                DEF FRONT_AXLE_DIR_SHAPE Shape {
+                  appearance USE FRAME_APP
+                  geometry Cylinder {
+                    height 0.35
+                    radius 0.05
+                  }
+                }
+              ]
+            }
+            Transform {
               translation 0.280006 -1.74 -0.43
               rotation 0 0 1 1.5708
               children [
@@ -82,6 +102,20 @@ Car {
               USE FRONT_AXLE_CYL
               Transform {
                 translation 0.280006 -1.74 -0.43
+                children [
+                  USE FRONT_AXLE_DIR_SHAPE
+                ]
+              }
+              Transform {
+                translation 0.05 0 0.52
+                rotation 0 -1 0 1.5708
+                children [
+                  USE FRONT_AXLE_DIR_SHAPE
+                ]
+              }
+              Transform {
+                translation 0.05 0 -0.52
+                rotation 0 -1 0 1.5708
                 children [
                   USE FRONT_AXLE_DIR_SHAPE
                 ]
