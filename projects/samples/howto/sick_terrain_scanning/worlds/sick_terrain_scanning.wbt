@@ -8,8 +8,8 @@ WorldInfo {
   lineScale 1
 }
 Viewpoint {
-  orientation -0.46539363580473747 0.47007181073011883 0.7499608366503911 1.8450316505996893
-  position -1.031483679267516 -97.34858123820617 195.28683579852623
+  orientation -0.5001572295513359 -0.4993607007882457 0.7074472674594231 4.371509117741723
+  position 1.1205567576648494 40.6538564234898 128.30902769050726
   follow "Pioneer 3-AT"
 }
 TexturedBackground {
@@ -50,6 +50,7 @@ Robot {
     }
     Display {
       translation 0 0 0.1
+      rotation 0 0 1 1.5708
       children [
         Shape {
           appearance PBRAppearance {
