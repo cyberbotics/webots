@@ -54,7 +54,7 @@ do
     pacman -S --noconfirm $i
     pacman -Scc --noconfirm
   else
-    echo Skipping $i (already installed)
+    echo Skipping $i \(already installed\)
   fi
 done
 
