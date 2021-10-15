@@ -20,8 +20,8 @@
  *               Display.
  */
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <webots/display.h>
 #include <webots/robot.h>
@@ -81,8 +81,8 @@ int main() {
     // display the robot position
     wb_display_set_opacity(ground_display, 0.03);
     wb_display_set_color(ground_display, BLUE);
-    wb_display_fill_oval(ground_display, width-width * (translation[1] + GROUND_X / 2) / GROUND_X,
-                         height-height * (translation[0] + GROUND_Y / 2) / GROUND_Y, 4, 4);
+    wb_display_fill_oval(ground_display, width - width * (translation[1] + GROUND_X / 2) / GROUND_X,
+                         height - height * (translation[0] + GROUND_Y / 2) / GROUND_Y, 4, 4);
     // Clear previous to_store
     if (to_store) {
       wb_display_image_delete(ground_display, to_store);
