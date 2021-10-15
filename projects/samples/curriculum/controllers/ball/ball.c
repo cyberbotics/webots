@@ -93,7 +93,7 @@ int run(void) {
     /* change speed randomly */
     xspeed += (float)rand() / (float)RAND_MAX * 0.02 - 0.01;
     yspeed += (float)rand() / (float)RAND_MAX * 0.02 - 0.01;
-    
+
     /* respect speed limit */
     ensure_bounds(&xspeed, -RANDOM_SPEED_LIMIT, +RANDOM_SPEED_LIMIT);
     ensure_bounds(&yspeed, -RANDOM_SPEED_LIMIT, +RANDOM_SPEED_LIMIT);
@@ -107,8 +107,6 @@ int run(void) {
   new_translation[1] = ball_translation[1] + ty;
   new_translation[2] = ball_translation[2];
 
-  /* relative robot motion */
-  // wb_custom_robot_move(tx, ty, 0, 0, 0, 0, 0);
   wb_supervisor_field_set_sf_vec3f(ball_translation_field, new_translation);
 
   return TIME_STEP; /* call me back after 64 milliseconds */
