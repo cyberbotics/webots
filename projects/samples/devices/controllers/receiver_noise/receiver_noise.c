@@ -70,7 +70,7 @@ int main() {
     wb_robot_cleanup();
     return 0;
   }
-  
+
   /* get a handler to the distance sensors and enable them */
   ds0 = wb_robot_get_device("ds0");
   ds1 = wb_robot_get_device("ds1");
