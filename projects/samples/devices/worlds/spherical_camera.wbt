@@ -6,8 +6,8 @@ WorldInfo {
   title "Spherical Camera"
 }
 Viewpoint {
-  orientation -0.08337350865632606 -0.9960953151379295 -0.02903413877838141 5.462617814634853
-  position -0.1547968570464157 0.017231021126001896 0.2607689383104961
+  orientation 0.008391408959148356 0.9996317362366726 0.025806513986507032 1.2174840005390608
+  position -0.6106801720011082 0.015262585987470403 1.8202934524582195
 }
 TexturedBackground {
 }
@@ -206,7 +206,7 @@ Robot {
     }
     DEF SPHERICAL_CAMERA Camera {
       translation 0 0 0.15
-      rotation 3.3905113482557537e-09 -0.707108281185553 0.70710528118436 3.14159
+      rotation 0 1 0 1.5708
       children [
         DEF LENS Shape {
           appearance PBRAppearance {
@@ -228,11 +228,11 @@ Robot {
           geometry IndexedLineSet {
             coord Coordinate {
               point [
-                0 0 0.01
-                0.01 0 -0.08
-                -0.01 0 -0.08
-                0 0.01 -0.08
-                0 -0.01 -0.08
+                -0.01 0 0
+                0.08 -0.01 0
+                0.08 0.01 0
+                0.08 0 0.01
+                0.08 0 -0.01
               ]
             }
             coordIndex [
@@ -241,8 +241,8 @@ Robot {
           }
         }
         DEF CAMERA_SHAPE Transform {
-          translation 0 0 0.01
-          rotation 1 0 0 3.1408
+          translation -0.01 0 0
+          rotation 0 1 0 1.5708
           children [
             DEF CAMERA_OUTLINE Shape {
               appearance PBRAppearance {
