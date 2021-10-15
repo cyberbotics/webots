@@ -239,12 +239,12 @@ void webots_physics_step() {
   state = next_state;
 
   /* We add the forces to our robot. */
-  dBodyAddRelForce(wings_body[0],turning, 0, flying_force / 2);
-  dBodyAddRelForce(wings_body[1], -turning, 0, flying_force / 2); 
+  dBodyAddRelForce(wings_body[0], turning, 0, flying_force / 2);
+  dBodyAddRelForce(wings_body[1], -turning, 0, flying_force / 2);
 
   /* We place the ray in front of the robot. */
-  dGeomRaySet(ray_geom, position[0], position[1], position[2], -rotation[2], -rotation[0], rotation[1]);
-  dWebotsConsolePrintf("%f,%f,%f,%f,%f,%f\n", position[0], position[1], position[2],  -rotation[1],-rotation[0], rotation[2]);
+  dGeomRaySet(ray_geom, position[0], position[1], position[2], -rotation[1], -rotation[0], rotation[2]);
+  dWebotsConsolePrintf("%f,%f,%f,%f,%f,%f\n", position[0], position[1], position[2], -rotation[1], -rotation[0], rotation[2]);
   /*
    * We reset the ray collision detection one iteration after
    * (to leave the time to display it).
