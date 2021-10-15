@@ -26,7 +26,6 @@
 #include <webots/receiver.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#include <stdio.h>
 
 #define TIME_STEP 64
 #define pi 3.14159265358979323846
@@ -126,7 +125,7 @@ int main() {
       if (buffer[i] > 25)  // range up to 25 metres
         buffer[i] = 25;
       pxfill[i] =
-       width * (translation[X] + GROUND_X / 2 + sin(-rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_X;
+        width * (translation[X] + GROUND_X / 2 + sin(-rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_X;
       pyfill[i] =
         height * (-translation[Y] + GROUND_Y / 2 + cos(-rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_Y;
     }
