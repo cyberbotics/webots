@@ -443,7 +443,7 @@ void WbHingeJoint::updateSuspension() {
     applyToOdeSuspension();
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
-    updateJointAxisRepresentation();
+    updateSuspensionAxisRepresentation();
 }
 
 void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
@@ -520,25 +520,7 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
 }
 
 void WbHingeJoint::createWrenObjects() {
-  // ---- FROM WBJOINT
-  WbBasicJoint::createWrenObjects();
-
-  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
-    wr_node_set_visible(WR_NODE(mTransform), true);
-
-  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
-          &WbHingeJoint::updateJointAxisRepresentation);
-  // updateJointAxisRepresentation();
-
-  // create Wren objects for Muscle devices
-  for (int i = 0; i < devicesNumber(); ++i) {
-    if (device(i))
-      device(i)->createWrenObjects();
-  }
-
-  // ---- END FROM
-
-  // WbJoint::createWrenObjects();
+  WbJoint::createWrenObjects();
 
   const float color[3] = {0.0f, 0.0f, 0.0f};
   mMaterialSuspension = wr_phong_material_new();
@@ -560,34 +542,29 @@ void WbHingeJoint::createWrenObjects() {
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
     wr_node_set_visible(WR_NODE(mTransformSuspension), true);
 
-  updateJointAxisRepresentation();
-
-  /*
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbHingeJoint::updateOptionalRendering);
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
-          &WbHingeJoint::updateJointAxisRepresentation);
+          &WbHingeJoint::updateSuspensionAxisRepresentation);
 
-  */
+  updateSuspensionAxisRepresentation();
 }
 
 void WbHingeJoint::updateOptionalRendering(int option) {
   WbJoint::updateOptionalRendering(option);
-  /*
+
   if (option == WbWrenRenderingContext::VF_JOINT_AXES) {
     if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option)) {
-      updateJointAxisRepresentation();
+      updateSuspensionAxisRepresentation();
       wr_node_set_visible(WR_NODE(mTransformSuspension), true);
     } else
       wr_node_set_visible(WR_NODE(mTransformSuspension), false);
   }
-  */
 }
 
 void WbHingeJoint::updateJointAxisRepresentation() {
   WbJoint::updateJointAxisRepresentation();
-  updateSuspensionAxisRepresentation();
 }
 
 void WbHingeJoint::updateSuspensionAxisRepresentation() {
