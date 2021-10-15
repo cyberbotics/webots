@@ -4,6 +4,14 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Stefania Pedrazzi [Cyberbotics] 10/12/2021 07:47:51
+We just published the presentation held at the IROS2021 Workshop "Open Deep Learning Toolkit for Robotics: Towards Democratizing Artificial Intelligence" workshop!"
+
+[https://youtu.be/DqKBwGpRj\_Y](https://youtu.be/DqKBwGpRj_Y)
+
+##### Soft\_illusion 10/11/2021 05:38:56
+Do checkout obstacle avoidance tutorial with webots using ROS [https://youtu.be/NmObj\_QCnHY](https://youtu.be/NmObj_QCnHY)
+
 ##### Stefania Pedrazzi [Cyberbotics] 10/05/2021 07:40:41
 No, we don't have any new yet. We are still checking if there are some restrictions on the presented material.
 
