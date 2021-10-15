@@ -50,9 +50,11 @@ for i in "${PACKAGES[@]}"
 do
   if ! pacman -Q $i 2> /dev/null
   then
-    echo $i
+    echo Installing $i
     pacman -S --noconfirm $i
     pacman -Scc --noconfirm
+  else
+    echo Skipping $i (already installed)
   fi
 done
 
