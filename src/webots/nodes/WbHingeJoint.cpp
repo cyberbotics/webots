@@ -557,21 +557,14 @@ void WbHingeJoint::updateOptionalRendering(int option) {
   if (option == WbWrenRenderingContext::VF_JOINT_AXES) {
     if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option)) {
       updateSuspensionAxisRepresentation();
-      wr_node_set_visible(WR_NODE(mTransformSuspension), true);
     } else
       wr_node_set_visible(WR_NODE(mTransformSuspension), false);
   }
 }
 
-void WbHingeJoint::updateJointAxisRepresentation() {
-  WbJoint::updateJointAxisRepresentation();
-}
-
 void WbHingeJoint::updateSuspensionAxisRepresentation() {
   if (!areWrenObjectsInitialized())
     return;
-
-  wr_static_mesh_delete(mMeshSuspension);
 
   const WbHingeJointParameters *const p = hingeJointParameters();
 
@@ -580,6 +573,16 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
 
   const bool hasSuspensionSpring = p->suspensionSpringConstant() > 0;
   const bool hasSuspensionDamper = p->suspensionDampingConstant() > 0;
+
+  if (!hasSuspensionDamper && !hasSuspensionSpring) {
+    wr_node_set_visible(WR_NODE(mTransformSuspension), false);
+    return;
+  }
+
+  if (!wr_node_is_visible(WR_NODE(mTransformSuspension)))
+    wr_node_set_visible(WR_NODE(mTransformSuspension), true);
+
+  wr_static_mesh_delete(mMeshSuspension);
 
   const WbVector3 &suspensionAxis = p->suspensionAxis();
   const WbVector3 &anchorVector = anchor();
