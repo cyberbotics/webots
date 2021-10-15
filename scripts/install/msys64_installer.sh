@@ -13,7 +13,7 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-qt5"      # Webots
   "mingw-w64-x86_64-qtwebkit" # Webots
   "mingw-w64-x86_64-libzip"   # Webots
-  "mingw-w64-x86_64-libgd"    # Webots
+  "mingw-w64-x86_64-libgd"    # Webots (Lua PROTOs)
   "liblzma"                   # Webots
   "mingw-w64-x86_64-ffmpeg"   # Webots movies
   "mingw-w64-x86_64-dlfcn"    # dependency of ffmpeg
@@ -49,9 +49,11 @@ for i in "${PACKAGES[@]}"
 do
   if ! pacman -Q $i 2> /dev/null
   then
-    echo $i
+    echo Installing $i
     pacman -S --noconfirm $i
     pacman -Scc --noconfirm
+  else
+    echo Skipping $i \(already installed\)
   fi
 done
 
