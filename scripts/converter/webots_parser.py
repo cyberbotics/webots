@@ -112,29 +112,29 @@ class WebotsParser:
         line = ' ' * self.indentation
         line += field['name'] + ' '
         value = field['value']
-        type = field['type']
-        if type == 'SFString':
+        type_field = field['type']
+        if type_field == 'SFString':
             line += '"' + value + '"'
-        elif type == 'SFInt32' or type == 'SFFloat':
+        elif type_field == 'SFInt32' or type_field == 'SFFloat':
             line += value
-        elif type == 'SFBool':
+        elif type_field == 'SFBool':
             line += 'TRUE' if value else 'FALSE'
-        elif type == 'SFVec2f':
+        elif type_field == 'SFVec2f':
             line += value[0] + ' '
             line += value[1]
-        elif type == 'SFVec3f' or type == 'SFColor':
+        elif type_field == 'SFVec3f' or type_field == 'SFColor':
             line += value[0] + ' '
             line += value[1] + ' '
             line += value[2]
-        elif type == 'SFRotation':
+        elif type_field == 'SFRotation':
             line += value[0] + ' '
             line += value[1] + ' '
             line += value[2] + ' '
             line += value[3]
-        elif type == 'IS':
+        elif type_field == 'IS':
             line += 'IS '
             line += value
-        elif type == 'SFNode':
+        elif type_field == 'SFNode':
             self.file.write(line)
             self._write_node(value)
             return
@@ -143,32 +143,36 @@ class WebotsParser:
                 line += '[]'
             else:
                 self.file.write(line + '[\n')
-                self._write_mf_field(type, value)
+                self._write_mf_field(type_field, value)
                 line = ' ' * self.indentation + ']'
         self.file.write(line + '\n')
 
-    def _write_mf_field(self, type, values):
+    def _write_mf_field(self, type_field, values):
         self.indentation += 2
         indent = ' ' * self.indentation
         count = 0
         self.file.write(indent)
         for index, value in enumerate(values):
-            if type == 'MFString':
+            if type_field == 'MFString':
                 self.file.write('"' + value + '"\n')
-            elif type == 'MFInt32' or type == 'MFFloat':
+            elif type_field == 'MFInt32' or type_field == 'MFFloat':
                 self.file.write(value + ' ')
-            elif type == 'MFBool':
+            elif type_field == 'MFBool':
                 self.file.write('TRUE\n' if value else 'FALSE\n')
-            elif type == 'MFVec2f':
-                self.file.write(value[0] + ' ' + value[1])
-            elif type == 'MFVec3f' or type == 'MFColor':
-                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2])
-            elif type == 'MFRotation':
-                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + ' ' + value[3])
-            elif type == 'MFNode':
+            elif type_field == 'MFNode':
                 self._write_node(value, self.indentation if index > 0 else 0)
+            elif type(value) is not list:
+                print("Skip {} with values {}".format(type_field, values))
+                self.file.write(str(values).replace('[', '').replace("'", '').replace(']', ''))
+                break
+            elif type_field == 'MFVec2f':
+                self.file.write(value[0] + ' ' + value[1])
+            elif type_field == 'MFVec3f' or type_field == 'MFColor':
+                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2])
+            elif type_field == 'MFRotation':
+                self.file.write(value[0] + ' ' + value[1] + ' ' + value[2] + ' ' + value[3])
             count += 1
-        if type in ['MFInt32', 'MFFloat', 'MFVec2f', 'MFVec3f', 'MFColor', 'MFRotation']:
+        if type_field in ['MFInt32', 'MFFloat', 'MFVec2f', 'MFVec3f', 'MFColor', 'MFRotation']:
             self.file.write('\n')
         self.indentation -= 2
 
@@ -297,7 +301,7 @@ class WebotsParser:
 
     def _read_mf_field(self, first_line=None):
         mffield = []
-        type = ''
+        type_field = ''
         should_finish = False
         while not should_finish:
             line = None
@@ -313,13 +317,13 @@ class WebotsParser:
             if character == ']':
                 break
             if character == '"':
-                type = 'MFString'
+                type_field = 'MFString'
                 mffield.append(line[1:-1])  # MFString
             elif line == 'TRUE':
-                type = 'MFBool'
+                type_field = 'MFBool'
                 mffield.append(True)  # MFBool
             elif line == 'FALSE':
-                type = 'MFBool'
+                type_field = 'MFBool'
                 mffield.append(False)  # MFBool
             elif character.isdigit() or character == '-':
                 groups = line.split(',')
@@ -333,22 +337,22 @@ class WebotsParser:
                 # Parse MFVec2f / MFVec3f / MFRotation / MFColor
                 length = len(elements)
                 if length == 2:
-                    type = 'MFVec2f'
+                    type_field = 'MFVec2f'
                 elif length == 3:
-                    type = 'MFVec3f'  # FIXME: could be MFColor as well
+                    type_field = 'MFVec3f'  # FIXME: could be MFColor as well
                 elif length == 4:
-                    type = 'MFRotation'
+                    type_field = 'MFRotation'
                 else:
-                    type = 'MFFloat' if ',' in line else 'MFInt32'
+                    type_field = 'MFFloat' if ',' in line else 'MFInt32'
                 mffield.extend(elements)
             else:
-                type = 'MFNode'
+                type_field = 'MFNode'
                 node = self._read_node(line)
                 mffield.append(node)
         if len(mffield) > 4:
             if isinstance(mffield[0], dict):
-                type = 'MFNode'
+                type_field = 'MFNode'
             else:
-                type = 'MFFloat' if ',' in line else 'MFInt32'
+                type_field = 'MFFloat' if ',' in line else 'MFInt32'
 
-        return type, mffield
+        return type_field, mffield
