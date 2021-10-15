@@ -6688,7 +6688,7 @@ no, the GUI is part of the Webots core application
 ##### Luftwaffel [Moderator] 10/01/2020 10:44:39
 okay, but thx, this helped. gonna test if it works in docker too
 
-##### Justin Fisher 10/02/2020 14:08:37
+##### Justin Fisher [Moderator] 10/02/2020 14:08:37
 Currently Webots seems to restrict each controller to reading only those sensors that are descended from its own robot node.  This makes sense for ordinary controllers.  But supervisor controllers are near-omniscient.  Is there any reason not to let supervisors also read the other sensors in the world? 
 
 
@@ -6698,7 +6698,7 @@ Currently Webots seems to restrict each controller to reading only those sensors
 ##### Olivier Michel [Cyberbotics] 10/02/2020 14:13:05
 It is basically a design choice for robots: a robot should not be able to access the devices of another robot, which makes sense with respect to real robots. Now, since supervisors are a special kind of robot, we didn't yet implemented the possibility for a supervisor to access the sensor of another robot, but I see no objection to this. It just has to be implemented. Also, since a simulation often contains several robots which have the same sensor names, the supervisors should access devices in a different way, e.g., passing the robot name and the device name as the device name only wouldn't suffice. So, that means some API changes...
 
-##### Justin Fisher 10/02/2020 14:21:45
+##### Justin Fisher [Moderator] 10/02/2020 14:21:45
 After the simulation runs for a timestep, I think it iterates over the various sensors, giving them the opportunity to pipe out their current sensor readings to the API so that these readings will then be available for quick access by controllers.  Simon and I think we found the place where position sensors pipe out their current readings, but haven't yet found the place where the iteration is done that triggers them to do so.  Can you point us to that?
 
 
@@ -6711,13 +6711,13 @@ It's basically here: [https://github.com/cyberbotics/webots/blob/master/src/webo
 
 This method will collect the answer for each sensor (line 941) and send the buffer of sensor data to the libController (line 951).
 
-##### Justin Fisher 10/02/2020 14:34:41
+##### Justin Fisher [Moderator] 10/02/2020 14:34:41
 Thanks.  One issue we'd considered is whether it would make sense to have sensor devices that aren't descended from robots, e.g., a GPS device attached to a freely moving object in the world whose position a supervisor wants to be able to track quickly.  It looks like this code assumes that each sensor will be in a robot, and wouldn't end up collecting answers from sensors that aren't in robots?
 
 ##### Olivier Michel [Cyberbotics] 10/02/2020 14:38:25
 Yes. Another approach would be to have a supervisor node that includes the whole scene it wants to control, including child robots. That would allow for a cleaner access to robot devices...
 
-##### Justin Fisher 10/02/2020 14:41:15
+##### Justin Fisher [Moderator] 10/02/2020 14:41:15
 It hadn't occurred to me that we might want one robot to contain another, but since we're thinking of bending lots of other old "rules" here, that one's probably a good candidate for bending too!  (Regardless, you're right that a solution to the problem of GPS-tagging independent objects would be to make those objects be part of a supervisor.)
 
 
@@ -6726,19 +6726,19 @@ Does Webots already allow for nested robots?
 ##### Olivier Michel [Cyberbotics] 10/02/2020 14:42:15
 I believe we worked on that a while ago, let me check the current status.
 
-##### Justin Fisher 10/02/2020 14:43:23
+##### Justin Fisher [Moderator] 10/02/2020 14:43:23
 (I could easily imagine wanting to set up a rolling platform with an arm attached, where the platform was one robot with a controller, the arm was descended from it, but was also a separate robot with its own controller)
 
 ##### Olivier Michel [Cyberbotics] 10/02/2020 14:45:51
 Yes, it is indeed possible.
 
-##### Justin Fisher 10/02/2020 14:46:37
+##### Justin Fisher [Moderator] 10/02/2020 14:46:37
 Then it might already be possible for a supervisor to read another robot's sensors, so long as it includes that other robot as a descendant?
 
 ##### Olivier Michel [Cyberbotics] 10/02/2020 14:47:08
 I am not sure about it, but it would certainly be the easiest to implement.
 
-##### Justin Fisher 10/02/2020 14:51:24
+##### Justin Fisher [Moderator] 10/02/2020 14:51:24
 That was my thinking too, which is why I'd suggested this as an alternative to Simon.  Why go to all the work of duplicating the long channel by which enabled sensors pass information out for quick access by controllers, if you could instead take advantage of the fact that sensors are already set up to make such information available quickly, so all we really need to do is let the supervisor read all the sensors?  
 
 
@@ -6748,25 +6748,25 @@ And maybe that'll just be as simple as making the supervisor contain everything 
 ##### Olivier Michel [Cyberbotics] 10/02/2020 14:57:36
 This currently doesn't work. Although a Robot can have another Robot as a child, the parent Robot cannot access the devices of the child Robot. They are just mechanically linked to each other, but not logically linked. However, it would possible to implement it.
 
-##### Justin Fisher 10/02/2020 15:04:45
+##### Justin Fisher [Moderator] 10/02/2020 15:04:45
 I guess if it requires a change in implementation, I'd probably suggest that the change should be that every supervisor gets the potential to read every sensor, regardless of where it is in the scene tree (rather than a more limited change, e.g., to allow supervisors to read sensors within descendant robots).  I'd probably also let supervisors send commands to arbitrary devices.  Sure this could conflict with what those devices' own controllers command, but since we're already trusting supervisors with the power to delete these devices at will, it doesn't seem to be any worse to trust them not to send bad commands to them.
 
 ##### Olivier Michel [Cyberbotics] 10/02/2020 15:05:30
 I agree.
 
-##### Justin Fisher 10/02/2020 15:07:14
+##### Justin Fisher [Moderator] 10/02/2020 15:07:14
 So it seems like the biggest change this would require would be in the getDevice command the supervisor uses?  It would need to be allowed to search more broadly to find devices, and maybe also should accept restrictions on where it'll search (e.g., within a particular robot, if there are two clone robots whose devices have the same names).
 
 ##### Olivier Michel [Cyberbotics] 10/02/2020 15:07:55
 Yes, ideally, it should be "robot\_name.device\_name" or so.
 
-##### Justin Fisher 10/02/2020 15:12:07
+##### Justin Fisher [Moderator] 10/02/2020 15:12:07
 It's odd that Webots does have this functionality with DEF-names, and getNodeFromDef but not with device names and getDevice.  Is there a good reason for why these seem to duplicate a lot of each others' functionality?    If I were doing it from scratch, I'd probably do away with device names, and just make getDevice look up DEF-names, allowing for pathing just like getNodeFromDef does.
 
 ##### Olivier Michel [Cyberbotics] 10/02/2020 15:16:53
 Yes, that's a good remark.
 
-##### Justin Fisher 10/02/2020 15:27:20
+##### Justin Fisher [Moderator] 10/02/2020 15:27:20
 Ok, I'll mention to Simon this an alternative way he might try to go to get the quicker access he wants for his supervisor: it may turn out that giving supervisors access to more sensors is a lot easier than trying to get arbitrary "subscribed" fields to pipe out copies of their values for quick access...
 
 
@@ -6775,7 +6775,7 @@ Thanks!
 ##### Olivier Michel [Cyberbotics] 10/02/2020 15:35:34
 🤔 I am not sure that will be easier to implement... As it will require to rework some fundamental part inside Webots (like currently a device has a single owner, and this won't be the case any more, and this will induce many changes to fix conflicts here and there...). So this would be actually much more complicated to implement than a subscription-based system...
 
-##### Justin Fisher 10/02/2020 15:36:17
+##### Justin Fisher [Moderator] 10/02/2020 15:36:17
 ok, i'll warn him that too
 
 
@@ -6793,7 +6793,7 @@ I think most of the things he wanted quick access to were world objects not situ
 ##### Westin 10/09/2020 18:45:36
 I just ran into an issue that I thought I would let you know about. I tried to use the VR view and it caused both SteamVR and Webots to crash. I wonder if it was too much for the GPU to handle. The GPU is at 100% just showing its home page. I then started Webots up again and it crashed immediately while loading the world without without the chance to turn off VR mode. I then disconnected the headset and tried again with the same issue. This makes me suspect the issue was not due to the GPU being overutilized. My solution was to change the SteamVR configuration files such that it uses the null headset, start Webots, then turn off VR mode. Its Webots R2020b and a Pimax headset. The Pimax drivers seem sketchy, so I'm sure that is at least partly to blame.
 
-##### Justin Fisher 10/10/2020 03:45:49
+##### Justin Fisher [Moderator] 10/10/2020 03:45:49
 I don't know much about getting VR to work, but another way you might have been able to get Webots running long enough for you to change the settings is by using the command line option to have Webots start with the simulation paused.  (I had to learn that to escape a different insta-crash loop I was stuck in!)
 
 ##### Lukulus 10/12/2020 07:59:48
@@ -6829,7 +6829,7 @@ Also note that the `boundingObjects` nodes are normal nodes. So you should be ab
 
 `@David Mansolino` If I get a chance, I'll try it out.
 
-##### Justin Fisher 10/13/2020 01:28:07
+##### Justin Fisher [Moderator] 10/13/2020 01:28:07
 `@Lukulus` If you're using a simple bounding object, like a sphere shape, the bounding object itself will be centered on the center of the solid that it is the bounding object for.  Suppose that solid has DEF name SOLID42, and that you called your supervisor robot sup.  Then, if your Supervisor is written in Python, you can get that solid's center, in global coordinates, with sup.getFromDef("SOLID42").getPosition().  (If you use some other language than Python, you can look up the equivalent functions for your language in Webots Supervisor docs -- I just gave a Python example because that's what I use.)  You can have more complex bounding shapes, e.g., ones starting with a group or translation field with many children.  In that case, you'd probably want to get an appropriate node from among those children and getPosition() from it.
 
 
