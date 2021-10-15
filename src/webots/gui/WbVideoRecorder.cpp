@@ -545,7 +545,7 @@ void WbVideoRecorder::createMpeg() {
     mScriptProcess = new QProcess();
     mScriptProcess->setProcessEnvironment(env);
     mScriptProcess->start("./" + mScriptPath, QStringList());
-    connect(mScriptProcess, (void (QProcess::*)(int, QProcess::ExitStatus)) & QProcess::finished, this,
+    connect(mScriptProcess, (void(QProcess::*)(int, QProcess::ExitStatus)) & QProcess::finished, this,
             &WbVideoRecorder::terminateVideoCreation);
     connect(mScriptProcess, &QProcess::readyReadStandardOutput, this, &WbVideoRecorder::readStdout);
     connect(mScriptProcess, &QProcess::readyReadStandardError, this, &WbVideoRecorder::readStderr);
