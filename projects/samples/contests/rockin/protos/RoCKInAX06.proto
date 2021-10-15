@@ -20,7 +20,7 @@ PROTO RoCKInAX06 [
           roughness 0.4
         }
         geometry Box {
-          size 0.1 0.01 0.1
+          size 0.1 0.1 0.01
         }
       }
     ]
