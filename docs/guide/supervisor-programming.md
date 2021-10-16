@@ -7,7 +7,7 @@ The programming examples provided here are in C, but same concepts apply to C++,
 If the `supervisor` field of the [Robot](../reference/robot.md) node is set to `TRUE` the `wb_supervisor_*` functions are available in addition to the regular `wb_robot_*` functions.
 
 A [Robot](../reference/robot.md) node whose `supervisor` field is set to `TRUE` can be used as any regular [Robot](../reference/robot.md) node, but in addition, the `wb_supervisor_*` functions can also be used to control the simulation process and modify the Scene Tree.
-For example the [Supervisor AP](../reference/supervisor.md) can replace human actions such as measuring the distance travelled by a robot or moving it back to its initial position, etc.
+For example the [Supervisor API](../reference/supervisor.md) can replace human actions such as measuring the distance travelled by a robot or moving it back to its initial position, etc.
 The [Supervisor API](../reference/supervisor.md) can also be used to take a screen shot or a video of the simulation, restart or terminate the simulation, etc.
 It can read or modify the value of every fields in the Scene Tree, e.g. read or change the position of robots, the color of objects, or switch on or off the light sources, and do many other useful things.
 
