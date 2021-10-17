@@ -489,8 +489,10 @@ void WbHingeJoint::updateAnchor() {
   if (mJoint)
     applyToOdeAnchor();
 
-  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES)) {
     updateJointAxisRepresentation();
+    updateSuspensionAxisRepresentation();
+  }
 }
 
 WbVector3 WbHingeJoint::axis() const {
@@ -587,9 +589,9 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
   const WbVector3 &suspensionAxis = p->suspensionAxis();
   const WbVector3 &anchorVector = anchor();
 
-  int nbVertices = 2;  // always have at least the suspension axis
-  const int steps = 128;
-  const int sides = 16;
+  int nbVertices = 2;     // always have at least the suspension axis
+  const int steps = 128;  // spring spiral segments
+  const int sides = 16;   // damper cylinder sides
 
   if (hasSuspensionSpring)
     nbVertices += steps * 2;
@@ -597,26 +599,27 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
   if (hasSuspensionDamper)
     nbVertices += (sides * 2) + (sides * 2) + (sides * 2) + (sides * 2);  // bottom & top circle & height
 
-  // TODO: check if works without either spring or damper
-
+  // create all suspension related meshes on the Y axis, then orient everything accordingly to the anchor and suspension axis
   float vertices[nbVertices * 3];
   int offset = 0;
+  WbVector3 vertex;
+
   // create vertices of the coil of the suspension spring
   if (hasSuspensionSpring) {
-    const double coilHeight = wr_config_get_line_scale() / steps;
-    const double coilRadius = 0.01f * (1 + wr_config_get_line_scale());
-    const double revolutions = 8.0f * (2 * M_PI);
-    const double position_offset = 0.5f * wr_config_get_line_scale();
+    const double coilHeight = 0.05 * (wr_config_get_line_scale() / 0.1);
+    const double heightIncrement = coilHeight / steps;
+    const double coilRadius = 0.01 * (1 + wr_config_get_line_scale());
+    const double revolutions = 8.0 * 2 * M_PI;
+    const double coilStart = 0.5 * (wr_config_get_line_scale() - coilHeight);
 
-    WbVector3 vertex;
+    const double increment = revolutions / steps;
     for (int i = 0; i < steps; ++i) {
-      vertex = WbVector3(coilRadius * sin(i * (revolutions / steps)), position_offset + coilHeight * i,
-                         coilRadius * cos(i * (revolutions / steps)));
+      vertex = WbVector3(coilRadius * sin(i * increment), coilStart + heightIncrement * i, coilRadius * cos(i * increment));
       vertex.toFloatArray(vertices + offset);
       offset += 3;
 
-      vertex = WbVector3(coilRadius * sin((i + 1) * (revolutions / steps)), position_offset + coilHeight * (i + 1),
-                         coilRadius * cos((i + 1) * (revolutions / steps)));
+      vertex = WbVector3(coilRadius * sin((i + 1) * increment), coilStart + heightIncrement * (i + 1),
+                         coilRadius * cos((i + 1) * increment));
       vertex.toFloatArray(vertices + offset);
       offset += 3;
     }
@@ -624,29 +627,25 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
 
   // create vertices of the cylinder of the suspension damper
   if (hasSuspensionDamper) {
-    const double cylinderHeight = wr_config_get_line_scale();
-    const double cylinderRadius = 0.01f * (1 + wr_config_get_line_scale()) * 0.75;
+    const double cylinderHeight = 0.015 * (wr_config_get_line_scale() / 0.1);
+    const double cylinderRadius = 0.01 * (1 + wr_config_get_line_scale()) * 0.75;
 
-    const double lowerHeight = 0.5f * wr_config_get_line_scale() + 0.33 * cylinderHeight;
-    const double upperHeight = 0.5f * wr_config_get_line_scale() + 0.66 * cylinderHeight;
+    const double lowerHeight = 0.5 * wr_config_get_line_scale() - 0.5 * cylinderHeight;
+    const double upperHeight = 0.5 * wr_config_get_line_scale() + 0.5 * cylinderHeight;
 
-    WbVector3 vertex;
     for (int i = 0; i < sides; ++i) {
       const double coordinateX = cylinderRadius * sin(i * 2 * M_PI / sides);
       const double coordinateZ = cylinderRadius * cos(i * 2 * M_PI / sides);
-
       const double nextCoordinateX = cylinderRadius * sin((i + 1) * 2 * M_PI / sides);
       const double nextCoordinateZ = cylinderRadius * cos((i + 1) * 2 * M_PI / sides);
-
       // bottom circle
-      vertex = WbVector3(coordinateX, lowerHeight, coordinateZ);
-      vertex.toFloatArray(vertices + offset);
+      vertex = WbVector3(coordinateX, lowerHeight, coordinateZ).toFloatArray(vertices + offset);
+      vertex;
       offset += 3;
 
       vertex = WbVector3(nextCoordinateX, lowerHeight, nextCoordinateZ);
       vertex.toFloatArray(vertices + offset);
       offset += 3;
-
       // top circle
       vertex = WbVector3(coordinateX, upperHeight, coordinateZ);
       vertex.toFloatArray(vertices + offset);
@@ -655,7 +654,6 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
       vertex = WbVector3(nextCoordinateX, upperHeight, nextCoordinateZ);
       vertex.toFloatArray(vertices + offset);
       offset += 3;
-
       // connectors between bottom and top circles
       vertex = WbVector3(coordinateX, lowerHeight, coordinateZ);
       vertex.toFloatArray(vertices + offset);
@@ -674,7 +672,6 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
         vertex = WbVector3(-coordinateX, lowerHeight, -coordinateZ);
         vertex.toFloatArray(vertices + offset);
         offset += 3;
-
         // top face
         vertex = WbVector3(coordinateX, upperHeight, coordinateZ);
         vertex.toFloatArray(vertices + offset);
@@ -688,10 +685,9 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
   }
 
   // create mesh for suspension axis
-  anchorVector.toFloatArray(vertices + offset);
+  WbVector3(0, 0, 0).toFloatArray(vertices + offset);
   offset += 3;
-  WbVector3 vertex(0, 2 * wr_config_get_line_scale(), 0);  // we orient everything together later
-  vertex.toFloatArray(vertices + offset);
+  WbVector3(0, wr_config_get_line_scale(), 0).toFloatArray(vertices + offset);
 
   mMeshSuspension = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
 
