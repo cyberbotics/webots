@@ -789,46 +789,41 @@ void WbBallJoint::updateJointAxisRepresentation() {
 
   wr_static_mesh_delete(mMesh);
 
-  float anchorArray[3];
-  anchor().toFloatArray(anchorArray);
-  const WbVector3 a1 = axis().normalized();
-  const WbVector3 a2 = axis2().normalized();
-  const WbVector3 a3 = axis3().normalized();
+  const WbVector3 &anchorVector = anchor();
+  const WbVector3 a1 = 0.5 * wr_config_get_line_scale() * axis();
+  const WbVector3 a2 = 0.5 * wr_config_get_line_scale() * axis2();
+  const WbVector3 a3 = 0.5 * wr_config_get_line_scale() * axis3();
 
-  const float scaling = 0.5f * wr_config_get_line_scale();
-  int nbVertices = 30;  // 2 * 3 axis: for joint axis + (4 * 2) * 3 axis: for arrowheads
+  int nbVertices = 30;  // 2 * (3 axis): for joint axis + 4 * 2 * (3 axis): for arrowheads
   float vertices[nbVertices * 3];
 
   int offset = 0;
-  const double ouverture = 0.002f;
-  WbVector3 vertex;
-  for (int i = 0; i < 3; ++i) {
-    const WbVector3 direction = (i == 0) ? scaling * a1 : ((i == 1) ? scaling * a2 : scaling * a3);
-    // create mesh of the axis
-    vertex = anchor() - direction;
-    vertex.toFloatArray(vertices + offset);
+  const double aperture = 0.001 * wr_config_get_line_scale() / 0.1f;  // scale as line-scale does
+
+  for (int i = 0; i < 3; ++i) {  // for each axis
+    const WbVector3 axisVector = (i == 0) ? a1 : ((i == 1) ? a2 : a3);
+    // define axis lines
+    WbVector3(anchorVector - axisVector).toFloatArray(vertices + offset);
+    offset += 3;
+    WbVector3(anchorVector + axisVector).toFloatArray(vertices + offset);
     offset += 3;
 
-    vertex = anchor() + direction;
-    vertex.toFloatArray(vertices + offset);
-    offset += 3;
-
-    // create mesh of the arrowhead
-    const WbVector3 b1 = direction.normalized();
+    // define arrowhead
+    const WbVector3 b1 = axisVector.normalized();
     const WbVector3 b2 = fabs(b1.dot(WbVector3(1, 0, 0))) < 1e-6 ? b1.cross(WbVector3(1, 0, 0)) : b1.cross(WbVector3(0, 1, 0));
     const WbVector3 b3 = b2.cross(b1);
 
     WbVector3 vertexArrow;
     for (int j = 0; j < 4; ++j) {
-      const double sign = (j % 2) ? -1.0f : 1.0f;
+      const double sign = (j % 2) ? -1.0 : 1.0;
       if (j < 2)
-        vertexArrow = vertex * 0.95 + sign * b2 * ouverture;
+        vertexArrow = (anchorVector + axisVector * 0.95) + sign * b2 * aperture;
       else
-        vertexArrow = vertex * 0.95 + sign * b3 * ouverture;
+        vertexArrow = (anchorVector + axisVector * 0.95) + sign * b3 * aperture;
 
-      vertexArrow.toFloatArray(vertices + offset);
+      vertexArrow.toFloatArray(vertices + offset);  // arrowhead base
       offset += 3;
-      vertex.toFloatArray(vertices + offset);
+      WbVector3(anchorVector + axisVector).toFloatArray(vertices + offset);  // arrowhead tip
       offset += 3;
     }
   }

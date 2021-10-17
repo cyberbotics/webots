@@ -714,47 +714,87 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
 
   wr_static_mesh_delete(mMesh);
 
-  const float scaling = 0.5f * wr_config_get_line_scale();
-
-  int nbVertices = 20;  // 2 * 2 axis: for joint axis, (4 * 2) * 2 axis: for arrowheads
-  float vertices[nbVertices * 3];
   const WbVector3 &anchorVector = anchor();
-  const WbVector3 &axisVector = scaling * axis();
+  const WbVector3 a1 = 0.5 * wr_config_get_line_scale() * axis();
+  const WbVector3 a2 = 0.5 * wr_config_get_line_scale() * axis2();
 
-  WbVector3 vertex(anchorVector - axisVector);
-  vertex.toFloatArray(vertices);
+  int nbVertices = 20;  // 2 * (2 axis): for joint axis + 4 * 2 * (2 axis): for arrowheads
+  float vertices[nbVertices * 3];
 
-  vertex = anchorVector + axisVector;
-  vertex.toFloatArray(vertices + 3);
+  int offset = 0;
+  const double aperture = 0.001 * wr_config_get_line_scale() / 0.1f;  // scale as line-scale does
 
-  // draw arrowhead for axis1
+  for (int i = 0; i < 2; ++i) {  // for each axis
+    const WbVector3 axisVector = (i == 0) ? a1 : a2;
+    // define axis lines
+    WbVector3(anchorVector - axisVector).toFloatArray(vertices + offset);
+    offset += 3;
+    WbVector3(anchorVector + axisVector).toFloatArray(vertices + offset);
+    offset += 3;
+
+    // define arrowhead
+    const WbVector3 b1 = axisVector.normalized();
+    const WbVector3 b2 = fabs(b1.dot(WbVector3(1, 0, 0))) < 1e-6 ? b1.cross(WbVector3(1, 0, 0)) : b1.cross(WbVector3(0, 1, 0));
+    const WbVector3 b3 = b2.cross(b1);
+
+    WbVector3 vertexArrow;
+    for (int j = 0; j < 4; ++j) {
+      const double sign = (j % 2) ? -1.0 : 1.0;
+      if (j < 2)
+        vertexArrow = (anchorVector + axisVector * 0.95) + sign * b2 * aperture;
+      else
+        vertexArrow = (anchorVector + axisVector * 0.95) + sign * b3 * aperture;
+
+      vertexArrow.toFloatArray(vertices + offset);  // arrowhead base
+      offset += 3;
+      WbVector3(anchorVector + axisVector).toFloatArray(vertices + offset);  // arrowhead tip
+      offset += 3;
+    }
+  }
+
+  mMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
+  wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
+
+  /*
+  wr_static_mesh_delete(mMesh);
+
+  const WbVector3 &anchorVector = anchor();
+  const WbVector3 &axisVector = 0.5 * wr_config_get_line_scale() * axis();
+
+  int nbVertices = 20;  // 2 * (2 axis): for joint axis, 4 * 2 * (2 axis): for arrowheads
+  float vertices[nbVertices * 3];
+  // define axis lines
+  WbVector3(anchorVector - axisVector).toFloatArray(vertices);
+  WbVector3(anchorVector + axisVector).toFloatArray(vertices + 3);
+
+  // define arrowhead for axis1
+  const double aperture = 0.001 * wr_config_get_line_scale() / 0.1f;  // scale as line-scale does
+
+  // find perpendicular vectors
   WbVector3 b1 = axis().normalized();
   WbVector3 b2 = fabs(b1.dot(WbVector3(1, 0, 0))) < 1e-6 ? b1.cross(WbVector3(1, 0, 0)) : b1.cross(WbVector3(0, 1, 0));
   WbVector3 b3 = b2.cross(b1);
-  const double ouverture = 0.002f;
 
   int offset = 6;
   WbVector3 vertexArrow;
   for (int i = 0; i < 4; ++i) {
-    const double sign = (i % 2) ? -1.0f : 1.0f;
+    const double sign = (i % 2) ? -1.0 : 1.0;
     if (i < 2)
-      vertexArrow = vertex * 0.95 + sign * b2 * ouverture;
+      vertexArrow = (anchorVector + axisVector * 0.95) + sign * b2 * aperture;
     else
-      vertexArrow = vertex * 0.95 + sign * b3 * ouverture;
+      vertexArrow = (anchorVector + axisVector * 0.95) + sign * b3 * aperture;
 
-    vertexArrow.toFloatArray(vertices + offset);
+    vertexArrow.toFloatArray(vertices + offset);  // arrowhead base
     offset += 3;
-    vertex.toFloatArray(vertices + offset);
+    WbVector3(anchorVector + axisVector).toFloatArray(vertices + offset);  // arrowhead tip
     offset += 3;
   }
 
-  const WbVector3 &axisVector2 = scaling * axis2();
-  vertex = anchorVector - axisVector2;
-  vertex.toFloatArray(vertices + offset);
+  // define line of axis2
+  const WbVector3 &axisVector2 = 0.5 * wr_config_get_line_scale() * axis2();
+  WbVector3(anchorVector - axisVector2).toFloatArray(vertices + offset);
   offset += 3;
-
-  vertex = anchorVector + axisVector2;
-  vertex.toFloatArray(vertices + offset);
+  WbVector3(anchorVector + axisVector2).toFloatArray(vertices + offset);
   offset += 3;
 
   // draw arrowhead for axis2
@@ -763,20 +803,21 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
   b3 = b2.cross(b1);
 
   for (int i = 0; i < 4; ++i) {
-    const double sign = (i % 2) ? -1.0f : 1.0f;
+    const double sign = (i % 2) ? -1.0 : 1.0;
     if (i < 2)
-      vertexArrow = vertex * 0.95 + sign * b2 * ouverture;
+      vertexArrow = (anchorVector + axisVector2 * 0.95) + sign * b2 * aperture;
     else
-      vertexArrow = vertex * 0.95 + sign * b3 * ouverture;
+      vertexArrow = (anchorVector + axisVector2 * 0.95) + sign * b3 * aperture;
 
-    vertexArrow.toFloatArray(vertices + offset);
+    vertexArrow.toFloatArray(vertices + offset);  // arrowhead base
     offset += 3;
-    vertex.toFloatArray(vertices + offset);
+    WbVector3(anchorVector + axisVector2).toFloatArray(vertices + offset);  // arrowhead tip
     offset += 3;
   }
 
   mMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
+  */
 }
 
 void WbHinge2Joint::writeExport(WbVrmlWriter &writer) const {

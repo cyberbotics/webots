@@ -296,11 +296,11 @@ void WbJoint::updateJointAxisRepresentation() {
   wr_static_mesh_delete(mMesh);
 
   const WbVector3 &anchorVector = anchor();
-  const WbVector3 &axisVector = 0.5f * wr_config_get_line_scale() * axis();
+  const WbVector3 &axisVector = 0.5 * wr_config_get_line_scale() * axis();
 
   const int nbVertices = 10;  // 2 for line, 4*2 for arrowhead
   float vertices[nbVertices * 3];
-
+  // define axis line
   WbVector3(anchorVector - axisVector).toFloatArray(vertices);
   WbVector3(anchorVector + axisVector).toFloatArray(vertices + 3);
 
@@ -315,7 +315,7 @@ void WbJoint::updateJointAxisRepresentation() {
   int offset = 6;
   WbVector3 vertexArrow;
   for (int i = 0; i < 4; ++i) {
-    const double sign = (i % 2) ? -1.0f : 1.0f;
+    const double sign = (i % 2) ? -1.0 : 1.0;
     if (i < 2)
       vertexArrow = (anchorVector + axisVector * 0.95) + sign * b2 * aperture;
     else

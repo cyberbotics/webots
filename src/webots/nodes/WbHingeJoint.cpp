@@ -568,12 +568,12 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
   if (!areWrenObjectsInitialized())
     return;
 
-  const WbHingeJointParameters *const p = hingeJointParameters();
-  if (!p)
+  const WbHingeJointParameters *const hp = hingeJointParameters();
+  if (!hp)
     return;
 
-  const bool hasSuspensionSpring = p->suspensionSpringConstant() > 0;
-  const bool hasSuspensionDamper = p->suspensionDampingConstant() > 0;
+  const bool hasSuspensionSpring = hp->suspensionSpringConstant() > 0;
+  const bool hasSuspensionDamper = hp->suspensionDampingConstant() > 0;
 
   if (!hasSuspensionDamper && !hasSuspensionSpring) {
     wr_node_set_visible(WR_NODE(mTransformSuspension), false);
@@ -585,7 +585,7 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
 
   wr_static_mesh_delete(mMeshSuspension);
 
-  const WbVector3 &suspensionAxis = p->suspensionAxis();
+  const WbVector3 &suspensionAxis = hp->suspensionAxis();
   const WbVector3 &anchorVector = anchor();
 
   int nbVertices = 2;     // always have at least the suspension axis
