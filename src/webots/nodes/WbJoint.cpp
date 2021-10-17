@@ -300,17 +300,17 @@ void WbJoint::updateJointAxisRepresentation() {
   const WbVector3 &anchorVector = anchor();
   const WbVector3 &axisVector = scaling * axis();
 
-  WbVector3 vertex(anchorVector - axisVector);
   const int nbVertices = 10;  // 2 for line, 4*2 for arrowhead
-
   float vertices[nbVertices * 3];
+
+  WbVector3 vertex(anchorVector - axisVector);
   vertex.toFloatArray(vertices);
 
   vertex = anchorVector + axisVector;
   vertex.toFloatArray(vertices + 3);
 
   // define arrow head
-  const double ouverture = 0.002f;
+  const double ouverture = 0.001f * wr_config_get_line_scale() / 0.1f;  // scale as line-scale does
 
   // find perpendicular vectors
   const WbVector3 b1 = axis().normalized();
@@ -322,13 +322,13 @@ void WbJoint::updateJointAxisRepresentation() {
   for (int i = 0; i < 4; ++i) {
     const double sign = (i % 2) ? -1.0f : 1.0f;
     if (i < 2)
-      vertexArrow = vertex * 0.95 + sign * b2 * ouverture;
+      vertexArrow = (anchorVector + axisVector * 0.95) + sign * b2 * ouverture;
     else
-      vertexArrow = vertex * 0.95 + sign * b3 * ouverture;
+      vertexArrow = (anchorVector + axisVector * 0.95) + sign * b3 * ouverture;
 
-    vertexArrow.toFloatArray(vertices + offset);
+    vertexArrow.toFloatArray(vertices + offset);  // arrowhead base
     offset += 3;
-    vertex.toFloatArray(vertices + offset);
+    vertex.toFloatArray(vertices + offset);  // arrowhead tip
     offset += 3;
   }
 
