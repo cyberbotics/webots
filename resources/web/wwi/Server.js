@@ -29,7 +29,7 @@ export default class Server {
       .then(response => response.text())
       .then(function(data) {
         if (data.startsWith('Error:')) {
-          document.getElementById('webotsProgress').style.display = 'none';
+          self.onError();
           let errorMessage = data.substring(6).trim();
           errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
           alert('Session server error: ' + errorMessage);
@@ -48,7 +48,17 @@ export default class Server {
         self.socket.onerror = (event) => {
           console.error('Cannot connect to the simulation server');
         };
+      })
+      .catch(error => {
+        this.onError()
+        alert('Could not connect to session server');
+        console.error(error);
       });
+  }
+
+  onError() {
+    document.getElementById('webotsProgress').style.display = 'none';
+    this._view.onquit()
   }
 
   onOpen(event) {

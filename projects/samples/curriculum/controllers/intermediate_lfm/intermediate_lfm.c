@@ -57,7 +57,7 @@ WbDeviceTag right_motor;
 // This function returns the position
 // of the peak contained in the array given
 // in argument
-int find_middle(int tab[], int sizeTab) {
+int find_middle(const int tab[], int sizeTab) {
   int i, j;
   int *copy = (int *)malloc(sizeof(int) * sizeTab);
   int mid = 0;
@@ -127,7 +127,7 @@ int find_middle(int tab[], int sizeTab) {
 }
 
 // return the mean of the values of an array
-int mean(int array[], int size) {
+int mean(const int array[], int size) {
   if (size == 0)
     return 0;
   int sum = 0, i;
@@ -160,7 +160,7 @@ void lfm(int array[], int size) {
 int previous_mean[] = {0, 0, 0};
 int current_mean[] = {0, 0, 0};
 int is_in[] = {0, 0, 0};
-void lem(int array[], int size) {
+void lem(const int array[], int size) {
   int *left = (int *)malloc(sizeof(int) * size / 10);
   int *right = (int *)malloc(sizeof(int) * size / 10);
   int *middle = (int *)malloc(sizeof(int) * size / 10);
@@ -262,7 +262,7 @@ static void reset(void) {
 static int run(void) {
   int i;
   int *gray = (int *)malloc(sizeof(int) * width);
-  int speed[2] = {150, 150};
+  const int speed[2] = {150, 150};
   const unsigned char *image;
 
   // 1. Get the sensors values

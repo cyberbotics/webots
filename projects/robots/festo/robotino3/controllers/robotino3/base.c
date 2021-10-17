@@ -103,7 +103,7 @@ void base_set_speeds(double vx, double vy, double omega) {
   targetSpeed[2] = omega;
 }
 
-void base_braitenberg_avoidance(double *sensors_values) {
+void base_braitenberg_avoidance(const double *sensors_values) {
   // Simple obstacle avoidance algorithm
   // - obstacle in front
   if (sensors_values[0] < OBSTACLE_THRESHOLD)
