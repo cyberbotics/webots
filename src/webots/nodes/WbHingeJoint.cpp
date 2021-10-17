@@ -569,7 +569,6 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
     return;
 
   const WbHingeJointParameters *const p = hingeJointParameters();
-
   if (!p)
     return;
 
@@ -597,12 +596,11 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
     nbVertices += steps * 2;
 
   if (hasSuspensionDamper)
-    nbVertices += (sides * 2) + (sides * 2) + (sides * 2) + (sides * 2);  // bottom & top circle & height
+    nbVertices += sides * 8;  // bottom circle, top circle, heights and faces
 
   // create all suspension related meshes on the Y axis, then orient everything accordingly to the anchor and suspension axis
   float vertices[nbVertices * 3];
   int offset = 0;
-  WbVector3 vertex;
 
   // create vertices of the coil of the suspension spring
   if (hasSuspensionSpring) {
@@ -614,13 +612,13 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
 
     const double increment = revolutions / steps;
     for (int i = 0; i < steps; ++i) {
-      vertex = WbVector3(coilRadius * sin(i * increment), coilStart + heightIncrement * i, coilRadius * cos(i * increment));
-      vertex.toFloatArray(vertices + offset);
+      WbVector3(coilRadius * sin(i * increment), coilStart + heightIncrement * i, coilRadius * cos(i * increment))
+        .toFloatArray(vertices + offset);
       offset += 3;
 
-      vertex = WbVector3(coilRadius * sin((i + 1) * increment), coilStart + heightIncrement * (i + 1),
-                         coilRadius * cos((i + 1) * increment));
-      vertex.toFloatArray(vertices + offset);
+      WbVector3(coilRadius * sin((i + 1) * increment), coilStart + heightIncrement * (i + 1),
+                coilRadius * cos((i + 1) * increment))
+        .toFloatArray(vertices + offset);
       offset += 3;
     }
   }
@@ -639,59 +637,45 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
       const double nextCoordinateX = cylinderRadius * sin((i + 1) * 2 * M_PI / sides);
       const double nextCoordinateZ = cylinderRadius * cos((i + 1) * 2 * M_PI / sides);
       // bottom circle
-      vertex = WbVector3(coordinateX, lowerHeight, coordinateZ).toFloatArray(vertices + offset);
-      vertex;
+      WbVector3(coordinateX, lowerHeight, coordinateZ).toFloatArray(vertices + offset);
       offset += 3;
-
-      vertex = WbVector3(nextCoordinateX, lowerHeight, nextCoordinateZ);
-      vertex.toFloatArray(vertices + offset);
+      WbVector3(nextCoordinateX, lowerHeight, nextCoordinateZ).toFloatArray(vertices + offset);
       offset += 3;
       // top circle
-      vertex = WbVector3(coordinateX, upperHeight, coordinateZ);
-      vertex.toFloatArray(vertices + offset);
+      WbVector3(coordinateX, upperHeight, coordinateZ).toFloatArray(vertices + offset);
       offset += 3;
-
-      vertex = WbVector3(nextCoordinateX, upperHeight, nextCoordinateZ);
-      vertex.toFloatArray(vertices + offset);
+      WbVector3(nextCoordinateX, upperHeight, nextCoordinateZ).toFloatArray(vertices + offset);
       offset += 3;
       // connectors between bottom and top circles
-      vertex = WbVector3(coordinateX, lowerHeight, coordinateZ);
-      vertex.toFloatArray(vertices + offset);
+      WbVector3(coordinateX, lowerHeight, coordinateZ).toFloatArray(vertices + offset);
       offset += 3;
-
-      vertex = WbVector3(coordinateX, upperHeight, coordinateZ);
-      vertex.toFloatArray(vertices + offset);
+      WbVector3(coordinateX, upperHeight, coordinateZ).toFloatArray(vertices + offset);
       offset += 3;
 
       if (!(i % 2)) {
         // bottom face
-        vertex = WbVector3(coordinateX, lowerHeight, coordinateZ);
-        vertex.toFloatArray(vertices + offset);
+        WbVector3(coordinateX, lowerHeight, coordinateZ).toFloatArray(vertices + offset);
         offset += 3;
-
-        vertex = WbVector3(-coordinateX, lowerHeight, -coordinateZ);
-        vertex.toFloatArray(vertices + offset);
+        WbVector3(-coordinateX, lowerHeight, -coordinateZ).toFloatArray(vertices + offset);
         offset += 3;
         // top face
-        vertex = WbVector3(coordinateX, upperHeight, coordinateZ);
-        vertex.toFloatArray(vertices + offset);
+        WbVector3(coordinateX, upperHeight, coordinateZ).toFloatArray(vertices + offset);
         offset += 3;
-
-        vertex = WbVector3(-coordinateX, upperHeight, -coordinateZ);
-        vertex.toFloatArray(vertices + offset);
+        WbVector3(-coordinateX, upperHeight, -coordinateZ).toFloatArray(vertices + offset);
         offset += 3;
       }
     }
   }
 
-  // create mesh for suspension axis
+  // create vertices for suspension axis
   WbVector3(0, 0, 0).toFloatArray(vertices + offset);
   offset += 3;
   WbVector3(0, wr_config_get_line_scale(), 0).toFloatArray(vertices + offset);
 
+  // create and orient mesh based on direction of suspension axis
   mMeshSuspension = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
 
-  // orient mesh based on direction of suspension axis
+  // find orthogonal basis
   WbVector3 baseX, baseY, baseZ;
   baseY = suspensionAxis.normalized();
   baseX = fabs(baseY.dot(WbVector3(1, 0, 0))) < 1e-6 ? baseY.cross(WbVector3(1, 0, 0)) : baseY.cross(WbVector3(0, 1, 0));
