@@ -718,7 +718,7 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
   const WbVector3 a1 = 0.5 * wr_config_get_line_scale() * axis();
   const WbVector3 a2 = 0.5 * wr_config_get_line_scale() * axis2();
 
-  int nbVertices = 20;  // 2 * (2 axis): for joint axis + 4 * 2 * (2 axis): for arrowheads
+  const int nbVertices = 20;  // 2 * (2 axis): for joint axis + 4 * 2 * (2 axis): for arrowheads
   float vertices[nbVertices * 3];
 
   int offset = 0;
