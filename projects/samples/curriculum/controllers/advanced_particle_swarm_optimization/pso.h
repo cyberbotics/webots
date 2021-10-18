@@ -53,7 +53,7 @@ typedef struct {
 /**
  * Input values to network
  */
-extern void InputToNetwork(network_t *n, float *values);
+extern void InputToNetwork(const network_t *n, const float *values);
 
 /**
  * Activate the network.

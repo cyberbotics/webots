@@ -4,6 +4,34 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Stefania Pedrazzi [Cyberbotics] 10/12/2021 07:47:51
+We just published the presentation held at the IROS2021 Workshop "Open Deep Learning Toolkit for Robotics: Towards Democratizing Artificial Intelligence" workshop!"
+
+[https://youtu.be/DqKBwGpRj\_Y](https://youtu.be/DqKBwGpRj_Y)
+
+##### Soft\_illusion 10/11/2021 05:38:56
+Do checkout obstacle avoidance tutorial with webots using ROS [https://youtu.be/NmObj\_QCnHY](https://youtu.be/NmObj_QCnHY)
+
+##### Stefania Pedrazzi [Cyberbotics] 10/05/2021 07:40:41
+No, we don't have any new yet. We are still checking if there are some restrictions on the presented material.
+
+##### giaco\_mz 10/03/2021 10:36:29
+news about it? i was really interested in the topic
+
+##### Stefania Pedrazzi [Cyberbotics] 09/27/2021 06:28:42
+After the workshop, we will decide if we will publish it on the Webots YouTube channel.
+
+##### koyal 09/27/2021 05:32:34
+A detailed video on Navigation framework **Move\_base** in Webots .
+
+[https://youtu.be/B-7-xK-\_rYw](https://youtu.be/B-7-xK-_rYw)
+
+##### giaco\_mz 09/25/2021 17:10:31
+it will be possible to see it offline (it will be loaded on youtube or something similar) or we must to follow the workshop?
+
+##### EEProf 09/23/2021 15:01:55
+I got Webots (webots-R2020a-rev1) running on my M1 MBPro. I believe all the builds are available, I tried three different ones before it would work with 'archival' robot files that I had (Anki Vector 1.0), athough there is some quirkiness on rendering some objects. Idid not try to compile.
+
 ##### Stefania Pedrazzi [Cyberbotics] 09/20/2021 09:37:53
 We will present how to use @Webots for #AI applications at #IROS2021 "Open Deep Learning Toolkit for Robotics: Towards Democratizing Artificial Intelligence" workshop! Join us on October 1!
 

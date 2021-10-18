@@ -117,7 +117,7 @@ PROTO Fridge [
           }
           physics Physics {
             centerOfMass [
-              0 0 0.35
+              0 -0.35 0
             ]
             mass 8.0
             density -1
@@ -209,7 +209,7 @@ PROTO Fridge [
           }
           physics Physics {
             centerOfMass [
-              0 0 0.35
+              0 -0.35 0
             ]
             mass 8.0
             density -1

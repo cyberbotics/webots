@@ -132,7 +132,7 @@ PROTO Forest [
         let sizeFactor = wbrandom.real();
 
         if (wbgeometry.isPoint2InPolygon({x: x, y: z}, shape))
-            trees.push({x: x, y: 0, z: z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
+            trees.push({x: x, y: 0, z: -z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
       }
     }
     let numberOfTree = trees.length;

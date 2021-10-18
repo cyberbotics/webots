@@ -81,7 +81,7 @@ public:
   }
 
   // invalid only if |axis| == 0.0
-  bool isValid() const { return !(mX == 0.0 && mY == 0.0 && mZ == 0.0); }
+  bool isValid() const { return !(mX == 0.0 && mY == 0.0 && mZ == 0.0) && !isnan(mAngle); }
 
   // identity
   bool isIdentity() const { return mAngle == 0.0; }
