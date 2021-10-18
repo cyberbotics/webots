@@ -36,7 +36,7 @@ namespace webots {
     static Driver *getDriverInstance();
     virtual ~Driver();
 
-    static bool internalGetInstanceDriverIfPossible();
+    static bool getInitialisationPossible();
 
     virtual int step();
 

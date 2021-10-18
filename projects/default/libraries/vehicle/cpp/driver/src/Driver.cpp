@@ -41,7 +41,7 @@ Driver::~Driver() {
   wbu_driver_cleanup();
 }
 
-bool Driver::internalGetInstanceDriverIfPossible() {
+bool Driver::getInitialisationPossible() {
   return wbu_driver_init_possible();
 }
 
