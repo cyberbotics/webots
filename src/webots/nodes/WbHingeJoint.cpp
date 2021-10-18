@@ -557,9 +557,9 @@ void WbHingeJoint::updateOptionalRendering(int option) {
   WbJoint::updateOptionalRendering(option);
 
   if (option == WbWrenRenderingContext::VF_JOINT_AXES) {
-    if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option)) {
+    if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option))
       updateSuspensionAxisRepresentation();
-    } else
+    else
       wr_node_set_visible(WR_NODE(mTransformSuspension), false);
   }
 }
