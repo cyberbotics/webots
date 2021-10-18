@@ -109,13 +109,13 @@ bool _wbu_car_init_possible() {
   char engine_type;
   int engine_sound_length;
   char *sub_data_string = (char *)wb_robot_get_custom_data();
-  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d",
-             &ins_test.wheelbase, &ins_test.track_front, &ins_test.track_rear, &ins_test.front_wheel_radius,
-             &ins_test.rear_wheel_radius, &ins_test.brake_coefficient, &ins_test.defaultDampingConstant, &engine_type,
-             &ins_test.engine_max_torque, &ins_test.engine_max_power, &ins_test.engine_min_rpm, &ins_test.engine_max_rpm,
-             &ins_test.engine_coefficients[0], &ins_test.engine_coefficients[1], &ins_test.engine_coefficients[2],
-             &ins_test.hybrid_power_split_ratio, &ins_test.hybrid_power_split_rpm, &ins_test.engine_sound_rpm_reference,
-             &ins_test.gear_number, &engine_sound_length);
+  i =
+    sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &ins_test.wheelbase,
+           &ins_test.track_front, &ins_test.track_rear, &ins_test.front_wheel_radius, &ins_test.rear_wheel_radius,
+           &ins_test.brake_coefficient, &ins_test.defaultDampingConstant, &engine_type, &ins_test.engine_max_torque,
+           &ins_test.engine_max_power, &ins_test.engine_min_rpm, &ins_test.engine_max_rpm, &ins_test.engine_coefficients[0],
+           &ins_test.engine_coefficients[1], &ins_test.engine_coefficients[2], &ins_test.hybrid_power_split_ratio,
+           &ins_test.hybrid_power_split_rpm, &ins_test.engine_sound_rpm_reference, &ins_test.gear_number, &engine_sound_length);
 
   if (i < 20)
     return false;
