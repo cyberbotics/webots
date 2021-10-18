@@ -105,7 +105,7 @@ bool _wbu_car_init_possible() {
   int i;
   car *ins_test;
 
-  ins_test = (car *)malloc(sizeof(car));
+  car test_car;
 
   // Parse vehicle caracteristics from the beginning of the data string
   char engine_type;
@@ -121,9 +121,8 @@ bool _wbu_car_init_possible() {
 
   free(ins_test);
 
-  if (i < 20) {
+  if (i < 20)
     return false;
-  }
 
   return true;
 }
