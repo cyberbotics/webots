@@ -20,7 +20,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 WEBOTS_LIBRARY = 1
 
 CXX_SOURCES = $(wildcard src/*.cpp)
-INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c"
+INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c" -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 LIBRARIES = -ldriver
 MAIN_TARGET = $(LIB_PREFIX)CppDriver$(SHARED_LIB_EXTENSION)
 LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
