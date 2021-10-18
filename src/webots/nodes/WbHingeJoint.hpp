@@ -56,10 +56,10 @@ protected:
   WbHingeJointParameters *hingeJointParameters() const;
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
 
-  WrTransform *mTransformSuspension;
-  WrRenderable *mRenderableSuspension;
-  WrStaticMesh *mMeshSuspension;
-  WrMaterial *mMaterialSuspension;
+  WrTransform *mSuspensionTransform;
+  WrRenderable *mSuspensionRenderable;
+  WrStaticMesh *mSuspensionMesh;
+  WrMaterial *mSuspensionMaterial;
 
 protected slots:
   void updateParameters() override;

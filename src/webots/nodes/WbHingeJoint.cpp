@@ -35,10 +35,10 @@
 #include <cassert>
 
 void WbHingeJoint::init() {
-  mTransformSuspension = NULL;
-  mRenderableSuspension = NULL;
-  mMeshSuspension = NULL;
-  mMaterialSuspension = NULL;
+  mSuspensionTransform = NULL;
+  mSuspensionRenderable = NULL;
+  mSuspensionMesh = NULL;
+  mSuspensionMaterial = NULL;
 }
 
 // Constructors
@@ -61,10 +61,10 @@ WbHingeJoint::WbHingeJoint(const WbNode &other) : WbJoint(other) {
 
 WbHingeJoint::~WbHingeJoint() {
   if (areWrenObjectsInitialized()) {
-    wr_static_mesh_delete(mMeshSuspension);
-    wr_material_delete(mMaterialSuspension);
-    wr_node_delete(WR_NODE(mRenderableSuspension));
-    wr_node_delete(WR_NODE(mTransformSuspension));
+    wr_static_mesh_delete(mSuspensionMesh);
+    wr_material_delete(mSuspensionMaterial);
+    wr_node_delete(WR_NODE(mSuspensionRenderable));
+    wr_node_delete(WR_NODE(mSuspensionTransform));
   }
 }
 
@@ -525,24 +525,24 @@ void WbHingeJoint::createWrenObjects() {
   WbJoint::createWrenObjects();
 
   const float color[3] = {0.0f, 0.0f, 0.0f};
-  mMaterialSuspension = wr_phong_material_new();
-  wr_phong_material_set_color(mMaterialSuspension, color);
-  wr_material_set_default_program(mMaterialSuspension, WbWrenShaders::lineSetShader());
+  mSuspensionMaterial = wr_phong_material_new();
+  wr_phong_material_set_color(mSuspensionMaterial, color);
+  wr_material_set_default_program(mSuspensionMaterial, WbWrenShaders::lineSetShader());
 
-  mRenderableSuspension = wr_renderable_new();
-  wr_renderable_set_cast_shadows(mRenderableSuspension, false);
-  wr_renderable_set_receive_shadows(mRenderableSuspension, false);
-  wr_renderable_set_material(mRenderableSuspension, mMaterialSuspension, NULL);
-  wr_renderable_set_visibility_flags(mRenderableSuspension, WbWrenRenderingContext::VF_JOINT_AXES);
-  wr_renderable_set_drawing_mode(mRenderableSuspension, WR_RENDERABLE_DRAWING_MODE_LINES);
+  mSuspensionRenderable = wr_renderable_new();
+  wr_renderable_set_cast_shadows(mSuspensionRenderable, false);
+  wr_renderable_set_receive_shadows(mSuspensionRenderable, false);
+  wr_renderable_set_material(mSuspensionRenderable, mSuspensionMaterial, NULL);
+  wr_renderable_set_visibility_flags(mSuspensionRenderable, WbWrenRenderingContext::VF_JOINT_AXES);
+  wr_renderable_set_drawing_mode(mSuspensionRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
 
-  mTransformSuspension = wr_transform_new();
-  wr_node_set_visible(WR_NODE(mTransformSuspension), false);
-  wr_transform_attach_child(mTransformSuspension, WR_NODE(mRenderableSuspension));
-  wr_transform_attach_child(wrenNode(), WR_NODE(mTransformSuspension));
+  mSuspensionTransform = wr_transform_new();
+  wr_node_set_visible(WR_NODE(mSuspensionTransform), false);
+  wr_transform_attach_child(mSuspensionTransform, WR_NODE(mSuspensionRenderable));
+  wr_transform_attach_child(wrenNode(), WR_NODE(mSuspensionTransform));
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
-    wr_node_set_visible(WR_NODE(mTransformSuspension), true);
+    wr_node_set_visible(WR_NODE(mSuspensionTransform), true);
 
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbHingeJoint::updateOptionalRendering);
@@ -560,7 +560,7 @@ void WbHingeJoint::updateOptionalRendering(int option) {
     if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option))
       updateSuspensionAxisRepresentation();
     else
-      wr_node_set_visible(WR_NODE(mTransformSuspension), false);
+      wr_node_set_visible(WR_NODE(mSuspensionTransform), false);
   }
 }
 
@@ -576,14 +576,14 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
   const bool hasSuspensionDamper = hp->suspensionDampingConstant() > 0;
 
   if (!hasSuspensionDamper && !hasSuspensionSpring) {
-    wr_node_set_visible(WR_NODE(mTransformSuspension), false);
+    wr_node_set_visible(WR_NODE(mSuspensionTransform), false);
     return;
   }
 
-  if (!wr_node_is_visible(WR_NODE(mTransformSuspension)))
-    wr_node_set_visible(WR_NODE(mTransformSuspension), true);
+  if (!wr_node_is_visible(WR_NODE(mSuspensionTransform)))
+    wr_node_set_visible(WR_NODE(mSuspensionTransform), true);
 
-  wr_static_mesh_delete(mMeshSuspension);
+  wr_static_mesh_delete(mSuspensionMesh);
 
   const WbVector3 &suspensionAxis = hp->suspensionAxis();
   const WbVector3 &anchorVector = anchor();
@@ -673,7 +673,7 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
   WbVector3(0, wr_config_get_line_scale(), 0).toFloatArray(vertices + offset);
 
   // create and orient mesh based on direction of suspension axis
-  mMeshSuspension = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
+  mSuspensionMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
 
   // find orthogonal basis
   WbVector3 baseX, baseY, baseZ;
@@ -691,8 +691,8 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
   anchorVector.toFloatArray(tail);
   suspensionAxis.toFloatArray(tail + 3);
 
-  wr_transform_set_position(mTransformSuspension, tail);
-  wr_transform_set_orientation(mTransformSuspension, rotationArray);
+  wr_transform_set_position(mSuspensionTransform, tail);
+  wr_transform_set_orientation(mSuspensionTransform, rotationArray);
 
-  wr_renderable_set_mesh(mRenderableSuspension, WR_MESH(mMeshSuspension));
+  wr_renderable_set_mesh(mSuspensionRenderable, WR_MESH(mSuspensionMesh));
 }
