@@ -74,6 +74,7 @@ private slots:
   void updateSuspension();
 
 private:
+  WbHingeJoint &operator=(const WbHingeJoint &);  // non copyable
   void init();
   void applyToOdeMinAndMaxStop() override;
   virtual void applyToOdeSuspension();
