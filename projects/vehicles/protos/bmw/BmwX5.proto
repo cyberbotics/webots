@@ -76,6 +76,7 @@ PROTO BmwX5 [
     gearRatio   [-12.5 12.5 8 5.35 4.3 4]
     wheelFrontLeft BmwX5Wheel {
       name "front left wheel"
+      wheelSide TRUE
       physics DEF WHEEL_PHYSICS Physics {
         density -1
         mass 30
@@ -91,6 +92,7 @@ PROTO BmwX5 [
     }
     wheelRearLeft BmwX5Wheel {
       name "rear left wheel"
+      wheelSide TRUE
       physics USE WHEEL_PHYSICS
     }
     extensionSlot [

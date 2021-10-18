@@ -87,6 +87,7 @@ PROTO RangeRoverSportSVRSimple [
                   centralOuterRadius 0.12
                   rimBeamThickness 0.08
                   rimBeamOffset 0.065
+                  wheelSide TRUE
                   contactMaterial "RangeRoverSportSVRWheels"
                   physics NULL
                   boundingObject IS wheelBoundingObject
@@ -133,6 +134,7 @@ PROTO RangeRoverSportSVRSimple [
                   centralOuterRadius 0.12
                   rimBeamThickness 0.08
                   rimBeamOffset 0.065
+                  wheelSide TRUE
                   contactMaterial "RangeRoverSportSVRWheels"
                   physics NULL
                   boundingObject IS wheelBoundingObject

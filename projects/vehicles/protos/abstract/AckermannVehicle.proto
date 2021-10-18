@@ -33,9 +33,9 @@ PROTO AckermannVehicle [
   field SFFloat    radarCrossSection              100
   field MFColor    recognitionColors              [ ]
   field SFNode     wheelFrontRight                VehicleWheel { name "front right wheel" }
-  field SFNode     wheelFrontLeft                 VehicleWheel { name "front left wheel" }
+  field SFNode     wheelFrontLeft                 VehicleWheel { name "front left wheel" wheelSide TRUE }
   field SFNode     wheelRearRight                 VehicleWheel { name "rear right wheel" }
-  field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" }
+  field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" wheelSide TRUE }
   field MFNode     axisDevicesFrontRight          [ ]
   field MFNode     axisDevicesFrontLeft           [ ]
   field MFNode     axisDevicesRearRight           [ ]

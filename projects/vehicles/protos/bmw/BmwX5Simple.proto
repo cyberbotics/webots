@@ -98,6 +98,7 @@ PROTO BmwX5Simple [
             Slot {
               type "vehicle wheel"
               endPoint BmwX5Wheel {
+                wheelSide TRUE
                 boundingObject IS wheelBoundingObject
               }
             }
@@ -124,6 +125,7 @@ PROTO BmwX5Simple [
             Slot {
               type "vehicle wheel"
               endPoint BmwX5Wheel {
+                wheelSide TRUE
                 boundingObject IS wheelBoundingObject
               }
             }

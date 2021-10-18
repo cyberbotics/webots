@@ -53,6 +53,7 @@ PROTO LincolnMKZ [
       centralOuterRadius 0.12
       rimBeamThickness 0.08
       rimBeamOffset 0.065
+      wheelSide TRUE
       contactMaterial "LincolnMKZWheels"
     }
     wheelFrontRight VehicleWheel {
@@ -89,6 +90,7 @@ PROTO LincolnMKZ [
       centralOuterRadius 0.12
       rimBeamThickness 0.08
       rimBeamOffset 0.065
+      wheelSide TRUE
       contactMaterial "LincolnMKZWheels"
     }
     extensionSlot [

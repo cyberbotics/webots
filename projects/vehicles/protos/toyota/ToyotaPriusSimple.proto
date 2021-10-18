@@ -84,6 +84,7 @@ PROTO ToyotaPriusSimple [
               Slot {
                 type "vehicle wheel"
                 endPoint ToyotaPriusWheel {
+                  wheelSide TRUE
                   boundingObject IS wheelBoundingObject
                 }
               }
@@ -110,6 +111,7 @@ PROTO ToyotaPriusSimple [
               Slot {
                 type "vehicle wheel"
                 endPoint ToyotaPriusWheel {
+                  wheelSide TRUE
                   boundingObject IS wheelBoundingObject
                 }
               }

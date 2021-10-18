@@ -87,6 +87,7 @@ PROTO CitroenCZeroSimple [
           Slot {
             type "vehicle wheel"
             endPoint CitroenCZeroFrontWheel {
+              wheelSide TRUE
               boundingObject IS wheelBoundingObject
             }
           }
@@ -115,6 +116,7 @@ PROTO CitroenCZeroSimple [
           Slot {
             type "vehicle wheel"
             endPoint CitroenCZeroRearWheel {
+              wheelSide TRUE
               boundingObject IS wheelBoundingObject
             }
           }

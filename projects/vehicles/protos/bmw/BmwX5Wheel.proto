@@ -9,6 +9,7 @@ PROTO BmwX5Wheel [
   field       SFString name           "BMW X5 wheel"
   field       SFNode   physics        NULL
   field       SFBool   boundingObject TRUE
+  field SFBool     wheelSide          FALSE
   hiddenField SFFloat  tireRadius     0.374           # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
 ]
 {
@@ -22,6 +23,7 @@ PROTO BmwX5Wheel [
     centralOuterRadius 0.12
     rimBeamThickness 0.08
     rimBeamOffset 0.065
+    wheelSide IS wheelSide
     tireAppearance GenericTireAppearance {
     }
     rimAppearance PBRAppearance {

@@ -61,6 +61,7 @@ PROTO TruckTank [
                 type "vehicle wheel"
                 endPoint TruckWheel {
                   name "front left wheel"
+                  wheelSide TRUE
                   physics Physics {
                     density -1
                     mass 100
@@ -108,6 +109,7 @@ PROTO TruckTank [
                 type "vehicle wheel"
                 endPoint TruckWheel {
                   name "central left wheel"
+                  wheelSide TRUE
                   physics Physics {
                     density -1
                     mass 100
@@ -155,6 +157,7 @@ PROTO TruckTank [
                 type "vehicle wheel"
                 endPoint TruckWheel {
                   name "rear left wheel"
+                  wheelSide TRUE
                   physics Physics {
                     density -1
                     mass 100

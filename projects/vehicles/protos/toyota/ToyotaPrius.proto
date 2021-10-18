@@ -47,6 +47,7 @@ PROTO ToyotaPrius [
     hybridPowerSplitRPM 3000
     wheelFrontLeft ToyotaPriusWheel {
       name "front left wheel"
+      wheelSide TRUE
       physics DEF WHEEL_PHYSICS Physics {
         density -1
         mass 8
@@ -62,6 +63,7 @@ PROTO ToyotaPrius [
     }
     wheelRearLeft ToyotaPriusWheel {
       name "rear left wheel"
+      wheelSide TRUE
       physics USE WHEEL_PHYSICS
     }
     extensionSlot [

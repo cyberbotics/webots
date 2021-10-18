@@ -152,6 +152,7 @@ PROTO Truck [
     }
     wheelFrontLeft TruckWheel {
       name "front left wheel"
+      wheelSide TRUE
       physics DEF WHEEL_PHYSICS Physics {
         density -1
         mass 100
@@ -167,6 +168,7 @@ PROTO Truck [
     }
     wheelRearLeft TruckWheel {
       name "rear left wheel"
+      wheelSide TRUE
       physics USE WHEEL_PHYSICS
     }
     brakeCoefficient 5000

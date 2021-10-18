@@ -52,6 +52,7 @@ PROTO RangeRoverSportSVR [
       centralOuterRadius 0.12
       rimBeamThickness 0.08
       rimBeamOffset 0.065
+      wheelSide TRUE
       contactMaterial "RangeRoverSportSVRWheels"
     }
     wheelFrontRight VehicleWheel {
@@ -88,6 +89,7 @@ PROTO RangeRoverSportSVR [
       centralOuterRadius 0.12
       rimBeamThickness 0.08
       rimBeamOffset 0.065
+      wheelSide TRUE
       contactMaterial "RangeRoverSportSVRWheels"
     }
     extensionSlot [

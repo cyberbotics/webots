@@ -52,6 +52,7 @@ PROTO CitroenCZero [
     gearRatio [-6.2329 6.2329] # calibrated with real data
     wheelFrontLeft CitroenCZeroFrontWheel {
       name "front left wheel"
+      wheelSide TRUE
       physics DEF FRONT_WHEEL_PHYSICS Physics {
         density -1
         mass 5
@@ -63,6 +64,7 @@ PROTO CitroenCZero [
     }
     wheelRearLeft DEF REAR_WHEEL CitroenCZeroRearWheel {
       name "rear left wheel"
+      wheelSide TRUE
       physics DEF BACK_WHEEL_PHYSICS Physics {
         density -1
         mass 6

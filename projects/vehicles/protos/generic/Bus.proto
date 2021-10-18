@@ -121,6 +121,7 @@ Car {
   }
   wheelFrontLeft BusWheel {
     name "front left wheel"
+    wheelSide TRUE
     physics DEF WHEEL_PHYSICS Physics {
       density -1
       mass 80
@@ -136,6 +137,7 @@ Car {
   }
   wheelRearLeft BusWheel {
     name "rear left wheel"
+    wheelSide TRUE
     physics USE WHEEL_PHYSICS
   }
   brakeCoefficient 3500
