@@ -103,19 +103,19 @@ void _wbu_car_set_led_state_if_exist(int index, bool state) {
 
 bool _wbu_car_init_possible() {
   int i;
-  car ins_test;
+  instance = (car *)malloc(sizeof(car));
 
   // Parse vehicle caracteristics from the beginning of the data string
   char engine_type;
   int engine_sound_length;
   char *sub_data_string = (char *)wb_robot_get_custom_data();
-  i =
-    sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &ins_test.wheelbase,
-           &ins_test.track_front, &ins_test.track_rear, &ins_test.front_wheel_radius, &ins_test.rear_wheel_radius,
-           &ins_test.brake_coefficient, &ins_test.defaultDampingConstant, &engine_type, &ins_test.engine_max_torque,
-           &ins_test.engine_max_power, &ins_test.engine_min_rpm, &ins_test.engine_max_rpm, &ins_test.engine_coefficients[0],
-           &ins_test.engine_coefficients[1], &ins_test.engine_coefficients[2], &ins_test.hybrid_power_split_ratio,
-           &ins_test.hybrid_power_split_rpm, &ins_test.engine_sound_rpm_reference, &ins_test.gear_number, &engine_sound_length);
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d",
+             &instance->wheelbase, &instance->track_front, &instance->track_rear, &instance->front_wheel_radius,
+             &instance->rear_wheel_radius, &instance->brake_coefficient, &instance->defaultDampingConstant, &engine_type,
+             &instance->engine_max_torque, &instance->engine_max_power, &instance->engine_min_rpm, &instance->engine_max_rpm,
+             &instance->engine_coefficients[0], &instance->engine_coefficients[1], &instance->engine_coefficients[2],
+             &instance->hybrid_power_split_ratio, &instance->hybrid_power_split_rpm, &instance->engine_sound_rpm_reference,
+             &instance->gear_number, &engine_sound_length);
 
   if (i < 20)
     return false;
