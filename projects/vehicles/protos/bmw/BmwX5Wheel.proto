@@ -34,7 +34,7 @@ PROTO BmwX5Wheel [
     boundingObject IS boundingObject
     logoSlot [
       Transform{
-        translation 0.13 0 0
+        translation 0.035 0 0
         rotation 0 1 0 -1.570796
         children [
         Shape {

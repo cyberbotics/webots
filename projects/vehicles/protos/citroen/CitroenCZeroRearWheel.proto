@@ -35,7 +35,7 @@ PROTO CitroenCZeroRearWheel [
     
     logoSlot [
       Transform{
-        translation 0.041 0 0
+        translation 0.006 0 0
         rotation -0.707 0 0.707 -3.14
         children [
           Shape {
