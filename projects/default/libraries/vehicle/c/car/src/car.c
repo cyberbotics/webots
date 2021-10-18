@@ -105,8 +105,6 @@ bool _wbu_car_init_possible() {
   int i;
   car *ins_test;
 
-  car test_car;
-
   // Parse vehicle caracteristics from the beginning of the data string
   char engine_type;
   int engine_sound_length;
