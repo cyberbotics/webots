@@ -59,6 +59,8 @@ PROTO CitroenCZeroSimple [
           }
           CitroenCZeroBrakeLight {
           }
+          CitroenCZeroTailLight{
+          }
           CitroenCZeroMesh {
             color IS color
             plate IS plate

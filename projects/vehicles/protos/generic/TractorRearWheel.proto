@@ -2,12 +2,14 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tractor Rear Wheel
+# template language: javascript
 
 PROTO TractorRearWheel [
   field SFString name           "tractor rear wheel"
   field SFFloat  tireRadius     0.6
   field SFFloat  width          0.37
   field SFInt32  subdivision    24
+  field SFBool   wheelSide      FALSE
   field SFNode   physics        Physics { density -1 mass 60 }
   field SFBool   boundingObject TRUE
 ]
@@ -18,7 +20,11 @@ PROTO TractorRearWheel [
       children [
         Transform{
           translation 0.041 0 0
-          rotation -0.707 0 0.707 -3.14
+          %< if (fields.wheelSide.value) { >%
+            rotation 0 -1 0 1.5708
+          %< } else {>%
+            rotation 0 1 0 1.5708
+          %< } >%
           children [
             Shape {
               appearance PBRAppearance {
@@ -76,7 +82,7 @@ PROTO TractorRearWheel [
       ]
       name IS name
       model "tractor rear wheel"
-      %{ if fields.boundingObject.value then }%    
+      %< if (fields.boundingObject.value) { >%   
 
       boundingObject Group {
         children [
@@ -93,7 +99,7 @@ PROTO TractorRearWheel [
           }
         ]
       }
-      %{ end }%
+      %< } >%
       physics IS physics
     }
   }

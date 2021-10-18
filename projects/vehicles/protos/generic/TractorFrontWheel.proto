@@ -9,6 +9,7 @@ PROTO TractorFrontWheel [
   field SFFloat  tireRadius     0.38
   field SFFloat  width          0.19
   field SFInt32  subdivision    24
+  field SFBool   wheelSide      FALSE
   field SFNode   physics        Physics { density -1 mass 30 }
   field SFBool   boundingObject TRUE
 ]
@@ -19,7 +20,11 @@ PROTO TractorFrontWheel [
       children [
         Transform{
           translation 0.041 0 0
-          rotation -0.707 0 0.707 -3.14
+          %< if (fields.wheelSide.value) { >%
+            rotation 0 -1 0 1.5708
+          %< } else {>%
+            rotation 0 1 0 1.5708
+          %< } >%
           children [
             Shape {
               appearance PBRAppearance {
