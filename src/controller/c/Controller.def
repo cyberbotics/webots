@@ -107,6 +107,7 @@ wb_gps_enable
 wb_gps_get_coordinate_system
 wb_gps_get_sampling_period
 wb_gps_get_speed
+wb_gps_get_speed_vector
 wb_gps_get_values
 wb_gyro_disable
 wb_gyro_enable

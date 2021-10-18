@@ -15,6 +15,7 @@ Solid {
     DEF LOLLIPOP_SHAPE Group {
       children [
         Transform {
+          translation 0 0 0.076
           children [
             Shape {
               appearance PBRAppearance {
@@ -31,7 +32,6 @@ Solid {
         }
         Transform {
           translation 0 0 0.038
-          rotation 1 0 0 1.57
           children [
             Shape {
               appearance PBRAppearance {

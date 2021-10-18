@@ -42,11 +42,11 @@ static void place_object(const char *defName, double x, double y, double alpha) 
 
   double newTranslation[3];
   memcpy(newTranslation, translation, 3 * sizeof(double));
-  double newRotation[4] = {0.0, 1.0, 0.0, 0.0};
+  double newRotation[4] = {0, 0, 1.0, 0};
 
   newTranslation[CX] = x;
-  newTranslation[CZ] = y;
-  newRotation[ALPHA] = alpha;
+  newTranslation[CY] = y;
+  newRotation[ALPHA] = alpha + 1.5708;
 
   wb_supervisor_field_set_sf_vec3f(translation_field, newTranslation);
   wb_supervisor_field_set_sf_rotation(rotation_field, newRotation);

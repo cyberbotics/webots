@@ -1350,7 +1350,7 @@ but please include it in the documentation. Not everyone is very familiar with c
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:09:11
 `@R_` there is an example of PID control here: [https://www.cyberbotics.com/doc/guide/samples-devices#position\_sensor-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#position_sensor-wbt)
 
-##### Justin Fisher 09/21/2020 11:09:14
+##### Justin Fisher [Moderator] 09/21/2020 11:09:14
 > Hi! is there an example for closed loop control of a robot in the sample worlds?
 
 `@R_` Many of the sample controllers probably count as "closed loop control".  E.g., one that comes to mind is the Lego Mindstorms sample ([https://cyberbotics.com/doc/guide/mindstorms](https://cyberbotics.com/doc/guide/mindstorms)) that maintains a brightness reading on its sensors to follow a line on the ground.   Or is that not what you were hoping for?
@@ -2199,4 +2199,22 @@ It works for me
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/20/2021 06:24:19
 No, the documentation in only available online.
+
+##### Mlungost 09/30/2021 09:02:52
+trying to download the Cyberbotics' Robot Curriculum.. does anyone have a working link or copy?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/893060315972001802/unknown.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 09/30/2021 09:04:00
+[https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum)
+
+##### Mlungost 09/30/2021 09:08:27
+thank you.  do you have a PDF version? the PDF version link on the website is broke
+
+##### Olivier Michel [Cyberbotics] 09/30/2021 09:09:33
+[https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27\_Robot\_Curriculum.pdf](https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27_Robot_Curriculum.pdf)
+
+##### Mlungost 09/30/2021 09:10:04
+thank you.
 

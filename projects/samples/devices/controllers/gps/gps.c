@@ -69,12 +69,13 @@ int main() {
 
   printf("Press 'G' to read the GPS device's position\n");
   printf("Press 'S' to read the Supervisor's position\n");
+  printf("Press 'V' to read the GPS device's speed vector\n");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     switch (wb_keyboard_get_key()) {
       case 'G': {
         const double *gps_values = wb_gps_get_values(gps);
-        printf("Using the GPS device: %.3f %.3f %.3f\n", gps_values[0], gps_values[1], gps_values[2]);
+        printf("GPS position: %.3f %.3f %.3f\n", gps_values[0], gps_values[1], gps_values[2]);
         break;
       }
       case 'S': {
@@ -88,7 +89,12 @@ int main() {
 
         /* read the last packet */
         const double *buffer = wb_receiver_get_data(receiver);
-        printf("Using the Supervisor: %.3f %.3f %.3f\n", buffer[0], buffer[1], buffer[2]);
+        printf("Supervisor position: %.3f %.3f %.3f\n", buffer[0], buffer[1], buffer[2]);
+        break;
+      }
+      case 'V': {
+        const double *speed_vector_values = wb_gps_get_speed_vector(gps);
+        printf("GPS speed vector: %.3f %.3f %.3f\n", speed_vector_values[0], speed_vector_values[1], speed_vector_values[2]);
         break;
       }
       default:

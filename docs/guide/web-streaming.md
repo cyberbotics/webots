@@ -44,16 +44,21 @@ The second line is not used with this streaming solution.
 Start Webots with the streaming server using the `--stream` option.
 Please refer to the [command line documentation](starting-webots.md#command-line-arguments) for details about the sub-options.
 
-Open the streaming viewer page in your Web browser:
+Open the streaming viewer page in your Web browser by connecting to:
 
 ```
-$(WEBOTS_HOME)/resources/web/streaming_viewer/index.html
+http://IP:port/index.html
 ```
 
 Use the buttons on the top of the page to connect to the Webots streaming server.
 
 **Note**: `IP` address and port for the streaming server and the client page should match.
 The port should not be used by another application.
+
+Connecting with the default setting from the machine were Webots is running can be done via:
+```
+http://localhost:1234/index.html
+```
 
 ### Network Settings
 

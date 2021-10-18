@@ -5,18 +5,17 @@ WorldInfo {
   ]
   title "Physics primitves"
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.7594660871164611 -0.6305700723311206 -0.15997701835056488 0.298506
-  position -1.48131 3.25114 8.16416
+  orientation -0.15775714163266788 -0.06013189720708907 0.9856453922188072 3.591457581645738
+  position 12.087441342781288 7.098224757720773 5.256839095930915
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF CAPSULE1 Solid {
-  translation -2 1.5 -0.4
+  translation -0.4 -2 1.5
   children [
     DEF BO Shape {
       appearance DEF APP PBRAppearance {
@@ -43,7 +42,7 @@ DEF CAPSULE1 Solid {
   }
 }
 DEF CAPSULE2 Solid {
-  translation 0 1.5 -0.4
+  translation -0.4 0 1.5
   children [
     DEF BO Shape {
       appearance USE APP
@@ -60,7 +59,7 @@ DEF CAPSULE2 Solid {
   }
 }
 DEF CAPSULE3 Solid {
-  translation 2 1.5 -0.4
+  translation -0.4 2.01 1.5
   children [
     DEF BO Shape {
       appearance USE APP
@@ -77,7 +76,7 @@ DEF CAPSULE3 Solid {
   }
 }
 DEF BOX1 Solid {
-  translation -2 1.5 0
+  translation 0 -2.0 1.5
   children [
     DEF BO Shape {
       appearance USE APP
@@ -92,7 +91,7 @@ DEF BOX1 Solid {
   }
 }
 DEF BOX2 Solid {
-  translation 0 1.5 0
+  translation 0 0 1.5
   children [
     DEF BO Shape {
       appearance USE APP
@@ -107,7 +106,7 @@ DEF BOX2 Solid {
   }
 }
 DEF BOX3 Solid {
-  translation 2 1.5 0
+  translation 0 2 1.5
   children [
     DEF BO Shape {
       appearance USE APP
@@ -122,7 +121,7 @@ DEF BOX3 Solid {
   }
 }
 DEF CYLINDER1 Solid {
-  translation -2 1.5 0.4
+  translation 0.4 -2 1.5
   children [
     DEF CY Shape {
       appearance USE APP
@@ -138,7 +137,7 @@ DEF CYLINDER1 Solid {
   }
 }
 DEF CYLINDER2 Solid {
-  translation 0 1.5 0.4
+  translation 0.4 0 1.5
   children [
     DEF CY Shape {
       appearance USE APP
@@ -154,7 +153,7 @@ DEF CYLINDER2 Solid {
   }
 }
 DEF CYLINDER3 Solid {
-  translation 2 1.5 0.4
+  translation 0.4 2 1.5
   children [
     DEF CY Shape {
       appearance USE APP
@@ -170,7 +169,7 @@ DEF CYLINDER3 Solid {
   }
 }
 DEF SPHERE1 Solid {
-  translation -2 1.5 0.8
+  translation 0.8 -2 1.5
   children [
     DEF SP Shape {
       appearance USE APP
@@ -186,7 +185,7 @@ DEF SPHERE1 Solid {
   }
 }
 DEF SPHERE2 Solid {
-  translation 0 1.5 0.8
+  translation 0.8 0 1.5
   children [
     DEF SP Shape {
       appearance USE APP
@@ -202,7 +201,7 @@ DEF SPHERE2 Solid {
   }
 }
 DEF SPHERE3 Solid {
-  translation 2 1.5 0.8
+  translation 0.8 2 1.5
   children [
     DEF SP Shape {
       appearance USE APP
@@ -218,17 +217,14 @@ DEF SPHERE3 Solid {
   }
 }
 DEF INDEXEDFACESET1 Solid {
-  translation -2 1.5 1.2
+  translation 1.2 -2 1.5
   children [
     DEF IF Shape {
       appearance USE APP
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.0866 -0.05 -0.0866
-            -0.0866 -0.05 0.0866
-            0.0866 -0.05 0
-            0 0.1 0
+            -0.0866 -0.0866 -0.05 0.0866 -0.0866 -0.05 0 0.0866 -0.05 0 0 0.1
           ]
         }
         texCoord TextureCoordinate {
@@ -255,17 +251,14 @@ DEF INDEXEDFACESET1 Solid {
   }
 }
 DEF INDEXEDFACESET2 Solid {
-  translation 0 1.5 1.2
+  translation 1.2 0 1.5
   children [
     DEF IF Shape {
       appearance USE APP
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.0866 -0.05 -0.0866
-            -0.0866 -0.05 0.0866
-            0.0866 -0.05 0
-            0 0.1 0
+            -0.0866 -0.0866 -0.05 0.0866 -0.0866 -0.05 0 0.0866 -0.05 0 0 0.1
           ]
         }
         texCoord TextureCoordinate {
@@ -292,17 +285,14 @@ DEF INDEXEDFACESET2 Solid {
   }
 }
 DEF INDEXEDFACESET3 Solid {
-  translation 2 1.5 1.2
+  translation 1.2 2 1.5
   children [
     DEF IF Shape {
       appearance USE APP
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.0866 -0.05 -0.0866
-            -0.0866 -0.05 0.0866
-            0.0866 -0.05 0
-            0 0.1 0
+            -0.0866 -0.0866 -0.05 0.0866 -0.0866 -0.05 0 0.0866 -0.05 0 0 0.1
           ]
         }
         texCoord TextureCoordinate {
@@ -329,7 +319,7 @@ DEF INDEXEDFACESET3 Solid {
   }
 }
 DEF GROUND1 Solid {
-  translation -11 0.25 0
+  translation 0 -11 0.25
   children [
     DEF GROUND_SHAPE1 Shape {
       appearance DEF GROUND_APP PBRAppearance {
@@ -345,7 +335,7 @@ DEF GROUND1 Solid {
         }
       }
       geometry Box {
-        size 20 0.5 20
+        size 20 20 0.5
       }
     }
   ]
@@ -367,7 +357,7 @@ DEF GROUND2 Solid {
   locked TRUE
 }
 DEF GROUND3 Solid {
-  translation 1 0.5 -10
+  translation -10 1 0.5
   children [
     DEF GROUND_SHAPE3 Shape {
       appearance USE GROUND_APP
