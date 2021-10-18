@@ -117,8 +117,6 @@ bool _wbu_car_init_possible() {
              &ins_test->hybrid_power_split_ratio, &ins_test->hybrid_power_split_rpm, &ins_test->engine_sound_rpm_reference,
              &ins_test->gear_number, &engine_sound_length);
 
-  free(ins_test);
-
   if (i < 20)
     return false;
 

@@ -45,6 +45,12 @@ bool Driver::internalGetInstanceDriverIfPossible() {
   return wbu_driver_init_possible();
 }
 
+Driver *Driver::getDriverInstance() {
+  if (dInstance)
+    return dInstance;
+  return new Driver();
+}
+
 int Driver::step() {
   assert(this);
   return wbu_driver_step();
