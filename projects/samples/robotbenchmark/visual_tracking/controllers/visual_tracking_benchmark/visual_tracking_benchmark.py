@@ -103,9 +103,9 @@ class MovingTarget():
             return False
 
         target2DPosition = self.trajectory[self.trajectoryStep]
-        vector = [target2DPosition[0] - self.translation[0],
-                  0.0,
-                  target2DPosition[1] - self.translation[2]]
+        vector = [-target2DPosition[0] - self.translation[0],
+                  -target2DPosition[1] - self.translation[1],
+                  0.0]
         distance = math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] +
                              vector[2] * vector[2])
         maxStep = MovingTarget.SPEED * timestep
@@ -117,8 +117,8 @@ class MovingTarget():
         else:
             if math.isinf(self.rotationStep):
                 self.rotationStepsCount = 10
-                newAngle = math.acos(dotProduct([0.0, 0.0, 1.0], vector))
-                if vector[0] < 0.01:
+                newAngle = math.acos(dotProduct([1.0, 0.0, 0.0], vector))
+                if vector[1] < 0.01:
                     newAngle = -newAngle
                 diff = self.rotationAngle - newAngle
                 while diff > math.pi:
@@ -129,7 +129,7 @@ class MovingTarget():
 
             factor = maxStep / distance
             self.translation[0] += vector[0] * factor
-            self.translation[2] += vector[2] * factor
+            self.translation[1] += vector[1] * factor
             segmentChanged = False
 
         self.translationField.setSFVec3f(self.translation)
@@ -142,7 +142,7 @@ class MovingTarget():
             else:
                 self.rotationAngle += self.rotationStep
                 self.rotationStepsCount -= 1
-            self.rotationField.setSFRotation([0.0, 1.0, 0.0,
+            self.rotationField.setSFRotation([0.0, 0.0, 1.0,
                                               self.rotationAngle])
 
         if segmentChanged:
