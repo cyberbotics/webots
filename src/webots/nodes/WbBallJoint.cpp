@@ -794,7 +794,7 @@ void WbBallJoint::updateJointAxisRepresentation() {
   const WbVector3 a2 = 0.5 * wr_config_get_line_scale() * axis2();
   const WbVector3 a3 = 0.5 * wr_config_get_line_scale() * axis3();
 
-  int nbVertices = 30;  // 2 * (3 axis): for joint axis + 4 * 2 * (3 axis): for arrowheads
+  const int nbVertices = 30;  // 2 * (3 axis): for joint axis + 4 * 2 * (3 axis): for arrowheads
   float vertices[nbVertices * 3];
 
   int offset = 0;
