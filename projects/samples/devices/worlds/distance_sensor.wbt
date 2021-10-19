@@ -362,7 +362,7 @@ Robot {
       ]
     }
     Transform {
-      rotation 0 1 0 3.14
+      rotation 0 0 1 3.14
       children [
         USE SMILE
       ]
