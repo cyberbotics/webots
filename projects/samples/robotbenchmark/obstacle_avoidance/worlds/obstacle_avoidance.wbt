@@ -97,14 +97,14 @@ SoccerBall {
   translation -3.5744311 3.6338935 1.61
 }
 Table {
-  translation 2.5375839 -3.0340864 -7.7715612e-15
+  translation 2.5375839 -3.0340864 0
   rotation 0 0 -1 1.5511614
   size 1 1.8 0.61
   feetSize 0.4 0.05
   feetPadding 0.1
 }
 WoodenChair {
-  translation 2.346596 -3.5151165 -1.6209256e-14
+  translation 2.346596 -3.5151165 0
   rotation 0 0 1 1.72788
 }
 Door {
@@ -143,7 +143,7 @@ DEF CEILING Solid {
   name "solid(1)"
 }
 DEF DOOR_WALL Solid {
-  translation -5.2382431e-05 4.9 1.2
+  translation 0 4.9 1.2
   rotation 0.5773495691887781 0.5773516691887752 -0.5773495691887781 2.094393
   children [
     Shape {
@@ -179,7 +179,7 @@ DEF BACK_WALL Solid {
 }
 DEF SHORT_WINDOW_WALL Solid {
   translation 3.9000005 3.0499996 1.2
-  rotation -0.7071067811859675 -1.2808956021483324e-06 0.7071067811859675 3.1415952
+  rotation -0.7071067811859675 0 0.7071067811859675 3.1415952
   children [
     Shape {
       appearance DEF SHORT_WALL_APPEARANCE Roughcast {
@@ -199,7 +199,7 @@ DEF SHORT_WINDOW_WALL Solid {
 }
 DEF SHORT_WINDOW_WALL Solid {
   translation -3.9 3.0499996 1.2
-  rotation 1.7957889999941738e-06 -0.9999999999967557 -1.8066649999941388e-06 4.712389
+  rotation 0 1 0 4.712389
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -214,7 +214,7 @@ DEF SHORT_WINDOW_WALL Solid {
 }
 DEF LONG_WINDOW_WALL Solid {
   translation -3.9 -2.65 1.2
-  rotation -1.7861991999942664e-06 0.9999999999967901 1.7970751999942317e-06 1.5707963
+  rotation 0 1 0 1.5707963
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -229,7 +229,7 @@ DEF LONG_WINDOW_WALL Solid {
 }
 DEF LONG_WINDOW_WALL Solid {
   translation 3.9 -2.65 1.2
-  rotation -0.7071067911859797 -1.2673335021256081e-06 0.7071067711859796 3.1415952
+  rotation -0.7071067911859797 0 0.7071067711859796 3.1415952
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -274,8 +274,7 @@ Window {
   castShadows FALSE
 }
 Cabinet {
-  translation -3.8764179 4.0632531 3.2196468e-15
-  rotation 0 0 1 -5.307179586466759e-06
+  translation -3.8764179 4.0632531 0
   columnsWidths [
     0.7, 0.34, 0.17
   ]
@@ -1697,7 +1696,7 @@ DEF CHAIR Solid {
 }
 DEF ART_WALL Solid {
   translation -1.9799811 4.8971876 1.79
-  rotation -1 -7.19235e-09 8.57406e-09 -1.5707953071795862
+  rotation -1 0 0 -1.5707953071795862
   scale 0.8 0.8 0.8
   children [
     Shape {
@@ -1721,7 +1720,7 @@ DEF ART_WALL Solid {
 }
 DEF WORLD_MAP_BANNER Solid {
   translation 2.2300189 4.8971876 1.84
-  rotation -1 -7.19235e-09 8.57406e-09 -1.5707953071795862
+  rotation -1 0 0 -1.5707953071795862
   scale 0.8 0.8 0.8
   children [
     Shape {
@@ -1793,7 +1792,7 @@ DEF SHAPES_POSTER Solid {
 }
 DEF FINISH_LINE Solid {
   translation -0.044527734 3.4 0.010000298
-  rotation -7.1923449e-09 -1.7748129e-08 1 3.1415927
+  rotation 0 0 1 3.1415927
   scale 0.97109691 0.97109691 0.97109691
   children [
     Shape {
@@ -1812,7 +1811,7 @@ DEF FINISH_LINE Solid {
 }
 DEF PINBOARD Solid {
   translation -1.9899811 4.8771876 1.01
-  rotation 1.6952519028446866e-09 -0.7071067811865477 0.7071067811865477 3.1415926
+  rotation 0 -0.7071067811865477 0.7071067811865477 3.1415926
   scale 0.8 0.8 0.8
   children [
     DEF BOARD Shape {
@@ -1874,7 +1873,7 @@ DEF PINBOARD Solid {
 }
 DEF FIRST_DRAWING Solid {
   translation -1.6852207 4.8708207 1.21
-  rotation -3.3905038817148895e-09 0.7071067861865474 -0.7071067761865476 3.1415927
+  rotation 0 0.7071067861865474 -0.7071067761865476 3.1415927
   children [
     Shape {
       appearance PBRAppearance {
@@ -1978,7 +1977,7 @@ DEF SECOND_DRAWING Solid {
 }
 DEF WORLD_MAP Solid {
   translation 2.2400189 4.8971876 1.04
-  rotation -1 -7.19235e-09 8.57406e-09 -1.5707953071795862
+  rotation -1 0 -1.5707953071795862
   children [
     Shape {
       appearance PBRAppearance {
@@ -2000,7 +1999,7 @@ DEF WORLD_MAP Solid {
 }
 DEF COAT_PEGS Solid {
   translation -0.8099811 4.8771876 0.82000002
-  rotation 1.6952519028446866e-09 -0.7071067811865477 0.7071067811865477 3.1415926
+  rotation 0 -0.7071067811865477 0.7071067811865477 3.1415926
   children [
     DEF PEGS Shape {
       appearance PBRAppearance {
