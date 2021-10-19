@@ -67,7 +67,6 @@ DEF GRIPPER Robot {
       ]
       endPoint Solid {
         translation 0 0 0.01
-        rotation 0 1 0 0
         children [
           Transform {
             translation 0 0 -0.004
