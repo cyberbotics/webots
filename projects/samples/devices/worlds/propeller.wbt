@@ -95,6 +95,7 @@ DEF RED_HELICOPTER Robot {
     GPS {
     }
     InertialUnit {
+      rotation 0 0 1 3.14159
     }
     DEF BODY Transform {
       translation 0 0 0.1
@@ -499,6 +500,7 @@ DEF BLUE_HELICOPTER Robot {
     GPS {
     }
     InertialUnit {
+      rotation 0 0 1 3.14159
     }
     DEF BODY Transform {
       translation 0 0 0.1
@@ -601,6 +603,7 @@ DEF GREEN_HELICOPTER Robot {
     GPS {
     }
     InertialUnit {
+      rotation 0 0 1 3.14159
     }
     DEF BODY Transform {
       translation 0 0 0.1

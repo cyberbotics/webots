@@ -63,7 +63,7 @@ int main() {
 
   while (wb_robot_step(time_step) != -1) {
     const double altitude = wb_gps_get_values(gps)[2];
-    const double yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit)[0];
+    const double yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit)[2];
     sprintf(buffer, "Altitude: %1.1f m", altitude);
     wb_supervisor_set_label(0, buffer, LABEL_X, LABEL_Z, 0.07, RED, 0, "Arial");
     sprintf(buffer, "Yaw: %1.1f rad", yaw);
