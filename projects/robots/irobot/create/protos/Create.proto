@@ -70,11 +70,11 @@ Robot {
       }
       device [
         RotationalMotor {
-          name "left wheel motor"
+          name "right wheel motor"
           maxVelocity 16.129
         }
         PositionSensor {
-          name "left wheel sensor"
+          name "right wheel sensor"
           resolution 0.01237  # (2 * pi) / 507.9188
         }
       ]
@@ -407,11 +407,11 @@ Robot {
       }
       device [
         RotationalMotor {
-          name "right wheel motor"
+          name "left wheel motor"
           maxVelocity 16.129
         }
         PositionSensor {
-          name "right wheel sensor"
+          name "left wheel sensor"
           resolution 0.01237  # (2 * pi) / 507.9188
         }
       ]
