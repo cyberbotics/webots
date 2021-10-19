@@ -199,7 +199,7 @@ Solid {
 }
 SolidBox {
   translation 0.0474 0.0197 0.0646
-  rotation -3.0626899999998563e-07 7.1923499999996616e-09 -0.999999999999953 1.3089953071795861
+  rotation 0 0 -1 1.3089953071795861
   size 0.01 0.01 0.01
   appearance PBRAppearance {
     baseColorMap ImageTexture {
