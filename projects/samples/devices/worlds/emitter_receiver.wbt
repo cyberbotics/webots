@@ -286,7 +286,7 @@ DEF RECEIVER_BOT Robot {
 }
 DEF EMITTER_BOT Robot {
   translation -0.1285 -0.2029 0
-  rotation 1.33019e-07 -1.40156e-07 1 3.12642
+  rotation 0 0 1 3.12642
   children [
     USE MAIN_BODY
     HingeJoint {
