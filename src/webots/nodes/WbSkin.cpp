@@ -409,7 +409,7 @@ void WbSkin::createWrenSkeleton() {
   }
 
   QString meshFilePath = mModelPath + mModelName->value();
-  QString supportedExtensions[2] = {".fbx", ".mesh"};
+  const QString supportedExtensions[2] = {".fbx", ".mesh"};
 
   for (int i = 0; i < 2; ++i) {
     const QString fullPath = meshFilePath + supportedExtensions[i];

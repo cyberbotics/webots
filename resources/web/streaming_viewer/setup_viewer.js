@@ -46,6 +46,7 @@ function onDisconnect() {
   ipInput.disabled = false;
   modeSelect.disabled = false;
   broadcast.disabled = false;
+  connectButton.disabled = false;
 }
 
 function disconnect() {

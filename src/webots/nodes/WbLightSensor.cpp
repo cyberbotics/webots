@@ -316,7 +316,7 @@ void WbLightSensor::computeLightMeasurement(const WbLight *light,
     const WbVector3 &dir = spotLight->direction();
     WbVector3 R = -dir;
     R.normalize();
-    double alpha = acos(lightDirection.dot(R));  // both lightDirection and R are normalized
+    double alpha = WbMathsUtilities::clampedAcos(lightDirection.dot(R));  // both lightDirection and R are normalized
     assert(!std::isnan(alpha));
     if (alpha > spotLight->cutOffAngle())
       spotFactor = 0.0;
