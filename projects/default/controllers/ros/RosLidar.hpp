@@ -61,8 +61,9 @@ private:
 
   Lidar *mLidar;
   bool mIsPointCloudEnabled;
+  bool mIsLaserScanOneLayer;
   ros::Publisher mPointCloudPublisher;
-  ros::Publisher *mLaserScanPublisher;
+  ros::Publisher mLaserScanPublisher;
 
   ros::ServiceServer mEnablePointCloudServer;
   ros::ServiceServer mGetFrequencyInfoServer;
