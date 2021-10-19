@@ -69,7 +69,7 @@ DEF GREEN_OBJECT4 Solid {
 }
 DEF GREEN_OBJECT5 Solid {
   translation -2.7202 -1.5167 0.3
-  rotation 0 0 1 -2.6233753071795864
+  rotation 0 0 1 -2.623375
   scale 1.80916 1.80916 1.80916
   children [
     USE BOX_SHAPE
@@ -79,7 +79,7 @@ DEF GREEN_OBJECT5 Solid {
 }
 DEF BLUE_OBJECT1 Solid {
   translation 1.7069 3.5213 0.37
-  rotation -0.6958897140492328 0.5078077913347121 0.5078077913347121 -1.925669
+  rotation -0.69589 0.507808 0.507808 -1.925669
   scale 1.63795 1.63795 1.63795
   children [
     DEF SPHERE_SHAPE Shape {
@@ -99,7 +99,7 @@ DEF BLUE_OBJECT1 Solid {
 }
 DEF BLUE_OBJECT2 Solid {
   translation 1.1936 -1.2416 0.27
-  rotation -0.6958897140492328 0.5078077913347121 0.5078077913347121 -1.925669
+  rotation -0.69589 0.507808 0.507808 -1.925669
   scale 1.66973 1.66973 1.66973
   children [
     USE SPHERE_SHAPE
@@ -109,7 +109,7 @@ DEF BLUE_OBJECT2 Solid {
 }
 DEF BLUE_OBJECT3 Solid {
   translation -2.8124 1.527 0.27
-  rotation -0.5652341910457974 0.4124661394111039 0.714410241466416 -1.592006
+  rotation -0.565234 0.412466 0.71441 -1.592006
   scale 1.64056 1.64056 1.64056
   children [
     USE SPHERE_SHAPE
@@ -191,10 +191,10 @@ DEF ROBOT Robot {
       ]
       endPoint Solid {
         translation 0 0.135 0.075
-        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176033 1.589217
+        rotation 0.134487 -0.134487 -0.981747 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -235,7 +235,7 @@ DEF ROBOT Robot {
       ]
       endPoint Solid {
         translation 0 -0.135 0.075
-        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
+        rotation -0.062357 0.062357 -0.996104 1.5747
         children [
           USE WHEEL
         ]
@@ -246,10 +246,10 @@ DEF ROBOT Robot {
     }
     DEF US0 DistanceSensor {
       translation 0.115 0.07 0.189
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0.940735 0.23981 0.23981 1.631852
       children [
         DEF SONAR_SENSOR Transform {
-          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+          rotation 0.577657 0.577197 -0.577197 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -275,7 +275,7 @@ DEF ROBOT Robot {
     }
     DEF US1 DistanceSensor {
       translation 0.115 -0.07 0.189
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation 0.940374 -0.240516 -0.240516 1.632235
       children [
         USE SONAR_SENSOR
       ]
@@ -349,7 +349,7 @@ DEF ROBOT Robot {
             ]
           }
           DEF CAMERA_SHAPE Transform {
-            rotation -0.5771978956908259 0.5776548956082386 0.5771978956908259 -2.093935307179586
+            rotation -0.577198 0.577655 0.577198 -2.093935
             children [
               DEF CAMERA_OUTLINE Shape {
                 appearance PBRAppearance {

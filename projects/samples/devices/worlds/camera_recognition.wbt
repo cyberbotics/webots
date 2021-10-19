@@ -16,49 +16,49 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Can {
-  translation -0.26762583 -0.29020133 0.06
+  translation -0.267626 -0.290201 0.06
   rotation 0 0 1 3.14159
 }
 Apple {
-  translation 0.22187232 -0.27766617 0.05
+  translation 0.221872 -0.277666 0.05
 }
 Apple {
-  translation 0.42827574 -0.29124061 0.05
+  translation 0.428276 -0.291241 0.05
   name "apple(1)"
 }
 JamJar {
-  translation -0.31403324 0.28829817 0
+  translation -0.314033 0.288298 0
   rotation 0 0 -1 1.0472
   mass 0
 }
 BiscuitBox {
-  translation 0.37291531 -0.2475227 0.09
-  rotation 0.6947461893666473 -0.1861560507404686 -0.6947471893669199 -2.7734953071795863
+  translation 0.372915 -0.247523 0.09
+  rotation 0.694746 -0.186156 -0.694747 -2.773495
   size 0.17 0.33 0.04
   mass 0
 }
 OilBarrel {
-  translation 0.1228684 0.40230985 0.07
+  translation 0.122868 0.40231 0.07
   rotation 0 0 1 1.5708
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.18219826 0.27852103 0.07
+  translation 0.182198 0.278521 0.07
   rotation 0 0 1 1.5708
   name "oil barrel(1)"
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.31809679 0.36487567 0.07
+  translation 0.318097 0.364876 0.07
   rotation 0 0 1 1.5708
   name "oil barrel(2)"
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.36824127 0.19656081 0.07
+  translation 0.368241 0.196561 0.07
   rotation 0 0 1 1.5708
   name "oil barrel(3)"
   height 0.14
@@ -66,7 +66,7 @@ OilBarrel {
 }
 Robot {
   translation 0 -0.15 0
-  rotation 0 0 1 -0.5707953071795862
+  rotation 0 0 1 -0.570795
   children [
     Transform {
       translation 0 0 0.0415
@@ -101,10 +101,10 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176033 1.589217
+        rotation 0.134487 -0.134487 -0.981747 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -144,7 +144,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
+        rotation -0.062357 0.062357 -0.996104 1.5747
         children [
           USE WHEEL
         ]
@@ -155,10 +155,10 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0.940735 0.23981 0.23981 1.631852
       children [
         DEF SENSOR Transform {
-          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+          rotation 0.577657 0.577197 -0.577197 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -185,7 +185,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation 0.940374 -0.240516 -0.240516 1.632235
       children [
         USE SENSOR
       ]
@@ -244,7 +244,7 @@ Robot {
       children [
         Transform {
           translation -0.015 0 0
-          rotation -0.5771968951617173 -0.577656895078166 -0.5771968951617173 -2.093935
+          rotation -0.577197 -0.577657 -0.577197 -2.093935
           children [
             Shape {
               appearance PBRAppearance {

@@ -28,7 +28,7 @@ RectangleArena {
 }
 DEF TRACKED_ROBOT Robot {
   translation 0.547744 -0.672268 0.07
-  rotation 0 0 -1 -2.094395307179586
+  rotation 0 0 -1 -2.094395
   children [
     DEF GEOM Shape {
       appearance PBRAppearance {
@@ -49,7 +49,7 @@ DEF TRACKED_ROBOT Robot {
           radius 0.092
           children [
             DEF TRACK_WHEEL_BIG Transform {
-              rotation -1 0 0 3.14158898037044
+              rotation -1 0 0 3.141589
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -83,7 +83,7 @@ DEF TRACKED_ROBOT Robot {
           radius 0.04
           children [
             DEF TRACK_WHEEL_SMALL Transform {
-              rotation -1 0 0 3.14158898037044
+              rotation -1 0 0 3.141589
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -139,8 +139,8 @@ DEF TRACKED_ROBOT Robot {
       boundingObject DEF TRACK_BO Group {
         children [
           Transform {
-            translation 0 -5.510910596163089e-19 -0.009
-            rotation 1 0 0 1.5707963267948966
+            translation 0 0 -0.009
+            rotation 1 0 0 1.570796
             children [
               Box {
                 size 0.39 0.248 0.03
@@ -148,8 +148,8 @@ DEF TRACKED_ROBOT Robot {
             ]
           }
           Transform {
-            translation 0.237434 -4.236041031782703e-18 -0.0691798
-            rotation 0.9561245578940676 -0.20715432627859096 0.20715432627859096 1.6156483647805284
+            translation 0.237434 0 -0.06918
+            rotation 0.956125 -0.207154 0.207154 1.615648
             children [
               Box {
                 size 0.13 0.08 0.03
@@ -159,8 +159,8 @@ DEF TRACKED_ROBOT Robot {
             rotationStep 0.00261799
           }
           Transform {
-            translation -0.242803 -4.337294829136207e-18 -0.0708334
-            rotation 0.9596913501339253 0.19873665046755137 -0.19873665046755137 1.6119282802823234
+            translation -0.242803 0 -0.070833
+            rotation 0.959691 0.198737 -0.198737 1.611928
             children [
               Box {
                 size 0.13 0.08 0.03
@@ -170,8 +170,8 @@ DEF TRACKED_ROBOT Robot {
             rotationStep 0.00261799
           }
           Transform {
-            translation -0.302 1.0409497792752502e-18 0.017
-            rotation 1 0 0 1.570799999984025
+            translation -0.302 0 0.017
+            rotation 1 0 0 1.5708
             children [
               DEF WHEEL_BO Cylinder {
                 height 0.03
@@ -181,8 +181,8 @@ DEF TRACKED_ROBOT Robot {
             ]
           }
           Transform {
-            translation 0.288 1.0409497792752502e-18 0.017
-            rotation 1 0 0 1.570799999984025
+            translation 0.288 0 0.017
+            rotation 1 0 0 1.5708
             children [
               USE WHEEL_BO
             ]
@@ -262,8 +262,8 @@ DEF TRACKED_ROBOT Robot {
   controller "track"
 }
 DEF CONVEYOR_BELT Robot {
-  translation -0.6 -6.97909e-07 0.06
-  rotation 0 0 1 -1.5707953071795862
+  translation -0.6 0 0.06
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance DEF APP PBRAppearance {
@@ -318,7 +318,7 @@ DEF CONVEYOR_BELT Robot {
 }
 DEF BOX_1 Solid {
   translation -0.6 -0.16 0.145
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -338,7 +338,7 @@ DEF BOX_1 Solid {
 }
 DEF BOX_2 Solid {
   translation -0.6 -0.06 0.145
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -356,7 +356,7 @@ DEF BOX_2 Solid {
 }
 DEF BOX_3 Solid {
   translation -0.6 0.04 0.145
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -374,7 +374,7 @@ DEF BOX_3 Solid {
 }
 DEF OBSTACLE_GREEN Solid {
   translation 0.282729 -0.23299 0.025
-  rotation 0.08186798596000631 0.07304468747316258 -0.9939628295398174 0.78828
+  rotation 0.081868 0.073045 -0.993963 0.78828
   children [
     Shape {
       appearance PBRAppearance {

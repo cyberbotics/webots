@@ -34,7 +34,6 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        rotation -1 5.895594810006543e-11 -4.183871145199781e-11 5.307156870259904e-06
         children [
           Transform {
             translation 0 0 0.063
@@ -199,7 +198,7 @@ Solid {
 }
 SolidBox {
   translation 0.0474 0.0197 0.0646
-  rotation 0 0 -1 1.3089953071795861
+  rotation 0 0 -1 1.308995
   size 0.01 0.01 0.01
   appearance PBRAppearance {
     baseColorMap ImageTexture {

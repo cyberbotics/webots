@@ -36,7 +36,7 @@ RectangleArena {
 }
 DEF GREEN_BOX Solid {
   translation -0.05 0.25 0.1
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -60,7 +60,7 @@ DEF GREEN_BOX Solid {
 }
 DEF BLUE_BOX Solid {
   translation 0.2 -0.27 0.1
-  rotation -4.71599e-07 7.19235e-09 -1 -1.8807953071795867
+  rotation 0 0 -1 -1.880795
   children [
     Shape {
       appearance PBRAppearance {
@@ -84,7 +84,7 @@ DEF BLUE_BOX Solid {
 }
 DEF WHITE_BOX Solid {
   translation -0.2 -0.15 0.1
-  rotation 0 0 -1 -1.9707953071795865
+  rotation 0 0 -1 -1.970795
   children [
     Shape {
       appearance PBRAppearance {
@@ -108,7 +108,7 @@ DEF WHITE_BOX Solid {
 }
 DEF PINK_BOX Solid {
   translation 0.42 0.1 0.1
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -132,7 +132,7 @@ DEF PINK_BOX Solid {
 }
 Robot {
   translation 0.15 0 0
-  rotation -0.02359499075311895 -0.006322257522306158 0.9997016082167628 2.61814
+  rotation -0.023595 -0.006322 0.999702 2.61814
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
@@ -150,10 +150,10 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176032 1.589218
+        rotation 0.134487 -0.134487 -0.981747 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -193,7 +193,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
+        rotation -0.062357 0.062357 -0.996104 1.5747
         children [
           USE WHEEL
         ]
@@ -222,20 +222,19 @@ Robot {
     }
     HokuyoUtm30lx {
       translation 0 0 0.136
-      rotation -0.01606780495736777 0.01997750616362007 -0.999671308426592 3.67802e-06
       noise 0.01
     }
     HokuyoUrg04lx {
       translation -0.089 0 0.05
-      rotation 0 1 0 -1.5708053071795867
+      rotation 0 1 0 -1.570805
       noise 0.01
     }
     Transform {
       translation 0.042 0.02 0.063
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0.940735 0.23981 0.23981 1.631852
       children [
         DEF INFRARED Transform {
-          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+          rotation 0.577657 0.577197 -0.577197 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -261,7 +260,7 @@ Robot {
     }
     DEF SMILE Transform {
       translation 0.036 0 0.025
-      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
+      rotation 0.250563 -0.935113 -0.250563 1.637834
       children [
         Shape {
           appearance PBRAppearance {

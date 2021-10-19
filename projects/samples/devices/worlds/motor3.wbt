@@ -37,26 +37,26 @@ Robot {
     }
     CapScrew {
       translation 0.08 0.08 0.005
-      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
+      rotation -0.57735 -0.57735 0.57735 -2.094395
     }
     CapScrew {
       translation 0.08 -0.08 0.005
-      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
+      rotation -0.57735 -0.57735 0.57735 -2.094395
       name "cap screw(1)"
     }
     CapScrew {
       translation -0.08 -0.08 0.005
-      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
+      rotation -0.57735 -0.57735 0.57735 -2.094395
       name "cap screw(2)"
     }
     CapScrew {
       translation -0.08 0.08 0.005
-      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
+      rotation -0.57735 -0.57735 0.57735 -2.094395
       name "cap screw(4)"
     }
     Solid {
       translation 0 0 0.06
-      rotation 0 0 1 -1.5708053071795867
+      rotation 0 0 1 -1.570805
       children [
         Shape {
           appearance BrushedAluminium {
@@ -108,7 +108,7 @@ Robot {
               }
               Solid {
                 translation 0 0 0.067
-                rotation 0 0 1 -1.5708053071795867
+                rotation 0 0 1 -1.570805
                 children [
                   Shape {
                     appearance HammeredCopper {

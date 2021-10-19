@@ -43,7 +43,7 @@ Door {
 }
 ConveyorBelt {
   translation 1.6 0 0
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   size 10 0.5 1.15
   borderThickness 0.01
   borderHeight -0.01
@@ -84,19 +84,19 @@ PlasticCrate {
 }
 FireExtinguisher {
   translation -0.8267 -6.2552 0
-  rotation 0 0 1 -1.3089953071795861
+  rotation 0 0 1 -1.308995
 }
 PlatformCart {
   translation 2.2482 -5.5801 0
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
 }
 WoodenPalletStack {
   translation -2.6994 -4.4814 0
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
 }
 WoodenPalletStack {
   translation -2.6174 -3.0407 0
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   name "wooden pallet stack(1)"
 }
 Can {

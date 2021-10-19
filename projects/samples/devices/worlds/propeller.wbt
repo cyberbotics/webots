@@ -19,7 +19,7 @@ TexturedBackgroundLight {
 }
 DEF WATER_PLANE Transform {
   translation 0 0 -0.1
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -43,11 +43,11 @@ DEF WATER_PLANE Transform {
 }
 DEF PLATFORM_BOX Transform {
   translation 0 0 -0.01
-  rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.0944
+  rotation 0.57735 -0.57735 -0.57735 2.0944
   children [
     Transform {
       translation 0 -0.08 0
-      rotation 0 -0.7071067811862364 -0.7071067811862364 3.14159
+      rotation 0 -0.707107 -0.707107 3.14159
       children [
         DEF BOX_SHAPE Shape {
           appearance PBRAppearance {
@@ -89,7 +89,7 @@ DEF PLATFORM Solid {
   locked TRUE
 }
 DEF RED_HELICOPTER Robot {
-  translation 0.306436 -0.0769339 -0.01
+  translation 0.306436 -0.076934 -0.01
   rotation 0 0 1 3.14159
   children [
     GPS {
@@ -98,7 +98,7 @@ DEF RED_HELICOPTER Robot {
     }
     DEF BODY Transform {
       translation 0 0 0.1
-      rotation -0.5773509760887603 -0.5773509760887603 -0.5773488553887604 -2.0943972231
+      rotation -0.577351 -0.577351 -0.577349 -2.094397
       children [
         Shape {
           appearance DEF RED_METAL PBRAppearance {
@@ -165,7 +165,7 @@ DEF RED_HELICOPTER Robot {
         }
         Transform {
           translation 0 0 0.01
-          rotation 0.7071067811862365 0.7071067811862365 0 3.141590777
+          rotation 0.707107 0.707107 0 3.141591
           children [
             Shape {
               appearance DEF BLACK_METAL PBRAppearance {
@@ -185,7 +185,7 @@ DEF RED_HELICOPTER Robot {
     }
     DEF MAIN_AXLE_LARGE Transform {
       translation 0.01 0 0.16
-      rotation 0 0 1 1.5707963268
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance USE RED_METAL
@@ -217,7 +217,7 @@ DEF RED_HELICOPTER Robot {
     }
     Transform {
       translation 0.01 0 0.168
-      rotation 0 0 1 1.5707963268
+      rotation 0 0 1 1.570796
       children [
         Shape {
           appearance USE RED_METAL
@@ -230,7 +230,7 @@ DEF RED_HELICOPTER Robot {
     }
     DEF RIGHT_SKI_ANCHORS Transform {
       translation 0 -0.052 0
-      rotation -1 0 0 -1.270797289
+      rotation -1 0 0 -1.270797
       children [
         DEF SKI_GROUP Group {
           children [
@@ -266,7 +266,7 @@ DEF RED_HELICOPTER Robot {
     }
     DEF RIGHT_SKI Transform {
       translation 0 -0.048 0.015
-      rotation 0.5773490515870581 0.5773490515870581 0.5773527043870579 2.0943914496
+      rotation 0.577349 0.577349 0.577353 2.094391
       children [
         Shape {
           appearance USE BLACK_METAL
@@ -279,14 +279,14 @@ DEF RED_HELICOPTER Robot {
     }
     DEF LEFT_SKI_ANCHORS Transform {
       translation 0 0.052 0
-      rotation -1 0 0 -1.8707954806
+      rotation -1 0 0 -1.870795
       children [
         USE SKI_GROUP
       ]
     }
     DEF LEFT_SKI Transform {
       translation 0 0.048 0.015
-      rotation 0.5773509760887603 0.5773509760887603 -0.5773488553887604 -2.0943972231
+      rotation 0.577351 0.577351 -0.577349 -2.094397
       children [
         Shape {
           appearance USE BLACK_METAL
@@ -333,10 +333,10 @@ DEF RED_HELICOPTER Robot {
       }
       slowHelix DEF SLOW_HELIX Solid {
         translation 0.01 0 0.2
-        rotation -1 0 0 -1.5707962677
+        rotation -1 0 0 -1.570796
         children [
           DEF SLOW_MAIN_HELIX_TRANSFORM Transform {
-            rotation 0 0 1 1.5707963268
+            rotation 0 0 1 1.570796
             children [
               DEF SLOW_MAIN_HELIX_GROUP Group {
                 children [
@@ -356,7 +356,7 @@ DEF RED_HELICOPTER Robot {
                   }
                   DEF RIGHT_BLADE Transform {
                     translation 0 0 0.09
-                    rotation 0 0 1 0.3618010196
+                    rotation 0 0 1 0.361801
                     children [
                       DEF BLADE_SHAPE Shape {
                         appearance PBRAppearance {
@@ -372,7 +372,7 @@ DEF RED_HELICOPTER Robot {
                   }
                   DEF RIGHT_BLADE Transform {
                     translation 0 0 -0.09
-                    rotation 0 0 1 -0.3617989804
+                    rotation 0 0 1 -0.361799
                     children [
                       DEF BLADE_SHAPE Shape {
                         appearance PBRAppearance {
@@ -406,7 +406,7 @@ DEF RED_HELICOPTER Robot {
       }
       fastHelix Solid {
         translation -0.19 -0.045 0.101
-        rotation -0.5773500729895591 0.5773500729895591 0.5773506615895592 2.0943945137
+        rotation -0.57735 0.57735 0.577351 2.094395
         children [
           DEF TAIL_FAST_HELIX_SHAPE Shape {
             appearance USE FAST_HELIX_APPEARANCE
@@ -421,10 +421,10 @@ DEF RED_HELICOPTER Robot {
       }
       slowHelix DEF HELIX Solid {
         translation -0.19 -0.045 0.101
-        rotation -1 0 9.382e-07 3.141590777
+        rotation -1 0 0 3.141591
         children [
           DEF SLOW_TAIL_HELIX Transform {
-            rotation 0 0 1 1.5707963268
+            rotation 0 0 1 1.570796
             children [
               DEF SLOW_TAIL_HELIX_GROUP Group {
                 children [
@@ -444,7 +444,7 @@ DEF RED_HELICOPTER Robot {
                   }
                   DEF RIGHT_BLADE Transform {
                     translation 0 0 0.04
-                    rotation 0 0 1 1.9325963268
+                    rotation 0 0 1 1.932596
                     children [
                       DEF BLADE_SHAPE Shape {
                         appearance PBRAppearance {
@@ -460,7 +460,7 @@ DEF RED_HELICOPTER Robot {
                   }
                   DEF RIGHT_BLADE Transform {
                     translation 0 0 -0.04
-                    rotation 0 0 1 1.2087963268
+                    rotation 0 0 1 1.208796
                     children [
                       USE BLADE_SHAPE
                     ]
@@ -494,7 +494,7 @@ DEF RED_HELICOPTER Robot {
 }
 DEF BLUE_HELICOPTER Robot {
   translation -0.193739 0.278025 -0.01
-  rotation 0 0 1 -1.047195307179586
+  rotation 0 0 1 -1.047195
   children [
     GPS {
     }
@@ -502,7 +502,7 @@ DEF BLUE_HELICOPTER Robot {
     }
     DEF BODY Transform {
       translation 0 0 0.1
-      rotation -0.5773509760887603 -0.5773509760887603 -0.5773488553887604 -2.0943972231
+      rotation -0.577351 -0.577351 -0.577349 -2.094397
       children [
         Shape {
           appearance DEF BLUE_METAL PBRAppearance {
@@ -569,7 +569,7 @@ DEF BLUE_HELICOPTER Robot {
       }
       slowHelix DEF SLOW_HELIX Solid {
         translation 0.01 0 0.2
-        rotation -0.5199866478874023 -0.6776605979835822 0.5199903844874022 -1.9504403467
+        rotation -0.519987 -0.677661 0.51999 -1.95044
         children [
           USE SLOW_MAIN_HELIX_TRANSFORM
         ]
@@ -604,7 +604,7 @@ DEF GREEN_HELICOPTER Robot {
     }
     DEF BODY Transform {
       translation 0 0 0.1
-      rotation 0.7071077808858408 0 0.7071057814858408 -3.1415886547
+      rotation 0.707108 0 0.707106 -3.141589
       children [
         Shape {
           appearance DEF GREEN_METAL PBRAppearance {
@@ -623,7 +623,7 @@ DEF GREEN_HELICOPTER Robot {
     USE COCKPIT_WINDOW
     DEF TAIL Transform {
       translation -0.13 0 0.101
-      rotation 0 0.707108281185553 0.70710528118436 3.14159
+      rotation 0 0.707108 0.707105 3.14159
       children [
         Shape {
           appearance USE GREEN_METAL
@@ -721,10 +721,10 @@ DEF GREEN_HELICOPTER Robot {
       }
       slowHelix DEF SLOW_HELIX Solid {
         translation 0.01 0 0.2
-        rotation 0.5773509760887603 -0.5773509760887603 0.5773488553887604 2.0943972231
+        rotation 0.577351 -0.577351 0.577349 2.094397
         children [
           Transform {
-            rotation -1 0 0 3.1415889804
+            rotation -1 0 0 3.141589
             children [
               USE SLOW_MAIN_HELIX_GROUP
             ]
@@ -751,10 +751,10 @@ DEF GREEN_HELICOPTER Robot {
       }
       slowHelix DEF SLOW_HELIX Solid {
         translation 0.01 0 0.22
-        rotation 0 0 1 2.3561966329
+        rotation 0 0 1 2.356197
         children [
           Transform {
-            rotation 0.8628565621288802 0.3574058186283875 0.35740681862788 1.71777
+            rotation 0.862857 0.357406 0.357407 1.71777
             children [
               USE SLOW_MAIN_HELIX_GROUP
             ]
@@ -775,14 +775,12 @@ DEF GREEN_HELICOPTER Robot {
       }
       fastHelix Solid {
         translation -0.19 0 0.14
-        rotation 1 0 0 0
         children [
           USE TAIL_FAST_HELIX_SHAPE
         ]
       }
       slowHelix DEF HELIX Solid {
         translation -0.19 0 0.14
-        rotation 1 0 0 0
         children [
           DEF SLOW_TAIL_HELIX Transform {
             rotation 1 0 0 1.5708

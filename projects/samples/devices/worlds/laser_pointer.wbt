@@ -17,7 +17,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
-  translation 0.236526 0.0698237 0.05
+  translation 0.236526 0.069824 0.05
   rotation 0 0 1 0.683463
   children [
     Shape {
@@ -65,7 +65,7 @@ DEF BLUE_BOX Solid {
   }
 }
 DEF GRAY_BOX Solid {
-  translation -0.0135074 0.326905 0.05
+  translation -0.013507 0.326905 0.05
   rotation 0 0 -1 2.36098
   children [
     Shape {
@@ -132,7 +132,7 @@ DEF PINK_BOX Solid {
   }
 }
 DEF GRAY_CYLINDER Solid {
-  translation 0.0200903 -0.335524 0.05
+  translation 0.02009 -0.335524 0.05
   children [
     Shape {
       appearance PBRAppearance {
@@ -185,10 +185,10 @@ DEF ROBOT Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176033 1.589217
+        rotation 0.134487 -0.134487 -0.981747 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -228,7 +228,7 @@ DEF ROBOT Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
+        rotation -0.062357 0.062357 -0.996104 1.5747
         children [
           USE WHEEL
         ]
@@ -241,7 +241,7 @@ DEF ROBOT Robot {
       translation 0.042 0.02 0.063
       children [
         DEF LASER_SENSOR Transform {
-          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+          rotation 0.577657 0.577197 -0.577197 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -280,7 +280,7 @@ DEF ROBOT Robot {
     }
     DEF SMILE Transform {
       translation 0.036 0 0.025
-      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
+      rotation 0.250563 -0.935113 -0.250563 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -301,7 +301,7 @@ DEF ROBOT Robot {
       children [
         Transform {
           translation -0.015 0 0
-          rotation 0 1 0 -1.5707953071795862
+          rotation 0 1 0 -1.570795
           children [
             Shape {
               appearance PBRAppearance {

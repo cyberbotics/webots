@@ -17,15 +17,13 @@ TexturedBackgroundLight {
 }
 Table {
   translation 0 0 -0.74
-  rotation 0 0 1 1.01503e-06
 }
 DEF GRIPPER Robot {
   translation 0.2 0.5 0
-  rotation 0.058072219802980794 -0.05328471817041357 -0.9968893399453392 -5.307179586466759e-06
   children [
     DEF BASE Transform {
       translation 0.025 0 0
-      rotation 0 0 1 -1.5707953071795862
+      rotation 0 0 1 -1.570795
       children [
         Shape {
           appearance PBRAppearance {
@@ -70,7 +68,7 @@ DEF GRIPPER Robot {
         children [
           Transform {
             translation 0 0 -0.004
-            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395307179586
+            rotation 0.57735 0.577351 -0.57735 -2.094395
             children [
               Shape {
                 appearance PBRAppearance {
@@ -86,7 +84,7 @@ DEF GRIPPER Robot {
           }
           Transform {
             translation 0 0 0.006
-            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395307179586
+            rotation 0.57735 0.577351 -0.57735 -2.094395
             children [
               Shape {
                 appearance DEF BLACK PBRAppearance {
@@ -113,11 +111,10 @@ DEF GRIPPER Robot {
             ]
             endPoint Solid {
               translation 0 -0.008 0
-              rotation 1 0 0 4.6928012867022945e-06
               children [
                 Gear {
                   translation 0 0 0.0025
-                  rotation -0.5773489358556708 0.5773509358554485 -0.5773509358554485 -2.094395307179586
+                  rotation -0.577349 0.577351 -0.577351 -2.094395
                   appearance PBRAppearance {
                     baseColor 0.913725 0.72549 0.431373
                     roughness 0.5
@@ -132,7 +129,7 @@ DEF GRIPPER Robot {
                 }
                 DEF LEFT_ACTUATED_LINKAGE Transform {
                   translation 0 0 0.001
-                  rotation 0.8673832709970314 -0.35188510993965805 -0.35188510993965805 1.71259
+                  rotation 0.867383 -0.351885 -0.351885 1.71259
                   children [
                     DEF LINKAGE Shape {
                       appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -178,7 +175,7 @@ DEF GRIPPER Robot {
                         translation 0 0 -0.006
                         children [
                           Transform {
-                            rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.0944
+                            rotation -0.57735 0.57735 -0.57735 2.0944
                             children [
                               Shape {
                                 appearance DEF FINGER_APPEARANCE PBRAppearance {
@@ -198,7 +195,7 @@ DEF GRIPPER Robot {
                     name "left_gripper"
                     boundingObject Transform {
                       translation 0.0075 -0.0175 -0.001
-                      rotation 0 0 1 -1.5707953071795862
+                      rotation 0 0 1 -1.570795
                       children [
                         Box {
                           size 0.04 0.005 0.01
@@ -225,7 +222,7 @@ DEF GRIPPER Robot {
               children [
                 DEF LEFT_PASSIVE_LINKAGE Transform {
                   translation 0 0 0.001
-                  rotation 0.867383374888533 -0.35188498189534806 -0.35188498189534806 1.7125929713
+                  rotation 0.867383 -0.351885 -0.351885 1.712593
                   children [
                     USE LINKAGE
                   ]
@@ -275,11 +272,11 @@ DEF GRIPPER Robot {
               translation 0 0.008 0
               children [
                 Transform {
-                  rotation 0 1 0 0.1308996938995747
+                  rotation 0 1 0 0.1309
                   children [
                     Gear {
                       translation 0 0 0.0025
-                      rotation -0.5773489358556708 0.5773509358554485 -0.5773509358554485 -2.094395307179586
+                      rotation -0.577349 0.577351 -0.577351 -2.094395
                       appearance PBRAppearance {
                         baseColor 0.913725 0.72549 0.431373
                         roughness 0.5
@@ -296,7 +293,7 @@ DEF GRIPPER Robot {
                 }
                 DEF RIGHT_ACTUATED_LINKAGE Transform {
                   translation 0 0 0.001
-                  rotation 0.8673811099224759 0.35188777340911825 0.35188777340911825 1.7125955564
+                  rotation 0.867381 0.351888 0.351888 1.712596
                   children [
                     DEF LINKAGE Shape {
                       appearance USE METAL_APPEARANCE
@@ -331,7 +328,7 @@ DEF GRIPPER Robot {
                     children [
                       Transform {
                         translation 0 0 0.004
-                        rotation -1 0 0 -1.5707963268
+                        rotation -1 0 0 -1.570796
                         children [
                           Shape {
                             appearance USE FINGER_APPEARANCE
@@ -374,7 +371,7 @@ DEF GRIPPER Robot {
               children [
                 DEF RIGHT_PASSIVE_LINKAGE Transform {
                   translation 0 0 0.001
-                  rotation 0.8673811099224759 0.35188777340911825 0.35188777340911825 1.7125955564
+                  rotation 0.867381 0.351888 0.351888 1.712596
                   children [
                     USE LINKAGE
                   ]

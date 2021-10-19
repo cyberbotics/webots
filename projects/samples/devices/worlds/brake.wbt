@@ -27,7 +27,6 @@ RectangleArena {
 }
 Robot {
   translation 0 0 0.4
-  rotation 0.05673217675147843 0.07053667109447559 0.9958945918880918 -5.307179586466759e-06
   children [
     Transform {
       translation 0 -0.2 -0.125
@@ -69,7 +68,7 @@ Robot {
     }
     Transform {
       translation 0 0.23 0.2
-      rotation -1.2298296194295832e-06 0.7071067811860129 -0.7071067811860129 3.14159
+      rotation 0 0.707107 -0.707107 3.14159
       children [
         Shape {
           appearance MetalPipePaint {
@@ -93,7 +92,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        rotation -1.2298296194295832e-06 0.7071067811860129 -0.7071067811860129 3.14159
+        rotation 0 0.707107 -0.707107 3.14159
         children [
           DEF AXIS Shape {
             appearance BrushedAluminium {
@@ -175,7 +174,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.15 0.2
-        rotation -0.9999999999970925 -1.6753299999951292e-06 1.7344499999949572e-06 1.5708
+        rotation -1 0 0 1.5708
         children [
           Shape {
             appearance GlossyPaint {
@@ -202,7 +201,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.15 0.2
-        rotation -1.2298296194295832e-06 0.7071067811860129 -0.7071067811860129 3.14159
+        rotation 0 0.707107 -0.707107 3.14159
         children [
           Shape {
             appearance GlossyPaint {
