@@ -111,7 +111,7 @@ DEF PINK_BOX Solid {
 }
 Robot {
   translation 0.15 0 0
-  rotation 0 0 1 2.35619
+  rotation 0 0 1 2.5708
   children [
     Transform {
       translation 0 0 0.0415
