@@ -16,7 +16,7 @@ RectangleArena {
 }
 DEF LAMP Solid {
   translation 0 0.1 0.095
-  rotation 6.63091e-08 -7.19235e-09 1 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
   children [
     Shape {
       appearance PBRAppearance {

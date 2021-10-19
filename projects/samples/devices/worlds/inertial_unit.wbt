@@ -43,7 +43,7 @@ DEF ROBOT Robot {
             ]
             endPoint Solid {
               translation 0 0 0.33
-              rotation 2.6052699999560723e-06 -5.189919999912492e-06 0.9999999999831387 1.5707853071795863
+              rotation 0 0 1 1.5707853071795863
               children [
                 DEF ROLL_HINGE_JOINT HingeJoint {
                   jointParameters HingeJointParameters {

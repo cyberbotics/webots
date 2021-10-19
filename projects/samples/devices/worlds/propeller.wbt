@@ -11,7 +11,7 @@ WorldInfo {
 Viewpoint {
   orientation -0.2863317201472386 0.4931789773461599 0.8214551980122344 1.2305265126208134
   position -0.757748141210421 -1.351943472604841 1.1437500434220034
-  follow "blue helicopter"
+  follow "red helicopter"
 }
 TexturedBackground {
 }

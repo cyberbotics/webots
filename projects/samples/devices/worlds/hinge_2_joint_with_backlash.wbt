@@ -15,7 +15,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 0 0 -1 -5.307179586466759e-06
   floorAppearance ThreadMetalPlate {
     textureTransform TextureTransform {
       scale 2 2

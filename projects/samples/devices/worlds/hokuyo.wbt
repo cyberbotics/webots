@@ -84,7 +84,7 @@ DEF BLUE_BOX Solid {
 }
 DEF WHITE_BOX Solid {
   translation -0.2 -0.15 0.1
-  rotation 7.66878e-07 7.19235e-09 -1 -1.9707953071795865
+  rotation 0 0 -1 -1.9707953071795865
   children [
     Shape {
       appearance PBRAppearance {
@@ -108,7 +108,7 @@ DEF WHITE_BOX Solid {
 }
 DEF PINK_BOX Solid {
   translation 0.42 0.1 0.1
-  rotation 6.63091e-08 -7.19235e-09 1 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
   children [
     Shape {
       appearance PBRAppearance {
@@ -227,7 +227,7 @@ Robot {
     }
     HokuyoUrg04lx {
       translation -0.089 0 0.05
-      rotation -2.6052599999903256e-06 0.9999999999962865 -7.997079999970303e-07 -1.5708053071795867
+      rotation 0 1 0 -1.5708053071795867
       noise 0.01
     }
     Transform {

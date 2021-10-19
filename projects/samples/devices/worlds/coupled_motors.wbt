@@ -67,7 +67,6 @@ DEF GRIPPER Robot {
       ]
       endPoint Solid {
         translation 0 0 0.01
-        rotation 0 1 0 0
         children [
           Transform {
             translation 0 0 -0.004
@@ -162,7 +161,6 @@ DEF GRIPPER Robot {
                 }
                 Transform {
                   translation 0.02869 -0.02787 0
-                  rotation 0 1 0 4.692820414042842e-06
                   children [
                     USE LEFT_ACTUATED_AXLE
                   ]

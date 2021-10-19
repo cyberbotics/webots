@@ -63,7 +63,6 @@ while robot.step(timestep) != -1:
         # reached the goal or has even run out of time, record final time and
         # terminate simulation.
         contactPoints = thymio2.getContactPoints()
-
         for contact in contactPoints:
             if contact.point[2] > 0.02 or thymio2.getPosition()[1] > 3.3 or time >= 80:
                 if contact.point[2] > 0.02:

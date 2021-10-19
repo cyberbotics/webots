@@ -74,28 +74,28 @@ DEF MAZE_WALLS Group {
     }
     MazeBlock {
       translation -0.155 -0.46282566 0.60946927
-      rotation 0.9999999999908804 3.5012999999680692e-06 2.4454599999776983e-06 -0.0030253071795858233
+      rotation 1 0 0 -0.0030253071795858233
       name "maze block(1)"
     }
     MazeBlock {
       translation -0.155 -0.56282725 0.60950028
-      rotation -0.9999999995568747 -2.2251371990139854e-05 1.9776938991236337e-05 -0.00038640032
+      rotation -1 0 0 -0.00038640032
       name "maze block(2)"
       length 0.095
     }
     MazeBlock {
       translation -0.096 -0.599 0.60966171
-      rotation -2.5219028e-08 -1.7565172e-08 -1 1.5707963
+      rotation 0 0  -1 1.5707963
       name "maze block(3)"
     }
     MazeBlock {
       translation 0.006 -0.599 0.60966171
-      rotation -2.5219028e-08 -1.7565171e-08 -1 1.5707963
+      rotation 0 0  -1 1.5707963
       name "maze block(4)"
     }
     MazeBlock {
       translation 0.104 -0.599 0.60966696
-      rotation -2.5108216e-08 -1.7453311e-08 -1 1.5707963
+      rotation 0 0 -1 1.5707963
       name "maze block(5)"
       length 0.095
     }
@@ -119,18 +119,18 @@ DEF MAZE_WALLS Group {
     }
     MazeBlock {
       translation 0.119 -0.063 0.6096152
-      rotation 2.5113747e-08 1.7491886e-08 1 -1.5707963
+      rotation 0 0 1 -1.5707963
       name "maze block(9)"
     }
     MazeBlock {
       translation -0.034 -0.063 0.60950992
-      rotation 2.6959893e-08 1.9343031e-08 1 -1.5707963
+      rotation 0 0 1 -1.5707963
       name "maze block(10)"
       length 0.2
     }
     MazeBlock {
       translation -0.235 -0.063 0.60950992
-      rotation 2.6959893e-08 1.934303e-08 1 -1.5707963
+      rotation 0 0 1 -1.5707963
       name "maze block(11)"
       length 0.2
     }
@@ -142,7 +142,7 @@ DEF MAZE_WALLS Group {
     }
     MazeBlock {
       translation -0.316 -0.37660471 0.60946947
-      rotation -0.9999999990005284 -3.516338596485519e-05 -2.7613033972401557e-05 -0.00026789716
+      rotation -1 0 0 -0.00026789716
       name "maze block(13)"
       length 0.2
     }
@@ -160,19 +160,19 @@ DEF MAZE_WALLS Group {
     }
     MazeBlock {
       translation -0.22 -0.803 0.60955661
-      rotation 1.942497e-08 -2.707381e-08 -1 -1.5707963
+      rotation 0 0 -1 -1.5707963
       name "maze block(16)"
       length 0.2
     }
     MazeBlock {
       translation -0.015 -0.803 0.60955661
-      rotation 1.942497e-08 -2.707381e-08 -1 -1.5707963
+      rotation 0 0 -1 -1.5707963
       name "maze block(17)"
       length 0.2
     }
     MazeBlock {
       translation 0.199 -0.803 0.60953555
-      rotation 1.9727447e-08 -2.7376855e-08 -1 -1.5707963
+      rotation 0 0 -1 -1.5707963
       name "maze block(18)"
       length 0.22
     }
@@ -184,7 +184,7 @@ DEF MAZE_WALLS Group {
     }
     MazeBlock {
       translation 0.324 -0.50860466 0.60946945
-      rotation 0.999999999383024 3.511782897833314e-05 8.30682169487489e-07 0.00026808682
+      rotation 1 0 0 0.00026808682
       name "maze block(20)"
       length 0.2
     }
@@ -208,19 +208,19 @@ DEF MAZE_WALLS Group {
     }
     MazeBlock {
       translation 0.22200574 0.12121783 0.60950988
-      rotation 8.008699329267286e-05 7.922878128953659e-05 0.9999999936544369 -1.56831
+      rotation 0 0 1 -1.56831
       name "maze block(24)"
       length 0.2
     }
     MazeBlock {
       translation 0.016 0.121 0.60950992
-      rotation 2.6959893e-08 1.9343031e-08 1 -1.5707963
+      rotation 0 0 1 -1.5707963
       name "maze block(25)"
       length 0.2
     }
     MazeBlock {
       translation -0.208 0.121 0.60946772
-      rotation 2.7545038e-08 1.9926829e-08 1 -1.5707963
+      rotation 0 0 1 -1.5707963
       name "maze block(26)"
       length 0.24
     }
@@ -386,7 +386,7 @@ DEF SHORT_WINDOW_WALL Solid {
 }
 DEF SHORT_WINDOW_WALL Solid {
   translation -3.9 3.0499996 1.2
-  rotation 1.7957889999941738e-06 -0.9999999999967557 -1.8066649999941388e-06 4.712389
+  rotation 0 -1 0 4.712389
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -401,7 +401,7 @@ DEF SHORT_WINDOW_WALL Solid {
 }
 DEF LONG_WINDOW_WALL Solid {
   translation -3.9 -2.65 1.2
-  rotation -1.7861991999942664e-06 0.9999999999967901 1.7970751999942317e-06 1.5707963
+  rotation 0 1 0 1.5707963
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -462,7 +462,6 @@ Window {
 }
 Cabinet {
   translation -3.8764179 4.0632531 3.2196468e-15
-  rotation 0 0 1 -5.307179586466759e-06
   columnsWidths [
     0.7, 0.34, 0.17
   ]
@@ -478,7 +477,7 @@ Clock {
 }
 DEF FINISH_LINE Solid {
   translation -0.044527734 3.4 0.010000298
-  rotation -7.1923449e-09 -1.7748129e-08 1 3.1415927
+  rotation 0 0 1 3.1415927
   scale 0.97109691 0.97109691 0.97109691
   children [
     Shape {

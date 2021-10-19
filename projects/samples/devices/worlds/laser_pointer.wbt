@@ -133,7 +133,6 @@ DEF PINK_BOX Solid {
 }
 DEF GRAY_CYLINDER Solid {
   translation 0.0200903 -0.335524 0.05
-  rotation 0 -1 0 0
   children [
     Shape {
       appearance PBRAppearance {

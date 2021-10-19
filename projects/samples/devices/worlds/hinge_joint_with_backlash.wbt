@@ -17,7 +17,6 @@ TexturedBackground {
   texture "empty_office"
 }
 Robot {
-  rotation 0 1 0 0
   children [
     DEF FRONT_BEARING Transform {
       children [
