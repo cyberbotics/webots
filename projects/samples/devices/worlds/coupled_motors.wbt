@@ -161,7 +161,6 @@ DEF GRIPPER Robot {
                 }
                 Transform {
                   translation 0.02869 -0.02787 0
-                  rotation 0 1 0 4.692820414042842e-06
                   children [
                     USE LEFT_ACTUATED_AXLE
                   ]
