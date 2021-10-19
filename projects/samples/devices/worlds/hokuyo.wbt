@@ -84,7 +84,7 @@ DEF BLUE_BOX Solid {
 }
 DEF WHITE_BOX Solid {
   translation -0.2 -0.15 0.1
-  rotation 7.66878e-07 7.19235e-09 -1 -1.9707953071795865
+  rotation 0 0 -1 -1.9707953071795865
   children [
     Shape {
       appearance PBRAppearance {
