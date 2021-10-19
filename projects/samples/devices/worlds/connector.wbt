@@ -318,7 +318,6 @@ DEF LIGHT_MYBOT Robot {
       ]
       endPoint Solid {
         translation 0 0 0.06
-        rotation 0 1 0 0
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
