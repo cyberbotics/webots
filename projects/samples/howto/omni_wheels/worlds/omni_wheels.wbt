@@ -493,7 +493,7 @@ DEF OMNI_WHEELS Robot {
           ]
           endPoint Solid {
             translation -0.1 0 0
-            rotation -1 0 0 0.0039094400000208316
+            rotation -1 0 0 0.00390944
             children [
               DEF sr1 HingeJoint {
                 jointParameters HingeJointParameters {

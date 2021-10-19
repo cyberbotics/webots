@@ -393,7 +393,7 @@ Robot {
   supervisor TRUE
 }
 SoccerBall {
-  translation 0.04 -0.06 0.04
+  translation 0.04 -0.06 0.1
   radius 0.04
   mass 0.05
 }

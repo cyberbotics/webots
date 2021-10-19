@@ -62,7 +62,6 @@ DEF ROPE Solid {
       }
       endPoint DEF ROPE_INITIAL_ELEMENT Solid {
         translation 0 0 0.99
-        rotation 0 1 0 0
         children [
           DEF BALL_JOINT_1 BallJoint {
             jointParameters BallJointParameters {
@@ -70,7 +69,6 @@ DEF ROPE Solid {
             }
             endPoint DEF ROPE_ELEMENT_1 Solid {
               translation 0 0 -0.1
-              rotation 0 1 0 0
               children [
                 DEF ROPE_ELEMENT Transform {
                   translation 0 0 0.05
@@ -94,7 +92,6 @@ DEF ROPE Solid {
                   }
                   endPoint DEF ROPE_ELEMENT_2 Solid {
                     translation 0 0 -0.1
-                    rotation 0 1 0 0
                     children [
                       USE ROPE_ELEMENT
                       DEF BALL_JOINT_3 BallJoint {
@@ -103,7 +100,6 @@ DEF ROPE Solid {
                         }
                         endPoint DEF ROPE_ELEMENT_3 Solid {
                           translation 0 0 -0.1
-                          rotation 0 1 0 0
                           children [
                             USE ROPE_ELEMENT
                             DEF BALL_JOINT_4 BallJoint {
@@ -112,7 +108,6 @@ DEF ROPE Solid {
                               }
                               endPoint DEF ROPE_ELEMENT_4 Solid {
                                 translation 0 0 -0.1
-                                rotation 0 1 0 0
                                 children [
                                   USE ROPE_ELEMENT
                                   DEF BALL_JOINT_5 BallJoint {
@@ -121,7 +116,6 @@ DEF ROPE Solid {
                                     }
                                     endPoint DEF ROPE_ELEMENT_5 Solid {
                                       translation 0 0 -0.1
-                                      rotation 0 1 0 0
                                       children [
                                         USE ROPE_ELEMENT
                                         Solid {

@@ -56,6 +56,5 @@ KukaBox {
 }
 Youbot {
   translation 0 0 0.102838
-  rotation 0 1 0 0
   controller "youbot_matlab"
 }

@@ -478,8 +478,8 @@ DEF MACHINERY Solid {
       ]
     }
     DEF RIGHT Transform {
-      translation 0.40000002 0.1 0.685
-      rotation -9.50175e-07 -9.3579e-07 -1 -1.5707953071795862
+      translation 0.4 0.1 0.685
+      rotation 0 0 -1 -1.5707953071795862
       children [
         Shape {
           appearance BrushedAluminium {
@@ -491,7 +491,7 @@ DEF MACHINERY Solid {
       ]
     }
     DEF LEFT Transform {
-      translation -0.61599991 0.10000001 0.685
+      translation -0.616 0.1 0.685
       rotation 1.29667e-07 1.15282e-07 1 1.5708
       children [
         Shape {
@@ -522,7 +522,7 @@ DEF MACHINERY Solid {
     }
     DEF TOP Transform {
       translation 0 0 1.33
-      rotation 1.22475e-07 -7.19235e-09 1 -3.1415853071795863
+      rotation 0 0 1 -3.1415853071795863
       children [
         Shape {
           appearance BrushedAluminium {
@@ -535,7 +535,7 @@ DEF MACHINERY Solid {
     }
     DEF HOLE Transform {
       translation -0.21699991 0.10100001 0.97
-      rotation 9.4538e-07 -9.30995e-07 -1 1.57079
+      rotation 0 0 -1 1.57079
       children [
         Shape {
           appearance PBRAppearance {
@@ -627,7 +627,7 @@ DEF MACHINERY Solid {
 }
 PlatformCart {
   translation -2.3649928 1.0055135 0
-  rotation -2.39745e-09 -1.20631e-07 -1 1.5708
+  rotation 0 0 -1 1.5708
   slot [
     DEF TARGET_SLOTS Solid {
       translation 0.1 0.14 0.11
