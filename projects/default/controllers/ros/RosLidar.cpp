@@ -21,8 +21,10 @@
 RosLidar::RosLidar(Lidar *lidar, Ros *ros) : RosSensor(lidar->getName(), lidar, ros) {
   mLidar = lidar;
   mIsPointCloudEnabled = false;
-  if (mLidar->getNumberOfLayers() == 1)
+  if (mLidar->getNumberOfLayers() == 1) {
     mIsLaserScanOneLayer = true;
+    mLaserRanges = mLidar->getHorizontalResolution();
+  }
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
   mEnablePointCloudServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "enable_point_cloud",
                                                            &RosLidar::enablePointCloudCallback);
@@ -58,10 +60,8 @@ RosLidar::~RosLidar() {
 ros::Publisher RosLidar::createPublisher() {
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
   sensor_msgs::LaserScan LaserScaneType;
-  if (mIsLaserScanOneLayer) {
-    mLaserScanPublisher[i] =
-      RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/laser_scan", LaserScaneType);
-  }
+  if (mIsLaserScanOneLayer)
+    mLaserScanPublisher = RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/laser_scan", LaserScaneType);
   sensor_msgs::Image type;
   type.height = mLidar->getNumberOfLayers();
   type.width = mLidar->getHorizontalResolution();
@@ -109,7 +109,8 @@ void RosLidar::publishLaserScan() {
   laserScan.scan_time = (double)mLidar->getSamplingPeriod() / 1000.0;
   laserScan.range_min = mLidar->getMinRange();
   laserScan.range_max = mLidar->getMaxRange();
-  memcpy(laserScan.ranges.data(), rangeImageVector, laserScan.ranges.size() * sizeof(float));
+  laserScan.ranges.resize(mLaserRanges);
+  memcpy(laserScan.ranges.data(), rangeImageVector, mLaserRanges * sizeof(float));
   mLaserScanPublisher.publish(laserScan);
 }
 
@@ -119,13 +120,11 @@ void RosLidar::publishPointCloud() {
     sensor_msgs::PointCloud2 cloud;
     cloud.header.stamp = ros::Time::now();
     cloud.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
-
-
+    cloud.height = mCloudHeightDefault;
     cloud.width = mLidar->getNumberOfPoints();
     cloud.row_step = 20 * mLidar->getNumberOfPoints();
     if (cloud.data.size() != cloud.row_step * cloud.height)
       cloud.data.resize(cloud.row_step * cloud.height);
-
     memcpy(cloud.data.data(), pointCloud, cloud.row_step * cloud.height);
     mPointCloudPublisher.publish(cloud);
   }
@@ -171,7 +170,7 @@ bool RosLidar::enablePointCloudCallback(webots_ros::set_bool::Request &req, webo
     mIsPointCloudEnabled = true;
 
     std::string deviceNameFixed = RosDevice::fixedDeviceName();
-    sensor_msgs::PointCloud type;
+    sensor_msgs::PointCloud2 type;
     type.header.frame_id = deviceNameFixed;
 
     mPointCloudPublisher = RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/point_cloud", type);
