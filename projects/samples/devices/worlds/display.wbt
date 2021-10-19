@@ -279,7 +279,6 @@ DEF MYBOT Robot {
     }
     Camera {
       translation 0.04 0 0.0915
-      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 0
       children [
         Transform {
           translation -0.015 0 0
