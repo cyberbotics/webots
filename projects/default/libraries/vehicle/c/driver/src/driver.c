@@ -479,11 +479,10 @@ bool wbu_driver_init_possible() {
 
   wb_robot_init();
   char *sub_data_string = (char *)wb_robot_get_custom_data();
-  i =
-    sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d",
-           &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
-           &read_char, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
-           &read_double, &read_double, &read_double, &read_double, &read_int, &read_int);
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
+             &read_double, &read_int, &read_int);
 
   if (i < 20)
     return false;
