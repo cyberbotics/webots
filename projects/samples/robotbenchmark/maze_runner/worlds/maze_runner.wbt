@@ -119,7 +119,7 @@ DEF MAZE_WALLS Group {
     }
     MazeBlock {
       translation 0.119 -0.063 0.6096152
-      rotation 2.5113747e-08 1.7491886e-08 1 -1.5707963
+      rotation 0 0 1 -1.5707963
       name "maze block(9)"
     }
     MazeBlock {
