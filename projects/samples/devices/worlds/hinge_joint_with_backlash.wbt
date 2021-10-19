@@ -5,7 +5,6 @@ WorldInfo {
   ]
   title "Hinge Joint With Backlash"
   gravity 0
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation -0.20134192243199933 0.2095096386723931 0.9568527272128925 1.4948407957226588
