@@ -462,7 +462,6 @@ Window {
 }
 Cabinet {
   translation -3.8764179 4.0632531 3.2196468e-15
-  rotation 0 0 1 -5.307179586466759e-06
   columnsWidths [
     0.7, 0.34, 0.17
   ]
