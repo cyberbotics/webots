@@ -157,7 +157,6 @@ DEF ROBOT Robot {
 }
 Solid {
   translation 0 0 0.05
-  rotation 0 0 -1 3.67802e-06
   children [
     Shape {
       appearance PBRAppearance {
