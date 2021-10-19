@@ -21,10 +21,6 @@
 RosLidar::RosLidar(Lidar *lidar, Ros *ros) : RosSensor(lidar->getName(), lidar, ros) {
   mLidar = lidar;
   mIsPointCloudEnabled = false;
-  if (mLidar->getNumberOfLayers() == 1) {
-    mIsLaserScanOneLayer = true;
-    mLaserRanges = mLidar->getHorizontalResolution();
-  }
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
   mEnablePointCloudServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "enable_point_cloud",
                                                            &RosLidar::enablePointCloudCallback);
@@ -50,7 +46,7 @@ RosLidar::~RosLidar() {
   mSetFrequencyServer.shutdown();
   mGetLayerRangeImage.shutdown();
   mGetLayerPointCloud.shutdown();
-  if (mIsLaserScanOneLayer)
+  if (mLidar->getNumberOfLayers() == 1)
     mLaserScanPublisher.shutdown();
   cleanup();
 }
@@ -60,7 +56,7 @@ RosLidar::~RosLidar() {
 ros::Publisher RosLidar::createPublisher() {
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
   sensor_msgs::LaserScan LaserScaneType;
-  if (mIsLaserScanOneLayer)
+  if (mLidar->getNumberOfLayers() == 1)
     mLaserScanPublisher = RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/laser_scan", LaserScaneType);
   sensor_msgs::Image type;
   type.height = mLidar->getNumberOfLayers();
@@ -91,7 +87,7 @@ void RosLidar::publishValue(ros::Publisher publisher) {
 void RosLidar::publishAuxiliaryValue() {
   if (mIsPointCloudEnabled)
     publishPointCloud();
-  if (mIsLaserScanOneLayer)
+  if (mLidar->getNumberOfLayers() == 1)
     publishLaserScan();
 }
 
@@ -109,8 +105,8 @@ void RosLidar::publishLaserScan() {
   laserScan.scan_time = (double)mLidar->getSamplingPeriod() / 1000.0;
   laserScan.range_min = mLidar->getMinRange();
   laserScan.range_max = mLidar->getMaxRange();
-  laserScan.ranges.resize(mLaserRanges);
-  memcpy(laserScan.ranges.data(), rangeImageVector, mLaserRanges * sizeof(float));
+  laserScan.ranges.resize(mLidar->getHorizontalResolution(););
+  memcpy(laserScan.ranges.data(), rangeImageVector, laserScan.ranges.size() * sizeof(float));
   mLaserScanPublisher.publish(laserScan);
 }
 
@@ -120,7 +116,8 @@ void RosLidar::publishPointCloud() {
     sensor_msgs::PointCloud2 cloud;
     cloud.header.stamp = ros::Time::now();
     cloud.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
-    cloud.height = mCloudHeightDefault;
+    // Convention of PointCloud2, if points are unordered height is 1
+    cloud.height = 1;
     cloud.width = mLidar->getNumberOfPoints();
     cloud.row_step = 20 * mLidar->getNumberOfPoints();
     if (cloud.data.size() != cloud.row_step * cloud.height)

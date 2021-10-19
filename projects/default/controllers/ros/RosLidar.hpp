@@ -61,9 +61,6 @@ private:
 
   Lidar *mLidar;
   bool mIsPointCloudEnabled;
-  bool mIsLaserScanOneLayer = false;
-  int mLaserRanges;
-  int mCloudHeightDefault = 1;
   ros::Publisher mPointCloudPublisher;
   ros::Publisher mLaserScanPublisher;
 
