@@ -113,7 +113,7 @@ DEF RED_BOX Solid {
 }
 Robot {
   translation 0 -0.15 0
-  rotation -7.86884e-08 8.46615e-08 1 1
+  rotation 0 0 1 1
   children [
     Transform {
       translation 0 0 0.0415
