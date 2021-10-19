@@ -7,8 +7,8 @@ WorldInfo {
   lineScale 0.3
 }
 Viewpoint {
-  orientation -0.35730876951780977 -0.33897606175913836 0.8703020583567143 4.346516511988484
-  position 0.10821044296103861 0.399664809576071 0.46098275588899734
+  orientation -0.27021832244357913 -0.21661337078774587 0.9381155077130686 4.201359629380958
+  position 0.18875508850382353 0.4626511721342722 0.45953678868227127
 }
 TexturedBackground {
 }
@@ -71,27 +71,26 @@ Robot {
         }
         BallJoint {
           jointParameters BallJointParameters {
-            axis 0 -1 0
             anchor 0 0 0.05
           }
           device [
             RotationalMotor {
-              name "motor 1"
+              name "motor 3"
               maxVelocity 1
             }
           ]
           device2 [
             RotationalMotor {
-              name "motor 2"
+              name "motor 1"
               maxVelocity 1
-              minPosition -1.5707963267948966
-              maxPosition 1.5707963267948966
             }
           ]
           device3 [
             RotationalMotor {
-              name "motor 3"
+              name "motor 2"
               maxVelocity 1
+              minPosition -1.5707963267948966
+              maxPosition 1.5707963267948966
             }
           ]
           endPoint Solid {
