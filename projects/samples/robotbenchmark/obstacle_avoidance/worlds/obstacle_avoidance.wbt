@@ -40,7 +40,7 @@ SpotLight {
 }
 DEF THYMIO2 Thymio2 {
   translation 0 -2.68 0
-  rotation 0 0 -1 -1.5707953071795862
+  rotation 0 0 -1 -1.570795
   controller "avoid_obstacles"
   controllerArgs []
   bodySlot [
@@ -64,8 +64,8 @@ Floor {
   }
 }
 DEF BALL Solid {
-  translation 0.15045101 0.46901302 0.05
-  rotation 0.3460957604716075 0.7443234710142527 0.5711394707782634 2.6224387
+  translation 0.150451 0.469013 0.05
+  rotation 0.346096 0.744323 0.571139 2.622439
   children [
     Shape {
       appearance PBRAppearance {
@@ -90,26 +90,26 @@ DEF BALL Solid {
   }
 }
 PaperBoat {
-  translation -0.7760521 0.29782985 1.110223e-16
+  translation -0.776052 0.29783 0
   rotation 0 0 1 1.1781
 }
 SoccerBall {
-  translation -3.5744311 3.6338935 1.61
+  translation -3.574431 3.633894 1.61
 }
 Table {
-  translation 2.5375839 -3.0340864 0
-  rotation 0 0 -1 1.5511614
+  translation 2.537584 -3.034086 0
+  rotation 0 0 -1 1.551161
   size 1 1.8 0.61
   feetSize 0.4 0.05
   feetPadding 0.1
 }
 WoodenChair {
-  translation 2.346596 -3.5151165 0
+  translation 2.346596 -3.515116 0
   rotation 0 0 1 1.72788
 }
 Door {
   translation 0 5.005 -0.01
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 0 1 -1.570795
   canBeOpen FALSE
   doorHandle DoorLever {
     hasStaticParent TRUE
@@ -118,7 +118,7 @@ Door {
 }
 DEF CEILING Solid {
   translation 0 0 2.4
-  rotation 0 -1 0 3.1415926
+  rotation 0 -1 0 3.141593
   children [
     Shape {
       appearance PBRAppearance {
@@ -144,7 +144,7 @@ DEF CEILING Solid {
 }
 DEF DOOR_WALL Solid {
   translation 0 4.9 1.2
-  rotation 0.5773495691887781 0.5773516691887752 -0.5773495691887781 2.094393
+  rotation 0.57735 0.577352 -0.57735 2.094393
   children [
     Shape {
       appearance DEF DOOR_WALL_APPEARANCE Roughcast {
@@ -164,7 +164,7 @@ DEF DOOR_WALL Solid {
 }
 DEF BACK_WALL Solid {
   translation 0 -4.9 1.2
-  rotation 0.5773509358554485 -0.5773489358556708 -0.5773509358554485 -2.094395307179586
+  rotation 0.577351 -0.577349 -0.577351 -2.094395
   children [
     Shape {
       appearance USE DOOR_WALL_APPEARANCE
@@ -178,8 +178,8 @@ DEF BACK_WALL Solid {
   boundingObject USE DOOR_WALL_SHAPE
 }
 DEF SHORT_WINDOW_WALL Solid {
-  translation 3.9000005 3.0499996 1.2
-  rotation -0.7071067811859675 0 0.7071067811859675 3.1415952
+  translation 3.9 3.05 1.2
+  rotation -0.707107 0 0.707107 3.141595
   children [
     Shape {
       appearance DEF SHORT_WALL_APPEARANCE Roughcast {
@@ -198,8 +198,8 @@ DEF SHORT_WINDOW_WALL Solid {
   boundingObject USE SHORT_WINDOW_WALL_SHAPE
 }
 DEF SHORT_WINDOW_WALL Solid {
-  translation -3.9 3.0499996 1.2
-  rotation 0 1 0 4.712389
+  translation -3.9 3.05 1.2
+  rotation 0 -1 0 4.712389
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -214,7 +214,7 @@ DEF SHORT_WINDOW_WALL Solid {
 }
 DEF LONG_WINDOW_WALL Solid {
   translation -3.9 -2.65 1.2
-  rotation 0 1 0 1.5707963
+  rotation 0 1 0 1.570796
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -229,7 +229,7 @@ DEF LONG_WINDOW_WALL Solid {
 }
 DEF LONG_WINDOW_WALL Solid {
   translation 3.9 -2.65 1.2
-  rotation -0.7071067911859797 0 0.7071067711859796 3.1415952
+  rotation -0.707107 0 0.707107 3.141595
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -243,7 +243,7 @@ DEF LONG_WINDOW_WALL Solid {
   boundingObject USE LONG_WINDOW_WALL_SHAPE
 }
 Window {
-  translation 4 0 0
+  translation 4.0 0 0
   windowSillSize 0.1 0.04
   wallAppearance DEF WINDOW_WALL_APPEARANCE Roughcast {
     colorOverride 0.415686 0.647059 0.545098
@@ -251,14 +251,14 @@ Window {
   castShadows FALSE
 }
 Window {
-  translation 4 0.8 0
+  translation 4.0 0.8 0
   name "window(1)"
   windowSillSize 0.1 0.04
   wallAppearance USE WINDOW_WALL_APPEARANCE
   castShadows FALSE
 }
 Window {
-  translation -4 0 0
+  translation -4.0 0 0
   rotation 0 0 1 3.1415
   name "window(2)"
   windowSillSize 0.1 0.04
@@ -266,7 +266,7 @@ Window {
   castShadows FALSE
 }
 Window {
-  translation -4 0.8 0
+  translation -4.0 0.8 0
   rotation 0 0 1 3.14159
   name "window(3)"
   windowSillSize 0.1 0.04
@@ -274,7 +274,7 @@ Window {
   castShadows FALSE
 }
 Cabinet {
-  translation -3.8764179 4.0632531 0
+  translation -3.876418 4.063253 0
   columnsWidths [
     0.7, 0.34, 0.17
   ]
@@ -285,8 +285,8 @@ Blackboard {
   castShadows FALSE
 }
 DEF A_BLOCK Solid {
-  translation 0.80701451 0.89824033 0.033
-  rotation 0 0 -1 0.47778388
+  translation 0.807015 0.89824 0.033
+  rotation 0 0 -1 0.477784
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -350,8 +350,8 @@ DEF A_BLOCK Solid {
   }
 }
 DEF A_BLOCK Solid {
-  translation 0.52955658 0.35121172 0.033
-  rotation 0 0 -1 0.47778388
+  translation 0.529557 0.351212 0.033
+  rotation 0 0 -1 0.477784
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -415,8 +415,8 @@ DEF A_BLOCK Solid {
   }
 }
 DEF A_BLOCK Solid {
-  translation -1.1597717 0.37863361 0.033
-  rotation 0 0 -1 0.47778388
+  translation -1.159772 0.378634 0.033
+  rotation 0 0 -1 0.477784
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -480,8 +480,8 @@ DEF A_BLOCK Solid {
   }
 }
 DEF A_BLOCK Solid {
-  translation -0.40296594 0.80433167 0.033
-  rotation 0 0 -1 0.47778388
+  translation -0.402966 0.804332 0.033
+  rotation 0 0 -1 0.477784
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -545,8 +545,8 @@ DEF A_BLOCK Solid {
   }
 }
 DEF A_BLOCK Solid {
-  translation 0.080558206 -1.4477793 0.033
-  rotation 0 0 -1 0.47778388
+  translation 0.080558 -1.447779 0.033
+  rotation 0 0 -1 0.477784
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -610,8 +610,8 @@ DEF A_BLOCK Solid {
   }
 }
 DEF B_BLOCK Solid {
-  translation -0.43419214 -0.14162591 0.033
-  rotation 0 0 -1 1.1322824
+  translation -0.434192 -0.141626 0.033
+  rotation 0 0 -1 1.132282
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -675,8 +675,8 @@ DEF B_BLOCK Solid {
   }
 }
 DEF B_BLOCK Solid {
-  translation 0.35266917 1.1572179 0.033
-  rotation 0 0 -1 1.1322824
+  translation 0.352669 1.157218 0.033
+  rotation 0 0 -1 1.132282
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -740,8 +740,8 @@ DEF B_BLOCK Solid {
   }
 }
 DEF B_BLOCK Solid {
-  translation -0.25448513 -1.0000395 0.033
-  rotation 0 0 -1 1.1322824
+  translation -0.254485 -1 0.033
+  rotation 0 0 -1 1.132282
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -805,8 +805,8 @@ DEF B_BLOCK Solid {
   }
 }
 DEF W_BLOCK Solid {
-  translation -1.4009426 0.60920328 0.033
-  rotation 0 0 -1 1.1322824
+  translation -1.400943 0.609203 0.033
+  rotation 0 0 -1 1.132282
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -870,8 +870,8 @@ DEF W_BLOCK Solid {
   }
 }
 DEF W_BLOCK Solid {
-  translation -0.062114098 0.54837764 0.033
-  rotation 0 0 -1 1.6558812
+  translation -0.062114 0.548378 0.033
+  rotation 0 0 -1 1.655881
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -935,8 +935,8 @@ DEF W_BLOCK Solid {
   }
 }
 DEF W_BLOCK Solid {
-  translation 0.33904981 -0.47199113 0.033
-  rotation 0 0 -1 1.1322824
+  translation 0.33905 -0.471991 0.033
+  rotation 0 0 -1 1.132282
   scale 0.5 0.5 0.5
   children [
     Shape {
@@ -1000,12 +1000,11 @@ DEF W_BLOCK Solid {
   }
 }
 Clock {
-  translation -3.889 2.5650017 1.873
-  rotation 0 0 -1 4.692820414042842e-06
+  translation -3.889 2.565002 1.873
 }
 DEF CARPET Solid {
-  translation 2.4332377 1.60977 0.003
-  rotation 0 0 -1 0.052359878
+  translation 2.433238 1.60977 0.003
+  rotation 0 0 -1 0.05236
   children [
     Shape {
       appearance PBRAppearance {
@@ -1051,8 +1050,8 @@ DEF CARPET Solid {
   }
 }
 DEF CHAIR Solid {
-  translation -2.6755221 -2.9093714 0.24
-  rotation 0 0 -1 5.2163528
+  translation -2.675522 -2.909371 0.24
+  rotation 0 0 -1 5.216353
   scale 0.8 0.8 0.8
   children [
     DEF BODY Shape {
@@ -1138,8 +1137,8 @@ DEF CHAIR Solid {
   }
 }
 DEF CHAIR Solid {
-  translation 1.2663133 -0.14677286 0.24
-  rotation 0 0 1 5.2425327
+  translation 1.266313 -0.146773 0.24
+  rotation 0 0 1 5.242533
   scale 0.8 0.8 0.8
   children [
     DEF BODY Shape {
@@ -1182,8 +1181,8 @@ DEF CHAIR Solid {
   boundingObject USE CHAIR_BOUNDING_OBJECT
 }
 DEF CHAIR Solid {
-  translation -3.0445758 -1.5715542 0.24
-  rotation 0 0 1 5.1901729
+  translation -3.044576 -1.571554 0.24
+  rotation 0 0 1 5.190173
   scale 0.8 0.8 0.8
   children [
     DEF BODY Shape {
@@ -1226,8 +1225,8 @@ DEF CHAIR Solid {
   boundingObject USE CHAIR_BOUNDING_OBJECT
 }
 DEF CHAIR Solid {
-  translation -2.2746916 -1.4039225 0.24
-  rotation 0 0 1 4.3720497
+  translation -2.274692 -1.403922 0.24
+  rotation 0 0 1 4.37205
   scale 0.8 0.8 0.8
   children [
     DEF BODY Shape {
@@ -1270,8 +1269,8 @@ DEF CHAIR Solid {
   boundingObject USE CHAIR_BOUNDING_OBJECT
 }
 DEF TABLE Solid {
-  translation -2.3193428 -2.1751935 0.23
-  rotation 0 0 1 3.1285026
+  translation -2.319343 -2.175193 0.23
+  rotation 0 0 1 3.128503
   children [
     Shape {
       appearance PBRAppearance {
@@ -1353,8 +1352,8 @@ DEF TABLE Solid {
   }
 }
 DEF TABLE Solid {
-  translation 1.4469699 -1.0046941 0.23
-  rotation 0 0 -1 4.9349185
+  translation 1.44697 -1.004694 0.23
+  rotation 0 0 -1 4.934919
   children [
     Shape {
       appearance PBRAppearance {
@@ -1436,8 +1435,8 @@ DEF TABLE Solid {
   }
 }
 DEF TABLE Solid {
-  translation -2.028388 0.13603296 0.23
-  rotation 0 0 1 3.1415926
+  translation -2.028388 0.136033 0.23
+  rotation 0 0 1 3.141593
   children [
     Shape {
       appearance PBRAppearance {
@@ -1519,8 +1518,8 @@ DEF TABLE Solid {
   }
 }
 DEF CHAIR Solid {
-  translation -2.572313 0.60734883 0.24
-  rotation 0 0 1 5.5043322
+  translation -2.572313 0.607349 0.24
+  rotation 0 0 1 5.504332
   scale 0.8 0.8 0.8
   children [
     DEF BODY Shape {
@@ -1563,8 +1562,8 @@ DEF CHAIR Solid {
   boundingObject USE CHAIR_BOUNDING_OBJECT
 }
 DEF CHAIR Solid {
-  translation 1.961258 -0.41570576 0.24
-  rotation 0 0 1 3.6193766
+  translation 1.961258 -0.415706 0.24
+  rotation 0 0 1 3.619377
   scale 0.8 0.8 0.8
   children [
     DEF BODY Shape {
@@ -1607,8 +1606,8 @@ DEF CHAIR Solid {
   boundingObject USE CHAIR_BOUNDING_OBJECT
 }
 DEF CHAIR Solid {
-  translation -1.554527 0.37038969 0.24
-  rotation 0 0 1 3.6717363
+  translation -1.554527 0.37039 0.24
+  rotation 0 0 1 3.671736
   scale 0.8 0.8 0.8
   children [
     DEF BODY Shape {
@@ -1651,8 +1650,8 @@ DEF CHAIR Solid {
   boundingObject USE CHAIR_BOUNDING_OBJECT
 }
 DEF CHAIR Solid {
-  translation -1.9846847 -0.49844365 0.24
-  rotation 0 0 1 2.0158552
+  translation -1.984685 -0.498444 0.24
+  rotation 0 0 1 2.015855
   scale 0.8 0.8 0.8
   children [
     DEF BODY Shape {
@@ -1695,8 +1694,8 @@ DEF CHAIR Solid {
   boundingObject USE CHAIR_BOUNDING_OBJECT
 }
 DEF ART_WALL Solid {
-  translation -1.9799811 4.8971876 1.79
-  rotation -1 0 0 -1.5707953071795862
+  translation -1.979981 4.897188 1.79
+  rotation -1 0 0 -1.570795
   scale 0.8 0.8 0.8
   children [
     Shape {
@@ -1719,8 +1718,8 @@ DEF ART_WALL Solid {
   name "solid(22)"
 }
 DEF WORLD_MAP_BANNER Solid {
-  translation 2.2300189 4.8971876 1.84
-  rotation -1 0 0 -1.5707953071795862
+  translation 2.230019 4.897188 1.84
+  rotation -1 0 0 -1.570795
   scale 0.8 0.8 0.8
   children [
     Shape {
@@ -1743,8 +1742,8 @@ DEF WORLD_MAP_BANNER Solid {
   name "solid(23)"
 }
 DEF ALPHABET_POSTER Solid {
-  translation -1.9599811 -4.8828124 1.28
-  rotation -5.0857584262173836e-09 0.7071067811865476 0.7071067811865476 3.14159
+  translation -1.959981 -4.882812 1.28
+  rotation 0 0.707107 0.707107 3.14159
   scale 0.97109691 0.97109691 0.97109691
   children [
     Shape {
@@ -1767,8 +1766,8 @@ DEF ALPHABET_POSTER Solid {
   name "solid(24)"
 }
 DEF SHAPES_POSTER Solid {
-  translation -3.8945277 2.2753824 0.9800002
-  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  translation -3.894528 2.275382 0.98
+  rotation 0.57735 0.57735 0.57735 2.0944
   scale 0.97109691 0.97109691 0.97109691
   children [
     Shape {
@@ -1791,8 +1790,8 @@ DEF SHAPES_POSTER Solid {
   name "solid(25)"
 }
 DEF FINISH_LINE Solid {
-  translation -0.044527734 3.4 0.010000298
-  rotation 0 0 1 3.1415927
+  translation -0.044528 3.4 0.01
+  rotation 0 0 1 3.141593
   scale 0.97109691 0.97109691 0.97109691
   children [
     Shape {
@@ -1810,8 +1809,8 @@ DEF FINISH_LINE Solid {
   name "solid(26)"
 }
 DEF PINBOARD Solid {
-  translation -1.9899811 4.8771876 1.01
-  rotation 0 -0.7071067811865477 0.7071067811865477 3.1415926
+  translation -1.989981 4.877188 1.01
+  rotation 0 -0.707107 0.707107 3.141593
   scale 0.8 0.8 0.8
   children [
     DEF BOARD Shape {
@@ -1872,8 +1871,8 @@ DEF PINBOARD Solid {
   name "solid(27)"
 }
 DEF FIRST_DRAWING Solid {
-  translation -1.6852207 4.8708207 1.21
-  rotation 0 0.7071067861865474 -0.7071067761865476 3.1415927
+  translation -1.685221 4.870821 1.21
+  rotation 0 0.707107 -0.707107 3.141593
   children [
     Shape {
       appearance PBRAppearance {
@@ -1924,8 +1923,8 @@ DEF FIRST_DRAWING Solid {
   name "solid(28)"
 }
 DEF SECOND_DRAWING Solid {
-  translation -2.3552207 4.8708207 0.81000003
-  rotation 0.5773502591896257 0.5773502691896257 -0.5773502791896257 2.0943952
+  translation -2.355221 4.870821 0.81
+  rotation 0.57735 0.57735 -0.57735 2.094395
   children [
     Shape {
       appearance PBRAppearance {
@@ -1976,8 +1975,8 @@ DEF SECOND_DRAWING Solid {
   name "solid(29)"
 }
 DEF WORLD_MAP Solid {
-  translation 2.2400189 4.8971876 1.04
-  rotation -1 0 -1.5707953071795862
+  translation 2.240019 4.897188 1.04
+  rotation -1 0 0 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -1998,8 +1997,8 @@ DEF WORLD_MAP Solid {
   name "solid(30)"
 }
 DEF COAT_PEGS Solid {
-  translation -0.8099811 4.8771876 0.82000002
-  rotation 0 -0.7071067811865477 0.7071067811865477 3.1415926
+  translation -0.809981 4.877188 0.82
+  rotation 0 -0.707107 0.707107 3.141593
   children [
     DEF PEGS Shape {
       appearance PBRAppearance {
@@ -2061,8 +2060,8 @@ DEF COAT_PEGS Solid {
   name "solid(31)"
 }
 DEF CRAYON_BLUE Solid {
-  translation -1.9485118 -0.038861206 0.332
-  rotation 0.6377183218993853 -0.5446629016222283 -0.5446628916222283 2.006207
+  translation -1.948512 -0.038861 0.332
+  rotation 0.637718 -0.544663 -0.544663 2.006207
   children [
     Shape {
       appearance PBRAppearance {
@@ -2086,8 +2085,8 @@ DEF CRAYON_BLUE Solid {
   name "solid(32)"
 }
 DEF CRAYON_BLACK Solid {
-  translation -1.827808 0.021156296 0.332
-  rotation 0.9589363492088685 -0.20055058983454388 -0.20055058983454388 1.6127147
+  translation -1.827808 0.021156 0.332
+  rotation 0.958936 -0.200551 -0.200551 1.612715
   children [
     Shape {
       appearance PBRAppearance {
@@ -2111,8 +2110,8 @@ DEF CRAYON_BLACK Solid {
   name "solid(33)"
 }
 DEF CRAYON_RED Solid {
-  translation 1.2049453 -0.28794068 0.332
-  rotation 0.3389600711232132 -0.66524660220443 -0.6652465922044299 2.4879806
+  translation 1.204945 -0.287941 0.332
+  rotation 0.33896 -0.665247 -0.665247 2.487981
   children [
     Shape {
       appearance PBRAppearance {
@@ -2136,7 +2135,7 @@ DEF CRAYON_RED Solid {
   name "solid(34)"
 }
 DEF PEN_POT Solid {
-  translation 0.02588851 -0.32481261 1.110223e-16
+  translation 0.025889 -0.324813 0
   scale 0.8 0.8 0.8
   children [
     Shape {
@@ -2172,8 +2171,8 @@ DEF PEN_POT Solid {
   }
 }
 DEF PENCIL Solid {
-  translation 0.058036162 -0.3094958 0.08
-  rotation 0 -1 0 6.0213859
+  translation 0.058036 -0.309496 0.08
+  rotation 0 -1 0 6.021386
   children [
     Shape {
       appearance PBRAppearance {
@@ -2209,8 +2208,8 @@ DEF PENCIL Solid {
   name "solid(36)"
 }
 DEF PAINTBRUSH Solid {
-  translation 0.014446023 -0.30734732 0.018623158
-  rotation 0.08332308010567795 -0.11627722014747341 -0.9897155512552478 3.9846949
+  translation 0.014446 -0.307347 0.018623
+  rotation 0.083323 -0.116277 -0.989716 3.984695
   children [
     Shape {
       appearance PBRAppearance {
@@ -2284,7 +2283,7 @@ DEF PAINTBRUSH Solid {
 DEF CUBE_OBSTACLES Group {
   children [
     DEF W_BLOCK Solid {
-      translation -2.3 4 0.03
+      translation -2.3 4.0 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2352,7 +2351,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF A_BLOCK Solid {
-      translation -2 4.1 0.03
+      translation -2.0 4.1 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2420,7 +2419,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF A_BLOCK Solid {
-      translation -2.2 4 0.03
+      translation -2.2 4.0 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2488,7 +2487,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF W_BLOCK Solid {
-      translation -2 4 0.03
+      translation -2.0 4.0 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2556,7 +2555,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF W_BLOCK Solid {
-      translation -2.1 4 0.03
+      translation -2.1 4.0 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2828,7 +2827,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF B_BLOCK Solid {
-      translation -2 4.2 0.03
+      translation -2.0 4.2 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -3101,7 +3100,7 @@ DEF CUBE_OBSTACLES Group {
     }
     DEF A_BLOCK Solid {
       translation -2.15 3.8 0.03
-      rotation 0 0 -1 0.47778388
+      rotation 0 0 -1 0.477784
       scale 0.5 0.5 0.5
       children [
         Shape {

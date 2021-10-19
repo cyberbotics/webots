@@ -206,7 +206,7 @@ Robot {
         DEF UNUSED_EYE Group {
           children [
             Transform {
-              translation 0 0 0
+              translation 1e-05 0 0
               rotation 0 0 1 0.8
               children [
                 Shape {
