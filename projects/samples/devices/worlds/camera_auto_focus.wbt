@@ -31,7 +31,7 @@ RectangleArena {
 }
 Robot {
   translation -0.00356013 0.00773978 -2.22045e-16
-  rotation -4.6250799999999905e-08 -4.2987699999999905e-08 -0.9999999999999979 2.1415953071795863
+  rotation 0 0 -1 2.1415953071795863
   children [
     Transform {
       translation 0 0 0.0415
