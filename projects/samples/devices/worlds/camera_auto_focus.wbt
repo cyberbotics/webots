@@ -119,8 +119,7 @@ Robot {
       }
     }
     DistanceSensor {
-      translation 0.042 0.02 0.063
-      rotation 0.940735 0.23981 0.23981 1.631852
+      translation 0.04 0 0.0915
       lookupTable [
         0 0 0
         1 1000 0
