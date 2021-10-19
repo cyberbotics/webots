@@ -162,7 +162,7 @@ PROTO GhostDog [
                         }
                         DEF LEFT_CAM Camera {
                           translation 0 -0.09 -0.09
-                          rotation 0 0 -1 3.1415926535
+                          rotation 0 -0.707107 0.707107 3.1415926535
                           children [
                             DEF CAM_TRANS Transform {
                               rotation 0 1 0 1.5708
@@ -185,7 +185,7 @@ PROTO GhostDog [
                         }
                         DEF RIGHT_CAM Camera {
                           translation 0 -0.09 0.09
-                          rotation 0 0 -1 3.1415926535
+                          rotation 0 -0.707107 0.707107 3.1415926535
                           children [
                             USE CAM_TRANS
                           ]
