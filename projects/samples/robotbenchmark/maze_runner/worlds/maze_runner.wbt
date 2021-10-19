@@ -401,7 +401,7 @@ DEF SHORT_WINDOW_WALL Solid {
 }
 DEF LONG_WINDOW_WALL Solid {
   translation -3.9 -2.65 1.2
-  rotation -1.7861991999942664e-06 0.9999999999967901 1.7970751999942317e-06 1.5707963
+  rotation 0 1 0 1.5707963
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
