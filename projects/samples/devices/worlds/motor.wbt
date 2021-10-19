@@ -17,7 +17,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF ROBOT Robot {
-  
+
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
@@ -54,6 +54,7 @@ DEF ROBOT Robot {
           }
           Transform {
             translation 0 0 0.063
+            rotation 0 0 1 0.523599
             children [
               Shape {
                 appearance DEF METAL_APPEARANCE PBRAppearance {
