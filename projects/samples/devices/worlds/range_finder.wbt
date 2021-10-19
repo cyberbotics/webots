@@ -267,7 +267,6 @@ Robot {
     }
     RangeFinder {
       translation 0.031 0 0.08
-      rotation 0 1 0 0
       children [
         Transform {
           rotation 0 1 0 -1.5708
