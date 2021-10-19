@@ -6,8 +6,8 @@ WorldInfo {
   title "LED"
 }
 Viewpoint {
-  orientation -0.2448688771030332 -0.4616380625966467 0.8526016257246489 5.0983227352999485
-  position -0.7228105524100202 1.412612959579108 1.210561978654367
+  orientation -0.4119172995597533 -0.523386953483512 0.7459157025070919 4.614582137667571
+  position -0.13561882196707412 0.8447036904585582 1.5377847332149037
 }
 TexturedBackground {
   texture "dusk"
@@ -114,8 +114,8 @@ DEF PINK_BOX Solid {
   }
 }
 Robot {
-  translation 0 -0.15 0
-  rotation 0.923642 -0.271004 -0.271004 1.650144
+  translation 0.15 0 0
+  rotation 0 0 1 2.5708
   children [
     Transform {
       translation 0 0 0.0415
@@ -150,7 +150,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation -0.134487 0.134487 0.981747 -1.589217
+        rotation 0.134487 -0.134487 -0.981747 1.589217
         children [
           DEF WHEEL Transform {
             rotation 0.577657 0.577197 -0.577197 -2.093935
@@ -193,7 +193,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation 0.062357 -0.062357 0.996104 -1.5747
+        rotation -0.062357 0.062357 -0.996104 1.5747
         children [
           USE WHEEL
         ]
@@ -285,7 +285,7 @@ Robot {
               attenuation 0 0 1
               color 0 0 0
               intensity 0.5
-              location 0 0 0.03
+              location -0.03 0 0
               on FALSE
               castShadows TRUE
             }
@@ -323,7 +323,7 @@ Robot {
               attenuation 0 0 1
               color 0 0 0
               intensity 0.5
-              location 0 0 0.03
+              location -0.03 0 0
               on FALSE
               castShadows TRUE
             }
@@ -351,7 +351,7 @@ Robot {
               attenuation 0 0 1
               color 0 0 0
               intensity 0.5
-              location 0 0 0.03
+              location -0.03 0 0
               on FALSE
               castShadows TRUE
             }
