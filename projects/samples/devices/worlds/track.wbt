@@ -28,7 +28,7 @@ RectangleArena {
 }
 DEF TRACKED_ROBOT Robot {
   translation 0.547744 -0.672268 0.07
-  rotation 4.15248e-09 7.19235e-09 -1 -2.094395307179586
+  rotation 0 0 -1 -2.094395307179586
   children [
     DEF GEOM Shape {
       appearance PBRAppearance {
