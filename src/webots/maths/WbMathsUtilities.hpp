@@ -25,6 +25,8 @@ class WbVector3;
 
 namespace WbMathsUtilities {
 
+  static const double EPSILON = 0.0001;
+
   enum { X, Y, Z };
 
   bool isPowerOf2(unsigned int n);
@@ -53,6 +55,10 @@ namespace WbMathsUtilities {
   // Find rational approximation of given real number
   // returns false if no approximation is found
   bool computeRationalApproximation(double value, int maxDenominator, int &numerator, int &denominator);
+  // This will clamp value between -1 and 1 to avoid NaN generation
+  inline double clampedAcos(double value);
+  // This will clamp value between -1 and 1 to avoid indefinite value being generated
+  inline double clampedAsin(double value);
 };  // namespace WbMathsUtilities
 
 inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0.0) {
@@ -63,4 +69,27 @@ inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0
     d -= 2.0 * M_PI;
   return d + lastSpot;
 }
+
+// Make sure that the value is within the valid range before calling acos
+// If not then the behavior is similar to a clamped value.
+inline double WbMathsUtilities::clampedAcos(double value) {
+  assert((fabs(value) < 1.0 + EPSILON) && "Value passed to clampedAcos out of range.");
+  if (value >= 1.0)
+    return 0.0;
+  if (value <= -1.0)
+    return 2.0 * M_PI;
+  return acos(value);
+}
+
+// Make sure that the value is within the valid range before calling asin
+// If not then the behavior is similar to a clamped value.
+inline double WbMathsUtilities::clampedAsin(double value) {
+  assert((fabs(value) < 1.0 + EPSILON) && "Value passed to clampedAsin out of range.");
+  if (value >= 1.0)
+    return M_PI / 2;
+  if (value <= -1.0)
+    return -M_PI / 2;
+  return asin(value);
+}
+
 #endif  // WB_MATHS_UTILITIES_HPP

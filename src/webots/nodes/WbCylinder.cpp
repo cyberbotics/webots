@@ -18,6 +18,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
@@ -410,7 +411,7 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
     }
   } else {
     // body
-    double theta = asin(-collisionPoint.x() / r);
+    double theta = WbMathsUtilities::clampedAsin(-collisionPoint.x() / r);
     assert(!std::isnan(theta));
     if (collisionPoint.z() > 0)
       theta = M_PI - theta;
@@ -467,10 +468,10 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
       double t2 = (-b + discriminant) / (2 * a);
       double y1 = origin.y() + t1 * direction.y();
       double y2 = origin.y() + t2 * direction.y();
-      if (mSide->value() && t1 > 0 && y1 >= -h / 2 && y1 <= h / 2) {
+      if (t1 > 0 && y1 >= -h / 2 && y1 <= h / 2) {
         d = t1;
         faceIndex = 0;
-      } else if (mSide->value() && t2 > 0 && y2 >= -h / 2 && y2 <= h / 2) {
+      } else if (t2 > 0 && y2 >= -h / 2 && y2 <= h / 2) {
         d = t2;
         faceIndex = 0;
       }

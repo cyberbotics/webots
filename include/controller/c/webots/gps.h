@@ -33,6 +33,7 @@ void wb_gps_disable(WbDeviceTag tag);
 int wb_gps_get_sampling_period(WbDeviceTag tag);
 
 const double wb_gps_get_speed(WbDeviceTag tag);
+const double *wb_gps_get_speed_vector(WbDeviceTag tag);
 const double *wb_gps_get_values(WbDeviceTag tag);
 
 const char *wb_gps_convert_to_degrees_minutes_seconds(double decimal_degrees);

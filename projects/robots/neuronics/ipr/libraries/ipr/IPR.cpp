@@ -259,10 +259,8 @@ void IPR::dropCube(const double *dropPosition) {
   setMotorPosition(BASE_MOTOR, dropPosition[BASE_MOTOR]);
 
   // set motors position objectives
-  for (int i = FOREARM_MOTOR; i < RIGHT_GRIPPER_MOTOR; ++i) {
-    if (i != UPPER_ARM_MOTOR)
-      setMotorPosition(i, dropPosition[i]);
-  }
+  for (int i = FOREARM_MOTOR; i < RIGHT_GRIPPER_MOTOR; ++i)
+    setMotorPosition(i, dropPosition[i]);
 
   while (!positionReached(BASE_MOTOR, dropPosition[BASE_MOTOR]))
     step(mTimeStep);
