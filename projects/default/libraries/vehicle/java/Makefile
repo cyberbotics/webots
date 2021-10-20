@@ -28,7 +28,6 @@ JAVA_FILES = Driver.java Car.java vehicle.java vehicleJNI.java
 WRAPPER = $(MODULE_NAME).cpp
 WRAPPER_OBJECT = $(WRAPPER:.cpp=.o)
 JAR = $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(MODULE_NAME).jar
-INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/c/ -I$(WEBOTS_HOME_PATH)/include/controller/cpp/
 
 SWIG_OUTPUT  = output
 MODULE_PATH  = com/cyberbotics/webots/controller/vehicle
@@ -83,7 +82,7 @@ $(WRAPPER): $(INTERFACE) $(SOURCE_HEADERS)
 	@swig -c++ -java -package $(subst /,.,$(MODULE_PATH)) -outdir $(SWIG_OUTPUT) -I$(WEBOTS_HOME_PATH)/src/controller/java/ $(INCLUDES) -o $@ $<
 
 $(WRAPPER_OBJECT): $(WRAPPER)
-	@$(CXX) $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
+	@$(CXX) $(CFLAGS2) $(JAVA_INCLUDES) $< -o "$@"
 
 %.so: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
