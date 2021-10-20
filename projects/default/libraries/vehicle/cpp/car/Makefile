@@ -25,21 +25,21 @@ MAIN_TARGET = $(LIB_PREFIX)CppCar$(SHARED_LIB_EXTENSION)
 
 
 ifeq ($(OSTYPE),linux)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.so $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
-LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lcar -lCppController -lm
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.so
+LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -lcar
 LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
 endif
 
 ifeq ($(OSTYPE),darwin)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
-LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lcar -lCppController -lm
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.dylib
+LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -lcar
 LFLAGS = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 LFLAGS += -install_name @rpath/lib/controller/libCppCar.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/car.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
-LIBRARIES = $(LINK_DEPENDENCIES) -lm
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/car.dll
+LIBRARIES = $(LINK_DEPENDENCIES)
 LFLAGS = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppCar.a
 endif
 
