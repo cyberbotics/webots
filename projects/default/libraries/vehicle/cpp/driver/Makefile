@@ -23,21 +23,18 @@ CXX_SOURCES = $(wildcard src/*.cpp)
 INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c" -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -ldriver -lCppController
 MAIN_TARGET = $(LIB_PREFIX)CppDriver$(SHARED_LIB_EXTENSION)
-
+LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
 
 ifeq ($(OSTYPE),linux)
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so
-LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
 endif
 
 ifeq ($(OSTYPE),darwin)
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.dylib
-LFLAGS = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 endif
 
 ifeq ($(OSTYPE),windows)
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/driver.dll
-LFLAGS = -shared -Wl,--enable-auto-import
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

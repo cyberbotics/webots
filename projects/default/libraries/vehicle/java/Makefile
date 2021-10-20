@@ -28,7 +28,7 @@ JAVA_FILES = Driver.java Car.java vehicle.java vehicleJNI.java
 WRAPPER = $(MODULE_NAME).cpp
 WRAPPER_OBJECT = $(WRAPPER:.cpp=.o)
 JAR = $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(MODULE_NAME).jar
-INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/c/
+INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/c/ -I$(WEBOTS_HOME_PATH)/include/controller/cpp/
 
 SWIG_OUTPUT  = output
 MODULE_PATH  = com/cyberbotics/webots/controller/vehicle
@@ -55,7 +55,7 @@ CFLAGS2 = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MI
 LIBRARY = $(WEBOTS_CONTROLLER_LIB_PATH)/java/libvehicle.jnilib
 endif
 
-LIB += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppCar -lCppDriver
+LIB += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -lCppCar -lCppDriver
 
 .PHONY: JAVA_CLASSES all
 
