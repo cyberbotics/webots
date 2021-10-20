@@ -28,7 +28,7 @@ JAVA_FILES = Driver.java Car.java vehicle.java vehicleJNI.java
 WRAPPER = $(MODULE_NAME).cpp
 WRAPPER_OBJECT = $(WRAPPER:.cpp=.o)
 JAR = $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(MODULE_NAME).jar
-INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/c/ -I$(WEBOTS_HOME_PATH)/include/controller/cpp/
+INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/c/
 
 SWIG_OUTPUT  = output
 MODULE_PATH  = com/cyberbotics/webots/controller/vehicle
