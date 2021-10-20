@@ -117,7 +117,7 @@ DEF PANEL Transform {
       appearance PBRAppearance {
         baseColorMap DEF TEXTURE ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/stone.jpg"
+            "webots://projects/default/worlds/textures/lightwood.jpg"
           ]
         }
         roughness 0.5
