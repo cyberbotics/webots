@@ -105,7 +105,7 @@ void RosLidar::publishLaserScan() {
   laserScan.scan_time = (double)mLidar->getSamplingPeriod() / 1000.0;
   laserScan.range_min = mLidar->getMinRange();
   laserScan.range_max = mLidar->getMaxRange();
-  laserScan.ranges.resize(mLidar->getHorizontalResolution(););
+  laserScan.ranges.resize(mLidar->getHorizontalResolution());
   memcpy(laserScan.ranges.data(), rangeImageVector, laserScan.ranges.size() * sizeof(float));
   mLaserScanPublisher.publish(laserScan);
 }
