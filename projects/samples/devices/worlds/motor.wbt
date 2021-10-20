@@ -17,7 +17,6 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF ROBOT Robot {
-
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
