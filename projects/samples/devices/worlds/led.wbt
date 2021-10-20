@@ -6,8 +6,8 @@ WorldInfo {
   title "LED"
 }
 Viewpoint {
-  orientation -0.4119172995597533 -0.523386953483512 0.7459157025070919 4.614582137667571
-  position -0.13561882196707412 0.8447036904585582 1.5377847332149037
+  orientation 0.33632960868888634 -0.22674598560996537 -0.9140397432983679 4.30236051631329
+  position 0.4104122453712875 -1.3085310780103285 1.0854287628762127
 }
 TexturedBackground {
   texture "dusk"
@@ -43,7 +43,7 @@ DEF GREEN_BOX Solid {
 }
 DEF BLUE_BOX Solid {
   translation 0.2 -0.27 0.05
-  rotation 0.976444 0.152573 0.152573 1.594632
+  rotation 0.9764440362290037 0.1525730056609163 0.1525730056609163 1.594632
   children [
     Shape {
       appearance PBRAppearance {
@@ -67,7 +67,7 @@ DEF BLUE_BOX Solid {
 }
 DEF YELLOW_BOX Solid {
   translation -0.2 -0.15 0.05
-  rotation 0.96128 0.194861 0.194861 1.610276
+  rotation 0.9612795880715977 0.19486091649802306 0.19486091649802306 1.610276
   children [
     Shape {
       appearance PBRAppearance {
@@ -150,10 +150,10 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.134487 -0.134487 -0.981747 1.589217
+        rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176033 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0.577657 0.577197 -0.577197 -2.093935
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -193,7 +193,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.062357 0.062357 -0.996104 1.5747
+        rotation -0.06235700094427207 0.06235700094427207 -0.9961040150840031 1.5747
         children [
           USE WHEEL
         ]
@@ -204,10 +204,10 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940735 0.23981 0.23981 1.631852
+      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
       children [
         DEF SENSOR Transform {
-          rotation 0.577657 0.577197 -0.577197 -2.093935
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -234,7 +234,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.940374 -0.240516 -0.240516 1.632235
+      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
       children [
         USE SENSOR
       ]
@@ -249,7 +249,7 @@ Robot {
     }
     DEF SMILE Transform {
       translation 0.036 0 0.025
-      rotation 0.250563 -0.935113 -0.250563 1.637834
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -267,7 +267,6 @@ Robot {
     }
     LED {
       translation 0 -0.015 0.08
-      rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
         Group {
           children [
@@ -285,7 +284,7 @@ Robot {
               attenuation 0 0 1
               color 0 0 0
               intensity 0.5
-              location -0.03 0 0
+              location 0 0 0.03
               on FALSE
               castShadows TRUE
             }
@@ -307,7 +306,6 @@ Robot {
     }
     LED {
       translation 0 0.015 0.08
-      rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
         Group {
           children [
@@ -323,7 +321,7 @@ Robot {
               attenuation 0 0 1
               color 0 0 0
               intensity 0.5
-              location -0.03 0 0
+              location 0 0 0.03
               on FALSE
               castShadows TRUE
             }
@@ -335,7 +333,6 @@ Robot {
     }
     LED {
       translation -0.02 0 0.08
-      rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
         Group {
           children [
@@ -351,7 +348,7 @@ Robot {
               attenuation 0 0 1
               color 0 0 0
               intensity 0.5
-              location -0.03 0 0
+              location 0 0 0.03
               on FALSE
               castShadows TRUE
             }
