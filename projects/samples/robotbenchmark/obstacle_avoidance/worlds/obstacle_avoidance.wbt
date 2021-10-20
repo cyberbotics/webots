@@ -26,13 +26,13 @@ TexturedBackground {
   texture "empty_office"
 }
 DirectionalLight {
-  direction -0.6 -1 0.55
+  direction -0.55 0.6 -1
 }
 SpotLight {
   attenuation 0 0 1
   beamWidth 1
   cutOffAngle 1.4
-  direction 0 -1 0
+  direction 0 0 -1
   intensity 3
   location 0 -1 1.6
   radius 4
