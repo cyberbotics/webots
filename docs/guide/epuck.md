@@ -96,7 +96,7 @@ The names of the simulated devices which are to be used as an argument of the `w
 
 The `wb_motor_set_velocity` and `wb_position_sensor_get_value` functions allow you to set the speed of the robot and to use its encoders.
 
-%figure "Devices positions"
+%figure "Devices orientations"
 
 | Device | x (m)  | y (m)  | z (m)  | Orientation (rad) |
 | ------ | ------ | -----  | ------ | ----------------- |
