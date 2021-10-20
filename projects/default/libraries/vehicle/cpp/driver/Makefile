@@ -26,15 +26,15 @@ MAIN_TARGET = $(LIB_PREFIX)CppDriver$(SHARED_LIB_EXTENSION)
 LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
 
 ifeq ($(OSTYPE),linux)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
 endif
 
 ifeq ($(OSTYPE),darwin)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.dylib
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/driver.dll
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/driver.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
