@@ -400,7 +400,7 @@ Carpet {
 }
 Table {
   translation 6.1 1.4 0
-  size 1.2 0.56 0.8
+  size 1.2 0.8 0.56
 }
 Sofa {
   translation 6.1 2.8 0

@@ -11,6 +11,7 @@ TexturedBackgroundLight {
 }
 DEF FLOOR Solid {
   translation 0 0 -0.001
+  rotation 0 0 1 -1.57079
   children [
     DEF FLOOR_SHAPE Shape {
       appearance PBRAppearance {
@@ -115,6 +116,6 @@ E-puck {
   controller "beginner_e-puck_dance"
   camera_width 40
   camera_height 1
-  camera_rotation 0 -1 0 -0.47
+  camera_rotation 0 1 0 0.47
   window "botstudio"
 }
