@@ -121,6 +121,6 @@ E-puck {
   controller "beginner_rally"
   camera_width 40
   camera_height 1
-  camera_rotation 0 -1 0 -0.47
+  camera_rotation 0 1 0 0.47
   window "botstudio"
 }

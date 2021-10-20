@@ -139,77 +139,77 @@ DEF PIPES Transform {
   children [
     LeverValve {
       translation 0.50999991 -5.83 1
-      rotation 7.19234e-09 1.87158e-06 1 1.5708
+      rotation 0 0 1 1.5708
       scale 1 1 1
     }
     PipeSection {
       translation 2.11 -5.86 0.96000003
-      rotation 0.7071067811860158 -1.2264396204786223e-06 0.7071067811860158 -3.1415853071795863
+      rotation 0.7071067811860158 0 0.7071067811860158 -3.1415853071795863
       height 3
       radius 0.07
     }
     PipeSection {
       translation -2.81 -5.86 0.9600001
-      rotation 0.7071067811860158 -1.2264396204786223e-06 0.7071067811860158 -3.1415853071795863
+      rotation 0.7071067811860158 0 0.7071067811860158 -3.1415853071795863
       name "pipe section(1)"
       height 6.4
       radius 0.07
     }
     PipeSection {
       translation -4.39 -5.87 3.83
-      rotation 0.7071067811860158 -1.2264396204786223e-06 0.7071067811860158 -3.1415853071795863
+      rotation 0.7071067811860158 0 0.7071067811860158 -3.1415853071795863
       name "pipe section(2)"
       height 3.3
       radius 0.07
     }
     PipeSection {
       translation -1.63 -5.86 0.65
-      rotation 0.7071067811860158 -1.2264396204786223e-06 0.7071067811860158 -3.1415853071795863
+      rotation 0.7071067811860158 0 0.7071067811860158 -3.1415853071795863
       name "pipe section(3)"
       height 8.8
       radius 0.07
     }
     PipeSection {
       translation 3.857 -5.86 0.34
-      rotation 6.63091e-08 7.19235e-09 -1 -1.5707953071795862
+      rotation 0 0 -1 -1.5707953071795862
       name "pipe section(4)"
       height 0.7
       radius 0.07
     }
     PipeSection {
       translation 3.037 -5.86 0.19
-      rotation 6.63091e-08 7.19235e-09 -1 -1.5707953071795862
+      rotation 0 0 -1 -1.5707953071795862
       name "pipe section(5)"
       height 0.4
       radius 0.07
     }
     PipeSection {
       translation -2.443 -5.84 2.37
-      rotation 6.63091e-08 7.19235e-09 -1 -1.5707953071795862
+      rotation 0 0 -1 -1.5707953071795862
       name "pipe section(6)"
       height 2.4
       radius 0.07
     }
     LJoint {
       translation 3.74 -5.8610001 0.85599996
-      rotation 3.67507e-08 1 -2.95584e-08 3.14159
+      rotation 0 0 3.14159
       scale 2.4 2.4 2.4
     }
     LJoint {
       translation 2.93 -5.8610001 0.54599994
-      rotation -2.39745e-09 1 9.41782e-07 3.14159
+      rotation 0 0 3.14159
       name "L joint pipe(1)"
       scale 2.4 2.4 2.4
     }
     LJoint {
       translation -2.55 -5.845 3.7259999
-      rotation 3.67507e-08 1 -2.95584e-08 3.14159
+      rotation 0 0 3.14159
       name "L joint pipe(2)"
       scale 2.4 2.4 2.4
     }
     TJoint {
       translation -2.44 -5.843 1.0259999
-      rotation -1.22475e-07 -1 -7.19235e-09 3.14159
+      rotation 0 0 3.14159
       scale 2.4 2.4 2.4
     }
   ]
@@ -219,7 +219,7 @@ WoodenPalletStack {
   rotation 0 0 1 -0.523595307179586
 }
 WoodenPalletStack {
-  translation 5.0506856 4.3236115 -1.0658141e-14
+  translation 5.0506856 4.3236115 0
   rotation 0 0 -1 1.0472
   name "wooden pallet stack(1)"
   palletNumber 2
@@ -240,7 +240,7 @@ WoodenBox {
 }
 WoodenBox {
   translation 5.0324568 -3.0679729 0.9
-  rotation 0.004999916668646 0.004999916668646 -0.99997500052082 1.570821326586566
+  rotation 0.005 0.005 -1 1.570821326586566
   name "wooden box(3)"
 }
 DEF CONVEYOR_BELT Robot {
@@ -323,7 +323,6 @@ DEF CONVEYOR_BELT Robot {
     }
     DEF LEFT Transform {
       translation -0.26 0.31 0.01
-      rotation 0 1 0 6.44034e-07
       children [
         Shape {
           appearance BrushedAluminium {
@@ -453,7 +452,7 @@ DEF MACHINERY Solid {
   translation 1.3026953 -2.6462761 0.1
   children [
     DEF BOTTOM Transform {
-      rotation 6.63091e-08 7.19235e-09 -1 -1.5707953071795862
+      rotation 0 0 -1 -1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -466,7 +465,7 @@ DEF MACHINERY Solid {
     }
     DEF BACK Transform {
       translation 0 -0.65 0.685
-      rotation 2.39745e-09 9.39384e-07 1 3.14159
+      rotation 0 0 1 3.14159
       children [
         Shape {
           appearance BrushedAluminium {
@@ -478,8 +477,8 @@ DEF MACHINERY Solid {
       ]
     }
     DEF RIGHT Transform {
-      translation 0.40000002 0.1 0.685
-      rotation -9.50175e-07 -9.3579e-07 -1 -1.5707953071795862
+      translation 0.4 0.1 0.685
+      rotation 0 0 -1 -1.5707953071795862
       children [
         Shape {
           appearance BrushedAluminium {
@@ -491,8 +490,8 @@ DEF MACHINERY Solid {
       ]
     }
     DEF LEFT Transform {
-      translation -0.61599991 0.10000001 0.685
-      rotation 1.29667e-07 1.15282e-07 1 1.5708
+      translation -0.616 0.1 0.685
+      rotation 0 0 1 1.5708
       children [
         Shape {
           appearance BrushedAluminium {
@@ -522,7 +521,7 @@ DEF MACHINERY Solid {
     }
     DEF TOP Transform {
       translation 0 0 1.33
-      rotation 1.22475e-07 -7.19235e-09 1 -3.1415853071795863
+      rotation 0 0 1 -3.1415853071795863
       children [
         Shape {
           appearance BrushedAluminium {
@@ -535,7 +534,7 @@ DEF MACHINERY Solid {
     }
     DEF HOLE Transform {
       translation -0.21699991 0.10100001 0.97
-      rotation 9.4538e-07 -9.30995e-07 -1 1.57079
+      rotation 0 0 -1 1.57079
       children [
         Shape {
           appearance PBRAppearance {
@@ -564,7 +563,7 @@ DEF MACHINERY Solid {
       ]
     }
     DEF FOOT2 Transform {
-      translation -0.60000216 -0.639998 -0.07
+      translation -0.6 -0.639998 -0.07
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
@@ -578,7 +577,7 @@ DEF MACHINERY Solid {
       ]
     }
     DEF FOOT3 Transform {
-      translation -0.639998 -0.07 0.600002
+      translation -0.639998 -0.07 0.6
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
@@ -627,7 +626,7 @@ DEF MACHINERY Solid {
 }
 PlatformCart {
   translation -2.3649928 1.0055135 0
-  rotation -2.39745e-09 -1.20631e-07 -1 1.5708
+  rotation 0 0 -1 1.5708
   slot [
     DEF TARGET_SLOTS Solid {
       translation 0.1 0.14 0.11

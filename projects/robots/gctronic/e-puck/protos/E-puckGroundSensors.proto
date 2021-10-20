@@ -30,7 +30,7 @@ PROTO E-puckGroundSensors [
       }
       DEF EPUCK_GS0 DistanceSensor {
         translation 0 0.01 0.003
-        rotation 0 -1 0 -1.570796
+        rotation 0 1 0 1.570796
         children [
           DEF EPUCK_GS_SHAPE Shape {
             appearance PBRAppearance {
@@ -52,7 +52,7 @@ PROTO E-puckGroundSensors [
       }
       DEF EPUCK_GS1 DistanceSensor {
         translation 0 0 0.003
-        rotation 0 -1 0 -1.570796
+        rotation 0 1 0 1.570796
         children [
           USE EPUCK_GS_SHAPE
         ]
@@ -65,7 +65,7 @@ PROTO E-puckGroundSensors [
       }
       DEF EPUCK_GS2 DistanceSensor {
         translation 0 -0.01 0.003
-        rotation 0 -1 0 -1.570796
+        rotation 0 1 0 1.570796
         children [
           USE EPUCK_GS_SHAPE
         ]

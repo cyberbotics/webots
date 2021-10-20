@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.4669467000876425 -0.4914541857711985 0.7351418656050203 4.427849741356856
-  position -0.021389660048595376 0.6430024284041344 1.5064668834606318
+  orientation -0.47676030342044834 -0.5063474781826457 0.7185484287231564 4.41516125476627
+  position -0.02393829182139753 0.5822445222808772 1.525958755189279
 }
 TexturedBackground {
 }
@@ -36,7 +36,7 @@ RectangleArena {
 }
 Transform {
   translation 0 0.14 0
-  rotation 0 1 0 0
+  rotation 0 0 1 0.523599
   children [
     Shape {
       appearance PBRAppearance {

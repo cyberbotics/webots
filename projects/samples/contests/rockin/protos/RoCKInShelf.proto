@@ -14,7 +14,7 @@ PROTO RoCKInShelf [
     children [
       SolidBox {
         translation 0 0 0.51
-        rotation -1 0 0 -1.570796
+        rotation 1 0 0 1.570796
         name "shelf 1"
         size 0.3 0.02 0.6
         appearance BrushedAluminium {
@@ -22,7 +22,7 @@ PROTO RoCKInShelf [
       }
       SolidBox {
         translation 0 0 0.35
-        rotation -1 0 0 -1.570796
+        rotation 1 0 0 1.570796
         name "shelf 2"
         size 0.3 0.02 0.6
         appearance BrushedAluminium {
@@ -30,7 +30,7 @@ PROTO RoCKInShelf [
       }
       SolidBox {
         translation 0 0 0.18
-        rotation -1 0 0 -1.570796
+        rotation 1 0 0 1.570796
         name "shelf 3"
         size 0.3 0.02 0.6
         appearance BrushedAluminium {
@@ -38,7 +38,7 @@ PROTO RoCKInShelf [
       }
       SolidBox {
         translation 0 0 0.01
-        rotation -1 0 0 -1.570796
+        rotation 1 0 0 1.570796
         name "shelf 4"
         size 0.3 0.02 0.6
         appearance BrushedAluminium {
