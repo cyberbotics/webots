@@ -54,7 +54,7 @@ Solid {
     # with a radius twice bigger
     # in order to solve some issues with light and oblong ODE objects
     inertiaMatrix [
-      0.0005722 0.0001595 0.0005722,
+      0.0005722 0.0005722 0.0001595,
       0 0 0
     ]
   }

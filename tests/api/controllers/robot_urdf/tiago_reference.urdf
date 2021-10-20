@@ -645,13 +645,13 @@
   </joint>
   <link name="arm_left_2_link">
     <visual>
-      <origin xyz="0.056 0 -0.0005" rpy="0 0 0"/>
+      <origin xyz="0.056 0 -0.0005" rpy="3.141593 1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.052" length="0.048"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.056 0 -0.0005" rpy="0 0 0"/>
+      <origin xyz="0.056 0 -0.0005" rpy="3.141593 1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.052" length="0.048"/>
       </geometry>

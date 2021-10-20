@@ -56,6 +56,7 @@ private:
   WbSensor *mSensor;
   WbVector3 mMeasuredPosition;
   WbVector3 mPreviousPosition;
+  WbVector3 mSpeedVector;
   double mMeasuredSpeed;
   WbUTMConverter *mUTMConverter;
   bool mNeedToUpdateCoordinateSystem;

@@ -9,6 +9,7 @@ PROTO Pi-puck [
 ]
 {
   Solid {
+    rotation 0.5773502692 -0.5773502692 -0.5773502692 2.0943951024
     children [
       LED {
         translation -0.0301 0.0022 -0.0258
