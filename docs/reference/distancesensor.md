@@ -137,15 +137,18 @@ Two different methods are used for calculating the distance from an object.
 
 %figure "Summary of DistanceSensor types"
 
-| type (field)             | "generic" | "infra-red" | "sonar" | "laser" |
-| ------------------------ | --------- | ----------- | ------- | ------- |
-| numberOfRays (field)     | `>` 0     | `>` 0       | `>` 0   | 1       |
-| Distance calculation     | Average   | Average     | Nearest | Nearest |
-| gaussianWidth (field)    | Used      | Used        | Ignored | Ignored |
-| Sensitive to red objects | No        | Yes         | No      | No      |
-| Draws a red spot         | No        | No          | No      | Yes     |
+| type (field)               | "generic" | "infra-red" | "sonar" | "laser" |
+| -------------------------- | --------- | ----------- | ------- | ------- |
+| numberOfRays (field)       | `>` 0     | `>` 0       | `>` 0   | 1       |
+| Distance calculation       | Average   | Average     | Nearest | Nearest |
+| gaussianWidth (field)      | Used      | Used        | Ignored | Ignored |
+| Sensitive to red objects   | No        | Yes         | No      | No      |
+| Draws a red spot           | No        | No          | No      | Yes     |
+| Ignore transparent objects | No        | Yes         | No      | Yes     |
 
 %end
+
+A transparent object is not perceived by "laser" and "infra-red" distance sensors if its bounding object has transparency set to 1.0.
 
 ### Infra-Red Sensors
 

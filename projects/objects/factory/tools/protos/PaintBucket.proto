@@ -1457,7 +1457,7 @@ PROTO PaintBucket [
       density -1
       mass 4
       centerOfMass [
-        0 0.038 0
+        0 0 0.038
       ]
     }
   }

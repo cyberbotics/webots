@@ -27,102 +27,66 @@ PROTO CharacterSkin [
     name IS name
     modelUrl %<= '"' + "webots://projects/humans/skin_animated_humans/protos/skins/" + character + '.fbx"' >%
     appearance [
-      Appearance {
-        material Material {
-          ambientIntensity 0.30196
-          diffuseColor 1 1 1
-          shininess 0
-          specularColor 0.062745 0.05098 0.05098
-        }
-        texture ImageTexture {
+      PBRAppearance {
+        baseColorMap ImageTexture {
           url [
             %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_skin.jpg"' >%
           ]
         }
-        textureTransform TextureTransform {
-        }
+        roughness 1
+        metalness 0
         name "skin"
       }
-      Appearance {
-        material Material {
-          ambientIntensity 0.11
-          diffuseColor 1 1 1
-          shininess 0
-          specularColor 1 1 1
-        }
-        texture ImageTexture {
+      PBRAppearance {
+        baseColorMap ImageTexture {
           url [
             %< const character_eyes = (character === "sophia") ? "sandra" : character; >%
             %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyes + '_eyes.jpg"' >%
           ]
         }
-        textureTransform TextureTransform {
-        }
+        roughness 1
+        metalness 0
         name "eyes"
       }
-      Appearance {
-        material Material {
-          ambientIntensity 0.11
-          diffuseColor 1 1 1
-          shininess 0
-          specularColor 1 1 1
-        }
-        texture ImageTexture {
+      PBRAppearance {
+        baseColorMap ImageTexture {
           url [
             %< const character_eyebrow = (character === "anthony") ? "robert" : character; >%
             %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyebrow + '_eyebrow.png"' >%
           ]
         }
-        textureTransform TextureTransform {
-        }
+        roughness 1
+        metalness 0
         name "eyebrow"
       }
-      Appearance {
-        material Material {
-          ambientIntensity 0.11
-          diffuseColor 1 1 1
-          shininess 0
-          specularColor 0.047059 0.047059 0.047059
-        }
-        texture ImageTexture {
+      PBRAppearance {
+        baseColorMap ImageTexture {
           url [
             %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_hair.png"' >%
           ]
         }
-        textureTransform TextureTransform {
-        }
+        roughness 1
+        metalness 0
         name "hair"
       }
-      Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
-          shininess 0
-          specularColor 0.05098 0.047059 0.047059
-        }
-        texture ImageTexture {
+      PBRAppearance {
+        baseColorMap ImageTexture {
           url [
             %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_shoes.jpg"' >%
           ]
         }
-        textureTransform TextureTransform {
-        }
+        roughness 1
+        metalness 0
         name "shoes"
       }
-      Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
-          shininess 0
-          specularColor 0.027451 0.027451 0.027451
-        }
-        texture ImageTexture {
+      PBRAppearance {
+        baseColorMap ImageTexture {
           url [
             %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_suit.jpg"' >%
           ]
         }
-        textureTransform TextureTransform {
-        }
+        roughness 1
+        metalness 0
         name "suit"
       }
     ]

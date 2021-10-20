@@ -325,7 +325,7 @@
   <joint name="base_link_Hokuyo URG-04LX-UG01_joint" type="fixed">
     <parent link="base_link"/>
     <child link="Hokuyo URG-04LX-UG01"/>
-    <origin xyz="0.202 0 -0.004" rpy="1.570741 0.000118 -1.570741"/>
+    <origin xyz="0.202 0 -0.004" rpy="0 0 0"/>
   </joint>
   <link name="Torso">
     <visual>
@@ -645,13 +645,13 @@
   </joint>
   <link name="arm_left_2_link">
     <visual>
-      <origin xyz="0.056 0 -0.0005" rpy="0 0 0"/>
+      <origin xyz="0.056 0 -0.0005" rpy="3.141593 1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.052" length="0.048"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0.056 0 -0.0005" rpy="0 0 0"/>
+      <origin xyz="0.056 0 -0.0005" rpy="3.141593 1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.052" length="0.048"/>
       </geometry>

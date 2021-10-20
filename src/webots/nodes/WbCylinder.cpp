@@ -18,6 +18,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
@@ -406,7 +407,7 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
     }
   } else {
     // body
-    double theta = asin(-collisionPoint.x() / r);
+    double theta = WbMathsUtilities::clampedAsin(-collisionPoint.x() / r);
     assert(!std::isnan(theta));
     if (-collisionPoint.y() > 0)
       theta = M_PI - theta;
@@ -463,10 +464,10 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
       double t2 = (-b + discriminant) / (2 * a);
       double z1 = origin.z() + t1 * direction.z();
       double z2 = origin.z() + t2 * direction.z();
-      if (mSide->value() && t1 > 0 && z1 >= -h / 2 && z1 <= h / 2) {
+      if (t1 > 0 && z1 >= -h / 2 && z1 <= h / 2) {
         d = t1;
         faceIndex = 0;
-      } else if (mSide->value() && t2 > 0 && z2 >= -h / 2 && z2 <= h / 2) {
+      } else if (t2 > 0 && z2 >= -h / 2 && z2 <= h / 2) {
         d = t2;
         faceIndex = 0;
       }
@@ -535,7 +536,7 @@ bool WbCylinder::shallExport() const {
 WbVector3 WbCylinder::computeFrictionDirection(const WbVector3 &normal) const {
   WbVector3 localNormal = normal * matrix().extracted3x3Matrix();
   // Find most probable face and return first friction direction in the local coordinate system
-  if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))  // top or bottom face
+  if ((fabs(localNormal[2]) > fabs(localNormal[0])) && (fabs(localNormal[2]) > fabs(localNormal[1])))  // top or bottom face
     return WbVector3(1, 0, 0);
   else  // side
     return WbVector3(0, 0, 1);

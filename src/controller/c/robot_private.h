@@ -40,7 +40,7 @@ void robot_write_request(WbDevice *, WbRequest *);
 void robot_read_answer(WbDevice *, WbRequest *);
 WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warning);
 int robot_get_number_of_devices();
-WbDeviceTag robot_get_device_tag(WbDevice *);
+WbDeviceTag robot_get_device_tag(const WbDevice *);
 WbDevice *robot_get_robot_device();
 int robot_check_supervisor(const char *func_name);
 const char *robot_get_device_name(WbDeviceTag tag);

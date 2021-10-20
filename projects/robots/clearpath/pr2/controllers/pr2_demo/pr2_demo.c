@@ -247,7 +247,7 @@ static void set_rotation_wheels_angles(double fl, double fr, double bl, double b
   wb_motor_set_position(rotation_motors[BR_ROTATION], br);
 
   if (wait_on_feedback) {
-    double target[4] = {fl, fr, bl, br};
+    const double target[4] = {fl, fr, bl, br};
 
     while (true) {
       bool all_reached = true;

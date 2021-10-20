@@ -53,12 +53,15 @@ export default class Stream {
 
   _onSocketMessage(event) {
     let data = event.data;
-    if (data.startsWith('robot:') ||
-        data.startsWith('stdout:') ||
-        data.startsWith('stderr:') ||
-        data.startsWith('robot window:'))
+    if (data.startsWith('robot:') || data.startsWith('robot window:'))
       return 0; // We need to keep this condition, otherwise the robot window messages will be printed as errors.
-    else if (data.startsWith('world:')) {
+    else if (data.startsWith('stdout:')) {
+      this._view.onstdout(data.substring('stdout:'.length));
+      return 0;
+    } else if (data.startsWith('stderr:')) {
+      this._view.onstderr(data.substring('stderr:'.length));
+      return 0
+    } else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       let currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();

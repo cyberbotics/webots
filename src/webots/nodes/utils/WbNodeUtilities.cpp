@@ -989,6 +989,7 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
   const WbNode *const p = n->parentNode();
   if (p) {
     const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    // cppcheck-suppress knownConditionTrueFalse
     if (m)
       return static_cast<WbNode::NodeUse>(nodeUse |
                                           (m->boundingObject() == n ? WbNode::BOUNDING_OBJECT_USE : WbNode::STRUCTURE_USE));
@@ -1003,6 +1004,7 @@ bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
   const WbNode *const p = node->parentNode();
   if (p) {
     const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    // cppcheck-suppress knownConditionTrueFalse
     if (m) {
       const WbNode *boundingObject = m->boundingObject();
 

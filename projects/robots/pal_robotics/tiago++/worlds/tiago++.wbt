@@ -341,7 +341,7 @@ StraightStairs {
   leftRail []
   rightRail [
     StraightStairsRail {
-      translation -0.02 -0.13 0
+      translation -0.02 0 -0.13
       run 3.84
       rise 2.5
       newelHeight 0.8

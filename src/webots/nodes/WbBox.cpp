@@ -187,9 +187,9 @@ void WbBox::updateScale() {
 
 void WbBox::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
-  const WbVector3 &yAxis = m.column(1);
+  const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
-  const double alpha = yAxis.angle(-g);
+  const double alpha = zAxis.angle(g);
 
   static const double BOX_THRESHOLD = M_PI_2;
 
@@ -206,6 +206,9 @@ dGeomID WbBox::createOdeGeom(dSpaceID space) {
     parsingWarn(tr("'size' must be positive: construction of the Box in 'boundingObject' failed."));
     return NULL;
   }
+
+  if (WbNodeUtilities::findUpperMatter(this)->nodeType() == WB_NODE_FLUID)
+    checkFluidBoundingObjectOrientation();
 
   const WbVector3 s = scaledSize();
   return dCreateBox(space, s.x(), s.y(), s.z());
@@ -393,8 +396,8 @@ void WbBox::recomputeBoundingSphere() const {
 WbVector3 WbBox::computeFrictionDirection(const WbVector3 &normal) const {
   WbVector3 localNormal = normal * matrix().extracted3x3Matrix();
   // Find most probable face and return first friction direction in the local coordinate system
-  if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))
-    return WbVector3(0, 0, 1);
+  if ((fabs(localNormal[2]) > fabs(localNormal[0])) && (fabs(localNormal[2]) > fabs(localNormal[1])))
+    return WbVector3(1, 0, 0);
   else
-    return WbVector3(0, 1, 0);
+    return WbVector3(0, 0, 1);
 }
