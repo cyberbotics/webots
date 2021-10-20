@@ -55,7 +55,7 @@ CFLAGS2 = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MI
 LIBRARY = $(WEBOTS_CONTROLLER_LIB_PATH)/java/libvehicle.jnilib
 endif
 
-LIB += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppCar -lCppDriver
+LIB += -lCppCar -lCppDriver
 
 .PHONY: JAVA_CLASSES all
 
