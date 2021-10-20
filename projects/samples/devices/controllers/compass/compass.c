@@ -65,7 +65,7 @@ int main() {
 
     // read compass and rotate arrow accordingly
     const double *north = wb_compass_get_values(compass);
-    double angle = atan2(north[0], north[2]);
+    double angle = atan2(north[1], north[0]);
     wb_motor_set_position(arrow, angle);
   }
 

@@ -545,8 +545,10 @@ void WbVideoRecorder::createMpeg() {
     mScriptProcess = new QProcess();
     mScriptProcess->setProcessEnvironment(env);
     mScriptProcess->start("./" + mScriptPath, QStringList());
+    // clang-format off
     connect(mScriptProcess, (void (QProcess::*)(int, QProcess::ExitStatus)) & QProcess::finished, this,
             &WbVideoRecorder::terminateVideoCreation);
+    // clang-format on
     connect(mScriptProcess, &QProcess::readyReadStandardOutput, this, &WbVideoRecorder::readStdout);
     connect(mScriptProcess, &QProcess::readyReadStandardError, this, &WbVideoRecorder::readStderr);
   } else {
