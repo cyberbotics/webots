@@ -26,22 +26,22 @@ MAIN_TARGET = $(LIB_PREFIX)CppDriver$(SHARED_LIB_EXTENSION)
 
 
 ifeq ($(OSTYPE),linux)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so
-LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -ldriver
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so
+LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -ldriver
 LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
 endif
 
 ifeq ($(OSTYPE),darwin)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.dylib
-LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -ldriver
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.dylib
+LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -ldriver
 LFLAGS = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 LFLAGS += -install_name @rpath/lib/controller/libCppDriver.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/driver.dll
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/driver.dll
 LIBRARIES = $(LINK_DEPENDENCIES)
-LFLAGS = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.a
+LFLAGS = -frandom-seed=0 -shared -Wl,--out-implib
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
