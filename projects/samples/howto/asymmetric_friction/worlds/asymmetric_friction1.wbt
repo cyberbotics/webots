@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.31106509717996816 -0.7347588693830508 -0.602800057381681 5.2949622242239105
-  position -4.526083990795955 -2.602075562195123 3.9103769911716157
+  orientation 0.20329203746157004 -0.5537874926313038 -0.807460067439782 5.075673470208894
+  position -5.909781211682123 -7.616267618458759 6.502782370957459
 }
 TexturedBackground {
 }
@@ -21,7 +21,7 @@ TexturedBackgroundLight {
 }
 DEF BOX1 Solid {
   translation 0 0 -0.22
-  rotation 0 0 1 -1.5707953071795862
+  rotation 0 1 0 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -46,7 +46,7 @@ DEF BOX1 Solid {
 }
 DEF BOX2 Solid {
   translation 0 0 -0.5
-  rotation 0.4998161673859634 0.6314152114578326 0.5928731985503031 1.88767
+  rotation -0.8164968475155537 -0.5773498921773197 0 0.261799
   children [
     Shape {
       appearance PBRAppearance {
@@ -60,7 +60,7 @@ DEF BOX2 Solid {
         metalness 0
       }
       geometry DEF BOX2 Box {
-        size 1.7 0.1 1.7
+        size 1.7 1.7 0.1
       }
     }
   ]
@@ -69,7 +69,7 @@ DEF BOX2 Solid {
 }
 DEF PLANE Solid {
   translation 0 0 -1.16
-  rotation -0.0653564190352585 0.03773361099003052 -0.9971482904225133 2.09686
+  rotation 0.06353787775963689 -0.2371269169977198 0.9693986606783392 5.74384
   children [
     Shape {
       appearance PBRAppearance {
