@@ -2757,3 +2757,15 @@ It looks like there was some discussion of doing what `@mironix` suggests last y
 ##### mironix 10/13/2021 10:39:12
 thanks `@Justin Fisher` i'll check this out
 
+##### Meghana|Contributor 10/18/2021 02:44:57
+Hi
+
+
+Can we develop a mini game in webots which uses our hand gestures to control the game
+
+##### rozgo 10/18/2021 19:47:55
+You could use something like this: [https://handtracking.io/](https://handtracking.io/)
+
+
+With some minimal websockets server in the controller.
+
