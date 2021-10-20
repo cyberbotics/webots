@@ -54,7 +54,7 @@ static void update_display(float *scanvalue, int laser_width) {
   for (i = 0; i < laser_width; i++) {
     if (scanvalue[i] > 25)  // range up to 25 metres
       scanvalue[i] = 25;
-    px[i] = half_width2 + (cos(i * pi / 180)) * ((90 * scanvalue[i]) / 25);
+    px[i] = half_width2 - (cos(i * pi / 180)) * ((90 * scanvalue[i]) / 25);
     py[i] = half_height2 - (sin(i * pi / 180)) * ((90 * scanvalue[i]) / 25);
   }
   // update Scan Display
@@ -119,15 +119,16 @@ int main() {
     laser_width = wb_supervisor_field_get_sf_int32(widthsick);
     translation = wb_supervisor_field_get_sf_vec3f(translationField);
     rotation = wb_supervisor_field_get_sf_rotation(rotationField);
+
     // display the robot position
     int i;
     for (i = 0; i < laser_width; i++) {
       if (buffer[i] > 25)  // range up to 25 metres
         buffer[i] = 25;
       pxfill[i] =
-        width * (translation[X] + GROUND_X / 2 + sin(-rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_X;
+        width * (translation[X] + GROUND_X / 2 + sin(rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_X;
       pyfill[i] =
-        height * (-translation[Y] + GROUND_Y / 2 + cos(-rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_Y;
+        height * (-translation[Y] + GROUND_Y / 2 + cos(rotation[3] + (laser_width - i) * pi / 180) * buffer[i]) / GROUND_Y;
     }
 
     wb_display_fill_polygon(display, pxfill, pyfill, 180);
