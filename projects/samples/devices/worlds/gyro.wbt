@@ -7,8 +7,8 @@ WorldInfo {
   basicTimeStep 8
 }
 Viewpoint {
-  orientation 0.23567285673898342 0.5925911836478117 -0.7702557975499906 0.8840144040386125
-  position -0.18302530547618923 0.15861281453668324 0.3075843978563463
+  orientation 0.31866933044163714 0.27780002890931904 -0.9062433457818382 1.755665947792053
+  position 0.009706541215105216 0.3717658195457598 0.4506359623963661
 }
 TexturedBackground {
 }
@@ -21,7 +21,6 @@ DEF GYROBOT Robot {
   children [
     DEF HINGE_JOINT_X HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
         anchor 0 0 0.1
       }
       device [
@@ -36,7 +35,7 @@ DEF GYROBOT Robot {
         children [
           DEF HINGE_JOINT_Y_Z Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis -1 0 0
+              axis 0 1 0
             }
             jointParameters2 JointParameters {
             }
@@ -53,7 +52,6 @@ DEF GYROBOT Robot {
               }
             ]
             endPoint Gyro {
-              rotation 8.732169999950783e-07 -3.2417399999817296e-06 0.9999999999943643 1.5707953071795862
               children [
                 DEF RED_CYL Transform {
                   rotation -0.5773488553887604 -0.5773509760887603 0.5773509760887603 2.0943972231
