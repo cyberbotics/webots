@@ -46,7 +46,7 @@ PROTO SickLdMrs [
         %<
           let horizontalFieldOfView = wbutility.degreesToRadians(85);
         >%
-        rotation 0 0 0 %<= -wbutility.degreesToRadians(7.5) >%
+        rotation 1 0 0 %<= -wbutility.degreesToRadians(7.5) + 3.14157 >%
         name IS name
         model %<= '"Sick LD-MRS ' + fields.type.value + '"' >%
         fieldOfView %<= horizontalFieldOfView >%

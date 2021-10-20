@@ -52,14 +52,14 @@ int main(int argc, char **argv) {
     const double *acceleration = wb_accelerometer_get_values(accelerometer);
 
     // Actuate the LEDs according to the acceleration vector.
-    if (fabs(acceleration[0]) > fabs(acceleration[2])) {
+    if (fabs(acceleration[1]) > fabs(acceleration[0])) {
       wb_led_set(front_led, false);
       wb_led_set(back_led, false);
-      wb_led_set(left_led, acceleration[0] > 0.0);
-      wb_led_set(right_led, acceleration[0] < 0.0);
+      wb_led_set(left_led, acceleration[1] > 0.0);
+      wb_led_set(right_led, acceleration[1] < 0.0);
     } else {
-      wb_led_set(front_led, acceleration[2] > 0.0);
-      wb_led_set(back_led, acceleration[2] < 0.0);
+      wb_led_set(front_led, acceleration[0] < 0.0);
+      wb_led_set(back_led, acceleration[0] > 0.0);
       wb_led_set(left_led, false);
       wb_led_set(right_led, false);
     }
