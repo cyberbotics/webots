@@ -26,7 +26,6 @@ void webots_physics_init() {
   const dBodyID asd = dWebotsGetBodyFromDEF("ASD");
 
   if (rhoN_ball && asd) {
-    printf("ASD\n");
     dBodyAddTorque(rhoN_ball, 0, 20, 0);
     dBodyAddTorque(asd, 0, 20, 0);
   }

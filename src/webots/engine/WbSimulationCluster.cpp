@@ -308,6 +308,9 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
   // handle rolling friction
   if (rho[0] > 0 || rho[1] > 0 || rho[2] > 0) {
     contact->surface.mode = contact->surface.mode | dContactRolling;
+    if (rho[1] > 0 || rho[2] > 0)
+      contact->surface.mode = contact->surface.mode | dContactAxisDep;
+
     contact->surface.rho = rho[0];
     contact->surface.rho2 = rho[1];
     contact->surface.rhoN = rho[2];
