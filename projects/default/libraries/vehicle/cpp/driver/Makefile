@@ -21,7 +21,7 @@ WEBOTS_LIBRARY = 1
 
 CXX_SOURCES = $(wildcard src/*.cpp)
 INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c" -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-LIBRARIES = -ldriver -lCppController
+LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -ldriver -lCppController
 MAIN_TARGET = $(LIB_PREFIX)CppDriver$(SHARED_LIB_EXTENSION)
 
 
