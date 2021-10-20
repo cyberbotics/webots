@@ -26,6 +26,7 @@ right_motor.position = float('inf')
 left_motor.velocity = 0.0
 right_motor.velocity = 0.0
 
+print('left motor type is ' + 'rotational' if left_motor.type == Motor.ROTATIONAL else 'linear' + '.')
 while (robot.step(64) != -1):
     if ds1.value > 500:
         if ds0.value > 500:

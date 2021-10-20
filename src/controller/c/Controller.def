@@ -1,4 +1,6 @@
 EXPORTS
+wb_LINEAR
+wb_ROTATIONAL
 wb_accelerometer_disable
 wb_accelerometer_enable
 wb_accelerometer_get_sampling_period
