@@ -34,6 +34,7 @@ ifeq ($(OSTYPE),darwin)
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lcar -lCppController
 LFLAGS = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+LFLAGS += -install_name @rpath/lib/controller/libCppCar.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
