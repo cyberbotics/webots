@@ -69,17 +69,17 @@ PROTO AckermannVehicle [
     children [
       Transform {
         translation %<= frontTrack * 0.5 >% 0 %<= wheelbase >%
-        rotation 0 0 1 -1.5708
+        rotation 0 0 1 1.5708
         children [
           DEF LEFT_STEER_HINGE2 Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis 1 0 0
+              axis -1 0 0
               suspensionSpringConstant IS suspensionFrontSpringConstant
               suspensionDampingConstant IS suspensionFrontDampingConstant
               suspensionAxis 1 0 0
             }
             jointParameters2 JointParameters {
-              axis 0 1 0
+              axis 0 -1 0
               dampingConstant IS wheelsDampingConstant
             }
             device [
@@ -139,11 +139,11 @@ PROTO AckermannVehicle [
       }
       Transform {
         translation %<= rearTrack * 0.5 >% 0 0
-        rotation 0 0 1 -1.5708
+        rotation 0 0 1 1.5708
         children [
           DEF LEFT_REAR_WHEEL_HINGE HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
+              axis 0 -1 0
               dampingConstant IS wheelsDampingConstant
               suspensionSpringConstant IS suspensionRearSpringConstant
               suspensionDampingConstant IS suspensionRearDampingConstant
