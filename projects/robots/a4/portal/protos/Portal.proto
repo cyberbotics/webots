@@ -217,27 +217,31 @@ PROTO Portal [
             translation 0.01 0.14 0.067
             rotation 1 0 0 -1.5708
             children [
-              PointLight {
-                attenuation 0 0 1
-                color 0 0 0
-                intensity 0.05
-                location 0 0.009 0
-                radius 1
-                castShadows TRUE
-              }
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0.878431 0
-                  metalness 0
-                  roughness 0.2
-                  emissiveIntensity 3
-                }
-                geometry Capsule {
-                  bottom FALSE
-                  height 0.01
-                  radius 0.005
-                  subdivision 24
-                }
+              Group {
+                children [
+                  PointLight {
+                    attenuation 0 0 1
+                    color 0 0 0
+                    intensity 0.05
+                    location 0 0 0.009
+                    radius 1
+                    castShadows TRUE
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 1 0.878431 0
+                      metalness 0
+                      roughness 0.2
+                      emissiveIntensity 3
+                    }
+                    geometry Capsule {
+                      bottom FALSE
+                      height 0.01
+                      radius 0.005
+                      subdivision 24
+                    }
+                  }
+                ]
               }
             ]
             name "lamp"
