@@ -52,6 +52,8 @@
 	<string>wbt </string>
 	<key>CFBundleVersion</key>
 	<string>R2021b revision 1</string>
+	<key>LSMinimumSystemVersion</key>
+ 	<string>10.14</string>	
 	<key>CSResourcesFileMapped</key>
 	<true/>
 </dict>
