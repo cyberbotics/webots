@@ -18,6 +18,10 @@ import os
 _wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'Controller.dll'))
 
 
+def _constant(name):
+    return ctypes.c_int.in_dll(_wb, name).value
+
+
 class Robot:
     created = False
 
@@ -52,8 +56,8 @@ _wb.wb_motor_get_velocity.restype = ctypes.c_double
 
 
 class Motor:
-    ROTATIONAL = ctypes.c_int.in_dll(_wb, 'wb_ROTATIONAL').value
-    LINEAR = ctypes.c_int.in_dll(_wb, 'wb_LINEAR').value
+    ROTATIONAL = _constant('wb_ROTATIONAL')
+    LINEAR = _constant('wb_LINEAR')
 
     def __init__(self, name: str):
         self.id = _wb.wb_robot_get_device(str.encode(name))
