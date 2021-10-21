@@ -787,7 +787,7 @@ DEF PLATFORM Transform {
           appearance USE ORANGE_PIPE_APPEARANCE
         }
         PipeSection {
-          translation 2.0 -2.425 1.2
+          translation 2 -2.425 1.2
           rotation 0.5773506025225371 0.5773496025232256 -0.5773506025225371 -2.094395307179586
           name "pipe section(8)"
           height 0.16
@@ -1908,7 +1908,6 @@ CapScrew {
 }
 Washer {
   translation 0.8131 10.7422 0.72
-  rotation 0 1 0 1.5708
   appearance MetalPipePaint {
   }
   innerRadius 0.014
@@ -3068,7 +3067,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
       }
     }
     Window {
-      translation 0 2.0 0
+      translation 0 2 0
       name "window(3)"
       size 0.2 1 3
       windowHeight 1.6
@@ -3078,7 +3077,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
       }
     }
     Window {
-      translation 0 3.0 0
+      translation 0 3 0
       name "window(4)"
       size 0.2 1 3
       windowHeight 1.6
@@ -3088,7 +3087,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
       }
     }
     Window {
-      translation 0 4.0 0
+      translation 0 4 0
       name "window(5)"
       size 0.2 1 3
       windowHeight 1.6
@@ -3104,7 +3103,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
       appearance USE WALL_PLASTIC_APPEARANCE
     }
     Wall {
-      translation 0 1.85 3.0
+      translation 0 1.85 3
       name "wall(15)"
       size 0.2 5.7 0.652
       appearance Plaster {
@@ -3114,7 +3113,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
       }
     }
     Transform {
-      translation 0.1 1.85 3.0
+      translation 0.1 1.85 3
       children [
         Shape {
           appearance DEF WALL_JOINT_APPEARANCE PBRAppearance {
