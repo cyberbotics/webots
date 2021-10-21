@@ -165,10 +165,10 @@ DEF ROBOT1 Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0 0 1 2.07
+      rotation 0 0 -1 -0.6544953071795865
       children [
         DEF INFRARED Transform {
-          rotation -1 0 0 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -195,10 +195,10 @@ DEF ROBOT1 Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0 0 1 1.07
+      rotation 0 0 1 -0.6544953071795865
       children [
         DEF INFRARED Transform {
-          rotation -1 0 0 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -384,10 +384,10 @@ DEF ROBOT2 Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0 0 1 2.07
+      rotation 0 0 -1 -0.6544953071795865
       children [
         DEF INFRARED Transform {
-          rotation -1 0 0 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -414,10 +414,10 @@ DEF ROBOT2 Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0 0 1 1.07
+      rotation 0 0 1 -0.6544953071795865
       children [
         DEF INFRARED Transform {
-          rotation -1 0 0 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -603,10 +603,10 @@ DEF ROBOT3 Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0 0 1 2.07
+      rotation 0 0 -1 -0.6544953071795865
       children [
         DEF INFRARED Transform {
-          rotation -1 0 0 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -633,10 +633,10 @@ DEF ROBOT3 Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0 0 1 1.07
+      rotation 0 0 1 -0.6544953071795865
       children [
         DEF INFRARED Transform {
-          rotation -1 0 0 1.57
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
