@@ -14,6 +14,7 @@
 
 import ctypes
 import os
+import _WB # contains all the Webots constants, now addressable as _WB.CONSTANT_NAME
 
 _wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'Controller.dll'))
 
