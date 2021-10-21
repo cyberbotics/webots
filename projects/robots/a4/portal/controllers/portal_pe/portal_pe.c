@@ -227,11 +227,8 @@ int main() {
       }
     }
     const char k = wb_keyboard_get_key();
-    char keyboard_control = 0;
-    if (k != -1) {
-      keyboard_control = 1;
+    if (k != -1)
       simulation_state = SIMULATION_STATE_START;
-    }
     if (simulation_state == SIMULATION_STATE_PAUSE) {
       if (current_sound != -1) {
         suspended_sound = current_sound;
@@ -264,8 +261,8 @@ int main() {
       wb_robot_step(time_step);
       continue;
     }
-    if (keyboard_control)
-      wb_led_set(lamp, k == 'L' ? 1 : 0);
+    if (k == 'L')
+      wb_led_set(lamp, 1);
     else
       wb_led_set(lamp, pinsB & dirsB & 1);
     double gear_position = wb_position_sensor_get_value(gear_sensor);
