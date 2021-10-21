@@ -52,6 +52,7 @@ PROTO FourWheelsRobot [
       }
       DEF WHEEL2 HingeJoint {
         jointParameters HingeJointParameters {
+          axis 0 1 0
           anchor 0.05 -0.06 0
         }
         device [
