@@ -189,12 +189,20 @@ void WbStreamingServer::onNewTcpData() {
 }
 
 void WbStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
+  QString filePath = WbProject::current()->pluginsPath() + requestedUrl;
+
   if (!requestedUrl.startsWith("robot_windows/")) {
-    WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
-    socket->write(WbHttpReply::forge404Reply());
-    return;
+    // Here handle the streaming_viewer files.
+    static const QStringList streamer_files = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
+    if (streamer_files.contains(requestedUrl))
+      filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + requestedUrl;
+    else {
+      WbLog::warning(tr("Unsupported URL %1").arg(requestedUrl));
+      socket->write(WbHttpReply::forge404Reply());
+      return;
+    }
   }
-  const QString fileName(WbProject::current()->pluginsPath() + requestedUrl);
+  const QString fileName(filePath);
   if (WbHttpReply::mimeType(fileName).isEmpty()) {
     WbLog::warning(tr("Unsupported file type %1").arg(fileName));
     socket->write(WbHttpReply::forge404Reply());

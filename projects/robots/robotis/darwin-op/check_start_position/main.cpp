@@ -32,8 +32,8 @@ int main() {
   int value = 0;
   int thresholdPos = 230;  // (20/360)*4096 => 20 degree
   int thresholdAcc = 32;   // 128/4 => 1/4 G
-  int position[20] = {1500, 2517, 1834, 2283, 2380, 1710, 2043, 2033, 2057, 2043,
-                      1277, 2797, 3513, 571,  2843, 1240, 2077, 2037, 2050, 2173};  // Start position of each motors
+  const int position[20] = {1500, 2517, 1834, 2283, 2380, 1710, 2043, 2033, 2057, 2043,
+                            1277, 2797, 3513, 571,  2843, 1240, 2077, 2037, 2050, 2173};  // Start position of each motor
 
   if (cm730.ReadByte(JointData::ID_R_SHOULDER_PITCH, MX28::P_VERSION, &value, 0) != CM730::SUCCESS) {
     cerr << "Cannot get the MX28 firmware version" << endl;

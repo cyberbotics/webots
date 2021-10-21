@@ -795,13 +795,13 @@ void WbAbstractCamera::applyFrustumToWren() {
     for (int k = 0; k < 4; ++k) {
       const float helper = cosf(angleY[k]);
       // get x, y and z from the spherical coordinates
-      float x = 0.0f;
+      float y = 0.0f;
       if (angleY[k] > M_PI_4 || angleY[k] < -M_PI_4)
-        x = f * cosf(angleY[k] + M_PI_2) * sinf(angleX[k]);
+        y = f * cosf(angleY[k] + M_PI_2) * sinf(angleX[k]);
       else
-        x = f * helper * sinf(angleX[k]);
-      const float y = f * sinf(angleY[k]);
-      const float z = -f * helper * cosf(angleX[k]);
+        y = f * helper * sinf(angleX[k]);
+      const float z = f * sinf(angleY[k]);
+      const float x = f * helper * cosf(angleX[k]);
       addVertex(vertices, colors, zero, frustumColor);
       const float outlineVertex[3] = {x, y, z};
       addVertex(vertices, colors, outlineVertex, frustumColor);

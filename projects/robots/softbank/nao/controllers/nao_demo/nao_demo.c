@@ -190,7 +190,7 @@ static void print_gyro() {
 static void print_gps() {
   const double *p = wb_gps_get_values(gps);
   printf("----------gps----------\n");
-  printf("position: [ x y z] = [%f %f %f]\n", p[0], p[1], p[2]);
+  printf("position: [ x y z ] = [%f %f %f]\n", p[0], p[1], p[2]);
 }
 
 // the InertialUnit roll/pitch angles are equal to naoqi's AngleX/AngleY

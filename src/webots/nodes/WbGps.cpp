@@ -307,8 +307,9 @@ bool WbGps::refreshSensorIfNeeded() {
     mMeasuredPosition[2] = altitude;
   }
 
+  mSpeedVector = (t - mPreviousPosition) * 1000.0 / mSensor->elapsedTime();
   // compute current speed [m/s]
-  mMeasuredSpeed = (mPreviousPosition - t).length() * 1000.0 / mSensor->elapsedTime();
+  mMeasuredSpeed = mSpeedVector.length();
   mPreviousPosition = t;
   if (mSpeedNoise->value() > 0.0)
     mMeasuredSpeed *= 1.0 + mSpeedNoise->value() * WbRandom::nextGaussian();
@@ -323,6 +324,7 @@ void WbGps::reset(const QString &id) {
   WbSolidDevice::reset(id);
   mPreviousPosition = WbVector3();
   mMeasuredSpeed = 0.0;
+  mSpeedVector = WbVector3();
 }
 
 void WbGps::handleMessage(QDataStream &stream) {
@@ -350,6 +352,8 @@ void WbGps::writeAnswer(QDataStream &stream) {
     for (int i = 0; i < 3; ++i)
       stream << (double)mMeasuredPosition[i];
     stream << (double)mMeasuredSpeed;
+    for (int i = 0; i < 3; ++i)
+      stream << (double)mSpeedVector[i];
 
     mSensor->resetPendingValue();
   }

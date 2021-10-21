@@ -209,15 +209,15 @@ double arm_get_sub_arm_length(enum Arm arm) {
 }
 
 void arm_ik(double x, double y, double z) {
-  double x1 = sqrt(x * x + z * z);
-  double y1 = y + arm_get_sub_arm_length(ARM4) + arm_get_sub_arm_length(ARM5) - arm_get_sub_arm_length(ARM1);
+  double y1 = sqrt(x * x + y * y);
+  double z1 = z + arm_get_sub_arm_length(ARM4) + arm_get_sub_arm_length(ARM5) - arm_get_sub_arm_length(ARM1);
 
   double a = arm_get_sub_arm_length(ARM2);
   double b = arm_get_sub_arm_length(ARM3);
-  double c = sqrt(x1 * x1 + y1 * y1);
+  double c = sqrt(y1 * y1 + z1 * z1);
 
-  double alpha = -asin(z / x1);
-  double beta = -(M_PI_2 - acos((a * a + c * c - b * b) / (2.0 * a * c)) - atan(y1 / x1));
+  double alpha = -asin(x / y1);
+  double beta = -(M_PI_2 - acos((a * a + c * c - b * b) / (2.0 * a * c)) - atan(z1 / y1));
   double gamma = -(M_PI - acos((a * a + b * b - c * c) / (2.0 * a * b)));
   double delta = -(M_PI + (beta + gamma));
   double epsilon = M_PI_2 + alpha;
