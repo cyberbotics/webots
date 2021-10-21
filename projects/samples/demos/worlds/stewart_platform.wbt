@@ -8,8 +8,8 @@ WorldInfo {
   lineScale 1
 }
 Viewpoint {
-  orientation 0.3092828669937283 -0.755331537473877 -0.5777701763517122 5.299915066530624
-  position -14.600841309538756 -7.637248506173815 17.409386733570017
+  orientation 0.2880940676987638 0.04820484887274245 -0.9563880492258027 3.040568865714224
+  position 22.479136058968265 2.826037539813577 15.867026372599199
   near 0.5
 }
 TexturedBackground {
@@ -40,9 +40,9 @@ DEF STEWART_PLATFORM Robot {
     DEF LOWER_HINGE2_0 Hinge2Joint {
       jointParameters HingeJointParameters {
         anchor -1.20951 1.57453 0.120577
-        axis 0 -1 0
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_0 Solid {
         translation -1.13137 1.13137 0.9
@@ -185,10 +185,10 @@ DEF STEWART_PLATFORM Robot {
     }
     DEF LOWER_HINGE2_1 Hinge2Joint {
       jointParameters HingeJointParameters {
-        axis 0 -1 0
         anchor -1.20951 -1.57453 0.120577
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_1 Solid {
         translation -1.13137 -1.13137 0.9
@@ -248,9 +248,9 @@ DEF STEWART_PLATFORM Robot {
     DEF LOWER_HINGE2_2 Hinge2Joint {
       jointParameters HingeJointParameters {
         anchor -0.75883 -1.83473 0.120577
-        axis 0 -1 0
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_2 Solid {
         translation -0.41411 -1.54548 0.9
@@ -310,9 +310,9 @@ DEF STEWART_PLATFORM Robot {
     DEF LOWER_HINGE2_3 Hinge2Joint {
       jointParameters HingeJointParameters {
         anchor 1.96834 -0.260201 0.120577
-        axis 0 -1 0
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_3 Solid {
         translation 1.54548 -0.41411 0.9
@@ -372,9 +372,9 @@ DEF STEWART_PLATFORM Robot {
     DEF LOWER_HINGE2_4 Hinge2Joint {
       jointParameters HingeJointParameters {
         anchor 1.96834 0.260201 0.120577
-        axis 0 -1 0
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_4 Solid {
         translation 1.54548 0.41411 0.9
@@ -434,9 +434,9 @@ DEF STEWART_PLATFORM Robot {
     DEF LOWER_HINGE2_5 Hinge2Joint {
       jointParameters HingeJointParameters {
         anchor -0.75883 1.83473 0.120577
-        axis 0 -1 0
       }
       jointParameters2 JointParameters {
+        axis 0 -1 0
       }
       endPoint DEF LOWER_PISTON_5 Solid {
         translation -0.41411 1.54548 0.9
