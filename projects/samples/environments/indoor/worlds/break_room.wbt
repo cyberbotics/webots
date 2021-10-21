@@ -411,7 +411,6 @@ Cabinet {
 }
 Cabinet {
   translation -6.14 -0.7 1.6
-  rotation 0 0 1 4.692820414042842e-06
   name "cabinet(3)"
   outerThickness 0.02
   rowsHeights [
@@ -1140,7 +1139,6 @@ OfficeChair {
 }
 OfficeChair {
   translation -4 0.0700003 0
-  rotation 0 0 1 -5.307179586466759e-06
   name "office chair(4)"
 }
 OfficeChair {
