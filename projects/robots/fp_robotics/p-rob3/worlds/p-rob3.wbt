@@ -73,12 +73,12 @@ Table {
 }
 P-Rob3 {
   translation -4.84 1.6 0.74
-  rotation 2.653589999981315e-06 -2.653589999981315e-06 0.9999999999929585 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
   controller "p-rob3"
 }
 P-Rob3 {
   translation -5.66378 0.779695 0.740005
-  rotation 3.0666899999834074e-06 1.1903199999935598e-06 0.9999999999945894 1.5708
+  rotation 0 0 1 1.5708
   name "P-Rob3(1)"
   controller "p-rob3"
   secondaryColor 0.960784 0.47451 0
@@ -154,7 +154,7 @@ LJoint {
 }
 LJoint {
   translation 3.277 7.571 2.422
-  rotation -1 4.67362e-09 1.89469e-08 3.14159
+  rotation -1 0 0 3.14159
 }
 WoodenPallet {
   translation -12.1 3.05 0.52
@@ -276,7 +276,6 @@ SmallValve {
 }
 Wall {
   translation 3.82 0 0
-  rotation 0 0 1 4.692820414042842e-06
   name "wall(1)"
   size 0.2 20 7
   appearance Roughcast {
