@@ -75,7 +75,7 @@ DEF WALL2 Solid {
     children [
       Transform {
         translation 0 -0.59 0.025
-        rotation 0.5773502692 -0.5773502692 -0.5773502692 2.0943951024
+        rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
         children [
           DEF WALL_SHAPE Shape {
             appearance USE WALL_APPEARANCE
@@ -87,21 +87,21 @@ DEF WALL2 Solid {
       }
       Transform {
         translation 0 0.59 0.025
-        rotation 0.5773502692 -0.5773502692 -0.5773502692 2.0943951024
+        rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
         translation -0.59 0 0.025
-        rotation 0.9999998415 -0.0003981634 -0.0003981634 1.5707964853
+        rotation 1 0 0 1.5707964853
         children [
           USE WALL_SHAPE
         ]
       }
       Transform {
         translation 0.59 0 0.025
-        rotation 0.9999998415 -0.0003981634 -0.0003981634 1.5707964853
+        rotation 1 0 0 1.5707964853
         children [
           USE WALL_SHAPE
         ]
@@ -111,10 +111,9 @@ DEF WALL2 Solid {
   locked TRUE
 }
 E-puck {
-  translation -0.316283 0.369828 0
-  rotation 0 0 1 4.7795
+  translation -0.369828 -0.316283 0
   controller "intermediate_lfm"
   camera_width 40
   camera_height 1
-  camera_rotation 0 -1 0 -0.47
+  camera_rotation 0 1 0 0.47
 }

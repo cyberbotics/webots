@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.018073699906631446 -0.9994989948365981 -0.02598269986577363 4.24934
-  position 0.958658 0.130266 -0.44661
+  orientation 0.000858399806091862 0.6857612803945465 0.7278260296673958 3.462561113032888
+  position 1.5946827827271746 0.47293309317361193 -0.3469498234533645
 }
 Background {
   skyColor [
@@ -18,8 +18,8 @@ DEF FLOOR Solid {
   translation -0.5 0 -0.5
   children [
     Transform {
-      rotation 1 0 0 -1.57079632679
       translation 0 0 1
+      rotation 1 0 0 -1.57079632679
       children [
         Shape {
           geometry ElevationGrid {
@@ -34,11 +34,11 @@ DEF FLOOR Solid {
   ]
   boundingObject Transform {
     translation 0.5 0 0.5
+    rotation 1 0 0 -1.57079632679
     children [
       Plane {
       }
     ]
-    rotation 1 0 0 -1.57079632679
   }
 }
 DEF contact_points_and_center_of_mass Robot {
@@ -57,6 +57,7 @@ Robot {
       children [
         Transform {
           translation 0.025 -0.05 0.025
+          rotation 1 0 0 -1.57079632679
           children [
             Shape {
               geometry Cylinder {
@@ -65,10 +66,10 @@ Robot {
               }
             }
           ]
-          rotation 1 0 0 -1.57079632679
         }
         Transform {
           translation -0.025 -0.05 0.025
+          rotation 1 0 0 -1.57079632679
           children [
             Shape {
               geometry Cylinder {
@@ -77,10 +78,10 @@ Robot {
               }
             }
           ]
-          rotation 1 0 0 -1.57079632679
         }
         Transform {
           translation -0.025 -0.05 -0.025
+          rotation 1 0 0 -1.57079632679
           children [
             Shape {
               geometry Cylinder {
@@ -89,10 +90,10 @@ Robot {
               }
             }
           ]
-          rotation 1 0 0 -1.57079632679
         }
         Transform {
           translation 0.025 -0.05 -0.025
+          rotation 1 0 0 -1.57079632679
           children [
             Shape {
               geometry Cylinder {
@@ -101,7 +102,6 @@ Robot {
               }
             }
           ]
-          rotation 1 0 0 -1.57079632679
         }
         Shape {
           geometry Box {
@@ -116,6 +116,7 @@ Robot {
       children [
         DEF SECONDARY_BODY Transform {
           translation 0 -0.05 0
+          rotation 1 0 0 -1.57079632679
           children [
             Shape {
               geometry Cylinder {
@@ -124,7 +125,6 @@ Robot {
               }
             }
           ]
-          rotation 1 0 0 -1.57079632679
         }
       ]
       boundingObject USE SECONDARY_BODY
@@ -141,11 +141,11 @@ Robot {
 }
 DEF E_PUCK E-puck {
   translation 5.30718e-08 0 0.09
-  rotation 0 1 0 3.14159
+  rotation -0.577349935856137 -0.5773509358560258 -0.577349935856137 2.09439
   controller "void"
   turretSlot [
     DEF SLOT_SOLID WoodenBox {
-      translation 0 -0.01 0.03
+      translation -0.03 0 -0.01
       size 0.01 0.01 0.01
       mass 0.02
     }

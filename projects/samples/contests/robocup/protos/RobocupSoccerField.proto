@@ -306,7 +306,7 @@ PROTO RobocupSoccerField [
       }
       RobocupGoal {
         translation %<= I + A - OFFSET_X >% %<= I + (B / 2) - OFFSET_Y >% 0
-        rotation 0 0 1 3.14
+        rotation 0 0 1 3.14159
         size IS size
         name "goal_away"
       }
