@@ -31,6 +31,9 @@ PROTO Portal [
         children IS extensionSlot
       }
       Transform {
+      rotation 1 0 0 1.5708
+      children [
+      Transform {
         translation 0 0.005 0
         children [
           Shape {
@@ -158,7 +161,7 @@ PROTO Portal [
       }
       Transform {
         translation 0 0.0105 0.02
-        rotation 0 0 1 1.57
+        rotation 0 1 0 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -174,8 +177,9 @@ PROTO Portal [
           }
         ]
       }
-      DEF PICO Transform {
+      DEF PICO1 Transform {
         translation -0.025 0.125 0.011
+        rotation 1 0 0 -1.5708
         children [
           DEF PICO_SHAPE Shape {
             appearance USE WHITE
@@ -188,52 +192,52 @@ PROTO Portal [
           }
         ]
       }
-      DEF PICO Transform {
+      DEF PICO2 Transform {
         translation -0.025 0.125 0.029
+        rotation 1 0 0 -1.5708
         children [
           USE PICO_SHAPE
         ]
       }
-      DEF PICO Transform {
+      DEF PICO3 Transform {
         translation -0.243 0.125 0.029
+        rotation 1 0 0 -1.5708
         children [
           USE PICO_SHAPE
         ]
       }
-      DEF PICO Transform {
+      DEF PICO4 Transform {
         translation -0.243 0.125 0.011
+        rotation 1 0 0 -1.5708
         children [
           USE PICO_SHAPE
         ]
       }
       LED {
         translation 0.01 0.14 0.067
+        rotation 1 0 0 -1.5708
         children [
-          Group {
-            children [
-              PointLight {
-                attenuation 0 0 1
-                color 0 0 0
-                intensity 0.05
-                location 0 0.009 0
-                radius 1
-                castShadows TRUE
-              }
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0.878431 0
-                  metalness 0
-                  roughness 0.2
-                  emissiveIntensity 3
-                }
-                geometry Capsule {
-                  bottom FALSE
-                  height 0.01
-                  radius 0.005
-                  subdivision 24
-                }
-              }
-            ]
+          PointLight {
+            attenuation 0 0 1
+            color 0 0 0
+            intensity 0.05
+            location 0 0.009 0
+            radius 1
+            castShadows TRUE
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0.878431 0
+              metalness 0
+              roughness 0.2
+              emissiveIntensity 3
+            }
+            geometry Capsule {
+              bottom FALSE
+              height 0.01
+              radius 0.005
+              subdivision 24
+            }
           }
         ]
         name "lamp"
@@ -342,7 +346,6 @@ PROTO Portal [
             }
             Transform {
               translation 0 0 -0.0002
-              rotation 1 0 0 1.5708
               scale 1 1 1
               children [
                 Shape {
@@ -360,7 +363,6 @@ PROTO Portal [
             }
             Transform {
               translation 0 0 -0.01
-              rotation 1 0 0 1.5708
               scale 1 1 1
               children [
                 Shape {
@@ -395,7 +397,6 @@ PROTO Portal [
           }
           DEF RED_CYLINDER Transform {
             translation -0.006 0.046 -0.011
-            rotation 1 0 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -412,7 +413,6 @@ PROTO Portal [
           }
           DEF GRAY_CYLINDER Transform {
             translation -0.006 0.046 -0.035
-            rotation 1 0 0 1.5708
             children [
               Shape {
                 appearance USE GRAY_METAL
@@ -427,7 +427,6 @@ PROTO Portal [
           }
           DEF YELLOW_CYLINDER Transform {
             translation -0.006 0.046 -0.051
-            rotation 1 0 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -476,7 +475,6 @@ PROTO Portal [
             children [
               Transform {
                 translation 0.0225 -0.0123 -0.004
-                rotation 1 0 0 1.5708
                 children [
                   DEF SCREW Shape {
                     appearance USE GRAY_METAL
@@ -491,7 +489,6 @@ PROTO Portal [
               }
               Transform {
                 translation 0.0225 0.0122 -0.004
-                rotation 1 0 0 1.5708
                 children [
                   DEF SCREW Shape {
                     appearance USE GRAY_METAL
@@ -505,7 +502,6 @@ PROTO Portal [
               }
               Transform {
                 translation -0.0225 0.0122 -0.004
-                rotation 1 0 0 1.5708
                 children [
                   DEF SCREW Shape {
                     appearance USE GRAY_METAL
@@ -519,7 +515,6 @@ PROTO Portal [
               }
               Transform {
                 translation -0.0225 -0.0126 -0.004
-                rotation 1 0 0 1.5708
                 children [
                   DEF SCREW Shape {
                     appearance USE GRAY_METAL
@@ -595,7 +590,7 @@ PROTO Portal [
       }
       DEF OUTSIDE TouchSensor {
         translation -0.041 0.085 -0.05
-        rotation 0 0 1 1.5708
+        rotation 0 1 0 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -620,7 +615,7 @@ PROTO Portal [
       }
       DEF INSIDE TouchSensor {
         translation -0.227 0.085 0.067
-        rotation 0 0 1 -1.5708
+        rotation 0 1 0 -1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -647,7 +642,7 @@ PROTO Portal [
         translation -0.23 0.04 0.067
         children [
           Transform {
-            rotation 0 0 1 1.57
+            rotation 0 1 0 -1.5708
             children [
               Shape {
                 appearance PBRAppearance {
@@ -685,7 +680,7 @@ PROTO Portal [
           USE PCB
           Transform {
             translation -0.01 0 0.0015
-            rotation 1 0 0 -1.57
+            rotation 0 1 0 3.14159
             children [
               Shape {
                 appearance PBRAppearance {
@@ -702,6 +697,8 @@ PROTO Portal [
             ]
           }
         ]
+      }
+      ]
       }
     ]
     model "A4 PICAXE-28X2"
