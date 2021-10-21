@@ -14,7 +14,7 @@
 
 import ctypes
 import os
-import _WB # contains all the Webots constants, now addressable as _WB.CONSTANT_NAME
+from _WB import * # imports all webots C constants with _WB_ prefix, e.g. _WB_NODE_GPS
 
 _wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'Controller.dll'))
 
