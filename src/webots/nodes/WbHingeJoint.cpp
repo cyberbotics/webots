@@ -676,22 +676,27 @@ void WbHingeJoint::updateSuspensionAxisRepresentation() {
   mSuspensionMesh = wr_static_mesh_line_set_new(nbVertices, vertices, NULL);
 
   // find orthogonal basis
-  WbVector3 baseX, baseY, baseZ;
-  baseY = suspensionAxis.normalized();
-  baseX = fabs(baseY.dot(WbVector3(1, 0, 0))) < 1e-6 ? baseY.cross(WbVector3(1, 0, 0)) : baseY.cross(WbVector3(0, 1, 0));
-  baseZ = baseX.cross(baseY).normalized();
+  float rotationArray[4] = {0, 0, 0, 0};
+  if (suspensionAxis.dot(WbVector3(0, 1, 0)) && suspensionAxis.y() < 0) {
+    rotationArray[0] = M_PI;
+    rotationArray[1] = 1;
+  } else {
+    WbVector3 baseX, baseY, baseZ;
+    baseY = suspensionAxis.normalized();
+    baseX = fabs(baseY.dot(WbVector3(1, 0, 0))) < 1e-6 ? baseY.cross(WbVector3(1, 0, 0)) : baseY.cross(WbVector3(0, 1, 0));
+    baseZ = baseX.cross(baseY).normalized();
 
-  WbRotation rotation(baseX, baseY, baseZ);
-  rotation.normalize();
-
-  float rotationArray[4];
-  rotation.toFloatArray(rotationArray);
+    WbRotation rotation(baseX, baseY, baseZ);
+    rotation.normalize();
+    rotation.toFloatArray(rotationArray);
+  }
 
   float tail[6];
   anchorVector.toFloatArray(tail);
   suspensionAxis.toFloatArray(tail + 3);
 
   wr_transform_set_position(mSuspensionTransform, tail);
+
   wr_transform_set_orientation(mSuspensionTransform, rotationArray);
 
   wr_renderable_set_mesh(mSuspensionRenderable, WR_MESH(mSuspensionMesh));
