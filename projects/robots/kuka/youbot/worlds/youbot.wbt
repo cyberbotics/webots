@@ -42,7 +42,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Floor {
-  rotation 0 0 1 -1.5707963267948966
   size 100 100
 }
 WoodenBox {
@@ -56,7 +55,6 @@ KukaBox {
 }
 Youbot {
   translation 0 0 0.102838
-  rotation 0 1 0 0
   controllerArgs [
     "demo"
   ]

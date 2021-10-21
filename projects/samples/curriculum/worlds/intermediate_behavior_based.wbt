@@ -130,5 +130,5 @@ E-puck {
   controller "intermediate_behavior_based"
   camera_width 40
   camera_height 1
-  camera_rotation 0 -1 0 -0.47
+  camera_rotation 0 1 0 0.47
 }

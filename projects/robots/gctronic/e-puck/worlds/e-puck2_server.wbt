@@ -15,7 +15,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 0 0 1 1.5708
+  rotation 0 0 1 -1.5708
   floorSize 2 2
 }
 WoodenBox {

@@ -15,7 +15,7 @@ SPEED_INCREMENT = 0.05;
 global WHEEL_RADIUS;
 WHEEL_RADIUS = 0.05;
 global LX; % longitudinal distance from robot's COM to wheel [m].
-LX= 0.228;
+LX = 0.228;
 global LY; % lateral distance from robot's COM to wheel [m].
 LY = 0.158;
 global HEIGHTS;
