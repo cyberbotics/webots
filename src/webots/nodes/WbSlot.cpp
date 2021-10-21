@@ -166,10 +166,10 @@ void WbSlot::setSleepMaterial() {
     e->setSleepMaterial();
 }
 
-WbBoundingSphere *WbSlot::boundingSphere() const {
+WbBoundingSphere *WbSlot::boundingSphere(bool includeDescendants) const {
   WbBaseNode *const baseNode = static_cast<WbBaseNode *>(mEndPoint->value());
   if (baseNode)
-    return baseNode->boundingSphere();
+    return baseNode->boundingSphere(includeDescendants);
 
   return NULL;
 }

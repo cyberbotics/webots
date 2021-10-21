@@ -293,10 +293,18 @@ void WbJoint::updateJointAxisRepresentation() {
   if (!areWrenObjectsInitialized())
     return;
 
+  WbBoundingSphere *bs = boundingSphere(false);
+
+  if (!bs)
+    return;
+
   wr_static_mesh_delete(mMesh);
 
+  const double radius = bs->getSubBoundingSphere(0) ? bs->getSubBoundingSphere(0)->radius() : bs->radius();
+  double scaling = 2 * radius * wr_config_get_line_scale() / 0.1f;
+
   const WbVector3 &anchorVector = anchor();
-  const WbVector3 &axisVector = 0.5 * wr_config_get_line_scale() * axis();
+  const WbVector3 &axisVector = scaling * axis();
 
   const int nbVertices = 10;  // 2 for line, 4*2 for arrowhead
   float vertices[nbVertices * 3];
@@ -305,7 +313,7 @@ void WbJoint::updateJointAxisRepresentation() {
   WbVector3(anchorVector + axisVector).toFloatArray(vertices + 3);
 
   // define arrow head
-  const double aperture = 0.001f * wr_config_get_line_scale() / 0.1f;  // scale as line-scale does
+  const double aperture = 0.02f * scaling;  // scale as line-scale does
 
   // find perpendicular vectors
   const WbVector3 b1 = axis().normalized();

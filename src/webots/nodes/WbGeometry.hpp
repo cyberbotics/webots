@@ -87,7 +87,7 @@ public:
   virtual void applyToOdeData(bool correctSolidMass = true) {}  // Resize the ODE dGeom stored in a bounding WbGeometry
 
   // Ray tracing
-  WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
+  WbBoundingSphere *boundingSphere(bool includeDescendants = true) const override { return mBoundingSphere; }
   virtual void recomputeBoundingSphere() const = 0;
   virtual bool pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSet = 0) const = 0;
   virtual double computeDistance(const WbRay &ray) const = 0;

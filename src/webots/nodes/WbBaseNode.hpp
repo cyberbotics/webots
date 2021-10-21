@@ -105,7 +105,7 @@ public:
   WbNode::NodeUse nodeUse() const;
 
   // Ray tracing functions
-  virtual WbBoundingSphere *boundingSphere() const { return NULL; }
+  virtual WbBoundingSphere *boundingSphere(bool includeDescendants = true) const { return NULL; }
 
   // resize/scale manipulator
   virtual bool hasResizeManipulator() const { return false; }

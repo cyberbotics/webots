@@ -89,7 +89,10 @@ void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
   mSkinOwner = dynamic_cast<const WbSkin *>(mOwner);
 }
 
-double WbBoundingSphere::radius() {
+double WbBoundingSphere::radius(bool includeDescendants) {
+  if (!includeDescendants && mParentBoundingSphere)
+    return mParentBoundingSphere->radius();
+
   if (mBoundSpaceDirty)
     recomputeIfNeeded();
   return mRadius;
@@ -103,7 +106,10 @@ double WbBoundingSphere::radiusInParentCoordinates() {
   return mRadiusInParentCoordinates;
 }
 
-const WbVector3 &WbBoundingSphere::center() {
+const WbVector3 &WbBoundingSphere::center(bool includeDescendants) {
+  if (!includeDescendants && mParentBoundingSphere)
+    return mParentBoundingSphere->center();
+
   if (mBoundSpaceDirty)
     recomputeIfNeeded();
   return mCenter;
@@ -172,6 +178,12 @@ void WbBoundingSphere::removeSubBoundingSphere(WbBoundingSphere *boundingSphere)
     if (gUpdatesEnabled)
       parentUpdateNotification();
   }
+}
+
+WbBoundingSphere *WbBoundingSphere::getSubBoundingSphere(int index) {
+  if (index < mSubBoundingSpheres.size())
+    return mSubBoundingSpheres.at(index);
+  return NULL;
 }
 
 void WbBoundingSphere::enclose(const WbVector3 &point) {

@@ -489,12 +489,12 @@ void WbBasicJoint::write(WbVrmlWriter &writer) const {
   }
 }
 
-WbBoundingSphere *WbBasicJoint::boundingSphere() const {
+WbBoundingSphere *WbBasicJoint::boundingSphere(bool includeDescendants) const {
   if (solidReference())
     return NULL;
   const WbSolid *const solid = solidEndPoint();
   if (solid)
-    return solid->boundingSphere();
+    return solid->boundingSphere(includeDescendants);
   return NULL;
 }
 

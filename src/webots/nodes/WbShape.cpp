@@ -233,10 +233,10 @@ bool WbShape::isCastShadowsEnabled() const {
   return mCastShadows->value();
 }
 
-WbBoundingSphere *WbShape::boundingSphere() const {
+WbBoundingSphere *WbShape::boundingSphere(bool includeDescendants) const {
   const WbGeometry *const g = geometry();
   if (g)
-    return g->boundingSphere();
+    return g->boundingSphere(includeDescendants);
 
   return NULL;
 }

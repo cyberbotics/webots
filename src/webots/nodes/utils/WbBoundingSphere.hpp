@@ -65,8 +65,8 @@ public:
   WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &center, double radius);
   virtual ~WbBoundingSphere();
 
-  double radius();
-  const WbVector3 &center();
+  double radius(bool includeDescendants = true);
+  const WbVector3 &center(bool includeDescendants = true);
 
   void computeSphereInGlobalCoordinates(WbVector3 &center, double &radius);
 
@@ -89,6 +89,8 @@ public:
   // in the list of the parent node, i.e. these hierarchy levels are removed.
   void addSubBoundingSphere(WbBoundingSphere *subBoundingSphere);
   void removeSubBoundingSphere(WbBoundingSphere *boundingSphere);
+
+  WbBoundingSphere *getSubBoundingSphere(int index);
 
   // Adjust bound space to include this point.
   // The point must be in local owner coordinates.

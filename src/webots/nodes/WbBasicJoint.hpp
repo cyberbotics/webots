@@ -18,6 +18,7 @@
 #define WB_BASIC_JOINT_HPP
 
 #include "WbBaseNode.hpp"
+#include "WbBoundingSphere.hpp"
 #include "WbOdeTypes.hpp"
 #include "WbRotation.hpp"
 #include "WbVector3.hpp"
@@ -68,7 +69,7 @@ public:
   bool isEnabled() const;
 
   // ray tracing
-  WbBoundingSphere *boundingSphere() const override;
+  WbBoundingSphere *boundingSphere(bool includeDescendants = true) const override;
 
   void updateAfterParentPhysicsChanged();
   virtual void updateEndPointZeroTranslationAndRotation() = 0;
