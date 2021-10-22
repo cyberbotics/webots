@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [Cyberbotics] 10/20/2021 07:16:32
+If you like Webots and ROS and would like to help us, please take 10 seconds and vote for me (Olivier Michel) at the ROS2 Technical Steering Committee election: [https://civs1.civs.us/cgi-bin/vote.pl?id=E\_ee3018e9881cbe49&akey=7c1cdeb3142060b4](https://civs1.civs.us/cgi-bin/vote.pl?id=E_ee3018e9881cbe49&akey=7c1cdeb3142060b4)
+
 ##### Stefania Pedrazzi [Cyberbotics] 10/12/2021 07:47:51
 We just published the presentation held at the IROS2021 Workshop "Open Deep Learning Toolkit for Robotics: Towards Democratizing Artificial Intelligence" workshop!"
 
