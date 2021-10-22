@@ -165,8 +165,8 @@ The formulas used in order to compute the right and left angles are the followin
 
 
 ```c
-angle_right = atan(1 / cot(steering_angle) - trackFront / (2 * wheelbase));
-angle_left = atan(1 / cot(steering_angle) + trackFront / (2 * wheelbase));
+angle_right = atan(1 / (cot(steering_angle) - trackFront / (2 * wheelbase)));
+angle_left = atan(1 / (cot(steering_angle) + trackFront / (2 * wheelbase)));
 ```
 
 The `wbu_driver_get_steering_angle` function returns the current steering angle.
