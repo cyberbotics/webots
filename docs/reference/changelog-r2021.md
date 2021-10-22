@@ -24,6 +24,7 @@ Released on XX, XXth, 2021.
     - Fixed incorrect update of the differential slip ratio in 4x4 vehicles ([#3770](https://github.com/cyberbotics/webots/pull/3770)).
     - Fixed wb_keyboard_get_key() to be MT-safe ([#3783](https://github.com/cyberbotics/webots/pull/3783)).
     - Display a warning in the console when the robot battery is empty ([#3783](https://github.com/cyberbotics/webots/pull/3783)).
+    - Fixed incorrect node enumeration in Matlab API and missing `WB_MF_ROTATION` constant ([#3808](https://github.com/cyberbotics/webots/pull/3808)).
 
 ## Webots R2021b
 Released on July, 16th, 2021.
