@@ -99,6 +99,7 @@ endif
 ifeq ($(OSTYPE),windows)
 	+@echo "# creating webots_setup.exe (takes long)"
 	+@pacman --noconfirm -S mingw-w64-x86_64-lerc  # FIXME: This is temporarily needed until the MSYS2 packages on GitHub CI are updated
+	+@pacman --noconfirm -S mingw-w64-x86_64-md4c  # FIXME: This is temporarily needed until the MSYS2 packages on GitHub CI are updated
 	+@"$(INNO_SETUP_HOME)/iscc" -Q webots.iss
 endif
 	+@echo "# done for" $(OSTYPE)
