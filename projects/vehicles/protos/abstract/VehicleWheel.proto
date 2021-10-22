@@ -255,12 +255,12 @@ PROTO VehicleWheel [
 
                     # bottom inner
                     %< for (let i = 0; i < rimInnerCircle.length; ++i) { >%
-                      %<= + thickness * 0.5 >% %<= rimInnerCircle[i].x >% %<= rimInnerCircle[i].y >%
+                      %<= thickness * 0.5 >% %<= rimInnerCircle[i].x >% %<= rimInnerCircle[i].y >%
                     %< } >%
 
                     # bottom outer
                     %< for (let i = 0; i < rimOuterCircle.length; ++i) { >%
-                      %<= + thickness * 0.5 >% %<= rimOuterCircle[i].x >% %<= rimOuterCircle[i].y >%
+                      %<= thickness * 0.5 >% %<= rimOuterCircle[i].x >% %<= rimOuterCircle[i].y >%
                     %< } >%
                   ]
                 }

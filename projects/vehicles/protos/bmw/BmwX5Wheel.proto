@@ -37,30 +37,30 @@ PROTO BmwX5Wheel [
         translation 0.035 0 0
         rotation 0 1 0 -1.570796
         children [
-        Shape {
-          appearance PBRAppearance {
-            metalness 0
-            baseColorMap ImageTexture {
-              url [
-                "webots://projects/vehicles/protos/bmw/textures/bmw_logo_base_color.jpg"
-              ]
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              baseColorMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/bmw/textures/bmw_logo_base_color.jpg"
+                ]
+              }
+              roughnessMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/bmw/textures/bmw_logo_roughness.jpg"
+                ]
+              }
+              metalnessMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/bmw/textures/bmw_logo_metalness.jpg"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "webots://projects/vehicles/protos/bmw/textures/bmw_logo_normal.jpg"
+                ]
+              }
             }
-            roughnessMap ImageTexture {
-              url [
-                "webots://projects/vehicles/protos/bmw/textures/bmw_logo_roughness.jpg"
-              ]
-            }
-            metalnessMap ImageTexture {
-              url [
-                "webots://projects/vehicles/protos/bmw/textures/bmw_logo_metalness.jpg"
-              ]
-            }
-            normalMap ImageTexture {
-              url [
-                "webots://projects/vehicles/protos/bmw/textures/bmw_logo_normal.jpg"
-              ]
-            }
-          }
           geometry Cylinder {
             bottom FALSE
             height 0.21

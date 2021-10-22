@@ -194,7 +194,7 @@ PROTO TruckTank [
         density -1
         mass 5000
         centerOfMass [
-          0 0.1 -3.5 
+          0 0.1 -3.5
         ]
       }
     }

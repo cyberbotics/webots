@@ -1204,23 +1204,22 @@ Car {
       0 -792.28908 0
     ]
   }
-
-wheelFrontRight TractorFrontWheel {
-  name "front right wheel"
-}
-wheelFrontLeft TractorFrontWheel {
-  name "front left wheel"
-  wheelSide TRUE
-}
-wheelRearRight TractorRearWheel {
-  name "rear right wheel"
-}
-wheelRearLeft TractorRearWheel {
-  name "rear left wheel"
-  wheelSide TRUE
-}
-type "4x4"
-time0To100 20
-window IS window
+  wheelFrontRight TractorFrontWheel {
+    name "front right wheel"
+  }
+  wheelFrontLeft TractorFrontWheel {
+    name "front left wheel"
+    wheelSide TRUE
+  }
+  wheelRearRight TractorRearWheel {
+    name "rear right wheel"
+  }
+  wheelRearLeft TractorRearWheel {
+    name "rear left wheel"
+    wheelSide TRUE
+  }
+  type "4x4"
+  time0To100 20
+  window IS window
 }
 }

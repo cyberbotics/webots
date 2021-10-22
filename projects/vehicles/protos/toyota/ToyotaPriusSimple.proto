@@ -121,7 +121,6 @@ PROTO ToyotaPriusSimple [
         ]
       }
     ]
-
     name IS name
     controller IS controller
     controllerArgs IS controllerArgs
