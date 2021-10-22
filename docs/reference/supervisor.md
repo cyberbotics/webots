@@ -4013,6 +4013,10 @@ Note that a node can be imported into the scene tree by calling this function wi
 The `wb_supervisor_field_import_sf/mf_node_from_string` functions are very similar to the `wb_supervisor_field_import_sf/mf_node` function, except that the node is constructed from the `node_string` string.
 For example, if you want to create a new robot with a specific controller:
 
+%tab-component "language"
+
+%tab "C"
+
 ```c
 #include <webots/robot.h>
 #include <webots/supervisor.h>
@@ -4029,6 +4033,27 @@ int main(int argc, char **argv) {
   ...
 }
 ```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Supervisor
+
+supervisor = Supervisor()
+
+rootNode = supervisor.getRoot()  # get root of the scene tree
+rootChildrenField = rootNode.getField('children')
+rootChildrenField.importMFNodeFromString(4, 'DEF MY_ROBOT Robot { controller "my_controller" }')
+
+...
+
+```
+
+%tab-end
+
+%end
 
 > **Note**: To remove a node use the `wb_supervisor_field_remove_mf` function.
 
