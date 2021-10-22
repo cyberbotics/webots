@@ -23,22 +23,16 @@ C_SOURCES = $(wildcard src/*.c)
 LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
 MAIN_TARGET = $(LIB_PREFIX)car$(SHARED_LIB_EXTENSION)
 
-INCLUDE = -I$(WEBOTS_HOME_PATH)/include/controller/c
-
 ifeq ($(OSTYPE),linux)
-LFLAGS = -shared -Wl,-soname, $(MAIN_TARGET)
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 endif
 
 ifeq ($(OSTYPE),darwin)
-LFLAGS = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/lib/controller/libcar.dylib -compatibility_version 1.0 -current_version 1.0.0
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
-LFLAGS = -shared -mwindows --def Controller.def
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 endif
-
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
