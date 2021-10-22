@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8 
 # license: Creative Commons 4.0
 # license url: https://creativecommons.org/licenses/by/4.0
 # documentation url: https://www.cyberbotics.com/doc/guide/spot
@@ -19,7 +19,7 @@ PROTO Spot [
   field MFNode      frontExtension   []                        # Extends the robot with new nodes in the front shoulder part.
   field MFNode      middleExtension  []                        # Extends the robot with new nodes in the middle back part.
   field MFNode      rearExtension    []                        # Extends the robot with new nodes in the rear shoulder part.
-  field SFString{"bumper", "force", "force-3d"}  foot_touch_type    "bumper"
+  field SFString{"bumper", "force", "force-3d"}  touchType  "bumper"  # Is `TouchSensor.type`.
 ]
 {
   Robot {
@@ -1630,22 +1630,22 @@ PROTO Spot [
       DEF FRONT_LEFT_LEG SpotLeftLeg {
         translation 0 0.0118 -0.3635
         name "front left"
-        touch_type IS foot_touch_type
+        touchType IS touchType
       }
       DEF FRONT_RIGHT_LEG SpotRightLeg {
         translation 0 0.0118 -0.3635
         name "front right"
-        touch_type IS foot_touch_type
+        touchType IS touchType
       }
       DEF REAR_LEFT_LEG SpotLeftLeg {
         translation 0 0.0117 0.3084
         name "rear left"
-        touch_type IS foot_touch_type
+        touchType IS touchType
       }
       DEF REAR_RIGHT_LEG SpotRightLeg {
         translation 0 0.0117 0.3084
         name "rear right"
-        touch_type IS foot_touch_type
+        touchType IS touchType
       }
       Transform {
         translation 0 0.1118 -0.256
