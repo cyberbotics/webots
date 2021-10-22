@@ -31,7 +31,7 @@ PROTO Portal [
         children IS extensionSlot
       }
       Transform {
-        rotation 1 0 0 1.5708
+        rotation 0.5773 0.5773 0.5773 2.0944
         children [
           Transform {
             translation 0 0.005 0
