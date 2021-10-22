@@ -164,8 +164,8 @@ PROTO BmwX5 [
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               BmwX5LeftIndicator {
-            }
-          ]
+              }
+            ]
           }
         ]
         antifog [
