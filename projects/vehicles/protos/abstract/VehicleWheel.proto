@@ -31,7 +31,7 @@ PROTO VehicleWheel [
   field SFNode     physics            Physics {}
   field SFBool     boundingObject     TRUE
   field MFNode     logoSlot           []
-  field SFBool     wheelSide          FALSE                            #TRUE for wheels on the left side of the vehicle, FALSE otherwise
+  field SFBool     wheelSide          FALSE                            #TRUE for wheels on the left side of the vehicle, FALSE otherwise.
 ]
 {
   %<

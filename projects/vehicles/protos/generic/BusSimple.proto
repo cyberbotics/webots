@@ -88,8 +88,8 @@ Robot {
       children [
         Slot {
           type "vehicle wheel"
-          wheelSide TRUE
           endPoint BusWheel {
+            wheelSide TRUE
             boundingObject IS wheelBoundingObject
           }
         }
@@ -103,8 +103,8 @@ Robot {
       children [
         Slot {
           type "vehicle wheel"
-          wheelSide TRUE
           endPoint BusWheel {
+            wheelSide TRUE
             boundingObject IS wheelBoundingObject
           }
         }

@@ -24,7 +24,7 @@ PROTO ScooterSimple [
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
       Transform {
-        rotation 1 0 0 1.570796
+        rotation 0.5773502063 0.5773502063 0.577350395 2.0943949137
         children [
           DEF DRIVER Slot {
             type "scooter driver"
@@ -75,16 +75,16 @@ PROTO ScooterSimple [
     radarCrossSection 10
     boundingObject Transform { # changing the bounding box to fit the driver if present
       %< if (fields.driver.value) { >%
-        translation 0 -0.624 0.7
-        rotation 1 0 0 -1.5708
+        translation 0.624 0 0.7
+        rotation 0.5773509761 0.5773509761 -0.5773488554 -2.0943972231
         children [
           Box {
             size 0.66 1.52 1.95
           }
         ]
       %< } else { >%
-        translation 0 -0.624 0.5 
-        rotation 1 0 0 -1.5708
+        translation 0.624 0 0.5 
+        rotation 0.5773509761 0.5773509761 -0.5773488554 -2.0943972231
         children [
           Box {
             size 0.66 1.12 1.95
