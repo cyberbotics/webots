@@ -61,14 +61,14 @@ PROTO BmwX5Wheel [
                 ]
               }
             }
-          geometry Cylinder {
-            bottom FALSE
-            height 0.21
-            radius 0.036
-            side FALSE
-            subdivision 24
+            geometry Cylinder {
+              bottom FALSE
+              height 0.21
+              radius 0.036
+              side FALSE
+              subdivision 24
+            }
           }
-        }
         ]
       }
     ]

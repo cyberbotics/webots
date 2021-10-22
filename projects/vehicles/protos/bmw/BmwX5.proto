@@ -152,57 +152,56 @@ PROTO BmwX5 [
         ]
         rightIndicator [
           Transform{
-          rotation 0.57735 0.57735 0.57735 2.094395
-          children [
-            BmwX5RightIndicator {
-            }
-          ]
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5RightIndicator {
+              }
+            ]
           }
         ]
         leftIndicator [
           Transform{
-          rotation 0.57735 0.57735 0.57735 2.094395
-          children [
-            BmwX5LeftIndicator {
-          }
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5LeftIndicator {
+            }
           ]
           }
         ]
         antifog [
           Transform{
-          rotation 0.57735 0.57735 0.57735 2.094395
-          children [
-            BmwX5AntiFogLight {
-          }
-          ]
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5AntiFogLight {
+              }
+            ]
           }
         ]
         rear [
           Transform{
-          rotation 0.57735 0.57735 0.57735 2.094395
-          children [
-            BmwX5RearLight {
-            }
-          ]
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5RearLight {
+              }
+            ]
           }
-
         ]
         braking [
           Transform{
-          rotation 0.57735 0.57735 0.57735 2.094395
-          children [
-            BmwX5BrakingLight {
-            }
-          ]
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5BrakingLight {
+              }
+            ]
           }
         ]
         backwards [
           Transform{
-          rotation 0.57735 0.57735 0.57735 2.094395
-          children [
-          BmwX5BackwardsLight {
-          }
-          ]
+            rotation 0.57735 0.57735 0.57735 2.094395
+            children [
+              BmwX5BackwardsLight {
+              }
+            ]
           }
         ]
       }
@@ -275,13 +274,13 @@ PROTO BmwX5 [
             Transform{
               rotation 0.57735 0.57735 0.57735 2.094395
               children [
-              BmwX5RightWiper{
-              %< if (outerWindowTransparency !== 0) { >%
-                castShadows TRUE
-              %< } >%
-              }
+                BmwX5RightWiper{
+                  %< if (outerWindowTransparency !== 0) { >%
+                  castShadows TRUE
+                %< } >%
+                }
               ]
-              }
+            }
           ]
           name "right wiper"
         }
@@ -304,13 +303,13 @@ PROTO BmwX5 [
             Transform{
               rotation 0.57735 0.57735 0.57735 2.094395
               children [
-              BmwX5LeftWiper{
-              %< if (outerWindowTransparency !== 0) { >%
-                castShadows TRUE
-              %< } >%
-              }
+                BmwX5LeftWiper{
+                  %< if (outerWindowTransparency !== 0) { >%
+                    castShadows TRUE
+                  %< } >%
+                }
               ]
-              }
+            }
           ]
           name "left wiper"
         }
@@ -320,24 +319,21 @@ PROTO BmwX5 [
           rotation 0.57735 0.57735 0.57735 2.094395
           children [
             BmwX5Mesh {
-              
               color IS color
               outerWindowTransparency %<= outerWindowTransparency >%
             }
           ]
       }
-
       %< if (innerWindowTransparency !== 1) { >%
         Transform{
-              rotation 0.57735 0.57735 0.57735 2.094395
-              children [
-                BmwX5InnerWindow {
-                      innerWindowTransparency %<= innerWindowTransparency >%
-                      innerWindowDust IS innerWindowDust
-                    }
-              ]
+           rotation 0.57735 0.57735 0.57735 2.094395
+           children [
+             BmwX5InnerWindow {
+               innerWindowTransparency %<= innerWindowTransparency >%
+               innerWindowDust IS innerWindowDust
+             }
+          ]
         }
-          
       %< } >%
       %< if (fields.rightWingMirror.value) { >%
           DEF RIGHT_WING_DISPLAY Display {
@@ -347,7 +343,7 @@ PROTO BmwX5 [
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           BmwX5RightWingMirror {
-                }
+          }
         ]
       }      
       %< if (fields.rightWingMirror.value) { >%
@@ -361,12 +357,11 @@ PROTO BmwX5 [
           DEF LEFT_WING_DISPLAY Display {
             children [
       %< } >%
-
       Transform{
       rotation 0.57735 0.57735 0.57735 2.094395
         children [
           BmwX5LeftWingMirror {
-                }
+          }
         ]
       }
       %< if (fields.leftWingMirror.value) { >%
@@ -382,16 +377,15 @@ PROTO BmwX5 [
                 rotation 0.57735 0.57735 0.57735 2.094395
                 children [
                   BmwX5Interior {
-                            %< if (dynamicSpeedDisplay) { >%
-                                baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
-                            %< } else { >%
-                                baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
-                            %< } >%
-                            indicatorLevers IS indicatorLevers
-                          }
+                    %< if (dynamicSpeedDisplay) { >%
+                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
+                    %< } else { >%
+                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
+                    %< } >%
+                    indicatorLevers IS indicatorLevers
+                  }
                 ]
               }
-              
               DEF REAR_MIRROR Hinge2Joint {
                 jointParameters HingeJointParameters {
                   axis 0 0 1
@@ -422,10 +416,9 @@ PROTO BmwX5 [
                       rotation 0.57735 0.57735 0.57735 2.094395
                       children [
                         BmwX5CentralMirrorFrame {
-                                      }
+                        }
                       ]
                     }
-                    
                     # When active, the parameter changes REAR_DISPLAY Shape to a display
                     %< if (rearMirror) { >%
                       DEF REAR_DISPLAY Display {
@@ -435,7 +428,7 @@ PROTO BmwX5 [
                       rotation 0.57735 0.57735 0.57735 2.094395
                       children [
                         BmwX5CentralMirror {
-                                      }
+                        }
                       ]
                     }
                     %< if (rearMirror) { >%
