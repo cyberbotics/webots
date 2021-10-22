@@ -182,5 +182,5 @@ For example, <kbd>ctrl</kbd>-<kbd>B</kbd> can be tested like this:
 > ```python
 > key=keyboard.getKey()
 > if (key==Keyboard.CONTROL+ord('B')):
->   print 'Ctrl+B is pressed'
+>   print('Ctrl+B is pressed')
 > ```
