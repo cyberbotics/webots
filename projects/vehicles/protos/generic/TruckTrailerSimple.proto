@@ -19,97 +19,96 @@ PROTO TruckTrailerSimple [
   Slot {
     type "truck trailer simple"
     endPoint Solid {
-      translation 0 0 1.35
-      rotation IS rotation # Only the rotation in Y should be used (Lua is not used for efficiency reasons)
+      translation 1.35 0 0
+      rotation IS rotation # Only the rotation in Z should be used (Lua is not used for efficiency reasons)
       children [
-        TruckRearLight {
-        }
-        TruckTrailerMesh {
-          appearance IS appearance
-        }
-        DEF FRONT_RIGHT_WHEEL Solid {
-          angularVelocity IS frontRightWheelAngularVelocity
-          translation -1 0 -5.45
-          rotation 0 0 1 1.5708
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint TruckWheel {
-                boundingObject IS wheelBoundingObject
-              }
+        Transform {
+          rotation 0.57735 0.57735 0.57735 2.094395
+          children[
+            TruckRearLight {
+            }
+            TruckTrailerMesh {
+              appearance IS appearance
+            }
+            DEF FRONT_RIGHT_WHEEL Solid {
+              angularVelocity IS frontRightWheelAngularVelocity
+              translation -1 0 -5.45
+              children [
+                Slot {
+                  type "vehicle wheel"
+                  endPoint TruckWheel {
+                    boundingObject IS wheelBoundingObject
+                  }
+                }
+              ]
+              name "front right wheel"
+            }
+            DEF FRONT_LEFT_WHEEL Solid {
+              angularVelocity IS frontLeftWheelAngularVelocity
+              translation 1 0 -5.45
+              children [
+                Slot {
+                  type "vehicle wheel"
+                  endPoint TruckWheel {
+                    boundingObject IS wheelBoundingObject
+                  }
+                }
+              ]
+            name "front left wheel"
+            }
+            DEF CENTER_RIGHT_WHEEL Solid {
+              angularVelocity IS centerRightWheelAngularVelocity
+              translation -1 0 -6.55
+              children [
+                Slot {
+                  type "vehicle wheel"
+                  endPoint TruckWheel {
+                    boundingObject IS wheelBoundingObject
+                  }
+                }
+              ]
+              name "center right wheel"
+            }
+            DEF CENTER_LEFT_WHEEL Solid {
+              angularVelocity IS centerLeftWheelAngularVelocity
+              translation 1 0 -6.55
+              children [
+                Slot {
+                  type "vehicle wheel"
+                  endPoint TruckWheel {
+                    boundingObject IS wheelBoundingObject
+                  }
+                }
+              ]
+              name "center left wheel"
+            }
+            DEF REAR_RIGHT_WHEEL Solid {
+              angularVelocity IS rearRightWheelAngularVelocity
+              translation -1 0 -7.65
+              children [
+                Slot {
+                  type "vehicle wheel"
+                  endPoint TruckWheel {
+                    boundingObject IS wheelBoundingObject
+                  }
+                }
+              ]
+              name "rear right wheel"
+            }
+            DEF REAR_LEFT_WHEEL Solid {
+              angularVelocity IS rearLeftWheelAngularVelocity
+              translation 1 0 -7.65
+              children [
+                Slot {
+                  type "vehicle wheel"
+                  endPoint TruckWheel {
+                    boundingObject IS wheelBoundingObject
+                  }
+                }
+              ]
+              name "rear left wheel"
             }
           ]
-          name "front right wheel"
-        }
-        DEF FRONT_LEFT_WHEEL Solid {
-          angularVelocity IS frontLeftWheelAngularVelocity
-          translation 1 0 -5.45
-          rotation 0 0 1 -1.5708
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint TruckWheel {
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-         name "front left wheel"
-        }
-        DEF CENTER_RIGHT_WHEEL Solid {
-          angularVelocity IS centerRightWheelAngularVelocity
-          translation -1 0 -6.55
-          rotation 0 0 1 1.5708
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint TruckWheel {
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-          name "center right wheel"
-        }
-        DEF CENTER_LEFT_WHEEL Solid {
-          angularVelocity IS centerLeftWheelAngularVelocity
-          translation 1 0 -6.55
-          rotation 0 0 1 -1.5708
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint TruckWheel {
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-          name "center left wheel"
-        }
-        DEF REAR_RIGHT_WHEEL Solid {
-          angularVelocity IS rearRightWheelAngularVelocity
-          translation -1 0 -7.65
-          rotation 0 0 1 1.5708
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint TruckWheel {
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-          name "rear right wheel"
-        }
-        DEF REAR_LEFT_WHEEL Solid {
-          angularVelocity IS rearLeftWheelAngularVelocity
-          translation 1 0 -7.65
-          rotation 0 0 1 -1.5708
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint TruckWheel {
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-          name "rear left wheel"
         }
       ]
       name IS name
@@ -117,18 +116,18 @@ PROTO TruckTrailerSimple [
       boundingObject Group {
         children [
           Transform {
-            translation 0 2.21 -3.1
+            translation -3.1 0 2.21
             children [
               Box {
-                size 2.5 3.05 11.15
+                size 11.15 2.5 3.05
               }
             ]
           }
           Transform {
-            translation 0 0.27 -6.33
+            translation -6.33 0 0.27
             children [
               Box {
-                size 2.5 0.87 4.5
+                size 4.5 2.5 0.87
               }
             ]
           }
