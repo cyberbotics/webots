@@ -10,11 +10,10 @@ WorldInfo {
   FPS 50
   defaultDamping Damping {
   }
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.2507087455358656 0.9348870996710782 0.25125929988844664 0.6807068797882645
-  position 0.6306967380708725 0.36415500942140094 0.8138775144579378
+  orientation -0.290899064100266 0.6665006139322486 0.6864070702822962 0.7139140486433699
+  position -1.3040846152715202 -0.7412961252957033 0.8959146079773536
   follow "robot"
 }
 Fog {
@@ -27,29 +26,30 @@ TexturedBackground {
 }
 DirectionalLight {
   ambientIntensity 1
-  direction -0.6 -1 0.55
+  direction -0.55 0.6 -1
   intensity 2.7
   castShadows TRUE
 }
 DirectionalLight {
   ambientIntensity 1
-  direction -0.5 -2 -0.5
+  direction 0.5 0.5 -2
   intensity 0.7
 }
 Floor {
-  translation 0 -0.0001 0
+  translation 0 0 -0.0001
   size 20 20
   tileSize 2 2
   appearance SandyGround {
   }
 }
 DEF WALKER Robot {
-  translation 0 0.173064 0
-  rotation 0 0 1 1.57
+  translation 0 0 0.173064
+  rotation -1 0 0 1.57
   children [
     DEF L_HIP_YAW HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0 -0.042 0
+        axis 0 -1 0
+        anchor 0 0 -0.042
       }
       device [
         RotationalMotor {
@@ -58,8 +58,8 @@ DEF WALKER Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.042 0
-        rotation 0 0 1 1.57
+        translation 0 0 -0.042
+        rotation -1 0 0 1.57
         children [
           DEF JOINT Shape {
             appearance Appearance {
@@ -73,8 +73,8 @@ DEF WALKER Robot {
             }
           }
           DEF L_HIP_YAW_SHAPE Transform {
-            translation 0.008 0.041 0
-            rotation 0 0 1 1.57
+            translation 0 -0.008 0.041
+            rotation -1 0 0 1.57
             children [
               DEF RX28 Shape {
                 appearance Appearance {
@@ -83,15 +83,15 @@ DEF WALKER Robot {
                   }
                 }
                 geometry Box {
-                  size 0.035 0.05 0.035
+                  size 0.035 0.035 0.05
                 }
               }
             ]
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 1
-              anchor 0 0.041 0
+              axis -1 0 0
+              anchor 0 0 0.041
             }
             device [
               RotationalMotor {
@@ -100,13 +100,13 @@ DEF WALKER Robot {
               }
             ]
             endPoint Solid {
-              translation 0 0.041 0
-              rotation 1 0 0 1.57
+              translation 0 0 0.041
+              rotation 0 -1 0 1.57
               children [
                 USE JOINT
                 DEF L_HIP_ROLL_SHAPE Transform {
-                  translation -0.01 0 0
-                  rotation 0 0 1 1.57
+                  translation 0 0.01 0
+                  rotation -1 0 0 1.57
                   children [
                     Shape {
                       appearance DEF ALUMINIUM Appearance {
@@ -123,7 +123,8 @@ DEF WALKER Robot {
                 }
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    anchor -0.046 0 0
+                    axis 0 -1 0
+                    anchor 0 0.046 0
                   }
                   device [
                     RotationalMotor {
@@ -132,13 +133,13 @@ DEF WALKER Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation -0.046 0 0
-                    rotation 0 0 1 1.57
+                    translation 0 0.046 0
+                    rotation -1 0 0 1.57
                     children [
                       USE JOINT
                       DEF L_FEMUR_SHAPE_1 Transform {
-                        translation -0.013 0 0
-                        rotation 0 0 1 1.57
+                        translation 0 0.013 0
+                        rotation -1 0 0 1.57
                         children [
                           DEF RX28 Shape {
                             appearance Appearance {
@@ -147,14 +148,14 @@ DEF WALKER Robot {
                               }
                             }
                             geometry Box {
-                              size 0.035 0.05 0.035
+                              size 0.035 0.035 0.05
                             }
                           }
                         ]
                       }
                       DEF L_FEMUR_SHAPE Transform {
-                        translation -0.07 0 0
-                        rotation 0 0 1 1.57
+                        translation 0 0.07 0
+                        rotation -1 0 0 1.57
                         children [
                           DEF RX28 Shape {
                             appearance Appearance {
@@ -163,14 +164,14 @@ DEF WALKER Robot {
                               }
                             }
                             geometry Box {
-                              size 0.035 0.05 0.035
+                              size 0.035 0.035 0.05
                             }
                           }
                         ]
                       }
                       DEF L_FEMUR_SHAPE2 Transform {
-                        translation -0.05 0 0
-                        rotation 0 0 1 1.57
+                        translation 0 0.05 0
+                        rotation -1 0 0 1.57
                         children [
                           Shape {
                             appearance USE ALUMINIUM
@@ -183,8 +184,8 @@ DEF WALKER Robot {
                       }
                       HingeJoint {
                         jointParameters HingeJointParameters {
-                          axis 0 1 0
-                          anchor -0.083 0 0
+                          axis 0 0 1
+                          anchor 0 0.083 0
                         }
                         device [
                           RotationalMotor {
@@ -193,12 +194,12 @@ DEF WALKER Robot {
                           }
                         ]
                         endPoint Solid {
-                          translation -0.083 0 0
+                          translation 0 0.083 0
                           children [
                             USE JOINT
                             DEF L_TIBIA_2 Transform {
-                              translation -0.02 0 0
-                              rotation 0 0 1 1.57
+                              translation 0 0.02 0
+                              rotation -1 0 0 1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -210,8 +211,8 @@ DEF WALKER Robot {
                               ]
                             }
                             DEF L_TIBIA Transform {
-                              translation -0.025 0 -0.033
-                              rotation 1 0 0 1.57
+                              translation 0.033 0.025 0
+                              rotation 0 -1 0 1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -223,11 +224,11 @@ DEF WALKER Robot {
                               ]
                             }
                             DEF L_ANKLE_SERVO Transform {
-                              translation -0.007 0 -0.071
-                              rotation 0 0 1 1.57
+                              translation 0.071 0.007 0
+                              rotation -1 0 0 1.57
                               children [
                                 DEF L_ANKLE_PITCH_SERVO_SHAPE Transform {
-                                  rotation 1 0 0 0.785
+                                  rotation 0 -1 0 0.785
                                   children [
                                     DEF RX28 Shape {
                                       appearance Appearance {
@@ -236,7 +237,7 @@ DEF WALKER Robot {
                                         }
                                       }
                                       geometry Box {
-                                        size 0.035 0.05 0.035
+                                        size 0.035 0.035 0.05
                                       }
                                     }
                                   ]
@@ -245,8 +246,8 @@ DEF WALKER Robot {
                             }
                             HingeJoint {
                               jointParameters HingeJointParameters {
-                                axis 0 1 0
-                                anchor 0 0 -0.08
+                                axis 0 0 1
+                                anchor 0.08 0 0
                               }
                               device [
                                 RotationalMotor {
@@ -255,12 +256,12 @@ DEF WALKER Robot {
                                 }
                               ]
                               endPoint Solid {
-                                translation 0 0 -0.08
+                                translation 0.08 0 0
                                 children [
                                   USE JOINT
                                   DEF L_ANKLE_BEAM Transform {
-                                    translation 0.02 0 0
-                                    rotation 0 0 1 1.57
+                                    translation 0 -0.02 0
+                                    rotation -1 0 0 1.57
                                     children [
                                       Shape {
                                         appearance USE ALUMINIUM
@@ -273,7 +274,8 @@ DEF WALKER Robot {
                                   }
                                   DEF ANKLE HingeJoint {
                                     jointParameters HingeJointParameters {
-                                      anchor 0.047 0 0
+                                      axis 0 -1 0
+                                      anchor 0 -0.047 0
                                     }
                                     device [
                                       RotationalMotor {
@@ -282,13 +284,13 @@ DEF WALKER Robot {
                                       }
                                     ]
                                     endPoint Solid {
-                                      translation 0.047 0 0
-                                      rotation 0 0 1 1.57
+                                      translation 0 -0.047 0
+                                      rotation -1 0 0 1.57
                                       children [
                                         USE JOINT
                                         DEF L_ANKLE_ROLL_SHAPE Transform {
-                                          translation 0 0 -0.013
-                                          rotation 1 0 0 1.57
+                                          translation 0.013 0 0
+                                          rotation 0 -1 0 1.57
                                           children [
                                             DEF RX28 Shape {
                                               appearance Appearance {
@@ -297,14 +299,14 @@ DEF WALKER Robot {
                                                 }
                                               }
                                               geometry Box {
-                                                size 0.035 0.05 0.035
+                                                size 0.035 0.035 0.05
                                               }
                                             }
                                           ]
                                         }
                                         DEF FOOT_SHAPE Transform {
-                                          translation 0 0 -0.047
-                                          rotation 1 0 0 1.57
+                                          translation 0.047 0 0
+                                          rotation 0 -1 0 1.57
                                           children [
                                             Shape {
                                               appearance USE ALUMINIUM
@@ -316,8 +318,8 @@ DEF WALKER Robot {
                                           ]
                                         }
                                         DEF FOOT_CONE Transform {
-                                          translation 0 0 -0.02
-                                          rotation 1 0 0 1.57
+                                          translation 0.02 0 0
+                                          rotation 0 -1 0 1.57
                                           children [
                                             Shape {
                                               appearance USE ALUMINIUM
@@ -380,7 +382,8 @@ DEF WALKER Robot {
     }
     DEF R_HIP_YAW HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0 0.042 0
+        axis 0 -1 0
+        anchor 0 0 0.042
       }
       device [
         RotationalMotor {
@@ -389,8 +392,8 @@ DEF WALKER Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.042 0
-        rotation 0 0 1 1.57
+        translation 0 0 0.042
+        rotation -1 0 0 1.57
         children [
           DEF JOINT Shape {
             appearance Appearance {
@@ -404,8 +407,8 @@ DEF WALKER Robot {
             }
           }
           DEF R_HIP_YAW_SHAPE Transform {
-            translation -0.008 0.041 0
-            rotation 0 0 1 1.57
+            translation 0 0.008 0.041
+            rotation -1 0 0 1.57
             children [
               DEF RX28 Shape {
                 appearance Appearance {
@@ -414,15 +417,15 @@ DEF WALKER Robot {
                   }
                 }
                 geometry Box {
-                  size 0.035 0.05 0.035
+                  size 0.035 0.035 0.05
                 }
               }
             ]
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 0 1
-              anchor 0 0.041 0
+              axis -1 0 0
+              anchor 0 0 0.041
             }
             device [
               RotationalMotor {
@@ -431,13 +434,13 @@ DEF WALKER Robot {
               }
             ]
             endPoint Solid {
-              translation 0 0.041 0
-              rotation 1 0 0 1.57
+              translation 0 0 0.041
+              rotation 0 -1 0 1.57
               children [
                 USE JOINT
                 DEF R_HIP_ROLL_SHAPE Transform {
-                  translation 0.01 0 0
-                  rotation 0 0 1 1.57
+                  translation 0 -0.01 0
+                  rotation -1 0 0 1.57
                   children [
                     Shape {
                       appearance USE ALUMINIUM
@@ -450,7 +453,8 @@ DEF WALKER Robot {
                 }
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    anchor 0.046 0 0
+                    axis 0 -1 0
+                    anchor 0 -0.046 0
                   }
                   device [
                     RotationalMotor {
@@ -459,13 +463,13 @@ DEF WALKER Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0.046 0 0
-                    rotation 0 0 1 1.57
+                    translation 0 -0.046 0
+                    rotation -1 0 0 1.57
                     children [
                       USE JOINT
                       DEF R_FEMUR_SHAPE_1 Transform {
-                        translation -0.013 0 0
-                        rotation 0 0 1 1.57
+                        translation 0 0.013 0
+                        rotation -1 0 0 1.57
                         children [
                           DEF RX28 Shape {
                             appearance Appearance {
@@ -474,14 +478,14 @@ DEF WALKER Robot {
                               }
                             }
                             geometry Box {
-                              size 0.035 0.05 0.035
+                              size 0.035 0.035 0.05
                             }
                           }
                         ]
                       }
                       DEF R_FEMUR_SHAPE Transform {
-                        translation -0.07 0 0
-                        rotation 0 0 1 1.57
+                        translation 0 0.07 0
+                        rotation -1 0 0 1.57
                         children [
                           DEF RX28 Shape {
                             appearance Appearance {
@@ -490,14 +494,14 @@ DEF WALKER Robot {
                               }
                             }
                             geometry Box {
-                              size 0.035 0.05 0.035
+                              size 0.035 0.035 0.05
                             }
                           }
                         ]
                       }
                       DEF R_FEMUR_SHAPE2 Transform {
-                        translation -0.05 0 0
-                        rotation 0 0 1 1.57
+                        translation 0 0.05 0
+                        rotation -1 0 0 1.57
                         children [
                           Shape {
                             appearance USE ALUMINIUM
@@ -510,8 +514,8 @@ DEF WALKER Robot {
                       }
                       HingeJoint {
                         jointParameters HingeJointParameters {
-                          axis 0 1 0
-                          anchor -0.083 0 0
+                          axis 0 0 1
+                          anchor 0 0.083 0
                         }
                         device [
                           RotationalMotor {
@@ -520,12 +524,12 @@ DEF WALKER Robot {
                           }
                         ]
                         endPoint Solid {
-                          translation -0.083 0 0
+                          translation 0 0.083 0
                           children [
                             USE JOINT
                             DEF R_TIBIA_2 Transform {
-                              translation -0.02 0 0
-                              rotation 0 0 1 1.57
+                              translation 0 0.02 0
+                              rotation -1 0 0 1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -537,8 +541,8 @@ DEF WALKER Robot {
                               ]
                             }
                             DEF R_TIBIA Transform {
-                              translation -0.025 0 -0.033
-                              rotation 1 0 0 1.57
+                              translation 0.033 0.025 0
+                              rotation 0 -1 0 1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -550,11 +554,11 @@ DEF WALKER Robot {
                               ]
                             }
                             DEF R_ANKLE_SERVO Transform {
-                              translation -0.007 0 -0.071
-                              rotation 0 0 1 1.57
+                              translation 0.071 0.007 0
+                              rotation -1 0 0 1.57
                               children [
                                 DEF R_ANKLE_PITCH_SERVO_SHAPE Transform {
-                                  rotation 1 0 0 0.785
+                                  rotation 0 -1 0 0.785
                                   children [
                                     DEF RX28 Shape {
                                       appearance Appearance {
@@ -563,7 +567,7 @@ DEF WALKER Robot {
                                         }
                                       }
                                       geometry Box {
-                                        size 0.035 0.05 0.035
+                                        size 0.035 0.035 0.05
                                       }
                                     }
                                   ]
@@ -572,8 +576,8 @@ DEF WALKER Robot {
                             }
                             HingeJoint {
                               jointParameters HingeJointParameters {
-                                axis 0 1 0
-                                anchor 0 0 -0.08
+                                axis 0 0 1
+                                anchor 0.08 0 0
                               }
                               device [
                                 RotationalMotor {
@@ -582,12 +586,12 @@ DEF WALKER Robot {
                                 }
                               ]
                               endPoint Solid {
-                                translation 0 0 -0.08
+                                translation 0.08 0 0
                                 children [
                                   USE JOINT
                                   DEF R_ANKLE_BEAM Transform {
-                                    translation 0.02 0 0
-                                    rotation 0 0 1 1.57
+                                    translation 0 -0.02 0
+                                    rotation -1 0 0 1.57
                                     children [
                                       Shape {
                                         appearance USE ALUMINIUM
@@ -600,7 +604,8 @@ DEF WALKER Robot {
                                   }
                                   DEF ANKLE HingeJoint {
                                     jointParameters HingeJointParameters {
-                                      anchor 0.047 0 0
+                                      axis 0 -1 0
+                                      anchor 0 -0.047 0
                                     }
                                     device [
                                       RotationalMotor {
@@ -609,13 +614,13 @@ DEF WALKER Robot {
                                       }
                                     ]
                                     endPoint Solid {
-                                      translation 0.047 0 0
-                                      rotation 0 0 1 1.57
+                                      translation 0 -0.047 0
+                                      rotation -1 0 0 1.57
                                       children [
                                         USE JOINT
                                         DEF R_ANKLE_ROLL_SHAPE Transform {
-                                          translation 0 0 -0.013
-                                          rotation 1 0 0 1.57
+                                          translation 0.013 0 0
+                                          rotation 0 -1 0 1.57
                                           children [
                                             DEF RX28 Shape {
                                               appearance Appearance {
@@ -624,14 +629,14 @@ DEF WALKER Robot {
                                                 }
                                               }
                                               geometry Box {
-                                                size 0.035 0.05 0.035
+                                                size 0.035 0.035 0.05
                                               }
                                             }
                                           ]
                                         }
                                         DEF FOOT_SHAPE Transform {
-                                          translation 0 0 -0.047
-                                          rotation 1 0 0 1.57
+                                          translation 0.047 0 0
+                                          rotation 0 -1 0 1.57
                                           children [
                                             Shape {
                                               appearance USE ALUMINIUM
@@ -643,8 +648,8 @@ DEF WALKER Robot {
                                           ]
                                         }
                                         DEF FOOT_CONE Transform {
-                                          translation 0 0 -0.02
-                                          rotation 1 0 0 1.57
+                                          translation 0.02 0 0
+                                          rotation 0 -1 0 1.57
                                           children [
                                             Shape {
                                               appearance USE ALUMINIUM
@@ -707,19 +712,19 @@ DEF WALKER Robot {
     DEF BODY_GRP Group {
       children [
         Transform {
-          translation 0.02 0 -0.05
+          translation 0.05 -0.02 0
           children [
             Shape {
               appearance USE ALUMINIUM
               geometry Box {
-                size 0.06 0.04 0.11
+                size 0.11 0.06 0.04
               }
             }
           ]
         }
         Transform {
-          translation 0.02 0 -0.015
-          rotation 1 0 0 1.57
+          translation 0.015 -0.02 0
+          rotation 0 -1 0 1.57
           children [
             Shape {
               appearance Appearance {
@@ -735,8 +740,8 @@ DEF WALKER Robot {
           ]
         }
         DEF CANNON1 Transform {
-          translation 0.06 -0.06 0.02
-          rotation 1 0 0 1.57
+          translation -0.02 -0.06 -0.06
+          rotation 0 -1 0 1.57
           children [
             DEF CANNON Shape {
               appearance Appearance {
@@ -752,14 +757,14 @@ DEF WALKER Robot {
           ]
         }
         DEF CANNON2 Transform {
-          translation 0.06 0.06 0.02
-          rotation 1 0 0 1.57
+          translation -0.02 -0.06 0.06
+          rotation 0 -1 0 1.57
           children [
             USE CANNON
           ]
         }
         DEF BODY_SIDES Transform {
-          translation 0.06 0 0
+          translation 0 -0.06 0
           children [
             Shape {
               appearance Appearance {
@@ -775,7 +780,7 @@ DEF WALKER Robot {
           ]
         }
         DEF BODY_SHAPE Transform {
-          translation 0.06 0 -2.07523e-19
+          translation 0 -0.06 0
           children [
             DEF BODY Shape {
               appearance Appearance {
@@ -791,7 +796,7 @@ DEF WALKER Robot {
           ]
         }
         DEF L_YAW Transform {
-          translation 0 -0.032 0
+          translation 0 0 -0.032
           children [
             DEF RX28 Shape {
               appearance Appearance {
@@ -800,13 +805,13 @@ DEF WALKER Robot {
                 }
               }
               geometry Box {
-                size 0.035 0.05 0.035
+                size 0.035 0.035 0.05
               }
             }
           ]
         }
         DEF R_YAW Transform {
-          translation 0 0.032 0
+          translation 0 0 0.032
           children [
             USE RX28
           ]
