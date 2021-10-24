@@ -108,8 +108,6 @@ jobs:
     - name: INFO
       run: |
         ls
-        cd artifacts
-        dir
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
