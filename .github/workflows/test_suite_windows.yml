@@ -98,7 +98,6 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: build-${{ matrix.os }}
-        path: artifact
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -106,8 +105,10 @@ jobs:
     - name: Test Suite
       run: |
         echo 'Running Test Suite'
+        dir
         cd artifact/
         dir
+        webots-R2021b-rev1_setup.exe /s
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         python scripts/packaging/update_urls.py ${{ github.sha }}
