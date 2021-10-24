@@ -108,9 +108,6 @@ jobs:
       with:
         name: build-${{ matrix.os }}
         path: artifact
-    - name: INFO
-      run: |
-        ls
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -118,15 +115,13 @@ jobs:
     - name: Test Suite
       run: |
         echo 'Running Test Suite'
-        ls
         cd artifact/
-        ls
         webots-R2021b-rev1_setup.exe /s
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        python scripts/packaging/update_urls.py ${{ github.sha }}
-        export WEBOTS_HOME=$PWD/artifact/webots
-        python tests/test_suite.py
+        # python scripts/packaging/update_urls.py ${{ github.sha }}
+        # export WEBOTS_HOME=$PWD/artifact/webots
+        # python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
