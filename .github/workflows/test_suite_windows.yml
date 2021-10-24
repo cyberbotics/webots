@@ -80,11 +80,39 @@ jobs:
         python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=${{ github.sha }} --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.exe
+  test-suite:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
+    strategy:
+      matrix:
+        os: [windows-2019]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.os }}
+        path: artifact
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Test Suite
+      run: |
+        echo 'Running Test Suite'
+        cd artifact/
+        dir
+        export LIBGL_ALWAYS_SOFTWARE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        python scripts/packaging/update_urls.py ${{ github.sha }}
+        export WEBOTS_HOME=$PWD/artifact/webots
+        python tests/test_suite.py
   delete-artifacts:
     needs: [build]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
