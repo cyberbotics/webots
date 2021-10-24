@@ -107,7 +107,7 @@ jobs:
         path: artifact
     - name: INFO
       run: |
-        dir
+        ls
         cd artifacts
         dir
     - name: Set up Python 3.9
@@ -117,9 +117,9 @@ jobs:
     - name: Test Suite
       run: |
         echo 'Running Test Suite'
-        dir
+        ls
         cd artifact/
-        dir
+        ls
         webots-R2021b-rev1_setup.exe /s
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
