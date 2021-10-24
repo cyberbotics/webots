@@ -99,6 +99,9 @@ jobs:
         os: [windows-2019]
     runs-on: ${{ matrix.os }}
     steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: false
     - uses: actions/checkout@v2
     - name: Download Artifacts
       uses: actions/download-artifact@v2
