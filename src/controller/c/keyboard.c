@@ -107,10 +107,13 @@ int wb_keyboard_get_key() {
   if (keyboard.sampling_period <= 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_keyboard_enable().\n", __FUNCTION__);
 
-  if (keyboard.pointer == -1)
-    return -1;
-  int r = keyboard.key[(int)keyboard.pointer];
-  if (r >= 0)
-    keyboard.pointer++;
+  int r = -1;
+  robot_mutex_lock_step();
+  if (keyboard.pointer != -1) {
+    r = keyboard.key[(int)keyboard.pointer];
+    if (r >= 0)
+      keyboard.pointer++;
+  }
+  robot_mutex_unlock_step();
   return r;
 }
