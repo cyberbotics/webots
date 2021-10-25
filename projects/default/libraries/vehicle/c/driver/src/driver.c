@@ -478,7 +478,7 @@ bool wbu_driver_init_possible() {
   int i;
 
   wb_robot_init();
-  char *sub_data_string = (char *)wb_robot_get_custom_data();
+  const char *sub_data_string = wb_robot_get_custom_data();
   i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
              &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
              &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,

@@ -54,7 +54,7 @@ ifeq ($(OSTYPE),darwin)
 endif
 
 
-cpp/car: cpp/driver
+cpp/car: cpp/driver c/car
 	+@echo "# make" $(MAKECMDGOALS) $@
 	+@make -s -C $@ $(MAKECMDGOALS)
 

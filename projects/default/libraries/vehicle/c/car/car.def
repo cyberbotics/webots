@@ -22,4 +22,5 @@ _wbu_car_get_instance
 _wbu_car_set_led_state_if_exist
 _wbu_car_get_led_state_if_exist
 _wbu_car_check_initialisation
-_wbu_car_init_possible
+_wbu_car_initialization_is_possible
+
