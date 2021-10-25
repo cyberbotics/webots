@@ -17,6 +17,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
@@ -372,7 +373,7 @@ bool WbSphere::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoor
   }
 
   const double u = 0.5 + atan2(pointOnTexture.x(), pointOnTexture.z()) * 0.5 * M_1_PI;
-  const double v = 0.5 - asin(pointOnTexture.y() / scaledRadius()) * M_1_PI;
+  const double v = 0.5 - WbMathsUtilities::clampedAsin(pointOnTexture.y() / scaledRadius()) * M_1_PI;
 
   // result
   uv.setXy(u, v);

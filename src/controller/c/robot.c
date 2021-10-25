@@ -569,7 +569,7 @@ int robot_step_end() {
   return -1;
 }
 
-WbDeviceTag robot_get_device_tag(WbDevice *d) {
+WbDeviceTag robot_get_device_tag(const WbDevice *d) {
   WbDeviceTag tag;
   for (tag = 0; tag < robot.n_device; tag++) {
     if (robot.device[tag] == d)

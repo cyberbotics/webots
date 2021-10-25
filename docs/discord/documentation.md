@@ -1350,7 +1350,7 @@ but please include it in the documentation. Not everyone is very familiar with c
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:09:11
 `@R_` there is an example of PID control here: [https://www.cyberbotics.com/doc/guide/samples-devices#position\_sensor-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#position_sensor-wbt)
 
-##### Justin Fisher 09/21/2020 11:09:14
+##### Justin Fisher [Moderator] 09/21/2020 11:09:14
 > Hi! is there an example for closed loop control of a robot in the sample worlds?
 
 `@R_` Many of the sample controllers probably count as "closed loop control".  E.g., one that comes to mind is the Lego Mindstorms sample ([https://cyberbotics.com/doc/guide/mindstorms](https://cyberbotics.com/doc/guide/mindstorms)) that maintains a brightness reading on its sensors to follow a line on the ground.   Or is that not what you were hoping for?
@@ -2190,4 +2190,55 @@ Thanks brother
 
 ##### giaco\_mz 08/25/2021 10:48:28
 is possible to have a pdf version of the webots documentation?
+
+##### Isha 09/17/2021 15:09:36
+<@&568329906048598039>  Webots documentation site doesn't seem to work.
+
+##### Darko Lukić [Cyberbotics] 09/17/2021 15:10:11
+It works for me
+
+##### Stefania Pedrazzi [Cyberbotics] 09/20/2021 06:24:19
+No, the documentation in only available online.
+
+##### Mlungost 09/30/2021 09:02:52
+trying to download the Cyberbotics' Robot Curriculum.. does anyone have a working link or copy?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/893060315972001802/unknown.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 09/30/2021 09:04:00
+[https://en.wikibooks.org/wiki/Cyberbotics%27\_Robot\_Curriculum](https://en.wikibooks.org/wiki/Cyberbotics%27_Robot_Curriculum)
+
+##### Mlungost 09/30/2021 09:08:27
+thank you.  do you have a PDF version? the PDF version link on the website is broke
+
+##### Olivier Michel [Cyberbotics] 09/30/2021 09:09:33
+[https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27\_Robot\_Curriculum.pdf](https://upload.wikimedia.org/wikipedia/commons/3/3d/Cyberbotics%27_Robot_Curriculum.pdf)
+
+##### Mlungost 09/30/2021 09:10:04
+thank you.
+
+##### mironix 10/16/2021 15:36:06
+hello i think i found a bug in the doc  - i think this should not be AP but API
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/898957483480084541/unknown.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 10/16/2021 15:40:11
+Yes, can you please propose a fix, it should easy from the page where you found the bug, by following the link:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/898958508203069511/unknown.png)
+%end
+
+
+Click on "Contribute on GitHub!" link.
+
+##### mironix 10/16/2021 15:42:07
+oh ok - sorry there's so many constant prompts nowdays that i tend to miss those 🙂
+
+##### Olivier Michel [Cyberbotics] 10/16/2021 15:42:25
+No problem. Your contribution is welcome.
+
+##### mironix 10/16/2021 15:46:03
+[https://github.com/cyberbotics/webots/pull/3789](https://github.com/cyberbotics/webots/pull/3789)
 

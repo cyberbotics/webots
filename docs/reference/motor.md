@@ -7,8 +7,8 @@ Motor {
   SFFloat  acceleration      -1       # {-1, [0, inf)}
   SFFloat  consumptionFactor 10       # [0, inf)
   SFVec3f  controlPID        10 0 0   # any positive vector
-  SFFloat  minPosition       0        # (-inf, inf) or [-pi, pi]
-  SFFloat  maxPosition       0        # (-inf, inf) or [-pi, pi]
+  SFFloat  minPosition       0        # (-inf, inf)
+  SFFloat  maxPosition       0        # (-inf, inf)
   SFFloat  maxVelocity       10       # [0, inf)
   SFFloat  multiplier        1        # (inf, 0[ or ]0, inf)
   SFString sound             ""       # any string
@@ -22,7 +22,7 @@ A [Motor](#motor) node is an abstract node (not instantiated) whose derived clas
 These classes can be used in a mechanical simulation to power a joint hence producing a motion along, or around, one of its axes.
 
 A [RotationalMotor](rotationalmotor.md) can power a [HingeJoint](hingejoint.md) (resp. a [Hinge2Joint](hinge2joint.md)) when set inside the `device` (resp. `device` or `device2`) field of these nodes.
-It produces then a rotational motion around the choosen axis.
+It produces then a rotational motion around the chosen axis.
 Likewise, a [LinearMotor](linearmotor.md) can power a [SliderJoint](hingejoint.md), producing a sliding motion along its axis.
 
 ### Field Summary
@@ -221,9 +221,16 @@ Although each sibling motor receives the same command, what the motors actually 
 
 > **Note**: The motors are *logically* coupled together, not *mechanically*.
 If one of the motors is physically blocked, the others are in no way affected by it.
+This provides a useful side-effect: when used in force-control mode, coupled-motors allow to easily simulate a mechanical differential.
+The role of a differential is to change the speed of the wheel relatively to each other.
+But also, it splits *equally* the motor torque to each wheel.
+Therefore it suffices to apply the same torque on multiple (coupled) motors, and the physics engine will adapt the speeds accordingly.
+It works for a regular car as well as for a 4x4 vehicle, as long as they have 3 differentials (front, rear, and central).
+Using `multiplier` here also makes sense, because some differentials do not split in half: sometimes a central differential splits 40%-60% to get more torque to the rear wheels.
+This parameter doesn't depend on the actual speed and characteristics of the wheels, it's only a mechanical setting.
 
 > **Note**: Although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
-For instance, it isn't possible to do Position Control for one motor and Velocity Control another at the same time.
+For instance, it is not possible to do Position Control for one motor and Velocity Control another at the same time.
 Whatever command is given to a motor, it is relayed to all of its siblings hence overwriting any prior settings imposed on them.
 In other words, only the last command given is the one actually being enforced across the coupling.
 
