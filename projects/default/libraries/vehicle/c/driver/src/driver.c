@@ -470,7 +470,7 @@ void wbu_driver_init() {
   }
 }
 
-bool wbu_driver_init_possible() {
+bool wbu_driver_initialization_is_possible() {
   // Parse vehicle caracteristics from the beginning of the data string
   int read_int;
   double read_double;

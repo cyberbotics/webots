@@ -20,7 +20,6 @@ All the functions included in this library are explained below.
 void wbu_driver_init();
 void wbu_driver_cleanup();
 int wbu_driver_step();
-bool wbu_driver_initialization_is_possible();
 ```
 
 %tab-end
