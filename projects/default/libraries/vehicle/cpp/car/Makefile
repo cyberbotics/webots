@@ -19,21 +19,28 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 WEBOTS_LIBRARY = 1
 CXX_SOURCES = $(wildcard src/*.cpp)
-INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c" -I$(WEBOTS_HOME_PATH)/include/controller/cpp
+
+INCLUDE = -I$(WEBOTS_HOME)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 MAIN_TARGET = $(LIB_PREFIX)CppCar$(SHARED_LIB_EXTENSION)
-LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lcar -lCppDriver
+LIBRARIES = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lCppDriver
 
 ifeq ($(OSTYPE),linux)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.so $(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.so
+LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.so
 endif
 
 ifeq ($(OSTYPE),darwin)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.dylib
+LDFLAGS = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
-LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/car.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppDriver.dll
+LFLAGS = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppCar.a
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/CppDriver.dll
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
+ifeq ($(OSTYPE),windows)
+FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppCar.a *.def *.exp
+endif
