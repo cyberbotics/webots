@@ -25,22 +25,15 @@ MAIN_TARGET = $(LIB_PREFIX)CppDriver$(SHARED_LIB_EXTENSION)
 LIBRARIES = -L$(WEBOTS_CONTROLLER_LIB_PATH) -ldriver -lCppController
 
 ifeq ($(OSTYPE),linux)
-LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
 endif
 
 ifeq ($(OSTYPE),darwin)
-LDFLAGS = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
-LFLAGS = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.a
 LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/driver.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
-
-ifeq ($(OSTYPE),windows)
-FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.a
-endif
