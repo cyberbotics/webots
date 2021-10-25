@@ -501,7 +501,7 @@ bool WbElevationGrid::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int text
   const double sizeY = scaledDepth();
 
   const double u = (double)localCollisionPoint.x() / sizeX;
-  const double v = -(double)localCollisionPoint.y() / sizeY;
+  const double v = 1 - (double)localCollisionPoint.y() / sizeY;
 
   // result
   uv.setXy(u, v);
@@ -528,44 +528,42 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
   WbRay localRay(ray);
   WbTransform *transform = upperTransform();
   if (transform) {
-    transform->translate(0, 0, -(numY - 1) * dy / absoluteScale().z());
     localRay.setDirection(ray.direction() * transform->matrix());
     WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();
-    transform->translate(0, 0, (numY - 1) * dy / absoluteScale().z());
   }
 
   for (int y = 0; y < (numY - 1); y++) {
     for (int x = 0; x < (numX - 1); x++) {
-      WbVector3 vertexA(x * dx, -y * dy, data[(numY - 1 - y) * numX + x] * absoluteScale().z());
-      WbVector3 vertexB(x * dx, -(y + 1) * dy, data[(numY - y - 2) * numX + x] * absoluteScale().z());
-      WbVector3 vertexC((x + 1) * dx, -y * dy, data[(numY - 1 - y) * numX + x + 1] * absoluteScale().z());
-      WbVector3 vertexD((x + 1) * dx, -(y + 1) * dy, data[(numY - y - 2) * numX + x + 1] * absoluteScale().z());
+      WbVector3 vertexA(x * dx, y * dy, data[(numY - 1 - y) * numX + x] * absoluteScale().z());
+      WbVector3 vertexB(x * dx, (y + 1) * dy, data[(numY - y - 2) * numX + x] * absoluteScale().z());
+      WbVector3 vertexC((x + 1) * dx, y * dy, data[(numY - 1 - y) * numX + x + 1] * absoluteScale().z());
+      WbVector3 vertexD((x + 1) * dx, (y + 1) * dy, data[(numY - y - 2) * numX + x + 1] * absoluteScale().z());
 
       // first triangle: ABC
-      WbAffinePlane plane(vertexA, vertexB, vertexC);
+      WbAffinePlane plane(vertexA, vertexC, vertexB);
       plane.normalize();
       std::pair<bool, double> result = localRay.intersects(plane, true);
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexA.x() && p.x() <= vertexC.x() && p.y() <= vertexA.y() && p.y() >= vertexB.y()) {
+        if (p.x() >= vertexA.x() && p.x() <= vertexC.x() && p.y() >= vertexA.y() && p.y() <= vertexB.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
       }
 
       // second triangle: BCD
-      plane = WbAffinePlane(vertexD, vertexC, vertexB);
+      plane = WbAffinePlane(vertexD, vertexB, vertexC);
       plane.normalize();
       result = localRay.intersects(plane, true);
 
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.y() <= vertexC.y() && p.y() >= vertexD.y()) {
+        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.y() >= vertexC.y() && p.y() <= vertexD.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
