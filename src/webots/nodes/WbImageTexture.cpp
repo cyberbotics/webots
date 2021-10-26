@@ -251,8 +251,10 @@ void WbImageTexture::updateWrenTexture() {
       return;
     const QString &url(mUrl->item(0));
     std::pair<QImage *, int> pair = gImagesMap.value(url);
-    if (pair.first)
+    if (pair.first) {
+      mImage = pair.first;  // mImage needs to be defined regarless as pickColor relies on it
       pair.second++;
+    }
 
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
   }
