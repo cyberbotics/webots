@@ -157,7 +157,7 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
     mImage = pair.first;  // mImage needs to be defined regardless as pickColor relies on it
-    return false;         // already present
+    return false;         // texture already available
   }
 
   QImageReader imageReader(device);
@@ -223,9 +223,9 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
 }
 
 void WbImageTexture::updateWrenTexture() {
-  // destroyWrenTexture() decreases the count of gImagesMap, so if it is allowed before the node is finalized, pre-existing
-  // images (in gImagesMap) would be deleted while being in the cache which results in an incorrect initialization of the node
-  // since it is available (in cache) but no reference to it remains
+  // Calling destroyWrenTexture() decreases the count of gImagesMap, so if it is called before a node is finalized,
+  // previously loaded images (in gImagesMap) would be deleted which results in an incorrect initialization of the node because
+  // the texture is available in the cache but no reference to it remains as the only reference was immediately deleted
   if (isPostFinalizedCalled())
     destroyWrenTexture();
 
@@ -285,7 +285,7 @@ void WbImageTexture::destroyWrenTexture() {
   const QString &url(mUrl->item(0));
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
-    int instances = pair.second - 1;
+    const int instances = pair.second - 1;
     if (instances <= 0) {
       pair.second--;
       delete mImage;
