@@ -1,6 +1,7 @@
 '''
 **Presentation**
         This script intends to help you to convert protos and worlds in RUB. However, since the rotation is depending of the proto itself, it could be needed to rotate some part manually.
+        Also, we advice you to check the changes in a file comparator.
 
 **Dependencies**
   `pip3 install numpy transforms3d`
@@ -151,7 +152,7 @@ def convert_nue_to_enu_world(filename, mode='all'):
                 write_status = False
         elif mode == 'all':
             if 'R2021b' in line:
-                line = '#VRML_SIM R2021c utf8'
+                line = '#VRML_SIM R2021c utf8 \r\n'
             elif 'R2021c' in line:
                 error_verbose += 'Warning: The version of the file is already 2021c. '
             if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
@@ -222,12 +223,12 @@ def convert_nue_to_enu_world(filename, mode='all'):
 if __name__ == '__main__':
 
     mode = 'all'  # specific, clean or all
-    filename_list = ['projects/robots/robotcub/icub/worlds/icub_stand.wbt']  # example, change it by your .wbt or.proto
+    filename_list = []  # example, change it by your .wbt or.proto
     # we have the possibility to use an argv, a list or a folder
     if len(sys.argv) == 2:
         filename_list = [str(sys.argv[1])]
     elif not filename_list:
-        foldername = 'projects/robots/parallax/boebot/protos/'  # example, change it by your .wbt or.proto folder
+        foldername = '/home/joachimhgg/perrone/olli_bus/protos/'  # example, change it by your .wbt or.proto folder
         filename_full_list = os.listdir(foldername)
         for filename in filename_full_list:
             if '.wbt' in filename or '.proto' in filename:
