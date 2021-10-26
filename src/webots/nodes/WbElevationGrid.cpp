@@ -571,8 +571,6 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
 void WbElevationGrid::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
-  if (mHeight->size() == 0)
-    return;
 
   // create list of vertices
   const int xd = mXDimension->value();
@@ -586,9 +584,9 @@ void WbElevationGrid::recomputeBoundingSphere() const {
   WbVector3 *vertices = new WbVector3[size];
   int index = 0;
   double posZ = 0.0;
-  for (int z = 0; z < xd; z++, posZ += zs) {
+  for (int z = 0; z < zd; z++, posZ += zs) {
     double posX = 0.0;
-    for (int x = 0; x < zd; x++, posX += xs) {
+    for (int x = 0; x < xd; x++, posX += xs) {
       vertices[index] = WbVector3(posX, h[index], posZ);
       ++index;
     }
