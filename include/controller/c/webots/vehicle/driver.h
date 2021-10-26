@@ -37,6 +37,7 @@ typedef enum { DOWN, SLOW, NORMAL, FAST } WbuDriverWiperMode;
 
 void wbu_driver_init();
 void wbu_driver_cleanup();
+bool wbu_driver_initialization_is_possible();
 int wbu_driver_step();
 
 // positive: turn right, negative: turn left
