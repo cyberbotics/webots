@@ -150,6 +150,14 @@ bool WbImageTexture::loadTexture() {
 }
 
 bool WbImageTexture::loadTextureData(QIODevice *device) {
+  if (mUrl->size() == 0)
+    return false;
+
+  const QString &url(mUrl->item(0));
+  std::pair<QImage *, int> pair = gImagesMap[url];
+  if (pair.first)
+    return false;  // already present
+
   QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
   const int imageWidth = textureSize.width();
@@ -172,15 +180,6 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
       width /= divider;
     if (height >= maxResolution)
       height /= divider;
-  }
-
-  if (mUrl->size() == 0)
-    return false;
-  const QString &url(mUrl->item(0));
-  std::pair<QImage *, int> pair = gImagesMap[url];
-  if (pair.first) {
-    return false;
-    // gImagesMap[url] = std::make_pair(pair.first, number);
   }
 
   mImage = new QImage();
@@ -247,16 +246,14 @@ void WbImageTexture::updateWrenTexture() {
       const QString &url(mUrl->item(0));
       gImagesMap[url] = std::make_pair(mImage, 1);
     }
-  } else {
+  } else {  // texture is already available
     if (mUrl->size() == 0)
       return;
     const QString &url(mUrl->item(0));
     std::pair<QImage *, int> pair = gImagesMap.value(url);
-    if (pair.first) {
-      // mImage = pair.first;
+    if (pair.first)
       pair.second++;
-      // gImagesMap[url] = std::make_pair(mImage, number);
-    }
+
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
   }
 
@@ -280,13 +277,11 @@ void WbImageTexture::destroyWrenTexture() {
   const QString &url(mUrl->item(0));
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
-    int number = --pair.second;
-    if (number <= 0) {
+    if (--pair.second <= 0) {
       delete mImage;
       mImage = NULL;
       gImagesMap.remove(url);
-    }  // else
-       // gImagesMap[url] = std::make_pair(pair.first, number);
+    }
   }
 }
 
