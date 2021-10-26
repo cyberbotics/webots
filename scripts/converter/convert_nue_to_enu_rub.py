@@ -223,12 +223,12 @@ def convert_nue_to_enu_world(filename, mode='all'):
 if __name__ == '__main__':
 
     mode = 'all'  # specific, clean or all
-    filename_list = []  # example, change it by your .wbt or.proto
+    filename_list = ['projects/robots/robotcub/icub/worlds/icub_stand.wbt']  # example, change it by your .wbt or.proto
     # we have the possibility to use an argv, a list or a folder
     if len(sys.argv) == 2:
         filename_list = [str(sys.argv[1])]
     elif not filename_list:
-        foldername = '/home/joachimhgg/perrone/olli_bus/protos/'  # example, change it by your .wbt or.proto folder
+        foldername = 'projects/robots/parallax/boebot/protos/'  # example, change it by your .wbt or.proto folder
         filename_full_list = os.listdir(foldername)
         for filename in filename_full_list:
             if '.wbt' in filename or '.proto' in filename:
