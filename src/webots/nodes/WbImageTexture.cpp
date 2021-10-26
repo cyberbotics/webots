@@ -179,12 +179,8 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
   const QString &url(mUrl->item(0));
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
-    int number = pair.second--;
-    if (number == 0) {
-      delete mImage;
-      gImagesMap.remove(url);
-    } else
-      gImagesMap[url] = std::make_pair(pair.first, number);
+    return false;
+    // gImagesMap[url] = std::make_pair(pair.first, number);
   }
 
   mImage = new QImage();
@@ -257,9 +253,9 @@ void WbImageTexture::updateWrenTexture() {
     const QString &url(mUrl->item(0));
     std::pair<QImage *, int> pair = gImagesMap.value(url);
     if (pair.first) {
-      mImage = pair.first;
-      int number = pair.second++;
-      gImagesMap[url] = std::make_pair(mImage, number);
+      // mImage = pair.first;
+      pair.second++;
+      // gImagesMap[url] = std::make_pair(mImage, number);
     }
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
   }
@@ -284,15 +280,14 @@ void WbImageTexture::destroyWrenTexture() {
   const QString &url(mUrl->item(0));
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
-    int number = pair.second--;
-    if (number == 0) {
+    int number = --pair.second;
+    if (number <= 0) {
       delete mImage;
+      mImage = NULL;
       gImagesMap.remove(url);
-    } else
-      gImagesMap[url] = std::make_pair(pair.first, number);
+    }  // else
+       // gImagesMap[url] = std::make_pair(pair.first, number);
   }
-
-  mImage = NULL;
 }
 
 void WbImageTexture::updateUrl() {
