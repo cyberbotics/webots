@@ -239,7 +239,7 @@ PROTO GhostDog [
       }
       DEF HIP0 HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 -1.0 0
+          axis 0 -1 0
           anchor 0.08 -0.12 0
         }
         device [
