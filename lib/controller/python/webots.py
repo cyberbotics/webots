@@ -237,7 +237,9 @@ class DistanceSensor:
         return _wb.wb_distance_sensor_get_sampling_period(self._ref)
 
     @samplingPeriod.setter
-    def samplingPeriod(self, p: int):
+    def samplingPeriod(self, p: typing.Union[int, None]):
+        if p is None:
+            p = 0
         _wb.wb_distance_sensor_enable(self._ref, p)
 
     @property
