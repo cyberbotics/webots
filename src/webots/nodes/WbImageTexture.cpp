@@ -223,7 +223,11 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
 }
 
 void WbImageTexture::updateWrenTexture() {
-  destroyWrenTexture();
+  // destroyWrenTexture() decreases the count of gImagesMap, so if it is allowed before the node is finalized, pre-existing
+  // images (in gImagesMap) would be deleted while being in the cache which results in an incorrect initialization of the node
+  // since it is available (in cache) but no reference to it remains
+  if (isPostFinalizedCalled())
+    destroyWrenTexture();
 
   QString filePath(path());
   if (filePath.isEmpty())
@@ -282,8 +286,7 @@ void WbImageTexture::destroyWrenTexture() {
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
     int instances = pair.second - 1;
-    if (instances <= 0 &&
-        mImage != NULL) {  // should be deleted only if this instance's mImage has been set before (i.e not the first setup)
+    if (instances <= 0) {
       pair.second--;
       delete mImage;
       mImage = NULL;
