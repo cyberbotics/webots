@@ -18,23 +18,18 @@ Listen the keyboard. According to the pressed key, send a
 message through an emitter or handle the position of Robot1.
 """
 
-from controller import Supervisor
+from webots import Supervisor, Emitter, Keyboard, Node, Field
 from common import common_print
 
 
 class Driver (Supervisor):
     timeStep = 128
-    x = 0.1
-    z = 0.3
-    translation = [x, 0.0, z]
 
     def __init__(self):
-        super(Driver, self).__init__()
-        self.emitter = self.getDevice('emitter')
-        robot = self.getFromDef('ROBOT1')
-        self.translationField = robot.getField('translation')
-        self.keyboard.enable(Driver.timeStep)
-        self.keyboard = self.getKeyboard()
+        super().__init__()
+        self.emitter = Emitter('emitter')
+        self.translation = Field(Node('ROBOT1'), 'translation')
+        self.keyboard = Keyboard()
 
     def run(self):
         self.displayHelp()
@@ -45,28 +40,28 @@ class Driver (Supervisor):
             # Deal with the pressed keyboard key.
             k = self.keyboard.getKey()
             message = ''
-            if k == ord('A'):
+            if k == 'A':
                 message = 'avoid obstacles'
-            elif k == ord('F'):
+            elif k == 'F':
                 message = 'move forward'
-            elif k == ord('S'):
+            elif k == 'S':
                 message = 'stop'
-            elif k == ord('T'):
+            elif k == 'T':
                 message = 'turn'
-            elif k == ord('I'):
+            elif k == 'I':
                 self.displayHelp()
-            elif k == ord('G'):
-                translationValues = self.translationField.getSFVec3f()
-                print('ROBOT1 is located at (' + str(translationValues[0]) + ',' + str(translationValues[2]) + ')')
-            elif k == ord('R'):
-                print('Teleport ROBOT1 at (' + str(self.x) + ',' + str(self.z) + ')')
-                self.translationField.setSFVec3f(self.translation)
+            elif k == 'G':
+                t = self.translation.value
+                print('ROBOT1 is located at (' + str(t[0]) + ',' + str(t[2]) + ')')
+            elif k == 'R':
+                print('Teleport ROBOT1 at (0.1, 0.0, 0.3)')
+                self.translation.value = [0.1, 0.0, 0.3]
 
             # Send a new message through the emitter device.
             if message != '' and message != previous_message:
                 previous_message = message
                 print('Please, ' + message)
-                self.emitter.send(message.encode('utf-8'))
+                self.emitter.send(message)
 
             # Perform a simulation step, quit the loop when
             # Webots is about to quit.

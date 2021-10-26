@@ -17,8 +17,6 @@ from webots import Robot, DistanceSensor, Motor
 robot = Robot()
 ds0 = DistanceSensor('ds0')
 ds1 = DistanceSensor('ds1')
-ds0.enable(64)
-ds1.enable(64)
 left_motor = Motor('left wheel motor')
 right_motor = Motor('right wheel motor')
 left_motor.position = float('inf')
