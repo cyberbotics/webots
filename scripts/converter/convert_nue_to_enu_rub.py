@@ -1,3 +1,63 @@
+'''
+**Presentation**
+        This script intends to help you to convert protos and worlds in RUB. However, since the rotation is depending of the proto itself, it could be needed to rotate some part manually.
+
+**Dependencies**
+  `pip3 install numpy transforms3d`
+
+**Usage**
+  To select your file, your can add one or multiple filename.s:
+      - by changing the `filename_list` variable
+      - by adding an argument in the terminal
+      - by changing the variable `foldername` to convert all the `.wbt` and `.proto` of a folder
+   You can choose the mode: 
+       - **all**: convert and clean the `.wbt` or `.proto` file in RUB.
+       - **clean**: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds. It also include the possibility to round the values.
+       - **specific**: convert a specific field, see an example line 84  of the script.  
+
+***file structure***
+    The `centerOfMass` and the geometry `IndexedFaceSet` need to have this specific structure (only carriage returns matter):
+```
+centerOfMass [
+    Vx Vy Vz
+]
+```
+```
+geometry IndexedFaceSet {
+  coord Coordinate {
+    point [
+      ....
+    ]
+  }
+}
+```
+
+***To do manually***
+        After the conversion, a verbose indicates you if the conversion is incomplete or not. If Yes, it indicates you which part(s) of the file(s) you will have to change manually.
+            * if `JointParameters` have no axis, you need to change it manually
+            in RUB, for sliderJoint add `axis 1 0 0 `; for HingeJoint add: `axis 0 -1 0`
+            _CTRL-F on HingeJointParameters_
+            * You may have the need to change the sensors manually.
+            * For inertiaMatrix, RUB to FLU is:
+```
+            [I11, I22, I33]  =>  [I33, I11, I22] 
+            [I12, I13, I23]      [I13, -I23, -I12] 
+```
+
+**Conversion process** 
+    Here is a list of the conversion process:
+        - replace `R2021b` by `R2021c`
+        - remove the `coordinateSystem ENU` line
+        - convert the orientation of the viewpoint: _[Ox, Oy, Oz, Oa] --> [Ox, Oz, Oy, Oa]_
+        - convert the position of the viewpoint: _[Px, Py, Pz] --> [-Pz, -Px, Py]_
+        - convert the vector of the keyword **'translation', 'axis', 'anchor', 'location', 'direction'**: _[Vx, Vy, Vz] --> [-Vz, -Vx, Vy]_
+        - convert the vector of the keyword **'rotation'**: _[Rx, Ry, Rz, Ra] --> [-Rz, -Rx, Ry, Ra]_
+        - convert the vector of the keyword **'size', 'frameSize', 'stepSize'**: _[Vx, Vy, Vz] --> [Vz, Vx, Vy]_
+        - convert the line after the keyword **'centerOfMass'** (see 'file structure' above): _[Vx, Vy, Vz] --> [-Vz, -Vx, Vy]_
+        - if it finds the keyword **'coord'**, skip one line (the line 'point [', see 'file structure' above) and convert all the geometry points until it reaches ']' : _[Vx, Vy, Vz] --> [-Vz, -Vx, Vy]_
+
+'''
+
 import sys
 import os
 import re
@@ -90,11 +150,15 @@ def convert_nue_to_enu_world(filename, mode='all'):
             if type not in ['rotation', 'translation']:
                 write_status = False
         elif mode == 'all':
-            if type in ["coordinateSystem"]:  # remove the 'coordinateSystem ENU'
+            if 'R2021b' in line:
+                line = '#VRML_SIM R2021c utf8'
+            elif 'R2021c' in line:
+                error_verbose += 'Warning: The version of the file is already 2021c. '
+            if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
                 vector = None
-            elif type in ["orientation"] and len(vector) == 4:
+            elif type in ['orientation'] and len(vector) == 4:
                 vector = [vector[0], vector[2], vector[1], vector[3]]  # orientation Ox Oy Oz Oa --> Ox Oz Oy Oa
-            elif type in ["position"] and len(vector) == 3:
+            elif type in ['position'] and len(vector) == 3:
                 vector = [-vector[2], -vector[0], vector[1]]  # position Px Py Pz --> -Pz -Px Py
             elif type in ['translation', 'axis', 'anchor', 'location', 'direction'] and len(vector) == 3:
                 vector = [-vector[2], -vector[0], vector[1]]  # RUB
@@ -136,7 +200,7 @@ def convert_nue_to_enu_world(filename, mode='all'):
             # we clean the vector
             vector_cleaned = clean_vector(vector, decimals=6)
             if vector_cleaned != vector:
-                clean_verbose += (" line {},".format(fileinput.lineno()))
+                clean_verbose += (' line {},'.format(fileinput.lineno()))
             # we replace the vector by the new one.
             if vector_cleaned == None:
                 line = ''
@@ -157,50 +221,16 @@ def convert_nue_to_enu_world(filename, mode='all'):
 
 if __name__ == '__main__':
 
-    '''
-    **Presentation**
-        This script can be use to convert protos and worlds in RUB. Since the rotation is depending of the proto itself,
-         it could be needed to rotate some part manually. 
-    **Dependencies**
-
-       pip3 install numpy transforms3d
-
-    **Usage**
-
-    To select your file, your can add one or multiple filename.s:
-        - by changing the 'filename_list' variable
-        - by adding an argument in the terminal
-        - by changing the variable 'foldername' to convert all the .wbt and .proto of a folder
-    you can choose the mode: 
-        - all: convert and clean the wbt or proto file in RUB.
-        - clean: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds. 
-          It also include the possibility to round the values.
-        - specific: convert a specific field, see an example line 84    
-    **Notes** 
-
-    * if JointParameters have no axis, you need to change it manually
-    in RUB, for sliderJoint add axis 1 0 0 ; for HingeJoint add: axis 0 -1 0
-    CTRL-F on HingeJointParameters
-
-    * You need to change the Sensors manually
-
-    * For inertial matrix, RUB to FLU is:
-
-    [I11, I22, I33]  =>  [I33, I11, I22] 
-    [I12, I13, I23]      [I13, -I23, -I12] 
-
-    '''
-
     mode = 'all'  # specific, clean or all
-    filename_list = ['projects/robots/robotcub/icub/worlds/icub_stand.wbt']
+    filename_list = ['projects/robots/robotcub/icub/worlds/icub_stand.wbt']  # example, change it by your .wbt or.proto
     # we have the possibility to use an argv, a list or a folder
     if len(sys.argv) == 2:
         filename_list = list(str(sys.argv[1]))
     elif not filename_list:
-        foldername = 'projects/robots/parallax/boebot/protos/'
+        foldername = 'projects/robots/parallax/boebot/protos/'  # example, change it by your .wbt or.proto folder
         filename_full_list = os.listdir(foldername)
         for filename in filename_full_list:
-            if ['.wbt', '.proto'] in filename:
+            if '.wbt' in filename or '.proto' in filename:
                 filename_list.append(foldername + filename)
 
     for filename in filename_list:
