@@ -201,5 +201,5 @@ DEF WATER Fluid {
     }
   ]
   boundingObject USE WATER_BOX
-  locked FALSE
+  locked TRUE
 }
