@@ -155,8 +155,10 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
 
   const QString &url(mUrl->item(0));
   std::pair<QImage *, int> pair = gImagesMap[url];
-  if (pair.first)
+  if (pair.first) {
+    mImage = pair.first;
     return false;  // already present
+  }
 
   QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
