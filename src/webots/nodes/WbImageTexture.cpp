@@ -156,8 +156,8 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
   const QString &url(mUrl->item(0));
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
-    mImage = pair.first;
-    return false;  // already present
+    mImage = pair.first;  // mImage needs to be defined regardless as pickColor relies on it
+    return false;         // already present
   }
 
   QImageReader imageReader(device);
@@ -254,7 +254,7 @@ void WbImageTexture::updateWrenTexture() {
     const QString &url(mUrl->item(0));
     std::pair<QImage *, int> pair = gImagesMap.value(url);
     if (pair.first) {
-      mImage = pair.first;  // mImage needs to be defined regarless as pickColor relies on it
+      mImage = pair.first;  // mImage needs to be defined regardless as pickColor relies on it
       pair.second++;
     }
 
@@ -281,7 +281,10 @@ void WbImageTexture::destroyWrenTexture() {
   const QString &url(mUrl->item(0));
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
-    if (--pair.second <= 0) {
+    int instances = pair.second - 1;
+    if (instances <= 0 &&
+        mImage != NULL) {  // should be deleted only if this instance's mImage has been set before (i.e not the first setup)
+      pair.second--;
       delete mImage;
       mImage = NULL;
       gImagesMap.remove(url);
