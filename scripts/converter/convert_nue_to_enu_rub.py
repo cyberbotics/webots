@@ -195,7 +195,7 @@ if __name__ == '__main__':
     filename_list = ['projects/robots/robotcub/icub/worlds/icub_stand.wbt']
     # we have the possibility to use an argv, a list or a folder
     if len(sys.argv) == 2:
-        filename_list = list(str(sys.argv[1]))
+        filename_list = [str(sys.argv[1])]
     elif not filename_list:
         foldername = 'projects/robots/parallax/boebot/protos/'
         filename_full_list = os.listdir(foldername)
