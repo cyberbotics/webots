@@ -38,7 +38,7 @@ geometry IndexedFaceSet {
             * if `JointParameters` have no axis, you need to change it manually
             in RUB, for sliderJoint add `axis 1 0 0 `; for HingeJoint add: `axis 0 -1 0`
             _CTRL-F on HingeJointParameters_
-            * You may have the need to change the sensors manually.
+            * You may have to change the sensors manually.
             * For inertiaMatrix, RUB to FLU is:
 ```
             [I11, I22, I33]  =>  [I33, I11, I22] 
