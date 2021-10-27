@@ -16,14 +16,13 @@ PROTO MazeBlock [
     rotation IS rotation
     children [
       DEF BOX Transform {
-        translation -0.0325 0 0
-        rotation -0.577351 -0.577351 -0.577349 -2.094397
+        translation 0 0 0.0325
         children [
           Shape {
             appearance RoughPine {
             }
             geometry Box {
-              size %<= fields.length.value >% 0.065 0.015
+              size 0.015 %<= fields.length.value >% 0.065
             }
           }
         ]

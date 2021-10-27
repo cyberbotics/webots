@@ -38,7 +38,7 @@
 #define WEIGHT_FORCE 16.6555161
 #define TARGET_ALTITUDE 2.0
 #define LABEL_X 0.75
-#define LABEL_Y 0.05
+#define LABEL_Z 0.05
 #define RED 0xFF0000
 
 int main() {
@@ -62,12 +62,12 @@ int main() {
   char buffer[50];
 
   while (wb_robot_step(time_step) != -1) {
-    const double altitude = wb_gps_get_values(gps)[1];
+    const double altitude = wb_gps_get_values(gps)[2];
     const double yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit)[2];
     sprintf(buffer, "Altitude: %1.1f m", altitude);
-    wb_supervisor_set_label(0, buffer, LABEL_X, LABEL_Y, 0.07, RED, 0, "Arial");
+    wb_supervisor_set_label(0, buffer, LABEL_X, LABEL_Z, 0.07, RED, 0, "Arial");
     sprintf(buffer, "Yaw: %1.1f rad", yaw);
-    wb_supervisor_set_label(1, buffer, LABEL_X, LABEL_Y - 0.03, 0.07, RED, 0, "Arial");
+    wb_supervisor_set_label(1, buffer, LABEL_X, LABEL_Z - 0.03, 0.07, RED, 0, "Arial");
     const double ratio = 1.0 - altitude / TARGET_ALTITUDE;
     wb_motor_set_velocity(main_motor, MAIN_HELIX_VELOCITY + ratio);
   }

@@ -67,7 +67,7 @@ PROTO Thymio2LED [
           %< if (isLight) { >%
             SpotLight {
               location IS lightPosition
-              direction 0 -1 0
+              direction 0 0 -1
               attenuation 0 0 1
               intensity 0.0004
               beamWidth 0.01

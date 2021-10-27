@@ -729,6 +729,7 @@ PROTO TiagoLeftArm [
                   children [
                     Transform {
                       translation 0.056 0 -0.002
+                      rotation 0 1 0 1.5708
                       children [
                         Cylinder {
                           height 0.048
