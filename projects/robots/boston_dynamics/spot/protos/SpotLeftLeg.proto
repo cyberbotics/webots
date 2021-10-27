@@ -201,7 +201,6 @@ PROTO SpotLeftLeg [
                               locked FALSE
                               type IS touchType
                             }
-
                           ]
                         }
                       ]
