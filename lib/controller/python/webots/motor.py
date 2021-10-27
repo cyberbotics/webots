@@ -25,24 +25,24 @@ class Motor:
     LINEAR = constant('LINEAR')
 
     def __init__(self, name: str):
-        self._ref = wb.wb_robot_get_device(str.encode(name))
+        self._tag = wb.wb_robot_get_device(str.encode(name))
 
     @property
     def targetPosition(self) -> float:
-        return wb.wb_motor_get_target_position(self._ref)
+        return wb.wb_motor_get_target_position(self._tag)
 
     @targetPosition.setter
     def targetPosition(self, p: float):
-        wb.wb_motor_set_position(self._ref, ctypes.c_double(p))
+        wb.wb_motor_set_position(self._tag, ctypes.c_double(p))
 
     @property
     def targetVelocity(self) -> float:
-        return wb.wb_motor_get_velocity(self._ref)
+        return wb.wb_motor_get_velocity(self._tag)
 
     @targetVelocity.setter
     def targetVelocity(self, v: float):
-        wb.wb_motor_set_velocity(self._ref, ctypes.c_double(v))
+        wb.wb_motor_set_velocity(self._tag, ctypes.c_double(v))
 
     @property
     def type(self) -> int:
-        return wb.wb_motor_get_type(self._ref)
+        return wb.wb_motor_get_type(self._tag)

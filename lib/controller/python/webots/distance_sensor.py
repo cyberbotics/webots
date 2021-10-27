@@ -28,4 +28,4 @@ class DistanceSensor(Sensor):
 
     @property
     def value(self) -> float:
-        return wb.wb_distance_sensor_get_value(self._ref)
+        return wb.wb_distance_sensor_get_value(self._tag)

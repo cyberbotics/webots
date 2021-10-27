@@ -27,15 +27,15 @@ class Receiver(Sensor):
 
     @property
     def queueLength(self) -> int:
-        return wb.wb_receiver_get_queue_length(self._ref)
+        return wb.wb_receiver_get_queue_length(self._tag)
 
     @property
     def data(self) -> bytes:
-        return wb.wb_receiver_get_data(self._ref)
+        return wb.wb_receiver_get_data(self._tag)
 
     @property
     def string(self) -> str:
         return self.data.decode()
 
     def nextPacket(self):
-        wb.wb_receiver_next_packet(self._ref)
+        wb.wb_receiver_next_packet(self._tag)
