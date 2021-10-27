@@ -150,16 +150,6 @@ bool WbImageTexture::loadTexture() {
 }
 
 bool WbImageTexture::loadTextureData(QIODevice *device) {
-  if (mUrl->size() == 0)
-    return false;
-
-  const QString &url(mUrl->item(0));
-  std::pair<QImage *, int> pair = gImagesMap[url];
-  if (pair.first) {
-    mImage = pair.first;  // mImage needs to be defined regardless as pickColor relies on it
-    return false;         // texture already available
-  }
-
   QImageReader imageReader(device);
   QSize textureSize = imageReader.size();
   const int imageWidth = textureSize.width();
