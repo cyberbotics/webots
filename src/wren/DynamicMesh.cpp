@@ -399,7 +399,7 @@ namespace wren {
   void DynamicMesh::updateGl() {
     applySkeletonTransform();
 
-    if (mIndicesDirty) {
+    if (mIndicesDirty && mIndices.size() > 0) {
       // Indices buffer is set to GL_STATIC_DRAW as we expect the mesh topology not to change
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, mIndices.size() * sizeof(unsigned int), NULL, GL_STATIC_DRAW);
       void *data = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, mIndices.size() * sizeof(unsigned int),
@@ -418,7 +418,7 @@ namespace wren {
         mSupportShadows = false;
     }
 
-    if (mCoordsDirty) {
+    if (mCoordsDirty && mCoords.size() > 0) {
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferCoords);
       glBufferData(GL_ARRAY_BUFFER, mCoords.size() * sizeof(glm::vec3), NULL, GL_STREAM_DRAW);
       void *data =
