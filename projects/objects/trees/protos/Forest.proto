@@ -243,7 +243,7 @@ PROTO Forest [
               coord Coordinate {
                 point [
                   %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                    %<= shape[i].x >% %<= shape[i].y >% %<= 0 >%
+                    %<= shape[i].x >% %<= -shape[i].y >% %<= 0 >%
                   %< } >%
                 ]
               }
@@ -256,13 +256,13 @@ PROTO Forest [
               }
               coordIndex [
                 %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                  %<= i >%
+                  %<= (nbShapePoint - i) - 1 >%
                 %< } >%
                 -1
               ]
               texCoordIndex [
                 %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                  %<= i >%
+                  %<= (nbShapePoint - i) - 1 >%
                 %< } >%
                 -1
               ]
