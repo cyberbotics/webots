@@ -1,6 +1,6 @@
 '''
 **Presentation**
-        This script intends to help you to convert protos and worlds in RUB. However, since the rotation is depending of the proto itself, it could be needed to rotate some part manually.
+        This script intends to help you convert protos and worlds in RUB. However, since the rotation depends on the proto itself, it could be needed to rotate some part manually.
         Also, we advice you to check the changes in a file comparator.
 
 **Dependencies**
