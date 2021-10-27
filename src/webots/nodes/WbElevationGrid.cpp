@@ -537,33 +537,33 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
 
   for (int y = 0; y < (numY - 1); y++) {
     for (int x = 0; x < (numX - 1); x++) {
-      WbVector3 vertexA(x * dx, y * dy, data[(numY - 1 - y) * numX + x] * absoluteScale().z());
-      WbVector3 vertexB(x * dx, (y + 1) * dy, data[(numY - y - 2) * numX + x] * absoluteScale().z());
-      WbVector3 vertexC((x + 1) * dx, y * dy, data[(numY - 1 - y) * numX + x + 1] * absoluteScale().z());
-      WbVector3 vertexD((x + 1) * dx, (y + 1) * dy, data[(numY - y - 2) * numX + x + 1] * absoluteScale().z());
+      WbVector3 vertexA(x * dx, (y + 1) * dy, data[(y + 1) * numX + x] * absoluteScale().z());
+      WbVector3 vertexB(x * dx, y * dy, data[y * numX + x] * absoluteScale().z());
+      WbVector3 vertexC((x + 1) * dx, (y + 1) * dy, data[(y + 1) * numX + x + 1] * absoluteScale().z());
+      WbVector3 vertexD((x + 1) * dx, y * dy, data[y * numX + x + 1] * absoluteScale().z());
 
       // first triangle: ABC
-      WbAffinePlane plane(vertexA, vertexC, vertexB);
+      WbAffinePlane plane(vertexA, vertexB, vertexC);
       plane.normalize();
       std::pair<bool, double> result = localRay.intersects(plane, true);
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexA.x() && p.x() <= vertexC.x() && p.y() >= vertexA.y() && p.y() <= vertexB.y()) {
+        if (p.x() >= vertexA.x() && p.x() <= vertexC.x() && p.y() >= vertexB.y() && p.y() <= vertexA.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
       }
 
       // second triangle: BCD
-      plane = WbAffinePlane(vertexD, vertexB, vertexC);
+      plane = WbAffinePlane(vertexD, vertexC, vertexB);
       plane.normalize();
       result = localRay.intersects(plane, true);
 
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.y() >= vertexC.y() && p.y() <= vertexD.y()) {
+        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.y() >= vertexB.y() && p.y() <= vertexC.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
