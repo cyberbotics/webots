@@ -276,7 +276,8 @@ void WbImageTexture::destroyWrenTexture() {
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
     const int instances = pair.second - 1;
-    if (instances <= 0) {
+    assert(instances >= 0);
+    if (instances == 0) {
       delete mImage;
       gImagesMap.remove(url);
     } else
