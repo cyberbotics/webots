@@ -563,7 +563,7 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
         WbVector3 p = localRay.origin() + result.second * localRay.direction();
-        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.y() >= vertexB.y() && p.y() <= vertexC.y()) {
+        if (p.x() >= vertexB.x() && p.x() <= vertexC.x() && p.y() >= vertexD.y() && p.y() <= vertexC.y()) {
           minDistance = result.second;
           localCollisionPoint = p;
         }
