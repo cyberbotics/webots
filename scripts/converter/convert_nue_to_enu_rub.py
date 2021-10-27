@@ -17,7 +17,7 @@
       - all: convert and clean the `.wbt` or `.proto` file in RUB.
       - clean: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds.
         It also include the possibility to round the values.
-      - specific: convert a specific field, see an example line 151  of the script.
+      - specific: convert a specific field, see an example line 157  of the script.
 
 ***file structure***
     The `centerOfMass` and the geometry `IndexedFaceSet` need to have this specific structure (only carriage returns matter):
@@ -37,7 +37,8 @@ geometry IndexedFaceSet {
 ```
 
 ***To do manually***
-        After the conversion, a verbose indicates you if the conversion is incomplete or not. If Yes, it indicates you which part(s) of the file(s) you will have to change manually.
+        After the conversion, a verbose indicates you if the conversion is incomplete or not.
+        If Yes, it indicates you which part(s) of the file(s) you will have to change manually.
             * if `JointParameters` have no axis, you need to change it manually
             in RUB, for sliderJoint add `axis 1 0 0 `; for HingeJoint add: `axis 0 -1 0`
             CTRL-F on HingeJointParameters
@@ -58,11 +59,13 @@ geometry IndexedFaceSet {
         - remove the `coordinateSystem ENU` line
         - convert the orientation of the viewpoint: [Ox, Oy, Oz, Oa] --> [Ox, Oz, Oy, Oa]
         - convert the position of the viewpoint: [Px, Py, Pz] --> [-Pz, -Px, Py]
-        - convert the vector of the keyword 'translation', 'axis', 'anchor', 'location', 'direction': [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
+        - convert the vector of the keyword 'translation', 'axis', 'anchor',
+          'location', 'direction': [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
         - convert the vector of the keyword 'rotation': [Rx, Ry, Rz, Ra] --> [-Rz, -Rx, Ry, Ra]
         - convert the vector of the keyword 'size', 'frameSize', 'stepSize': [Vx, Vy, Vz] --> [Vz, Vx, Vy]
         - convert the line after the keyword 'centerOfMass' (see 'file structure' above): [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
-        - if it finds the keyword 'coord', skip one line (the line 'point [', see 'file structure' above) and convert all the geometry points until it reaches ']' : [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
+        - if it finds the keyword 'coord', skip one line (the line 'point [', see 'file structure' above)
+        and convert all the geometry points until it reaches ']' : [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
 
 '''
 
@@ -243,7 +246,7 @@ if __name__ == '__main__':
                 filename_list.append(foldername + filename)
     if not filename_list:
         raise ValueError(
-            "filename_list empty, you either need to add an argument with the path or change filename_list or foldername variables")
+            "filename_list empty, add an argument with the path or change filename_list or foldername variables")
     for filename in filename_list:
         error_verbose, clean_verbose = convert_nue_to_enu_world(filename, mode=mode)
         if error_verbose:
