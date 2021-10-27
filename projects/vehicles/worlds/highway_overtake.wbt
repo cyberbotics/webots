@@ -71,8 +71,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.02613899007604356 -0.9947504028939284 -0.09893628828782548 2.8047399
-  position -14.099924 6.8042483 26.891473
+  orientation 0.05330871449142749 0.03363216357487249 -0.9980115523041526 3.0047710686437026
+  position -18.67078847489323 13.560607979374598 5.2277696379645295
   near 1
   follow "vehicle"
   followSmoothness 0
@@ -98,7 +98,8 @@ SumoInterface {
   laneChangeDelay 4
 }
 StraightRoadSegment {
-  translation -8.75 0.01 0
+  translation 0 8.75 0.01
+  rotation 0 0 1 3.14
   id "0"
   width 15
   numberOfLanes 4
@@ -116,8 +117,7 @@ StraightRoadSegment {
   length 5000
 }
 StraightRoadSegment {
-  translation 8.75 0.01 5000
-  rotation 0 1 0 3.1415927
+  translation -5000.0 -8.75 0.01
   name "road(1)"
   id "1"
   width 15
@@ -136,25 +136,25 @@ StraightRoadSegment {
   length 5000
 }
 DEF WEBOTS_VEHICLE0 LincolnMKZ {
-  translation -6.71 0.4 46.99
-  rotation 0 0 1 6.2831853
+  translation -46.99 6.71 0.4
+  rotation 0 0 -1 3.14159
   controller "highway_overtake"
   sensorsSlotFront [
     DEF FRONT_RIGHT_LIDAR IbeoLux {
-      translation -0.71 0 -0.2251666
-      rotation 0 -1 0 3.9269908
+      translation 0.2251666 0.71 0
+      rotation 0 0 -1 3.9269908
       name "ibeo 1"
       useExtendedFieldOfView TRUE
     }
     DEF FRONT_LEFT_LIDAR IbeoLux {
-      translation 0.71 0 -0.225
-      rotation 0 -1 0 2.39
+      translation 0.225 -0.71 0
+      rotation 0 0 -1 2.39
       name "ibeo 2"
       useExtendedFieldOfView TRUE
     }
     DEF FRONT DistanceSensor {
-      translation 0 0.3 -0.14
-      rotation 0 1 0 4.712389
+      translation 0.14 0 0.3
+      rotation 0 0 1 4.712389
       name "distance sensor front"
       lookupTable [
         0 0 0
@@ -164,8 +164,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_RIGHT_0 DistanceSensor {
-      translation -0.64512585 0.3 -0.29286095
-      rotation 0 1 0 4.5814897
+      translation 0.29286095 0.64512585 0.3
+      rotation 0 0 1 4.5814897
       name "distance sensor front right 0"
       lookupTable [
         0 0 0
@@ -175,8 +175,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_RIGHT_1 DistanceSensor {
-      translation -0.64512585 0.3 -0.29286095
-      rotation 0 1 0 4.4505903
+      translation 0.29286095 0.64512585 0.3
+      rotation 0 0 1 4.4505903
       name "distance sensor front right 1"
       lookupTable [
         0 0 0
@@ -186,8 +186,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_RIGHT_2 DistanceSensor {
-      translation -0.64512585 0.3 -0.29286095
-      rotation 0 1 0 4.3196903
+      translation 0.29286095 0.64512585 0.3
+      rotation 0 0 1 4.3196903
       name "distance sensor front right 2"
       lookupTable [
         0 0 0
@@ -197,8 +197,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_LEFT_0 DistanceSensor {
-      translation 0.650126 0.3 -0.28420069
-      rotation 0 1 0 4.8432897
+      translation 0.28420069 -0.650126 0.3
+      rotation 0 0 1 4.8432897
       name "distance sensor front left 0"
       lookupTable [
         0 0 0
@@ -208,8 +208,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_LEFT_1 DistanceSensor {
-      translation 0.650126 0.3 -0.28420069
-      rotation 0 1 0 4.9741897
+      translation 0.28420069 -0.650126 0.3
+      rotation 0 0 1 4.9741897
       name "distance sensor front left 1"
       lookupTable [
         0 0 0
@@ -219,8 +219,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     DEF FRONT_LEFT_2 DistanceSensor {
-      translation 0.650126 0.3 -0.28420069
-      rotation 0 1 0 5.1050897
+      translation 0.28420069 -0.650126 0.3
+      rotation 0 0 1 5.1050897
       name "distance sensor front left 2"
       lookupTable [
         0 0 0
@@ -230,8 +230,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     Robot {
-      translation 0 -5.1051227e-09 0.11
-      rotation 4.7948965e-09 -1 -2.3205103e-08 3.1415927
+      translation -0.11 0 0
+      rotation 0 0 -1 3.1415927
       children [
         Radar {
           maxRange 60
@@ -255,8 +255,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
   ]
   sensorsSlotRear [
     DEF REAR DistanceSensor {
-      translation 0 0.3 0
-      rotation 0 1 0 4.712389
+      translation 0 0 0.3
+      rotation 0 0 1 4.712389
       name "distance sensor rear"
       lookupTable [
         0 0 0
@@ -266,8 +266,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.2
     }
     DEF REAR_LEFT DistanceSensor {
-      translation -0.70512585 0.3 -0.1889379
-      rotation 0 1 0 4.1887902
+      translation 0.1889379 0.70512585 0.3
+      rotation 0 0 1 4.1887902
       name "distance sensor rear left"
       lookupTable [
         0 0 0
@@ -277,8 +277,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.2
     }
     DEF REAR_RIGHT DistanceSensor {
-      translation 0.705126 0.3 -0.1889379
-      rotation 0 -1 0 1.0471975
+      translation 0.1889379 -0.705126 0.3
+      rotation 0 0 -1 1.0471975
       name "distance sensor rear right"
       lookupTable [
         0 0 0
@@ -288,21 +288,21 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.2
     }
     DEF REAR_LEFT_LIDAR IbeoLux {
-      translation -0.745 0 -0.16454482
-      rotation 0 1 0 2.42
+      translation 0.16454482 0.745 0
+      rotation 0 0 1 2.42
       name "ibeo 3"
       useExtendedFieldOfView TRUE
     }
     DEF REAR_RIGHT_LIDAR IbeoLux {
-      translation 0.75850978 0 -0.18985653
-      rotation 0 -1 0 2.35
+      translation 0.18985653 -0.75850978 0
+      rotation 0 0 -1 2.35
       name "ibeo 4"
       useExtendedFieldOfView TRUE
     }
   ]
   sensorsSlotTop [
     DEF TOP_CAMERA Camera {
-      translation 0 0 -0.48
+      translation 0.48 0 0
       width 512
       height 256
       near 1
@@ -316,7 +316,7 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
   ]
   sensorsSlotCenter [
     DEF RIGHT DistanceSensor {
-      translation 0.9 0.3 -1.32
+      translation 1.32 -0.9 0.3
       name "distance sensor right"
       lookupTable [
         0 0 0
@@ -326,8 +326,8 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.9
     }
     DEF LEFT DistanceSensor {
-      translation -0.9 0.3 -1.32
-      rotation 0 1 0 3.1415926
+      translation 1.32 0.9 0.3
+      rotation 0 0 1 3.1415926
       name "distance sensor left"
       lookupTable [
         0 0 0
@@ -337,34 +337,33 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.9
     }
     GPS {
-      translation 0 0 -5.03
+      translation 5.03 0 0
     }
   ]
 }
 DEF WEBOTS_VEHICLE1 RangeRoverSportSVRSimple {
-  translation -10.421444 0.4 130.46564
-  rotation 0 -1 0 0.26179941
+  translation -130.46564 10.421444 0.4
+  rotation 0 0 1 2.87979
   name "vehicle(1)"
 }
 TrafficCone {
-  translation -12.182304 1.7941203e-13 118.18033
-  rotation -3.589793e-09 -1 4.6783094e-09 4.9741884
+  translation -118.18033 12.182304 0
+  rotation 0 0 -1 4.9741884
 }
 TrafficCone {
-  translation -9.4738171 -2.6645353e-14 127.19847
+  translation -127.19847 9.4738171 0
   name "traffic cone(1)"
 }
 TrafficCone {
-  translation -10.584217 3.5527136e-15 122.40328
+  translation -122.40328 10.584217 0
   name "traffic cone(2)"
 }
 DEF WEBOTS_VEHICLE2 Solid {
-  translation -10.36436 0 114.07405
+  translation -114.07405 10.36436 0
   name "solid(1)"
 }
 HighwayPole {
-  translation -16 0 215
-  rotation 0 1 0 1.5707997
+  translation -215.0 16.0 0
   stand 2
   height 7
   length 31
@@ -372,7 +371,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 5.35
+      translation 0 -5.35 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -380,7 +379,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -391,7 +390,7 @@ HighwayPole {
   ]
   leftHorizontalSigns [
     HighwaySign {
-      translation 0 0 -17.5
+      translation 0 17.5 0
       name "highway sign(2)"
       height 3.5
       texture [
@@ -401,7 +400,7 @@ HighwayPole {
   ]
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(3)"
       height 1.7
       length 3.5
@@ -412,8 +411,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -16 0 600
-  rotation 0 1 0 1.5707997
+  translation -600.0 16.0 0
   name "highway pole(1)"
   stand 2
   height 7
@@ -422,7 +420,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 5.35
+      translation 0 -5.35 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -430,7 +428,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -441,7 +439,7 @@ HighwayPole {
   ]
   leftHorizontalSigns [
     HighwaySign {
-      translation 0 0 -17.5
+      translation 0 17.5 0
       name "highway sign(2)"
       height 3.5
       texture [
@@ -451,7 +449,7 @@ HighwayPole {
   ]
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(3)"
       height 1.7
       length 3.5
@@ -462,8 +460,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -16 0 1000
-  rotation 0 1 0 1.5707997
+  translation -1000.0 16.0 0
   name "highway pole(2)"
   stand 2
   height 7
@@ -472,7 +469,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 5.35
+      translation 0 -5.35 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -480,7 +477,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -491,7 +488,7 @@ HighwayPole {
   ]
   leftHorizontalSigns [
     HighwaySign {
-      translation 0 0 -17.5
+      translation 0 17.5 0
       name "highway sign(2)"
       height 3.5
       texture [
@@ -501,7 +498,7 @@ HighwayPole {
   ]
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(3)"
       height 1.7
       length 3.5
@@ -512,8 +509,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -16 0 1400
-  rotation 0 1 0 1.5707997
+  translation -1400.0 16.0 0
   name "highway pole(3)"
   stand 2
   height 7
@@ -522,7 +518,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 5.35
+      translation 0 -5.35 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -530,7 +526,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -541,7 +537,7 @@ HighwayPole {
   ]
   leftHorizontalSigns [
     HighwaySign {
-      translation 0 0 -17.5
+      translation 0 17.5 0
       name "highway sign(2)"
       height 3.5
       texture [
@@ -551,7 +547,7 @@ HighwayPole {
   ]
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(3)"
       height 1.7
       length 3.5
@@ -562,8 +558,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -16 0 1800
-  rotation 0 1 0 1.5707997
+  translation -1800.0 16.0 0
   name "highway pole(4)"
   stand 2
   height 7
@@ -572,7 +567,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 5.35
+      translation 0 -5.35 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -580,7 +575,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -591,7 +586,7 @@ HighwayPole {
   ]
   leftHorizontalSigns [
     HighwaySign {
-      translation 0 0 -17.5
+      translation 0 17.5 0
       name "highway sign(2)"
       height 3.5
       texture [
@@ -601,7 +596,7 @@ HighwayPole {
   ]
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(3)"
       height 1.7
       length 3.5
@@ -612,8 +607,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -16 0 2200
-  rotation 0 1 0 1.5707997
+  translation -2200.0 16.0 0
   name "highway pole(5)"
   stand 2
   height 7
@@ -622,7 +616,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 5.35
+      translation 0 -5.35 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -630,7 +624,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -641,7 +635,7 @@ HighwayPole {
   ]
   leftHorizontalSigns [
     HighwaySign {
-      translation 0 0 -17.5
+      translation 0 17.5 0
       name "highway sign(2)"
       height 3.5
       texture [
@@ -651,7 +645,7 @@ HighwayPole {
   ]
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(3)"
       height 1.7
       length 3.5
@@ -662,8 +656,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -16 0 2600
-  rotation 0 1 0 1.5707997
+  translation -2600.0 16.0 0
   name "highway pole(6)"
   stand 2
   height 7
@@ -672,7 +665,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 5.35
+      translation 0 -5.35 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -680,7 +673,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -691,7 +684,7 @@ HighwayPole {
   ]
   leftHorizontalSigns [
     HighwaySign {
-      translation 0 0 -17.5
+      translation 0 17.5 0
       name "highway sign(2)"
       height 3.5
       texture [
@@ -701,7 +694,7 @@ HighwayPole {
   ]
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(3)"
       height 1.7
       length 3.5
@@ -712,8 +705,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -16 0 3000
-  rotation 0 1 0 1.5707997
+  translation -3000.0 16.0 0
   name "highway pole(7)"
   stand 2
   height 7
@@ -722,7 +714,7 @@ HighwayPole {
   curveRadius 0.5
   rightHorizontalSigns [
     HighwaySign {
-      translation 0 0 5.35
+      translation 0 -5.35 0
       texture [
         "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
       ]
@@ -730,7 +722,7 @@ HighwayPole {
   ]
   rightVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(1)"
       height 1.7
       length 3.5
@@ -741,7 +733,7 @@ HighwayPole {
   ]
   leftHorizontalSigns [
     HighwaySign {
-      translation 0 0 -17.5
+      translation 0 17.5 0
       name "highway sign(2)"
       height 3.5
       texture [
@@ -751,7 +743,7 @@ HighwayPole {
   ]
   leftVerticalSigns [
     HighwaySign {
-      translation 0 0.66 0
+      translation 0 0 0.66
       name "highway sign(3)"
       height 1.7
       length 3.5
@@ -762,6 +754,7 @@ HighwayPole {
   ]
 }
 Solid {
+  rotation 0.5773509358560258 -0.577349935856137 -0.577349935856137 2.09439
   children [
     Shape {
       appearance PBRAppearance {
@@ -796,6 +789,7 @@ Solid {
   name "solid(2)"
 }
 Forest {
+  rotation 0 0 1 1.5708
   treesFiles [
     "forest/highway_overtake/1.forest"
   ]
