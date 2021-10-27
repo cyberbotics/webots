@@ -66,7 +66,7 @@ PROTO RoadPillars [
       }
       DEF UPPER_PART Transform {
         translation 0 0 %<= height - 0.25 >%
-        rotation 0 0 1 %<= tilt >%
+        rotation 0 1 0 %<= -tilt >%
         children [
           Shape {
             appearance IS appearance
