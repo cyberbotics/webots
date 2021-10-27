@@ -20,8 +20,11 @@ import typing
 _wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'Controller.dll'))
 
 
-def _constant(name):
-    return ctypes.c_int.in_dll(_wb, 'wb_' + name).value
+def _constant(name, type=int):
+    if type == int:
+        return ctypes.c_int.in_dll(_wb, 'wb_' + name).value
+    if type == str:
+        return ctypes.c_char_p.in_dll(_wb, 'wb_' + name).value.decode()
 
 
 _wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
@@ -37,8 +40,14 @@ class Robot:
         Robot.created = self
         _wb.wb_robot_init()
 
-    def step(self, time_step: int) -> int:
+    def step(self, time_step: int = None) -> int:
+        if time_step is None:
+            time_step = int(self.basicTimeStep)
         return _wb.wb_robot_step(time_step)
+
+    @property
+    def basicTimeStep(self) -> float:
+        return _wb.wb_robot_get_basic_time_step()
 
 
 _wb.wb_keyboard_get_key.restype = ctypes.c_int
@@ -223,24 +232,38 @@ class Field:
             _wb.wb_supervisor_field_set_sf_vec3f(self._ref, (ctypes.c_double * 3)(*p))
 
 
-_wb.wb_distance_sensor_get_value.restype = ctypes.c_double
-_wb.wb_distance_sensor_get_sampling_period.restype = ctypes.c_int
-
-
-class DistanceSensor:
+class _Sensor:
     def __init__(self, name: str, samplingPeriod: int = None):
         self._ref = _wb.wb_robot_get_device(str.encode(name))
         self.samplingPeriod = int(_wb.wb_robot_get_basic_time_step()) if samplingPeriod is None else samplingPeriod
 
     @property
     def samplingPeriod(self) -> int:
-        return _wb.wb_distance_sensor_get_sampling_period(self._ref)
+        return self._get_sampling_period(self._ref)
 
     @samplingPeriod.setter
     def samplingPeriod(self, p: typing.Union[int, None]):
         if p is None:
             p = 0
-        _wb.wb_distance_sensor_enable(self._ref, p)
+        self._enable(self._ref, p)
+
+
+class Camera(_Sensor):
+    def __init__(self, name: str, samplingPeriod: int = None):
+        self._enable = _wb.wb_camera_enable
+        self._get_sampling_period = _wb.wb_camera_get_sampling_period
+        super().__init__(name, samplingPeriod)
+
+
+_wb.wb_distance_sensor_get_value.restype = ctypes.c_double
+_wb.wb_distance_sensor_get_sampling_period.restype = ctypes.c_int
+
+
+class DistanceSensor(_Sensor):
+    def __init__(self, name: str, samplingPeriod: int = None):
+        self._enable = _wb.wb_distance_sensor_enable
+        self._get_sampling_period = _wb.wb_distance_sensor_get_sampling_period
+        super().__init__(name, samplingPeriod)
 
     @property
     def value(self) -> float:
@@ -256,7 +279,7 @@ class Emitter:
 
     def send(self, message: typing.Union[str, bytes], length: int = None):
         if isinstance(message, str):
-            _wb.wb_emitter_send(self._ref, str.encode(message), len(message))
+            _wb.wb_emitter_send(self._ref, str.encode(message), len(message) + 1)
         elif isinstance(message, bytes):
             if length is None:
                 print('Emitter.send(): missing byte buffer length', file=sys.stderr)
@@ -278,21 +301,69 @@ class Motor:
         self._ref = _wb.wb_robot_get_device(str.encode(name))
 
     @property
-    def position(self) -> float:
+    def targetPosition(self) -> float:
         return _wb.wb_motor_get_target_position(self._ref)
 
-    @position.setter
-    def position(self, p: float):
+    @targetPosition.setter
+    def targetPosition(self, p: float):
         _wb.wb_motor_set_position(self._ref, ctypes.c_double(p))
 
     @property
-    def velocity(self) -> float:
+    def targetVelocity(self) -> float:
         return _wb.wb_motor_get_velocity(self._ref)
 
-    @velocity.setter
-    def velocity(self, v: float):
+    @targetVelocity.setter
+    def targetVelocity(self, v: float):
         _wb.wb_motor_set_velocity(self._ref, ctypes.c_double(v))
 
     @property
     def type(self) -> int:
         return _wb.wb_motor_get_type(self._ref)
+
+
+_wb.wb_receiver_get_data.restype = ctypes.c_char_p
+
+
+class Receiver(_Sensor):
+    def __init__(self, name: str, samplingPeriod: int = None):
+        self._enable = _wb.wb_receiver_enable
+        self._get_sampling_period = _wb.wb_receiver_get_sampling_period
+        super().__init__(name, samplingPeriod)
+
+    @property
+    def queueLength(self) -> int:
+        return _wb.wb_receiver_get_queue_length(self._ref)
+
+    @property
+    def data(self) -> bytes:
+        return _wb.wb_receiver_get_data(self._ref)
+
+    @property
+    def string(self) -> str:
+        return self.data.decode()
+
+    def nextPacket(self):
+        _wb.wb_receiver_next_packet(self._ref)
+
+
+class AnsiCodes:
+    RESET = _constant('ANSI_RESET', type=str)
+    BOLD = _constant('ANSI_BOLD', type=str)
+    UNDERLINE = _constant('ANSI_UNDERLINE', type=str)
+    BLACK_BACKGROUND = _constant('ANSI_BLACK_BACKGROUND', type=str)
+    RED_BACKGROUND = _constant('ANSI_RED_BACKGROUND', type=str)
+    GREEN_BACKGROUND = _constant('ANSI_GREEN_BACKGROUND', type=str)
+    YELLOW_BACKGROUND = _constant('ANSI_YELLOW_BACKGROUND', type=str)
+    BLUE_BACKGROUND = _constant('ANSI_BLUE_BACKGROUND', type=str)
+    MAGENTA_BACKGROUND = _constant('ANSI_MAGENTA_BACKGROUND', type=str)
+    CYAN_BACKGROUND = _constant('ANSI_CYAN_BACKGROUND', type=str)
+    WHITE_BACKGROUND = _constant('ANSI_WHITE_BACKGROUND', type=str)
+    BLACK_FOREGROUND = _constant('ANSI_BLACK_FOREGROUND', type=str)
+    RED_FOREGROUND = _constant('ANSI_RED_FOREGROUND', type=str)
+    GREEN_FOREGROUND = _constant('ANSI_GREEN_FOREGROUND', type=str)
+    YELLOW_FOREGROUND = _constant('ANSI_YELLOW_FOREGROUND', type=str)
+    BLUE_FOREGROUND = _constant('ANSI_BLUE_FOREGROUND', type=str)
+    MAGENTA_FOREGROUND = _constant('ANSI_MAGENTA_FOREGROUND', type=str)
+    CYAN_FOREGROUND = _constant('ANSI_CYAN_FOREGROUND', type=str)
+    WHITE_FOREGROUND = _constant('ANSI_WHITE_FOREGROUND', type=str)
+    CLEAR_SCREEN = _constant('ANSI_CLEAR_SCREEN', type=str)

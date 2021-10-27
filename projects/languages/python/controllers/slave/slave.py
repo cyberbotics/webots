@@ -18,8 +18,7 @@ According to the messages it receives, the robot change its
 behavior.
 """
 
-from controller import AnsiCodes
-from controller import Robot
+from webots import AnsiCodes, Camera, DistanceSensor, Motor, Receiver, Robot
 from common import common_print
 
 
@@ -32,7 +31,6 @@ class Enumerate(object):
 class Slave (Robot):
 
     Mode = Enumerate('STOP MOVE_FORWARD AVOIDOBSTACLES TURN')
-    timeStep = 32
     maxSpeed = 10.0
     mode = Mode.AVOIDOBSTACLES
     motors = []
@@ -42,27 +40,24 @@ class Slave (Robot):
         return max(-self.maxSpeed, min(self.maxSpeed, speed))
 
     def __init__(self):
-        super(Slave, self).__init__()
+        super().__init__()
         self.mode = self.Mode.AVOIDOBSTACLES
-        self.camera = self.getDevice('camera')
-        self.camera.enable(4 * self.timeStep)
-        self.receiver = self.getDevice('receiver')
-        self.receiver.enable(self.timeStep)
-        self.motors.append(self.getDevice("left wheel motor"))
-        self.motors.append(self.getDevice("right wheel motor"))
-        self.motors[0].setPosition(float("inf"))
-        self.motors[1].setPosition(float("inf"))
-        self.motors[0].setVelocity(0.0)
-        self.motors[1].setVelocity(0.0)
+        self.camera = Camera('camera', samplingPeriod=4 * int(self.basicTimeStep))
+        self.receiver = Receiver('receiver')
+        self.motors.append(Motor('left wheel motor'))
+        self.motors.append(Motor('right wheel motor'))
+        self.motors[0].targetPosition = float('inf')
+        self.motors[1].targetPosition = float("inf")
+        self.motors[0].targetVelocity = 0.0
+        self.motors[1].targetVelocity = 0.0
         for dsnumber in range(0, 2):
-            self.distanceSensors.append(self.getDevice('ds' + str(dsnumber)))
-            self.distanceSensors[-1].enable(self.timeStep)
+            self.distanceSensors.append(DistanceSensor('ds' + str(dsnumber)))
 
     def run(self):
         while True:
             # Read the supervisor order.
-            if self.receiver.getQueueLength() > 0:
-                message = self.receiver.getData().decode('utf-8')
+            if self.receiver.queueLength > 0:
+                message = self.receiver.string
                 self.receiver.nextPacket()
                 print('I should ' + AnsiCodes.RED_FOREGROUND + message + AnsiCodes.RESET + '!')
                 if message == 'avoid obstacles':
@@ -73,7 +68,7 @@ class Slave (Robot):
                     self.mode = self.Mode.STOP
                 elif message == 'turn':
                     self.mode = self.Mode.TURN
-            delta = self.distanceSensors[0].getValue() - self.distanceSensors[1].getValue()
+            delta = self.distanceSensors[0].value - self.distanceSensors[1].value
             speeds = [0.0, 0.0]
 
             # Send actuators commands according to the mode.
@@ -86,12 +81,12 @@ class Slave (Robot):
             elif self.mode == self.Mode.TURN:
                 speeds[0] = self.maxSpeed / 2
                 speeds[1] = -self.maxSpeed / 2
-            self.motors[0].setVelocity(speeds[0])
-            self.motors[1].setVelocity(speeds[1])
+            self.motors[0].targetVelocity = speeds[0]
+            self.motors[1].targetVelocity = speeds[1]
 
             # Perform a simulation step, quit the loop when
             # Webots is about to quit.
-            if self.step(self.timeStep) == -1:
+            if self.step() == -1:
                 break
 
 
