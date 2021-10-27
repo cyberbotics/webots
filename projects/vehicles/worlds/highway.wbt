@@ -2,7 +2,6 @@
 WorldInfo {
   ERP 0.6
   basicTimeStep 10
-  coordinateSystem "NUE"
   lineScale 5
   contactProperties [
     ContactProperties {
@@ -67,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.15569486873747082 -0.9813610795185334 -0.1126478559717868 1.5593890842992533
-  position -122.354 11.2909 10.1619
+  orientation -0.07464708097826118 -0.10757301470693938 0.9913908713561395 4.582884986034624
+  position -7.292053572244654 144.6251352424445 14.767391294089327
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -87,7 +86,7 @@ SumoInterface {
   enableHeight TRUE
 }
 Floor {
-  translation 0 -0.02 0
+  translation 0 0 -0.02
   size 1000 1000
   tileSize 1 1
   appearance PBRAppearance {
@@ -103,8 +102,8 @@ Floor {
 DEF WEST_LOWER_LOOP Solid {
   children [
     DEF COURVE_NORTH CurvedRoadSegment {
-      translation 110 0 -43.82
-      rotation 0 1 0 1.5708
+      translation 43.82 -110 0
+      rotation 0 0 1 -1.5707926535897934
       lines [
         RoadLine {
           type "continuous"
@@ -117,24 +116,24 @@ DEF WEST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF MIDDLE_NORTH StraightRoadSegment {
-      translation 53.6 0 -5.82
-      rotation 0 1 0 1.5708
+      translation 5.82 -53.6 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(1)"
       length 56.4
       rightBorderBoundingObject TRUE
       leftBorderBoundingObject TRUE
     }
     DEF MIDDLE_SOUTH StraightRoadSegment {
-      translation -53.6 0 -5.82
-      rotation 0 1 0 -1.5708
+      translation 5.82 53.6 0
+      rotation 0 0 1 1.5707926535897931
       name "road(2)"
       length 56.4
       rightBorderBoundingObject TRUE
       leftBorderBoundingObject TRUE
     }
     DEF COURVE_SOUTH CurvedRoadSegment {
-      translation -110 0 -43.82
-      rotation 0 1 0 4.71239
+      translation 43.82 110 0
+      rotation 0 0 1 1.5707973464102067
       name "road(3)"
       lines [
         RoadLine {
@@ -148,16 +147,16 @@ DEF WEST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF INPUT1 StraightRoadSegment {
-      translation 110 0 -90.42
-      rotation 0 1 0 1.5708
+      translation 90.42 -110 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(4)"
       length 390
       rightBorderBoundingObject TRUE
       leftBorderBoundingObject TRUE
     }
     DEF INPUT2 LaneSeparation {
-      translation 85 0 -86.92
-      rotation 0 1 0 1.5708
+      translation 86.92 -85 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(5)"
       length 25
       newLaneLeft FALSE
@@ -166,8 +165,8 @@ DEF WEST_LOWER_LOOP Solid {
       centralBorderBoundingObject TRUE
     }
     DEF INPUT3 AddLanesRoadSegment {
-      translation 25 0 -88.6701
-      rotation 0 1 0 1.5708
+      translation 88.6701 -25 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(6)"
       width 10.5
       length 60
@@ -178,8 +177,8 @@ DEF WEST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF NORTH_WEST StraightRoadSegment {
-      translation 25 0 -88.67
-      rotation 0 1 0 -1.5708
+      translation 88.67 -25 0
+      rotation 0 0 1 1.5707926535897931
       name "road(7)"
       width 10.5
       numberOfLanes 3
@@ -188,8 +187,8 @@ DEF WEST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF OUTPUT3 AddLanesRoadSegment {
-      translation -25 0 -88.67
-      rotation 0 1 0 -1.5708
+      translation 88.67 25 0
+      rotation 0 0 1 1.5707926535897931
       name "road(8)"
       width 10.5
       length 60
@@ -199,8 +198,8 @@ DEF WEST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF OUTPUT2 LaneSeparation {
-      translation -85 0 -86.92
-      rotation 0 1 0 -1.5708
+      translation 86.92 85 0
+      rotation 0 0 1 1.5707926535897931
       name "road(9)"
       length 25
       rightBorderBoundingObject TRUE
@@ -208,8 +207,8 @@ DEF WEST_LOWER_LOOP Solid {
       centralBorderBoundingObject TRUE
     }
     DEF OUTPUT1 StraightRoadSegment {
-      translation -110 0 -90.42
-      rotation 0 1 0 -1.5708
+      translation 90.42 110 0
+      rotation 0 0 1 1.5707926535897931
       name "road(10)"
       length 390
       rightBorderBoundingObject TRUE
@@ -220,8 +219,8 @@ DEF WEST_LOWER_LOOP Solid {
 DEF EST_LOWER_LOOP Solid {
   children [
     DEF COURVE_SOUTH CurvedRoadSegment {
-      translation -110 0 43.82
-      rotation 0 1 0 4.71239
+      translation -43.82 110 0
+      rotation 0 0 1 1.5707973464102067
       lines [
         RoadLine {
           type "continuous"
@@ -237,24 +236,24 @@ DEF EST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF MIDDLE_SOUTH StraightRoadSegment {
-      translation -53.6 0 5.82
-      rotation 0 1 0 -1.5708
+      translation -5.82 53.6 0
+      rotation 0 0 1 1.5707926535897931
       name "road(1)"
       length 56.4
       rightBorderBoundingObject TRUE
       leftBorderBoundingObject TRUE
     }
     DEF MIDDLE_NORTH StraightRoadSegment {
-      translation 53.6 0 5.82
-      rotation 0 1 0 1.5708
+      translation -5.82 -53.6 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(2)"
       length 56.4
       rightBorderBoundingObject TRUE
       leftBorderBoundingObject TRUE
     }
     DEF COURVE_NORTH CurvedRoadSegment {
-      translation 110 0 43.82
-      rotation 0 1 0 1.5708
+      translation -43.82 -110 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(3)"
       lines [
         RoadLine {
@@ -268,16 +267,16 @@ DEF EST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF INPUT1 StraightRoadSegment {
-      translation 110 0 90.42
-      rotation 0 1 0 1.5708
+      translation -90.42 -110 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(4)"
       length 390
       rightBorderBoundingObject TRUE
       leftBorderBoundingObject TRUE
     }
     DEF INPUT2 LaneSeparation {
-      translation 85 0 86.92
-      rotation 0 1 0 1.5708
+      translation -86.92 -85 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(5)"
       length 25
       rightBorderBoundingObject TRUE
@@ -285,8 +284,8 @@ DEF EST_LOWER_LOOP Solid {
       centralBorderBoundingObject TRUE
     }
     DEF INPUT3 AddLanesRoadSegment {
-      translation 25 0 88.6701
-      rotation 0 1 0 1.5708
+      translation -88.6701 -25 0
+      rotation 0 0 1 -1.5707926535897934
       name "road(6)"
       width 10.5
       length 60
@@ -296,8 +295,8 @@ DEF EST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF NORTH_EST StraightRoadSegment {
-      translation 25 0 88.67
-      rotation 0 1 0 -1.5708
+      translation -88.67 -25 0
+      rotation 0 0 1 1.5707926535897931
       name "road(7)"
       width 10.5
       numberOfLanes 3
@@ -306,8 +305,8 @@ DEF EST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF OUTPUT3 AddLanesRoadSegment {
-      translation -25 0 88.67
-      rotation 0 1 0 -1.5708
+      translation -88.67 25 0
+      rotation 0 0 1 1.5707926535897931
       name "road(8)"
       width 10.5
       length 60
@@ -318,8 +317,8 @@ DEF EST_LOWER_LOOP Solid {
       leftBorderBoundingObject TRUE
     }
     DEF OUTPUT2 LaneSeparation {
-      translation -85 0 86.92
-      rotation 0 1 0 -1.5708
+      translation -86.92 85 0
+      rotation 0 0 1 1.5707926535897931
       name "road(9)"
       length 25
       newLaneLeft FALSE
@@ -328,8 +327,8 @@ DEF EST_LOWER_LOOP Solid {
       centralBorderBoundingObject TRUE
     }
     DEF OUTPUT1 StraightRoadSegment {
-      translation -110 0 90.42
-      rotation 0 1 0 -1.5708
+      translation -90.42 110 0
+      rotation 0 0 1 1.5707926535897931
       name "road(10)"
       length 390
       rightBorderBoundingObject TRUE
@@ -341,7 +340,8 @@ DEF EST_LOWER_LOOP Solid {
 DEF SOUTH_UPPER_OUTPUT Solid {
   children [
     DEF SLOPE Road {
-      translation -15.6 5 -85
+      translation 85 15.6 5
+      rotation 0 0 1 3.14
       bottom TRUE
       wayPoints [
         0 0 0
@@ -357,7 +357,8 @@ DEF SOUTH_UPPER_OUTPUT Solid {
       castShadows TRUE
     }
     DEF CURVE CurvedRoadSegment {
-      translation -53.6 0 -43.82
+      translation 43.82 53.6 0
+      rotation 0 0 1 3.14156
       name "road(1)"
       lines [
         RoadLine {
@@ -374,8 +375,8 @@ DEF SOUTH_UPPER_OUTPUT Solid {
 DEF SOUTH_UPPER_INPUT Solid {
   children [
     DEF CURVE CurvedRoadSegment {
-      translation -53.6 0 43.82
-      rotation 0 1 0 1.5708
+      translation -43.82 53.6 0
+      rotation 0 0 1 -1.5707926535897934
       lines [
         RoadLine {
           type "continuous"
@@ -386,8 +387,7 @@ DEF SOUTH_UPPER_INPUT Solid {
       leftBorderBoundingObject TRUE
     }
     DEF SLOPE Road {
-      translation -15.6 5 85
-      rotation 0 1 0 3.14151
+      translation -85 15.6 5
       name "road(1)"
       bottom TRUE
       wayPoints [
@@ -409,8 +409,7 @@ DEF SOUTH_UPPER_INPUT Solid {
 DEF NORTH_UPPER_OUTPUT Solid {
   children [
     DEF SLOPE Road {
-      translation 15.6 5 85
-      rotation 0 1 0 3.14151
+      translation -85 -15.6 5
       bottom TRUE
       wayPoints [
         0 0 0
@@ -427,8 +426,7 @@ DEF NORTH_UPPER_OUTPUT Solid {
       castShadows TRUE
     }
     DEF CURVE CurvedRoadSegment {
-      translation 53.6 0 43.82
-      rotation 0 1 0 3.14159
+      translation -43.82 -53.6 0
       name "road(1)"
       lines [
         RoadLine {
@@ -445,8 +443,8 @@ DEF NORTH_UPPER_OUTPUT Solid {
 DEF NORTH_UPPER_INPUT Solid {
   children [
     DEF CURVE CurvedRoadSegment {
-      translation 53.6 0 -43.82
-      rotation 0 1 0 -1.5708
+      translation 43.82 -53.6 0
+      rotation 0 0 1 1.5707926535897931
       lines [
         RoadLine {
           type "continuous"
@@ -457,7 +455,8 @@ DEF NORTH_UPPER_INPUT Solid {
       leftBorderBoundingObject TRUE
     }
     DEF SLOPE Road {
-      translation 15.6 5 -85
+      translation 85 -15.6 5
+      rotation 0 0 1 3.14156
       name "road(1)"
       bottom TRUE
       wayPoints [
@@ -479,7 +478,8 @@ DEF NORTH_UPPER_INPUT Solid {
 DEF SOUTH_UPPER_LOOP Solid {
   children [
     DEF MIDDLE StraightRoadSegment {
-      translation -7 5 -85
+      translation 85 7 5
+      rotation 0 0 1 3.14
       lines [
         RoadLine {
           type "continuous"
@@ -492,7 +492,8 @@ DEF SOUTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF OUTPUT_1 LaneSeparation {
-      translation -10.5 5 -101
+      translation 101 10.5 5
+      rotation 0 0 1 3.14
       name "road(1)"
       length 16
       newLaneLeft FALSE
@@ -503,7 +504,8 @@ DEF SOUTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF OUTPUT_2 AddLanesRoadSegment {
-      translation -7 5 -183
+      translation 183 7 5
+      rotation 0 0 1 3.14156
       name "road(2)"
       length 82
       newLaneLeft FALSE
@@ -513,8 +515,7 @@ DEF SOUTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF WEST_CURVE CurvedRoadSegment {
-      translation -97 5 -183
-      rotation 0 1 0 3.14159
+      translation 183 97 5
       name "road(3)"
       bottom TRUE
       curvatureRadius 90
@@ -527,7 +528,8 @@ DEF SOUTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF SOUTH StraightRoadSegment {
-      translation -187 5 -183
+      translation 183 187 5
+      rotation 0 0 1 3.14156
       name "road(4)"
       bottom TRUE
       length 366
@@ -536,7 +538,8 @@ DEF SOUTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF EST_CURVE CurvedRoadSegment {
-      translation -97 5 183
+      translation -183 97 5
+      rotation 0 0 1 3.14156
       name "road(5)"
       bottom TRUE
       curvatureRadius 90
@@ -549,8 +552,7 @@ DEF SOUTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF INPUT_1 AddLanesRoadSegment {
-      translation -7 5 183
-      rotation 0 1 0 3.14159
+      translation -183 7 5
       name "road(6)"
       length 82
       bottom TRUE
@@ -559,8 +561,7 @@ DEF SOUTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF INPUT_2 LaneSeparation {
-      translation -10.5 5 101
-      rotation 0 1 0 3.14159
+      translation -101 10.5 5
       name "road(7)"
       length 16
       bottom TRUE
@@ -574,29 +575,29 @@ DEF SOUTH_UPPER_LOOP Solid {
   boundingObject Group {
     children [
       DEF STRAIGHT_LINE_1 Transform {
-        translation -187 4.5 0
+        translation 0 187 4.5
         children [
           DEF STRAIGHT_BOX Box {
-            size 7 1 366
+            size 366 7 1
           }
         ]
       }
       DEF STRAIGHT_LINE_2 Transform {
-        translation -7 4.5 0
+        translation 0 7 4.5
         children [
           USE STRAIGHT_BOX
         ]
       }
       DEF OUTPUT Transform {
-        translation -15.4 4.5 -131.5
+        translation 131.5 15.4 4.5
         children [
           DEF OUTPUT_INPUT_BOX Box {
-            size 9.7 1 93
+            size 93 9.7 1
           }
         ]
       }
       DEF INPUT Transform {
-        translation -15.4 4.5 131.5
+        translation -131.5 15.4 4.5
         children [
           USE OUTPUT_INPUT_BOX
         ]
@@ -607,7 +608,8 @@ DEF SOUTH_UPPER_LOOP Solid {
 DEF NORTH_UPPER_LOOP Solid {
   children [
     DEF MIDDLE StraightRoadSegment {
-      translation 7 5 -85
+      translation 85 -7 5
+      rotation 0 0 1 3.14156
       lines [
         RoadLine {
           type "continuous"
@@ -620,7 +622,8 @@ DEF NORTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF INPUT_1 LaneSeparation {
-      translation 10.5 5 -101
+      translation 101 -10.5 5
+      rotation 0 0 1 3.14156
       name "road(1)"
       length 16
       bottom TRUE
@@ -630,7 +633,8 @@ DEF NORTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF INPUT_2 AddLanesRoadSegment {
-      translation 7 5 -183
+      translation 183 -7 5
+      rotation 0 0 1 3.14156
       name "road(2)"
       length 82
       bottom TRUE
@@ -639,8 +643,7 @@ DEF NORTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF WEST_CURVE CurvedRoadSegment {
-      translation 97 5 -183
-      rotation 0 1 0 3.14159
+      translation 183 -97 5
       name "road(3)"
       bottom TRUE
       curvatureRadius 90
@@ -653,7 +656,8 @@ DEF NORTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF NORTH StraightRoadSegment {
-      translation 187 5 -183
+      translation 183 -187 5
+      rotation 0 0 1 3.14156
       name "road(4)"
       bottom TRUE
       length 366
@@ -662,7 +666,8 @@ DEF NORTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF EST_CURVE CurvedRoadSegment {
-      translation 97 5 183
+      translation -183 -97 5
+      rotation 0 0 1 3.14156
       name "road(5)"
       bottom TRUE
       curvatureRadius 90
@@ -675,8 +680,7 @@ DEF NORTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF OUTPUT_1 AddLanesRoadSegment {
-      translation 7 5 183
-      rotation 0 1 0 3.14159
+      translation -183 -7 5
       name "road(6)"
       length 82
       newLaneLeft FALSE
@@ -686,8 +690,7 @@ DEF NORTH_UPPER_LOOP Solid {
       castShadows TRUE
     }
     DEF OUTPUT_2 LaneSeparation {
-      translation 10.5 5 101
-      rotation 0 1 0 3.14159
+      translation -101 -10.5 5
       name "road(7)"
       length 16
       newLaneLeft FALSE
@@ -702,25 +705,25 @@ DEF NORTH_UPPER_LOOP Solid {
   boundingObject Group {
     children [
       DEF STRAIGHT_LINE_1 Transform {
-        translation 187 4.5 0
+        translation 0 -187 4.5
         children [
           USE STRAIGHT_BOX
         ]
       }
       DEF STRAIGHT_LINE_2 Transform {
-        translation 7 4.5 0
+        translation 0 -7 4.5
         children [
           USE STRAIGHT_BOX
         ]
       }
       DEF OUTPUT Transform {
-        translation 15.4 4.5 -131.5
+        translation 131.5 -15.4 4.5
         children [
           USE OUTPUT_INPUT_BOX
         ]
       }
       DEF INPUT Transform {
-        translation 15.4 4.5 131.5
+        translation -131.5 -15.4 4.5
         children [
           USE OUTPUT_INPUT_BOX
         ]
@@ -731,226 +734,226 @@ DEF NORTH_UPPER_LOOP Solid {
 DEF SOUTH_RoadPillars Solid {
   children [
     RoadPillars {
-      translation -7 -0.02 14
+      translation -14 7 -0.02
     }
     RoadPillars {
-      translation -7 -0.02 35.13
+      translation -35.13 7 -0.02
       name "road pillar(1)"
     }
     RoadPillars {
-      translation -7 -0.02 58.62
+      translation -58.62 7 -0.02
       name "road pillar(2)"
     }
     RoadPillars {
-      translation -7 -0.02 78
+      translation -78 7 -0.02
       name "road pillar(3)"
     }
     RoadPillars {
-      translation -10.53 -0.02 96.98
+      translation -96.98 10.53 -0.02
       name "road pillar(4)"
       width 15
       pylonsDistance 12
     }
     RoadPillars {
-      translation -9 -0.02 120.42
+      translation -120.42 9 -0.02
       name "road pillar(5)"
       width 12
       pylonsDistance 10
     }
     RoadPillars {
-      translation -8 -0.02 146.45
+      translation -146.45 8 -0.02
       name "road pillar(6)"
       width 10
       pylonsDistance 7
     }
     RoadPillars {
-      translation -7 -0.02 171.67
+      translation -171.67 7 -0.02
       name "road pillar(7)"
     }
     RoadPillars {
-      translation -9.00756 -0.02 200.89
-      rotation 0 1 0 6.02139
+      translation -200.89 9.00756 -0.02
+      rotation 0 0 1 2.8797973464102067
       name "road pillar(8)"
       upperTilt 0.02
     }
     RoadPillars {
-      translation -19.682 -0.02 228.844
-      rotation 0 -1 0 0.523599
+      translation -228.844 19.682 -0.02
+      rotation 0 0 1 2.617993653589793
       name "road pillar(9)"
       upperTilt 0.05
     }
     RoadPillars {
-      translation -38.56 -0.02 251.369
-      rotation 0 1 0 5.49779
+      translation -251.369 38.56 -0.02
+      rotation 0 0 1 2.3561973464102066
       name "road pillar(10)"
       upperTilt 0.085
     }
     RoadPillars {
-      translation -63.9646 -0.02 266.77
-      rotation 0 -1 0 1.2
+      translation -266.77 63.9646 -0.02
+      rotation 0 0 1 1.9415926535897932
       name "road pillar(11)"
       upperTilt 0.12
     }
     RoadPillars {
-      translation -92.6413 -0.02 273.025
-      rotation 0 -1 0 1.5708
+      translation -273.025 92.6413 -0.02
+      rotation 0 0 1 1.5707926535897931
       name "road pillar(12)"
       upperTilt 0.15
     }
     RoadPillars {
-      translation -124.942 -0.04 268.352
-      rotation 0 -1 0 -1.2
+      translation -268.352 124.942 -0.04
+      rotation 0 0 1 -1.9415926535897934
       name "road pillar(13)"
       upperTilt -0.119
     }
     RoadPillars {
-      translation -156.661 -0.02 250.125
-      rotation 0 1 0 -5.49779
+      translation -250.125 156.661 -0.02
+      rotation 0 0 1 -2.356197346410207
       name "road pillar(14)"
       upperTilt -0.08
     }
     RoadPillars {
-      translation -172.818 -0.02 231.665
-      rotation 0 -1 0 -0.523599
+      translation -231.665 172.818 -0.02
+      rotation 0 0 1 -2.617993653589793
       name "road pillar(15)"
       upperTilt -0.06
     }
     RoadPillars {
-      translation -184.936 -0.02 201.595
-      rotation 0 1 0 -6.02139
+      translation -201.595 184.936 -0.02
+      rotation 0 0 1 -2.879797346410207
       name "road pillar(16)"
       upperTilt -0.02
     }
     RoadPillars {
-      translation -187 -0.02 172
+      translation -172 187 -0.02
       name "road pillar(17)"
     }
     RoadPillars {
-      translation -187 -0.02 142
+      translation -142 187 -0.02
       name "road pillar(18)"
     }
     RoadPillars {
-      translation -187 -0.02 112
+      translation -112 187 -0.02
       name "road pillar(19)"
     }
     RoadPillars {
-      translation -187 -0.02 72
+      translation -72 187 -0.02
       name "road pillar(20)"
     }
     RoadPillars {
-      translation -187 -0.02 36
+      translation -36 187 -0.02
       name "road pillar(21)"
     }
     RoadPillars {
-      translation -187 -0.02 0
+      translation 0 187 -0.02
       name "road pillar(22)"
     }
     RoadPillars {
-      translation -187 -0.02 -36
+      translation 36 187 -0.02
       name "road pillar(23)"
     }
     RoadPillars {
-      translation -187 -0.02 -72
+      translation 72 187 -0.02
       name "road pillar(24)"
     }
     RoadPillars {
-      translation -187 -0.02 -112
+      translation 112 187 -0.02
       name "road pillar(25)"
     }
     RoadPillars {
-      translation -187 -0.02 -142
+      translation 142 187 -0.02
       name "road pillar(26)"
     }
     RoadPillars {
-      translation -187 -0.02 -172
+      translation 172 187 -0.02
       name "road pillar(27)"
     }
     RoadPillars {
-      translation -184.936 -0.02 -201.595
-      rotation 0 1 0 6.02139
+      translation 201.595 184.936 -0.02
+      rotation 0 0 1 2.8797973464102067
       name "road pillar(28)"
       upperTilt -0.02
     }
     RoadPillars {
-      translation -172.818 -0.02 -231.665
-      rotation 0 -1 0 0.523599
+      translation 231.665 172.818 -0.02
+      rotation 0 0 1 2.617993653589793
       name "road pillar(29)"
       upperTilt -0.06
     }
     RoadPillars {
-      translation -156.661 -0.02 -250.125
-      rotation 0 1 0 5.49779
+      translation 250.125 156.661 -0.02
+      rotation 0 0 1 2.3561973464102066
       name "road pillar(30)"
       upperTilt -0.08
     }
     RoadPillars {
-      translation -124.942 -0.04 -268.352
-      rotation 0 -1 0 1.2
+      translation 268.352 124.942 -0.04
+      rotation 0 0 1 1.9415926535897932
       name "road pillar(31)"
       upperTilt -0.119
     }
     RoadPillars {
-      translation -92.6413 -0.02 -273.025
-      rotation 0 -1 0 1.5708
+      translation 273.025 92.6413 -0.02
+      rotation 0 0 1 1.5707926535897931
       name "road pillar(32)"
       upperTilt -0.15
     }
     RoadPillars {
-      translation -63.9646 -0.02 -266.77
-      rotation 0 -1 0 -1.2
+      translation 266.77 63.9646 -0.02
+      rotation 0 0 1 -1.9415926535897934
       name "road pillar(33)"
       upperTilt 0.12
     }
     RoadPillars {
-      translation -38.56 -0.02 -251.369
-      rotation 0 1 0 -5.49779
+      translation 251.369 38.56 -0.02
+      rotation 0 0 1 -2.356197346410207
       name "road pillar(34)"
       upperTilt 0.085
     }
     RoadPillars {
-      translation -19.682 -0.02 -228.844
-      rotation 0 -1 0 -0.523599
+      translation 228.844 19.682 -0.02
+      rotation 0 0 1 -2.617993653589793
       name "road pillar(35)"
       upperTilt 0.05
     }
     RoadPillars {
-      translation -9.00756 -0.02 -200.89
-      rotation 0 1 0 -6.02139
+      translation 200.89 9.00756 -0.02
+      rotation 0 0 1 -2.879797346410207
       name "road pillar(36)"
       upperTilt 0.02
     }
     RoadPillars {
-      translation -7 -0.02 -171.67
+      translation 171.67 7 -0.02
       name "road pillar(37)"
     }
     RoadPillars {
-      translation -7 -0.02 -146.45
+      translation 146.45 7 -0.02
       name "road pillar(38)"
     }
     RoadPillars {
-      translation -7 -0.02 -120.42
+      translation 120.42 7 -0.02
       name "road pillar(39)"
     }
     RoadPillars {
-      translation -9.53 -0.02 -96.98
+      translation 96.98 9.53 -0.02
       name "road pillar(40)"
       width 13
       pylonsDistance 10
     }
     RoadPillars {
-      translation -7 -0.02 -78
+      translation 78 7 -0.02
       name "road pillar(41)"
     }
     RoadPillars {
-      translation -7 -0.02 -58.62
+      translation 58.62 7 -0.02
       name "road pillar(42)"
     }
     RoadPillars {
-      translation -7 -0.02 -35.13
+      translation 35.13 7 -0.02
       name "road pillar(43)"
     }
     RoadPillars {
-      translation -7 -0.02 -14
+      translation 14 7 -0.02
       name "road pillar(44)"
     }
   ]
@@ -959,230 +962,230 @@ DEF SOUTH_RoadPillars Solid {
 DEF NORTH_RoadPillars Solid {
   children [
     RoadPillars {
-      translation 7 -0.02 14
+      translation -14 -7 -0.02
     }
     RoadPillars {
-      translation 7 -0.02 35.13
+      translation -35.13 -7 -0.02
       name "road pillar(1)"
     }
     RoadPillars {
-      translation 7 -0.02 58.62
+      translation -58.62 -7 -0.02
       name "road pillar(2)"
     }
     RoadPillars {
-      translation 7 -0.02 78
+      translation -78 -7 -0.02
       name "road pillar(3)"
     }
     RoadPillars {
-      translation 10.53 -0.02 96.98
+      translation -96.98 -10.53 -0.02
       name "road pillar(4)"
       width 15
       pylonsDistance 12
     }
     RoadPillars {
-      translation 9 -0.02 120.42
+      translation -120.42 -9 -0.02
       name "road pillar(5)"
       width 12
       pylonsDistance 10
     }
     RoadPillars {
-      translation 8 -0.02 146.45
+      translation -146.45 -8 -0.02
       name "road pillar(6)"
       width 10
       pylonsDistance 7
     }
     RoadPillars {
-      translation 7 -0.02 171.67
+      translation -171.67 -7 -0.02
       name "road pillar(7)"
     }
     RoadPillars {
-      translation 9.00756 -0.02 200.89
-      rotation 0 1 0 -6.02139
+      translation -200.89 -9.00756 -0.02
+      rotation 0 0 1 -2.879797346410207
       name "road pillar(8)"
       upperTilt -0.02
     }
     RoadPillars {
-      translation 19.682 -0.02 228.844
-      rotation 0 -1 0 -0.523599
+      translation -228.844 -19.682 -0.02
+      rotation 0 0 1 -2.6183953071795862
       name "road pillar(9)"
       upperTilt -0.05
     }
     RoadPillars {
-      translation 38.56 -0.02 251.369
-      rotation 0 1 0 -5.49779
+      translation -251.369 -38.56 -0.02
+      rotation 0 0 1 -2.356197346410207
       name "road pillar(10)"
       upperTilt -0.085
     }
     RoadPillars {
-      translation 63.9646 -0.02 266.77
-      rotation 0 -1 0 -1.2
+      translation -266.77 -63.9646 -0.02
+      rotation 0 0 1 -1.9415926535897934
       name "road pillar(11)"
       upperTilt -0.12
     }
     RoadPillars {
-      translation 92.6413 -0.02 273.025
-      rotation 0 -1 0 -1.5708
+      translation -273.025 -92.6413 -0.02
+      rotation 0 0 1 -1.5707926535897934
       name "road pillar(12)"
       upperTilt -0.15
     }
     RoadPillars {
-      translation 124.942 -0.04 268.352
-      rotation 0 -1 0 1.2
+      translation -268.352 -124.942 -0.04
+      rotation 0 0 1 1.9415926535897932
       name "road pillar(13)"
       upperTilt 0.119
     }
     RoadPillars {
-      translation 156.661 -0.02 250.125
-      rotation 0 1 0 5.49779
+      translation -250.125 -156.661 -0.02
+      rotation 0 0 1 2.3561973464102066
       name "road pillar(14)"
       upperTilt 0.08
     }
     RoadPillars {
-      translation 172.818 -0.02 231.665
-      rotation 0 -1 0 0.523599
+      translation -231.665 -172.818 -0.02
+      rotation 0 0 1 2.617993653589793
       name "road pillar(15)"
       upperTilt 0.06
     }
     RoadPillars {
-      translation 184.936 -0.02 201.595
-      rotation 0 1 0 6.02139
+      translation -201.595 -184.936 -0.02
+      rotation 0 0 1 2.8797973464102067
       name "road pillar(16)"
       upperTilt 0.02
     }
     RoadPillars {
-      translation 187 -0.02 172
+      translation -172 -187 -0.02
       name "road pillar(17)"
     }
     RoadPillars {
-      translation 187 -0.02 142
+      translation -142 -187 -0.02
       name "road pillar(18)"
     }
     RoadPillars {
-      translation 187 -0.02 112
+      translation -112 -187 -0.02
       name "road pillar(19)"
     }
     RoadPillars {
-      translation 187 -0.02 72
+      translation -72 -187 -0.02
       name "road pillar(20)"
     }
     RoadPillars {
-      translation 187 -0.02 36
+      translation -36 -187 -0.02
       name "road pillar(21)"
     }
     RoadPillars {
-      translation 187 -0.02 0
+      translation 0 -187 -0.02
       name "road pillar(22)"
     }
     RoadPillars {
-      translation 187 -0.02 -36
+      translation 36 -187 -0.02
       name "road pillar(23)"
     }
     RoadPillars {
-      translation 187 -0.02 -72
+      translation 72 -187 -0.02
       name "road pillar(24)"
     }
     RoadPillars {
-      translation 187 -0.02 -112
+      translation 112 -187 -0.02
       name "road pillar(25)"
     }
     RoadPillars {
-      translation 187 -0.02 -142
+      translation 142 -187 -0.02
       name "road pillar(26)"
     }
     RoadPillars {
-      translation 187 -0.02 -172
+      translation 172 -187 -0.02
       name "road pillar(27)"
     }
     RoadPillars {
-      translation 184.936 -0.02 -201.595
-      rotation 0 1 0 -6.02139
+      translation 201.595 -184.936 -0.02
+      rotation 0 0 1 -2.879797346410207
       name "road pillar(28)"
       upperTilt 0.02
     }
     RoadPillars {
-      translation 172.818 -0.02 -231.665
-      rotation 0 -1 0 -0.523599
+      translation 231.665 -172.818 -0.02
+      rotation 0 0 1 -2.617993653589793
       name "road pillar(29)"
       upperTilt 0.06
     }
     RoadPillars {
-      translation 156.661 -0.02 -250.125
-      rotation 0 1 0 -5.49779
+      translation 250.125 -156.661 -0.02
+      rotation 0 0 1 -2.356197346410207
       name "road pillar(30)"
       upperTilt 0.08
     }
     RoadPillars {
-      translation 124.942 -0.04 -268.352
-      rotation 0 -1 0 -1.2
+      translation 268.352 -124.942 -0.04
+      rotation 0 0 1 -1.9415926535897934
       name "road pillar(31)"
       upperTilt 0.119
     }
     RoadPillars {
-      translation 92.6413 -0.02 -273.025
-      rotation 0 -1 0 -1.5708
+      translation 273.025 -92.6413 -0.02
+      rotation 0 0 1 -1.5707926535897934
       name "road pillar(32)"
       upperTilt 0.15
     }
     RoadPillars {
-      translation 63.9646 -0.02 -266.77
-      rotation 0 -1 0 1.2
+      translation 266.77 -63.9646 -0.02
+      rotation 0 0 1 1.9415926535897932
       name "road pillar(33)"
       upperTilt -0.12
     }
     RoadPillars {
-      translation 38.56 -0.02 -251.369
-      rotation 0 1 0 5.49779
+      translation 251.369 -38.56 -0.02
+      rotation 0 0 1 2.3561973464102066
       name "road pillar(34)"
       upperTilt -0.085
     }
     RoadPillars {
-      translation 19.682 -0.02 -228.844
-      rotation 0 -1 0 0.523599
+      translation 228.844 -19.682 -0.02
+      rotation 0 0 1 2.617993653589793
       name "road pillar(35)"
       upperTilt -0.05
     }
     RoadPillars {
-      translation 9.00756 -0.02 -200.89
-      rotation 0 1 0 6.02139
+      translation 200.89 -9.00756 -0.02
+      rotation 0 0 1 2.8797973464102067
       name "road pillar(36)"
       upperTilt -0.02
     }
     RoadPillars {
-      translation 7 -0.02 -171.67
+      translation 171.67 -7 -0.02
       name "road pillar(37)"
     }
     RoadPillars {
-      translation 8 -0.02 -146.45
+      translation 146.45 -8 -0.02
       name "road pillar(38)"
       width 10
       pylonsDistance 7
     }
     RoadPillars {
-      translation 9 -0.02 -120.42
+      translation 120.42 -9 -0.02
       name "road pillar(39)"
       width 12
       pylonsDistance 9
     }
     RoadPillars {
-      translation 10.53 -0.02 -96.98
+      translation 96.98 -10.53 -0.02
       name "road pillar(40)"
       width 15
       pylonsDistance 13
     }
     RoadPillars {
-      translation 7 -0.02 -78
+      translation 78 -7 -0.02
       name "road pillar(41)"
     }
     RoadPillars {
-      translation 7 -0.02 -58.62
+      translation 58.62 -7 -0.02
       name "road pillar(42)"
     }
     RoadPillars {
-      translation 7 -0.02 -35.13
+      translation 35.13 -7 -0.02
       name "road pillar(43)"
     }
     RoadPillars {
-      translation 7 -0.02 -14
+      translation 14 -7 -0.02
       name "road pillar(44)"
     }
   ]
@@ -1191,19 +1194,24 @@ DEF NORTH_RoadPillars Solid {
 DEF SIGNS Solid {
   children [
     ExitSign {
-      translation -10.61 5 -98.82
+      translation 98.82 10.61 5
     }
     ExitSign {
-      translation 10.61 5 98.82
-      rotation 0 1 0 3.1415
+      translation -98.82 -10.61 5
       name "exit sign(1)"
+      signBoards [
+        ExitPanel {
+          translation 0 0 -0.051
+          rotation 0 0 1 3.14159
+        }
+      ]
     }
     OrderSign {
-      translation 88.8 0 79
-      rotation 0 1 0 -1.5708
+      translation -79 -88.8 0
+      rotation 0 0 1 1.5707926535897931
       signBoards [
         OrderPanel {
-          translation 0 -0.175 -0.026
+          translation 0.026 0 -0.175
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
           ]
@@ -1211,12 +1219,12 @@ DEF SIGNS Solid {
       ]
     }
     OrderSign {
-      translation -88.8 0 -79
-      rotation 0 1 0 1.5708
+      translation 79 88.8 0
+      rotation 0 0 1 -1.5707926535897934
       name "order sign(1)"
       signBoards [
         OrderPanel {
-          translation 0 -0.175 -0.026
+          translation 0.026 0 -0.175
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
           ]
@@ -1224,11 +1232,11 @@ DEF SIGNS Solid {
       ]
     }
     OrderSign {
-      translation -19.5 5 85
+      translation -85 19.5 5
       name "order sign(2)"
       signBoards [
         OrderPanel {
-          translation 0 -0.175 -0.026
+          translation 0.026 0 -0.175
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
           ]
@@ -1236,12 +1244,11 @@ DEF SIGNS Solid {
       ]
     }
     OrderSign {
-      translation 19.5 5 -85
-      rotation 0 1 0 3.1415
+      translation 85 -19.5 5
       name "order sign(3)"
       signBoards [
         OrderPanel {
-          translation 0 -0.175 -0.026
+          translation 0.026 0 -0.175
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/no_u_turn.jpg"
           ]
@@ -1249,11 +1256,11 @@ DEF SIGNS Solid {
       ]
     }
     SpeedLimitSign {
-      translation -72 0 9.7
-      rotation 0 1 0 1.5708
+      translation -9.7 72 0
+      rotation 0 0 1 1.5708
       signBoards [
         SpeedLimitPanel {
-          translation 0 0 -0.023
+          translation 0.023 0 0
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
           ]
@@ -1261,12 +1268,13 @@ DEF SIGNS Solid {
       ]
     }
     SpeedLimitSign {
-      translation 72 0 -9.7
-      rotation 0 1 0 -1.5708
+      translation 9.7 -72 0
+      rotation 0 0 1 1.5707926535897931
       name "speed limit(1)"
       signBoards [
         SpeedLimitPanel {
-          translation 0 0 -0.023
+          translation 0.023 0 0
+          rotation 0 0 1 3.14159
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
           ]
@@ -1274,12 +1282,12 @@ DEF SIGNS Solid {
       ]
     }
     SpeedLimitSign {
-      translation 19.5 5 85
-      rotation 0 1 0 3.1415
+      translation -85 -19.5 5
       name "speed limit(2)"
       signBoards [
         SpeedLimitPanel {
-          translation 0 0 -0.023
+          translation 0.023 0 0
+          rotation 0 0 1 3.14159
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
           ]
@@ -1287,11 +1295,12 @@ DEF SIGNS Solid {
       ]
     }
     SpeedLimitSign {
-      translation -19.5 5 -85
+      translation 85 19.5 5
+      rotation 0 1 0 0
       name "speed limit(3)"
       signBoards [
         SpeedLimitPanel {
-          translation 0 0 -0.023
+          translation 0.023 0 0
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
           ]
@@ -1299,11 +1308,11 @@ DEF SIGNS Solid {
       ]
     }
     CautionSign {
-      translation -109.5 0 78
-      rotation 0 1 0 4.71239
+      translation -78 109.5 0
+      rotation 0 0 1 -1.5708
       signBoards [
         CautionPanel {
-          translation 0 -0.17 0
+          translation 0 0 -0.17
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
@@ -1311,12 +1320,12 @@ DEF SIGNS Solid {
       ]
     }
     CautionSign {
-      translation 109.5 0 -78
-      rotation 0 1 0 1.5708
+      translation 78 -109.5 0
+      rotation 0 0 1 1.5708
       name "caution sign(1)"
       signBoards [
         CautionPanel {
-          translation 0 -0.17 0
+          translation 0 0 -0.17
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
@@ -1324,12 +1333,12 @@ DEF SIGNS Solid {
       ]
     }
     CautionSign {
-      translation -55 0 9.7
-      rotation 0 1 0 1.5708
+      translation -9.7 55 0
+      rotation 0 0 1 1.57079
       name "caution sign(2)"
       signBoards [
         CautionPanel {
-          translation 0 -0.17 0
+          translation 0 0 -0.17
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
@@ -1337,12 +1346,12 @@ DEF SIGNS Solid {
       ]
     }
     CautionSign {
-      translation 55 0 -9.7
-      rotation 0 1 0 -1.5708
+      translation 9.7 -55 0
+      rotation 0 0 1 -1.5707953071795862
       name "caution sign(3)"
       signBoards [
         CautionPanel {
-          translation 0 -0.17 0
+          translation 0 0 -0.17
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
@@ -1350,11 +1359,13 @@ DEF SIGNS Solid {
       ]
     }
     CautionSign {
-      translation -19.5 0 -45
+      translation 45 19.5 0
+      rotation 0 0 1 3.14156
       name "caution sign(4)"
       signBoards [
         CautionPanel {
-          translation 0 -0.17 0
+          translation 0 0 -0.17
+          rotation 0 0 1 3.14159
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
@@ -1362,12 +1373,12 @@ DEF SIGNS Solid {
       ]
     }
     CautionSign {
-      translation 19.5 0 45
-      rotation 0 1 0 3.1415
+      translation -45 -19.5 0
+      rotation 0 0 1 3.14156
       name "caution sign(5)"
       signBoards [
         CautionPanel {
-          translation 0 -0.17 0
+          translation 0 0 -0.17
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
@@ -1375,12 +1386,13 @@ DEF SIGNS Solid {
       ]
     }
     CautionSign {
-      translation -110 0 -9.7
-      rotation 0 1 0 -1.5708
+      translation 9.7 110 0
+      rotation 0 0 1 1.5707926535897931
       name "caution sign(6)"
       signBoards [
         CautionPanel {
-          translation 0 -0.17 0
+          translation 0 0 -0.17
+          rotation 0 0 1 3.14159
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
@@ -1388,12 +1400,12 @@ DEF SIGNS Solid {
       ]
     }
     CautionSign {
-      translation 110 0 9.7
-      rotation 0 1 0 1.5708
+      translation -9.7 -110 0
+      rotation 0 0 1 1.5708
       name "caution sign(7)"
       signBoards [
         CautionPanel {
-          translation 0 -0.17 0
+          translation 0 0 -0.17
           signImage [
             "webots://projects/objects/traffic/protos/textures/signs/us/turn_right.jpg"
           ]
@@ -1401,8 +1413,8 @@ DEF SIGNS Solid {
       ]
     }
     HighwayPole {
-      translation -17 0 162.56
-      rotation 0 1 0 1.5707963
+      translation -162.56 17 0
+      rotation 0 0 -1 4.21468e-08
       stand 2
       height 12
       length 33
@@ -1410,7 +1422,7 @@ DEF SIGNS Solid {
       curveRadius 0.8
       rightHorizontalSigns [
         HighwaySign {
-          translation 0 0 7.28
+          translation 0 -7.28 0
           height 4
           length 5.5
           texture [
@@ -1421,7 +1433,7 @@ DEF SIGNS Solid {
       rightVerticalSigns []
       leftHorizontalSigns [
         HighwaySign {
-          translation 0 0 -18.5
+          translation 0 18.5 0
           name "highway sign(1)"
           height 4
           length 5.5
@@ -1429,7 +1441,7 @@ DEF SIGNS Solid {
       ]
       leftVerticalSigns [
         HighwaySign {
-          translation 0 6.46 0
+          translation 0 0 6.46
           name "highway sign(2)"
           height 4
           length 4.4
@@ -1440,8 +1452,8 @@ DEF SIGNS Solid {
       ]
     }
     HighwayPole {
-      translation 18 0 -162.56
-      rotation 0 1 0 4.712389
+      translation 162.56 -18 0
+      rotation 0 0 1 3.14159
       name "highway pole(1)"
       stand 2
       height 12
@@ -1450,7 +1462,7 @@ DEF SIGNS Solid {
       curveRadius 0.8
       rightHorizontalSigns [
         HighwaySign {
-          translation 0 0 7.28
+          translation 0 -7.28 0
           height 4
           length 5.5
           texture [
@@ -1461,7 +1473,7 @@ DEF SIGNS Solid {
       rightVerticalSigns []
       leftHorizontalSigns [
         HighwaySign {
-          translation 0 0 -18.79
+          translation 0 18.79 0
           name "highway sign(1)"
           height 4
           length 5.5
@@ -1469,7 +1481,7 @@ DEF SIGNS Solid {
       ]
       leftVerticalSigns [
         HighwaySign {
-          translation 0 6.46 0
+          translation 0 0 6.46
           name "highway sign(2)"
           height 4
           length 4.4
@@ -1480,21 +1492,21 @@ DEF SIGNS Solid {
       ]
     }
     HighwayPole {
-      translation -63.883415 0 78.30667
-      rotation 0 1 0 6.2831853
+      translation -78.30667 63.883415 0
+      rotation 0 0 1 -1.5707953071795862
       name "highway pole(2)"
       length 9
       thickness 0.35
       curveRadius 0.5
       rightHorizontalSigns [
         HighwaySign {
-          translation 0 0 3.34
+          translation 0 -3.34 0
         }
       ]
     }
     HighwayPole {
-      translation 89.244107 0 13.596053
-      rotation 0 1 0 -3.1415927
+      translation -13.596053 -89.244107 0
+      rotation 0 0 1 1.5708
       name "highway pole(3)"
       stand 2
       height 7
@@ -1503,7 +1515,7 @@ DEF SIGNS Solid {
       curveRadius 0.5
       rightHorizontalSigns [
         HighwaySign {
-          translation 0 0 3.34
+          translation 0 -3.34 0
           texture [
             "webots://projects/objects/traffic/protos/textures/highway_sign_bayonne.jpg"
           ]
@@ -1521,7 +1533,7 @@ DEF SIGNS Solid {
       ]
       leftHorizontalSigns [
         HighwaySign {
-          translation 0 0 -14.66
+          translation 0 14.66 0
           name "highway sign(2)"
           height 3.5
           texture [
@@ -1541,28 +1553,29 @@ DEF SIGNS Solid {
       ]
     }
     DivergentIndicator {
-      translation -85.25 0 86.9
+      translation -86.9 85.25 0
+      rotation 0 0 1 -1.5707953071795862
     }
     DivergentIndicator {
-      translation 85.25 0 -86.9
-      rotation 0 1 0 3.1415926
+      translation 86.9 -85.25 0
+      rotation 0 0 1 1.57159
       name "divergent indicator(1)"
     }
     DivergentIndicator {
-      translation -10.5 5 -100.9
-      rotation 0 1 0 1.5707903
+      translation 100.9 10.5 5
+      rotation 0 0 1 3.2644e-05
       name "divergent indicator(2)"
     }
     DivergentIndicator {
-      translation 10.5 5 100.9
-      rotation 0 1 0 4.7123829
+      translation -100.9 -10.5 5
+      rotation 0 0 1 3.14159
       name "divergent indicator(3)"
     }
   ]
   name "solid(10)"
 }
 DEF WEBOTS_VEHICLE0 BmwX5 {
-  translation -78.7 0.4 7.53
-  rotation 0 1 0 1.5708
+  translation -7.53 78.7 0.4
+  rotation 0 0 1 -1.5707926535897934
   controller "autonomous_vehicle"
 }
