@@ -164,8 +164,7 @@ PROTO SpotRightLeg [
                                 creaseAngle 1
                               }
                             }
-
-                            TouchSensor{
+                            TouchSensor {
                               children [
                                 DEF FOOT_RUBBER Shape {
                                   appearance Plastic {
