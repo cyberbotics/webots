@@ -3,7 +3,7 @@ import {webots} from './webots.js';
 const template = document.createElement('template');
 
 template.innerHTML = `
-<link type="text/css" href="https://cyberbotics.com/wwi/R2021c/css/animation.css" rel="stylesheet"/>
+<link type="text/css" href="https://cyberbotics.com/wwi/R2022a/css/animation.css" rel="stylesheet"/>
 `;
 
 export default class WebotsAnimation extends HTMLElement {
@@ -18,7 +18,7 @@ export default class WebotsAnimation extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith(".data"))
-          return "https://cyberbotics.com/wwi/R2021c/" + path;
+          return "https://cyberbotics.com/wwi/R2022a/" + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -50,8 +50,8 @@ export default class WebotsAnimation extends HTMLElement {
       });
     };
     promises.push(this._load('https://git.io/glm-js.min.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/R2021c/enum.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/R2021c/wrenjs.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/R2022a/enum.js'));
+    promises.push(this._load('https://cyberbotics.com/wwi/R2022a/wrenjs.js'));
   }
 
   setNames(name) {
