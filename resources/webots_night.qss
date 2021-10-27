@@ -477,11 +477,11 @@ QInputDialog QAbstractItemView::item:selected {
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {
-  color: rgb(40,40,220);
+  color: rgb(40,150,180);
 }
 
 QLabel#inertiaMatrixPrimaryCoefficientLabel {
-  color: rgb(40,160,160);
+  color: rgb(40,160,120);
 }
 
 QLabel#inertiaMatrixSecondaryCoefficientLabel {
@@ -837,3 +837,4 @@ QProgressBar::chunk {
   background: #9b93ff;
   border-radius: 3px;
 }
+

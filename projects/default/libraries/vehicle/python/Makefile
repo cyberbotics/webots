@@ -38,10 +38,10 @@ LIB                = -lCppCar -lCppDriver
 
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable
-LD_FLAGS        = -shared
+LD_FLAGS        = -shared -Wl,-rpath,'$$ORIGIN'/../
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
-LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController
 endif
 
 ifeq ($(OSTYPE),windows)
@@ -50,7 +50,7 @@ C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).pyd
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -73,7 +73,7 @@ C_FLAGS         += -Wno-self-assign
 endif
 LD_FLAGS         = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
 PYTHON_INCLUDES  = -isystem $(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
-LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
+LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
