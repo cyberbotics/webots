@@ -12,9 +12,9 @@
       - by adding an argument in the terminal
       - by changing the variable `foldername` to convert all the `.wbt` and `.proto` of a folder
    You can choose the mode: 
-       - **all**: convert and clean the `.wbt` or `.proto` file in RUB.
-       - **clean**: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds. It also include the possibility to round the values.
-       - **specific**: convert a specific field, see an example line 84  of the script.  
+       - all: convert and clean the `.wbt` or `.proto` file in RUB.
+       - clean: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds. It also include the possibility to round the values.
+       - specific: convert a specific field, see an example line 151  of the script.  
 
 ***file structure***
     The `centerOfMass` and the geometry `IndexedFaceSet` need to have this specific structure (only carriage returns matter):
@@ -37,25 +37,29 @@ geometry IndexedFaceSet {
         After the conversion, a verbose indicates you if the conversion is incomplete or not. If Yes, it indicates you which part(s) of the file(s) you will have to change manually.
             * if `JointParameters` have no axis, you need to change it manually
             in RUB, for sliderJoint add `axis 1 0 0 `; for HingeJoint add: `axis 0 -1 0`
-            _CTRL-F on HingeJointParameters_
+            CTRL-F on HingeJointParameters
             * You may have to change the sensors manually.
             * For inertiaMatrix, RUB to FLU is:
 ```
             [I11, I22, I33]  =>  [I33, I11, I22] 
             [I12, I13, I23]      [I13, -I23, -I12] 
 ```
+            * To convert elevationGrid you normally need to:
+              - replace zDimension et zSpacing par y
+              - translate it on y by -(yDimension -1) * ySpacing
+              - inverse the lines of heights with convert.py
 
 **Conversion process** 
     Here is a list of the conversion process:
         - replace `R2021b` by `R2021c`
         - remove the `coordinateSystem ENU` line
-        - convert the orientation of the viewpoint: _[Ox, Oy, Oz, Oa] --> [Ox, Oz, Oy, Oa]_
-        - convert the position of the viewpoint: _[Px, Py, Pz] --> [-Pz, -Px, Py]_
-        - convert the vector of the keyword **'translation', 'axis', 'anchor', 'location', 'direction'**: _[Vx, Vy, Vz] --> [-Vz, -Vx, Vy]_
-        - convert the vector of the keyword **'rotation'**: _[Rx, Ry, Rz, Ra] --> [-Rz, -Rx, Ry, Ra]_
-        - convert the vector of the keyword **'size', 'frameSize', 'stepSize'**: _[Vx, Vy, Vz] --> [Vz, Vx, Vy]_
-        - convert the line after the keyword **'centerOfMass'** (see 'file structure' above): _[Vx, Vy, Vz] --> [-Vz, -Vx, Vy]_
-        - if it finds the keyword **'coord'**, skip one line (the line 'point [', see 'file structure' above) and convert all the geometry points until it reaches ']' : _[Vx, Vy, Vz] --> [-Vz, -Vx, Vy]_
+        - convert the orientation of the viewpoint: [Ox, Oy, Oz, Oa] --> [Ox, Oz, Oy, Oa]
+        - convert the position of the viewpoint: [Px, Py, Pz] --> [-Pz, -Px, Py]
+        - convert the vector of the keyword 'translation', 'axis', 'anchor', 'location', 'direction': [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
+        - convert the vector of the keyword 'rotation': [Rx, Ry, Rz, Ra] --> [-Rz, -Rx, Ry, Ra]
+        - convert the vector of the keyword 'size', 'frameSize', 'stepSize': [Vx, Vy, Vz] --> [Vz, Vx, Vy]
+        - convert the line after the keyword 'centerOfMass' (see 'file structure' above): [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
+        - if it finds the keyword 'coord', skip one line (the line 'point [', see 'file structure' above) and convert all the geometry points until it reaches ']' : [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
 
 '''
 
@@ -139,7 +143,8 @@ def convert_nue_to_enu_world(filename, mode='all'):
         vector = [float(x) for x in re.compile('\n|,| ').split(line) if is_number(x)]
         if type:
             type = type[0]
-
+        if ('ElevationGrid' in line and '{' in line):
+            type = 'ElevationGrid'
         write_status = True
 
         if mode == 'specific':  # to change only a specific field
@@ -173,7 +178,7 @@ def convert_nue_to_enu_world(filename, mode='all'):
                 write_status = False  # else we do not change the line
 
                 # verbose to print, fields to change manually
-                if type in ['inertiaMatrix', 'DistanceSensor', 'LightSensor']:
+                if type in ['inertiaMatrix', 'DistanceSensor', 'LightSensor', 'ElevationGrid']:
                     error_verbose += 'line ' + str(fileinput.lineno()) + ': ' + type + '  ;  '
                 elif type in ['jointParameters', 'jointParameters2']:
                     HingeJoint_count += 1
@@ -233,7 +238,7 @@ if __name__ == '__main__':
         for filename in filename_full_list:
             if '.wbt' in filename or '.proto' in filename:
                 filename_list.append(foldername + filename)
-    if filename_list:
+    if not filename_list:
         raise ValueError(
             "filename_list empty, you either need to add an argument with the path or change filename_list or foldername variables")
     for filename in filename_list:
