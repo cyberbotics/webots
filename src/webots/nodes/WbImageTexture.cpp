@@ -259,7 +259,7 @@ void WbImageTexture::updateWrenTexture() {
     std::pair<QImage *, int> pair = gImagesMap.value(url);
     if (pair.first) {
       mImage = pair.first;  // mImage needs to be defined regardless as pickColor relies on it
-      pair.second++;
+      gImagesMap[url] = std::make_pair(pair.first, pair.second + 1);
     }
 
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
@@ -287,11 +287,11 @@ void WbImageTexture::destroyWrenTexture() {
   if (pair.first) {
     const int instances = pair.second - 1;
     if (instances <= 0) {
-      pair.second--;
       delete mImage;
       mImage = NULL;
       gImagesMap.remove(url);
-    }
+    } else
+      gImagesMap[url] = std::make_pair(pair.first, instances);
   }
 }
 
