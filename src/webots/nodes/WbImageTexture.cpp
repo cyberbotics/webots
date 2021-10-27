@@ -278,11 +278,12 @@ void WbImageTexture::destroyWrenTexture() {
     const int instances = pair.second - 1;
     if (instances <= 0) {
       delete mImage;
-      mImage = NULL;
       gImagesMap.remove(url);
     } else
       gImagesMap[url] = std::make_pair(pair.first, instances);
   }
+
+  mImage = NULL;
 }
 
 void WbImageTexture::updateUrl() {
