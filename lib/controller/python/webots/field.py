@@ -21,9 +21,6 @@ wb.wb_supervisor_node_get_field.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
 wb.wb_supervisor_node_get_field.restype = ctypes.c_void_p
 
 wb.wb_supervisor_field_get_type.argtypes = [ctypes.c_void_p]
-wb.wb_supervisor_field_get_type.restypes = ctypes.c_int
-wb.wb_supervisor_field_get_sf_bool.restype = ctypes.c_int
-wb.wb_supervisor_field_get_sf_int32.restype = ctypes.c_int
 wb.wb_supervisor_field_get_sf_float.restype = ctypes.c_double
 wb.wb_supervisor_field_get_sf_vec2f.restype = ctypes.POINTER(ctypes.c_double)
 wb.wb_supervisor_field_get_sf_vec3f.restype = ctypes.POINTER(ctypes.c_double)
@@ -31,16 +28,12 @@ wb.wb_supervisor_field_get_sf_vec3f.argtypes = [ctypes.c_void_p]
 wb.wb_supervisor_field_get_sf_rotation.restype = ctypes.POINTER(ctypes.c_double)
 wb.wb_supervisor_field_get_sf_color.restype = ctypes.POINTER(ctypes.c_double)
 wb.wb_supervisor_field_get_sf_string.restype = ctypes.c_char_p
-wb.wb_supervisor_field_get_sf_node.restype = ctypes.c_int
-wb.wb_supervisor_field_get_mf_bool.restype = ctypes.c_int
-wb.wb_supervisor_field_get_mf_int32.restype = ctypes.c_int
 wb.wb_supervisor_field_get_mf_float.restype = ctypes.c_double
 wb.wb_supervisor_field_get_mf_vec2f.restype = ctypes.POINTER(ctypes.c_double)
 wb.wb_supervisor_field_get_mf_vec3f.restype = ctypes.POINTER(ctypes.c_double)
 wb.wb_supervisor_field_get_mf_rotation.restype = ctypes.POINTER(ctypes.c_double)
 wb.wb_supervisor_field_get_mf_color.restype = ctypes.POINTER(ctypes.c_double)
 wb.wb_supervisor_field_get_mf_string.restype = ctypes.c_char_p
-wb.wb_supervisor_field_get_mf_node.restype = ctypes.c_int
 
 wb.wb_supervisor_field_set_sf_vec3f.argtypes = [ctypes.c_void_p, ctypes.c_double * 3]
 

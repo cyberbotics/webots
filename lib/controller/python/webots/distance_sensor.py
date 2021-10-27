@@ -17,7 +17,6 @@ from webots.wb import wb
 from webots.sensor import Sensor
 
 wb.wb_distance_sensor_get_value.restype = ctypes.c_double
-wb.wb_distance_sensor_get_sampling_period.restype = ctypes.c_int
 
 
 class DistanceSensor(Sensor):

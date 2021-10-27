@@ -12,13 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import ctypes
 from webots.wb import wb
 from webots.constants import constant
-
-wb.wb_keyboard_get_key.restype = ctypes.c_int
-wb.wb_keyboard_get_sampling_period.restype = ctypes.c_int
-wb.wb_keyboard_enable.argtypes = [ctypes.c_int]
 
 
 class Keyboard:
