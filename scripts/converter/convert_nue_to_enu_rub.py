@@ -1,6 +1,8 @@
 '''
 **Presentation**
-        This script intends to help you convert protos and worlds in RUB. However, since the rotation depends on the proto itself, it could be needed to rotate some part manually.
+        This script intends to help you convert protos and worlds in RUB.
+        However, since the rotation depends on the proto itself,
+        it could be needed to rotate some part manually.
         Also, we advice you to check the changes in a file comparator.
 
 **Dependencies**
@@ -11,10 +13,11 @@
       - by changing the `filename_list` variable
       - by adding an argument in the terminal
       - by changing the variable `foldername` to convert all the `.wbt` and `.proto` of a folder
-   You can choose the mode: 
-       - all: convert and clean the `.wbt` or `.proto` file in RUB.
-       - clean: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds. It also include the possibility to round the values.
-       - specific: convert a specific field, see an example line 151  of the script.  
+   You can choose the mode:
+      - all: convert and clean the `.wbt` or `.proto` file in RUB.
+      - clean: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds.
+        It also include the possibility to round the values.
+      - specific: convert a specific field, see an example line 151  of the script.
 
 ***file structure***
     The `centerOfMass` and the geometry `IndexedFaceSet` need to have this specific structure (only carriage returns matter):
@@ -41,15 +44,15 @@ geometry IndexedFaceSet {
             * You may have to change the sensors manually.
             * For inertiaMatrix, RUB to FLU is:
 ```
-            [I11, I22, I33]  =>  [I33, I11, I22] 
-            [I12, I13, I23]      [I13, -I23, -I12] 
+            [I11, I22, I33]  =>  [I33, I11, I22]
+            [I12, I13, I23]      [I13, -I23, -I12]
 ```
             * To convert elevationGrid you normally need to:
               - replace zDimension et zSpacing par y
               - translate it on y by -(yDimension -1) * ySpacing
               - inverse the lines of heights with convert.py
 
-**Conversion process** 
+**Conversion process**
     Here is a list of the conversion process:
         - replace `R2021b` by `R2021c`
         - remove the `coordinateSystem ENU` line
@@ -115,7 +118,7 @@ def add_space(string):
 
 
 def convert_translation(translation):
-    ROTATION = [np.pi/2, -np.pi/2, 0]
+    ROTATION = [np.pi / 2, -np.pi / 2, 0]
     ROTATION_MATRIX = transforms3d.euler.euler2mat(ROTATION[0], ROTATION[1], ROTATION[2], 'rxyz')
 
     translation = [float(value) for value in translation]
@@ -124,9 +127,9 @@ def convert_translation(translation):
 
 def convert_mesh(geometry_points):
     for i in range(0, len(geometry_points), 3):
-        new_point = convert_translation(geometry_points[i:i+3])
+        new_point = convert_translation(geometry_points[i:i + 3])
         new_point_cleaned = clean_vector(new_point, decimals=6, round_option=True)
-        geometry_points[i:i+3] = new_point_cleaned
+        geometry_points[i:i + 3] = new_point_cleaned
     return geometry_points
 
 
@@ -208,7 +211,7 @@ def convert_nue_to_enu_world(filename, mode='all'):
             if vector_cleaned != vector:
                 clean_verbose += (' line {},'.format(fileinput.lineno()))
             # we replace the vector by the new one.
-            if vector_cleaned == None:
+            if vector_cleaned is None:
                 line = ''
             else:
                 vector_str = [str(i) for i in vector_cleaned]
@@ -228,7 +231,7 @@ def convert_nue_to_enu_world(filename, mode='all'):
 if __name__ == '__main__':
 
     mode = 'all'  # specific, clean or all
-    filename_list = ['']  # example: 'projects/robots/robotcub/icub/worlds/icub_stand.wbt' , change it by your .wbt or.proto
+    filename_list = ['']  # example: 'projects/robots/robotcub/icub/worlds/icub_stand.wbt', change it by your .wbt or.proto
     # we have the possibility to use an argv, a list or a folder
     if len(sys.argv) == 2:
         filename_list = [str(sys.argv[1])]
