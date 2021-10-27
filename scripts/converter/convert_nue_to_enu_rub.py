@@ -112,7 +112,6 @@ def clean_vector(vector, decimals=4, zero_one_decimals=None, round_option=False)
 
 def add_space(string):
     space = ''
-    type = string.split(' ')
     for c in string:
         if c == ' ':
             space += ' '
@@ -234,19 +233,20 @@ def convert_nue_to_enu_world(filename, mode='all'):
 if __name__ == '__main__':
 
     mode = 'all'  # specific, clean or all
-    filename_list = ['']  # example: 'projects/robots/robotcub/icub/worlds/icub_stand.wbt', change it by your .wbt or.proto
-    # we have the possibility to use an argv, a list or a folder
+    # possibility to use an argv, a list or a folder
+    filename_list = []  # example: 'projects/robots/robotcub/icub/worlds/icub_stand.wbt', change it by your .wbt or.proto
+    foldername = ''  # example: 'projects/robots/parallax/boebot/protos/', change it by your .wbt or.proto folder
+
     if len(sys.argv) == 2:
         filename_list = [str(sys.argv[1])]
     elif not filename_list:
-        foldername = ''  # example: 'projects/robots/parallax/boebot/protos/', change it by your .wbt or.proto folder
+        if not foldername:
+            raise ValueError(
+                "filename_list empty, add an argument with the path or change filename_list or foldername variables")
         filename_full_list = os.listdir(foldername)
         for filename in filename_full_list:
             if '.wbt' in filename or '.proto' in filename:
                 filename_list.append(foldername + filename)
-    if not filename_list:
-        raise ValueError(
-            "filename_list empty, add an argument with the path or change filename_list or foldername variables")
     for filename in filename_list:
         error_verbose, clean_verbose = convert_nue_to_enu_world(filename, mode=mode)
         if error_verbose:
