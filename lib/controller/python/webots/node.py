@@ -15,15 +15,16 @@
 import ctypes
 from webots.wb import wb
 
-wb.wb_supervisor_node_get_from_def.argtypes = [ctypes.c_char_p]
-wb.wb_supervisor_node_get_from_def.restype = ctypes.c_void_p
-wb.wb_supervisor_node_get_type_name.restype = ctypes.c_char_p
-
 
 class Node:
+    wb.wb_supervisor_node_get_from_def.argtypes = [ctypes.c_char_p]
+    wb.wb_supervisor_node_get_from_def.restype = ctypes.c_void_p
+
     def __init__(self, DEF=None):
         if DEF:
             self._ref = wb.wb_supervisor_node_get_from_def(str.encode(DEF))
+
+    wb.wb_supervisor_node_get_type_name.restype = ctypes.c_char_p
 
     @property
     def typeName(self) -> str:

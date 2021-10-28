@@ -16,8 +16,6 @@ import ctypes
 import sys
 from webots.wb import wb
 
-wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
-
 
 class Robot:
     created = None
@@ -33,6 +31,8 @@ class Robot:
         if time_step is None:
             time_step = int(self.basicTimeStep)
         return wb.wb_robot_step(time_step)
+
+    wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
 
     @property
     def basicTimeStep(self) -> float:

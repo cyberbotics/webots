@@ -16,8 +16,6 @@ import ctypes
 from webots.wb import wb
 from webots.sensor import Sensor
 
-wb.wb_receiver_get_data.restype = ctypes.c_char_p
-
 
 class Receiver(Sensor):
     def __init__(self, name: str, samplingPeriod: int = None):
@@ -28,6 +26,8 @@ class Receiver(Sensor):
     @property
     def queueLength(self) -> int:
         return wb.wb_receiver_get_queue_length(self._tag)
+
+    wb.wb_receiver_get_data.restype = ctypes.c_char_p
 
     @property
     def data(self) -> bytes:

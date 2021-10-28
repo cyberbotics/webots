@@ -16,9 +16,6 @@ import ctypes
 from webots.wb import wb
 from webots.constants import constant
 
-wb.wb_motor_get_target_position.restype = ctypes.c_double
-wb.wb_motor_get_velocity.restype = ctypes.c_double
-
 
 class Motor:
     ROTATIONAL = constant('ROTATIONAL')
@@ -27,6 +24,8 @@ class Motor:
     def __init__(self, name: str):
         self._tag = wb.wb_robot_get_device(str.encode(name))
 
+    wb.wb_motor_get_target_position.restype = ctypes.c_double
+
     @property
     def targetPosition(self) -> float:
         return wb.wb_motor_get_target_position(self._tag)
@@ -34,6 +33,8 @@ class Motor:
     @targetPosition.setter
     def targetPosition(self, p: float):
         wb.wb_motor_set_position(self._tag, ctypes.c_double(p))
+
+    wb.wb_motor_get_velocity.restype = ctypes.c_double
 
     @property
     def targetVelocity(self) -> float:

@@ -16,14 +16,14 @@ import ctypes
 from webots.wb import wb
 from webots.sensor import Sensor
 
-wb.wb_distance_sensor_get_value.restype = ctypes.c_double
-
 
 class DistanceSensor(Sensor):
     def __init__(self, name: str, samplingPeriod: int = None):
         self._enable = wb.wb_distance_sensor_enable
         self._get_sampling_period = wb.wb_distance_sensor_get_sampling_period
         super().__init__(name, samplingPeriod)
+
+    wb.wb_distance_sensor_get_value.restype = ctypes.c_double
 
     @property
     def value(self) -> float:
