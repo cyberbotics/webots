@@ -99,7 +99,7 @@ PROTO Forest [
             let z = Number(coordinates[2]);
             let sizeFactor = wbrandom.real();
             if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof z !== 'undefined')
-              trees.push({x: x, y: y, z: z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
+              trees.push({x: x, y: 0, z: -z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
           }
         }
       }
@@ -132,7 +132,7 @@ PROTO Forest [
         let sizeFactor = wbrandom.real();
 
         if (wbgeometry.isPoint2InPolygon({x: x, y: z}, shape))
-            trees.push({x: x, y: 0, z: z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
+            trees.push({x: x, y: 0, z: -z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
       }
     }
     let numberOfTree = trees.length;
@@ -153,9 +153,6 @@ PROTO Forest [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
-      rotation 0.5773502692 -0.5773502692 -0.5773502692 2.0943951024
-      children [
       %< if (numberOfTree > 0) { >%
         Shape {
           castShadows FALSE
@@ -181,14 +178,14 @@ PROTO Forest [
                     let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].z}, trees[j].angle);
                     for (let i = 0; i <= 3; ++i) {
                       coordBuffer += circle[i].x + ' ';
-                      coordBuffer += trees[j].y + ' ';
-                      coordBuffer += circle[i].y + '\n';
+                      coordBuffer += circle[i].y + ' ';
+                      coordBuffer += trees[j].y + '\n';
                     }
                     // top cylinder
                     for (let i = 0; i <= 3; ++i) {
                       coordBuffer += circle[i].x + ' ';
-                      coordBuffer += trees[j].height + trees[j].y + ' ';
-                      coordBuffer += circle[i].y + '\n';
+                      coordBuffer += circle[i].y + ' ';
+                      coordBuffer += trees[j].height + trees[j].y + '\n';
                     }
                   }
                 >%
@@ -246,7 +243,7 @@ PROTO Forest [
               coord Coordinate {
                 point [
                   %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                    %<= shape[i].x >% %<= 0 >% %<= shape[i].y >%
+                    %<= shape[i].x >% %<= -shape[i].y >% %<= 0 >%
                   %< } >%
                 ]
               }
@@ -272,8 +269,6 @@ PROTO Forest [
           }
         }
       %< } >%
-    ]
-      }
     ]
   }
 }
