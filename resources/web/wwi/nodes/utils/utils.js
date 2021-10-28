@@ -46,7 +46,7 @@ function arrayXPointerFloat(array) {
   return dataHeap.byteOffset;
 }
 
-function direction(vec4) {
+function up(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;
@@ -164,7 +164,7 @@ function quaternionToVec4(quat) {
   return new WbVector4(x, y, z, angle);
 }
 
-function right(vec4) {
+function direction(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;
@@ -172,7 +172,7 @@ function right(vec4) {
   return new WbVector3(tTimesX * vec4.x + c, tTimesX * vec4.y + s * vec4.z, tTimesX * vec4.z - s * vec4.y);
 }
 
-function up(vec4) {
+function right(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;

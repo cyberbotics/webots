@@ -102,7 +102,7 @@ export default class WbViewpoint extends WbBaseNode {
     const projection = new WbMatrix4();
     projection.set(1.0 / (this.aspectRatio * this._tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this._tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
     const eye = new WbVector3(this.position.x, this.position.y, this.position.z);
-    const center = eye.add(direction(this.orientation));
+    const center = eye.sub(direction(this.orientation));
     const upVec = up(this.orientation);
 
     const f = (center.sub(eye)).normalized();
