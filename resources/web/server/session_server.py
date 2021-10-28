@@ -84,7 +84,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         """Write the web page content."""
         self.write("<!DOCTYPE html>\n")
         self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>\n")
-        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2021b/monitor.css'></head>\n")
+        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2022a/css/monitor.css'></head>\n")
         self.write("<body><h1>Webots session server</h1>\n")
         nServer = len(config['simulationServers'])
         self.write("<p>Started on " + start_time + "</p>\n")
