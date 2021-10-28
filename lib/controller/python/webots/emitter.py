@@ -17,12 +17,12 @@ import sys
 import typing
 from webots.wb import wb
 
-wb.wb_emitter_send.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int]
-
 
 class Emitter:
     def __init__(self, name: str):
         self._tag = wb.wb_robot_get_device(str.encode(name))
+
+    wb.wb_emitter_send.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int]
 
     def send(self, message: typing.Union[str, bytes], length: int = None):
         if isinstance(message, str):
