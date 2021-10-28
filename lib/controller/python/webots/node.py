@@ -17,7 +17,6 @@ from webots.wb import wb
 
 
 class Node:
-    wb.wb_supervisor_node_get_from_def.argtypes = [ctypes.c_char_p]
     wb.wb_supervisor_node_get_from_def.restype = ctypes.c_void_p
 
     def __init__(self, DEF=None):
