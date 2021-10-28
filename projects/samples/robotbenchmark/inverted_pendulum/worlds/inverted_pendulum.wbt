@@ -188,7 +188,6 @@ LandscapePainting {
 }
 DEF PAINTING PortraitPainting {
   translation -2.4 4.09 1.515
-  rotation 0 0 -1 3.1415927
 }
 Chair {
   translation -1.6094394 6.7892764 0
