@@ -46,12 +46,19 @@ class Field:
         self._ref = wb.wb_supervisor_node_get_field(node._ref, str.encode(name))
         self.type = wb.wb_supervisor_field_get_type(self._ref)
 
+    wb.wb_supervisor_field_get_sf_bool.argtypes = [ctypes.c_void_p]
+    wb.wb_supervisor_field_get_sf_int32.argtypes = [ctypes.c_void_p]
+    wb.wb_supervisor_field_get_sf_float.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_field_get_sf_float.restype = ctypes.c_double
+    wb.wb_supervisor_field_get_sf_vec2f.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_field_get_sf_vec2f.restype = ctypes.POINTER(ctypes.c_double)
-    wb.wb_supervisor_field_get_sf_vec3f.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_field_get_sf_vec3f.argtypes = [ctypes.c_void_p]
+    wb.wb_supervisor_field_get_sf_vec3f.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_field_get_sf_rotation.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_field_get_sf_rotation.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_field_get_sf_color.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_field_get_sf_color.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_field_get_sf_string.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_field_get_sf_string.restype = ctypes.c_char_p
 
     @property
@@ -73,10 +80,19 @@ class Field:
             return wb.wb_supervisor_field_get_sf_color(self._ref)[:3]
         return None
 
+    wb.wb_supervisor_field_set_sf_vec2f.argtypes = [ctypes.c_void_p, ctypes.c_double * 2]
     wb.wb_supervisor_field_set_sf_vec3f.argtypes = [ctypes.c_void_p, ctypes.c_double * 3]
+    wb.wb_supervisor_field_set_sf_rotation.argtypes = [ctypes.c_void_p, ctypes.c_double * 4]
+    wb.wb_supervisor_field_set_sf_color.argtypes = [ctypes.c_void_p, ctypes.c_double * 3]
 
     @value.setter
     def value(self, p: typing.Union[bool, int, float, str,
                                     typing.List[bool], typing.List[int], typing.List[float], typing.List[str]]):
-        if self.type == Field.SF_VEC3F:
+        if self.type == Field.SF_VEC2F:
+            wb.wb_supervisor_field_set_sf_vec2f(self._ref, (ctypes.c_double * 2)(*p))
+        elif self.type == Field.SF_VEC3F:
             wb.wb_supervisor_field_set_sf_vec3f(self._ref, (ctypes.c_double * 3)(*p))
+        elif self.type == Field.SF_ROTATION:
+            wb.wb_supervisor_field_set_sf_rotation(self._ref, (ctypes.c_double * 4)(*p))
+        elif self.type == Field.SF_COLOR:
+            wb.wb_supervisor_field_set_sf_color(self._ref, (ctypes.c_double * 3)(*p))
