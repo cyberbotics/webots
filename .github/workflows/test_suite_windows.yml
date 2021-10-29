@@ -119,6 +119,7 @@ jobs:
         cmd webots-R2021b-rev1_setup.exe /SILENT
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        cd ..
         cmd //c tree
         # python scripts/packaging/update_urls.py ${{ github.sha }}
         # export WEBOTS_HOME=$PWD/artifact/webots
