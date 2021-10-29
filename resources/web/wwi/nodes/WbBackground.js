@@ -6,11 +6,16 @@ import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
 
 export default class WbBackground extends WbBaseNode {
-  constructor(id, skyColor, luminosity, cubeArray, irradianceCubeArray) {
+  constructor(id, skyColor, luminosity) {
     super(id);
     this.skyColor = skyColor;
     this.luminosity = luminosity;
+  }
+
+  setCubeArray(cubeArray) {
     this._cubeArray = cubeArray;
+  }
+  setIrradianceCubeArray(irradianceCubeArray) {
     this._irradianceCubeArray = irradianceCubeArray;
   }
 
