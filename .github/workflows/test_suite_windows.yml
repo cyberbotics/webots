@@ -120,7 +120,12 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         cd ..
-        cmd //c tree
+        ls
+        export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
+        export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
+        echo 'export PYTHON39_HOME='$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64' >> ~/.bash_profile
+        echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
+        echo 'export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
         python scripts/packaging/update_urls.py ${{ github.sha }}
         export WEBOTS_HOME=$PWD/artifact/webots
         python tests/test_suite.py
