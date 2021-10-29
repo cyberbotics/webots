@@ -121,9 +121,9 @@ jobs:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         cd ..
         cmd //c tree
-        # python scripts/packaging/update_urls.py ${{ github.sha }}
-        # export WEBOTS_HOME=$PWD/artifact/webots
-        # python tests/test_suite.py
+        python scripts/packaging/update_urls.py ${{ github.sha }}
+        export WEBOTS_HOME=$PWD/artifact/webots
+        python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
