@@ -5,8 +5,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.031554536171125434 -0.9555848338927022 0.2930220750750385 6.058748637480173
-  position -2.7862053473927166 0.6805063971446849 1.425243025559753
+  orientation 0.00011581695288525326 -0.9999996987714513 -0.000767491654866011 5.983638891496053
+  position -3.732371772224708 0.567887581462653 1.376127215651282
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -43,7 +43,6 @@ SpotLight {
   castShadows TRUE
 }
 DEF BATTERYOP2 RobotisOp2 {
-  translation 0 0 0.277
   controller "marathon"
   selfCollision TRUE
   battery [
@@ -56,10 +55,9 @@ Fog {
   visibilityRange 600
 }
 DEF GROUND Solid {
-  rotation 1 0 0 1.5708
   children [
     Transform {
-      rotation -1 0 0 1.5707963267948966
+      rotation -1 0 0 0
       children [
         Shape {
           appearance DryMud {
@@ -75,7 +73,7 @@ DEF GROUND Solid {
       ]
     }
     Transform {
-      rotation -1 0 0 1.5707963267948966
+      rotation -1 0 0 0
     }
   ]
   name "ground"
@@ -116,7 +114,7 @@ DEF ENVIRONMENT Solid {
     }
     RoadIntersection {
       translation 30.38 0.11000000000000001 -2
-      rotation -0.281084638592542 0.6785983443640649 0.678598344364065 2.5935642443425766
+      rotation 0.8628559982596194 0.35740699927911007 0.35740699927911007 -1.7177753071795863
       roadsWidth 7.2
       startRoadsLength [
         60.5, 45.5, 100.4, 45.5
