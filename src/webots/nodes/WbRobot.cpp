@@ -661,6 +661,7 @@ void WbRobot::postPhysicsStep() {
     double s = WbWorld::instance()->basicTimeStep() * 0.001;
     energy -= energyConsumption() * s;
     if (energy <= 0.0) {
+      info(tr("Battery is empty."));
       energy = 0.0;
       mBatterySensor->updateTimer();  // so that the battery sensor returns 0
     }
