@@ -76,13 +76,15 @@ export default class Parser {
     if (document.getElementById('webotsProgressMessage'))
       document.getElementById('webotsProgressMessage').innerHTML = 'Finalizing...';
 
-    Promise.all(this._promises).then(() => {
+    return Promise.all(this._promises).then(() => {
       this._promises = [];
       this._downloadingImage.clear();
-      WbWrenPostProcessingEffects.loadResources(this.smaaAreaTexture, this.smaaSearchTexture, this.gtaoNoiseTexture);
-      this.smaaAreaTexture = undefined;
-      this.smaaSearchTexture = undefined;
-      this.gtaoNoiseTexture = undefined;
+      if (typeof this.smaaAreaTexture !== 'undefined' && typeof this.smaaSearchTexture !== 'undefined' && typeof this.gtaoNoiseTexture !== 'undefined') {
+        WbWrenPostProcessingEffects.loadResources(this.smaaAreaTexture, this.smaaSearchTexture, this.gtaoNoiseTexture);
+        this.smaaAreaTexture = undefined;
+        this.smaaSearchTexture = undefined;
+        this.gtaoNoiseTexture = undefined;
+      }
 
       if (typeof WbWorld.instance.viewpoint === 'undefined')
         return;
