@@ -555,7 +555,7 @@ class MonitorHandler(tornado.web.RequestHandler):
             cpu = 'Unknown'
         self.write("<!DOCTYPE html>\n")
         self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>")
-        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2021b/monitor.css'></head>\n")
+        self.write("<link rel='stylesheet' type='text/css' href='https://cyberbotics.com/wwi/R2022a/css/monitor.css'></head>\n")
         self.write("<body><h1>Webots simulation server: " + socket.getfqdn() + "</h1>")
         self.write("<h2>Host: " + os_name + "</h2>\n")
         self.write("<p><b>CPU load: %g%%</b><br>\n" % cpu_load)
