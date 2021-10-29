@@ -128,30 +128,22 @@ namespace wren {
 
   void DynamicMesh::clear(bool vertices, bool normals, bool textureCoordinates, bool colors) {
     if (vertices) {
-      if (mCoords.size() > 0) {
+      if (mCoords.size() > 0)
         mCoords.clear();
-        mCoordsDirty = true;
-      }
       if (mShadowCoords.size() > 0) {
         mShadowCoords.clear();
         mSupportShadows = true;
       }
     }
 
-    if (normals && mNormals.size() > 0) {
+    if (normals && mNormals.size() > 0)
       mNormals.clear();
-      mNormalsDirty = true;
-    }
 
-    if (textureCoordinates && mTexCoords.size() > 0) {
+    if (textureCoordinates && mTexCoords.size() > 0)
       mTexCoords.clear();
-      mTexCoordsDirty = true;
-    }
 
-    if (colors && mColors.size() > 0) {
+    if (colors && mColors.size() > 0)
       mColors.clear();
-      mColorsDirty = true;
-    }
   }
 
   size_t DynamicMesh::sortingId() const { return mMeshId.id(); }
