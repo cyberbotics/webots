@@ -98,7 +98,6 @@ jobs:
       run:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=/Applications/Webots.app
-        # we currently can't run the test suite because of https://github.com/cyberbotics/webots/issues/2110
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
