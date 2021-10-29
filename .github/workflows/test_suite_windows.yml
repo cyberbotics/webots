@@ -125,9 +125,9 @@ jobs:
         echo $PYTHON_INSTALLATION_FOLDER
         export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         echo $PYTHON39_REVISION
-        echo 'export PYTHON39_HOME='$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64' >> ~/.bash_profile
+        export PYTHON39_HOME=$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64'
         echo $PYTHON39_HOME
-        echo 'export PATH=$PYTHON39_HOME:$PYTHON39_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH' >> ~/.bash_profile
+        export PATH=$PYTHON39_HOME:$PYTHON39_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
         echo $PATH
         python --version
         python scripts/packaging/update_urls.py ${{ github.sha }}
