@@ -6,7 +6,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.00011581695288525326 -0.9999996987714513 -0.000767491654866011 5.983638891496053
-  position -3.732371772224708 0.567887581462653 1.376127215651282
+  position -3.3484340581322973 0.5679765144829039 1.2575521827068765
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -57,7 +57,6 @@ Fog {
 DEF GROUND Solid {
   children [
     Transform {
-      rotation -1 0 0 0
       children [
         Shape {
           appearance DryMud {
@@ -73,7 +72,6 @@ DEF GROUND Solid {
       ]
     }
     Transform {
-      rotation -1 0 0 0
     }
   ]
   name "ground"
@@ -146,7 +144,7 @@ DEF ENVIRONMENT Solid {
     }
     BungalowStyleHouse {
       translation 48.49 0 16.48
-      rotation 1 1.72251e-08 1.96961e-08 -1.5707953071795862
+      rotation 1 0 0 -1.5707953071795862
       appearance PBRAppearance {
         baseColor 0.988235 0.913725 0.309804
         roughness 1
@@ -164,7 +162,7 @@ DEF ENVIRONMENT Solid {
     }
     BungalowStyleHouse {
       translation -6.95 0 13.19
-      rotation -8.789504634914444e-09 0.7071067811865475 0.7071067811865475 3.1415926325163688
+      rotation 0 0.7071067811865475 0.7071067811865475 3.1415926325163688
       name "bungalow style house(1)"
     }
     Tree {
@@ -316,7 +314,7 @@ DEF ENVIRONMENT Solid {
     }
     FireHydrant {
       translation -5.04 0 -7
-      rotation -0.9999999999999998 1.3397448231281977e-08 1.3397448292514316e-08 1.5707963267948968
+      rotation -1 0 0 1.5707963267948968
       name "fire hydrant(1)"
     }
     BusStop {
@@ -378,7 +376,7 @@ DEF ENVIRONMENT Solid {
     }
     YieldSign {
       translation 24.29 0 2.45
-      rotation -8.789504634914444e-09 0.7071067811865475 0.7071067811865475 3.1415926325163688
+      rotation 0 0.7071067811865475 0.7071067811865475 3.1415926325163688
     }
     YieldSign {
       translation 35.13 0 3.78
@@ -392,12 +390,12 @@ DEF ENVIRONMENT Solid {
     }
     YieldSign {
       translation 35.132752 0 -6.3
-      rotation -0.9999999999966269 -1.8366025517345194e-06 -1.836602551673287e-06 1.5707963267982699
+      rotation -1 0 0 1.5707963267982699
       name "yield sign(3)"
     }
     SpeedLimitSign {
       translation -22.64 0 -6.32
-      rotation -0.9999999999999998 1.3397448231281977e-08 1.3397448292514316e-08 1.5707963267948968
+      rotation -1 0 0 1.5707963267948968
     }
     SpeedLimitSign {
       translation 57.869588 0 2.2339776
@@ -406,7 +404,7 @@ DEF ENVIRONMENT Solid {
     }
     SignPole {
       translation 34.21 0 -6.07
-      rotation -0.9999985731948771 -0.0011944890561420465 -0.0011944890561419853 1.5707977536010376
+      rotation -0.9999985731989484 -0.0011944873518438051 -0.001194487351843744 1.5707977536010376
       signBoards [
         DirectionPanel {
           frontTextTexture [
@@ -559,7 +557,6 @@ DEF START Solid {
     }
     Transform {
       translation 0 1 0
-      rotation 0.9999999999999999 0 0 3.373196367659181e-06
       children [
         Shape {
           appearance USE POLE_APPEARANCE
@@ -627,7 +624,6 @@ DEF FINISH Solid {
     }
     Transform {
       translation 0 1 0
-      rotation 0.9999999999999999 0 0 3.373196367659181e-06
       children [
         Shape {
           appearance USE POLE_APPEARANCE

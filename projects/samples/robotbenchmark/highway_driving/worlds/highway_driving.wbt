@@ -73,8 +73,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.16081286007267467 0.12705492581723832 0.9787728387428937 1.6061132350268295
-  position 2.2172843641962765 38.93461648130984 4.588113601880864
+  orientation -0.15601091707506387 0.12230051485156522 0.980154670355878 1.6048664481094255
+  position 2.3582741303366115 24.643664637688232 8.494737873510743
   near 1
   follow "vehicle"
   followSmoothness 0.01
@@ -528,7 +528,7 @@ DEF WEBOTS_VEHICLE2 Solid {
   name "solid(1)"
 }
 HighwayPole {
-  translation 9.64 215.0 0
+  translation 9.64 215 0
   rotation 0 0 1 -1.5707953071795862
   stand 2
   height 7
@@ -556,7 +556,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation 9.64 600.0 0
+  translation 9.64 600 0
   rotation 0 0 1 -1.5707953071795862
   name "highway pole(1)"
   stand 2
@@ -585,7 +585,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation 9.64 1000.0 0
+  translation 9.64 1000 0
   rotation 0 0 1 -1.5707953071795862
   name "highway pole(2)"
   stand 2
@@ -686,6 +686,7 @@ Solid {
   name "solid(2)"
 }
 Forest {
+  rotation 0 0 1 3.14159
   treesFiles [
     "forest/highway_overtake/1.forest"
   ]
@@ -696,7 +697,7 @@ Forest {
   minRadius 1.5
 }
 DEF SUMO_VEHICLE0 BusSimple {
-  translation 0 -10000.0 0.5
+  translation 0 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -704,7 +705,7 @@ DEF SUMO_VEHICLE0 BusSimple {
   name "vehicle(2)"
 }
 DEF SUMO_VEHICLE1 BmwX5Simple {
-  translation -10.0 -10000.0 0.5
+  translation -10 -10000 0.5
   color 0.72 0.52 0.18
   recognitionColors [
     0.72 0.52 0.18
@@ -712,7 +713,7 @@ DEF SUMO_VEHICLE1 BmwX5Simple {
   name "vehicle(3)"
 }
 DEF SUMO_VEHICLE2 BmwX5Simple {
-  translation -20.0 -10000.0 0.5
+  translation -20 -10000 0.5
   color 0.62 0.62 0.62
   recognitionColors [
     0.62 0.62 0.62
@@ -720,7 +721,7 @@ DEF SUMO_VEHICLE2 BmwX5Simple {
   name "vehicle(4)"
 }
 DEF SUMO_VEHICLE3 LincolnMKZSimple {
-  translation -30.0 -10000.0 0.5
+  translation -30 -10000 0.5
   color 0.43 0.11 0.1
   recognitionColors [
     0.43 0.11 0.1
@@ -728,7 +729,7 @@ DEF SUMO_VEHICLE3 LincolnMKZSimple {
   name "vehicle(5)"
 }
 DEF SUMO_VEHICLE4 BmwX5Simple {
-  translation -40.0 -10000.0 0.5
+  translation -40 -10000 0.5
   color 0.18 0.28 0.64
   recognitionColors [
     0.18 0.28 0.64
@@ -736,7 +737,7 @@ DEF SUMO_VEHICLE4 BmwX5Simple {
   name "vehicle(6)"
 }
 DEF SUMO_VEHICLE5 RangeRoverSportSVRSimple {
-  translation -50.0 -10000.0 0.5
+  translation -50 -10000 0.5
   color 0.18 0.5 0.72
   recognitionColors [
     0.18 0.5 0.72
@@ -744,7 +745,7 @@ DEF SUMO_VEHICLE5 RangeRoverSportSVRSimple {
   name "vehicle(7)"
 }
 DEF SUMO_VEHICLE6 TruckSimple {
-  translation -60.0 -10000.0 0.5
+  translation -60 -10000 0.5
   color 0.14 0.29 0.16
   recognitionColors [
     0.14 0.29 0.16
@@ -752,7 +753,7 @@ DEF SUMO_VEHICLE6 TruckSimple {
   name "vehicle(8)"
 }
 DEF SUMO_VEHICLE7 ScooterSimple {
-  translation -70.0 -10000.0 0.5
+  translation -70 -10000 0.5
   primaryColor 0.254902 0.0156863 0.105882
   secondaryColor 0.309804 0.2 0.235294
   recognitionColors [
@@ -768,7 +769,7 @@ DEF SUMO_VEHICLE7 ScooterSimple {
   name "vehicle(9)"
 }
 DEF SUMO_VEHICLE8 BmwX5Simple {
-  translation -80.0 -10000.0 0.5
+  translation -80 -10000 0.5
   color 0.72 0.52 0.18
   recognitionColors [
     0.72 0.52 0.18
@@ -776,11 +777,11 @@ DEF SUMO_VEHICLE8 BmwX5Simple {
   name "vehicle(10)"
 }
 DEF SUMO_VEHICLE9 CitroenCZeroSimple {
-  translation -90.0 -10000.0 0.5
+  translation -90 -10000 0.5
   name "vehicle(11)"
 }
 DEF SUMO_VEHICLE10 LincolnMKZSimple {
-  translation -100.0 -10000.0 0.5
+  translation -100 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -788,7 +789,7 @@ DEF SUMO_VEHICLE10 LincolnMKZSimple {
   name "vehicle(12)"
 }
 DEF SUMO_VEHICLE11 CitroenCZeroSimple {
-  translation -110.0 -10000.0 0.5
+  translation -110 -10000 0.5
   color 0.18 0.28 0.64
   recognitionColors [
     0.18 0.28 0.64
@@ -796,7 +797,7 @@ DEF SUMO_VEHICLE11 CitroenCZeroSimple {
   name "vehicle(13)"
 }
 DEF SUMO_VEHICLE12 CitroenCZeroSimple {
-  translation -120.0 -10000.0 0.5
+  translation -120 -10000 0.5
   color 0.14 0.29 0.16
   recognitionColors [
     0.14 0.29 0.16
@@ -804,7 +805,7 @@ DEF SUMO_VEHICLE12 CitroenCZeroSimple {
   name "vehicle(14)"
 }
 DEF SUMO_VEHICLE13 ToyotaPriusSimple {
-  translation -130.0 -10000.0 0.5
+  translation -130 -10000 0.5
   color 0.14 0.29 0.16
   recognitionColors [
     0.14 0.29 0.16
@@ -812,7 +813,7 @@ DEF SUMO_VEHICLE13 ToyotaPriusSimple {
   name "vehicle(15)"
 }
 DEF SUMO_VEHICLE14 BmwX5Simple {
-  translation -140.0 -10000.0 0.5
+  translation -140 -10000 0.5
   color 0.62 0.62 0.62
   recognitionColors [
     0.62 0.62 0.62
@@ -820,7 +821,7 @@ DEF SUMO_VEHICLE14 BmwX5Simple {
   name "vehicle(16)"
 }
 DEF SUMO_VEHICLE15 RangeRoverSportSVRSimple {
-  translation -150.0 -10000.0 0.5
+  translation -150 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -828,7 +829,7 @@ DEF SUMO_VEHICLE15 RangeRoverSportSVRSimple {
   name "vehicle(17)"
 }
 DEF SUMO_VEHICLE16 RangeRoverSportSVRSimple {
-  translation -160.0 -10000.0 0.5
+  translation -160 -10000 0.5
   color 0.18 0.5 0.72
   recognitionColors [
     0.18 0.5 0.72
@@ -836,7 +837,7 @@ DEF SUMO_VEHICLE16 RangeRoverSportSVRSimple {
   name "vehicle(18)"
 }
 DEF SUMO_VEHICLE17 RangeRoverSportSVRSimple {
-  translation -170.0 -10000.0 0.5
+  translation -170 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -844,7 +845,7 @@ DEF SUMO_VEHICLE17 RangeRoverSportSVRSimple {
   name "vehicle(19)"
 }
 DEF SUMO_VEHICLE18 ToyotaPriusSimple {
-  translation -180.0 -10000.0 0.5
+  translation -180 -10000 0.5
   color 0.43 0.11 0.1
   recognitionColors [
     0.43 0.11 0.1
@@ -852,7 +853,7 @@ DEF SUMO_VEHICLE18 ToyotaPriusSimple {
   name "vehicle(20)"
 }
 DEF SUMO_VEHICLE19 RangeRoverSportSVRSimple {
-  translation -190.0 -10000.0 0.5
+  translation -190 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -860,7 +861,7 @@ DEF SUMO_VEHICLE19 RangeRoverSportSVRSimple {
   name "vehicle(21)"
 }
 DEF SUMO_VEHICLE20 TruckSimple {
-  translation -200.0 -10000.0 0.5
+  translation -200 -10000 0.5
   color 0.18 0.5 0.72
   recognitionColors [
     0.18 0.5 0.72
@@ -869,7 +870,7 @@ DEF SUMO_VEHICLE20 TruckSimple {
   name "vehicle(22)"
 }
 DEF SUMO_VEHICLE21 ToyotaPriusSimple {
-  translation -210.0 -10000.0 0.5
+  translation -210 -10000 0.5
   color 0.72 0.52 0.18
   recognitionColors [
     0.72 0.52 0.18
@@ -877,11 +878,11 @@ DEF SUMO_VEHICLE21 ToyotaPriusSimple {
   name "vehicle(23)"
 }
 DEF SUMO_VEHICLE22 CitroenCZeroSimple {
-  translation -220.0 -10000.0 0.5
+  translation -220 -10000 0.5
   name "vehicle(24)"
 }
 DEF SUMO_VEHICLE23 LincolnMKZSimple {
-  translation -230.0 -10000.0 0.5
+  translation -230 -10000 0.5
   color 0.1 0.15 0.18
   recognitionColors [
     0.1 0.15 0.18
@@ -889,7 +890,7 @@ DEF SUMO_VEHICLE23 LincolnMKZSimple {
   name "vehicle(25)"
 }
 DEF SUMO_VEHICLE24 CitroenCZeroSimple {
-  translation -240.0 -10000.0 0.5
+  translation -240 -10000 0.5
   color 0.18 0.28 0.64
   recognitionColors [
     0.18 0.28 0.64
