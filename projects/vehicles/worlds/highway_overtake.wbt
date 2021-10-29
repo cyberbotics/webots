@@ -71,8 +71,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.05330871449142749 0.03363216357487249 -0.9980115523041526 3.0047710686437026
-  position -18.67078847489323 13.560607979374598 5.2277696379645295
+  orientation 0.08046210492758098 0.029354823775294598 -0.996325320360646 3.154697925909589
+  position -5.441929949878917 4.032988437065271 16.568936119870727
   near 1
   follow "vehicle"
   followSmoothness 0
@@ -117,7 +117,7 @@ StraightRoadSegment {
   length 5000
 }
 StraightRoadSegment {
-  translation -5000.0 -8.75 0.01
+  translation -5000 -8.75 0.01
   name "road(1)"
   id "1"
   width 15
@@ -363,7 +363,7 @@ DEF WEBOTS_VEHICLE2 Solid {
   name "solid(1)"
 }
 HighwayPole {
-  translation -215.0 16.0 0
+  translation -215 16 0
   stand 2
   height 7
   length 31
@@ -411,7 +411,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -600.0 16.0 0
+  translation -600 16 0
   name "highway pole(1)"
   stand 2
   height 7
@@ -460,7 +460,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -1000.0 16.0 0
+  translation -1000 16 0
   name "highway pole(2)"
   stand 2
   height 7
@@ -509,7 +509,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -1400.0 16.0 0
+  translation -1400 16 0
   name "highway pole(3)"
   stand 2
   height 7
@@ -558,7 +558,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -1800.0 16.0 0
+  translation -1800 16 0
   name "highway pole(4)"
   stand 2
   height 7
@@ -607,7 +607,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -2200.0 16.0 0
+  translation -2200 16 0
   name "highway pole(5)"
   stand 2
   height 7
@@ -656,7 +656,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -2600.0 16.0 0
+  translation -2600 16 0
   name "highway pole(6)"
   stand 2
   height 7
@@ -705,7 +705,7 @@ HighwayPole {
   ]
 }
 HighwayPole {
-  translation -3000.0 16.0 0
+  translation -3000 16 0
   name "highway pole(7)"
   stand 2
   height 7
@@ -789,7 +789,7 @@ Solid {
   name "solid(2)"
 }
 Forest {
-  rotation 0 0 1 1.5708
+  rotation 0 0 1 -1.5707953071795862
   treesFiles [
     "forest/highway_overtake/1.forest"
   ]
