@@ -119,7 +119,7 @@ PROTO FastFoodRestaurant [
               rotation 1 0 0 1.5708
           %< } else if (numberOfSides === 2) { >%
               translation %<= halfLength - 8.8 + planeOffset + depthFightingOffset >% 1.4 -4.4
-              rotation -0.57735 -0.57735 0.57735 4.18879
+              rotation 0 1 0 1.5708
           %< } >%
           children USE INNER_WALL
         }
@@ -331,7 +331,7 @@ PROTO FastFoodRestaurant [
         rotation 1 0 0 1.570796
       }
       DEF TOP_SIDE Transform {
-        translation 0 0 %<= height * 0.5 + 1.4 >%
+        translation 0 0 %<= height * 0.5 + 1.39 >%
         rotation 1 0 0 1.570796
         children [
           Shape {
