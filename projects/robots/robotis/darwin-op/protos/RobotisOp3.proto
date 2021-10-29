@@ -12,7 +12,7 @@
 # More info here: http://support.robotis.com/en/product/robotis-op3/introduction/what_is_robotis_op3.htm
 
 PROTO RobotisOp3 [
-  field SFVec3f    translation         0 0 0
+  field SFVec3f    translation         0 0 0.279
   field SFRotation rotation            0 0 1 0
   field SFString   name                "ROBOTIS OP3"                  # Is `Solid.name`.
   field SFString   controller          "void"                         # Is `Robot.controller`.
