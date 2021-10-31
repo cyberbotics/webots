@@ -79,9 +79,9 @@ def setupWebots():
     global webotsSysInfo
 
     if sys.platform == 'win32':
-        webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + \
-            os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
-        print('fullpath: ', webotsFullPath)
+        webotsFullPath = os.environ['WEBOTS_HOME'] + '/' + 'msys64' + \
+            '/' + 'mingw64' + '/' + 'bin' + '/' + 'webots.exe'
+        print('>> fullpath: ', webotsFullPath)
     else:
         webotsBinary = 'webots'
         if 'WEBOTS_HOME' in os.environ:
@@ -94,14 +94,14 @@ def setupWebots():
 
     command = Command(webotsFullPath + ' --version')
     command.run()
-    print('version: ', command.returncode, command.output)
+    print('>> version: ', command.returncode, command.output)
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots version')
     webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
 
     command = Command(webotsFullPath + ' --sysinfo')
     command.run()
-    print('sysinfo: ', command.returncode, command.output)
+    print('>> sysinfo: ', command.returncode, command.output)
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots information of the system')
     webotsSysInfo = command.output.split('\n')
