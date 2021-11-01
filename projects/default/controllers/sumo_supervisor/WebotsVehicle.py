@@ -38,8 +38,8 @@ class WebotsVehicle:
             angle1 = -angle1
         # compute position in sumo coordinate frame
         position[0] = -position[0] + xOffset - 0.5 * self.vehicleLength * math.sin(angle1)
-        position[1] = position[1] - self.vehicleHeight
-        position[2] = position[2] + yOffset + 0.5 * self.vehicleLength * math.cos(angle1)
+        position[1] = position[1] + yOffset + 0.5 * self.vehicleLength * math.cos(angle1)
+        position[2] = position[2] - self.vehicleHeight
         return position
 
     def get_angle(self):
@@ -96,7 +96,7 @@ class WebotsVehicle:
         self.angle = self.get_angle()
         # compute current speed and convert it to m/s
         speed = math.sqrt(math.pow(self.currentPosition[0] - self.previousPosition[0], 2) +
-                          math.pow(self.currentPosition[2] - self.previousPosition[2], 2))
+                          math.pow(self.currentPosition[1] - self.previousPosition[1], 2))
         self.previousPosition = self.currentPosition
         speed = speed / 0.2
         # if vehicle is not present in the network add it
@@ -111,7 +111,7 @@ class WebotsVehicle:
         except:
             pass
         try:
-            traci.vehicle.moveToXY(vehID=self.name, edgeID='', lane=0, x=self.currentPosition[0], y=self.currentPosition[2],
+            traci.vehicle.moveToXY(vehID=self.name, edgeID='', lane=0, x=self.currentPosition[0], y=self.currentPosition[1],
                                    angle=180 * self.angle / math.pi, keepRoute=0)
         except:
             pass

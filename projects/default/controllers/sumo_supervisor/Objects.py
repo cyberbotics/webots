@@ -108,11 +108,11 @@ class Vehicle:
         self.name = self.node.getField("name")
         self.inUse = False
         self.currentID = ""
-        self.currentPos = [hiddenPosition, 0.5, 0]
-        self.currentRot = [0, 1, 0, 0]
+        self.currentPos = [hiddenPosition, 0, 0.5]
+        self.currentRot = [0, 0, 1, 0]
         self.currentAngles = [0, 0, 0]
-        self.targetPos = [hiddenPosition, 0.5, 0]
-        self.targetRot = [0, 1, 0, 0]
+        self.targetPos = [hiddenPosition, 0, 0.5]
+        self.targetRot = [0, 0, 1, 0]
         self.currentAngles = [0, 0, 0]
         self.roll = 0
         self.pitch = 0
@@ -174,7 +174,7 @@ class Vehicle:
 
         defName = "SUMO_VEHICLE%d" % index
         vehicleString = "DEF " + defName + " " + model + " {\n"
-        vehicleString += "  translation 10000 0.5 0\n"
+        vehicleString += "  translation 10000 0 0.5\n"
         if vehicleClass == 'motorcycle':
             vehicleString += "  primaryColor " + colorPairs[0] + "\n"
             vehicleString += "  secondaryColor " + colorPairs[1] + "\n"
