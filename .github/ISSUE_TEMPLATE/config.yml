@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+  - name: Documentation
+    url: https://github.com/cyberbotics/webots/tree/released/docs
+    about: Fix or improve the Webots [user guide](https://cyberbotics.com/doc/guide/index), [reference manual](https://cyberbotics.com/doc/reference/index) or [automobile manual](https://cyberbotics.com/doc/automobile/index).
   - name: GitHub Discussions
     url: https://github.com/cyberbotics/webots/discussions/new
     about: Ask a question or request a new feature in Webots
