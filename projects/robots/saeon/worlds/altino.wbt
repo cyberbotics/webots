@@ -3,15 +3,15 @@ WorldInfo {
   basicTimeStep 8
 }
 Viewpoint {
-  orientation 0.2935996417194167 -0.7620822296914248 -0.5770874505400169 5.264114869208887
-  position -3.251684568903842 -2.238418628433968 3.4306507445444505
+  orientation 0.288518030933914 -0.3457365347682704 -0.8928737841108595 4.934632449405043
+  position -1.711396296916839 -1.2279055391770919 0.5934737912697113
   follow "vehicle"
 }
 TexturedBackgroundLight {
 }
 Solid {
-  translation 1.40716 1.21017 0.05
-  rotation 0 0 1 0.785398
+  translation 0.234703 1.45571 0.05
+  rotation 0 0 -1 -5.307179586466759e-06
   children [
     DEF BARRIER_SHAPE Shape {
       appearance PBRAppearance {
@@ -29,7 +29,7 @@ Solid {
   }
 }
 Solid {
-  translation 0.699691 0.611093 0.05
+  translation 0.773009 0.370894 0.05
   rotation 0 0 1 -2.3561953071795863
   children [
     USE BARRIER_SHAPE
@@ -51,7 +51,7 @@ Solid {
   }
 }
 Solid {
-  translation 0.337265 -1.14329 0.05
+  translation 0.891174 -0.810386 0.05
   rotation 0 0 1 -0.26179940717958594
   children [
     USE BARRIER_SHAPE
@@ -73,8 +73,8 @@ Solid {
   }
 }
 Solid {
-  translation -0.812268 -1.02272 0.05
-  rotation 0 0 1 -1.8325957071795864
+  translation 0.0251741 -1.20004 0.05
+  rotation 0 0 1 -2.6179953071795863
   children [
     USE BARRIER_SHAPE
   ]
@@ -87,6 +87,7 @@ TexturedBackground {
 }
 Altino {
   translation -1.4708 -0.52079 0.022
+  rotation 0 0 1 0.785398
   color 0 0.666667 1
 }
 CircleArena {
