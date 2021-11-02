@@ -111,8 +111,8 @@ PROTO Altino [
           Group {
             children [
               Transform {
-                rotation 0 1 0 3.1415926
-                translation 0 0.024 0.071
+                rotation -0.5773 0.5773 0.5773 -2.0944
+                translation 0.071 0 0.024
                 children [
                   SpotLight {
                     attenuation 0 0 1
@@ -168,8 +168,8 @@ PROTO Altino [
           Group {
             children [
               Transform {
-                rotation 0 1 0 3.1415926
-                translation 0 0.024 0.071
+                rotation -0.5773 0.5773 0.5773 -2.0944
+                translation 0.071 0 0.024
                 children [
                   Shape {
                     appearance PBRAppearance {
