@@ -45,7 +45,7 @@ class Tree(WebotsObject):
             if WebotsObject.removalRadius > 0.0:
                 # Check that the tree is inside the scope of a road,
                 # otherwise, remove it from the tree list.
-                if not Road.are_coords_close_to_some_road_waypoint([[tree.coord.x, tree.coord.z]], areOSMReferences=False):
+                if not Road.are_coords_close_to_some_road_waypoint([[tree.coord.x, tree.coord.y]], areOSMReferences=False):
                     Tree.list.remove(tree)
                     continue
 
@@ -56,7 +56,7 @@ class Tree(WebotsObject):
                 file.write(' type "%s"\n' % random.choice(Tree.broadLeavesTypes))
             else:
                 file.write('  type "random"\n')
-            file.write('  rotation 0 1 0 %.3f\n' % (random.random() * 2 * math.pi))
+            file.write('  rotation 0 0 1 %.3f\n' % (random.random() * 2 * math.pi))
             file.write('  translation %.2f %.2f %.2f\n' % (tree.coord.x, tree.coord.y, tree.coord.z))
             file.write('  name "tree(%d)"\n' % Tree.nameIndex)
             Tree.nameIndex += 1
