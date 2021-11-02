@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This example uses some of the industrial objects included in Webots to create a factory hall."
@@ -18,8 +18,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation 0.11592461790726759 0.27656072708834545 -0.9539788504969173 1.4973189233879576
-  position -2.0408420329580936 15.465402408275121 8.478369793221422
+  orientation 0.19164996383925656 0.30721420386093523 -0.9321425450576233 1.1864089281314691
+  position -3.6749527677384393 12.591222530056148 5.486760472905883
   ambientOcclusionRadius 1
 }
 TexturedBackground {
@@ -568,7 +568,7 @@ DEF PLATFORM Transform {
         }
         StraightStairsRail {
           translation -1.2699999538251452 0 2.5
-          rotation 0 0 1 4.712388966
+          rotation 0 0 -1 3.14159
           name "straight stairs rail(2)"
           run 0.33
           rise 0
@@ -1908,6 +1908,7 @@ CapScrew {
 }
 Washer {
   translation 0.8131 10.7422 0.72
+  rotation 0 1 0 -1.5707953071795862
   appearance MetalPipePaint {
   }
   innerRadius 0.014
@@ -2348,7 +2349,7 @@ Wall {
 }
 TruckSimple {
   translation -8.8134 6.85908 0.5
-  rotation 0 0 -1 -1.3089953071795861
+  rotation 0 0 -1 -1.0459853071795866
   trailer TruckTankSimple {
   }
 }

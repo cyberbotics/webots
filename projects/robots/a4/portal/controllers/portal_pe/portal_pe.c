@@ -21,6 +21,7 @@ int main() {
 #else
 
 #include <webots/distance_sensor.h>
+#include <webots/keyboard.h>
 #include <webots/led.h>
 #include <webots/motor.h>
 #include <webots/position_sensor.h>
@@ -159,6 +160,8 @@ int main() {
   wb_touch_sensor_enable(inside_button, time_step);
   wb_position_sensor_enable(gear_sensor, time_step);
   wb_position_sensor_enable(gate_sensor, time_step);
+  wb_keyboard_enable(time_step);
+  printf("Keyboad controls:\n 'O': open portal\n 'C': close portal\n 'L': turn on light\n");
   for (;;) {
     if (pipe_handle == NULL) {
       pipe_handle =
@@ -223,6 +226,9 @@ int main() {
         fflush(stdout);
       }
     }
+    const char k = wb_keyboard_get_key();
+    if (k != -1)
+      simulation_state = SIMULATION_STATE_START;
     if (simulation_state == SIMULATION_STATE_PAUSE) {
       if (current_sound != -1) {
         suspended_sound = current_sound;
@@ -255,10 +261,13 @@ int main() {
       wb_robot_step(time_step);
       continue;
     }
-    wb_led_set(lamp, pinsB & dirsB & 1);
+    if (k == 'L')
+      wb_led_set(lamp, 1);
+    else
+      wb_led_set(lamp, pinsB & dirsB & 1);
     double gear_position = wb_position_sensor_get_value(gear_sensor);
     double gate_position = wb_position_sensor_get_value(gate_sensor);
-    if ((pinsB & dirsB & (64 + 128)) == 64) {
+    if ((pinsB & dirsB & (64 + 128)) == 64 || k == 'C') {
       wb_motor_set_position(gate, 0);  // portal closed position
       wb_motor_set_position(gear, -INFINITY);
       if (gate_position <= 0.01) {  // derail position
@@ -268,7 +277,7 @@ int main() {
         play_sound(0);
         wb_motor_set_position(rail, 0);
       }
-    } else if ((pinsB & dirsB & (64 + 128)) == 128) {
+    } else if ((pinsB & dirsB & (64 + 128)) == 128 || k == 'O') {
       wb_motor_set_position(gate, 0.3);  // portal open position
       wb_motor_set_position(gear, INFINITY);
       if (gate_position >= 0.29) {  // derail position

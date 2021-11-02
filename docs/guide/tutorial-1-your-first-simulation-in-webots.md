@@ -74,14 +74,14 @@ In the open dialog box, choose `PROTO nodes (Webots Projects) / objects / factor
 A big box should appear in the middle of the arena.
 Double-click on it in the scene tree to open its fields.
 1. Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
-2. Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
-Alternatively, you may use the green arrow that appears in the 3D view to adjust its `translation.y` field.
+2. Change its `translation` to `0 0 0.05` instead of `0 0 0.3`.
+Alternatively, you may use the blue arrow that appears in the 3D view to adjust its `translation.z` field.
 3. Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
 4. Select the box and press <kbd>ctrl</kbd>-<kbd>C</kbd>, <kbd>ctrl</kbd>-<kbd>V</kbd> (Windows, Linux) or <kbd>⌘ command</kbd>-<kbd>C</kbd>, <kbd>⌘ command</kbd>-<kbd>V</kbd> (macOS) to copy and paste it.
 Shift-click and drag the new box to move it at some different location.
 Create a third box this way.
 5. Move the boxes, so that no box is at the center of the arena.
-You may also use the green rotation arrows to rotate the boxes along the vertical axis.
+You may also use the blue rotation arrows to rotate the boxes along the vertical axis.
 This can be done also by shift-click and drag with the right mouse button.
 Alternatively, you can change the angle of the `rotation` field of the `WoodenBox` nodes in the scene tree.
 6. Once you are satisfied with the result, save the world using the save button.

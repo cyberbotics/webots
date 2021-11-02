@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This demonstration shows a DJI Mavic 2 PRO flying over a rural area."
@@ -77,7 +77,7 @@ CardboardBox {
 }
 TeslaModel3Simple {
   translation -41.5139 4.34169 0.31
-  rotation 0.67766031808056 0.519988698578611 0.519988698578611 1.95044260339299
+  rotation 0 0 1 -0.2618053071795865
 }
 Pine {
   translation -14.0083 -14.4828 0

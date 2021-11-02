@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
@@ -7,7 +7,7 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.1119626265841257 0.9920963074853238 0.056650568597051615 1.341062144783736
+   orientation -0.1119626265841257 0.9920963074853238 0.056650568597051615 1.341062144783736
   position -12.422696006483225 -6.727066901400375 30.406658794186228
   exposure 0.5
   ambientOcclusionRadius 1
@@ -600,18 +600,12 @@ DEF KITCHEN_BLOCK Transform {
       rotation 0 0 1 -1.5707953071795862
       name "oven(1)"
     }
-    Transform {
-      translation 1.62 -0.62 0.82
-      rotation 0 0 1 -1.5707953071795862
-      scale 0.5 1.2 0.4
-      children [
-        Oven {
-          translation -0.27 0.16 0.16
-          rotation 0 0 1 -1.5707953071795862
-          name "oven(2)"
-          mainColor 0.643137 0 0
-        }
-      ]
+    Oven {
+      translation 1.81 -0.46 0.89
+      rotation 0 0 1 -3.14156
+      name "oven(2)"
+      mainColor 0.643137 0 0
+      type "microwave"
     }
     HotPlate {
       translation 1.62912 1.14971 0.86

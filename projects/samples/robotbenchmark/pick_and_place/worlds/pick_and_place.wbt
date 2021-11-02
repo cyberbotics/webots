@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Benchmark objective:"
@@ -192,24 +192,24 @@ DEF PIPES Transform {
     }
     LJoint {
       translation 3.74 -5.8610001 0.85599996
-      rotation 0 0 3.14159
+      rotation 0 1 0 3.14159
       scale 2.4 2.4 2.4
     }
     LJoint {
       translation 2.93 -5.8610001 0.54599994
-      rotation 0 0 3.14159
+      rotation 0 1 0 3.14159
       name "L joint pipe(1)"
       scale 2.4 2.4 2.4
     }
     LJoint {
       translation -2.55 -5.845 3.7259999
-      rotation 0 0 3.14159
+      rotation 0 1 0 3.14159
       name "L joint pipe(2)"
       scale 2.4 2.4 2.4
     }
     TJoint {
       translation -2.44 -5.843 1.0259999
-      rotation 0 0 3.14159
+      rotation 0 1 0 3.14159
       scale 2.4 2.4 2.4
     }
   ]

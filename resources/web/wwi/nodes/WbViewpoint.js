@@ -2,6 +2,7 @@ import {M_PI_4, TAN_M_PI_8} from './utils/constants.js';
 import {direction, up} from './utils/utils.js';
 import {GtaoLevel, disableAntiAliasing} from './wb_preferences.js';
 import WbBaseNode from './WbBaseNode.js';
+import WbMatrix3 from './utils/WbMatrix3.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
@@ -20,7 +21,6 @@ export default class WbViewpoint extends WbBaseNode {
     // of an object to allow a smooth reset of the viewpoint
     this.orientation = this._defaultOrientation = orientation;
     this.position = this._defaultPosition = position;
-
     this.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
     this.near = near;
@@ -102,7 +102,7 @@ export default class WbViewpoint extends WbBaseNode {
     const projection = new WbMatrix4();
     projection.set(1.0 / (this.aspectRatio * this._tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this._tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
     const eye = new WbVector3(this.position.x, this.position.y, this.position.z);
-    const center = eye.add(direction(this.orientation));
+    const center = eye.sub(direction(this.orientation));
     const upVec = up(this.orientation);
 
     const f = (center.sub(eye)).normalized();
@@ -325,7 +325,8 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   _applyOrientationToWren() {
-    _wr_camera_set_orientation(this._wrenCamera, _wrjs_array4(this.orientation.w, this.orientation.x, this.orientation.y, this.orientation.z));
+    const fluRotation = this.orientation.toMatrix3().mulByMat3(WbMatrix3.fromEulerAngles(Math.PI / 2, -Math.PI / 2, 0)).toRotation();
+    _wr_camera_set_orientation(this._wrenCamera, _wrjs_array4(fluRotation.w, fluRotation.x, fluRotation.y, fluRotation.z));
   }
 
   _applyPositionToWren() {

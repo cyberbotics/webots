@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "Demo of a gantry robot playing the Hanoi Towers."
@@ -33,7 +33,6 @@ Floor {
 }
 DEF RAIL1 Solid {
   translation 0 -0.532 0.01
-  rotation 0 1 0 0
   children [
     DEF RAIL_SHAPE Shape {
       appearance DEF RAIL_APPEARANCE PBRAppearance {

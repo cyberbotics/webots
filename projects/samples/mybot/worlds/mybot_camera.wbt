@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The MyBot robot, the robot used in the tutorial of Webots, with a Camera device"
@@ -6,8 +6,8 @@ WorldInfo {
   title "MyBot with a Camera"
 }
 Viewpoint {
-  orientation 0.0022428144327066176 -0.9999926900356989 -0.0030967173889568434 5.36667969312094
-  position -1.3961714764464166 -0.016600322534590137 2.0928958152364885
+  orientation 0.06170953147594634 -0.9897936629826225 -0.1284540324180681 5.388744909205835
+  position -1.2793943422563137 -0.13419162125963746 1.6320907672247942
 }
 TexturedBackground {
 }
@@ -195,7 +195,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 3.38385e-07 7.19235e-09 -1 -0.49920530717958655
       children [
         DEF SENSOR Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -225,7 +225,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation -3.14419e-07 -7.19235e-09 1 -0.5007953071795859
       children [
         USE SENSOR
       ]
