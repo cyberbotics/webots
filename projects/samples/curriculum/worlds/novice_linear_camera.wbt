@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
 }
 Viewpoint {
@@ -119,5 +119,5 @@ E-puck {
   controller "novice_linear_camera"
   camera_width 40
   camera_height 1
-  camera_rotation 0 -1 0 -0.47
+  camera_rotation 0 1 0 0.47
 }

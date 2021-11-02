@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-ld-mrs
@@ -46,7 +46,7 @@ PROTO SickLdMrs [
         %<
           let horizontalFieldOfView = wbutility.degreesToRadians(85);
         >%
-        rotation 0 0 0 %<= -wbutility.degreesToRadians(7.5) >%
+        rotation 1 0 0 %<= -wbutility.degreesToRadians(7.5) + 3.14157 >%
         name IS name
         model %<= '"Sick LD-MRS ' + fields.type.value + '"' >%
         fieldOfView %<= horizontalFieldOfView >%

@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the E-puck robot"
@@ -6,8 +6,8 @@ WorldInfo {
   title "E-puck simulation"
 }
 Viewpoint {
-  orientation 0.19844281229053562 -0.43966986883496545 -0.875962816955644 5.525726474890334
-  position -0.24855981436860256 -0.2612589746300453 0.18447455513289826
+  orientation -0.15020139637050148 -0.0891662702192408 0.984626282801521 4.002831150795431
+  position 0.25847289727030187 0.25498154380089166 0.18495554441956158
   follow "e-puck"
 }
 TexturedBackground {
@@ -15,7 +15,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 0 0 1 4.692820414042842e-06
   floorSize 2 2
 }
 WoodenBox {
@@ -48,7 +47,7 @@ WoodenBox {
   size 0.1 0.1 0.1
 }
 E-puck {
-  rotation 0 0 1 -1.571595307179586
+  rotation 0 0 1 1.571595307179586
   controller "e-puck"
   kinematic TRUE
 }

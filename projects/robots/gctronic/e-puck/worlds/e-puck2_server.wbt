@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "The model of the e-puck 2 robot"
@@ -15,7 +15,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 0 0 1 1.5708
+  rotation 0 0 1 -1.5708
   floorSize 2 2
 }
 WoodenBox {

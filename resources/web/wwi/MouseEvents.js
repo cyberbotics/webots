@@ -127,7 +127,7 @@ export default class MouseEvents {
     rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
 
     if (this._state.mouseDown === 1) { // left mouse button to rotate viewpoint
-      let halfPitchAngle = -0.005 * this._moveParams.dy;
+      let halfPitchAngle = 0.005 * this._moveParams.dy;
       let halfYawAngle = -0.005 * this._moveParams.dx;
       if (this.picker.selectedId === -1) {
         halfPitchAngle /= -8;
@@ -162,7 +162,7 @@ export default class MouseEvents {
       let scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) / Math.max(canvas.width, canvas.height);
 
       if (this._state.mouseDown === 2) { // right mouse button to translate viewpoint
-        let targetRight = -scaleFactor * this._moveParams.dx;
+        let targetRight = scaleFactor * this._moveParams.dx;
         let targetUp = scaleFactor * this._moveParams.dy;
         let upVec = up(orientation);
         let rightVec = right(orientation);
@@ -174,7 +174,7 @@ export default class MouseEvents {
         this._scene.render();
       } else if (this._state.mouseDown === 3 || this._state.mouseDown === 4) { // both left and right button or middle button to zoom
         let rollVector = direction(orientation);
-        let zDisplacement = rollVector.mul(scaleFactor * 5 * this._moveParams.dy);
+        let zDisplacement = rollVector.mul(scaleFactor * -5 * this._moveParams.dy);
         let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this._moveParams.dx);
         let roll3 = glm.quat();
         roll3.w = roll2.w;
@@ -248,8 +248,9 @@ export default class MouseEvents {
       distanceToPickPosition = 0.001;
 
     let direct = direction(WbWorld.instance.viewpoint.orientation);
-    const scaleFactor = 0.02 * (event.deltaY < 0.0 ? -1 : 1) * distanceToPickPosition;
+    const scaleFactor = 0.1 * (event.deltaY < 0.0 ? 1 : -1) * distanceToPickPosition;
     const zDisplacement = direct.mul(scaleFactor);
+
     WbWorld.instance.viewpoint.position = position.add(zDisplacement);
     WbWorld.instance.viewpoint.updatePosition();
 
@@ -340,7 +341,7 @@ export default class MouseEvents {
       this._moveParams.dx = x - this._state.initialX;
       this._moveParams.dy = y - this._state.initialY;
 
-      let targetRight = -scaleFactor * this._moveParams.dx;
+      let targetRight = scaleFactor * this._moveParams.dx;
       let targetUp = scaleFactor * this._moveParams.dy;
       let upVec = up(orientation);
       let rightVec = right(orientation);
@@ -372,7 +373,7 @@ export default class MouseEvents {
         else
           d = moveX2;
         this._moveParams.tiltAngle = 0.0004 * d;
-        this._moveParams.zoomScale = this._moveParams.scaleFactor * 0.015 * pinchSize;
+        this._moveParams.zoomScale = -this._moveParams.scaleFactor * 0.015 * pinchSize;
         let rollVector = direction(orientation);
         let zDisplacement = rollVector.mul(scaleFactor * 5 * this._moveParams.dy);
         let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this._moveParams.dx);
@@ -392,7 +393,7 @@ export default class MouseEvents {
         this._moveParams.dx = moveX1 * 0.8;
         this._moveParams.dy = moveY1 * 0.5;
 
-        let halfPitchAngle = -0.005 * this._moveParams.dy;
+        let halfPitchAngle = 0.005 * this._moveParams.dy;
         let halfYawAngle = -0.005 * this._moveParams.dx;
         if (this.picker.selectedId === -1) {
           halfPitchAngle /= -8;

@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
 }
 Viewpoint {
@@ -37,6 +37,6 @@ E-puck {
   controller "beginner_blinking_e-puck"
   camera_width 40
   camera_height 1
-  camera_rotation 0 -1 0 -0.47
+  camera_rotation 0 1 0 0.47
   window "botstudio"
 }

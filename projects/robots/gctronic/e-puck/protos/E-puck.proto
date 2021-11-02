@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/epuck
@@ -21,7 +21,7 @@ PROTO E-puck [
   field SFInt32            camera_width                 52                       # Is `Camera.width`.
   field SFInt32            camera_height                39                       # Is `Camera.height`.
   field SFBool             camera_antiAliasing          FALSE                    # Is `Camera.antiAliasing`.
-  field SFRotation         camera_rotation              0 0 1 0                  # Is `Camera.rotation`. Interesting setup: set `0 -1 0 -0.47` in order to simulate the linear camera mode.
+  field SFRotation         camera_rotation              0 0 1 0                  # Is `Camera.rotation`. Interesting setup: set `0 1 0 0.47` in order to simulate the linear camera mode.
   field SFFloat            camera_noise                 0.0                      # Is `Camera.noise`.
   field SFFloat            camera_motionBlur            0.0                      # Is `Camera.motionBlur`.
   field SFInt32            distance_sensor_numberOfRays 1                        # Is `DistanceSensor.numberOfRays`.
