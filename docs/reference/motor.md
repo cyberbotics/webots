@@ -7,8 +7,8 @@ Motor {
   SFFloat  acceleration      -1       # {-1, [0, inf)}
   SFFloat  consumptionFactor 10       # [0, inf)
   SFVec3f  controlPID        10 0 0   # any positive vector
-  SFFloat  minPosition       0        # (-inf, inf) or [-pi, pi]
-  SFFloat  maxPosition       0        # (-inf, inf) or [-pi, pi]
+  SFFloat  minPosition       0        # (-inf, inf)
+  SFFloat  maxPosition       0        # (-inf, inf)
   SFFloat  maxVelocity       10       # [0, inf)
   SFFloat  multiplier        1        # (inf, 0[ or ]0, inf)
   SFString sound             ""       # any string
@@ -22,7 +22,7 @@ A [Motor](#motor) node is an abstract node (not instantiated) whose derived clas
 These classes can be used in a mechanical simulation to power a joint hence producing a motion along, or around, one of its axes.
 
 A [RotationalMotor](rotationalmotor.md) can power a [HingeJoint](hingejoint.md) (resp. a [Hinge2Joint](hinge2joint.md)) when set inside the `device` (resp. `device` or `device2`) field of these nodes.
-It produces then a rotational motion around the choosen axis.
+It produces then a rotational motion around the chosen axis.
 Likewise, a [LinearMotor](linearmotor.md) can power a [SliderJoint](hingejoint.md), producing a sliding motion along its axis.
 
 ### Field Summary
