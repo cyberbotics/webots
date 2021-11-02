@@ -18,10 +18,22 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 WEBOTS_LIBRARY = 1
-
 CXX_SOURCES = $(wildcard src/*.cpp)
-INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c"
-LIBRARIES = -lcar
+
+INCLUDE = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 MAIN_TARGET = $(LIB_PREFIX)CppCar$(SHARED_LIB_EXTENSION)
+LIBRARIES = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lcar -lCppDriver
+
+ifeq ($(OSTYPE),linux)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.so $(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.so
+endif
+
+ifeq ($(OSTYPE),darwin)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libcar.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libCppDriver.dylib
+endif
+
+ifeq ($(OSTYPE),windows)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/car.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppDriver.dll
+endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

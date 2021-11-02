@@ -4,7 +4,19 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [Cyberbotics] 10/20/2021 07:16:32
+##### Benjamin Hug [Cyberbotics] 10/25/2021 11:54:35
+Our Lightning Talk has been chosen and shown during the ROS World 2021 !
+
+
+
+You can check it now to discover the improvements made on the Webots-ROS interface during the last year:
+
+[https://vimeo.com/635607300#t=451s](https://vimeo.com/635607300#t=451s)
+
+##### Olivier Michel [Cyberbotics] 10/22/2021 09:23:20
+Webots in OpenRoberta online NAO simulations at [https://lab.open-roberta.org](https://lab.open-roberta.org). Select NAO and click on the SIM button to start the Webots simulation. You will be able to program the robot using the Blockly graphical programming language. See the press release here: [https://www.iais.fraunhofer.de/de/presse/presseinformationen/presseinformationen-2021/presseinformation-211019.html](https://www.iais.fraunhofer.de/de/presse/presseinformationen/presseinformationen-2021/presseinformation-211019.html) (in German).
+
+
 If you like Webots and ROS and would like to help us, please take 10 seconds and vote for me (Olivier Michel) at the ROS2 Technical Steering Committee election: [https://civs1.civs.us/cgi-bin/vote.pl?id=E\_ee3018e9881cbe49&akey=7c1cdeb3142060b4](https://civs1.civs.us/cgi-bin/vote.pl?id=E_ee3018e9881cbe49&akey=7c1cdeb3142060b4)
 
 ##### Stefania Pedrazzi [Cyberbotics] 10/12/2021 07:47:51
