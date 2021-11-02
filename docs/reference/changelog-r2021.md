@@ -38,7 +38,8 @@ Released on XX, XXth, 2021.
     - Fixed wb_keyboard_get_key() to be MT-safe ([#3783](https://github.com/cyberbotics/webots/pull/3783)).
     - Display a warning in the console when the robot battery is empty ([#3783](https://github.com/cyberbotics/webots/pull/3783)).
     - Fixed incorrect node enumeration in Matlab API and missing `WB_MF_ROTATION` constant ([#3808](https://github.com/cyberbotics/webots/pull/3808)).
-    - Fix incorrect boundingSphere computation for ElevationGrid ([#3828](https://github.com/cyberbotics/webots/pull/3828)).
+    - Fixed incorrect boundingSphere computation for ElevationGrid ([#3828](https://github.com/cyberbotics/webots/pull/3828)).
+    - Fixed memory leak due to incorrect cleaning of [ImageTexture](imagetexture.md) nodes ([#3830](https://github.com/cyberbotics/webots/pull/3830)).
 
 ## Webots R2021b
 Released on July, 16th, 2021.
