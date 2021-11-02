@@ -473,8 +473,8 @@ class Road(WebotsObject):
                             otherRef = road.refs[i - 1]
                         else:
                             otherRef = road.refs[i + 1]
-                        alpha = math.atan((OSMCoord.coordDictionnary[otherRef].x - OSMCoord.coordDictionnary[ref].x) /
-                                          (OSMCoord.coordDictionnary[otherRef].y - OSMCoord.coordDictionnary[ref].y))
+                        alpha = math.atan((OSMCoord.coordDictionnary[otherRef].y - OSMCoord.coordDictionnary[ref].y) /
+                                          (OSMCoord.coordDictionnary[otherRef].x - OSMCoord.coordDictionnary[ref].x)) + 0.5 *  math.pi
                         width = road.width
                         for crossroad in cls.crossroads.values():
                             # If the pedestrian crossing is on crossroad, it is moved.
@@ -509,8 +509,8 @@ class Road(WebotsObject):
                                                        (distanceFromCenter / normVector * vector.y))
                                 break
                         f.write('PedestrianCrossing {\n')
-                        f.write('  translation %f %f %f\n' % (translation.x, -0.07, translation.y))
-                        f.write('  rotation 0 1 0 %f\n' % (alpha))
+                        f.write('  translation %f %f %f\n' % (translation.x, translation.y, -0.07))
+                        f.write('  rotation 0 0 1 %f\n' % (alpha))
                         f.write('  name "pedestrian crossing(%d)"\n' % (Road.pedestrianCrossingNameIndex))
                         Road.pedestrianCrossingNameIndex += 1
                         f.write('  size %f %f\n' % (width, width * 0.4))

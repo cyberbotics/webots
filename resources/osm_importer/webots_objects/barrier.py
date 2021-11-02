@@ -47,7 +47,7 @@ class Barrier(WebotsObject):
             if index > 0:
                 x = OSMCoord.coordDictionnary[self.ref[index]].x - OSMCoord.coordDictionnary[self.ref[index - 1]].x
                 y = OSMCoord.coordDictionnary[self.ref[index]].y - OSMCoord.coordDictionnary[self.ref[index - 1]].y
-                length = length + length2D(x, z)
+                length = length + length2D(x, y)
         return length
 
     @staticmethod
