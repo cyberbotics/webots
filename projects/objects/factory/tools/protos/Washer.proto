@@ -61,8 +61,9 @@ PROTO Washer [
           }
         ]
       }
-      ]
-      boundingObject PipeBoundingObject {
+      Solid {
+        rotation 0 1 0 1.5708
+        boundingObject PipeBoundingObject {
           height %<= thickness >%
           radius %<= 1.55 * innerRadius / 0.6 >%
           thickness %<= 0.96 * innerRadius / 0.6 >%
@@ -70,5 +71,7 @@ PROTO Washer [
         physics Physics {
           density 8050
         }
+      }
+    ]
   }
 }
