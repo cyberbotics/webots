@@ -2,7 +2,7 @@
 # Uncomment / edit the following environment variables when the corresponding software is installed #
 #####################################################################################################
 
-# export JAVA_HOME=/C/Program\ Files/OpenJDK/jdk-17                                # Optionally defines the path to Java home.
+# export JAVA_HOME=/C/Program\ Files/OpenJDK/jdk-17.0.1                            # Optionally defines the path to Java home.
 # export PYTHON37_HOME=/C/Program\ Files/Python37                                  # Optionally defines the path to Python 3.7 home.
 # export PYTHON38_HOME=/C/Program\ Files/Python38                                  # Optionally defines the path to Python 3.8 home.
 # export PYTHON39_HOME=/C/Program\ Files/Python39                                  # Optionally defines the path to Python 3.9 home.
