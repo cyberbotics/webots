@@ -270,7 +270,8 @@ static void update_slip_ratio() {
       instance->front_slip_ratio = -1;
     else if (instance->front_slip_ratio > 1)
       instance->front_slip_ratio = 1;
-  } else if (instance->car->type == WBU_CAR_PROPULSION || instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
+  }
+  if (instance->car->type == WBU_CAR_PROPULSION || instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
     // Compute and update the rear slip differential ratio (between -1 and 1)
     double real_rear_ratio = (instance->car->speeds[2] / (instance->car->speeds[2] + instance->car->speeds[3])) * 2 - 1;
     // for better result a PD controller can be used here
@@ -281,7 +282,8 @@ static void update_slip_ratio() {
       instance->rear_slip_ratio = -1;
     else if (instance->rear_slip_ratio > 1)
       instance->rear_slip_ratio = 1;
-  } else if (instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
+  }
+  if (instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
     // Compute and update the central slip differential ratio (between -1 and 1)
     double front_speed_sum = instance->car->speeds[0] + instance->car->speeds[1];
     double rear_speed_sum = instance->car->speeds[2] + instance->car->speeds[3];
@@ -468,6 +470,26 @@ void wbu_driver_init() {
     fprintf(stderr, "Warning: Any car should have a 'engine_speaker' speaker.\n");
     exit(0);
   }
+}
+
+bool wbu_driver_initialization_is_possible() {
+  // Parse vehicle caracteristics from the beginning of the data string
+  int read_int;
+  double read_double;
+  char read_char;
+  int i;
+
+  wb_robot_init();
+  const char *sub_data_string = wb_robot_get_custom_data();
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
+             &read_double, &read_int, &read_int);
+
+  if (i < 20)
+    return false;
+
+  return true;
 }
 
 int wbu_driver_step() {

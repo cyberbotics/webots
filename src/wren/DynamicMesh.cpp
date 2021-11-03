@@ -128,30 +128,22 @@ namespace wren {
 
   void DynamicMesh::clear(bool vertices, bool normals, bool textureCoordinates, bool colors) {
     if (vertices) {
-      if (mCoords.size() > 0) {
+      if (mCoords.size() > 0)
         mCoords.clear();
-        mCoordsDirty = true;
-      }
       if (mShadowCoords.size() > 0) {
         mShadowCoords.clear();
         mSupportShadows = true;
       }
     }
 
-    if (normals && mNormals.size() > 0) {
+    if (normals && mNormals.size() > 0)
       mNormals.clear();
-      mNormalsDirty = true;
-    }
 
-    if (textureCoordinates && mTexCoords.size() > 0) {
+    if (textureCoordinates && mTexCoords.size() > 0)
       mTexCoords.clear();
-      mTexCoordsDirty = true;
-    }
 
-    if (colors && mColors.size() > 0) {
+    if (colors && mColors.size() > 0)
       mColors.clear();
-      mColorsDirty = true;
-    }
   }
 
   size_t DynamicMesh::sortingId() const { return mMeshId.id(); }
@@ -399,7 +391,7 @@ namespace wren {
   void DynamicMesh::updateGl() {
     applySkeletonTransform();
 
-    if (mIndicesDirty) {
+    if (mIndicesDirty && mIndices.size() > 0) {
       // Indices buffer is set to GL_STATIC_DRAW as we expect the mesh topology not to change
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, mIndices.size() * sizeof(unsigned int), NULL, GL_STATIC_DRAW);
       void *data = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, mIndices.size() * sizeof(unsigned int),
@@ -418,7 +410,7 @@ namespace wren {
         mSupportShadows = false;
     }
 
-    if (mCoordsDirty) {
+    if (mCoordsDirty && mCoords.size() > 0) {
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferCoords);
       glBufferData(GL_ARRAY_BUFFER, mCoords.size() * sizeof(glm::vec3), NULL, GL_STREAM_DRAW);
       void *data =

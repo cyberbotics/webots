@@ -1350,7 +1350,7 @@ but please include it in the documentation. Not everyone is very familiar with c
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:09:11
 `@R_` there is an example of PID control here: [https://www.cyberbotics.com/doc/guide/samples-devices#position\_sensor-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#position_sensor-wbt)
 
-##### Justin Fisher 09/21/2020 11:09:14
+##### Justin Fisher [Moderator] 09/21/2020 11:09:14
 > Hi! is there an example for closed loop control of a robot in the sample worlds?
 
 `@R_` Many of the sample controllers probably count as "closed loop control".  E.g., one that comes to mind is the Lego Mindstorms sample ([https://cyberbotics.com/doc/guide/mindstorms](https://cyberbotics.com/doc/guide/mindstorms)) that maintains a brightness reading on its sensors to follow a line on the ground.   Or is that not what you were hoping for?
@@ -2217,4 +2217,51 @@ thank you.  do you have a PDF version? the PDF version link on the website is br
 
 ##### Mlungost 09/30/2021 09:10:04
 thank you.
+
+##### mironix 10/16/2021 15:36:06
+hello i think i found a bug in the doc  - i think this should not be AP but API
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/898957483480084541/unknown.png)
+%end
+
+##### Olivier Michel [Cyberbotics] 10/16/2021 15:40:11
+Yes, can you please propose a fix, it should easy from the page where you found the bug, by following the link:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/898958508203069511/unknown.png)
+%end
+
+
+Click on "Contribute on GitHub!" link.
+
+##### mironix 10/16/2021 15:42:07
+oh ok - sorry there's so many constant prompts nowdays that i tend to miss those 🙂
+
+##### Olivier Michel [Cyberbotics] 10/16/2021 15:42:25
+No problem. Your contribution is welcome.
+
+##### mironix 10/16/2021 15:46:03
+[https://github.com/cyberbotics/webots/pull/3789](https://github.com/cyberbotics/webots/pull/3789)
+
+##### BeachJuic3 10/25/2021 08:56:49
+I got a question regarding the **Position Sensor**
+
+
+For a rotational Positional Sensor, it is stated to be expressed in [rad] not [rad/s]
+
+
+I normalized my values with (2*pi)
+
+but for some reason values still exceeds 1.0 after normalization
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/902119142193242122/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/902119213488017468/unknown.png)
+%end
 

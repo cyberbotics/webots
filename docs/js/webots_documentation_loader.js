@@ -14,7 +14,7 @@ async function init() {
 
     // if it's a data file, use a custom dir
     if (path.endsWith(".data"))
-      return "https://cyberbotics.com/wwi/R2021b/" + path;
+      return "https://cyberbotics.com/wwi/R2022a/" + path;
 
     // otherwise, use the default, the prefix (JS file's dir) + the path
     return prefix + path;
@@ -24,12 +24,12 @@ async function init() {
 
   let promises = [];
   promises.push(loadScript('https://git.io/glm-js.min.js'));
-  promises.push(loadScript('https://cyberbotics.com/wwi/R2021b/enum.js'));
-  promises.push(loadScript('https://cyberbotics.com/wwi/R2021b/wrenjs.js'));
+  promises.push(loadScript('https://cyberbotics.com/wwi/R2022a/enum.js'));
+  promises.push(loadScript('https://cyberbotics.com/wwi/R2022a/wrenjs.js'));
 
   await Promise.all(promises);
   script = document.createElement('script');
-  script.src = 'https://cyberbotics.com/wwi/R2021b/viewer.js';
+  script.src = 'https://cyberbotics.com/wwi/R2022a/viewer.js';
   script.type = 'module';
   document.head.appendChild(script);
 }
