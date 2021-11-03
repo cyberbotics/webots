@@ -17,7 +17,7 @@ from webots.wb import wb
 
 
 class Camera(Sensor):
-    def __init__(self, name: str, samplingPeriod: int = None):
+    def __init__(self, name: str, sampling_period: int = None):
         self._enable = wb.wb_camera_enable
         self._get_sampling_period = wb.wb_camera_get_sampling_period
-        super().__init__(name, samplingPeriod)
+        super().__init__(name, sampling_period)

@@ -23,7 +23,7 @@ from common import common_print
 
 
 class Driver (Supervisor):
-    timeStep = 128
+    time_step = 128
 
     def __init__(self):
         super().__init__()
@@ -32,13 +32,13 @@ class Driver (Supervisor):
         self.keyboard = Keyboard()
 
     def run(self):
-        self.displayHelp()
+        self.display_help()
         previous_message = ''
 
         # Main loop.
         while True:
             # Deal with the pressed keyboard key.
-            k = self.keyboard.getKey()
+            k = self.keyboard.get_key()
             message = ''
             if k == 'A':
                 message = 'avoid obstacles'
@@ -49,7 +49,7 @@ class Driver (Supervisor):
             elif k == 'T':
                 message = 'turn'
             elif k == 'I':
-                self.displayHelp()
+                self.display_help()
             elif k == 'G':
                 t = self.translation.value
                 print('ROBOT1 is located at (' + str(t[0]) + ',' + str(t[2]) + ')')
@@ -65,10 +65,10 @@ class Driver (Supervisor):
 
             # Perform a simulation step, quit the loop when
             # Webots is about to quit.
-            if self.step(self.timeStep) == -1:
+            if self.step(self.time_step) == -1:
                 break
 
-    def displayHelp(self):
+    def display_help(self):
         print(
             'Commands:\n'
             ' I for displaying the commands\n'

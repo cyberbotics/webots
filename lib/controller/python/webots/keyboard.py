@@ -36,21 +36,21 @@ class Keyboard:
     CONTROL = constant('KEYBOARD_CONTROL')
     ALT = constant('KEYBOARD_ALT')
 
-    def __init__(self, samplingPeriod: int = None):
-        self.samplingPeriod = int(wb.wb_robot_get_basic_time_step()) if samplingPeriod is None else samplingPeriod
+    def __init__(self, sampling_period: int = None):
+        self.sampling_period = int(wb.wb_robot_get_basic_time_step()) if sampling_period is None else sampling_period
 
     @property
-    def samplingPeriod(self) -> int:
+    def sampling_period(self) -> int:
         return wb.wb_keyboard_get_sampling_period()
 
-    @samplingPeriod.setter
-    def samplingPeriod(self, p: int):
+    @sampling_period.setter
+    def sampling_period(self, p: int):
         wb.wb_keyboard_enable(p)
 
-    def getKeyCode(self) -> int:
+    def get_key_code(self) -> int:
         return wb.wb_keyboard_get_key()
 
-    def getKey(self) -> str:
+    def get_key(self) -> str:
         k = wb.wb_keyboard_get_key()
         s = ''
         if k & Keyboard.SHIFT != 0:

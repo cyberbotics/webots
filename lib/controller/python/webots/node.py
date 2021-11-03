@@ -27,5 +27,5 @@ class Node:
     wb.wb_supervisor_node_get_type_name.restype = ctypes.c_char_p
 
     @property
-    def typeName(self) -> str:
+    def type_name(self) -> str:
         return wb.wb_supervisor_node_get_type_name(self._ref).decode()

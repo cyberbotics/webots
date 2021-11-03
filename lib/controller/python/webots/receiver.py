@@ -18,13 +18,13 @@ from webots.sensor import Sensor
 
 
 class Receiver(Sensor):
-    def __init__(self, name: str, samplingPeriod: int = None):
+    def __init__(self, name: str, sampling_period: int = None):
         self._enable = wb.wb_receiver_enable
         self._get_sampling_period = wb.wb_receiver_get_sampling_period
-        super().__init__(name, samplingPeriod)
+        super().__init__(name, sampling_period)
 
     @property
-    def queueLength(self) -> int:
+    def queue_length(self) -> int:
         return wb.wb_receiver_get_queue_length(self._tag)
 
     wb.wb_receiver_get_data.restype = ctypes.c_char_p
@@ -37,5 +37,5 @@ class Receiver(Sensor):
     def string(self) -> str:
         return self.data.decode()
 
-    def nextPacket(self):
+    def next_packet(self):
         wb.wb_receiver_next_packet(self._tag)

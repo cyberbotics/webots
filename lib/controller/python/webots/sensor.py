@@ -17,16 +17,16 @@ from webots.wb import wb
 
 
 class Sensor:
-    def __init__(self, name: str, samplingPeriod: int = None):
+    def __init__(self, name: str, sampling_period: int = None):
         self._tag = wb.wb_robot_get_device(str.encode(name))
-        self.samplingPeriod = int(wb.wb_robot_get_basic_time_step()) if samplingPeriod is None else samplingPeriod
+        self.sampling_period = int(wb.wb_robot_get_basic_time_step()) if sampling_period is None else sampling_period
 
     @property
-    def samplingPeriod(self) -> int:
+    def sampling_period(self) -> int:
         return self._get_sampling_period(self._tag)
 
-    @samplingPeriod.setter
-    def samplingPeriod(self, p: typing.Union[int, None]):
+    @sampling_period.setter
+    def sampling_period(self, p: typing.Union[int, None]):
         if p is None:
             p = 0
         self._enable(self._tag, p)

@@ -19,10 +19,10 @@ ds0 = DistanceSensor('ds0')
 ds1 = DistanceSensor('ds1')
 left_motor = Motor('left wheel motor')
 right_motor = Motor('right wheel motor')
-left_motor.targetPosition = float('inf')
-right_motor.targetPosition = float('inf')
-left_motor.targetVelocity = 0.0
-right_motor.targetVelocity = 0.0
+left_motor.target_position = float('inf')
+right_motor.target_position = float('inf')
+left_motor.target_velocity = 0.0
+right_motor.target_velocity = 0.0
 
 print('left motor type is ' + 'rotational' if left_motor.type == Motor.ROTATIONAL else 'linear' + '.')
 while (robot.step() != -1):
@@ -39,5 +39,5 @@ while (robot.step() != -1):
     else:
         left_speed = 6
         right_speed = 6
-    left_motor.targetVelocity = left_speed
-    right_motor.targetVelocity = right_speed
+    left_motor.target_velocity = left_speed
+    right_motor.target_velocity = right_speed

@@ -27,21 +27,21 @@ class Motor:
     wb.wb_motor_get_target_position.restype = ctypes.c_double
 
     @property
-    def targetPosition(self) -> float:
+    def target_position(self) -> float:
         return wb.wb_motor_get_target_position(self._tag)
 
-    @targetPosition.setter
-    def targetPosition(self, p: float):
+    @target_position.setter
+    def target_position(self, p: float):
         wb.wb_motor_set_position(self._tag, ctypes.c_double(p))
 
     wb.wb_motor_get_velocity.restype = ctypes.c_double
 
     @property
-    def targetVelocity(self) -> float:
+    def target_velocity(self) -> float:
         return wb.wb_motor_get_velocity(self._tag)
 
-    @targetVelocity.setter
-    def targetVelocity(self, v: float):
+    @target_velocity.setter
+    def target_velocity(self, v: float):
         wb.wb_motor_set_velocity(self._tag, ctypes.c_double(v))
 
     @property

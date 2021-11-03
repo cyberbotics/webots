@@ -29,11 +29,11 @@ class Robot:
 
     def step(self, time_step: int = None) -> int:
         if time_step is None:
-            time_step = int(self.basicTimeStep)
+            time_step = int(self.basic_time_step)
         return wb.wb_robot_step(time_step)
 
     wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
 
     @property
-    def basicTimeStep(self) -> float:
+    def basic_time_step(self) -> float:
         return wb.wb_robot_get_basic_time_step()

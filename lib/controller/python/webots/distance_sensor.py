@@ -18,10 +18,10 @@ from webots.sensor import Sensor
 
 
 class DistanceSensor(Sensor):
-    def __init__(self, name: str, samplingPeriod: int = None):
+    def __init__(self, name: str, sampling_period: int = None):
         self._enable = wb.wb_distance_sensor_enable
         self._get_sampling_period = wb.wb_distance_sensor_get_sampling_period
-        super().__init__(name, samplingPeriod)
+        super().__init__(name, sampling_period)
 
     wb.wb_distance_sensor_get_value.restype = ctypes.c_double
 

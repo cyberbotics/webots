@@ -20,5 +20,5 @@ class Supervisor(Robot):
     def __init__(self):
         super().__init__()
 
-    def simulationQuit(status: int) -> None:
+    def simulation_quit(status: int) -> None:
         wb.wb_supervisor_simulation_quit(status)

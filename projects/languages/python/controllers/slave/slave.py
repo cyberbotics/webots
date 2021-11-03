@@ -30,59 +30,59 @@ class Enumerate(object):
 
 class Slave (Robot):
 
-    Mode = Enumerate('STOP MOVE_FORWARD AVOIDOBSTACLES TURN')
-    maxSpeed = 10.0
-    mode = Mode.AVOIDOBSTACLES
+    Mode = Enumerate('STOP MOVE_FORWARD AVOID_OBSTACLES TURN')
+    max_speed = 10.0
+    mode = Mode.AVOID_OBSTACLES
     motors = []
-    distanceSensors = []
+    distance_sensors = []
 
-    def boundSpeed(self, speed):
-        return max(-self.maxSpeed, min(self.maxSpeed, speed))
+    def bound_speed(self, speed):
+        return max(-self.max_speed, min(self.max_speed, speed))
 
     def __init__(self):
         super().__init__()
-        self.mode = self.Mode.AVOIDOBSTACLES
-        self.camera = Camera('camera', samplingPeriod=4 * int(self.basicTimeStep))
+        self.mode = self.Mode.AVOID_OBSTACLES
+        self.camera = Camera('camera', sampling_period=4 * int(self.basic_time_step))
         self.receiver = Receiver('receiver')
         self.motors.append(Motor('left wheel motor'))
         self.motors.append(Motor('right wheel motor'))
-        self.motors[0].targetPosition = float('inf')
-        self.motors[1].targetPosition = float("inf")
-        self.motors[0].targetVelocity = 0.0
-        self.motors[1].targetVelocity = 0.0
-        for dsnumber in range(0, 2):
-            self.distanceSensors.append(DistanceSensor('ds' + str(dsnumber)))
+        self.motors[0].target_position = float('inf')
+        self.motors[1].target_position = float("inf")
+        self.motors[0].target_velocity = 0.0
+        self.motors[1].target_velocity = 0.0
+        for number in range(0, 2):
+            self.distance_sensors.append(DistanceSensor('ds' + str(number)))
 
     def run(self):
         while True:
             # Read the supervisor order.
-            if self.receiver.queueLength > 0:
+            if self.receiver.queue_length > 0:
                 message = self.receiver.string
-                self.receiver.nextPacket()
+                self.receiver.next_packet()
                 print('I should ' + AnsiCodes.RED_FOREGROUND + message + AnsiCodes.RESET + '!')
                 if message == 'avoid obstacles':
-                    self.mode = self.Mode.AVOIDOBSTACLES
+                    self.mode = self.Mode.AVOID_OBSTACLES
                 elif message == 'move forward':
                     self.mode = self.Mode.MOVE_FORWARD
                 elif message == 'stop':
                     self.mode = self.Mode.STOP
                 elif message == 'turn':
                     self.mode = self.Mode.TURN
-            delta = self.distanceSensors[0].value - self.distanceSensors[1].value
+            delta = self.distance_sensors[0].value - self.distance_sensors[1].value
             speeds = [0.0, 0.0]
 
             # Send actuators commands according to the mode.
-            if self.mode == self.Mode.AVOIDOBSTACLES:
-                speeds[0] = self.boundSpeed(self.maxSpeed / 2 + 0.1 * delta)
-                speeds[1] = self.boundSpeed(self.maxSpeed / 2 - 0.1 * delta)
+            if self.mode == self.Mode.AVOID_OBSTACLES:
+                speeds[0] = self.bound_speed(self.max_speed / 2 + 0.1 * delta)
+                speeds[1] = self.bound_speed(self.max_speed / 2 - 0.1 * delta)
             elif self.mode == self.Mode.MOVE_FORWARD:
-                speeds[0] = self.maxSpeed
-                speeds[1] = self.maxSpeed
+                speeds[0] = self.max_speed
+                speeds[1] = self.max_speed
             elif self.mode == self.Mode.TURN:
-                speeds[0] = self.maxSpeed / 2
-                speeds[1] = -self.maxSpeed / 2
-            self.motors[0].targetVelocity = speeds[0]
-            self.motors[1].targetVelocity = speeds[1]
+                speeds[0] = self.max_speed / 2
+                speeds[1] = -self.max_speed / 2
+            self.motors[0].target_velocity = speeds[0]
+            self.motors[1].target_velocity = speeds[1]
 
             # Perform a simulation step, quit the loop when
             # Webots is about to quit.
