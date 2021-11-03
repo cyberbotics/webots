@@ -6,7 +6,7 @@
 # It was developed by Neuronics.
 
 PROTO IprHd6m180 [
-  field SFVec3f    translation      0 0.61 0 # Is `Transform.translation`.
+  field SFVec3f    translation      0 0 0.61 # Is `Transform.translation`.
   field SFRotation rotation         0 0 1 0  # Is `Transform.rotation`.
   field SFString   name             "IPR"    # Is `Solid.name`.
   field SFString   controller       "void"   # Is `Robot.controller`.
@@ -121,20 +121,7 @@ PROTO IprHd6m180 [
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
-                  0.0 0.038 0.0
-                  0.019 0.033 0.0
-                  0.033 0.019 0.0
-                  0.038 0.0 0.0
-                  0.033 -0.019 0.0
-                  0.019 -0.033 0.0
-                  0.0 -0.038 0.0
-                  0.0 -0.038 0.013
-                  0.019 -0.033 0.013
-                  0.033 -0.019 0.013
-                  0.038 0.0 0.013
-                  0.033 0.019 0.013
-                  0.019 0.033 0.013
-                  0.0 0.038 0.013
+                  0 0.038 0 0.019 0.033 0 0.033 0.019 0 0.038 0 0 0.033 -0.019 0 0.019 -0.033 0 0 -0.038 0 0 -0.038 0.013 0.019 -0.033 0.013 0.033 -0.019 0.013 0.038 0 0.013 0.033 0.019 0.013 0.019 0.033 0.013 0 0.038 0.013
                 ]
               }
               texCoord TextureCoordinate {
