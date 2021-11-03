@@ -99,7 +99,7 @@ Can {
 }
 Door {
   translation -4 -10.04 3.27
-  rotation 0 0 -1 -1.5707953071795862
+  rotation 0 0 1 1.5707953071795862
   name "door(1)"
   doorAppearance GlossyPaint {
     baseColor 0.16 0.16 0.16
@@ -110,12 +110,12 @@ Door {
 }
 OilBarrel {
   translation 2.8961435 -9.337425 0.44
-  rotation 0 0 -1 -1.302455307179586
+  rotation 0 0 1 1.302455307179586
   name "oil barrel(1)"
 }
 OilBarrel {
   translation 2.1373536 -8.4218847 0.44
-  rotation 0 0 -1 -1.302455307179586
+  rotation 0 0 1 1.302455307179586
   name "oil barrel(2)"
 }
 OilBarrel {

@@ -396,14 +396,14 @@ PROTO IprHd6m180 [
                 }
                 Transform {
                   translation 0.062 0 0
-                  rotation 0 -1 0 -1.57
+                  rotation 0 1 0 1.57
                   children [
                     USE PROTECTION_PAD
                   ]
                 }
                 Transform {
                   translation -0.03 0 -0.0295
-                  rotation 0 -1 0 -1.57
+                  rotation 0 1 0 1.57
                   children [
                     Shape {
                       appearance USE BLACK
@@ -594,7 +594,7 @@ PROTO IprHd6m180 [
                             }
                             Transform {
                               translation -0.037 0 0
-                              rotation 0 -1 0 -1.57
+                              rotation 0 1 0 1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -685,7 +685,7 @@ PROTO IprHd6m180 [
                             }
                             Transform {
                               translation 0.027 0 0
-                              rotation 0 -1 0 -1.57
+                              rotation 0 1 0 1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -695,7 +695,7 @@ PROTO IprHd6m180 [
                             }
                             Transform {
                               translation -0.028 0 0
-                              rotation 0 -1 0 -1.57
+                              rotation 0 1 0 1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -1469,7 +1469,7 @@ PROTO IprHd6m180 [
                                           }
                                           DistanceSensor {
                                             translation 0.015 0 0.0837
-                                            rotation 0.9999998415 -0.0003981634 -0.0003981634 1.5707964853
+                                            rotation 1 0 0 1.57
                                             name "ds2"
                                             lookupTable [
                                               0 249 0
@@ -1481,7 +1481,7 @@ PROTO IprHd6m180 [
                                           }
                                           DistanceSensor {
                                             translation 0 0 0.0988
-                                            rotation 0.0003981634 -0.9999998415 -0.0003981634 1.5707964853
+                                            rotation 0 -1 0 1.57
                                             name "ds3"
                                             lookupTable [
                                               0 249 0
@@ -1493,7 +1493,7 @@ PROTO IprHd6m180 [
                                           }
                                           TouchSensor {
                                             translation 0.0057 0 0.0325
-                                            rotation 0 -1 0 -0.192
+                                            rotation 0 1 0 0.192
                                             name "ts0"
                                             contactMaterial "gripper"
                                             boundingObject Transform {
