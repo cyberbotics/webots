@@ -177,8 +177,8 @@ class Building(WebotsObject):
             if WebotsObject.enable3D:
                 height = float('inf')
                 for ref in building.ref:
-                    if ref in OSMCoord.coordDictionnary and OSMCoord.coordDictionnary[ref].y < height:
-                        height = OSMCoord.coordDictionnary[ref].y
+                    if ref in OSMCoord.coordDictionnary and OSMCoord.coordDictionnary[ref].z < height:
+                        height = OSMCoord.coordDictionnary[ref].z
                 if height == float('inf'):
                     height = 0
                 height = height + building.layer * WebotsObject.layerHeight

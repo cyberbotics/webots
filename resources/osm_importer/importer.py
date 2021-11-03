@@ -41,7 +41,7 @@ from webots_objects.tree import Tree
 def add_height_to_coordinates(elevation):
     """Compute the Y of each coordinate."""
     for osmid in OSMCoord.coordDictionnary:
-        OSMCoord.coordDictionnary[osmid].y = elevation.interpolate_height(OSMCoord.coordDictionnary[osmid].x,
+        OSMCoord.coordDictionnary[osmid].z = elevation.interpolate_height(OSMCoord.coordDictionnary[osmid].x,
                                                                           OSMCoord.coordDictionnary[osmid].y)
 
 

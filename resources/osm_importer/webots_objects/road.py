@@ -371,8 +371,8 @@ class Road(WebotsObject):
                 for coord in reversed(coords):
                     height = 0
                     if WebotsObject.enable3D:
-                        osmCoord = cls._convert_webots_to_osm_coord([coord.x, coord.y])
-                        height += WebotsObject.elevation.interpolate_height(osmCoord[0], osmCoord[1])
+                        osmCoord = cls._convert_webots_to_osm_coord([-coord.x, coord.y])
+                        height -= WebotsObject.elevation.interpolate_height(osmCoord[0], osmCoord[1])
                     f.write('    %f %f %f\n' % (translation.y - coord.y, -coord.x + translation.x, height))
             f.write('  ]\n')
             f.write('  connectedRoadIDs [\n')
@@ -419,13 +419,13 @@ class Road(WebotsObject):
                     road.startingAngle -= 2 * math.pi
                 elif road.startingAngle < -math.pi:
                     road.startingAngle += 2 * math.pi
-                f.write('  startingAngle %f\n' % (-road.startingAngle - (0.5 *math.pi)))
+                f.write('  startingAngle %f\n' % (-road.startingAngle - (0.5 * math.pi)))
             if road.endingAngle:
                 if road.endingAngle > math.pi:
                     road.endingAngle -= 2 * math.pi
                 elif road.endingAngle < -math.pi:
                     road.endingAngle += 2 * math.pi
-                f.write('  endingAngle %f\n' % (-road.endingAngle - (0.5 *math.pi)))
+                f.write('  endingAngle %f\n' % (-road.endingAngle - (0.5 * math.pi)))
             f.write('  lines [\n')
             for i in range(road.lanes - 1):
                 f.write('    RoadLine {\n')
@@ -455,7 +455,7 @@ class Road(WebotsObject):
             for coord in coords:
                 height = 0
                 if WebotsObject.enable3D:
-                    osmCoord = cls._convert_webots_to_osm_coord(coord)
+                    osmCoord = cls._convert_webots_to_osm_coord([-coord[0], coord[1]])
                     height += WebotsObject.elevation.interpolate_height(osmCoord[0], osmCoord[1])
                 f.write('    %f %f %f\n' % (coord[0] - coords[0][0], coord[1] - coords[0][1], height))
                 Road.allRoadWayPoints.append([coord[0], coord[1]])
@@ -474,7 +474,8 @@ class Road(WebotsObject):
                         else:
                             otherRef = road.refs[i + 1]
                         alpha = math.atan((OSMCoord.coordDictionnary[otherRef].y - OSMCoord.coordDictionnary[ref].y) /
-                                          (OSMCoord.coordDictionnary[otherRef].x - OSMCoord.coordDictionnary[ref].x)) + 0.5 *  math.pi
+                                          (OSMCoord.coordDictionnary[otherRef].x - OSMCoord.coordDictionnary[ref].x))
+                        alpha += 0.5 * math.pi
                         width = road.width
                         for crossroad in cls.crossroads.values():
                             # If the pedestrian crossing is on crossroad, it is moved.
