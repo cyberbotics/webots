@@ -79,16 +79,16 @@
     "nodeString": "    Window{ rotation 0.0 0.0 1.0 1.09 }"
   },
   "projects/objects/balls/protos/Ball": {
-    "fields": "    rotation 0.0 0.0 1.0 0.3",
-    "nodeString": "    Ball{ rotation 0.0 0.0 1.0 0.3 }"
+    "fields": "   translation 0 0 0.0325 rotation 0.0 0.0 1.0 0.3",
+    "nodeString": "     Ball{ translation 0 0 0.0325 rotation 0.0 0.0 1.0 0.3 }"
   },
   "projects/objects/balls/protos/PingPongBall": {
     "fields": "    translation 0 0 0.02 rotation 0.0 0.0 1.0 0.038205307179586236",
     "nodeString": "    PingPongBall{ translation 0 0 0.02 rotation 0.0 0.0 1.0 0.038205307179586236 }"
   },
   "projects/objects/balls/protos/SoccerBall": {
-    "fields": "    rotation 0.0 0.0 1.0 0.3",
-    "nodeString": "    SoccerBall{ rotation 0.0 0.0 1.0 0.3 }"
+    "fields": "   translation 0 0 0.113 rotation 0.0 0.0 1.0 0.3",
+    "nodeString": "     SoccerBall{ translation 0 0 0.113 rotation 0.0 0.0 1.0 0.3 }"
   },
   "projects/objects/bathroom/protos/BathroomSink.png": {
     "fields": "    translation 0 0 0.05 rotation -8.189669972535657e-05 -1.245809995822133e-08 0.9999999966464652 -1.0471853071795865",
@@ -644,8 +644,8 @@
     "nodeString": "  Transform { translation 0 0 0.07 rotation 0.0 0.0 -1.0 0.52 scale 1.3 1.3 1.3 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedBox { } } ] }"
   },
   "projects/objects/geometries/protos/TexturedParallelepiped": {
-    "fields": "  rotation 0.0 0.0 -1.0 1.83298",
-    "nodeString": "  Transform { translation 0 0 0.03 rotation 0.0 0.0 -1.0 1.83298  children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedParallelepiped { } } ] }"
+    "fields": "   rotation 0.0 0.364549 0.931184 -0.561795",
+    "nodeString": "   Transform { translation 0 0 0.06 rotation 0.0 0.364549 0.931184 -0.561795  children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedParallelepiped { } } ] }"
   },
   "projects/objects/kitchen/breakfast/protos/BiscuitBox": {
     "background": [
@@ -898,8 +898,8 @@
     "nodeString": "  HelicoidalRoadSegment{ rotation 0.0 0.0 1.0 0.3 }"
   },
   "projects/objects/road/protos/LaneSeparation": {
-    "fields": "  translation 0 0 0.01 rotation 0.0 0.0 1.0 1.5708 length 19",
-    "nodeString": "  LaneSeparation{ translation 0 0 0.01 rotation 0.0 0.0 1.0 1.5708 length 19 }"
+    "fields": "   translation 0 0 0.01 rotation 0.0 0.0 1.0 1.5708 length 19",
+    "nodeString": "   LaneSeparation{ translation 0 0 0.01 rotation 0.0 0.0 1.0 1.5708 length 19 }"
   },
   "projects/objects/road/protos/Road": {
     "fields": "  translation 0 0 0.01 rotation 0.475148914734884 0.0 0.8799053976571926 -1.4398996938995747 wayPoints [ 0 0 0, 0 0 6, 3 0 10, -2 0 20 ] splineSubdivision 16",
@@ -910,8 +910,8 @@
     "nodeString": "  RoadIntersection{ translation 0 0 0.01 }"
   },
   "projects/objects/road/protos/RoadLine": {
-    "fields": "  rotation 0.0 0.0 1.0 1.57",
-    "nodeString": "   Road { translation 0 0.5 0.01 rotation 0.0 0.0 1.0 1.57 width 16 numberOfLanes 4 wayPoints [ 0 0 0 10 0 20 -10 0 50 ] lines [ RoadLine { type \"dashed\" } RoadLine { type \"continuous\" } RoadLine { type \"double\" color 1 1 0 } ] splineSubdivision 6 } "
+    "fields": "  translation 0 0.5 0.03 rotation 0.0 0.0 1.0 1.57",
+    "nodeString": "    Road { translation 0 0.5 0.03 rotation 0.0 0.0 1.0 1.57 width 16 numberOfLanes 4 wayPoints [ 0 0 0 -20.0 -10.0 0 -50.0 10.0 0 ] lines [ RoadLine { type \"dashed\" } RoadLine { type \"continuous\" } RoadLine { type \"double\" color 1 1 0 } ] splineSubdivision 6 } "
   },
   "projects/objects/road/protos/RoadPillars": {
     "fields": "  rotation 0.0 0.0 1.0 -0.261795307179586",
@@ -1481,10 +1481,6 @@
     "fields": "  rotation 0.0 0.0 1.0 0.3",
     "nodeString": "  Tree{ rotation 0.0 0.0 1.0 0.3 }"
   },
-  "projects/robots/boston_dynamics/spot/protos/Spot.proto": {
-    "fields": "  translation 0.0370218 0.573555 -1.028 rotation -1.3505393835251057e-16 1.2211986311439658e-16 -1.0 1.96308 controller \"void\"",
-    "nodeString": "  Spot{ translation 0.0370218 0.573555 -1.028 rotation -1.3505393835251057e-16 1.2211986311439658e-16 -1.0 1.96308 controller \"void\" }"
-  },
   "projects/robots/clearpath/moose/protos/Moose.proto": {
     "background": [
       1.0,
@@ -1515,8 +1511,8 @@
     "nodeString": "  Robotino3Webcam{ translation 0 0 -0.208 rotation -5.94733999978894e-06 5.966989999788244e-06 0.999999999964512 1.0471953071795863 }"
   },
   "projects/robots/festo/robotino3/protos/Robotino3WebcamMountingSupport.proto": {
-    "fields": "  translation 0 0 -0.211 rotation 0.6785976608971787 -0.2810890310957679 -0.6785972083810249 -2.59356",
-    "nodeString": "  Robotino3WebcamMountingSupport{ translation 0 0 -0.211 rotation 0.6785976608971787 -0.2810890310957679 -0.6785972083810249 -2.59356 }"
+    "fields": "   translation 0 0 0.211 rotation 0.6785976608971788 -0.28108903109576794 -0.678597208381025 -2.59356",
+    "nodeString": "   Robotino3WebcamMountingSupport{ translation 0 0 0.211 rotation 0.6785976608971788 -0.28108903109576794 -0.678597208381025 -2.59356 }"
   },
   "projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto": {
     "fields": "  rotation -0.00028742398572549524 -0.0001292849935792441 0.9999999503364203 2.35596",
@@ -1627,8 +1623,8 @@
       1.0
     ],
     "colorThreshold": 0.001,
-    "fields": " rotation -7.7237899997485e-06 -0.9999999999674383 -2.3380699999238684e-06 0.261803",
-    "nodeString": " Robot { rotation -7.7237899997485e-06 -0.9999999999674383 -2.3380699999238684e-06 0.261803 children [ Slot { endPoint TinkerbotsPivot { } } ] }"
+    "fields": " rotation 0 0 -1 0.261803",
+    "nodeString": " Robot { rotation 0 0 -1 0.261803 children [ Slot { endPoint TinkerbotsPivot { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister": {
     "background": [
@@ -1651,12 +1647,11 @@
     "nodeString": "  Robot { translation 0 0 0.027 rotation -0.13052795126003722 -0.9914446297883028 -1.947439272813855e-06 3.14159 children [ Slot { endPoint TinkerbotsWheel { } } ] }"
   },
   "projects/robots/pal_robotics/tiago++/protos/Tiago++.proto": {
-    "fields": "  rotation 0.11178796221525046 -0.1471636664273077 0.9827747996298206 1.6477654786391709",
-    "nodeString": "  Tiago++{ rotation 0.11178796221525046 -0.1471636664273077 0.9827747996298206 1.6477654786391709 }"
+    "fields": "  rotation -0.230732 -0.109357 0.966852 -1.27752",
+    "nodeString": "  Tiago++{ rotation -0.230732 -0.109357 0.966852 -1.27752 }"
   },
   "projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto": {
-    "fields": "  rotation -0.04339021564602396 -0.1791348245106523 0.9828672361177421 1.6039571495576197",
-    "nodeString": "  TiagoBase{ rotation -0.04339021564602396 -0.1791348245106523 0.9828672361177421 1.6039571495576197 }"
+    "nodeString": "  TiagoBase{ rotation 0 0 -1 1.57 }"
   },
   "projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto": {
     "fields": "  rotation 0.001775990237163933 -0.01802608248670652 -0.9998359396465302 1.5711223019163478",
@@ -1675,11 +1670,13 @@
     "nodeString": "  TurtleBot3Burger{ rotation -9.589789993248847e-09 -2.315170000239143e-08 -0.9999999999999997 0.7853953071795863 }"
   },
   "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinter.proto": {
-    "fields": "  rotation 0.7745939356506115 0.4472169628474523 0.4472149628476184 1.8234853071795867",
-    "nodeString": "  MercedesBenzSprinter{ rotation 0.7745939356506115 0.4472169628474523 0.4472149628476184 1.8234853071795867 }"
+    "nodeString": "  MercedesBenzSprinter{ rotation 0 0 1 3.14159 }"
   },
   "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterSimple.proto": {
-    "fields": "  rotation -0.7745939356506115 -0.4472169628474524 -0.4472149628476185 -1.8234853071795865",
-    "nodeString": "  MercedesBenzSprinterSimple{ rotation -0.7745939356506115 -0.4472169628474524 -0.4472149628476185 -1.8234853071795865 }"
+    "nodeString": "  MercedesBenzSprinterSimple{ rotation 0 0 1 3.14159 }"
+  },
+  "projects/robots/boston_dynamics/spot/protos/Spot.proto": {
+    "fields": "  translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308 controller \"void\"",
+    "nodeString": "  Spot{ translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308 controller \"void\" }"
   }
 }
