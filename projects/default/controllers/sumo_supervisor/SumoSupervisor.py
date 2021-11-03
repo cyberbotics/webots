@@ -193,7 +193,7 @@ class SumoSupervisor (Supervisor):
         angle = math.pi * sumoAngle / 180
         dx = -math.cos(angle)
         dz = -math.sin(angle)
-        yaw = math.atan2(-dx, dz)
+        yaw = - math.atan2(dz, -dx)
         # correct position (origin of the car is not the same in Webots / sumo)
         vehicleLength = subscriptionResult[self.traci.constants.VAR_LENGTH]
         pos[0] -= 0.5 * vehicleLength * math.cos(angle)
@@ -258,7 +258,7 @@ class SumoSupervisor (Supervisor):
                 # TODO: once the lane change model of SUMO has been improved
                 #       (sub-lane model currently in development phase) we will be able to remove this corrections
 
-                # compute lateral (x) and longitudinal (z) displacement
+                # compute lateral (y) and longitudinal (x) displacement
                 diffX = pos[0] - vehicle.targetPos[0]
                 diffY = pos[1] - vehicle.targetPos[1]
                 x1 = math.cos(-angle) * diffX - math.sin(-angle) * diffY
@@ -292,7 +292,7 @@ class SumoSupervisor (Supervisor):
                 pos = [x3 + vehicle.targetPos[0], y3 + vehicle.targetPos[1], pos[2]]
                 if (id == 'down_12'):
                     print(pos)
-                diffYaw = yaw - vehicle.targetAngles[1] - artificialAngle
+                diffYaw = yaw - vehicle.targetAngles[2] - artificialAngle
                 # limit angular speed
                 while diffYaw > math.pi:
                     diffYaw -= 2 * math.pi
@@ -300,7 +300,7 @@ class SumoSupervisor (Supervisor):
                     diffYaw += 2 * math.pi
                 threshold = 0.001 * step * maximumAngularSpeed
                 diffYaw = min(max(diffYaw, -threshold), threshold)
-                yaw = diffYaw + vehicle.targetAngles[1]
+                yaw = diffYaw + vehicle.targetAngles[2]
                 # tilt motorcycle depending on the angluar speed
                 if vehicle.type in Vehicle.get_motorcycle_models_list():
                     threshold = 0.001 * step * maximumLateralSpeed
@@ -311,7 +311,7 @@ class SumoSupervisor (Supervisor):
                 vehicle.inUse = True
                 vehicle.currentPos = pos
                 vehicle.currentRot = rot
-                vehicle.currentAngles = [roll, yaw, pitch]
+                vehicle.currentAngles = [roll, pitch, yaw]
             else:
                 vehicle.currentPos = vehicle.targetPos
                 vehicle.currentRot = vehicle.targetRot
@@ -319,7 +319,7 @@ class SumoSupervisor (Supervisor):
             # update target and wheels speed
             vehicle.targetPos = pos
             vehicle.targetRot = rot
-            vehicle.targetAngles = [roll, yaw, pitch]
+            vehicle.targetAngles = [roll, pitch, yaw]
             if self.traci.constants.VAR_SPEED in subscriptionResult:
                 vehicle.speed = subscriptionResult[self.traci.constants.VAR_SPEED]
             vehicle.currentRoad = subscriptionResult[self.traci.constants.VAR_ROAD_ID]
