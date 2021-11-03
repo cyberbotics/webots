@@ -56,7 +56,7 @@ class OSMCoord(OSMAbstractObject):
         OSMCoord.coordDictionnary[osmid] = coord
 
     @staticmethod
-    def addFromXY(osmid, x, z, y):
+    def addFromXY(osmid, x, y, z):
         """Add a new coordinate to the list from X Y."""
         coord = OSMCoord()
         coord.OSMID = osmid

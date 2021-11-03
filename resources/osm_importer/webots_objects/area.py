@@ -165,8 +165,8 @@ class Area(WebotsObject):
                 print("Warning: node " + str(ref) + " not referenced.")
         file.write("          ]\n")
         file.write("        }\n")
-        if Area.are_references_clockwise(refs) is False:
-            file.write("        ccw TRUE\n")
+        if Area.are_references_clockwise(refs) is True:
+            file.write("        ccw FALSE\n")
         file.write("        coordIndex [\n")
         for i in range(0, len(refs)):
             file.write("          " + str(i) + "\n")
