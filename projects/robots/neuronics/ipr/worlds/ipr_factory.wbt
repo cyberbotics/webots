@@ -262,7 +262,7 @@ DEF OBJ_6 Solid {
   physics USE PHYSICS_OBJECT
 }
 DEF OBJ_7 Solid {
-  translation -0.3 7 0.77
+  translation -0.3 7.12 0.77
   children [
     USE OBJECT
   ]

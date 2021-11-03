@@ -105,6 +105,7 @@ PROTO IprHd6m90 [
       DEF LOGO Transform {
         translation 0 -0.002 0.083
         rotation 0 0 1 -1.57
+        scale 1 1.04 1
         children [
           Shape {
             appearance PBRAppearance {
@@ -995,7 +996,6 @@ PROTO IprHd6m90 [
                                             contactMaterial "gripper"
                                             boundingObject Transform {
                                               translation 0.013 0.01 0
-                                              rotation 0.5773502692 -0.5773502692 -0.5773502692 2.0943951024
                                               children [
                                                 DEF BOUNDING_FINGER_BASE Shape {
                                                   geometry Box {
