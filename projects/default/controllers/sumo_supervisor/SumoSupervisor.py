@@ -193,11 +193,11 @@ class SumoSupervisor (Supervisor):
         angle = math.pi * sumoAngle / 180
         dx = -math.cos(angle)
         dz = -math.sin(angle)
-        yaw = - math.atan2(dz, -dx)
+        yaw = -math.atan2(dx, -dz)
         # correct position (origin of the car is not the same in Webots / sumo)
         vehicleLength = subscriptionResult[self.traci.constants.VAR_LENGTH]
-        pos[0] -= 0.5 * vehicleLength * math.cos(angle)
-        pos[1] += 0.5 * vehicleLength * math.sin(angle)
+        pos[0] += 0.5 * vehicleLength * math.sin(angle)
+        pos[1] -= 0.5 * vehicleLength * math.cos(angle)
         # if needed check the vehicle is in the visibility radius
         if self.radius > 0:
             viewpointPosition = self.viewpointPosition.getSFVec3f()
@@ -290,8 +290,6 @@ class SumoSupervisor (Supervisor):
                 x3 = math.cos(angle) * x2 - math.sin(angle) * y1
                 y3 = math.sin(angle) * x2 + math.cos(angle) * y1
                 pos = [x3 + vehicle.targetPos[0], y3 + vehicle.targetPos[1], pos[2]]
-                if (id == 'down_12'):
-                    print(pos)
                 diffYaw = yaw - vehicle.targetAngles[2] - artificialAngle
                 # limit angular speed
                 while diffYaw > math.pi:

@@ -37,7 +37,7 @@ class Crossroad(object):
             self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' %
                                                           (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
         except:
-            self.rotation = [0.0, 1.0, 0.0, 0.0]
+            self.rotation = [0.0, 0.0, 1.0, 0.0]
         try:
             self.connectedRoadIDs = [x.replace('"', '') for x in re.findall(r'connectedRoadIDs\s*\[([^\]]*)\]',
                                                                             wbtString)[0].split()]
@@ -69,17 +69,17 @@ class Crossroad(object):
                 y1 = outerRadius * math.sin(2 * math.pi * i / roadNumber)
                 x2 = math.cos(angle) * x1 - math.sin(angle) * y1
                 y2 = math.cos(angle) * y1 + math.sin(angle) * x1
-                self.shape.append([x2, 0, y2])
+                self.shape.append([x2, y2, 0])
 
     def create_node(self, nodes):
         """Populate the SUMO XML node."""
         node = ET.SubElement(nodes, 'node')
         node.attrib['id'] = self.id
         node.attrib['x'] = str(- self.translation[0])
-        node.attrib['y'] = str(self.translation[2])
+        node.attrib['y'] = str(self.translation[1])
         if self.shape:
             shape = ""
             for wayPoint in self.shape:
-                shape += "%f,%f " % (- wayPoint[0] - self.translation[0], wayPoint[2] + self.translation[2])
-            shape += "%f,%f" % (- self.shape[0][0] - self.translation[0], self.shape[0][2] + self.translation[2])
+                shape += "%f,%f " % (- wayPoint[0] - self.translation[0], wayPoint[1] + self.translation[1])
+            shape += "%f,%f" % (- self.shape[0][0] - self.translation[0], self.shape[0][1] + self.translation[1])
             node.attrib['shape'] = shape
