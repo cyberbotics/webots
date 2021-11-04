@@ -16,7 +16,7 @@ TestSuiteSupervisor {
 Billboard {
   children [
     Transform {
-      translation 0 0 -2
+      translation 2 0 0
       children [
         Group {
           children [
