@@ -27,7 +27,7 @@ hiddenPosition = 10000
 
 def rotation_from_yaw_pitch_roll(yaw, pitch, roll):
     """Compute the rotation from the roll pitch yaw angles."""
-    rotation = [0, 0, 1, 0] 
+    rotation = [0, 0, 1, 0]
     # construct rotation matrix
     # a b c
     # d e f

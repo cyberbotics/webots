@@ -49,7 +49,7 @@ def convert_forest(filename):
 if __name__ == '__main__':
 
     # example: 'projects/vehicles/worlds/forest/village/-1986.forest'
-    filename_list = []  
+    filename_list = []
 
     # example: 'projects/vehicles/worlds/forest/village_winter/', change it by your forest folder
     foldername = ''
