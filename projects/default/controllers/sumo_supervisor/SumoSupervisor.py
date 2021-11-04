@@ -189,11 +189,11 @@ class SumoSupervisor (Supervisor):
         pitch = 0.0
         sumoPos = subscriptionResult[self.traci.constants.VAR_POSITION]
         sumoAngle = subscriptionResult[self.traci.constants.VAR_ANGLE]
-        pos = [-sumoPos[0] + xOffset, sumoPos[1] - yOffset, height]
+        pos = [-sumoPos[0] + xOffset, -sumoPos[1] + yOffset, height]
         angle = math.pi * sumoAngle / 180
         dx = -math.cos(angle)
         dz = -math.sin(angle)
-        yaw = -math.atan2(dx, -dz)
+        yaw = -math.atan2(-dx, dz)
         # correct position (origin of the car is not the same in Webots / sumo)
         vehicleLength = subscriptionResult[self.traci.constants.VAR_LENGTH]
         pos[0] += 0.5 * vehicleLength * math.sin(angle)

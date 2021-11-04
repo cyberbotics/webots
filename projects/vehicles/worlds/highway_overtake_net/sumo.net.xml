@@ -35,10 +35,10 @@
     <location netOffset="0.00,8.75" convBoundary="0.00,0.00,5000.01,25.46" origBoundary="0.00,-8.75,5000.01,16.71" projParameter="!"/>
 
     <edge id="-0" from="Custom1" to="Custom0" priority="-1" spreadType="center">
-        <lane id="-0_0" index="0" allow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="4999.98,31.44 -0.01,23.47"/>
-        <lane id="-0_1" index="1" disallow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="4999.99,27.59 -0.00,19.62"/>
-        <lane id="-0_2" index="2" disallow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="5000.00,23.74 0.00,15.78"/>
-        <lane id="-0_3" index="3" disallow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="5000.00,19.89 0.01,11.93"/>
+        <lane id="-0_0" index="0" allow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="4999.98,23.47 -0.01,23.47"/>
+        <lane id="-0_1" index="1" disallow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="4999.99,19.62 -0.00,19.62"/>
+        <lane id="-0_2" index="2" disallow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="5000.00,15.78 0.00,15.78"/>
+        <lane id="-0_3" index="3" disallow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="5000.00,11.93 0.01,11.93"/>
     </edge>
     <edge id="-1" from="Custom3" to="Custom2" priority="-1" spreadType="center">
         <lane id="-1_0" index="0" allow="pedestrian" speed="13.90" length="5000.00" width="3.75" shape="0.00,-5.98 5000.00,-5.98"/>
