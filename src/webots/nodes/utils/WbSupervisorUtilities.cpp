@@ -1528,7 +1528,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       // as findNode might return the internal one, it's necessary to climb the ladder up to the protoParameterNode otherwise
       // the scene tree will not be refreshed when deleting it
-      while (node && node->protoParameterNode() != NULL)
+      while (node && node->protoParameterNode())
         node = node->protoParameterNode();
 
       if (!WbNodeUtilities::isVisible(node)) {
