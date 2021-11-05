@@ -72,11 +72,11 @@ class Road(object):
             self.wayPoints = [[0, 0, 0], [0, length, 0]]
         elif self.roadType == 'CurvedRoadSegment':
             self.wayPoints = []
-            subdivision = 8
+            subdivision = 16
             try:
                 subdivision = int(re.findall(r'subdivision\s*(%s)' % intRE, wbtString)[0])
             except:
-                subdivision = 8
+                subdivision = 16
             curvatureRadius = 10.0
             try:
                 curvatureRadius = float(re.findall(r'curvatureRadius\s*(%s)' % floatRE, wbtString)[0])

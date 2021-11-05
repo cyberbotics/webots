@@ -61,8 +61,8 @@ class Crossroad(object):
             except:
                 roadsWidth = 7.0
             outerRadius = roadsWidth / (2 * math.sin(math.pi / roadNumber))
-            angle = self.rotation[3]
-            if self.rotation[1] > 0:
+            angle = -self.rotation[3]
+            if self.rotation[2] > 0:
                 angle = -angle
             for i in range(roadNumber):
                 x1 = outerRadius * math.cos(2 * math.pi * i / roadNumber)
@@ -75,11 +75,11 @@ class Crossroad(object):
         """Populate the SUMO XML node."""
         node = ET.SubElement(nodes, 'node')
         node.attrib['id'] = self.id
-        node.attrib['x'] = str(- self.translation[0])
+        node.attrib['x'] = str(self.translation[0])
         node.attrib['y'] = str(self.translation[1])
         if self.shape:
             shape = ""
             for wayPoint in self.shape:
-                shape += "%f,%f " % (- wayPoint[0] - self.translation[0], wayPoint[1] + self.translation[1])
-            shape += "%f,%f" % (- self.shape[0][0] - self.translation[0], self.shape[0][1] + self.translation[1])
+                shape += "%f,%f " % ( wayPoint[0] + self.translation[0], wayPoint[1] + self.translation[1])
+            shape += "%f,%f" % ( self.shape[0][0] + self.translation[0], self.shape[0][1] + self.translation[1])
             node.attrib['shape'] = shape
