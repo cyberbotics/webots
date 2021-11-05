@@ -189,8 +189,8 @@ class SumoSupervisor (Supervisor):
         pitch = 0.0
         sumoPos = subscriptionResult[self.traci.constants.VAR_POSITION]
         sumoAngle = subscriptionResult[self.traci.constants.VAR_ANGLE]
-        pos = [-sumoPos[0] + xOffset, -sumoPos[1] + yOffset, height]
-        angle = math.pi * sumoAngle / 180
+        pos = [sumoPos[0] - xOffset, sumoPos[1] - yOffset, height]
+        angle = -math.pi * sumoAngle / 180
         dx = -math.cos(angle)
         dz = -math.sin(angle)
         yaw = -math.atan2(-dx, dz)

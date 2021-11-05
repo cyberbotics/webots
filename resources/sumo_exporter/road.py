@@ -132,7 +132,7 @@ class Road(object):
 
         # The original path should be slightly shifted if the case where the
         # forwardLanes and backwardLanes are not matching.
-        originalCoords = [[- x - self.translation[0], y + self.translation[1]] for [x, y, z] in self.wayPoints]
+        originalCoords = [[x + self.translation[0],  y + self.translation[1]] for [x, y, z] in self.wayPoints]
         originalLineString = LineString(originalCoords)
         if self.oneWay:
             originalLineString = originalLineString.parallel_offset(0.5 * laneWidth * self.forwardLanes, 'left')

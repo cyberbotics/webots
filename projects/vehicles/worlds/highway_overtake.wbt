@@ -103,7 +103,7 @@ StraightRoadSegment {
   id "0"
   width 15
   numberOfLanes 4
-  numberOfForwardLanes 0
+  numberOfForwardLanes 4
   lines [
     RoadLine {
       type "continuous"
@@ -122,7 +122,7 @@ StraightRoadSegment {
   id "1"
   width 15
   numberOfLanes 4
-  numberOfForwardLanes 0
+  numberOfForwardLanes 4
   lines [
     RoadLine {
       type "continuous"
