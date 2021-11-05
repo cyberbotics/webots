@@ -1525,6 +1525,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       unsigned int nodeId;
       stream >> nodeId;
       WbNode *node = WbNode::findNode(nodeId);
+
+      // as findNode might return the internal one, it's necessary to climb the ladder up to the protoParameterNode otherwise
+      // the scene tree will not be refreshed when deleting it
+      while (node && node->protoParameterNode() != NULL)
+        node = node->protoParameterNode();
+
       if (node) {
         if (node == mRobot)
           mShouldRemoveNode = true;
