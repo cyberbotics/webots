@@ -1531,6 +1531,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       while (node && node->protoParameterNode() != NULL)
         node = node->protoParameterNode();
 
+      if (!WbNodeUtilities::isVisible(node)) {
+        mRobot->warn(
+          tr("Node '%1' is internal to a PROTO and therefore cannot be deleted from a Supervisor.").arg(node->modelName()));
+        return;
+      }
+
       if (node) {
         if (node == mRobot)
           mShouldRemoveNode = true;
