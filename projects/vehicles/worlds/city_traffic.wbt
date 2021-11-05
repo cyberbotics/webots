@@ -66,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.08321534932282987 0.07866424000087381 -0.9934219360282741 1.6378600640740157
-  position -44.82512491754247 106.17064087231738 14.582069324035515
+  orientation -0.19884042049686187 0.1891995425947396 0.96159555960839 1.657752561043425
+  position -47.12421008954344 -9.254277030216358 23.911145154206356
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -139,7 +139,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation -105.0 4.5 0.02
+  translation -105 4.5 0.02
   rotation 0 0 1 -1.5708
   name "road(1)"
   id "1"
@@ -183,7 +183,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation -64.5 -105.0 0.02
+  translation -64.5 -105 0.02
   name "road(3)"
   id "3"
   startJunction "38"
@@ -226,7 +226,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 RoadIntersection {
-  translation 45.0 -45.0 0.02
+  translation 45 -45 0.02
   rotation 0 0 1 0.785398
   id "25"
   connectedRoadIDs [
@@ -257,7 +257,7 @@ RoadIntersection {
   startRoadBorder FALSE
 }
 StraightRoadSegment {
-  translation 45.0 4.5 0.02
+  translation 45 4.5 0.02
   rotation 0 0 1 -1.5708
   name "road(5)"
   id "5"
@@ -300,7 +300,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation -25.5 45.0 0.02
+  translation -25.5 45 0.02
   name "road(7)"
   id "7"
   startJunction "26"
@@ -321,7 +321,7 @@ StraightRoadSegment {
   length 30
 }
 RoadIntersection {
-  translation -45.0 45.0 0.02
+  translation -45 45 0.02
   rotation 0 0 1 0.785398
   name "road intersection(1)"
   id "26"
@@ -353,7 +353,7 @@ RoadIntersection {
   startRoadBorder FALSE
 }
 RoadIntersection {
-  translation 105.0 93.0 0.02
+  translation 105 93 0.02
   rotation 0 0 1 0.785398
   name "road intersection(2)"
   id "27"
@@ -407,7 +407,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation -4.5 -45.0 0.02
+  translation -4.5 -45 0.02
   name "road(9)"
   id "9"
   startJunction "42"
@@ -450,7 +450,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 CurvedRoadSegment {
-  translation 75.0 -97.5 0.02
+  translation 75 -97.5 0.02
   rotation 0 0 1 -1.5708
   name "road(11)"
   id "11"
@@ -472,7 +472,7 @@ CurvedRoadSegment {
   curvatureRadius 90
 }
 StraightRoadSegment {
-  translation 85.5 93.0 0.02
+  translation 85.5 93 0.02
   rotation 0 0 1 3.14156
   name "road(12)"
   id "12"
@@ -494,7 +494,7 @@ StraightRoadSegment {
   length 9
 }
 StraightRoadSegment {
-  translation 75.0 -187.5 0.02
+  translation 75 -187.5 0.02
   rotation 0 0 -1 3.14156
   name "road(13)"
   id "13"
@@ -515,7 +515,7 @@ StraightRoadSegment {
   length 250
 }
 StraightRoadSegment {
-  translation 165.0 52.5 0.02
+  translation 165 52.5 0.02
   rotation 0 0 1 -1.5708
   name "road(14)"
   id "14"
@@ -537,7 +537,7 @@ StraightRoadSegment {
   length 150
 }
 StraightRoadSegment {
-  translation 64.5 231.0 0.02
+  translation 64.5 231 0.02
   rotation 0 0 1 3.14156
   name "road(15)"
   id "15"
@@ -558,7 +558,7 @@ StraightRoadSegment {
   length 200
 }
 StraightRoadSegment {
-  translation 105.0 112.5 0.02
+  translation 105 112.5 0.02
   rotation 0 0 1 1.57079
   name "road(16)"
   id "16"
@@ -580,7 +580,7 @@ StraightRoadSegment {
   length 78
 }
 StraightRoadSegment {
-  translation 105.0 -4.5 0.02
+  translation 105 -4.5 0.02
   rotation 0 0 1 1.57079
   name "road(17)"
   id "17"
@@ -709,7 +709,7 @@ CurvedRoadSegment {
   curvatureRadius 40.5
 }
 StraightRoadSegment {
-  translation -45.0 25.5 0.02
+  translation -45 25.5 0.02
   rotation 0 0 -1 1.5708
   name "road(23)"
   id "23"
@@ -731,7 +731,7 @@ StraightRoadSegment {
   length 30
 }
 StraightRoadSegment {
-  translation -45.0 64.5 0.02
+  translation -45 64.5 0.02
   rotation 0 0 1 1.5708
   name "road(24)"
   id "24"
@@ -753,7 +753,7 @@ StraightRoadSegment {
   length 69
 }
 DEF WEBOTS_VEHICLE0 BmwX5 {
-  translation -45.0 45.88 0.4
+  translation -45 45.88 0.4
   rotation 0 0 1 3.14159
   controller "autonomous_vehicle"
   sensorsSlotTop [
@@ -801,7 +801,7 @@ GenericTrafficLight {
   state "red"
 }
 CrossRoadsTrafficLight {
-  translation 45.0 -45.0 0
+  translation 45 -45 0
 }
 DEF STONES Solid {
   translation 5.03891 -136.158 -4.23581
@@ -809,7 +809,7 @@ DEF STONES Solid {
     DEF STONES_GROUP Group {
       children [
         Transform {
-          translation 0 2.0 -0.6
+          translation 0 2 -0.6
           children [
             Shape {
               appearance DEF OBJECTS_APPEARANCE PBRAppearance {
@@ -837,7 +837,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 4.0 2.0 -0.15
+          translation 4 2 -0.15
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -849,7 +849,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 6.0 -1 0
+          translation 6 -1 0
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -861,7 +861,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 9.0 0 0.15
+          translation 9 0 0.15
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -873,7 +873,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 5.5 -5.0 0.2
+          translation 5.5 -5 0.2
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -897,7 +897,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 10.0 5.0 0
+          translation 10 5 0
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -909,7 +909,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 1 6.0 0.3
+          translation 1 6 0.3
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -921,7 +921,7 @@ DEF STONES Solid {
           ]
         }
         Transform {
-          translation 13.0 -4.0 0
+          translation 13 -4 0
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -1277,7 +1277,7 @@ SimpleTree {
   name "tree(26)"
 }
 PedestrianCrossing {
-  translation 45.0 -26.0 -0.06
+  translation 45 -26 -0.06
   rotation 0 0 1 -3.1415853071795863
 }
 PedestrianCrossing {
@@ -1542,7 +1542,7 @@ HighwayPole {
   ]
 }
 Crossroad {
-  translation 76.500107 93.0 0
+  translation 76.500107 93 0
   id "28"
   shape []
   connectedRoadIDs [
@@ -1551,7 +1551,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 36.0 133.50015 0
+  translation 36 133.50015 0
   name "crossroad(1)"
   id "29"
   shape []
@@ -1561,7 +1561,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -4.500405 174.0 0
+  translation -4.500405 174 0
   name "crossroad(2)"
   id "30"
   shape []
@@ -1581,7 +1581,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 64.499851 231.0 0
+  translation 64.499851 231 0
   name "crossroad(4)"
   id "32"
   shape []
@@ -1601,7 +1601,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 165.0 52.500074 0
+  translation 165 52.500074 0
   name "crossroad(6)"
   id "34"
   shape []
@@ -1621,7 +1621,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 75.0 -187.5 0
+  translation 75 -187.5 0
   name "crossroad(8)"
   id "36"
   shape []
@@ -1641,7 +1641,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -64.5 -105.0 0
+  translation -64.5 -105 0
   name "crossroad(10)"
   id "38"
   shape []
@@ -1661,7 +1661,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -105.0 4.4999794 0
+  translation -105 4.4999794 0
   name "crossroad(12)"
   id "40"
   shape []
@@ -1681,7 +1681,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -4.5 -45.0 0
+  translation -4.5 -45 0
   name "crossroad(14)"
   id "42"
   shape []
@@ -1691,7 +1691,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 45.0 4.5000744 0
+  translation 45 4.5000744 0
   name "crossroad(15)"
   id "43"
   shape []
@@ -1711,7 +1711,7 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation 105.0 -4.4999256 0
+  translation 105 -4.4999256 0
   name "crossroad(17)"
   id "45"
   shape []
