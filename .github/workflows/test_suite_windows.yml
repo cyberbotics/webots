@@ -133,6 +133,7 @@ jobs:
         python scripts/packaging/update_urls.py ${{ github.sha }}
         export WEBOTS_HOME=$PWD/artifact/webots
         cmd /WHERE webots.exe
+        echo 'test suite:'
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
