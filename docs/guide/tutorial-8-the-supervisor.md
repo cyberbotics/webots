@@ -70,11 +70,13 @@ For example the infinite loop that determines the pace of the controller (namely
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  // CODE PLACEHOLDER 1
+  // CODE FOR HANDS-ON 2
 
+  int i = 0;
   while (wb_robot_step(TIME_STEP) != -1) {
-    // CODE PLACEHOLDER 2
+    // CODE FOR HANDS-ON 3
 
+    i++;
   }
 
   wb_robot_cleanup();
@@ -98,11 +100,13 @@ int main(int argc, char **argv) {
   // create supervisor instance
   Robot *robot = new Supervisor();
 
-  // CODE PLACEHOLDER 1
+  // CODE FOR HANDS-ON 2
 
+  int i = 0;
   while (robot->step(TIME_STEP) != -1) {
-    // CODE PLACEHOLDER 2
+    // CODE FOR HANDS-ON 3
 
+    i++;
   }
 
   delete robot;
@@ -121,12 +125,13 @@ TIME_STEP = 32
 # create supervisor instance
 robot = Supervisor()
 
-# CODE PLACEHOLDER 1
+# CODE FOR HANDS-ON 2
 
+i = 0
 while robot.step(TIME_STEP) != -1:
-  # CODE PLACEHOLDER 2
+  # CODE FOR HANDS-ON 3
 
-  pass
+  i += 1
 ```
 %tab-end
 
@@ -137,13 +142,16 @@ import com.cyberbotics.webots.controller.Supervisor;
 public class MySupervisor {
 
  public static void main(String[] args) {
+    
+    int TIME_STEP = 32;
 
-   int TIME_STEP = 32;
+    Supervisor robot = new Supervisor();
 
-   Supervisor robot = new Supervisor();
-
-   while (robot.step(TIME_STEP) != -1) {
-   }
+    int i = 0;
+    while (robot.step(TIME_STEP) != -1) {
+      
+      i++;
+    }
  }
 }
 ```
@@ -153,10 +161,14 @@ public class MySupervisor {
 ```MATLAB
 TIME_STEP = 32;
 
-% CODE PLACEHOLDER 1
+% CODE FOR HANDS-ON 2
 
+i = 0;
 while wb_robot_step(TIME_STEP) ~= -1
-  % CODE PLACEHOLDER 2
+  % CODE FOR HANDS-ON 3
+
+  i = i + 1;
+end
 ```
 %tab-end 
 
@@ -168,7 +180,7 @@ Now everything is ready to begin programming the supervisor so that it moves BB-
 > **Hands-on #2**: Move BB-8 using the Supervisor.
 1. In principle the world could be very complex, so it is necessary to have a way of uniquely identifying our BB-8 among the other objects.
 To do so we can use the DEF mechanism explored in [tutorial 2](tutorial-2-modification-of-the-environment.md).
-Click the BB-8 node in the scene tree and give it a DEF name "MY_BB8", then save the world.
+Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
 2. Behind the scenes, in Webots each node is uniquely identifiable by a node reference.
 To retrieve this reference, the supervisor API method [getFromDef](../reference/supervisor?tab-language=python#wb_supervisor_node_get_from_def) can be used.
 In placeholder 1, let's retrieve the node reference of BB-8.
@@ -201,7 +213,7 @@ Node bb8Node = robot.getFromDef("BB-8");
 
 %tab "MATLAB"
 ```MATLAB
-bb8_node = wb_supervisor_node_get_from_def('BB-8')
+bb8_node = wb_supervisor_node_get_from_def('BB-8');
 ```
 %tab-end 
 
@@ -238,7 +250,7 @@ Field translationField = bb8Node.getField("translation");
 
 %tab "MATLAB"
 ```MATLAB
-translation_field = wb_supervisor_node_get_field(bb8_node, 'translation')
+translation_field = wb_supervisor_node_get_field(bb8_node, 'translation');
 ```
 %tab-end 
 
@@ -282,7 +294,62 @@ translationField.setSFVec3f(newValue);
 %tab "MATLAB"
 ```MATLAB
 new_value = [0, 0, 2.5]
-wb_supervisor_field_set_sf_vec3f(translation_field, new_value)
+wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
+```
+%tab-end 
+
+%end
+
+5. That is all there is to it, if you save, compile and the controller and run `one-step` of the simulation you will see that BB-8 is transported to a new location instantly.
+
+This is a simple example, but the principle remains the same no matter which field you wish to change.
+You can for instance increase the size of an object, perhaps change its color, change the light conditions, or reset its position if it goes out of bounds, the options are limitless.
+It is just a matter of getting a node reference, from which a field reference can be obtained by name, and set its value by using the function that is appropriate for the type you are trying to change.
+
+### Spawning and Removing Nodes
+
+Supervisors can also be used to populate the environment, allowing to dynamically setup the scene.
+This section focuses on how nodes can be added and removed, specifically we will remove [BB-8](bb8.md) from this world, and replace it with a different robot, namely [Nao](nao.md).
+
+> **Hands-on #3**: Removing and adding nodes.
+1. In the previous section, we already saw how to retrieve the node reference of an object.
+A node can be removed from the scene tree by using the [remove](../reference/supervisor?tab-language=python#wb_supervisor_node_remove) method.
+The `if` condition is not necessary, it adds a 10 step delay before the removal, to make it more apparent.
+
+%tab-component "language"
+
+%tab "C"
+```c
+if (i == 10) {
+  wb_supervisor_node_remove(bb8_node);
+}
+```
+%tab-end
+
+%tab "C++"
+```cpp
+if (i == 10) {
+  bb8Node.remove();
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+if i == 10:
+  bb8_node.remove()
+```
+%tab-end
+
+%tab "Java"
+```java
+bb8Node.remove();
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+wb_supervisor_node_remove(bb8_node);
 ```
 %tab-end 
 
