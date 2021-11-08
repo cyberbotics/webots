@@ -379,8 +379,8 @@ void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   mFieldSetRequests.clear();
   if (blockRegeneration)
     return;
-  WbTemplateManager::instance()->blockRegeneration(false);
   emit worldModified();
+  WbTemplateManager::instance()->blockRegeneration(false);
 }
 
 void WbSupervisorUtilities::postPhysicsStep() {
