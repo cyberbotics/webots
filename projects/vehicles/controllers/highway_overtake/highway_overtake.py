@@ -31,7 +31,7 @@ sensorsNames = [
     "left"]
 sensors = {}
 
-lanePositions = [-10.6, -6.875, -3.2]
+lanePositions = [10.6, 6.875, 3.2]
 currentLane = 1
 overtakingSide = None
 maxSpeed = 80
@@ -63,7 +63,7 @@ apply_PID.previousDiff = None
 
 
 def get_filtered_speed(speed):
-    """Filter the speed ommand to avoid abrupt speed changes."""
+    """Filter the speed command to avoid abrupt speed changes."""
     get_filtered_speed.previousSpeeds.append(speed)
     if len(get_filtered_speed.previousSpeeds) > 100:  # keep only 80 values
         get_filtered_speed.previousSpeeds.pop(0)
@@ -147,9 +147,9 @@ while driver.step() != -1:
             currentLane -= 1
             overtakingSide = 'left'
     # adjust steering to stay in the middle of the current lane
-    position = gps.getValues()[0]
+    position = gps.getValues()[1]
     angle = max(min(apply_PID(position, lanePositions[currentLane]), 0.5), -0.5)
-    driver.setSteeringAngle(angle)
+    driver.setSteeringAngle(-angle)
     # check if overtaking is over
     if abs(position - lanePositions[currentLane]) < 1.5:  # the car is just in the lane
         overtakingSide = None
