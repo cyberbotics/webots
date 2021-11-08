@@ -60,7 +60,7 @@ A number of pre-defined [PBRAppearance](../reference/pbrappearance.md) are provi
 
 > **Hands-on #3**: Add a pre-defined [PBRAppearance](../reference/pbrappearance.md)
 1. Select the `appearance` field and remove the previously added node.
-To do this, either click on the "delete" button in your keyboard or right-click on the field and select "delete" from the menu.
+To do this, either press the "delete" button on your keyboard or right-click on the field and select "delete" from the menu.
 The field should now say "appearance NULL" instead of "appearance PBRAppearance".
 2. Double-click on the field again, then navigate to `PROTO nodes (Webots Projects)`, then `appearances` and select `OldSteel (PBRAppearance)`.
 
