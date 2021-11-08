@@ -59,8 +59,10 @@ This means that you do not need a `Robot` instance if you have a supervisor one.
 For example the infinite loop that determines the pace of the controller (namely: `while robot.step(TIME_STEP) != -1`) does not need to be changed, as the supervisor can do the same.
 
 
-%tab-component "language" %tab "C"
+%tab-component "language"
 
+%tab "C"
+```c
 #include <webots/supervisor.h>
 
 #define TIME_STEP 32
@@ -79,11 +81,11 @@ int main(int argc, char **argv) {
 
   return 0;
 }
+```
 %tab-end
 
 %tab "C++"
-
-
+```cpp
 #include <webots/Supervisor.hpp>
 
 #define TIME_STEP 32
@@ -92,6 +94,8 @@ int main(int argc, char **argv) {
 using namespace webots;
 
 int main(int argc, char **argv) {
+
+  // create supervisor instance
   Robot *robot = new Supervisor();
 
   // CODE PLACEHOLDER 1
@@ -105,15 +109,16 @@ int main(int argc, char **argv) {
 
   return 0;
 }
+```
 %tab-end
 
 %tab "Python"
-
+```python
 from controller import Supervisor
 
 TIME_STEP = 32
 
-# create the Supervisor instance.
+# create supervisor instance
 robot = Supervisor()
 
 # CODE PLACEHOLDER 1
@@ -122,10 +127,11 @@ while robot.step(TIME_STEP) != -1:
   # CODE PLACEHOLDER 2
 
   pass
+```
 %tab-end
 
 %tab "Java"
-
+```java
 import com.cyberbotics.webots.controller.Supervisor;
 
 public class MySupervisor {
@@ -136,22 +142,22 @@ public class MySupervisor {
 
    Supervisor robot = new Supervisor();
 
-   while (robot.step(TIME_STEP) != -1);
+   while (robot.step(TIME_STEP) != -1) {
+   }
  }
 }
+```
 %tab-end
 
 %tab "MATLAB"
-
+```MATLAB
 TIME_STEP = 32;
 
 % CODE PLACEHOLDER 1
 
 while wb_robot_step(TIME_STEP) ~= -1
   % CODE PLACEHOLDER 2
-
-end
-
+```
 %tab-end 
 
 %end
@@ -167,34 +173,117 @@ Click the BB-8 node in the scene tree and give it a DEF name "MY_BB8", then save
 To retrieve this reference, the supervisor API method [getFromDef](../reference/supervisor?tab-language=python#wb_supervisor_node_get_from_def) can be used.
 In placeholder 1, let's retrieve the node reference of BB-8.
 
-%tab-component "language" %tab "C"
+%tab-component "language"
 
-WbNodeRef bb8_node = wb_supervisor_node_get_from_def("MY_BB8");
-
+%tab "C"
+```c
+WbNodeRef bb8_node = wb_supervisor_node_get_from_def("BB-8");
+```
 %tab-end
 
 %tab "C++"
-
-Node *bb8Node = robot.getFromDef("MY_BB8");
-
+```cpp
+Node *bb8Node = robot.getFromDef("BB-8");
+```
 %tab-end
 
 %tab "Python"
-
-bb8_node = robot.getFromDef("MY_BB8")
-
+```python
+bb8_node = robot.getFromDef('BB-8')
+```
 %tab-end
 
 %tab "Java"
-
-Node bb8Node = robot.getFromDef("MY_BB8");
-
+```java
+Node bb8Node = robot.getFromDef("BB-8");
+```
 %tab-end
 
 %tab "MATLAB"
+```MATLAB
+bb8_node = wb_supervisor_node_get_from_def('BB-8')
+```
+%tab-end 
 
-bb8_node = wb_supervisor_node_get_from_def('MY_BB8')
+%end
 
+3. Now that we have access to the node, we need to get access to its `translation` field, specifically to a reference to this field as we just did for the node.
+To do so, the [getField](../reference/supervisor?tab-language=python#wb_supervisor_node_get_field) method can be used.
+
+%tab-component "language"
+
+%tab "C"
+```c
+WbFieldRef translation_field = wb_supervisor_node_get_field(bb8_node, "translation");
+```
+%tab-end
+
+%tab "C++"
+```cpp
+Field *translationField = bb8Node.getField("translation");
+```
+%tab-end
+
+%tab "Python"
+```python
+translation_field = bb8Node.getField('translation')
+```
+%tab-end
+
+%tab "Java"
+```java
+Field translationField = bb8Node.getField("translation");
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+translation_field = wb_supervisor_node_get_field(bb8_node, 'translation')
+```
+%tab-end 
+
+%end
+
+4. Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
+Once again, the supevisor API has all the necessary tools to do so.
+The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
+So the value can be set by using the [setSFVec3f](../reference/supervisor?tab-language=python#wb_supervisor_field_set_sf_vec3f) method.
+
+%tab-component "language"
+
+%tab "C"
+```c
+const double new_value[3] = {0, 0, 2.5};
+wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
+```
+%tab-end
+
+%tab "C++"
+```cpp
+const double newValue[3] = {0, 0, 2.5};
+translationField.setSFVec3f(newValue);
+```
+%tab-end
+
+%tab "Python"
+```python
+new_value = [0, 0, 2.5]
+translation_field.setSFVec3f(new_value)
+```
+%tab-end
+
+%tab "Java"
+```java
+double newValue[3] = {0, 0, 2.5};
+translationField.setSFVec3f(newValue);
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+new_value = [0, 0, 2.5]
+wb_supervisor_field_set_sf_vec3f(translation_field, new_value)
+```
 %tab-end 
 
 %end
