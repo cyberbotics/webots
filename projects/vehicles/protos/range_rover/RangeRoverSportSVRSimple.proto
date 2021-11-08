@@ -385,10 +385,9 @@ PROTO RangeRoverSportSVRSimple [
         }
         DEF CENTRAL_BOX Transform {
           translation 0.6 0 0.85
-          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
-              size 1.5 0.75 2.7
+              size 2.7 1.5 0.75
             }
           ]
         }

@@ -31,7 +31,7 @@
 #define TIME_STEP 64
 
 int main() {
-  WbDeviceTag ds0, ds1, radar = 0, left_motor, right_motor;
+  WbDeviceTag ds0, ds1, radar;
   int left_speed, right_speed, i;
 
   wb_robot_init();

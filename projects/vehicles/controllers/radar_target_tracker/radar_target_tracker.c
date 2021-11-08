@@ -36,7 +36,7 @@ const char *rendering_devices_name[RENDERING_DEVICE_NUMBER] = {"FRONT_RIGHT_LIDA
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  // get and enable the lidar
+  // get and enable the radar
   WbDeviceTag radar = wb_robot_get_device("radar");
   wb_radar_enable(radar, TIME_STEP);
 
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 
   // target string defines the target node
   const char *target_string = "Transform {\n"
-                              "  translation 0 0 -10.0\n"
+                              "  translation 0 0 10.0\n"
                               "  children [\n"
                               "    Shape {\n"
                               "      appearance Appearance {\n"
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
       if (i > 0 && i < wb_radar_get_number_of_targets(radar) && targets[i].distance > 2.0) {
         double x = targets[i].distance;
         double y = -targets[i].distance * sin(targets[i].azimuth);
-        double translation[3] = {x, y, 0.5};
+        double translation[3] = {x, y, -0.5};
         wb_supervisor_field_set_sf_vec3f(translation_fields[i], translation);
         double colorFactor = (targets[i].received_power + 60.0) / 50.0;
         colorFactor = fmax(fmin(colorFactor, 1), 0);
@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
         }
         wb_supervisor_field_set_sf_vec3f(size_fields[i], size);
       } else {
-        double translation[3] = {0, 0, -10.0};
+        double translation[3] = {0, 0, 10.0};
         wb_supervisor_field_set_sf_vec3f(translation_fields[i], translation);
       }
     }

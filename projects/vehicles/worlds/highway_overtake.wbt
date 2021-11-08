@@ -229,11 +229,10 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       aperture 0.1
     }
     Robot {
-      translation -0.11 0 0
-      rotation 0 0 -1 3.1415927
+      translation 0.11 0 0
+      rotation 1 0 0 3.1415927
       children [
-        Radar {
-          rotation 0 0 1 3.14156
+        DEF radar Radar {
           maxRange 60
           horizontalFieldOfView 0.9
           verticalFieldOfView 0.07854
