@@ -87,6 +87,6 @@ class Crossroad(object):
         if self.shape:
             shape = ""
             for wayPoint in self.shape:
-                shape += "%f,%f " % ( wayPoint[0] + self.translation[0], wayPoint[1] + self.translation[1])
-            shape += "%f,%f" % ( self.shape[0][0] + self.translation[0], self.shape[0][1] + self.translation[1])
+                shape += "%f,%f " % (wayPoint[0] + self.translation[0], wayPoint[1] + self.translation[1])
+            shape += "%f,%f" % (self.shape[0][0] + self.translation[0], self.shape[0][1] + self.translation[1])
             node.attrib['shape'] = shape
