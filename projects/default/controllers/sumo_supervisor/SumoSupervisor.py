@@ -189,7 +189,7 @@ class SumoSupervisor (Supervisor):
         pitch = 0.0
         sumoPos = subscriptionResult[self.traci.constants.VAR_POSITION]
         sumoAngle = subscriptionResult[self.traci.constants.VAR_ANGLE]
-        pos = [sumoPos[0] - xOffset, sumoPos[1] - yOffset, height]
+        pos = [sumoPos[0] + xOffset, sumoPos[1] + yOffset, height]
         angle = -math.pi * sumoAngle / 180
         dx = -math.cos(angle)
         dz = -math.sin(angle)
@@ -445,7 +445,7 @@ class SumoSupervisor (Supervisor):
         self.temporaryDirectory = directory
         self.rootChildren = self.getRoot().getField("children")
         self.viewpointPosition = self.get_viewpoint_position_field()
-        self.maxWebotsVehicleDistanceToLane = 5
+        self.maxWebotsVehicleDistanceToLane = 15
         self.webotsVehicleNumber = 0
         self.webotsVehicles = {}
         self.vehicleNumber = 0
@@ -462,8 +462,8 @@ class SumoSupervisor (Supervisor):
 
         # parse the net and get the offsets
         self.net = sumolib.net.readNet((directory + "/sumo.net.xml").replace('/', os.sep))
-        xOffset = self.net.getLocationOffset()[0]
-        yOffset = self.net.getLocationOffset()[1]
+        xOffset = -self.net.getLocationOffset()[0]
+        yOffset = -self.net.getLocationOffset()[1]
 
         # Load plugin to the generic SUMO Supervisor (if any)
         self.usePlugin = False
