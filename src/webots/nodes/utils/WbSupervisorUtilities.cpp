@@ -379,8 +379,11 @@ void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   mFieldSetRequests.clear();
   if (blockRegeneration)
     return;
-  emit worldModified();
+
   WbTemplateManager::instance()->blockRegeneration(false);
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  if (robots.contains(mRobot))  // only emit if robot still exists (FieldSetRequest could have regenerated it)
+    emit worldModified();
 }
 
 void WbSupervisorUtilities::postPhysicsStep() {
