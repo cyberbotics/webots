@@ -3791,7 +3791,7 @@ So he says if Webots does not run on it, he will just return and take the refund
 ##### Luftwaffel [Moderator] 01/30/2021 15:39:30
 The new macbook is a completely new hardware & software product. It probably works really well for a pure consumer, but as soon as you start development and go outside of MacOS, I foresee a lot of issues. Linux can run on arm, but by far not all software and programs.  I have a Lenovo Legion laptop. It is basically a gamer laptop, that looks more professional. I bought it for robotic simulation and Reinforcement Learning. I dont see macbooks being a good choice for that. For AI you kinda need a Nvidia GPU, and a powerful x86 CPU is a godsent when compiling and running lots of parallelized code / many instances.
 
-##### Axel M 01/30/2021 15:46:55
+##### Mumuxe 01/30/2021 15:46:55
 Hi everyone, i'm having an issue with a basic HingeJoint for a wheel
 
 
@@ -3806,7 +3806,7 @@ By looking at the tree I see small  values in the `translation` field of the whe
 ##### Luftwaffel [Moderator] 01/30/2021 15:51:18
 can you share your world or a screenshot of your hingjoint? with JointParameters expanded in the scene tree
 
-##### Axel M 01/30/2021 15:54:41
+##### Mumuxe 01/30/2021 15:54:41
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805103704910200854/unknown.png)
@@ -3824,7 +3824,7 @@ it is always good practice to have the same anchor as translation of the endPoin
 
 move the anchor to where you want the center of rotation to be
 
-##### Axel M 01/30/2021 15:59:18
+##### Mumuxe 01/30/2021 15:59:18
 Oh, ok
 
 
@@ -3842,7 +3842,7 @@ send me your world, i can have a quick look
 
 the issue is, if you have a translation of the endpoint, which is NOT along the rotational axis
 
-##### Axel M 01/30/2021 16:07:04
+##### Mumuxe 01/30/2021 16:07:04
 The translation of the enpoint was the result of the bug, I did not manually edit these  values
 
 
@@ -3857,13 +3857,13 @@ I just tried this, deleting the Transform above the Joint, no success
 ##### Luftwaffel [Moderator] 01/30/2021 16:08:58
 the translation of the endPoint changes with when the joint rotates. So at the start, the anchor and translation have to be the same (assuming you want the endPoint to rotate around its origin)
 
-##### Axel M 01/30/2021 16:09:47
+##### Mumuxe 01/30/2021 16:09:47
 which is the case on my last screenshot right ?
 
 ##### Luftwaffel [Moderator] 01/30/2021 16:09:56
 yes
 
-##### Axel M 01/30/2021 16:10:30
+##### Mumuxe 01/30/2021 16:10:30
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/805107686977830952/unknown.png)
@@ -3872,7 +3872,7 @@ yes
 ##### Luftwaffel [Moderator] 01/30/2021 16:10:47
 this should work too
 
-##### Axel M 01/30/2021 16:10:53
+##### Mumuxe 01/30/2021 16:10:53
 Which is also the case when the transform is done above; I have the same endpoint translation and anchor
 
 
@@ -3881,7 +3881,7 @@ Still have the problem though 😄
 ##### Luftwaffel [Moderator] 01/30/2021 16:11:06
 what problem?
 
-##### Axel M 01/30/2021 16:11:50
+##### Mumuxe 01/30/2021 16:11:50
 When the robot is turning in place, the wheels are slightly translating
 
 
@@ -3893,7 +3893,7 @@ I would have to see the whole thing. But just stick with the solution that works
 
 that is the 'proper' way to do it
 
-##### Axel M 01/30/2021 16:13:06
+##### Mumuxe 01/30/2021 16:13:06
 No solution works atm haha
 
 ##### Luftwaffel [Moderator] 01/30/2021 16:13:21
@@ -4271,7 +4271,7 @@ I've been trying to make the robot turn exactly 90 degrees (and then other angle
 
 Weirdly enough, if I do use setVelocity with +/- on the wheels it does work as it should. I really don't want to have to re-work my code though. The setPosition should be working as well which is what I am trying to solve
 
-##### Axel M 02/01/2021 19:05:13
+##### Mumuxe 02/01/2021 19:05:13
 Hi everyone, I was wondering if someone tried to use asyncio for a python controller ?
 
 ##### Luftwaffel [Moderator] 02/01/2021 20:02:38
@@ -5276,7 +5276,7 @@ Not yet, but it is in our short-term TODO list to add an example for the human a
 ##### ChristinaP 02/10/2021 12:51:28
 Hello everyone! I'm just starting using webots to simulate an autonomous vehicle. Is there an option to alter the input of the sensors (camera, lidar and gnss) while the simulation is running in order to figure out what's gonna happen at the vehicle in case one of those sensors malfunctions? Do those sensors affect the simulation on runtime?
 
-##### csnametala 02/10/2021 12:56:31
+##### samuel.nametala 02/10/2021 12:56:31
 Hello everyone! I'm using a PEN function on the e-puck robot, it leaves a trail that doesn't erase. Can I define a distance from this trail? For it to erase as the robot walks
 
 ##### Olivier Michel [Cyberbotics] 02/10/2021 13:13:31
@@ -5285,7 +5285,7 @@ You can, at the controller level, add an extra layer that will alter sensor data
 
 Yes, you can use WorldInfo.inkEvaporation, see [https://cyberbotics.com/doc/reference/worldinfo#worldinfo](https://cyberbotics.com/doc/reference/worldinfo#worldinfo)
 
-##### csnametala 02/10/2021 13:24:46
+##### samuel.nametala 02/10/2021 13:24:46
 OK, thank you!
 
 
@@ -6938,7 +6938,7 @@ Ok thanks a lot ! 🙂
 
 Ok it's working (for a really small basic STL exemple) using the option "using mesh for boundingObject" during the import process
 
-##### MrPie 02/22/2021 11:49:02
+##### Alirashidi 02/22/2021 11:49:02
 Hi, I just downloaded webots and the UI is really small.
 
 
@@ -7535,7 +7535,7 @@ what is your realtime factor?
 ##### Darko Lukić [Cyberbotics] 02/23/2021 16:47:48
 `@h.sciascia`  As Simon mentioned, you should profile your controller and the physics plugin. The controller is usually cause for the slow simulations.
 
-##### MrPie 02/23/2021 16:48:34
+##### Alirashidi 02/23/2021 16:48:34
 Hi, just created my robot and I wanted to add a rgbD camera (RFID camera ) But I haven't had any luck finding one. Could you guys help me with that?
 
 
@@ -7544,7 +7544,7 @@ RgbD is a depth camera
 ##### Darko Lukić [Cyberbotics] 02/23/2021 16:49:11
 You should combine the camera node and the range finder node
 
-##### MrPie 02/23/2021 16:49:41
+##### Alirashidi 02/23/2021 16:49:41
 Oh OK, will have a look into that
 
 
@@ -21545,7 +21545,7 @@ Do you just want to have a "standalone" camera recording a scene, or is it actua
 
 But if you just want to move a camera around, add an empty Robot node to the scene and add the camera as its child. Then use the supervisor functionality to move the robot's base coordinates and orientation [https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)
 
-##### Axel M 07/15/2021 06:30:34
+##### Mumuxe 07/15/2021 06:30:34
 Hi, I'm trying to setup a ROS 2 custom driver for my robot.
 
 I have previous experience doing so with ROS 1, where I created a ROS1 node from scratch, using the Webots library directly to make the bridge.
@@ -21593,7 +21593,7 @@ Besides, there are a lot of examples.
 
 WebotsNode implements initiates the creation of ROS 2 interface. You can use it to configure or extend the ROS 2 interface.
 
-##### Axel M 07/15/2021 07:49:34
+##### Mumuxe 07/15/2021 07:49:34
 Thanks `@Darko Lukić` 🙂
 
 
@@ -29294,4 +29294,368 @@ Is something especially important, or can i use the standard physics that webots
 
 ##### DDaniel [Cyberbotics] 10/27/2021 12:58:05
 I mean it has to be non-NULL, default value should work
+
+##### Skraldefar 10/27/2021 13:52:45
+It seems to have worked, thank you
+
+##### crumpy 10/27/2021 19:36:41
+Hi, I'm currently trying to make a solid node with a shape have some level of opacity like glass almost. Is there a texture that would support this in webots?
+
+##### DrakerDG 10/28/2021 04:38:40
+You only need change the Transparency value from 0 to 1 in material options.  In this example the right cylinder have 0.2 of transparency.
+%figure
+![2021-10-27.png](https://cdn.discordapp.com/attachments/565154703139405824/903140689888571442/2021-10-27.png)
+%end
+
+
+If you set transparency in different value of 0, your object don't will have shadow
+
+##### Justin Fisher [Moderator] 10/28/2021 05:29:44
+I'm running into a weird issue where my robots are inexplicably losing almost all of their traction, and just spinning their wheels to very little effect.  I've had similar issues in the past if I didn't have the robot node itself have a bounding object, but in this case it does have a bounding object.  I've had similar robots work fine, and have no idea what I might have changed that would have altered this.  (I didn't change contact properties or anything that should have affected this.)
+
+
+
+I've also been having another mysterious bug that might be related to this: the body of one robot keeps turning itself green, which is apparently occurring due to the basecolor of its PBR appearance changing, which works as a multiplier on the texture imagemap.  However, this change usually does not appear in the scene tree (but occasionally does), and but if you change the basecolor that does appear in the scene tree slightly away from its apparent setting of 1,1,1 then the color pops back to ordinary.  That made me suspect that maybe that body, which is USED as the bounding object for the robot, was somehow forgetting its bounding geometry at the same time as it was glitching its color, which might have explained the loss of traction.  But unfortunately I can't get the same sort of resetting-values-in-the-scene-tree fix to work for the traction.  So I'm mystified (and very frustrated!).  Help?
+
+##### DrakerDG 10/28/2021 06:12:06
+I have it if I understand your context. You indicate that the color in the appearance of the PBR can affect the physical behavior related to friction, in your case your robot loses traction, right?
+
+##### Justin Fisher [Moderator] 10/28/2021 11:39:21
+I'm not sure if the color is what's reducing the traction, or if they stem from the same cause, or if these are just two different bugs that coincidentally are happening together.  My guess is common cause or coincidence.
+
+
+
+I guess another way of asking my question is: can anyone think of anything that would make a robot lose almost all of its traction so its wheels would start spinning uselessly?  I can rule out many of the obvious suspects like changes in contact properties or other world physics properties, lack of sufficient mass to hold the robot down, center of gravity of the robot not putting enough weight on driven wheels, or the robot node itself not having physics or bounding object enabled.  What else could cause this?
+
+
+Ok, I think I diagnosed the problem.  It was a case of common cause.  I'd ended up accidentally duplicating robot parts which meant many of my commands were going to only half the parts the robot actually had, so e.g., when you have two superposed wheels, only one of which gets the command to turn, the one that doesn't turn effectively reduces the traction of the one that does.  And when you have two co-located bodies with different colors (a hidden whitish one masked by a green-tinted one), making trivial changes to scene tree properties of the one that hadn't been appearing (the whitish one) apparently makes it become the more visible one again.
+
+
+
+If only I had paid more attention to the little spokes in my wheels, I would have seen a set of stationary spokes in amongst the turning spokes and realized what was happening.  Or if only I'd paid more attention to the scene tree, I would have seen that it actually contained a lot more parts than the robot actually should have.  Bleh...
+
+
+And I guess my list of "obvious suspects" above actually did include the culprit: not putting enough weight on driven wheels.  I usually encounter that culprit when I put the robot's center of gravity too far back on an undriven roller, whereas in this case the "undriven wheels" that were bearing a lot of the robot's weight were hiding right inside the driven wheels where I couldn't easily see them (aside from their stationary spokes being in amongst the spinning spokes).
+
+
+For some reason the question "Do you have another wheel located inside your spinning wheel that's keeping your spinning wheel from touching the ground?" never arose back when I was teaching this class with actual physical robots!
+
+##### Ranga Kulathunga 10/28/2021 13:01:22
+Hi,
+%figure
+![robot_window.PNG](https://cdn.discordapp.com/attachments/565154703139405824/903267196694839366/robot_window.PNG)
+%end
+
+
+How to zoom/ zoomout these plots?
+
+##### Rody El Hamod 10/28/2021 14:57:30
+hello guys, anybody knows how to compile a plugin in webots text editor? documentation doesn't go into details at all
+
+
+physics plugin
+
+##### DDaniel [Cyberbotics] 10/28/2021 15:03:19
+Like you compile a controller, same button
+
+##### Rody El Hamod 10/28/2021 15:03:38
+i don't compile my controller, it's programmed in python
+
+
+but i will check if it's documented
+
+
+thanks
+
+
+okay found it
+
+
+i only need to compile the .c file right .
+
+
+?
+
+##### DDaniel [Cyberbotics] 10/28/2021 15:06:42
+yes, and set it in under `physics` inside `worldInfo`
+
+##### Rody El Hamod 10/28/2021 15:06:45
+because there's also the makefile
+
+
+yeah got that thanks
+
+##### Cloud Salazar 10/29/2021 08:09:49
+Can anyone help with importing this Solidworks Assembly to webots so I can simulate it walking in an environment? Any tutorials / resources that could get me started? Thanks!
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/903556214053564426/unknown.png)
+%end
+
+##### Anushree Sabnis 10/29/2021 09:19:55
+Hello, I'm Anushree. It's awesome to see this helpful and active community.
+
+ 
+
+I'm a student researcher working in swarm robotics, and webots seemed like a great simulator to get my project set up. I wanted to know if the webots Supervisor could be configured for swarm applications? Any tutorials/resources for the same would be really helpful, thank you.
+
+##### DDaniel [Cyberbotics] 10/29/2021 09:59:56
+A supervisor can do just about anything, including cheating. I don't know what exactly you need the supervisor to do but I'd say you probably can. You can find several examples in the samples `file > open sample worlds > samples`. The `curriculum` subcategory has some more advanced examples
+
+##### Majeedullah 10/29/2021 13:59:46
+Hello bro, how did you added Speed graph to that portion?? Can you please help me?
+
+##### Luftwaffel [Moderator] 10/29/2021 18:54:35
+You could try the following:
+
+1. export assembly as urdf
+
+[http://wiki.ros.org/sw\_urdf\_exporter/Tutorials/Export%20an%20Assembly](http://wiki.ros.org/sw_urdf_exporter/Tutorials/Export%20an%20Assembly)
+
+2. convert urdf to proto
+
+[https://github.com/cyberbotics/urdf2webots](https://github.com/cyberbotics/urdf2webots)
+
+##### Mumuxe 10/30/2021 19:46:44
+Hi, I'm trying to find out a good setup for working on a M1 Max Macbook pro. Webots seems to be working fine on rosetta with the x86 build. I'm running ROS2 in a virtual machine (Ubuntu 20 arm, in parallels). I was wondering if the `webots_ros2` package could possibly connect to the webots instance running on the macOS host ?
+
+##### Luftwaffel [Moderator] 10/30/2021 19:48:51
+I dont see why not. ROS is basically a network protocol. Nodes can run on different machines. Even over the internet if you use a custom vpn
+
+
+This should not be webots specific. So look on how to connect ROS2 running on different VMs
+
+
+might have to do some network configuration etc.
+
+##### Mumuxe 10/30/2021 19:50:13
+`@Luftwaffel` If i'm not mistaken, on the ros2 approach (unlike webots/ros1), webots is not running any ROS node. The webots\_ros2 package directly starts the webots binary, and seems to be communicating with it through a file socket ? I'm not exactly sure about this
+
+##### Luftwaffel [Moderator] 10/30/2021 19:51:20
+And it creates Nodes when doing so, which you can communicate with
+
+##### Mumuxe 10/30/2021 19:52:35
+On the setup i'm mentioning, there's not ROS on the macOS side, only the webots instance
+
+
+I guess waiting for an arm build to run on Ubuntu arm seems easier 😄
+
+##### Luftwaffel [Moderator] 10/30/2021 19:56:32
+im not an expert on ROS2
+
+##### BIN 10/31/2021 03:19:10
+Hi, if I can't use the math library, how do I figure out cos and sin in C when I already know radians?
+
+##### DDaniel [Cyberbotics] 10/31/2021 08:34:06
+You can use the math library
+
+##### DrakerDG 10/31/2021 11:53:47
+Maybe thru trigonometry you can do it
+
+##### BIN 10/31/2021 11:55:47
+So how do you use it without referring to the math library
+
+
+However, external libraries are not required
+
+##### DrakerDG 10/31/2021 12:03:22
+What is the position that you need? You can use a table or array with the sin and cos values
+
+##### BIN 10/31/2021 12:04:26
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/904340032616300604/unknown.png)
+%end
+
+
+His coordinate output is not right, it seems not multiplied by the following trigonometric function, what should I do
+
+##### DrakerDG 10/31/2021 13:14:53
+I understand that you try calculates the position relative of the robot, right?
+
+##### Intries 10/31/2021 17:10:16
+Hey everyone,
+
+I tried to set up image-based lighting via an HDRi for my Webots World but encountered some issues.
+
+Until now the lighting was done by the TexturedBackgroundLight, which is in fact only a predefined directional light wrapped in a proto for a given default skybox.
+
+Then I tried to use a normal HDRi and the "Background" node, where I entered all the urls including the `IrradianceUrl` fields. The resulting scene was clearly changing brightness, when the luminosity value was changed, but the lighting seemed very soft and was not casting any shadows in the way the light was defined by the HDRi. After some searching I found this post: [https://cyberbotics.com/doc/blog/Webots-2020-a-release#simplify-the-hdr-backgrounds](https://cyberbotics.com/doc/blog/Webots-2020-a-release#simplify-the-hdr-backgrounds) It indicates that image based lighting has been removed due to performance issues and suggests that the "Background" node has the same qualities, but in the screenshot that demonstrates this it can be seen that the lighting is supplemented with a custom directional light which is responsible for the shadows in the screenshot. While I understand that image based lighting can be expensive and overdone for simple simulations on low-end hardware, but it seems weird that this support was completly removed even if you are running high end hardware with a low real time (due to other physics related stuff). Can anyone give some insights why this option, which is quite essential for a pbr rendering pipline, has been removed and if it possible to enable it again in the future as an option?
+
+##### Ranga Kulathunga 10/31/2021 17:27:51
+Yeah sure `@Majeedullah` First right click on the robot or the vehicle. Select the show robot window. Then we can the window above. we can see all the variations of the actuators and the sensors on that.
+
+## November
+
+##### Rizalfauz 11/01/2021 08:51:30
+Hallo everyone
+
+Can webots control multiple robot using ROS controller? Any tutorial about that?
+
+
+
+I'm sorry about my English
+
+##### Majeedullah 11/01/2021 08:54:35
+I have installed python and also have added it to system environment variable, still get this error
+%figure
+![20211101_135342.jpg](https://cdn.discordapp.com/attachments/565154703139405824/904654645337657344/20211101_135342.jpg)
+%end
+
+
+I am using webot on this pc for first
+
+
+Here is the system environment variable window
+%figure
+![20211101_135542.jpg](https://cdn.discordapp.com/attachments/565154703139405824/904655050285133894/20211101_135542.jpg)
+%end
+
+##### DDaniel [Cyberbotics] 11/01/2021 10:07:10
+Did you follow this? [https://cyberbotics.com/doc/guide/using-python#windows-installation](https://cyberbotics.com/doc/guide/using-python#windows-installation)
+
+Also python 3.10 hasn't been tested yet, would be better to use one of the versions mentioned in the error message if possible.
+
+##### Brubby 11/01/2021 11:02:10
+Hi, I am writing controllers in Python and would like to use some python packages, I do not want to install these on my machine as this may corrupt the OS so ive installed them in a virtual environment. Now im able to get webots to use the python installation in the virtual environement by adding it to my environment variables and im then adding the packages to the sys path so the script is able to use them. This seems to work but isn't very nice. Is there a better way to make Webots run using virtual environement automatically and automatically have access to the packages in the environment?
+
+##### Benjamin Hug [Cyberbotics] 11/01/2021 11:07:14
+Hello `@Rizalfauz` , you should be able to control multiple robots by using multiple nodes.
+
+Unfortunately we have not a tutorial with multiple robot on ROS (but on ROS2 we do).
+
+##### Rizalfauz 11/01/2021 18:15:05
+Thank you, can you show me the link about your tutorial?
+
+##### Benjamin Hug [Cyberbotics] 11/01/2021 20:32:54
+Sure, here it is:
+
+[https://github.com/cyberbotics/webots\_ros2/wiki/Example-Universal-Robots#multirobot-example](https://github.com/cyberbotics/webots_ros2/wiki/Example-Universal-Robots#multirobot-example)
+
+##### its-me 11/01/2021 23:06:29
+how do you create custom robot models? i acquired an old MicroBot MiniMover 5 that i want to use for a personal learning project, i basically want to refresh it with a new controller and an android programming interface. But i think it would be helpful to sort out some of the controller work in simulation first so i want to get this added, i have measurements and data from the manual but cant figure out how to import a 3d model and define the joints
+
+
+here is the manual that i have: [http://www.theoldrobots.com/book21-9/MiniMover5.pdf](http://www.theoldrobots.com/book21-9/MiniMover5.pdf)
+
+page 37-39 shows some of the physical attributes
+
+page 43 there is a switch connected to the gripper when it closes
+
+page  75/76 is the start of the kinematic model
+
+
+
+my hope would be to use Webots to design and build the driver firmware (even conceptually), then i can use the API to design and build the android control app using the simulated robot
+
+
+like i said this is a personal education project, i think im going to make it as an online connected chess playing robot initially
+
+##### DrakerDG 11/02/2021 00:37:26
+I like your arm robot, very nice project!
+
+
+It is possible that your to import 3D model in webots, for example on OBJ format
+
+##### its-me 11/02/2021 00:45:50
+Do I have to bring it in as seperate  obj files or are do they need to be seperate bodies?
+
+
+I can draw up a representation in fusion, I don't need the model to been photo accurate
+
+##### Rizalfauz 11/02/2021 00:47:15
+Thank you
+
+##### DrakerDG 11/02/2021 00:55:45
+You will need make every moveable part of your robot per separate
+
+##### ykopoblete 11/02/2021 14:11:59
+Hi everyone, is there any tutorial about multiagents navigation? For example, N turtlebots with a controller for each?
+
+##### Expert\_Amateur 11/02/2021 15:31:31
+Hi, is it possible to simulate a 4 bar crank-rocker linkage in this software? Since the links form a closed loop, I'm not sure how the hierarchy of hinge joints should be
+
+All help is appreciated, thank you
+
+##### DDaniel [Cyberbotics] 11/02/2021 15:36:14
+`@Expert_Amateur` you can do closed mechanical loops by using SolidReferences: [https://cyberbotics.com/doc/reference/solidreference#mechanical-loop-example](https://cyberbotics.com/doc/reference/solidreference#mechanical-loop-example)
+
+The sample `file > open sample world > coupled motor` for instance relies on it. Make sure to add a physics node in all intermediary solids or it won't work
+
+##### Expert\_Amateur 11/02/2021 15:39:45
+Got it, thank you so much!
+
+##### Luftwaffel [Moderator] 11/02/2021 18:57:01
+When you add multiple robots, each will launch and run their own instance of a controller, even if it is the same controller. If you want them to communicate with each other, there is 2 general approaches. 
+
+1. You have them directly communicate with one another
+
+2. Each robot communicates with a "Master" controller, which coordinates everything
+
+
+
+In Webots you can use emitters and receivers for communication [https://cyberbotics.com/doc/reference/emitter](https://cyberbotics.com/doc/reference/emitter)
+
+[https://cyberbotics.com/doc/reference/receiver](https://cyberbotics.com/doc/reference/receiver)
+
+They basically simulate radio communication
+
+##### vivip2231 11/02/2021 22:14:02
+Hi everyone, can someone help me regarding using pyikfast? I was able to get it working in my project, my robotarm controller is working fine, but the inverse kinematics results are a little bit strange. I will tell more detail about it, if someone can help me out with this.
+
+##### Luftwaffel [Moderator] 11/02/2021 22:24:32
+`@vivip2231` strange in what way? can you share more info?
+
+
+You can try my sample world to see a working implementation
+
+
+[https://github.com/Simon-Steinmann/webots\_pyikfast\_tutorial](https://github.com/Simon-Steinmann/webots_pyikfast_tutorial)
+
+##### Guru 11/03/2021 05:15:49
+Hi everyone, I am trying to perform inverse kinematics on spot mini. But there is No information regarding the joint to joint dimensions of the robot(nor the cad).can someone help me regarding this issue
+
+##### Rody El Hamod 11/03/2021 08:22:56
+hello guys,
+
+anyone knows how the physics plugin is called to check for collisions ? i mean it's called periodically for example every 1 ms or when the robot move ...
+
+
+thanks in advance
+
+
+do you have the urdf file of the robot ?
+
+##### DDaniel [Cyberbotics] 11/03/2021 08:33:09
+the function `webots_physics_collide` is called whenever a collusion between two geometries occurs (anywhere in the world), so during a timestep it can be called many times or zero depending on the situation
+
+##### Rody El Hamod 11/03/2021 08:33:33
+okay thanks
+
+##### Guru 11/03/2021 08:38:25
+No I don't, I am trying to use the proto
+
+##### Rody El Hamod 11/03/2021 08:39:42
+there's a urdf2proto function maybe there's proto2urdf
+
+if you can get your hand on the urdf or maybe do it yourself since you have the proto and you can see the children and everything on webots, you can do inverse kinematics with ikpy library
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/905375721160081438/unknown.png)
+%end
+
+##### vivip2231 11/03/2021 09:35:15
+The tutorial helped me a lot, that's why my controller is working fine (no problem with that). I think the problem is maybe in the urdf file (I generated a new one), because I am not using one of the proto robot arms. Mine is the ABB IRB140  industrial robot, which I downloaded of their official website (CAD model), and I did the necessary things to the imported Robot node. Like i gave the corresponding max,min positions to the motors, specified the velocity, torque fields etc. 
+
+The results are strange, because they are slightly over the max, min bounds, OR even if there is a suitable result for the robot, then it is moving towards the target in a strange positions. For example it flips its wrists. I attached a picture, where I think the problem is clearly visible.
+
+
+You can see by the ABB label on the robot (it has turned upside down), that the robot flipped its wrists for reaching the target.
+%figure
+![num2.PNG](https://cdn.discordapp.com/attachments/565154703139405824/905390428432506900/num2.PNG)
+%end
+
+
+And there are also some cases where i think the target approaching for the robot should not be a problem, but there are no results for that target position.
 

@@ -4,6 +4,12 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [Cyberbotics] 11/01/2021 13:21:34
+As you may have seen, I was elected at the ROS2 Technical Steering Committee. Thank you to those who voted! The only official announcement I found is there: [https://discourse.ros.org/t/ros-news-for-the-week-of-10-18-2021/22811](https://discourse.ros.org/t/ros-news-for-the-week-of-10-18-2021/22811)
+
+
+Open position in Germany for a research engineer with experience with Webots, ROS/ROS2 & python: [http://duerer.usc.edu/pipermail/robotics-worldwide/2021-October/026190.html](http://duerer.usc.edu/pipermail/robotics-worldwide/2021-October/026190.html)
+
 ##### Benjamin Hug [Cyberbotics] 10/25/2021 11:54:35
 Our Lightning Talk has been chosen and shown during the ROS World 2021 !
 
