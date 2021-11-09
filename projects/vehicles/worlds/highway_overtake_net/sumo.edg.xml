@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <edges>
-  <edge id="0" from="Custom0" to="Custom1" numLanes="4" width="3.75" shape="-0.011945,1.250010 -5000.005604,9.213274 "/>
+  <edge id="0" from="Custom0" to="Custom1" numLanes="4" width="3.75" shape="-0.000000,1.250000 -5000.000000,1.250000 "/>
   <edge id="1" from="Custom2" to="Custom3" numLanes="4" width="3.75" shape="-5000.000000,-1.250000 0.000000,-1.250000 "/>
 </edges>
