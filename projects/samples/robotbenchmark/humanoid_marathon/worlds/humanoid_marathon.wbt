@@ -5,8 +5,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.00011581695288525326 -0.9999996987714513 -0.000767491654866011 5.983638891496053
-  position -3.3484340581322973 0.5679765144829039 1.2575521827068765
+  orientation 0.1882669682608518 -0.06253189797785252 -0.9801251503747646 3.7710394309644553
+  position 1.901924727455864 -1.1740952400297704 1.2749886631599967
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -122,7 +122,7 @@ DEF ENVIRONMENT Solid {
     }
     SimpleBuilding {
       translation -0.53 0 -22.03
-      rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
+      rotation 1 7.19235e-09 7.19235e-09 -1.5707953071795862
       floorNumber 5
       corners [
         20 10
@@ -162,7 +162,7 @@ DEF ENVIRONMENT Solid {
     }
     BungalowStyleHouse {
       translation -6.95 0 13.19
-      rotation 0 0.7071067811865475 0.7071067811865475 3.1415926325163688
+      rotation 1 0 0 -1.5707953071795862
       name "bungalow style house(1)"
     }
     Tree {
