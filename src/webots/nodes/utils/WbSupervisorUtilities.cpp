@@ -381,7 +381,8 @@ void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
     return;
 
   WbTemplateManager::instance()->blockRegeneration(false);
-  if (WbWorld::instance()->robots().contains(mRobot))  // only emit if robot still exists (FieldSetRequest could have regenerated it)
+  // only emit if robot still exists (FieldSetRequest could have regenerated it)
+  if (WbWorld::instance()->robots().contains(mRobot))
     emit worldModified();
 }
 
