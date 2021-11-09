@@ -174,19 +174,6 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
       height /= divider;
   }
 
-  if (mUrl->size() == 0)
-    return false;
-  const QString &url(mUrl->item(0));
-  std::pair<QImage *, int> pair = gImagesMap[url];
-  if (pair.first) {
-    int number = pair.second--;
-    if (number == 0) {
-      delete mImage;
-      gImagesMap.remove(url);
-    } else
-      gImagesMap[url] = std::make_pair(pair.first, number);
-  }
-
   mImage = new QImage();
 
   if (!imageReader.read(mImage)) {
@@ -226,7 +213,11 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
 }
 
 void WbImageTexture::updateWrenTexture() {
-  destroyWrenTexture();
+  // Calling destroyWrenTexture() decreases the count of gImagesMap, so if it is called before a node is finalized,
+  // previously loaded images (in gImagesMap) would be deleted which results in an incorrect initialization of the node because
+  // the texture is available in the cache but no reference to it remains as the only reference was immediately deleted
+  if (isPostFinalizedCalled())
+    destroyWrenTexture();
 
   QString filePath(path());
   if (filePath.isEmpty())
@@ -251,16 +242,16 @@ void WbImageTexture::updateWrenTexture() {
       const QString &url(mUrl->item(0));
       gImagesMap[url] = std::make_pair(mImage, 1);
     }
-  } else {
+  } else {  // texture is already available
     if (mUrl->size() == 0)
       return;
     const QString &url(mUrl->item(0));
     std::pair<QImage *, int> pair = gImagesMap.value(url);
     if (pair.first) {
-      mImage = pair.first;
-      int number = pair.second++;
-      gImagesMap[url] = std::make_pair(mImage, number);
+      mImage = pair.first;  // mImage needs to be defined regardless as pickColor relies on it
+      gImagesMap[url] = std::make_pair(pair.first, pair.second + 1);
     }
+
     mIsMainTextureTransparent = wr_texture_is_translucent(WR_TEXTURE(texture));
   }
 
@@ -284,12 +275,13 @@ void WbImageTexture::destroyWrenTexture() {
   const QString &url(mUrl->item(0));
   std::pair<QImage *, int> pair = gImagesMap[url];
   if (pair.first) {
-    int number = pair.second--;
-    if (number == 0) {
+    const int instances = pair.second - 1;
+    assert(instances >= 0);
+    if (instances == 0) {
       delete mImage;
       gImagesMap.remove(url);
     } else
-      gImagesMap[url] = std::make_pair(pair.first, number);
+      gImagesMap[url] = std::make_pair(pair.first, instances);
   }
 
   mImage = NULL;
