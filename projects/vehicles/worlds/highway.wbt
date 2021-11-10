@@ -1852,11 +1852,6 @@ Crossroad {
   ]
 }
 Crossroad {
-  translation -43.82 53.6 0
-  name "crossroad(200)"
-  id "c"
-}
-Crossroad {
   translation -43.8 15.6 0
   name "crossroad(3)"
   id "c3"
