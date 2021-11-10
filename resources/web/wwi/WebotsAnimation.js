@@ -24,10 +24,13 @@ export default class WebotsAnimation extends HTMLElement {
         return prefix + path;
       }`;
     document.head.appendChild(script);
-    let name = document.getElementsByTagName('webots-animation')[0].title;
-    if (!name)
-      name = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '');
-    this.setNames(name);
+    let x3d = this.getAttribute('x3d');
+	let json = this.getAttribute('json');
+
+    if (x3d)
+	  this.setX3d(x3d);
+    if (json)
+      this.setJson(json);
 
     this._init();
   }
@@ -45,8 +48,8 @@ export default class WebotsAnimation extends HTMLElement {
     const promises = [];
     Module.onRuntimeInitialized = () => {
       Promise.all(promises).then(() => {
-        if (this.getAttribute('playWhenReady') && this.getAttribute('playWhenReady') === 'true')
-          this.play();
+        if (typeof this._x3d !== 'undefined' && this._x3d !== '')
+          this.load(!(this.getAttribute('autoplay') && this.getAttribute('autoplay') === "false"));
       });
     };
     promises.push(this._load('https://git.io/glm-js.min.js'));
@@ -54,16 +57,25 @@ export default class WebotsAnimation extends HTMLElement {
     promises.push(this._load('https://cyberbotics.com/wwi/R2022a/wrenjs.js'));
   }
 
-  setNames(name) {
-    this._x3d = name + '.x3d';
-    this._json = name + '.json';
+  setJson(fileName) {
+    this._json = fileName;
+  }
+  setX3d(fileName) {
+    this._x3d = fileName;
   }
 
-  play(mobileDevice) {
+  load(play, mobileDevice) {
+    if (typeof this._x3d === 'undefined') {
+	  console.error("No x3d file defined");
+	  return;
+    }
     if (typeof this._view === 'undefined')
       this._view = new webots.View(this, mobileDevice);
     this._view.open(this._x3d);
-    this._view.setAnimation(this._json, 'play', true);
+    if (play !== 'undefined' && play === false)
+      this._view.setAnimation(this._json, 'pause', true);
+    else
+      this._view.setAnimation(this._json, 'play', true);
     this._hasActiveAnimation = true;
   }
 
