@@ -49,7 +49,7 @@ export default class WebotsAnimation extends HTMLElement {
     Module.onRuntimeInitialized = () => {
       Promise.all(promises).then(() => {
         if (typeof this._x3d !== 'undefined' && this._x3d !== '')
-          this.load(!(this.getAttribute('autoplay') && this.getAttribute('autoplay') === "false"));
+          this.load(!(this.getAttribute('autoplay') && this.getAttribute('autoplay') === 'false'));
       });
     };
     promises.push(this._load('https://git.io/glm-js.min.js'));
