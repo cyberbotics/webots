@@ -66,8 +66,8 @@ export default class WebotsAnimation extends HTMLElement {
 
   load(play, mobileDevice) {
     if (typeof this._x3d === 'undefined') {
-	  console.error("No x3d file defined");
-	  return;
+	    console.error("No x3d file defined");
+	    return;
     }
     if (typeof this._view === 'undefined')
       this._view = new webots.View(this, mobileDevice);
