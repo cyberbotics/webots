@@ -4,7 +4,25 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [Cyberbotics] 10/20/2021 07:16:32
+##### Olivier Michel [Cyberbotics] 11/01/2021 13:21:34
+As you may have seen, I was elected at the ROS2 Technical Steering Committee. Thank you to those who voted! The only official announcement I found is there: [https://discourse.ros.org/t/ros-news-for-the-week-of-10-18-2021/22811](https://discourse.ros.org/t/ros-news-for-the-week-of-10-18-2021/22811)
+
+
+Open position in Germany for a research engineer with experience with Webots, ROS/ROS2 & python: [http://duerer.usc.edu/pipermail/robotics-worldwide/2021-October/026190.html](http://duerer.usc.edu/pipermail/robotics-worldwide/2021-October/026190.html)
+
+##### Benjamin Hug [Cyberbotics] 10/25/2021 11:54:35
+Our Lightning Talk has been chosen and shown during the ROS World 2021 !
+
+
+
+You can check it now to discover the improvements made on the Webots-ROS interface during the last year:
+
+[https://vimeo.com/635607300#t=451s](https://vimeo.com/635607300#t=451s)
+
+##### Olivier Michel [Cyberbotics] 10/22/2021 09:23:20
+Webots in OpenRoberta online NAO simulations at [https://lab.open-roberta.org](https://lab.open-roberta.org). Select NAO and click on the SIM button to start the Webots simulation. You will be able to program the robot using the Blockly graphical programming language. See the press release here: [https://www.iais.fraunhofer.de/de/presse/presseinformationen/presseinformationen-2021/presseinformation-211019.html](https://www.iais.fraunhofer.de/de/presse/presseinformationen/presseinformationen-2021/presseinformation-211019.html) (in German).
+
+
 If you like Webots and ROS and would like to help us, please take 10 seconds and vote for me (Olivier Michel) at the ROS2 Technical Steering Committee election: [https://civs1.civs.us/cgi-bin/vote.pl?id=E\_ee3018e9881cbe49&akey=7c1cdeb3142060b4](https://civs1.civs.us/cgi-bin/vote.pl?id=E_ee3018e9881cbe49&akey=7c1cdeb3142060b4)
 
 ##### Stefania Pedrazzi [Cyberbotics] 10/12/2021 07:47:51
@@ -104,7 +122,7 @@ Making of URDF in ROS with webots .
 [https://youtu.be/0ybXPnkFFCo](https://youtu.be/0ybXPnkFFCo)
 
 
-New video series with tutorials on Webots with ROS with a lot of Robotics concepts : 
+New video series with tutorials on Webots with ROS with a lot of Robotics concepts :
 
 
 
@@ -178,7 +196,7 @@ This list is about with Fusion360 and Webots.
 
 Ubuntu has recently published a very nice article about deploying ROS 2 on Raspberry Pi Pico. The article is based on an example that Cyberbotics contributed.  It shows Cyberbotic's initiative to contribute to ROS 2 in aspects other than simulation.
 
- 
+
 
 [https://ubuntu.com/blog/getting-started-with-micro-ros-on-raspberry-pi-pico](https://ubuntu.com/blog/getting-started-with-micro-ros-on-raspberry-pi-pico)
 
@@ -209,7 +227,7 @@ See more details:
 Special Thanks to `@Olivier Michel` `@Darko Lukić` `@David Mansolino`
 
 
-It's true, when you are willing to learn, teach and share knowledge, we grow together as a community. 📚Today as we reach 1000 subscribers, we wish to thank and congratulate each one of you who's reading this. 🥳🎉 It's the curiosity and eagerness to learn from each one of you that keeps us going. 📈 If you aren't a part of our growing robotics community yet, do subscribe so that you don't miss out on more interesting content. 🤖 
+It's true, when you are willing to learn, teach and share knowledge, we grow together as a community. 📚Today as we reach 1000 subscribers, we wish to thank and congratulate each one of you who's reading this. 🥳🎉 It's the curiosity and eagerness to learn from each one of you that keeps us going. 📈 If you aren't a part of our growing robotics community yet, do subscribe so that you don't miss out on more interesting content. 🤖
 
 [https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ](https://www.youtube.com/channel/UCrl9pLcAAKy8wuXkN-on3xQ)
 %figure
@@ -229,7 +247,7 @@ More about this is available:
 It is now official: Webots will be used as the simulation platform of the upcoming Robocup Virtual Humanoid Soccer Competition: [https://humanoid.robocup.org/hl-2021/call-for-participation/](https://humanoid.robocup.org/hl-2021/call-for-participation/)
 
 
-Here is sneak preview of our brand new 3D web interface for Webots:  [https://cyberbotics.com/animations/nao\_room/nao\_room.html](https://cyberbotics.com/animations/nao_room/nao_room.html) 
+Here is sneak preview of our brand new 3D web interface for Webots:  [https://cyberbotics.com/animations/nao\_room/nao\_room.html](https://cyberbotics.com/animations/nao_room/nao_room.html)
 
 It is based on a port of WREN (Webots Rendering ENgine) to webassembly and thus the rendering on the web page is very similar to the one you get in Webots. Moreover, it is fully compatible with the previous Webots animation format, so you can create a Webots animation (or re-use an existing one) and publish it on the web using this new 3D viewer.
 
@@ -390,7 +408,7 @@ Here is episode 6 of the Webots ROS2 video tutorial series. In this nice tutoria
 `@Soft_illusion` appreciate your videos in contributing to the community. Can you stop tagging everyone? it triggers an email notification. I would like to reserve those for DMs and important messages. Tx
 
 ##### Soft\_illusion 11/07/2020 02:08:52
-We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone 
+We are back with the fifth episode of the Webots ROS2 video tutorial series . Video 5: Tutorial on Subscribers in ROS2 [https://www.youtube.com/watch?v=mUmOwr-U\_68](https://www.youtube.com/watch?v=mUmOwr-U_68) Stay tuned for more upcoming interesting episodes. @everyone
 
 Special Thanks to Webots Team for their guidance.
 
@@ -502,7 +520,7 @@ We are happy to annouce the release of #Webots "R2020b revision 1".
 
 
 
-This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS. 
+This maintenance release fixes several issues. In particular we focused on fixing specific issues reported by users and improving the support on macOS.
 
 
 
@@ -577,7 +595,7 @@ Together with you, we are committed  to provide high quality, free and open sour
 Final of the student robotics virtual competition live now [https://youtu.be/xBPVqsb\_Ydk](https://youtu.be/xBPVqsb_Ydk)
 
 ##### amitsaini 07/24/2020 15:35:03
-Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots. 
+Hi I am testing a Robotic Dog on Webots. Earlier I was using CoppelliaSim but faced some problems. So now switching to Webots.
 
 [https://www.youtube.com/watch?v=4oXSDRn0iBA](https://www.youtube.com/watch?v=4oXSDRn0iBA)
 
@@ -891,4 +909,3 @@ Demonstration of a Universal Robot UR5e with grippers: [https://youtu.be/WIY9ebq
 
 ##### Olivier Michel [Cyberbotics] 04/18/2019 08:39:15
 Short story about robotbenchmark: [https://www.eosc-hub.eu/news/robotbenchmark-%E2%80%93-cloud-based-robot-simulations-eosc-marketplace](https://www.eosc-hub.eu/news/robotbenchmark-%E2%80%93-cloud-based-robot-simulations-eosc-marketplace)
-
