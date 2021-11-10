@@ -40,7 +40,8 @@ The web animation is played by a web component from the [WebotsAnimation.js] pac
 The following attributes are available:
 * `x3d`: the name of the .x3d file containing the 3d model.
 * `json`: the name of the .json file containing the animation sequence.
-* `autoplay`: 'true' or 'false' to determine if the animation should be played automatically. If `x3d` is set, the animation will be played by default.
+* `autoplay`: 'true' or 'false' to determine if the animation should be played automatically.
+If `json` is set, the animation will be played by default.
 
 For more complex interaction with the web component, the following functions are available:
 * `active()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
