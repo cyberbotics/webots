@@ -46,7 +46,7 @@ class Crossroad(object):
         if self.crossroadType == "Crossroad":
             try:
                 self.shape = grouper(3, [float(x) for x in re.findall(r'shape\s*\[([^\]]*)\]', wbtString)[0].split()])
-                correction_angle = -math.pi/2
+                correction_angle = -math.pi / 2
                 for i in range(len(self.shape)):
                     shape = self.shape[i]
                     x = - math.cos(correction_angle) * shape[0] + math.sin(correction_angle) * shape[1]

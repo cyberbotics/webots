@@ -33,9 +33,9 @@ class WebotsVehicle:
         position = self.node.getPosition()
         matrix = self.node.getOrientation()
         angle1 = math.asin(matrix[0])
-        angle2 = math.atan(-matrix[3]/abs(matrix[0]))
+        angle2 = math.atan(-matrix[3] / abs(matrix[0]))
         if angle2 < 0:
-            angle1 = math.pi-angle1
+            angle1 = math.pi - angle1
         # compute position in sumo coordinate frame
         position[0] = position[0] - xOffset + 0.5 * self.vehicleLength * math.sin(angle1)
         position[1] = position[1] - yOffset - 0.5 * self.vehicleLength * math.cos(angle1)
@@ -47,10 +47,10 @@ class WebotsVehicle:
         # get pitch angle
         matrix = self.node.getOrientation()
         angle1 = math.asin(matrix[0])
-        angle2 = math.atan(-matrix[3]/abs(matrix[0]))
+        angle2 = math.atan(-matrix[3] / abs(matrix[0]))
         angle = angle1
         if angle2 > 0:
-            angle = math.pi-angle1
+            angle = math.pi - angle1
         return angle
 
     def is_on_road(self, xOffset, yOffset, maxDistance, net):
