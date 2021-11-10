@@ -96,7 +96,6 @@ SumoInterface {
   useNetconvert FALSE
   radius 250
   laneChangeDelay 4
-  seed 3
 }
 StraightRoadSegment {
   translation 0 8.75 0.01

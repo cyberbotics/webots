@@ -56,22 +56,16 @@ Fog {
 }
 DEF GROUND Solid {
   children [
-    Transform {
-      children [
-        Shape {
-          appearance DryMud {
-            textureTransform TextureTransform {
-              scale 2000 2000
-            }
-          }
-          geometry DEF GROUND_PLANE Plane {
-            size 2000 2000
-          }
-          castShadows FALSE
+    Shape {
+      appearance DryMud {
+        textureTransform TextureTransform {
+          scale 2000 2000
         }
-      ]
-    }
-    Transform {
+      }
+      geometry DEF GROUND_PLANE Plane {
+        size 2000 2000
+      }
+      castShadows FALSE
     }
   ]
   name "ground"
@@ -111,7 +105,7 @@ DEF ENVIRONMENT Solid {
       isPickable FALSE
     }
     RoadIntersection {
-      translation 30.38 0.11000000000000001 -2
+      translation 30.38 0.11 -2
       rotation 0.8628559982596194 0.35740699927911007 0.35740699927911007 -1.7177753071795863
       roadsWidth 7.2
       startRoadsLength [
@@ -122,7 +116,7 @@ DEF ENVIRONMENT Solid {
     }
     SimpleBuilding {
       translation -0.53 0 -22.03
-      rotation 1 7.19235e-09 7.19235e-09 -1.5707953071795862
+      rotation 1 0 0 -1.5707953071795862
       floorNumber 5
       corners [
         20 10

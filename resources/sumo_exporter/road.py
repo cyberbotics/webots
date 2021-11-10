@@ -54,7 +54,7 @@ class Road(object):
         if self.roadType == 'Road':
             try:
                 self.wayPoints = grouper(3, [float(x) for x in re.findall(r'wayPoints\s*\[([^\]]*)\]', wbtString)[0].split()])
-                correction_angle = math.pi / 2
+                correction_angle = math.pi * 0.5
                 for i in range(len(self.wayPoints)):
                     wayPoint = self.wayPoints[i]
                     x = -math.cos(correction_angle) * wayPoint[0] + math.sin(correction_angle) * wayPoint[1]
