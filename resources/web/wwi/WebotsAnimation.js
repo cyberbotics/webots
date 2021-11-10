@@ -24,8 +24,8 @@ export default class WebotsAnimation extends HTMLElement {
         return prefix + path;
       }`;
     document.head.appendChild(script);
-    let x3d = this.getAttribute('x3d');
-    let json = this.getAttribute('json');
+    const x3d = this.getAttribute('x3d');
+    const json = this.getAttribute('json');
 
     if (x3d)
       this.setX3d(x3d);
