@@ -46,8 +46,8 @@ def rotation_from_yaw_pitch_roll(yaw, pitch, roll):
     if math.fabs(cosAngle) > 1:
         return rotation
     else:
-        rotation[0] = f - h
-        rotation[1] = b - d
+        rotation[0] = b - d
+        rotation[1] = f - h
         rotation[2] = g - c
         rotation[3] = math.acos(cosAngle)
         # normalize vector
