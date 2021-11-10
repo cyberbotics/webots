@@ -18,7 +18,7 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SUMO_TARGET=sumo
-SUMO_VERSION=0.30
+SUMO_VERSION=1.10.0
 
 ifeq ($(OSTYPE),linux)
  HOSTTYPE ?= $(shell uname -m)
