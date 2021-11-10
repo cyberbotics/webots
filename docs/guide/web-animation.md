@@ -49,7 +49,7 @@ For more complex interaction with the web component, the following functions are
 * `setX3d(fileName)`: set the name of the x3d file for the next model to be loaded.
   * `fileName`: name of the x3d file.
 * `setJson(fileName)`: set the name of the json file for the next animation to be loaded.
-  * `fileName`: the name of the json file.
+  * `fileName`: name of the json file.
 * `load(play, mobileDevice)`: load and play the animation.
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
