@@ -51,10 +51,11 @@ PROTO IbeoLux [
     minFrequency 12.5
     maxFrequency 50
     horizontalResolution 680
+    fieldOfView %<= fieldOfView >%
     verticalFieldOfView 0.056
     boundingObject Transform {
-      rotation %<= newOrientationString >%
       translation -0.024 0 0
+      rotation %<= newOrientationString >%
       children [
         Box {
           size 0.16 0.09 0.095
@@ -67,8 +68,8 @@ PROTO IbeoLux [
     }
     children [
       Transform {
-        rotation %<= newOrientationString >%
         translation -0.023 -0.07 0.014
+        rotation %<= newOrientationString >%
         children [
           Shape {
             appearance PBRAppearance {

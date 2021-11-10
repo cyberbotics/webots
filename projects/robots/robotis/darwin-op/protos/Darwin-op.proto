@@ -13,7 +13,7 @@
 # template language: javascript
 
 PROTO Darwin-op [
-  field SFVec3f    translation     0 0 0                      # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.277                  # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0                    # Is `Transform.rotation`.
   field SFString   name            "DARwIn-OP"                # Is `Solid.name`.
   field SFString   controller      "motion_player"            # Is `Robot.controller`.
