@@ -1,0 +1,8 @@
+<flows>
+    <vType id="vehicle" accel="4" decel="15" sigma="0.5" length="6" minGap="2.5" maxSpeed="130" guiShape="passenger"/>
+
+    <interval begin="0" end="3600">
+        <flow id="0" type="vehicle" departLane="random" departSpeed="random" from="INSE0.0" to="OUTSW0.0" number="200"/>
+        <flow id="1" type="vehicle" departLane="random" departSpeed="random" from="INNW0.0" to="OUTNE0.0" number="200"/>
+    </interval>
+</flows>
