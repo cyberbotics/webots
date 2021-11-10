@@ -1164,19 +1164,19 @@ Thank you `@David Mansolino` ! In the mass tab, it seems that moment of inertia 
 
 Then you will be able to select the children Solid nodes and get their inertia matrix too.
 
-##### Kricklobderno 08/21/2020 11:31:48
+##### KamilKaya 08/21/2020 11:31:48
 Hi, How can I use display node? When I add it to the child node of camera controller crashes.
 
 ##### David Mansolino [Cyberbotics] 08/21/2020 11:33:36
 Hi, you should have a look at the examples provided within Webots, e.g. [https://cyberbotics.com/doc/guide/samples-devices#display-wbt](https://cyberbotics.com/doc/guide/samples-devices#display-wbt)
 
-##### Kricklobderno 08/21/2020 16:57:44
+##### KamilKaya 08/21/2020 16:57:44
 But Can I put the display node to camera as child node? I want to achieve the hough circle transform by taking frames from the camera, processing it and after than showing it to display screen.
 
 ##### David Mansolino [Cyberbotics] 08/24/2020 05:51:00
 You don't need to put it in the camera as child to do this, you just need to retrieve the image of the camera, process it and then use the display functions to draw on it: [https://cyberbotics.com/doc/reference/display#display-functions](https://cyberbotics.com/doc/reference/display#display-functions)
 
-##### Kricklobderno 08/24/2020 10:15:49
+##### KamilKaya 08/24/2020 10:15:49
 > You don't need to put it in the camera as child to do this, you just need to retrieve the image of the camera, process it and then use the display functions to draw on it: [https://cyberbotics.com/doc/reference/display#display-functions](https://cyberbotics.com/doc/reference/display#display-functions)
 
 `@David Mansolino` Thank you. I achieved it as you refer.
@@ -1821,7 +1821,7 @@ is there something wrong with the documentation page on website?
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/822921967689662489/unknown.png)
 %end
 
-##### baby\_droid\_yoda 03/20/2021 20:03:57
+##### Harun KURT 03/20/2021 20:03:57
 Yes , same with me this documentation website
 
 ##### Olivier Michel [Cyberbotics] 03/22/2021 07:26:31

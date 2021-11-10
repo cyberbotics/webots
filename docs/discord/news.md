@@ -4,7 +4,13 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
-##### Olivier Michel [Cyberbotics] 11/01/2021 13:21:34
+##### Olivier Michel [Cyberbotics] 11/10/2021 07:41:52
+"Simulation and Evaluation of a Mechanical Hopping Mechanism for Robotic Small Body Surface Navigation". [https://arc.aiaa.org/doi/abs/10.2514/6.2021-4184](https://arc.aiaa.org/doi/abs/10.2514/6.2021-4184)
+
+
+New journal papers relying on Webots: "Dynamic Bipedal Walking Using Real-Time Optimization of Center of Mass Motion and Capture Point-Based Stability Controller". [https://link.springer.com/article/10.1007/s10846-021-01468-1](https://link.springer.com/article/10.1007/s10846-021-01468-1)
+
+
 As you may have seen, I was elected at the ROS2 Technical Steering Committee. Thank you to those who voted! The only official announcement I found is there: [https://discourse.ros.org/t/ros-news-for-the-week-of-10-18-2021/22811](https://discourse.ros.org/t/ros-news-for-the-week-of-10-18-2021/22811)
 
 
@@ -176,7 +182,7 @@ Here is a nice master thesis report making extensive use of Webots: [https://web
 
 [https://www.youtube.com/watch?v=ZnwPNG17jVQ](https://www.youtube.com/watch?v=ZnwPNG17jVQ)
 
-##### baby\_droid\_yoda 04/07/2021 18:44:06
+##### Harun KURT 04/07/2021 18:44:06
 [https://lnkd.in/dApbakU](https://lnkd.in/dApbakU)
 
 
@@ -615,7 +621,7 @@ That competition is live now [https://www.youtube.com/watch?v=xLL7SoQywf4](https
 ##### Olivier Michel [Cyberbotics] 06/13/2020 09:21:11
 Student competition based on Webots: [https://studentrobotics.org/docs/competition-simulator/](https://studentrobotics.org/docs/competition-simulator/)
 
-##### baby\_droid\_yoda 06/10/2020 13:17:09
+##### Harun KURT 06/10/2020 13:17:09
 [Turkish] [https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE](https://www.youtube.com/watch?v=S4mC2UuwNv0&list=PL2gHOyQeamXK-UtKcDOBqy1TC7iazIaWE)
 
 ##### iagsav 06/05/2020 21:59:47

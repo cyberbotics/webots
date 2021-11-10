@@ -2769,3 +2769,56 @@ You could use something like this: [https://handtracking.io/](https://handtracki
 
 With some minimal websockets server in the controller.
 
+## November
+
+##### Vinay 11/09/2021 15:43:01
+Can anyone help me in writing the python controller
+
+##### mahesh 11/09/2021 15:52:06
+[https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers)
+
+
+Take a look at this, this is a well written documentation and let us know if you are still not able to figure things out
+
+##### its-me 11/09/2021 16:50:25
+Can I hire someone to help me get started with a project? I need help getting my robot and a chess board added so I can start writing the controller
+
+
+I think I need the 3d files added and the physics done?
+
+##### Luftwaffel [Moderator] 11/09/2021 16:52:52
+What robot? A custom one or a commercial product?
+
+##### its-me 11/09/2021 16:53:25
+Commercial, but is ancient, I posted the docs a last week
+
+
+I think it was under technical questions
+
+##### Luftwaffel [Moderator] 11/09/2021 16:54:49
+Do you have 3d models and an urdf file?
+
+##### its-me 11/09/2021 16:55:20
+I can generate step files
+
+
+What is urdf
+
+##### Luftwaffel [Moderator] 11/09/2021 16:56:44
+Google it, urdf is the most common and established way to define a robot in terms of appearance, physics and functionality
+
+
+And it is fairly easy to understand and create
+
+##### its-me 11/09/2021 16:57:52
+I can work on that and try to figure it out
+
+##### Luftwaffel [Moderator] 11/09/2021 16:59:39
+Many cad programs also allow you to export urdf
+
+##### its-me 11/09/2021 17:00:28
+I have fusion360, can look into that
+
+##### DrakerDG 11/09/2021 18:45:30
+[http://wiki.ros.org/urdf](http://wiki.ros.org/urdf)
+
