@@ -47,7 +47,7 @@ For more complex interaction with the web component, the following functions are
 * `active()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `close()`: close the current animation.
 * `setX3d(fileName)`: set the name of the x3d file for the next model to be loaded.
-  * `fileName`: the name of the x3d file.
+  * `fileName`: name of the x3d file.
 * `setJson(fileName)`: set the name of the json file for the next animation to be loaded.
   * `fileName`: the name of the json file.
 * `load(play, mobileDevice)`: load and play the animation.
