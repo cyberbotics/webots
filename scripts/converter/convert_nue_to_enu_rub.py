@@ -32,8 +32,8 @@
       - clean: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds.
         It also include the possibility to round the values.
       - specific: convert a specific field, see an example line 192  of the script.
-  Finally, since all the objects have a different rotation, you can add yours in one of the tree lists `objects_pi`, 
-  `objects_pi_2` or `objects_minus_pi_2` according if it needs to be turn on PI, PI/2 or -PI/2.
+  Finally, since all the objects have a different rotation, you can add yours in one of the tree lists `objects_pi`,
+  `objects_pi_2` or `objects_minus_pi_2` according if it needs to be turn by respectively PI, PI/2 or -PI/2.
 
 ***file structure***
     The `centerOfMass` and the geometry `IndexedFaceSet` need to have this specific structure (only carriage returns matter):
@@ -313,12 +313,14 @@ if __name__ == '__main__':
     foldername = ''  # example: 'projects/robots/parallax/boebot/protos/', change it by your .wbt or.proto folder
 
     # non-exaustive list of the objects which need to be turn on PI, PI/2 or -PI/2
-    objects_pi = ['Road', 'StraightRoadSegment', 'RoadPillars', 'LaneSeparation', 'CurvedRoadSegment', 'AddLanesRoadSegment', 'RandomBuilding', 'SimpleBuilding', 'BusStop', 'BusSimple', 'AdvertisingBoard',
-                  'Bench', 'BmwX5Simple', 'CitroenCZeroSimple', 'ToyotaPriusSimple', 'MotorbikeSimple', 'TruckSimple', 'ScooterSimple', 'LincolnMKZSimple', 'ToyotaPriusSimple', 'TrashBin', 'BungalowStyleHouse']
+    objects_pi = ['Road', 'StraightRoadSegment', 'RoadPillars', 'LaneSeparation', 'CurvedRoadSegment', 'AddLanesRoadSegment',
+                  'RandomBuilding', 'SimpleBuilding', 'BusStop', 'BusSimple', 'AdvertisingBoard', 'Bench', 'BmwX5Simple',
+                  'CitroenCZeroSimple', 'ToyotaPriusSimple', 'MotorbikeSimple', 'TruckSimple', 'ScooterSimple',
+                  'LincolnMKZSimple', 'ToyotaPriusSimple', 'TrashBin', 'BungalowStyleHouse']
     objects_pi_2 = ['PedestrianCrossing', 'Auditorium', 'PublicToilet', 'Museum', 'SwingCouch']
     objects_minus_pi_2 = ['Forest', 'HighwayPole', 'FastFoodRestaurant',
                           'Roundabout', 'Chair', 'OilBarrel', 'DivergentIndicator']
-                          
+
     if len(sys.argv) == 2:
         filename_list = [str(sys.argv[1])]
     elif not filename_list:
