@@ -1828,6 +1828,7 @@ DEF WEBOTS_VEHICLE0 BmwX5 {
 Crossroad {
   translation -5.82 -110 0
   id "c0"
+  shape []
   connectedRoadIDs [
     "OUTEJUN0"
     "OUTEJUN1"
@@ -1837,6 +1838,7 @@ Crossroad {
   translation -5.82 -53.6 0
   name "crossroad(1)"
   id "c1"
+  shape []
   connectedRoadIDs [
     "OUTEJUN2"
     "OUTEJUN1"
@@ -1846,6 +1848,7 @@ Crossroad {
   translation -43.82 -15.6 0
   name "crossroad(2)"
   id "c2"
+  shape []
   connectedRoadIDs [
     "OUTEJUN2"
     "OUTEJUN3"
@@ -1855,6 +1858,7 @@ Crossroad {
   translation -43.8 15.6 0
   name "crossroad(3)"
   id "c3"
+  shape []
   connectedRoadIDs [
     "INEJUN2"
     "INEJUN1"
@@ -1864,6 +1868,7 @@ Crossroad {
   translation -5.82 53.6 0
   name "crossroad(4)"
   id "c4"
+  shape []
   connectedRoadIDs [
     "INEJUN2"
     "INEJUN3"
@@ -1873,6 +1878,7 @@ Crossroad {
   translation -5.82 110 0
   name "crossroad(5)"
   id "c5"
+  shape []
   connectedRoadIDs [
     "INEJUN3"
     "INEJUN4"
@@ -1882,6 +1888,7 @@ Crossroad {
   translation 5.82 110 0
   name "crossroad(6)"
   id "c6"
+  shape []
   connectedRoadIDs [
     "OUTWJUN0"
     "OUTWJUN1"
@@ -1891,6 +1898,7 @@ Crossroad {
   translation 5.82 53.6 0
   name "crossroad(7)"
   id "c7"
+  shape []
   connectedRoadIDs [
     "OUTWJUN2"
     "OUTWJUN1"
@@ -1900,6 +1908,7 @@ Crossroad {
   translation 43.8 15.6 0
   name "crossroad(8)"
   id "c8"
+  shape []
   connectedRoadIDs [
     "OUTWJUN3"
     "OUTWJUN2"
@@ -1909,6 +1918,7 @@ Crossroad {
   translation 5.82 -110 0
   name "crossroad(9)"
   id "c9"
+  shape []
   connectedRoadIDs [
     "INWJUN2"
     "INWJUN3"
@@ -1918,6 +1928,7 @@ Crossroad {
   translation 5.82 -53.6 0
   name "crossroad(10)"
   id "c10"
+  shape []
   connectedRoadIDs [
     "INWJUN1"
     "INWJUN2"
@@ -1927,6 +1938,7 @@ Crossroad {
   translation 43.8 -15.6 0
   name "crossroad(11)"
   id "c11"
+  shape []
   connectedRoadIDs [
     "INWJUN0"
     "INWJUN1"
@@ -1936,6 +1948,7 @@ Crossroad {
   translation 183 187 5
   name "crossroad(12)"
   id "c12"
+  shape []
   connectedRoadIDs [
     "UPNW"
     "UPNOut"
@@ -1945,6 +1958,7 @@ Crossroad {
   translation 183 -187 5
   name "crossroad(13)"
   id "c13"
+  shape []
   connectedRoadIDs [
     "UPSOut"
     "UPSW"
@@ -1954,6 +1968,7 @@ Crossroad {
   translation -183 -187 5
   name "crossroad(14)"
   id "c14"
+  shape []
   connectedRoadIDs [
     "UPSE1to2"
     "UPSOut"
@@ -1963,6 +1978,7 @@ Crossroad {
   translation -183 187 5
   name "crossroad(15)"
   id "c15"
+  shape []
   connectedRoadIDs [
     "UPNOut"
     "UPNE"
