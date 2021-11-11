@@ -237,7 +237,7 @@ Solid {
 }
 Solid {
   translation -125.91130031650209 -435.12257297692366 -0.9400000000104307
-  rotation 0.8267650167523263 0.3424570069390352 0.4462990090431337 1.496255307179586
+  rotation -0.862857 0.357406 0.357407 -1.71778
   children [
     Shape {
       appearance Soil {
@@ -3651,7 +3651,7 @@ DEF PLAY_AREA Solid {
             }
           }
           geometry Plane {
-            size 24 16
+            size 16 24
           }
           castShadows FALSE
         }
