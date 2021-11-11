@@ -35,7 +35,7 @@ endif
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-mac.tar.gz
- SUMO_MD5SUM="c3cb346833b50487a74f7a648af5b28f"
+ SUMO_MD5SUM="313308b98a62ad6fa94ba88942678a32"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-mac.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
