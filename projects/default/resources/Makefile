@@ -24,7 +24,7 @@ ifeq ($(OSTYPE),linux)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
- SUMO_MD5SUM="1daaf090b712f4f3fefe76d26583a59"
+ SUMO_MD5SUM="dcfddacc6403a1d6598105cfeac48333"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
