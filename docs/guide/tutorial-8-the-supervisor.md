@@ -420,21 +420,21 @@ Let's add it from string after 20 time steps, add the following snippet in `CODE
 %tab "C"
 ```c
 if (i == 20)
-  wb_supervisor_field_import_mf_node_from_string(children_field, "Nao { }");
+  wb_supervisor_field_import_mf_node_from_string(children_field, -1, "Nao { }");
 ```
 %tab-end
 
 %tab "C++"
 ```cpp
 if (i == 20)
-  childrenField.importMFNodeFromString("Nao { }");
+  childrenField.importMFNodeFromString(-1, "Nao { }");
 ```
 %tab-end
 
 %tab "Python"
 ```python
 if i == 20:
-  children_field.importMFNodeFromString('Nao { }')
+  children_field.importMFNodeFromString(-1, 'Nao { }')
 ```
 %tab-end
 
@@ -469,3 +469,78 @@ In fact, we can simply specify the translation field directly in the string!
 Replace the string `"Nao { }"` with `"Nao { translation 0 0 2.5 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
 
+### Gather Measurements using a Supervisor
+
+Since the supervisor has unlimited power, it is the perfect tool to track the evolution of a simulation.
+In this section, we will use the acquired knowledge to spawn a ball, and track its position as it falls.
+
+> **Hands-on #4**: Spawning the ball.
+Although there are a number of balls available in the Webots library, for this exercise we will be making our own.
+This will allows us to explore the previously mentioned trick.
+
+1. Reload the simulation.
+2. Add a [Solid](../reference/solid.md) node and give it the `DEF` name `BALL`.
+3. Set the `translation` field of the [Solid](../reference/solid.md) to `-1 0 0`.
+4. Double-click the `children` field and add a [Shape](../reference/shape.md) node.
+5. In the `geometry` field add a [Sphere](../reference/sphere.md) node, setting its radius to `1`.
+6. Select the `geometry` field and give this node a `DEF` name `SPHERE_GEOMETRY`.
+7. In the `appearance` field add a [PBRAppearance](../reference/solid.md) node and set its `baseColor` field to red (`1 0 0`)
+8. Double-click the `boundingObject` field of the [Solid](../reference/solid.md) and under the `USE` category, select the `SPHERE_GEOMETRY`.
+9. Double-click the `physics` field and add a [Physics](../reference/physics.md) node.
+Set the mass to 0.1 [kg] and the density to -1.
+10. Save the world.
+11. Navigate to the location of this project and open the world file `my_supervisor.wbt` using a text editor.
+Locate where our ball is described, the line starts with `DEF BALL Solid { ...`.
+Select and copy the description to a new text file, saving it in the same directory of the world file with the name `custom_ball.wbo`.
+12. Re-open Webots and delete the Solid we just created from the scene tree, we will not need it anymore since we will spawn it from the `.wbo` file.
+13. When `i == 0`, spawn the ball using the supervisor, you will need to use the function [importMFNode](../reference/supervisor?tab-language=python#wb_supervisor_field_import_mf_node)
+
+%tab-component "language"
+
+%tab "C"
+```c
+wb_supervisor_field_import_mf_node(children_field, -1, "custom_ball.wbo");
+```
+%tab-end
+
+%tab "C++"
+```cpp
+childrenField.importMFNode(-1, "custom_ball.wbo");
+```
+%tab-end
+
+%tab "Python"
+```python
+children_field.importMFNode(-1, "custom_ball.wbo")
+```
+%tab-end
+
+%tab "Java"
+```java
+childrenField.importMFNode(-1, "custom_ball.wbo");
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+wb_supervisor_field_import_mf_node(children_field, -1, 'custom_ball.wbo')
+```
+%tab-end
+
+%end
+
+If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
+
+
+### Final code
+
+### Conclusion
+
+With this tutorial you have learned:
+1. A [Supervisor](supervisor.md) is nothing more than a [Robot](robot.md) with extra powers, therefore anything that you can do with a `Robot` instance, you can do with a `Supervisor` instance.
+2. A [Supervisor](supervisor.md) is not bound by physics, since its powers are unlimited, it can also "cheat".
+3. Whenever one wishes to alter the scene tree using a [Supervisor](supervisor.md), a reference needs to be obtained:
+   - To insert a node, you need a reference of the field that will contain it.
+   - To remove a node, you need a reference to the node (i.e object) itself.
+   - To change the value of a parameter like (translation, color, size, etc.) you need a reference to said field.
+4. Spawning objects can either be done from a string that describes them or by referring to a `.wbo` file that contains said description.
