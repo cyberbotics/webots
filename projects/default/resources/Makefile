@@ -46,7 +46,7 @@ endif
 ifeq ($(OSTYPE),windows)
  OS_TAG=windows
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-windows.zip
- SUMO_MD5SUM="545904bc1d9f936f4f0f8d02e782e7cf"
+ SUMO_MD5SUM="2fd97eeb01fb11d4e95c3e95fd2bb4a3"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-windows.zip))
  EXTRACT=unzip -q
  # remove .zip
