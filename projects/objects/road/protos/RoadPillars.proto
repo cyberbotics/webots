@@ -52,7 +52,7 @@ PROTO RoadPillars [
   Solid {
     translation IS translation
     rotation IS rotation
-    children [
+    children[
       Transform {
         rotation 0 0 1 1.5708
         children [

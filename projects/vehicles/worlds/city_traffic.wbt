@@ -987,7 +987,6 @@ ResidentialBuilding {
 }
 FastFoodRestaurant {
   translation 63.46 212.26 0
-  rotation 0 0 -1 4.712389
   height 4.3
   length 13
   width 12
