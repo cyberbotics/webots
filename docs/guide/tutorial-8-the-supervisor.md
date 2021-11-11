@@ -1,4 +1,4 @@
-## Tutorial 8: The Supervisor (XX Minutes)
+## Tutorial 8: The Supervisor (40 Minutes)
 
 This tutorial explains how to add and use a [Supervisor](../reference/supervisor.md).
 
@@ -16,12 +16,12 @@ Create a new project from the `Wizards` menu by selecting the `New Project Direc
 2. Name the world file `my_supervisor.wbt` instead of the proposed `empty.wbt`.
 3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
 4. In order to have more space, enlarge the arena by setting the size to 10x10 meters by changing the `floorSize` field.
-5. Add a [BB-8](bb8.md) robot to the scene, to do this click the `Add` button ![](images/add-button.png =26x26) and navigate to: `PROTO nodes (Webots projects) / robots / sphero / bb8`. 
+5. Add a [BB-8](bb8.md) robot to the scene, to do this click the `Add` button ![](images/add-button.png =26x26) and navigate to: `PROTO nodes (Webots projects) / robots / sphero / bb8`.
 6. For the purpose of this tutorial, remove the default controller of BB-8 by clicking the `controller` field, then the `Select` button, and picking `void` from the list.
 7. Add a simple [Robot](..reference/robot.md) node to the scene, this will become our Supervisor.
 The [Robot](..reference/robot.md) node can be found in the `base nodes` category when clicking the `Add` button.
 To better keep track of it, change the `name` field of this node to `supervisor`.
-8. Despite the name, the node is still currently just a [Robot](..reference/robot.md), to turn this robot into a [Supervisor](../reference/supervisor.md) requires to set its `supervisor` field to "TRUE".
+8. Despite the name, the node is still currently just a [Robot](../reference/robot.md), to turn this robot into a [Supervisor](../reference/supervisor.md) requires to set its `supervisor` field to "TRUE".
 9. Much like a normal robot, the behavior of a supervisor is defined by a controller.
 Add a controller using the `Wizards` menu and select `New Robot Controller..`, selecting the programming language you prefer.
 For this tutorial, Python is the choice, but the code will be provided for all other options.
@@ -142,14 +142,14 @@ import com.cyberbotics.webots.controller.Supervisor;
 public class MySupervisor {
 
  public static void main(String[] args) {
-    
+
     int TIME_STEP = 32;
 
     Supervisor robot = new Supervisor();
 
     int i = 0;
     while (robot.step(TIME_STEP) != -1) {
-      
+
       i++;
     }
  }
@@ -170,7 +170,7 @@ while wb_robot_step(TIME_STEP) ~= -1
   i = i + 1;
 end
 ```
-%tab-end 
+%tab-end
 
 %end
 
@@ -215,7 +215,7 @@ Node bb8Node = robot.getFromDef("BB-8");
 ```MATLAB
 bb8_node = wb_supervisor_node_get_from_def('BB-8');
 ```
-%tab-end 
+%tab-end
 
 %end
 
@@ -252,7 +252,7 @@ Field translationField = bb8Node.getField("translation");
 ```MATLAB
 translation_field = wb_supervisor_node_get_field(bb8_node, 'translation');
 ```
-%tab-end 
+%tab-end
 
 %end
 
@@ -296,7 +296,7 @@ translationField.setSFVec3f(newValue);
 new_value = [0, 0, 2.5]
 wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
 ```
-%tab-end 
+%tab-end
 
 %end
 
@@ -314,23 +314,21 @@ This section focuses on how nodes can be added and removed, specifically we will
 > **Hands-on #3**: Removing and adding nodes.
 1. In the previous section, we already saw how to retrieve the node reference of an object.
 A node can be removed from the scene tree by using the [remove](../reference/supervisor?tab-language=python#wb_supervisor_node_remove) method.
-The `if` condition is not necessary, it adds a 10 step delay before the removal, to make it more apparent.
+The `if` condition is not necessary, it simply adds a 10 step delay before the removal to make it more apparent.
 
 %tab-component "language"
 
 %tab "C"
 ```c
-if (i == 10) {
+if (i == 10)
   wb_supervisor_node_remove(bb8_node);
-}
 ```
 %tab-end
 
 %tab "C++"
 ```cpp
-if (i == 10) {
+if (i == 10)
   bb8Node.remove();
-}
 ```
 %tab-end
 
@@ -351,6 +349,123 @@ bb8Node.remove();
 ```MATLAB
 wb_supervisor_node_remove(bb8_node);
 ```
-%tab-end 
+%tab-end
 
 %end
+
+2. After 10 time steps, [BB-8](bb8.md) will be removed from the scene.
+Now, let's instead add the [Nao](nao.md) robot after 20 timesteps.
+In order to add a node, we must know where we wish to spawn it in the scene tree.
+Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
+These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
+In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
+We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
+In order to insert the [Nao](nao.md) robot, the reference we require is actually a reference to the `children` field of the `root` node.
+In the spot marked by `CODE FOR HANDS-ON 2`, the following code allows to get this reference.
+
+%tab-component "language"
+
+%tab "C"
+```c
+WbNodeRef root_node = wb_supervisor_node_get_root();
+WbFieldRef children_field = wb_supervisor_node_get_field(root_node, "children");
+```
+%tab-end
+
+%tab "C++"
+```cpp
+Node *rootNode = robot.getRoot()
+Field *childrenField = rootNode.getField('children')
+```
+%tab-end
+
+%tab "Python"
+```python
+root_node = robot.getRoot()
+children_field = rootNode.getField('children')
+```
+%tab-end
+
+%tab "Java"
+```java
+Node rootNode = robot.getRoot()
+Field childrenField = rootNode.getField('children')
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+root_node = wb_supervisor_node_get_root()
+children_field = wb_supervisor_node_get_field(root_node, 'children')
+```
+%tab-end
+
+%end
+
+3. The spawning of a node can be done in two ways.
+The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
+This method relies in the supervisor functions [importMFNodeFromString](../reference/supervisor?tab-language=python#wb_supervisor_field_import_mf_node_from_string) or [importSFNodeFromString](../reference/supervisor?tab-language=python#wb_supervisor_field_import_mf_node_from_string).
+The "MFNode" and "SFNode" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
+"MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
+As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field, namely `MFNode`.
+This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
+The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [importMFNode](../reference/supervisor?tab-language=python#wb_supervisor_field_import_mf_node) or [importSFNode](../reference/supervisor?tab-language=python#wb_supervisor_field_import_sf_node).
+
+Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
+Let's add it from string after 20 time steps, add the following snippet in `CODE FOR HANDS-ON 3`:
+
+%tab-component "language"
+
+%tab "C"
+```c
+if (i == 20)
+  wb_supervisor_field_import_mf_node_from_string(children_field, "Nao { }");
+```
+%tab-end
+
+%tab "C++"
+```cpp
+if (i == 20)
+  childrenField.importMFNodeFromString("Nao { }");
+```
+%tab-end
+
+%tab "Python"
+```python
+if i == 20:
+  children_field.importMFNodeFromString('Nao { }')
+```
+%tab-end
+
+%tab "Java"
+```java
+if (i == 20)
+  childrenField.importMFNodeFromString(-1, "Nao { }");
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+wb_supervisor_field_import_mf_node_from_string(children_field, -1, 'Nao { }')
+```
+%tab-end
+
+%end
+
+As explained here in the function definition [importMFNodeFromString](../reference/supervisor?tab-language=python#wb_supervisor_field_import_mf_node_from_string), the "-1" specifies in which position we wish to insert the node, in this case, to insert it at the last position.
+
+`"Nao { }"` is a string that describes what we wish to spawn.
+The way the object is described is by using the VRML97 format, this is the format used in the world files as well.
+After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scene.
+
+>**Trick:** If you are not familiar with VRML97, an easy trick to define these strings is to let Webots do it for you.
+You can manually create the object (using the Webots interface), and then save the world.
+When saving, Webots will translate what you built into a string of text.
+If you open the world file with a text editor, you can simply copy the description of the object.
+
+4. Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
+In fact, we can simply specify the translation field directly in the string!
+Replace the string `"Nao { }"` with `"Nao { translation 0 0 2.5 }"` and it will spawn exactly at that location.
+It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
+
