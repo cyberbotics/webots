@@ -1,7 +1,7 @@
 ## Tutorial 8: The Supervisor (30 Minutes)
 
 A [Supervisor](../reference/supervisor.md) is a special type of [Robot](..reference/robot.md) which has additional powers.
-In fact, any [Robot](..reference/robot.md) can be turned into a supervisor simply by setting its field named `supervisor` to true.
+In fact, any [Robot](..reference/robot.md) can be turned into a supervisor simply by setting its field named `supervisor` to TRUE.
 A [Supervisor](../reference/supervisor.md) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way and, last but not least, thanks to its unlimited access, it can be used to gather measurements about the state of the simulation as well as track its evolution.
 
 This tutorial will explore how to achieve these tasks using a [Supervisor](../reference/supervisor.md).
@@ -833,9 +833,35 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 
 %end
 
-### Final code
+### Putting it all Together
 
-Here you can find the complete code.
+The description of the ball provided below.
+It must be named `custom_ball.wbo` and saved in the controller's directory.
+
+```
+#VRML_OBJ R2021b
+
+DEF BALL Solid {
+  translation 1 1 0
+  children [
+    Shape {
+      appearance DEF SPHERE_COLOR PBRAppearance {
+        baseColor 0 1 0
+      }
+      geometry DEF SPHERE_GEOMETRY Sphere {
+        radius 0.2
+      }
+    }
+  ]
+  boundingObject USE SPHERE_GEOMETRY
+  physics Physics {
+    density -1
+    mass 0.1
+  }
+}
+```
+
+Here you can find the complete code of the controller.
 
 %tab-component "language"
 
