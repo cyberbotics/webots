@@ -1,7 +1,7 @@
 ## Tutorial 8: the Supervisor (30 Minutes)
 
-A [Supervisor](../reference/supervisor.md) is a special type of [Robot](..reference/robot.md) which has additional powers.
-In fact, any [Robot](..reference/robot.md) can be turned into a supervisor simply by setting its field named `supervisor` to TRUE.
+A [Supervisor](../reference/supervisor.md) is a special type of [Robot](../reference/robot.md) which has additional powers.
+In fact, any [Robot](../reference/robot.md) can be turned into a supervisor simply by setting its field named `supervisor` to TRUE.
 A [Supervisor](../reference/supervisor.md) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way and, last but not least, thanks to its unlimited access, it can be used to gather measurements about the state of the simulation as well as track its evolution.
 
 This tutorial will explore how to achieve these tasks using a [Supervisor](../reference/supervisor.md).
@@ -15,15 +15,15 @@ This tutorial will explore how to achieve these tasks using a [Supervisor](../re
 4. In order to have more space, enlarge the arena by setting the size to 10x10 meters by changing the `floorSize` field.
 5. Add a [BB-8](bb8.md) robot to the scene, to do this click the `Add` button ![](images/add-button.png =26x26) and navigate to: `PROTO nodes (Webots projects) / robots / sphero / bb8`.
 6. For the purpose of this tutorial, remove the default controller of [BB-8](bb8.md) by clicking the `controller` field, then the `Select` button, and pick `none` from the list.
-7. Add a simple [Robot](..reference/robot.md) node to the scene, this will become our Supervisor.
-The [Robot](..reference/robot.md) node can be found in the `base nodes` category when clicking the `Add` button.
+7. Add a simple [Robot](../reference/robot.md) node to the scene, this will become our Supervisor.
+The [Robot](../reference/robot.md) node can be found in the `base nodes` category when clicking the `Add` button.
 To better keep track of it, change its `name` field to `supervisor`.
 8. Despite the name change the node is still currently just a [Robot](../reference/robot.md), to turn this robot into a [Supervisor](../reference/supervisor.md) requires to set its `supervisor` field to "TRUE".
 9. Much like a normal robot, the behavior of a supervisor is defined by a controller.
 Add a controller using the `Wizards` menu and select `New Robot Controller..`, selecting the programming language you prefer.
 For this tutorial, Python is the choice, but the code will be provided for all other options.
 Set `supervisor_controller` as the name of the controller and click finish.
-10. Expand once more the [Robot](..reference/robot.md) node, press the `controller` field and click the `Select` button in order to attribute the controller you just created to the supervisor.
+10. Expand once more the [Robot](../reference/robot.md) node, press the `controller` field and click the `Select` button in order to attribute the controller you just created to the supervisor.
 11. Save the world.
 
 If you followed these steps, your environment should look like this:
@@ -1134,9 +1134,9 @@ end
 ### Conclusion
 
 With this tutorial you have learned:
-1. A [Supervisor](supervisor.md) is nothing more than a [Robot](robot.md) with extra powers, therefore anything that you can do with a `Robot` instance, you can do with a `Supervisor` instance.
-2. A [Supervisor](supervisor.md) is not bound by physics, since its powers are unlimited, it can also "cheat".
-3. Whenever one wishes to alter the scene tree using a [Supervisor](supervisor.md), a reference needs to be obtained:
+1. A [Supervisor](../reference/supervisor.md) is nothing more than a [Robot](../reference/robot.md) with extra powers, therefore anything that you can do with a `Robot` instance, you can do with a `Supervisor` instance.
+2. A [Supervisor](../reference/supervisor.md) is not bound by physics, since its powers are unlimited, it can also "cheat".
+3. Whenever one wishes to alter the scene tree using a [Supervisor](../reference/supervisor.md), a reference needs to be obtained:
    - To insert a node, you need a reference of the field that will contain it.
    - To remove a node, you need a reference to the node (i.e object) itself.
    - To change the value of a parameter like (translation, color, size, etc.) you need a reference to said field.
