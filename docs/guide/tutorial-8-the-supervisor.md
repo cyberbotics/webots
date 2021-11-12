@@ -1,4 +1,4 @@
-## Tutorial 8: The Supervisor (30 Minutes)
+## Tutorial 8: the Supervisor (30 Minutes)
 
 A [Supervisor](../reference/supervisor.md) is a special type of [Robot](..reference/robot.md) which has additional powers.
 In fact, any [Robot](..reference/robot.md) can be turned into a supervisor simply by setting its field named `supervisor` to TRUE.
