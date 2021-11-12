@@ -104,7 +104,7 @@ class Vehicle:
         """Initialize and get the required fields from the vehicle node."""
         if node.getTypeName() in ['Solid']:
             self.node_car = node.getField('children').getMFNode(0)
-        else: 
+        else:
             self.node_car = node
         self.node = node
         self.translation = self.node.getField("translation")
