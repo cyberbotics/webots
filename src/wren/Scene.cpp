@@ -632,14 +632,14 @@ namespace wren {
       const float distance = glm::distance(boundingSphere.mCenter, positionalLight->position());
       const float radius = positionalLight->radius() + boundingSphere.mRadius;
       // Check if light is too far away
-      visible = (distance <= radius && (distance < boundingSphere.mRadius
-                                          ||  // Light is inside the boundingSphere, necessary because pow(distance -
-                                                // boundingSphere.mRadius, 2) can be very big in this case.
-                                        positionalLight->attenuationConstant() +
-                                            (distance - boundingSphere.mRadius) *
-                                              (positionalLight->attenuationLinear() +
-                                               (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
-                                          2000.0f));
+      visible = (distance <= radius &&
+                 (distance < boundingSphere.mRadius ||  // Light is inside the boundingSphere, necessary because pow(distance -
+                                                        // boundingSphere.mRadius, 2) can be very big in this case.
+                  positionalLight->attenuationConstant() +
+                      (distance - boundingSphere.mRadius) *
+                        (positionalLight->attenuationLinear() +
+                         (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
+                    2000.0f));
       // In the shaders, the attenuation is used as such:
       // attenuationFactor = 1/(attenuation[0] + distanceToLight * (attenuation[1] + distanceToLight * attenuation[2])
       // color = 1/attenuationFactor * color * ...
