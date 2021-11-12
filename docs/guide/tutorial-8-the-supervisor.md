@@ -312,7 +312,7 @@ In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
 > Node bb8Node = robot.getFromDef("BB-8");
 > ```
 Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
-To do so, the [getField](../reference/supervisor?tab-language=java#wb_supervisor_node_get_field) method can be used.
+To do so, the `getField` method can be used.
 > ```java
 > Field translationField = bb8Node.getField("translation");
 > ```
