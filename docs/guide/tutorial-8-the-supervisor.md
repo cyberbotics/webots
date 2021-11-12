@@ -820,12 +820,12 @@ If you run the simulation, the ball should appear and begin to fall until it cla
 In `CODE PLACEHOLDER 2` add:
 > ```matlab
 > position = wb_supervisor_node_get_position(ball_node);
-> fprintf('Ball position: %f %f %f\n', position[0], position[1], position[2]);
+> wb_console_print(strcat('Ball position: ', num2str(position(1)), ' ', num2str(position(2)), ' ', num2str(position(3))), WB_STDOUT);
 > ```
 Now that we can track it, let's change the color of the bool as soon as it collides.
 Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
 > ```matlab
-> if (position[1] < 0.2)
+> if (position(2) < 0.2)
 >   red_color = [1, 0, 0];
 >   wb_supervisor_field_set_sf_color(color_field, red_color);
 > end
@@ -1119,9 +1119,9 @@ while wb_robot_step(TIME_STEP) ~= -1
   end
 
   position = wb_supervisor_node_get_position(ball_node);
-  fprintf('Ball position: %f %f %f\n', position[0], position[1], position[2]);
+  wb_console_print(strcat('Ball position: ', num2str(position(1)), ' ', num2str(position(2)), ' ', num2str(position(3))), WB_STDOUT);
 
-  if (position[1] < 0.2)
+  if (position(2) < 0.2)
     red_color = [1, 0, 0];
     wb_supervisor_field_set_sf_color(color_field, red_color);
   end
