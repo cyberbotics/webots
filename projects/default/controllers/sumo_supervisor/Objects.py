@@ -102,7 +102,10 @@ class Vehicle:
 
     def __init__(self, node):
         """Initialize and get the required fields from the vehicle node."""
-        self.node_car = node.getField('children').getMFNode(0)
+        if node.getTypeName() in ['Solid']:
+            self.node_car = node.getField('children').getMFNode(0)
+        else: 
+            self.node_car = node
         self.node = node
         self.translation = self.node.getField("translation")
         self.rotation = self.node.getField("rotation")
