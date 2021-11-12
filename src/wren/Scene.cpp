@@ -632,8 +632,8 @@ namespace wren {
       const float distance = glm::distance(boundingSphere.mCenter, positionalLight->position());
       const float radius = positionalLight->radius() + boundingSphere.mRadius;
       // Check if light is too far away
-      visible = (distance <= radius && (distance - boundingSphere.mRadius <
-                                          0 ||  // Light is inside the boundingSphere, necessary because pow(distance -
+      visible = (distance <= radius && (distance < boundingSphere.mRadius
+                                          ||  // Light is inside the boundingSphere, necessary because pow(distance -
                                                 // boundingSphere.mRadius, 2) can be very big in this case.
                                         positionalLight->attenuationConstant() +
                                             (distance - boundingSphere.mRadius) *
