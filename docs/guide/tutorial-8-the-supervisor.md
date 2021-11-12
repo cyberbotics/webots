@@ -1,32 +1,29 @@
-## Tutorial 8: The Supervisor (40 Minutes)
-
-This tutorial explains how to add and use a [Supervisor](../reference/supervisor.md).
+## Tutorial 8: The Supervisor (30 Minutes)
 
 A [Supervisor](../reference/supervisor.md) is a special type of [Robot](..reference/robot.md) which has additional powers.
-In fact, any [Robot](..reference/robot.md) can be turned into a supervisor by setting the corresponding field called `supervisor` to true.
-A [Supervisor](../reference/supervisor.md) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of their fields in a programmatic way, allowing for instance to move or setup a robot a certain way and, last but not least, thanks to its unlimited access, it can be used to gather measurements about the state of the simulation as well as its evolution.
+In fact, any [Robot](..reference/robot.md) can be turned into a supervisor simply by setting its field named `supervisor` to true.
+A [Supervisor](../reference/supervisor.md) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way and, last but not least, thanks to its unlimited access, it can be used to gather measurements about the state of the simulation as well as track its evolution.
 
 This tutorial will explore how to achieve these tasks using a [Supervisor](../reference/supervisor.md).
 
 ### Setting up the Environment and Adding a Supervisor
 
-> **Hands-on #1**: Create the environment and add a Supervisor.
-Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
+> **Hands-on #1**: The objective is to create the environment and add a Supervisor. Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
 1. Name the project directory `my_supervisor` instead of the proposed `my_project`.
 2. Name the world file `my_supervisor.wbt` instead of the proposed `empty.wbt`.
 3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
 4. In order to have more space, enlarge the arena by setting the size to 10x10 meters by changing the `floorSize` field.
 5. Add a [BB-8](bb8.md) robot to the scene, to do this click the `Add` button ![](images/add-button.png =26x26) and navigate to: `PROTO nodes (Webots projects) / robots / sphero / bb8`.
-6. For the purpose of this tutorial, remove the default controller of BB-8 by clicking the `controller` field, then the `Select` button, and picking `void` from the list.
+6. For the purpose of this tutorial, remove the default controller of [BB-8](bb8.md) by clicking the `controller` field, then the `Select` button, and pick `void` from the list.
 7. Add a simple [Robot](..reference/robot.md) node to the scene, this will become our Supervisor.
 The [Robot](..reference/robot.md) node can be found in the `base nodes` category when clicking the `Add` button.
-To better keep track of it, change the `name` field of this node to `supervisor`.
-8. Despite the name, the node is still currently just a [Robot](../reference/robot.md), to turn this robot into a [Supervisor](../reference/supervisor.md) requires to set its `supervisor` field to "TRUE".
+To better keep track of it, change its `name` field to `supervisor`.
+8. Despite the name change the node is still currently just a [Robot](../reference/robot.md), to turn this robot into a [Supervisor](../reference/supervisor.md) requires to set its `supervisor` field to "TRUE".
 9. Much like a normal robot, the behavior of a supervisor is defined by a controller.
 Add a controller using the `Wizards` menu and select `New Robot Controller..`, selecting the programming language you prefer.
 For this tutorial, Python is the choice, but the code will be provided for all other options.
 Set `supervisor_controller` as the name of the controller and click finish.
-10. Expand once more the [Robot](..reference/robot.md) node, press the `controller` field and click the `select` button in order to give this node the controller we just created, namely pick `supervisor_controller` from the list.
+10. Expand once more the [Robot](..reference/robot.md) node, press the `controller` field and click the `Select` button in order to attribute the controller you just created to the supervisor.
 11. Save the world.
 
 If you followed these steps, your environment should look like this:
@@ -39,29 +36,34 @@ If you followed these steps, your environment should look like this:
 
 ### Moving Objects using a Supervisor
 
-So far our [Supervisor](../reference/supervisor.md) is quite dull, because according to the controller that was attributed to it, the default behavior does nothing.
+So far our [Supervisor](../reference/supervisor.md) is quite dull, because the controller that was attributed to it does nothing.
 
 In this section, we will program the supervisor to move the BB-8 robot to a different location.
 It should be noted that to achieve this we are effectively cheating, rather than instructing the BB-8 to move to a new location we will transport it there.
 In other words the movement will ignore all the physics, but herein lies the power of a [Supervisor](../reference/supervisor.md), as it can bend the rules however it likes.
 
-To move the BB-8 to a new location is quite straightforward, if you wished to do so without the help of a supervisor you would simply change its `translation` field to the desired value, say `0 0 2.5`.
-The [Supervisor](../reference/supervisor.md) does it much in the same way.
-
 As you might have noticed, the default controller we created using the `Wizard` is setup for a classic robot, not a supervisor.
 In order to access the powers of a supervisor requires therefore some slight changes to the controller.
 To begin with, replace the contents of the default controller with the following code, depending on the language you have picked and save.
-In Python the changes made consist in replacing `from controller import Robot` with `from controller import Supervisor`, in order to have access to the new functionalities provided by the supervisor node.
-Similarly, instead of creating a robot instance using `robot = Robot()`, we create a supervisor one instead by doing `robot = Supervisor()`.
+
+The changes include:
+- import the Supervisor library/module instead of the Robot one
+- instead of creating a `Robot` instance, create a `Supervisor` one.
+
 
 >**Note:** It is important to remember that a supervisor is nothing more than a robot with special powers, which implies that whatever a robot can do, so can the supervisor.
 This means that you do not need a `Robot` instance if you have a supervisor one.
 For example the infinite loop that determines the pace of the controller (namely: `while robot.step(TIME_STEP) != -1`) does not need to be changed, as the supervisor can do the same.
 
+Here are the instructions to follow based on the programming language you picked.
 
 %tab-component "language"
 
 %tab "C"
+
+Replace the contents of your controller with the following.
+Save and compile it using the `Build` button.
+
 ```c
 #include <webots/supervisor.h>
 
@@ -70,11 +72,11 @@ For example the infinite loop that determines the pace of the controller (namely
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  // CODE FOR HANDS-ON 2
+  // [CODE PLACEHOLDER 1]
 
   int i = 0;
   while (wb_robot_step(TIME_STEP) != -1) {
-    // CODE FOR HANDS-ON 3
+    // [CODE PLACEHOLDER 2]
 
     i++;
   }
@@ -87,6 +89,10 @@ int main(int argc, char **argv) {
 %tab-end
 
 %tab "C++"
+
+Replace the contents of your controller with the following.
+Save and compile it using the `Build` button.
+
 ```cpp
 #include <webots/Supervisor.hpp>
 
@@ -97,14 +103,13 @@ using namespace webots;
 
 int main(int argc, char **argv) {
 
-  // create supervisor instance
-  Robot *robot = new Supervisor();
+  Robot *robot = new Supervisor(); // create Supervisor instance
 
-  // CODE FOR HANDS-ON 2
+  // [CODE PLACEHOLDER 1]
 
   int i = 0;
   while (robot->step(TIME_STEP) != -1) {
-    // CODE FOR HANDS-ON 3
+    // [CODE PLACEHOLDER 2]
 
     i++;
   }
@@ -117,55 +122,67 @@ int main(int argc, char **argv) {
 %tab-end
 
 %tab "Python"
+
+Replace the contents of your controller with the following and save.
+
 ```python
 from controller import Supervisor
 
 TIME_STEP = 32
 
-# create supervisor instance
-robot = Supervisor()
+robot = Supervisor()  # create Supervisor instance
 
-# CODE FOR HANDS-ON 2
+# [CODE PLACEHOLDER 1]
 
 i = 0
 while robot.step(TIME_STEP) != -1:
-  # CODE FOR HANDS-ON 3
+  # [CODE PLACEHOLDER 2]
 
   i += 1
 ```
 %tab-end
 
 %tab "Java"
+
+Replace the contents of your controller with the following.
+Save and compile it using the `Build` button.
+
 ```java
 import com.cyberbotics.webots.controller.Supervisor;
 
 public class MySupervisor {
 
- public static void main(String[] args) {
+  public static void main(String[] args) {
 
     int TIME_STEP = 32;
 
-    Supervisor robot = new Supervisor();
+    Supervisor robot = new Supervisor(); // create Supervisor instance
+
+    // [CODE PLACEHOLDER 1]
 
     int i = 0;
     while (robot.step(TIME_STEP) != -1) {
+      // [CODE PLACEHOLDER 2]
 
       i++;
     }
- }
+  }
 }
 ```
 %tab-end
 
 %tab "MATLAB"
+
+Replace the contents of your controller with the following and save it.
+
 ```MATLAB
 TIME_STEP = 32;
 
-% CODE FOR HANDS-ON 2
+% [CODE PLACEHOLDER 1]
 
 i = 0;
 while wb_robot_step(TIME_STEP) ~= -1
-  % CODE FOR HANDS-ON 3
+  % [CODE PLACEHOLDER 2]
 
   i = i + 1;
 end
@@ -174,8 +191,8 @@ end
 
 %end
 
-Save the controller, and if necessary compile it using the `Build` button.
-Now everything is ready to begin programming the supervisor so that it moves BB-8 to a new location.
+To move the BB-8 to a new location is quite straightforward, if you wished to do so without the help of a supervisor you would simply change its `translation` field to the desired value, say `0 0 2.5`.
+The [Supervisor](../reference/supervisor.md) does it much in the same way.
 
 > **Hands-on #2**: Move BB-8 using the Supervisor.
 1. In principle the world could be very complex, so it is necessary to have a way of uniquely identifying our BB-8 among the other objects.
