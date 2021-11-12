@@ -379,6 +379,7 @@ This section focuses on how nodes can be added and removed, specifically we will
 %tab-component "language"
 
 %tab "C"
+
 > **Hands-on #3**: Removing and adding nodes.
 In the previous section, we already saw how to retrieve the node reference of an object.
 A node can be removed from the scene tree by using the [`wb_supervisor_node_remove`](../reference/supervisor.md#wb_supervisor_node_remove) function.
@@ -670,7 +671,7 @@ This will allows us to explore the previously mentioned trick.
 4. Double-click the `children` field and add a [Shape](../reference/shape.md) node.
 5. In the `geometry` field add a [Sphere](../reference/sphere.md) node, setting its radius to `0.2`.
 6. Select the `geometry` field and give this node a `DEF` name `SPHERE_GEOMETRY`.
-7. In the `appearance` field add a [PBRAppearance](../reference/solid.md) node and set its `baseColor` field to red (`0 1 0`)
+7. In the `appearance` field add a [PBRAppearance](../reference/solid.md) node and set its `baseColor` field to green (`0 1 0`)
 8. Select the `appearance` field and give this node a `DEF` name `SPHERE_COLOR`.
 9. Double-click the `boundingObject` field of the [Solid](../reference/solid.md) and under the `USE` category, select the `SPHERE_GEOMETRY`.
 10. Double-click the `physics` field and add a [Physics](../reference/physics.md) node.
