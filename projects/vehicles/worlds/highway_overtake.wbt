@@ -230,7 +230,6 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
     }
     Robot {
       translation 0.11 0 0
-      rotation 1 0 0 3.1415927
       children [
         DEF radar Radar {
           maxRange 60

@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 
   // target string defines the target node
   const char *target_string = "Transform {\n"
-                              "  translation 0 0 10.0\n"
+                              "  translation 0 0 -10.0\n"
                               "  children [\n"
                               "    Shape {\n"
                               "      appearance Appearance {\n"
@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
         }
         wb_supervisor_field_set_sf_vec3f(size_fields[i], size);
       } else {
-        double translation[3] = {0, 0, 10.0};
+        double translation[3] = {0, 0, -10.0};
         wb_supervisor_field_set_sf_vec3f(translation_fields[i], translation);
       }
     }
