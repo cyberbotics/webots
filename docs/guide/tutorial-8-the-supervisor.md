@@ -191,133 +191,195 @@ end
 
 %end
 
-To move the BB-8 to a new location is quite straightforward, if you wished to do so without the help of a supervisor you would simply change its `translation` field to the desired value, say `0 0 2.5`.
+To move BB-8 to a new location is quite straightforward, if you wished to do so without the help of a supervisor you would simply change its `translation` field to the desired value, say `0 0 2.5`.
 The [Supervisor](../reference/supervisor.md) does it much in the same way.
+
+%tab-component "language"
+%tab "C"
 
 > **Hands-on #2**: Move BB-8 using the Supervisor.
 1. In principle the world could be very complex, so it is necessary to have a way of uniquely identifying our BB-8 among the other objects.
-To do so we can use the DEF mechanism explored in [tutorial 2](tutorial-2-modification-of-the-environment.md).
+To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modification-of-the-environment.md).
 Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
-2. Behind the scenes, in Webots each node is uniquely identifiable by a node reference.
-To retrieve this reference, the supervisor API method [getFromDef](../reference/supervisor?tab-language=python#wb_supervisor_node_get_from_def) can be used.
-In placeholder 1, let's retrieve the node reference of BB-8.
 
-%tab-component "language"
+2. Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
+To retrieve the reference, the supervisor function [wb_supervisor_node_get_from_def](../reference/supervisor?tab-language=c#wb_supervisor_node_get_from_def) can be used.
+In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
 
-%tab "C"
 ```c
 WbNodeRef bb8_node = wb_supervisor_node_get_from_def("BB-8");
 ```
-%tab-end
 
-%tab "C++"
-```cpp
-Node *bb8Node = robot.getFromDef("BB-8");
-```
-%tab-end
+3. Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
+To do so, the [wb_supervisor_node_get_field](../reference/supervisor?tab-language=c#wb_supervisor_node_get_field) function can be used.
 
-%tab "Python"
-```python
-bb8_node = robot.getFromDef('BB-8')
-```
-%tab-end
-
-%tab "Java"
-```java
-Node bb8Node = robot.getFromDef("BB-8");
-```
-%tab-end
-
-%tab "MATLAB"
-```MATLAB
-bb8_node = wb_supervisor_node_get_from_def('BB-8');
-```
-%tab-end
-
-%end
-
-3. Now that we have access to the node, we need to get access to its `translation` field, specifically to a reference to this field as we just did for the node.
-To do so, the [getField](../reference/supervisor?tab-language=python#wb_supervisor_node_get_field) method can be used.
-
-%tab-component "language"
-
-%tab "C"
 ```c
 WbFieldRef translation_field = wb_supervisor_node_get_field(bb8_node, "translation");
 ```
-%tab-end
-
-%tab "C++"
-```cpp
-Field *translationField = bb8Node.getField("translation");
-```
-%tab-end
-
-%tab "Python"
-```python
-translation_field = bb8Node.getField('translation')
-```
-%tab-end
-
-%tab "Java"
-```java
-Field translationField = bb8Node.getField("translation");
-```
-%tab-end
-
-%tab "MATLAB"
-```MATLAB
-translation_field = wb_supervisor_node_get_field(bb8_node, 'translation');
-```
-%tab-end
-
-%end
 
 4. Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
-Once again, the supevisor API has all the necessary tools to do so.
+Once again, the supervisor API has all the necessary tools to do so.
 The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
-So the value can be set by using the [setSFVec3f](../reference/supervisor?tab-language=python#wb_supervisor_field_set_sf_vec3f) method.
+The value of this field can be set by using the [wb_supervisor_field_set_sf_vec3f](../reference/supervisor?tab-language=c#wb_supervisor_field_set_sf_vec3f) function.
 
-%tab-component "language"
-
-%tab "C"
 ```c
 const double new_value[3] = {0, 0, 2.5};
 wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
 ```
+
+5. That is all there is to it.
+If you save, build and run `one step` of the simulation you will see that BB-8 is transported to a new location instantly.
+
 %tab-end
 
 %tab "C++"
+
+> **Hands-on #2**: Move BB-8 using the Supervisor.
+1. In principle the world could be very complex, so it is necessary to have a way of uniquely identifying our BB-8 among the other objects.
+To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modification-of-the-environment.md).
+Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
+
+2. Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
+To retrieve the reference, the supervisor method [getFromDef](../reference/supervisor?tab-language=c++#wb_supervisor_node_get_from_def) can be used.
+In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
+
+```cpp
+Node *bb8Node = robot.getFromDef("BB-8");
+```
+3. Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
+To do so, the [getField](../reference/supervisor?tab-language=c++#wb_supervisor_node_get_field) method can be used.
+
+```cpp
+Field *translationField = bb8Node.getField("translation");
+```
+
+4. Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
+Once again, the supervisor API has all the necessary tools to do so.
+The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
+The value of this field can be set by using the [setSFVec3f](../reference/supervisor?tab-language=c++#wb_supervisor_field_set_sf_vec3f) method.
+
 ```cpp
 const double newValue[3] = {0, 0, 2.5};
 translationField.setSFVec3f(newValue);
 ```
+
+5. That is all there is to it.
+If you save, build and run `one step` of the simulation you will see that BB-8 is transported to a new location instantly.
+
 %tab-end
 
 %tab "Python"
+
+> **Hands-on #2**: Move BB-8 using the Supervisor.
+1. In principle the world could be very complex, so it is necessary to have a way of uniquely identifying our BB-8 among the other objects.
+To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modification-of-the-environment.md).
+Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
+
+2. Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
+To retrieve the reference, the supervisor method [getFromDef](../reference/supervisor?tab-language=python#wb_supervisor_node_get_from_def) can be used.
+In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
+
+```python
+bb8_node = robot.getFromDef('BB-8')
+```
+
+3. Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
+To do so, the [getField](../reference/supervisor?tab-language=python#wb_supervisor_node_get_field) method can be used.
+
+```python
+translation_field = bb8_node.getField('translation')
+```
+
+4. Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
+Once again, the supervisor API has all the necessary tools to do so.
+The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
+The value of this field can be set by using the [setSFVec3f](../reference/supervisor?tab-language=python#wb_supervisor_field_set_sf_vec3f) method.
+
 ```python
 new_value = [0, 0, 2.5]
 translation_field.setSFVec3f(new_value)
 ```
+
+5. That is all there is to it.
+If you save and run `one step` of the simulation you will see that BB-8 is transported to a new location instantly.
+
 %tab-end
 
 %tab "Java"
+
+> **Hands-on #2**: Move BB-8 using the Supervisor.
+1. In principle the world could be very complex, so it is necessary to have a way of uniquely identifying our BB-8 among the other objects.
+To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modification-of-the-environment.md).
+Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
+
+2. Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
+To retrieve the reference, the supervisor method [getFromDef](../reference/supervisor?tab-language=java#wb_supervisor_node_get_from_def) can be used.
+In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
+
+```java
+Node bb8Node = robot.getFromDef("BB-8");
+```
+
+3. Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
+To do so, the [getField](../reference/supervisor?tab-language=java#wb_supervisor_node_get_field) method can be used.
+
+```java
+Field translationField = bb8Node.getField("translation");
+```
+
+4. Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
+Once again, the supervisor API has all the necessary tools to do so.
+The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
+The value of this field can be set by using the [setSFVec3f](../reference/supervisor?tab-language=java#wb_supervisor_field_set_sf_vec3f) method.
+
 ```java
 double newValue[3] = {0, 0, 2.5};
 translationField.setSFVec3f(newValue);
 ```
+
+5. That is all there is to it.
+If you save, build and run `one step` of the simulation you will see that BB-8 is transported to a new location instantly.
+
 %tab-end
 
 %tab "MATLAB"
+
+> **Hands-on #2**: Move BB-8 using the Supervisor.
+1. In principle the world could be very complex, so it is necessary to have a way of uniquely identifying our BB-8 among the other objects.
+To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modification-of-the-environment.md).
+Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
+
+2. Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
+To retrieve the reference, the supervisor method [wb_supervisor_node_get_from_def](../reference/supervisor?tab-language=matlab#wb_supervisor_node_get_from_def) can be used.
+In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
+
+```MATLAB
+bb8_node = wb_supervisor_node_get_from_def('BB-8');
+```
+
+3. Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
+To do so, the [wb_supervisor_node_get_field](../reference/supervisor?tab-language=matlab#wb_supervisor_node_get_field) function can be used.
+
+```MATLAB
+translation_field = wb_supervisor_node_get_field(bb8_node, 'translation');
+```
+
+4. Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
+Once again, the supervisor API has all the necessary tools to do so.
+The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
+The value of this field can be set by using the [wb_supervisor_field_set_sf_vec3f](../reference/supervisor?tab-language=matlab#wb_supervisor_field_set_sf_vec3f) function.
+
 ```MATLAB
 new_value = [0, 0, 2.5]
 wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
 ```
+
+5. That is all there is to it.
+If you save and run `one step` of the simulation you will see that BB-8 is transported to a new location instantly.
+
 %tab-end
 
 %end
-
-5. That is all there is to it, if you save, compile and the controller and run `one-step` of the simulation you will see that BB-8 is transported to a new location instantly.
 
 This is a simple example, but the principle remains the same no matter which field you wish to change.
 You can for instance increase the size of an object, perhaps change its color, change the light conditions, or reset its position if it goes out of bounds, the options are limitless.
