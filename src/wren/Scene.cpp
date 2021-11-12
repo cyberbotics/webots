@@ -632,12 +632,12 @@ namespace wren {
       const float distance = glm::distance(boundingSphere.mCenter, positionalLight->position());
       const float radius = positionalLight->radius() + boundingSphere.mRadius;
       // Check if light is too far away
-      visible = true; /*(distance <= radius && (distance - boundingSphere.mRadius < 0 ||  // Light is inside the boundingSphere
-                                         positionalLight->attenuationConstant() +
-                                             (distance - boundingSphere.mRadius) *
-                                               (positionalLight->attenuationLinear() +
-                                                (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
-                                           255.0f));*/
+      visible = (distance <= radius && (distance - boundingSphere.mRadius < 0 ||  // Light is inside the boundingSphere
+                                        positionalLight->attenuationConstant() +
+                                            (distance - boundingSphere.mRadius) *
+                                              (positionalLight->attenuationLinear() +
+                                               (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
+                                          255.0f));
     }
     return visible;
   }
