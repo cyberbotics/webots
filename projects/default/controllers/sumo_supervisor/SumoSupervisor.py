@@ -191,9 +191,9 @@ class SumoSupervisor (Supervisor):
         sumoAngle = subscriptionResult[self.traci.constants.VAR_ANGLE]
         pos = [sumoPos[0] + xOffset, sumoPos[1] + yOffset, height]
         angle = -math.pi * sumoAngle / 180
-        dx = -math.cos(angle)
+        dx = math.cos(angle)
         dz = -math.sin(angle)
-        yaw = -math.atan2(-dx, dz)
+        yaw = -math.atan2(dx, dz)
         # correct position (origin of the car is not the same in Webots / sumo)
         vehicleLength = subscriptionResult[self.traci.constants.VAR_LENGTH]
         pos[0] += 0.5 * vehicleLength * math.sin(angle)
@@ -283,7 +283,7 @@ class SumoSupervisor (Supervisor):
                     ratio = (0.5 + 0.5 * math.sin((ratio - 0.5) * math.pi))
                     p = vehicle.laneChangeDistance * ratio
                     x2 = x1 - (vehicle.laneChangeDistance - p)
-                    artificialAngle = math.atan2(x2, y1)
+                    artificialAngle = math.atan2(-x2, y1)
                 # limit lateral speed
                 threshold = 0.001 * step * maximumLateralSpeed
                 x2 = min(max(x2, -threshold), threshold)
