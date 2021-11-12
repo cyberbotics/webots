@@ -199,6 +199,7 @@ To move BB-8 to a new location is quite straightforward, if you wished to do so 
 The [Supervisor](../reference/supervisor.md) does it much in the same way.
 
 %tab-component "language"
+
 %tab "C"
 
 > **Hands-on #2**: Move BB-8 using the Supervisor.
@@ -207,20 +208,20 @@ To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modi
 Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
 
 > Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
-To retrieve the reference, the supervisor function `wb_supervisor_node_get_from_def` can be used.
+To retrieve the reference, the supervisor function [`wb_supervisor_node_get_from_def`](../reference/supervisor.md#wb_supervisor_node_get_from_def) can be used.
 In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
 > ```c
 > WbNodeRef bb8_node = wb_supervisor_node_get_from_def("BB-8");
 > ```
 Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
-To do so, the `wb_supervisor_node_get_field` function can be used.
+To do so, the [`wb_supervisor_node_get_field`](../reference/supervisor.md#wb_supervisor_node_get_field) function can be used.
 > ```c
 > WbFieldRef translation_field = wb_supervisor_node_get_field(bb8_node, "translation");
 > ```
 Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
 Once again, the supervisor API has all the necessary tools to do so.
 The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
-The value of this field can be set by using the `wb_supervisor_field_set_sf_vec3f` function.
+The value of this field can be set by using the [`wb_supervisor_field_set_sf_vec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) function.
 > ```c
 > if (i == 0) {
 >   const double new_value[3] = {0, 0, 2.5};
@@ -240,20 +241,20 @@ To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modi
 Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
 
 > Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
-To retrieve the reference, the supervisor method `getFromDef` can be used.
+To retrieve the reference, the supervisor method [`getFromDef`](../reference/supervisor.md#wb_supervisor_node_get_from_def)  can be used.
 In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
 > ```cpp
 > Node *bb8Node = robot->getFromDef("BB-8");
 > ```
 Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
-To do so, the `getField` method can be used.
+To do so, the [`getField`](../reference/supervisor.md#wb_supervisor_node_get_field) method can be used.
 > ```cpp
 > Field *translationField = bb8Node->getField("translation");
 > ```
 Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
 Once again, the supervisor API has all the necessary tools to do so.
 The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
-The value of this field can be set by using the `setSFVec3f` method.
+The value of this field can be set by using the [`setSFVec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) method.
 In `CODE PLACEHOLDER 2`, add the following:
 > ```cpp
 > if (i == 0) {
@@ -274,20 +275,20 @@ To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modi
 Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
 
 > Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
-To retrieve the reference, the supervisor method `getFromDef` can be used.
+To retrieve the reference, the supervisor method [`getFromDef`](../reference/supervisor.md#wb_supervisor_node_get_from_def) can be used.
 In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
 > ```python
 > bb8_node = robot.getFromDef('BB-8')
 > ```
 Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
-To do so, the `getField` method can be used.
+To do so, the [`getField`](../reference/supervisor.md#wb_supervisor_node_get_field) method can be used.
 > ```python
 > translation_field = bb8_node.getField('translation')
 > ```
 Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
 Once again, the supervisor API has all the necessary tools to do so.
 The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
-The value of this field can be set by using the `setSFVec3f` method.
+The value of this field can be set by using the [`setSFVec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) method.
 > ```python
 > if i == 0:
 >   new_value = [0, 0, 2.5]
@@ -306,20 +307,20 @@ To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modi
 Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
 
 > Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
-To retrieve the reference, the supervisor method `getFromDef` can be used.
+To retrieve the reference, the supervisor method [`getFromDef`](../reference/supervisor.md#wb_supervisor_node_get_from_def) can be used.
 In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
 > ```java
 > Node bb8Node = robot.getFromDef("BB-8");
 > ```
 Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
-To do so, the `getField` method can be used.
+To do so, the [`getField`](../reference/supervisor.md#wb_supervisor_node_get_field) method can be used.
 > ```java
 > Field translationField = bb8Node.getField("translation");
 > ```
 Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
 Once again, the supervisor API has all the necessary tools to do so.
 The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
-The value of this field can be set by using the `setSFVec3f``method.
+The value of this field can be set by using the [`setSFVec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) method.
 > ```java
 > if (i == 0) {
 >   double newValue[] = {0, 0, 2.5};
@@ -339,20 +340,20 @@ To do so we can use the `DEF` mechanism explored in [tutorial 2](tutorial-2-modi
 Click the BB-8 node in the scene tree and give it a `DEF` name "BB-8", then save the world.
 
 > Behind the scenes, each node is uniquely identifiable by a node reference and by having this reference, we can modify it.
-To retrieve the reference, the supervisor method `wb_supervisor_node_get_from_def` can be used.
+To retrieve the reference, the supervisor method [`wb_supervisor_node_get_from_def`](../reference/supervisor.md#wb_supervisor_node_get_from_def) can be used.
 In `CODE PLACEHOLDER 1`, retrieve the node reference of BB-8.
 > ```matlab
 > bb8_node = wb_supervisor_node_get_from_def('BB-8');
 > ```
 Now that we have access to the node, we need to get access to its `translation` field, specifically we need a reference to this field as we just did for the node.
-To do so, the `wb_supervisor_node_get_field` function can be used.
+To do so, the [`wb_supervisor_node_get_field`](../reference/supervisor.md#wb_supervisor_node_get_field) function can be used.
 > ```matlab
 > translation_field = wb_supervisor_node_get_field(bb8_node, 'translation');
 > ```
 Finally, now that a reference to the translation field is available, all that remains to do is to set it to a different value.
 Once again, the supervisor API has all the necessary tools to do so.
 The `translation` field is of type `SFVec3`, which just means it is a three dimensional vector.
-The value of this field can be set by using the `wb_supervisor_field_set_sf_vec3f` function.
+The value of this field can be set by using the [`wb_supervisor_field_set_sf_vec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) function.
 > ```matlab
 > if (i == 0)
 >   new_value = [0, 0, 2.5]
@@ -380,7 +381,7 @@ This section focuses on how nodes can be added and removed, specifically we will
 %tab "C"
 > **Hands-on #3**: Removing and adding nodes.
 In the previous section, we already saw how to retrieve the node reference of an object.
-A node can be removed from the scene tree by using the `wb_supervisor_node_remove` function.
+A node can be removed from the scene tree by using the [`wb_supervisor_node_remove`](../reference/supervisor.md#wb_supervisor_node_remove) function.
 The `if` condition is not necessary, it simply adds a 10 step delay before the removal to make it more apparent.
 Add the following code in `CODE PLACEHOLDER 2`.
 > ```c
@@ -404,14 +405,14 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > ```
 The spawning of a node can be done in two ways.
 The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions `wb_supervisor_field_import_[mf/sf]_node_from_string`.
+This method relies in the supervisor functions [`wb_supervisor_field_import_[mf/sf]_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
 The "mf\_node" and "sf\_node" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "mf\_node" stands for multi-field node whereas "sf\_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function `wb_supervisor_field_import_[mf/sf]_node`.
+> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`wb_supervisor_field_import_[mf/sf]_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
 
 > Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
 Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
@@ -434,7 +435,7 @@ It does not stop there, in the same fashion we could define its `controller` par
 %tab "C++"
 > **Hands-on #3**: Removing and adding nodes.
 In the previous section, we already saw how to retrieve the node reference of an object.
-A node can be removed from the scene tree by using the `remove` method.
+A node can be removed from the scene tree by using the [`remove`](../reference/supervisor.md#wb_supervisor_node_remove) method.
 The `if` condition is not necessary, it simply adds a 10 step delay before the removal to make it more apparent.
 Add the following code in `CODE PLACEHOLDER 2`.
 > ```cpp
@@ -458,14 +459,14 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > ```
 The spawning of a node can be done in two ways.
 The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions `importMFNodeFromString` or `importSFNodeFromString`.
+This method relies in the supervisor functions [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
 The "MFNode" and "SFNode" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function `importMFNode` or `importSFNode`.
+> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
 
 > Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
 Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
@@ -488,7 +489,7 @@ It does not stop there, in the same fashion we could define its `controller` par
 %tab "Python"
 > **Hands-on #3**: Removing and adding nodes.
 In the previous section, we already saw how to retrieve the node reference of an object.
-A node can be removed from the scene tree by using the `remove` method.
+A node can be removed from the scene tree by using the [`remove`](../reference/supervisor.md#wb_supervisor_node_remove) method.
 The `if` condition is not necessary, it simply adds a 10 step delay before the removal to make it more apparent.
 Add the following code in `CODE PLACEHOLDER 2`.
 > ```python
@@ -512,14 +513,14 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > ```
 The spawning of a node can be done in two ways.
 The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions `importMFNodeFromString` or `importSFNodeFromString`.
+This method relies in the supervisor functions [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
 The "MFNode" and "SFNode" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "sf_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function `importMFNode` or `importSFNode`.
+> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
 
 > Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
 Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
@@ -542,7 +543,7 @@ It does not stop there, in the same fashion we could define its `controller` par
 %tab "Java"
 > **Hands-on #3**: Removing and adding nodes.
 In the previous section, we already saw how to retrieve the node reference of an object.
-A node can be removed from the scene tree by using the `remove` method.
+A node can be removed from the scene tree by using the [`remove`](../reference/supervisor.md#wb_supervisor_node_remove) method.
 The `if` condition is not necessary, it simply adds a 10 step delay before the removal to make it more apparent.
 Add the following code in `CODE PLACEHOLDER 2`.
 > ```java
@@ -566,14 +567,14 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > ```
 The spawning of a node can be done in two ways.
 The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions `importMFNodeFromString` or `importSFNodeFromString`.
+This method relies in the supervisor functions [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
 The "MFNode" and "sf_node" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function `importMFNode` or `importSFNode`.
+> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
 
 > Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
 Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
@@ -596,7 +597,7 @@ It does not stop there, in the same fashion we could define its `controller` par
 %tab "MATLAB"
 > **Hands-on #3**: Removing and adding nodes.
 In the previous section, we already saw how to retrieve the node reference of an object.
-A node can be removed from the scene tree by using the `wb_supervisor_node_remove` function.
+A node can be removed from the scene tree by using the [`wb_supervisor_node_remove`](../reference/supervisor.md#wb_supervisor_node_remove) function.
 The `if` condition is not necessary, it simply adds a 10 step delay before the removal to make it more apparent.
 Add the following code in `CODE PLACEHOLDER 2`.
 > ```MATLAB
@@ -621,14 +622,14 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > ```
 The spawning of a node can be done in two ways.
 The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions `wb_supervisor_field_import_[mf/sf]_node_from_string`.
+This method relies in the supervisor functions [`wb_supervisor_field_import_[mf/sf]_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
 The "mf_node" and "sf_node" component in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "mf_node" stands for multi-field node whereas "sf_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function `wb_supervisor_field_import_[mf/sf]_node`.
+> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`wb_supervisor_field_import_[mf/sf]_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node).
 
 > Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
 Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
@@ -690,7 +691,7 @@ Everything is now set up, let's spawn and track it.
 %tab "C"
 
 > **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the `wb_supervisor_field_import_mf_node` function, and since we are at it, let us get a reference to this node and to the `baseColor` field.
+Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`wb_supervisor_field_import_mf_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node and to the `baseColor` field.
 In `CODE PLACEHOLDER 1` add:
 > ```c
 > wb_supervisor_field_import_mf_node(children_field, -1, "custom_ball.wbo");
@@ -700,7 +701,7 @@ In `CODE PLACEHOLDER 1` add:
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
-> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor function created for that task, namely `wb_supervisor_node_get_position`.
+> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor function created for that task, namely [`wb_supervisor_node_get_position`](../reference/supervisor.md#wb_supervisor_node_get_position).
 In `CODE PLACEHOLDER 2` add:
 > ```c
 > const double *position = wb_supervisor_node_get_position(ball_node);
@@ -719,7 +720,7 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 
 %tab "C++"
 > **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the `importMFNode` function, and since we are at it, let us get a reference to this node as well.
+Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
 In `CODE PLACEHOLDER 1` add:
 > ```cpp
 > childrenField->importMFNode(-1, "custom_ball.wbo");
@@ -729,7 +730,7 @@ In `CODE PLACEHOLDER 1` add:
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
-> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor method created for that task, namely `getPosition`.
+> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor method created for that task, namely [`getPosition`](../reference/supervisor.md#wb_supervisor_node_get_position).
 In `CODE PLACEHOLDER 2` add:
 > ```cpp
 > const double *position = ballNode->getPosition();
@@ -747,7 +748,7 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 
 %tab "Python"
 > **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the `importMFNode` function, and since we are at it, let us get a reference to this node as well.
+Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
 In `CODE PLACEHOLDER 1` add:
 > ```python
 > children_field.importMFNode(-1, "custom_ball.wbo")
@@ -757,7 +758,7 @@ In `CODE PLACEHOLDER 1` add:
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
-> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor method created for that task, namely `getPosition`.
+> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor method created for that task, namely [`getPosition`](../reference/supervisor.md#wb_supervisor_node_get_position).
 In `CODE PLACEHOLDER 2` add:
 > ```python
 > position = ball_node.getPosition()
@@ -775,7 +776,7 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 
 %tab "Java"
 > **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the `importMFNode` function, and since we are at it, let us get a reference to this node as well.
+Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
 In `CODE PLACEHOLDER 1` add:
 > ```java
 > childrenField.importMFNode(-1, "custom_ball.wbo");
@@ -785,7 +786,7 @@ In `CODE PLACEHOLDER 1` add:
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
-> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor method created for that task, namely `getPosition`.
+> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor method created for that task, namely [`getPosition`](../reference/supervisor.md#wb_supervisor_node_get_position).
 In `CODE PLACEHOLDER 2` add:
 > ```java
 > double position[] = ballNode.getPosition();
@@ -804,7 +805,7 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 
 %tab "MATLAB"
 > **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the `wb_supervisor_field_import_mf_node` function, and since we are at it, let us get a reference to this node as well.
+Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`wb_supervisor_field_import_mf_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
 In `CODE PLACEHOLDER 1` add:
 > ```matlab
 > wb_supervisor_field_import_mf_node(children_field, -1, 'custom_ball.wbo');
@@ -814,7 +815,7 @@ In `CODE PLACEHOLDER 1` add:
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
-> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor method created for that task, namely `wb_supervisor_node_get_position`.
+> In order to track the position of the ball, we could get a reference to its translation field and read that value continuously however a simpler approach would be to use another supervisor method created for that task, namely [`wb_supervisor_node_get_position`](../reference/supervisor.md#wb_supervisor_node_get_position).
 In `CODE PLACEHOLDER 2` add:
 > ```matlab
 > position = wb_supervisor_node_get_position(ball_node);
