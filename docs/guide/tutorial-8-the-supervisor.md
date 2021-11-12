@@ -2,7 +2,7 @@
 
 A [Supervisor](../reference/supervisor.md) is a special type of [Robot](../reference/robot.md) which has additional powers.
 In fact, any [Robot](../reference/robot.md) can be turned into a supervisor simply by setting its field named `supervisor` to TRUE.
-A [Supervisor](../reference/supervisor.md) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way, it can start the creation of movies, animations and, last but not least, thanks to its unlimited access, it can be used to acquire measurements about the state of the simulation as well as track its evolution.
+A [Supervisor](../reference/supervisor.md) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way, it can start the creation of movies, animations and, last but not least, thanks to its unlimited access it can be used to acquire measurements about the state of the simulation as well as track its evolution.
 
 This tutorial will explore how to achieve some of these tasks using a [Supervisor](../reference/supervisor.md).
 
