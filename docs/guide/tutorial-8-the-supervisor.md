@@ -34,7 +34,7 @@ If you followed these steps, your environment should look like this:
 
 %end
 
-### Moving Objects using a Supervisor
+### Moving Objects Using a Supervisor
 
 So far our [Supervisor](../reference/supervisor.md) is quite dull, because the controller that was attributed to it does nothing.
 
@@ -656,7 +656,7 @@ You can manually create the object (using the Webots interface), and then save t
 When saving, Webots will translate what you built into a string of text.
 If you open the world file with a text editor, you can simply copy the description of the object.
 
-### Acquire Measurements using a Supervisor
+### Acquire Measurements Using a Supervisor
 
 Since the supervisor has unlimited power, it is the perfect tool to track the evolution of a simulation.
 In this section, we will use the acquired knowledge to spawn a ball, and track its position as it falls and when it touches the ground change its color.
@@ -833,7 +833,7 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 
 %end
 
-### Putting it all Together
+### Putting Everything Together
 
 The description of the ball provided below.
 It must be named `custom_ball.wbo` and saved in the controller's directory.
