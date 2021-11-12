@@ -17,13 +17,7 @@ Indeed, their IDs should be unique, and the `Road.startJunction`, the `Road.endJ
 
 ## How to Use the Exporter
 
-On Linux, the path to the SUMO binaries and to the Webots libraries directories should be added in your LD\_LIBRARY\_PATH environment variable in order to run the SUMO binaries:
-
-```sh
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/projects/default/resources/sumo/bin:$WEBOTS_HOME/lib
-```
-
-You should use the `exporter.py` Python script to generate the `sumo.nod.xml`, `sumo.edg.xml` and `sumo.sumocfg` SUMO files.
+You can use the `exporter.py` Python script to generate the `sumo.nod.xml`, `sumo.edg.xml` and `sumo.sumocfg` SUMO files.
 These files can be used by SUMO `netconvert` to generate the `sumo.net.xml` file from the `myMap.wbt` webots simulation world.
 
 ```sh
@@ -38,6 +32,8 @@ For example the connections between junctions can be improved at this stage.
 
 Note that SUMO `netedit` can display weird widths and offsets for the lanes during the first load of the network file.
 This can be solved simply by saving the unmodified `sumo.net.xml` file or by selecting the `Processing / Compute Junctions` menu item.
+
+On linux 18.04 LTS, you need to build SUMO from source (see [these instructions](https://sumo.dlr.de/docs/Installing/Linux_Build.html)) and replace the folder `$WEBOTS_HOME/projects/default/resources/sumo/` by your `sumo` folder.
 
 ## Arguments
 
