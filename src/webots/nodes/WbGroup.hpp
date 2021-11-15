@@ -91,7 +91,7 @@ public:
   void propagateSelection(bool selected) override;
 
   // bounding sphere
-  WbBoundingSphere *boundingSphere(bool includeDescendants = true) const override { return mBoundingSphere; }
+  WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
   void recomputeBoundingSphere() const;
   // For a group in a boundingObject
   dSpaceID odeSpace() const { return mOdeSpace; }

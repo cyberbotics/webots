@@ -76,7 +76,7 @@ public:
   void emitTranslationOrRotationChangedByUser() override {}
 
   // ray tracing
-  WbBoundingSphere *boundingSphere(bool includeDescendants = true) const override { return mBoundingSphere; }
+  WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
   void recomputeBoundingSphere() const;
 
 signals:

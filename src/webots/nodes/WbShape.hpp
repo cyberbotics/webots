@@ -68,7 +68,7 @@ public:
   void disconnectGeometryField() const;
 
   // ray tracing
-  WbBoundingSphere *boundingSphere(bool includeDescendants = true) const override;
+  WbBoundingSphere *boundingSphere() const override;
 
   void setAppearance(WbAppearance *appearance);
   void setPbrAppearance(WbPbrAppearance *appearance);

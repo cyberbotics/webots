@@ -66,7 +66,7 @@ public:
   void propagateSelection(bool selected) override;
 
   // bounding sphere
-  WbBoundingSphere *boundingSphere(bool includeDescendants = true) const override;
+  WbBoundingSphere *boundingSphere() const override;
 
   // lazy matrix multiplication system
   void setMatrixNeedUpdate() override;

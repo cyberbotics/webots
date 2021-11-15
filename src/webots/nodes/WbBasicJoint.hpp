@@ -69,7 +69,7 @@ public:
   bool isEnabled() const;
 
   // ray tracing
-  WbBoundingSphere *boundingSphere(bool includeDescendants = true) const override;
+  WbBoundingSphere *boundingSphere() const override;
 
   void updateAfterParentPhysicsChanged();
   virtual void updateEndPointZeroTranslationAndRotation() = 0;

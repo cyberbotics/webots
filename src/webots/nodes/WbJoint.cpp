@@ -293,7 +293,7 @@ void WbJoint::updateJointAxisRepresentation() {
   if (!areWrenObjectsInitialized())
     return;
 
-  WbBoundingSphere *bs = boundingSphere(false);
+  WbBoundingSphere *bs = boundingSphere();
 
   if (!bs)
     return;
