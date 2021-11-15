@@ -795,7 +795,7 @@ Thank you so much 😊
 ##### David Mansolino [Cyberbotics] 04/21/2020 10:03:37
 You're welcome
 
-##### Axel M 04/21/2020 15:59:54
+##### Mumuxe 04/21/2020 15:59:54
 Hi ! Documentation content seems off since a few minutes
 
 ##### Olivier Michel [Cyberbotics] 04/21/2020 16:01:39
@@ -2241,4 +2241,27 @@ No problem. Your contribution is welcome.
 
 ##### mironix 10/16/2021 15:46:03
 [https://github.com/cyberbotics/webots/pull/3789](https://github.com/cyberbotics/webots/pull/3789)
+
+##### BeachJuic3 10/25/2021 08:56:49
+I got a question regarding the **Position Sensor**
+
+
+For a rotational Positional Sensor, it is stated to be expressed in [rad] not [rad/s]
+
+
+I normalized my values with (2*pi)
+
+but for some reason values still exceeds 1.0 after normalization
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/902119142193242122/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/902119213488017468/unknown.png)
+%end
 

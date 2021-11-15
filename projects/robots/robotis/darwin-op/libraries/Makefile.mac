@@ -2,7 +2,7 @@
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
 DARWIN_OP_LIB_PATH = $(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries
 
-DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies/mac/release/develop
+DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies/mac/release/
 
 SSH_PACKAGE = libssh.tar.bz2
 ZIP_PACKAGE = libzip.tar.bz2
