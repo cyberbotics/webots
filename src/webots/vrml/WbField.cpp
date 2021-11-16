@@ -190,9 +190,7 @@ void WbField::setValue(const WbValue *otherValue) {
   WbMultipleValue *mvalue = dynamic_cast<WbMultipleValue *>(mValue);
   if (mvalue) {
     // remove all children
-    const int n = mvalue->size() - 1;
-    for (int i = n; i >= 0; --i)
-      mvalue->removeItem(i);
+    mvalue->clear();
 
     // add default children
     switch (mvalue->type()) {
