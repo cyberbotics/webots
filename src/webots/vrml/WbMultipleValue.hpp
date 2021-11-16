@@ -49,8 +49,9 @@ public:
 
 signals:
   void itemChanged(int index);   // called when a single item is modified
-  void itemRemoved(int index);   // called when a single item is removed, -1 signifies all have been removed
+  void itemRemoved(int index);   // called when a single item is removed
   void itemInserted(int index);  // called when a single item is inserted
+  void cleared();                // called when all items are removed
 
 protected:
   WbMultipleValue() {}

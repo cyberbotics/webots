@@ -94,6 +94,7 @@ WbTreeItem::WbTreeItem(WbField *field) {
   const WbMultipleValue *const multipleValue = static_cast<WbMultipleValue *>(value);
   connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
+  connect(multipleValue, &WbMultipleValue::cleared, this, &WbTreeItem::emitDeleteAllChildren);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
 }
 
@@ -417,15 +418,15 @@ int WbTreeItem::makeInvalid() {
 }
 
 void WbTreeItem::emitChildNeedsDeletion(int row) {
-  if (row == -1) {
-    const int size = mChildren.size();
-    for (int i = size - 1; i >= 0; --i)
-      mChildren.at(i)->makeInvalid();
-    emit childrenNeedDeletion(0, size);
-  } else {
-    mChildren.at(row)->makeInvalid();
-    emit childrenNeedDeletion(row, 1);
-  }
+  mChildren.at(row)->makeInvalid();
+  emit childrenNeedDeletion(row, 1);
+}
+
+void WbTreeItem::emitDeleteAllChildren() {
+  for (int i = mChildren.size() - 1; i >= 0; --i)
+    mChildren.at(i)->makeInvalid();
+
+  deleteAllChildren();
 }
 
 void WbTreeItem::addChild(int row) {

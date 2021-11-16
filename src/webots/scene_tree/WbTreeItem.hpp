@@ -91,6 +91,7 @@ public slots:
 private slots:
   void sfnodeChanged();
   void emitChildNeedsDeletion(int row);
+  void emitDeleteAllChildren();
   void addChild(int row);
 
 private:

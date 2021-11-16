@@ -25,7 +25,7 @@ void WbMFDouble::clear() {
   if (mVector.size() > 0) {
     mVector.clear();
     emit changed();
-    emit itemRemoved(-1);  // notify that all children have been removed
+    emit cleared();  // notify that all children have been removed
   }
 }
 
