@@ -103,7 +103,7 @@ class WebotsVehicle:
         if self.name not in traci.vehicle.getIDList():
             try:
                 traci.vehicle.add(vehID=self.name, routeID=traci.route.getIDList()[0])
-                traci.vehicle.setColor(self.name, [0, 255, 0, 0])
+                traci.vehicle.setColor(self.name, (0, 255, 0))
             except:
                 pass
         try:
