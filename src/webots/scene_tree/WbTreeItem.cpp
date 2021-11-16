@@ -417,8 +417,15 @@ int WbTreeItem::makeInvalid() {
 }
 
 void WbTreeItem::emitChildNeedsDeletion(int row) {
-  mChildren.at(row)->makeInvalid();
-  emit childrenNeedDeletion(row, 1);
+  if (row == -1) {
+    const int size = mChildren.size();
+    for (int i = size - 1; i >= 0; --i)
+      mChildren.at(i)->makeInvalid();
+    emit childrenNeedDeletion(0, size);
+  } else {
+    mChildren.at(row)->makeInvalid();
+    emit childrenNeedDeletion(row, 1);
+  }
 }
 
 void WbTreeItem::addChild(int row) {

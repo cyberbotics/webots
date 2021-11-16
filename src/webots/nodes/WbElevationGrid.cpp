@@ -244,7 +244,6 @@ void WbElevationGrid::updateHeight() {
 
   if (resizeManipulator() && resizeManipulator()->isAttached())
     setResizeManipulatorDimensions();
-
   emit changed();
 }
 
