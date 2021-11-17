@@ -2218,7 +2218,7 @@ thank you.  do you have a PDF version? the PDF version link on the website is br
 ##### Mlungost 09/30/2021 09:10:04
 thank you.
 
-##### mironix 10/16/2021 15:36:06
+##### mironix<inactive> 10/16/2021 15:36:06
 hello i think i found a bug in the doc  - i think this should not be AP but API
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/898957483480084541/unknown.png)
@@ -2233,13 +2233,13 @@ Yes, can you please propose a fix, it should easy from the page where you found 
 
 Click on "Contribute on GitHub!" link.
 
-##### mironix 10/16/2021 15:42:07
+##### mironix<inactive> 10/16/2021 15:42:07
 oh ok - sorry there's so many constant prompts nowdays that i tend to miss those 🙂
 
 ##### Olivier Michel [Cyberbotics] 10/16/2021 15:42:25
 No problem. Your contribution is welcome.
 
-##### mironix 10/16/2021 15:46:03
+##### mironix<inactive> 10/16/2021 15:46:03
 [https://github.com/cyberbotics/webots/pull/3789](https://github.com/cyberbotics/webots/pull/3789)
 
 ##### BeachJuic3 10/25/2021 08:56:49
@@ -2264,4 +2264,10 @@ but for some reason values still exceeds 1.0 after normalization
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/902119213488017468/unknown.png)
 %end
+
+##### Dung Pie +10 11/15/2021 15:35:57
+hello, I have a question, is there such a thing as a motion editor? I'm using R2021b and I can't seem to find it anywhere
+
+##### Olivier Michel [Cyberbotics] 11/15/2021 16:17:15
+No, there is no motion editor (except your favorite text editor 😉 or custom python script).
 
