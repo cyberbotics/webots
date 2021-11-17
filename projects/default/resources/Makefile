@@ -19,8 +19,10 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SUMO_TARGET=sumo
 SUMO_VERSION=1.10.0
+VER_UBUNTU = 20.04
 
 ifeq ($(OSTYPE),linux)
+ VER_UBUNTU = $(shell lsb_release -sr)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
@@ -54,7 +56,12 @@ ifeq ($(OSTYPE),windows)
  WGET=wget --quiet
 endif
 
+ifeq ($(VER_UBUNTU),18.04)
+release debug profile:
+	@echo "# \033[0;33m SUMO won't be installed on linux 18.04, see instruction on Webots SUMO exporter documention.\033[0m"
+else
 release debug profile: $(SUMO_TARGET)
+endif
 
 $(SUMO_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(SUMO_PACKAGE) "package and copy it in this directory"; fi
