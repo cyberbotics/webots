@@ -4,6 +4,20 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### DDaniel [Cyberbotics] 11/15/2021 11:21:41
+A new tutorial is available concerning the usage of the Supervisor: it explains how to remove nodes, how to spawn them (both pre-existing and custom ones) as well as how to change parameters like color and location in a programmatic way. Instructions are available for every supported language. You can find it here: [https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor](https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor)
+
+##### Luftwaffel [Moderator] 11/12/2021 21:09:37
+A paper by DLR (German Aerospace Center), industry partners and Fraunhofer, comparing different robotic simulators (Gazebo, PyBullet, Webots, Mujoco) in the context of Reinforcement Learning. I was deeply involved in the project, so feel free to contact me if you have questions. 
+
+paper:
+
+[https://arxiv.org/pdf/2103.04616.pdf](https://arxiv.org/pdf/2103.04616.pdf)
+
+github source code:
+
+[https://github.com/zal/simenvbenchmark](https://github.com/zal/simenvbenchmark)
+
 ##### Olivier Michel [Cyberbotics] 11/10/2021 07:41:52
 "Simulation and Evaluation of a Mechanical Hopping Mechanism for Robotic Small Body Surface Navigation". [https://arc.aiaa.org/doi/abs/10.2514/6.2021-4184](https://arc.aiaa.org/doi/abs/10.2514/6.2021-4184)
 

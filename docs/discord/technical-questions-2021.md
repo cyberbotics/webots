@@ -10033,7 +10033,7 @@ I would like to program an agv so that it travels between three stations and avo
 
 Do you have any ideas for the implementation, is there anything similar already?
 
-##### g.michael enbakom 03/13/2021 18:57:46
+##### g.michael Mico 03/13/2021 18:57:46
 I was simulate  a wall follower epuck hawever, the robot couldnt reach all rooms but it can follow the walls inside one room . could some one help me to improve my codes ?
 
 ##### Luftwaffel [Moderator] 03/13/2021 23:45:24
@@ -11769,7 +11769,7 @@ Yes, it is enough to set the position to switch to position control. Velocity co
 ##### Darko Lukić [Cyberbotics] 03/29/2021 14:52:11
 You can stop the car when there is no lane. It is an example, we are not making autonomous cars 😄
 
-##### g.michael enbakom 03/29/2021 15:58:57
+##### g.michael Mico 03/29/2021 15:58:57
 Haw can I change the  objects size in the world. I add a bed hawever I couldnt change the size of the bed. could you help me with that?
 
 ##### Darko Lukić [Cyberbotics] 03/29/2021 16:24:10
@@ -12420,7 +12420,7 @@ I also think that the Front and Back views of the robot are switched...
 
 I think it is also wrong for the Pioneer 3 DX
 
-##### g.michael enbakom 04/05/2021 19:53:08
+##### g.michael Mico 04/05/2021 19:53:08
 anyone have  Idea LIGHT\_THRESHOLD = 500
 
 NOSE\_SENSITIVITY = 0.25
@@ -12439,7 +12439,7 @@ NOSE\_SENSITIVITY = 0.25   ?  Where can I get any explanation about  that?
 ##### Luftwaffel [Moderator] 04/05/2021 20:47:54
 look lower in the code and see how it is used
 
-##### g.michael enbakom 04/05/2021 21:58:16
+##### g.michael Mico 04/05/2021 21:58:16
 
 %figure
 ![Capture_11.PNG](https://cdn.discordapp.com/attachments/565154703139405824/828750413578502184/Capture_11.PNG)
@@ -12462,7 +12462,7 @@ it is using those variables to comprehend the distance sensor values
 
 top\_wall and side\_wall are boolean (True or false).
 
-##### g.michael enbakom 04/05/2021 22:52:52
+##### g.michael Mico 04/05/2021 22:52:52
 Still not clear to me .  LIGHT\_THRESHOLD = 500 ? what is 500 ?  or what is 0.25 ?
 
 ##### Luftwaffel [Moderator] 04/05/2021 22:54:54
@@ -24851,7 +24851,7 @@ i don't know where documentation, because i not read all tutorials. maybe this l
 ##### akashX 08/28/2021 04:13:40
 Thank you rizqi I'll try it
 
-##### mironix 08/29/2021 12:11:26
+##### mironix<inactive> 08/29/2021 12:11:26
 Hello! i'm a newbie to webots - i was wondering is there any crane with wire simulation sample somewhere EDIT: got it! [https://cyberbotics.com/doc/guide/samples-howto#rope-wbt](https://cyberbotics.com/doc/guide/samples-howto#rope-wbt)
 
 ##### akashX 08/30/2021 04:27:50
@@ -28202,13 +28202,13 @@ and when the assets loaded in it was like playing AAA games on gazebo
 
 Also when threading is involved, sometimes errors in other threads are not raised
 
-##### mironix 10/09/2021 12:34:33
+##### mironix<inactive> 10/09/2021 12:34:33
 Hey guys i would like to have a robot that spawns cubes in it's local 0,0,0 - something like a particle emitter - is that possible in webots?
 
 ##### DDaniel [Cyberbotics] 10/09/2021 12:45:37
-`@mironix` yes you can make the robot a supervisor and use the `wb_supervisor_field_import_sf_node_from_string` function [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_import\_sf\_node\_from\_string](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_import_sf_node_from_string) and passing as string something like: `Shape { geometry Box { size 0.1 0.1 0.1 }}`
+`@mironix<inactive>` yes you can make the robot a supervisor and use the `wb_supervisor_field_import_sf_node_from_string` function [https://cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_field\_import\_sf\_node\_from\_string](https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_import_sf_node_from_string) and passing as string something like: `Shape { geometry Box { size 0.1 0.1 0.1 }}`
 
-##### mironix 10/09/2021 12:46:09
+##### mironix<inactive> 10/09/2021 12:46:09
 Thank you very much!
 
 ##### Beetlepig 10/09/2021 15:06:34
@@ -28243,7 +28243,7 @@ while robot.step(timestep) != -1:
   print(sensor.getValue())
 ```
 
-##### mironix 10/09/2021 16:20:52
+##### mironix<inactive> 10/09/2021 16:20:52
 Hello! you probably get asked this a lot and sorry for bothering my googling leads me nowhere -  is there a designed place to do things when the world loads to create some dynamic for example cubes? i know how to do it on start of simulation, but i would like to prepare things dynamically before i press play - should that be done outside webots in protos?
 
 ##### Beetlepig 10/09/2021 16:27:40
@@ -28255,7 +28255,7 @@ If you want to dynamically change a world, a supervisor controller is your best 
 
 You could also edit the world file directly and then start it up
 
-##### mironix 10/09/2021 21:55:20
+##### mironix<inactive> 10/09/2021 21:55:20
 you can do that in code?
 
 ##### Luftwaffel [Moderator] 10/09/2021 21:56:03
@@ -28264,7 +28264,7 @@ World files are basically text files, so yeah you can do that in code.
 
 But I would probably go the supervisor controller route
 
-##### mironix 10/09/2021 21:56:40
+##### mironix<inactive> 10/09/2021 21:56:40
 oh ok i understand now - make my own launcher for my world
 
 
@@ -28273,7 +28273,7 @@ and create it from template like with pystache - interesting idea - but i'll do 
 ##### Luftwaffel [Moderator] 10/09/2021 21:58:12
 Proto files also support Lua scripting, but that is more for changing an existing node, not adding new ones
 
-##### mironix 10/09/2021 21:58:52
+##### mironix<inactive> 10/09/2021 21:58:52
 yes - i need new ones - and good to know lua is somewhere there - that will help
 
 ##### Luftwaffel [Moderator] 10/09/2021 21:59:50
@@ -28282,7 +28282,7 @@ When im home I can send you a little python script that adds a node
 
 45min of so
 
-##### mironix 10/09/2021 22:00:27
+##### mironix<inactive> 10/09/2021 22:00:27
 no need - the previous help from daniel is enough - supervisors are well documented 🙂
 
 ##### D3cpt 10/10/2021 11:07:16
@@ -28412,7 +28412,7 @@ Only the devices belonging to the Robot that uses this controller will be access
 ##### Beetlepig 10/11/2021 15:01:50
 I'm using the step function in the other part of my code, but it's not even reaching that far, because the sensors aren't even detecting. There is one robot inside of another, but I don't think that I'm accessing sensors that are outside
 
-##### mironix 10/11/2021 22:31:35
+##### mironix<inactive> 10/11/2021 22:31:35
 Hello - i just wanted to give user feedback: type hints in python are as important as in C++ - PyCharm gets lost wyhen everything returns Any from dll 🙂 how do you generate sub tier sdk's? maybe there's a simple trick to enable that? Would do that as a PR
 
 
@@ -28446,7 +28446,7 @@ My guess is that you probably need to update graphics drivers if you're getting 
 ##### 갈대같은새키ㅇ 10/12/2021 05:31:27
 Thk you!!  i 'll try it
 
-##### mironix 10/12/2021 19:28:03
+##### mironix<inactive> 10/12/2021 19:28:03
 Who do you think we can ask about the CI pipeline? - I'm very new here 🙂 I don't think i want to use your toolset for now but i'll remember for future that you created something like that - might be worth trying to push out to the public.
 
 ##### Justin Fisher [Moderator] 10/12/2021 21:12:33
@@ -28455,7 +28455,7 @@ Webots devs seem to be around here mostly during European working hours, so a qu
 
 I think that controller.py doesn't seem to change all that much from Webots release to release, so even if it is (at least partially) auto-generated, the upkeep task of manually remerging type-hints with a later version of it might not be all that terrible.  It also seems to include some parts that look like they were probably handwritten.  Both of those make me lean in favor of thinking that it would be worthwhile for someone to go through and add type-hints to controller.py   But it'd be good to get confirmation from a webots dev?
 
-##### mironix 10/12/2021 21:20:34
+##### mironix<inactive> 10/12/2021 21:20:34
 `@Justin Fisher` it's made with swig - i have the makefile on the development channel
 
 
@@ -28464,7 +28464,7 @@ and it is only a problem of configuration - still reading up
 ##### Justin Fisher [Moderator] 10/12/2021 21:23:38
 Ah cool.  I'm quite good with Python, but have no experience with swig.  If you run into questions about the Python end of things I may be able to be helpful, but it would take me more time than I currently have available to figure out swig.
 
-##### mironix 10/12/2021 21:24:36
+##### mironix<inactive> 10/12/2021 21:24:36
 I'm a multi lang guy - c++ is my main so i'll handle the in comment hint config there - just need to know how to make that correctly according to standard
 
 ##### 갈대같은새키ㅇ 10/13/2021 10:01:53
@@ -30301,4 +30301,713 @@ if the objects are somewhat constant, you could load them once when starting but
 
 ##### wesllo 11/10/2021 10:20:00
 thanks <@787796043987025941> the problem is that I don't know how many objects I need before the ros callback it can be 90 or 3000 or more y don't know.
+
+##### Heartmage 11/10/2021 14:52:46
+Hi I have few really really basic level questions since I am a complete beginner in Webots so can someone help me out?
+
+##### Chuck 11/10/2021 19:44:44
+any idea what may cause a huge noise on a simulated LIDAR? (my noise parameter is set to 0)
+
+##### Luftwaffel [Moderator] 11/10/2021 20:33:30
+Can you give us more details? How does the noise manifest? Can you post Screenshots or video showing the issue?
+
+##### Chuck 11/10/2021 21:33:07
+
+%figure
+![Screenshot_from_2021-11-10_20-44-52.png](https://cdn.discordapp.com/attachments/565154703139405824/908107026851319838/Screenshot_from_2021-11-10_20-44-52.png)
+%end
+
+
+left view is from webots, right from RVIZ
+
+##### Luftwaffel [Moderator] 11/10/2021 21:33:55
+Can you enable optional rendering lidar?
+
+
+In webots
+
+
+It shows you the lidar beams
+
+##### Chuck 11/10/2021 21:34:38
+sure, where do I enable it?
+
+##### Luftwaffel [Moderator] 11/10/2021 21:35:13
+Menu on top
+
+##### Chuck 11/10/2021 21:40:24
+
+%figure
+![b784b89df5bc4613864f52bc0f9842fc.png](https://cdn.discordapp.com/attachments/565154703139405824/908108860986888262/b784b89df5bc4613864f52bc0f9842fc.png)
+%end
+
+
+Ignore the front one
+
+
+The noise is always coming from the right
+
+##### Luftwaffel [Moderator] 11/10/2021 21:41:09
+Can you show the corresponding rviz again
+
+
+Both Screenshot of the same time step pls
+
+
+And I think you can enable to lidar points as well
+
+
+In optional rendering
+
+##### Chuck 11/10/2021 21:46:16
+well they are, something strange is happening
+
+
+
+%figure
+![b77da9f83cba6abfe60e73f1bea37540.png](https://cdn.discordapp.com/attachments/565154703139405824/908110548086960128/b77da9f83cba6abfe60e73f1bea37540.png)
+%end
+
+
+do you see something odd in the settings?
+
+
+[https://velodynelidar.com/products/hdl-32e/](https://velodynelidar.com/products/hdl-32e/)
+
+
+I've reduced the resolution a bit to not slow webots too much
+
+
+There we see them well, not sure where these artefacts are coming from
+%figure
+![Screenshot_from_2021-11-10_22-50-42.png](https://cdn.discordapp.com/attachments/565154703139405824/908112176139620382/Screenshot_from_2021-11-10_22-50-42.png)
+%end
+
+
+well I've removed the velodyne model and it seems to have fixed the problem fyi
+
+##### Luftwaffel [Moderator] 11/10/2021 22:16:31
+Try increasing the near value a bit
+
+
+But I'm really not sure
+
+##### Heartmage 11/11/2021 02:54:16
+I wanna control the door using a rotational motor...I have done all the steps of adding motor but for some reason when I provide the position it won't move (I am a total beginner in Webots so bear with me )
+
+
+Someone pls do help
+
+##### DrakerDG 11/11/2021 02:56:39
+You need to set a speed of your engine apart from the position.  All in radians
+
+##### Heartmage 11/11/2021 03:06:56
+I did try setting the velocity alongside the position but still it didn't do anything
+
+##### Luftwaffel [Moderator] 11/11/2021 03:17:34
+You don't have to set the speed. Just the position. Uncomment all speed settings. Make sure your angles are in radians and that you are actually setting the correct positions
+
+
+You can also attach a void controller, double click on the robot and control the motors manually there
+
+##### Heartmage 11/11/2021 03:24:29
+I did write a controller file and well followed a youtube tutorial the code went something like this
+
+
+
+```py
+from controller import Robot
+
+robot = Robot()
+
+timestep = 64
+
+
+motor = robot.getDevice('rotational motor')
+motor.setPosition(float('inf'))
+
+While robot.step(timestep) != -1:
+    motor.setPosition(1.5708)
+```
+
+
+Am I writing the code wrong or something? I did change the controller from void to my script
+
+##### Luftwaffel [Moderator] 11/11/2021 03:25:56
+Uncomment the inf line, you also might want to get the joint position in the loop and print it
+
+##### Heartmage 11/11/2021 03:27:19
+Ohh alright I removed the inf line but how do I get the joint position? Is there a predefined function for it?
+
+##### Luftwaffel [Moderator] 11/11/2021 03:27:57
+Yes, look it up in the motor documentation
+
+##### Heartmage 11/11/2021 03:28:03
+Alright
+
+##### Luftwaffel [Moderator] 11/11/2021 03:28:12
+Or position sensor more like it
+
+##### Heartmage 11/11/2021 03:29:00
+I did add position sensor as well to see the current position of the hinge to see whether the door is fully open or not
+
+
+But my sensor doesn't work as well it just gives a constant value 🥲
+
+##### Luftwaffel [Moderator] 11/11/2021 03:31:44
+Add a void Contoller, run the simulation and double click the robot
+
+##### Heartmage 11/11/2021 03:36:23
+It's giving me something like this
+%figure
+![20211111_090418.jpg](https://cdn.discordapp.com/attachments/565154703139405824/908198445779656774/20211111_090418.jpg)
+%end
+
+##### Luftwaffel [Moderator] 11/11/2021 03:36:59
+Toggle overwrite controller, select the motor and change the position there
+
+##### Heartmage 11/11/2021 03:40:38
+It still won't open the door just blinks nothing else happens
+
+##### Luftwaffel [Moderator] 11/11/2021 03:41:05
+Then it is not the controller but your robot model
+
+
+Something is set up wrong
+
+##### Heartmage 11/11/2021 03:44:56
+The steps that I followed are 
+
+
+
+1) Add door from the apartment structure
+
+
+
+2) Transform it to base node
+
+
+
+3) Again transform it to Robot
+
+
+
+4) Get into children of door and add two distance sensor for sensing if a person is inside the room or not (again the sensor doesn't give any value except a constant 1000)
+
+
+
+5) go to hingejoint and under devices add position sensor and rotational motor
+
+
+This is how I setup the door
+
+##### Luftwaffel [Moderator] 11/11/2021 03:45:50
+You have to make sure anchor position and the rotation axis are correct
+
+##### Heartmage 11/11/2021 03:47:44
+Where can I check that? I can see something called rotation in door but not the anchor position
+
+##### Luftwaffel [Moderator] 11/11/2021 03:48:11
+I'm on my phone, so I can't say
+
+##### Heartmage 11/11/2021 03:48:41
+Ohh nvm it opened now when I deleted and added the door
+
+
+Guess I must have done something to mess up the system of the door mechanics
+
+
+The door works now even with the controller script but my distance sensor still aren't giving me any value except a constant 1000
+
+
+Did I mess up the setting up the sensor as well?😅
+
+##### Luftwaffel [Moderator] 11/11/2021 03:58:16
+Read the sensor documentation. All explained in there
+
+
+Make sure you understand sensor type and lookup table
+
+##### Heartmage 11/11/2021 03:59:33
+I did the documentation and understood most of it except the lookup table
+
+
+Couldn't make a head or tail of it 😅
+
+##### Luftwaffel [Moderator] 11/11/2021 04:00:11
+Try and read it again carefully
+
+##### Heartmage 11/11/2021 04:04:49
+Alright
+
+
+I understood now that 1000 means it's within 0.1m of my sensor hence the constant value but is there anyway that I can get a continuous change in value so that I can detect when the person is actually close to the door so that I can close/open the door as the bot moves out/in
+
+##### Luftwaffel [Moderator] 11/11/2021 04:23:56
+That you define in the lookup table, in the easiest setup you have a min and max range and a corresponding value for each, anything in between returns a interpolated value
+
+##### Heartmage 11/11/2021 04:35:57
+Ohh alright I thought lookup table was set in stone thanks again it has helped me a lot I will try out
+
+
+So umm now everything works but for some reason my PS values are coming way different than what is expected
+
+
+😅
+
+
+It is expected to start from somewhere 0.007 to 0.009 and end at -1.57 to -1.40 but mine comes out to be -0.13 😅
+
+
+
+PS means position sensor
+
+##### Stevennc [Premier Service] 11/11/2021 17:18:42
+How do I call front left/right steer using the Altino car? I'm trying to use the controller class instead  of the driver class and I can't figure out the front wheel turning.
+
+##### AP\_LISC 11/11/2021 17:20:15
+Hey guys, 
+
+I have been trying to load an old environment file which was created in V8.4.0 onto the latest version and am greeted with a very long list of errors (largely I assume due to the change in architecture) and a lot of missing textures. Is there a good way to convert these old files and controller to make them compatible with the newer versions?
+
+##### Şükrü 11/11/2021 18:12:01
+Hey guys, I have a robot vehicle BMW X5 and I'm trying to make an autonomous car. My console keeps spamming this warning:
+
+WARNING: Robot > Speaker: Sound file 'sounds/engine.wav' not found. The sound file should be defined relatively to the controller, the PROTO or absolutely.
+
+I couldn't solve it. It doesn't crash my controller and my code works fine but it makes my computer work slower. Can you help me out here?
+
+##### DDaniel [Cyberbotics] 11/11/2021 18:46:00
+if you don't care about sound, you can just set the `engineSound` field of the BMW to `""`
+
+
+unfortunately not
+
+##### Şükrü 11/11/2021 18:50:37
+Thanks for the answer
+
+##### DDaniel [Cyberbotics] 11/11/2021 18:50:58
+the motors that control the steering are named `left_steer` and `right_steer`, so you need to get the device tag (using `robot.getDevice("...")`), then just set the desired position as you do with any motor
+
+##### AP\_LISC 11/11/2021 19:23:10
+Ouch, that hurts. Thank you for letting me know! Is this still the right forum to ask any questions that I might have about using V8.4.0?
+
+##### Stevennc [Premier Service] 11/11/2021 19:54:35
+Thanks I finally figured it out!
+
+##### nozomi 11/12/2021 11:09:54
+Hey guys, I was trying the `Tesla Model 3` example from `cyberbotics/webots_ros2` repository but the car crashes to railing. In the instruction page it says i just need to simply run a ros2launch file. Should I also modify some parameters to solve this issue? My webots version is R2021b, ros2 version is foxy.
+%figure
+![tesla_crash.JPG](https://cdn.discordapp.com/attachments/565154703139405824/908674967309254676/tesla_crash.JPG)
+%end
+
+##### Benjamin Hug [Cyberbotics] 11/12/2021 11:20:05
+Hi, I assume you install the package and did not build it from source, isn't it ?
+
+
+
+This example depends on `ros2_control` which has been recently modified.
+
+
+
+Thus for `Foxy` the released package `webots_ros2` is not yet ready to handle those modifications on  `ros2_control`. It will come in the next Sync.
+
+
+
+One way to handle this would be to use `Foxy testing` but you can also wait for the sync.
+
+##### nozomi 11/12/2021 11:27:42
+Yep, i install by package and the answer is quite clear to me. Thanks a lot for your help!
+
+##### Stevennc [Premier Service] 11/12/2021 17:59:43
+Error I keep getting when setting up Emitter and Receiver.  `Error: wb_receiver_get_data(): the receiver queue is empty.` Anybody see what I'm doing wrong? Thanks!
+%figure
+![Capture.PNG](https://cdn.discordapp.com/attachments/565154703139405824/908778101696258048/Capture.PNG)
+%end
+
+##### DDaniel [Cyberbotics] 11/12/2021 18:13:36
+You enabled the receiver with a sampling period of 10 seconds, is that intended? Also, did you try to put the reception on a loop?
+
+Inside the loop you should check the queue length, when it becomes non zero you read  the data
+
+##### killer\_2 11/12/2021 18:31:57
+Hello,
+
+I'm using Webots2021a and I want to detect a red line while white line following. I CANNOT use the camera.
+
+
+
+I used IR sensors but, when the robot enters the red line, it still reads the same values as it read during white line following.
+
+
+What could be the reason for this? Any help is much appreciated.
+
+##### Stevennc [Premier Service] 11/12/2021 19:25:10
+Thanks for the info, it helped me understand a lot more. This is what I've written and the receiver doesn't seem to work.
+%figure
+![111.PNG](https://cdn.discordapp.com/attachments/565154703139405824/908799602608722000/111.PNG)
+%end
+
+##### killer\_2 11/12/2021 21:09:02
+From where can I find 2021a reference manual? The website contains 2021b
+
+##### Luftwaffel [Moderator] 11/12/2021 21:12:52
+the manual should pretty much be the same
+
+
+`@killer_2` can you post a screenshot and perhaps sensor values of your issue?
+
+
+and were you using a distance sensor in infrared mode?
+
+
+`@Stevennc` your issue is more a fundamental python programming issue. You call functions without storing their return values in variables. I made a quick working controller. It assumes that you have 2 robots, named `'robot_1'` and` 'robot_2'`, both with a receiver and emitter. The same controller can be run on both.
+> **Attachment**: [emitter.py](https://cdn.discordapp.com/attachments/565154703139405824/908843567068356648/emitter.py)
+
+##### Stevennc [Premier Service] 11/13/2021 01:13:45
+Thank you very much, I now understand. I appreciate you taking the effort to write that code. It's much clearer now.
+
+##### Zev 11/13/2021 02:36:18
+I'm getting a linker error when trying to make one of my controllers
+
+
+I'm for the most part using the standard makefile, and I just split up my controller into two files
+
+
+Where the first one is including the header file of the second
+
+
+But it seems like the gcc command isn't attempting to link the cpp file of the second, and so the linker isn't finding any of the functions in the second file
+
+
+Any ideas?
+
+##### Luftwaffel [Moderator] 11/13/2021 03:13:34
+This sounds like a general c compiler problem, not a webots problem. Google the console error output
+
+##### Zev 11/13/2021 03:14:58
+It's a problem with the makefile
+
+
+right, the gcc command doesn't link the files, and I don't know how to edit the gcc command
+
+
+I guess knowing how to change the gcc command is
+
+##### killer\_2 11/13/2021 04:16:22
+Yes, I used distance sensors in infared mode
+
+
+I used 8 distance sensors. 4th and 5th sensors fall on top of the line.
+
+Readings on red line --> 718.592, 718.735, 718.837, 223.087, 223.087, 718.837, 718.735, 718.592
+
+
+Readings on white line -->  716.346, 716.689, 716.964, 222.542, 222.574, 717.271, 717.201, 717.063,
+
+##### Luftwaffel [Moderator] 11/13/2021 04:19:28
+can you show a picture? And how is the line defined`?
+
+
+ohhh nvm, white is all colors at 100%, including red
+
+
+you have to do a black line
+
+##### killer\_2 11/13/2021 04:23:04
+A line has a thickness of 3cm.
+%figure
+![IMG-20211113-WA0006.jpg](https://cdn.discordapp.com/attachments/565154703139405824/908934972029665290/IMG-20211113-WA0006.jpg)
+%end
+
+
+Yes, they are on a black background.
+
+##### Luftwaffel [Moderator] 11/13/2021 04:23:29
+do white background and a black line
+
+
+or a grey line
+
+
+white will give you the same as red
+
+##### killer\_2 11/13/2021 04:24:37
+I cannot change the color of lines. Robot MUST follow white line on a black background and change direction when it detect a red line.
+
+##### Luftwaffel [Moderator] 11/13/2021 04:24:53
+well then infrared is not the way to go
+
+
+you cant change the world or line color?
+
+##### killer\_2 11/13/2021 04:26:53
+Neither.
+
+I can change colors for testing purposes. 
+
+
+
+But the final task has to be completed in the given world, which has white, red lines on black background.
+
+##### Luftwaffel [Moderator] 11/13/2021 04:27:49
+then seperate the tasks, have the line following behavior, and then use a different sensor to detect the color
+
+##### killer\_2 11/13/2021 04:28:27
+Yes, I'll try an alternative method. Thank you :)
+
+##### Luftwaffel [Moderator] 11/13/2021 04:30:54
+you are welcome 🙂
+
+##### raymundbacho123 11/13/2021 07:14:58
+Anyone can send a pdf a manual toturial of webots this is for my education purpose
+
+##### AP\_LISC 11/13/2021 20:15:34
+I am trying to initialize the sensors and wheels of a surveyor bot and I am writing this controller in matlab. I see that webots seems to be fine initializing camera and an emitter but anything else, it says that it "cannot find the device" - even though I see the correct device with the same name. Attaching a snip of the scene tree and the error I am getting to see if it helps..
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/909174674997522432/unknown.png)
+%end
+
+##### Luftwaffel [Moderator] 11/13/2021 21:46:13
+The name you enter in DEF is not the same as the name
+
+
+make sure the name of the device is correct
+
+##### AP\_LISC 11/13/2021 22:26:28
+I've been getting the name from within the "node". For instance, the front distance sensor is named as "ds0" as shown here  -
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/909207616150974524/unknown.png)
+%end
+
+##### Luftwaffel [Moderator] 11/13/2021 23:27:06
+`@AP_LISC` Can you show your code? And error message?
+
+
+If you are using python, you can use this general device-getter code I wrote and adjust it to your liking
+> **Attachment**: [get\_all\_devices.py](https://cdn.discordapp.com/attachments/565154703139405824/909234858973356032/get_all_devices.py)
+
+##### BIN 11/14/2021 02:18:28
+Hi all, can webots import inkscape maps?
+
+##### AP\_LISC 11/14/2021 05:02:44
+I am using matlab for my "controller". Here's what I have on the code
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/909307340094836746/unknown.png)
+%end
+
+
+and here's the error -
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/909307923623202846/unknown.png)
+%end
+
+##### Luftwaffel [Moderator] 11/14/2021 05:10:34
+Arknights t familiar with Matlab, why are camera and emitter color coded and distance sensor not? Did you initialize everything correctly? Can you perhaps post the controller file?
+
+##### AP\_LISC 11/14/2021 05:17:53
+So, this piece of code is a work in progress and will not run. But the reason camera and emitters are colored in green is that they are global variables and the distance\_sensor is not color coded is because I have not yet started using it.
+> **Attachment**: [matlab\_reduced.m](https://cdn.discordapp.com/attachments/565154703139405824/909311155950985246/matlab_reduced.m)
+
+##### Luftwaffel [Moderator] 11/14/2021 05:24:52
+I can't really help you further, wait for the devs in a couple of hours
+
+##### AP\_LISC 11/14/2021 06:10:48
+for sure. Thanks a lot for your help 🙂
+
+##### killer\_2 11/14/2021 06:10:57
+How can I transmit a float value from one robot to another? 
+
+Emitter send() expect a const void* type.
+
+I'm using C++
+
+##### Luftwaffel [Moderator] 11/14/2021 06:12:31
+Read the documentation for emitter and receiver, it explains everything in detail
+
+##### killer\_2 11/14/2021 06:35:06
+It let me send a whole array. But when I try to transmit only a single element, it raise an error 😕 
+
+Cannot convert double to const void *
+
+##### Luftwaffel [Moderator] 11/14/2021 06:56:06
+Send an array with a single value.
+
+##### killer\_2 11/14/2021 07:58:13
+Thank you :)
+
+
+I have a robot arm connected to a slider joint  (like a Scara arm) When I simulate, the arm starts vibrating (jumping up and down) while the robot moves.
+
+
+
+I tried changing the linear damping constant. But it didn't have any effect.
+
+
+
+What could be the reason for this?
+
+##### Luftwaffel [Moderator] 11/14/2021 18:33:16
+Can you show a video? (webots lets you record).
+
+##### killer\_2 11/14/2021 22:45:06
+We solved that. Thank you!
+
+
+Can the rotational motor turn 360 degrees or only 180 degrees?
+
+
+
+When I try to rotate it for 270 degrees, I got a warning saying the requested position is too big.
+
+##### Luftwaffel [Moderator] 11/14/2021 22:53:39
+`@killer_2` You can define the limits, I think by default they are either infinite or 2 pi. Remember that the angles are in radian, not degrees.
+
+##### killer\_2 11/14/2021 22:59:04
+Yes I gave 4.712 which is the rad value for 270 degrees. 
+
+I got a warning saying "Robot -> HingeJoint -> Rotationa
+
+Motor : too big requested position 4.712 > 3.14159"
+
+##### Luftwaffel [Moderator] 11/14/2021 22:59:43
+Then you have to go into your robot and change the min and max pos
+
+##### Stevennc [Premier Service] 11/14/2021 23:41:57
+When I try running the code nothing happens and I finish with an exit code 3 on pycharm. I do have my "robot\_1" and "robot\_2" set up both with a emitter and receiver.  It seems to never go into the second while statement because the getQueueLength is always 0.  Do I need to declare variables e\_channel and r\_channel  at the top as integers?
+%figure
+![cool.PNG](https://cdn.discordapp.com/attachments/565154703139405824/909589001533521970/cool.PNG)
+%end
+
+##### Luftwaffel [Moderator] 11/14/2021 23:55:08
+I used this world with the controllers
+> **Attachment**: [emitter\_receiver\_test.wbt](https://cdn.discordapp.com/attachments/565154703139405824/909592320515649577/emitter_receiver_test.wbt)
+
+##### Stevennc [Premier Service] 11/15/2021 01:48:22
+When I launch it on the world I get < Starting controller: python.exe >   Is that what you get or does it also print the msg?
+
+##### Luftwaffel [Moderator] 11/15/2021 01:58:10
+It should print
+
+
+it should look like this:
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/909623757189050368/unknown.png)
+%end
+
+
+you do need the controller in the correct folder
+
+
+try opening this, it is the project in the correct structure
+> **Attachment**: [emitter\_receiver\_test.rar](https://cdn.discordapp.com/attachments/565154703139405824/909624206470283274/emitter_receiver_test.rar)
+
+##### unclenastyfingers 11/15/2021 02:49:04
+I installed Webots8.0.2 from the github, it's asking for an email and password. How can I create an account or receive license?
+
+##### Luftwaffel [Moderator] 11/15/2021 02:49:59
+[https://www.cyberbotics.com/#download](https://www.cyberbotics.com/#download)
+
+
+just get it from here
+
+
+or do you need an old version?
+
+##### unclenastyfingers 11/15/2021 02:52:04
+Im trying to use webots with choregraphe to simulate
+
+
+im using/testing on 2 versions of choregraphe: V6(2.8.6) and V4-5(2.1.4)
+
+
+will the newest version of Webots work with those versions above?
+
+##### Luftwaffel [Moderator] 11/15/2021 02:55:16
+you will have to wait for the devs to answer that, they are in switzerland
+
+##### unclenastyfingers 11/15/2021 02:56:11
+ok, thanks
+
+##### killer\_2 11/15/2021 04:15:24
+Do you have a similar controller for C++?
+
+
+
+I'm having trouble unpacking the received packet when I transmit an array of floats. When I read the received signal, it gives me memory addresses. I tried playing around with pointers, but still I'm stuck.
+
+
+I can read received data when I transmit strings and characters. But I'm having trouble with reading a received array.
+
+##### Ed\_Jay 11/15/2021 07:32:17
+Is there a way to slow down keyboard input.  The slighted touch of a key sends numerous repeated values to keyboard.getKey.  I've tried introducing hysteresis to throttle how often I check by issuing the getKey call, but I still get an abundant stream of repeated chars.   Thanks!
+
+##### Olivier Michel [Cyberbotics] 11/15/2021 07:33:00
+Choregraphe is not supported any more. You can find more information here: [https://github.com/cyberbotics/naoqisim](https://github.com/cyberbotics/naoqisim)
+
+##### Stevennc [Premier Service] 11/15/2021 19:59:18
+only python
+
+##### MarkIV 11/16/2021 08:42:53
+I'm trying to use Visual Studio Code on Linux and attach the process to my controller in Webots. Every time I do this, the breakpoints aren't paused. I just want to debug the standard robot project, darwin-op and the controller, walk. 
+
+I use the makefile given and can build the walk file, but once I attach it the webots walk controller, the breakpoints never pause the program. Does anyone have any ideas of why this could happen?
+
+##### Vinay 11/16/2021 15:43:32
+Hello 
+
+Need example code of position sensor
+
+##### DrakerDG 11/16/2021 16:00:02
+\# Initialize sensor
+
+position\_sensor = robot.getDevice('position\_sensor')
+
+position\_sensor.enable(timestep)
+
+
+
+\# Get value sensor
+
+print(position\_sensor.getValue())
+
+##### Vinay 11/16/2021 16:57:25
+Thank you so much
+
+could you also share the example code of rotational motor
+
+##### DrakerDG 11/16/2021 17:06:37
+\# Initialize Motors
+
+left\_motor = robot.getDevice('left wheel motor')
+
+right\_motor = robot.getDevice('right wheel motor')
+
+left\_motor.setPosition(float('inf'))
+
+right\_motor.setPosition(float('inf'))
+
+
+
+left\_speed = 0
+
+right\_speed = 0
+
+
+Every name must be the same as your every device
+
+##### jmarsik 11/17/2021 01:51:47
+Hello guys, is it still true that it's not possible to use appearance with ImageTexture for Shape with Mesh geometry? I have found some mentions in this Discord in the past, I see nothing about it in the documentation and I have found one particular file `pen_mesh.wbt` in tests in GitHub repo which contains such a situation but unfortunately the world file does not work at all (the mesh and the controller are missing).
+
+
+Ok, now I see that it somehow works with OBJ file, but not with STL file. Is that right? When I convert this STL file to IndexFaceSet, then the texture can be applied, or at least I think that it can.
+
+
+After further research I understand that I can't use textures with STL mesh. I knew this probably all the time but I had an object in Webots from the past that was textured (and IndexedFacieSet) and I was convinced that this object was created by File - Import 3D mesh from STL file. Obviously, it wasn't!
+
+
+But then there is a new problem. I have an OBJ file exported from Blender that contains UV mapping and I have a PNG file with the texture. For example, in MeshLab this shows ok and the texture is applied correctly. But in Webots when I use Mesh node with ImageTexture, the texture is applied in a wrong way, it's shifted. When I use File - Import 3D mesh on this OBJ file and create IndexedFaceSet from it and apply ImageTexture to this ImageFaceSet, it shows correctly. Am I doing something wrong or is there a bug?
 
