@@ -1,4 +1,4 @@
-## Tutorial 8: Using ROS (60 Minutes)
+## Tutorial 9: Using ROS (60 Minutes)
 
 This tutorial explains how to use the nodes from the `webots_ros` package provided with Webots.
 
