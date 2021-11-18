@@ -42,15 +42,14 @@ namespace webots {
 
     // positive: turn right, negative: turn left
     void setSteeringAngle(double steeringAngle);
+    void setLeftSteeringAngle(double angle);
+    void setRightSteeringAngle(double angle);
     double getSteeringAngle();
 
     void setCruisingSpeed(double speed);
     double getTargetCruisingSpeed();
 
     double getCurrentSpeed();
-
-    void setLeftSteeringAngle(double angle);
-    void setRightSteeringAngle(double angle);
 
     void setThrottle(double throttle);
     double getThrottle();
