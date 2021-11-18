@@ -64,7 +64,7 @@ It may occur that the rendering in the Webots application and in the exported We
       document.body.appendChild(webotsView)
 
       if (!webotsView.hasActiveAnimation())
-      webotsView.loadAnimation("filename.x3d", "filename.json")
+        webotsView.loadAnimation("filename.x3d", "filename.json")
     }
 
     function remove() {
