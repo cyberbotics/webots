@@ -711,7 +711,7 @@ In `CODE PLACEHOLDER 2` add:
 Now that we can track it, let's change the color of the bool as soon as it collides.
 Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
 > ```c
-> if (position[1] < 0.2) {
+> if (position[2] < 0.2) {
 >   const double red_color[3] = {1, 0, 0};
 >   wb_supervisor_field_set_sf_color(color_field, red_color);
 > }
@@ -740,7 +740,7 @@ In `CODE PLACEHOLDER 2` add:
 Now that we can track it, let's change the color of the bool as soon as it collides.
 Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
 > ```cpp
-> if (position[1] < 0.2) {
+> if (position[2] < 0.2) {
 >   const double redColor[3] = {1, 0, 0};
 >   colorField->setSFColor(redColor);
 > }
@@ -768,7 +768,7 @@ In `CODE PLACEHOLDER 2` add:
 Now that we can track it, let's change the color of the bool as soon as it collides.
 Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
 > ```python
-> if position[1] < 0.2:
+> if position[2] < 0.2:
 >   red_color = [1, 0, 0]
 >   color_field.setSFColor(red_color)
 > ```
@@ -796,7 +796,7 @@ In `CODE PLACEHOLDER 2` add:
 Now that we can track it, let's change the color of the bool as soon as it collides.
 Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
 > ```cpp
-> if (position[1] < 0.2) {
+> if (position[2] < 0.2) {
 >   double redColor[] = {1, 0, 0};
 >   colorField.setSFColor(redColor);
 > }
@@ -825,7 +825,7 @@ In `CODE PLACEHOLDER 2` add:
 Now that we can track it, let's change the color of the bool as soon as it collides.
 Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
 > ```matlab
-> if (position(2) < 0.2)
+> if (position(3) < 0.2)
 >   red_color = [1, 0, 0];
 >   wb_supervisor_field_set_sf_color(color_field, red_color);
 > end
