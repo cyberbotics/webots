@@ -49,7 +49,7 @@ static const double tmp = 1.0;
 #include <stdlib.h>
 #include <string.h>
 
-#define ACCELERATION_THRESHOLD 0.05  // maximum aceleration allowed for the wheels [rad/s2]
+#define ACCELERATION_THRESHOLD 50  // maximum acceleration allowed for the wheels [rad/s2]
 #define INDICATOR_AUTO_DISABLING_THRESHOLD 0.1
 #define BLINKER_SOUND_FILE "sounds/blinker.wav"
 
@@ -200,7 +200,7 @@ static void update_wheels_speed(int ms) {  // Warning speed is wrong the first t
   // Compute wheels speeds
   for (i = 0; i < 4; i++) {
     instance->car->speeds[i] = 1000 * (current_position[i] - previous_position[i]) / ms;
-    const double acceleration = (instance->car->speeds[i] - previous_speed[i]) / ms;
+    const double acceleration = 1000 * (instance->car->speeds[i] - previous_speed[i]) / ms;
     if (fabs(acceleration) > fabs(instance->car->max_acceleration))
       instance->car->max_acceleration = acceleration;
     previous_position[i] = current_position[i];
