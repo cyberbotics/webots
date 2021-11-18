@@ -171,9 +171,6 @@ public class Driver {
 *Set and get the steering angle*
 
 The `wbu_driver_set_steering_angle` function is used to steer the car, it steers the front wheels according to the Ackermann geometry (left and right wheels are not steered with the exact same angle).
-The `wbu_driver_set_right_steering_angle` and `wbu_driver_set_left_steering_angle` on the other hand allow for direct setting of the steering angle for respectively the right and left wheel.
-When setting the angles directly, calling the function `wbu_driver_get_steering_angle` will return the average of the two values.
-Similarly, if activated the `wbu_car_enable_indicator_auto_disabling` function will rely on the average steering angle.
 The angles are set in radians, a positive angle steers right and a negative angle steers left.
 The formulas used in order to compute the right and left angles are the following (`trackFront` and `wheelbase` are the parameters of the [Car](car.md) PROTO):
 
@@ -183,7 +180,11 @@ angle_right = atan(1 / (cot(steering_angle) - trackFront / (2 * wheelbase)));
 angle_left = atan(1 / (cot(steering_angle) + trackFront / (2 * wheelbase)));
 ```
 
-The `wbu_driver_get_steering_angle` function returns the current steering angle.
+The `wbu_driver_set_right_steering_angle` and `wbu_driver_set_left_steering_angle` on the other hand allow for direct setting of the steering angle for respectively the right and left wheel.
+To retrieve the steering angle of each wheel the functions [`wbu_car_get_right_steering_angle`](car-library.md#wbu_car_get_right_steering_angle) and [`wbu_car_get_left_steering_angle`](car-library.md#wbu_car_get_left_steering_angle) can be used.
+Similarly, if activated, the `wbu_car_enable_indicator_auto_disabling` function will rely on the average steering angle to decide whether to enable or disable the indicators.
+
+The `wbu_driver_get_steering_angle` function returns the current steering angle and if steering was set directly to the left and right wheels, then this function returns the average of the two.
 
 ---
 
