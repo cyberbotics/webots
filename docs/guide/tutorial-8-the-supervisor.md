@@ -1,6 +1,13 @@
 ## Tutorial 8: the Supervisor (30 Minutes)
 
-This tutorial will explore how to achieve some tasks using a [Supervisor](../reference/supervisor.md). A Supervisor oversees the world to set or get information about it. To fully understand what is it for, read the description of [Supervisor](../reference/supervisor.md) in the [Webots Reference Manual](https://www.cyberbotics.com/doc/reference/introduction).
+A [Supervisor](../reference/supervisor.md) oversees a world and can set or get information about it.
+This tutorial will teach you:
+- How to move objects using the supervisor.
+- How to delete a node and spawn another in its place.
+- How to track the evolution of an object in the scene.
+- How to change the properties of an object, namely its color.
+
+These are only some of the powers of the [Supervisor](../reference/supervisor.md), to fully understand what it is capable of, you should refer to its documentation. 
 
 ### Setting up the Environment and Adding a Supervisor
 
