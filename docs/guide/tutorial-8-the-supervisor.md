@@ -1,6 +1,6 @@
 ## Tutorial 8: the Supervisor (30 Minutes)
 
-This tutorial will explore how to achieve some of these tasks using a [Supervisor](../reference/supervisor.md).
+This tutorial will explore how to achieve some tasks using a [Supervisor](../reference/supervisor.md). A Supervisor oversees the world to set or get information about it. To fully understand what is it for, read the description of [Supervisor](../reference/supervisor.md) in the [Webots Reference Manual](https://www.cyberbotics.com/doc/reference/introduction).
 
 ### Setting up the Environment and Adding a Supervisor
 
