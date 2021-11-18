@@ -61,6 +61,16 @@ void Driver::setSteeringAngle(double steeringAngle) {
   wbu_driver_set_steering_angle(steeringAngle);
 }
 
+void Driver::setLeftSteeringAngle(double angle) {
+  assert(this);
+  wbu_driver_set_left_steering_angle(angle);
+}
+
+void Driver::setRightSteeringAngle(double angle) {
+  assert(this);
+  wbu_driver_set_right_steering_angle(angle);
+}
+
 double Driver::getSteeringAngle() {
   assert(this);
   return wbu_driver_get_steering_angle();

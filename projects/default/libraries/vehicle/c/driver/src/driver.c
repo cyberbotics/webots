@@ -437,6 +437,35 @@ static void update_engine_sound() {
   }
 }
 
+static void update_auto_disabling_indicator() {
+  const double steering_angle = instance->steering_angle;
+
+  // indicator auto-disabling mechanism
+  if (instance->car->indicator_auto_disabling) {
+    if (instance->indicator_state == RIGHT) {
+      if (steering_angle > instance->indicator_angle)  // continue steering in the direction of the blinker
+        instance->indicator_angle = steering_angle;
+      else if (steering_angle - instance->indicator_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
+        if (instance->car->indicator_lever_motor != 0)
+          wb_motor_set_position(instance->car->indicator_lever_motor, 0.0);
+        instance->indicator_state = OFF;
+        if (!instance->hazard_flashers_on)
+          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
+      }
+    } else if (instance->indicator_state == LEFT) {
+      if (steering_angle < instance->indicator_angle)  // continue steering in the direction of the blinker
+        instance->indicator_angle = steering_angle;
+      else if (instance->indicator_angle - steering_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
+        if (instance->car->indicator_lever_motor != 0)
+          wb_motor_set_position(instance->car->indicator_lever_motor, 0.0);
+        instance->indicator_state = OFF;
+        if (!instance->hazard_flashers_on)
+          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
+      }
+    }
+  }
+}
+
 //***********************************//
 //          API functions            //
 //***********************************//
@@ -588,34 +617,63 @@ void wbu_driver_set_steering_angle(double steering_angle) {
   wb_motor_set_position(instance->car->steering_motors[0], right_angle);  // right
   wb_motor_set_position(instance->car->steering_motors[1], left_angle);   // left
 
-  // the differential speeds need to be recomupte
+  // the differential speeds need to be recomputed
   if (instance->control_mode == SPEED)
     wbu_driver_set_cruising_speed(instance->cruising_speed);
 
-  // indicator auto-disabling mechanism
-  if (instance->car->indicator_auto_disabling) {
-    if (instance->indicator_state == RIGHT) {
-      if (steering_angle > instance->indicator_angle)  // continue steering in the direction of the blinker
-        instance->indicator_angle = steering_angle;
-      else if (steering_angle - instance->indicator_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
-        if (instance->car->indicator_lever_motor != 0)
-          wb_motor_set_position(instance->car->indicator_lever_motor, 0.0);
-        instance->indicator_state = OFF;
-        if (!instance->hazard_flashers_on)
-          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
-      }
-    } else if (instance->indicator_state == LEFT) {
-      if (steering_angle < instance->indicator_angle)  // continue steering in the direction of the blinker
-        instance->indicator_angle = steering_angle;
-      else if (instance->indicator_angle - steering_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
-        if (instance->car->indicator_lever_motor != 0)
-          wb_motor_set_position(instance->car->indicator_lever_motor, 0.0);
-        instance->indicator_state = OFF;
-        if (!instance->hazard_flashers_on)
-          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
-      }
-    }
+  update_auto_disabling_indicator();
+}
+
+void wbu_driver_set_right_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_driver_init()", "wbu_driver_set_right_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: wbu_driver_set_right_steering_angle() called with an invalid 'angle' argument (NaN)\n");
+    return;
   }
+
+  instance->car->right_angle = angle;
+  wb_motor_set_position(instance->car->steering_motors[0], angle);
+
+  // update steering angle
+  instance->steering_angle = (instance->car->right_angle + instance->car->left_angle) * 0.5;
+
+  // move the steering wheel (if any)
+  if (instance->car->steering_wheel != 0)
+    wb_motor_set_position(instance->car->steering_wheel, instance->steering_angle * 10);
+
+  // the differential speeds need to be recomputed
+  if (instance->control_mode == SPEED)
+    wbu_driver_set_cruising_speed(instance->cruising_speed);
+
+  update_auto_disabling_indicator();
+}
+
+void wbu_driver_set_left_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_driver_init()", "wbu_driver_set_left_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: wbu_driver_set_left_steering_angle() called with an invalid 'angle' argument (NaN)\n");
+    return;
+  }
+
+  instance->car->left_angle = angle;
+  wb_motor_set_position(instance->car->steering_motors[1], angle);
+
+  // update steering angle
+  instance->steering_angle = (instance->car->right_angle + instance->car->left_angle) * 0.5;
+
+  // move the steering wheel (if any)
+  if (instance->car->steering_wheel != 0)
+    wb_motor_set_position(instance->car->steering_wheel, instance->steering_angle * 10);
+
+  // the differential speeds need to be recomputed
+  if (instance->control_mode == SPEED)
+    wbu_driver_set_cruising_speed(instance->cruising_speed);
+
+  update_auto_disabling_indicator();
 }
 
 double wbu_driver_get_steering_angle() {
