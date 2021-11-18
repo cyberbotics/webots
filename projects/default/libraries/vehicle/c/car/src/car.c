@@ -418,7 +418,7 @@ double wbu_car_get_wheel_speed(WbuCarWheelIndex wheel_index) {
   return instance->speeds[wheel_index];
 }
 
-void wbu_car_right_steering_angle(double angle) {
+void wbu_car_set_right_steering_angle(double angle) {
   if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_right_steering_angle()"))
     return;
 
@@ -442,6 +442,8 @@ void wbu_car_right_steering_angle(double angle) {
   //  wbu_driver_set_cruising_speed(instance->cruising_speed);
 
   // indicator auto-disabling mechanism
+  /*
+  const double steering_angle = instance->steering_angle;
   if (instance->indicator_auto_disabling) {
     if (instance->indicator_state == RIGHT) {
       if (steering_angle > instance->indicator_angle)  // continue steering in the direction of the blinker
@@ -465,6 +467,7 @@ void wbu_car_right_steering_angle(double angle) {
       }
     }
   }
+  */
 }
 
 void wbu_car_set_left_steering_angle(double angle) {
@@ -491,6 +494,8 @@ void wbu_car_set_left_steering_angle(double angle) {
   //  wbu_driver_set_cruising_speed(instance->cruising_speed);
 
   // indicator auto-disabling mechanism
+  /*
+  const double steering_angle = instance->steering_angle;
   if (instance->indicator_auto_disabling) {
     if (instance->indicator_state == RIGHT) {
       if (steering_angle > instance->indicator_angle)  // continue steering in the direction of the blinker
@@ -514,6 +519,7 @@ void wbu_car_set_left_steering_angle(double angle) {
       }
     }
   }
+  */
 }
 
 double wbu_car_get_right_steering_angle() {
