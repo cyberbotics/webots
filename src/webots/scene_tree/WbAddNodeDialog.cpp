@@ -29,6 +29,7 @@
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
+#include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtWidgets/QDialogButtonBox>
@@ -149,9 +150,20 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
+  QHBoxLayout *buttonLayout = new QHBoxLayout();
+  buttonLayout->addWidget(buttonBox);
+
+  if (WbSimulationState::instance()->hasStarted()) {
+    QPixmap pixmap("coreIcons:warning.png");
+    QLabel *pixmapLabel = new QLabel(this);
+    pixmapLabel->setPixmap(pixmap.scaledToHeight(20, Qt::SmoothTransformation));
+    pixmapLabel->setToolTip(tr("The simulation has run!"));
+    buttonLayout->addWidget(pixmapLabel);
+  }
+
   rightPaneLayout->addLayout(filterLayout);
   rightPaneLayout->addWidget(mNodeInfoGroupBox);
-  rightPaneLayout->addWidget(buttonBox);
+  rightPaneLayout->addLayout(buttonLayout);
 
   mainLayout->addWidget(mTree);
   mainLayout->addLayout(rightPaneLayout);

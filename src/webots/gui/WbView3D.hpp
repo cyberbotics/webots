@@ -253,7 +253,7 @@ private slots:
   void updateShadowState();
   void unleashPhysicsDrags();
   void onSelectionChanged(WbAbstractTransform *selectedAbstractTransform);
-  void handleWorldModificationFromSupervior();
+  void handleWorldModificationFromSupervisor();
 };
 
 #endif
