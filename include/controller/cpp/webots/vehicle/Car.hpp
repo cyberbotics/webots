@@ -52,6 +52,8 @@ namespace webots {
 
     double getWheelEncoder(WheelIndex wheel);
     double getWheelSpeed(WheelIndex wheel);
+    void setLeftSteeringAngle(double angle);
+    void setRightSteeringAngle(double angle);
     double getRightSteeringAngle();
     double getLeftSteeringAngle();
 

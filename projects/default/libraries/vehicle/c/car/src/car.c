@@ -418,6 +418,104 @@ double wbu_car_get_wheel_speed(WbuCarWheelIndex wheel_index) {
   return instance->speeds[wheel_index];
 }
 
+void wbu_car_right_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_right_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: wbu_car_set_right_steering_angle() called with an invalid 'angle' argument (NaN)\n");
+    return;
+  }
+
+  instance->right_angle = angle;
+  wb_motor_set_position(instance->steering_motors[0], angle);
+
+  // update steering angle
+  instance->steering_angle = (instance->right_angle + instance->left_angle) * 0.5;
+
+  // move the steering wheel (if any)
+  if (instance->steering_wheel != 0)
+    wb_motor_set_position(instance->steering_wheel, instance->steering_angle * 10);
+
+  // the differential speeds need to be recomputed
+  // if (instance->control_mode == SPEED)
+  //  wbu_driver_set_cruising_speed(instance->cruising_speed);
+
+  // indicator auto-disabling mechanism
+  if (instance->indicator_auto_disabling) {
+    if (instance->indicator_state == RIGHT) {
+      if (steering_angle > instance->indicator_angle)  // continue steering in the direction of the blinker
+        instance->indicator_angle = steering_angle;
+      else if (steering_angle - instance->indicator_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
+        if (instance->indicator_lever_motor != 0)
+          wb_motor_set_position(instance->indicator_lever_motor, 0.0);
+        instance->indicator_state = OFF;
+        if (!instance->hazard_flashers_on)
+          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
+      }
+    } else if (instance->indicator_state == LEFT) {
+      if (steering_angle < instance->indicator_angle)  // continue steering in the direction of the blinker
+        instance->indicator_angle = steering_angle;
+      else if (instance->indicator_angle - steering_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
+        if (instance->indicator_lever_motor != 0)
+          wb_motor_set_position(instance->indicator_lever_motor, 0.0);
+        instance->indicator_state = OFF;
+        if (!instance->hazard_flashers_on)
+          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
+      }
+    }
+  }
+}
+
+void wbu_car_set_left_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_left_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: wbu_car_set_left_steering_angle() called with an invalid 'angle' argument (NaN)\n");
+    return;
+  }
+
+  instance->left_angle = angle;
+  wb_motor_set_position(instance->steering_motors[1], angle);
+
+  // update steering angle
+  instance->steering_angle = (instance->right_angle + instance->left_angle) * 0.5;
+
+  // move the steering wheel (if any)
+  if (instance->steering_wheel != 0)
+    wb_motor_set_position(instance->steering_wheel, instance->steering_angle * 10);
+
+  // the differential speeds need to be recomputed
+  // if (instance->control_mode == SPEED)
+  //  wbu_driver_set_cruising_speed(instance->cruising_speed);
+
+  // indicator auto-disabling mechanism
+  if (instance->indicator_auto_disabling) {
+    if (instance->indicator_state == RIGHT) {
+      if (steering_angle > instance->indicator_angle)  // continue steering in the direction of the blinker
+        instance->indicator_angle = steering_angle;
+      else if (steering_angle - instance->indicator_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
+        if (instance->indicator_lever_motor != 0)
+          wb_motor_set_position(instance->indicator_lever_motor, 0.0);
+        instance->indicator_state = OFF;
+        if (!instance->hazard_flashers_on)
+          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
+      }
+    } else if (instance->indicator_state == LEFT) {
+      if (steering_angle < instance->indicator_angle)  // continue steering in the direction of the blinker
+        instance->indicator_angle = steering_angle;
+      else if (instance->indicator_angle - steering_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
+        if (instance->indicator_lever_motor != 0)
+          wb_motor_set_position(instance->indicator_lever_motor, 0.0);
+        instance->indicator_state = OFF;
+        if (!instance->hazard_flashers_on)
+          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
+      }
+    }
+  }
+}
+
 double wbu_car_get_right_steering_angle() {
   if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_get_right_steering_angle()"))
     return 0.0;

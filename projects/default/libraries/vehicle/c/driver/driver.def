@@ -3,8 +3,6 @@ wbu_driver_init
 wbu_driver_cleanup
 wbu_driver_step
 wbu_driver_set_steering_angle
-wbu_driver_set_right_steering_angle
-wbu_driver_set_left_steering_angle
 wbu_driver_get_steering_angle
 wbu_driver_set_cruising_speed
 wbu_driver_get_target_cruising_speed
