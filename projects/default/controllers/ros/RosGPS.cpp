@@ -66,11 +66,15 @@ void RosGPS::publishValue(ros::Publisher publisher) {
     value.point.z = mGPS->getValues()[2];
     publisher.publish(value);
   }
+}
 
-  webots_ros::Float64Stamped speedValue;
-  speedValue.header.stamp = ros::Time::now();
-  speedValue.data = mGPS->getSpeed();
-  mSpeedPublisher.publish(speedValue);
+void RosGPS::publishAuxiliaryValue() {
+  if (mGPS->getSamplingPeriod() > 0 && mSpeedPublisher.getNumSubscribers() >= 1) {
+    webots_ros::Float64Stamped speedValue;
+    speedValue.header.stamp = ros::Time::now();
+    speedValue.data = mGPS->getSpeed();
+    mSpeedPublisher.publish(speedValue);
+  }
 }
 
 bool RosGPS::getCoordinateTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {
