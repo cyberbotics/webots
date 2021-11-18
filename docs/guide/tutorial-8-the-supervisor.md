@@ -7,7 +7,7 @@ This tutorial will teach you:
 - How to track the evolution of an object in the scene.
 - How to change the properties of an object, namely its color.
 
-These are only some of the powers of the [Supervisor](../reference/supervisor.md), to fully understand what it is capable of, you should refer to its documentation. 
+These are only some tasks the [Supervisor](../reference/supervisor.md) is capable of, refer to its documentation for a complete overview.
 
 ### Setting up the Environment and Adding a Supervisor
 
