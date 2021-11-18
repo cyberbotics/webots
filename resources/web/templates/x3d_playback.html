@@ -10,11 +10,11 @@
         height: 100%;
       }
     </style>
-    <script type="module" src="https://cyberbotics.com/wwi/R2022a/WebotsAnimation.js"></script>
+    <script type="module" src="https://cyberbotics.com/wwi/R2022a/WebotsView.js"></script>
   </head>
   <body>
     <h1 style="height:5%">%title%</h1>
-    <webots-view style="height:80%; display:block;" x3d=%x3dName% json=%jsonName%></webots-view>
+    <webots-view style="height:80%; display:block;" data-x3d=%x3dName% data-json=%jsonName%></webots-view>
     <p style="height:5%">If the animation is not loading correctly, please refer to the <a style='color: #5DADE2;' target:'_blank' href='https://cyberbotics.com/doc/guide/web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a>
       it could be that your browser prevents local files CORS requests.</p>
     <p style="height:5%">%description%</p>
