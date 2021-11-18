@@ -52,7 +52,7 @@ It may occur that the rendering in the Webots application and in the exported We
 - Once removed, it is not possible to recreate a `webots-view` element on the same page. However there is some workarounds:
     - Reload the page
     - Close the simulation (with `close()` in the case of animation and `disconnect()` in the case of streaming viewer) and hide the `webots-view` with the help of css.
-    - Keeping a reference to the `webots-view` element allow you to remove it from the page and insert it again. As in the following example:
+    - Keeping a reference to the `webots-view` element allows you to remove it from the page and insert it again. As in the following example:
     ```
     let webotsView;
     function create() {
