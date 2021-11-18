@@ -224,7 +224,7 @@ The `translation` field is of type `SFVec3`, which just means it is a three dime
 The value of this field can be set by using the [`wb_supervisor_field_set_sf_vec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) function.
 > ```c
 > if (i == 0) {
->   const double new_value[3] = {0, 0, 2.5};
+>   const double new_value[3] = {2.5, 0, 0};
 >   wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
 > }
 > ```
@@ -258,7 +258,7 @@ The value of this field can be set by using the [`setSFVec3f`](../reference/supe
 In `CODE PLACEHOLDER 2`, add the following:
 > ```cpp
 > if (i == 0) {
->   const double newValue[3] = {0, 0, 2.5};
+>   const double newValue[3] = {2.5, 0, 0};
 >   translationField->setSFVec3f(newValue);
 > }
 > ```
@@ -291,7 +291,7 @@ The `translation` field is of type `SFVec3`, which just means it is a three dime
 The value of this field can be set by using the [`setSFVec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) method.
 > ```python
 > if i == 0:
->   new_value = [0, 0, 2.5]
+>   new_value = [2.5, 0, 0]
 >   translation_field.setSFVec3f(new_value)
 > ```
 That is all there is to it.
@@ -323,7 +323,7 @@ The `translation` field is of type `SFVec3`, which just means it is a three dime
 The value of this field can be set by using the [`setSFVec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) method.
 > ```java
 > if (i == 0) {
->   double newValue[] = {0, 0, 2.5};
+>   double newValue[] = {2.5, 0, 0};
 >   translationField.setSFVec3f(newValue);
 > }
 > ```
@@ -356,7 +356,7 @@ The `translation` field is of type `SFVec3`, which just means it is a three dime
 The value of this field can be set by using the [`wb_supervisor_field_set_sf_vec3f`](../reference/supervisor.md#wb_supervisor_field_set_sf_vec3f) function.
 > ```matlab
 > if (i == 0)
->   new_value = [0, 0, 2.5]
+>   new_value = [2.5, 0, 0]
 >   wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
 > end
 > ```
@@ -428,7 +428,7 @@ After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scen
 
 > Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
-Replace the string `"Nao { }"` with `"Nao { translation 0 0.334 2.5 }"` and it will spawn exactly at that location.
+Replace the string `"Nao { }"` with `"Nao { translation 2.5 0 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
 
 %tab-end
@@ -482,7 +482,7 @@ After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scen
 
 > Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
-Replace the string `"Nao { }"` with `"Nao { translation 0 0.334 2.5 }"` and it will spawn exactly at that location.
+Replace the string `"Nao { }"` with `"Nao { translation 2.5 0 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
 
 %tab-end
@@ -536,7 +536,7 @@ After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scen
 
 > Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
-Replace the string `"Nao { }"` with `"Nao { translation 0 0.334 2.5 }"` and it will spawn exactly at that location.
+Replace the string `"Nao { }"` with `"Nao { translation 2.5 0 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
 
 %tab-end
@@ -590,7 +590,7 @@ After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scen
 
 > Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
-Replace the string `"Nao { }"` with `"Nao { translation 0 0.334 2.5 }"` and it will spawn exactly at that location.
+Replace the string `"Nao { }"` with `"Nao { translation 2.5 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
 
 %tab-end
@@ -646,7 +646,7 @@ After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scen
 
 > Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
-Replace the string `"Nao { }"` with `"Nao { translation 0 0.334 2.5 }"` and it will spawn exactly at that location.
+Replace the string `"Nao { }"` with `"Nao { translation 2.5 0 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
 
 %tab-end
@@ -667,7 +667,7 @@ In this section, we will use the acquired knowledge to spawn a ball, and track i
 This will allows us to explore the previously mentioned trick.
 1. Reload the simulation.
 2. Add a [Solid](../reference/solid.md) node and give it the `DEF` name `BALL`.
-3. Set the `translation` field of the [Solid](../reference/solid.md) to `1 1 0`.
+3. Set the `translation` field of the [Solid](../reference/solid.md) to `0 1 1 `.
 4. Double-click the `children` field and add a [Shape](../reference/shape.md) node.
 5. In the `geometry` field add a [Sphere](../reference/sphere.md) node, setting its radius to `0.2`.
 6. Select the `geometry` field and give this node a `DEF` name `SPHERE_GEOMETRY`.
@@ -844,7 +844,7 @@ It must be named `custom_ball.wbo` and saved in the controller's directory.
 #VRML_OBJ R2021b
 
 DEF BALL Solid {
-  translation 1 1 0
+  translation 0 1 1
   children [
     Shape {
       appearance DEF SPHERE_COLOR PBRAppearance {
@@ -895,7 +895,7 @@ int main(int argc, char **argv) {
   while (wb_robot_step(TIME_STEP) != -1) {
     // [CODE PLACEHOLDER 2]
     if (i == 0) {
-      const double new_value[3] = {0, 0, 2.5};
+      const double new_value[3] = {2.5, 0, 0};
       wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
     }
 
@@ -903,12 +903,12 @@ int main(int argc, char **argv) {
       wb_supervisor_node_remove(bb8_node);
 
     if (i == 20)
-      wb_supervisor_field_import_mf_node_from_string(children_field, -1, "Nao { translation 0 0.334 2.5 }");
+      wb_supervisor_field_import_mf_node_from_string(children_field, -1, "Nao { translation 2.5 0 0.334 }");
 
     const double *position = wb_supervisor_node_get_position(ball_node);
     printf("Ball position: %f %f %f\n", position[0], position[1], position[2]);
 
-    if (position[1] < 0.2) {
+    if (position[2] < 0.2) {
       const double red_color[3] = {1, 0, 0};
       wb_supervisor_field_set_sf_color(color_field, red_color);
     }
@@ -954,7 +954,7 @@ int main(int argc, char **argv) {
   while (robot->step(TIME_STEP) != -1) {
     // [CODE PLACEHOLDER 2]
     if (i == 0) {
-      const double newValue[3] = {0, 0, 2.5};
+      const double newValue[3] = {2.5, 0, 0};
       translationField->setSFVec3f(newValue);
     }
 
@@ -967,7 +967,7 @@ int main(int argc, char **argv) {
     const double *position = ballNode->getPosition();
     std::cout << "Ball position: " << position[0] << " " << position[1] << " " << position[2] << std::endl;
 
-    if (position[1] < 0.2) {
+    if (position[2] < 0.2) {
       const double redColor[3] = {1, 0, 0};
       colorField->setSFColor(redColor);
     }
@@ -1009,7 +1009,7 @@ i = 0
 while robot.step(TIME_STEP) != -1:
   # [CODE PLACEHOLDER 2]
   if (i == 0):
-    new_value = [0, 0, 2.5]
+    new_value = [2.5, 0, 0]
     translation_field.setSFVec3f(new_value)
 
   if i == 10:
@@ -1021,7 +1021,7 @@ while robot.step(TIME_STEP) != -1:
   position = ball_node.getPosition()
   print('Ball position: %f %f %f\n' %(position[0], position[1], position[2]))
 
-  if position[1] < 0.2:
+  if position[2] < 0.2:
     red_color = [1, 0, 0]
     color_field.setSFColor(red_color)
 
@@ -1060,7 +1060,7 @@ public class supervisor_controller {
     while (robot.step(TIME_STEP) != -1) {
       // [CODE PLACEHOLDER 2]
       if (i == 0) {
-        double newValue[] = {0, 0, 2.5};
+        double newValue[] = {2.5, 0, 0};
         translationField.setSFVec3f(newValue);
       }
 
@@ -1073,7 +1073,7 @@ public class supervisor_controller {
       double position[] = ballNode.getPosition();
       System.out.println("Ball position: " + position[0] + " " + position[1] + " " + position[2]);
 
-      if (position[1] < 0.2) {
+      if (position[2] < 0.2) {
         double redColor[] = {1, 0, 0};
         colorField.setSFColor(redColor);
       }
@@ -1106,7 +1106,7 @@ i = 0;
 while wb_robot_step(TIME_STEP) ~= -1
   % [CODE PLACEHOLDER 2]
   if (i == 0)
-    new_value = [0, 0, 2.5]
+    new_value = [2.5, 0, 0]
     wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
   end
 
@@ -1121,7 +1121,7 @@ while wb_robot_step(TIME_STEP) ~= -1
   position = wb_supervisor_node_get_position(ball_node);
   wb_console_print(strcat('Ball position: ', num2str(position(1)), ' ', num2str(position(2)), ' ', num2str(position(3))), WB_STDOUT);
 
-  if (position(2) < 0.2)
+  if (position(3) < 0.2)
     red_color = [1, 0, 0];
     wb_supervisor_field_set_sf_color(color_field, red_color);
   end
