@@ -37,6 +37,7 @@ public:
       .arg(WbPrecision::doubleToString(mAxis.z(), level))
       .arg(WbPrecision::doubleToString(mAngle, level));
   }
+
 private:
   WbVector3 mAxis;
   double mAngle;
