@@ -39,17 +39,6 @@ export default class WebotsView extends HTMLElement {
         return prefix + path;
       }`;
     document.head.appendChild(script);
-    this._x3d = this.dataset.x3d;
-    this._json = this.dataset.json;
-
-    this._server = this.dataset.server;
-    this._mode = this.dataset.mode;
-    this._isBroadcast = this.dataset.isBroadcast;
-    this._connectCallback = this.dataset.connectCallback;
-    this._disconnectCallback = this.dataset.disconnectCallback;
-
-    this._isMobileDevice = this.dataset.isMobileDevice;
-
     this._init();
   }
 
@@ -66,10 +55,13 @@ export default class WebotsView extends HTMLElement {
     const promises = [];
     Module.onRuntimeInitialized = () => {
       Promise.all(promises).then(() => {
-        if (typeof this._x3d !== 'undefined' && this._x3d !== '')
-          this.loadAnimation(!(this.dataset.autoplay && this.dataset.autoplay === 'false'));
-        else if (typeof this._server !== 'undefined' && this._server !== '')
-          this.connect(this._server, this._mode, this._isBroadcast, this._isMobileDevice, this._connectCallback, this._disconnectCallback);
+        let x3d = this.dataset.x3d;
+        let isMobileDevice = this.dataset.isMobileDevice;
+        let server = this.dataset.server;
+        if (typeof x3d !== 'undefined' && x3d !== '')
+          this.loadAnimation(x3d, this.dataset.json, isMobileDevice, !(this.dataset.autoplay && this.dataset.autoplay === 'false'));
+        else if (typeof server !== 'undefined' && server !== '')
+          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, this._isMobileDevice, this.dataset.connectCallback, this.dataset.disconnectCallback);
       });
     };
     promises.push(this._loadScript('https://git.io/glm-js.min.js'));
@@ -77,20 +69,9 @@ export default class WebotsView extends HTMLElement {
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/wrenjs.js'));
   }
 
-  setIsMobileDevice(isMobileDevice) {
-    this._isMobileDevice = isMobileDevice;
-  }
-
   // Animation's functions
-  setJson(fileName) {
-    this._json = fileName;
-  }
-  setX3d(fileName) {
-    this._x3d = fileName;
-  }
-
-  loadAnimation(play) {
-    if (typeof this._x3d === 'undefined') {
+  loadAnimation(x3d, json, play, isMobileDevice) {
+    if (typeof x3d === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
@@ -99,12 +80,12 @@ export default class WebotsView extends HTMLElement {
     this.streamingCSS.disabled = true;
 
     if (typeof this._view === 'undefined')
-      this._view = new webots.View(this, this._isMobileDevice);
-    this._view.open(this._x3d);
+      this._view = new webots.View(this, isMobileDevice);
+    this._view.open(x3d);
     if (play !== 'undefined' && play === false)
-      this._view.setAnimation(this._json, 'pause', true);
+      this._view.setAnimation(json, 'pause', true);
     else
-      this._view.setAnimation(this._json, 'play', true);
+      this._view.setAnimation(json, 'play', true);
     this._hasActiveAnimation = true;
   }
 
@@ -122,27 +103,6 @@ export default class WebotsView extends HTMLElement {
 
   // Streaming viewer's functions
 
-  setServer(server) {
-    this._server = server;
-  }
-
-  // 'x3d' or 'mjpeg'
-  setMode(mode) {
-    this._mode = mode;
-  }
-
-  setIsBroadcast(isBroadcast) {
-    this._isBroadcast = isBroadcast;
-  }
-
-  setConnectCallback(connectCallback) {
-    this._connectCallback = connectCallback;
-  }
-
-  setDisconnectCallback(disconnectCallback) {
-    this._disconnectCallback = disconnectCallback;
-  }
-
   /*
    * url : url of the server
    * mode : x3d or mjpeg
@@ -151,7 +111,7 @@ export default class WebotsView extends HTMLElement {
    * callback: function
    * disconnectCallback: function. It needs to be passed there and not in disconnect because disconnect can be called from inside the web-component
    */
-  connect(url, mode, broadcast, mobileDevice, callback, disconnectCallback) {
+  connect(server, mode, broadcast, mobileDevice, callback, disconnectCallback) {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
@@ -164,8 +124,7 @@ export default class WebotsView extends HTMLElement {
     this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
 
     this._disconnectCallback = disconnectCallback;
-
-    this._view.open(url, mode);
+    this._view.open(server, mode);
     this._view.onquit = () => this.disconnect();
     this._view.onready = _ => {
       if (typeof callback === 'function')
@@ -203,15 +162,15 @@ export default class WebotsView extends HTMLElement {
     }
   }
 
-  showQuit(enable) {
+  displayQuit(enable) {
     webots.showQuit = enable;
   }
 
-  showRevert(enable) {
+  displayRevert(enable) {
     webots.showRevert = enable;
   }
 
-  showRun(enable) {
+  displayRun(enable) {
     webots.showRun = enable;
   }
 
