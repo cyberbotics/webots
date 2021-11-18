@@ -56,11 +56,11 @@ export default class WebotsView extends HTMLElement {
     Module.onRuntimeInitialized = () => {
       Promise.all(promises).then(() => {
         this.initializationComplete = true;
-        let x3d = this.dataset.x3d;
+        let model = this.dataset.model;
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
-        if (typeof x3d !== 'undefined' && x3d !== '')
-          this.loadAnimation(x3d, this.dataset.json, isMobileDevice, !(this.dataset.autoplay && this.dataset.autoplay === 'false'));
+        if (typeof model !== 'undefined' && model !== '')
+          this.loadAnimation(model, this.dataset.animation, isMobileDevice, !(this.dataset.autoplay && this.dataset.autoplay === 'false'));
         else if (typeof server !== 'undefined' && server !== '')
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.connectCallback, this.dataset.disconnectCallback);
       });
@@ -71,25 +71,25 @@ export default class WebotsView extends HTMLElement {
   }
 
   // Animation's functions
-  loadAnimation(x3d, json, play, isMobileDevice) {
-    if (typeof x3d === 'undefined') {
+  loadAnimation(model, animation, play, isMobileDevice) {
+    if (typeof model === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadAnimation(x3d, json, play, isMobileDevice), 1000);
+      setTimeout(() => this.loadAnimation(model, animation, play, isMobileDevice), 1000);
     else {
       this.animationCSS.disabled = false;
       this.streamingCSS.disabled = true;
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
-      this._view.open(x3d);
+      this._view.open(model);
       if (play !== 'undefined' && play === false)
-        this._view.setAnimation(json, 'pause', true);
+        this._view.setAnimation(animation, 'pause', true);
       else
-        this._view.setAnimation(json, 'play', true);
+        this._view.setAnimation(animation, 'play', true);
       this._hasActiveAnimation = true;
     }
   }

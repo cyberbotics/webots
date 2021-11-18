@@ -478,7 +478,7 @@ Moreover, the following attributes are available:
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
 
-Warning: note that if the `data-x3d` attribute (see [web animation](web-animation.md)) and the `data-server` are both set, the `data-x3d` will take precedence and try to load an animation.
+Warning: note that if the `data-model` attribute (see [web animation](web-animation.md)) and the `data-server` are both set, the `data-model` will take precedence and try to load an animation.
 
 An example of a file using this API is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
 

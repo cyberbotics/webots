@@ -38,19 +38,19 @@ Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-web
 The web animation is played by a web component from the [WebotsView.js] package called `webots-view`.
 
 The following attributes are available:
-* `data-x3d`: the name of the .x3d file containing the 3d model.
-* `data-json`: the name of the .json file containing the animation sequence.
+* `data-model`: the name of the .x3d file containing the 3d model.
+* `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 
-The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-x3d` attribute is set, the `webots-view` web-component will automatically try to load an animation .
+The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-model` attribute is set, the `webots-view` web-component will automatically try to load an animation .
 
 For more complex interaction with the web component, the following functions are available:
 * `hasActiveAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `close()`: close the current animation.
-* `load(x3d, json, play, mobileDevice)`: load and play the animation.
-  * `x3d`: name of the x3d.
-  * `json`: name of the json.
+* `load(model, animation, play, mobileDevice)`: load and play the animation.
+  * `model`: name of the .x3d file.
+  * `animation`: name of the .json file.
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
 
