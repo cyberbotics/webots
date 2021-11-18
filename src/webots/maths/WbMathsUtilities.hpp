@@ -74,9 +74,9 @@ inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0
 // If not then the behavior is similar to a clamped value.
 inline double WbMathsUtilities::clampedAcos(double value) {
   assert((fabs(value) < 1.0 + EPSILON) && "Value passed to clampedAcos out of range.");
-  if (value > 1.0)
+  if (value >= 1.0)
     return 0.0;
-  if (value < -1.0)
+  if (value <= -1.0)
     return M_PI;
   return acos(value);
 }
@@ -85,9 +85,9 @@ inline double WbMathsUtilities::clampedAcos(double value) {
 // If not then the behavior is similar to a clamped value.
 inline double WbMathsUtilities::clampedAsin(double value) {
   assert((fabs(value) < 1.0 + EPSILON) && "Value passed to clampedAsin out of range.");
-  if (value > 1.0)
+  if (value >= 1.0)
     return M_PI / 2;
-  if (value < -1.0)
+  if (value <= -1.0)
     return -M_PI / 2;
   return asin(value);
 }
