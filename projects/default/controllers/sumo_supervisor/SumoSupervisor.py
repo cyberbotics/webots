@@ -26,7 +26,7 @@ hiddenPosition = 10000
 
 
 def rotation_from_yaw_pitch_roll(yaw, pitch, roll):
-    """Compute the rotation from the roll pitch yaw angles."""
+    """Compute the rotation from the roll pitch yaw angles, i.e. conversion Euler to Axis-Angle."""
     rotation = [0, 0, 1, 0]
     # construct rotation matrix
     # a b c
@@ -277,8 +277,7 @@ class SumoSupervisor (Supervisor):
                     # the '0.15' factor was found empirically and should not depend on the simulation
                     artificialAngle = 0.15 * math.atan2(x1, y1)
                 if (vehicle.laneChangeStartTime is not None and
-                        vehicle.laneChangeStartTime > self.getTime() - laneChangeDelay and
-                        abs(vehicle.laneChangeDistance) >= abs(x1)):  # lane change case
+                        vehicle.laneChangeStartTime > self.getTime() - laneChangeDelay):  # lane change case
                     ratio = (self.getTime() - vehicle.laneChangeStartTime) / laneChangeDelay
                     ratio = (0.5 + 0.5 * math.sin((ratio - 0.5) * math.pi))
                     p = vehicle.laneChangeDistance * ratio
