@@ -35,22 +35,22 @@ Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-web
 
 ### Programming Interface
 
-The web animation is played by a web component from the [WebotsAnimation.js] package called `webots-animation`.
+The web animation is played by a web component from the [WebotsView.js] package called `webots-view`.
 
 The following attributes are available:
-* `x3d`: the name of the .x3d file containing the 3d model.
-* `json`: the name of the .json file containing the animation sequence.
-* `autoplay`: 'true' or 'false' to determine if the animation should be played automatically.
-If `json` is set, the animation will be played by default.
+* `data-model`: the name of the .x3d file containing the 3d model.
+* `data-animation`: the name of the .json file containing the animation sequence.
+* `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
+* `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
+
+The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-model` attribute is set, the `webots-view` web-component will automatically try to load an animation .
 
 For more complex interaction with the web component, the following functions are available:
-* `active()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
+* `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `close()`: close the current animation.
-* `setX3d(fileName)`: set the name of the x3d file for the next model to be loaded.
-  * `fileName`: name of the x3d file.
-* `setJson(fileName)`: set the name of the json file for the next animation to be loaded.
-  * `fileName`: name of the json file.
-* `load(play, mobileDevice)`: load and play the animation.
+* `load(model, animation, play, mobileDevice)`: load and play the animation.
+  * `model`: name of the .x3d file.
+  * `animation`: name of the .json file.
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
 

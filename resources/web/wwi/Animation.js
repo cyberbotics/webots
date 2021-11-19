@@ -39,6 +39,13 @@ export default class Animation {
     const view3d = document.getElementById('view3d');
     if (!view3d)
       return;
+
+    if (typeof this._view.mouseEvents !== 'undefined' && typeof this._view.mouseEvents.hidePlayBar) {
+      this._view.mouseEvents.hidePlayBar = undefined;
+      if (typeof this._view.mouseEvents.showPlayBar !== 'undefined')
+        this._view.mouseEvents.showPlayBar();
+    }
+
     this._view.mouseEvents.hidePlayBar = undefined;
     this._view.mouseEvents.showPlayBar = undefined;
     document.removeEventListener('keydown', this.keydownRef);

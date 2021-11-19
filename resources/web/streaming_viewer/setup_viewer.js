@@ -25,7 +25,7 @@ function init() {
 
 function connect() {
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
-  document.getElementsByTagName('webots-streaming')[0].connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice, onConnect, onDisconnect);
+  document.getElementsByTagName('webots-view')[0].connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice, onConnect, onDisconnect);
 
   ipInput.disabled = true;
   modeSelect.disabled = true;
@@ -50,7 +50,7 @@ function onDisconnect() {
 }
 
 function disconnect() {
-  document.getElementsByTagName('webots-streaming')[0].disconnect();
+  document.getElementsByTagName('webots-view')[0].disconnect();
 }
 
 init();
