@@ -469,7 +469,7 @@ This is the API of the `webots-streaming` web component:
     *`robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named "supervisor".
 
 Moreover, the following attributes are available:
-* `data-server`: url of the server.
+* `data-server`: URL of the server.
 * `data-mode`: `x3d` or `mjpeg`.
 * `data-broadcast`: boolean variable enabling or not the broadcast.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
