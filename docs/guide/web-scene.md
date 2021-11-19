@@ -63,7 +63,7 @@ It may occur that the rendering in the Webots application and in the exported We
       }
       document.body.appendChild(webotsView)
 
-      if (!webotsView.hasActiveAnimation())
+      if (!webotsView.hasAnimation())
         webotsView.loadAnimation("model.x3d", "animation.json")
     }
 

@@ -4,7 +4,7 @@ import {exitFullscreen} from './fullscreen_handler.js';
 export default class WebotsView extends HTMLElement {
   constructor() {
     super();
-    this._hasActiveAnimation = false;
+    this._hasAnimation = false;
     this._initialCallbackDone = false;
   }
 
@@ -90,7 +90,7 @@ export default class WebotsView extends HTMLElement {
         this._view.setAnimation(animation, 'pause', true);
       else
         this._view.setAnimation(animation, 'play', true);
-      this._hasActiveAnimation = true;
+      this._hasAnimation = true;
     }
   }
 
@@ -99,11 +99,11 @@ export default class WebotsView extends HTMLElement {
     this._view.animation.removePlayBar();
     this._view.removeLabels();
     this._view.destroyWorld();
-    this._hasActiveAnimation = false;
+    this._hasAnimation = false;
   }
 
-  hasActiveAnimation() {
-    return this._hasActiveAnimation;
+  _hasAnimation() {
+    return this._hasAnimation;
   }
 
   // Streaming viewer's functions
