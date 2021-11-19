@@ -633,9 +633,19 @@ namespace wren {
       const float radius = positionalLight->radius() + boundingSphere.mRadius;
       // Check if light is too far away
       visible = (distance <= radius &&
-                 positionalLight->attenuationConstant() +
-                     distance * (positionalLight->attenuationLinear() + distance * positionalLight->attenuationQuadratic()) <
-                   255.0f);
+                 (distance < boundingSphere.mRadius ||  // Light is inside the boundingSphere, necessary because pow(distance -
+                                                        // boundingSphere.mRadius, 2) can be very big in this case.
+                  positionalLight->attenuationConstant() +
+                      (distance - boundingSphere.mRadius) *
+                        (positionalLight->attenuationLinear() +
+                         (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
+                    2000.0f));
+      // In the shaders, the attenuation is used as such:
+      // attenuationFactor = 1/(attenuation[0] + distanceToLight * (attenuation[1] + distanceToLight * attenuation[2])
+      // color = 1/attenuationFactor * color * ...
+      // Due to this there is no well-defined upper bound for the attenuationFactor.
+      // 2000 is a trade-off value in which the remaining light is very weak but still visible. The light become really
+      // invisible around 8000.
     }
     return visible;
   }
