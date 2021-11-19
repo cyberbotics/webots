@@ -449,7 +449,7 @@ Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-we
 
 This is the API of the `webots-streaming` web component:
 * `connect(servers, mode, broadcast, mobileDevice, callback, disconnectCallback) `: function instantiating the simulation web interface and taking as argument:
-  * `server`: The `url` of the server. Three different `url` formats are supported:
+  * `server`: The URL of the server. Three different URL formats are supported:
       * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The `url` value specifies both the session server host and the desired simulation name.
       * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
       * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
