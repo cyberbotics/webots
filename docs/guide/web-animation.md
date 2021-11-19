@@ -46,7 +46,7 @@ The following attributes are available:
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-model` attribute is set, the `webots-view` web-component will automatically try to load an animation .
 
 For more complex interaction with the web component, the following functions are available:
-* `hasActiveAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
+* `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `close()`: close the current animation.
 * `load(model, animation, play, mobileDevice)`: load and play the animation.
   * `model`: name of the .x3d file.
