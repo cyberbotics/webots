@@ -50,7 +50,7 @@ function onDisconnect() {
 }
 
 function disconnect() {
-  document.getElementsByTagName('webots-view')[0].disconnect();
+  document.getElementsByTagName('webots-view')[0].close();
 }
 
 init();

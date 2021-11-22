@@ -70,6 +70,23 @@ export default class WebotsView extends HTMLElement {
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/wrenjs.js'));
   }
 
+  _closeWhenDOMElementRemoved() {
+    // https://stackoverflow.com/questions/52834774/dom-event-when-element-is-removed
+    let observer = new MutationObserver(() => {
+      if (!document.body.contains(this)) {
+        this.close();
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, {childList: true, subtree: true});
+  }
+
+  close() {
+    if (this._hasAnimation)
+      this._closeAnimation();
+    else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' && typeof this._view.stream.socket !== 'undefined')
+      this._disconnect();
+  }
   // Animation's functions
   loadAnimation(model, animation, play, isMobileDevice) {
     if (typeof model === 'undefined') {
@@ -78,8 +95,12 @@ export default class WebotsView extends HTMLElement {
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadAnimation(model, animation, play, isMobileDevice), 1000);
+      setTimeout(() => this.loadAnimation(model, animation, play, isMobileDevice), 500);
     else {
+      // terminate the previous activity if any
+      this.close();
+
+      console.time('Loaded in: ');
       this.animationCSS.disabled = false;
       this.streamingCSS.disabled = true;
 
@@ -91,15 +112,17 @@ export default class WebotsView extends HTMLElement {
       else
         this._view.setAnimation(animation, 'play', true);
       this._hasAnimation = true;
+      this._closeWhenDOMElementRemoved();
     }
   }
 
-  close() {
+  _closeAnimation() {
     this._view.animation.pause();
     this._view.animation.removePlayBar();
     this._view.removeLabels();
     this._view.destroyWorld();
     this._hasAnimation = false;
+    this.innerHTML = null;
   }
 
   hasAnimation() {
@@ -120,24 +143,34 @@ export default class WebotsView extends HTMLElement {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
-    this.animationCSS.disabled = true;
-    this.streamingCSS.disabled = false;
 
-    if (typeof this._view === 'undefined')
-      this._view = new webots.View(this, isMobileDevice);
-    this._view.broadcast = broadcast;
-    this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
+    if (!this.initializationComplete)
+      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice, callback, disconnectCallback), 500);
+    else {
+      // terminate the previous activity if any
+      this.close();
+      console.time('Loaded in: ');
 
-    this._disconnectCallback = disconnectCallback;
-    this._view.open(server, mode);
-    this._view.onquit = () => this.disconnect();
-    this._view.onready = _ => {
-      if (typeof callback === 'function')
-        callback();
-    };
+      this.animationCSS.disabled = true;
+      this.streamingCSS.disabled = false;
+
+      if (typeof this._view === 'undefined')
+        this._view = new webots.View(this, isMobileDevice);
+      this._view.broadcast = broadcast;
+      this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
+
+      this._disconnectCallback = disconnectCallback;
+      this._view.open(server, mode);
+      this._view.onquit = () => this._disconnect();
+      this._view.onready = _ => {
+        if (typeof callback === 'function')
+          callback();
+      };
+      this._closeWhenDOMElementRemoved();
+    }
   }
 
-  disconnect() {
+  _disconnect() {
     let exitFullscreenButton = document.getElementById('exit_fullscreenButton');
     if (exitFullscreenButton && exitFullscreenButton.style.display !== 'none')
       exitFullscreen();
