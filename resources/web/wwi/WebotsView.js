@@ -102,7 +102,7 @@ export default class WebotsView extends HTMLElement {
     this._hasAnimation = false;
   }
 
-  _hasAnimation() {
+  hasAnimation() {
     return this._hasAnimation;
   }
 
