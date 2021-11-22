@@ -43,6 +43,7 @@ SpotLight {
   castShadows TRUE
 }
 DEF BATTERYOP2 RobotisOp2 {
+  translation 0 0 0.277
   controller "marathon"
   selfCollision TRUE
   battery [
