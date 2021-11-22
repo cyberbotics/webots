@@ -150,6 +150,7 @@ public class Driver {
 | --- | --- | --- | --- |
 | `/automobile/steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 | `/automobile/set_steering_angle` | `service` | `webots_ros::set_float` | |
+
 %tab-end
 
 %end
