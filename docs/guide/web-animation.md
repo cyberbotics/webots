@@ -47,7 +47,7 @@ The attributes of `webots-view` are only evaluated once: when the page is loaded
 
 For more complex interaction with the web component, the following functions are available:
 * `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
-* `close()`: close the current animation. Note that if the `webots-view` is removed from the HTML page or `loadAnimation` is called, `close` will be automatically called.
+* `close()`: close the current animation. Note that if the `webots-view` element is removed from the HTML page or `loadAnimation` or `connect` is called, `close` will be automatically called.
 * `loadAnimation(model, animation, play, mobileDevice)`: load and play the animation.
   * `model`: name of the .x3d file.
   * `animation`: name of the .json file.
