@@ -83,9 +83,9 @@ export default class WebotsView extends HTMLElement {
 
   close() {
     if (this._hasAnimation)
-      this.closeAnimation();
+      this._closeAnimation();
     else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' && typeof this._view.stream.socket !== 'undefined')
-      this.disconnect();
+      this._disconnect();
   }
   // Animation's functions
   loadAnimation(model, animation, play, isMobileDevice) {
@@ -116,7 +116,7 @@ export default class WebotsView extends HTMLElement {
     }
   }
 
-  closeAnimation() {
+  _closeAnimation() {
     this._view.animation.pause();
     this._view.animation.removePlayBar();
     this._view.removeLabels();
@@ -161,7 +161,7 @@ export default class WebotsView extends HTMLElement {
 
       this._disconnectCallback = disconnectCallback;
       this._view.open(server, mode);
-      this._view.onquit = () => this.disconnect();
+      this._view.onquit = () => this._disconnect();
       this._view.onready = _ => {
         if (typeof callback === 'function')
           callback();
@@ -170,7 +170,7 @@ export default class WebotsView extends HTMLElement {
     }
   }
 
-  disconnect() {
+  _disconnect() {
     let exitFullscreenButton = document.getElementById('exit_fullscreenButton');
     if (exitFullscreenButton && exitFullscreenButton.style.display !== 'none')
       exitFullscreen();
