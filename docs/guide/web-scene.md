@@ -59,16 +59,13 @@ It may occur that the rendering in the Webots application and in the exported We
       if (typeof webotsView === 'undefined') {
         webotsView = document.createElement('webots-view');
         webotsView.style = "height:80%; display:block;"
-        webotsView.id = "webotsView"
       }
       document.body.appendChild(webotsView)
 
-      if (!webotsView.hasAnimation())
-        webotsView.loadAnimation("model.x3d", "animation.json")
+      webotsView.loadAnimation("model.x3d", "animation.json")
     }
 
     function remove() {
-      webotsView.close();
       document.body.removeChild(webotsView);
     }
     ```
