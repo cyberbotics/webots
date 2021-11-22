@@ -640,6 +640,7 @@ public class Car extends Driver {
 | `/automobile/left_steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 | `/automobile/set_right_steering_angle` | `service` | `webots_ros::set_float` | |
 | `/automobile/set_left_steering_angle` | `service` | `webots_ros::set_float` | |
+
 %tab-end
 
 %end
@@ -652,8 +653,7 @@ Functions `wbu_car_set_right_steering_angle` and `wbu_car_set_left_steering_angl
 The difference between these setter functions and the usage of [`wbu_driver_set_steering_angle`](driver-library.md#wbu_driver_set_steering_angle) is that the latter computes and imposes a left and right steering angle based on the Ackermann steering geometry (which can yield different angles for left and right wheel), whereas these setters allow to specify the angle directly.
 Functions `wbu_car_get_right_steering_angle` and `wbu_car_get_left_steering_angle` return the corresponding right and left steering angles, irrespective if these have been set directly or indirectly.
 
-**Note**: Direct setting of the steering angles is useful especially for vehicles controlled in torque, for velocity control it is responsibility of the user to update the left and right speeds accordingly when changing the wheel angles as no automatic adaptation is made (contrary to the usage of [`wbu_driver_set_steering_angle`](driver-library.md#wbu_driver_set_steering_angle) where it
-does occur automatically).
+**Note**: Direct setting of the steering angles is useful especially for vehicles controlled in torque, for velocity control it is responsibility of the user to update the left and right speeds accordingly when changing the wheel angles as no automatic adaptation is made (contrary to the usage of [`wbu_driver_set_steering_angle`](driver-library.md#wbu_driver_set_steering_angle) where it does occur automatically).
 These setter functions only impose the wheel angle and update the overall steering angle (i.e what is returned by [`wbu_driver_get_steering_angle`](driver-library.md#wbu_driver_get_steering_angle)) by taking the average of the left and right angles imposed, nothing else.
 
 ---
