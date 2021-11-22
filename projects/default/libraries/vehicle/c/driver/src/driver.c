@@ -49,7 +49,7 @@ static const double tmp = 1.0;
 #include <stdlib.h>
 #include <string.h>
 
-#define ACCELERATION_THRESHOLD 0.05  // maximum aceleration allowed for the wheels [rad/s2]
+#define ACCELERATION_THRESHOLD 0.05  // maximum acceleration allowed for the wheels [rad/s2]
 #define INDICATOR_AUTO_DISABLING_THRESHOLD 0.1
 #define BLINKER_SOUND_FILE "sounds/blinker.wav"
 
@@ -124,7 +124,7 @@ static double differential_ratio_central() {
 }
 
 static double compute_output_torque() {
-  // Compute available torque taking into acount the current gear ratio and engine model
+  // Compute available torque taking into account the current gear ratio and engine model
   double gear_ratio;
   if (instance->gear > 0)
     gear_ratio = instance->car->gear_ratio[instance->gear];
@@ -168,8 +168,8 @@ static double compute_output_torque() {
   if (real_rpm == instance->car->engine_max_rpm)  // maximum rotation speed of the motor, we don't want to increase it !
     output_torque = 0;
 
-  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarly
-  // do not touch the ground)
+  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarely
+  // does not touch the ground)
   if (fabs(instance->car->max_acceleration) > ACCELERATION_THRESHOLD)
     output_torque *= (ACCELERATION_THRESHOLD / fabs(instance->car->max_acceleration));
 

@@ -86,8 +86,6 @@ Unlike the robot step, the driver step does not have any argument, the default t
 ---
 
 #### `wbu_driver_set_steering_angle`
-#### `wbu_driver_set_right_steering_angle`
-#### `wbu_driver_set_left_steering_angle`
 #### `wbu_driver_get_steering_angle`
 
 %tab-component "language"
@@ -98,8 +96,6 @@ Unlike the robot step, the driver step does not have any argument, the default t
 #include <webots/vehicle/driver.h>
 
 void wbu_driver_set_steering_angle(double steering_angle);
-void wbu_driver_set_right_steering_angle(double angle);
-void wbu_driver_set_left_steering_angle(double angle);
 double wbu_driver_get_steering_angle();
 ```
 
@@ -113,8 +109,6 @@ double wbu_driver_get_steering_angle();
 namespace webots {
   class Driver {
     void setSteeringAngle(double steeringAngle);
-    void setRightSteeringAngle(double angle);
-    void setLeftSteeringAngle(double angle);
     double getSteeringAngle();
     // ...
   }
@@ -130,8 +124,6 @@ from vehicle import Driver
 
 class Driver:
     def setSteeringAngle(self, steeringAngle):
-    def setRightSteeringAngle(self, angle):
-    def setLeftSteeringAngle(self, angle):
     def getSteeringAngle(self):
     # ...
 ```
@@ -145,8 +137,6 @@ import com.cyberbotics.webots.controller.vehicle.Driver;
 
 public class Driver {
   public void setSteeringAngle(double steeringAngle);
-  public void setRightSteeringAngle(double angle);
-  public void setLeftSteeringAngle(double angle);
   public double getSteeringAngle();
   // ...
 }
@@ -160,8 +150,6 @@ public class Driver {
 | --- | --- | --- | --- |
 | `/automobile/steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 | `/automobile/set_steering_angle` | `service` | `webots_ros::set_float` | |
-| `/automobile/set_right_steering_angle` | `service` | `webots_ros::set_float` | |
-| `/automobile/set_left_steering_angle` | `service` | `webots_ros::set_float` | |
 %tab-end
 
 %end
@@ -171,7 +159,7 @@ public class Driver {
 *Set and get the steering angle*
 
 The `wbu_driver_set_steering_angle` function is used to steer the car, it steers the front wheels according to the Ackermann geometry (left and right wheels are not steered with the exact same angle).
-The angles are set in radians, a positive angle steers right and a negative angle steers left.
+The angle is set in radians, a positive angle steers right and a negative angle steers left.
 The formulas used in order to compute the right and left angles are the following (`trackFront` and `wheelbase` are the parameters of the [Car](car.md) PROTO):
 
 
@@ -180,11 +168,8 @@ angle_right = atan(1 / (cot(steering_angle) - trackFront / (2 * wheelbase)));
 angle_left = atan(1 / (cot(steering_angle) + trackFront / (2 * wheelbase)));
 ```
 
-The `wbu_driver_set_right_steering_angle` and `wbu_driver_set_left_steering_angle` on the other hand allow for direct setting of the steering angle for respectively the right and left wheel.
-To retrieve the steering angle of each wheel the functions [`wbu_car_get_right_steering_angle`](car-library.md#wbu_car_get_right_steering_angle) and [`wbu_car_get_left_steering_angle`](car-library.md#wbu_car_get_left_steering_angle) can be used.
-Similarly, if activated, the `wbu_car_enable_indicator_auto_disabling` function will rely on the average steering angle to decide whether to enable or disable the indicators.
-
-The `wbu_driver_get_steering_angle` function returns the current steering angle and if steering was set directly to the left and right wheels, then this function returns the average of the two.
+The `wbu_driver_get_steering_angle` function returns the current steering angle.
+If the steering angle of the wheels was set directly using the [`wbu_car_set_[right/left]_steering_angle`](car-library.md#wbu_car_set_right_steering_angle) functions, then calling this function returns the average of the left and right angles.
 
 ---
 

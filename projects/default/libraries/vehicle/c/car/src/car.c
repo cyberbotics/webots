@@ -436,38 +436,6 @@ void wbu_car_set_right_steering_angle(double angle) {
   // move the steering wheel (if any)
   if (instance->steering_wheel != 0)
     wb_motor_set_position(instance->steering_wheel, instance->steering_angle * 10);
-
-  // the differential speeds need to be recomputed
-  // if (instance->control_mode == SPEED)
-  //  wbu_driver_set_cruising_speed(instance->cruising_speed);
-
-  // indicator auto-disabling mechanism
-  /*
-  const double steering_angle = instance->steering_angle;
-  if (instance->indicator_auto_disabling) {
-    if (instance->indicator_state == RIGHT) {
-      if (steering_angle > instance->indicator_angle)  // continue steering in the direction of the blinker
-        instance->indicator_angle = steering_angle;
-      else if (steering_angle - instance->indicator_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
-        if (instance->indicator_lever_motor != 0)
-          wb_motor_set_position(instance->indicator_lever_motor, 0.0);
-        instance->indicator_state = OFF;
-        if (!instance->hazard_flashers_on)
-          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
-      }
-    } else if (instance->indicator_state == LEFT) {
-      if (steering_angle < instance->indicator_angle)  // continue steering in the direction of the blinker
-        instance->indicator_angle = steering_angle;
-      else if (instance->indicator_angle - steering_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
-        if (instance->indicator_lever_motor != 0)
-          wb_motor_set_position(instance->indicator_lever_motor, 0.0);
-        instance->indicator_state = OFF;
-        if (!instance->hazard_flashers_on)
-          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
-      }
-    }
-  }
-  */
 }
 
 void wbu_car_set_left_steering_angle(double angle) {
@@ -488,38 +456,6 @@ void wbu_car_set_left_steering_angle(double angle) {
   // move the steering wheel (if any)
   if (instance->steering_wheel != 0)
     wb_motor_set_position(instance->steering_wheel, instance->steering_angle * 10);
-
-  // the differential speeds need to be recomputed
-  // if (instance->control_mode == SPEED)
-  //  wbu_driver_set_cruising_speed(instance->cruising_speed);
-
-  // indicator auto-disabling mechanism
-  /*
-  const double steering_angle = instance->steering_angle;
-  if (instance->indicator_auto_disabling) {
-    if (instance->indicator_state == RIGHT) {
-      if (steering_angle > instance->indicator_angle)  // continue steering in the direction of the blinker
-        instance->indicator_angle = steering_angle;
-      else if (steering_angle - instance->indicator_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
-        if (instance->indicator_lever_motor != 0)
-          wb_motor_set_position(instance->indicator_lever_motor, 0.0);
-        instance->indicator_state = OFF;
-        if (!instance->hazard_flashers_on)
-          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
-      }
-    } else if (instance->indicator_state == LEFT) {
-      if (steering_angle < instance->indicator_angle)  // continue steering in the direction of the blinker
-        instance->indicator_angle = steering_angle;
-      else if (instance->indicator_angle - steering_angle <= -INDICATOR_AUTO_DISABLING_THRESHOLD) {
-        if (instance->indicator_lever_motor != 0)
-          wb_motor_set_position(instance->indicator_lever_motor, 0.0);
-        instance->indicator_state = OFF;
-        if (!instance->hazard_flashers_on)
-          wb_speaker_stop(instance->engine_speaker, BLINKER_SOUND_FILE);
-      }
-    }
-  }
-  */
 }
 
 double wbu_car_get_right_steering_angle() {
