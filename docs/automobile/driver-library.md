@@ -169,7 +169,7 @@ angle_left = atan(1 / (cot(steering_angle) + trackFront / (2 * wheelbase)));
 ```
 
 The `wbu_driver_get_steering_angle` function returns the current steering angle.
-If the steering angle of the wheels was set directly using the [`wbu_car_set_[right/left]_steering_angle`](car-library.md#wbu_car_set_right_steering_angle) functions, then calling this function returns the average of the left and right angles.
+If the steering angle of the wheels is set directly using the [`wbu_car_set_[right/left]_steering_angle`](car-library.md#wbu_car_set_right_steering_angle) functions, then calling this function returns the average of the left and right angles.
 
 ---
 
