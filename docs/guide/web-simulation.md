@@ -458,7 +458,7 @@ This is the API of the `webots-streaming` web component:
   * `isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `callback`: function to be executed once the simulation is ready.
   * `disconnectCallback`: function to be executed once the web scene is closed.
-* `disconnect()`: close the simulation web scene.
+* `close()`: close the simulation web scene. Note that if the `webots-view` is removed from the HTML page or `connect` is called, `close` will be automatically called.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
 * `showToolbar()`: show the toolbar. Must be called after connect. The toolbar is displayed by default.
 * `displayQuit(enable)`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
