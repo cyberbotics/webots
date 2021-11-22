@@ -116,6 +116,8 @@ export default class Parser {
 
       if (typeof callback === 'function')
         callback();
+
+      console.timeEnd('Animation loaded in: ');
     });
   }
 

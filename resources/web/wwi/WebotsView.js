@@ -80,6 +80,7 @@ export default class WebotsView extends HTMLElement {
     if (!this.initializationComplete)
       setTimeout(() => this.loadAnimation(model, animation, play, isMobileDevice), 1000);
     else {
+      console.time('Animation loaded in: ');
       this.animationCSS.disabled = false;
       this.streamingCSS.disabled = true;
 
