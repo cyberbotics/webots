@@ -39,7 +39,7 @@ Some shadow issues can occurs in closed spaces.
 
 ### Limitation
 
-Due to a performance issue in Firefox on Windows and macOS (see comment of this [issue](https://github.com/cyberbotics/webots/issues/2691)), the number of lights is limited to 48 lights of _each_ kind: [PointLight](pointlight.md), [SpotLight](spotlight.md), [DirectionalLight](directionallight.md).
+Due to a performance issue in Firefox on Windows and macOS (see comment of this [issue](https://github.com/cyberbotics/webots/issues/2691)), the number of lights is limited to 48 lights of _each_ kind: [PointLight](pointlight.md), [SpotLight](spotlight.md) and [DirectionalLight](directionallight.md).
 
 However it is possible to support more lights (up to 256 of each) if needed. The following procedure explains how to increase the lights limit:
 
