@@ -34,6 +34,7 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
+#include <wren/camera.h>
 #include <wren/gl_state.h>
 #include <wren/material.h>
 #include <wren/node.h>
@@ -235,6 +236,7 @@ void WbBackground::activate() {
 
   connect(mLuminosity, &WbSFDouble::changed, this, &WbBackground::updateLuminosity);
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
+  connect(WbWorld::instance()->viewpoint(), &WbViewpoint::cameraModeChanged, this, &WbBackground::updateCubemap);
   for (int i = 0; i < 6; ++i) {
     connect(mUrlFields[i], &WbMFString::changed, this, &WbBackground::updateCubemap);
     connect(mIrradianceUrlFields[i], &WbMFString::changed, this, &WbBackground::updateCubemap);
@@ -616,7 +618,9 @@ void WbBackground::applySkyBoxToWren() {
     wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-    wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
+
+    if (WbWorld::instance()->viewpoint()->projectionMode() != WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC)
+      wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
   }
 
   // 2. Load the irradiance map
