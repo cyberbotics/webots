@@ -26,7 +26,7 @@ hiddenPosition = 10000
 
 
 def rotation_from_yaw_pitch_roll(yaw, pitch, roll):
-    """Compute the rotation from the roll pitch yaw angles, i.e. conversion Euler to Axis-Angle."""
+    """Compute the axis-angle rotation from the yaw pitch roll angles"""
     rotation = [0, 0, 1, 0]
     # construct rotation matrix
     # a b c
