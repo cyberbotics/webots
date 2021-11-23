@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -53,7 +53,7 @@ PROTO StripBuilding [
           building = buildings[buildingsList[i]];
       >%
       %<= buildingsList[i] >% {
-        translation %<= -building.xOffset >% %<= currentPosition + 0.5 * building.width - building.yOffset >% 0
+        translation %<= -building.xOffset >% %<= -currentPosition - 0.5 * building.width - building.yOffset >% 0
         %< if (building.colors) { >%
           type "%<= building.colors[wbrandom.integer(0, building.colors.length - 1)] >%"
         %< } >%

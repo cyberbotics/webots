@@ -1,7 +1,7 @@
 const template = document.createElement('template');
 
 template.innerHTML = `
-<link rel="stylesheet" href="https://cyberbotics.com/wwi/R2021c/css/animation_slider.css">
+<link rel="stylesheet" href="https://cyberbotics.com/wwi/R2022a/css/animation_slider.css">
 
 <div class="range" id="range">
   <div class="slider" id="slider">
@@ -23,6 +23,7 @@ export default class AnimationSlider extends HTMLElement {
 
     this._offset = 0; // use to center the floating time correctly
     this._isSelected = false;
+    this._shadowRoot.getElementById('slider').style.width = '0%'
   }
 
   _mouseDown(e) {

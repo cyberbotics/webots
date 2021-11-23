@@ -12,6 +12,12 @@ export default class Animation {
     this._gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
     this._loop = typeof loop === 'undefined' ? true : loop;
     this._speed = 1;
+    this._view3d = scene.domElement;
+    for (let i = 0; i < this._view3d.childNodes.length; i++) {
+      const child = this._view3d.childNodes[i];
+      if (child.id === 'canvas')
+        this._canvas = child;
+    }
   };
 
   init(onReady) {
@@ -36,11 +42,17 @@ export default class Animation {
   }
 
   removePlayBar() {
-    const view3d = document.getElementById('view3d');
-    if (!view3d)
+    if (typeof this._view3d === 'undefined')
       return;
-    this._view.mouseEvents.hidePlayBar = undefined;
-    this._view.mouseEvents.showPlayBar = undefined;
+
+    if (typeof this._view.mouseEvents !== 'undefined' && typeof this._view.mouseEvents.hidePlayBar) {
+      this._view.mouseEvents.hidePlayBar = undefined;
+      if (typeof this._view.mouseEvents.showPlayBar !== 'undefined') {
+        this._view.mouseEvents.showPlayBar();
+        this._view.mouseEvents.showPlayBar = undefined;
+      }
+    }
+
     document.removeEventListener('keydown', this.keydownRef);
     this.keydownRef = undefined;
     document.removeEventListener('sliderchange', this.sliderchangeRef);
@@ -49,29 +61,35 @@ export default class Animation {
     this.fullscreenRef = undefined;
     document.removeEventListener('mouseup', this.settingsRef);
     this.settingsRef = undefined;
-    if (document.querySelector('animation-slider')) {
-      document.querySelector('animation-slider').shadowRoot.getElementById('range').removeEventListener('mousemove', this.updateFloatingTimeRef);
+
+    if (typeof this._timeSlider !== 'undefined') {
+      this._timeSlider.shadowRoot.getElementById('range').removeEventListener('mousemove', this.updateFloatingTimeRef);
       this.updateFloatingTimeRef = undefined;
-      document.querySelector('animation-slider').shadowRoot.getElementById('range').removeEventListener('mouseleave', this.hideFloatingTimeRef);
+      this._timeSlider.shadowRoot.getElementById('range').removeEventListener('mouseleave', this.hideFloatingTimeRef);
       this.hideFloatingTimeRef = undefined;
-      document.querySelector('animation-slider').removeEventListeners();
+      this._timeSlider.removeEventListeners();
+      this._timeSlider = undefined;
     }
 
-    const gtaoPane = document.getElementById('gtao-pane');
-    if (gtaoPane)
-      view3d.removeChild(gtaoPane);
+    if (typeof this._gtaoPane !== 'undefined') {
+      this._view3d.removeChild(this._gtaoPane);
+      this._gtaoPane = undefined;
+    }
 
-    const speedPane = document.getElementById('speed-pane');
-    if (speedPane)
-      view3d.removeChild(speedPane);
+    if (typeof this._speedPane !== 'undefined') {
+      this._view3d.removeChild(this._speedPane);
+      this._speedPane = undefined;
+    }
 
-    const settingsPane = document.getElementById('settings-pane');
-    if (settingsPane)
-      view3d.removeChild(settingsPane);
+    if (typeof this._settingsPane !== 'undefined') {
+      this._view3d.removeChild(this._settingsPane);
+      this._settingsPane = undefined;
+    }
 
-    const playBar = document.getElementById('play-bar');
-    if (playBar)
-      view3d.removeChild(playBar);
+    if (typeof this.play_bar !== 'undefined') {
+      this._view3d.removeChild(this.play_bar);
+      this.play_bar = undefined;
+    }
 
     this._fullscreenButton = undefined;
     this._exitFullscreenButton = undefined;
@@ -145,7 +163,7 @@ export default class Animation {
     this._start = (new Date().getTime()) - Math.floor(this._data.basicTimeStep * this._step);
     this._updateAnimationState(requestedStep);
 
-    document.getElementById('time-slider').setTime(this._formatTime(this._data.frames[requestedStep].time));
+    this._timeSlider.setTime(this._formatTime(this._data.frames[requestedStep].time));
   }
 
   _updateAnimationState(requestedStep = undefined) {
@@ -225,7 +243,7 @@ export default class Animation {
       }
 
       if (automaticMove)
-        document.getElementById('time-slider').setValue(100 * this._step / this._data.frames.length);
+        this._timeSlider.setValue(100 * this._step / this._data.frames.length);
 
       this._previousStep = this._step;
       this._view.time = this._data.frames[this._step].time;
@@ -277,20 +295,20 @@ export default class Animation {
   }
 
   _showPlayBar() {
-    document.getElementById('play-bar').style.opacity = '1';
-    document.getElementById('canvas').style.cursor = 'auto';
+    this.play_bar.style.opacity = '1';
+    this._canvas.style.cursor = 'auto';
   }
 
   _hidePlayBar() {
     const isPlaying = document.getElementById('play-button').className === 'player-btn icon-pause';
-    const isSelected = document.getElementById('time-slider').selected();
+    const isSelected = this._timeSlider.selected();
 
     if (!isSelected && isPlaying &&
-    document.getElementById('settings-pane').style.visibility === 'hidden' &&
-    document.getElementById('gtao-pane').style.visibility === 'hidden' &&
-    document.getElementById('speed-pane').style.visibility === 'hidden') {
-      document.getElementById('play-bar').style.opacity = '0';
-      document.getElementById('canvas').style.cursor = 'none'; // Warning: it does not always work if chrome dev tools is open
+    this._settingsPane.style.visibility === 'hidden' &&
+    this._gtaoPane.style.visibility === 'hidden' &&
+    this._speedPane.style.visibility === 'hidden') {
+      this.play_bar.style.opacity = '0';
+      this._canvas.style.cursor = 'none'; // Warning: it does not always work if chrome dev tools is open
     }
   }
 
@@ -304,17 +322,17 @@ export default class Animation {
     if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'playback-li' || event.srcElement.id === 'gtao-settings') // avoid to close the settings when modifying the shadows or the other options
       return;
 
-    if (document.getElementById('settings-pane') === null || document.getElementById('gtao-pane') === null || document.getElementById('speed-pane') === null)
+    if (typeof this._settingsPane === 'undefined' || typeof this._gtaoPane === 'undefined' || typeof this._speedPane === 'undefined')
       return;
-    if (event.target.id === 'settings-button' && document.getElementById('settings-pane').style.visibility === 'hidden' && document.getElementById('gtao-pane').style.visibility === 'hidden' && document.getElementById('speed-pane').style.visibility === 'hidden') {
-      document.getElementById('settings-pane').style.visibility = 'visible';
+    if (event.target.id === 'settings-button' && this._settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && this._speedPane.style.visibility === 'hidden') {
+      this._settingsPane.style.visibility = 'visible';
       document.getElementById('settings-button').style.transform = 'rotate(10deg)';
       const tooltips = document.getElementsByClassName('tooltip');
       for (let i of tooltips)
         i.style.visibility = 'hidden';
-    } else if (document.getElementById('settings-pane').style.visibility === 'visible' || document.getElementById('gtao-pane').style.visibility === 'visible' || document.getElementById('speed-pane').style.visibility === 'visible') {
-      document.getElementById('settings-pane').style.visibility = 'hidden';
-      if (document.getElementById('gtao-pane').style.visibility === 'hidden' && document.getElementById('speed-pane').style.visibility === 'hidden') {
+    } else if (this._settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' || this._speedPane.style.visibility === 'visible') {
+      this._settingsPane.style.visibility = 'hidden';
+      if (this._gtaoPane.style.visibility === 'hidden' && this._speedPane.style.visibility === 'hidden') {
         document.getElementById('settings-button').style.transform = '';
         const tooltips = document.getElementsByClassName('tooltip');
         for (let i of tooltips)
@@ -322,8 +340,8 @@ export default class Animation {
       }
     }
 
-    document.getElementById('gtao-pane').style.visibility = 'hidden';
-    document.getElementById('speed-pane').style.visibility = 'hidden';
+    this._gtaoPane.style.visibility = 'hidden';
+    this._speedPane.style.visibility = 'hidden';
   }
 
   _resetViewpoint() {
@@ -333,9 +351,9 @@ export default class Animation {
 
   _changeSpeed(event) {
     this._speed = event.srcElement.id;
-    document.getElementById('speed-pane').style.visibility = 'hidden';
+    this._speedPane.style.visibility = 'hidden';
     document.getElementById('speed-display').innerHTML = this._speed === '1' ? 'Normal' : this._speed;
-    document.getElementById('settings-pane').style.visibility = 'visible';
+    this._settingsPane.style.visibility = 'visible';
     for (let i of document.getElementsByClassName('check-speed')) {
       if (i.id === 'c' + this._speed)
         i.innerHTML = '&check;';
@@ -346,20 +364,20 @@ export default class Animation {
   }
 
   _openSpeedPane() {
-    document.getElementById('settings-pane').style.visibility = 'hidden';
-    document.getElementById('speed-pane').style.visibility = 'visible';
+    this._settingsPane.style.visibility = 'hidden';
+    this._speedPane.style.visibility = 'visible';
   }
 
   _closeSpeedPane() {
-    document.getElementById('settings-pane').style.visibility = 'visible';
-    document.getElementById('speed-pane').style.visibility = 'hidden';
+    this._settingsPane.style.visibility = 'visible';
+    this._speedPane.style.visibility = 'hidden';
   }
 
   _changeGtao(event) {
     changeGtaoLevel(this._textToGtaoLevel(event.srcElement.id));
-    document.getElementById('gtao-pane').style.visibility = 'hidden';
+    this._gtaoPane.style.visibility = 'hidden';
     document.getElementById('gtao-display').innerHTML = event.srcElement.id;
-    document.getElementById('settings-pane').style.visibility = 'visible';
+    this._settingsPane.style.visibility = 'visible';
     for (let i of document.getElementsByClassName('check-gtao')) {
       if (i.id === 'c' + event.srcElement.id)
         i.innerHTML = '&check;';
@@ -371,13 +389,13 @@ export default class Animation {
   }
 
   _openGtaoPane() {
-    document.getElementById('settings-pane').style.visibility = 'hidden';
-    document.getElementById('gtao-pane').style.visibility = 'visible';
+    this._settingsPane.style.visibility = 'hidden';
+    this._gtaoPane.style.visibility = 'visible';
   }
 
   _closeGtaoPane() {
-    document.getElementById('settings-pane').style.visibility = 'visible';
-    document.getElementById('gtao-pane').style.visibility = 'hidden';
+    this._settingsPane.style.visibility = 'visible';
+    this._gtaoPane.style.visibility = 'hidden';
   }
 
   _gtaoLevelToText(number) {
@@ -401,12 +419,12 @@ export default class Animation {
   }
 
   _createPlayBar() {
-    const div = document.createElement('div');
-    div.id = 'play-bar';
-    document.getElementById('view3d').appendChild(div);
+    this.play_bar = document.createElement('div');
+    this.play_bar.id = 'play-bar';
+    this._view3d.appendChild(this.play_bar);
 
-    div.addEventListener('mouseover', () => this._showPlayBar());
-    div.addEventListener('mouseleave', _ => this._onMouseLeave(_));
+    this.play_bar.addEventListener('mouseover', () => this._showPlayBar());
+    this.play_bar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
 
     const leftPane = document.createElement('div');
     leftPane.className = 'left-pane';
@@ -416,10 +434,10 @@ export default class Animation {
     rightPane.className = 'right-pane';
     rightPane.id = 'right-pane';
 
-    document.getElementById('play-bar').appendChild(leftPane);
-    document.getElementById('play-bar').appendChild(rightPane);
-    this._view.mouseEvents.hidePlayBar = this._hidePlayBar;
-    this._view.mouseEvents.showPlayBar = this._showPlayBar;
+    this.play_bar.appendChild(leftPane);
+    this.play_bar.appendChild(rightPane);
+    this._view.mouseEvents.hidePlayBar = () => this._hidePlayBar();
+    this._view.mouseEvents.showPlayBar = () => this._showPlayBar();
   }
 
   _createSlider() {
@@ -427,12 +445,12 @@ export default class Animation {
       window.customElements.define('animation-slider', AnimationSlider);
       Animation.sliderDefined = true;
     }
-    const timeSlider = document.createElement('animation-slider');
-    timeSlider.id = 'time-slider';
+    this._timeSlider = document.createElement('animation-slider');
+    this._timeSlider.id = 'time-slider';
     document.addEventListener('sliderchange', this.sliderchangeRef = _ => this._updateSlider(_));
-    document.getElementById('play-bar').appendChild(timeSlider);
-    document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
-    document.querySelector('animation-slider').shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
+    this.play_bar.appendChild(this._timeSlider);
+    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
+    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
   }
 
   _createPlayButton() {
@@ -486,7 +504,7 @@ export default class Animation {
         offset = 0;
     }
 
-    document.getElementById('time-slider').setOffset(offset);
+    this._timeSlider.setOffset(offset);
   }
 
   _createSettings() {
@@ -507,16 +525,16 @@ export default class Animation {
   }
 
   _createSettingsPane() {
-    const settingsPane = document.createElement('div');
-    settingsPane.className = 'settings-pane';
-    settingsPane.id = 'settings-pane';
-    settingsPane.style.visibility = 'hidden';
+    this._settingsPane = document.createElement('div');
+    this._settingsPane.className = 'settings-pane';
+    this._settingsPane.id = 'settings-pane';
+    this._settingsPane.style.visibility = 'hidden';
     document.addEventListener('mouseup', this.settingsRef = _ => this._changeSettingsPaneVisibility(_));
-    document.getElementById('view3d').appendChild(settingsPane);
+    this._view3d.appendChild(this._settingsPane);
 
     const settingsList = document.createElement('ul');
     settingsList.id = 'settings-list';
-    document.getElementById('settings-pane').appendChild(settingsList);
+    this._settingsPane.appendChild(settingsList);
 
     this._createResetViewpoint();
     this._createChangeShadows();
@@ -602,14 +620,14 @@ export default class Animation {
   }
 
   _createGtaoPane() {
-    const gtaoPane = document.createElement('div');
-    gtaoPane.className = 'settings-pane';
-    gtaoPane.id = 'gtao-pane';
-    gtaoPane.style.visibility = 'hidden';
-    document.getElementById('view3d').appendChild(gtaoPane);
+    this._gtaoPane = document.createElement('div');
+    this._gtaoPane.className = 'settings-pane';
+    this._gtaoPane.id = 'gtao-pane';
+    this._gtaoPane.style.visibility = 'hidden';
+    this._view3d.appendChild(this._gtaoPane);
 
     const gtaoList = document.createElement('ul');
-    gtaoPane.appendChild(gtaoList);
+    this._gtaoPane.appendChild(gtaoList);
 
     let gtaoLevelLi = document.createElement('li');
     gtaoLevelLi.className = 'first-li';
@@ -679,14 +697,14 @@ export default class Animation {
   }
 
   _createSpeedPane() {
-    const speedPane = document.createElement('div');
-    speedPane.className = 'settings-pane';
-    speedPane.id = 'speed-pane';
-    speedPane.style.visibility = 'hidden';
+    this._speedPane = document.createElement('div');
+    this._speedPane.className = 'settings-pane';
+    this._speedPane.id = 'speed-pane';
+    this._speedPane.style.visibility = 'hidden';
 
     const speedList = document.createElement('ul');
-    speedPane.appendChild(speedList);
-    document.getElementById('view3d').appendChild(speedPane);
+    this._speedPane.appendChild(speedList);
+    this._view3d.appendChild(this._speedPane);
 
     let playbackLi = document.createElement('li');
     playbackLi.className = 'first-li';
@@ -765,9 +783,9 @@ export default class Animation {
   }
 
   _updateFloatingTimePosition(e) {
-    document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.visibility = 'visible';
+    this._timeSlider.shadowRoot.getElementById('floating-time').style.visibility = 'visible';
 
-    const bounds = document.querySelector('animation-slider').shadowRoot.getElementById('range').getBoundingClientRect();
+    const bounds = this._timeSlider.shadowRoot.getElementById('range').getBoundingClientRect();
     let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     if (x > 100)
       x = 100;
@@ -776,13 +794,13 @@ export default class Animation {
 
     const clampedValued = Math.min(x, 99); // set maximum value to get valid step index
     const requestedStep = Math.floor(this._data.frames.length * clampedValued / 100);
-    document.getElementById('time-slider').setTime(this._formatTime(this._data.frames[requestedStep].time));
+    this._timeSlider.setTime(this._formatTime(this._data.frames[requestedStep].time));
 
-    document.getElementById('time-slider').setFloatingTimePosition(e.clientX);
+    this._timeSlider.setFloatingTimePosition(e.clientX);
   }
 
   _hideFloatingTimePosition() {
-    document.querySelector('animation-slider').shadowRoot.getElementById('floating-time').style.visibility = '';
+    this._timeSlider.shadowRoot.getElementById('floating-time').style.visibility = '';
   }
 }
 

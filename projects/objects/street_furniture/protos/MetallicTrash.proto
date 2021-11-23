@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A metallic trash with optional physics.
@@ -83,11 +83,11 @@ PROTO MetallicTrash [
       density -1
       mass 8
       centerOfMass [
-        0 0.45 0
+        0 0 0.45
       ]
       inertiaMatrix [
-        79.89139939975573 13.05597055066155 79.89139939975573
-        0 1.7763568394002505e-15 0
+        79.89139939975573 79.89139939975573 13.05597055066155
+        1.7763568394002505e-15 0 0
       ]
     }
     %< } >%

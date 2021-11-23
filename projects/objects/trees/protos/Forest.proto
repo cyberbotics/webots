@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -99,7 +99,7 @@ PROTO Forest [
             let z = Number(coordinates[2]);
             let sizeFactor = wbrandom.real();
             if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof z !== 'undefined')
-              trees.push({x: x, y: y, z: z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
+              trees.push({x: x, y: -y, z: z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
           }
         }
       }
@@ -128,11 +128,11 @@ PROTO Forest [
       // generate the list of threes
       for (let i = 0; i < numberOfTree; ++i) {
         let x = wbrandom.real(xMin, xMax);
-        let z = wbrandom.real(yMin, yMax);
+        let y = wbrandom.real(yMin, yMax);
         let sizeFactor = wbrandom.real();
 
-        if (wbgeometry.isPoint2InPolygon({x: x, y: z}, shape))
-            trees.push({x: x, y: 0, z: -z, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
+        if (wbgeometry.isPoint2InPolygon({x: x, y: y}, shape))
+            trees.push({x: x, y: -y, z: 0, angle: wbrandom.real(2 * Math.PI), height: maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius: maxRadius * sizeFactor + minRadius * (1 - sizeFactor)});
       }
     }
     let numberOfTree = trees.length;
@@ -175,17 +175,17 @@ PROTO Forest [
                 %<
                   let coordBuffer = '';
                   for (let j = 0; j < numberOfTree; ++j) {
-                    let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].z}, trees[j].angle);
+                    let circle = wbgeometry.circle(trees[j].radius, 4, {x: trees[j].x, y: trees[j].y}, trees[j].angle);
                     for (let i = 0; i <= 3; ++i) {
                       coordBuffer += circle[i].x + ' ';
                       coordBuffer += circle[i].y + ' ';
-                      coordBuffer += trees[j].y + '\n';
+                      coordBuffer += trees[j].z + '\n';
                     }
                     // top cylinder
                     for (let i = 0; i <= 3; ++i) {
                       coordBuffer += circle[i].x + ' ';
                       coordBuffer += circle[i].y + ' ';
-                      coordBuffer += trees[j].height + trees[j].y + '\n';
+                      coordBuffer += trees[j].height + trees[j].z + '\n';
                     }
                   }
                 >%
@@ -243,7 +243,7 @@ PROTO Forest [
               coord Coordinate {
                 point [
                   %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                    %<= shape[i].x >% %<= shape[i].y >% %<= 0 >%
+                    %<= shape[i].x >% %<= -shape[i].y >% %<= 0 >%
                   %< } >%
                 ]
               }
@@ -256,13 +256,13 @@ PROTO Forest [
               }
               coordIndex [
                 %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                  %<= i >%
+                  %<= (nbShapePoint - i) - 1 >%
                 %< } >%
                 -1
               ]
               texCoordIndex [
                 %< for (let i = 0; i < nbShapePoint; ++i) { >%
-                  %<= i >%
+                  %<= (nbShapePoint - i) - 1 >%
                 %< } >%
                 -1
               ]

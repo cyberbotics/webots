@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A trash container with optional physics.
@@ -217,8 +217,8 @@ PROTO TrashContainer [
         0 0 -1.0900357625678425
       ]
       inertiaMatrix [
-        4782.909882121968 3116.8597818712783 2663.2615341807605
-        -0.019548505618615653 0.10799691421183599 2159.663688508241
+        2663.2615341807605 4782.909882121968 3116.8597818712783
+        0.10799691421183599 -2159.663688508241 0.019548505618615653
       ]
     }
     %< } >%

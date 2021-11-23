@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Physics-based model of the Khepera III gripper (K-Team Corp.)
@@ -808,11 +808,11 @@ DEF BASE Solid {
     density -1
     mass 1.035
     centerOfMass [
-      0.0218 0 0.013
+      0.0217619 0 0.013
     ]
     inertiaMatrix [
-      0.000327758 0.000322765 0.000149144
-      -1e-10 0 5.8607e-05
+      0.000149144 0.000327758 0.000322765
+      0 -5.8607e-05 1e-10
     ]
   }
 }

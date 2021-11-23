@@ -85,6 +85,7 @@ export default class X3dScene {
     }
 
     this.renderMinimal();
+    clearTimeout(this._renderingTimeout);
     this._loader = undefined;
     webots.currentView.runOnLoad = false;
   }

@@ -54,7 +54,7 @@ public:
 
 private:
   void publishPointCloud();
-  void publishLaserScan(int layer);
+  void publishLaserScan();
   RosLidar(const RosLidar &);             // non constructor-copyable
   RosLidar &operator=(const RosLidar &);  // non copyable
   void cleanup() { mLidar->disable(); }
@@ -62,7 +62,7 @@ private:
   Lidar *mLidar;
   bool mIsPointCloudEnabled;
   ros::Publisher mPointCloudPublisher;
-  ros::Publisher *mLaserScanPublisher;
+  ros::Publisher mLaserScanPublisher;
 
   ros::ServiceServer mEnablePointCloudServer;
   ros::ServiceServer mGetFrequencyInfoServer;

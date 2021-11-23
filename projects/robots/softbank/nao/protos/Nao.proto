@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # documentation url: https://www.cyberbotics.com/doc/guide/nao
 # Generic model of Nao robot
 # Model designed by Cyberbotics Ltd. according to the online documentation provided by Aldebaran Robotics.
@@ -772,7 +772,7 @@ PROTO Nao [
               children IS headSlot
             }
             DEF NECK Transform {
-              rotation 0.862856 0.357407 0.357407 1.71777
+              rotation 0 0 1 -0.785395
               children [
                 Shape {
                   appearance USE MAIN_SKIN_APP
@@ -5768,6 +5768,7 @@ PROTO Nao [
       }
       DEF ARMS_AXIS Transform {
         translation 0 0 0.1
+        rotation 1 0 0 1.5708
         children [
           Shape {
             appearance USE STRUCTURE_APP

@@ -20,22 +20,22 @@ timestep = int(robot.getBasicTimeStep())
 thymio = robot.getFromDef("THYMIO2")
 translation = thymio.getField("translation")
 
-tz = 0
+tx = 0
 running = True
 while robot.step(timestep) != -1:
     t = translation.getSFVec3f()
     if running:
-        percent = 1 - abs(0.25 - t[2]) / 0.25
+        percent = 1 - abs(0.25 + t[0]) / 0.25
         if percent < 0:
             percent = 0
-        if t[2] > 0.01 and abs(tz - t[2]) < 0.0001:  # away from starting position and not moving any more
+        if t[0] < -0.01 and abs(t[0] - tx) < 0.0001:  # away from starting position and not moving any more
             message = "stop"
             running = False
         else:
             message = "percent"
         message += ":" + str(percent)
         robot.wwiSendText(message)
-        tz = t[2]
+        tx = t[0]
     else:  # wait for record message
         message = robot.wwiReceiveText()
         if message:

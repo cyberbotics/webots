@@ -25,12 +25,30 @@
 
 using namespace webots;
 
+Driver *Driver::dInstance = NULL;
+
 Driver::Driver() {
-  wbu_driver_init();
+  if (dInstance == NULL) {
+    dInstance = this;
+    wbu_driver_init();
+  } else {
+    std::cerr << "Only one instance of the Driver class should be created" << std::endl;
+    exit(-1);
+  }
 }
 
 Driver::~Driver() {
   wbu_driver_cleanup();
+}
+
+bool Driver::isInitialisationPossible() {
+  return wbu_driver_initialization_is_possible();
+}
+
+Driver *Driver::getDriverInstance() {
+  if (dInstance)
+    return dInstance;
+  return new Driver();
 }
 
 int Driver::step() {

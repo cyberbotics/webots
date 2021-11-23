@@ -12,11 +12,11 @@ export default class WbGroup extends WbBaseNode {
     this.currentHelix = -1; // to switch between fast and slow helix
   }
 
-  async clone(customID) {
+  clone(customID) {
     const group = new WbGroup(customID, this.isPropeller);
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
-      const cloned = await this.children[i].clone(getAnId());
+      const cloned = this.children[i].clone(getAnId());
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
       group.children.push(cloned);

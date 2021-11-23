@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   info [
     "This simulation enables to move around a MiR100 moving in an industrial environment using the keyboard"
@@ -42,6 +42,7 @@ Mir100 {
     Robotino3Platform {
       extension [
         ConveyorPlatform {
+          translation 0 0 0
           controller "keyboard_conveyor_platform"
           speed 0.6
         }

@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # Official soccer field for the Robocup Humanoid League 2021.
@@ -301,13 +301,12 @@ PROTO RobocupSoccerField [
       }
       RobocupGoal {
         translation %<= I - OFFSET_X >% %<= I + (B / 2) - OFFSET_Y >% 0
-        rotation 0 0 1 -1.5707996938995747
         size IS size
         name "goal_home"
       }
       RobocupGoal {
         translation %<= I + A - OFFSET_X >% %<= I + (B / 2) - OFFSET_Y >% 0
-        rotation 0 0 1 1.5707996938995747
+        rotation 0 0 1 3.14159
         size IS size
         name "goal_away"
       }

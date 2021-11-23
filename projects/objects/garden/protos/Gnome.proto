@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A gnome with optional physics.
@@ -86,10 +86,10 @@ PROTO Gnome [
       density -1
       mass 1
       centerOfMass [
-        0 0.4 0
+        0 0 0.4
       ]
       inertiaMatrix [
-        12.381802045960773 0.6361725123519334 12.381802045960773
+        12.381802045960773 12.381802045960773 0.6361725123519334
         0 0 0
       ]
     }

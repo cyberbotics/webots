@@ -2426,7 +2426,7 @@ right, thanks
 ##### David Mansolino [Cyberbotics] 05/08/2019 09:51:44
 You're welcome
 
-##### Avnish Sachar 05/08/2019 12:35:59
+##### asac 05/08/2019 12:35:59
 Hi, is there a way to print a custom message on the console even when the simulation is paused?
 
 ##### Fabien Rohrer [Moderator] 05/08/2019 12:38:14
@@ -2435,7 +2435,7 @@ Unfortunately, this is not possible.
 
 Could you write your output into a file instead? Or use a debugger?
 
-##### Avnish Sachar 05/08/2019 12:44:09
+##### asac 05/08/2019 12:44:09
 Yes, I can write into a file instead. Thanks!
 
 ##### Hussein 05/09/2019 09:34:16
@@ -21815,16 +21815,16 @@ why
 
 Please download the next release (this month) or the next `develop` nightly build (tomorrow) to test my patch: a feedback would be welcome.
 
-##### iMarc95 (30) 12/11/2019 15:09:54
+##### Marcc 12/11/2019 15:09:54
 Hi everyone, I am currently working on a robot. I would like to use steps to command the robot. How do I implement this into my code? I am using C. Thank you
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:11:14
-`@iMarc95 (30)` Hi, I recommend you to start to do our tutorial; this will answer a lot of your questions, and come back here when it's done or if you're stuck 😉 [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
+`@Marcc` Hi, I recommend you to start to do our tutorial; this will answer a lot of your questions, and come back here when it's done or if you're stuck 😉 [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
 
 
 `@aysegulucar` It looks like you cannot connect to the robot... Difficult to tell more.
 
-##### iMarc95 (30) 12/11/2019 15:14:08
+##### Marcc 12/11/2019 15:14:08
 I've done the tutorials. I do not find anything that relates to using steps. For example, I would like it to do a specific task but if something happens, do something else. Any help would be appreciated!
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:14:29
@@ -21836,7 +21836,7 @@ Let me check, we have documentation for this...
 
 This page, and in particular this section explains this in details: [https://cyberbotics.com/doc/guide/controller-programming#the-step-and-wb\_robot\_step-functions](https://cyberbotics.com/doc/guide/controller-programming#the-step-and-wb_robot_step-functions)
 
-##### iMarc95 (30) 12/11/2019 15:17:03
+##### Marcc 12/11/2019 15:17:03
 Thank you, I am reading through it now.
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:17:56
@@ -21845,13 +21845,13 @@ But very basically, when you call the wb\_robot\_step(period), the controller is
 
 All of this is in "simulated time", it's the virtual time of the simulation (which can be slower or quicker than the real true time).
 
-##### iMarc95 (30) 12/11/2019 15:20:06
+##### Marcc 12/11/2019 15:20:06
 Awesome, appreciate the help! I'm gonna try and get it working now!
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:20:21
 You're welcome.
 
-##### iMarc95 (30) 12/11/2019 15:33:41
+##### Marcc 12/11/2019 15:33:41
 `@Fabien Rohrer` Do you know where I can find some examples? I am struggling to fit this into my robot.
 
 ##### Fabien Rohrer [Moderator] 12/11/2019 15:34:39
@@ -21899,7 +21899,7 @@ typically: "const double *gps\_value = wb\_gps\_get\_values(my\_well\_declared\_
 ##### webot123 12/11/2019 15:56:19
 thats great thanks for your help
 
-##### iMarc95 (30) 12/11/2019 19:42:07
+##### Marcc 12/11/2019 19:42:07
 Hi, is anyone available to provide me with some basic functions?
 
 
@@ -21909,11 +21909,11 @@ Hi, is anyone available to provide me with some basic functions?
 me with assistance*
 
 ##### Tahir [Moderator] 12/11/2019 19:46:36
-`@iMarc95 (30)` Hello
+`@Marcc` Hello
 
 Didn't got your query which type of assistance do you want?
 
-##### iMarc95 (30) 12/11/2019 19:59:06
+##### Marcc 12/11/2019 19:59:06
 I would like to know how to use the step function correctly
 
 
@@ -21935,7 +21935,7 @@ The simulation step (specified in the Scene Tree: WorldInfo.basicTimeStep). It a
 
 [https://www.cyberbotics.com/doc/reference/worldinfo](https://www.cyberbotics.com/doc/reference/worldinfo)
 
-##### iMarc95 (30) 12/11/2019 21:57:01
+##### Marcc 12/11/2019 21:57:01
 [https://tenor.com/view/sad-blackish-anthony-anderson-tears-upset-gif-4988274](https://tenor.com/view/sad-blackish-anthony-anderson-tears-upset-gif-4988274)
 
 ##### nap 12/12/2019 05:54:14
@@ -23088,13 +23088,13 @@ how can I hide errors, printed into the webots console?
 ##### David Mansolino [Cyberbotics] 12/15/2019 12:41:27
 By fixing them 😉
 
-##### csnametala 12/16/2019 14:19:41
+##### samuel.nametala 12/16/2019 14:19:41
 Hi! Some pages related to Webots are giving error 404.php. Does anyone know the reason? please
 
 ##### Stefania Pedrazzi [Cyberbotics] 12/16/2019 14:25:56
-Hi `@csnametala`, we updated the server and we are still working on restoring some of the pages. But we also decided to drop some of them, like the forum. Which page are you trying to load?
+Hi `@samuel.nametala`, we updated the server and we are still working on restoring some of the pages. But we also decided to drop some of them, like the forum. Which page are you trying to load?
 
-##### csnametala 12/16/2019 14:28:53
+##### samuel.nametala 12/16/2019 14:28:53
 `@Stefania Pedrazzi` I am trying to validate a Webots 7.4.3 EDU key, and it is not possible
 
 ##### Stefania Pedrazzi [Cyberbotics] 12/16/2019 14:30:51
@@ -23104,7 +23104,7 @@ You just need to use the password `webots`
 
 [https://www.cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://www.cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
 
-##### csnametala 12/16/2019 14:34:50
+##### samuel.nametala 12/16/2019 14:34:50
 OK! thank you very much for your help `@Stefania Pedrazzi` . I will check
 
 ##### Stefania Pedrazzi [Cyberbotics] 12/16/2019 14:35:11

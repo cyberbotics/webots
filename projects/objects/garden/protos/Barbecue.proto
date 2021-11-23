@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A barbecue with optional physics.
@@ -128,11 +128,11 @@ PROTO Barbecue [
       density -1
       mass 8
       centerOfMass [
-         0.010633799602652098 -0.00010697602800726807 0.8482288508610579
+         -0.010633799602652098 -0.00010697602800726807 0.8482288508610579
       ]
       inertiaMatrix [
-        106.76803538433384 12.482494770817167 114.00400079309321
-        0.008012952073916418 -0.0013574011793570095 2.726369199164106
+        114.00400079309321 106.76803538433384 12.482494770817167
+        -0.0013574011793570095 2.726369199164106 0.008012952073916418
       ]
     }
     %< } >%

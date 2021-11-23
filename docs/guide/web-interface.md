@@ -1,6 +1,8 @@
 # Web Interface
 
-This chapter describes how to export to X3D format and web pages.
+This chapter describes how to export a simulation to X3D format and web pages.
+
+An example of exported Webots animation is available [here](https://cyberbotics.com/animations/soccer_example/soccer.html).
 
 ## Sections
 

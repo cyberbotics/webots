@@ -47,6 +47,29 @@ It may occur that the rendering in the Webots application and in the exported We
 
 - The `Skin` node is not supported.
 
+- It is not possible to have more than one `webots-view` element on one page.
+
+- Once removed, it is not possible to recreate a `webots-view` element on the same page. However there is some workarounds:
+    - Reload the page
+    - Close the simulation (with `close()` in the case of animation and `disconnect()` in the case of streaming viewer) and hide the `webots-view` with the help of css.
+    - Keeping a reference to the `webots-view` element allows you to remove it from the page and insert it again. As in the following example:
+    ```
+    let webotsView;
+    function create() {
+      if (typeof webotsView === 'undefined') {
+        webotsView = document.createElement('webots-view');
+        webotsView.style = "height:80%; display:block;"
+      }
+      document.body.appendChild(webotsView)
+
+      webotsView.loadAnimation("model.x3d", "animation.json")
+    }
+
+    function remove() {
+      document.body.removeChild(webotsView);
+    }
+    ```
+
 ### Remarks on the Used Technologies and Their Limitations
 
 The Webots player is using internally the `WRENJS` library (based on `WebGL 2`).

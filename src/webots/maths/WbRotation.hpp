@@ -132,7 +132,7 @@ public:
   bool operator!=(const WbRotation &r) const { return mX != r.mX || mY != r.mY || mZ != r.mZ || mAngle != r.mAngle; }
 
   // text conversion
-  QString toString(WbPrecision::Level level) const {
+  QString toString(WbPrecision::Level level = WbPrecision::Level::DOUBLE_MAX) const {
     return QString("%1 %2 %3 %4")
       .arg(WbPrecision::doubleToString(mX, level))
       .arg(WbPrecision::doubleToString(mY, level))

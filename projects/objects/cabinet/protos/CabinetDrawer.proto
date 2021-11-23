@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2022a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -48,7 +48,7 @@ PROTO CabinetDrawer [
         endPoint Solid {
           children [
             SolidBox { # back of the Drawer
-              translation %<= - size.z + 0.5 * thickness >% 0 0
+              translation %<= - size.x + 0.5 * thickness >% 0 0
               name "back box"
               size %<= thickness >% %<= size.y - thickness >% %<= size.z - thickness >%
               appearance IS primaryAppearance

@@ -36,7 +36,7 @@ const char *rendering_devices_name[RENDERING_DEVICE_NUMBER] = {"FRONT_RIGHT_LIDA
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  // get and enable the lidar
+  // get and enable the radar
   WbDeviceTag radar = wb_robot_get_device("radar");
   wb_radar_enable(radar, TIME_STEP);
 
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 
   // target string defines the target node
   const char *target_string = "Transform {\n"
-                              "  translation 0 -10 0\n"
+                              "  translation 0 0 -10.0\n"
                               "  children [\n"
                               "    Shape {\n"
                               "      appearance Appearance {\n"
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
                               "        }\n"
                               "      }\n"
                               "      geometry Box {\n"
-                              "        size 2.5 2 5\n"
+                              "        size 5.0 2.5 2.0\n"
                               "      }\n"
                               "    }\n"
                               "  ]\n"
@@ -87,9 +87,9 @@ int main(int argc, char **argv) {
     const WbRadarTarget *targets = wb_radar_get_targets(radar);
     for (i = 0; i < MAX_TARGETS; ++i) {
       if (i > 0 && i < wb_radar_get_number_of_targets(radar) && targets[i].distance > 2.0) {
-        double x = targets[i].distance * sin(targets[i].azimuth);
-        double z = -targets[i].distance;
-        double translation[3] = {x, 0.5, z};
+        double x = targets[i].distance;
+        double y = -targets[i].distance * sin(targets[i].azimuth);
+        double translation[3] = {x, y, -0.5};
         wb_supervisor_field_set_sf_vec3f(translation_fields[i], translation);
         double colorFactor = (targets[i].received_power + 60.0) / 50.0;
         colorFactor = fmax(fmin(colorFactor, 1), 0);
@@ -98,19 +98,19 @@ int main(int argc, char **argv) {
         wb_supervisor_field_set_sf_color(color_fields[i], color);
         // get original received power in order to guess which type of object it is
         double power = pow(10, targets[i].received_power / 10.0) * 0.001 * pow(targets[i].distance, 4.0);
-        double size[3] = {2.5, 2, 5};  // default car case
+        double size[3] = {5, 2.5, 2};  // default car case
         if (power < 0.005) {           // motorcycle case
-          size[0] = 1.0;
-          size[1] = 2.0;
-          size[2] = 3.0;
+          size[0] = 3.0;
+          size[1] = 1.0;
+          size[2] = 2.0;
         } else if (power > 0.015) {  // bus case
-          size[0] = 3.5;
-          size[1] = 6.0;
-          size[2] = 10.0;
+          size[0] = 10.0;
+          size[1] = 3.5;
+          size[2] = 6.0;
         }
         wb_supervisor_field_set_sf_vec3f(size_fields[i], size);
       } else {
-        double translation[3] = {0.0, -10.0, 0.0};
+        double translation[3] = {0, 0, -10.0};
         wb_supervisor_field_set_sf_vec3f(translation_fields[i], translation);
       }
     }
