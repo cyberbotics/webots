@@ -116,7 +116,6 @@ PROTO TruckTrailerSimple [
             }
           ]
         }
-        
       ]
       name IS name
       model "truck trailer"
