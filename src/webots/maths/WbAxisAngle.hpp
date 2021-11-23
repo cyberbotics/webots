@@ -29,6 +29,15 @@ public:
 
   double angle() const { return mAngle; }
 
+  // text conversion
+  QString toString(WbPrecision::Level level = WbPrecision::Level::DOUBLE_MAX) const {
+    return QString("%1 %2 %3 %4")
+      .arg(WbPrecision::doubleToString(mAxis.x(), level))
+      .arg(WbPrecision::doubleToString(mAxis.y(), level))
+      .arg(WbPrecision::doubleToString(mAxis.z(), level))
+      .arg(WbPrecision::doubleToString(mAngle, level));
+  }
+
 private:
   WbVector3 mAxis;
   double mAngle;
