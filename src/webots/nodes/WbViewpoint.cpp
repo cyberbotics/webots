@@ -14,7 +14,6 @@
 
 #include "WbViewpoint.hpp"
 
-#include "WbBackground.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbCoordinateSystem.hpp"
 #include "WbFieldChecker.hpp"
