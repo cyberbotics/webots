@@ -53,7 +53,7 @@ PROTO StripBuilding [
           building = buildings[buildingsList[i]];
       >%
       %<= buildingsList[i] >% {
-        translation %<= -building.xOffset >% %<= currentPosition + 0.5 * building.width - building.yOffset >% 0
+        translation %<= -building.xOffset >% %<= -currentPosition - 0.5 * building.width - building.yOffset >% 0
         %< if (building.colors) { >%
           type "%<= building.colors[wbrandom.integer(0, building.colors.length - 1)] >%"
         %< } >%

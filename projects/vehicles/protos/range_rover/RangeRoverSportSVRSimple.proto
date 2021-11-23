@@ -46,103 +46,107 @@ PROTO RangeRoverSportSVRSimple [
       Transform {
         children IS sensorsSlotCenter
       }
+      DEF FRONT_RIGHT_WHEEL Solid {
+      angularVelocity IS frontRightWheelAngularVelocity
+      translation 2.71 -0.82 0
+      rotation 0 0 1 1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint VehicleWheel {
+            thickness 0.22
+            tireRadius 0.358
+            rimRadius 0.285
+            rimBeamWidth 0.07
+            centralInnerRadius 0.08
+            centralOuterRadius 0.12
+            rimBeamThickness 0.08
+            rimBeamOffset 0.065
+            contactMaterial "RangeRoverSportSVRWheels"
+            physics NULL
+            boundingObject IS wheelBoundingObject
+          }
+        }
+      ]
+      name "front right wheel"
+      }
+      DEF FRONT_LEFT_WHEEL Solid {
+        angularVelocity IS frontLeftWheelAngularVelocity
+        translation 2.71 0.82 0
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint VehicleWheel {
+              thickness 0.22
+              tireRadius 0.358
+              rimRadius 0.285
+              rimBeamWidth 0.07
+              centralInnerRadius 0.08
+              centralOuterRadius 0.12
+              rimBeamThickness 0.08
+              rimBeamOffset 0.065
+              wheelSide TRUE
+              contactMaterial "RangeRoverSportSVRWheels"
+              physics NULL
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front left wheel"
+      }
+      DEF REAR_RIGHT_WHEEL Solid {
+        angularVelocity IS rearRightWheelAngularVelocity
+        translation 0 -0.82 0
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint VehicleWheel {
+              thickness 0.22
+              tireRadius 0.358
+              rimRadius 0.285
+              rimBeamWidth 0.07
+              centralInnerRadius 0.08
+              centralOuterRadius 0.12
+              rimBeamThickness 0.08
+              rimBeamOffset 0.065
+              contactMaterial "RangeRoverSportSVRWheels"
+              physics NULL
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear right wheel"
+      }
+      DEF REAR_LEFT_WHEEL Solid {
+        angularVelocity IS rearLeftWheelAngularVelocity
+        translation 0 0.82 0
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint VehicleWheel {
+              thickness 0.22
+              tireRadius 0.358
+              rimRadius 0.285
+              rimBeamWidth 0.07
+              centralInnerRadius 0.08
+              centralOuterRadius 0.12
+              rimBeamThickness 0.08
+              rimBeamOffset 0.065
+              wheelSide TRUE
+              contactMaterial "RangeRoverSportSVRWheels"
+              physics NULL
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear left wheel"
+      }
       Transform{
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
-          DEF FRONT_RIGHT_WHEEL Solid {
-            angularVelocity IS frontRightWheelAngularVelocity
-            translation -0.82 0 2.71
-            children [
-              Slot {
-                type "vehicle wheel"
-                endPoint VehicleWheel {
-                  thickness 0.22
-                  tireRadius 0.358
-                  rimRadius 0.285
-                  rimBeamWidth 0.07
-                  centralInnerRadius 0.08
-                  centralOuterRadius 0.12
-                  rimBeamThickness 0.08
-                  rimBeamOffset 0.065
-                  contactMaterial "RangeRoverSportSVRWheels"
-                  physics NULL
-                  boundingObject IS wheelBoundingObject
-                }
-              }
-            ]
-            name "front right wheel"
-          }
-          DEF FRONT_LEFT_WHEEL Solid {
-            angularVelocity IS frontLeftWheelAngularVelocity
-            translation 0.82 0 2.71
-            children [
-              Slot {
-                type "vehicle wheel"
-                endPoint VehicleWheel {
-                  thickness 0.22
-                  tireRadius 0.358
-                  rimRadius 0.285
-                  rimBeamWidth 0.07
-                  centralInnerRadius 0.08
-                  centralOuterRadius 0.12
-                  rimBeamThickness 0.08
-                  rimBeamOffset 0.065
-                  wheelSide TRUE
-                  contactMaterial "RangeRoverSportSVRWheels"
-                  physics NULL
-                  boundingObject IS wheelBoundingObject
-                }
-              }
-            ]
-            name "front left wheel"
-          }
-          DEF REAR_RIGHT_WHEEL Solid {
-            angularVelocity IS rearRightWheelAngularVelocity
-            translation -0.82 0 0
-            children [
-              Slot {
-                type "vehicle wheel"
-                endPoint VehicleWheel {
-                  thickness 0.22
-                  tireRadius 0.358
-                  rimRadius 0.285
-                  rimBeamWidth 0.07
-                  centralInnerRadius 0.08
-                  centralOuterRadius 0.12
-                  rimBeamThickness 0.08
-                  rimBeamOffset 0.065
-                  contactMaterial "RangeRoverSportSVRWheels"
-                  physics NULL
-                  boundingObject IS wheelBoundingObject
-                }
-              }
-            ]
-            name "rear right wheel"
-          }
-          DEF REAR_LEFT_WHEEL Solid {
-            angularVelocity IS rearLeftWheelAngularVelocity
-            translation 0.82 0 0
-            children [
-              Slot {
-                type "vehicle wheel"
-                endPoint VehicleWheel {
-                  thickness 0.22
-                  tireRadius 0.358
-                  rimRadius 0.285
-                  rimBeamWidth 0.07
-                  centralInnerRadius 0.08
-                  centralOuterRadius 0.12
-                  rimBeamThickness 0.08
-                  rimBeamOffset 0.065
-                  wheelSide TRUE
-                  contactMaterial "RangeRoverSportSVRWheels"
-                  physics NULL
-                  boundingObject IS wheelBoundingObject
-                }
-              }
-            ]
-            name "rear left wheel"
-          }
           DEF HEADLIGHT Shape {
             appearance PBRAppearance {
               baseColor 0.702 0.702 0.702
@@ -381,10 +385,9 @@ PROTO RangeRoverSportSVRSimple [
         }
         DEF CENTRAL_BOX Transform {
           translation 0.6 0 0.85
-          rotation 0.57735 0.57735 0.57735 2.094395
           children [
             Box {
-              size 1.5 0.75 2.7
+              size 2.7 1.5 0.75
             }
           ]
         }

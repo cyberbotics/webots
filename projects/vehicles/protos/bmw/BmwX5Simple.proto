@@ -45,6 +45,64 @@ PROTO BmwX5Simple [
       Transform {
         children IS sensorsSlotCenter
       }
+      DEF FRONT_RIGHT_WHEEL Solid {
+        angularVelocity IS frontRightWheelAngularVelocity
+        translation 2.995 -0.814 0
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint BmwX5Wheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front right wheel"
+      }
+      DEF FRONT_LEFT_WHEEL Solid {
+        angularVelocity IS frontLeftWheelAngularVelocity
+        translation 2.995 0.814 0
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint BmwX5Wheel {
+              wheelSide TRUE
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front left wheel"
+      }
+      DEF REAR_RIGHT_WHEEL Solid {
+        angularVelocity IS rearRightWheelAngularVelocity
+        translation 0 -0.814 0
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint BmwX5Wheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear right wheel"
+      }
+      DEF REAR_LEFT_WHEEL Solid {
+        angularVelocity IS rearLeftWheelAngularVelocity
+        translation 0 0.814 0
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint BmwX5Wheel {
+              wheelSide TRUE
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear left wheel"
+      }
       Transform{
       rotation 0.57735 0.57735 0.57735 2.094395
       children [
@@ -75,65 +133,6 @@ PROTO BmwX5Simple [
         }
       ]
       }
-      Transform{
-      rotation 0.57735 0.57735 0.57735 2.094395
-      children [
-        DEF FRONT_RIGHT_WHEEL Solid {
-          angularVelocity IS frontRightWheelAngularVelocity
-          translation -0.814 0 2.995
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint BmwX5Wheel {
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-          name "front right wheel"
-        }
-        DEF FRONT_LEFT_WHEEL Solid {
-          angularVelocity IS frontLeftWheelAngularVelocity
-          translation 0.814 0 2.995
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint BmwX5Wheel {
-                wheelSide TRUE
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-          name "front left wheel"
-        }
-        DEF REAR_RIGHT_WHEEL Solid {
-          angularVelocity IS rearRightWheelAngularVelocity
-          translation -0.814 0 0
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint BmwX5Wheel {
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-          name "rear right wheel"
-        }
-        DEF REAR_LEFT_WHEEL Solid {
-          angularVelocity IS rearLeftWheelAngularVelocity
-          translation 0.814 0 0
-          children [
-            Slot {
-              type "vehicle wheel"
-              endPoint BmwX5Wheel {
-                wheelSide TRUE
-                boundingObject IS wheelBoundingObject
-              }
-            }
-          ]
-          name "rear left wheel"
-        }
-      ]
-      }
     ]
     name IS name
     controller IS controller
@@ -142,10 +141,9 @@ PROTO BmwX5Simple [
     radarCrossSection 100
     boundingObject Transform {
       translation 1.35 0 0.7
-      rotation 0.57735 0.57735 0.57735 2.094395
       children [
         Box {
-          size 1.8 1.6 4.5
+          size 4.5 1.8 1.6
         }
       ]
     }
