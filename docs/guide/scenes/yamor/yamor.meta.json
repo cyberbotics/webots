@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0 -0.03",
-      "axis": "0 1 0",
+      "anchor": "0.03 0 0",
+      "axis": "0 0 -1",
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "motor",
