@@ -1,23 +1,23 @@
 {
   "devices": [
     {
-      "anchor": "0 -0.0052 -0.025",
-      "axis": "-1 0 0",
+      "anchor": "0.025 0 -0.0052",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
       "position": 0,
-      "transformID": "n186",
+      "transformID": "n190",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.0052 -0.025",
-      "axis": "-1 0 0",
+      "anchor": "0.025 0 -0.0052",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
       "position": 0,
-      "transformID": "n158",
+      "transformID": "n162",
       "type": "RotationalMotor"
     },
     {
@@ -26,10 +26,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n131"
+        "n135"
       ],
       "name": "left_led",
-      "transformID": "n128",
+      "transformID": "n132",
       "type": "LED"
     },
     {
@@ -38,30 +38,30 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n115"
+        "n119"
       ],
       "name": "right_led",
-      "transformID": "n112",
+      "transformID": "n116",
       "type": "LED"
     },
     {
       "name": "lds",
-      "transformID": "n55",
+      "transformID": "n56",
       "type": "DistanceSensor"
     },
     {
       "name": "left wheel sensor",
-      "transformID": "n186",
+      "transformID": "n190",
       "type": "PositionSensor"
     },
     {
       "name": "left_whisker",
-      "transformID": "n149",
+      "transformID": "n153",
       "type": "TouchSensor"
     },
     {
       "name": "lls",
-      "transformID": "n92",
+      "transformID": "n95",
       "type": "LightSensor"
     },
     {
@@ -71,17 +71,17 @@
     },
     {
       "name": "right wheel sensor",
-      "transformID": "n158",
+      "transformID": "n162",
       "type": "PositionSensor"
     },
     {
       "name": "right_whisker",
-      "transformID": "n144",
+      "transformID": "n148",
       "type": "TouchSensor"
     },
     {
       "name": "rls",
-      "transformID": "n72",
+      "transformID": "n74",
       "type": "LightSensor"
     }
   ],
