@@ -645,11 +645,13 @@ void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspec
       WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->setChecked(true);
       if (mWorld) {
         mWorld->viewpoint()->updateOrthographicViewHeight();
+        wr_config_enable_shadows(false);  // No shadows in orthographic mode
         if (updatePerspective)
           mWorld->perspective()->setProjectionMode("ORTHOGRAPHIC");
       }
       break;
     default:
+      updateShadowState();
       if (updatePerspective && mWorld)
         mWorld->perspective()->setProjectionMode("PERSPECTIVE");
       WbActionManager::instance()->action(WbAction::PERSPECTIVE_PROJECTION)->setChecked(true);
@@ -984,7 +986,8 @@ void WbView3D::updateViewport() {
 }
 
 void WbView3D::updateShadowState() {
-  if (WbPreferences::instance()->value("OpenGL/disableShadows").toBool() == wr_config_are_shadows_enabled()) {
+  if (WbPreferences::instance()->value("OpenGL/disableShadows").toBool() == wr_config_are_shadows_enabled() &&
+      mWorld->viewpoint()->projectionMode() != WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC) {
     wr_config_enable_shadows(!WbPreferences::instance()->value("OpenGL/disableShadows").toBool());
     renderLater();
   }

@@ -3,9 +3,9 @@
 invariant gl_Position;  // On low-end GPUs, position may slightly differ causing z-fighting issues between rendering passes.
 
 // These constants must be kept in sync with the values in Constants.hpp
-const int maxDirectionalLights = 256;
-const int maxPointLights = 256;
-const int maxSpotLights = 256;
+const int maxDirectionalLights = 48;
+const int maxPointLights = 48;
+const int maxSpotLights = 48;
 
 layout(location = 0) in vec4 vCoord;
 

@@ -15,6 +15,7 @@
 #ifndef WB_VIEWPOINT_HPP
 #define WB_VIEWPOINT_HPP
 
+#include "WbBackground.hpp"
 #include "WbBaseNode.hpp"
 #include "WbMatrix3.hpp"
 #include "WbQuaternion.hpp"
@@ -100,7 +101,12 @@ public:
   void restore();
   void save(const QString &id) override;
   void setPosition(const WbVector3 &position);
-  void setProjectionMode(int projectionMode) { mProjectionMode = projectionMode; }
+  void setProjectionMode(int projectionMode) {
+    if (projectionMode != mProjectionMode) {
+      mProjectionMode = projectionMode;
+      emit cameraModeChanged();
+    }
+  }
   void lookAt(const WbVector3 &target, const WbVector3 &upVector);
 
   // fixed views
@@ -322,6 +328,7 @@ signals:
   void refreshRequired();
   void nodeVisibilityChanged(const WbNode *node, bool visibility);
   void virtualRealityHeadsetRequiresRender();
+  void cameraModeChanged();
 };
 
 #endif
