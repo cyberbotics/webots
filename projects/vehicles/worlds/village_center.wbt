@@ -81,7 +81,6 @@ TexturedBackgroundLight {
 }
 SumoInterface {
   gui FALSE
-  useNetconvert FALSE
   maxVehicles 10
   radius 250
   children [

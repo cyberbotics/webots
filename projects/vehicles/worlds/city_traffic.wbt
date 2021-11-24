@@ -83,7 +83,6 @@ Fog {
 }
 SumoInterface {
   gui FALSE
-  useNetconvert FALSE
 }
 DEF GROUND Solid {
   boundingObject DEF GROUND_PLANE Plane {
