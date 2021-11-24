@@ -13,10 +13,11 @@ DYNAMIC_LIBS="Controller CppController car CppCar driver CppDriver"
 # Don't publish the libcontroller if it hasn't changed since yesterday
 LAST_COMMIT_YESTERDAY=$(git log -1 --pretty=format:"%H" --before=yesterday)
 LAST_COMMIT=$(git log -1 --pretty=format:"%H")
-INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- include/controller)
-SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY} ${LAST_COMMIT} -- src/controller)
-if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ]; then
-    echo "There are no changes in 'include/controller' and 'src/controller' since yesterday"
+INCLUDE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY}..${LAST_COMMIT} -- include/controller)
+SOURCE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY}..${LAST_COMMIT} -- src/controller)
+VEHICLE_DIFF_SINCE_YESTERDAY=$(git diff ${LAST_COMMIT_YESTERDAY}..${LAST_COMMIT} -- projects/default/librairies/vehicle)
+if [ -z "${INCLUDE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${SOURCE_DIFF_SINCE_YESTERDAY}" ] && [ -z "${VEHICLE_DIFF_SINCE_YESTERDAY}" ]; then
+    echo "There are no changes in 'include/controller', 'src/controller' and 'projects/default/librairies/vehicle' since yesterday"
     echo "Last commit yesterday: ${LAST_COMMIT_YESTERDAY}"
     echo "Last commit today: ${LAST_COMMIT}"
     exit 0
@@ -52,8 +53,10 @@ if [ "${OSTYPE}" != "msys" ]; then
     cp ${WEBOTS_HOME}/include/controller/c/webots/plugins/robot_window/{robot_window.h,robot_wwi.h} include
     
     rm -rf source/cpp
-    mkdir -p source/cpp
+    mkdir -p source/cpp/vehicle
     cp ${WEBOTS_HOME}/src/controller/cpp/*.cpp source/cpp
+    cp ${WEBOTS_HOME}/projects/default/libraries/vehicle/cpp/car/src/Car.cpp source/cpp/vehicle
+    cp ${WEBOTS_HOME}/projects/default/libraries/vehicle/cpp/driver/src/Driver.cpp source/cpp/vehicle
 fi
 
 # Copy dynamic libs

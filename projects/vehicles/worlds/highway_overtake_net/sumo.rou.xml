@@ -1,6 +1,6 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-  <route id="0" edges="-1"/>
-  <route id="1" edges="-0"/>
+  <route id="0" edges="1"/>
+  <route id="1" edges="0"/>
   <vType id="car" minGap="5"/>
   <vType id="bus" accel="0.8" decel="4.5" sigma="0.8" length="10" minGap="8" maxSpeed="20" guiShape="bus" vClass="bus"/>
   <vType id="motorcycle" accel="1.2" decel="4.5" sigma="0.5" length="3" minGap="1.5" maxSpeed="25" guiShape="motorcycle" vClass="motorcycle"/>

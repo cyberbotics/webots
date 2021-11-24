@@ -1082,7 +1082,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   foreach (WbRobot *const robot, robots) {
     if (robot->supervisor())
       connect(robot->supervisorUtilities(), &WbSupervisorUtilities::worldModified, this,
-              &WbView3D::handleWorldModificationFromSupervior);
+              &WbView3D::handleWorldModificationFromSupervisor);
   }
 
   // initialize matter handles size
@@ -2497,7 +2497,7 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
   renderLater();
 }
 
-void WbView3D::handleWorldModificationFromSupervior() {
+void WbView3D::handleWorldModificationFromSupervisor() {
   // refresh only if simulation is paused (or stepped)
   const WbSimulationState *const sim = WbSimulationState::instance();
   if (sim->isPaused())

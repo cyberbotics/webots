@@ -141,10 +141,9 @@ PROTO BmwX5Simple [
     radarCrossSection 100
     boundingObject Transform {
       translation 1.35 0 0.7
-      rotation 0.57735 0.57735 0.57735 2.094395
       children [
         Box {
-          size 1.8 1.6 4.5
+          size 4.5 1.8 1.6
         }
       ]
     }

@@ -18,13 +18,15 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SUMO_TARGET=sumo
-SUMO_VERSION=0.30
+SUMO_VERSION=1.10.0
+VER_UBUNTU = 20.04
 
 ifeq ($(OSTYPE),linux)
+ VER_UBUNTU = $(shell lsb_release -sr)
  HOSTTYPE ?= $(shell uname -m)
  OS_TAG=linux64
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-linux64.tar.gz
- SUMO_MD5SUM="c01bf4299603e965cfe2b1753ecac66c"
+ SUMO_MD5SUM="dcfddacc6403a1d6598105cfeac48333"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-linux64.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
@@ -35,7 +37,7 @@ endif
 ifeq ($(OSTYPE),darwin)
  OS_TAG=mac
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-mac.tar.gz
- SUMO_MD5SUM="c3cb346833b50487a74f7a648af5b28f"
+ SUMO_MD5SUM="313308b98a62ad6fa94ba88942678a32"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-mac.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
@@ -46,7 +48,7 @@ endif
 ifeq ($(OSTYPE),windows)
  OS_TAG=windows
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-windows.zip
- SUMO_MD5SUM="545904bc1d9f936f4f0f8d02e782e7cf"
+ SUMO_MD5SUM="2fd97eeb01fb11d4e95c3e95fd2bb4a3"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-windows.zip))
  EXTRACT=unzip -q
  # remove .zip
@@ -54,7 +56,12 @@ ifeq ($(OSTYPE),windows)
  WGET=wget --quiet
 endif
 
+ifeq ($(VER_UBUNTU),18.04)
+release debug profile:
+	@echo "# \033[0;33m SUMO won't be installed on linux 18.04, see instruction on Webots SUMO exporter documention.\033[0m"
+else
 release debug profile: $(SUMO_TARGET)
+endif
 
 $(SUMO_TARGET):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(SUMO_PACKAGE) "package and copy it in this directory"; fi

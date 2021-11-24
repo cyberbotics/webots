@@ -83,8 +83,8 @@ SumoInterface {
   enableWheelsRotation TRUE
   children [
     DEF TRAFFIC_LIGHT_NORTH Pole {
-      translation -3.9 -3.9 0
-      rotation 0 0 1 6.28319
+      translation -3.9 3.9 0
+      rotation 0 0 -1 1.57079
       name "north pole"
       slot [
         DEF TLS_0_0 TrafficLight {
@@ -98,8 +98,8 @@ SumoInterface {
       ]
     }
     DEF TRAFFIC_LIGHT_RIGHT Pole {
-      translation -3.9 3.9 0
-      rotation 0 0 -1 1.57079
+      translation -3.9 -3.9 0
+      rotation 0 0 1 6.28319
       name "right pole"
       slot [
         DEF TLS_0_1 TrafficLight {
@@ -113,11 +113,12 @@ SumoInterface {
       ]
     }
     DEF TRAFFIC_LIGHT_SOUTH Pole {
-      translation 3.9 3.9 0
-      rotation 0 0 -1 6.28318
+      translation 3.9 -3.9 0
+      rotation 0 0 1 5.49778
       name "south pole"
       slot [
         DEF TLS_0_2 TrafficLight {
+          rotation 0 0 1 5.49778
           red_light "0_2_r"
           orange_light "0_2_y"
           green_light "0_2_g"
@@ -127,12 +128,11 @@ SumoInterface {
       ]
     }
     DEF TRAFFIC_LIGHT_LEFT Pole {
-      translation 3.9 -3.9 0
-      rotation 0 0 1 5.49778
+      translation 3.9 3.9 0
+      rotation 0 0 -1 6.28318
       name "left pole"
       slot [
         DEF TLS_0_3 TrafficLight {
-          rotation 0 0 1 5.49779
           red_light "0_3_r"
           orange_light "0_3_y"
           green_light "0_3_g"

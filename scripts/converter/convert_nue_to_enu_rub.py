@@ -17,7 +17,7 @@
         This script intends to help you convert protos and worlds in RUB.
         However, since the rotation depends on the proto itself,
         it could be needed to rotate some part manually.
-        Also, we advice you to check the changes in a file comparator.
+        Also, we advice you to check the differences in a file comparator.
 
 **Dependencies**
   `pip3 install numpy transforms3d`
@@ -31,7 +31,9 @@
       - all: convert and clean the `.wbt` or `.proto` file in RUB.
       - clean: delete the useless lines (rotation with angle 0 or useless precision) of protos or worlds.
         It also include the possibility to round the values.
-      - specific: convert a specific field, see an example line 157  of the script.
+      - specific: convert a specific field, see an example line 192  of the script.
+  Finally, since all the objects have a different rotation, you can add yours in one of the tree lists `objects_pi`,
+  `objects_pi_2` or `objects_minus_pi_2` according if it needs to be turn by respectively PI, PI/2 or -PI/2.
 
 ***file structure***
     The `centerOfMass` and the geometry `IndexedFaceSet` need to have this specific structure (only carriage returns matter):
@@ -63,9 +65,10 @@ geometry IndexedFaceSet {
             [I12, I13, I23]      [I13, -I23, -I12]
 ```
             * To convert elevationGrid you normally need to:
-              - replace zDimension et zSpacing par y
+              - replace zDimension and zSpacing by y
               - translate it on y by -(yDimension -1) * ySpacing
               - inverse the lines of heights with convert.py
+            * For Extrusion, add a rotation on the upper Solid with convert.py, ROTATION = [np.pi/2, -np.pi/2, 0]
 
 **Conversion process**
     Here is a list of the conversion process:
@@ -133,37 +136,58 @@ def add_space(string):
             return space
 
 
-def convert_translation(translation):
-    ROTATION = [np.pi / 2, -np.pi / 2, 0]
+def convert_orientation(rotation_angle_axis, ROTATION):
+
     ROTATION_MATRIX = transforms3d.euler.euler2mat(ROTATION[0], ROTATION[1], ROTATION[2], 'rxyz')
 
-    translation = [float(value) for value in translation]
-    return (ROTATION_MATRIX @ np.array(translation)).flatten()
+    rotation_angle_axis = [float(value) for value in rotation_angle_axis]
+    orientation = transforms3d.axangles.axangle2mat(rotation_angle_axis[:3], rotation_angle_axis[3])
+
+    new_rotation = ROTATION_MATRIX @ orientation
+    new_rotation_axis, new_rotation_angle = transforms3d.axangles.mat2axangle(new_rotation)
+    vector = new_rotation_axis.tolist()
+    vector.append(new_rotation_angle)
+    return vector
 
 
-def convert_mesh(geometry_points):
+def convert_mesh(geometry_points, ROTATION):
+
+    ROTATION_MATRIX = transforms3d.euler.euler2mat(ROTATION[0], ROTATION[1], ROTATION[2], 'rxyz')
+
     for i in range(0, len(geometry_points), 3):
-        new_point = convert_translation(geometry_points[i:i + 3])
+        translation = geometry_points[i:i + 3]
+        translation = [float(value) for value in translation]
+        new_point = (ROTATION_MATRIX @ np.array(translation)).flatten()
         new_point_cleaned = clean_vector(new_point, decimals=6, round_option=True)
         geometry_points[i:i + 3] = new_point_cleaned
     return geometry_points
 
 
-def convert_nue_to_enu_world(filename, mode='all'):
+def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[], objects_minus_pi_2=[]):
     error_verbose = ''  # print the fields that need to be done manually
     clean_verbose = ''  # print the lines where the rotation/translation have been cleaned
+    warning_verbose = ''  # other warnings
     next_line_is_coord = -1
     next_line_is_com = -1
+    next_line_is_corners = -1
     HingeJoint_count = 0
+    rotation_next_object = []
+    miss_rotation = False
     for line in fileinput.input(filename, inplace=True):
 
         # extract the type of field and its associated vector of line
-        type = [x for x in re.compile('\n|,| ').split(line) if x.isalpha()]
+        type = [x for x in re.compile('\n|,| ').split(line) if (any(x_char.isalpha() for x_char in x))]
         vector = [float(x) for x in re.compile('\n|,| ').split(line) if is_number(x)]
         if type:
-            type = type[0]
+            if type[0] in ['DEF']:
+                type = type[2]
+            elif type[0] in ['geometry']:
+                type = type[1]
+            else:
+                type = type[0]
         if ('ElevationGrid' in line and '{' in line):
             type = 'ElevationGrid'
+
         write_status = True
 
         if mode == 'specific':  # to change only a specific field
@@ -175,10 +199,16 @@ def convert_nue_to_enu_world(filename, mode='all'):
             if type not in ['rotation', 'translation']:
                 write_status = False
         elif mode == 'all':
+
+            if rotation_next_object and type != 'rotation':
+                miss_rotation = True
+            else:
+                miss_rotation = False
+
             if 'R2021b' in line:
                 line = '#VRML_SIM R2021c utf8 \r\n'
             elif 'R2021c' in line:
-                error_verbose += 'Warning: The version of the file is already 2021c. '
+                warning_verbose += 'The version of the file was already 2021c. '
             if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
                 vector = None
             elif type in ['orientation'] and len(vector) == 4:
@@ -191,13 +221,16 @@ def convert_nue_to_enu_world(filename, mode='all'):
                     HingeJoint_count -= 1
             elif type in ['rotation'] and len(vector) == 4:
                 vector = [-vector[2], -vector[0], vector[1], vector[3]]  # RUB
-            elif type in ['size', 'frameSize', 'stepSize'] and len(vector) == 3:
+                if rotation_next_object:
+                    vector = convert_orientation(vector, rotation_next_object)
+                    rotation_next_object = []
+            elif type in ['size', 'frameSize', 'stepSize', 'palletSize'] and len(vector) == 3:
                 vector = [vector[2], vector[0], vector[1]]
             else:
                 write_status = False  # else we do not change the line
 
                 # verbose to print, fields to change manually
-                if type in ['inertiaMatrix', 'DistanceSensor', 'LightSensor', 'ElevationGrid']:
+                if type in ['inertiaMatrix', 'DistanceSensor', 'LightSensor', 'ElevationGrid', 'HighwayPole', 'Extrusion']:
                     error_verbose += 'line ' + str(fileinput.lineno()) + ': ' + type + '  ;  '
                 elif type in ['jointParameters', 'jointParameters2']:
                     HingeJoint_count += 1
@@ -208,6 +241,18 @@ def convert_nue_to_enu_world(filename, mode='all'):
                     write_status = True
                     if len(vector) == 3:
                         vector = [-vector[2], -vector[0], vector[1]]
+                if type in ['corners', 'path']:
+                    next_line_is_corners = 1
+                elif next_line_is_corners == 1:
+                    if ']' in line:  # we stop when we reach the end of the node 'point' of 'coord'
+                        next_line_is_corners = -1
+                    else:  # else we convert the line
+                        if len(vector) == 2:
+                            vector = [vector[1], vector[0]]
+                        if len(vector) == 3:
+                            vector = [-vector[2], -vector[0], vector[1]]  # RUB
+                        vector_str = [str(i) for i in vector]
+                        line = add_space(line) + ' '.join(vector_str) + '\r\n'
 
                 if type in ['coord']:
                     next_line_is_coord = 2
@@ -217,9 +262,25 @@ def convert_nue_to_enu_world(filename, mode='all'):
                     if ']' in line:  # we stop when we reach the end of the node 'point' of 'coord'
                         next_line_is_coord = -1
                     else:  # else we convert the line
-                        vector = convert_mesh(vector)
+                        ROTATION = [np.pi / 2, -np.pi / 2, 0]
+                        vector = convert_mesh(vector, ROTATION)
                         vector_str = [str(i) for i in vector]
                         line = add_space(line) + ' '.join(vector_str) + '\r\n'
+                if miss_rotation:
+                    vector = [0, 0, 1, 0]
+                    vector = convert_orientation(vector, rotation_next_object)
+                    vector_str = [str(i) for i in vector]
+                    line = add_space(line) + 'rotation ' + ' '.join(vector_str) + '\r\n' + line
+                    rotation_next_object = []
+                    miss_rotation = False
+                elif type in objects_pi:
+                    rotation_next_object = [0, 0, np.pi]
+                elif type in objects_pi_2:
+                    rotation_next_object = [0, 0, np.pi/2]
+                elif type in objects_minus_pi_2:
+                    rotation_next_object = [0, 0, -np.pi/2]
+                else:
+                    rotation_next_object = []
 
         if write_status:
             # we clean the vector
@@ -241,7 +302,7 @@ def convert_nue_to_enu_world(filename, mode='all'):
 
     if HingeJoint_count:
         error_verbose += '{} JointParameters with missing axis field'.format(HingeJoint_count)
-    return error_verbose, clean_verbose
+    return error_verbose, clean_verbose, warning_verbose
 
 
 if __name__ == '__main__':
@@ -250,6 +311,15 @@ if __name__ == '__main__':
     # possibility to use an argv, a list or a folder
     filename_list = []  # example: 'projects/robots/robotcub/icub/worlds/icub_stand.wbt', change it by your .wbt or.proto
     foldername = ''  # example: 'projects/robots/parallax/boebot/protos/', change it by your .wbt or.proto folder
+
+    # non-exaustive list of the objects which need to be turn on PI, PI/2 or -PI/2
+    objects_pi = ['Road', 'StraightRoadSegment', 'RoadPillars', 'LaneSeparation', 'CurvedRoadSegment', 'AddLanesRoadSegment',
+                  'RandomBuilding', 'SimpleBuilding', 'BusStop', 'BusSimple', 'AdvertisingBoard', 'Bench', 'BmwX5Simple',
+                  'CitroenCZeroSimple', 'ToyotaPriusSimple', 'MotorbikeSimple', 'TruckSimple', 'ScooterSimple',
+                  'LincolnMKZSimple', 'ToyotaPriusSimple', 'TrashBin', 'BungalowStyleHouse']
+    objects_pi_2 = ['PedestrianCrossing', 'Auditorium', 'PublicToilet', 'Museum', 'SwingCouch']
+    objects_minus_pi_2 = ['Forest', 'HighwayPole', 'FastFoodRestaurant',
+                          'Roundabout', 'Chair', 'OilBarrel', 'DivergentIndicator']
 
     if len(sys.argv) == 2:
         filename_list = [str(sys.argv[1])]
@@ -262,7 +332,8 @@ if __name__ == '__main__':
             if '.wbt' in filename or '.proto' in filename:
                 filename_list.append(foldername + filename)
     for filename in filename_list:
-        error_verbose, clean_verbose = convert_nue_to_enu_world(filename, mode=mode)
+        error_verbose, clean_verbose, warning_verbose = convert_nue_to_enu_world(
+            filename, mode, objects_pi, objects_pi_2, objects_minus_pi_2)
         if error_verbose:
             print('Conversion of \033[33m{}\033[m successfull but incomplete. \r\n■ Need to convert manually: {}'.format(
                 filename, error_verbose))
@@ -273,4 +344,6 @@ if __name__ == '__main__':
                 print('Conversion of {} ✅'.format(filename))
         if clean_verbose:
             print('Cleaned lines:', clean_verbose[:-1])
+        if warning_verbose:
+            print('Warning: ', warning_verbose)
     print('Achieved successfully!')

@@ -274,7 +274,7 @@ Fridge {
 
 ### Oven PROTO
 
-An oven (0.5 x 0.44 x 0.68 m).
+An oven (0.5 x 0.44 x 0.68 m) or a microwave (0.25 x 0.528 x 0.272 m).
 
 %figure
 
@@ -290,6 +290,7 @@ Oven {
   SFRotation rotation       0 0 1 0
   SFString   name           "oven"
   SFColor    mainColor      1 1 1
+  SFString   type           "oven"  # Either "oven" or "microwave"
 }
 ```
 

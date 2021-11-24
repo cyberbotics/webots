@@ -22,6 +22,90 @@ PROTO TruckTrailerSimple [
       translation 1.35 0 0
       rotation IS rotation # Only the rotation in Z should be used (Lua is not used for efficiency reasons)
       children [
+        DEF FRONT_RIGHT_WHEEL Solid {
+          angularVelocity IS frontRightWheelAngularVelocity
+          translation -5.45 -1 0
+          rotation 0 0 1 1.5708
+          children [
+            Slot {
+              type "vehicle wheel"
+              endPoint TruckWheel {
+                boundingObject IS wheelBoundingObject
+              }
+            }
+          ]
+          name "front right wheel"
+        }
+        DEF FRONT_LEFT_WHEEL Solid {
+          angularVelocity IS frontLeftWheelAngularVelocity
+          translation -5.45 1 0
+          rotation 0 0 1 -1.5708
+          children [
+            Slot {
+              type "vehicle wheel"
+              endPoint TruckWheel {
+                boundingObject IS wheelBoundingObject
+              }
+            }
+          ]
+        name "front left wheel"
+        }
+        DEF CENTER_RIGHT_WHEEL Solid {
+          angularVelocity IS centerRightWheelAngularVelocity
+          translation -6.55 -1 0
+          rotation 0 0 1 1.5708
+          children [
+            Slot {
+              type "vehicle wheel"
+              endPoint TruckWheel {
+                boundingObject IS wheelBoundingObject
+              }
+            }
+          ]
+          name "center right wheel"
+        }
+        DEF CENTER_LEFT_WHEEL Solid {
+          angularVelocity IS centerLeftWheelAngularVelocity
+          translation -6.55 1 0
+          rotation 0 0 1 -1.5708
+          children [
+            Slot {
+              type "vehicle wheel"
+              endPoint TruckWheel {
+                boundingObject IS wheelBoundingObject
+              }
+            }
+          ]
+          name "center left wheel"
+        }
+        DEF REAR_RIGHT_WHEEL Solid {
+          angularVelocity IS rearRightWheelAngularVelocity
+          translation -7.65 -1 0
+          rotation 0 0 1 1.5708
+          children [
+            Slot {
+              type "vehicle wheel"
+              endPoint TruckWheel {
+                boundingObject IS wheelBoundingObject
+              }
+            }
+          ]
+          name "rear right wheel"
+        }
+        DEF REAR_LEFT_WHEEL Solid {
+          angularVelocity IS rearLeftWheelAngularVelocity
+          translation -7.65 1 0
+          rotation 0 0 1 -1.5708
+          children [
+            Slot {
+              type "vehicle wheel"
+              endPoint TruckWheel {
+                boundingObject IS wheelBoundingObject
+              }
+            }
+          ]
+          name "rear left wheel"
+        }
         Transform {
           rotation 0.57735 0.57735 0.57735 2.094395
           children[
@@ -29,84 +113,6 @@ PROTO TruckTrailerSimple [
             }
             TruckTrailerMesh {
               appearance IS appearance
-            }
-            DEF FRONT_RIGHT_WHEEL Solid {
-              angularVelocity IS frontRightWheelAngularVelocity
-              translation -1 0 -5.45
-              children [
-                Slot {
-                  type "vehicle wheel"
-                  endPoint TruckWheel {
-                    boundingObject IS wheelBoundingObject
-                  }
-                }
-              ]
-              name "front right wheel"
-            }
-            DEF FRONT_LEFT_WHEEL Solid {
-              angularVelocity IS frontLeftWheelAngularVelocity
-              translation 1 0 -5.45
-              children [
-                Slot {
-                  type "vehicle wheel"
-                  endPoint TruckWheel {
-                    boundingObject IS wheelBoundingObject
-                  }
-                }
-              ]
-            name "front left wheel"
-            }
-            DEF CENTER_RIGHT_WHEEL Solid {
-              angularVelocity IS centerRightWheelAngularVelocity
-              translation -1 0 -6.55
-              children [
-                Slot {
-                  type "vehicle wheel"
-                  endPoint TruckWheel {
-                    boundingObject IS wheelBoundingObject
-                  }
-                }
-              ]
-              name "center right wheel"
-            }
-            DEF CENTER_LEFT_WHEEL Solid {
-              angularVelocity IS centerLeftWheelAngularVelocity
-              translation 1 0 -6.55
-              children [
-                Slot {
-                  type "vehicle wheel"
-                  endPoint TruckWheel {
-                    boundingObject IS wheelBoundingObject
-                  }
-                }
-              ]
-              name "center left wheel"
-            }
-            DEF REAR_RIGHT_WHEEL Solid {
-              angularVelocity IS rearRightWheelAngularVelocity
-              translation -1 0 -7.65
-              children [
-                Slot {
-                  type "vehicle wheel"
-                  endPoint TruckWheel {
-                    boundingObject IS wheelBoundingObject
-                  }
-                }
-              ]
-              name "rear right wheel"
-            }
-            DEF REAR_LEFT_WHEEL Solid {
-              angularVelocity IS rearLeftWheelAngularVelocity
-              translation 1 0 -7.65
-              children [
-                Slot {
-                  type "vehicle wheel"
-                  endPoint TruckWheel {
-                    boundingObject IS wheelBoundingObject
-                  }
-                }
-              ]
-              name "rear left wheel"
             }
           ]
         }

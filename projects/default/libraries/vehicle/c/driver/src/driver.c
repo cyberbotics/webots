@@ -49,7 +49,7 @@ static const double tmp = 1.0;
 #include <stdlib.h>
 #include <string.h>
 
-#define ACCELERATION_THRESHOLD 0.05  // maximum aceleration allowed for the wheels [rad/s2]
+#define ACCELERATION_THRESHOLD 50  // maximum acceleration allowed for the wheels [rad/s2]
 #define INDICATOR_AUTO_DISABLING_THRESHOLD 0.1
 #define BLINKER_SOUND_FILE "sounds/blinker.wav"
 
@@ -200,7 +200,7 @@ static void update_wheels_speed(int ms) {  // Warning speed is wrong the first t
   // Compute wheels speeds
   for (i = 0; i < 4; i++) {
     instance->car->speeds[i] = 1000 * (current_position[i] - previous_position[i]) / ms;
-    const double acceleration = (instance->car->speeds[i] - previous_speed[i]) / ms;
+    const double acceleration = 1000 * (instance->car->speeds[i] - previous_speed[i]) / ms;
     if (fabs(acceleration) > fabs(instance->car->max_acceleration))
       instance->car->max_acceleration = acceleration;
     previous_position[i] = current_position[i];
@@ -470,6 +470,26 @@ void wbu_driver_init() {
     fprintf(stderr, "Warning: Any car should have a 'engine_speaker' speaker.\n");
     exit(0);
   }
+}
+
+bool wbu_driver_initialization_is_possible() {
+  // Parse vehicle caracteristics from the beginning of the data string
+  int read_int;
+  double read_double;
+  char read_char;
+  int i;
+
+  wb_robot_init();
+  const char *sub_data_string = wb_robot_get_custom_data();
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
+             &read_double, &read_int, &read_int);
+
+  if (i < 20)
+    return false;
+
+  return true;
 }
 
 int wbu_driver_step() {

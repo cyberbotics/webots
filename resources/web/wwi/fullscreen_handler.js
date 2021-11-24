@@ -10,7 +10,7 @@ function exitFullscreen() {
 }
 
 function onFullscreenChange(fullscreenButton, exitFullscreenButton) {
-  const element = document.fullScreenElement;
+  const element = document.fullScreenElement || document.mozFullScreenElement || document.webkitCurrentFullScreenElement;
   if (element != null) {
     fullscreenButton.style.display = 'none';
     exitFullscreenButton.style.display = 'inline';

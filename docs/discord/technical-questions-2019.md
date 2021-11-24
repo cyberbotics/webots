@@ -2426,7 +2426,7 @@ right, thanks
 ##### David Mansolino [Cyberbotics] 05/08/2019 09:51:44
 You're welcome
 
-##### Avnish Sachar 05/08/2019 12:35:59
+##### asac 05/08/2019 12:35:59
 Hi, is there a way to print a custom message on the console even when the simulation is paused?
 
 ##### Fabien Rohrer [Moderator] 05/08/2019 12:38:14
@@ -2435,7 +2435,7 @@ Unfortunately, this is not possible.
 
 Could you write your output into a file instead? Or use a debugger?
 
-##### Avnish Sachar 05/08/2019 12:44:09
+##### asac 05/08/2019 12:44:09
 Yes, I can write into a file instead. Thanks!
 
 ##### Hussein 05/09/2019 09:34:16
@@ -23088,13 +23088,13 @@ how can I hide errors, printed into the webots console?
 ##### David Mansolino [Cyberbotics] 12/15/2019 12:41:27
 By fixing them 😉
 
-##### csnametala 12/16/2019 14:19:41
+##### samuel.nametala 12/16/2019 14:19:41
 Hi! Some pages related to Webots are giving error 404.php. Does anyone know the reason? please
 
 ##### Stefania Pedrazzi [Cyberbotics] 12/16/2019 14:25:56
-Hi `@csnametala`, we updated the server and we are still working on restoring some of the pages. But we also decided to drop some of them, like the forum. Which page are you trying to load?
+Hi `@samuel.nametala`, we updated the server and we are still working on restoring some of the pages. But we also decided to drop some of them, like the forum. Which page are you trying to load?
 
-##### csnametala 12/16/2019 14:28:53
+##### samuel.nametala 12/16/2019 14:28:53
 `@Stefania Pedrazzi` I am trying to validate a Webots 7.4.3 EDU key, and it is not possible
 
 ##### Stefania Pedrazzi [Cyberbotics] 12/16/2019 14:30:51
@@ -23104,7 +23104,7 @@ You just need to use the password `webots`
 
 [https://www.cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release](https://www.cyberbotics.com/doc/guide/general-faq#can-i-still-use-a-webots-version-before-the-r2019a-release)
 
-##### csnametala 12/16/2019 14:34:50
+##### samuel.nametala 12/16/2019 14:34:50
 OK! thank you very much for your help `@Stefania Pedrazzi` . I will check
 
 ##### Stefania Pedrazzi [Cyberbotics] 12/16/2019 14:35:11
