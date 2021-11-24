@@ -116,7 +116,8 @@ class Area(WebotsObject):
             file.write("DEF " + defName + " " + "Transform {\n")
         else:
             file.write("Transform {\n")
-        file.write("  translation %f %f 0\n" % (OSMCoord.coordDictionnary[refs[0]].x, OSMCoord.coordDictionnary[refs[0]].y))
+        file.write("  translation %f %f 0\n" %
+                   (OSMCoord.coordDictionnary[refs[0]].x, OSMCoord.coordDictionnary[refs[0]].y))
         file.write("  children [\n")
         file.write("    Shape {\n")
         file.write("      appearance PBRAppearance {\n")
@@ -207,11 +208,11 @@ class Area(WebotsObject):
                     if Area.are_references_clockwise(area.ref) is True:
                         for ref in area.ref:
                             file.write("    %.2f %.2f, " %
-                            (OSMCoord.coordDictionnary[ref].x, -OSMCoord.coordDictionnary[ref].y))
+                                       (OSMCoord.coordDictionnary[ref].x, -OSMCoord.coordDictionnary[ref].y))
                     else:
                         for ref in reversed(area.ref):
                             file.write("    %.2f %.2f, " %
-                            (OSMCoord.coordDictionnary[ref].x, -OSMCoord.coordDictionnary[ref].y))
+                                       (OSMCoord.coordDictionnary[ref].x, -OSMCoord.coordDictionnary[ref].y))
                     file.write("\n]\n")
                     if area.leafType == "needleleaved":
                         file.write(' type "%s"\n' % random.choice(Tree.needleLeavesTypes))
@@ -248,7 +249,8 @@ class Area(WebotsObject):
                 y = random.uniform(yMin, yMax)
                 z = 0
                 if WebotsObject.elevation is not None:
-                    z = WebotsObject.elevation.interpolate_height(x + WebotsObject.xOffset, y + WebotsObject.yOffset)
+                    z = WebotsObject.elevation.interpolate_height(
+                        x + WebotsObject.xOffset, y + WebotsObject.yOffset)
                 if Area.is_point_in_polygon(x, y, polygon) is True:
                     treeNumber = treeNumber + 1
                     file.write("%.2f,%.2f,%.2f\n" % (x, -y, z))
