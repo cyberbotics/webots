@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2021
 
+##### Olivier Michel [Cyberbotics] 11/17/2021 15:49:05
+The RoboCup Humanoid League Virtual Season 2021/22 just launched: [https://humanoid.robocup.org/hl-vs2022/hl-vs2022-cfp/](https://humanoid.robocup.org/hl-vs2022/hl-vs2022-cfp/)
+
 ##### DDaniel [Cyberbotics] 11/15/2021 11:21:41
 A new tutorial is available concerning the usage of the Supervisor: it explains how to remove nodes, how to spawn them (both pre-existing and custom ones) as well as how to change parameters like color and location in a programmatic way. Instructions are available for every supported language. You can find it here: [https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor](https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor)
 
