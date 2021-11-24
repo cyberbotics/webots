@@ -56,14 +56,14 @@ export default class WebotsView extends HTMLElement {
     Module.onRuntimeInitialized = () => {
       Promise.all(promises).then(() => {
         this.initializationComplete = true;
-        let model = this.dataset.model;
+        let scene = this.dataset.scene;
         let animation = this.dataset.animation;
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
-        if ((typeof model !== 'undefined' && model !== '') && typeof animation !== 'undefined' && animation !== '')
-          this.loadAnimation(model, animation, isMobileDevice, !(this.dataset.autoplay && this.dataset.autoplay === 'false'));
-        else if (typeof model !== 'undefined' && model !== '')
-          this.loadModel(model, isMobileDevice);
+        if ((typeof scene !== 'undefined' && scene !== '') && typeof animation !== 'undefined' && animation !== '')
+          this.loadAnimation(scene, animation, isMobileDevice, !(this.dataset.autoplay && this.dataset.autoplay === 'false'));
+        else if (typeof scene !== 'undefined' && scene !== '')
+          this.loadScene(scene, isMobileDevice);
         else if (typeof server !== 'undefined' && server !== '')
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.connectCallback, this.dataset.disconnectCallback);
       });
@@ -87,20 +87,20 @@ export default class WebotsView extends HTMLElement {
   close() {
     if (this._hasAnimation)
       this._closeAnimation();
-    else if (this._hasModel)
-      this._closeModel();
+    else if (this._hasScene)
+      this._closeScene();
     else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' && typeof this._view.stream.socket !== 'undefined')
       this._disconnect();
   }
   // Animation's functions
-  loadAnimation(model, animation, play, isMobileDevice) {
-    if (typeof model === 'undefined') {
+  loadAnimation(scene, animation, play, isMobileDevice) {
+    if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadAnimation(model, animation, play, isMobileDevice), 500);
+      setTimeout(() => this.loadAnimation(scene, animation, play, isMobileDevice), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -111,7 +111,7 @@ export default class WebotsView extends HTMLElement {
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
-      this._view.open(model);
+      this._view.open(scene);
       if (play !== 'undefined' && play === false)
         this._view.setAnimation(animation, 'pause', true);
       else
@@ -222,15 +222,15 @@ export default class WebotsView extends HTMLElement {
       this._view.stream.socket.send(message);
   }
 
-  // Model functions
-  loadModel(model, isMobileDevice) {
-    if (typeof model === 'undefined') {
+  // Scene functions
+  loadScene(scene, isMobileDevice) {
+    if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadModel(model, isMobileDevice), 500);
+      setTimeout(() => this.loadScene(scene, isMobileDevice), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -241,16 +241,16 @@ export default class WebotsView extends HTMLElement {
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
-      this._view.open(model);
-      this._hasModel = true;
+      this._view.open(scene);
+      this._hasScene = true;
 
       this._closeWhenDOMElementRemoved();
     }
   }
 
-  _closeModel() {
+  _closeScene() {
     this._view.destroyWorld();
-    this._hasModel = false;
+    this._hasScene = false;
     this.innerHTML = null;
   }
 }
