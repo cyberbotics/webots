@@ -1200,9 +1200,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         candidate->warn(message.arg("B2"));
         WbTransform *const transform = new WbTransform();
         WbNode *newNode = nodeToRotate->cloneAndReferenceProtoInstance();
+        if (newNode->isDefNode()) {
+          transform->setDefName(newNode->defName(), true);
+          newNode->setDefName("", true);
+        }
         WbNodeOperations::instance()->initNewNode(transform, parent, parent->findField("children"), 0);
-        WbNodeOperations::instance()->deleteNode(nodeToRotate);
         WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
+        WbNodeOperations::instance()->deleteNode(nodeToRotate);
         transform->setRotation(WbRotation(rotationFix));
         transform->save("__init__");
       }
