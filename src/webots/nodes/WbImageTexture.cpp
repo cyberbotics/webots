@@ -181,10 +181,6 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
     return false;
   }
 
-  // Supported image format are PNG and JPEG with "y" axis down.
-  // QImage::mirrored() will flip the image vertically as we define "y" axis up.
-  *mImage = mImage->mirrored();
-
   mIsMainTextureTransparent = mImage->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
 
   if (mImage->format() != QImage::Format_ARGB32) {

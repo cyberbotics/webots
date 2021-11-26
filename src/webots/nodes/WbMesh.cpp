@@ -25,8 +25,6 @@
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 
-#include <math.h>
-
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
@@ -111,7 +109,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                                                         aiComponent_MATERIALS);
   const aiScene *scene;
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
+                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
+                       aiProcess_FlipUVs;
   if (WbUrl::isWeb(filePath)) {
     if (mDownloader == NULL)
       downloadAssets();
