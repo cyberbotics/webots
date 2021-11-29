@@ -44,7 +44,7 @@ The following attribute is available:
 * `data-scene`: the name of the .x3d file containing the 3d scene. It is evaluated only once: when the page is loaded. If the `data-scene` attribute is set, the `webots-view` web-component will automatically try to load the web scene .
 
 For more complex interaction with the web component, the following functions are available:
-* `close()`: close the current scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene` or `loadAnimation` or `connect` is called, `close` will be automatically called.
+* `close()`: close the current scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
 * `loadScene(scene, mobileDevice)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
