@@ -126,6 +126,7 @@ export default class WebotsView extends HTMLElement {
     this._view.animation.removePlayBar();
     this._view.removeLabels();
     this._view.destroyWorld();
+    this._view.animation = undefined;
     this._hasAnimation = false;
     this.innerHTML = null;
   }

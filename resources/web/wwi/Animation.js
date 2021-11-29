@@ -34,6 +34,8 @@ export default class Animation {
 
   pause() {
     this._gui = 'pause';
+    if (typeof this._data === 'undefined')
+      return;
     if (this._step < 0 || this._step >= this._data.frames.length) {
       this._start = new Date().getTime();
       this._updateAnimationState();
