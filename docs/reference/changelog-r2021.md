@@ -31,6 +31,7 @@ Released on XX, XXth, 2021.
     - Fixed crash caused by the auto-regeneration of a [Robot](robot.md) node ([#3869](https://github.com/cyberbotics/webots/pull/3869)).
     - Fixed rendering issue when Webots was started in wireframe mode and switched to plain rendering ([#3939](https://github.com/cyberbotics/webots/pull/3939)).
     - Fixed missing sanity check of [Radar](radar.md) parameters at load time ([#3960](https://github.com/cyberbotics/webots/pull/3960)).
+    - Fixed texture mapping for `Wavefront` files (.obj) and updated the supported formats for the [Mesh](mesh.md) node ([#3955](https://github.com/cyberbotics/webots/pull/3955)).
 
 
 ## Webots R2021b
