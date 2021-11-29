@@ -15,9 +15,6 @@ PROTO WoodenBox [
 ]
 {
 %<
-  console.log(wbcollada.getVrmlFromFile('/home/lukic/Downloads/untitled.dae'));
-
-
   let size = fields.size.value;
   let volume = size.x * size.y * size.z;
   let mass = fields.mass.value;
