@@ -458,7 +458,7 @@ This is the API of the `webots-streaming` web component:
   * `isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `callback`: function to be executed once the simulation is ready.
   * `disconnectCallback`: function to be executed once the web scene is closed.
-* `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `connect` or `loadAnimation` is called, `close` will be automatically called.
+* `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `connect` or `loadAnimation` is called, `close` will be automatically called.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
 * `showToolbar()`: show the toolbar. Must be called after connect. The toolbar is displayed by default.
 * `displayQuit(enable)`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
@@ -478,7 +478,7 @@ Moreover, the following attributes are available:
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
 
-Warning: note that if the `data-model` attribute (see [web animation](web-animation.md)) and the `data-server` are both set, the `data-model` will take precedence and try to load an animation.
+Warning: note that if the `data-scene` attribute (see [web animation](web-animation.md)) and the `data-server` are both set, the `data-scene` will take precedence and try to load a scene.
 
 An example of a file using this API is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
 
