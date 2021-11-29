@@ -41,8 +41,8 @@ from webots_objects.tree import Tree
 def add_height_to_coordinates(elevation):
     """Compute the Y of each coordinate."""
     for osmid in OSMCoord.coordDictionnary:
-        OSMCoord.coordDictionnary[osmid].y = elevation.interpolate_height(OSMCoord.coordDictionnary[osmid].x,
-                                                                          OSMCoord.coordDictionnary[osmid].z)
+        OSMCoord.coordDictionnary[osmid].z = elevation.interpolate_height(OSMCoord.coordDictionnary[osmid].x,
+                                                                          OSMCoord.coordDictionnary[osmid].y)
 
 
 # Parse the options.
@@ -162,9 +162,9 @@ with codecs.open(options.outFile, 'w', 'utf-8') as outputFile:
 
     if options.enable3D and elevation is not None:
         add_height_to_coordinates(elevation)  # important to do it before 'center_coordinates'
-    xOffset, zOffset = OSMCoord.center_coordinates(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
+    xOffset, yOffset = OSMCoord.center_coordinates(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
     WebotsObject.xOffset = xOffset
-    WebotsObject.zOffset = zOffset
+    WebotsObject.yOffset = yOffset
 
     # From now we are in local coordinates system and not earth coordinates system anymore
 
@@ -193,7 +193,7 @@ with codecs.open(options.outFile, 'w', 'utf-8') as outputFile:
         ParkingLines.export(outputFile)
         print(" * " + str(len(ParkingLines.list)) + " parking lines generated")
 
-    print(" * map centered with this offset: " + str(xOffset) + "," + str(zOffset) + ").")
+    print(" * map centered with this offset: " + str(xOffset) + "," + str(yOffset) + ").")
     print(" * reference coordinates: " + str(lat0) + "," + str(long0) + ".")
     print(" * projection used: '" + Projection.getProjectionString() + "'.")
     outputFile.close()
