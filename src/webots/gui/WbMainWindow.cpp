@@ -475,7 +475,7 @@ QMenu *WbMainWindow::createFileMenu() {
   menu->addAction(manager->action(WbAction::TAKE_SCREENSHOT));
   menu->addAction(mSimulationView->movieAction());
   action = new QAction(this);
-  action->setText(tr("&Export HTML5 Model..."));
+  action->setText(tr("&Export HTML5 Scene..."));
   action->setStatusTip(tr("Export the whole Scene Tree as an HTML5 file."));
   action->setToolTip(action->statusTip());
   connect(action, &QAction::triggered, this, &WbMainWindow::exportHtml);
@@ -1594,7 +1594,7 @@ void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbWorld *world = WbWorld::instance();
 
-  QString fileName = findHtmlFileName("Export HTML Model");
+  QString fileName = findHtmlFileName("Export HTML Scene");
   if (fileName.isEmpty()) {
     WbSimulationState::instance()->setMode(currentMode);
     return;
@@ -1604,13 +1604,13 @@ void WbMainWindow::exportHtml() {
     world->exportAsHtml(fileName, false);
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
     openUrl(fileName,
-            tr("The HTML5 model has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
+            tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
                "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
                "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
                "if your browser prevents local files CORS requests.")
               .arg(fileName),
-            tr("Export HTML5 Model"));
+            tr("Export HTML5 Scene"));
   }
 
   WbSimulationState::instance()->setMode(currentMode);
