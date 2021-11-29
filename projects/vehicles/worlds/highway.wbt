@@ -82,7 +82,6 @@ Fog {
   visibilityRange 700
 }
 SumoInterface {
-  useNetconvert FALSE
   enableHeight TRUE
 }
 Floor {
