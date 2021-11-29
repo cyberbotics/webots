@@ -30,6 +30,7 @@ Released on XX, XXth, 2021.
     - Fixed bug where deleting a node from [Supervisor](supervisor.md) did not refresh the scene tree ([#3867](https://github.com/cyberbotics/webots/pull/3867)).
     - Fixed crash caused by the auto-regeneration of a [Robot](robot.md) node ([#3869](https://github.com/cyberbotics/webots/pull/3869)).
     - Fixed rendering issue when Webots was started in wireframe mode and switched to plain rendering ([#3939](https://github.com/cyberbotics/webots/pull/3939)).
+    - Fixed missing sanity check of [Radar](radar.md) parameters at load time ([#3960](https://github.com/cyberbotics/webots/pull/3960)).
 
 
 ## Webots R2021b
