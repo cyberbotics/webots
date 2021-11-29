@@ -547,8 +547,7 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
       selectFile("textures", "Texture", "*.hdr *.HDR");
       break;
     case MESH_URL:
-      selectFile("meshes", "Meshes",
-                 "*.dae *.DAE *.stl *.STL *.obj *.OBJ");
+      selectFile("meshes", "Meshes", "*.dae *.DAE *.stl *.STL *.obj *.OBJ");
       break;
     default:
       return false;
