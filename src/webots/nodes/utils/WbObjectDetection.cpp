@@ -316,6 +316,8 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       }
     }
     // check distance between center and frustum planes
+    // Note: this sort of detection is only adapted for a field of view smaller than PI. If a larger FoV is desirable, the logic
+    // should be changed by having two separate frostums, more details here: https://github.com/cyberbotics/webots/pull/3960
     double distances[4];
     for (int j = 0; j < 4; ++j)
       distances[j] = frustumPlanes[j].distance(objectPosition);
