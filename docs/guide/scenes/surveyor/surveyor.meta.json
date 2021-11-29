@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "-0.0394 0.014 -0.049",
-      "axis": "1 0 0",
+      "anchor": "0.049 0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor00",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0394 0.014 -0.0245",
-      "axis": "1 0 0",
+      "anchor": "0.0245 0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor01",
@@ -21,8 +21,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0394 0.014 0",
-      "axis": "1 0 0",
+      "anchor": "0 0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor02",
@@ -31,8 +31,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0394 0.014 0.0245",
-      "axis": "1 0 0",
+      "anchor": "-0.0245 0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor03",
@@ -41,8 +41,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0394 0.014 0.049",
-      "axis": "1 0 0",
+      "anchor": "-0.049 0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor04",
@@ -51,8 +51,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0394 0.014 -0.049",
-      "axis": "1 0 0",
+      "anchor": "0.049 -0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor05",
@@ -61,8 +61,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0394 0.014 -0.0245",
-      "axis": "1 0 0",
+      "anchor": "0.0245 -0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor06",
@@ -71,8 +71,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0394 0.014 0",
-      "axis": "1 0 0",
+      "anchor": "0 -0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor07",
@@ -81,8 +81,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0394 0.014 0.0245",
-      "axis": "1 0 0",
+      "anchor": "-0.0245 -0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor08",
@@ -91,8 +91,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0394 0.014 0.049",
-      "axis": "1 0 0",
+      "anchor": "-0.049 -0.0394 0.014",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "wheel_motor09",
@@ -133,7 +133,7 @@
     {
       "name": "receiver",
       "transformID": "n10",
-      "transformOffset": "-0.017 0.08 -0.002",
+      "transformOffset": "0.002 0.017 0.08",
       "type": "Receiver"
     },
     {

@@ -59,9 +59,9 @@ namespace wren {
   extern const primitive::Sphere gSphereInf;
 
   // Max. active lights per frame (needs to be kept in sync with the shaders)
-  const int gMaxActiveDirectionalLights = 256;
-  const int gMaxActivePointLights = 256;
-  const int gMaxActiveSpotLights = 256;
+  const int gMaxActiveDirectionalLights = 48;
+  const int gMaxActivePointLights = 48;
+  const int gMaxActiveSpotLights = 48;
 
   // OpenGL constants
   const int gMaxShaderTextures = 13;        // conservative, OpenGL 3.3 specification requires at least 16

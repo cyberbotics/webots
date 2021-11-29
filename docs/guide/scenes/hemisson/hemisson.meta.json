@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0.0155 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.0155",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0.0155 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.0155",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
@@ -92,49 +92,49 @@
     {
       "name": "ls0",
       "transformID": "n10",
-      "transformOffset": "0.031 0.0339 -0.051",
+      "transformOffset": "0.051 -0.031 0.0339",
       "type": "LightSensor"
     },
     {
       "name": "ls1",
       "transformID": "n10",
-      "transformOffset": "-0.031 0.0339 -0.051",
+      "transformOffset": "0.051 0.031 0.0339",
       "type": "LightSensor"
     },
     {
       "name": "ls2",
       "transformID": "n10",
-      "transformOffset": "0 0.0339 -0.0575",
+      "transformOffset": "0.0575 0 0.0339",
       "type": "LightSensor"
     },
     {
       "name": "ls3",
       "transformID": "n10",
-      "transformOffset": "0 0.0339 0.064",
+      "transformOffset": "-0.064 0 0.0339",
       "type": "LightSensor"
     },
     {
       "name": "ls4",
       "transformID": "n10",
-      "transformOffset": "-0.049 0.0339 -0.01",
+      "transformOffset": "0.01 0.049 0.0339",
       "type": "LightSensor"
     },
     {
       "name": "ls5",
       "transformID": "n10",
-      "transformOffset": "0.049 0.0339 -0.01",
+      "transformOffset": "0.01 -0.049 0.0339",
       "type": "LightSensor"
     },
     {
       "name": "ls6",
       "transformID": "n10",
-      "transformOffset": "-0.0049 0.034 -0.057",
+      "transformOffset": "0.057 0.0049 0.034",
       "type": "LightSensor"
     },
     {
       "name": "ls7",
       "transformID": "n10",
-      "transformOffset": "0.0049 0.034 -0.057",
+      "transformOffset": "0.057 -0.0049 0.034",
       "type": "LightSensor"
     },
     {

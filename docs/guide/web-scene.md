@@ -23,7 +23,7 @@ The 3D navigation in the player is possible using the mouse or the touch screen,
 
 ### How to Export a Web Scene
 
-Select the `File / Export HTML5 Model...` menu item and choose the target `HTML` file in the pop-up dialog.
+Select the `File / Export HTML5 Scene...` menu item and choose the target `HTML` file in the pop-up dialog.
 When the export is completed, Webots will ask to playback the resulting file in the default Web browser.
 
 **Note**: The `X3D` file and the required textures are exported in the same directory as the target `HTML` file.
@@ -37,6 +37,17 @@ The exported `HTML` page is designed to be as simple as possible, and is the ref
 Alternatively, an `<iframe>` tag pointing to the generated Webots page is a less elegant but simpler solution.
 
 The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://www.cyberbotics.com) will be stored for long term, and can be used from an external Website.
+
+The web scene is displayed by a web component from the [WebotsView.js] package called `webots-view`.
+
+The following attribute is available:
+* `data-scene`: the name of the .x3d file containing the 3d scene. It is evaluated only once: when the page is loaded. If the `data-scene` attribute is set, the `webots-view` web-component will automatically try to load the web scene .
+
+For more complex interaction with the web component, the following functions are available:
+* `close()`: close the current scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
+* `loadScene(scene, mobileDevice)`: load and play the animation.
+  * `scene`: name of the .x3d file.
+  * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
 
 ### Limitations
 
@@ -59,16 +70,13 @@ It may occur that the rendering in the Webots application and in the exported We
       if (typeof webotsView === 'undefined') {
         webotsView = document.createElement('webots-view');
         webotsView.style = "height:80%; display:block;"
-        webotsView.id = "webotsView"
       }
       document.body.appendChild(webotsView)
 
-      if (!webotsView.hasAnimation())
-        webotsView.loadAnimation("model.x3d", "animation.json")
+      webotsView.loadAnimation("scene.x3d", "animation.json")
     }
 
     function remove() {
-      webotsView.close();
       document.body.removeChild(webotsView);
     }
     ```

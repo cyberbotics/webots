@@ -56,11 +56,14 @@ export default class WebotsView extends HTMLElement {
     Module.onRuntimeInitialized = () => {
       Promise.all(promises).then(() => {
         this.initializationComplete = true;
-        let model = this.dataset.model;
+        let scene = this.dataset.scene;
+        let animation = this.dataset.animation;
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
-        if (typeof model !== 'undefined' && model !== '')
-          this.loadAnimation(model, this.dataset.animation, isMobileDevice, !(this.dataset.autoplay && this.dataset.autoplay === 'false'));
+        if ((typeof scene !== 'undefined' && scene !== '') && typeof animation !== 'undefined' && animation !== '')
+          this.loadAnimation(scene, animation, isMobileDevice, !(this.dataset.autoplay && this.dataset.autoplay === 'false'));
+        else if (typeof scene !== 'undefined' && scene !== '')
+          this.loadScene(scene, isMobileDevice);
         else if (typeof server !== 'undefined' && server !== '')
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.connectCallback, this.dataset.disconnectCallback);
       });
@@ -70,36 +73,62 @@ export default class WebotsView extends HTMLElement {
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022a/wrenjs.js'));
   }
 
+  _closeWhenDOMElementRemoved() {
+    // https://stackoverflow.com/questions/52834774/dom-event-when-element-is-removed
+    let observer = new MutationObserver(() => {
+      if (!document.body.contains(this)) {
+        this.close();
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, {childList: true, subtree: true});
+  }
+
+  close() {
+    if (this._hasAnimation)
+      this._closeAnimation();
+    else if (this._hasScene)
+      this._closeScene();
+    else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' && typeof this._view.stream.socket !== 'undefined')
+      this._disconnect();
+  }
   // Animation's functions
-  loadAnimation(model, animation, play, isMobileDevice) {
-    if (typeof model === 'undefined') {
+  loadAnimation(scene, animation, play, isMobileDevice) {
+    if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadAnimation(model, animation, play, isMobileDevice), 1000);
+      setTimeout(() => this.loadAnimation(scene, animation, play, isMobileDevice), 500);
     else {
+      // terminate the previous activity if any
+      this.close();
+
+      console.time('Loaded in: ');
       this.animationCSS.disabled = false;
       this.streamingCSS.disabled = true;
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
-      this._view.open(model);
+      this._view.open(scene);
       if (play !== 'undefined' && play === false)
         this._view.setAnimation(animation, 'pause', true);
       else
         this._view.setAnimation(animation, 'play', true);
       this._hasAnimation = true;
+      this._closeWhenDOMElementRemoved();
     }
   }
 
-  close() {
+  _closeAnimation() {
     this._view.animation.pause();
     this._view.animation.removePlayBar();
     this._view.removeLabels();
     this._view.destroyWorld();
+    this._view.animation = undefined;
     this._hasAnimation = false;
+    this.innerHTML = null;
   }
 
   hasAnimation() {
@@ -120,24 +149,34 @@ export default class WebotsView extends HTMLElement {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
-    this.animationCSS.disabled = true;
-    this.streamingCSS.disabled = false;
 
-    if (typeof this._view === 'undefined')
-      this._view = new webots.View(this, isMobileDevice);
-    this._view.broadcast = broadcast;
-    this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
+    if (!this.initializationComplete)
+      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice, callback, disconnectCallback), 500);
+    else {
+      // terminate the previous activity if any
+      this.close();
+      console.time('Loaded in: ');
 
-    this._disconnectCallback = disconnectCallback;
-    this._view.open(server, mode);
-    this._view.onquit = () => this.disconnect();
-    this._view.onready = _ => {
-      if (typeof callback === 'function')
-        callback();
-    };
+      this.animationCSS.disabled = true;
+      this.streamingCSS.disabled = false;
+
+      if (typeof this._view === 'undefined')
+        this._view = new webots.View(this, isMobileDevice);
+      this._view.broadcast = broadcast;
+      this._view.setTimeout(-1); // disable timeout that stops the simulation after a given time
+
+      this._disconnectCallback = disconnectCallback;
+      this._view.open(server, mode);
+      this._view.onquit = () => this._disconnect();
+      this._view.onready = _ => {
+        if (typeof callback === 'function')
+          callback();
+      };
+      this._closeWhenDOMElementRemoved();
+    }
   }
 
-  disconnect() {
+  _disconnect() {
     let exitFullscreenButton = document.getElementById('exit_fullscreenButton');
     if (exitFullscreenButton && exitFullscreenButton.style.display !== 'none')
       exitFullscreen();
@@ -184,13 +223,36 @@ export default class WebotsView extends HTMLElement {
       this._view.stream.socket.send(message);
   }
 
-  _load(scriptUrl) {
-    return new Promise(function(resolve, reject) {
-      let script = document.createElement('script');
-      script.onload = resolve;
-      script.src = scriptUrl;
-      document.head.appendChild(script);
-    });
+  // Scene functions
+  loadScene(scene, isMobileDevice) {
+    if (typeof scene === 'undefined') {
+      console.error('No x3d file defined');
+      return;
+    }
+
+    if (!this.initializationComplete)
+      setTimeout(() => this.loadScene(scene, isMobileDevice), 500);
+    else {
+      // terminate the previous activity if any
+      this.close();
+
+      console.time('Loaded in: ');
+      this.animationCSS.disabled = false;
+      this.streamingCSS.disabled = true;
+
+      if (typeof this._view === 'undefined')
+        this._view = new webots.View(this, isMobileDevice);
+      this._view.open(scene);
+      this._hasScene = true;
+
+      this._closeWhenDOMElementRemoved();
+    }
+  }
+
+  _closeScene() {
+    this._view.destroyWorld();
+    this._hasScene = false;
+    this.innerHTML = null;
   }
 }
 

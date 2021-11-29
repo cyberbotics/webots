@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0.02 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.02",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0.02 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.02",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
@@ -26,10 +26,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n267"
+        "n266"
       ],
       "name": "led0",
-      "transformID": "n265",
+      "transformID": "n264",
       "type": "LED"
     },
     {
@@ -38,10 +38,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n271"
+        "n270"
       ],
       "name": "led1",
-      "transformID": "n269",
+      "transformID": "n268",
       "type": "LED"
     },
     {
@@ -50,10 +50,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n275"
+        "n274"
       ],
       "name": "led2",
-      "transformID": "n273",
+      "transformID": "n272",
       "type": "LED"
     },
     {
@@ -62,10 +62,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n279"
+        "n278"
       ],
       "name": "led3",
-      "transformID": "n277",
+      "transformID": "n276",
       "type": "LED"
     },
     {
@@ -74,10 +74,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n283"
+        "n282"
       ],
       "name": "led4",
-      "transformID": "n281",
+      "transformID": "n280",
       "type": "LED"
     },
     {
@@ -86,10 +86,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n288"
+        "n287"
       ],
       "name": "led5",
-      "transformID": "n286",
+      "transformID": "n285",
       "type": "LED"
     },
     {
@@ -98,10 +98,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n292"
+        "n291"
       ],
       "name": "led6",
-      "transformID": "n290",
+      "transformID": "n289",
       "type": "LED"
     },
     {
@@ -110,10 +110,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n296"
+        "n295"
       ],
       "name": "led7",
-      "transformID": "n294",
+      "transformID": "n293",
       "type": "LED"
     },
     {
@@ -122,10 +122,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n300"
+        "n299"
       ],
       "name": "led8",
-      "transformID": "n298",
+      "transformID": "n297",
       "type": "LED"
     },
     {
@@ -134,10 +134,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n305"
+        "n304"
       ],
       "name": "led9",
-      "transformID": "n303",
+      "transformID": "n302",
       "type": "LED"
     },
     {
@@ -168,49 +168,49 @@
     {
       "name": "ls0",
       "transformID": "n10",
-      "transformOffset": "0.01 0.0329 -0.03",
+      "transformOffset": "0.03 -0.01 0.0329",
       "type": "LightSensor"
     },
     {
       "name": "ls1",
       "transformID": "n10",
-      "transformOffset": "0.025 0.0329 -0.022",
+      "transformOffset": "0.022 -0.025 0.0329",
       "type": "LightSensor"
     },
     {
       "name": "ls2",
       "transformID": "n10",
-      "transformOffset": "0.031 0.0329 0",
+      "transformOffset": "0 -0.031 0.0329",
       "type": "LightSensor"
     },
     {
       "name": "ls3",
       "transformID": "n10",
-      "transformOffset": "0.015 0.0329 0.03",
+      "transformOffset": "-0.03 -0.015 0.0329",
       "type": "LightSensor"
     },
     {
       "name": "ls4",
       "transformID": "n10",
-      "transformOffset": "-0.015 0.0329 0.03",
+      "transformOffset": "-0.03 0.015 0.0329",
       "type": "LightSensor"
     },
     {
       "name": "ls5",
       "transformID": "n10",
-      "transformOffset": "-0.031 0.0329 0",
+      "transformOffset": "0 0.031 0.0329",
       "type": "LightSensor"
     },
     {
       "name": "ls6",
       "transformID": "n10",
-      "transformOffset": "-0.025 0.0329 -0.022",
+      "transformOffset": "0.022 0.025 0.0329",
       "type": "LightSensor"
     },
     {
       "name": "ls7",
       "transformID": "n10",
-      "transformOffset": "-0.01 0.0329 -0.03",
+      "transformOffset": "0.03 0.01 0.0329",
       "type": "LightSensor"
     },
     {

@@ -7,7 +7,6 @@ export default class Stream {
     this.wsServer = wsServer + '/';
     this._view = view;
     this._onready = onready;
-    this.socket = null;
   }
 
   connect() {
@@ -24,8 +23,10 @@ export default class Stream {
   }
 
   close() {
-    if (this.socket)
+    if (typeof this.socket !== 'undefined') {
       this.socket.close();
+      this.soclet = undefined;
+    }
   }
 
   _onSocketOpen(event) {
