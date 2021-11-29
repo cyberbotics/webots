@@ -47,6 +47,8 @@ public:
   OperationResult importVrml(const QString &filename, bool fromSupervisor = false);
   OperationResult importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals,
                                       bool importAppearances, bool importAsSolid, bool importBoundingObjects);
+  OperationResult getVrmlFromExternalModel(QString &stream, const QString &filename, bool importTextureCoordinates, bool importNormals,
+                                      bool importAppearances, bool importAsSolid, bool importBoundingObjects);
 
   OperationResult initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field, int newNodeIndex = -1,
                               bool subscribe = false);

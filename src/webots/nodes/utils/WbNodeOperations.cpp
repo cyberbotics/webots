@@ -431,7 +431,22 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
 WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates,
                                                                         bool importNormals, bool importAppearances,
                                                                         bool importAsSolid, bool importBoundingObjects) {
-  OperationResult result = FAILURE;
+  QString stream = "";
+  WbNodeOperations::OperationResult result = getVrmlFromExternalModel(stream, filename, importTextureCoordinates, importNormals,
+                                                    importAppearances, importAsSolid, importBoundingObjects);
+  if (result == FAILURE)
+    return FAILURE;
+
+  WbGroup *root = WbWorld::instance()->root();
+  result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
+
+  return result;
+}
+
+WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QString &stream, const QString &filename,
+                                                           bool importTextureCoordinates, bool importNormals,
+                                                           bool importAppearances, bool importAsSolid,
+                                                           bool importBoundingObjects) {
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
                               aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
@@ -440,16 +455,11 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
                                                         aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
   if (!scene) {
     WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
-    return result;
+    return FAILURE;
   }
-
-  QString stream = "";
   addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
                importNormals, importAppearances, importAsSolid, importBoundingObjects);
-  WbGroup *root = WbWorld::instance()->root();
-  result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
-
-  return result;
+  return SUCCESS;
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field,
