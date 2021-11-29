@@ -81,6 +81,7 @@ Fog {
 }
 SumoInterface {
   enableWheelsRotation TRUE
+  useNetconvert TRUE
   children [
     DEF TRAFFIC_LIGHT_NORTH Pole {
       translation -3.9 3.9 0

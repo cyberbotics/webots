@@ -93,7 +93,6 @@ DEF FLOOR Solid {
 }
 SumoInterface {
   gui FALSE
-  useNetconvert FALSE
   radius 250
   laneChangeDelay 4
 }

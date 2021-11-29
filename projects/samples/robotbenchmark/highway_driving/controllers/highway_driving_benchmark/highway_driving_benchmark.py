@@ -121,7 +121,6 @@ def add_sumo(supervisor):
         s.close()
     nodeString = 'SumoInterface {'
     nodeString += '  gui FALSE'
-    nodeString += '  useNetconvert FALSE'
     nodeString += '  radius 200'
     nodeString += '  laneChangeDelay 4'
     nodeString += '  enableWheelsRotation TRUE'

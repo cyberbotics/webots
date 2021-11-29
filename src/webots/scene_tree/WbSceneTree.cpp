@@ -1441,7 +1441,7 @@ void WbSceneTree::handleDoubleClickOrEnterPress() {
   else if ((mSelectedItem->isItem() && !mSelectedItem->isNode() && mSelectedItem->field()->isMultiple()) ||
            (mSelectedItem->isField() && !mSelectedItem->isSFNode() && !mSelectedItem->field()->isMultiple()))
     mFieldEditor->currentEditor()->takeKeyboardFocus();
-  // default behavior, collapse/expoand tree item
+  // default behavior, collapse/expand tree item
   else if (mTreeView->isExpanded(mTreeView->currentIndex()))
     mTreeView->collapse(mTreeView->currentIndex());
   else
