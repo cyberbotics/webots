@@ -429,13 +429,6 @@ void wbu_car_set_right_steering_angle(double angle) {
 
   instance->right_angle = angle;
   wb_motor_set_position(instance->steering_motors[0], angle);
-
-  // update steering angle
-  instance->steering_angle = (instance->right_angle + instance->left_angle) * 0.5;
-
-  // move the steering wheel (if any)
-  if (instance->steering_wheel != 0)
-    wb_motor_set_position(instance->steering_wheel, instance->steering_angle * 10);
 }
 
 void wbu_car_set_left_steering_angle(double angle) {
@@ -449,13 +442,6 @@ void wbu_car_set_left_steering_angle(double angle) {
 
   instance->left_angle = angle;
   wb_motor_set_position(instance->steering_motors[1], angle);
-
-  // update steering angle
-  instance->steering_angle = (instance->right_angle + instance->left_angle) * 0.5;
-
-  // move the steering wheel (if any)
-  if (instance->steering_wheel != 0)
-    wb_motor_set_position(instance->steering_wheel, instance->steering_angle * 10);
 }
 
 double wbu_car_get_right_steering_angle() {
