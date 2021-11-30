@@ -116,7 +116,7 @@ webots.View = class View {
     this.animation = new Animation(url, this.x3dScene, this, gui, loop);
   }
 
-  open(url, mode, texturePathPrefix = '') {
+  open(url, mode) {
     const userAgents = navigator.userAgent;
     let chromeAgent = userAgents.indexOf('Chrome') > -1;
     let safariAgent = userAgents.indexOf('Safari') > -1;
@@ -210,6 +210,8 @@ webots.View = class View {
       this.setTimeout(-1);
     this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
+    const texturePathPrefix = url.includes('/') ? url.substring(0, url.lastIndexOf('/') + 1) : '';
+    
     if (mode === 'mjpeg') {
       this.url = url;
       this.multimediaClient = new MultimediaClient(this, this.view3D);
