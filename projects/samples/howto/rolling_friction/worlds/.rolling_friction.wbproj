@@ -5,6 +5,6 @@ sceneTreePerspectives: 000000ff0000000100000002000000c00000011201000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "plugins/physics/rolling_friction/rolling_friction.c"
+textFiles: 1 "plugins/physics/rolling_friction/rolling_friction.c" "controllers/rolling_friction_supervisor/rolling_friction_supervisor.c"
 globalOptionalRendering: CoordinateSystem::Normals
 consoles: Console:All:All

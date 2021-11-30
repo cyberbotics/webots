@@ -4,7 +4,6 @@ WorldInfo {
     "This sample project showcases the effect of modeling rolling friction."
   ]
   title "Rolling friction example"
-  physics "rolling_friction"
   contactProperties [
     ContactProperties {
       material1 "ramp 1"
@@ -74,7 +73,9 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.6187001080124792 -0.4173143520467088 -0.6656267031311034 4.699143993744513
-  position 12.782481654705286 -14.086630321084973 19.293959257110597
+  position 12.098792361222536 -13.810394600638688 18.937037008846634
+}
+TexturedBackground {
 }
 TexturedBackgroundLight {
 }
@@ -221,7 +222,7 @@ Solid {
   contactMaterial "cylinder"
   boundingObject USE CYLINDER
 }
-Solid {
+DEF BALL_1 Solid {
   translation -31 0 3.1
   children [
     DEF SPHERE Shape {
@@ -246,7 +247,7 @@ Solid {
     mass 1
   }
 }
-Solid {
+DEF BALL_2 Solid {
   translation -31 3 3.1
   children [
     DEF SPHERE Shape {
@@ -271,7 +272,7 @@ Solid {
     mass 1
   }
 }
-Solid {
+DEF BALL_3 Solid {
   translation -31 6 3.1
   children [
     DEF SPHERE Shape {
@@ -296,7 +297,7 @@ Solid {
     mass 1
   }
 }
-Solid {
+DEF BALL_4 Solid {
   translation -31 9 3.1
   children [
     DEF SPHERE Shape {
@@ -321,7 +322,7 @@ Solid {
     mass 1
   }
 }
-Solid {
+DEF BALL_5 Solid {
   translation -31 12 3.1
   children [
     DEF SPHERE Shape {
@@ -471,5 +472,8 @@ DEF BALL_10 Solid {
     mass 1
   }
 }
-TexturedBackground {
+Robot {
+  name "supervisor"
+  controller "rolling_friction_supervisor"
+  supervisor TRUE
 }

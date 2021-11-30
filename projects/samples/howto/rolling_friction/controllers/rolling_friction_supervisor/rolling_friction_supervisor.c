@@ -14,31 +14,28 @@
  * limitations under the License.
  */
 
-#include <ode/ode.h>
-#include <plugins/physics.h>
+#include <webots/robot.h>
+#include <webots/supervisor.h>
+#include <stdio.h>
 
-static pthread_mutex_t mutex;  // needed to run with multi-threaded version of ODE
+#define TIME_STEP 32
 
-void webots_physics_init() {
-  pthread_mutex_init(&mutex, NULL);
+int main(int argc, char **argv) {
+  wb_robot_init();
 
-  dBodyID ball;
   char name[8];
+  const double torque[3] = {0, 0, 30};
 
   for (int i = 0; i < 5; ++i) {
     sprintf(name, "BALL_%d", i+6);
-    ball = dWebotsGetBodyFromDEF(name);
-    dBodyAddTorque(ball, 0, 0, 30);
+    const WbNodeRef ball_node = wb_supervisor_node_get_from_def(name);
+    wb_supervisor_node_add_torque(ball_node, torque, false);
   }
-}
 
-void webots_physics_step() {
-}
+  while (wb_robot_step(TIME_STEP) != -1) {
+  };
 
-int webots_physics_collide(dGeomID g1, dGeomID g2) {
+  wb_robot_cleanup();
+
   return 0;
-}
-
-void webots_physics_cleanup() {
-  pthread_mutex_destroy(&mutex);
 }
