@@ -49,14 +49,21 @@ WorldInfo {
       material1 "ramp"
       material2 "ball 8"
       rollingFriction [
-        0, 0.02, 0
+        0, 0.05, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ramp"
+      material2 "ball 9"
+      rollingFriction [
+        0, 0.1, 0
       ]
     }
   ]
 }
 Viewpoint {
-  orientation -0.7089188866657515 -0.3067768501961966 -0.6350763547104329 5.0869229378130685
-  position 25.542615483799267 -42.891008412547514 50.94077988391462
+  orientation 0.727562785262823 0.3497719084851628 0.5901796383604317 1.3671284222473064
+  position 30.2469746073602 -72.74967577830829 45.83360764446491
 }
 Background {
   skyColor [
@@ -101,10 +108,10 @@ DEF TEST_RHO Transform {
   ]
 }
 DEF TEST_RHO2` Transform {
-  translation 0 -16 0
+  translation 0 -26 0
   children [
     Solid {
-      translation -25 0 1.2
+      translation -25 -5 1.2
       rotation 0 1 0 0.2
       children [
         DEF RAMP Shape {
@@ -112,27 +119,27 @@ DEF TEST_RHO2` Transform {
             baseColor 0.180392 0.203922 0.211765
           }
           geometry Box {
-            size 14 10 0.4
+            size 14 40 0.4
           }
         }
       ]
-      name "ramp(2)"
+      name "ramp 2"
       contactMaterial "ramp"
       boundingObject USE RAMP
     }
     Solid {
-      translation 30 0 -0.2
+      translation 30 -5 -0.2
       children [
         DEF RAMP Shape {
           appearance PBRAppearance {
             baseColor 0.180392 0.203922 0.211765
           }
           geometry Box {
-            size 100 10 0.4
+            size 100 40 0.4
           }
         }
       ]
-      name "base(2)"
+      name "base 2"
       contactMaterial "ramp"
       boundingObject USE RAMP
     }
@@ -306,7 +313,7 @@ DEF BALL_6 Solid {
   }
 }
 DEF BALL_7 Solid {
-  translation -31 -20 3.1
+  translation -31 -50 3.1
   children [
     DEF SPHERE Shape {
       appearance PBRAppearance {
@@ -330,8 +337,8 @@ DEF BALL_7 Solid {
     mass 1
   }
 }
-DEF BALL_7 Solid {
-  translation -31 -16 3.1
+DEF BALL_8 Solid {
+  translation -31 -28 3.1
   children [
     DEF SPHERE Shape {
       appearance PBRAppearance {
@@ -349,6 +356,31 @@ DEF BALL_7 Solid {
   ]
   name "ball 8"
   contactMaterial "ball 8"
+  boundingObject USE SPHERE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+DEF BALL_9 Solid {
+  translation -31 -18 3.1
+  children [
+    DEF SPHERE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.5
+        subdivision 3
+      }
+    }
+  ]
+  name "ball 9"
+  contactMaterial "ball 9"
   boundingObject USE SPHERE
   physics Physics {
     density -1

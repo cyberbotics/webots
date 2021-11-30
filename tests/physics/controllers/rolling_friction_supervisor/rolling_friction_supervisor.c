@@ -27,12 +27,20 @@ int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
   char name[8];
-  const double torque[3] = {0, 0, 30};
+  const double spinning_velocity[6] = {0, 0, 0, 0, 0, 20};
+  const double lateral_velocity[6] = {0, 0, 0, -25, 0, 0};
 
-  for (int i = 0; i < 3; ++i) {
-    sprintf(name, "BALL_%d", i+4);
+  for (int i = 4; i < 7; ++i) {
+    sprintf(name, "BALL_%d", i);
     const WbNodeRef ball_node = wb_supervisor_node_get_from_def(name);
-    wb_supervisor_node_add_torque(ball_node, torque, false);
+    wb_supervisor_node_set_velocity(ball_node, spinning_velocity);
+  }
+  
+
+  for (int i = 7; i < 10; ++i) {
+    sprintf(name, "BALL_%d", i);
+    const WbNodeRef ball_node = wb_supervisor_node_get_from_def(name);
+    wb_supervisor_node_set_velocity(ball_node, lateral_velocity);
   }
 
   while (wb_robot_step(TIME_STEP) != -1) {
