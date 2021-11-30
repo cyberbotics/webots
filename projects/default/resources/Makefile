@@ -59,6 +59,7 @@ endif
 ifeq ($(VER_UBUNTU),18.04)
 release debug profile:
 	@echo "# \033[0;33m SUMO won't be installed on linux 18.04, see instruction on Webots SUMO exporter documention.\033[0m"
+	@mkdir $(SUMO_TARGET)
 else
 release debug profile: $(SUMO_TARGET)
 endif
