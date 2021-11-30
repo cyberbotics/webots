@@ -960,7 +960,7 @@ Perhaps add a 'Group' base node, put all your nodes in, and copy paste that
 ##### David Mansolino [Cyberbotics] 05/14/2020 05:34:23
 `@Luftwaffel` instead of relying on ROS, if you are using Python you ca probably use the `transforms3d` python package which allows for example to convert from a rotation matrix to quaternions: [https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat](https://matthew-brett.github.io/transforms3d/reference/transforms3d.quaternions.html#transforms3d.quaternions.mat2quat)
 
-##### Axel M 05/14/2020 09:08:34
+##### Mumuxe 05/14/2020 09:08:34
 `@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
 
@@ -972,7 +972,7 @@ The integration with ROS is super easy too with [http://wiki.ros.org/eigen\_conv
 ##### Luftwaffel [Moderator] 05/14/2020 12:48:46
 > `@Luftwaffel` Although working with ROS, we decided to split the simulation projects with minimal dependencies over ROS other than communication. For 3D Math in Cpp, we're using Eigen, and in python either numpy or numpy + transformations.py (which is standalone of tf)
 
-`@Axel M` 
+`@Mumuxe` 
 
 
 
@@ -1074,7 +1074,7 @@ Is there a way of modifying the usual steering system used in car models?
 ##### David Mansolino [Cyberbotics] 05/25/2020 06:25:16
 You can either convert your car node to base node (right click on the node in the scene-tree) and then you will be able to change the structure, either change directly the `Car.proto` file.
 
-##### Axel M 05/27/2020 16:42:51
+##### Mumuxe 05/27/2020 16:42:51
 I ported the Atom PROTO extension to VSCode : [https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots](https://marketplace.visualstudio.com/items?itemName=pymzor.language-proto-webots)
 
 
@@ -1762,7 +1762,7 @@ In general, Webots is compatible with ROS and ROS2, therefore you can use ROS pa
 ##### JSON Derulo 07/23/2020 08:57:35
 Awesome, thanks
 
-##### csnametala 07/27/2020 16:11:10
+##### samuel.nametala 07/27/2020 16:11:10
 Hello everyone!
 
 I have an e-puck robot in Webots simulations, and I wanted to detect when it hits a wall. How can I solve this?
@@ -7351,7 +7351,7 @@ Hello, I am learning Python, what courses or books do you advise me to continue 
 ##### DrakerDG 11/12/2020 05:25:52
 `@DrVoodoo` thanks a lot 😁👍🏼
 
-##### csnametala 11/12/2020 20:41:08
+##### samuel.nametala 11/12/2020 20:41:08
 Hello everyone!
 
 I am using more than one e-puck robot, and at some point some determined to stop for some reason while the others continue their process, so the problem is that when one is on hold, everyone else is stopping in the simulation.
