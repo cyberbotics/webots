@@ -129,6 +129,7 @@ export default class WebotsView extends HTMLElement {
     this._view.animation = undefined;
     this._hasAnimation = false;
     this.innerHTML = null;
+    this.animationCSS.disabled = true;
   }
 
   hasAnimation() {
@@ -188,6 +189,7 @@ export default class WebotsView extends HTMLElement {
 
     if (typeof this._disconnectCallback === 'function')
       this._disconnectCallback();
+    this.streamingCSS.disabled = true;
   }
 
   hideToolbar() {
@@ -253,6 +255,7 @@ export default class WebotsView extends HTMLElement {
     this._view.destroyWorld();
     this._hasScene = false;
     this.innerHTML = null;
+    this.animationCSS.disabled = true;
   }
 }
 

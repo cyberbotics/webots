@@ -179,14 +179,13 @@ ul {
   padding-left: 0px;
 }
 
-li {
+.animationLi {
   display: block;
   clear: both;
   padding: 1px 8px 1px 8px;
   position: relative;
 }
-
-li:hover {
+.animationLi:hover {
   background: #222;
   cursor: pointer;
 }
