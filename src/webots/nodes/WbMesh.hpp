@@ -50,6 +50,7 @@ protected:
 private:
   // user accessible fields
   WbMFString *mUrl;
+  WbSFString *mName;
   WbDownloader *mDownloader;
 
   WbMesh &operator=(const WbMesh &);  // non copyable

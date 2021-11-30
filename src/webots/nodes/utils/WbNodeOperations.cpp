@@ -283,9 +283,9 @@ bool addTextureMap(QString &stream, const aiMaterial *material, const QString &m
   return false;
 }
 
-void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &referenceFolder,
+void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName, const QString &referenceFolder,
                   bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid,
-                  bool importBoundingObjects) {
+                  bool importBoundingObjects, bool referenceMeshes=true) {
   // extract position, orientation and scale of the node
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
@@ -371,42 +371,49 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
       stream += " } ";
     }
     // extract the geometry
-    stream += " geometry IndexedFaceSet { ";
-    stream += " coord Coordinate { ";
-    stream += " point [ ";
-    for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-      const aiVector3D vertice = mesh->mVertices[j];
-      stream += QString(" %1 %2 %3,").arg(vertice[0]).arg(vertice[1]).arg(vertice[2]);
-    }
-    stream += " ]";
-    stream += " } ";
-    if (importNormals && mesh->HasNormals()) {
-      stream += " normal Normal { ";
-      stream += " vector [ ";
-      for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-        const aiVector3D normal = mesh->mNormals[j];
-        stream += QString(" %1 %2 %3,").arg(normal[0]).arg(normal[1]).arg(normal[2]);
-      }
-      stream += " ]";
-      stream += " } ";
-    }
-    if (importTextureCoordinates && mesh->HasTextureCoords(0)) {
-      stream += " texCoord TextureCoordinate { ";
+    if (referenceMeshes) {
+      stream += " geometry Mesh { ";
+      stream += QString(" url \"%1\"").arg(fileName);
+      stream += QString(" name \"%1\"").arg(mesh->mName.data);
+      stream += " }";
+    } else {
+      stream += " geometry IndexedFaceSet { ";
+      stream += " coord Coordinate { ";
       stream += " point [ ";
       for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-        const aiVector3D texCoord = mesh->mTextureCoords[0][j];
-        stream += QString(" %1 %2,").arg(texCoord[0]).arg(texCoord[1]);
+        const aiVector3D vertice = mesh->mVertices[j];
+        stream += QString(" %1 %2 %3,").arg(vertice[0]).arg(vertice[1]).arg(vertice[2]);
+      }
+      stream += " ]";
+      stream += " } ";
+      if (importNormals && mesh->HasNormals()) {
+        stream += " normal Normal { ";
+        stream += " vector [ ";
+        for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+          const aiVector3D normal = mesh->mNormals[j];
+          stream += QString(" %1 %2 %3,").arg(normal[0]).arg(normal[1]).arg(normal[2]);
+        }
+        stream += " ]";
+        stream += " } ";
+      }
+      if (importTextureCoordinates && mesh->HasTextureCoords(0)) {
+        stream += " texCoord TextureCoordinate { ";
+        stream += " point [ ";
+        for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+          const aiVector3D texCoord = mesh->mTextureCoords[0][j];
+          stream += QString(" %1 %2,").arg(texCoord[0]).arg(texCoord[1]);
+        }
+        stream += " ]";
+        stream += " } ";
+      }
+      stream += " coordIndex [ ";
+      for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
+        const aiFace face = mesh->mFaces[j];
+        stream += QString(" %1 %2 %3 -1").arg(face.mIndices[0]).arg(face.mIndices[1]).arg(face.mIndices[2]);
       }
       stream += " ]";
       stream += " } ";
     }
-    stream += " coordIndex [ ";
-    for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
-      const aiFace face = mesh->mFaces[j];
-      stream += QString(" %1 %2 %3 -1").arg(face.mIndices[0]).arg(face.mIndices[1]).arg(face.mIndices[2]);
-    }
-    stream += " ]";
-    stream += " } ";
     stream += " } ";
   }
 
@@ -416,8 +423,8 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   }
 
   for (unsigned int i = 0; i < node->mNumChildren; ++i)
-    addModelNode(stream, node->mChildren[i], scene, referenceFolder, importTextureCoordinates, importNormals, importAppearances,
-                 importAsSolid, importBoundingObjects);
+    addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals, importAppearances,
+                 importAsSolid, importBoundingObjects, referenceMeshes);
 
   stream += " ] ";
   if (importAsSolid) {
@@ -457,7 +464,7 @@ WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QSt
     WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return FAILURE;
   }
-  addModelNode(stream, scene->mRootNode, scene, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
+  addModelNode(stream, scene->mRootNode, scene, filename, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
                importNormals, importAppearances, importAsSolid, importBoundingObjects);
   return SUCCESS;
 }

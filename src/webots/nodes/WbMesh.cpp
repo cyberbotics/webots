@@ -33,6 +33,7 @@
 
 void WbMesh::init() {
   mUrl = findMFString("url");
+  mName = findSFString("name");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
 }
@@ -171,6 +172,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     // merge all the meshes of this node
     for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
       const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      if (mName->value() != "" && mName->value() != mesh->mName.data)
+        continue;
 
       for (size_t j = 0; j < mesh->mNumVertices; ++j) {
         // extract the coordinate
