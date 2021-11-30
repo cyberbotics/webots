@@ -536,7 +536,6 @@ export default class Animation {
 
     const settingsList = document.createElement('ul');
     settingsList.id = 'settings-list';
-    settingsList.className = 'animationUl';
     this._settingsPane.appendChild(settingsList);
 
     this._createResetViewpoint();
@@ -547,7 +546,6 @@ export default class Animation {
 
   _createResetViewpoint() {
     const resetViewpoint = document.createElement('li');
-    resetViewpoint.className = 'animationLi';
     resetViewpoint.onclick = () => this._resetViewpoint();
     document.getElementById('settings-list').appendChild(resetViewpoint);
 
@@ -564,7 +562,6 @@ export default class Animation {
   _createChangeShadows() {
     const shadowLi = document.createElement('li');
     shadowLi.id = 'enable-shadows';
-    shadowLi.className = 'animationLi';
     document.getElementById('settings-list').appendChild(shadowLi);
 
     let label = document.createElement('span');
@@ -599,7 +596,6 @@ export default class Animation {
   _createChangeGtao() {
     const gtaoLi = document.createElement('li');
     gtaoLi.id = 'gtao-settings';
-    gtaoLi.className = 'animationLi';
     document.getElementById('settings-list').appendChild(gtaoLi);
     gtaoLi.onclick = () => this._openGtaoPane();
 
@@ -633,11 +629,10 @@ export default class Animation {
     this._view3d.appendChild(this._gtaoPane);
 
     const gtaoList = document.createElement('ul');
-    gtaoList.className = 'animationUl';
     this._gtaoPane.appendChild(gtaoList);
 
     let gtaoLevelLi = document.createElement('li');
-    gtaoLevelLi.className = 'first-li animationLi';
+    gtaoLevelLi.className = 'first-li';
 
     let label = document.createElement('div');
     label.className = 'arrow-left';
@@ -656,7 +651,6 @@ export default class Animation {
 
     for (let i of ['Low', 'Normal', 'High', 'Ultra']) {
       gtaoLevelLi = document.createElement('li');
-      gtaoLevelLi.className = 'animationLi';
       gtaoLevelLi.id = i;
       label = document.createElement('span');
       if (this._gtaoLevelToText(GtaoLevel) === i)
@@ -679,7 +673,6 @@ export default class Animation {
   _createChangeSpeed() {
     const playbackLi = document.createElement('li');
     playbackLi.id = 'playback-li';
-    playbackLi.className = 'animationLi';
     document.getElementById('settings-list').appendChild(playbackLi);
     playbackLi.onclick = () => this._openSpeedPane();
 
@@ -712,12 +705,11 @@ export default class Animation {
     this._speedPane.style.visibility = 'hidden';
 
     const speedList = document.createElement('ul');
-    speedList.className = 'animationUl';
     this._speedPane.appendChild(speedList);
     this._view3d.appendChild(this._speedPane);
 
     let playbackLi = document.createElement('li');
-    playbackLi.className = 'first-li animationLi';
+    playbackLi.className = 'first-li';
 
     let label = document.createElement('div');
     label.className = 'arrow-left';
@@ -737,7 +729,6 @@ export default class Animation {
     for (let i of ['0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2']) {
       playbackLi = document.createElement('li');
       playbackLi.id = i;
-      playbackLi.className = 'animationLi';
       label = document.createElement('span');
       if (i === '1')
         label.innerHTML = '&check;';
