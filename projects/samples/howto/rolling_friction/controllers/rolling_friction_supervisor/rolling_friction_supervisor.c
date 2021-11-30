@@ -24,12 +24,19 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   char name[8];
-  const double torque[3] = {0, 0, 30};
+  const double lateral_velocity[6] = {0, 0, 0, 0, 10, 0};
+  const double spinning_velocity[6] = {0, 0, 0, 0, 0, 20};
 
-  for (int i = 0; i < 5; ++i) {
-    sprintf(name, "BALL_%d", i+6);
+  for (int i = 6; i < 11; ++i) {
+    sprintf(name, "BALL_%d", i);
     const WbNodeRef ball_node = wb_supervisor_node_get_from_def(name);
-    wb_supervisor_node_add_torque(ball_node, torque, false);
+    wb_supervisor_node_set_velocity(ball_node, lateral_velocity);
+  }
+
+  for (int i = 11; i < 16; ++i) {
+    sprintf(name, "BALL_%d", i);
+    const WbNodeRef ball_node = wb_supervisor_node_get_from_def(name);
+    wb_supervisor_node_set_velocity(ball_node, spinning_velocity);
   }
 
   while (wb_robot_step(TIME_STEP) != -1) {
