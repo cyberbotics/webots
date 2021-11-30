@@ -22,12 +22,13 @@ static pthread_mutex_t mutex;  // needed to run with multi-threaded version of O
 void webots_physics_init() {
   pthread_mutex_init(&mutex, NULL);
 
-  const dBodyID rhoN_ball = dWebotsGetBodyFromDEF("RHO_N");
-  const dBodyID asd = dWebotsGetBodyFromDEF("ASD");
+  dBodyID ball;
+  char name[8];
 
-  if (rhoN_ball && asd) {
-    dBodyAddTorque(rhoN_ball, 0, 20, 0);
-    dBodyAddTorque(asd, 0, 20, 0);
+  for (int i = 0; i < 5; ++i) {
+    sprintf(name, "BALL_%d", i+6);
+    ball = dWebotsGetBodyFromDEF(name);
+    dBodyAddTorque(ball, 0, 0, 30);
   }
 }
 
