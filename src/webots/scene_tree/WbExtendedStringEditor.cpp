@@ -411,6 +411,8 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     const WbSkin *skin = dynamic_cast<const WbSkin *>(parentNode);
     if (skin)
       return SKIN_URL;
+    if (parentNode->fullName() == "ColladaShapes")
+      return COLLADA_URL;
     return TEXTURE_URL;
   } else if (fieldName == "solidName")
     return SOLID_REFERENCE;
@@ -557,6 +559,9 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
                  "*.3ds *.3DS *.bvh *.BVH *.blend *.BLEND *.dae *.DAE *.fbx *.FBX *.stl *.STL *.obj *.OBJ *.x3d *.X3D");
     case SKIN_URL:
       selectFile("meshes", "Meshes", "*.fbx *.FBX");
+      break;
+    case COLLADA_URL:
+      selectFile("meshes", "Collada files", "*.dae *.DAE");
       break;
     default:
       return false;

@@ -5,25 +5,21 @@
 # template language: javascript
 
 PROTO ColladaShapes [
-  field SFString  path   ""
+  field SFString  url  ""  # URL of a Collada file (similar to ImageTexture node)
 ]
 {
   %<
-    let path = fields.path.value;
-    if (!wbfile.fileExists(path)) {
-      console.error(`The given Collada path (${path}) is not valid.`);
-      path = fields.path.defaultValue;
+    let url = fields.url.value;
+    if (!wbfile.fileExists(url)) {
+      console.error(`The given Collada url (${url}) is not valid.`);
+      url = fields.url.defaultValue;
     }
-
-    let vrml = '';
-    if (path !== '')
-        vrml = wbcollada.getVrmlFromFile(path);
   >%
 
 Group {
     children [
-        %< if (vrml !== '') { >%
-            %<= vrml >%
+        %< if (url !== '') { >%
+            %<= wbcollada.getVrmlFromFile(url) >%
         %< } >%
     ]
 }
