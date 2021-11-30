@@ -949,11 +949,7 @@ function createRobotComponent(view) {
     robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
 
     // Load the robot X3D file.
-    webotsView.open(
-      computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d',
-      undefined,
-      computeTargetPath() + 'scenes/' + robotName + '/'
-    );
+    webotsView.open(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
 
     // Load the robot meta JSON file.
     fetch(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.meta.json')
