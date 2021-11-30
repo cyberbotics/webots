@@ -423,7 +423,7 @@ void wbu_car_set_right_steering_angle(double angle) {
     return;
 
   if (isnan(angle)) {
-    fprintf(stderr, "Warning: wbu_car_set_right_steering_angle() called with an invalid 'angle' argument (NaN)\n");
+    fprintf(stderr, "Warning: %s() called with an invalid 'angle' argument (NaN)\n", __FUNCTION__);
     return;
   }
 
