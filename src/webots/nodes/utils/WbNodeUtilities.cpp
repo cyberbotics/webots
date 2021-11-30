@@ -1199,9 +1199,10 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       } else {
         candidate->warn(message.arg("B2"));
         WbTransform *const transform = new WbTransform();
-        static_cast<WbGroup *>(parent)->removeChild(nodeToRotate);
-        transform->addChild(nodeToRotate);
-        static_cast<WbGroup *>(parent)->addChild(transform);
+        WbNode *newNode = nodeToRotate->cloneAndReferenceProtoInstance();
+        WbNodeOperations::instance()->initNewNode(transform, parent, parent->findField("children"), 0);
+        WbNodeOperations::instance()->deleteNode(nodeToRotate);
+        WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
         transform->setRotation(WbRotation(rotationFix));
         transform->save("__init__");
       }
