@@ -20,4 +20,20 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 WEBOTS_LIBRARY = 1
 C_SOURCES = $(wildcard src/*.c)
 
+LIBRARIES = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController
+MAIN_TARGET = $(LIB_PREFIX)car$(SHARED_LIB_EXTENSION)
+LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
+
+ifeq ($(OSTYPE),linux)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
+endif
+
+ifeq ($(OSTYPE),darwin)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
+endif
+
+ifeq ($(OSTYPE),windows)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
+endif
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
