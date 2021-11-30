@@ -168,7 +168,7 @@ static double compute_output_torque() {
   if (real_rpm == instance->car->engine_max_rpm)  // maximum rotation speed of the motor, we don't want to increase it !
     output_torque = 0;
 
-  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarely
+  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarily
   // does not touch the ground)
   if (fabs(instance->car->max_acceleration) > ACCELERATION_THRESHOLD)
     output_torque *= (ACCELERATION_THRESHOLD / fabs(instance->car->max_acceleration));
