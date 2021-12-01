@@ -73,13 +73,19 @@ PROTO Extrusion [
     // recompute orientation array after subdivision (if any)
     if (splineSubdivision > 1) {
       let orientationOriginal = [];
-      for (let i = 0; i < nbOrientation; ++i)
-        orientationOriginal[i] = orientation[i];
+      let effectiveNbOrientation = nbOrientation;
+      if (effectiveNbOrientation === 1) {
+        effectiveNbOrientation = nbSpinePoints;
+        orientationOriginal = new Array(nbSpinePoints).fill(orientation[0]);
+      } else {
+        for (let i = 0; i < effectiveNbOrientation; ++i)
+          orientationOriginal[i] = orientation[i];
+      }
 
       orientationOriginal.push({x: 0, y: 1, z: 0, a: 0});
       orientationOriginal.push({x: 0, y: 1, z: 0, a: 0});
 
-      for (let j = 0; j < nbOrientation * splineSubdivision; ++j) {
+      for (let j = 0; j < effectiveNbOrientation * splineSubdivision; ++j) {
         let ratio = (j % splineSubdivision) / splineSubdivision;
         let index = Math.floor(j / splineSubdivision);
         orientation[j] = {x: orientationOriginal[index].x * (1 - ratio) + orientationOriginal[index+1].x * ratio,
