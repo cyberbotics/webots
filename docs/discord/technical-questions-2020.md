@@ -14815,9 +14815,9 @@ Another question, we edited the img files in the thymio2 file to `<i>` files and
 It looks like there might be an error in your Javascript code...
 
 ##### Dobby 05/13/2020 13:18:57
-`@Robin` will send a screenshot now
+`@RobinS` will send a screenshot now
 
-##### Robin 05/13/2020 13:20:12
+##### RobinS 05/13/2020 13:20:12
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/710119209903980574/unknown.png)
