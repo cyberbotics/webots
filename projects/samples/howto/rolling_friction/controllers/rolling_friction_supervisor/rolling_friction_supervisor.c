@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+#include <stdio.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#include <stdio.h>
 
 #define TIME_STEP 32
 
@@ -24,19 +24,16 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   char name[8];
-  const double lateral_velocity[6] = {0, 0, 0, 0, 10, 0};
+  const double lateral_velocity[6] = {0, 0, 0, 20, 0, 0};
   const double spinning_velocity[6] = {0, 0, 0, 0, 0, 20};
 
-  for (int i = 6; i < 11; ++i) {
+  for (int i = 6; i < 16; ++i) {
     sprintf(name, "BALL_%d", i);
     const WbNodeRef ball_node = wb_supervisor_node_get_from_def(name);
-    wb_supervisor_node_set_velocity(ball_node, lateral_velocity);
-  }
-
-  for (int i = 11; i < 16; ++i) {
-    sprintf(name, "BALL_%d", i);
-    const WbNodeRef ball_node = wb_supervisor_node_get_from_def(name);
-    wb_supervisor_node_set_velocity(ball_node, spinning_velocity);
+    if (i < 11)
+      wb_supervisor_node_set_velocity(ball_node, lateral_velocity);
+    else
+      wb_supervisor_node_set_velocity(ball_node, spinning_velocity);
   }
 
   while (wb_robot_step(TIME_STEP) != -1) {

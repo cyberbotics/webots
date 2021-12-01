@@ -40,33 +40,36 @@ WorldInfo {
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 6"
+      rollingFriction [
+        0, 0.1
+      ]
     }
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 7"
       rollingFriction [
-        0, 2e-05, 0
+        0, 0.08
       ]
     }
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 8"
       rollingFriction [
-        0, 0.05
+        0, 0.06
       ]
     }
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 9"
       rollingFriction [
-        0, 0.07
+        0, 0.04
       ]
     }
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 10"
       rollingFriction [
-        0, 0.09
+        0, 0.022
       ]
     }
     ContactProperties {
@@ -104,44 +107,24 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.9997140062298794 -0.013404315175158414 -0.01980479948118163 5.092919747352386
-  position 6.762144072773819 -0.12004373129203394 13.814194820468016
+  orientation -0.5859964054965938 -0.38626092418316005 -0.7123276712259903 4.789894550256377
+  position 58.82831465826933 -14.27389523434427 46.73180952244738
 }
 TexturedBackground {
+  luminosity 0.5
 }
 TexturedBackgroundLight {
 }
-Solid {
-  rotation 1 0 0 1.57079632679
-  children [
-    DEF PLANE Shape {
-      appearance DamascusSteel {
-        textureTransform TextureTransform {
-          scale 20 20
-        }
-      }
-      geometry Plane {
-        size 200 200
-      }
-    }
-  ]
-  name "floor"
-  boundingObject USE PLANE
-}
 DEF RHO Transform {
-  translation -20 0 0
+  translation 10 27 1
+  rotation 0 0 -1 1.57
   children [
     Solid {
       translation 0 -6 1.2
       rotation 0 1 0 0.2
       children [
         DEF RAMP Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/varnished_wood.jpg"
-              ]
-            }
+          appearance Copper {
           }
           geometry Box {
             size 14 2 0.4
@@ -153,16 +136,26 @@ DEF RHO Transform {
       boundingObject USE RAMP
     }
     Solid {
+      translation 21.75 -6 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 1 base"
+      contactMaterial "ramp 1"
+      boundingObject USE RAMP
+    }
+    Solid {
       translation 0 -3 1.2
       rotation 0 1 0 0.2
       children [
         DEF RAMP Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/varnished_wood.jpg"
-              ]
-            }
+          appearance Copper {
           }
           geometry Box {
             size 14 2 0.4
@@ -174,16 +167,26 @@ DEF RHO Transform {
       boundingObject USE RAMP
     }
     Solid {
+      translation 21.75 -3 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 2 base"
+      contactMaterial "ramp 2"
+      boundingObject USE RAMP
+    }
+    Solid {
       translation 0 0 1.2
       rotation 0 1 0 0.2
       children [
         DEF RAMP Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/varnished_wood.jpg"
-              ]
-            }
+          appearance Copper {
           }
           geometry Box {
             size 14 2 0.4
@@ -195,16 +198,26 @@ DEF RHO Transform {
       boundingObject USE RAMP
     }
     Solid {
+      translation 21.75 0 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 3 base"
+      contactMaterial "ramp 3"
+      boundingObject USE RAMP
+    }
+    Solid {
       translation 0 3 1.2
       rotation 0 1 0 0.2
       children [
         DEF RAMP Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/varnished_wood.jpg"
-              ]
-            }
+          appearance Copper {
           }
           geometry Box {
             size 14 2 0.4
@@ -216,16 +229,26 @@ DEF RHO Transform {
       boundingObject USE RAMP
     }
     Solid {
+      translation 21.75 3 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 4 base"
+      contactMaterial "ramp 4"
+      boundingObject USE RAMP
+    }
+    Solid {
       translation 0 6 1.2
       rotation 0 1 0 0.2
       children [
         DEF RAMP Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/varnished_wood.jpg"
-              ]
-            }
+          appearance Copper {
           }
           geometry Box {
             size 14 2 0.4
@@ -236,11 +259,27 @@ DEF RHO Transform {
       contactMaterial "ramp 5"
       boundingObject USE RAMP
     }
+    Solid {
+      translation 21.75 6 -0.2
+      children [
+        DEF RAMP Shape {
+          appearance Copper {
+          }
+          geometry Box {
+            size 30 2 0.4
+          }
+        }
+      ]
+      name "ramp 5 base"
+      contactMaterial "ramp 5"
+      boundingObject USE RAMP
+    }
     DEF BALL_1 Solid {
       translation -6 -6 3.1
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -266,6 +305,7 @@ DEF RHO Transform {
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -291,6 +331,7 @@ DEF RHO Transform {
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -316,6 +357,7 @@ DEF RHO Transform {
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -341,6 +383,7 @@ DEF RHO Transform {
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -364,23 +407,17 @@ DEF RHO Transform {
   ]
 }
 DEF RHO_2 Transform {
-  translation 10 20 0
-  rotation 0 0 1 -1.57
+  translation -20 0 0
   children [
     Solid {
-      translation 0 0 1.2
-      rotation 0 1 0 0.2
+      translation 0 0 1.25
+      rotation 0 1 0 0.15
       children [
         DEF RAMP Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/varnished_wood.jpg"
-              ]
-            }
+          appearance DamascusSteel {
           }
           geometry Box {
-            size 14 30 0.4
+            size 26 30 0.4
           }
         }
       ]
@@ -388,11 +425,27 @@ DEF RHO_2 Transform {
       contactMaterial "wide ramp"
       boundingObject USE RAMP
     }
+    Solid {
+      translation 25.74 0 -0.7
+      children [
+        DEF RAMP Shape {
+          appearance DamascusSteel {
+          }
+          geometry Box {
+            size 26 30 0.4
+          }
+        }
+      ]
+      name "wide ramp base"
+      contactMaterial "wide ramp"
+      boundingObject USE RAMP
+    }
     DEF BALL_6 Solid {
-      translation -6 -6 3.1
+      translation -12 -11 3.76
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -414,10 +467,11 @@ DEF RHO_2 Transform {
       }
     }
     DEF BALL_7 Solid {
-      translation -6 -3 3.1
+      translation -12 -7 3.76
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -439,10 +493,11 @@ DEF RHO_2 Transform {
       }
     }
     DEF BALL_8 Solid {
-      translation -6 0 3.1
+      translation -12 -2 3.76
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -464,10 +519,11 @@ DEF RHO_2 Transform {
       }
     }
     DEF BALL_9 Solid {
-      translation -6 3 3.1
+      translation -12 4 3.76
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -489,10 +545,11 @@ DEF RHO_2 Transform {
       }
     }
     DEF BALL_10 Solid {
-      translation -6 6 3.1
+      translation -12 14 3.76
       children [
         DEF SPHERE Shape {
           appearance PBRAppearance {
+            baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
                 "textures/water.jpg"
@@ -516,18 +573,13 @@ DEF RHO_2 Transform {
   ]
 }
 DEF RHO_N Transform {
-  translation 0 0 4
+  translation -2 10 1
   children [
     Solid {
       rotation 1 0 0 1.57079632679
       children [
         DEF CYLINDER Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/varnished_wood.jpg"
-              ]
-            }
+          appearance HammeredCopper {
           }
           geometry Cylinder {
             height 0.5
