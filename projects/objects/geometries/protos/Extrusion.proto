@@ -35,7 +35,7 @@ PROTO Extrusion [
     const orientation = fields.orientation.value;
     const nbOrientation = orientation.length;
 
-    ////////////////////////////// 1. Scale the cross Section + Spine Subdivision//////////////////////
+////////////////////////////// 1. Scale the cross Section + Spine Subdivision //////////////////////////////
     // check and complement the scale array
     let scale = fields.scale.value;
     let nbScale = scale.length;
@@ -94,9 +94,9 @@ PROTO Extrusion [
                           a: orientationOriginal[index].a * (1 - ratio) + orientationOriginal[index+1].a * ratio};
       }
     }
-    /////////////////////////////////////// 2. automatic cross-section orientation /////////////////////////////////////
+////////////////////////////// 2. automatic cross-section orientation //////////////////////////////
 
-    // compute the X, Y and Z axes at each spine point (Z = tangent)
+    // compute the X, Y and Z axes at each spine point (Y = tangent)
     let X = [];
     let Y = [];
     let Z = [];
@@ -106,81 +106,81 @@ PROTO Extrusion [
       Z.push({x: 0, y: 0, z: 0});
       if (i === 0 || i === nbSpinePoints - 1) {
         if (wbvector3.equal(spine[0], spine[nbSpinePoints - 1])) { // closed spine
-          Z[i].x = spine[1].x - spine[nbSpinePoints-2].x;
-          Z[i].y = spine[1].y - spine[nbSpinePoints-2].y;
-          Z[i].z = spine[1].z - spine[nbSpinePoints-2].z;
-          Y[i] = wbvector3.cross(wbvector3.minus(spine[1], spine[0]), wbvector3.minus(spine[nbSpinePoints-2], spine[0]));
+          Y[i].x = spine[1].x - spine[nbSpinePoints-2].x;
+          Y[i].y = spine[1].y - spine[nbSpinePoints-2].y;
+          Y[i].z = spine[1].z - spine[nbSpinePoints-2].z;
+          Z[i] = wbvector3.cross(wbvector3.minus(spine[1], spine[0]), wbvector3.minus(spine[nbSpinePoints-2], spine[0]));
         } else if (i === 0) { // open spine and first spine
-          Z[i].x = spine[1].x - spine[0].x;
-          Z[i].y = spine[1].y - spine[0].y;
-          Z[i].z = spine[1].z - spine[0].z;
+          Y[i].x = spine[1].x - spine[0].x;
+          Y[i].y = spine[1].y - spine[0].y;
+          Y[i].z = spine[1].z - spine[0].z;
 
-          //The Y-axis used for the first spine point is the same as the Y-axis for spine[1] => Y[0] = Y[1]
+          //The Z-axis used for the first spine point is the same as the Z-axis for spine[1] => Z[0] = Z[1]
           if (nbSpinePoints > 2)
-            Y[i] = wbvector3.cross(wbvector3.minus(spine[2], spine[1]), wbvector3.minus(spine[0], spine[1]));
+            Z[i] = wbvector3.cross(wbvector3.minus(spine[2], spine[1]), wbvector3.minus(spine[0], spine[1]));
 
-          // If the Y-axis of the first point is undefined (because the spine is not closed and the first two spine segments are collinear) then the Y-axis for the first spine point with a defined Y-axis is used.
-          if (Y[i].x === 0 && Y[i].y === 0 && Y[i].z === 0) {
+          // If the Z-axis of the first point is undefined (because the spine is not closed and the first two spine segments are collinear) then the Z-axis for the first spine point with a defined Z-axis is used.
+          if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
             for (let k = 1; k < nbSpinePoints - 1; ++k) {
-              Y[k] = wbvector3.cross(wbvector3.minus(spine[k+1], spine[k]), wbvector3.minus(spine[k-1], spine[k]));
-              if (Y[k].x !== 0 || Y[k].y !== 0 || Y[k].z !== 0) {
-                Y[i] = Y[k];
+              Z[k] = wbvector3.cross(wbvector3.minus(spine[k+1], spine[k]), wbvector3.minus(spine[k-1], spine[k]));
+              if (Z[k].x !== 0 || Z[k].y !== 0 || Z[k].z !== 0) {
+                Z[i] = Z[k];
                 break;
               }
             }
           }
 
-          if (Y[i].x === 0 && Y[i].y === 0 && Y[i].z === 0) { // if Y still colinear, it means that the entire spine is collinear.
-            // If the entire spine is collinear, the SCP is computed by finding the rotation of a vector along the positive Z-axis (v1)
-            //to the vector formed by the spine points (v2). The Z=0 plane is then rotated by this value.
-            // v2 is actually just our Z variable. }
+          if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) { // if Z still colinear, it means that the entire spine is collinear.
+            // If the entire spine is collinear, the SCP is computed by finding the rotation of a vector along the positive Y-axis (v1)
+            //to the vector formed by the spine points (v2). The Y=0 plane is then rotated by this value.
+            // v2 is actually just our Y variable. }
 
             //implementation taken from https://github.com/bradenmcd/openvrml/blob/45877f95a713cdfd8736a41073ed9a349db4c495/src/libopenvrml-gl/openvrml/gl/viewer.cpp#L2436
-            Y[i].x = 0;
-            Y[i].y = 0;
-            Y[i].z = 1;
-            if (!(Z[i].x === 0 && Z[i].y !== 0 && Z[i].z === 0)) {
+            Z[i].x = 0;
+            Z[i].y = 0;
+            Z[i].z = 1;
+            if (!(Y[i].x === 0 && Y[i].y !== 0 && Y[i].z === 0)) {
               let vec = {x: 0, y: 1, z: 0}
-              let axis = wbvector3.normalize({x: (vec.y * Z[i].z - vec.z * Z[i].y), y: (vec.z * Z[i].x - vec.x * Z[i].z), z: (vec.x * Z[i].y - vec.y * Z[i].x)});
-              let angle = Math.acos(wbvector3.dot(vec, Z[i]) / (wbvector3.norm(vec) * wbvector3.norm(Z[i])));
-              Y[i] = wbrotation.rotateVector3ByRotation({x: axis.x, y: axis.y, z: axis.z, a: angle}, Y[i]);
+              let axis = wbvector3.normalize({x: (vec.y * Y[i].z - vec.z * Y[i].y), y: (vec.z * Y[i].x - vec.x * Y[i].z), z: (vec.x * Y[i].y - vec.y * Y[i].x)});
+              let angle = Math.acos(wbvector3.dot(vec, Y[i]) / (wbvector3.norm(vec) * wbvector3.norm(Y[i])));
+              Z[i] = wbrotation.rotateVector3ByRotation({x: axis.x, y: axis.y, z: axis.z, a: angle}, Z[i]);
             }
           }
 
           // make sure to always select the clockwise version of the perpendicular
-          if (Y[i].x > 0 || Y[i].y > 0 || Y[i].z > 0) {
-            Y[i].x = -Y[i].x;
-            Y[i].y = -Y[i].y;
-            Y[i].z = -Y[i].z;
+          if (Z[i].x > 0 || Z[i].y > 0 || Z[i].z > 0) {
+            Z[i].x = -Z[i].x;
+            Z[i].y = -Z[i].y;
+            Z[i].z = -Z[i].z;
           }
         } else { // last spine
-          Z[i].x = spine[nbSpinePoints-1].x - spine[nbSpinePoints-2].x;
-          Z[i].y = spine[nbSpinePoints-1].y - spine[nbSpinePoints-2].y;
-          Z[i].z = spine[nbSpinePoints-1].z - spine[nbSpinePoints-2].z;
-          Y[i] = Y[i-1];
+          Y[i].x = spine[nbSpinePoints-1].x - spine[nbSpinePoints-2].x;
+          Y[i].y = spine[nbSpinePoints-1].y - spine[nbSpinePoints-2].y;
+          Y[i].z = spine[nbSpinePoints-1].z - spine[nbSpinePoints-2].z;
+          Z[i] = Z[i-1];
         }
       } else { // all other spines
-        Z[i].x = spine[i+1].x - spine[i-1].x;
-        Z[i].y = spine[i+1].y - spine[i-1].y;
-        Z[i].z = spine[i+1].z - spine[i-1].z;
-        Y[i] = wbvector3.cross(wbvector3.minus(spine[i+1], spine[i]), wbvector3.minus(spine[i-1], spine[i]));
+        Y[i].x = spine[i+1].x - spine[i-1].x;
+        Y[i].y = spine[i+1].y - spine[i-1].y;
+        Y[i].z = spine[i+1].z - spine[i-1].z;
+        Z[i] = wbvector3.cross(wbvector3.minus(spine[i+1], spine[i]), wbvector3.minus(spine[i-1], spine[i]));
 
         //if colinear the value from the previous point is used instead.
-        if (Y[i].x === 0 && Y[i].y === 0 && Y[i].z === 0) {
-          Y[i].x = Y[i-1].x;
-          Y[i].y = Y[i-1].y;
-          Y[i].z = Y[i-1].z;
+        if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
+          Z[i].x = Z[i-1].x;
+          Z[i].y = Z[i-1].y;
+          Z[i].z = Z[i-1].z;
         }
       }
 
       if (i !== 0) {
-        //After determining the Y-axis, its dot product with the Y-axis of the previous spine point is computed. If this value is negative, the Y-axis is flipped (multiplied by -1).
-        if (wbvector3.dot(Y[i], Y[i-1]) < 0)
-          Y[i] = wbvector3.multiply(Y[i], -1);
+        //After determining the Z-axis, its dot product with the Z-axis of the previous spine point is computed. If this value is negative, the Z-axis is flipped (multiplied by -1).
+        if (wbvector3.dot(Z[i], Z[i-1]) < 0)
+          Z[i] = wbvector3.multiply(Z[i], -1);
       }
-      X[i] = wbvector3.cross(Z[i], Y[i]); // positive area of the parallelogram having Z and Y as sides
+      X[i] = wbvector3.cross(Y[i], Z[i]); // positive area of the parallelogram having Y and Z as sides
 
-      ////////////////////////////////////////// 3. Normalize + Compute distances ///////////////////////////////////
+////////////////////////////// 3. Normalize + Compute distances //////////////////////////////
 
       // normalize axes
       if (wbvector3.norm(X[i]) !== 0)
@@ -202,7 +202,7 @@ PROTO Extrusion [
     let crossSectionDistance = [0];
     for (let i = 1; i < nbCrossSectionPoint; ++i)
       crossSectionDistance.push(crossSectionDistance[i-1] + wbvector2.distance(crossSection[i-1], crossSection[i]));
-    /////////////////////////////////////// 4. Create IndexedFaceSet /////////////////////////////////////
+////////////////////////////// 4. Create IndexedFaceSet //////////////////////////////
   >%
   IndexedFaceSet {
     coord Coordinate {
@@ -210,7 +210,7 @@ PROTO Extrusion [
         %< for (let i = 0; i < nbSpinePoints; ++i) { >%
           %< for (let j = 0; j < nbCrossSectionPoint; ++j) { >%
             %<
-              let point = wbvector3.add(wbvector3.multiply(X[i], crossSection[j].x * scale[i].x), (wbvector3.multiply(Y[i], -crossSection[j].y * scale[i].y)));
+              let point = wbvector3.add(wbvector3.multiply(X[i], crossSection[j].x * scale[i].x), (wbvector3.multiply(Z[i], -crossSection[j].y * scale[i].y)));
               if (orientation[i] !== undefined)
                 point = wbrotation.rotateVector3ByRotation(orientation[i], point);
 
