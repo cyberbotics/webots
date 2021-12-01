@@ -346,7 +346,7 @@ Do you know why I am getting this error?
 ##### Bitbots\_Jasper [Moderator] 01/23/2021 19:02:50
 you seem to be missiong ros-<version>-console-bridge
 
-##### adiagr 01/24/2021 18:32:16
+##### Aditya Agrawal 01/24/2021 18:32:16
 You can first threshold the image and then find contours in the image. Select the contour with the maximum area. Finally, find centroid of that contour and use it as an input to a PID controller or something similar to drive your robot
 
 ##### Luftwaffel [Moderator] 01/25/2021 15:11:40
@@ -2757,7 +2757,7 @@ It looks like there was some discussion of doing what `@mironix<inactive>` sugge
 ##### mironix<inactive> 10/13/2021 10:39:12
 thanks `@Justin Fisher` i'll check this out
 
-##### Meghana|Contributor 10/18/2021 02:44:57
+##### Meghana|GDSC 10/18/2021 02:44:57
 Hi
 
 
