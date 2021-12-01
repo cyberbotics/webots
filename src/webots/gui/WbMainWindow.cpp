@@ -85,6 +85,10 @@
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
 
+#include <QtCore/QDirIterator>
+#include <QtCore/QObject>
+#include <QtNetwork/QHttpMultiPart>
+#include <QtNetwork/QNetworkReply>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMainWindow>
@@ -93,6 +97,7 @@
 #include <QtWidgets/QProgressDialog>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QStyle>
+#include "WbNetwork.hpp"
 
 #ifdef _WIN32
 #include <QtWebKit/QWebSettings>
@@ -1593,27 +1598,102 @@ void WbMainWindow::exportVrml() {
 void WbMainWindow::exportHtml() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbWorld *world = WbWorld::instance();
-
-  QString fileName = findHtmlFileName("Export HTML Model");
-  if (fileName.isEmpty()) {
-    WbSimulationState::instance()->setMode(currentMode);
-    return;
-  }
-
-  if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
-    world->exportAsHtml(fileName, false);
-    WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
-    openUrl(fileName,
-            tr("The HTML5 model has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
-               "Note: please refer to the "
-               "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
-               "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
-               "if your browser prevents local files CORS requests.")
-              .arg(fileName),
-            tr("Export HTML5 Model"));
+  int result = WbMessageBox::question(
+    tr("Do you want to upload your scene on "
+       "<a style='color: #5DADE2;' href='https://beta.webots.cloud/scene'>https://beta.webots.cloud</a>?"),
+    this, tr("Export HTML5 scene"), QMessageBox::Cancel, QMessageBox::Yes);
+  if (result == QMessageBox::Yes) {
+    world->exportAsHtml("/tmp/export_html.html", false);
+    sendRequest();
   }
 
   WbSimulationState::instance()->setMode(currentMode);
+}
+
+void WbMainWindow::sendRequest() {
+  QNetworkRequest request(QUrl("https://beta.webots.cloud/ajax/animation/create.php"));
+
+  QMap<QString, QString> map;
+  QString tmpFolderName = "/tmp/";
+  QStringList filenames;
+  filenames << "export_html.x3d";
+  filenames << QDir(tmpFolderName + "textures/")
+                 .entryList(QStringList() << "*.jpg"
+                                          << "*.JPG"
+                                          << "*.jpeg"
+                                          << "*.png"
+                                          << "*.hdr",
+                            QDir::Files);
+
+  QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+  QHttpPart mainPart;
+  QHttpPart infoPart;
+
+  foreach (QString filename, filenames) {
+    if (filename.contains("x3d")) {
+      map["foldername"] = tmpFolderName;
+      map["name"] = "\"scene-file\"";
+    } else {
+      map["foldername"] = tmpFolderName + "textures/";
+      map["name"] = "\"textures[]\"";
+    }
+
+    mainPart.setHeader(QNetworkRequest::ContentDispositionHeader,
+                       QVariant("form-data; name=" + map["name"] + "; filename=\"" + filename));
+
+    // read file content
+    QFile *file = new QFile(map["foldername"] + filename);
+    file->open(QIODevice::ReadOnly);
+    mainPart.setBodyDevice(file);
+    file->setParent(multiPart);
+
+    multiPart->append(mainPart);
+  }
+  QMap<QString, QString> infos;
+  infos["type"] = "S";
+  infos["user"] = "null";
+  infos["password"] = "null";
+
+  QMapIterator<QString, QString> i(infos);
+  while (i.hasNext()) {
+    i.next();
+    infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"" + i.key()));
+    infoPart.setBody(i.value().toUtf8());
+    multiPart->append(infoPart);
+  }
+
+  QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
+  multiPart->setParent(reply);
+  connect(reply, &QNetworkReply::finished, this, &WbMainWindow::downloadReplyFinished, Qt::UniqueConnection);
+}
+
+void WbMainWindow::downloadReplyFinished() {
+  QNetworkReply *reply = dynamic_cast<QNetworkReply *>(sender());
+  assert(reply);
+  if (!reply)
+    return;
+
+  disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::downloadReplyFinished);
+
+  const QStringList answer = QString(reply->readAll().data()).split(",");
+  foreach (QString values, answer) {
+    if (values.contains("url")) {
+      QString url = values.split("\"")[3];
+      url.remove(QChar('\\'), Qt::CaseInsensitive);
+
+      WbMessageBox::info(tr("Upload successfull.<br>Link: "
+                            "<a style='color: #5DADE2;' href='%1'>%1</a>")
+                           .arg(url),
+                         this, tr("Export HTML5 Scene"));
+    } else {
+      QString error;
+      if (reply->error())
+        error = reply->errorString();
+      else
+        error = "Wrong server answer.";
+      WbMessageBox::info(tr("Upload failed. Error::%1").arg(error), this, tr("Export HTML5 Scene"));
+    }
+  }
 }
 
 void WbMainWindow::showAboutBox() {

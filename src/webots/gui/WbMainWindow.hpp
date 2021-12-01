@@ -96,6 +96,7 @@ private slots:
   void importVrml();
   void exportVrml();
   void exportHtml();
+  void sendRequest();
   void showAboutBox();
   void show3DViewingInfo();
   void show3DMovingInfo();
@@ -221,6 +222,8 @@ private slots:
   void prepareNodeRegeneration(WbNode *node);
   void discardNodeRegeneration() { finalizeNodeRegeneration(NULL); }
   void finalizeNodeRegeneration(WbNode *node);
+
+  void downloadReplyFinished();
 };
 
 #endif
