@@ -7,6 +7,7 @@ Such a system may be distributed on several machines.
 One machine runs a session server that communicates with several simulation servers.
 Each machine runs one instance of simulation server that receives requests from the session server and instantiates for each connected client a new Webots instance that communicates directly with the client.
 Webots instances are executed in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/).
+Therefore binary or Python controllers coming from the outside world may be executed safely on the simulation servers.
 
 The Web Simulation system is still work in progress and could change in the next releases of Webots.
 
@@ -18,20 +19,20 @@ The prerequisites for the server machine(s) are the following:
 
 - Ubuntu 18.04 or 20.04 LTS (Windows and macOS X are also supported, but should not be used for production purposes)
 - Webots latest version
-- Python 3.8
+- Python 3.8 or newer
 - Web service dependencies ([Windows instructions](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies#webots-web-service), [Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
 
 Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md).
 They may however be virtual machine, such as AWS instances.
-GPU instances are strongly recommended for performance reasons, especially if the simulation involves sensors relying on OpenGL rendering (cameras, lidars, etc.).
+GPU instances are strongly recommended for performance reasons, especially if the simulation involves sensors relying on OpenGL rendering (cameras, lidars, range-finders).
 
 #### Overview
 
 In order to run Webots in the cloud, you need to run at least one session server and one or more simulation servers.
 The simulation servers should run on different machines while the session server may run on a machine where a simulation server is running.
-Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/released/resources/web/server/)".
+Both servers are Python scripts named `simulation_server.py` and `session_server.py` and located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/cyberbotics/webots/tree/released/resources/web/server/)".
 
-Note that Webots have to be installed on all the machines where a simulation server is running.
+Of course, Webots has to be installed on all the machines where a simulation server is running.
 
 %figure "Web simulation server network infrastructure"
 
@@ -42,7 +43,7 @@ Note that Webots have to be installed on all the machines where a simulation ser
 
 #### Quick Start
 This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
-We assume you use Ubuntu 18.04 or newer.
+We assume you use Ubuntu 20.04 or newer.
 
 First, you need to install dependencies:
 ```bash
@@ -57,7 +58,7 @@ cd $WEBOTS_HOME/resources/web/server
 The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer).
 A task of the simulation server is to start a Webots instance with the correct world.
 
-To show the user interface simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
+To show the user interface, simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
 In the user interface, find a `Connect to` field, and type for example:
 ```
 ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/develop/projects/languages/python/worlds/example.wbt
@@ -65,7 +66,7 @@ ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/de
 Click the `Connect` button to initiate the streaming.
 Webots will clone the `example.wbt` simulation from GitHub and start it.
 
-If you want to stop the session and simulation servers run:
+If you want to stop both the session and simulation servers, run the following:
 ```
 cd $WEBOTS_HOME/resources/web/server
 ./server.sh stop
@@ -81,9 +82,10 @@ Whenever this situation changes, the session server will notify the web clients.
 Note that the session server will never send twice the same value, it sends only changes in the availability of simulation servers.
 
 When a web client wants to start a simulation, it will send an AJAX request to the session server.
-The session server will then send the WebSocket URL of an available simulation server or an error if none are available. The web client will then contact directly the simulation server to startup the simulation.
+The session server will then send the WebSocket URL of an available simulation server or an error if none are available.
+The web client will then contact directly the simulation server to start-up the simulation.
+The projects files requested by the client should be stored on some GitHub repository, which will be checked out on the simulation server machine.
 The simulation server will start Webots with the simulation requested by the client.
-The projects files requested by the client should be stored on the website host and requested by the simulation server through an AJAX request at `<host>/ajax/download_project.php`.
 Then, the simulation server will send the WebSocket URL of Webots, so that the client can communicate directly with Webots.
 If the WebSocket connection to the simulation server is closed or broken, the simulation server will close Webots.
 If Webots quits, the simulation server will notify the web client and close the connection with it.
@@ -211,7 +213,6 @@ HTTP request handlers:
 
 WebSocket request handlers:
 * The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload have to contain a `init` value or a `start` value:
-- `init` should contain the following data: `[host, projectPart, worldFilename, user1Id, user1Name, user1Authentication, user2Id, user2Name, customData]`. This data is then used to retrieve the simulation data and setup the Webots project.
 - `start` should contain the following data: `[url]`.
 
 #### Network Settings
@@ -411,37 +412,18 @@ If you want to publish the simulation server on the web, then you may need to se
 
 ### Website Host
 
-Depending on the `/client` request message, `init` or `start` (experimental), the simulation server will download the simulation data:
+Depending on the `/client` request message and `start` command (experimental), the simulation server will download the simulation data:
 
-#### `init` Simulation Data Download
-
-The host where the client website is running should have a `ajax` named folder at the root level containing these scripts:
-* `download-project.php`: a script that returns a zipped archive containing the Webots simulation files to be run. It receives these parameters as POST data:
-  * `user1Id`: id identifying the owner of the project, if an accounted application is used.
-  * `user1Authentication`: password hash or authentication data for the user.
-  * `key`: key identifying the host to authenticate the sender.
-  * `project`: name of the Webots project to be downloaded.
-* `upload-file.php`: a script that uploads the new controller version when the user modifies and saves it from the editor in the web interface. The POST parameters are:
-  * `dirname`: name of the directory where the file has to be uploaded, mainly consisting on the project name.
-  * `filename`: name of the file to be uploaded.
-  * `content`: content of the file to be stored.
-
-Sample PHP files are located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/released/resources/web/templates/)".
-
-#### `start` Simulation Data Download (Experimental)
-
-Webots will checkout the simulation data from the provided `url` using a custom URI scheme as exemplified below:
+Webots will checkout the simulation data from the provided `url` pointing to a Webots world file on a GitHub repository:
 ```
-webots://github.com/john/simulation/tag/v1.0/project/worlds/sample.wbt
-└─┬──┘   └───┬────┘└──────┬───────┘└───┬───┘└───────────┬────────────┘
-scheme   authority   repository     version            path
+https://github.com/alice/my_simulation/blob/my_brand_new_version/project/worlds/my_world_file.wbt
+                   └────────┬────────┘      └─────────┬────────┘ └──────────────┬───────────────┘
+                        repository            git tag or branch         path to world file
 ```
-Currently this protocol only supports public GitHub repositories.
-The `version` part support both `/tag/<tag_name>` and `/branch/<branch_name>` formats to refer either to a Git tag or a Git branch.
-In the above sample URL, the simulation server will checkout the content of the `/project` directory and start Webots with the specified `sample.wbt` world file.
+Currently, this protocol only supports public GitHub repositories.
+In the above sample URL, the simulation server will checkout the content of the `/project` directory and start Webots with the specified `my_world_file.wbt` world file.
 
-This protocol is experimental and doesn't support modifying the source code of robot controllers from the web interface.
-Also the robot windows are not yet supported.
+This protocol is experimental and the robot windows are not yet supported.
 
 #### How to Embed a Web Scene in Your Website
 
@@ -487,13 +469,8 @@ An example of a file using this API is available [here](https://cyberbotics1.epf
 The scene refresh rate is defined by the `WorldInfo.FPS` field.
 The same fields as in the [web animation](web-animation.md#limitations) are updated.
 
-### Limitations
-
-The streaming server has the same limitations as the [Web streaming](web-streaming.md#limitations).
-
 ### Technologies and Limitations
 
+The streaming server has the same limitations as the [Web animation](web-animation.md#remarks-on-the-used-technologies-and-their-limitations) and the [Web streaming](web-streaming.md#limitations).
 The data is sent to the clients using [WebSockets](https://www.websocket.org/).
-In case of related issues, make sure that `WebSockets` are enabled in your Web browser settings.
-
-Please refer to the limitations described in [this section](web-animation.md#remarks-on-the-used-technologies-and-their-limitations).
+The WebSockets should therefore be enabled in your Web browser (this is the default setting).
