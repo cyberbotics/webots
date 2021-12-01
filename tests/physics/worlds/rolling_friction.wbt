@@ -63,7 +63,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.727562785262823 0.3497719084851628 0.5901796383604317 1.3671284222473064
-  position 30.2469746073602 -72.74967577830829 45.83360764446491
+  position 62.211790125387786 -77.85302327395193 52.80249643616056
 }
 Background {
   skyColor [
@@ -387,12 +387,14 @@ DEF BALL_9 Solid {
     mass 1
   }
 }
-Robot {
-  name "supervisor"
+DEF SUPERVISOR Robot {
   children [
     TestSuiteEmitter {
     }
   ]
+  name "supervisor"
   controller "rolling_friction_supervisor"
   supervisor TRUE
+}
+TestSuiteSupervisor {
 }
