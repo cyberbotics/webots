@@ -167,7 +167,7 @@ This plugins is an example of:
 - How to move objects.
 - How to handle collisions.
 
-### [rolling_friction.wbt]({{ url.github_tree }}/projects/samples/howto/rope/worlds/rolling_friction.wbt)
+### [rolling\_friction.wbt]({{ url.github_tree }}/projects/samples/howto/rope/worlds/rolling_friction.wbt)
 
 **Keywords**: [ContactProperties](../reference/contactproperties.md), rolling friction
 
