@@ -107,11 +107,11 @@ PROTO CrashBarrier [
             ]
             splineSubdivision %<= fields.subdivision.value >%
             crossSection [
-              %<= 0 >% %<= side * lateralOffset >%
-              %<= -barHeight >% %<= side * lateralOffset >%
-              %<= -barHeight >% %<= side * (lateralOffset + 2 * barThickness) >%
-              %<= 0 >% %<= side * (lateralOffset + 2 * barThickness) >%
-              %<= 0 >% %<= side * lateralOffset >%
+              %<= side * lateralOffset >% %<= 0 >%
+              %<= side * lateralOffset >% %<= barHeight >%
+              %<= side * (lateralOffset + 2 * barThickness) >% %<= barHeight >%
+              %<= side * (lateralOffset + 2 * barThickness) >% %<= 0 >%
+              %<= side * lateralOffset >% %<= 0 >%
             ]
           }
         ]
