@@ -31,14 +31,14 @@ WorldInfo {
       material1 "box"
       material2 "ball 5"
       rollingFriction [
-        0, 0, 0.04
+        0, 0, 0.03
       ]
     }
     ContactProperties {
       material1 "box"
       material2 "ball 6"
       rollingFriction [
-        0, 0, 0.08
+        0, 0, 0.06
       ]
     }
     ContactProperties {
