@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
   // rolling behavior it will be detected)
   const double expected_positions[9][3] = {
     {-5.822856, -3.0, 0.498430},       {-14.564553, 0.0, 0.498392},      {-25.145860, 3.0, 1.942235},
-    {-16.000000, -8.0, 1.498430},      {-14.0, -8.0, 1.498430},          {-12.0, -8.0, 1.498430},
+    {-16.0, -8.0, 1.498430},           {-14.0, -8.0, 1.498430},          {-12.0, -8.0, 1.498430},
     {-5.822856, -27.511330, 0.498430}, {1.171054, -19.324655, 0.498430}, {1.171054, -13.936790, 0.498430}};
   const double expected_velocities[9][6] = {{5.957204, 0.0, 0.0, 0.0, 11.951927, 0.0},
                                             {4.164077, 0.0, 0.000304, 0.0, 8.355176, 0.0},
@@ -116,10 +116,10 @@ int main(int argc, char **argv) {
     const double *position = wb_supervisor_node_get_position(ball_nodes[i]);
     const double *velocity = wb_supervisor_node_get_velocity(ball_nodes[i]);
 
-    ts_assert_doubles_in_delta(3, position, expected_positions[i], 1e-6, "Position of %s is different from expected one.",
+    ts_assert_doubles_in_delta(3, position, expected_positions[i], 1e-6, "Position of %s is different from theexpected one.",
                                name);
-    ts_assert_doubles_in_delta(6, velocity, expected_velocities[i], 1e-6, "Velocities of %s are different from expected one.",
-                               name);
+    ts_assert_doubles_in_delta(6, velocity, expected_velocities[i], 1e-6,
+                               "Velocities of %s are different from the expected ones.", name);
   }
 
   ts_send_success();

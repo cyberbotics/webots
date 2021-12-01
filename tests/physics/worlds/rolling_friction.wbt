@@ -389,6 +389,10 @@ DEF BALL_9 Solid {
 }
 Robot {
   name "supervisor"
+  children [
+    TestSuiteEmitter {
+    }
+  ]
   controller "rolling_friction_supervisor"
   supervisor TRUE
 }

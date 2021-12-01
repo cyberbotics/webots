@@ -167,6 +167,12 @@ This plugins is an example of:
 - How to move objects.
 - How to handle collisions.
 
+### [rolling_friction.wbt]({{ url.github_tree }}/projects/samples/howto/rope/worlds/rolling_friction.wbt)
+
+**Keywords**: Rolling frictin
+
+![rolling_friction.png](images/samples/rolling_friction.thumbnail.jpg)
+
 ### [rope.wbt]({{ url.github_tree }}/projects/samples/howto/rope/worlds/rope.wbt)
 
 **Keywords**: [BallJoint](../reference/balljoint.md), rope
