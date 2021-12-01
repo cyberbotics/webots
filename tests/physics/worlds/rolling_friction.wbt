@@ -12,16 +12,12 @@ WorldInfo {
     ContactProperties {
       material1 "ramp"
       material2 "ball 2"
-      rollingFriction [
-        0.04
-      ]
+      rollingFriction 0.04 0 0
     }
     ContactProperties {
       material1 "ramp"
       material2 "ball 3"
-      rollingFriction [
-        0.08
-      ]
+      rollingFriction 0.08 0 0
     }
     ContactProperties {
       material1 "box"
@@ -30,16 +26,12 @@ WorldInfo {
     ContactProperties {
       material1 "box"
       material2 "ball 5"
-      rollingFriction [
-        0, 0, 0.03
-      ]
+      rollingFriction 0 0 0.03
     }
     ContactProperties {
       material1 "box"
       material2 "ball 6"
-      rollingFriction [
-        0, 0, 0.06
-      ]
+      rollingFriction 0 0 0.06
     }
     ContactProperties {
       material1 "ramp"
@@ -48,16 +40,12 @@ WorldInfo {
     ContactProperties {
       material1 "ramp"
       material2 "ball 8"
-      rollingFriction [
-        0, 0.05, 0
-      ]
+      rollingFriction 0 0.05 0
     }
     ContactProperties {
       material1 "ramp"
       material2 "ball 9"
-      rollingFriction [
-        0, 0.1, 0
-      ]
+      rollingFriction 0 0.1 0
     }
   ]
 }

@@ -8,30 +8,22 @@ WorldInfo {
     ContactProperties {
       material1 "ramp 1"
       material2 "ball 1"
-      rollingFriction [
-        0.04
-      ]
+      rollingFriction 0.04 0 0
     }
     ContactProperties {
       material1 "ramp 2"
       material2 "ball 2"
-      rollingFriction [
-        0.03
-      ]
+      rollingFriction 0.03 0 0
     }
     ContactProperties {
       material1 "ramp 3"
       material2 "ball 3"
-      rollingFriction [
-        0.02
-      ]
+      rollingFriction 0.02 0 0
     }
     ContactProperties {
       material1 "ramp 4"
       material2 "ball 4"
-      rollingFriction [
-        0.01
-      ]
+      rollingFriction 0.01 0 0
     }
     ContactProperties {
       material1 "ramp 5"
@@ -40,37 +32,27 @@ WorldInfo {
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 6"
-      rollingFriction [
-        0, 0.1
-      ]
+      rollingFriction 0 0.1 0
     }
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 7"
-      rollingFriction [
-        0, 0.08
-      ]
+      rollingFriction 0 0.08 0
     }
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 8"
-      rollingFriction [
-        0, 0.06
-      ]
+      rollingFriction 0 0.06 0
     }
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 9"
-      rollingFriction [
-        0, 0.04
-      ]
+      rollingFriction 0 0.04 0
     }
     ContactProperties {
       material1 "wide ramp"
       material2 "ball 10"
-      rollingFriction [
-        0, 0.022
-      ]
+      rollingFriction 0 0.022 0
     }
     ContactProperties {
       material1 "cylinder"
@@ -79,30 +61,22 @@ WorldInfo {
     ContactProperties {
       material1 "cylinder"
       material2 "ball 12"
-      rollingFriction [
-        0, 0, 0.04
-      ]
+      rollingFriction 0 0 0.04
     }
     ContactProperties {
       material1 "cylinder"
       material2 "ball 13"
-      rollingFriction [
-        0, 0, 0.03
-      ]
+      rollingFriction 0 0 0.03
     }
     ContactProperties {
       material1 "cylinder"
       material2 "ball 14"
-      rollingFriction [
-        0, 0, 0.02
-      ]
+      rollingFriction 0 0 0.02
     }
     ContactProperties {
       material1 "cylinder"
       material2 "ball 15"
-      rollingFriction [
-        0, 0, 0.01
-      ]
+      rollingFriction 0 0 0.01
     }
   ]
 }

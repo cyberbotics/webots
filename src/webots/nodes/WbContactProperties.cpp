@@ -25,7 +25,7 @@ void WbContactProperties::init() {
   mMaterial2 = findSFString("material2");
   mCoulombFriction = findMFDouble("coulombFriction");
   mFrictionRotation = findSFVector2("frictionRotation");
-  mRollingFriction = findMFDouble("rollingFriction");
+  mRollingFriction = findSFVector3("rollingFriction");
   mBounce = findSFDouble("bounce");
   mBounceVelocity = findSFDouble("bounceVelocity");
   mForceDependentSlip = findMFDouble("forceDependentSlip");
@@ -90,7 +90,7 @@ void WbContactProperties::postFinalize() {
   connect(mMaterial2, &WbSFString::changed, this, &WbContactProperties::valuesChanged);
   connect(mCoulombFriction, &WbSFDouble::changed, this, &WbContactProperties::updateCoulombFriction);
   connect(mFrictionRotation, &WbSFVector2::changed, this, &WbContactProperties::updateFrictionRotation);
-  connect(mRollingFriction, &WbMFDouble::changed, this, &WbContactProperties::updateRollingFriction);
+  connect(mRollingFriction, &WbSFVector3::changed, this, &WbContactProperties::updateRollingFriction);
   connect(mBounce, &WbSFDouble::changed, this, &WbContactProperties::updateBounce);
   connect(mBounceVelocity, &WbSFDouble::changed, this, &WbContactProperties::updateBounceVelocity);
   connect(mForceDependentSlip, &WbSFDouble::changed, this, &WbContactProperties::updateForceDependentSlip);
@@ -132,19 +132,11 @@ void WbContactProperties::updateFrictionRotation() {
 }
 
 void WbContactProperties::updateRollingFriction() {
-  const int nbElements = mRollingFriction->size();
-  if (nbElements < 1 || nbElements > 3) {
-    parsingWarn(tr("'rollingFriction' must have between one and three elements"));
+  const WbVector3 &rf = mRollingFriction->value();
+  if ((rf[0] != -1.0 && rf[0] < 0.0) || (rf[1] != -1.0 && rf[1] < 0.0) || (rf[2] != -1.0 && rf[2] < 0.0)) {
+    parsingWarn(tr("'rollingFriction' values must be positive or -1.0. Field value reset to 0 0 0."));
+    mRollingFriction->setValue(0, 0, 0);
     return;
-  }
-
-  for (int c = 0; c < nbElements; ++c) {
-    const double rf = mRollingFriction->item(c);
-    if (rf < 0.0) {
-      parsingWarn(tr("'rollingFriction' must be non-negative. Field value reset to 0"));
-      mRollingFriction->setItem(c, 0.0);
-      return;
-    }
   }
 
   if (areOdeObjectsCreated())

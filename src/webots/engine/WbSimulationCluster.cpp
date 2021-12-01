@@ -200,7 +200,6 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
 
   // default values
   int frictionSize = 1;
-  int rollingFrictionSize = 1;
   int fdsSize = 1;
   double mu[4] = {1.0, 0.0, 0.0, 0.0};
   double rho[3] = {0.0, 0.0, 0.0};
@@ -222,7 +221,6 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       if (cp->material2() == s1->contactMaterial())
         inversed = true;
       frictionSize = cp->coulombFrictionSize();
-      rollingFrictionSize = cp->rollingFrictionSize();
       bounce = cp->bounce();
       bounce_vel = cp->bounceVelocity();
       fdsSize = cp->forceDependentSlipSize();
@@ -233,8 +231,9 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
         if (mu[j] == -1.0)
           mu[j] = dInfinity;
       }
-      for (j = 0; (j < rollingFrictionSize) && (j < 3); ++j)
-        rho[j] = cp->rollingFriction(j);
+      const WbVector3 rf = cp->rollingFriction();
+      for (j = 0; j < 3; ++j)
+        rho[j] = rf[j] == -1.0 ? dInfinity : rf[j];
       for (j = 0; (j < fdsSize) && (j < 4); ++j)
         fds[j] = cp->forceDependentSlip(j);
       // get friction direction only if needed
@@ -277,19 +276,19 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       contact->fdir1[1] = globalFdirS1[1];
       contact->fdir1[2] = globalFdirS1[2];
     }
-  } else  // fully symetric contact (slip and friction)
+  } else  // fully symmetric contact (slip and friction)
     contact->surface.mode = (bounce != 0.0 ? dContactBounce : 0) | dContactApprox1 | dContactSoftCFM | dContactSoftERP;
 
-  // handle asymetric friction
-  if (frictionSize <= 1)  // symetric friction
+  // handle asymmetric friction
+  if (frictionSize <= 1)  // symmetric friction
     contact->surface.mu = mu[0];
-  else {  // asymetric friction
+  else {  // asymmetric friction
     // compute mu1 and mu2 (length of globalFdirS1 and globalFdirS2 is assumed to be 1)
     double vectorAngle = globalFdirS1.angle(globalFdirS2);
     double ratio1 = fabs(cos(vectorAngle));
     double ratio2 = fabs(sin(vectorAngle));
     double mu1, mu2;
-    if (frictionSize == 3) {  // second solid has symetric friction
+    if (frictionSize == 3) {  // second solid has symmetric friction
       mu1 = mu[0] + mu[2];
       mu2 = mu[1] + mu[2];
     } else if (frictionSize == 2) {  // both solids have asymetric friction (with same coefficients)
@@ -318,7 +317,7 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
   }
 
   // handle asymetric slip
-  if (fdsSize <= 1) {  // symetric slip
+  if (fdsSize <= 1) {  // symmetric slip
     contact->surface.slip1 = fds[0];
     contact->surface.slip2 = fds[0];
     contact->surface.mode = contact->surface.mode | (fds[0] != 0.0 ? dContactSlip1 | dContactSlip2 : 0);
@@ -328,7 +327,7 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
     double ratio1 = fabs(cos(vectorAngle));
     double ratio2 = fabs(sin(vectorAngle));
     double slip1 = 0, slip2 = 0;
-    if (fdsSize == 3) {  // second solid has symetric slip
+    if (fdsSize == 3) {  // second solid has symmetric slip
       slip1 = fds[0] + fds[2];
       slip2 = fds[1] + fds[2];
       contact->surface.mode = contact->surface.mode | (slip1 != 0.0 ? dContactSlip1 : 0) | (slip2 != 0.0 ? dContactSlip2 : 0);
