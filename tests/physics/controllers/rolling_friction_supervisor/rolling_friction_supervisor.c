@@ -79,8 +79,7 @@ int main(int argc, char **argv) {
     const double expected_linear[3] = {0.0, 0.0, 0.0};
     ts_assert_doubles_in_delta(3, velocities[i], expected_linear, 1e-6, "%s should not have linear speed.", name);
     const double expected_angular[2] = {0.0, 0.0};  // should not be spinning around x and y axis
-    ts_assert_doubles_in_delta(2, velocities[i] + 3, expected_angular, 1e-6, "%s should not be spinning around x or y axis.",
-                               name);
+    ts_assert_doubles_in_delta(2, velocities[i] + 3, expected_angular, 1e-6, "%s should only spin around z.", name);
   }
 
   // check that positions of balls with rho2 rolling friction are consistent
@@ -116,10 +115,8 @@ int main(int argc, char **argv) {
     const double *position = wb_supervisor_node_get_position(ball_nodes[i]);
     const double *velocity = wb_supervisor_node_get_velocity(ball_nodes[i]);
 
-    ts_assert_doubles_in_delta(3, position, expected_positions[i], 1e-6, "Position of %s is different from theexpected one.",
-                               name);
-    ts_assert_doubles_in_delta(6, velocity, expected_velocities[i], 1e-6,
-                               "Velocities of %s are different from the expected ones.", name);
+    ts_assert_doubles_in_delta(3, position, expected_positions[i], 1e-6, "%s position different from expected one.", name);
+    ts_assert_doubles_in_delta(6, velocity, expected_velocities[i], 1e-6, "%s velocity different from expected one.", name);
   }
 
   ts_send_success();

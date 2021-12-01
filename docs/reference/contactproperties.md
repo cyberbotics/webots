@@ -6,6 +6,7 @@ ContactProperties {
   SFString material2          "default"            # any string
   MFFloat  coulombFriction    1                    # [0, inf)
   SFVec2f  frictionRotation   0 0                  # any positive vector
+  SFVec3f  rollingFriction    0                    # rolling/spinning friction
   SFFloat  bounce             0.5                  # [0, 1]
   SFFloat  bounceVelocity     0.01                 # [0, inf)
   MFFloat  forceDependentSlip 0                    # [0, inf)
@@ -59,6 +60,17 @@ WEBOTS\_HOME/projects/sample/howto/asymmetric\_friction/worlds/asymmetric\_frict
 - The `frictionRotation` allows the user to rotate the friction directions used in case of asymmetric `coulombFriction` and/or asymmetric `forceDependentSlip`.
 By default, the directions are the same than the ones used for texture mapping (this can ease defining an asymmetric friction for a textured surface matching the rotation field of the corresponding TextureTransform node).
 WEBOTS\_HOME/projects/sample/howto/asymmetric\_friction/worlds/asymmetric\_friction2.wbt illustrates the use of this field.
+
+- The `rollingFriction` field specifies the coefficients of rolling/spinning friction.
+The field can have up to three coefficients, using ODE's nomenclature they are [rho, rho2, rhoN].
+The field accepts only positive values.
+For a value of zero no rolling friction is applied.
+`rho` is the rolling friction coefficient in the first friction direction.
+`rho2` is the rolling friction coefficient in the second friction direction, perpendicular to that of `rho`.
+`rhoN` is the rolling friction coefficient around the normal direction.
+
+WEBOTS\_HOME/projects/sample/howto/rolling\_friction/worlds/rolling\_friction.wbt illustrates the effect of the different coefficients.
+
 
 - The `bounce` field is the coefficient of restitution (COR) between 0 and 1.
 The coefficient of restitution (COR), or *bounciness* of an object is a fractional value representing the ratio of speeds after and before an impact.

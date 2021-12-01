@@ -299,6 +299,7 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       mu1 = mu[0] + mu[2] * ratio1 + mu[3] * ratio2;
       mu2 = mu[1] + mu[2] * ratio2 + mu[3] * ratio1;
     }
+
     // apply friction contact joint parameters
     contact->surface.mode = contact->surface.mode | dContactMu2;
     contact->surface.mu = mu1;
