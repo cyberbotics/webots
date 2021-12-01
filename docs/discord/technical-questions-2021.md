@@ -12946,7 +12946,7 @@ Also,
 did you mean "Microsoft"? `@jasonc1025`
 
 ##### Deleted User 04/09/2021 21:06:45
-`@sihan` please dont joke around, this is a serious discord server
+`@pisshan` please dont joke around, this is a serious discord server
 
 
 I think its a documentary
@@ -12984,7 +12984,7 @@ your experience may vary though
 alright. also, could you tell more about your "project?". I'm passionate about helping elementry and JH peoples, and want to see if I can help with this is any way
 
 ##### Deleted User 04/09/2021 21:17:43
-`@sihan` i think you sent the wrong emojis for your reactions, you might have misclicked
+`@pisshan` i think you sent the wrong emojis for your reactions, you might have misclicked
 
 ##### thonk enthusiast 04/09/2021 21:18:25
 He called his project "Roboquest" which is the second row on that link he sent to questforspace
@@ -13041,7 +13041,7 @@ Please take a cookie as a sign of my apology 🍪
 Perhaps you should go to a doctor?
 
 ##### Ren is festive 04/09/2021 21:27:52
-`@sihan` this is a serious server, please leave if you are not here to contribute to the webot community, thank you
+`@pisshan` this is a serious server, please leave if you are not here to contribute to the webot community, thank you
 
 ##### Deleted User 04/09/2021 21:28:32
 Your*
@@ -13101,7 +13101,7 @@ not to discredit them but
 [https://cdn.discordapp.com/emojis/693723538552782888.png?size=64](https://cdn.discordapp.com/emojis/693723538552782888.png?size=64)
 
 ##### Luftwaffel [Moderator] 04/09/2021 21:38:51
-`@sihan` This is a technical support server for Webots. Please refrain from using profane language, insulting people and try to conduct yourself in a respectful manner. Otherwise we'll have to ban you.
+`@pisshan` This is a technical support server for Webots. Please refrain from using profane language, insulting people and try to conduct yourself in a respectful manner. Otherwise we'll have to ban you.
 
 
 oh and `@Ren is festive` this was literally the first instance ever I have seen of a troll here, for the year I have been active here
@@ -15248,7 +15248,7 @@ while robot.step(timestep) != -1:
 ##### Yi Zhou 04/26/2021 15:03:55
 Thanks. I'll try😀
 
-##### Abu Haqq 04/26/2021 17:06:15
+##### Abdul Haqq 04/26/2021 17:06:15
 Hi there! I'm a student from New Rochelle High School in the Advanced Robotics class. While using WeBots we ran into several glitches which left me and my classmates stumped. Such examples are as followed: The robot itself glitching through the floor, the robot flinging itself while holding the ring, some portion of the robot being left behind while moving up or down on the Z-axis, and the robot falling through the floor even though physics are enabled. Some of these issues were resolved after shutting down and reopening WeBots but later persisted. If you have a fix to these problems please let me know.
 
 
@@ -15264,7 +15264,7 @@ For now, I am running the web server locally (on the same computer with the cont
 Hello, my HTML export does not contain labels created via "set\_label" method. Should it be there or is it currently not supported?
 
 ##### Luftwaffel [Moderator] 04/26/2021 22:55:08
-`@Abu Haqq` I suggest you fix the warnings that Webots shows you.
+`@Abdul Haqq` I suggest you fix the warnings that Webots shows you.
 
 ##### Yi Zhou 04/27/2021 06:52:21
 Hi, the camera can be enabled, but both color image and depth image cannot show, is it possible because of the kinect camera?
@@ -31565,4 +31565,408 @@ Please upgrade Webots to R2021b-rev1:
 
 ##### Shastro 11/24/2021 09:57:14
 I see, thank you for this! Trying the nightly build from 4 days ago worked! I had looked through the git issues but I must have missed this one. Thank you!
+
+##### JosjaG 11/24/2021 16:15:55
+Hi everyone, 
+
+I have an issue getting a gripper to work properly in webots, and I was hoping someone could help me in the right direction. 
+
+The gripper has two fingers and one motor, and the two fingers are mechanically coupled. I currently implemented the two fingers as HingeJoints with one coupled motor. In that implementation, sending gripper goals works, but collisions are not handled correctly as the fingers are not mechnically linked. Does anyone know of an example for such a situation to help me in the right direction?
+
+
+I fixed it by heavily increasing the maxTorque of the motor, which feels like a hacky solution so if anyone has any suggestions for a cleaner solution, please let me know!
+
+##### DDaniel [Cyberbotics] 11/24/2021 17:48:03
+did you take a look at the example world `coupled_motors` under `file > open sample world`, seems to be what you're looking for
+
+##### DrakerDG 11/25/2021 07:23:10
+Thanks Daniel! Finally I managed to make a robot gripper work, with a parallelogram mechanism, an excellent example, I had already seen it but could not understand it. To be honest it seems like a puzzle. but it contains the concept of motor coupling, physics, relative solids and direction of rotation (multiplier)
+
+
+
+> **Attachment**: [DigiArm\_V3\_2.mp4](https://cdn.discordapp.com/attachments/565154703139405824/913329299354947634/DigiArm_V3_2.mp4)
+
+##### Venkat 11/25/2021 08:11:22
+I am trying to control two different robots and two linear motors sequentially in a project. For each robot and the linear motors, I tried "extern" controllers. For a sequential process execution, I am trying to invoke the controllers from an external bash script, where my intention is to run robots sequentially. For example, robot1->task1; after task1 complete->robot2->task2. But with extern controllers, I dont know how to achieve this, since the "extern" controllers that was invoked doesnt run as the other extern controllers arent invoked. With robot1 performing task1, I want robot2 to be idle and so on. Also I would like to know if I can use supervisor for the whole system, and based on robot names, can I assign the respective task (again seqentially). Thanks.
+
+##### Sebek 11/25/2021 11:03:45
+Hello everyone,
+
+I have a question about adding your own source and header files in C programms. I wanted to seperate all used functions that 
+
+I made from main file so the code would be easier to read/use. For example in main.c i have: 
+
+int func1();
+
+int func2();
+
+
+
+int main(){
+
+\#\# some code
+
+}
+
+
+
+int func1(){
+
+\#\# some code
+
+}
+
+int func2(){
+
+\#\# some code
+
+}
+
+And i want to move func1() and func2() to other source files. So 
+
+I made something like this:
+
+main.c:
+
+\#include "Functions.h"
+
+int main(){
+
+\#\# some code
+
+}
+
+
+
+Functions.h:
+
+int func1();
+
+int func2();
+
+
+
+Functions.c:
+
+\#include "Functions.h"
+
+int func1(){
+
+\#\# some code
+
+}
+
+int func2(){
+
+\#\# some code
+
+}
+
+I know that i also have to edit makefile, but after reading documentation i dont understand how exactly. I tried to add C\_SOURCES and external libraries (INCLUDE, LIBRARIES) but it didnt work. I  couldnt find any example project in internet to check how its properly done so Im asking here. Can someone explain me and/or show how to do that? Thanks in advance!
+
+##### ruminus 11/25/2021 15:47:12
+Greetings,
+
+
+
+I have a proto with a hinge joint. If I stack several of those together (via endpoints), Webots freezes during "processing nodes" loading step. What's going on?
+
+
+
+```PROTO TorqueSensor [
+    ...
+    field SFNode        endpoint            NULL
+]
+{
+    Solid {
+        ...
+        children [
+            Transform {                                 # Children transformation
+                translation             0 0 0
+                rotation                0 1 0 0
+                children[
+                     HingeJoint {
+                        jointParameters HingeJointParameters {axis IS axis}
+                        device [
+                            PositionSensor {
+                                name IS pos_name
+                            }
+                            RotationalMotor {
+                                name IS motor_name
+                                maxVelocity 1e20
+                                maxTorque 1e20
+                            }
+                        ]
+                        endPoint IS endpoint
+                    }
+                ]
+            }
+        ]
+
+        name IS name
+        model                   ""
+        description             ""
+        physics Physics{
+            density -1
+            mass 1
+        }       
+    }
+}
+```
+
+
+
+How it's used. There is also a similar proto with a slider joint - those stack without issues.
+
+
+
+```endpoint TorqueSensor{
+    axis        1 0 0
+    pos_name    "TorqueSensorX_pos"
+    motor_name  "TorqueSensorX_motor"
+    name        "torque sensor x"
+    endpoint TorqueSensor{
+        axis        0 0 -1
+        pos_name    "TorqueSensorY_pos"
+        motor_name  "TorqueSensorY_motor"
+        name        "torque sensor y"
+        endpoint TorqueSensor{
+            axis        0 -1 0
+            pos_name    "TorqueSensorZ_pos"
+            motor_name  "TorqueSensorZ_motor"
+            name        "torque sensor z"
+            endpoint IS endpoint
+        }
+    }
+}
+```
+
+##### rhl\_k 11/25/2021 19:12:18
+Hello all, im want to add a display device that shows the current position of the robot in the arena, can someone help me with it please?
+
+##### SeanLuTW 11/26/2021 00:32:37
+Can I directly set the position of a motor to designated value using Supervisor?
+
+##### [Red Dragons] Mat198 11/26/2021 00:42:36
+Position in space or the motor angle?
+
+##### SeanLuTW 11/26/2021 00:43:01
+Motor angle
+
+##### [Red Dragons] Mat198 11/26/2021 00:47:09
+There is no need to use the supervisor
+
+##### SeanLuTW 11/26/2021 00:52:50
+If using `Motor.setPosition()`, the angle of the motor will rotate to the target angle steply like a real motor, while what I want is to neglect the physics simulation and directly make the angle of the motor to the target value.
+
+##### [Red Dragons] Mat198 11/26/2021 01:01:42
+Got it. Never did that. My suggestion is to use an solid and just set the orientation with supervisor
+
+##### brownie 11/26/2021 03:10:57
+hey yall! anyone figure out how to setup webots with m1? I have it installed via homebrew but im unsure where to get python (from the website, from brew) and should i install python in rosetta or ARM
+
+##### Luftwaffel [Moderator] 11/26/2021 03:11:43
+`@brownie` you should probably use anaconda for python
+
+##### brownie 11/26/2021 03:19:32
+cool, just trying that now. Playing the simulation with a python controller gives the following dlopen error `dlopen(/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/matplotlib/_c_internal_utils.cpython-38-darwin.so, 0x0002): tried: '/Users/umar/Developer/School/Robotics/CSCI3302_Lab5/CSCI3302_Lab5/controllers/lab5_controller/_c_internal_utils.cpython-38-darwin.so' (no such file), '/Applications/Webots.app/lib/controller/_c_internal_utils.cpython-38-darwin.so' (no such file), '/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/matplotlib/_c_internal_utils.cpython-38-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/usr/lib/_c_internal_utils.cpython-38-darwin.so' (no such file)`
+
+##### Luftwaffel [Moderator] 11/26/2021 03:22:44
+you gonna have to google / duck that. But it seems like you are trying to use a x86 compiled file under arm or vice versa
+
+##### brownie 11/26/2021 03:23:37
+yeah so far haven't found anything for it unfortunately. have no clue where its compiled as x86 other than webots itself :(
+
+##### Luftwaffel [Moderator] 11/26/2021 03:24:17
+I have no experience with arm and macs, but maybe you should run everything in rosetta and x86
+
+##### brownie 11/26/2021 03:27:26
+seems like ill have to, thanks! ill keep playing with it
+
+##### Luftwaffel [Moderator] 11/26/2021 03:28:36
+I have no idea how mac and arm works, but perhaps it is possible to have a linux vm running in macOS, like wsl2 in windows.
+
+##### brownie 11/26/2021 03:32:02
+that might work, unsure how itll handle the RAM though, if linux can even be VM'ed that well at the moment
+
+##### Luftwaffel [Moderator] 11/26/2021 03:33:04
+I have no idea. Apple silicon and arm is quite new still, so it will most likely remain a constant struggle when developing for a while
+
+##### brownie 11/26/2021 03:40:28
+got it to work, use the 2021a release
+
+##### TurnDownForWhat 11/26/2021 12:02:41
+`@Justin Fisher`  Hello! If I've understood correctly, I am having the same issues as you with importing from a different package. Basically, I wanna import a class from a sister folder. In my IDE, it accepts me importing the class, however when I run it in Webots I get a NoModuleFoundError. 
+
+If I list all of my modules in python running on a "normal" terminal, I can find my package in the list of modules (by running "help('modules')"), but when I run it on the controller to get the outputs in the Webots terminal, it doesn't find it there. Anyways, I am trying to use a ini file as you do here, but I don't think I'm using it correct
+
+
+If anyone else would happen to know a solution, that would be great! What I am trying to achieve, is to be able to import "moose\_simpleactions\_generator.py" to my controllers, currently I am trying with this structure, because of this description: [https://cyberbotics.com/doc/guide/controller-programming?tab-language=python#shared-libraries](https://cyberbotics.com/doc/guide/controller-programming?tab-language=python#shared-libraries)
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/913777706716524585/unknown.png)
+%end
+
+##### BerkcanBarut 11/26/2021 13:48:15
+Hi guys. Velodyne VLP-16, I am trying to do autonomous driving using this lidar. How do I filter data from lidar? How to visualize lidar data over point cloud? Can you help me ?
+
+##### onurg57 11/26/2021 14:18:24
+Hi. I'm new at webots and previously, i havent used any robotic simulator before. I wonder how can i do performance test on webots. For example position accuracy of mobile robot or its torque etc?
+
+##### [Red Dragons] Mat198 11/26/2021 15:22:29
+You need to be more specific about what you wanna do. Are you doing position control of the wheels? To simulate the torque you need to set the friction force related to the ground and the motors parameters.
+
+##### AP\_LISC 11/27/2021 17:08:17
+I am writing some code to control a robot such that it turns 90 degrees when it sees an obstacle and I noticed that the way the robot rotation angle is represented ( measured clockwise or counter clockwise) seems to be varying at about 180 degrees. Is there a way to force the measurement to be one way or another?
+
+##### jmarsik 11/27/2021 18:02:28
+What is the best approach to debug Webots hang in a complicated scenario (or maybe it isn't?) - we have a simulation with 2 ROS2 external controllers (each in separate ROS2 Python node), 1 Python3 controller running in Webots. All controllers are running synchronized. The simulation runs ok for a moment and then hangs. Webots are still responsive to UI actions, but the time is stopped. But when we do very extensive logging from the main ROS2 controller (that is actually doing something, the other is just calling `supervisor.step(...)` in a loop) we do not see anything that would mean that the hang is happening in the ROS2 code. It looks like that `robot.step(...)` is called and never returns.
+
+
+
+It happens only on my colleague's computer, not on my computer and not on other 2 computers that I have tried.
+
+
+
+I see that the `--disable-gpu` option is probably no longer available (to determine if the hang is caused by some problem with rendering).
+
+
+
+Would you use `gdb` to look into the ROS2 Python node and see if it is waiting in a libcontroller call? And then `gdb` on Webots itself to see if it is waiting somewhere?
+
+##### R\_ 11/27/2021 18:40:02
+does Webots have an option that just runs the simulation directly from code without the GUI? For example, pybullet does this:
+
+
+
+```
+import pybullet as p
+p.connect(p.GUI)
+```
+
+This opens a window with out any GUI stuff
+
+##### jmarsik 11/27/2021 19:00:43
+I'm starting to think that it could be related to some timeout happening in the communication between libController (on ROS2 node side) and Webots main process. Is there anything like this in the implementation? I have discovered that when I pause the ROS2 node through GDB and then resume it again after a few minutes, it behaves exactly the same - time in Webots stops, Webots are responsive to UI actions, ROS2 external controller waits in robot.step(...). When I reset the simulation, the ROS2 node is killed and respawns (we have it set that way), normally it would "connect" again to the simulation and everything will start again, but not in this case - again the time is stopped at 0:00:00:000.
+
+
+Hmm, but it does not happen always 😦
+
+##### tomiio6 11/28/2021 04:12:38
+Hi guys! Is there a way to pause the simulation by controller code? (just like how we click the pause button)
+
+##### SeanLuTW 11/28/2021 04:14:30
+wb\_supervisor\_simulation\_set\_mode(WB\_SUPERVISOR\_SIMULATION\_MODE\_PAUSE)
+
+##### tomiio6 11/28/2021 04:18:01
+Thanks 😁
+
+##### NearMonzter 11/29/2021 05:06:09
+Hi, does anybody know how can I put all the code related with the motors and sensors in an external file. Currently, I'm trying to do this
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/914744016132800573/unknown.png)
+%end
+
+
+But I'm getting this error
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/914744158374215710/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 11/29/2021 10:00:14
+The import of `Motor.hpp` should be in the `arm.hpp` file
+
+##### onurg57 11/29/2021 12:21:46
+Yeah for example position control of wheels and i want to see time response and frequency response. For example bode plot of the response to identify bandwidth of the control systems
+
+##### NearMonzter 11/29/2021 15:47:49
+Thank you for replying. I have changed the header to` arm.hpp `but still getting a similar error
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/914905500372598804/unknown.png)
+%end
+
+##### Darko Lukić [Cyberbotics] 11/30/2021 15:34:02
+I tested the following approach to respawn a controller after the simulation reset and it works:
+
+[https://github.com/cyberbotics/webots\_ros2/issues/38#issuecomment-929247255](https://github.com/cyberbotics/webots_ros2/issues/38#issuecomment-929247255)
+
+
+
+Does it help to you?
+
+##### Dnumgis 11/30/2021 15:50:19
+Hi. I have a webots robot where one of the axes doesn't stay stable. It's position gradualy drifts in on direction then suddenly jumps back. I've tried tweaking the controlPID settings and it seems to have an impact on the behavior, but I'm not able to figure out how to adjust it to get the behavior I want. Are there any resources available that might help set this up right?
+
+## December
+
+##### jirka 12/01/2021 08:33:34
+Hello, I've the project (world, controllers) created in the previous version of Webots (version 6.4). If I try to open the world in the most recent version of Webots, I don't see the robots and other definitions created in the old project (and visible in the older Webots version). Is there a way to import/convert older projects to the current Webots version, please? Thank you for the answer.
+
+##### onurg57 12/01/2021 12:06:16
+Is it possible to do HIL with webots. Embedded controller on mcu connected to webots
+
+##### OmarZwiya 12/01/2021 12:34:24
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/915581598760570951/unknown.png)
+%end
+
+
+can any one help me !?
+
+
+its my first time using webot
+
+
+i've been trying to start a project for like a week and it gave me the same error .. could any one help please
+
+
+i am using mac m1
+
+##### Dnumgis 12/01/2021 12:35:54
+Was just about to ask if you were using a mac m1 🙂
+
+##### OmarZwiya 12/01/2021 12:36:35
+i have the same mac and it worked perfectly in the other
+
+
+😦
+
+##### Dnumgis 12/01/2021 12:37:38
+looks like the python bindings aren't compiled for m1 or nor installed correctly, or there is some bug in selecting the correct file
+
+##### OmarZwiya 12/01/2021 12:38:04
+i tried like 5 diff py version
+
+
+it's drive me crazy
+
+
+i have a homework for tmw and i dont know what to do
+
+##### Dnumgis 12/01/2021 12:39:09
+I don't think the python version is the issue. It's a webots issue. Maybe try downloading another version of webots? Maybe a nightly build?
+
+##### OmarZwiya 12/01/2021 12:58:26
+could you please gimme link for prev release download
+
+
+never mind
+
+
+i found the link in git
+
+##### Dnumgis 12/01/2021 12:59:35
+There are a bunch of things to try here [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)
+
+##### OmarZwiya 12/01/2021 12:59:44
+yup thanks
+
+
+i will try 2019v
+
+
+thanks
 
