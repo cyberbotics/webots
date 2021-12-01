@@ -85,15 +85,15 @@ PROTO CrashBarrier [
       const lateralOffset = 0.01 + poleRadius;
       const side = fields.barrierOnRightSide.value ? -1 : 1;
     >%
-      0 %<= side * poleRadius >%
+      %<= side * poleRadius >% 0
     %< for (let j = 0; j <= angleSubdivision; ++j) { >%
-      %<= -barHeight * j / angleSubdivision >% %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >%
+      %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >% %<= barHeight * j / angleSubdivision >%
     %< } >%
-      %<= -barHeight >% %<= side * poleRadius >%
+      %<= side * poleRadius >% %<= barHeight >%
     %< for (let j = angleSubdivision; j >= 0; --j) { >%
-      %<= -barHeight * j / angleSubdivision >% %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >%
+      %<= side * (lateralOffset + barThickness * (1 + Math.sin(angleOffset + maxAngle * j / angleSubdivision))) >% %<= barHeight * j / angleSubdivision >%
     %< } >%
-      0 %<= side * poleRadius >%
+      %<= side * poleRadius >% 0
     ]
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Transform {
