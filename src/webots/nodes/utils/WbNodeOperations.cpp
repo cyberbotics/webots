@@ -283,9 +283,9 @@ bool addTextureMap(QString &stream, const aiMaterial *material, const QString &m
   return false;
 }
 
-void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName, const QString &referenceFolder,
-                  bool importTextureCoordinates, bool importNormals, bool importAppearances, bool importAsSolid,
-                  bool importBoundingObjects, bool referenceMeshes=true) {
+void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName,
+                  const QString &referenceFolder, bool importTextureCoordinates, bool importNormals, bool importAppearances,
+                  bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false) {
   // extract position, orientation and scale of the node
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
@@ -423,8 +423,8 @@ void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, con
   }
 
   for (unsigned int i = 0; i < node->mNumChildren; ++i)
-    addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals, importAppearances,
-                 importAsSolid, importBoundingObjects, referenceMeshes);
+    addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
+                 importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
 
   stream += " ] ";
   if (importAsSolid) {
@@ -440,7 +440,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
                                                                         bool importAsSolid, bool importBoundingObjects) {
   QString stream = "";
   WbNodeOperations::OperationResult result = getVrmlFromExternalModel(stream, filename, importTextureCoordinates, importNormals,
-                                                    importAppearances, importAsSolid, importBoundingObjects);
+                                                                      importAppearances, importAsSolid, importBoundingObjects);
   if (result == FAILURE)
     return FAILURE;
 
@@ -451,9 +451,9 @@ WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QS
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QString &stream, const QString &filename,
-                                                           bool importTextureCoordinates, bool importNormals,
-                                                           bool importAppearances, bool importAsSolid,
-                                                           bool importBoundingObjects) {
+                                                                             bool importTextureCoordinates, bool importNormals,
+                                                                             bool importAppearances, bool importAsSolid,
+                                                                             bool importBoundingObjects, bool referenceMeshes) {
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
                               aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
@@ -465,7 +465,7 @@ WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QSt
     return FAILURE;
   }
   addModelNode(stream, scene->mRootNode, scene, filename, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
-               importNormals, importAppearances, importAsSolid, importBoundingObjects);
+               importNormals, importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
   return SUCCESS;
 }
 

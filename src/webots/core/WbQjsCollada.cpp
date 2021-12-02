@@ -14,15 +14,16 @@
 
 #include "WbQjsCollada.hpp"
 #include "WbLog.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbStandardPaths.hpp"
 
 QString WbQjsCollada::getVrmlFromFile(const QString &filePath) {
   QString stream = "";
-  WbNodeOperations::OperationResult result = WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, true, true,
-                                                    true, false, false);
+  WbNodeOperations::OperationResult result =
+    WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, true, true, true, false, false, true);
   if (result == WbNodeOperations::OperationResult::FAILURE) {
-    WbLog::instance()->error(QString("JavaScript error: cannot parse the Collada file: %1.").arg(filePath), false, WbLog::PARSING);
+    WbLog::instance()->error(QString("JavaScript error: cannot parse the Collada file: %1.").arg(filePath), false,
+                             WbLog::PARSING);
     return "";
   }
   return stream;
