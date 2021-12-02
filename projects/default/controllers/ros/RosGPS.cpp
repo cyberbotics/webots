@@ -68,23 +68,15 @@ void RosGPS::publishValue(ros::Publisher publisher) {
 }
 
 void RosGPS::publishAuxiliaryValue() {
-  if (mGPS->getSamplingPeriod() > 0)
-    if (mSpeedVectorPublisher.getNumSubscribers() >= 1) {
-      geometry_msgs::PointStamped value;
-      value.header.stamp = ros::Time::now();
-      value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
-      const double *speed_vector = mGPS->getSpeedVector();
-      value.point.x = speed_vector[0];
-      value.point.y = speed_vector[1];
-      value.point.z = speed_vector[2];
-      mSpeedVectorPublisher.publish(value);
-    }
-    if (mSpeedPublisher.getNumSubscribers() >= 1) {
-      webots_ros::Float64Stamped speedValue;
-      speedValue.header.stamp = ros::Time::now();
-      speedValue.data = mGPS->getSpeed();
-      mSpeedPublisher.publish(speedValue);
-    }
+  if (mGPS->getSamplingPeriod() > 0 && mSpeedVectorPublisher.getNumSubscribers() >= 1) {
+    geometry_msgs::PointStamped value;
+    value.header.stamp = ros::Time::now();
+    value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    const double *speed_vector = mGPS->getSpeedVector();
+    value.point.x = speed_vector[0];
+    value.point.y = speed_vector[1];
+    value.point.z = speed_vector[2];
+    mSpeedVectorPublisher.publish(value);
   }
 }
 

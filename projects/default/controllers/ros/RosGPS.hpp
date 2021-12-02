@@ -32,7 +32,6 @@ public:
   ros::Publisher createPublisher() override;
   void publishAuxiliaryValue() override;
   void publishValue(ros::Publisher publisher) override;
-  void publishAuxiliaryValue() override;
   void rosEnable(int samplingPeriod) override { mGPS->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mGPS->getSamplingPeriod(); }
