@@ -68,7 +68,8 @@ geometry IndexedFaceSet {
               - replace zDimension and zSpacing by y
               - translate it on y by -(yDimension -1) * ySpacing
               - inverse the lines of heights with convert.py
-            * For Extrusion, add a rotation on the upper Solid with convert.py, ROTATION = [np.pi/2, -np.pi/2, 0]
+            * For certain Extrusion, you may have to switch the crossSection [y -x] and spine [x z y] fields
+              and change the rotation and translation of the upper Solid.
 
 **Conversion process**
     Here is a list of the conversion process:
@@ -335,8 +336,8 @@ if __name__ == '__main__':
         error_verbose, clean_verbose, warning_verbose = convert_nue_to_enu_world(
             filename, mode, objects_pi, objects_pi_2, objects_minus_pi_2)
         if error_verbose:
-            print('Conversion of \033[33m{}\033[m successfull but incomplete. \r\n■ Need to convert manually: {}'.format(
-                filename, error_verbose))
+            print('''Conversion of \033[33m{}\033[m successful but incomplete. \r\n■ You may need to convert
+                         manually: {}'''.format(filename, error_verbose))
         else:
             if mode == 'clean':
                 print('clean of {} ✅'.format(filename))
