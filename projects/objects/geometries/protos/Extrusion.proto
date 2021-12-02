@@ -115,7 +115,7 @@ PROTO Extrusion [
           Y[i].y = spine[1].y - spine[0].y;
           Y[i].z = spine[1].z - spine[0].z;
 
-          //The Z-axis used for the first spine point is the same as the Z-axis for spine[1] => Z[0] = Z[1]
+          // the Z-axis used for the first spine point is the same as the Z-axis for spine[1] => Z[0] = Z[1]
           if (nbSpinePoints > 2)
             Z[i] = wbvector3.cross(wbvector3.minus(spine[2], spine[1]), wbvector3.minus(spine[0], spine[1]));
 
