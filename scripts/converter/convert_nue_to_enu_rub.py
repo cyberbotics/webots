@@ -68,7 +68,8 @@ geometry IndexedFaceSet {
               - replace zDimension and zSpacing by y
               - translate it on y by -(yDimension -1) * ySpacing
               - inverse the lines of heights with convert.py
-            * For certain Extrusion, you may have to switch the crossSection [y -x] and spine [x z y] fields and change the rotation and translation of the upper Solid.
+            * For certain Extrusion, you may have to switch the crossSection [y -x] and spine [x z y] fields
+              and change the rotation and translation of the upper Solid.
 
 **Conversion process**
     Here is a list of the conversion process:
