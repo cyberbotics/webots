@@ -174,7 +174,7 @@ PROTO Extrusion [
       }
 
       if (i !== 0) {
-        //After determining the Z-axis, its dot product with the Z-axis of the previous spine point is computed. If this value is negative, the Z-axis is flipped (multiplied by -1).
+        // after determining the Z-axis, its dot product with the Z-axis of the previous spine point is computed. If this value is negative, the Z-axis is flipped (multiplied by -1).
         if (wbvector3.dot(Z[i], Z[i-1]) < 0)
           Z[i] = wbvector3.multiply(Z[i], -1);
       }
