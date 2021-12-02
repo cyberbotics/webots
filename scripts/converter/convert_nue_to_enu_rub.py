@@ -336,7 +336,7 @@ if __name__ == '__main__':
         error_verbose, clean_verbose, warning_verbose = convert_nue_to_enu_world(
             filename, mode, objects_pi, objects_pi_2, objects_minus_pi_2)
         if error_verbose:
-            print('''Conversion of \033[33m{}\033[m successfull but incomplete. \r\n■ You may have the need to convert
+            print('''Conversion of \033[33m{}\033[m successful but incomplete. \r\n■ You may need to convert
                          manually: {}'''.format(filename, error_verbose))
         else:
             if mode == 'clean':
