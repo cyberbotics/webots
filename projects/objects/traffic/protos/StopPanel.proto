@@ -45,8 +45,8 @@ PROTO StopPanel [
         }
       }
       Transform {
-        translation 0.016 0 0.8
-        rotation 0.57735 0.57735 -0.57735 2.09441
+        translation 0.016 0 -0.8
+        rotation 0 1 0 1.5708
         children [
           DEF PANEL_BODY Shape {
             appearance PBRAppearance {
@@ -55,10 +55,9 @@ PROTO StopPanel [
             }
             geometry Extrusion {
               crossSection [
-                0.329116 0.93245 0.143346 1.11822 -0.119373 1.11822 -0.305143 0.93245 -0.305143 0.66973 -0.119373 0.48397 0.143346 0.48397 0.329116 0.66974 0.329116 0.93245
-              ]
+                0.93245 -0.329116 1.11822 -0.143346 1.11822 0.119373 0.93245 0.305143 0.66973 0.305143 0.48397 0.119373 0.48397 -0.143346 0.66974 -0.329116 0.93245 -0.329116              ]
               spine [
-                0 0 0 0 0.04 0
+                0 0 0 0 0 0.04
               ]
               ccw FALSE
               splineSubdivision -1
