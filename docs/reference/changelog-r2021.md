@@ -12,6 +12,7 @@ Released on XX, XXth, 2021.
     - Added speed vector output to GPS ([#3742](https://github.com/cyberbotics/webots/pull/3742)).
     - Added warning when attempting to add a node to an already started simulation ([#3926](https://github.com/cyberbotics/webots/pull/3926)).
     - Added the [ColladaShapes](../guide/object-shapes.md#colladashapes) node that allows referencing Collada shapes and textures ([#3956](https://github.com/cyberbotics/webots/pull/3956)).
+    - Added `wbu_car_set_[right/left]_steering_angle` that allows to directly control the steering of the wheels ([#3933](https://github.com/cyberbotics/webots/pull/3933)).
   - Dependency Updates
     - **Stopped support for Ubuntu 16.04 ([#3480](https://github.com/cyberbotics/webots/pull/3480)).**
 

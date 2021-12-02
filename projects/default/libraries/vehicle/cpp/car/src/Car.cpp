@@ -90,6 +90,16 @@ double Car::getWheelSpeed(WheelIndex wheel) {
   return wbu_car_get_wheel_speed(WbuCarWheelIndex(wheel));
 }
 
+void Car::setRightSteeringAngle(double angle) {
+  assert(this);
+  wbu_car_set_right_steering_angle(angle);
+}
+
+void Car::setLeftSteeringAngle(double angle) {
+  assert(this);
+  wbu_car_set_left_steering_angle(angle);
+}
+
 double Car::getRightSteeringAngle() {
   assert(this);
   return wbu_car_get_right_steering_angle();
