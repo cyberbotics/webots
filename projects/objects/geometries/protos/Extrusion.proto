@@ -135,7 +135,7 @@ PROTO Extrusion [
             // to the vector formed by the spine points (v2). The Y=0 plane is then rotated by this value.
             // v2 is actually just our Y variable. }
 
-            //implementation taken from https://github.com/bradenmcd/openvrml/blob/45877f95a713cdfd8736a41073ed9a349db4c495/src/libopenvrml-gl/openvrml/gl/viewer.cpp#L2436
+            // implementation taken from https://github.com/bradenmcd/openvrml/blob/45877f95a713cdfd8736a41073ed9a349db4c495/src/libopenvrml-gl/openvrml/gl/viewer.cpp#L2436
             Z[i].x = 0;
             Z[i].y = 0;
             Z[i].z = 1;
