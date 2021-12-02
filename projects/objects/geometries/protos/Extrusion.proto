@@ -132,7 +132,7 @@ PROTO Extrusion [
 
           if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) { // if Z still colinear, it means that the entire spine is collinear.
             // If the entire spine is collinear, the SCP is computed by finding the rotation of a vector along the positive Y-axis (v1)
-            //to the vector formed by the spine points (v2). The Y=0 plane is then rotated by this value.
+            // to the vector formed by the spine points (v2). The Y=0 plane is then rotated by this value.
             // v2 is actually just our Y variable. }
 
             //implementation taken from https://github.com/bradenmcd/openvrml/blob/45877f95a713cdfd8736a41073ed9a349db4c495/src/libopenvrml-gl/openvrml/gl/viewer.cpp#L2436
