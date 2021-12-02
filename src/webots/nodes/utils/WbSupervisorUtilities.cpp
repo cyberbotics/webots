@@ -379,8 +379,11 @@ void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   mFieldSetRequests.clear();
   if (blockRegeneration)
     return;
+
   WbTemplateManager::instance()->blockRegeneration(false);
-  emit worldModified();
+  // only emit if robot still exists (FieldSetRequest could have regenerated it)
+  if (WbWorld::instance()->robots().contains(mRobot))
+    emit worldModified();
 }
 
 void WbSupervisorUtilities::postPhysicsStep() {
@@ -1525,6 +1528,18 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       unsigned int nodeId;
       stream >> nodeId;
       WbNode *node = WbNode::findNode(nodeId);
+
+      // as findNode might return the internal one, it's necessary to climb the ladder up to the protoParameterNode otherwise
+      // the scene tree will not be refreshed when deleting it
+      while (node && node->protoParameterNode())
+        node = node->protoParameterNode();
+
+      if (!WbNodeUtilities::isVisible(node)) {
+        mRobot->warn(
+          tr("Node '%1' is internal to a PROTO and therefore cannot be deleted from a Supervisor.").arg(node->modelName()));
+        return;
+      }
+
       if (node) {
         if (node == mRobot)
           mShouldRemoveNode = true;
