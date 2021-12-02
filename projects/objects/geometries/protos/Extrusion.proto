@@ -165,7 +165,7 @@ PROTO Extrusion [
         Y[i].z = spine[i+1].z - spine[i-1].z;
         Z[i] = wbvector3.cross(wbvector3.minus(spine[i+1], spine[i]), wbvector3.minus(spine[i-1], spine[i]));
 
-        //if colinear the value from the previous point is used instead.
+        // if colinear the value from the previous point is used instead.
         if (Z[i].x === 0 && Z[i].y === 0 && Z[i].z === 0) {
           Z[i].x = Z[i-1].x;
           Z[i].y = Z[i-1].y;
