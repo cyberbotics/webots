@@ -795,7 +795,7 @@ Thank you so much 😊
 ##### David Mansolino [Cyberbotics] 04/21/2020 10:03:37
 You're welcome
 
-##### Mumuxe 04/21/2020 15:59:54
+##### Axel M 04/21/2020 15:59:54
 Hi ! Documentation content seems off since a few minutes
 
 ##### Olivier Michel [Cyberbotics] 04/21/2020 16:01:39
@@ -2242,7 +2242,7 @@ No problem. Your contribution is welcome.
 ##### mironix<inactive> 10/16/2021 15:46:03
 [https://github.com/cyberbotics/webots/pull/3789](https://github.com/cyberbotics/webots/pull/3789)
 
-##### BeachJuic3 10/25/2021 08:56:49
+##### BananaJuic3 10/25/2021 08:56:49
 I got a question regarding the **Position Sensor**
 
 
@@ -2270,4 +2270,7 @@ hello, I have a question, is there such a thing as a motion editor? I'm using R2
 
 ##### Olivier Michel [Cyberbotics] 11/15/2021 16:17:15
 No, there is no motion editor (except your favorite text editor 😉 or custom python script).
+
+##### Tosidis 11/24/2021 13:03:39
+Hello, is there a way to change the coordinate system of an object? (e.g. mavic2Pro)
 
