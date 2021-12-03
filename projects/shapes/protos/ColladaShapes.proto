@@ -5,7 +5,7 @@
 # template language: javascript
 
 PROTO ColladaShapes [
-  field SFString  url  ""  # URL of a Collada file (similar to ImageTexture node)
+  field SFString  url  ""  # URL of a Collada file (similar to ImageTexture node).
 ]
 {
   %<
