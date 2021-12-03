@@ -16,8 +16,8 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
-#include "WbQjsFile.hpp"
 #include "WbQjsCollada.hpp"
+#include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
