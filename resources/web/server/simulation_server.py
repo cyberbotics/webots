@@ -183,7 +183,7 @@ class Client:
             if type == 'heads':  # branch
                 url += 'branches/' + version
             elif type == 'tags':
-                url += 'tags' + version
+                url += 'tags/' + version
             else:
                 logging.error("Cannot determine if \"" + version + "\" is a branch or a tag.")
         url += '/' + folder
