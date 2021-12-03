@@ -49,11 +49,10 @@ int main(int argc, char **argv) {
       // Computing the y-coordinate of the contact point with respect to solid's frame
       const double *cp = contact_points[n].point;
       const double delta[3] = {cp[0] - position[0], cp[1] - position[1], cp[2] - position[2]};
-      const double relative_cp_y = rotation[1] * delta[0] + rotation[4] * delta[1] + rotation[7] * delta[2];
-
-      if (fabs(relative_cp_y - RED_CYLINDER_HALF_HEIGHT) <= TOLERANCE)
+      const double relative_cp_z = rotation[2] * delta[0] + rotation[5] * delta[1] + rotation[8] * delta[2];
+      if (fabs(relative_cp_z - RED_CYLINDER_HALF_HEIGHT) <= TOLERANCE)
         ++u;
-      else if (fabs(relative_cp_y + RED_CYLINDER_HALF_HEIGHT) <= TOLERANCE)
+      else if (fabs(relative_cp_z + RED_CYLINDER_HALF_HEIGHT) <= TOLERANCE)
         ++l;
     }
 

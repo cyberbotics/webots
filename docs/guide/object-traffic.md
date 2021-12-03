@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CautionPanel {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "caution panel"
   MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/traffic_signals_ahead.jpg"
   SFColor    color              0.8 0.8 0.8
@@ -49,7 +49,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CautionSign {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "caution sign"
   SFFloat    height       2
   SFFloat    radius       0.03
@@ -88,7 +88,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 ControlledStreetLight {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "street light"
   SFString   controller   "defective_street_light"
   SFBool     supervisor   FALSE
@@ -137,7 +137,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 CrossRoadsTrafficLight {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "cross road traffic light"
   SFString   controller  "crossroads_traffic_lights"
   SFBool     supervisor  FALSE
@@ -169,7 +169,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 DirectionPanel {
   SFVec3f     translation          0 0 0
-  SFRotation  rotation             0 1 0 0
+  SFRotation  rotation             0 0 1 0
   SFString    name                 "direction panel"
   SFFloat     width                1.3
   SFFloat     height               0.4
@@ -211,7 +211,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 DivergentIndicator {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "divergent indicator"
   MFString   texture         "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/divergent_indicator.jpg"
   SFFloat    height          1
@@ -250,7 +250,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ExitPanel {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "exit panel"
   MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/exit.jpg"
   SFColor    color              0.8 0.8 0.8
@@ -284,7 +284,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ExitSign {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "exit sign"
   SFFloat    height       2
   SFFloat    radius       0.03
@@ -323,7 +323,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 GenericTrafficLight {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "generic traffic light"
   SFBool     startGreen  TRUE
   SFFloat    greenTime   60
@@ -363,7 +363,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 HighwayPole {
   SFVec3f     translation           0 0 0
-  SFRotation  rotation              0 1 0 0
+  SFRotation  rotation              0 0 1 0
   SFString    name                  "highway pole"
   SFString    type                  "cylinder"
   SFInt32     stand                 1
@@ -423,7 +423,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 HighwaySign {
   SFVec3f     translation        0 0 0
-  SFRotation  rotation           0 1 0 0
+  SFRotation  rotation           0 0 1 0
   SFString    name               "highway sign"
   SFFloat     height             3
   SFFloat     length             4.5
@@ -466,7 +466,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 OrderPanel {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "order panel"
   MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/do_not_enter.jpg"
   SFColor    color              0.8 0.8 0.8
@@ -500,7 +500,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 OrderSign {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "order sign"
   SFFloat    height       2
   SFFloat    radius       0.03
@@ -539,7 +539,7 @@ Derived from [Transform](../reference/transform.md).
 ```
 ParkingLines {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFInt32    numberOfCarParks 5
   SFFloat    carParkLength    4.8
   SFFloat    carParkWidth     2.4
@@ -577,7 +577,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ParkingMeter {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "parking meter"
 }
 ```
@@ -602,7 +602,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PedestrianCrossing {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "pedestrian crossing"
   SFVec2f    size                 20 8
   SFInt32    textureFiltering     4
@@ -638,7 +638,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Pole {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "pole"
   MFNode     slot        []
 }
@@ -668,7 +668,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RectangularPanel {
   SFVec3f     translation        0 0 0
-  SFRotation  rotation           0 1 0 0
+  SFRotation  rotation           0 0 1 0
   SFString    name               "rectangular panel"
   MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/eu/dead_end.jpg"
   SFColor     color              0.8 0.8 0.8
@@ -705,7 +705,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SignPole {
   SFVec3f     translation   0 0 0
-  SFRotation  rotation      0 1 0 0
+  SFRotation  rotation      0 0 1 0
   SFString    name          "sign pole"
   SFFloat     height        2.2
   SFFloat     radius        0.02
@@ -744,7 +744,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SpeedLimitPanel {
   SFVec3f     translation        0 0 0
-  SFRotation  rotation           0 1 0 0
+  SFRotation  rotation           0 0 1 0
   SFString    name               "speed limit panel"
   MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/speed_limit_45.jpg"
   SFColor     color              0.8 0.8 0.8
@@ -778,7 +778,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SpeedLimitSign {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "speed limit"
   SFFloat    height       2
   SFFloat    radius       0.03
@@ -817,7 +817,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StopPanel {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "stop panel"
   MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/stop.jpg"
   SFColor    color              0.576471 0.576471 0.576471
@@ -851,7 +851,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StopSign {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "stop sign"
   SFFloat    height       2
   SFFloat    radius       0.03
@@ -891,7 +891,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StreetLight {
   SFVec3f    translation   0 0 0
-  SFRotation rotation      0 1 0 0
+  SFRotation rotation      0 0 1 0
   SFString   name          "street light"
   SFFloat    beamWidth     1.1
   SFColor    color         1 1 1
@@ -942,7 +942,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 TrafficCone {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "traffic cone"
   SFNode     physics     NULL
 }
@@ -968,7 +968,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 TrafficLight {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "traffic light"
   SFString   red_light          "red light"
   SFString   orange_light       "orange light"
@@ -1033,7 +1033,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 TrafficLightBigPole {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "traffic light big pole"
   MFNode     slot1       []
   MFNode     slot2       []
@@ -1069,7 +1069,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 TrafficLightHorizontal {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "horizontal traffic light"
   SFString   red_light          "red light"
   SFString   orange_light       "orange light"
@@ -1134,7 +1134,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 WorkBarrier {
   SFVec3f    translation   0 0 0
-  SFRotation rotation      0 1 0 0
+  SFRotation rotation      0 0 1 0
   SFString   name          "work barrier"
   SFBool     enablePhysics FALSE
 }
@@ -1164,7 +1164,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 YieldPanel {
   SFVec3f     translation        0 0 0
-  SFRotation  rotation           0 1 0 0
+  SFRotation  rotation           0 0 1 0
   SFString    name               "yield panel"
   MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/yield.jpg"
   SFColor     color              0.8 0.8 0.8
@@ -1201,7 +1201,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 YieldSign {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "yield sign"
   SFFloat    height       2
   SFFloat    radius       0.03

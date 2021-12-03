@@ -8,8 +8,8 @@ WorldInfo {
   title "Human Skin Animation"
 }
 Viewpoint {
-  orientation -0.18272868675629086 -0.6508829710655798 -0.7368592708334235 3.5495693400421278
-  position 6.509359210128231 9.03534485318815 2.6607804301779576
+  orientation 0.056814234454449726 0.032542588135553545 -0.9978542592587328 2.103101849070375
+  position 4.505725485654369 5.67986443264761 2.4268523026142588
 }
 TexturedBackground {
   texture "noon_cloudy_countryside"
@@ -18,7 +18,6 @@ TexturedBackgroundLight {
   texture "noon_cloudy_countryside"
 }
 Floor {
-  rotation 1 0 0 1.5708
   size 50 50
   tileSize 2 2
   appearance Grass {

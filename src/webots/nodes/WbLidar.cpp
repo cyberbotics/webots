@@ -195,9 +195,9 @@ void WbLidar::prePhysicsStep(double ms) {
   if (mIsActuallyRotating && mSensor->isEnabled()) {
     double angle = -(ms * 2 * M_PI * mDefaultFrequency->value()) / 1000;
     if (s)
-      s->rotate(WbVector3(0.0, angle, 0.0));
+      s->rotate(WbVector3(0.0, 0.0, angle));
     if (hasBeenSetup()) {
-      mWrenCamera->rotateYaw(angle);
+      mWrenCamera->rotateRoll(angle);
       mPreviousRotatingAngle = mCurrentRotatingAngle;
       mCurrentRotatingAngle += angle;
     }
@@ -389,9 +389,9 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
     const int indexEnd = resolution * i + maxWidth;
     for (int index = indexStart; index < indexEnd; ++index) {
       const double r = image[index];
-      lidarPoints[index].x = -r * sinTheta * cosPhi;
-      lidarPoints[index].y = r * sinPhi;
-      lidarPoints[index].z = -r * cosTheta * cosPhi;
+      lidarPoints[index].x = r * cosTheta * cosPhi;
+      lidarPoints[index].y = r * sinTheta * cosPhi;
+      lidarPoints[index].z = r * sinPhi;
       lidarPoints[index].time = t;
       lidarPoints[index].layer_id = i;
       t += dt;
@@ -423,6 +423,16 @@ void WbLidar::createWrenCamera() {
   applyMaxRangeToWren();
   applyResolutionToWren();
   applyTiltAngleToWren();
+  updateOrientation();
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbLidar::updateOrientation);
+}
+
+void WbLidar::updateOrientation() {
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotatePitch(M_PI_2);
+    mWrenCamera->rotateRoll(-M_PI_2);
+  }
 }
 
 void WbLidar::deleteWren() {
@@ -553,9 +563,9 @@ void WbLidar::applyFrustumToWren() {
     // min range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
       const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-      const double x = n * sin(tmpHAngle) * cosV;
-      const double y = n * sinV;
-      const double z = n * -cos(tmpHAngle) * cosV;
+      const double x = n * cos(tmpHAngle) * cosV;
+      const double y = n * sin(tmpHAngle) * cosV;
+      const double z = n * sinV;
       pushVertex(vertices, i++, x, y, z);
       pushVertex(vertices, i++, x, y, z);
     }
@@ -566,9 +576,9 @@ void WbLidar::applyFrustumToWren() {
     // max range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
       const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-      const double x = f * sin(tmpHAngle) * cosV;
-      const double y = f * sinV;
-      const double z = f * -cos(tmpHAngle) * cosV;
+      const double x = f * cos(tmpHAngle) * cosV;
+      const double y = f * sin(tmpHAngle) * cosV;
+      const double z = f * sinV;
       pushVertex(vertices, i++, x, y, z);
       pushVertex(vertices, i++, x, y, z);
     }

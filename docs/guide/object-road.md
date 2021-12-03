@@ -19,7 +19,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Road {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -154,7 +154,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 AddLaneRoadSegment {
          SFVec3f     translation               0 0 0
-         SFRotation  rotation                  0 1 0 0
+         SFRotation  rotation                  0 0 1 0
          SFString    name                      "road"
          SFString    id                        ""
          MFString    connectedRoadIDs          []
@@ -265,7 +265,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 AddLanesRoadSegment {
          SFVec3f     translation               0 0 0
-         SFRotation  rotation                  0 1 0 0
+         SFRotation  rotation                  0 0 1 0
          SFString    name                      "road"
          SFString    id                        ""
          MFString    connectedRoadIDs          []
@@ -377,7 +377,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CrashBarrier {
   SFVec3f     translation             0 0 0
-  SFRotation  rotation                0 1 0 0
+  SFRotation  rotation                0 0 1 0
   SFString    name                    "crash barrier"
   SFFloat     poleGap                 2
   SFNode      poleAppearance          PBRAppearance { roughness 0.7 }
@@ -422,7 +422,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Crossroad {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "crossroad"
   SFString   id               ""
   SFFloat    speedLimit       -1.0
@@ -478,7 +478,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CurvedRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -600,7 +600,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 HelicoidalRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -711,7 +711,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 LaneSeparation {
          SFVec3f     translation                 0 0 0
-         SFRotation  rotation                    0 1 0 0
+         SFRotation  rotation                    0 0 1 0
          SFString    name                        "road"
          SFString    id                          ""
          MFString    connectedRoadIDs            []
@@ -829,7 +829,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RoadIntersection {
          SFVec3f              translation                    0 0 0
-         SFRotation           rotation                       0 1 0 0
+         SFRotation           rotation                       0 0 1 0
          SFString             name                           "road intersection"
          SFString             id                             ""
          MFString             connectedRoadIDs               []
@@ -954,7 +954,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RoadPillars {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "road pillar"
   SFFloat    height             5
   SFFloat    width              8
@@ -1008,7 +1008,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Roundabout {
          SFVec3f              translation              0 0 0
-         SFRotation           rotation                 0 1 0 0
+         SFRotation           rotation                 0 0 1 0
          SFString             name                     "roundabout"
          SFString             id                       ""
          MFString             connectedRoadIDs         []
@@ -1115,7 +1115,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""

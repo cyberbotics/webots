@@ -31,7 +31,7 @@ export default class WrenRenderer {
 
       _wr_scene_render(_wr_scene_get_instance(), null, true);
     } catch (error) {
-      console.log('No Context');
+      console.error('No Context');
     }
   }
 
@@ -42,7 +42,7 @@ export default class WrenRenderer {
     try {
       _wr_scene_render(_wr_scene_get_instance(), null, true);
     } catch (error) {
-      console.log('No Context');
+      console.error('No Context');
     }
   }
 }

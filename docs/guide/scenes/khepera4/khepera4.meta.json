@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "-0.0527 0.021 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0.0527 0.021",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0527 0.021 0",
-      "axis": "-1 0 0",
+      "anchor": "0 -0.0527 0.021",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
@@ -59,7 +59,7 @@
     {
       "name": "camera",
       "transformID": "n12",
-      "transformOffset": "0 0.0275 -0.06",
+      "transformOffset": "0.06 0 0.0275",
       "type": "Camera"
     },
     {
@@ -81,7 +81,7 @@
     {
       "name": "front left ultrasonic sensor",
       "transformID": "n12",
-      "transformOffset": "-0.05 0.045 -0.05",
+      "transformOffset": "0.05 0.05 0.045",
       "type": "DistanceSensor"
     },
     {
@@ -92,13 +92,13 @@
     {
       "name": "front right ultrasonic sensor",
       "transformID": "n12",
-      "transformOffset": "0.05 0.045 -0.05",
+      "transformOffset": "0.05 -0.05 0.045",
       "type": "DistanceSensor"
     },
     {
       "name": "front ultrasonic sensor",
       "transformID": "n12",
-      "transformOffset": "0 0.045 -0.07",
+      "transformOffset": "0.07 0 0.045",
       "type": "DistanceSensor"
     },
     {
@@ -135,7 +135,7 @@
     {
       "name": "left ultrasonic sensor",
       "transformID": "n12",
-      "transformOffset": "-0.07 0.045 0",
+      "transformOffset": "0 0.07 0.045",
       "type": "DistanceSensor"
     },
     {
@@ -172,7 +172,7 @@
     {
       "name": "right ultrasonic sensor",
       "transformID": "n12",
-      "transformOffset": "0.07 0.045 0",
+      "transformOffset": "0 -0.07 0.045",
       "type": "DistanceSensor"
     },
     {

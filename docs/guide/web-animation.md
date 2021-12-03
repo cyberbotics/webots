@@ -35,18 +35,23 @@ Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-web
 
 ### Programming Interface
 
-The web animation is played by a web component from the [WebotsAnimation.js] package called `webots-animation`.
+The web animation is played by a web component from the [WebotsView.js] package called `webots-view`.
 
-To play the animation automatically, the `playWhenReady` attribute of the web component has to be set to `true` before the loading of the page.
+The following attributes are available:
+* `data-scene`: the name of the .x3d file containing the 3d scene.
+* `data-animation`: the name of the .json file containing the animation sequence.
+* `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
+* `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 
-By default, the name of the X3D and JSON files will be deduced from the HTTP URL, but the `title` attribute of the web component can be used to define a custom name.
+The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
 
 For more complex interaction with the web component, the following functions are available:
-* `active()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
-* `close()`: close the current animation.
-* `setNames(name)`: set the name of both the JSON and X3D file for the next animation to be loaded.
-  * `name`: the name used by both file.
-* `play(mobileDevice)`: load and play the animation. If no filenames were specified, it will try to guess them from the HTTP URL or take the `title` attribute if present.
+* `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
+* `close()`: close the current animation. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
+* `loadAnimation(scene, animation, play, mobileDevice)`: load and play the animation.
+  * `scene`: name of the .x3d file.
+  * `animation`: name of the .json file.
+  * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
 
 ### Limitations

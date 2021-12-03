@@ -251,7 +251,7 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Pedestrian {
-  SFVec3f    translation           0 1.27 0
+  SFVec3f    translation           0 0 1.27
   SFRotation rotation              0 0 1 0
   SFString   name                  "pedestrian"
   SFString   controller            "pedestrian"

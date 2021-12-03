@@ -10,7 +10,7 @@ export default class WbAppearance extends WbAbstractAppearance {
     this.texture = texture;
   }
 
-  async clone(customID) {
+  clone(customID) {
     let material, texture, transform;
     if (typeof this.material !== 'undefined') {
       material = this.material.clone(getAnId());
@@ -19,7 +19,7 @@ export default class WbAppearance extends WbAbstractAppearance {
     }
 
     if (typeof this.texture !== 'undefined') {
-      texture = await this.texture.clone(getAnId());
+      texture = this.texture.clone(getAnId());
       texture.parent = customID;
       WbWorld.instance.nodes.set(texture.id, texture);
     }

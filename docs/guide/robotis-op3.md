@@ -25,7 +25,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 RobotisOp3 {
   field SFVec3f    translation         0 0 0
-  field SFRotation rotation            1 0 0 -1.5708
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "ROBOTIS OP3"
   field SFString   controller          "void"
   field MFString   controllerArgs      []

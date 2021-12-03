@@ -20,6 +20,12 @@ RangeFinder {
 
 ### Description
 
+%figure "RangeFinder Coordinate System"
+
+![rangefinder.png](images/rangefinder.thumbnail.png)
+
+%end
+
 The [RangeFinder](#rangefinder) node is used to model a robot's on-board range-finder (depth camera).
 The resulting image can be displayed on the 3D window.
 

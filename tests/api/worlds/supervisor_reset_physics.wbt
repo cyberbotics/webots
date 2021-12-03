@@ -16,6 +16,7 @@ DirectionalLight {
   castShadows TRUE
 }
 Floor {
+  rotation 1 0 0 -1.5708
   size 3 3
 }
 Solid {

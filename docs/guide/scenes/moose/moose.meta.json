@@ -2,47 +2,47 @@
   "devices": [
     {
       "anchor": "0 0 0",
-      "axis": "0 -1 0",
+      "axis": "1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left motor 1",
       "position": 0,
-      "transformID": "n163",
+      "transformID": "n171",
       "type": "RotationalMotor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 -1 0",
+      "axis": "1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left motor 2",
       "position": 0,
-      "transformID": "n191",
+      "transformID": "n201",
       "type": "RotationalMotor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 -1 0",
+      "axis": "1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left motor 3",
       "position": 0,
-      "transformID": "n219",
+      "transformID": "n231",
       "type": "RotationalMotor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 -1 0",
+      "axis": "1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left motor 4",
       "position": 0,
-      "transformID": "n247",
+      "transformID": "n261",
       "type": "RotationalMotor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 1 0",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right motor 1",
@@ -52,32 +52,32 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 1 0",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right motor 2",
       "position": 0,
-      "transformID": "n79",
+      "transformID": "n81",
       "type": "RotationalMotor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 1 0",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right motor 3",
       "position": 0,
-      "transformID": "n107",
+      "transformID": "n111",
       "type": "RotationalMotor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 1 0",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right motor 4",
       "position": 0,
-      "transformID": "n135",
+      "transformID": "n141",
       "type": "RotationalMotor"
     }
   ],
