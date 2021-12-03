@@ -78,7 +78,6 @@ export default class Server {
   onMessage(event) {
     const message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
-      console.log('received ' + message);
       const url = message.substring(7);
       this._httpServerUrl = url.replace(/ws/, 'http');
       this._view.x3dScene.prefix = this._httpServerUrl + '/';
