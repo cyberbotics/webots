@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0.0195 -0.0675",
-      "axis": "1 0 0",
+      "anchor": "0.0675 0 0.0195",
+      "axis": "0 -1 0",
       "maxPosition": 0.0524,
       "minPosition": -1.3963,
       "name": "PRM:/r1/c1-Joint2:11",
@@ -61,8 +61,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 -0.065",
-      "axis": "1 0 0",
+      "anchor": "0.065 0 0",
+      "axis": "0 -1 0",
       "maxPosition": 2.3562,
       "minPosition": -2.0944,
       "name": "PRM:/r2/c1-Joint2:21",
@@ -71,8 +71,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0625 0 0",
-      "axis": "0 0 -1",
+      "anchor": "0 0.0625 0",
+      "axis": "1 0 0",
       "maxPosition": 1.6232,
       "minPosition": -0.5236,
       "name": "PRM:/r2/c1/c2-Joint2:22",
@@ -81,8 +81,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0047 -0.0695 -0.009",
-      "axis": "1 0 0",
+      "anchor": "0.009 0.0047 -0.0695",
+      "axis": "0 -1 0",
       "maxPosition": 2.2166,
       "minPosition": -0.5236,
       "name": "PRM:/r2/c1/c2/c3-Joint2:23",
@@ -91,8 +91,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0.065",
-      "axis": "-1 0 0",
+      "anchor": "-0.065 0 0",
+      "axis": "0 1 0",
       "maxPosition": 2.0944,
       "minPosition": -2.3562,
       "name": "PRM:/r3/c1-Joint2:31",
@@ -101,8 +101,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0625 0 0",
-      "axis": "0 0 -1",
+      "anchor": "0 0.0625 0",
+      "axis": "1 0 0",
       "maxPosition": 1.6232,
       "minPosition": -0.2618,
       "name": "PRM:/r3/c1/c2-Joint2:32",
@@ -111,8 +111,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0047 -0.0695 0.009",
-      "axis": "-1 0 0",
+      "anchor": "-0.009 0.0047 -0.0695",
+      "axis": "0 1 0",
       "maxPosition": 2.2166,
       "minPosition": -0.5236,
       "name": "PRM:/r3/c1/c2/c3-Joint2:33",
@@ -121,8 +121,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 -0.065",
-      "axis": "1 0 0",
+      "anchor": "0.065 0 0",
+      "axis": "0 -1 0",
       "maxPosition": 2.3562,
       "minPosition": -2.0944,
       "name": "PRM:/r4/c1-Joint2:41",
@@ -131,8 +131,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0625 0 0",
-      "axis": "0 0 1",
+      "anchor": "0 -0.0625 0",
+      "axis": "-1 0 0",
       "maxPosition": 1.6232,
       "minPosition": -0.2618,
       "name": "PRM:/r4/c1/c2-Joint2:42",
@@ -141,8 +141,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0047 -0.0695 -0.009",
-      "axis": "1 0 0",
+      "anchor": "0.009 -0.0047 -0.0695",
+      "axis": "0 -1 0",
       "maxPosition": 2.2166,
       "minPosition": -0.5236,
       "name": "PRM:/r4/c1/c2/c3-Joint2:43",
@@ -151,8 +151,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0.065",
-      "axis": "-1 0 0",
+      "anchor": "-0.065 0 0",
+      "axis": "0 1 0",
       "maxPosition": 2.0944,
       "minPosition": -2.3562,
       "name": "PRM:/r5/c1-Joint2:51",
@@ -161,8 +161,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0625 0 0",
-      "axis": "0 0 1",
+      "anchor": "0 -0.0625 0",
+      "axis": "-1 0 0",
       "maxPosition": 1.6232,
       "minPosition": -0.2618,
       "name": "PRM:/r5/c1/c2-Joint2:52",
@@ -171,8 +171,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0047 -0.0695 0.009",
-      "axis": "-1 0 0",
+      "anchor": "-0.009 -0.0047 -0.0695",
+      "axis": "0 1 0",
       "maxPosition": 2.2166,
       "minPosition": -0.5236,
       "name": "PRM:/r5/c1/c2/c3-Joint2:53",
@@ -181,8 +181,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0.033 0.102",
-      "axis": "-1 0 0",
+      "anchor": "-0.102 0 0.033",
+      "axis": "0 1 0",
       "maxPosition": 1.1345,
       "minPosition": 0,
       "name": "PRM:/r6/c1-Joint2:61",
@@ -192,7 +192,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 0 -1",
+      "axis": "1 0 0",
       "maxPosition": 1.0472,
       "minPosition": -1.0472,
       "name": "PRM:/r6/c2-Joint2:62",
@@ -203,7 +203,7 @@
     {
       "name": "PRM:/p1-Sensor:p1",
       "transformID": "n10",
-      "transformOffset": "0 -0.00425 -0.10864",
+      "transformOffset": "0.10864 0 -0.00425",
       "type": "DistanceSensor"
     },
     {
@@ -300,7 +300,7 @@
     {
       "name": "PRM:/r5/c1/c2/c3/c4-Sensor:54",
       "transformID": "n228",
-      "transformOffset": "0 -0.0676 -0.014087",
+      "transformOffset": "0 -0.0676 -0.01409",
       "type": "TouchSensor"
     },
     {

@@ -26,8 +26,8 @@ hiddenPosition = 10000
 
 
 def rotation_from_yaw_pitch_roll(yaw, pitch, roll):
-    """Compute the rotation from the roll pitch yaw angles."""
-    rotation = [0, 1, 0, 0]
+    """Compute the axis-angle rotation from the yaw pitch roll angles"""
+    rotation = [0, 0, 1, 0]
     # construct rotation matrix
     # a b c
     # d e f
@@ -46,9 +46,9 @@ def rotation_from_yaw_pitch_roll(yaw, pitch, roll):
     if math.fabs(cosAngle) > 1:
         return rotation
     else:
-        rotation[0] = f - h
-        rotation[1] = g - c
-        rotation[2] = b - d
+        rotation[0] = b - d
+        rotation[1] = f - h
+        rotation[2] = g - c
         rotation[3] = math.acos(cosAngle)
         # normalize vector
         length = math.sqrt(rotation[0] * rotation[0] + rotation[1] * rotation[1] + rotation[2] * rotation[2])
@@ -57,7 +57,7 @@ def rotation_from_yaw_pitch_roll(yaw, pitch, roll):
             rotation[1] = rotation[1] / length
             rotation[2] = rotation[2] / length
         if rotation[0] == 0 and rotation[1] == 0 and rotation[2] == 0:
-            return [0, 1, 0, 0]
+            return [0, 0, 1, 0]
         else:
             return rotation
 
@@ -161,13 +161,13 @@ class SumoSupervisor (Supervisor):
         for i in range(0, self.vehicleNumber):
             if not self.vehicles[i].inUse:
                 if self.vehicles[i].targetPos[0] != hiddenPosition:
-                    self.vehicles[i].targetPos = [hiddenPosition, 0.5, i * 10]
-                    self.vehicles[i].currentPos = [hiddenPosition, 0.5, i * 10]
-                    self.vehicles[i].currentRot = [0, 1, 0, 0]
-                    self.vehicles[i].targetRot = [0, 1, 0, 0]
+                    self.vehicles[i].targetPos = [hiddenPosition, i * 10, 0.5]
+                    self.vehicles[i].currentPos = [hiddenPosition, i * 10, 0.5]
+                    self.vehicles[i].currentRot = [0, 0, 1, 0]
+                    self.vehicles[i].targetRot = [0, 0, 1, 0]
                     self.vehicles[i].currentAngles = [0, 0, 0]
                     self.vehicles[i].targetAngles = [0, 0, 0]
-                    self.vehicles[i].translation.setSFVec3f([hiddenPosition, 0.5, i * 10])
+                    self.vehicles[i].translation.setSFVec3f([hiddenPosition, i * 10, 0.5])
                     self.vehicles[i].node.setVelocity([0, 0, 0, 0, 0, 0])
                     for wheelAngularVelocity in self.vehicles[i].wheelsAngularVelocity:
                         wheelAngularVelocity.setSFVec3f([0, 0, 0])
@@ -182,28 +182,28 @@ class SumoSupervisor (Supervisor):
     def get_vehicles_position(self, id, subscriptionResult, step, xOffset, yOffset,
                               maximumLateralSpeed, maximumAngularSpeed, laneChangeDelay):
         """Compute the new desired position and orientation for all the vehicles controlled by SUMO."""
-        if subscriptionResult is None:
+        if not subscriptionResult:
             return
         height = 0.4
         roll = 0.0
         pitch = 0.0
         sumoPos = subscriptionResult[self.traci.constants.VAR_POSITION]
         sumoAngle = subscriptionResult[self.traci.constants.VAR_ANGLE]
-        pos = [-sumoPos[0] + xOffset, height, sumoPos[1] - yOffset]
-        angle = math.pi * sumoAngle / 180
-        dx = -math.cos(angle)
-        dy = -math.sin(angle)
-        yaw = -math.atan2(dy, -dx)
+        pos = [sumoPos[0] + xOffset, sumoPos[1] + yOffset, height]
+        angle = -math.pi * sumoAngle / 180
+        dx = math.cos(angle)
+        dz = -math.sin(angle)
+        yaw = -math.atan2(dx, dz)
         # correct position (origin of the car is not the same in Webots / sumo)
         vehicleLength = subscriptionResult[self.traci.constants.VAR_LENGTH]
         pos[0] += 0.5 * vehicleLength * math.sin(angle)
-        pos[2] -= 0.5 * vehicleLength * math.cos(angle)
+        pos[1] -= 0.5 * vehicleLength * math.cos(angle)
         # if needed check the vehicle is in the visibility radius
         if self.radius > 0:
             viewpointPosition = self.viewpointPosition.getSFVec3f()
             xDiff = viewpointPosition[0] - pos[0]
-            yDiff = viewpointPosition[1]
-            zDiff = viewpointPosition[2] - pos[2]
+            yDiff = viewpointPosition[1] - pos[1]
+            zDiff = viewpointPosition[2]
             distance = math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff)
             if distance > self.radius:
                 index = self.get_vehicle_index(id, generateIfneeded=False)
@@ -222,7 +222,7 @@ class SumoSupervisor (Supervisor):
                 if roadID.startswith(":"):
                     # this is a lane change it does not contains edge information
                     # in that case, use previous height, roll and pitch
-                    height = vehicle.currentPos[1]
+                    height = vehicle.currentPos[2]
                     roll = vehicle.roll
                     pitch = vehicle.pitch
                 else:
@@ -253,16 +253,16 @@ class SumoSupervisor (Supervisor):
                             height = height - distance * math.sin(roll)
                         else:
                             height = height + distance * math.sin(roll)
-            pos[1] = height
+            pos[2] = height
             if vehicle.inUse:
                 # TODO: once the lane change model of SUMO has been improved
                 #       (sub-lane model currently in development phase) we will be able to remove this corrections
 
-                # compute lateral (x) and longitudinal (z) displacement
+                # compute longitudinal (x) and lateral (y) displacement
                 diffX = pos[0] - vehicle.targetPos[0]
-                diffZ = pos[2] - vehicle.targetPos[2]
-                x1 = math.cos(-angle) * diffX - math.sin(-angle) * diffZ
-                z1 = math.sin(-angle) * diffX + math.cos(-angle) * diffZ
+                diffY = pos[1] - vehicle.targetPos[1]
+                x1 = math.cos(-angle) * diffX - math.sin(-angle) * diffY
+                y1 = math.sin(-angle) * diffX + math.cos(-angle) * diffY
                 # check for lane change
                 if (vehicle.currentRoad is not None and
                         vehicle.currentRoad == subscriptionResult[self.traci.constants.VAR_ROAD_ID] and
@@ -273,32 +273,30 @@ class SumoSupervisor (Supervisor):
                 x2 = x1
                 # artificially add an angle depending on the lateral speed
                 artificialAngle = 0
-                if z1 > 0.0001:  # don't add the angle if speed is very small as atan2(0.0, 0.0) is unstable
+                if y1 > 0.0001:  # don't add the angle if speed is very small as atan2(0.0, 0.0) is unstable
                     # the '0.15' factor was found empirically and should not depend on the simulation
-                    artificialAngle = 0.15 * math.atan2(x1, z1)
+                    artificialAngle = 0.15 * math.atan2(x1, y1)
                 if (vehicle.laneChangeStartTime is not None and
-                        vehicle.laneChangeStartTime > self.getTime() - laneChangeDelay and
-                        abs(vehicle.laneChangeDistance) >= abs(x1)):  # lane change case
+                        vehicle.laneChangeStartTime > self.getTime() - laneChangeDelay):  # lane change case
                     ratio = (self.getTime() - vehicle.laneChangeStartTime) / laneChangeDelay
                     ratio = (0.5 + 0.5 * math.sin((ratio - 0.5) * math.pi))
                     p = vehicle.laneChangeDistance * ratio
                     x2 = x1 - (vehicle.laneChangeDistance - p)
-                    artificialAngle = math.atan2(x2, z1)
+                    artificialAngle = math.atan2(-x2, y1)
                 # limit lateral speed
                 threshold = 0.001 * step * maximumLateralSpeed
                 x2 = min(max(x2, -threshold), threshold)
-                x3 = math.cos(angle) * x2 - math.sin(angle) * z1
-                z3 = math.sin(angle) * x2 + math.cos(angle) * z1
-                pos = [x3 + vehicle.targetPos[0], pos[1], z3 + vehicle.targetPos[2]]
-                diffYaw = yaw - vehicle.targetAngles[1] - artificialAngle
+                x3 = math.cos(angle) * x2 - math.sin(angle) * y1
+                y3 = math.sin(angle) * x2 + math.cos(angle) * y1
+                pos = [x3 + vehicle.targetPos[0], y3 + vehicle.targetPos[1], pos[2]]
+                diffYaw = yaw - vehicle.targetAngles[2] - artificialAngle
                 # limit angular speed
-                while diffYaw > math.pi:
-                    diffYaw -= 2 * math.pi
-                while diffYaw < -math.pi:
-                    diffYaw += 2 * math.pi
+                diffYaw = (diffYaw + 2*math.pi) % (2*math.pi)
+                if (diffYaw > math.pi):
+                    diffYaw -= 2*math.pi
                 threshold = 0.001 * step * maximumAngularSpeed
                 diffYaw = min(max(diffYaw, -threshold), threshold)
-                yaw = diffYaw + vehicle.targetAngles[1]
+                yaw = diffYaw + vehicle.targetAngles[2]
                 # tilt motorcycle depending on the angluar speed
                 if vehicle.type in Vehicle.get_motorcycle_models_list():
                     threshold = 0.001 * step * maximumLateralSpeed
@@ -309,7 +307,7 @@ class SumoSupervisor (Supervisor):
                 vehicle.inUse = True
                 vehicle.currentPos = pos
                 vehicle.currentRot = rot
-                vehicle.currentAngles = [roll, yaw, pitch]
+                vehicle.currentAngles = [roll, pitch, yaw]
             else:
                 vehicle.currentPos = vehicle.targetPos
                 vehicle.currentRot = vehicle.targetRot
@@ -317,7 +315,7 @@ class SumoSupervisor (Supervisor):
             # update target and wheels speed
             vehicle.targetPos = pos
             vehicle.targetRot = rot
-            vehicle.targetAngles = [roll, yaw, pitch]
+            vehicle.targetAngles = [roll, pitch, yaw]
             if self.traci.constants.VAR_SPEED in subscriptionResult:
                 vehicle.speed = subscriptionResult[self.traci.constants.VAR_SPEED]
             vehicle.currentRoad = subscriptionResult[self.traci.constants.VAR_ROAD_ID]
@@ -335,15 +333,14 @@ class SumoSupervisor (Supervisor):
                 velocity.append(self.vehicles[i].targetPos[2] - self.vehicles[i].currentPos[2])
                 for j in range(0, 3):
                     diffAngle = self.vehicles[i].currentAngles[j] - self.vehicles[i].targetAngles[j]
-                    if diffAngle > math.pi:
-                        diffAngle = diffAngle - 2 * math.pi
-                    elif diffAngle < -math.pi:
-                        diffAngle = diffAngle + 2 * math.pi
+                    diffAngle = (diffAngle + 2*math.pi) % (2*math.pi)
+                    if (diffAngle > math.pi):
+                        diffAngle -= 2*math.pi
                     velocity.append(diffAngle)
                 velocity[:] = [1000 * x / step for x in velocity]
                 self.vehicles[i].node.setVelocity(velocity)
                 if rotateWheels:
-                    angularVelocity = [self.vehicles[i].speed / self.vehicles[i].wheelRadius, 0, 0]
+                    angularVelocity = [0, self.vehicles[i].speed / self.vehicles[i].wheelRadius, 0]
                     for wheelAngularVelocity in self.vehicles[i].wheelsAngularVelocity:
                         wheelAngularVelocity.setSFVec3f(angularVelocity)
 
@@ -445,7 +442,7 @@ class SumoSupervisor (Supervisor):
         self.temporaryDirectory = directory
         self.rootChildren = self.getRoot().getField("children")
         self.viewpointPosition = self.get_viewpoint_position_field()
-        self.maxWebotsVehicleDistanceToLane = 5
+        self.maxWebotsVehicleDistanceToLane = 15
         self.webotsVehicleNumber = 0
         self.webotsVehicles = {}
         self.vehicleNumber = 0
@@ -462,8 +459,8 @@ class SumoSupervisor (Supervisor):
 
         # parse the net and get the offsets
         self.net = sumolib.net.readNet((directory + "/sumo.net.xml").replace('/', os.sep))
-        xOffset = self.net.getLocationOffset()[0]
-        yOffset = self.net.getLocationOffset()[1]
+        xOffset = -self.net.getLocationOffset()[0]
+        yOffset = -self.net.getLocationOffset()[1]
 
         # Load plugin to the generic SUMO Supervisor (if any)
         self.usePlugin = False

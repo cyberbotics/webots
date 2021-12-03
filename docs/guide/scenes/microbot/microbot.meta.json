@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 -0.009 0.012",
-      "axis": "-1 0 0",
+      "anchor": "0.012 0 -0.009",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.009 0.012",
-      "axis": "-1 0 0",
+      "anchor": "0.012 0 -0.009",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",

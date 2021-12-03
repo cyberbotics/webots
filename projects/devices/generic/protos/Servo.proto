@@ -10,7 +10,7 @@
 
 PROTO Servo [
   field     SFVec3f    translation         0 0 0
-  field     SFRotation rotation            0 1 0 0
+  field     SFRotation rotation            0 0 1 0
   field     SFVec3f    scale               1 1 1
   field     MFNode     children            []
   field     SFString   name                "servo"         # Defines the name of the motor, the position sensor is called: name + ' sensor'.

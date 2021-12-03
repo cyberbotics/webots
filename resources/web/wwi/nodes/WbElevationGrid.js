@@ -2,19 +2,19 @@ import {arrayXPointerFloat} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
 
 export default class WbElevationGrid extends WbGeometry {
-  constructor(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness) {
+  constructor(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness) {
     super(id);
     this.height = height;
     this.xDimension = xDimension;
     this.xSpacing = xSpacing;
-    this.zDimension = zDimension;
-    this.zSpacing = zSpacing;
+    this.yDimension = yDimension;
+    this.ySpacing = ySpacing;
     this.thickness = thickness;
   }
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.zDimension, this.zSpacing, this.thickness);
+    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.yDimension, this.ySpacing, this.thickness);
   }
 
   createWrenObjects() {
@@ -34,13 +34,13 @@ export default class WbElevationGrid extends WbGeometry {
 
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
 
-    const scalePointer = _wrjs_array3(this.xSpacing, 1.0 + offset, this.zSpacing);
+    const scalePointer = _wrjs_array3(this.xSpacing, this.ySpacing, 1.0 + offset);
 
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
   updateScale() {
-    const scalePointer = _wrjs_array3(this.xSpacing, 1.0, this.zSpacing);
+    const scalePointer = _wrjs_array3(this.xSpacing, this.ySpacing, 1.0);
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
@@ -54,10 +54,10 @@ export default class WbElevationGrid extends WbGeometry {
       this._wrenMesh = undefined;
     }
 
-    if (this.xDimension < 2 || this.zDimension < 2)
+    if (this.xDimension < 2 || this.yDimension < 2)
       return;
 
-    if (this.xSpacing === 0.0 || this.zSpacing === 0.0)
+    if (this.xSpacing === 0.0 || this.ySpacing === 0.0)
       return;
 
     super._computeWrenRenderable();
@@ -66,7 +66,7 @@ export default class WbElevationGrid extends WbGeometry {
     super.setPickable(this.pickable);
 
     // convert height values to float, pad with zeroes if necessary
-    const numValues = this.xDimension * this.zDimension;
+    const numValues = this.xDimension * this.yDimension;
     const heightData = [];
 
     const availableValues = Math.min(numValues, this.height.length);
@@ -76,7 +76,7 @@ export default class WbElevationGrid extends WbGeometry {
     const createOutlineMesh = super.isInBoundingObject();
 
     const heightDataPointer = arrayXPointerFloat(heightData);
-    this._wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.zDimension, heightDataPointer, this.thickness, createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.yDimension, heightDataPointer, this.thickness, createOutlineMesh);
 
     _free(heightDataPointer);
 
@@ -93,8 +93,8 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   _isSuitableForInsertionInBoundingObject() {
-    const invalidDimensions = this.xDimension < 2 || this.zDimension < 2;
-    const invalidSpacings = this.xSpacing <= 0.0 || this.zSpacing < 0.0;
+    const invalidDimensions = this.xDimension < 2 || this.yDimension < 2;
+    const invalidSpacings = this.xSpacing <= 0.0 || this.ySpacing < 0.0;
     const invalid = invalidDimensions || invalidSpacings;
 
     return !invalid;

@@ -5,12 +5,12 @@
 
 PROTO StopSign [
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFString   name         "stop sign"
   field SFFloat    height       2                                         # Defines the height of the sign.
   field SFFloat    radius       0.03                                      # Defines the radius of the sign pole.
   field SFColor    color        0.576471 0.576471 0.576471                # Defines the color of the sign.
-  field MFNode     signBoards   [ StopPanel { translation 0 -0.097 0 } ]  # Defines the boards.
+  field MFNode     signBoards   [ StopPanel { translation 0 0 -0.097 } ]  # Defines the boards.
 ]
 {
   SignPole {

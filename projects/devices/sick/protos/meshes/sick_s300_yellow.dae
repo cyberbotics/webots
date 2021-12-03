@@ -8,7 +8,7 @@
     <created>2021-04-21T12:36:49</created>
     <modified>2021-04-21T12:36:49</modified>
     <unit name="meter" meter="1"/>
-    <up_axis>Z_UP</up_axis>
+    <up_axis>Y_UP</up_axis>
   </asset>
   <library_images/>
   <library_geometries>
@@ -52,7 +52,7 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="yellow" name="yellow" type="NODE">
-        <matrix sid="transform">-4.37114e-8 -1 1.74846e-7 0 1 -4.37114e-8 -2.67659e-7 0 2.67659e-7 1.74846e-7 1 0 0 0 0 1</matrix>
+        <matrix sid="transform">-1 0 0 0 0 -1 0 0 0 0 1 0 0 0 0 1</matrix>
         <instance_geometry url="#shape0_003-mesh" name="yellow"/>
       </node>
     </visual_scene>

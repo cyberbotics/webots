@@ -15,7 +15,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 PROTO Mavic2Pro {
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "Mavic 2 PRO"
   SFString   controller          "mavic2pro"
   MFString   controllerArgs      []

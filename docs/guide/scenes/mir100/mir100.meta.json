@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "middle_left_wheel_joint",
       "position": 0,
-      "transformID": "n320",
+      "transformID": "n296",
       "type": "RotationalMotor"
     },
     {
@@ -17,27 +17,27 @@
       "minPosition": 0,
       "name": "middle_right_wheel_joint",
       "position": 0,
-      "transformID": "n342",
+      "transformID": "n318",
       "type": "RotationalMotor"
     },
     {
       "name": "back_left_caster_joint_sensor",
-      "transformID": "n422",
+      "transformID": "n401",
       "type": "PositionSensor"
     },
     {
       "name": "back_left_wheel_joint_sensor",
-      "transformID": "n429",
+      "transformID": "n408",
       "type": "PositionSensor"
     },
     {
       "name": "back_right_caster_joint_sensor",
-      "transformID": "n452",
+      "transformID": "n432",
       "type": "PositionSensor"
     },
     {
       "name": "back_right_wheel_joint_sensor",
-      "transformID": "n459",
+      "transformID": "n439",
       "type": "PositionSensor"
     },
     {
@@ -53,37 +53,37 @@
     },
     {
       "name": "ds1",
-      "transformID": "n119",
+      "transformID": "n113",
       "type": "DistanceSensor"
     },
     {
       "name": "ds2",
-      "transformID": "n178",
+      "transformID": "n166",
       "type": "DistanceSensor"
     },
     {
       "name": "ds3",
-      "transformID": "n237",
+      "transformID": "n219",
       "type": "DistanceSensor"
     },
     {
       "name": "front_left_caster_joint_sensor",
-      "transformID": "n362",
+      "transformID": "n339",
       "type": "PositionSensor"
     },
     {
       "name": "front_left_wheel_joint_sensor",
-      "transformID": "n369",
+      "transformID": "n346",
       "type": "PositionSensor"
     },
     {
       "name": "front_right_caster_joint_sensor",
-      "transformID": "n392",
+      "transformID": "n370",
       "type": "PositionSensor"
     },
     {
       "name": "front_right_wheel_joint_sensor",
-      "transformID": "n399",
+      "transformID": "n377",
       "type": "PositionSensor"
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "name": "middle_left_wheel_joint_sensor",
-      "transformID": "n320",
+      "transformID": "n296",
       "type": "PositionSensor"
     },
     {
       "name": "middle_right_wheel_joint_sensor",
-      "transformID": "n342",
+      "transformID": "n318",
       "type": "PositionSensor"
     }
   ],
