@@ -13,7 +13,7 @@ Derived from [Group](../reference/group.md).
 
 ```
 ColladaShapes {
-  field SFString  url  ""  # URL of a Collada file (similar to ImageTexture node)
+  field SFString  url  ""
 }
 ```
 
