@@ -132,17 +132,6 @@ webots.View = class View {
     this.mode = mode;
 
     const initWorld = () => {
-      function findGetParameter(parameterName) {
-        let tmp = [];
-        let items = window.location.search.substr(1).split('&');
-        for (let index = 0; index < items.length; index++) {
-          tmp = items[index].split('=');
-          if (tmp[0] === parameterName)
-            return decodeURIComponent(tmp[1]);
-        }
-        return undefined;
-      }
-
       if (typeof this.progress === 'undefined') {
         this.progress = document.createElement('div');
         this.progress.id = 'webotsProgress';
@@ -161,9 +150,8 @@ webots.View = class View {
         else if (!document.getElementById('toolBar'))
           this.view3D.appendChild(this.toolBar.domElement);
 
-        const url = findGetParameter('url');
-        if (url || this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
-          // "wss://cyberbotics1.epfl.ch/session?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
+        if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
+          // "wss://localhost/1999/?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
           this._server = new Server(this.url, this, finalizeWorld);
           this._server.connect();
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
@@ -211,7 +199,6 @@ webots.View = class View {
     this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
     const texturePathPrefix = url.includes('/') ? url.substring(0, url.lastIndexOf('/') + 1) : '';
-
     if (mode === 'mjpeg') {
       this.url = url;
       this.multimediaClient = new MultimediaClient(this, this.view3D);
