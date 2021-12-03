@@ -2,14 +2,12 @@
 
 ## ColladaShapes
 
-
 The [ColladaShapes](#colladashapes) node represents a Collada shape (*.dae) imported from an external file.
 The [ColladaShapes](#colladashapes) node combines [Mesh](../reference/mesh.md) and [PBRAppearance](../reference/pbrappearance.md) nodes to preserve shapes and textures from Collada files. 
 The [ColladaShapes](#colladashapes) node can be used either as a graphical or as a collision detection primitive (in a boundingObject).
 If the file contains more than one mesh, the meshes will be merged into a single one.
 
 Derived from [Group](../reference/group.md).
-
 
 ```
 ColladaShapes {
@@ -24,7 +22,6 @@ If the `url` value starts with `http://` or `https://`, Webots will get the file
 Otherwise, the file should be specified with a relative path.
 The same search algorithm as for [ImageTexture](../reference/imagetexture.md) is used (cf. [this section](../reference/imagetexture.md#search-rule-of-the-texture-path)).
 Absolute paths work as well, but they are not recommended because they are not portable across systems.
-
 
 ## TexturedBoxShape
 
@@ -95,4 +92,3 @@ TexturedBoxShape {
 - `topFace`: Defines whether the top face is included.
 
 - `bottomFace`: Defines whether the bottom face is included.
-
