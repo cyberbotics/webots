@@ -16,7 +16,6 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
-#include "WbQjsCollada.hpp"
 #include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
 
@@ -39,6 +38,13 @@ static bool gValidLuaResources = true;
 static bool gValidJavaScriptResources = true;
 static QString gLuaTemplateFileContent;
 static QString gJavaScriptTemplateFileContent;
+
+class WbQjsCollada : public QObject {
+  Q_OBJECT
+
+public:
+  Q_INVOKABLE QString getVrmlFromFile(const QString &filePath);
+};
 
 namespace {
   // Note: not the default opening/closing tokens in order to allow
