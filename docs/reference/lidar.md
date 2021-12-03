@@ -897,7 +897,7 @@ The `wb_lidar_get_min_frequency` and `wb_lidar_get_max_frequency` functions retu
 #include <webots/lidar.h>
 
 double wb_lidar_get_fov(WbDeviceTag tag);
-int wb_lidar_get_vertical_fov(WbDeviceTag tag);
+double wb_lidar_get_vertical_fov(WbDeviceTag tag);
 ```
 
 %tab-end

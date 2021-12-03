@@ -66,6 +66,9 @@ double wbu_car_get_rear_wheel_radius();
 
 double wbu_car_get_wheel_encoder(WbuCarWheelIndex wheel_index);
 double wbu_car_get_wheel_speed(WbuCarWheelIndex wheel_index);
+
+void wbu_car_set_left_steering_angle(double angle);
+void wbu_car_set_right_steering_angle(double angle);
 double wbu_car_get_right_steering_angle();
 double wbu_car_get_left_steering_angle();
 

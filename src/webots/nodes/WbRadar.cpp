@@ -152,8 +152,20 @@ void WbRadar::postFinalize() {
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbRadar::updateOptionalRendering);
 
-  updateTransmittedPower();
+  updateMinRange();
+  updateMaxRange();
+  updateHorizontalFieldOfView();
+  updateVerticalFieldOfView();
+  updateMinAbsoluteRadialSpeed();
+  updateMinAndMaxRadialSpeed();
+  updateCellDistance();
+  updateCellSpeed();
+  updateRangeNoise();
+  updateSpeedNoise();
+  updateAngularNoise();
+  updateFrequency();
   updateAntennaGain();
+  updateTransmittedPower();
   updateMinDetectableSignal();
 }
 
@@ -198,7 +210,7 @@ void WbRadar::updateMaxRange() {
 }
 
 void WbRadar::updateHorizontalFieldOfView() {
-  WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mHorizontalFieldOfView, 0.0, 2 * M_PI, 0.78);
+  WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mHorizontalFieldOfView, 0.0, M_PI, 0.78);
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
