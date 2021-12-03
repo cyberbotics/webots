@@ -81,8 +81,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.5859964054965938 -0.38626092418316005 -0.7123276712259903 4.789894550256377
-  position 57.66948218666354 -13.77678651656496 45.910983894037194
+  orientation -0.2952228457038941 0.06769393280049142 0.9530272833641737 2.7113124713693324
+  position 61.19297938652705 -21.52859710122167 49.765039180840525
 }
 TexturedBackground {
   luminosity 0.5
@@ -550,7 +550,6 @@ DEF RHO_N Transform {
   translation -2 10 1
   children [
     Solid {
-      rotation 1 0 0 1.57079632679
       children [
         DEF CYLINDER Shape {
           appearance HammeredCopper {
