@@ -44,6 +44,7 @@ private:
   void cleanup() { mGPS->disable(); }
 
   GPS *mGPS;
+  ros::Publisher mSpeedPublisher;
   ros::Publisher mSpeedVectorPublisher;
   ros::ServiceServer mCoordinateTypeServer;
   ros::ServiceServer mConvertServer;
