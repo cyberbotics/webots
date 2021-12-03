@@ -1,10 +1,13 @@
 ## Tutorial 8: the Supervisor (30 Minutes)
 
-A [Supervisor](../reference/supervisor.md) is a special type of [Robot](../reference/robot.md) which has additional powers.
-In fact, any [Robot](../reference/robot.md) can be turned into a supervisor simply by setting its field named `supervisor` to TRUE.
-A [Supervisor](../reference/supervisor.md) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way, it can start the creation of movies, animations and, last but not least, thanks to its unlimited access it can be used to acquire measurements about the state of the simulation as well as track its evolution.
+A [Supervisor](../reference/supervisor.md) oversees a world and can set or get information about it.
+This tutorial will teach you:
+- How to move objects using the supervisor.
+- How to delete a node and spawn another in its place.
+- How to track the evolution of an object in the scene.
+- How to change the properties of an object, namely its color.
 
-This tutorial will explore how to achieve some of these tasks using a [Supervisor](../reference/supervisor.md).
+These are only some tasks the [Supervisor](../reference/supervisor.md) is capable of, refer to its documentation for a complete overview.
 
 ### Setting up the Environment and Adding a Supervisor
 
