@@ -109,7 +109,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                                                         aiComponent_MATERIALS);
   const aiScene *scene;
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent;
+                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
+                       aiProcess_FlipUVs;
   if (WbUrl::isWeb(filePath)) {
     if (mDownloader == NULL)
       downloadAssets();

@@ -490,7 +490,7 @@ void Ros::run(int argc, char **argv) {
       mSensorList[i]->publishValues(mStep * mStepSize);
 
     if (!mUseWebotsSimTime && mIsSynchronized) {
-      int oldStep = mStep;
+      const int oldStep = mStep;
       while (mStep == oldStep && !mEnd && ros::ok()) {
         loopRate.sleep();
         publishClockIfNeeded();
@@ -500,7 +500,8 @@ void Ros::run(int argc, char **argv) {
 
     if (mRosControl)
       mRosControl->write();
-    mStep++;
+    if (!mIsSynchronized)
+      mStep++;
   }
 }
 
