@@ -62,6 +62,8 @@
 #include <QtCore/QFile>
 #include <cassert>
 
+#include <iostream>
+
 static const int MAX_LABELS = 100;
 
 struct WbTrackedFieldInfo {
@@ -193,6 +195,7 @@ public:
            (f->type() == WB_MF_VEC3F && dynamic_cast<WbMFVector3 *>(f->value()) && index >= 0));
   }
   void apply() const override {
+    std::cout << "apply" << '\n';
     if (mIndex == -1)
       (dynamic_cast<WbSFVector3 *>(mField->value()))->setValueByUser(mValue, true);
     else

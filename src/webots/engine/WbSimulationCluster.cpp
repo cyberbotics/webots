@@ -45,6 +45,8 @@
 #include <cassert>
 #include <limits>
 
+#include <iostream>
+
 // "webots" where each character is replaced by its ascii hexadecimal number.
 const long long int WbSimulationCluster::WEBOTS_MAGIC_NUMBER = 0x7765626F7473LL;
 
@@ -100,6 +102,7 @@ void WbSimulationCluster::swapBuffer() {
 }
 
 void WbSimulationCluster::step() {
+  std::cout << "cluster step" << '\n';
   dSpaceUpdateFunction *spaceUpdateFunc = NULL;
   if (WbSolidDevice::hasDirtySensors())
     // update rays position after world step and before space collision detection
@@ -127,6 +130,7 @@ void WbSimulationCluster::step() {
   // qDebug() << "number of physics plugin contacts 2:" << dJointGroupGetCount(mContext->physicsPluginContactJointGroup2());
   // qDebug() << "number of contacts 1:" << dJointGroupGetCount(mContext->contactJointGroup1());
   // qDebug() << "number of contacts 2:" << dJointGroupGetCount(mContext->contactJointGroup2());
+  std::cout << "end of cluster step" << '\n';
 }
 
 dSpaceID WbSimulationCluster::space() const {

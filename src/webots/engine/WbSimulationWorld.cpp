@@ -42,6 +42,7 @@
 
 #include <cassert>
 
+#include <iostream>
 WbSimulationWorld *WbSimulationWorld::instance() {
   return static_cast<WbSimulationWorld *>(WbWorld::instance());
 }
@@ -171,6 +172,7 @@ WbSimulationWorld::~WbSimulationWorld() {
 }
 
 void WbSimulationWorld::step() {
+  std::cout << "start of step" << '\n';
   WbPerformanceLog *log = WbPerformanceLog::instance();
   if (log)
     log->stepChanged();
@@ -281,6 +283,7 @@ void WbSimulationWorld::step() {
     mSimulationHasRunAfterSave = true;
     emit simulationStartedAfterSave(true);
   }
+  std::cout << "End of Step" << '\n';
 }
 
 void WbSimulationWorld::pauseStepTimer() {
