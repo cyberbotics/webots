@@ -173,8 +173,8 @@ class Client:
         self.world = filename
         # get the default branch name
         repository_url = 'https://github.com/' + username + '/' + repository + '.git'
-        default_branch = subprocess.getoutput("git ls-remote --quiet --symref " + repository_url
-                                              + " HEAD | head -1 | cut -f1 | cut -d/ -f3")
+        default_branch = subprocess.getoutput("git ls-remote --quiet --symref " + repository_url +
+                                              " HEAD | head -1 | cut -f1 | cut -d/ -f3")
         url = 'https://github.com/' + username + '/' + repository + '/'
         if version == default_branch:
             url += 'trunk'
