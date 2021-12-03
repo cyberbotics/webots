@@ -432,7 +432,7 @@ void WbExtendedStringEditor::updateWidgets() {
   const bool solidReference = mStringType == SOLID_REFERENCE;
   const bool fluidName = mStringType == FLUID_NAME;
   const bool referenceArea = mStringType == REFERENCE_AREA;
-  const bool mesh = mStringType == MESH_URL || mStringType == SKIN_URL;
+  const bool mesh = mStringType == MESH_URL || mStringType == SKIN_URL || mStringType == COLLADA_URL;
   const bool enableLineEdit = regular || mesh || sound || texture || (solidReference && protoParameter) ||
                               (fluidName && protoParameter) || (referenceArea && protoParameter);
   const bool showSelectButton = mesh || sound || texture || !regular || (solidReference && !protoParameter) ||
