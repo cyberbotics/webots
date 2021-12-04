@@ -4,7 +4,7 @@
 
 The [ColladaShapes](#colladashapes) PROTO represents a Collada shape (*.dae) imported from an external file.
 The [ColladaShapes](#colladashapes) node combines [Mesh](../reference/mesh.md) and [PBRAppearance](../reference/pbrappearance.md) nodes to preserve shapes and textures from Collada files. 
-The [ColladaShapes](#colladashapes) node can be used either as a graphical or as a collision detection primitive (in a boundingObject).
+The [ColladaShapes](#colladashapes) PROTO can be used either as a graphical or as a collision detection primitive (in a boundingObject).
 If the file contains more than one mesh, the meshes will be merged into a single one.
 
 Derived from [Group](../reference/group.md).
