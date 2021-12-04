@@ -33,3 +33,4 @@ Absolute paths work as well, but they are not recommended because they are not p
 
 The `name` field defines which sub-meshes are included.
 If the `name` value is an empty string then all sub-meshes are included.
+Note that the `name` field is applied only for Collada files.
