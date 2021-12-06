@@ -62,7 +62,7 @@ By default, the directions are the same than the ones used for texture mapping (
 WEBOTS\_HOME/projects/sample/howto/asymmetric\_friction/worlds/asymmetric\_friction2.wbt illustrates the use of this field.
 
 - The `rollingFriction` field specifies the coefficients of rolling/spinning friction.
-The field can have up to three coefficients, using ODE's nomenclature they are [rho, rho2, rhoN].
+The field holds three coefficients, using ODE's nomenclature they are [rho, rho2, rhoN].
 The field accepts only positive values or -1.0, where -1.0 corresponds to infinity.
 For a value of zero no rolling friction is applied.
 `rho` is the rolling friction coefficient in the first friction direction.
