@@ -38,7 +38,6 @@ SpotLight {
   attenuation 0 0 1
   beamWidth 0.7
   cutOffAngle 0.9
-  direction 0 0 -1
   intensity 0.8
   location 0.45 0 -1.6
   radius 4
@@ -70,7 +69,7 @@ DEF MAZE_WALLS Group {
   children [
     MazeBlock {
       translation -0.155 -0.360977 0.609637
-      rotation 1 0 0.006077 -0.000435
+      rotation 0.9999815355469167 0 0.006076887791518612 -0.000435
     }
     MazeBlock {
       translation -0.155 -0.462826 0.609469
@@ -101,13 +100,13 @@ DEF MAZE_WALLS Group {
     }
     MazeBlock {
       translation 0.162 -0.542996 0.609584
-      rotation 0 -0.000338 1 -3.141593
+      rotation 0 -0.00033799998069276556 0.9999999428780048 -3.141593
       name "maze block(6)"
       length 0.13
     }
     MazeBlock {
       translation 0.162 -0.376605 0.609469
-      rotation 0 -0.000134 1 -3.141593
+      rotation 0 -0.00013399999879694802 0.9999999910220002 -3.141593
       name "maze block(7)"
       length 0.2
     }
@@ -221,7 +220,7 @@ DEF MAZE_WALLS Group {
 }
 DEF THYMIO2 Thymio2 {
   translation -0.279509 0.02923 0.610695
-  rotation 0.00148 0.999779 0.020949 -0.014665
+  rotation 0.0014800006661173696 0.9997794499798363 0.020949009428711335 -0.014665
   controller "move_in_maze"
   controllerArgs []
 }
@@ -324,7 +323,7 @@ DEF CEILING Solid {
 }
 DEF DOOR_WALL Solid {
   translation 0 4.9 1.2
-  rotation 0.57735 0.577352 -0.57735 2.094393
+  rotation 0.5773496025226483 0.5773516025212714 -0.5773496025226483 2.094393
   children [
     Shape {
       appearance DEF DOOR_WALL_APPEARANCE Roughcast {
@@ -344,7 +343,7 @@ DEF DOOR_WALL Solid {
 }
 DEF BACK_WALL Solid {
   translation 0 -4.9 1.2
-  rotation 0.577351 -0.577349 -0.577351 4.188788
+  rotation 0.5773509358554485 -0.5773489358556708 -0.5773509358554485 4.188788
   children [
     Shape {
       appearance USE DOOR_WALL_APPEARANCE
@@ -359,7 +358,7 @@ DEF BACK_WALL Solid {
 }
 DEF SHORT_WINDOW_WALL Solid {
   translation 3.9 3.05 1.2
-  rotation -0.707107 0 0.707107 3.141595
+  rotation -0.7071067811865476 0 0.7071067811865476 3.141595
   children [
     Shape {
       appearance DEF SHORT_WALL_APPEARANCE Roughcast {
@@ -409,7 +408,7 @@ DEF LONG_WINDOW_WALL Solid {
 }
 DEF LONG_WINDOW_WALL Solid {
   translation 3.9 -2.65 1.2
-  rotation -0.707107 0 0.707107 3.141595
+  rotation -0.7071067811865476 0 0.7071067811865476 3.141595
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -423,7 +422,7 @@ DEF LONG_WINDOW_WALL Solid {
   boundingObject USE LONG_WINDOW_WALL_SHAPE
 }
 Window {
-  translation 4.0 0 0
+  translation 4 0 0
   windowSillSize 0.1 0.04
   wallAppearance DEF WINDOW_WALL_APPEARANCE Roughcast {
     colorOverride 0.415686 0.647059 0.545098
@@ -431,14 +430,14 @@ Window {
   castShadows FALSE
 }
 Window {
-  translation 4.0 0.8 0
+  translation 4 0.8 0
   name "window(1)"
   windowSillSize 0.1 0.04
   wallAppearance USE WINDOW_WALL_APPEARANCE
   castShadows FALSE
 }
 Window {
-  translation -4.0 0 0
+  translation -4 0 0
   rotation 0 0 1 3.1415
   name "window(2)"
   windowSillSize 0.1 0.04
@@ -446,7 +445,7 @@ Window {
   castShadows FALSE
 }
 Window {
-  translation -4.0 0.8 0
+  translation -4 0.8 0
   rotation 0 0 1 3.14159
   name "window(3)"
   windowSillSize 0.1 0.04
@@ -504,12 +503,12 @@ Desk {
 }
 Laptop {
   translation 2.520944 -0.652021 0.709285
-  rotation -0.001162 -1 0 0.001638
+  rotation -0.0011619992155090305 -0.9999993248786837 0 0.001638
   controller ""
 }
 Laptop {
   translation -2.231749 0.215506 0.709268
-  rotation 0.000815 0 1 -3.141593
+  rotation 0.0008149997293284472 0 0.9999996678876654 -3.141593
   name "laptop(1)"
   controller ""
 }

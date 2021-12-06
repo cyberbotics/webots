@@ -76,7 +76,7 @@ DEF CAPSULE3 Solid {
   }
 }
 DEF BOX1 Solid {
-  translation 0 -2.0 1.5
+  translation 0 -2 1.5
   children [
     DEF BO Shape {
       appearance USE APP
@@ -224,7 +224,10 @@ DEF INDEXEDFACESET1 Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.0866 -0.0866 -0.05 0.0866 -0.0866 -0.05 0 0.0866 -0.05 0 0 0.1
+            -0.0866 -0.0866 -0.05
+            0.0866 -0.0866 -0.05
+            0 0.0866 -0.05
+            0 0 0.1
           ]
         }
         texCoord TextureCoordinate {
@@ -258,7 +261,10 @@ DEF INDEXEDFACESET2 Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.0866 -0.0866 -0.05 0.0866 -0.0866 -0.05 0 0.0866 -0.05 0 0 0.1
+            -0.0866 -0.0866 -0.05
+            0.0866 -0.0866 -0.05
+            0 0.0866 -0.05
+            0 0 0.1
           ]
         }
         texCoord TextureCoordinate {
@@ -292,7 +298,10 @@ DEF INDEXEDFACESET3 Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.0866 -0.0866 -0.05 0.0866 -0.0866 -0.05 0 0.0866 -0.05 0 0 0.1
+            -0.0866 -0.0866 -0.05
+            0.0866 -0.0866 -0.05
+            0 0.0866 -0.05
+            0 0 0.1
           ]
         }
         texCoord TextureCoordinate {
