@@ -480,7 +480,6 @@ void WbMesh::updateName() {
     emit changed();
 }
 
-
 QString WbMesh::path() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
