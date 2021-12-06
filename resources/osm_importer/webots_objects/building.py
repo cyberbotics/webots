@@ -177,17 +177,17 @@ class Building(WebotsObject):
             if WebotsObject.enable3D:
                 height = float('inf')
                 for ref in building.ref:
-                    if ref in OSMCoord.coordDictionnary and OSMCoord.coordDictionnary[ref].y < height:
-                        height = OSMCoord.coordDictionnary[ref].y
+                    if ref in OSMCoord.coordDictionnary and OSMCoord.coordDictionnary[ref].z < height:
+                        height = OSMCoord.coordDictionnary[ref].z
                 if height == float('inf'):
                     height = 0
                 height = height + building.layer * WebotsObject.layerHeight
                 file.write("  translation %.2lf %.2lf %.2lf\n" %
-                           (OSMCoord.coordDictionnary[building.ref[0]].x, height, OSMCoord.coordDictionnary[building.ref[0]].z))
+                           (OSMCoord.coordDictionnary[building.ref[0]].x, OSMCoord.coordDictionnary[building.ref[0]].y, height))
             else:
                 file.write("  translation %.2lf %.2lf %.2lf\n" %
-                           (OSMCoord.coordDictionnary[building.ref[0]].x, building.layer * WebotsObject.layerHeight,
-                            OSMCoord.coordDictionnary[building.ref[0]].z))
+                           (OSMCoord.coordDictionnary[building.ref[0]].x, OSMCoord.coordDictionnary[building.ref[0]].y,
+                            building.layer * WebotsObject.layerHeight))
 
             name = building.name
             if name != '' and building.number != '':
@@ -211,8 +211,8 @@ class Building(WebotsObject):
                 if ref in OSMCoord.coordDictionnary:
                     file.write("    %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
                                                      OSMCoord.coordDictionnary[building.ref[0]].x,
-                                                     OSMCoord.coordDictionnary[ref].z -
-                                                     OSMCoord.coordDictionnary[building.ref[0]].z))
+                                                     OSMCoord.coordDictionnary[ref].y -
+                                                     OSMCoord.coordDictionnary[building.ref[0]].y))
                 else:
                     print("Warning: node " + str(ref) + " not referenced.")
             file.write("  ]\n")

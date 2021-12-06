@@ -10,7 +10,7 @@ static void move_vehicle(const char *def_name) {
   WbNodeRef robot_node = wb_supervisor_node_get_from_def(def_name);
   WbFieldRef translation_field = wb_supervisor_node_get_field(robot_node, "translation");
   const double *current_position = wb_supervisor_field_get_sf_vec3f(translation_field);
-  double position[3] = {current_position[0], current_position[1], current_position[2] - 2};
+  double position[3] = {current_position[0] - 2, current_position[1], current_position[2]};
   wb_supervisor_field_set_sf_vec3f(translation_field, position);
 }
 

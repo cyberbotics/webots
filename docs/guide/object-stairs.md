@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightStairs {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "straight stairs"
   SFVec3f    stepSize           0.4 0.03 1.27
   SFFloat    stepRise           0.15
@@ -70,7 +70,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightStairsLanding {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "straight stairs landing"
   SFVec3f    landingSize     0.4 0.03 1.27
   SFFloat    height          2.0
@@ -128,7 +128,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightStairsRail {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "straight stairs rail"
   SFFloat    run              2.0
   SFFloat    rise             0.75

@@ -42,7 +42,7 @@ class Road(object):
             self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' %
                                                           (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
         except:
-            self.rotation = [0.0, 1.0, 0.0, 0.0]
+            self.rotation = [0.0, 0.0, 1.0, 0]
         try:
             self.startJunctionID = re.findall(r'startJunction\s*"([^"]*)"', wbtString)[0]
         except:
@@ -54,6 +54,13 @@ class Road(object):
         if self.roadType == 'Road':
             try:
                 self.wayPoints = grouper(3, [float(x) for x in re.findall(r'wayPoints\s*\[([^\]]*)\]', wbtString)[0].split()])
+                correction_angle = math.pi * 0.5
+                for i in range(len(self.wayPoints)):
+                    wayPoint = self.wayPoints[i]
+                    x = -math.cos(correction_angle) * wayPoint[0] + math.sin(correction_angle) * wayPoint[1]
+                    y = math.cos(correction_angle) * wayPoint[1] + math.sin(correction_angle) * wayPoint[0]
+                    z = wayPoint[2]
+                    self.wayPoints[i] = [x, y, z]
             except:
                 self.wayPoints = []
             splineSubdivision = 4
@@ -69,14 +76,14 @@ class Road(object):
                 length = float(re.findall(r'length\s*(%s)' % floatRE, wbtString)[0])
             except:
                 length = 10.0
-            self.wayPoints = [[0, 0, 0], [0, 0, length]]
+            self.wayPoints = [[0, 0, 0], [0, length, 0]]
         elif self.roadType == 'CurvedRoadSegment':
             self.wayPoints = []
-            subdivision = 8
+            subdivision = 16
             try:
                 subdivision = int(re.findall(r'subdivision\s*(%s)' % intRE, wbtString)[0])
             except:
-                subdivision = 8
+                subdivision = 16
             curvatureRadius = 10.0
             try:
                 curvatureRadius = float(re.findall(r'curvatureRadius\s*(%s)' % floatRE, wbtString)[0])
@@ -90,7 +97,7 @@ class Road(object):
             for i in range(subdivision + 1):
                 x1 = curvatureRadius * math.cos(float(i) * totalAngle / float(subdivision))
                 y1 = curvatureRadius * math.sin(float(i) * totalAngle / float(subdivision))
-                self.wayPoints.append([x1, 0, y1])
+                self.wayPoints.append([x1, y1, 0])
         else:
             self.wayPoints = []
         try:
@@ -105,18 +112,18 @@ class Road(object):
         self.backwardLanes = self.lanes - self.forwardLanes
         self.oneWay = self.backwardLanes == 0
 
-        if self.rotation[0] < 0.01 and self.rotation[2] < 0.01:
+        if self.rotation[0] < 0.01 and self.rotation[1] < 0.01:
             angle = self.rotation[3]
-            if self.rotation[1] > 0:
+            if self.rotation[2] < 0:
                 angle = -angle
             for i in range(len(self.wayPoints)):
                 wayPoint = self.wayPoints[i]
-                x = math.cos(angle) * wayPoint[0] - math.sin(angle) * wayPoint[2]
-                y = wayPoint[1]
-                z = math.cos(angle) * wayPoint[2] + math.sin(angle) * wayPoint[0]
+                x = math.cos(angle) * wayPoint[1] - math.sin(angle) * wayPoint[0]
+                y = math.cos(angle) * wayPoint[0] + math.sin(angle) * wayPoint[1]
+                z = wayPoint[2]
                 self.wayPoints[i] = [x, y, z]
         else:
-            print('Warning: cannot export edge "%s" because the road is rotated not only along axis Y.' % self.id)
+            print('Warning: cannot export edge "%s" because the road is rotated not only along axis Z.' % self.id)
 
     def create_edge(self, edges):
         """Create the SUMO edge XML node(s) matching with the Webots road."""
@@ -132,7 +139,7 @@ class Road(object):
 
         # The original path should be slightly shifted if the case where the
         # forwardLanes and backwardLanes are not matching.
-        originalCoords = [[- x - self.translation[0], z + self.translation[2]] for [x, y, z] in self.wayPoints]
+        originalCoords = [[x + self.translation[0],  y + self.translation[1]] for [x, y, z] in self.wayPoints]
         originalLineString = LineString(originalCoords)
         if self.oneWay:
             originalLineString = originalLineString.parallel_offset(0.5 * laneWidth * self.forwardLanes, 'left')

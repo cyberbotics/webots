@@ -328,6 +328,7 @@ namespace wren {
       glstate::setStencilTest(false);
       glstate::setColorMask(true, true, true, true);
       glstate::setCullFace(false);
+      glstate::setPolygonMode(GL_FILL);
 
       unsigned int brdfTextureGlName = Texture::generateNewTexture();
 

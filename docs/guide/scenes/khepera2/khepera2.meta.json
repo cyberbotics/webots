@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0.0075 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.0075",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0.0075 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.0075",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
@@ -92,13 +92,13 @@
     {
       "name": "ls0",
       "transformID": "n10",
-      "transformOffset": "-0.027 0.0169 -0.015",
+      "transformOffset": "0.015 0.027 0.0169",
       "type": "LightSensor"
     },
     {
       "name": "ls1",
       "transformID": "n10",
-      "transformOffset": "-0.021 0.0169 -0.022",
+      "transformOffset": "0.022 0.021 0.0169",
       "type": "LightSensor"
     },
     {

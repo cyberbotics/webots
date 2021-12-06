@@ -95,7 +95,7 @@ bool WbVirtualRealityHeadset::isInUse() {
 
 WbVirtualRealityHeadset::WbVirtualRealityHeadset() :
   mViewpointPosition(WbVector3(0.0, 0.0, 0.0)),
-  mViewpointOrientation(WbRotation(0.0, 1.0, 0.0, 0.0)) {
+  mViewpointOrientation(WbRotation(0.0, 0.0, 1.0, 0.0)) {
   mSystem = NULL;
   mWrenCameras[LEFT] = NULL;
   mWrenCameras[RIGHT] = NULL;

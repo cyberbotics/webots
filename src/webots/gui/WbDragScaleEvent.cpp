@@ -205,13 +205,13 @@ void WbRescaleElevationGridEvent::apply(const QPoint &currentMousePosition) {
 
   mElevationGrid->setXspacing(resizedXspacing);
 
-  const double resizedZspacing = mElevationGrid->zSpacing() * mResizeRatio;
-  if (exceedsFloatMax(resizedZspacing)) {
+  const double resizedYspacing = mElevationGrid->ySpacing() * mResizeRatio;
+  if (exceedsFloatMax(resizedYspacing)) {
     emit aborted();
     return;
   }
 
-  mElevationGrid->setZspacing(resizedZspacing);
+  mElevationGrid->setYspacing(resizedYspacing);
 
   if (exceedsFloatMax(mResizeRatio * mElevationGrid->heightRange())) {
     emit aborted();

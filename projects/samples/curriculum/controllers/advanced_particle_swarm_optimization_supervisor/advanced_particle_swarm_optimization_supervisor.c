@@ -104,7 +104,7 @@ static void random_position(void) {
   int n = 0;
   for (; n < NB_ROBOTS; n++) {
     p[0] = (ARENA_SIZE * 0.8) * ((double)rand() / RAND_MAX) - ARENA_SIZE / 2.0;  // x coordinate
-    p[2] = (ARENA_SIZE * 0.8) * ((double)rand() / RAND_MAX) - ARENA_SIZE / 2.0;  // y coordinate
+    p[1] = (ARENA_SIZE * 0.8) * ((double)rand() / RAND_MAX) - ARENA_SIZE / 2.0;  // y coordinate
 
     wb_supervisor_field_set_sf_vec3f(trans_field[n], p);
   }

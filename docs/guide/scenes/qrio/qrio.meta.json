@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 -0.081 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 -0.081",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_1",
@@ -12,7 +12,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 0 -1",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_2",
@@ -21,8 +21,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.104 0.006",
-      "axis": "-1 0 0",
+      "anchor": "0.006 0 -0.104",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_ankle_1",
@@ -32,7 +32,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 0 -1",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_ankle_2",
@@ -41,8 +41,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.082 0.012",
-      "axis": "-1 0 0",
+      "anchor": "0.012 0 -0.082",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_elbow",
@@ -51,8 +51,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.048 -0.032 -0.013",
-      "axis": "0 1 0",
+      "anchor": "-0.013 0.048 -0.032",
+      "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_hip_1",
@@ -61,8 +61,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.024 0.013",
-      "axis": "-1 0 0",
+      "anchor": "0.013 0 -0.024",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_hip_2",
@@ -72,7 +72,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 0 1",
+      "axis": "1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_hip_3",
@@ -81,8 +81,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.116 0",
-      "axis": "1 0 0",
+      "anchor": "0 0 -0.116",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_knee",
@@ -91,8 +91,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.105 0.048 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0.105 0.048",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_shoulder_1",
@@ -102,7 +102,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 0 1",
+      "axis": "1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_shoulder_2",
@@ -111,8 +111,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0.081 0",
-      "axis": "0 1 0",
+      "anchor": "0 0 0.081",
+      "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "neck",
@@ -121,8 +121,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.104 0.006",
-      "axis": "-1 0 0",
+      "anchor": "0.006 0 -0.104",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_ankle_1",
@@ -132,7 +132,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 0 1",
+      "axis": "1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_ankle_2",
@@ -141,8 +141,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.082 0.012",
-      "axis": "-1 0 0",
+      "anchor": "0.012 0 -0.082",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_elbow",
@@ -151,8 +151,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.048 -0.032 -0.013",
-      "axis": "0 -1 0",
+      "anchor": "-0.013 -0.048 -0.032",
+      "axis": "0 0 -1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_hip_1",
@@ -161,8 +161,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.024 0.013",
-      "axis": "-1 0 0",
+      "anchor": "0.013 0 -0.024",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_hip_2",
@@ -172,7 +172,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 0 -1",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_hip_3",
@@ -181,8 +181,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.116 0",
-      "axis": "1 0 0",
+      "anchor": "0 0 -0.116",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_knee",
@@ -191,8 +191,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.105 0.048 0",
-      "axis": "-1 0 0",
+      "anchor": "0 -0.105 0.048",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_shoulder_1",
@@ -202,7 +202,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 0 -1",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_shoulder_2",

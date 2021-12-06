@@ -16,11 +16,11 @@ PROTO ColladaShapes [
     }
   >%
 
-Group {
+  Group {
     children [
-        %< if (url !== '') { >%
-            %<= wbcollada.getVrmlFromFile(url) >%
-        %< } >%
+      %< if (url !== '') { >%
+        %<= wbcollada.getVrmlFromFile(url) >%
+      %< } >%
     ]
-}
+  }
 }

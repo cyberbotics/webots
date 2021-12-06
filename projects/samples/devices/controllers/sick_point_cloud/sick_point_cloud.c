@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
       WbLidarPoint point = layer[p];
 
       // Determine if an obstacle is present or not.
-      const bool obstacle = -point.z < THRESHOLD;
+      const bool obstacle = point.x < THRESHOLD;
 
       // Each time a new obstacle is detected, then increment the object counter.
       if (obstacle && !previous_obstacle)

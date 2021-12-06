@@ -18,6 +18,7 @@ DirectionalLight {
   castShadows TRUE
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 ProtoRestrictedFieldValues {
   rotation 0 1 0 1.5708

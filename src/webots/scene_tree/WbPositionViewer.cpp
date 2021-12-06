@@ -118,8 +118,8 @@ void WbPositionViewer::update() {
       WbRotation referenceRotation = WbRotation(transform->rotationMatrix());
       currentRotation.normalize();
       referenceRotation.normalize();
-      if (currentRotation == referenceRotation)  // if there is no orientation difference, return 0 1 0 0
-        rotation = WbRotation(0, 1, 0, 0);
+      if (currentRotation == referenceRotation)  // if there is no orientation difference, return 0 0 1 0
+        rotation = WbRotation(0, 0, 1, 0);
       else
         rotation = WbRotation(currentRotation.toQuaternion() * referenceRotation.toQuaternion().conjugated());
     }

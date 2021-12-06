@@ -3,9 +3,9 @@
 precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
-const int maxDirectionalLights = 256;
-const int maxPointLights = 256;
-const int maxSpotLights = 256;
+const int maxDirectionalLights = 48;
+const int maxPointLights = 48;
+const int maxSpotLights = 48;
 
 in vec3 fragmentPosition;
 in vec3 fragmentNormal;

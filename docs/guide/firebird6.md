@@ -11,8 +11,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 FireBird6 {
-  SFVec3f    translation     0 0 0          
-  SFRotation rotation        0 1 0 0        
+  SFVec3f    translation     0 0 0.125           
+  SFRotation rotation        0 0 1 0        
   SFString   name            "Fire Bird 6"  
   SFString   controller      "fire_bird_6_obstacle_avoidance"
   MFString   controllerArgs  []

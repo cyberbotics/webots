@@ -59,8 +59,8 @@ void WbGeometry::init() {
   mWrenScaleTransform = NULL;
   mCollisionTime = -std::numeric_limits<float>::infinity();
   mPreviousCollisionTime = -std::numeric_limits<float>::infinity();
-  mOdeGeom = NULL;
   mIs90DegreesRotated = false;
+  mOdeGeom = NULL;
   mOdeMass = NULL;
   mResizeManipulator = NULL;
   mResizeManipulatorInitialized = false;
@@ -159,9 +159,9 @@ dGeomID WbGeometry::createOdeGeom(dSpaceID space) {
 
 void WbGeometry::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
-  const WbVector3 &yAxis = m.column(1);
+  const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
-  const double alpha = yAxis.angle(-g);
+  const double alpha = zAxis.angle(g);
 
   static const double ZERO_THRESHOLD = 1e-3;
 

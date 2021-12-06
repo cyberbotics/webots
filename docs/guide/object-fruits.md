@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Apple {
   SFVec3f    translation         0 0.05 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "apple"
   SFFloat    mass                0.15
   MFNode     immersionProperties []
@@ -46,7 +46,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 FruitBowl {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "fruit bowl"
   SFColor    color       1 1 1
   SFFloat    mass        0.5
@@ -79,7 +79,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Orange {
   SFVec3f    translation 0 0.05 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "orange"
   SFFloat    mass        0.15
 }

@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0.011918 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.0119",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0.011918 0",
-      "axis": "-1 0 0",
+      "anchor": "0 0 0.0119",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
@@ -33,19 +33,19 @@
     {
       "name": "S1",
       "transformID": "n10",
-      "transformOffset": "-0.024 0.016 -0.0246",
+      "transformOffset": "0.0246 0.024 0.016",
       "type": "TouchSensor"
     },
     {
       "name": "S2",
       "transformID": "n10",
-      "transformOffset": "0 0.01 -0.0146",
+      "transformOffset": "0.0146 0 0.01",
       "type": "DistanceSensor"
     },
     {
       "name": "S3",
       "transformID": "n10",
-      "transformOffset": "0.024 0.016 -0.0246",
+      "transformOffset": "0.0246 -0.024 0.016",
       "type": "TouchSensor"
     }
   ],

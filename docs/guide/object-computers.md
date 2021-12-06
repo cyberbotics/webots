@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ComputerMouse {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "computer mouse"
   SFColor    topColor    0.71 0.71 0.71
   SFColor    bottomColor 0.056 0.056 0.056
@@ -51,7 +51,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 DesktopComputer {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "desktop computer"
   SFColor    powerbuttonColor 0.252903 0.263813 0.266361
   SFFloat    mass             0
@@ -84,7 +84,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Keyboard {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "keyboard"
   SFColor    color       0.1 0.1 0.1
   SFFloat    mass        0
@@ -117,7 +117,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Laptop {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "laptop"
   SFString   controller  "laptop_switch_on"
   SFBool     supervisor  FALSE
@@ -148,7 +148,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Monitor {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "monitor"
   SFColor    color       0.15 0.15 0.15
   SFFloat    mass        0
