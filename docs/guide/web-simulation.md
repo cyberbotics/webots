@@ -416,12 +416,12 @@ Depending on the `/client` request message and `start` command (experimental), t
 
 Webots will checkout the simulation data from the provided `url` pointing to a Webots world file on a GitHub repository:
 ```
-https://github.com/alice/my_simulation/blob/my_brand_new_version/project/worlds/my_world_file.wbt
-                   └────────┬────────┘      └─────────┬────────┘ └──────────────┬───────────────┘
-                        repository            git tag or branch         path to world file
+https://github.com/alice/sim/blob/my_own_version/app/worlds/my_world.wbt
+                   └───┬───┘      └─────┬──────┘ └─────────┬───────────┘
+                  repository       tag or branch     path to world file
 ```
 Currently, this protocol only supports public GitHub repositories.
-In the above sample URL, the simulation server will checkout the content of the `/project` directory and start Webots with the specified `my_world_file.wbt` world file.
+In the above sample URL, the simulation server will checkout the `my_own_version` tag or branch of the `/app` directory from the `sim` repository of the `alice` GitHub user and it will start Webots with the specified `my_world.wbt` world file.
 
 This protocol is experimental and the robot windows are not yet supported.
 
