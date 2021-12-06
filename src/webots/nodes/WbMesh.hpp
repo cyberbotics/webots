@@ -15,6 +15,7 @@
 #ifndef WB_MESH_HPP
 #define WB_MESH_HPP
 
+#include <assimp/scene.h>
 #include "WbTriangleMeshGeometry.hpp"
 
 class WbDownloader;
@@ -56,6 +57,7 @@ private:
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }
   void init();
+  bool checkIfNameExists(const aiScene *scene, const QString &name) const;
 
 private slots:
   void updateUrl();

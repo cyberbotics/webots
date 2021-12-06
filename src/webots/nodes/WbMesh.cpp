@@ -26,7 +26,6 @@
 #include "WbWorld.hpp"
 
 #include <assimp/postprocess.h>
-#include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
@@ -93,6 +92,22 @@ void WbMesh::createResizeManipulator() {
   mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Z);
 }
 
+bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const {
+  std::list<aiNode *> queue;
+  queue.push_back(scene->mRootNode);
+  aiNode *node = NULL;
+  while (!queue.empty()) {
+    node = queue.front();
+    queue.pop_front();
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+      const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+      if (name == mesh->mName.data)
+        return true;
+    }
+  }
+  return false;
+}
+
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
   const QString filePath(path());
   if (filePath.isEmpty())
@@ -132,6 +147,11 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     return;
   } else if (!scene->HasMeshes()) {
     warn(tr("This file doesn't contain any mesh."));
+    return;
+  }
+
+  if (mName->value() != "" && !checkIfNameExists(scene, mName->value())) {
+    warn(tr("Geometry with the name `%1` doesn't exist in the mesh.").arg(mName->value()));
     return;
   }
 
