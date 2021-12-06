@@ -25,6 +25,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
+#include "WbQjsCollada.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -82,6 +83,23 @@ void WbNodeOperations::cleanup() {
 }
 
 WbNodeOperations::WbNodeOperations() : mNodesAreAboutToBeInserted(false), mSkipUpdates(false), mFromSupervisor(false) {
+  // connect(WbQjsCollada::instance(), &WbQjsCollada::vrmlFromFileRequested, this, &WbNodeOperations::onVrmlExportRequested);
+}
+
+void WbNodeOperations::onVrmlExportRequested(const QString &filePath) {
+  /*
+  QString stream;
+  WbNodeOperations::OperationResult result =
+  WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, true, true, true, false, false, true);
+  if (result == WbNodeOperations::OperationResult::FAILURE) {
+    WbLog::instance()->error(QString("JavaScript error: cannot parse the Collada file: %1.").arg(filePath), false,
+                             WbLog::PARSING);
+    WbQjsCollada::instance()->setVrmlResponse("");
+    return;
+  }
+  QTextStream(stdout) << stream << "\n";
+  WbQjsCollada::instance()->setVrmlResponse(stream);
+  */
 }
 
 void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const {

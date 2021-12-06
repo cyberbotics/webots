@@ -73,6 +73,7 @@ public:
 public slots:
   void requestUpdateDictionary();
   void requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef);
+  void onVrmlExportRequested(const QString &filePath);
 
 signals:
   void nodeAdded(WbNode *node);

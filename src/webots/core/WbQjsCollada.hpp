@@ -21,10 +21,22 @@ class WbQjsCollada : public QObject {
   Q_OBJECT
 
 public:
-  Q_INVOKABLE WbQjsCollada(){};
   ~WbQjsCollada(){};
+  Q_INVOKABLE static WbQjsCollada *instance();
+  Q_INVOKABLE WbQjsCollada(){};
 
   Q_INVOKABLE QString getVrmlFromFile(const QString &filePath);
+
+/*
+signals:
+  void vrmlFromFileRequested(const QString &filePath);
+
+public:
+  void setVrmlResponse(const QString &vrml) { mVrmlResponse = vrml; };
+
+private:
+  QString mVrmlResponse;
+  */
 };
 
 #endif

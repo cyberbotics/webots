@@ -13,12 +13,27 @@
 // limitations under the License.
 
 #include "WbQjsCollada.hpp"
-#include "WbLog.hpp"
-#include "WbNodeOperations.hpp"
+//#include "WbLog.hpp"
+//#include "WbNodeOperations.hpp"
 #include "WbStandardPaths.hpp"
+#include <iostream>
+
+
+WbQjsCollada *gQjsColladaInstance = NULL;
+
+WbQjsCollada *WbQjsCollada::instance() {
+  if (gQjsColladaInstance == NULL)
+    gQjsColladaInstance = new WbQjsCollada();
+  return gQjsColladaInstance;
+}
 
 QString WbQjsCollada::getVrmlFromFile(const QString &filePath) {
   QString stream = "";
+
+  // emit vrmlFromFileRequested(filePath);
+  // std::cout << mVrmlResponse.toStdString() << "\n";
+
+  /*
   WbNodeOperations::OperationResult result =
     WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, true, true, true, false, false, true);
   if (result == WbNodeOperations::OperationResult::FAILURE) {
@@ -26,5 +41,7 @@ QString WbQjsCollada::getVrmlFromFile(const QString &filePath) {
                              WbLog::PARSING);
     return "";
   }
+  */
+
   return stream;
 }

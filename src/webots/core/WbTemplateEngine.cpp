@@ -18,6 +18,7 @@
 #include "WbProject.hpp"
 #include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbQjsCollada.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
@@ -38,13 +39,6 @@ static bool gValidLuaResources = true;
 static bool gValidJavaScriptResources = true;
 static QString gLuaTemplateFileContent;
 static QString gJavaScriptTemplateFileContent;
-
-class WbQjsCollada : public QObject {
-  Q_OBJECT
-
-public:
-  Q_INVOKABLE QString getVrmlFromFile(const QString &filePath);
-};
 
 namespace {
   // Note: not the default opening/closing tokens in order to allow
@@ -287,7 +281,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QJSValue jsFile = engine.newQObject(jsFileObject);
   engine.globalObject().setProperty("wbfile", jsFile);
   // create and add collada module
-  WbQjsCollada *jsColladaObject = new WbQjsCollada();
+  WbQjsCollada *jsColladaObject = WbQjsCollada::instance();
   QJSValue jsCollada = engine.newQObject(jsColladaObject);
   engine.globalObject().setProperty("wbcollada", jsCollada);
   // add stream holders
