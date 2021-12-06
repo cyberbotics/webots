@@ -86,6 +86,7 @@ void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
+  connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
 }
 
 void WbMesh::createResizeManipulator() {
@@ -473,6 +474,12 @@ void WbMesh::updateUrl() {
   if (isPostFinalizedCalled())
     emit changed();
 }
+
+void WbMesh::updateName() {
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
 
 QString WbMesh::path() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
