@@ -57,11 +57,11 @@ DEF ROBOT Robot {
                   ]
                   endPoint Solid {
                     translation 0 -0.3 0
-                    rotation 0 0.707107 0.707107 3.14159
+                    rotation 0 0.7071067811865476 0.7071067811865476 3.14159
                     children [
                       InertialUnit {
                         translation 0 0 -0.08
-                        rotation 0.57735 -0.577351 -0.57735 -2.094395
+                        rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -102,7 +102,7 @@ DEF ROBOT Robot {
                           }
                           Transform {
                             translation 0 0 -0.06
-                            rotation 0.57735 -0.57735 -0.57735 2.094395
+                            rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
                             children [
                               Shape {
                                 appearance DEF METAL_APPEARANCE PBRAppearance {
@@ -150,7 +150,7 @@ DEF ROBOT Robot {
                     }
                     Transform {
                       translation 0 -0.3 0
-                      rotation -0.577351 0.577349 -0.577351 -2.094395
+                      rotation -0.5773509358554485 0.5773489358556708 -0.5773509358554485 -2.094395
                       children [
                         Shape {
                           appearance USE METAL_APPEARANCE

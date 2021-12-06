@@ -53,10 +53,10 @@ DEF RECEIVER_BOT Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.134487 -0.134487 -0.981747 1.589218
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0.577657 0.577197 -0.577197 -2.093935
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -96,7 +96,7 @@ DEF RECEIVER_BOT Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.062357 0.062357 -0.996104 1.5747
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -107,10 +107,10 @@ DEF RECEIVER_BOT Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940735 0.23981 0.23981 1.631852
+      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
       children [
         DEF SENSOR Transform {
-          rotation 0.577657 0.577197 -0.577197 -2.093935
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -137,7 +137,7 @@ DEF RECEIVER_BOT Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.940374 -0.240516 -0.240516 1.632235
+      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
       children [
         USE SENSOR
       ]
@@ -152,7 +152,7 @@ DEF RECEIVER_BOT Robot {
     }
     DEF SMILE Transform {
       translation 0.036 0 0.025
-      rotation 0.250563 -0.935113 -0.250563 1.637834
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -211,10 +211,10 @@ DEF EMITTER_BOT Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.134487 -0.134487 -0.981747 1.589218
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
           DEF WHEEL Transform {
-            rotation 0.577657 0.577197 -0.577197 -2.093935
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -254,7 +254,7 @@ DEF EMITTER_BOT Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.062357 0.062357 -0.996104 1.5747
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -265,10 +265,10 @@ DEF EMITTER_BOT Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940735 0.23981 0.23981 1.631852
+      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
       children [
         DEF SENSOR Transform {
-          rotation 0.577657 0.577197 -0.577197 -2.093935
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -295,7 +295,7 @@ DEF EMITTER_BOT Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.940374 -0.240516 -0.240516 1.632235
+      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
       children [
         USE SENSOR
       ]

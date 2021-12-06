@@ -38,22 +38,22 @@ DEF WITHOUT_BACKLASH Robot {
     }
     CapScrew {
       translation 0.08 0.08 0.005
-      rotation -0.57735 -0.57735 0.57735 -2.094395
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
       name "cap screw left side 1"
     }
     CapScrew {
       translation 0.08 -0.08 0.005
-      rotation -0.57735 -0.57735 0.57735 -2.094395
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
       name "cap screw left side 2"
     }
     CapScrew {
       translation -0.08 -0.08 0.005
-      rotation -0.57735 -0.57735 0.57735 -2.094395
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
       name "cap screw left side 3"
     }
     CapScrew {
       translation -0.08 0.08 0.005
-      rotation -0.57735 -0.57735 0.57735 -2.094395
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
       name "cap screw left side 4"
     }
     Solid {
@@ -97,7 +97,7 @@ DEF WITHOUT_BACKLASH Robot {
         }
         Solid {
           translation 0 0 0.07
-          rotation 0.57735 -0.57735 0.57735 -2.094395
+          rotation 0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
           children [
             Shape {
               appearance BrushedAluminium {
@@ -109,14 +109,14 @@ DEF WITHOUT_BACKLASH Robot {
             }
             Bolt {
               translation 0 0 0.0053
-              rotation -0.57735 0.57735 0.57735 2.0944
+              rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
               name "bolt left side 1"
               screwRadius 0.0031
               screwLength 0.02
             }
             Bolt {
               translation 0 0 -0.0052
-              rotation -0.57735 0.57735 -0.57735 -2.094395
+              rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 -2.094395
               name "bolt left side 2"
               screwRadius 0.0031
               screwLength 0.02
@@ -148,7 +148,7 @@ DEF WITHOUT_BACKLASH Robot {
           ]
           endPoint Solid {
             translation 0 0 0.07
-            rotation 0.577351 0.577349 -0.577351 2.0944
+            rotation 0.5773509358554485 0.5773489358556708 -0.5773509358554485 2.0944
             children [
               Shape {
                 appearance BrushedAluminium {
@@ -160,13 +160,13 @@ DEF WITHOUT_BACKLASH Robot {
               }
               Bolt {
                 translation 0 0 0.0053
-                rotation -0.57735 0.57735 0.57735 2.0944
+                rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
                 screwRadius 0.0031
                 screwLength 0.02
               }
               Bolt {
                 translation 0 0 -0.0052
-                rotation -0.57735 0.57735 -0.57735 -2.094395
+                rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 -2.094395
                 name "bolt left 2"
                 screwRadius 0.0031
                 screwLength 0.02
@@ -305,7 +305,7 @@ DEF WITH_BACKLASH Robot {
         }
         Solid {
           translation 0 0 0.07
-          rotation 0.57735 0.577351 -0.57735 -2.094395
+          rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395
           children [
             Shape {
               appearance BrushedAluminium {
@@ -317,14 +317,14 @@ DEF WITH_BACKLASH Robot {
             }
             Bolt {
               translation 0 0 0.0053
-              rotation -0.57735 0.577351 0.57735 2.0944
+              rotation -0.577349935856137 0.5773509358560258 0.577349935856137 2.0944
               name "bolt right side 1"
               screwRadius 0.0031
               screwLength 0.02
             }
             Bolt {
               translation 0 0 -0.0052
-              rotation -0.57735 0.57735 -0.57735 -2.094395
+              rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 -2.094395
               name "bolt right side 2"
               screwRadius 0.0031
               screwLength 0.02
@@ -358,7 +358,7 @@ DEF WITH_BACKLASH Robot {
           ]
           endPoint Solid {
             translation 0 0 0.07
-            rotation 0.577351 0.577349 -0.577351 2.0944
+            rotation 0.5773509358554485 0.5773489358556708 -0.5773509358554485 2.0944
             children [
               Shape {
                 appearance BrushedAluminium {
@@ -370,13 +370,13 @@ DEF WITH_BACKLASH Robot {
               }
               Bolt {
                 translation 0 0 0.0053
-                rotation -0.57735 0.57735 0.57735 2.0944
+                rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
                 screwRadius 0.0031
                 screwLength 0.02
               }
               Bolt {
                 translation 0 0 -0.0052
-                rotation -0.57735 0.57735 -0.57735 -2.094395
+                rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 -2.094395
                 name "bolt(1)"
                 screwRadius 0.0031
                 screwLength 0.02

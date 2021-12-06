@@ -32,7 +32,6 @@ SpotLight {
   attenuation 0 0 1
   beamWidth 1
   cutOffAngle 1.4
-  direction 0 0 -1
   intensity 3
   location 0 -1 1.6
   radius 4
@@ -65,7 +64,7 @@ Floor {
 }
 DEF BALL Solid {
   translation 0.150451 0.469013 0.05
-  rotation 0.346096 0.744323 0.571139 2.622439
+  rotation 0.346096185703842 0.7443233993794807 0.5711393064545865 2.622439
   children [
     Shape {
       appearance PBRAppearance {
@@ -144,7 +143,7 @@ DEF CEILING Solid {
 }
 DEF DOOR_WALL Solid {
   translation 0 4.9 1.2
-  rotation 0.57735 0.577352 -0.57735 2.094393
+  rotation 0.5773496025226483 0.5773516025212714 -0.5773496025226483 2.094393
   children [
     Shape {
       appearance DEF DOOR_WALL_APPEARANCE Roughcast {
@@ -164,7 +163,7 @@ DEF DOOR_WALL Solid {
 }
 DEF BACK_WALL Solid {
   translation 0 -4.9 1.2
-  rotation 0.577351 -0.577349 -0.577351 -2.094395
+  rotation 0.5773509358554485 -0.5773489358556708 -0.5773509358554485 -2.094395
   children [
     Shape {
       appearance USE DOOR_WALL_APPEARANCE
@@ -179,7 +178,7 @@ DEF BACK_WALL Solid {
 }
 DEF SHORT_WINDOW_WALL Solid {
   translation 3.9 3.05 1.2
-  rotation -0.707107 0 0.707107 3.141595
+  rotation -0.7071067811865476 0 0.7071067811865476 3.141595
   children [
     Shape {
       appearance DEF SHORT_WALL_APPEARANCE Roughcast {
@@ -229,7 +228,7 @@ DEF LONG_WINDOW_WALL Solid {
 }
 DEF LONG_WINDOW_WALL Solid {
   translation 3.9 -2.65 1.2
-  rotation -0.707107 0 0.707107 3.141595
+  rotation -0.7071067811865476 0 0.7071067811865476 3.141595
   children [
     Shape {
       appearance USE SHORT_WALL_APPEARANCE
@@ -243,7 +242,7 @@ DEF LONG_WINDOW_WALL Solid {
   boundingObject USE LONG_WINDOW_WALL_SHAPE
 }
 Window {
-  translation 4.0 0 0
+  translation 4 0 0
   windowSillSize 0.1 0.04
   wallAppearance DEF WINDOW_WALL_APPEARANCE Roughcast {
     colorOverride 0.415686 0.647059 0.545098
@@ -251,14 +250,14 @@ Window {
   castShadows FALSE
 }
 Window {
-  translation 4.0 0.8 0
+  translation 4 0.8 0
   name "window(1)"
   windowSillSize 0.1 0.04
   wallAppearance USE WINDOW_WALL_APPEARANCE
   castShadows FALSE
 }
 Window {
-  translation -4.0 0 0
+  translation -4 0 0
   rotation 0 0 1 3.1415
   name "window(2)"
   windowSillSize 0.1 0.04
@@ -266,7 +265,7 @@ Window {
   castShadows FALSE
 }
 Window {
-  translation -4.0 0.8 0
+  translation -4 0.8 0
   rotation 0 0 1 3.14159
   name "window(3)"
   windowSillSize 0.1 0.04
@@ -1743,7 +1742,7 @@ DEF WORLD_MAP_BANNER Solid {
 }
 DEF ALPHABET_POSTER Solid {
   translation -1.959981 -4.882812 1.28
-  rotation 0 0.707107 0.707107 3.14159
+  rotation 0 0.7071067811865476 0.7071067811865476 3.14159
   scale 0.97109691 0.97109691 0.97109691
   children [
     Shape {
@@ -1767,7 +1766,7 @@ DEF ALPHABET_POSTER Solid {
 }
 DEF SHAPES_POSTER Solid {
   translation -3.894528 2.275382 0.98
-  rotation 0.57735 0.57735 0.57735 2.0944
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
   scale 0.97109691 0.97109691 0.97109691
   children [
     Shape {
@@ -1810,7 +1809,7 @@ DEF FINISH_LINE Solid {
 }
 DEF PINBOARD Solid {
   translation -1.989981 4.877188 1.01
-  rotation 0 -0.707107 0.707107 3.141593
+  rotation 0 -0.7071067811865476 0.7071067811865476 3.141593
   scale 0.8 0.8 0.8
   children [
     DEF BOARD Shape {
@@ -1872,7 +1871,7 @@ DEF PINBOARD Solid {
 }
 DEF FIRST_DRAWING Solid {
   translation -1.685221 4.870821 1.21
-  rotation 0 0.707107 -0.707107 3.141593
+  rotation 0 0.7071067811865476 -0.7071067811865476 3.141593
   children [
     Shape {
       appearance PBRAppearance {
@@ -1924,7 +1923,7 @@ DEF FIRST_DRAWING Solid {
 }
 DEF SECOND_DRAWING Solid {
   translation -2.355221 4.870821 0.81
-  rotation 0.57735 0.57735 -0.57735 2.094395
+  rotation 0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.094395
   children [
     Shape {
       appearance PBRAppearance {
@@ -1998,7 +1997,7 @@ DEF WORLD_MAP Solid {
 }
 DEF COAT_PEGS Solid {
   translation -0.809981 4.877188 0.82
-  rotation 0 -0.707107 0.707107 3.141593
+  rotation 0 -0.7071067811865476 0.7071067811865476 3.141593
   children [
     DEF PEGS Shape {
       appearance PBRAppearance {
@@ -2061,7 +2060,7 @@ DEF COAT_PEGS Solid {
 }
 DEF CRAYON_BLUE Solid {
   translation -1.948512 -0.038861 0.332
-  rotation 0.637718 -0.544663 -0.544663 2.006207
+  rotation 0.6377180590966975 -0.5446630504733826 -0.5446630504733826 2.006207
   children [
     Shape {
       appearance PBRAppearance {
@@ -2086,7 +2085,7 @@ DEF CRAYON_BLUE Solid {
 }
 DEF CRAYON_BLACK Solid {
   translation -1.827808 0.021156 0.332
-  rotation 0.958936 -0.200551 -0.200551 1.612715
+  rotation 0.9589361633557483 -0.20055103416407213 -0.20055103416407213 1.612715
   children [
     Shape {
       appearance PBRAppearance {
@@ -2111,7 +2110,7 @@ DEF CRAYON_BLACK Solid {
 }
 DEF CRAYON_RED Solid {
   translation 1.204945 -0.287941 0.332
-  rotation 0.33896 -0.665247 -0.665247 2.487981
+  rotation 0.3389598265173545 -0.6652466595208596 -0.6652466595208596 2.487981
   children [
     Shape {
       appearance PBRAppearance {
@@ -2209,7 +2208,7 @@ DEF PENCIL Solid {
 }
 DEF PAINTBRUSH Solid {
   translation 0.014446 -0.307347 0.018623
-  rotation 0.083323 -0.116277 -0.989716 3.984695
+  rotation 0.08332296568286038 -0.1162769521105332 -0.9897155923787893 3.984695
   children [
     Shape {
       appearance PBRAppearance {
@@ -2283,7 +2282,7 @@ DEF PAINTBRUSH Solid {
 DEF CUBE_OBSTACLES Group {
   children [
     DEF W_BLOCK Solid {
-      translation -2.3 4.0 0.03
+      translation -2.3 4 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2351,7 +2350,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF A_BLOCK Solid {
-      translation -2.0 4.1 0.03
+      translation -2 4.1 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2419,7 +2418,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF A_BLOCK Solid {
-      translation -2.2 4.0 0.03
+      translation -2.2 4 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2487,7 +2486,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF W_BLOCK Solid {
-      translation -2.0 4.0 0.03
+      translation -2 4 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2555,7 +2554,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF W_BLOCK Solid {
-      translation -2.1 4.0 0.03
+      translation -2.1 4 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
@@ -2827,7 +2826,7 @@ DEF CUBE_OBSTACLES Group {
       }
     }
     DEF B_BLOCK Solid {
-      translation -2.0 4.2 0.03
+      translation -2 4.2 0.03
       scale 0.5 0.5 0.5
       children [
         Shape {
