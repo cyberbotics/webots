@@ -79,6 +79,9 @@ public slots:
   void restoreRenderingDevicesPerspective();
   void resetWorldFromGui();
 
+  void uploadScene();
+  void startAnimationRecording();
+
 protected:
   bool event(QEvent *event) override;
   void closeEvent(QCloseEvent *event) override;
@@ -95,8 +98,6 @@ private slots:
   void resetGui(bool restartControllers);
   void importVrml();
   void exportVrml();
-  void exportHtml();
-  void sendRequest();
   void showAboutBox();
   void show3DViewingInfo();
   void show3DMovingInfo();
@@ -132,12 +133,16 @@ private slots:
   void deleteWorldLoadingProgressDialog();
   void setWorldLoadingProgress(const int progress);
   void setWorldLoadingStatus(const QString &status);
-  void startAnimationRecording();
   void stopAnimationRecording();
   void toggleAnimationIcon();
   void toggleAnimationAction(bool isRecording);
   void enableAnimationAction();
   void disableAnimationAction();
+
+  void ShareMenu();
+  void sendCloudRequest();
+  void updateCloudProgressBar(qint64 bytesSent, qint64 bytesTotal);
+  void uploadCloudFinished();
 
 private:
   void showHtmlRobotWindow(WbRobot *);
@@ -158,6 +163,7 @@ private:
   QAction *mToggleFullScreenAction;
   QAction *mExitFullScreenAction;
   QProgressDialog *mWorldLoadingProgressDialog;
+  QProgressDialog *mCloudLoadingProgressDialog;
   QTimer *mAnimationRecordingTimer;
   bool mIsFullScreenLocked;
   bool mWorldIsBeingDeleted;
@@ -222,8 +228,6 @@ private slots:
   void prepareNodeRegeneration(WbNode *node);
   void discardNodeRegeneration() { finalizeNodeRegeneration(NULL); }
   void finalizeNodeRegeneration(WbNode *node);
-
-  void downloadReplyFinished();
 };
 
 #endif
