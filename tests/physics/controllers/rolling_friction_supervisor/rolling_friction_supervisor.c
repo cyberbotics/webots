@@ -22,6 +22,7 @@
 #include "../../../lib/ts_utils.h"
 
 #define TIME_STEP 32
+#define BALL_COUNT 9
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
@@ -30,14 +31,14 @@ int main(int argc, char **argv) {
   const double lateral_velocity[6] = {0, 0, 0, -25, 0, 0};
   const double spinning_velocity[6] = {0, 0, 0, 0, 0, 25};
 
-  WbNodeRef ball_nodes[9];
-  for (int i = 0; i < 9; ++i) {
+  WbNodeRef ball_nodes[BALL_COUNT];
+  for (int i = 0; i < BALL_COUNT; ++i) {
     sprintf(name, "BALL_%d", i + 1);
     ball_nodes[i] = wb_supervisor_node_get_from_def(name);
   }
 
   // apply initial impulse to balls with rho2 and rhoN
-  for (int i = 3; i < 9; ++i) {
+  for (int i = 3; i < BALL_COUNT; ++i) {
     if (i < 6)
       wb_supervisor_node_set_velocity(ball_nodes[i], spinning_velocity);
     else
@@ -45,16 +46,16 @@ int main(int argc, char **argv) {
   }
 
   // save initial positions
-  double initial_position[9][3];
-  for (int i = 0; i < 9; ++i) {
+  double initial_position[BALL_COUNT][3];
+  for (int i = 0; i < BALL_COUNT; ++i) {
     const double *position = wb_supervisor_node_get_position(ball_nodes[i]);
     memcpy(&initial_position[i], position, 3 * sizeof(double));
   }
 
   wb_robot_step(100 * TIME_STEP);
 
-  const double *velocities[9];
-  for (int i = 0; i < 9; ++i)
+  const double *velocities[BALL_COUNT];
+  for (int i = 0; i < BALL_COUNT; ++i)
     velocities[i] = wb_supervisor_node_get_velocity(ball_nodes[i]);
 
   // check that velocities of balls with just rho rolling friction are consistent
@@ -83,8 +84,8 @@ int main(int argc, char **argv) {
   }
 
   // check that positions of balls with rho2 rolling friction are consistent
-  double delta_y[9];  // lateral displacement, higher rho2 should limit this sideways motion
-  for (int i = 0; i < 9; ++i) {
+  double delta_y[BALL_COUNT];  // lateral displacement, higher rho2 should limit this sideways motion
+  for (int i = 0; i < BALL_COUNT; ++i) {
     const double *position = wb_supervisor_node_get_position(ball_nodes[i]);
     delta_y[i] = fabs(initial_position[i][1] - position[1]);
   }
@@ -96,21 +97,21 @@ int main(int argc, char **argv) {
 
   // pre-registered velocities/positions after 200 timesteps (to ensure that if changes to the contact properties affect the
   // rolling behavior it will be detected)
-  const double expected_positions[9][3] = {
+  const double expected_positions[BALL_COUNT][3] = {
     {-5.822856, -3.0, 0.498430},       {-14.564553, 0.0, 0.498392},      {-25.145860, 3.0, 1.942235},
     {-16.0, -8.0, 1.498430},           {-14.0, -8.0, 1.498430},          {-12.0, -8.0, 1.498430},
     {-5.822856, -27.511330, 0.498430}, {1.171054, -19.324655, 0.498430}, {1.171054, -13.936790, 0.498430}};
-  const double expected_velocities[9][6] = {{5.957204, 0.0, 0.0, 0.0, 11.951927, 0.0},
-                                            {4.164077, 0.0, 0.000304, 0.0, 8.355176, 0.0},
-                                            {1.817242, 0.0, -0.368373, 0.0, 3.719816, 0.0},
-                                            {0.0, 0.0, 0.0, 0.0, 0.0, 25.0},
-                                            {0.0, 0.0, 0.0, 0.0, 0.0, 6.164800},
-                                            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-                                            {5.957204, 3.686891, 0.0, -7.397003, 11.951927, -3.446233},
-                                            {7.029157, 0.0, 0.0, 0.0, 0.0, -4.455340},
-                                            {7.029157, 0.0, 0.0, 0.0, 0.0, -4.867729}};
+  const double expected_velocities[BALL_COUNT][6] = {{5.957204, 0.0, 0.0, 0.0, 11.951927, 0.0},
+                                                     {4.164077, 0.0, 0.000304, 0.0, 8.355176, 0.0},
+                                                     {1.817242, 0.0, -0.368373, 0.0, 3.719816, 0.0},
+                                                     {0.0, 0.0, 0.0, 0.0, 0.0, 25.0},
+                                                     {0.0, 0.0, 0.0, 0.0, 0.0, 6.164800},
+                                                     {0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                                                     {5.957204, 3.686891, 0.0, -7.397003, 11.951927, -3.446233},
+                                                     {7.029157, 0.0, 0.0, 0.0, 0.0, -4.455340},
+                                                     {7.029157, 0.0, 0.0, 0.0, 0.0, -4.867729}};
 
-  for (int i = 0; i < 9; ++i) {
+  for (int i = 0; i < BALL_COUNT; ++i) {
     sprintf(name, "BALL_%d", i + 1);
     const double *position = wb_supervisor_node_get_position(ball_nodes[i]);
     const double *velocity = wb_supervisor_node_get_velocity(ball_nodes[i]);

@@ -55,11 +55,11 @@ Finally, with four values, both solids use asymmetric coefficients, first two fo
 The two friction directions are defined for each faces of the geometric primitives and match with the U and V components used in the texture mapping.
 Only the `Box`, `Plane` and `Cylinder` primitives support asymmetric friction.
 If another primitive is used, only the first value will be used for symmetric friction.
-WEBOTS\_HOME/projects/sample/howto/asymmetric\_friction/worlds/asymmetric\_friction1.wbt contains an example of fully asymmetric friction.
+The world [asymmetric\_friction1.wbt](../guide/samples-howto.md#asymmetric_friction1-wbt) contains an example of fully asymmetric friction.
 
 - The `frictionRotation` allows the user to rotate the friction directions used in case of asymmetric `coulombFriction` and/or asymmetric `forceDependentSlip`.
 By default, the directions are the same than the ones used for texture mapping (this can ease defining an asymmetric friction for a textured surface matching the rotation field of the corresponding TextureTransform node).
-WEBOTS\_HOME/projects/sample/howto/asymmetric\_friction/worlds/asymmetric\_friction2.wbt illustrates the use of this field.
+The world [asymmetric\_friction2.wbt](../guide/samples-howto.md#asymmetric_friction2-wbt) illustrates the use of this field.
 
 - The `rollingFriction` field specifies the coefficients of rolling/spinning friction.
 The field holds three coefficients, using ODE's nomenclature they are [rho, rho2, rhoN].
@@ -68,9 +68,7 @@ For a value of zero no rolling friction is applied.
 `rho` is the rolling friction coefficient in the first friction direction.
 `rho2` is the rolling friction coefficient in the second friction direction, perpendicular to that of `rho`.
 `rhoN` is the rolling friction coefficient around the normal direction.
-
-WEBOTS\_HOME/projects/sample/howto/rolling\_friction/worlds/rolling\_friction.wbt illustrates the effect of the different coefficients.
-
+The world [rolling\_friction.wbt](../guide/samples-howto.md#rolling_friction-wbt) illustrates the effect of the different coefficients.
 
 - The `bounce` field is the coefficient of restitution (COR) between 0 and 1.
 The coefficient of restitution (COR), or *bounciness* of an object is a fractional value representing the ratio of speeds after and before an impact.
@@ -117,4 +115,4 @@ Its gain and pitch are modulated by the linear velocity of the contact surface.
 The formulas affecting the gain and pitch of these sounds were determined empirically to produce fairly realistic sounds.
 They are subject to improvements.
 
-> **Note**: The youBot robot is a good example of asymmetric coulombFriction and forceDependentSlip, it is located in WEBOTS\_HOME/projects/robot/youbot/worlds/youbot.wbt.
+> **Note**: The [youBot](../guide/youbot.md) robot is a good example of asymmetric coulombFriction and forceDependentSlip.
