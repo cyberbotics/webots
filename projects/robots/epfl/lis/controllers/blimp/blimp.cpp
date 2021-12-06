@@ -85,16 +85,16 @@ int main() {
             command[0] += KEY_INCREMENT;
             break;
           case WB_KEYBOARD_LEFT:
-            command[1] -= KEY_INCREMENT;
-            break;
-          case WB_KEYBOARD_RIGHT:
             command[1] += KEY_INCREMENT;
             break;
+          case WB_KEYBOARD_RIGHT:
+            command[1] -= KEY_INCREMENT;
+            break;
           case WB_KEYBOARD_PAGEUP:
-            command[2] -= KEY_INCREMENT;
+            command[2] += KEY_INCREMENT;
             break;
           case WB_KEYBOARD_PAGEDOWN:
-            command[2] += KEY_INCREMENT;
+            command[2] -= KEY_INCREMENT;
             break;
           case ' ':  // space -> reset
             command[0] = 0.0;

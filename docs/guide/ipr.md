@@ -23,8 +23,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 IprHd6* {
-  SFVec3f    translation      0 0.62 0
-  SFRotation rotation         0 1 0 0
+  SFVec3f    translation      0 0 0.62
+  SFRotation rotation         0 0 1 0
   SFString   name             "IPR"
   SFString   controller       "void"
   MFString   controllerArgs   []

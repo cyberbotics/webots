@@ -17,7 +17,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Pr2 {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        1 0 0 -1.57
+  SFRotation rotation        0 0 1 0
   SFString   name            "PR2"
   SFString   controller      "pr2_demo"
   MFString   controllerArgs  []

@@ -85,6 +85,7 @@ export default class X3dScene {
     }
 
     this.renderMinimal();
+    clearTimeout(this._renderingTimeout);
     this._loader = undefined;
     webots.currentView.runOnLoad = false;
   }
@@ -112,6 +113,7 @@ export default class X3dScene {
         onLoad();
       }
     };
+    xmlhttp.onerror = document.getElementById('webotsProgressMessage').innerHTML = 'File not found.';
     xmlhttp.send();
   }
 

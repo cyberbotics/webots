@@ -2,7 +2,7 @@
   "devices": [
     {
       "anchor": "0 0 0",
-      "axis": "1 0 0",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "body pitch motor",
@@ -12,7 +12,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 1 0",
+      "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "body yaw motor",
@@ -22,7 +22,7 @@
     },
     {
       "anchor": "0 0 0",
-      "axis": "0 1 0",
+      "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "head yaw motor",
@@ -43,13 +43,13 @@
     {
       "name": "counterweight accelerometer",
       "transformID": "n10",
-      "transformOffset": "0 0.25 0",
+      "transformOffset": "0 0 0.25",
       "type": "Accelerometer"
     },
     {
       "name": "counterweight gyro",
       "transformID": "n10",
-      "transformOffset": "0 0.25 0",
+      "transformOffset": "0 0 0.25",
       "type": "Gyro"
     },
     {

@@ -337,7 +337,7 @@
     {
       "name": "rear camera",
       "transformID": "n483",
-      "transformOffset": "0.018113 1.66256 -0.0118637",
+      "transformOffset": "0.018113 1.66256 -0.011864",
       "type": "Camera"
     },
     {
@@ -379,7 +379,7 @@
     {
       "name": "right head camera",
       "transformID": "n101",
-      "transformOffset": "0.0448981 1.67797 -0.922603",
+      "transformOffset": "0.044898 1.67797 -0.922603",
       "type": "Camera"
     }
   ],

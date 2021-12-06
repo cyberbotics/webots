@@ -49,7 +49,7 @@ Here is how a PROTO file looks like:
 
 PROTO MyProto [
   field SFVec3f    translation   0 0 0
-  field SFRotation rotation      0 1 0 0
+  field SFRotation rotation      0 0 1 0
   field SFString   name          "my proto"
   field SFColor    color         0.5 0.5 0.5
   field SFNode     physics       NULL
@@ -73,7 +73,7 @@ If a field should have only a limited set of possible values, it is possible to 
 ```
 PROTO MyProto [
   field SFVec3f                             translation   0 0 0
-  field SFRotation                          rotation      0 1 0 0
+  field SFRotation                          rotation      0 0 1 0
   field SFString                            name          "my proto"
   field SFColor{0 0 0, 0.5 0.5 0.5, 1 1 1}  color         0.5 0.5 0.5
   field SFNode                              physics       NULL
@@ -94,7 +94,7 @@ For example:
 ```
 PROTO Bicycle [
   field SFVec3f    position   0 0 0
-  field SFRotation rotation   0 1 0 0
+  field SFRotation rotation   0 0 1 0
   field SFString   name       "bicycle"
   field SFColor    frameColor 0.5 0.5 0.5
   field SFBool     hasBrakes  TRUE

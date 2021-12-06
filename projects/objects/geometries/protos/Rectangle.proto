@@ -28,10 +28,10 @@ PROTO Rectangle [
   IndexedFaceSet {
     coord Coordinate {
       point [
-        %<= s0 >% %<= t0 >% 0
-        %<= s1 >% %<= t0 >% 0
-        %<= s1 >% %<= t1 >% 0
-        %<= s0 >% %<= t1 >% 0
+        0 %<= s0 >% %<= t0 >%
+        0 %<= s1 >% %<= t0 >%
+        0 %<= s1 >% %<= t1 >%
+        0 %<= s0 >% %<= t1 >%
       ]
     }
     texCoord TextureCoordinate {

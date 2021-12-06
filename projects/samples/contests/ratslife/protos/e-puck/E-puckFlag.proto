@@ -8,7 +8,7 @@ PROTO E-puckFlag [
 ]
 {
 DEF EPUCK_FLAG Transform {
-  translation 0 0.015 -0.005
+  translation 0.005 0 0.015
   rotation 1 0 0 0
   children [
     Shape {
@@ -22,10 +22,7 @@ DEF EPUCK_FLAG Transform {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-             -0.015 -0.015 0
-              0.015 -0.015 0
-              0.015  0.015 0
-             -0.015  0.015 0
+             0 -0.015 -0.015 0 0.015 -0.015 0 0.015 0.015 0 -0.015 0.015
           ]
         }
         texCoord TextureCoordinate {

@@ -15,6 +15,7 @@
 #include "RosGPS.hpp"
 #include "geometry_msgs/PointStamped.h"
 #include "sensor_msgs/NavSatFix.h"
+#include "webots_ros/Float64Stamped.h"
 
 RosGPS::RosGPS(GPS *gps, Ros *ros) : RosSensor(gps->getName(), gps, ros) {
   mGPS = gps;
@@ -28,6 +29,7 @@ RosGPS::RosGPS(GPS *gps, Ros *ros) : RosSensor(gps->getName(), gps, ros) {
 RosGPS::~RosGPS() {
   mCoordinateTypeServer.shutdown();
   mConvertServer.shutdown();
+  mSpeedPublisher.shutdown();
   mSpeedVectorPublisher.shutdown();
   cleanup();
 }
@@ -35,6 +37,9 @@ RosGPS::~RosGPS() {
 // creates a publisher for GPS values with a [3x1] {double} array
 // for x,y and z absolute coordinates as message type
 ros::Publisher RosGPS::createPublisher() {
+  webots_ros::Float64Stamped speedType;
+  mSpeedPublisher = RosDevice::rosAdvertiseTopic(mRos->name() + '/' + RosDevice::fixedDeviceName() + "/speed", speedType);
+
   std::string speedVectorTopicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/speed_vector";
   mSpeedVectorPublisher = RosDevice::rosAdvertiseTopic(speedVectorTopicName, geometry_msgs::PointStamped());
 
@@ -68,14 +73,24 @@ void RosGPS::publishValue(ros::Publisher publisher) {
 }
 
 void RosGPS::publishAuxiliaryValue() {
-  geometry_msgs::PointStamped value;
-  value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
-  const double *speed_vector = mGPS->getSpeedVector();
-  value.point.x = speed_vector[0];
-  value.point.y = speed_vector[1];
-  value.point.z = speed_vector[2];
-  mSpeedVectorPublisher.publish(value);
+  if (mGPS->getSamplingPeriod() > 0) {
+    if (mSpeedVectorPublisher.getNumSubscribers() >= 1) {
+      geometry_msgs::PointStamped value;
+      value.header.stamp = ros::Time::now();
+      value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+      const double *speed_vector = mGPS->getSpeedVector();
+      value.point.x = speed_vector[0];
+      value.point.y = speed_vector[1];
+      value.point.z = speed_vector[2];
+      mSpeedVectorPublisher.publish(value);
+    }
+    if (mSpeedPublisher.getNumSubscribers() >= 1) {
+      webots_ros::Float64Stamped speedValue;
+      speedValue.header.stamp = ros::Time::now();
+      speedValue.data = mGPS->getSpeed();
+      mSpeedPublisher.publish(speedValue);
+    }
+  }
 }
 
 bool RosGPS::getCoordinateTypeCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res) {

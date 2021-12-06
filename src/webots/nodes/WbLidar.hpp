@@ -148,6 +148,7 @@ private:
   void applyTiltAngleToWren();
 
 private slots:
+  void updateOrientation();
   void updateNear();
   void updateMinRange();
   void updateMaxRange();

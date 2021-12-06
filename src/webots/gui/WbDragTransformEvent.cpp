@@ -102,7 +102,7 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
     mIntersectionOutput = mMouseRay.intersects(mDragPlane);
     WbVector3 displacementFromInitialPosition =
-      mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset - mInitialPosition;
+      mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset - mInitialPosition;
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
     displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
@@ -394,8 +394,7 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   mManipulator->showRotationLine(true);
   mManipulator->updateRotationLine(mViewpoint->pick(mObjectScreenPosition.x(), mObjectScreenPosition.y(), mZEye),
                                    mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye),
-                                   mViewpoint->orientation()->value(),
-                                   mViewpoint->viewDistanceUnscaling(detachedHandlePosition) * 9);
+                                   mViewpoint->orientation()->value(), mViewDistanceUnscaling);
 
   int stepCount = 0;
   if (mStepSize > 0) {

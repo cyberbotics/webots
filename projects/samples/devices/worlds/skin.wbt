@@ -4,11 +4,10 @@ WorldInfo {
     "Example world demonstrating the use of the Skin device."
   ]
   title "Skin"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5403161630648324 -0.8351249135423567 -0.1030767806626142 5.847871008681625
-  position 2.0353917909175667 1.99592978954429 4.573016718133436
+  orientation 0.09422758799227227 0.012515231063829511 -0.99547201399767 2.878682048621543
+  position 4.539757193264896 1.342167475925479 1.4810588512190805
 }
 TexturedBackground {
 }
@@ -18,7 +17,6 @@ RectangleArena {
   floorSize 3 3
 }
 DEF ROBOT Robot {
-  rotation 0.577349935856137 0.577349935856137 0.5773509358560258 -2.094395307179586
   children [
     CharacterSkin {
     }
