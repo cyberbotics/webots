@@ -15,11 +15,11 @@
 #ifndef WB_MESH_HPP
 #define WB_MESH_HPP
 
-#include <assimp/scene.h>
 #include "WbTriangleMeshGeometry.hpp"
 
 class WbDownloader;
 class WbMFString;
+struct aiScene;
 
 class WbMesh : public WbTriangleMeshGeometry {
   Q_OBJECT
