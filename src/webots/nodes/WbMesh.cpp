@@ -476,6 +476,9 @@ void WbMesh::updateUrl() {
 }
 
 void WbMesh::updateName() {
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
+
   if (isPostFinalizedCalled())
     emit changed();
 }
