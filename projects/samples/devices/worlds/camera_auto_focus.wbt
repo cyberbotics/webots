@@ -66,10 +66,10 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.134487 -0.134487 -0.981747 1.589217
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0.577657 0.577197 -0.577197 -2.093935
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -109,7 +109,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.062357 0.062357 -0.996104 1.5747
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -127,7 +127,7 @@ Robot {
     }
     DEF SMILE Transform {
       translation 0.036 0 0.025
-      rotation 0.250563 -0.935113 -0.250563 1.637834
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
@@ -148,7 +148,7 @@ Robot {
       children [
         Transform {
           translation -0.015 0 0
-          rotation -0.577197 -0.577657 -0.577197 -2.093935
+          rotation -0.5771968951617173 -0.577656895078166 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -175,7 +175,7 @@ Robot {
     }
     DEF RIGHT_EYE Transform {
       translation 0.042 0.02 0.063
-      rotation 0.3871 0.651979 0.651979 2.40292
+      rotation 0.3871000691202075 0.6519791164167495 0.6519791164167495 2.40292
       children [
         Shape {
           appearance PBRAppearance {
@@ -192,7 +192,7 @@ Robot {
     }
     DEF LEFT_EYE Transform {
       translation 0.042 -0.02 0.063
-      rotation 0.766407 0.454213 0.454214 1.83375
+      rotation 0.7664071928227091 0.45421311427685446 0.45421411427710606 1.83375
       children [
         Shape {
           appearance PBRAppearance {

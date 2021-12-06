@@ -437,7 +437,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.4 0 -0.15
-        rotation -0.577351 -0.577351 0.577349 2.094397
+        rotation -0.5773509358554485 -0.5773509358554485 0.5773489358556708 2.094397
         children [
           DEF PASSIVEFRONT_WHEEL HingeJoint {
             jointParameters HingeJointParameters {
@@ -448,7 +448,7 @@ Robot {
               }
             ]
             endPoint Solid {
-              rotation -0.707105 0 0.707109 3.141585
+              rotation -0.707104781184338 0 0.7071087811831002 3.141585
               children [
                 DEF WHEEL_TRANSFORM Transform {
                   children [
@@ -497,7 +497,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.4 -0.2 -0.15
-        rotation 0 0.707106 0.707107 3.141593
+        rotation 0 0.7071062811861719 0.7071072811865696 3.141593
         children [
           USE WHEEL_TRANSFORM
         ]
@@ -523,7 +523,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.4 0.2 -0.15
-        rotation 0 -0.707106 -0.707107 3.141592
+        rotation 0 -0.7071062811861719 -0.7071072811865696 3.141592
         children [
           USE WHEEL_TRANSFORM
         ]
