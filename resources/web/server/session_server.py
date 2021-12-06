@@ -30,10 +30,7 @@ import tornado.httpserver
 import tornado.web
 import tornado.websocket
 import traceback
-try:  # for Python 3.0 and later
-    from urllib.request import urlopen, URLError
-except ImportError:
-    from urllib2 import urlopen, URLError
+from urllib.request import urlopen, URLError
 
 LOAD_THRESHOLD = 99  # disable a simulation server when its load is 99% or more
 LOAD_REFRESH = 5  # query load of simulation servers every 5 seconds

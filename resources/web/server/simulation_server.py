@@ -17,10 +17,8 @@
 """Webots simulation server."""
 
 from async_process import AsyncProcess
-from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
                    nvmlDeviceGetUtilizationRates, NVMLError
-from requests import session
 
 import asyncio
 import errno
@@ -41,7 +39,6 @@ import tornado.web
 import tornado.websocket
 import traceback
 import socket
-import zipfile
 if sys.platform == 'win32':
     import wmi
 elif sys.platform == 'darwin':
@@ -145,58 +142,50 @@ class Client:
 
     def setup_project(self):
         self.project_instance_path = config['instancesPath'] + str(id(self))
-        if hasattr(self, 'url'):
-            if self.url.startswith('webots://github.com/'):
-                return self.setup_project_from_github()
-            elif self.url.startswith('file:///'):
-                return self.setup_project_from_file()
-            else:
-                logging.error('Unsupported url protocol: ' + self.url)
-                return False
-        else:
-            return self.setup_project_from_zip()
-
-    def setup_project_from_file(self):
-        # url is like "file:///home/cyberbotics/webots/projects/robots/softbank/nao/worlds/nao_room.wbt"
-        if not self.url.endswith('.wbt'):
-            logging.error('Wrong Webots URL: missing world file in ' + self.url)
+        if not hasattr(self, 'url'):
+            logging.error('Missing url.')
             return False
-        self.world = os.path.basename(self.url[7:])  # skipping 'file://'
-        path = self.url[7:-len(self.world) - 7]  # and removing '/worlds/*.wbt' at the end
-        print("world = " + self.world)
-        print("path = " + path)
-        print("project_instance_path = " + self.project_instance_path)
-        shutil.copytree(path, self.project_instance_path)
-        return True
+        if not self.url.startswith('https://github.com/'):
+            logging.error('Unsupported url protocol: ' + self.url)
+            return False
+        return self.setup_project_from_github()
 
     def setup_project_from_github(self):
-        parts = self.url[20:].split('/')
+        parts = self.url[19:].split('/')
         length = len(parts)
         if length < 6:
-            logging.error('Wrong Webots URL')
+            logging.error('Wrong Webots simulation URL')
             return False
         username = parts[0]
         repository = parts[1]
-        tag_or_branch = parts[2]
-        tag_or_branch_name = parts[3]
+        if parts[2] != 'blob':
+            logging.error('Missing blob in Webots simulation URL')
+        version = parts[3]  # tag or branch name
         folder = '/'.join(parts[4:length - 2])
         project = '' if length == 6 else '/' + parts[length - 3]
         if parts[length - 2] != 'worlds':
-            logging.error('Missing worlds folder in Webots URL')
+            logging.error('Missing worlds folder in Webots simulation URL')
             return False
         filename = parts[length - 1]
         if filename[-4:] != '.wbt':
-            logging.error('Wrong Webots URL: missing world file in ' + filename[-4:])
+            logging.error('Missing world file in Webots simulation URL')
             return False
         self.world = filename
+        # get the default branch name
+        repository_url = 'https://github.com/' + username + '/' + repository + '.git'
+        default_branch = subprocess.getoutput("git ls-remote --quiet --symref " + repository_url +
+                                              " HEAD | head -1 | cut -f1 | cut -d/ -f3")
         url = 'https://github.com/' + username + '/' + repository + '/'
-        if tag_or_branch == 'tag':
-            url += 'tags/' + tag_or_branch_name
-        elif tag_or_branch == 'branch':
-            url += 'trunk' if tag_or_branch_name == 'master' else 'branches/' + tag_or_branch_name
-        else:
-            logging.error('Wrong tag/branch in Webots URL: ' + tag_or_branch)
-            return False
+        if version == default_branch:
+            url += 'trunk'
+        else:  # determine if version is a branch or a tag
+            type = subprocess.getoutput("git ls-remote --quiet " + repository_url + " " + version + " | cut -f2 | cut -d/ -f2")
+            if type == 'heads':  # branch
+                url += 'branches/' + version
+            elif type == 'tags':
+                url += 'tags/' + version
+            else:
+                logging.error("Cannot determine if \"" + version + "\" is a branch or a tag.")
         url += '/' + folder
         try:
             path = os.getcwd()
@@ -218,39 +207,11 @@ class Client:
                 sys.stdout.write("\033[0m")  # reset ANSI code
             sys.stdout.flush()
         logging.info('Done')
-        if tag_or_branch == 'branch' and tag_or_branch_name == 'master' and folder == '':
+        if version == default_branch and folder == '':
             os.rename('trunk', repository)
         if path:
             os.chdir(path)
         self.project_instance_path += project
-        return True
-
-    def setup_project_from_zip(self):
-        """Setup a local Webots project to be run by the client."""
-        shutil.copytree(os.path.join(config['projectsDir'], self.app) + '/', self.project_instance_path)
-        hostFile = open(self.project_instance_path + "/host.txt", 'w')
-        hostFile.write(self.host)
-        hostFile.close()
-        if self.user1Id:
-            payload = {'project': self.app, 'key': self.key,
-                       'user1Id': self.user1Id, 'user1Name': self.user1Name, 'user1Authentication': self.user1Authentication,
-                       'user2Id': self.user2Id, 'user2Name': self.user2Name, 'customData': self.customData}
-            with session() as c:
-                response = c.post(self.host + '/ajax/download-project.php', data=payload)
-                if response.content.startswith(b'Error:'):
-                    error = response.content.decode('utf-8')
-                    if error.startswith('Error: no such directory: '):
-                        return True  # Use the default directory instead
-                    logging.error("Failed to download project: " + error + "(host = " + self.host + ")")
-                    return False
-                fp = BytesIO(response.content)
-                try:
-                    with zipfile.ZipFile(fp, 'r') as zfp:
-                        zfp.extractall(self.project_instance_path)
-                except zipfile.BadZipfile:
-                    logging.error("Bad ZIP file:\n" + response.content.decode('utf-8'))
-                    return False
-                chmod_python_and_executable_files(self.project_instance_path)
         return True
 
     def cleanup_webots_instance(self):
@@ -421,46 +382,7 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         client = ClientWebSocketHandler.find_client_from_websocket(self)
         if client:
             data = json.loads(message)
-            if 'init' in data:
-                # setup client
-                client.streaming_server_port = ClientWebSocketHandler.next_available_port()
-                logging.info('data[init]=%s' % data['init'])
-                client.host = data['init'][0]
-                client.app = data['init'][1]
-                client.world = data['init'][2]
-                client.user1Id = data['init'][3]
-                client.user1Name = data['init'][4]
-                client.user1Authentication = data['init'][5]
-                client.user2Id = data['init'][6]
-                client.user2Name = data['init'][7]
-                client.customData = data['init'][8]
-                client.idle = True
-                # Check that client.host is allowed
-                host = client.host[8:] if client.host.startswith('https://') else client.host[7:]
-                n = host.find(':')
-                if n > 0:
-                    host = host[:n]
-                keyFilename = os.path.join(config['keyDir'], host)
-                if os.path.isfile(keyFilename):
-                    try:
-                        keyFile = open(keyFilename, "r")
-                    except IOError:
-                        logging.error("Unknown host: " + host + " from " + self.request.remote_ip)
-                        client.client_websocket.close()
-                        return
-                    client.key = keyFile.readline().rstrip(os.linesep)
-                    keyFile.close()
-                else:
-                    logging.warning("No key for: " + host)
-                logging.info('[%d] Setup client %s %s '
-                             '(remote ip: %s, streaming_server_port: %s)'
-                             % (id(client),
-                                client.app,
-                                client.world,
-                                self.request.remote_ip,
-                                client.streaming_server_port))
-                self.start_client()
-            elif "reset controller" in data:
+            if "reset controller" in data:
                 relativeFilename = '/controllers/' + data['reset controller']
                 shutil.copyfile(config['projectsDir'] + '/' + client.app + relativeFilename,
                                 client.project_instance_path + '/' + relativeFilename)
