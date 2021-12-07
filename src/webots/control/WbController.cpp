@@ -269,16 +269,19 @@ void WbController::start() {
               iniParser.sectionAt(i) != "environment variables for linux 64")
             continue;
 
-          if (iniParser.keyAt(i) == ("WEBOTS_LIBRARY_PATH") || iniParser.keyAt(i) == ("FIREJAIL_PATH")) {
-            const QStringList pathsList = iniParser.resolvedValueAt(i, env).split(":");
+          const QString &variable = iniParser.keyAt(i);
+          const QString &value = iniParser.resolvedValueAt(i, env);
+          const bool pythonPath = (variable == "PYTHONPATH");
+          if (pythonPath || variable == "WEBOTS_LIBRARY_PATH" || variable == "FIREJAIL_PATH") {
+            const QStringList pathsList = value.split(":");
             foreach (QString path, pathsList) {
               firejailArguments << "--whitelist=" + path;
               firejailArguments << "--read-only=" + path;
-              ldLibraryPath += ":" + path;
+              if (!pythonPath)
+                ldLibraryPath += ":" + path;
             }
           } else
-            // the variable could be used to define WEBOTS_LIBRARY_PATH or FIREJAIL_PATH
-            addToPathEnvironmentVariable(env, iniParser.keyAt(i), iniParser.resolvedValueAt(i, env), true);
+            addToPathEnvironmentVariable(env, variable, value, true);
         }
         mProcess->setProcessEnvironment(env);
       }
