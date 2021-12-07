@@ -87,7 +87,7 @@ DEF YELLOW_BOX Solid {
   }
 }
 DEF PINK_BOX Solid {
-  translation 0.1 -0.42 0.05
+  translation 0.1 -0.25 0.05
   children [
     Shape {
       appearance PBRAppearance {
