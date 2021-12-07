@@ -445,28 +445,40 @@ Also the robot windows are not yet supported.
 
 #### How to Embed a Web Scene in Your Website
 
-Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-streaming` web component from the [WebotsStreaming.js] package.
+Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-view` web component from the [WebotsView.js] package.
 
 This is the API of the `webots-streaming` web component:
-* `connect(url, mode, broadcast, mobileDevice, callback, disconnectCallback) `: function instantiating the simulation web interface and taking as argument:
-  * `url`: Three different `url` formats are supported:
-      * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The `url` value specifies both the session server host and the desired simulation name.
+* `connect(servers, mode, broadcast, mobileDevice, callback, disconnectCallback) `: function instantiating the simulation web interface and taking as argument:
+  * `server`: The URL of the server. Three different URL formats are supported:
+      * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The URL value specifies both the session server host and the desired simulation name.
       * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
       * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
   * `mode`: `x3d` or `mjpeg`.
   * `broadcast`: boolean variable enabling or not the broadcast.
-  * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+  * `isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `callback`: function to be executed once the simulation is ready.
   * `disconnectCallback`: function to be executed once the web scene is closed.
-* `disconnect()`: close the simulation web scene.
+* `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `connect` or `loadAnimation` is called, `close` will be automatically called.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
 * `showToolbar()`: show the toolbar. Must be called after connect. The toolbar is displayed by default.
-* `showQuit(enable)`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
-* `showRevert(enable)`: specify is the revert button must be displayed on the toolbar. Must be called before connect. The quit button is hidden by default.
+* `displayQuit(enable)`: specify is the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `displayRevert(enable)`: specify is the revert button must be displayed on the toolbar. Must be called before connect. The quit button is hidden by default.
 * `sendMessage(message)`: send a message to the streaming server through the web socket. Examples of messages could be:
     *`real-time:-1`: to play the simulation.
     *`pause`: to pause the simulation.
     *`robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named "supervisor".
+
+Moreover, the following attributes are available:
+* `data-server`: URL of the server.
+* `data-mode`: `x3d` or `mjpeg`.
+* `data-broadcast`: boolean variable enabling or not the broadcast.
+* `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
+* `data-callback`: function to be executed once the simulation is ready.
+* `data-disconnectCallback`: function to be executed once the web scene is closed.
+
+The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
+
+Warning: note that if the `data-scene` attribute (see [web animation](web-animation.md)) and the `data-server` are both set, the `data-scene` will take precedence and try to load a scene.
 
 An example of a file using this API is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
 

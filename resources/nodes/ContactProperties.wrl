@@ -5,6 +5,7 @@ ContactProperties {
   field SFString   material2           "default"  # another material
   field MFFloat    coulombFriction     1          # Coulomb friction coefficients (-1 stands for infinity)
   field SFVec2f    frictionRotation    0 0        # Rotation of the first friction direction
+  field SFVec3f    rollingFriction     0 0 0      # rolling/spinning friction
   field SFFloat    bounce              0.5        # range between 0 and 1
   field SFFloat    bounceVelocity      0.01       # (m/s)
   field MFFloat    forceDependentSlip  0          # force dependent slip (see ODE)

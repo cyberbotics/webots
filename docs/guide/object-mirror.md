@@ -16,7 +16,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Mirror {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "mirror"
   SFString   controller      "mirror"
   SFBool     supervisor      FALSE

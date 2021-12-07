@@ -16,7 +16,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 JetBot {
   SFVec3f      translation        0 0 0
-  SFRotation   rotation           0 1 0 0
+  SFRotation   rotation           0 0 1 0
   SFString     name               "JetBot"
   SFString     controller         "jetbot_basic_motion"
   MFString     controllerArgs     []
@@ -26,8 +26,7 @@ JetBot {
   SFBool       chassis            TRUE
   SFColor      chassis_color      0.571 0.817 0.479
   SFNode       cameraSlot         JetBotRasperryPiCamera  {
-                                    translation 0 0.042 0.0488
-                                    rotation -0.1628450388833288 -0.1628450388833288 0.9731202323568112 -1.5980453071795866
+                                    rotation 0 1 0 0.316799
                                   }
   MFNode       extensionSlot      []
   SFString     window             ""
@@ -57,7 +56,7 @@ It contains a [Camera](../reference/camera.md) device.
 ```
 JetBotRaspberryPiCamera {
   SFVec3f      translation        0 0 0
-  SFRotation   rotation           0 1 0 0
+  SFRotation   rotation           0 0 1 0
   SFString     name               "camera"
   SFFloat      fieldOfView        2.79253
   SFInt32      width              1280

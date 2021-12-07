@@ -98,9 +98,9 @@ while supervisor.step(timeStep) != -1:
 
     # Compute the position of the target relatively to the arm.
     # x and y axis are inverted because the arm is not aligned with the Webots global axes.
-    x = targetPosition[0] - armPosition[0]
-    y = - (targetPosition[2] - armPosition[2])
-    z = targetPosition[1] - armPosition[1]
+    x = -(targetPosition[1] - armPosition[1])
+    y = targetPosition[0] - armPosition[0]
+    z = targetPosition[2] - armPosition[2]
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
     initial_position = [0] + [m.getPositionSensor().getValue() for m in motors] + [0]

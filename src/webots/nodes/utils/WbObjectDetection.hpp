@@ -26,7 +26,7 @@ class WbSolid;
 
 class WbObjectDetection {
 public:
-  enum FrustumPlane { RIGHT, BOTTOM, LEFT, TOP, PARALLEL, PLANE_NUMBER };
+  enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
 
   WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange);
   virtual ~WbObjectDetection();
@@ -46,6 +46,7 @@ public:
   bool recomputeRayDirection(WbSolid *device, const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
                              const WbMatrix3 &deviceInverseRotation, const WbAffinePlane *frustumPlanes);
 
+  // Checks whether the object is detected.
   bool computeObject(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation, const WbMatrix3 &deviceInverseRotation,
                      const WbAffinePlane *frustumPlanes);
 
@@ -60,6 +61,19 @@ protected:
   bool recursivelyComputeBounds(WbSolid *solid, bool boundsInitialized, const WbVector3 &devicePosition,
                                 const WbMatrix3 &deviceRotation, const WbMatrix3 &deviceInverseRotation,
                                 const WbAffinePlane *frustumPlanes);
+
+  // Checks whether the object is in the bounds of the `frustumPlanes` frustum.
+  //
+  // @param[in] devicePosition Device position.
+  // @param[in] deviceRotation Device rotation.
+  // @param[in] deviceInverseRotation Device rotation (inversed).
+  // @param[in] frustumPlanes Frustum of the device.
+  // @param[in] boundingObject Bounding object of the target object.
+  // @param[out] objectSize AABB of the target object.
+  // @param[out] objectRelativePosition The object's position in respect to the device. The center of the object is calculated
+  // from AABB points.
+  // @param[in] rootObject If `rootObject` and `boundingObject` are not defined the method returns false.
+  // @return Returns `true` if the object is inside the frustum, `false` otherwise.
   bool computeBounds(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation, const WbMatrix3 &deviceInverseRotation,
                      const WbAffinePlane *frustumPlanes, const WbBaseNode *boundingObject, WbVector3 &objectSize,
                      WbVector3 &objectRelativePosition, const WbBaseNode *rootObject = NULL);

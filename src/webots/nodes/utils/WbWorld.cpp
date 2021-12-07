@@ -310,17 +310,15 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
 
     QList<QPair<QString, QString>> templateValues;
     templateValues << QPair<QString, QString>("%x3dFilename%", QFileInfo(x3dFilename).fileName());
-    QString setAnimation;
-    if (animation) {
-      QString animationFilename = fileName;
-      animationFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".json");
-      setAnimation = "\n          view.setAnimation(\"" + QFileInfo(animationFilename).fileName() + "\", \"play\", true);";
-    }
-
-    templateValues << QPair<QString, QString>("%wwiPath%", WbStandardPaths::resourcesWebPath() + "wwi/");
-    templateValues << QPair<QString, QString>("%setAnimation%", setAnimation);
     templateValues << QPair<QString, QString>("%title%", titleString);
     templateValues << QPair<QString, QString>("%description%", infoString);
+    templateValues << QPair<QString, QString>(
+      "%x3dName%", fileName.split('/').last().replace(QRegExp(".html$", Qt::CaseInsensitive), ".x3d"));
+    if (animation)
+      templateValues << QPair<QString, QString>(
+        "%jsonName%", fileName.split('/').last().replace(QRegExp(".html$", Qt::CaseInsensitive), ".json"));
+    else
+      templateValues << QPair<QString, QString>("%jsonName%", "");
 
     if (cX3DMetaFileExport) {
       QString metaFilename = fileName;

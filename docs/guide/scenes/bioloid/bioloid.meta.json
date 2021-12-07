@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0.021 0.0135 0.062",
-      "axis": "0 0 1",
+      "anchor": "-0.021 0.062 0.0135",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_left_1",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.014485 0.006",
-      "axis": "1 0 0",
+      "anchor": "0 0.006 -0.0145",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_left_2",
@@ -21,8 +21,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0.083",
-      "axis": "0 1 0",
+      "anchor": "0 0.083 0",
+      "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_left_3",
@@ -31,8 +31,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.021 0.0135 -0.062",
-      "axis": "0 0 1",
+      "anchor": "-0.021 -0.062 0.0135",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_right_1",
@@ -41,8 +41,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.014485 -0.006",
-      "axis": "1 0 0",
+      "anchor": "0 -0.006 -0.0145",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_right_2",
@@ -51,8 +51,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0.083",
-      "axis": "0 1 0",
+      "anchor": "0 0.083 0",
+      "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "back_right_3",
@@ -61,8 +61,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0565 0.0135 0.086",
-      "axis": "0 0 1",
+      "anchor": "0.0565 0.086 0.0135",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_left_1",
@@ -71,8 +71,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.014485 0.006",
-      "axis": "1 0 0",
+      "anchor": "0 0.006 -0.0145",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_left_2",
@@ -81,8 +81,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0.083",
-      "axis": "0 1 0",
+      "anchor": "0 0.083 0",
+      "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_left_3",
@@ -91,8 +91,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.0565 0.0135 -0.086",
-      "axis": "0 0 1",
+      "anchor": "0.0565 -0.086 0.0135",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_right_1",
@@ -101,8 +101,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 -0.014485 -0.006",
-      "axis": "1 0 0",
+      "anchor": "0 -0.006 -0.0145",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_right_2",
@@ -111,8 +111,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0.083",
-      "axis": "0 1 0",
+      "anchor": "0 0.083 0",
+      "axis": "0 0 1",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "front_right_3",
@@ -121,8 +121,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.067485 0.008015 0",
-      "axis": "0 0 1",
+      "anchor": "0.0675 0 0.008",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "head",
@@ -131,8 +131,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.079 0 0",
-      "axis": "0 0 1",
+      "anchor": "0.079 0 0",
+      "axis": "0 1 0",
       "maxPosition": 1.5708,
       "minPosition": -1.5708,
       "name": "neck_1",
@@ -141,8 +141,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.047 0 0",
-      "axis": "1 0 0",
+      "anchor": "0.047 0 0",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "neck_2",
@@ -151,8 +151,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.0875 -0.0135 0",
-      "axis": "1 0 0",
+      "anchor": "-0.0875 0 -0.0135",
+      "axis": "-1 0 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "pelvis",

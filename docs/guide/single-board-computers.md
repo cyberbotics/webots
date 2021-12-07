@@ -23,7 +23,7 @@ The `NVIDIA Jetson Nano` is a small, powerful computer to run multiple neural ne
 ```
 PROTO JetsonNano [
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "NVIDIA Jetson Nano"
   SFNode     physics        NULL
   SFString   controller     ""

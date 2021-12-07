@@ -7,7 +7,7 @@
 
 PROTO RobocupGoal [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "robotstadium goal"
   field SFColor    frameColor         1 1 1               # Defines the color of the goal frame.
   field SFColor    netColor           0.3 0.3 0.3         # Defines the color of the net.
@@ -42,7 +42,7 @@ PROTO RobocupGoal [
     children [
       DEF HORIZONTAL_POST_TRANS Transform {
         translation 0 0 %<= post_height >%
-        rotation 0 0 1 1.5708
+        rotation 1 0 0 -1.570793
         children [
           Shape {
             appearance DEF POST_APP PBRAppearance {
@@ -58,8 +58,7 @@ PROTO RobocupGoal [
         ]
       }
       DEF RIGHT_POST_TRANS Transform {
-        translation %<= -post_spacing / 2 >% 0 %<= post_height / 2 >%
-        rotation 1 0 0 1.5708
+        translation 0  %<= -post_spacing / 2 >% %<= post_height / 2 >%
         children [
           Shape {
             appearance USE POST_APP
@@ -73,8 +72,7 @@ PROTO RobocupGoal [
         ]
       }
       DEF LEFT_POST_TRANS Transform {
-        translation %<= post_spacing / 2 >% 0 %<= post_height / 2 >%
-        rotation 1 0 0 1.5708
+        translation 0  %<= post_spacing / 2 >% %<= post_height / 2 >%
         children [
           Shape {
             appearance USE POST_APP
@@ -100,14 +98,14 @@ PROTO RobocupGoal [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %<= -post_spacing / 2 >% %<= -C >%          0
-              %<= post_spacing / 2 >%  %<= -C >%          0
-              %<= post_spacing / 2 >%  %<= -C >%          %<= post_height >%
-              %<= -post_spacing / 2 >% %<= -C >%          %<= post_height >%
-              %<= post_spacing / 2 >%  %<= -post_radius >% 0
-              %<= -post_spacing / 2 >% %<= -post_radius >% 0
-              %<= post_spacing / 2 >%  %<= -post_radius >% %<= post_height >%
-              %<= -post_spacing / 2 >% %<= -post_radius >% %<= post_height >%
+              %<= -C >% %<= -post_spacing / 2 >%           0
+              %<= -C >% %<= post_spacing / 2 >%            0
+              %<= -C >% %<= post_spacing / 2 >%            %<= post_height >%
+              %<= -C >% %<= -post_spacing / 2 >%           %<= post_height >%
+              %<= -post_radius >% %<= post_spacing / 2 >%  0
+              %<= -post_radius >% %<= -post_spacing / 2 >% 0
+              %<= -post_radius >% %<= post_spacing / 2 >%  %<= post_height >%
+              %<= -post_radius >% %<= -post_spacing / 2 >% %<= post_height >%
             ]
           }
           texCoord TextureCoordinate {
@@ -147,8 +145,8 @@ PROTO RobocupGoal [
         }
       }
       Transform {
-        translation 0 %<= -C >% %<= post_height >%
-        rotation 0 0 1 1.5708
+        translation %<= -C >% 0 %<= post_height >%
+        rotation 1 0 0 -1.5708
         children [
           DEF SMALL_HORIZONTAL_POST_SHAPE Shape {
             appearance USE POST_APP
@@ -160,15 +158,14 @@ PROTO RobocupGoal [
         ]
       }
       Transform {
-        translation 0 %<= -C >% %<= backpost_radius / 2 >%
-        rotation 0 0 1 1.5708
+        translation %<= -C >% 0 %<= backpost_radius / 2 >%
+        rotation 1 0 0 -1.5708
         children [
           USE SMALL_HORIZONTAL_POST_SHAPE
         ]
       }
       Transform {
-        translation %<= post_spacing / 2 >% %<= -C >% %<= post_height / 2 >%
-        rotation 1 0 0 1.5708
+        translation %<= -C >% %<= post_spacing / 2 >% %<= post_height / 2 >%
         children [
           DEF SMALL_POST_SHAPE Shape {
             appearance USE POST_APP
@@ -182,14 +179,14 @@ PROTO RobocupGoal [
         ]
       }
       Transform {
-        translation %<= -post_spacing / 2 >% %<= -C >% %<= post_height / 2 >%
-        rotation 1 0 0 1.5708
+        translation %<= -C >%  %<= -post_spacing / 2 >% %<= post_height / 2 >%
         children [
           USE SMALL_POST_SHAPE
         ]
       }
       Transform {
-        translation %<= post_spacing / 2 >% %<= -C / 2 >% %<= post_height >%
+        translation %<= -C / 2 >% %<= post_spacing / 2 >% %<= post_height >%
+        rotation 0 1 0 -1.5708
         children [
           DEF OTHER_SMALL_POST_SHAPE Shape {
             appearance USE POST_APP
@@ -203,19 +200,23 @@ PROTO RobocupGoal [
         ]
       }
       Transform {
-        translation %<= -post_spacing / 2 >% %<= -C / 2 >% %<= post_height >%
+        translation %<= -C / 2 >% %<= -post_spacing / 2 >% %<= post_height >%
+        rotation 0 1 0 -1.5708
+        
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
       }
       Transform {
-        translation %<= post_spacing / 2 >% %<= -C / 2 >% %<= backpost_radius / 2 >%
+        translation %<= -C / 2 >% %<= post_spacing / 2 >% %<= backpost_radius / 2 >%
+        rotation 0 1 0 -1.5708
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
       }
       Transform {
-        translation %<= -post_spacing / 2 >% %<= -C / 2 >% %<= backpost_radius / 2 >%
+        translation %<= -C / 2 >% %<= -post_spacing / 2 >% %<= backpost_radius / 2 >%
+        rotation 0 1 0 -1.5708
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
@@ -229,7 +230,8 @@ PROTO RobocupGoal [
         USE RIGHT_POST_TRANS
         USE LEFT_POST_TRANS
         Transform { # Left
-          translation %<= -post_spacing / 2 >% %<= -post_radius - (C - post_radius) / 2 >% %<= (post_height - backpost_radius) / 2 >%
+          translation %<= -post_radius - (C - post_radius) / 2 >% %<= -post_spacing / 2 >% %<= (post_height - backpost_radius) / 2 >%
+          rotation 0 0 1 -1.5708
           children [
             DEF GOAL_SIDE_BOX Box {
               size %<= bounding_object_thickness_sides >% %<= C - post_radius >% %<= post_height - backpost_radius >%
@@ -237,13 +239,15 @@ PROTO RobocupGoal [
           ]
         }
         Transform { # Right
-          translation %<= post_spacing / 2 >% %<= -post_radius - (C - post_radius) / 2 >% %<= (post_height - backpost_radius) / 2 >%
+          translation %<= -post_radius - (C - post_radius) / 2 >%  %<= post_spacing / 2 >% %<= (post_height - backpost_radius) / 2 >%
+          rotation 0 0 1 -1.5708
           children [
             USE GOAL_SIDE_BOX
           ]
         }
         Transform { # Back
-          translation 0 %<= -C - bounding_object_thickness_back / 2 >% %<= (post_height+backpost_radius) / 2 >%
+          translation %<= -C - bounding_object_thickness_back / 2 >% 0 %<= (post_height+backpost_radius) / 2 >%
+          rotation 0 0 1 -1.5708
           children [
             Box {
               size %<= post_spacing + 2 * backpost_radius >% %<= bounding_object_thickness_back >% %<= post_height + backpost_radius >%
@@ -251,7 +255,8 @@ PROTO RobocupGoal [
           ]
         }
         Transform { # Top
-          translation 0 %<= -post_radius - (C - post_radius) / 2 >% %<= post_height >%
+          translation %<= -post_radius - (C - post_radius) / 2 >% 0 %<= post_height >%
+          rotation 0 0 1 -1.5708
           children [
             Box {
               size %<= post_spacing + 2 * backpost_radius >% %<= C - post_radius >% %<= bounding_object_thickness_sides >%

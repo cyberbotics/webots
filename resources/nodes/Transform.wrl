@@ -5,7 +5,7 @@
 Transform {
   #fields specific to the AbstractTransform node:
   vrmlField SFVec3f    translation     0 0 0
-  vrmlField SFRotation rotation        0 1 0 0
+  vrmlField SFRotation rotation        0 0 1 0
   vrmlField SFVec3f    scale           1 1 1
   #fields that inherit from the Group node:
   vrmlField MFNode     children        []

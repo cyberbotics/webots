@@ -30,8 +30,8 @@ public:
   virtual ~RosGPS();
 
   ros::Publisher createPublisher() override;
-  void publishValue(ros::Publisher publisher) override;
   void publishAuxiliaryValue() override;
+  void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override { mGPS->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
   int rosSamplingPeriod() override { return mGPS->getSamplingPeriod(); }
@@ -44,6 +44,7 @@ private:
   void cleanup() { mGPS->disable(); }
 
   GPS *mGPS;
+  ros::Publisher mSpeedPublisher;
   ros::Publisher mSpeedVectorPublisher;
   ros::ServiceServer mCoordinateTypeServer;
   ros::ServiceServer mConvertServer;

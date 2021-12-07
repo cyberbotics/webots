@@ -18,6 +18,7 @@
  * Description:  An example of the use of the batter of a robot.
  */
 
+#include <assert.h>
 #include <stdio.h>
 #include <webots/distance_sensor.h>
 #include <webots/motor.h>
@@ -27,9 +28,18 @@
 #define SPEED 6
 #define TIME_STEP 64
 
+static double clamp(double value, double min, double max) {
+  if (min > max) {
+    assert(0);
+    return value;
+  }
+  return value < min ? min : value > max ? max : value;
+}
+
 int main() {
   WbDeviceTag ds0, ds1, left_motor, right_motor;
   double left_speed, right_speed;
+  double max_speed;
 
   wb_robot_init();
   /* get a handler to the distance sensors. */
@@ -43,6 +53,7 @@ int main() {
   wb_motor_set_position(right_motor, INFINITY);
   wb_motor_set_velocity(left_motor, 0.0);
   wb_motor_set_velocity(right_motor, 0.0);
+  max_speed = wb_motor_get_max_velocity(left_motor);
 
   wb_distance_sensor_enable(ds0, TIME_STEP);
   wb_distance_sensor_enable(ds1, TIME_STEP);
@@ -81,6 +92,8 @@ int main() {
       right_speed = SPEED;
     }
     /* Set the motor speeds. */
+    left_speed = clamp(left_speed, -max_speed, max_speed);
+    right_speed = clamp(right_speed, -max_speed, max_speed);
     wb_motor_set_velocity(left_motor, left_speed);
     wb_motor_set_velocity(right_motor, right_speed);
   }
