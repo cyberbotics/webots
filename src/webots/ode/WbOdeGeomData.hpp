@@ -26,6 +26,7 @@ public:
     mFluid(NULL),
     mSolid(solid),
     mGeometry(geometry),
+    mLastChangeTime(0.0),
     mMagicNumber(0x7765626F7473LL) {}
   explicit WbOdeGeomData(WbFluid *fluid, WbGeometry *geometry = NULL) :
     mFluid(fluid),
