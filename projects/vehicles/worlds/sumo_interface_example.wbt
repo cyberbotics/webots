@@ -80,8 +80,8 @@ Fog {
   visibilityRange 700
 }
 SumoInterface {
-  enableWheelsRotation TRUE
   useNetconvert TRUE
+  enableWheelsRotation TRUE
   children [
     DEF TRAFFIC_LIGHT_NORTH Pole {
       translation -3.9 3.9 0

@@ -68,7 +68,7 @@ Robot {
     }
     Transform {
       translation 0 0.23 0.2
-      rotation 0 0.707107 -0.707107 3.14159
+      rotation 0 0.7071067811865476 -0.7071067811865476 3.14159
       children [
         Shape {
           appearance MetalPipePaint {
@@ -92,7 +92,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        rotation 0 0.707107 -0.707107 3.14159
+        rotation 0 0.7071067811865476 -0.7071067811865476 3.14159
         children [
           DEF AXIS Shape {
             appearance BrushedAluminium {
@@ -201,7 +201,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.15 0.2
-        rotation 0 0.707107 -0.707107 3.14159
+        rotation 0 0.7071067811865476 -0.7071067811865476 3.14159
         children [
           Shape {
             appearance GlossyPaint {
