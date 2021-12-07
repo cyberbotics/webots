@@ -78,6 +78,7 @@ public slots:
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
   void resetWorldFromGui();
+  void exportHtmlFiles();
 
   void uploadScene();
   void startAnimationRecording();

@@ -1593,12 +1593,49 @@ void WbMainWindow::exportVrml() {
   simulationState->resumeSimulation();
 }
 
-void WbMainWindow::ShareMenu() {
+void WbMainWindow::exportHtmlFiles() {
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
 
+  QString fileName = findHtmlFileName("Export HTML file");
+  if (fileName.isEmpty()) {
+    WbSimulationState::instance()->setMode(currentMode);
+    return;
+  }
+
+  if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
+
+    QFileInfo info(fileName);
+    QStringList extensions;
+    extensions << ".html" << ".x3d";
+    if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists())
+      extensions << ".json";
+
+    QString textureFolder = WbStandardPaths::webotsTmpPath() + "textures";
+    QDir dir(textureFolder);
+    if (dir.exists())
+      dir.rename(textureFolder, info.path() + "/textures");
+
+    foreach (QString extension, extensions) {
+      qDebug() << info.path() + "/" + info.completeBaseName() + extension;
+      QFile::rename(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension, info.path() + "/" + info.completeBaseName() + extension);
+    }
+    WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
+    openUrl(fileName,
+            tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
+               "Note: please refer to the "
+               "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
+               "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
+               "if your browser prevents local files CORS requests.")
+              .arg(fileName),
+            tr("Export HTML5 Scene"));
+  }
+
+  WbSimulationState::instance()->setMode(currentMode);
+}
+void WbMainWindow::ShareMenu() {
+  WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbShareWindow *shareWindowUi = new WbShareWindow(this);
   shareWindowUi->exec();
-
   WbSimulationState::instance()->setMode(currentMode);
 }
 
@@ -1623,8 +1660,7 @@ void WbMainWindow::sendCloudRequest() {
   if (filenames.isEmpty())  // add empty texture
     filenames.append("");
 
-  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists() &&
-      !QDir(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists()) {
+  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists()){
     filenames << "export_cloud.json";
     animation = true;
   }
@@ -1680,10 +1716,8 @@ void WbMainWindow::sendCloudRequest() {
 
   mCloudLoadingProgressDialog = new QProgressDialog(tr("Uploading on Webots.cloud..."), "Cancel", 0, 100, this);
   mCloudLoadingProgressDialog->setWindowTitle(tr("Webots.cloud"));
-  mCloudLoadingProgressDialog->setModal(true);
-  mCloudLoadingProgressDialog->setAutoClose(true);
   mCloudLoadingProgressDialog->show();
-
+  qDebug() << "test";
   connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateCloudProgressBar);
 
   multiPart->setParent(reply);
@@ -1692,6 +1726,7 @@ void WbMainWindow::sendCloudRequest() {
 
 void WbMainWindow::updateCloudProgressBar(qint64 bytesSent, qint64 bytesTotal) {
   if (bytesTotal > 0)
+    qDebug() << ((double)bytesSent / (double)bytesTotal) * 100.0;
     mCloudLoadingProgressDialog->setValue(((double)bytesSent / (double)bytesTotal) * 100.0);
 }
 
@@ -1701,6 +1736,7 @@ void WbMainWindow::uploadCloudFinished() {
   if (!reply)
     return;
 
+  disconnect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateCloudProgressBar);
   disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadCloudFinished);
 
   const QStringList answers = QString(reply->readAll().data()).split("\n");
@@ -1720,12 +1756,16 @@ void WbMainWindow::uploadCloudFinished() {
       error = reply->errorString();
     else
       error = "No server answer.";
-    WbMessageBox::info(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
+
+    WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
-    WbMessageBox::info(tr("Upload successfull. <br>Link: "
-                          "<a style='color: #5DADE2;' href='%1'>%1</a>")
-                         .arg(url),
-                       this, tr("Webots.cloud"));
+
+    WbLog::info(tr("link: %1\n").arg(url));
+
+    WbLinkWindow *linkWindowUi = new WbLinkWindow(this);
+    linkWindowUi->labelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>")
+                         .arg(url));
+    linkWindowUi->exec();
   }
 }
 

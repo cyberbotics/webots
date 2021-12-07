@@ -42,4 +42,17 @@ private:
   QPushButton *pushButtonAnimation;
 };
 
+class WbLinkWindow : public QDialog {
+  Q_OBJECT
+public:
+  explicit WbLinkWindow(QWidget *parent = NULL);
+  virtual ~WbLinkWindow() {}
+
+private:
+  QGroupBox *groupBoxLink;
+  QPushButton *pushButtonSave;
+public:
+  QLabel *labelLink;
+};
+
 #endif
