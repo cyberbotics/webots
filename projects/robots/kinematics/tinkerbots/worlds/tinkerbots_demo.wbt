@@ -49,6 +49,7 @@ DEF GROUND Solid {
 }
 ConveyorBelt {
   translation 0.05 -0.16 0
+  rotation 0 0 1 3.14159
   name "big conveyor belt"
   size 0.6 0.15 0.06
   borderThickness 0.005
@@ -57,7 +58,7 @@ ConveyorBelt {
 }
 ConveyorBelt {
   translation -0.326 -0.105 0
-  rotation 0 0 1 -1.5708
+  rotation 0 0 1 1.57079
   name "small conveyor belt"
   size 0.268 0.14 0.04
   borderThickness 0.001

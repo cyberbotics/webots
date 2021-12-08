@@ -4,7 +4,7 @@ WorldInfo {
     "Example uses of Track nodes, as caterpillar tracks on a robot, or as a conveyor belt."
   ]
   title "Track"
-  basicTimeStep 16
+  basicTimeStep 8
   contactProperties [
     ContactProperties {
       material1 "track material"
