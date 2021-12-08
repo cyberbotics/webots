@@ -12831,7 +12831,7 @@ You're welcome 🙂
 
 `@David Mansolino` : I tried using `wb_supervisor_node_add_torque(target_node, torqueValues, true);` and I'm getting better results, though the path looks more like a square with rounded arcs for each side.
 
-##### kirito21 05/03/2020 09:08:06
+##### Shadow Reaper 05/03/2020 09:08:06
 Hello everyone
 
 
@@ -12872,7 +12872,7 @@ Link: [https://youtu.be/OS0QByVv1do](https://youtu.be/OS0QByVv1do)
 %end
 
 
-`@kirito21` : The epuck has a attachment point called `groundSensorSlot` in its interface (expand the epuck node in the LHS panel.  You need to add `E-puckGroundSensors` to this node.
+`@Shadow Reaper` : The epuck has a attachment point called `groundSensorSlot` in its interface (expand the epuck node in the LHS panel.  You need to add `E-puckGroundSensors` to this node.
 
 When you change the floor size, your texture is scaled up/down accordingly. You should set the dimensions of your arena and then create the texture with the appropriate line widths.  (floorSize and floorTileSize work together.)
 
@@ -12881,13 +12881,13 @@ You should not change the size of the E-puck.  It will simply look smaller if yo
 
 `@lshil` there could be a number of things going wrong here.  You have to explain more clearly what you are trying to do.
 
-##### kirito21 05/04/2020 03:20:04
+##### Shadow Reaper 05/04/2020 03:20:04
 `@nap`  yup there is an attachment for groundsensor in epuck but I want to add ground sensor in some other robot which I created so how can I do that
 
 ##### nap 05/04/2020 03:21:42
-`@kirito21` : edit the proto of your robot and add the same node that the e-puck proto has.  Then, into that node, add the E-puckGroundSensor.
+`@Shadow Reaper` : edit the proto of your robot and add the same node that the e-puck proto has.  Then, into that node, add the E-puckGroundSensor.
 
-##### kirito21 05/04/2020 03:22:15
+##### Shadow Reaper 05/04/2020 03:22:15
 `@nap` sorry I m not getting how to do
 
 ##### nap 05/04/2020 03:22:30
@@ -12896,7 +12896,7 @@ when  you edit your robot's proto, note that there is a node in the structure un
 
 study the proto for the e-puck and experiment.   You will get it. (I don't have to the time to make an example for you.)
 
-##### kirito21 05/04/2020 03:23:37
+##### Shadow Reaper 05/04/2020 03:23:37
 Sure I will try and let you know
 
 ##### David Mansolino [Cyberbotics] 05/04/2020 05:43:01
@@ -15698,7 +15698,7 @@ I'm trying to do as the link, I want to have the supervisor and robot in the sam
 ##### TheOrangeOne 05/19/2020 18:52:17
 Hello! A while back I asked what the recognition orientation is on the camera, and got pointed in the direction of axis angles. I can get values out, but they act strangely. Rotating a cube around the Y axis. Is this just a case of unavoidable gimble lock? I can't imagine it is else the vision API is near useless? Thanks!
 
-##### Ronin52 05/19/2020 18:58:36
+##### Кирилл Шунин 05/19/2020 18:58:36
 Hello everybody! Please help me write a PROTO of a wheel similar to the one in the screenshot. That is, the wheel rotates on an axis, and the axis with the wheel rotates in around the other axis. I couldn't figure out how to do this, so I replaced it with a sphere and a Hinge2Joint, whose anchor is located in the center of the sphere. This gave me the ability to move in two planes, but periodically triggers a warning "WARNING: The current physics step could not be calculated correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep"
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712378694873907300/unknown.png)
@@ -15748,7 +15748,7 @@ Hello, I wonder if I can export objects in webots to stl files, obj files, 3D st
 
 > Hello everybody! Please help me write a PROTO of a wheel similar to the one in the screenshot. That is, the wheel rotates on an axis, and the axis with the wheel rotates in around the other axis. I couldn't figure out how to do this, so I replaced it with a sphere and a Hinge2Joint, whose anchor is located in the center of the sphere. This gave me the ability to move in two planes, but periodically triggers a warning "WARNING: The current physics step could not be calculated correctly. Your world may be too complex. If this problem persists, try simplifying your bounding object(s), reducing the number of joints, or reducing WorldInfo.basicTimeStep"
 
-`@Ronin52` to simulate this kind of wheel you usually have to use 2 HingeJoint instead of a Hinge2joint, here is an example: 
+`@Кирилл Шунин` to simulate this kind of wheel you usually have to use 2 HingeJoint instead of a Hinge2joint, here is an example: 
 
 ```
 DEF CASTER_WHEEL_FRONT_RIGHT_JOINT HingeJoint {
@@ -15914,14 +15914,14 @@ ok thank you i will work on it
 ##### TheOrangeOne 05/20/2020 09:10:38
 `@David Mansolino` so there's no way to convert the axis angles into a rotation around a specific axis?
 
-##### Ronin52 05/20/2020 09:12:57
+##### Кирилл Шунин 05/20/2020 09:12:57
 > `@David Mansolino` Thank you so much!
 
 ##### David Mansolino [Cyberbotics] 05/20/2020 09:13:05
 This might help you to make some tests: [https://www.andre-gaschler.com/rotationconverter/](https://www.andre-gaschler.com/rotationconverter/)
 
 
-`@Ronin52` You're welcome.
+`@Кирилл Шунин` You're welcome.
 
 ##### Ork 05/20/2020 09:47:35
 Is there a way to teleport a robot ?
@@ -16466,7 +16466,7 @@ The controller can run successfully on my computer, but in my classmate's comput
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/713695046486196304/unknown.png)
 %end
 
-##### PowerYdRa 05/23/2020 14:15:07
+##### Ardy Seto P 05/23/2020 14:15:07
 anyone know python example code how to read distance sensor on e-puck?
 
 ##### kwy 05/23/2020 14:25:44
@@ -16489,7 +16489,7 @@ for \_ in range(NB\_DIST\_SENS):
         sensor\_values[\_] = ps[\_].getValue()
 
 
-`@PowerYdRa`
+`@Ardy Seto P`
 
 
 and set initial sensor\_values = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -16499,7 +16499,7 @@ and dot forget to enable it before read it..for i in range(NB\_DIST\_SENS):
 
         ps[i].enable(TIME\_STEP)
 
-##### PowerYdRa 05/23/2020 15:54:42
+##### Ardy Seto P 05/23/2020 15:54:42
 ok thanks, will be back here if any issue happen 😄
 
 ##### iagsav 05/23/2020 16:59:25
@@ -16553,7 +16553,7 @@ when i try to use the saveImage method on the camera my image displays weird ver
 
 > anyone know python example code how to read distance sensor on e-puck?
 
-`@PowerYdRa` here are some examples: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python)
+`@Ardy Seto P` here are some examples: [https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=python)
 
 
 `@elkelkmuh` exactly like you are doing with the robot, you have to get the DEF name of a node in the foot slot (such as the FSR for example).

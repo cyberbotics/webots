@@ -2920,3 +2920,21 @@ is there any like tutorial that could explain the general idea of inverse kinema
 
 I didn't find anything in the documentation.
 
+##### DDaniel [Cyberbotics] 12/01/2021 14:09:46
+I don't believe there is a tutorial, but you can look up the sample world: `file > open sample world > inverse_kinematics.wbt`, it's a IRB robot that draws a circle. You can take inspiration from it.
+
+##### Luftwaffel [Moderator] 12/01/2021 19:15:00
+I would recommend going the pyikfast route. ikpy is very slow and flawed. I wrote a a very solid ikfast controller if you have  a solver for your robot
+
+
+what is the exact robot arm you are trying to use?
+
+
+[https://github.com/Simon-Steinmann/webots\_pyikfast\_tutorial](https://github.com/Simon-Steinmann/webots_pyikfast_tutorial)
+
+
+this is the sample, using the irb4600
+
+##### JoeDerybshire 12/02/2021 16:10:21
+I'll check those out, thank you both!
+
