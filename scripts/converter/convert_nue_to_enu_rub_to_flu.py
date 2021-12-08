@@ -14,7 +14,7 @@
 
 '''
 **Presentation**
-        This script intends to help you convert protos from RUB (x-Right, y-Up, z-Back) 
+        This script intends to help you convert protos from RUB (x-Right, y-Up, z-Back)
         to FLU (x-Forward, y-Left, z-Up) and worlds from NUE to ENU.
         For the worlds, since the rotation depends on the proto itself,
         it could be needed to rotate some part manually.
@@ -37,7 +37,8 @@
   `objects_pi_2` or `objects_minus_pi_2` according if it needs to be turn by respectively PI, PI/2 or -PI/2.
 
 ***file structure***
-    The `corners`, `path`, wayPoints', 'spine', 'startingAngle', 'endingAngle, `centerOfMass` and the geometry `IndexedFaceSet` need to have this specific structure (only carriage returns matter):
+The `corners`, `path`, wayPoints', 'spine', 'startingAngle', 'endingAngle, `centerOfMass` and the geometry `IndexedFaceSet`
+need to have this specific structure (only carriage returns matter):
 ```
 centerOfMass [
     Vx Vy Vz
@@ -45,7 +46,7 @@ centerOfMass [
 ```
 ```
 path [
-   .... 
+   ....
 ]
 ```
 ```
