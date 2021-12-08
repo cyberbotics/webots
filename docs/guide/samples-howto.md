@@ -167,6 +167,17 @@ This plugins is an example of:
 - How to move objects.
 - How to handle collisions.
 
+### [rolling\_friction.wbt]({{ url.github_tree }}/projects/samples/howto/rope/worlds/rolling_friction.wbt)
+
+**Keywords**: [ContactProperties](../reference/contactproperties.md), rolling friction
+
+![rolling_friction.png](images/samples/rolling_friction.thumbnail.jpg) In this example is demonstrated the principle of rolling friction.
+The physics engine (ODE) supports up to three coefficients, commonly referred to as rho, rho2, and rhoN.
+The black marbles are free to roll, however they are subject to different values of rho and therefore some take longer than others to accelerate.
+The green marbles are also free to roll, but are given an initial lateral velocity.
+The resulting lateral movement is limited to varying degrees due to having different values of rho2.
+Lastly, the blue marbles are initially spun around the Z axis and they come to a halt at different moments because they have different values of rhoN.
+
 ### [rope.wbt]({{ url.github_tree }}/projects/samples/howto/rope/worlds/rope.wbt)
 
 **Keywords**: [BallJoint](../reference/balljoint.md), rope

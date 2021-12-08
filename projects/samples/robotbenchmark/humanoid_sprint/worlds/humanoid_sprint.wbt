@@ -110,6 +110,6 @@ DEF NAO Nao {
 }
 RaceStopwatch {
   translation 4.73 1.19623 0
-  rotation 0.577350 0.577350 0.577350 2.094395
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
   window "humanoid_sprint"
 }

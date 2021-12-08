@@ -51,7 +51,7 @@ DEF SLOPE Solid {
 }
 Robot {
   translation 0 0 0.165
-  rotation -0.194861 0.194861 0.96128 1.61028
+  rotation -0.19486091649802306 0.19486091649802306 0.9612795880715977 1.61028
   children [
     Accelerometer {
     }
@@ -191,10 +191,10 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.57735 -0.57735 -0.57735 2.094395
+        rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
         children [
           DEF WHEEL Transform {
-            rotation 0.577657 0.577197 -0.577197 -2.093935
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -234,7 +234,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation 0.57735 -0.57735 -0.57735 2.094395
+        rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
         children [
           USE WHEEL
         ]
@@ -244,10 +244,10 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940735 0.23981 0.23981 1.631852
+      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
       children [
         DEF SENSOR Transform {
-          rotation 0.577657 0.577197 -0.577197 -2.093935
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -274,7 +274,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.940374 -0.240516 -0.240516 1.632235
+      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
       children [
         USE SENSOR
       ]
@@ -289,7 +289,7 @@ Robot {
     }
     DEF SMILE Transform {
       translation 0.036 0 0.025
-      rotation 0.250563 -0.935113 -0.250563 1.637834
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {

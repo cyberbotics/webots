@@ -1,7 +1,6 @@
 #VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 16
-  coordinateSystem "ENU"
 }
 Viewpoint {
   orientation 0 1 0 0.4209
@@ -28,16 +27,13 @@ SoccerBall {
 }
 Can {
   translation 4.588636654572984 0.02840087849328704 0.8010313300000104
-  rotation 0 0 1 0
 }
 Can {
   translation 4.87 1.71 0.8010313300000105
-  rotation 0 0 1 0
   name "can(2)"
 }
 Can {
   translation 4.58 -2.09 0.8010313300000104
-  rotation 0 0 1 0
   name "can(1)"
 }
 OfficeChair {
@@ -47,7 +43,6 @@ OfficeChair {
 Ned {
   translation 4.40242 0.513432 0.739997
   rotation 0 0 1 0.7854
-  name "Ned"
 }
 OfficeChair {
   translation 7.610000001119608 -0.19000000001554465 -0.000128970141754281
@@ -152,22 +147,18 @@ Monitor {
 }
 Monitor {
   translation 5.37238 0.11187 0.75
-  rotation 0 0 1 0
   name "monitor(4)"
 }
 Monitor {
   translation 5.37238 -1.59813 0.75
-  rotation 0 0 1 0
   name "monitor(9)"
 }
 Monitor {
   translation 9.12238 -0.25813 0.75
-  rotation 0 0 1 0
   name "monitor(5)"
 }
 Monitor {
   translation 9.12238 -1.74813 0.75
-  rotation 0 0 1 0
   name "monitor(6)"
 }
 Monitor {

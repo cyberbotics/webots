@@ -204,7 +204,6 @@ DEF HINGE2 Robot {
         dampingConstant 0.4
       }
       jointParameters2 JointParameters {
-        axis 0 0 1
         dampingConstant 0.4
       }
       device [

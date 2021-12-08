@@ -577,7 +577,7 @@ IprHd6m90 {
   sensorsSlot [
     DistanceSensor {
       translation -0.175 0.85 0.108
-      rotation -0.000281544 0.7071067532 0.7071067532 -3.1410295655
+      rotation -0.0002815439999846396 0.7071067531614219 0.7071067531614219 -3.1410295655
       name "dsBelt"
       lookupTable [
         0 249 0.05
@@ -653,7 +653,7 @@ IprHd6m90 {
   sensorsSlot [
     DistanceSensor {
       translation -0.175 0.85 0.108
-      rotation -0.000281544 0.7071067532 0.7071067532 -3.1410295655
+      rotation -0.0002815439999846396 0.7071067531614219 0.7071067531614219 -3.1410295655
       name "dsBelt"
       lookupTable [
         0 249 0.05

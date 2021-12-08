@@ -37,21 +37,21 @@ Robot {
     }
     CapScrew {
       translation 0.08 0.08 0.005
-      rotation -0.57735 -0.57735 0.57735 -2.094395
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
     }
     CapScrew {
       translation 0.08 -0.08 0.005
-      rotation -0.57735 -0.57735 0.57735 -2.094395
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
       name "cap screw(1)"
     }
     CapScrew {
       translation -0.08 -0.08 0.005
-      rotation -0.57735 -0.57735 0.57735 -2.094395
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
       name "cap screw(2)"
     }
     CapScrew {
       translation -0.08 0.08 0.005
-      rotation -0.57735 -0.57735 0.57735 -2.094395
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395
       name "cap screw(4)"
     }
     Solid {
@@ -83,6 +83,8 @@ Robot {
             RotationalMotor {
               name "motor 1"
               maxVelocity 1
+              minPosition -1.5707963267948966
+              maxPosition 1.5707963267948966
             }
           ]
           device3 [
