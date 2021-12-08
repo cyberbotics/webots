@@ -523,7 +523,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
     foreach (WbSolid *s, siblings) {
       if (!s || s == this)
         continue;
-      
+
       const bool matchingName = s->name() == name();
       found |= matchingName;
       if (matchingName) {
