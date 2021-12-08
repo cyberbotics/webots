@@ -474,7 +474,7 @@ DEF SALAMANDER Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation -0.02 0.03 0
-      rotation 0 1 0 2.356
+      rotation 0.2811558332116615 -0.6785835974480433 -0.6785835974480433 -2.593435307179586
       children [
         DEF EYE_SHAPE Shape {
           appearance DEF EYE_APPEARANCE PBRAppearance {
@@ -498,7 +498,7 @@ DEF SALAMANDER Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.02 0.03 0
-      rotation 0 1 0 0.785
+      rotation 0.8629801689292477 -0.3572570699334356 -0.3572570699334356 -1.7176253071795866
       children [
         USE EYE_SHAPE
       ]
