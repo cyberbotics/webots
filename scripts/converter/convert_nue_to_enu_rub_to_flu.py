@@ -187,6 +187,8 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
     miss_rotation = False
     for line in fileinput.input(filename, inplace=True):
 
+        if "# template language: javascript" in line:
+            warning_verbose += "Your proto contains Javascript. The proto has to be converted manually."
         # extract the type of field and its associated vector of line
         type = [x for x in re.compile('\n|,| ').split(line) if (any(x_char.isalpha() for x_char in x))]
         vector = [float(x) for x in re.compile('\n|,| ').split(line) if is_number(x)]
