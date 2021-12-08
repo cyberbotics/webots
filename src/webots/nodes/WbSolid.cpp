@@ -489,6 +489,13 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
   const QString &warningText =
     tr("'name' field value should be unique: '%1' already used by a sibling Solid node.").arg(name());
 
+  WbField *nameField = findField("name", true);
+
+  // in case (the name is the empty string OR the default name) AND
+  // the node is not a device, having the same name is not an issue
+  if (!dynamic_cast<const WbDevice *>(this) && (name() == "" || nameField->isDefault()))
+    return;
+
   if (isProtoParameterNode() || siblings.isEmpty())
     return;
 
@@ -516,7 +523,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
     foreach (WbSolid *s, siblings) {
       if (!s || s == this)
         continue;
-
+      
       const bool matchingName = s->name() == name();
       found |= matchingName;
       if (matchingName) {
@@ -542,7 +549,6 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
 
     if (found) {
       if (automaticallyChange) {
-        WbField *nameField = findField("name", true);
         while (nameField->parameter())
           nameField = nameField->parameter();
         bool isTemplateRegenerator = nameField->isTemplateRegenerator();
