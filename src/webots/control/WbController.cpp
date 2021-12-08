@@ -242,13 +242,15 @@ void WbController::start() {
                       << "--nosound"
                       << "--shell=none"
                       << "--quiet";
+    firejailArguments << "--whitelist=" + mControllerPath.chopped(1); // remove the final '/'
     // adding a path starting with /tmp/ in a whitelist blocks all other paths starting
     // with /tmp/ (including the local socket used by Webots which would prevent the
-    // controller from running)
-    if (!mControllerPath.startsWith("/tmp/"))
-      firejailArguments << "--whitelist=" + mControllerPath;
-    firejailArguments << "--whitelist=" + WbStandardPaths::controllerLibPath();
-    firejailArguments << "--read-only=" + WbStandardPaths::controllerLibPath();
+    // controller from running), so if the controller path starts with /tmp/ we need
+    // to explicitely whitelist the local socket.
+    if (mControllerPath.startsWith("/tmp/"))
+      firejailArguments << "--whitelist=" + WbControlledWorld::instance()->server();
+    firejailArguments << "--whitelist=" + WbStandardPaths::controllerLibPath().chopped(1);
+    firejailArguments << "--read-only=" + WbStandardPaths::controllerLibPath().chopped(1);
 
     QString ldLibraryPath = WbStandardPaths::controllerLibPath();
     ldLibraryPath.chop(1);
