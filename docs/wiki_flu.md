@@ -6,7 +6,7 @@ From the 2022a version, **the axis convention of the global coordinate system ch
 In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, y-**L**eft, z-**U**p_). All the protos and worlds included in the Webots package have been converted according to these conventions.
 
 If you open a world in the version 2022a, a backward compatibility algorithm will rotate it for you. However, you may see that some parts are turned upside down!
-This wiki will explain to you how to convert your protos and worlds. Try first method 1 or/and 2, and if it is not working, method 3.
+This wiki will explain to you how to convert your protos and worlds.
 
 ## World conversion
 
@@ -28,7 +28,7 @@ python3 convert_nue_to_enu_rub.py /your_path_to_your_projects/worlds/my_world.wb
 
 If your proto is not too complex, you can directly rotate it by using Webots interface and save it. You should keep your world in `NUE` (see [CoordinateSystem]{worldInfo}) and simply rotate the geometries and sensors. Indeed, the geometries and sensors were Y-UP and are now Z-up. Basically, you need to rotate them to an angle of `pi/2` on the x-axis.
 
-## Method 3: Manually
+### Method 2: Manually
 
 Otherwise, to convert your proto manually, open your `.proto` or `.wbt` file in your text editor. 
 You can use the script `python3 scripts/converter/convert.py` and apply the wanted rotations to convert your proto. This script takes the clipboard content, applies transforms, and pastes the transformed VRML to the clipboard. To set the correct transformation, change the variable `ROTATION` into the script. Follow the conversion process bellow.
