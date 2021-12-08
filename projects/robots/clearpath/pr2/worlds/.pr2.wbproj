@@ -8,8 +8,3 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/pr2_demo/pr2_demo.c"
 consoles: Console:All:All
-renderingDevicePerspectives: PR2:high_def_sensor;0;0.363562;0;0
-renderingDevicePerspectives: PR2:l_forearm_cam_sensor;0;0.695313;0;0
-renderingDevicePerspectives: PR2:r_forearm_cam_sensor;0;0.695313;0;0
-renderingDevicePerspectives: PR2:wide_stereo_l_stereo_camera_sensor;0;0.695313;0;0
-renderingDevicePerspectives: PR2:wide_stereo_r_stereo_camera_sensor;0;0.695313;0;0
