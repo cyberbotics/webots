@@ -272,7 +272,7 @@ DEF GRIPPER Robot {
               translation 0 0.008 0
               children [
                 Transform {
-                  rotation 0 1 0 0.1309
+                  rotation 0 0 1 -0.1309
                   children [
                     Gear {
                       translation 0 0 0.0025

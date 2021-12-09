@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(leftMotor, 0.1);
   wb_motor_set_velocity(rightMotor, 0.1);
 
-  int i = 700;
+  int i = 1400;
   while (wb_robot_step(timeStep) != -1 && i > 0) {
     --i;
   };
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(leftMotor, -0.1);
   wb_motor_set_velocity(rightMotor, 0.1);
 
-  i = 500;
+  i = 1000;
   while (wb_robot_step(timeStep) != -1 && i > 0) {
     --i;
   };
