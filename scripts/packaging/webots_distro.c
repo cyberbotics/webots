@@ -436,14 +436,14 @@ static void add_ros_dependencies(const char *path) {
   fprintf(fd, "cp /opt/ros/noetic/lib/libcpp_common.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole_log4cxx.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole_backend_interface.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_regex.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #endif
 }
 
@@ -1242,7 +1242,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libXi.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libXrender.so.1 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libxslt.so.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libxslt.so.1.1.34 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libgd.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssh.so.4 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreetype.so.6 debian/usr/local/webots/lib/webots\n");
