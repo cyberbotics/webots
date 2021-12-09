@@ -9,22 +9,22 @@ Therefore, it is important to understand how Webots nodes are affected by the up
 
 | Node | Required rotation to preserve the old behavior | Strategy code |
 |---|:---:|:---:|
-| [Cylinder](reference/cylinder.md) | (-$\pi/2$, 0, 0) | B1 |
-| [Capsule](reference/capsule.md) | (-$\pi/2$, 0, 0) | B1 |
-| [ElevationGrid](reference/elevationgrid.md) | (-$\pi/2$, 0, 0) | B1 |
-| [Cone](reference/cone.md) | (-$\pi/2$, 0, 0) | B1 |
-| [Plane](reference/plane.md) | (-$\pi/2$, 0, 0) | B1 |
-| [Camera](reference/camera.md) | (-$\pi/2$, 0, $\pi/2$) | A2 |
-| [Lidar](reference/lidar.md) | (-$\pi/2$, 0, $\pi/2$) | A2 |
-| [Radar](reference/radar.md) | (-$\pi/2$, 0, $\pi/2$) | A2 |
-| [Viewpoint](reference/viewpoint.md) | (-$\pi/2$, 0, $\pi/2$) | A1 |
-| [Track](reference/track.md) | (-$\pi/2$, 0, $\pi/2$) | A2 |
-| [Pen](reference/camera.md) | (-$\pi/2$, 0, 0) | A2 |
-| [Emitter](reference/emitter.md) | (-$\pi/2$, 0, -$\pi/2$) | A2 |
-| [Receiver](reference/receiver.md) | (-$\pi/2$, 0, -$\pi/2$) | A2 |
-| [Connector](reference/connector.md) | (-$\pi/2$, 0, -$\pi/2$) | A2 |
-| [TouchSensor](reference/touchsensor.md) | (-$\pi/2$, 0, -$\pi/2$) | A2 |
-| Webots PROTOs | (-$\pi/2$, 0, $\pi/2$), but there are numerous exceptions to this rule as we haven't followed any specific convention | C |
+| [Cylinder](reference/cylinder.md) | (-$\frac{\pi}{2}$, 0, 0) | B1 |
+| [Capsule](reference/capsule.md) | (-$\frac{\pi}{2}$, 0, 0) | B1 |
+| [ElevationGrid](reference/elevationgrid.md) | (-$\frac{\pi}{2}$, 0, 0) | B1 |
+| [Cone](reference/cone.md) | (-$\frac{\pi}{2}$, 0, 0) | B1 |
+| [Plane](reference/plane.md) | (-$\frac{\pi}{2}$, 0, 0) | B1 |
+| [Camera](reference/camera.md) | (-$\frac{\pi}{2}$, 0, $\frac{\pi}{2}$) | A2 |
+| [Lidar](reference/lidar.md) | (-$\frac{\pi}{2}$, 0, $\frac{\pi}{2}$) | A2 |
+| [Radar](reference/radar.md) | (-$\frac{\pi}{2}$, 0, $\frac{\pi}{2}$) | A2 |
+| [Viewpoint](reference/viewpoint.md) | (-$\frac{\pi}{2}$, 0, $\frac{\pi}{2}$) | A1 |
+| [Track](reference/track.md) | (-$\frac{\pi}{2}$, 0, $\frac{\pi}{2}$) | A2 |
+| [Pen](reference/camera.md) | (-$\frac{\pi}{2}$, 0, 0) | A2 |
+| [Emitter](reference/emitter.md) | (-$\frac{\pi}{2}$, 0, -$\frac{\pi}{2}$) | A2 |
+| [Receiver](reference/receiver.md) | (-$\frac{\pi}{2}$, 0, -$\frac{\pi}{2}$) | A2 |
+| [Connector](reference/connector.md) | (-$\frac{\pi}{2}$, 0, -$\frac{\pi}{2}$) | A2 |
+| [TouchSensor](reference/touchsensor.md) | (-$\frac{\pi}{2}$, 0, -$\frac{\pi}{2}$) | A2 |
+| Webots PROTOs | (-$\frac{\pi}{2}$, 0, $\frac{\pi}{2}$), but there are numerous exceptions to this rule as we haven't followed any specific convention | C |
 
 Note that the backward compability mechanism adapts the nodes in the internal tree structure.
 Therefore, the saved worlds will be overriden with the updated structure, but the PROTO files adapter exclusively at the runtime.
