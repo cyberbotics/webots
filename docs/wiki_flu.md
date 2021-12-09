@@ -27,8 +27,8 @@ Therefore, it is important to understand how Webots nodes are affected by the up
 | Webots PROTOs | (-$\frac{\pi}{2}$, 0, $\frac{\pi}{2}$), but there are numerous exceptions to this rule as we haven't followed any specific convention | C |
 
 Note that the backward compability mechanism adapts the nodes in the internal tree structure.
-Therefore, the saved worlds will be overriden with the updated structure, but the PROTO files adapter exclusively at the runtime.
-A user should update the PROTO files manually.   
+Therefore, the saved worlds will be overriden with the updated structure, while the PROTO files are adapted exclusively at the runtime.
+A user should manually update the PROTO files.   
 
 # New axis system recommendations
 
