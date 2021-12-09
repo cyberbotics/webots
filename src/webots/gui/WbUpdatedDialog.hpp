@@ -19,12 +19,12 @@
 // Description: Updated dialog for the first launch of Webots 2022a.
 //
 
-#include <QtWidgets/QDialog>
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QPushButton>
+#include <QtWidgets/QDialog>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
 
 class WbUpdatedDialog : public QDialog {
   Q_OBJECT
@@ -33,13 +33,13 @@ public:
   virtual ~WbUpdatedDialog() {}
 
 private:
-  QLabel *image;
-  QLabel *labelWelcome;
-  QLabel *labelThanks;
-  QLabel *labelNote;
-  QLabel *labelChangelog;
-  QGroupBox *groupBox;
-  QPushButton *closeButton;
+  QLabel *mImage;
+  QLabel *mLabelWelcome;
+  QLabel *mLabelThanks;
+  QLabel *mLabelNote;
+  QLabel *mLabelChangelog;
+  QGroupBox *mGroupBox;
+  QPushButton *mCloseButton;
 };
 
 #endif

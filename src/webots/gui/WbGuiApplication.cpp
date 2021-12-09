@@ -479,13 +479,11 @@ bool WbGuiApplication::setup() {
   WbSysInfo::initializeOpenGlInfo();
   WbWrenOpenGlContext::doneWren();
 
-
-  if (true) //(showGuidedTour)
+  if (true)  //(showGuidedTour)
     mMainWindow->showGuidedTour();
-  
-  if (true)//(prefs->value("Internal/firstLaunch", true).toBool()))
-    mMainWindow->showUpdatedDialog();
 
+  if (true)  //(prefs->value("Internal/firstLaunch", true).toBool()))
+    mMainWindow->showUpdatedDialog();
 
   return true;
 }
