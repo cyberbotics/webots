@@ -1,11 +1,11 @@
 # New axis system for geometries, devices, and PROTOs
 
-Starting from the R2022a version, all geometries, devices, and PROTOs that come with Webots use the FLU axis orientation (x-**F**orward, y-**L**eft, and z-**U**p).
+Starting from the R2022a version, all geometries, devices, and PROTOs that come with Webots use the FLU axis orientation (x-**F**orward, y-**L**eft, and z-**U**p, see [#3073](https://github.com/cyberbotics/webots/pull/3073)).
 We introduced the update to be consistent with ROS (see [REP 103](https://www.ros.org/reps/rep-0103.html)) and other robotics systems.
 If your Webots world uses Webots geometries, devices, and PROTOs then you will probably need to adapt your world.
 We also introduced a backward compability mechanism (see [#3619](https://github.com/cyberbotics/webots/pull/3619)) to adapt worlds automatically.
 However, the mechanism has limited capabilities and it is likely you will need to assist the world adaptation.
-Therefore, it is important to understand how Webots nodes are affected and how they should be rotated to preserve the old behavior:
+Therefore, it is important to understand how Webots nodes are affected by the update and how they should be rotated to preserve the old behavior:
 
 | Node | Required rotation to preserve the old behavior | Strategy code |
 |---|:---:|:---:|
