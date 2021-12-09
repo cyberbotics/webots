@@ -478,6 +478,10 @@ void WbAnimationRecorder::stopRecording() {
   out << " \"frames\":[\n";
   // write initial state
   out << "{\"time\":0,\"poses\":[";
+  if (commandsChangedFromStart.isEmpty()) {
+    WbLog::info(tr("Error: No animation content because the simulation did not start."));
+    return;
+  }
   foreach (WbAnimationCommand *command, commandsChangedFromStart) {
     // store only initial state of nodes that changed during the animation
     if (command != commandsChangedFromStart.first())

@@ -17,81 +17,97 @@
 WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   this->setWindowTitle(tr("Share your project on Webots.cloud"));
 
-  groupBoxScene = new QGroupBox(this);
-  groupBoxScene->setGeometry(QRect(10, 80, 169, 126));
-  groupBoxScene->setStyleSheet("border: 1px solid gray;");
-  groupBoxScene->setTitle(tr("Upload your scene"));
+  mGroupBoxScene = new QGroupBox(this);
+  mGroupBoxScene->setGeometry(QRect(10, 80, 169, 126));
+  mGroupBoxScene->setStyleSheet("border: 1px solid gray;");
+  mGroupBoxScene->setTitle(tr("Upload your scene"));
 
-  groupBoxAnimation = new QGroupBox(this);
-  groupBoxAnimation->setGeometry(QRect(210, 80, 169, 126));
-  groupBoxAnimation->setStyleSheet("border: 1px solid gray;");
-  groupBoxAnimation->setTitle(tr("Share your animation"));
+  mGroupBoxAnimation = new QGroupBox(this);
+  mGroupBoxAnimation->setGeometry(QRect(210, 80, 169, 126));
+  mGroupBoxAnimation->setStyleSheet("border: 1px solid gray;");
+  mGroupBoxAnimation->setTitle(tr("Share your animation"));
 
-  pushButtonAnimation = new QPushButton(groupBoxAnimation);
-  pushButtonAnimation->setGeometry(QRect(12, 72, 150, 42));
-  pushButtonAnimation->setStyleSheet("border: 0px;");
-  pushButtonAnimation->setText(tr("Start your animation \n"
-                               " and get a link"));
+  mPushButtonAnimation = new QPushButton(mGroupBoxAnimation);
+  mPushButtonAnimation->setGeometry(QRect(12, 72, 150, 42));
+  mPushButtonAnimation->setStyleSheet("border: 0px;");
+  mPushButtonAnimation->setText(tr("Start your animation \n"
+                                   " and get a link"));
 
-  pushButtonScene = new QPushButton(groupBoxScene);
-  pushButtonScene->setGeometry(QRect(12, 72, 150, 42));
-  pushButtonScene->setStyleSheet("border: 0px;");
-  pushButtonScene->setText(tr("Get a link"));
+  mPushButtonScene = new QPushButton(mGroupBoxScene);
+  mPushButtonScene->setGeometry(QRect(12, 72, 150, 42));
+  mPushButtonScene->setStyleSheet("border: 0px;");
+  mPushButtonScene->setText(tr("Get a link"));
 
-  labelIntro = new QLabel(this);
-  labelIntro->setGeometry(QRect(9, 9, 380, 68));
-  labelIntro->setWordWrap(true);
-  labelIntro->setOpenExternalLinks(true);
-  labelIntro->setText(tr(
-    "<html><head/><body><p>You can now upload your scenes and animations on <a href=\"https://beta.webots.cloud/\"><span "
-    "style=\" text-decoration: underline; color:#5dade2;\">beta.webots.cloud</span></a>.\nClick on one of the buttons to "
-    "generate a sharing link that you can send to others.</p></body></html>"));
+  mLabelIntro = new QLabel(this);
+  mLabelIntro->setGeometry(QRect(9, 9, 380, 68));
+  mLabelIntro->setWordWrap(true);
+  mLabelIntro->setOpenExternalLinks(true);
+  mLabelIntro->setText(
+    tr("<html><head/><body><p>You can now upload your scenes and animations on <a href=\"https://beta.webots.cloud/\"><span "
+       "style=\" text-decoration: underline; color:#5dade2;\">beta.webots.cloud</span></a>.\nClick on one of the buttons to "
+       "generate a sharing link that you can send to others.</p></body></html>"));
 
-  labelScene = new QLabel(groupBoxScene);
-  labelScene->setGeometry(QRect(12, 32, 155, 34));
-  labelScene->setStyleSheet("border: none;");
-  labelScene->setWordWrap(true);
-  labelScene->setText(tr("upload your scene on Webots.cloud."));
+  mLabelScene = new QLabel(mGroupBoxScene);
+  mLabelScene->setGeometry(QRect(12, 32, 155, 34));
+  mLabelScene->setStyleSheet("border: none;");
+  mLabelScene->setWordWrap(true);
+  mLabelScene->setText(tr("upload your scene on Webots.cloud."));
 
-  labelAnimation = new QLabel(groupBoxAnimation);
-  labelAnimation->setGeometry(QRect(12, 32, 155, 34));
-  labelAnimation->setStyleSheet("border: none;");
-  labelAnimation->setWordWrap(true);
-  labelAnimation->setText(tr("Start recording your animation and upload it."));
+  mLabelAnimation = new QLabel(mGroupBoxAnimation);
+  mLabelAnimation->setGeometry(QRect(12, 32, 155, 34));
+  mLabelAnimation->setStyleSheet("border: none;");
+  mLabelAnimation->setWordWrap(true);
+  mLabelAnimation->setText(tr("Start recording your animation and upload it."));
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
 
-  connect(pushButtonScene, &QPushButton::pressed, mainWindow, &WbMainWindow::uploadScene);
-  connect(pushButtonScene, &QPushButton::pressed, this, &WbShareWindow::close);
+  connect(mPushButtonScene, &QPushButton::pressed, mainWindow, &WbMainWindow::uploadScene);
+  connect(mPushButtonScene, &QPushButton::pressed, this, &WbShareWindow::close);
 
-  connect(pushButtonAnimation, &QPushButton::pressed, mainWindow, &WbMainWindow::startAnimationRecording);
-  connect(pushButtonAnimation, &QPushButton::pressed, this, &WbShareWindow::close);
+  connect(mPushButtonAnimation, &QPushButton::pressed, mainWindow, &WbMainWindow::startAnimationRecording);
+  connect(mPushButtonAnimation, &QPushButton::pressed, this, &WbShareWindow::close);
 }
 
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   this->setWindowTitle(tr("Share your project on Webots.cloud"));
 
-  groupBoxLink = new QGroupBox(this);
-  groupBoxLink->setTitle(tr("Upload successful"));
-  groupBoxLink->setStyleSheet("border: 1px solid gray;");
-  groupBoxLink->setGeometry(QRect(10, 20, 291, 61));
+  mGroupBoxLink = new QGroupBox(this);
+  mGroupBoxLink->setTitle(tr("Upload successful"));
+  mGroupBoxLink->setStyleSheet("border: 1px solid gray;");
+  mGroupBoxLink->setGeometry(QRect(10, 20, 291, 61));
 
-  labelLink = new QLabel(groupBoxLink);
-  labelLink->setGeometry(QRect(10, 30, 271, 21));
-  labelLink->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
-  labelLink->setStyleSheet("border: none;");
-  labelLink->setOpenExternalLinks(true);
-  labelLink->setWordWrap(true);
+  mLabelLink = new QLabel(mGroupBoxLink);
+  mLabelLink->setGeometry(QRect(10, 30, 271, 21));
+  mLabelLink->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
+  mLabelLink->setStyleSheet("border: none;");
+  mLabelLink->setOpenExternalLinks(true);
+  mLabelLink->setWordWrap(true);
 
-
-  pushButtonSave = new QPushButton(this);
-  pushButtonSave->setGeometry(QRect(10, 90, 181, 25));
-  pushButtonSave->setStyleSheet(QString::fromUtf8("border: 1px solid gray;;\n""color: #5DADE2;\n""background: transparent;"));
-  pushButtonSave->setCursor(QCursor(Qt::PointingHandCursor));
-  pushButtonSave->setText(tr("Also save a local copy..."));
+  mPushButtonSave = new QPushButton(this);
+  mPushButtonSave->setGeometry(QRect(10, 90, 181, 25));
+  mPushButtonSave->setStyleSheet("border: 1px solid gray;;\n"
+                                 "color: #5DADE2;\n"
+                                 "background: transparent;");
+  mPushButtonSave->setCursor(QCursor(Qt::PointingHandCursor));
+  mPushButtonSave->setText(tr("Also save a local copy..."));
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
-  connect(pushButtonSave, &QPushButton::pressed, mainWindow, &WbMainWindow::exportHtmlFiles);
-  connect(pushButtonSave, &QPushButton::pressed, this, &WbLinkWindow::close);
+  connect(mPushButtonSave, &QPushButton::pressed, mainWindow, &WbMainWindow::exportHtmlFiles);
+  connect(mPushButtonSave, &QPushButton::pressed, this, [this]() {
+    mPushButtonSave->setEnabled(false);
+    mPushButtonSave->setText(tr("local copy saved"));
+    mPushButtonSave->setStyleSheet("border: 1px solid gray;;\n"
+                                   "color: gray;\n"
+                                   "background: transparent;");
+  });
+}
 
+void WbLinkWindow::reject() {
+  QDir dir(WbStandardPaths::webotsTmpPath() + "textures/");  // remove tmp files
+  dir.removeRecursively();
+  QStringList extensions = {".html", ".x3d", ".json"};
+  foreach (QString extension, extensions)
+    QFile::remove(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension);
+
+  QDialog::reject();
 }

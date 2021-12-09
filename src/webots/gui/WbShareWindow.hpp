@@ -19,12 +19,15 @@
 // Description: Share dialog for the Share button.
 //
 
+#include <QtCore/QDir>
+#include <QtCore/QFile>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 
 #include "WbMainWindow.hpp"
+#include "WbStandardPaths.hpp"
 
 class WbShareWindow : public QDialog {
   Q_OBJECT
@@ -33,13 +36,13 @@ public:
   virtual ~WbShareWindow() {}
 
 private:
-  QGroupBox *groupBoxScene;
-  QGroupBox *groupBoxAnimation;
-  QLabel *labelIntro;
-  QLabel *labelScene;
-  QLabel *labelAnimation;
-  QPushButton *pushButtonScene;
-  QPushButton *pushButtonAnimation;
+  QGroupBox *mGroupBoxScene;
+  QGroupBox *mGroupBoxAnimation;
+  QLabel *mLabelIntro;
+  QLabel *mLabelScene;
+  QLabel *mLabelAnimation;
+  QPushButton *mPushButtonScene;
+  QPushButton *mPushButtonAnimation;
 };
 
 class WbLinkWindow : public QDialog {
@@ -48,11 +51,12 @@ public:
   explicit WbLinkWindow(QWidget *parent = NULL);
   virtual ~WbLinkWindow() {}
 
+  QLabel *mLabelLink;
+
 private:
-  QGroupBox *groupBoxLink;
-  QPushButton *pushButtonSave;
-public:
-  QLabel *labelLink;
+  QGroupBox *mGroupBoxLink;
+  QPushButton *mPushButtonSave;
+  void reject() override;
 };
 
 #endif

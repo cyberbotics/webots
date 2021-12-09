@@ -88,7 +88,6 @@
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
 
-#include <QtCore/QDebug>
 #include <QtCore/QDirIterator>
 #include <QtCore/QObject>
 #include <QtNetwork/QHttpMultiPart>
@@ -1603,10 +1602,8 @@ void WbMainWindow::exportHtmlFiles() {
   }
 
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
-
     QFileInfo info(fileName);
-    QStringList extensions;
-    extensions << ".html" << ".x3d";
+    QStringList extensions = {".html", ".x3d"};
     if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists())
       extensions << ".json";
 
@@ -1616,8 +1613,8 @@ void WbMainWindow::exportHtmlFiles() {
       dir.rename(textureFolder, info.path() + "/textures");
 
     foreach (QString extension, extensions) {
-      qDebug() << info.path() + "/" + info.completeBaseName() + extension;
-      QFile::rename(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension, info.path() + "/" + info.completeBaseName() + extension);
+      QFile::rename(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension,
+                    info.path() + "/" + info.completeBaseName() + extension);
     }
     WbPreferences::instance()->setValue("Directories/www", QFileInfo(fileName).absolutePath() + "/");
     openUrl(fileName,
@@ -1660,7 +1657,7 @@ void WbMainWindow::sendCloudRequest() {
   if (filenames.isEmpty())  // add empty texture
     filenames.append("");
 
-  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists()){
+  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists()) {
     filenames << "export_cloud.json";
     animation = true;
   }
@@ -1717,7 +1714,6 @@ void WbMainWindow::sendCloudRequest() {
   mCloudLoadingProgressDialog = new QProgressDialog(tr("Uploading on Webots.cloud..."), "Cancel", 0, 100, this);
   mCloudLoadingProgressDialog->setWindowTitle(tr("Webots.cloud"));
   mCloudLoadingProgressDialog->show();
-  qDebug() << "test";
   connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateCloudProgressBar);
 
   multiPart->setParent(reply);
@@ -1726,7 +1722,6 @@ void WbMainWindow::sendCloudRequest() {
 
 void WbMainWindow::updateCloudProgressBar(qint64 bytesSent, qint64 bytesTotal) {
   if (bytesTotal > 0)
-    qDebug() << ((double)bytesSent / (double)bytesTotal) * 100.0;
     mCloudLoadingProgressDialog->setValue(((double)bytesSent / (double)bytesTotal) * 100.0);
 }
 
@@ -1759,12 +1754,10 @@ void WbMainWindow::uploadCloudFinished() {
 
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
-
     WbLog::info(tr("link: %1\n").arg(url));
 
     WbLinkWindow *linkWindowUi = new WbLinkWindow(this);
-    linkWindowUi->labelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>")
-                         .arg(url));
+    linkWindowUi->mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
     linkWindowUi->exec();
   }
 }
