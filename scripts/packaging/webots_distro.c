@@ -1263,7 +1263,7 @@ static void create_file(const char *name, int m) {
         "libwebpmux.so.3",     "libpng16.so.16",    "libfreeimage.so.3",       "libjxrglue.so.0",      "libopenjp2.so.7",
         "libjpegxr.so.0",      "libHalf.so.24",     "libIex-2_3.so.24",        "libIexMath-2_3.so.24", "libIlmThread-2_3.so.24",
         "libIlmImf-2_3.so.24", "libzip.so.5",       "libzzip-0.so.13",         "libjbig.so.0",         "libgomp.so.1",
-        "liblcms2.so.2",       "libXi.so.6",        "libXrender.so.1",         "libfontconfig.so.1",   "libxslt.so.1",
+        "liblcms2.so.2",       "libXi.so.6",        "libXrender.so.1",         "libfontconfig.so.1",   "libxslt.so.1.1.34",
         "libgd.so.3",          "libssh.so.4",       "libfreetype.so.6",        "libxcb-keysyms.so.1",  "libxcb-image.so.0",
         "libxcb-icccm.so.4",   "libxcb-randr.so.0", "libxcb-render-util.so.0", "libxcb-xinerama.so.0"};
       for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
@@ -1272,7 +1272,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp -a /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
-      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/include/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots_snap.desktop $DESTDIR/usr/share/webots/resources/webots.desktop\n");
       add_ros_dependencies("$DESTDIR/usr/share/webots");
       break;
