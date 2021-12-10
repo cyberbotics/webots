@@ -448,6 +448,9 @@ static void add_ros_dependencies(const char *path) {
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n",
+          path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #endif
 }
 
