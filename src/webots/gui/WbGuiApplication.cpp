@@ -541,7 +541,13 @@ void WbGuiApplication::loadInitialWorld() {
 }
 
 void WbGuiApplication::udpateStyleSheet() {
-  QString themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
+  QString themeToLoad;
+#ifdef __linux__
+  themeToLoad = WbPreferences::instance()->value("General/theme", "webots_night.qss").toString();
+#else
+  themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
+#endif
+
   QFile qssFile(WbStandardPaths::resourcesPath() + themeToLoad);
   qssFile.open(QFile::ReadOnly);
   QString styleSheet = QString::fromUtf8(qssFile.readAll());
