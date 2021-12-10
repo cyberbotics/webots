@@ -43,9 +43,6 @@ void WbActionManager::cleanup() {
 }
 
 WbActionManager::WbActionManager() : QObject(), mFocusObject(NULL) {
-#ifndef _WIN32
-  QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
-#endif
   populateActions();
   connectActions();
 }
