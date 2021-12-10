@@ -96,7 +96,6 @@ void WbNodeOperations::onVrmlExportRequested(const QString &filePath) {
     WbQjsCollada::instance()->setVrmlResponse("");
     return;
   }
-  QTextStream(stdout) << stream << "\n";
   WbQjsCollada::instance()->setVrmlResponse(stream);
 }
 
