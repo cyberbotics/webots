@@ -214,8 +214,26 @@ HTTP request handlers:
 WebSocket request handlers:
 * The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload should be a JSON object named `start` containing a `url` string and optionally a `mode` string:
 ```json
-{"start":{"url":"https://github.com/name/repo/blob/version/worlds/my_world.wbt","mode":"mjpeg"}}
+{
+  "start": {
+    "url": "https://github.com/alice/sim/blob/my_own_version/app/worlds/my_world.wbt",
+    "mode": "mjpeg"
+  }
+}
 ```
+
+#### Simulation Files Checkout
+
+When the simulation server receives the 'start' command on the `/client` request, it will checkout the simulation files from the provided `url` pointing to a Webots world file on a GitHub repository:
+```
+https://github.com/alice/sim/blob/my_own_version/app/worlds/my_world.wbt
+                   └───┬───┘      └─────┬──────┘ └─────────┬───────────┘
+                  repository       tag or branch     path to world file
+```
+Currently, this protocol only supports public GitHub repositories.
+In the above sample URL, the simulation server will checkout the `my_own_version` tag or branch of the `/app` directory from the `sim` repository of the `alice` GitHub user and it will start Webots with the specified `my_world.wbt` world file.
+
+This protocol is still experimental and the robot windows are not yet supported.
 
 #### Network Settings
 
@@ -411,19 +429,6 @@ sudo docker run -p 1999-2100:1999-2100 -it webots-simulation-server
 
 This example runs the simulation server on localhost.
 If you want to publish the simulation server on the web, then you may need to setup a web server, such as the Apache web server.
-
-#### Simulation Files Checkout
-
-When the simulation server receives the 'start' command on the `/client` request, it will checkout the simulation files from the provided `url` pointing to a Webots world file on a GitHub repository:
-```
-https://github.com/alice/sim/blob/my_own_version/app/worlds/my_world.wbt
-                   └───┬───┘      └─────┬──────┘ └─────────┬───────────┘
-                  repository       tag or branch     path to world file
-```
-Currently, this protocol only supports public GitHub repositories.
-In the above sample URL, the simulation server will checkout the `my_own_version` tag or branch of the `/app` directory from the `sim` repository of the `alice` GitHub user and it will start Webots with the specified `my_world.wbt` world file.
-
-This protocol is still experimental and the robot windows are not yet supported.
 
 #### How to Embed a Web Scene in Your Website
 
