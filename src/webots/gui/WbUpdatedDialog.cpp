@@ -33,7 +33,7 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
   mGroupBox->setGeometry(QRect(35, 65, 365, 230));
   mGroupBox->setTitle(QString("Important Note for previous users"));
   mGroupBox->setStyleSheet("QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } "
-                           "QGroupBox::title {subcontrol-origin:  margin; subcontrol-position: top center; top; }");
+                           "QGroupBox::title {subcontrol-origin:  margin; subcontrol-position: top center; }");
 
   mLabelNote = new QLabel(mGroupBox);
   mLabelNote->setGeometry(QRect(15, 20, 345, 200));
