@@ -62,16 +62,11 @@ export default class Server {
   }
 
   onOpen(event) {
-    if (this._repository) {
-      let message = `{"start":{"url":"` + this._repository + `"`;
-      if (this._view.mode === 'mjpeg')
-        message += ',"mode":"mjpeg"';
-      message += '}}';
-      this.socket.send(message);
-    } else { // legacy format
-      const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
-      this.socket.send('{ "init" : [ "' + host + '", "' + this._project + '", "' + this._worldFile + '" ] }');
-    }
+    let message = `{"start":{"url":"` + this._repository + `"`;
+    if (this._view.mode === 'mjpeg')
+      message += ',"mode":"mjpeg"';
+    message += '}}';
+    this.socket.send(message);
     document.getElementById('webotsProgressMessage').innerHTML = 'Starting simulation...';
   }
 
