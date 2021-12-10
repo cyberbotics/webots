@@ -6,9 +6,10 @@ If your Webots world uses Webots geometries, devices, and PROTOs then you will p
 
 [add image example]
 
-# How to adapt your world or PROTO to Webots 2022a
+# How to adapt your world or PROTO to Webots R2022a
 
-We introduced a backward compatibility mechanism (see [#3619](https://github.com/cyberbotics/webots/pull/3619)) to adapt worlds automatically. The mechanism will be launch when you open a world in the 2022a version.
+## Backward compatibility mechanism
+We introduced a backward compatibility mechanism (see [#3619](https://github.com/cyberbotics/webots/pull/3619)) to adapt worlds automatically. The mechanism will be launch when you open a world in the R2022a version.
 Nevertheless, the mechanism has limited capabilities and it is likely you will need to assist the world adaptation.
 
 * If your world or PROTO does not contain too many objects, you should simply rotate its elements as wanted using the interface and save it.
@@ -36,15 +37,16 @@ In any case, it is important to understand how Webots nodes are affected by the 
 | [TouchSensor](reference/touchsensor.md) | (-$\frac{\pi}{2}$, 0, -$\frac{\pi}{2}$) | A2 |
 | Webots PROTOs | (-$\frac{\pi}{2}$, 0, $\frac{\pi}{2}$), but there are numerous exceptions to this rule as we haven't followed any specific convention | C |
 
-## Automatic conversion to ENU/FLU
+## Automatic conversion from a broken NUE world or RUB PROTO to ENU/FLU
 
 This script `scripts/converter/convert_nue_to_enu_rub_to_flu.py` indents to help you to adapt your world or PROTOs from an old version to the new version of Webots.
 You can find detailed explication into the script (dependencies, usage, limitations and conversion process).
 
-[add image example of a RUB (2021b) to FLU (2022a) complex proto or world]
+[add image example of a "broken" RUB (2021b) to FLU (R2022a) complex proto]
+[add image example of a "broken" NUE (2021b) to ENU (R2022a) complex proto]
 ### World conversion NUE to ENU
 
-This script will convert your world from _NUE_ to _ENU_. However, since the rotation depends on the PROTO itself, it could be needed to rotate some parts by hand. Also, we advise you to check the differences in a file comparator.
+This script will convert your world from _NUE_ to _ENU_. However, since the rotation depends on the PROTO itself, it could be needed to rotate some parts by hand. Also, we advise you to check the differences in a text comparator.
 Simple usage:
 ```
 python3 convert_nue_to_enu_rub.py /your_path_to_your_projects/worlds/my_world.wbt
