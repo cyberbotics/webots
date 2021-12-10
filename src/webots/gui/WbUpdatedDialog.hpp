@@ -34,7 +34,6 @@ public:
 
 private:
   QLabel *mImage;
-  QLabel *mLabelWelcome;
   QLabel *mLabelThanks;
   QLabel *mLabelNote;
   QLabel *mLabelChangelog;

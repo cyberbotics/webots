@@ -480,9 +480,6 @@ bool WbGuiApplication::setup() {
   WbWrenOpenGlContext::doneWren();
 
   if (true)  //(showGuidedTour)
-    mMainWindow->showGuidedTour();
-
-  if (true)  //(prefs->value("Internal/firstLaunch", true).toBool()))
     mMainWindow->showUpdatedDialog();
 
   return true;
@@ -544,10 +541,16 @@ void WbGuiApplication::loadInitialWorld() {
 }
 
 void WbGuiApplication::udpateStyleSheet() {
-  QString themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
-  QFile qssFile(WbStandardPaths::resourcesPath() + themeToLoad);
-  qssFile.open(QFile::ReadOnly);
-  QString styleSheet = QString::fromUtf8(qssFile.readAll());
+QString themeToLoad;
+#ifdef __linux__
+  themeToLoad = WbPreferences::instance()->value("General/theme", "webots_night.qss").toString();
+#else
+  themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
+#endif
+
+QFile qssFile(WbStandardPaths::resourcesPath() + themeToLoad);
+qssFile.open(QFile::ReadOnly);
+QString styleSheet = QString::fromUtf8(qssFile.readAll());
 
 #ifdef __APPLE__
   QFile macOSQssFile(WbStandardPaths::resourcesPath() + "stylesheet.macos.qss");

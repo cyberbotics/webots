@@ -1625,6 +1625,7 @@ void WbMainWindow::showUpdatedDialog() {
   WbUpdatedDialog *updatedDialogUi = new WbUpdatedDialog(this);
   updatedDialogUi->show();
   updatedDialogUi->raise();
+  connect(updatedDialogUi, &WbUpdatedDialog::rejected, this, &WbMainWindow::showGuidedTour);
 }
 
 void WbMainWindow::showGuidedTour() {
