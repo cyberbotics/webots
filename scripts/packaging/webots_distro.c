@@ -428,6 +428,7 @@ static void add_ros_dependencies(const char *path) {
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #elif defined(WEBOTS_UBUNTU_20_04)
+  fprintf(fd, "cp /opt/ros/noetic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
@@ -1274,7 +1275,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots_snap.desktop $DESTDIR/usr/share/webots/resources/webots.desktop\n");
-      fprintf(fd, "cp /opt/ros/noetic/lib/libcontroller_manager.so $DESTDIR/opt/ros/noetic/lib/libcontroller_manager.so");
       add_ros_dependencies("$DESTDIR/usr/share/webots");
       break;
     }
