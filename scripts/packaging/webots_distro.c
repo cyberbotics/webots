@@ -1273,6 +1273,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp /opt/ros/noetic/lib/libcontroller_manager.so $DESTDIR/opt/ros/noetic/lib/libcontroller_manager.so");
       fprintf(fd, "cp $WEBOTS_HOME/scripts/packaging/webots_snap.desktop $DESTDIR/usr/share/webots/resources/webots.desktop\n");
       add_ros_dependencies("$DESTDIR/usr/share/webots");
       break;
