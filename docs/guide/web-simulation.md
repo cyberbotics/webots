@@ -412,7 +412,7 @@ sudo docker run -p 1999-2100:1999-2100 -it webots-simulation-server
 This example runs the simulation server on localhost.
 If you want to publish the simulation server on the web, then you may need to setup a web server, such as the Apache web server.
 
-### Simulation Server
+### Simulation Files Checkout
 
 When the simulation server receives the 'start' command on the `/client` request, it will checkout the simulation files from the provided `url` pointing to a Webots world file on a GitHub repository:
 ```
