@@ -1,5 +1,11 @@
 # Webots R2022 Change Log
 
+## Webots R2022b
+Released on XX, XXth, 2022.
+
+  - New Features:
+    - Added the [ColladaShapes](../guide/object-shapes.md#colladashapes) PROTO that allows importing a Collada file on the fly ([#3956](https://github.com/cyberbotics/webots/pull/3956)).
+
 ## Webots R2022a
 Released on XX, XXth, 2022.
 
