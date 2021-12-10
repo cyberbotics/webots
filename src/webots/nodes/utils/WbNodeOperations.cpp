@@ -279,8 +279,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
   return result;
 }
 
-bool addTextureMap(QString &stream, const aiMaterial *material, const QString &mapName, aiTextureType textureType,
-                   const QString &referenceFolder) {
+static bool addTextureMap(QString &stream, const aiMaterial *material, const QString &mapName, aiTextureType textureType,
+                          const QString &referenceFolder) {
   if (material->GetTextureCount(textureType) > 0) {
     aiString path;
     material->GetTexture(textureType, 0, &path);
@@ -298,9 +298,9 @@ bool addTextureMap(QString &stream, const aiMaterial *material, const QString &m
   return false;
 }
 
-void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName,
-                  const QString &referenceFolder, bool importTextureCoordinates, bool importNormals, bool importAppearances,
-                  bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false) {
+static void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName,
+                         const QString &referenceFolder, bool importTextureCoordinates, bool importNormals,
+                         bool importAppearances, bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false) {
   // extract position, orientation and scale of the node
   aiVector3t<float> scaling, position;
   aiQuaternion rotation;
