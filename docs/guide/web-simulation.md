@@ -212,8 +212,10 @@ HTTP request handlers:
 * The `/monitor` request opens a page showing some information about the current status of the simulation server machines, i.e the number of Webots instances running, the load of the CPU and GPU, the network usage.
 
 WebSocket request handlers:
-* The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload have to contain a `init` value or a `start` value:
-- `start` should contain the following data: `[url]`.
+* The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload should be a JSON object named `start` containing a `url` string and optionally a `mode` string:
+```json
+{"start":{"url":"https://github.com/name/repo/blob/version/worlds/my_world.wbt","mode":"mjpeg"}}
+```
 
 #### Network Settings
 
