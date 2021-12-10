@@ -46,7 +46,7 @@ The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://w
 It may occur that the rendering in the Webots application and in the exported Web page are not strictly equivalent.
 
 - The `Skin` node is not supported.
-- The `pen` is not supported.
+- The [Pen](../reference/pen.md) device is not supported.
 
 ### Remarks on the Used Technologies and Their Limitations
 
