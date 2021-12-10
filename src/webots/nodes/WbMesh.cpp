@@ -153,7 +153,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   }
 
   if (mName->value() != "" && !checkIfNameExists(scene, mName->value())) {
-    warn(tr("Geometry with the name `%1` doesn't exist in the mesh.").arg(mName->value()));
+    warn(tr("Geometry with the name \"%1\" doesn't exist in the mesh.").arg(mName->value()));
     return;
   }
 
