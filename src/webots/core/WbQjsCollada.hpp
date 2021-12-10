@@ -27,16 +27,15 @@ public:
 
   Q_INVOKABLE QString getVrmlFromFile(const QString &filePath);
 
-/*
 signals:
   void vrmlFromFileRequested(const QString &filePath);
 
 public:
-  void setVrmlResponse(const QString &vrml) { mVrmlResponse = vrml; };
+  void setVrmlResponse(const QString &vrml) { WbQjsCollada::cVrmlResponse = vrml; };
 
 private:
-  QString mVrmlResponse;
-  */
+  static QString cVrmlResponse;
+  static WbQjsCollada *cInstance;
 };
 
 #endif

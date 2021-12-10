@@ -13,35 +13,18 @@
 // limitations under the License.
 
 #include "WbQjsCollada.hpp"
-//#include "WbLog.hpp"
-//#include "WbNodeOperations.hpp"
 #include "WbStandardPaths.hpp"
-#include <iostream>
 
-
-WbQjsCollada *gQjsColladaInstance = NULL;
+WbQjsCollada *WbQjsCollada::cInstance = NULL;
+QString WbQjsCollada::cVrmlResponse = "";
 
 WbQjsCollada *WbQjsCollada::instance() {
-  if (gQjsColladaInstance == NULL)
-    gQjsColladaInstance = new WbQjsCollada();
-  return gQjsColladaInstance;
+  if (WbQjsCollada::cInstance == NULL)
+    WbQjsCollada::cInstance = new WbQjsCollada();
+  return WbQjsCollada::cInstance;
 }
 
 QString WbQjsCollada::getVrmlFromFile(const QString &filePath) {
-  QString stream = "";
-
-  // emit vrmlFromFileRequested(filePath);
-  // std::cout << mVrmlResponse.toStdString() << "\n";
-
-  /*
-  WbNodeOperations::OperationResult result =
-    WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, true, true, true, false, false, true);
-  if (result == WbNodeOperations::OperationResult::FAILURE) {
-    WbLog::instance()->error(QString("JavaScript error: cannot parse the Collada file: %1.").arg(filePath), false,
-                             WbLog::PARSING);
-    return "";
-  }
-  */
-
-  return stream;
+  emit WbQjsCollada::instance()->vrmlFromFileRequested(filePath);
+  return WbQjsCollada::cVrmlResponse;
 }

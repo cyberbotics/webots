@@ -16,9 +16,9 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
+#include "WbQjsCollada.hpp"
 #include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbQjsCollada.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
@@ -281,7 +281,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QJSValue jsFile = engine.newQObject(jsFileObject);
   engine.globalObject().setProperty("wbfile", jsFile);
   // create and add collada module
-  WbQjsCollada *jsColladaObject = WbQjsCollada::instance();
+  WbQjsCollada *jsColladaObject = new WbQjsCollada();
   QJSValue jsCollada = engine.newQObject(jsColladaObject);
   engine.globalObject().setProperty("wbcollada", jsCollada);
   // add stream holders
