@@ -437,6 +437,7 @@ static void add_ros_dependencies(const char *path) {
   fprintf(fd, "cp /opt/ros/noetic/lib/librostime.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libxmlrpcpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libcpp_common.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/noetic/lib/librospack.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole_log4cxx.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole_backend_interface.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
