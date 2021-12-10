@@ -44,7 +44,7 @@ PROTO Spoon [
         }
       }
     ]
-    name "spoon"
+    name IS name
     model "spoon"
     boundingObject Group {
       children [

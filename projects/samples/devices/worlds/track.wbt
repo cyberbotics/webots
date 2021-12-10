@@ -4,7 +4,7 @@ WorldInfo {
     "Example uses of Track nodes, as caterpillar tracks on a robot, or as a conveyor belt."
   ]
   title "Track"
-  basicTimeStep 16
+  basicTimeStep 8
   contactProperties [
     ContactProperties {
       material1 "track material"
@@ -149,7 +149,7 @@ DEF TRACKED_ROBOT Robot {
           }
           Transform {
             translation 0.237434 0 -0.06918
-            rotation 0.956125 -0.207154 0.207154 1.615648
+            rotation 0.9561247250869316 -0.20715394043734683 0.20715394043734683 1.615648
             children [
               Box {
                 size 0.13 0.08 0.03
@@ -160,7 +160,7 @@ DEF TRACKED_ROBOT Robot {
           }
           Transform {
             translation -0.242803 0 -0.070833
-            rotation 0.959691 0.198737 -0.198737 1.611928
+            rotation 0.959691189146035 0.19873703916918628 -0.19873703916918628 1.611928
             children [
               Box {
                 size 0.13 0.08 0.03
@@ -374,7 +374,7 @@ DEF BOX_3 Solid {
 }
 DEF OBSTACLE_GREEN Solid {
   translation 0.282729 -0.23299 0.025
-  rotation 0.081868 0.073045 -0.993963 0.78828
+  rotation 0.08186798416599658 0.0730449858724437 -0.993962807758666 0.78828
   children [
     Shape {
       appearance PBRAppearance {

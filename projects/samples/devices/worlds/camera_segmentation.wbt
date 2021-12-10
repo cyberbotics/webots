@@ -191,7 +191,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.9407349332 0.239810118 0.239810118 1.6318522225
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
           rotation 0 1 0 1.57
@@ -221,7 +221,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation -0.9407349332 0.239810118 0.239810118 -1.6318522225
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]

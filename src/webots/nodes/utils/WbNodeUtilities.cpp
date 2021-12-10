@@ -1130,13 +1130,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
       // Rotate the viewpoint (exception).
       if (dynamic_cast<WbViewpoint *>(candidate)) {
-        candidate->warn(message.arg("A1"));
+        candidate->info(message.arg("A1"));
         WbViewpoint *const viewpoint = static_cast<WbViewpoint *>(candidate);
         viewpoint->orientation()->setValue(WbRotation(viewpoint->orientation()->value().toMatrix3() * rotationFix));
         viewpoint->save("__init__");
         continue;
       }
-      candidate->warn(message.arg("A2"));
+      candidate->info(message.arg("A2"));
 
       // Rotate the device.
       if (candidate != node) {
@@ -1159,7 +1159,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         } else {
           if (!getNodeChildrenForBackwardCompatibility(candidate).contains(child)) {
             // Child is a bounding object.
-            child->warn(message.arg("A2_1"));
+            child->info(message.arg("A2_1"));
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
@@ -1168,7 +1168,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
           } else {
             // Child is under the `children` filed.
-            child->warn(message.arg("A2_2"));
+            child->info(message.arg("A2_2"));
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
@@ -1191,21 +1191,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
       if (parentTransform && parentTransform->subNodes(false, false).size() == 1) {
         // Squash transforms if possible.
-        candidate->warn(message.arg("B1"));
+        candidate->info(message.arg("B1"));
         if (dynamic_cast<WbTrackWheel *>(parentTransform->parentNode()))
           continue;
         parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * rotationFix));
         parentTransform->save("__init__");
-      } else {
-        candidate->warn(message.arg("B2"));
-        WbTransform *const transform = new WbTransform();
-        WbNode *newNode = nodeToRotate->cloneAndReferenceProtoInstance();
-        WbNodeOperations::instance()->initNewNode(transform, parent, parent->findField("children"), 0);
-        WbNodeOperations::instance()->deleteNode(nodeToRotate);
-        WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
-        transform->setRotation(WbRotation(rotationFix));
-        transform->save("__init__");
-      }
+      } else
+        candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
     }
   }
 
@@ -1218,7 +1210,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       // Since we rotated almost all Webots PROTOs we need to rotate them back.
       // The `Bc21bCameraProto.proto` is added for CI tests (the CI tests are not in the same directory as Webots).
 
-      subProto->warn(message.arg("C"));
+      subProto->info(message.arg("C"));
       const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
       WbTransform *const subProtoTransform = static_cast<WbTransform *>(subProto);
       subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));

@@ -111,7 +111,7 @@ DEF PINK_BOX Solid {
 }
 DEF VIOLET_CYLINDER Solid {
   translation -0.12 -0.42 0.05
-  rotation -0.483581 0.729202 0.484164 1.88263
+  rotation -0.4835807777315764 0.7292016648367512 0.484163777463612 1.88263
   children [
     DEF CYLINDER_SHAPE Shape {
       appearance PBRAppearance {
@@ -164,10 +164,10 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0.134487 -0.134487 -0.981747 1.589217
+        rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
           DEF WHEEL Transform {
-            rotation 0.577657 0.577197 -0.577197 -2.093935
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
                 appearance PBRAppearance {
@@ -207,7 +207,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.062357 0.062357 -0.996104 1.5747
+        rotation -0.06235700094427208 0.06235700094427208 -0.9961040150840033 1.5747
         children [
           USE WHEEL
         ]
@@ -218,10 +218,10 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation -0.962638 0.191479 0.191479 -1.608865
+      rotation -0.9626378392751118 0.19147896803009973 0.19147896803009973 -1.608865
       children [
         DEF SENSOR Transform {
-          rotation 0.577657 0.577197 -0.577197 -2.093935
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
               appearance PBRAppearance {
@@ -247,7 +247,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.02 -0.042 0.063
-      rotation -0.726831 0.485652 0.485652 -1.884578
+      rotation -0.7268313515069925 0.4856522348690052 0.4856522348690052 -1.884578
       children [
         USE SENSOR
       ]
@@ -261,7 +261,7 @@ Robot {
     }
     DistanceSensor {
       translation -0.02 -0.042 0.063
-      rotation -0.427197 0.639337 0.639337 -2.334132
+      rotation -0.4271968128991576 0.6393367199875204 0.6393367199875204 -2.334132
       children [
         USE SENSOR
       ]
@@ -275,7 +275,7 @@ Robot {
     }
     DistanceSensor {
       translation -0.042 -0.02 0.063
-      rotation -0.139286 0.700214 0.700214 -2.864802
+      rotation -0.13928600826049622 0.7002140415268951 0.7002140415268951 -2.864802
       children [
         USE SENSOR
       ]
@@ -289,7 +289,7 @@ Robot {
     }
     DistanceSensor {
       translation -0.042 0.02 0.063
-      rotation -0.139278 -0.700215 -0.700215 -2.864818
+      rotation -0.13927796840242873 -0.7002148411443777 -0.7002148411443777 -2.864818
       children [
         USE SENSOR
       ]
@@ -303,7 +303,7 @@ Robot {
     }
     DistanceSensor {
       translation -0.02 0.042 0.063
-      rotation -0.427189 -0.639339 -0.639339 -2.334146
+      rotation -0.42718918036721304 -0.6393392699409246 -0.6393392699409246 -2.334146
       children [
         USE SENSOR
       ]
@@ -317,7 +317,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.02 0.042 0.063
-      rotation -0.726828 -0.485655 -0.485655 -1.884582
+      rotation -0.7268278184260777 -0.4856548786751704 -0.4856548786751704 -1.884582
       children [
         USE SENSOR
       ]
@@ -331,7 +331,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation -0.962636 -0.191483 -0.191483 -1.608867
+      rotation -0.9626362180015103 -0.19148304336382932 -0.19148304336382932 -1.608867
       children [
         USE SENSOR
       ]
@@ -345,7 +345,7 @@ Robot {
     }
     DEF SMILE Transform {
       translation 0.036 0 0.025
-      rotation 0.250563 -0.935113 -0.250563 1.637834
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {

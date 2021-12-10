@@ -1080,7 +1080,7 @@ TrafficCone {
 }
 TrafficCone {
   translation -45.1042 26.3544 0
-  rotation 1 0 0.000507685735141653 0.013703449
+  rotation 0.9999998711276221 0 0.0005076856697149851 0.013703449
   name "traffic cone(3)"
   physics Physics {
     density -1
@@ -1089,7 +1089,7 @@ TrafficCone {
 }
 TrafficCone {
   translation -45.5603 33.9083 0
-  rotation 1 0 0.000507685735141653 0.013703449
+  rotation 0.9999998711276221 0 0.0005076856697149851 0.013703449
   name "traffic cone(4)"
   physics Physics {
     density -1

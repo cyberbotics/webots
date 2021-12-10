@@ -43,11 +43,11 @@ DEF WATER_PLANE Transform {
 }
 DEF PLATFORM_BOX Transform {
   translation 0 0 -0.01
-  rotation 0.57735 -0.57735 -0.57735 2.0944
+  rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.0944
   children [
     Transform {
       translation 0 -0.08 0
-      rotation 0 -0.707107 -0.707107 3.14159
+      rotation 0 -0.7071067811865476 -0.7071067811865476 3.14159
       children [
         DEF BOX_SHAPE Shape {
           appearance PBRAppearance {
@@ -99,7 +99,7 @@ DEF RED_HELICOPTER Robot {
     }
     DEF BODY Transform {
       translation 0 0 0.1
-      rotation -0.577351 -0.577351 -0.577349 -2.094397
+      rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
       children [
         Shape {
           appearance DEF RED_METAL PBRAppearance {
@@ -166,7 +166,7 @@ DEF RED_HELICOPTER Robot {
         }
         Transform {
           translation 0 0 0.01
-          rotation 0.707107 0.707107 0 3.141591
+          rotation 0.7071067811865476 0.7071067811865476 0 3.141591
           children [
             Shape {
               appearance DEF BLACK_METAL PBRAppearance {
@@ -267,7 +267,7 @@ DEF RED_HELICOPTER Robot {
     }
     DEF RIGHT_SKI Transform {
       translation 0 -0.048 0.015
-      rotation 0.577349 0.577349 0.577353 2.094391
+      rotation 0.5773489358533613 0.5773489358533613 0.5773529358529169 2.094391
       children [
         Shape {
           appearance USE BLACK_METAL
@@ -287,7 +287,7 @@ DEF RED_HELICOPTER Robot {
     }
     DEF LEFT_SKI Transform {
       translation 0 0.048 0.015
-      rotation 0.577351 0.577351 -0.577349 -2.094397
+      rotation 0.5773509358554485 0.5773509358554485 -0.5773489358556708 -2.094397
       children [
         Shape {
           appearance USE BLACK_METAL
@@ -407,7 +407,7 @@ DEF RED_HELICOPTER Robot {
       }
       fastHelix Solid {
         translation -0.19 -0.045 0.101
-        rotation -0.57735 0.57735 0.577351 2.094395
+        rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.094395
         children [
           DEF TAIL_FAST_HELIX_SHAPE Shape {
             appearance USE FAST_HELIX_APPEARANCE
@@ -504,7 +504,7 @@ DEF BLUE_HELICOPTER Robot {
     }
     DEF BODY Transform {
       translation 0 0 0.1
-      rotation -0.577351 -0.577351 -0.577349 -2.094397
+      rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
       children [
         Shape {
           appearance DEF BLUE_METAL PBRAppearance {
@@ -571,7 +571,7 @@ DEF BLUE_HELICOPTER Robot {
       }
       slowHelix DEF SLOW_HELIX Solid {
         translation 0.01 0 0.2
-        rotation -0.519987 -0.677661 0.51999 -1.95044
+        rotation -0.5199868670939737 -0.6776608267933031 0.5199898670932069 -1.95044
         children [
           USE SLOW_MAIN_HELIX_TRANSFORM
         ]
@@ -607,7 +607,7 @@ DEF GREEN_HELICOPTER Robot {
     }
     DEF BODY Transform {
       translation 0 0 0.1
-      rotation 0.707108 0 0.707106 -3.141589
+      rotation 0.707107781185531 0 0.70710578118615 -3.141589
       children [
         Shape {
           appearance DEF GREEN_METAL PBRAppearance {
@@ -626,7 +626,7 @@ DEF GREEN_HELICOPTER Robot {
     USE COCKPIT_WINDOW
     DEF TAIL Transform {
       translation -0.13 0 0.101
-      rotation 0 0.707108 0.707105 3.14159
+      rotation 0 0.707108281185553 0.70710528118436 3.14159
       children [
         Shape {
           appearance USE GREEN_METAL
@@ -724,7 +724,7 @@ DEF GREEN_HELICOPTER Robot {
       }
       slowHelix DEF SLOW_HELIX Solid {
         translation 0.01 0 0.2
-        rotation 0.577351 -0.577351 0.577349 2.094397
+        rotation 0.5773509358554485 -0.5773509358554485 0.5773489358556708 2.094397
         children [
           Transform {
             rotation -1 0 0 3.141589
@@ -757,7 +757,7 @@ DEF GREEN_HELICOPTER Robot {
         rotation 0 0 1 2.356197
         children [
           Transform {
-            rotation 0.862857 0.357406 0.357407 1.71777
+            rotation 0.8628565621288802 0.3574058186283875 0.35740681862788 1.71777
             children [
               USE SLOW_MAIN_HELIX_GROUP
             ]
