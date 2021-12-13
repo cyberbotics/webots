@@ -66,23 +66,21 @@ geometry IndexedFaceSet {
             in RUB, for sliderJoint add `axis 1 0 0 `; for HingeJoint add: `axis 0 -1 0`
             CTRL-F on HingeJointParameters
             * You may have to change the sensors manually.
-            * For inertiaMatrix, RUB to FLU is:
+            * inertiaMatrix: RUB to FLU is:
 ```
             [I11, I22, I33]  =>  [I33, I11, I22]
             [I12, I13, I23]      [I13, -I23, -I12]
 ```
-            * To convert elevationGrid you normally need to:
-              - replace zDimension and zSpacing by y
-              - translate it on y by -(yDimension -1) * ySpacing
-              - inverse the lines of heights with convert.py
-            * For certain Extrusion, you may have to switch the crossSection [y -x] fields
+            * Extrusion: you may have to switch the crossSection [y -x] fields
               and change the rotation and translation of the upper Solid.
+            * Plane : rotation on z-axis of -pi/2
+            * elevationGrid: - translate it on y by -(yDimension -1) * ySpacing.
+                             - inverse the lines of height
 
 **Conversion process**
-    Here is a list of the conversion process:
+    Here is a list of the conversion process that the script performs automatically:
         - replace `R2021b` by `R2022a`
         - remove the `coordinateSystem ENU` line
-        - convert the orientation of the viewpoint: [Ox, Oy, Oz, Oa] --> [Ox, Oz, Oy, Oa]
         - convert the position of the viewpoint: [Px, Py, Pz] --> [-Pz, -Px, Py]
         - convert the vector of the keyword 'translation', 'axis', 'anchor',
           'location', 'direction': [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
@@ -92,9 +90,12 @@ geometry IndexedFaceSet {
         - if it finds the keyword 'coord', skip one line (the line 'point [', see 'file structure' above)
         and convert all the geometry points until it reaches ']' : [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
         - if it finds the keyword 'wayPoints', 'spine', 'path' : [Vx, Vy, Vz] --> [-Vz, -Vx, Vy]
+        - if it finds the keyword 'shape' (crossroad): [Vx, Vy, Vz] --> [-Vz, Vx, Vy]
         - if it finds the keyword 'corners' : [Vx, Vy] --> [Vy, Vx]
         - if it finds the keyword 'startingAngle', 'endingAngle' : Angle = Angle + PI*sign(Angle)
         - rotate objects to pi, pi/2 or -pi/2 according the lists `objects_pi`, `objects_pi_2` or `objects_minus_pi_2`
+        - for elevationGrid:
+            - replace zDimension and zSpacing by yDimension and ySpacing
 
 '''
 
@@ -185,6 +186,7 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
     HingeJoint_count = 0
     rotation_next_object = []
     miss_rotation = False
+    last_type = ''
     for line in fileinput.input(filename, inplace=True):
 
         if "# template language: javascript" in line:
@@ -214,7 +216,7 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                 write_status = False
         elif mode == 'all':
 
-            if rotation_next_object and type != 'rotation':
+            if rotation_next_object and type != 'rotation' and type != 'orientation':
                 miss_rotation = True
             else:
                 miss_rotation = False
@@ -225,28 +227,27 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                 warning_verbose += 'The version of the file was already 2022a. '
             if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
                 vector = None
-            elif type in ['orientation'] and len(vector) == 4:
-                vector = [vector[0], vector[2], vector[1], vector[3]]  # orientation Ox Oy Oz Oa --> Ox Oz Oy Oa
             elif type in ['position'] and len(vector) == 3:
                 vector = [-vector[2], -vector[0], vector[1]]  # position Px Py Pz --> -Pz -Px Py
             elif type in ['translation', 'axis', 'anchor', 'location', 'direction'] and len(vector) == 3:
                 vector = [-vector[2], -vector[0], vector[1]]  # RUB # position Px Py Pz --> -Pz -Px Py
                 if type in ['axis']:
                     HingeJoint_count -= 1
-            elif type in ['rotation'] and len(vector) == 4:
+            elif type in ['rotation', 'orientation'] and len(vector) == 4:
                 vector = [-vector[2], -vector[0], vector[1], vector[3]]  # RUB # rotation Ox Oy Oz Oa --> -Oz -Ox Oy Oa
                 if rotation_next_object:
                     vector = convert_orientation(vector, rotation_next_object)
                     rotation_next_object = []
-            elif type in ['size', 'frameSize', 'palletSize'] and len(vector) == 3:
-                vector = [vector[2], vector[0], vector[1]]  # position Px Py Pz --> Pz Px Py
+            elif type in ['size', 'frameSize', 'palletSize']:
+                if len(vector) == 3:
+                    vector = [vector[2], vector[0], vector[1]]  # position Px Py Pz --> Pz Px Py
             elif type in ['stepSize'] and len(vector) == 3:
                 vector = [vector[0], vector[2], vector[1]]  # position Px Py Pz --> Px Pz Py
             else:
                 write_status = False  # else we do not change the line
 
                 # verbose to print, fields to change manually
-                if type in ['inertiaMatrix', 'DistanceSensor', 'LightSensor', 'ElevationGrid', 'HighwayPole', 'Extrusion']:
+                if type in ['inertiaMatrix', 'DistanceSensor', 'LightSensor', 'Plane', 'ElevationGrid', 'HighwayPole', 'Extrusion']:
                     error_verbose += 'line ' + str(fileinput.lineno()) + ': ' + type + '  ;  '
                 elif type in ['jointParameters', 'jointParameters2']:
                     HingeJoint_count += 1
@@ -257,8 +258,9 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                     write_status = True
                     if len(vector) == 3:
                         vector = [-vector[2], -vector[0], vector[1]]
-                if type in ['corners', 'path', 'wayPoints', 'spine', 'startingAngle', 'endingAngle']:
-                    next_line_is_corners = 1
+                if type in ['corners', 'path', 'wayPoints', 'spine', 'shape', 'startingAngle', 'endingAngle'] or (type in ['height'] and 'ElevationGrid' in last_type):
+                    if '[]' not in line:  # if type not empty
+                        next_line_is_corners = 1
                 elif next_line_is_corners == 1:
                     if ']' in line:  # we stop when we reach the end of the node 'point' of 'coord'
                         next_line_is_corners = -1
@@ -270,7 +272,11 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                         elif len(vector) == 2:
                             vector = [vector[1], vector[0]]  # corners case # Px Py --> Py Px
                         elif len(vector) == 3:
-                            vector = [-vector[2], -vector[0], vector[1]]  # path, waypoints cases # Px Py Pz --> -Pz -Px Py
+                            if last_type in ['Crossroad']:
+                                vector = [-vector[2], vector[0], vector[1]]  # shape cases # Px Py Pz --> -Pz Px Py
+                            else:
+                                # path, waypoints, height, spine cases # Px Py Pz --> -Pz -Px Py
+                                vector = [-vector[2], -vector[0], vector[1]]
                         vector_str = [str(i) for i in vector]
                         line = add_space(line) + ' '.join(vector_str) + '\r\n'
 
@@ -300,8 +306,15 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                     rotation_next_object = [0, 0, np.pi/2]
                 elif type in objects_minus_pi_2:
                     rotation_next_object = [0, 0, -np.pi/2]
+                elif type in ['Viewpoint']:
+                    rotation_next_object = [0, 0, 0]
                 else:
                     rotation_next_object = []
+        if '{' in line:
+            last_type = type
+        # For elevationGrid
+        if 'zDimension' in line or 'zSpacing' in line:
+            line = line.replace('z', 'y')
 
         if write_status:
             # we clean the vector
@@ -330,17 +343,18 @@ if __name__ == '__main__':
 
     mode = 'all'  # specific, clean or all
     # possibility to use an argv, a list or a folder
-    # example: 'projects/robots/robotcub/icub/worlds/icub_stand.wbt', change it by your .wbt or.proto
-    filename_list = ['projects/robots/softbank/nao/protos/Nao.proto']
-    foldername = ''  # example: 'projects/robots/parallax/boebot/protos/', change it by your .wbt or.proto folder
+    # example: ['/path/to/world_or_proto/file.wbt','/path/to/world_or_proto/file.proto'], change it by your .wbt or.proto
+    filename_list = []
+    foldername = '/home/joachimhgg/my_project/worlds/'  # example: '/path/to/world_or_proto/', change it by your .wbt or.proto folder
 
     # non-exhaustive list of the objects which need to be turn on PI, PI/2 or -PI/2 on z-axis
-    objects_pi = ['StraightRoadSegment', 'RoadPillars', 'LaneSeparation', 'CurvedRoadSegment', 'AddLanesRoadSegment',
+    objects_pi = ['StraightRoadSegment', 'WoodenChair', 'Fork', 'Door', 'Television', 'LandscapePainting', 'Barbecue', 'Toilet', 'SquareManhole', 'CardboardBox', 'Cabinet', 'OfficeTelephone', 'RoadPillars', 'LaneSeparation', 'CurvedRoadSegment', 'AddLanesRoadSegment',
                   'RandomBuilding', 'SimpleBuilding', 'BusStop', 'BusSimple', 'AdvertisingBoard', 'Bench', 'BmwX5Simple',
-                  'CitroenCZeroSimple', 'ToyotaPriusSimple', 'MotorbikeSimple', 'TruckSimple', 'ScooterSimple',
-                  'LincolnMKZSimple', 'ToyotaPriusSimple', 'TrashBin', 'BungalowStyleHouse']
-    objects_pi_2 = ['PedestrianCrossing', 'Auditorium', 'PublicToilet', 'Museum', 'SwingCouch']
-    objects_minus_pi_2 = ['Forest', 'HighwayPole', 'FastFoodRestaurant',
+                  'CitroenCZeroSimple', 'ToyotaPriusSimple', 'LincolnMKZ', 'MotorbikeSimple', 'TruckSimple', 'ScooterSimple',
+                  'LincolnMKZSimple', 'ToyotaPriusSimple', 'TrashBin', 'BungalowStyleHouse', 'OfficeChair']
+    objects_pi_2 = ['Floor', 'Bed', 'PedestrianCrossing', 'RectangleArena', 'PlatformCart',
+                    'Crossroad', 'Auditorium', 'PublicToilet', 'Museum', 'SwingCouch']
+    objects_minus_pi_2 = ['Forest', 'HighwayPole', 'Knife', 'Fridge', 'Oven', 'Armchair', 'FastFoodRestaurant', 'Sofa', 'StraightStairs', 'Radiator', 'DoubleFluorescentLamp',
                           'Roundabout', 'Chair', 'OilBarrel', 'DivergentIndicator']
 
     if len(sys.argv) == 2:
@@ -363,7 +377,7 @@ if __name__ == '__main__':
                     print('clean of {} ✅'.format(filename))
                 else:
                     print('Conversion of \033[33m{}\033[m successful ✅'.format(filename))
-            if clean_verbose:
+            if clean_verbose and mode == 'clean':
                 print('Cleaned lines:', clean_verbose[:-1])
             if warning_verbose:
                 print('Warning: ', warning_verbose)
