@@ -10,11 +10,11 @@ If your Webots world uses Webots geometries, devices, and PROTOs then you will p
 
 ## Backward compatibility mechanism
 We introduced a backward compatibility mechanism (see [#3619](https://github.com/cyberbotics/webots/pull/3619)) to adapt worlds automatically. The mechanism will be launch when you open a world in the R2022a version.
-Nevertheless, the mechanism has limited capabilities and it is likely you will need to assist the world adaptation. Indeed, all the "world PROTO" won't be fixed.
+Nevertheless, the mechanism has limited capabilities and it is likely you will need to assist the world adaptation. 
 
 * If your world or PROTO does not contain too many objects, you should simply adapt them as wanted using the interface and save it.
 
-* If your world or PROTO is too complex to be handled by hand, you should directly use the script to convert it to FLU (see [automatic conversion to ENU/FLU](#automatic-conversion-to-ENU/FLU)), or refer to the [conversion process](#conversion-process) below.
+* If your world or PROTO is too complex to be handled by hand, you should directly use the script to convert it to ENU/FLU (see [automatic conversion to ENU/FLU](#automatic-conversion-to-ENU/FLU)).
 
 In any case, it is important to understand how Webots nodes are affected by the update and how they should be rotated to preserve the old behavior:
 
@@ -45,32 +45,16 @@ You can find detailed explication into the script (dependencies, usage, limitati
 [add image example of a "broken" RUB (2021b) to FLU (R2022a) complex proto]
 [add image example of a "broken" NUE (2021b) to ENU (R2022a) complex proto]
 
-This script will convert your world from _NUE_ to _ENU_ and the objects contained in the world from _RUB_ to _FLU_. It could be needed to rotate some parts by hand. Also, we advise you to check the differences in a text comparator.
+This script will convert your world from _NUE_ to _ENU_ and the objects contained in the world from _RUB_ to _FLU_. It could be needed to rotate some parts by hand. 
 
 Simple usage:
 ```
-python3 convert_nue_to_enu_rub.py /your_path_to_your_projects/worlds/my_world.wbt
+python3 convert_nue_to_enu_rub_to_flu.py /your_path_to_your_projects/worlds/my_world.wbt
 ```
 
 If your PROTO is _RUB_ (x-**R**ight, y-**U**p, z-**B**ack) and does not contain JavaScript or Lua code, you can convert it to _FLU_ using the same script. You may have to rotate some parts of your PROTOs by hand.
-## Conversion process
 
-Otherwise, to convert your PROTO or world manually, open your `.PROTO` or `.wbt` file in your text editor. 
-You can use the script `python3 scripts/converter/convert.py` and apply the wanted rotations to convert your PROTO. This script takes the clipboard content, applies transforms, and pastes the transformed VRML to the clipboard. To set the correct transformation, change the variable `ROTATION` into the script. Follow the conversion process bellow.
-
-Conversion process:
-- replace `R2021b` by `R2022a`
-- remove the `coordinateSystem ENU` line
-- rotate the geometries such as `Cylinder`, `Capsule`, `Cone`, `Plane`
-- convert the fields `translation`, `axis`, `anchor`, `location`, `direction`
-- convert the fields `rotation`
-- convert the fields `size`, `frameSize`, `stepSize`, `palletSize`
-- convert the fields `centerOfMass`
-- convert the fields `point` of the `IndexFaceSet`, `corners` and `path`
-- adjust the viewpoint with your mouse into the Webots interface.
-
-Check that the conversion went successfully by displaying the different rendering `View/Optional rendering`.
-
+**Notes:** check that the conversion went successfully by displaying the different rendering `View/Optional rendering`. In addition, we advise you to check the differences of your `.wbt` or `.proto` before and after the script in a text comparator.
 # New axis system recommendations
 
 As of Webots R2022a, we recommend the FLU (x-**F**orward, y-**L**eft, and z-**U**p) axis orientation for objects and ENU (x-**E**ast, y-**N**orth, and z-**U**p, see [Axes conventions
