@@ -65,9 +65,9 @@ We made several improvement to enhance the user experience:
 
 ## Extra Goodies
 
-The performance on [Lidar](../guide/lidar) point cloud generation has been greatly improved.
+The performance on [Lidar](../reference/lidar) point cloud generation has been greatly improved.
 
-[ContactProperties](../guide/contactproperties) now supports a new type of friction: **rolling friction**.
+[ContactProperties](../reference/contactproperties) now supports a new type of friction: **rolling friction**.
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2022a today, so you don't miss out on all these great new features!**
 
