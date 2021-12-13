@@ -411,6 +411,8 @@ WbExtendedStringEditor::StringType WbExtendedStringEditor::fieldNameToStringType
     const WbSkin *skin = dynamic_cast<const WbSkin *>(parentNode);
     if (skin)
       return SKIN_URL;
+    if (parentNode->fullName() == "ColladaShapes")
+      return COLLADA_URL;
     return TEXTURE_URL;
   } else if (fieldName == "solidName")
     return SOLID_REFERENCE;
@@ -430,7 +432,7 @@ void WbExtendedStringEditor::updateWidgets() {
   const bool solidReference = mStringType == SOLID_REFERENCE;
   const bool fluidName = mStringType == FLUID_NAME;
   const bool referenceArea = mStringType == REFERENCE_AREA;
-  const bool mesh = mStringType == MESH_URL || mStringType == SKIN_URL;
+  const bool mesh = mStringType == MESH_URL || mStringType == SKIN_URL || mStringType == COLLADA_URL;
   const bool enableLineEdit = regular || mesh || sound || texture || (solidReference && protoParameter) ||
                               (fluidName && protoParameter) || (referenceArea && protoParameter);
   const bool showSelectButton = mesh || sound || texture || !regular || (solidReference && !protoParameter) ||
@@ -556,6 +558,9 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
       selectFile("meshes", "Meshes", "*.dae *.DAE *.stl *.STL *.obj *.OBJ");
     case SKIN_URL:
       selectFile("meshes", "Meshes", "*.fbx *.FBX");
+      break;
+    case COLLADA_URL:
+      selectFile("meshes", "Collada files", "*.dae *.DAE");
       break;
     default:
       return false;
