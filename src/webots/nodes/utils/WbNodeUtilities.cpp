@@ -1164,7 +1164,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1, false, false);
+            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1, false,
+                                                      false);
             WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
           } else {
             // Child is under the `children` field.
