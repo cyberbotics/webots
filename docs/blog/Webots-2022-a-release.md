@@ -1,4 +1,4 @@
-# Version R2021b Released
+# Version R2022a Released
 
 <p id="publish-data">By Benjamin Délèze - 17th December 2021</p>
 
@@ -27,7 +27,7 @@ In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, 
 
 ### Why have we done these changes
 
-ENU/FLU are the most widely used axis convention in robotics, including ROS and ROS2.
+ENU and FLU are the most widely used axis conventions in robotics, including ROS and ROS2.
 
 More and more people are using Webots with ROS2 and we changed the axis convention of Webots to make it easier for them !
 
@@ -65,9 +65,9 @@ We made several improvement to enhance the user experience:
 
 ## Extra Goodies
 
-The performance on [Lidar](../lidar.md) point cloud generation has been greatly improved.
+The performance on [Lidar](../guide/lidar) point cloud generation has been greatly improved.
 
-[ContactProperties](../contactproperties.md) now supports a new type of friction: **rolling friction**.
+[ContactProperties](../guide/contactproperties) now supports a new type of friction: **rolling friction**.
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2022a today, so you don't miss out on all these great new features!**
 
