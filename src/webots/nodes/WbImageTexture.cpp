@@ -272,16 +272,21 @@ void WbImageTexture::destroyWrenTexture() {
 
   if (mUrl->size() == 0)
     return;
-  const QString &url(mUrl->item(0));
-  std::pair<QImage *, int> pair = gImagesMap[url];
-  if (pair.first) {
-    const int instances = pair.second - 1;
-    assert(instances >= 0);
-    if (instances == 0) {
-      delete mImage;
-      gImagesMap.remove(url);
-    } else
-      gImagesMap[url] = std::make_pair(pair.first, instances);
+  QMapIterator<QString, std::pair<QImage *, int>> i(gImagesMap);
+  while (i.hasNext()) {
+    i.next();
+    QImage *image = i.value().first;
+    if (image && image == mImage) {
+      QString key = i.key();
+      const int instances = i.value().second - 1;
+      assert(instances >= 0);
+      if (instances == 0) {
+        delete mImage;
+        gImagesMap.remove(key);
+      } else {
+        gImagesMap[key] = std::make_pair(image, instances);
+      }
+    }
   }
 
   mImage = NULL;
