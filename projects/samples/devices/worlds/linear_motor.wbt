@@ -39,7 +39,6 @@ DEF ROBOT Robot {
               metalness 0
             }
             geometry Cylinder {
-              bottom FALSE
               height 0.02
               radius 0.001
             }
