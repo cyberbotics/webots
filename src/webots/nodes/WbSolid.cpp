@@ -3019,12 +3019,14 @@ void WbSolid::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d() && boundingObject()) {
     writer << "<Switch whichChoice='-1' class='selector'>";
     const WbGeometry *geom = dynamic_cast<const WbGeometry *>(boundingObject());
-    if (geom)
+    const bool mesh = geom ? (geom->wrenMesh() != NULL) : false;
+    if (mesh)
       writer << "<Shape>";
 
-    boundingObject()->exportBoundingObjectToX3D(writer);
+    if (mesh || !geom)
+      boundingObject()->exportBoundingObjectToX3D(writer);
 
-    if (geom)
+    if (mesh)
       writer << "</Shape>";
 
     writer << "</Switch>";

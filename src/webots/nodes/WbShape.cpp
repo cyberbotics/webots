@@ -508,6 +508,9 @@ bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
 void WbShape::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
 
+  if (!geometry()->wrenMesh())
+    return;
+
   writer << "<Shape>";
 
   geometry()->exportBoundingObjectToX3D(writer);
