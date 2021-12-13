@@ -29,7 +29,7 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0.014 -0.05 0.005
+        translation 0.015 -0.05 0.005
         rotation 0 1 0 1.5708
         children [
           Shape {
@@ -41,6 +41,7 @@ DEF ROBOT Robot {
             geometry Cylinder {
               height 0.02
               radius 0.001
+              top FALSE
             }
           }
         ]
