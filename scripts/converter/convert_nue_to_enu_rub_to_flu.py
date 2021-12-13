@@ -247,7 +247,8 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                 write_status = False  # else we do not change the line
 
                 # verbose to print, fields to change manually
-                if type in ['inertiaMatrix', 'DistanceSensor', 'LightSensor', 'Plane', 'ElevationGrid', 'HighwayPole', 'Extrusion']:
+                if type in ['inertiaMatrix', 'DistanceSensor', 'LightSensor', 'Plane', 'ElevationGrid',
+                            'HighwayPole', 'Extrusion']:
                     error_verbose += 'line ' + str(fileinput.lineno()) + ': ' + type + '  ;  '
                 elif type in ['jointParameters', 'jointParameters2']:
                     HingeJoint_count += 1
@@ -258,7 +259,8 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                     write_status = True
                     if len(vector) == 3:
                         vector = [-vector[2], -vector[0], vector[1]]
-                if type in ['corners', 'path', 'wayPoints', 'spine', 'shape', 'startingAngle', 'endingAngle'] or (type in ['height'] and 'ElevationGrid' in last_type):
+                if type in ['corners', 'path', 'wayPoints', 'spine', 'shape', 'startingAngle',
+                            'endingAngle'] or (type in ['height'] and 'ElevationGrid' in last_type):
                     if '[]' not in line:  # if type not empty
                         next_line_is_corners = 1
                 elif next_line_is_corners == 1:
@@ -266,7 +268,7 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                         next_line_is_corners = -1
                     else:  # else we convert the line
                         if len(vector) == 1:  # 'startingAngle','endingAngle' cases
-                            vector = [vector[0] - np.pi*np.sign(vector[0])]
+                            vector = [vector[0] - np.pi * np.sign(vector[0])]
                             if np.sign(vector[0]) == 0:
                                 vector = [np.pi]
                         elif len(vector) == 2:
@@ -303,9 +305,9 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                 elif type in objects_pi:
                     rotation_next_object = [0, 0, np.pi]
                 elif type in objects_pi_2:
-                    rotation_next_object = [0, 0, np.pi/2]
+                    rotation_next_object = [0, 0, np.pi / 2]
                 elif type in objects_minus_pi_2:
-                    rotation_next_object = [0, 0, -np.pi/2]
+                    rotation_next_object = [0, 0, -np.pi / 2]
                 elif type in ['Viewpoint']:
                     rotation_next_object = [0, 0, 0]
                 else:
@@ -345,17 +347,71 @@ if __name__ == '__main__':
     # possibility to use an argv, a list or a folder
     # example: ['/path/to/world_or_proto/file.wbt','/path/to/world_or_proto/file.proto'], change it by your .wbt or.proto
     filename_list = []
-    foldername = '/home/joachimhgg/my_project/worlds/'  # example: '/path/to/world_or_proto/', change it by your .wbt or.proto folder
+    foldername = ''  # example: '/path/to/world_or_proto/', change it by your .wbt or.proto folder
 
     # non-exhaustive list of the objects which need to be turn on PI, PI/2 or -PI/2 on z-axis
-    objects_pi = ['StraightRoadSegment', 'WoodenChair', 'Fork', 'Door', 'Television', 'LandscapePainting', 'Barbecue', 'Toilet', 'SquareManhole', 'CardboardBox', 'Cabinet', 'OfficeTelephone', 'RoadPillars', 'LaneSeparation', 'CurvedRoadSegment', 'AddLanesRoadSegment',
-                  'RandomBuilding', 'SimpleBuilding', 'BusStop', 'BusSimple', 'AdvertisingBoard', 'Bench', 'BmwX5Simple',
-                  'CitroenCZeroSimple', 'ToyotaPriusSimple', 'LincolnMKZ', 'MotorbikeSimple', 'TruckSimple', 'ScooterSimple',
-                  'LincolnMKZSimple', 'ToyotaPriusSimple', 'TrashBin', 'BungalowStyleHouse', 'OfficeChair']
-    objects_pi_2 = ['Floor', 'Bed', 'PedestrianCrossing', 'RectangleArena', 'PlatformCart',
-                    'Crossroad', 'Auditorium', 'PublicToilet', 'Museum', 'SwingCouch']
-    objects_minus_pi_2 = ['Forest', 'HighwayPole', 'Knife', 'Fridge', 'Oven', 'Armchair', 'FastFoodRestaurant', 'Sofa', 'StraightStairs', 'Radiator', 'DoubleFluorescentLamp',
-                          'Roundabout', 'Chair', 'OilBarrel', 'DivergentIndicator']
+    objects_pi = [
+        'StraightRoadSegment',
+        'WoodenChair',
+        'Fork',
+        'Door',
+        'Television',
+        'LandscapePainting',
+        'Barbecue',
+        'Toilet',
+        'SquareManhole',
+        'CardboardBox',
+        'Cabinet',
+        'OfficeTelephone',
+        'RoadPillars',
+        'LaneSeparation',
+        'CurvedRoadSegment',
+        'AddLanesRoadSegment',
+        'RandomBuilding',
+        'SimpleBuilding',
+        'BusStop',
+        'BusSimple',
+        'AdvertisingBoard',
+        'Bench',
+        'BmwX5Simple',
+        'CitroenCZeroSimple',
+        'ToyotaPriusSimple',
+        'LincolnMKZ',
+        'MotorbikeSimple',
+        'TruckSimple',
+        'ScooterSimple',
+        'LincolnMKZSimple',
+        'ToyotaPriusSimple',
+        'TrashBin',
+        'BungalowStyleHouse',
+        'OfficeChair']
+    objects_pi_2 = [
+        'Floor',
+        'Bed',
+        'PedestrianCrossing',
+        'RectangleArena',
+        'PlatformCart',
+        'Crossroad',
+        'Auditorium',
+        'PublicToilet',
+        'Museum',
+        'SwingCouch']
+    objects_minus_pi_2 = [
+        'Forest',
+        'HighwayPole',
+        'Knife',
+        'Fridge',
+        'Oven',
+        'Armchair',
+        'FastFoodRestaurant',
+        'Sofa',
+        'StraightStairs',
+        'Radiator',
+        'DoubleFluorescentLamp',
+        'Roundabout',
+        'Chair',
+        'OilBarrel',
+        'DivergentIndicator']
 
     if len(sys.argv) == 2:
         filename_list = [str(sys.argv[1])]
