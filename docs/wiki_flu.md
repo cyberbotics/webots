@@ -9,7 +9,8 @@ If your Webots world uses Webots geometries, devices, and PROTOs then you will p
 # How to adapt your world or PROTO to Webots R2022a
 
 ## Backward compatibility mechanism
-We introduced a backward compatibility mechanism (see [#3619](https://github.com/cyberbotics/webots/pull/3619)) to adapt worlds automatically. The mechanism will be launch when you open a world in the R2022a version.
+We introduced a backward compatibility mechanism (see [#3619](https://github.com/cyberbotics/webots/pull/3619)) to adapt worlds automatically.
+This mechanism will be launched when you open a world in the R2022a version.
 Nevertheless, the mechanism has limited capabilities and it is likely you will need to assist the world adaptation. 
 
 * If your world or PROTO does not contain too many objects, you should simply adapt them as wanted using the interface and save it.
@@ -39,7 +40,7 @@ In any case, it is important to understand how Webots nodes are affected by the 
 
 ## Automatic conversion to ENU/FLU
 
-This script `scripts/converter/convert_nue_to_enu_rub_to_flu.py` indents to help you to adapt your world or PROTOs from an old version to the new version of Webots.
+This script `scripts/converter/convert_nue_to_enu_rub_to_flu.py` intends to help you to adapt your world or PROTOs from an old version to the new version of Webots.
 You can find detailed explication into the script (dependencies, usage, limitations and conversion process).
 
 [add image example of a "broken" RUB (2021b) to FLU (R2022a) complex proto]
