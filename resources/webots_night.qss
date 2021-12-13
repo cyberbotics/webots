@@ -81,13 +81,8 @@ QSplitter::handle {
 
 /* menus */
 
-QMenuBar {
-  background: white;
-}
-
 QMenuBar::item {
   background: transparent;
-  color: black;
 }
 
 QMenuBar::item:disabled {
@@ -272,7 +267,7 @@ QToolButton#playButton:pressed {
 }
 
 QPushButton {
-  padding: 4px 16px;
+  padding: 4px 15px;
   background: #222;
   border: none;
 }
@@ -284,6 +279,8 @@ QPushButton:hover {
 QPushButton:focus {
   border: 1px solid #9b93ff;
   outline: 1px solid transparent;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
 QPushButton:pressed  {
@@ -841,4 +838,3 @@ QProgressBar::chunk {
   background: #9b93ff;
   border-radius: 3px;
 }
-
