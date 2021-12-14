@@ -1602,17 +1602,17 @@ void WbMainWindow::exportHtmlFiles() {
   }
 
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
-    QFileInfo info(fileName);
+    const QFileInfo info(fileName);
     QStringList extensions = {".html", ".x3d"};
     if (QFileInfo(WbStandardPaths::webotsTmpPath() + "export_cloud.json").exists())
       extensions << ".json";
 
-    QString textureFolder = WbStandardPaths::webotsTmpPath() + "textures";
+    const QString textureFolder = WbStandardPaths::webotsTmpPath() + "textures";
     QDir dir(textureFolder);
     if (dir.exists())
       dir.rename(textureFolder, info.path() + "/textures");
 
-    foreach (QString extension, extensions) {
+    foreach (const QString extension, extensions) {
       QFile::rename(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension,
                     info.path() + "/" + info.completeBaseName() + extension);
     }
@@ -1629,8 +1629,9 @@ void WbMainWindow::exportHtmlFiles() {
 
   WbSimulationState::instance()->setMode(currentMode);
 }
+
 void WbMainWindow::ShareMenu() {
-  WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+  const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbShareWindow *shareWindowUi = new WbShareWindow(this);
   shareWindowUi->exec();
   WbSimulationState::instance()->setMode(currentMode);
@@ -1664,8 +1665,8 @@ void WbMainWindow::sendCloudRequest() {
   filenames << "export_cloud.x3d";
 
   // add files content
-  QMap<QString, QString> map;
-  foreach (QString filename, filenames) {
+  QMap<const QString, const QString> map;
+  foreach (const QString filename, filenames) {
     QHttpPart mainPart;
     if (filename.contains("x3d")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
@@ -1685,7 +1686,6 @@ void WbMainWindow::sendCloudRequest() {
     if (filename != "") {
       QFile *file = new QFile(map["foldername"] + filename);
       file->open(QIODevice::ReadOnly);
-
       mainPart.setBodyDevice(file);
       file->setParent(multiPart);
     }
@@ -1700,7 +1700,7 @@ void WbMainWindow::sendCloudRequest() {
   infos["user"] = "null";
   infos["password"] = "null";
 
-  QMapIterator<QString, QString> iteInfos(infos);
+  QMapIterator<const QString, const QString> iteInfos(infos);
   while (iteInfos.hasNext()) {
     iteInfos.next();
     QHttpPart infoPart;
@@ -1711,21 +1711,21 @@ void WbMainWindow::sendCloudRequest() {
 
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
 
-  mCloudLoadingProgressDialog = new QProgressDialog(tr("Uploading on Webots.cloud..."), "Cancel", 0, 100, this);
+  mCloudLoadingProgressDialog = new QProgressDialog(tr("Uploading on webots.cloud..."), "Cancel", 0, 100, this);
   mCloudLoadingProgressDialog->setWindowTitle(tr("Webots.cloud"));
   mCloudLoadingProgressDialog->show();
-  connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateCloudProgressBar);
+  connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateUploadProgressBar);
 
   multiPart->setParent(reply);
-  connect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadCloudFinished, Qt::UniqueConnection);
+  connect(reply, &QNetworkReply::finished, this, &WbMainWindow::cloudUploadFinished, Qt::UniqueConnection);
 }
 
 void WbMainWindow::updateCloudProgressBar(qint64 bytesSent, qint64 bytesTotal) {
   if (bytesTotal > 0)
-    mCloudLoadingProgressDialog->setValue(((double)bytesSent / (double)bytesTotal) * 100.0);
+    mCloudUploadProgressDialog->setValue(((double)bytesSent / (double)bytesTotal) * 100.0);
 }
 
-void WbMainWindow::uploadCloudFinished() {
+void WbMainWindow::cloudUploadFinished() {
   QNetworkReply *reply = dynamic_cast<QNetworkReply *>(sender());
   assert(reply);
   if (!reply)
@@ -1741,17 +1741,11 @@ void WbMainWindow::uploadCloudFinished() {
     if (answer.startsWith('{')) {  // we get only the json, ignoring the possible warnings
       QJsonDocument document = QJsonDocument::fromJson(answer.toUtf8());
       QJsonObject jsonAnswer = document.object();
-
       url = jsonAnswer["url"].toString();
     }
   }
   if (url.isEmpty()) {
-    QString error;
-    if (reply->error())
-      error = reply->errorString();
-    else
-      error = "No server answer.";
-
+    QString error = reply->error() ? reply->errorString() : "No server answer.";
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else {
     WbLog::info(tr("link: %1\n").arg(url));
@@ -2340,7 +2334,6 @@ void WbMainWindow::startAnimationRecording() {
 
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
   WbAnimationRecorder::instance()->start(WbStandardPaths::webotsTmpPath() + "export_cloud.html");
-  WbPreferences::instance()->setValue("Directories/www", QFileInfo("export_cloud.html").absolutePath() + "/");  //?
   toggleAnimationAction(true);
 
   WbSimulationState::instance()->setMode(currentMode);
@@ -2375,8 +2368,8 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
     connect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording, Qt::UniqueConnection);
     mAnimationRecordingTimer->start(800);
   } else {
-    action->setText(tr("Share on Webots.cloud..."));
-    action->setStatusTip(tr("Share your project on Webots.cloud..."));
+    action->setText(tr("Share on webots.cloud..."));
+    action->setStatusTip(tr("Share your simulation on webots.cloud..."));
     action->setIcon(QIcon("enabledIcons:share_button.png"));
     disconnect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording);
     connect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu, Qt::UniqueConnection);

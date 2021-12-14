@@ -141,9 +141,9 @@ private slots:
   void disableAnimationAction();
 
   void ShareMenu();
-  void sendCloudRequest();
-  void updateCloudProgressBar(qint64 bytesSent, qint64 bytesTotal);
-  void uploadCloudFinished();
+  void upload();
+  void updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal);
+  void uploadFinished();
 
 private:
   void showHtmlRobotWindow(WbRobot *);
@@ -164,7 +164,7 @@ private:
   QAction *mToggleFullScreenAction;
   QAction *mExitFullScreenAction;
   QProgressDialog *mWorldLoadingProgressDialog;
-  QProgressDialog *mCloudLoadingProgressDialog;
+  QProgressDialog *mUploadProgressDialog;
   QTimer *mAnimationRecordingTimer;
   bool mIsFullScreenLocked;
   bool mWorldIsBeingDeleted;
