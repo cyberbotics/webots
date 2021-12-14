@@ -41,25 +41,26 @@ In any case, it is important to understand how Webots nodes are affected by the 
 ## Automatic conversion to ENU/FLU
 
 This script `scripts/converter/convert_nue_to_enu_rub_to_flu.py` intends to help you to adapt your world or PROTOs from an old version to the new version of Webots.
-You can find detailed explication into the script (dependencies, usage, limitations and conversion process).
+You can find detailed explanations in the script (dependencies, usage, limitations and conversion process).
 
 [add image example of a "broken" RUB (2021b) to FLU (R2022a) complex proto]
 [add image example of a "broken" NUE (2021b) to ENU (R2022a) complex proto]
 
-This script will convert your world from _NUE_ to _ENU_ and the objects contained in the world from _RUB_ to _FLU_. It could be needed to rotate some parts by hand. 
+This script will convert your world from _NUE_ to _ENU_ and the objects contained in the world from _RUB_ to _FLU_.
+It may be needed to rotate some parts manually. 
 
 Simple usage:
 ```
 python3 convert_nue_to_enu_rub_to_flu.py /your_path_to_your_projects/worlds/my_world.wbt
 ```
 
-If your PROTO is _RUB_ (x-**R**ight, y-**U**p, z-**B**ack) and does not contain JavaScript or Lua code, you can convert it to _FLU_ using the same script. You may have to rotate some parts of your PROTOs by hand.
+If your PROTO is _RUB_ (x-**R**ight, y-**U**p, z-**B**ack) and does not contain any JavaScript or Lua code, you can convert it to _FLU_ using the same script. You may have to rotate some parts of your PROTOs manually.
 
 **Notes:** check that the conversion went successfully by displaying the different rendering `View/Optional rendering`. In addition, we advise you to check the differences of your `.wbt` or `.proto` before and after the script in a text comparator.
+
 # New axis system recommendations
 
-As of Webots R2022a, we recommend the FLU (x-**F**orward, y-**L**eft, and z-**U**p) axis orientation for objects and ENU (x-**E**ast, y-**N**orth, and z-**U**p, see [Axes conventions
-](https://en.wikipedia.org/wiki/Axes_conventions)) for worlds.
+As of Webots R2022a, we recommend the FLU (x-**F**orward, y-**L**eft, and z-**U**p) axis orientation for objects and ENU (x-**E**ast, y-**N**orth, and z-**U**p, see [Axes conventions](https://en.wikipedia.org/wiki/Axes_conventions)) for worlds.
 Once the world and PROTOs have the desired behavior in Webots R2022a then you can change the object axis system to FLU and the world axis system to ENU.
 
 ## Convert PROTOs to FLU
