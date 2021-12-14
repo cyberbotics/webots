@@ -14,7 +14,7 @@
 
 '''
 **Presentation**
-    Convert .forest to enu.
+    Convert .forest to flu to meet the forest.proto R2022a version.
 
 **Usage**
     You can either add an argument or change the filename_list or foldername variables.
