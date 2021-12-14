@@ -23,7 +23,7 @@ Before, Webots was using **NUE** as the global coordinate system and we switched
 **ENU** means _East_ along the _X_-positive axis, _North_ along the _Y_-positive axis and _Up_ along the _Z_-positive axis
 
 
-In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, y-**L**eft, z-**U**p_). Whereas before there was no real prefered object's axis system.
+In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, y-**L**eft, z-**U**p_). Whereas before there was no real preferred object's axis system.
 
 %figure "Axis illustration"
 ![On the left, Webots R2021b, on the right Webots R2022a](images/flu-enu.png)
