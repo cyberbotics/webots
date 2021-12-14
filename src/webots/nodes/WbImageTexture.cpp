@@ -283,9 +283,8 @@ void WbImageTexture::destroyWrenTexture() {
       if (instances == 0) {
         delete mImage;
         gImagesMap.remove(key);
-      } else {
+      } else
         gImagesMap[key] = std::make_pair(image, instances);
-      }
     }
   }
 
