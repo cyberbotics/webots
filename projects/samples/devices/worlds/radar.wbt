@@ -177,7 +177,7 @@ DEF MyBot1 Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -207,7 +207,7 @@ DEF MyBot1 Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -363,7 +363,7 @@ DEF MyBot2 Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -393,7 +393,7 @@ DEF MyBot2 Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -547,7 +547,7 @@ DEF MyBot3 Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -577,7 +577,7 @@ DEF MyBot3 Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]
@@ -731,7 +731,7 @@ DEF MyBot4 Robot {
     }
     DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -761,7 +761,7 @@ DEF MyBot4 Robot {
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation 0 0 1 -0.500795
       children [
         USE SENSOR
       ]

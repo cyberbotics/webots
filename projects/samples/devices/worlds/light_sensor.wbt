@@ -173,7 +173,7 @@ DEF ROBOT Robot {
     }
     LightSensor {
       translation 0.042 0.02 0.07
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0 0 -1 -0.499205
       name "ls0"
       lookupTable [
         0 0 0
@@ -182,7 +182,7 @@ DEF ROBOT Robot {
     }
     LightSensor {
       translation 0.042 -0.02 0.07
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation 0 0 1 -0.500795
       name "ls1"
       lookupTable [
         0 0 0

@@ -41,6 +41,7 @@ PROTO TinkerbotsDistanceSensor [
       children [
         DistanceSensor {
           translation 0.02 0 0.02
+          rotation 1 0 0 -1.5707953071795862
           name IS name
           lookupTable [ 0 0 0, 0.5 128 0 ]  # Roughly calibrated.
           type "infra-red"
