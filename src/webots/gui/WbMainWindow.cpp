@@ -203,7 +203,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   WbAnimationRecorder *recorder = WbAnimationRecorder::instance();
   connect(recorder, &WbAnimationRecorder::initalizedFromStreamingServer, this, &WbMainWindow::disableAnimationAction);
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
-  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, &WbMainWindow::sendCloudRequest);
+  connect(recorder, &WbAnimationRecorder::requestOpenUrl, this, &WbMainWindow::upload);
 
   WbJoystickInterface::setWindowHandle(winId());
 
@@ -1640,11 +1640,12 @@ void WbMainWindow::ShareMenu() {
 void WbMainWindow::uploadScene() {
   WbWorld *world = WbWorld::instance();
   world->exportAsHtml(WbStandardPaths::webotsTmpPath() + "export_cloud.html", false);
-  sendCloudRequest();
+  upload();
 }
 
-void WbMainWindow::sendCloudRequest() {
-  QNetworkRequest request(QUrl("https://beta.webots.cloud/ajax/animation/create.php"));
+void WbMainWindow::upload() {
+  const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
+  QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
   QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
   bool animation = false;
 
@@ -1665,7 +1666,7 @@ void WbMainWindow::sendCloudRequest() {
   filenames << "export_cloud.x3d";
 
   // add files content
-  QMap<const QString, const QString> map;
+  QMap< QString, QString> map;
   foreach (const QString filename, filenames) {
     QHttpPart mainPart;
     if (filename.contains("x3d")) {
@@ -1692,47 +1693,47 @@ void WbMainWindow::sendCloudRequest() {
     multiPart->append(mainPart);
   }
   // add other information
-  QMap<QString, QString> infos;
-  infos["type"] = "S";
+  QMap<QString, QString> uploadInfo;
+  uploadInfo["type"] = "S";
   if (animation) {
-    infos["type"] = "A";
+    uploadInfo["type"] = "A";
   }
-  infos["user"] = "null";
-  infos["password"] = "null";
+  uploadInfo["user"] = "null";
+  uploadInfo["password"] = "null";
 
-  QMapIterator<const QString, const QString> iteInfos(infos);
-  while (iteInfos.hasNext()) {
-    iteInfos.next();
+  QMapIterator<QString, QString> iteratorUploadInfo(uploadInfo);
+  while (iteratorUploadInfo.hasNext()) {
+    iteratorUploadInfo.next();
     QHttpPart infoPart;
-    infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=" + iteInfos.key()));
-    infoPart.setBody(iteInfos.value().toUtf8());
+    infoPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=" + iteratorUploadInfo.key()));
+    infoPart.setBody(iteratorUploadInfo.value().toUtf8());
     multiPart->append(infoPart);
   }
 
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
 
-  mCloudLoadingProgressDialog = new QProgressDialog(tr("Uploading on webots.cloud..."), "Cancel", 0, 100, this);
-  mCloudLoadingProgressDialog->setWindowTitle(tr("Webots.cloud"));
-  mCloudLoadingProgressDialog->show();
+  mUploadProgressDialog = new QProgressDialog(tr("Uploading on %1...").arg(uploadUrl), "Cancel", 0, 100, this);
+  mUploadProgressDialog->setWindowTitle(tr("%1").arg(uploadUrl));
+  mUploadProgressDialog->show();
   connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateUploadProgressBar);
 
   multiPart->setParent(reply);
-  connect(reply, &QNetworkReply::finished, this, &WbMainWindow::cloudUploadFinished, Qt::UniqueConnection);
+  connect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished, Qt::UniqueConnection);
 }
 
-void WbMainWindow::updateCloudProgressBar(qint64 bytesSent, qint64 bytesTotal) {
+void WbMainWindow::updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal) {
   if (bytesTotal > 0)
-    mCloudUploadProgressDialog->setValue(((double)bytesSent / (double)bytesTotal) * 100.0);
+    mUploadProgressDialog->setValue(((double)bytesSent / (double)bytesTotal) * 100.0);
 }
 
-void WbMainWindow::cloudUploadFinished() {
+void WbMainWindow::uploadFinished() {
   QNetworkReply *reply = dynamic_cast<QNetworkReply *>(sender());
   assert(reply);
   if (!reply)
     return;
 
-  disconnect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateCloudProgressBar);
-  disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadCloudFinished);
+  disconnect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateUploadProgressBar);
+  disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished);
 
   const QStringList answers = QString(reply->readAll().data()).split("\n");
   QString url;

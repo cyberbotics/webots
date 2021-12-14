@@ -15,7 +15,8 @@
 #include "WbShareWindow.hpp"
 
 WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
-  this->setWindowTitle(tr("Share your simulation on webots.cloud"));
+  const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString().split("//")[1];
+  this->setWindowTitle(tr("Share your simulation on %1").arg(uploadUrl));
 
   mGroupBoxScene = new QGroupBox(this);
   mGroupBoxScene->setGeometry(QRect(10, 80, 169, 126));
@@ -43,15 +44,15 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   mLabelIntro->setWordWrap(true);
   mLabelIntro->setOpenExternalLinks(true);
   mLabelIntro->setText(
-    tr("<html><head/><body><p>You can now upload your scenes and animations on <a href=\"https://beta.webots.cloud/\"><span "
-       "style=\" text-decoration: underline; color:#5dade2;\">beta.webots.cloud</span></a>.\nClick on one of the buttons to "
-       "generate a sharing link that you can send to others.</p></body></html>"));
+    tr("<html><head/><body><p>You can now upload your scenes and animations on <a href=\"%1/\"><span "
+       "style=\" text-decoration: underline; color:#5dade2;\">%1</span></a>.\nClick on one of the buttons to "
+       "generate a sharing link that you can send to others.</p></body></html>").arg(uploadUrl));
 
   mLabelScene = new QLabel(mGroupBoxScene);
   mLabelScene->setGeometry(QRect(12, 32, 155, 34));
   mLabelScene->setStyleSheet("border: none;");
   mLabelScene->setWordWrap(true);
-  mLabelScene->setText(tr("upload your scene on Webots.cloud."));
+  mLabelScene->setText(tr("upload your scene on %1.").arg(uploadUrl));
 
   mLabelAnimation = new QLabel(mGroupBoxAnimation);
   mLabelAnimation->setGeometry(QRect(12, 32, 155, 34));
@@ -69,7 +70,8 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 }
 
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
-  this->setWindowTitle(tr("Share your project on Webots.cloud"));
+  const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString().split("//")[1];
+  this->setWindowTitle(tr("Share your project on %1").arg(uploadUrl));
 
   mGroupBoxLink = new QGroupBox(this);
   mGroupBoxLink->setTitle(tr("Upload successful"));

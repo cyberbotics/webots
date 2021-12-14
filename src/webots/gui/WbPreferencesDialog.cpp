@@ -188,6 +188,8 @@ void WbPreferencesDialog::accept() {
     WbNetwork::instance()->setProxy();
   if (!mCacheSize->text().isEmpty())
     prefs->setValue("Network/cacheSize", mCacheSize->text().toInt());
+  if (!mUploadUrl->text().isEmpty())
+    prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   emit changedByUser();
   QDialog::accept();
   if (willRestart)
@@ -390,11 +392,14 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
+  QGroupBox *upload = new QGroupBox(tr("Upload"), this);
+  upload->setObjectName("networkGroupBox");
   QGroupBox *cache = new QGroupBox(tr("Disk cache"), this);
   cache->setObjectName("networkGroupBox");
 
   network->addWidget(proxy, 0, 1);
-  network->addWidget(cache, 1, 1);
+  network->addWidget(upload, 1, 1);
+  network->addWidget(cache, 2, 1);
 
   // Proxy
   QGridLayout *layout = new QGridLayout(proxy);
@@ -426,6 +431,15 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   mHttpProxyPassword->setEchoMode(QLineEdit::PasswordEchoOnEdit);
   layout->addWidget(new QLabel(tr("Password:"), this), 4, 0);
   layout->addWidget(mHttpProxyPassword, 4, 1);
+
+  // Upload
+  layout = new QGridLayout(upload);
+
+  // row 0
+  mUploadUrl = new WbLineEdit(this);
+  mUploadUrl->setText(WbPreferences::instance()->value("Network/uploadUrl").toString());
+  layout->addWidget(new QLabel(tr("Set the upload url:"), this), 0, 0);
+  layout->addWidget(mUploadUrl, 0, 1);
 
   // Cache
   layout = new QGridLayout(cache);
