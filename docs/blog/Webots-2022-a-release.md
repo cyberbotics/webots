@@ -45,6 +45,11 @@ We know it is a major change and it can be painful to convert your worlds and PR
 
 ## Addition of the Skin node
 
+A new new node, the [Skin](../reference/skin.md) node has been introduced to simulate soft mesh animation for example of a human or an animal.
+
+%figure "Skin examples"
+![Skin examples](images/skin.png)
+%end
 
 ---
 
@@ -56,10 +61,9 @@ We made several improvement to enhance the user experience:
   - Rotating objects directly in the scene is now easier than ever.
   - We added a warning when attempting to add a node to an already started simulation.
 
-
 ---
 
-## ROS 2 & Webots
+## ROS, ROS 2 & Webots
 
 ---
 
