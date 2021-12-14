@@ -21,7 +21,7 @@ WoodenBox {
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation 0.488552 -0.449512 0.05
+  translation 0.421524 -0.431299 0.05
   rotation 0 0 1 4.96782
   name "wooden box(1)"
   size 0.1 0.1 0.1
@@ -39,7 +39,7 @@ WoodenBox {
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.192254 0.645944 0.05
+  translation -0.166689 0.612227 0.05
   rotation 0 0 1 5.36782
   name "wooden box(4)"
   size 0.1 0.1 0.1
@@ -165,7 +165,7 @@ DEF ROBOT1 Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0 0 -1 -0.6544953071795865
+      rotation 0 0 -1 -0.499205
       children [
         DEF INFRARED Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -195,7 +195,7 @@ DEF ROBOT1 Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0 0 1 -0.6544953071795865
+      rotation 0 0 1 -0.500795
       children [
         DEF INFRARED Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -384,7 +384,7 @@ DEF ROBOT2 Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0 0 1 0.6544953071795865
+      rotation 0 0 -1 -0.499205
       children [
         DEF INFRARED Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -414,7 +414,7 @@ DEF ROBOT2 Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0 0 -1 0.6544953071795865
+      rotation 0 0 1 -0.500795
       children [
         DEF INFRARED Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -603,7 +603,7 @@ DEF ROBOT3 Robot {
     }
     DEF LEFT_EYE DistanceSensor {
       translation 0.042 0.02 0.063
-      rotation 0 0 1 0.6544953071795865
+      rotation 0 0 -1 -0.499205
       children [
         DEF INFRARED Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -633,7 +633,7 @@ DEF ROBOT3 Robot {
     }
     DEF RIGHT_EYE DistanceSensor {
       translation 0.042 -0.02 0.063
-      rotation 0 0 -1 0.6544953071795865
+      rotation 0 0 1 -0.500795
       children [
         DEF INFRARED Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
