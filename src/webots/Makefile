@@ -377,6 +377,7 @@ QT_SOURCES += \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
   WbQjsFile.cpp \
+  WbQjsCollada.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
   WbRadioPlugin.cpp \
