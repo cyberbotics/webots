@@ -592,11 +592,11 @@ using fnSetWindowCompositionAttribute = BOOL(WINAPI *)(HWND hwnd, WINDOWCOMPOSIT
 
 static void setDarkTitlebar(HWND hwnd) {
   static HMODULE hUxtheme = NULL;
-  static HMODULE hUser32 = NULL;
   static fnAllowDarkModeForWindow AllowDarkModeForWindow = NULL;
-  static fnSetPreferredAppMode SetPreferredAppMode = NULL;
   static fnSetWindowCompositionAttribute SetWindowCompositionAttribute = NULL;
   if (!hUxtheme) {  // first call
+    static HMODULE hUser32 = NULL;
+    static fnSetPreferredAppMode SetPreferredAppMode = NULL;
     hUxtheme = LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
     hUser32 = GetModuleHandleW(L"user32.dll");
     AllowDarkModeForWindow = reinterpret_cast<fnAllowDarkModeForWindow>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
