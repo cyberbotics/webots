@@ -246,7 +246,7 @@ DEF ROBOT Robot {
     }
     DEF US0 DistanceSensor {
       translation 0.115 0.07 0.189
-      rotation 0.940734994155684 0.2398099985101804 0.2398099985101804 1.631852
+      rotation 0 0 -1 -0.499205
       children [
         DEF SONAR_SENSOR Transform {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
@@ -275,7 +275,7 @@ DEF ROBOT Robot {
     }
     DEF US1 DistanceSensor {
       translation 0.115 -0.07 0.189
-      rotation 0.9403743985363968 -0.2405161019321887 -0.2405161019321887 1.632235
+      rotation 0 0 1 -0.500795
       children [
         USE SONAR_SENSOR
       ]

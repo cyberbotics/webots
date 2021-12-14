@@ -1,0 +1,26 @@
+#VRML_SIM R2022a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# This PROTO allows the Collada (.dae) files to be referenced.
+# template language: javascript
+
+PROTO ColladaShapes [
+  field SFString  url  ""  # URL of a Collada file (similar to ImageTexture node).
+]
+{
+  %<
+    let url = fields.url.value;
+    if (!wbfile.fileExists(url)) {
+      console.error(`The given Collada url (${url}) is not valid.`);
+      url = fields.url.defaultValue;
+    }
+  >%
+
+  Group {
+    children [
+      %< if (url !== '') { >%
+        %<= wbcollada.getVrmlFromFile(url) >%
+      %< } >%
+    ]
+  }
+}

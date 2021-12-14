@@ -391,28 +391,28 @@
   <joint name="left finger_left finger sensor 3_joint" type="fixed">
     <parent link="left finger"/>
     <child link="left finger sensor 3"/>
-    <origin xyz="0 0.017324 0.087181" rpy="0.000001 0.261799 1.570802"/>
+    <origin xyz="0 0.017324 0.087181" rpy="0.523601 0.261799 1.570808"/>
   </joint>
   <link name="left finger sensor 2">
   </link>
   <joint name="left finger_left finger sensor 2_joint" type="fixed">
     <parent link="left finger"/>
     <child link="left finger sensor 2"/>
-    <origin xyz="0 0.021438 0.13449" rpy="-0.000003 -1.125744 -1.570795"/>
+    <origin xyz="0 0.021438 0.13449" rpy="0.523597 -1.125744 -1.570798"/>
   </joint>
   <link name="left finger sensor 1">
   </link>
   <joint name="left finger_left finger sensor 1_joint" type="fixed">
     <parent link="left finger"/>
     <child link="left finger sensor 1"/>
-    <origin xyz="-0.013 0.02 0.118" rpy="0 0 3.141593"/>
+    <origin xyz="-0.013 0.02 0.118" rpy="0.523599 0.000001 3.14159"/>
   </joint>
   <link name="left finger sensor 0">
   </link>
   <joint name="left finger_left finger sensor 0_joint" type="fixed">
     <parent link="left finger"/>
     <child link="left finger sensor 0"/>
-    <origin xyz="0.013 0.02 0.118" rpy="0 0 0"/>
+    <origin xyz="0.013 0.02 0.118" rpy="0.523602 0 0"/>
   </joint>
   <joint name="motor 7" type="revolute">
     <parent link="link_base_tcp180"/>
@@ -512,28 +512,28 @@
   <joint name="right finger_right finger sensor 3_joint" type="fixed">
     <parent link="right finger"/>
     <child link="right finger sensor 3"/>
-    <origin xyz="0 0.017324 0.087181" rpy="0.000001 0.261799 1.570802"/>
+    <origin xyz="0 0.017324 0.087181" rpy="0.523599 0.261799 1.570803"/>
   </joint>
   <link name="right finger sensor 2">
   </link>
   <joint name="right finger_right finger sensor 2_joint" type="fixed">
     <parent link="right finger"/>
     <child link="right finger sensor 2"/>
-    <origin xyz="0 0.021438 0.13449" rpy="-0.000003 -1.125744 -1.570795"/>
+    <origin xyz="0 0.021438 0.13449" rpy="0.523597 -1.125744 -1.570798"/>
   </joint>
   <link name="right finger sensor 1">
   </link>
   <joint name="right finger_right finger sensor 1_joint" type="fixed">
     <parent link="right finger"/>
     <child link="right finger sensor 1"/>
-    <origin xyz="-0.013 0.02 0.118" rpy="0 0 3.141593"/>
+    <origin xyz="-0.013 0.02 0.118" rpy="0.523599 0.000001 3.14159"/>
   </joint>
   <link name="right finger sensor 0">
   </link>
   <joint name="right finger_right finger sensor 0_joint" type="fixed">
     <parent link="right finger"/>
     <child link="right finger sensor 0"/>
-    <origin xyz="0.013 0.02 0.118" rpy="0 0 0"/>
+    <origin xyz="0.013 0.02 0.118" rpy="0.523599 0 0"/>
   </joint>
   <link name="button 7">
   </link>

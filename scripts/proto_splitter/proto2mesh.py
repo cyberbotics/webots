@@ -238,7 +238,7 @@ class Mesh:
             file.write('v {} {} {}\n'.format(vertex[0], vertex[1], vertex[2]))
         # texture coordinates
         for vt in self.texCoord:
-            file.write('vt {} {}\n'.format(vt[0], round(1 - vt[1], 5)))
+            file.write('vt {} {}\n'.format(vt[0], vt[1]))
         # normal coordinates
         for vn in self.normal:
             file.write('vn {} {} {}\n'.format(vn[0], vn[1], vn[2]))
