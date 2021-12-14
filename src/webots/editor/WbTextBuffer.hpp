@@ -98,18 +98,12 @@ public:
   void markError(int line, int column = -1);
   void unmarkError();
 
-  // invert current and previous line
-  void transposeCurrentLine();
-
   // toggle line comment
   void toggleLineComment();
 
   // indentation
   enum IndentMode { INCREASE, DECREASE };
   void indent(IndentMode mode);
-
-  // duplicate seleted text
-  void duplicateSelection();
 
   // to be used from class LineNumberArea
   void lineNumberAreaPaintEvent(QPaintEvent *event);

@@ -676,25 +676,11 @@ void WbActionManager::populateActions() {
   mActions[GO_TO_LINE] = action;
 
   action = new QAction(this);
-  action->setText(tr("&Toggle Line Comment"));
+  action->setText(tr("&Toggle Line Comment    "));
   action->setStatusTip(tr("Toggle comment of selected lines."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::CTRL + Qt::Key_Slash);
   mActions[TOGGLE_LINE_COMMENT] = action;
-
-  action = new QAction(this);
-  action->setText(tr("&Duplicate Line or Selection"));
-  action->setStatusTip(tr("Duplicate current line or selected text."));
-  action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::CTRL + Qt::Key_D);
-  mActions[DUPLICATE_SELECTION] = action;
-
-  action = new QAction(this);
-  action->setText(tr("&Transpose Current Line"));
-  action->setStatusTip(tr("Invert the current line and its previous line."));
-  action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::SHIFT + Qt::ALT + Qt::Key_T);
-  mActions[TRANSPOSE_LINE] = action;
 
   action = new QAction(this);
   action->setText(tr("&Print..."));
@@ -1076,8 +1062,6 @@ void WbActionManager::enableTextEditActions(bool enabled) {
   mActions[REPLACE]->setEnabled(enabled);
   mActions[GO_TO_LINE]->setEnabled(enabled);
   mActions[TOGGLE_LINE_COMMENT]->setEnabled(enabled);
-  mActions[DUPLICATE_SELECTION]->setEnabled(enabled);
-  mActions[TRANSPOSE_LINE]->setEnabled(enabled);
   mActions[PRINT]->setEnabled(enabled);
   mActions[PRINT_PREVIEW]->setEnabled(enabled);
 }

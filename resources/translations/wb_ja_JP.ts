@@ -981,10 +981,6 @@ To fix the problem, you should:
         <translation type="unfinished">選択した行のコメントを切り替えます。</translation>
     </message>
     <message>
-        <source>&amp;Duplicate Line or Selection</source>
-        <translation type="unfinished">&amp;行または選択を複製</translation>
-    </message>
-    <message>
         <source>Duplicate current line or selected text.</source>
         <translation type="unfinished">現在の行または選択したテキストを複製します。</translation>
     </message>

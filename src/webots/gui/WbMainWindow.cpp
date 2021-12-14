@@ -523,9 +523,6 @@ QMenu *WbMainWindow::createEditMenu() {
   menu->addAction(manager->action(WbAction::GO_TO_LINE));
   menu->addSeparator();
   menu->addAction(manager->action(WbAction::TOGGLE_LINE_COMMENT));
-  menu->addSeparator();
-  menu->addAction(manager->action(WbAction::DUPLICATE_SELECTION));
-  menu->addAction(manager->action(WbAction::TRANSPOSE_LINE));
 
   return menu;
 }
