@@ -52,7 +52,7 @@ public:
                                            bool importBoundingObjects, bool referenceMeshes = false);
 
   OperationResult initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field, int newNodeIndex = -1,
-                              bool subscribe = false);
+                              bool subscribe = false, bool finalize = true);
 
   bool deleteNode(WbNode *node, bool fromSupervisor = false);
 

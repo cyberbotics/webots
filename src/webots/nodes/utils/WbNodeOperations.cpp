@@ -485,7 +485,7 @@ WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QSt
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field,
-                                                                int newNodeIndex, bool subscribe) {
+                                                                int newNodeIndex, bool subscribe, bool finalize) {
   const bool isInBoundingObject = dynamic_cast<WbSolid *>(parentNode) && field->name() == "boundingObject";
   if (!WbNodeUtilities::validateInsertedNode(field, newNode, parentNode, isInBoundingObject)) {
     delete newNode;
@@ -524,11 +524,12 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 
   // update flag for PROTO nodes and their instances if any
   baseNode->updateNestedProtoFlag();
-  baseNode->finalize();
+  if (finalize) {
+    baseNode->finalize();
 
-  assert(!WbWorld::instance()->isLoading());
-  if (!WbWorld::instance()->isLoading())
-    resolveSolidNameClashIfNeeded(newNode);
+    assert(!WbWorld::instance()->isLoading());
+  }
+  resolveSolidNameClashIfNeeded(newNode);
 
   if (subscribe && baseNode->isTemplate())
     WbTemplateManager::instance()->subscribe(newNode);

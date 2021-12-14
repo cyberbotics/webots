@@ -676,7 +676,8 @@ void WbActionManager::populateActions() {
   mActions[GO_TO_LINE] = action;
 
   action = new QAction(this);
-  action->setText(tr("&Toggle Line Comment    "));
+  action->setText(tr("&Toggle Line Comment") + "    ");  // add spaces because the spacing between the menu text
+  // and the hotkey text does not expand to adjust for the text length
   action->setStatusTip(tr("Toggle comment of selected lines."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::CTRL + Qt::Key_Slash);
