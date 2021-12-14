@@ -591,16 +591,20 @@ using fnSetPreferredAppMode = PreferredAppMode(WINAPI *)(PreferredAppMode appMod
 using fnSetWindowCompositionAttribute = BOOL(WINAPI *)(HWND hwnd, WINDOWCOMPOSITIONATTRIBDATA *);
 
 static void setDarkTitlebar(HWND hwnd) {
-  HMODULE hUxtheme = LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
-  HMODULE hUser32 = GetModuleHandleW(L"user32.dll");
-  fnAllowDarkModeForWindow AllowDarkModeForWindow =
-    reinterpret_cast<fnAllowDarkModeForWindow>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
-  fnSetPreferredAppMode SetPreferredAppMode =
-    reinterpret_cast<fnSetPreferredAppMode>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135)));
-  fnSetWindowCompositionAttribute SetWindowCompositionAttribute =
-    reinterpret_cast<fnSetWindowCompositionAttribute>(GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
-
-  SetPreferredAppMode(AllowDark);
+  static HMODULE hUxtheme = NULL;
+  static HMODULE hUser32 = NULL;
+  static fnAllowDarkModeForWindow AllowDarkModeForWindow = NULL;
+  static fnSetPreferredAppMode SetPreferredAppMode = NULL;
+  static fnSetWindowCompositionAttribute SetWindowCompositionAttribute = NULL;
+  if (!hUxtheme) {  // first call
+    hUxtheme = LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
+    hUser32 = GetModuleHandleW(L"user32.dll");
+    AllowDarkModeForWindow = reinterpret_cast<fnAllowDarkModeForWindow>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
+    SetPreferredAppMode = reinterpret_cast<fnSetPreferredAppMode>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135)));
+    SetWindowCompositionAttribute =
+      reinterpret_cast<fnSetWindowCompositionAttribute>(GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
+    SetPreferredAppMode(AllowDark);
+  }
   BOOL dark = TRUE;
   AllowDarkModeForWindow(hwnd, dark);
   WINDOWCOMPOSITIONATTRIBDATA data = {WCA_USEDARKMODECOLORS, &dark, sizeof(dark)};
