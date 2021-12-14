@@ -259,8 +259,9 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                     write_status = True
                     if len(vector) == 3:
                         vector = [-vector[2], -vector[0], vector[1]]
-                if type in ['corners', 'path', 'wayPoints', 'spine', 'shape', 'startingAngle',
-                            'endingAngle'] or (type in ['height'] and 'ElevationGrid' in last_type):
+                if type in ['corners', 'path', 'wayPoints', 'spine', 'startingAngle', 'endingAngle'] or (
+                        type in ['height'] and 'ElevationGrid' in last_type) or (
+                        type in ['shape'] and 'Crossroad' in last_type):
                     if '[]' not in line:  # if type not empty
                         next_line_is_corners = 1
                 elif next_line_is_corners == 1:
