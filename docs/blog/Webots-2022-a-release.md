@@ -14,7 +14,7 @@ Here we are going to present some of the main new features, but for a comprehens
 
 ### What is FLU/ENU
 
-**FLU and ENU are coordinate axis convention.**
+**FLU and ENU are convention for coordinate systems.**
 
 Before, Webots was using **NUE** as the global coordinate system and we switched it to be new **ENU** by default.
 
@@ -37,7 +37,7 @@ We worked hard to convert all PROTOS and worlds distributed with Webots for you,
 
 A mechanism of backward compatibility has been implemented directly in Webots. Unfortunately, it was not possible to make it work in every cases. It will try to convert worlds but cannot convert Protos.
 
-We also wrote a guide to help you convert your own protos and worlds to be able to use them in Webots R2022a and benefits from the new features and bug fixes.
+We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/FLU-and-ENU-conversion-guide) to help you convert your own protos and worlds to be able to use them in Webots R2022a and benefits from the new features and bug fixes.
 
 We know it is a major change and it can be painful to convert your worlds and PROTOS to the new standard. But it is a worthwhile effort, especially if you work with ROS.
 
