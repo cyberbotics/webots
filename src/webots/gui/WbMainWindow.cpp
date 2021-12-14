@@ -2357,10 +2357,10 @@ void WbMainWindow::toggleAnimationIcon() {
 
   QAction *action = WbActionManager::instance()->action(WbAction::ANIMATION);
   if (!isRecOn) {
-    action->setIcon(QIcon("enabledIcons:animation_red_button.png"));
+    action->setIcon(QIcon("enabledIcons:share_red_button.png"));
     isRecOn = true;
   } else {
-    action->setIcon(QIcon("enabledIcons:animation_black_button.png"));
+    action->setIcon(QIcon("enabledIcons:share_button.png"));
     isRecOn = false;
   }
 }
@@ -2370,14 +2370,14 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
   if (isRecording) {
     action->setText(tr("Stop HTML5 &Animation..."));
     action->setStatusTip(tr("Stop HTML5 animation recording."));
-    action->setIcon(QIcon("enabledIcons:animation_red_button.png"));
+    action->setIcon(QIcon("enabledIcons:share_red_button.png"));
     disconnect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu);
     connect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording, Qt::UniqueConnection);
     mAnimationRecordingTimer->start(800);
   } else {
     action->setText(tr("Share on Webots.cloud..."));
     action->setStatusTip(tr("Share your project on Webots.cloud..."));
-    action->setIcon(QIcon("enabledIcons:animation_black_button.png"));
+    action->setIcon(QIcon("enabledIcons:share_button.png"));
     disconnect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording);
     connect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu, Qt::UniqueConnection);
     mAnimationRecordingTimer->stop();
