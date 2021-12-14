@@ -14,7 +14,7 @@ Here we are going to present some of the main new features, but for a comprehens
 
 ### What is FLU/ENU
 
-**FLU and ENU are convention for coordinate systems.**
+**FLU and ENU are conventions for axis systems.**
 
 Before, Webots was using **NUE** as the global coordinate system and we switched it to be new **ENU** by default.
 
