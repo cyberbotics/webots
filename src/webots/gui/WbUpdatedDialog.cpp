@@ -37,15 +37,15 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
 
   mLabelNote = new QLabel(mGroupBox);
   mLabelNote->setGeometry(QRect(15, 20, 345, 200));
-  mLabelNote->setText(tr(
-    "<p style=\"line-height:1.2\"> <br />"
-    "Webots axis systems and objects orientation conventions respectively <b>changed to ENU and FLU</b>. All the PROTOs and "
-    "worlds included in the Webots package are now in ENU and FLU. <br /> <br /> <b>If you are using your own world or "
-    "PROTO</b>, "
-    "Webots will "
-    "rotate all the elements of your world when you open it in this new version. However, you may have to rotate some "
-    "objects, fix bounding objects by yourself or adjust your controller. Refer to the <a style='color: #5DADE2;' "
-    "href='https://cyberbotics.com/doc/reference/changelog'>wiki</a> for more information. </p>"));
+  mLabelNote->setText(
+    tr("<p style=\"line-height:1.2\"> <br />"
+       "Webots axis systems and objects orientation conventions respectively <b>changed to ENU and FLU</b>. All the PROTOs and "
+       "worlds included in the Webots package are now in ENU and FLU. <br /> <br /> <b>If you are using your own world or "
+       "PROTO</b>, "
+       "Webots will "
+       "rotate all the elements of your world when you open it in this new version. However, you may have to rotate some "
+       "objects, fix bounding objects by yourself or adjust your controller. Refer to the <a style='color: #5DADE2;' "
+       "href='https://cyberbotics.com/doc/reference/changelog'>wiki</a> for more information. </p>"));
   mLabelNote->setOpenExternalLinks(true);
   mLabelNote->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   mLabelNote->setStyleSheet("border: none");
@@ -55,7 +55,7 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
   mLabelChangelog->setGeometry(QRect(35, 300, 290, 41));
   mLabelChangelog->setText(
     tr("Find out the new features, enhancements and bug fixes of Webots R2022a in the <a style='color: #5DADE2;' "
-            "href='https://cyberbotics.com/doc/reference/changelog-r2022'>changelog</a>."));
+       "href='https://cyberbotics.com/doc/reference/changelog-r2022'>changelog</a>."));
   mLabelChangelog->setOpenExternalLinks(true);
   mLabelChangelog->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   mLabelChangelog->setWordWrap(true);
