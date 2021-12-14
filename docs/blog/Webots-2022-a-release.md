@@ -25,6 +25,10 @@ Before, Webots was using **NUE** as the global coordinate system and we switched
 
 In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, y-**L**eft, z-**U**p_). Whereas before there was no real prefered object's axis system.
 
+%figure "Axis illustration"
+![On the left, Webots R2021b, on the right Webots R2022a](images/flu-enu.png)
+%end
+
 ### Why have we done these changes
 
 ENU and FLU are the most widely used axis conventions in robotics, including ROS and ROS2.
