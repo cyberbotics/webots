@@ -15,7 +15,7 @@
 #include "WbShareWindow.hpp"
 
 WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
-  this->setWindowTitle(tr("Share your project on Webots.cloud"));
+  this->setWindowTitle(tr("Share your simulation on webots.cloud"));
 
   mGroupBoxScene = new QGroupBox(this);
   mGroupBoxScene->setGeometry(QRect(10, 80, 169, 126));
@@ -105,7 +105,7 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
 void WbLinkWindow::reject() {
   QDir dir(WbStandardPaths::webotsTmpPath() + "textures/");  // remove tmp files
   dir.removeRecursively();
-  QStringList extensions = {".html", ".x3d", ".json"};
+  const QStringList extensions = {".html", ".x3d", ".json"};
   foreach (QString extension, extensions)
     QFile::remove(WbStandardPaths::webotsTmpPath() + "export_cloud" + extension);
 
