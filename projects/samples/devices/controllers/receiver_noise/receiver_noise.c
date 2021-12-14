@@ -35,6 +35,7 @@
 #define SPEED 6
 #define TIME_STEP 64
 #define COMMUNICATION_CHANNEL 1
+#define CLAMP(value, low, high) ((value) < (low) ? (low) : ((value) > (high) ? (high) : (value)))
 
 typedef enum { EMITTER, RECEIVER } robot_types;
 
@@ -128,7 +129,7 @@ int main() {
           right_speed = -SPEED;
         } else {
           /*
-           * we turn proportionnaly to the sensors value because the
+           * we turn proportionally to the sensors value because the
            * closer we are from the wall, the more we need to turn.
            */
           left_speed = -ds1_value / 100;
@@ -146,8 +147,8 @@ int main() {
       }
 
       /* set the motor speeds. */
-      wb_motor_set_velocity(left_motor, left_speed);
-      wb_motor_set_velocity(right_motor, right_speed);
+      wb_motor_set_velocity(left_motor, CLAMP(left_speed, -10.0, 10.0));
+      wb_motor_set_velocity(right_motor, CLAMP(right_speed, -10.0, 10.0));
     }
   }
 
