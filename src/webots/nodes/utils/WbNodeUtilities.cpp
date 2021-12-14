@@ -1164,18 +1164,19 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1);
-            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
+            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1, false,
+                                                      false);
+            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
           } else {
-            // Child is under the `children` filed.
+            // Child is under the `children` field.
             child->info(message.arg("A2_2"));
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("children"), 0);
+            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("children"), 0, false, false);
             WbNodeOperations::instance()->deleteNode(child);
-            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0);
+            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
           }
         }
       }
