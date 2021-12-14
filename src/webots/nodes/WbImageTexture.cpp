@@ -46,7 +46,7 @@
 #include <utility>
 
 QSet<QString> WbImageTexture::cQualityChangedTexturesList;
-static QMap<QString, std::pair<QImage *, int>> gImagesMap;
+static QMap<QString, std::pair<const QImage *, int>> gImagesMap;
 
 void WbImageTexture::init() {
   mWrenTexture = NULL;
@@ -246,9 +246,9 @@ void WbImageTexture::updateWrenTexture() {
     if (mUrl->size() == 0)
       return;
     const QString &url(mUrl->item(0));
-    std::pair<QImage *, int> pair = gImagesMap.value(url);
+    std::pair<const QImage *, int> pair = gImagesMap.value(url);
     if (pair.first) {
-      mImage = pair.first;  // mImage needs to be defined regardless as pickColor relies on it
+      mImage = const_cast<QImage *>(pair.first);  // mImage needs to be defined regardless as pickColor relies on it
       gImagesMap[url] = std::make_pair(pair.first, pair.second + 1);
     }
 
@@ -272,7 +272,7 @@ void WbImageTexture::destroyWrenTexture() {
 
   if (mUrl->size() == 0)
     return;
-  QMapIterator<QString, std::pair<QImage *, int>> i(gImagesMap);
+  QMapIterator<QString, std::pair<const QImage *, int>> i(gImagesMap);
   while (i.hasNext()) {
     i.next();
     const QImage *image = i.value().first;
