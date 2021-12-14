@@ -275,7 +275,7 @@ void WbImageTexture::destroyWrenTexture() {
   QMapIterator<QString, std::pair<QImage *, int>> i(gImagesMap);
   while (i.hasNext()) {
     i.next();
-    QImage *image = i.value().first;
+    const QImage *image = i.value().first;
     if (image && image == mImage) {
       QString key = i.key();
       const int instances = i.value().second - 1;
