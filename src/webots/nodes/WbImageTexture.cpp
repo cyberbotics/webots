@@ -277,7 +277,7 @@ void WbImageTexture::destroyWrenTexture() {
     i.next();
     const QImage *image = i.value().first;
     if (image && image == mImage) {
-      QString key = i.key();
+      const QString key = i.key();
       const int instances = i.value().second - 1;
       assert(instances >= 0);
       if (instances == 0) {
