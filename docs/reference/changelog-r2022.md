@@ -1,5 +1,9 @@
 # Webots R2022 Change Log
+## Webots R2022b
+Released on XX, XXth, 2022.
 
+  - New Features:
+    - Added a share button to upload scene and animation to Webots.cloud ([#3971](https://github.com/cyberbotics/webots/pull/3971)).
 ## Webots R2022a
 Released on XX, XXth, 2022.
 
