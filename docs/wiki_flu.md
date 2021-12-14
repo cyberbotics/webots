@@ -76,4 +76,9 @@ We have a quite robust Python script that converts NUE worlds to ENU axis system
 python scripts/converter/convert_nue_to_enu.py /path/to/world/file.wbt
 ```
 
+## Convert Forest to FLU
 
+To convert your forest for R2022, you can use the script
+```
+python convert_forest_flu.py /path/to/forest/file.forest
+```
