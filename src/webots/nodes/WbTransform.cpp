@@ -411,15 +411,7 @@ void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   WbMFNode::Iterator it(children());
   while (it.hasNext()) {
     const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    const WbGeometry *const childGeom = dynamic_cast<const WbGeometry *>(childNode);
-
-    if (childGeom)
-      writer << "<Shape>";
-
     childNode->exportBoundingObjectToX3D(writer);
-
-    if (childGeom)
-      writer << "</Shape>";
   }
 
   writer << "</Transform>";
