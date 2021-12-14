@@ -27,6 +27,7 @@
 #include "WbDesktopServices.hpp"
 #include "WbDockWidget.hpp"
 #include "WbFileUtil.hpp"
+#include "WbGuiApplication.hpp"
 #include "WbGuidedTour.hpp"
 #include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
@@ -118,12 +119,12 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // This flag is required to hide a second and useless title bar.
   setUnifiedTitleAndToolBarOnMac(true);
 #endif
-
   setObjectName("MainWindow");
   QStatusBar *statusBar = new QStatusBar(this);
   statusBar->showMessage(tr("Welcome to Webots!"));
   setStatusBar(statusBar);
 
+  WbGuiApplication::setWindowsDarkMode(this);
   style()->polish(this);
   QDir::addSearchPath("enabledIcons", WbStandardPaths::resourcesPath() + enabledIconPath());
   QDir::addSearchPath("disabledIcons", WbStandardPaths::resourcesPath() + disabledIconPath());
