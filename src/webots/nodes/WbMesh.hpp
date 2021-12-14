@@ -19,6 +19,7 @@
 
 class WbDownloader;
 class WbMFString;
+struct aiScene;
 
 class WbMesh : public WbTriangleMeshGeometry {
   Q_OBJECT
@@ -50,14 +51,17 @@ protected:
 private:
   // user accessible fields
   WbMFString *mUrl;
+  WbSFString *mName;
   WbDownloader *mDownloader;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }
   void init();
+  bool checkIfNameExists(const aiScene *scene, const QString &name) const;
 
 private slots:
   void updateUrl();
+  void updateName();
   void downloadUpdate();
 };
 
