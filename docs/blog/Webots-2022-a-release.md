@@ -39,13 +39,13 @@ A mechanism of backward compatibility has been implemented directly in Webots. U
 
 We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/FLU-and-ENU-conversion-guide) to help you convert your own protos and worlds to be able to use them in Webots R2022a and benefits from the new features and bug fixes.
 
-We know it is a major change and it can be painful to convert your worlds and PROTOS to the new standard. But it is a worthwhile effort, especially if you work with ROS.
+We know it is a major change and it can be annoying to convert your worlds and PROTOS to the new standard. But it is a worthwhile effort, especially if you work with ROS.
 
 ---
 
 ## Addition of the Skin node
 
-A new new node, the [Skin](../reference/skin.md) node has been introduced to simulate soft mesh animation for example of a human or an animal.
+A new node, the [Skin](../reference/skin.md) node has been introduced to simulate soft mesh animation for example of a human or an animal.
 
 %figure "Skin examples"
 ![Skin examples](images/skin.png)
@@ -57,8 +57,8 @@ A new new node, the [Skin](../reference/skin.md) node has been introduced to sim
 
 We made several improvement to enhance the user experience:
 
-  - The zooming speed have been adjusted to make the navigation more pleasant.
   - Rotating objects directly in the scene is now easier than ever.
+  - The zooming speed have been adjusted to make the navigation more pleasant.
   - We added a warning when attempting to add a node to an already started simulation.
 
 ---
