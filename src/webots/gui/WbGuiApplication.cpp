@@ -611,11 +611,10 @@ static void setDarkTitlebar(HWND hwnd) {
 #endif  // _WIN32
 
 void WbGuiApplication::udpateStyleSheet() {
-  QString themeToLoad;
 #ifdef __linux__
-  themeToLoad = WbPreferences::instance()->value("General/theme", "webots_night.qss").toString();
+  const QString themeToLoad = WbPreferences::instance()->value("General/theme", "webots_night.qss").toString();
 #else
-  themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
+  const QString themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
 #endif
 
   QFile qssFile(WbStandardPaths::resourcesPath() + themeToLoad);
