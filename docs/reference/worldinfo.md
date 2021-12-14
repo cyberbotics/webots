@@ -101,11 +101,10 @@ Also, it is recommended to use ground textures with low resolution to speed up t
 As with the pen device, the modified ground textures can be seen only through infra-red distance sensors, and not through cameras (as the ground textures are not updated on the controller side).
 
 - The `coordinateSystem` field indicates the [axis convention](https://en.wikipedia.org/wiki/Axes_conventions) of the global coordinate system, defining the cartesian and gravity directions.
-Currently it supports only "ENU" (default), "NUE" and "EUN".
+Currently it supports "ENU" (default), "NUE" and "EUN".
 "ENU" means East along the X-positive axis, North along the Y-positive axis and Up along the Z-positive axis.
-It is the most widely used axis convention in robotics, including ROS.
+It is the most widely used axis convention in robotics, including Webots and ROS.
 "NUE" means North along the X-positive axis, Up along the Y-positive axis and East along the Z-positive axis.
-It is the legacy Webots axis convention which was inherited from VRML97.
 "EUN" means East along the X-positive axis, Up along the Y-positive axis and North along the Z-positive axis.
 It is similar to "NUE" but with the North and East inverted.
 Changing the coordinate system will affect the return values of the [Accelerometer](accelerometer.md), [Compass](compass.md), [InertialUnit](inertialunit.md) and [GPS](gps.md) devices.
