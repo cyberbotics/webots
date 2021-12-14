@@ -12,7 +12,7 @@ Here we are going to present some of the main new features, but for a comprehens
 
 ## Conversion to FLU/ENU
 
-### What is FLU/ENU
+### What is FLU/ENU?
 
 **FLU and ENU are conventions for axis systems.**
 
@@ -29,27 +29,31 @@ In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, 
 ![On the left, Webots R2021b, on the right Webots R2022a](images/flu-enu.png)
 %end
 
-### Why have we done these changes
+### Why these changes?
 
 ENU and FLU are the most widely used axis conventions in robotics, including ROS and ROS2.
 
 More and more people are using Webots with ROS2 and we changed the axis convention of Webots to make it easier for them !
 
-### What we have done
+### What did we do exactly?
 
 We worked hard to convert all PROTOS and worlds distributed with Webots for you, so that they are ready to use in R2022a.
 
-A mechanism of backward compatibility has been implemented directly in Webots. Unfortunately, it was not possible to make it work in every cases. It will try to convert worlds but cannot convert Protos.
+A mechanism of backward compatibility has been implemented directly in Webots.
+Unfortunately, it was not possible to make it work in every cases.
+It will try to convert worlds but cannot convert protos.
 
-We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/FLU-and-ENU-conversion-guide) to help you convert your own protos and worlds to be able to use them in Webots R2022a and benefits from the new features and bug fixes.
+We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/FLU-and-ENU-conversion-guide) to help you convert your own protos and worlds to use them in Webots R2022a.
 
-We know it is a major change and it can be annoying to convert your worlds and PROTOS to the new standard. But it is a worthwhile effort, especially if you work with ROS.
+We are aware that it is a major change and it can be annoying to convert your worlds and PROTOS to the new format.
+However, it is a worthwhile effort, especially if you work with ROS.
 
 ---
 
-## Addition of the Skin node
+## Skin node
 
-A new node, the [Skin](../reference/skin.md) node has been introduced to simulate soft mesh animation for example of a human or an animal.
+A new node, the [Skin](../reference/skin.md) node has been introduced to simulate soft mesh animation.
+This is particularly useful to simulate humans or animals.
 
 %figure "Skin examples"
 ![Skin examples](images/skin.png)
@@ -59,11 +63,11 @@ A new node, the [Skin](../reference/skin.md) node has been introduced to simulat
 
 ## Improving user interface
 
-We made several improvement to enhance the user experience:
+Several improvement enhanced the user experience:
 
-  - Rotating objects directly in the scene is now easier than ever.
-  - The zooming speed have been adjusted to make the navigation more pleasant.
-  - We added a warning when attempting to add a node to an already started simulation.
+  - Rotating objects directly in the scene is now easier than before.
+  - The zooming speed has been adjusted to make the navigation more pleasant.
+  - Webots now displays a warning when a user attempts to add a node in an already started simulation.
 
 ---
 
@@ -84,13 +88,13 @@ New versions of the `webots_ros2` ROS package were released for [foxy](https://i
 
 The performance on [Lidar](../reference/lidar) point cloud generation has been greatly improved.
 
-[ContactProperties](../reference/contactproperties) now supports a new type of friction: **rolling friction**.
+[ContactProperties](../reference/contactproperties) now support a new type of friction: **rolling friction**.
 
-**Go and [download](https://cyberbotics.com/#download) Webots R2022a today, so you don't miss out on all these great new features!**
+**Go and [download Webots R2022a](https://cyberbotics.com/#download) today, so you don't miss out on all these great new features!**
 
 ---
 
 ## Acknowledgements
 
 The current release includes contributions from [Ayk Borstelmann](https://github.com/aykborstelmann), [CoreCode](https://github.com/core-code), [dzyGIT](https://github.com/dzywater), [Justin-Fisher](https://github.com/Justin-Fisher), [KNTRL9](https://github.com/KNTRL9), [Laurent Lessieux](https://github.com/llessieux), [maciejlichon](https://github.com/maciejlichon), [Oleg Elifantiev](https://github.com/Olegas), [ShuffleWire](https://github.com/ShuffleWire), [Stefan Arndt](https://github.com/stef264), [Snow1](https://github.com/lixk28), [Thomas Feldmeier](https://github.com/Thomas-Feldmeier) and [Tim Clephas](https://github.com/Timple).
-Special thanks go to these contributors and the many other members of our community that have contributed by reporting issues, bugs or provided support and moderation in our [Discord](https://discord.com/invite/nTWbN9m) channel.
+Special thanks go to these contributors and the many other members of our community who have contributed by reporting issues, bugs or provided support and moderation in our [Discord](https://discord.com/invite/nTWbN9m) channel.
