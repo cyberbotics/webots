@@ -623,7 +623,8 @@ int WbGeometry::constraintType() const {
 void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   assert(writer.isX3d());
   assert(isInBoundingObject());
-  assert(mWrenMesh);
+  if (!mWrenMesh)
+    return;
 
   const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMesh);
   const int indexCount = wr_static_mesh_get_index_count(mWrenMesh);
@@ -631,6 +632,7 @@ void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
   unsigned int indices[indexCount];
   wr_static_mesh_read_data(mWrenMesh, vertices, NULL, NULL, indices);
 
+  writer << "<Shape>";
   writer << "<Appearance sortType='transparent'><Material emissiveColor='1 1 1'></Material></Appearance>";
   writer << "<IndexedLineSet coordIndex='";
 
@@ -658,6 +660,6 @@ void WbGeometry::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
     writer << coord.toString(WbPrecision::FLOAT_MAX);
   }
   writer << "'></Coordinate>";
-
   writer << "</IndexedLineSet>";
+  writer << "</Shape>";
 }
