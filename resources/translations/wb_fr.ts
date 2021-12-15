@@ -986,10 +986,6 @@ To fix the problem, you should:
         <translation type="unfinished">Bascule le commentaire des lignes sélectionnées.</translation>
     </message>
     <message>
-        <source>&amp;Duplicate Line or Selection</source>
-        <translation type="unfinished">&amp;Dupliquer ligne ou sélection</translation>
-    </message>
-    <message>
         <source>Duplicate current line or selected text.</source>
         <translation type="unfinished">Duplique la ligne courante ou le texte sélectionné.</translation>
     </message>

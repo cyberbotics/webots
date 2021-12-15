@@ -95,8 +95,6 @@ namespace WbAction {
     REPLACE,
     GO_TO_LINE,
     TOGGLE_LINE_COMMENT,
-    DUPLICATE_SELECTION,
-    TRANSPOSE_LINE,
     PRINT,
     PRINT_PREVIEW,
     // console actions

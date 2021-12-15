@@ -982,10 +982,6 @@ To fix the problem, you should:
         <translation>Attiva/Disattiva il commento nelle righe selezionate.</translation>
     </message>
     <message>
-        <source>&amp;Duplicate Line or Selection</source>
-        <translation>&amp;Duplica Riga o Selezione</translation>
-    </message>
-    <message>
         <source>Duplicate current line or selected text.</source>
         <translation>Duplica la linea corrente o il testo selezionato.</translation>
     </message>

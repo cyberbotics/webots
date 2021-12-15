@@ -89,8 +89,6 @@ private slots:
   void deleteFindDialog();
   void goToLine();
   void toggleLineComment();
-  void duplicateSelection();
-  void transposeCurrentLine();
   void print();
   void printPreview();
   void modificationChanged(bool changed);
