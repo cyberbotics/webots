@@ -6938,7 +6938,7 @@ Ok thanks a lot ! 🙂
 
 Ok it's working (for a really small basic STL exemple) using the option "using mesh for boundingObject" during the import process
 
-##### Alirashidi 02/22/2021 11:49:02
+##### Myself 02/22/2021 11:49:02
 Hi, I just downloaded webots and the UI is really small.
 
 
@@ -7535,7 +7535,7 @@ what is your realtime factor?
 ##### Darko Lukić [Cyberbotics] 02/23/2021 16:47:48
 `@h.sciascia`  As Simon mentioned, you should profile your controller and the physics plugin. The controller is usually cause for the slow simulations.
 
-##### Alirashidi 02/23/2021 16:48:34
+##### Myself 02/23/2021 16:48:34
 Hi, just created my robot and I wanted to add a rgbD camera (RFID camera ) But I haven't had any luck finding one. Could you guys help me with that?
 
 
@@ -7544,7 +7544,7 @@ RgbD is a depth camera
 ##### Darko Lukić [Cyberbotics] 02/23/2021 16:49:11
 You should combine the camera node and the range finder node
 
-##### Alirashidi 02/23/2021 16:49:41
+##### Myself 02/23/2021 16:49:41
 Oh OK, will have a look into that
 
 
@@ -32315,4 +32315,332 @@ Can you elaborate? What exactly are you trying to achieve?
 
 ##### PrinceVickster06 12/08/2021 09:30:41
 As creating a autonomous system robot in webit
+
+##### musabcoskun 12/08/2021 14:28:16
+Hi everyone, I want to integrate a touch sensor to the gripper of the youBot. But, so far I could not find an easy way and fast way to do it. Is there anyone who can help or give some tips for that. Thanks in advance. 🙂
+%figure
+![tsensor.png](https://cdn.discordapp.com/attachments/565154703139405824/918146968138690570/tsensor.png)
+%end
+
+##### [Red Dragons] Mat198 12/08/2021 15:21:26
+You want to measure contact force?
+
+##### musabcoskun 12/08/2021 16:22:53
+Exactly and also want to fix it to the gripper, because when I run simulation its translation does not change with grippers'.
+
+##### Max\_K 12/09/2021 16:43:32
+Hello, i saw that webots worlds can be exported as html files:[https://cyberbotics.com/doc/guide/web-scene](https://cyberbotics.com/doc/guide/web-scene)
+
+But when i press Export HTML5 Model i get a segmentation fault. Does exporting take up a lot of space? I have 15GB free space atm. Or is it because of ROS? 
+
+```[rcll_world_test.wbt" --batch --mode=realtime-2] Warning: QFile::copy: Empty or null file name (20x) 
+[ERROR] [robotino3_driver-3]: process has died [pid 42255, exit code 1, cmd '/home/max/webots_ws/install/webots_ros2_robotino3/lib/webots_ros2_robotino3/robotino3_driver --webots-robot-name  --webots-node-name webots_driver --ros-args --params-file /tmp/launch_params_qtstm1bm'].
+[rcll_world_test.wbt" --batch --mode=realtime-2] /usr/local/webots/webots: line 90: 42269 Segmentation fault      (core dumped) "$webots_home/bin/webots-bin" "$@"
+[ERROR] [rcll_world_test.wbt" --batch --mode=realtime-2]: process has died [pid 42251, exit code 139, cmd '"/usr/local/webots/webots" "/home/max/webots_ws/install/webots_ros2_robotino3/share/webots_ros2_robotino3/worlds/rcll_world_test.wbt" --batch --mode=realtime'].
+```
+
+##### joachim honegger [Cyberbotics] 12/10/2021 07:47:58
+Hello, can you share your world? It's maybe the same issue as  [https://github.com/cyberbotics/webots/issues/3986](https://github.com/cyberbotics/webots/issues/3986)
+
+##### Darko Lukić [Cyberbotics] 12/10/2021 12:22:26
+```
+Warning: QFile::copy: Empty or null file name (20x)
+```
+
+This might be causing the error, I am not sure why is it appearing. It should not be related to ROS as the export function is independent. What happens if you open the `/home/max/webots_ws/install/webots_ros2_robotino3/share/webots_ros2_robotino3/worlds/rcll_world_test.wbt` file without ROS and export the HTML5 model?
+
+##### L4RG 12/10/2021 15:00:16
+Thank you for your answer!
+
+
+
+I'm currently trying the approach of a SliderJoint + LinearMotor for modeling my use case, representing a mass-spring-damper system.
+
+
+
+Does anyone know if it is possible to set the End point of a SliderJoint to (yet another) SliderJoint, generating a **coupled/double mass-spring-damper system**?
+
+##### Robokashi 12/10/2021 15:07:53
+Hi, I think I encountered a bug, following the first Webots tutorial : [https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots#add-an-e-puck-robot](https://cyberbotics.com/doc/guide/tutorial-1-your-first-simulation-in-webots#add-an-e-puck-robot)
+
+
+
+By changing, the basicTimeStep to 16, I cannot save the simulation. Like it did not detect I made a change. But if I click on the button to close Webots, it would tell me the world file has been modified and prompt me to save it.
+
+##### Ranga Kulathunga 12/10/2021 16:00:31
+Hi, can anyone explain this error and how to debug it?
+%figure
+![sum_web.PNG](https://cdn.discordapp.com/attachments/565154703139405824/918894961318039613/sum_web.PNG)
+%end
+
+##### PrinceVickster06 12/10/2021 16:21:22
+I need help in this
+> **Attachment**: [CAI\_Practical\_Assessment\_1.pdf](https://cdn.discordapp.com/attachments/565154703139405824/918900208946020382/CAI_Practical_Assessment_1.pdf)
+
+
+because its hard for me to understand
+
+
+can someone help
+
+##### Sadat 12/10/2021 17:24:12
+Guys, seems that wb\_pen is not working at all, neither write or set ink color
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918916225575292978/unknown.png)
+%end
+
+
+Am i doing something wrong?
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918916310707081326/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 12/10/2021 17:32:16
+Which version are you using? Does the sample world work for you? (Under `file > open sample world > pen`)
+
+##### Sadat 12/10/2021 17:35:22
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918918832784027668/unknown.png)
+%end
+
+
+Oh actually pen.wbt does work for me
+
+##### DDaniel [Cyberbotics] 12/10/2021 17:39:32
+The endpoint of a joint can only be a solid or solidreference, so you would need to add an intermediary solid but in principle yes. By memory, in the samples this world might be doing something similar to what you are trying (`file > open sample world > force_control.wbt`), but don't remember exactly
+
+
+Can you share the controller?
+
+##### Sadat 12/10/2021 17:40:13
+Yes
+
+
+
+> **Attachment**: [navigator.py](https://cdn.discordapp.com/attachments/565154703139405824/918920182301347871/navigator.py)
+
+##### DDaniel [Cyberbotics] 12/10/2021 17:40:49
+Actually you are mixing c and python in the image you provided
+
+
+The Python one is `pen.setInkColor(...)`
+
+
+Yes
+
+
+`write`, not `Write`
+
+
+Did you add a Pen node to the children field of the robot?
+
+##### Sadat 12/10/2021 17:53:14
+Now i added, still something off
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918923400234270750/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918923435885854730/unknown.png)
+%end
+
+
+Okay, finally i fixed the errors, but it does not draw..
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918926954969853972/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918927009122504765/unknown.png)
+%end
+
+
+the path he went and drew nothing..
+
+
+The surface is paintable, set to true, even set the color, nothing works
+
+
+density 1, inkEvaporation 0
+
+
+I don't know what else i can do
+
+
+I think there might be a bug in Pen lib with python
+
+##### DDaniel [Cyberbotics] 12/10/2021 18:26:00
+Did you change the size of the arena? If so you need to adapt the `floorTileSize` parameter in the same way. This proto doesn't adjust the texture mapping on its own, I think this had conflicts with the pen
+
+##### Sadat 12/10/2021 18:27:41
+I mean.. I created my own arena
+
+##### DDaniel [Cyberbotics] 12/10/2021 18:28:44
+But the floor is a RectangleArena no?
+
+##### Sadat 12/10/2021 18:29:23
+Yeah
+
+
+it is RectangleArena
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918932500032684032/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 12/10/2021 18:30:08
+Try making floorTileSize to 2 2
+
+
+Is the pen mark visible?
+
+##### Natsdon 12/10/2021 18:30:57
+Question : by setting a global variable within a function can it still be defined ?
+
+
+or is it better suited that i define outside of a function ?
+
+##### Sadat 12/10/2021 18:31:52
+Nope its still not visible
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/918933135390031922/unknown.png)
+%end
+
+
+I thought maybe there was a problem with me putting Pen into TurretSlot?
+
+##### DDaniel [Cyberbotics] 12/10/2021 18:43:21
+Just tested and works for me
+
+##### Sadat 12/10/2021 18:44:18
+Wow, what in the hell interferes in our world..
+
+##### Natsdon 12/10/2021 18:44:28
+maybe its the 2021b version ?
+
+
+bugged out for me loads
+
+
+i had to download 2020b n i was plain sailing
+
+##### DDaniel [Cyberbotics] 12/10/2021 18:45:07
+I'm using 2021b. let me check using a epuck
+
+##### Sadat 12/10/2021 18:46:37
+perhaps the problem is epuck
+
+##### Natsdon 12/10/2021 18:48:30
+At some point could someone have a look over this please, im having an error with 'ds' is not defined on lines 75 within def read\_sensors():  but i have no clue why
+> **Attachment**: [Assignment2\_controller.py](https://cdn.discordapp.com/attachments/565154703139405824/918937236077183016/Assignment2_controller.py)
+
+##### DDaniel [Cyberbotics] 12/10/2021 18:54:09
+Just adding to the slot is not sufficient, you need to orient the pen towards the ground
+
+
+The pen node writes along the -Y
+
+
+If you add it to the groundSlot that means setting a rotation of `0 0 1 1.5708`
+
+##### Ranga Kulathunga 12/10/2021 19:02:31
+Any idea about this?
+
+##### Sadat 12/10/2021 19:03:28
+`@DDaniel` Thank you
+
+
+Finally
+
+##### DDaniel [Cyberbotics] 12/10/2021 19:12:30
+The variable of your distance sensor is called `left_ground`, ds isnt defined anywhere (there is one but commented)
+
+
+Is it a custom world or also happens with the ones in the samples? Which OS?
+
+##### Natsdon 12/10/2021 19:15:45
+that uncommented one was placed there when i opened this controller for the first time, should i uncomment it and place it within one of my functions ?
+
+##### Ranga Kulathunga 12/10/2021 19:19:05
+It is a custom world and a very simple one. straight road with 2 lanes. SUMO is run with my other examples but not with this one. Win10 is the OS.
+
+##### DDaniel [Cyberbotics] 12/10/2021 19:21:24
+Have you tried selecting a different port in the SumoInterface?
+
+##### Natsdon 12/10/2021 19:21:41
+I thought i added the sensors in via gs.append and ds.append ( my understanding is that they get added to gs = [] and ds = [])
+
+##### Ranga Kulathunga 12/10/2021 19:23:12
+I have not an idea about what the possible ports are. Is it possible to change?
+
+##### DDaniel [Cyberbotics] 12/10/2021 19:23:56
+Yes but the sensor function isn't called, in the main loop it's commented as well
+
+
+Try 8874
+
+##### Ranga Kulathunga 12/10/2021 19:24:57
+I tried that but not work.
+
+##### Şükrü 12/11/2021 11:15:08
+Hey guys, I'm trying to install Webots nightly version on Ubuntu. I downloaded the tar.bz2 file but I couldn't find how to install it. Can you help me here?
+
+##### Benjamin Hug [Cyberbotics] 12/11/2021 14:01:24
+It is a compressed file, just extract it. The executable is at the root of the folder and you should be able to launch Webots with `./webots`.
+
+##### Şükrü 12/13/2021 12:11:22
+Thanks that works, the version I'm currently using is 2021b rev1 nightly build 9/12/2021. I'm trying to work with point clouds using python-pcl library. I have successfully downloaded and imported it and it works but some of the filters makes Webots crash. It says "The process crashed some time after starting successfully.".  I'm not doing anything complex. This is the part of code that causing crash:
+
+p = pcl.load("point\_cloud.pcd")
+
+outrem = p.make\_RadiusOutlierRemoval()
+
+outrem.set\_radius\_search(0.4)
+
+outrem.set\_MinNeighborsInRadius(2)
+
+p = outrem.filter()
+
+    
+
+visual = pcl.pcl\_visualization.CloudViewing()
+
+visual.ShowMonochromeCloud(p, b'cloud')
+
+##### Robokashi 12/14/2021 21:07:37
+Hey guys, is the webots\_ros2 package tested under Windows ? I spent the last day trying to make it work but I encounter issues (especially with the robot\_launch.py file, I get an error that spawner.py cannot be found whereas I see it clearly in the install/controller\_manager folder xD).
+
+
+I tried it on Foxy and Galactic.
+
+##### Olivier Michel [Cyberbotics] 12/15/2021 09:10:54
+Yes, it should work. We are publishing a new tutorial on how to get started with Webots and ROS 2. The tutorial was tested and works fine on Windows (in addition to Linux). It is currently being merged to the Rolling documentation, but works with both Foxy and Galactic and will be merged with the respective documentation soon. You will find the PR about it here: [https://github.com/ros2/ros2\_documentation/pull/2156](https://github.com/ros2/ros2_documentation/pull/2156). Let us know if that works for you.
+
+##### Darko Lukić [Cyberbotics] 12/15/2021 10:08:24
+How did you get the ros2\_control dependency? I saw that they recently renamed `spawner.py` to `spawner` and it may be affecting you (especially if you use the newest version of ros2\_control). Could you please make an issue about it?
+
+
+In general, we test the webots\_ros2 package on Windows, but ros2\_control guys have been breaking the API lately. Hopefully, they will stabilize the API in Humble.
 
