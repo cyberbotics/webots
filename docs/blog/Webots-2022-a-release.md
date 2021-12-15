@@ -25,8 +25,8 @@ Before, Webots was using **NUE** as the global coordinate system and we switched
 
 In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, y-**L**eft, z-**U**p_). Whereas before there was no real preferred object's axis system.
 
-%figure "Axis illustration"
-![On the left, Webots R2021b, on the right Webots R2022a](images/flu-enu.png)
+%figure "On the left, Webots R2021b, on the right Webots R2022a"
+![Axis illustration](images/flu-enu.png)
 %end
 
 ### Why these changes?
