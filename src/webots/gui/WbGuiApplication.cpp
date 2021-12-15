@@ -479,7 +479,7 @@ bool WbGuiApplication::setup() {
   WbSysInfo::initializeOpenGlInfo();
   WbWrenOpenGlContext::doneWren();
 
-  if (true)  //(showGuidedTour)
+  if (showGuidedTour)
     mMainWindow->showUpdatedDialog();
 
   return true;
