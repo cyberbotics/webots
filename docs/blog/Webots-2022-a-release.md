@@ -87,9 +87,9 @@ New versions of the `webots_ros2` ROS package were released for [foxy](https://i
 
 ## Extra Goodies
 
-The performance on [Lidar](../reference/lidar) point cloud generation has been greatly improved.
+The performance on [Lidar](../reference/lidar.md) point cloud generation has been greatly improved.
 
-[ContactProperties](../reference/contactproperties) now support a new type of friction: **rolling friction**.
+[ContactProperties](../reference/contactproperties.md) now support a new type of friction: **rolling friction**.
 
 **Go and [download Webots R2022a](https://cyberbotics.com/#download) today, so you don't miss out on all these great new features!**
 
