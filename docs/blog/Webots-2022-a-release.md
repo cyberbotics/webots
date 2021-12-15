@@ -12,7 +12,7 @@ Here we are going to present some of the main new features, but for a comprehens
 
 ## Conversion to FLU/ENU
 
-### What is FLU/ENU?
+### What Is FLU/ENU?
 
 **FLU and ENU are conventions for axis systems.**
 
@@ -29,13 +29,13 @@ In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, 
 ![Axis illustration](images/flu-enu.png)
 %end
 
-### Why these changes?
+### Why These Changes?
 
 ENU and FLU are the most widely used axis conventions in robotics, including ROS and ROS2.
 
 More and more people are using Webots with ROS2 and we changed the axis convention of Webots to make it easier for them !
 
-### What did we do exactly?
+### What Changed?
 
 We worked hard to convert all PROTOS and worlds distributed with Webots for you, so that they are ready to use in R2022a.
 
@@ -50,7 +50,7 @@ However, it is a worthwhile effort, especially if you work with ROS.
 
 ---
 
-## Skin node
+## Skin Node
 
 A new node, the [Skin](../reference/skin.md) node has been introduced to simulate soft mesh animation.
 This is particularly useful to simulate humans or animals.
@@ -61,7 +61,7 @@ This is particularly useful to simulate humans or animals.
 
 ---
 
-## Improving user interface
+## Improving User Interface
 
 Several improvement enhanced the user experience:
 
@@ -71,7 +71,7 @@ Several improvement enhanced the user experience:
 
 ---
 
-## ROS, ROS 2 & Webots
+## ROS and ROS 2
 
 The Webots ROS and ROS 2 interfaces were maintained and updated to benefit from the new features of Webots R2022a, such as the ENU/FLU orientations, the Skin node and the GPS speed vector.
 New versions of the `webots_ros` package were released for [melodic](https://index.ros.org/p/webots_ros/#melodic) and [noetic](https://index.ros.org/p/webots_ros/#noetic).
