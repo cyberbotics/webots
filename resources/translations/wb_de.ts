@@ -982,10 +982,6 @@ To fix the problem, you should:
         <translation type="unfinished">Toggle Kommentar der gewählten Zeilen.</translation>
     </message>
     <message>
-        <source>&amp;Duplicate Line or Selection</source>
-        <translation type="unfinished">Zeile oder Auswahl &amp;duplizieren</translation>
-    </message>
-    <message>
         <source>Duplicate current line or selected text.</source>
         <translation type="unfinished">Diese Zeile oder markierten Text duplizieren.</translation>
     </message>
