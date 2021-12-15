@@ -25,7 +25,7 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
 
   QLabel *mLabelThanks = new QLabel(this);
   mLabelThanks->setGeometry(QRect(75, 30, 330, 30));
-  mLabelThanks->setText(tr("<b>Thank you for updating to Webots R2022a.</b>"));
+  mLabelThanks->setText(tr("<b>Thank you for using Webots R2022a.</b>"));
   mLabelThanks->setStyleSheet("font-size: 15px;");
   mLabelThanks->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   mLabelThanks->setWordWrap(true);
@@ -42,7 +42,7 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
     tr("<p style=\"line-height:1.2\"> <br />"
        "All Webots worlds are now in the ENU axis system and all Webots devices, geometries, and PROTOs are in the FLU axis "
        "system. <br /> <br /> "
-       "If your world or PROTO includes devices, geometries, or Webots PROTOs, "
+       "If your world or PROTO files include devices, geometries, or Webots PROTOs, "
        "then Webots will try to preserve the old behavior by rotating them. However, you may have to rotate some objects, "
        "fix bounding objects or adjust your controller by yourself. <br />Refer to the < a style = 'color: #5DADE2;' "
        "href='https://github.com/cyberbotics/webots/wiki/"

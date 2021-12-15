@@ -1619,6 +1619,7 @@ void WbMainWindow::showAboutBox() {
   WbAboutBox *box = new WbAboutBox(this);
   box->exec();
 }
+
 void WbMainWindow::showUpdatedDialog() {
   WbUpdatedDialog *updatedDialog = new WbUpdatedDialog(this);
   updatedDialog->show();
