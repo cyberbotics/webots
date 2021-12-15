@@ -35,15 +35,6 @@ class WbShareWindow : public QDialog {
 public:
   explicit WbShareWindow(QWidget *parent = NULL);
   virtual ~WbShareWindow() {}
-
-private:
-  QGroupBox *mGroupBoxScene;
-  QGroupBox *mGroupBoxAnimation;
-  QLabel *mLabelIntro;
-  QLabel *mLabelScene;
-  QLabel *mLabelAnimation;
-  QPushButton *mPushButtonScene;
-  QPushButton *mPushButtonAnimation;
 };
 
 class WbLinkWindow : public QDialog {
@@ -55,7 +46,6 @@ public:
   QLabel *mLabelLink;
 
 private:
-  QGroupBox *mGroupBoxLink;
   QPushButton *mPushButtonSave;
   void reject() override;
 };

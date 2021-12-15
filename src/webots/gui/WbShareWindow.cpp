@@ -13,49 +13,54 @@
 // limitations under the License.
 
 #include "WbShareWindow.hpp"
+QString groupBoxStyleSheet;
 
 WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
-  const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString().split("//")[1];
+  QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
+  if (uploadUrl.contains("//"))
+    uploadUrl = uploadUrl.split("//")[1];
+  groupBoxStyleSheet = "QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } QGroupBox::title "
+                       "{subcontrol-origin:  margin; subcontrol-position: top center; }";
   this->setWindowTitle(tr("Share your simulation on %1").arg(uploadUrl));
 
-  mGroupBoxScene = new QGroupBox(this);
+  QGroupBox *mGroupBoxScene = new QGroupBox(this);
   mGroupBoxScene->setGeometry(QRect(10, 80, 169, 126));
-  mGroupBoxScene->setStyleSheet("border: 1px solid gray;");
+  mGroupBoxScene->setStyleSheet(groupBoxStyleSheet);
   mGroupBoxScene->setTitle(tr("Upload your scene"));
 
-  mGroupBoxAnimation = new QGroupBox(this);
+  QGroupBox *mGroupBoxAnimation = new QGroupBox(this);
   mGroupBoxAnimation->setGeometry(QRect(210, 80, 169, 126));
-  mGroupBoxAnimation->setStyleSheet("border: 1px solid gray;");
+  mGroupBoxAnimation->setStyleSheet(groupBoxStyleSheet);
   mGroupBoxAnimation->setTitle(tr("Share your animation"));
 
-  mPushButtonAnimation = new QPushButton(mGroupBoxAnimation);
+  QPushButton *mPushButtonScene = new QPushButton(mGroupBoxScene);
+  mPushButtonScene->setGeometry(QRect(12, 72, 150, 42));
+  mPushButtonScene->setFocusPolicy(Qt::NoFocus);
+  mPushButtonScene->setText(tr("Get a link"));
+
+  QPushButton *mPushButtonAnimation = new QPushButton(mGroupBoxAnimation);
   mPushButtonAnimation->setGeometry(QRect(12, 72, 150, 42));
-  mPushButtonAnimation->setStyleSheet("border: 0px;");
+  mPushButtonAnimation->setFocusPolicy(Qt::NoFocus);
   mPushButtonAnimation->setText(tr("Start your animation \n"
                                    " and get a link"));
 
-  mPushButtonScene = new QPushButton(mGroupBoxScene);
-  mPushButtonScene->setGeometry(QRect(12, 72, 150, 42));
-  mPushButtonScene->setStyleSheet("border: 0px;");
-  mPushButtonScene->setText(tr("Get a link"));
-
-  mLabelIntro = new QLabel(this);
+  QLabel *mLabelIntro = new QLabel(this);
   mLabelIntro->setGeometry(QRect(9, 9, 380, 68));
   mLabelIntro->setWordWrap(true);
   mLabelIntro->setOpenExternalLinks(true);
   mLabelIntro->setText(
-    tr("<html><head/><body><p>You can now upload your scenes and animations on <a href=\"%1/\"><span "
+    tr("<html><head/><body><p>You can now upload your scenes and animations on <a href=\"https://%1/\"><span "
        "style=\" text-decoration: underline; color:#5dade2;\">%1</span></a>.\nClick on one of the buttons to "
        "generate a sharing link that you can send to others.</p></body></html>")
       .arg(uploadUrl));
 
-  mLabelScene = new QLabel(mGroupBoxScene);
+  QLabel *mLabelScene = new QLabel(mGroupBoxScene);
   mLabelScene->setGeometry(QRect(12, 32, 155, 34));
   mLabelScene->setStyleSheet("border: none;");
   mLabelScene->setWordWrap(true);
   mLabelScene->setText(tr("upload your scene on %1.").arg(uploadUrl));
 
-  mLabelAnimation = new QLabel(mGroupBoxAnimation);
+  QLabel *mLabelAnimation = new QLabel(mGroupBoxAnimation);
   mLabelAnimation->setGeometry(QRect(12, 32, 155, 34));
   mLabelAnimation->setStyleSheet("border: none;");
   mLabelAnimation->setWordWrap(true);
@@ -71,12 +76,11 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 }
 
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
-  const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString().split("//")[1];
-  this->setWindowTitle(tr("Share your project on %1").arg(uploadUrl));
+  this->setWindowTitle(tr("Share your simulation"));
 
-  mGroupBoxLink = new QGroupBox(this);
+  QGroupBox *mGroupBoxLink = new QGroupBox(this);
   mGroupBoxLink->setTitle(tr("Upload successful"));
-  mGroupBoxLink->setStyleSheet("border: 1px solid gray;");
+  mGroupBoxLink->setStyleSheet(groupBoxStyleSheet);
   mGroupBoxLink->setGeometry(QRect(10, 20, 291, 61));
 
   mLabelLink = new QLabel(mGroupBoxLink);
@@ -88,10 +92,7 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
 
   mPushButtonSave = new QPushButton(this);
   mPushButtonSave->setGeometry(QRect(10, 90, 181, 25));
-  mPushButtonSave->setStyleSheet("border: 1px solid gray;;\n"
-                                 "color: #5DADE2;\n"
-                                 "background: transparent;");
-  mPushButtonSave->setCursor(QCursor(Qt::PointingHandCursor));
+  mPushButtonSave->setFocusPolicy(Qt::NoFocus);
   mPushButtonSave->setText(tr("Also save a local copy..."));
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
@@ -99,9 +100,7 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   connect(mPushButtonSave, &QPushButton::pressed, this, [this]() {
     mPushButtonSave->setEnabled(false);
     mPushButtonSave->setText(tr("local copy saved"));
-    mPushButtonSave->setStyleSheet("border: 1px solid gray;;\n"
-                                   "color: gray;\n"
-                                   "background: transparent;");
+    mPushButtonSave->setStyleSheet("color: gray;");
   });
 }
 
