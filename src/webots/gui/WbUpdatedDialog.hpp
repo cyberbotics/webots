@@ -19,12 +19,7 @@
 // Description: Updated dialog for the first launch of Webots 2022a.
 //
 
-#include <QtCore/QVariant>
-#include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QGroupBox>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QPushButton>
 
 class WbUpdatedDialog : public QDialog {
   Q_OBJECT

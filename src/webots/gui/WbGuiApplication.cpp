@@ -480,7 +480,7 @@ bool WbGuiApplication::setup() {
   WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
-    mMainWindow->showUpdatedDialog();
+    mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the updated dialog
 
   return true;
 }
