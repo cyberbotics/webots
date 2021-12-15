@@ -1664,7 +1664,7 @@ void WbMainWindow::upload() {
   filenames << "export_cloud.x3d";
 
   // add files content
-  QMap< QString, QString> map;
+  QMap<QString, QString> map;
   foreach (const QString filename, filenames) {
     QHttpPart mainPart;
     if (filename.contains("x3d")) {
