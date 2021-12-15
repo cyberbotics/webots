@@ -981,10 +981,6 @@ To fix the problem, you should:
         <translation type="unfinished">Alternar comentario de las líneas seleccionadas.</translation>
     </message>
     <message>
-        <source>&amp;Duplicate Line or Selection</source>
-        <translation type="unfinished">&amp;Duplicar la línea o selección</translation>
-    </message>
-    <message>
         <source>Duplicate current line or selected text.</source>
         <translation type="unfinished">Duplicar la línea actual o el texto seleccionado.</translation>
     </message>
