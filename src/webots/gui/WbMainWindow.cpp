@@ -27,6 +27,7 @@
 #include "WbDesktopServices.hpp"
 #include "WbDockWidget.hpp"
 #include "WbFileUtil.hpp"
+#include "WbGuiApplication.hpp"
 #include "WbGuidedTour.hpp"
 #include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
@@ -118,12 +119,12 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // This flag is required to hide a second and useless title bar.
   setUnifiedTitleAndToolBarOnMac(true);
 #endif
-
   setObjectName("MainWindow");
   QStatusBar *statusBar = new QStatusBar(this);
   statusBar->showMessage(tr("Welcome to Webots!"));
   setStatusBar(statusBar);
 
+  WbGuiApplication::setWindowsDarkMode(this);
   style()->polish(this);
   QDir::addSearchPath("enabledIcons", WbStandardPaths::resourcesPath() + enabledIconPath());
   QDir::addSearchPath("disabledIcons", WbStandardPaths::resourcesPath() + disabledIconPath());
@@ -523,9 +524,6 @@ QMenu *WbMainWindow::createEditMenu() {
   menu->addAction(manager->action(WbAction::GO_TO_LINE));
   menu->addSeparator();
   menu->addAction(manager->action(WbAction::TOGGLE_LINE_COMMENT));
-  menu->addSeparator();
-  menu->addAction(manager->action(WbAction::DUPLICATE_SELECTION));
-  menu->addAction(manager->action(WbAction::TRANSPOSE_LINE));
 
   return menu;
 }
@@ -2110,9 +2108,10 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   }
 #endif
 
-  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, this);
+  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
+  WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->show();
   mWorldLoadingProgressDialog->setValue(0);
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));

@@ -16,6 +16,7 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
+#include "WbQjsCollada.hpp"
 #include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
 
@@ -279,6 +280,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   WbQjsFile *jsFileObject = new WbQjsFile();
   QJSValue jsFile = engine.newQObject(jsFileObject);
   engine.globalObject().setProperty("wbfile", jsFile);
+  // create and add collada module
+  WbQjsCollada *jsColladaObject = new WbQjsCollada();
+  QJSValue jsCollada = engine.newQObject(jsColladaObject);
+  engine.globalObject().setProperty("wbcollada", jsCollada);
   // add stream holders
   QJSValue jsStdOut = engine.newArray();
   engine.globalObject().setProperty("stdout", jsStdOut);

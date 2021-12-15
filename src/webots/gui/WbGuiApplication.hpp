@@ -37,6 +37,7 @@ public:
 
   int exec();
   void restart();
+  static void setWindowsDarkMode(QWidget *);
 
   enum Task { NORMAL, SYSINFO, HELP, VERSION, UPDATE_PROTO_CACHE, UPDATE_WORLD, INVALID_LOGIN, FAILURE, QUIT, CONVERT };
   WbApplication *application() const { return mApplication; };
