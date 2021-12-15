@@ -31,14 +31,6 @@ class WbUpdatedDialog : public QDialog {
 public:
   explicit WbUpdatedDialog(QWidget *parent = NULL);
   virtual ~WbUpdatedDialog() {}
-
-private:
-  QLabel *mImage;
-  QLabel *mLabelThanks;
-  QLabel *mLabelNote;
-  QLabel *mLabelChangelog;
-  QGroupBox *mGroupBox;
-  QPushButton *mCloseButton;
 };
 
 #endif

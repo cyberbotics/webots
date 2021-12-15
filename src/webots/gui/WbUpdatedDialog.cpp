@@ -23,20 +23,20 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
   mImage->setPixmap(webotsLogo);
   mImage->setScaledContents(true);
 
-  mLabelThanks = new QLabel(this);
-  mLabelThanks->setGeometry(QRect(75, 30, 330, 31));
+  QLabel* mLabelThanks = new QLabel(this);
+  mLabelThanks->setGeometry(QRect(75, 30, 330, 30));
   mLabelThanks->setText(tr("<b>Thank you for updating to Webots R2022a.</b>"));
   mLabelThanks->setStyleSheet("font-size: 15px;");
   mLabelThanks->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   mLabelThanks->setWordWrap(true);
 
-  mGroupBox = new QGroupBox(this);
+  QGroupBox* mGroupBox = new QGroupBox(this);
   mGroupBox->setGeometry(QRect(35, 65, 365, 230));
   mGroupBox->setTitle(tr("Important Note for Users of Previous Versions"));
   mGroupBox->setStyleSheet("QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } "
                            "QGroupBox::title {subcontrol-origin:  margin; subcontrol-position: top center; }");
 
-  mLabelNote = new QLabel(mGroupBox);
+  QLabel* mLabelNote = new QLabel(mGroupBox);
   mLabelNote->setGeometry(QRect(15, 20, 335, 200));
   mLabelNote->setText(
     tr("<p style=\"line-height:1.2\"> <br />"
@@ -52,8 +52,8 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
   mLabelNote->setStyleSheet("border: none");
   mLabelNote->setWordWrap(true);
 
-  mLabelChangelog = new QLabel(this);
-  mLabelChangelog->setGeometry(QRect(35, 305, 290, 41));
+  QLabel* mLabelChangelog = new QLabel(this);
+  mLabelChangelog->setGeometry(QRect(35, 303, 290, 30));
   mLabelChangelog->setText(
     tr("Find out the new features, enhancements and bug fixes of Webots R2022a in the <a style='color: #5DADE2;' "
        "href='https://cyberbotics.com/doc/reference/changelog-r2022'>changelog</a>."));
@@ -61,7 +61,7 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
   mLabelChangelog->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   mLabelChangelog->setWordWrap(true);
 
-  QPushButton *mCloseButton = new QPushButton(tr("Close"), this);
-  mCloseButton->setGeometry(QRect(320, 310, 80, 25));
+  QPushButton* mCloseButton = new QPushButton(tr("Close"), this);
+  mCloseButton->setGeometry(QRect(320, 305, 80, 30));
   connect(mCloseButton, &QPushButton::pressed, this, &WbUpdatedDialog::close);
 }
