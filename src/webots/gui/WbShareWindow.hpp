@@ -27,8 +27,8 @@
 #include <QtWidgets/QPushButton>
 
 #include "WbMainWindow.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbPreferences.hpp"
+#include "WbStandardPaths.hpp"
 
 class WbShareWindow : public QDialog {
   Q_OBJECT

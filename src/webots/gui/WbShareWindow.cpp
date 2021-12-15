@@ -46,7 +46,8 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   mLabelIntro->setText(
     tr("<html><head/><body><p>You can now upload your scenes and animations on <a href=\"%1/\"><span "
        "style=\" text-decoration: underline; color:#5dade2;\">%1</span></a>.\nClick on one of the buttons to "
-       "generate a sharing link that you can send to others.</p></body></html>").arg(uploadUrl));
+       "generate a sharing link that you can send to others.</p></body></html>")
+      .arg(uploadUrl));
 
   mLabelScene = new QLabel(mGroupBoxScene);
   mLabelScene->setGeometry(QRect(12, 32, 155, 34));
