@@ -446,6 +446,7 @@ QT_SOURCES += \
   WbTreeView.cpp \
   WbTriangleMeshGeometry.cpp \
   WbUndoStack.cpp \
+  WbUpdatedDialog.cpp \
   WbValue.cpp \
   WbValueEditor.cpp \
   WbVariant.cpp \
