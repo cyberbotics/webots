@@ -1620,10 +1620,10 @@ void WbMainWindow::showAboutBox() {
   box->exec();
 }
 void WbMainWindow::showUpdatedDialog() {
-  WbUpdatedDialog *updatedDialogUi = new WbUpdatedDialog(this);
-  updatedDialogUi->show();
-  updatedDialogUi->raise();
-  connect(updatedDialogUi, &WbUpdatedDialog::rejected, this, &WbMainWindow::showGuidedTour);
+  WbUpdatedDialog *updatedDialog = new WbUpdatedDialog(this);
+  updatedDialog->show();
+  updatedDialog->raise();
+  connect(updatedDialog, &WbUpdatedDialog::rejected, this, &WbMainWindow::showGuidedTour);
 }
 
 void WbMainWindow::showGuidedTour() {

@@ -15,7 +15,7 @@
 #include "WbUpdatedDialog.hpp"
 
 WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
-  setWindowTitle(tr("Welcome to Webots 2022a"));
+  setWindowTitle(tr("Welcome to Webots R2022a"));
 
   QPixmap webotsLogo("images:webots.png");
   QLabel *mImage = new QLabel(this);

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_UPDATE_DIALOG_HPP
-#define WB_UPDATE_DIALOG_HPP
+#ifndef WB_UPDATED_DIALOG_HPP
+#define WB_UPDATED_DIALOG_HPP
 
 //
 // Description: Updated dialog for the first launch of Webots 2022a.
