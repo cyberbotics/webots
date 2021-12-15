@@ -81,13 +81,8 @@ QSplitter::handle {
 
 /* menus */
 
-QMenuBar {
-  background: white;
-}
-
 QMenuBar::item {
   background: transparent;
-  color: black;
 }
 
 QMenuBar::item:disabled {
@@ -101,7 +96,7 @@ QMenuBar::item:selected {
 }
 
 QMenu::item {
-  padding: 4px 20px 4px 20px;
+  padding: 4px 10px 4px 10px;
   border: 1px solid transparent;
 }
 
@@ -118,6 +113,10 @@ QMenu::item:disabled {
 QMenu::separator {
   background: #555;
   height: 1px;
+}
+
+QMenu::icon {
+  padding-left: 12px;
 }
 
 /* network tab */
@@ -268,7 +267,7 @@ QToolButton#playButton:pressed {
 }
 
 QPushButton {
-  padding: 4px 15px;
+  padding: 4px 16px;
   background: #22222a;
   border: none;
 }
@@ -280,6 +279,8 @@ QPushButton:hover {
 QPushButton:focus {
   border: 1px solid #61e2a8;
   outline: 1px solid transparent;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
 QPushButton:pressed  {

@@ -981,10 +981,6 @@ To fix the problem, you should:
         <translation type="unfinished">切换所选行注释。</translation>
     </message>
     <message>
-        <source>&amp;Duplicate Line or Selection</source>
-        <translation type="unfinished">复制行或选择(&amp;D)</translation>
-    </message>
-    <message>
         <source>Duplicate current line or selected text.</source>
         <translation type="unfinished">复制当前行或所选文本。</translation>
     </message>
