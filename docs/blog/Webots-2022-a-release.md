@@ -79,7 +79,7 @@ New versions of the `webots_ros` package were released for [melodic](https://ind
 In addition to this, the Webots ROS 2 interface was fully redesigned to be more user friendly and scalable.
 The `webots_ros2_driver` sub-package replaces the previous `webots_ros2_core` sub-package, which is now obsolete.
 This new sub-package automatically creates a ROS 2 interface out of a Webots robot model, allowing users to configure the ROS 2 interface in URDF files.
-Moreover, users can extend the interface using the [pluginlib](https://github.com/ros/pluginlib/tree/ros2) plugin mechanism.
+Moreover, users can extend the interface by creating C++ (with [pluginlib](https://github.com/ros/pluginlib/tree/ros2) plugin mechanism) or Python plugins.
 The [ROS 2 tutorials](https://github.com/cyberbotics/webots_ros2/wiki/Tutorials) were updated accordingly and further developed.
 New versions of the `webots_ros2` ROS package were released for [foxy](https://index.ros.org/p/webots_ros2/#foxy), [galactic](https://index.ros.org/p/webots_ros2/#galactic) and [rolling](https://index.ros.org/p/webots_ros2/#rolling).
 
