@@ -173,7 +173,7 @@ To pull the image and start a docker container with it use the following command
 docker run -it cyberbotics/webots:latest
 ```
 
-> **Note**: If you need a specific version of Webots or Ubuntu and not the latest ones, replace `latest` with the version you need (e.g. `R2021b-rev1-ubuntu20.04`).
+> **Note**: If you need a specific version of Webots or Ubuntu and not the latest ones, replace `latest` with the version you need (e.g. `R2021b-ubuntu20.04`).
 
 After starting the docker container you can start Webots headlessly using xvfb:
 ```
