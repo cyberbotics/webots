@@ -37,15 +37,14 @@ More and more people are using Webots with ROS2 and we changed the axis conventi
 
 ### What Changed?
 
-We worked hard to convert all PROTOS and worlds distributed with Webots for you, so that they are ready to use in R2022a.
+We worked hard to convert all PROTOs and worlds distributed with Webots for you, so that they are ready to use in R2022a.
 
 A mechanism of backward compatibility has been implemented directly in Webots.
 Unfortunately, it was not possible to make it work in every cases.
-It will try to convert worlds but cannot convert protos.
+It will try to convert worlds and PROTOs at runtime, but PROTO changes cannot be saved.
+We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/FLU-and-ENU-conversion-guide) to help you convert your own PROTOs and worlds to use them in Webots R2022a.
 
-We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/FLU-and-ENU-conversion-guide) to help you convert your own protos and worlds to use them in Webots R2022a.
-
-We are aware that it is a major change and it can be annoying to convert your worlds and PROTOS to the new format.
+We are aware that it is a major change and it can be annoying to convert your worlds and PROTOs to the new format.
 However, it is a worthwhile effort, especially if you work with ROS.
 
 ---
@@ -82,6 +81,11 @@ This new sub-package automatically creates a ROS 2 interface out of a Webots rob
 Moreover, users can extend the interface by creating C++ (with [pluginlib](https://github.com/ros/pluginlib/tree/ros2) plugin mechanism) or Python plugins.
 The [ROS 2 tutorials](https://github.com/cyberbotics/webots_ros2/wiki/Tutorials) were updated accordingly and further developed.
 New versions of the `webots_ros2` ROS package were released for [foxy](https://index.ros.org/p/webots_ros2/#foxy), [galactic](https://index.ros.org/p/webots_ros2/#galactic) and [rolling](https://index.ros.org/p/webots_ros2/#rolling).
+
+Check out the major package improvements and new packages:
+- [`webots_ros2_tiago`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_tiago): The simulation with the [TIAGo](https://pal-robotics.com/robots/tiago/) robot is enhanched so the robot can navigate autonomously using the [Navigation2](https://navigation.ros.org/) package.
+- [`webots_ros2_universal_robot`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_universal_robot): The Universal Robot simulation is also enchanched and it now integrates the [MoveIt2](https://moveit.ros.org/) package.
+- [`webots_ros2_tests`](https://github.com/cyberbotics/webots_ros2/tree/master/webots_ros2_tests): We added over 20 system tests to minimize the number of bugs. The package is also a great demonstration of running Webots simulation and ROS 2 nodes in [CI](https://en.wikipedia.org/wiki/Continuous_integration).
 
 ---
 
