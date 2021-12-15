@@ -60,9 +60,8 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
 
   label = new QLabel(this);
   label->setGeometry(QRect(35, 313, 283, 44));
-  label->setText(
-    tr("Find out the new features, enhancements and bug fixes of Webots R2022a in the <a style='color: #5DADE2;' "
-       "href='https://cyberbotics.com/doc/reference/changelog-r2022'>changelog</a>."));
+  label->setText(tr("Find out the new features, enhancements and bug fixes of Webots R2022a in the <a style='color: #5DADE2;' "
+                    "href='https://cyberbotics.com/doc/reference/changelog-r2022'>changelog</a>."));
   label->setOpenExternalLinks(true);
   label->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   label->setWordWrap(true);
