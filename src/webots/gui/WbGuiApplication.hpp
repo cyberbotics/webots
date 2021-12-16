@@ -56,6 +56,7 @@ private:
   WbSimulationState::Mode mStartupMode;
   WbMainWindow *mMainWindow;
   bool mShouldDoRendering;
+  QString mThemeLoaded;
 
   Task mTask;
   QStringList mTaskArguments;
