@@ -1921,6 +1921,7 @@ namespace wren {
         glDeleteVertexArrays(1, &mCacheData->mGlNameVertexArrayObject);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferCoords);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferIndices);
+        glDeleteBuffers(1, &mCacheData->mGlNameBufferShadowCoords);
 
         if (mCacheData->mGlNameBufferNormals)
           glDeleteBuffers(1, &mCacheData->mGlNameBufferNormals);
@@ -1933,9 +1934,6 @@ namespace wren {
 
         if (mCacheData->mGlNameBufferUnwrappedTexCoords)
           glDeleteBuffers(1, &mCacheData->mGlNameBufferUnwrappedTexCoords);
-
-        if (mCacheData->mGlNameBufferShadowCoords)
-          glDeleteBuffers(1, &mCacheData->mGlNameBufferShadowCoords);
       }
 
       StaticMesh::cCache.erase(mCacheKey);
