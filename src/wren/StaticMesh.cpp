@@ -1896,7 +1896,7 @@ namespace wren {
     } else
       mCacheData->mSupportShadows = false;
 
-    // only the number of indices needs to be known in orer to render the mesh
+    // only the number of indices needs to be known in order to render the mesh
     // vertex count kept for mesh export
     mCacheData->mIndexCount = mIndices.size();
     mCacheData->mVertexCount = mCoords.size();
@@ -1933,6 +1933,9 @@ namespace wren {
 
         if (mCacheData->mGlNameBufferUnwrappedTexCoords)
           glDeleteBuffers(1, &mCacheData->mGlNameBufferUnwrappedTexCoords);
+
+        if (mCacheData->mGlNameBufferShadowCoords)  
+          glDeleteBuffers(1, &mCacheData->mGlNameBufferShadowCoords);
       }
 
       StaticMesh::cCache.erase(mCacheKey);
