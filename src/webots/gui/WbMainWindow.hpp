@@ -75,6 +75,7 @@ public slots:
   bool loadWorld(const QString &fileName, bool reloading = false);
   bool setFullScreen(bool isEnabled, bool isRecording = false, bool showDialog = true, bool startup = false);
   void showGuidedTour();
+  void showUpdatedDialog();
   void setView3DSize(const QSize &size);
   void restoreRenderingDevicesPerspective();
   void resetWorldFromGui();

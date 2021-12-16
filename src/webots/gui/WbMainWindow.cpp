@@ -63,6 +63,7 @@
 #include "WbStreamingServer.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbUpdatedDialog.hpp"
 #include "WbVideoRecorder.hpp"
 #include "WbView3D.hpp"
 #include "WbVisualBoundingSphere.hpp"
@@ -148,7 +149,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbStreamingServer *streamingSe
   // listen to log
   connect(WbLog::instance(), &WbLog::logEmitted, this, &WbMainWindow::showStatusBarMessage);
 
-  // world reload or simulation quit shoud not be executed directly (Qt::QueuedConnection)
+  // world reload or simulation quit should not be executed directly (Qt::QueuedConnection)
   // because it is call in a Webots state where events have to be solved
   // (typically packets comming from libController)
   // applying the reload or quit directly may imply a Webots crash
@@ -1617,6 +1618,13 @@ void WbMainWindow::exportHtml() {
 void WbMainWindow::showAboutBox() {
   WbAboutBox *box = new WbAboutBox(this);
   box->exec();
+}
+
+void WbMainWindow::showUpdatedDialog() {
+  WbUpdatedDialog *updatedDialog = new WbUpdatedDialog(this);
+  updatedDialog->show();
+  updatedDialog->raise();
+  connect(updatedDialog, &WbUpdatedDialog::rejected, this, &WbMainWindow::showGuidedTour);
 }
 
 void WbMainWindow::showGuidedTour() {
