@@ -1934,7 +1934,7 @@ namespace wren {
         if (mCacheData->mGlNameBufferUnwrappedTexCoords)
           glDeleteBuffers(1, &mCacheData->mGlNameBufferUnwrappedTexCoords);
 
-        if (mCacheData->mGlNameBufferShadowCoords)  
+        if (mCacheData->mGlNameBufferShadowCoords)
           glDeleteBuffers(1, &mCacheData->mGlNameBufferShadowCoords);
       }
 
