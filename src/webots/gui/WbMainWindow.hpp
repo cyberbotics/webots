@@ -23,6 +23,7 @@
 #include <QtWidgets/QMainWindow>
 
 #include "WbLog.hpp"
+#include "WbShareWindow.hpp"
 
 class WbBuildEditor;
 class WbConsole;
@@ -193,6 +194,8 @@ private:
   bool runSimulationHasRunWarningMessage();
   void logActiveControllersTermination();
   void addDock(QWidget *);
+
+  WbShareWindow *mShareWindowUi;
 
   // maximized/minimize dock widgets
   QList<QWidget *> mDockWidgets;

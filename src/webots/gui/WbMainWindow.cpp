@@ -56,7 +56,7 @@
 #include "WbSaveWarningDialog.hpp"
 #include "WbSceneTree.hpp"
 #include "WbSelection.hpp"
-#include "WbShareWindow.hpp"
+
 #include "WbSimulationState.hpp"
 #include "WbSimulationView.hpp"
 #include "WbSimulationWorld.hpp"
@@ -1631,8 +1631,8 @@ void WbMainWindow::exportHtmlFiles() {
 
 void WbMainWindow::ShareMenu() {
   const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-  WbShareWindow *shareWindowUi = new WbShareWindow(this);
-  shareWindowUi->exec();
+  WbShareWindow *mShareWindowUi = new WbShareWindow(this);
+  mShareWindowUi->exec();
   WbSimulationState::instance()->setMode(currentMode);
 }
 
@@ -1750,9 +1750,8 @@ void WbMainWindow::uploadFinished() {
   } else {
     WbLog::info(tr("link: %1\n").arg(url));
 
-    WbLinkWindow *linkWindowUi = new WbLinkWindow(this);
-    linkWindowUi->mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
-    linkWindowUi->exec();
+    mShareWindowUi->mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
+
   }
 }
 
